@@ -21,9 +21,8 @@ tags:
   - Optimization
   - Planning
   - Control
-  - MPC
   - PO-MPC
-  - TAMP
+  - Task and motion planning
   - PO-LGP
   - LGP
 abstract: >

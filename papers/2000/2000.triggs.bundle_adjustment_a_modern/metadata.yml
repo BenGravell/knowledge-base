@@ -1,6 +1,6 @@
 title: >
   Bundle Adjustment — A Modern Synthesis
-algorithm:
+algorithm: Bundle Adjustment
 authors:
   - Bill Triggs
   - Philip F. McLauchlan
@@ -12,9 +12,17 @@ type: Conference Paper
 doi: 10.1007/3-540-44480-7_21
 arxiv_id:
 tags:
+  - Bundle adjustment
+  - Computer vision
+  - Photogrammetry
+  - Structure from motion
+  - Sparse optimization
+  - Robust estimation
+  - Nonlinear least squares
 abstract: >
   This paper is a survey of the theory and methods of photogrammetric bundle adjustment, aimed at potential implementors in the computer vision community. Bundle adjustment is the problem of refining a visual reconstruction to produce jointly optimal structure and viewing parameter estimates. Topics covered include: the choice of cost function and robustness; numerical optimization including sparse Newton methods, linearly convergent approximations, updating and recursive methods; gauge (datum) invariance; and quality control. The theory is developed for general robust cost functions rather than restricting attention to traditional nonlinear least squares.
-summary:
+summary: >
+  Synthesizes bundle adjustment for computer vision, covering robust cost functions, sparse Newton methods, gauge freedom, updating strategies, and quality control. The paper became a standard implementation-oriented reference for refining camera and structure estimates in photogrammetry and structure-from-motion pipelines.
 link: https://doi.org/10.1007/3-540-44480-7_21
 links_alt:
-audit_status: raw
+audit_status: "partial"

@@ -1,18 +1,25 @@
 title: >
   An Automatic Method for Finding the Greatest or Least Value of a Function
-algorithm: Rosenbrock's method
+algorithm: Rosenbrock's Method
 authors:
-  - H. H. Rosenbrock
+  - Howard H. Rosenbrock
 year: 1960
 source: The Computer Journal
 type: Journal Paper
 doi: 10.1093/comjnl/3.3.175
 arxiv_id:
 tags:
+  - Rosenbrock method
+  - Direct search
+  - Derivative-free optimization
+  - Nonlinear optimization
+  - Pattern search
+  - Numerical methods
 abstract: >
   The greatest or least value of a function of several variables is to be found when the variables are restricted to a given region. A method is developed for dealing with this problem and is compared with possible alternatives. The method can be used on a digital computer, and is incorporated in a program for Mercury.
-summary:
+summary: >
+  Rosenbrock introduces a derivative-free direct-search method that adapts its coordinate directions while seeking a function maximum or minimum under constraints. The method became a classic baseline for nonlinear optimization because it is simple to implement, useful on early computers, and motivated the later Rosenbrock test function as a hard case for optimization algorithms.
 link: https://academic.oup.com/comjnl/article-abstract/3/3/175/345501?redirectedFrom=fulltext&login=false
 links_alt:
   - https://doi.org/10.1093/comjnl/3.3.175
-audit_status: raw
+audit_status: "partial"

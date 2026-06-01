@@ -1,0 +1,27 @@
+title: >
+  Combining Two-View Constraints for Motion Estimation
+algorithm: Two-View Constraint Motion Averaging
+authors:
+  - Venu Madhav Govindu
+year: 2001
+source: IEEE Conference on Computer Vision and Pattern Recognition
+type: Conference Paper
+doi: 10.1109/CVPR.2001.990963
+arxiv_id:
+tags:
+  - Structure from motion
+  - Motion averaging
+  - Two-view geometry
+  - Epipolar constraints
+  - Global motion estimation
+  - Camera calibration
+  - Multi-view reconstruction
+abstract: >
+  In this paper we describe two methods for estimating the motion parameters of an image sequence. For a sequence of images, the global motion can be described by n - 1 independent motion models. On the other hand, in a sequence there exist as many as n(n - 1)/2 pairwise relative motion constraints that can be solve for efficiently. In this paper we show how to linearly solve for consistent global motion models using this highly redundant set of constraints. In the first case, our method involves estimating all available pairwise relative motions and linearly fitting a global motion model to these estimates. In the second instance, we exploit the fact that algebraic (ie. epipolar) constraints between various image pairs are all related to each other by the global motion model. This results in an estimation method that directly computes the motion of the sequence by using all possible algebraic constraints. Unlike using reprojection error, our optimisation method does not solve for the structure of points resulting in a reduction of the dimensionality of the search space. Our algorithms are used for both 3D camera motion estimation and camera calibration. We provide real examples of both applications.
+summary: >
+  Uses redundant pairwise two-view constraints to estimate globally consistent camera motion, anticipating later motion-averaging and global-SfM formulations. Its key contribution is to move beyond chaining local estimates by solving a linear consistency problem over many image pairs.
+link: https://citeseerx.ist.psu.edu/document?doi=13ecb97f57b5dda16b21bab67ee19694673817cd&repid=rep1&type=pdf
+links_alt:
+  - https://ieeexplore.ieee.org/document/990963
+  - https://doi.org/10.1109/CVPR.2001.990963
+audit_status: reviewed

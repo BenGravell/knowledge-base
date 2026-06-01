@@ -1,0 +1,31 @@
+title: >
+  The Scenario Approach: A Tool at the Service of Data-Driven Decision Making
+algorithm: Scenario Approach
+authors:
+  - Marco C. Campi
+  - Andrea Care
+  - Simone Garatti
+year: 2021
+source: Annual Reviews in Control
+type: Survey Paper
+doi: 10.1016/j.arcontrol.2021.10.004
+arxiv_id:
+tags:
+  - Scenario optimization
+  - Data-driven decision making
+  - Robust control
+  - Control design
+  - Sample complexity
+  - Generalization guarantees
+  - Probabilistic certificates
+  - Decision theory
+abstract: >
+  In the eyes of many control scientists, the theory of the scenario approach is a tool for determining the sample size in certain randomized control-design methods, where an uncertain variable is replaced by a random sample of scenarios. This point of view is rooted in the history of the scenario approach and stands on a long track record of successful applications. However, in the last two decades the theory of the scenario approach has gone beyond its original motivations and applications, and has unveiled some fundamental relationships between the complexity of a design and its generalization capabilities. The new knowledge brought by the theory provides a solid ground for a framework where data can be exploited in a flexible and wise manner throughout a large variety of engineering activities. By this article we aim at providing an access point to a set of state-of-the-art results in the theory of the scenario approach that can be valuable to target important challenges in modern control-design and decision-making at large. In the first part of the article, we introduce a set-up for decision-making where the role of prior knowledge and user preferences can, and should, be distinguished from the role of data. Then, we show that the theory of the scenario approach offers a platform for conjugating heuristic approaches, which in complex contexts are unavoidably based on incomplete and possibly imprecise information, with a solid theory for certifying the validity of the output of the decision process.
+summary: >
+  Reviews the scenario approach as a broader theory for data-driven decision making rather than only as a sample-size rule for randomized control design. The article is useful as a modern map of how scenario-theoretic certificates relate decision complexity, generalization, prior knowledge, and data use across control and engineering applications.
+link: https://marco-campi.unibs.it/pdf-pszip/2021-ARIC.pdf
+links_alt:
+  - https://www.sciencedirect.com/science/article/abs/pii/S1367578821000791
+  - https://doi.org/10.1016/j.arcontrol.2021.10.004
+  - https://www.algocare.it/docs/ARC2021.pdf
+audit_status: partial

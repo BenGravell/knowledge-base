@@ -13,7 +13,7 @@ type: Conference Paper
 doi: 10.1007/978-3-032-08049-3_8
 arxiv_id: "2510.00272"
 tags:
-  - MPPI
+  - Model predictive path integral control
   - Trajectory optimization
   - Safety
   - Bayesian constraints

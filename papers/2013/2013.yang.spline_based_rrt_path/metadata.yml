@@ -15,7 +15,7 @@ type: Journal Paper
 doi: 10.1007/s10846-013-9963-y
 tags:
   - Path planning
-  - RRT
+  - Rapidly-exploring random tree
   - Splines
   - Non-holonomic robots
   - Smooth paths

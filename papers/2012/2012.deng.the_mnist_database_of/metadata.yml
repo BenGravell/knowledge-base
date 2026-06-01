@@ -1,17 +1,27 @@
 title: >
   The MNIST Database of Handwritten Digit Images for Machine Learning Research [Best of the Web]
-algorithm:
+algorithm: MNIST Benchmark
 authors:
   - Li Deng
 year: 2012
 source: IEEE Signal Processing Magazine
 type: Journal Paper
 doi: 10.1109/MSP.2012.2211477
-arxiv_id:
+arxiv_id: 
 tags:
+  - MNIST
+  - Handwritten digits
+  - Benchmark datasets
+  - Image classification
+  - Optical character recognition
+  - Neural networks
+  - Dataset curation
 abstract: >
   In this issue, “Best of the Web” presents the modified National Institute of Standards and Technology (MNIST) resources, consisting of a collection of handwritten digit images used extensively in optical character recognition and machine learning research.
-summary:
-link: https://doi.org/10.1109/MSP.2012.2211477
+summary: >
+  Documents the MNIST handwritten-digit resource and explains why its fixed train/test split, normalized 28-by-28 images, and broad result table made it a durable benchmark for machine learning. The article is useful as a compact citation for MNIST itself rather than for a new model, highlighting both the dataset's convenience and the historical performance landscape around digit classification.
+link: https://www.microsoft.com/en-us/research/wp-content/uploads/2016/02/MNIST-SPM2012.pdf
 links_alt:
-audit_status: raw
+  - https://doi.org/10.1109/MSP.2012.2211477
+  - http://yann.lecun.com/exdb/mnist/
+audit_status: partial

@@ -1,0 +1,28 @@
+title: >
+  Data-Driven Simulation and Control
+algorithm: "Data-driven Simulation and Control"
+authors:
+  - Ivan Markovsky
+  - Paolo Rapisarda
+year: 2008
+source: "International Journal of Control"
+type: Journal Paper
+doi: 10.1080/00207170801942170
+arxiv_id:
+tags:
+  - Data-driven control
+  - Behavioral systems
+  - Data-driven simulation
+  - Output matching
+  - Linear quadratic tracking
+  - System identification
+  - Direct control
+abstract: >
+  Classical linear time-invariant system simulation methods are based on a transfer function, impulse response, or input/state/output representation. We present a method for computing the response of a system to a given input and initial conditions directly from a trajectory of the system, without explicitly identifying the system from the data. Similar to the classical approach for simulation, the classical approach for control is model-based: first a model representation is derived from given data of the plant and then a control law is synthesised using the model and the control specifications. We present an approach for computing a linear quadratic tracking control signal that circumvents the identification step. The results are derived assuming exact data and the simulated response or control input is constructed off-line.
+summary: >
+  Introduces an early direct data-driven route for LTI simulation and LQ tracking control, using measured trajectories as the computational object instead of first estimating a state-space or transfer-function model. The paper is one of the behavioral precursors to later Hankel/fundamental-lemma control methods.
+link: https://eprints.soton.ac.uk/263423/1/ddctr.pdf
+links_alt:
+  - https://doi.org/10.1080/00207170801942170
+  - https://www.tandfonline.com/doi/abs/10.1080/00207170801942170
+audit_status: raw

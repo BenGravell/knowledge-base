@@ -1,26 +1,30 @@
 title: >
   A Convex Polynomial That Is Not sos-convex
-algorithm:
+algorithm: "Non-Sos-convex Polynomial Counterexample"
 authors:
-  - Amir Ali Ahmadi
-  - Pablo A. Parrilo
+  - "Amir Ali Ahmadi"
+  - "Pablo A. Parrilo"
 year: 2009
-source: Mathematical Programming
-type: Journal Paper
-doi: 10.1007/s10107-011-0457-z
+source: "Mathematical Programming"
+type: "Journal Paper"
+doi: "10.1007/s10107-011-0457-z"
 arxiv_id: "0903.1287"
 tags:
-  - Semidefinite programming
-  - Optimization
-  - Homogeneous polynomial
+  - "Convex polynomials"
+  - "Sos-convexity"
+  - "Sum of squares"
+  - "Semidefinite programming"
+  - "Polynomial optimization"
+  - "Counterexamples"
 abstract: >
-  A multivariate polynomial $p(x)=p(x_1,...,x_n)$ is sos-convex if its Hessian $H(x)$ can be factored as $H(x)= M^T(x) M(x)$ with a possibly nonsquare polynomial matrix $M(x)$. It is easy to see that sos-convexity is a sufficient condition for convexity of $p(x)$. Moreover, the problem of deciding sos-convexity of a polynomial can be cast as the feasibility of a semidefinite program, which can be solved efficiently. Motivated by this computational tractability, it has been recently speculated whether sos-convexity is also a necessary condition for convexity of polynomials. In this paper, we give a negative answer to this question by presenting an explicit example of a trivariate homogeneous polynomial of degree eight that is convex but not sos-convex. Interestingly, our example is found with software using sum of squares programming techniques and the duality theory of semidefinite optimization. As a byproduct of our numerical procedure, we obtain a simple method for searching over a restricted family of nonnegative polynomials that are not sums of squares.
-summary:
-link: https://arxiv.org/pdf/0903.1287
+  A multivariate polynomial p(x)=p(x_1,...,x_n) is sos-convex if its Hessian H(x) can be factored as H(x)=M^T(x)M(x) with a possibly nonsquare polynomial matrix M(x). It is easy to see that sos-convexity is a sufficient condition for convexity of p(x). Moreover, the problem of deciding sos-convexity of a polynomial can be cast as the feasibility of a semidefinite program, which can be solved efficiently. Motivated by this computational tractability, it has been recently speculated whether sos-convexity is also a necessary condition for convexity of polynomials. In this paper, we give a negative answer to this question by presenting an explicit example of a trivariate homogeneous polynomial of degree eight that is convex but not sos-convex. Interestingly, our example is found with software using sum of squares programming techniques and the duality theory of semidefinite optimization. As a byproduct of our numerical procedure, we obtain a simple method for searching over a restricted family of nonnegative polynomials that are not sums of squares.
+summary: >
+  Constructs a convex polynomial that is not Sos-convex, separating ordinary convexity from the Sos-verifiable sufficient condition. The counterexample is important for understanding the conservatism of semidefinite relaxations in polynomial optimization.
+link: "https://arxiv.org/pdf/0903.1287"
 links_alt:
-  - https://doi.org/10.1007/s10107-011-0457-z
-  - http://link.springer.com/10.1007/s10107-011-0457-z
-  - http://link.springer.com/content/pdf/10.1007/s10107-011-0457-z.pdf
-  - http://link.springer.com/article/10.1007/s10107-011-0457-z/fulltext.html
-  - http://link.springer.com/content/pdf/10.1007/s10107-011-0457-z
-audit_status: raw
+  - "https://doi.org/10.1007/s10107-011-0457-z"
+  - "http://link.springer.com/10.1007/s10107-011-0457-z"
+  - "http://link.springer.com/content/pdf/10.1007/s10107-011-0457-z.pdf"
+  - "http://link.springer.com/article/10.1007/s10107-011-0457-z/fulltext.html"
+  - "http://link.springer.com/content/pdf/10.1007/s10107-011-0457-z"
+audit_status: "partial"

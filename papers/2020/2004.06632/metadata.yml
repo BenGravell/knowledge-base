@@ -1,0 +1,27 @@
+title: >
+  A Survey on Activation Functions and Their Relation with Xavier and He Normal Initialization
+algorithm:
+authors:
+  - Leonid Datta
+year: 2020
+source: arXiv
+type: Survey Paper
+doi:
+arxiv_id: "2004.06632"
+tags:
+  - Activation functions
+  - Weight initialization
+  - Xavier initialization
+  - He initialization
+  - ReLU activations
+  - Leaky ReLU
+  - PReLU
+  - Neural networks
+  - Survey
+abstract: >
+  In artificial neural network, the activation function and the weight initialization method play important roles in training and performance of a neural network. The question arises is what properties of a function are important/necessary for being a well-performing activation function. Also, the most widely used weight initialization methods - Xavier and He normal initialization have fundamental connection with activation function. This survey discusses the important/necessary properties of activation function and the most widely used activation functions (sigmoid, tanh, ReLU, LReLU and PReLU). This survey also explores the relationship between these activation functions and the two weight initialization methods - Xavier and He normal initialization.
+summary: >
+  This short survey connects common activation-function choices with initialization schemes, emphasizing why nonlinear shape, saturation, and variance propagation matter together. It is useful as a bridge between activation-function cataloging and the practical initialization heuristics that make rectifier networks trainable.
+link: https://arxiv.org/pdf/2004.06632
+links_alt:
+audit_status: partial

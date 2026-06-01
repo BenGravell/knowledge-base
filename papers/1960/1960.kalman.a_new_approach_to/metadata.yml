@@ -1,6 +1,6 @@
 title: >
   A New Approach to Linear Filtering and Prediction Problems
-algorithm: Kalman filter
+algorithm: Kalman Filter
 authors:
   - Rudolf E. Kalman
 year: 1960
@@ -22,4 +22,4 @@ link: https://liberzon.csl.illinois.edu/teaching/kalman_paper.pdf
 links_alt:
   - https://asmedigitalcollection.asme.org/fluidsengineering/article-abstract/82/1/35/397706/A-New-Approach-to-Linear-Filtering-and-Prediction
   - https://doi.org/10.1115/1.3662552
-audit_status: raw
+audit_status: "partial"

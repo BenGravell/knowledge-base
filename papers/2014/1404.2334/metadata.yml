@@ -14,8 +14,8 @@ tags:
   - Motion planning
   - Sampling-based planning
   - Asymptotic optimality
-  - Informed RRT*
-  - RRT*
+  - Informed rapidly-exploring random tree star
+  - Rapidly-exploring random tree star
   - Heuristic search
   - Informed set
 abstract: >

@@ -1,20 +1,27 @@
 title: >
   Generalized Chebyshev Bounds via Semidefinite Programming
-algorithm:
+algorithm: "Generalized Chebyshev SDP Bounds"
 authors:
-  - Lieven Vandenberghe
-  - Stephen Boyd
-  - Katherine Comanor
+  - "Lieven Vandenberghe"
+  - "Stephen Boyd"
+  - "Katherine Comanor"
 year: 2007
-source: SIAM Review
-type: Journal Paper
-doi: 10.1137/S0036144504440543
+source: "SIAM Review"
+type: "Journal Paper"
+doi: "10.1137/S0036144504440543"
 arxiv_id:
 tags:
+  - "Chebyshev bounds"
+  - "Semidefinite programming"
+  - "Moment problems"
+  - "Probability inequalities"
+  - "Robust optimization"
+  - "Convex optimization"
 abstract: >
   A sharp lower bound on the probability of a set defined by quadratic inequalities, given the first two moments of the distribution, can be efficiently computed using convex optimization. This result generalizes Chebyshev’s inequality for scalar random variables. Two semidefinite programming formulations are presented, with a constructive proof based on convex optimization duality and elementary linear algebra.
-summary:
-link: https://epubs.siam.org/doi/10.1137/S0036144504440543
+summary: >
+  Formulates generalized Chebyshev probability bounds as semidefinite programs over moments. The paper shows how SDP duality turns partial distributional information into sharp worst-case probability guarantees.
+link: "https://epubs.siam.org/doi/10.1137/S0036144504440543"
 links_alt:
-  - https://doi.org/10.1137/S0036144504440543
-audit_status: raw
+  - "https://doi.org/10.1137/S0036144504440543"
+audit_status: "partial"

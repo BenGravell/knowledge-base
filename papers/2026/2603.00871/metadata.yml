@@ -21,9 +21,7 @@ tags:
   - Control
   - Hippo
   - Sequential quadratic programming
-  - SQP
   - Differential dynamic programming
-  - DDP
   - IPM
   - Quadratic programming
 abstract: >

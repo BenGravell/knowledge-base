@@ -1,0 +1,31 @@
+title: >
+  Data-Driven Model Predictive Control with Stability and Robustness Guarantees
+algorithm: "Data-Driven MPC"
+authors:
+  - Julian Berberich
+  - Johannes Kohler
+  - Matthias A. Muller
+  - Frank Allgower
+year: 2019
+source: "IEEE Transactions on Automatic Control"
+type: Journal Paper
+doi: 10.1109/TAC.2020.3000182
+arxiv_id: "1906.04679"
+tags:
+  - Data-driven control
+  - Model predictive control
+  - Behavioral systems
+  - Robust model predictive control
+  - Stability guarantees
+  - Output measurement noise
+  - Terminal constraints
+abstract: >
+  We propose a robust data-driven model predictive control (MPC) scheme to control linear time-invariant (LTI) systems. The scheme uses an implicit model description based on behavioral systems theory and past measured trajectories. In particular, it does not require any prior identification step, but only an initially measured input-output trajectory as well as an upper bound on the order of the unknown system. First, we prove exponential stability of a nominal data-driven MPC scheme with terminal equality constraints in the case of no measurement noise. For bounded additive output measurement noise, we propose a robust modification of the scheme, including a slack variable with regularization in the cost. We prove that the application of this robust MPC scheme in a multi-step fashion leads to practical exponential stability of the closed loop w.r.t. the noise level. The presented results provide the first (theoretical) analysis of closed-loop properties, resulting from a simple, purely data-driven MPC scheme.
+summary: >
+  Gives one of the first closed-loop stability and robustness analyses for a purely data-driven MPC scheme based on behavioral trajectory data. The contribution is especially important because it moves DeePC-style ideas from empirical performance toward certified robust receding-horizon control.
+link: https://arxiv.org/pdf/1906.04679
+links_alt:
+  - https://doi.org/10.1109/TAC.2020.3000182
+  - https://ieeexplore.ieee.org/document/9126015
+  - https://arxiv.org/abs/1906.04679
+audit_status: raw

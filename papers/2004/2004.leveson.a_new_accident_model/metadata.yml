@@ -9,9 +9,17 @@ type: Journal Paper
 doi: 10.1016/s0925-7535(03)00047-x
 arxiv_id:
 tags:
+  - STAMP
+  - Systems safety
+  - Accident models
+  - Hazard analysis
+  - Risk assessment
+  - Safety engineering
+  - Sociotechnical systems
 abstract: >
   New technology is making fundamental changes in the etiology of accidents and is creating a need for changes in the explanatory mechanisms used. We need better and less subjective understanding of why accidents occur and how to prevent future ones. The most effective models will go beyond assigning blame and instead help engineers to learn as much as possible about all the factors involved, including those related to social and organizational structures. This paper presents a new accident model founded on basic systems theory concepts. The use of such a model provides a theoretical foundation for the introduction of unique new types of accident analysis, hazard analysis, accident prevention strategies including new approaches to designing for safety, risk assessment techniques, and approaches to designing performance monitoring and safety metrics.
-summary:
+summary: >
+  Introduces STAMP, a systems-theoretic accident model that treats accidents as control and constraint failures across technical, organizational, and social levels. The paper shifts safety analysis away from simple component-failure chains toward richer hazard analysis, prevention, monitoring, and risk-assessment methods for complex systems.
 link: https://doi.org/10.1016/s0925-7535(03)00047-x
 links_alt:
-audit_status: raw
+audit_status: "partial"

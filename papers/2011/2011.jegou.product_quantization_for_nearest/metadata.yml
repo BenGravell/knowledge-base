@@ -1,19 +1,29 @@
 title: >
   Product Quantization for Nearest Neighbor Search
-algorithm: "Product Quantization"
+algorithm: Product Quantization
 authors:
-  - H Jegou
-  - M Douze
-  - C Schmid
+  - Herve Jegou
+  - Matthijs Douze
+  - Cordelia Schmid
 year: 2011
 source: IEEE Transactions on Pattern Analysis and Machine Intelligence
 type: Journal Paper
 doi: 10.1109/TPAMI.2010.57
 arxiv_id:
 tags:
+  - Approximate nearest neighbors
+  - Product quantization
+  - Vector quantization
+  - Image retrieval
+  - Inverted indexes
+  - Compact codes
+  - Large-scale search
 abstract: >
   This paper introduces a product quantization-based approach for approximate nearest neighbor search. The idea is to decompose the space into a Cartesian product of low-dimensional subspaces and to quantize each subspace separately. A vector is represented by a short code composed of its subspace quantization indices. The euclidean distance between two vectors can be efficiently estimated from their codes. An asymmetric version increases precision, as it computes the approximate distance between a vector and a code. Experimental results show that our approach searches for nearest neighbors efficiently, in particular in combination with an inverted file system. Results for SIFT and GIST image descriptors show excellent search accuracy, outperforming three state-of-the-art approaches. The scalability of our approach is validated on a data set of two billion vectors.
-summary:
-link: https://doi.org/10.1109/TPAMI.2010.57
+summary: >
+  Introduces product quantization for approximate nearest-neighbor search by splitting vectors into subspaces and quantizing each subspace separately. Its asymmetric distance computation and inverted-file integration made billion-scale descriptor search practical with compact codes and strong accuracy-memory tradeoffs.
+link: https://www.robots.ox.ac.uk/~vgg/rg/papers/jegou_searching_with_quantization.pdf
 links_alt:
-audit_status: raw
+  - https://doi.org/10.1109/TPAMI.2010.57
+  - https://citeseerx.ist.psu.edu/document?doi=319ad41a9e2aa0578127dca75a009ed46f58af26&repid=rep1&type=pdf
+audit_status: partial

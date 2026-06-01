@@ -1,19 +1,27 @@
 title: >
   Solution of Sparse Indefinite Systems of Linear Equations
-algorithm:
+algorithm: SYMMLQ
 authors:
-  - C. C. Paige
-  - M. A. Saunders
+  - Christopher C. Paige
+  - Michael A. Saunders
 year: 1975
 source: SIAM Journal on Numerical Analysis
 type: Journal Paper
 doi: 10.1137/0712047
 arxiv_id:
 tags:
+  - SYMMLQ
+  - MINRES
+  - Symmetric indefinite systems
+  - Lanczos algorithm
+  - Sparse linear systems
+  - Numerical linear algebra
+  - Krylov subspace methods
 abstract: >
   The method of conjugate gradients for solving systems of linear equations with a symmetric positive definite matrix A is given as a logical development of the Lanczos algorithm for tridiagonalizing A. This approach suggests numerical algorithms for solving such systems when A is symmetric but indefinite. These methods have advantages when A is large and sparse.
-summary:
+summary: >
+  Paige and Saunders extend Lanczos and conjugate-gradient ideas to large sparse symmetric indefinite linear systems. The paper is the source of methods such as SYMMLQ and closely related MINRES-style reasoning, showing how tridiagonal Lanczos reductions can produce practical solvers beyond positive-definite systems.
 link: https://epubs.siam.org/doi/10.1137/0712047
 links_alt:
   - https://doi.org/10.1137/0712047
-audit_status: raw
+audit_status: "partial"

@@ -1,25 +1,29 @@
 title: >
   Approximation of the Joint Spectral Radius Using Sum of Squares
-algorithm:
+algorithm: "SOS Joint Spectral Radius Approximation"
 authors:
-  - Pablo A. Parrilo
-  - Ali Jadbabaie
+  - "Pablo A. Parrilo"
+  - "Ali Jadbabaie"
 year: 2007
-source: Linear Algebra and its Applications
-type: Journal Paper
-doi: 10.1016/j.laa.2007.12.027
+source: "Linear Algebra and its Applications"
+type: "Journal Paper"
+doi: "10.1016/j.laa.2007.12.027"
 arxiv_id: "0712.2887"
 tags:
-  - Lyapunov methods
-  - SOS
-  - Spectral radius
+  - "Joint spectral radius"
+  - "Sum of squares"
+  - "Lyapunov functions"
+  - "Semidefinite programming"
+  - "Switched systems"
+  - "Approximation bounds"
 abstract: >
   We provide an asymptotically tight, computationally efficient approximation of the joint spectral radius of a set of matrices using sum of squares (SOS) programming. The approach is based on a search for an SOS polynomial that proves simultaneous contractibility of a finite set of matrices. We provide a bound on the quality of the approximation that unifies several earlier results and is independent of the number of matrices. Additionally, we present a comparison between our approximation scheme and earlier techniques, including the use of common quadratic Lyapunov functions and a method based on matrix liftings. Theoretical results and numerical investigations show that our approach yields tighter approximations.
-summary:
-link: https://arxiv.org/pdf/0712.2887
+summary: >
+  Uses sum-of-squares polynomial Lyapunov functions to approximate the joint spectral radius of a set of matrices. The paper gives asymptotically tight approximation bounds and connects computational SDP relaxations to stability analysis for switched systems.
+link: "https://arxiv.org/pdf/0712.2887"
 links_alt:
-  - https://doi.org/10.1016/j.laa.2007.12.027
-  - https://linkinghub.elsevier.com/retrieve/pii/S0024379508000281
-  - https://api.elsevier.com/content/article/PII:S0024379508000281?httpAccept=text/xml
-  - https://api.elsevier.com/content/article/PII:S0024379508000281?httpAccept=text/plain
-audit_status: raw
+  - "https://doi.org/10.1016/j.laa.2007.12.027"
+  - "https://linkinghub.elsevier.com/retrieve/pii/S0024379508000281"
+  - "https://api.elsevier.com/content/article/PII:S0024379508000281?httpAccept=text/xml"
+  - "https://api.elsevier.com/content/article/PII:S0024379508000281?httpAccept=text/plain"
+audit_status: "partial"

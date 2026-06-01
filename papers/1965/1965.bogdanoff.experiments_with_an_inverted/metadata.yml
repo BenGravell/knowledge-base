@@ -19,4 +19,4 @@ abstract: >
 summary: >
   Provides experimental verification that an inverted pendulum can be stabilized by second-order stationary random parametric excitation with a discrete-power spectral density, confirming theoretical stability predictions for stochastically driven unstable linear systems.
 link: https://pubs.aip.org/asa/jasa/article-abstract/38/3/447/646775/Experiments-with-an-Inverted-Pendulum-Subject-to
-audit_status: raw
+audit_status: "partial"

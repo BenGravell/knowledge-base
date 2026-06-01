@@ -26,6 +26,6 @@ summary: >
   Introduces REMBO, a Bayesian optimization method that searches a random low-dimensional embedding of a very high-dimensional input space. The key contribution is showing that Gaussian-process Bayesian optimization can remain effective in billion-dimensional spaces when the objective has low intrinsic dimensionality, with both theory and solver-configuration experiments supporting the claim.
 link: https://arxiv.org/pdf/1301.1942
 links_alt:
+  - https://arxiv.org/abs/1301.1942
   - https://doi.org/10.1613/jair.4806
-  - https://jair.org/index.php/jair/article/download/10983/26133
-audit_status: raw
+audit_status: partial

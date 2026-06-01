@@ -1,0 +1,30 @@
+title: >
+  A New Perspective on Willems' Fundamental Lemma: Universality of Persistently Exciting Inputs
+algorithm: "Universal Inputs"
+authors:
+  - Amir Shakouri
+  - Henk J. van Waarde
+  - M. Kanat Camlibel
+year: 2025
+source: "IEEE Control Systems Letters"
+type: Journal Paper
+doi: 10.1109/LCSYS.2025.3576276
+arxiv_id: "2503.12489"
+tags:
+  - Willems' fundamental lemma
+  - Persistency of excitation
+  - Universal inputs
+  - Behavioral systems
+  - Data-driven control
+  - Linear systems
+  - Trajectory parametrization
+abstract: >
+  In this letter, we provide new insight into Willems et al.'s fundamental lemma by studying the concept of universal inputs. An input is called universal if, when applied to any controllable system, it leads to input-output data that parametrizes all finite trajectories of the system. By the fundamental lemma, inputs that are persistently exciting of sufficiently high order are universal. The main contribution of this work is to prove the converse. Therefore, universality and persistency of excitation are equivalent.
+summary: >
+  Characterizes persistently exciting inputs through the universality property: they are exactly the inputs that generate data parametrizing all finite trajectories for every controllable system. This sharpens the interpretation of the fundamental lemma and explains why persistency of excitation is the right input condition.
+link: https://arxiv.org/pdf/2503.12489
+links_alt:
+  - https://doi.org/10.1109/LCSYS.2025.3576276
+  - https://ieeexplore.ieee.org/document/11021295
+  - https://arxiv.org/abs/2503.12489
+audit_status: raw

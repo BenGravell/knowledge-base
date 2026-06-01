@@ -1,6 +1,6 @@
 title: >
   Convergence Conditions for Ascent Methods
-algorithm:
+algorithm: Wolfe Conditions
 authors:
   - Philip Wolfe
 year: 1969
@@ -9,10 +9,18 @@ type: Journal Paper
 doi: 10.1137/1011036
 arxiv_id:
 tags:
+  - Wolfe conditions
+  - Line search
+  - Ascent methods
+  - Descent methods
+  - Nonlinear optimization
+  - Convergence analysis
 abstract: >
   Liberal conditions on the steps of a “descent” method for finding extrema of a function are given; most known results are special cases.
-summary:
+summary: >
+  Wolfe gives general step-size conditions for ascent and descent methods that guarantee convergence while allowing inexact line searches. These conditions became the Wolfe line-search conditions used throughout nonlinear optimization to balance sufficient improvement with curvature information.
 link: https://epubs.siam.org/doi/10.1137/1011036
 links_alt:
   - https://doi.org/10.1137/1011036
-audit_status: raw
+audit_status: "partial"
+audit_status: "partial"

@@ -18,7 +18,7 @@ tags:
   - Control
   - Learning
   - Sampling
-  - Policy gradient
+  - Policy gradients
 abstract: >
   Domain randomization is a simple, effective, and flexible scheme for obtaining robust feedback policies aimed at reducing the sim-to-real gap due to model mismatch. While domain randomization methods have yielded impressive demonstrations in the robotics-learning literature, general and theoretically motivated principles for designing optimization schemes that effectively leverage the randomization are largely unexplored. We address this gap by considering a stochastic policy gradient descent method for the domain randomized linear-quadratic regulator synthesis problem, a situation simple enough to provide theoretical guarantees. In particular, we demonstrate that stochastic gradients obtained by repeatedly sampling new systems at each gradient step converge to global optima with appropriate hyperparameters choices, and yield better controllers with lower variability in the final controllers when compared to approaches that do not resample. Sampling is often a quick and cheap operation, so computing policy gradients with newly sampled systems at each iteration is preferable to evaluating gradients on a fixed set of systems.
 summary:

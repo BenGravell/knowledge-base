@@ -11,9 +11,16 @@ type: Conference Paper
 doi: 10.1109/ACC.1994.735224
 arxiv_id:
 tags:
+  - Reinforcement learning
+  - Linear quadratic control
+  - Policy iteration
+  - Q-learning
+  - Adaptive control
+  - Continuous control
 abstract: >
   In this paper we present the stability and convergence results for dynamic programming-based reinforcement learning applied to linear quadratic regulation (LQR). The specific algorithm we analyze is based on Q-learning and it is proven to converge to an optimal controller provided that the underlying system is controllable and a particular signal vector is persistently excited. This is the first convergence result for DP-based reinforcement learning algorithms for a continuous problem.
-summary:
+summary: >
+  Analyzes reinforcement-learning policy iteration for the continuous linear-quadratic regulator setting, proving convergence to the optimal controller under controllability and persistent excitation assumptions. The paper is an early bridge between adaptive control, dynamic programming, and model-free reinforcement learning for continuous-state control problems.
 link: https://doi.org/10.1109/ACC.1994.735224
 links_alt:
-audit_status: raw
+audit_status: "partial"

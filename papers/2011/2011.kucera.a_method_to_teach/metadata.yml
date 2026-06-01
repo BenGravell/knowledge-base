@@ -1,6 +1,6 @@
 title: >
   A Method to Teach the Parameterization of All Stabilizing Controllers
-algorithm: "Youla-Kucera Parameterization"
+algorithm: Youla-Kucera teaching method
 authors:
   - Vladimir Kucera
 year: 2011
@@ -9,9 +9,19 @@ type: Journal Paper
 doi: 10.3182/20110828-6-it-1002.01148
 arxiv_id:
 tags:
+  - Youla-Kucera parameterization
+  - Stabilizing controllers
+  - Control education
+  - Linear systems
+  - Transfer functions
+  - State-space methods
+  - Feedback stabilization
 abstract: >
   A simple and insightful method to teach the Youla-Kucera parameterization of all controllers that stabilize a given plant is presented. The text is intended for first-year graduate students in engineering. The result is derived first using transfer functions. A state-space representation of all stabilizing controllers then evolves from the transfer function result. Thus, the transfer functions and the state-space techniques are presented as connected approaches rather than isolated alternatives.
-summary:
-link: https://doi.org/10.3182/20110828-6-it-1002.01148
+summary: >
+  Presents a pedagogical derivation of the Youla-Kucera parameterization of all stabilizing controllers. Its value is didactic: it first derives the result in transfer-function language, then builds the state-space representation so students see the two formulations as connected rather than separate technical tricks.
+link: https://skoge.folk.ntnu.no/prost/proceedings/ifac11-proceedings/data/html/papers/1148.pdf
 links_alt:
-audit_status: raw
+  - https://doi.org/10.3182/20110828-6-it-1002.01148
+  - https://www.sciencedirect.com/science/article/abs/pii/S1474667016446240
+audit_status: partial

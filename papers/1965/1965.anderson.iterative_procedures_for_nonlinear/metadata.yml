@@ -1,6 +1,6 @@
 title: >
   Iterative Procedures for Nonlinear Integral Equations
-algorithm:
+algorithm: Anderson Acceleration
 authors:
   - Donald G. Anderson
 year: 1965
@@ -9,10 +9,17 @@ type: Journal Paper
 doi: 10.1145/321296.321305
 arxiv_id:
 tags:
+  - Anderson acceleration
+  - Fixed-point iteration
+  - Nonlinear equations
+  - Integral equations
+  - Numerical methods
+  - Iterative solvers
 abstract: >
   The numerical solution of nonlinear integral equations involves the iterative solution of finite systems of nonlinear algebraic or transcendental equations. Certain conventional techniques for treating such systems are reviewed in the context of a particular class of nonlinear equations. A procedure is synthesized to offset some of the disadvantages of these techniques in this context; however, the procedure is not restricted to this particular class of systems of nonlinear equations.
-summary:
+summary: >
+  Anderson proposes an acceleration procedure for iterative solution of nonlinear systems arising from nonlinear integral equations. The method extrapolates from recent iterates to offset slow convergence of conventional fixed-point schemes, and later became known as Anderson acceleration for nonlinear equation solving and fixed-point computation.
 link: https://dl.acm.org/doi/10.1145/321296.321305
 links_alt:
   - https://doi.org/10.1145/321296.321305
-audit_status: raw
+audit_status: "partial"

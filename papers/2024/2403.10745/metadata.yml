@@ -14,7 +14,7 @@ doi: 10.1109/IROS58592.2024.10802168
 arxiv_id: "2403.10745"
 tags:
   - Kinodynamic planning
-  - RRT
+  - Rapidly-exploring random tree
   - iDb-RRT
   - Motion primitives
   - Trajectory optimization

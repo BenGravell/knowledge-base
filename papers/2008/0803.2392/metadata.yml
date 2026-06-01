@@ -1,18 +1,25 @@
 title: >
   CoSaMP: Iterative Signal Recovery from Incomplete and Inaccurate Samples
-algorithm: CoSaMP
+algorithm: "Compressive Sampling Matching Pursuit"
 authors:
-  - D. Needell
-  - J. A. Tropp
+  - "D. Needell"
+  - "J. A. Tropp"
 year: 2008
 source:
-type: Preprint
+type: "Preprint"
 doi:
 arxiv_id: "0803.2392"
 tags:
+  - "Compressed sensing"
+  - "Sparse recovery"
+  - "Greedy algorithms"
+  - "Signal reconstruction"
+  - "CoSaMP"
+  - "Error bounds"
 abstract: >
   Compressive sampling offers a new paradigm for acquiring signals that are compressible with respect to an orthonormal basis. The major algorithmic challenge in compressive sampling is to approximate a compressible signal from noisy samples. This paper describes a new iterative recovery algorithm called CoSaMP that delivers the same guarantees as the best optimization-based approaches. Moreover, this algorithm offers rigorous bounds on computational cost and storage. It is likely to be extremely efficient for practical problems because it requires only matrix-vector multiplies with the sampling matrix. For many cases of interest, the running time is just O(N*log^2(N)), where N is the length of the signal.
-summary:
-link: https://arxiv.org/pdf/0803.2392
+summary: >
+  Introduces CoSaMP, a greedy sparse-recovery algorithm with provable accuracy, stability, and runtime guarantees under standard compressed-sensing assumptions. It combines matching-pursuit style support identification with least-squares refinement and pruning.
+link: "https://arxiv.org/pdf/0803.2392"
 links_alt:
-audit_status: raw
+audit_status: "partial"

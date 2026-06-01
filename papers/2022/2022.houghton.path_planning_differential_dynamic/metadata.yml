@@ -15,11 +15,9 @@ arxiv_id:
 tags:
   - Path planning
   - Trajectory optimization
-  - Differential dynamic programming 
+  - Differential dynamic programming
   - Model predictive path integral control
-  - DDP
-  - MPPI
-  - UAV
+  - Uncrewed aerial vehicle
   - VTOL
   - Survey
   - Comparative study

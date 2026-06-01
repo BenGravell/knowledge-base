@@ -10,9 +10,16 @@ type: Journal Paper
 doi: 10.1016/s0096-3003(99)00175-7
 arxiv_id:
 tags:
+  - Super-halley method
+  - Newton's method
+  - Root finding
+  - Banach spaces
+  - Third-order methods
+  - Convergence analysis
 abstract: >
   From a study of the convexity we give an acceleration for Newton's method and obtain a new third order method. Then we use this method for solving non-linear equations in Banach spaces, establishing conditions on convergence, existence and uniqueness of solution, as well as error estimates
-summary:
+summary: >
+  Derives the Super-Halley method as a third-order acceleration of Newton's method using convexity arguments, then analyzes it for nonlinear equations in Banach spaces. The paper contributes convergence, existence, uniqueness, and error-estimate conditions for the accelerated iteration.
 link: https://doi.org/10.1016/s0096-3003(99)00175-7
 links_alt:
-audit_status: raw
+audit_status: "partial"

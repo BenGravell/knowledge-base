@@ -1,0 +1,34 @@
+title: >
+  HDMapNet: An Online HD Map Construction and Evaluation Framework
+algorithm: HDMapNet
+authors:
+  - Qi Li
+  - Yue Wang
+  - Yilun Wang
+  - Hang Zhao
+year: 2021
+source: IEEE International Conference on Robotics and Automation (ICRA)
+type: Conference Paper
+doi: 10.1109/ICRA46639.2022.9812383
+arxiv_id: "2107.06307"
+tags:
+  - High-definition map construction
+  - Semantic map learning
+  - Autonomous driving
+  - Bird's-eye view perception
+  - Sensor fusion
+  - Lane detection
+  - Chamfer distance
+  - Vectorized maps
+  - NuScenes
+  - HDMapNet
+abstract: >
+  Constructing HD semantic maps is a central component of autonomous driving. However, traditional pipelines require a vast amount of human efforts and resources in annotating and maintaining the semantics in the map, which limits its scalability. In this paper, we introduce the problem of HD semantic map learning, which dynamically constructs the local semantics based on onboard sensor observations. Meanwhile, we introduce a semantic map learning method, dubbed HDMapNet. HDMapNet encodes image features from surrounding cameras and/or point clouds from LiDAR, and predicts vectorized map elements in the bird's-eye view. We benchmark HDMapNet on nuScenes dataset and show that in all settings, it performs better than baseline methods. Of note, our camera-LiDAR fusion-based HDMapNet outperforms existing methods by more than 50% in all metrics. In addition, we develop semantic-level and instance-level metrics to evaluate the map learning performance. Finally, we showcase our method is capable of predicting a locally consistent map. By introducing the method and metrics, we invite the community to study this novel map learning problem.
+summary: >
+  Introduces online HD semantic map learning from onboard cameras and LiDAR, with HDMapNet producing bird's-eye-view semantic, instance, and direction predictions that can be converted into vectorized lane dividers, boundaries, and crossings. The paper is especially useful as an early benchmark and metric proposal for learned HD map construction, including semantic- and instance-level evaluations based on raster overlap, Chamfer-style geometry distance, and average precision.
+link: https://arxiv.org/pdf/2107.06307
+links_alt:
+  - https://tsinghua-mars-lab.github.io/HDMapNet/
+  - https://github.com/Tsinghua-MARS-Lab/HDMapNet
+  - https://ieeexplore.ieee.org/document/9812383
+audit_status: reviewed

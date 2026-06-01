@@ -1,0 +1,32 @@
+title: >
+  A Tutorial on the Informativity Framework for Data-Driven Control
+algorithm: "Informativity Framework"
+authors:
+  - Henk J. van Waarde
+  - Jaap Eising
+  - M. Kanat Camlibel
+  - Harry L. Trentelman
+year: 2022
+source: "IEEE Conference on Decision and Control"
+type: Conference Paper
+doi: 10.1109/CDC51059.2022.9992611
+arxiv_id:
+tags:
+  - Data informativity
+  - Data-driven control
+  - Tutorial
+  - Robust control
+  - Stabilizability
+  - Noisy data
+  - Input-output systems
+  - Direct control
+abstract: >
+  The purpose of this paper is to provide a tutorial on the so-called informativity framework for direct data-driven control. This framework views data-driven analysis and design through the lens of robust control, and aims at assessing system properties and determining controllers for sets of systems unfalsified by the data. We will first introduce the informativity approach at an abstract level. Thereafter, we will study several case studies where we highlight the strength of the approach in the context of stabilizability analysis and stabilizing feedback design in different setups involving exact and noisy data, and for both input-state and input-output measurements. Finally, we provide an account of other applications of the data informativity framework.
+summary: >
+  Gives a compact conference tutorial on the informativity framework and its robust-control interpretation. It is useful as a short entry point before the longer arXiv tutorial, especially for stabilizability and feedback-design examples with exact and noisy data.
+link: https://research.rug.nl/files/688522340/A_tutorial_on_the_informativity_framework_for_data_driven_control.pdf
+links_alt:
+  - https://doi.org/10.1109/CDC51059.2022.9992611
+  - https://ieeexplore.ieee.org/document/9992611
+  - https://research.rug.nl/en/publications/a-tutorial-on-the-informativity-framework-for-data-driven-control/
+audit_status: raw

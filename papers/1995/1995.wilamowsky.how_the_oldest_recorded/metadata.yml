@@ -1,6 +1,6 @@
 title: >
   How the Oldest Recorded Multiple Facility Location Problem Was Solved
-algorithm:
+algorithm: Multiple Facility Location Analysis
 authors:
   - Yonah Wilamowsky
   - Sheldon Epstein
@@ -11,9 +11,16 @@ type: Journal Paper
 doi: 10.1016/0966-8349(95)00001-x
 arxiv_id:
 tags:
+  - Facility location
+  - Multiple facility location
+  - Location science
+  - Optimization history
+  - Operations research
+  - Applied optimization
 abstract: >
   During the Israelites' wanderings in the Sinai Desert, the Lord instructed them that upon settling their new homeland they were to set aside three cities of refuge for unintentional murderers (i.e. the murder is committed without intent). Although the Bible states the purpose of these cities, the Lord did not specify their exact locations. After the Israelites conquered the land, the Bible lists the three cities that Joshua selected. No rationale for Joshua's selections is given. In this paper we apply multiple facility location methodology to the city of refuge problem, and show that using an appropriate objective function and population distribution, Joshua's selections were optimal.
-summary:
+summary: >
+  Applies multiple-facility location models to the biblical city-of-refuge placement problem, showing that Joshua's three selected locations can be interpreted as optimal under a suitable objective and population distribution. The article is a compact historical case study for operations-research modeling rather than a new algorithmic method.
 link: https://doi.org/10.1016/0966-8349(95)00001-x
 links_alt:
-audit_status: raw
+audit_status: "partial"

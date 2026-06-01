@@ -8,7 +8,7 @@ source: IEEE Transactions on Automatic Control (TAC)
 type: Journal Paper
 doi: 10.1109/TAC.1978.1101812
 tags:
-  - Linear quadratic Gaussian (LQG)
+  - Linear quadratic Gaussian
   - Robust control
 abstract: >
   There are none.

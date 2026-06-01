@@ -10,9 +10,15 @@ type: Journal Paper
 doi: 10.1109/9.85066
 arxiv_id:
 tags:
+  - Optimal control
+  - Linear quadratic control
+  - Minimum-time control
+  - Riccati equation
+  - Feedback control
 abstract: >
   A nontraditional minimum-time problem that includes quadratic-state and control-weighting terms in the performance index is investigated. This formulation provides a convenient solution to the problem that uses the solution of the Riccati equation to compute the optimal feedback gain and the optimal time. In some cases the latter is simply found using the derivative of the Riccati equation solution.
-summary:
+summary: >
+  Studies a minimum-time control problem with quadratic state and input terms in the objective, showing how Riccati-equation machinery can be used to compute both the optimal feedback and the terminal time. The formulation sits between classical LQ regulation and time-optimal control, giving a compact way to trade trajectory speed against quadratic performance.
 link: https://doi.org/10.1109/9.85066
 links_alt:
-audit_status: raw
+audit_status: "partial"

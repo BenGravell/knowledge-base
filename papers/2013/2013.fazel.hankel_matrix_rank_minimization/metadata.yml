@@ -1,6 +1,6 @@
 title: >
   Hankel Matrix Rank Minimization with Applications to System Identification and Realization
-algorithm:
+algorithm: Structured Nuclear Norm Minimization
 authors:
   - Maryam Fazel
   - Ting Kei Pong
@@ -10,12 +10,21 @@ year: 2013
 source: SIAM Journal on Matrix Analysis and Applications
 type: Journal Paper
 doi: 10.1137/110853996
-arxiv_id:
+arxiv_id: 
 tags:
+  - Hankel matrices
+  - Rank minimization
+  - System identification
+  - System realization
+  - Nuclear norm
+  - Alternating-direction method of multipliers
+  - First-order methods
 abstract: >
   We introduce a flexible optimization framework for nuclear norm minimization of matrices with linear structure, including Hankel, Toeplitz, and moment structures and catalog applications from diverse fields under this framework. We discuss various first-order methods for solving the resulting optimization problem, including alternating direction methods of multipliers, proximal point algorithms, and gradient projection methods. We perform computational experiments to compare these methods on system identification problems and system realization problems. For the system identification problem, the gradient projection method (accelerated by Nesterov's extrapolation techniques) and the proximal point algorithm usually outperform other first-order methods in terms of CPU time on both real and simulated data, for small and large regularization parameters, respectively, while for the system realization problem, the alternating direction method of multipliers, as applied to a certain primal reformulation, usually outperforms other first-order methods in terms of CPU time. We also study the convergence of the proximal alternating direction methods of multipliers used in this paper.
-summary:
+summary: >
+  Builds a nuclear-norm minimization framework for linearly structured matrices such as Hankel, Toeplitz, and moment matrices, then studies first-order solvers for system identification and realization. The paper is useful because it compares ADMM, proximal-point, and accelerated gradient-projection variants in application-specific settings, showing that the best algorithm depends on the structured rank-minimization problem and regularization regime.
 link: https://epubs.siam.org/doi/10.1137/110853996
 links_alt:
   - https://doi.org/10.1137/110853996
-audit_status: raw
+  - https://docslib.org/doc/13394950/hankel-matrix-rank-minimization-with-applications-to-system-identification-and-realization
+audit_status: partial

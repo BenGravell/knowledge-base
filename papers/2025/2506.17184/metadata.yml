@@ -16,7 +16,7 @@ arxiv_id: "2506.17184"
 tags:
   - Model predictive control
   - Sampling-based control
-  - MPPI
+  - Model predictive path integral control
   - MuJoCo
   - Open source
   - Software

@@ -7,14 +7,26 @@ authors:
   - Yun Chang
   - Luca Carlone
 year: 2019
-source:
-type: Preprint
-doi:
+source: IEEE International Conference on Robotics and Automation (ICRA)
+type: Conference Paper
+doi: 10.1109/ICRA40945.2020.9196885
 arxiv_id: "1910.02490"
 tags:
+  - Metric-semantic simultaneous localization and mapping
+  - Visual-inertial odometry
+  - Pose graph optimization
+  - Mesh reconstruction
+  - Semantic mapping
+  - Open-source software
+  - Real-time systems
+  - Kimera
 abstract: >
   We provide an open-source C++ library for real-time metric-semantic visual-inertial Simultaneous Localization And Mapping (SLAM). The library goes beyond existing visual and visual-inertial SLAM libraries (e.g., ORB-SLAM, VINS- Mono, OKVIS, ROVIO) by enabling mesh reconstruction and semantic labeling in 3D. Kimera is designed with modularity in mind and has four key components: a visual-inertial odometry (VIO) module for fast and accurate state estimation, a robust pose graph optimizer for global trajectory estimation, a lightweight 3D mesher module for fast mesh reconstruction, and a dense 3D metric-semantic reconstruction module. The modules can be run in isolation or in combination, hence Kimera can easily fall back to a state-of-the-art VIO or a full SLAM system. Kimera runs in real-time on a CPU and produces a 3D metric-semantic mesh from semantically labeled images, which can be obtained by modern deep learning methods. We hope that the flexibility, computational efficiency, robustness, and accuracy afforded by Kimera will build a solid basis for future metric-semantic SLAM and perception research, and will allow researchers across multiple areas (e.g., VIO, SLAM, 3D reconstruction, segmentation) to benchmark and prototype their own efforts without having to start from scratch.
-summary:
+summary: >
+  Introduces Kimera as a modular real-time metric-semantic SLAM library with visual-inertial odometry, pose-graph optimization, mesh reconstruction, and semantic 3D reconstruction components. It is important as an open-source system paper that made metric-semantic SLAM easier to benchmark and extend.
 link: https://arxiv.org/pdf/1910.02490
 links_alt:
-audit_status: raw
+  - https://ieeexplore.ieee.org/document/9196885
+  - https://doi.org/10.1109/ICRA40945.2020.9196885
+  - https://github.com/MIT-SPARK/Kimera
+audit_status: reviewed

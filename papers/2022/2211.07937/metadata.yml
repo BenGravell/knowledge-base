@@ -14,8 +14,7 @@ arxiv_id: "2211.07937"
 tags:
   - Policy gradients
   - Sample complexity
-  - PG
-  - Natural PG
+  - Natural policy gradient
   - NPG
   - Variance reduction
 abstract: >

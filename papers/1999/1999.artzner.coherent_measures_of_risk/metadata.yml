@@ -1,6 +1,6 @@
 title: >
   Coherent Measures of Risk
-algorithm:
+algorithm: Coherent Risk Measures
 authors:
   - Philippe Artzner
   - Freddy Delbaen
@@ -12,10 +12,18 @@ type: Journal Paper
 doi: 10.1111/1467-9965.00068
 arxiv_id:
 tags:
+  - Risk measures
+  - Coherent risk
+  - Financial risk
+  - Subadditivity
+  - Scenario methods
+  - Value at risk
+  - Mathematical finance
 abstract: >
   In this paper we study both market risks and nonmarket risks, without complete markets assumption, and discuss methods of measurement of these risks. We present and justify a set of four desirable properties for measures of risk, and call the measures satisfying these properties “coherent.” We examine the measures of risk provided and the related actions required by SPAN, by the SEC/NASD rules, and by quantile‐based methods. We demonstrate the universality of scenario‐based methods for providing coherent measures. We offer suggestions concerning the SEC method. We also suggest a method to repair the failure of subadditivity of quantile‐based methods.
-summary:
+summary: >
+  Defines coherent risk measures through four axioms and shows why common quantile-based measures can fail, especially through lack of subadditivity. The paper is foundational for modern financial risk theory and motivates scenario-based and expected-shortfall-style alternatives to value at risk.
 link: https://onlinelibrary.wiley.com/doi/10.1111/1467-9965.00068
 links_alt:
   - https://doi.org/10.1111/1467-9965.00068
-audit_status: raw
+audit_status: "partial"

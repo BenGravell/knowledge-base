@@ -13,8 +13,7 @@ type: Preprint
 doi:
 arxiv_id: "2509.19789"
 tags:
-  - Markov decision processes
-  - MDP
+  - Markov decision process
   - Autonomous driving
   - Vehicles
   - Safety

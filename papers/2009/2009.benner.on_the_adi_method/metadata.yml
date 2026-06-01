@@ -1,21 +1,28 @@
 title: >
   On the ADI Method for Sylvester Equations
-algorithm:
+algorithm: "Alternating Direction Implicit Sylvester Solver"
 authors:
-  - Peter Benner
-  - Ren-Cang Li
-  - Ninoslav Truhar
+  - "Peter Benner"
+  - "Ren-Cang Li"
+  - "Ninoslav Truhar"
 year: 2009
-source: Journal of Computational and Applied Mathematics
-type: Journal Paper
-doi: 10.1016/j.cam.2009.08.108
+source: "Journal of Computational and Applied Mathematics"
+type: "Journal Paper"
+doi: "10.1016/j.cam.2009.08.108"
 arxiv_id:
 tags:
+  - ADI method
+  - Sylvester equations
+  - Numerical linear algebra
+  - Matrix equations
+  - Model reduction
+  - Riccati equation
 abstract: >
   This paper is concerned with the numerical solution of large scale Sylvester equations AX - XB = C, Lyapunov equations as a special case in particular included, with C having very small rank. For stable Lyapunov equations, Penzl (2000) and Li and White (2002) demonstrated that the so-called Cholesky factor ADI method with decent shift parameters can be very effective. In this paper we present a generalization of the Cholesky factor ADI method for Sylvester equations. An easily implementable extension of Penzl's shift strategy for the Lyapunov equation is presented for the current case. It is demonstrated that Galerkin projection via ADI subspaces often produces much more accurate solutions than ADI solutions.
-summary:
-link: https://cscproxy.mpi-magdeburg.mpg.de/mpcsc/benner/pub/BenLiTru08.pdf
+summary: >
+  Studies ADI iterations for Sylvester equations, including convergence behavior and practical shift choices. The paper is useful for large-scale control and model-reduction computations where matrix equations are too large for dense solvers.
+link: "https://cscproxy.mpi-magdeburg.mpg.de/mpcsc/benner/pub/BenLiTru08.pdf"
 links_alt:
-- https://doi.org/10.1016/j.cam.2009.08.108
-- https://www.sciencedirect.com/science/article/pii/S0377042709006050
-audit_status: raw
+  - "https://doi.org/10.1016/j.cam.2009.08.108"
+  - "https://www.sciencedirect.com/science/article/pii/S0377042709006050"
+audit_status: "partial"

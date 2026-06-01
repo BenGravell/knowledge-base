@@ -1,6 +1,6 @@
 title: >
   On Adaptive Control Processes
-algorithm:
+algorithm: Adaptive Dynamic Programming
 authors:
   - Richard Bellman
   - Robert Kalaba
@@ -23,4 +23,4 @@ link: https://doi.org/10.1109/TAC.1959.1104847
 links_alt:
   - http://ieeexplore.ieee.org/document/1104847/
   - https://www.semanticscholar.org/paper/On-adaptive-control-processes-Bellman-Kalaba/2203f539aff403ac3c9c775d696a60c1418754d6
-audit_status: raw
+audit_status: "partial"

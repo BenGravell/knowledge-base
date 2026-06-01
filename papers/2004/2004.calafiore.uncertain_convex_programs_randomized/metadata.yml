@@ -1,0 +1,30 @@
+title: >
+  Uncertain Convex Programs: Randomized Solutions and Confidence Levels
+algorithm: Scenario Approach
+authors:
+  - Giuseppe C. Calafiore
+  - Marco C. Campi
+year: 2004
+source: Mathematical Programming
+type: Journal Paper
+doi: 10.1007/s10107-003-0499-y
+arxiv_id:
+tags:
+  - Scenario optimization
+  - Uncertain convex programs
+  - Randomized algorithms
+  - Chance constraints
+  - Robust optimization
+  - Sample complexity
+  - Probabilistic robustness
+  - Constraint sampling
+abstract: >
+  Many engineering problems can be cast as optimization problems subject to convex constraints that are parameterized by an uncertainty or 'instance' parameter. Two main approaches are generally available to tackle constrained optimization problems in presence of uncertainty: robust optimization and chance-constrained optimization. Robust optimization is a deterministic paradigm where one seeks a solution which simultaneously satisfies all possible constraint instances. In chance-constrained optimization a probability distribution is instead assumed on the uncertain parameters, and the constraints are enforced up to a pre-specified level of probability. Unfortunately however, both approaches lead to computationally intractable problem formulations. In this paper, we consider an alternative 'randomized' or 'scenario' approach for dealing with uncertainty in optimization, based on constraint sampling. In particular, we study the constrained optimization problem resulting by taking into account only a finite set of N constraints, chosen at random among the possible constraint instances of the uncertain problem. We show that the resulting randomized solution fails to satisfy only a small portion of the original constraints, provided that a sufficient number of samples is drawn. Our key result is to provide an efficient and explicit bound on the measure (probability or volume) of the original constraints that are possibly violated by the randomized solution. This volume rapidly decreases to zero as N is increased.
+summary: >
+  Introduces the scenario approach for uncertain convex programs by replacing infinitely many uncertain constraints with a random finite sample and certifying the violation probability of the resulting solution. The paper is foundational for scenario optimization because it provides explicit sample-size confidence bounds that make probabilistic robustness computationally tractable.
+link: https://people.eecs.berkeley.edu/~pabbeel/cs287-fa09/readings/CalafioreCampi-Convex-Optimization-MP.pdf
+links_alt:
+  - https://link.springer.com/article/10.1007/s10107-003-0499-y
+  - https://doi.org/10.1007/s10107-003-0499-y
+  - https://iris.polito.it/handle/11583/1398191
+audit_status: partial

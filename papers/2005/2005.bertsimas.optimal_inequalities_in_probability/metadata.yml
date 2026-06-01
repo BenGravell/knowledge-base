@@ -1,6 +1,6 @@
 title: >
   Optimal Inequalities in Probability Theory: A Convex Optimization Approach
-algorithm:
+algorithm: Moment Inequalities via SDP
 authors:
   - Dimitris Bertsimas
   - Ioana Popescu
@@ -10,10 +10,17 @@ type: Journal Paper
 doi: 10.1137/S1052623401399903
 arxiv_id:
 tags:
+  - Moment inequalities
+  - Semidefinite programming
+  - Convex optimization
+  - Probability bounds
+  - Polynomial optimization
+  - Distributionally robust optimization
 abstract: >
-  We propose a semidefinite optimization approach to the problem of deriving tight moment inequalities for $P(X\in S)$, for a set S defined by polynomial inequalities and a random vector X defined on $\Omega\subseteq {\cal R}^n$ that has a given collection of up to kth-order moments. In the univariate case, we provide optimal bounds on $P(X\in S)$, when the first k moments of X are given, as the solution of a semidefinite optimization problem in k + 1 dimensions. In the multivariate case, if the sets S and $\Omega$ are given by polynomial inequalities, we obtain an improving sequence of bounds by solving semidefinite optimization problems of polynomial size in n, for fixed k. We characterize the complexity of the problem of deriving tight moment inequalities. We show that it is NP-hard to find tight bounds for $k\geq 4$ and $\Omega={\cal R}^n$ and for $k\geq 2$ and $\Omega={\cal R}^n_+,$ when the data in the problem is rational. For k = 1 and $\Omega={\cal R}^n_+$ we show that we can find tight upper bounds by solving n convex optimization problems when the set S is convex, and we provide a polynomial time algorithm when S and $\Omega$ are unions of convex sets, over which linear functions can be optimized efficiently. For the case k = 2 and $\Omega={\cal R}^n$, we present an efficient algorithm for finding tight bounds when S is a union of convex sets, over which convex quadratic functions can be optimized efficiently.
-summary:
+  We propose a semidefinite optimization approach to the problem of deriving tight moment inequalities for P(X in S), for a set S defined by polynomial inequalities and a random vector X defined on Omega subset R^n that has a given collection of up to kth-order moments. In the univariate case, we provide optimal bounds on P(X in S), when the first k moments of X are given, as the solution of a semidefinite optimization problem in k + 1 dimensions. In the multivariate case, if the sets S and Omega are given by polynomial inequalities, we obtain an improving sequence of bounds by solving semidefinite optimization problems of polynomial size in n, for fixed k. We characterize the complexity of the problem of deriving tight moment inequalities. We show that it is NP-hard to find tight bounds for k >= 4 and Omega = R^n and for k >= 2 and Omega = R^n_+, when the data in the problem is rational. For k = 1 and Omega = R^n_+ we show that we can find tight upper bounds by solving n convex optimization problems when the set S is convex, and we provide a polynomial time algorithm when S and Omega are unions of convex sets, over which linear functions can be optimized efficiently. For the case k = 2 and Omega = R^n, we present an efficient algorithm for finding tight bounds when S is a union of convex sets, over which convex quadratic functions can be optimized efficiently.
+summary: >
+  Uses semidefinite optimization to derive tight probability bounds from finitely many moments when events and support sets are described by polynomial inequalities. The paper connects classical moment inequalities with convex optimization and characterizes when tight bound computation becomes computationally hard.
 link: https://epubs.siam.org/doi/abs/10.1137/S1052623401399903?journalCode=sjope8
 links_alt:
   - https://doi.org/10.1137/S1052623401399903
-audit_status: raw
+audit_status: "partial"

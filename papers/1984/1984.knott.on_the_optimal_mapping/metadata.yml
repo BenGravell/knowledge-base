@@ -13,7 +13,7 @@ tags:
   - Optimal transport
   - Distribution theory
   - Couplings
-  - Wasserstein distance
+  - Wasserstein distances
   - Quadratic cost
   - Convex optimization
 abstract: >
@@ -23,4 +23,4 @@ summary: >
 link: https://doi.org/10.1007/BF00934745
 links_alt:
   - https://link.springer.com/article/10.1007/BF00934745
-audit_status: raw
+audit_status: "partial"

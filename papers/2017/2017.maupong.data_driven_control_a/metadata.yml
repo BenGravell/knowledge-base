@@ -1,0 +1,29 @@
+title: >
+  Data-Driven Control: A Behavioral Approach
+algorithm: "Behavioral Data-driven Control"
+authors:
+  - Thabiso M. Maupong
+  - Paolo Rapisarda
+year: 2017
+source: "Systems & Control Letters"
+type: Journal Paper
+doi: 10.1016/j.sysconle.2016.04.006
+arxiv_id:
+tags:
+  - Data-driven control
+  - Behavioral systems
+  - Control as interconnection
+  - Controller synthesis
+  - Annihilators
+  - Direct control
+  - Linear systems
+abstract: >
+  In this work, we study the design of a controller using system data. We present three data-driven approaches based on the notion of control as interconnection. In the first approach, we use both the data and representations to compute control variable trajectories that impose a prescribed path on the to-be-controlled variables. The second method is completely data-driven and we prove sufficient conditions for determining a controller directly from data. Finally, we show how to determine a controller directly from data in the case where the control and to-be-controlled variables coincide.
+summary: >
+  Develops behavioral data-driven controller synthesis from the interconnection viewpoint, including a fully data-based route and a special case where control and controlled variables coincide. It is a conceptual bridge between older behavioral control theory and later direct data-driven controller design.
+link: https://eprints.soton.ac.uk/393528/1/DDC.pdf
+links_alt:
+  - https://doi.org/10.1016/j.sysconle.2016.04.006
+  - https://www.sciencedirect.com/science/article/abs/pii/S0167691116300317
+  - https://eprints.soton.ac.uk/393528/
+audit_status: raw

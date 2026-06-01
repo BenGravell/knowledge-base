@@ -13,7 +13,7 @@ type: Journal Paper
 doi: 10.1109/LRA.2025.3632612
 arxiv_id:
 tags:
-  - MPPI
+  - Model predictive path integral control
   - Trajectory optimization
   - Constraint handling
   - Temporal difference

@@ -24,4 +24,4 @@ link: "https://people.eecs.berkeley.edu/~sequin/CS284/PAPERS/CatmullClark_SDSurf
 links_alt:
   - "https://doi.org/10.1016/0010-4485(78)90110-0"
   - "https://www.sciencedirect.com/science/article/pii/0010448578901100"
-audit_status: raw
+audit_status: "partial"

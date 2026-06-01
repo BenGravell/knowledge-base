@@ -1,17 +1,26 @@
 title: >
   Control System Synthesis by Root Locus Method
-algorithm:
+algorithm: Root Locus Method
 authors:
-  - W. R. Evans
+  - Walter R. Evans
 year: 1950
 source: Electrical Engineering
 type: Journal Paper
 doi: 10.1109/EE.1950.6433836
 arxiv_id:
 tags:
+  - Root locus
+  - Feedback control
+  - Control system synthesis
+  - Classical control
+  - Characteristic roots
+  - Transient response
+  - Frequency response
 abstract: >
-  THE ROOT LOCUS method solves the problem of finding the roots of the characteristic equation by an extension of concepts now associated with the frequency-response method. The roots describe the natural response of the system, and knowing them permits a solution for any input. Consider a simple single-loop system, shown in Figure 1, for convenience in developing a physical picture.
-summary:
-link: https://doi.org/10.1109/EE.1950.6433836
+  The root locus method determines all of the roots of the differential equation of a control system by a graphical plot which readily permits synthesis for desired transient response or frequency response.
+summary: >
+  Evans introduces the root locus method as a graphical design tool for tracking how the closed-loop poles of a feedback system move as gain varies. The paper helped make pole-location reasoning practical for classical control synthesis, linking transient response and frequency-response requirements to a single construction.
+link: https://bwang-ccny.github.io/files/ME41100/Root_Locus_Method.pdf
 links_alt:
-audit_status: raw
+  - https://doi.org/10.1109/EE.1950.6433836
+audit_status: "partial"

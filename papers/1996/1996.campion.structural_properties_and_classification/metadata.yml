@@ -1,6 +1,6 @@
 title: >
   Structural Properties and Classification of Kinematic and Dynamic Models of Wheeled Mobile Robots
-algorithm:
+algorithm: Wheeled Mobile Robot Model Classification
 authors:
   - G. Campion
   - G. Bastin
@@ -11,9 +11,17 @@ type: Journal Paper
 doi: 10.1109/70.481750
 arxiv_id:
 tags:
+  - Wheeled mobile robots
+  - Robot kinematics
+  - Robot dynamics
+  - Nonholonomic systems
+  - Controllability
+  - Feedback equivalence
+  - Mobile robot modeling
 abstract: >
   The structure of the kinematic and dynamic models of wheeled mobile robots is analyzed. It is shown that, for a large class of possible configurations, they can be classified into five types, characterized by generic structures of the model equations. For each type of model the following questions are addressed: (ir)reducibility and (non)holonomy, mobility and controllability, configuration of the motorization, and feedback equivalence.
-summary:
+summary: >
+  Classifies a broad family of wheeled mobile robot kinematic and dynamic models into five structural types. The paper analyzes reducibility, nonholonomy, mobility, controllability, motorization, and feedback equivalence, making it a standard reference for choosing the right model class before designing mobile-robot controllers.
 link: https://doi.org/10.1109/70.481750
 links_alt:
-audit_status: raw
+audit_status: "partial"

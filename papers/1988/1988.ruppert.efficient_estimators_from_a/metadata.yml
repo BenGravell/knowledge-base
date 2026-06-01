@@ -1,6 +1,6 @@
 title: >
   Efficient Estimators from a Slowly Converging Robbins-Monro Process
-algorithm:
+algorithm: Polyak-Ruppert Averaging
 authors:
   - David Ruppert
 year: 1988
@@ -9,9 +9,17 @@ type: Technical Report
 doi:
 arxiv_id:
 tags:
-abstract: ''
-summary:
+  - Polyak-Ruppert averaging
+  - Stochastic approximation
+  - Robbins-monro process
+  - Asymptotic efficiency
+  - Averaged iterates
+  - Statistical estimation
+abstract: >
+  This paper shows how averaging the iterates of a slowly converging Robbins-Monro procedure can produce efficient estimators under suitable regularity conditions.
+summary: >
+  Ruppert develops iterate averaging for stochastic approximation, showing that averaging can recover asymptotically efficient estimators even when the underlying Robbins-Monro sequence converges slowly. Together with Polyak's related work, this became the Polyak-Ruppert averaging principle used in stochastic optimization and online estimation.
 link: https://www.researchgate.net/publication/242608650
 links_alt:
   - https://www.researchgate.net/publication/242608650_Efficient_estimators_from_a_slowly_converging_robbins-monro_process
-audit_status: raw
+audit_status: "partial"

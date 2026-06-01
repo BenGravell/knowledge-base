@@ -1,6 +1,6 @@
 title: >
   A Universal Construction of Artstein's Theorem on Nonlinear Stabilization
-algorithm:
+algorithm: Sontag Universal Formula
 authors:
   - Eduardo D. Sontag
 year: 1989
@@ -9,9 +9,17 @@ type: Journal Paper
 doi: 10.1016/0167-6911(89)90028-5
 arxiv_id:
 tags:
+  - Sontag formula
+  - Control Lyapunov functions
+  - Nonlinear stabilization
+  - Artstein theorem
+  - Feedback control
+  - Nonlinear control
+  - Lyapunov methods
 abstract: >
   This note presents an explicit proof of the theorem - due to Artstein - which states that the existence of a smooth control-Lyapunov function implies smooth stabilizability. Moreover, the result is extended to the real-analytic and rational cases as well. The proof uses a 'universal' formula given by an algebraic function of Lie derivatives; this formula originates in the solution of a simple Riccati equation.
-summary:
+summary: >
+  Sontag gives a universal feedback construction that turns suitable control Lyapunov functions into stabilizing nonlinear controllers. The formula made Artstein's existence theorem constructive and became a standard tool in nonlinear stabilization and control-Lyapunov-function design.
 link: https://www.sciencedirect.com/science/article/abs/pii/0167691189900285?via%3Dihub
 links_alt:
-audit_status: raw
+audit_status: "partial"

@@ -1,6 +1,6 @@
 title: >
-  The Grand Challenge of Computer Go
-algorithm:
+  The Grand Challenge of Computer Go: Monte Carlo Tree Search and Extensions
+algorithm: Monte Carlo Tree Search
 authors:
   - Sylvain Gelly
   - Levente Kocsis
@@ -13,12 +13,21 @@ year: 2012
 source: Communications of the ACM
 type: Journal Paper
 doi: 10.1145/2093548.2093574
-arxiv_id:
+arxiv_id: 
 tags:
+  - Computer Go
+  - Monte Carlo tree search
+  - Game artificial intelligence
+  - UCT
+  - Simulation search
+  - Reinforcement learning
+  - Search heuristics
 abstract: >
   The ancient oriental game of Go has long been considered a grand challenge for artificial intelligence. For decades, computer Go has defied the classical methods in game tree search that worked so successfully for chess and checkers. However, recent play in computer Go has been transformed by a new paradigm for tree search based on Monte-Carlo methods. Programs based on Monte-Carlo tree search now play at human-master levels and are beginning to challenge top professional players. In this paper, we describe the leading algorithms for Monte-Carlo tree search and explain how they have advanced the state of the art in computer Go.
-summary:
-link: https://dl.acm.org/doi/10.1145/2093548.2093574
+summary: >
+  Reviews how Monte Carlo tree search changed Computer Go from a long-standing failure case for classical alpha-beta search into a domain where programs could reach master-level play. The paper is a useful snapshot of pre-deep-learning Go AI, explaining UCT, rollout policies, tree enhancements, and the algorithmic reasons Go became tractable through simulation rather than brute-force symbolic search.
+link: https://research.google/pubs/the-grand-challenge-of-computer-go-monte-carlo-tree-search-and-extensions/
 links_alt:
+  - https://www.davidsilver.uk/wp-content/uploads/2020/03/grand-challenge.pdf
   - https://doi.org/10.1145/2093548.2093574
-audit_status: raw
+audit_status: partial

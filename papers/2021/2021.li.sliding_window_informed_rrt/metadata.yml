@@ -16,8 +16,8 @@ tags:
   - Motion planning
   - Sampling-based planning
   - Asymptotic optimality
-  - Sliding-window informed RRT*
-  - Informed RRT*
+  - Sliding-window informed rapidly-exploring random tree star
+  - Informed rapidly-exploring random tree star
   - Sliding window
   - Path smoothing
 abstract: >

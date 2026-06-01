@@ -1,0 +1,31 @@
+title: >
+  The GraphSLAM Algorithm with Applications to Large-Scale Mapping of Urban Structures
+algorithm: GraphSLAM
+authors:
+  - Sebastian Thrun
+  - Michael Montemerlo
+year: 2006
+source: The International Journal of Robotics Research
+type: Journal Paper
+doi: 10.1177/0278364906065387
+arxiv_id:
+tags:
+  - Simultaneous localization and mapping
+  - Graph-based simultaneous localization and mapping
+  - Sparse optimization
+  - Variable elimination
+  - Data association
+  - Large-scale mapping
+  - Urban mapping
+  - Robot localization
+  - GraphSLAM
+abstract: >
+  This article presents GraphSLAM, a unifying algorithm for the offline SLAM problem. GraphSLAM is closely related to a recent sequence of research papers on applying optimization techniques to SLAM problems. It transforms the SLAM posterior into a graphical network, representing the log-likelihood of the data. It then reduces this graph using variable elimination techniques, arriving at a lower-dimensional problems that is then solved using conventional optimization techniques. As a result, GraphSLAM can generate maps with 108 or more features. The paper discusses a greedy algorithm for data association, and presents results for SLAM in urban environments with occasional GPS measurements.
+summary: >
+  Formulates full SLAM as a sparse graphical optimization problem over robot poses and map features, then uses variable elimination to reduce and solve the resulting likelihood graph. The paper helped crystallize graph-based SLAM as a unifying alternative to filtering and showed that large urban maps could be handled by exploiting sparsity.
+link: https://robots.stanford.edu/papers/thrun.graphslam.pdf
+links_alt:
+  - https://robots.stanford.edu/papers/thrun.graphslam.html
+  - https://journals.sagepub.com/doi/10.1177/0278364906065387
+  - https://doi.org/10.1177/0278364906065387
+audit_status: reviewed

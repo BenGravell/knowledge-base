@@ -16,7 +16,7 @@ tags:
   - Anomaly detection
   - Attack detection
   - Robust state estimation
-  - LQG control
+  - Linear quadratic Gaussian control
   - Multiplicative noise
   - Model uncertainty
   - Stochastic systems

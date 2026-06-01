@@ -1,6 +1,6 @@
 title: >
   Path-Following or Reference-Tracking? An Answer Relaxing the Limits to Performance
-algorithm:
+algorithm: Path-Following Control
 authors:
   - "A. Pedro Aguiar"
   - "Dragan B. Dacic"
@@ -25,4 +25,4 @@ summary: >
 link: "https://web.ece.ucsb.edu/~hespanha/published/iav04-pathfollowing.pdf"
 links_alt:
   - "https://doi.org/10.1016/S1474-6670(17)31970-5"
-audit_status: raw
+audit_status: "partial"

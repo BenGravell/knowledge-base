@@ -8,6 +8,7 @@ year: 1997
 source: SPIE Proceedings
 type: Conference Paper
 doi: 10.1117/12.280797
+arxiv_id:
 tags:
   - Unscented Kalman filter
   - Nonlinear estimation
@@ -20,4 +21,5 @@ abstract: >
 summary: >
   Introduces the Unscented Kalman Filter (UKF), which propagates a small set of deterministically chosen sigma points through the nonlinear dynamics to capture mean and covariance to third order. Outperforms the Extended Kalman Filter (EKF) for most nonlinear estimation problems without requiring Jacobian computations. The original UKF paper.
 link: https://doi.org/10.1117/12.280797
-audit_status: raw
+links_alt:
+audit_status: "partial"

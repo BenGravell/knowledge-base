@@ -12,7 +12,7 @@ tags:
   - Dubins path
   - Optimal control
   - Angular acceleration
-  - bang-bang control
+  - Bang-bang control
   - Singular control
   - Path planning
   - Pontryagin maximum principle
@@ -22,4 +22,4 @@ summary: >
   Studies a second-order variant of the Markov-Dubins minimum-length path problem where angular acceleration is the control rather than angular velocity, finding that optimal trajectories exclude bang-bang/singular junctions but may exhibit the Fuller phenomenon of infinite control chattering in Pontryagin extremals.
 link: https://doi.org/10.1109/CDC.1997.657778
 links_alt:
-audit_status: raw
+audit_status: "partial"

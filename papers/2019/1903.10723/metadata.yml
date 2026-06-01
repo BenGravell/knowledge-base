@@ -1,0 +1,29 @@
+title: >
+  A Trajectory-Based Framework for Data-Driven System Analysis and Control
+algorithm: "Trajectory-Based Data-driven Control"
+authors:
+  - Julian Berberich
+  - Frank Allgower
+year: 2019
+source: "European Control Conference"
+type: Conference Paper
+doi: 10.23919/ECC51009.2020.9143608
+arxiv_id: "1903.10723"
+tags:
+  - Data-driven control
+  - Behavioral systems
+  - Trajectory spaces
+  - Persistency of excitation
+  - Data-driven simulation
+  - Nonlinear systems
+  - Kernel methods
+abstract: >
+  The vector space of all input-output trajectories of a discrete-time linear time-invariant (LTI) system is spanned by time-shifts of a single measured trajectory, given that the respective input signal is persistently exciting. This fact, which was proven in the behavioral control framework, shows that a single measured trajectory can capture the full behavior of an LTI system and might therefore be used directly for system analysis and controller design, without explicitly identifying a model. In this paper, we translate the result from the behavioral context to the classical state-space control framework and we extend it to certain classes of nonlinear systems, which are linear in suitable input-output coordinates. Moreover, we show how this extension can be applied to the data-driven simulation problem, where we introduce kernel-methods to obtain a rich set of basis functions.
+summary: >
+  Recasts behavioral trajectory spanning in state-space language and extends the idea toward nonlinear systems that admit linear input-output coordinates. It helps connect classical control intuition, data-driven simulation, and later kernelized or nonlinear fundamental-lemma variants.
+link: https://arxiv.org/pdf/1903.10723
+links_alt:
+  - https://doi.org/10.23919/ECC51009.2020.9143608
+  - https://ieeexplore.ieee.org/document/9143608
+  - https://arxiv.org/abs/1903.10723
+audit_status: raw

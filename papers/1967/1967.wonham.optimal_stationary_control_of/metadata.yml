@@ -19,4 +19,4 @@ abstract: >
 summary: >
   Extends LQR to linear systems subject to multiplicative (state-dependent) Gaussian noise, deriving a modified algebraic Riccati equation whose stabilizing solution yields the optimal stationary feedback gain. Establishes existence and uniqueness conditions and lays the groundwork for stochastic LQR theory.
 link: https://epubs.siam.org/doi/10.1137/0305028
-audit_status: raw
+audit_status: "partial"

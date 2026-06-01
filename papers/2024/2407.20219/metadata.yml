@@ -1,0 +1,33 @@
+title: >
+  Global Structure-from-Motion Revisited
+algorithm: GLOMAP
+authors:
+  - Linfei Pan
+  - Daniel Barath
+  - Marc Pollefeys
+  - Johannes L. Schonberger
+year: 2024
+source: European Conference on Computer Vision
+type: Conference Paper
+doi: 10.1007/978-3-031-73661-2_4
+arxiv_id: "2407.20219"
+tags:
+  - Structure from motion
+  - Global structure from motion
+  - GLOMAP
+  - Rotation averaging
+  - Camera position averaging
+  - COLMAP
+  - Open source
+abstract: >
+  Recovering 3D structure and camera motion from images has been a long-standing focus of computer vision research and is known as Structure-from-Motion (SfM). Solutions to this problem are categorized into incremental and global approaches. Until now, the most popular systems follow the incremental paradigm due to its superior accuracy and robustness, while global approaches are drastically more scalable and efficient. With this work, we revisit the problem of global SfM and propose GLOMAP as a new general-purpose system that outperforms the state of the art in global SfM. In terms of accuracy and robustness, we achieve results on-par or superior to COLMAP, the most widely used incremental SfM, while being orders of magnitude faster. We share our system as an open-source implementation at https://github.com/colmap/glomap.
+summary: >
+  Revisits global SfM with a practical GLOMAP pipeline that makes global reconstruction competitive with incremental COLMAP-level accuracy while retaining much higher speed. The system emphasizes robust global estimation and open-source interoperability with COLMAP data.
+link: https://arxiv.org/pdf/2407.20219
+links_alt:
+  - https://arxiv.org/abs/2407.20219
+  - https://www.ecva.net/papers/eccv_2024/papers_ECCV/html/5646_ECCV_2024_paper.php
+  - https://www.ecva.net/papers/eccv_2024/papers_ECCV/papers/05646.pdf
+  - https://link.springer.com/chapter/10.1007/978-3-031-73661-2_4
+  - https://github.com/colmap/glomap
+audit_status: reviewed

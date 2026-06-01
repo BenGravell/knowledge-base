@@ -18,7 +18,7 @@ tags:
   - Robustness
   - Uncertainty
   - Control
-  - LQG
+  - Linear quadratic Gaussian
 abstract: >
   The Linear Quadratic Gaussian (LQG) controller is known to be inherently fragile to model misspecifications common in real-world situations. We consider discrete-time partially observable stochastic linear systems and provide a robustification of the standard LQG against distributional uncertainties on the process and measurement noise. Our distributionally robust formulation specifies the admissible perturbations by defining a relative entropy based ambiguity set individually for each time step along a finite-horizon trajectory, and minimizes the worst-case cost across all admissible distributions. We prove that the optimal control policy is still linear, as in standard LQG, and derive a computational scheme grounded on iterative best response that provably converges to the set of saddle points. Finally, we consider the case of endogenous uncertainty captured via decision-dependent ambiguity sets and we propose an approximation scheme based on dynamic programming.
 summary:

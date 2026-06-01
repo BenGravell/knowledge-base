@@ -13,7 +13,7 @@ source: International Conference on Machine Learning
 type: Conference Paper
 tags:
   - Reinforcement learning
-  - Policy gradient
+  - Policy gradients
   - Deterministic policy
   - Actor-critic
   - Continuous action spaces

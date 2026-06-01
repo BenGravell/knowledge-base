@@ -11,7 +11,6 @@ doi: 10.1109/LRA.2021.3098928
 arxiv_id: "2103.03293"
 tags:
   - Differential dynamic programming
-  - DDP
   - Second-order methods
   - Rigid-body dynamics
   - Trajectory optimization

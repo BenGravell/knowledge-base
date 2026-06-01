@@ -17,4 +17,4 @@ abstract: >
 summary: >
   Develops methods for designing suboptimal linear regulators when computer storage constraints limit the complexity of the feedback law. Studies how to approximate optimal LQR controllers under computational restrictions, with relevance to real-time embedded control systems of the era.
 link: https://dspace.mit.edu/handle/1721.1/31024
-audit_status: raw
+audit_status: "partial"

@@ -1,6 +1,6 @@
 title: >
   On Spectral Clustering: Analysis and an Algorithm
-algorithm:
+algorithm: Ng-Jordan-Weiss Spectral Clustering
 authors:
   - Andrew Ng
   - Michael Jordan
@@ -11,11 +11,18 @@ type: Conference Paper
 doi:
 arxiv_id:
 tags:
+  - Spectral clustering
+  - Graph laplacians
+  - Eigenvectors
+  - Matrix perturbation
+  - Clustering
+  - Machine learning
 abstract: >
   Despite many empirical successes of spectral clustering methods - algorithms that cluster points using eigenvectors of matrices derived from the data - there are several unresolved issues. First, there are a wide variety of algorithms that use the eigenvectors in slightly different ways. Second, many of these algorithms have no proof that they will actually compute a reasonable clustering. In this paper, we present a simple spectral clustering algorithm that can be implemented using a few lines of Matlab. Using tools from matrix perturbation theory, we analyze the algorithm, and give conditions under which it can be expected to do well. We also show surprisingly good experimental results on a number of challenging clustering problems.
-summary:
+summary: >
+  Presents a simple spectral clustering algorithm based on eigenvectors of an affinity-derived matrix and analyzes conditions under which it recovers meaningful clusters. The paper helped standardize the normalized spectral clustering recipe and connected its empirical success to matrix perturbation arguments.
 link: https://proceedings.neurips.cc/paper_files/paper/2001/file/801272ee79cfde7fa5960571fee36b9b-Paper.pdf
 links_alt:
   - https://proceedings.neurips.cc/paper/2001/hash/801272ee79cfde7fa5960571fee36b9b-Abstract.html
   - https://proceedings.neurips.cc/paper_files/paper/2001/file/801272ee79cfde7fa5960571fee36b9b-Metadata.json
-audit_status: raw
+audit_status: "partial"

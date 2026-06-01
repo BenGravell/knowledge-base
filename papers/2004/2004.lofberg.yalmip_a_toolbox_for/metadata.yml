@@ -12,7 +12,6 @@ tags:
   - Optimization
   - MATLAB toolbox
   - Semidefinite programming
-  - SDP
   - Control theory
   - Mathematical programming
 abstract: >
@@ -22,4 +21,4 @@ summary: >
 link: https://doi.org/10.1109/CACSD.2004.1393890
 links_alt:
   - https://yalmip.github.io/
-audit_status: raw
+audit_status: "partial"

@@ -17,9 +17,8 @@ doi:
 arxiv_id: "2411.11833"
 tags:
   - Task and motion planning
-  - TAMP
-  - CUDA
-  - GPU
+  - Compute unified device architecture
+  - Graphics processing unit
   - Parallelized
   - Differentiable optimization
   - Robot manipulation

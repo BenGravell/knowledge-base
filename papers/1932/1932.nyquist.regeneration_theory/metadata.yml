@@ -1,6 +1,6 @@
 title: >
   Regeneration Theory
-algorithm: Regeneration Theory
+algorithm: Nyquist Stability Criterion
 authors:
   - H. Nyquist
 year: 1932
@@ -9,10 +9,19 @@ type: Journal Paper
 doi: 10.1002/j.1538-7305.1932.tb02344.x
 arxiv_id:
 tags:
+  - Nyquist criterion
+  - Feedback stability
+  - Frequency-domain analysis
+  - Regenerative amplifiers
+  - Vacuum tube circuits
+  - Control theory
+  - Oscillation
 abstract: >
-  The following is an explanation of the circumstances which led the author to write his 1932 paper on the “Regeneration Theory.”
-summary:
-link: https://onlinelibrary.wiley.com/doi/abs/10.1002/j.1538-7305.1932.tb02344.x
+  Regeneration or feed-back is of considerable importance in many applications of vacuum tubes. The most obvious example is that of vacuum tube oscillators, where the feed-back is carried beyond the singing point. Another application is the 21-circuit test of balance, in which the current due to the unbalance between two impedances is fed back, the gain being increased until singing occurs. Still other applications are cases where portions of the output current of amplifiers are fed back to the input either unintentionally or by design. For the purpose of investigating the stability of such devices they may be looked on as amplifiers whose output is connected to the input through a transducer. This paper deals with the theory of stability of such systems.
+summary: >
+  Nyquist gives the frequency-domain stability test that became the Nyquist criterion, recasting feedback-amplifier stability as a question about how the complex loop-gain curve winds around the critical point. The paper is a foundation of feedback control because it lets engineers reason about oscillation and stability margins directly from measured or computed frequency response rather than only from time-domain differential equations.
+link: https://vtda.org/pubs/BSTJ/vol11-1932/articles/bstj11-1-126.pdf
 links_alt:
+  - https://onlinelibrary.wiley.com/doi/abs/10.1002/j.1538-7305.1932.tb02344.x
   - https://doi.org/10.1002/j.1538-7305.1932.tb02344.x
-audit_status: raw
+audit_status: "partial"

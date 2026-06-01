@@ -22,4 +22,4 @@ summary: >
   Introduces the Artificial Potential Field (APF) method for real-time obstacle avoidance, where repulsive potentials push the robot away from obstacles and an attractive potential pulls it toward the goal. Extended to robotic manipulators via an operational-space formulation. Highly influential classical result; subsequent work addressed the local-minima problem inherent to gradient-descent on a potential surface.
 link: https://doi.org/10.1109/ROBOT.1985.1087247
 links_alt:
-audit_status: raw
+audit_status: "partial"

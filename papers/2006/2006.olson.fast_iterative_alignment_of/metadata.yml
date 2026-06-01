@@ -11,13 +11,13 @@ type: Conference Paper
 doi: 10.1109/ROBOT.2006.1642040
 arxiv_id:
 tags:
-  - SLAM
+  - Simultaneous localization and mapping
   - Pose graph optimization
   - Stochastic gradient descent
   - Non-linear optimization
   - Robot trajectory estimation
   - Loop closure
-  - Graph-based SLAM
+  - Graph-based simultaneous localization and mapping
   - Mobile robotics
 abstract: >
   A robot exploring an environment can estimate its own motion and the relative positions of features in the environment. Simultaneous localization and mapping (SLAM) algorithms attempt to fuse these estimates to produce a map and a robot trajectory. The constraints are generally non-linear, thus SLAM can be viewed as a non-linear optimization problem. The optimization can be difficult, due to poor initial estimates arising from odometry data, and due to the size of the state space. We present a fast non-linear optimization algorithm that rapidly recovers the robot trajectory, even when given a poor initial estimate. Our approach uses a variant of stochastic gradient descent on an alternative state-space representation that has good stability and computational properties. We compare our algorithm to several others, using both real and synthetic data sets

@@ -1,6 +1,6 @@
 title: >
   Discovery of the Maximum Principle
-algorithm:
+algorithm: Maximum Principle Historical Account
 authors:
   - R. V. Gamkrelidze
 year: 1999
@@ -9,9 +9,15 @@ type: Journal Paper
 doi: 10.1023/A:1021783020548
 arxiv_id:
 tags:
+  - Optimal control
+  - Maximum principle
+  - Control history
+  - Pontryagin
+  - Calculus of variations
 abstract: >
   A short history of the discovery of the maximum principle in optimal control theory by L. S. Pontryagin and his associates is presented.
-summary:
+summary: >
+  Gives a short historical account of how Pontryagin and collaborators discovered the maximum principle in optimal control. The entry is useful as a primary recollection of the intellectual development behind one of the central necessary conditions in control theory.
 link: https://doi.org/10.1023/A:1021783020548
 links_alt:
-audit_status: raw
+audit_status: "partial"

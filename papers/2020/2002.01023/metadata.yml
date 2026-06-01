@@ -1,0 +1,32 @@
+title: >
+  Willems' Fundamental Lemma for State-Space Systems and Its Extension to Multiple Datasets
+algorithm: "Collective Persistency of Excitation"
+authors:
+  - Henk J. van Waarde
+  - Claudio De Persis
+  - M. Kanat Camlibel
+  - Pietro Tesi
+year: 2020
+source: "IEEE Control Systems Letters"
+type: Journal Paper
+doi: 10.1109/LCSYS.2020.2986991
+arxiv_id: "2002.01023"
+tags:
+  - Willems' fundamental lemma
+  - Data-driven control
+  - Behavioral systems
+  - State-space systems
+  - Multiple datasets
+  - Persistency of excitation
+  - Missing data
+  - Unstable systems
+abstract: >
+  Willems et al.'s fundamental lemma asserts that all trajectories of a linear system can be obtained from a single given one, assuming that a persistency of excitation condition holds. This result has profound implications for system identification and data-driven control, and has seen a revival over the last few years. The purpose of this paper is to extend Willems' lemma to the situation where multiple (possibly short) system trajectories are given instead of a single long one. To this end, we introduce a notion of collective persistency of excitation. We will then show that all trajectories of a linear system can be obtained from a given finite number of trajectories, as long as these are collectively persistently exciting. We will demonstrate that this result enables the identification of linear systems from data sets with missing data samples. Additionally, we show that the result is of practical significance in data-driven control of unstable systems.
+summary: >
+  Extends the fundamental lemma from one long trajectory to multiple shorter trajectories via collective persistency of excitation. This is important for practical data collection, missing samples, and unstable systems where one long persistently exciting run may be difficult or unsafe.
+link: https://arxiv.org/pdf/2002.01023
+links_alt:
+  - https://doi.org/10.1109/LCSYS.2020.2986991
+  - https://ieeexplore.ieee.org/document/9062302
+  - https://arxiv.org/abs/2002.01023
+audit_status: raw

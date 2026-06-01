@@ -1,0 +1,30 @@
+title: >
+  Machine-Learning Applications of Algorithmic Randomness
+algorithm: Algorithmic Randomness Confidence Measures
+authors:
+  - Volodya Vovk
+  - Alex Gammerman
+  - Craig Saunders
+year: 1999
+source: International Conference on Machine Learning
+type: Conference Paper
+doi: 10.5555/645528.657641
+arxiv_id:
+tags:
+  - Conformal prediction
+  - Algorithmic randomness
+  - Prediction confidence
+  - Support vector machine
+  - Transductive inference
+  - Pattern recognition
+  - Distribution-free inference
+abstract: >
+  Most machine learning algorithms share the following drawback: they only output bare predictions but not the confidence in those predictions. In the 1960s algorithmic information theory supplied universal measures of confidence but these are, unfortunately, non-computable. In this paper we combine the ideas of algorithmic information theory with the theory of Support Vector machines to obtain practicable approximations to universal measures of confidence. We show that in some standard problems of pattern recognition our approximations work well.
+summary: >
+  Connects algorithmic randomness with practical confidence measures for machine-learning predictions, using support-vector machinery to approximate otherwise non-computable randomness-based notions. The paper is an early conformal-prediction precursor because it frames reliable prediction as set-valued or confidence-annotated inference under weak distributional assumptions.
+link: https://eprints.soton.ac.uk/258960/1/Random_ICML99.pdf
+links_alt:
+  - https://dl.acm.org/doi/10.5555/645528.657641
+  - https://eprints.soton.ac.uk/258960/
+  - https://pure.royalholloway.ac.uk/en/publications/machine-learning-applications-of-algorithmic-randomness/
+audit_status: partial

@@ -1,6 +1,6 @@
 title: >
-  Generation of Collision-free Trajectories for a Quadrocopter Fleet: A Sequential Convex Programming Approach
-algorithm:
+  Generation of Collision-Free Trajectories for a Quadrocopter Fleet: A Sequential Convex Programming Approach
+algorithm: Sequential Convex Programming
 authors:
   - Federico Augugliaro
   - Angela P. Schoellig
@@ -9,11 +9,21 @@ year: 2012
 source: IEEE/RSJ International Conference on Intelligent Robots and Systems
 type: Conference Paper
 doi: 10.1109/IROS.2012.6385823
-arxiv_id:
+arxiv_id: 
 tags:
+  - Quadrocopter fleets
+  - Collision avoidance
+  - Trajectory generation
+  - Sequential convex programming
+  - Mixed-integer constraints
+  - Multi-robot planning
+  - Real-time replanning
 abstract: >
   This paper presents an algorithm that generates collision-free trajectories in three dimensions for multiple vehicles within seconds. The problem is cast as a non-convex optimization problem, which is iteratively solved using sequential convex programming that approximates non-convex constraints by using convex ones. The method generates trajectories that account for simple dynamics constraints and is thus independent of the vehicle's type. An extensive a posteriori vehicle-specific feasibility check is included in the algorithm. The algorithm is applied to a quadrocopter fleet. Experimental results are shown.
-summary:
+summary: >
+  Formulates multi-quadrocopter trajectory generation as a nonconvex optimization problem and solves it through sequential convex programming with collision and vehicle constraints. The paper's practical contribution is showing that coordinated, three-dimensional, collision-free trajectories for multiple vehicles can be generated within seconds, making centralized fleet planning viable for lab-scale aerial robots.
 link: https://doi.org/10.1109/IROS.2012.6385823
 links_alt:
-audit_status: raw
+  - https://www.research-collection.ethz.ch/items/32c30fa8-9958-4535-85e5-f05a257fad3d
+  - https://citeseerx.ist.psu.edu/document?doi=8ef8ab4903f1cfc8eef58ddbae7f7758f6330af2&repid=rep1&type=pdf
+audit_status: partial

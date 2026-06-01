@@ -14,9 +14,9 @@ tags:
   - Optimal motion planning
   - Sampling-based planning
   - Asymptotic optimality
-  - RRT#
-  - RRT*
-  - RRT
+  - Rapidly-exploring random tree sharp
+  - Rapidly-exploring random tree star
+  - Rapidly-exploring random tree
   - RRG
   - Graph search
   - Dynamic programming

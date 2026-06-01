@@ -1,0 +1,36 @@
+title: >
+  MapTR: Structured Modeling and Learning for Online Vectorized HD Map Construction
+algorithm: MapTR
+authors:
+  - Bencheng Liao
+  - Shaoyu Chen
+  - Xinggang Wang
+  - Tianheng Cheng
+  - Qian Zhang
+  - Wenyu Liu
+  - Chang Huang
+year: 2022
+source: International Conference on Learning Representations (ICLR)
+type: Conference Paper
+doi:
+arxiv_id: "2208.14437"
+tags:
+  - High-definition map construction
+  - Vectorized maps
+  - Autonomous driving
+  - Bird's-eye view perception
+  - Transformers
+  - Permutation-equivalent modeling
+  - Hierarchical queries
+  - Bipartite matching
+  - NuScenes
+  - MapTR
+abstract: >
+  High-definition (HD) map provides abundant and precise environmental information of the driving scene, serving as a fundamental and indispensable component for planning in autonomous driving system. We present MapTR, a structured end-to-end Transformer for efficient online vectorized HD map construction. We propose a unified permutation-equivalent modeling approach, i.e., modeling map element as a point set with a group of equivalent permutations, which accurately describes the shape of map element and stabilizes the learning process. We design a hierarchical query embedding scheme to flexibly encode structured map information and perform hierarchical bipartite matching for map element learning. MapTR achieves the best performance and efficiency with only camera input among existing vectorized map construction approaches on nuScenes dataset. In particular, MapTR-nano runs at real-time inference speed ($25.1$ FPS) on RTX 3090, $8\times$ faster than the existing state-of-the-art camera-based method while achieving $5.0$ higher mAP. Even compared with the existing state-of-the-art multi-modality method, MapTR-nano achieves $0.7$ higher mAP, and MapTR-tiny achieves $13.5$ higher mAP and $3\times$ faster inference speed. Abundant qualitative results show that MapTR maintains stable and robust map construction quality in complex and various driving scenes. MapTR is of great application value in autonomous driving. Code and more demos are available at \url{https://github.com/hustvl/MapTR}.
+summary: >
+  Introduces a transformer architecture for online vectorized HD map construction that treats each map element as a point set with equivalent valid permutations. The permutation-equivalent representation, hierarchical query embeddings, and hierarchical bipartite matching make the method better suited to arbitrary map-element shapes while preserving real-time camera-only performance.
+link: https://arxiv.org/pdf/2208.14437
+links_alt:
+  - https://openreview.net/forum?id=k7p_YAO7yE
+  - https://github.com/hustvl/MapTR
+audit_status: reviewed

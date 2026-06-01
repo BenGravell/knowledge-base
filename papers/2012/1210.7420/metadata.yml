@@ -1,6 +1,6 @@
 title: >
   Complexity of Ten Decision Problems in Continuous Time Dynamical Systems
-algorithm:
+algorithm: NP-Hardness Reductions
 authors:
   - Amir Ali Ahmadi
   - Anirudha Majumdar
@@ -11,19 +11,19 @@ type: Conference Paper
 doi: 10.1109/acc.2013.6580838
 arxiv_id: "1210.7420"
 tags:
-  - Lyapunov methods
-  - Stability analysis
+  - Dynamical systems
+  - Computational complexity
   - NP-hardness
-  - Control
-  - Lyapunov function
-  - Equilibrium point
-  - Differential equation
+  - Lyapunov stability
+  - Polynomial vector fields
+  - Control theory
+  - Trigonometric dynamics
 abstract: >
   We show that for continuous time dynamical systems described by polynomial differential equations of modest degree (typically equal to three), the following decision problems which arise in numerous areas of systems and control theory cannot have a polynomial time (or even pseudo-polynomial time) algorithm unless P=NP: local attractivity of an equilibrium point, stability of an equilibrium point in the sense of Lyapunov, boundedness of trajectories, convergence of all trajectories in a ball to a given equilibrium point, existence of a quadratic Lyapunov function, invariance of a ball, invariance of a quartic semialgebraic set under linear dynamics, local collision avoidance, and existence of a stabilizing control law. We also extend our earlier NP-hardness proof of testing local asymptotic stability for polynomial vector fields to the case of trigonometric differential equations of degree four.
-summary:
+summary: >
+  Catalogs ten natural decision problems for continuous-time dynamical systems and proves that even low-degree polynomial or trigonometric systems make them NP-hard or pseudo-polynomially intractable unless P=NP. The paper is valuable as a warning label for control workflows: tasks such as stability, attractivity, boundedness, invariance, collision avoidance, and stabilizing-controller existence can be computationally hard before any numerical approximation issues appear.
 link: https://arxiv.org/pdf/1210.7420
 links_alt:
+  - https://arxiv.org/abs/1210.7420
   - https://doi.org/10.1109/acc.2013.6580838
-  - http://ieeexplore.ieee.org/document/6580838/
-  - http://xplorestaging.ieee.org/ielx7/6573242/6579790/06580838.pdf?arnumber=6580838
-audit_status: raw
+audit_status: partial

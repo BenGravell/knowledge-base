@@ -16,4 +16,4 @@ summary: >
   Presents an iterative controller-tuning procedure that treats multiple design specifications as components of a vector performance index, choosing free controller parameters so that each iteration systematically improves the design. The method is notable for avoiding explicit nonlinear-programming constraints, reducing the design step to unconstrained minimization while still supporting many simultaneous performance requirements.
 link: https://doi.org/10.1016/s1474-6670(17)65584-8
 links_alt:
-audit_status: raw
+audit_status: "partial"

@@ -1,6 +1,6 @@
 title: >
   Incremental A*
-algorithm:
+algorithm: Lifelong Planning A*
 authors:
   - S. Koenig
   - M. Likhachev
@@ -10,11 +10,19 @@ type: Conference Paper
 doi:
 arxiv_id:
 tags:
+  - Incremental search
+  - Lifelong planning A*
+  - A* search
+  - Path planning
+  - Route planning
+  - Dynamic graphs
+  - Heuristic search
 abstract: >
   Incremental search techniques ﬁnd optimal solutions to series of similar search tasks much faster than is possible by solving each search task from scratch. While researchers have developed incremental versions of uninformed search methods, we develop an incremental version of A*. The ﬁrst search of Lifelong Planning A* is the same as that of A* but all subsequent searches are much faster because it reuses those parts of the previous search tree that are identical to the new search tree. We then present experimental results that demonstrate the advantages of Lifelong Planning A* for simple route planning tasks.
-summary:
+summary: >
+  Introduces Lifelong Planning A*, an incremental version of A* that reuses unchanged portions of a previous search tree across related planning problems. The method laid groundwork for later replanning algorithms such as D* Lite by showing how optimal heuristic search can be efficiently updated after graph-cost changes.
 link: https://proceedings.neurips.cc/paper_files/paper/2001/file/a591024321c5e2bdbd23ed35f0574dde-Paper.pdf
 links_alt:
   - https://proceedings.neurips.cc/paper/2001/hash/a591024321c5e2bdbd23ed35f0574dde-Abstract.html
   - https://proceedings.neurips.cc/paper_files/paper/2001/file/a591024321c5e2bdbd23ed35f0574dde-Metadata.json
-audit_status: raw
+audit_status: "partial"

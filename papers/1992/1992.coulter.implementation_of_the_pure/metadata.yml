@@ -1,17 +1,26 @@
 title: >
   Implementation of the Pure Pursuit Path Tracking Algorithm
-algorithm:
+algorithm: Pure Pursuit
 authors:
   - Craig Coulter
 year: 1992
-source: Semantic Scholar
-type: Other
+source: Carnegie Mellon University Robotics Institute
+type: Technical Report
 doi:
 arxiv_id:
 tags:
+  - Pure pursuit
+  - Path tracking
+  - Mobile robots
+  - Autonomous vehicles
+  - Geometric control
+  - Navigation
 abstract: >
   The main purpose of this technical report is to describe in detail the implementation of the pure pursuit path tracking algorithm. Given the general success of the algorithm over the past few years, it seems likely that it will be used again in land-based navigation problems. This report also includes a geometric derivation of the method, and presents some insights into the performance of the algorithm as a function of its parameters
-summary:
-link: https://www.semanticscholar.org/paper/ee756e53b6a68cb2e7a2e5d537a3eff43d793d70
+summary: >
+  Gives the implementation details and geometric derivation of the pure pursuit path-tracking algorithm for land vehicles. The report is especially useful because it relates lookahead distance and other tuning choices to observed tracking behavior, turning a successful field algorithm into a reproducible controller.
+link: https://www.ri.cmu.edu/pub_files/pub3/coulter_r_craig_1992_1/coulter_r_craig_1992_1.pdf
 links_alt:
-audit_status: raw
+  - https://www.ri.cmu.edu/publications/implementation-of-the-pure-pursuit-path-tracking-algorithm/
+  - https://www.semanticscholar.org/paper/ee756e53b6a68cb2e7a2e5d537a3eff43d793d70
+audit_status: "partial"

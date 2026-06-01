@@ -22,4 +22,4 @@ summary: >
   One of the foundational papers on gradient-based trajectory optimization, introducing the use of adjoint-equation integration to compute the steepest-ascent direction for optimal control problems with terminal constraints. The adjoint (co-state) approach is the direct predecessor of modern shooting methods and continuous-time policy gradient algorithms.
 link: https://asmedigitalcollection.asme.org/appliedmechanics/article-abstract/29/2/247/386190/
 links_alt:
-audit_status: raw
+audit_status: "partial"

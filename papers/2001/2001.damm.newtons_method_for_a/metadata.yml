@@ -14,7 +14,7 @@ tags:
   - Newton's method
   - Stochastic control
   - Rational matrix equations
-  - Lyapunov equations
+  - Lyapunov equation
   - Positive operators
   - H-infinity control
 abstract: >
@@ -23,4 +23,4 @@ summary: >
   Develops a unified analytical framework for a family of rational matrix equations generalizing both the CARE and DARE, arising in stochastic H-infinity control. Shows that Newton's method converges from any stabilizing initial point by exploiting the fact that the derivative of the generalized Riccati operator is a generalized Lyapunov operator, combined with resolvent positivity arguments.
 link: https://www.sciencedirect.com/science/article/pii/S0024379500001440
 links_alt:
-audit_status: raw
+audit_status: "partial"

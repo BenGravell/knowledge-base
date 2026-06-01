@@ -14,10 +14,10 @@ type: Conference Paper
 doi: 10.1109/LRA.2025.3535185
 arxiv_id: "2307.09105"
 tags:
-  - MPPI
+  - Model predictive path integral control
   - Motion planning
   - Trajectory optimization
-  - GPU
+  - Graphics processing unit
   - Parallelized
   - Isaac
   - Gym

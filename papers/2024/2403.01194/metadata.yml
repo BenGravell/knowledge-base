@@ -11,8 +11,7 @@ type: Journal Paper
 doi: 10.1007/s10846-025-02222-7
 arxiv_id: "2403.01194"
 tags:
-  - RRT
-  - Rapidly-exploring random trees
+  - Rapidly-exploring random tree
   - Comparison study
   - Ship trajectory planning
   - Scenario generation

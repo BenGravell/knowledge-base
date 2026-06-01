@@ -1,0 +1,31 @@
+title: >
+  A Real-Time Iteration Scheme with Quasi-Newton Jacobian Updates for Nonlinear Model Predictive Control
+algorithm: Quasi-Newton RTI
+authors:
+  - Rien Quirynen
+  - Pedro Hespanhol
+year: 2018
+source: European Control Conference
+type: Conference Paper
+doi: 10.23919/ECC.2018.8550541
+arxiv_id:
+tags:
+  - Nonlinear model predictive control
+  - Real-time iteration
+  - Quasi-Newton methods
+  - Jacobian updates
+  - Implicit integration
+  - Structure-exploiting optimization
+  - Sequential quadratic programming
+  - Embedded optimization
+  - Low-rank updates
+abstract: >
+  Nonlinear model predictive control (NMPC) requires the solution of a dynamic optimization problem at each sampling instant under strict timing constraints, involving nonlinear dynamics that can often be stiff or implicitly defined. The real-time iteration (RTI) scheme has been shown to allow real-world embedded applications of NMPC. The present paper proposes an extension of the standard RTI algorithm with a block-structured quasi-Newton method to obtain low-rank Jacobian updates that preserve the block structure of the optimal control problem. In addition, a particular structure-exploiting implementation is presented for implicit integration schemes such that no Jacobian evaluation is needed neither any matrix factorization. Based on a proof of concept implementation in C code, the computational performance of the algorithm is illustrated for multiple NMPC case studies.
+summary: >
+  This paper modifies RTI NMPC by replacing repeated exact Jacobian work with block-structured quasi-Newton updates tailored to the optimal-control sparsity pattern. The result targets stiff or implicitly defined dynamics, showing how low-rank updates and an implementation for implicit integrators can reduce online computation without abandoning the RTI structure.
+link: https://www.merl.com/publications/docs/TR2018-082.pdf
+links_alt:
+  - https://www.merl.com/publications/TR2018-082
+  - https://doi.org/10.23919/ECC.2018.8550541
+  - https://ieeexplore.ieee.org/document/8550541
+audit_status: raw

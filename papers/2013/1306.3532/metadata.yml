@@ -19,8 +19,8 @@ tags:
   - Fast marching tree
   - FMT
   - FMT*
-  - RRT*
-  - RRT
+  - Rapidly-exploring random tree star
+  - Rapidly-exploring random tree
   - Graph search
   - Dynamic programming
   - Fast marching method

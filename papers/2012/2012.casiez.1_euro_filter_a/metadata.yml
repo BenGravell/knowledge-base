@@ -1,0 +1,32 @@
+title: >
+  1 Euro Filter: A Simple Speed-Based Low-Pass Filter for Noisy Input in Interactive Systems
+algorithm: "1 Euro Filter"
+authors:
+  - Gery Casiez
+  - Nicolas Roussel
+  - Daniel Vogel
+year: 2012
+source: Proceedings of the SIGCHI Conference on Human Factors in Computing Systems
+type: Conference Paper
+doi: "10.1145/2207676.2208639"
+arxiv_id:
+tags:
+  - Signal filtering
+  - Low-pass filtering
+  - Adaptive filters
+  - Interactive systems
+  - Input devices
+  - Jitter reduction
+  - Latency reduction
+  - Human-computer interaction
+abstract: >
+  The 1 Euro filter ("one Euro filter") is a simple algorithm to filter noisy signals for high precision and responsiveness. It uses a first order low-pass filter with an adaptive cutoff frequency: at low speeds, a low cutoff stabilizes the signal by reducing jitter, but as speed increases, the cutoff is increased to reduce lag. The algorithm is easy to implement, uses very few resources, and with two easily understood parameters, it is easy to tune. In a comparison with other filters, the 1 Euro filter has less lag using a reference amount of jitter reduction.
+summary: >
+  Introduces a practical adaptive first-order low-pass filter for noisy real-time input signals, especially human-motion and pointing data. The key idea is to raise the cutoff frequency with estimated signal speed, trading more smoothing at rest for less lag during fast motion, which makes the method compact, cheap to run, and easier to tune than model-heavy alternatives.
+link: https://pdfs.semanticscholar.org/cb0d/598edf909de6d129e48852efd15896fb5389.pdf
+links_alt:
+  - https://gery.casiez.net/1euro/
+  - https://dl.acm.org/doi/10.1145/2207676.2208639
+  - https://doi.org/10.1145/2207676.2208639
+  - https://github.com/casiez/OneEuroFilter/
+audit_status: raw

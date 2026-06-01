@@ -1,0 +1,30 @@
+title: >
+  Formulas for Data-Driven Control: Stabilization, Optimality, and Robustness
+algorithm: "Data-Driven LMI Control"
+authors:
+  - Claudio De Persis
+  - Pietro Tesi
+year: 2019
+source: "IEEE Transactions on Automatic Control"
+type: Journal Paper
+doi: 10.1109/TAC.2019.2959924
+arxiv_id: "1903.06842"
+tags:
+  - Data-driven control
+  - Willems' fundamental lemma
+  - Linear matrix inequalities
+  - Stabilization
+  - Linear quadratic regulation
+  - Robust control
+  - Output feedback
+  - Nonlinear equilibria
+abstract: >
+  In a paper by Willems and coauthors it was shown that persistently exciting data can be used to represent the input-output behavior of a linear system. Based on this fundamental result, we derive a parametrization of linear feedback systems that paves the way to solve important control problems using data-dependent Linear Matrix Inequalities only. The result is remarkable in that no explicit system's matrices identification is required. The examples of control problems we solve include the state and output feedback stabilization, and the linear quadratic regulation problem. We also discuss robustness to noise-corrupted measurements and show how the approach can be used to stabilize unstable equilibria of nonlinear systems.
+summary: >
+  Turns the fundamental lemma into explicit LMI-based formulas for direct stabilization, LQR, output feedback, and noisy-data robustness. The paper is a core reference for direct data-driven control as a convex controller-synthesis problem rather than an identification-then-control pipeline.
+link: https://arxiv.org/pdf/1903.06842
+links_alt:
+  - https://doi.org/10.1109/TAC.2019.2959924
+  - https://ieeexplore.ieee.org/document/8931075
+  - https://arxiv.org/abs/1903.06842
+audit_status: raw

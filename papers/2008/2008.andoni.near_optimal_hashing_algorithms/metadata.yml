@@ -1,19 +1,26 @@
 title: >
   Near-optimal Hashing Algorithms for Approximate Nearest Neighbor in High Dimensions
-algorithm:
+algorithm: "Near-Optimal Locality-Sensitive Hashing"
 authors:
-  - Alexandr Andoni
-  - Piotr Indyk
+  - "Alexandr Andoni"
+  - "Piotr Indyk"
 year: 2008
-source: Communications of the ACM
-type: Journal Paper
-doi: 10.1145/1327452.1327494
+source: "Communications of the ACM"
+type: "Journal Paper"
+doi: "10.1145/1327452.1327494"
 arxiv_id:
 tags:
+  - "Approximate nearest neighbors"
+  - "Locality-sensitive hashing"
+  - "High-dimensional search"
+  - "Randomized algorithms"
+  - "Data structures"
+  - "Similarity search"
 abstract: >
   In this article, we give an overview of efficient algorithms for the approximate and exact nearest neighbor problem. The goal is to preprocess a dataset of objects (e.g., images) so that later, given a new query object, one can quickly return the dataset object that is most similar to the query. The problem is of significant interest in a wide variety of areas.
-summary:
-link: https://dl.acm.org/doi/10.1145/1327452.1327494
+summary: >
+  Develops near-optimal locality-sensitive hashing schemes for approximate nearest-neighbor search in high-dimensional Euclidean spaces. The work improved the theoretical query-time exponent and influenced later practical ANN data structures.
+link: "https://dl.acm.org/doi/10.1145/1327452.1327494"
 links_alt:
-  - https://doi.org/10.1145/1327452.1327494
-audit_status: raw
+  - "https://doi.org/10.1145/1327452.1327494"
+audit_status: "partial"

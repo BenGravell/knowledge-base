@@ -15,7 +15,7 @@ tags:
   - Hierarchical planning
   - A* search
   - Graph search
-  - Game AI
+  - Game artificial intelligence
   - Grid maps
 abstract: >
   We present HPA* (Hierarchical Path-Finding A*), a hierarchical approach for reducing problem complexity in path-finding on grid-based maps. The technique abstracts a map into linked local clusters. At the local level, the optimal distances for crossing each cluster are pre-computed and cached. At the global level, clusters are traversed in a single big step. A hierarchy can be extended to more than two levels. Compared to a highly-optimized A*, HPA* is shown to be up to 10 times faster, while finding paths that are within 1% of optimal.
@@ -24,4 +24,4 @@ summary: >
 link: https://webdocs.cs.ualberta.ca/~jonathan/publications/ai_publications/jogd.pdf
 links_alt:
   - https://www.researchgate.net/publication/228785110_Near_optimal_hierarchical_path-finding_HPA
-audit_status: raw
+audit_status: "partial"

@@ -22,8 +22,8 @@ arxiv_id: "2310.17274"
 tags:
   - Motion planning
   - Trajectory optimization
-  - CUDA
-  - GPU
+  - Compute unified device architecture
+  - Graphics processing unit
   - Parallelized
   - Inverse kinematics
   - Robot manipulation
