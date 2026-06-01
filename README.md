@@ -211,15 +211,6 @@ python semantic_search/generate_semantic_search_index.py
 
 Semantic Search intentionally uses `sentence-transformers/all-MiniLM-L6-v2` / `Xenova/all-MiniLM-L6-v2` instead of the Map's heavier embedding model. The Map can afford a larger offline model because embeddings are generated ahead of time and only the resulting graph data is served. Semantic Search also needs to embed arbitrary user queries on the client, so the model must be small, fast, and browser-compatible. MiniLM gives a practical first-load and query-time tradeoff while preserving real semantic behavior.
 
-## Explainer Helpers
-
-Some explainers include small one-off Python helpers alongside the markdown.
-For the PID explainer, recompute the cart-pole LQR gains with:
-
-```bash
-python docs/explainers/pid/compute_lqr_gains.py
-```
-
 ## Repo Layout
 
 `knowledge_base` contains the following:
@@ -230,5 +221,4 @@ python docs/explainers/pid/compute_lqr_gains.py
 - `map/` contains graph generation, preview, and MkDocs asset publishing.
 - `semantic_search/` contains client-side semantic search index generation and MkDocs asset publishing.
 - `tree/` contains the MkDocs Tree data generator.
-- `docs/explainers/` may contain small helper scripts used by individual explainers.
 - `utils/` contains shared DOI, arXiv, and prefill helpers used by the scripts.

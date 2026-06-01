@@ -1,6 +1,6 @@
 # knowledge-base
 
-A personal knowledge base of publications, distilled notes, paper summaries, and explainers, published as a static site via MkDocs.
+A personal knowledge base of publications, distilled notes, and paper summaries, published as a static site via MkDocs.
 
 ## Key Commands
 
@@ -38,7 +38,7 @@ streamlit run apps/generator_app.py         # generate entries from arXiv
 knowledge-base/
 ├── knowledge_base/
 │   ├── apps/          # Streamlit apps (analyzer, generator)
-│   ├── docs/          # MkDocs markdown content (papers, explainers, templates)
+│   ├── docs/          # MkDocs markdown content (papers, templates)
 │   ├── map/      # Embedding + UMAP + graph generation scripts
 │   ├── notebooks/     # Jupyter / marimo notebooks
 │   ├── scripts/       # Audit and utility scripts; prefill entrypoints live in scripts/prefill/

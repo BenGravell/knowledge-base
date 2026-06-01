@@ -91,26 +91,6 @@ hide:
     <p>Quantify the collection by slice.</p>
   </a>
 
-  <a class="kb-bento-secondary-card kb-bento-secondary-card--explainers" href="explainers/">
-    <h3>
-      <span class="kb-bento-title-icon" aria-hidden="true">
-        {{ material_icon(config.extra.nav_icons.explainers) }}
-      </span>
-      <span>Explainers</span>
-    </h3>
-    <p>Read guided notes.</p>
-  </a>
-
-  <a class="kb-bento-secondary-card kb-bento-secondary-card--software" href="programming/">
-    <h3>
-      <span class="kb-bento-title-icon" aria-hidden="true">
-        {{ material_icon(config.extra.nav_icons.software) }}
-      </span>
-      <span>Software</span>
-    </h3>
-    <p>Read programming notes.</p>
-  </a>
-
   <a class="kb-bento-secondary-card kb-bento-secondary-card--about" href="about/">
     <h3>
       <span class="kb-bento-title-icon" aria-hidden="true">

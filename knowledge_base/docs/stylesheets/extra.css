@@ -850,36 +850,10 @@ body {
   display: none !important;
 }
 
-.md-sidebar--primary .kb-nav-item--flat-index .md-nav,
-.md-sidebar--primary .kb-nav-item--flat-index .md-nav__list {
-  margin-inline-start: 0 !important;
-  padding-inline-start: 0 !important;
-}
-
-.md-sidebar--primary .kb-nav-item--flat-index .md-nav__item {
-  margin-inline-start: 0 !important;
-  padding-inline-start: 0 !important;
-}
-
-.md-sidebar--primary .kb-nav-item--flat-index .md-nav__link,
-.md-sidebar--primary .kb-nav-item--flat-index .md-nav__title {
-  margin-inline-start: 0 !important;
-  padding-inline-start: 0.65rem !important;
-}
-
-/* Render index-backed sections as regular top-level sidebar links.
-   Their landing pages expose the child links without squeezing the sidebar row. */
+/* Render Tree's index-backed section as a regular top-level sidebar link. */
 .md-nav--primary
   > .md-nav__list
   > .md-nav__item--nested:has(> .md-nav__container > a.md-nav__link[href*="tree"])
-  > .md-nav,
-.md-nav--primary
-  > .md-nav__list
-  > .md-nav__item--nested:has(> .md-nav__container > a.md-nav__link[href*="explainers"])
-  > .md-nav,
-.md-nav--primary
-  > .md-nav__list
-  > .md-nav__item--nested:has(> .md-nav__container > a.md-nav__link[href*="programming"])
   > .md-nav,
 .md-nav--primary
   > .md-nav__list
@@ -887,25 +861,7 @@ body {
   > .md-nav__toggle,
 .md-nav--primary
   > .md-nav__list
-  > .md-nav__item--nested:has(> .md-nav__container > a.md-nav__link[href*="explainers"])
-  > .md-nav__toggle,
-.md-nav--primary
-  > .md-nav__list
-  > .md-nav__item--nested:has(> .md-nav__container > a.md-nav__link[href*="programming"])
-  > .md-nav__toggle,
-.md-nav--primary
-  > .md-nav__list
   > .md-nav__item--nested:has(> .md-nav__container > a.md-nav__link[href*="tree"])
-  > .md-nav__container
-  > label.md-nav__link,
-.md-nav--primary
-  > .md-nav__list
-  > .md-nav__item--nested:has(> .md-nav__container > a.md-nav__link[href*="explainers"])
-  > .md-nav__container
-  > label.md-nav__link,
-.md-nav--primary
-  > .md-nav__list
-  > .md-nav__item--nested:has(> .md-nav__container > a.md-nav__link[href*="programming"])
   > .md-nav__container
   > label.md-nav__link,
 body:has(#ct-app)
@@ -939,17 +895,6 @@ body:has(#ct-app)
   display: flex;
 }
 
-.md-nav--primary
-  > .md-nav__list
-  > .md-nav__item--nested:has(> .md-nav__container > a.md-nav__link[href*="explainers"])
-  > .md-nav__container,
-.md-nav--primary
-  > .md-nav__list
-  > .md-nav__item--nested:has(> .md-nav__container > a.md-nav__link[href*="programming"])
-  > .md-nav__container {
-  display: flex;
-}
-
 body:has(#ct-app)
   .md-nav--primary
   > .md-nav__list
@@ -959,58 +904,6 @@ body:has(#ct-app)
 .md-nav--primary
   > .md-nav__list
   > .md-nav__item--nested:has(> .md-nav__container > a.md-nav__link[href*="tree"])
-  > .md-nav__container
-  > a.md-nav__link {
-  display: flex;
-  width: 100%;
-  box-sizing: border-box;
-  margin: 0 !important;
-  padding: 0 !important;
-}
-
-.md-nav--primary
-  > .md-nav__list
-  > .md-nav__item--nested:has(> .md-nav__container > a.md-nav__link[href*="explainers"])
-  > .md-nav__container
-  > a.md-nav__link,
-.md-nav--primary
-  > .md-nav__list
-  > .md-nav__item--nested:has(> .md-nav__container > a.md-nav__link[href*="programming"])
-  > .md-nav__container
-  > a.md-nav__link {
-  display: flex;
-  width: 100%;
-  box-sizing: border-box;
-  margin: 0 !important;
-  padding: 0 !important;
-}
-
-.md-nav--primary
-  > .md-nav__list
-  > .kb-nav-item--flat-index
-  > .md-nav,
-.md-nav--primary
-  > .md-nav__list
-  > .kb-nav-item--flat-index
-  > .md-nav__toggle,
-.md-nav--primary
-  > .md-nav__list
-  > .kb-nav-item--flat-index
-  > .md-nav__container
-  > label.md-nav__link {
-  display: none !important;
-}
-
-.md-nav--primary
-  > .md-nav__list
-  > .kb-nav-item--flat-index
-  > .md-nav__container {
-  display: flex;
-}
-
-.md-nav--primary
-  > .md-nav__list
-  > .kb-nav-item--flat-index
   > .md-nav__container
   > a.md-nav__link {
   display: flex;
@@ -1351,16 +1244,6 @@ body:has(.kb-home-bento) .md-content {
 .md-typeset .kb-bento-secondary-card--analytics {
   --kb-bento-accent: var(--kb-map-node-color-5);
   --kb-bento-accent-2: var(--kb-map-node-color-1);
-}
-
-.md-typeset .kb-bento-secondary-card--explainers {
-  --kb-bento-accent: var(--kb-map-node-color-1);
-  --kb-bento-accent-2: var(--kb-map-node-color-3);
-}
-
-.md-typeset .kb-bento-secondary-card--software {
-  --kb-bento-accent: var(--kb-map-node-color-4);
-  --kb-bento-accent-2: var(--kb-map-node-color-5);
 }
 
 .md-typeset .kb-bento-secondary-card--about {

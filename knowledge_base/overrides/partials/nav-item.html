@@ -1,6 +1,6 @@
 {#-
   Based on MkDocs Material 9.7.0's partials/nav-item.html.
-  The local changes add standardized sidebar icons and flat index-section rows.
+  The local changes add standardized sidebar icons.
 -#}
 {% macro render_status(nav_item, type) %}
   {% set class = "md-status md-status--" ~ type %}
@@ -81,13 +81,6 @@
 {% endmacro %}
 {% macro render(nav_item, path, level, parent) %}
   {% set class = "md-nav__item" %}
-  {% set nav_title = nav_item.title | lower %}
-  {% if nav_title == "explainers" %}
-    {% set class = class ~ " kb-nav-item--explainers" %}
-  {% endif %}
-  {% if nav_title == "explainers" or nav_title == "software" %}
-    {% set class = class ~ " kb-nav-item--flat-index" %}
-  {% endif %}
   {% if nav_item.active %}
     {% set class = class ~ " md-nav__item--active" %}
   {% endif %}
