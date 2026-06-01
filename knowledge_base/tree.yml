@@ -2477,9 +2477,9 @@
           - A Tutorial on Fast Fourier Sampling: docs/papers/2008/2008.gilbert.a_tutorial_on_fast/metadata.yml
           - Simple and Practical Algorithm for Sparse Fourier Transform: docs/papers/2012/2012.hassanieh.simple_and_practical_algorithm/metadata.yml
         - Signal Filtering and Smoothing:
-          - "Nonlinear (Nonsuperposable) Methods for Smoothing Data": docs/papers/1974/1974.tukey.nonlinear_nonsuperposable_methods_for/metadata.yml
-          - Idempotent One-Sided Approximation of Median Smoothers: docs/papers/1989/1989.rohwer.idempotent_one_sided_approximation/metadata.yml
-          - Lu Lu-Smoothing: docs/papers/2002/2002.rohwer.variation_reduction_and_lu/metadata.yml
+          - Median Smoothing: docs/papers/1974/1974.tukey.nonlinear_nonsuperposable_methods_for/metadata.yml
+          - Lulu Smoothing: docs/papers/1989/1989.rohwer.idempotent_one_sided_approximation/metadata.yml
+          - Variation Reduction of Lulu Smoothing: docs/papers/2002/2002.rohwer.variation_reduction_and_lu/metadata.yml
           - 1 Euro Filter: docs/papers/2012/2012.casiez.1_euro_filter/metadata.yml
           - Why and How Savitzky-Golay Filters Should Be Replaced: docs/papers/2022/2022.schmid.why_and_how_savitzky/metadata.yml
         - Conjugate Gradient:

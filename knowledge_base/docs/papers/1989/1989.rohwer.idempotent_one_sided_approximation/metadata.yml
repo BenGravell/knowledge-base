@@ -1,5 +1,5 @@
 title: "Idempotent One-Sided Approximation of Median Smoothers"
-algorithm: "LULU One-Sided Smoothers"
+algorithm: "Lulu Smoothing"
 authors:
   - Carl H. Rohwer
 year: 1989

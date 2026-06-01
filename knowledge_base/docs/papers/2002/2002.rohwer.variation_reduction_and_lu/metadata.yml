@@ -1,5 +1,5 @@
 title: "Variation Reduction and Lu Lu-Smoothing"
-algorithm: "LULU Smoothing"
+algorithm: "Variation Reduction of Lulu Smoothing"
 authors:
   - Carl H. Rohwer
 year: 2002
