@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap");
+
 /* Global page width
 
    Material for MkDocs caps every .md-grid container, which leaves wide browser
@@ -5,6 +7,7 @@
    keep a small responsive gutter so navigation, content, and footer still feel
    intentionally framed. */
 :root {
+  --kb-heading-font: "Space Grotesk", var(--md-text-font, system-ui), sans-serif;
   --kb-page-gutter: clamp(0.8rem, 2vw, 1.8rem);
   --kb-app-page-gutter: 0.8rem;
   --kb-app-top-gap: 1rem;
@@ -68,6 +71,77 @@
 
 .md-footer {
   display: none;
+}
+
+.md-typeset h1,
+.md-typeset h2,
+.md-typeset h3,
+.md-typeset h4,
+.md-typeset h5,
+.md-typeset h6 {
+  font-family: var(--kb-heading-font);
+  letter-spacing: 0;
+}
+
+.md-header__title,
+.md-header__topic,
+.md-tabs__link,
+.md-nav__title,
+.md-typeset .admonition-title,
+.md-typeset .tabbed-labels > label,
+.md-typeset .kb-about-compare-panel h3,
+.md-typeset .kb-bento-card h3,
+.md-typeset .kb-bento-secondary-card h3,
+.kb-app-header,
+.kb-app-header-title,
+.kb-app-header-action,
+.ct-settings-title,
+.ct-settings-toggle,
+.ct-item-type-head h2,
+.ct-focus-section-head h2,
+.ct-focus-section-head span,
+.paper-meta-card__label,
+.paper-meta-card__value,
+.paper-link-section h3,
+.paper-link-pill,
+.paper-similar-card h3,
+.paper-similar-card__label,
+.tag-search-kicker,
+.tag-search-count strong,
+.tag-search-count span,
+.tag-search-form label,
+.tag-search-panel-head span,
+.tag-search-meta,
+.tag-search-card h2,
+.tag-search-label,
+.tag-search-selected-head h2,
+.tag-search-selection-empty h2,
+.unified-search-section-title,
+.unified-search-filter span,
+.unified-search-active-empty,
+.unified-search-threshold-label span,
+.unified-search-threshold-label strong,
+.unified-search-threshold-reset,
+.unified-search-facet-section h3,
+#mm-panel-title,
+.mm-section-label,
+.mm-relevance-ego,
+.mm-label-toggle-state,
+.mm-type-head h2,
+.mm-cat-group-name,
+.tt-title,
+.tt-short-label,
+.tt-mini-title,
+.mm-modal-head h2,
+.mm-detail-kicker,
+.mm-detail-title,
+.mm-modal-section-title,
+.pid-section-label,
+.lqr h2,
+.lqr-status,
+.lqr-readout-label,
+.lqr-matrix-label {
+  font-family: var(--kb-heading-font);
 }
 
 /* Site-wide stacking contract.

@@ -101,6 +101,8 @@
   const MAX_ZOOM_LABEL_RATIO = MIN_CAMERA_RATIO * 1.05;
   const MIN_NODE_SCREEN_DIAMETER = 2;
   const MIN_NODE_SCREEN_RADIUS = MIN_NODE_SCREEN_DIAMETER / 2;
+  const MOBILE_MIN_NODE_SCREEN_DIAMETER = 4.4;
+  const MOBILE_MIN_NODE_SCREEN_RADIUS = MOBILE_MIN_NODE_SCREEN_DIAMETER / 2;
   const AGGREGATE_EXTRA_AREA_UNITS_BY_LEVEL = [18, 12, 8, 5, 3];
   const AGGREGATE_EXTRA_AREA_FALLBACK_UNITS = 2;
   const AGGREGATE_MIN_RADIUS_RATIO = 1.7;
@@ -503,7 +505,13 @@
     const graphToViewportRatio = graphToViewportRatioForCurrentCamera();
     if (!Number.isFinite(graphToViewportRatio) || graphToViewportRatio <= 0) return baseSize;
 
-    return Math.max(baseSize, MIN_NODE_SCREEN_RADIUS / graphToViewportRatio);
+    return Math.max(baseSize, minimumNodeScreenRadius() / graphToViewportRatio);
+  }
+
+  function minimumNodeScreenRadius() {
+    return mobileViewport()
+      ? MOBILE_MIN_NODE_SCREEN_RADIUS
+      : MIN_NODE_SCREEN_RADIUS;
   }
 
   function cameraAtMaximumZoomIn(ratio = currentCameraRatio()) {
@@ -2903,7 +2911,7 @@
     const size = typeof renderer.scaleSize === 'function'
       ? renderer.scaleSize(rawSize)
       : rawSize;
-    const radius = Math.max(Number.isFinite(size) ? size : 0, MIN_NODE_SCREEN_RADIUS);
+    const radius = Math.max(Number.isFinite(size) ? size : 0, minimumNodeScreenRadius());
 
     return {
       x: point.x,
@@ -3101,7 +3109,7 @@
 
     const centerX = graphRect.left + disk.x;
     const centerY = graphRect.top + disk.y;
-    const radius = Math.max(Number(disk.radius) || 0, MIN_NODE_SCREEN_RADIUS);
+    const radius = Math.max(Number(disk.radius) || 0, minimumNodeScreenRadius());
     const gap = margin;
     const diskRect = {
       left: centerX - radius,
@@ -4886,6 +4894,9 @@
       nodeGraphRadius: currentNodeRadius(),
       nodeGraphRadiusTarget: PAPER_NODE_RADIUS_TARGET,
       nodeScreenRadius: renderer && typeof renderer.scaleSize === 'function'
+        ? Math.max(renderer.scaleSize(currentNodeRadius()), minimumNodeScreenRadius())
+        : currentNodeRadius(),
+      nodeRawScreenRadius: renderer && typeof renderer.scaleSize === 'function'
         ? renderer.scaleSize(currentNodeRadius())
         : currentNodeRadius(),
       minimumVisibleGraphDistance: minimumVisibleGraphDistance(),
