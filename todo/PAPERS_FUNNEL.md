@@ -1,0 +1,16 @@
+https://arxiv.org/pdf/2603.15185
+https://arxiv.org/abs/2603.13616
+https://arxiv.org/pdf/2605.23163
+https://arxiv.org/pdf/2605.14199
+https://arxiv.org/pdf/2605.24939
+https://arxiv.org/pdf/2605.24393
+https://arxiv.org/pdf/2605.26078
+https://arxiv.org/pdf/2605.23240
+https://alexandreamice.github.io/project/ccosmo/
+https://arxiv.org/abs/1901.10887
+https://arxiv.org/abs/2602.03639
+https://arxiv.org/abs/2510.06179
+https://arxiv.org/pdf/2605.27817
+https://arxiv.org/abs/2605.27724
+https://arxiv.org/abs/2601.03782
+https://arxiv.org/pdf/2605.26625
