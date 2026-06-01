@@ -25,6 +25,7 @@ tags:
 - canonical: Accident models
 - canonical: Accuracy
 - canonical: ACKTR
+- canonical: Acoustic models
 - canonical: Acrobot
 - canonical: AcroMonk
 - canonical: Action chunking
@@ -42,6 +43,7 @@ tags:
 - canonical: Actor-critic model predictive control
 - canonical: Actuator placement
 - canonical: Actuator saturation
+- canonical: Activation functions
 - canonical: AdaBoost
 - canonical: Adam
 - canonical: Adam-mini
@@ -280,6 +282,7 @@ tags:
   - Bezier curve
 - canonical: BFGS
 - canonical: Bi-CGSTAB
+- canonical: Bias shift
 - canonical: Bias-variance tradeoff
 - canonical: Biconjugate gradient
   aliases:
@@ -429,6 +432,8 @@ tags:
 - canonical: Clustering coefficient
 - canonical: CNM algorithm
 - canonical: COCO
+  aliases:
+  - MS-COCO
 - canonical: Code generation
 - canonical: Cognitive science
 - canonical: Coherent risk
@@ -1007,6 +1012,9 @@ tags:
   - Exploration-exploitation
 - canonical: Exploration noise
 - canonical: Exploration trees
+- canonical: Exponential linear units
+  aliases:
+  - ELU
 - canonical: Exponential inequalities
 - canonical: Exponential stability
 - canonical: Expression grammars
@@ -1156,6 +1164,7 @@ tags:
 - canonical: FST
 - canonical: Fully observed
 - canonical: Function approximation
+- canonical: Function taxonomy
 - canonical: Functional primitives
 - canonical: G2 continuity
 - canonical: GAE
@@ -1175,6 +1184,9 @@ tags:
   aliases:
   - Gauss-Newton method
 - canonical: Gaussian beliefs
+- canonical: Gaussian error linear units
+  aliases:
+  - GELU
 - canonical: Gaussian filters
 - canonical: Gaussian processes
   aliases:
@@ -1339,6 +1351,7 @@ tags:
 - canonical: Heat engines
 - canonical: Heavy vehicles
 - canonical: Heavy-ball method
+- canonical: He initialization
 - canonical: Held-Karp algorithm
 - canonical: Helicopter control
 - canonical: Heredity
@@ -1766,9 +1779,11 @@ tags:
 - canonical: Link analysis
 - canonical: Lipschitz gradients
 - canonical: LittleDog
+- canonical: Leaky ReLU
 - canonical: Llama 2
 - canonical: Lloyd's algorithm
 - canonical: LM
+- canonical: Local learning
 - canonical: Local minima
 - canonical: Local optimization
 - canonical: Local stability
@@ -1938,6 +1953,7 @@ tags:
 - canonical: Minimum-phase systems
 - canonical: Minimum-time control
 - canonical: Minimum-time planning
+- canonical: Minimal distance methods
 - canonical: MINIROCKET
 - canonical: MINRES
 - canonical: MINVO basis
@@ -1950,6 +1966,7 @@ tags:
   - MIP
 - canonical: Mixed-integer quadratic program
 - canonical: Mixing
+- canonical: Mish
 - canonical: MLP
 - canonical: MNIST
 - canonical: Mobile agents
@@ -2132,6 +2149,7 @@ tags:
 - canonical: Networking
 - canonical: Networks
 - canonical: Neumann series
+- canonical: Neural architecture search
 - canonical: Neural computation
 - canonical: Neural control
 - canonical: Neural low-discrepancy sequences
@@ -2172,6 +2190,7 @@ tags:
 - canonical: Non-hermitian linear systems
 - canonical: Non-holonomic robots
 - canonical: Non-linear optimization
+- canonical: Non-monotonic activations
 - canonical: Non-strongly convex optimization
 - canonical: Non-uniform sampling
 - canonical: Nonautonomous systems
@@ -2422,6 +2441,7 @@ tags:
 - canonical: Physical plant design
 - canonical: Physics engines
 - canonical: Physics-based prediction
+- canonical: PReLU
 - canonical: PI
 - canonical: PIC
 - canonical: PID control
@@ -2772,6 +2792,10 @@ tags:
   aliases:
   - Relaxed controls
 - canonical: ReLU activations
+  aliases:
+  - ReLU
+  - Rectified linear units
+- canonical: ReLU alternatives
 - canonical: Rely on k-nearest neighbors
 - canonical: REMBO
 - canonical: Remote sensing
@@ -2981,6 +3005,7 @@ tags:
 - canonical: Self-driving vehicles
 - canonical: Self-normalized processes
 - canonical: Self-organization
+- canonical: Self-regularization
 - canonical: Self-supervised learning
 - canonical: Self-tuning regulator
 - canonical: Semantic segmentation
@@ -3343,6 +3368,7 @@ tags:
 - canonical: SVGD
 - canonical: SVRG
 - canonical: SVRPG
+- canonical: Swish
 - canonical: Swarm intelligence
 - canonical: Swarm robotics
 - canonical: Swept sphere volumes
@@ -3656,6 +3682,7 @@ tags:
 - canonical: Web graph
 - canonical: Web indexing
 - canonical: Web search
+- canonical: Weight initialization
 - canonical: Weighted networks
 - canonical: WestWorld
 - canonical: WHCA*
@@ -3679,6 +3706,7 @@ tags:
 - canonical: Worst-case guarantees
 - canonical: WOSAC
 - canonical: XGBoost
+- canonical: Xavier initialization
 - canonical: XLA
 - canonical: Yamabico
 - canonical: Yamanaka factors

@@ -2085,7 +2085,18 @@
             - U-Net: docs/papers/2015/1505.04597/metadata.yml
             - Neural Nearest Neighbors Networks: docs/papers/2018/1810.12575/metadata.yml
           - Activation Functions:
-            - ELU: docs/papers/2015/1511.07289/metadata.yml
+            - Surveys:
+              - Survey of Neural Transfer Functions: docs/papers/1999/1999.duch.survey_of_neural_transfer/metadata.yml
+              - "Activation Functions: Comparison of Trends in Practice and Research for Deep Learning": docs/papers/2018/1811.03378/metadata.yml
+              - A Survey on Activation Functions and Their Relation with Xavier and He Normal Initialization: docs/papers/2020/2004.06632/metadata.yml
+              - "Activation Functions in Deep Learning: A Comprehensive Survey and Benchmark": docs/papers/2021/2109.14545/metadata.yml
+              - "Three Decades of Activations: A Comprehensive Survey of 400 Activation Functions for Neural Networks": docs/papers/2024/2402.09092/metadata.yml
+            - Functions:
+              - Leaky ReLU: docs/papers/2013/2013.maas.rectifier_nonlinearities_improve_neural/metadata.yml
+              - ELU: docs/papers/2015/1511.07289/metadata.yml
+              - GELU: docs/papers/2016/1606.08415/metadata.yml
+              - Swish: docs/papers/2017/1710.05941/metadata.yml
+              - Mish: docs/papers/2019/1908.08681/metadata.yml
           - Training Algorithms:
             - Backpropagation:
               - Backpropagation: docs/papers/1986/1986.rumelhart.learning_representations_by_back/metadata.yml
@@ -2466,6 +2477,10 @@
           - A Tutorial on Fast Fourier Sampling: docs/papers/2008/2008.gilbert.a_tutorial_on_fast/metadata.yml
           - Simple and Practical Algorithm for Sparse Fourier Transform: docs/papers/2012/2012.hassanieh.simple_and_practical_algorithm/metadata.yml
         - Signal Filtering and Smoothing:
+          - "Nonlinear (Nonsuperposable) Methods for Smoothing Data": docs/papers/1974/1974.tukey.nonlinear_nonsuperposable_methods_for/metadata.yml
+          - Idempotent One-Sided Approximation of Median Smoothers: docs/papers/1989/1989.rohwer.idempotent_one_sided_approximation/metadata.yml
+          - Lu Lu-Smoothing: docs/papers/2002/2002.rohwer.variation_reduction_and_lu/metadata.yml
+          - 1 Euro Filter: docs/papers/2012/2012.casiez.1_euro_filter/metadata.yml
           - Why and How Savitzky-Golay Filters Should Be Replaced: docs/papers/2022/2022.schmid.why_and_how_savitzky/metadata.yml
         - Conjugate Gradient:
           - Conjugate Gradient: docs/papers/1952/1952.hestenes.methods_of_conjugate_gradients/metadata.yml
