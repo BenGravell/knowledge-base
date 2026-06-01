@@ -1,0 +1,29 @@
+title: "Low-Complexity Learning of Linear Quadratic Regulators from Noisy Data"
+algorithm: "Low-Complexity Data-Driven LQR"
+authors:
+  - Claudio De Persis
+  - Pietro Tesi
+year: 2020
+source: "Automatica"
+type: Journal Paper
+doi: 10.1016/j.automatica.2021.109548
+arxiv_id: "2005.01082"
+tags:
+  - Data-driven control
+  - Linear quadratic regulator
+  - Noisy data
+  - Semidefinite programming
+  - Direct LQR
+  - Robust control
+  - Reinforcement learning
+  - Sample complexity
+abstract: >
+  This paper considers the Linear Quadratic Regulator problem for linear systems with unknown dynamics, a central problem in data-driven control and reinforcement learning. We propose a method that uses data to directly return a controller without estimating a model of the system. Sufficient conditions are given under which this method returns a stabilizing controller with guaranteed relative error when the data used to design the controller are affected by noise. This method has low complexity as it only requires a finite number of samples of the system response to a sufficiently exciting input, and can be efficiently implemented as a semi-definite program. Further, the method does not require assumptions on the noise statistics, and the relative error nicely scales with the noise magnitude.
+summary: >
+  Designs LQR controllers directly from noisy trajectory data with finite-sample, relative-error guarantees and an SDP implementation. It is a concise data-driven LQR counterpart to the noiseless LMI formulas, emphasizing robustness without a probabilistic noise model.
+link: https://arxiv.org/pdf/2005.01082
+links_alt:
+  - https://doi.org/10.1016/j.automatica.2021.109548
+  - https://www.sciencedirect.com/science/article/abs/pii/S0005109821000681
+  - https://arxiv.org/abs/2005.01082
+audit_status: raw

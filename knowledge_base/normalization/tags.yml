@@ -90,6 +90,7 @@ tags:
 - canonical: Algorithm analysis
 - canonical: Algorithm configuration
 - canonical: Algorithmic differentiation
+- canonical: Algorithmic randomness
 - canonical: Aligator
 - canonical: Aligning torque
 - canonical: Almost sure convergence
@@ -501,6 +502,7 @@ tags:
 - canonical: Conditional inference
 - canonical: Conditional mean estimation
 - canonical: Conditional sampling
+- canonical: Conditional validity
 - canonical: Conditional value at risk
   aliases:
   - Conditional value-at-risk
@@ -508,6 +510,7 @@ tags:
   - CVaR
 - canonical: Conditional variational autoencoder
 - canonical: Confidence sets
+- canonical: Conformal prediction
 - canonical: Configuration space
 - canonical: Conic geometry
 - canonical: Conic optimization
@@ -530,6 +533,7 @@ tags:
 - canonical: Constraint handling
 - canonical: Constraint programming
 - canonical: Constraint satisfaction
+- canonical: Constraint sampling
 - canonical: Constraints
 - canonical: Consumer electronics
 - canonical: Contact dynamics
@@ -683,6 +687,7 @@ tags:
 - canonical: Data visualization
 - canonical: Data-driven
 - canonical: Data-driven control
+- canonical: Data-driven decision making
 - canonical: Data-driven methods
 - canonical: Data-driven simulation
 - canonical: Data-parallel computation
@@ -725,6 +730,7 @@ tags:
 - canonical: Dense features
 - canonical: Dense matrices
 - canonical: Dense-feedback reinforcement learning
+- canonical: Density level sets
 - canonical: Density functions
 - canonical: Density-based clustering
 - canonical: Dependent variables
@@ -826,6 +832,8 @@ tags:
 - canonical: Distribution shift
 - canonical: Distribution theory
 - canonical: Distributional robustness
+- canonical: Distribution-free inference
+- canonical: Distribution-free uncertainty quantification
 - canonical: Distributionally robust model predictive path integral control
   aliases:
   - DRA-MPPI
@@ -989,6 +997,7 @@ tags:
 - canonical: Exact algorithms
 - canonical: Exchange networks
 - canonical: Exchangeable pairs
+- canonical: Exchangeability
 - canonical: Excitation conditions
 - canonical: Existence conditions
 - canonical: Existence criteria
@@ -1091,6 +1100,8 @@ tags:
 - canonical: Financial risk
 - canonical: Finite differences
 - canonical: Finite-horizon control
+- canonical: Finite-sample coverage
+- canonical: Finite-sample guarantees
 - canonical: Finite-sample uncertainty
 - canonical: Finite-state machines
 - canonical: Finite-sum optimization
@@ -1203,6 +1214,7 @@ tags:
 - canonical: Gene regulation
 - canonical: Generalization
 - canonical: Generalization error
+- canonical: Generalization guarantees
 - canonical: Generalized eigenvalue problem
 - canonical: Generalized eigenvalues
 - canonical: Generative adversarial network
@@ -1469,6 +1481,7 @@ tags:
 - canonical: Indirect encoding
 - canonical: Indoor flight
 - canonical: Indoor navigation
+- canonical: Inductive conformal prediction
 - canonical: Inductive learning
 - canonical: Industrial controllers
 - canonical: Industrial process control
@@ -1606,6 +1619,7 @@ tags:
 - canonical: Karp's 21 problems
 - canonical: Katyusha
 - canonical: Katz centrality
+- canonical: Kernel density estimation
 - canonical: Kernel methods
   aliases:
   - Kernel method
@@ -1861,6 +1875,7 @@ tags:
 - canonical: Map matching
 - canonical: Mapping
 - canonical: Marching cubes
+- canonical: Marginal coverage
 - canonical: Marginalized particle filters
 - canonical: Markov chain
 - canonical: Markov chain Monte Carlo
@@ -1950,6 +1965,7 @@ tags:
 - canonical: Minimum spanning trees
 - canonical: Minimum time
 - canonical: Minimum variance control
+- canonical: Minimum-volume sets
 - canonical: Minimum-phase systems
 - canonical: Minimum-time control
 - canonical: Minimum-time planning
@@ -2094,6 +2110,7 @@ tags:
   - MOESP
 - canonical: Multivariable systems
 - canonical: Multivariate analysis
+- canonical: Multivariate regression
 - canonical: Multivariate root finding
 - canonical: Multivariate statistics
 - canonical: Museum robot
@@ -2187,6 +2204,7 @@ tags:
 - canonical: Non-contrastive learning
 - canonical: Non-convex
 - canonical: Non-convex optimization
+- canonical: Nonconformity scores
 - canonical: Non-hermitian linear systems
 - canonical: Non-holonomic robots
 - canonical: Non-linear optimization
@@ -2228,9 +2246,11 @@ tags:
 - canonical: Nonminimum phase systems
 - canonical: Nonnegative matrices
 - canonical: Nonnegative matrix factorization
+- canonical: Nonparametric statistics
 - canonical: Nonrigid registration
 - canonical: Nonsmooth optimization
 - canonical: Nonsymmetric linear systems
+- canonical: Norm balls
 - canonical: Normalizing flows
 - canonical: Novel view synthesis
 - canonical: Novelty search
@@ -2522,7 +2542,10 @@ tags:
 - canonical: Precomputed
 - canonical: Preconditioned
 - canonical: Prediction
+- canonical: Prediction confidence
 - canonical: Prediction horizon
+- canonical: Prediction intervals
+- canonical: Prediction sets
 - canonical: Predictive coding
 - canonical: Predictive control
 - canonical: Predictive sampling
@@ -2546,6 +2569,7 @@ tags:
 - canonical: Privacy
 - canonical: PRM
 - canonical: Probabilistic
+- canonical: Probabilistic certificates
 - canonical: Probabilistic completeness
 - canonical: Probabilistic constraints
 - canonical: Probabilistic data structures
@@ -2561,6 +2585,7 @@ tags:
   aliases:
   - Probabilistic roadmaps
 - canonical: Probabilistic robotics
+- canonical: Probabilistic robustness
 - canonical: Probabilistic safety
 - canonical: Probabilistic sketches
 - canonical: Probabilistically complete
@@ -3211,6 +3236,7 @@ tags:
 - canonical: Sphere theorems
 - canonical: Spherical harmonics
 - canonical: Splat-Nav
+- canonical: Split conformal prediction
 - canonical: Splines
 - canonical: SPO
 - canonical: SPS
@@ -3493,6 +3519,7 @@ tags:
 - canonical: Trajectory spanning
 - canonical: Trajectory stabilization
 - canonical: Trajectory tracking
+- canonical: Transductive inference
 - canonical: Transfer functions
 - canonical: Transfer learning
 - canonical: Transfer operator

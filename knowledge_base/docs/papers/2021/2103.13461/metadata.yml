@@ -1,0 +1,29 @@
+title: "A Matrix Finsler's Lemma with Applications to Data-Driven Control"
+algorithm: "Matrix Finsler's Lemma"
+authors:
+  - Henk J. van Waarde
+  - M. Kanat Camlibel
+year: 2021
+source: "IEEE Conference on Decision and Control"
+type: Conference Paper
+doi: 10.1109/CDC45484.2021.9683285
+arxiv_id: "2103.13461"
+tags:
+  - Data-driven control
+  - Matrix Finsler's lemma
+  - Matrix S-lemma
+  - Noisy data
+  - Linear matrix inequalities
+  - Lure systems
+  - Robust control
+  - Quadratic constraints
+abstract: >
+  In a recent paper it was shown how a matrix S-lemma can be applied to construct controllers from noisy data. The current paper complements these results by proving a matrix version of the classical Finsler's lemma. This matrix Finsler's lemma provides a tractable condition under which all matrix solutions to a quadratic equality also satisfy a quadratic inequality. We will apply this result to bridge known data-driven control design techniques for both exact and noisy data, thereby revealing a more general theory. The result is also applied to data-driven control of Lur'e systems.
+summary: >
+  Provides a matrix Finsler lemma that unifies exact-data and noisy-data direct control conditions under one quadratic-constraint view. It clarifies how several data-driven LMI synthesis results fit together and extends the machinery to Lur'e systems.
+link: https://arxiv.org/pdf/2103.13461
+links_alt:
+  - https://doi.org/10.1109/CDC45484.2021.9683285
+  - https://ieeexplore.ieee.org/document/9683285
+  - https://arxiv.org/abs/2103.13461
+audit_status: raw

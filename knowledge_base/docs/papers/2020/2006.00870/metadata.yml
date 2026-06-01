@@ -1,0 +1,30 @@
+title: "From Noisy Data to Feedback Controllers: Nonconservative Design via a Matrix S-Lemma"
+algorithm: "Matrix S-Lemma"
+authors:
+  - Henk J. van Waarde
+  - M. Kanat Camlibel
+  - Mehran Mesbahi
+year: 2020
+source: "IEEE Transactions on Automatic Control"
+type: Journal Paper
+doi: 10.1109/TAC.2020.3047577
+arxiv_id: "2006.00870"
+tags:
+  - Data-driven control
+  - Matrix S-lemma
+  - Noisy data
+  - Linear matrix inequalities
+  - Quadratic stabilization
+  - H2 control
+  - H-infinity control
+  - Robust control
+abstract: >
+  We propose a new method to obtain feedback controllers of an unknown dynamical system directly from noisy input/state data. The key ingredient of our design is a new matrix S-lemma that will be proven in this paper. We provide both strict and non-strict versions of this S-lemma, that are of interest in their own right. Thereafter, we will apply these results to data-driven control. In particular, we will derive non-conservative design methods for quadratic stabilization, H_2 and H_inf control, all in terms of data-based linear matrix inequalities. In contrast to previous work, the dimensions of our decision variables are independent of the time horizon of the experiment. Our approach thus enables control design from large data sets.
+summary: >
+  Uses a matrix S-lemma to derive exact, nonconservative LMI conditions for controller synthesis from noisy input-state data. The result is a central technical tool for the informativity framework because it converts sets of data-consistent systems into tractable robust-control inequalities.
+link: https://arxiv.org/pdf/2006.00870
+links_alt:
+  - https://doi.org/10.1109/TAC.2020.3047577
+  - https://ieeexplore.ieee.org/document/9308858
+  - https://arxiv.org/abs/2006.00870
+audit_status: raw

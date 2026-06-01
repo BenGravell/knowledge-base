@@ -1,0 +1,32 @@
+title: "The Bayes Tree: An Algorithmic Foundation for Probabilistic Robot Mapping"
+algorithm: Bayes Tree
+authors:
+  - Michael Kaess
+  - Viorela Ila
+  - Richard Roberts
+  - Frank Dellaert
+year: 2010
+source: International Workshop on the Algorithmic Foundations of Robotics (WAFR)
+type: Conference Paper
+doi: 10.1007/978-3-642-17452-0_10
+arxiv_id:
+tags:
+  - Bayes tree
+  - Factor graphs
+  - Simultaneous localization and mapping
+  - Probabilistic inference
+  - Sparse matrix factorization
+  - Incremental optimization
+  - Variable reordering
+  - Fluid relinearization
+  - Robot mapping
+abstract: >
+  We present a novel data structure, the Bayes tree, that provides an algorithmic foundation enabling a better understanding of existing graphical model inference algorithms and their connection to sparse matrix factorization methods. Similar to a clique tree, a Bayes tree encodes a factored probability density, but unlike the clique tree it is directed and maps more naturally to the square root information matrix of the simultaneous localization and mapping (SLAM) problem. In this paper, we highlight three insights provided by our new data structure. First, the Bayes tree provides a better understanding of batch matrix factorization in terms of probability densities. Second, we show how the fairly abstract updates to a matrix factorization translate to a simple editing of the Bayes tree and its conditional densities. Third, we apply the Bayes tree to obtain a completely novel algorithm for sparse nonlinear incremental optimization, that combines incremental updates with fluid relinearization of a reduced set of variables for efficiency, combined with fast convergence to the exact solution. We also present a novel strategy for incremental variable reordering to retain sparsity. We evaluate our algorithm on standard datasets in both landmark and pose SLAM settings.
+summary: >
+  Introduces the Bayes tree as the graphical-model counterpart of sparse matrix factorization for SLAM. The data structure explains how factor-graph updates can be localized and becomes the conceptual and algorithmic basis for iSAM2.
+link: https://www.cs.cmu.edu/~kaess/pub/Kaess10wafr.pdf
+links_alt:
+  - https://www.cs.cmu.edu/~kaess/pub/Kaess10wafr.html
+  - https://link.springer.com/chapter/10.1007/978-3-642-17452-0_10
+  - https://doi.org/10.1007/978-3-642-17452-0_10
+audit_status: reviewed

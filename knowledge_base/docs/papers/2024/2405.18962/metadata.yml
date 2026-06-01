@@ -1,0 +1,27 @@
+title: "Beyond the Fundamental Lemma: From Finite Time Series to Linear System"
+algorithm: "Finite Time Series Realization Conditions"
+authors:
+  - M. Kanat Camlibel
+  - Paolo Rapisarda
+year: 2024
+source: "arXiv"
+type: Preprint
+doi:
+arxiv_id: "2405.18962"
+tags:
+  - Behavioral systems
+  - System identification
+  - Fundamental lemma
+  - Linear systems
+  - Finite time series
+  - Minimal realization
+  - Lag bounds
+  - Input-output data
+abstract: >
+  We state necessary and sufficient conditions to uniquely identify (modulo state isomorphism) a linear time-invariant minimal input-state-output system from finite input-output data and upper- and lower bounds on lag and state space dimension.
+summary: >
+  Revisits what can be identified from finite input-output time series beyond the trajectory-spanning statement of the fundamental lemma. The paper gives exact identifiability conditions and dimension/lag bounds, making it a more system-identification-oriented complement to direct control results.
+link: https://arxiv.org/pdf/2405.18962
+links_alt:
+  - https://arxiv.org/abs/2405.18962
+audit_status: raw

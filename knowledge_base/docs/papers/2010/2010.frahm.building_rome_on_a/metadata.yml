@@ -1,0 +1,36 @@
+title: "Building Rome on a Cloudless Day"
+algorithm: Cloudless Rome
+authors:
+  - Jan-Michael Frahm
+  - Pierre Fite-Georgel
+  - David Gallup
+  - Tim Johnson
+  - Rahul Raguram
+  - Changchang Wu
+  - Yi-Hung Jen
+  - Enrique Dunn
+  - Brian Clipp
+  - Svetlana Lazebnik
+  - Marc Pollefeys
+year: 2010
+source: European Conference on Computer Vision
+type: Conference Paper
+doi: 10.1007/978-3-642-15561-1_27
+arxiv_id:
+tags:
+  - Structure from motion
+  - Dense reconstruction
+  - Internet photo collections
+  - City-scale reconstruction
+  - Image clustering
+  - Multi-view stereo
+  - GPU acceleration
+abstract: >
+  This paper introduces an approach for dense 3D reconstruction from unregistered Internet-scale photo collections with about 3 million images within the span of a day on a single PC ("cloudless"). Our method advances image clustering, stereo, stereo fusion and structure from motion to achieve high computational performance. We leverage geometric and appearance constraints to obtain a highly parallel implementation on modern graphics processors and multi-core architectures. This leads to two orders of magnitude higher performance on an order of magnitude larger dataset than competing state-of-the-art approaches.
+summary: >
+  Presents a scalable dense reconstruction pipeline for massive unregistered Internet photo collections, emphasizing clustering, stereo, stereo fusion, structure from motion, and commodity parallel hardware. It complements distributed city-scale SfM work by showing that very large photo collections could be processed on a single high-performance PC.
+link: https://www.cvlibs.net/projects/autonomous_vision_survey/literature/Frahm2010ECCV.pdf
+links_alt:
+  - https://link.springer.com/chapter/10.1007/978-3-642-15561-1_27
+  - https://doi.org/10.1007/978-3-642-15561-1_27
+audit_status: reviewed

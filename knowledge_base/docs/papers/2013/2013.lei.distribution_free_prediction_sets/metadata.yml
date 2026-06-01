@@ -1,0 +1,30 @@
+title: >
+  Distribution-Free Prediction Sets
+algorithm: Distribution-Free Prediction Sets
+authors:
+  - Jing Lei
+  - James Robins
+  - Larry Wasserman
+year: 2013
+source: Journal of the American Statistical Association
+type: Journal Paper
+doi: 10.1080/01621459.2012.751873
+arxiv_id:
+tags:
+  - Conformal prediction
+  - Distribution-free inference
+  - Prediction sets
+  - Density level sets
+  - Kernel density estimation
+  - Finite-sample coverage
+  - Nonparametric statistics
+abstract: >
+  This article introduces a new approach to prediction by bringing together two different nonparametric ideas: distribution-free inference and nonparametric smoothing. Specifically, we consider the problem of constructing nonparametric tolerance/prediction sets. We start from the general conformal prediction approach, and we use a kernel density estimator as a measure of agreement between a sample point and the underlying distribution. The resulting prediction set is shown to be closely related to plug-in density level sets with carefully chosen cutoff values. Under standard smoothness conditions, we get an asymptotic efficiency result that is near optimal for a wide range of function classes. But the coverage is guaranteed whether or not the smoothness conditions hold and regardless of the sample size. The performance of our method is investigated through simulation studies and illustrated in a real data example.
+summary: >
+  Builds finite-sample-valid prediction sets by combining conformal prediction with density-estimation ideas, yielding sets that behave like calibrated density level sets. The result is useful because it separates the coverage guarantee, which is distribution-free and finite-sample, from efficiency claims that depend on smoothness assumptions.
+link: https://pmc.ncbi.nlm.nih.gov/articles/PMC4164906/
+links_alt:
+  - https://www.tandfonline.com/doi/full/10.1080/01621459.2012.751873
+  - https://doi.org/10.1080/01621459.2012.751873
+  - https://www.stat.cmu.edu/~jinglei/conformal_rev3.pdf
+audit_status: partial

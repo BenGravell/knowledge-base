@@ -1,0 +1,37 @@
+title: "VectorMapNet: End-to-End Vectorized HD Map Learning"
+algorithm: VectorMapNet
+authors:
+  - Yicheng Liu
+  - Tianyuan Yuan
+  - Yue Wang
+  - Yilun Wang
+  - Hang Zhao
+year: 2022
+source: International Conference on Machine Learning (ICML)
+type: Conference Paper
+doi:
+arxiv_id: "2206.08920"
+tags:
+  - HD map construction
+  - Vectorized maps
+  - Autonomous driving
+  - Bird's-eye view perception
+  - Polyline generation
+  - Sensor fusion
+  - Set prediction
+  - Motion forecasting
+  - NuScenes
+  - Argoverse 2
+  - VectorMapNet
+abstract: >
+  Autonomous driving systems require High-Definition (HD) semantic maps to navigate around urban roads. Existing solutions approach the semantic mapping problem by offline manual annotation, which suffers from serious scalability issues. Recent learning-based methods produce dense rasterized segmentation predictions to construct maps. However, these predictions do not include instance information of individual map elements and require heuristic post-processing to obtain vectorized maps. To tackle these challenges, we introduce an end-to-end vectorized HD map learning pipeline, termed VectorMapNet. VectorMapNet takes onboard sensor observations and predicts a sparse set of polylines in the bird's-eye view. This pipeline can explicitly model the spatial relation between map elements and generate vectorized maps that are friendly to downstream autonomous driving tasks. Extensive experiments show that VectorMapNet achieve strong map learning performance on both nuScenes and Argoverse2 dataset, surpassing previous state-of-the-art methods by 14.2 mAP and 14.6mAP. Qualitatively, VectorMapNet is capable of generating comprehensive maps and capturing fine-grained details of road geometry. To the best of our knowledge, VectorMapNet is the first work designed towards end-to-end vectorized map learning from onboard observations. Our project website is available at \url{https://tsinghua-mars-lab.github.io/vectormapnet/}.
+summary: >
+  Recasts learned HD map construction as direct prediction of sparse vector polylines rather than raster segmentation followed by hand-built post-processing. VectorMapNet combines BEV feature extraction, set-style map element detection, and object-level polyline generation, making its output closer to what downstream forecasting and planning systems consume.
+link: https://arxiv.org/pdf/2206.08920
+links_alt:
+  - https://proceedings.mlr.press/v202/liu23ax.html
+  - https://proceedings.mlr.press/v202/liu23ax/liu23ax.pdf
+  - https://tsinghua-mars-lab.github.io/vectormapnet/
+  - https://github.com/Mrmoore98/VectorMapNet_code
+  - https://openreview.net/forum?id=70TiaXJtyF
+audit_status: reviewed

@@ -1,0 +1,31 @@
+title: "Data Informativity: A New Perspective on Data-Driven Analysis and Control"
+algorithm: "Data Informativity"
+authors:
+  - Henk J. van Waarde
+  - Jaap Eising
+  - Harry L. Trentelman
+  - M. Kanat Camlibel
+year: 2019
+source: "IEEE Transactions on Automatic Control"
+type: Journal Paper
+doi: 10.1109/TAC.2020.2966717
+arxiv_id: "1908.00468"
+tags:
+  - Data informativity
+  - Data-driven control
+  - Behavioral systems
+  - Persistency of excitation
+  - System analysis
+  - Stabilization
+  - Model uncertainty
+  - Direct control
+abstract: >
+  The use of persistently exciting data has recently been popularized in the context of data-driven analysis and control. Such data have been used to assess system theoretic properties and to construct control laws, without using a system model. Persistency of excitation is a strong condition that also allows unique identification of the underlying dynamical system from the data within a given model class. In this paper, we develop a new framework in order to work with data that are not necessarily persistently exciting. Within this framework, we investigate necessary and sufficient conditions on the informativity of data for several data-driven analysis and control problems. For certain analysis and design problems, our results reveal that persistency of excitation is not necessary. In fact, in these cases data-driven analysis/control is possible while the combination of (unique) system identification and model-based control is not. For certain other control problems, our results justify the use of persistently exciting data as data-driven control is possible only with data that are informative for system identification.
+summary: >
+  Establishes the informativity framework: data are judged by whether all systems consistent with the data satisfy a property or admit a controller, not by whether the data uniquely identify a model. This reframing separates direct data-driven control from system identification and explains when persistency of excitation is stronger than necessary.
+link: https://arxiv.org/pdf/1908.00468
+links_alt:
+  - https://doi.org/10.1109/TAC.2020.2966717
+  - https://ieeexplore.ieee.org/document/8963844
+  - https://arxiv.org/abs/1908.00468
+audit_status: raw

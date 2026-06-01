@@ -1,0 +1,30 @@
+title: "The Informativity Approach to Data-Driven Analysis and Control"
+algorithm: "Informativity Approach"
+authors:
+  - Henk J. van Waarde
+  - Jaap Eising
+  - M. Kanat Camlibel
+  - Harry L. Trentelman
+year: 2023
+source: "arXiv"
+type: Preprint
+doi:
+arxiv_id: "2302.10488"
+tags:
+  - Data informativity
+  - Data-driven control
+  - Data-driven analysis
+  - Behavioral systems
+  - Robust control
+  - Quadratic matrix inequalities
+  - Dissipativity
+  - H-infinity control
+  - Measurement feedback
+abstract: >
+  The goal of this paper is to provide a tutorial on the so-called informativity framework for direct data-driven analysis and control. This framework achieves certified data-based analysis and control by assessing system properties and determining controllers for sets of systems unfalsified by the data. We will first introduce the informativity approach at an abstract level. Thereafter, we will report case studies where we highlight the strength of the framework in the context of various problems involving both noiseless and noisy data. In particular, we will treat controllability and stabilizability, and stabilization, linear quadratic regulation, and tracking and regulation using exact input-state measurements. Thereafter, we will treat dissipativity analysis, stabilization, and H_inf control using noisy input-state data. Finally, we will study dynamic measurement feedback stabilization using noisy input-output data. We will provide several examples to illustrate the approach. In addition, we will highlight the main tools underlying the framework, such as quadratic matrix inequalities in robust control and quadratic difference forms in behavioral systems theory.
+summary: >
+  Expands the informativity tutorial into a longer map of analysis and synthesis problems, including controllability, stabilizability, LQR, tracking, dissipativity, H-infinity control, and dynamic measurement feedback. It is the broadest single overview of the framework in this group.
+link: https://arxiv.org/pdf/2302.10488
+links_alt:
+  - https://arxiv.org/abs/2302.10488
+audit_status: raw

@@ -1,0 +1,28 @@
+title: "Fragility Analysis of Data-Driven Feedback Gains"
+algorithm: "Data-Driven Feedback Fragility Analysis"
+authors:
+  - Yongzhang Li
+  - Amir Shakouri
+  - M. Kanat Camlibel
+year: 2025
+source: "arXiv"
+type: Preprint
+doi:
+arxiv_id: "2510.00717"
+tags:
+  - Data-driven control
+  - Feedback fragility
+  - Robust control
+  - Stabilization
+  - Noisy data
+  - Linear matrix inequalities
+  - Semidefinite programming
+  - Data informativity
+abstract: >
+  For linear time-invariant systems, input-state data collected during an open-loop experiment can remedy the lack of knowledge of system parameters. However, such data do not contain information about other system uncertainties such as feedback perturbations. In this paper, we study the effect of additive perturbations on control parameters in a data-based setting. To this end, we parameterize the set of quadratically stabilizing feedback gains obtained from noisy input-state data. We study the case where a stabilizing data-driven feedback gain is extremely sensitive to feedback perturbations, i.e., a small perturbation in the control parameters, no matter how small, could destabilize the unknown true system. We refer to this case as extreme fragility for which we provide a full characterization. We also present necessary and sufficient conditions for the case where the closed-loop system is completely immune to feedback perturbations. For the general case where the feedback gain is neither extremely fragile nor immune, we provide a measure by which one can quantize the control fragility directly based on the collected data. We also study the problem of designing the least fragile data-driven feedback gain. The results are presented either in closed-form, or in terms of linear matrix inequalities and semi-definite programs.
+summary: >
+  Studies how stabilizing feedback gains designed from data react to perturbations in the gain itself. The paper extends direct data-driven stabilization from feasibility toward robustness diagnostics, fragility quantification, and least-fragile gain design.
+link: https://arxiv.org/pdf/2510.00717
+links_alt:
+  - https://arxiv.org/abs/2510.00717
+audit_status: raw

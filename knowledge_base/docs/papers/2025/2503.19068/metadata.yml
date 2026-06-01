@@ -1,0 +1,30 @@
+title: >
+  Minimum Volume Conformal Sets for Multivariate Regression
+algorithm: Minimum Volume Conformal Sets
+authors:
+  - Sacha Braun
+  - Liviu Aolaritei
+  - Michael I. Jordan
+  - Francis Bach
+year: 2025
+source: arXiv
+type: Preprint
+doi:
+arxiv_id: "2503.19068"
+tags:
+  - Conformal prediction
+  - Multivariate regression
+  - Prediction sets
+  - Minimum-volume sets
+  - Nonconformity scores
+  - Norm balls
+  - Distribution-free inference
+  - Uncertainty quantification
+abstract: >
+  Conformal prediction provides a principled framework for constructing predictive sets with finite-sample validity. While much of the focus has been on univariate response variables, existing multivariate methods either impose rigid geometric assumptions or rely on flexible but computationally expensive approaches that do not explicitly optimize prediction set volume. We propose an optimization-driven framework based on a novel loss function that directly learns minimum-volume covering sets while ensuring valid coverage. This formulation naturally induces a new nonconformity score for conformal prediction, which adapts to the residual distribution and covariates. Our approach optimizes over prediction sets defined by arbitrary norm balls, including single and multi-norm formulations. Additionally, by jointly optimizing both the predictive model and predictive uncertainty, we obtain prediction sets that are tight, informative, and computationally efficient, as demonstrated in our experiments on real-world datasets.
+summary: >
+  Proposes an optimization-driven way to learn conformal prediction sets for multivariate regression while directly targeting small set volume. The method turns minimum-volume coverage into a learned nonconformity score over norm-ball prediction sets, making conformal multivariate uncertainty more adaptive than fixed-shape constructions.
+link: https://arxiv.org/pdf/2503.19068
+links_alt:
+  - https://arxiv.org/abs/2503.19068
+audit_status: partial

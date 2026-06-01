@@ -20,87 +20,6 @@ python scripts/list_branching_factor_violations.py --max-depth 3 --max-results 3
 
 ## Ingest
 
-### HD Mapping and Chamfer Distance for Lane Detection
-
-https://arxiv.org/abs/2107.06307
-https://arxiv.org/abs/2206.08920
-https://arxiv.org/abs/2208.14437
-https://arxiv.org/abs/2503.07168
-
-### Behavioral Data-driven Control
-
-https://www.sciencedirect.com/science/article/abs/pii/S0167691116300317
-https://arxiv.org/abs/1906.04679
-https://www.tandfonline.com/doi/full/10.1080/00207170801942170
-https://www.sciencedirect.com/science/article/abs/pii/S0967066113001147
-https://arxiv.org/abs/1903.10723
-https://arxiv.org/pdf/1908.00468
-https://arxiv.org/pdf/2002.01023
-https://arxiv.org/pdf/2503.12489
-https://arxiv.org/pdf/2405.18962
-https://arxiv.org/pdf/1903.06842
-https://arxiv.org/pdf/2005.01082
-
-### Informativity Framework for Data-driven Control
-
-https://ieeexplore.ieee.org/document/9992611
-https://arxiv.org/pdf/2006.00870
-https://arxiv.org/pdf/2103.13461
-https://arxiv.org/abs/2302.10488
-https://arxiv.org/pdf/2407.12509
-https://arxiv.org/pdf/2510.00717
-
-### Real time iteration mpc
-
-https://epubs.siam.org/doi/10.1137/S0363012902400713
-https://ieeexplore.ieee.org/document/8550541
-https://ieeexplore.ieee.org/document/9029543
-https://arxiv.org/abs/2508.05396
-
-### Localization and mapping
-
-<https://arxiv.org/abs/2401.06323>
-<https://arxiv.org/abs/2201.13360>
-<https://arxiv.org/abs/1910.02490>
-<https://journals.sagepub.com/doi/10.1177/0278364906065387>
-<https://link.springer.com/article/10.1023/A:1008854305733>
-<https://journals.sagepub.com/doi/10.1177/0278364911430419>
-<https://link.springer.com/chapter/10.1007/978-3-642-17452-0_10>
-<https://journals.sagepub.com/doi/10.1177/0278364906072768>
-<https://dl.acm.org/doi/10.1561/2300000043>
-
-### Structure from motion
-
-<https://www.nature.com/articles/293133a0>
-<https://link.springer.com/article/10.1007/BF00129684>
-<https://ieeexplore.ieee.org/document/601246>
-<https://ieeexplore.ieee.org/document/1288525>
-<https://dl.acm.org/doi/10.1145/1141911.1141964>
-<https://dl.acm.org/doi/10.1145/2001269.2001293>
-<https://link.springer.com/chapter/10.1007/978-3-642-15561-1_27>
-<https://ieeexplore.ieee.org/document/6599068>
-<https://ieeexplore.ieee.org/document/7780814>
-<https://arxiv.org/abs/2407.20219>
-<https://ieeexplore.ieee.org/document/990963>
-
-### Loudspeaker Design
-
-<https://aes2.org/publications/elibrary-page/?id=2173>
-<https://aes2.org/publications/elibrary-page/?id=2163>
-<https://aes2.org/publications/elibrary-page/?id=2066>
-<https://aes2.org/publications/elibrary-page/?id=2022>
-<https://aes2.org/publications/elibrary-page/?id=1959>
-<https://aes2.org/publications/elibrary-page/?id=1951>
-<https://aes2.org/publications/elibrary-page/?id=2760>
-<https://aes2.org/publications/elibrary-page/?id=2739>
-<https://aes2.org/publications/elibrary-page/?id=2731>
-<https://aes2.org/publications/elibrary-page/?id=3105>
-<https://aes2.org/publications/elibrary-page/?id=5163>
-<https://aes2.org/publications/elibrary-page/?id=6078>
-<https://aes2.org/publications/elibrary-page/?id=7043>
-<https://aes2.org/publications/elibrary-page/?id=6999>
-<https://aes2.org/publications/elibrary-page/?id=12794>
-
 ### Optical flow
 
 <https://people.csail.mit.edu/bkph/papers/Optical_Flow_OPT_ENG.pdf>
@@ -155,13 +74,23 @@ https://arxiv.org/abs/2508.05396
 <https://ieeexplore.ieee.org/document/1632303>
 <https://www.sciencedirect.com/science/article/abs/pii/S1367578821000791>
 
-### ICP
+### Loudspeaker Design
 
-<https://en.wikipedia.org/wiki/Iterative_closest_point>
-
-<https://www.sciencedirect.com/science/article/abs/pii/026288569290066C?via%3Dihub>
-<https://ieeexplore.ieee.org/document/121791>
-<https://dl.acm.org/doi/10.1561/2300000035>
+<https://aes2.org/publications/elibrary-page/?id=2173>
+<https://aes2.org/publications/elibrary-page/?id=2163>
+<https://aes2.org/publications/elibrary-page/?id=2066>
+<https://aes2.org/publications/elibrary-page/?id=2022>
+<https://aes2.org/publications/elibrary-page/?id=1959>
+<https://aes2.org/publications/elibrary-page/?id=1951>
+<https://aes2.org/publications/elibrary-page/?id=2760>
+<https://aes2.org/publications/elibrary-page/?id=2739>
+<https://aes2.org/publications/elibrary-page/?id=2731>
+<https://aes2.org/publications/elibrary-page/?id=3105>
+<https://aes2.org/publications/elibrary-page/?id=5163>
+<https://aes2.org/publications/elibrary-page/?id=6078>
+<https://aes2.org/publications/elibrary-page/?id=7043>
+<https://aes2.org/publications/elibrary-page/?id=6999>
+<https://aes2.org/publications/elibrary-page/?id=12794>
 
 ### vaporwave
 
@@ -299,6 +228,7 @@ Hand-crafted
 Selected node filter
 
 Include more filters utilizing as many metadata fields as possible.
+
 - author match
 - Year range (plus and minus away from year of selected item)
 - Tag (only show other items that have a tag in common)

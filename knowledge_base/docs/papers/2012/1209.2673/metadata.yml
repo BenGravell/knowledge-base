@@ -1,0 +1,28 @@
+title: >
+  Conditional Validity of Inductive Conformal Predictors
+algorithm: Inductive Conformal Predictors
+authors:
+  - Vladimir Vovk
+year: 2012
+source: Machine Learning
+type: Journal Paper
+doi: 10.1007/s10994-013-5355-6
+arxiv_id: "1209.2673"
+tags:
+  - Conformal prediction
+  - Inductive conformal prediction
+  - Conditional validity
+  - Marginal coverage
+  - Prediction sets
+  - Distribution-free inference
+  - Machine learning theory
+abstract: >
+  Conformal predictors are set predictors that are automatically valid in the sense of having coverage probability equal to or exceeding a given confidence level. Inductive conformal predictors are a computationally efficient version of conformal predictors satisfying the same property of validity. However, inductive conformal predictors have been only known to control unconditional coverage probability. This paper explores various versions of conditional validity and various ways to achieve them using inductive conformal predictors and their modifications.
+summary: >
+  Studies what kinds of conditional coverage guarantees can and cannot be obtained by inductive, split-sample conformal predictors. The paper is a key bridge between the practical efficiency of inductive conformal prediction and the stronger validity notions that are often desired in deployment.
+link: https://arxiv.org/pdf/1209.2673
+links_alt:
+  - https://arxiv.org/abs/1209.2673
+  - https://proceedings.mlr.press/v25/vovk12.html
+  - https://doi.org/10.1007/s10994-013-5355-6
+audit_status: partial

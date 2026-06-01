@@ -264,8 +264,6 @@
               - OPTAMI: docs/papers/2024/2410.04083/metadata.yml
               - "Superfast Second-Order Methods for Unconstrained Convex Optimization": docs/papers/2021/2021.nesterov.superfast_second_order_methods/metadata.yml
               - "Verification of Sequential Convex Programming for Parametric Non-convex Optimization": docs/papers/2025/2511.10622/metadata.yml
-              - Performance Bounds for the Scenario Approach and an Extension to a Class of Non-convex Programs: docs/papers/2013/1307.0345/metadata.yml
-              - The Exact Feasibility of Randomized Solutions of Uncertain Convex Programs: docs/papers/2008/2008.campi.the_exact_feasibility_of/metadata.yml
               - Regularized Newton Method:
                 - Levenberg-Marquardt: docs/papers/1944/1944.levenberg.a_method_for_the/metadata.yml
                 - Cubic regularized Newton: docs/papers/2006/2006.nesterov.cubic_regularization_of_newton/metadata.yml
@@ -300,29 +298,34 @@
             - Gradient Methods for Minimizing Composite Functions: docs/papers/2012/2012.nesterov.gradient_methods_for_minimizing/metadata.yml
             - Universal Gradient Methods for Convex Optimization Problems: docs/papers/2014/2014.nesterov.universal_gradient_methods_for/metadata.yml
             - "On the Douglas-Rachford Splitting Method and the Proximal Point Algorithm for Maximal Monotone Operators": docs/papers/1992/1992.eckstein.on_the_douglas_rachford/metadata.yml
-        - Robust Optimization:
+        - Robust & Stochastic Optimization:
+          - Scenario Optimization:
+            - "Uncertain Convex Programs: Randomized Solutions and Confidence Levels": docs/papers/2004/2004.calafiore.uncertain_convex_programs_randomized/metadata.yml
+            - The Scenario Approach to Robust Control Design: docs/papers/2006/2006.calafiore.the_scenario_approach_to/metadata.yml
+            - Scenario Approach Feasibility Bound: docs/papers/2008/2008.campi.the_exact_feasibility_of/metadata.yml
+            - Performance Bounds for the Scenario Approach and an Extension to a Class of Non-convex Programs: docs/papers/2013/1307.0345/metadata.yml
+            - "The Scenario Approach: A Tool at the Service of Data-Driven Decision Making": docs/papers/2021/2021.campi.the_scenario_approach_a/metadata.yml
+          - Distributionally Robust Optimization:
+            - "Data-driven Distributionally Robust Optimization Using the Wasserstein Metric: Performance Guarantees and Tractable Reformulations": docs/papers/2015/1505.05116/metadata.yml
+            - Distributionally Robust Logistic Regression: docs/papers/2015/1509.09259/metadata.yml
+            - "From Data to Decisions: Distributionally Robust Optimization Is Optimal": docs/papers/2017/1704.04118/metadata.yml
+            - Data-Driven Chance Constrained Programs over Wasserstein Balls: docs/papers/2018/1809.00210/metadata.yml
+            - "Wasserstein Distributionally Robust Stochastic Control: A Data-Driven Approach": docs/papers/2018/1812.09808/metadata.yml
+            - Path Planning Using Wassertein Distributionally Robust Deep Q-learning: docs/papers/2022/2211.02372/metadata.yml
+            - "Wasserstein Distributionally Robust Optimization: Theory and Applications in Machine Learning": docs/papers/2019/1908.08729/metadata.yml
+            - Distributionally Robust Optimization with Bias and Variance Reduction: docs/papers/2023/2310.13863/metadata.yml
+            - Distributionally Robust Optimization over Wasserstein Balls with I.i.d. Structure: docs/papers/2025/2503.23543/metadata.yml
+            - Distributionally Robust Convex Optimization: docs/papers/2014/2014.wiesemann.distributionally_robust_convex_optimization/metadata.yml
+            - Distributionally Robust Joint Chance Constraints with Second-order Moment Information: docs/papers/2011/2011.zymler.distributionally_robust_joint_chance/metadata.yml
+            - Nash Equilibria, Regularization and Computation in Optimal Transport-Based Distributionally Robust Optimization: docs/papers/2023/2303.03900/metadata.yml
+          - Regularization via Mass Transportation: docs/papers/2017/1710.10016/metadata.yml
           - Mean Robust Optimization: docs/papers/2022/2207.10820/metadata.yml
           - Data-Driven Robust Optimization: docs/papers/2014/1401.0212/metadata.yml
-          - "Data-driven Distributionally Robust Optimization Using the Wasserstein Metric: Performance Guarantees and Tractable Reformulations": docs/papers/2015/1505.05116/metadata.yml
-          - Distributionally Robust Logistic Regression: docs/papers/2015/1509.09259/metadata.yml
-          - Regularization via Mass Transportation: docs/papers/2017/1710.10016/metadata.yml
           - "Distributionally Robust Inverse Covariance Estimation: The Wasserstein Shrinkage Estimator": docs/papers/2018/1805.07194/metadata.yml
           - Data-driven Inverse Optimization with Imperfect Information: docs/papers/2015/1512.05489/metadata.yml
           - Scalable Kernel Inverse Optimization: docs/papers/2024/2410.23952/metadata.yml
-          - "From Data to Decisions: Distributionally Robust Optimization Is Optimal": docs/papers/2017/1704.04118/metadata.yml
           - "Ordered Risk Minimization: Learning More from Less Data": docs/papers/2023/2303.09196/metadata.yml
-          - Data-Driven Chance Constrained Programs over Wasserstein Balls: docs/papers/2018/1809.00210/metadata.yml
-          - "Wasserstein Distributionally Robust Stochastic Control: A Data-Driven Approach": docs/papers/2018/1812.09808/metadata.yml
-          - Path Planning Using Wassertein Distributionally Robust Deep Q-learning: docs/papers/2022/2211.02372/metadata.yml
-          - "Wasserstein Distributionally Robust Optimization: Theory and Applications in Machine Learning": docs/papers/2019/1908.08729/metadata.yml
-          - Distributionally Robust Optimization with Bias and Variance Reduction: docs/papers/2023/2310.13863/metadata.yml
-          - Distributionally Robust Optimization over Wasserstein Balls with I.i.d. Structure: docs/papers/2025/2503.23543/metadata.yml
           - An Introduction to MCMC for Machine Learning: docs/papers/2003/2003.andrieu.an_introduction_to_mcmc/metadata.yml
-          - "Certifying Some Distributional Robustness with Principled Adversarial Training": docs/papers/2017/1710.10571/metadata.yml
-          - Learning with a Strong Adversary: docs/papers/2015/1511.03034/metadata.yml
-          - "Distributionally Robust Convex Optimization": docs/papers/2014/2014.wiesemann.distributionally_robust_convex_optimization/metadata.yml
-          - Distributionally Robust Joint Chance Constraints with Second-order Moment Information: docs/papers/2011/2011.zymler.distributionally_robust_joint_chance/metadata.yml
-          - "Nash Equilibria, Regularization and Computation in Optimal Transport-Based Distributionally Robust Optimization": docs/papers/2023/2303.03900/metadata.yml
         - Minimax & Game Theory:
           - On General Minimax Theorems: docs/papers/1958/1958.sion.on_general_minimax_theorems/metadata.yml
           - "Elementary Proof for Sion's Minimax Theorem": docs/papers/1988/1988.komiya.elementary_proof_for_sions/metadata.yml
@@ -1119,24 +1122,22 @@
             - "Solving the linear quadratic regulator problem in the policy space: The Policy Algebraic Riccati Equation": docs/papers/2026/2026.possieri.solving_the_linear_quadratic/metadata.yml
             - Systematic Control Design by Optimizing a Vector Performance Index: docs/papers/1979/1979.kreisselmeier.systematic_control_design_by/metadata.yml
         - Model Predictive Control (MPC):
-          - Receding Horizon Control of Nonlinear Systems: docs/papers/1988/1988.mayne.receding_horizon_control_of/metadata.yml
-          - "Stabilizing Receding Horizon Control of Nonlinear Systems: A Control Lyapunov Function Approach": docs/papers/1999/1999.jadbabaie.stabilizing_receding_horizon_control/metadata.yml
-          - Unconstrained Receding-horizon Control of Nonlinear Systems: docs/papers/2001/2001.jadbabaie.unconstrained_receding_horizon_control/metadata.yml
-          - "Robust model predictive control using tubes": docs/papers/2004/2004.langson.robust_model_predictive_control/metadata.yml
-          - Robust MPC via Min-Max Differential Inequalities: docs/papers/2016/1611.03924/metadata.yml
-          - "Data-driven distributionally robust MPC for constrained stochastic systems": docs/papers/2021/2103.03006/metadata.yml
-          - Distributionally Robust Control of Constrained Stochastic Systems: docs/papers/2015/2015.van_parys.distributionally_robust_control_of/metadata.yml
-          - "Distributionally Robust Model Predictive Control: Closed-loop Guarantees and Scalable Algorithms": docs/papers/2023/2309.12758/metadata.yml
-          - Distributionally Robust Covariance Steering with Optimal Risk Allocation: docs/papers/2022/2210.00050/metadata.yml
-          - "From linear to nonlinear MPC: bridging the gap via the real-time iteration": docs/papers/2016/2016.gros.from_linear_to_nonlinear/metadata.yml
-          - Fast Model Predictive Control Using Online Optimization: docs/papers/2010/2010.wang.fast_model_predictive_control/metadata.yml
-          - "Autogenerating Microsecond Solvers for Nonlinear MPC: A Tutorial Using ACADO Integrators": docs/papers/2014/2014.quirynen.autogenerating_microsecond_solvers_for/metadata.yml
-          - "Robust multi-rate predictive control using multi-step prediction models learned from data": docs/papers/2021/2102.08302/metadata.yml
-          - Identification for Long-range Predictive Control: docs/papers/1991/1991.shook.identification_for_long_range/metadata.yml
-          - "Learning multi-step prediction models for receding horizon control": docs/papers/2018/2018.terzi.learning_multi_step_prediction/metadata.yml
-          - "Learning with Imperfect Models: When Multi-step Prediction Mitigates Compounding Error": docs/papers/2025/2504.01766/metadata.yml
-          - "On multi-step prediction models for receding horizon control": docs/papers/2018/1802.09767/metadata.yml
-          - "Model predictive control of vehicle dynamics based on the Koopman operator with extended dynamic mode decomposition": docs/papers/2021/2021.svec.model_predictive_control_of/metadata.yml
+          - Nonlinear MPC (NMPC):
+            - Receding Horizon Control of Nonlinear Systems: docs/papers/1988/1988.mayne.receding_horizon_control_of/metadata.yml
+            - "Stabilizing Receding Horizon Control of Nonlinear Systems: A Control Lyapunov Function Approach": docs/papers/1999/1999.jadbabaie.stabilizing_receding_horizon_control/metadata.yml
+            - Unconstrained Receding-horizon Control of Nonlinear Systems: docs/papers/2001/2001.jadbabaie.unconstrained_receding_horizon_control/metadata.yml
+            - "Autogenerating Microsecond Solvers for Nonlinear MPC: A Tutorial Using ACADO Integrators": docs/papers/2014/2014.quirynen.autogenerating_microsecond_solvers_for/metadata.yml
+          - Real-Time Iteration MPC:
+            - Real-Time Iteration: docs/papers/2005/2005.diehl.a_real_time_iteration/metadata.yml
+            - "From linear to nonlinear MPC: bridging the gap via the real-time iteration": docs/papers/2016/2016.gros.from_linear_to_nonlinear/metadata.yml
+            - Quasi-Newton RTI: docs/papers/2018/2018.quirynen.a_real_time_iteration/metadata.yml
+            - Advanced-Step RTI: docs/papers/2019/2019.nurkanovic.the_advanced_step_real/metadata.yml
+            - RTI-DP: docs/papers/2025/2508.05396/metadata.yml
+          - Multi-step Prediction Models:
+            - "On multi-step prediction models for receding horizon control": docs/papers/2018/1802.09767/metadata.yml
+            - "Learning multi-step prediction models for receding horizon control": docs/papers/2018/2018.terzi.learning_multi_step_prediction/metadata.yml
+            - Robust multi-rate predictive control using multi-step prediction models learned from data: docs/papers/2021/2102.08302/metadata.yml
+            - "Learning with Imperfect Models: When Multi-step Prediction Mitigates Compounding Error": docs/papers/2025/2504.01766/metadata.yml
           - Model Predictive Contouring Control (MPCC):
             - MPCC: docs/papers/2010/2010.lam.model_predictive_contouring_control/metadata.yml
             - "MPCC (RC Cars)": docs/papers/2015/1711.07300/metadata.yml
@@ -1145,35 +1146,71 @@
             - Motion Planning and Model Predictive Control for Automated Tractor-Trailer Hitching Maneuver: docs/papers/2022/2022.wang.motion_planning_and_model/metadata.yml
             - Integral Action NMPC for Tight Maneuvers of Articulated Vehicles: docs/papers/2023/2023.you.integral_action_nmpc_for/metadata.yml
           - Data-Driven and Learning-Based MPC:
-            - Data-driven Control:
-              - Willems' Fundamental Lemma: docs/papers/2005/2005.willems.a_note_on_persistency/metadata.yml
-              - DeePC: docs/papers/2018/1811.05890/metadata.yml
             - "Model predictive control based on ARX models": docs/papers/2010/2010.kon.model_predictive_control_based/metadata.yml
             - "Learning-based predictive control for linear systems: a unitary approach": docs/papers/2018/1810.12584/metadata.yml
             - "KPC: Learning-Based Model Predictive Control with Deterministic Guarantees": docs/papers/2020/2011.11303/metadata.yml
             - "Exponential stability of data-driven nonlinear MPC based on input/output models": docs/papers/2026/2603.16808/metadata.yml
             - "Soft projections for robust data-driven control": docs/papers/2026/2604.00900/metadata.yml
             - "Stochastic Data-Driven Predictive Control: Regularization, Estimation, and Constraint Tightening": docs/papers/2023/2312.02758/metadata.yml
-            - "Distributionally Robust Data-Driven Predictive Control for Stochastic LTI Systems": docs/papers/2026/2605.07589/metadata.yml
-            - Data-Driven Distributionally Robust System Level Synthesis: docs/papers/2024/2405.18142/metadata.yml
+            - Identification for Long-range Predictive Control: docs/papers/1991/1991.shook.identification_for_long_range/metadata.yml
+            - "Model predictive control of vehicle dynamics based on the Koopman operator with extended dynamic mode decomposition": docs/papers/2021/2021.svec.model_predictive_control_of/metadata.yml
           - Robust and Stochastic MPC:
-            - "Closed-loop analysis of linear stochastic MPC with risk-averse constraints": docs/papers/2026/2604.11183/metadata.yml
-            - Control Design for Risk-Based Signal Temporal Logic Specifications: docs/papers/2020/2006.00317/metadata.yml
-            - Risk-Averse Model Predictive Control for Racing in Adverse Conditions: docs/papers/2024/2410.17183/metadata.yml
-            - Dynamic Tube MPC: docs/papers/2019/1907.06553/metadata.yml
-            - Elastic Tube MPC: docs/papers/2016/2016.rakovic.elastic_tube_model_predictive/metadata.yml
-            - "Scenario-based Stochastic MPC for systems with uncertain dynamics": docs/papers/2022/2207.12517/metadata.yml
-            - "Probably Approximately Correct Nonlinear Model Predictive Control (PAC-NMPC)": docs/papers/2022/2210.08092/metadata.yml
-            - "Interactive Trajectory Planning with Learning-based Distributionally Robust Model Predictive Control and Markov Systems": docs/papers/2026/2605.07768/metadata.yml
+            - Tube-based MPC:
+              - Tube MPC: docs/papers/2004/2004.langson.robust_model_predictive_control/metadata.yml
+              - Dynamic Tube MPC: docs/papers/2019/1907.06553/metadata.yml
+              - Elastic Tube MPC: docs/papers/2016/2016.rakovic.elastic_tube_model_predictive/metadata.yml
+            - Stochastic MPC:
+              - "Scenario-based Stochastic MPC for systems with uncertain dynamics": docs/papers/2022/2207.12517/metadata.yml
+              - "Closed-loop analysis of linear stochastic MPC with risk-averse constraints": docs/papers/2026/2604.11183/metadata.yml
+            - Robust MPC:
+              - Control Design for Risk-Based Signal Temporal Logic Specifications: docs/papers/2020/2006.00317/metadata.yml
+              - Risk-Averse Model Predictive Control for Racing in Adverse Conditions: docs/papers/2024/2410.17183/metadata.yml
+              - Robust MPC via Min-Max Differential Inequalities: docs/papers/2016/1611.03924/metadata.yml
+              - "Probably Approximately Correct Nonlinear Model Predictive Control (PAC-NMPC)": docs/papers/2022/2210.08092/metadata.yml
+            - Distributionally Robust MPC:
+              - Distributionally Robust Control of Constrained Stochastic Systems: docs/papers/2015/2015.van_parys.distributionally_robust_control_of/metadata.yml
+              - Data-driven distributionally robust MPC for constrained stochastic systems: docs/papers/2021/2103.03006/metadata.yml
+              - Distributionally Robust Covariance Steering with Optimal Risk Allocation: docs/papers/2022/2210.00050/metadata.yml
+              - Distributionally Robust Model Predictive Control: docs/papers/2023/2309.12758/metadata.yml
+              - Data-Driven Distributionally Robust System Level Synthesis: docs/papers/2024/2405.18142/metadata.yml
+              - Distributionally Robust Data-Driven Predictive Control for Stochastic LTI Systems: docs/papers/2026/2605.07589/metadata.yml
+              - Interactive Trajectory Planning with Learning-based Distributionally Robust Model Predictive Control and Markov Systems: docs/papers/2026/2605.07768/metadata.yml
           - MPC Applications and Implementations:
             - "Intelligent Trajectory Planning for Autonomous Vehicles via Adaptive Model Predictive Control": docs/papers/2025/2025.goncalves.intelligent_trajectory_planning_for/metadata.yml
             - "Robust Nonlinear Trajectory Tracking Control for Autonomous Racing on Three-Dimensional Tracks": docs/papers/2026/2604.19452/metadata.yml
             - A Nonlinear Model Predictive Control Framework Using Reference Generic Terminal Ingredients -- Extended Version: docs/papers/2019/1909.12765/metadata.yml
             - Friction-Adaptive Stochastic Nonlinear Model Predictive Control for Autonomous Vehicles: docs/papers/2023/2305.03798/metadata.yml
             - A Nonlinear MPC Scheme for Output Tracking without Terminal Ingredients: docs/papers/2023/2023.soloperto.a_nonlinear_mpc_scheme/metadata.yml
+            - Fast Model Predictive Control Using Online Optimization: docs/papers/2010/2010.wang.fast_model_predictive_control/metadata.yml
         - Nonlinear Control Design:
           - Nonlinear Control Synthesis by Convex Optimization: docs/papers/2004/2004.prajna.nonlinear_control_synthesis_by/metadata.yml
           - Partial Feedback Linearization: docs/papers/1994/1994.spong.partial_feedback_linearization_of/metadata.yml
+      - Data-Driven Control:
+        - Behavioral Data-Driven Control:
+          - Foundations:
+            - Data-driven Simulation and Control: docs/papers/2008/2008.markovsky.data_driven_simulation_and/metadata.yml
+            - Willems' Fundamental Lemma: docs/papers/2005/2005.willems.a_note_on_persistency/metadata.yml
+            - "Data-Driven Control: A Behavioral Approach": docs/papers/2017/2017.maupong.data_driven_control_a/metadata.yml
+            - Trajectory-Based Data-Driven Control: docs/papers/2019/1903.10723/metadata.yml
+            - Universal Inputs: docs/papers/2025/2503.12489/metadata.yml
+          - Identification and Experiment Design:
+            - Behavioral System Identification Software: docs/papers/2013/2013.markovsky.a_software_package_for/metadata.yml
+            - Collective Persistency of Excitation: docs/papers/2020/2002.01023/metadata.yml
+            - "Beyond the Fundamental Lemma: From Finite Time Series to Linear System": docs/papers/2024/2405.18962/metadata.yml
+            - Shortest Experiment Design: docs/papers/2024/2407.12509/metadata.yml
+          - Direct Predictive Control:
+            - DeePC: docs/papers/2018/1811.05890/metadata.yml
+            - Data-Driven MPC: docs/papers/2019/1906.04679/metadata.yml
+          - Direct Stabilization and LQR:
+            - Data-Driven LMI Control: docs/papers/2019/1903.06842/metadata.yml
+            - Low-Complexity Data-Driven LQR: docs/papers/2020/2005.01082/metadata.yml
+        - Informativity Framework:
+          - Data Informativity: docs/papers/2019/1908.00468/metadata.yml
+          - A Tutorial on the Informativity Framework for Data-Driven Control: docs/papers/2022/2022.van_waarde.a_tutorial_on_informativity/metadata.yml
+          - Informativity Approach: docs/papers/2023/2302.10488/metadata.yml
+          - Matrix S-Lemma: docs/papers/2020/2006.00870/metadata.yml
+          - Matrix Finsler's Lemma: docs/papers/2021/2103.13461/metadata.yml
+          - Data-Driven Feedback Fragility Analysis: docs/papers/2025/2510.00717/metadata.yml
       - Stochastic Control:
         - Multiplicative Noise:
           - Stochastic Stability:
@@ -1832,6 +1869,7 @@
       - Localization & Mapping:
         - Factor Graphs:
           - Factor Graphs and the Sum-product Algorithm: docs/papers/2001/2001.kschischang.factor_graphs_and_the/metadata.yml
+          - Factor Graphs for Robot Perception: docs/papers/2017/2017.dellaert.factor_graphs_for_robot/metadata.yml
           - Factor Graphs: docs/papers/2021/2021.dellaert.factor_graphs_exploiting_structure/metadata.yml
           - Graph Networks as Learnable Physics Engines for Inference and Control: docs/papers/2018/1806.01242/metadata.yml
           - Neural Networks with Physics-Informed Architectures and Constraints for Dynamical Systems Modeling: docs/papers/2021/2109.06407/metadata.yml
@@ -1842,22 +1880,49 @@
         - Dense Mapping:
           - Learning Occupancy Grid Maps with Forward Sensor Models: docs/papers/2003/2003.thrun.learning_occupancy_grid_maps/metadata.yml
           - OctoMap: docs/papers/2013/2013.hornung.octomap_an_efficient_probabilistic/metadata.yml
+        - Semantic HD Map Construction:
+          - HDMapNet: docs/papers/2021/2107.06307/metadata.yml
+          - VectorMapNet: docs/papers/2022/2206.08920/metadata.yml
+          - MapTR: docs/papers/2022/2208.14437/metadata.yml
+          - HisTrackMap: docs/papers/2025/2503.07168/metadata.yml
         - Simultaneous Localization and Mapping (SLAM):
           - Graph-Based SLAM & Smoothing:
+            - Lu-Milios Scan Alignment: docs/papers/1997/1997.lu.globally_consistent_range_scan/metadata.yml
+            - GraphSLAM: docs/papers/2006/2006.thrun.the_graph_slam_algorithm/metadata.yml
+            - Square Root SAM: docs/papers/2006/2006.dellaert.square_root_sam_simultaneous/metadata.yml
             - Fast Iterative Alignment of Pose Graphs with Poor Initial Estimates: docs/papers/2006/2006.olson.fast_iterative_alignment_of/metadata.yml
             - Graphical SLAM - a Self-correcting Map: docs/papers/2004/2004.folkesson.graphical_slam_a_self/metadata.yml
             - g2o: docs/papers/2011/2011.kummerle.g2o_a_general_framework/metadata.yml
             - Adaptive Iterative Closest Keypoint: docs/papers/2013/2013.ekekrantz.adaptive_iterative_closest_keypoint/metadata.yml
             - iSAM: docs/papers/2008/2008.kaess.isam_incremental_smoothing_and/metadata.yml
+            - iSAM2: docs/papers/2011/2011.kaess.isam2_incremental_smoothing/metadata.yml
+            - Bayes Tree: docs/papers/2010/2010.kaess.the_bayes_tree_an/metadata.yml
           - Metric-Semantic SLAM:
             - Hydra: docs/papers/2022/2201.13360/metadata.yml
-            - Khronos: docs/papers/2024/2402.13817/metadata.yml
             - Kimera: docs/papers/2019/1910.02490/metadata.yml
+            - Kimera2: docs/papers/2024/2401.06323/metadata.yml
+            - Khronos: docs/papers/2024/2402.13817/metadata.yml
         - Point Cloud Registration:
+          - Iterative Closest Point (ICP):
+            - Chen-Medioni Range Registration: docs/papers/1992/1992.chen.object_modelling_by_registration/metadata.yml
+            - ICP: docs/papers/1992/1992.besl.a_method_for_registration/metadata.yml
+            - Point Cloud Registration Survey: docs/papers/2015/2015.pomerleau.a_review_of_point/metadata.yml
           - CLIPPER: docs/papers/2020/2011.10202/metadata.yml
           - CLIPPER+: docs/papers/2024/2402.15464/metadata.yml
           - Adaptive Cost Function for Pointcloud Registration: docs/papers/2017/1704.07910/metadata.yml
         - Visual Odometry & Structure from Motion:
+          - Structure from Motion (SfM):
+            - Eight-Point Algorithm: docs/papers/1981/1981.longuet_higgins.a_computer_algorithm_for/metadata.yml
+            - Tomasi-Kanade Factorization: docs/papers/1992/1992.tomasi.shape_and_motion_from/metadata.yml
+            - Normalized Eight-Point Algorithm: docs/papers/1997/1997.hartley.in_defense_of_the/metadata.yml
+            - Two-View Constraint Motion Averaging: docs/papers/2001/2001.govindu.combining_two_view_constraints/metadata.yml
+            - Five-Point Relative Pose Algorithm: docs/papers/2004/2004.nister.an_efficient_solution_to/metadata.yml
+            - Photo Tourism: docs/papers/2006/2006.snavely.photo_tourism_exploring_photo/metadata.yml
+            - Cloudless Rome: docs/papers/2010/2010.frahm.building_rome_on_a/metadata.yml
+            - Rome in a Day: docs/papers/2011/2011.agarwal.building_rome_in_a/metadata.yml
+            - Linear-Time Incremental SfM: docs/papers/2013/2013.wu.towards_linear_time_incremental/metadata.yml
+            - COLMAP SfM: docs/papers/2016/2016.schonberger.structure_from_motion_revisited/metadata.yml
+            - GLOMAP: docs/papers/2024/2407.20219/metadata.yml
           - Visual Odometry and Mapping for Autonomous Flight Using an RGB-D Camera: docs/papers/2016/2016.huang.visual_odometry_and_mapping/metadata.yml
           - MVO: docs/papers/2018/1808.00274/metadata.yml
           - Quaternion Based Camera Pose Estimation From Matched Feature Points: docs/papers/2017/1704.02672/metadata.yml
@@ -1988,8 +2053,15 @@
           - The Lost MNIST Digits: docs/papers/2019/2019.yadav.cold_case_the_lost/metadata.yml
           - MNIST-1D: docs/papers/2020/2011.14439/metadata.yml
         - Uncertainty Quantification:
-          - Backward Conformal Prediction: docs/papers/2025/2505.13732/metadata.yml
-          - MCP: docs/papers/2026/2605.12341/metadata.yml
+          - Conformal Prediction:
+            - Algorithmic Randomness Confidence Measures: docs/papers/1999/1999.vovk.machine_learning_applications_of/metadata.yml
+            - Distribution-Free Prediction Sets: docs/papers/2013/2013.lei.distribution_free_prediction_sets/metadata.yml
+            - Inductive Conformal Predictors: docs/papers/2012/1209.2673/metadata.yml
+            - Conformal Prediction: docs/papers/2021/2107.07511/metadata.yml
+            - Conformal Prediction Theory: docs/papers/2024/2411.11824/metadata.yml
+            - Minimum Volume Conformal Sets: docs/papers/2025/2503.19068/metadata.yml
+            - Backward Conformal Prediction: docs/papers/2025/2505.13732/metadata.yml
+            - MCP: docs/papers/2026/2605.12341/metadata.yml
         - Interpretability:
           - Shapley:
             - Shapley Value: docs/papers/1953/1953.shapley.a_value_for_n/metadata.yml
@@ -2105,12 +2177,15 @@
               - Hessian-free Optimization: docs/papers/2010/2010.martens.deep_learning_via_hessian/metadata.yml
               - K-FAC: docs/papers/2015/1503.05671/metadata.yml
               - The Hessian of tall-skinny networks is easy to invert: docs/papers/2026/2601.06096/metadata.yml
-            - Optimization with constraints:
+            - Optimization with Constraints:
               - PInet: docs/papers/2025/2508.10480/metadata.yml
               - RAYEN: docs/papers/2023/2307.08336/metadata.yml
             - Regularization:
               - Dropout: docs/papers/2014/2014.srivastava.dropout_a_simple_way/metadata.yml
               - The Implicit and Explicit Regularization Effects of Dropout: docs/papers/2020/2002.12915/metadata.yml
+            - Adversarial Training:
+              - Certifying Some Distributional Robustness with Principled Adversarial Training: docs/papers/2017/1710.10571/metadata.yml
+              - Learning with a Strong Adversary: docs/papers/2015/1511.03034/metadata.yml
             - Overparameterization:
               - "Gradient Descent Provably Optimizes Over-parameterized Neural Networks": docs/papers/2018/1810.02054/metadata.yml
               - Gradient Descent Finds Global Minima of Deep Neural Networks: docs/papers/2018/1811.03804/metadata.yml
@@ -2269,8 +2344,9 @@
       - Generative Modeling:
         - Generative Models:
           - Auto-Encoding Variational Bayes: docs/papers/2013/1312.6114/metadata.yml
-          - GAN: docs/papers/2014/1406.2661/metadata.yml
-          - Wasserstein GAN: docs/papers/2017/1701.07875/metadata.yml
+          - Generative Adversarial Networks (GAN):
+            - GAN: docs/papers/2014/1406.2661/metadata.yml
+            - Wasserstein GAN: docs/papers/2017/1701.07875/metadata.yml
           - Nano Banana Pro: docs/papers/2025/2512.15110/metadata.yml
           - Vision Banana: docs/papers/2026/2604.20329/metadata.yml
         - Diffusion Models:

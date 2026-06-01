@@ -1,0 +1,30 @@
+title: "The Shortest Experiment for Linear System Identification"
+algorithm: "Shortest Experiment Design"
+authors:
+  - M. Kanat Camlibel
+  - Henk J. van Waarde
+  - Paolo Rapisarda
+year: 2024
+source: "Systems & Control Letters"
+type: Journal Paper
+doi: 10.1016/j.sysconle.2025.106045
+arxiv_id: "2407.12509"
+tags:
+  - System identification
+  - Experiment design
+  - Behavioral systems
+  - Linear systems
+  - Persistency of excitation
+  - Online experiment design
+  - Sample complexity
+  - Input-output data
+abstract: >
+  This paper is concerned with the following problem: given an upper bound of the state-space dimension and lag of a linear time-invariant system, design a sequence of inputs so that the system dynamics can be recovered from the resulting input-output data. As our main result we propose a new online experiment design method, meaning that the selection of the inputs is iterative and guided by data samples collected in the past. We show that this approach leads to the shortest possible experiments for linear system identification. In terms of sample complexity, the proposed method outperforms offline methods based on persistency of excitation as well as existing online experiment design methods.
+summary: >
+  Designs adaptive inputs that recover an unknown LTI system with the shortest possible experiment length under dimension and lag bounds. It is closely related to the informativity perspective because it asks how little data can be made informative for identification.
+link: https://arxiv.org/pdf/2407.12509
+links_alt:
+  - https://doi.org/10.1016/j.sysconle.2025.106045
+  - https://www.sciencedirect.com/science/article/pii/S016769112500033X
+  - https://arxiv.org/abs/2407.12509
+audit_status: raw

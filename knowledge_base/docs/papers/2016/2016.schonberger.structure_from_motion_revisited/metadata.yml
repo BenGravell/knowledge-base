@@ -1,0 +1,29 @@
+title: "Structure-from-Motion Revisited"
+algorithm: COLMAP SfM
+authors:
+  - Johannes L. Schonberger
+  - Jan-Michael Frahm
+year: 2016
+source: IEEE Conference on Computer Vision and Pattern Recognition
+type: Conference Paper
+doi: 10.1109/CVPR.2016.445
+arxiv_id:
+tags:
+  - Structure from motion
+  - Incremental SfM
+  - COLMAP
+  - Geometric verification
+  - Triangulation
+  - Bundle adjustment
+  - Open source
+abstract: >
+  Incremental Structure-from-Motion is a prevalent strategy for 3D reconstruction from unordered image collections. While incremental reconstruction systems have tremendously advanced in all regards, robustness, accuracy, completeness, and scalability remain the key problems towards building a truly general-purpose pipeline. We propose a new SfM technique that improves upon the state of the art to make a further step towards this ultimate goal. The full reconstruction pipeline is released to the public as an open-source implementation.
+summary: >
+  Revisits incremental SfM as a complete, robust pipeline, combining geometric verification, careful triangulation, image registration, and bundle-adjustment decisions. The resulting COLMAP system became a reference open-source implementation for reconstructing large unordered photo collections.
+link: https://openaccess.thecvf.com/content_cvpr_2016/papers/Schonberger_Structure-From-Motion_Revisited_CVPR_2016_paper.pdf
+links_alt:
+  - https://openaccess.thecvf.com/content_cvpr_2016/html/Schonberger_Structure-From-Motion_Revisited_CVPR_2016_paper.html
+  - https://ieeexplore.ieee.org/document/7780814
+  - https://doi.org/10.1109/CVPR.2016.445
+  - https://github.com/colmap/colmap
+audit_status: reviewed

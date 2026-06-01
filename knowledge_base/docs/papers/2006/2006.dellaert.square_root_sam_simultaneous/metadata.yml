@@ -1,0 +1,30 @@
+title: "Square Root SAM: Simultaneous Localization and Mapping via Square Root Information Smoothing"
+algorithm: Square Root SAM
+authors:
+  - Frank Dellaert
+  - Michael Kaess
+year: 2006
+source: The International Journal of Robotics Research
+type: Journal Paper
+doi: 10.1177/0278364906072768
+arxiv_id:
+tags:
+  - Simultaneous localization and mapping
+  - Smoothing and mapping
+  - Square root information smoothing
+  - Sparse matrix factorization
+  - Factor graphs
+  - Nonlinear least squares
+  - Batch smoothing
+  - Incremental smoothing
+  - Square Root SAM
+abstract: >
+  Solving the SLAM problem is one way to enable a robot to explore, map, and navigate in a previously unknown environment. We investigate smoothing approaches as a viable alternative to extended Kalman filter-based solutions to the problem. In particular, we look at approaches that factorize either the associated information matrix or the measurement Jacobian into square root form. Such techniques have several significant advantages over the EKF: they are faster yet exact, they can be used in either batch or incremental mode, are better equipped to deal with non-linear process and measurement models, and yield the entire robot trajectory, at lower cost for a large class of SLAM problems. In addition, in an indirect but dramatic way, column ordering heuristics automatically exploit the locality inherent in the geographic nature of the SLAM problem. In this paper we present the theory underlying these methods, along with an interpretation of factorization in terms of the graphical model associated with the SLAM problem. We present both simulation results and actual SLAM experiments in large-scale environments that underscore the potential of these methods as an alternative to EKF-based approaches.
+summary: >
+  Makes the case for smoothing-based SLAM through sparse square-root information factorization rather than EKF-style filtering. It is a bridge between classical SLAM and modern factor-graph tooling, showing why keeping the full trajectory can be computationally attractive when sparsity and ordering are exploited.
+link: https://people.csail.mit.edu/kaess/pub/Dellaert06ijrr.pdf
+links_alt:
+  - https://people.csail.mit.edu/kaess/pub/Dellaert06ijrr.html
+  - https://journals.sagepub.com/doi/10.1177/0278364906072768
+  - https://doi.org/10.1177/0278364906072768
+audit_status: reviewed
