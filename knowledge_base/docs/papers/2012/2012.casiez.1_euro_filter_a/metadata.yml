@@ -1,4 +1,5 @@
-title: "1 Euro Filter: A Simple Speed-Based Low-Pass Filter for Noisy Input in Interactive Systems"
+title: >
+  1 Euro Filter: A Simple Speed-Based Low-Pass Filter for Noisy Input in Interactive Systems
 algorithm: "1 Euro Filter"
 authors:
   - Gery Casiez

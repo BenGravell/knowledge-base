@@ -1,4 +1,5 @@
-title: "A Real-Time Iteration Scheme with Quasi-Newton Jacobian Updates for Nonlinear Model Predictive Control"
+title: >
+  A Real-Time Iteration Scheme with Quasi-Newton Jacobian Updates for Nonlinear Model Predictive Control
 algorithm: Quasi-Newton RTI
 authors:
   - Rien Quirynen

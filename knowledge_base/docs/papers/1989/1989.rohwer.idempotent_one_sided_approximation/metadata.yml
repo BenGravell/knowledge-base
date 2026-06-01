@@ -1,4 +1,5 @@
-title: "Idempotent One-Sided Approximation of Median Smoothers"
+title: >
+  Idempotent One-Sided Approximation of Median Smoothers
 algorithm: "Lulu Smoothing"
 authors:
   - Carl H. Rohwer

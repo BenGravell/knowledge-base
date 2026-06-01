@@ -1,4 +1,5 @@
-title: "A Real-Time Iteration Scheme for Nonlinear Optimization in Optimal Feedback Control"
+title: >
+  A Real-Time Iteration Scheme for Nonlinear Optimization in Optimal Feedback Control
 algorithm: Real-Time Iteration
 authors:
   - Moritz Diehl

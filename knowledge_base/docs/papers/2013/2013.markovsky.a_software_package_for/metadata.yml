@@ -1,4 +1,5 @@
-title: "A Software Package for System Identification in the Behavioral Setting"
+title: >
+  A Software Package for System Identification in the Behavioral Setting
 algorithm: "Behavioral System Identification Software"
 authors:
   - Ivan Markovsky
@@ -11,7 +12,7 @@ tags:
   - System identification
   - Behavioral systems
   - Structured low-rank approximation
-  - Mosaic Hankel matrices
+  - Mosaic hankel matrices
   - Missing data
   - Multiple experiments
   - Total least squares

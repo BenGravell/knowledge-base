@@ -1,4 +1,5 @@
-title: "Low-Complexity Learning of Linear Quadratic Regulators from Noisy Data"
+title: >
+  Low-Complexity Learning of Linear Quadratic Regulators from Noisy Data
 algorithm: "Low-Complexity Data-Driven LQR"
 authors:
   - Claudio De Persis

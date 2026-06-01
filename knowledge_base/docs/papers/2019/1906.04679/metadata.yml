@@ -1,4 +1,5 @@
-title: "Data-Driven Model Predictive Control with Stability and Robustness Guarantees"
+title: >
+  Data-Driven Model Predictive Control with Stability and Robustness Guarantees
 algorithm: "Data-Driven MPC"
 authors:
   - Julian Berberich
@@ -14,7 +15,7 @@ tags:
   - Data-driven control
   - Model predictive control
   - Behavioral systems
-  - Robust MPC
+  - Robust model predictive control
   - Stability guarantees
   - Output measurement noise
   - Terminal constraints

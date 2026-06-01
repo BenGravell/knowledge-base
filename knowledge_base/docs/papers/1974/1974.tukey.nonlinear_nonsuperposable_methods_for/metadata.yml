@@ -1,4 +1,5 @@
-title: "Nonlinear (Nonsuperposable) Methods for Smoothing Data"
+title: >
+  Nonlinear (Nonsuperposable) Methods for Smoothing Data
 algorithm: "Median Smoothing"
 authors:
   - John W. Tukey

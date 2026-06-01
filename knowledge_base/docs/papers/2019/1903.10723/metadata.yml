@@ -1,4 +1,5 @@
-title: "A Trajectory-Based Framework for Data-Driven System Analysis and Control"
+title: >
+  A Trajectory-Based Framework for Data-Driven System Analysis and Control
 algorithm: "Trajectory-Based Data-driven Control"
 authors:
   - Julian Berberich

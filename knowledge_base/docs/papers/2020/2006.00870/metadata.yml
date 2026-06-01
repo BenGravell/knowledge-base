@@ -1,4 +1,5 @@
-title: "From Noisy Data to Feedback Controllers: Nonconservative Design via a Matrix S-Lemma"
+title: >
+  From Noisy Data to Feedback Controllers: Nonconservative Design via a Matrix S-Lemma
 algorithm: "Matrix S-Lemma"
 authors:
   - Henk J. van Waarde

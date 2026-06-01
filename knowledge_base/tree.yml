@@ -1206,7 +1206,7 @@
             - Low-Complexity Data-Driven LQR: docs/papers/2020/2005.01082/metadata.yml
         - Informativity Framework:
           - Data Informativity: docs/papers/2019/1908.00468/metadata.yml
-          - A Tutorial on the Informativity Framework for Data-Driven Control: docs/papers/2022/2022.van_waarde.a_tutorial_on_informativity/metadata.yml
+          - A Tutorial on the Informativity Framework for Data-Driven Control: docs/papers/2022/2022.van_waarde.a_tutorial_on_the/metadata.yml
           - Informativity Approach: docs/papers/2023/2302.10488/metadata.yml
           - Matrix S-Lemma: docs/papers/2020/2006.00870/metadata.yml
           - Matrix Finsler's Lemma: docs/papers/2021/2103.13461/metadata.yml
@@ -2556,7 +2556,7 @@
           - Median Smoothing: docs/papers/1974/1974.tukey.nonlinear_nonsuperposable_methods_for/metadata.yml
           - Lulu Smoothing: docs/papers/1989/1989.rohwer.idempotent_one_sided_approximation/metadata.yml
           - Variation Reduction of Lulu Smoothing: docs/papers/2002/2002.rohwer.variation_reduction_and_lu/metadata.yml
-          - 1 Euro Filter: docs/papers/2012/2012.casiez.1_euro_filter/metadata.yml
+          - 1 Euro Filter: docs/papers/2012/2012.casiez.1_euro_filter_a/metadata.yml
           - Why and How Savitzky-Golay Filters Should Be Replaced: docs/papers/2022/2022.schmid.why_and_how_savitzky/metadata.yml
         - Conjugate Gradient:
           - Conjugate Gradient: docs/papers/1952/1952.hestenes.methods_of_conjugate_gradients/metadata.yml

@@ -1,4 +1,5 @@
-title: "Formulas for Data-Driven Control: Stabilization, Optimality, and Robustness"
+title: >
+  Formulas for Data-Driven Control: Stabilization, Optimality, and Robustness
 algorithm: "Data-Driven LMI Control"
 authors:
   - Claudio De Persis
