@@ -1,4 +1,5 @@
-title: "A Computer Algorithm for Reconstructing a Scene from Two Projections"
+title: >
+  A Computer Algorithm for Reconstructing a Scene from Two Projections
 algorithm: Eight-Point Algorithm
 authors:
   - H. Christopher Longuet-Higgins

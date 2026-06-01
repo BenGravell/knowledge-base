@@ -1,4 +1,5 @@
-title: "iSAM2: Incremental Smoothing and Mapping Using the Bayes Tree"
+title: >
+  iSAM2: Incremental Smoothing and Mapping Using the Bayes Tree
 algorithm: iSAM2
 authors:
   - Michael Kaess

@@ -1,4 +1,5 @@
-title: "Globally Consistent Range Scan Alignment for Environment Mapping"
+title: >
+  Globally Consistent Range Scan Alignment for Environment Mapping
 algorithm: Lu-Milios Scan Alignment
 authors:
   - Feng Lu

@@ -1,4 +1,5 @@
-title: "Square Root SAM: Simultaneous Localization and Mapping via Square Root Information Smoothing"
+title: >
+  Square Root SAM: Simultaneous Localization and Mapping via Square Root Information Smoothing
 algorithm: Square Root SAM
 authors:
   - Frank Dellaert

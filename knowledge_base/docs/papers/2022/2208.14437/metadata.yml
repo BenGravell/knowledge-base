@@ -1,4 +1,5 @@
-title: "MapTR: Structured Modeling and Learning for Online Vectorized HD Map Construction"
+title: >
+  MapTR: Structured Modeling and Learning for Online Vectorized HD Map Construction
 algorithm: MapTR
 authors:
   - Bencheng Liao
@@ -14,7 +15,7 @@ type: Conference Paper
 doi:
 arxiv_id: "2208.14437"
 tags:
-  - HD map construction
+  - High-definition map construction
   - Vectorized maps
   - Autonomous driving
   - Bird's-eye view perception

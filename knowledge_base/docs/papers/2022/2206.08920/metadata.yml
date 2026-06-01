@@ -1,4 +1,5 @@
-title: "VectorMapNet: End-to-End Vectorized HD Map Learning"
+title: >
+  VectorMapNet: End-to-End Vectorized HD Map Learning
 algorithm: VectorMapNet
 authors:
   - Yicheng Liu
@@ -12,7 +13,7 @@ type: Conference Paper
 doi:
 arxiv_id: "2206.08920"
 tags:
-  - HD map construction
+  - High-definition map construction
   - Vectorized maps
   - Autonomous driving
   - Bird's-eye view perception

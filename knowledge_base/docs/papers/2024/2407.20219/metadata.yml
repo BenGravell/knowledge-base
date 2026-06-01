@@ -1,4 +1,5 @@
-title: "Global Structure-from-Motion Revisited"
+title: >
+  Global Structure-from-Motion Revisited
 algorithm: GLOMAP
 authors:
   - Linfei Pan
@@ -12,7 +13,7 @@ doi: 10.1007/978-3-031-73661-2_4
 arxiv_id: "2407.20219"
 tags:
   - Structure from motion
-  - Global SfM
+  - Global structure from motion
   - GLOMAP
   - Rotation averaging
   - Camera position averaging

@@ -1,4 +1,5 @@
-title: "HDMapNet: An Online HD Map Construction and Evaluation Framework"
+title: >
+  HDMapNet: An Online HD Map Construction and Evaluation Framework
 algorithm: HDMapNet
 authors:
   - Qi Li
@@ -11,7 +12,7 @@ type: Conference Paper
 doi: 10.1109/ICRA46639.2022.9812383
 arxiv_id: "2107.06307"
 tags:
-  - HD map construction
+  - High-definition map construction
   - Semantic map learning
   - Autonomous driving
   - Bird's-eye view perception

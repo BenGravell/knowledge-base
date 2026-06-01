@@ -1,4 +1,5 @@
-title: "Building Rome on a Cloudless Day"
+title: >
+  Building Rome on a Cloudless Day
 algorithm: Cloudless Rome
 authors:
   - Jan-Michael Frahm
@@ -24,7 +25,7 @@ tags:
   - City-scale reconstruction
   - Image clustering
   - Multi-view stereo
-  - GPU acceleration
+  - Graphics processing unit acceleration
 abstract: >
   This paper introduces an approach for dense 3D reconstruction from unregistered Internet-scale photo collections with about 3 million images within the span of a day on a single PC ("cloudless"). Our method advances image clustering, stereo, stereo fusion and structure from motion to achieve high computational performance. We leverage geometric and appearance constraints to obtain a highly parallel implementation on modern graphics processors and multi-core architectures. This leads to two orders of magnitude higher performance on an order of magnitude larger dataset than competing state-of-the-art approaches.
 summary: >

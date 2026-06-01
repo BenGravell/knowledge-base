@@ -1,4 +1,5 @@
-title: "Structure-from-Motion Revisited"
+title: >
+  Structure-from-Motion Revisited
 algorithm: COLMAP SfM
 authors:
   - Johannes L. Schonberger
@@ -10,7 +11,7 @@ doi: 10.1109/CVPR.2016.445
 arxiv_id:
 tags:
   - Structure from motion
-  - Incremental SfM
+  - Incremental structure from motion
   - COLMAP
   - Geometric verification
   - Triangulation

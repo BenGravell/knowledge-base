@@ -1888,14 +1888,14 @@
         - Simultaneous Localization and Mapping (SLAM):
           - Graph-Based SLAM & Smoothing:
             - Lu-Milios Scan Alignment: docs/papers/1997/1997.lu.globally_consistent_range_scan/metadata.yml
-            - GraphSLAM: docs/papers/2006/2006.thrun.the_graph_slam_algorithm/metadata.yml
+            - GraphSLAM: docs/papers/2006/2006.thrun.the_graphslam_algorithm_with/metadata.yml
             - Square Root SAM: docs/papers/2006/2006.dellaert.square_root_sam_simultaneous/metadata.yml
             - Fast Iterative Alignment of Pose Graphs with Poor Initial Estimates: docs/papers/2006/2006.olson.fast_iterative_alignment_of/metadata.yml
             - Graphical SLAM - a Self-correcting Map: docs/papers/2004/2004.folkesson.graphical_slam_a_self/metadata.yml
             - g2o: docs/papers/2011/2011.kummerle.g2o_a_general_framework/metadata.yml
             - Adaptive Iterative Closest Keypoint: docs/papers/2013/2013.ekekrantz.adaptive_iterative_closest_keypoint/metadata.yml
             - iSAM: docs/papers/2008/2008.kaess.isam_incremental_smoothing_and/metadata.yml
-            - iSAM2: docs/papers/2011/2011.kaess.isam2_incremental_smoothing/metadata.yml
+            - iSAM2: docs/papers/2011/2011.kaess.isam2_incremental_smoothing_and/metadata.yml
             - Bayes Tree: docs/papers/2010/2010.kaess.the_bayes_tree_an/metadata.yml
           - Metric-Semantic SLAM:
             - Hydra: docs/papers/2022/2201.13360/metadata.yml

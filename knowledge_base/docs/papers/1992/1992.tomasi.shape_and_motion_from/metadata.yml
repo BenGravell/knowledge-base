@@ -1,4 +1,5 @@
-title: "Shape and Motion from Image Streams Under Orthography: A Factorization Method"
+title: >
+  Shape and Motion from Image Streams under Orthography: A Factorization Method
 algorithm: Tomasi-Kanade Factorization
 authors:
   - Carlo Tomasi

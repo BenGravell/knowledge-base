@@ -1,4 +1,5 @@
-title: "HisTrackMap: Global Vectorized High-Definition Map Construction via History Map Tracking"
+title: >
+  HisTrackMap: Global Vectorized High-Definition Map Construction via History Map Tracking
 algorithm: HisTrackMap
 authors:
   - Jing Yang
@@ -11,7 +12,7 @@ type: Preprint
 doi:
 arxiv_id: "2503.07168"
 tags:
-  - HD map construction
+  - High-definition map construction
   - Vectorized maps
   - Autonomous driving
   - Global map construction

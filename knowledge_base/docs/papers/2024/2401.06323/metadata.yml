@@ -1,4 +1,5 @@
-title: "Kimera2: Robust and Accurate Metric-Semantic SLAM in the Real World"
+title: >
+  Kimera2: Robust and Accurate Metric-Semantic SLAM in the Real World
 algorithm: Kimera2
 authors:
   - Marcus Abate
@@ -18,7 +19,7 @@ tags:
   - Graduated non-convexity
   - Mesh optimization
   - Open-source software
-  - Multi-modal sensing
+  - Multimodal sensing
   - Kimera
   - Kimera2
 abstract: >

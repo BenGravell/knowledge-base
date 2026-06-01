@@ -1,4 +1,5 @@
-title: "The GraphSLAM Algorithm with Applications to Large-Scale Mapping of Urban Structures"
+title: >
+  The GraphSLAM Algorithm with Applications to Large-Scale Mapping of Urban Structures
 algorithm: GraphSLAM
 authors:
   - Sebastian Thrun

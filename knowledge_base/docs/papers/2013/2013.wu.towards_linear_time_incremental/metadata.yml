@@ -1,4 +1,5 @@
-title: "Towards Linear-Time Incremental Structure from Motion"
+title: >
+  Towards Linear-Time Incremental Structure from Motion
 algorithm: Linear-Time Incremental SfM
 authors:
   - Changchang Wu
@@ -9,7 +10,7 @@ doi: 10.1109/3DV.2013.25
 arxiv_id:
 tags:
   - Structure from motion
-  - Incremental SfM
+  - Incremental structure from motion
   - VisualSFM
   - Bundle adjustment
   - Preconditioned conjugate gradient
