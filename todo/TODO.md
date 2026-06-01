@@ -20,31 +20,6 @@ python scripts/list_branching_factor_violations.py --max-depth 3 --max-results 3
 
 ## Ingest
 
-### Activation functions
-
-#### Surveys
-
-https://arxiv.org/abs/2402.09092
-https://arxiv.org/abs/2004.06632
-https://arxiv.org/abs/2109.14545
-https://arxiv.org/abs/1811.03378
-https://www.semanticscholar.org/paper/Survey-of-Neural-Transfer-Functions-Duch-Jankowski/50975d6cd92e71f828ffd54bf776c32daa79e295
-
-#### Functions
-
-https://arxiv.org/abs/1511.07289
-https://www.semanticscholar.org/paper/Rectifier-Nonlinearities-Improve-Neural-Network-Maas/367f2c63a6f6a10b3b64b8729d601e69337ee3cc
-https://arxiv.org/pdf/1710.05941
-https://arxiv.org/abs/1908.08681
-https://arxiv.org/abs/1606.08415
-
-### Signal Filtering
-
-https://dl.acm.org/doi/10.1145/2207676.2208639
-https://www.tandfonline.com/doi/abs/10.2989/16073600209486008
-https://www.sciencedirect.com/science/article/pii/0021904589900178
-https://www.semanticscholar.org/paper/Nonlinear-(nonsuperposable)-methods-for-smoothing-Tukey/7e5d1e517a5dc03c604f5e115babd24591b46ba6
-
 ### HD Mapping and Chamfer Distance for Lane Detection
 
 https://arxiv.org/abs/2107.06307
