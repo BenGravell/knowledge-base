@@ -63,6 +63,7 @@ knowledge-base/
 - No test suite; do not run programmatic tests except for the following conditions:
   - When UX changes (actual UI controls, not just simple content changes) are made:
     - Verify changes by running `mkdocs build` and checking for warnings.
+- Agents are not permitted to promote audit_status to "reviewed", only to "partial".
 
 ## Agent Tasks
 
