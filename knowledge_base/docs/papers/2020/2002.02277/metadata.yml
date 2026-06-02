@@ -1,0 +1,30 @@
+title: >
+  Interpretable Goal-Based Prediction and Planning for Autonomous Driving
+algorithm: Goal-Based Prediction and Planning
+authors:
+  - Stefano V. Albrecht
+  - Cillian Brewitt
+  - John Wilhelm
+  - Balint Gyevnar
+  - Francisco Eiras
+  - Mihai Dobre
+  - Subramanian Ramamoorthy
+year: 2020
+source: IEEE International Conference on Robotics and Automation (ICRA)
+type: Conference Paper
+doi: 10.1109/ICRA48506.2021.9560849
+arxiv_id: "2002.02277"
+tags:
+  - Autonomous driving
+  - Motion prediction
+  - Motion planning
+  - Monte Carlo tree search
+  - Interaction-aware planning
+abstract: >
+  We propose an integrated prediction and planning system for autonomous driving which uses rational inverse planning to recognise the goals of other vehicles. Goal recognition informs a Monte Carlo Tree Search (MCTS) algorithm to plan optimal maneuvers for the ego vehicle. Inverse planning and MCTS utilise a shared set of defined maneuvers and macro actions to construct plans which are explainable by means of rationality principles. Evaluation in simulations of urban driving scenarios demonstrate the system's ability to robustly recognise the goals of other vehicles, enabling our vehicle to exploit non-trivial opportunities to significantly reduce driving times. In each scenario, we extract intuitive explanations for the predictions which justify the system's decisions.
+summary: >
+  Builds an interpretable autonomous-driving stack that uses rational inverse planning to infer other vehicles goals and feeds those beliefs into Monte Carlo tree search for ego planning. The paper emphasizes explainable macro-action reasoning rather than opaque end-to-end trajectory prediction.
+link: https://arxiv.org/pdf/2002.02277
+links_alt:
+  - https://doi.org/10.1109/ICRA48506.2021.9560849
+audit_status: partial

@@ -1,0 +1,27 @@
+title: >
+  COSMO: A Conic Operator Splitting Method for Convex Conic Problems
+algorithm: COSMO
+authors:
+  - Michael Garstka
+  - Mark Cannon
+  - Paul Goulart
+year: 2019
+source: Journal of Optimization Theory and Applications
+type: Journal Paper
+doi: 10.1007/s10957-021-01896-x
+arxiv_id: "1901.10887"
+tags:
+  - Conic optimization
+  - Operator splitting
+  - Convex optimization
+  - Semidefinite programming
+  - Sparse linear algebra
+abstract: >
+  This paper describes the Conic Operator Splitting Method (COSMO) solver, an operator splitting algorithm for convex optimisation problems with quadratic objective function and conic constraints. At each step the algorithm alternates between solving a quasi-definite linear system with a constant coefficient matrix and a projection onto convex sets. The low per-iteration computational cost makes the method particularly efficient for large problems, e.g. semidefinite programs that arise in portfolio optimisation, graph theory, and robust control. Moreover, the solver uses chordal decomposition techniques and a new clique merging algorithm to effectively exploit sparsity in large, structured semidefinite programs. A number of benchmarks against other state-of-the-art solvers for a variety of problems show the effectiveness of our approach. Our Julia implementation is open-source, designed to be extended and customised by the user, and is integrated into the Julia optimisation ecosystem.
+summary: >
+  Presents COSMO, a first-order conic solver built around operator splitting, quasi-definite linear solves, cone projections, and chordal decomposition for large semidefinite structure. It matters as a practical convex optimization solver aimed at large sparse conic problems arising in areas such as robust control.
+link: https://arxiv.org/pdf/1901.10887
+links_alt:
+  - https://doi.org/10.1007/s10957-021-01896-x
+  - https://github.com/oxfordcontrol/COSMO.jl
+audit_status: partial

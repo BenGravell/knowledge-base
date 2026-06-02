@@ -1,0 +1,29 @@
+title: >
+  Beyond Binary Success: Sample-Efficient and Statistically Rigorous Robot Policy Comparison
+algorithm: SAVI Policy Comparison
+authors:
+  - David Snyder
+  - Apurva Badithela
+  - Nikolai Matni
+  - George Pappas
+  - Anirudha Majumdar
+  - Masha Itkina
+  - Haruki Nishimura
+year: 2026
+source: arXiv
+type: Preprint
+doi:
+arxiv_id: "2603.13616"
+tags:
+  - Robot learning
+  - Evaluation
+  - Statistical inference
+  - Sample efficiency
+  - Benchmarks
+abstract: >
+  Generalist robot manipulation policies are becoming increasingly capable, but are limited in evaluation to a small number of hardware rollouts. This strong resource constraint in real-world testing necessitates both more informative performance measures and reliable and efficient evaluation procedures to properly assess model capabilities and benchmark progress in the field. This work presents a novel framework for robot policy comparison that is sample-efficient, statistically rigorous, and applicable to a broad set of evaluation metrics used in practice. Based on safe, anytime-valid inference (SAVI), our test procedure is sequential, allowing the evaluator to stop early when sufficient statistical evidence has accumulated to reach a decision at a pre-specified level of confidence. Unlike previous work developed for binary success, our unified approach addresses a wide range of informative metrics: from discrete partial credit task progress to continuous measures of episodic reward or trajectory smoothness, spanning both parametric and nonparametric comparison problems. Through extensive validation on simulated and real-world evaluation data, we demonstrate up to 70% reduction in evaluation burden compared to standard batch methods and up to 50% reduction compared to state-of-the-art sequential procedures designed for binary outcomes, with no loss of statistical rigor. Notably, our empirical results show that competing policies can be separated more quickly when using fine-grained task progress than binary success metrics.
+summary: >
+  Develops a sequential, anytime-valid statistical testing framework for comparing robot policies under limited hardware rollouts. The paper is important for evaluation practice because it moves beyond binary success rates toward sample-efficient confidence and richer metrics.
+link: https://arxiv.org/pdf/2603.13616
+links_alt:
+audit_status: partial

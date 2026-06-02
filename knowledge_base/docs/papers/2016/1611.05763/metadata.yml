@@ -1,0 +1,30 @@
+title: >
+  Learning to Reinforcement Learn
+algorithm: Deep Meta-Reinforcement Learning
+authors:
+  - Jane X. Wang
+  - Zeb Kurth-Nelson
+  - Dhruva Tirumala
+  - Hubert Soyer
+  - Joel Z. Leibo
+  - Remi Munos
+  - Charles Blundell
+  - Dharshan Kumaran
+  - Matthew M. Botvinick
+year: 2016
+source: arXiv
+type: Preprint
+doi:
+arxiv_id: "1611.05763"
+tags:
+  - Reinforcement learning
+  - Deep reinforcement learning
+  - Meta-learning
+  - Recurrent neural networks
+abstract: >
+  In recent years deep reinforcement learning (RL) systems have attained superhuman performance in a number of challenging task domains. However, a major limitation of such applications is their demand for massive amounts of training data. A critical present objective is thus to develop deep RL methods that can adapt rapidly to new tasks. In the present work we introduce a novel approach to this challenge, which we refer to as deep meta-reinforcement learning. Previous work has shown that recurrent networks can support meta-learning in a fully supervised context. We extend this approach to the RL setting. What emerges is a system that is trained using one RL algorithm, but whose recurrent dynamics implement a second, quite separate RL procedure. This second, learned RL algorithm can differ from the original one in arbitrary ways. Importantly, because it is learned, it is configured to exploit structure in the training domain. We unpack these points in a series of seven proof-of-concept experiments, each of which examines a key aspect of deep meta-RL. We consider prospects for extending and scaling up the approach, and also point out some potentially important implications for neuroscience.
+summary: >
+  Introduces deep meta-reinforcement learning, where a recurrent policy trained by a standard RL algorithm learns internal dynamics that behave like a separate fast adaptation procedure. The paper is a useful early bridge between deep RL, meta-learning, and neuroscience-inspired accounts of flexible behavior.
+link: https://arxiv.org/pdf/1611.05763
+links_alt:
+audit_status: partial

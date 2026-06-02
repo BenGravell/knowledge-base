@@ -401,6 +401,7 @@
             - Clarabel:
               - Clarabel: docs/papers/2024/2405.12762/metadata.yml
               - CuClarabel: docs/papers/2024/2412.19027/metadata.yml
+            - COSMO: docs/papers/2019/1901.10887/metadata.yml
             - SCS: docs/papers/2013/1312.3039/metadata.yml
             - Applications of Second-order Cone Programming: docs/papers/1998/1998.lobo.applications_of_second_order/metadata.yml
             - On the ADI Method for Sylvester Equations: docs/papers/2009/2009.benner.on_the_adi_method/metadata.yml
@@ -631,6 +632,7 @@
             - SCS: docs/papers/2025/2504.18978/metadata.yml
             - Augmented GCS: docs/papers/2025/2510.22015/metadata.yml
             - Augmented GCS for TSP: docs/papers/2026/2604.06406/metadata.yml
+            - STL-GCS Planning: docs/papers/2026/2605.23240/metadata.yml
         - Trajectory Generation:
           - "Dynamic Movement Primitives in Robotics: A Tutorial Survey": docs/papers/2021/2102.03861/metadata.yml
           - Learning and Transfer of Modulated Locomotor Controllers: docs/papers/2016/1610.05182/metadata.yml
@@ -810,6 +812,7 @@
             - "A Sequential Operator-Splitting Framework for Exploration of Nonconvex Trajectory Optimization Solution Spaces": docs/papers/2025/2511.14752/metadata.yml
             - "Risk-Averse Trajectory Optimization via Sample Average Approximation": docs/papers/2023/2307.03167/metadata.yml
             - Towards Risk Minimizing Trajectory Planning in On-Road Scenarios: docs/papers/2018/2018.ward.towards_risk_minimizing_trajectory/metadata.yml
+            - Differentiable Model Predictive Control on the GPU: docs/papers/2025/2510.06179/metadata.yml
             - Chance-Constrained Sequential Convex Programming for Robust Trajectory Optimization: docs/papers/2020/2020.lew.chance_constrained_sequential_convex/metadata.yml
             - Statistical Linearization for Robust Motion Planning: docs/papers/2023/2303.01288/metadata.yml
             - "Simultaneous Self-calibration and Navigation Using Trajectory Optimization": docs/papers/2018/2018.preiss.simultaneous_self_calibration_and/metadata.yml
@@ -868,6 +871,7 @@
           - SBP-Guided MPC: docs/papers/2019/2019.hannigan.sbp_guided_mpc_to/metadata.yml
           - RRT-MPPI: docs/papers/2023/2301.13143/metadata.yml
           - SETS: docs/papers/2024/2412.11270/metadata.yml
+          - MCTS Behavior Planner: docs/papers/2023/2310.12075/metadata.yml
           - "Policy Gradient Search: Online Planning and Expert Iteration without Search Trees": docs/papers/2019/1904.03646/metadata.yml
           - The Grand Challenge of Computer Go: docs/papers/2012/2012.gelly.the_grand_challenge_of/metadata.yml
           - Divide-and-Conquer Monte Carlo Tree Search for Goal-Directed Planning: docs/papers/2020/2004.11410/metadata.yml
@@ -906,8 +910,10 @@
               - PBD: docs/papers/2014/1401.3827/metadata.yml
               - BBT: docs/papers/2021/2110.00173/metadata.yml
               - Optimizing Trajectory-Trees in Belief Space: docs/papers/2026/2605.01860/metadata.yml
+              - Online Belief Prediction: docs/papers/2024/2401.15315/metadata.yml
           - "Risk Bounded Nonlinear Robot Motion Planning with Integrated Perception & Control": docs/papers/2022/2201.01483/metadata.yml
           - "Distributionally Robust CVaR-Based Safety Filtering for Motion Planning in Uncertain Environments": docs/papers/2023/2309.08821/metadata.yml
+          - Provably Safe Motion Planning under Unknown Disturbances: docs/papers/2026/2605.26625/metadata.yml
         - Velocity Obstacles:
           - Velocity Obstacles: docs/papers/1998/1998.fiorini.motion_planning_in_dynamic/metadata.yml
           - RVO: docs/papers/2008/2008.van_den_berg.reciprocal_velocity_obstacles_for/metadata.yml
@@ -929,6 +935,10 @@
           - Urban Driver: docs/papers/2021/2109.13333/metadata.yml
           - TRAVL: docs/papers/2023/2306.15713/metadata.yml
           - PLUTO: docs/papers/2024/2404.14327/metadata.yml
+          - Goal-Based Prediction and Planning: docs/papers/2020/2002.02277/metadata.yml
+          - Interaction-Aware MPC: docs/papers/2023/2301.05393/metadata.yml
+          - Interactive Joint Planning: docs/papers/2023/2310.18301/metadata.yml
+          - Planning by Simulation: docs/papers/2024/2411.09887/metadata.yml
           - Learning to Drive via Asymmetric Self-Play: docs/papers/2024/2409.18218/metadata.yml
           - Robust Autonomy Emerges from Self-Play: docs/papers/2025/2502.03349/metadata.yml
           - "Tree-structured Policy Planning with Learned Behavior Models": docs/papers/2023/2301.11902/metadata.yml
@@ -964,9 +974,15 @@
           - Flow Matching:
             - FlowDrive: docs/papers/2025/2509.21961/metadata.yml
             - FlowMP: docs/papers/2025/2503.06135/metadata.yml
+            - Flow Planner: docs/papers/2025/2510.11083/metadata.yml
         - Frameworks:
           - Lab2Car: docs/papers/2024/2409.09523/metadata.yml
           - SafetyNet: docs/papers/2021/2109.13602/metadata.yml
+          - PlanTF: docs/papers/2023/2309.10443/metadata.yml
+          - Plan-R1: docs/papers/2025/2505.17659/metadata.yml
+          - RoaD: docs/papers/2025/2512.01993/metadata.yml
+          - CarPLAN: docs/papers/2026/2603.12607/metadata.yml
+          - What Matters for Scalable and Robust Learning in End-to-End Driving Planners?: docs/papers/2026/2603.15185/metadata.yml
           - Transitioning from Rule-Based to ML-Powered Motion Planning: docs/papers/2025/2025.hu.technically_speaking_transitioning_from/metadata.yml        
           - Parting with Misconceptions about Learning-based Vehicle Motion Planning: docs/papers/2023/2306.07962/metadata.yml
           - "Imitation with Spatial-Temporal Heatmap: 2nd Place Solution for NuPlan Challenge": docs/papers/2023/2306.15700/metadata.yml
@@ -1043,6 +1059,7 @@
               - An integrated system for real-time model predictive control of humanoid robots: docs/papers/2013/2013.erez.an_integrated_system_for/metadata.yml
               - Whole-body Model-predictive Control Applied to the HRP-2 Humanoid: docs/papers/2015/2015.koenemann.whole_body_model_predictive/metadata.yml
               - SONIC: docs/papers/2025/2511.07820/metadata.yml
+              - HumanoidMimicGen: docs/papers/2026/2605.27724/metadata.yml
               - Learning Human Behaviors from Motion Capture by Adversarial Imitation: docs/papers/2017/1707.02201/metadata.yml
               - "Catch & Carry": docs/papers/2019/1911.06636/metadata.yml
               - Robust Imitation of Diverse Behaviors: docs/papers/2017/1707.02747/metadata.yml
@@ -1062,6 +1079,7 @@
             - MPPI+IsaacGym: docs/papers/2023/2307.09105/metadata.yml
             - Judo: docs/papers/2025/2506.17184/metadata.yml
           - Driving Robots:
+            - Baidu Apollo EM Planner: docs/papers/2018/1807.08048/metadata.yml
             - DiffStack: docs/papers/2022/2212.06437/metadata.yml
             - FRENETIX: docs/papers/2024/2402.01443/metadata.yml
             - Motion Planning and Control for Multi Vehicle Autonomous Racing at High Speeds: docs/papers/2022/2207.11136/metadata.yml
@@ -1176,6 +1194,7 @@
               - Distributionally Robust Data-Driven Predictive Control for Stochastic LTI Systems: docs/papers/2026/2605.07589/metadata.yml
               - Interactive Trajectory Planning with Learning-based Distributionally Robust Model Predictive Control and Markov Systems: docs/papers/2026/2605.07768/metadata.yml
           - MPC Applications and Implementations:
+            - Model Predictive Trajectory Optimization: docs/papers/2018/1811.04348/metadata.yml
             - "Intelligent Trajectory Planning for Autonomous Vehicles via Adaptive Model Predictive Control": docs/papers/2025/2025.goncalves.intelligent_trajectory_planning_for/metadata.yml
             - "Robust Nonlinear Trajectory Tracking Control for Autonomous Racing on Three-Dimensional Tracks": docs/papers/2026/2604.19452/metadata.yml
             - A Nonlinear Model Predictive Control Framework Using Reference Generic Terminal Ingredients -- Extended Version: docs/papers/2019/1909.12765/metadata.yml
@@ -1368,6 +1387,8 @@
         - A Gentle Lecture Note on Filtrations in Reinforcement Learning: docs/papers/2020/2008.02622/metadata.yml
         - "Reinforcement Learning and Control as Probabilistic Inference: Tutorial and Review": docs/papers/2018/1805.00909/metadata.yml
         - MDPNv1: docs/papers/2015/1512.09075/metadata.yml
+      - Meta-Reinforcement Learning:
+        - Deep Meta-Reinforcement Learning: docs/papers/2016/1611.05763/metadata.yml
       - Multi-arm Bandits:
         - "Finite-time Analysis of the Multiarmed Bandit Problem": docs/papers/2002/2002.auer.finite_time_analysis_of/metadata.yml
         - Exploration–exploitation Tradeoff Using Variance Estimates in Multi-armed Bandits: docs/papers/2009/2009.audibert.exploration_exploitation_tradeoff_using/metadata.yml
@@ -1472,6 +1493,7 @@
               - Learning to Control Linear Systems Can Be Hard: docs/papers/2022/2205.14035/metadata.yml
               - Efficient Learning of a Linear Dynamical System with Stability Guarantees: docs/papers/2021/2102.03664/metadata.yml
               - CLT-Optimal Parameter Error Bounds for Linear System Identification: docs/papers/2026/2604.21270/metadata.yml
+              - Non-Causal FIR Identification: docs/papers/2026/2605.24393/metadata.yml
             - Linear Systems with Multiplicative Noise:
               - Linear System Identification Under Multiplicative Noise from Multiple Trajectory Data: docs/papers/2020/2002.06613/metadata.yml
               - Identification of Linear Systems with Multiplicative Noise from Multiple Trajectory Data: docs/papers/2021/2106.16078/metadata.yml
@@ -1562,6 +1584,8 @@
             - Equivalence between Policy Gradients and Soft Q-Learning: docs/papers/2017/1704.06440/metadata.yml
             - Sample-Optimal Parametric Q-Learning Using Linearly Additive Features: docs/papers/2019/1902.04779/metadata.yml
             - On the Global Convergence Rates of Softmax Policy Gradient Methods: docs/papers/2020/2005.06392/metadata.yml
+            - Global Linear Convergence of Entropy-Regularized Softmax Policy Gradient beyond Tabular MDPs: docs/papers/2026/2605.24939/metadata.yml
+            - Wasserstein Policy Gradient: docs/papers/2026/2605.26078/metadata.yml
             - A Convergent O(n) Temporal-difference Algorithm for Off-policy Learning with Linear Function Approximation: docs/papers/2008/2008.sutton.a_convergent_o_n/metadata.yml
             - Sample Efficient Reinforcement Learning with REINFORCE: docs/papers/2020/2010.11364/metadata.yml
             - Sample Efficient Deep Reinforcement Learning via Local Planning: docs/papers/2023/2301.12579/metadata.yml
@@ -1692,6 +1716,7 @@
               - World Models: docs/papers/2018/1803.10122/metadata.yml
               - Genie: docs/papers/2024/2402.15391/metadata.yml
               - Dream to Fly: docs/papers/2025/2501.14377/metadata.yml
+              - PointWorld: docs/papers/2026/2601.03782/metadata.yml
               - Hierarchical Planning with Latent World Models: docs/papers/2026/2604.03208/metadata.yml
             - Nonlinear Systems Identification Using Deep Dynamic Neural Networks: docs/papers/2016/1610.01439/metadata.yml
             - On Neural Differential Equations: docs/papers/2022/2202.02435/metadata.yml
@@ -1833,6 +1858,7 @@
           - Learning an Embedding Space for Transferable Robot Skills: docs/papers/2018/2018.hausman.learning_an_embedding_space/metadata.yml
           - REQ: docs/papers/2020/2010.08587/metadata.yml
         - Driving:
+          - CaRL: docs/papers/2025/2504.17838/metadata.yml
           - Outracing champion Gran Turismo drivers with deep reinforcement learning: docs/papers/2022/2022.wurman.outracing_champion_gran_turismo/metadata.yml
           - Scaling Is All You Need: docs/papers/2023/2312.15122/metadata.yml
         - Urban Planning:
@@ -2350,14 +2376,17 @@
           - RoboCat: docs/papers/2023/2306.11706/metadata.yml
           - Octo: docs/papers/2024/2405.12213/metadata.yml
           - A Taxonomy for Evaluating Generalist Robot Manipulation Policies: docs/papers/2025/2503.01238/metadata.yml
+          - SAVI Policy Comparison: docs/papers/2026/2603.13616/metadata.yml
           - GR00T N1: docs/papers/2025/2503.14734/metadata.yml
           - OpenVLA: docs/papers/2024/2406.09246/metadata.yml
           - Alpamayo-R1: docs/papers/2025/2511.00088/metadata.yml
+          - Fast-dDrive: docs/papers/2026/2605.23163/metadata.yml
           - MultiNet: docs/papers/2016/1612.07695/metadata.yml
           - nuScenes: docs/papers/2019/1903.11027/metadata.yml
           - "Vision Meets Robotics: The KITTI Dataset": docs/papers/2013/2013.geiger.vision_meets_robotics_the/metadata.yml
           - SAGA: docs/papers/2025/2512.12842/metadata.yml
           - Large Video Planner: docs/papers/2025/2512.15840/metadata.yml
+          - VERA: docs/papers/2026/2605.27817/metadata.yml
           - DreamZero: docs/papers/2026/2602.15922/metadata.yml
           - DINO-WM: docs/papers/2024/2411.04983/metadata.yml
           - Orion-Lite: docs/papers/2026/2604.08266/metadata.yml

@@ -1,0 +1,25 @@
+title: >
+  Finite-Time Markov-Parameter Identification of LTI Systems Using Non-Causal FIR Models: A Unified Framework for Stable and Unstable Systems
+algorithm: Non-Causal FIR Identification
+authors:
+  - Ahmad Al-Tawaha
+  - Ming Jin
+  - Khaled F. Aljanaideh
+year: 2026
+source: arXiv
+type: Preprint
+doi:
+arxiv_id: "2605.24393"
+tags:
+  - System identification
+  - Linear systems
+  - Markov parameters
+  - Finite-time analysis
+  - Least squares
+abstract: >
+  We present a finite-time framework for identifying stable and unstable linear time-invariant (LTI) systems from a single closed-loop input-output trajectory. The method does not require knowledge of the stabilizing controller, an intermediate observer, or prior separation of the plant into stable and unstable components. The approach uses a non-causal finite impulse response (FIR) model obtained from a Laurent expansion of the transfer function. In this representation, stable dynamics are captured by causal Markov parameters, while unstable dynamics are captured by non-causal coefficients associated with reverse-time stable evolution. This avoids the growth of causal unstable Markov parameters. A key advantage is that the coefficients multiplying both the input and the process noise remain controlled by stable and reverse-time stable decay rates, rather than by growing forward-time unstable dynamics. To handle closed-loop data, we use the injected excitation as an instrumental variable, which removes the bias caused by correlation between the feedback input and the process noise. Under explicit instrument-strength and closed-loop concentration conditions, we derive a non-asymptotic error bound for the estimated Laurent/FIR Markov parameters with the usual $\mathcal{O}(N^{-1/2})$ statistical rate, up to logarithmic factors and truncation terms. The bound captures the effects of process noise, measurement noise, FIR horizons, closed-loop state moments, and controller-dependent instrument conditioning. Numerical experiments support the finite-time analysis by showing the predicted Markov-parameter convergence rate and illustrating how controller-dependent instrument conditioning affects the sample complexity of closed-loop identification.
+summary: >
+  Gives finite-time guarantees for identifying stable and unstable LTI systems from a single closed-loop trajectory using non-causal FIR representations. The method avoids requiring the stabilizing controller or a separate stable/unstable decomposition, making the result conceptually tidy for closed-loop identification.
+link: https://arxiv.org/pdf/2605.24393
+links_alt:
+audit_status: partial

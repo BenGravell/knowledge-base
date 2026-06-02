@@ -1,0 +1,27 @@
+title: >
+  Monte Carlo Tree Search for Behavior Planning in Autonomous Driving
+algorithm: MCTS Behavior Planner
+authors:
+  - Qianfeng Wen
+  - Zhongyi Gong
+  - Lifeng Zhou
+  - Zhongshun Zhang
+year: 2023
+source: IEEE International Symposium on Safety, Security, and Rescue Robotics (SSRR)
+type: Conference Paper
+doi: 10.1109/SSRR62954.2024.10770028
+arxiv_id: "2310.12075"
+tags:
+  - Autonomous driving
+  - Behavior planning
+  - Monte Carlo tree search
+  - Tree search
+  - Motion planning
+abstract: >
+  The integration of autonomous vehicles into urban and highway environments necessitates the development of robust and adaptable behavior planning systems. This study presents an innovative approach to address this challenge by utilizing a Monte-Carlo Tree Search (MCTS) based algorithm for autonomous driving behavior planning. The core objective is to leverage the balance between exploration and exploitation inherent in MCTS to facilitate intelligent driving decisions in complex scenarios. We introduce an MCTS-based algorithm tailored to the specific demands of autonomous driving. This involves the integration of carefully crafted cost functions, encompassing safety, comfort, and passability metrics, into the MCTS framework. The effectiveness of our approach is demonstrated by enabling autonomous vehicles to navigate intricate scenarios, such as intersections, unprotected left turns, cut-ins, and ramps, even under traffic congestion, in real-time. Qualitative instances illustrate the integration of diverse driving decisions, such as lane changes, acceleration, and deceleration, into the MCTS framework. Moreover, quantitative results, derived from examining the impact of iteration time and look-ahead steps on decision quality and real-time applicability, substantiate the robustness of our approach. This robustness is further underscored by the high success rate of the MCTS algorithm across various scenarios.
+summary: >
+  Applies Monte Carlo tree search to autonomous-driving behavior planning, using cost functions and search structure tailored to highway and urban decisions. It is a compact example of keeping decision-level planning explicit instead of replacing the behavior layer with a learned policy.
+link: https://arxiv.org/pdf/2310.12075
+links_alt:
+  - https://doi.org/10.1109/SSRR62954.2024.10770028
+audit_status: partial
