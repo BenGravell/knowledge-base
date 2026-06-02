@@ -20,25 +20,6 @@ python scripts/list_branching_factor_violations.py --max-depth 3 --max-results 3
 
 ## Ingest
 
-### Optical flow
-
-<https://people.csail.mit.edu/bkph/papers/Optical_Flow_OPT_ENG.pdf>
-<https://www.ri.cmu.edu/pub_files/pub3/lucas_bruce_d_1981_2/lucas_bruce_d_1981_2.pdf>
-<https://www.cs.toronto.edu/~black/papers/cviu.63.1.1996.pdf>
-<https://www.mia.uni-saarland.de/Publications/brox-eccv04-of.pdf>
-<https://cs.brown.edu/people/dqsun/pubs/cvpr_2010_flow.pdf>
-<https://files.is.tue.mpg.de/black/papers/SunIJCV2013.pdf>
-<https://hal.inria.fr/hal-01142656/document>
-<https://arxiv.org/abs/1504.06852>
-<https://arxiv.org/abs/1612.01925>
-<https://arxiv.org/abs/1611.00850>
-<https://arxiv.org/abs/1709.02371>
-<https://arxiv.org/abs/1805.07036>
-<https://arxiv.org/abs/2003.12039>
-<https://arxiv.org/abs/2104.02409>
-<https://arxiv.org/abs/2111.13680>
-<https://arxiv.org/abs/2203.16194>
-
 ### Image Super Resolution
 
 <https://arxiv.org/abs/2501.02976>
@@ -54,25 +35,6 @@ python scripts/list_branching_factor_violations.py --max-depth 3 --max-results 3
 <https://arxiv.org/abs/1511.04587>
 <https://arxiv.org/abs/1608.00367>
 <https://arxiv.org/abs/1501.00092>
-
-### Nesterov Fast Gradient Method
-
-<https://link.springer.com/article/10.1007/s10107-012-0629-5>
-
-### Conformal prediction
-
-<https://dl.acm.org/doi/10.5555/645528.657641>
-<https://www.tandfonline.com/doi/full/10.1080/01621459.2012.751873>
-<https://arxiv.org/abs/1209.2673>
-<https://arxiv.org/abs/2107.07511>
-<https://arxiv.org/abs/2411.11824>
-<https://arxiv.org/abs/2503.19068>
-
-### Scenario based optimization
-
-<https://link.springer.com/article/10.1007/s10107-003-0499-y>
-<https://ieeexplore.ieee.org/document/1632303>
-<https://www.sciencedirect.com/science/article/abs/pii/S1367578821000791>
 
 ### Loudspeaker Design
 
