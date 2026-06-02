@@ -34,3 +34,7 @@ https://www.rand.org/content/dam/rand/pubs/papers/2008/P910.pdf
 https://ieeexplore.ieee.org/abstract/document/7098875
 https://www.semanticscholar.org/paper/Finding-Locally-Optimal%2C-Collision-Free-with-Convex-Schulman-Ho/7f2190eb7395b90fc9691ea513a6221de343fac3
 https://www.semanticscholar.org/paper/A-Survey-of-Spectral-Unmixing-Algorithms-Keshava/8d5a3a134e3340b1754d5608080d9b213c56dd8b
+https://alexandreamice.github.io/project/ccosmo/
+https://github.com/personalrobotics/ssik
+https://developer.nvidia.com/blog/how-to-post-train-autonomous-vehicle-models-in-closed-loop-with-nvidia-alpamayo/
+https://github.com/NVlabs/alpasim
