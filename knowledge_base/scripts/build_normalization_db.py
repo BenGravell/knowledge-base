@@ -297,7 +297,7 @@ def build_tag_entries(
         canonical_to_values[canonical].update(unique_names)
 
     entries = []
-    for canonical in sorted(canonical_to_values, key=str.casefold):
+    for canonical in sorted(canonical_to_values, key=tag_key):
         aliases = merge_aliases(canonical, sorted(canonical_to_values[canonical]))
         entry: dict[str, Any] = {"canonical": canonical}
         if aliases:
