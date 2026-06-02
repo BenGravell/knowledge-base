@@ -1,0 +1,30 @@
+title: >
+  Accurate Image Super-Resolution Using Very Deep Convolutional Networks
+algorithm: VDSR
+authors:
+  - Jiwon Kim
+  - Jung Kwon Lee
+  - Kyoung Mu Lee
+year: 2015
+source: IEEE Conference on Computer Vision and Pattern Recognition (CVPR)
+type: Conference Paper
+doi: 10.1109/cvpr.2016.182
+arxiv_id: "1511.04587"
+tags:
+  - Image super-resolution
+  - Convolutional networks
+  - Very deep networks
+  - Residual learning
+  - Gradient clipping
+  - High learning rate
+  - VGG-style networks
+  - VDSR
+abstract: >
+  We present a highly accurate single-image super-resolution (SR) method. Our method uses a very deep convolutional network inspired by VGG-net used for ImageNet classification \cite{simonyan2015very}. We find increasing our network depth shows a significant improvement in accuracy. Our final model uses 20 weight layers. By cascading small filters many times in a deep network structure, contextual information over large image regions is exploited in an efficient way. With very deep networks, however, convergence speed becomes a critical issue during training. We propose a simple yet effective training procedure. We learn residuals only and use extremely high learning rates ($10^4$ times higher than SRCNN \cite{dong2015image}) enabled by adjustable gradient clipping. Our proposed method performs better than existing methods in accuracy and visual improvements in our results are easily noticeable.
+summary: >
+  VDSR shows that much deeper CNNs can improve single-image super-resolution when trained as residual predictors with aggressive learning rates and gradient clipping. It marks an important transition from shallow SRCNN-style mappings to deeper residual restoration networks.
+link: https://arxiv.org/pdf/1511.04587
+links_alt:
+  - https://www.cv-foundation.org/openaccess/content_cvpr_2016/html/Kim_Accurate_Image_Super-Resolution_CVPR_2016_paper.html
+  - https://doi.org/10.1109/cvpr.2016.182
+audit_status: raw

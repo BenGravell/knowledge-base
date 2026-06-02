@@ -1,0 +1,32 @@
+title: >
+  GMFlow: Learning Optical Flow via Global Matching
+algorithm: GMFlow
+authors:
+  - Haofei Xu
+  - Jing Zhang
+  - Jianfei Cai
+  - Hamid Rezatofighi
+  - Dacheng Tao
+year: 2021
+source: IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)
+type: Conference Paper
+doi: 10.1109/CVPR52688.2022.00795
+arxiv_id: "2111.13680"
+tags:
+  - Optical flow
+  - GMFlow
+  - Global matching
+  - Transformers
+  - Feature matching
+  - Softmax correlation
+  - Efficient inference
+abstract: >
+  Learning-based optical flow estimation has been dominated with the pipeline of cost volume with convolutions for flow regression, which is inherently limited to local correlations and thus is hard to address the long-standing challenge of large displacements. To alleviate this, the state-of-the-art framework RAFT gradually improves its prediction quality by using a large number of iterative refinements, achieving remarkable performance but introducing linearly increasing inference time. To enable both high accuracy and efficiency, we completely revamp the dominant flow regression pipeline by reformulating optical flow as a global matching problem, which identifies the correspondences by directly comparing feature similarities. Specifically, we propose a GMFlow framework, which consists of three main components: a customized Transformer for feature enhancement, a correlation and softmax layer for global feature matching, and a self-attention layer for flow propagation. We further introduce a refinement step that reuses GMFlow at higher feature resolution for residual flow prediction. Our new framework outperforms 31-refinements RAFT on the challenging Sintel benchmark, while using only one refinement and running faster, suggesting a new paradigm for accurate and efficient optical flow estimation. Code is available at https://github.com/haofeixu/gmflow.
+summary: >
+  GMFlow makes optical flow look more like global correspondence search than local cost-volume regression. It uses transformer-enhanced features and softmax global matching to reduce the need for many RAFT-style recurrent refinements, giving an efficient and conceptually clean large-displacement flow estimator.
+link: https://arxiv.org/pdf/2111.13680
+links_alt:
+  - https://doi.org/10.1109/CVPR52688.2022.00795
+  - https://openaccess.thecvf.com/content/CVPR2022/html/Xu_GMFlow_Learning_Optical_Flow_via_Global_Matching_CVPR_2022_paper.html
+  - https://github.com/haofeixu/gmflow
+audit_status: raw

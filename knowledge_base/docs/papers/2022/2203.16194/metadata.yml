@@ -1,0 +1,36 @@
+title: >
+  FlowFormer: A Transformer Architecture for Optical Flow
+algorithm: FlowFormer
+authors:
+  - Zhaoyang Huang
+  - Xiaoyu Shi
+  - Chao Zhang
+  - Qiang Wang
+  - Ka Chun Cheung
+  - Hongwei Qin
+  - Jifeng Dai
+  - Hongsheng Li
+year: 2022
+source: European Conference on Computer Vision (ECCV)
+type: Conference Paper
+doi: 10.1007/978-3-031-19790-1_40
+arxiv_id: "2203.16194"
+tags:
+  - Optical flow
+  - FlowFormer
+  - Transformers
+  - Cost volume
+  - Cost memory
+  - Recurrent decoding
+  - Dense matching
+abstract: >
+  We introduce optical Flow transFormer, dubbed as FlowFormer, a transformer-based neural network architecture for learning optical flow. FlowFormer tokenizes the 4D cost volume built from an image pair, encodes the cost tokens into a cost memory with alternate-group transformer (AGT) layers in a novel latent space, and decodes the cost memory via a recurrent transformer decoder with dynamic positional cost queries. On the Sintel benchmark, FlowFormer achieves 1.159 and 2.088 average end-point-error (AEPE) on the clean and final pass, a 16.5% and 15.5% error reduction from the best published result (1.388 and 2.47). Besides, FlowFormer also achieves strong generalization performance. Without being trained on Sintel, FlowFormer achieves 1.01 AEPE on the clean pass of Sintel training set, outperforming the best published result (1.29) by 21.7%.
+summary: >
+  FlowFormer brings transformer machinery directly to the 4D optical-flow cost volume by encoding it into a reusable cost memory and decoding flow with dynamic positional cost queries. It continues the RAFT lineage of iterative dense matching, but replaces much of the hand-shaped recurrent correlation logic with transformer-based cost-volume reasoning.
+link: https://arxiv.org/pdf/2203.16194
+links_alt:
+  - https://doi.org/10.1007/978-3-031-19790-1_40
+  - https://www.ecva.net/papers/eccv_2022/papers_ECCV/html/2191_ECCV_2022_paper.php
+  - https://drinkingcoder.github.io/publication/flowformer/
+  - https://github.com/drinkingcoder/FlowFormer-Official
+audit_status: raw

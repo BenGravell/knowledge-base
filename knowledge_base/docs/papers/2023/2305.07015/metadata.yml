@@ -1,0 +1,33 @@
+title: >
+  Exploiting Diffusion Prior for Real-World Image Super-Resolution
+algorithm: StableSR
+authors:
+  - Jianyi Wang
+  - Zongsheng Yue
+  - Shangchen Zhou
+  - Kelvin C. K. Chan
+  - Chen Change Loy
+year: 2023
+source: International Journal of Computer Vision
+type: Journal Paper
+doi: 10.1007/s11263-024-02168-7
+arxiv_id: "2305.07015"
+tags:
+  - Image super-resolution
+  - Real-world super-resolution
+  - Blind restoration
+  - Diffusion models
+  - Stable diffusion
+  - Generative prior
+  - Time-aware encoder
+  - Feature wrapping
+  - StableSR
+abstract: >
+  We present a novel approach to leverage prior knowledge encapsulated in pre-trained text-to-image diffusion models for blind super-resolution (SR). Specifically, by employing our time-aware encoder, we can achieve promising restoration results without altering the pre-trained synthesis model, thereby preserving the generative prior and minimizing training cost. To remedy the loss of fidelity caused by the inherent stochasticity of diffusion models, we employ a controllable feature wrapping module that allows users to balance quality and fidelity by simply adjusting a scalar value during the inference process. Moreover, we develop a progressive aggregation sampling strategy to overcome the fixed-size constraints of pre-trained diffusion models, enabling adaptation to resolutions of any size. A comprehensive evaluation of our method using both synthetic and real-world benchmarks demonstrates its superiority over current state-of-the-art approaches. Code and models are available at https://github.com/IceClear/StableSR.
+summary: >
+  StableSR adapts a pretrained text-to-image diffusion model for blind real-world super-resolution while keeping the synthesis model fixed. Its time-aware encoder, controllable feature wrapping, and progressive aggregation sampling make the diffusion prior more practical for fidelity-controlled restoration at arbitrary image sizes.
+link: https://arxiv.org/pdf/2305.07015
+links_alt:
+  - https://github.com/IceClear/StableSR
+  - https://doi.org/10.1007/s11263-024-02168-7
+audit_status: raw

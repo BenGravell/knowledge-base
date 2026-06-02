@@ -1,0 +1,38 @@
+title: >
+  Scaling up to Excellence: Practicing Model Scaling for Photo-Realistic Image Restoration in the Wild
+algorithm: SUPIR
+authors:
+  - Fanghua Yu
+  - Jinjin Gu
+  - Zheyuan Li
+  - Jinfan Hu
+  - Xiangtao Kong
+  - Xintao Wang
+  - Jingwen He
+  - Yu Qiao
+  - Chao Dong
+year: 2024
+source: IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)
+type: Conference Paper
+doi: 10.1109/cvpr52733.2024.02425
+arxiv_id: "2401.13627"
+tags:
+  - Image restoration
+  - Image super-resolution
+  - Real-world restoration
+  - Generative prior
+  - Model scaling
+  - Text-guided restoration
+  - Negative-quality prompts
+  - Restoration-guided sampling
+  - SUPIR
+abstract: >
+  We introduce SUPIR (Scaling-UP Image Restoration), a groundbreaking image restoration method that harnesses generative prior and the power of model scaling up. Leveraging multi-modal techniques and advanced generative prior, SUPIR marks a significant advance in intelligent and realistic image restoration. As a pivotal catalyst within SUPIR, model scaling dramatically enhances its capabilities and demonstrates new potential for image restoration. We collect a dataset comprising 20 million high-resolution, high-quality images for model training, each enriched with descriptive text annotations. SUPIR provides the capability to restore images guided by textual prompts, broadening its application scope and potential. Moreover, we introduce negative-quality prompts to further improve perceptual quality. We also develop a restoration-guided sampling method to suppress the fidelity issue encountered in generative-based restoration. Experiments demonstrate SUPIR's exceptional restoration effects and its novel capacity to manipulate restoration through textual prompts.
+summary: >
+  SUPIR scales generative image restoration with a large annotated high-quality image corpus, prompt-aware restoration, negative-quality prompts, and restoration-guided sampling. It is notable less as a narrow architecture tweak and more as evidence that low-level restoration benefits strongly from data and model scale.
+link: https://arxiv.org/pdf/2401.13627
+links_alt:
+  - https://supir.xpixel.group
+  - https://github.com/Fanghua-Yu/SUPIR
+  - https://doi.org/10.1109/cvpr52733.2024.02425
+audit_status: raw

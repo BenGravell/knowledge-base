@@ -1,0 +1,30 @@
+title: >
+  LiteFlowNet: A Lightweight Convolutional Neural Network for Optical Flow Estimation
+algorithm: LiteFlowNet
+authors:
+  - Tak-Wai Hui
+  - Xiaoou Tang
+  - Chen Change Loy
+year: 2018
+source: IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)
+type: Conference Paper
+doi: 10.1109/CVPR.2018.00936
+arxiv_id: "1805.07036"
+tags:
+  - Optical flow
+  - LiteFlowNet
+  - Convolutional networks
+  - Lightweight models
+  - Feature warping
+  - Cascaded flow inference
+  - Flow regularization
+abstract: >
+  FlowNet2, the state-of-the-art convolutional neural network (CNN) for optical flow estimation, requires over 160M parameters to achieve accurate flow estimation. In this paper we present an alternative network that outperforms FlowNet2 on the challenging Sintel final pass and KITTI benchmarks, while being 30 times smaller in the model size and 1.36 times faster in the running speed. This is made possible by drilling down to architectural details that might have been missed in the current frameworks: (1) We present a more effective flow inference approach at each pyramid level through a lightweight cascaded network. It not only improves flow estimation accuracy through early correction, but also permits seamless incorporation of descriptor matching in our network. (2) We present a novel flow regularization layer to ameliorate the issue of outliers and vague flow boundaries by using a feature-driven local convolution. (3) Our network owns an effective structure for pyramidal feature extraction and embraces feature warping rather than image warping as practiced in FlowNet2. Our code and trained models are available at https://github.com/twhui/LiteFlowNet.
+summary: >
+  LiteFlowNet pushes learned optical flow toward smaller and faster models by combining feature pyramids, feature warping, cascaded refinement, descriptor matching, and learned local regularization. It is useful as a counterpoint to FlowNet2: many of the accuracy gains can be retained without a very large stacked network.
+link: https://arxiv.org/pdf/1805.07036
+links_alt:
+  - https://doi.org/10.1109/CVPR.2018.00936
+  - https://openaccess.thecvf.com/content_cvpr_2018/html/Hui_LiteFlowNet_A_Lightweight_CVPR_2018_paper.html
+  - https://github.com/twhui/LiteFlowNet
+audit_status: raw

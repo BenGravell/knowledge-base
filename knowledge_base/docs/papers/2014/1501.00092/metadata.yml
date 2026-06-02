@@ -1,0 +1,30 @@
+title: >
+  Image Super-Resolution Using Deep Convolutional Networks
+algorithm: SRCNN
+authors:
+  - Chao Dong
+  - Chen Change Loy
+  - Kaiming He
+  - Xiaoou Tang
+year: 2014
+source: IEEE Transactions on Pattern Analysis and Machine Intelligence
+type: Journal Paper
+doi: 10.1109/tpami.2015.2439281
+arxiv_id: "1501.00092"
+tags:
+  - Image super-resolution
+  - Convolutional networks
+  - End-to-end learning
+  - Sparse coding interpretation
+  - Restoration quality
+  - Efficient inference
+  - SRCNN
+abstract: >
+  We propose a deep learning method for single image super-resolution (SR). Our method directly learns an end-to-end mapping between the low/high-resolution images. The mapping is represented as a deep convolutional neural network (CNN) that takes the low-resolution image as the input and outputs the high-resolution one. We further show that traditional sparse-coding-based SR methods can also be viewed as a deep convolutional network. But unlike traditional methods that handle each component separately, our method jointly optimizes all layers. Our deep CNN has a lightweight structure, yet demonstrates state-of-the-art restoration quality, and achieves fast speed for practical on-line usage. We explore different network structures and parameter settings to achieve trade-offs between performance and speed. Moreover, we extend our network to cope with three color channels simultaneously, and show better overall reconstruction quality.
+summary: >
+  SRCNN is the foundational deep-learning paper for single-image super-resolution, replacing hand-engineered sparse-coding pipelines with a direct end-to-end CNN mapping. Its simple architecture became the reference point that later fast, deep, residual, transformer, and diffusion super-resolution methods improve upon.
+link: https://arxiv.org/pdf/1501.00092
+links_alt:
+  - https://mmlab.ie.cuhk.edu.hk/projects/SRCNN.html
+  - https://doi.org/10.1109/tpami.2015.2439281
+audit_status: raw

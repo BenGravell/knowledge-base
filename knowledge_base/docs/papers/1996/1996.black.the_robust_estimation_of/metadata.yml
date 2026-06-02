@@ -1,0 +1,29 @@
+title: >
+  The Robust Estimation of Multiple Motions: Parametric and Piecewise-Smooth Flow Fields
+algorithm: Black-Anandan Robust Optical Flow
+authors:
+  - Michael J. Black
+  - P. Anandan
+year: 1996
+source: Computer Vision and Image Understanding
+type: Journal Paper
+doi: 10.1006/cviu.1996.0006
+arxiv_id: ""
+tags:
+  - Optical flow
+  - Robust estimation
+  - Multiple motion
+  - Parametric motion
+  - Piecewise-smooth flow
+  - Motion discontinuities
+  - Outlier rejection
+abstract: >
+  Most approaches for estimating optical flow assume that, within a finite image region, only a single motion is present. This single motion assumption is violated in common situations involving transparency, depth discontinuities, independently moving objects, shadows, and specular reflections. To robustly estimate optical flow, the single motion assumption must be relaxed. This paper presents a framework based on robust estimation that addresses violations of the brightness constancy and spatial smoothness assumptions caused by multiple motions. We show how the robust estimation framework can be applied to standard formulations of the optical flow problem thus reducing their sensitivity to violations of their underlying assumptions. The approach has been applied to three standard techniques for recovering optical flow: area-based regression, correlation, and regularization with motion discontinuities. This paper focuses on the recovery of multiple parametric motion models within a region, as well as the recovery of piecewise-smooth flow fields, and provides examples with natural and synthetic image sequences.
+summary: >
+  Black and Anandan recast optical flow estimation around robust penalties so that brightness and smoothness violations can be treated as outliers rather than fatal model failures. The work is especially important for motion boundaries, transparency, specularities, and layered or multiple-motion scenes where single-motion assumptions break down.
+link: https://www.cs.toronto.edu/~black/papers/cviu.63.1.1996.pdf
+links_alt:
+  - https://doi.org/10.1006/cviu.1996.0006
+  - https://www.sciencedirect.com/science/article/pii/S1077314296900065
+  - https://dblp.org/rec/journals/cviu/BlackA96
+audit_status: raw

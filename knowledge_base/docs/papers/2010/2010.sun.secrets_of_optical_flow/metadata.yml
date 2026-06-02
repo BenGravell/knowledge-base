@@ -1,0 +1,29 @@
+title: >
+  Secrets of Optical Flow Estimation and Their Principles
+algorithm: Secrets of Optical Flow
+authors:
+  - Deqing Sun
+  - Stefan Roth
+  - Michael J. Black
+year: 2010
+source: IEEE Conference on Computer Vision and Pattern Recognition (CVPR)
+type: Conference Paper
+doi: 10.1109/CVPR.2010.5539939
+arxiv_id: ""
+tags:
+  - Optical flow
+  - Variational methods
+  - Classic+NL
+  - Middlebury benchmark
+  - Median filtering
+  - Non-local regularization
+  - Implementation analysis
+abstract: >
+  The most accurate methods on the Middlebury flow dataset make different choices about how to model the objective function, how to approximate this model to make it computationally tractable, and how to optimize it. Since most published methods change all of these properties at once, it can be difficult to know which choices are most important. To address this, we define a baseline algorithm that is "classical", in that it is a direct descendant of the original HS formulation, and then systematically vary the model and method using different techniques from the art. The results are surprising. We find that only a small number of key choices produce statistically significant improvements and that they can be combined into a very simple method that achieves accuracies near the state of the art. More importantly, our analysis reveals what makes current flow methods work so well.
+summary: >
+  Sun, Roth, and Black dissect modern variational optical flow and show that careful implementation choices matter as much as the nominal objective. The paper is remembered for explaining why median filtering during warping helps, then turning that heuristic into a non-local regularization term that leads to the Classic+NL model.
+link: https://cs.brown.edu/people/dqsun/pubs/cvpr_2010_flow.pdf
+links_alt:
+  - https://doi.org/10.1109/CVPR.2010.5539939
+  - https://is.mpg.de/publications/sun-cvpr-10
+audit_status: raw

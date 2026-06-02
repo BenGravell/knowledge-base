@@ -1984,6 +1984,23 @@
           - SURF: docs/papers/2006/2006.bay.surf_speeded_up_robust/metadata.yml
           - AprilTag: docs/papers/2011/2011.olson.apriltag_a_robust_and/metadata.yml
           - AprilTag 2: docs/papers/2016/2016.wang.apriltag_2_efficient_and/metadata.yml
+        - Optical Flow:
+          - Horn-Schunck: docs/papers/1981/1981.horn.determining_optical_flow/metadata.yml
+          - Lucas-Kanade: docs/papers/1981/1981.lucas.an_iterative_image_registration/metadata.yml
+          - Black-Anandan Robust Flow: docs/papers/1996/1996.black.the_robust_estimation_of/metadata.yml
+          - Brox Optical Flow: docs/papers/2004/2004.brox.high_accuracy_optical_flow/metadata.yml
+          - Secrets of Optical Flow: docs/papers/2010/2010.sun.secrets_of_optical_flow/metadata.yml
+          - Classic+NL: docs/papers/2013/2013.sun.a_quantitative_analysis_of/metadata.yml
+          - EpicFlow: docs/papers/2015/1501.02565/metadata.yml
+          - FlowNet: docs/papers/2015/1504.06852/metadata.yml
+          - FlowNet 2.0: docs/papers/2016/1612.01925/metadata.yml
+          - SPyNet: docs/papers/2016/1611.00850/metadata.yml
+          - PWC-Net: docs/papers/2017/1709.02371/metadata.yml
+          - LiteFlowNet: docs/papers/2018/1805.07036/metadata.yml
+          - RAFT: docs/papers/2020/2003.12039/metadata.yml
+          - GMA: docs/papers/2021/2104.02409/metadata.yml
+          - GMFlow: docs/papers/2021/2111.13680/metadata.yml
+          - FlowFormer: docs/papers/2022/2203.16194/metadata.yml
         - 3D Vision & Shape Understanding:
           - 3D ShapeNets: docs/papers/2014/1406.5670/metadata.yml
           - VoxelNet: docs/papers/2017/1711.06396/metadata.yml
@@ -2031,6 +2048,23 @@
           - "Lossy Image Compression with Compressive Autoencoders": docs/papers/2017/1703.00395/metadata.yml
           - "What Matters in Practical Learned Image Compression": docs/papers/2026/2605.05148/metadata.yml
       - Image Processing & Computational Photography:
+        - Super-Resolution & Restoration:
+          - CNN Super-Resolution:
+            - SRCNN: docs/papers/2014/1501.00092/metadata.yml
+            - VDSR: docs/papers/2015/1511.04587/metadata.yml
+            - FSRCNN: docs/papers/2016/1608.00367/metadata.yml
+            - ESPCN: docs/papers/2016/1609.05158/metadata.yml
+          - Transformer Restoration:
+            - SwinIR: docs/papers/2021/2108.10257/metadata.yml
+            - HAT (Image Super-Resolution): docs/papers/2022/2205.04437/metadata.yml
+            - HAT (Image Restoration): docs/papers/2023/2309.05239/metadata.yml
+          - Diffusion & Generative Restoration:
+            - SR3: docs/papers/2021/2104.07636/metadata.yml
+            - StableSR: docs/papers/2023/2305.07015/metadata.yml
+            - ResShift: docs/papers/2023/2307.12348/metadata.yml
+            - PASD: docs/papers/2023/2308.14469/metadata.yml
+            - SUPIR: docs/papers/2024/2401.13627/metadata.yml
+            - STAR: docs/papers/2025/2501.02976/metadata.yml
         - Polyblur: docs/papers/2020/2012.09322/metadata.yml
         - Burst photography for high dynamic range and low-light imaging on mobile cameras: docs/papers/2016/2016.hasinoff.burst_photography_for_high/metadata.yml
       - Image Assessment:

@@ -3868,3 +3868,147 @@ tags:
 - canonical: ZO
 - canonical: ZO-RSN
 - canonical: ZO-SVRG
+- canonical: 4D correlation volume
+- canonical: All-pairs correlation
+- canonical: Brightness constancy
+- canonical: Brox optical flow
+- canonical: Cascaded flow inference
+- canonical: Classic+NL
+- canonical: Coarse-to-fine estimation
+- canonical: Correlation layer
+- canonical: Cost memory
+- canonical: Cost volume
+- canonical: Cross-dataset generalization
+- canonical: Dense matching
+- canonical: Dense motion estimation
+- canonical: Dense prediction
+- canonical: Edge-aware distance
+- canonical: Efficient inference
+- canonical: Embedded vision
+- canonical: EpicFlow
+- canonical: Feature pyramid
+- canonical: Feature warping
+- canonical: Flow regularization
+- canonical: FlowFormer
+- canonical: FlowNet
+- canonical: FlowNet 2.0
+- canonical: Flying chairs
+- canonical: Geodesic distance
+- canonical: Global matching
+- canonical: Global motion aggregation
+- canonical: GMA
+- canonical: GMFlow
+- canonical: Gradient constancy
+- canonical: Gradient-based alignment
+- canonical: Horn-Schunck
+- canonical: Image registration
+- canonical: Image warping
+- canonical: Implementation analysis
+- canonical: KITTI
+- canonical: Large displacement
+- canonical: Lightweight models
+- canonical: LiteFlowNet
+- canonical: Local motion estimation
+- canonical: Lucas-Kanade
+- canonical: Median filtering
+- canonical: Middlebury benchmark
+- canonical: Motion boundaries
+- canonical: Motion discontinuities
+- canonical: MPI sintel
+- canonical: Multiple motion
+- canonical: Network stacking
+- canonical: Newton-raphson iteration
+  aliases:
+  - Newton-Raphson iteration
+- canonical: Non-local regularization
+- canonical: Occlusion handling
+- canonical: Optical flow
+- canonical: Outlier rejection
+- canonical: Parametric motion
+- canonical: Piecewise-smooth flow
+- canonical: PWC-Net
+- canonical: RAFT
+- canonical: RAFT extension
+- canonical: Real-time inference
+- canonical: Recurrent decoding
+- canonical: Recurrent refinement
+- canonical: Robust smoothness
+- canonical: Self-similarity
+- canonical: Small displacement
+- canonical: Smoothness regularization
+- canonical: Softmax correlation
+- canonical: Sparse-to-dense interpolation
+- canonical: Spatial pyramid
+- canonical: SPyNet
+- canonical: Training schedule
+- canonical: Variational methods
+- canonical: Warping
+- canonical: Blind restoration
+- canonical: Cascaded generation
+- canonical: Channel attention
+- canonical: Compression artifact reduction
+- canonical: Conditional generation
+- canonical: Deconvolution
+- canonical: Degradation removal
+- canonical: Denoising
+- canonical: Denoising diffusion
+- canonical: Dynamic frequency loss
+- canonical: Efficient sampling
+- canonical: ESPCN
+- canonical: Face super-resolution
+- canonical: Feature wrapping
+- canonical: FSRCNN
+- canonical: Generative prior
+- canonical: Gradient clipping
+- canonical: HAT
+- canonical: High learning rate
+- canonical: Hybrid attention
+- canonical: Image restoration
+- canonical: Image stylization
+- canonical: Image super-resolution
+- canonical: Iterative refinement
+- canonical: Lightweight super-resolution
+- canonical: Local information enhancement
+- canonical: Low-resolution feature extraction
+- canonical: Negative-quality prompts
+- canonical: Noise schedule
+- canonical: Overlapping cross-attention
+- canonical: PASD
+- canonical: Pixel shuffle
+- canonical: Pixel-aware attention
+- canonical: Real-world restoration
+- canonical: Real-world super-resolution
+- canonical: Residual learning
+- canonical: Residual shifting
+- canonical: Residual Swin transformer blocks
+  aliases:
+  - Residual Swin Transformer blocks
+- canonical: ResShift
+- canonical: Restoration quality
+- canonical: Restoration-guided sampling
+- canonical: Same-task pretraining
+- canonical: Shrinking and expanding layers
+- canonical: Sparse coding interpretation
+- canonical: SR3
+- canonical: SRCNN
+- canonical: Stable diffusion
+  aliases:
+  - Stable Diffusion
+- canonical: StableSR
+- canonical: STAR
+- canonical: Sub-pixel convolution
+- canonical: SUPIR
+- canonical: Swin transformer
+  aliases:
+  - Swin Transformer
+- canonical: SwinIR
+- canonical: Text-guided restoration
+- canonical: Text-to-video models
+- canonical: Time-aware encoder
+- canonical: Transfer strategy
+- canonical: VDSR
+- canonical: Very deep networks
+- canonical: VGG-style networks
+- canonical: Video super-resolution
+- canonical: Vision transformers
+- canonical: Window attention
