@@ -41,3 +41,6 @@ https://arxiv.org/abs/2310.05885
 https://arxiv.org/abs/2309.10443
 https://arxiv.org/pdf/2604.16406
 https://arxiv.org/abs/2512.01993
+https://github.com/personalrobotics/ssik
+https://developer.nvidia.com/blog/how-to-post-train-autonomous-vehicle-models-in-closed-loop-with-nvidia-alpamayo/
+https://github.com/NVlabs/alpasim
