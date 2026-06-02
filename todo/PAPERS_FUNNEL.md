@@ -39,3 +39,5 @@ https://arxiv.org/abs/2106.11810
 https://arxiv.org/abs/2504.17838
 https://arxiv.org/abs/2310.05885
 https://arxiv.org/abs/2309.10443
+https://arxiv.org/pdf/2604.16406
+https://arxiv.org/abs/2512.01993
