@@ -18,11 +18,10 @@ hide:
         <span id="ct-settings-state">Show Settings</span>
       </button>
       <p id="ct-note-body" class="ct-note-body">
-        This tree is my personal interpretation of how to organize these items in a hierarchical way.
-        Multiple alternative organizations are possible. The content itself does not literally have a tree
-        structure, and many of the real associations live in a more general graph of ideas, methods, and problems.
-        The value of the tree is that it gives newcomers some structure and encodes my opinion about which
-        connections are currently the most relevant or important.
+        This tree is my personal interpretation of how to organize the collection in a hierarchical way.
+        Multiple alternative organizations are possible.
+        The content itself does not literally have a tree structure, and many of the real associations live in a more general graph of ideas, methods, and problems.
+        The value of the tree is that it gives readers some structure and encodes my opinion about which connections are currently the most relevant or important.
       </p>
     </div>
     <div id="ct-settings-body" class="ct-controls">
@@ -69,11 +68,39 @@ hide:
 
   <div id="ct-search-results" class="ct-search-results" hidden></div>
 
-  <section class="ct-browser" aria-label="Focused tree browser">
-    <section class="ct-chain" aria-label="Focused tree">
-      <div id="ct-ancestor-chain"></div>
+  <div class="ct-workspace">
+    <section id="ct-sunburst-panel" class="ct-sunburst-panel" aria-label="Tree sunburst navigator">
+      <div class="ct-sunburst-body">
+        <div id="ct-sunburst" class="ct-sunburst" role="group" aria-label="Tree sunburst">
+          <div class="ct-sunburst-actions">
+            <button id="ct-sunburst-up" class="ct-sunburst-action" type="button" aria-label="Move to parent branch" title="Parent branch">
+              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <path d="M12 5 5.5 11.5l1.4 1.4L11 8.8V19h2V8.8l4.1 4.1 1.4-1.4z"></path>
+              </svg>
+            </button>
+            <button id="ct-sunburst-root" class="ct-sunburst-action" type="button" aria-label="Move to root" title="Root">
+              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <path d="M12 3 3 10.6l1.3 1.5 1.2-1V20h5.5v-5h2v5h5.5v-8.9l1.2 1 1.3-1.5zm4.5 15H15v-5H9v5H7.5v-8.6L12 5.6l4.5 3.8z"></path>
+              </svg>
+            </button>
+          </div>
+          <div id="ct-sunburst-stage" class="ct-sunburst-stage"></div>
+        </div>
+        <div class="ct-sunburst-readout" aria-live="polite">
+          <div class="ct-sunburst-readout-label">Focus</div>
+          <div id="ct-sunburst-focus" class="ct-sunburst-focus">Tree</div>
+          <div id="ct-sunburst-path" class="ct-sunburst-path"></div>
+          <div id="ct-sunburst-stats" class="ct-sunburst-stats"></div>
+        </div>
+      </div>
     </section>
-  </section>
+
+    <section class="ct-browser" aria-label="Focused tree browser">
+      <section class="ct-chain" aria-label="Focused tree">
+        <div id="ct-ancestor-chain"></div>
+      </section>
+    </section>
+  </div>
 </div>
 
 <script src="../javascripts/tree-data.js"></script>

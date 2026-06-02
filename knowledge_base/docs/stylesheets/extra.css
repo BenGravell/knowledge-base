@@ -96,6 +96,10 @@
 .kb-app-header,
 .kb-app-header-title,
 .kb-app-header-action,
+.ct-sunburst-action,
+.ct-sunburst-readout-label,
+.ct-sunburst-focus,
+.ct-sunburst-stats,
 .ct-settings-title,
 .ct-settings-toggle,
 .ct-item-type-head h2,
@@ -2092,6 +2096,236 @@ body:has(#semantic-search-app) .md-content {
   --ct-subtle-grey-text: #f1f4f7;
 }
 
+.ct-sunburst-panel {
+  border: 1px solid var(--ct-border);
+  border-radius: 8px;
+  background: var(--ct-panel);
+  overflow: hidden;
+}
+
+.ct-sunburst-readout-label {
+  color: var(--md-default-fg-color--light);
+  font-size: 0.64rem;
+  font-weight: 900;
+  letter-spacing: 0;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+.ct-sunburst-actions {
+  position: absolute;
+  top: 0.52rem;
+  right: 0.52rem;
+  z-index: var(--kb-z-app-local-overlay);
+  display: inline-flex;
+  gap: 0.35rem;
+  align-items: center;
+}
+
+.ct-sunburst-action {
+  display: grid;
+  place-items: center;
+  width: 2.05rem;
+  height: 2.05rem;
+  padding: 0;
+  border: 1px solid var(--ct-border);
+  border-radius: 8px;
+  background: var(--md-default-bg-color);
+  color: var(--md-default-fg-color);
+  cursor: pointer;
+  transition: border-color 0.16s ease, background 0.16s ease, color 0.16s ease, opacity 0.16s ease;
+}
+
+.ct-sunburst-action svg {
+  width: 1.1rem;
+  height: 1.1rem;
+  fill: currentColor;
+}
+
+.ct-sunburst-action:hover:not(:disabled),
+.ct-sunburst-action:focus-visible {
+  border-color: color-mix(in srgb, var(--ct-cyan) 48%, transparent);
+  background: color-mix(in srgb, var(--ct-cyan) 10%, var(--md-default-bg-color));
+  color: var(--md-default-fg-color);
+}
+
+.ct-sunburst-action:focus-visible {
+  outline: 2px solid color-mix(in srgb, var(--ct-cyan) 24%, transparent);
+  outline-offset: 1px;
+}
+
+.ct-sunburst-action:disabled {
+  cursor: default;
+  opacity: 0.38;
+}
+
+.ct-sunburst-body {
+  display: grid;
+  grid-template-columns: minmax(18rem, 0.92fr) minmax(15rem, 1fr);
+  gap: 0.9rem;
+  align-items: center;
+  padding: 0.85rem;
+}
+
+.ct-sunburst {
+  position: relative;
+  display: grid;
+  place-items: center;
+  min-width: 0;
+  min-height: 22rem;
+  border: 1px solid var(--ct-soft-border);
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--md-default-bg-color) 76%, var(--md-code-bg-color));
+}
+
+.ct-sunburst-stage {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  min-width: 0;
+  min-height: inherit;
+}
+
+.ct-sunburst-svg {
+  display: block;
+  width: min(100%, 26rem);
+  max-height: 24rem;
+  aspect-ratio: 1;
+  overflow: visible;
+}
+
+.ct-sunburst-segment {
+  stroke: color-mix(in srgb, var(--md-default-bg-color) 88%, transparent);
+  stroke-width: 0.55;
+  cursor: pointer;
+  transition: fill-opacity 0.16s ease, stroke-width 0.16s ease, filter 0.16s ease;
+}
+
+.ct-sunburst-segment:hover,
+.ct-sunburst-segment:focus-visible {
+  fill-opacity: 1;
+  stroke-width: 1.2;
+  filter: saturate(1.08) brightness(1.04);
+  outline: none;
+}
+
+.ct-sunburst-segment.is-path {
+  stroke: color-mix(in srgb, var(--md-default-fg-color) 46%, var(--md-default-bg-color));
+  stroke-width: 0.9;
+}
+
+.ct-sunburst-segment.is-current {
+  stroke: var(--md-default-fg-color);
+  stroke-width: 1.6;
+  filter: drop-shadow(0 0 10px color-mix(in srgb, var(--ct-cyan) 34%, transparent));
+}
+
+.ct-sunburst-center-morph {
+  pointer-events: none;
+  stroke: color-mix(in srgb, var(--md-default-bg-color) 88%, transparent);
+  stroke-width: 0.55;
+}
+
+.ct-sunburst-label {
+  fill: #ffffff;
+  stroke: color-mix(in srgb, #000000 42%, transparent);
+  stroke-width: 2.4px;
+  paint-order: stroke;
+  pointer-events: none;
+  font-size: 0.52rem;
+  font-weight: 850;
+  line-height: 1;
+}
+
+.ct-sunburst-center {
+  cursor: pointer;
+}
+
+.ct-sunburst-center.is-static {
+  cursor: default;
+}
+
+.ct-sunburst-center circle {
+  fill: color-mix(in srgb, var(--md-default-bg-color) 92%, var(--md-code-bg-color));
+  stroke: color-mix(in srgb, var(--ct-cyan) 42%, transparent);
+  stroke-width: 1.4;
+  filter: drop-shadow(0 8px 18px color-mix(in srgb, #000000 12%, transparent));
+  transition: stroke 0.16s ease, stroke-width 0.16s ease, fill 0.16s ease;
+}
+
+.ct-sunburst-center:not(.is-static):hover circle,
+.ct-sunburst-center:not(.is-static):focus-visible circle {
+  fill: color-mix(in srgb, var(--ct-cyan) 9%, var(--md-default-bg-color));
+  stroke: var(--ct-cyan);
+  stroke-width: 2.4;
+  outline: none;
+}
+
+.ct-sunburst-center text {
+  fill: var(--md-default-fg-color);
+  pointer-events: none;
+  font-size: 0.58rem;
+  font-weight: 850;
+  line-height: 1;
+}
+
+.ct-sunburst-center-meta {
+  fill: var(--md-default-fg-color--light);
+  font-size: 0.48rem;
+  font-weight: 800;
+}
+
+.ct-sunburst-readout {
+  display: grid;
+  gap: 0.48rem;
+  min-width: 0;
+  align-content: center;
+}
+
+.ct-sunburst-focus {
+  color: var(--md-default-fg-color);
+  font-size: 1.28rem;
+  font-weight: 850;
+  line-height: 1.12;
+  overflow-wrap: anywhere;
+}
+
+.ct-sunburst-path {
+  color: var(--md-default-fg-color--light);
+  font-size: 0.76rem;
+  font-weight: 700;
+  line-height: 1.45;
+  overflow-wrap: anywhere;
+}
+
+.ct-sunburst-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.38rem;
+  min-height: 1.66rem;
+}
+
+.ct-sunburst-stats span {
+  display: inline-flex;
+  align-items: center;
+  min-height: 1.48rem;
+  padding: 0.18rem 0.48rem;
+  border: 1px solid var(--ct-soft-border);
+  border-radius: 999px;
+  background: var(--md-default-bg-color);
+  color: var(--md-default-fg-color--light);
+  font-size: 0.68rem;
+  font-weight: 800;
+  line-height: 1.2;
+}
+
+.ct-workspace {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.9rem;
+  align-items: start;
+}
+
 .ct-settings {
   border: 1px solid var(--ct-border);
   border-radius: 8px;
@@ -2647,6 +2881,10 @@ body:has(#semantic-search-app) .md-content {
   margin-top: 0.35rem;
 }
 
+.ct-workspace .ct-browser {
+  margin-top: 0;
+}
+
 .ct-chain {
   position: relative;
   display: grid;
@@ -2671,13 +2909,9 @@ body:has(#semantic-search-app) .md-content {
 
 .ct-focus-core {
   display: grid;
-  grid-template-columns: minmax(18rem, 3fr) minmax(14rem, 2fr);
+  grid-template-columns: 1fr;
   gap: 0.72rem;
   align-items: stretch;
-}
-
-.ct-focus-core--root {
-  grid-template-columns: 1fr;
 }
 
 .ct-focus-section {
@@ -2687,11 +2921,6 @@ body:has(#semantic-search-app) .md-content {
 .ct-focus-section--ego {
   display: flex;
   flex-direction: column;
-}
-
-.ct-focus-section--ego .ct-focus-section-head--spacer {
-  visibility: hidden;
-  pointer-events: none;
 }
 
 .ct-focus-section--ego .ct-tree-list,
@@ -3040,6 +3269,36 @@ body:has(#semantic-search-app) .md-content {
   }
 }
 
+@media (min-width: 88rem) {
+  .ct-workspace {
+    grid-template-columns: minmax(24rem, 0.82fr) minmax(34rem, 1.18fr);
+    gap: 1rem;
+  }
+
+  .ct-workspace .ct-sunburst-panel,
+  .ct-workspace .ct-browser {
+    min-width: 0;
+  }
+
+  .ct-workspace .ct-sunburst-body {
+    grid-template-columns: 1fr;
+    align-items: start;
+  }
+
+  .ct-workspace .ct-sunburst {
+    min-height: 20rem;
+  }
+
+  .ct-workspace .ct-sunburst-svg {
+    width: min(100%, 22.5rem);
+    max-height: 22rem;
+  }
+
+  .ct-workspace .ct-sunburst-readout {
+    align-content: start;
+  }
+}
+
 @media (max-width: 720px) {
   .ct-page {
     --ct-rail-center: 0.98rem;
@@ -3053,6 +3312,29 @@ body:has(#semantic-search-app) .md-content {
 
   .ct-page {
     gap: 0.65rem;
+  }
+
+  .ct-sunburst-body {
+    grid-template-columns: 1fr;
+    gap: 0.65rem;
+    padding: 0.65rem;
+  }
+
+  .ct-sunburst {
+    min-height: 18.5rem;
+  }
+
+  .ct-sunburst-svg {
+    width: min(100%, 21.5rem);
+    max-height: 20.5rem;
+  }
+
+  .ct-sunburst-focus {
+    font-size: 1rem;
+  }
+
+  .ct-sunburst-path {
+    font-size: 0.68rem;
   }
 
   .md-typeset .ct-title-row {
@@ -3109,10 +3391,6 @@ body:has(#semantic-search-app) .md-content {
 
   .ct-focus-section-head {
     margin-bottom: 0.24rem;
-  }
-
-  .ct-focus-section--ego .ct-focus-section-head--spacer {
-    display: none;
   }
 
   .ct-tree-button {
