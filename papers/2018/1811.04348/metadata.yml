@@ -1,0 +1,25 @@
+title: >
+  Model Predictive Trajectory Optimization and Tracking for On-Road Autonomous Vehicles
+algorithm: Model Predictive Trajectory Optimization
+authors:
+  - Peng Liu
+  - Brian Paden
+  - Umit Ozguner
+year: 2018
+source: IEEE International Conference on Intelligent Transportation Systems (ITSC)
+type: Conference Paper
+doi: 10.1109/ITSC.2018.8569643
+arxiv_id: "1811.04348"
+tags:
+  - Autonomous driving
+  - Model predictive control
+  - Trajectory optimization
+  - Trajectory tracking
+abstract: >
+  Motion planning for autonomous vehicles requires spatio-temporal motion plans (i.e. state trajectories) to account for dynamic obstacles. This requires a trajectory tracking control process which faithfully tracks planned trajectories. In this paper, a control scheme is presented which first optimizes a planned trajectory and then tracks the optimized trajectory using a feedback-feedforward controller. The feedforward element is calculated in a model predictive manner with a cost function focusing on driving performance. Stability of the error dynamic is then guaranteed by the design of the feedback-feedforward controller. The tracking performance of the control system is tested in a realistic simulated scenario where the control system must track an evasive lateral maneuver. The proposed controller performs well in simulation and can be easily adapted to different dynamic vehicle models. The uniqueness of the solution to the control synthesis eliminates any nondeterminism that could arise with switching between numerical solvers for the underlying mathematical program.
+summary: >
+  Combines trajectory optimization with a feedback-feedforward tracking controller for on-road autonomous vehicles. The main contribution is the coupling of model-predictive feedforward planning with a stability-oriented tracking design for dynamic-obstacle scenarios.
+link: https://arxiv.org/pdf/1811.04348
+links_alt:
+  - https://doi.org/10.1109/ITSC.2018.8569643
+audit_status: partial

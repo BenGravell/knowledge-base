@@ -1,0 +1,33 @@
+title: >
+  FlowNet 2.0: Evolution of Optical Flow Estimation with Deep Networks
+algorithm: FlowNet 2.0
+authors:
+  - Eddy Ilg
+  - Nikolaus Mayer
+  - Tonmoy Saikia
+  - Margret Keuper
+  - Alexey Dosovitskiy
+  - Thomas Brox
+year: 2016
+source: IEEE Conference on Computer Vision and Pattern Recognition (CVPR)
+type: Conference Paper
+doi: 10.1109/CVPR.2017.179
+arxiv_id: "1612.01925"
+tags:
+  - Optical flow
+  - FlowNet 2.0
+  - Convolutional networks
+  - Network stacking
+  - Warping
+  - Small displacement
+  - Training schedule
+abstract: >
+  The FlowNet demonstrated that optical flow estimation can be cast as a learning problem. However, the state of the art with regard to the quality of the flow has still been defined by traditional methods. Particularly on small displacements and real-world data, FlowNet cannot compete with variational methods. In this paper, we advance the concept of end-to-end learning of optical flow and make it work really well. The large improvements in quality and speed are caused by three major contributions: first, we focus on the training data and show that the schedule of presenting data during training is very important. Second, we develop a stacked architecture that includes warping of the second image with intermediate optical flow. Third, we elaborate on small displacements by introducing a sub-network specializing on small motions. FlowNet 2.0 is only marginally slower than the original FlowNet but decreases the estimation error by more than 50%. It performs on par with state-of-the-art methods, while running at interactive frame rates. Moreover, we present faster variants that allow optical flow computation at up to 140fps with accuracy matching the original FlowNet.
+summary: >
+  FlowNet 2.0 shows that learned optical flow can match classical methods when the architecture, training schedule, and small-motion handling are engineered carefully. Its stacked networks with intermediate warping turned FlowNet from an intriguing proof of concept into a practical high-speed optical-flow system.
+link: https://arxiv.org/pdf/1612.01925
+links_alt:
+  - https://doi.org/10.1109/CVPR.2017.179
+  - https://openaccess.thecvf.com/content_cvpr_2017/html/Ilg_FlowNet_2.0_Evolution_CVPR_2017_paper.html
+  - https://lmb.informatik.uni-freiburg.de/Publications/2017/IMKDB17/
+audit_status: raw

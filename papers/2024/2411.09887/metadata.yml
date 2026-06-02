@@ -1,0 +1,27 @@
+title: >
+  Planning by Simulation: Motion Planning with Learning-Based Parallel Scenario Prediction for Autonomous Driving
+algorithm: Planning by Simulation
+authors:
+  - Tian Niu
+  - Kaizhao Zhang
+  - Zhongxue Gan
+  - Wenchao Ding
+year: 2024
+source: Computer Modeling in Engineering & Sciences
+type: Journal Paper
+doi: 10.32604/cmes.2026.079324
+arxiv_id: "2411.09887"
+tags:
+  - Autonomous driving
+  - Motion planning
+  - Scenario generation
+  - Simulation
+  - Trajectory prediction
+abstract: >
+  Planning safe trajectories for autonomous vehicles is essential for operational safety but remains extremely challenging due to the complex interactions among traffic participants. Recent autonomous driving frameworks have focused on improving prediction accuracy to explicitly model these interactions. However, some methods overlook the significant influence of the ego vehicle's planning on the possible trajectories of other agents, which can alter prediction accuracy and lead to unsafe planning decisions. In this paper, we propose a novel motion Planning approach by Simulation with learning-based parallel scenario prediction (PS). PS deduces predictions iteratively based on Monte Carlo Tree Search (MCTS), jointly inferring scenarios that cooperate with the ego vehicle's planning set. Our method simulates possible scenes and calculates their costs after the ego vehicle executes potential actions. To balance and prune unreasonable actions and scenarios, we adopt MCTS as the foundation to explore possible future interactions encoded within the prediction network. Moreover, the query-centric trajectory prediction streamlines our scene generation, enabling a sophisticated framework that captures the mutual influence between other agents' predictions and the ego vehicle's planning. We evaluate our framework on the Argoverse 2 dataset, and the results demonstrate that our approach effectively achieves parallel ego vehicle planning.
+summary: >
+  Introduces Planning by Simulation, where parallel learned scenario prediction evaluates candidate ego plans by simulating how surrounding agents may respond. The paper targets the feedback loop between planning and prediction rather than treating forecast accuracy as a standalone objective.
+link: https://arxiv.org/pdf/2411.09887
+links_alt:
+  - https://doi.org/10.32604/cmes.2026.079324
+audit_status: partial

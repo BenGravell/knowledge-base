@@ -1,0 +1,33 @@
+title: >
+  Image Super-Resolution via Iterative Refinement
+algorithm: SR3
+authors:
+  - Chitwan Saharia
+  - Jonathan Ho
+  - William Chan
+  - Tim Salimans
+  - David J. Fleet
+  - Mohammad Norouzi
+year: 2021
+source: IEEE Transactions on Pattern Analysis and Machine Intelligence
+type: Journal Paper
+doi: 10.1109/tpami.2022.3204461
+arxiv_id: "2104.07636"
+tags:
+  - Image super-resolution
+  - Diffusion models
+  - Denoising diffusion
+  - Iterative refinement
+  - Conditional generation
+  - Cascaded generation
+  - Face super-resolution
+  - SR3
+abstract: >
+  We present SR3, an approach to image Super-Resolution via Repeated Refinement. SR3 adapts denoising diffusion probabilistic models to conditional image generation and performs super-resolution through a stochastic denoising process. Inference starts with pure Gaussian noise and iteratively refines the noisy output using a U-Net model trained on denoising at various noise levels. SR3 exhibits strong performance on super-resolution tasks at different magnification factors, on faces and natural images. We conduct human evaluation on a standard 8X face super-resolution task on CelebA-HQ, comparing with SOTA GAN methods. SR3 achieves a fool rate close to 50%, suggesting photo-realistic outputs, while GANs do not exceed a fool rate of 34%. We further show the effectiveness of SR3 in cascaded image generation, where generative models are chained with super-resolution models, yielding a competitive FID score of 11.3 on ImageNet.
+summary: >
+  SR3 is an early and influential diffusion-based super-resolution method, replacing deterministic regression with repeated conditional denoising from noise. Its human-evaluation results made it a key reference for the shift from PSNR-driven super-resolution toward photorealistic generative restoration.
+link: https://arxiv.org/pdf/2104.07636
+links_alt:
+  - https://iterative-refinement.github.io/
+  - https://doi.org/10.1109/tpami.2022.3204461
+audit_status: raw

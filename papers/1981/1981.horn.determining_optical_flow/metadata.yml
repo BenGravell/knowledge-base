@@ -1,0 +1,28 @@
+title: >
+  Determining Optical Flow
+algorithm: Horn-Schunck Optical Flow
+authors:
+  - Berthold K. P. Horn
+  - Brian G. Schunck
+year: 1981
+source: Artificial Intelligence
+type: Journal Paper
+doi: 10.1016/0004-3702(81)90024-2
+arxiv_id: ""
+tags:
+  - Optical flow
+  - Horn-Schunck
+  - Variational methods
+  - Brightness constancy
+  - Smoothness regularization
+  - Dense motion estimation
+  - Computer vision
+abstract: >
+  Optical flow cannot be computed locally, since only one independent measurement is available from the image sequence at a point, while the flow velocity has two components. A second constraint is needed. A method for finding the optical flow pattern is presented which assumes that the apparent velocity of the brightness pattern varies smoothly almost everywhere in the image. An iterative implementation is shown which successfully computes the optical flow for a number of synthetic image sequences. The algorithm is robust in that it can handle image sequences that are quantized rather coarsely in space and time. It is also insensitive to quantization of brightness levels and additive noise. Examples are included where the assumption of smoothness is violated at singular points or along lines in the image.
+summary: >
+  Horn and Schunck introduce the canonical global variational formulation of optical flow: combine brightness constancy with a smoothness prior to recover a dense velocity field. The paper is foundational because it exposes the aperture problem clearly and turns optical flow into an optimization problem whose data and regularization terms shaped decades of later methods.
+link: https://people.csail.mit.edu/bkph/papers/Optical_Flow_OPT_ENG.pdf
+links_alt:
+  - https://doi.org/10.1016/0004-3702(81)90024-2
+  - https://www.sciencedirect.com/science/article/pii/0004370281900242
+audit_status: raw

@@ -1,0 +1,29 @@
+title: >
+  Optical Flow Estimation Using a Spatial Pyramid Network
+algorithm: SPyNet
+authors:
+  - Anurag Ranjan
+  - Michael J. Black
+year: 2016
+source: IEEE Conference on Computer Vision and Pattern Recognition (CVPR)
+type: Conference Paper
+doi: 10.1109/CVPR.2017.291
+arxiv_id: "1611.00850"
+tags:
+  - Optical flow
+  - SPyNet
+  - Spatial pyramid
+  - Convolutional networks
+  - Coarse-to-fine estimation
+  - Image warping
+  - Embedded vision
+abstract: >
+  We learn to compute optical flow by combining a classical spatial-pyramid formulation with deep learning. This estimates large motions in a coarse-to-fine approach by warping one image of a pair at each pyramid level by the current flow estimate and computing an update to the flow. Instead of the standard minimization of an objective function at each pyramid level, we train one deep network per level to compute the flow update. Unlike the recent FlowNet approach, the networks do not need to deal with large motions; these are dealt with by the pyramid. This has several advantages. First, our Spatial Pyramid Network (SPyNet) is much simpler and 96% smaller than FlowNet in terms of model parameters. This makes it more efficient and appropriate for embedded applications. Second, since the flow at each pyramid level is small (< 1 pixel), a convolutional approach applied to pairs of warped images is appropriate. Third, unlike FlowNet, the learned convolution filters appear similar to classical spatio-temporal filters, giving insight into the method and how to improve it. Our results are more accurate than FlowNet on most standard benchmarks, suggesting a new direction of combining classical flow methods with deep learning.
+summary: >
+  SPyNet is a compact hybrid of classical coarse-to-fine warping and learned flow-update networks. Its importance is that it demonstrates a smaller, more interpretable neural optical-flow model by pushing large displacement handling back into a spatial pyramid rather than asking a single large CNN to solve everything at once.
+link: https://arxiv.org/pdf/1611.00850
+links_alt:
+  - https://doi.org/10.1109/CVPR.2017.291
+  - https://openaccess.thecvf.com/content_cvpr_2017/html/Ranjan_Optical_Flow_Estimation_CVPR_2017_paper.html
+  - https://github.com/anuragranj/spynet
+audit_status: raw

@@ -1,0 +1,27 @@
+title: >
+  Interactive Joint Planning for Autonomous Vehicles
+algorithm: Interactive Joint Planning
+authors:
+  - Yuxiao Chen
+  - Sushant Veer
+  - Peter Karkus
+  - Marco Pavone
+year: 2023
+source: IEEE Robotics and Automation Letters
+type: Journal Paper
+doi: 10.1109/LRA.2023.3332474
+arxiv_id: "2310.18301"
+tags:
+  - Autonomous driving
+  - Interaction-aware planning
+  - Trajectory prediction
+  - Motion planning
+  - Neural networks
+abstract: >
+  In highly interactive driving scenarios, the actions of one agent greatly influences those of its neighbors. Planning safe motions for autonomous vehicles in such interactive environments, therefore, requires reasoning about the impact of the ego's intended motion plan on nearby agents' behavior. Deep-learning-based models have recently achieved great success in trajectory prediction and many models in the literature allow for ego-conditioned prediction. However, leveraging ego-conditioned prediction remains challenging in downstream planning due to the complex nature of neural networks, limiting the planner structure to simple ones, e.g., sampling-based planner. Despite their ability to generate fine-grained high-quality motion plans, it is difficult for gradient-based planning algorithms, such as model predictive control (MPC), to leverage ego-conditioned prediction due to their iterative nature and need for gradient. We present Interactive Joint Planning (IJP) that bridges MPC with learned prediction models in a computationally scalable manner to provide us the best of both the worlds. In particular, IJP jointly optimizes over the behavior of the ego and the surrounding agents and leverages deep-learned prediction models as prediction priors that the join trajectory optimization tries to stay close to. Furthermore, by leveraging homotopy classes, our joint optimizer searches over diverse motion plans to avoid getting stuck at local minima. Closed-loop simulation result shows that IJP significantly outperforms the baselines that are either without joint optimization or running sampling-based planning.
+summary: >
+  Formulates autonomous-driving planning around ego-conditioned prediction so the planner accounts for how nearby agents may react to the ego plan. The paper contributes a joint planning structure that makes learned interaction models more directly usable in closed-loop decision making.
+link: https://arxiv.org/pdf/2310.18301
+links_alt:
+  - https://doi.org/10.1109/LRA.2023.3332474
+audit_status: partial

@@ -4226,6 +4226,82 @@ window.timelineData = {
       "mapUrl": "../map/#paper=1981_whittle_risk_sensitive_linear_quadratic"
     },
     {
+      "id": "1981_horn_determining_optical_flow",
+      "label": "Horn-Schunck",
+      "title": "Determining Optical Flow",
+      "authors": [
+        "Berthold K. P. Horn",
+        "Brian G. Schunck"
+      ],
+      "authorShort": "Horn, Schunck",
+      "year": 1981,
+      "source": "Artificial Intelligence",
+      "type": "Journal Paper",
+      "superCategory": "Prediction & Perception",
+      "category": "Computer Vision",
+      "subCategory": "Low-level & Geometric Vision",
+      "path": [
+        "Tree",
+        "Prediction & Perception",
+        "Computer Vision",
+        "Low-level & Geometric Vision",
+        "Optical Flow",
+        "Horn-Schunck"
+      ],
+      "tags": [
+        "Optical flow",
+        "Horn-Schunck",
+        "Variational methods",
+        "Brightness constancy",
+        "Smoothness regularization",
+        "Dense motion estimation",
+        "Computer vision"
+      ],
+      "abstract": "Optical flow cannot be computed locally, since only one independent measurement is available from the image sequence at a point, while the flow velocity has two components. A second constraint is needed. A method for finding the optical flow pattern is presented which assumes that the apparent velocity of the brightness pattern varies smoothly almost everywhere in the image. An iterative implementation is shown which successfully computes the optical flow for a number of synthetic image sequences. The algorithm is robust in that it can handle image sequences that are quantized rather coarsely in space and time. It is also insensitive to quantization of brightness levels and additive noise. Examples are included where the assumption of smoothness is violated at singular points or along lines in the image.",
+      "summary": "Horn and Schunck introduce the canonical global variational formulation of optical flow: combine brightness constancy with a smoothness prior to recover a dense velocity field. The paper is foundational because it exposes the aperture problem clearly and turns optical flow into an optimization problem whose data and regularization terms shaped decades of later methods.",
+      "url": "../papers/1981_horn_determining_optical_flow/",
+      "treeUrl": "../tree/#paper=1981_horn_determining_optical_flow",
+      "mapUrl": "../map/#paper=1981_horn_determining_optical_flow"
+    },
+    {
+      "id": "1981_lucas_an_iterative_image_registration",
+      "label": "Lucas-Kanade",
+      "title": "An Iterative Image Registration Technique with an Application to Stereo Vision",
+      "authors": [
+        "Bruce D. Lucas",
+        "Takeo Kanade"
+      ],
+      "authorShort": "Lucas, Kanade",
+      "year": 1981,
+      "source": "International Joint Conference on Artificial Intelligence (IJCAI)",
+      "type": "Conference Paper",
+      "superCategory": "Prediction & Perception",
+      "category": "Computer Vision",
+      "subCategory": "Low-level & Geometric Vision",
+      "path": [
+        "Tree",
+        "Prediction & Perception",
+        "Computer Vision",
+        "Low-level & Geometric Vision",
+        "Optical Flow",
+        "Lucas-Kanade"
+      ],
+      "tags": [
+        "Optical flow",
+        "Lucas-Kanade",
+        "Image registration",
+        "Stereo vision",
+        "Newton-raphson iteration",
+        "Gradient-based alignment",
+        "Local motion estimation"
+      ],
+      "abstract": "Image registration finds a variety of applications in computer vision. Unfortunately, traditional image registration techniques tend to be costly. We present a new image registration technique that makes use of the spatial intensity gradient of the images to find a good match using a type of Newton-Raphson iteration. Our technique is faster because it examines far fewer potential matches between the images than existing techniques. Furthermore, this registration technique can be generalized to handle rotation, scaling and shearing. We show how our technique can be adapted for use in a stereo vision system.",
+      "summary": "Lucas and Kanade present the local gradient-based registration method that later became a standard sparse optical flow tracker. Its core idea is to estimate small image displacements by iteratively linearizing image alignment, making motion estimation practical for patches, features, and stereo correspondence.",
+      "url": "../papers/1981_lucas_an_iterative_image_registration/",
+      "treeUrl": "../tree/#paper=1981_lucas_an_iterative_image_registration",
+      "mapUrl": "../map/#paper=1981_lucas_an_iterative_image_registration"
+    },
+    {
       "id": "1981_longuet_higgins_a_computer_algorithm_for",
       "label": "Eight-Point Algorithm",
       "title": "A Computer Algorithm for Reconstructing a Scene from Two Projections",
@@ -8651,6 +8727,44 @@ window.timelineData = {
       "url": "../papers/1996_van_overschee_subspace_identification_for_linear/",
       "treeUrl": "../tree/#paper=1996_van_overschee_subspace_identification_for_linear",
       "mapUrl": "../map/#paper=1996_van_overschee_subspace_identification_for_linear"
+    },
+    {
+      "id": "1996_black_the_robust_estimation_of",
+      "label": "Black-Anandan Robust Flow",
+      "title": "The Robust Estimation of Multiple Motions: Parametric and Piecewise-Smooth Flow Fields",
+      "authors": [
+        "Michael J. Black",
+        "P. Anandan"
+      ],
+      "authorShort": "Black, Anandan",
+      "year": 1996,
+      "source": "Computer Vision and Image Understanding",
+      "type": "Journal Paper",
+      "superCategory": "Prediction & Perception",
+      "category": "Computer Vision",
+      "subCategory": "Low-level & Geometric Vision",
+      "path": [
+        "Tree",
+        "Prediction & Perception",
+        "Computer Vision",
+        "Low-level & Geometric Vision",
+        "Optical Flow",
+        "Black-Anandan Robust Flow"
+      ],
+      "tags": [
+        "Optical flow",
+        "Robust estimation",
+        "Multiple motion",
+        "Parametric motion",
+        "Piecewise-smooth flow",
+        "Motion discontinuities",
+        "Outlier rejection"
+      ],
+      "abstract": "Most approaches for estimating optical flow assume that, within a finite image region, only a single motion is present. This single motion assumption is violated in common situations involving transparency, depth discontinuities, independently moving objects, shadows, and specular reflections. To robustly estimate optical flow, the single motion assumption must be relaxed. This paper presents a framework based on robust estimation that addresses violations of the brightness constancy and spatial smoothness assumptions caused by multiple motions. We show how the robust estimation framework can be applied to standard formulations of the optical flow problem thus reducing their sensitivity to violations of their underlying assumptions. The approach has been applied to three standard techniques for recovering optical flow: area-based regression, correlation, and regularization with motion discontinuities. This paper focuses on the recovery of multiple parametric motion models within a region, as well as the recovery of piecewise-smooth flow fields, and provides examples with natural and synthetic image sequences.",
+      "summary": "Black and Anandan recast optical flow estimation around robust penalties so that brightness and smoothness violations can be treated as outliers rather than fatal model failures. The work is especially important for motion boundaries, transparency, specularities, and layered or multiple-motion scenes where single-motion assumptions break down.",
+      "url": "../papers/1996_black_the_robust_estimation_of/",
+      "treeUrl": "../tree/#paper=1996_black_the_robust_estimation_of",
+      "mapUrl": "../map/#paper=1996_black_the_robust_estimation_of"
     },
     {
       "id": "1996_breiman_bagging_predictors",
@@ -14096,6 +14210,46 @@ window.timelineData = {
       "mapUrl": "../map/#paper=2004_wang_image_quality_assessment_from"
     },
     {
+      "id": "2004_brox_high_accuracy_optical_flow",
+      "label": "Brox Optical Flow",
+      "title": "High Accuracy Optical Flow Estimation Based on a Theory for Warping",
+      "authors": [
+        "Thomas Brox",
+        "Andres Bruhn",
+        "Nils Papenberg",
+        "Joachim Weickert"
+      ],
+      "authorShort": "Brox, Bruhn, Papenberg",
+      "year": 2004,
+      "source": "European Conference on Computer Vision (ECCV)",
+      "type": "Conference Paper",
+      "superCategory": "Prediction & Perception",
+      "category": "Computer Vision",
+      "subCategory": "Low-level & Geometric Vision",
+      "path": [
+        "Tree",
+        "Prediction & Perception",
+        "Computer Vision",
+        "Low-level & Geometric Vision",
+        "Optical Flow",
+        "Brox Optical Flow"
+      ],
+      "tags": [
+        "Optical flow",
+        "Brox optical flow",
+        "Variational methods",
+        "Warping",
+        "Gradient constancy",
+        "Coarse-to-fine estimation",
+        "Robust smoothness"
+      ],
+      "abstract": "We study an energy functional for computing optical flow that combines three assumptions: a brightness constancy assumption, a gradient constancy assumption, and a discontinuity-preserving spatio-temporal smoothness constraint. In order to allow for large displacements, linearisations in the two data terms are strictly avoided. We present a consistent numerical scheme based on two nested fixed point iterations. By proving that this scheme implements a coarse-to-fine warping strategy, we give a theoretical foundation for warping which has been used on a mainly experimental basis so far. Our evaluation demonstrates that the novel method gives significantly smaller angular errors than previous techniques for optical flow estimation. We show that it is fairly insensitive to parameter variations, and we demonstrate its excellent robustness under noise.",
+      "summary": "Brox, Bruhn, Papenberg, and Weickert give a high-accuracy variational optical-flow model that combines brightness constancy, gradient constancy, and discontinuity-preserving smoothness. Its main lasting contribution is a principled account of coarse-to-fine warping for large displacements, tying a widely used practical trick to an explicit numerical scheme.",
+      "url": "../papers/2004_brox_high_accuracy_optical_flow/",
+      "treeUrl": "../tree/#paper=2004_brox_high_accuracy_optical_flow",
+      "mapUrl": "../map/#paper=2004_brox_high_accuracy_optical_flow"
+    },
+    {
       "id": "2004_lowe_distinctive_image_features_from",
       "label": "SIFT",
       "title": "Distinctive Image Features from Scale-Invariant Keypoints",
@@ -19497,6 +19651,45 @@ window.timelineData = {
       "mapUrl": "../map/#paper=2010_farahmand_error_propagation_for_approximate"
     },
     {
+      "id": "2010_sun_secrets_of_optical_flow",
+      "label": "Secrets of Optical Flow",
+      "title": "Secrets of Optical Flow Estimation and Their Principles",
+      "authors": [
+        "Deqing Sun",
+        "Stefan Roth",
+        "Michael J. Black"
+      ],
+      "authorShort": "Sun, Roth, Black",
+      "year": 2010,
+      "source": "IEEE Conference on Computer Vision and Pattern Recognition (CVPR)",
+      "type": "Conference Paper",
+      "superCategory": "Prediction & Perception",
+      "category": "Computer Vision",
+      "subCategory": "Low-level & Geometric Vision",
+      "path": [
+        "Tree",
+        "Prediction & Perception",
+        "Computer Vision",
+        "Low-level & Geometric Vision",
+        "Optical Flow",
+        "Secrets of Optical Flow"
+      ],
+      "tags": [
+        "Optical flow",
+        "Variational methods",
+        "Classic+NL",
+        "Middlebury benchmark",
+        "Median filtering",
+        "Non-local regularization",
+        "Implementation analysis"
+      ],
+      "abstract": "The most accurate methods on the Middlebury flow dataset make different choices about how to model the objective function, how to approximate this model to make it computationally tractable, and how to optimize it. Since most published methods change all of these properties at once, it can be difficult to know which choices are most important. To address this, we define a baseline algorithm that is \"classical\", in that it is a direct descendant of the original HS formulation, and then systematically vary the model and method using different techniques from the art. The results are surprising. We find that only a small number of key choices produce statistically significant improvements and that they can be combined into a very simple method that achieves accuracies near the state of the art. More importantly, our analysis reveals what makes current flow methods work so well.",
+      "summary": "Sun, Roth, and Black dissect modern variational optical flow and show that careful implementation choices matter as much as the nominal objective. The paper is remembered for explaining why median filtering during warping helps, then turning that heuristic into a non-local regularization term that leads to the Classic+NL model.",
+      "url": "../papers/2010_sun_secrets_of_optical_flow/",
+      "treeUrl": "../tree/#paper=2010_sun_secrets_of_optical_flow",
+      "mapUrl": "../map/#paper=2010_sun_secrets_of_optical_flow"
+    },
+    {
       "id": "2010_martens_deep_learning_via_hessian",
       "label": "Hessian-free Optimization",
       "title": "Deep Learning via Hessian-Free Optimization",
@@ -24652,6 +24845,46 @@ window.timelineData = {
       "mapUrl": "../map/#paper=2013_le_cong_multiplex_genome_engineering_using"
     },
     {
+      "id": "2013_sun_a_quantitative_analysis_of",
+      "label": "Classic+NL",
+      "title": "A Quantitative Analysis of Current Practices in Optical Flow Estimation and the Principles behind Them",
+      "authors": [
+        "Deqing Sun",
+        "Stefan Roth",
+        "Michael J. Black"
+      ],
+      "authorShort": "Sun, Roth, Black",
+      "year": 2013,
+      "source": "International Journal of Computer Vision",
+      "type": "Journal Paper",
+      "superCategory": "Prediction & Perception",
+      "category": "Computer Vision",
+      "subCategory": "Low-level & Geometric Vision",
+      "path": [
+        "Tree",
+        "Prediction & Perception",
+        "Computer Vision",
+        "Low-level & Geometric Vision",
+        "Optical Flow",
+        "Classic+NL"
+      ],
+      "tags": [
+        "Optical flow",
+        "Variational methods",
+        "Middlebury benchmark",
+        "MPI sintel",
+        "KITTI",
+        "Median filtering",
+        "Non-local regularization",
+        "Implementation analysis"
+      ],
+      "abstract": "The accuracy of optical flow estimation algorithms has been improving steadily as evidenced by results on the Middlebury optical flow benchmark. The typical formulation, however, has changed little since the work of Horn and Schunck. We attempt to uncover what has made recent advances possible through a thorough analysis of how the objective function, the optimization method, and modern implementation practices influence accuracy. We discover that \"classical\" flow formulations perform surprisingly well when combined with modern optimization and implementation techniques. Moreover, we find that while median filtering of intermediate flow fields during optimization is a key to recent performance gains, it leads to higher energy solutions. To understand the principles behind this phenomenon, we derive a new objective that formalizes the median filtering heuristic. This objective includes a non-local term that robustly integrates flow estimates over large spatial neighborhoods. By modifying this new term to include information about flow and image boundaries we develop a method that ranks at the top of the Middlebury benchmark. To take advantage of the trend towards video in wide-screen format, we further introduce an asymmetric pyramid downsampling scheme that enables the estimation of longer range horizontal motions. The methods are evaluated on the Middlebury, MPI Sintel, and KITTI datasets using the same parameter settings.",
+      "summary": "This journal article expands the CVPR \"Secrets\" study into a broader quantitative audit of variational optical-flow practice. It clarifies which objective, optimization, interpolation, derivative, filtering, and pyramid choices actually move benchmark accuracy, and it presents Classic+NL as a compact classical model that remains surprisingly competitive.",
+      "url": "../papers/2013_sun_a_quantitative_analysis_of/",
+      "treeUrl": "../tree/#paper=2013_sun_a_quantitative_analysis_of",
+      "mapUrl": "../map/#paper=2013_sun_a_quantitative_analysis_of"
+    },
+    {
       "id": "2013_campello_density_based_clustering_based",
       "label": "HDBSCAN",
       "title": "Density-Based Clustering Based on Hierarchical Density Estimates",
@@ -26623,6 +26856,47 @@ window.timelineData = {
       "url": "../papers/2014_lupashin_a_platform_for_aerial/",
       "treeUrl": "../tree/#paper=2014_lupashin_a_platform_for_aerial",
       "mapUrl": "../map/#paper=2014_lupashin_a_platform_for_aerial"
+    },
+    {
+      "id": "1501_00092",
+      "label": "SRCNN",
+      "title": "Image Super-Resolution Using Deep Convolutional Networks",
+      "authors": [
+        "Chao Dong",
+        "Chen Change Loy",
+        "Kaiming He",
+        "Xiaoou Tang"
+      ],
+      "authorShort": "Dong, Loy, He",
+      "year": 2014,
+      "source": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+      "type": "Journal Paper",
+      "superCategory": "Prediction & Perception",
+      "category": "Computer Vision",
+      "subCategory": "Image Processing & Computational Photography",
+      "path": [
+        "Tree",
+        "Prediction & Perception",
+        "Computer Vision",
+        "Image Processing & Computational Photography",
+        "Super-Resolution & Restoration",
+        "CNN Super-Resolution",
+        "SRCNN"
+      ],
+      "tags": [
+        "Image super-resolution",
+        "Convolutional networks",
+        "End-to-end learning",
+        "Sparse coding interpretation",
+        "Restoration quality",
+        "Efficient inference",
+        "SRCNN"
+      ],
+      "abstract": "We propose a deep learning method for single image super-resolution (SR). Our method directly learns an end-to-end mapping between the low/high-resolution images. The mapping is represented as a deep convolutional neural network (CNN) that takes the low-resolution image as the input and outputs the high-resolution one. We further show that traditional sparse-coding-based SR methods can also be viewed as a deep convolutional network. But unlike traditional methods that handle each component separately, our method jointly optimizes all layers. Our deep CNN has a lightweight structure, yet demonstrates state-of-the-art restoration quality, and achieves fast speed for practical on-line usage. We explore different network structures and parameter settings to achieve trade-offs between performance and speed. Moreover, we extend our network to cope with three color channels simultaneously, and show better overall reconstruction quality.",
+      "summary": "SRCNN is the foundational deep-learning paper for single-image super-resolution, replacing hand-engineered sparse-coding pipelines with a direct end-to-end CNN mapping. Its simple architecture became the reference point that later fast, deep, residual, transformer, and diffusion super-resolution methods improve upon.",
+      "url": "../papers/1501_00092/",
+      "treeUrl": "../tree/#paper=1501_00092",
+      "mapUrl": "../map/#paper=1501_00092"
     },
     {
       "id": "1406_5670",
@@ -29305,6 +29579,133 @@ window.timelineData = {
       "mapUrl": "../map/#paper=2015_kuindersma_optimization_based_locomotion_planning"
     },
     {
+      "id": "1511_04587",
+      "label": "VDSR",
+      "title": "Accurate Image Super-Resolution Using Very Deep Convolutional Networks",
+      "authors": [
+        "Jiwon Kim",
+        "Jung Kwon Lee",
+        "Kyoung Mu Lee"
+      ],
+      "authorShort": "Kim, Lee, Lee",
+      "year": 2015,
+      "source": "IEEE Conference on Computer Vision and Pattern Recognition (CVPR)",
+      "type": "Conference Paper",
+      "superCategory": "Prediction & Perception",
+      "category": "Computer Vision",
+      "subCategory": "Image Processing & Computational Photography",
+      "path": [
+        "Tree",
+        "Prediction & Perception",
+        "Computer Vision",
+        "Image Processing & Computational Photography",
+        "Super-Resolution & Restoration",
+        "CNN Super-Resolution",
+        "VDSR"
+      ],
+      "tags": [
+        "Image super-resolution",
+        "Convolutional networks",
+        "Very deep networks",
+        "Residual learning",
+        "Gradient clipping",
+        "High learning rate",
+        "VGG-style networks",
+        "VDSR"
+      ],
+      "abstract": "We present a highly accurate single-image super-resolution (SR) method. Our method uses a very deep convolutional network inspired by VGG-net used for ImageNet classification \\cite{simonyan2015very}. We find increasing our network depth shows a significant improvement in accuracy. Our final model uses 20 weight layers. By cascading small filters many times in a deep network structure, contextual information over large image regions is exploited in an efficient way. With very deep networks, however, convergence speed becomes a critical issue during training. We propose a simple yet effective training procedure. We learn residuals only and use extremely high learning rates ($10^4$ times higher than SRCNN \\cite{dong2015image}) enabled by adjustable gradient clipping. Our proposed method performs better than existing methods in accuracy and visual improvements in our results are easily noticeable.",
+      "summary": "VDSR shows that much deeper CNNs can improve single-image super-resolution when trained as residual predictors with aggressive learning rates and gradient clipping. It marks an important transition from shallow SRCNN-style mappings to deeper residual restoration networks.",
+      "url": "../papers/1511_04587/",
+      "treeUrl": "../tree/#paper=1511_04587",
+      "mapUrl": "../map/#paper=1511_04587"
+    },
+    {
+      "id": "1501_02565",
+      "label": "EpicFlow",
+      "title": "EpicFlow: Edge-Preserving Interpolation of Correspondences for Optical Flow",
+      "authors": [
+        "Jerome Revaud",
+        "Philippe Weinzaepfel",
+        "Zaid Harchaoui",
+        "Cordelia Schmid"
+      ],
+      "authorShort": "Revaud, Weinzaepfel, Harchaoui",
+      "year": 2015,
+      "source": "IEEE Conference on Computer Vision and Pattern Recognition (CVPR)",
+      "type": "Conference Paper",
+      "superCategory": "Prediction & Perception",
+      "category": "Computer Vision",
+      "subCategory": "Low-level & Geometric Vision",
+      "path": [
+        "Tree",
+        "Prediction & Perception",
+        "Computer Vision",
+        "Low-level & Geometric Vision",
+        "Optical Flow",
+        "EpicFlow"
+      ],
+      "tags": [
+        "Optical flow",
+        "EpicFlow",
+        "Sparse-to-dense interpolation",
+        "Edge-aware distance",
+        "Geodesic distance",
+        "Large displacement",
+        "Motion boundaries",
+        "Occlusion handling"
+      ],
+      "abstract": "We propose a novel approach for optical flow estimation, targeted at large displacements with significant occlusions. It consists of two steps: i) dense matching by edge-preserving interpolation from a sparse set of matches; ii) variational energy minimization initialized with the dense matches. The sparse-to-dense interpolation relies on an appropriate choice of the distance, namely an edge-aware geodesic distance. This distance is tailored to handle occlusions and motion boundaries -- two common and difficult issues for optical flow computation. We also propose an approximation scheme for the geodesic distance to allow fast computation without loss of performance. Subsequent to the dense interpolation step, standard one-level variational energy minimization is carried out on the dense matches to obtain the final flow estimation. The proposed approach, called Edge-Preserving Interpolation of Correspondences (EpicFlow) is fast and robust to large displacements. It significantly outperforms the state of the art on MPI-Sintel and performs on par on Kitti and Middlebury.",
+      "summary": "EpicFlow replaces fragile coarse-to-fine initialization with edge-preserving interpolation of sparse matches, then refines the result with a one-level variational method. The paper is a bridge between classical optical flow and learned matching pipelines because it shows how strong correspondences plus motion-boundary-aware interpolation can handle large displacement and occlusion better than standard pyramids.",
+      "url": "../papers/1501_02565/",
+      "treeUrl": "../tree/#paper=1501_02565",
+      "mapUrl": "../map/#paper=1501_02565"
+    },
+    {
+      "id": "1504_06852",
+      "label": "FlowNet",
+      "title": "FlowNet: Learning Optical Flow with Convolutional Networks",
+      "authors": [
+        "Alexey Dosovitskiy",
+        "Philipp Fischer",
+        "Eddy Ilg",
+        "Philip Hausser",
+        "Caner Hazirbas",
+        "Vladimir Golkov",
+        "Patrick van der Smagt",
+        "Daniel Cremers",
+        "Thomas Brox"
+      ],
+      "authorShort": "Dosovitskiy, Fischer, Ilg",
+      "year": 2015,
+      "source": "IEEE International Conference on Computer Vision (ICCV)",
+      "type": "Conference Paper",
+      "superCategory": "Prediction & Perception",
+      "category": "Computer Vision",
+      "subCategory": "Low-level & Geometric Vision",
+      "path": [
+        "Tree",
+        "Prediction & Perception",
+        "Computer Vision",
+        "Low-level & Geometric Vision",
+        "Optical Flow",
+        "FlowNet"
+      ],
+      "tags": [
+        "Optical flow",
+        "FlowNet",
+        "Convolutional networks",
+        "Supervised learning",
+        "Correlation layer",
+        "Flying chairs",
+        "Dense prediction"
+      ],
+      "abstract": "Convolutional neural networks (CNNs) have recently been very successful in a variety of computer vision tasks, especially on those linked to recognition. Optical flow estimation has not been among the tasks where CNNs were successful. In this paper we construct appropriate CNNs which are capable of solving the optical flow estimation problem as a supervised learning task. We propose and compare two architectures: a generic architecture and another one including a layer that correlates feature vectors at different image locations. Since existing ground truth data sets are not sufficiently large to train a CNN, we generate a synthetic Flying Chairs dataset. We show that networks trained on this unrealistic data still generalize very well to existing datasets such as Sintel and KITTI, achieving competitive accuracy at frame rates of 5 to 10 fps.",
+      "summary": "FlowNet is the first major end-to-end convolutional network for dense optical flow. Beyond the architectures themselves, the paper's synthetic Flying Chairs training setup is a key contribution because it made supervised dense flow learning feasible before large real-world ground-truth datasets existed.",
+      "url": "../papers/1504_06852/",
+      "treeUrl": "../tree/#paper=1504_06852",
+      "mapUrl": "../map/#paper=1504_06852"
+    },
+    {
       "id": "1512_03012",
       "label": "ShapeNet",
       "title": "ShapeNet: An Information-Rich 3D Model Repository",
@@ -31469,6 +31870,47 @@ window.timelineData = {
       "mapUrl": "../map/#paper=1603_09157"
     },
     {
+      "id": "1611_05763",
+      "label": "Deep Meta-Reinforcement Learning",
+      "title": "Learning to Reinforcement Learn",
+      "authors": [
+        "Jane X. Wang",
+        "Zeb Kurth-Nelson",
+        "Dhruva Tirumala",
+        "Hubert Soyer",
+        "Joel Z. Leibo",
+        "Remi Munos",
+        "Charles Blundell",
+        "Dharshan Kumaran",
+        "Matthew M. Botvinick"
+      ],
+      "authorShort": "Wang, Kurth-Nelson, Tirumala",
+      "year": 2016,
+      "source": "arXiv",
+      "type": "Preprint",
+      "superCategory": "Decision-making",
+      "category": "Reinforcement Learning",
+      "subCategory": "Meta-Reinforcement Learning",
+      "path": [
+        "Tree",
+        "Decision-making",
+        "Reinforcement Learning",
+        "Meta-Reinforcement Learning",
+        "Deep Meta-Reinforcement Learning"
+      ],
+      "tags": [
+        "Reinforcement learning",
+        "Deep reinforcement learning",
+        "Meta-learning",
+        "Recurrent neural networks"
+      ],
+      "abstract": "In recent years deep reinforcement learning (RL) systems have attained superhuman performance in a number of challenging task domains. However, a major limitation of such applications is their demand for massive amounts of training data. A critical present objective is thus to develop deep RL methods that can adapt rapidly to new tasks. In the present work we introduce a novel approach to this challenge, which we refer to as deep meta-reinforcement learning. Previous work has shown that recurrent networks can support meta-learning in a fully supervised context. We extend this approach to the RL setting. What emerges is a system that is trained using one RL algorithm, but whose recurrent dynamics implement a second, quite separate RL procedure. This second, learned RL algorithm can differ from the original one in arbitrary ways. Importantly, because it is learned, it is configured to exploit structure in the training domain. We unpack these points in a series of seven proof-of-concept experiments, each of which examines a key aspect of deep meta-RL. We consider prospects for extending and scaling up the approach, and also point out some potentially important implications for neuroscience.",
+      "summary": "Introduces deep meta-reinforcement learning, where a recurrent policy trained by a standard RL algorithm learns internal dynamics that behave like a separate fast adaptation procedure. The paper is a useful early bridge between deep RL, meta-learning, and neuroscience-inspired accounts of flexible behavior.",
+      "url": "../papers/1611_05763/",
+      "treeUrl": "../tree/#paper=1611_05763",
+      "mapUrl": "../map/#paper=1611_05763"
+    },
+    {
       "id": "2016_ajorlou_slopey_quantizers_are_locally",
       "label": "Slopey Quantizers Are Locally Optimal for Witsenhausen's Counterexample",
       "title": "Slopey Quantizers Are Locally Optimal for Witsenhausen's Counterexample",
@@ -32229,6 +32671,93 @@ window.timelineData = {
       "mapUrl": "../map/#paper=2016_hasinoff_burst_photography_for_high"
     },
     {
+      "id": "1609_05158",
+      "label": "ESPCN",
+      "title": "Real-Time Single Image and Video Super-Resolution Using an Efficient Sub-Pixel Convolutional Neural Network",
+      "authors": [
+        "Wenzhe Shi",
+        "Jose Caballero",
+        "Ferenc Huszar",
+        "Johannes Totz",
+        "Andrew P. Aitken",
+        "Rob Bishop",
+        "Daniel Rueckert",
+        "Zehan Wang"
+      ],
+      "authorShort": "Shi, Caballero, Huszar",
+      "year": 2016,
+      "source": "IEEE Conference on Computer Vision and Pattern Recognition (CVPR)",
+      "type": "Conference Paper",
+      "superCategory": "Prediction & Perception",
+      "category": "Computer Vision",
+      "subCategory": "Image Processing & Computational Photography",
+      "path": [
+        "Tree",
+        "Prediction & Perception",
+        "Computer Vision",
+        "Image Processing & Computational Photography",
+        "Super-Resolution & Restoration",
+        "CNN Super-Resolution",
+        "ESPCN"
+      ],
+      "tags": [
+        "Image super-resolution",
+        "Video super-resolution",
+        "Convolutional networks",
+        "Sub-pixel convolution",
+        "Pixel shuffle",
+        "Real-time inference",
+        "Low-resolution feature extraction",
+        "ESPCN"
+      ],
+      "abstract": "Recently, several models based on deep neural networks have achieved great success in terms of both reconstruction accuracy and computational performance for single image super-resolution. In these methods, the low resolution (LR) input image is upscaled to the high resolution (HR) space using a single filter, commonly bicubic interpolation, before reconstruction. This means that the super-resolution (SR) operation is performed in HR space. We demonstrate that this is sub-optimal and adds computational complexity. In this paper, we present the first convolutional neural network (CNN) capable of real-time SR of 1080p videos on a single K2 GPU. To achieve this, we propose a novel CNN architecture where the feature maps are extracted in the LR space. In addition, we introduce an efficient sub-pixel convolution layer which learns an array of upscaling filters to upscale the final LR feature maps into the HR output. By doing so, we effectively replace the handcrafted bicubic filter in the SR pipeline with more complex upscaling filters specifically trained for each feature map, whilst also reducing the computational complexity of the overall SR operation. We evaluate the proposed approach using images and videos from publicly available datasets and show that it performs significantly better (+0.15dB on Images and +0.39dB on Videos) and is an order of magnitude faster than previous CNN-based methods.",
+      "summary": "ESPCN moves most computation into low-resolution feature space and performs learned upsampling with a sub-pixel convolution layer, making real-time 1080p super-resolution feasible. The sub-pixel or pixel-shuffle idea became a widely reused upsampling primitive in image and video restoration networks.",
+      "url": "../papers/1609_05158/",
+      "treeUrl": "../tree/#paper=1609_05158",
+      "mapUrl": "../map/#paper=1609_05158"
+    },
+    {
+      "id": "1608_00367",
+      "label": "FSRCNN",
+      "title": "Accelerating the Super-Resolution Convolutional Neural Network",
+      "authors": [
+        "Chao Dong",
+        "Chen Change Loy",
+        "Xiaoou Tang"
+      ],
+      "authorShort": "Dong, Loy, Tang",
+      "year": 2016,
+      "source": "European Conference on Computer Vision (ECCV)",
+      "type": "Conference Paper",
+      "superCategory": "Prediction & Perception",
+      "category": "Computer Vision",
+      "subCategory": "Image Processing & Computational Photography",
+      "path": [
+        "Tree",
+        "Prediction & Perception",
+        "Computer Vision",
+        "Image Processing & Computational Photography",
+        "Super-Resolution & Restoration",
+        "CNN Super-Resolution",
+        "FSRCNN"
+      ],
+      "tags": [
+        "Image super-resolution",
+        "Convolutional networks",
+        "Efficient inference",
+        "Deconvolution",
+        "Low-resolution feature extraction",
+        "Shrinking and expanding layers",
+        "Transfer strategy",
+        "FSRCNN"
+      ],
+      "abstract": "As a successful deep model applied in image super-resolution (SR), the Super-Resolution Convolutional Neural Network (SRCNN) has demonstrated superior performance to the previous hand-crafted models either in speed and restoration quality. However, the high computational cost still hinders it from practical usage that demands real-time performance (24 fps). In this paper, we aim at accelerating the current SRCNN, and propose a compact hourglass-shape CNN structure for faster and better SR. We re-design the SRCNN structure mainly in three aspects. First, we introduce a deconvolution layer at the end of the network, then the mapping is learned directly from the original low-resolution image (without interpolation) to the high-resolution one. Second, we reformulate the mapping layer by shrinking the input feature dimension before mapping and expanding back afterwards. Third, we adopt smaller filter sizes but more mapping layers. The proposed model achieves a speed up of more than 40 times with even superior restoration quality. Further, we present the parameter settings that can achieve real-time performance on a generic CPU while still maintaining good performance. A corresponding transfer strategy is also proposed for fast training and testing across different upscaling factors.",
+      "summary": "FSRCNN reworks SRCNN for speed by operating before bicubic upsampling, adding a final deconvolution layer, and using a compact hourglass mapping. The design makes the classic CNN super-resolution pipeline much more practical for real-time CPU inference.",
+      "url": "../papers/1608_00367/",
+      "treeUrl": "../tree/#paper=1608_00367",
+      "mapUrl": "../map/#paper=1608_00367"
+    },
+    {
       "id": "2016_wang_apriltag_2_efficient_and",
       "label": "AprilTag 2",
       "title": "AprilTag 2: Efficient and Robust Fiducial Detection",
@@ -32257,6 +32786,86 @@ window.timelineData = {
       "url": "../papers/2016_wang_apriltag_2_efficient_and/",
       "treeUrl": "../tree/#paper=2016_wang_apriltag_2_efficient_and",
       "mapUrl": "../map/#paper=2016_wang_apriltag_2_efficient_and"
+    },
+    {
+      "id": "1612_01925",
+      "label": "FlowNet 2.0",
+      "title": "FlowNet 2.0: Evolution of Optical Flow Estimation with Deep Networks",
+      "authors": [
+        "Eddy Ilg",
+        "Nikolaus Mayer",
+        "Tonmoy Saikia",
+        "Margret Keuper",
+        "Alexey Dosovitskiy",
+        "Thomas Brox"
+      ],
+      "authorShort": "Ilg, Mayer, Saikia",
+      "year": 2016,
+      "source": "IEEE Conference on Computer Vision and Pattern Recognition (CVPR)",
+      "type": "Conference Paper",
+      "superCategory": "Prediction & Perception",
+      "category": "Computer Vision",
+      "subCategory": "Low-level & Geometric Vision",
+      "path": [
+        "Tree",
+        "Prediction & Perception",
+        "Computer Vision",
+        "Low-level & Geometric Vision",
+        "Optical Flow",
+        "FlowNet 2.0"
+      ],
+      "tags": [
+        "Optical flow",
+        "FlowNet 2.0",
+        "Convolutional networks",
+        "Network stacking",
+        "Warping",
+        "Small displacement",
+        "Training schedule"
+      ],
+      "abstract": "The FlowNet demonstrated that optical flow estimation can be cast as a learning problem. However, the state of the art with regard to the quality of the flow has still been defined by traditional methods. Particularly on small displacements and real-world data, FlowNet cannot compete with variational methods. In this paper, we advance the concept of end-to-end learning of optical flow and make it work really well. The large improvements in quality and speed are caused by three major contributions: first, we focus on the training data and show that the schedule of presenting data during training is very important. Second, we develop a stacked architecture that includes warping of the second image with intermediate optical flow. Third, we elaborate on small displacements by introducing a sub-network specializing on small motions. FlowNet 2.0 is only marginally slower than the original FlowNet but decreases the estimation error by more than 50%. It performs on par with state-of-the-art methods, while running at interactive frame rates. Moreover, we present faster variants that allow optical flow computation at up to 140fps with accuracy matching the original FlowNet.",
+      "summary": "FlowNet 2.0 shows that learned optical flow can match classical methods when the architecture, training schedule, and small-motion handling are engineered carefully. Its stacked networks with intermediate warping turned FlowNet from an intriguing proof of concept into a practical high-speed optical-flow system.",
+      "url": "../papers/1612_01925/",
+      "treeUrl": "../tree/#paper=1612_01925",
+      "mapUrl": "../map/#paper=1612_01925"
+    },
+    {
+      "id": "1611_00850",
+      "label": "SPyNet",
+      "title": "Optical Flow Estimation Using a Spatial Pyramid Network",
+      "authors": [
+        "Anurag Ranjan",
+        "Michael J. Black"
+      ],
+      "authorShort": "Ranjan, Black",
+      "year": 2016,
+      "source": "IEEE Conference on Computer Vision and Pattern Recognition (CVPR)",
+      "type": "Conference Paper",
+      "superCategory": "Prediction & Perception",
+      "category": "Computer Vision",
+      "subCategory": "Low-level & Geometric Vision",
+      "path": [
+        "Tree",
+        "Prediction & Perception",
+        "Computer Vision",
+        "Low-level & Geometric Vision",
+        "Optical Flow",
+        "SPyNet"
+      ],
+      "tags": [
+        "Optical flow",
+        "SPyNet",
+        "Spatial pyramid",
+        "Convolutional networks",
+        "Coarse-to-fine estimation",
+        "Image warping",
+        "Embedded vision"
+      ],
+      "abstract": "We learn to compute optical flow by combining a classical spatial-pyramid formulation with deep learning. This estimates large motions in a coarse-to-fine approach by warping one image of a pair at each pyramid level by the current flow estimate and computing an update to the flow. Instead of the standard minimization of an objective function at each pyramid level, we train one deep network per level to compute the flow update. Unlike the recent FlowNet approach, the networks do not need to deal with large motions; these are dealt with by the pyramid. This has several advantages. First, our Spatial Pyramid Network (SPyNet) is much simpler and 96% smaller than FlowNet in terms of model parameters. This makes it more efficient and appropriate for embedded applications. Second, since the flow at each pyramid level is small (< 1 pixel), a convolutional approach applied to pairs of warped images is appropriate. Third, unlike FlowNet, the learned convolution filters appear similar to classical spatio-temporal filters, giving insight into the method and how to improve it. Our results are more accurate than FlowNet on most standard benchmarks, suggesting a new direction of combining classical flow methods with deep learning.",
+      "summary": "SPyNet is a compact hybrid of classical coarse-to-fine warping and learned flow-update networks. Its importance is that it demonstrates a smaller, more interpretable neural optical-flow model by pushing large displacement handling back into a spatial pyramid rather than asking a single large CNN to solve everything at once.",
+      "url": "../papers/1611_00850/",
+      "treeUrl": "../tree/#paper=1611_00850",
+      "mapUrl": "../map/#paper=1611_00850"
     },
     {
       "id": "1603_02754",
@@ -35989,6 +36598,46 @@ window.timelineData = {
       "mapUrl": "../map/#paper=1703_00395"
     },
     {
+      "id": "1709_02371",
+      "label": "PWC-Net",
+      "title": "PWC-Net: CNNs for Optical Flow Using Pyramid, Warping, and Cost Volume",
+      "authors": [
+        "Deqing Sun",
+        "Xiaodong Yang",
+        "Ming-Yu Liu",
+        "Jan Kautz"
+      ],
+      "authorShort": "Sun, Yang, Liu",
+      "year": 2017,
+      "source": "IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+      "type": "Conference Paper",
+      "superCategory": "Prediction & Perception",
+      "category": "Computer Vision",
+      "subCategory": "Low-level & Geometric Vision",
+      "path": [
+        "Tree",
+        "Prediction & Perception",
+        "Computer Vision",
+        "Low-level & Geometric Vision",
+        "Optical Flow",
+        "PWC-Net"
+      ],
+      "tags": [
+        "Optical flow",
+        "PWC-Net",
+        "Convolutional networks",
+        "Feature pyramid",
+        "Warping",
+        "Cost volume",
+        "Real-time inference"
+      ],
+      "abstract": "We present a compact but effective CNN model for optical flow, called PWC-Net. PWC-Net has been designed according to simple and well-established principles: pyramidal processing, warping, and the use of a cost volume. Cast in a learnable feature pyramid, PWC-Net uses the current optical flow estimate to warp the CNN features of the second image. It then uses the warped features and features of the first image to construct a cost volume, which is processed by a CNN to estimate the optical flow. PWC-Net is 17 times smaller in size and easier to train than the recent FlowNet2 model. Moreover, it outperforms all published optical flow methods on the MPI Sintel final pass and KITTI 2015 benchmarks, running at about 35 fps on Sintel resolution (1024x436) images. Our models are available on https://github.com/NVlabs/PWC-Net.",
+      "summary": "PWC-Net distills classical optical-flow structure into a compact learned architecture: feature pyramids for scale, warping for incremental alignment, and cost volumes for matching. It became a strong baseline because it was much smaller and easier to train than FlowNet2 while improving accuracy and speed.",
+      "url": "../papers/1709_02371/",
+      "treeUrl": "../tree/#paper=1709_02371",
+      "mapUrl": "../map/#paper=1709_02371"
+    },
+    {
       "id": "1711_06396",
       "label": "VoxelNet",
       "title": "VoxelNet: End-to-End Learning for Point Cloud Based 3D Object Detection",
@@ -37018,6 +37667,43 @@ window.timelineData = {
       "url": "../papers/1810_12584/",
       "treeUrl": "../tree/#paper=1810_12584",
       "mapUrl": "../map/#paper=1810_12584"
+    },
+    {
+      "id": "1811_04348",
+      "label": "Model Predictive Trajectory Optimization",
+      "title": "Model Predictive Trajectory Optimization and Tracking for On-Road Autonomous Vehicles",
+      "authors": [
+        "Peng Liu",
+        "Brian Paden",
+        "Umit Ozguner"
+      ],
+      "authorShort": "Liu, Paden, Ozguner",
+      "year": 2018,
+      "source": "IEEE International Conference on Intelligent Transportation Systems (ITSC)",
+      "type": "Conference Paper",
+      "superCategory": "Decision-making",
+      "category": "Control",
+      "subCategory": "State-space Methods",
+      "path": [
+        "Tree",
+        "Decision-making",
+        "Control",
+        "State-space Methods",
+        "Model Predictive Control (MPC)",
+        "MPC Applications and Implementations",
+        "Model Predictive Trajectory Optimization"
+      ],
+      "tags": [
+        "Autonomous driving",
+        "Model predictive control",
+        "Trajectory optimization",
+        "Trajectory tracking"
+      ],
+      "abstract": "Motion planning for autonomous vehicles requires spatio-temporal motion plans (i.e. state trajectories) to account for dynamic obstacles. This requires a trajectory tracking control process which faithfully tracks planned trajectories. In this paper, a control scheme is presented which first optimizes a planned trajectory and then tracks the optimized trajectory using a feedback-feedforward controller. The feedforward element is calculated in a model predictive manner with a cost function focusing on driving performance. Stability of the error dynamic is then guaranteed by the design of the feedback-feedforward controller. The tracking performance of the control system is tested in a realistic simulated scenario where the control system must track an evasive lateral maneuver. The proposed controller performs well in simulation and can be easily adapted to different dynamic vehicle models. The uniqueness of the solution to the control synthesis eliminates any nondeterminism that could arise with switching between numerical solvers for the underlying mathematical program.",
+      "summary": "Combines trajectory optimization with a feedback-feedforward tracking controller for on-road autonomous vehicles. The main contribution is the coupling of model-predictive feedforward planning with a stability-oriented tracking design for dynamic-obstacle scenarios.",
+      "url": "../papers/1811_04348/",
+      "treeUrl": "../tree/#paper=1811_04348",
+      "mapUrl": "../map/#paper=1811_04348"
     },
     {
       "id": "1802_09767",
@@ -38462,6 +39148,51 @@ window.timelineData = {
       "url": "../papers/2018_chung_a_survey_on_aerial/",
       "treeUrl": "../tree/#paper=2018_chung_a_survey_on_aerial",
       "mapUrl": "../map/#paper=2018_chung_a_survey_on_aerial"
+    },
+    {
+      "id": "1807_08048",
+      "label": "Baidu Apollo EM Planner",
+      "title": "Baidu Apollo EM Motion Planner",
+      "authors": [
+        "Haoyang Fan",
+        "Fan Zhu",
+        "Changchun Liu",
+        "Liangliang Zhang",
+        "Li Zhuang",
+        "Dong Li",
+        "Weicheng Zhu",
+        "Jiangtao Hu",
+        "Hongye Li",
+        "Qi Kong"
+      ],
+      "authorShort": "Fan, Zhu, Liu",
+      "year": 2018,
+      "source": "arXiv",
+      "type": "Preprint",
+      "superCategory": "Decision-making",
+      "category": "Planning",
+      "subCategory": "Overviews",
+      "path": [
+        "Tree",
+        "Decision-making",
+        "Planning",
+        "Overviews",
+        "Frameworks",
+        "Driving Robots",
+        "Baidu Apollo EM Planner"
+      ],
+      "tags": [
+        "Autonomous driving",
+        "Motion planning",
+        "Trajectory optimization",
+        "Quadratic programming",
+        "Frenet frame"
+      ],
+      "abstract": "In this manuscript, we introduce a real-time motion planning system based on the Baidu Apollo (open source) autonomous driving platform. The developed system aims to address the industrial level-4 motion planning problem while considering safety, comfort and scalability. The system covers multilane and single-lane autonomous driving in a hierarchical manner: (1) The top layer of the system is a multilane strategy that handles lane-change scenarios by comparing lane-level trajectories computed in parallel. (2) Inside the lane-level trajectory generator, it iteratively solves path and speed optimization based on a Frenet frame. (3) For path and speed optimization, a combination of dynamic programming and spline-based quadratic programming is proposed to construct a scalable and easy-to-tune framework to handle traffic rules, obstacle decisions and smoothness simultaneously. The planner is scalable to both highway and lower-speed city driving scenarios. We also demonstrate the algorithm through scenario illustrations and on-road test results. The system described in this manuscript has been deployed to dozens of Baidu Apollo autonomous driving vehicles since Apollo v1.5 was announced in September 2017. As of May 16th, 2018, the system has been tested under 3,380 hours and approximately 68,000 kilometers (42,253 miles) of closed-loop autonomous driving under various urban scenarios. The algorithm described in this manuscript is available at https://github.com/ApolloAuto/apollo/tree/master/modules/planning.",
+      "summary": "Describes the production motion-planning stack used in Baidu Apollo, combining lane-level strategy, Frenet-frame path and speed optimization, dynamic programming, and spline-based quadratic programming. It is valuable as a rare industrial account of a deployed autonomous-driving planner.",
+      "url": "../papers/1807_08048/",
+      "treeUrl": "../tree/#paper=1807_08048",
+      "mapUrl": "../map/#paper=1807_08048"
     },
     {
       "id": "2018_berntorp_control_architecture_design_for",
@@ -40191,6 +40922,45 @@ window.timelineData = {
       "url": "../papers/2018_belkhir_assessing_ict_global_emissions/",
       "treeUrl": "../tree/#paper=2018_belkhir_assessing_ict_global_emissions",
       "mapUrl": "../map/#paper=2018_belkhir_assessing_ict_global_emissions"
+    },
+    {
+      "id": "1805_07036",
+      "label": "LiteFlowNet",
+      "title": "LiteFlowNet: A Lightweight Convolutional Neural Network for Optical Flow Estimation",
+      "authors": [
+        "Tak-Wai Hui",
+        "Xiaoou Tang",
+        "Chen Change Loy"
+      ],
+      "authorShort": "Hui, Tang, Loy",
+      "year": 2018,
+      "source": "IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+      "type": "Conference Paper",
+      "superCategory": "Prediction & Perception",
+      "category": "Computer Vision",
+      "subCategory": "Low-level & Geometric Vision",
+      "path": [
+        "Tree",
+        "Prediction & Perception",
+        "Computer Vision",
+        "Low-level & Geometric Vision",
+        "Optical Flow",
+        "LiteFlowNet"
+      ],
+      "tags": [
+        "Optical flow",
+        "LiteFlowNet",
+        "Convolutional networks",
+        "Lightweight models",
+        "Feature warping",
+        "Cascaded flow inference",
+        "Flow regularization"
+      ],
+      "abstract": "FlowNet2, the state-of-the-art convolutional neural network (CNN) for optical flow estimation, requires over 160M parameters to achieve accurate flow estimation. In this paper we present an alternative network that outperforms FlowNet2 on the challenging Sintel final pass and KITTI benchmarks, while being 30 times smaller in the model size and 1.36 times faster in the running speed. This is made possible by drilling down to architectural details that might have been missed in the current frameworks: (1) We present a more effective flow inference approach at each pyramid level through a lightweight cascaded network. It not only improves flow estimation accuracy through early correction, but also permits seamless incorporation of descriptor matching in our network. (2) We present a novel flow regularization layer to ameliorate the issue of outliers and vague flow boundaries by using a feature-driven local convolution. (3) Our network owns an effective structure for pyramidal feature extraction and embraces feature warping rather than image warping as practiced in FlowNet2. Our code and trained models are available at https://github.com/twhui/LiteFlowNet.",
+      "summary": "LiteFlowNet pushes learned optical flow toward smaller and faster models by combining feature pyramids, feature warping, cascaded refinement, descriptor matching, and learned local regularization. It is useful as a counterpoint to FlowNet2: many of the accuracy gains can be retained without a very large stacked network.",
+      "url": "../papers/1805_07036/",
+      "treeUrl": "../tree/#paper=1805_07036",
+      "mapUrl": "../map/#paper=1805_07036"
     },
     {
       "id": "1812_05784",
@@ -42319,6 +43089,44 @@ window.timelineData = {
       "url": "../papers/1912_05686/",
       "treeUrl": "../tree/#paper=1912_05686",
       "mapUrl": "../map/#paper=1912_05686"
+    },
+    {
+      "id": "1901_10887",
+      "label": "COSMO",
+      "title": "COSMO: A Conic Operator Splitting Method for Convex Conic Problems",
+      "authors": [
+        "Michael Garstka",
+        "Mark Cannon",
+        "Paul Goulart"
+      ],
+      "authorShort": "Garstka, Cannon, Goulart",
+      "year": 2019,
+      "source": "Journal of Optimization Theory and Applications",
+      "type": "Journal Paper",
+      "superCategory": "Decision-making",
+      "category": "Optimization",
+      "subCategory": "Toolboxes & Solvers",
+      "path": [
+        "Tree",
+        "Decision-making",
+        "Optimization",
+        "Toolboxes & Solvers",
+        "Convex Optimization",
+        "Solvers",
+        "COSMO"
+      ],
+      "tags": [
+        "Conic optimization",
+        "Operator splitting",
+        "Convex optimization",
+        "Semidefinite programming",
+        "Sparse linear algebra"
+      ],
+      "abstract": "This paper describes the Conic Operator Splitting Method (COSMO) solver, an operator splitting algorithm for convex optimisation problems with quadratic objective function and conic constraints. At each step the algorithm alternates between solving a quasi-definite linear system with a constant coefficient matrix and a projection onto convex sets. The low per-iteration computational cost makes the method particularly efficient for large problems, e.g. semidefinite programs that arise in portfolio optimisation, graph theory, and robust control. Moreover, the solver uses chordal decomposition techniques and a new clique merging algorithm to effectively exploit sparsity in large, structured semidefinite programs. A number of benchmarks against other state-of-the-art solvers for a variety of problems show the effectiveness of our approach. Our Julia implementation is open-source, designed to be extended and customised by the user, and is integrated into the Julia optimisation ecosystem.",
+      "summary": "Presents COSMO, a first-order conic solver built around operator splitting, quasi-definite linear solves, cone projections, and chordal decomposition for large semidefinite structure. It matters as a practical convex optimization solver aimed at large sparse conic problems arising in areas such as robust control.",
+      "url": "../papers/1901_10887/",
+      "treeUrl": "../tree/#paper=1901_10887",
+      "mapUrl": "../map/#paper=1901_10887"
     },
     {
       "id": "1905_00562",
@@ -46171,7 +46979,7 @@ window.timelineData = {
         "Linear quadratic regulator",
         "Noisy data",
         "Semidefinite programming",
-        "Direct LQR",
+        "Direct linear quadratic regulator",
         "Robust control",
         "Reinforcement learning",
         "Sample complexity"
@@ -47998,6 +48806,47 @@ window.timelineData = {
       "mapUrl": "../map/#paper=2012_03390"
     },
     {
+      "id": "2002_02277",
+      "label": "Goal-Based Prediction and Planning",
+      "title": "Interpretable Goal-Based Prediction and Planning for Autonomous Driving",
+      "authors": [
+        "Stefano V. Albrecht",
+        "Cillian Brewitt",
+        "John Wilhelm",
+        "Balint Gyevnar",
+        "Francisco Eiras",
+        "Mihai Dobre",
+        "Subramanian Ramamoorthy"
+      ],
+      "authorShort": "Albrecht, Brewitt, Wilhelm",
+      "year": 2020,
+      "source": "IEEE International Conference on Robotics and Automation (ICRA)",
+      "type": "Conference Paper",
+      "superCategory": "Decision-making",
+      "category": "Planning",
+      "subCategory": "Planning in Changing Environments",
+      "path": [
+        "Tree",
+        "Decision-making",
+        "Planning",
+        "Planning in Changing Environments",
+        "Interaction-aware Planning",
+        "Goal-Based Prediction and Planning"
+      ],
+      "tags": [
+        "Autonomous driving",
+        "Motion prediction",
+        "Motion planning",
+        "Monte Carlo tree search",
+        "Interaction-aware planning"
+      ],
+      "abstract": "We propose an integrated prediction and planning system for autonomous driving which uses rational inverse planning to recognise the goals of other vehicles. Goal recognition informs a Monte Carlo Tree Search (MCTS) algorithm to plan optimal maneuvers for the ego vehicle. Inverse planning and MCTS utilise a shared set of defined maneuvers and macro actions to construct plans which are explainable by means of rationality principles. Evaluation in simulations of urban driving scenarios demonstrate the system's ability to robustly recognise the goals of other vehicles, enabling our vehicle to exploit non-trivial opportunities to significantly reduce driving times. In each scenario, we extract intuitive explanations for the predictions which justify the system's decisions.",
+      "summary": "Builds an interpretable autonomous-driving stack that uses rational inverse planning to infer other vehicles goals and feeds those beliefs into Monte Carlo tree search for ego planning. The paper emphasizes explainable macro-action reasoning rather than opaque end-to-end trajectory prediction.",
+      "url": "../papers/2002_02277/",
+      "treeUrl": "../tree/#paper=2002_02277",
+      "mapUrl": "../map/#paper=2002_02277"
+    },
+    {
       "id": "2010_08587",
       "label": "REQ",
       "title": "Learning Dexterous Manipulation from Suboptimal Experts",
@@ -49311,6 +50160,44 @@ window.timelineData = {
       "url": "../papers/2012_09322/",
       "treeUrl": "../tree/#paper=2012_09322",
       "mapUrl": "../map/#paper=2012_09322"
+    },
+    {
+      "id": "2003_12039",
+      "label": "RAFT",
+      "title": "RAFT: Recurrent All-Pairs Field Transforms for Optical Flow",
+      "authors": [
+        "Zachary Teed",
+        "Jia Deng"
+      ],
+      "authorShort": "Teed, Deng",
+      "year": 2020,
+      "source": "European Conference on Computer Vision (ECCV)",
+      "type": "Conference Paper",
+      "superCategory": "Prediction & Perception",
+      "category": "Computer Vision",
+      "subCategory": "Low-level & Geometric Vision",
+      "path": [
+        "Tree",
+        "Prediction & Perception",
+        "Computer Vision",
+        "Low-level & Geometric Vision",
+        "Optical Flow",
+        "RAFT"
+      ],
+      "tags": [
+        "Optical flow",
+        "RAFT",
+        "Recurrent refinement",
+        "All-pairs correlation",
+        "4D correlation volume",
+        "Dense matching",
+        "Cross-dataset generalization"
+      ],
+      "abstract": "We introduce Recurrent All-Pairs Field Transforms (RAFT), a new deep network architecture for optical flow. RAFT extracts per-pixel features, builds multi-scale 4D correlation volumes for all pairs of pixels, and iteratively updates a flow field through a recurrent unit that performs lookups on the correlation volumes. RAFT achieves state-of-the-art performance. On KITTI, RAFT achieves an F1-all error of 5.10%, a 16% error reduction from the best published result (6.10%). On Sintel (final pass), RAFT obtains an end-point-error of 2.855 pixels, a 30% error reduction from the best published result (4.098 pixels). In addition, RAFT has strong cross-dataset generalization as well as high efficiency in inference time, training speed, and parameter count. Code is available at https://github.com/princeton-vl/RAFT.",
+      "summary": "RAFT reframes optical flow around a dense all-pairs correlation volume and a recurrent update operator that repeatedly refines a single high-quality field. Its accuracy, generalization, and compact recurrent design made it a dominant baseline for modern learned optical flow.",
+      "url": "../papers/2003_12039/",
+      "treeUrl": "../tree/#paper=2003_12039",
+      "mapUrl": "../map/#paper=2003_12039"
     },
     {
       "id": "2020_shankar_evaluating_machine_accuracy_on",
@@ -54056,6 +54943,177 @@ window.timelineData = {
       "url": "../papers/2021_morrissey_metamodernism_and_vaporwave_a/",
       "treeUrl": "../tree/#paper=2021_morrissey_metamodernism_and_vaporwave_a",
       "mapUrl": "../map/#paper=2021_morrissey_metamodernism_and_vaporwave_a"
+    },
+    {
+      "id": "2104_07636",
+      "label": "SR3",
+      "title": "Image Super-Resolution via Iterative Refinement",
+      "authors": [
+        "Chitwan Saharia",
+        "Jonathan Ho",
+        "William Chan",
+        "Tim Salimans",
+        "David J. Fleet",
+        "Mohammad Norouzi"
+      ],
+      "authorShort": "Saharia, Ho, Chan",
+      "year": 2021,
+      "source": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+      "type": "Journal Paper",
+      "superCategory": "Prediction & Perception",
+      "category": "Computer Vision",
+      "subCategory": "Image Processing & Computational Photography",
+      "path": [
+        "Tree",
+        "Prediction & Perception",
+        "Computer Vision",
+        "Image Processing & Computational Photography",
+        "Super-Resolution & Restoration",
+        "Diffusion & Generative Restoration",
+        "SR3"
+      ],
+      "tags": [
+        "Image super-resolution",
+        "Diffusion models",
+        "Denoising diffusion",
+        "Iterative refinement",
+        "Conditional generation",
+        "Cascaded generation",
+        "Face super-resolution",
+        "SR3"
+      ],
+      "abstract": "We present SR3, an approach to image Super-Resolution via Repeated Refinement. SR3 adapts denoising diffusion probabilistic models to conditional image generation and performs super-resolution through a stochastic denoising process. Inference starts with pure Gaussian noise and iteratively refines the noisy output using a U-Net model trained on denoising at various noise levels. SR3 exhibits strong performance on super-resolution tasks at different magnification factors, on faces and natural images. We conduct human evaluation on a standard 8X face super-resolution task on CelebA-HQ, comparing with SOTA GAN methods. SR3 achieves a fool rate close to 50%, suggesting photo-realistic outputs, while GANs do not exceed a fool rate of 34%. We further show the effectiveness of SR3 in cascaded image generation, where generative models are chained with super-resolution models, yielding a competitive FID score of 11.3 on ImageNet.",
+      "summary": "SR3 is an early and influential diffusion-based super-resolution method, replacing deterministic regression with repeated conditional denoising from noise. Its human-evaluation results made it a key reference for the shift from PSNR-driven super-resolution toward photorealistic generative restoration.",
+      "url": "../papers/2104_07636/",
+      "treeUrl": "../tree/#paper=2104_07636",
+      "mapUrl": "../map/#paper=2104_07636"
+    },
+    {
+      "id": "2108_10257",
+      "label": "SwinIR",
+      "title": "SwinIR: Image Restoration Using Swin Transformer",
+      "authors": [
+        "Jingyun Liang",
+        "Jiezhang Cao",
+        "Guolei Sun",
+        "Kai Zhang",
+        "Luc Van Gool",
+        "Radu Timofte"
+      ],
+      "authorShort": "Liang, Cao, Sun",
+      "year": 2021,
+      "source": "IEEE/CVF International Conference on Computer Vision Workshops (ICCVW)",
+      "type": "Workshop Paper",
+      "superCategory": "Prediction & Perception",
+      "category": "Computer Vision",
+      "subCategory": "Image Processing & Computational Photography",
+      "path": [
+        "Tree",
+        "Prediction & Perception",
+        "Computer Vision",
+        "Image Processing & Computational Photography",
+        "Super-Resolution & Restoration",
+        "Transformer Restoration",
+        "SwinIR"
+      ],
+      "tags": [
+        "Image restoration",
+        "Image super-resolution",
+        "Vision transformers",
+        "Swin transformer",
+        "Residual Swin transformer blocks",
+        "Denoising",
+        "Compression artifact reduction",
+        "Lightweight super-resolution",
+        "SwinIR"
+      ],
+      "abstract": "Image restoration is a long-standing low-level vision problem that aims to restore high-quality images from low-quality images (e.g., downscaled, noisy and compressed images). While state-of-the-art image restoration methods are based on convolutional neural networks, few attempts have been made with Transformers which show impressive performance on high-level vision tasks. In this paper, we propose a strong baseline model SwinIR for image restoration based on the Swin Transformer. SwinIR consists of three parts: shallow feature extraction, deep feature extraction and high-quality image reconstruction. In particular, the deep feature extraction module is composed of several residual Swin Transformer blocks (RSTB), each of which has several Swin Transformer layers together with a residual connection. We conduct experiments on three representative tasks: image super-resolution (including classical, lightweight and real-world image super-resolution), image denoising (including grayscale and color image denoising) and JPEG compression artifact reduction. Experimental results demonstrate that SwinIR outperforms state-of-the-art methods on different tasks by $\\textbf{up to 0.14$\\sim$0.45dB}$, while the total number of parameters can be reduced by $\\textbf{up to 67%}$.",
+      "summary": "SwinIR is a strong transformer baseline for low-level restoration, adapting Swin Transformer blocks to super-resolution, denoising, and JPEG artifact reduction. Its importance is partly architectural and partly practical: it helped make shifted-window transformers a standard choice for restoration tasks.",
+      "url": "../papers/2108_10257/",
+      "treeUrl": "../tree/#paper=2108_10257",
+      "mapUrl": "../map/#paper=2108_10257"
+    },
+    {
+      "id": "2104_02409",
+      "label": "GMA",
+      "title": "Learning to Estimate Hidden Motions with Global Motion Aggregation",
+      "authors": [
+        "Shihao Jiang",
+        "Dylan Campbell",
+        "Yao Lu",
+        "Hongdong Li",
+        "Richard Hartley"
+      ],
+      "authorShort": "Jiang, Campbell, Lu",
+      "year": 2021,
+      "source": "IEEE/CVF International Conference on Computer Vision (ICCV)",
+      "type": "Conference Paper",
+      "superCategory": "Prediction & Perception",
+      "category": "Computer Vision",
+      "subCategory": "Low-level & Geometric Vision",
+      "path": [
+        "Tree",
+        "Prediction & Perception",
+        "Computer Vision",
+        "Low-level & Geometric Vision",
+        "Optical Flow",
+        "GMA"
+      ],
+      "tags": [
+        "Optical flow",
+        "GMA",
+        "Occlusion handling",
+        "Global motion aggregation",
+        "Transformers",
+        "Self-similarity",
+        "RAFT extension"
+      ],
+      "abstract": "Occlusions pose a significant challenge to optical flow algorithms that rely on local evidences. We consider an occluded point to be one that is imaged in the first frame but not in the next, a slight overloading of the standard definition since it also includes points that move out-of-frame. Estimating the motion of these points is extremely difficult, particularly in the two-frame setting. Previous work relies on CNNs to learn occlusions, without much success, or requires multiple frames to reason about occlusions using temporal smoothness. In this paper, we argue that the occlusion problem can be better solved in the two-frame case by modelling image self-similarities. We introduce a global motion aggregation module, a transformer-based approach to find long-range dependencies between pixels in the first image, and perform global aggregation on the corresponding motion features. We demonstrate that the optical flow estimates in the occluded regions can be significantly improved without damaging the performance in non-occluded regions. This approach obtains new state-of-the-art results on the challenging Sintel dataset, improving the average end-point error by 13.6% on Sintel Final and 13.7% on Sintel Clean. At the time of submission, our method ranks first on these benchmarks among all published and unpublished approaches. Code is available at https://github.com/zacjiang/GMA.",
+      "summary": "GMA targets one of RAFT's weak spots: estimating motion for pixels that disappear or become occluded between two frames. By aggregating motion features globally using transformer-style dependencies, it propagates reliable motion information from visible regions to hidden ones without requiring extra frames.",
+      "url": "../papers/2104_02409/",
+      "treeUrl": "../tree/#paper=2104_02409",
+      "mapUrl": "../map/#paper=2104_02409"
+    },
+    {
+      "id": "2111_13680",
+      "label": "GMFlow",
+      "title": "GMFlow: Learning Optical Flow via Global Matching",
+      "authors": [
+        "Haofei Xu",
+        "Jing Zhang",
+        "Jianfei Cai",
+        "Hamid Rezatofighi",
+        "Dacheng Tao"
+      ],
+      "authorShort": "Xu, Zhang, Cai",
+      "year": 2021,
+      "source": "IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+      "type": "Conference Paper",
+      "superCategory": "Prediction & Perception",
+      "category": "Computer Vision",
+      "subCategory": "Low-level & Geometric Vision",
+      "path": [
+        "Tree",
+        "Prediction & Perception",
+        "Computer Vision",
+        "Low-level & Geometric Vision",
+        "Optical Flow",
+        "GMFlow"
+      ],
+      "tags": [
+        "Optical flow",
+        "GMFlow",
+        "Global matching",
+        "Transformers",
+        "Feature matching",
+        "Softmax correlation",
+        "Efficient inference"
+      ],
+      "abstract": "Learning-based optical flow estimation has been dominated with the pipeline of cost volume with convolutions for flow regression, which is inherently limited to local correlations and thus is hard to address the long-standing challenge of large displacements. To alleviate this, the state-of-the-art framework RAFT gradually improves its prediction quality by using a large number of iterative refinements, achieving remarkable performance but introducing linearly increasing inference time. To enable both high accuracy and efficiency, we completely revamp the dominant flow regression pipeline by reformulating optical flow as a global matching problem, which identifies the correspondences by directly comparing feature similarities. Specifically, we propose a GMFlow framework, which consists of three main components: a customized Transformer for feature enhancement, a correlation and softmax layer for global feature matching, and a self-attention layer for flow propagation. We further introduce a refinement step that reuses GMFlow at higher feature resolution for residual flow prediction. Our new framework outperforms 31-refinements RAFT on the challenging Sintel benchmark, while using only one refinement and running faster, suggesting a new paradigm for accurate and efficient optical flow estimation. Code is available at https://github.com/haofeixu/gmflow.",
+      "summary": "GMFlow makes optical flow look more like global correspondence search than local cost-volume regression. It uses transformer-enhanced features and softmax global matching to reduce the need for many RAFT-style recurrent refinements, giving an efficient and conceptually clean large-displacement flow estimator.",
+      "url": "../papers/2111_13680/",
+      "treeUrl": "../tree/#paper=2111_13680",
+      "mapUrl": "../map/#paper=2111_13680"
     },
     {
       "id": "2106_07545",
@@ -59504,6 +60562,94 @@ window.timelineData = {
       "mapUrl": "../map/#paper=2203_14110"
     },
     {
+      "id": "2205_04437",
+      "label": "HAT (Image Super-Resolution)",
+      "title": "Activating More Pixels in Image Super-Resolution Transformer",
+      "authors": [
+        "Xiangyu Chen",
+        "Xintao Wang",
+        "Jiantao Zhou",
+        "Yu Qiao",
+        "Chao Dong"
+      ],
+      "authorShort": "Chen, Wang, Zhou",
+      "year": 2022,
+      "source": "IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+      "type": "Conference Paper",
+      "superCategory": "Prediction & Perception",
+      "category": "Computer Vision",
+      "subCategory": "Image Processing & Computational Photography",
+      "path": [
+        "Tree",
+        "Prediction & Perception",
+        "Computer Vision",
+        "Image Processing & Computational Photography",
+        "Super-Resolution & Restoration",
+        "Transformer Restoration",
+        "HAT (Image Super-Resolution)"
+      ],
+      "tags": [
+        "Image super-resolution",
+        "Image restoration",
+        "Vision transformers",
+        "Hybrid attention",
+        "Channel attention",
+        "Window attention",
+        "Overlapping cross-attention",
+        "Same-task pretraining",
+        "HAT"
+      ],
+      "abstract": "Transformer-based methods have shown impressive performance in low-level vision tasks, such as image super-resolution. However, we find that these networks can only utilize a limited spatial range of input information through attribution analysis. This implies that the potential of Transformer is still not fully exploited in existing networks. In order to activate more input pixels for better reconstruction, we propose a novel Hybrid Attention Transformer (HAT). It combines both channel attention and window-based self-attention schemes, thus making use of their complementary advantages of being able to utilize global statistics and strong local fitting capability. Moreover, to better aggregate the cross-window information, we introduce an overlapping cross-attention module to enhance the interaction between neighboring window features. In the training stage, we additionally adopt a same-task pre-training strategy to exploit the potential of the model for further improvement. Extensive experiments show the effectiveness of the proposed modules, and we further scale up the model to demonstrate that the performance of this task can be greatly improved. Our overall method significantly outperforms the state-of-the-art methods by more than 1dB. Codes and models are available at https://github.com/XPixelGroup/HAT.",
+      "summary": "This paper introduces HAT for single-image super-resolution, diagnosing limited input-pixel usage in prior transformer restorers and addressing it with channel attention, window self-attention, overlapping cross-window attention, and same-task pretraining. It is the super-resolution-focused conference version of the HAT line.",
+      "url": "../papers/2205_04437/",
+      "treeUrl": "../tree/#paper=2205_04437",
+      "mapUrl": "../map/#paper=2205_04437"
+    },
+    {
+      "id": "2203_16194",
+      "label": "FlowFormer",
+      "title": "FlowFormer: A Transformer Architecture for Optical Flow",
+      "authors": [
+        "Zhaoyang Huang",
+        "Xiaoyu Shi",
+        "Chao Zhang",
+        "Qiang Wang",
+        "Ka Chun Cheung",
+        "Hongwei Qin",
+        "Jifeng Dai",
+        "Hongsheng Li"
+      ],
+      "authorShort": "Huang, Shi, Zhang",
+      "year": 2022,
+      "source": "European Conference on Computer Vision (ECCV)",
+      "type": "Conference Paper",
+      "superCategory": "Prediction & Perception",
+      "category": "Computer Vision",
+      "subCategory": "Low-level & Geometric Vision",
+      "path": [
+        "Tree",
+        "Prediction & Perception",
+        "Computer Vision",
+        "Low-level & Geometric Vision",
+        "Optical Flow",
+        "FlowFormer"
+      ],
+      "tags": [
+        "Optical flow",
+        "FlowFormer",
+        "Transformers",
+        "Cost volume",
+        "Cost memory",
+        "Recurrent decoding",
+        "Dense matching"
+      ],
+      "abstract": "We introduce optical Flow transFormer, dubbed as FlowFormer, a transformer-based neural network architecture for learning optical flow. FlowFormer tokenizes the 4D cost volume built from an image pair, encodes the cost tokens into a cost memory with alternate-group transformer (AGT) layers in a novel latent space, and decodes the cost memory via a recurrent transformer decoder with dynamic positional cost queries. On the Sintel benchmark, FlowFormer achieves 1.159 and 2.088 average end-point-error (AEPE) on the clean and final pass, a 16.5% and 15.5% error reduction from the best published result (1.388 and 2.47). Besides, FlowFormer also achieves strong generalization performance. Without being trained on Sintel, FlowFormer achieves 1.01 AEPE on the clean pass of Sintel training set, outperforming the best published result (1.29) by 21.7%.",
+      "summary": "FlowFormer brings transformer machinery directly to the 4D optical-flow cost volume by encoding it into a reusable cost memory and decoding flow with dynamic positional cost queries. It continues the RAFT lineage of iterative dense matching, but replaces much of the hand-shaped recurrent correlation logic with transformer-based cost-volume reasoning.",
+      "url": "../papers/2203_16194/",
+      "treeUrl": "../tree/#paper=2203_16194",
+      "mapUrl": "../map/#paper=2203_16194"
+    },
+    {
       "id": "2203_04946",
       "label": "Do Better ImageNet Classifiers Assess Perceptual Similarity Better?",
       "title": "Do Better ImageNet Classifiers Assess Perceptual Similarity Better?",
@@ -62304,6 +63450,44 @@ window.timelineData = {
       "mapUrl": "../map/#paper=2310_02918"
     },
     {
+      "id": "2310_12075",
+      "label": "MCTS Behavior Planner",
+      "title": "Monte Carlo Tree Search for Behavior Planning in Autonomous Driving",
+      "authors": [
+        "Qianfeng Wen",
+        "Zhongyi Gong",
+        "Lifeng Zhou",
+        "Zhongshun Zhang"
+      ],
+      "authorShort": "Wen, Gong, Zhou",
+      "year": 2023,
+      "source": "IEEE International Symposium on Safety, Security, and Rescue Robotics (SSRR)",
+      "type": "Conference Paper",
+      "superCategory": "Decision-making",
+      "category": "Planning",
+      "subCategory": "Kinodynamic Planning",
+      "path": [
+        "Tree",
+        "Decision-making",
+        "Planning",
+        "Kinodynamic Planning",
+        "Hybrid Approaches",
+        "MCTS Behavior Planner"
+      ],
+      "tags": [
+        "Autonomous driving",
+        "Behavior planning",
+        "Monte Carlo tree search",
+        "Tree search",
+        "Motion planning"
+      ],
+      "abstract": "The integration of autonomous vehicles into urban and highway environments necessitates the development of robust and adaptable behavior planning systems. This study presents an innovative approach to address this challenge by utilizing a Monte-Carlo Tree Search (MCTS) based algorithm for autonomous driving behavior planning. The core objective is to leverage the balance between exploration and exploitation inherent in MCTS to facilitate intelligent driving decisions in complex scenarios. We introduce an MCTS-based algorithm tailored to the specific demands of autonomous driving. This involves the integration of carefully crafted cost functions, encompassing safety, comfort, and passability metrics, into the MCTS framework. The effectiveness of our approach is demonstrated by enabling autonomous vehicles to navigate intricate scenarios, such as intersections, unprotected left turns, cut-ins, and ramps, even under traffic congestion, in real-time. Qualitative instances illustrate the integration of diverse driving decisions, such as lane changes, acceleration, and deceleration, into the MCTS framework. Moreover, quantitative results, derived from examining the impact of iteration time and look-ahead steps on decision quality and real-time applicability, substantiate the robustness of our approach. This robustness is further underscored by the high success rate of the MCTS algorithm across various scenarios.",
+      "summary": "Applies Monte Carlo tree search to autonomous-driving behavior planning, using cost functions and search structure tailored to highway and urban decisions. It is a compact example of keeping decision-level planning explicit instead of replacing the behavior layer with a learned policy.",
+      "url": "../papers/2310_12075/",
+      "treeUrl": "../tree/#paper=2310_12075",
+      "mapUrl": "../map/#paper=2310_12075"
+    },
+    {
       "id": "2309_08079",
       "label": "MPCGPU",
       "title": "MPCGPU: Real-Time Nonlinear Model Predictive Control through Preconditioned Conjugate Gradient on the GPU",
@@ -62846,6 +64030,46 @@ window.timelineData = {
       "mapUrl": "../map/#paper=2306_07962"
     },
     {
+      "id": "2309_10443",
+      "label": "PlanTF",
+      "title": "Rethinking Imitation-Based Planner for Autonomous Driving",
+      "authors": [
+        "Jie Cheng",
+        "Yingbing Chen",
+        "Xiaodong Mei",
+        "Bowen Yang",
+        "Bo Li",
+        "Ming Liu"
+      ],
+      "authorShort": "Cheng, Chen, Mei",
+      "year": 2023,
+      "source": "IEEE International Conference on Robotics and Automation (ICRA)",
+      "type": "Conference Paper",
+      "superCategory": "Decision-making",
+      "category": "Planning",
+      "subCategory": "Learning-Based Motion Planning",
+      "path": [
+        "Tree",
+        "Decision-making",
+        "Planning",
+        "Learning-Based Motion Planning",
+        "Frameworks",
+        "PlanTF"
+      ],
+      "tags": [
+        "Autonomous driving",
+        "Imitation learning",
+        "Behavior cloning",
+        "End-to-end planning",
+        "Closed-loop"
+      ],
+      "abstract": "In recent years, imitation-based driving planners have reported considerable success. However, due to the absence of a standardized benchmark, the effectiveness of various designs remains unclear. The newly released nuPlan addresses this issue by offering a large-scale real-world dataset and a standardized closed-loop benchmark for equitable comparisons. Utilizing this platform, we conduct a comprehensive study on two fundamental yet underexplored aspects of imitation-based planners: the essential features for ego planning and the effective data augmentation techniques to reduce compounding errors. Furthermore, we highlight an imitation gap that has been overlooked by current learning systems. Finally, integrating our findings, we propose a strong baseline model-PlanTF. Our results demonstrate that a well-designed, purely imitation-based planner can achieve highly competitive performance compared to state-of-the-art methods involving hand-crafted rules and exhibit superior generalization capabilities in long-tail cases. Our models and benchmarks are publicly available. Project website https://jchengai.github.io/planTF.",
+      "summary": "Studies design choices for imitation-based planners on nuPlan and distills the findings into PlanTF, a strong pure-imitation baseline. The paper is useful because it separates benchmark, feature, augmentation, and compounding-error effects that are often bundled together in end-to-end driving claims.",
+      "url": "../papers/2309_10443/",
+      "treeUrl": "../tree/#paper=2309_10443",
+      "mapUrl": "../map/#paper=2309_10443"
+    },
+    {
       "id": "2023_angulo_policy_optimization_to_learn",
       "label": "Policy Optimization to Learn Adaptive Motion Primitives in Path Planning With Dynamic Obstacles",
       "title": "Policy Optimization to Learn Adaptive Motion Primitives in Path Planning with Dynamic Obstacles",
@@ -63151,6 +64375,82 @@ window.timelineData = {
       "url": "../papers/2309_08821/",
       "treeUrl": "../tree/#paper=2309_08821",
       "mapUrl": "../map/#paper=2309_08821"
+    },
+    {
+      "id": "2301_05393",
+      "label": "Interaction-Aware MPC",
+      "title": "Interaction-Aware Trajectory Planning for Autonomous Vehicles with Analytic Integration of Neural Networks into Model Predictive Control",
+      "authors": [
+        "Piyush Gupta",
+        "David Isele",
+        "Donggun Lee",
+        "Sangjae Bae"
+      ],
+      "authorShort": "Gupta, Isele, Lee",
+      "year": 2023,
+      "source": "IEEE International Conference on Robotics and Automation (ICRA)",
+      "type": "Conference Paper",
+      "superCategory": "Decision-making",
+      "category": "Planning",
+      "subCategory": "Planning in Changing Environments",
+      "path": [
+        "Tree",
+        "Decision-making",
+        "Planning",
+        "Planning in Changing Environments",
+        "Interaction-aware Planning",
+        "Interaction-Aware MPC"
+      ],
+      "tags": [
+        "Autonomous driving",
+        "Interaction-aware planning",
+        "Model predictive control",
+        "Trajectory prediction",
+        "Neural networks"
+      ],
+      "abstract": "Autonomous vehicles (AVs) must share the driving space with other drivers and often employ conservative motion planning strategies to ensure safety. These conservative strategies can negatively impact AV's performance and significantly slow traffic throughput. Therefore, to avoid conservatism, we design an interaction-aware motion planner for the ego vehicle (AV) that interacts with surrounding vehicles to perform complex maneuvers in a locally optimal manner. Our planner uses a neural network-based interactive trajectory predictor and analytically integrates it with model predictive control (MPC). We solve the MPC optimization using the alternating direction method of multipliers (ADMM) and prove the algorithm's convergence. We provide an empirical study and compare our method with a baseline heuristic method.",
+      "summary": "Integrates a neural interaction predictor analytically inside an MPC formulation so the planner can reason about other agents responses while optimizing the ego trajectory. The contribution is less a new predictor than a planner architecture that keeps learned interaction models usable inside constrained optimization.",
+      "url": "../papers/2301_05393/",
+      "treeUrl": "../tree/#paper=2301_05393",
+      "mapUrl": "../map/#paper=2301_05393"
+    },
+    {
+      "id": "2310_18301",
+      "label": "Interactive Joint Planning",
+      "title": "Interactive Joint Planning for Autonomous Vehicles",
+      "authors": [
+        "Yuxiao Chen",
+        "Sushant Veer",
+        "Peter Karkus",
+        "Marco Pavone"
+      ],
+      "authorShort": "Chen, Veer, Karkus",
+      "year": 2023,
+      "source": "IEEE Robotics and Automation Letters",
+      "type": "Journal Paper",
+      "superCategory": "Decision-making",
+      "category": "Planning",
+      "subCategory": "Planning in Changing Environments",
+      "path": [
+        "Tree",
+        "Decision-making",
+        "Planning",
+        "Planning in Changing Environments",
+        "Interaction-aware Planning",
+        "Interactive Joint Planning"
+      ],
+      "tags": [
+        "Autonomous driving",
+        "Interaction-aware planning",
+        "Trajectory prediction",
+        "Motion planning",
+        "Neural networks"
+      ],
+      "abstract": "In highly interactive driving scenarios, the actions of one agent greatly influences those of its neighbors. Planning safe motions for autonomous vehicles in such interactive environments, therefore, requires reasoning about the impact of the ego's intended motion plan on nearby agents' behavior. Deep-learning-based models have recently achieved great success in trajectory prediction and many models in the literature allow for ego-conditioned prediction. However, leveraging ego-conditioned prediction remains challenging in downstream planning due to the complex nature of neural networks, limiting the planner structure to simple ones, e.g., sampling-based planner. Despite their ability to generate fine-grained high-quality motion plans, it is difficult for gradient-based planning algorithms, such as model predictive control (MPC), to leverage ego-conditioned prediction due to their iterative nature and need for gradient. We present Interactive Joint Planning (IJP) that bridges MPC with learned prediction models in a computationally scalable manner to provide us the best of both the worlds. In particular, IJP jointly optimizes over the behavior of the ego and the surrounding agents and leverages deep-learned prediction models as prediction priors that the join trajectory optimization tries to stay close to. Furthermore, by leveraging homotopy classes, our joint optimizer searches over diverse motion plans to avoid getting stuck at local minima. Closed-loop simulation result shows that IJP significantly outperforms the baselines that are either without joint optimization or running sampling-based planning.",
+      "summary": "Formulates autonomous-driving planning around ego-conditioned prediction so the planner accounts for how nearby agents may react to the ego plan. The paper contributes a joint planning structure that makes learned interaction models more directly usable in closed-loop decision making.",
+      "url": "../papers/2310_18301/",
+      "treeUrl": "../tree/#paper=2310_18301",
+      "mapUrl": "../map/#paper=2310_18301"
     },
     {
       "id": "2023_singh_robust_feedback_motion_planning",
@@ -65174,6 +66474,182 @@ window.timelineData = {
       "url": "../papers/2301_04195/",
       "treeUrl": "../tree/#paper=2301_04195",
       "mapUrl": "../map/#paper=2301_04195"
+    },
+    {
+      "id": "2309_05239",
+      "label": "HAT (Image Restoration)",
+      "title": "HAT: Hybrid Attention Transformer for Image Restoration",
+      "authors": [
+        "Xiangyu Chen",
+        "Xintao Wang",
+        "Wenlong Zhang",
+        "Xiangtao Kong",
+        "Yu Qiao",
+        "Jiantao Zhou",
+        "Chao Dong"
+      ],
+      "authorShort": "Chen, Wang, Zhang",
+      "year": 2023,
+      "source": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+      "type": "Journal Paper",
+      "superCategory": "Prediction & Perception",
+      "category": "Computer Vision",
+      "subCategory": "Image Processing & Computational Photography",
+      "path": [
+        "Tree",
+        "Prediction & Perception",
+        "Computer Vision",
+        "Image Processing & Computational Photography",
+        "Super-Resolution & Restoration",
+        "Transformer Restoration",
+        "HAT (Image Restoration)"
+      ],
+      "tags": [
+        "Image restoration",
+        "Image super-resolution",
+        "Vision transformers",
+        "Hybrid attention",
+        "Channel attention",
+        "Window attention",
+        "Overlapping cross-attention",
+        "Denoising",
+        "Compression artifact reduction",
+        "HAT"
+      ],
+      "abstract": "Transformer-based methods have shown impressive performance in image restoration tasks, such as image super-resolution and denoising. However, we find that these networks can only utilize a limited spatial range of input information through attribution analysis. This implies that the potential of Transformer is still not fully exploited in existing networks. In order to activate more input pixels for better restoration, we propose a new Hybrid Attention Transformer (HAT). It combines both channel attention and window-based self-attention schemes, thus making use of their complementary advantages. Moreover, to better aggregate the cross-window information, we introduce an overlapping cross-attention module to enhance the interaction between neighboring window features. In the training stage, we additionally adopt a same-task pre-training strategy to further exploit the potential of the model for further improvement. Extensive experiments have demonstrated the effectiveness of the proposed modules. We further scale up the model to show that the performance of the SR task can be greatly improved. Besides, we extend HAT to more image restoration applications, including real-world image super-resolution, Gaussian image denoising and image compression artifacts reduction. Experiments on benchmark and real-world datasets demonstrate that our HAT achieves state-of-the-art performance both quantitatively and qualitatively. Codes and models are publicly available at https://github.com/XPixelGroup/HAT.",
+      "summary": "This extended HAT paper generalizes the hybrid-attention transformer from super-resolution to a broader image-restoration family, including denoising and compression-artifact reduction. It is useful as the more complete HAT reference because it reports scaling behavior and broader restoration coverage.",
+      "url": "../papers/2309_05239/",
+      "treeUrl": "../tree/#paper=2309_05239",
+      "mapUrl": "../map/#paper=2309_05239"
+    },
+    {
+      "id": "2308_14469",
+      "label": "PASD",
+      "title": "Pixel-Aware Stable Diffusion for Realistic Image Super-Resolution and Personalized Stylization",
+      "authors": [
+        "Tao Yang",
+        "Rongyuan Wu",
+        "Peiran Ren",
+        "Xuansong Xie",
+        "Lei Zhang"
+      ],
+      "authorShort": "Yang, Wu, Ren",
+      "year": 2023,
+      "source": "European Conference on Computer Vision (ECCV)",
+      "type": "Conference Paper",
+      "superCategory": "Prediction & Perception",
+      "category": "Computer Vision",
+      "subCategory": "Image Processing & Computational Photography",
+      "path": [
+        "Tree",
+        "Prediction & Perception",
+        "Computer Vision",
+        "Image Processing & Computational Photography",
+        "Super-Resolution & Restoration",
+        "Diffusion & Generative Restoration",
+        "PASD"
+      ],
+      "tags": [
+        "Image super-resolution",
+        "Real-world super-resolution",
+        "Image restoration",
+        "Stable diffusion",
+        "Diffusion models",
+        "Pixel-aware attention",
+        "Image stylization",
+        "Degradation removal",
+        "PASD"
+      ],
+      "abstract": "Diffusion models have demonstrated impressive performance in various image generation, editing, enhancement and translation tasks. In particular, the pre-trained text-to-image stable diffusion models provide a potential solution to the challenging realistic image super-resolution (Real-ISR) and image stylization problems with their strong generative priors. However, the existing methods along this line often fail to keep faithful pixel-wise image structures. If extra skip connections between the encoder and the decoder of a VAE are used to reproduce details, additional training in image space will be required, limiting the application to tasks in latent space such as image stylization. In this work, we propose a pixel-aware stable diffusion (PASD) network to achieve robust Real-ISR and personalized image stylization. Specifically, a pixel-aware cross attention module is introduced to enable diffusion models perceiving image local structures in pixel-wise level, while a degradation removal module is used to extract degradation insensitive features to guide the diffusion process together with image high level information. An adjustable noise schedule is introduced to further improve the image restoration results. By simply replacing the base diffusion model with a stylized one, PASD can generate diverse stylized images without collecting pairwise training data, and by shifting the base model with an aesthetic one, PASD can bring old photos back to life. Extensive experiments in a variety of image enhancement and stylization tasks demonstrate the effectiveness of our proposed PASD approach. Our source codes are available at \\url{https://github.com/yangxy/PASD/}.",
+      "summary": "PASD adds pixel-aware conditioning to Stable Diffusion so that its generative prior can be used for realistic super-resolution without losing local structure. The same conditioning design also lets the method act as a bridge between restoration and stylization by swapping the underlying diffusion model.",
+      "url": "../papers/2308_14469/",
+      "treeUrl": "../tree/#paper=2308_14469",
+      "mapUrl": "../map/#paper=2308_14469"
+    },
+    {
+      "id": "2307_12348",
+      "label": "ResShift",
+      "title": "ResShift: Efficient Diffusion Model for Image Super-Resolution by Residual Shifting",
+      "authors": [
+        "Zongsheng Yue",
+        "Jianyi Wang",
+        "Chen Change Loy"
+      ],
+      "authorShort": "Yue, Wang, Loy",
+      "year": 2023,
+      "source": "Advances in Neural Information Processing Systems 36",
+      "type": "Conference Paper",
+      "superCategory": "Prediction & Perception",
+      "category": "Computer Vision",
+      "subCategory": "Image Processing & Computational Photography",
+      "path": [
+        "Tree",
+        "Prediction & Perception",
+        "Computer Vision",
+        "Image Processing & Computational Photography",
+        "Super-Resolution & Restoration",
+        "Diffusion & Generative Restoration",
+        "ResShift"
+      ],
+      "tags": [
+        "Image super-resolution",
+        "Real-world super-resolution",
+        "Diffusion models",
+        "Residual shifting",
+        "Efficient sampling",
+        "Blind restoration",
+        "Noise schedule",
+        "ResShift"
+      ],
+      "abstract": "Diffusion-based image super-resolution (SR) methods are mainly limited by the low inference speed due to the requirements of hundreds or even thousands of sampling steps. Existing acceleration sampling techniques inevitably sacrifice performance to some extent, leading to over-blurry SR results. To address this issue, we propose a novel and efficient diffusion model for SR that significantly reduces the number of diffusion steps, thereby eliminating the need for post-acceleration during inference and its associated performance deterioration. Our method constructs a Markov chain that transfers between the high-resolution image and the low-resolution image by shifting the residual between them, substantially improving the transition efficiency. Additionally, an elaborate noise schedule is developed to flexibly control the shifting speed and the noise strength during the diffusion process. Extensive experiments demonstrate that the proposed method obtains superior or at least comparable performance to current state-of-the-art methods on both synthetic and real-world datasets, even only with 15 sampling steps. Our code and model are available at https://github.com/zsyOAOA/ResShift.",
+      "summary": "ResShift reframes diffusion super-resolution as a residual-shifting process between low- and high-resolution images, allowing high-quality results with far fewer denoising steps. It is a useful counterpoint to heavier diffusion restoration systems because its main contribution is sampling efficiency rather than model scale.",
+      "url": "../papers/2307_12348/",
+      "treeUrl": "../tree/#paper=2307_12348",
+      "mapUrl": "../map/#paper=2307_12348"
+    },
+    {
+      "id": "2305_07015",
+      "label": "StableSR",
+      "title": "Exploiting Diffusion Prior for Real-World Image Super-Resolution",
+      "authors": [
+        "Jianyi Wang",
+        "Zongsheng Yue",
+        "Shangchen Zhou",
+        "Kelvin C. K. Chan",
+        "Chen Change Loy"
+      ],
+      "authorShort": "Wang, Yue, Zhou",
+      "year": 2023,
+      "source": "International Journal of Computer Vision",
+      "type": "Journal Paper",
+      "superCategory": "Prediction & Perception",
+      "category": "Computer Vision",
+      "subCategory": "Image Processing & Computational Photography",
+      "path": [
+        "Tree",
+        "Prediction & Perception",
+        "Computer Vision",
+        "Image Processing & Computational Photography",
+        "Super-Resolution & Restoration",
+        "Diffusion & Generative Restoration",
+        "StableSR"
+      ],
+      "tags": [
+        "Image super-resolution",
+        "Real-world super-resolution",
+        "Blind restoration",
+        "Diffusion models",
+        "Stable diffusion",
+        "Generative prior",
+        "Time-aware encoder",
+        "Feature wrapping",
+        "StableSR"
+      ],
+      "abstract": "We present a novel approach to leverage prior knowledge encapsulated in pre-trained text-to-image diffusion models for blind super-resolution (SR). Specifically, by employing our time-aware encoder, we can achieve promising restoration results without altering the pre-trained synthesis model, thereby preserving the generative prior and minimizing training cost. To remedy the loss of fidelity caused by the inherent stochasticity of diffusion models, we employ a controllable feature wrapping module that allows users to balance quality and fidelity by simply adjusting a scalar value during the inference process. Moreover, we develop a progressive aggregation sampling strategy to overcome the fixed-size constraints of pre-trained diffusion models, enabling adaptation to resolutions of any size. A comprehensive evaluation of our method using both synthetic and real-world benchmarks demonstrates its superiority over current state-of-the-art approaches. Code and models are available at https://github.com/IceClear/StableSR.",
+      "summary": "StableSR adapts a pretrained text-to-image diffusion model for blind real-world super-resolution while keeping the synthesis model fixed. Its time-aware encoder, controllable feature wrapping, and progressive aggregation sampling make the diffusion prior more practical for fidelity-controlled restoration at arbitrary image sizes.",
+      "url": "../papers/2305_07015/",
+      "treeUrl": "../tree/#paper=2305_07015",
+      "mapUrl": "../map/#paper=2305_07015"
     },
     {
       "id": "2304_07193",
@@ -70942,6 +72418,85 @@ window.timelineData = {
       "mapUrl": "../map/#paper=2409_18218"
     },
     {
+      "id": "2401_15315",
+      "label": "Online Belief Prediction",
+      "title": "Learning Online Belief Prediction for Efficient POMDP Planning in Autonomous Driving",
+      "authors": [
+        "Zhiyu Huang",
+        "Chen Tang",
+        "Chen Lv",
+        "Masayoshi Tomizuka",
+        "Wei Zhan"
+      ],
+      "authorShort": "Huang, Tang, Lv",
+      "year": 2024,
+      "source": "IEEE Robotics and Automation Letters",
+      "type": "Journal Paper",
+      "superCategory": "Decision-making",
+      "category": "Planning",
+      "subCategory": "Planning in Changing Environments",
+      "path": [
+        "Tree",
+        "Decision-making",
+        "Planning",
+        "Planning in Changing Environments",
+        "Planning Under Uncertainty",
+        "Planning in Belief Space",
+        "Belief Trees",
+        "Online Belief Prediction"
+      ],
+      "tags": [
+        "Autonomous driving",
+        "POMDPs",
+        "Belief-space planning",
+        "Belief-state planning",
+        "Trajectory prediction"
+      ],
+      "abstract": "Effective decision-making in autonomous driving relies on accurate inference of other traffic agents' future behaviors. To achieve this, we propose an online belief-update-based behavior prediction model and an efficient planner for Partially Observable Markov Decision Processes (POMDPs). We develop a Transformer-based prediction model, enhanced with a recurrent neural memory model, to dynamically update latent belief state and infer the intentions of other agents. The model can also integrate the ego vehicle's intentions to reflect closed-loop interactions among agents, and it learns from both offline data and online interactions. For planning, we employ a Monte-Carlo Tree Search (MCTS) planner with macro actions, which reduces computational complexity by searching over temporally extended action steps. Inside the MCTS planner, we use predicted long-term multi-modal trajectories to approximate future updates, which eliminates iterative belief updating and improves the running efficiency. Our approach also incorporates deep Q-learning (DQN) as a search prior, which significantly improves the performance of the MCTS planner. Experimental results from simulated environments validate the effectiveness of our proposed method. The online belief update model can significantly enhance the accuracy and temporal consistency of predictions, leading to improved decision-making performance. Employing DQN as a search prior in the MCTS planner considerably boosts its performance and outperforms an imitation learning-based prior. Additionally, we show that the MCTS planning with macro actions substantially outperforms the vanilla method in terms of performance and efficiency.",
+      "summary": "Learns an online belief-update model for other traffic agents and pairs it with an efficient POMDP planner. The main value is the closed-loop belief-state machinery, which lets predictions adapt as ego intentions and traffic interactions evolve.",
+      "url": "../papers/2401_15315/",
+      "treeUrl": "../tree/#paper=2401_15315",
+      "mapUrl": "../map/#paper=2401_15315"
+    },
+    {
+      "id": "2411_09887",
+      "label": "Planning by Simulation",
+      "title": "Planning by Simulation: Motion Planning with Learning-Based Parallel Scenario Prediction for Autonomous Driving",
+      "authors": [
+        "Tian Niu",
+        "Kaizhao Zhang",
+        "Zhongxue Gan",
+        "Wenchao Ding"
+      ],
+      "authorShort": "Niu, Zhang, Gan",
+      "year": 2024,
+      "source": "Computer Modeling in Engineering & Sciences",
+      "type": "Journal Paper",
+      "superCategory": "Decision-making",
+      "category": "Planning",
+      "subCategory": "Planning in Changing Environments",
+      "path": [
+        "Tree",
+        "Decision-making",
+        "Planning",
+        "Planning in Changing Environments",
+        "Interaction-aware Planning",
+        "Planning by Simulation"
+      ],
+      "tags": [
+        "Autonomous driving",
+        "Motion planning",
+        "Scenario generation",
+        "Simulation",
+        "Trajectory prediction"
+      ],
+      "abstract": "Planning safe trajectories for autonomous vehicles is essential for operational safety but remains extremely challenging due to the complex interactions among traffic participants. Recent autonomous driving frameworks have focused on improving prediction accuracy to explicitly model these interactions. However, some methods overlook the significant influence of the ego vehicle's planning on the possible trajectories of other agents, which can alter prediction accuracy and lead to unsafe planning decisions. In this paper, we propose a novel motion Planning approach by Simulation with learning-based parallel scenario prediction (PS). PS deduces predictions iteratively based on Monte Carlo Tree Search (MCTS), jointly inferring scenarios that cooperate with the ego vehicle's planning set. Our method simulates possible scenes and calculates their costs after the ego vehicle executes potential actions. To balance and prune unreasonable actions and scenarios, we adopt MCTS as the foundation to explore possible future interactions encoded within the prediction network. Moreover, the query-centric trajectory prediction streamlines our scene generation, enabling a sophisticated framework that captures the mutual influence between other agents' predictions and the ego vehicle's planning. We evaluate our framework on the Argoverse 2 dataset, and the results demonstrate that our approach effectively achieves parallel ego vehicle planning.",
+      "summary": "Introduces Planning by Simulation, where parallel learned scenario prediction evaluates candidate ego plans by simulating how surrounding agents may respond. The paper targets the feedback loop between planning and prediction rather than treating forecast accuracy as a standalone objective.",
+      "url": "../papers/2411_09887/",
+      "treeUrl": "../tree/#paper=2411_09887",
+      "mapUrl": "../map/#paper=2411_09887"
+    },
+    {
       "id": "2404_14327",
       "label": "PLUTO",
       "title": "PLUTO: Pushing the Limit of Imitation Learning-based Planning for Autonomous Driving",
@@ -72464,6 +74019,54 @@ window.timelineData = {
       "url": "../papers/2404_18021/",
       "treeUrl": "../tree/#paper=2404_18021",
       "mapUrl": "../map/#paper=2404_18021"
+    },
+    {
+      "id": "2401_13627",
+      "label": "SUPIR",
+      "title": "Scaling up to Excellence: Practicing Model Scaling for Photo-Realistic Image Restoration in the Wild",
+      "authors": [
+        "Fanghua Yu",
+        "Jinjin Gu",
+        "Zheyuan Li",
+        "Jinfan Hu",
+        "Xiangtao Kong",
+        "Xintao Wang",
+        "Jingwen He",
+        "Yu Qiao",
+        "Chao Dong"
+      ],
+      "authorShort": "Yu, Gu, Li",
+      "year": 2024,
+      "source": "IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+      "type": "Conference Paper",
+      "superCategory": "Prediction & Perception",
+      "category": "Computer Vision",
+      "subCategory": "Image Processing & Computational Photography",
+      "path": [
+        "Tree",
+        "Prediction & Perception",
+        "Computer Vision",
+        "Image Processing & Computational Photography",
+        "Super-Resolution & Restoration",
+        "Diffusion & Generative Restoration",
+        "SUPIR"
+      ],
+      "tags": [
+        "Image restoration",
+        "Image super-resolution",
+        "Real-world restoration",
+        "Generative prior",
+        "Model scaling",
+        "Text-guided restoration",
+        "Negative-quality prompts",
+        "Restoration-guided sampling",
+        "SUPIR"
+      ],
+      "abstract": "We introduce SUPIR (Scaling-UP Image Restoration), a groundbreaking image restoration method that harnesses generative prior and the power of model scaling up. Leveraging multi-modal techniques and advanced generative prior, SUPIR marks a significant advance in intelligent and realistic image restoration. As a pivotal catalyst within SUPIR, model scaling dramatically enhances its capabilities and demonstrates new potential for image restoration. We collect a dataset comprising 20 million high-resolution, high-quality images for model training, each enriched with descriptive text annotations. SUPIR provides the capability to restore images guided by textual prompts, broadening its application scope and potential. Moreover, we introduce negative-quality prompts to further improve perceptual quality. We also develop a restoration-guided sampling method to suppress the fidelity issue encountered in generative-based restoration. Experiments demonstrate SUPIR's exceptional restoration effects and its novel capacity to manipulate restoration through textual prompts.",
+      "summary": "SUPIR scales generative image restoration with a large annotated high-quality image corpus, prompt-aware restoration, negative-quality prompts, and restoration-guided sampling. It is notable less as a narrow architecture tweak and more as evidence that low-level restoration benefits strongly from data and model scale.",
+      "url": "../papers/2401_13627/",
+      "treeUrl": "../tree/#paper=2401_13627",
+      "mapUrl": "../map/#paper=2401_13627"
     },
     {
       "id": "2408_00714",
@@ -78969,6 +80572,45 @@ window.timelineData = {
       "mapUrl": "../map/#paper=2505_05588"
     },
     {
+      "id": "2510_06179",
+      "label": "Differentiable Model Predictive Control on the GPU",
+      "title": "Differentiable Model Predictive Control on the GPU",
+      "authors": [
+        "Emre Adabag",
+        "Marcus Greiff",
+        "John Subosits",
+        "Thomas Lew"
+      ],
+      "authorShort": "Adabag, Greiff, Subosits",
+      "year": 2025,
+      "source": "arXiv",
+      "type": "Preprint",
+      "superCategory": "Decision-making",
+      "category": "Planning",
+      "subCategory": "Kinodynamic Planning",
+      "path": [
+        "Tree",
+        "Decision-making",
+        "Planning",
+        "Kinodynamic Planning",
+        "Trajectory Optimization",
+        "Nonlinear Optimization",
+        "Differentiable Model Predictive Control on the GPU"
+      ],
+      "tags": [
+        "Model predictive control",
+        "Differentiable optimization",
+        "Graphics processing unit acceleration",
+        "Sequential quadratic programming",
+        "Differentiable programming"
+      ],
+      "abstract": "Differentiable model predictive control (MPC) offers a powerful framework for combining learning and control. However, its adoption has been limited by the inherently sequential nature of traditional optimization algorithms, which are challenging to parallelize on modern computing hardware like GPUs. In this work, we tackle this bottleneck by introducing a GPU-accelerated differentiable optimization tool for MPC. This solver leverages sequential quadratic programming and a custom preconditioned conjugate gradient (PCG) routine with tridiagonal preconditioning to exploit the problem's structure and enable efficient parallelization. We demonstrate substantial speedups over CPU- and GPU-based baselines, significantly improving upon state-of-the-art training times on benchmark reinforcement learning and imitation learning tasks. Finally, we showcase the method on the challenging task of reinforcement learning for driving at the limits of handling, where it enables robust drifting of a Toyota Supra through water puddles.",
+      "summary": "Introduces a GPU-oriented differentiable MPC solver based on SQP and a structured preconditioned conjugate-gradient routine. The paper targets the hardware bottleneck that makes differentiable MPC attractive in principle but difficult to scale in learning pipelines.",
+      "url": "../papers/2510_06179/",
+      "treeUrl": "../tree/#paper=2510_06179",
+      "mapUrl": "../map/#paper=2510_06179"
+    },
+    {
       "id": "2025_li_diffusolve_diffusion_based_solver",
       "label": "DiffuSolve",
       "title": "DiffuSolve: Diffusion-based Solver for Non-convex Trajectory Optimization",
@@ -80077,6 +81719,50 @@ window.timelineData = {
       "mapUrl": "../map/#paper=2508_21001"
     },
     {
+      "id": "2510_11083",
+      "label": "Flow Planner",
+      "title": "Flow Matching-Based Autonomous Driving Planning with Advanced Interactive Behavior Modeling",
+      "authors": [
+        "Tianyi Tan",
+        "Yinan Zheng",
+        "Ruiming Liang",
+        "Zexu Wang",
+        "Kexin Zheng",
+        "Jinliang Zheng",
+        "Jianxiong Li",
+        "Xianyuan Zhan",
+        "Jingjing Liu"
+      ],
+      "authorShort": "Tan, Zheng, Liang",
+      "year": 2025,
+      "source": "Conference on Neural Information Processing Systems",
+      "type": "Conference Paper",
+      "superCategory": "Decision-making",
+      "category": "Planning",
+      "subCategory": "Learning-Based Motion Planning",
+      "path": [
+        "Tree",
+        "Decision-making",
+        "Planning",
+        "Learning-Based Motion Planning",
+        "Learned Steering",
+        "Flow Matching",
+        "Flow Planner"
+      ],
+      "tags": [
+        "Autonomous driving",
+        "Flow matching",
+        "Interaction-aware planning",
+        "Trajectory prediction",
+        "Generative model"
+      ],
+      "abstract": "Modeling interactive driving behaviors in complex scenarios remains a fundamental challenge for autonomous driving planning. Learning-based approaches attempt to address this challenge with advanced generative models, removing the dependency on over-engineered architectures for representation fusion. However, brute-force implementation by simply stacking transformer blocks lacks a dedicated mechanism for modeling interactive behaviors that are common in real driving scenarios. The scarcity of interactive driving data further exacerbates this problem, leaving conventional imitation learning methods ill-equipped to capture high-value interactive behaviors. We propose Flow Planner, which tackles these problems through coordinated innovations in data modeling, model architecture, and learning scheme. Specifically, we first introduce fine-grained trajectory tokenization, which decomposes the trajectory into overlapping segments to decrease the complexity of whole trajectory modeling. With a sophisticatedly designed architecture, we achieve efficient temporal and spatial fusion of planning and scene information, to better capture interactive behaviors. In addition, the framework incorporates flow matching with classifier-free guidance for multi-modal behavior generation, which dynamically reweights agent interactions during inference to maintain coherent response strategies, providing a critical boost for interactive scenario understanding. Experimental results on the large-scale nuPlan dataset and challenging interactive interPlan dataset demonstrate that Flow Planner achieves state-of-the-art performance among learning-based approaches while effectively modeling interactive behaviors in complex driving scenarios.",
+      "summary": "Proposes Flow Planner, a flow-matching autonomous-driving planner with trajectory tokenization, interaction-aware architecture, and classifier-free guidance. Its contribution is aimed at generating multimodal plans that remain coherent in interaction-heavy driving scenes.",
+      "url": "../papers/2510_11083/",
+      "treeUrl": "../tree/#paper=2510_11083",
+      "mapUrl": "../map/#paper=2510_11083"
+    },
+    {
       "id": "2509_21961",
       "label": "FlowDrive",
       "title": "FlowDrive: Moderated Flow Matching with Data Balancing for Trajectory Planning",
@@ -80158,6 +81844,86 @@ window.timelineData = {
       "url": "../papers/2503_06135/",
       "treeUrl": "../tree/#paper=2503_06135",
       "mapUrl": "../map/#paper=2503_06135"
+    },
+    {
+      "id": "2505_17659",
+      "label": "Plan-R1",
+      "title": "Plan-R1: Safe and Feasible Trajectory Planning as Language Modeling",
+      "authors": [
+        "Xiaolong Tang",
+        "Meina Kan",
+        "Shiguang Shan",
+        "Xilin Chen"
+      ],
+      "authorShort": "Tang, Kan, Shan",
+      "year": 2025,
+      "source": "arXiv",
+      "type": "Preprint",
+      "superCategory": "Decision-making",
+      "category": "Planning",
+      "subCategory": "Learning-Based Motion Planning",
+      "path": [
+        "Tree",
+        "Decision-making",
+        "Planning",
+        "Learning-Based Motion Planning",
+        "Frameworks",
+        "Plan-R1"
+      ],
+      "tags": [
+        "Autonomous driving",
+        "Trajectory planning",
+        "Language models",
+        "Safety",
+        "Imitation learning"
+      ],
+      "abstract": "Safe and feasible trajectory planning is critical for real-world autonomous driving systems. However, existing learning-based planners rely heavily on expert demonstrations, which not only lack explicit safety awareness but also risk inheriting undesirable behaviors such as speeding from suboptimal human driving data. Inspired by the success of large language models, we propose Plan-R1, a two-stage trajectory planning framework that decouples principle alignment from behavior learning. In the first stage, a general trajectory predictor is pre-trained on expert data to capture diverse, human-like driving behaviors. In the second stage, the model is fine-tuned with rule-based rewards using Group Relative Policy Optimization (GRPO), explicitly aligning ego planning with principles such as safety, comfort, and traffic rule compliance. This two-stage paradigm retains human-like behaviors while enhancing safety awareness and discarding undesirable patterns from demonstrations. Furthermore, we identify a key limitation of directly applying GRPO to planning: group-wise normalization erases cross-group scale differences, causing rare, high-variance safety-violation groups to have similar advantages as abundant low-variance safe groups, thereby suppressing optimization for safety-critical objectives. To address this, we propose Variance-Decoupled GRPO (VD-GRPO), which replaces normalization with centering and fixed scaling to preserve absolute reward magnitudes, ensuring that safety-critical objectives remain dominant throughout training. Experiments on the nuPlan benchmark demonstrate that Plan-R1 significantly improves planning safety and feasibility, achieving state-of-the-art performance, particularly in realistic reactive settings. Our code is available at https://github.com/XiaolongTang23/Plan-R1.",
+      "summary": "Frames safe autonomous-driving trajectory planning as a language-modeling problem with separate stages for behavior learning and principle alignment. The paper is part of the emerging thread that adapts LLM-style training and alignment recipes to structured driving trajectories.",
+      "url": "../papers/2505_17659/",
+      "treeUrl": "../tree/#paper=2505_17659",
+      "mapUrl": "../map/#paper=2505_17659"
+    },
+    {
+      "id": "2512_01993",
+      "label": "RoaD",
+      "title": "RoaD: Rollouts as Demonstrations for Closed-Loop Supervised Fine-Tuning of Autonomous Driving Policies",
+      "authors": [
+        "Guillermo Garcia-Cobo",
+        "Maximilian Igl",
+        "Peter Karkus",
+        "Zhejun Zhang",
+        "Michael Watson",
+        "Yuxiao Chen",
+        "Boris Ivanovic",
+        "Marco Pavone"
+      ],
+      "authorShort": "Garcia-Cobo, Igl, Karkus",
+      "year": 2025,
+      "source": "arXiv",
+      "type": "Preprint",
+      "superCategory": "Decision-making",
+      "category": "Planning",
+      "subCategory": "Learning-Based Motion Planning",
+      "path": [
+        "Tree",
+        "Decision-making",
+        "Planning",
+        "Learning-Based Motion Planning",
+        "Frameworks",
+        "RoaD"
+      ],
+      "tags": [
+        "Autonomous driving",
+        "Imitation learning",
+        "Behavior cloning",
+        "Closed-loop",
+        "Policy learning"
+      ],
+      "abstract": "Autonomous driving policies are typically trained via open-loop behavior cloning of human demonstrations. However, such policies suffer from covariate shift when deployed in closed loop, leading to compounding errors. We introduce Rollouts as Demonstrations (RoaD), a simple and efficient method to mitigate covariate shift by leveraging the policy's own closed-loop rollouts as additional training data. During rollout generation, RoaD incorporates expert guidance to bias trajectories toward high-quality behavior, producing informative yet realistic demonstrations for fine-tuning. This approach enables robust closed-loop adaptation with orders of magnitude less data than reinforcement learning, and avoids restrictive assumptions of prior closed-loop supervised fine-tuning (CL-SFT) methods, allowing broader applications domains including end-to-end driving. We demonstrate the effectiveness of RoaD on WOSAC, a large-scale traffic simulation benchmark, where it performs similar or better than the prior CL-SFT method; and in AlpaSim, a high-fidelity neural reconstruction-based simulator for end-to-end driving, where it improves driving score by 41\\% and reduces collisions by 54\\%.",
+      "summary": "Introduces Rollouts as Demonstrations, a closed-loop fine-tuning method that augments behavior cloning with guided rollouts from the policy itself. The key idea is to reduce covariate shift by training on states the deployed policy actually visits while still biasing data generation toward expert-quality behavior.",
+      "url": "../papers/2512_01993/",
+      "treeUrl": "../tree/#paper=2512_01993",
+      "mapUrl": "../map/#paper=2512_01993"
     },
     {
       "id": "2025_hu_technically_speaking_transitioning_from",
@@ -80603,6 +82369,46 @@ window.timelineData = {
       "url": "../papers/2025_ma_trajectory_tree_based_pairwise/",
       "treeUrl": "../tree/#paper=2025_ma_trajectory_tree_based_pairwise",
       "mapUrl": "../map/#paper=2025_ma_trajectory_tree_based_pairwise"
+    },
+    {
+      "id": "2504_17838",
+      "label": "CaRL",
+      "title": "CaRL: Learning Scalable Planning Policies with Simple Rewards",
+      "authors": [
+        "Bernhard Jaeger",
+        "Daniel Dauner",
+        "Jens Beisswenger",
+        "Simon Gerstenecker",
+        "Kashyap Chitta",
+        "Andreas Geiger"
+      ],
+      "authorShort": "Jaeger, Dauner, Beisswenger",
+      "year": 2025,
+      "source": "Conference on Robot Learning",
+      "type": "Conference Paper",
+      "superCategory": "Decision-making",
+      "category": "Reinforcement Learning",
+      "subCategory": "Applications",
+      "path": [
+        "Tree",
+        "Decision-making",
+        "Reinforcement Learning",
+        "Applications",
+        "Driving",
+        "CaRL"
+      ],
+      "tags": [
+        "Autonomous driving",
+        "Reinforcement learning",
+        "Policy learning",
+        "Policy optimization",
+        "Sample efficiency"
+      ],
+      "abstract": "We investigate reinforcement learning (RL) for privileged planning in autonomous driving. State-of-the-art approaches for this task are rule-based, but these methods do not scale to the long tail. RL, on the other hand, is scalable and does not suffer from compounding errors like imitation learning. Contemporary RL approaches for driving use complex shaped rewards that sum multiple individual rewards, \\eg~progress, position, or orientation rewards. We show that PPO fails to optimize a popular version of these rewards when the mini-batch size is increased, which limits the scalability of these approaches. Instead, we propose a new reward design based primarily on optimizing a single intuitive reward term: route completion. Infractions are penalized by terminating the episode or multiplicatively reducing route completion. We find that PPO scales well with higher mini-batch sizes when trained with our simple reward, even improving performance. Training with large mini-batch sizes enables efficient scaling via distributed data parallelism. We scale PPO to 300M samples in CARLA and 500M samples in nuPlan with a single 8-GPU node. The resulting model achieves 64 DS on the CARLA longest6 v2 benchmark, outperforming other RL methods with more complex rewards by a large margin. Requiring only minimal adaptations from its use in CARLA, the same method is the best learning-based approach on nuPlan. It scores 91.3 in non-reactive and 90.6 in reactive traffic on the Val14 benchmark while being an order of magnitude faster than prior work.",
+      "summary": "Shows that privileged RL for autonomous-driving planning can scale better with a simple route-completion reward than with heavily shaped reward sums. CaRL is notable for treating reward simplicity as the enabling ingredient for large-batch PPO and strong closed-loop driving performance.",
+      "url": "../papers/2504_17838/",
+      "treeUrl": "../tree/#paper=2504_17838",
+      "mapUrl": "../map/#paper=2504_17838"
     },
     {
       "id": "2508_07400",
@@ -82470,6 +84276,55 @@ window.timelineData = {
       "url": "../papers/2502_08844/",
       "treeUrl": "../tree/#paper=2502_08844",
       "mapUrl": "../map/#paper=2502_08844"
+    },
+    {
+      "id": "2501_02976",
+      "label": "STAR",
+      "title": "STAR: Spatial-Temporal Augmentation with Text-to-Video Models for Real-World Video Super-Resolution",
+      "authors": [
+        "Rui Xie",
+        "Yinhong Liu",
+        "Penghao Zhou",
+        "Chen Zhao",
+        "Jun Zhou",
+        "Kai Zhang",
+        "Zhenyu Zhang",
+        "Jian Yang",
+        "Zhenheng Yang",
+        "Ying Tai"
+      ],
+      "authorShort": "Xie, Liu, Zhou",
+      "year": 2025,
+      "source": "IEEE/CVF International Conference on Computer Vision (ICCV)",
+      "type": "Conference Paper",
+      "superCategory": "Prediction & Perception",
+      "category": "Computer Vision",
+      "subCategory": "Image Processing & Computational Photography",
+      "path": [
+        "Tree",
+        "Prediction & Perception",
+        "Computer Vision",
+        "Image Processing & Computational Photography",
+        "Super-Resolution & Restoration",
+        "Diffusion & Generative Restoration",
+        "STAR"
+      ],
+      "tags": [
+        "Video super-resolution",
+        "Real-world super-resolution",
+        "Image restoration",
+        "Text-to-video models",
+        "Diffusion models",
+        "Temporal consistency",
+        "Local information enhancement",
+        "Dynamic frequency loss",
+        "STAR"
+      ],
+      "abstract": "Image diffusion models have been adapted for real-world video super-resolution to tackle over-smoothing issues in GAN-based methods. However, these models struggle to maintain temporal consistency, as they are trained on static images, limiting their ability to capture temporal dynamics effectively. Integrating text-to-video (T2V) models into video super-resolution for improved temporal modeling is straightforward. However, two key challenges remain: artifacts introduced by complex degradations in real-world scenarios, and compromised fidelity due to the strong generative capacity of powerful T2V models (\\textit{e.g.}, CogVideoX-5B). To enhance the spatio-temporal quality of restored videos, we introduce\\textbf{~\\name} (\\textbf{S}patial-\\textbf{T}emporal \\textbf{A}ugmentation with T2V models for \\textbf{R}eal-world video super-resolution), a novel approach that leverages T2V models for real-world video super-resolution, achieving realistic spatial details and robust temporal consistency. Specifically, we introduce a Local Information Enhancement Module (LIEM) before the global attention block to enrich local details and mitigate degradation artifacts. Moreover, we propose a Dynamic Frequency (DF) Loss to reinforce fidelity, guiding the model to focus on different frequency components across diffusion steps. Extensive experiments demonstrate\\textbf{~\\name}~outperforms state-of-the-art methods on both synthetic and real-world datasets.",
+      "summary": "STAR adapts text-to-video diffusion models to real-world video super-resolution, using local information enhancement and a dynamic frequency loss to improve detail recovery while preserving temporal coherence. It is useful as a recent example of moving super-resolution from per-frame image priors toward video-native generative priors.",
+      "url": "../papers/2501_02976/",
+      "treeUrl": "../tree/#paper=2501_02976",
+      "mapUrl": "../map/#paper=2501_02976"
     },
     {
       "id": "2508_10104",
@@ -90585,6 +92440,46 @@ window.timelineData = {
       "mapUrl": "../map/#paper=2603_06773"
     },
     {
+      "id": "2605_23240",
+      "label": "STL-GCS Planning",
+      "title": "Signal Temporal Logic Motion Planning via Graphs of Convex Sets",
+      "authors": [
+        "Yu Chen",
+        "Ancheng Hou",
+        "Mingyang Feng",
+        "Xiao Yu",
+        "Xiang Yin"
+      ],
+      "authorShort": "Chen, Hou, Feng",
+      "year": 2026,
+      "source": "arXiv",
+      "type": "Preprint",
+      "superCategory": "Decision-making",
+      "category": "Planning",
+      "subCategory": "Kinodynamic Planning",
+      "path": [
+        "Tree",
+        "Decision-making",
+        "Planning",
+        "Kinodynamic Planning",
+        "Trajectory Planning",
+        "Planning with Graphs of Convex Sets (GCS)",
+        "STL-GCS Planning"
+      ],
+      "tags": [
+        "Motion planning",
+        "Graphs of convex sets",
+        "Temporal logic planning",
+        "Formal methods",
+        "Convex optimization"
+      ],
+      "abstract": "This paper investigates continuous-time motion planning under Signal Temporal Logic (STL) specifications. The goal is to generate smooth robot trajectories that satisfy high-level logical and timing requirements while respecting low-level motion constraints. To this end, we propose an efficient framework that combines timed-automata reasoning with graphs of convex sets (GCS). An STL specification is first represented by a timed automaton, which is then coupled with a convex decomposition of the configuration space to form a joint transition system encoding both task progress and region occupancy. Based on this joint transition system, the STL motion-planning problem is reformulated as a shortest-path problem over a GCS, whose solution induces a smooth Bézier-spline trajectory satisfying the STL specification, smoothness requirements, and velocity bounds. We establish the soundness of the proposed formulation and analyze its computational complexity, showing that, once the timed automaton and convex decomposition are fixed, the convex relaxation scales polynomially with the configuration-space dimension and the Bézier degree. We further develop a compact timed-automaton construction for an expressive STL fragment using dedicated templates and Boolean composition. Numerical experiments on low-dimensional benchmarks, a $3$-D quadrotor, a $30$-DoF humanoid, and a hardware experiment on a UR-3 robot arm demonstrate that the proposed method efficiently solves complex STL motion-planning problems and produces smooth executable trajectories.",
+      "summary": "Combines timed-automata reasoning with graphs of convex sets to generate smooth trajectories satisfying continuous-time signal temporal logic specifications. The contribution is a planning formulation that keeps high-level temporal requirements and low-level convex trajectory constraints in the same optimization pipeline.",
+      "url": "../papers/2605_23240/",
+      "treeUrl": "../tree/#paper=2605_23240",
+      "mapUrl": "../map/#paper=2605_23240"
+    },
+    {
       "id": "2605_13748",
       "label": "TinySDP",
       "title": "TinySDP: Real Time Semidefinite Optimization for Certifiable and Agile Edge Robotics",
@@ -90708,6 +92603,48 @@ window.timelineData = {
       "url": "../papers/2602_03639/",
       "treeUrl": "../tree/#paper=2602_03639",
       "mapUrl": "../map/#paper=2602_03639"
+    },
+    {
+      "id": "2603_12607",
+      "label": "CarPLAN",
+      "title": "CarPLAN: Context-Adaptive and Robust Planning with Dynamic Scene Awareness for Autonomous Driving",
+      "authors": [
+        "Junyong Yun",
+        "Jungho Kim",
+        "ByungHyun Lee",
+        "Dongyoung Lee",
+        "Sehwan Choi",
+        "Seunghyeop Nam",
+        "Kichun Jo",
+        "Jun Won Choi"
+      ],
+      "authorShort": "Yun, Kim, Lee",
+      "year": 2026,
+      "source": "arXiv",
+      "type": "Preprint",
+      "superCategory": "Decision-making",
+      "category": "Planning",
+      "subCategory": "Learning-Based Motion Planning",
+      "path": [
+        "Tree",
+        "Decision-making",
+        "Planning",
+        "Learning-Based Motion Planning",
+        "Frameworks",
+        "CarPLAN"
+      ],
+      "tags": [
+        "Autonomous driving",
+        "Imitation learning",
+        "End-to-end planning",
+        "Transformers",
+        "Policy learning"
+      ],
+      "abstract": "Imitation learning (IL) is widely used for motion planning in autonomous driving due to its data efficiency and access to real-world driving data. For safe and robust real-world driving, IL-based planning requires capturing the complex driving contexts inherent in real-world data and enabling context-adaptive decision-making, rather than relying solely on expert trajectory imitation. In this paper, we propose CarPLAN, a novel IL-based motion planning framework that explicitly enhances driving context understanding and enables adaptive planning across diverse traffic scenarios. Our contributions are twofold: We introduce Displacement-Aware Predictive Encoding (DPE) to improve the model's spatial awareness by predicting future displacement vectors between the Autonomous Vehicle (AV) and surrounding scene elements. This allows the planner to account for relational spacing when generating trajectories. In addition to the standard imitation loss, we incorporate an augmented loss term that captures displacement prediction errors, ensuring planning decisions consider relative distances from other agents. To improve the model's ability to handle diverse driving contexts, we propose Context-Adaptive Multi-Expert Decoder (CMD), which leverages the Mixture of Experts (MoE) framework. CMD dynamically selects the most suitable expert decoders based on scene structure at each Transformer layer, enabling adaptive and context-aware planning in dynamic environments. We evaluate CarPLAN on the nuPlan benchmark and demonstrate state-of-the-art performance across all closed-loop simulation metrics. In particular, CarPLAN exhibits robust performance on challenging scenarios such as Test14-Hard, validating its effectiveness in complex driving conditions. Additional experiments on the Waymax benchmark further demonstrate its generalization capability across different benchmark settings.",
+      "summary": "Proposes CarPLAN, an imitation-learning planner that adds displacement-aware predictive encoding and a context-adaptive multi-expert decoder. The paper focuses on making learned planners respond to scene context rather than merely copying expert trajectories.",
+      "url": "../papers/2603_12607/",
+      "treeUrl": "../tree/#paper=2603_12607",
+      "mapUrl": "../map/#paper=2603_12607"
     },
     {
       "id": "2603_12361",
@@ -90868,6 +92805,45 @@ window.timelineData = {
       "mapUrl": "../map/#paper=2026_wang_score_guided_motion_planning"
     },
     {
+      "id": "2603_15185",
+      "label": "What Matters for Scalable and Robust Learning in End-to-End Driving Planners?",
+      "title": "What Matters for Scalable and Robust Learning in End-to-End Driving Planners?",
+      "authors": [
+        "David Holtz",
+        "Niklas Hanselmann",
+        "Simon Doll",
+        "Marius Cordts",
+        "Bernt Schiele"
+      ],
+      "authorShort": "Holtz, Hanselmann, Doll",
+      "year": 2026,
+      "source": "CVPR Findings",
+      "type": "Conference Paper",
+      "superCategory": "Decision-making",
+      "category": "Planning",
+      "subCategory": "Learning-Based Motion Planning",
+      "path": [
+        "Tree",
+        "Decision-making",
+        "Planning",
+        "Learning-Based Motion Planning",
+        "Frameworks",
+        "What Matters for Scalable and Robust Learning in End-to-End Driving Planners?"
+      ],
+      "tags": [
+        "Autonomous driving",
+        "End-to-end planning",
+        "End-to-end learning",
+        "Closed-loop",
+        "Robustness"
+      ],
+      "abstract": "End-to-end autonomous driving has gained significant attention for its potential to learn robust behavior in interactive scenarios and scale with data. Popular architectures often build on separate modules for perception and planning connected through latent representations, such as bird's eye view feature grids, to maintain end-to-end differentiability. This paradigm emerged mostly on open-loop datasets, with evaluation focusing not only on driving performance, but also intermediate perception tasks. Unfortunately, architectural advances that excel in open-loop often fail to translate to scalable learning of robust closed-loop driving. In this paper, we systematically re-examine the impact of common architectural patterns on closed-loop performance: (1) high-resolution perceptual representations, (2) disentangled trajectory representations, and (3) generative planning. Crucially, our analysis evaluates the combined impact of these patterns, revealing both unexpected limitations as well as underexplored synergies. Building on these insights, we introduce BevAD, a novel lightweight and highly scalable end-to-end driving architecture. BevAD achieves 72.7% success rate on the Bench2Drive benchmark and demonstrates strong data-scaling behavior using pure imitation learning. Our code and models are publicly available here: https://dmholtz.github.io/bevad/",
+      "summary": "Examines which architectural and training choices actually improve scalable, robust end-to-end driving planners. The paper is valuable as an empirical correction to open-loop-only design intuitions, focusing on closed-loop behavior and robustness.",
+      "url": "../papers/2603_15185/",
+      "treeUrl": "../tree/#paper=2603_15185",
+      "mapUrl": "../map/#paper=2603_15185"
+    },
+    {
       "id": "2601_14880",
       "label": "Contingency Planning for Safety-Critical Autonomous Vehicles: A Review and Perspectives",
       "title": "Contingency Planning for Safety-Critical Autonomous Vehicles: A Review and Perspectives",
@@ -90909,6 +92885,53 @@ window.timelineData = {
       "url": "../papers/2601_14880/",
       "treeUrl": "../tree/#paper=2601_14880",
       "mapUrl": "../map/#paper=2601_14880"
+    },
+    {
+      "id": "2605_27724",
+      "label": "HumanoidMimicGen",
+      "title": "HumanoidMimicGen: Data Generation for Loco-Manipulation via Whole-Body Planning",
+      "authors": [
+        "Kevin Lin",
+        "Ajay Mandlekar",
+        "Caelan Reed Garrett",
+        "Nikita Chernyadev",
+        "Yu Fang",
+        "Runyu Ding",
+        "Yuqi Xie",
+        "Justin Tran",
+        "Linxi Fan",
+        "Yuke Zhu"
+      ],
+      "authorShort": "Lin, Mandlekar, Garrett",
+      "year": 2026,
+      "source": "arXiv",
+      "type": "Preprint",
+      "superCategory": "Decision-making",
+      "category": "Planning",
+      "subCategory": "Overviews",
+      "path": [
+        "Tree",
+        "Decision-making",
+        "Planning",
+        "Overviews",
+        "Frameworks",
+        "Whole-Body Locomotion & Manipulation",
+        "Bipeds",
+        "HumanoidMimicGen"
+      ],
+      "tags": [
+        "Humanoid robot",
+        "Imitation learning",
+        "Datasets",
+        "Whole-body dynamics",
+        "Robot locomotion",
+        "Robot manipulation"
+      ],
+      "abstract": "Imitation learning is a promising approach for training humanoid robots to both walk and manipulate, but it requires a large number of demonstrations, which are time-intensive and difficult to collect via teleoperation. Existing data-generation algorithms can automatically synthesize demonstrations for manipulators, but they are ineffective on humanoids because their high-dimensional composite action spaces involve arms, legs, and torsos. We present HumanoidMimicGen, a method for generating humanoid legged loco-manipulation data. Our method adapts contact-rich whole-body skills from a handful of source demonstrations to new states, generalizing across changes in object pose. By interleaving these single- and dual-arm skills with whole-body locomotion and manipulation planning, the method generates stable, collision-free data across diverse scenes and layouts. To evaluate our approach, we introduce a new simulated loco-manipulation benchmark containing nine diverse tasks that test humanoid loco-manipulation capabilities. There, we demonstrate that HumanoidMimicGen automatically generates large datasets for imitation learning and enables a systematic study of how data generation and policy learning decisions impact model performance. We show that whole-body visuomotor policies co-trained with data generated by HumanoidMimicGen outperform those trained only on real-world data by 20%.",
+      "summary": "Introduces HumanoidMimicGen, a data-generation method that adapts a small set of whole-body loco-manipulation demonstrations to produce larger humanoid training datasets. The paper targets the demonstration bottleneck for humanoid imitation learning, where arms, legs, and torso coordination make teleoperation expensive.",
+      "url": "../papers/2605_27724/",
+      "treeUrl": "../tree/#paper=2605_27724",
+      "mapUrl": "../map/#paper=2605_27724"
     },
     {
       "id": "2604_08508",
@@ -91076,6 +93099,44 @@ window.timelineData = {
       "url": "../papers/2605_01860/",
       "treeUrl": "../tree/#paper=2605_01860",
       "mapUrl": "../map/#paper=2605_01860"
+    },
+    {
+      "id": "2605_26625",
+      "label": "Provably Safe Motion Planning under Unknown Disturbances",
+      "title": "Provably Safe Motion Planning under Unknown Disturbances",
+      "authors": [
+        "Ibon Gracia",
+        "Qi Heng Ho",
+        "Luca Laurenti",
+        "Morteza Lahijanian"
+      ],
+      "authorShort": "Gracia, Ho, Laurenti",
+      "year": 2026,
+      "source": "arXiv",
+      "type": "Preprint",
+      "superCategory": "Decision-making",
+      "category": "Planning",
+      "subCategory": "Planning in Changing Environments",
+      "path": [
+        "Tree",
+        "Decision-making",
+        "Planning",
+        "Planning in Changing Environments",
+        "Planning Under Uncertainty",
+        "Provably Safe Motion Planning under Unknown Disturbances"
+      ],
+      "tags": [
+        "Motion planning",
+        "Safe planning",
+        "Chance constraints",
+        "Distributionally robust optimization",
+        "Uncertainty"
+      ],
+      "abstract": "We present a provably safe sampling-based motion planning algorithm for robotic systems affected by random disturbances of unknown distribution. We consider systems with linear or linearizable dynamics evolving in workspace with arbitrary-shaped obstacles subject to state and control constraints. Safety requirements are formulated as chance-constraints. Our approach leverages data from trajectories of the system to learn a Wasserstein ambiguity tube, i.e., a sequence of ambiguity sets, which contains the trajectory of the system's state distribution with high confidence. This ambiguity tube is then used in a probabilistically complete algorithm to grow a sampling-based motion planning tree that respects the constraints of the problem. We show that learning several lower-dimensional ambiguity tubes instead of a single high-dimensional one effectively reduces the conservatism and boosts scalability. Additionally, we design an efficient bandit-based validity checker that remarkably increases the empirical performance of our approach without sacrificing probabilistic completeness. Case studies show our algorithm finds valid plans in cluttered environments under strict safety thresholds, outperforming state-of-the-art methods.",
+      "summary": "Develops a sampling-based motion-planning algorithm that learns Wasserstein ambiguity tubes from trajectory data to satisfy chance constraints under unknown disturbances. The paper connects probabilistic completeness with distributionally robust safety guarantees for uncertain robotic systems.",
+      "url": "../papers/2605_26625/",
+      "treeUrl": "../tree/#paper=2605_26625",
+      "mapUrl": "../map/#paper=2605_26625"
     },
     {
       "id": "2604_01614",
@@ -91339,6 +93400,45 @@ window.timelineData = {
       "url": "../papers/2604_14905/",
       "treeUrl": "../tree/#paper=2604_14905",
       "mapUrl": "../map/#paper=2604_14905"
+    },
+    {
+      "id": "2605_24393",
+      "label": "Non-Causal FIR Identification",
+      "title": "Finite-Time Markov-Parameter Identification of LTI Systems Using Non-Causal FIR Models: A Unified Framework for Stable and Unstable Systems",
+      "authors": [
+        "Ahmad Al-Tawaha",
+        "Ming Jin",
+        "Khaled F. Aljanaideh"
+      ],
+      "authorShort": "Al-Tawaha, Jin, Aljanaideh",
+      "year": 2026,
+      "source": "arXiv",
+      "type": "Preprint",
+      "superCategory": "Decision-making",
+      "category": "Reinforcement Learning",
+      "subCategory": "Linear Systems",
+      "path": [
+        "Tree",
+        "Decision-making",
+        "Reinforcement Learning",
+        "Linear Systems",
+        "Model-based RL",
+        "System Identification",
+        "Linear Systems with Additive Noise",
+        "Non-Causal FIR Identification"
+      ],
+      "tags": [
+        "System identification",
+        "Linear systems",
+        "Markov parameters",
+        "Finite-time analysis",
+        "Least squares"
+      ],
+      "abstract": "We present a finite-time framework for identifying stable and unstable linear time-invariant (LTI) systems from a single closed-loop input-output trajectory. The method does not require knowledge of the stabilizing controller, an intermediate observer, or prior separation of the plant into stable and unstable components. The approach uses a non-causal finite impulse response (FIR) model obtained from a Laurent expansion of the transfer function. In this representation, stable dynamics are captured by causal Markov parameters, while unstable dynamics are captured by non-causal coefficients associated with reverse-time stable evolution. This avoids the growth of causal unstable Markov parameters. A key advantage is that the coefficients multiplying both the input and the process noise remain controlled by stable and reverse-time stable decay rates, rather than by growing forward-time unstable dynamics. To handle closed-loop data, we use the injected excitation as an instrumental variable, which removes the bias caused by correlation between the feedback input and the process noise. Under explicit instrument-strength and closed-loop concentration conditions, we derive a non-asymptotic error bound for the estimated Laurent/FIR Markov parameters with the usual $\\mathcal{O}(N^{-1/2})$ statistical rate, up to logarithmic factors and truncation terms. The bound captures the effects of process noise, measurement noise, FIR horizons, closed-loop state moments, and controller-dependent instrument conditioning. Numerical experiments support the finite-time analysis by showing the predicted Markov-parameter convergence rate and illustrating how controller-dependent instrument conditioning affects the sample complexity of closed-loop identification.",
+      "summary": "Gives finite-time guarantees for identifying stable and unstable LTI systems from a single closed-loop trajectory using non-causal FIR representations. The method avoids requiring the stabilizing controller or a separate stable/unstable decomposition, making the result conceptually tidy for closed-loop identification.",
+      "url": "../papers/2605_24393/",
+      "treeUrl": "../tree/#paper=2605_24393",
+      "mapUrl": "../map/#paper=2605_24393"
     },
     {
       "id": "2603_14197",
@@ -91838,6 +93938,44 @@ window.timelineData = {
       "mapUrl": "../map/#paper=2604_04539"
     },
     {
+      "id": "2605_24939",
+      "label": "Global Linear Convergence of Entropy-Regularized Softmax Policy Gradient beyond Tabular MDPs",
+      "title": "Global Linear Convergence of Entropy-Regularized Softmax Policy Gradient beyond Tabular MDPs",
+      "authors": [
+        "Ziyue Chen",
+        "David Siska",
+        "Lukasz Szpruch"
+      ],
+      "authorShort": "Chen, Siska, Szpruch",
+      "year": 2026,
+      "source": "arXiv",
+      "type": "Preprint",
+      "superCategory": "Decision-making",
+      "category": "Reinforcement Learning",
+      "subCategory": "Nonlinear Systems",
+      "path": [
+        "Tree",
+        "Decision-making",
+        "Reinforcement Learning",
+        "Nonlinear Systems",
+        "Policy Optimization",
+        "Policy Gradient",
+        "Global Linear Convergence of Entropy-Regularized Softmax Policy Gradient beyond Tabular MDPs"
+      ],
+      "tags": [
+        "Policy gradients",
+        "Reinforcement learning",
+        "Entropy regularization",
+        "Function approximation",
+        "Convergence analysis"
+      ],
+      "abstract": "We study the global convergence of policy gradient for infinite-horizon entropy-regularized Markov decision processes (MDPs) with continuous state and action spaces. We consider log-linear softmax policies with linear function approximation, which extend the tabular softmax parameterization while retaining a tractable policy class. Under $Q^π_τ$-realizability for the regularized state-action value function, we first establish a non-uniform Polyak--Łojasiewicz (PŁ) inequality. The non-uniformity arises through degeneracy of constants associated with the policy geometry, namely the Fisher information matrix or an uncentered feature covariance matrix. We then identify two feature regimes under which this non-uniform constant can be bounded along the gradient flow. For full-affine-span features, we prove radial unboundedness of the KL regularizer and show that the smallest eigenvalue of the Fisher information matrix remains bounded below by an initialization-dependent positive constant. For simplex-valued features, we prove an analogous radial unboundedness result in the subspace orthogonal to the all-ones vector and obtain a uniform lower bound for the smallest eigenvalue of the uncentered covariance matrix. These results imply global linear convergence of the regularized objective along the gradient flow, i.e. suboptimality decaying as $\\mathcal{O}(e^{-Ct})$ for some $C>0$. Our analysis extends the global convergence theory of entropy-regularized softmax policy gradient beyond the tabular setting of Agarwal et al. (2020); Bhandari and Russo (2024); Mei et al. (2020).",
+      "summary": "Proves global linear convergence results for entropy-regularized softmax policy gradient beyond tabular MDPs using log-linear policies and realizability assumptions. The paper extends finite-state policy-gradient theory toward continuous state-action settings while tracking the geometry of the policy class.",
+      "url": "../papers/2605_24939/",
+      "treeUrl": "../tree/#paper=2605_24939",
+      "mapUrl": "../map/#paper=2605_24939"
+    },
+    {
       "id": "2604_03208",
       "label": "Hierarchical Planning with Latent World Models",
       "title": "Hierarchical Planning with Latent World Models",
@@ -92103,6 +94241,49 @@ window.timelineData = {
       "mapUrl": "../map/#paper=2604_07944"
     },
     {
+      "id": "2601_03782",
+      "label": "PointWorld",
+      "title": "PointWorld: Scaling 3D World Models for In-the-Wild Robotic Manipulation",
+      "authors": [
+        "Wenlong Huang",
+        "Yu-Wei Chao",
+        "Arsalan Mousavian",
+        "Ming-Yu Liu",
+        "Dieter Fox",
+        "Kaichun Mo",
+        "Li Fei-Fei"
+      ],
+      "authorShort": "Huang, Chao, Mousavian",
+      "year": 2026,
+      "source": "arXiv",
+      "type": "Preprint",
+      "superCategory": "Decision-making",
+      "category": "Reinforcement Learning",
+      "subCategory": "Nonlinear Systems",
+      "path": [
+        "Tree",
+        "Decision-making",
+        "Reinforcement Learning",
+        "Nonlinear Systems",
+        "Model-based RL",
+        "System Identification",
+        "World Models",
+        "PointWorld"
+      ],
+      "tags": [
+        "World models",
+        "Robot manipulation",
+        "3D perception",
+        "Point cloud",
+        "Robot learning"
+      ],
+      "abstract": "Humans anticipate, from a glance and a contemplated action of their bodies, how the 3D world will respond, a capability that is equally vital for robotic manipulation. We introduce PointWorld, a large pre-trained 3D world model that unifies state and action in a shared 3D space as 3D point flows: given one or few RGB-D images and a sequence of low-level robot action commands, PointWorld forecasts per-pixel displacements in 3D that respond to the given actions. By representing actions as 3D point flows instead of embodiment-specific action spaces (e.g., joint positions), this formulation directly conditions on physical geometries of robots while seamlessly integrating learning across embodiments. To train our 3D world model, we curate a large-scale dataset spanning real and simulated robotic manipulation in open-world environments, enabled by recent advances in 3D vision and simulated environments, totaling about 2M trajectories and 500 hours across a single-arm Franka and a bimanual humanoid. Through rigorous, large-scale empirical studies of backbones, action representations, learning objectives, partial observability, data mixtures, domain transfers, and scaling, we distill design principles for large-scale 3D world modeling. With a real-time (0.1s) inference speed, PointWorld can be efficiently integrated in the model-predictive control (MPC) framework for manipulation. We demonstrate that a single pre-trained checkpoint enables a real-world Franka robot to perform rigid-body pushing, deformable and articulated object manipulation, and tool use, without requiring any demonstrations or post-training and all from a single image captured in-the-wild. Project website at https://point-world.github.io/.",
+      "summary": "Presents PointWorld, a 3D world model that predicts action-conditioned point flows from RGB-D observations for robotic manipulation. The paper is useful because it moves world modeling from image/video prediction toward geometry-aware representations tied to robot action effects.",
+      "url": "../papers/2601_03782/",
+      "treeUrl": "../tree/#paper=2601_03782",
+      "mapUrl": "../map/#paper=2601_03782"
+    },
+    {
       "id": "2604_21177",
       "label": "Revisiting Subgradient Dominance in Robust MDPs: Counterexamples, Hardness, and Sufficient Conditions",
       "title": "Revisiting Subgradient Dominance in Robust MDPs: Counterexamples, Hardness, and Sufficient Conditions",
@@ -92219,6 +94400,44 @@ window.timelineData = {
       "url": "../papers/2603_23465/",
       "treeUrl": "../tree/#paper=2603_23465",
       "mapUrl": "../map/#paper=2603_23465"
+    },
+    {
+      "id": "2605_26078",
+      "label": "Wasserstein Policy Gradient",
+      "title": "Global Convergence of Wasserstein Policy Gradient for Entropy-Regularized Reinforcement Learning",
+      "authors": [
+        "Zhaoyu Zhu",
+        "Rui Gao",
+        "Shuang Li"
+      ],
+      "authorShort": "Zhu, Gao, Li",
+      "year": 2026,
+      "source": "arXiv",
+      "type": "Preprint",
+      "superCategory": "Decision-making",
+      "category": "Reinforcement Learning",
+      "subCategory": "Nonlinear Systems",
+      "path": [
+        "Tree",
+        "Decision-making",
+        "Reinforcement Learning",
+        "Nonlinear Systems",
+        "Policy Optimization",
+        "Policy Gradient",
+        "Wasserstein Policy Gradient"
+      ],
+      "tags": [
+        "Policy gradients",
+        "Reinforcement learning",
+        "Optimal transport",
+        "Wasserstein distances",
+        "Entropy regularization"
+      ],
+      "abstract": "Wasserstein policy gradient (WPG) is a policy optimization method for reinforcement learning (RL) that exploits the optimal-transport geometry of action distributions. For the entropy-regularized RL objective, WPG evolves each state-conditional policy by transporting it along the action gradient of the soft Q-function together with a Langevin-type diffusion. Despite its appeal for continuous-control problems, its global convergence properties remain poorly understood. Standard Langevin analyses do not directly apply, because the RL objective depends on the policy through the Bellman recursion rather than through a static convex functional, and the Langevin drift is determined by the soft Q-function, whose regularity must be controlled along the policy iterates. In this paper, we develop a global convergence theory for WPG by exploiting the Bellman structure of entropy-regularized RL. We show that the role usually played by convexity can be replaced by a Bellman-based argument: the soft Bellman residual admits a statewise KL representation with respect to a Gibbs policy; Bellman contraction relates this residual to the global optimality gap; and a Bellman resolvent identity connects value improvement to relative Fisher information. Combined with a uniform log-Sobolev inequality (LSI) for the evolving Gibbs family, these ingredients yield a distributional Polyak--Łojasiewicz condition. We further establish the regularity and uniform bounds needed to control the discretization error, thereby obtaining geometric contraction up to a discretization bias. Conceptually, our analysis shows that although entropy-regularized RL is not convex in the usual flat sense, the Bellman recursion induces a favorable Polyak--Lojasiewicz-type (PL) geometry that supports global convergence of WPG.",
+      "summary": "Analyzes Wasserstein policy gradient for entropy-regularized reinforcement learning, treating policy updates through optimal-transport geometry rather than standard Euclidean parameter steps. The result clarifies when this continuous-control-friendly policy-gradient flow converges globally.",
+      "url": "../papers/2605_26078/",
+      "treeUrl": "../tree/#paper=2605_26078",
+      "mapUrl": "../map/#paper=2605_26078"
     },
     {
       "id": "2605_10034",
@@ -93414,6 +95633,52 @@ window.timelineData = {
       "mapUrl": "../map/#paper=2604_01466"
     },
     {
+      "id": "2605_23163",
+      "label": "Fast-dDrive",
+      "title": "Fast-dDrive: Efficient Block-Diffusion VLM for Autonomous Driving",
+      "authors": [
+        "Kewei Zhang",
+        "Jin Wang",
+        "Sensen Gao",
+        "Chengyue Wu",
+        "Yulong Cao",
+        "Songyang Han",
+        "Boris Ivanovic",
+        "Langechuan Liu",
+        "Marco Pavone",
+        "Song Han",
+        "Daquan Zhou",
+        "Enze Xie"
+      ],
+      "authorShort": "Zhang, Wang, Gao",
+      "year": 2026,
+      "source": "arXiv",
+      "type": "Preprint",
+      "superCategory": "Prediction & Perception",
+      "category": "Machine Learning",
+      "subCategory": "Multimodal & Embodied Models",
+      "path": [
+        "Tree",
+        "Prediction & Perception",
+        "Machine Learning",
+        "Multimodal & Embodied Models",
+        "Vision-language-action Models (VLA)",
+        "Fast-dDrive"
+      ],
+      "tags": [
+        "Autonomous driving",
+        "Vision-language-action",
+        "Diffusion models",
+        "Vision-language models",
+        "End-to-end planning"
+      ],
+      "abstract": "End-to-end autonomous driving via Vision-Language-Action (VLA) models demands a precarious balance between high-fidelity trajectory planning and efficient inference. Existing paradigms typically fall short: autoregressive (AR) VLAs are memory-bandwidth-bound on edge hardware and prone to exposure-bias drift, while full-sequence diffusion models preclude KV-cache reuse and suffer from \"logical leakage\" that violates the fundamental perceive-then-plan causality. We present Fast-dDrive, a block-diffusion VLA that performs bidirectional refinement within semantic units while enforcing strict causal ordering across them. Leveraging the observation that driving VLAs often emit structured JSON-like outputs, Fast-dDrive freezes structural tokens into a section scaffold and employs a section-aware training recipe that prioritizes safety-critical planning. We further introduce Scaffold Speculative Decoding to achieve AR-equivalent quality at significantly higher throughput. Finally, we propose a low-overhead test-time scaling scheme: by forking $N$ stochastic trajectory rollouts from a single shared-prefix KV cache and averaging them, we effectively suppress prediction variance at a fractional computational cost. Empirical results demonstrate that Fast-dDrive redefines the speed-accuracy frontier for driving agents. On the WOD-E2E test set, Fast-dDrive achieves SOTA ADE@3s and ADE@5s, alongside the highest RFS among diffusion-based VLAs; on nuScenes, it reduces average L2 error to $0.32$m (a $22\\%$ improvement). When integrated with SGLang, our framework delivers $12\\times$ throughput speedup over the AR baseline, narrowing the gap between high-capacity VLAs and the efficiency demands of real-time on-vehicle deployment.",
+      "summary": "Introduces Fast-dDrive, a block-diffusion vision-language-action model for autonomous driving that preserves causal section ordering while refining structured outputs in parallel. The paper targets the practical speed-accuracy tradeoff for real-time VLA-based driving policies.",
+      "url": "../papers/2605_23163/",
+      "treeUrl": "../tree/#paper=2605_23163",
+      "mapUrl": "../map/#paper=2605_23163"
+    },
+    {
       "id": "2026_gabrielsson_large_behavioral_models_a",
       "label": "Large Behavioral Models",
       "title": "Large Behavioral Models: A Foundation Model Paradigm for Human Actions",
@@ -94295,6 +96560,88 @@ window.timelineData = {
       "mapUrl": "../map/#paper=2605_03269"
     },
     {
+      "id": "2603_13616",
+      "label": "SAVI Policy Comparison",
+      "title": "Beyond Binary Success: Sample-Efficient and Statistically Rigorous Robot Policy Comparison",
+      "authors": [
+        "David Snyder",
+        "Apurva Badithela",
+        "Nikolai Matni",
+        "George Pappas",
+        "Anirudha Majumdar",
+        "Masha Itkina",
+        "Haruki Nishimura"
+      ],
+      "authorShort": "Snyder, Badithela, Matni",
+      "year": 2026,
+      "source": "arXiv",
+      "type": "Preprint",
+      "superCategory": "Prediction & Perception",
+      "category": "Machine Learning",
+      "subCategory": "Multimodal & Embodied Models",
+      "path": [
+        "Tree",
+        "Prediction & Perception",
+        "Machine Learning",
+        "Multimodal & Embodied Models",
+        "Vision-language-action Models (VLA)",
+        "SAVI Policy Comparison"
+      ],
+      "tags": [
+        "Robot learning",
+        "Evaluation",
+        "Statistical inference",
+        "Sample efficiency",
+        "Benchmarks"
+      ],
+      "abstract": "Generalist robot manipulation policies are becoming increasingly capable, but are limited in evaluation to a small number of hardware rollouts. This strong resource constraint in real-world testing necessitates both more informative performance measures and reliable and efficient evaluation procedures to properly assess model capabilities and benchmark progress in the field. This work presents a novel framework for robot policy comparison that is sample-efficient, statistically rigorous, and applicable to a broad set of evaluation metrics used in practice. Based on safe, anytime-valid inference (SAVI), our test procedure is sequential, allowing the evaluator to stop early when sufficient statistical evidence has accumulated to reach a decision at a pre-specified level of confidence. Unlike previous work developed for binary success, our unified approach addresses a wide range of informative metrics: from discrete partial credit task progress to continuous measures of episodic reward or trajectory smoothness, spanning both parametric and nonparametric comparison problems. Through extensive validation on simulated and real-world evaluation data, we demonstrate up to 70% reduction in evaluation burden compared to standard batch methods and up to 50% reduction compared to state-of-the-art sequential procedures designed for binary outcomes, with no loss of statistical rigor. Notably, our empirical results show that competing policies can be separated more quickly when using fine-grained task progress than binary success metrics.",
+      "summary": "Develops a sequential, anytime-valid statistical testing framework for comparing robot policies under limited hardware rollouts. The paper is important for evaluation practice because it moves beyond binary success rates toward sample-efficient confidence and richer metrics.",
+      "url": "../papers/2603_13616/",
+      "treeUrl": "../tree/#paper=2603_13616",
+      "mapUrl": "../map/#paper=2603_13616"
+    },
+    {
+      "id": "2605_27817",
+      "label": "VERA",
+      "title": "Turning Video Models into Generalist Robot Policies",
+      "authors": [
+        "Sizhe Lester Li",
+        "Evan Kim",
+        "Xingjian Bai",
+        "Tong Zhao",
+        "Tao Pang",
+        "Max Simchowitz",
+        "Vincent Sitzmann"
+      ],
+      "authorShort": "Li, Kim, Bai",
+      "year": 2026,
+      "source": "arXiv",
+      "type": "Preprint",
+      "superCategory": "Prediction & Perception",
+      "category": "Machine Learning",
+      "subCategory": "Multimodal & Embodied Models",
+      "path": [
+        "Tree",
+        "Prediction & Perception",
+        "Machine Learning",
+        "Multimodal & Embodied Models",
+        "Vision-language-action Models (VLA)",
+        "VERA"
+      ],
+      "tags": [
+        "Robot learning",
+        "World models",
+        "Foundation models",
+        "Inverse dynamics",
+        "Robot manipulation"
+      ],
+      "abstract": "Video generative models have emerged as a promising robotics backbone, capable of generating videos that depict the completion of complex tasks across embodiments and environments. Recent work proposes robot foundation models that jointly predict future observations and actions by finetuning video models with action-labeled data. In this paper, we test the limits of an alternative approach: leave the video planner as-is while training an embodiment-specific inverse dynamics model (IDM). This decoupling offers several natural benefits: the video planner remains embodiment-agnostic, different video models can be interchanged easily without re-training the IDM, and the IDM can be independently trained with readily available self-play data. We present a closed-loop, video-to-action policy that combines an action-free video world model with a carefully-designed IDM based on the robot embodiment Jacobian. We demonstrate that our IDM design is both data-efficient and scalable to high-dimensional action spaces. Our policy, which we coin the Video-to-Embodied Robot Action Model (VERA), achieves strong performance across simulated and real-world benchmarks, including zero-shot Panda arm manipulation and 16-DoF Allegro-hand dexterous cube re-orientation. The same video planner can be used across multiple embodiments by pairing it with different embodiment-specific IDMs. Our results show that decoupled video planning plus faithful video-to-action translation is a viable alternative route towards zero-shot, cross-embodiment, and generalizable robot control. More results are available on our project website: https://vera.csail.mit.edu.",
+      "summary": "Presents VERA, a closed-loop policy that pairs an action-free video planner with an embodiment-specific inverse dynamics model. The key contribution is the decoupling: the same video model can guide multiple robot bodies while each embodiment supplies its own video-to-action translator.",
+      "url": "../papers/2605_27817/",
+      "treeUrl": "../tree/#paper=2605_27817",
+      "mapUrl": "../map/#paper=2605_27817"
+    },
+    {
       "id": "2605_08084",
       "label": "123D",
       "title": "123D: Unifying Multi-Modal Autonomous Driving Data at Scale",
@@ -94748,6 +97095,7 @@ window.timelineData = {
       ],
       "Reinforcement Learning": [
         "Foundations",
+        "Meta-Reinforcement Learning",
         "Multi-arm Bandits",
         "Linear Systems",
         "Nonlinear Systems",
@@ -94846,8 +97194,8 @@ window.timelineData = {
         "Genetic Engineering"
       ]
     },
-    "totalPapers": 2198,
-    "plottedPapers": 2198,
+    "totalPapers": 2255,
+    "plottedPapers": 2255,
     "undatedPapers": 0,
     "minYear": 1816,
     "maxYear": 2026,
@@ -94905,8 +97253,8 @@ window.timelineData = {
         "label": "1980-1984",
         "start": 1980,
         "end": 1984,
-        "width": 8.433546382121683,
-        "count": 14
+        "width": 8.752101866684487,
+        "count": 16
       },
       {
         "label": "1985-1989",
@@ -94926,8 +97274,8 @@ window.timelineData = {
         "label": "1995-1999",
         "start": 1995,
         "end": 1999,
-        "width": 14.751217081897797,
-        "count": 71
+        "width": 14.837352104956791,
+        "count": 72
       },
       {
         "label": "2000",
@@ -94961,8 +97309,8 @@ window.timelineData = {
         "label": "2004",
         "start": 2004,
         "end": 2004,
-        "width": 5.757733394189387,
-        "count": 23
+        "width": 5.890680571298485,
+        "count": 24
       },
       {
         "label": "2005",
@@ -95003,8 +97351,8 @@ window.timelineData = {
         "label": "2010",
         "start": 2010,
         "end": 2010,
-        "width": 6.276932218484061,
-        "count": 27
+        "width": 6.401863102162943,
+        "count": 28
       },
       {
         "label": "2011",
@@ -95024,99 +97372,99 @@ window.timelineData = {
         "label": "2013",
         "start": 2013,
         "end": 2013,
-        "width": 8.208559416460776,
-        "count": 44
+        "width": 8.312042372714846,
+        "count": 45
       },
       {
         "label": "2014",
         "start": 2014,
         "end": 2014,
-        "width": 9.678074936796452,
-        "count": 59
+        "width": 9.77053906372837,
+        "count": 60
       },
       {
         "label": "2015",
         "start": 2015,
         "end": 2015,
-        "width": 11.427896059819677,
-        "count": 79
+        "width": 11.674775537464182,
+        "count": 82
       },
       {
         "label": "2016",
         "start": 2016,
         "end": 2016,
-        "width": 11.26130194625717,
-        "count": 77
+        "width": 11.674775537464182,
+        "count": 82
       },
       {
         "label": "2017",
         "start": 2017,
         "end": 2017,
-        "width": 13.389595263999665,
-        "count": 104
+        "width": 13.464036449781457,
+        "count": 105
       },
       {
         "label": "2018",
         "start": 2018,
         "end": 2018,
-        "width": 14.194078019851402,
-        "count": 115
+        "width": 14.408286289279966,
+        "count": 118
       },
       {
         "label": "2019",
         "start": 2019,
         "end": 2019,
-        "width": 15.313403634318668,
-        "count": 131
+        "width": 15.38156814041802,
+        "count": 132
       },
       {
         "label": "2020",
         "start": 2020,
         "end": 2020,
-        "width": 14.479223813561132,
-        "count": 119
+        "width": 14.620417266869797,
+        "count": 121
       },
       {
         "label": "2021",
         "start": 2021,
         "end": 2021,
-        "width": 15.652272145501033,
-        "count": 136
+        "width": 15.919944793516226,
+        "count": 140
       },
       {
         "label": "2022",
         "start": 2022,
         "end": 2022,
-        "width": 15.176473852467135,
-        "count": 129
+        "width": 15.313403634318668,
+        "count": 131
       },
       {
         "label": "2023",
         "start": 2023,
         "end": 2023,
-        "width": 16.316029755141578,
-        "count": 146
+        "width": 16.834586511332155,
+        "count": 154
       },
       {
         "label": "2024",
         "start": 2024,
         "end": 2024,
-        "width": 16.316029755141578,
-        "count": 146
+        "width": 16.511732387030065,
+        "count": 149
       },
       {
         "label": "2025",
         "start": 2025,
         "end": 2025,
-        "width": 19.110284490512154,
-        "count": 191
+        "width": 19.46276765144907,
+        "count": 197
       },
       {
         "label": "2026",
         "start": 2026,
         "end": 2026,
-        "width": 15.38156814041802,
-        "count": 132
+        "width": 16.184705843959698,
+        "count": 144
       }
     ],
     "uncategorizedCategory": "Uncategorized"

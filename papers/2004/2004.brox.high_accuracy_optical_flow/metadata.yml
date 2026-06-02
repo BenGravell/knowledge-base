@@ -1,0 +1,31 @@
+title: >
+  High Accuracy Optical Flow Estimation Based on a Theory for Warping
+algorithm: Brox Optical Flow
+authors:
+  - Thomas Brox
+  - Andres Bruhn
+  - Nils Papenberg
+  - Joachim Weickert
+year: 2004
+source: European Conference on Computer Vision (ECCV)
+type: Conference Paper
+doi: 10.1007/978-3-540-24673-2_3
+arxiv_id: ""
+tags:
+  - Optical flow
+  - Brox optical flow
+  - Variational methods
+  - Warping
+  - Gradient constancy
+  - Coarse-to-fine estimation
+  - Robust smoothness
+abstract: >
+  We study an energy functional for computing optical flow that combines three assumptions: a brightness constancy assumption, a gradient constancy assumption, and a discontinuity-preserving spatio-temporal smoothness constraint. In order to allow for large displacements, linearisations in the two data terms are strictly avoided. We present a consistent numerical scheme based on two nested fixed point iterations. By proving that this scheme implements a coarse-to-fine warping strategy, we give a theoretical foundation for warping which has been used on a mainly experimental basis so far. Our evaluation demonstrates that the novel method gives significantly smaller angular errors than previous techniques for optical flow estimation. We show that it is fairly insensitive to parameter variations, and we demonstrate its excellent robustness under noise.
+summary: >
+  Brox, Bruhn, Papenberg, and Weickert give a high-accuracy variational optical-flow model that combines brightness constancy, gradient constancy, and discontinuity-preserving smoothness. Its main lasting contribution is a principled account of coarse-to-fine warping for large displacements, tying a widely used practical trick to an explicit numerical scheme.
+link: https://www.mia.uni-saarland.de/Publications/brox-eccv04-of.pdf
+links_alt:
+  - https://doi.org/10.1007/978-3-540-24673-2_3
+  - https://lmb.informatik.uni-freiburg.de/Publications/2004/Bro04a/
+  - https://dblp.org/rec/conf/eccv/BroxBPW04
+audit_status: raw

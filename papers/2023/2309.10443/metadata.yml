@@ -1,0 +1,30 @@
+title: >
+  Rethinking Imitation-Based Planner for Autonomous Driving
+algorithm: PlanTF
+authors:
+  - Jie Cheng
+  - Yingbing Chen
+  - Xiaodong Mei
+  - Bowen Yang
+  - Bo Li
+  - Ming Liu
+year: 2023
+source: IEEE International Conference on Robotics and Automation (ICRA)
+type: Conference Paper
+doi: 10.1109/ICRA57147.2024.10611364
+arxiv_id: "2309.10443"
+tags:
+  - Autonomous driving
+  - Imitation learning
+  - Behavior cloning
+  - End-to-end planning
+  - Closed-loop
+abstract: >
+  In recent years, imitation-based driving planners have reported considerable success. However, due to the absence of a standardized benchmark, the effectiveness of various designs remains unclear. The newly released nuPlan addresses this issue by offering a large-scale real-world dataset and a standardized closed-loop benchmark for equitable comparisons. Utilizing this platform, we conduct a comprehensive study on two fundamental yet underexplored aspects of imitation-based planners: the essential features for ego planning and the effective data augmentation techniques to reduce compounding errors. Furthermore, we highlight an imitation gap that has been overlooked by current learning systems. Finally, integrating our findings, we propose a strong baseline model-PlanTF. Our results demonstrate that a well-designed, purely imitation-based planner can achieve highly competitive performance compared to state-of-the-art methods involving hand-crafted rules and exhibit superior generalization capabilities in long-tail cases. Our models and benchmarks are publicly available. Project website https://jchengai.github.io/planTF.
+summary: >
+  Studies design choices for imitation-based planners on nuPlan and distills the findings into PlanTF, a strong pure-imitation baseline. The paper is useful because it separates benchmark, feature, augmentation, and compounding-error effects that are often bundled together in end-to-end driving claims.
+link: https://arxiv.org/pdf/2309.10443
+links_alt:
+  - https://doi.org/10.1109/ICRA57147.2024.10611364
+  - https://jchengai.github.io/planTF
+audit_status: partial

@@ -14,7 +14,7 @@ tags:
   - Linear quadratic regulator
   - Noisy data
   - Semidefinite programming
-  - Direct LQR
+  - Direct linear quadratic regulator
   - Robust control
   - Reinforcement learning
   - Sample complexity
