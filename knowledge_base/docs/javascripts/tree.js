@@ -21,12 +21,13 @@
   const resetButton = document.getElementById('ct-reset');
   const searchResults = document.getElementById('ct-search-results');
   const ancestorChain = document.getElementById('ct-ancestor-chain');
+  const selectionDetails = document.getElementById('ct-selection-details');
+  const selectionConnector = document.getElementById('ct-selection-connector');
   const sunburst = document.getElementById('ct-sunburst');
   const sunburstStage = document.getElementById('ct-sunburst-stage') || sunburst;
   const sunburstFocus = document.getElementById('ct-sunburst-focus');
   const sunburstPath = document.getElementById('ct-sunburst-path');
   const sunburstStats = document.getElementById('ct-sunburst-stats');
-  const sunburstUpButton = document.getElementById('ct-sunburst-up');
   const sunburstRootButton = document.getElementById('ct-sunburst-root');
   const focusCoreSingleColumnQuery = '(max-width: 720px)';
   const focusCoreSingleColumn = typeof window.matchMedia === 'function'
@@ -47,6 +48,8 @@
   let sunburstAnimationFrame = 0;
   let sunburstAnimationToken = 0;
   let lastSunburstSnapshot = null;
+  let selectionConnectorFrame = 0;
+  let previewNodeId = null;
   const state = {
     query: '',
     yearStart: null,
@@ -118,27 +121,29 @@
     });
   });
 
-  if (sunburst) {
-    sunburst.addEventListener('pointerenter', function (event) {
-      const target = event.target.closest('[data-ct-sunburst-node]');
-      if (!target || !sunburst.contains(target)) return;
-      updateSunburstReadout(nodes.get(target.getAttribute('data-ct-sunburst-node')), true);
-    }, true);
+  app.addEventListener('pointerover', function (event) {
+    const target = event.target.closest('[data-ct-preview-node]');
+    if (!target || !app.contains(target) || eventTargetContains(target, event.relatedTarget)) return;
+    setPreviewNode(target.getAttribute('data-ct-preview-node'));
+  });
 
-    sunburst.addEventListener('pointerleave', function (event) {
-      const target = event.target.closest('[data-ct-sunburst-node]');
-      if (!target || !sunburst.contains(target)) return;
-      updateSunburstReadout(nodes.get(currentId), false);
-    }, true);
-  }
+  app.addEventListener('pointerout', function (event) {
+    const target = event.target.closest('[data-ct-preview-node]');
+    if (!target || !app.contains(target) || eventTargetContains(target, event.relatedTarget)) return;
+    clearPreviewNode();
+  });
 
-  if (sunburstUpButton) {
-    sunburstUpButton.addEventListener('click', function () {
-      const node = nodes.get(currentId) || data.root;
-      const root = sunburstRootFor(node);
-      if (root.parent) selectNode(root.parent.id, { animateSunburst: true });
-    });
-  }
+  app.addEventListener('focusin', function (event) {
+    const target = event.target.closest('[data-ct-preview-node]');
+    if (!target || !app.contains(target)) return;
+    setPreviewNode(target.getAttribute('data-ct-preview-node'));
+  });
+
+  app.addEventListener('focusout', function (event) {
+    const target = event.target.closest('[data-ct-preview-node]');
+    if (!target || !app.contains(target)) return;
+    clearPreviewNode();
+  });
 
   if (sunburstRootButton) {
     sunburstRootButton.addEventListener('click', function () {
@@ -251,6 +256,8 @@
   } else if (typeof focusCoreSingleColumn.addListener === 'function') {
     focusCoreSingleColumn.addListener(render);
   }
+
+  window.addEventListener('resize', scheduleSelectionConnector);
 
   function hydrate(node, parent, siblingIndex) {
     const paper = node.paper || {};
@@ -382,11 +389,14 @@
 
   function render(options) {
     const node = nodes.get(currentId) || data.root;
+    previewNodeId = null;
     filterMemo = new Map();
     renderSunburst(node, options);
     renderFocusedTree(node);
+    renderSelectionDetails(node);
     renderSearch();
     updateSettingsState();
+    scheduleSelectionConnector();
     if (options && options.centerTree) centerCurrentTreeNode(node);
   }
 
@@ -395,7 +405,7 @@
     cancelSunburstAnimation();
 
     const viewRoot = sunburstRootFor(node);
-    const hierarchy = buildSunburstHierarchy(viewRoot, 0, sunburstDepthLimit());
+    const hierarchy = buildSunburstHierarchy(viewRoot, 0);
     const depthMax = maxSunburstDepth(hierarchy);
     const radius = 184;
     const centerRadius = 53;
@@ -410,6 +420,9 @@
     const shouldAnimate = Boolean(options && options.animateSunburst && lastSunburstSnapshot && !sunburstReducedMotion());
     const arcs = entries.map(function (entry, index) {
       return renderSunburstArc(entry, snapshot, pathNodes, index);
+    }).join('');
+    const leafMarks = entries.map(function (entry) {
+      return renderSunburstLeafMark(entry, snapshot);
     }).join('');
     const labels = entries.map(function (entry) {
       return renderSunburstLabel(entry, centerRadius, ringWidth);
@@ -428,6 +441,9 @@
       '<g class="ct-sunburst-transition" aria-hidden="true">',
       transitionExtras,
       '</g>',
+      '<g class="ct-sunburst-leaf-rim" aria-hidden="true">',
+      leafMarks,
+      '</g>',
       '<g class="ct-sunburst-labels" aria-hidden="true">',
       labels,
       '</g>',
@@ -441,7 +457,6 @@
 
     lastSunburstSnapshot = snapshot;
     updateSunburstReadout(node, false);
-    if (sunburstUpButton) sunburstUpButton.disabled = !viewRoot.parent;
     if (sunburstRootButton) sunburstRootButton.disabled = viewRoot.id === data.root.id;
   }
 
@@ -459,18 +474,12 @@
     return node.parent || node;
   }
 
-  function sunburstDepthLimit() {
-    return focusCoreSingleColumn.matches ? 4 : 5;
-  }
-
-  function buildSunburstHierarchy(node, depth, maxDepth) {
-    const children = depth < maxDepth
-      ? visibleChildren(node).map(function (child) {
-        return buildSunburstHierarchy(child, depth + 1, maxDepth);
-      }).filter(function (child) {
-        return child.value > 0 || child.node.id === currentId;
-      })
-      : [];
+  function buildSunburstHierarchy(node, depth) {
+    const children = visibleChildren(node).map(function (child) {
+      return buildSunburstHierarchy(child, depth + 1);
+    }).filter(function (child) {
+      return child.value > 0 || child.node.id === currentId;
+    });
     const childValue = children.reduce(function (sum, child) {
       return sum + child.value;
     }, 0);
@@ -516,11 +525,17 @@
     entries.forEach(function (entry, index) {
       const colorGroupIndex = Number.isInteger(entry.colorGroupIndex) ? entry.colorGroupIndex : 0;
       const fill = palette[colorGroupIndex % palette.length];
+      const geometry = sunburstArcGeometry(entry, centerRadius, ringWidth);
+      const isLeaf = !entry.children.length;
+      const visualLength = sunburstArcLength(geometry);
+      const opacity = isLeaf
+        ? clamp(0.96 + (entry.depth * 0.006) + (visualLength < 2.5 ? 0.04 : 0), 0.96, 1)
+        : 0.9;
       entryMap.set(entry.node.id, {
         node: entry.node,
-        geometry: sunburstArcGeometry(entry, centerRadius, ringWidth),
+        geometry: geometry,
         fill: fill,
-        opacity: 0.9,
+        opacity: opacity,
         index: index,
       });
     });
@@ -541,10 +556,15 @@
   }
 
   function sunburstArcGeometry(entry, centerRadius, ringWidth) {
-    const innerRadius = centerRadius + (entry.depth - 1) * ringWidth + 2;
-    const outerRadius = centerRadius + entry.depth * ringWidth - 2;
+    const radialGap = sunburstRadialGap(entry, ringWidth);
+    const innerRadius = centerRadius + (entry.depth - 1) * ringWidth + radialGap;
+    const outerRadius = centerRadius + entry.depth * ringWidth - radialGap;
     const span = entry.endAngle - entry.startAngle;
-    const pad = Math.min(0.008, span * 0.16);
+    const isLeaf = !entry.children.length;
+    const isDeepLeaf = isLeaf && entry.depth >= 4;
+    const padLimit = isDeepLeaf ? 0.0018 : 0.006;
+    const padRatio = isDeepLeaf ? 0.035 : 0.13;
+    const pad = Math.min(padLimit, span * padRatio);
 
     return {
       innerRadius: innerRadius,
@@ -552,6 +572,12 @@
       startAngle: entry.startAngle + pad,
       endAngle: entry.endAngle - pad,
     };
+  }
+
+  function sunburstRadialGap(entry, ringWidth) {
+    const isLeaf = !entry.children.length;
+    const maxGap = isLeaf && entry.depth >= 4 ? 0.95 : 1.55;
+    return clamp(ringWidth * 0.1, 0.35, maxGap);
   }
 
   function sunburstCenterGeometry() {
@@ -570,9 +596,15 @@
     const path = sunburstShapePath(geometry);
     if (!path) return '';
 
+    const visualLength = sunburstArcLength(geometry);
+    const isLeaf = !entry.children.length;
     const classes = [
       'ct-sunburst-segment',
       node.kind === 'paper' ? 'ct-sunburst-segment--paper' : 'ct-sunburst-segment--branch',
+      isLeaf ? 'ct-sunburst-segment--leaf' : '',
+      entry.depth >= 4 ? 'is-deep' : '',
+      visualLength < 4.5 ? 'is-tight' : '',
+      visualLength < 1.6 ? 'is-micro' : '',
       node.id === currentId ? 'is-current' : '',
       pathNodes.has(node.id) && node.id !== currentId ? 'is-path' : '',
     ].filter(Boolean).join(' ');
@@ -585,11 +617,45 @@
       ' fill-opacity="' + escAttr(snapshotEntry.opacity.toFixed(2)) + '"',
       ' data-ct-sunburst-index="' + escAttr(String(index)) + '"',
       ' data-ct-select="' + escAttr(node.id) + '"',
+      ' data-ct-preview-node="' + escAttr(node.id) + '"',
       ' data-ct-sunburst-node="' + escAttr(node.id) + '"',
       ' tabindex="0"',
       ' role="button"',
       ' aria-label="' + escAttr(label) + '">',
       '<title>' + esc(label) + '</title>',
+      '</path>',
+    ].join('');
+  }
+
+  function renderSunburstLeafMark(entry, snapshot) {
+    if (entry.children.length) return '';
+
+    const snapshotEntry = snapshot.entries.get(entry.node.id);
+    if (!snapshotEntry) return '';
+
+    const geometry = snapshotEntry.geometry;
+    const visualLength = sunburstArcLength(geometry);
+    if (entry.depth < 5 && visualLength >= 3.2) return '';
+
+    const span = geometry.endAngle - geometry.startAngle;
+    const midAngle = (geometry.startAngle + geometry.endAngle) / 2;
+    const markRadius = Math.min(186.2, geometry.outerRadius + 1.2);
+    const markWidth = visualLength < 1.6 ? 0.68 : 0.86;
+    const markOpacity = visualLength < 1.6 ? 0.46 : 0.42;
+    const minDashSpan = 0.85 / markRadius;
+    const markStart = span * markRadius >= 0.85
+      ? geometry.startAngle
+      : midAngle - minDashSpan / 2;
+    const markEnd = span * markRadius >= 0.85
+      ? geometry.endAngle
+      : midAngle + minDashSpan / 2;
+
+    return [
+      '<path class="ct-sunburst-leaf-mark"',
+      ' d="' + escAttr(arcStrokePath(markStart, markEnd, markRadius)) + '"',
+      ' stroke="' + escAttr(snapshotEntry.fill) + '"',
+      ' stroke-width="' + escAttr(fmt(markWidth)) + '"',
+      ' stroke-opacity="' + escAttr(fmt(markOpacity)) + '">',
       '</path>',
     ].join('');
   }
@@ -639,10 +705,12 @@
     const centerMorphEntry = centerMorph ? previousSnapshot.entries.get(snapshot.rootId) : null;
     const centerGroup = sunburstStage.querySelector('.ct-sunburst-center');
     const labelsGroup = sunburstStage.querySelector('.ct-sunburst-labels');
+    const leafRimGroup = sunburstStage.querySelector('.ct-sunburst-leaf-rim');
     const svg = sunburstStage.querySelector('.ct-sunburst-svg');
 
     if (centerGroup) centerGroup.style.opacity = '0';
     if (labelsGroup) labelsGroup.style.opacity = '0';
+    if (leafRimGroup) leafRimGroup.style.opacity = '0';
     if (centerMorph && centerMorphEntry) {
       centerMorph.setAttribute('d', sunburstShapePath(centerMorphEntry.geometry));
       centerMorph.style.opacity = String(centerMorphEntry.opacity);
@@ -670,6 +738,7 @@
 
       if (centerGroup) centerGroup.style.opacity = String(centerOpacity);
       if (labelsGroup) labelsGroup.style.opacity = String(clamp((rawProgress - 0.5) / 0.28, 0, 1));
+      if (leafRimGroup) leafRimGroup.style.opacity = String(clamp((rawProgress - 0.38) / 0.34, 0, 1));
 
       if (rawProgress >= 1) {
         pathTransitions.forEach(function (transition) {
@@ -679,6 +748,7 @@
         if (centerMorph) centerMorph.remove();
         if (centerGroup) centerGroup.style.opacity = '';
         if (labelsGroup) labelsGroup.style.opacity = '';
+        if (leafRimGroup) leafRimGroup.style.opacity = '';
         if (svg) svg.classList.remove('is-unfolding');
         sunburstAnimationFrame = 0;
         return;
@@ -812,6 +882,7 @@
     const centerAttributes = [
       'class="ct-sunburst-center' + (canMoveUp ? '' : ' is-static') + '"',
       canMoveUp ? 'data-ct-select="' + escAttr(node.parent.id) + '"' : '',
+      'data-ct-preview-node="' + escAttr(node.id) + '"',
       'data-ct-sunburst-node="' + escAttr(node.id) + '"',
       canMoveUp ? 'tabindex="0"' : '',
       canMoveUp ? 'role="button"' : '',
@@ -828,6 +899,51 @@
       '</text>',
       '</g>',
     ].join('');
+  }
+
+  function setPreviewNode(id) {
+    const node = nodes.get(id);
+    if (!node) return;
+
+    previewNodeId = id;
+    updateSunburstReadout(node, true);
+    syncPreviewHighlights(node);
+  }
+
+  function clearPreviewNode() {
+    previewNodeId = null;
+    clearPreviewHighlights();
+    updateSunburstReadout(nodes.get(currentId) || data.root, false);
+  }
+
+  function syncPreviewHighlights(node) {
+    clearPreviewHighlights();
+    if (!node) return;
+
+    Array.from(app.querySelectorAll('[data-ct-preview-node]')).forEach(function (element) {
+      const id = element.getAttribute('data-ct-preview-node');
+      const candidate = nodes.get(id);
+      if (!candidate) return;
+
+      if (candidate.id === node.id) {
+        element.classList.add('is-preview');
+      } else if (element.closest('#ct-sunburst') && isNodeWithin(candidate, node)) {
+        element.classList.add('is-preview-descendant');
+      }
+    });
+  }
+
+  function clearPreviewHighlights() {
+    Array.from(app.querySelectorAll('.is-preview, .is-preview-descendant')).forEach(function (element) {
+      element.classList.remove('is-preview', 'is-preview-descendant');
+    });
+  }
+
+  function isNodeWithin(candidate, ancestor) {
+    if (!candidate || !ancestor) return false;
+    return candidate.pathNodes.some(function (pathNode) {
+      return pathNode.id === ancestor.id;
+    });
   }
 
   function updateSunburstReadout(node, isPreview) {
@@ -878,6 +994,24 @@
       'A', fmt(innerRadius), fmt(innerRadius), 0, largeArc, 0, fmt(innerStart.x), fmt(innerStart.y),
       'Z',
     ].join(' ');
+  }
+
+  function arcStrokePath(startAngle, endAngle, radius) {
+    if (endAngle <= startAngle || radius <= 0) return '';
+
+    const start = polarPoint(startAngle, radius);
+    const end = polarPoint(endAngle, radius);
+    const largeArc = endAngle - startAngle > Math.PI ? 1 : 0;
+
+    return [
+      'M', fmt(start.x), fmt(start.y),
+      'A', fmt(radius), fmt(radius), 0, largeArc, 1, fmt(end.x), fmt(end.y),
+    ].join(' ');
+  }
+
+  function sunburstArcLength(geometry) {
+    const radius = (geometry.innerRadius + geometry.outerRadius) / 2;
+    return Math.max(0, geometry.endAngle - geometry.startAngle) * radius;
   }
 
   function polarPoint(angle, radius) {
@@ -963,7 +1097,7 @@
     const isParent = Boolean(currentNode.parent && treeNode.id === currentNode.parent.id);
     const isSuccessor = Boolean(treeNode.parent && treeNode.parent.id === currentNode.id);
     const hasChildren = treeNode.children.length > 0;
-    const details = isCurrent ? renderCurrentNodeDetails(treeNode) : '';
+    const details = isCurrent && treeNode.kind !== 'paper' ? renderCurrentNodeDetails(treeNode) : '';
     const visibleLeafCount = filteredLeafCount(treeNode);
     const classes = [
       'ct-tree-node',
@@ -979,7 +1113,7 @@
 
     return [
       '<li class="' + escAttr(classes) + '">',
-      '<button type="button" class="ct-tree-button" data-ct-select="' + escAttr(treeNode.id) + '"' + branchHintAttr(hasChildren) + '>',
+      '<button type="button" class="ct-tree-button" data-ct-select="' + escAttr(treeNode.id) + '" data-ct-preview-node="' + escAttr(treeNode.id) + '"' + branchHintAttr(hasChildren) + '>',
       '<span class="ct-tree-rail" aria-hidden="true"><span class="ct-tree-dot"></span></span>',
       '<span class="ct-tree-copy">',
       '<span class="ct-tree-label">' + esc(treeNodeDisplayLabel(treeNode)) + '</span>',
@@ -1019,6 +1153,49 @@
       '<div class="ct-paper-details">',
       '<p class="ct-paper-abstract">' + esc(abstract) + '</p>',
       actions ? '<div class="ct-paper-actions paper-link-pills">' + actions + '</div>' : '',
+      '</div>',
+    ].join('');
+  }
+
+  function renderSelectionDetails(node) {
+    if (!selectionDetails) return;
+
+    if (!node || node.kind !== 'paper') {
+      selectionDetails.hidden = true;
+      selectionDetails.innerHTML = '';
+      selectionDetails.style.removeProperty('--ct-selection-anchor-x');
+      clearSelectionConnector();
+      return;
+    }
+
+    selectionDetails.hidden = false;
+    selectionDetails.innerHTML = renderPaperSelectionDetails(node);
+  }
+
+  function renderPaperSelectionDetails(node) {
+    const paper = node.paper || {};
+    const title = treeNodeDisplayLabel(node);
+    const abstract = paper.abstract || 'No abstract recorded yet.';
+    const path = displayPath(node.path).join(' / ');
+    const meta = [
+      paper.year || '',
+      paper.type || '',
+      paper.sourceName || paper.source || '',
+    ].filter(Boolean);
+
+    return [
+      '<div class="ct-selection-details-head">',
+      '<div class="ct-selection-details-title">',
+      '<span class="ct-selection-kicker">Paper</span>',
+      '<h2>' + esc(title) + '</h2>',
+      '<p>' + esc(path) + '</p>',
+      '</div>',
+      meta.length ? '<div class="ct-selection-meta">' + meta.map(function (item) {
+        return '<span>' + esc(item) + '</span>';
+      }).join('') + '</div>' : '',
+      '</div>',
+      '<div class="ct-selection-details-body">',
+      renderPaperDetails(node),
       '</div>',
     ].join('');
   }
@@ -1087,7 +1264,7 @@
       '<div class="ct-result-grid">',
       lastMatches.map(function (node) {
         return [
-          '<button type="button" class="ct-result" data-ct-select="' + escAttr(node.id) + '">',
+          '<button type="button" class="ct-result" data-ct-select="' + escAttr(node.id) + '" data-ct-preview-node="' + escAttr(node.id) + '">',
           '<span class="ct-kind">' + esc(kindLabel(node)) + '</span>',
           '<strong>' + esc(node.label) + '</strong>',
           '<span>' + esc(displayPath(node.path).join(' / ')) + '</span>',
@@ -1104,7 +1281,83 @@
       const current = ancestorChain.querySelector('.ct-tree-node.is-current > .ct-tree-button');
       if (!current) return;
       current.scrollIntoView({ block: 'center', inline: 'nearest' });
+      scheduleSelectionConnector();
     });
+  }
+
+  function scheduleSelectionConnector() {
+    if (!selectionConnector || !selectionDetails) return;
+    if (selectionConnectorFrame) window.cancelAnimationFrame(selectionConnectorFrame);
+    selectionConnectorFrame = window.requestAnimationFrame(function () {
+      selectionConnectorFrame = 0;
+      updateSelectionConnector();
+    });
+  }
+
+  function clearSelectionConnector() {
+    if (selectionConnector) selectionConnector.innerHTML = '';
+  }
+
+  function updateSelectionConnector() {
+    if (!selectionConnector || !selectionDetails || selectionDetails.hidden) {
+      clearSelectionConnector();
+      return;
+    }
+
+    const node = nodes.get(currentId);
+    if (!node || node.kind !== 'paper') {
+      clearSelectionConnector();
+      return;
+    }
+
+    const source = ancestorChain.querySelector('.ct-tree-node.is-current > .ct-tree-button .ct-tree-dot')
+      || ancestorChain.querySelector('.ct-tree-node.is-current > .ct-tree-button');
+    if (!source) {
+      clearSelectionConnector();
+      return;
+    }
+
+    const appRect = app.getBoundingClientRect();
+    const sourceRect = source.getBoundingClientRect();
+    const detailRect = selectionDetails.getBoundingClientRect();
+    if (!appRect.width || !appRect.height || !detailRect.width || detailRect.top <= sourceRect.bottom) {
+      clearSelectionConnector();
+      return;
+    }
+
+    const appWidth = Math.ceil(app.scrollWidth || appRect.width);
+    const appHeight = Math.ceil(app.scrollHeight || appRect.height);
+    const detailLeft = detailRect.left - appRect.left;
+    const detailRight = detailRect.right - appRect.left;
+    const startX = sourceRect.left + sourceRect.width / 2 - appRect.left;
+    const startY = sourceRect.bottom - appRect.top + 5;
+    const targetX = clamp(startX, detailLeft + 28, detailRight - 28);
+    const targetY = detailRect.top - appRect.top - 1;
+    const controlY = startY + Math.max(34, (targetY - startY) * 0.58);
+    const detailAnchorX = targetX - detailLeft;
+    const path = [
+      'M', fmt(startX), fmt(startY),
+      'C', fmt(startX), fmt(controlY), fmt(targetX), fmt(controlY), fmt(targetX), fmt(targetY),
+    ].join(' ');
+
+    selectionDetails.style.setProperty('--ct-selection-anchor-x', fmt(detailAnchorX) + 'px');
+    selectionConnector.setAttribute('viewBox', '0 0 ' + appWidth + ' ' + appHeight);
+    selectionConnector.setAttribute('width', String(appWidth));
+    selectionConnector.setAttribute('height', String(appHeight));
+    selectionConnector.innerHTML = [
+      '<path class="ct-selection-connector-path" d="' + escAttr(path) + '"></path>',
+      '<circle class="ct-selection-connector-source" cx="' + escAttr(fmt(startX)) + '" cy="' + escAttr(fmt(startY)) + '" r="3.2"></circle>',
+      '<circle class="ct-selection-connector-target" cx="' + escAttr(fmt(targetX)) + '" cy="' + escAttr(fmt(targetY)) + '" r="4.2"></circle>',
+    ].join('');
+  }
+
+  function eventTargetContains(target, relatedTarget) {
+    if (!target || !relatedTarget || typeof target.contains !== 'function') return false;
+    try {
+      return target.contains(relatedTarget);
+    } catch (error) {
+      return false;
+    }
   }
 
   function getMatches(query) {

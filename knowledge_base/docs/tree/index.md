@@ -68,16 +68,13 @@ hide:
 
   <div id="ct-search-results" class="ct-search-results" hidden></div>
 
+  <svg id="ct-selection-connector" class="ct-selection-connector" aria-hidden="true" focusable="false"></svg>
+
   <div class="ct-workspace">
     <section id="ct-sunburst-panel" class="ct-sunburst-panel" aria-label="Tree sunburst navigator">
       <div class="ct-sunburst-body">
         <div id="ct-sunburst" class="ct-sunburst" role="group" aria-label="Tree sunburst">
           <div class="ct-sunburst-actions">
-            <button id="ct-sunburst-up" class="ct-sunburst-action" type="button" aria-label="Move to parent branch" title="Parent branch">
-              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-                <path d="M12 5 5.5 11.5l1.4 1.4L11 8.8V19h2V8.8l4.1 4.1 1.4-1.4z"></path>
-              </svg>
-            </button>
             <button id="ct-sunburst-root" class="ct-sunburst-action" type="button" aria-label="Move to root" title="Root">
               <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
                 <path d="M12 3 3 10.6l1.3 1.5 1.2-1V20h5.5v-5h2v5h5.5v-8.9l1.2 1 1.3-1.5zm4.5 15H15v-5H9v5H7.5v-8.6L12 5.6l4.5 3.8z"></path>
@@ -101,6 +98,8 @@ hide:
       </section>
     </section>
   </div>
+
+  <section id="ct-selection-details" class="ct-selection-details" aria-live="polite" hidden></section>
 </div>
 
 <script src="../javascripts/tree-data.js"></script>

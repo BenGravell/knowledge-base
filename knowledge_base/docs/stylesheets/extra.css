@@ -2061,6 +2061,7 @@ body:has(#semantic-search-app) .md-content {
   --kb-type-modal-top: calc(var(--md-header-height, 2.8rem) + 0.75rem);
   --kb-type-modal-bottom: 0.75rem;
   --kb-type-row-min: 2.35rem;
+  position: relative;
   display: flex;
   flex-direction: column;
   gap: 0.9rem;
@@ -2196,17 +2197,46 @@ body:has(#semantic-search-app) .md-content {
 
 .ct-sunburst-segment {
   stroke: color-mix(in srgb, var(--md-default-bg-color) 88%, transparent);
-  stroke-width: 0.55;
+  stroke-width: 0.42;
+  stroke-opacity: 0.74;
+  vector-effect: non-scaling-stroke;
   cursor: pointer;
-  transition: fill-opacity 0.16s ease, stroke-width 0.16s ease, filter 0.16s ease;
+  transition: fill-opacity 0.16s ease, stroke-opacity 0.16s ease, stroke-width 0.16s ease, filter 0.16s ease;
+}
+
+.ct-sunburst-segment--leaf {
+  stroke-width: 0.28;
+  stroke-opacity: 0.42;
+}
+
+.ct-sunburst-segment.is-deep {
+  stroke-width: 0.2;
+  stroke-opacity: 0.28;
+}
+
+.ct-sunburst-segment.is-tight {
+  stroke-width: 0.1;
+  stroke-opacity: 0.18;
+}
+
+.ct-sunburst-segment.is-micro {
+  stroke-width: 0;
+  stroke-opacity: 0;
 }
 
 .ct-sunburst-segment:hover,
-.ct-sunburst-segment:focus-visible {
+.ct-sunburst-segment:focus-visible,
+.ct-sunburst-segment.is-preview {
   fill-opacity: 1;
   stroke-width: 1.2;
+  stroke-opacity: 1;
   filter: saturate(1.08) brightness(1.04);
   outline: none;
+}
+
+.ct-sunburst-segment.is-preview-descendant {
+  fill-opacity: 0.98;
+  filter: saturate(1.04) brightness(1.02);
 }
 
 .ct-sunburst-segment.is-path {
@@ -2224,6 +2254,16 @@ body:has(#semantic-search-app) .md-content {
   pointer-events: none;
   stroke: color-mix(in srgb, var(--md-default-bg-color) 88%, transparent);
   stroke-width: 0.55;
+}
+
+.ct-sunburst-leaf-rim {
+  pointer-events: none;
+}
+
+.ct-sunburst-leaf-mark {
+  fill: none;
+  stroke-linecap: round;
+  vector-effect: non-scaling-stroke;
 }
 
 .ct-sunburst-label {
@@ -2254,11 +2294,17 @@ body:has(#semantic-search-app) .md-content {
 }
 
 .ct-sunburst-center:not(.is-static):hover circle,
-.ct-sunburst-center:not(.is-static):focus-visible circle {
+.ct-sunburst-center:not(.is-static):focus-visible circle,
+.ct-sunburst-center.is-preview circle {
   fill: color-mix(in srgb, var(--ct-cyan) 9%, var(--md-default-bg-color));
   stroke: var(--ct-cyan);
   stroke-width: 2.4;
   outline: none;
+}
+
+.ct-sunburst-center.is-preview-descendant circle {
+  stroke: color-mix(in srgb, var(--ct-cyan) 72%, transparent);
+  stroke-width: 1.9;
 }
 
 .ct-sunburst-center text {
@@ -2324,6 +2370,151 @@ body:has(#semantic-search-app) .md-content {
   grid-template-columns: 1fr;
   gap: 0.9rem;
   align-items: start;
+}
+
+.ct-selection-connector {
+  position: absolute;
+  z-index: 3;
+  inset: 0 auto auto 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.ct-selection-connector-path {
+  fill: none;
+  stroke: color-mix(in srgb, var(--ct-cyan) 54%, var(--md-default-fg-color) 10%);
+  stroke-width: 1.35;
+  stroke-dasharray: 5 6;
+  stroke-linecap: round;
+  opacity: 0.78;
+  vector-effect: non-scaling-stroke;
+}
+
+.ct-selection-connector-source {
+  fill: var(--md-default-bg-color);
+  stroke: var(--ct-cyan);
+  stroke-width: 1.4;
+}
+
+.ct-selection-connector-target {
+  fill: var(--ct-cyan);
+  stroke: var(--md-default-bg-color);
+  stroke-width: 2;
+  filter: drop-shadow(0 0 8px color-mix(in srgb, var(--ct-cyan) 38%, transparent));
+}
+
+.ct-selection-details {
+  --ct-selection-anchor-x: 2.4rem;
+  position: relative;
+  z-index: 4;
+  display: grid;
+  gap: 0.78rem;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0.95rem 1rem 1rem;
+  border: 1px solid color-mix(in srgb, var(--ct-cyan) 28%, var(--ct-border));
+  border-radius: 8px;
+  background:
+    linear-gradient(120deg, color-mix(in srgb, var(--ct-cyan) 7%, transparent), transparent 42%),
+    var(--ct-panel);
+  box-shadow: 0 14px 30px color-mix(in srgb, #000000 8%, transparent);
+}
+
+.ct-selection-details[hidden] {
+  display: none;
+}
+
+.ct-selection-details::before {
+  content: "";
+  position: absolute;
+  top: -0.38rem;
+  left: clamp(1.2rem, var(--ct-selection-anchor-x), calc(100% - 1.2rem));
+  width: 0.72rem;
+  height: 0.72rem;
+  border: 2px solid var(--md-default-bg-color);
+  border-radius: 50%;
+  background: var(--ct-cyan);
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--ct-cyan) 42%, transparent),
+    0 0 12px color-mix(in srgb, var(--ct-cyan) 32%, transparent);
+  transform: translate(-50%, -50%);
+}
+
+.ct-selection-details-head {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 0.8rem;
+  align-items: start;
+}
+
+.ct-selection-details-title {
+  display: grid;
+  gap: 0.26rem;
+  min-width: 0;
+}
+
+.ct-selection-kicker {
+  color: var(--md-default-fg-color--light);
+  font-size: 0.66rem;
+  font-weight: 900;
+  letter-spacing: 0;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+.md-typeset .ct-selection-details-title h2 {
+  margin: 0;
+  color: var(--md-default-fg-color);
+  font-size: 1.05rem;
+  font-weight: 900;
+  line-height: 1.18;
+  overflow-wrap: anywhere;
+}
+
+.ct-selection-details-title p {
+  margin: 0;
+  color: var(--md-default-fg-color--light);
+  font-size: 0.72rem;
+  font-weight: 700;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+
+.ct-selection-meta {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 0.38rem;
+  min-width: min(18rem, 100%);
+}
+
+.ct-selection-meta span {
+  display: inline-flex;
+  align-items: center;
+  min-height: 1.5rem;
+  padding: 0.18rem 0.5rem;
+  border: 1px solid var(--ct-soft-border);
+  border-radius: 999px;
+  background: var(--md-default-bg-color);
+  color: var(--md-default-fg-color--light);
+  font-size: 0.68rem;
+  font-weight: 800;
+  line-height: 1.2;
+}
+
+.ct-selection-details .ct-paper-details {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.ct-selection-details .ct-paper-abstract {
+  max-width: 96ch;
+  font-size: 0.82rem;
 }
 
 .ct-settings {
@@ -2863,10 +3054,13 @@ body:has(#semantic-search-app) .md-content {
   transition: transform 0.16s ease, border-color 0.16s ease, background 0.16s ease;
 }
 
-.ct-result:hover {
+.ct-result:hover,
+.ct-result:focus-visible,
+.ct-result.is-preview {
   border-color: var(--ct-cyan);
   background: var(--ct-panel-strong);
   transform: translateY(-1px);
+  outline: none;
 }
 
 .ct-result span:last-child {
@@ -3123,6 +3317,25 @@ body:has(#semantic-search-app) .md-content {
   background: color-mix(in srgb, var(--ct-gold) 8%, transparent);
 }
 
+.ct-tree-node:not(.is-current) > .ct-tree-button:hover,
+.ct-tree-node:not(.is-current) > .ct-tree-button:focus-visible,
+.ct-tree-node:not(.is-current) > .ct-tree-button.is-preview {
+  border-color: color-mix(in srgb, var(--ct-cyan) 48%, transparent);
+  background: color-mix(in srgb, var(--ct-cyan) 10%, var(--md-default-bg-color));
+  box-shadow: 0 8px 18px color-mix(in srgb, var(--ct-cyan) 16%, transparent);
+  outline: none;
+}
+
+.ct-tree-node:not(.is-current) > .ct-tree-button:hover .ct-tree-dot,
+.ct-tree-node:not(.is-current) > .ct-tree-button:focus-visible .ct-tree-dot,
+.ct-tree-node:not(.is-current) > .ct-tree-button.is-preview .ct-tree-dot {
+  border-color: var(--ct-cyan);
+  background: color-mix(in srgb, var(--ct-cyan) 64%, var(--md-default-bg-color));
+  box-shadow:
+    0 0 0 2px var(--md-default-bg-color),
+    0 0 0 5px color-mix(in srgb, var(--ct-cyan) 18%, transparent);
+}
+
 .ct-tree-node.is-current > .ct-tree-button {
   border-color: transparent;
   background:
@@ -3335,6 +3548,26 @@ body:has(#semantic-search-app) .md-content {
 
   .ct-sunburst-path {
     font-size: 0.68rem;
+  }
+
+  .ct-selection-connector-path {
+    stroke-width: 1.1;
+    opacity: 0.68;
+  }
+
+  .ct-selection-details {
+    gap: 0.68rem;
+    padding: 0.82rem 0.78rem 0.88rem;
+  }
+
+  .ct-selection-details-head {
+    grid-template-columns: 1fr;
+    gap: 0.55rem;
+  }
+
+  .ct-selection-meta {
+    justify-content: flex-start;
+    min-width: 0;
   }
 
   .md-typeset .ct-title-row {
