@@ -20,40 +20,6 @@ python scripts/list_branching_factor_violations.py --max-depth 3 --max-results 3
 
 ## Ingest
 
-### Image Super Resolution
-
-<https://arxiv.org/abs/2501.02976>
-<https://arxiv.org/abs/2308.14469>
-<https://arxiv.org/abs/2401.13627>
-<https://arxiv.org/abs/2307.12348>
-<https://arxiv.org/abs/2305.07015>
-<https://arxiv.org/abs/2104.07636>
-<https://arxiv.org/abs/2205.04437>
-<https://arxiv.org/abs/2309.05239>
-<https://arxiv.org/abs/2108.10257>
-<https://arxiv.org/abs/1609.05158>
-<https://arxiv.org/abs/1511.04587>
-<https://arxiv.org/abs/1608.00367>
-<https://arxiv.org/abs/1501.00092>
-
-### Loudspeaker Design
-
-<https://aes2.org/publications/elibrary-page/?id=2173>
-<https://aes2.org/publications/elibrary-page/?id=2163>
-<https://aes2.org/publications/elibrary-page/?id=2066>
-<https://aes2.org/publications/elibrary-page/?id=2022>
-<https://aes2.org/publications/elibrary-page/?id=1959>
-<https://aes2.org/publications/elibrary-page/?id=1951>
-<https://aes2.org/publications/elibrary-page/?id=2760>
-<https://aes2.org/publications/elibrary-page/?id=2739>
-<https://aes2.org/publications/elibrary-page/?id=2731>
-<https://aes2.org/publications/elibrary-page/?id=3105>
-<https://aes2.org/publications/elibrary-page/?id=5163>
-<https://aes2.org/publications/elibrary-page/?id=6078>
-<https://aes2.org/publications/elibrary-page/?id=7043>
-<https://aes2.org/publications/elibrary-page/?id=6999>
-<https://aes2.org/publications/elibrary-page/?id=12794>
-
 ### vaporwave
 
 Move vaporwave stuff to another place outside knowledge base, too irrelevant
