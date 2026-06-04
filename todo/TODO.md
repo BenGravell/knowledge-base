@@ -1,15 +1,15 @@
 # TODO
 
-
 ## New feature
 
-User picks two items and we show the graph chain of hops linking them. 
+User picks two items and we show the graph chain of hops linking them.
+
 - Using tree taxonomy
 - Using semantic similarity neoghbor graph
 
 ## Papers detail ux
 
-https://bengravell.github.io/knowledge-base/papers/1905_13547/
+<https://bengravell.github.io/knowledge-base/papers/1905_13547/>
 
 Reduce font size of title.
 
@@ -19,18 +19,15 @@ Add an "Open in Timeline" and "Open in Search" chip. Goal is to have links to ea
 
 Use shorter form for label chips, just "Tree", "Map", "Timeline", using the same ui element as used in Search results.
 
-
 ## algo fixes
 
-https://bengravell.github.io/knowledge-base/papers/2502_04799/ 
-
+<https://bengravell.github.io/knowledge-base/papers/2502_04799/>
 
 Check whole Metadata batch for errant overly generic algorithm labels
 
 ## fix
 
-https://bengravell.github.io/knowledge-base/tree/#ct=tree-prediction-perception-machine-learning-classical-statistical-learning-kernel-machines-a-decision-theoretic-generalization-of-on-line-learning-and-an-application-to-boosting-papers-1997-freund-a-decision-theoretic-generalization-md 
-
+<https://bengravell.github.io/knowledge-base/tree/#ct=tree-prediction-perception-machine-learning-classical-statistical-learning-kernel-machines-a-decision-theoretic-generalization-of-on-line-learning-and-an-application-to-boosting-papers-1997-freund-a-decision-theoretic-generalization-md>
 
 Needs to show algo AdaBoost more prominently on sunburst and in paper detail box
 
