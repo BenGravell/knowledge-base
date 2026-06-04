@@ -20,6 +20,13 @@ Add an "Open in Timeline" and "Open in Search" chip. Goal is to have links to ea
 Use shorter form for label chips, just "Tree", "Map", "Timeline", using the same ui element as used in Search results.
 
 
+## algo fixes
+
+https://bengravell.github.io/knowledge-base/papers/2502_04799/ 
+
+
+Check whole Metadata batch for errant overly generic algorithm labels
+
 ## fix
 
 https://bengravell.github.io/knowledge-base/tree/#ct=tree-prediction-perception-machine-learning-classical-statistical-learning-kernel-machines-a-decision-theoretic-generalization-of-on-line-learning-and-an-application-to-boosting-papers-1997-freund-a-decision-theoretic-generalization-md 
