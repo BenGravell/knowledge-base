@@ -1600,10 +1600,26 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
     --mm-ribbon-max-h: calc(50dvh - var(--mm-ribbon-header-h) - 0.85rem);
   }
 
+  #mm-panel-header,
+  #mm-panel {
+    left: 0;
+    right: 0;
+  }
+
   #mm-panel-body {
     display: grid;
     grid-template-columns: 1fr;
     align-items: stretch;
+    padding-inline: 0.5rem;
+  }
+
+  #mm-panel-header {
+    padding-inline: 0.55rem;
+  }
+
+  .mm-bento-tile,
+  .mm-relevance-panel {
+    padding-inline: 0.45rem;
   }
 
   .mm-settings-grid {
@@ -1646,17 +1662,21 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
     inset: 50vh 0 var(--mm-footer-h, 0px) 0;
     inset: 50dvh 0 var(--mm-footer-h, 0px) 0;
     place-items: stretch;
-    padding: 0.42rem 0.55rem;
+    padding: 0.42rem var(--kb-app-page-gutter, 0.32rem);
     background: transparent;
     backdrop-filter: none;
     pointer-events: none;
   }
   .mm-modal-card {
     align-self: end;
-    width: calc(100vw - 1.1rem);
+    width: calc(100vw - (2 * var(--kb-app-page-gutter, 0.32rem)));
     height: 100%;
     max-height: 100%;
     pointer-events: auto;
+  }
+  .mm-modal-head,
+  .mm-modal-body {
+    padding-inline: 0.55rem;
   }
 }
 </style>

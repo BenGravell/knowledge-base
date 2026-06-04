@@ -3280,6 +3280,14 @@
     return `#paper=${encodeURIComponent(d.id)}`;
   }
 
+  function paperTimelineUrl(d) {
+    return `../timeline/#paper=${encodeURIComponent(d.id)}`;
+  }
+
+  function paperSearchUrl(d) {
+    return `../search/?paper=${encodeURIComponent(d.id)}`;
+  }
+
   function paperActionLink(url, label, variant, external) {
     if (!url) return '';
     return `<a class="paper-link-pill paper-link-pill--${escHtml(variant || 'internal')}" href="${escHtml(url)}"` +
@@ -3290,10 +3298,12 @@
   function paperActionLinks(d, options) {
     const includeMap = !options || options.includeMap !== false;
     return [
-      paperActionLink(d.link, 'Open Document (external)', 'primary', true),
-      paperActionLink(paperDetailUrl(d), 'Open Detail Page', 'internal', false),
-      includeMap ? paperActionLink(paperMapUrl(d), 'Open in Map', 'internal', false) : '',
-      paperActionLink(paperTreeUrl(d), 'Open in Tree', 'internal', false),
+      paperActionLink(d.link, 'Document', 'primary', true),
+      paperActionLink(paperDetailUrl(d), 'Detail', 'internal', false),
+      includeMap ? paperActionLink(paperMapUrl(d), 'Map', 'internal', false) : '',
+      paperActionLink(paperTreeUrl(d), 'Tree', 'internal', false),
+      paperActionLink(paperTimelineUrl(d), 'Timeline', 'internal', false),
+      paperActionLink(paperSearchUrl(d), 'Search', 'internal', false),
     ].join('');
   }
 
