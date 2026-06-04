@@ -1921,15 +1921,24 @@ body:has(.kb-home-bento) .md-content {
 /* Full-width applet pages */
 
 body:has(#ct-app) .md-grid,
+body:has(#mm-app) .md-grid,
+body:has(#tl-app) .md-grid,
+body:has(.md-content__inner > #an-app) .md-grid,
 body:has(#tag-search-app) .md-grid,
 body:has(#semantic-search-app) .md-grid,
 body:has(#ct-app) .md-main__inner,
+body:has(#mm-app) .md-main__inner,
+body:has(#tl-app) .md-main__inner,
+body:has(.md-content__inner > #an-app) .md-main__inner,
 body:has(#tag-search-app) .md-main__inner,
 body:has(#semantic-search-app) .md-main__inner {
   max-width: 100% !important;
 }
 
 body:has(#ct-app) .md-content,
+body:has(#mm-app) .md-content,
+body:has(#tl-app) .md-content,
+body:has(.md-content__inner > #an-app) .md-content,
 body:has(#tag-search-app) .md-content,
 body:has(#semantic-search-app) .md-content {
   max-width: none !important;
@@ -1937,6 +1946,9 @@ body:has(#semantic-search-app) .md-content {
 }
 
 .md-content__inner:has(#ct-app),
+.md-content__inner:has(#mm-app),
+.md-content__inner:has(#tl-app),
+.md-content__inner:has(> #an-app),
 .md-content__inner:has(#tag-search-app),
 .md-content__inner:has(#semantic-search-app) {
   max-width: 100% !important;
@@ -5284,5 +5296,120 @@ body:has(#semantic-search-app) .md-content {
     grid-row: 4;
     width: 100%;
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 44.984375em) {
+  :root {
+    --kb-page-gutter: 0.42rem;
+    --kb-app-page-gutter: 0.32rem;
+  }
+
+  .md-grid {
+    padding-inline: var(--kb-page-gutter);
+  }
+
+  .md-content__inner {
+    margin-inline: 0;
+  }
+
+  body:has(#ct-app) .md-grid,
+  body:has(#mm-app) .md-grid,
+  body:has(#tl-app) .md-grid,
+  body:has(.md-content__inner > #an-app) .md-grid,
+  body:has(#tag-search-app) .md-grid,
+  body:has(#semantic-search-app) .md-grid {
+    padding-inline: var(--kb-app-page-gutter);
+  }
+
+  body:has(#ct-app) .md-content,
+  body:has(#mm-app) .md-content,
+  body:has(#tl-app) .md-content,
+  body:has(.md-content__inner > #an-app) .md-content,
+  body:has(#tag-search-app) .md-content,
+  body:has(#semantic-search-app) .md-content {
+    padding-inline: 0 !important;
+  }
+
+  .kb-app-header {
+    gap: 0.5rem;
+    padding-inline: 0.55rem;
+  }
+
+  .kb-app-header-action {
+    inline-size: auto;
+    min-inline-size: 6.2rem;
+    padding-inline: 0.48rem;
+  }
+
+  .ct-sunburst-body,
+  .ct-selection-details,
+  .ct-controls,
+  .ct-search-panel,
+  .ct-search-results,
+  .ct-chain,
+  .ct-item-type-buttons,
+  .ct-item-type-actions,
+  .tag-search-hero,
+  .tag-search-settings-body,
+  .tag-search-selection,
+  .tag-search-app > .tag-search-results,
+  .tag-search-card {
+    padding-inline: 0.5rem;
+  }
+
+  body:has(#tl-app) .tl-controls,
+  body:has(#tl-app) .tl-legend,
+  body:has(#tl-app) .tl-stage-toolbar,
+  body:has(#tl-app) .tl-modal-head,
+  body:has(#tl-app) .tl-modal-body,
+  body:has(.md-content__inner > #an-app) .an-toolbar,
+  body:has(.md-content__inner > #an-app) .an-card,
+  body:has(.md-content__inner > #an-app) .an-metric {
+    padding-inline: 0.5rem !important;
+  }
+
+  body:has(#tl-app) .tl-modal {
+    padding-inline: var(--kb-app-page-gutter) !important;
+  }
+
+  body:has(#tl-app) .tl-modal-card {
+    width: calc(100vw - (2 * var(--kb-app-page-gutter))) !important;
+  }
+
+  body:has(.md-content__inner > #an-app) .an-table th,
+  body:has(.md-content__inner > #an-app) .an-table td {
+    padding-inline: 0.42rem !important;
+  }
+
+  .ct-sunburst-actions {
+    top: 0.38rem;
+    right: 0.38rem;
+  }
+
+  .ct-tree-button {
+    padding-right: 0.36rem;
+  }
+
+  .md-typeset .kb-home-bento,
+  .md-typeset .kb-home-bento-secondary,
+  .md-typeset .kb-home-expanders {
+    --kb-bento-side-inset: 0;
+    padding-inline: 0;
+  }
+
+  .md-typeset a.kb-bento-card,
+  .md-typeset a.kb-bento-secondary-card,
+  .md-typeset .kb-home-expander > summary,
+  .md-typeset .kb-home-expander-content,
+  .md-typeset .kb-home-about {
+    padding-inline: 0.7rem;
+  }
+
+  .md-typeset .kb-about-compare-panel,
+  .paper-meta-card,
+  .paper-link-section,
+  .paper-similar-card {
+    padding-inline: 0.58rem;
   }
 }
