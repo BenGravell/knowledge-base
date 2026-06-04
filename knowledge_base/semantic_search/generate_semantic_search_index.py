@@ -125,6 +125,8 @@ def load_papers() -> list[dict]:
                 "url": f"../papers/{quote(paper_id, safe='')}/",
                 "mapUrl": f"../map/#paper={quote(paper_id, safe='')}",
                 "treeUrl": f"../tree/#paper={quote(paper_id, safe='')}",
+                "timelineUrl": f"../timeline/#paper={quote(paper_id, safe='')}",
+                "searchUrl": f"../search/?paper={quote(paper_id, safe='')}",
                 "byline": paper_byline(authors, year),
                 "embed_text": embed_text,
                 "hash": content_hash(embed_text),
@@ -319,6 +321,8 @@ def generate(args: argparse.Namespace) -> None:
                     "url",
                     "mapUrl",
                     "treeUrl",
+                    "timelineUrl",
+                    "searchUrl",
                     "byline",
                 )
             }

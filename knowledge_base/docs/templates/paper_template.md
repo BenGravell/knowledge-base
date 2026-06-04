@@ -1,4 +1,4 @@
-# {{ title }}
+# {{ title }} {.paper-detail-title}
 
 <section class="paper-meta-grid" aria-label="Paper metadata">
 {% if authors %}
@@ -68,7 +68,7 @@
     <h3>{{ section.title | e }}</h3>
     <div class="paper-link-pills">
 {% for item in section.links %}
-      <a class="paper-link-pill paper-link-pill--{{ item.variant | e }}" href="{{ item.url | e }}"{% if item.external %} target="_blank" rel="noopener noreferrer"{% endif %}>
+      <a class="paper-link-pill paper-link-pill--{{ item.variant | e }}" href="{{ item.url | e }}"{% if item.detail %} aria-label="{{ item.detail | e }}" title="{{ item.detail | e }}"{% endif %}{% if item.external %} target="_blank" rel="noopener noreferrer"{% endif %}>
         <span class="paper-link-pill__label">{{ item.label | e }}</span>
       </a>
 {% endfor %}
@@ -110,6 +110,17 @@
         <span>{{ paper.byline | e }}</span>
       </div>
 {% endif %}
+      <div class="paper-similar-card__actions">
+        <div class="paper-similar-card__action-row">
+          <div class="paper-link-pills paper-similar-card__action-links">
+            <a class="paper-link-pill paper-link-pill--internal" href="{{ paper.url | e }}"><span class="paper-link-pill__label">Detail</span></a>
+            <a class="paper-link-pill paper-link-pill--internal" href="{{ paper.map_url | e }}"><span class="paper-link-pill__label">Map</span></a>
+            <a class="paper-link-pill paper-link-pill--internal" href="{{ paper.tree_url | e }}"><span class="paper-link-pill__label">Tree</span></a>
+            <a class="paper-link-pill paper-link-pill--internal" href="{{ paper.timeline_url | e }}"><span class="paper-link-pill__label">Timeline</span></a>
+            <a class="paper-link-pill paper-link-pill--internal" href="{{ paper.search_url | e }}"><span class="paper-link-pill__label">Search</span></a>
+          </div>
+        </div>
+      </div>
     </div>
   </article>
 {% endfor %}

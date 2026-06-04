@@ -399,6 +399,12 @@
         .filter(row => row.paper && matchesFilters(row.paper, { includeQuery: true }));
     }
 
+    if (ego) {
+      return matchesFilters(ego, { includeQuery: true })
+        ? [{ item: {}, paper: ego }]
+        : [];
+    }
+
     return papers
       .filter(paper => matchesFilters(paper, { includeQuery: true }))
       .sort(comparePapers)
@@ -489,6 +495,8 @@
                 actionLink(paper.url, 'Detail') +
                 actionLink(paper.mapUrl, 'Map') +
                 actionLink(paper.treeUrl, 'Tree') +
+                actionLink(paper.timelineUrl, 'Timeline') +
+                actionLink(paper.searchUrl, 'Search') +
               '</div>' +
               (toggles ? `<div class="paper-similar-card__toggles">${toggles}</div>` : '') +
             '</div>' +
@@ -703,6 +711,12 @@
         `<button type="button" data-clear-filter="q"><span>Query: ${esc(state.q)}</span></button>`
       );
     }
+    if (state.paper) {
+      const paper = papersById.get(state.paper);
+      filters.push(
+        `<button type="button" data-clear-filter="paper"><span>Paper: ${esc(paper ? paperTitle(paper) : state.paper)}</span></button>`
+      );
+    }
     if (!filters.length) return '<span class="unified-search-active-empty">No active filters</span>';
     filters.push('<button type="button" data-clear-filter="all" class="unified-search-clear-all">Clear All</button>');
     return filters.join('');
@@ -796,7 +810,7 @@
     filterFields.forEach(field => {
       if (state[field]) nextUrl.searchParams.set(field, state[field]);
     });
-    if (state.paper && state.tag) nextUrl.searchParams.set('paper', state.paper);
+    if (state.paper) nextUrl.searchParams.set('paper', state.paper);
     if (push) {
       window.history.pushState({}, '', nextUrl);
     } else {
@@ -843,6 +857,10 @@
       const paper = ego ? paperTitle(ego) : 'Selected Paper';
       return `${state.tag} near ${paper}`;
     }
+    if (state.paper) {
+      const paper = papersById.get(state.paper);
+      return paper ? paperTitle(paper) : 'Selected Paper';
+    }
     const active = filterFields
       .filter(field => state[field])
       .map(field => `${fieldConfig[field].label}: ${state[field]}`);
@@ -852,6 +870,7 @@
 
   function metadataKicker() {
     if (state.paper && state.tag) return 'Related Tag';
+    if (state.paper) return 'Paper';
     if (state.tag) return 'Tag';
     if (state.author) return 'Author';
     if (state.year) return 'Year';

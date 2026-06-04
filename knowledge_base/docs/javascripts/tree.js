@@ -1436,12 +1436,20 @@
     const abstract = paper.abstract || 'No abstract recorded yet.';
     const detailUrl = node.url || '';
     const mapUrl = paper.mapUrl || mapUrlFromSource(node.source);
+    const timelineUrl = paper.timelineUrl || timelineUrlFromSource(node.source);
+    const searchUrl = paper.searchUrl || searchUrlFromSource(node.source);
     const actions = [
       detailUrl
-        ? '<a class="paper-link-pill paper-link-pill--internal" href="' + escAttr(detailUrl) + '"><span class="paper-link-pill__label">Open Detail Page</span></a>'
+        ? '<a class="paper-link-pill paper-link-pill--internal" href="' + escAttr(detailUrl) + '"><span class="paper-link-pill__label">Detail</span></a>'
         : '',
       mapUrl
-        ? '<a class="paper-link-pill paper-link-pill--internal" href="' + escAttr(mapUrl) + '"><span class="paper-link-pill__label">Open in Map</span></a>'
+        ? '<a class="paper-link-pill paper-link-pill--internal" href="' + escAttr(mapUrl) + '"><span class="paper-link-pill__label">Map</span></a>'
+        : '',
+      timelineUrl
+        ? '<a class="paper-link-pill paper-link-pill--internal" href="' + escAttr(timelineUrl) + '"><span class="paper-link-pill__label">Timeline</span></a>'
+        : '',
+      searchUrl
+        ? '<a class="paper-link-pill paper-link-pill--internal" href="' + escAttr(searchUrl) + '"><span class="paper-link-pill__label">Search</span></a>'
         : '',
     ].filter(Boolean).join('');
 
@@ -1672,6 +1680,16 @@
   function mapUrlFromSource(source) {
     const match = String(source || '').match(/^papers\/(.+)\.md$/);
     return match ? '../map/#paper=' + encodeURIComponent(match[1]) : '';
+  }
+
+  function timelineUrlFromSource(source) {
+    const match = String(source || '').match(/^papers\/(.+)\.md$/);
+    return match ? '../timeline/#paper=' + encodeURIComponent(match[1]) : '';
+  }
+
+  function searchUrlFromSource(source) {
+    const match = String(source || '').match(/^papers\/(.+)\.md$/);
+    return match ? '../search/?paper=' + encodeURIComponent(match[1]) : '';
   }
 
   function paperIdFromSource(source) {

@@ -163,6 +163,8 @@ def collect_paper_details() -> dict[str, dict[str, Any]]:
             "abstract": clean_text(data.get("abstract")),
             "summary": clean_text(data.get("summary")),
             "mapUrl": f"../map/#paper={quote(paper_id, safe='')}",
+            "timelineUrl": f"../timeline/#paper={quote(paper_id, safe='')}",
+            "searchUrl": f"../search/?paper={quote(paper_id, safe='')}",
         }
     return details
 
@@ -387,6 +389,8 @@ def build_timeline_data(root_node: dict[str, Any]) -> dict[str, Any]:
                 "url": nav.get("url") or page_url(source),
                 "treeUrl": f"../tree/#paper={quote(paper_id, safe='')}",
                 "mapUrl": details.get("mapUrl") or f"../map/#paper={quote(paper_id, safe='')}",
+                "timelineUrl": details.get("timelineUrl") or f"../timeline/#paper={quote(paper_id, safe='')}",
+                "searchUrl": details.get("searchUrl") or f"../search/?paper={quote(paper_id, safe='')}",
             }
         )
 
@@ -1099,7 +1103,7 @@ TIMELINE_JS = r"""'use strict';
   function matchesQuery(p,q){const terms=norm(q).split(/\s+/).filter(Boolean);return terms.every(t=>p.searchText.includes(t));}
   function syncTimelineHeaderHeight(){const header=document.querySelector('.md-header'),h=header?Math.max(0,Math.ceil(header.getBoundingClientRect().height)):0;if(h)document.documentElement.style.setProperty('--tl-header-h',h+'px');}
   function renderStatus(visible,groups){if(status)status.textContent='';const selected=state.selectedId?paperById.get(state.selectedId):null;if(!selected){if(toolbar)toolbar.hidden=true;chip.hidden=true;chip.textContent='';return;}if(toolbar)toolbar.hidden=false;chip.hidden=false;chip.textContent=(selected.year?selected.year+' - ':'')+selected.label;}
-  function renderDetail(){const p=state.selectedId?paperById.get(state.selectedId):null;if(!modal||!modalBody||!modalTitle)return;if(!p){modal.hidden=true;modalBody.innerHTML='';modalTitle.textContent='Paper';return;}const title=p.title||p.label||'Untitled',year=p.year||'Undated',summary=p.summary||'No summary recorded yet.',abstract=p.abstract||'No abstract recorded yet.';modalTitle.textContent=title;modalBody.innerHTML='<div class="tl-detail-kicker">'+esc(year)+'</div>'+(p.label&&p.label!==title?'<p class="tl-detail-title">'+esc(p.label)+'</p>':'')+'<div class="tl-modal-section-title">Abstract</div><p class="tl-abstract">'+esc(abstract)+'</p><div class="tl-modal-section-title">Summary</div><p class="tl-summary">'+esc(summary)+'</p><div class="tl-detail-actions paper-link-pills">'+paperActionLink(p.url,'Open Detail Page','internal',false)+paperActionLink(p.treeUrl,'Open in Tree','internal',false)+paperActionLink(p.mapUrl,'Open in Map','internal',false)+'</div>';modal.hidden=false;}
+  function renderDetail(){const p=state.selectedId?paperById.get(state.selectedId):null;if(!modal||!modalBody||!modalTitle)return;if(!p){modal.hidden=true;modalBody.innerHTML='';modalTitle.textContent='Paper';return;}const title=p.title||p.label||'Untitled',year=p.year||'Undated',summary=p.summary||'No summary recorded yet.',abstract=p.abstract||'No abstract recorded yet.';modalTitle.textContent=title;modalBody.innerHTML='<div class="tl-detail-kicker">'+esc(year)+'</div>'+(p.label&&p.label!==title?'<p class="tl-detail-title">'+esc(p.label)+'</p>':'')+'<div class="tl-modal-section-title">Abstract</div><p class="tl-abstract">'+esc(abstract)+'</p><div class="tl-modal-section-title">Summary</div><p class="tl-summary">'+esc(summary)+'</p><div class="tl-detail-actions paper-link-pills">'+paperActionLink(p.url,'Detail','internal',false)+paperActionLink(p.treeUrl,'Tree','internal',false)+paperActionLink(p.mapUrl,'Map','internal',false)+paperActionLink(p.timelineUrl,'Timeline','internal',false)+paperActionLink(p.searchUrl,'Search','internal',false)+'</div>';modal.hidden=false;}
   function paperActionLink(url,label,variant,external){return url?'<a class="paper-link-pill paper-link-pill--'+escAttr(variant||'internal')+'" href="'+escAttr(url)+'"'+(external?' target="_blank" rel="noopener noreferrer"':'')+'><span class="paper-link-pill__label">'+esc(label)+'</span></a>':'';}
   function nodeColor(cat,sub){if(isUncat(cat))return'#000000';if(sub){const key=cat+'::'+sub;if(!subColorCache.has(key))subColorCache.set(key,hslToHex(subHsl(cat,sub)));return subColorCache.get(key);}if(!colorCache.has(cat))colorCache.set(cat,hslToHex(categoryHsl(cat)));return colorCache.get(cat);}
   function isUncat(cat){return!cat||UNCATEGORIZED_SET.has(cat);}

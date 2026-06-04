@@ -198,16 +198,30 @@ def build_link_sections(data: dict, paper_id: str) -> list[dict]:
             "kind": "internal",
             "links": [
                 make_link(
-                    "Open in Tree",
+                    "Tree",
                     f"../../tree/#paper={quoted_paper_id}",
-                    "",
+                    "Open in Tree",
                     "internal",
                     False,
                 ),
                 make_link(
-                    "Open in Map",
+                    "Map",
                     f"../../map/#paper={quoted_paper_id}",
-                    "",
+                    "Open in Map",
+                    "internal",
+                    False,
+                ),
+                make_link(
+                    "Timeline",
+                    f"../../timeline/#paper={quoted_paper_id}",
+                    "Open in Timeline",
+                    "internal",
+                    False,
+                ),
+                make_link(
+                    "Search",
+                    f"../../search/?paper={quoted_paper_id}",
+                    "Open in Search",
                     "internal",
                     False,
                 ),
@@ -274,6 +288,8 @@ def paper_record(data: dict, paper_id: str) -> dict:
         "url": f"../papers/{paper_id}/",
         "treeUrl": f"../tree/#paper={quote(paper_id, safe='')}",
         "mapUrl": f"../map/#paper={quote(paper_id, safe='')}",
+        "timelineUrl": f"../timeline/#paper={quote(paper_id, safe='')}",
+        "searchUrl": f"../search/?paper={quote(paper_id, safe='')}",
     }
 
 
@@ -348,6 +364,8 @@ def build_top_similar_papers(records: list[dict], limit: int = top_similar_limit
                     "url": f"../../papers/{quote(other_id, safe='')}/",
                     "tree_url": f"../../tree/#paper={quote(other_id, safe='')}",
                     "map_url": f"../../map/#paper={quote(other_id, safe='')}",
+                    "timeline_url": f"../../timeline/#paper={quote(other_id, safe='')}",
+                    "search_url": f"../../search/?paper={quote(other_id, safe='')}",
                 }
             )
             if len(items) >= limit:
