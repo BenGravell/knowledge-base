@@ -1,5 +1,32 @@
 # TODO
 
+
+## New feature
+
+User picks two items and we show the graph chain of hops linking them. 
+- Using tree taxonomy
+- Using semantic similarity neoghbor graph
+
+## Papers detail ux
+
+https://bengravell.github.io/knowledge-base/papers/1905_13547/
+
+Reduce font size of title.
+
+Use the group chips/icons and rounded rectangle holders from Portfolio, Publications page. Also use smaller font. Goal is to reduce amount of space taken up, especially on mobile.
+
+Add an "Open in Timeline" and "Open in Search" chip. Goal is to have links to each of the main viewer pages (Tree, Map, Timeline, Search) from every place where an individual item/paper is displayed.
+
+Use shorter form for label chips, just "Tree", "Map", "Timeline", using the same ui element as used in Search results.
+
+
+## fix
+
+https://bengravell.github.io/knowledge-base/tree/#ct=tree-prediction-perception-machine-learning-classical-statistical-learning-kernel-machines-a-decision-theoretic-generalization-of-on-line-learning-and-an-application-to-boosting-papers-1997-freund-a-decision-theoretic-generalization-md 
+
+
+Needs to show algo AdaBoost more prominently on sunburst and in paper detail box
+
 ## Taxonomy
 
 ```sh
