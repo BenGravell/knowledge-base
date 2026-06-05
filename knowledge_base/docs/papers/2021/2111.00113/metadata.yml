@@ -11,7 +11,7 @@ doi:
 arxiv_id: "2111.00113"
 tags:
 abstract: >
-  This paper develops a new class of algorithms for general linear systems and eigenvalue problems. These algorithms apply fast randomized sketching to accelerate subspace projection methods, such as GMRES and Rayleigh-Ritz. This approach offers great flexibility in designing the basis for the approximation subspace, which can improve scalability in many computational environments. The resulting algorithms outperform the classic methods with minimal loss of accuracy. For model problems, numerical experiments show large advantages over MATLAB's optimized routines, including a $100 \times$ speedup over gmres and a $10 \times$ speedup over eigs.
+  This paper develops a new class of algorithms for general linear systems and eigenvalue problems. These algorithms apply fast randomized sketching to accelerate subspace projection methods, such as GMRES and Rayleigh-Ritz. This approach offers great flexibility in designing the basis for the approximation subspace, which can improve scalability in many computational environments. The resulting algorithms outperform the classic methods with minimal loss of accuracy. For model problems, numerical experiments show large advantages over MATLAB's optimized routines, including a 100 x speedup over gmres and a 10 x speedup over eigs.
 summary:
 link: https://arxiv.org/pdf/2111.00113
 links_alt:
