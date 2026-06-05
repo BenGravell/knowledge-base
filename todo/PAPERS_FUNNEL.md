@@ -14,3 +14,4 @@ https://arxiv.org/pdf/2605.07529
 https://jmlr.org/papers/v21/19-408.html
 https://motional.com/news/cracking-long-tail-code-autonomous-driving-nureasoning
 https://arxiv.org/abs/2510.26125
+https://arxiv.org/abs/2312.15521
