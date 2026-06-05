@@ -1,6 +1,6 @@
 title: >
   Anytime Motion Planning Using the RRT*
-algorithm: RRT*
+algorithm: Anytime RRT*
 authors:
   - Sertac Karaman
   - Matthew R. Walter
