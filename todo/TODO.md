@@ -1,12 +1,5 @@
 # TODO
 
-## New feature
-
-User picks two items and we show the graph chain of hops linking them.
-
-- Using semantic similarity neighbor graph. edges only for nodes whose embedding cosine distance is below a certain threshold (which represents the notion of 'related papers')
-- Tree taxonomy
-
 ## Taxonomy
 
 ```sh
@@ -152,8 +145,6 @@ Hand-crafted
 
 ## Tree
 
-### UX
-
 ## Map
 
 ### UX
@@ -189,6 +180,13 @@ CSV should include one item per row. Tree ancestry in a column.
 JSON can use tree hierarchy natively.
 
 ## Search
+
+## Chain (New feature)
+
+User picks two items and we show the graph chain of hops linking them.
+
+- Using semantic similarity neighbor graph. edges only for nodes whose embedding cosine distance is below a certain threshold (which represents the notion of 'related papers'). shortest path solve.
+- Tree taxonomy
 
 ## Dissertations page (new feature)
 
