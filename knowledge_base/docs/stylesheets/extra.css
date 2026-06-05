@@ -182,6 +182,7 @@ body:has(#semantic-search-app) .md-main__inner {
 #tag-search-app,
 #semantic-search-app {
   margin-top: var(--kb-app-top-gap) !important;
+  margin-bottom: var(--kb-app-top-gap) !important;
 }
 
 body:has(#ct-app) .md-content__inner > h1,
@@ -1361,6 +1362,9 @@ body:has(.kb-home-bento) .md-content {
   --kb-home-expander-surface: #f7f7f7;
   --kb-home-expander-ink: var(--md-default-fg-color);
   --kb-home-expander-muted: var(--md-default-fg-color--light);
+  --kb-home-expander-hover-bg-strength: 11%;
+  --kb-home-expander-hover-border-strength: 40%;
+  --kb-home-expander-hover-shadow-strength: 11%;
   display: grid;
   gap: 0.75rem;
   box-sizing: border-box;
@@ -1372,6 +1376,9 @@ body:has(.kb-home-bento) .md-content {
   --kb-home-expander-border: color-mix(in srgb, var(--md-default-fg-color) 16%, transparent);
   --kb-home-expander-soft-border: color-mix(in srgb, var(--md-default-fg-color) 10%, transparent);
   --kb-home-expander-surface: #2a2a2a;
+  --kb-home-expander-hover-bg-strength: 18%;
+  --kb-home-expander-hover-border-strength: 48%;
+  --kb-home-expander-hover-shadow-strength: 18%;
 }
 
 .md-typeset .kb-home-expander {
@@ -1385,6 +1392,10 @@ body:has(.kb-home-bento) .md-content {
   box-shadow:
     0 1px 0 color-mix(in srgb, #ffffff 28%, transparent) inset,
     0 10px 28px color-mix(in srgb, #000000 5%, transparent);
+  transition:
+    border-color 0.16s ease,
+    background-color 0.16s ease,
+    box-shadow 0.16s ease;
 }
 
 .md-typeset .kb-home-expander--about {
@@ -1393,7 +1404,6 @@ body:has(.kb-home-bento) .md-content {
 }
 
 .md-typeset .kb-home-expander > summary {
-  position: relative;
   display: flex;
   align-items: center;
   gap: 0.7rem;
@@ -1405,6 +1415,7 @@ body:has(.kb-home-bento) .md-content {
   color: var(--kb-home-expander-ink);
   cursor: pointer;
   list-style: none;
+  transition: background-color 0.16s ease, box-shadow 0.16s ease;
   user-select: none;
 }
 
@@ -1450,9 +1461,42 @@ body:has(.kb-home-bento) .md-content {
   transform: rotate(45deg);
 }
 
-.md-typeset .kb-home-expander > summary:hover,
 .md-typeset .kb-home-expander[open] > summary {
   background: transparent !important;
+}
+
+.md-typeset .kb-home-expander:not([open]):hover {
+  background-color: color-mix(
+    in srgb,
+    var(--kb-home-expander-accent) var(--kb-home-expander-hover-bg-strength),
+    var(--kb-home-expander-surface)
+  );
+  border-color: color-mix(
+    in srgb,
+    var(--kb-home-expander-accent) var(--kb-home-expander-hover-border-strength),
+    var(--kb-home-expander-border)
+  );
+  box-shadow:
+    0 1px 0 color-mix(in srgb, #ffffff 36%, transparent) inset,
+    0 14px 34px color-mix(
+      in srgb,
+      var(--kb-home-expander-accent) var(--kb-home-expander-hover-shadow-strength),
+      transparent
+    );
+}
+
+.md-typeset .kb-home-expander[open] > summary:hover,
+.md-typeset .kb-home-expander > summary:focus-visible {
+  background: color-mix(
+    in srgb,
+    var(--kb-home-expander-accent) var(--kb-home-expander-hover-bg-strength),
+    transparent
+  ) !important;
+  box-shadow: inset 0 -1px 0 color-mix(
+    in srgb,
+    var(--kb-home-expander-accent) var(--kb-home-expander-hover-border-strength),
+    transparent
+  );
 }
 
 .md-typeset .kb-home-expander > summary:focus-visible {
@@ -1997,6 +2041,14 @@ body:has(#semantic-search-app) .md-content {
   --ct-tree-button-min: 2.78rem;
   --ct-current-button-min: 4.17rem;
   --ct-tree-label-size: clamp(0.94rem, 0.9rem + 0.18vw, 1.06rem);
+  --ct-sunburst-min-size: 12rem;
+  --ct-sunburst-max-size: 30rem;
+  --ct-sunburst-viewport-reserve: 31rem;
+  --ct-sunburst-size: min(
+    max(var(--ct-sunburst-min-size), calc(100vh - var(--ct-sunburst-viewport-reserve))),
+    var(--ct-sunburst-max-size)
+  );
+  --ct-list-edge-compensation: 0.55rem;
   --ct-subtle-grey-surface: #e4e7eb;
   --ct-subtle-grey-surface-hover: #b8bec8;
   --ct-subtle-grey-border: #8d96a3;
@@ -2110,7 +2162,7 @@ body:has(#semantic-search-app) .md-content {
   display: grid;
   place-items: center;
   min-width: 0;
-  min-height: clamp(22rem, 58vw, 30rem);
+  min-height: var(--ct-sunburst-size);
 }
 
 .ct-sunburst-stage {
@@ -2123,8 +2175,8 @@ body:has(#semantic-search-app) .md-content {
 
 .ct-sunburst-svg {
   display: block;
-  width: min(100%, clamp(27.5rem, 58vw, 34.5rem));
-  max-height: min(72vh, 34.5rem);
+  width: min(100%, var(--ct-sunburst-size));
+  max-height: none;
   aspect-ratio: 1;
   overflow: visible;
 }
@@ -2425,10 +2477,10 @@ body:has(#semantic-search-app) .md-content {
   max-width: none;
   box-sizing: border-box;
   margin: 0;
-  padding: 0.9rem 0.85rem;
-  border: 1px solid var(--ct-border);
-  border-radius: 8px;
-  background: var(--ct-panel);
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
 }
 
 #ct-ancestor-chain {
@@ -2449,6 +2501,8 @@ body:has(#semantic-search-app) .md-content {
 
 .ct-focus-section {
   min-width: 0;
+  margin-left: calc(0rem - var(--ct-list-edge-compensation));
+  width: calc(100% + var(--ct-list-edge-compensation));
 }
 
 .ct-focus-section--ego {
@@ -2540,6 +2594,7 @@ body:has(#semantic-search-app) .md-content {
 
 .ct-tree-button {
   position: relative;
+  box-sizing: border-box;
   display: grid;
   grid-template-columns: calc(var(--ct-rail-center) * 2) minmax(0, 1fr);
   gap: 0.45rem;
@@ -2832,8 +2887,13 @@ body:has(#semantic-search-app) .md-content {
 }
 
 @media (min-width: 88rem) {
+  .ct-page {
+    --ct-sunburst-min-size: 14rem;
+    --ct-sunburst-max-size: 34rem;
+  }
+
   .ct-workspace {
-    grid-template-columns: minmax(30rem, 0.95fr) minmax(34rem, 1.05fr);
+    grid-template-columns: minmax(0, 1fr);
     gap: 1rem;
   }
 
@@ -2848,12 +2908,12 @@ body:has(#semantic-search-app) .md-content {
   }
 
   .ct-workspace .ct-sunburst {
-    min-height: clamp(28rem, 36vw, 35rem);
+    min-height: var(--ct-sunburst-size);
   }
 
   .ct-workspace .ct-sunburst-svg {
-    width: min(100%, clamp(30.5rem, 36vw, 37rem));
-    max-height: min(76vh, 37rem);
+    width: min(100%, var(--ct-sunburst-size));
+    max-height: none;
   }
 
 }
@@ -2864,6 +2924,9 @@ body:has(#semantic-search-app) .md-content {
     --ct-tree-button-min: 2.35rem;
     --ct-current-button-min: 3.53rem;
     --ct-tree-label-size: 0.92rem;
+    --ct-sunburst-min-size: 15rem;
+    --ct-sunburst-max-size: 24rem;
+    --ct-sunburst-viewport-reserve: 25rem;
   }
 
   .md-content__inner:has(#ct-app) {
@@ -2881,12 +2944,12 @@ body:has(#semantic-search-app) .md-content {
   }
 
   .ct-sunburst {
-    min-height: 18.5rem;
+    min-height: var(--ct-sunburst-size);
   }
 
   .ct-sunburst-svg {
-    width: min(100%, 21.5rem);
-    max-height: 20.5rem;
+    width: min(100%, var(--ct-sunburst-size));
+    max-height: none;
   }
 
   .ct-selection-details {
@@ -2909,7 +2972,7 @@ body:has(#semantic-search-app) .md-content {
   }
 
   .ct-chain {
-    padding: 0.58rem 0.42rem;
+    padding: 0;
   }
 
   .ct-focus-stack {
@@ -4209,6 +4272,8 @@ body:has(#semantic-search-app) .md-content {
 @media (prefers-reduced-motion: reduce) {
   .unified-search-mode::after,
   .unified-search-mode::before,
+  .md-typeset .kb-home-expander,
+  .md-typeset .kb-home-expander > summary,
   .md-typeset .kb-home-expander > summary::after,
   .md-typeset .unified-search-filter-expander > summary::after {
     transition: none;
@@ -4775,7 +4840,6 @@ body:has(#semantic-search-app) .md-content {
 
   .ct-sunburst-body,
   .ct-selection-details,
-  .ct-chain,
   .tag-search-hero,
   .tag-search-settings-body,
   .tag-search-selection,
