@@ -4,8 +4,8 @@
 
 User picks two items and we show the graph chain of hops linking them.
 
-- Using tree taxonomy
-- Using semantic similarity neoghbor graph
+- Using semantic similarity neighbor graph. edges only for nodes whose embedding cosine distance is below a certain threshold (which represents the notion of 'related papers')
+- Tree taxonomy
 
 ## algo fixes
 
