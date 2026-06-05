@@ -1373,8 +1373,9 @@ def find_ascii_multi_dash_issues(path: Path, data: dict) -> list["Issue"]:
                 field_name,
                 message,
                 (
-                    "Replace ASCII multi-dash punctuation with the intended "
-                    "source punctuation, such as an em dash or en dash."
+                    "Replace ASCII multi-dash punctuation with a single dash, "
+                    "using a tight hyphen for compounds/ranges and spaces for "
+                    "phrase breaks."
                 ),
             )
         )
@@ -4208,6 +4209,22 @@ def _is_big_whitespace_issue(issue: Issue) -> bool:
     return issue.message.startswith(_BIG_WHITESPACE_ISSUE_PREFIX)
 
 
+def _is_ascii_multi_dash_issue(issue: Issue) -> bool:
+    return issue.message.startswith(_ASCII_MULTI_DASH_ISSUE_PREFIX)
+
+
+def _is_title_value_fix_issue(issue: Issue) -> bool:
+    return (
+        issue.field == "title"
+        and issue.suggestion is not None
+        and (
+            issue.message.startswith("Not in title case:")
+            or issue.message.startswith("Contains title markup/math garbage:")
+            or issue.message.startswith(_TITLE_CHARACTER_ESCAPE_ISSUE_PREFIX)
+        )
+    )
+
+
 def _is_author_mojibake_issue(issue: Issue) -> bool:
     return issue.field == "authors" and issue.message.startswith(
         _AUTHOR_MOJIBAKE_ISSUE_PREFIX
@@ -4406,6 +4423,96 @@ def _fix_big_whitespace_in_yaml(raw: str, fields: set[str]) -> tuple[str, int]:
     return "".join(lines), changed
 
 
+def _fix_ascii_multi_dash_in_yaml(
+    raw: str,
+    data: dict,
+    fields: set[str],
+) -> tuple[str, int]:
+    fixed_raw = raw
+    changed = 0
+    for field_name in sorted(fields):
+        value = data.get(field_name)
+        if isinstance(value, str):
+            fixed_value, count = _replace_ascii_multi_dash_punctuation(value)
+            if count and fixed_value != value:
+                fixed_raw = _fix_metadata_scalar_field_in_yaml(
+                    fixed_raw,
+                    field_name,
+                    fixed_value,
+                )
+                data[field_name] = fixed_value
+                changed += count
+        elif isinstance(value, list):
+            fixed_items = list(value)
+            list_changed = 0
+            for index, item in enumerate(fixed_items):
+                if not isinstance(item, str):
+                    continue
+                fixed_item, count = _replace_ascii_multi_dash_punctuation(item)
+                if count and fixed_item != item:
+                    fixed_items[index] = fixed_item
+                    list_changed += count
+            if list_changed:
+                fixed_raw = _fix_metadata_scalar_field_in_yaml(
+                    fixed_raw,
+                    field_name,
+                    fixed_items,
+                )
+                data[field_name] = fixed_items
+                changed += list_changed
+
+    return fixed_raw, changed
+
+
+def _replace_ascii_multi_dash_punctuation(text: str) -> tuple[str, int]:
+    changed = 0
+
+    def replacement(match: re.Match[str]) -> str:
+        nonlocal changed
+        changed += 1
+        if _is_tight_ascii_multi_dash_join(text, match):
+            return "-"
+        left = " " if match.start() > 0 and not text[match.start() - 1].isspace() else ""
+        right = " " if match.end() < len(text) and not text[match.end()].isspace() else ""
+        return f"{left}-{right}"
+
+    return _ASCII_MULTI_DASH_RE.sub(replacement, text), changed
+
+
+def _word_before(text: str, index: int) -> str:
+    end = index + 1
+    while index >= 0 and (text[index].isalnum() or text[index] in "'’"):
+        index -= 1
+    return text[index + 1 : end]
+
+
+def _word_after(text: str, index: int) -> str:
+    start = index
+    while index < len(text) and (text[index].isalnum() or text[index] in "'’"):
+        index += 1
+    return text[start:index]
+
+
+def _is_tight_ascii_multi_dash_join(text: str, match: re.Match[str]) -> bool:
+    if match.start() == 0 or match.end() >= len(text):
+        return False
+
+    left_char = text[match.start() - 1]
+    right_char = text[match.end()]
+    if left_char.isspace() or right_char.isspace():
+        return False
+    if left_char.isdigit() and right_char.isdigit():
+        return True
+
+    left_word = _word_before(text, match.start() - 1)
+    right_word = _word_after(text, match.end())
+    if not left_word or not right_word:
+        return False
+    if left_word.casefold() == "tire" and right_word.casefold() == "road":
+        return True
+    return left_word[0].isupper() and right_word[0].isupper() and len(right_word) > 1
+
+
 def _clean_garbled_markup_text(text: str) -> str:
     text = html.unescape(text)
     text = _XML_URI_TAG_RE.sub(lambda match: match.group("inner").strip(), text)
@@ -4577,6 +4684,31 @@ def _format_folded_scalar_field(field_name: str, value: str, newline: str) -> st
     return f"{field_name}: >{newline}  {text}{newline}"
 
 
+def _format_metadata_list_block(
+    field_name: str,
+    value: list[object],
+    newline: str,
+) -> str:
+    if not value:
+        return f"{field_name}:{newline}"
+
+    lines = [f"{field_name}:"]
+    for item in value:
+        if item is None or item == "":
+            lines.append("  -")
+            continue
+        dumped = yaml.safe_dump(
+            [item],
+            sort_keys=False,
+            allow_unicode=True,
+            default_flow_style=False,
+            width=1_000_000_000,
+        ).strip()
+        item_text = dumped.removeprefix("-").strip()
+        lines.append(f"  - {item_text}")
+    return newline.join(lines) + newline
+
+
 def _format_metadata_scalar_line(
     field_name: str,
     value: object,
@@ -4591,6 +4723,9 @@ def _format_metadata_scalar_line(
             return _format_folded_scalar_field(field_name, value, newline)
         if field_name == "arxiv_id":
             return f"{field_name}: {json.dumps(value, ensure_ascii=False)}{newline}"
+
+    if isinstance(value, list):
+        return _format_metadata_list_block(field_name, value, newline)
 
     dumped = yaml.safe_dump(
         {field_name: value},
@@ -5252,8 +5387,7 @@ def apply_fixes(
         title_fixes = [
             i
             for i in issues
-            if i.field == "title"
-            and i.suggestion is not None
+            if _is_title_value_fix_issue(i)
             and not _is_multiline_field_issue(i)
             and not _is_folded_text_field_issue(i)
         ]
@@ -5293,6 +5427,11 @@ def apply_fixes(
             for i in issues
             if _is_big_whitespace_issue(i)
         }
+        ascii_multi_dash_fields = {
+            re.split(r"[.\[]", i.field, maxsplit=1)[0]
+            for i in issues
+            if _is_ascii_multi_dash_issue(i)
+        }
         if (
             not has_parse_fixes
             and not title_fixes
@@ -5310,6 +5449,7 @@ def apply_fixes(
             and not has_escaped_sequence_fixes
             and not has_garbled_markup_fixes
             and not whitespace_fields
+            and not ascii_multi_dash_fields
         ):
             continue
         try:
@@ -5474,6 +5614,20 @@ def apply_fixes(
                     messages.append(
                         "  collapsed "
                         f"{n_collapsed_spaces} large whitespace run(s): {fields}"
+                    )
+
+            if ascii_multi_dash_fields:
+                parsed = yaml.safe_load(new_raw) or {}
+                new_raw, n_fixed_dashes = _fix_ascii_multi_dash_in_yaml(
+                    new_raw,
+                    parsed,
+                    ascii_multi_dash_fields,
+                )
+                if n_fixed_dashes:
+                    fields = ", ".join(sorted(ascii_multi_dash_fields))
+                    messages.append(
+                        "  replaced "
+                        f"{n_fixed_dashes} ASCII multi-dash run(s): {fields}"
                     )
 
             if new_raw == raw:
@@ -5648,7 +5802,8 @@ Available --check names:
             "blank arXiv-backed type fields, copied or low-signal summaries, "
             "high-confidence parse artifacts, "
             "multiline scalar fields, folded text-field style/content, large whitespace runs, "
-            "source years, and path slugs; path fixes move metadata directories "
+            "ASCII multi-dash punctuation, source years, and path slugs; "
+            "path fixes move metadata directories "
             "after metadata edits and update direct references"
         ),
     )

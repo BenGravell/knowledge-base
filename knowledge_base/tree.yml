@@ -2665,7 +2665,7 @@
           - frax: docs/papers/2026/2604.04310/metadata.yml
           - Robowflex: docs/papers/2021/2103.12826/metadata.yml
           - MotionBenchMaker: docs/papers/2021/2112.06402/metadata.yml
-          - Brax -- A Differentiable Physics Engine for Large Scale Rigid Body Simulation: docs/papers/2021/2106.13281/metadata.yml
+          - Brax: docs/papers/2021/2106.13281/metadata.yml
           - GRiD: docs/papers/2021/2109.06976/metadata.yml
         - PyTorch: docs/papers/2019/1912.01703/metadata.yml
         - Theano: docs/papers/2016/1605.02688/metadata.yml

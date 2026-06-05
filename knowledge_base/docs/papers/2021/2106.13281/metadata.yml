@@ -1,5 +1,5 @@
 title: >
-  Brax -- A Differentiable Physics Engine for Large Scale Rigid Body Simulation
+  Brax: A Differentiable Physics Engine for Large Scale Rigid Body Simulation
 algorithm:
 authors:
   - C. Daniel Freeman
