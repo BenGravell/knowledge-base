@@ -1413,11 +1413,15 @@
   function renderPaperDetails(node) {
     const paper = node.paper || {};
     const abstract = paper.abstract || 'No abstract recorded yet.';
+    const externalUrl = paper.primaryLink || '';
     const detailUrl = node.url || '';
     const mapUrl = paper.mapUrl || mapUrlFromSource(node.source);
     const timelineUrl = paper.timelineUrl || timelineUrlFromSource(node.source);
     const searchUrl = paper.searchUrl || searchUrlFromSource(node.source);
     const actions = [
+      externalUrl
+        ? '<a class="paper-link-pill paper-link-pill--primary" href="' + escAttr(externalUrl) + '" target="_blank" rel="noopener noreferrer"><span class="paper-link-pill__label">External</span></a>'
+        : '',
       detailUrl
         ? '<a class="paper-link-pill paper-link-pill--internal" href="' + escAttr(detailUrl) + '"><span class="paper-link-pill__label">Detail</span></a>'
         : '',

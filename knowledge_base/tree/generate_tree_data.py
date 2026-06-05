@@ -144,6 +144,7 @@ def collect_paper_details() -> dict[str, dict[str, Any]]:
         paper_source_by_metadata_path[metadata_file.resolve()] = source
         authors = [clean_text(author) for author in as_list(data.get("authors"))]
         authors = [author for author in authors if author]
+        primary_link = clean_text(data.get("link"))
         details[source] = {
             "id": paper_id,
             "label": make_paper_label(data),
@@ -156,7 +157,8 @@ def collect_paper_details() -> dict[str, dict[str, Any]]:
             "type": clean_text(data.get("type")),
             "doi": clean_text(data.get("doi")),
             "arxivId": clean_text(data.get("arxiv_id")),
-            "hasPrimaryLink": bool(clean_text(data.get("link"))),
+            "primaryLink": primary_link,
+            "hasPrimaryLink": bool(primary_link),
             "alternateLinkCount": len(as_list(data.get("links_alt"))),
             "auditStatus": clean_text(data.get("audit_status")),
             "tags": [clean_text(tag) for tag in as_list(data.get("tags")) if clean_text(tag)],

@@ -2757,11 +2757,6 @@
         - Infomap: docs/papers/2007/0707.0609/metadata.yml
         - Louvain Algorithm: docs/papers/2008/0803.0476/metadata.yml
         - Leiden Algorithm: docs/papers/2018/1810.08473/metadata.yml
-  - Human & Natural Worlds:
-    - Environmental Impacts:
-      - ICT Global Emissions Footprint: docs/papers/2018/2018.belkhir.assessing_ict_global_emissions/metadata.yml
-      - Green AI: docs/papers/2019/1907.10597/metadata.yml
-      - Towards the Systematic Reporting of the Energy and Carbon Footprints of Machine Learning: docs/papers/2020/2002.05651/metadata.yml
     - Biology:
       - Evolution:
         - Natural Selection: docs/papers/1858/1858.darwin.on_the_tendency_of/metadata.yml
@@ -2777,3 +2772,7 @@
         - CRISPR-Cas9: docs/papers/2012/2012.jinek.a_programmable_dual_rna/metadata.yml
         - CRISPR-Cas9 Genome Editing: docs/papers/2013/2013.le_cong.multiplex_genome_engineering_using/metadata.yml
         - CRISPR-GPT for Agentic Automation of Gene-editing Experiments: docs/papers/2024/2404.18021/metadata.yml
+    - Environmental Impacts:
+      - ICT Global Emissions Footprint: docs/papers/2018/2018.belkhir.assessing_ict_global_emissions/metadata.yml
+      - Green AI: docs/papers/2019/1907.10597/metadata.yml
+      - Towards the Systematic Reporting of the Energy and Carbon Footprints of Machine Learning: docs/papers/2020/2002.05651/metadata.yml

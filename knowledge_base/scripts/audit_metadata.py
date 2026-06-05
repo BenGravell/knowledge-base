@@ -124,6 +124,10 @@ _TITLE_MATH_SPAN_RE = re.compile(r"\$(?P<math>[^$]+)\$")
 _TITLE_LATEX_COMMAND_RE = re.compile(
     r"\\(?:mathcal|mathrm|mathbf|mathit|operatorname)\{([^{}]+)\}"
 )
+_TEXT_LATEX_COMMAND_RE = re.compile(
+    r"\\(?:emph|mathbb|mathcal|mathscr|mathrm|mathbf|mathit|operatorname|text|textbf|textit)\{([^{}]+)\}"
+)
+_LATEX_FRAC_RE = re.compile(r"\\frac\{([^{}]+)\}\{([^{}]+)\}")
 _GARBLED_MARKUP_RE = re.compile(
     r"<\s*/?\s*(?:sub|sup|math|mml:[A-Za-z0-9_-]+)\b[^>]*>|"
     r"<[^>]*\bxmlns(?::[A-Za-z0-9_-]+)?=",
@@ -140,6 +144,37 @@ _XML_HTML_TAG_RE = re.compile(
 )
 _ABSTRACT_WORD_RE = re.compile(r"\babstract\b", re.I)
 _DOLLAR_SIGN_RE = re.compile(r"\$")
+_DISPLAY_MATH_SPAN_RE = re.compile(r"\$\$(?P<math>.+?)\$\$", re.S)
+_INLINE_MATH_SPAN_RE = re.compile(
+    r"(?<!\$)\$(?!\$)(?P<math>[^$\n]+?)(?<!\$)\$(?!\$)"
+)
+_PLAIN_LATEX_ELL_ARTIFACT_RE = re.compile(r"\bell_(?=[A-Za-z0-9])")
+_PLAIN_LATEX_GREEK_IN_ARTIFACT_RE = re.compile(
+    r"\b(?P<var>alpha|beta|gamma|delta|epsilon|zeta|eta|theta|iota|kappa|"
+    r"lambda|mu|nu|xi|pi|rho|sigma|tau|upsilon|phi|chi|psi|omega)in"
+    r"(?=\s*(?:[\[({]|mathbb))"
+)
+_PLAIN_LATEX_VARIABLE_IN_ARTIFACT_RE = re.compile(
+    r"\b(?P<var>[a-z])in(?=\s*[\[(]\s*(?:[-+]?\d|infinity))"
+)
+_PLAIN_LATEX_STAR_ARTIFACT_RE = re.compile(r"\b(?P<var>[A-Z])star\b")
+_PLAIN_LATEX_LIMIT_INFINITY_ARTIFACT_RE = re.compile(
+    r"\blim_(?P<var>[A-Za-z])toinfinity(?P<expr>[A-Za-z])"
+)
+_PLAIN_LATEX_EMPH_ARTIFACT_RE = re.compile(
+    r"(?:\{\\em\s+(?P<braced>[^{}]+)\}|\\emph\{(?P<command>[^{}]+)\})"
+)
+_PLAIN_LATEX_MATHSCR_ARTIFACT_RE = re.compile(r"\bmathscr(?=[A-Z])")
+_PLAIN_LATEX_MATHBB_ARTIFACT_RE = re.compile(r"\bmathbb(?=[A-Z])")
+_PLAIN_LATEX_SUBSET_ARTIFACT_RE = re.compile(r"(?<=[A-Za-z])subset\b")
+_PLAIN_LATEX_WORD_OPERATOR_ARTIFACT_RE = re.compile(
+    r"\b(?:triangleq|lesssim|gtrsim)\b"
+)
+_PLAIN_LATEX_CAL_ARTIFACT_RE = re.compile(r"\bcal\s+(?P<symbol>[A-Z])\b")
+_PLAIN_LATEX_WIDETILDE_ARTIFACT_RE = re.compile(r"\bwidetilde(?P<symbol>[A-Z])\b")
+_PLAIN_LATEX_TEXTIT_ARTIFACT_RE = re.compile(
+    r"\btextit(?P<word>[A-Za-z][A-Za-z-]*)"
+)
 _MOJIBAKE_RE = re.compile(
     r"(?:[\u00c2-\u00df][\u0080-\u00bf]|"
     r"[\u00e0-\u00ef][\u0080-\u00bf]{2}|"
@@ -283,6 +318,8 @@ _PUBLISHER_MARK_ABSTRACT_PATTERNS: tuple[tuple[str, re.Pattern[str]], ...] = (
 _PUBLISHER_MARK_ABSTRACT_ISSUE_PREFIX = (
     "Contains publisher/copyright notice in the abstract:"
 )
+_ABSTRACT_DOLLAR_MATH_ISSUE_PREFIX = "Contains dollar math in the abstract"
+_ABSTRACT_LATEX_ARTIFACT_ISSUE_PREFIX = "Contains plain LaTeX math artifact(s) in the abstract"
 _TITLE_CHARACTER_ESCAPE_ISSUE_PREFIX = (
     "Contains escaped YAML character sequence(s) in title"
 )
@@ -806,6 +843,9 @@ _OCR_SPLIT_WORDS = {
     "vehicle",
     "vehicles",
 }
+_VALID_HYPHENATED_OCR_SPLITS = {
+    ("nonconvex", 3),  # non-convex is a standard alternate spelling.
+}
 _COMMON_SHORT_TAG_WORDS = {
     "agent",
     "agents",
@@ -896,6 +936,137 @@ _LONG_TAG_ALLOWLIST = {
     "trust region policy optimization",
     "worst-case conditional value at risk",
 }
+_LATEX_NAMED_SYMBOLS = {
+    "alpha": "alpha",
+    "beta": "beta",
+    "gamma": "gamma",
+    "delta": "delta",
+    "epsilon": "epsilon",
+    "varepsilon": "epsilon",
+    "zeta": "zeta",
+    "eta": "eta",
+    "theta": "theta",
+    "vartheta": "theta",
+    "iota": "iota",
+    "kappa": "kappa",
+    "lambda": "lambda",
+    "ell": "l",
+    "mu": "mu",
+    "nu": "nu",
+    "xi": "xi",
+    "pi": "pi",
+    "rho": "rho",
+    "sigma": "sigma",
+    "tau": "tau",
+    "upsilon": "upsilon",
+    "phi": "phi",
+    "varphi": "phi",
+    "chi": "chi",
+    "psi": "psi",
+    "omega": "omega",
+    "Gamma": "Gamma",
+    "Delta": "Delta",
+    "Theta": "Theta",
+    "Lambda": "Lambda",
+    "Xi": "Xi",
+    "Pi": "Pi",
+    "Sigma": "Sigma",
+    "Upsilon": "Upsilon",
+    "Phi": "Phi",
+    "Psi": "Psi",
+    "Omega": "Omega",
+    "leq": "<=",
+    "le": "<=",
+    "geq": ">=",
+    "ge": ">=",
+    "neq": "!=",
+    "ne": "!=",
+    "approx": "approx",
+    "sim": "~",
+    "in": "in",
+    "to": "to",
+    "cdot": "*",
+    "times": "x",
+    "pm": "+/-",
+    "mp": "-/+",
+    "infty": "infinity",
+    "exp": "exp",
+    "log": "log",
+    "ln": "ln",
+    "sin": "sin",
+    "cos": "cos",
+    "tan": "tan",
+    "min": "min",
+    "max": "max",
+    "argmin": "argmin",
+    "argmax": "argmax",
+    "notin": "not in",
+    "subset": "subset",
+    "subseteq": "subseteq",
+    "supset": "supset",
+    "supseteq": "supseteq",
+    "cup": "union",
+    "cap": "intersection",
+    "forall": "for all",
+    "exists": "exists",
+    "nabla": "nabla",
+    "partial": "partial",
+    "triangleq": "defined as",
+    "lesssim": "<~",
+    "gtrsim": ">~",
+}
+_LATEX_SPACED_WORD_SYMBOLS = {
+    "approx",
+    "exists",
+    "for all",
+    "in",
+    "intersection",
+    "not in",
+    "subset",
+    "subseteq",
+    "supset",
+    "supseteq",
+    "to",
+    "union",
+}
+_UNICODE_MATH_SYMBOLS = str.maketrans(
+    {
+        "\u03b1": "alpha",
+        "\u03b2": "beta",
+        "\u03b3": "gamma",
+        "\u03b4": "delta",
+        "\u03b5": "epsilon",
+        "\u03b6": "zeta",
+        "\u03b7": "eta",
+        "\u03b8": "theta",
+        "\u03b9": "iota",
+        "\u03ba": "kappa",
+        "\u03bb": "lambda",
+        "\u03bc": "mu",
+        "\u03bd": "nu",
+        "\u03be": "xi",
+        "\u03c0": "pi",
+        "\u03c1": "rho",
+        "\u03c3": "sigma",
+        "\u03c4": "tau",
+        "\u03c5": "upsilon",
+        "\u03c6": "phi",
+        "\u03c7": "chi",
+        "\u03c8": "psi",
+        "\u03c9": "omega",
+        "\u0393": "Gamma",
+        "\u0394": "Delta",
+        "\u0398": "Theta",
+        "\u039b": "Lambda",
+        "\u039e": "Xi",
+        "\u03a0": "Pi",
+        "\u03a3": "Sigma",
+        "\u03a5": "Upsilon",
+        "\u03a6": "Phi",
+        "\u03a8": "Psi",
+        "\u03a9": "Omega",
+    }
+)
 _TAGS_DB = KB_DIR / "normalization" / "tags.yml"
 _TAGS_DB_HEADER = """# Tag normalization database.
 # Canonical tags should use full spelling instead of acronyms. Add observed
@@ -1781,8 +1952,20 @@ def find_malformed_abstract_issues(
             Issue(
                 path,
                 "abstract",
-                f"Contains {dollar_count} dollar sign(s), likely from inline/display math",
+                f"{_ABSTRACT_DOLLAR_MATH_ISSUE_PREFIX}: {dollar_count} dollar sign(s), likely from inline/display math",
                 "Rewrite math notation as readable plain text, for example O(n/k) instead of LaTeX dollar math.",
+                severity=Severity.WARNING,
+            )
+        )
+
+    latex_artifact_count = _plain_latex_math_artifact_count(text)
+    if latex_artifact_count:
+        issues.append(
+            Issue(
+                path,
+                "abstract",
+                f"{_ABSTRACT_LATEX_ARTIFACT_ISSUE_PREFIX}: {latex_artifact_count} likely artifact(s)",
+                "Rewrite glued or command-name math artifacts as readable plain text, for example l_p or beta in [0, 1).",
                 severity=Severity.WARNING,
             )
         )
@@ -1874,9 +2057,14 @@ def _ocr_split_examples(text: str, *, limit: int = 8) -> list[str]:
         for split_at in range(3, len(word) - 2):
             left = re.escape(word[:split_at])
             right = re.escape(word[split_at:])
-            pattern = re.compile(rf"\b{left}(?:\s+|-\s*){right}\b", re.I)
+            pattern = re.compile(rf"\b{left}(?P<sep>\s+|-\s*){right}\b", re.I)
             match = pattern.search(text)
             if not match:
+                continue
+            if (
+                match.group("sep").startswith("-")
+                and (word, split_at) in _VALID_HYPHENATED_OCR_SPLITS
+            ):
                 continue
             example = f"{match.group(0)!r} -> {word!r}"
             if example in seen:
@@ -1888,13 +2076,22 @@ def _ocr_split_examples(text: str, *, limit: int = 8) -> list[str]:
     return examples
 
 
-_LINEBREAK_HYPHEN_RE = re.compile(r"\b[A-Za-z]{3,}-\s+[A-Za-z]{3,}\b")
+_LINEBREAK_HYPHEN_RE = re.compile(
+    r"\b(?P<head>[A-Za-z]{3,})-\s+(?P<tail>[A-Za-z]{3,})\b"
+)
+_SUSPENDED_HYPHEN_JOINERS = {"and", "nor", "or"}
+
+
+def _is_suspended_hyphen_compound(match: re.Match[str]) -> bool:
+    return match.group("tail").casefold() in _SUSPENDED_HYPHEN_JOINERS
 
 
 def find_ocr_spacing_issues(path: Path, field: str, text: str) -> list[Issue]:
     examples = _ocr_split_examples(text)
     linebreak_examples = []
     for match in _LINEBREAK_HYPHEN_RE.finditer(text):
+        if _is_suspended_hyphen_compound(match):
+            continue
         value = match.group(0)
         if value not in linebreak_examples:
             linebreak_examples.append(value)
@@ -3620,15 +3817,17 @@ def audit_file(
     # -- summary --
     if should_check(CHECK_SUMMARY):
         summary = data.get("summary")
+        audit_status = str(data.get(AUDIT_STATUS_FIELD) or "").strip()
         if not summary or not str(summary).strip():
-            issues.append(
-                Issue(
-                    path,
-                    "summary",
-                    _EMPTY_SUMMARY_ISSUE_PREFIX,
-                    severity=Severity.WARNING,
+            if audit_status != "raw":
+                issues.append(
+                    Issue(
+                        path,
+                        "summary",
+                        _EMPTY_SUMMARY_ISSUE_PREFIX,
+                        severity=Severity.WARNING,
+                    )
                 )
-            )
         else:
             issues.extend(find_low_signal_summary_issues(path, str(summary)))
             issues.extend(
@@ -4254,6 +4453,20 @@ def _is_publisher_mark_abstract_issue(issue: Issue) -> bool:
     )
 
 
+def _is_abstract_dollar_math_issue(issue: Issue) -> bool:
+    return (
+        issue.field == "abstract"
+        and issue.message.startswith(_ABSTRACT_DOLLAR_MATH_ISSUE_PREFIX)
+    )
+
+
+def _is_abstract_latex_artifact_issue(issue: Issue) -> bool:
+    return (
+        issue.field == "abstract"
+        and issue.message.startswith(_ABSTRACT_LATEX_ARTIFACT_ISSUE_PREFIX)
+    )
+
+
 def _is_text_mojibake_issue(issue: Issue) -> bool:
     return issue.message.startswith(_TEXT_MOJIBAKE_ISSUE_PREFIX)
 
@@ -4302,6 +4515,193 @@ def _delete_publisher_marks_from_abstract(abstract: str) -> tuple[str, int]:
         cleaned = _normalize_inline_text(cleaned)
         cleaned = re.sub(r"\s+([,.;:])", r"\1", cleaned)
     return cleaned, removed
+
+
+def _spaced_compact_exponent(exponent: str) -> str:
+    exponent = exponent.strip()
+    if re.fullmatch(r"[A-Za-z]{2}", exponent):
+        return f"{exponent[0]} {exponent[1]}"
+    return exponent
+
+
+def _replace_latex_symbol_command(match: re.Match[str]) -> str:
+    name = match.group("name")
+    replacement = _LATEX_NAMED_SYMBOLS.get(name, name)
+    if replacement in _LATEX_SPACED_WORD_SYMBOLS:
+        return f" {replacement} "
+    return replacement
+
+
+def _plain_text_latex_math(math: str) -> str:
+    text = math.strip().translate(_UNICODE_MATH_SYMBOLS)
+    text = text.replace(r"\left", "")
+    text = text.replace(r"\right", "")
+    text = re.sub(r"\\[,;:! ]", " ", text)
+    text = text.replace(r"\%", "%")
+    text = text.replace(r"\times", "x")
+    text = text.replace(r"\cdot", "*")
+    text = re.sub(r"\\sqrt\{([^{}]+)\}", r"sqrt(\1)", text)
+
+    while True:
+        text, frac_count = _LATEX_FRAC_RE.subn(r"\1/\2", text)
+        if not frac_count:
+            break
+
+    text = _TEXT_LATEX_COMMAND_RE.sub(r"\1", text)
+    text = re.sub(
+        r"\\(?P<name>[A-Za-z]+)(?![A-Za-z])",
+        _replace_latex_symbol_command,
+        text,
+    )
+    text = re.sub(
+        r"\bO\(\s*([A-Za-z][A-Za-z0-9]*)\s*\^\s*\{\s*-1\s*/\s*2\s*\}\s*\)",
+        r"O(1/sqrt(\1))",
+        text,
+    )
+
+    def replace_exp_bound(match: re.Match[str]) -> str:
+        exponent = _spaced_compact_exponent(match.group("exponent"))
+        return f"O(exp(-{exponent}))"
+
+    text = re.sub(
+        r"\bO\(\s*e\s*\^\s*\{\s*-\s*(?P<exponent>[A-Za-z]{1,8})\s*\}\s*\)",
+        replace_exp_bound,
+        text,
+    )
+
+    def replace_exp(match: re.Match[str]) -> str:
+        exponent = _spaced_compact_exponent(match.group("exponent"))
+        return f"exp(-{exponent})"
+
+    text = re.sub(
+        r"\be\s*\^\s*\{\s*-\s*(?P<exponent>[A-Za-z]{1,8})\s*\}",
+        replace_exp,
+        text,
+    )
+    text = re.sub(r"\s*\^\s*\\?\*", "-star", text)
+    text = re.sub(r"\{([^{}]+)\}", r"\1", text)
+    text = re.sub(r"\b([A-Za-z])\^([A-Za-z]+)_([A-Za-z]+)\b", r"\1-\2-\3", text)
+    text = re.sub(r"\^\s*(-?\d+(?:/\d+)?)", r"^(\1)", text)
+    text = re.sub(r"\^\s*([A-Za-z][A-Za-z0-9]*)", r"^(\1)", text)
+    text = re.sub(r"_\s*([A-Za-z0-9]+)", r"_\1", text)
+    text = re.sub(r"\blim_([A-Za-z0-9]+)\s+to\s+", r"lim \1 to ", text)
+    text = re.sub(r",\s*", ", ", text)
+    text = re.sub(r"\s*([<>]=?|=|!=)\s*", r" \1 ", text)
+    text = text.replace("< ~", "<~").replace("> ~", ">~")
+    text = text.replace("\\", "")
+    text = re.sub(r"\s+", " ", text).strip()
+    return text
+
+
+def _tidy_plain_math_surrounding_text(text: str) -> str:
+    text = re.sub(r"(?<=\d)(?=(?:mm|cm|km|kg|ms|Hz|kHz|MHz|GHz|m|s)\b)", " ", text)
+    text = re.sub(r",\s*(?=\S)", ", ", text)
+    text = re.sub(r"\b(in|to)\s*(?=[\[(])", r"\1 ", text)
+    text = re.sub(r"\bnot\s+in\s*(?=[\[(])", "not in ", text)
+    text = re.sub(r"\s+([,.;:])", r"\1", text)
+    return _normalize_inline_text(text)
+
+
+def _replace_dollar_math_in_text(text: str) -> tuple[str, int]:
+    changed = 0
+
+    def replace_math(match: re.Match[str]) -> str:
+        nonlocal changed
+        changed += 1
+        return _plain_text_latex_math(match.group("math"))
+
+    fixed = _DISPLAY_MATH_SPAN_RE.sub(replace_math, text)
+    fixed = _INLINE_MATH_SPAN_RE.sub(replace_math, fixed)
+    if changed:
+        fixed = _tidy_plain_math_surrounding_text(fixed)
+    return fixed, changed
+
+
+def _plain_latex_math_artifact_count(text: str) -> int:
+    return (
+        len(_PLAIN_LATEX_ELL_ARTIFACT_RE.findall(text))
+        + len(_PLAIN_LATEX_GREEK_IN_ARTIFACT_RE.findall(text))
+        + len(_PLAIN_LATEX_VARIABLE_IN_ARTIFACT_RE.findall(text))
+        + len(_PLAIN_LATEX_STAR_ARTIFACT_RE.findall(text))
+        + len(_PLAIN_LATEX_LIMIT_INFINITY_ARTIFACT_RE.findall(text))
+        + len(_PLAIN_LATEX_EMPH_ARTIFACT_RE.findall(text))
+        + len(_PLAIN_LATEX_MATHSCR_ARTIFACT_RE.findall(text))
+        + len(_PLAIN_LATEX_MATHBB_ARTIFACT_RE.findall(text))
+        + len(_PLAIN_LATEX_SUBSET_ARTIFACT_RE.findall(text))
+        + len(_PLAIN_LATEX_WORD_OPERATOR_ARTIFACT_RE.findall(text))
+        + len(_PLAIN_LATEX_CAL_ARTIFACT_RE.findall(text))
+        + len(_PLAIN_LATEX_WIDETILDE_ARTIFACT_RE.findall(text))
+        + len(_PLAIN_LATEX_TEXTIT_ARTIFACT_RE.findall(text))
+    )
+
+
+def _replace_plain_latex_math_artifacts_in_text(text: str) -> tuple[str, int]:
+    fixed = text
+    changed = 0
+
+    fixed, count = re.subn(r"\bell_([A-Za-z0-9]+)\b", r"l_\1", fixed)
+    changed += count
+
+    fixed, count = _PLAIN_LATEX_GREEK_IN_ARTIFACT_RE.subn(
+        r"\g<var> in",
+        fixed,
+    )
+    changed += count
+
+    fixed, count = _PLAIN_LATEX_VARIABLE_IN_ARTIFACT_RE.subn(
+        r"\g<var> in",
+        fixed,
+    )
+    changed += count
+
+    fixed, count = _PLAIN_LATEX_STAR_ARTIFACT_RE.subn(r"\g<var>-star", fixed)
+    changed += count
+
+    fixed, count = _PLAIN_LATEX_LIMIT_INFINITY_ARTIFACT_RE.subn(
+        r"lim \g<var> to infinity \g<expr>",
+        fixed,
+    )
+    changed += count
+
+    def replace_emph_artifact(match: re.Match[str]) -> str:
+        return match.group("braced") or match.group("command") or ""
+
+    fixed, count = _PLAIN_LATEX_EMPH_ARTIFACT_RE.subn(
+        replace_emph_artifact,
+        fixed,
+    )
+    changed += count
+
+    fixed, count = _PLAIN_LATEX_MATHSCR_ARTIFACT_RE.subn("", fixed)
+    changed += count
+
+    fixed, count = _PLAIN_LATEX_MATHBB_ARTIFACT_RE.subn("", fixed)
+    changed += count
+
+    fixed, count = _PLAIN_LATEX_SUBSET_ARTIFACT_RE.subn(" subset", fixed)
+    changed += count
+
+    fixed, count = re.subn(r"\btriangleq\b", "defined as", fixed)
+    changed += count
+
+    fixed, count = re.subn(r"\blesssim\b", "<~", fixed)
+    changed += count
+
+    fixed, count = re.subn(r"\bgtrsim\b", ">~", fixed)
+    changed += count
+
+    fixed, count = _PLAIN_LATEX_CAL_ARTIFACT_RE.subn(r"\g<symbol>", fixed)
+    changed += count
+
+    fixed, count = _PLAIN_LATEX_WIDETILDE_ARTIFACT_RE.subn(r"\g<symbol>~", fixed)
+    changed += count
+
+    fixed, count = _PLAIN_LATEX_TEXTIT_ARTIFACT_RE.subn(r"\g<word>", fixed)
+    changed += count
+
+    if changed:
+        fixed = _tidy_plain_math_surrounding_text(fixed)
+    return fixed, changed
 
 
 def _fix_escaped_sequences_in_yaml(raw: str) -> tuple[str, int]:
@@ -5404,6 +5804,12 @@ def apply_fixes(
         abstract_publisher_fixes = [
             i for i in issues if _is_publisher_mark_abstract_issue(i)
         ]
+        abstract_dollar_math_fixes = [
+            i for i in issues if _is_abstract_dollar_math_issue(i)
+        ]
+        abstract_latex_artifact_fixes = [
+            i for i in issues if _is_abstract_latex_artifact_issue(i)
+        ]
         author_name_fixes = [i for i in issues if _is_fixable_author_name_issue(i)]
         non_individual_author_fixes = [
             i for i in issues if _is_fixable_non_individual_author_issue(i)
@@ -5438,6 +5844,8 @@ def apply_fixes(
             and not source_year_fixes
             and not tag_fixes
             and not abstract_publisher_fixes
+            and not abstract_dollar_math_fixes
+            and not abstract_latex_artifact_fixes
             and not author_name_fixes
             and not non_individual_author_fixes
             and not type_fixes
@@ -5490,6 +5898,36 @@ def apply_fixes(
                     messages.append(
                         "  removed "
                         f"{n_removed_marks} publisher/copyright notice(s) from abstract"
+                    )
+
+            if abstract_dollar_math_fixes:
+                parsed = yaml.safe_load(new_raw) or {}
+                old_abstract = str(parsed.get("abstract") or "")
+                new_abstract, n_math_spans = _replace_dollar_math_in_text(old_abstract)
+                if n_math_spans and new_abstract != old_abstract:
+                    new_raw = _fix_metadata_scalar_field_in_yaml(
+                        new_raw,
+                        "abstract",
+                        new_abstract,
+                    )
+                    messages.append(
+                        f"  converted {n_math_spans} dollar math span(s) in abstract"
+                    )
+
+            if abstract_latex_artifact_fixes:
+                parsed = yaml.safe_load(new_raw) or {}
+                old_abstract = str(parsed.get("abstract") or "")
+                new_abstract, n_artifacts = _replace_plain_latex_math_artifacts_in_text(
+                    old_abstract
+                )
+                if n_artifacts and new_abstract != old_abstract:
+                    new_raw = _fix_metadata_scalar_field_in_yaml(
+                        new_raw,
+                        "abstract",
+                        new_abstract,
+                    )
+                    messages.append(
+                        f"  repaired {n_artifacts} plain LaTeX math artifact(s) in abstract"
                     )
 
             if author_name_fixes:
@@ -5767,7 +6205,7 @@ Checks performed on each metadata.yml:
   type      - ERROR if not a recognised paper type
   status    - ERROR if audit_status is not one of: raw, partial, reviewed
   path      - ERROR if YEAR/SLUG do not match metadata or expected slug format; ERROR if map-data.js or embedding_cache.json IDs are stale, missing, malformed, or inconsistent
-  summary   - ERROR if it has substantial verbatim overlap with the abstract or known low-signal generated boilerplate; WARN if missing, empty, or likely misspelled
+  summary   - ERROR if it has substantial verbatim overlap with the abstract or known low-signal generated boilerplate; WARN if missing or empty unless audit_status is raw, or if likely misspelled
   optional  - INFO for each optional field that is not populated
   dash      - ERROR if any string field contains ASCII multi-dash punctuation like -- or ---
   whitespace - ERROR if any string field contains 3 or more consecutive spaces
@@ -5796,7 +6234,7 @@ Available --check names:
         help=(
             "Auto-fix title-case, tag database aliases/casing/leading articles/duplicate tags, "
             "high-confidence missing tag canonical entries, "
-            "abstract publisher/copyright notices, high-confidence OCR artifacts, "
+            "abstract publisher/copyright notices, abstract dollar math/plain math artifacts, high-confidence OCR artifacts, "
             "escaped HTML/entity/markup issues, author-name mojibake/diacritics, "
             "text-field mojibake, obvious collective/split author entries, "
             "blank arXiv-backed type fields, copied or low-signal summaries, "
