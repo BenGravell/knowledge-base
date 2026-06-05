@@ -572,7 +572,7 @@
 </section>
 
 <h2 id="abstract">Abstract<a class="headerlink" href="#abstract" title="Permanent link">&para;</a></h2>
-<p>In this paper we analyze several new methods for solving optimization problems with the objective function formed as a sum of two terms: one is smooth and given by a black-box oracle, and another is a simple general convex function with known structure. Despite the absence of good properties of the sum, such problems, both in convex and nonconvex cases, can be solved with efficiency typical for the first part of the objective. For convex problems of the above structure, we consider primal and dual variants of the gradient method (with convergence rate $$O\\left({1 \\over k}\\right)$$ ), and an accelerated multistep version with convergence rate $$O\\left({1 \\over k^2}\\right)$$ , where $$k$$ is the iteration counter. For nonconvex problems with this structure, we prove convergence to a point from which there is no descent direction. In contrast, we show that for general nonsmooth, nonconvex problems, even resolving the question of whether a descent direction exists from a point is NP-hard. For all methods, we suggest some efficient “line search” procedures and show that the additional computational work necessary for estimating the unknown problem class parameters can only multiply the complexity of each iteration by a small constant factor. We present also the results of preliminary computational experiments, which confirm the superiority of the accelerated scheme.</p>
+<p>In this paper we analyze several new methods for solving optimization problems with the objective function formed as a sum of two terms: one is smooth and given by a black-box oracle, and another is a simple general convex function with known structure. Despite the absence of good properties of the sum, such problems, both in convex and nonconvex cases, can be solved with efficiency typical for the first part of the objective. For convex problems of the above structure, we consider primal and dual variants of the gradient method (with convergence rate O(1 over k) ), and an accelerated multistep version with convergence rate O(1 over k^(2)), where k is the iteration counter. For nonconvex problems with this structure, we prove convergence to a point from which there is no descent direction. In contrast, we show that for general nonsmooth, nonconvex problems, even resolving the question of whether a descent direction exists from a point is NP-hard. For all methods, we suggest some efficient “line search” procedures and show that the additional computational work necessary for estimating the unknown problem class parameters can only multiply the complexity of each iteration by a small constant factor. We present also the results of preliminary computational experiments, which confirm the superiority of the accelerated scheme.</p>
 
 <h2 id="summary">Summary<a class="headerlink" href="#summary" title="Permanent link">&para;</a></h2>
 <p>Develops gradient methods for convex composite objectives whose smooth part is accessed through a first-order oracle and whose nonsmooth or simple part is handled through structured prox-like subproblems. The paper is a key reference for accelerated proximal-gradient thinking, giving complexity bounds and method variants for the smooth-plus-simple template that underlies much of modern first-order convex optimization.</p>
@@ -650,35 +650,6 @@
       </div>
     </div>
     <div class="paper-similar-card__body">
-      <h3><a href="../../papers/1507_01030/">Incremental Gradient, Subgradient, and Proximal Methods for Convex Optimization: A Survey</a></h3>
-
-
-      <div class="paper-similar-card__meta">
-        <span>Dimitri P. Bertsekas / 2015</span>
-      </div>
-
-      <div class="paper-similar-card__actions">
-        <div class="paper-similar-card__action-row">
-          <div class="paper-link-pills paper-similar-card__action-links">
-            <a class="paper-link-pill paper-link-pill--internal" href="../../papers/1507_01030/"><span class="paper-link-pill__label">Detail</span></a>
-            <a class="paper-link-pill paper-link-pill--internal" href="../../map/#paper=1507_01030"><span class="paper-link-pill__label">Map</span></a>
-            <a class="paper-link-pill paper-link-pill--internal" href="../../tree/#paper=1507_01030"><span class="paper-link-pill__label">Tree</span></a>
-            <a class="paper-link-pill paper-link-pill--internal" href="../../timeline/#paper=1507_01030"><span class="paper-link-pill__label">Timeline</span></a>
-            <a class="paper-link-pill paper-link-pill--internal" href="../../search/?paper=1507_01030"><span class="paper-link-pill__label">Search</span></a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </article>
-
-  <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 156.6deg;" aria-label="87% similar">
-      <div class="paper-similar-card__rank-top">2</div>
-      <div class="paper-similar-card__rank-bottom">
-        <span>87%</span>
-      </div>
-    </div>
-    <div class="paper-similar-card__body">
       <h3><a href="../../papers/2014_nesterov_universal_gradient_methods_for/">Universal Gradient Methods for Convex Optimization Problems</a></h3>
 
 
@@ -694,6 +665,35 @@
             <a class="paper-link-pill paper-link-pill--internal" href="../../tree/#paper=2014_nesterov_universal_gradient_methods_for"><span class="paper-link-pill__label">Tree</span></a>
             <a class="paper-link-pill paper-link-pill--internal" href="../../timeline/#paper=2014_nesterov_universal_gradient_methods_for"><span class="paper-link-pill__label">Timeline</span></a>
             <a class="paper-link-pill paper-link-pill--internal" href="../../search/?paper=2014_nesterov_universal_gradient_methods_for"><span class="paper-link-pill__label">Search</span></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <article class="paper-similar-card">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 156.6deg;" aria-label="87% similar">
+      <div class="paper-similar-card__rank-top">2</div>
+      <div class="paper-similar-card__rank-bottom">
+        <span>87%</span>
+      </div>
+    </div>
+    <div class="paper-similar-card__body">
+      <h3><a href="../../papers/1507_01030/">Incremental Gradient, Subgradient, and Proximal Methods for Convex Optimization: A Survey</a></h3>
+
+
+      <div class="paper-similar-card__meta">
+        <span>Dimitri P. Bertsekas / 2015</span>
+      </div>
+
+      <div class="paper-similar-card__actions">
+        <div class="paper-similar-card__action-row">
+          <div class="paper-link-pills paper-similar-card__action-links">
+            <a class="paper-link-pill paper-link-pill--internal" href="../../papers/1507_01030/"><span class="paper-link-pill__label">Detail</span></a>
+            <a class="paper-link-pill paper-link-pill--internal" href="../../map/#paper=1507_01030"><span class="paper-link-pill__label">Map</span></a>
+            <a class="paper-link-pill paper-link-pill--internal" href="../../tree/#paper=1507_01030"><span class="paper-link-pill__label">Tree</span></a>
+            <a class="paper-link-pill paper-link-pill--internal" href="../../timeline/#paper=1507_01030"><span class="paper-link-pill__label">Timeline</span></a>
+            <a class="paper-link-pill paper-link-pill--internal" href="../../search/?paper=1507_01030"><span class="paper-link-pill__label">Search</span></a>
           </div>
         </div>
       </div>
@@ -730,10 +730,39 @@
   </article>
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 154.8deg;" aria-label="86% similar">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 153.0deg;" aria-label="85% similar">
       <div class="paper-similar-card__rank-top">4</div>
       <div class="paper-similar-card__rank-bottom">
-        <span>86%</span>
+        <span>85%</span>
+      </div>
+    </div>
+    <div class="paper-similar-card__body">
+      <h3><a href="../../papers/2014_parikh_proximal_algorithms/">Proximal Algorithms</a></h3>
+
+
+      <div class="paper-similar-card__meta">
+        <span>Neal Parikh et al. / 2014</span>
+      </div>
+
+      <div class="paper-similar-card__actions">
+        <div class="paper-similar-card__action-row">
+          <div class="paper-link-pills paper-similar-card__action-links">
+            <a class="paper-link-pill paper-link-pill--internal" href="../../papers/2014_parikh_proximal_algorithms/"><span class="paper-link-pill__label">Detail</span></a>
+            <a class="paper-link-pill paper-link-pill--internal" href="../../map/#paper=2014_parikh_proximal_algorithms"><span class="paper-link-pill__label">Map</span></a>
+            <a class="paper-link-pill paper-link-pill--internal" href="../../tree/#paper=2014_parikh_proximal_algorithms"><span class="paper-link-pill__label">Tree</span></a>
+            <a class="paper-link-pill paper-link-pill--internal" href="../../timeline/#paper=2014_parikh_proximal_algorithms"><span class="paper-link-pill__label">Timeline</span></a>
+            <a class="paper-link-pill paper-link-pill--internal" href="../../search/?paper=2014_parikh_proximal_algorithms"><span class="paper-link-pill__label">Search</span></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <article class="paper-similar-card">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 153.0deg;" aria-label="85% similar">
+      <div class="paper-similar-card__rank-top">5</div>
+      <div class="paper-similar-card__rank-bottom">
+        <span>85%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
@@ -754,37 +783,6 @@
             <a class="paper-link-pill paper-link-pill--internal" href="../../tree/#paper=2410_04083"><span class="paper-link-pill__label">Tree</span></a>
             <a class="paper-link-pill paper-link-pill--internal" href="../../timeline/#paper=2410_04083"><span class="paper-link-pill__label">Timeline</span></a>
             <a class="paper-link-pill paper-link-pill--internal" href="../../search/?paper=2410_04083"><span class="paper-link-pill__label">Search</span></a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </article>
-
-  <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 153.0deg;" aria-label="85% similar">
-      <div class="paper-similar-card__rank-top">5</div>
-      <div class="paper-similar-card__rank-bottom">
-        <span>85%</span>
-      </div>
-    </div>
-    <div class="paper-similar-card__body">
-      <h3><a href="../../papers/2001_nedic_incremental_subgradient_methods_for/">Incremental Subgradient Methods for Nondifferentiable Optimization</a></h3>
-
-      <p class="paper-similar-card__label">Incremental Subgradient Method</p>
-
-
-      <div class="paper-similar-card__meta">
-        <span>Angelia Nedic et al. / 2001</span>
-      </div>
-
-      <div class="paper-similar-card__actions">
-        <div class="paper-similar-card__action-row">
-          <div class="paper-link-pills paper-similar-card__action-links">
-            <a class="paper-link-pill paper-link-pill--internal" href="../../papers/2001_nedic_incremental_subgradient_methods_for/"><span class="paper-link-pill__label">Detail</span></a>
-            <a class="paper-link-pill paper-link-pill--internal" href="../../map/#paper=2001_nedic_incremental_subgradient_methods_for"><span class="paper-link-pill__label">Map</span></a>
-            <a class="paper-link-pill paper-link-pill--internal" href="../../tree/#paper=2001_nedic_incremental_subgradient_methods_for"><span class="paper-link-pill__label">Tree</span></a>
-            <a class="paper-link-pill paper-link-pill--internal" href="../../timeline/#paper=2001_nedic_incremental_subgradient_methods_for"><span class="paper-link-pill__label">Timeline</span></a>
-            <a class="paper-link-pill paper-link-pill--internal" href="../../search/?paper=2001_nedic_incremental_subgradient_methods_for"><span class="paper-link-pill__label">Search</span></a>
           </div>
         </div>
       </div>

@@ -578,7 +578,7 @@
 </section>
 
 <h2 id="abstract">Abstract<a class="headerlink" href="#abstract" title="Permanent link">&para;</a></h2>
-<p>This paper presents a novel approach, named the Group Marching Tree (GMT*) algorithm, to planning on GPUs at rates amenable to application within control loops, allowing planning in real-world settings via repeated computation of near-optimal plans. GMT*, like the Fast Marching Tree (FMT) algorithm, explores the state space with a "lazy" dynamic programming recursion on a set of samples to grow a tree of near-optimal paths. GMT*, however, alters the approach of FMT with approximate dynamic programming by expanding, in parallel, the group of all active samples with cost below an increasing threshold, rather than only the minimum cost sample. This group approximation enables low-level parallelism over the sample set and removes the need for sequential data structures, while the "lazy" collision checking limits thread divergence---all contributing to a very efficient GPU implementation. While this approach incurs some suboptimality, we prove that GMT* remains asymptotically optimal up to a constant multiplicative factor. We show solutions for complex planning problems under differential constraints can be found in ~10 ms on a desktop GPU and ~30 ms on an embedded GPU, representing a significant speed up over the state of the art, with only small losses in performance. Finally, we present a scenario demonstrating the efficacy of planning within the control loop (~100 Hz) towards operating in dynamic, uncertain settings.</p>
+<p>This paper presents a novel approach, named the Group Marching Tree (GMT*) algorithm, to planning on GPUs at rates amenable to application within control loops, allowing planning in real-world settings via repeated computation of near-optimal plans. GMT*, like the Fast Marching Tree (FMT) algorithm, explores the state space with a "lazy" dynamic programming recursion on a set of samples to grow a tree of near-optimal paths. GMT*, however, alters the approach of FMT with approximate dynamic programming by expanding, in parallel, the group of all active samples with cost below an increasing threshold, rather than only the minimum cost sample. This group approximation enables low-level parallelism over the sample set and removes the need for sequential data structures, while the "lazy" collision checking limits thread divergence - all contributing to a very efficient GPU implementation. While this approach incurs some suboptimality, we prove that GMT* remains asymptotically optimal up to a constant multiplicative factor. We show solutions for complex planning problems under differential constraints can be found in ~10 ms on a desktop GPU and ~30 ms on an embedded GPU, representing a significant speed up over the state of the art, with only small losses in performance. Finally, we present a scenario demonstrating the efficacy of planning within the control loop (~100 Hz) towards operating in dynamic, uncertain settings.</p>
 
 <h2 id="summary">Summary<a class="headerlink" href="#summary" title="Permanent link">&para;</a></h2>
 <p>GMT* adapts FMT*'s lazy dynamic-programming tree expansion for massively parallel execution on GPUs by replacing the sequential expansion of the single minimum-cost sample with simultaneous expansion of the entire group of active samples whose cost falls below an increasing threshold. This group approximation introduces a bounded suboptimality constant but eliminates sequential data structures and reduces thread divergence. Achieves ~10 ms planning on desktop GPUs and ~30 ms on embedded GPUs.</p>
@@ -801,10 +801,10 @@
   </article>
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 151.2deg;" aria-label="84% similar">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 149.4deg;" aria-label="83% similar">
       <div class="paper-similar-card__rank-top">5</div>
       <div class="paper-similar-card__rank-bottom">
-        <span>84%</span>
+        <span>83%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">

@@ -576,7 +576,7 @@
 </section>
 
 <h2 id="abstract">Abstract<a class="headerlink" href="#abstract" title="Permanent link">&para;</a></h2>
-<p>We study the global convergence of policy gradient for infinite-horizon entropy-regularized Markov decision processes (MDPs) with continuous state and action spaces. We consider log-linear softmax policies with linear function approximation, which extend the tabular softmax parameterization while retaining a tractable policy class. Under $Q^π_τ$-realizability for the regularized state-action value function, we first establish a non-uniform Polyak--Łojasiewicz (PŁ) inequality. The non-uniformity arises through degeneracy of constants associated with the policy geometry, namely the Fisher information matrix or an uncentered feature covariance matrix. We then identify two feature regimes under which this non-uniform constant can be bounded along the gradient flow. For full-affine-span features, we prove radial unboundedness of the KL regularizer and show that the smallest eigenvalue of the Fisher information matrix remains bounded below by an initialization-dependent positive constant. For simplex-valued features, we prove an analogous radial unboundedness result in the subspace orthogonal to the all-ones vector and obtain a uniform lower bound for the smallest eigenvalue of the uncentered covariance matrix. These results imply global linear convergence of the regularized objective along the gradient flow, i.e. suboptimality decaying as $\mathcal{O}(e^{-Ct})$ for some $C&gt;0$. Our analysis extends the global convergence theory of entropy-regularized softmax policy gradient beyond the tabular setting of Agarwal et al. (2020); Bhandari and Russo (2024); Mei et al. (2020).</p>
+<p>We study the global convergence of policy gradient for infinite-horizon entropy-regularized Markov decision processes (MDPs) with continuous state and action spaces. We consider log-linear softmax policies with linear function approximation, which extend the tabular softmax parameterization while retaining a tractable policy class. Under Q-pi-tau realizability for the regularized state-action value function, we first establish a non-uniform Polyak-Łojasiewicz (PŁ) inequality. The non-uniformity arises through degeneracy of constants associated with the policy geometry, namely the Fisher information matrix or an uncentered feature covariance matrix. We then identify two feature regimes under which this non-uniform constant can be bounded along the gradient flow. For full-affine-span features, we prove radial unboundedness of the KL regularizer and show that the smallest eigenvalue of the Fisher information matrix remains bounded below by an initialization-dependent positive constant. For simplex-valued features, we prove an analogous radial unboundedness result in the subspace orthogonal to the all-ones vector and obtain a uniform lower bound for the smallest eigenvalue of the uncentered covariance matrix. These results imply global linear convergence of the regularized objective along the gradient flow, i.e. suboptimality decaying as O(exp(-C t)) for some positive constant C. Our analysis extends the global convergence theory of entropy-regularized softmax policy gradient beyond the tabular setting of Agarwal et al. (2020); Bhandari and Russo (2024); Mei et al. (2020).</p>
 
 <h2 id="summary">Summary<a class="headerlink" href="#summary" title="Permanent link">&para;</a></h2>
 <p>Proves global linear convergence results for entropy-regularized softmax policy gradient beyond tabular MDPs using log-linear policies and realizability assumptions. The paper extends finite-state policy-gradient theory toward continuous state-action settings while tracking the geometry of the policy class.</p>
@@ -711,16 +711,14 @@
   </article>
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 160.2deg;" aria-label="89% similar">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 158.4deg;" aria-label="88% similar">
       <div class="paper-similar-card__rank-top">3</div>
       <div class="paper-similar-card__rank-bottom">
-        <span>89%</span>
+        <span>88%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
       <h3><a href="../../papers/1908_00261/">On the Theory of Policy Gradient Methods: Optimality, Approximation, and Distribution Shift</a></h3>
-
-      <p class="paper-similar-card__label">Policy Gradient</p>
 
 
       <div class="paper-similar-card__meta">

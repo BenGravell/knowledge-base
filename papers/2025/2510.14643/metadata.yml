@@ -1,6 +1,6 @@
 title: >
   Generative Models from and for Sampling-Based MPC: A Bootstrapped Approach for Adaptive Contact-Rich Manipulation
-algorithm: MPC
+algorithm: GPC-CEM
 authors:
   - Lara Brudermuller
   - Brandon Hung

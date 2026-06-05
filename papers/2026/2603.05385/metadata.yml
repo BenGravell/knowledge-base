@@ -1,6 +1,6 @@
 title: >
   Accelerating Sampling-Based Control via Learned Linear Koopman Dynamics
-algorithm: MPPI
+algorithm: MPPI-DK
 authors:
   - Wenjian Hao
   - Yuxuan Fang

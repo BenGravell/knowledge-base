@@ -1,6 +1,6 @@
 title: >
   Model Predictive Path Integral Control for Interaction-Rich Local Motion Planning in Dynamic Environments
-algorithm: "MPPI"
+algorithm:
 authors:
   - Elia Trevisan
 year: 2025

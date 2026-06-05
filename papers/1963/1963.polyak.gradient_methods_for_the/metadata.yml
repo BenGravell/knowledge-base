@@ -1,6 +1,6 @@
 title: >
   Gradient Methods for the Minimisation of Functionals
-algorithm: "Gradient Descent"
+algorithm: Polyak-Lojasiewicz Inequality
 authors:
   - B.T. Polyak
 year: 1963

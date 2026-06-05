@@ -1,6 +1,6 @@
 title: >
   A Sequential Operator-Splitting Framework for Exploration of Nonconvex Trajectory Optimization Solution Spaces
-algorithm: Trajectory Optimization
+algorithm: OS-SCP
 authors:
   - Justin Ganiban
   - Natalia Pavlasek

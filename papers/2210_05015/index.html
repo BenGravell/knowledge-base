@@ -566,7 +566,7 @@
 </section>
 
 <h2 id="abstract">Abstract<a class="headerlink" href="#abstract" title="Permanent link">&para;</a></h2>
-<p>Partially observable Markov decision processes (POMDPs) provide a flexible representation for real-world decision and control problems. However, POMDPs are notoriously difficult to solve, especially when the state and observation spaces are continuous or hybrid, which is often the case for physical systems. While recent online sampling-based POMDP algorithms that plan with observation likelihood weighting have shown practical effectiveness, a general theory characterizing the approximation error of the particle filtering techniques that these algorithms use has not previously been proposed. Our main contribution is bounding the error between any POMDP and its corresponding finite sample particle belief MDP (PB-MDP) approximation. This fundamental bridge between PB-MDPs and POMDPs allows us to adapt any sampling-based MDP algorithm to a POMDP by solving the corresponding particle belief MDP, thereby extending the convergence guarantees of the MDP algorithm to the POMDP. Practically, this is implemented by using the particle filter belief transition model as the generative model for the MDP solver. While this requires access to the observation density model from the POMDP, it only increases the transition sampling complexity of the MDP solver by a factor of $\mathcal{O}(C)$, where $C$ is the number of particles. Thus, when combined with sparse sampling MDP algorithms, this approach can yield algorithms for POMDPs that have no direct theoretical dependence on the size of the state and observation spaces. In addition to our theoretical contribution, we perform five numerical experiments on benchmark POMDPs to demonstrate that a simple MDP algorithm adapted using PB-MDP approximation, Sparse-PFT, achieves performance competitive with other leading continuous observation POMDP solvers.</p>
+<p>Partially observable Markov decision processes (POMDPs) provide a flexible representation for real-world decision and control problems. However, POMDPs are notoriously difficult to solve, especially when the state and observation spaces are continuous or hybrid, which is often the case for physical systems. While recent online sampling-based POMDP algorithms that plan with observation likelihood weighting have shown practical effectiveness, a general theory characterizing the approximation error of the particle filtering techniques that these algorithms use has not previously been proposed. Our main contribution is bounding the error between any POMDP and its corresponding finite sample particle belief MDP (PB-MDP) approximation. This fundamental bridge between PB-MDPs and POMDPs allows us to adapt any sampling-based MDP algorithm to a POMDP by solving the corresponding particle belief MDP, thereby extending the convergence guarantees of the MDP algorithm to the POMDP. Practically, this is implemented by using the particle filter belief transition model as the generative model for the MDP solver. While this requires access to the observation density model from the POMDP, it only increases the transition sampling complexity of the MDP solver by a factor of O(C), where C is the number of particles. Thus, when combined with sparse sampling MDP algorithms, this approach can yield algorithms for POMDPs that have no direct theoretical dependence on the size of the state and observation spaces. In addition to our theoretical contribution, we perform five numerical experiments on benchmark POMDPs to demonstrate that a simple MDP algorithm adapted using PB-MDP approximation, Sparse-PFT, achieves performance competitive with other leading continuous observation POMDP solvers.</p>
 
 <h2 id="links">Links<a class="headerlink" href="#links" title="Permanent link">&para;</a></h2>
 <div class="paper-link-stack">
@@ -687,39 +687,8 @@
   </article>
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 154.8deg;" aria-label="86% similar">
-      <div class="paper-similar-card__rank-top">2</div>
-      <div class="paper-similar-card__rank-bottom">
-        <span>86%</span>
-      </div>
-    </div>
-    <div class="paper-similar-card__body">
-      <h3><a href="../../papers/1908_00261/">On the Theory of Policy Gradient Methods: Optimality, Approximation, and Distribution Shift</a></h3>
-
-      <p class="paper-similar-card__label">Policy Gradient</p>
-
-
-      <div class="paper-similar-card__meta">
-        <span>Alekh Agarwal et al. / 2019</span>
-      </div>
-
-      <div class="paper-similar-card__actions">
-        <div class="paper-similar-card__action-row">
-          <div class="paper-link-pills paper-similar-card__action-links">
-            <a class="paper-link-pill paper-link-pill--internal" href="../../papers/1908_00261/"><span class="paper-link-pill__label">Detail</span></a>
-            <a class="paper-link-pill paper-link-pill--internal" href="../../map/#paper=1908_00261"><span class="paper-link-pill__label">Map</span></a>
-            <a class="paper-link-pill paper-link-pill--internal" href="../../tree/#paper=1908_00261"><span class="paper-link-pill__label">Tree</span></a>
-            <a class="paper-link-pill paper-link-pill--internal" href="../../timeline/#paper=1908_00261"><span class="paper-link-pill__label">Timeline</span></a>
-            <a class="paper-link-pill paper-link-pill--internal" href="../../search/?paper=1908_00261"><span class="paper-link-pill__label">Search</span></a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </article>
-
-  <article class="paper-similar-card">
     <div class="paper-similar-card__rank" style="--paper-similar-gauge: 153.0deg;" aria-label="85% similar">
-      <div class="paper-similar-card__rank-top">3</div>
+      <div class="paper-similar-card__rank-top">2</div>
       <div class="paper-similar-card__rank-bottom">
         <span>85%</span>
       </div>
@@ -748,9 +717,38 @@
 
   <article class="paper-similar-card">
     <div class="paper-similar-card__rank" style="--paper-similar-gauge: 153.0deg;" aria-label="85% similar">
-      <div class="paper-similar-card__rank-top">4</div>
+      <div class="paper-similar-card__rank-top">3</div>
       <div class="paper-similar-card__rank-bottom">
         <span>85%</span>
+      </div>
+    </div>
+    <div class="paper-similar-card__body">
+      <h3><a href="../../papers/1908_00261/">On the Theory of Policy Gradient Methods: Optimality, Approximation, and Distribution Shift</a></h3>
+
+
+      <div class="paper-similar-card__meta">
+        <span>Alekh Agarwal et al. / 2019</span>
+      </div>
+
+      <div class="paper-similar-card__actions">
+        <div class="paper-similar-card__action-row">
+          <div class="paper-link-pills paper-similar-card__action-links">
+            <a class="paper-link-pill paper-link-pill--internal" href="../../papers/1908_00261/"><span class="paper-link-pill__label">Detail</span></a>
+            <a class="paper-link-pill paper-link-pill--internal" href="../../map/#paper=1908_00261"><span class="paper-link-pill__label">Map</span></a>
+            <a class="paper-link-pill paper-link-pill--internal" href="../../tree/#paper=1908_00261"><span class="paper-link-pill__label">Tree</span></a>
+            <a class="paper-link-pill paper-link-pill--internal" href="../../timeline/#paper=1908_00261"><span class="paper-link-pill__label">Timeline</span></a>
+            <a class="paper-link-pill paper-link-pill--internal" href="../../search/?paper=1908_00261"><span class="paper-link-pill__label">Search</span></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <article class="paper-similar-card">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 151.2deg;" aria-label="84% similar">
+      <div class="paper-similar-card__rank-top">4</div>
+      <div class="paper-similar-card__rank-bottom">
+        <span>84%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
@@ -785,21 +783,21 @@
       </div>
     </div>
     <div class="paper-similar-card__body">
-      <h3><a href="../../papers/2000_baxter_direct_gradient_based_reinforcement/">Direct Gradient-Based Reinforcement Learning</a></h3>
+      <h3><a href="../../papers/1401_3827/">Efficient Planning under Uncertainty with Macro-actions</a></h3>
 
 
       <div class="paper-similar-card__meta">
-        <span>Jonathan Baxter et al. / 2000</span>
+        <span>Ruijie He et al. / 2014</span>
       </div>
 
       <div class="paper-similar-card__actions">
         <div class="paper-similar-card__action-row">
           <div class="paper-link-pills paper-similar-card__action-links">
-            <a class="paper-link-pill paper-link-pill--internal" href="../../papers/2000_baxter_direct_gradient_based_reinforcement/"><span class="paper-link-pill__label">Detail</span></a>
-            <a class="paper-link-pill paper-link-pill--internal" href="../../map/#paper=2000_baxter_direct_gradient_based_reinforcement"><span class="paper-link-pill__label">Map</span></a>
-            <a class="paper-link-pill paper-link-pill--internal" href="../../tree/#paper=2000_baxter_direct_gradient_based_reinforcement"><span class="paper-link-pill__label">Tree</span></a>
-            <a class="paper-link-pill paper-link-pill--internal" href="../../timeline/#paper=2000_baxter_direct_gradient_based_reinforcement"><span class="paper-link-pill__label">Timeline</span></a>
-            <a class="paper-link-pill paper-link-pill--internal" href="../../search/?paper=2000_baxter_direct_gradient_based_reinforcement"><span class="paper-link-pill__label">Search</span></a>
+            <a class="paper-link-pill paper-link-pill--internal" href="../../papers/1401_3827/"><span class="paper-link-pill__label">Detail</span></a>
+            <a class="paper-link-pill paper-link-pill--internal" href="../../map/#paper=1401_3827"><span class="paper-link-pill__label">Map</span></a>
+            <a class="paper-link-pill paper-link-pill--internal" href="../../tree/#paper=1401_3827"><span class="paper-link-pill__label">Tree</span></a>
+            <a class="paper-link-pill paper-link-pill--internal" href="../../timeline/#paper=1401_3827"><span class="paper-link-pill__label">Timeline</span></a>
+            <a class="paper-link-pill paper-link-pill--internal" href="../../search/?paper=1401_3827"><span class="paper-link-pill__label">Search</span></a>
           </div>
         </div>
       </div>

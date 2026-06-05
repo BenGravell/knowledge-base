@@ -1,15 +1,15 @@
 window.analyticsData = {
   "metrics": {
-    "totalPapers": 2255,
-    "datedPapers": 2255,
+    "totalPapers": 2252,
+    "datedPapers": 2252,
     "undatedPapers": 0,
-    "uniqueAuthors": 12922,
-    "uniqueSources": 524,
-    "uniqueTags": 3645,
+    "uniqueAuthors": 12919,
+    "uniqueSources": 521,
+    "uniqueTags": 3646,
     "minYear": 1816,
     "maxYear": 2026,
     "arxivPapers": 1373,
-    "doiPapers": 1225
+    "doiPapers": 1222
   },
   "years": [
     {
@@ -113,7 +113,7 @@ window.analyticsData = {
       "start": 2020,
       "end": 2024,
       "width": 5,
-      "count": 695,
+      "count": 692,
       "region": "2000-present"
     },
     {
@@ -229,7 +229,7 @@ window.analyticsData = {
         "start": 2020,
         "end": 2024,
         "width": 5,
-        "count": 695,
+        "count": 692,
         "region": "2000-present"
       },
       {
@@ -544,7 +544,7 @@ window.analyticsData = {
         "start": 2020,
         "end": 2020,
         "width": 1,
-        "count": 121,
+        "count": 120,
         "region": "2000-present"
       },
       {
@@ -552,7 +552,7 @@ window.analyticsData = {
         "start": 2021,
         "end": 2021,
         "width": 1,
-        "count": 140,
+        "count": 138,
         "region": "2000-present"
       },
       {
@@ -37959,10 +37959,6 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "Nicholas Morrissey",
-      "count": 1
-    },
-    {
       "label": "Nicholas Pfaff",
       "count": 1
     },
@@ -42243,10 +42239,6 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "Ross Cole",
-      "count": 1
-    },
-    {
       "label": "Ross West",
       "count": 1
     },
@@ -45680,10 +45672,6 @@ window.analyticsData = {
     },
     {
       "label": "Stuart Bowers",
-      "count": 1
-    },
-    {
-      "label": "Stuart Lindsay",
       "count": 1
     },
     {
@@ -53341,10 +53329,6 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "English Language Notes",
-      "count": 1
-    },
-    {
       "label": "European Conference on Mobile Robots",
       "count": 1
     },
@@ -53917,10 +53901,6 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "Nota Bene: Canadian Undergraduate Journal of Musicology",
-      "count": 1
-    },
-    {
       "label": "Nuclear Technology",
       "count": 1
     },
@@ -54177,10 +54157,6 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "repository.cam.ac.uk",
-      "count": 1
-    },
-    {
       "label": "Reviews of Modern Physics",
       "count": 1
     },
@@ -54396,7 +54372,7 @@ window.analyticsData = {
     },
     {
       "label": "Journal Paper",
-      "count": 708
+      "count": 706
     },
     {
       "label": "Conference Paper",
@@ -54408,7 +54384,7 @@ window.analyticsData = {
     },
     {
       "label": "Other",
-      "count": 20
+      "count": 19
     },
     {
       "label": "Technical Report",
@@ -55233,10 +55209,6 @@ window.analyticsData = {
       "count": 7
     },
     {
-      "label": "Research paper",
-      "count": 7
-    },
-    {
       "label": "Social networks",
       "count": 7
     },
@@ -55986,6 +55958,10 @@ window.analyticsData = {
     },
     {
       "label": "ReLU alternatives",
+      "count": 4
+    },
+    {
+      "label": "Research paper",
       "count": 4
     },
     {
@@ -61182,6 +61158,10 @@ window.analyticsData = {
     },
     {
       "label": "Edge cases",
+      "count": 1
+    },
+    {
+      "label": "Edge of stability",
       "count": 1
     },
     {
@@ -69027,16 +69007,12 @@ window.analyticsData = {
       "count": 464
     },
     {
+      "label": "Quantitative Foundations",
+      "count": 127
+    },
+    {
       "label": "Evaluation",
       "count": 123
-    },
-    {
-      "label": "Quantitative Foundations",
-      "count": 113
-    },
-    {
-      "label": "Human & Natural Worlds",
-      "count": 17
     }
   ],
   "categories": [
@@ -69114,10 +69090,6 @@ window.analyticsData = {
     },
     {
       "label": "Environmental Impacts",
-      "count": 3
-    },
-    {
-      "label": "Humanities & Culture",
       "count": 3
     }
   ],
@@ -72111,7 +72083,7 @@ window.analyticsData = {
     {
       "id": "tree-quantitative-foundations",
       "label": "Quantitative Foundations",
-      "count": 113,
+      "count": 127,
       "children": [
         {
           "id": "tree-quantitative-foundations-mathematics",
@@ -72381,39 +72353,26 @@ window.analyticsData = {
               "children": []
             }
           ]
-        }
-      ]
-    },
-    {
-      "id": "tree-human-natural-worlds",
-      "label": "Human & Natural Worlds",
-      "count": 17,
-      "children": [
-        {
-          "id": "tree-human-natural-worlds-environmental-impacts",
-          "label": "Environmental Impacts",
-          "count": 3,
-          "children": []
         },
         {
-          "id": "tree-human-natural-worlds-biology",
+          "id": "tree-quantitative-foundations-biology",
           "label": "Biology",
           "count": 11,
           "children": [
             {
-              "id": "tree-human-natural-worlds-biology-evolution",
+              "id": "tree-quantitative-foundations-biology-evolution",
               "label": "Evolution",
               "count": 2,
               "children": []
             },
             {
-              "id": "tree-human-natural-worlds-biology-dna",
+              "id": "tree-quantitative-foundations-biology-dna",
               "label": "DNA",
               "count": 5,
               "children": []
             },
             {
-              "id": "tree-human-natural-worlds-biology-genetic-engineering",
+              "id": "tree-quantitative-foundations-biology-genetic-engineering",
               "label": "Genetic Engineering",
               "count": 4,
               "children": []
@@ -72421,8 +72380,8 @@ window.analyticsData = {
           ]
         },
         {
-          "id": "tree-human-natural-worlds-humanities-culture",
-          "label": "Humanities & Culture",
+          "id": "tree-quantitative-foundations-environmental-impacts",
+          "label": "Environmental Impacts",
           "count": 3,
           "children": []
         }
@@ -72432,7 +72391,7 @@ window.analyticsData = {
   "auditStatuses": [
     {
       "label": "raw",
-      "count": 1425
+      "count": 1422
     },
     {
       "label": "partial",

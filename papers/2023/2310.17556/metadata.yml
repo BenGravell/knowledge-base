@@ -1,6 +1,6 @@
 title: >
   Efficient Numerical Algorithm for Large-Scale Damped Natural Gradient Descent
-algorithm: Gradient Descent
+algorithm:
 authors:
   - Yixiao Chen
   - Hao Xie

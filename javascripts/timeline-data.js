@@ -88,12 +88,12 @@ window.timelineData = {
       "year": 1858,
       "source": "Zoological Journal of the Linnean Society",
       "type": "Journal Paper",
-      "superCategory": "Human & Natural Worlds",
+      "superCategory": "Quantitative Foundations",
       "category": "Biology",
       "subCategory": "Evolution",
       "path": [
         "Tree",
-        "Human & Natural Worlds",
+        "Quantitative Foundations",
         "Biology",
         "Evolution",
         "Natural Selection"
@@ -125,12 +125,12 @@ window.timelineData = {
       "year": 1866,
       "source": "Verhandlungen des Naturforschenden Vereines in Brunn",
       "type": "Journal Paper",
-      "superCategory": "Human & Natural Worlds",
+      "superCategory": "Quantitative Foundations",
       "category": "Biology",
       "subCategory": "Evolution",
       "path": [
         "Tree",
-        "Human & Natural Worlds",
+        "Quantitative Foundations",
         "Biology",
         "Evolution",
         "Mendelian Inheritance"
@@ -445,12 +445,12 @@ window.timelineData = {
       "year": 1944,
       "source": "Journal of Experimental Medicine",
       "type": "Journal Paper",
-      "superCategory": "Human & Natural Worlds",
+      "superCategory": "Quantitative Foundations",
       "category": "Biology",
       "subCategory": "DNA",
       "path": [
         "Tree",
-        "Human & Natural Worlds",
+        "Quantitative Foundations",
         "Biology",
         "DNA",
         "DNA Transforming Principle"
@@ -670,45 +670,6 @@ window.timelineData = {
       "searchUrl": "../search/?paper=1952_lanczos_solution_of_systems_of"
     },
     {
-      "id": "1953_watson_molecular_structure_of_nucleic",
-      "label": "DNA Double Helix Structure",
-      "title": "Molecular Structure of Nucleic Acids: A Structure for Deoxyribose Nucleic Acid",
-      "authors": [
-        "James D. Watson",
-        "Francis H. C. Crick"
-      ],
-      "authorShort": "Watson, Crick",
-      "year": 1953,
-      "source": "Nature",
-      "type": "Journal Paper",
-      "superCategory": "Human & Natural Worlds",
-      "category": "Biology",
-      "subCategory": "DNA",
-      "path": [
-        "Tree",
-        "Human & Natural Worlds",
-        "Biology",
-        "DNA",
-        "DNA Double Helix Structure"
-      ],
-      "tags": [
-        "DNA structure",
-        "Double helix",
-        "Molecular biology",
-        "Base pairing",
-        "Genetic information",
-        "Nucleic acids",
-        "Structural biology"
-      ],
-      "abstract": "We wish to suggest a structure for the salt of deoxyribose nucleic acid (D.N.A.). This structure has novel features which are of considerable biological interest.",
-      "summary": "Watson and Crick propose the double-helical structure of DNA, with paired bases on the inside of the molecule and sugar-phosphate backbones on the outside. The paper is historically decisive because the proposed complementary pairing immediately made heredity and replication mechanistically plausible, even though the short article leaves much of the experimental evidence to companion work.",
-      "url": "../papers/1953_watson_molecular_structure_of_nucleic/",
-      "treeUrl": "../tree/#paper=1953_watson_molecular_structure_of_nucleic",
-      "mapUrl": "../map/#paper=1953_watson_molecular_structure_of_nucleic",
-      "timelineUrl": "../timeline/#paper=1953_watson_molecular_structure_of_nucleic",
-      "searchUrl": "../search/?paper=1953_watson_molecular_structure_of_nucleic"
-    },
-    {
       "id": "1953_shapley_a_value_for_n",
       "label": "Shapley Value",
       "title": "A Value for n-Person Games",
@@ -745,6 +706,45 @@ window.timelineData = {
       "mapUrl": "../map/#paper=1953_shapley_a_value_for_n",
       "timelineUrl": "../timeline/#paper=1953_shapley_a_value_for_n",
       "searchUrl": "../search/?paper=1953_shapley_a_value_for_n"
+    },
+    {
+      "id": "1953_watson_molecular_structure_of_nucleic",
+      "label": "DNA Double Helix Structure",
+      "title": "Molecular Structure of Nucleic Acids: A Structure for Deoxyribose Nucleic Acid",
+      "authors": [
+        "James D. Watson",
+        "Francis H. C. Crick"
+      ],
+      "authorShort": "Watson, Crick",
+      "year": 1953,
+      "source": "Nature",
+      "type": "Journal Paper",
+      "superCategory": "Quantitative Foundations",
+      "category": "Biology",
+      "subCategory": "DNA",
+      "path": [
+        "Tree",
+        "Quantitative Foundations",
+        "Biology",
+        "DNA",
+        "DNA Double Helix Structure"
+      ],
+      "tags": [
+        "DNA structure",
+        "Double helix",
+        "Molecular biology",
+        "Base pairing",
+        "Genetic information",
+        "Nucleic acids",
+        "Structural biology"
+      ],
+      "abstract": "We wish to suggest a structure for the salt of deoxyribose nucleic acid (D.N.A.). This structure has novel features which are of considerable biological interest.",
+      "summary": "Watson and Crick propose the double-helical structure of DNA, with paired bases on the inside of the molecule and sugar-phosphate backbones on the outside. The paper is historically decisive because the proposed complementary pairing immediately made heredity and replication mechanistically plausible, even though the short article leaves much of the experimental evidence to companion work.",
+      "url": "../papers/1953_watson_molecular_structure_of_nucleic/",
+      "treeUrl": "../tree/#paper=1953_watson_molecular_structure_of_nucleic",
+      "mapUrl": "../map/#paper=1953_watson_molecular_structure_of_nucleic",
+      "timelineUrl": "../timeline/#paper=1953_watson_molecular_structure_of_nucleic",
+      "searchUrl": "../search/?paper=1953_watson_molecular_structure_of_nucleic"
     },
     {
       "id": "1953_katz_a_new_status_index",
@@ -1649,7 +1649,7 @@ window.timelineData = {
         "Heapsort"
       ],
       "tags": [],
-      "abstract": "The following procedures are related to TREESORT [R. W. Floyd, Alg. 113, Comm. ACM 5 (Aug. 1962), 434; and A. F. Kaupe, Jr., Alg. 143 and 144, Comm. ACM 5 (Dec. 1962), 604] but avoid the use of pointers and so preserve storage space. All the procedures operate on single word items, stored as elements 1 to n of the array A. The elements are normally so arranged that A[j]≤A[i] for 2≤j≤n, i=j÷2. Such an arrangement will be called a heap. A[1] is always the least element of the heap. The procedure SETHEAP arranges n elements as a heap, INHEAP adds a new element to an existing heap, OUTHEAP extracts the least element from a heap, and SWOPHEAP is effectively the result of INHEAP followed by OUTHEAP. In all cases the array A contains elements arranged as a heap on exit. SWOPHEAP is essentially the same as the tournament sort described by K. E. Iverson--A Programming Language, 1962, pp. 223-226--which is a top to bottom method, but it uses an improved storage allocation and initialisation. INHEAP resembles TREESORT in being a bottom to top method. HEAPSORT can thus be considered as a marriage of these two methods. The procedures may be used for replacement-selection sorting, for sorting the elements of an array, or for choosing the current minimum of any set of items to which new items are added from time to time. The procedures are the more useful because the active elements of the array are maintained densely packed, as elements A[1] to A[n];",
+      "abstract": "The following procedures are related to TREESORT [R. W. Floyd, Alg. 113, Comm. ACM 5 (Aug. 1962), 434; and A. F. Kaupe, Jr., Alg. 143 and 144, Comm. ACM 5 (Dec. 1962), 604] but avoid the use of pointers and so preserve storage space. All the procedures operate on single word items, stored as elements 1 to n of the array A. The elements are normally so arranged that A[j]≤A[i] for 2≤j≤n, i=j÷2. Such an arrangement will be called a heap. A[1] is always the least element of the heap. The procedure SETHEAP arranges n elements as a heap, INHEAP adds a new element to an existing heap, OUTHEAP extracts the least element from a heap, and SWOPHEAP is effectively the result of INHEAP followed by OUTHEAP. In all cases the array A contains elements arranged as a heap on exit. SWOPHEAP is essentially the same as the tournament sort described by K. E. Iverson - A Programming Language, 1962, pp. 223-226 - which is a top to bottom method, but it uses an improved storage allocation and initialisation. INHEAP resembles TREESORT in being a bottom to top method. HEAPSORT can thus be considered as a marriage of these two methods. The procedures may be used for replacement-selection sorting, for sorting the elements of an array, or for choosing the current minimum of any set of items to which new items are added from time to time. The procedures are the more useful because the active elements of the array are maintained densely packed, as elements A[1] to A[n];",
       "summary": "Williams introduces heapsort as an array-based sorting procedure built around a binary heap, first arranging the input into a heap and then repeatedly removing the largest element to produce the sorted order. The note is historically important as the original presentation of heapsort: a comparison sort with worst-case O(n log n) running time and in-place operation using only a small amount of auxiliary storage.",
       "url": "../papers/1964_williams_algorithm_232_heapsort/",
       "treeUrl": "../tree/#paper=1964_williams_algorithm_232_heapsort",
@@ -3974,12 +3974,12 @@ window.timelineData = {
       "year": 1977,
       "source": "Proceedings of the National Academy of Sciences",
       "type": "Journal Paper",
-      "superCategory": "Human & Natural Worlds",
+      "superCategory": "Quantitative Foundations",
       "category": "Biology",
       "subCategory": "DNA",
       "path": [
         "Tree",
-        "Human & Natural Worlds",
+        "Quantitative Foundations",
         "Biology",
         "DNA",
         "DNA Sequencing"
@@ -11853,6 +11853,128 @@ window.timelineData = {
       "searchUrl": "../search/?paper=2000_fantoni_energy_based_control_of"
     },
     {
+      "id": "cond_mat_0002177",
+      "label": "IDM",
+      "title": "Congested Traffic States in Empirical Observations and Microscopic Simulations",
+      "authors": [
+        "Martin Treiber",
+        "Ansgar Hennecke",
+        "Dirk Helbing"
+      ],
+      "authorShort": "Treiber, Hennecke, Helbing",
+      "year": 2000,
+      "source": "Physical Review E",
+      "type": "Journal Paper",
+      "superCategory": "Prediction & Perception",
+      "category": "Motion Prediction",
+      "subCategory": "Driver Models",
+      "path": [
+        "Tree",
+        "Prediction & Perception",
+        "Motion Prediction",
+        "Driver Models",
+        "IDM"
+      ],
+      "tags": [
+        "Traffic modeling",
+        "Intelligent driver model",
+        "Microscopic simulation",
+        "Car following",
+        "Traffic flow",
+        "Autonomous vehicles"
+      ],
+      "abstract": "We present data from several German freeways showing different kinds of congested traffic forming near road inhomogeneities, specifically lane closings, intersections, or uphill gradients. The states are localized or extended, homogeneous or oscillating. Combined states are observed as well, like the coexistence of moving localized clusters and clusters pinned at road inhomogeneities, or regions of oscillating congested traffic upstream of nearly homogeneous congested traffic. The experimental findings are consistent with a recently proposed theoretical phase diagram for traffic near on-ramps [D. Helbing, A. Hennecke, and M. Treiber, Phys. Rev. Lett. 82, 4360 (1999)]. We simulate these situations with a novel continuous microscopic single-lane model, the \"intelligent driver model\" (IDM), using the empirical boundary conditions. All observations, including the coexistence of states, are qualitatively reproduced by describing inhomogeneities with local variations of one model parameter. We show that the results of the microscopic model can be understood by formulating the theoretical phase diagram for bottlenecks in a more general way. In particular, a local drop of the road capacity induced by parameter variations has practically the same effect as an on-ramp.",
+      "summary": "Introduces the Intelligent Driver Model (IDM), a continuous microscopic car-following model that reproduces congested traffic phases observed on German freeways. IDM became the standard baseline car-following model in autonomous driving simulation and is widely used as a simple, interpretable longitudinal behavior model.",
+      "url": "../papers/cond_mat_0002177/",
+      "treeUrl": "../tree/#paper=cond_mat_0002177",
+      "mapUrl": "../map/#paper=cond_mat_0002177",
+      "timelineUrl": "../timeline/#paper=cond_mat_0002177",
+      "searchUrl": "../search/?paper=cond_mat_0002177"
+    },
+    {
+      "id": "2000_triggs_bundle_adjustment_a_modern",
+      "label": "Bundle Adjustment — A Modern Synthesis",
+      "title": "Bundle Adjustment — A Modern Synthesis",
+      "authors": [
+        "Bill Triggs",
+        "Philip F. McLauchlan",
+        "Richard I. Hartley",
+        "Andrew W. Fitzgibbon"
+      ],
+      "authorShort": "Triggs, McLauchlan, Hartley",
+      "year": 2000,
+      "source": "Lecture Notes in Computer Science",
+      "type": "Conference Paper",
+      "superCategory": "Prediction & Perception",
+      "category": "State Estimation",
+      "subCategory": "Localization & Mapping",
+      "path": [
+        "Tree",
+        "Prediction & Perception",
+        "State Estimation",
+        "Localization & Mapping",
+        "Visual Odometry & Structure from Motion",
+        "Bundle Adjustment — A Modern Synthesis"
+      ],
+      "tags": [
+        "Bundle adjustment",
+        "Computer vision",
+        "Photogrammetry",
+        "Structure from motion",
+        "Sparse optimization",
+        "Robust estimation",
+        "Nonlinear least squares"
+      ],
+      "abstract": "This paper is a survey of the theory and methods of photogrammetric bundle adjustment, aimed at potential implementors in the computer vision community. Bundle adjustment is the problem of refining a visual reconstruction to produce jointly optimal structure and viewing parameter estimates. Topics covered include: the choice of cost function and robustness; numerical optimization including sparse Newton methods, linearly convergent approximations, updating and recursive methods; gauge (datum) invariance; and quality control. The theory is developed for general robust cost functions rather than restricting attention to traditional nonlinear least squares.",
+      "summary": "Synthesizes bundle adjustment for computer vision, covering robust cost functions, sparse Newton methods, gauge freedom, updating strategies, and quality control. The paper became a standard implementation-oriented reference for refining camera and structure estimates in photogrammetry and structure-from-motion pipelines.",
+      "url": "../papers/2000_triggs_bundle_adjustment_a_modern/",
+      "treeUrl": "../tree/#paper=2000_triggs_bundle_adjustment_a_modern",
+      "mapUrl": "../map/#paper=2000_triggs_bundle_adjustment_a_modern",
+      "timelineUrl": "../timeline/#paper=2000_triggs_bundle_adjustment_a_modern",
+      "searchUrl": "../search/?paper=2000_triggs_bundle_adjustment_a_modern"
+    },
+    {
+      "id": "2000_wan_the_unscented_kalman_filter",
+      "label": "The Unscented Kalman Filter for Nonlinear Estimation",
+      "title": "The Unscented Kalman Filter for Nonlinear Estimation",
+      "authors": [
+        "E.A. Wan",
+        "R. Van Der Merwe"
+      ],
+      "authorShort": "Wan, Merwe",
+      "year": 2000,
+      "source": "Proceedings of the IEEE Adaptive Systems for Signal Processing, Communications, and Control Symposium (Cat. No.00EX373)",
+      "type": "Conference Paper",
+      "superCategory": "Prediction & Perception",
+      "category": "State Estimation",
+      "subCategory": "Optimal State Estimation (Kalman Filters)",
+      "path": [
+        "Tree",
+        "Prediction & Perception",
+        "State Estimation",
+        "Optimal State Estimation (Kalman Filters)",
+        "Nonlinear Systems",
+        "Unscented Kalman Filter (UKF)",
+        "The Unscented Kalman Filter for Nonlinear Estimation"
+      ],
+      "tags": [
+        "Unscented Kalman filter",
+        "Nonlinear estimation",
+        "Unscented transform",
+        "Sigma points",
+        "System identification",
+        "Neural network training",
+        "Dual estimation"
+      ],
+      "abstract": "This paper points out the flaws in using the extended Kalman filter (EKE) and introduces an improvement, the unscented Kalman filter (UKF), proposed by Julier and Uhlman (1997). A central and vital operation performed in the Kalman filter is the propagation of a Gaussian random variable (GRV) through the system dynamics. In the EKF the state distribution is approximated by a GRV, which is then propagated analytically through the first-order linearization of the nonlinear system. This can introduce large errors in the true posterior mean and covariance of the transformed GRV, which may lead to sub-optimal performance and sometimes divergence of the filter. The UKF addresses this problem by using a deterministic sampling approach. The state distribution is again approximated by a GRV, but is now represented using a minimal set of carefully chosen sample points. These sample points completely capture the true mean and covariance of the GRV, and when propagated through the true nonlinear system, captures the posterior mean and covariance accurately to the 3rd order (Taylor series expansion) for any nonlinearity. The EKF in contrast, only achieves first-order accuracy. Remarkably, the computational complexity of the UKF is the same order as that of the EKF. Julier and Uhlman demonstrated the substantial performance gains of the UKF in the context of state-estimation for nonlinear control. Machine learning problems were not considered. We extend the use of the UKF to a broader class of nonlinear estimation problems, including nonlinear system identification, training of neural networks, and dual estimation problems. In this paper, the algorithms are further developed and illustrated with a number of additional examples.",
+      "summary": "Extends the Unscented Kalman Filter beyond state estimation into nonlinear system identification, neural-network training, and dual estimation. The paper popularized the UKF as a practical alternative to EKF linearization by emphasizing sigma-point propagation accuracy at comparable computational order.",
+      "url": "../papers/2000_wan_the_unscented_kalman_filter/",
+      "treeUrl": "../tree/#paper=2000_wan_the_unscented_kalman_filter",
+      "mapUrl": "../map/#paper=2000_wan_the_unscented_kalman_filter",
+      "timelineUrl": "../timeline/#paper=2000_wan_the_unscented_kalman_filter",
+      "searchUrl": "../search/?paper=2000_wan_the_unscented_kalman_filter"
+    },
+    {
       "id": "2000_adams_the_genome_sequence_of",
       "label": "Genome Sequence of Drosophila melanogaster",
       "title": "The Genome Sequence of Drosophila melanogaster",
@@ -12057,12 +12179,12 @@ window.timelineData = {
       "year": 2000,
       "source": "Science",
       "type": "Journal Paper",
-      "superCategory": "Human & Natural Worlds",
+      "superCategory": "Quantitative Foundations",
       "category": "Biology",
       "subCategory": "DNA",
       "path": [
         "Tree",
-        "Human & Natural Worlds",
+        "Quantitative Foundations",
         "Biology",
         "DNA",
         "Genome Sequence of Drosophila melanogaster"
@@ -12082,128 +12204,6 @@ window.timelineData = {
       "mapUrl": "../map/#paper=2000_adams_the_genome_sequence_of",
       "timelineUrl": "../timeline/#paper=2000_adams_the_genome_sequence_of",
       "searchUrl": "../search/?paper=2000_adams_the_genome_sequence_of"
-    },
-    {
-      "id": "cond_mat_0002177",
-      "label": "IDM",
-      "title": "Congested Traffic States in Empirical Observations and Microscopic Simulations",
-      "authors": [
-        "Martin Treiber",
-        "Ansgar Hennecke",
-        "Dirk Helbing"
-      ],
-      "authorShort": "Treiber, Hennecke, Helbing",
-      "year": 2000,
-      "source": "Physical Review E",
-      "type": "Journal Paper",
-      "superCategory": "Prediction & Perception",
-      "category": "Motion Prediction",
-      "subCategory": "Driver Models",
-      "path": [
-        "Tree",
-        "Prediction & Perception",
-        "Motion Prediction",
-        "Driver Models",
-        "IDM"
-      ],
-      "tags": [
-        "Traffic modeling",
-        "Intelligent driver model",
-        "Microscopic simulation",
-        "Car following",
-        "Traffic flow",
-        "Autonomous vehicles"
-      ],
-      "abstract": "We present data from several German freeways showing different kinds of congested traffic forming near road inhomogeneities, specifically lane closings, intersections, or uphill gradients. The states are localized or extended, homogeneous or oscillating. Combined states are observed as well, like the coexistence of moving localized clusters and clusters pinned at road inhomogeneities, or regions of oscillating congested traffic upstream of nearly homogeneous congested traffic. The experimental findings are consistent with a recently proposed theoretical phase diagram for traffic near on-ramps [D. Helbing, A. Hennecke, and M. Treiber, Phys. Rev. Lett. 82, 4360 (1999)]. We simulate these situations with a novel continuous microscopic single-lane model, the \"intelligent driver model\" (IDM), using the empirical boundary conditions. All observations, including the coexistence of states, are qualitatively reproduced by describing inhomogeneities with local variations of one model parameter. We show that the results of the microscopic model can be understood by formulating the theoretical phase diagram for bottlenecks in a more general way. In particular, a local drop of the road capacity induced by parameter variations has practically the same effect as an on-ramp.",
-      "summary": "Introduces the Intelligent Driver Model (IDM), a continuous microscopic car-following model that reproduces congested traffic phases observed on German freeways. IDM became the standard baseline car-following model in autonomous driving simulation and is widely used as a simple, interpretable longitudinal behavior model.",
-      "url": "../papers/cond_mat_0002177/",
-      "treeUrl": "../tree/#paper=cond_mat_0002177",
-      "mapUrl": "../map/#paper=cond_mat_0002177",
-      "timelineUrl": "../timeline/#paper=cond_mat_0002177",
-      "searchUrl": "../search/?paper=cond_mat_0002177"
-    },
-    {
-      "id": "2000_triggs_bundle_adjustment_a_modern",
-      "label": "Bundle Adjustment — A Modern Synthesis",
-      "title": "Bundle Adjustment — A Modern Synthesis",
-      "authors": [
-        "Bill Triggs",
-        "Philip F. McLauchlan",
-        "Richard I. Hartley",
-        "Andrew W. Fitzgibbon"
-      ],
-      "authorShort": "Triggs, McLauchlan, Hartley",
-      "year": 2000,
-      "source": "Lecture Notes in Computer Science",
-      "type": "Conference Paper",
-      "superCategory": "Prediction & Perception",
-      "category": "State Estimation",
-      "subCategory": "Localization & Mapping",
-      "path": [
-        "Tree",
-        "Prediction & Perception",
-        "State Estimation",
-        "Localization & Mapping",
-        "Visual Odometry & Structure from Motion",
-        "Bundle Adjustment — A Modern Synthesis"
-      ],
-      "tags": [
-        "Bundle adjustment",
-        "Computer vision",
-        "Photogrammetry",
-        "Structure from motion",
-        "Sparse optimization",
-        "Robust estimation",
-        "Nonlinear least squares"
-      ],
-      "abstract": "This paper is a survey of the theory and methods of photogrammetric bundle adjustment, aimed at potential implementors in the computer vision community. Bundle adjustment is the problem of refining a visual reconstruction to produce jointly optimal structure and viewing parameter estimates. Topics covered include: the choice of cost function and robustness; numerical optimization including sparse Newton methods, linearly convergent approximations, updating and recursive methods; gauge (datum) invariance; and quality control. The theory is developed for general robust cost functions rather than restricting attention to traditional nonlinear least squares.",
-      "summary": "Synthesizes bundle adjustment for computer vision, covering robust cost functions, sparse Newton methods, gauge freedom, updating strategies, and quality control. The paper became a standard implementation-oriented reference for refining camera and structure estimates in photogrammetry and structure-from-motion pipelines.",
-      "url": "../papers/2000_triggs_bundle_adjustment_a_modern/",
-      "treeUrl": "../tree/#paper=2000_triggs_bundle_adjustment_a_modern",
-      "mapUrl": "../map/#paper=2000_triggs_bundle_adjustment_a_modern",
-      "timelineUrl": "../timeline/#paper=2000_triggs_bundle_adjustment_a_modern",
-      "searchUrl": "../search/?paper=2000_triggs_bundle_adjustment_a_modern"
-    },
-    {
-      "id": "2000_wan_the_unscented_kalman_filter",
-      "label": "The Unscented Kalman Filter for Nonlinear Estimation",
-      "title": "The Unscented Kalman Filter for Nonlinear Estimation",
-      "authors": [
-        "E.A. Wan",
-        "R. Van Der Merwe"
-      ],
-      "authorShort": "Wan, Merwe",
-      "year": 2000,
-      "source": "Proceedings of the IEEE Adaptive Systems for Signal Processing, Communications, and Control Symposium (Cat. No.00EX373)",
-      "type": "Conference Paper",
-      "superCategory": "Prediction & Perception",
-      "category": "State Estimation",
-      "subCategory": "Optimal State Estimation (Kalman Filters)",
-      "path": [
-        "Tree",
-        "Prediction & Perception",
-        "State Estimation",
-        "Optimal State Estimation (Kalman Filters)",
-        "Nonlinear Systems",
-        "Unscented Kalman Filter (UKF)",
-        "The Unscented Kalman Filter for Nonlinear Estimation"
-      ],
-      "tags": [
-        "Unscented Kalman filter",
-        "Nonlinear estimation",
-        "Unscented transform",
-        "Sigma points",
-        "System identification",
-        "Neural network training",
-        "Dual estimation"
-      ],
-      "abstract": "This paper points out the flaws in using the extended Kalman filter (EKE) and introduces an improvement, the unscented Kalman filter (UKF), proposed by Julier and Uhlman (1997). A central and vital operation performed in the Kalman filter is the propagation of a Gaussian random variable (GRV) through the system dynamics. In the EKF the state distribution is approximated by a GRV, which is then propagated analytically through the first-order linearization of the nonlinear system. This can introduce large errors in the true posterior mean and covariance of the transformed GRV, which may lead to sub-optimal performance and sometimes divergence of the filter. The UKF addresses this problem by using a deterministic sampling approach. The state distribution is again approximated by a GRV, but is now represented using a minimal set of carefully chosen sample points. These sample points completely capture the true mean and covariance of the GRV, and when propagated through the true nonlinear system, captures the posterior mean and covariance accurately to the 3rd order (Taylor series expansion) for any nonlinearity. The EKF in contrast, only achieves first-order accuracy. Remarkably, the computational complexity of the UKF is the same order as that of the EKF. Julier and Uhlman demonstrated the substantial performance gains of the UKF in the context of state-estimation for nonlinear control. Machine learning problems were not considered. We extend the use of the UKF to a broader class of nonlinear estimation problems, including nonlinear system identification, training of neural networks, and dual estimation problems. In this paper, the algorithms are further developed and illustrated with a number of additional examples.",
-      "summary": "Extends the Unscented Kalman Filter beyond state estimation into nonlinear system identification, neural-network training, and dual estimation. The paper popularized the UKF as a practical alternative to EKF linearization by emphasizing sigma-point propagation accuracy at comparable computational order.",
-      "url": "../papers/2000_wan_the_unscented_kalman_filter/",
-      "treeUrl": "../tree/#paper=2000_wan_the_unscented_kalman_filter",
-      "mapUrl": "../map/#paper=2000_wan_the_unscented_kalman_filter",
-      "timelineUrl": "../timeline/#paper=2000_wan_the_unscented_kalman_filter",
-      "searchUrl": "../search/?paper=2000_wan_the_unscented_kalman_filter"
     },
     {
       "id": "2001_jadbabaie_unconstrained_receding_horizon_control",
@@ -12616,6 +12616,246 @@ window.timelineData = {
       "searchUrl": "../search/?paper=2001_spong_nonlinear_control_of_the"
     },
     {
+      "id": "2001_viola_rapid_object_detection_using",
+      "label": "Viola-Jones Detector",
+      "title": "Rapid Object Detection Using a Boosted Cascade of Simple Features",
+      "authors": [
+        "Paul Viola",
+        "Michael Jones"
+      ],
+      "authorShort": "Viola, Jones",
+      "year": 2001,
+      "source": "Proceedings of the IEEE Computer Society Conference on Computer Vision and Pattern Recognition",
+      "type": "Conference Paper",
+      "superCategory": "Prediction & Perception",
+      "category": "Computer Vision",
+      "subCategory": "Recognition & Understanding",
+      "path": [
+        "Tree",
+        "Prediction & Perception",
+        "Computer Vision",
+        "Recognition & Understanding",
+        "Object Detection",
+        "Viola-Jones Detector"
+      ],
+      "tags": [
+        "Object detection",
+        "Face detection",
+        "AdaBoost",
+        "Integral image",
+        "Cascade classifier",
+        "Computer vision",
+        "Real-time"
+      ],
+      "abstract": "This paper describes a machine learning approach for visual object detection which is capable of processing images extremely rapidly and achieving high detection rates. This work is distinguished by three key contributions. The first is the introduction of a new image representation called the \"integral image\" which allows the features used by our detector to be computed very quickly. The second is a learning algorithm, based on AdaBoost, which selects a small number of critical visual features from a larger set and yields extremely efficient classifiers. The third contribution is a method for combining increasingly more complex classifiers in a \"cascade\" which allows background regions of the image to be quickly discarded while spending more computation on promising object-like regions. The cascade can be viewed as an object specific focus-of-attention mechanism which unlike previous approaches provides statistical guarantees that discarded regions are unlikely to contain the object of interest. In the domain of face detection the system yields detection rates comparable to the best previous systems. Used in real-time applications, the detector runs at 15 frames per second without resorting to image differencing or skin color detection.",
+      "summary": "Introduces the Viola-Jones real-time face detector with three key contributions: the integral image for O(1) Haar-like feature computation, AdaBoost for selecting a small discriminative feature set, and a cascaded classifier that rapidly rejects background regions. Ran at 15 fps and was the dominant face detection algorithm for a decade.",
+      "url": "../papers/2001_viola_rapid_object_detection_using/",
+      "treeUrl": "../tree/#paper=2001_viola_rapid_object_detection_using",
+      "mapUrl": "../map/#paper=2001_viola_rapid_object_detection_using",
+      "timelineUrl": "../timeline/#paper=2001_viola_rapid_object_detection_using",
+      "searchUrl": "../search/?paper=2001_viola_rapid_object_detection_using"
+    },
+    {
+      "id": "2001_friedman_greedy_function_approximation_a",
+      "label": "GBM",
+      "title": "Greedy Function Approximation: A Gradient Boosting Machine",
+      "authors": [
+        "Jerome H. Friedman"
+      ],
+      "authorShort": "Friedman",
+      "year": 2001,
+      "source": "Annals of Statistics",
+      "type": "Journal Paper",
+      "superCategory": "Prediction & Perception",
+      "category": "Machine Learning",
+      "subCategory": "Classical & Statistical Learning",
+      "path": [
+        "Tree",
+        "Prediction & Perception",
+        "Machine Learning",
+        "Classical & Statistical Learning",
+        "Ensemble Methods",
+        "GBM"
+      ],
+      "tags": [
+        "Gradient boosting",
+        "Ensemble methods",
+        "Decision trees",
+        "Boosting",
+        "Function approximation",
+        "TreeBoost",
+        "Machine learning"
+      ],
+      "abstract": "Function estimation/approximation is viewed from the perspective of numerical optimization in function space, rather than parameter space. A connection is made between stagewise additive expansions and steepest-descent minimization. A general gradient descent \"boosting\" paradigm is developed for additive expansions based on any fitting criterion. Specific algorithms are presented for least-squares, least absolute deviation, and Huber-M loss functions for regression, and multiclass logistic likelihood for classification. Special enhancements are derived for the particular case where the individual additive components are regression trees, and tools for interpreting such \"TreeBoost\" models are presented.",
+      "summary": "Derives gradient boosted trees from first principles as steepest-descent optimization in function space, unifying boosting with numerical optimization. Introduces the TreeBoost algorithm and specific gradient update rules for regression and classification, forming the basis for XGBoost, LightGBM, CatBoost, and all modern gradient boosting libraries.",
+      "url": "../papers/2001_friedman_greedy_function_approximation_a/",
+      "treeUrl": "../tree/#paper=2001_friedman_greedy_function_approximation_a",
+      "mapUrl": "../map/#paper=2001_friedman_greedy_function_approximation_a",
+      "timelineUrl": "../timeline/#paper=2001_friedman_greedy_function_approximation_a",
+      "searchUrl": "../search/?paper=2001_friedman_greedy_function_approximation_a"
+    },
+    {
+      "id": "2001_breiman_random_forests",
+      "label": "Random Forests",
+      "title": "Random Forests",
+      "authors": [
+        "Leo Breiman"
+      ],
+      "authorShort": "Breiman",
+      "year": 2001,
+      "source": "Machine Learning",
+      "type": "Journal Paper",
+      "superCategory": "Prediction & Perception",
+      "category": "Machine Learning",
+      "subCategory": "Classical & Statistical Learning",
+      "path": [
+        "Tree",
+        "Prediction & Perception",
+        "Machine Learning",
+        "Classical & Statistical Learning",
+        "Ensemble Methods",
+        "Random Forests"
+      ],
+      "tags": [
+        "Ensemble methods",
+        "Random forest",
+        "Decision trees",
+        "Bagging",
+        "Feature randomization",
+        "Classification",
+        "Regression"
+      ],
+      "abstract": "Random forests are a combination of tree predictors such that each tree depends on the values of a random vector sampled independently and with the same distribution for all trees in the forest. The generalization error for forests converges a.s. to a limit as the number of trees in the forest becomes large. The generalization error of a forest of tree classifiers depends on the strength of the individual trees in the forest and the correlation between them. Using a random selection of features to split each node yields error rates that compare favorably to Adaboost (Freund and Schapire, 1996), but are more robust with respect to noise. Internal estimates monitor error, strength, and correlation and these are used to show the response to increasing the number of features used in the splitting. Internal estimates are also used to measure variable importance. These ideas are also applicable to regression.",
+      "summary": "Introduces Random Forests: an ensemble method that decorrelates bagged trees by selecting a random subset of features at each split. The random feature selection dramatically reduces between-tree correlation while preserving strength, yielding an ensemble that is more accurate and robust to noise than Adaboost while requiring no hyperparameter tuning beyond the number of trees.",
+      "url": "../papers/2001_breiman_random_forests/",
+      "treeUrl": "../tree/#paper=2001_breiman_random_forests",
+      "mapUrl": "../map/#paper=2001_breiman_random_forests",
+      "timelineUrl": "../timeline/#paper=2001_breiman_random_forests",
+      "searchUrl": "../search/?paper=2001_breiman_random_forests"
+    },
+    {
+      "id": "2001_ng_on_spectral_clustering_analysis",
+      "label": "Spectral Clustering",
+      "title": "On Spectral Clustering: Analysis and an Algorithm",
+      "authors": [
+        "Andrew Ng",
+        "Michael Jordan",
+        "Yair Weiss"
+      ],
+      "authorShort": "Ng, Jordan, Weiss",
+      "year": 2001,
+      "source": "Advances in Neural Information Processing Systems",
+      "type": "Conference Paper",
+      "superCategory": "Prediction & Perception",
+      "category": "Machine Learning",
+      "subCategory": "Classical & Statistical Learning",
+      "path": [
+        "Tree",
+        "Prediction & Perception",
+        "Machine Learning",
+        "Classical & Statistical Learning",
+        "Clustering",
+        "Spectral Clustering",
+        "Spectral Clustering"
+      ],
+      "tags": [
+        "Spectral clustering",
+        "Graph laplacians",
+        "Eigenvectors",
+        "Matrix perturbation",
+        "Clustering",
+        "Machine learning"
+      ],
+      "abstract": "Despite many empirical successes of spectral clustering methods - algorithms that cluster points using eigenvectors of matrices derived from the data - there are several unresolved issues. First, there are a wide variety of algorithms that use the eigenvectors in slightly different ways. Second, many of these algorithms have no proof that they will actually compute a reasonable clustering. In this paper, we present a simple spectral clustering algorithm that can be implemented using a few lines of Matlab. Using tools from matrix perturbation theory, we analyze the algorithm, and give conditions under which it can be expected to do well. We also show surprisingly good experimental results on a number of challenging clustering problems.",
+      "summary": "Presents a simple spectral clustering algorithm based on eigenvectors of an affinity-derived matrix and analyzes conditions under which it recovers meaningful clusters. The paper helped standardize the normalized spectral clustering recipe and connected its empirical success to matrix perturbation arguments.",
+      "url": "../papers/2001_ng_on_spectral_clustering_analysis/",
+      "treeUrl": "../tree/#paper=2001_ng_on_spectral_clustering_analysis",
+      "mapUrl": "../map/#paper=2001_ng_on_spectral_clustering_analysis",
+      "timelineUrl": "../timeline/#paper=2001_ng_on_spectral_clustering_analysis",
+      "searchUrl": "../search/?paper=2001_ng_on_spectral_clustering_analysis"
+    },
+    {
+      "id": "2001_kschischang_factor_graphs_and_the",
+      "label": "Factor Graphs and the Sum-product Algorithm",
+      "title": "Factor Graphs and the Sum-product Algorithm",
+      "authors": [
+        "F.R. Kschischang",
+        "B.J. Frey",
+        "H.-A. Loeliger"
+      ],
+      "authorShort": "Kschischang, Frey, Loeliger",
+      "year": 2001,
+      "source": "IEEE Transactions on Information Theory",
+      "type": "Journal Paper",
+      "superCategory": "Prediction & Perception",
+      "category": "State Estimation",
+      "subCategory": "Localization & Mapping",
+      "path": [
+        "Tree",
+        "Prediction & Perception",
+        "State Estimation",
+        "Localization & Mapping",
+        "Factor Graphs",
+        "Factor Graphs and the Sum-product Algorithm"
+      ],
+      "tags": [
+        "Factor graphs",
+        "Sum-product algorithm",
+        "Belief propagation",
+        "Message passing",
+        "Graphical models",
+        "Error-correcting codes",
+        "Probabilistic inference"
+      ],
+      "abstract": "Algorithms that must deal with complicated global functions of many variables often exploit the manner in which the given functions factor as a product of \"local\" functions, each of which depends on a subset of the variables. Such a factorization can be visualized with a bipartite graph that we call a factor graph, In this tutorial paper, we present a generic message-passing algorithm, the sum-product algorithm, that operates in a factor graph. Following a single, simple computational rule, the sum-product algorithm computes-either exactly or approximately-various marginal functions derived from the global function. A wide variety of algorithms developed in artificial intelligence, signal processing, and digital communications can be derived as specific instances of the sum-product algorithm, including the forward/backward algorithm, the Viterbi algorithm, the iterative \"turbo\" decoding algorithm, Pearl's (1988) belief propagation algorithm for Bayesian networks, the Kalman filter, and certain fast Fourier transform (FFT) algorithms.",
+      "summary": "Presents factor graphs as a unified graphical representation for factorizations of global functions and describes the sum-product message-passing algorithm on those graphs. The tutorial shows how algorithms including forward-backward, Viterbi, turbo decoding, belief propagation, Kalman filtering, and some FFTs arise as instances of the same computational rule.",
+      "url": "../papers/2001_kschischang_factor_graphs_and_the/",
+      "treeUrl": "../tree/#paper=2001_kschischang_factor_graphs_and_the",
+      "mapUrl": "../map/#paper=2001_kschischang_factor_graphs_and_the",
+      "timelineUrl": "../timeline/#paper=2001_kschischang_factor_graphs_and_the",
+      "searchUrl": "../search/?paper=2001_kschischang_factor_graphs_and_the"
+    },
+    {
+      "id": "2001_govindu_combining_two_view_constraints",
+      "label": "Two-View Constraint Motion Averaging",
+      "title": "Combining Two-View Constraints for Motion Estimation",
+      "authors": [
+        "Venu Madhav Govindu"
+      ],
+      "authorShort": "Govindu",
+      "year": 2001,
+      "source": "IEEE Conference on Computer Vision and Pattern Recognition",
+      "type": "Conference Paper",
+      "superCategory": "Prediction & Perception",
+      "category": "State Estimation",
+      "subCategory": "Localization & Mapping",
+      "path": [
+        "Tree",
+        "Prediction & Perception",
+        "State Estimation",
+        "Localization & Mapping",
+        "Visual Odometry & Structure from Motion",
+        "Structure from Motion (SfM)",
+        "Two-View Constraint Motion Averaging"
+      ],
+      "tags": [
+        "Structure from motion",
+        "Motion averaging",
+        "Two-view geometry",
+        "Epipolar constraints",
+        "Global motion estimation",
+        "Camera calibration",
+        "Multi-view reconstruction"
+      ],
+      "abstract": "In this paper we describe two methods for estimating the motion parameters of an image sequence. For a sequence of images, the global motion can be described by n - 1 independent motion models. On the other hand, in a sequence there exist as many as n(n - 1)/2 pairwise relative motion constraints that can be solve for efficiently. In this paper we show how to linearly solve for consistent global motion models using this highly redundant set of constraints. In the first case, our method involves estimating all available pairwise relative motions and linearly fitting a global motion model to these estimates. In the second instance, we exploit the fact that algebraic (ie. epipolar) constraints between various image pairs are all related to each other by the global motion model. This results in an estimation method that directly computes the motion of the sequence by using all possible algebraic constraints. Unlike using reprojection error, our optimisation method does not solve for the structure of points resulting in a reduction of the dimensionality of the search space. Our algorithms are used for both 3D camera motion estimation and camera calibration. We provide real examples of both applications.",
+      "summary": "Uses redundant pairwise two-view constraints to estimate globally consistent camera motion, anticipating later motion-averaging and global-SfM formulations. Its key contribution is to move beyond chaining local estimates by solving a linear consistency problem over many image pairs.",
+      "url": "../papers/2001_govindu_combining_two_view_constraints/",
+      "treeUrl": "../tree/#paper=2001_govindu_combining_two_view_constraints",
+      "mapUrl": "../map/#paper=2001_govindu_combining_two_view_constraints",
+      "timelineUrl": "../timeline/#paper=2001_govindu_combining_two_view_constraints",
+      "searchUrl": "../search/?paper=2001_govindu_combining_two_view_constraints"
+    },
+    {
       "id": "2001_lander_initial_sequencing_and_analysis",
       "label": "Human Genome Project",
       "title": "Initial Sequencing and Analysis of the Human Genome",
@@ -12881,12 +13121,12 @@ window.timelineData = {
       "year": 2001,
       "source": "Nature",
       "type": "Journal Paper",
-      "superCategory": "Human & Natural Worlds",
+      "superCategory": "Quantitative Foundations",
       "category": "Biology",
       "subCategory": "DNA",
       "path": [
         "Tree",
-        "Human & Natural Worlds",
+        "Quantitative Foundations",
         "Biology",
         "DNA",
         "Human Genome Project"
@@ -12908,246 +13148,6 @@ window.timelineData = {
       "mapUrl": "../map/#paper=2001_lander_initial_sequencing_and_analysis",
       "timelineUrl": "../timeline/#paper=2001_lander_initial_sequencing_and_analysis",
       "searchUrl": "../search/?paper=2001_lander_initial_sequencing_and_analysis"
-    },
-    {
-      "id": "2001_viola_rapid_object_detection_using",
-      "label": "Viola-Jones Detector",
-      "title": "Rapid Object Detection Using a Boosted Cascade of Simple Features",
-      "authors": [
-        "Paul Viola",
-        "Michael Jones"
-      ],
-      "authorShort": "Viola, Jones",
-      "year": 2001,
-      "source": "Proceedings of the IEEE Computer Society Conference on Computer Vision and Pattern Recognition",
-      "type": "Conference Paper",
-      "superCategory": "Prediction & Perception",
-      "category": "Computer Vision",
-      "subCategory": "Recognition & Understanding",
-      "path": [
-        "Tree",
-        "Prediction & Perception",
-        "Computer Vision",
-        "Recognition & Understanding",
-        "Object Detection",
-        "Viola-Jones Detector"
-      ],
-      "tags": [
-        "Object detection",
-        "Face detection",
-        "AdaBoost",
-        "Integral image",
-        "Cascade classifier",
-        "Computer vision",
-        "Real-time"
-      ],
-      "abstract": "This paper describes a machine learning approach for visual object detection which is capable of processing images extremely rapidly and achieving high detection rates. This work is distinguished by three key contributions. The first is the introduction of a new image representation called the \"integral image\" which allows the features used by our detector to be computed very quickly. The second is a learning algorithm, based on AdaBoost, which selects a small number of critical visual features from a larger set and yields extremely efficient classifiers. The third contribution is a method for combining increasingly more complex classifiers in a \"cascade\" which allows background regions of the image to be quickly discarded while spending more computation on promising object-like regions. The cascade can be viewed as an object specific focus-of-attention mechanism which unlike previous approaches provides statistical guarantees that discarded regions are unlikely to contain the object of interest. In the domain of face detection the system yields detection rates comparable to the best previous systems. Used in real-time applications, the detector runs at 15 frames per second without resorting to image differencing or skin color detection.",
-      "summary": "Introduces the Viola-Jones real-time face detector with three key contributions: the integral image for O(1) Haar-like feature computation, AdaBoost for selecting a small discriminative feature set, and a cascaded classifier that rapidly rejects background regions. Ran at 15 fps and was the dominant face detection algorithm for a decade.",
-      "url": "../papers/2001_viola_rapid_object_detection_using/",
-      "treeUrl": "../tree/#paper=2001_viola_rapid_object_detection_using",
-      "mapUrl": "../map/#paper=2001_viola_rapid_object_detection_using",
-      "timelineUrl": "../timeline/#paper=2001_viola_rapid_object_detection_using",
-      "searchUrl": "../search/?paper=2001_viola_rapid_object_detection_using"
-    },
-    {
-      "id": "2001_friedman_greedy_function_approximation_a",
-      "label": "GBM",
-      "title": "Greedy Function Approximation: A Gradient Boosting Machine",
-      "authors": [
-        "Jerome H. Friedman"
-      ],
-      "authorShort": "Friedman",
-      "year": 2001,
-      "source": "Annals of Statistics",
-      "type": "Journal Paper",
-      "superCategory": "Prediction & Perception",
-      "category": "Machine Learning",
-      "subCategory": "Classical & Statistical Learning",
-      "path": [
-        "Tree",
-        "Prediction & Perception",
-        "Machine Learning",
-        "Classical & Statistical Learning",
-        "Ensemble Methods",
-        "GBM"
-      ],
-      "tags": [
-        "Gradient boosting",
-        "Ensemble methods",
-        "Decision trees",
-        "Boosting",
-        "Function approximation",
-        "TreeBoost",
-        "Machine learning"
-      ],
-      "abstract": "Function estimation/approximation is viewed from the perspective of numerical optimization in function space, rather than parameter space. A connection is made between stagewise additive expansions and steepest-descent minimization. A general gradient descent \"boosting\" paradigm is developed for additive expansions based on any fitting criterion. Specific algorithms are presented for least-squares, least absolute deviation, and Huber-M loss functions for regression, and multiclass logistic likelihood for classification. Special enhancements are derived for the particular case where the individual additive components are regression trees, and tools for interpreting such \"TreeBoost\" models are presented.",
-      "summary": "Derives gradient boosted trees from first principles as steepest-descent optimization in function space, unifying boosting with numerical optimization. Introduces the TreeBoost algorithm and specific gradient update rules for regression and classification, forming the basis for XGBoost, LightGBM, CatBoost, and all modern gradient boosting libraries.",
-      "url": "../papers/2001_friedman_greedy_function_approximation_a/",
-      "treeUrl": "../tree/#paper=2001_friedman_greedy_function_approximation_a",
-      "mapUrl": "../map/#paper=2001_friedman_greedy_function_approximation_a",
-      "timelineUrl": "../timeline/#paper=2001_friedman_greedy_function_approximation_a",
-      "searchUrl": "../search/?paper=2001_friedman_greedy_function_approximation_a"
-    },
-    {
-      "id": "2001_breiman_random_forests",
-      "label": "Random Forests",
-      "title": "Random Forests",
-      "authors": [
-        "Leo Breiman"
-      ],
-      "authorShort": "Breiman",
-      "year": 2001,
-      "source": "Machine Learning",
-      "type": "Journal Paper",
-      "superCategory": "Prediction & Perception",
-      "category": "Machine Learning",
-      "subCategory": "Classical & Statistical Learning",
-      "path": [
-        "Tree",
-        "Prediction & Perception",
-        "Machine Learning",
-        "Classical & Statistical Learning",
-        "Ensemble Methods",
-        "Random Forests"
-      ],
-      "tags": [
-        "Ensemble methods",
-        "Random forest",
-        "Decision trees",
-        "Bagging",
-        "Feature randomization",
-        "Classification",
-        "Regression"
-      ],
-      "abstract": "Random forests are a combination of tree predictors such that each tree depends on the values of a random vector sampled independently and with the same distribution for all trees in the forest. The generalization error for forests converges a.s. to a limit as the number of trees in the forest becomes large. The generalization error of a forest of tree classifiers depends on the strength of the individual trees in the forest and the correlation between them. Using a random selection of features to split each node yields error rates that compare favorably to Adaboost (Freund and Schapire, 1996), but are more robust with respect to noise. Internal estimates monitor error, strength, and correlation and these are used to show the response to increasing the number of features used in the splitting. Internal estimates are also used to measure variable importance. These ideas are also applicable to regression.",
-      "summary": "Introduces Random Forests: an ensemble method that decorrelates bagged trees by selecting a random subset of features at each split. The random feature selection dramatically reduces between-tree correlation while preserving strength, yielding an ensemble that is more accurate and robust to noise than Adaboost while requiring no hyperparameter tuning beyond the number of trees.",
-      "url": "../papers/2001_breiman_random_forests/",
-      "treeUrl": "../tree/#paper=2001_breiman_random_forests",
-      "mapUrl": "../map/#paper=2001_breiman_random_forests",
-      "timelineUrl": "../timeline/#paper=2001_breiman_random_forests",
-      "searchUrl": "../search/?paper=2001_breiman_random_forests"
-    },
-    {
-      "id": "2001_ng_on_spectral_clustering_analysis",
-      "label": "Spectral Clustering",
-      "title": "On Spectral Clustering: Analysis and an Algorithm",
-      "authors": [
-        "Andrew Ng",
-        "Michael Jordan",
-        "Yair Weiss"
-      ],
-      "authorShort": "Ng, Jordan, Weiss",
-      "year": 2001,
-      "source": "Advances in Neural Information Processing Systems",
-      "type": "Conference Paper",
-      "superCategory": "Prediction & Perception",
-      "category": "Machine Learning",
-      "subCategory": "Classical & Statistical Learning",
-      "path": [
-        "Tree",
-        "Prediction & Perception",
-        "Machine Learning",
-        "Classical & Statistical Learning",
-        "Clustering",
-        "Spectral Clustering",
-        "Spectral Clustering"
-      ],
-      "tags": [
-        "Spectral clustering",
-        "Graph laplacians",
-        "Eigenvectors",
-        "Matrix perturbation",
-        "Clustering",
-        "Machine learning"
-      ],
-      "abstract": "Despite many empirical successes of spectral clustering methods - algorithms that cluster points using eigenvectors of matrices derived from the data - there are several unresolved issues. First, there are a wide variety of algorithms that use the eigenvectors in slightly different ways. Second, many of these algorithms have no proof that they will actually compute a reasonable clustering. In this paper, we present a simple spectral clustering algorithm that can be implemented using a few lines of Matlab. Using tools from matrix perturbation theory, we analyze the algorithm, and give conditions under which it can be expected to do well. We also show surprisingly good experimental results on a number of challenging clustering problems.",
-      "summary": "Presents a simple spectral clustering algorithm based on eigenvectors of an affinity-derived matrix and analyzes conditions under which it recovers meaningful clusters. The paper helped standardize the normalized spectral clustering recipe and connected its empirical success to matrix perturbation arguments.",
-      "url": "../papers/2001_ng_on_spectral_clustering_analysis/",
-      "treeUrl": "../tree/#paper=2001_ng_on_spectral_clustering_analysis",
-      "mapUrl": "../map/#paper=2001_ng_on_spectral_clustering_analysis",
-      "timelineUrl": "../timeline/#paper=2001_ng_on_spectral_clustering_analysis",
-      "searchUrl": "../search/?paper=2001_ng_on_spectral_clustering_analysis"
-    },
-    {
-      "id": "2001_kschischang_factor_graphs_and_the",
-      "label": "Factor Graphs and the Sum-product Algorithm",
-      "title": "Factor Graphs and the Sum-product Algorithm",
-      "authors": [
-        "F.R. Kschischang",
-        "B.J. Frey",
-        "H.-A. Loeliger"
-      ],
-      "authorShort": "Kschischang, Frey, Loeliger",
-      "year": 2001,
-      "source": "IEEE Transactions on Information Theory",
-      "type": "Journal Paper",
-      "superCategory": "Prediction & Perception",
-      "category": "State Estimation",
-      "subCategory": "Localization & Mapping",
-      "path": [
-        "Tree",
-        "Prediction & Perception",
-        "State Estimation",
-        "Localization & Mapping",
-        "Factor Graphs",
-        "Factor Graphs and the Sum-product Algorithm"
-      ],
-      "tags": [
-        "Factor graphs",
-        "Sum-product algorithm",
-        "Belief propagation",
-        "Message passing",
-        "Graphical models",
-        "Error-correcting codes",
-        "Probabilistic inference"
-      ],
-      "abstract": "Algorithms that must deal with complicated global functions of many variables often exploit the manner in which the given functions factor as a product of \"local\" functions, each of which depends on a subset of the variables. Such a factorization can be visualized with a bipartite graph that we call a factor graph, In this tutorial paper, we present a generic message-passing algorithm, the sum-product algorithm, that operates in a factor graph. Following a single, simple computational rule, the sum-product algorithm computes-either exactly or approximately-various marginal functions derived from the global function. A wide variety of algorithms developed in artificial intelligence, signal processing, and digital communications can be derived as specific instances of the sum-product algorithm, including the forward/backward algorithm, the Viterbi algorithm, the iterative \"turbo\" decoding algorithm, Pearl's (1988) belief propagation algorithm for Bayesian networks, the Kalman filter, and certain fast Fourier transform (FFT) algorithms.",
-      "summary": "Presents factor graphs as a unified graphical representation for factorizations of global functions and describes the sum-product message-passing algorithm on those graphs. The tutorial shows how algorithms including forward-backward, Viterbi, turbo decoding, belief propagation, Kalman filtering, and some FFTs arise as instances of the same computational rule.",
-      "url": "../papers/2001_kschischang_factor_graphs_and_the/",
-      "treeUrl": "../tree/#paper=2001_kschischang_factor_graphs_and_the",
-      "mapUrl": "../map/#paper=2001_kschischang_factor_graphs_and_the",
-      "timelineUrl": "../timeline/#paper=2001_kschischang_factor_graphs_and_the",
-      "searchUrl": "../search/?paper=2001_kschischang_factor_graphs_and_the"
-    },
-    {
-      "id": "2001_govindu_combining_two_view_constraints",
-      "label": "Two-View Constraint Motion Averaging",
-      "title": "Combining Two-View Constraints for Motion Estimation",
-      "authors": [
-        "Venu Madhav Govindu"
-      ],
-      "authorShort": "Govindu",
-      "year": 2001,
-      "source": "IEEE Conference on Computer Vision and Pattern Recognition",
-      "type": "Conference Paper",
-      "superCategory": "Prediction & Perception",
-      "category": "State Estimation",
-      "subCategory": "Localization & Mapping",
-      "path": [
-        "Tree",
-        "Prediction & Perception",
-        "State Estimation",
-        "Localization & Mapping",
-        "Visual Odometry & Structure from Motion",
-        "Structure from Motion (SfM)",
-        "Two-View Constraint Motion Averaging"
-      ],
-      "tags": [
-        "Structure from motion",
-        "Motion averaging",
-        "Two-view geometry",
-        "Epipolar constraints",
-        "Global motion estimation",
-        "Camera calibration",
-        "Multi-view reconstruction"
-      ],
-      "abstract": "In this paper we describe two methods for estimating the motion parameters of an image sequence. For a sequence of images, the global motion can be described by n - 1 independent motion models. On the other hand, in a sequence there exist as many as n(n - 1)/2 pairwise relative motion constraints that can be solve for efficiently. In this paper we show how to linearly solve for consistent global motion models using this highly redundant set of constraints. In the first case, our method involves estimating all available pairwise relative motions and linearly fitting a global motion model to these estimates. In the second instance, we exploit the fact that algebraic (ie. epipolar) constraints between various image pairs are all related to each other by the global motion model. This results in an estimation method that directly computes the motion of the sequence by using all possible algebraic constraints. Unlike using reprojection error, our optimisation method does not solve for the structure of points resulting in a reduction of the dimensionality of the search space. Our algorithms are used for both 3D camera motion estimation and camera calibration. We provide real examples of both applications.",
-      "summary": "Uses redundant pairwise two-view constraints to estimate globally consistent camera motion, anticipating later motion-averaging and global-SfM formulations. Its key contribution is to move beyond chaining local estimates by solving a linear consistency problem over many image pairs.",
-      "url": "../papers/2001_govindu_combining_two_view_constraints/",
-      "treeUrl": "../tree/#paper=2001_govindu_combining_two_view_constraints",
-      "mapUrl": "../map/#paper=2001_govindu_combining_two_view_constraints",
-      "timelineUrl": "../timeline/#paper=2001_govindu_combining_two_view_constraints",
-      "searchUrl": "../search/?paper=2001_govindu_combining_two_view_constraints"
     },
     {
       "id": "cond_mat_0112110",
@@ -13182,7 +13182,7 @@ window.timelineData = {
         "Graph clustering",
         "Hierarchical clustering"
       ],
-      "abstract": "A number of recent studies have focused on the statistical properties of networked systems such as social networks and the World-Wide Web. Researchers have concentrated particularly on a few properties which seem to be common to many networks: the small-world property, power-law degree distributions, and network transitivity. In this paper, we highlight another property which is found in many networks, the property of community structure, in which network nodes are joined together in tightly-knit groups between which there are only looser connections. We propose a new method for detecting such communities, built around the idea of using centrality indices to find community boundaries. We test our method on computer generated and real-world graphs whose community structure is already known, and find that it detects this known structure with high sensitivity and reliability. We also apply the method to two networks whose community structure is not well-known--a collaboration network and a food web--and find that it detects significant and informative community divisions in both cases.",
+      "abstract": "A number of recent studies have focused on the statistical properties of networked systems such as social networks and the World-Wide Web. Researchers have concentrated particularly on a few properties which seem to be common to many networks: the small-world property, power-law degree distributions, and network transitivity. In this paper, we highlight another property which is found in many networks, the property of community structure, in which network nodes are joined together in tightly-knit groups between which there are only looser connections. We propose a new method for detecting such communities, built around the idea of using centrality indices to find community boundaries. We test our method on computer generated and real-world graphs whose community structure is already known, and find that it detects this known structure with high sensitivity and reliability. We also apply the method to two networks whose community structure is not well-known - a collaboration network and a food web - and find that it detects significant and informative community divisions in both cases.",
       "summary": "Introduces a divisive community detection method based on repeatedly removing edges with high edge betweenness. The paper helped make community structure a central network science problem and established a benchmark algorithm for finding boundaries between densely connected groups.",
       "url": "../papers/cond_mat_0112110/",
       "treeUrl": "../tree/#paper=cond_mat_0112110",
@@ -15257,7 +15257,7 @@ window.timelineData = {
         "Parametric optimization",
         "Real-time optimization"
       ],
-      "abstract": "An efficient Newton-type scheme for the approximate on-line solution of optimization problems as they occur in optimal feedback control is presented. The scheme allows a fast reaction to disturbances by delivering approximations of the exact optimal feedback control which are iteratively refined during the runtime of the controlled process. The contractivity of this real-time iteration scheme is proven, and a bound on the loss of optimality---compared with the theoretical optimal solution---is given. The robustness and excellent real-time performance of the method is demonstrated in a numerical experiment, the control of an unstable system, namely, an airborne kite that shall fly loops.",
+      "abstract": "An efficient Newton-type scheme for the approximate on-line solution of optimization problems as they occur in optimal feedback control is presented. The scheme allows a fast reaction to disturbances by delivering approximations of the exact optimal feedback control which are iteratively refined during the runtime of the controlled process. The contractivity of this real-time iteration scheme is proven, and a bound on the loss of optimality - compared with the theoretical optimal solution - is given. The robustness and excellent real-time performance of the method is demonstrated in a numerical experiment, the control of an unstable system, namely, an airborne kite that shall fly loops.",
       "summary": "This paper establishes the real-time iteration scheme for nonlinear optimal feedback control: one Newton/SQP-type update is performed per sampling instant while previous iterates warm-start the next online problem. It gives the key contractivity and optimality-loss results that justify RTI-based NMPC, and demonstrates the method on the now-classic airborne-kite benchmark.",
       "url": "../papers/2005_diehl_a_real_time_iteration/",
       "treeUrl": "../tree/#paper=2005_diehl_a_real_time_iteration",
@@ -16008,44 +16008,6 @@ window.timelineData = {
       "searchUrl": "../search/?paper=2006_el_samad_stochastic_reachability_analysis_in"
     },
     {
-      "id": "2006_takahashi_induction_of_pluripotent_stem",
-      "label": "Induced Pluripotent Stem Cells",
-      "title": "Induction of Pluripotent Stem Cells from Mouse Embryonic and Adult Fibroblast Cultures by Defined Factors",
-      "authors": [
-        "Kazutoshi Takahashi",
-        "Shinya Yamanaka"
-      ],
-      "authorShort": "Takahashi, Yamanaka",
-      "year": 2006,
-      "source": "Cell",
-      "type": "Journal Paper",
-      "superCategory": "Human & Natural Worlds",
-      "category": "Biology",
-      "subCategory": "Genetic Engineering",
-      "path": [
-        "Tree",
-        "Human & Natural Worlds",
-        "Biology",
-        "Genetic Engineering",
-        "Induced Pluripotent Stem Cells"
-      ],
-      "tags": [
-        "Stem cells",
-        "Cell reprogramming",
-        "Pluripotency",
-        "Yamanaka factors",
-        "Developmental biology",
-        "Gene regulation"
-      ],
-      "abstract": "Differentiated cells can be reprogrammed to an embryonic-like state by transfer of nuclear contents into oocytes or by fusion with embryonic stem (ES) cells. Little is known about factors that induce this reprogramming. Here, we demonstrate induction of pluripotent stem cells from mouse embryonic or adult fibroblasts by introducing four factors, Oct3/4, Sox2, c-Myc, and Klf4, under ES cell culture conditions. Unexpectedly, Nanog was dispensable. These cells, which we designated iPS (induced pluripotent stem) cells, exhibit the morphology and growth properties of ES cells and express ES cell marker genes. Subcutaneous transplantation of iPS cells into nude mice resulted in tumors containing a variety of tissues from all three germ layers. Following injection into blastocysts, iPS cells contributed to mouse embryonic development. These data demonstrate that pluripotent stem cells can be directly generated from fibroblast cultures by the addition of only a few defined factors.",
-      "summary": "Shows that a small set of transcription factors can reprogram differentiated mouse fibroblasts into induced pluripotent stem cells. The result transformed stem-cell biology by making cellular state reprogramming experimentally direct and reproducible.",
-      "url": "../papers/2006_takahashi_induction_of_pluripotent_stem/",
-      "treeUrl": "../tree/#paper=2006_takahashi_induction_of_pluripotent_stem",
-      "mapUrl": "../map/#paper=2006_takahashi_induction_of_pluripotent_stem",
-      "timelineUrl": "../timeline/#paper=2006_takahashi_induction_of_pluripotent_stem",
-      "searchUrl": "../search/?paper=2006_takahashi_induction_of_pluripotent_stem"
-    },
-    {
       "id": "2006_luo_uniform_colour_spaces_based",
       "label": "Uniform colour spaces based on CIECAM02 colour appearance model",
       "title": "Uniform Colour Spaces Based on CIECAM02 Colour Appearance Model",
@@ -16377,6 +16339,44 @@ window.timelineData = {
       "searchUrl": "../search/?paper=2006_dellaert_square_root_sam_simultaneous"
     },
     {
+      "id": "2006_takahashi_induction_of_pluripotent_stem",
+      "label": "Induced Pluripotent Stem Cells",
+      "title": "Induction of Pluripotent Stem Cells from Mouse Embryonic and Adult Fibroblast Cultures by Defined Factors",
+      "authors": [
+        "Kazutoshi Takahashi",
+        "Shinya Yamanaka"
+      ],
+      "authorShort": "Takahashi, Yamanaka",
+      "year": 2006,
+      "source": "Cell",
+      "type": "Journal Paper",
+      "superCategory": "Quantitative Foundations",
+      "category": "Biology",
+      "subCategory": "Genetic Engineering",
+      "path": [
+        "Tree",
+        "Quantitative Foundations",
+        "Biology",
+        "Genetic Engineering",
+        "Induced Pluripotent Stem Cells"
+      ],
+      "tags": [
+        "Stem cells",
+        "Cell reprogramming",
+        "Pluripotency",
+        "Yamanaka factors",
+        "Developmental biology",
+        "Gene regulation"
+      ],
+      "abstract": "Differentiated cells can be reprogrammed to an embryonic-like state by transfer of nuclear contents into oocytes or by fusion with embryonic stem (ES) cells. Little is known about factors that induce this reprogramming. Here, we demonstrate induction of pluripotent stem cells from mouse embryonic or adult fibroblasts by introducing four factors, Oct3/4, Sox2, c-Myc, and Klf4, under ES cell culture conditions. Unexpectedly, Nanog was dispensable. These cells, which we designated iPS (induced pluripotent stem) cells, exhibit the morphology and growth properties of ES cells and express ES cell marker genes. Subcutaneous transplantation of iPS cells into nude mice resulted in tumors containing a variety of tissues from all three germ layers. Following injection into blastocysts, iPS cells contributed to mouse embryonic development. These data demonstrate that pluripotent stem cells can be directly generated from fibroblast cultures by the addition of only a few defined factors.",
+      "summary": "Shows that a small set of transcription factors can reprogram differentiated mouse fibroblasts into induced pluripotent stem cells. The result transformed stem-cell biology by making cellular state reprogramming experimentally direct and reproducible.",
+      "url": "../papers/2006_takahashi_induction_of_pluripotent_stem/",
+      "treeUrl": "../tree/#paper=2006_takahashi_induction_of_pluripotent_stem",
+      "mapUrl": "../map/#paper=2006_takahashi_induction_of_pluripotent_stem",
+      "timelineUrl": "../timeline/#paper=2006_takahashi_induction_of_pluripotent_stem",
+      "searchUrl": "../search/?paper=2006_takahashi_induction_of_pluripotent_stem"
+    },
+    {
       "id": "2007_hoffmann_autonomous_automobile_trajectory_tracking",
       "label": "Autonomous Automobile Trajectory Tracking for Off-road Driving",
       "title": "Autonomous Automobile Trajectory Tracking for Off-road Driving: Controller Design, Experimental Validation and Racing",
@@ -16699,7 +16699,7 @@ window.timelineData = {
         "Iterative reweighting",
         "Signal reconstruction"
       ],
-      "abstract": "It is now well understood that (1) it is possible to reconstruct sparse signals exactly from what appear to be highly incomplete sets of linear measurements and (2) that this can be done by constrained L1 minimization. In this paper, we study a novel method for sparse signal recovery that in many situations outperforms L1 minimization in the sense that substantially fewer measurements are needed for exact recovery. The algorithm consists of solving a sequence of weighted L1-minimization problems where the weights used for the next iteration are computed from the value of the current solution. We present a series of experiments demonstrating the remarkable performance and broad applicability of this algorithm in the areas of sparse signal recovery, statistical estimation, error correction and image processing. Interestingly, superior gains are also achieved when our method is applied to recover signals with assumed near-sparsity in overcomplete representations--not by reweighting the L1 norm of the coefficient sequence as is common, but by reweighting the L1 norm of the transformed object. An immediate consequence is the possibility of highly efficient data acquisition protocols by improving on a technique known as compressed sensing.",
+      "abstract": "It is now well understood that (1) it is possible to reconstruct sparse signals exactly from what appear to be highly incomplete sets of linear measurements and (2) that this can be done by constrained L1 minimization. In this paper, we study a novel method for sparse signal recovery that in many situations outperforms L1 minimization in the sense that substantially fewer measurements are needed for exact recovery. The algorithm consists of solving a sequence of weighted L1-minimization problems where the weights used for the next iteration are computed from the value of the current solution. We present a series of experiments demonstrating the remarkable performance and broad applicability of this algorithm in the areas of sparse signal recovery, statistical estimation, error correction and image processing. Interestingly, superior gains are also achieved when our method is applied to recover signals with assumed near-sparsity in overcomplete representations - not by reweighting the L1 norm of the coefficient sequence as is common, but by reweighting the L1 norm of the transformed object. An immediate consequence is the possibility of highly efficient data acquisition protocols by improving on a technique known as compressed sensing.",
       "summary": "Proposes solving a sequence of weighted L1 problems to better approximate sparsity than a single unweighted relaxation. The simple iterative reweighting rule often recovers sparse signals from fewer measurements and became a standard heuristic in compressed sensing and sparse modeling.",
       "url": "../papers/0711_1612/",
       "treeUrl": "../tree/#paper=0711_1612",
@@ -17144,7 +17144,7 @@ window.timelineData = {
         "Weighted networks",
         "Network science"
       ],
-      "abstract": "To comprehend the multipartite organization of large-scale biological and social systems, we introduce a new information theoretic approach that reveals community structure in weighted and directed networks. The method decomposes a network into modules by optimally compressing a description of information flows on the network. The result is a map that both simplifies and highlights the regularities in the structure and their relationships. We illustrate the method by making a map of scientific communication as captured in the citation patterns of more than 6000 journals. We discover a multicentric organization with fields that vary dramatically in size and degree of integration into the network of science. Along the backbone of the network -- including physics, chemistry, molecular biology, and medicine -- information flows bidirectionally, but the map reveals a directional pattern of citation from the applied fields to the basic sciences.",
+      "abstract": "To comprehend the multipartite organization of large-scale biological and social systems, we introduce a new information theoretic approach that reveals community structure in weighted and directed networks. The method decomposes a network into modules by optimally compressing a description of information flows on the network. The result is a map that both simplifies and highlights the regularities in the structure and their relationships. We illustrate the method by making a map of scientific communication as captured in the citation patterns of more than 6000 journals. We discover a multicentric organization with fields that vary dramatically in size and degree of integration into the network of science. Along the backbone of the network - including physics, chemistry, molecular biology, and medicine - information flows bidirectionally, but the map reveals a directional pattern of citation from the applied fields to the basic sciences.",
       "summary": "Introduces the map equation and Infomap, framing community detection as compression of random-walk flows on a network. This shifted part of the field from purely density- or modularity-based partitions toward flow-based communities, especially useful for directed and weighted networks.",
       "url": "../papers/0707_0609/",
       "treeUrl": "../tree/#paper=0707_0609",
@@ -18778,7 +18778,7 @@ window.timelineData = {
         "Singular value decomposition",
         "Matrix sketching"
       ],
-      "abstract": "Low-rank matrix approximations, such as the truncated singular value decomposition and the rank-revealing QR decomposition, play a central role in data analysis and scientific computing. This work surveys and extends recent research which demonstrates that randomization offers a powerful tool for performing low-rank matrix approximation. These techniques exploit modern computational architectures more fully than classical methods and open the possibility of dealing with truly massive data sets. This paper presents a modular framework for constructing randomized algorithms that compute partial matrix decompositions. These methods use random sampling to identify a subspace that captures most of the action of a matrix. The input matrix is then compressed---either explicitly or implicitly---to this subspace, and the reduced matrix is manipulated deterministically to obtain the desired low-rank factorization. In many cases, this approach beats its classical competitors in terms of accuracy, speed, and robustness. These claims are supported by extensive numerical experiments and a detailed error analysis.",
+      "abstract": "Low-rank matrix approximations, such as the truncated singular value decomposition and the rank-revealing QR decomposition, play a central role in data analysis and scientific computing. This work surveys and extends recent research which demonstrates that randomization offers a powerful tool for performing low-rank matrix approximation. These techniques exploit modern computational architectures more fully than classical methods and open the possibility of dealing with truly massive data sets. This paper presents a modular framework for constructing randomized algorithms that compute partial matrix decompositions. These methods use random sampling to identify a subspace that captures most of the action of a matrix. The input matrix is then compressed - either explicitly or implicitly - to this subspace, and the reduced matrix is manipulated deterministically to obtain the desired low-rank factorization. In many cases, this approach beats its classical competitors in terms of accuracy, speed, and robustness. These claims are supported by extensive numerical experiments and a detailed error analysis.",
       "summary": "Surveys and analyzes randomized algorithms for constructing approximate matrix decompositions such as low-rank SVDs. The paper helped popularize randomized numerical linear algebra as a practical tool for large data matrices.",
       "url": "../papers/0909_4061/",
       "treeUrl": "../tree/#paper=0909_4061",
@@ -21066,7 +21066,7 @@ window.timelineData = {
         "Ergodicity",
         "Control theory"
       ],
-      "abstract": "The paper deals with the convergence properties of the products of random (row-)stochastic matrices. The limiting behavior of such products is studied from a dynamical system point of view. In particular, by appropriately defining a dynamic associated with a given sequence of random (row-)stochastic matrices, we prove that the dynamics admits a class of time-varying Lyapunov functions, including a quadratic one. Then, we discuss a special class of stochastic matrices, a class $\\Pstar$, which plays a central role in this work. We then introduce balanced chains and using some geometric properties of these chains, we characterize the stability of a subclass of balanced chains. As a special consequence of this stability result, we obtain an extension of a central result in the non-negative matrix theory stating that, for any aperiodic and irreducible row-stochastic matrix $A$, the limit $\\lim_{k\\to\\infty}A^k$ exists and it is a rank one stochastic matrix. We show that a generalization of this result holds not only for sequences of stochastic matrices but also for independent random sequences of such matrices.",
+      "abstract": "The paper deals with the convergence properties of the products of random (row-)stochastic matrices. The limiting behavior of such products is studied from a dynamical system point of view. In particular, by appropriately defining a dynamic associated with a given sequence of random (row-)stochastic matrices, we prove that the dynamics admits a class of time-varying Lyapunov functions, including a quadratic one. Then, we discuss a special class of stochastic matrices, a class P-star, which plays a central role in this work. We then introduce balanced chains and using some geometric properties of these chains, we characterize the stability of a subclass of balanced chains. As a special consequence of this stability result, we obtain an extension of a central result in the non-negative matrix theory stating that, for any aperiodic and irreducible row-stochastic matrix A, the limit lim k to infinity A^(k) exists and it is a rank one stochastic matrix. We show that a generalization of this result holds not only for sequences of stochastic matrices but also for independent random sequences of such matrices.",
       "summary": "Studies convergence of products of random row-stochastic matrices through a dynamical-systems lens. The paper introduces balanced chains and related Lyapunov arguments to generalize classical Perron-Frobenius convergence behavior to random, time-varying stochastic matrix sequences relevant to consensus and distributed computation.",
       "url": "../papers/1110_1751/",
       "treeUrl": "../tree/#paper=1110_1751",
@@ -21188,7 +21188,7 @@ window.timelineData = {
         "Compressed sensing",
         "Singular values"
       ],
-      "abstract": "Recovering sparse vectors and low-rank matrices from noisy linear measurements has been the focus of much recent research. Various reconstruction algorithms have been studied, including $\\ell_1$ and nuclear norm minimization as well as $\\ell_p$ minimization with $p<1$. These algorithms are known to succeed if certain conditions on the measurement map are satisfied. Proofs of robust recovery for matrices have so far been much more involved than in the vector case. In this paper, we show how several robust classes of recovery conditions can be extended from vectors to matrices in a simple and transparent way, leading to the best known restricted isometry and nullspace conditions for matrix recovery. Our results rely on the ability to \"vectorize\" matrices through the use of a key singular value inequality.",
+      "abstract": "Recovering sparse vectors and low-rank matrices from noisy linear measurements has been the focus of much recent research. Various reconstruction algorithms have been studied, including l_1 and nuclear norm minimization as well as l_p minimization with p < 1. These algorithms are known to succeed if certain conditions on the measurement map are satisfied. Proofs of robust recovery for matrices have so far been much more involved than in the vector case. In this paper, we show how several robust classes of recovery conditions can be extended from vectors to matrices in a simple and transparent way, leading to the best known restricted isometry and nullspace conditions for matrix recovery. Our results rely on the ability to \"vectorize\" matrices through the use of a key singular value inequality.",
       "summary": "Provides a cleaner route from sparse-vector recovery theory to low-rank matrix recovery by using a key inequality on singular values. The payoff is simpler proofs and stronger RIP and nullspace recovery conditions for nuclear-norm and related low-rank reconstruction methods.",
       "url": "../papers/1103_1178/",
       "treeUrl": "../tree/#paper=1103_1178",
@@ -21241,7 +21241,7 @@ window.timelineData = {
     {
       "id": "1111_0952",
       "label": "Computing a Nonnegative Matrix Factorization -- Provably",
-      "title": "Computing a Nonnegative Matrix Factorization -- Provably",
+      "title": "Computing a Nonnegative Matrix Factorization - Provably",
       "authors": [
         "Sanjeev Arora",
         "Rong Ge",
@@ -21273,7 +21273,7 @@ window.timelineData = {
         "Topic model",
         "Computational complexity"
       ],
-      "abstract": "In the Nonnegative Matrix Factorization (NMF) problem we are given an $n \\times m$ nonnegative matrix $M$ and an integer $r > 0$. Our goal is to express $M$ as $A W$ where $A$ and $W$ are nonnegative matrices of size $n \\times r$ and $r \\times m$ respectively. In some applications, it makes sense to ask instead for the product $AW$ to approximate $M$ -- i.e. (approximately) minimize $\\norm{M - AW}_F$ where $\\norm{}_F$ denotes the Frobenius norm; we refer to this as Approximate NMF. This problem has a rich history spanning quantum mechanics, probability theory, data analysis, polyhedral combinatorics, communication complexity, demography, chemometrics, etc. In the past decade NMF has become enormously popular in machine learning, where $A$ and $W$ are computed using a variety of local search heuristics. Vavasis proved that this problem is NP-complete. We initiate a study of when this problem is solvable in polynomial time: 1. We give a polynomial-time algorithm for exact and approximate NMF for every constant $r$. Indeed NMF is most interesting in applications precisely when $r$ is small. 2. We complement this with a hardness result, that if exact NMF can be solved in time $(nm)^{o(r)}$, 3-SAT has a sub-exponential time algorithm. This rules out substantial improvements to the above algorithm. 3. We give an algorithm that runs in time polynomial in $n$, $m$ and $r$ under the separablity condition identified by Donoho and Stodden in 2003. The algorithm may be practical since it is simple and noise tolerant (under benign assumptions). Separability is believed to hold in many practical settings. To the best of our knowledge, this last result is the first example of a polynomial-time algorithm that provably works under a non-trivial condition on the input and we believe that this will be an interesting and important direction for future work.",
+      "abstract": "In the Nonnegative Matrix Factorization (NMF) problem we are given an n x m nonnegative matrix M and an integer r > 0. Our goal is to express M as A W where A and W are nonnegative matrices of size n x r and r x m respectively. In some applications, it makes sense to ask instead for the product AW to approximate M - i.e. (approximately) minimize normM - AW_F where norm{}_F denotes the Frobenius norm; we refer to this as Approximate NMF. This problem has a rich history spanning quantum mechanics, probability theory, data analysis, polyhedral combinatorics, communication complexity, demography, chemometrics, etc. In the past decade NMF has become enormously popular in machine learning, where A and W are computed using a variety of local search heuristics. Vavasis proved that this problem is NP-complete. We initiate a study of when this problem is solvable in polynomial time: 1. We give a polynomial-time algorithm for exact and approximate NMF for every constant r. Indeed NMF is most interesting in applications precisely when r is small. 2. We complement this with a hardness result, that if exact NMF can be solved in time (nm)^(o)(r), 3-SAT has a sub-exponential time algorithm. This rules out substantial improvements to the above algorithm. 3. We give an algorithm that runs in time polynomial in n, m and r under the separablity condition identified by Donoho and Stodden in 2003. The algorithm may be practical since it is simple and noise tolerant (under benign assumptions). Separability is believed to hold in many practical settings. To the best of our knowledge, this last result is the first example of a polynomial-time algorithm that provably works under a non-trivial condition on the input and we believe that this will be an interesting and important direction for future work.",
       "summary": "Identifies separability conditions under which nonnegative matrix factorization becomes tractable and gives polynomial-time algorithms for exact and approximate NMF in those regimes. The paper is important because it turns a widely used heuristic matrix factorization problem into a provable algorithmic setting connected to topics and mixture models.",
       "url": "../papers/1111_0952/",
       "treeUrl": "../tree/#paper=1111_0952",
@@ -22337,7 +22337,7 @@ window.timelineData = {
         "Stochastic bandits",
         "Sequential decision making"
       ],
-      "abstract": "The multi-armed bandit problem is a popular model for studying exploration/exploitation trade-off in sequential decision problems. Many algorithms are now available for this well-studied problem. One of the earliest algorithms, given by W. R. Thompson, dates back to 1933. This algorithm, referred to as Thompson Sampling, is a natural Bayesian algorithm. The basic idea is to choose an arm to play according to its probability of being the best arm. Thompson Sampling algorithm has experimentally been shown to be close to optimal. In addition, it is efficient to implement and exhibits several desirable properties such as small regret for delayed feedback. However, theoretical understanding of this algorithm was quite limited. In this paper, for the first time, we show that Thompson Sampling algorithm achieves logarithmic expected regret for the multi-armed bandit problem. More precisely, for the two-armed bandit problem, the expected regret in time $T$ is $O(\\frac{\\ln T}Δ + \\frac{1}{Δ^3})$. And, for the $N$-armed bandit problem, the expected regret in time $T$ is $O([(\\sum_{i=2}^N \\frac{1}{Δ_i^2})^2] \\ln T)$. Our bounds are optimal but for the dependence on $Δ_i$ and the constant factors in big-Oh.",
+      "abstract": "The multi-armed bandit problem is a popular model for studying exploration/exploitation trade-off in sequential decision problems. Many algorithms are now available for this well-studied problem. One of the earliest algorithms, given by W. R. Thompson, dates back to 1933. This algorithm, referred to as Thompson Sampling, is a natural Bayesian algorithm. The basic idea is to choose an arm to play according to its probability of being the best arm. Thompson Sampling algorithm has experimentally been shown to be close to optimal. In addition, it is efficient to implement and exhibits several desirable properties such as small regret for delayed feedback. However, theoretical understanding of this algorithm was quite limited. In this paper, for the first time, we show that Thompson Sampling algorithm achieves logarithmic expected regret for the multi-armed bandit problem. More precisely, for the two-armed bandit problem, the expected regret in time T is O(fracln TDelta + 1/Delta^(3)). And, for the N-armed bandit problem, the expected regret in time T is O([(sum_i = 2^(N) 1/Delta_i^(2))^(2)] ln T). Our bounds are optimal but for the dependence on Delta_i and the constant factors in big-Oh.",
       "summary": "Provides one of the first logarithmic expected-regret analyses for Thompson sampling in stochastic multi-armed bandits. The paper helped move Thompson sampling from an empirically attractive Bayesian heuristic toward a theoretically grounded bandit algorithm, though with gap-dependent constants that later work refined.",
       "url": "../papers/1111_1797/",
       "treeUrl": "../tree/#paper=1111_1797",
@@ -22419,7 +22419,7 @@ window.timelineData = {
         "Simulation-based optimization",
         "Bias-variance tradeoff"
       ],
-      "abstract": "Gradient-based approaches to direct policy search in reinforcement learning have received much recent attention as a means to solve problems of partial observability and to avoid some of the problems associated with policy degradation in value-function methods. In this paper we introduce GPOMDP, a simulation-based algorithm for generating a {\\em biased} estimate of the gradient of the {\\em average reward} in Partially Observable Markov Decision Processes (POMDPs) controlled by parameterized stochastic policies. A similar algorithm was proposed by Kimura, Yamamura, and Kobayashi (1995). The algorithm's chief advantages are that it requires storage of only twice the number of policy parameters, uses one free parameter $β\\in [0,1)$ (which has a natural interpretation in terms of bias-variance trade-off), and requires no knowledge of the underlying state. We prove convergence of GPOMDP, and show how the correct choice of the parameter $β$ is related to the {\\em mixing time} of the controlled POMDP. We briefly describe extensions of GPOMDP to controlled Markov chains, continuous state, observation and control spaces, multiple-agents, higher-order derivatives, and a version for training stochastic policies with internal states. In a companion paper (Baxter, Bartlett, & Weaver, 2001) we show how the gradient estimates generated by GPOMDP can be used in both a traditional stochastic gradient algorithm and a conjugate-gradient procedure to find local optima of the average reward",
+      "abstract": "Gradient-based approaches to direct policy search in reinforcement learning have received much recent attention as a means to solve problems of partial observability and to avoid some of the problems associated with policy degradation in value-function methods. In this paper we introduce GPOMDP, a simulation-based algorithm for generating a biased estimate of the gradient of the average reward in Partially Observable Markov Decision Processes (POMDPs) controlled by parameterized stochastic policies. A similar algorithm was proposed by Kimura, Yamamura, and Kobayashi (1995). The algorithm's chief advantages are that it requires storage of only twice the number of policy parameters, uses one free parameter beta in [0, 1) (which has a natural interpretation in terms of bias-variance trade-off), and requires no knowledge of the underlying state. We prove convergence of GPOMDP, and show how the correct choice of the parameter beta is related to the mixing time of the controlled POMDP. We briefly describe extensions of GPOMDP to controlled Markov chains, continuous state, observation and control spaces, multiple-agents, higher-order derivatives, and a version for training stochastic policies with internal states. In a companion paper (Baxter, Bartlett, & Weaver, 2001) we show how the gradient estimates generated by GPOMDP can be used in both a traditional stochastic gradient algorithm and a conjugate-gradient procedure to find local optima of the average reward",
       "summary": "Introduces GPOMDP, an online simulation-based estimator for policy gradients in average-reward POMDPs. The paper is notable for giving a memory-light eligibility-trace estimator with an explicit bias-variance parameter and connecting the choice of that parameter to the mixing behavior of the controlled process.",
       "url": "../papers/1106_0665/",
       "treeUrl": "../tree/#paper=1106_0665",
@@ -23197,7 +23197,7 @@ window.timelineData = {
         "Smooth plus simple",
         "Convex optimization"
       ],
-      "abstract": "In this paper we analyze several new methods for solving optimization problems with the objective function formed as a sum of two terms: one is smooth and given by a black-box oracle, and another is a simple general convex function with known structure. Despite the absence of good properties of the sum, such problems, both in convex and nonconvex cases, can be solved with efficiency typical for the first part of the objective. For convex problems of the above structure, we consider primal and dual variants of the gradient method (with convergence rate $$O\\\\left({1 \\\\over k}\\\\right)$$ ), and an accelerated multistep version with convergence rate $$O\\\\left({1 \\\\over k^2}\\\\right)$$ , where $$k$$ is the iteration counter. For nonconvex problems with this structure, we prove convergence to a point from which there is no descent direction. In contrast, we show that for general nonsmooth, nonconvex problems, even resolving the question of whether a descent direction exists from a point is NP-hard. For all methods, we suggest some efficient “line search” procedures and show that the additional computational work necessary for estimating the unknown problem class parameters can only multiply the complexity of each iteration by a small constant factor. We present also the results of preliminary computational experiments, which confirm the superiority of the accelerated scheme.",
+      "abstract": "In this paper we analyze several new methods for solving optimization problems with the objective function formed as a sum of two terms: one is smooth and given by a black-box oracle, and another is a simple general convex function with known structure. Despite the absence of good properties of the sum, such problems, both in convex and nonconvex cases, can be solved with efficiency typical for the first part of the objective. For convex problems of the above structure, we consider primal and dual variants of the gradient method (with convergence rate O(1 over k) ), and an accelerated multistep version with convergence rate O(1 over k^(2)), where k is the iteration counter. For nonconvex problems with this structure, we prove convergence to a point from which there is no descent direction. In contrast, we show that for general nonsmooth, nonconvex problems, even resolving the question of whether a descent direction exists from a point is NP-hard. For all methods, we suggest some efficient “line search” procedures and show that the additional computational work necessary for estimating the unknown problem class parameters can only multiply the complexity of each iteration by a small constant factor. We present also the results of preliminary computational experiments, which confirm the superiority of the accelerated scheme.",
       "summary": "Develops gradient methods for convex composite objectives whose smooth part is accessed through a first-order oracle and whose nonsmooth or simple part is handled through structured prox-like subproblems. The paper is a key reference for accelerated proximal-gradient thinking, giving complexity bounds and method variants for the smooth-plus-simple template that underlies much of modern first-order convex optimization.",
       "url": "../papers/2012_nesterov_gradient_methods_for_minimizing/",
       "treeUrl": "../tree/#paper=2012_nesterov_gradient_methods_for_minimizing",
@@ -24437,49 +24437,6 @@ window.timelineData = {
       "searchUrl": "../search/?paper=2012_mahony_multirotor_aerial_vehicles_modeling"
     },
     {
-      "id": "2012_jinek_a_programmable_dual_rna",
-      "label": "CRISPR-Cas9",
-      "title": "A Programmable Dual-RNA-Guided DNA Endonuclease in Adaptive Bacterial Immunity",
-      "authors": [
-        "Martin Jinek",
-        "Krzysztof Chylinski",
-        "Ines Fonfara",
-        "Michael Hauer",
-        "Jennifer A. Doudna",
-        "Emmanuelle Charpentier"
-      ],
-      "authorShort": "Jinek, Chylinski, Fonfara",
-      "year": 2012,
-      "source": "Science",
-      "type": "Journal Paper",
-      "superCategory": "Human & Natural Worlds",
-      "category": "Biology",
-      "subCategory": "Genetic Engineering",
-      "path": [
-        "Tree",
-        "Human & Natural Worlds",
-        "Biology",
-        "Genetic Engineering",
-        "CRISPR-Cas9"
-      ],
-      "tags": [
-        "CRISPR-Cas9",
-        "Genome editing",
-        "RNA-guided nuclease",
-        "Adaptive immunity",
-        "Molecular biology",
-        "Guide RNA",
-        "Programmable biology"
-      ],
-      "abstract": "Clustered regularly interspaced short palindromic repeats (CRISPR)/CRISPR-associated (Cas) systems provide bacteria and archaea with adaptive immunity against viruses and plasmids by using CRISPR RNAs (crRNAs) to guide the silencing of invading nucleic acids. We show here that in a subset of these systems, the mature crRNA that is base-paired to trans-activating crRNA (tracrRNA) forms a two-RNA structure that directs the CRISPR-associated protein Cas9 to introduce double-stranded (ds) breaks in target DNA. At sites complementary to the crRNA-guide sequence, the Cas9 HNH nuclease domain cleaves the complementary strand, whereas the Cas9 RuvC-like domain cleaves the noncomplementary strand. The dual-tracrRNA:crRNA, when engineered as a single RNA chimera, also directs sequence-specific Cas9 dsDNA cleavage. Our study reveals a family of endonucleases that use dual-RNAs for site-specific DNA cleavage and highlights the potential to exploit the system for RNA-programmable genome editing.",
-      "summary": "Shows that Cas9 is guided by a dual RNA structure, and that a designed single-guide RNA can program Cas9 to cut DNA at chosen target sequences. This is the biochemical turning point that made CRISPR-Cas9 look like an engineerable genome-editing platform: the paper reduces bacterial adaptive immunity to a compact, programmable nuclease system and demonstrates sequence-specific cleavage in vitro.",
-      "url": "../papers/2012_jinek_a_programmable_dual_rna/",
-      "treeUrl": "../tree/#paper=2012_jinek_a_programmable_dual_rna",
-      "mapUrl": "../map/#paper=2012_jinek_a_programmable_dual_rna",
-      "timelineUrl": "../timeline/#paper=2012_jinek_a_programmable_dual_rna",
-      "searchUrl": "../search/?paper=2012_jinek_a_programmable_dual_rna"
-    },
-    {
       "id": "2012_krizhevsky_imagenet_classification_with_deep",
       "label": "ImageNet",
       "title": "ImageNet Classification with Deep Convolutional Neural Networks",
@@ -24599,6 +24556,49 @@ window.timelineData = {
       "mapUrl": "../map/#paper=2012_deng_the_mnist_database_of",
       "timelineUrl": "../timeline/#paper=2012_deng_the_mnist_database_of",
       "searchUrl": "../search/?paper=2012_deng_the_mnist_database_of"
+    },
+    {
+      "id": "2012_jinek_a_programmable_dual_rna",
+      "label": "CRISPR-Cas9",
+      "title": "A Programmable Dual-RNA-Guided DNA Endonuclease in Adaptive Bacterial Immunity",
+      "authors": [
+        "Martin Jinek",
+        "Krzysztof Chylinski",
+        "Ines Fonfara",
+        "Michael Hauer",
+        "Jennifer A. Doudna",
+        "Emmanuelle Charpentier"
+      ],
+      "authorShort": "Jinek, Chylinski, Fonfara",
+      "year": 2012,
+      "source": "Science",
+      "type": "Journal Paper",
+      "superCategory": "Quantitative Foundations",
+      "category": "Biology",
+      "subCategory": "Genetic Engineering",
+      "path": [
+        "Tree",
+        "Quantitative Foundations",
+        "Biology",
+        "Genetic Engineering",
+        "CRISPR-Cas9"
+      ],
+      "tags": [
+        "CRISPR-Cas9",
+        "Genome editing",
+        "RNA-guided nuclease",
+        "Adaptive immunity",
+        "Molecular biology",
+        "Guide RNA",
+        "Programmable biology"
+      ],
+      "abstract": "Clustered regularly interspaced short palindromic repeats (CRISPR)/CRISPR-associated (Cas) systems provide bacteria and archaea with adaptive immunity against viruses and plasmids by using CRISPR RNAs (crRNAs) to guide the silencing of invading nucleic acids. We show here that in a subset of these systems, the mature crRNA that is base-paired to trans-activating crRNA (tracrRNA) forms a two-RNA structure that directs the CRISPR-associated protein Cas9 to introduce double-stranded (ds) breaks in target DNA. At sites complementary to the crRNA-guide sequence, the Cas9 HNH nuclease domain cleaves the complementary strand, whereas the Cas9 RuvC-like domain cleaves the noncomplementary strand. The dual-tracrRNA:crRNA, when engineered as a single RNA chimera, also directs sequence-specific Cas9 dsDNA cleavage. Our study reveals a family of endonucleases that use dual-RNAs for site-specific DNA cleavage and highlights the potential to exploit the system for RNA-programmable genome editing.",
+      "summary": "Shows that Cas9 is guided by a dual RNA structure, and that a designed single-guide RNA can program Cas9 to cut DNA at chosen target sequences. This is the biochemical turning point that made CRISPR-Cas9 look like an engineerable genome-editing platform: the paper reduces bacterial adaptive immunity to a compact, programmable nuclease system and demonstrates sequence-specific cleavage in vitro.",
+      "url": "../papers/2012_jinek_a_programmable_dual_rna/",
+      "treeUrl": "../tree/#paper=2012_jinek_a_programmable_dual_rna",
+      "mapUrl": "../map/#paper=2012_jinek_a_programmable_dual_rna",
+      "timelineUrl": "../timeline/#paper=2012_jinek_a_programmable_dual_rna",
+      "searchUrl": "../search/?paper=2012_jinek_a_programmable_dual_rna"
     },
     {
       "id": "2012_casiez_1_euro_filter_a",
@@ -24758,7 +24758,7 @@ window.timelineData = {
         "Variable impedance",
         "Nonlinear extensions"
       ],
-      "abstract": "We consider the problem of synthesizing optimal linear feedback policies subject to arbitrary convex constraints on the feedback matrix. This is known to be a hard problem in the usual formulations ($\\Htwo,\\Hinf,\\LQR$) and previous works have focused on characterizing classes of structural constraints that allow efficient solution through convex optimization or dynamic programming techniques. In this paper, we propose a new control objective and show that this formulation makes the problem of computing optimal linear feedback matrices convex under arbitrary convex constraints on the feedback matrix. This allows us to solve problems in decentralized control (sparsity in the feedback matrices), control with delays and variable impedance control. Although the control objective is nonstandard, we present theoretical and empirical evidence that it agrees well with standard notions of control. We also present an extension to nonlinear control affine systems. We present numerical experiments validating our approach.",
+      "abstract": "We consider the problem of synthesizing optimal linear feedback policies subject to arbitrary convex constraints on the feedback matrix. This is known to be a hard problem in the usual formulations (Htwo,Hinf,LQR) and previous works have focused on characterizing classes of structural constraints that allow efficient solution through convex optimization or dynamic programming techniques. In this paper, we propose a new control objective and show that this formulation makes the problem of computing optimal linear feedback matrices convex under arbitrary convex constraints on the feedback matrix. This allows us to solve problems in decentralized control (sparsity in the feedback matrices), control with delays and variable impedance control. Although the control objective is nonstandard, we present theoretical and empirical evidence that it agrees well with standard notions of control. We also present an extension to nonlinear control affine systems. We present numerical experiments validating our approach.",
       "summary": "Proposes a finite-horizon control objective that makes linear feedback synthesis convex even under arbitrary convex structure constraints on the feedback matrices. The paper is important because it sidesteps the usual nonconvexity of structured LQR, H2, and Hinf-like design by optimizing a surrogate tied to the inverse closed-loop map, enabling sparse, delayed, decentralized, and variable-impedance feedback designs with global solutions for the surrogate.",
       "url": "../papers/1309_7731/",
       "treeUrl": "../tree/#paper=1309_7731",
@@ -25293,7 +25293,7 @@ window.timelineData = {
         "Geometric design",
         "Road geometry"
       ],
-      "abstract": "A new effective solution to the problem of Hermite $G^1$ interpolation with a clothoid curve is here proposed, that is a clothoid that interpolates two given points in a plane with assigned unit tangent vectors. The interpolation problem is a system of three nonlinear equations with multiple solutions which is difficult to solve also numerically. Here the solution of this system is reduced to the computation of the zeros of one single function in one variable. The location of the zero associated to the relevant solution is studied analytically: the interval containing the zero where the solution is proved to exists and to be unique is provided. A simple guess function allows to find that zero with very few iterations in all possible configurations. The computation of the clothoid curves and the solution algorithm call for the evaluation of Fresnel related integrals. Such integrals need asymptotic expansions near critical values to avoid loss of precision. This is necessary when, for example, the solution of the interpolation problem is close to a straight line or an arc of circle. A simple algorithm is presented for efficient computation of the asymptotic expansion. The reduction of the problem to a single nonlinear function in one variable and the use of asymptotic expansions make the present solution algorithm fast and robust. In particular a comparison with algorithms present in literature shows that the present algorithm requires less iterations. Moreover accuracy is maintained in all possible configurations while other algorithms have a loss of accuracy near the transition zones.",
+      "abstract": "A new effective solution to the problem of Hermite G^(1) interpolation with a clothoid curve is here proposed, that is a clothoid that interpolates two given points in a plane with assigned unit tangent vectors. The interpolation problem is a system of three nonlinear equations with multiple solutions which is difficult to solve also numerically. Here the solution of this system is reduced to the computation of the zeros of one single function in one variable. The location of the zero associated to the relevant solution is studied analytically: the interval containing the zero where the solution is proved to exists and to be unique is provided. A simple guess function allows to find that zero with very few iterations in all possible configurations. The computation of the clothoid curves and the solution algorithm call for the evaluation of Fresnel related integrals. Such integrals need asymptotic expansions near critical values to avoid loss of precision. This is necessary when, for example, the solution of the interpolation problem is close to a straight line or an arc of circle. A simple algorithm is presented for efficient computation of the asymptotic expansion. The reduction of the problem to a single nonlinear function in one variable and the use of asymptotic expansions make the present solution algorithm fast and robust. In particular a comparison with algorithms present in literature shows that the present algorithm requires less iterations. Moreover accuracy is maintained in all possible configurations while other algorithms have a loss of accuracy near the transition zones.",
       "summary": "Reduces G1 Hermite interpolation by a clothoid to finding a zero of one scalar nonlinear function, then analyzes the relevant interval so the solution can be found reliably with few iterations. The paper's practical value is its attention to numerical edge cases: asymptotic Fresnel-integral expansions keep accuracy near straight-line and circular-arc degeneracies where older clothoid fitting methods can lose precision.",
       "url": "../papers/1305_6644/",
       "treeUrl": "../tree/#paper=1305_6644",
@@ -26057,54 +26057,6 @@ window.timelineData = {
       "searchUrl": "../search/?paper=2013_kober_reinforcement_learning_in_robotics"
     },
     {
-      "id": "2013_le_cong_multiplex_genome_engineering_using",
-      "label": "CRISPR-Cas9 Genome Editing",
-      "title": "Multiplex Genome Engineering Using CRISPR/Cas Systems",
-      "authors": [
-        "Le Cong",
-        "F. Ann Ran",
-        "David Cox",
-        "Shuailiang Lin",
-        "Robert Barretto",
-        "Naomi Habib",
-        "Patrick D. Hsu",
-        "Xuebing Wu",
-        "Wenyan Jiang",
-        "Luciano A. Marraffini",
-        "Feng Zhang"
-      ],
-      "authorShort": "Cong, Ran, Cox",
-      "year": 2013,
-      "source": "Science",
-      "type": "Journal Paper",
-      "superCategory": "Human & Natural Worlds",
-      "category": "Biology",
-      "subCategory": "Genetic Engineering",
-      "path": [
-        "Tree",
-        "Human & Natural Worlds",
-        "Biology",
-        "Genetic Engineering",
-        "CRISPR-Cas9 Genome Editing"
-      ],
-      "tags": [
-        "CRISPR-Cas9",
-        "Genome editing",
-        "Multiplex editing",
-        "Mammalian cells",
-        "Genetic engineering",
-        "Guide RNA",
-        "Homology-directed repair"
-      ],
-      "abstract": "Functional elucidation of causal genetic variants and elements requires precise genome editing technologies. The type II prokaryotic CRISPR (clustered regularly interspaced short palindromic repeats)/Cas adaptive immune system has been shown to facilitate RNA-guided site-specific DNA cleavage. We engineered two different type II CRISPR/Cas systems and demonstrate that Cas9 nucleases can be directed by short RNAs to induce precise cleavage at endogenous genomic loci in human and mouse cells. Cas9 can also be converted into a nicking enzyme to facilitate homology-directed repair with minimal mutagenic activity. Lastly, multiple guide sequences can be encoded into a single CRISPR array to enable simultaneous editing of several sites within the mammalian genome, demonstrating easy programmability and wide applicability of the RNA-guided nuclease technology.",
-      "summary": "Adapts CRISPR-Cas9 into a practical mammalian genome-engineering system, including endogenous editing, nickase-mediated repair, and multiplex guide arrays.",
-      "url": "../papers/2013_le_cong_multiplex_genome_engineering_using/",
-      "treeUrl": "../tree/#paper=2013_le_cong_multiplex_genome_engineering_using",
-      "mapUrl": "../map/#paper=2013_le_cong_multiplex_genome_engineering_using",
-      "timelineUrl": "../timeline/#paper=2013_le_cong_multiplex_genome_engineering_using",
-      "searchUrl": "../search/?paper=2013_le_cong_multiplex_genome_engineering_using"
-    },
-    {
       "id": "2013_sun_a_quantitative_analysis_of",
       "label": "Classic+NL",
       "title": "A Quantitative Analysis of Current Practices in Optical Flow Estimation and the Principles behind Them",
@@ -26499,6 +26451,54 @@ window.timelineData = {
       "mapUrl": "../map/#paper=2013_hornung_octomap_an_efficient_probabilistic",
       "timelineUrl": "../timeline/#paper=2013_hornung_octomap_an_efficient_probabilistic",
       "searchUrl": "../search/?paper=2013_hornung_octomap_an_efficient_probabilistic"
+    },
+    {
+      "id": "2013_le_cong_multiplex_genome_engineering_using",
+      "label": "CRISPR-Cas9 Genome Editing",
+      "title": "Multiplex Genome Engineering Using CRISPR/Cas Systems",
+      "authors": [
+        "Le Cong",
+        "F. Ann Ran",
+        "David Cox",
+        "Shuailiang Lin",
+        "Robert Barretto",
+        "Naomi Habib",
+        "Patrick D. Hsu",
+        "Xuebing Wu",
+        "Wenyan Jiang",
+        "Luciano A. Marraffini",
+        "Feng Zhang"
+      ],
+      "authorShort": "Cong, Ran, Cox",
+      "year": 2013,
+      "source": "Science",
+      "type": "Journal Paper",
+      "superCategory": "Quantitative Foundations",
+      "category": "Biology",
+      "subCategory": "Genetic Engineering",
+      "path": [
+        "Tree",
+        "Quantitative Foundations",
+        "Biology",
+        "Genetic Engineering",
+        "CRISPR-Cas9 Genome Editing"
+      ],
+      "tags": [
+        "CRISPR-Cas9",
+        "Genome editing",
+        "Multiplex editing",
+        "Mammalian cells",
+        "Genetic engineering",
+        "Guide RNA",
+        "Homology-directed repair"
+      ],
+      "abstract": "Functional elucidation of causal genetic variants and elements requires precise genome editing technologies. The type II prokaryotic CRISPR (clustered regularly interspaced short palindromic repeats)/Cas adaptive immune system has been shown to facilitate RNA-guided site-specific DNA cleavage. We engineered two different type II CRISPR/Cas systems and demonstrate that Cas9 nucleases can be directed by short RNAs to induce precise cleavage at endogenous genomic loci in human and mouse cells. Cas9 can also be converted into a nicking enzyme to facilitate homology-directed repair with minimal mutagenic activity. Lastly, multiple guide sequences can be encoded into a single CRISPR array to enable simultaneous editing of several sites within the mammalian genome, demonstrating easy programmability and wide applicability of the RNA-guided nuclease technology.",
+      "summary": "Adapts CRISPR-Cas9 into a practical mammalian genome-engineering system, including endogenous editing, nickase-mediated repair, and multiplex guide arrays.",
+      "url": "../papers/2013_le_cong_multiplex_genome_engineering_using/",
+      "treeUrl": "../tree/#paper=2013_le_cong_multiplex_genome_engineering_using",
+      "mapUrl": "../map/#paper=2013_le_cong_multiplex_genome_engineering_using",
+      "timelineUrl": "../timeline/#paper=2013_le_cong_multiplex_genome_engineering_using",
+      "searchUrl": "../search/?paper=2013_le_cong_multiplex_genome_engineering_using"
     },
     {
       "id": "2014_ruths_control_profiles_of_complex",
@@ -28308,7 +28308,7 @@ window.timelineData = {
         "3D ShapeNets",
         "CAD"
       ],
-      "abstract": "3D shape is a crucial but heavily underutilized cue in today's computer vision systems, mostly due to the lack of a good generic shape representation. With the recent availability of inexpensive 2.5D depth sensors (e.g. Microsoft Kinect), it is becoming increasingly important to have a powerful 3D shape representation in the loop. Apart from category recognition, recovering full 3D shapes from view-based 2.5D depth maps is also a critical part of visual understanding. To this end, we propose to represent a geometric 3D shape as a probability distribution of binary variables on a 3D voxel grid, using a Convolutional Deep Belief Network. Our model, 3D ShapeNets, learns the distribution of complex 3D shapes across different object categories and arbitrary poses from raw CAD data, and discovers hierarchical compositional part representations automatically. It naturally supports joint object recognition and shape completion from 2.5D depth maps, and it enables active object recognition through view planning. To train our 3D deep learning model, we construct ModelNet -- a large-scale 3D CAD model dataset. Extensive experiments show that our 3D deep representation enables significant performance improvement over the-state-of-the-arts in a variety of tasks.",
+      "abstract": "3D shape is a crucial but heavily underutilized cue in today's computer vision systems, mostly due to the lack of a good generic shape representation. With the recent availability of inexpensive 2.5D depth sensors (e.g. Microsoft Kinect), it is becoming increasingly important to have a powerful 3D shape representation in the loop. Apart from category recognition, recovering full 3D shapes from view-based 2.5D depth maps is also a critical part of visual understanding. To this end, we propose to represent a geometric 3D shape as a probability distribution of binary variables on a 3D voxel grid, using a Convolutional Deep Belief Network. Our model, 3D ShapeNets, learns the distribution of complex 3D shapes across different object categories and arbitrary poses from raw CAD data, and discovers hierarchical compositional part representations automatically. It naturally supports joint object recognition and shape completion from 2.5D depth maps, and it enables active object recognition through view planning. To train our 3D deep learning model, we construct ModelNet - a large-scale 3D CAD model dataset. Extensive experiments show that our 3D deep representation enables significant performance improvement over the-state-of-the-arts in a variety of tasks.",
       "summary": "",
       "url": "../papers/1406_5670/",
       "treeUrl": "../tree/#paper=1406_5670",
@@ -28457,7 +28457,7 @@ window.timelineData = {
         "Accelerating t-SNE using Tree-Based Algorithms"
       ],
       "tags": [],
-      "abstract": "The paper investigates the acceleration of t-SNE--an embedding technique that is commonly used for the visualization of high- dimensional data in scatter plots--using two tree-based algorithms. In particular, the paper develops variants of the Barnes-Hut algorithm and of the dual-tree algorithm that approximate the gradient used for learning t-SNE embeddings in O(NlogN). Our experiments show that the resulting algorithms substantially accelerate t-SNE, and that they make it possible to learn embeddings of data sets with millions of objects. Somewhat counterintuitively, the Barnes-Hut variant of t-SNE appears to outperform the dual-tree variant.",
+      "abstract": "The paper investigates the acceleration of t-SNE - an embedding technique that is commonly used for the visualization of high- dimensional data in scatter plots - using two tree-based algorithms. In particular, the paper develops variants of the Barnes-Hut algorithm and of the dual-tree algorithm that approximate the gradient used for learning t-SNE embeddings in O(NlogN). Our experiments show that the resulting algorithms substantially accelerate t-SNE, and that they make it possible to learn embeddings of data sets with millions of objects. Somewhat counterintuitively, the Barnes-Hut variant of t-SNE appears to outperform the dual-tree variant.",
       "summary": "",
       "url": "../papers/2014_van_der_maaten_accelerating_t_sne_using/",
       "treeUrl": "../tree/#paper=2014_van_der_maaten_accelerating_t_sne_using",
@@ -29298,7 +29298,7 @@ window.timelineData = {
         "Probability distribution",
         "Optimization problem"
       ],
-      "abstract": "We consider stochastic programs where the distribution of the uncertain parameters is only observable through a finite training dataset. Using the Wasserstein metric, we construct a ball in the space of (multivariate and non-discrete) probability distributions centered at the uniform distribution on the training samples, and we seek decisions that perform best in view of the worst-case distribution within this Wasserstein ball. The state-of-the-art methods for solving the resulting distributionally robust optimization problems rely on global optimization techniques, which quickly become computationally excruciating. In this paper we demonstrate that, under mild assumptions, the distributionally robust optimization problems over Wasserstein balls can in fact be reformulated as finite convex programs---in many interesting cases even as tractable linear programs. Leveraging recent measure concentration results, we also show that their solutions enjoy powerful finite-sample performance guarantees. Our theoretical results are exemplified in mean-risk portfolio optimization as well as uncertainty quantification.",
+      "abstract": "We consider stochastic programs where the distribution of the uncertain parameters is only observable through a finite training dataset. Using the Wasserstein metric, we construct a ball in the space of (multivariate and non-discrete) probability distributions centered at the uniform distribution on the training samples, and we seek decisions that perform best in view of the worst-case distribution within this Wasserstein ball. The state-of-the-art methods for solving the resulting distributionally robust optimization problems rely on global optimization techniques, which quickly become computationally excruciating. In this paper we demonstrate that, under mild assumptions, the distributionally robust optimization problems over Wasserstein balls can in fact be reformulated as finite convex programs - in many interesting cases even as tractable linear programs. Leveraging recent measure concentration results, we also show that their solutions enjoy powerful finite-sample performance guarantees. Our theoretical results are exemplified in mean-risk portfolio optimization as well as uncertainty quantification.",
       "summary": "",
       "url": "../papers/1505_05116/",
       "treeUrl": "../tree/#paper=1505_05116",
@@ -29332,7 +29332,7 @@ window.timelineData = {
         "Data-driven Inverse Optimization with Imperfect Information"
       ],
       "tags": [],
-      "abstract": "In data-driven inverse optimization an observer aims to learn the preferences of an agent who solves a parametric optimization problem depending on an exogenous signal. Thus, the observer seeks the agent's objective function that best explains a historical sequence of signals and corresponding optimal actions. We focus here on situations where the observer has imperfect information, that is, where the agent's true objective function is not contained in the search space of candidate objectives, where the agent suffers from bounded rationality or implementation errors, or where the observed signal-response pairs are corrupted by measurement noise. We formalize this inverse optimization problem as a distributionally robust program minimizing the worst-case risk that the {\\em predicted} decision ({\\em i.e.}, the decision implied by a particular candidate objective) differs from the agent's {\\em actual} response to a random signal. We show that our framework offers rigorous out-of-sample guarantees for different loss functions used to measure prediction errors and that the emerging inverse optimization problems can be exactly reformulated as (or safely approximated by) tractable convex programs when a new suboptimality loss function is used. We show through extensive numerical tests that the proposed distributionally robust approach to inverse optimization attains often better out-of-sample performance than the state-of-the-art approaches.",
+      "abstract": "In data-driven inverse optimization an observer aims to learn the preferences of an agent who solves a parametric optimization problem depending on an exogenous signal. Thus, the observer seeks the agent's objective function that best explains a historical sequence of signals and corresponding optimal actions. We focus here on situations where the observer has imperfect information, that is, where the agent's true objective function is not contained in the search space of candidate objectives, where the agent suffers from bounded rationality or implementation errors, or where the observed signal-response pairs are corrupted by measurement noise. We formalize this inverse optimization problem as a distributionally robust program minimizing the worst-case risk that the predicted decision (i.e., the decision implied by a particular candidate objective) differs from the agent's actual response to a random signal. We show that our framework offers rigorous out-of-sample guarantees for different loss functions used to measure prediction errors and that the emerging inverse optimization problems can be exactly reformulated as (or safely approximated by) tractable convex programs when a new suboptimality loss function is used. We show through extensive numerical tests that the proposed distributionally robust approach to inverse optimization attains often better out-of-sample performance than the state-of-the-art approaches.",
       "summary": "",
       "url": "../papers/1512_05489/",
       "treeUrl": "../tree/#paper=1512_05489",
@@ -29484,7 +29484,7 @@ window.timelineData = {
         "Optimization",
         "Learning"
       ],
-      "abstract": "We survey incremental methods for minimizing a sum $\\sum_{i=1}^mf_i(x)$ consisting of a large number of convex component functions $f_i$. Our methods consist of iterations applied to single components, and have proved very effective in practice. We introduce a unified algorithmic framework for a variety of such methods, some involving gradient and subgradient iterations, which are known, and some involving combinations of subgradient and proximal methods, which are new and offer greater flexibility in exploiting the special structure of $f_i$. We provide an analysis of the convergence and rate of convergence properties of these methods, including the advantages offered by randomization in the selection of components. We also survey applications in inference/machine learning, signal processing, and large-scale and distributed optimization.",
+      "abstract": "We survey incremental methods for minimizing a sum sum_i = 1^(mf)_i(x) consisting of a large number of convex component functions f_i. Our methods consist of iterations applied to single components, and have proved very effective in practice. We introduce a unified algorithmic framework for a variety of such methods, some involving gradient and subgradient iterations, which are known, and some involving combinations of subgradient and proximal methods, which are new and offer greater flexibility in exploiting the special structure of f_i. We provide an analysis of the convergence and rate of convergence properties of these methods, including the advantages offered by randomization in the selection of components. We also survey applications in inference/machine learning, signal processing, and large-scale and distributed optimization.",
       "summary": "",
       "url": "../papers/1507_01030/",
       "treeUrl": "../tree/#paper=1507_01030",
@@ -29729,7 +29729,7 @@ window.timelineData = {
         "RR",
         "Stochastic gradient descent"
       ],
-      "abstract": "We analyze the convergence rate of the random reshuffling (RR) method, which is a randomized first-order incremental algorithm for minimizing a finite sum of convex component functions. RR proceeds in cycles, picking a uniformly random order (permutation) and processing the component functions one at a time according to this order, i.e., at each cycle, each component function is sampled without replacement from the collection. Though RR has been numerically observed to outperform its with-replacement counterpart stochastic gradient descent (SGD), characterization of its convergence rate has been a long standing open question. In this paper, we answer this question by showing that when the component functions are quadratics or smooth and the sum function is strongly convex, RR with iterate averaging and a diminishing stepsize $α_k=Θ(1/k^s)$ for $s\\in (1/2,1)$ converges at rate $Θ(1/k^{2s})$ with probability one in the suboptimality of the objective value, thus improving upon the $Ω(1/k)$ rate of SGD. Our analysis draws on the theory of Polyak-Ruppert averaging and relies on decoupling the dependent cycle gradient error into an independent term over cycles and another term dominated by $α_k^2$. This allows us to apply law of large numbers to an appropriately weighted version of the cycle gradient errors, where the weights depend on the stepsize. We also provide high probability convergence rate estimates that shows decay rate of different terms and allows us to propose a modification of RR with convergence rate ${\\cal O}(\\frac{1}{k^2})$.",
+      "abstract": "We analyze the convergence rate of the random reshuffling (RR) method, which is a randomized first-order incremental algorithm for minimizing a finite sum of convex component functions. RR proceeds in cycles, picking a uniformly random order (permutation) and processing the component functions one at a time according to this order, i.e., at each cycle, each component function is sampled without replacement from the collection. Though RR has been numerically observed to outperform its with-replacement counterpart stochastic gradient descent (SGD), characterization of its convergence rate has been a long standing open question. In this paper, we answer this question by showing that when the component functions are quadratics or smooth and the sum function is strongly convex, RR with iterate averaging and a diminishing stepsize alpha_k = Theta(1/k^(s)) for s in (1/2, 1) converges at rate Theta(1/k^(2)s) with probability one in the suboptimality of the objective value, thus improving upon the Omega(1/k) rate of SGD. Our analysis draws on the theory of Polyak-Ruppert averaging and relies on decoupling the dependent cycle gradient error into an independent term over cycles and another term dominated by alpha_k^(2). This allows us to apply law of large numbers to an appropriately weighted version of the cycle gradient errors, where the weights depend on the stepsize. We also provide high probability convergence rate estimates that shows decay rate of different terms and allows us to propose a modification of RR with convergence rate O(1/k^(2)).",
       "summary": "",
       "url": "../papers/1510_08560/",
       "treeUrl": "../tree/#paper=1510_08560",
@@ -30453,7 +30453,7 @@ window.timelineData = {
         "Scaling up Gaussian Belief Space Planning through Covariance-Free Trajectory Optimization and Automatic Differentiation"
       ],
       "tags": [],
-      "abstract": "Belief space planningAbbeel, Pieter providesGoldberg, Ken a principledKahn, Gregory frameworkLaskey, Michael to computePatil, Sachin motionSchulman, John plans that explicitly gather information from sensing, as necessary, to reduce uncertainty about the robot and the environment. We consider the problem of planning in Gaussian belief spaces, which are parameterized in terms of mean states and covariances describing the uncertainty. In this work, we show that it is possible to compute locally optimal plans without including the covariance in direct trajectory optimization formulations of the problem. As a result, the dimensionality of the problem scales linearly in the state dimension instead of quadratically, as would be the case if we were to include the covariance in the optimization. We accomplish this by taking advantage of recent advances in numerical optimal control that include automatic differentiation and state of the art convex solvers. We show that the running time of each optimization step of the covariance-free trajectory optimization is $$O(n^3T)$$ , where $$n$$ is the dimension of the state space and $$T$$ is the number of time steps in the trajectory. We present experiments in simulation on a variety of planning problems under uncertaintyMotion planning under uncertainty including manipulator planning, estimating unknown model parameters for dynamical systems, and active simultaneous localization and mapping (active SLAM). Our experiments suggest that our method can solve planning problems in $$100$$ dimensional state spaces and obtain computational speedups of $$400\\\\times $$ over related trajectory optimization methodsTrajectory optimization methods .",
+      "abstract": "Belief space planningAbbeel, Pieter providesGoldberg, Ken a principledKahn, Gregory frameworkLaskey, Michael to computePatil, Sachin motionSchulman, John plans that explicitly gather information from sensing, as necessary, to reduce uncertainty about the robot and the environment. We consider the problem of planning in Gaussian belief spaces, which are parameterized in terms of mean states and covariances describing the uncertainty. In this work, we show that it is possible to compute locally optimal plans without including the covariance in direct trajectory optimization formulations of the problem. As a result, the dimensionality of the problem scales linearly in the state dimension instead of quadratically, as would be the case if we were to include the covariance in the optimization. We accomplish this by taking advantage of recent advances in numerical optimal control that include automatic differentiation and state of the art convex solvers. We show that the running time of each optimization step of the covariance-free trajectory optimization is O(n^(3)T), where n is the dimension of the state space and T is the number of time steps in the trajectory. We present experiments in simulation on a variety of planning problems under uncertaintyMotion planning under uncertainty including manipulator planning, estimating unknown model parameters for dynamical systems, and active simultaneous localization and mapping (active SLAM). Our experiments suggest that our method can solve planning problems in 100 dimensional state spaces and obtain computational speedups of 400x over related trajectory optimization methodsTrajectory optimization methods.",
       "summary": "",
       "url": "../papers/2015_patil_scaling_up_gaussian_belief/",
       "treeUrl": "../tree/#paper=2015_patil_scaling_up_gaussian_belief",
@@ -30967,7 +30967,7 @@ window.timelineData = {
         "Markov decision process",
         "Time horizon"
       ],
-      "abstract": "Recently, there has been significant progress in understanding reinforcement learning in discounted infinite-horizon Markov decision processes (MDPs) by deriving tight sample complexity bounds. However, in many real-world applications, an interactive learning agent operates for a fixed or bounded period of time, for example tutoring students for exams or handling customer service requests. Such scenarios can often be better treated as episodic fixed-horizon MDPs, for which only looser bounds on the sample complexity exist. A natural notion of sample complexity in this setting is the number of episodes required to guarantee a certain performance with high probability (PAC guarantee). In this paper, we derive an upper PAC bound $\\tilde O(\\frac{|\\mathcal S|^2 |\\mathcal A| H^2}{ε^2} \\ln\\frac 1 δ)$ and a lower PAC bound $\\tilde Ω(\\frac{|\\mathcal S| |\\mathcal A| H^2}{ε^2} \\ln \\frac 1 {δ+ c})$ that match up to log-terms and an additional linear dependency on the number of states $|\\mathcal S|$. The lower bound is the first of its kind for this setting. Our upper bound leverages Bernstein's inequality to improve on previous bounds for episodic finite-horizon MDPs which have a time-horizon dependency of at least $H^3$.",
+      "abstract": "Recently, there has been significant progress in understanding reinforcement learning in discounted infinite-horizon Markov decision processes (MDPs) by deriving tight sample complexity bounds. However, in many real-world applications, an interactive learning agent operates for a fixed or bounded period of time, for example tutoring students for exams or handling customer service requests. Such scenarios can often be better treated as episodic fixed-horizon MDPs, for which only looser bounds on the sample complexity exist. A natural notion of sample complexity in this setting is the number of episodes required to guarantee a certain performance with high probability (PAC guarantee). In this paper, we derive an upper PAC bound tilde O(|mathcal S|^(2) |mathcal A| H^(2)/epsilon^(2) lnfrac 1 delta) and a lower PAC bound tilde Omega(|mathcal S| |mathcal A| H^(2)/epsilon^(2) ln frac 1 delta+ c) that match up to log-terms and an additional linear dependency on the number of states |mathcal S|. The lower bound is the first of its kind for this setting. Our upper bound leverages Bernstein's inequality to improve on previous bounds for episodic finite-horizon MDPs which have a time-horizon dependency of at least H^(3).",
       "summary": "",
       "url": "../papers/1510_08906/",
       "treeUrl": "../tree/#paper=1510_08906",
@@ -31133,7 +31133,7 @@ window.timelineData = {
         "VGG-style networks",
         "VDSR"
       ],
-      "abstract": "We present a highly accurate single-image super-resolution (SR) method. Our method uses a very deep convolutional network inspired by VGG-net used for ImageNet classification \\cite{simonyan2015very}. We find increasing our network depth shows a significant improvement in accuracy. Our final model uses 20 weight layers. By cascading small filters many times in a deep network structure, contextual information over large image regions is exploited in an efficient way. With very deep networks, however, convergence speed becomes a critical issue during training. We propose a simple yet effective training procedure. We learn residuals only and use extremely high learning rates ($10^4$ times higher than SRCNN \\cite{dong2015image}) enabled by adjustable gradient clipping. Our proposed method performs better than existing methods in accuracy and visual improvements in our results are easily noticeable.",
+      "abstract": "We present a highly accurate single-image super-resolution (SR) method. Our method uses a very deep convolutional network inspired by VGG-net used for ImageNet classification \\cite{simonyan2015very}. We find increasing our network depth shows a significant improvement in accuracy. Our final model uses 20 weight layers. By cascading small filters many times in a deep network structure, contextual information over large image regions is exploited in an efficient way. With very deep networks, however, convergence speed becomes a critical issue during training. We propose a simple yet effective training procedure. We learn residuals only and use extremely high learning rates (10^(4) times higher than SRCNN \\cite{dong2015image}) enabled by adjustable gradient clipping. Our proposed method performs better than existing methods in accuracy and visual improvements in our results are easily noticeable.",
       "summary": "VDSR shows that much deeper CNNs can improve single-image super-resolution when trained as residual predictors with aggressive learning rates and gradient clipping. It marks an important transition from shallow SRCNN-style mappings to deeper residual restoration networks.",
       "url": "../papers/1511_04587/",
       "treeUrl": "../tree/#paper=1511_04587",
@@ -31176,7 +31176,7 @@ window.timelineData = {
         "Motion boundaries",
         "Occlusion handling"
       ],
-      "abstract": "We propose a novel approach for optical flow estimation, targeted at large displacements with significant occlusions. It consists of two steps: i) dense matching by edge-preserving interpolation from a sparse set of matches; ii) variational energy minimization initialized with the dense matches. The sparse-to-dense interpolation relies on an appropriate choice of the distance, namely an edge-aware geodesic distance. This distance is tailored to handle occlusions and motion boundaries -- two common and difficult issues for optical flow computation. We also propose an approximation scheme for the geodesic distance to allow fast computation without loss of performance. Subsequent to the dense interpolation step, standard one-level variational energy minimization is carried out on the dense matches to obtain the final flow estimation. The proposed approach, called Edge-Preserving Interpolation of Correspondences (EpicFlow) is fast and robust to large displacements. It significantly outperforms the state of the art on MPI-Sintel and performs on par on Kitti and Middlebury.",
+      "abstract": "We propose a novel approach for optical flow estimation, targeted at large displacements with significant occlusions. It consists of two steps: i) dense matching by edge-preserving interpolation from a sparse set of matches; ii) variational energy minimization initialized with the dense matches. The sparse-to-dense interpolation relies on an appropriate choice of the distance, namely an edge-aware geodesic distance. This distance is tailored to handle occlusions and motion boundaries - two common and difficult issues for optical flow computation. We also propose an approximation scheme for the geodesic distance to allow fast computation without loss of performance. Subsequent to the dense interpolation step, standard one-level variational energy minimization is carried out on the dense matches to obtain the final flow estimation. The proposed approach, called Edge-Preserving Interpolation of Correspondences (EpicFlow) is fast and robust to large displacements. It significantly outperforms the state of the art on MPI-Sintel and performs on par on Kitti and Middlebury.",
       "summary": "EpicFlow replaces fragile coarse-to-fine initialization with edge-preserving interpolation of sparse matches, then refines the result with a one-level variational method. The paper is a bridge between classical optical flow and learned matching pipelines because it shows how strong correspondences plus motion-boundary-aware interpolation can handle large displacement and occlusion better than standard pyramids.",
       "url": "../papers/1501_02565/",
       "treeUrl": "../tree/#paper=1501_02565",
@@ -31387,7 +31387,7 @@ window.timelineData = {
         "Accuracy",
         "Learning"
       ],
-      "abstract": "Deeper neural networks are more difficult to train. We present a residual learning framework to ease the training of networks that are substantially deeper than those used previously. We explicitly reformulate the layers as learning residual functions with reference to the layer inputs, instead of learning unreferenced functions. We provide comprehensive empirical evidence showing that these residual networks are easier to optimize, and can gain accuracy from considerably increased depth. On the ImageNet dataset we evaluate residual nets with a depth of up to 152 layers---8x deeper than VGG nets but still having lower complexity. An ensemble of these residual nets achieves 3.57% error on the ImageNet test set. This result won the 1st place on the ILSVRC 2015 classification task. We also present analysis on CIFAR-10 with 100 and 1000 layers. The depth of representations is of central importance for many visual recognition tasks. Solely due to our extremely deep representations, we obtain a 28% relative improvement on the COCO object detection dataset. Deep residual nets are foundations of our submissions to ILSVRC & COCO 2015 competitions, where we also won the 1st places on the tasks of ImageNet detection, ImageNet localization, COCO detection, and COCO segmentation.",
+      "abstract": "Deeper neural networks are more difficult to train. We present a residual learning framework to ease the training of networks that are substantially deeper than those used previously. We explicitly reformulate the layers as learning residual functions with reference to the layer inputs, instead of learning unreferenced functions. We provide comprehensive empirical evidence showing that these residual networks are easier to optimize, and can gain accuracy from considerably increased depth. On the ImageNet dataset we evaluate residual nets with a depth of up to 152 layers - 8x deeper than VGG nets but still having lower complexity. An ensemble of these residual nets achieves 3.57% error on the ImageNet test set. This result won the 1st place on the ILSVRC 2015 classification task. We also present analysis on CIFAR-10 with 100 and 1000 layers. The depth of representations is of central importance for many visual recognition tasks. Solely due to our extremely deep representations, we obtain a 28% relative improvement on the COCO object detection dataset. Deep residual nets are foundations of our submissions to ILSVRC & COCO 2015 competitions, where we also won the 1st places on the tasks of ImageNet detection, ImageNet localization, COCO detection, and COCO segmentation.",
       "summary": "",
       "url": "../papers/1512_03385/",
       "treeUrl": "../tree/#paper=1512_03385",
@@ -31594,7 +31594,7 @@ window.timelineData = {
         "Learning with a Strong Adversary"
       ],
       "tags": [],
-      "abstract": "The robustness of neural networks to intended perturbations has recently attracted significant attention. In this paper, we propose a new method, \\emph{learning with a strong adversary}, that learns robust classifiers from supervised data. The proposed method takes finding adversarial examples as an intermediate step. A new and simple way of finding adversarial examples is presented and experimentally shown to be efficient. Experimental results demonstrate that resulting learning method greatly improves the robustness of the classification models produced.",
+      "abstract": "The robustness of neural networks to intended perturbations has recently attracted significant attention. In this paper, we propose a new method, learning with a strong adversary, that learns robust classifiers from supervised data. The proposed method takes finding adversarial examples as an intermediate step. A new and simple way of finding adversarial examples is presented and experimentally shown to be efficient. Experimental results demonstrate that resulting learning method greatly improves the robustness of the classification models produced.",
       "summary": "",
       "url": "../papers/1511_03034/",
       "treeUrl": "../tree/#paper=1511_03034",
@@ -31706,7 +31706,7 @@ window.timelineData = {
         "SLIM",
         "Coprime integers"
       ],
-      "abstract": "Scoring systems are linear classification models that only require users to add, subtract and multiply a few small numbers in order to make a prediction. These models are in widespread use by the medical community, but are difficult to learn from data because they need to be accurate and sparse, have coprime integer coefficients, and satisfy multiple operational constraints. We present a new method for creating data-driven scoring systems called a Supersparse Linear Integer Model (SLIM). SLIM scoring systems are built by solving an integer program that directly encodes measures of accuracy (the 0-1 loss) and sparsity (the $\\ell_0$-seminorm) while restricting coefficients to coprime integers. SLIM can seamlessly incorporate a wide range of operational constraints related to accuracy and sparsity, and can produce highly tailored models without parameter tuning. We provide bounds on the testing and training accuracy of SLIM scoring systems, and present a new data reduction technique that can improve scalability by eliminating a portion of the training data beforehand. Our paper includes results from a collaboration with the Massachusetts General Hospital Sleep Laboratory, where SLIM was used to create a highly tailored scoring system for sleep apnea screening",
+      "abstract": "Scoring systems are linear classification models that only require users to add, subtract and multiply a few small numbers in order to make a prediction. These models are in widespread use by the medical community, but are difficult to learn from data because they need to be accurate and sparse, have coprime integer coefficients, and satisfy multiple operational constraints. We present a new method for creating data-driven scoring systems called a Supersparse Linear Integer Model (SLIM). SLIM scoring systems are built by solving an integer program that directly encodes measures of accuracy (the 0-1 loss) and sparsity (the l_0-seminorm) while restricting coefficients to coprime integers. SLIM can seamlessly incorporate a wide range of operational constraints related to accuracy and sparsity, and can produce highly tailored models without parameter tuning. We provide bounds on the testing and training accuracy of SLIM scoring systems, and present a new data reduction technique that can improve scalability by eliminating a portion of the training data beforehand. Our paper includes results from a collaboration with the Massachusetts General Hospital Sleep Laboratory, where SLIM was used to create a highly tailored scoring system for sleep apnea screening",
       "summary": "",
       "url": "../papers/1502_04269/",
       "treeUrl": "../tree/#paper=1502_04269",
@@ -31855,7 +31855,7 @@ window.timelineData = {
         "Sensor Placement for Optimal Kalman Filtering: Fundamental Limits, Submodularity, and Algorithms"
       ],
       "tags": [],
-      "abstract": "In this paper, we focus on sensor placement in linear dynamic estimation, where the objective is to place a small number of sensors in a system of interdependent states so to design an estimator with a desired estimation performance. In particular, we consider a linear time-variant system that is corrupted with process and measurement noise, and study how the selection of its sensors affects the estimation error of the corresponding Kalman filter over a finite observation interval. Our contributions are threefold: First, we prove that the minimum mean square error of the Kalman filter decreases only linearly as the number of sensors increases. That is, adding extra sensors so to reduce this estimation error is ineffective, a fundamental design limit. Similarly, we prove that the number of sensors grows linearly with the system's size for fixed minimum mean square error and number of output measurements over an observation interval; this is another fundamental limit, especially for systems where the system's size is large. Second, we prove that the logdet of the error covariance of the Kalman filter, which captures the volume of the corresponding confidence ellipsoid, with respect to the system's initial condition and process noise is a supermodular and non-increasing set function in the choice of the sensor set. Therefore, it exhibits the diminishing returns property. Third, we provide efficient approximation algorithms that select a small number sensors so to optimize the Kalman filter with respect to this estimation error ---the worst-case performance guarantees of these algorithms are provided as well. Finally, we illustrate the efficiency of our algorithms using the problem of surface-based monitoring of CO2 sequestration sites studied in Weimer et al. (2008).",
+      "abstract": "In this paper, we focus on sensor placement in linear dynamic estimation, where the objective is to place a small number of sensors in a system of interdependent states so to design an estimator with a desired estimation performance. In particular, we consider a linear time-variant system that is corrupted with process and measurement noise, and study how the selection of its sensors affects the estimation error of the corresponding Kalman filter over a finite observation interval. Our contributions are threefold: First, we prove that the minimum mean square error of the Kalman filter decreases only linearly as the number of sensors increases. That is, adding extra sensors so to reduce this estimation error is ineffective, a fundamental design limit. Similarly, we prove that the number of sensors grows linearly with the system's size for fixed minimum mean square error and number of output measurements over an observation interval; this is another fundamental limit, especially for systems where the system's size is large. Second, we prove that the logdet of the error covariance of the Kalman filter, which captures the volume of the corresponding confidence ellipsoid, with respect to the system's initial condition and process noise is a supermodular and non-increasing set function in the choice of the sensor set. Therefore, it exhibits the diminishing returns property. Third, we provide efficient approximation algorithms that select a small number sensors so to optimize the Kalman filter with respect to this estimation error - the worst-case performance guarantees of these algorithms are provided as well. Finally, we illustrate the efficiency of our algorithms using the problem of surface-based monitoring of CO2 sequestration sites studied in Weimer et al. (2008).",
       "summary": "",
       "url": "../papers/1509_08146/",
       "treeUrl": "../tree/#paper=1509_08146",
@@ -32324,7 +32324,7 @@ window.timelineData = {
         "Computational geometry",
         "Running time"
       ],
-      "abstract": "In this paper we provide faster algorithms for solving the geometric median problem: given $n$ points in $\\mathbb{R}^{d}$ compute a point that minimizes the sum of Euclidean distances to the points. This is one of the oldest non-trivial problems in computational geometry yet despite an abundance of research the previous fastest algorithms for computing a $(1+ε)$-approximate geometric median were $O(d\\cdot n^{4/3}ε^{-8/3})$ by Chin et. al, $\\tilde{O}(d\\exp{ε^{-4}\\logε^{-1}})$ by Badoiu et. al, $O(nd+\\mathrm{poly}(d,ε^{-1})$ by Feldman and Langberg, and $O((nd)^{O(1)}\\log\\frac{1}ε)$ by Parrilo and Sturmfels and Xue and Ye. In this paper we show how to compute a $(1+ε)$-approximate geometric median in time $O(nd\\log^{3}\\frac{1}ε)$ and $O(dε^{-2})$. While our $O(dε^{-2})$ is a fairly straightforward application of stochastic subgradient descent, our $O(nd\\log^{3}\\frac{1}ε)$ time algorithm is a novel long step interior point method. To achieve this running time we start with a simple $O((nd)^{O(1)}\\log\\frac{1}ε)$ time interior point method and show how to improve it, ultimately building an algorithm that is quite non-standard from the perspective of interior point literature. Our result is one of very few cases we are aware of outperforming traditional interior point theory and the only we are aware of using interior point methods to obtain a nearly linear time algorithm for a canonical optimization problem that traditionally requires superlinear time. We hope our work leads to further improvements in this line of research.",
+      "abstract": "In this paper we provide faster algorithms for solving the geometric median problem: given n points in R^(d) compute a point that minimizes the sum of Euclidean distances to the points. This is one of the oldest non-trivial problems in computational geometry yet despite an abundance of research the previous fastest algorithms for computing a (1+epsilon)-approximate geometric median were O(d* n^(4/3)epsilon^(-8/3)) by Chin et. al, tildeO(dexp{epsilon^(-4)logepsilon^(-1)}) by Badoiu et. al, O(nd+poly(d, epsilon^(-1)) by Feldman and Langberg, and O((nd)^(O)(1)logfrac1epsilon) by Parrilo and Sturmfels and Xue and Ye. In this paper we show how to compute a (1+epsilon)-approximate geometric median in time O(ndlog^(3)frac1epsilon) and O(depsilon^(-2)). While our O(depsilon^(-2)) is a fairly straightforward application of stochastic subgradient descent, our O(ndlog^(3)frac1epsilon) time algorithm is a novel long step interior point method. To achieve this running time we start with a simple O((nd)^(O)(1)logfrac1epsilon) time interior point method and show how to improve it, ultimately building an algorithm that is quite non-standard from the perspective of interior point literature. Our result is one of very few cases we are aware of outperforming traditional interior point theory and the only we are aware of using interior point methods to obtain a nearly linear time algorithm for a canonical optimization problem that traditionally requires superlinear time. We hope our work leads to further improvements in this line of research.",
       "summary": "",
       "url": "../papers/1606_05225/",
       "treeUrl": "../tree/#paper=1606_05225",
@@ -32404,7 +32404,7 @@ window.timelineData = {
         "Katyusha",
         "Variance reduction"
       ],
-      "abstract": "Nesterov's momentum trick is famously known for accelerating gradient descent, and has been proven useful in building fast iterative algorithms. However, in the stochastic setting, counterexamples exist and prevent Nesterov's momentum from providing similar acceleration, even if the underlying problem is convex and finite-sum. We introduce $\\mathtt{Katyusha}$, a direct, primal-only stochastic gradient method to fix this issue. In convex finite-sum stochastic optimization, $\\mathtt{Katyusha}$ has an optimal accelerated convergence rate, and enjoys an optimal parallel linear speedup in the mini-batch setting. The main ingredient is $\\textit{Katyusha momentum}$, a novel \"negative momentum\" on top of Nesterov's momentum. It can be incorporated into a variance-reduction based algorithm and speed it up, both in terms of $\\textit{sequential and parallel}$ performance. Since variance reduction has been successfully applied to a growing list of practical problems, our paper suggests that in each of such cases, one could potentially try to give Katyusha a hug.",
+      "abstract": "Nesterov's momentum trick is famously known for accelerating gradient descent, and has been proven useful in building fast iterative algorithms. However, in the stochastic setting, counterexamples exist and prevent Nesterov's momentum from providing similar acceleration, even if the underlying problem is convex and finite-sum. We introduce mathttKatyusha, a direct, primal-only stochastic gradient method to fix this issue. In convex finite-sum stochastic optimization, mathttKatyusha has an optimal accelerated convergence rate, and enjoys an optimal parallel linear speedup in the mini-batch setting. The main ingredient is Katyusha momentum, a novel \"negative momentum\" on top of Nesterov's momentum. It can be incorporated into a variance-reduction based algorithm and speed it up, both in terms of sequential and parallel performance. Since variance reduction has been successfully applied to a growing list of practical problems, our paper suggests that in each of such cases, one could potentially try to give Katyusha a hug.",
       "summary": "",
       "url": "../papers/1603_05953/",
       "treeUrl": "../tree/#paper=1603_05953",
@@ -32475,7 +32475,7 @@ window.timelineData = {
         "Matrix Completion Has No Spurious Local Minimum"
       ],
       "tags": [],
-      "abstract": "Matrix completion is a basic machine learning problem that has wide applications, especially in collaborative filtering and recommender systems. Simple non-convex optimization algorithms are popular and effective in practice. Despite recent progress in proving various non-convex algorithms converge from a good initial point, it remains unclear why random or arbitrary initialization suffices in practice. We prove that the commonly used non-convex objective function for \\textit{positive semidefinite} matrix completion has no spurious local minima --- all local minima must also be global. Therefore, many popular optimization algorithms such as (stochastic) gradient descent can provably solve positive semidefinite matrix completion with \\textit{arbitrary} initialization in polynomial time. The result can be generalized to the setting when the observed entries contain noise. We believe that our main proof strategy can be useful for understanding geometric properties of other statistical problems involving partial or noisy observations.",
+      "abstract": "Matrix completion is a basic machine learning problem that has wide applications, especially in collaborative filtering and recommender systems. Simple non-convex optimization algorithms are popular and effective in practice. Despite recent progress in proving various non-convex algorithms converge from a good initial point, it remains unclear why random or arbitrary initialization suffices in practice. We prove that the commonly used non-convex objective function for \\textit{positive semidefinite} matrix completion has no spurious local minima - all local minima must also be global. Therefore, many popular optimization algorithms such as (stochastic) gradient descent can provably solve positive semidefinite matrix completion with \\textit{arbitrary} initialization in polynomial time. The result can be generalized to the setting when the observed entries contain noise. We believe that our main proof strategy can be useful for understanding geometric properties of other statistical problems involving partial or noisy observations.",
       "summary": "",
       "url": "../papers/1605_07272/",
       "treeUrl": "../tree/#paper=1605_07272",
@@ -32508,7 +32508,7 @@ window.timelineData = {
         "Stochastic First-Order Methods with Random Constraint Projection"
       ],
       "tags": [],
-      "abstract": "We consider convex optimization problems with structures that are suitable for sequential treatment or online sampling. In particular, we focus on problems where the objective function is an expected value, and the constraint set is the intersection of a large number of simpler sets. We propose an algorithmic framework for stochastic first-order methods using random projection/proximal updates and random constraint updates, which contain as special cases several known algorithms as well as many new algorithms. To analyze the convergence of these algorithms in a unified manner, we prove a general coupled convergence theorem. It states that the convergence is obtained from an interplay between two coupled processes: progress toward feasibility and progress toward optimality. Under suitable stepsize assumptions, we show that the optimality error decreases at a rate of $\\mathcal{O}(1/\\sqrt{k})$ and the feasibility error decreases at a rate of $\\mathcal{O}(\\log k/k)$. We also consider a number of typical sampling processes for generating stochastic first-order information and random constraints, which are common in data-intensive applications, online learning, and simulation optimization. By using the coupled convergence theorem as a modular architecture, we are able to analyze the convergence of stochastic algorithms that use arbitrary combinations of these sampling processes.",
+      "abstract": "We consider convex optimization problems with structures that are suitable for sequential treatment or online sampling. In particular, we focus on problems where the objective function is an expected value, and the constraint set is the intersection of a large number of simpler sets. We propose an algorithmic framework for stochastic first-order methods using random projection/proximal updates and random constraint updates, which contain as special cases several known algorithms as well as many new algorithms. To analyze the convergence of these algorithms in a unified manner, we prove a general coupled convergence theorem. It states that the convergence is obtained from an interplay between two coupled processes: progress toward feasibility and progress toward optimality. Under suitable stepsize assumptions, we show that the optimality error decreases at a rate of O(1/sqrt(k)) and the feasibility error decreases at a rate of O(log k/k). We also consider a number of typical sampling processes for generating stochastic first-order information and random constraints, which are common in data-intensive applications, online learning, and simulation optimization. By using the coupled convergence theorem as a modular architecture, we are able to analyze the convergence of stochastic algorithms that use arbitrary combinations of these sampling processes.",
       "summary": "",
       "url": "../papers/2016_wang_stochastic_first_order_methods/",
       "treeUrl": "../tree/#paper=2016_wang_stochastic_first_order_methods",
@@ -33809,7 +33809,7 @@ window.timelineData = {
         "Sampling",
         "Mean squared error"
       ],
-      "abstract": "In this paper we present a new way of predicting the performance of a reinforcement learning policy given historical data that may have been generated by a different policy. The ability to evaluate a policy from historical data is important for applications where the deployment of a bad policy can be dangerous or costly. We show empirically that our algorithm produces estimates that often have orders of magnitude lower mean squared error than existing methods---it makes more efficient use of the available data. Our new estimator is based on two advances: an extension of the doubly robust estimator (Jiang and Li, 2015), and a new way to mix between model based estimates and importance sampling based estimates.",
+      "abstract": "In this paper we present a new way of predicting the performance of a reinforcement learning policy given historical data that may have been generated by a different policy. The ability to evaluate a policy from historical data is important for applications where the deployment of a bad policy can be dangerous or costly. We show empirically that our algorithm produces estimates that often have orders of magnitude lower mean squared error than existing methods - it makes more efficient use of the available data. Our new estimator is based on two advances: an extension of the doubly robust estimator (Jiang and Li, 2015), and a new way to mix between model based estimates and importance sampling based estimates.",
       "summary": "",
       "url": "../papers/1604_00923/",
       "treeUrl": "../tree/#paper=1604_00923",
@@ -34632,7 +34632,7 @@ window.timelineData = {
         "Computer vision",
         "Speech recognition"
       ],
-      "abstract": "We propose the Gaussian Error Linear Unit (GELU), a high-performing neural network activation function. The GELU activation function is $x\\Phi(x)$, where $\\Phi(x)$ the standard Gaussian cumulative distribution function. The GELU nonlinearity weights inputs by their value, rather than gates inputs by their sign as in ReLUs ($x\\mathbf{1}_{x>0}$). We perform an empirical evaluation of the GELU nonlinearity against the ReLU and ELU activations and find performance improvements across all considered computer vision, natural language processing, and speech tasks.",
+      "abstract": "We propose the Gaussian Error Linear Unit (GELU), a high-performing neural network activation function. The GELU activation function is xPhi(x), where Phi(x) the standard Gaussian cumulative distribution function. The GELU nonlinearity weights inputs by their value, rather than gates inputs by their sign as in ReLUs (x1_x > 0). We perform an empirical evaluation of the GELU nonlinearity against the ReLU and ELU activations and find performance improvements across all considered computer vision, natural language processing, and speech tasks.",
       "summary": "GELU replaces hard ReLU gating with a smooth probability-weighted gate, multiplying x by the standard Gaussian CDF at x. Its later importance comes from becoming a standard transformer activation, but the paper itself frames GELU as a broadly useful smooth alternative evaluated across vision, language, and speech tasks.",
       "url": "../papers/1606_08415/",
       "treeUrl": "../tree/#paper=1606_08415",
@@ -35056,7 +35056,7 @@ window.timelineData = {
         "EFANNA"
       ],
       "tags": [],
-      "abstract": "Approximate nearest neighbor (ANN) search is a fundamental problem in many areas of data mining, machine learning and computer vision. The performance of traditional hierarchical structure (tree) based methods decreases as the dimensionality of data grows, while hashing based methods usually lack efficiency in practice. Recently, the graph based methods have drawn considerable attention. The main idea is that \\emph{a neighbor of a neighbor is also likely to be a neighbor}, which we refer as \\emph{NN-expansion}. These methods construct a $k$-nearest neighbor ($k$NN) graph offline. And at online search stage, these methods find candidate neighbors of a query point in some way (\\eg, random selection), and then check the neighbors of these candidate neighbors for closer ones iteratively. Despite some promising results, there are mainly two problems with these approaches: 1) These approaches tend to converge to local optima. 2) Constructing a $k$NN graph is time consuming. We find that these two problems can be nicely solved when we provide a good initialization for NN-expansion. In this paper, we propose EFANNA, an extremely fast approximate nearest neighbor search algorithm based on $k$NN Graph. Efanna nicely combines the advantages of hierarchical structure based methods and nearest-neighbor-graph based methods. Extensive experiments have shown that EFANNA outperforms the state-of-art algorithms both on approximate nearest neighbor search and approximate nearest neighbor graph construction. To the best of our knowledge, EFANNA is the fastest algorithm so far both on approximate nearest neighbor graph construction and approximate nearest neighbor search. A library EFANNA based on this research is released on Github.",
+      "abstract": "Approximate nearest neighbor (ANN) search is a fundamental problem in many areas of data mining, machine learning and computer vision. The performance of traditional hierarchical structure (tree) based methods decreases as the dimensionality of data grows, while hashing based methods usually lack efficiency in practice. Recently, the graph based methods have drawn considerable attention. The main idea is that a neighbor of a neighbor is also likely to be a neighbor, which we refer as NN-expansion. These methods construct a k-nearest neighbor (kNN) graph offline. And at online search stage, these methods find candidate neighbors of a query point in some way (\\eg, random selection), and then check the neighbors of these candidate neighbors for closer ones iteratively. Despite some promising results, there are mainly two problems with these approaches: 1) These approaches tend to converge to local optima. 2) Constructing a kNN graph is time consuming. We find that these two problems can be nicely solved when we provide a good initialization for NN-expansion. In this paper, we propose EFANNA, an extremely fast approximate nearest neighbor search algorithm based on kNN Graph. Efanna nicely combines the advantages of hierarchical structure based methods and nearest-neighbor-graph based methods. Extensive experiments have shown that EFANNA outperforms the state-of-art algorithms both on approximate nearest neighbor search and approximate nearest neighbor graph construction. To the best of our knowledge, EFANNA is the fastest algorithm so far both on approximate nearest neighbor graph construction and approximate nearest neighbor search. A library EFANNA based on this research is released on Github.",
       "summary": "",
       "url": "../papers/1609_07228/",
       "treeUrl": "../tree/#paper=1609_07228",
@@ -35383,7 +35383,7 @@ window.timelineData = {
         "Generalization",
         "Exponential stability"
       ],
-      "abstract": "The theory of integral quadratic constraints (IQCs) allows verification of stability and gain-bound properties of systems containing nonlinear or uncertain elements. Gain bounds often imply exponential stability, but it can be challenging to compute useful numerical bounds on the exponential decay rate. This work presents a generalization of the classical IQC results of Megretski and Rantzer that leads to a tractable computational procedure for finding exponential rate certificates that are far less conservative than ones computed from $L_2$ gain bounds alone. An expanded library of IQCs for certifying exponential stability is also provided and the effectiveness of the technique is demonstrated via numerical examples.",
+      "abstract": "The theory of integral quadratic constraints (IQCs) allows verification of stability and gain-bound properties of systems containing nonlinear or uncertain elements. Gain bounds often imply exponential stability, but it can be challenging to compute useful numerical bounds on the exponential decay rate. This work presents a generalization of the classical IQC results of Megretski and Rantzer that leads to a tractable computational procedure for finding exponential rate certificates that are far less conservative than ones computed from L_2 gain bounds alone. An expanded library of IQCs for certifying exponential stability is also provided and the effectiveness of the technique is demonstrated via numerical examples.",
       "summary": "",
       "url": "../papers/1706_01337/",
       "treeUrl": "../tree/#paper=1706_01337",
@@ -35530,7 +35530,7 @@ window.timelineData = {
         "Learning",
         "AdamW"
       ],
-      "abstract": "L$_2$ regularization and weight decay regularization are equivalent for standard stochastic gradient descent (when rescaled by the learning rate), but as we demonstrate this is \\emph{not} the case for adaptive gradient algorithms, such as Adam. While common implementations of these algorithms employ L$_2$ regularization (often calling it \"weight decay\" in what may be misleading due to the inequivalence we expose), we propose a simple modification to recover the original formulation of weight decay regularization by \\emph{decoupling} the weight decay from the optimization steps taken w.r.t. the loss function. We provide empirical evidence that our proposed modification (i) decouples the optimal choice of weight decay factor from the setting of the learning rate for both standard SGD and Adam and (ii) substantially improves Adam's generalization performance, allowing it to compete with SGD with momentum on image classification datasets (on which it was previously typically outperformed by the latter). Our proposed decoupled weight decay has already been adopted by many researchers, and the community has implemented it in TensorFlow and PyTorch; the complete source code for our experiments is available at https://github.com/loshchil/AdamW-and-SGDW",
+      "abstract": "L_2 regularization and weight decay regularization are equivalent for standard stochastic gradient descent (when rescaled by the learning rate), but as we demonstrate this is not the case for adaptive gradient algorithms, such as Adam. While common implementations of these algorithms employ L_2 regularization (often calling it \"weight decay\" in what may be misleading due to the inequivalence we expose), we propose a simple modification to recover the original formulation of weight decay regularization by decoupling the weight decay from the optimization steps taken w.r.t. the loss function. We provide empirical evidence that our proposed modification (i) decouples the optimal choice of weight decay factor from the setting of the learning rate for both standard SGD and Adam and (ii) substantially improves Adam's generalization performance, allowing it to compete with SGD with momentum on image classification datasets (on which it was previously typically outperformed by the latter). Our proposed decoupled weight decay has already been adopted by many researchers, and the community has implemented it in TensorFlow and PyTorch; the complete source code for our experiments is available at https://github.com/loshchil/AdamW-and-SGDW",
       "summary": "",
       "url": "../papers/1711_05101/",
       "treeUrl": "../tree/#paper=1711_05101",
@@ -35758,7 +35758,7 @@ window.timelineData = {
         "Learning One-hidden-layer Neural Networks with Landscape Design"
       ],
       "tags": [],
-      "abstract": "We consider the problem of learning a one-hidden-layer neural network: we assume the input $x\\in \\mathbb{R}^d$ is from Gaussian distribution and the label $y = a^\\top σ(Bx) + ξ$, where $a$ is a nonnegative vector in $\\mathbb{R}^m$ with $m\\le d$, $B\\in \\mathbb{R}^{m\\times d}$ is a full-rank weight matrix, and $ξ$ is a noise vector. We first give an analytic formula for the population risk of the standard squared loss and demonstrate that it implicitly attempts to decompose a sequence of low-rank tensors simultaneously. Inspired by the formula, we design a non-convex objective function $G(\\cdot)$ whose landscape is guaranteed to have the following properties: 1. All local minima of $G$ are also global minima. 2. All global minima of $G$ correspond to the ground truth parameters. 3. The value and gradient of $G$ can be estimated using samples. With these properties, stochastic gradient descent on $G$ provably converges to the global minimum and learn the ground-truth parameters. We also prove finite sample complexity result and validate the results by simulations.",
+      "abstract": "We consider the problem of learning a one-hidden-layer neural network: we assume the input xin R^(d) is from Gaussian distribution and the label y = a^(top) sigma(Bx) + xi, where a is a nonnegative vector in R^(m) with m <= d, Bin R^(mx) d is a full-rank weight matrix, and xi is a noise vector. We first give an analytic formula for the population risk of the standard squared loss and demonstrate that it implicitly attempts to decompose a sequence of low-rank tensors simultaneously. Inspired by the formula, we design a non-convex objective function G(*) whose landscape is guaranteed to have the following properties: 1. All local minima of G are also global minima. 2. All global minima of G correspond to the ground truth parameters. 3. The value and gradient of G can be estimated using samples. With these properties, stochastic gradient descent on G provably converges to the global minimum and learn the ground-truth parameters. We also prove finite sample complexity result and validate the results by simulations.",
       "summary": "",
       "url": "../papers/1711_00501/",
       "treeUrl": "../tree/#paper=1711_00501",
@@ -35791,7 +35791,7 @@ window.timelineData = {
         "On the Optimization Landscape of Tensor Decompositions"
       ],
       "tags": [],
-      "abstract": "Non-convex optimization with local search heuristics has been widely used in machine learning, achieving many state-of-art results. It becomes increasingly important to understand why they can work for these NP-hard problems on typical data. The landscape of many objective functions in learning has been conjectured to have the geometric property that \"all local optima are (approximately) global optima\", and thus they can be solved efficiently by local search algorithms. However, establishing such property can be very difficult. In this paper, we analyze the optimization landscape of the random over-complete tensor decomposition problem, which has many applications in unsupervised learning, especially in learning latent variable models. In practice, it can be efficiently solved by gradient ascent on a non-convex objective. We show that for any small constant $ε> 0$, among the set of points with function values $(1+ε)$-factor larger than the expectation of the function, all the local maxima are approximate global maxima. Previously, the best-known result only characterizes the geometry in small neighborhoods around the true components. Our result implies that even with an initialization that is barely better than the random guess, the gradient ascent algorithm is guaranteed to solve this problem. Our main technique uses Kac-Rice formula and random matrix theory. To our best knowledge, this is the first time when Kac-Rice formula is successfully applied to counting the number of local minima of a highly-structured random polynomial with dependent coefficients.",
+      "abstract": "Non-convex optimization with local search heuristics has been widely used in machine learning, achieving many state-of-art results. It becomes increasingly important to understand why they can work for these NP-hard problems on typical data. The landscape of many objective functions in learning has been conjectured to have the geometric property that \"all local optima are (approximately) global optima\", and thus they can be solved efficiently by local search algorithms. However, establishing such property can be very difficult. In this paper, we analyze the optimization landscape of the random over-complete tensor decomposition problem, which has many applications in unsupervised learning, especially in learning latent variable models. In practice, it can be efficiently solved by gradient ascent on a non-convex objective. We show that for any small constant epsilon > 0, among the set of points with function values (1+epsilon)-factor larger than the expectation of the function, all the local maxima are approximate global maxima. Previously, the best-known result only characterizes the geometry in small neighborhoods around the true components. Our result implies that even with an initialization that is barely better than the random guess, the gradient ascent algorithm is guaranteed to solve this problem. Our main technique uses Kac-Rice formula and random matrix theory. To our best knowledge, this is the first time when Kac-Rice formula is successfully applied to counting the number of local minima of a highly-structured random polynomial with dependent coefficients.",
       "summary": "",
       "url": "../papers/1706_05598/",
       "treeUrl": "../tree/#paper=1706_05598",
@@ -36296,7 +36296,7 @@ window.timelineData = {
         "GMT*",
         "FMT*"
       ],
-      "abstract": "This paper presents a novel approach, named the Group Marching Tree (GMT*) algorithm, to planning on GPUs at rates amenable to application within control loops, allowing planning in real-world settings via repeated computation of near-optimal plans. GMT*, like the Fast Marching Tree (FMT) algorithm, explores the state space with a \"lazy\" dynamic programming recursion on a set of samples to grow a tree of near-optimal paths. GMT*, however, alters the approach of FMT with approximate dynamic programming by expanding, in parallel, the group of all active samples with cost below an increasing threshold, rather than only the minimum cost sample. This group approximation enables low-level parallelism over the sample set and removes the need for sequential data structures, while the \"lazy\" collision checking limits thread divergence---all contributing to a very efficient GPU implementation. While this approach incurs some suboptimality, we prove that GMT* remains asymptotically optimal up to a constant multiplicative factor. We show solutions for complex planning problems under differential constraints can be found in ~10 ms on a desktop GPU and ~30 ms on an embedded GPU, representing a significant speed up over the state of the art, with only small losses in performance. Finally, we present a scenario demonstrating the efficacy of planning within the control loop (~100 Hz) towards operating in dynamic, uncertain settings.",
+      "abstract": "This paper presents a novel approach, named the Group Marching Tree (GMT*) algorithm, to planning on GPUs at rates amenable to application within control loops, allowing planning in real-world settings via repeated computation of near-optimal plans. GMT*, like the Fast Marching Tree (FMT) algorithm, explores the state space with a \"lazy\" dynamic programming recursion on a set of samples to grow a tree of near-optimal paths. GMT*, however, alters the approach of FMT with approximate dynamic programming by expanding, in parallel, the group of all active samples with cost below an increasing threshold, rather than only the minimum cost sample. This group approximation enables low-level parallelism over the sample set and removes the need for sequential data structures, while the \"lazy\" collision checking limits thread divergence - all contributing to a very efficient GPU implementation. While this approach incurs some suboptimality, we prove that GMT* remains asymptotically optimal up to a constant multiplicative factor. We show solutions for complex planning problems under differential constraints can be found in ~10 ms on a desktop GPU and ~30 ms on an embedded GPU, representing a significant speed up over the state of the art, with only small losses in performance. Finally, we present a scenario demonstrating the efficacy of planning within the control loop (~100 Hz) towards operating in dynamic, uncertain settings.",
       "summary": "GMT* adapts FMT*'s lazy dynamic-programming tree expansion for massively parallel execution on GPUs by replacing the sequential expansion of the single minimum-cost sample with simultaneous expansion of the entire group of active samples whose cost falls below an increasing threshold. This group approximation introduces a bounded suboptimality constant but eliminates sequential data structures and reduces thread divergence. Achieves ~10 ms planning on desktop GPUs and ~30 ms on embedded GPUs.",
       "url": "../papers/1705_02403/",
       "treeUrl": "../tree/#paper=1705_02403",
@@ -36464,7 +36464,7 @@ window.timelineData = {
         "Nearest neighbor search",
         "K-d tree"
       ],
-      "abstract": "Nearest-neighbor search dominates the asymptotic complexity of sampling-based motion planning algorithms and is often addressed with k-d tree data structures. While it is generally believed that the expected complexity of nearest-neighbor queries is $O(log(N))$ in the size of the tree, this paper reveals that when a classic k-d tree approach is used with sub-Riemannian metrics, the expected query complexity is in fact $Θ(N^p \\log(N))$ for a number $p \\in [0, 1)$ determined by the degree of nonholonomy of the system. These metrics arise naturally in nonholonomic mechanical systems, including classic wheeled robot models. To address this negative result, we propose novel k-d tree build and query strategies tailored to sub-Riemannian metrics and demonstrate significant improvements in the running time of nearest-neighbor search queries.",
+      "abstract": "Nearest-neighbor search dominates the asymptotic complexity of sampling-based motion planning algorithms and is often addressed with k-d tree data structures. While it is generally believed that the expected complexity of nearest-neighbor queries is O(log(N)) in the size of the tree, this paper reveals that when a classic k-d tree approach is used with sub-Riemannian metrics, the expected query complexity is in fact Theta(N^(p) log(N)) for a number p in [0, 1) determined by the degree of nonholonomy of the system. These metrics arise naturally in nonholonomic mechanical systems, including classic wheeled robot models. To address this negative result, we propose novel k-d tree build and query strategies tailored to sub-Riemannian metrics and demonstrate significant improvements in the running time of nearest-neighbor search queries.",
       "summary": "",
       "url": "../papers/1709_07610/",
       "treeUrl": "../tree/#paper=1709_07610",
@@ -37121,7 +37121,7 @@ window.timelineData = {
         "Robot",
         "Model-based"
       ],
-      "abstract": "This paper presents a method for constructing human-robot interaction policies in settings where multimodality, i.e., the possibility of multiple highly distinct futures, plays a critical role in decision making. We are motivated in this work by the example of traffic weaving, e.g., at highway on-ramps/off-ramps, where entering and exiting cars must swap lanes in a short distance---a challenging negotiation even for experienced drivers due to the inherent multimodal uncertainty of who will pass whom. Our approach is to learn multimodal probability distributions over future human actions from a dataset of human-human exemplars and perform real-time robot policy construction in the resulting environment model through massively parallel sampling of human responses to candidate robot action sequences. Direct learning of these distributions is made possible by recent advances in the theory of conditional variational autoencoders (CVAEs), whereby we learn action distributions simultaneously conditioned on the present interaction history, as well as candidate future robot actions in order to take into account response dynamics. We demonstrate the efficacy of this approach with a human-in-the-loop simulation of a traffic weaving scenario.",
+      "abstract": "This paper presents a method for constructing human-robot interaction policies in settings where multimodality, i.e., the possibility of multiple highly distinct futures, plays a critical role in decision making. We are motivated in this work by the example of traffic weaving, e.g., at highway on-ramps/off-ramps, where entering and exiting cars must swap lanes in a short distance - a challenging negotiation even for experienced drivers due to the inherent multimodal uncertainty of who will pass whom. Our approach is to learn multimodal probability distributions over future human actions from a dataset of human-human exemplars and perform real-time robot policy construction in the resulting environment model through massively parallel sampling of human responses to candidate robot action sequences. Direct learning of these distributions is made possible by recent advances in the theory of conditional variational autoencoders (CVAEs), whereby we learn action distributions simultaneously conditioned on the present interaction history, as well as candidate future robot actions in order to take into account response dynamics. We demonstrate the efficacy of this approach with a human-in-the-loop simulation of a traffic weaving scenario.",
       "summary": "The paper puts together a few cool technologies, such as massively parallel trajectory sampling and evaluation on a GPU, as well as a CVAE neural network trained on actual human driving data for prediction of future driver response at robot inference time.",
       "url": "../papers/1710_09483/",
       "treeUrl": "../tree/#paper=1710_09483",
@@ -37567,7 +37567,7 @@ window.timelineData = {
         "Robustness",
         "Learning"
       ],
-      "abstract": "The reinforcement learning paradigm allows, in principle, for complex behaviours to be learned directly from simple reward signals. In practice, however, it is common to carefully hand-design the reward function to encourage a particular solution, or to derive it from demonstration data. In this paper explore how a rich environment can help to promote the learning of complex behavior. Specifically, we train agents in diverse environmental contexts, and find that this encourages the emergence of robust behaviours that perform well across a suite of tasks. We demonstrate this principle for locomotion -- behaviours that are known for their sensitivity to the choice of reward. We train several simulated bodies on a diverse set of challenging terrains and obstacles, using a simple reward function based on forward progress. Using a novel scalable variant of policy gradient reinforcement learning, our agents learn to run, jump, crouch and turn as required by the environment without explicit reward-based guidance. A visual depiction of highlights of the learned behavior can be viewed following https://youtu.be/hx_bgoTF7bs .",
+      "abstract": "The reinforcement learning paradigm allows, in principle, for complex behaviours to be learned directly from simple reward signals. In practice, however, it is common to carefully hand-design the reward function to encourage a particular solution, or to derive it from demonstration data. In this paper explore how a rich environment can help to promote the learning of complex behavior. Specifically, we train agents in diverse environmental contexts, and find that this encourages the emergence of robust behaviours that perform well across a suite of tasks. We demonstrate this principle for locomotion - behaviours that are known for their sensitivity to the choice of reward. We train several simulated bodies on a diverse set of challenging terrains and obstacles, using a simple reward function based on forward progress. Using a novel scalable variant of policy gradient reinforcement learning, our agents learn to run, jump, crouch and turn as required by the environment without explicit reward-based guidance. A visual depiction of highlights of the learned behavior can be viewed following https://youtu.be/hx_bgoTF7bs .",
       "summary": "",
       "url": "../papers/1707_02286/",
       "treeUrl": "../tree/#paper=1707_02286",
@@ -37601,7 +37601,7 @@ window.timelineData = {
         "Equivalence between Policy Gradients and Soft Q-Learning"
       ],
       "tags": [],
-      "abstract": "Two of the leading approaches for model-free reinforcement learning are policy gradient methods and $Q$-learning methods. $Q$-learning methods can be effective and sample-efficient when they work, however, it is not well-understood why they work, since empirically, the $Q$-values they estimate are very inaccurate. A partial explanation may be that $Q$-learning methods are secretly implementing policy gradient updates: we show that there is a precise equivalence between $Q$-learning and policy gradient methods in the setting of entropy-regularized reinforcement learning, that \"soft\" (entropy-regularized) $Q$-learning is exactly equivalent to a policy gradient method. We also point out a connection between $Q$-learning methods and natural policy gradient methods. Experimentally, we explore the entropy-regularized versions of $Q$-learning and policy gradients, and we find them to perform as well as (or slightly better than) the standard variants on the Atari benchmark. We also show that the equivalence holds in practical settings by constructing a $Q$-learning method that closely matches the learning dynamics of A3C without using a target network or $ε$-greedy exploration schedule.",
+      "abstract": "Two of the leading approaches for model-free reinforcement learning are policy gradient methods and Q-learning methods. Q-learning methods can be effective and sample-efficient when they work, however, it is not well-understood why they work, since empirically, the Q-values they estimate are very inaccurate. A partial explanation may be that Q-learning methods are secretly implementing policy gradient updates: we show that there is a precise equivalence between Q-learning and policy gradient methods in the setting of entropy-regularized reinforcement learning, that \"soft\" (entropy-regularized) Q-learning is exactly equivalent to a policy gradient method. We also point out a connection between Q-learning methods and natural policy gradient methods. Experimentally, we explore the entropy-regularized versions of Q-learning and policy gradients, and we find them to perform as well as (or slightly better than) the standard variants on the Atari benchmark. We also show that the equivalence holds in practical settings by constructing a Q-learning method that closely matches the learning dynamics of A3C without using a target network or epsilon-greedy exploration schedule.",
       "summary": "",
       "url": "../papers/1704_06440/",
       "treeUrl": "../tree/#paper=1704_06440",
@@ -38088,7 +38088,7 @@ window.timelineData = {
         "UCB Exploration via Q-Ensembles"
       ],
       "tags": [],
-      "abstract": "We show how an ensemble of $Q^*$-functions can be leveraged for more effective exploration in deep reinforcement learning. We build on well established algorithms from the bandit setting, and adapt them to the $Q$-learning setting. We propose an exploration strategy based on upper-confidence bounds (UCB). Our experiments show significant gains on the Atari benchmark.",
+      "abstract": "We show how an ensemble of Q^*-functions can be leveraged for more effective exploration in deep reinforcement learning. We build on well established algorithms from the bandit setting, and adapt them to the Q-learning setting. We propose an exploration strategy based on upper-confidence bounds (UCB). Our experiments show significant gains on the Atari benchmark.",
       "summary": "",
       "url": "../papers/1706_01502/",
       "treeUrl": "../tree/#paper=1706_01502",
@@ -38164,7 +38164,7 @@ window.timelineData = {
         "Distral"
       ],
       "tags": [],
-      "abstract": "Most deep reinforcement learning algorithms are data inefficient in complex and rich environments, limiting their applicability to many scenarios. One direction for improving data efficiency is multitask learning with shared neural network parameters, where efficiency may be improved through transfer across related tasks. In practice, however, this is not usually observed, because gradients from different tasks can interfere negatively, making learning unstable and sometimes even less data efficient. Another issue is the different reward schemes between tasks, which can easily lead to one task dominating the learning of a shared model. We propose a new approach for joint training of multiple tasks, which we refer to as Distral (Distill & transfer learning). Instead of sharing parameters between the different workers, we propose to share a \"distilled\" policy that captures common behaviour across tasks. Each worker is trained to solve its own task while constrained to stay close to the shared policy, while the shared policy is trained by distillation to be the centroid of all task policies. Both aspects of the learning process are derived by optimizing a joint objective function. We show that our approach supports efficient transfer on complex 3D environments, outperforming several related methods. Moreover, the proposed learning process is more robust and more stable---attributes that are critical in deep reinforcement learning.",
+      "abstract": "Most deep reinforcement learning algorithms are data inefficient in complex and rich environments, limiting their applicability to many scenarios. One direction for improving data efficiency is multitask learning with shared neural network parameters, where efficiency may be improved through transfer across related tasks. In practice, however, this is not usually observed, because gradients from different tasks can interfere negatively, making learning unstable and sometimes even less data efficient. Another issue is the different reward schemes between tasks, which can easily lead to one task dominating the learning of a shared model. We propose a new approach for joint training of multiple tasks, which we refer to as Distral (Distill & transfer learning). Instead of sharing parameters between the different workers, we propose to share a \"distilled\" policy that captures common behaviour across tasks. Each worker is trained to solve its own task while constrained to stay close to the shared policy, while the shared policy is trained by distillation to be the centroid of all task policies. Both aspects of the learning process are derived by optimizing a joint objective function. We show that our approach supports efficient transfer on complex 3D environments, outperforming several related methods. Moreover, the proposed learning process is more robust and more stable - attributes that are critical in deep reinforcement learning.",
       "summary": "",
       "url": "../papers/1707_04175/",
       "treeUrl": "../tree/#paper=1707_04175",
@@ -38356,7 +38356,7 @@ window.timelineData = {
         "RSS",
         "Self driving"
       ],
-      "abstract": "In recent years, car makers and tech companies have been racing towards self driving cars. It seems that the main parameter in this race is who will have the first car on the road. The goal of this paper is to add to the equation two additional crucial parameters. The first is standardization of safety assurance --- what are the minimal requirements that every self-driving car must satisfy, and how can we verify these requirements. The second parameter is scalability --- engineering solutions that lead to unleashed costs will not scale to millions of cars, which will push interest in this field into a niche academic corner, and drive the entire field into a \"winter of autonomous driving\". In the first part of the paper we propose a white-box, interpretable, mathematical model for safety assurance, which we call Responsibility-Sensitive Safety (RSS). In the second part we describe a design of a system that adheres to our safety assurance requirements and is scalable to millions of cars.",
+      "abstract": "In recent years, car makers and tech companies have been racing towards self driving cars. It seems that the main parameter in this race is who will have the first car on the road. The goal of this paper is to add to the equation two additional crucial parameters. The first is standardization of safety assurance - what are the minimal requirements that every self-driving car must satisfy, and how can we verify these requirements. The second parameter is scalability - engineering solutions that lead to unleashed costs will not scale to millions of cars, which will push interest in this field into a niche academic corner, and drive the entire field into a \"winter of autonomous driving\". In the first part of the paper we propose a white-box, interpretable, mathematical model for safety assurance, which we call Responsibility-Sensitive Safety (RSS). In the second part we describe a design of a system that adheres to our safety assurance requirements and is scalable to millions of cars.",
       "summary": "",
       "url": "../papers/1708_06374/",
       "treeUrl": "../tree/#paper=1708_06374",
@@ -38780,7 +38780,7 @@ window.timelineData = {
         "LightGBM"
       ],
       "tags": [],
-      "abstract": "Gradient Boosting Decision Tree (GBDT) is a popular machine learning algorithm, and has quite a few effective implementations such as XGBoost and pGBRT. Although many engineering optimizations have been adopted in these implementations, the efficiency and scalability are still unsatisfactory when the feature dimension is high and data size is large. A major reason is that for each feature, they need to scan all the data instances to estimate the information gain of all possible split points, which is very time consuming. To tackle this problem, we propose two novel techniques: \\emph{Gradient-based One-Side Sampling} (GOSS) and \\emph{Exclusive Feature Bundling} (EFB). With GOSS, we exclude a significant proportion of data instances with small gradients, and only use the rest to estimate the information gain. We prove that, since the data instances with larger gradients play a more important role in the computation of information gain, GOSS can obtain quite accurate estimation of the information gain with a much smaller data size. With EFB, we bundle mutually exclusive features (i.e., they rarely take nonzero values simultaneously), to reduce the number of features. We prove that finding the optimal bundling of exclusive features is NP-hard, but a greedy algorithm can achieve quite good approximation ratio (and thus can effectively reduce the number of features without hurting the accuracy of split point determination by much). We call our new GBDT implementation with GOSS and EFB \\emph{LightGBM}. Our experiments on multiple public datasets show that, LightGBM speeds up the training process of conventional GBDT by up to over 20 times while achieving almost the same accuracy.",
+      "abstract": "Gradient Boosting Decision Tree (GBDT) is a popular machine learning algorithm, and has quite a few effective implementations such as XGBoost and pGBRT. Although many engineering optimizations have been adopted in these implementations, the efficiency and scalability are still unsatisfactory when the feature dimension is high and data size is large. A major reason is that for each feature, they need to scan all the data instances to estimate the information gain of all possible split points, which is very time consuming. To tackle this problem, we propose two novel techniques: Gradient-based One-Side Sampling (GOSS) and Exclusive Feature Bundling (EFB). With GOSS, we exclude a significant proportion of data instances with small gradients, and only use the rest to estimate the information gain. We prove that, since the data instances with larger gradients play a more important role in the computation of information gain, GOSS can obtain quite accurate estimation of the information gain with a much smaller data size. With EFB, we bundle mutually exclusive features (i.e., they rarely take nonzero values simultaneously), to reduce the number of features. We prove that finding the optimal bundling of exclusive features is NP-hard, but a greedy algorithm can achieve quite good approximation ratio (and thus can effectively reduce the number of features without hurting the accuracy of split point determination by much). We call our new GBDT implementation with GOSS and EFB LightGBM. Our experiments on multiple public datasets show that, LightGBM speeds up the training process of conventional GBDT by up to over 20 times while achieving almost the same accuracy.",
       "summary": "",
       "url": "../papers/2017_ke_lightgbm_a_highly_efficient/",
       "treeUrl": "../tree/#paper=2017_ke_lightgbm_a_highly_efficient",
@@ -38898,7 +38898,7 @@ window.timelineData = {
         "ReLU alternatives",
         "Deep learning"
       ],
-      "abstract": "The choice of activation functions in deep networks has a significant effect on the training dynamics and task performance. Currently, the most successful and widely-used activation function is the Rectified Linear Unit (ReLU). Although various hand-designed alternatives to ReLU have been proposed, none have managed to replace it due to inconsistent gains. In this work, we propose to leverage automatic search techniques to discover new activation functions. Using a combination of exhaustive and reinforcement learning-based search, we discover multiple novel activation functions. We verify the effectiveness of the searches by conducting an empirical evaluation with the best discovered activation function. Our experiments show that the best discovered activation function, $f(x) = x \\cdot \\text{sigmoid}(\\beta x)$, which we name Swish, tends to work better than ReLU on deeper models across a number of challenging datasets. For example, simply replacing ReLUs with Swish units improves top-1 classification accuracy on ImageNet by 0.9\\% for Mobile NASNet-A and 0.6\\% for Inception-ResNet-v2. The simplicity of Swish and its similarity to ReLU make it easy for practitioners to replace ReLUs with Swish units in any neural network.",
+      "abstract": "The choice of activation functions in deep networks has a significant effect on the training dynamics and task performance. Currently, the most successful and widely-used activation function is the Rectified Linear Unit (ReLU). Although various hand-designed alternatives to ReLU have been proposed, none have managed to replace it due to inconsistent gains. In this work, we propose to leverage automatic search techniques to discover new activation functions. Using a combination of exhaustive and reinforcement learning-based search, we discover multiple novel activation functions. We verify the effectiveness of the searches by conducting an empirical evaluation with the best discovered activation function. Our experiments show that the best discovered activation function, f(x) = x * sigmoid(beta x), which we name Swish, tends to work better than ReLU on deeper models across a number of challenging datasets. For example, simply replacing ReLUs with Swish units improves top-1 classification accuracy on ImageNet by 0.9\\% for Mobile NASNet-A and 0.6\\% for Inception-ResNet-v2. The simplicity of Swish and its similarity to ReLU make it easy for practitioners to replace ReLUs with Swish units in any neural network.",
       "summary": "This paper uses search over activation-function expressions to discover Swish, a smooth self-gated nonlinearity of the form x times a sigmoid. The empirical result is important less because every searched function transfers, and more because a simple ReLU-like smooth gate became a strong activation baseline for deep vision networks.",
       "url": "../papers/1710_05941/",
       "treeUrl": "../tree/#paper=1710_05941",
@@ -39367,7 +39367,7 @@ window.timelineData = {
         "Learning",
         "Ray"
       ],
-      "abstract": "The next generation of AI applications will continuously interact with the environment and learn from these interactions. These applications impose new and demanding systems requirements, both in terms of performance and flexibility. In this paper, we consider these requirements and present Ray---a distributed system to address them. Ray implements a unified interface that can express both task-parallel and actor-based computations, supported by a single dynamic execution engine. To meet the performance requirements, Ray employs a distributed scheduler and a distributed and fault-tolerant store to manage the system's control state. In our experiments, we demonstrate scaling beyond 1.8 million tasks per second and better performance than existing specialized systems for several challenging reinforcement learning applications.",
+      "abstract": "The next generation of AI applications will continuously interact with the environment and learn from these interactions. These applications impose new and demanding systems requirements, both in terms of performance and flexibility. In this paper, we consider these requirements and present Ray - a distributed system to address them. Ray implements a unified interface that can express both task-parallel and actor-based computations, supported by a single dynamic execution engine. To meet the performance requirements, Ray employs a distributed scheduler and a distributed and fault-tolerant store to manage the system's control state. In our experiments, we demonstrate scaling beyond 1.8 million tasks per second and better performance than existing specialized systems for several challenging reinforcement learning applications.",
       "summary": "",
       "url": "../papers/1712_05889/",
       "treeUrl": "../tree/#paper=1712_05889",
@@ -39448,7 +39448,7 @@ window.timelineData = {
         "Julia"
       ],
       "tags": [],
-      "abstract": "Bridging cultures that have often been distant, Julia combines expertise from the diverse fields of computer science and computational science to create a new approach to numerical computing. Julia is designed to be easy and fast and questions notions generally held to be “laws of nature\" by practitioners of numerical computing: \\beginlist \\item High-level dynamic programs have to be slow. \\item One must prototype in one language and then rewrite in another language for speed or deployment. \\item There are parts of a system appropriate for the programmer, and other parts that are best left untouched as they have been built by the experts. \\endlist We introduce the Julia programming language and its design---a dance between specialization and abstraction. Specialization allows for custom treatment. Multiple dispatch, a technique from computer science, picks the right algorithm for the right circumstance. Abstraction, which is what good computation is really about, recognizes what remains the same after differences are stripped away. Abstractions in mathematics are captured as code through another technique from computer science, generic programming. Julia shows that one can achieve machine performance without sacrificing human convenience.",
+      "abstract": "Bridging cultures that have often been distant, Julia combines expertise from the diverse fields of computer science and computational science to create a new approach to numerical computing. Julia is designed to be easy and fast and questions notions generally held to be “laws of nature\" by practitioners of numerical computing: \\beginlist \\item High-level dynamic programs have to be slow. \\item One must prototype in one language and then rewrite in another language for speed or deployment. \\item There are parts of a system appropriate for the programmer, and other parts that are best left untouched as they have been built by the experts. \\endlist We introduce the Julia programming language and its design - a dance between specialization and abstraction. Specialization allows for custom treatment. Multiple dispatch, a technique from computer science, picks the right algorithm for the right circumstance. Abstraction, which is what good computation is really about, recognizes what remains the same after differences are stripped away. Abstractions in mathematics are captured as code through another technique from computer science, generic programming. Julia shows that one can achieve machine performance without sacrificing human convenience.",
       "summary": "",
       "url": "../papers/2017_bezanson_julia_a_fresh_approach/",
       "treeUrl": "../tree/#paper=2017_bezanson_julia_a_fresh_approach",
@@ -39807,7 +39807,7 @@ window.timelineData = {
     {
       "id": "1806_06655",
       "label": "Beyond Convexity - Contraction and Global Convergence of Gradient Descent",
-      "title": "Beyond Convexity -- Contraction and Global Convergence of Gradient Descent",
+      "title": "Beyond Convexity - Contraction and Global Convergence of Gradient Descent",
       "authors": [
         "Patrick M. Wensing",
         "Jean-Jacques E. Slotine"
@@ -39878,7 +39878,7 @@ window.timelineData = {
         "Transport",
         "APDAGD"
       ],
-      "abstract": "We analyze two algorithms for approximating the general optimal transport (OT) distance between two discrete distributions of size $n$, up to accuracy $\\varepsilon$. For the first algorithm, which is based on the celebrated Sinkhorn's algorithm, we prove the complexity bound $\\widetilde{O}\\left({n^2/\\varepsilon^2}\\right)$ arithmetic operations. For the second one, which is based on our novel Adaptive Primal-Dual Accelerated Gradient Descent (APDAGD) algorithm, we prove the complexity bound $\\widetilde{O}\\left(\\min\\left\\{n^{9/4}/\\varepsilon, n^{2}/\\varepsilon^2 \\right\\}\\right)$ arithmetic operations. Both bounds have better dependence on $\\varepsilon$ than the state-of-the-art result given by $\\widetilde{O}\\left({n^2/\\varepsilon^3}\\right)$. Our second algorithm not only has better dependence on $\\varepsilon$ in the complexity bound, but also is not specific to entropic regularization and can solve the OT problem with different regularizers.",
+      "abstract": "We analyze two algorithms for approximating the general optimal transport (OT) distance between two discrete distributions of size n, up to accuracy epsilon. For the first algorithm, which is based on the celebrated Sinkhorn's algorithm, we prove the complexity bound O~(n^(2)/epsilon^(2)) arithmetic operations. For the second one, which is based on our novel Adaptive Primal-Dual Accelerated Gradient Descent (APDAGD) algorithm, we prove the complexity bound O~(min{n^(9/4)/epsilon, n^(2)/epsilon^(2) }) arithmetic operations. Both bounds have better dependence on epsilon than the state-of-the-art result given by O~(n^(2)/epsilon^(3)). Our second algorithm not only has better dependence on epsilon in the complexity bound, but also is not specific to entropic regularization and can solve the OT problem with different regularizers.",
       "summary": "",
       "url": "../papers/1802_04367/",
       "treeUrl": "../tree/#paper=1802_04367",
@@ -39912,7 +39912,7 @@ window.timelineData = {
         "Data-Driven Chance Constrained Programs over Wasserstein Balls"
       ],
       "tags": [],
-      "abstract": "We provide an exact deterministic reformulation for data-driven chance constrained programs over Wasserstein balls. For individual chance constraints as well as joint chance constraints with right-hand side uncertainty, our reformulation amounts to a mixed-integer conic program. In the special case of a Wasserstein ball with the $1$-norm or the $\\infty$-norm, the cone is the nonnegative orthant, and the chance constrained program can be reformulated as a mixed-integer linear program. Our reformulation compares favourably to several state-of-the-art data-driven optimization schemes in our numerical experiments.",
+      "abstract": "We provide an exact deterministic reformulation for data-driven chance constrained programs over Wasserstein balls. For individual chance constraints as well as joint chance constraints with right-hand side uncertainty, our reformulation amounts to a mixed-integer conic program. In the special case of a Wasserstein ball with the 1-norm or the infinity-norm, the cone is the nonnegative orthant, and the chance constrained program can be reformulated as a mixed-integer linear program. Our reformulation compares favourably to several state-of-the-art data-driven optimization schemes in our numerical experiments.",
       "summary": "",
       "url": "../papers/1809_00210/",
       "treeUrl": "../tree/#paper=1809_00210",
@@ -39988,7 +39988,7 @@ window.timelineData = {
         "Direct Runge-Kutta Discretization Achieves Acceleration"
       ],
       "tags": [],
-      "abstract": "We study gradient-based optimization methods obtained by directly discretizing a second-order ordinary differential equation (ODE) related to the continuous limit of Nesterov's accelerated gradient method. When the function is smooth enough, we show that acceleration can be achieved by a stable discretization of this ODE using standard Runge-Kutta integrators. Specifically, we prove that under Lipschitz-gradient, convexity and order-$(s+2)$ differentiability assumptions, the sequence of iterates generated by discretizing the proposed second-order ODE converges to the optimal solution at a rate of $\\mathcal{O}({N^{-2\\frac{s}{s+1}}})$, where $s$ is the order of the Runge-Kutta numerical integrator. Furthermore, we introduce a new local flatness condition on the objective, under which rates even faster than $\\mathcal{O}(N^{-2})$ can be achieved with low-order integrators and only gradient information. Notably, this flatness condition is satisfied by several standard loss functions used in machine learning. We provide numerical experiments that verify the theoretical rates predicted by our results.",
+      "abstract": "We study gradient-based optimization methods obtained by directly discretizing a second-order ordinary differential equation (ODE) related to the continuous limit of Nesterov's accelerated gradient method. When the function is smooth enough, we show that acceleration can be achieved by a stable discretization of this ODE using standard Runge-Kutta integrators. Specifically, we prove that under Lipschitz-gradient, convexity and order-(s+2) differentiability assumptions, the sequence of iterates generated by discretizing the proposed second-order ODE converges to the optimal solution at a rate of O({N^(-2)s/s+1}), where s is the order of the Runge-Kutta numerical integrator. Furthermore, we introduce a new local flatness condition on the objective, under which rates even faster than O(N^(-2)) can be achieved with low-order integrators and only gradient information. Notably, this flatness condition is satisfied by several standard loss functions used in machine learning. We provide numerical experiments that verify the theoretical rates predicted by our results.",
       "summary": "",
       "url": "../papers/1805_00521/",
       "treeUrl": "../tree/#paper=1805_00521",
@@ -40057,7 +40057,7 @@ window.timelineData = {
         "Distributionally Robust Inverse Covariance Estimation: The Wasserstein Shrinkage Estimator"
       ],
       "tags": [],
-      "abstract": "We introduce a distributionally robust maximum likelihood estimation model with a Wasserstein ambiguity set to infer the inverse covariance matrix of a $p$-dimensional Gaussian random vector from $n$ independent samples. The proposed model minimizes the worst case (maximum) of Stein's loss across all normal reference distributions within a prescribed Wasserstein distance from the normal distribution characterized by the sample mean and the sample covariance matrix. We prove that this estimation problem is equivalent to a semidefinite program that is tractable in theory but beyond the reach of general purpose solvers for practically relevant problem dimensions $p$. In the absence of any prior structural information, the estimation problem has an analytical solution that is naturally interpreted as a nonlinear shrinkage estimator. Besides being invertible and well-conditioned even for $p>n$, the new shrinkage estimator is rotation-equivariant and preserves the order of the eigenvalues of the sample covariance matrix. These desirable properties are not imposed ad hoc but emerge naturally from the underlying distributionally robust optimization model. Finally, we develop a sequential quadratic approximation algorithm for efficiently solving the general estimation problem subject to conditional independence constraints typically encountered in Gaussian graphical models.",
+      "abstract": "We introduce a distributionally robust maximum likelihood estimation model with a Wasserstein ambiguity set to infer the inverse covariance matrix of a p-dimensional Gaussian random vector from n independent samples. The proposed model minimizes the worst case (maximum) of Stein's loss across all normal reference distributions within a prescribed Wasserstein distance from the normal distribution characterized by the sample mean and the sample covariance matrix. We prove that this estimation problem is equivalent to a semidefinite program that is tractable in theory but beyond the reach of general purpose solvers for practically relevant problem dimensions p. In the absence of any prior structural information, the estimation problem has an analytical solution that is naturally interpreted as a nonlinear shrinkage estimator. Besides being invertible and well-conditioned even for p > n, the new shrinkage estimator is rotation-equivariant and preserves the order of the eigenvalues of the sample covariance matrix. These desirable properties are not imposed ad hoc but emerge naturally from the underlying distributionally robust optimization model. Finally, we develop a sequential quadratic approximation algorithm for efficiently solving the general estimation problem subject to conditional independence constraints typically encountered in Gaussian graphical models.",
       "summary": "",
       "url": "../papers/1805_07194/",
       "treeUrl": "../tree/#paper=1805_07194",
@@ -40173,7 +40173,7 @@ window.timelineData = {
         "Learning",
         "Machine learning"
       ],
-      "abstract": "Accelerated gradient methods have had significant impact in machine learning -- in particular the theoretical side of machine learning -- due to their ability to achieve oracle lower bounds. But their heuristic construction has hindered their full integration into the practical machine-learning algorithmic toolbox, and has limited their scope. In this paper we build on recent work which casts acceleration as a phenomenon best explained in continuous time, and we augment that picture by providing a systematic methodology for converting continuous-time dynamics into discrete-time algorithms while retaining oracle rates. Our framework is based on ideas from Hamiltonian dynamical systems and symplectic integration. These ideas have had major impact in many areas in applied mathematics, but have not yet been seen to have a relationship with optimization.",
+      "abstract": "Accelerated gradient methods have had significant impact in machine learning - in particular the theoretical side of machine learning - due to their ability to achieve oracle lower bounds. But their heuristic construction has hindered their full integration into the practical machine-learning algorithmic toolbox, and has limited their scope. In this paper we build on recent work which casts acceleration as a phenomenon best explained in continuous time, and we augment that picture by providing a systematic methodology for converting continuous-time dynamics into discrete-time algorithms while retaining oracle rates. Our framework is based on ideas from Hamiltonian dynamical systems and symplectic integration. These ideas have had major impact in many areas in applied mathematics, but have not yet been seen to have a relationship with optimization.",
       "summary": "",
       "url": "../papers/1802_03653/",
       "treeUrl": "../tree/#paper=1802_03653",
@@ -40218,7 +40218,7 @@ window.timelineData = {
         "Tournament selection",
         "Evolutionary algorithms"
       ],
-      "abstract": "The effort devoted to hand-crafting neural network image classifiers has motivated the use of architecture search to discover them automatically. Although evolutionary algorithms have been repeatedly applied to neural network topologies, the image classifiers thus discovered have remained inferior to human-crafted ones. Here, we evolve an image classifier---AmoebaNet-A---that surpasses hand-designs for the first time. To do this, we modify the tournament selection evolutionary algorithm by introducing an age property to favor the younger genotypes. Matching size, AmoebaNet-A has comparable accuracy to current state-of-the-art ImageNet models discovered with more complex architecture-search methods. Scaled to larger size, AmoebaNet-A sets a new state-of-the-art 83.9% / 96.6% top-5 ImageNet accuracy. In a controlled comparison against a well known reinforcement learning algorithm, we give evidence that evolution can obtain results faster with the same hardware, especially at the earlier stages of the search. This is relevant when fewer compute resources are available. Evolution is, thus, a simple method to effectively discover high-quality architectures.",
+      "abstract": "The effort devoted to hand-crafting neural network image classifiers has motivated the use of architecture search to discover them automatically. Although evolutionary algorithms have been repeatedly applied to neural network topologies, the image classifiers thus discovered have remained inferior to human-crafted ones. Here, we evolve an image classifier - AmoebaNet-A - that surpasses hand-designs for the first time. To do this, we modify the tournament selection evolutionary algorithm by introducing an age property to favor the younger genotypes. Matching size, AmoebaNet-A has comparable accuracy to current state-of-the-art ImageNet models discovered with more complex architecture-search methods. Scaled to larger size, AmoebaNet-A sets a new state-of-the-art 83.9% / 96.6% top-5 ImageNet accuracy. In a controlled comparison against a well known reinforcement learning algorithm, we give evidence that evolution can obtain results faster with the same hardware, especially at the earlier stages of the search. This is relevant when fewer compute resources are available. Evolution is, thus, a simple method to effectively discover high-quality architectures.",
       "summary": "",
       "url": "../papers/1802_01548/",
       "treeUrl": "../tree/#paper=1802_01548",
@@ -40359,7 +40359,7 @@ window.timelineData = {
         "Understanding the Acceleration Phenomenon via High-Resolution Differential Equations"
       ],
       "tags": [],
-      "abstract": "Gradient-based optimization algorithms can be studied from the perspective of limiting ordinary differential equations (ODEs). Motivated by the fact that existing ODEs do not distinguish between two fundamentally different algorithms---Nesterov's accelerated gradient method for strongly convex functions (NAG-SC) and Polyak's heavy-ball method---we study an alternative limiting process that yields high-resolution ODEs. We show that these ODEs permit a general Lyapunov function framework for the analysis of convergence in both continuous and discrete time. We also show that these ODEs are more accurate surrogates for the underlying algorithms; in particular, they not only distinguish between NAG-SC and Polyak's heavy-ball method, but they allow the identification of a term that we refer to as \"gradient correction\" that is present in NAG-SC but not in the heavy-ball method and is responsible for the qualitative difference in convergence of the two methods. We also use the high-resolution ODE framework to study Nesterov's accelerated gradient method for (non-strongly) convex functions, uncovering a hitherto unknown result---that NAG-C minimizes the squared gradient norm at an inverse cubic rate. Finally, by modifying the high-resolution ODE of NAG-C, we obtain a family of new optimization methods that are shown to maintain the accelerated convergence rates of NAG-C for smooth convex functions.",
+      "abstract": "Gradient-based optimization algorithms can be studied from the perspective of limiting ordinary differential equations (ODEs). Motivated by the fact that existing ODEs do not distinguish between two fundamentally different algorithms - Nesterov's accelerated gradient method for strongly convex functions (NAG-SC) and Polyak's heavy-ball method - we study an alternative limiting process that yields high-resolution ODEs. We show that these ODEs permit a general Lyapunov function framework for the analysis of convergence in both continuous and discrete time. We also show that these ODEs are more accurate surrogates for the underlying algorithms; in particular, they not only distinguish between NAG-SC and Polyak's heavy-ball method, but they allow the identification of a term that we refer to as \"gradient correction\" that is present in NAG-SC but not in the heavy-ball method and is responsible for the qualitative difference in convergence of the two methods. We also use the high-resolution ODE framework to study Nesterov's accelerated gradient method for (non-strongly) convex functions, uncovering a hitherto unknown result - that NAG-C minimizes the squared gradient norm at an inverse cubic rate. Finally, by modifying the high-resolution ODE of NAG-C, we obtain a family of new optimization methods that are shown to maintain the accelerated convergence rates of NAG-C for smooth convex functions.",
       "summary": "",
       "url": "../papers/1810_08907/",
       "treeUrl": "../tree/#paper=1810_08907",
@@ -40391,7 +40391,7 @@ window.timelineData = {
         "Wasserstein Distributionally Robust Stochastic Control: A Data-Driven Approach"
       ],
       "tags": [],
-      "abstract": "Standard stochastic control methods assume that the probability distribution of uncertain variables is available. Unfortunately, in practice, obtaining accurate distribution information is a challenging task. To resolve this issue, we investigate the problem of designing a control policy that is robust against errors in the empirical distribution obtained from data. This problem can be formulated as a two-player zero-sum dynamic game problem, where the action space of the adversarial player is a Wasserstein ball centered at the empirical distribution. We propose computationally tractable value and policy iteration algorithms with explicit estimates of the number of iterations required for constructing an $ε$-optimal policy. We show that the contraction property of associated Bellman operators extends a single-stage out-of-sample performance guarantee, obtained using a measure concentration inequality, to the corresponding multi-stage guarantee without any degradation in the confidence level. In addition, we characterize an explicit form of the optimal distributionally robust control policy and the worst-case distribution policy for linear-quadratic problems with Wasserstein penalty. Our study indicates that dynamic programming and Kantorovich duality play a critical role in solving and analyzing the Wasserstein distributionally robust stochastic control problems.",
+      "abstract": "Standard stochastic control methods assume that the probability distribution of uncertain variables is available. Unfortunately, in practice, obtaining accurate distribution information is a challenging task. To resolve this issue, we investigate the problem of designing a control policy that is robust against errors in the empirical distribution obtained from data. This problem can be formulated as a two-player zero-sum dynamic game problem, where the action space of the adversarial player is a Wasserstein ball centered at the empirical distribution. We propose computationally tractable value and policy iteration algorithms with explicit estimates of the number of iterations required for constructing an epsilon-optimal policy. We show that the contraction property of associated Bellman operators extends a single-stage out-of-sample performance guarantee, obtained using a measure concentration inequality, to the corresponding multi-stage guarantee without any degradation in the confidence level. In addition, we characterize an explicit form of the optimal distributionally robust control policy and the worst-case distribution policy for linear-quadratic problems with Wasserstein penalty. Our study indicates that dynamic programming and Kantorovich duality play a critical role in solving and analyzing the Wasserstein distributionally robust stochastic control problems.",
       "summary": "",
       "url": "../papers/1812_09808/",
       "treeUrl": "../tree/#paper=1812_09808",
@@ -40481,7 +40481,7 @@ window.timelineData = {
         "Variance reduction",
         "Black box"
       ],
-      "abstract": "As application demands for zeroth-order (gradient-free) optimization accelerate, the need for variance reduced and faster converging approaches is also intensifying. This paper addresses these challenges by presenting: a) a comprehensive theoretical analysis of variance reduced zeroth-order (ZO) optimization, b) a novel variance reduced ZO algorithm, called ZO-SVRG, and c) an experimental evaluation of our approach in the context of two compelling applications, black-box chemical material classification and generation of adversarial examples from black-box deep neural network models. Our theoretical analysis uncovers an essential difficulty in the analysis of ZO-SVRG: the unbiased assumption on gradient estimates no longer holds. We prove that compared to its first-order counterpart, ZO-SVRG with a two-point random gradient estimator could suffer an additional error of order $O(1/b)$, where $b$ is the mini-batch size. To mitigate this error, we propose two accelerated versions of ZO-SVRG utilizing variance reduced gradient estimators, which achieve the best rate known for ZO stochastic optimization (in terms of iterations). Our extensive experimental results show that our approaches outperform other state-of-the-art ZO algorithms, and strike a balance between the convergence rate and the function query complexity.",
+      "abstract": "As application demands for zeroth-order (gradient-free) optimization accelerate, the need for variance reduced and faster converging approaches is also intensifying. This paper addresses these challenges by presenting: a) a comprehensive theoretical analysis of variance reduced zeroth-order (ZO) optimization, b) a novel variance reduced ZO algorithm, called ZO-SVRG, and c) an experimental evaluation of our approach in the context of two compelling applications, black-box chemical material classification and generation of adversarial examples from black-box deep neural network models. Our theoretical analysis uncovers an essential difficulty in the analysis of ZO-SVRG: the unbiased assumption on gradient estimates no longer holds. We prove that compared to its first-order counterpart, ZO-SVRG with a two-point random gradient estimator could suffer an additional error of order O(1/b), where b is the mini-batch size. To mitigate this error, we propose two accelerated versions of ZO-SVRG utilizing variance reduced gradient estimators, which achieve the best rate known for ZO stochastic optimization (in terms of iterations). Our extensive experimental results show that our approaches outperform other state-of-the-art ZO algorithms, and strike a balance between the convergence rate and the function query complexity.",
       "summary": "",
       "url": "../papers/1805_10367/",
       "treeUrl": "../tree/#paper=1805_10367",
@@ -40656,7 +40656,7 @@ window.timelineData = {
         "Bezier curves",
         "Control point"
       ],
-      "abstract": "A new algorithm for computing a point on a polynomial or rational curve in Bézier form is proposed. The method has a geometric interpretation and uses only convex combinations of control points. The new algorithm's computational complexity is linear with respect to the number of control points and its memory complexity is $O(1)$. Some remarks on similar methods for surfaces in rectangular and triangular Bézier form are also given.",
+      "abstract": "A new algorithm for computing a point on a polynomial or rational curve in Bézier form is proposed. The method has a geometric interpretation and uses only convex combinations of control points. The new algorithm's computational complexity is linear with respect to the number of control points and its memory complexity is O(1). Some remarks on similar methods for surfaces in rectangular and triangular Bézier form are also given.",
       "summary": "",
       "url": "../papers/1803_06843/",
       "treeUrl": "../tree/#paper=1803_06843",
@@ -40780,7 +40780,7 @@ window.timelineData = {
         "ChauffeurNet"
       ],
       "tags": [],
-      "abstract": "Our goal is to train a policy for autonomous driving via imitation learning that is robust enough to drive a real vehicle. We find that standard behavior cloning is insufficient for handling complex driving scenarios, even when we leverage a perception system for preprocessing the input and a controller for executing the output on the car: 30 million examples are still not enough. We propose exposing the learner to synthesized data in the form of perturbations to the expert's driving, which creates interesting situations such as collisions and/or going off the road. Rather than purely imitating all data, we augment the imitation loss with additional losses that penalize undesirable events and encourage progress -- the perturbations then provide an important signal for these losses and lead to robustness of the learned model. We show that the ChauffeurNet model can handle complex situations in simulation, and present ablation experiments that emphasize the importance of each of our proposed changes and show that the model is responding to the appropriate causal factors. Finally, we demonstrate the model driving a car in the real world.",
+      "abstract": "Our goal is to train a policy for autonomous driving via imitation learning that is robust enough to drive a real vehicle. We find that standard behavior cloning is insufficient for handling complex driving scenarios, even when we leverage a perception system for preprocessing the input and a controller for executing the output on the car: 30 million examples are still not enough. We propose exposing the learner to synthesized data in the form of perturbations to the expert's driving, which creates interesting situations such as collisions and/or going off the road. Rather than purely imitating all data, we augment the imitation loss with additional losses that penalize undesirable events and encourage progress - the perturbations then provide an important signal for these losses and lead to robustness of the learned model. We show that the ChauffeurNet model can handle complex situations in simulation, and present ablation experiments that emphasize the importance of each of our proposed changes and show that the model is responding to the appropriate causal factors. Finally, we demonstrate the model driving a car in the real world.",
       "summary": "",
       "url": "../papers/1812_03079/",
       "treeUrl": "../tree/#paper=1812_03079",
@@ -41675,7 +41675,7 @@ window.timelineData = {
         "Learning Awareness Models"
       ],
       "tags": [],
-      "abstract": "We consider the setting of an agent with a fixed body interacting with an unknown and uncertain external world. We show that models trained to predict proprioceptive information about the agent's body come to represent objects in the external world. In spite of being trained with only internally available signals, these dynamic body models come to represent external objects through the necessity of predicting their effects on the agent's own body. That is, the model learns holistic persistent representations of objects in the world, even though the only training signals are body signals. Our dynamics model is able to successfully predict distributions over 132 sensor readings over 100 steps into the future and we demonstrate that even when the body is no longer in contact with an object, the latent variables of the dynamics model continue to represent its shape. We show that active data collection by maximizing the entropy of predictions about the body---touch sensors, proprioception and vestibular information---leads to learning of dynamic models that show superior performance when used for control. We also collect data from a real robotic hand and show that the same models can be used to answer questions about properties of objects in the real world. Videos with qualitative results of our models are available at https://goo.gl/mZuqAV.",
+      "abstract": "We consider the setting of an agent with a fixed body interacting with an unknown and uncertain external world. We show that models trained to predict proprioceptive information about the agent's body come to represent objects in the external world. In spite of being trained with only internally available signals, these dynamic body models come to represent external objects through the necessity of predicting their effects on the agent's own body. That is, the model learns holistic persistent representations of objects in the world, even though the only training signals are body signals. Our dynamics model is able to successfully predict distributions over 132 sensor readings over 100 steps into the future and we demonstrate that even when the body is no longer in contact with an object, the latent variables of the dynamics model continue to represent its shape. We show that active data collection by maximizing the entropy of predictions about the body - touch sensors, proprioception and vestibular information - leads to learning of dynamic models that show superior performance when used for control. We also collect data from a real robotic hand and show that the same models can be used to answer questions about properties of objects in the real world. Videos with qualitative results of our models are available at https://goo.gl/mZuqAV.",
       "summary": "",
       "url": "../papers/1804_06318/",
       "treeUrl": "../tree/#paper=1804_06318",
@@ -42312,7 +42312,7 @@ window.timelineData = {
         "Distributed Distributional Deterministic Policy Gradients"
       ],
       "tags": [],
-      "abstract": "This work adopts the very successful distributional perspective on reinforcement learning and adapts it to the continuous control setting. We combine this within a distributed framework for off-policy learning in order to develop what we call the Distributed Distributional Deep Deterministic Policy Gradient algorithm, D4PG. We also combine this technique with a number of additional, simple improvements such as the use of $N$-step returns and prioritized experience replay. Experimentally we examine the contribution of each of these individual components, and show how they interact, as well as their combined contributions. Our results show that across a wide variety of simple control tasks, difficult manipulation tasks, and a set of hard obstacle-based locomotion tasks the D4PG algorithm achieves state of the art performance.",
+      "abstract": "This work adopts the very successful distributional perspective on reinforcement learning and adapts it to the continuous control setting. We combine this within a distributed framework for off-policy learning in order to develop what we call the Distributed Distributional Deep Deterministic Policy Gradient algorithm, D4PG. We also combine this technique with a number of additional, simple improvements such as the use of N-step returns and prioritized experience replay. Experimentally we examine the contribution of each of these individual components, and show how they interact, as well as their combined contributions. Our results show that across a wide variety of simple control tasks, difficult manipulation tasks, and a set of hard obstacle-based locomotion tasks the D4PG algorithm achieves state of the art performance.",
       "summary": "",
       "url": "../papers/1804_08617/",
       "treeUrl": "../tree/#paper=1804_08617",
@@ -42388,7 +42388,7 @@ window.timelineData = {
         "Model-Free Linear Quadratic Control via Reduction to Expert Prediction"
       ],
       "tags": [],
-      "abstract": "Model-free approaches for reinforcement learning (RL) and continuous control find policies based only on past states and rewards, without fitting a model of the system dynamics. They are appealing as they are general purpose and easy to implement; however, they also come with fewer theoretical guarantees than model-based RL. In this work, we present a new model-free algorithm for controlling linear quadratic (LQ) systems, and show that its regret scales as $O(T^{ξ+2/3})$ for any small $ξ>0$ if time horizon satisfies $T>C^{1/ξ}$ for a constant $C$. The algorithm is based on a reduction of control of Markov decision processes to an expert prediction problem. In practice, it corresponds to a variant of policy iteration with forced exploration, where the policy in each phase is greedy with respect to the average of all previous value functions. This is the first model-free algorithm for adaptive control of LQ systems that provably achieves sublinear regret and has a polynomial computation cost. Empirically, our algorithm dramatically outperforms standard policy iteration, but performs worse than a model-based approach.",
+      "abstract": "Model-free approaches for reinforcement learning (RL) and continuous control find policies based only on past states and rewards, without fitting a model of the system dynamics. They are appealing as they are general purpose and easy to implement; however, they also come with fewer theoretical guarantees than model-based RL. In this work, we present a new model-free algorithm for controlling linear quadratic (LQ) systems, and show that its regret scales as O(T^(xi)+2/3) for any small xi > 0 if time horizon satisfies T > C^(1)/xi for a constant C. The algorithm is based on a reduction of control of Markov decision processes to an expert prediction problem. In practice, it corresponds to a variant of policy iteration with forced exploration, where the policy in each phase is greedy with respect to the average of all previous value functions. This is the first model-free algorithm for adaptive control of LQ systems that provably achieves sublinear regret and has a polynomial computation cost. Empirically, our algorithm dramatically outperforms standard policy iteration, but performs worse than a model-based approach.",
       "summary": "",
       "url": "../papers/1804_06021/",
       "treeUrl": "../tree/#paper=1804_06021",
@@ -42715,7 +42715,7 @@ window.timelineData = {
         "Learning",
         "Efficient"
       ],
-      "abstract": "Efficient exploration is one of the key challenges for reinforcement learning (RL) algorithms. Most traditional sample efficiency bounds require strategic exploration. Recently many deep RL algorithms with simple heuristic exploration strategies that have few formal guarantees, achieve surprising success in many domains. These results pose an important question about understanding these exploration strategies such as $e$-greedy, as well as understanding what characterize the difficulty of exploration in MDPs. In this work we propose problem specific sample complexity bounds of $Q$ learning with random walk exploration that rely on several structural properties. We also link our theoretical results to some empirical benchmark domains, to illustrate if our bound gives polynomial sample complexity in these domains and how that is related with the empirical performance.",
+      "abstract": "Efficient exploration is one of the key challenges for reinforcement learning (RL) algorithms. Most traditional sample efficiency bounds require strategic exploration. Recently many deep RL algorithms with simple heuristic exploration strategies that have few formal guarantees, achieve surprising success in many domains. These results pose an important question about understanding these exploration strategies such as e-greedy, as well as understanding what characterize the difficulty of exploration in MDPs. In this work we propose problem specific sample complexity bounds of Q learning with random walk exploration that rely on several structural properties. We also link our theoretical results to some empirical benchmark domains, to illustrate if our bound gives polynomial sample complexity in these domains and how that is related with the empirical performance.",
       "summary": "",
       "url": "../papers/1805_09045/",
       "treeUrl": "../tree/#paper=1805_09045",
@@ -42956,7 +42956,7 @@ window.timelineData = {
         "AV",
         "De facto"
       ],
-      "abstract": "While recent developments in autonomous vehicle (AV) technology highlight substantial progress, we lack tools for rigorous and scalable testing. Real-world testing, the $\\textit{de facto}$ evaluation environment, places the public in danger, and, due to the rare nature of accidents, will require billions of miles in order to statistically validate performance claims. We implement a simulation framework that can test an entire modern autonomous driving system, including, in particular, systems that employ deep-learning perception and control algorithms. Using adaptive importance-sampling methods to accelerate rare-event probability evaluation, we estimate the probability of an accident under a base distribution governing standard traffic behavior. We demonstrate our framework on a highway scenario, accelerating system evaluation by $2$-$20$ times over naive Monte Carlo sampling methods and $10$-$300 \\mathsf{P}$ times (where $\\mathsf{P}$ is the number of processors) over real-world testing.",
+      "abstract": "While recent developments in autonomous vehicle (AV) technology highlight substantial progress, we lack tools for rigorous and scalable testing. Real-world testing, the de facto evaluation environment, places the public in danger, and, due to the rare nature of accidents, will require billions of miles in order to statistically validate performance claims. We implement a simulation framework that can test an entire modern autonomous driving system, including, in particular, systems that employ deep-learning perception and control algorithms. Using adaptive importance-sampling methods to accelerate rare-event probability evaluation, we estimate the probability of an accident under a base distribution governing standard traffic behavior. We demonstrate our framework on a highway scenario, accelerating system evaluation by 2-20 times over naive Monte Carlo sampling methods and 10-300 mathsfP times (where mathsfP is the number of processors) over real-world testing.",
       "summary": "",
       "url": "../papers/1811_00145/",
       "treeUrl": "../tree/#paper=1811_00145",
@@ -43001,47 +43001,6 @@ window.timelineData = {
       "mapUrl": "../map/#paper=1811_03056",
       "timelineUrl": "../timeline/#paper=1811_03056",
       "searchUrl": "../search/?paper=1811_03056"
-    },
-    {
-      "id": "2018_belkhir_assessing_ict_global_emissions",
-      "label": "ICT Global Emissions Footprint",
-      "title": "Assessing ICT Global Emissions Footprint: Trends to 2040 & Recommendations",
-      "authors": [
-        "Lotfi Belkhir",
-        "Ahmed Elmeligi"
-      ],
-      "authorShort": "Belkhir, Elmeligi",
-      "year": 2018,
-      "source": "Journal of Cleaner Production",
-      "type": "Journal Paper",
-      "superCategory": "Human & Natural Worlds",
-      "category": "Environmental Impacts",
-      "subCategory": "ICT Global Emissions Footprint",
-      "path": [
-        "Tree",
-        "Human & Natural Worlds",
-        "Environmental Impacts",
-        "ICT Global Emissions Footprint"
-      ],
-      "tags": [
-        "ICT sustainability",
-        "Carbon footprint",
-        "Greenhouse gas emissions",
-        "Data centers",
-        "Communication networks",
-        "Consumer electronics",
-        "Smartphone footprint",
-        "Life cycle emissions",
-        "Climate policy",
-        "Sustainable computing"
-      ],
-      "abstract": "In light of the concerted efforts to reduce global greenhouse gas emissions (GHGE) per the so-called Paris Agreement, the Information and Communication Industry (ICT) has received little attention as a significant contributor to GHGE and if anything is often highly praised for enabling efficiencies that help reduce other industry sectors footprint. In this paper, we aim at assessing the global carbon footprint of the overall ICT industry, including the contribution from the main consumer devices, the data centers and communication networks, and compare it with the to the total worldwide GHGE. We conduct a detailed and rigorous analysis of the ICT global carbon footprint, including both the production and the operational energy of ICT devices, as well as the operational energy for the supporting ICT infrastructure. We then compare this contribution to the global 2016-level GHGE. We have found that, if unchecked, ICT GHGE relative contribution could grow from roughly 1-1.6% in 2007 to exceed 14% of the 2016-level worldwide GHGE by 2040, accounting for more than half of the current relative contribution of the whole transportation sector. Our study also highlights the contribution of smart phones and shows that by 2020, the footprint of smart phones alone would surpass the individual contribution of desktops, laptops and displays. Finally, we offer some actionable recommendations on how to mitigate and curb the ICT explosive GHGE footprint, through a combination of renewable energy use, tax policies, managerial actions and alternative business models.",
-      "summary": "Belkhir and Elmeligi estimate the global greenhouse gas footprint of the ICT sector across devices, data centers, and communications infrastructure, combining production and operational energy rather than treating digital services as immaterial. The paper is influential because it turns ICT growth into a long-range emissions trajectory, highlights smartphones as a major contributor, and frames mitigation as a mix of renewable energy, policy, management, and business-model changes.",
-      "url": "../papers/2018_belkhir_assessing_ict_global_emissions/",
-      "treeUrl": "../tree/#paper=2018_belkhir_assessing_ict_global_emissions",
-      "mapUrl": "../map/#paper=2018_belkhir_assessing_ict_global_emissions",
-      "timelineUrl": "../timeline/#paper=2018_belkhir_assessing_ict_global_emissions",
-      "searchUrl": "../search/?paper=2018_belkhir_assessing_ict_global_emissions"
     },
     {
       "id": "1805_07036",
@@ -43425,7 +43384,7 @@ window.timelineData = {
         "Gradient descent",
         "Neural networks"
       ],
-      "abstract": "One of the mysteries in the success of neural networks is randomly initialized first order methods like gradient descent can achieve zero training loss even though the objective function is non-convex and non-smooth. This paper demystifies this surprising phenomenon for two-layer fully connected ReLU activated neural networks. For an $m$ hidden node shallow neural network with ReLU activation and $n$ training data, we show as long as $m$ is large enough and no two inputs are parallel, randomly initialized gradient descent converges to a globally optimal solution at a linear convergence rate for the quadratic loss function. Our analysis relies on the following observation: over-parameterization and random initialization jointly restrict every weight vector to be close to its initialization for all iterations, which allows us to exploit a strong convexity-like property to show that gradient descent converges at a global linear rate to the global optimum. We believe these insights are also useful in analyzing deep models and other first order methods.",
+      "abstract": "One of the mysteries in the success of neural networks is randomly initialized first order methods like gradient descent can achieve zero training loss even though the objective function is non-convex and non-smooth. This paper demystifies this surprising phenomenon for two-layer fully connected ReLU activated neural networks. For an m hidden node shallow neural network with ReLU activation and n training data, we show as long as m is large enough and no two inputs are parallel, randomly initialized gradient descent converges to a globally optimal solution at a linear convergence rate for the quadratic loss function. Our analysis relies on the following observation: over-parameterization and random initialization jointly restrict every weight vector to be close to its initialization for all iterations, which allows us to exploit a strong convexity-like property to show that gradient descent converges at a global linear rate to the global optimum. We believe these insights are also useful in analyzing deep models and other first order methods.",
       "summary": "",
       "url": "../papers/1810_02054/",
       "treeUrl": "../tree/#paper=1810_02054",
@@ -43501,7 +43460,7 @@ window.timelineData = {
         "On the Optimization of Deep Networks: Implicit Acceleration by Overparameterization"
       ],
       "tags": [],
-      "abstract": "Conventional wisdom in deep learning states that increasing depth improves expressiveness but complicates optimization. This paper suggests that, sometimes, increasing depth can speed up optimization. The effect of depth on optimization is decoupled from expressiveness by focusing on settings where additional layers amount to overparameterization – linear neural networks, a well-studied model. Theoretical analysis, as well as experiments, show that here depth acts as a preconditioner which may accelerate convergence. Even on simple convex problems such as linear regression with $\\ell_p$ loss, $p>2$, gradient descent can benefit from transitioning to a non-convex overparameterized objective, more than it would from some common acceleration schemes. We also prove that it is mathematically impossible to obtain the acceleration effect of overparametrization via gradients of any regularizer.",
+      "abstract": "Conventional wisdom in deep learning states that increasing depth improves expressiveness but complicates optimization. This paper suggests that, sometimes, increasing depth can speed up optimization. The effect of depth on optimization is decoupled from expressiveness by focusing on settings where additional layers amount to overparameterization – linear neural networks, a well-studied model. Theoretical analysis, as well as experiments, show that here depth acts as a preconditioner which may accelerate convergence. Even on simple convex problems such as linear regression with l_p loss, p > 2, gradient descent can benefit from transitioning to a non-convex overparameterized objective, more than it would from some common acceleration schemes. We also prove that it is mathematically impossible to obtain the acceleration effect of overparametrization via gradients of any regularizer.",
       "summary": "",
       "url": "../papers/2018_arora_on_the_optimization_of/",
       "treeUrl": "../tree/#paper=2018_arora_on_the_optimization_of",
@@ -43579,7 +43538,7 @@ window.timelineData = {
         "Criminal justice",
         "Machine learning"
       ],
-      "abstract": "Black box machine learning models are currently being used for high stakes decision-making throughout society, causing problems throughout healthcare, criminal justice, and in other domains. People have hoped that creating methods for explaining these black box models will alleviate some of these problems, but trying to \\textit{explain} black box models, rather than creating models that are \\textit{interpretable} in the first place, is likely to perpetuate bad practices and can potentially cause catastrophic harm to society. There is a way forward -- it is to design models that are inherently interpretable. This manuscript clarifies the chasm between explaining black boxes and using inherently interpretable models, outlines several key reasons why explainable black boxes should be avoided in high-stakes decisions, identifies challenges to interpretable machine learning, and provides several example applications where interpretable models could potentially replace black box models in criminal justice, healthcare, and computer vision.",
+      "abstract": "Black box machine learning models are currently being used for high stakes decision-making throughout society, causing problems throughout healthcare, criminal justice, and in other domains. People have hoped that creating methods for explaining these black box models will alleviate some of these problems, but trying to \\textit{explain} black box models, rather than creating models that are \\textit{interpretable} in the first place, is likely to perpetuate bad practices and can potentially cause catastrophic harm to society. There is a way forward - it is to design models that are inherently interpretable. This manuscript clarifies the chasm between explaining black boxes and using inherently interpretable models, outlines several key reasons why explainable black boxes should be avoided in high-stakes decisions, identifies challenges to interpretable machine learning, and provides several example applications where interpretable models could potentially replace black box models in criminal justice, healthcare, and computer vision.",
       "summary": "",
       "url": "../papers/1811_10154/",
       "treeUrl": "../tree/#paper=1811_10154",
@@ -43791,7 +43750,7 @@ window.timelineData = {
         "Graph Networks as Learnable Physics Engines for Inference and Control"
       ],
       "tags": [],
-      "abstract": "Understanding and interacting with everyday physical scenes requires rich knowledge about the structure of the world, represented either implicitly in a value or policy function, or explicitly in a transition model. Here we introduce a new class of learnable models--based on graph networks--which implement an inductive bias for object- and relation-centric representations of complex, dynamical systems. Our results show that as a forward model, our approach supports accurate predictions from real and simulated data, and surprisingly strong and efficient generalization, across eight distinct physical systems which we varied parametrically and structurally. We also found that our inference model can perform system identification. Our models are also differentiable, and support online planning via gradient-based trajectory optimization, as well as offline policy optimization. Our framework offers new opportunities for harnessing and exploiting rich knowledge about the world, and takes a key step toward building machines with more human-like representations of the world.",
+      "abstract": "Understanding and interacting with everyday physical scenes requires rich knowledge about the structure of the world, represented either implicitly in a value or policy function, or explicitly in a transition model. Here we introduce a new class of learnable models - based on graph networks - which implement an inductive bias for object- and relation-centric representations of complex, dynamical systems. Our results show that as a forward model, our approach supports accurate predictions from real and simulated data, and surprisingly strong and efficient generalization, across eight distinct physical systems which we varied parametrically and structurally. We also found that our inference model can perform system identification. Our models are also differentiable, and support online planning via gradient-based trajectory optimization, as well as offline policy optimization. Our framework offers new opportunities for harnessing and exploiting rich knowledge about the world, and takes a key step toward building machines with more human-like representations of the world.",
       "summary": "",
       "url": "../papers/1806_01242/",
       "treeUrl": "../tree/#paper=1806_01242",
@@ -43870,6 +43829,47 @@ window.timelineData = {
       "mapUrl": "../map/#paper=1809_08830",
       "timelineUrl": "../timeline/#paper=1809_08830",
       "searchUrl": "../search/?paper=1809_08830"
+    },
+    {
+      "id": "2018_belkhir_assessing_ict_global_emissions",
+      "label": "ICT Global Emissions Footprint",
+      "title": "Assessing ICT Global Emissions Footprint: Trends to 2040 & Recommendations",
+      "authors": [
+        "Lotfi Belkhir",
+        "Ahmed Elmeligi"
+      ],
+      "authorShort": "Belkhir, Elmeligi",
+      "year": 2018,
+      "source": "Journal of Cleaner Production",
+      "type": "Journal Paper",
+      "superCategory": "Quantitative Foundations",
+      "category": "Environmental Impacts",
+      "subCategory": "ICT Global Emissions Footprint",
+      "path": [
+        "Tree",
+        "Quantitative Foundations",
+        "Environmental Impacts",
+        "ICT Global Emissions Footprint"
+      ],
+      "tags": [
+        "ICT sustainability",
+        "Carbon footprint",
+        "Greenhouse gas emissions",
+        "Data centers",
+        "Communication networks",
+        "Consumer electronics",
+        "Smartphone footprint",
+        "Life cycle emissions",
+        "Climate policy",
+        "Sustainable computing"
+      ],
+      "abstract": "In light of the concerted efforts to reduce global greenhouse gas emissions (GHGE) per the so-called Paris Agreement, the Information and Communication Industry (ICT) has received little attention as a significant contributor to GHGE and if anything is often highly praised for enabling efficiencies that help reduce other industry sectors footprint. In this paper, we aim at assessing the global carbon footprint of the overall ICT industry, including the contribution from the main consumer devices, the data centers and communication networks, and compare it with the to the total worldwide GHGE. We conduct a detailed and rigorous analysis of the ICT global carbon footprint, including both the production and the operational energy of ICT devices, as well as the operational energy for the supporting ICT infrastructure. We then compare this contribution to the global 2016-level GHGE. We have found that, if unchecked, ICT GHGE relative contribution could grow from roughly 1-1.6% in 2007 to exceed 14% of the 2016-level worldwide GHGE by 2040, accounting for more than half of the current relative contribution of the whole transportation sector. Our study also highlights the contribution of smart phones and shows that by 2020, the footprint of smart phones alone would surpass the individual contribution of desktops, laptops and displays. Finally, we offer some actionable recommendations on how to mitigate and curb the ICT explosive GHGE footprint, through a combination of renewable energy use, tax policies, managerial actions and alternative business models.",
+      "summary": "Belkhir and Elmeligi estimate the global greenhouse gas footprint of the ICT sector across devices, data centers, and communications infrastructure, combining production and operational energy rather than treating digital services as immaterial. The paper is influential because it turns ICT growth into a long-range emissions trajectory, highlights smartphones as a major contributor, and frames mitigation as a mix of renewable energy, policy, management, and business-model changes.",
+      "url": "../papers/2018_belkhir_assessing_ict_global_emissions/",
+      "treeUrl": "../tree/#paper=2018_belkhir_assessing_ict_global_emissions",
+      "mapUrl": "../map/#paper=2018_belkhir_assessing_ict_global_emissions",
+      "timelineUrl": "../timeline/#paper=2018_belkhir_assessing_ict_global_emissions",
+      "searchUrl": "../search/?paper=2018_belkhir_assessing_ict_global_emissions"
     },
     {
       "id": "1805_05533",
@@ -44316,7 +44316,7 @@ window.timelineData = {
     {
       "id": "1909_12765",
       "label": "A Nonlinear Model Predictive Control Framework Using Reference Generic Terminal Ingredients -- Extended Version",
-      "title": "A Nonlinear Model Predictive Control Framework Using Reference Generic Terminal Ingredients -- Extended Version",
+      "title": "A Nonlinear Model Predictive Control Framework Using Reference Generic Terminal Ingredients - Extended Version",
       "authors": [
         "Johannes Kohler",
         "Matthias A. Muller",
@@ -44551,7 +44551,7 @@ window.timelineData = {
         "LTI",
         "Output feedback"
       ],
-      "abstract": "This work presents a fairly complete account on various topological and metrical aspects of feedback stabilization for single-input-single-output (SISO) continuous and discrete time linear-time-invariant (LTI) systems. In particular, we prove that the set of stabilizing output feedback gains for a SISO system with n states has at most $\\lceil{\\frac{n}{2}}\\rceil$ connected components. Furthermore, our analysis yields an algorithm for determining intervals of stabilizing gains for general continuous and discrete LIT systems; the proposed algorithm also computes the number of unstable roots in each unstable interval. Along the way, we also make a number of observations on the set of stabilizing state feedback gains for MIMO systems.",
+      "abstract": "This work presents a fairly complete account on various topological and metrical aspects of feedback stabilization for single-input-single-output (SISO) continuous and discrete time linear-time-invariant (LTI) systems. In particular, we prove that the set of stabilizing output feedback gains for a SISO system with n states has at most lceiln/2rceil connected components. Furthermore, our analysis yields an algorithm for determining intervals of stabilizing gains for general continuous and discrete LIT systems; the proposed algorithm also computes the number of unstable roots in each unstable interval. Along the way, we also make a number of observations on the set of stabilizing state feedback gains for MIMO systems.",
       "summary": "",
       "url": "../papers/1904_08451/",
       "treeUrl": "../tree/#paper=1904_08451",
@@ -44850,7 +44850,7 @@ window.timelineData = {
         "Escaping from Saddle Points on Riemannian Manifolds"
       ],
       "tags": [],
-      "abstract": "We consider minimizing a nonconvex, smooth function $f$ on a Riemannian manifold $\\mathcal{M}$. We show that a perturbed version of Riemannian gradient descent algorithm converges to a second-order stationary point (and hence is able to escape saddle points on the manifold). The rate of convergence depends as $1/ε^2$ on the accuracy $ε$, which matches a rate known only for unconstrained smooth minimization. The convergence rate depends polylogarithmically on the manifold dimension $d$, hence is almost dimension-free. The rate also has a polynomial dependence on the parameters describing the curvature of the manifold and the smoothness of the function. While the unconstrained problem (Euclidean setting) is well-studied, our result is the first to prove such a rate for nonconvex, manifold-constrained problems.",
+      "abstract": "We consider minimizing a nonconvex, smooth function f on a Riemannian manifold M. We show that a perturbed version of Riemannian gradient descent algorithm converges to a second-order stationary point (and hence is able to escape saddle points on the manifold). The rate of convergence depends as 1/epsilon^(2) on the accuracy epsilon, which matches a rate known only for unconstrained smooth minimization. The convergence rate depends polylogarithmically on the manifold dimension d, hence is almost dimension-free. The rate also has a polynomial dependence on the parameters describing the curvature of the manifold and the smoothness of the function. While the unconstrained problem (Euclidean setting) is well-studied, our result is the first to prove such a rate for nonconvex, manifold-constrained problems.",
       "summary": "",
       "url": "../papers/1906_07355/",
       "treeUrl": "../tree/#paper=1906_07355",
@@ -44891,7 +44891,7 @@ window.timelineData = {
         "Optimization",
         "GLD"
       ],
-      "abstract": "Zeroth-order optimization is the process of minimizing an objective $f(x)$, given oracle access to evaluations at adaptively chosen inputs $x$. In this paper, we present two simple yet powerful GradientLess Descent (GLD) algorithms that do not rely on an underlying gradient estimate and are numerically stable. We analyze our algorithm from a novel geometric perspective and present a novel analysis that shows convergence within an $ε$-ball of the optimum in $O(kQ\\log(n)\\log(R/ε))$ evaluations, for any monotone transform of a smooth and strongly convex objective with latent dimension $k < n$, where the input dimension is $n$, $R$ is the diameter of the input space and $Q$ is the condition number. Our rates are the first of its kind to be both 1) poly-logarithmically dependent on dimensionality and 2) invariant under monotone transformations. We further leverage our geometric perspective to show that our analysis is optimal. Both monotone invariance and its ability to utilize a low latent dimensionality are key to the empirical success of our algorithms, as demonstrated on BBOB and MuJoCo benchmarks.",
+      "abstract": "Zeroth-order optimization is the process of minimizing an objective f(x), given oracle access to evaluations at adaptively chosen inputs x. In this paper, we present two simple yet powerful GradientLess Descent (GLD) algorithms that do not rely on an underlying gradient estimate and are numerically stable. We analyze our algorithm from a novel geometric perspective and present a novel analysis that shows convergence within an epsilon-ball of the optimum in O(kQlog(n)log(R/epsilon)) evaluations, for any monotone transform of a smooth and strongly convex objective with latent dimension k < n, where the input dimension is n, R is the diameter of the input space and Q is the condition number. Our rates are the first of its kind to be both 1) poly-logarithmically dependent on dimensionality and 2) invariant under monotone transformations. We further leverage our geometric perspective to show that our analysis is optimal. Both monotone invariance and its ability to utilize a low latent dimensionality are key to the empirical success of our algorithms, as demonstrated on BBOB and MuJoCo benchmarks.",
       "summary": "",
       "url": "../papers/1911_06317/",
       "treeUrl": "../tree/#paper=1911_06317",
@@ -45037,7 +45037,7 @@ window.timelineData = {
         "Variance reduction",
         "Stochastic gradient descent"
       ],
-      "abstract": "Variance reduction has emerged in recent years as a strong competitor to stochastic gradient descent in non-convex problems, providing the first algorithms to improve upon the converge rate of stochastic gradient descent for finding first-order critical points. However, variance reduction techniques typically require carefully tuned learning rates and willingness to use excessively large \"mega-batches\" in order to achieve their improved results. We present a new algorithm, STORM, that does not require any batches and makes use of adaptive learning rates, enabling simpler implementation and less hyperparameter tuning. Our technique for removing the batches uses a variant of momentum to achieve variance reduction in non-convex optimization. On smooth losses $F$, STORM finds a point $\\boldsymbol{x}$ with $\\mathbb{E}[\\|\\nabla F(\\boldsymbol{x})\\|]\\le O(1/\\sqrt{T}+σ^{1/3}/T^{1/3})$ in $T$ iterations with $σ^2$ variance in the gradients, matching the optimal rate but without requiring knowledge of $σ$.",
+      "abstract": "Variance reduction has emerged in recent years as a strong competitor to stochastic gradient descent in non-convex problems, providing the first algorithms to improve upon the converge rate of stochastic gradient descent for finding first-order critical points. However, variance reduction techniques typically require carefully tuned learning rates and willingness to use excessively large \"mega-batches\" in order to achieve their improved results. We present a new algorithm, STORM, that does not require any batches and makes use of adaptive learning rates, enabling simpler implementation and less hyperparameter tuning. Our technique for removing the batches uses a variant of momentum to achieve variance reduction in non-convex optimization. On smooth losses F, STORM finds a point boldsymbolx with E[|nabla F(boldsymbolx)|] <= O(1/sqrt(T)+sigma^(1/3)/T^(1/3)) in T iterations with sigma^(2) variance in the gradients, matching the optimal rate but without requiring knowledge of sigma.",
       "summary": "",
       "url": "../papers/1905_10018/",
       "treeUrl": "../tree/#paper=1905_10018",
@@ -45242,7 +45242,7 @@ window.timelineData = {
         "Scalable Semidefinite Programming"
       ],
       "tags": [],
-      "abstract": "Semidefinite programming (SDP) is a powerful framework from convex optimization that has striking potential for data science applications. This paper develops a provably correct randomized algorithm for solving large, weakly constrained SDP problems by economizing on the storage and arithmetic costs. Numerical evidence shows that the method is effective for a range of applications, including relaxations of MaxCut, abstract phase retrieval, and quadratic assignment. Running on a laptop equivalent, the algorithm can handle SDP instances where the matrix variable has over $10^{14}$ entries.",
+      "abstract": "Semidefinite programming (SDP) is a powerful framework from convex optimization that has striking potential for data science applications. This paper develops a provably correct randomized algorithm for solving large, weakly constrained SDP problems by economizing on the storage and arithmetic costs. Numerical evidence shows that the method is effective for a range of applications, including relaxations of MaxCut, abstract phase retrieval, and quadratic assignment. Running on a laptop equivalent, the algorithm can handle SDP instances where the matrix variable has over 10^(14) entries.",
       "summary": "",
       "url": "../papers/1912_02949/",
       "treeUrl": "../tree/#paper=1912_02949",
@@ -45277,7 +45277,7 @@ window.timelineData = {
         "Wasserstein Distributionally Robust Optimization: Theory and Applications in Machine Learning"
       ],
       "tags": [],
-      "abstract": "Many decision problems in science, engineering and economics are affected by uncertain parameters whose distribution is only indirectly observable through samples. The goal of data-driven decision-making is to learn a decision from finitely many training samples that will perform well on unseen test samples. This learning task is difficult even if all training and test samples are drawn from the same distribution -- especially if the dimension of the uncertainty is large relative to the training sample size. Wasserstein distributionally robust optimization seeks data-driven decisions that perform well under the most adverse distribution within a certain Wasserstein distance from a nominal distribution constructed from the training samples. In this tutorial we will argue that this approach has many conceptual and computational benefits. Most prominently, the optimal decisions can often be computed by solving tractable convex optimization problems, and they enjoy rigorous out-of-sample and asymptotic consistency guarantees. We will also show that Wasserstein distributionally robust optimization has interesting ramifications for statistical learning and motivates new approaches for fundamental learning tasks such as classification, regression, maximum likelihood estimation or minimum mean square error estimation, among others.",
+      "abstract": "Many decision problems in science, engineering and economics are affected by uncertain parameters whose distribution is only indirectly observable through samples. The goal of data-driven decision-making is to learn a decision from finitely many training samples that will perform well on unseen test samples. This learning task is difficult even if all training and test samples are drawn from the same distribution - especially if the dimension of the uncertainty is large relative to the training sample size. Wasserstein distributionally robust optimization seeks data-driven decisions that perform well under the most adverse distribution within a certain Wasserstein distance from a nominal distribution constructed from the training samples. In this tutorial we will argue that this approach has many conceptual and computational benefits. Most prominently, the optimal decisions can often be computed by solving tractable convex optimization problems, and they enjoy rigorous out-of-sample and asymptotic consistency guarantees. We will also show that Wasserstein distributionally robust optimization has interesting ramifications for statistical learning and motivates new approaches for fundamental learning tasks such as classification, regression, maximum likelihood estimation or minimum mean square error estimation, among others.",
       "summary": "",
       "url": "../papers/1908_08729/",
       "treeUrl": "../tree/#paper=1908_08729",
@@ -45748,7 +45748,7 @@ window.timelineData = {
         "Efficient Trajectory Planning for High Speed Flight in Unknown Environments"
       ],
       "tags": [],
-      "abstract": "There has been considerable recent work in motion planning for UAVs to enable aggressive, highly dynamic flight in known environments with motion capture systems. However, these existing planners have not been shown to enable the same kind of flight in unknown, outdoor environments. In this paper we present a receding horizon planning architecture that enables the fast replanning necessary for reactive obstacle avoidance by combining three techniques. First, we show how previous work in computationally efficient, closed-form trajectory generation method can be coupled with spatial partitioning data structures to reason about the geometry of the environment in real-time. Second, we show how to maintain safety margins during fast flight in unknown environments by planning velocities according to obstacle density. Third, our receding-horizon, sampling-based motion planner uses minimum-jerk trajectories and closed-loop tracking to enable smooth, robust, high-speed flight with the low angular rates necessary for accurate visual-inertial navigation. We compare against two state-of-the-art, reactive motion planners in simulation and benchmark solution quality against an offline global planner. Finally, we demonstrate our planner over 80 flights with a combined distance of 22km of autonomous quadrotor flights in an urban environment at speeds up to 9.4ms $^{-1}$.",
+      "abstract": "There has been considerable recent work in motion planning for UAVs to enable aggressive, highly dynamic flight in known environments with motion capture systems. However, these existing planners have not been shown to enable the same kind of flight in unknown, outdoor environments. In this paper we present a receding horizon planning architecture that enables the fast replanning necessary for reactive obstacle avoidance by combining three techniques. First, we show how previous work in computationally efficient, closed-form trajectory generation method can be coupled with spatial partitioning data structures to reason about the geometry of the environment in real-time. Second, we show how to maintain safety margins during fast flight in unknown environments by planning velocities according to obstacle density. Third, our receding-horizon, sampling-based motion planner uses minimum-jerk trajectories and closed-loop tracking to enable smooth, robust, high-speed flight with the low angular rates necessary for accurate visual-inertial navigation. We compare against two state-of-the-art, reactive motion planners in simulation and benchmark solution quality against an offline global planner. Finally, we demonstrate our planner over 80 flights with a combined distance of 22 km of autonomous quadrotor flights in an urban environment at speeds up to 9.4 ms ^(-1).",
       "summary": "",
       "url": "../papers/2019_ryll_efficient_trajectory_planning_for/",
       "treeUrl": "../tree/#paper=2019_ryll_efficient_trajectory_planning_for",
@@ -45974,7 +45974,7 @@ window.timelineData = {
         "Control",
         "Control variable"
       ],
-      "abstract": "We study the well-known minimum-energy control of the double integrator, along with the simultaneous minimization of the total variation in the control variable. We derive the optimality conditions and obtain the unique optimal solution to the combined problem, where the initial and terminal boundary points are specified. We study the problem from a multi-objective optimal control viewpoint, constructing the Pareto front. We show that the unique asymptotic optimal control function, for the minimization of the total variation alone, is piecewise constant with one switching at the midpoint of the time horizon. For any instance of the boundary conditions of the problem, we prove that the asymptotic optimal total variation is exactly $2/3$ of the total variation of the minimum-energy control. We illustrate the results for a particular instance of the problem and include a link to a video which animates the solutions while moving along the Pareto front.",
+      "abstract": "We study the well-known minimum-energy control of the double integrator, along with the simultaneous minimization of the total variation in the control variable. We derive the optimality conditions and obtain the unique optimal solution to the combined problem, where the initial and terminal boundary points are specified. We study the problem from a multi-objective optimal control viewpoint, constructing the Pareto front. We show that the unique asymptotic optimal control function, for the minimization of the total variation alone, is piecewise constant with one switching at the midpoint of the time horizon. For any instance of the boundary conditions of the problem, we prove that the asymptotic optimal total variation is exactly 2/3 of the total variation of the minimum-energy control. We illustrate the results for a particular instance of the problem and include a link to a video which animates the solutions while moving along the Pareto front.",
       "summary": "",
       "url": "../papers/1901_00491/",
       "treeUrl": "../tree/#paper=1901_00491",
@@ -46086,7 +46086,7 @@ window.timelineData = {
         "Refined Analysis of Asymptotically-Optimal Kinodynamic Planning in the State-Cost Space"
       ],
       "tags": [],
-      "abstract": "We present a novel analysis of AO-RRT: a tree-based planner for motion planning with kinodynamic constraints, originally described by Hauser and Zhou (AO-X, 2016). AO-RRT explores the state-cost space and has been shown to efficiently obtain high-quality solutions in practice without relying on the availability of a computationally-intensive two-point boundary-value solver. Our main contribution is an optimality proof for the single-tree version of the algorithm---a variant that was not analyzed before. Our proof only requires a mild and easily-verifiable set of assumptions on the problem and system: Lipschitz-continuity of the cost function and the dynamics. In particular, we prove that for any system satisfying these assumptions, any trajectory having a piecewise-constant control function and positive clearance from the obstacles can be approximated arbitrarily well by a trajectory found by AO-RRT. We also discuss practical aspects of AO-RRT and present experimental comparisons of variants of the algorithm.",
+      "abstract": "We present a novel analysis of AO-RRT: a tree-based planner for motion planning with kinodynamic constraints, originally described by Hauser and Zhou (AO-X, 2016). AO-RRT explores the state-cost space and has been shown to efficiently obtain high-quality solutions in practice without relying on the availability of a computationally-intensive two-point boundary-value solver. Our main contribution is an optimality proof for the single-tree version of the algorithm - a variant that was not analyzed before. Our proof only requires a mild and easily-verifiable set of assumptions on the problem and system: Lipschitz-continuity of the cost function and the dynamics. In particular, we prove that for any system satisfying these assumptions, any trajectory having a piecewise-constant control function and positive clearance from the obstacles can be approximated arbitrarily well by a trajectory found by AO-RRT. We also discuss practical aspects of AO-RRT and present experimental comparisons of variants of the algorithm.",
       "summary": "",
       "url": "../papers/1909_05569/",
       "treeUrl": "../tree/#paper=1909_05569",
@@ -46284,7 +46284,7 @@ window.timelineData = {
         "Humanoid robot",
         "Gaussian processes"
       ],
-      "abstract": "Trajectory optimization for motion planning requires good initial guesses to obtain good performance. In our proposed approach, we build a memory of motion based on a database of robot paths to provide good initial guesses. The memory of motion relies on function approximators and dimensionality reduction techniques to learn the mapping between the tasks and the robot paths. Three function approximators are compared: $k$-Nearest Neighbor, Gaussian Process Regression, and Bayesian Gaussian Mixture Regression. In addition, we show that the memory can be used as a metric to choose between several possible goals, and using an ensemble method to combine different function approximators results in a significantly improved warm-starting performance. We demonstrate the proposed approach with motion planning examples on the dual-arm robot PR2 and the humanoid robot Atlas.",
+      "abstract": "Trajectory optimization for motion planning requires good initial guesses to obtain good performance. In our proposed approach, we build a memory of motion based on a database of robot paths to provide good initial guesses. The memory of motion relies on function approximators and dimensionality reduction techniques to learn the mapping between the tasks and the robot paths. Three function approximators are compared: k-Nearest Neighbor, Gaussian Process Regression, and Bayesian Gaussian Mixture Regression. In addition, we show that the memory can be used as a metric to choose between several possible goals, and using an ensemble method to combine different function approximators results in a significantly improved warm-starting performance. We demonstrate the proposed approach with motion planning examples on the dual-arm robot PR2 and the humanoid robot Atlas.",
       "summary": "",
       "url": "../papers/1907_01474/",
       "treeUrl": "../tree/#paper=1907_01474",
@@ -46325,7 +46325,7 @@ window.timelineData = {
         "Catch & Carry"
       ],
       "tags": [],
-      "abstract": "We address the longstanding challenge of producing flexible, realistic humanoid character controllers that can perform diverse whole-body tasks involving object interactions. This challenge is central to a variety of fields, from graphics and animation to robotics and motor neuroscience. Our physics-based environment uses realistic actuation and first-person perception -- including touch sensors and egocentric vision -- with a view to producing active-sensing behaviors (e.g. gaze direction), transferability to real robots, and comparisons to the biology. We develop an integrated neural-network based approach consisting of a motor primitive module, human demonstrations, and an instructed reinforcement learning regime with curricula and task variations. We demonstrate the utility of our approach for several tasks, including goal-conditioned box carrying and ball catching, and we characterize its behavioral robustness. The resulting controllers can be deployed in real-time on a standard PC. See overview video, https://youtu.be/2rQAW-8gQQk .",
+      "abstract": "We address the longstanding challenge of producing flexible, realistic humanoid character controllers that can perform diverse whole-body tasks involving object interactions. This challenge is central to a variety of fields, from graphics and animation to robotics and motor neuroscience. Our physics-based environment uses realistic actuation and first-person perception - including touch sensors and egocentric vision - with a view to producing active-sensing behaviors (e.g. gaze direction), transferability to real robots, and comparisons to the biology. We develop an integrated neural-network based approach consisting of a motor primitive module, human demonstrations, and an instructed reinforcement learning regime with curricula and task variations. We demonstrate the utility of our approach for several tasks, including goal-conditioned box carrying and ball catching, and we characterize its behavioral robustness. The resulting controllers can be deployed in real-time on a standard PC. See overview video, https://youtu.be/2rQAW-8gQQk .",
       "summary": "",
       "url": "../papers/1911_06636/",
       "treeUrl": "../tree/#paper=1911_06636",
@@ -46594,7 +46594,7 @@ window.timelineData = {
         "Learning",
         "Kalman filter"
       ],
-      "abstract": "In this paper, we analyze the finite sample complexity of stochastic system identification using modern tools from machine learning and statistics. An unknown discrete-time linear system evolves over time under Gaussian noise without external inputs. The objective is to recover the system parameters as well as the Kalman filter gain, given a single trajectory of output measurements over a finite horizon of length $N$. Based on a subspace identification algorithm and a finite number of $N$ output samples, we provide non-asymptotic high-probability upper bounds for the system parameter estimation errors. Our analysis uses recent results from random matrix theory, self-normalized martingales and SVD robustness, in order to show that with high probability the estimation errors decrease with a rate of $1/\\sqrt{N}$. Our non-asymptotic bounds not only agree with classical asymptotic results, but are also valid even when the system is marginally stable.",
+      "abstract": "In this paper, we analyze the finite sample complexity of stochastic system identification using modern tools from machine learning and statistics. An unknown discrete-time linear system evolves over time under Gaussian noise without external inputs. The objective is to recover the system parameters as well as the Kalman filter gain, given a single trajectory of output measurements over a finite horizon of length N. Based on a subspace identification algorithm and a finite number of N output samples, we provide non-asymptotic high-probability upper bounds for the system parameter estimation errors. Our analysis uses recent results from random matrix theory, self-normalized martingales and SVD robustness, in order to show that with high probability the estimation errors decrease with a rate of 1/sqrt(N). Our non-asymptotic bounds not only agree with classical asymptotic results, but are also valid even when the system is marginally stable.",
       "summary": "",
       "url": "../papers/1903_09122/",
       "treeUrl": "../tree/#paper=1903_09122",
@@ -46719,7 +46719,7 @@ window.timelineData = {
         "Discrete-time",
         "Linear quadratic regulator"
       ],
-      "abstract": "We consider the Linear-Quadratic-Regulator (LQR) problem in terms of optimizing a real-valued matrix function over the set of feedback gains. Such a setup facilitates examining the implications of a natural initial-state independent formulation of LQR in designing first order algorithms. It is shown that this cost function is smooth and coercive, and provide an alternate means of noting its gradient dominated property. In the process, we provide a number of analytic observations on the LQR cost when directly analyzed in terms of the feedback gain. We then examine three types of well-posed flows for LQR: gradient flow, natural gradient flow and the quasi-Newton flow. The coercive property suggests that these flows admit unique solutions while gradient dominated property indicates that the corresponding Lyapunov functionals decay at an exponential rate; we also prove that these flows are exponentially stable in the sense of Lyapunov. We then discuss the forward Euler discretization of these flows, realized as gradient descent, natural gradient descent and the quasi-Newton iteration. We present stepsize criteria for gradient descent and natural gradient descent, guaranteeing that both algorithms converge linearly to the global optima. An optimal stepsize for the quasi-Newton iteration is also proposed, guaranteeing a $Q$-quadratic convergence rate--and in the meantime--recovering the Hewer algorithm.",
+      "abstract": "We consider the Linear-Quadratic-Regulator (LQR) problem in terms of optimizing a real-valued matrix function over the set of feedback gains. Such a setup facilitates examining the implications of a natural initial-state independent formulation of LQR in designing first order algorithms. It is shown that this cost function is smooth and coercive, and provide an alternate means of noting its gradient dominated property. In the process, we provide a number of analytic observations on the LQR cost when directly analyzed in terms of the feedback gain. We then examine three types of well-posed flows for LQR: gradient flow, natural gradient flow and the quasi-Newton flow. The coercive property suggests that these flows admit unique solutions while gradient dominated property indicates that the corresponding Lyapunov functionals decay at an exponential rate; we also prove that these flows are exponentially stable in the sense of Lyapunov. We then discuss the forward Euler discretization of these flows, realized as gradient descent, natural gradient descent and the quasi-Newton iteration. We present stepsize criteria for gradient descent and natural gradient descent, guaranteeing that both algorithms converge linearly to the global optima. An optimal stepsize for the quasi-Newton iteration is also proposed, guaranteeing a Q-quadratic convergence rate - and in the meantime - recovering the Hewer algorithm.",
       "summary": "",
       "url": "../papers/1907_08921/",
       "treeUrl": "../tree/#paper=1907_08921",
@@ -46807,7 +46807,7 @@ window.timelineData = {
         "PO",
         "Linear quadratic regulator"
       ],
-      "abstract": "Policy optimization (PO) is a key ingredient for reinforcement learning (RL). For control design, certain constraints are usually enforced on the policies to optimize, accounting for either the stability, robustness, or safety concerns on the system. Hence, PO is by nature a constrained (nonconvex) optimization in most cases, whose global convergence is challenging to analyze in general. More importantly, some constraints that are safety-critical, e.g., the $\\mathcal{H}_\\infty$-norm constraint that guarantees the system robustness, are difficult to enforce as the PO methods proceed. Recently, policy gradient methods have been shown to converge to the global optimum of linear quadratic regulator (LQR), a classical optimal control problem, without regularizing/projecting the control iterates onto the stabilizing set, its (implicit) feasible set. This striking result is built upon the coercive property of the cost, ensuring that the iterates remain feasible as the cost decreases. In this paper, we study the convergence theory of PO for $\\mathcal{H}_2$ linear control with $\\mathcal{H}_\\infty$-norm robustness guarantee. One significant new feature of this problem is the lack of coercivity, i.e., the cost may have finite value around the feasible set boundary, breaking the existing analysis for LQR. Interestingly, we show that two PO methods enjoy the implicit regularization property, i.e., the iterates preserve the $\\mathcal{H}_\\infty$ robustness constraint as if they are regularized by the algorithms. Furthermore, despite the nonconvexity of the problem, we show that these algorithms converge to the globally optimal policies with globally sublinear rates, avoiding all suboptimal stationary points/local minima, and with locally (super-)linear rates under certain conditions.",
+      "abstract": "Policy optimization (PO) is a key ingredient for reinforcement learning (RL). For control design, certain constraints are usually enforced on the policies to optimize, accounting for either the stability, robustness, or safety concerns on the system. Hence, PO is by nature a constrained (nonconvex) optimization in most cases, whose global convergence is challenging to analyze in general. More importantly, some constraints that are safety-critical, e.g., the H_infinity-norm constraint that guarantees the system robustness, are difficult to enforce as the PO methods proceed. Recently, policy gradient methods have been shown to converge to the global optimum of linear quadratic regulator (LQR), a classical optimal control problem, without regularizing/projecting the control iterates onto the stabilizing set, its (implicit) feasible set. This striking result is built upon the coercive property of the cost, ensuring that the iterates remain feasible as the cost decreases. In this paper, we study the convergence theory of PO for H_2 linear control with H_infinity-norm robustness guarantee. One significant new feature of this problem is the lack of coercivity, i.e., the cost may have finite value around the feasible set boundary, breaking the existing analysis for LQR. Interestingly, we show that two PO methods enjoy the implicit regularization property, i.e., the iterates preserve the H_infinity robustness constraint as if they are regularized by the algorithms. Furthermore, despite the nonconvexity of the problem, we show that these algorithms converge to the globally optimal policies with globally sublinear rates, avoiding all suboptimal stationary points/local minima, and with locally (super-)linear rates under certain conditions.",
       "summary": "",
       "url": "../papers/1910_09496/",
       "treeUrl": "../tree/#paper=1910_09496",
@@ -46963,7 +46963,7 @@ window.timelineData = {
         "Sample Complexity of Kalman Filtering for Unknown Systems"
       ],
       "tags": [],
-      "abstract": "In this paper, we consider the task of designing a Kalman Filter (KF) for an unknown and partially observed autonomous linear time invariant system driven by process and sensor noise. To do so, we propose studying the following two step process: first, using system identification tools rooted in subspace methods, we obtain coarse finite-data estimates of the state-space parameters and Kalman gain describing the autonomous system; and second, we use these approximate parameters to design a filter which produces estimates of the system state. We show that when the system identification step produces sufficiently accurate estimates, or when the underlying true KF is sufficiently robust, that a Certainty Equivalent (CE) KF, i.e., one designed using the estimated parameters directly, enjoys provable sub-optimality guarantees. We further show that when these conditions fail, and in particular, when the CE KF is marginally stable (i.e., has eigenvalues very close to the unit circle), that imposing additional robustness constraints on the filter leads to similar sub-optimality guarantees. We further show that with high probability, both the CE and robust filters have mean prediction error bounded by $\\tilde O(1/\\sqrt{N})$, where $N$ is the number of data points collected in the system identification step. To the best of our knowledge, these are the first end-to-end sample complexity bounds for the Kalman Filtering of an unknown system.",
+      "abstract": "In this paper, we consider the task of designing a Kalman Filter (KF) for an unknown and partially observed autonomous linear time invariant system driven by process and sensor noise. To do so, we propose studying the following two step process: first, using system identification tools rooted in subspace methods, we obtain coarse finite-data estimates of the state-space parameters and Kalman gain describing the autonomous system; and second, we use these approximate parameters to design a filter which produces estimates of the system state. We show that when the system identification step produces sufficiently accurate estimates, or when the underlying true KF is sufficiently robust, that a Certainty Equivalent (CE) KF, i.e., one designed using the estimated parameters directly, enjoys provable sub-optimality guarantees. We further show that when these conditions fail, and in particular, when the CE KF is marginally stable (i.e., has eigenvalues very close to the unit circle), that imposing additional robustness constraints on the filter leads to similar sub-optimality guarantees. We further show that with high probability, both the CE and robust filters have mean prediction error bounded by tilde O(1/sqrt(N)), where N is the number of data points collected in the system identification step. To the best of our knowledge, these are the first end-to-end sample complexity bounds for the Kalman Filtering of an unknown system.",
       "summary": "",
       "url": "../papers/1912_12309/",
       "treeUrl": "../tree/#paper=1912_12309",
@@ -47075,7 +47075,7 @@ window.timelineData = {
         "On the Performance of Thompson Sampling on Logistic Bandits"
       ],
       "tags": [],
-      "abstract": "We study the logistic bandit, in which rewards are binary with success probability $\\exp(βa^\\top θ) / (1 + \\exp(βa^\\top θ))$ and actions $a$ and coefficients $θ$ are within the $d$-dimensional unit ball. While prior regret bounds for algorithms that address the logistic bandit exhibit exponential dependence on the slope parameter $β$, we establish a regret bound for Thompson sampling that is independent of $β$. Specifically, we establish that, when the set of feasible actions is identical to the set of possible coefficient vectors, the Bayesian regret of Thompson sampling is $\\tilde{O}(d\\sqrt{T})$. We also establish a $\\tilde{O}(\\sqrt{dηT}/λ)$ bound that applies more broadly, where $λ$ is the worst-case optimal log-odds and $η$ is the \"fragility dimension,\" a new statistic we define to capture the degree to which an optimal action for one model fails to satisfice for others. We demonstrate that the fragility dimension plays an essential role by showing that, for any $ε> 0$, no algorithm can achieve $\\mathrm{poly}(d, 1/λ)\\cdot T^{1-ε}$ regret.",
+      "abstract": "We study the logistic bandit, in which rewards are binary with success probability exp(betaa^(top) theta) / (1 + exp(betaa^(top) theta)) and actions a and coefficients theta are within the d-dimensional unit ball. While prior regret bounds for algorithms that address the logistic bandit exhibit exponential dependence on the slope parameter beta, we establish a regret bound for Thompson sampling that is independent of beta. Specifically, we establish that, when the set of feasible actions is identical to the set of possible coefficient vectors, the Bayesian regret of Thompson sampling is tildeO(dsqrt(T)). We also establish a tildeO(sqrt(detaT)/lambda) bound that applies more broadly, where lambda is the worst-case optimal log-odds and eta is the \"fragility dimension,\" a new statistic we define to capture the degree to which an optimal action for one model fails to satisfice for others. We demonstrate that the fragility dimension plays an essential role by showing that, for any epsilon > 0, no algorithm can achieve poly(d, 1/lambda)* T^(1)-epsilon regret.",
       "summary": "",
       "url": "../papers/1905_04654/",
       "treeUrl": "../tree/#paper=1905_04654",
@@ -47249,7 +47249,7 @@ window.timelineData = {
         "PI",
         "Linear quadratic regulator"
       ],
-      "abstract": "We study the sample complexity of approximate policy iteration (PI) for the Linear Quadratic Regulator (LQR), building on a recent line of work using LQR as a testbed to understand the limits of reinforcement learning (RL) algorithms on continuous control tasks. Our analysis quantifies the tension between policy improvement and policy evaluation, and suggests that policy evaluation is the dominant factor in terms of sample complexity. Specifically, we show that to obtain a controller that is within $\\varepsilon$ of the optimal LQR controller, each step of policy evaluation requires at most $(n+d)^3/\\varepsilon^2$ samples, where $n$ is the dimension of the state vector and $d$ is the dimension of the input vector. On the other hand, only $\\log(1/\\varepsilon)$ policy improvement steps suffice, resulting in an overall sample complexity of $(n+d)^3 \\varepsilon^{-2} \\log(1/\\varepsilon)$. We furthermore build on our analysis and construct a simple adaptive procedure based on $\\varepsilon$-greedy exploration which relies on approximate PI as a sub-routine and obtains $T^{2/3}$ regret, improving upon a recent result of Abbasi-Yadkori et al.",
+      "abstract": "We study the sample complexity of approximate policy iteration (PI) for the Linear Quadratic Regulator (LQR), building on a recent line of work using LQR as a testbed to understand the limits of reinforcement learning (RL) algorithms on continuous control tasks. Our analysis quantifies the tension between policy improvement and policy evaluation, and suggests that policy evaluation is the dominant factor in terms of sample complexity. Specifically, we show that to obtain a controller that is within epsilon of the optimal LQR controller, each step of policy evaluation requires at most (n+d)^(3)/epsilon^(2) samples, where n is the dimension of the state vector and d is the dimension of the input vector. On the other hand, only log(1/epsilon) policy improvement steps suffice, resulting in an overall sample complexity of (n+d)^(3) epsilon^(-2) log(1/epsilon). We furthermore build on our analysis and construct a simple adaptive procedure based on epsilon-greedy exploration which relies on approximate PI as a sub-routine and obtains T^(2/3) regret, improving upon a recent result of Abbasi-Yadkori et al.",
       "summary": "",
       "url": "../papers/1905_12842/",
       "treeUrl": "../tree/#paper=1905_12842",
@@ -47508,7 +47508,7 @@ window.timelineData = {
         "Nonlinear systems",
         "Parameter space"
       ],
-      "abstract": "We shed new light on the \\textit{smoothness} of optimization problems arising in prediction error parameter estimation of linear and nonlinear systems. We show that for regions of the parameter space where the model is not contractive, the Lipschitz constant and $β$-smoothness of the objective function might blow up exponentially with the simulation length, making it hard to numerically find minima within those regions or, even, to escape from them. In addition to providing theoretical understanding of this problem, this paper also proposes the use of multiple shooting as a viable solution. The proposed method minimizes the error between a prediction model and the observed values. Rather than running the prediction model over the entire dataset, multiple shooting splits the data into smaller subsets and runs the prediction model over each subset, making the simulation length a design parameter and making it possible to solve problems that would be infeasible using a standard approach. The equivalence to the original problem is obtained by including constraints in the optimization. The new method is illustrated by estimating the parameters of nonlinear systems with chaotic or unstable behavior, as well as neural networks. We also present a comparative analysis of the proposed method with multi-step-ahead prediction error minimization.",
+      "abstract": "We shed new light on the \\textit{smoothness} of optimization problems arising in prediction error parameter estimation of linear and nonlinear systems. We show that for regions of the parameter space where the model is not contractive, the Lipschitz constant and beta-smoothness of the objective function might blow up exponentially with the simulation length, making it hard to numerically find minima within those regions or, even, to escape from them. In addition to providing theoretical understanding of this problem, this paper also proposes the use of multiple shooting as a viable solution. The proposed method minimizes the error between a prediction model and the observed values. Rather than running the prediction model over the entire dataset, multiple shooting splits the data into smaller subsets and runs the prediction model over each subset, making the simulation length a design parameter and making it possible to solve problems that would be infeasible using a standard approach. The equivalence to the original problem is obtained by including constraints in the optimization. The new method is illustrated by estimating the parameters of nonlinear systems with chaotic or unstable behavior, as well as neural networks. We also present a comparative analysis of the proposed method with multi-step-ahead prediction error minimization.",
       "summary": "",
       "url": "../papers/1905_00820/",
       "treeUrl": "../tree/#paper=1905_00820",
@@ -47551,7 +47551,7 @@ window.timelineData = {
         "State space",
         "Approximation error"
       ],
-      "abstract": "Policy gradient methods are among the most effective methods in challenging reinforcement learning problems with large state and/or action spaces. However, little is known about even their most basic theoretical convergence properties, including: if and how fast they converge to a globally optimal solution or how they cope with approximation error due to using a restricted class of parametric policies. This work provides provable characterizations of the computational, approximation, and sample size properties of policy gradient methods in the context of discounted Markov Decision Processes (MDPs). We focus on both: \"tabular\" policy parameterizations, where the optimal policy is contained in the class and where we show global convergence to the optimal policy; and parametric policy classes (considering both log-linear and neural policy classes), which may not contain the optimal policy and where we provide agnostic learning results. One central contribution of this work is in providing approximation guarantees that are average case -- which avoid explicit worst-case dependencies on the size of state space -- by making a formal connection to supervised learning under distribution shift. This characterization shows an important interplay between estimation error, approximation error, and exploration (as characterized through a precisely defined condition number).",
+      "abstract": "Policy gradient methods are among the most effective methods in challenging reinforcement learning problems with large state and/or action spaces. However, little is known about even their most basic theoretical convergence properties, including: if and how fast they converge to a globally optimal solution or how they cope with approximation error due to using a restricted class of parametric policies. This work provides provable characterizations of the computational, approximation, and sample size properties of policy gradient methods in the context of discounted Markov Decision Processes (MDPs). We focus on both: \"tabular\" policy parameterizations, where the optimal policy is contained in the class and where we show global convergence to the optimal policy; and parametric policy classes (considering both log-linear and neural policy classes), which may not contain the optimal policy and where we provide agnostic learning results. One central contribution of this work is in providing approximation guarantees that are average case - which avoid explicit worst-case dependencies on the size of state space - by making a formal connection to supervised learning under distribution shift. This characterization shows an important interplay between estimation error, approximation error, and exploration (as characterized through a precisely defined condition number).",
       "summary": "",
       "url": "../papers/1908_00261/",
       "treeUrl": "../tree/#paper=1908_00261",
@@ -47589,7 +47589,7 @@ window.timelineData = {
         "POLITEX: Regret Bounds for Policy Iteration Using Expert Prediction"
       ],
       "tags": [],
-      "abstract": "We present POLITEX (POLicy ITeration with EXpert advice), a variant of policy iteration where each policy is a Boltzmann distribution over the sum of action-value function estimates of the previous policies, and analyze its regret in continuing RL problems. We assume that the value function error after running a policy for $\\tau$ time steps scales as $\\epsilon(\\tau) = \\epsilon_0 + O(\\sqrt{d/\\tau})$, where $\\epsilon_0$ is the worst-case approximation error and $d$ is the number of features in a compressed representation of the state-action space. We establish that this condition is satisfied by the LSPE algorithm under certain assumptions on the MDP and policies. Under the error assumption, we show that the regret of POLITEX in uniformly mixing MDPs scales as $O(d^{1/2}T^{3/4} + \\epsilon_0T)$, where $O(\\cdot)$ hides logarithmic terms and problem-dependent constants. Thus, we provide the first regret bound for a fully practical model-free method which only scales in the number of features, and not in the size of the underlying MDP. Experiments on a queuing problem confirm that POLITEX is competitive with some of its alternatives, while preliminary results on Ms Pacman (one of the standard Atari benchmark problems) confirm the viability of POLITEX beyond linear function approximation.",
+      "abstract": "We present POLITEX (POLicy ITeration with EXpert advice), a variant of policy iteration where each policy is a Boltzmann distribution over the sum of action-value function estimates of the previous policies, and analyze its regret in continuing RL problems. We assume that the value function error after running a policy for tau time steps scales as epsilon(tau) = epsilon_0 + O(sqrt(d/tau)), where epsilon_0 is the worst-case approximation error and d is the number of features in a compressed representation of the state-action space. We establish that this condition is satisfied by the LSPE algorithm under certain assumptions on the MDP and policies. Under the error assumption, we show that the regret of POLITEX in uniformly mixing MDPs scales as O(d^(1/2)T^(3/4) + epsilon_0T), where O(*) hides logarithmic terms and problem-dependent constants. Thus, we provide the first regret bound for a fully practical model-free method which only scales in the number of features, and not in the size of the underlying MDP. Experiments on a queuing problem confirm that POLITEX is competitive with some of its alternatives, while preliminary results on Ms Pacman (one of the standard Atari benchmark problems) confirm the viability of POLITEX beyond linear function approximation.",
       "summary": "",
       "url": "../papers/2019_abbasi_yadkori_politex_regret_bounds_for/",
       "treeUrl": "../tree/#paper=2019_abbasi_yadkori_politex_regret_bounds_for",
@@ -47698,7 +47698,7 @@ window.timelineData = {
         "Sample-Optimal Parametric Q-Learning Using Linearly Additive Features"
       ],
       "tags": [],
-      "abstract": "Consider a Markov decision process (MDP) that admits a set of state-action features, which can linearly express the process's probabilistic transition model. We propose a parametric Q-learning algorithm that finds an approximate-optimal policy using a sample size proportional to the feature dimension $K$ and invariant with respect to the size of the state space. To further improve its sample efficiency, we exploit the monotonicity property and intrinsic noise structure of the Bellman operator, provided the existence of anchor state-actions that imply implicit non-negativity in the feature space. We augment the algorithm using techniques of variance reduction, monotonicity preservation, and confidence bounds. It is proved to find a policy which is $ε$-optimal from any initial state with high probability using $\\widetilde{O}(K/ε^2(1-γ)^3)$ sample transitions for arbitrarily large-scale MDP with a discount factor $γ\\in(0,1)$. A matching information-theoretical lower bound is proved, confirming the sample optimality of the proposed method with respect to all parameters (up to polylog factors).",
+      "abstract": "Consider a Markov decision process (MDP) that admits a set of state-action features, which can linearly express the process's probabilistic transition model. We propose a parametric Q-learning algorithm that finds an approximate-optimal policy using a sample size proportional to the feature dimension K and invariant with respect to the size of the state space. To further improve its sample efficiency, we exploit the monotonicity property and intrinsic noise structure of the Bellman operator, provided the existence of anchor state-actions that imply implicit non-negativity in the feature space. We augment the algorithm using techniques of variance reduction, monotonicity preservation, and confidence bounds. It is proved to find a policy which is epsilon-optimal from any initial state with high probability using O~(K/epsilon^(2)(1-gamma)^(3)) sample transitions for arbitrarily large-scale MDP with a discount factor gamma in (0, 1). A matching information-theoretical lower bound is proved, confirming the sample optimality of the proposed method with respect to all parameters (up to polylog factors).",
       "summary": "",
       "url": "../papers/1902_04779/",
       "treeUrl": "../tree/#paper=1902_04779",
@@ -47964,49 +47964,6 @@ window.timelineData = {
       "mapUrl": "../map/#paper=2019_thomas_preventing_undesirable_behavior_of",
       "timelineUrl": "../timeline/#paper=2019_thomas_preventing_undesirable_behavior_of",
       "searchUrl": "../search/?paper=2019_thomas_preventing_undesirable_behavior_of"
-    },
-    {
-      "id": "1907_10597",
-      "label": "Green AI",
-      "title": "Green AI",
-      "authors": [
-        "Roy Schwartz",
-        "Jesse Dodge",
-        "Noah A. Smith",
-        "Oren Etzioni"
-      ],
-      "authorShort": "Schwartz, Dodge, Smith",
-      "year": 2019,
-      "source": "Communications of the ACM",
-      "type": "Journal Paper",
-      "superCategory": "Human & Natural Worlds",
-      "category": "Environmental Impacts",
-      "subCategory": "Green AI",
-      "path": [
-        "Tree",
-        "Human & Natural Worlds",
-        "Environmental Impacts",
-        "Green AI"
-      ],
-      "tags": [
-        "Green artificial intelligence",
-        "Sustainable artificial intelligence",
-        "Machine learning efficiency",
-        "Deep learning",
-        "Carbon footprint",
-        "Computational cost",
-        "Model evaluation",
-        "Energy efficiency",
-        "Research incentives",
-        "Artificial intelligence accessibility"
-      ],
-      "abstract": "The computations required for deep learning research have been doubling every few months, resulting in an estimated 300,000x increase from 2012 to 2018 [2]. These computations have a surprisingly large carbon footprint [38]. Ironically, deep learning was inspired by the human brain, which is remarkably energy efficient. Moreover, the financial cost of the computations can make it difficult for academics, students, and researchers, in particular those from emerging economies, to engage in deep learning research. This position paper advocates a practical solution by making efficiency an evaluation criterion for research alongside accuracy and related measures. In addition, we propose reporting the financial cost or \"price tag\" of developing, training, and running models to provide baselines for the investigation of increasingly efficient methods. Our goal is to make AI both greener and more inclusive---enabling any inspired undergraduate with a laptop to write high-quality research papers.",
-      "summary": "Schwartz, Dodge, Smith, and Etzioni introduce the Green AI framing, arguing that machine learning research should report and optimize computational efficiency rather than rewarding accuracy at any compute cost. The paper is influential because it gives the community a compact vocabulary for the environmental and equity costs of deep learning, and it helped make compute, energy, and financial cost routine considerations in later AI evaluation and reporting work.",
-      "url": "../papers/1907_10597/",
-      "treeUrl": "../tree/#paper=1907_10597",
-      "mapUrl": "../map/#paper=1907_10597",
-      "timelineUrl": "../timeline/#paper=1907_10597",
-      "searchUrl": "../search/?paper=1907_10597"
     },
     {
       "id": "1910_11296",
@@ -48339,7 +48296,7 @@ window.timelineData = {
         "Global Convergence of Adaptive Gradient Methods for an Over-parameterized Neural Network"
       ],
       "tags": [],
-      "abstract": "Adaptive gradient methods like AdaGrad are widely used in optimizing neural networks. Yet, existing convergence guarantees for adaptive gradient methods require either convexity or smoothness, and, in the smooth setting, only guarantee convergence to a stationary point. We propose an adaptive gradient method and show that for two-layer over-parameterized neural networks -- if the width is sufficiently large (polynomially) -- then the proposed method converges \\emph{to the global minimum} in polynomial time, and convergence is robust, \\emph{ without the need to fine-tune hyper-parameters such as the step-size schedule and with the level of over-parametrization independent of the training error}. Our analysis indicates in particular that over-parametrization is crucial for the harnessing the full potential of adaptive gradient methods in the setting of neural networks.",
+      "abstract": "Adaptive gradient methods like AdaGrad are widely used in optimizing neural networks. Yet, existing convergence guarantees for adaptive gradient methods require either convexity or smoothness, and, in the smooth setting, only guarantee convergence to a stationary point. We propose an adaptive gradient method and show that for two-layer over-parameterized neural networks - if the width is sufficiently large (polynomially) - then the proposed method converges to the global minimum in polynomial time, and convergence is robust, without the need to fine-tune hyper-parameters such as the step-size schedule and with the level of over-parametrization independent of the training error. Our analysis indicates in particular that over-parametrization is crucial for the harnessing the full potential of adaptive gradient methods in the setting of neural networks.",
       "summary": "",
       "url": "../papers/1902_07111/",
       "treeUrl": "../tree/#paper=1902_07111",
@@ -48382,7 +48339,7 @@ window.timelineData = {
         "COCO",
         "ReLU alternatives"
       ],
-      "abstract": "We propose $\\textit{Mish}$, a novel self-regularized non-monotonic activation function which can be mathematically defined as: $f(x)=x\\tanh(softplus(x))$. As activation functions play a crucial role in the performance and training dynamics in neural networks, we validated experimentally on several well-known benchmarks against the best combinations of architectures and activation functions. We also observe that data augmentation techniques have a favorable effect on benchmarks like ImageNet-1k and MS-COCO across multiple architectures. For example, Mish outperformed Leaky ReLU on YOLOv4 with a CSP-DarkNet-53 backbone on average precision ($AP_{50}^{val}$) by 2.1$\\%$ in MS-COCO object detection and ReLU on ResNet-50 on ImageNet-1k in Top-1 accuracy by $\\approx$1$\\%$ while keeping all other network parameters and hyperparameters constant. Furthermore, we explore the mathematical formulation of Mish in relation with the Swish family of functions and propose an intuitive understanding on how the first derivative behavior may be acting as a regularizer helping the optimization of deep neural networks. Code is publicly available at https://github.com/digantamisra98/Mish.",
+      "abstract": "We propose Mish, a novel self-regularized non-monotonic activation function which can be mathematically defined as: f(x) = xtanh(softplus(x)). As activation functions play a crucial role in the performance and training dynamics in neural networks, we validated experimentally on several well-known benchmarks against the best combinations of architectures and activation functions. We also observe that data augmentation techniques have a favorable effect on benchmarks like ImageNet-1k and MS-COCO across multiple architectures. For example, Mish outperformed Leaky ReLU on YOLOv4 with a CSP-DarkNet-53 backbone on average precision (AP_50^(val)) by 2.1% in MS-COCO object detection and ReLU on ResNet-50 on ImageNet-1k in Top-1 accuracy by approx1% while keeping all other network parameters and hyperparameters constant. Furthermore, we explore the mathematical formulation of Mish in relation with the Swish family of functions and propose an intuitive understanding on how the first derivative behavior may be acting as a regularizer helping the optimization of deep neural networks. Code is publicly available at https://github.com/digantamisra98/Mish.",
       "summary": "Mish proposes a smooth non-monotonic activation, x tanh(softplus(x)), and argues that its derivative shape gives useful self-regularizing behavior. The paper is best read as part of the post-Swish family of smooth ReLU alternatives, with evidence across classification and detection benchmarks rather than a narrow architectural change.",
       "url": "../papers/1908_08681/",
       "treeUrl": "../tree/#paper=1908_08681",
@@ -48418,7 +48375,7 @@ window.timelineData = {
         "Why Gradient Clipping Accelerates Training: A Theoretical Justification for Adaptivity"
       ],
       "tags": [],
-      "abstract": "We provide a theoretical explanation for the effectiveness of gradient clipping in training deep neural networks. The key ingredient is a new smoothness condition derived from practical neural network training examples. We observe that gradient smoothness, a concept central to the analysis of first-order optimization algorithms that is often assumed to be a constant, demonstrates significant variability along the training trajectory of deep neural networks. Further, this smoothness positively correlates with the gradient norm, and contrary to standard assumptions in the literature, it can grow with the norm of the gradient. These empirical observations limit the applicability of existing theoretical analyses of algorithms that rely on a fixed bound on smoothness. These observations motivate us to introduce a novel relaxation of gradient smoothness that is weaker than the commonly used Lipschitz smoothness assumption. Under the new condition, we prove that two popular methods, namely, \\emph{gradient clipping} and \\emph{normalized gradient}, converge arbitrarily faster than gradient descent with fixed stepsize. We further explain why such adaptively scaled gradient methods can accelerate empirical convergence and verify our results empirically in popular neural network training settings.",
+      "abstract": "We provide a theoretical explanation for the effectiveness of gradient clipping in training deep neural networks. The key ingredient is a new smoothness condition derived from practical neural network training examples. We observe that gradient smoothness, a concept central to the analysis of first-order optimization algorithms that is often assumed to be a constant, demonstrates significant variability along the training trajectory of deep neural networks. Further, this smoothness positively correlates with the gradient norm, and contrary to standard assumptions in the literature, it can grow with the norm of the gradient. These empirical observations limit the applicability of existing theoretical analyses of algorithms that rely on a fixed bound on smoothness. These observations motivate us to introduce a novel relaxation of gradient smoothness that is weaker than the commonly used Lipschitz smoothness assumption. Under the new condition, we prove that two popular methods, namely, gradient clipping and normalized gradient, converge arbitrarily faster than gradient descent with fixed stepsize. We further explain why such adaptively scaled gradient methods can accelerate empirical convergence and verify our results empirically in popular neural network training settings.",
       "summary": "",
       "url": "../papers/1905_11881/",
       "treeUrl": "../tree/#paper=1905_11881",
@@ -48830,7 +48787,7 @@ window.timelineData = {
         "Argoverse"
       ],
       "tags": [],
-      "abstract": "We present Argoverse -- two datasets designed to support autonomous vehicle machine learning tasks such as 3D tracking and motion forecasting. Argoverse was collected by a fleet of autonomous vehicles in Pittsburgh and Miami. The Argoverse 3D Tracking dataset includes 360 degree images from 7 cameras with overlapping fields of view, 3D point clouds from long range LiDAR, 6-DOF pose, and 3D track annotations. Notably, it is the only modern AV dataset that provides forward-facing stereo imagery. The Argoverse Motion Forecasting dataset includes more than 300,000 5-second tracked scenarios with a particular vehicle identified for trajectory forecasting. Argoverse is the first autonomous vehicle dataset to include \"HD maps\" with 290 km of mapped lanes with geometric and semantic metadata. All data is released under a Creative Commons license at www.argoverse.org. In our baseline experiments, we illustrate how detailed map information such as lane direction, driveable area, and ground height improves the accuracy of 3D object tracking and motion forecasting. Our tracking and forecasting experiments represent only an initial exploration of the use of rich maps in robotic perception. We hope that Argoverse will enable the research community to explore these problems in greater depth.",
+      "abstract": "We present Argoverse - two datasets designed to support autonomous vehicle machine learning tasks such as 3D tracking and motion forecasting. Argoverse was collected by a fleet of autonomous vehicles in Pittsburgh and Miami. The Argoverse 3D Tracking dataset includes 360 degree images from 7 cameras with overlapping fields of view, 3D point clouds from long range LiDAR, 6-DOF pose, and 3D track annotations. Notably, it is the only modern AV dataset that provides forward-facing stereo imagery. The Argoverse Motion Forecasting dataset includes more than 300,000 5-second tracked scenarios with a particular vehicle identified for trajectory forecasting. Argoverse is the first autonomous vehicle dataset to include \"HD maps\" with 290 km of mapped lanes with geometric and semantic metadata. All data is released under a Creative Commons license at www.argoverse.org. In our baseline experiments, we illustrate how detailed map information such as lane direction, driveable area, and ground height improves the accuracy of 3D object tracking and motion forecasting. Our tracking and forecasting experiments represent only an initial exploration of the use of rich maps in robotic perception. We hope that Argoverse will enable the research community to explore these problems in greater depth.",
       "summary": "",
       "url": "../papers/1911_02620/",
       "treeUrl": "../tree/#paper=1911_02620",
@@ -49070,6 +49027,49 @@ window.timelineData = {
       "searchUrl": "../search/?paper=1908_10396"
     },
     {
+      "id": "1907_10597",
+      "label": "Green AI",
+      "title": "Green AI",
+      "authors": [
+        "Roy Schwartz",
+        "Jesse Dodge",
+        "Noah A. Smith",
+        "Oren Etzioni"
+      ],
+      "authorShort": "Schwartz, Dodge, Smith",
+      "year": 2019,
+      "source": "Communications of the ACM",
+      "type": "Journal Paper",
+      "superCategory": "Quantitative Foundations",
+      "category": "Environmental Impacts",
+      "subCategory": "Green AI",
+      "path": [
+        "Tree",
+        "Quantitative Foundations",
+        "Environmental Impacts",
+        "Green AI"
+      ],
+      "tags": [
+        "Green artificial intelligence",
+        "Sustainable artificial intelligence",
+        "Machine learning efficiency",
+        "Deep learning",
+        "Carbon footprint",
+        "Computational cost",
+        "Model evaluation",
+        "Energy efficiency",
+        "Research incentives",
+        "Artificial intelligence accessibility"
+      ],
+      "abstract": "The computations required for deep learning research have been doubling every few months, resulting in an estimated 300,000x increase from 2012 to 2018 [2]. These computations have a surprisingly large carbon footprint [38]. Ironically, deep learning was inspired by the human brain, which is remarkably energy efficient. Moreover, the financial cost of the computations can make it difficult for academics, students, and researchers, in particular those from emerging economies, to engage in deep learning research. This position paper advocates a practical solution by making efficiency an evaluation criterion for research alongside accuracy and related measures. In addition, we propose reporting the financial cost or \"price tag\" of developing, training, and running models to provide baselines for the investigation of increasingly efficient methods. Our goal is to make AI both greener and more inclusive - enabling any inspired undergraduate with a laptop to write high-quality research papers.",
+      "summary": "Schwartz, Dodge, Smith, and Etzioni introduce the Green AI framing, arguing that machine learning research should report and optimize computational efficiency rather than rewarding accuracy at any compute cost. The paper is influential because it gives the community a compact vocabulary for the environmental and equity costs of deep learning, and it helped make compute, energy, and financial cost routine considerations in later AI evaluation and reporting work.",
+      "url": "../papers/1907_10597/",
+      "treeUrl": "../tree/#paper=1907_10597",
+      "mapUrl": "../map/#paper=1907_10597",
+      "timelineUrl": "../timeline/#paper=1907_10597",
+      "searchUrl": "../search/?paper=1907_10597"
+    },
+    {
       "id": "1906_11395",
       "label": "A Tutorial on Concentration Bounds for System Identification",
       "title": "A Tutorial on Concentration Bounds for System Identification",
@@ -49296,7 +49296,7 @@ window.timelineData = {
         "Planning",
         "Control"
       ],
-      "abstract": "Autonomous robots that are capable of operating safely in the presence of imperfect model knowledge or external disturbances are vital in safety-critical applications. In this paper, we present a planner-agnostic framework to design and certify safe tubes around desired trajectories that the robot is always guaranteed to remain inside of. By leveraging recent results in contraction analysis and $\\mathcal{L}_1$-adaptive control we synthesize an architecture that induces safe tubes for nonlinear systems with state and time-varying uncertainties. We demonstrate with a few illustrative examples how contraction theory-based $\\mathcal{L}_1$-adaptive control can be used in conjunction with traditional motion planning algorithms to obtain provably safe trajectories.",
+      "abstract": "Autonomous robots that are capable of operating safely in the presence of imperfect model knowledge or external disturbances are vital in safety-critical applications. In this paper, we present a planner-agnostic framework to design and certify safe tubes around desired trajectories that the robot is always guaranteed to remain inside of. By leveraging recent results in contraction analysis and L_1-adaptive control we synthesize an architecture that induces safe tubes for nonlinear systems with state and time-varying uncertainties. We demonstrate with a few illustrative examples how contraction theory-based L_1-adaptive control can be used in conjunction with traditional motion planning algorithms to obtain provably safe trajectories.",
       "summary": "",
       "url": "../papers/2004_01142/",
       "treeUrl": "../tree/#paper=2004_01142",
@@ -49342,7 +49342,7 @@ window.timelineData = {
         "Learning",
         "GP"
       ],
-      "abstract": "We present $\\mathcal{CL}_1$-$\\mathcal{GP}$, a control framework that enables safe simultaneous learning and control for systems subject to uncertainties. The two main constituents are contraction theory-based $\\mathcal{L}_1$ ($\\mathcal{CL}_1$) control and Bayesian learning in the form of Gaussian process (GP) regression. The $\\mathcal{CL}_1$ controller ensures that control objectives are met while providing safety certificates. Furthermore, $\\mathcal{CL}_1$-$\\mathcal{GP}$ incorporates any available data into a GP model of uncertainties, which improves performance and enables the motion planner to achieve optimality safely. This way, the safe operation of the system is always guaranteed, even during the learning transients. We provide a few illustrative examples for the safe learning and control of planar quadrotor systems in a variety of environments.",
+      "abstract": "We present CL_1-GP, a control framework that enables safe simultaneous learning and control for systems subject to uncertainties. The two main constituents are contraction theory-based L_1 (CL_1) control and Bayesian learning in the form of Gaussian process (GP) regression. The CL_1 controller ensures that control objectives are met while providing safety certificates. Furthermore, CL_1-GP incorporates any available data into a GP model of uncertainties, which improves performance and enables the motion planner to achieve optimality safely. This way, the safe operation of the system is always guaranteed, even during the learning transients. We provide a few illustrative examples for the safe learning and control of planar quadrotor systems in a variety of environments.",
       "summary": "",
       "url": "../papers/2009_03864/",
       "treeUrl": "../tree/#paper=2009_03864",
@@ -49808,7 +49808,7 @@ window.timelineData = {
         "Optimization",
         "Rate of convergence"
       ],
-      "abstract": "We provide a simple proof of convergence covering both the Adam and Adagrad adaptive optimization algorithms when applied to smooth (possibly non-convex) objective functions with bounded gradients. We show that in expectation, the squared norm of the objective gradient averaged over the trajectory has an upper-bound which is explicit in the constants of the problem, parameters of the optimizer, the dimension $d$, and the total number of iterations $N$. This bound can be made arbitrarily small, and with the right hyper-parameters, Adam can be shown to converge with the same rate of convergence $O(d\\ln(N)/\\sqrt{N})$. When used with the default parameters, Adam doesn't converge, however, and just like constant step-size SGD, it moves away from the initialization point faster than Adagrad, which might explain its practical success. Finally, we obtain the tightest dependency on the heavy ball momentum decay rate $β_1$ among all previous convergence bounds for non-convex Adam and Adagrad, improving from $O((1-β_1)^{-3})$ to $O((1-β_1)^{-1})$.",
+      "abstract": "We provide a simple proof of convergence covering both the Adam and Adagrad adaptive optimization algorithms when applied to smooth (possibly non-convex) objective functions with bounded gradients. We show that in expectation, the squared norm of the objective gradient averaged over the trajectory has an upper-bound which is explicit in the constants of the problem, parameters of the optimizer, the dimension d, and the total number of iterations N. This bound can be made arbitrarily small, and with the right hyper-parameters, Adam can be shown to converge with the same rate of convergence O(dln(N)/sqrt(N)). When used with the default parameters, Adam doesn't converge, however, and just like constant step-size SGD, it moves away from the initialization point faster than Adagrad, which might explain its practical success. Finally, we obtain the tightest dependency on the heavy ball momentum decay rate beta_1 among all previous convergence bounds for non-convex Adam and Adagrad, improving from O((1-beta_1)^(-3)) to O((1-beta_1)^(-1)).",
       "summary": "",
       "url": "../papers/2003_02395/",
       "treeUrl": "../tree/#paper=2003_02395",
@@ -49880,7 +49880,7 @@ window.timelineData = {
         "Complexity of Finding Stationary Points of Nonsmooth Nonconvex Functions"
       ],
       "tags": [],
-      "abstract": "We provide the first non-asymptotic analysis for finding stationary points of nonsmooth, nonconvex functions. In particular, we study the class of Hadamard semi-differentiable functions, perhaps the largest class of nonsmooth functions for which the chain rule of calculus holds. This class contains examples such as ReLU neural networks and others with non-differentiable activation functions. We first show that finding an $ε$-stationary point with first-order methods is impossible in finite time. We then introduce the notion of $(δ, ε)$-stationarity, which allows for an $ε$-approximate gradient to be the convex combination of generalized gradients evaluated at points within distance $δ$ to the solution. We propose a series of randomized first-order methods and analyze their complexity of finding a $(δ, ε)$-stationary point. Furthermore, we provide a lower bound and show that our stochastic algorithm has min-max optimal dependence on $δ$. Empirically, our methods perform well for training ReLU neural networks.",
+      "abstract": "We provide the first non-asymptotic analysis for finding stationary points of nonsmooth, nonconvex functions. In particular, we study the class of Hadamard semi-differentiable functions, perhaps the largest class of nonsmooth functions for which the chain rule of calculus holds. This class contains examples such as ReLU neural networks and others with non-differentiable activation functions. We first show that finding an epsilon-stationary point with first-order methods is impossible in finite time. We then introduce the notion of (delta, epsilon)-stationarity, which allows for an epsilon-approximate gradient to be the convex combination of generalized gradients evaluated at points within distance delta to the solution. We propose a series of randomized first-order methods and analyze their complexity of finding a (delta, epsilon)-stationary point. Furthermore, we provide a lower bound and show that our stochastic algorithm has min-max optimal dependence on delta. Empirically, our methods perform well for training ReLU neural networks.",
       "summary": "",
       "url": "../papers/2002_04130/",
       "treeUrl": "../tree/#paper=2002_04130",
@@ -50119,7 +50119,7 @@ window.timelineData = {
         "PAGE",
         "PL"
       ],
-      "abstract": "In this paper, we propose a novel stochastic gradient estimator -- ProbAbilistic Gradient Estimator (PAGE) -- for nonconvex optimization. PAGE is easy to implement as it is designed via a small adjustment to vanilla SGD: in each iteration, PAGE uses the vanilla minibatch SGD update with probability $p_t$ or reuses the previous gradient with a small adjustment, at a much lower computational cost, with probability $1-p_t$. We give a simple formula for the optimal choice of $p_t$. Moreover, we prove the first tight lower bound $Ω(n+\\frac{\\sqrt{n}}{ε^2})$ for nonconvex finite-sum problems, which also leads to a tight lower bound $Ω(b+\\frac{\\sqrt{b}}{ε^2})$ for nonconvex online problems, where $b:= \\min\\{\\frac{σ^2}{ε^2}, n\\}$. Then, we show that PAGE obtains the optimal convergence results $O(n+\\frac{\\sqrt{n}}{ε^2})$ (finite-sum) and $O(b+\\frac{\\sqrt{b}}{ε^2})$ (online) matching our lower bounds for both nonconvex finite-sum and online problems. Besides, we also show that for nonconvex functions satisfying the Polyak-Łojasiewicz (PL) condition, PAGE can automatically switch to a faster linear convergence rate $O(\\cdot\\log \\frac{1}ε)$. Finally, we conduct several deep learning experiments (e.g., LeNet, VGG, ResNet) on real datasets in PyTorch showing that PAGE not only converges much faster than SGD in training but also achieves the higher test accuracy, validating the optimal theoretical results and confirming the practical superiority of PAGE.",
+      "abstract": "In this paper, we propose a novel stochastic gradient estimator - ProbAbilistic Gradient Estimator (PAGE) - for nonconvex optimization. PAGE is easy to implement as it is designed via a small adjustment to vanilla SGD: in each iteration, PAGE uses the vanilla minibatch SGD update with probability p_t or reuses the previous gradient with a small adjustment, at a much lower computational cost, with probability 1-p_t. We give a simple formula for the optimal choice of p_t. Moreover, we prove the first tight lower bound Omega(n+sqrt(n)/epsilon^(2)) for nonconvex finite-sum problems, which also leads to a tight lower bound Omega(b+sqrt(b)/epsilon^(2)) for nonconvex online problems, where b: = minsigma^(2)/epsilon^(2), n. Then, we show that PAGE obtains the optimal convergence results O(n+sqrt(n)/epsilon^(2)) (finite-sum) and O(b+sqrt(b)/epsilon^(2)) (online) matching our lower bounds for both nonconvex finite-sum and online problems. Besides, we also show that for nonconvex functions satisfying the Polyak-Łojasiewicz (PL) condition, PAGE can automatically switch to a faster linear convergence rate O(*log frac1epsilon). Finally, we conduct several deep learning experiments (e.g., LeNet, VGG, ResNet) on real datasets in PyTorch showing that PAGE not only converges much faster than SGD in training but also achieves the higher test accuracy, validating the optimal theoretical results and confirming the practical superiority of PAGE.",
       "summary": "",
       "url": "../papers/2008_10898/",
       "treeUrl": "../tree/#paper=2008_10898",
@@ -50199,7 +50199,7 @@ window.timelineData = {
         "Optimization problem",
         "Convex function"
       ],
-      "abstract": "Motivated by recent increased interest in optimization algorithms for non-convex optimization in application to training deep neural networks and other optimization problems in data analysis, we give an overview of recent theoretical results on global performance guarantees of optimization algorithms for non-convex optimization. We start with classical arguments showing that general non-convex problems could not be solved efficiently in a reasonable time. Then we give a list of problems that can be solved efficiently to find the global minimizer by exploiting the structure of the problem as much as it is possible. Another way to deal with non-convexity is to relax the goal from finding the global minimum to finding a stationary point or a local minimum. For this setting, we first present known results for the convergence rates of deterministic first-order methods, which are then followed by a general theoretical analysis of optimal stochastic and randomized gradient schemes, and an overview of the stochastic first-order methods. After that, we discuss quite general classes of non-convex problems, such as minimization of $α$-weakly-quasi-convex functions and functions that satisfy Polyak--Lojasiewicz condition, which still allow obtaining theoretical convergence guarantees of first-order methods. Then we consider higher-order and zeroth-order/derivative-free methods and their convergence rates for non-convex optimization problems.",
+      "abstract": "Motivated by recent increased interest in optimization algorithms for non-convex optimization in application to training deep neural networks and other optimization problems in data analysis, we give an overview of recent theoretical results on global performance guarantees of optimization algorithms for non-convex optimization. We start with classical arguments showing that general non-convex problems could not be solved efficiently in a reasonable time. Then we give a list of problems that can be solved efficiently to find the global minimizer by exploiting the structure of the problem as much as it is possible. Another way to deal with non-convexity is to relax the goal from finding the global minimum to finding a stationary point or a local minimum. For this setting, we first present known results for the convergence rates of deterministic first-order methods, which are then followed by a general theoretical analysis of optimal stochastic and randomized gradient schemes, and an overview of the stochastic first-order methods. After that, we discuss quite general classes of non-convex problems, such as minimization of alpha-weakly-quasi-convex functions and functions that satisfy Polyak-Lojasiewicz condition, which still allow obtaining theoretical convergence guarantees of first-order methods. Then we consider higher-order and zeroth-order/derivative-free methods and their convergence rates for non-convex optimization problems.",
       "summary": "",
       "url": "../papers/2012_06188/",
       "treeUrl": "../tree/#paper=2012_06188",
@@ -50280,7 +50280,7 @@ window.timelineData = {
         "ABIT*"
       ],
       "tags": [],
-      "abstract": "Path planning is an active area of research essential for many applications in robotics. Popular techniques include graph-based searches and sampling-based planners. These approaches are powerful but have limitations. This paper continues work to combine their strengths and mitigate their limitations using a unified planning paradigm. It does this by viewing the path planning problem as the two subproblems of search and approximation and using advanced graph-search techniques on a sampling-based approximation. This perspective leads to Advanced BIT*. ABIT* combines truncated anytime graph-based searches, such as ATD*, with anytime almost-surely asymptotically optimal sampling-based planners, such as RRT*. This allows it to quickly find initial solutions and then converge towards the optimum in an anytime manner. ABIT* outperforms existing single-query, sampling-based planners on the tested problems in $\\mathbb{R}^{4}$ and $\\mathbb{R}^{8}$, and was demonstrated on real-world problems with NASA/JPL-Caltech.",
+      "abstract": "Path planning is an active area of research essential for many applications in robotics. Popular techniques include graph-based searches and sampling-based planners. These approaches are powerful but have limitations. This paper continues work to combine their strengths and mitigate their limitations using a unified planning paradigm. It does this by viewing the path planning problem as the two subproblems of search and approximation and using advanced graph-search techniques on a sampling-based approximation. This perspective leads to Advanced BIT*. ABIT* combines truncated anytime graph-based searches, such as ATD*, with anytime almost-surely asymptotically optimal sampling-based planners, such as RRT*. This allows it to quickly find initial solutions and then converge towards the optimum in an anytime manner. ABIT* outperforms existing single-query, sampling-based planners on the tested problems in R^(4) and R^(8), and was demonstrated on real-world problems with NASA/JPL-Caltech.",
       "summary": "",
       "url": "../papers/2002_06589/",
       "treeUrl": "../tree/#paper=2002_06589",
@@ -50398,7 +50398,7 @@ window.timelineData = {
         "Sum-of-squares programming",
         "SOS"
       ],
-      "abstract": "This paper studies the polynomial basis that generates the smallest $n$-simplex enclosing a given $n^{\\text{th}}$-degree polynomial curve in $\\mathbb{R}^n$. Although the Bernstein and B-Spline polynomial bases provide feasible solutions to this problem, the simplexes obtained by these bases are not the smallest possible, which leads to overly conservative results in many CAD (computer-aided design) applications. We first prove that the polynomial basis that solves this problem (MINVO basis) also solves for the $n^\\text{th}$-degree polynomial curve with largest convex hull enclosed in a given $n$-simplex. Then, we present a formulation that is independent of the $n$-simplex or $n^{\\text{th}}$-degree polynomial curve given. By using Sum-Of-Squares (SOS) programming, branch and bound, and moment relaxations, we obtain high-quality feasible solutions for any $n\\in\\mathbb{N}$, and prove (numerical) global optimality for $n=1,2,3$ and (numerical) local optimality for $n=4$. The results obtained for $n=3$ show that, for any given $3^{\\text{rd}}$-degree polynomial curve in $\\mathbb{R}^3$, the MINVO basis is able to obtain an enclosing simplex whose volume is $2.36$ and $254.9$ times smaller than the ones obtained by the Bernstein and B-Spline bases, respectively. When $n=7$, these ratios increase to $902.7$ and $2.997\\cdot10^{21}$, respectively.",
+      "abstract": "This paper studies the polynomial basis that generates the smallest n-simplex enclosing a given n^(th)-degree polynomial curve in R^(n). Although the Bernstein and B-Spline polynomial bases provide feasible solutions to this problem, the simplexes obtained by these bases are not the smallest possible, which leads to overly conservative results in many CAD (computer-aided design) applications. We first prove that the polynomial basis that solves this problem (MINVO basis) also solves for the n^(th)-degree polynomial curve with largest convex hull enclosed in a given n-simplex. Then, we present a formulation that is independent of the n-simplex or n^(th)-degree polynomial curve given. By using Sum-Of-Squares (SOS) programming, branch and bound, and moment relaxations, we obtain high-quality feasible solutions for any ninmathbbN, and prove (numerical) global optimality for n = 1, 2, 3 and (numerical) local optimality for n = 4. The results obtained for n = 3 show that, for any given 3^(rd)-degree polynomial curve in R^(3), the MINVO basis is able to obtain an enclosing simplex whose volume is 2.36 and 254.9 times smaller than the ones obtained by the Bernstein and B-Spline bases, respectively. When n = 7, these ratios increase to 902.7 and 2.997*10^(21), respectively.",
       "summary": "",
       "url": "../papers/2010_10726/",
       "treeUrl": "../tree/#paper=2010_10726",
@@ -51149,7 +51149,7 @@ window.timelineData = {
         "Towards Integrated Perception and Motion Planning with Distributionally Robust Risk Constraints"
       ],
       "tags": [],
-      "abstract": "Safely deploying robots in uncertain and dynamic environments requires a systematic accounting of various risks, both within and across layers in an autonomy stack from perception to motion planning and control. Many widely used motion planning algorithms do not adequately incorporate inherent perception and prediction uncertainties, often ignoring them altogether or making questionable assumptions of Gaussianity. We propose a distributionally robust incremental sampling-based motion planning framework that explicitly and coherently incorporates perception and prediction uncertainties. We design output feedback policies and consider moment-based ambiguity sets of distributions to enforce probabilistic collision avoidance constraints under the worst-case distribution in the ambiguity set. Our solution approach, called Output Feedback Distributionally Robust $RRT^{*}$(OFDR-$RRT^{*})$, produces asymptotically optimal risk-bounded trajectories for robots operating in dynamic, cluttered, and uncertain environments, explicitly incorporating mapping and localization error, stochastic process disturbances, unpredictable obstacle motion, and uncertain obstacle locations. Numerical experiments illustrate the effectiveness of the proposed algorithm.",
+      "abstract": "Safely deploying robots in uncertain and dynamic environments requires a systematic accounting of various risks, both within and across layers in an autonomy stack from perception to motion planning and control. Many widely used motion planning algorithms do not adequately incorporate inherent perception and prediction uncertainties, often ignoring them altogether or making questionable assumptions of Gaussianity. We propose a distributionally robust incremental sampling-based motion planning framework that explicitly and coherently incorporates perception and prediction uncertainties. We design output feedback policies and consider moment-based ambiguity sets of distributions to enforce probabilistic collision avoidance constraints under the worst-case distribution in the ambiguity set. Our solution approach, called Output Feedback Distributionally Robust RRT^*(OFDR-RRT^*), produces asymptotically optimal risk-bounded trajectories for robots operating in dynamic, cluttered, and uncertain environments, explicitly incorporating mapping and localization error, stochastic process disturbances, unpredictable obstacle motion, and uncertain obstacle locations. Numerical experiments illustrate the effectiveness of the proposed algorithm.",
       "summary": "",
       "url": "../papers/2002_02928/",
       "treeUrl": "../tree/#paper=2002_02928",
@@ -51343,7 +51343,7 @@ window.timelineData = {
         "Planning",
         "Control"
       ],
-      "abstract": "Action anticipation, intent prediction, and proactive behavior are all desirable characteristics for autonomous driving policies in interactive scenarios. Paramount, however, is ensuring safety on the road -- a key challenge in doing so is accounting for uncertainty in human driver actions without unduly impacting planner performance. This paper introduces a minimally-interventional safety controller operating within an autonomous vehicle control stack with the role of ensuring collision-free interaction with an externally controlled (e.g., human-driven) counterpart while respecting static obstacles such as a road boundary wall. We leverage reachability analysis to construct a real-time (100Hz) controller that serves the dual role of (i) tracking an input trajectory from a higher-level planning algorithm using model predictive control, and (ii) assuring safety by maintaining the availability of a collision-free escape maneuver as a persistent constraint regardless of whatever future actions the other car takes. A full-scale steer-by-wire platform is used to conduct traffic weaving experiments wherein two cars, initially side-by-side, must swap lanes in a limited amount of time and distance, emulating cars merging onto/off of a highway. We demonstrate that, with our control stack, the autonomous vehicle is able to avoid collision even when the other car defies the planner's expectations and takes dangerous actions, either carelessly or with the intent to collide, and otherwise deviates minimally from the planned trajectory to the extent required to maintain safety.",
+      "abstract": "Action anticipation, intent prediction, and proactive behavior are all desirable characteristics for autonomous driving policies in interactive scenarios. Paramount, however, is ensuring safety on the road - a key challenge in doing so is accounting for uncertainty in human driver actions without unduly impacting planner performance. This paper introduces a minimally-interventional safety controller operating within an autonomous vehicle control stack with the role of ensuring collision-free interaction with an externally controlled (e.g., human-driven) counterpart while respecting static obstacles such as a road boundary wall. We leverage reachability analysis to construct a real-time (100Hz) controller that serves the dual role of (i) tracking an input trajectory from a higher-level planning algorithm using model predictive control, and (ii) assuring safety by maintaining the availability of a collision-free escape maneuver as a persistent constraint regardless of whatever future actions the other car takes. A full-scale steer-by-wire platform is used to conduct traffic weaving experiments wherein two cars, initially side-by-side, must swap lanes in a limited amount of time and distance, emulating cars merging onto/off of a highway. We demonstrate that, with our control stack, the autonomous vehicle is able to avoid collision even when the other car defies the planner's expectations and takes dangerous actions, either carelessly or with the intent to collide, and otherwise deviates minimally from the planned trajectory to the extent required to maintain safety.",
       "summary": "",
       "url": "../papers/2012_03390/",
       "treeUrl": "../tree/#paper=2012_03390",
@@ -51457,7 +51457,7 @@ window.timelineData = {
         "Reinforcement learning",
         "Learning"
       ],
-      "abstract": "This note aims to provide a basic intuition on the concept of filtrations as used in the context of reinforcement learning (RL). Filtrations are often used to formally define RL problems, yet their implications might not be eminent for those without a background in measure theory. Essentially, a filtration is a construct that captures partial knowledge up to time $t$, without revealing any future information that has already been simulated, yet not revealed to the decision-maker. We illustrate this with simple examples from the finance domain on both discrete and continuous outcome spaces. Furthermore, we show that the notion of filtration is not needed, as basing decisions solely on the current problem state (which is possible due to the Markovian property) suffices to eliminate future knowledge from the decision-making process.",
+      "abstract": "This note aims to provide a basic intuition on the concept of filtrations as used in the context of reinforcement learning (RL). Filtrations are often used to formally define RL problems, yet their implications might not be eminent for those without a background in measure theory. Essentially, a filtration is a construct that captures partial knowledge up to time t, without revealing any future information that has already been simulated, yet not revealed to the decision-maker. We illustrate this with simple examples from the finance domain on both discrete and continuous outcome spaces. Furthermore, we show that the notion of filtration is not needed, as basing decisions solely on the current problem state (which is possible due to the Markovian property) suffices to eliminate future knowledge from the decision-making process.",
       "summary": "",
       "url": "../papers/2008_02622/",
       "treeUrl": "../tree/#paper=2008_02622",
@@ -51579,7 +51579,7 @@ window.timelineData = {
         "On Uninformative Optimal Policies in Adaptive LQR with Unknown B-Matrix"
       ],
       "tags": [],
-      "abstract": "This paper presents local asymptotic minimax regret lower bounds for adaptive Linear Quadratic Regulators (LQR). We consider affinely parametrized $B$-matrices and known $A$-matrices and aim to understand when logarithmic regret is impossible even in the presence of structural side information. After defining the intrinsic notion of an uninformative optimal policy in terms of a singularity condition for Fisher information we obtain local minimax regret lower bounds for such uninformative instances of LQR by appealing to van Trees' inequality (Bayesian Cramér-Rao) and a representation of regret in terms of a quadratic form (Bellman error). It is shown that if the parametrization induces an uninformative optimal policy, logarithmic regret is impossible and the rate is at least order square root in the time horizon. We explicitly characterize the notion of an uninformative optimal policy in terms of the nullspaces of system-theoretic quantities and the particular instance parametrization.",
+      "abstract": "This paper presents local asymptotic minimax regret lower bounds for adaptive Linear Quadratic Regulators (LQR). We consider affinely parametrized B-matrices and known A-matrices and aim to understand when logarithmic regret is impossible even in the presence of structural side information. After defining the intrinsic notion of an uninformative optimal policy in terms of a singularity condition for Fisher information we obtain local minimax regret lower bounds for such uninformative instances of LQR by appealing to van Trees' inequality (Bayesian Cramér-Rao) and a representation of regret in terms of a quadratic form (Bellman error). It is shown that if the parametrization induces an uninformative optimal policy, logarithmic regret is impossible and the rate is at least order square root in the time horizon. We explicitly characterize the notion of an uninformative optimal policy in terms of the nullspaces of system-theoretic quantities and the particular instance parametrization.",
       "summary": "",
       "url": "../papers/2011_09288/",
       "treeUrl": "../tree/#paper=2011_09288",
@@ -51612,7 +51612,7 @@ window.timelineData = {
         "Online Learning of the Kalman Filter with Logarithmic Regret"
       ],
       "tags": [],
-      "abstract": "In this paper, we consider the problem of predicting observations generated online by an unknown, partially observed linear system, which is driven by stochastic noise. For such systems the optimal predictor in the mean square sense is the celebrated Kalman filter, which can be explicitly computed when the system model is known. When the system model is unknown, we have to learn how to predict observations online based on finite data, suffering possibly a non-zero regret with respect to the Kalman filter's prediction. We show that it is possible to achieve a regret of the order of $\\mathrm{poly}\\log(N)$ with high probability, where $N$ is the number of observations collected. Our work is the first to provide logarithmic regret guarantees for the widely used Kalman filter. This is achieved using an online least-squares algorithm, which exploits the approximately linear relation between future observations and past observations. The regret analysis is based on the stability properties of the Kalman filter, recent statistical tools for finite sample analysis of system identification, and classical results for the analysis of least-squares algorithms for time series. Our regret analysis can also be applied for state prediction of the hidden state, in the case of unknown noise statistics but known state-space basis. A fundamental technical contribution is that our bounds hold even for the class of non-explosive systems, which includes the class of marginally stable systems, which was an open problem for the case of online prediction under stochastic noise.",
+      "abstract": "In this paper, we consider the problem of predicting observations generated online by an unknown, partially observed linear system, which is driven by stochastic noise. For such systems the optimal predictor in the mean square sense is the celebrated Kalman filter, which can be explicitly computed when the system model is known. When the system model is unknown, we have to learn how to predict observations online based on finite data, suffering possibly a non-zero regret with respect to the Kalman filter's prediction. We show that it is possible to achieve a regret of the order of polylog(N) with high probability, where N is the number of observations collected. Our work is the first to provide logarithmic regret guarantees for the widely used Kalman filter. This is achieved using an online least-squares algorithm, which exploits the approximately linear relation between future observations and past observations. The regret analysis is based on the stability properties of the Kalman filter, recent statistical tools for finite sample analysis of system identification, and classical results for the analysis of least-squares algorithms for time series. Our regret analysis can also be applied for state prediction of the hidden state, in the case of unknown noise statistics but known state-space basis. A fundamental technical contribution is that our bounds hold even for the class of non-explosive systems, which includes the class of marginally stable systems, which was an open problem for the case of online prediction under stochastic noise.",
       "summary": "",
       "url": "../papers/2002_05141/",
       "treeUrl": "../tree/#paper=2002_05141",
@@ -51688,7 +51688,7 @@ window.timelineData = {
         "Q-learning with Logarithmic Regret"
       ],
       "tags": [],
-      "abstract": "This paper presents the first non-asymptotic result showing that a model-free algorithm can achieve a logarithmic cumulative regret for episodic tabular reinforcement learning if there exists a strictly positive sub-optimality gap in the optimal $Q$-function. We prove that the optimistic $Q$-learning studied in [Jin et al. 2018] enjoys a ${\\mathcal{O}}\\left(\\frac{SA\\cdot \\mathrm{poly}\\left(H\\right)}{Δ_{\\min}}\\log\\left(SAT\\right)\\right)$ cumulative regret bound, where $S$ is the number of states, $A$ is the number of actions, $H$ is the planning horizon, $T$ is the total number of steps, and $Δ_{\\min}$ is the minimum sub-optimality gap. This bound matches the information theoretical lower bound in terms of $S,A,T$ up to a $\\log\\left(SA\\right)$ factor. We further extend our analysis to the discounted setting and obtain a similar logarithmic cumulative regret bound.",
+      "abstract": "This paper presents the first non-asymptotic result showing that a model-free algorithm can achieve a logarithmic cumulative regret for episodic tabular reinforcement learning if there exists a strictly positive sub-optimality gap in the optimal Q-function. We prove that the optimistic Q-learning studied in [Jin et al. 2018] enjoys a O(fracSA* poly(H){Delta_min}log(SAT)) cumulative regret bound, where S is the number of states, A is the number of actions, H is the planning horizon, T is the total number of steps, and Delta_min is the minimum sub-optimality gap. This bound matches the information theoretical lower bound in terms of S,A,T up to a log(SA) factor. We further extend our analysis to the discounted setting and obtain a similar logarithmic cumulative regret bound.",
       "summary": "",
       "url": "../papers/2006_09118/",
       "treeUrl": "../tree/#paper=2006_09118",
@@ -51811,7 +51811,7 @@ window.timelineData = {
         "Generative model",
         "State space"
       ],
-      "abstract": "Model-based reinforcement learning (RL), which finds an optimal policy using an empirical model, has long been recognized as one of the corner stones of RL. It is especially suitable for multi-agent RL (MARL), as it naturally decouples the learning and the planning phases, and avoids the non-stationarity problem when all agents are improving their policies simultaneously using samples. Though intuitive and widely-used, the sample complexity of model-based MARL algorithms has not been fully investigated. In this paper, our goal is to address the fundamental question about its sample complexity. We study arguably the most basic MARL setting: two-player discounted zero-sum Markov games, given only access to a generative model. We show that model-based MARL achieves a sample complexity of $\\tilde O(|S||A||B|(1-γ)^{-3}ε^{-2})$ for finding the Nash equilibrium (NE) value up to some $ε$ error, and the $ε$-NE policies with a smooth planning oracle, where $γ$ is the discount factor, and $S,A,B$ denote the state space, and the action spaces for the two agents. We further show that such a sample bound is minimax-optimal (up to logarithmic factors) if the algorithm is reward-agnostic, where the algorithm queries state transition samples without reward knowledge, by establishing a matching lower bound. This is in contrast to the usual reward-aware setting, with a $\\tildeΩ(|S|(|A|+|B|)(1-γ)^{-3}ε^{-2})$ lower bound, where this model-based approach is near-optimal with only a gap on the $|A|,|B|$ dependence. Our results not only demonstrate the sample-efficiency of this basic model-based approach in MARL, but also elaborate on the fundamental tradeoff between its power (easily handling the more challenging reward-agnostic case) and limitation (less adaptive and suboptimal in $|A|,|B|$), particularly arises in the multi-agent context.",
+      "abstract": "Model-based reinforcement learning (RL), which finds an optimal policy using an empirical model, has long been recognized as one of the corner stones of RL. It is especially suitable for multi-agent RL (MARL), as it naturally decouples the learning and the planning phases, and avoids the non-stationarity problem when all agents are improving their policies simultaneously using samples. Though intuitive and widely-used, the sample complexity of model-based MARL algorithms has not been fully investigated. In this paper, our goal is to address the fundamental question about its sample complexity. We study arguably the most basic MARL setting: two-player discounted zero-sum Markov games, given only access to a generative model. We show that model-based MARL achieves a sample complexity of tilde O(|S||A||B|(1-gamma)^(-3)epsilon^(-2)) for finding the Nash equilibrium (NE) value up to some epsilon error, and the epsilon-NE policies with a smooth planning oracle, where gamma is the discount factor, and S,A,B denote the state space, and the action spaces for the two agents. We further show that such a sample bound is minimax-optimal (up to logarithmic factors) if the algorithm is reward-agnostic, where the algorithm queries state transition samples without reward knowledge, by establishing a matching lower bound. This is in contrast to the usual reward-aware setting, with a tildeOmega(|S|(|A|+|B|)(1-gamma)^(-3)epsilon^(-2)) lower bound, where this model-based approach is near-optimal with only a gap on the |A|,|B| dependence. Our results not only demonstrate the sample-efficiency of this basic model-based approach in MARL, but also elaborate on the fundamental tradeoff between its power (easily handling the more challenging reward-agnostic case) and limitation (less adaptive and suboptimal in |A|,|B|), particularly arises in the multi-agent context.",
       "summary": "",
       "url": "../papers/2007_07461/",
       "treeUrl": "../tree/#paper=2007_07461",
@@ -51875,7 +51875,7 @@ window.timelineData = {
         "Bandit Algorithms Based on Thompson Sampling for Bounded Reward Distributions"
       ],
       "tags": [],
-      "abstract": "We focus on a classic reinforcement learning problem, called a multi-armed bandit, and more specifically in the stochastic setting with reward distributions bounded in $[0,1]$. For this model, an optimal problem-dependent asymptotic regret lower bound has been derived. However, the existing algorithms achieving this regret lower bound all require to solve an optimization problem at each step, inducing a large complexity. In this paper, we propose two new algorithms, which we prove to achieve the problem-dependent asymptotic regret lower bound. The first one, which we call Multinomial TS, is an adaptation of Thompson Sampling for Bernoulli rewards to multinomial reward distributions whose support is included in $\\{0, \\frac{1}{M}, …, 1\\}$. This algorithm achieves the regret lower bound in the case of multinomial distributions with the aforementioned support, and it can be easily generalized to bounded reward distributions in $[0, 1]$ by randomly rounding the observed rewards. The second algorithm we introduce, which we call Non-parametric TS, is a randomized algorithm but not based on the posterior sampling in the strict sense. At each step, it computes an average of the observed rewards with random weight. Not only is it asymptotically optimal, but also it performs very well even for small horizons.",
+      "abstract": "We focus on a classic reinforcement learning problem, called a multi-armed bandit, and more specifically in the stochastic setting with reward distributions bounded in [0,1]. For this model, an optimal problem-dependent asymptotic regret lower bound has been derived. However, the existing algorithms achieving this regret lower bound all require to solve an optimization problem at each step, inducing a large complexity. In this paper, we propose two new algorithms, which we prove to achieve the problem-dependent asymptotic regret lower bound. The first one, which we call Multinomial TS, is an adaptation of Thompson Sampling for Bernoulli rewards to multinomial reward distributions whose support is included in 0, 1/M, …, 1. This algorithm achieves the regret lower bound in the case of multinomial distributions with the aforementioned support, and it can be easily generalized to bounded reward distributions in [0, 1] by randomly rounding the observed rewards. The second algorithm we introduce, which we call Non-parametric TS, is a randomized algorithm but not based on the posterior sampling in the strict sense. At each step, it computes an average of the observed rewards with random weight. Not only is it asymptotically optimal, but also it performs very well even for small horizons.",
       "summary": "",
       "url": "../papers/2020_riou_bandit_algorithms_based_on/",
       "treeUrl": "../tree/#paper=2020_riou_bandit_algorithms_based_on",
@@ -51951,7 +51951,7 @@ window.timelineData = {
         "AAPI"
       ],
       "tags": [],
-      "abstract": "Model-free reinforcement learning algorithms combined with value function approximation have recently achieved impressive performance in a variety of application domains. However, the theoretical understanding of such algorithms is limited, and existing results are largely focused on episodic or discounted Markov decision processes (MDPs). In this work, we present adaptive approximate policy iteration (AAPI), a learning scheme which enjoys a $\\tilde{O}(T^{2/3})$ regret bound for undiscounted, continuing learning in uniformly ergodic MDPs. This is an improvement over the best existing bound of $\\tilde{O}(T^{3/4})$ for the average-reward case with function approximation. Our algorithm and analysis rely on online learning techniques, where value functions are treated as losses. The main technical novelty is the use of a data-dependent adaptive learning rate coupled with a so-called optimistic prediction of upcoming losses. In addition to theoretical guarantees, we demonstrate the advantages of our approach empirically on several environments.",
+      "abstract": "Model-free reinforcement learning algorithms combined with value function approximation have recently achieved impressive performance in a variety of application domains. However, the theoretical understanding of such algorithms is limited, and existing results are largely focused on episodic or discounted Markov decision processes (MDPs). In this work, we present adaptive approximate policy iteration (AAPI), a learning scheme which enjoys a tildeO(T^(2/3)) regret bound for undiscounted, continuing learning in uniformly ergodic MDPs. This is an improvement over the best existing bound of tildeO(T^(3/4)) for the average-reward case with function approximation. Our algorithm and analysis rely on online learning techniques, where value functions are treated as losses. The main technical novelty is the use of a data-dependent adaptive learning rate coupled with a so-called optimistic prediction of upcoming losses. In addition to theoretical guarantees, we demonstrate the advantages of our approach empirically on several environments.",
       "summary": "",
       "url": "../papers/2002_03069/",
       "treeUrl": "../tree/#paper=2002_03069",
@@ -52197,7 +52197,7 @@ window.timelineData = {
         "Online algorithms",
         "Learning"
       ],
-      "abstract": "We study the exploration problem with approximate linear action-value functions in episodic reinforcement learning under the notion of low inherent Bellman error, a condition normally employed to show convergence of approximate value iteration. First we relate this condition to other common frameworks and show that it is strictly more general than the low rank (or linear) MDP assumption of prior work. Second we provide an algorithm with a high probability regret bound $\\widetilde O(\\sum_{t=1}^H d_t \\sqrt{K} + \\sum_{t=1}^H \\sqrt{d_t} \\IBE K)$ where $H$ is the horizon, $K$ is the number of episodes, $\\IBE$ is the value if the inherent Bellman error and $d_t$ is the feature dimension at timestep $t$. In addition, we show that the result is unimprovable beyond constants and logs by showing a matching lower bound. This has two important consequences: 1) it shows that exploration is possible using only \\emph{batch assumptions} with an algorithm that achieves the optimal statistical rate for the setting we consider, which is more general than prior work on low-rank MDPs 2) the lack of closedness (measured by the inherent Bellman error) is only amplified by $\\sqrt{d_t}$ despite working in the online setting. Finally, the algorithm reduces to the celebrated \\textsc{LinUCB} when $H=1$ but with a different choice of the exploration parameter that allows handling misspecified contextual linear bandits. While computational tractability questions remain open for the MDP setting, this enriches the class of MDPs with a linear representation for the action-value function where statistically efficient reinforcement learning is possible.",
+      "abstract": "We study the exploration problem with approximate linear action-value functions in episodic reinforcement learning under the notion of low inherent Bellman error, a condition normally employed to show convergence of approximate value iteration. First we relate this condition to other common frameworks and show that it is strictly more general than the low rank (or linear) MDP assumption of prior work. Second we provide an algorithm with a high probability regret bound widetilde O(sum_t = 1^(H) d_t sqrt(K) + sum_t = 1^(H) sqrt(d_t) IBE K) where H is the horizon, K is the number of episodes, IBE is the value if the inherent Bellman error and d_t is the feature dimension at timestep t. In addition, we show that the result is unimprovable beyond constants and logs by showing a matching lower bound. This has two important consequences: 1) it shows that exploration is possible using only batch assumptions with an algorithm that achieves the optimal statistical rate for the setting we consider, which is more general than prior work on low-rank MDPs 2) the lack of closedness (measured by the inherent Bellman error) is only amplified by sqrt(d_t) despite working in the online setting. Finally, the algorithm reduces to the celebrated \\textsc{LinUCB} when H = 1 but with a different choice of the exploration parameter that allows handling misspecified contextual linear bandits. While computational tractability questions remain open for the MDP setting, this enriches the class of MDPs with a linear representation for the action-value function where statistically efficient reinforcement learning is possible.",
       "summary": "",
       "url": "../papers/2003_00153/",
       "treeUrl": "../tree/#paper=2003_00153",
@@ -52308,7 +52308,7 @@ window.timelineData = {
         "On the Global Convergence Rates of Softmax Policy Gradient Methods"
       ],
       "tags": [],
-      "abstract": "We make three contributions toward better understanding policy gradient methods in the tabular setting. First, we show that with the true gradient, policy gradient with a softmax parametrization converges at a $O(1/t)$ rate, with constants depending on the problem and initialization. This result significantly expands the recent asymptotic convergence results. The analysis relies on two findings: that the softmax policy gradient satisfies a Łojasiewicz inequality, and the minimum probability of an optimal action during optimization can be bounded in terms of its initial value. Second, we analyze entropy regularized policy gradient and show that it enjoys a significantly faster linear convergence rate $O(e^{-c \\cdot t})$ toward softmax optimal policy $(c > 0)$. This result resolves an open question in the recent literature. Finally, combining the above two results and additional new $Ω(1/t)$ lower bound results, we explain how entropy regularization improves policy optimization, even with the true gradient, from the perspective of convergence rate. The separation of rates is further explained using the notion of non-uniform Łojasiewicz degree. These results provide a theoretical understanding of the impact of entropy and corroborate existing empirical studies.",
+      "abstract": "We make three contributions toward better understanding policy gradient methods in the tabular setting. First, we show that with the true gradient, policy gradient with a softmax parametrization converges at a O(1/t) rate, with constants depending on the problem and initialization. This result significantly expands the recent asymptotic convergence results. The analysis relies on two findings: that the softmax policy gradient satisfies a Łojasiewicz inequality, and the minimum probability of an optimal action during optimization can be bounded in terms of its initial value. Second, we analyze entropy regularized policy gradient and show that it enjoys a significantly faster linear convergence rate O(e^-c * t) toward softmax optimal policy (c > 0). This result resolves an open question in the recent literature. Finally, combining the above two results and additional new Omega(1/t) lower bound results, we explain how entropy regularization improves policy optimization, even with the true gradient, from the perspective of convergence rate. The separation of rates is further explained using the notion of non-uniform Łojasiewicz degree. These results provide a theoretical understanding of the impact of entropy and corroborate existing empirical studies.",
       "summary": "",
       "url": "../papers/2005_06392/",
       "treeUrl": "../tree/#paper=2005_06392",
@@ -52431,7 +52431,7 @@ window.timelineData = {
         "Policy gradients",
         "STORM-PG"
       ],
-      "abstract": "In this paper, we propose a novel algorithm named STOchastic Recursive Momentum for Policy Gradient (STORM-PG), which operates a SARAH-type stochastic recursive variance-reduced policy gradient in an exponential moving average fashion. STORM-PG enjoys a provably sharp $O(1/ε^3)$ sample complexity bound for STORM-PG, matching the best-known convergence rate for policy gradient algorithm. In the mean time, STORM-PG avoids the alternations between large batches and small batches which persists in comparable variance-reduced policy gradient methods, allowing considerably simpler parameter tuning. Numerical experiments depicts the superiority of our algorithm over comparative policy gradient algorithms.",
+      "abstract": "In this paper, we propose a novel algorithm named STOchastic Recursive Momentum for Policy Gradient (STORM-PG), which operates a SARAH-type stochastic recursive variance-reduced policy gradient in an exponential moving average fashion. STORM-PG enjoys a provably sharp O(1/epsilon^(3)) sample complexity bound for STORM-PG, matching the best-known convergence rate for policy gradient algorithm. In the mean time, STORM-PG avoids the alternations between large batches and small batches which persists in comparable variance-reduced policy gradient methods, allowing considerably simpler parameter tuning. Numerical experiments depicts the superiority of our algorithm over comparative policy gradient algorithms.",
       "summary": "",
       "url": "../papers/2003_04302/",
       "treeUrl": "../tree/#paper=2003_04302",
@@ -52467,7 +52467,7 @@ window.timelineData = {
         "Variational Policy Gradient Method for Reinforcement Learning with General Utilities"
       ],
       "tags": [],
-      "abstract": "In recent years, reinforcement learning (RL) systems with general goals beyond a cumulative sum of rewards have gained traction, such as in constrained problems, exploration, and acting upon prior experiences. In this paper, we consider policy optimization in Markov Decision Problems, where the objective is a general concave utility function of the state-action occupancy measure, which subsumes several of the aforementioned examples as special cases. Such generality invalidates the Bellman equation. As this means that dynamic programming no longer works, we focus on direct policy search. Analogously to the Policy Gradient Theorem \\cite{sutton2000policy} available for RL with cumulative rewards, we derive a new Variational Policy Gradient Theorem for RL with general utilities, which establishes that the parametrized policy gradient may be obtained as the solution of a stochastic saddle point problem involving the Fenchel dual of the utility function. We develop a variational Monte Carlo gradient estimation algorithm to compute the policy gradient based on sample paths. We prove that the variational policy gradient scheme converges globally to the optimal policy for the general objective, though the optimization problem is nonconvex. We also establish its rate of convergence of the order $O(1/t)$ by exploiting the hidden convexity of the problem, and proves that it converges exponentially when the problem admits hidden strong convexity. Our analysis applies to the standard RL problem with cumulative rewards as a special case, in which case our result improves the available convergence rate.",
+      "abstract": "In recent years, reinforcement learning (RL) systems with general goals beyond a cumulative sum of rewards have gained traction, such as in constrained problems, exploration, and acting upon prior experiences. In this paper, we consider policy optimization in Markov Decision Problems, where the objective is a general concave utility function of the state-action occupancy measure, which subsumes several of the aforementioned examples as special cases. Such generality invalidates the Bellman equation. As this means that dynamic programming no longer works, we focus on direct policy search. Analogously to the Policy Gradient Theorem \\cite{sutton2000policy} available for RL with cumulative rewards, we derive a new Variational Policy Gradient Theorem for RL with general utilities, which establishes that the parametrized policy gradient may be obtained as the solution of a stochastic saddle point problem involving the Fenchel dual of the utility function. We develop a variational Monte Carlo gradient estimation algorithm to compute the policy gradient based on sample paths. We prove that the variational policy gradient scheme converges globally to the optimal policy for the general objective, though the optimization problem is nonconvex. We also establish its rate of convergence of the order O(1/t) by exploiting the hidden convexity of the problem, and proves that it converges exponentially when the problem admits hidden strong convexity. Our analysis applies to the standard RL problem with cumulative rewards as a special case, in which case our result improves the available convergence rate.",
       "summary": "",
       "url": "../papers/2007_02151/",
       "treeUrl": "../tree/#paper=2007_02151",
@@ -52507,7 +52507,7 @@ window.timelineData = {
         "View synthesis",
         "Volume rendering"
       ],
-      "abstract": "We present a method that achieves state-of-the-art results for synthesizing novel views of complex scenes by optimizing an underlying continuous volumetric scene function using a sparse set of input views. Our algorithm represents a scene using a fully-connected (non-convolutional) deep network, whose input is a single continuous 5D coordinate (spatial location $(x,y,z)$ and viewing direction $(θ, φ)$) and whose output is the volume density and view-dependent emitted radiance at that spatial location. We synthesize views by querying 5D coordinates along camera rays and use classic volume rendering techniques to project the output colors and densities into an image. Because volume rendering is naturally differentiable, the only input required to optimize our representation is a set of images with known camera poses. We describe how to effectively optimize neural radiance fields to render photorealistic novel views of scenes with complicated geometry and appearance, and demonstrate results that outperform prior work on neural rendering and view synthesis. View synthesis results are best viewed as videos, so we urge readers to view our supplementary video for convincing comparisons.",
+      "abstract": "We present a method that achieves state-of-the-art results for synthesizing novel views of complex scenes by optimizing an underlying continuous volumetric scene function using a sparse set of input views. Our algorithm represents a scene using a fully-connected (non-convolutional) deep network, whose input is a single continuous 5D coordinate (spatial location (x,y,z) and viewing direction (theta, phi)) and whose output is the volume density and view-dependent emitted radiance at that spatial location. We synthesize views by querying 5D coordinates along camera rays and use classic volume rendering techniques to project the output colors and densities into an image. Because volume rendering is naturally differentiable, the only input required to optimize our representation is a set of images with known camera poses. We describe how to effectively optimize neural radiance fields to render photorealistic novel views of scenes with complicated geometry and appearance, and demonstrate results that outperform prior work on neural rendering and view synthesis. View synthesis results are best viewed as videos, so we urge readers to view our supplementary video for convincing comparisons.",
       "summary": "",
       "url": "../papers/2003_08934/",
       "treeUrl": "../tree/#paper=2003_08934",
@@ -52634,78 +52634,6 @@ window.timelineData = {
       "mapUrl": "../map/#paper=2012_12657",
       "timelineUrl": "../timeline/#paper=2012_12657",
       "searchUrl": "../search/?paper=2012_12657"
-    },
-    {
-      "id": "2002_05651",
-      "label": "Towards the Systematic Reporting of the Energy and Carbon Footprints of Machine Learning",
-      "title": "Towards the Systematic Reporting of the Energy and Carbon Footprints of Machine Learning",
-      "authors": [
-        "Peter Henderson",
-        "Jieru Hu",
-        "Joshua Romoff",
-        "Emma Brunskill",
-        "Dan Jurafsky",
-        "Joelle Pineau"
-      ],
-      "authorShort": "Henderson, Hu, Romoff",
-      "year": 2020,
-      "source": "Journal of Machine Learning Research",
-      "type": "Journal Paper",
-      "superCategory": "Human & Natural Worlds",
-      "category": "Environmental Impacts",
-      "subCategory": "Towards the Systematic Reporting of the Energy and Carbon Footprints of Machine Learning",
-      "path": [
-        "Tree",
-        "Human & Natural Worlds",
-        "Environmental Impacts",
-        "Towards the Systematic Reporting of the Energy and Carbon Footprints of Machine Learning"
-      ],
-      "tags": [
-        "Reinforcement learning",
-        "Online algorithms",
-        "Learning",
-        "Energy consumption",
-        "Sustainable development",
-        "Machine learning"
-      ],
-      "abstract": "Accurate reporting of energy and carbon usage is essential for understanding the potential climate impacts of machine learning research. We introduce a framework that makes this easier by providing a simple interface for tracking realtime energy consumption and carbon emissions, as well as generating standardized online appendices. Utilizing this framework, we create a leaderboard for energy efficient reinforcement learning algorithms to incentivize responsible research in this area as an example for other areas of machine learning. Finally, based on case studies using our framework, we propose strategies for mitigation of carbon emissions and reduction of energy consumption. By making accounting easier, we hope to further the sustainable development of machine learning experiments and spur more research into energy efficient algorithms.",
-      "summary": "",
-      "url": "../papers/2002_05651/",
-      "treeUrl": "../tree/#paper=2002_05651",
-      "mapUrl": "../map/#paper=2002_05651",
-      "timelineUrl": "../timeline/#paper=2002_05651",
-      "searchUrl": "../search/?paper=2002_05651"
-    },
-    {
-      "id": "2020_cole_vaporwave_aesthetics_internet_nostalgia",
-      "label": "Vaporwave Aesthetics: Internet Nostalgia and the Utopian Impulse",
-      "title": "Vaporwave Aesthetics: Internet Nostalgia and the Utopian Impulse",
-      "authors": [
-        "Ross Cole"
-      ],
-      "authorShort": "Cole",
-      "year": 2020,
-      "source": "repository.cam.ac.uk",
-      "type": "Other",
-      "superCategory": "Human & Natural Worlds",
-      "category": "Humanities & Culture",
-      "subCategory": "Vaporwave Aesthetics: Internet Nostalgia and the Utopian Impulse",
-      "path": [
-        "Tree",
-        "Human & Natural Worlds",
-        "Humanities & Culture",
-        "Vaporwave Aesthetics: Internet Nostalgia and the Utopian Impulse"
-      ],
-      "tags": [
-        "Research paper"
-      ],
-      "abstract": "Vaporwave is a term that emerged during the early 2010s to describe a hip, wraithlike nexus of videos, memes, and experimental music on the Internet. This article traces vaporwave's aesthetic back to the work of Daniel Lopatin and on through its deeply ambivalent relationship with consumer electronics and the mediascape of the 1980s. Vaporwave enjoys toying with a virtual, dehumanized utopia in which utopianism is dead, even as it defamiliarizes and rehabilitates the objects and disorientating non-places of postmodernity. The genre ultimately exemplifies what Svetlana Boym calls the “off-modern” - a form of critical reflection predicated on nostalgia.",
-      "summary": "Traces vaporwave from Daniel Lopatin's eccojams through its internet-native mixture of slowed pop samples, obsolete media, mall imagery, consumer electronics, and early-Web visual culture. The article reads vaporwave as an \"off-modern\" form of nostalgia: not simply anti-capitalist critique or escapism, but a defamiliarizing reuse of postmodern consumer objects that carries a sideways, dreamlike utopian impulse.",
-      "url": "../papers/2020_cole_vaporwave_aesthetics_internet_nostalgia/",
-      "treeUrl": "../tree/#paper=2020_cole_vaporwave_aesthetics_internet_nostalgia",
-      "mapUrl": "../map/#paper=2020_cole_vaporwave_aesthetics_internet_nostalgia",
-      "timelineUrl": "../timeline/#paper=2020_cole_vaporwave_aesthetics_internet_nostalgia",
-      "searchUrl": "../search/?paper=2020_cole_vaporwave_aesthetics_internet_nostalgia"
     },
     {
       "id": "2006_13846",
@@ -53059,7 +52987,7 @@ window.timelineData = {
         "Generalization",
         "Line search"
       ],
-      "abstract": "Adaptive gradient methods are typically used for training over-parameterized models. To better understand their behaviour, we study a simplistic setting -- smooth, convex losses with models over-parameterized enough to interpolate the data. In this setting, we prove that AMSGrad with constant step-size and momentum converges to the minimizer at a faster $O(1/T)$ rate. When interpolation is only approximately satisfied, constant step-size AMSGrad converges to a neighbourhood of the solution at the same rate, while AdaGrad is robust to the violation of interpolation. However, even for simple convex problems satisfying interpolation, the empirical performance of both methods heavily depends on the step-size and requires tuning, questioning their adaptivity. We alleviate this problem by automatically determining the step-size using stochastic line-search or Polyak step-sizes. With these techniques, we prove that both AdaGrad and AMSGrad retain their convergence guarantees, without needing to know problem-dependent constants. Empirically, we demonstrate that these techniques improve the convergence and generalization of adaptive gradient methods across tasks, from binary classification with kernel mappings to multi-class classification with deep networks.",
+      "abstract": "Adaptive gradient methods are typically used for training over-parameterized models. To better understand their behaviour, we study a simplistic setting - smooth, convex losses with models over-parameterized enough to interpolate the data. In this setting, we prove that AMSGrad with constant step-size and momentum converges to the minimizer at a faster O(1/T) rate. When interpolation is only approximately satisfied, constant step-size AMSGrad converges to a neighbourhood of the solution at the same rate, while AdaGrad is robust to the violation of interpolation. However, even for simple convex problems satisfying interpolation, the empirical performance of both methods heavily depends on the step-size and requires tuning, questioning their adaptivity. We alleviate this problem by automatically determining the step-size using stochastic line-search or Polyak step-sizes. With these techniques, we prove that both AdaGrad and AMSGrad retain their convergence guarantees, without needing to know problem-dependent constants. Empirically, we demonstrate that these techniques improve the convergence and generalization of adaptive gradient methods across tasks, from binary classification with kernel mappings to multi-class classification with deep networks.",
       "summary": "",
       "url": "../papers/2006_06835/",
       "treeUrl": "../tree/#paper=2006_06835",
@@ -53184,7 +53112,7 @@ window.timelineData = {
         "ImageNet",
         "Transfer learning"
       ],
-      "abstract": "We introduce Bootstrap Your Own Latent (BYOL), a new approach to self-supervised image representation learning. BYOL relies on two neural networks, referred to as online and target networks, that interact and learn from each other. From an augmented view of an image, we train the online network to predict the target network representation of the same image under a different augmented view. At the same time, we update the target network with a slow-moving average of the online network. While state-of-the art methods rely on negative pairs, BYOL achieves a new state of the art without them. BYOL reaches $74.3\\%$ top-1 classification accuracy on ImageNet using a linear evaluation with a ResNet-50 architecture and $79.6\\%$ with a larger ResNet. We show that BYOL performs on par or better than the current state of the art on both transfer and semi-supervised benchmarks. Our implementation and pretrained models are given on GitHub.",
+      "abstract": "We introduce Bootstrap Your Own Latent (BYOL), a new approach to self-supervised image representation learning. BYOL relies on two neural networks, referred to as online and target networks, that interact and learn from each other. From an augmented view of an image, we train the online network to predict the target network representation of the same image under a different augmented view. At the same time, we update the target network with a slow-moving average of the online network. While state-of-the art methods rely on negative pairs, BYOL achieves a new state of the art without them. BYOL reaches 74.3% top-1 classification accuracy on ImageNet using a linear evaluation with a ResNet-50 architecture and 79.6% with a larger ResNet. We show that BYOL performs on par or better than the current state of the art on both transfer and semi-supervised benchmarks. Our implementation and pretrained models are given on GitHub.",
       "summary": "BYOL shows that strong image representations can be learned without explicit negative pairs by training an online network to predict the representation of a slowly averaged target network under a different augmentation. The paper is a key non-contrastive self-supervised learning result: its empirical strength forced later work to explain why collapse is avoided and made target-network bootstrapping a standard design pattern for vision SSL.",
       "url": "../papers/2006_07733/",
       "treeUrl": "../tree/#paper=2006_07733",
@@ -53261,7 +53189,7 @@ window.timelineData = {
         "Optimal Regularization Can Mitigate Double Descent"
       ],
       "tags": [],
-      "abstract": "Recent empirical and theoretical studies have shown that many learning algorithms -- from linear regression to neural networks -- can have test performance that is non-monotonic in quantities such the sample size and model size. This striking phenomenon, often referred to as \"double descent\", has raised questions of if we need to re-think our current understanding of generalization. In this work, we study whether the double-descent phenomenon can be avoided by using optimal regularization. Theoretically, we prove that for certain linear regression models with isotropic data distribution, optimally-tuned $\\ell_2$ regularization achieves monotonic test performance as we grow either the sample size or the model size. We also demonstrate empirically that optimally-tuned $\\ell_2$ regularization can mitigate double descent for more general models, including neural networks. Our results suggest that it may also be informative to study the test risk scalings of various algorithms in the context of appropriately tuned regularization.",
+      "abstract": "Recent empirical and theoretical studies have shown that many learning algorithms - from linear regression to neural networks - can have test performance that is non-monotonic in quantities such the sample size and model size. This striking phenomenon, often referred to as \"double descent\", has raised questions of if we need to re-think our current understanding of generalization. In this work, we study whether the double-descent phenomenon can be avoided by using optimal regularization. Theoretically, we prove that for certain linear regression models with isotropic data distribution, optimally-tuned l_2 regularization achieves monotonic test performance as we grow either the sample size or the model size. We also demonstrate empirically that optimally-tuned l_2 regularization can mitigate double descent for more general models, including neural networks. Our results suggest that it may also be informative to study the test risk scalings of various algorithms in the context of appropriately tuned regularization.",
       "summary": "",
       "url": "../papers/2003_01897/",
       "treeUrl": "../tree/#paper=2003_01897",
@@ -53528,7 +53456,7 @@ window.timelineData = {
         "Informer",
         "LSTF"
       ],
-      "abstract": "Many real-world applications require the prediction of long sequence time-series, such as electricity consumption planning. Long sequence time-series forecasting (LSTF) demands a high prediction capacity of the model, which is the ability to capture precise long-range dependency coupling between output and input efficiently. Recent studies have shown the potential of Transformer to increase the prediction capacity. However, there are several severe issues with Transformer that prevent it from being directly applicable to LSTF, including quadratic time complexity, high memory usage, and inherent limitation of the encoder-decoder architecture. To address these issues, we design an efficient transformer-based model for LSTF, named Informer, with three distinctive characteristics: (i) a $ProbSparse$ self-attention mechanism, which achieves $O(L \\log L)$ in time complexity and memory usage, and has comparable performance on sequences' dependency alignment. (ii) the self-attention distilling highlights dominating attention by halving cascading layer input, and efficiently handles extreme long input sequences. (iii) the generative style decoder, while conceptually simple, predicts the long time-series sequences at one forward operation rather than a step-by-step way, which drastically improves the inference speed of long-sequence predictions. Extensive experiments on four large-scale datasets demonstrate that Informer significantly outperforms existing methods and provides a new solution to the LSTF problem.",
+      "abstract": "Many real-world applications require the prediction of long sequence time-series, such as electricity consumption planning. Long sequence time-series forecasting (LSTF) demands a high prediction capacity of the model, which is the ability to capture precise long-range dependency coupling between output and input efficiently. Recent studies have shown the potential of Transformer to increase the prediction capacity. However, there are several severe issues with Transformer that prevent it from being directly applicable to LSTF, including quadratic time complexity, high memory usage, and inherent limitation of the encoder-decoder architecture. To address these issues, we design an efficient transformer-based model for LSTF, named Informer, with three distinctive characteristics: (i) a ProbSparse self-attention mechanism, which achieves O(L log L) in time complexity and memory usage, and has comparable performance on sequences' dependency alignment. (ii) the self-attention distilling highlights dominating attention by halving cascading layer input, and efficiently handles extreme long input sequences. (iii) the generative style decoder, while conceptually simple, predicts the long time-series sequences at one forward operation rather than a step-by-step way, which drastically improves the inference speed of long-sequence predictions. Extensive experiments on four large-scale datasets demonstrate that Informer significantly outperforms existing methods and provides a new solution to the LSTF problem.",
       "summary": "",
       "url": "../papers/2012_07436/",
       "treeUrl": "../tree/#paper=2012_07436",
@@ -53856,6 +53784,47 @@ window.timelineData = {
       "searchUrl": "../search/?paper=2011_10202"
     },
     {
+      "id": "2002_05651",
+      "label": "Towards the Systematic Reporting of the Energy and Carbon Footprints of Machine Learning",
+      "title": "Towards the Systematic Reporting of the Energy and Carbon Footprints of Machine Learning",
+      "authors": [
+        "Peter Henderson",
+        "Jieru Hu",
+        "Joshua Romoff",
+        "Emma Brunskill",
+        "Dan Jurafsky",
+        "Joelle Pineau"
+      ],
+      "authorShort": "Henderson, Hu, Romoff",
+      "year": 2020,
+      "source": "Journal of Machine Learning Research",
+      "type": "Journal Paper",
+      "superCategory": "Quantitative Foundations",
+      "category": "Environmental Impacts",
+      "subCategory": "Towards the Systematic Reporting of the Energy and Carbon Footprints of Machine Learning",
+      "path": [
+        "Tree",
+        "Quantitative Foundations",
+        "Environmental Impacts",
+        "Towards the Systematic Reporting of the Energy and Carbon Footprints of Machine Learning"
+      ],
+      "tags": [
+        "Reinforcement learning",
+        "Online algorithms",
+        "Learning",
+        "Energy consumption",
+        "Sustainable development",
+        "Machine learning"
+      ],
+      "abstract": "Accurate reporting of energy and carbon usage is essential for understanding the potential climate impacts of machine learning research. We introduce a framework that makes this easier by providing a simple interface for tracking realtime energy consumption and carbon emissions, as well as generating standardized online appendices. Utilizing this framework, we create a leaderboard for energy efficient reinforcement learning algorithms to incentivize responsible research in this area as an example for other areas of machine learning. Finally, based on case studies using our framework, we propose strategies for mitigation of carbon emissions and reduction of energy consumption. By making accounting easier, we hope to further the sustainable development of machine learning experiments and spur more research into energy efficient algorithms.",
+      "summary": "",
+      "url": "../papers/2002_05651/",
+      "treeUrl": "../tree/#paper=2002_05651",
+      "mapUrl": "../map/#paper=2002_05651",
+      "timelineUrl": "../timeline/#paper=2002_05651",
+      "searchUrl": "../search/?paper=2002_05651"
+    },
+    {
       "id": "2011_02258",
       "label": "Concentration Inequalities for Statistical Inference",
       "title": "Concentration Inequalities for Statistical Inference",
@@ -53953,7 +53922,7 @@ window.timelineData = {
         "Picasso"
       ],
       "tags": [],
-      "abstract": "We describe a new library named picasso, which implements a unified framework of pathwise coordinate optimization for a variety of sparse learning problems (e.g., sparse linear regression, sparse logistic regression, sparse Poisson regression and scaled sparse linear regression) combined with efficient active set selection strategies. Besides, the library allows users to choose different sparsity-inducing regularizers, including the convex $\\ell_1$, nonconvex MCP and SCAD regularizers. The library is coded in C++ and has user-friendly R and Python wrappers. Numerical experiments demonstrate that picasso can scale up to large problems efficiently.",
+      "abstract": "We describe a new library named picasso, which implements a unified framework of pathwise coordinate optimization for a variety of sparse learning problems (e.g., sparse linear regression, sparse logistic regression, sparse Poisson regression and scaled sparse linear regression) combined with efficient active set selection strategies. Besides, the library allows users to choose different sparsity-inducing regularizers, including the convex l_1, nonconvex MCP and SCAD regularizers. The library is coded in C++ and has user-friendly R and Python wrappers. Numerical experiments demonstrate that picasso can scale up to large problems efficiently.",
       "summary": "",
       "url": "../papers/2006_15261/",
       "treeUrl": "../tree/#paper=2006_15261",
@@ -54510,7 +54479,7 @@ window.timelineData = {
         "Fast & Accurate Randomized Algorithms for Linear Systems and Eigenvalue Problems"
       ],
       "tags": [],
-      "abstract": "This paper develops a new class of algorithms for general linear systems and eigenvalue problems. These algorithms apply fast randomized sketching to accelerate subspace projection methods, such as GMRES and Rayleigh--Ritz. This approach offers great flexibility in designing the basis for the approximation subspace, which can improve scalability in many computational environments. The resulting algorithms outperform the classic methods with minimal loss of accuracy. For model problems, numerical experiments show large advantages over MATLAB's optimized routines, including a $100 \\times$ speedup over gmres and a $10 \\times$ speedup over eigs.",
+      "abstract": "This paper develops a new class of algorithms for general linear systems and eigenvalue problems. These algorithms apply fast randomized sketching to accelerate subspace projection methods, such as GMRES and Rayleigh-Ritz. This approach offers great flexibility in designing the basis for the approximation subspace, which can improve scalability in many computational environments. The resulting algorithms outperform the classic methods with minimal loss of accuracy. For model problems, numerical experiments show large advantages over MATLAB's optimized routines, including a 100 x speedup over gmres and a 10 x speedup over eigs.",
       "summary": "",
       "url": "../papers/2111_00113/",
       "treeUrl": "../tree/#paper=2111_00113",
@@ -54586,7 +54555,7 @@ window.timelineData = {
         "Label Noise SGD Provably Prefers Flat Global Minimizers"
       ],
       "tags": [],
-      "abstract": "In overparametrized models, the noise in stochastic gradient descent (SGD) implicitly regularizes the optimization trajectory and determines which local minimum SGD converges to. Motivated by empirical studies that demonstrate that training with noisy labels improves generalization, we study the implicit regularization effect of SGD with label noise. We show that SGD with label noise converges to a stationary point of a regularized loss $L(θ) +λR(θ)$, where $L(θ)$ is the training loss, $λ$ is an effective regularization parameter depending on the step size, strength of the label noise, and the batch size, and $R(θ)$ is an explicit regularizer that penalizes sharp minimizers. Our analysis uncovers an additional regularization effect of large learning rates beyond the linear scaling rule that penalizes large eigenvalues of the Hessian more than small ones. We also prove extensions to classification with general loss functions, SGD with momentum, and SGD with general noise covariance, significantly strengthening the prior work of Blanc et al. to global convergence and large learning rates and of HaoChen et al. to general models.",
+      "abstract": "In overparametrized models, the noise in stochastic gradient descent (SGD) implicitly regularizes the optimization trajectory and determines which local minimum SGD converges to. Motivated by empirical studies that demonstrate that training with noisy labels improves generalization, we study the implicit regularization effect of SGD with label noise. We show that SGD with label noise converges to a stationary point of a regularized loss L(theta) +lambdaR(theta), where L(theta) is the training loss, lambda is an effective regularization parameter depending on the step size, strength of the label noise, and the batch size, and R(theta) is an explicit regularizer that penalizes sharp minimizers. Our analysis uncovers an additional regularization effect of large learning rates beyond the linear scaling rule that penalizes large eigenvalues of the Hessian more than small ones. We also prove extensions to classification with general loss functions, SGD with momentum, and SGD with general noise covariance, significantly strengthening the prior work of Blanc et al. to global convergence and large learning rates and of HaoChen et al. to general models.",
       "summary": "",
       "url": "../papers/2106_06530/",
       "treeUrl": "../tree/#paper=2106_06530",
@@ -54625,7 +54594,7 @@ window.timelineData = {
         "SCSC",
         "IQC"
       ],
-      "abstract": "Smooth minimax games often proceed by simultaneous or alternating gradient updates. Although algorithms with alternating updates are commonly used in practice, the majority of existing theoretical analyses focus on simultaneous algorithms for convenience of analysis. In this paper, we study alternating gradient descent-ascent (Alt-GDA) in minimax games and show that Alt-GDA is superior to its simultaneous counterpart~(Sim-GDA) in many settings. We prove that Alt-GDA achieves a near-optimal local convergence rate for strongly convex-strongly concave (SCSC) problems while Sim-GDA converges at a much slower rate. To our knowledge, this is the \\emph{first} result of any setting showing that Alt-GDA converges faster than Sim-GDA by more than a constant. We further adapt the theory of integral quadratic constraints (IQC) and show that Alt-GDA attains the same rate \\emph{globally} for a subclass of SCSC minimax problems. Empirically, we demonstrate that alternating updates speed up GAN training significantly and the use of optimism only helps for simultaneous algorithms.",
+      "abstract": "Smooth minimax games often proceed by simultaneous or alternating gradient updates. Although algorithms with alternating updates are commonly used in practice, the majority of existing theoretical analyses focus on simultaneous algorithms for convenience of analysis. In this paper, we study alternating gradient descent-ascent (Alt-GDA) in minimax games and show that Alt-GDA is superior to its simultaneous counterpart~(Sim-GDA) in many settings. We prove that Alt-GDA achieves a near-optimal local convergence rate for strongly convex-strongly concave (SCSC) problems while Sim-GDA converges at a much slower rate. To our knowledge, this is the first result of any setting showing that Alt-GDA converges faster than Sim-GDA by more than a constant. We further adapt the theory of integral quadratic constraints (IQC) and show that Alt-GDA attains the same rate globally for a subclass of SCSC minimax problems. Empirically, we demonstrate that alternating updates speed up GAN training significantly and the use of optimism only helps for simultaneous algorithms.",
       "summary": "",
       "url": "../papers/2102_09468/",
       "treeUrl": "../tree/#paper=2102_09468",
@@ -54662,7 +54631,7 @@ window.timelineData = {
         "Regularized Newton method",
         "Line search"
       ],
-      "abstract": "We present a Newton-type method that converges fast from any initialization and for arbitrary convex objectives with Lipschitz Hessians. We achieve this by merging the ideas of cubic regularization with a certain adaptive Levenberg--Marquardt penalty. In particular, we show that the iterates given by $x^{k+1}=x^k - \\bigl(\\nabla^2 f(x^k) + \\sqrt{H\\|\\nabla f(x^k)\\|} \\mathbf{I}\\bigr)^{-1}\\nabla f(x^k)$, where $H>0$ is a constant, converge globally with a $\\mathcal{O}(\\frac{1}{k^2})$ rate. Our method is the first variant of Newton's method that has both cheap iterations and provably fast global convergence. Moreover, we prove that locally our method converges superlinearly when the objective is strongly convex. To boost the method's performance, we present a line search procedure that does not need prior knowledge of $H$ and is provably efficient.",
+      "abstract": "We present a Newton-type method that converges fast from any initialization and for arbitrary convex objectives with Lipschitz Hessians. We achieve this by merging the ideas of cubic regularization with a certain adaptive Levenberg-Marquardt penalty. In particular, we show that the iterates given by x^(k)+1 = x^(k) - bigl(nabla^(2) f(x^(k)) + sqrt(H|nabla f(x^(k))|) Ibigr)^(-1)nabla f(x^(k)), where H > 0 is a constant, converge globally with a O(1/k^(2)) rate. Our method is the first variant of Newton's method that has both cheap iterations and provably fast global convergence. Moreover, we prove that locally our method converges superlinearly when the objective is strongly convex. To boost the method's performance, we present a line search procedure that does not need prior knowledge of H and is provably efficient.",
       "summary": "",
       "url": "../papers/2112_02089/",
       "treeUrl": "../tree/#paper=2112_02089",
@@ -54734,7 +54703,7 @@ window.timelineData = {
       "tags": [
         "Optimization"
       ],
-      "abstract": "Most zeroth-order optimization algorithms mimic a first-order algorithm but replace the gradient of the objective function with some gradient estimator that can be computed from a small number of function evaluations. This estimator is constructed randomly, and its expectation matches the gradient of a smooth approximation of the objective function whose quality improves as the underlying smoothing parameter $δ$ is reduced. Gradient estimators requiring a smaller number of function evaluations are preferable from a computational point of view. While estimators based on a single function evaluation can be obtained by use of the divergence theorem from vector calculus, their variance explodes as $δ$ tends to $0$. Estimators based on multiple function evaluations, on the other hand, suffer from numerical cancellation when $δ$ tends to $0$. To combat both effects simultaneously, we extend the objective function to the complex domain and construct a gradient estimator that evaluates the objective at a complex point whose coordinates have small imaginary parts of the order $δ$. As this estimator requires only one function evaluation, it is immune to cancellation. In addition, its variance remains bounded as $δ$ tends to $0$. We prove that zeroth-order algorithms that use our estimator offer the same theoretical convergence guarantees as the state-of-the-art methods. Numerical experiments suggest, however, that they often converge faster in practice.",
+      "abstract": "Most zeroth-order optimization algorithms mimic a first-order algorithm but replace the gradient of the objective function with some gradient estimator that can be computed from a small number of function evaluations. This estimator is constructed randomly, and its expectation matches the gradient of a smooth approximation of the objective function whose quality improves as the underlying smoothing parameter delta is reduced. Gradient estimators requiring a smaller number of function evaluations are preferable from a computational point of view. While estimators based on a single function evaluation can be obtained by use of the divergence theorem from vector calculus, their variance explodes as delta tends to 0. Estimators based on multiple function evaluations, on the other hand, suffer from numerical cancellation when delta tends to 0. To combat both effects simultaneously, we extend the objective function to the complex domain and construct a gradient estimator that evaluates the objective at a complex point whose coordinates have small imaginary parts of the order delta. As this estimator requires only one function evaluation, it is immune to cancellation. In addition, its variance remains bounded as delta tends to 0. We prove that zeroth-order algorithms that use our estimator offer the same theoretical convergence guarantees as the state-of-the-art methods. Numerical experiments suggest, however, that they often converge faster in practice.",
       "summary": "",
       "url": "../papers/2103_05478/",
       "treeUrl": "../tree/#paper=2103_05478",
@@ -54767,7 +54736,7 @@ window.timelineData = {
         "Superfast Second-Order Methods for Unconstrained Convex Optimization"
       ],
       "tags": [],
-      "abstract": "In this paper, we present new second-order methods with convergence rate $$O\\left( k^{-4}\\right) $$ O k - 4 , where k is the iteration counter. This is faster than the existing lower bound for this type of schemes (Agarwal and Hazan in Proceedings of the 31st conference on learning theory, PMLR, pp. 774–792, 2018; Arjevani and Shiff in Math Program 178(1–2):327–360, 2019), which is $$O\\left( k^{-7/2} \\right) $$ O k - 7 / 2 . Our progress can be explained by a finer specification of the problem class. The main idea of this approach consists in implementation of the third-order scheme from Nesterov (Math Program 186:157–183, 2021) using the second-order oracle. At each iteration of our method, we solve a nontrivial auxiliary problem by a linearly convergent scheme based on the relative non-degeneracy condition (Bauschke et al. in Math Oper Res 42:330–348, 2016; Lu et al. in SIOPT 28(1):333–354, 2018). During this process, the Hessian of the objective function is computed once, and the gradient is computed $$O\\left( \\ln {1 \\over \\epsilon }\\right) $$ O ln 1 ϵ times, where $$\\epsilon $$ ϵ is the desired accuracy of the solution for our problem.",
+      "abstract": "In this paper, we present new second-order methods with convergence rate O( k^(-4)) O k - 4, where k is the iteration counter. This is faster than the existing lower bound for this type of schemes (Agarwal and Hazan in Proceedings of the 31st conference on learning theory, PMLR, pp. 774–792, 2018; Arjevani and Shiff in Math Program 178(1–2):327–360, 2019), which is O( k^(-7/2) ) O k - 7 / 2. Our progress can be explained by a finer specification of the problem class. The main idea of this approach consists in implementation of the third-order scheme from Nesterov (Math Program 186:157–183, 2021) using the second-order oracle. At each iteration of our method, we solve a nontrivial auxiliary problem by a linearly convergent scheme based on the relative non-degeneracy condition (Bauschke et al. in Math Oper Res 42:330–348, 2016; Lu et al. in SIOPT 28(1):333–354, 2018). During this process, the Hessian of the objective function is computed once, and the gradient is computed O( ln 1 over epsilon ) O ln 1 ϵ times, where epsilon ϵ is the desired accuracy of the solution for our problem.",
       "summary": "",
       "url": "../papers/2021_nesterov_superfast_second_order_methods/",
       "treeUrl": "../tree/#paper=2021_nesterov_superfast_second_order_methods",
@@ -55631,7 +55600,7 @@ window.timelineData = {
         "Topological Linear System Identification via Moderate Deviations Theory"
       ],
       "tags": [],
-      "abstract": "Two dynamical systems are topologically equivalent when their phase-portraits can be morphed into each other by a homeomorphic coordinate transformation on the state space. The induced equivalence classes capture qualitative properties such as stability or the oscillatory nature of the state trajectories, for example. In this paper we develop a method to learn the topological class of an unknown stable system from a single trajectory of finitely many state observations. Using a moderate deviations principle for the least squares estimator of the unknown system matrix $θ$, we prove that the probability of misclassification decays exponentially with the number of observations at a rate that is proportional to the square of the smallest singular value of $θ$.",
+      "abstract": "Two dynamical systems are topologically equivalent when their phase-portraits can be morphed into each other by a homeomorphic coordinate transformation on the state space. The induced equivalence classes capture qualitative properties such as stability or the oscillatory nature of the state trajectories, for example. In this paper we develop a method to learn the topological class of an unknown stable system from a single trajectory of finitely many state observations. Using a moderate deviations principle for the least squares estimator of the unknown system matrix theta, we prove that the probability of misclassification decays exponentially with the number of observations at a rate that is proportional to the square of the smallest singular value of theta.",
       "summary": "",
       "url": "../papers/2103_03805/",
       "treeUrl": "../tree/#paper=2103_03805",
@@ -55948,7 +55917,7 @@ window.timelineData = {
         "Sampling",
         "Convex hull"
       ],
-      "abstract": "In this work, we analyze an efficient sampling-based algorithm for general-purpose reachability analysis, which remains a notoriously challenging problem with applications ranging from neural network verification to safety analysis of dynamical systems. By sampling inputs, evaluating their images in the true reachable set, and taking their $ε$-padded convex hull as a set estimator, this algorithm applies to general problem settings and is simple to implement. Our main contribution is the derivation of asymptotic and finite-sample accuracy guarantees using random set theory. This analysis informs algorithmic design to obtain an $ε$-close reachable set approximation with high probability, provides insights into which reachability problems are most challenging, and motivates safety-critical applications of the technique. On a neural network verification task, we show that this approach is more accurate and significantly faster than prior work. Informed by our analysis, we also design a robust model predictive controller that we demonstrate in hardware experiments.",
+      "abstract": "In this work, we analyze an efficient sampling-based algorithm for general-purpose reachability analysis, which remains a notoriously challenging problem with applications ranging from neural network verification to safety analysis of dynamical systems. By sampling inputs, evaluating their images in the true reachable set, and taking their epsilon-padded convex hull as a set estimator, this algorithm applies to general problem settings and is simple to implement. Our main contribution is the derivation of asymptotic and finite-sample accuracy guarantees using random set theory. This analysis informs algorithmic design to obtain an epsilon-close reachable set approximation with high probability, provides insights into which reachability problems are most challenging, and motivates safety-critical applications of the technique. On a neural network verification task, we show that this approach is more accurate and significantly faster than prior work. Informed by our analysis, we also design a robust model predictive controller that we demonstrate in hardware experiments.",
       "summary": "",
       "url": "../papers/2112_05745/",
       "treeUrl": "../tree/#paper=2112_05745",
@@ -56286,7 +56255,7 @@ window.timelineData = {
         "Urban Driver"
       ],
       "tags": [],
-      "abstract": "In this work we are the first to present an offline policy gradient method for learning imitative policies for complex urban driving from a large corpus of real-world demonstrations. This is achieved by building a differentiable data-driven simulator on top of perception outputs and high-fidelity HD maps of the area. It allows us to synthesize new driving experiences from existing demonstrations using mid-level representations. Using this simulator we then train a policy network in closed-loop employing policy gradients. We train our proposed method on 100 hours of expert demonstrations on urban roads and show that it learns complex driving policies that generalize well and can perform a variety of driving maneuvers. We demonstrate this in simulation as well as deploy our model to self-driving vehicles in the real-world. Our method outperforms previously demonstrated state-of-the-art for urban driving scenarios -- all this without the need for complex state perturbations or collecting additional on-policy data during training. We make code and data publicly available.",
+      "abstract": "In this work we are the first to present an offline policy gradient method for learning imitative policies for complex urban driving from a large corpus of real-world demonstrations. This is achieved by building a differentiable data-driven simulator on top of perception outputs and high-fidelity HD maps of the area. It allows us to synthesize new driving experiences from existing demonstrations using mid-level representations. Using this simulator we then train a policy network in closed-loop employing policy gradients. We train our proposed method on 100 hours of expert demonstrations on urban roads and show that it learns complex driving policies that generalize well and can perform a variety of driving maneuvers. We demonstrate this in simulation as well as deploy our model to self-driving vehicles in the real-world. Our method outperforms previously demonstrated state-of-the-art for urban driving scenarios - all this without the need for complex state perturbations or collecting additional on-policy data during training. We make code and data publicly available.",
       "summary": "",
       "url": "../papers/2109_13333/",
       "treeUrl": "../tree/#paper=2109_13333",
@@ -57068,7 +57037,7 @@ window.timelineData = {
         "Control",
         "Learning"
       ],
-      "abstract": "The difficulty of optimal control problems has classically been characterized in terms of system properties such as minimum eigenvalues of controllability/observability gramians. We revisit these characterizations in the context of the increasing popularity of data-driven techniques like reinforcement learning (RL), and in control settings where input observations are high-dimensional images and transition dynamics are unknown. Specifically, we ask: to what extent are quantifiable control and perceptual difficulty metrics of a task predictive of the performance and sample complexity of data-driven controllers? We modulate two different types of partial observability in a cartpole \"stick-balancing\" problem -- (i) the height of one visible fixation point on the cartpole, which can be used to tune fundamental limits of performance achievable by any controller, and by (ii) the level of perception noise in the fixation point position inferred from depth or RGB images of the cartpole. In these settings, we empirically study two popular families of controllers: RL and system identification-based $H_\\infty$ control, using visually estimated system state. Our results show that the fundamental limits of robust control have corresponding implications for the sample-efficiency and performance of learned perception-based controllers. Visit our project website https://jxu.ai/rl-vs-control-web for more information.",
+      "abstract": "The difficulty of optimal control problems has classically been characterized in terms of system properties such as minimum eigenvalues of controllability/observability gramians. We revisit these characterizations in the context of the increasing popularity of data-driven techniques like reinforcement learning (RL), and in control settings where input observations are high-dimensional images and transition dynamics are unknown. Specifically, we ask: to what extent are quantifiable control and perceptual difficulty metrics of a task predictive of the performance and sample complexity of data-driven controllers? We modulate two different types of partial observability in a cartpole \"stick-balancing\" problem - (i) the height of one visible fixation point on the cartpole, which can be used to tune fundamental limits of performance achievable by any controller, and by (ii) the level of perception noise in the fixation point position inferred from depth or RGB images of the cartpole. In these settings, we empirically study two popular families of controllers: RL and system identification-based H_infinity control, using visually estimated system state. Our results show that the fundamental limits of robust control have corresponding implications for the sample-efficiency and performance of learned perception-based controllers. Visit our project website https://jxu.ai/rl-vs-control-web for more information.",
       "summary": "",
       "url": "../papers/2104_00827/",
       "treeUrl": "../tree/#paper=2104_00827",
@@ -57106,7 +57075,7 @@ window.timelineData = {
         "Learning Dynamics Models for Model Predictive Agents"
       ],
       "tags": [],
-      "abstract": "Model-Based Reinforcement Learning involves learning a \\textit{dynamics model} from data, and then using this model to optimise behaviour, most often with an online \\textit{planner}. Much of the recent research along these lines presents a particular set of design choices, involving problem definition, model learning and planning. Given the multiple contributions, it is difficult to evaluate the effects of each. This paper sets out to disambiguate the role of different design choices for learning dynamics models, by comparing their performance to planning with a ground-truth model -- the simulator. First, we collect a rich dataset from the training sequence of a model-free agent on 5 domains of the DeepMind Control Suite. Second, we train feed-forward dynamics models in a supervised fashion, and evaluate planner performance while varying and analysing different model design choices, including ensembling, stochasticity, multi-step training and timestep size. Besides the quantitative analysis, we describe a set of qualitative findings, rules of thumb, and future research directions for planning with learned dynamics models. Videos of the results are available at https://sites.google.com/view/learning-better-models.",
+      "abstract": "Model-Based Reinforcement Learning involves learning a \\textit{dynamics model} from data, and then using this model to optimise behaviour, most often with an online \\textit{planner}. Much of the recent research along these lines presents a particular set of design choices, involving problem definition, model learning and planning. Given the multiple contributions, it is difficult to evaluate the effects of each. This paper sets out to disambiguate the role of different design choices for learning dynamics models, by comparing their performance to planning with a ground-truth model - the simulator. First, we collect a rich dataset from the training sequence of a model-free agent on 5 domains of the DeepMind Control Suite. Second, we train feed-forward dynamics models in a supervised fashion, and evaluate planner performance while varying and analysing different model design choices, including ensembling, stochasticity, multi-step training and timestep size. Besides the quantitative analysis, we describe a set of qualitative findings, rules of thumb, and future research directions for planning with learned dynamics models. Videos of the results are available at https://sites.google.com/view/learning-better-models.",
       "summary": "",
       "url": "../papers/2109_14311/",
       "treeUrl": "../tree/#paper=2109_14311",
@@ -57139,7 +57108,7 @@ window.timelineData = {
         "Learning Optimal Controllers by Policy Gradient: Global Optimality via Convex Parameterization"
       ],
       "tags": [],
-      "abstract": "Common reinforcement learning methods seek optimal controllers for unknown dynamical systems by searching in the \"policy\" space directly. A recent line of research, starting with [1], aims to provide theoretical guarantees for such direct policy-update methods by exploring their performance in classical control settings, such as the infinite horizon linear quadratic regulator (LQR) problem. A key property these analyses rely on is that the LQR cost function satisfies the \"gradient dominance\" property with respect to the policy parameters. Gradient dominance helps guarantee that the optimal controller can be found by running gradient-based algorithms on the LQR cost. The gradient dominance property has so far been verified on a case-by-case basis for several control problems including continuous/discrete time LQR, LQR with decentralized controller, ${\\mathcal{H}_2}/{\\mathcal{H}_\\infty }$ robust control.In this paper, we make a connection between this line of work and classical convex parameterizations based on linear matrix inequalities (LMIs). Using this, we propose a unified framework for showing that gradient dominance indeed holds for a broad class of control problems, such as continuous- and discrete-time LQR, minimizing the L2 gain, and problems using system-level parameterization. Our unified framework provides insights into the landscape of the cost function as a function of the policy, and enables extending convergence results for policy gradient descent to a much larger class of problems.",
+      "abstract": "Common reinforcement learning methods seek optimal controllers for unknown dynamical systems by searching in the \"policy\" space directly. A recent line of research, starting with [1], aims to provide theoretical guarantees for such direct policy-update methods by exploring their performance in classical control settings, such as the infinite horizon linear quadratic regulator (LQR) problem. A key property these analyses rely on is that the LQR cost function satisfies the \"gradient dominance\" property with respect to the policy parameters. Gradient dominance helps guarantee that the optimal controller can be found by running gradient-based algorithms on the LQR cost. The gradient dominance property has so far been verified on a case-by-case basis for several control problems including continuous/discrete time LQR, LQR with decentralized controller, H_2/H_infinity robust control.In this paper, we make a connection between this line of work and classical convex parameterizations based on linear matrix inequalities (LMIs). Using this, we propose a unified framework for showing that gradient dominance indeed holds for a broad class of control problems, such as continuous- and discrete-time LQR, minimizing the L2 gain, and problems using system-level parameterization. Our unified framework provides insights into the landscape of the cost function as a function of the policy, and enables extending convergence results for policy gradient descent to a much larger class of problems.",
       "summary": "",
       "url": "../papers/2021_sun_learning_optimal_controllers_by/",
       "treeUrl": "../tree/#paper=2021_sun_learning_optimal_controllers_by",
@@ -57176,7 +57145,7 @@ window.timelineData = {
         "On the Convergence and Sample Efficiency of Variance-Reduced Policy Gradient Method"
       ],
       "tags": [],
-      "abstract": "Policy gradient (PG) gives rise to a rich class of reinforcement learning (RL) methods. Recently, there has been an emerging trend to accelerate the existing PG methods such as REINFORCE by the \\emph{variance reduction} techniques. However, all existing variance-reduced PG methods heavily rely on an uncheckable importance weight assumption made for every single iteration of the algorithms. In this paper, a simple gradient truncation mechanism is proposed to address this issue. Moreover, we design a Truncated Stochastic Incremental Variance-Reduced Policy Gradient (TSIVR-PG) method, which is able to maximize not only a cumulative sum of rewards but also a general utility function over a policy's long-term visiting distribution. We show an $\\tilde{\\mathcal{O}}(ε^{-3})$ sample complexity for TSIVR-PG to find an $ε$-stationary policy. By assuming the overparameterizaiton of policy and exploiting the hidden convexity of the problem, we further show that TSIVR-PG converges to global $ε$-optimal policy with $\\tilde{\\mathcal{O}}(ε^{-2})$ samples.",
+      "abstract": "Policy gradient (PG) gives rise to a rich class of reinforcement learning (RL) methods. Recently, there has been an emerging trend to accelerate the existing PG methods such as REINFORCE by the variance reduction techniques. However, all existing variance-reduced PG methods heavily rely on an uncheckable importance weight assumption made for every single iteration of the algorithms. In this paper, a simple gradient truncation mechanism is proposed to address this issue. Moreover, we design a Truncated Stochastic Incremental Variance-Reduced Policy Gradient (TSIVR-PG) method, which is able to maximize not only a cumulative sum of rewards but also a general utility function over a policy's long-term visiting distribution. We show an tildeO(epsilon^(-3)) sample complexity for TSIVR-PG to find an epsilon-stationary policy. By assuming the overparameterizaiton of policy and exploiting the hidden convexity of the problem, we further show that TSIVR-PG converges to global epsilon-optimal policy with tildeO(epsilon^(-2)) samples.",
       "summary": "",
       "url": "../papers/2102_08607/",
       "treeUrl": "../tree/#paper=2102_08607",
@@ -57380,7 +57349,7 @@ window.timelineData = {
         "Understanding the Effect of Stochasticity in Policy Optimization"
       ],
       "tags": [],
-      "abstract": "We study the effect of stochasticity in on-policy policy optimization, and make the following four contributions. First, we show that the preferability of optimization methods depends critically on whether stochastic versus exact gradients are used. In particular, unlike the true gradient setting, geometric information cannot be easily exploited in the stochastic case for accelerating policy optimization without detrimental consequences or impractical assumptions. Second, to explain these findings we introduce the concept of committal rate for stochastic policy optimization, and show that this can serve as a criterion for determining almost sure convergence to global optimality. Third, we show that in the absence of external oracle information, which allows an algorithm to determine the difference between optimal and sub-optimal actions given only on-policy samples, there is an inherent trade-off between exploiting geometry to accelerate convergence versus achieving optimality almost surely. That is, an uninformed algorithm either converges to a globally optimal policy with probability $1$ but at a rate no better than $O(1/t)$, or it achieves faster than $O(1/t)$ convergence but then must fail to converge to the globally optimal policy with some positive probability. Finally, we use the committal rate theory to explain why practical policy optimization methods are sensitive to random initialization, then develop an ensemble method that can be guaranteed to achieve near-optimal solutions with high probability.",
+      "abstract": "We study the effect of stochasticity in on-policy policy optimization, and make the following four contributions. First, we show that the preferability of optimization methods depends critically on whether stochastic versus exact gradients are used. In particular, unlike the true gradient setting, geometric information cannot be easily exploited in the stochastic case for accelerating policy optimization without detrimental consequences or impractical assumptions. Second, to explain these findings we introduce the concept of committal rate for stochastic policy optimization, and show that this can serve as a criterion for determining almost sure convergence to global optimality. Third, we show that in the absence of external oracle information, which allows an algorithm to determine the difference between optimal and sub-optimal actions given only on-policy samples, there is an inherent trade-off between exploiting geometry to accelerate convergence versus achieving optimality almost surely. That is, an uninformed algorithm either converges to a globally optimal policy with probability 1 but at a rate no better than O(1/t), or it achieves faster than O(1/t) convergence but then must fail to converge to the globally optimal policy with some positive probability. Finally, we use the committal rate theory to explain why practical policy optimization methods are sensitive to random initialization, then develop an ensemble method that can be guaranteed to achieve near-optimal solutions with high probability.",
       "summary": "",
       "url": "../papers/2110_15572/",
       "treeUrl": "../tree/#paper=2110_15572",
@@ -57419,7 +57388,7 @@ window.timelineData = {
       "tags": [
         "Partial observability"
       ],
-      "abstract": "When faced with sequential decision-making problems, it is often useful to be able to predict what would happen if decisions were made using a new policy. Those predictions must often be based on data collected under some previously used decision-making rule. Many previous methods enable such off-policy (or counterfactual) estimation of the expected value of a performance measure called the return. In this paper, we take the first steps towards a universal off-policy estimator (UnO) -- one that provides off-policy estimates and high-confidence bounds for any parameter of the return distribution. We use UnO for estimating and simultaneously bounding the mean, variance, quantiles/median, inter-quantile range, CVaR, and the entire cumulative distribution of returns. Finally, we also discuss Uno's applicability in various settings, including fully observable, partially observable (i.e., with unobserved confounders), Markovian, non-Markovian, stationary, smoothly non-stationary, and discrete distribution shifts.",
+      "abstract": "When faced with sequential decision-making problems, it is often useful to be able to predict what would happen if decisions were made using a new policy. Those predictions must often be based on data collected under some previously used decision-making rule. Many previous methods enable such off-policy (or counterfactual) estimation of the expected value of a performance measure called the return. In this paper, we take the first steps towards a universal off-policy estimator (UnO) - one that provides off-policy estimates and high-confidence bounds for any parameter of the return distribution. We use UnO for estimating and simultaneously bounding the mean, variance, quantiles/median, inter-quantile range, CVaR, and the entire cumulative distribution of returns. Finally, we also discuss Uno's applicability in various settings, including fully observable, partially observable (i.e., with unobserved confounders), Markovian, non-Markovian, stationary, smoothly non-stationary, and discrete distribution shifts.",
       "summary": "",
       "url": "../papers/2104_12820/",
       "treeUrl": "../tree/#paper=2104_12820",
@@ -57759,68 +57728,6 @@ window.timelineData = {
       "searchUrl": "../search/?paper=2111_12083"
     },
     {
-      "id": "2021_lindsay_disaster_theory",
-      "label": "Disaster Theory",
-      "title": "Disaster Theory",
-      "authors": [
-        "Stuart Lindsay"
-      ],
-      "authorShort": "Lindsay",
-      "year": 2021,
-      "source": "English Language Notes",
-      "type": "Journal Paper",
-      "superCategory": "Human & Natural Worlds",
-      "category": "Humanities & Culture",
-      "subCategory": "Disaster Theory",
-      "path": [
-        "Tree",
-        "Human & Natural Worlds",
-        "Humanities & Culture",
-        "Disaster Theory"
-      ],
-      "tags": [
-        "Research paper"
-      ],
-      "abstract": "The online community of vaporwave music is a cultural development that emerged in the 2010s and therefore fully within the ideological sphere of postindustrialism. Consisting of slowed-down samples from pop songs and advertising jingles from the 1980s and 1990s stitched together with original synthesizer pieces that resemble those used in horror-film scores, vaporwave is an undead, artificial soundscape that floats somewhere between music and sound. Its fake nostalgia for an alternative yet ossified past aims to confront our contemporary social paralysis in the face of postmillennial economic failure and political crisis. This article examines gothic elements of the vaporwave music phenomenon to analyze how vaporwave expresses sociopolitical traumas of late capitalism. Derridean notions of hauntology articulate the individual’s self-isolation and objectification under the neoliberal homogenization of culture in vaporwave artist Begotten’s contributions to the hushwave subgenre of the scene (2018–19). Vaporwave’s cyclical and uncanny sounds embody the spectral haunting of Marx in capitalism’s repetitive pronunciation of victory over its vanquished, communist foe in Sunsetcorp’s 2009 single “nobody here” and the manifestations of American political trauma after 9/11 in Cat System Corporation’s signalwave album, News at 11 (2016).",
-      "summary": "Interprets vaporwave as a hauntological and gothic expression of late-capitalist trauma. The article focuses on how slowed samples, advertising fragments, horror-like synth textures, and subgenres such as hushwave and signalwave turn fake nostalgia into a way of staging postindustrial paralysis, neoliberal isolation, and political aftershocks such as the spectral repetition of Cold War triumphalism and 9/11 media memory.",
-      "url": "../papers/2021_lindsay_disaster_theory/",
-      "treeUrl": "../tree/#paper=2021_lindsay_disaster_theory",
-      "mapUrl": "../map/#paper=2021_lindsay_disaster_theory",
-      "timelineUrl": "../timeline/#paper=2021_lindsay_disaster_theory",
-      "searchUrl": "../search/?paper=2021_lindsay_disaster_theory"
-    },
-    {
-      "id": "2021_morrissey_metamodernism_and_vaporwave_a",
-      "label": "Metamodernism and Vaporwave: A Study of Web 2.0 Aesthetic Culture",
-      "title": "Metamodernism and Vaporwave: A Study of Web 2.0 Aesthetic Culture",
-      "authors": [
-        "Nicholas Morrissey"
-      ],
-      "authorShort": "Morrissey",
-      "year": 2021,
-      "source": "Nota Bene: Canadian Undergraduate Journal of Musicology",
-      "type": "Journal Paper",
-      "superCategory": "Human & Natural Worlds",
-      "category": "Humanities & Culture",
-      "subCategory": "Metamodernism and Vaporwave: A Study of Web 2.0 Aesthetic Culture",
-      "path": [
-        "Tree",
-        "Human & Natural Worlds",
-        "Humanities & Culture",
-        "Metamodernism and Vaporwave: A Study of Web 2.0 Aesthetic Culture"
-      ],
-      "tags": [
-        "Research paper"
-      ],
-      "abstract": "With the advent of Web 2.0, new forms of cultural and aesthetic texts, including memes and user generated content (UGC), have become increasingly popular worldwide as streaming and social media services have become more ubiquitous. In order to acknowledge the relevance and importance of these texts in academia and art, this paper conducts a three-part analysis of Vaporwave—a unique multimedia style that originated within Web 2.0—through the lens of a new cultural philosophy known as metamodernism. Relying upon a breadth of cultural theory and first-hand observations, this paper questions the extent to which Vaporwave is interested in metamodernist constructs and asks whether or not the genre can be classed as a metamodernist text, noting the dichotomy and extrapolation of nostalgia promoted by the genre and the unique instrumentality it offers to its consumers both visually and sonically. This paper ultimately theorizes that online culture will continue to play an important role in cultural production, aesthetic mediation, and even personal expression as media becomes more integrated into our systems of meaning.",
-      "summary": "Analyzes vaporwave as Web 2.0 aesthetic culture through metamodernist theory, asking whether the genre oscillates between sincerity and irony, nostalgia and critique, and image and lived experience. The paper concludes that vaporwave remains strongly rooted in postmodern simulacra and reflexive commentary, but it also differs from older postmodern work by treating simulated and internet-mediated nostalgia as personally meaningful rather than merely empty.",
-      "url": "../papers/2021_morrissey_metamodernism_and_vaporwave_a/",
-      "treeUrl": "../tree/#paper=2021_morrissey_metamodernism_and_vaporwave_a",
-      "mapUrl": "../map/#paper=2021_morrissey_metamodernism_and_vaporwave_a",
-      "timelineUrl": "../timeline/#paper=2021_morrissey_metamodernism_and_vaporwave_a",
-      "searchUrl": "../search/?paper=2021_morrissey_metamodernism_and_vaporwave_a"
-    },
-    {
       "id": "2104_07636",
       "label": "SR3",
       "title": "Image Super-Resolution via Iterative Refinement",
@@ -57905,7 +57812,7 @@ window.timelineData = {
         "Lightweight super-resolution",
         "SwinIR"
       ],
-      "abstract": "Image restoration is a long-standing low-level vision problem that aims to restore high-quality images from low-quality images (e.g., downscaled, noisy and compressed images). While state-of-the-art image restoration methods are based on convolutional neural networks, few attempts have been made with Transformers which show impressive performance on high-level vision tasks. In this paper, we propose a strong baseline model SwinIR for image restoration based on the Swin Transformer. SwinIR consists of three parts: shallow feature extraction, deep feature extraction and high-quality image reconstruction. In particular, the deep feature extraction module is composed of several residual Swin Transformer blocks (RSTB), each of which has several Swin Transformer layers together with a residual connection. We conduct experiments on three representative tasks: image super-resolution (including classical, lightweight and real-world image super-resolution), image denoising (including grayscale and color image denoising) and JPEG compression artifact reduction. Experimental results demonstrate that SwinIR outperforms state-of-the-art methods on different tasks by $\\textbf{up to 0.14$\\sim$0.45dB}$, while the total number of parameters can be reduced by $\\textbf{up to 67%}$.",
+      "abstract": "Image restoration is a long-standing low-level vision problem that aims to restore high-quality images from low-quality images (e.g., downscaled, noisy and compressed images). While state-of-the-art image restoration methods are based on convolutional neural networks, few attempts have been made with Transformers which show impressive performance on high-level vision tasks. In this paper, we propose a strong baseline model SwinIR for image restoration based on the Swin Transformer. SwinIR consists of three parts: shallow feature extraction, deep feature extraction and high-quality image reconstruction. In particular, the deep feature extraction module is composed of several residual Swin Transformer blocks (RSTB), each of which has several Swin Transformer layers together with a residual connection. We conduct experiments on three representative tasks: image super-resolution (including classical, lightweight and real-world image super-resolution), image denoising (including grayscale and color image denoising) and JPEG compression artifact reduction. Experimental results demonstrate that SwinIR outperforms state-of-the-art methods on different tasks by textbf{up to 0.14\\sim0.45dB}, while the total number of parameters can be reduced by textbfup to 67%.",
       "summary": "SwinIR is a strong transformer baseline for low-level restoration, adapting Swin Transformer blocks to super-resolution, denoising, and JPEG artifact reduction. Its importance is partly architectural and partly practical: it helped make shifted-window transformers a standard choice for restoration tasks.",
       "url": "../papers/2108_10257/",
       "treeUrl": "../tree/#paper=2108_10257",
@@ -58242,7 +58149,7 @@ window.timelineData = {
         "AdaLoss"
       ],
       "tags": [],
-      "abstract": "We propose a computationally-friendly adaptive learning rate schedule, \"AdaLoss\", which directly uses the information of the loss function to adjust the stepsize in gradient descent methods. We prove that this schedule enjoys linear convergence in linear regression. Moreover, we provide a linear convergence guarantee over the non-convex regime, in the context of two-layer over-parameterized neural networks. If the width of the first-hidden layer in the two-layer networks is sufficiently large (polynomially), then AdaLoss converges robustly \\emph{to the global minimum} in polynomial time. We numerically verify the theoretical results and extend the scope of the numerical experiments by considering applications in LSTM models for text clarification and policy gradients for control problems.",
+      "abstract": "We propose a computationally-friendly adaptive learning rate schedule, \"AdaLoss\", which directly uses the information of the loss function to adjust the stepsize in gradient descent methods. We prove that this schedule enjoys linear convergence in linear regression. Moreover, we provide a linear convergence guarantee over the non-convex regime, in the context of two-layer over-parameterized neural networks. If the width of the first-hidden layer in the two-layer networks is sufficiently large (polynomially), then AdaLoss converges robustly to the global minimum in polynomial time. We numerically verify the theoretical results and extend the scope of the numerical experiments by considering applications in LSTM models for text clarification and policy gradients for control problems.",
       "summary": "",
       "url": "../papers/2109_08282/",
       "treeUrl": "../tree/#paper=2109_08282",
@@ -58323,7 +58230,7 @@ window.timelineData = {
         "Calibrating Predictions to Decisions: A Novel Approach to Multi-Class Calibration"
       ],
       "tags": [],
-      "abstract": "When facing uncertainty, decision-makers want predictions they can trust. A machine learning provider can convey confidence to decision-makers by guaranteeing their predictions are distribution calibrated -- amongst the inputs that receive a predicted class probabilities vector $q$, the actual distribution over classes is $q$. For multi-class prediction problems, however, achieving distribution calibration tends to be infeasible, requiring sample complexity exponential in the number of classes $C$. In this work, we introduce a new notion -- \\emph{decision calibration} -- that requires the predicted distribution and true distribution to be ``indistinguishable'' to a set of downstream decision-makers. When all possible decision makers are under consideration, decision calibration is the same as distribution calibration. However, when we only consider decision makers choosing between a bounded number of actions (e.g. polynomial in $C$), our main result shows that decisions calibration becomes feasible -- we design a recalibration algorithm that requires sample complexity polynomial in the number of actions and the number of classes. We validate our recalibration algorithm empirically: compared to existing methods, decision calibration improves decision-making on skin lesion and ImageNet classification with modern neural network predictors.",
+      "abstract": "When facing uncertainty, decision-makers want predictions they can trust. A machine learning provider can convey confidence to decision-makers by guaranteeing their predictions are distribution calibrated - amongst the inputs that receive a predicted class probabilities vector q, the actual distribution over classes is q. For multi-class prediction problems, however, achieving distribution calibration tends to be infeasible, requiring sample complexity exponential in the number of classes C. In this work, we introduce a new notion - decision calibration - that requires the predicted distribution and true distribution to be ``indistinguishable'' to a set of downstream decision-makers. When all possible decision makers are under consideration, decision calibration is the same as distribution calibration. However, when we only consider decision makers choosing between a bounded number of actions (e.g. polynomial in C), our main result shows that decisions calibration becomes feasible - we design a recalibration algorithm that requires sample complexity polynomial in the number of actions and the number of classes. We validate our recalibration algorithm empirically: compared to existing methods, decision calibration improves decision-making on skin lesion and ImageNet classification with modern neural network predictors.",
       "summary": "",
       "url": "../papers/2107_05719/",
       "treeUrl": "../tree/#paper=2107_05719",
@@ -58363,9 +58270,10 @@ window.timelineData = {
         "Gradient descent",
         "Stability analysis",
         "Neural networks",
-        "Optimization"
+        "Optimization",
+        "Edge of stability"
       ],
-      "abstract": "We empirically demonstrate that full-batch gradient descent on neural network training objectives typically operates in a regime we call the Edge of Stability. In this regime, the maximum eigenvalue of the training loss Hessian hovers just above the numerical value $2 / \\text{(step size)}$, and the training loss behaves non-monotonically over short timescales, yet consistently decreases over long timescales. Since this behavior is inconsistent with several widespread presumptions in the field of optimization, our findings raise questions as to whether these presumptions are relevant to neural network training. We hope that our findings will inspire future efforts aimed at rigorously understanding optimization at the Edge of Stability. Code is available at https://github.com/locuslab/edge-of-stability.",
+      "abstract": "We empirically demonstrate that full-batch gradient descent on neural network training objectives typically operates in a regime we call the Edge of Stability. In this regime, the maximum eigenvalue of the training loss Hessian hovers just above the numerical value 2 / (step size), and the training loss behaves non-monotonically over short timescales, yet consistently decreases over long timescales. Since this behavior is inconsistent with several widespread presumptions in the field of optimization, our findings raise questions as to whether these presumptions are relevant to neural network training. We hope that our findings will inspire future efforts aimed at rigorously understanding optimization at the Edge of Stability. Code is available at https://github.com/locuslab/edge-of-stability.",
       "summary": "",
       "url": "../papers/2103_00065/",
       "treeUrl": "../tree/#paper=2103_00065",
@@ -58944,7 +58852,7 @@ window.timelineData = {
         "LoRA",
         "Language models"
       ],
-      "abstract": "An important paradigm of natural language processing consists of large-scale pre-training on general domain data and adaptation to particular tasks or domains. As we pre-train larger models, full fine-tuning, which retrains all model parameters, becomes less feasible. Using GPT-3 175B as an example -- deploying independent instances of fine-tuned models, each with 175B parameters, is prohibitively expensive. We propose Low-Rank Adaptation, or LoRA, which freezes the pre-trained model weights and injects trainable rank decomposition matrices into each layer of the Transformer architecture, greatly reducing the number of trainable parameters for downstream tasks. Compared to GPT-3 175B fine-tuned with Adam, LoRA can reduce the number of trainable parameters by 10,000 times and the GPU memory requirement by 3 times. LoRA performs on-par or better than fine-tuning in model quality on RoBERTa, DeBERTa, GPT-2, and GPT-3, despite having fewer trainable parameters, a higher training throughput, and, unlike adapters, no additional inference latency. We also provide an empirical investigation into rank-deficiency in language model adaptation, which sheds light on the efficacy of LoRA. We release a package that facilitates the integration of LoRA with PyTorch models and provide our implementations and model checkpoints for RoBERTa, DeBERTa, and GPT-2 at https://github.com/microsoft/LoRA.",
+      "abstract": "An important paradigm of natural language processing consists of large-scale pre-training on general domain data and adaptation to particular tasks or domains. As we pre-train larger models, full fine-tuning, which retrains all model parameters, becomes less feasible. Using GPT-3 175B as an example - deploying independent instances of fine-tuned models, each with 175B parameters, is prohibitively expensive. We propose Low-Rank Adaptation, or LoRA, which freezes the pre-trained model weights and injects trainable rank decomposition matrices into each layer of the Transformer architecture, greatly reducing the number of trainable parameters for downstream tasks. Compared to GPT-3 175B fine-tuned with Adam, LoRA can reduce the number of trainable parameters by 10,000 times and the GPU memory requirement by 3 times. LoRA performs on-par or better than fine-tuning in model quality on RoBERTa, DeBERTa, GPT-2, and GPT-3, despite having fewer trainable parameters, a higher training throughput, and, unlike adapters, no additional inference latency. We also provide an empirical investigation into rank-deficiency in language model adaptation, which sheds light on the efficacy of LoRA. We release a package that facilitates the integration of LoRA with PyTorch models and provide our implementations and model checkpoints for RoBERTa, DeBERTa, and GPT-2 at https://github.com/microsoft/LoRA.",
       "summary": "",
       "url": "../papers/2106_09685/",
       "treeUrl": "../tree/#paper=2106_09685",
@@ -59441,7 +59349,7 @@ window.timelineData = {
         "Neural Networks with Physics-Informed Architectures and Constraints for Dynamical Systems Modeling"
       ],
       "tags": [],
-      "abstract": "Effective inclusion of physics-based knowledge into deep neural network models of dynamical systems can greatly improve data efficiency and generalization. Such a-priori knowledge might arise from physical principles (e.g., conservation laws) or from the system's design (e.g., the Jacobian matrix of a robot), even if large portions of the system dynamics remain unknown. We develop a framework to learn dynamics models from trajectory data while incorporating a-priori system knowledge as inductive bias. More specifically, the proposed framework uses physics-based side information to inform the structure of the neural network itself, and to place constraints on the values of the outputs and the internal states of the model. It represents the system's vector field as a composition of known and unknown functions, the latter of which are parametrized by neural networks. The physics-informed constraints are enforced via the augmented Lagrangian method during the model's training. We experimentally demonstrate the benefits of the proposed approach on a variety of dynamical systems -- including a benchmark suite of robotics environments featuring large state spaces, non-linear dynamics, external forces, contact forces, and control inputs. By exploiting a-priori system knowledge during training, the proposed approach learns to predict the system dynamics two orders of magnitude more accurately than a baseline approach that does not include prior knowledge, given the same training dataset.",
+      "abstract": "Effective inclusion of physics-based knowledge into deep neural network models of dynamical systems can greatly improve data efficiency and generalization. Such a-priori knowledge might arise from physical principles (e.g., conservation laws) or from the system's design (e.g., the Jacobian matrix of a robot), even if large portions of the system dynamics remain unknown. We develop a framework to learn dynamics models from trajectory data while incorporating a-priori system knowledge as inductive bias. More specifically, the proposed framework uses physics-based side information to inform the structure of the neural network itself, and to place constraints on the values of the outputs and the internal states of the model. It represents the system's vector field as a composition of known and unknown functions, the latter of which are parametrized by neural networks. The physics-informed constraints are enforced via the augmented Lagrangian method during the model's training. We experimentally demonstrate the benefits of the proposed approach on a variety of dynamical systems - including a benchmark suite of robotics environments featuring large state spaces, non-linear dynamics, external forces, contact forces, and control inputs. By exploiting a-priori system knowledge during training, the proposed approach learns to predict the system dynamics two orders of magnitude more accurately than a baseline approach that does not include prior knowledge, given the same training dataset.",
       "summary": "",
       "url": "../papers/2109_06407/",
       "treeUrl": "../tree/#paper=2109_06407",
@@ -59473,7 +59381,7 @@ window.timelineData = {
       "tags": [
         "Defeating quicksort"
       ],
-      "abstract": "A new solution for the Dutch national flag problem is proposed, requiring no three-way comparisons, which gives quicksort a proper worst-case runtime of $O(nk)$ for inputs with $k$ distinct elements. This is used together with other known and novel techniques to construct a hybrid sort that is never significantly slower than regular quicksort while speeding up drastically for many input distributions.",
+      "abstract": "A new solution for the Dutch national flag problem is proposed, requiring no three-way comparisons, which gives quicksort a proper worst-case runtime of O(nk) for inputs with k distinct elements. This is used together with other known and novel techniques to construct a hybrid sort that is never significantly slower than regular quicksort while speeding up drastically for many input distributions.",
       "summary": "",
       "url": "../papers/2106_05123/",
       "treeUrl": "../tree/#paper=2106_05123",
@@ -59483,8 +59391,8 @@ window.timelineData = {
     },
     {
       "id": "2106_13281",
-      "label": "Brax -- A Differentiable Physics Engine for Large Scale Rigid Body Simulation",
-      "title": "Brax -- A Differentiable Physics Engine for Large Scale Rigid Body Simulation",
+      "label": "Brax",
+      "title": "Brax: A Differentiable Physics Engine for Large Scale Rigid Body Simulation",
       "authors": [
         "C. Daniel Freeman",
         "Erik Frey",
@@ -59506,7 +59414,7 @@ window.timelineData = {
         "Software & Programming",
         "Machine learning",
         "JAX Ecosystem",
-        "Brax -- A Differentiable Physics Engine for Large Scale Rigid Body Simulation"
+        "Brax"
       ],
       "tags": [],
       "abstract": "We present Brax, an open source library for rigid body simulation with a focus on performance and parallelism on accelerators, written in JAX. We present results on a suite of tasks inspired by the existing reinforcement learning literature, but remade in our engine. Additionally, we provide reimplementations of PPO, SAC, ES, and direct policy optimization in JAX that compile alongside our environments, allowing the learning algorithm and the environment processing to occur on the same device, and to scale seamlessly on accelerators. Finally, we include notebooks that facilitate training of performant policies on common OpenAI Gym MuJoCo-like tasks in minutes.",
@@ -59689,7 +59597,7 @@ window.timelineData = {
         "A Barrier-Based Scenario Approach to Verifying Safety-Critical Systems"
       ],
       "tags": [],
-      "abstract": "We detail an approach to safety-critical verification using barrier functions. Our method requires limited system data to verify a system's ability to keep positive a candidate barrier function <inline-formula><tex-math notation=\"LaTeX\">$h$</tex-math></inline-formula> at discrete-time intervals over its trajectories. Specifically, our method first randomly samples initial conditions and parameters for a controlled, continuous-time system and records the state trajectory at discrete intervals. Then, we evaluate these states under a candidate barrier function <inline-formula><tex-math notation=\"LaTeX\">$h$</tex-math></inline-formula> to determine the constraints for a randomized linear program. The solution to this program provides either a probabilistic verification statement in the aforementioned vein or a counterexample - an instance where the system went unsafe. To showcase our results, we verify the robotarium simulator, identify counterexamples for its hardware counterpart, and experimentally verify the safety of a multi-agent quadrupedal system.",
+      "abstract": "We detail an approach to safety-critical verification using barrier functions. Our method requires limited system data to verify a system's ability to keep positive a candidate barrier function <inline-formula><tex-math notation=\"LaTeX\">h</tex-math></inline-formula> at discrete-time intervals over its trajectories. Specifically, our method first randomly samples initial conditions and parameters for a controlled, continuous-time system and records the state trajectory at discrete intervals. Then, we evaluate these states under a candidate barrier function <inline-formula><tex-math notation=\"LaTeX\">h</tex-math></inline-formula> to determine the constraints for a randomized linear program. The solution to this program provides either a probabilistic verification statement in the aforementioned vein or a counterexample - an instance where the system went unsafe. To showcase our results, we verify the robotarium simulator, identify counterexamples for its hardware counterpart, and experimentally verify the safety of a multi-agent quadrupedal system.",
       "summary": "",
       "url": "../papers/2022_akella_a_barrier_based_scenario/",
       "treeUrl": "../tree/#paper=2022_akella_a_barrier_based_scenario",
@@ -60005,7 +59913,7 @@ window.timelineData = {
         "Attention mechanisms",
         "Control"
       ],
-      "abstract": "Animals move smoothly and reliably in unpredictable environments. Models of sensorimotor control have assumed that sensory information from the environment leads to actions, which then act back on the environment, creating a single, unidirectional perception-action loop. This loop contains internal delays in sensory and motor pathways, which can lead to unstable control. We show here that these delays can be compensated by internal feedback signals that flow backwards, from motor towards sensory areas. Internal feedback is ubiquitous in neural sensorimotor systems and recent advances in control theory show how internal feedback compensates internal delays. This is accomplished by filtering out self-generated and other predictable changes in early sensory areas so that unpredicted, actionable information can be rapidly transmitted toward action by the fastest components. For example, fast, giant neurons are necessarily less accurate than smaller neurons, but they are crucial for fast and accurate behavior. We use a mathematically tractable control model to show that internal feedback has an indispensable role in achieving state estimation, localization of function -- how different parts of cortex control different parts of the body -- and attention, all of which are crucial for effective sensorimotor control. This control model can explain anatomical, physiological and behavioral observations, including motor signals in visual cortex, heterogeneous kinetics of sensory receptors and the presence of giant Betz cells in motor cortex, Meynert cells in visual cortex and giant von Economo cells in the prefrontal cortex of humans as well as internal feedback patterns and unexplained heterogeneity in other neural systems.",
+      "abstract": "Animals move smoothly and reliably in unpredictable environments. Models of sensorimotor control have assumed that sensory information from the environment leads to actions, which then act back on the environment, creating a single, unidirectional perception-action loop. This loop contains internal delays in sensory and motor pathways, which can lead to unstable control. We show here that these delays can be compensated by internal feedback signals that flow backwards, from motor towards sensory areas. Internal feedback is ubiquitous in neural sensorimotor systems and recent advances in control theory show how internal feedback compensates internal delays. This is accomplished by filtering out self-generated and other predictable changes in early sensory areas so that unpredicted, actionable information can be rapidly transmitted toward action by the fastest components. For example, fast, giant neurons are necessarily less accurate than smaller neurons, but they are crucial for fast and accurate behavior. We use a mathematically tractable control model to show that internal feedback has an indispensable role in achieving state estimation, localization of function - how different parts of cortex control different parts of the body - and attention, all of which are crucial for effective sensorimotor control. This control model can explain anatomical, physiological and behavioral observations, including motor signals in visual cortex, heterogeneous kinetics of sensory receptors and the presence of giant Betz cells in motor cortex, Meynert cells in visual cortex and giant von Economo cells in the prefrontal cortex of humans as well as internal feedback patterns and unexplained heterogeneity in other neural systems.",
       "summary": "",
       "url": "../papers/2211_05922/",
       "treeUrl": "../tree/#paper=2211_05922",
@@ -60044,7 +59952,7 @@ window.timelineData = {
         "A Damped Newton Method Achieves Global O(1/k^2) and Local Quadratic Convergence Rate"
       ],
       "tags": [],
-      "abstract": "In this paper, we present the first stepsize schedule for Newton method resulting in fast global and local convergence guarantees. In particular, a) we prove an $O\\left( \\frac 1 {k^2} \\right)$ global rate, which matches the state-of-the-art global rate of cubically regularized Newton method of Polyak and Nesterov (2006) and of regularized Newton method of Mishchenko (2021) and Doikov and Nesterov (2021), b) we prove a local quadratic rate, which matches the best-known local rate of second-order methods, and c) our stepsize formula is simple, explicit, and does not require solving any subproblem. Our convergence proofs hold under affine-invariance assumptions closely related to the notion of self-concordance. Finally, our method has competitive performance when compared to existing baselines, which share the same fast global convergence guarantees.",
+      "abstract": "In this paper, we present the first stepsize schedule for Newton method resulting in fast global and local convergence guarantees. In particular, a) we prove an O( frac 1 k^(2) ) global rate, which matches the state-of-the-art global rate of cubically regularized Newton method of Polyak and Nesterov (2006) and of regularized Newton method of Mishchenko (2021) and Doikov and Nesterov (2021), b) we prove a local quadratic rate, which matches the best-known local rate of second-order methods, and c) our stepsize formula is simple, explicit, and does not require solving any subproblem. Our convergence proofs hold under affine-invariance assumptions closely related to the notion of self-concordance. Finally, our method has competitive performance when compared to existing baselines, which share the same fast global convergence guarantees.",
       "summary": "",
       "url": "../papers/2211_00140/",
       "treeUrl": "../tree/#paper=2211_00140",
@@ -60112,7 +60020,7 @@ window.timelineData = {
         "Flat Minima Generalize for Low-rank Matrix Recovery"
       ],
       "tags": [],
-      "abstract": "Empirical evidence suggests that for a variety of overparameterized nonlinear models, most notably in neural network training, the growth of the loss around a minimizer strongly impacts its performance. Flat minima -- those around which the loss grows slowly -- appear to generalize well. This work takes a step towards understanding this phenomenon by focusing on the simplest class of overparameterized nonlinear models: those arising in low-rank matrix recovery. We analyze overparameterized matrix and bilinear sensing, robust PCA, covariance matrix estimation, and single hidden layer neural networks with quadratic activation functions. In all cases, we show that flat minima, measured by the trace of the Hessian, exactly recover the ground truth under standard statistical assumptions. For matrix completion, we establish weak recovery, although empirical evidence suggests exact recovery holds here as well. We conclude with synthetic experiments that illustrate our findings and discuss the effect of depth on flat solutions.",
+      "abstract": "Empirical evidence suggests that for a variety of overparameterized nonlinear models, most notably in neural network training, the growth of the loss around a minimizer strongly impacts its performance. Flat minima - those around which the loss grows slowly - appear to generalize well. This work takes a step towards understanding this phenomenon by focusing on the simplest class of overparameterized nonlinear models: those arising in low-rank matrix recovery. We analyze overparameterized matrix and bilinear sensing, robust PCA, covariance matrix estimation, and single hidden layer neural networks with quadratic activation functions. In all cases, we show that flat minima, measured by the trace of the Hessian, exactly recover the ground truth under standard statistical assumptions. For matrix completion, we establish weak recovery, although empirical evidence suggests exact recovery holds here as well. We conclude with synthetic experiments that illustrate our findings and discuss the effect of depth on flat solutions.",
       "summary": "",
       "url": "../papers/2203_03756/",
       "treeUrl": "../tree/#paper=2203_03756",
@@ -60148,7 +60056,7 @@ window.timelineData = {
         "Gradient Descent for Low-Rank Functions"
       ],
       "tags": [],
-      "abstract": "Several recent empirical studies demonstrate that important machine learning tasks, e.g., training deep neural networks, exhibit low-rank structure, where the loss function varies significantly in only a few directions of the input space. In this paper, we leverage such low-rank structure to reduce the high computational cost of canonical gradient-based methods such as gradient descent (GD). Our proposed \\emph{Low-Rank Gradient Descent} (LRGD) algorithm finds an $ε$-approximate stationary point of a $p$-dimensional function by first identifying $r \\leq p$ significant directions, and then estimating the true $p$-dimensional gradient at every iteration by computing directional derivatives only along those $r$ directions. We establish that the \"directional oracle complexities\" of LRGD for strongly convex and non-convex objective functions are $\\mathcal{O}(r \\log(1/ε) + rp)$ and $\\mathcal{O}(r/ε^2 + rp)$, respectively. When $r \\ll p$, these complexities are smaller than the known complexities of $\\mathcal{O}(p \\log(1/ε))$ and $\\mathcal{O}(p/ε^2)$ of {\\gd} in the strongly convex and non-convex settings, respectively. Thus, LRGD significantly reduces the computational cost of gradient-based methods for sufficiently low-rank functions. In the course of our analysis, we also formally define and characterize the classes of exact and approximately low-rank functions.",
+      "abstract": "Several recent empirical studies demonstrate that important machine learning tasks, e.g., training deep neural networks, exhibit low-rank structure, where the loss function varies significantly in only a few directions of the input space. In this paper, we leverage such low-rank structure to reduce the high computational cost of canonical gradient-based methods such as gradient descent (GD). Our proposed Low-Rank Gradient Descent (LRGD) algorithm finds an epsilon-approximate stationary point of a p-dimensional function by first identifying r <= p significant directions, and then estimating the true p-dimensional gradient at every iteration by computing directional derivatives only along those r directions. We establish that the \"directional oracle complexities\" of LRGD for strongly convex and non-convex objective functions are O(r log(1/epsilon) + rp) and O(r/epsilon^(2) + rp), respectively. When r ll p, these complexities are smaller than the known complexities of O(p log(1/epsilon)) and O(p/epsilon^(2)) of {\\gd} in the strongly convex and non-convex settings, respectively. Thus, LRGD significantly reduces the computational cost of gradient-based methods for sufficiently low-rank functions. In the course of our analysis, we also formally define and characterize the classes of exact and approximately low-rank functions.",
       "summary": "",
       "url": "../papers/2206_08257/",
       "treeUrl": "../tree/#paper=2206_08257",
@@ -60371,7 +60279,7 @@ window.timelineData = {
       "tags": [
         "Universal regularized Newton method"
       ],
-      "abstract": "We analyze the performance of a variant of Newton method with quadratic regularization for solving composite convex minimization problems. At each step of our method, we choose regularization parameter proportional to a certain power of the gradient norm at the current point. We introduce a family of problem classes characterized by Hölder continuity of either the second or third derivative. Then we present the method with a simple adaptive search procedure allowing an automatic adjustment to the problem class with the best global complexity bounds, without knowing specific parameters of the problem. In particular, for the class of functions with Lipschitz continuous third derivative, we get the global $O(1/k^3)$ rate, which was previously attributed to third-order tensor methods. When the objective function is uniformly convex, we justify an automatic acceleration of our scheme, resulting in a faster global rate and local superlinear convergence. The switching between the different rates (sublinear, linear, and superlinear) is automatic. Again, for that, no a priori knowledge of parameters is needed.",
+      "abstract": "We analyze the performance of a variant of Newton method with quadratic regularization for solving composite convex minimization problems. At each step of our method, we choose regularization parameter proportional to a certain power of the gradient norm at the current point. We introduce a family of problem classes characterized by Hölder continuity of either the second or third derivative. Then we present the method with a simple adaptive search procedure allowing an automatic adjustment to the problem class with the best global complexity bounds, without knowing specific parameters of the problem. In particular, for the class of functions with Lipschitz continuous third derivative, we get the global O(1/k^(3)) rate, which was previously attributed to third-order tensor methods. When the objective function is uniformly convex, we justify an automatic acceleration of our scheme, resulting in a faster global rate and local superlinear convergence. The switching between the different rates (sublinear, linear, and superlinear) is automatic. Again, for that, no a priori knowledge of parameters is needed.",
       "summary": "",
       "url": "../papers/2208_05888/",
       "treeUrl": "../tree/#paper=2208_05888",
@@ -60472,7 +60380,7 @@ window.timelineData = {
       "tags": [
         "Optimization"
       ],
-      "abstract": "In this paper, we revisit the smooth and strongly-convex-strongly-concave minimax optimization problem. Zhang et al. (2021) and Ibrahim et al. (2020) established the lower bound $Ω\\left(\\sqrt{κ_xκ_y} \\log \\frac{1}ε\\right)$ on the number of gradient evaluations required to find an $ε$-accurate solution, where $κ_x$ and $κ_y$ are condition numbers for the strong convexity and strong concavity assumptions. However, the existing state-of-the-art methods do not match this lower bound: algorithms of Lin et al. (2020) and Wang and Li (2020) have gradient evaluation complexity $\\mathcal{O}\\left( \\sqrt{κ_xκ_y}\\log^3\\frac{1}ε\\right)$ and $\\mathcal{O}\\left( \\sqrt{κ_xκ_y}\\log^3 (κ_xκ_y)\\log\\frac{1}ε\\right)$, respectively. We fix this fundamental issue by providing the first algorithm with $\\mathcal{O}\\left(\\sqrt{κ_xκ_y}\\log\\frac{1}ε\\right)$ gradient evaluation complexity. We design our algorithm in three steps: (i) we reformulate the original problem as a minimization problem via the pointwise conjugate function; (ii) we apply a specific variant of the proximal point algorithm to the reformulated problem; (iii) we compute the proximal operator inexactly using the optimal algorithm for operator norm reduction in monotone inclusions.",
+      "abstract": "In this paper, we revisit the smooth and strongly-convex-strongly-concave minimax optimization problem. Zhang et al. (2021) and Ibrahim et al. (2020) established the lower bound Omega(sqrt(kappa_xkappa_y) log frac1epsilon) on the number of gradient evaluations required to find an epsilon-accurate solution, where kappa_x and kappa_y are condition numbers for the strong convexity and strong concavity assumptions. However, the existing state-of-the-art methods do not match this lower bound: algorithms of Lin et al. (2020) and Wang and Li (2020) have gradient evaluation complexity O( sqrt(kappa_xkappa_y)log^(3)frac1epsilon) and O( sqrt(kappa_xkappa_y)log^(3) (kappa_xkappa_y)logfrac1epsilon), respectively. We fix this fundamental issue by providing the first algorithm with O(sqrt(kappa_xkappa_y)logfrac1epsilon) gradient evaluation complexity. We design our algorithm in three steps: (i) we reformulate the original problem as a minimization problem via the pointwise conjugate function; (ii) we apply a specific variant of the proximal point algorithm to the reformulated problem; (iii) we compute the proximal operator inexactly using the optimal algorithm for operator norm reduction in monotone inclusions.",
       "summary": "",
       "url": "../papers/2205_05653/",
       "treeUrl": "../tree/#paper=2205_05653",
@@ -60508,7 +60416,7 @@ window.timelineData = {
       "tags": [
         "ZO-RSN"
       ],
-      "abstract": "Zeroth-order methods have become important tools for solving problems where we have access only to function evaluations. However, the zeroth-order methods only using gradient approximations are $n$ times slower than classical first-order methods for solving n-dimensional problems. To accelerate the convergence rate, this paper proposes the zeroth order randomized subspace Newton (ZO-RSN) method, which estimates projections of the gradient and Hessian by random sketching and finite differences. This allows us to compute the Newton step in a lower dimensional subspace, with small computational costs. We prove that ZO-RSN can attain lower iteration complexity than existing zeroth order methods for strongly convex problems. Our numerical experiments show that ZO-RSN can perform black-box attacks under a more restrictive limit on the number of function queries than the state-of-the-art Hessian-aware zeroth-order method.",
+      "abstract": "Zeroth-order methods have become important tools for solving problems where we have access only to function evaluations. However, the zeroth-order methods only using gradient approximations are n times slower than classical first-order methods for solving n-dimensional problems. To accelerate the convergence rate, this paper proposes the zeroth order randomized subspace Newton (ZO-RSN) method, which estimates projections of the gradient and Hessian by random sketching and finite differences. This allows us to compute the Newton step in a lower dimensional subspace, with small computational costs. We prove that ZO-RSN can attain lower iteration complexity than existing zeroth order methods for strongly convex problems. Our numerical experiments show that ZO-RSN can perform black-box attacks under a more restrictive limit on the number of function queries than the state-of-the-art Hessian-aware zeroth-order method.",
       "summary": "",
       "url": "../papers/2202_04612/",
       "treeUrl": "../tree/#paper=2202_04612",
@@ -60599,7 +60507,7 @@ window.timelineData = {
         "Control",
         "DiffTune"
       ],
-      "abstract": "The performance of robots in high-level tasks depends on the quality of their lower-level controller, which requires fine-tuning. However, the intrinsically nonlinear dynamics and controllers make tuning a challenging task when it is done by hand. In this paper, we present DiffTune, a novel, gradient-based automatic tuning framework. We formulate the controller tuning as a parameter optimization problem. Our method unrolls the dynamical system and controller as a computational graph and updates the controller parameters through gradient-based optimization. The gradient is obtained using sensitivity propagation, which is the only method for gradient computation when tuning for a physical system instead of its simulated counterpart. Furthermore, we use $\\mathcal{L}_1$ adaptive control to compensate for the uncertainties (that unavoidably exist in a physical system) such that the gradient is not biased by the unmodelled uncertainties. We validate the DiffTune on a Dubin's car and a quadrotor in challenging simulation environments. In comparison with state-of-the-art auto-tuning methods, DiffTune achieves the best performance in a more efficient manner owing to its effective usage of the first-order information of the system. Experiments on tuning a nonlinear controller for quadrotor show promising results, where DiffTune achieves 3.5x tracking error reduction on an aggressive trajectory in only 10 trials over a 12-dimensional controller parameter space.",
+      "abstract": "The performance of robots in high-level tasks depends on the quality of their lower-level controller, which requires fine-tuning. However, the intrinsically nonlinear dynamics and controllers make tuning a challenging task when it is done by hand. In this paper, we present DiffTune, a novel, gradient-based automatic tuning framework. We formulate the controller tuning as a parameter optimization problem. Our method unrolls the dynamical system and controller as a computational graph and updates the controller parameters through gradient-based optimization. The gradient is obtained using sensitivity propagation, which is the only method for gradient computation when tuning for a physical system instead of its simulated counterpart. Furthermore, we use L_1 adaptive control to compensate for the uncertainties (that unavoidably exist in a physical system) such that the gradient is not biased by the unmodelled uncertainties. We validate the DiffTune on a Dubin's car and a quadrotor in challenging simulation environments. In comparison with state-of-the-art auto-tuning methods, DiffTune achieves the best performance in a more efficient manner owing to its effective usage of the first-order information of the system. Experiments on tuning a nonlinear controller for quadrotor show promising results, where DiffTune achieves 3.5x tracking error reduction on an aggressive trajectory in only 10 trials over a 12-dimensional controller parameter space.",
       "summary": "",
       "url": "../papers/2209_10021/",
       "treeUrl": "../tree/#paper=2209_10021",
@@ -60686,7 +60594,7 @@ window.timelineData = {
         "PB-MDP",
         "Markov decision process"
       ],
-      "abstract": "Partially observable Markov decision processes (POMDPs) provide a flexible representation for real-world decision and control problems. However, POMDPs are notoriously difficult to solve, especially when the state and observation spaces are continuous or hybrid, which is often the case for physical systems. While recent online sampling-based POMDP algorithms that plan with observation likelihood weighting have shown practical effectiveness, a general theory characterizing the approximation error of the particle filtering techniques that these algorithms use has not previously been proposed. Our main contribution is bounding the error between any POMDP and its corresponding finite sample particle belief MDP (PB-MDP) approximation. This fundamental bridge between PB-MDPs and POMDPs allows us to adapt any sampling-based MDP algorithm to a POMDP by solving the corresponding particle belief MDP, thereby extending the convergence guarantees of the MDP algorithm to the POMDP. Practically, this is implemented by using the particle filter belief transition model as the generative model for the MDP solver. While this requires access to the observation density model from the POMDP, it only increases the transition sampling complexity of the MDP solver by a factor of $\\mathcal{O}(C)$, where $C$ is the number of particles. Thus, when combined with sparse sampling MDP algorithms, this approach can yield algorithms for POMDPs that have no direct theoretical dependence on the size of the state and observation spaces. In addition to our theoretical contribution, we perform five numerical experiments on benchmark POMDPs to demonstrate that a simple MDP algorithm adapted using PB-MDP approximation, Sparse-PFT, achieves performance competitive with other leading continuous observation POMDP solvers.",
+      "abstract": "Partially observable Markov decision processes (POMDPs) provide a flexible representation for real-world decision and control problems. However, POMDPs are notoriously difficult to solve, especially when the state and observation spaces are continuous or hybrid, which is often the case for physical systems. While recent online sampling-based POMDP algorithms that plan with observation likelihood weighting have shown practical effectiveness, a general theory characterizing the approximation error of the particle filtering techniques that these algorithms use has not previously been proposed. Our main contribution is bounding the error between any POMDP and its corresponding finite sample particle belief MDP (PB-MDP) approximation. This fundamental bridge between PB-MDPs and POMDPs allows us to adapt any sampling-based MDP algorithm to a POMDP by solving the corresponding particle belief MDP, thereby extending the convergence guarantees of the MDP algorithm to the POMDP. Practically, this is implemented by using the particle filter belief transition model as the generative model for the MDP solver. While this requires access to the observation density model from the POMDP, it only increases the transition sampling complexity of the MDP solver by a factor of O(C), where C is the number of particles. Thus, when combined with sparse sampling MDP algorithms, this approach can yield algorithms for POMDPs that have no direct theoretical dependence on the size of the state and observation spaces. In addition to our theoretical contribution, we perform five numerical experiments on benchmark POMDPs to demonstrate that a simple MDP algorithm adapted using PB-MDP approximation, Sparse-PFT, achieves performance competitive with other leading continuous observation POMDP solvers.",
       "summary": "",
       "url": "../papers/2210_05015/",
       "treeUrl": "../tree/#paper=2210_05015",
@@ -60764,7 +60672,7 @@ window.timelineData = {
         "When Is Partially Observable Reinforcement Learning Not Scary?"
       ],
       "tags": [],
-      "abstract": "Applications of Reinforcement Learning (RL), in which agents learn to make a sequence of decisions despite lacking complete information about the latent states of the controlled system, that is, they act under partial observability of the states, are ubiquitous. Partially observable RL can be notoriously difficult -- well-known information-theoretic results show that learning partially observable Markov decision processes (POMDPs) requires an exponential number of samples in the worst case. Yet, this does not rule out the existence of large subclasses of POMDPs over which learning is tractable. In this paper we identify such a subclass, which we call weakly revealing POMDPs. This family rules out the pathological instances of POMDPs where observations are uninformative to a degree that makes learning hard. We prove that for weakly revealing POMDPs, a simple algorithm combining optimism and Maximum Likelihood Estimation (MLE) is sufficient to guarantee polynomial sample complexity. To the best of our knowledge, this is the first provably sample-efficient result for learning from interactions in overcomplete POMDPs, where the number of latent states can be larger than the number of observations.",
+      "abstract": "Applications of Reinforcement Learning (RL), in which agents learn to make a sequence of decisions despite lacking complete information about the latent states of the controlled system, that is, they act under partial observability of the states, are ubiquitous. Partially observable RL can be notoriously difficult - well-known information-theoretic results show that learning partially observable Markov decision processes (POMDPs) requires an exponential number of samples in the worst case. Yet, this does not rule out the existence of large subclasses of POMDPs over which learning is tractable. In this paper we identify such a subclass, which we call weakly revealing POMDPs. This family rules out the pathological instances of POMDPs where observations are uninformative to a degree that makes learning hard. We prove that for weakly revealing POMDPs, a simple algorithm combining optimism and Maximum Likelihood Estimation (MLE) is sufficient to guarantee polynomial sample complexity. To the best of our knowledge, this is the first provably sample-efficient result for learning from interactions in overcomplete POMDPs, where the number of latent states can be larger than the number of observations.",
       "summary": "",
       "url": "../papers/2204_08967/",
       "treeUrl": "../tree/#paper=2204_08967",
@@ -61876,7 +61784,7 @@ window.timelineData = {
         "Control",
         "Kalman filter"
       ],
-      "abstract": "This paper presents a multi-layer motion planning and control architecture for autonomous racing, capable of avoiding static obstacles, performing active overtakes, and reaching velocities above 75 $m/s$. The used offline global trajectory generation and the online model predictive controller are highly based on optimization and dynamic models of the vehicle, where the tires and camber effects are represented in an extended version of the basic Pacejka Magic Formula. The proposed single-track model is identified and validated using multi-body motorsport libraries which allow simulating the vehicle dynamics properly, especially useful when real experimental data are missing. The fundamental regularization terms and constraints of the controller are tuned to reduce the rate of change of the inputs while assuring an acceptable velocity and path tracking. The motion planning strategy consists of a Frenét-Frame-based planner which considers a forecast of the opponent produced by a Kalman filter. The planner chooses the collision-free path and velocity profile to be tracked on a 3 seconds horizon to realize different goals such as following and overtaking. The proposed solution has been applied on a Dallara AV-21 racecar and tested at oval race tracks achieving lateral accelerations up to 25 $m/s^{2}$.",
+      "abstract": "This paper presents a multi-layer motion planning and control architecture for autonomous racing, capable of avoiding static obstacles, performing active overtakes, and reaching velocities above 75 m/s. The used offline global trajectory generation and the online model predictive controller are highly based on optimization and dynamic models of the vehicle, where the tires and camber effects are represented in an extended version of the basic Pacejka Magic Formula. The proposed single-track model is identified and validated using multi-body motorsport libraries which allow simulating the vehicle dynamics properly, especially useful when real experimental data are missing. The fundamental regularization terms and constraints of the controller are tuned to reduce the rate of change of the inputs while assuring an acceptable velocity and path tracking. The motion planning strategy consists of a Frenét-Frame-based planner which considers a forecast of the opponent produced by a Kalman filter. The planner chooses the collision-free path and velocity profile to be tracked on a 3 seconds horizon to realize different goals such as following and overtaking. The proposed solution has been applied on a Dallara AV-21 racecar and tested at oval race tracks achieving lateral accelerations up to 25 m/s^(2).",
       "summary": "",
       "url": "../papers/2207_11136/",
       "treeUrl": "../tree/#paper=2207_11136",
@@ -62322,7 +62230,7 @@ window.timelineData = {
         "Learning with Little Mixing"
       ],
       "tags": [],
-      "abstract": "We study square loss in a realizable time-series framework with martingale difference noise. Our main result is a fast rate excess risk bound which shows that whenever a trajectory hypercontractivity condition holds, the risk of the least-squares estimator on dependent data matches the iid rate order-wise after a burn-in time. In comparison, many existing results in learning from dependent data have rates where the effective sample size is deflated by a factor of the mixing-time of the underlying process, even after the burn-in time. Furthermore, our results allow the covariate process to exhibit long range correlations which are substantially weaker than geometric ergodicity. We call this phenomenon learning with little mixing, and present several examples for when it occurs: bounded function classes for which the $L^2$ and $L^{2+ε}$ norms are equivalent, ergodic finite state Markov chains, various parametric models, and a broad family of infinite dimensional $\\ell^2(\\mathbb{N})$ ellipsoids. By instantiating our main result to system identification of nonlinear dynamics with generalized linear model transitions, we obtain a nearly minimax optimal excess risk bound after only a polynomial burn-in time.",
+      "abstract": "We study square loss in a realizable time-series framework with martingale difference noise. Our main result is a fast rate excess risk bound which shows that whenever a trajectory hypercontractivity condition holds, the risk of the least-squares estimator on dependent data matches the iid rate order-wise after a burn-in time. In comparison, many existing results in learning from dependent data have rates where the effective sample size is deflated by a factor of the mixing-time of the underlying process, even after the burn-in time. Furthermore, our results allow the covariate process to exhibit long range correlations which are substantially weaker than geometric ergodicity. We call this phenomenon learning with little mixing, and present several examples for when it occurs: bounded function classes for which the L^(2) and L^(2)+epsilon norms are equivalent, ergodic finite state Markov chains, various parametric models, and a broad family of infinite dimensional ell^(2)(N) ellipsoids. By instantiating our main result to system identification of nonlinear dynamics with generalized linear model transitions, we obtain a nearly minimax optimal excess risk bound after only a polynomial burn-in time.",
       "summary": "",
       "url": "../papers/2206_08269/",
       "treeUrl": "../tree/#paper=2206_08269",
@@ -62463,7 +62371,7 @@ window.timelineData = {
         "Regret Lower Bounds for Learning Linear Quadratic Gaussian Systems"
       ],
       "tags": [],
-      "abstract": "TWe establish regret lower bounds for adaptively controlling an unknown linear Gaussian system with quadratic costs. We combine ideas from experiment design, estimation theory and a perturbation bound of certain information matrices to derive regret lower bounds exhibiting scaling on the order of magnitude $\\sqrt{T}$ in the time horizon $T$. Our bounds accurately capture the role of control-theoretic parameters and we are able to show that systems that are hard to control are also hard to learn to control; when instantiated to state feedback systems we recover the dimensional dependency of earlier work but with improved scaling with system-theoretic constants such as system costs and Gramians. Furthermore, we extend our results to a class of partially observed systems and demonstrate that systems with poor observability structure also are hard to learn to control.",
+      "abstract": "TWe establish regret lower bounds for adaptively controlling an unknown linear Gaussian system with quadratic costs. We combine ideas from experiment design, estimation theory and a perturbation bound of certain information matrices to derive regret lower bounds exhibiting scaling on the order of magnitude sqrt(T) in the time horizon T. Our bounds accurately capture the role of control-theoretic parameters and we are able to show that systems that are hard to control are also hard to learn to control; when instantiated to state feedback systems we recover the dimensional dependency of earlier work but with improved scaling with system-theoretic constants such as system costs and Gramians. Furthermore, we extend our results to a class of partially observed systems and demonstrate that systems with poor observability structure also are hard to learn to control.",
       "summary": "",
       "url": "../papers/2201_01680/",
       "treeUrl": "../tree/#paper=2201_01680",
@@ -62586,7 +62494,7 @@ window.timelineData = {
         "Single Trajectory Nonparametric Learning of Nonlinear Dynamics"
       ],
       "tags": [],
-      "abstract": "Given a single trajectory of a dynamical system, we analyze the performance of the nonparametric least squares estimator (LSE). More precisely, we give nonasymptotic expected $l^2$-distance bounds between the LSE and the true regression function, where expectation is evaluated on a fresh, counterfactual, trajectory. We leverage recently developed information-theoretic methods to establish the optimality of the LSE for nonparametric hypotheses classes in terms of supremum norm metric entropy and a subgaussian parameter. Next, we relate this subgaussian parameter to the stability of the underlying process using notions from dynamical systems theory. When combined, these developments lead to rate-optimal error bounds that scale as $T^{-1/(2+q)}$ for suitably stable processes and hypothesis classes with metric entropy growth of order $δ^{-q}$. Here, $T$ is the length of the observed trajectory, $δ\\in \\mathbb{R}_+$ is the packing granularity and $q\\in (0,2)$ is a complexity term. Finally, we specialize our results to a number of scenarios of practical interest, such as Lipschitz dynamics, generalized linear models, and dynamics described by functions in certain classes of Reproducing Kernel Hilbert Spaces (RKHS).",
+      "abstract": "Given a single trajectory of a dynamical system, we analyze the performance of the nonparametric least squares estimator (LSE). More precisely, we give nonasymptotic expected l^(2)-distance bounds between the LSE and the true regression function, where expectation is evaluated on a fresh, counterfactual, trajectory. We leverage recently developed information-theoretic methods to establish the optimality of the LSE for nonparametric hypotheses classes in terms of supremum norm metric entropy and a subgaussian parameter. Next, we relate this subgaussian parameter to the stability of the underlying process using notions from dynamical systems theory. When combined, these developments lead to rate-optimal error bounds that scale as T^(-1)/(2+q) for suitably stable processes and hypothesis classes with metric entropy growth of order delta^-q. Here, T is the length of the observed trajectory, delta in R_+ is the packing granularity and q in (0, 2) is a complexity term. Finally, we specialize our results to a number of scenarios of practical interest, such as Lipschitz dynamics, generalized linear models, and dynamics described by functions in certain classes of Reproducing Kernel Hilbert Spaces (RKHS).",
       "summary": "",
       "url": "../papers/2202_08311/",
       "treeUrl": "../tree/#paper=2202_08311",
@@ -62916,7 +62824,7 @@ window.timelineData = {
         "Control",
         "Learning"
       ],
-      "abstract": "Differentiable simulators promise faster computation time for reinforcement learning by replacing zeroth-order gradient estimates of a stochastic objective with an estimate based on first-order gradients. However, it is yet unclear what factors decide the performance of the two estimators on complex landscapes that involve long-horizon planning and control on physical systems, despite the crucial relevance of this question for the utility of differentiable simulators. We show that characteristics of certain physical systems, such as stiffness or discontinuities, may compromise the efficacy of the first-order estimator, and analyze this phenomenon through the lens of bias and variance. We additionally propose an $α$-order gradient estimator, with $α\\in [0,1]$, which correctly utilizes exact gradients to combine the efficiency of first-order estimates with the robustness of zero-order methods. We demonstrate the pitfalls of traditional estimators and the advantages of the $α$-order estimator on some numerical examples.",
+      "abstract": "Differentiable simulators promise faster computation time for reinforcement learning by replacing zeroth-order gradient estimates of a stochastic objective with an estimate based on first-order gradients. However, it is yet unclear what factors decide the performance of the two estimators on complex landscapes that involve long-horizon planning and control on physical systems, despite the crucial relevance of this question for the utility of differentiable simulators. We show that characteristics of certain physical systems, such as stiffness or discontinuities, may compromise the efficacy of the first-order estimator, and analyze this phenomenon through the lens of bias and variance. We additionally propose an alpha-order gradient estimator, with alpha in [0, 1], which correctly utilizes exact gradients to combine the efficiency of first-order estimates with the robustness of zero-order methods. We demonstrate the pitfalls of traditional estimators and the advantages of the alpha-order estimator on some numerical examples.",
       "summary": "",
       "url": "../papers/2202_00817/",
       "treeUrl": "../tree/#paper=2202_00817",
@@ -63152,7 +63060,7 @@ window.timelineData = {
         "Sampling",
         "PAGE-PG"
       ],
-      "abstract": "Despite their success, policy gradient methods suffer from high variance of the gradient estimate, which can result in unsatisfactory sample complexity. Recently, numerous variance-reduced extensions of policy gradient methods with provably better sample complexity and competitive numerical performance have been proposed. After a compact survey on some of the main variance-reduced REINFORCE-type methods, we propose ProbAbilistic Gradient Estimation for Policy Gradient (PAGE-PG), a novel loopless variance-reduced policy gradient method based on a probabilistic switch between two types of updates. Our method is inspired by the PAGE estimator for supervised learning and leverages importance sampling to obtain an unbiased gradient estimator. We show that PAGE-PG enjoys a $\\mathcal{O}\\left( ε^{-3} \\right)$ average sample complexity to reach an $ε$-stationary solution, which matches the sample complexity of its most competitive counterparts under the same setting. A numerical evaluation confirms the competitive performance of our method on classical control tasks.",
+      "abstract": "Despite their success, policy gradient methods suffer from high variance of the gradient estimate, which can result in unsatisfactory sample complexity. Recently, numerous variance-reduced extensions of policy gradient methods with provably better sample complexity and competitive numerical performance have been proposed. After a compact survey on some of the main variance-reduced REINFORCE-type methods, we propose ProbAbilistic Gradient Estimation for Policy Gradient (PAGE-PG), a novel loopless variance-reduced policy gradient method based on a probabilistic switch between two types of updates. Our method is inspired by the PAGE estimator for supervised learning and leverages importance sampling to obtain an unbiased gradient estimator. We show that PAGE-PG enjoys a O( epsilon^(-3) ) average sample complexity to reach an epsilon-stationary solution, which matches the sample complexity of its most competitive counterparts under the same setting. A numerical evaluation confirms the competitive performance of our method on classical control tasks.",
       "summary": "",
       "url": "../papers/2202_00308/",
       "treeUrl": "../tree/#paper=2202_00308",
@@ -63405,7 +63313,7 @@ window.timelineData = {
         "TaSIL",
         "Taylor series"
       ],
-      "abstract": "We propose Taylor Series Imitation Learning (TaSIL), a simple augmentation to standard behavior cloning losses in the context of continuous control. TaSIL penalizes deviations in the higher-order Taylor series terms between the learned and expert policies. We show that experts satisfying a notion of $\\textit{incremental input-to-state stability}$ are easy to learn, in the sense that a small TaSIL-augmented imitation loss over expert trajectories guarantees a small imitation loss over trajectories generated by the learned policy. We provide sample-complexity bounds for TaSIL that scale as $\\tilde{\\mathcal{O}}(1/n)$ in the realizable setting, for $n$ the number of expert demonstrations. Finally, we demonstrate experimentally the relationship between the robustness of the expert policy and the order of Taylor expansion required in TaSIL, and compare standard Behavior Cloning, DART, and DAgger with TaSIL-loss-augmented variants. In all cases, we show significant improvement over baselines across a variety of MuJoCo tasks.",
+      "abstract": "We propose Taylor Series Imitation Learning (TaSIL), a simple augmentation to standard behavior cloning losses in the context of continuous control. TaSIL penalizes deviations in the higher-order Taylor series terms between the learned and expert policies. We show that experts satisfying a notion of incremental input-to-state stability are easy to learn, in the sense that a small TaSIL-augmented imitation loss over expert trajectories guarantees a small imitation loss over trajectories generated by the learned policy. We provide sample-complexity bounds for TaSIL that scale as tildeO(1/n) in the realizable setting, for n the number of expert demonstrations. Finally, we demonstrate experimentally the relationship between the robustness of the expert policy and the order of Taylor expansion required in TaSIL, and compare standard Behavior Cloning, DART, and DAgger with TaSIL-loss-augmented variants. In all cases, we show significant improvement over baselines across a variety of MuJoCo tasks.",
       "summary": "",
       "url": "../papers/2205_14812/",
       "treeUrl": "../tree/#paper=2205_14812",
@@ -63497,7 +63405,7 @@ window.timelineData = {
         "Linear quadratic Gaussian",
         "Control theory"
       ],
-      "abstract": "Gradient-based methods have been widely used for system design and optimization in diverse application domains. Recently, there has been a renewed interest in studying theoretical properties of these methods in the context of control and reinforcement learning. This article surveys some of the recent developments on policy optimization, a gradient-based iterative approach for feedback control synthesis, popularized by successes of reinforcement learning. We take an interdisciplinary perspective in our exposition that connects control theory, reinforcement learning, and large-scale optimization. We review a number of recently-developed theoretical results on the optimization landscape, global convergence, and sample complexity of gradient-based methods for various continuous control problems such as the linear quadratic regulator (LQR), $\\mathcal{H}_\\infty$ control, risk-sensitive control, linear quadratic Gaussian (LQG) control, and output feedback synthesis. In conjunction with these optimization results, we also discuss how direct policy optimization handles stability and robustness concerns in learning-based control, two main desiderata in control engineering. We conclude the survey by pointing out several challenges and opportunities at the intersection of learning and control.",
+      "abstract": "Gradient-based methods have been widely used for system design and optimization in diverse application domains. Recently, there has been a renewed interest in studying theoretical properties of these methods in the context of control and reinforcement learning. This article surveys some of the recent developments on policy optimization, a gradient-based iterative approach for feedback control synthesis, popularized by successes of reinforcement learning. We take an interdisciplinary perspective in our exposition that connects control theory, reinforcement learning, and large-scale optimization. We review a number of recently-developed theoretical results on the optimization landscape, global convergence, and sample complexity of gradient-based methods for various continuous control problems such as the linear quadratic regulator (LQR), H_infinity control, risk-sensitive control, linear quadratic Gaussian (LQG) control, and output feedback synthesis. In conjunction with these optimization results, we also discuss how direct policy optimization handles stability and robustness concerns in learning-based control, two main desiderata in control engineering. We conclude the survey by pointing out several challenges and opportunities at the intersection of learning and control.",
       "summary": "",
       "url": "../papers/2210_04810/",
       "treeUrl": "../tree/#paper=2210_04810",
@@ -64054,7 +63962,7 @@ window.timelineData = {
         "Flow matching",
         "Generative model"
       ],
-      "abstract": "We introduce a new paradigm for generative modeling built on Continuous Normalizing Flows (CNFs), allowing us to train CNFs at unprecedented scale. Specifically, we present the notion of Flow Matching (FM), a simulation-free approach for training CNFs based on regressing vector fields of fixed conditional probability paths. Flow Matching is compatible with a general family of Gaussian probability paths for transforming between noise and data samples -- which subsumes existing diffusion paths as specific instances. Interestingly, we find that employing FM with diffusion paths results in a more robust and stable alternative for training diffusion models. Furthermore, Flow Matching opens the door to training CNFs with other, non-diffusion probability paths. An instance of particular interest is using Optimal Transport (OT) displacement interpolation to define the conditional probability paths. These paths are more efficient than diffusion paths, provide faster training and sampling, and result in better generalization. Training CNFs using Flow Matching on ImageNet leads to consistently better performance than alternative diffusion-based methods in terms of both likelihood and sample quality, and allows fast and reliable sample generation using off-the-shelf numerical ODE solvers.",
+      "abstract": "We introduce a new paradigm for generative modeling built on Continuous Normalizing Flows (CNFs), allowing us to train CNFs at unprecedented scale. Specifically, we present the notion of Flow Matching (FM), a simulation-free approach for training CNFs based on regressing vector fields of fixed conditional probability paths. Flow Matching is compatible with a general family of Gaussian probability paths for transforming between noise and data samples - which subsumes existing diffusion paths as specific instances. Interestingly, we find that employing FM with diffusion paths results in a more robust and stable alternative for training diffusion models. Furthermore, Flow Matching opens the door to training CNFs with other, non-diffusion probability paths. An instance of particular interest is using Optimal Transport (OT) displacement interpolation to define the conditional probability paths. These paths are more efficient than diffusion paths, provide faster training and sampling, and result in better generalization. Training CNFs using Flow Matching on ImageNet leads to consistently better performance than alternative diffusion-based methods in terms of both likelihood and sample quality, and allows fast and reliable sample generation using off-the-shelf numerical ODE solvers.",
       "summary": "",
       "url": "../papers/2210_02747/",
       "treeUrl": "../tree/#paper=2210_02747",
@@ -64132,7 +64040,7 @@ window.timelineData = {
         "Ordinary differential equation",
         "Convex function"
       ],
-      "abstract": "We present a flow-based approach to the optimal transport (OT) problem between two continuous distributions $π_0,π_1$ on $\\mathbb{R}^d$, of minimizing a transport cost $\\mathbb{E}[c(X_1-X_0)]$ in the set of couplings $(X_0,X_1)$ whose marginal distributions on $X_0,X_1$ equals $π_0,π_1$, respectively, where $c$ is a cost function. Our method iteratively constructs a sequence of neural ordinary differentiable equations (ODE), each learned by solving a simple unconstrained regression problem, which monotonically reduce the transport cost while automatically preserving the marginal constraints. This yields a monotonic interior approach that traverses inside the set of valid couplings to decrease the transport cost, which distinguishes itself from most existing approaches that enforce the coupling constraints from the outside. The main idea of the method draws from rectified flow, a recent approach that simultaneously decreases the whole family of transport costs induced by convex functions $c$ (and is hence multi-objective in nature), but is not tailored to minimize a specific transport cost. Our method is a single-object variant of rectified flow that guarantees to solve the OT problem for a fixed, user-specified convex cost function $c$.",
+      "abstract": "We present a flow-based approach to the optimal transport (OT) problem between two continuous distributions pi_0, pi_1 on R^(d), of minimizing a transport cost E[c(X_1-X_0)] in the set of couplings (X_0, X_1) whose marginal distributions on X_0, X_1 equals pi_0, pi_1, respectively, where c is a cost function. Our method iteratively constructs a sequence of neural ordinary differentiable equations (ODE), each learned by solving a simple unconstrained regression problem, which monotonically reduce the transport cost while automatically preserving the marginal constraints. This yields a monotonic interior approach that traverses inside the set of valid couplings to decrease the transport cost, which distinguishes itself from most existing approaches that enforce the coupling constraints from the outside. The main idea of the method draws from rectified flow, a recent approach that simultaneously decreases the whole family of transport costs induced by convex functions c (and is hence multi-objective in nature), but is not tailored to minimize a specific transport cost. Our method is a single-object variant of rectified flow that guarantees to solve the OT problem for a fixed, user-specified convex cost function c.",
       "summary": "",
       "url": "../papers/2209_14577/",
       "treeUrl": "../tree/#paper=2209_14577",
@@ -64217,7 +64125,7 @@ window.timelineData = {
         "High bandwidth memory",
         "HBM"
       ],
-      "abstract": "Transformers are slow and memory-hungry on long sequences, since the time and memory complexity of self-attention are quadratic in sequence length. Approximate attention methods have attempted to address this problem by trading off model quality to reduce the compute complexity, but often do not achieve wall-clock speedup. We argue that a missing principle is making attention algorithms IO-aware -- accounting for reads and writes between levels of GPU memory. We propose FlashAttention, an IO-aware exact attention algorithm that uses tiling to reduce the number of memory reads/writes between GPU high bandwidth memory (HBM) and GPU on-chip SRAM. We analyze the IO complexity of FlashAttention, showing that it requires fewer HBM accesses than standard attention, and is optimal for a range of SRAM sizes. We also extend FlashAttention to block-sparse attention, yielding an approximate attention algorithm that is faster than any existing approximate attention method. FlashAttention trains Transformers faster than existing baselines: 15% end-to-end wall-clock speedup on BERT-large (seq. length 512) compared to the MLPerf 1.1 training speed record, 3$\\times$ speedup on GPT-2 (seq. length 1K), and 2.4$\\times$ speedup on long-range arena (seq. length 1K-4K). FlashAttention and block-sparse FlashAttention enable longer context in Transformers, yielding higher quality models (0.7 better perplexity on GPT-2 and 6.4 points of lift on long-document classification) and entirely new capabilities: the first Transformers to achieve better-than-chance performance on the Path-X challenge (seq. length 16K, 61.4% accuracy) and Path-256 (seq. length 64K, 63.1% accuracy).",
+      "abstract": "Transformers are slow and memory-hungry on long sequences, since the time and memory complexity of self-attention are quadratic in sequence length. Approximate attention methods have attempted to address this problem by trading off model quality to reduce the compute complexity, but often do not achieve wall-clock speedup. We argue that a missing principle is making attention algorithms IO-aware - accounting for reads and writes between levels of GPU memory. We propose FlashAttention, an IO-aware exact attention algorithm that uses tiling to reduce the number of memory reads/writes between GPU high bandwidth memory (HBM) and GPU on-chip SRAM. We analyze the IO complexity of FlashAttention, showing that it requires fewer HBM accesses than standard attention, and is optimal for a range of SRAM sizes. We also extend FlashAttention to block-sparse attention, yielding an approximate attention algorithm that is faster than any existing approximate attention method. FlashAttention trains Transformers faster than existing baselines: 15% end-to-end wall-clock speedup on BERT-large (seq. length 512) compared to the MLPerf 1.1 training speed record, 3x speedup on GPT-2 (seq. length 1K), and 2.4x speedup on long-range arena (seq. length 1K-4K). FlashAttention and block-sparse FlashAttention enable longer context in Transformers, yielding higher quality models (0.7 better perplexity on GPT-2 and 6.4 points of lift on long-document classification) and entirely new capabilities: the first Transformers to achieve better-than-chance performance on the Path-X challenge (seq. length 16K, 61.4% accuracy) and Path-256 (seq. length 64K, 63.1% accuracy).",
       "summary": "",
       "url": "../papers/2205_14135/",
       "treeUrl": "../tree/#paper=2205_14135",
@@ -64784,7 +64692,7 @@ window.timelineData = {
         "Linear dynamical system",
         "Dynamical systems"
       ],
-      "abstract": "We introduce the first direct policy search algorithm which provably converges to the globally optimal $\\textit{dynamic}$ filter for the classical problem of predicting the outputs of a linear dynamical system, given noisy, partial observations. Despite the ubiquity of partial observability in practice, theoretical guarantees for direct policy search algorithms, one of the backbones of modern reinforcement learning, have proven difficult to achieve. This is primarily due to the degeneracies which arise when optimizing over filters that maintain internal state. In this paper, we provide a new perspective on this challenging problem based on the notion of $\\textit{informativity}$, which intuitively requires that all components of a filter's internal state are representative of the true state of the underlying dynamical system. We show that informativity overcomes the aforementioned degeneracy. Specifically, we propose a $\\textit{regularizer}$ which explicitly enforces informativity, and establish that gradient descent on this regularized objective - combined with a ``reconditioning step'' - converges to the globally optimal cost a $\\mathcal{O}(1/T)$ rate. Our analysis relies on several new results which may be of independent interest, including a new framework for analyzing non-convex gradient descent via convex reformulation, and novel bounds on the solution to linear Lyapunov equations in terms of (our quantitative measure of) informativity.",
+      "abstract": "We introduce the first direct policy search algorithm which provably converges to the globally optimal dynamic filter for the classical problem of predicting the outputs of a linear dynamical system, given noisy, partial observations. Despite the ubiquity of partial observability in practice, theoretical guarantees for direct policy search algorithms, one of the backbones of modern reinforcement learning, have proven difficult to achieve. This is primarily due to the degeneracies which arise when optimizing over filters that maintain internal state. In this paper, we provide a new perspective on this challenging problem based on the notion of informativity, which intuitively requires that all components of a filter's internal state are representative of the true state of the underlying dynamical system. We show that informativity overcomes the aforementioned degeneracy. Specifically, we propose a regularizer which explicitly enforces informativity, and establish that gradient descent on this regularized objective - combined with a ``reconditioning step'' - converges to the globally optimal cost a O(1/T) rate. Our analysis relies on several new results which may be of independent interest, including a new framework for analyzing non-convex gradient descent via convex reformulation, and novel bounds on the solution to linear Lyapunov equations in terms of (our quantitative measure of) informativity.",
       "summary": "",
       "url": "../papers/2202_11659/",
       "treeUrl": "../tree/#paper=2202_11659",
@@ -64876,7 +64784,7 @@ window.timelineData = {
         "NuScenes",
         "MapTR"
       ],
-      "abstract": "High-definition (HD) map provides abundant and precise environmental information of the driving scene, serving as a fundamental and indispensable component for planning in autonomous driving system. We present MapTR, a structured end-to-end Transformer for efficient online vectorized HD map construction. We propose a unified permutation-equivalent modeling approach, i.e., modeling map element as a point set with a group of equivalent permutations, which accurately describes the shape of map element and stabilizes the learning process. We design a hierarchical query embedding scheme to flexibly encode structured map information and perform hierarchical bipartite matching for map element learning. MapTR achieves the best performance and efficiency with only camera input among existing vectorized map construction approaches on nuScenes dataset. In particular, MapTR-nano runs at real-time inference speed ($25.1$ FPS) on RTX 3090, $8\\times$ faster than the existing state-of-the-art camera-based method while achieving $5.0$ higher mAP. Even compared with the existing state-of-the-art multi-modality method, MapTR-nano achieves $0.7$ higher mAP, and MapTR-tiny achieves $13.5$ higher mAP and $3\\times$ faster inference speed. Abundant qualitative results show that MapTR maintains stable and robust map construction quality in complex and various driving scenes. MapTR is of great application value in autonomous driving. Code and more demos are available at \\url{https://github.com/hustvl/MapTR}.",
+      "abstract": "High-definition (HD) map provides abundant and precise environmental information of the driving scene, serving as a fundamental and indispensable component for planning in autonomous driving system. We present MapTR, a structured end-to-end Transformer for efficient online vectorized HD map construction. We propose a unified permutation-equivalent modeling approach, i.e., modeling map element as a point set with a group of equivalent permutations, which accurately describes the shape of map element and stabilizes the learning process. We design a hierarchical query embedding scheme to flexibly encode structured map information and perform hierarchical bipartite matching for map element learning. MapTR achieves the best performance and efficiency with only camera input among existing vectorized map construction approaches on nuScenes dataset. In particular, MapTR-nano runs at real-time inference speed (25.1 FPS) on RTX 3090, 8x faster than the existing state-of-the-art camera-based method while achieving 5.0 higher mAP. Even compared with the existing state-of-the-art multi-modality method, MapTR-nano achieves 0.7 higher mAP, and MapTR-tiny achieves 13.5 higher mAP and 3x faster inference speed. Abundant qualitative results show that MapTR maintains stable and robust map construction quality in complex and various driving scenes. MapTR is of great application value in autonomous driving. Code and more demos are available at \\url{https://github.com/hustvl/MapTR}.",
       "summary": "Introduces a transformer architecture for online vectorized HD map construction that treats each map element as a point set with equivalent valid permutations. The permutation-equivalent representation, hierarchical query embeddings, and hierarchical bipartite matching make the method better suited to arbitrary map-element shapes while preserving real-time camera-only performance.",
       "url": "../papers/2208_14437/",
       "treeUrl": "../tree/#paper=2208_14437",
@@ -65241,7 +65149,7 @@ window.timelineData = {
         "Friction-Adaptive Stochastic Nonlinear Model Predictive Control for Autonomous Vehicles"
       ],
       "tags": [],
-      "abstract": "This paper addresses the trajectory-tracking problem under uncertain road-surface conditions for autonomous vehicles. We propose a stochastic nonlinear model predictive controller (SNMPC) that learns a tire--road friction model online using standard automotive-grade sensors. Learning the entire tire--road friction model in real time requires driving in the nonlinear, potentially unstable regime of the vehicle dynamics, using a prediction model that may not have fully converged. To handle this, we formulate the tire-friction model learning in a Bayesian framework, and propose two estimators that learn different aspects of the tire--road friction. The estimators output the estimate of the tire-friction model as well as the uncertainty of the estimate, which expresses the confidence in the model for different driving regimes. The SNMPC exploits the uncertainty estimate in its prediction model to take proper action when the uncertainty is large. We validate the approach in an extensive Monte-Carlo study using real vehicle parameters and in CarSim. The results when comparing to various MPC approaches indicate a substantial reduction in constraint violations, as well as a reduction in closed-loop cost. We also demonstrate the real-time feasibility in automotive-grade processors using a dSPACE MicroAutoBox-II rapid prototyping unit, showing a worst-case computation time of roughly 40ms.",
+      "abstract": "This paper addresses the trajectory-tracking problem under uncertain road-surface conditions for autonomous vehicles. We propose a stochastic nonlinear model predictive controller (SNMPC) that learns a tire-road friction model online using standard automotive-grade sensors. Learning the entire tire-road friction model in real time requires driving in the nonlinear, potentially unstable regime of the vehicle dynamics, using a prediction model that may not have fully converged. To handle this, we formulate the tire-friction model learning in a Bayesian framework, and propose two estimators that learn different aspects of the tire-road friction. The estimators output the estimate of the tire-friction model as well as the uncertainty of the estimate, which expresses the confidence in the model for different driving regimes. The SNMPC exploits the uncertainty estimate in its prediction model to take proper action when the uncertainty is large. We validate the approach in an extensive Monte-Carlo study using real vehicle parameters and in CarSim. The results when comparing to various MPC approaches indicate a substantial reduction in constraint violations, as well as a reduction in closed-loop cost. We also demonstrate the real-time feasibility in automotive-grade processors using a dSPACE MicroAutoBox-II rapid prototyping unit, showing a worst-case computation time of roughly 40ms.",
       "summary": "",
       "url": "../papers/2305_03798/",
       "treeUrl": "../tree/#paper=2305_03798",
@@ -65360,7 +65268,7 @@ window.timelineData = {
         "Augmented Lagrangian method",
         "Lagrange multiplier"
       ],
-      "abstract": "For optimal control problems that involve planning and following a trajectory, two degree of freedom (2DOF) controllers are a ubiquitously used control architecture that decomposes the problem into a trajectory generation layer and a feedback control layer. However, despite the broad use and practical success of this layered control architecture, it remains a design choice that must be imposed $a\\ priori$ on the control policy. To address this gap, this paper seeks to initiate a principled study of the design of layered control architectures, with an initial focus on the 2DOF controller. We show that applying the Alternating Direction Method of Multipliers (ADMM) algorithm to solve a strategically rewritten optimal control problem results in solutions that are naturally layered, and composed of a trajectory generation layer and a feedback control layer. Furthermore, these layers are coupled via Lagrange multipliers that ensure dynamic feasibility of the planned trajectory. We instantiate this framework in the context of deterministic and stochastic linear optimal control problems, and show how our approach automatically yields a feedforward/feedback-based control policy that exactly solves the original problem. We then show that the simplicity of the resulting controller structure suggests natural heuristic algorithms for approximately solving nonlinear optimal control problems. We empirically demonstrate improved performance of these layered nonlinear optimal controllers as compared to iLQR, and highlight their flexibility by incorporating both convex and nonconvex constraints.",
+      "abstract": "For optimal control problems that involve planning and following a trajectory, two degree of freedom (2DOF) controllers are a ubiquitously used control architecture that decomposes the problem into a trajectory generation layer and a feedback control layer. However, despite the broad use and practical success of this layered control architecture, it remains a design choice that must be imposed a priori on the control policy. To address this gap, this paper seeks to initiate a principled study of the design of layered control architectures, with an initial focus on the 2DOF controller. We show that applying the Alternating Direction Method of Multipliers (ADMM) algorithm to solve a strategically rewritten optimal control problem results in solutions that are naturally layered, and composed of a trajectory generation layer and a feedback control layer. Furthermore, these layers are coupled via Lagrange multipliers that ensure dynamic feasibility of the planned trajectory. We instantiate this framework in the context of deterministic and stochastic linear optimal control problems, and show how our approach automatically yields a feedforward/feedback-based control policy that exactly solves the original problem. We then show that the simplicity of the resulting controller structure suggests natural heuristic algorithms for approximately solving nonlinear optimal control problems. We empirically demonstrate improved performance of these layered nonlinear optimal controllers as compared to iLQR, and highlight their flexibility by incorporating both convex and nonconvex constraints.",
       "summary": "",
       "url": "../papers/2311_06404/",
       "treeUrl": "../tree/#paper=2311_06404",
@@ -65589,7 +65497,7 @@ window.timelineData = {
         "Acceleration",
         "Stepsize hedging"
       ],
-      "abstract": "Can we accelerate convergence of gradient descent without changing the algorithm -- just by carefully choosing stepsizes? Surprisingly, we show that the answer is yes. Our proposed Silver Stepsize Schedule optimizes strongly convex functions in $k^{\\log_ρ 2} \\approx k^{0.7864}$ iterations, where $ρ=1+\\sqrt{2}$ is the silver ratio and $k$ is the condition number. This is intermediate between the textbook unaccelerated rate $k$ and the accelerated rate $\\sqrt{k}$ due to Nesterov in 1983. The non-strongly convex setting is conceptually identical, and standard black-box reductions imply an analogous accelerated rate $\\varepsilon^{-\\log_ρ 2} \\approx \\varepsilon^{-0.7864}$. We conjecture and provide partial evidence that these rates are optimal among all possible stepsize schedules. The Silver Stepsize Schedule is constructed recursively in a fully explicit way. It is non-monotonic, fractal-like, and approximately periodic of period $k^{\\log_ρ 2}$. This leads to a phase transition in the convergence rate: initially super-exponential (acceleration regime), then exponential (saturation regime).",
+      "abstract": "Can we accelerate convergence of gradient descent without changing the algorithm - just by carefully choosing stepsizes? Surprisingly, we show that the answer is yes. Our proposed Silver Stepsize Schedule optimizes strongly convex functions in k^log_rho 2 approx k^(0).7864 iterations, where rho = 1+sqrt(2) is the silver ratio and k is the condition number. This is intermediate between the textbook unaccelerated rate k and the accelerated rate sqrt(k) due to Nesterov in 1983. The non-strongly convex setting is conceptually identical, and standard black-box reductions imply an analogous accelerated rate epsilon^-log_rho 2 approx epsilon^(-0).7864. We conjecture and provide partial evidence that these rates are optimal among all possible stepsize schedules. The Silver Stepsize Schedule is constructed recursively in a fully explicit way. It is non-monotonic, fractal-like, and approximately periodic of period k^log_rho 2. This leads to a phase transition in the convergence rate: initially super-exponential (acceleration regime), then exponential (saturation regime).",
       "summary": "",
       "url": "../papers/2309_07879/",
       "treeUrl": "../tree/#paper=2309_07879",
@@ -65628,7 +65536,7 @@ window.timelineData = {
         "Optimization",
         "II"
       ],
-      "abstract": "We provide a concise, self-contained proof that the Silver Stepsize Schedule proposed in Part I directly applies to smooth (non-strongly) convex optimization. Specifically, we show that with these stepsizes, gradient descent computes an $ε$-minimizer in $O(ε^{-\\log_ρ 2}) = O(ε^{-0.7864})$ iterations, where $ρ= 1+\\sqrt{2}$ is the silver ratio. This is intermediate between the textbook unaccelerated rate $O(ε^{-1})$ and the accelerated rate $O(ε^{-1/2})$ due to Nesterov in 1983. The Silver Stepsize Schedule is a simple explicit fractal: the $i$-th stepsize is $1+ρ^{v(i)-1}$ where $v(i)$ is the $2$-adic valuation of $i$. The design and analysis are conceptually identical to the strongly convex setting in Part I, but simplify remarkably in this specific setting.",
+      "abstract": "We provide a concise, self-contained proof that the Silver Stepsize Schedule proposed in Part I directly applies to smooth (non-strongly) convex optimization. Specifically, we show that with these stepsizes, gradient descent computes an epsilon-minimizer in O(epsilon^-log_rho 2) = O(epsilon^(-0).7864) iterations, where rho = 1+sqrt(2) is the silver ratio. This is intermediate between the textbook unaccelerated rate O(epsilon^(-1)) and the accelerated rate O(1/sqrt(epsilon)) due to Nesterov in 1983. The Silver Stepsize Schedule is a simple explicit fractal: the i-th stepsize is 1+rho^(v)(i)-1 where v(i) is the 2-adic valuation of i. The design and analysis are conceptually identical to the strongly convex setting in Part I, but simplify remarkably in this specific setting.",
       "summary": "",
       "url": "../papers/2309_16530/",
       "treeUrl": "../tree/#paper=2309_16530",
@@ -65673,7 +65581,7 @@ window.timelineData = {
         "TR",
         "Stationary point"
       ],
-      "abstract": "The trust-region (TR) method is renowned historically for its robustness in nonconvex problems and extraordinary numerical performance, but the study of its performance in convex optimization is somehow limited. This paper complements the existing literature by presenting a universal trust-region method that simultaneously incorporates the quadratic regularization and ball constraint. In particular, we introduce a novel descent property tailored for trust-region-type algorithms, enabling us to unify and streamline the analysis for both convex and nonconvex optimization. Our method exhibits an iteration complexity of $\\tilde O(ε^{-3/2})$ to find an $ε$-approximate second-order stationary point for nonconvex optimization. Meanwhile, the analysis reveals that the universal method attains an $O(ε^{-1/2})$ complexity bound for convex optimization. Finally, we develop an adaptive universal method to address practical implementations. The numerical results show the effectiveness of our method in both nonconvex and convex problems.",
+      "abstract": "The trust-region (TR) method is renowned historically for its robustness in nonconvex problems and extraordinary numerical performance, but the study of its performance in convex optimization is somehow limited. This paper complements the existing literature by presenting a universal trust-region method that simultaneously incorporates the quadratic regularization and ball constraint. In particular, we introduce a novel descent property tailored for trust-region-type algorithms, enabling us to unify and streamline the analysis for both convex and nonconvex optimization. Our method exhibits an iteration complexity of tilde O(epsilon^(-3/2)) to find an epsilon-approximate second-order stationary point for nonconvex optimization. Meanwhile, the analysis reveals that the universal method attains an O(1/sqrt(epsilon)) complexity bound for convex optimization. Finally, we develop an adaptive universal method to address practical implementations. The numerical results show the effectiveness of our method in both nonconvex and convex problems.",
       "summary": "",
       "url": "../papers/2311_11489/",
       "treeUrl": "../tree/#paper=2311_11489",
@@ -65709,7 +65617,7 @@ window.timelineData = {
         "Convergence of Adam under Relaxed Assumptions"
       ],
       "tags": [],
-      "abstract": "In this paper, we provide a rigorous proof of convergence of the Adaptive Moment Estimate (Adam) algorithm for a wide class of optimization objectives. Despite the popularity and efficiency of the Adam algorithm in training deep neural networks, its theoretical properties are not yet fully understood, and existing convergence proofs require unrealistically strong assumptions, such as globally bounded gradients, to show the convergence to stationary points. In this paper, we show that Adam provably converges to $ε$-stationary points with ${O}(ε^{-4})$ gradient complexity under far more realistic conditions. The key to our analysis is a new proof of boundedness of gradients along the optimization trajectory of Adam, under a generalized smoothness assumption according to which the local smoothness (i.e., Hessian norm when it exists) is bounded by a sub-quadratic function of the gradient norm. Moreover, we propose a variance-reduced version of Adam with an accelerated gradient complexity of ${O}(ε^{-3})$.",
+      "abstract": "In this paper, we provide a rigorous proof of convergence of the Adaptive Moment Estimate (Adam) algorithm for a wide class of optimization objectives. Despite the popularity and efficiency of the Adam algorithm in training deep neural networks, its theoretical properties are not yet fully understood, and existing convergence proofs require unrealistically strong assumptions, such as globally bounded gradients, to show the convergence to stationary points. In this paper, we show that Adam provably converges to epsilon-stationary points with O(epsilon^(-4)) gradient complexity under far more realistic conditions. The key to our analysis is a new proof of boundedness of gradients along the optimization trajectory of Adam, under a generalized smoothness assumption according to which the local smoothness (i.e., Hessian norm when it exists) is bounded by a sub-quadratic function of the gradient norm. Moreover, we propose a variance-reduced version of Adam with an accelerated gradient complexity of O(epsilon^(-3)).",
       "summary": "",
       "url": "../papers/2304_13972/",
       "treeUrl": "../tree/#paper=2304_13972",
@@ -65782,7 +65690,7 @@ window.timelineData = {
         "Distributionally Robust Optimization with Bias and Variance Reduction"
       ],
       "tags": [],
-      "abstract": "We consider the distributionally robust optimization (DRO) problem with spectral risk-based uncertainty set and $f$-divergence penalty. This formulation includes common risk-sensitive learning objectives such as regularized condition value-at-risk (CVaR) and average top-$k$ loss. We present Prospect, a stochastic gradient-based algorithm that only requires tuning a single learning rate hyperparameter, and prove that it enjoys linear convergence for smooth regularized losses. This contrasts with previous algorithms that either require tuning multiple hyperparameters or potentially fail to converge due to biased gradient estimates or inadequate regularization. Empirically, we show that Prospect can converge 2-3$\\times$ faster than baselines such as stochastic gradient and stochastic saddle-point methods on distribution shift and fairness benchmarks spanning tabular, vision, and language domains.",
+      "abstract": "We consider the distributionally robust optimization (DRO) problem with spectral risk-based uncertainty set and f-divergence penalty. This formulation includes common risk-sensitive learning objectives such as regularized condition value-at-risk (CVaR) and average top-k loss. We present Prospect, a stochastic gradient-based algorithm that only requires tuning a single learning rate hyperparameter, and prove that it enjoys linear convergence for smooth regularized losses. This contrasts with previous algorithms that either require tuning multiple hyperparameters or potentially fail to converge due to biased gradient estimates or inadequate regularization. Empirically, we show that Prospect can converge 2-3x faster than baselines such as stochastic gradient and stochastic saddle-point methods on distribution shift and fairness benchmarks spanning tabular, vision, and language domains.",
       "summary": "",
       "url": "../papers/2310_13863/",
       "treeUrl": "../tree/#paper=2310_13863",
@@ -65962,7 +65870,7 @@ window.timelineData = {
         "Low-Rank Gradient Descent"
       ],
       "tags": [],
-      "abstract": "Several recent empirical studies demonstrate that important machine learning tasks such as training deep neural networks, exhibit a low-rank structure, where most of the variation in the loss function occurs only in a few directions of the input space. In this paper, we leverage such low-rank structure to reduce the high computational cost of canonical gradient-based methods such as gradient descent (GD). Our proposed Low-Rank Gradient Descent (LRGD) algorithm finds an $\\epsilon$ -approximate stationary point of a p-dimensional function by first identifying $r ≤ p$ significant directions, and then estimating the true p-dimensional gradient at every iteration by computing directional derivatives only along those r directions. We establish that the “directional oracle complexities” of LRGD for strongly convex and non-convex objective functions are $\\mathcal{O}(r\\ {\\rm{log}}(1/\\epsilon) + rp)$ and $\\mathcal{O}(r/\\epsilon^2 + rp)$ , respectively. Therefore, when $r\\ll p$ , LRGD provides significant improvement over the known complexities of $\\mathcal{O}(p\\ \\rm{log}(1/\\epsilon)$ ) and $\\mathcal{O}(p/\\epsilon^2)$ of GD in the strongly convex and non-convex settings, respectively. Furthermore, we formally characterize the classes of exactly and approximately low-rank functions. Empirically, using real and synthetic data, LRGD provides significant gains over GD when the data has low-rank structure, and in the absence of such structure, LRGD does not degrade performance compared to GD. This suggests that LRGD could be used in practice in any setting in place of GD.",
+      "abstract": "Several recent empirical studies demonstrate that important machine learning tasks such as training deep neural networks, exhibit a low-rank structure, where most of the variation in the loss function occurs only in a few directions of the input space. In this paper, we leverage such low-rank structure to reduce the high computational cost of canonical gradient-based methods such as gradient descent (GD). Our proposed Low-Rank Gradient Descent (LRGD) algorithm finds an epsilon -approximate stationary point of a p-dimensional function by first identifying r ≤ p significant directions, and then estimating the true p-dimensional gradient at every iteration by computing directional derivatives only along those r directions. We establish that the “directional oracle complexities” of LRGD for strongly convex and non-convex objective functions are O(r {rmlog}(1/epsilon) + rp) and O(r/epsilon^(2) + rp), respectively. Therefore, when rll p, LRGD provides significant improvement over the known complexities of O(p rmlog(1/epsilon) ) and O(p/epsilon^(2)) of GD in the strongly convex and non-convex settings, respectively. Furthermore, we formally characterize the classes of exactly and approximately low-rank functions. Empirically, using real and synthetic data, LRGD provides significant gains over GD when the data has low-rank structure, and in the absence of such structure, LRGD does not degrade performance compared to GD. This suggests that LRGD could be used in practice in any setting in place of GD.",
       "summary": "",
       "url": "../papers/2023_cosson_low_rank_gradient_descent/",
       "treeUrl": "../tree/#paper=2023_cosson_low_rank_gradient_descent",
@@ -66029,7 +65937,7 @@ window.timelineData = {
         "Ordered Risk Minimization: Learning More from Less Data"
       ],
       "tags": [],
-      "abstract": "We consider the worst-case expectation of a permutation invariant ambiguity set of discrete distributions as a proxy-cost for data-driven expected risk minimization. For this framework, we coin the term ordered risk minimization to highlight how results from order statistics inspired the proxy-cost. Specifically, we show how such costs serve as point-wise high-confidence upper bounds of the expected risk. The confidence level can be determined tightly for any sample size. Conversely we also illustrate how to calibrate the size of the ambiguity set such that the high-confidence upper bound has some user specified confidence. This calibration procedure notably supports $ϕ$-divergence based ambiguity sets. Numerical experiments then illustrate how the resulting scheme both generalizes better and is less sensitive to tuning parameters compared to the empirical risk minimization approach.",
+      "abstract": "We consider the worst-case expectation of a permutation invariant ambiguity set of discrete distributions as a proxy-cost for data-driven expected risk minimization. For this framework, we coin the term ordered risk minimization to highlight how results from order statistics inspired the proxy-cost. Specifically, we show how such costs serve as point-wise high-confidence upper bounds of the expected risk. The confidence level can be determined tightly for any sample size. Conversely we also illustrate how to calibrate the size of the ambiguity set such that the high-confidence upper bound has some user specified confidence. This calibration procedure notably supports ϕ-divergence based ambiguity sets. Numerical experiments then illustrate how the resulting scheme both generalizes better and is less sensitive to tuning parameters compared to the empirical risk minimization approach.",
       "summary": "",
       "url": "../papers/2303_09196/",
       "treeUrl": "../tree/#paper=2303_09196",
@@ -66135,7 +66043,7 @@ window.timelineData = {
         "Disciplined Saddle Programming"
       ],
       "tags": [],
-      "abstract": "We consider convex-concave saddle point problems, and more generally convex optimization problems we refer to as $\\textit{saddle problems}$, which include the partial supremum or infimum of convex-concave saddle functions. Saddle problems arise in a wide range of applications, including game theory, machine learning, and finance. It is well known that a saddle problem can be reduced to a single convex optimization problem by dualizing either the convex (min) or concave (max) objectives, reducing a min-max problem into a min-min (or max-max) problem. Carrying out this conversion by hand can be tedious and error prone. In this paper we introduce $\\textit{disciplined saddle programming}$ (DSP), a domain specific language (DSL) for specifying saddle problems, for which the dualizing trick can be automated. The language and methods are based on recent work by Juditsky and Nemirovski arXiv:2102.01002 [math.OC], who developed the idea of conic-representable saddle point programs, and showed how to carry out the required dualization automatically using conic duality. Juditsky and Nemirovski's conic representation of saddle problems extends Nesterov and Nemirovski's earlier development of conic representable convex problems; DSP can be thought of as extending disciplined convex programming (DCP) to saddle problems. Just as DCP makes it easy for users to formulate and solve complex convex problems, DSP allows users to easily formulate and solve saddle problems. Our method is implemented in an open-source package, also called DSP.",
+      "abstract": "We consider convex-concave saddle point problems, and more generally convex optimization problems we refer to as saddle problems, which include the partial supremum or infimum of convex-concave saddle functions. Saddle problems arise in a wide range of applications, including game theory, machine learning, and finance. It is well known that a saddle problem can be reduced to a single convex optimization problem by dualizing either the convex (min) or concave (max) objectives, reducing a min-max problem into a min-min (or max-max) problem. Carrying out this conversion by hand can be tedious and error prone. In this paper we introduce disciplined saddle programming (DSP), a domain specific language (DSL) for specifying saddle problems, for which the dualizing trick can be automated. The language and methods are based on recent work by Juditsky and Nemirovski arXiv:2102.01002 [math.OC], who developed the idea of conic-representable saddle point programs, and showed how to carry out the required dualization automatically using conic duality. Juditsky and Nemirovski's conic representation of saddle problems extends Nesterov and Nemirovski's earlier development of conic representable convex problems; DSP can be thought of as extending disciplined convex programming (DCP) to saddle problems. Just as DCP makes it easy for users to formulate and solve complex convex problems, DSP allows users to easily formulate and solve saddle problems. Our method is implemented in an open-source package, also called DSP.",
       "summary": "",
       "url": "../papers/2301_13427/",
       "treeUrl": "../tree/#paper=2301_13427",
@@ -67989,7 +67897,7 @@ window.timelineData = {
         "Propose tree policy planning",
         "Markov decision process"
       ],
-      "abstract": "Autonomous vehicles (AVs) need to reason about the multimodal behavior of neighboring agents while planning their own motion. Many existing trajectory planners seek a single trajectory that performs well under \\emph{all} plausible futures simultaneously, ignoring bi-directional interactions and thus leading to overly conservative plans. Policy planning, whereby the ego agent plans a policy that reacts to the environment's multimodal behavior, is a promising direction as it can account for the action-reaction interactions between the AV and the environment. However, most existing policy planners do not scale to the complexity of real autonomous vehicle applications: they are either not compatible with modern deep learning prediction models, not interpretable, or not able to generate high quality trajectories. To fill this gap, we propose Tree Policy Planning (TPP), a policy planner that is compatible with state-of-the-art deep learning prediction models, generates multistage motion plans, and accounts for the influence of ego agent on the environment behavior. The key idea of TPP is to reduce the continuous optimization problem into a tractable discrete Markov Decision Process (MDP) through the construction of two tree structures: an ego trajectory tree for ego trajectory options, and a scenario tree for multi-modal ego-conditioned environment predictions. We demonstrate the efficacy of TPP in closed-loop simulations based on real-world nuScenes dataset and results show that TPP scales to realistic AV scenarios and significantly outperforms non-policy baselines.",
+      "abstract": "Autonomous vehicles (AVs) need to reason about the multimodal behavior of neighboring agents while planning their own motion. Many existing trajectory planners seek a single trajectory that performs well under all plausible futures simultaneously, ignoring bi-directional interactions and thus leading to overly conservative plans. Policy planning, whereby the ego agent plans a policy that reacts to the environment's multimodal behavior, is a promising direction as it can account for the action-reaction interactions between the AV and the environment. However, most existing policy planners do not scale to the complexity of real autonomous vehicle applications: they are either not compatible with modern deep learning prediction models, not interpretable, or not able to generate high quality trajectories. To fill this gap, we propose Tree Policy Planning (TPP), a policy planner that is compatible with state-of-the-art deep learning prediction models, generates multistage motion plans, and accounts for the influence of ego agent on the environment behavior. The key idea of TPP is to reduce the continuous optimization problem into a tractable discrete Markov Decision Process (MDP) through the construction of two tree structures: an ego trajectory tree for ego trajectory options, and a scenario tree for multi-modal ego-conditioned environment predictions. We demonstrate the efficacy of TPP in closed-loop simulations based on real-world nuScenes dataset and results show that TPP scales to realistic AV scenarios and significantly outperforms non-policy baselines.",
       "summary": "",
       "url": "../papers/2301_11902/",
       "treeUrl": "../tree/#paper=2301_11902",
@@ -68047,7 +67955,7 @@ window.timelineData = {
         "Learning Agile Soccer Skills for a Bipedal Robot with Deep Reinforcement Learning"
       ],
       "tags": [],
-      "abstract": "We investigate whether Deep Reinforcement Learning (Deep RL) is able to synthesize sophisticated and safe movement skills for a low-cost, miniature humanoid robot that can be composed into complex behavioral strategies in dynamic environments. We used Deep RL to train a humanoid robot with 20 actuated joints to play a simplified one-versus-one (1v1) soccer game. The resulting agent exhibits robust and dynamic movement skills such as rapid fall recovery, walking, turning, kicking and more; and it transitions between them in a smooth, stable, and efficient manner. The agent's locomotion and tactical behavior adapts to specific game contexts in a way that would be impractical to manually design. The agent also developed a basic strategic understanding of the game, and learned, for instance, to anticipate ball movements and to block opponent shots. Our agent was trained in simulation and transferred to real robots zero-shot. We found that a combination of sufficiently high-frequency control, targeted dynamics randomization, and perturbations during training in simulation enabled good-quality transfer. Although the robots are inherently fragile, basic regularization of the behavior during training led the robots to learn safe and effective movements while still performing in a dynamic and agile way -- well beyond what is intuitively expected from the robot. Indeed, in experiments, they walked 181% faster, turned 302% faster, took 63% less time to get up, and kicked a ball 34% faster than a scripted baseline, while efficiently combining the skills to achieve the longer term objectives.",
+      "abstract": "We investigate whether Deep Reinforcement Learning (Deep RL) is able to synthesize sophisticated and safe movement skills for a low-cost, miniature humanoid robot that can be composed into complex behavioral strategies in dynamic environments. We used Deep RL to train a humanoid robot with 20 actuated joints to play a simplified one-versus-one (1v1) soccer game. The resulting agent exhibits robust and dynamic movement skills such as rapid fall recovery, walking, turning, kicking and more; and it transitions between them in a smooth, stable, and efficient manner. The agent's locomotion and tactical behavior adapts to specific game contexts in a way that would be impractical to manually design. The agent also developed a basic strategic understanding of the game, and learned, for instance, to anticipate ball movements and to block opponent shots. Our agent was trained in simulation and transferred to real robots zero-shot. We found that a combination of sufficiently high-frequency control, targeted dynamics randomization, and perturbations during training in simulation enabled good-quality transfer. Although the robots are inherently fragile, basic regularization of the behavior during training led the robots to learn safe and effective movements while still performing in a dynamic and agile way - well beyond what is intuitively expected from the robot. Indeed, in experiments, they walked 181% faster, turned 302% faster, took 63% less time to get up, and kicked a ball 34% faster than a scripted baseline, while efficiently combining the skills to achieve the longer term objectives.",
       "summary": "",
       "url": "../papers/2304_13653/",
       "treeUrl": "../tree/#paper=2304_13653",
@@ -68302,7 +68210,7 @@ window.timelineData = {
         "Is Inverse Reinforcement Learning Harder than Standard Reinforcement Learning? A Theoretical Perspective"
       ],
       "tags": [],
-      "abstract": "Inverse Reinforcement Learning (IRL) -- the problem of learning reward functions from demonstrations of an \\emph{expert policy} -- plays a critical role in developing intelligent systems. While widely used in applications, theoretical understandings of IRL present unique challenges and remain less developed compared with standard RL. For example, it remains open how to do IRL efficiently in standard \\emph{offline} settings with pre-collected data, where states are obtained from a \\emph{behavior policy} (which could be the expert policy itself), and actions are sampled from the expert policy. This paper provides the first line of results for efficient IRL in vanilla offline and online settings using polynomial samples and runtime. Our algorithms and analyses seamlessly adapt the pessimism principle commonly used in offline RL, and achieve IRL guarantees in stronger metrics than considered in existing work. We provide lower bounds showing that our sample complexities are nearly optimal. As an application, we also show that the learned rewards can \\emph{transfer} to another target MDP with suitable guarantees when the target MDP satisfies certain similarity assumptions with the original (source) MDP.",
+      "abstract": "Inverse Reinforcement Learning (IRL) - the problem of learning reward functions from demonstrations of an expert policy - plays a critical role in developing intelligent systems. While widely used in applications, theoretical understandings of IRL present unique challenges and remain less developed compared with standard RL. For example, it remains open how to do IRL efficiently in standard offline settings with pre-collected data, where states are obtained from a behavior policy (which could be the expert policy itself), and actions are sampled from the expert policy. This paper provides the first line of results for efficient IRL in vanilla offline and online settings using polynomial samples and runtime. Our algorithms and analyses seamlessly adapt the pessimism principle commonly used in offline RL, and achieve IRL guarantees in stronger metrics than considered in existing work. We provide lower bounds showing that our sample complexities are nearly optimal. As an application, we also show that the learned rewards can transfer to another target MDP with suitable guarantees when the target MDP satisfies certain similarity assumptions with the original (source) MDP.",
       "summary": "",
       "url": "../papers/2312_00054/",
       "treeUrl": "../tree/#paper=2312_00054",
@@ -68486,7 +68394,7 @@ window.timelineData = {
         "The Fundamental Limitations of Learning Linear-Quadratic Regulators"
       ],
       "tags": [],
-      "abstract": "We present a local minimax lower bound on the excess cost of designing a linear-quadratic controller from offline data. The bound is valid for any offline exploration policy that consists of a stabilizing controller and an energy bounded exploratory input. The derivation leverages a relaxation of the minimax estimation problem to Bayesian estimation, and an application of Van Trees' inequality. We show that the bound aligns with system-theoretic intuition. In particular, we demonstrate that the lower bound increases when the optimal control objective value increases. We also show that the lower bound increases when the system is poorly excitable, as characterized by the spectrum of the controllability gramian of the system mapping the noise to the state and the $\\mathcal{H}_\\infty$ norm of the system mapping the input to the state. We further show that for some classes of systems, the lower bound may be exponential in the state dimension, demonstrating exponential sample complexity for learning the linear-quadratic regulator offline.",
+      "abstract": "We present a local minimax lower bound on the excess cost of designing a linear-quadratic controller from offline data. The bound is valid for any offline exploration policy that consists of a stabilizing controller and an energy bounded exploratory input. The derivation leverages a relaxation of the minimax estimation problem to Bayesian estimation, and an application of Van Trees' inequality. We show that the bound aligns with system-theoretic intuition. In particular, we demonstrate that the lower bound increases when the optimal control objective value increases. We also show that the lower bound increases when the system is poorly excitable, as characterized by the spectrum of the controllability gramian of the system mapping the noise to the state and the H_infinity norm of the system mapping the input to the state. We further show that for some classes of systems, the lower bound may be exponential in the state dimension, demonstrating exponential sample complexity for learning the linear-quadratic regulator offline.",
       "summary": "",
       "url": "../papers/2303_15637/",
       "treeUrl": "../tree/#paper=2303_15637",
@@ -68522,7 +68430,7 @@ window.timelineData = {
         "The Noise Level in Linear Regression with Dependent Data"
       ],
       "tags": [],
-      "abstract": "We derive upper bounds for random design linear regression with dependent ($β$-mixing) data absent any realizability assumptions. In contrast to the strictly realizable martingale noise regime, no sharp instance-optimal non-asymptotics are available in the literature. Up to constant factors, our analysis correctly recovers the variance term predicted by the Central Limit Theorem -- the noise level of the problem -- and thus exhibits graceful degradation as we introduce misspecification. Past a burn-in, our result is sharp in the moderate deviations regime, and in particular does not inflate the leading order term by mixing time factors.",
+      "abstract": "We derive upper bounds for random design linear regression with dependent (beta-mixing) data absent any realizability assumptions. In contrast to the strictly realizable martingale noise regime, no sharp instance-optimal non-asymptotics are available in the literature. Up to constant factors, our analysis correctly recovers the variance term predicted by the Central Limit Theorem - the noise level of the problem - and thus exhibits graceful degradation as we introduce misspecification. Past a burn-in, our result is sharp in the moderate deviations regime, and in particular does not inflate the leading order term by mixing time factors.",
       "summary": "",
       "url": "../papers/2305_11165/",
       "treeUrl": "../tree/#paper=2305_11165",
@@ -68805,7 +68713,7 @@ window.timelineData = {
         "Linear Quadratic Control Using Model-Free Reinforcement Learning"
       ],
       "tags": [],
-      "abstract": "In this article, we consider linear quadratic (LQ) control problem with process and measurement noises. We analyze the LQ problem in terms of the average cost and the structure of the value function. We assume that the dynamics of the linear system is unknown and only noisy measurements of the state variable are available. Using noisy measurements of the state variable, we propose two model-free iterative algorithms to solve the LQ problem. The proposed algorithms are variants of policy iteration routine where the policy is greedy with respect to the average of all previous iterations. We rigorously analyze the properties of the proposed algorithms, including stability of the generated controllers and convergence. We analyze the effect of measurement noise on the performance of the proposed algorithms, the classical off-policy, and the classical $Q$ -learning routines. We also investigate a model-building approach, inspired by adaptive control, where a model of the dynamical system is estimated and the optimal control problem is solved assuming that the estimated model is the true model. We use a benchmark to evaluate and compare our proposed algorithms with the classical off-policy, the classical $Q$ -learning, and the policy gradient. We show that our model-building approach performs nearly identical to the analytical solution and our proposed policy iteration-based algorithms outperform the classical off-policy and the classical $Q$ -learning algorithms on this benchmark but do not outperform the model-building approach.",
+      "abstract": "In this article, we consider linear quadratic (LQ) control problem with process and measurement noises. We analyze the LQ problem in terms of the average cost and the structure of the value function. We assume that the dynamics of the linear system is unknown and only noisy measurements of the state variable are available. Using noisy measurements of the state variable, we propose two model-free iterative algorithms to solve the LQ problem. The proposed algorithms are variants of policy iteration routine where the policy is greedy with respect to the average of all previous iterations. We rigorously analyze the properties of the proposed algorithms, including stability of the generated controllers and convergence. We analyze the effect of measurement noise on the performance of the proposed algorithms, the classical off-policy, and the classical Q -learning routines. We also investigate a model-building approach, inspired by adaptive control, where a model of the dynamical system is estimated and the optimal control problem is solved assuming that the estimated model is the true model. We use a benchmark to evaluate and compare our proposed algorithms with the classical off-policy, the classical Q -learning, and the policy gradient. We show that our model-building approach performs nearly identical to the analytical solution and our proposed policy iteration-based algorithms outperform the classical off-policy and the classical Q -learning algorithms on this benchmark but do not outperform the model-building approach.",
       "summary": "",
       "url": "../papers/2023_yaghmaie_linear_quadratic_control_using/",
       "treeUrl": "../tree/#paper=2023_yaghmaie_linear_quadratic_control_using",
@@ -69017,7 +68925,7 @@ window.timelineData = {
         "Settling the Sample Complexity of Online Reinforcement Learning"
       ],
       "tags": [],
-      "abstract": "A central issue lying at the heart of online reinforcement learning (RL) is data efficiency. While a number of recent works achieved asymptotically minimal regret in online RL, the optimality of these results is only guaranteed in a ``large-sample'' regime, imposing enormous burn-in cost in order for their algorithms to operate optimally. How to achieve minimax-optimal regret without incurring any burn-in cost has been an open problem in RL theory. We settle this problem for the context of finite-horizon inhomogeneous Markov decision processes. Specifically, we prove that a modified version of Monotonic Value Propagation (MVP), a model-based algorithm proposed by \\cite{zhang2020reinforcement}, achieves a regret on the order of (modulo log factors) \\begin{equation*} \\min\\big\\{ \\sqrt{SAH^3K}, \\,HK \\big\\}, \\end{equation*} where $S$ is the number of states, $A$ is the number of actions, $H$ is the planning horizon, and $K$ is the total number of episodes. This regret matches the minimax lower bound for the entire range of sample size $K\\geq 1$, essentially eliminating any burn-in requirement. It also translates to a PAC sample complexity (i.e., the number of episodes needed to yield $\\varepsilon$-accuracy) of $\\frac{SAH^3}{\\varepsilon^2}$ up to log factor, which is minimax-optimal for the full $\\varepsilon$-range. Further, we extend our theory to unveil the influences of problem-dependent quantities like the optimal value/cost and certain variances. The key technical innovation lies in the development of a new regret decomposition strategy and a novel analysis paradigm to decouple complicated statistical dependency -- a long-standing challenge facing the analysis of online RL in the sample-hungry regime.",
+      "abstract": "A central issue lying at the heart of online reinforcement learning (RL) is data efficiency. While a number of recent works achieved asymptotically minimal regret in online RL, the optimality of these results is only guaranteed in a ``large-sample'' regime, imposing enormous burn-in cost in order for their algorithms to operate optimally. How to achieve minimax-optimal regret without incurring any burn-in cost has been an open problem in RL theory. We settle this problem for the context of finite-horizon inhomogeneous Markov decision processes. Specifically, we prove that a modified version of Monotonic Value Propagation (MVP), a model-based algorithm proposed by \\cite{zhang2020reinforcement}, achieves a regret on the order of (modulo log factors) \\begin{equation*} \\min\\big\\{ \\sqrt{SAH^3K}, \\,HK \\big\\}, \\end{equation*} where S is the number of states, A is the number of actions, H is the planning horizon, and K is the total number of episodes. This regret matches the minimax lower bound for the entire range of sample size K >= 1, essentially eliminating any burn-in requirement. It also translates to a PAC sample complexity (i.e., the number of episodes needed to yield epsilon-accuracy) of SAH^(3)/epsilon^(2) up to log factor, which is minimax-optimal for the full epsilon-range. Further, we extend our theory to unveil the influences of problem-dependent quantities like the optimal value/cost and certain variances. The key technical innovation lies in the development of a new regret decomposition strategy and a novel analysis paradigm to decouple complicated statistical dependency - a long-standing challenge facing the analysis of online RL in the sample-hungry regime.",
       "summary": "",
       "url": "../papers/2307_13586/",
       "treeUrl": "../tree/#paper=2307_13586",
@@ -69131,7 +69039,7 @@ window.timelineData = {
         "The Role of Baselines in Policy Gradient Optimization"
       ],
       "tags": [],
-      "abstract": "We study the effect of baselines in on-policy stochastic policy gradient optimization, and close the gap between the theory and practice of policy optimization methods. Our first contribution is to show that the \\emph{state value} baseline allows on-policy stochastic \\emph{natural} policy gradient (NPG) to converge to a globally optimal policy at an $O(1/t)$ rate, which was not previously known. The analysis relies on two novel findings: the expected progress of the NPG update satisfies a stochastic version of the non-uniform Łojasiewicz (NŁ) inequality, and with probability 1 the state value baseline prevents the optimal action's probability from vanishing, thus ensuring sufficient exploration. Importantly, these results provide a new understanding of the role of baselines in stochastic policy gradient: by showing that the variance of natural policy gradient estimates remains unbounded with or without a baseline, we find that variance reduction \\emph{cannot} explain their utility in this setting. Instead, the analysis reveals that the primary effect of the value baseline is to \\textbf{reduce the aggressiveness of the updates} rather than their variance. That is, we demonstrate that a finite variance is \\emph{not necessary} for almost sure convergence of stochastic NPG, while controlling update aggressiveness is both necessary and sufficient. Additional experimental results verify these theoretical findings.",
+      "abstract": "We study the effect of baselines in on-policy stochastic policy gradient optimization, and close the gap between the theory and practice of policy optimization methods. Our first contribution is to show that the state value baseline allows on-policy stochastic natural policy gradient (NPG) to converge to a globally optimal policy at an O(1/t) rate, which was not previously known. The analysis relies on two novel findings: the expected progress of the NPG update satisfies a stochastic version of the non-uniform Łojasiewicz (NŁ) inequality, and with probability 1 the state value baseline prevents the optimal action's probability from vanishing, thus ensuring sufficient exploration. Importantly, these results provide a new understanding of the role of baselines in stochastic policy gradient: by showing that the variance of natural policy gradient estimates remains unbounded with or without a baseline, we find that variance reduction cannot explain their utility in this setting. Instead, the analysis reveals that the primary effect of the value baseline is to \\textbf{reduce the aggressiveness of the updates} rather than their variance. That is, we demonstrate that a finite variance is not necessary for almost sure convergence of stochastic NPG, while controlling update aggressiveness is both necessary and sufficient. Additional experimental results verify these theoretical findings.",
       "summary": "",
       "url": "../papers/2301_06276/",
       "treeUrl": "../tree/#paper=2301_06276",
@@ -69596,7 +69504,7 @@ window.timelineData = {
         "Autonomous Drifting with 3 Minutes of Data via Learned Tire Models"
       ],
       "tags": [],
-      "abstract": "Near the limits of adhesion, the forces generated by a tire are nonlinear and intricately coupled. Efficient and accurate modelling in this region could improve safety, especially in emergency situations where high forces are required. To this end, we propose a novel family of tire force models based on neural ordinary differential equations and a neural-ExpTanh parameterization. These models are designed to satisfy physically insightful assumptions while also having sufficient fidelity to capture higher-order effects directly from vehicle state measurements. They are used as drop-in replacements for an analytical brush tire model in an existing nonlinear model predictive control framework. Experiments with a customized Toyota Supra show that scarce amounts of driving data -- less than three minutes -- is sufficient to achieve high-performance autonomous drifting on various trajectories with speeds up to 45mph. Comparisons with the benchmark model show a $4 \\times$ improvement in tracking performance, smoother control inputs, and faster and more consistent computation time.",
+      "abstract": "Near the limits of adhesion, the forces generated by a tire are nonlinear and intricately coupled. Efficient and accurate modelling in this region could improve safety, especially in emergency situations where high forces are required. To this end, we propose a novel family of tire force models based on neural ordinary differential equations and a neural-ExpTanh parameterization. These models are designed to satisfy physically insightful assumptions while also having sufficient fidelity to capture higher-order effects directly from vehicle state measurements. They are used as drop-in replacements for an analytical brush tire model in an existing nonlinear model predictive control framework. Experiments with a customized Toyota Supra show that scarce amounts of driving data - less than three minutes - is sufficient to achieve high-performance autonomous drifting on various trajectories with speeds up to 45mph. Comparisons with the benchmark model show a 4 x improvement in tracking performance, smoother control inputs, and faster and more consistent computation time.",
       "summary": "",
       "url": "../papers/2306_06330/",
       "treeUrl": "../tree/#paper=2306_06330",
@@ -69925,7 +69833,7 @@ window.timelineData = {
         "Orbit",
         "Modular design"
       ],
-      "abstract": "We present Orbit, a unified and modular framework for robot learning powered by NVIDIA Isaac Sim. It offers a modular design to easily and efficiently create robotic environments with photo-realistic scenes and high-fidelity rigid and deformable body simulation. With Orbit, we provide a suite of benchmark tasks of varying difficulty -- from single-stage cabinet opening and cloth folding to multi-stage tasks such as room reorganization. To support working with diverse observations and action spaces, we include fixed-arm and mobile manipulators with different physically-based sensors and motion generators. Orbit allows training reinforcement learning policies and collecting large demonstration datasets from hand-crafted or expert solutions in a matter of minutes by leveraging GPU-based parallelization. In summary, we offer an open-sourced framework that readily comes with 16 robotic platforms, 4 sensor modalities, 10 motion generators, more than 20 benchmark tasks, and wrappers to 4 learning libraries. With this framework, we aim to support various research areas, including representation learning, reinforcement learning, imitation learning, and task and motion planning. We hope it helps establish interdisciplinary collaborations in these communities, and its modularity makes it easily extensible for more tasks and applications in the future.",
+      "abstract": "We present Orbit, a unified and modular framework for robot learning powered by NVIDIA Isaac Sim. It offers a modular design to easily and efficiently create robotic environments with photo-realistic scenes and high-fidelity rigid and deformable body simulation. With Orbit, we provide a suite of benchmark tasks of varying difficulty - from single-stage cabinet opening and cloth folding to multi-stage tasks such as room reorganization. To support working with diverse observations and action spaces, we include fixed-arm and mobile manipulators with different physically-based sensors and motion generators. Orbit allows training reinforcement learning policies and collecting large demonstration datasets from hand-crafted or expert solutions in a matter of minutes by leveraging GPU-based parallelization. In summary, we offer an open-sourced framework that readily comes with 16 robotic platforms, 4 sensor modalities, 10 motion generators, more than 20 benchmark tasks, and wrappers to 4 learning libraries. With this framework, we aim to support various research areas, including representation learning, reinforcement learning, imitation learning, and task and motion planning. We hope it helps establish interdisciplinary collaborations in these communities, and its modularity makes it easily extensible for more tasks and applications in the future.",
       "summary": "",
       "url": "../papers/2301_04195/",
       "treeUrl": "../tree/#paper=2301_04195",
@@ -70445,7 +70353,7 @@ window.timelineData = {
         "Efficient Shapley Performance Attribution for Least-Squares Regression"
       ],
       "tags": [],
-      "abstract": "We consider the performance of a least-squares regression model, as judged by out-of-sample $R^2$. Shapley values give a fair attribution of the performance of a model to its input features, taking into account interdependencies between features. Evaluating the Shapley values exactly requires solving a number of regression problems that is exponential in the number of features, so a Monte Carlo-type approximation is typically used. We focus on the special case of least-squares regression models, where several tricks can be used to compute and evaluate regression models efficiently. These tricks give a substantial speed up, allowing many more Monte Carlo samples to be evaluated, achieving better accuracy. We refer to our method as least-squares Shapley performance attribution (LS-SPA), and describe our open-source implementation.",
+      "abstract": "We consider the performance of a least-squares regression model, as judged by out-of-sample R^(2). Shapley values give a fair attribution of the performance of a model to its input features, taking into account interdependencies between features. Evaluating the Shapley values exactly requires solving a number of regression problems that is exponential in the number of features, so a Monte Carlo-type approximation is typically used. We focus on the special case of least-squares regression models, where several tricks can be used to compute and evaluate regression models efficiently. These tricks give a substantial speed up, allowing many more Monte Carlo samples to be evaluated, achieving better accuracy. We refer to our method as least-squares Shapley performance attribution (LS-SPA), and describe our open-source implementation.",
       "summary": "",
       "url": "../papers/2310_19245/",
       "treeUrl": "../tree/#paper=2310_19245",
@@ -73038,7 +72946,7 @@ window.timelineData = {
       "tags": [
         "Chiral aperiodic monotile"
       ],
-      "abstract": "The recently discovered \"hat\" aperiodic monotile mixes unreflected and reflected tiles in every tiling it admits, leaving open the question of whether a single shape can tile aperiodically using translations and rotations alone. We show that a close relative of the hat -- the equilateral member of the continuum to which it belongs -- is a weakly chiral aperiodic monotile: it admits only non-periodic tilings if we forbid reflections by fiat. Furthermore, by modifying this polygon's edges we obtain a family of shapes called Spectres that are strictly chiral aperiodic monotiles: they admit only chiral non-periodic tilings based on a hierarchical substitution system.",
+      "abstract": "The recently discovered \"hat\" aperiodic monotile mixes unreflected and reflected tiles in every tiling it admits, leaving open the question of whether a single shape can tile aperiodically using translations and rotations alone. We show that a close relative of the hat - the equilateral member of the continuum to which it belongs - is a weakly chiral aperiodic monotile: it admits only non-periodic tilings if we forbid reflections by fiat. Furthermore, by modifying this polygon's edges we obtain a family of shapes called Spectres that are strictly chiral aperiodic monotiles: they admit only chiral non-periodic tilings based on a hierarchical substitution system.",
       "summary": "",
       "url": "../papers/2305_17743/",
       "treeUrl": "../tree/#paper=2305_17743",
@@ -73073,7 +72981,7 @@ window.timelineData = {
       "tags": [
         "Aperiodic monotile"
       ],
-      "abstract": "A longstanding open problem asks for an aperiodic monotile, also known as an \"einstein\": a shape that admits tilings of the plane, but never periodic tilings. We answer this problem for topological disk tiles by exhibiting a continuum of combinatorially equivalent aperiodic polygons. We first show that a representative example, the \"hat\" polykite, can form clusters called \"metatiles\", for which substitution rules can be defined. Because the metatiles admit tilings of the plane, so too does the hat. We then prove that generic members of our continuum of polygons are aperiodic, through a new kind of geometric incommensurability argument. Separately, we give a combinatorial, computer-assisted proof that the hat must form hierarchical -- and hence aperiodic -- tilings.",
+      "abstract": "A longstanding open problem asks for an aperiodic monotile, also known as an \"einstein\": a shape that admits tilings of the plane, but never periodic tilings. We answer this problem for topological disk tiles by exhibiting a continuum of combinatorially equivalent aperiodic polygons. We first show that a representative example, the \"hat\" polykite, can form clusters called \"metatiles\", for which substitution rules can be defined. Because the metatiles admit tilings of the plane, so too does the hat. We then prove that generic members of our continuum of polygons are aperiodic, through a new kind of geometric incommensurability argument. Separately, we give a combinatorial, computer-assisted proof that the hat must form hierarchical - and hence aperiodic - tilings.",
       "summary": "",
       "url": "../papers/2303_10798/",
       "treeUrl": "../tree/#paper=2303_10798",
@@ -73109,7 +73017,7 @@ window.timelineData = {
         "A Tutorial on the Non-Asymptotic Theory of System Identification"
       ],
       "tags": [],
-      "abstract": "This tutorial serves as an introduction to recently developed non-asymptotic methods in the theory of -- mainly linear -- system identification. We emphasize tools we deem particularly useful for a range of problems in this domain, such as the covering technique, the Hanson-Wright Inequality and the method of self-normalized martingales. We then employ these tools to give streamlined proofs of the performance of various least-squares based estimators for identifying the parameters in autoregressive models. We conclude by sketching out how the ideas presented herein can be extended to certain nonlinear identification problems.",
+      "abstract": "This tutorial serves as an introduction to recently developed non-asymptotic methods in the theory of - mainly linear - system identification. We emphasize tools we deem particularly useful for a range of problems in this domain, such as the covering technique, the Hanson-Wright Inequality and the method of self-normalized martingales. We then employ these tools to give streamlined proofs of the performance of various least-squares based estimators for identifying the parameters in autoregressive models. We conclude by sketching out how the ideas presented herein can be extended to certain nonlinear identification problems.",
       "summary": "",
       "url": "../papers/2309_03873/",
       "treeUrl": "../tree/#paper=2309_03873",
@@ -73319,7 +73227,7 @@ window.timelineData = {
         "Conformal Prediction for Distribution-free Optimal Control of Linear Stochastic Systems"
       ],
       "tags": [],
-      "abstract": "We address an optimal control problem for linear stochastic systems with unknown noise distributions and joint chance constraints using conformal prediction. Our approach involves designing a feedback controller to maintain an error system within a prediction region (PR). We define PRs as sublevel sets of a nonconformity score over error trajectories, enabling the handling of joint chance constraints. We propose two methods to design feedback control and PRs: one through direct optimization over error trajectory samples, and the other indirectly using the $S$-procedure with a disturbance ellipsoid obtained from data. By tightening constraints with PRs, we solve a relaxed problem to synthesize a feedback policy. Our method ensures reliable probabilistic guarantees based on marginal coverage, independent of data size.",
+      "abstract": "We address an optimal control problem for linear stochastic systems with unknown noise distributions and joint chance constraints using conformal prediction. Our approach involves designing a feedback controller to maintain an error system within a prediction region (PR). We define PRs as sublevel sets of a nonconformity score over error trajectories, enabling the handling of joint chance constraints. We propose two methods to design feedback control and PRs: one through direct optimization over error trajectory samples, and the other indirectly using the S-procedure with a disturbance ellipsoid obtained from data. By tightening constraints with PRs, we solve a relaxed problem to synthesize a feedback policy. Our method ensures reliable probabilistic guarantees based on marginal coverage, independent of data size.",
       "summary": "",
       "url": "../papers/2411_19132/",
       "treeUrl": "../tree/#paper=2411_19132",
@@ -73362,7 +73270,7 @@ window.timelineData = {
         "Control",
         "Linear systems"
       ],
-      "abstract": "End-to-end engineering design pipelines, in which designs are evaluated using concurrently defined optimal controllers, are becoming increasingly common in practice. To discover designs that perform well even under the misspecification of system dynamics, such end-to-end pipelines have now begun evaluating designs with a robust control objective in place of the nominal optimal control setup. Current approaches of specifying such robust control subproblems, however, rely on hand specification of perturbations anticipated to be present upon deployment or margin methods that ignore problem structure, resulting in a lack of theoretical guarantees and overly conservative empirical performance. We, instead, propose a novel methodology for LQR systems that leverages conformal prediction to specify such uncertainty regions in a data-driven fashion. Such regions have distribution-free coverage guarantees on the true system dynamics, in turn allowing for a probabilistic characterization of the regret of the resulting robust controller. We then demonstrate that such a controller can be efficiently produced via a novel policy gradient method that has convergence guarantees. We finally demonstrate the superior empirical performance of our method over alternate robust control specifications, such as $H_{\\infty}$ and LQR with multiplicative noise, across a collection of engineering control systems.",
+      "abstract": "End-to-end engineering design pipelines, in which designs are evaluated using concurrently defined optimal controllers, are becoming increasingly common in practice. To discover designs that perform well even under the misspecification of system dynamics, such end-to-end pipelines have now begun evaluating designs with a robust control objective in place of the nominal optimal control setup. Current approaches of specifying such robust control subproblems, however, rely on hand specification of perturbations anticipated to be present upon deployment or margin methods that ignore problem structure, resulting in a lack of theoretical guarantees and overly conservative empirical performance. We, instead, propose a novel methodology for LQR systems that leverages conformal prediction to specify such uncertainty regions in a data-driven fashion. Such regions have distribution-free coverage guarantees on the true system dynamics, in turn allowing for a probabilistic characterization of the regret of the resulting robust controller. We then demonstrate that such a controller can be efficiently produced via a novel policy gradient method that has convergence guarantees. We finally demonstrate the superior empirical performance of our method over alternate robust control specifications, such as H_infinity and LQR with multiplicative noise, across a collection of engineering control systems.",
       "summary": "",
       "url": "../papers/2405_16250/",
       "treeUrl": "../tree/#paper=2405_16250",
@@ -73397,7 +73305,7 @@ window.timelineData = {
         "Data-Driven Distributionally Robust System Level Synthesis"
       ],
       "tags": [],
-      "abstract": "We present a novel approach for the control of uncertain, linear time-invariant systems, which are perturbed by potentially unbounded, additive disturbances. We propose a \\emph{doubly robust} data-driven state-feedback controller to ensure reliable performance against both model mismatch and disturbance distribution uncertainty. Our controller, which leverages the System Level Synthesis parameterization, is designed as the solution to a distributionally robust finite-horizon optimal control problem. The goal is to minimize a cost function while satisfying constraints against the worst-case realization of the uncertainty, which is quantified using distributional ambiguity sets. The latter are defined as balls in the Wasserstein metric centered on the predictive empirical distribution computed from a set of collected trajectory data. By harnessing techniques from robust control and distributionally robust optimization, we characterize the distributional shift between the predictive and the actual closed-loop distributions, and highlight its dependency on the model mismatch and the uncertainty about the disturbance distribution. We also provide bounds on the number of samples required to achieve a desired confidence level and propose a tractable approximate formulation for the doubly robust data-driven controller. To demonstrate the effectiveness of our approach, we present a numerical example showcasing the performance of the proposed algorithm.",
+      "abstract": "We present a novel approach for the control of uncertain, linear time-invariant systems, which are perturbed by potentially unbounded, additive disturbances. We propose a doubly robust data-driven state-feedback controller to ensure reliable performance against both model mismatch and disturbance distribution uncertainty. Our controller, which leverages the System Level Synthesis parameterization, is designed as the solution to a distributionally robust finite-horizon optimal control problem. The goal is to minimize a cost function while satisfying constraints against the worst-case realization of the uncertainty, which is quantified using distributional ambiguity sets. The latter are defined as balls in the Wasserstein metric centered on the predictive empirical distribution computed from a set of collected trajectory data. By harnessing techniques from robust control and distributionally robust optimization, we characterize the distributional shift between the predictive and the actual closed-loop distributions, and highlight its dependency on the model mismatch and the uncertainty about the disturbance distribution. We also provide bounds on the number of samples required to achieve a desired confidence level and propose a tractable approximate formulation for the doubly robust data-driven controller. To demonstrate the effectiveness of our approach, we present a numerical example showcasing the performance of the proposed algorithm.",
       "summary": "",
       "url": "../papers/2405_18142/",
       "treeUrl": "../tree/#paper=2405_18142",
@@ -73479,7 +73387,7 @@ window.timelineData = {
     {
       "id": "2411_03277",
       "label": "Asymptotic stability equals exponential stability - while you twist your eyes",
-      "title": "Asymptotic Stability Equals Exponential Stability -- While You Twist Your Eyes",
+      "title": "Asymptotic Stability Equals Exponential Stability - While You Twist Your Eyes",
       "authors": [
         "Wouter Jongeneel"
       ],
@@ -73587,7 +73495,7 @@ window.timelineData = {
         "Learning",
         "Adam-mini"
       ],
-      "abstract": "We propose Adam-mini, an optimizer that achieves on par or better performance than AdamW with 50% less memory footprint. Adam-mini reduces memory by cutting down the learning rate resources in Adam (i.e., $1/\\sqrt{v}$). By investigating the Hessian structure of neural nets, we find Adam's $v$ might not function at its full potential as effectively as we expected. We find that $\\geq$ 99.9% of these learning rates in $v$ could be harmlessly removed if we (1) carefully partition the parameters into blocks following our new principle on Hessian structure; (2) assign a single but good learning rate to each parameter block. We then provide one simple way to find good learning rates and propose Adam-mini. Empirically, we verify that Adam-mini performs on par or better than AdamW on various language models sized from 39M to 13B for pre-training, supervised fine-tuning, and RLHF. The reduced memory footprint of Adam-mini also alleviates communication overheads among GPUs, thereby increasing throughput. For instance, Adam-mini achieves 49.6% higher throughput than AdamW when pre-training Llama 2-7B on $2\\times$ A800-80GB GPUs, which saves 33% wall-clock time for pre-training.",
+      "abstract": "We propose Adam-mini, an optimizer that achieves on par or better performance than AdamW with 50% less memory footprint. Adam-mini reduces memory by cutting down the learning rate resources in Adam (i.e., 1/sqrt(v)). By investigating the Hessian structure of neural nets, we find Adam's v might not function at its full potential as effectively as we expected. We find that >= 99.9% of these learning rates in v could be harmlessly removed if we (1) carefully partition the parameters into blocks following our new principle on Hessian structure; (2) assign a single but good learning rate to each parameter block. We then provide one simple way to find good learning rates and propose Adam-mini. Empirically, we verify that Adam-mini performs on par or better than AdamW on various language models sized from 39M to 13B for pre-training, supervised fine-tuning, and RLHF. The reduced memory footprint of Adam-mini also alleviates communication overheads among GPUs, thereby increasing throughput. For instance, Adam-mini achieves 49.6% higher throughput than AdamW when pre-training Llama 2-7B on 2x A800-80GB GPUs, which saves 33% wall-clock time for pre-training.",
       "summary": "",
       "url": "../papers/2406_16793/",
       "treeUrl": "../tree/#paper=2406_16793",
@@ -73628,7 +73536,7 @@ window.timelineData = {
         "Optimization",
         "OPTAMI"
       ],
-      "abstract": "Second-order methods for convex optimization outperform first-order methods in terms of theoretical iteration convergence, achieving rates up to $O(k^{-5})$ for highly-smooth functions. However, their practical performance and applications are limited due to their multi-level structure and implementation complexity. In this paper, we present new results on high-order optimization methods, supported by their practical performance. First, we show that the basic high-order methods, such as the Cubic Regularized Newton Method, exhibit global superlinear convergence for $μ$-strongly star-convex functions, a class that includes $μ$-strongly convex functions and some non-convex functions. Theoretical convergence results are both inspired and supported by the practical performance of these methods. Secondly, we propose a practical version of the Nesterov Accelerated Tensor method, called NATA. It significantly outperforms the classical variant and other high-order acceleration techniques in practice. The convergence of NATA is also supported by theoretical results. Finally, we introduce an open-source computational library for high-order methods, called OPTAMI. This library includes various methods, acceleration techniques, and subproblem solvers, all implemented as PyTorch optimizers, thereby facilitating the practical application of high-order methods to a wide range of optimization problems. We hope this library will simplify research and practical comparison of methods beyond first-order.",
+      "abstract": "Second-order methods for convex optimization outperform first-order methods in terms of theoretical iteration convergence, achieving rates up to O(k^(-5)) for highly-smooth functions. However, their practical performance and applications are limited due to their multi-level structure and implementation complexity. In this paper, we present new results on high-order optimization methods, supported by their practical performance. First, we show that the basic high-order methods, such as the Cubic Regularized Newton Method, exhibit global superlinear convergence for mu-strongly star-convex functions, a class that includes mu-strongly convex functions and some non-convex functions. Theoretical convergence results are both inspired and supported by the practical performance of these methods. Secondly, we propose a practical version of the Nesterov Accelerated Tensor method, called NATA. It significantly outperforms the classical variant and other high-order acceleration techniques in practice. The convergence of NATA is also supported by theoretical results. Finally, we introduce an open-source computational library for high-order methods, called OPTAMI. This library includes various methods, acceleration techniques, and subproblem solvers, all implemented as PyTorch optimizers, thereby facilitating the practical application of high-order methods to a wide range of optimization problems. We hope this library will simplify research and practical comparison of methods beyond first-order.",
       "summary": "",
       "url": "../papers/2410_04083/",
       "treeUrl": "../tree/#paper=2410_04083",
@@ -73697,7 +73605,7 @@ window.timelineData = {
         "Second Order Methods for Bandit Optimization and Control"
       ],
       "tags": [],
-      "abstract": "Bandit convex optimization (BCO) is a general framework for online decision making under uncertainty. While tight regret bounds for general convex losses have been established, existing algorithms achieving these bounds have prohibitive computational costs for high dimensional data. In this paper, we propose a simple and practical BCO algorithm inspired by the online Newton step algorithm. We show that our algorithm achieves optimal (in terms of horizon) regret bounds for a large class of convex functions that satisfy a condition we call $\\kappa$-convexity. This class contains a wide range of practically relevant loss functions including linear losses, quadratic losses, and generalized linear models. In addition to optimal regret, this method is the most efficient known algorithm for several well-studied applications including bandit logistic regression. Furthermore, we investigate the adaptation of our second-order bandit algorithm to online convex optimization with memory. We show that for loss functions with a certain affine structure, the extended algorithm attains optimal regret. This leads to an algorithm with optimal regret for bandit LQ problem under a fully adversarial noise model, thereby resolving an open question posed in Grade et. al. 2020 and Sun et. al. 2023. Finally, we show that the more general problem of BCO with (non-affine) memory is harder. We derive a $\\tilde{\\Omega}(T^{2/3})$ regret lower bound, even under the assumption of smooth and quadratic losses.",
+      "abstract": "Bandit convex optimization (BCO) is a general framework for online decision making under uncertainty. While tight regret bounds for general convex losses have been established, existing algorithms achieving these bounds have prohibitive computational costs for high dimensional data. In this paper, we propose a simple and practical BCO algorithm inspired by the online Newton step algorithm. We show that our algorithm achieves optimal (in terms of horizon) regret bounds for a large class of convex functions that satisfy a condition we call kappa-convexity. This class contains a wide range of practically relevant loss functions including linear losses, quadratic losses, and generalized linear models. In addition to optimal regret, this method is the most efficient known algorithm for several well-studied applications including bandit logistic regression. Furthermore, we investigate the adaptation of our second-order bandit algorithm to online convex optimization with memory. We show that for loss functions with a certain affine structure, the extended algorithm attains optimal regret. This leads to an algorithm with optimal regret for bandit LQ problem under a fully adversarial noise model, thereby resolving an open question posed in Grade et. al. 2020 and Sun et. al. 2023. Finally, we show that the more general problem of BCO with (non-affine) memory is harder. We derive a tildeOmega(T^(2/3)) regret lower bound, even under the assumption of smooth and quadratic losses.",
       "summary": "",
       "url": "../papers/2024_suggala_second_order_methods_for/",
       "treeUrl": "../tree/#paper=2024_suggala_second_order_methods_for",
@@ -74928,7 +74836,7 @@ window.timelineData = {
         "Multi-modal optimization",
         "Neural networks"
       ],
-      "abstract": "Sequentially solving similar optimization problems under strict runtime constraints is essential for many applications, such as robot control, autonomous driving, and portfolio management. The performance of local optimization methods in these settings is sensitive to the initial solution: poor initialization can lead to slow convergence or suboptimal solutions. To address this challenge, we propose learning to predict \\emph{multiple} diverse initial solutions given parameters that define the problem instance. We introduce two strategies for utilizing multiple initial solutions: (i) a single-optimizer approach, where the most promising initial solution is chosen using a selection function, and (ii) a multiple-optimizers approach, where several optimizers, potentially run in parallel, are each initialized with a different solution, with the best solution chosen afterward. Notably, by including a default initialization among predicted ones, the cost of the final output is guaranteed to be equal or lower than with the default initialization. We validate our method on three optimal control benchmark tasks: cart-pole, reacher, and autonomous driving, using different optimizers: DDP, MPPI, and iLQR. We find significant and consistent improvement with our method across all evaluation settings and demonstrate that it efficiently scales with the number of initial solutions required. The code is available at https://github.com/EladSharony/miso.",
+      "abstract": "Sequentially solving similar optimization problems under strict runtime constraints is essential for many applications, such as robot control, autonomous driving, and portfolio management. The performance of local optimization methods in these settings is sensitive to the initial solution: poor initialization can lead to slow convergence or suboptimal solutions. To address this challenge, we propose learning to predict multiple diverse initial solutions given parameters that define the problem instance. We introduce two strategies for utilizing multiple initial solutions: (i) a single-optimizer approach, where the most promising initial solution is chosen using a selection function, and (ii) a multiple-optimizers approach, where several optimizers, potentially run in parallel, are each initialized with a different solution, with the best solution chosen afterward. Notably, by including a default initialization among predicted ones, the cost of the final output is guaranteed to be equal or lower than with the default initialization. We validate our method on three optimal control benchmark tasks: cart-pole, reacher, and autonomous driving, using different optimizers: DDP, MPPI, and iLQR. We find significant and consistent improvement with our method across all evaluation settings and demonstrate that it efficiently scales with the number of initial solutions required. The code is available at https://github.com/EladSharony/miso.",
       "summary": "Learns a generative model that produces multiple diverse initial solutions for optimization problems, enabling warm-started solvers to explore different basins of attraction and improve the probability of finding high-quality global optima.",
       "url": "../papers/2411_02158/",
       "treeUrl": "../tree/#paper=2411_02158",
@@ -75182,7 +75090,7 @@ window.timelineData = {
         "Aligator",
         "Library"
       ],
-      "abstract": "Robotics has been a momentous field of research and development over the past sixty years, since the computer chip revolution in the 1960s. Realising the promise of the field entails research into motion planning and control of robotic systems in many scenarios: from fixed-base robots (e.g. industrial arms) to floating-base wheeled or legged robots. For such schemes to be able to deal with more complex robots, they must plan ahead and satisfy physical and operational constraints, and do so, hopefully, in a reactive manner. For many years, they were rather simple, limited to simple robots doing simple things. Greater complexity and capability was unlocked with more sophisticated planners and controllers, that had access to better models of their subservient systems (geometries, inertia, the existence of contact). An adequate framework to reconcile the domain's requirements is that of optimal control. It allows for predictive models of robot behaviour over given time horizons, and constraint satisfaction, while optimising for a given performance metric. As most optimal control problems cannot be solved in closed-form, we resort to numerical methods. This numerical optimal control has a proven track record for online motion generation and control on legged robots with real-time requirements (albeit mostly while using simplified models of the robot and environment). However, it typically leads to large-scale mathematical optimisation problems with thousands of variables -- a computationally expensive endeavour. Thus, its use in robotics has relied on two axes of progress: faster chips, and efficient, structure-exploiting algorithms (with carefully engineered implementations). This thesis focuses on the latter axis: development of more performant, real-time capable solvers for numerical optimal control, with the objective of \"on-the-fly\" complex motion generation the for predictive control of sophisticated robots.",
+      "abstract": "Robotics has been a momentous field of research and development over the past sixty years, since the computer chip revolution in the 1960s. Realising the promise of the field entails research into motion planning and control of robotic systems in many scenarios: from fixed-base robots (e.g. industrial arms) to floating-base wheeled or legged robots. For such schemes to be able to deal with more complex robots, they must plan ahead and satisfy physical and operational constraints, and do so, hopefully, in a reactive manner. For many years, they were rather simple, limited to simple robots doing simple things. Greater complexity and capability was unlocked with more sophisticated planners and controllers, that had access to better models of their subservient systems (geometries, inertia, the existence of contact). An adequate framework to reconcile the domain's requirements is that of optimal control. It allows for predictive models of robot behaviour over given time horizons, and constraint satisfaction, while optimising for a given performance metric. As most optimal control problems cannot be solved in closed-form, we resort to numerical methods. This numerical optimal control has a proven track record for online motion generation and control on legged robots with real-time requirements (albeit mostly while using simplified models of the robot and environment). However, it typically leads to large-scale mathematical optimisation problems with thousands of variables - a computationally expensive endeavour. Thus, its use in robotics has relied on two axes of progress: faster chips, and efficient, structure-exploiting algorithms (with carefully engineered implementations). This thesis focuses on the latter axis: development of more performant, real-time capable solvers for numerical optimal control, with the objective of \"on-the-fly\" complex motion generation the for predictive control of sophisticated robots.",
       "summary": "PhD dissertation by Wilson Jallet covering the ProxDDP algorithm and the Aligator library. Good discussion on recent works in constrained DDP e.g. ALTRO, primal-dual iLQR, etc.",
       "url": "../papers/2024_jallet_real_time_constrained_trajectory/",
       "treeUrl": "../tree/#paper=2024_jallet_real_time_constrained_trajectory",
@@ -76311,7 +76219,7 @@ window.timelineData = {
         "Finite Sample Analysis for a Class of Subspace Identification Methods"
       ],
       "tags": [],
-      "abstract": "While subspace identification methods (SIMs) are appealing due to their simple parameterization for MIMO systems and robust numerical realizations, a comprehensive statistical analysis of SIMs remains an open problem, especially in the non-asymptotic regime. In this work, we provide a finite sample analysis for a class of SIMs, which reveals that the convergence rates for estimating Markov parameters and system matrices are $\\mathcal{O}(1/\\sqrt{N})$, in line with classical asymptotic results. Based on the observation that the model format in classical SIMs becomes non-causal because of a projection step, we choose a parsimonious SIM that bypasses the projection step and strictly enforces a causal model to facilitate the analysis, where a bank of ARX models are estimated in parallel. Leveraging recent results from finite sample analysis of an individual ARX model, we obtain an overall error bound of an array of ARX models and proceed to derive error bounds for system matrices via robustness results for the singular value decomposition.",
+      "abstract": "While subspace identification methods (SIMs) are appealing due to their simple parameterization for MIMO systems and robust numerical realizations, a comprehensive statistical analysis of SIMs remains an open problem, especially in the non-asymptotic regime. In this work, we provide a finite sample analysis for a class of SIMs, which reveals that the convergence rates for estimating Markov parameters and system matrices are O(1/sqrt(N)), in line with classical asymptotic results. Based on the observation that the model format in classical SIMs becomes non-causal because of a projection step, we choose a parsimonious SIM that bypasses the projection step and strictly enforces a causal model to facilitate the analysis, where a bank of ARX models are estimated in parallel. Leveraging recent results from finite sample analysis of an individual ARX model, we obtain an overall error bound of an array of ARX models and proceed to derive error bounds for system matrices via robustness results for the singular value decomposition.",
       "summary": "",
       "url": "../papers/2404_17331/",
       "treeUrl": "../tree/#paper=2404_17331",
@@ -76347,7 +76255,7 @@ window.timelineData = {
         "Finite Sample Frequency Domain Identification"
       ],
       "tags": [],
-      "abstract": "We study non-parametric frequency-domain system identification from a finite-sample perspective. We assume an open loop scenario where the excitation input is periodic and consider the Empirical Transfer Function Estimate (ETFE), where the goal is to estimate the frequency response at certain desired (evenly-spaced) frequencies, given input-output samples. We show that under sub-Gaussian colored noise (in time-domain) and stability assumptions, the ETFE estimates are concentrated around the true values. The error rate is of the order of $\\mathcal{O}((d_{\\mathrm{u}}+\\sqrt{d_{\\mathrm{u}}d_{\\mathrm{y}}})\\sqrt{M/N_{\\mathrm{tot}}})$, where $N_{\\mathrm{tot}}$ is the total number of samples, $M$ is the number of desired frequencies, and $d_{\\mathrm{u}},\\,d_{\\mathrm{y}}$ are the dimensions of the input and output signals respectively. This rate remains valid for general irrational transfer functions and does not require a finite order state-space representation. By tuning $M$, we obtain a $N_{\\mathrm{tot}}^{-1/3}$ finite-sample rate for learning the frequency response over all frequencies in the $ \\mathcal{H}_{\\infty}$ norm. Our result draws upon an extension of the Hanson-Wright inequality to semi-infinite matrices. We study the finite-sample behavior of ETFE in simulations.",
+      "abstract": "We study non-parametric frequency-domain system identification from a finite-sample perspective. We assume an open loop scenario where the excitation input is periodic and consider the Empirical Transfer Function Estimate (ETFE), where the goal is to estimate the frequency response at certain desired (evenly-spaced) frequencies, given input-output samples. We show that under sub-Gaussian colored noise (in time-domain) and stability assumptions, the ETFE estimates are concentrated around the true values. The error rate is of the order of O((d_u+sqrt{d_ud_y})sqrt{M/N_tot}), where N_tot is the total number of samples, M is the number of desired frequencies, and d_u, d_y are the dimensions of the input and output signals respectively. This rate remains valid for general irrational transfer functions and does not require a finite order state-space representation. By tuning M, we obtain a N_tot^(-1/3) finite-sample rate for learning the frequency response over all frequencies in the H_infinity norm. Our result draws upon an extension of the Hanson-Wright inequality to semi-infinite matrices. We study the finite-sample behavior of ETFE in simulations.",
       "summary": "",
       "url": "../papers/2404_01100/",
       "treeUrl": "../tree/#paper=2404_01100",
@@ -76453,7 +76361,7 @@ window.timelineData = {
         "Sharp Rates in Dependent Learning Theory: Avoiding Sample Size Deflation for the Square Loss"
       ],
       "tags": [],
-      "abstract": "In this work, we study statistical learning with dependent ($β$-mixing) data and square loss in a hypothesis class $\\mathscr{F}\\subset L_{Ψ_p}$ where $Ψ_p$ is the norm $\\|f\\|_{Ψ_p} \\triangleq \\sup_{m\\geq 1} m^{-1/p} \\|f\\|_{L^m} $ for some $p\\in [2,\\infty]$. Our inquiry is motivated by the search for a sharp noise interaction term, or variance proxy, in learning with dependent data. Absent any realizability assumption, typical non-asymptotic results exhibit variance proxies that are deflated multiplicatively by the mixing time of the underlying covariates process. We show that whenever the topologies of $L^2$ and $Ψ_p$ are comparable on our hypothesis class $\\mathscr{F}$ -- that is, $\\mathscr{F}$ is a weakly sub-Gaussian class: $\\|f\\|_{Ψ_p} \\lesssim \\|f\\|_{L^2}^η$ for some $η\\in (0,1]$ -- the empirical risk minimizer achieves a rate that only depends on the complexity of the class and second order statistics in its leading term. Our result holds whether the problem is realizable or not and we refer to this as a \\emph{near mixing-free rate}, since direct dependence on mixing is relegated to an additive higher order term. We arrive at our result by combining the above notion of a weakly sub-Gaussian class with mixed tail generic chaining. This combination allows us to compute sharp, instance-optimal rates for a wide range of problems. Examples that satisfy our framework include sub-Gaussian linear regression, more general smoothly parameterized function classes, finite hypothesis classes, and bounded smoothness classes.",
+      "abstract": "In this work, we study statistical learning with dependent (beta-mixing) data and square loss in a hypothesis class F subset L_Psi_p where Psi_p is the norm |f|_Psi_p defined as sup_m >= 1 m^(-1)/p |f|_L^(m) for some p in [2, infinity]. Our inquiry is motivated by the search for a sharp noise interaction term, or variance proxy, in learning with dependent data. Absent any realizability assumption, typical non-asymptotic results exhibit variance proxies that are deflated multiplicatively by the mixing time of the underlying covariates process. We show that whenever the topologies of L^(2) and Psi_p are comparable on our hypothesis class F - that is, F is a weakly sub-Gaussian class: |f|_Psi_p <~ |f|_L^(2)^(eta) for some eta in (0, 1] - the empirical risk minimizer achieves a rate that only depends on the complexity of the class and second order statistics in its leading term. Our result holds whether the problem is realizable or not and we refer to this as a near mixing-free rate, since direct dependence on mixing is relegated to an additive higher order term. We arrive at our result by combining the above notion of a weakly sub-Gaussian class with mixed tail generic chaining. This combination allows us to compute sharp, instance-optimal rates for a wide range of problems. Examples that satisfy our framework include sub-Gaussian linear regression, more general smoothly parameterized function classes, finite hypothesis classes, and bounded smoothness classes.",
       "summary": "",
       "url": "../papers/2402_05928/",
       "treeUrl": "../tree/#paper=2402_05928",
@@ -76590,7 +76498,7 @@ window.timelineData = {
         "DAPO"
       ],
       "tags": [],
-      "abstract": "We propose Dual Approximation Policy Optimization (DAPO), a framework that incorporates general function approximation into policy mirror descent methods. In contrast to the popular approach of using the $L_2$-norm to measure function approximation errors, DAPO uses the dual Bregman divergence induced by the mirror map for policy projection. This duality framework has both theoretical and practical implications: not only does it achieve fast linear convergence with general function approximation, but it also includes several well-known practical methods as special cases, immediately providing strong convergence guarantees.",
+      "abstract": "We propose Dual Approximation Policy Optimization (DAPO), a framework that incorporates general function approximation into policy mirror descent methods. In contrast to the popular approach of using the L_2-norm to measure function approximation errors, DAPO uses the dual Bregman divergence induced by the mirror map for policy projection. This duality framework has both theoretical and practical implications: not only does it achieve fast linear convergence with general function approximation, but it also includes several well-known practical methods as special cases, immediately providing strong convergence guarantees.",
       "summary": "",
       "url": "../papers/2410_01249/",
       "treeUrl": "../tree/#paper=2410_01249",
@@ -76625,7 +76533,7 @@ window.timelineData = {
         "Data-Enabled Policy Optimization for Direct Adaptive Learning of the LQR"
       ],
       "tags": [],
-      "abstract": "Direct data-driven design methods for the linear quadratic regulator (LQR) mainly use offline or episodic data batches, and their online adaptation has been acknowledged as an open problem. In this paper, we propose a direct adaptive method to learn the LQR from online closed-loop data. First, we propose a new policy parameterization based on the sample covariance to formulate a direct data-driven LQR problem, which is shown to be equivalent to the certainty-equivalence LQR with optimal non-asymptotic guarantees. Second, we design a novel data-enabled policy optimization (DeePO) method to directly update the policy, where the gradient is explicitly computed using only a batch of persistently exciting (PE) data. Third, we establish its global convergence via a projected gradient dominance property. Importantly, we efficiently use DeePO to adaptively learn the LQR by performing only one-step projected gradient descent per sample of the closed-loop system, which also leads to an explicit recursive update of the policy. Under PE inputs and for bounded noise, we show that the average regret of the LQR cost is upper-bounded by two terms signifying a sublinear decrease in time $\\mathcal{O}(1/\\sqrt{T})$ plus a bias scaling inversely with signal-to-noise ratio (SNR), which are independent of the noise statistics. Finally, we perform simulations to validate the theoretical results and demonstrate the computational and sample efficiency of our method.",
+      "abstract": "Direct data-driven design methods for the linear quadratic regulator (LQR) mainly use offline or episodic data batches, and their online adaptation has been acknowledged as an open problem. In this paper, we propose a direct adaptive method to learn the LQR from online closed-loop data. First, we propose a new policy parameterization based on the sample covariance to formulate a direct data-driven LQR problem, which is shown to be equivalent to the certainty-equivalence LQR with optimal non-asymptotic guarantees. Second, we design a novel data-enabled policy optimization (DeePO) method to directly update the policy, where the gradient is explicitly computed using only a batch of persistently exciting (PE) data. Third, we establish its global convergence via a projected gradient dominance property. Importantly, we efficiently use DeePO to adaptively learn the LQR by performing only one-step projected gradient descent per sample of the closed-loop system, which also leads to an explicit recursive update of the policy. Under PE inputs and for bounded noise, we show that the average regret of the LQR cost is upper-bounded by two terms signifying a sublinear decrease in time O(1/sqrt(T)) plus a bias scaling inversely with signal-to-noise ratio (SNR), which are independent of the noise statistics. Finally, we perform simulations to validate the theoretical results and demonstrate the computational and sample efficiency of our method.",
       "summary": "",
       "url": "../papers/2401_14871/",
       "treeUrl": "../tree/#paper=2401_14871",
@@ -76848,7 +76756,7 @@ window.timelineData = {
         "Control",
         "Learning"
       ],
-      "abstract": "Recent work has shown diffusion models are an effective approach to learning the multimodal distributions arising from demonstration data in behavior cloning. However, a drawback of this approach is the need to learn a denoising function, which is significantly more complex than learning an explicit policy. In this work, we propose Equivariant Diffusion Policy, a novel diffusion policy learning method that leverages domain symmetries to obtain better sample efficiency and generalization in the denoising function. We theoretically analyze the $\\mathrm{SO}(2)$ symmetry of full 6-DoF control and characterize when a diffusion model is $\\mathrm{SO}(2)$-equivariant. We furthermore evaluate the method empirically on a set of 12 simulation tasks in MimicGen, and show that it obtains a success rate that is, on average, 21.9% higher than the baseline Diffusion Policy. We also evaluate the method on a real-world system to show that effective policies can be learned with relatively few training samples, whereas the baseline Diffusion Policy cannot.",
+      "abstract": "Recent work has shown diffusion models are an effective approach to learning the multimodal distributions arising from demonstration data in behavior cloning. However, a drawback of this approach is the need to learn a denoising function, which is significantly more complex than learning an explicit policy. In this work, we propose Equivariant Diffusion Policy, a novel diffusion policy learning method that leverages domain symmetries to obtain better sample efficiency and generalization in the denoising function. We theoretically analyze the SO(2) symmetry of full 6-DoF control and characterize when a diffusion model is SO(2)-equivariant. We furthermore evaluate the method empirically on a set of 12 simulation tasks in MimicGen, and show that it obtains a success rate that is, on average, 21.9% higher than the baseline Diffusion Policy. We also evaluate the method on a real-world system to show that effective policies can be learned with relatively few training samples, whereas the baseline Diffusion Policy cannot.",
       "summary": "",
       "url": "../papers/2407_01812/",
       "treeUrl": "../tree/#paper=2407_01812",
@@ -77082,7 +76990,7 @@ window.timelineData = {
         "Multi-Objective LQR with Linear Scalarization"
       ],
       "tags": [],
-      "abstract": "The framework of decision-making, modeled as a Markov Decision Process (MDP), typically assumes a single objective. However, practical scenarios often involve tradeoffs between multiple objectives. We address this in the Linear Quadratic Regulator (LQR), a canonical continuous, infinite horizon MDP. First, we establish that the Pareto front for LQR is characterized by linear scalarization: a convex combination of objectives recovers all tradeoff points, making multi-objective LQR reducible to single-objective problems. This highlights an important instance where linear scalarization suffices for a non-convex problem. Second, we show the Pareto front is smooth, in that an $ε$ perturbation of a scalarization parameter yields an $ε$ approximation to the objective. These results inspire a simple algorithm to approximate the Pareto front via grid search over scalarization parameters, where each optimization problem retains the computational efficiency of single-objective LQR. Lastly, we extend the analysis to certainty equivalence, where unknown dynamics are replaced with estimates.",
+      "abstract": "The framework of decision-making, modeled as a Markov Decision Process (MDP), typically assumes a single objective. However, practical scenarios often involve tradeoffs between multiple objectives. We address this in the Linear Quadratic Regulator (LQR), a canonical continuous, infinite horizon MDP. First, we establish that the Pareto front for LQR is characterized by linear scalarization: a convex combination of objectives recovers all tradeoff points, making multi-objective LQR reducible to single-objective problems. This highlights an important instance where linear scalarization suffices for a non-convex problem. Second, we show the Pareto front is smooth, in that an epsilon perturbation of a scalarization parameter yields an epsilon approximation to the objective. These results inspire a simple algorithm to approximate the Pareto front via grid search over scalarization parameters, where each optimization problem retains the computational efficiency of single-objective LQR. Lastly, we extend the analysis to certainty equivalence, where unknown dynamics are replaced with estimates.",
       "summary": "",
       "url": "../papers/2408_04488/",
       "treeUrl": "../tree/#paper=2408_04488",
@@ -77130,7 +77038,7 @@ window.timelineData = {
         "M-GAPS",
         "Nonlinear systems"
       ],
-      "abstract": "We study online policy optimization in nonlinear time-varying dynamical systems where the true dynamical models are unknown to the controller. This problem is challenging because, unlike in linear systems, the controller cannot obtain globally accurate estimations of the ground-truth dynamics using local exploration. We propose a meta-framework that combines a general online policy optimization algorithm ($\\texttt{ALG}$) with a general online estimator of the dynamical system's model parameters ($\\texttt{EST}$). We show that if the hypothetical joint dynamics induced by $\\texttt{ALG}$ with known parameters satisfies several desired properties, the joint dynamics under inexact parameters from $\\texttt{EST}$ will be robust to errors. Importantly, the final policy regret only depends on $\\texttt{EST}$'s predictions on the visited trajectory, which relaxes a bottleneck on identifying the true parameters globally. To demonstrate our framework, we develop a computationally efficient variant of Gradient-based Adaptive Policy Selection, called Memoryless GAPS (M-GAPS), and use it to instantiate $\\texttt{ALG}$. Combining M-GAPS with online gradient descent to instantiate $\\texttt{EST}$ yields (to our knowledge) the first local regret bound for online policy optimization in nonlinear time-varying systems with unknown dynamics.",
+      "abstract": "We study online policy optimization in nonlinear time-varying dynamical systems where the true dynamical models are unknown to the controller. This problem is challenging because, unlike in linear systems, the controller cannot obtain globally accurate estimations of the ground-truth dynamics using local exploration. We propose a meta-framework that combines a general online policy optimization algorithm (textttALG) with a general online estimator of the dynamical system's model parameters (textttEST). We show that if the hypothetical joint dynamics induced by textttALG with known parameters satisfies several desired properties, the joint dynamics under inexact parameters from textttEST will be robust to errors. Importantly, the final policy regret only depends on textttEST's predictions on the visited trajectory, which relaxes a bottleneck on identifying the true parameters globally. To demonstrate our framework, we develop a computationally efficient variant of Gradient-based Adaptive Policy Selection, called Memoryless GAPS (M-GAPS), and use it to instantiate textttALG. Combining M-GAPS with online gradient descent to instantiate textttEST yields (to our knowledge) the first local regret bound for online policy optimization in nonlinear time-varying systems with unknown dynamics.",
       "summary": "",
       "url": "../papers/2404_13009/",
       "treeUrl": "../tree/#paper=2404_13009",
@@ -77165,7 +77073,7 @@ window.timelineData = {
         "Reference-Free Formula Drift with Reinforcement Learning: From Driving Data to Tire Energy-Inspired, Real-World Policies"
       ],
       "tags": [],
-      "abstract": "The skill to drift a car--i.e., operate in a state of controlled oversteer like professional drivers--could give future autonomous cars maximum flexibility when they need to retain control in adverse conditions or avoid collisions. We investigate real-time drifting strategies that put the car where needed while bypassing expensive trajectory optimization. To this end, we design a reinforcement learning agent that builds on the concept of tire energy absorption to autonomously drift through changing and complex waypoint configurations while safely staying within track bounds. We achieve zero-shot deployment on the car by training the agent in a simulation environment built on top of a neural stochastic differential equation vehicle model learned from pre-collected driving data. Experiments on a Toyota GR Supra and Lexus LC 500 show that the agent is capable of drifting smoothly through varying waypoint configurations with tracking error as low as 10 cm while stably pushing the vehicles to sideslip angles of up to 63°.",
+      "abstract": "The skill to drift a car - i.e., operate in a state of controlled oversteer like professional drivers - could give future autonomous cars maximum flexibility when they need to retain control in adverse conditions or avoid collisions. We investigate real-time drifting strategies that put the car where needed while bypassing expensive trajectory optimization. To this end, we design a reinforcement learning agent that builds on the concept of tire energy absorption to autonomously drift through changing and complex waypoint configurations while safely staying within track bounds. We achieve zero-shot deployment on the car by training the agent in a simulation environment built on top of a neural stochastic differential equation vehicle model learned from pre-collected driving data. Experiments on a Toyota GR Supra and Lexus LC 500 show that the agent is capable of drifting smoothly through varying waypoint configurations with tracking error as low as 10 cm while stably pushing the vehicles to sideslip angles of up to 63°.",
       "summary": "",
       "url": "../papers/2410_20990/",
       "treeUrl": "../tree/#paper=2410_20990",
@@ -77427,7 +77335,7 @@ window.timelineData = {
         "Manipulation",
         "UMI"
       ],
-      "abstract": "We present Universal Manipulation Interface (UMI) -- a data collection and policy learning framework that allows direct skill transfer from in-the-wild human demonstrations to deployable robot policies. UMI employs hand-held grippers coupled with careful interface design to enable portable, low-cost, and information-rich data collection for challenging bimanual and dynamic manipulation demonstrations. To facilitate deployable policy learning, UMI incorporates a carefully designed policy interface with inference-time latency matching and a relative-trajectory action representation. The resulting learned policies are hardware-agnostic and deployable across multiple robot platforms. Equipped with these features, UMI framework unlocks new robot manipulation capabilities, allowing zero-shot generalizable dynamic, bimanual, precise, and long-horizon behaviors, by only changing the training data for each task. We demonstrate UMI's versatility and efficacy with comprehensive real-world experiments, where policies learned via UMI zero-shot generalize to novel environments and objects when trained on diverse human demonstrations. UMI's hardware and software system is open-sourced at https://umi-gripper.github.io.",
+      "abstract": "We present Universal Manipulation Interface (UMI) - a data collection and policy learning framework that allows direct skill transfer from in-the-wild human demonstrations to deployable robot policies. UMI employs hand-held grippers coupled with careful interface design to enable portable, low-cost, and information-rich data collection for challenging bimanual and dynamic manipulation demonstrations. To facilitate deployable policy learning, UMI incorporates a carefully designed policy interface with inference-time latency matching and a relative-trajectory action representation. The resulting learned policies are hardware-agnostic and deployable across multiple robot platforms. Equipped with these features, UMI framework unlocks new robot manipulation capabilities, allowing zero-shot generalizable dynamic, bimanual, precise, and long-horizon behaviors, by only changing the training data for each task. We demonstrate UMI's versatility and efficacy with comprehensive real-world experiments, where policies learned via UMI zero-shot generalize to novel environments and objects when trained on diverse human demonstrations. UMI's hardware and software system is open-sourced at https://umi-gripper.github.io.",
       "summary": "",
       "url": "../papers/2402_10329/",
       "treeUrl": "../tree/#paper=2402_10329",
@@ -77724,49 +77632,6 @@ window.timelineData = {
       "mapUrl": "../map/#paper=2406_15349",
       "timelineUrl": "../timeline/#paper=2406_15349",
       "searchUrl": "../search/?paper=2406_15349"
-    },
-    {
-      "id": "2404_18021",
-      "label": "CRISPR-GPT for Agentic Automation of Gene-editing Experiments",
-      "title": "CRISPR-GPT for Agentic Automation of Gene-editing Experiments",
-      "authors": [
-        "Yuanhao Qu",
-        "Kaixuan Huang",
-        "Ming Yin",
-        "Kanghong Zhan",
-        "Dyllan Liu",
-        "Di Yin",
-        "Henry C. Cousins",
-        "William A. Johnson",
-        "Xiaotong Wang",
-        "Mihir Shah",
-        "Russ B. Altman",
-        "Denny Zhou",
-        "Mengdi Wang",
-        "Le Cong"
-      ],
-      "authorShort": "Qu, Huang, Yin",
-      "year": 2024,
-      "source": "",
-      "type": "Preprint",
-      "superCategory": "Human & Natural Worlds",
-      "category": "Biology",
-      "subCategory": "Genetic Engineering",
-      "path": [
-        "Tree",
-        "Human & Natural Worlds",
-        "Biology",
-        "Genetic Engineering",
-        "CRISPR-GPT for Agentic Automation of Gene-editing Experiments"
-      ],
-      "tags": [],
-      "abstract": "The introduction of genome engineering technology has transformed biomedical research, making it possible to make precise changes to genetic information. However, creating an efficient gene-editing system requires a deep understanding of CRISPR technology, and the complex experimental systems under investigation. While Large Language Models (LLMs) have shown promise in various tasks, they often lack specific knowledge and struggle to accurately solve biological design problems. In this work, we introduce CRISPR-GPT, an LLM agent augmented with domain knowledge and external tools to automate and enhance the design process of CRISPR-based gene-editing experiments. CRISPR-GPT leverages the reasoning ability of LLMs to facilitate the process of selecting CRISPR systems, designing guide RNAs, recommending cellular delivery methods, drafting protocols, and designing validation experiments to confirm editing outcomes. We showcase the potential of CRISPR-GPT for assisting non-expert researchers with gene-editing experiments from scratch and validate the agent's effectiveness in a real-world use case. Furthermore, we explore the ethical and regulatory considerations associated with automated gene-editing design, highlighting the need for responsible and transparent use of these tools. Our work aims to bridge the gap between beginner biological researchers and CRISPR genome engineering techniques, and demonstrate the potential of LLM agents in facilitating complex biological discovery tasks. The published version of this draft is available at https://www.nature.com/articles/s41551-025-01463-z.",
-      "summary": "",
-      "url": "../papers/2404_18021/",
-      "treeUrl": "../tree/#paper=2404_18021",
-      "mapUrl": "../map/#paper=2404_18021",
-      "timelineUrl": "../timeline/#paper=2404_18021",
-      "searchUrl": "../search/?paper=2404_18021"
     },
     {
       "id": "2401_13627",
@@ -78137,7 +78002,7 @@ window.timelineData = {
         "State Space Models, Emergence, and Ergodicity: How Many Parameters Are Needed for Stable Predictions?"
       ],
       "tags": [],
-      "abstract": "How many parameters are required for a model to execute a given task? It has been argued that large language models, pre-trained via self-supervised learning, exhibit emergent capabilities such as multi-step reasoning as their number of parameters reach a critical scale. In the present work, we explore whether this phenomenon can analogously be replicated in a simple theoretical model. We show that the problem of learning linear dynamical systems -- a simple instance of self-supervised learning -- exhibits a corresponding phase transition. Namely, for every non-ergodic linear system there exists a critical threshold such that a learner using fewer parameters than said threshold cannot achieve bounded error for large sequence lengths. Put differently, in our model we find that tasks exhibiting substantial long-range correlation require a certain critical number of parameters -- a phenomenon akin to emergence. We also investigate the role of the learner's parametrization and consider a simple version of a linear dynamical system with hidden state -- an imperfectly observed random walk in $\\mathbb{R}$. For this situation, we show that there exists no learner using a linear filter which can succesfully learn the random walk unless the filter length exceeds a certain threshold depending on the effective memory length and horizon of the problem.",
+      "abstract": "How many parameters are required for a model to execute a given task? It has been argued that large language models, pre-trained via self-supervised learning, exhibit emergent capabilities such as multi-step reasoning as their number of parameters reach a critical scale. In the present work, we explore whether this phenomenon can analogously be replicated in a simple theoretical model. We show that the problem of learning linear dynamical systems - a simple instance of self-supervised learning - exhibits a corresponding phase transition. Namely, for every non-ergodic linear system there exists a critical threshold such that a learner using fewer parameters than said threshold cannot achieve bounded error for large sequence lengths. Put differently, in our model we find that tasks exhibiting substantial long-range correlation require a certain critical number of parameters - a phenomenon akin to emergence. We also investigate the role of the learner's parametrization and consider a simple version of a linear dynamical system with hidden state - an imperfectly observed random walk in R. For this situation, we show that there exists no learner using a linear filter which can succesfully learn the random walk unless the filter length exceeds a certain threshold depending on the effective memory length and horizon of the problem.",
       "summary": "",
       "url": "../papers/2409_13421/",
       "treeUrl": "../tree/#paper=2409_13421",
@@ -82092,7 +81957,7 @@ window.timelineData = {
         "Accuracy",
         "NP-hardness"
       ],
-      "abstract": "We present CLIPPER+, an algorithm for finding maximal cliques in unweighted graphs for outlier-robust global registration. The registration problem can be formulated as a graph and solved by finding its maximum clique. This formulation leads to extreme robustness to outliers; however, finding the maximum clique is an NP-hard problem, and therefore approximation is required in practice for large-size problems. The performance of an approximation algorithm is evaluated by its computational complexity (the lower the runtime, the better) and solution accuracy (how close the solution is to the maximum clique). Accordingly, the main contribution of CLIPPER+ is outperforming the state-of-the-art in accuracy while maintaining a relatively low runtime. CLIPPER+ builds on prior work (CLIPPER [1] and PMC [2]) and prunes the graph by removing vertices that have a small core number and cannot be a part of the maximum clique. This will result in a smaller graph, on which the maximum clique can be estimated considerably faster. We evaluate the performance of CLIPPER+ on standard graph benchmarks, as well as synthetic and real-world point cloud registration problems. These evaluations demonstrate that CLIPPER+ has the highest accuracy and can register point clouds in scenarios where over $99\\%$ of associations are outliers. Our code and evaluation benchmarks are released at https://github.com/ariarobotics/clipperp.",
+      "abstract": "We present CLIPPER+, an algorithm for finding maximal cliques in unweighted graphs for outlier-robust global registration. The registration problem can be formulated as a graph and solved by finding its maximum clique. This formulation leads to extreme robustness to outliers; however, finding the maximum clique is an NP-hard problem, and therefore approximation is required in practice for large-size problems. The performance of an approximation algorithm is evaluated by its computational complexity (the lower the runtime, the better) and solution accuracy (how close the solution is to the maximum clique). Accordingly, the main contribution of CLIPPER+ is outperforming the state-of-the-art in accuracy while maintaining a relatively low runtime. CLIPPER+ builds on prior work (CLIPPER [1] and PMC [2]) and prunes the graph by removing vertices that have a small core number and cannot be a part of the maximum clique. This will result in a smaller graph, on which the maximum clique can be estimated considerably faster. We evaluate the performance of CLIPPER+ on standard graph benchmarks, as well as synthetic and real-world point cloud registration problems. These evaluations demonstrate that CLIPPER+ has the highest accuracy and can register point clouds in scenarios where over 99% of associations are outliers. Our code and evaluation benchmarks are released at https://github.com/ariarobotics/clipperp.",
       "summary": "",
       "url": "../papers/2402_15464/",
       "treeUrl": "../tree/#paper=2402_15464",
@@ -82274,6 +82139,49 @@ window.timelineData = {
       "mapUrl": "../map/#paper=2401_08281",
       "timelineUrl": "../timeline/#paper=2401_08281",
       "searchUrl": "../search/?paper=2401_08281"
+    },
+    {
+      "id": "2404_18021",
+      "label": "CRISPR-GPT for Agentic Automation of Gene-editing Experiments",
+      "title": "CRISPR-GPT for Agentic Automation of Gene-editing Experiments",
+      "authors": [
+        "Yuanhao Qu",
+        "Kaixuan Huang",
+        "Ming Yin",
+        "Kanghong Zhan",
+        "Dyllan Liu",
+        "Di Yin",
+        "Henry C. Cousins",
+        "William A. Johnson",
+        "Xiaotong Wang",
+        "Mihir Shah",
+        "Russ B. Altman",
+        "Denny Zhou",
+        "Mengdi Wang",
+        "Le Cong"
+      ],
+      "authorShort": "Qu, Huang, Yin",
+      "year": 2024,
+      "source": "",
+      "type": "Preprint",
+      "superCategory": "Quantitative Foundations",
+      "category": "Biology",
+      "subCategory": "Genetic Engineering",
+      "path": [
+        "Tree",
+        "Quantitative Foundations",
+        "Biology",
+        "Genetic Engineering",
+        "CRISPR-GPT for Agentic Automation of Gene-editing Experiments"
+      ],
+      "tags": [],
+      "abstract": "The introduction of genome engineering technology has transformed biomedical research, making it possible to make precise changes to genetic information. However, creating an efficient gene-editing system requires a deep understanding of CRISPR technology, and the complex experimental systems under investigation. While Large Language Models (LLMs) have shown promise in various tasks, they often lack specific knowledge and struggle to accurately solve biological design problems. In this work, we introduce CRISPR-GPT, an LLM agent augmented with domain knowledge and external tools to automate and enhance the design process of CRISPR-based gene-editing experiments. CRISPR-GPT leverages the reasoning ability of LLMs to facilitate the process of selecting CRISPR systems, designing guide RNAs, recommending cellular delivery methods, drafting protocols, and designing validation experiments to confirm editing outcomes. We showcase the potential of CRISPR-GPT for assisting non-expert researchers with gene-editing experiments from scratch and validate the agent's effectiveness in a real-world use case. Furthermore, we explore the ethical and regulatory considerations associated with automated gene-editing design, highlighting the need for responsible and transparent use of these tools. Our work aims to bridge the gap between beginner biological researchers and CRISPR genome engineering techniques, and demonstrate the potential of LLM agents in facilitating complex biological discovery tasks. The published version of this draft is available at https://www.nature.com/articles/s41551-025-01463-z.",
+      "summary": "",
+      "url": "../papers/2404_18021/",
+      "treeUrl": "../tree/#paper=2404_18021",
+      "mapUrl": "../map/#paper=2404_18021",
+      "timelineUrl": "../timeline/#paper=2404_18021",
+      "searchUrl": "../search/?paper=2404_18021"
     },
     {
       "id": "2024_carson_towards_understanding_cg_and",
@@ -82495,7 +82403,7 @@ window.timelineData = {
         "Optimality of Linear Policies in Distributionally Robust Linear Quadratic Control"
       ],
       "tags": [],
-      "abstract": "We study a generalization of the classical discrete-time, Linear-Quadratic-Gaussian (LQG) control problem where the noise distributions affecting the states and observations are unknown and chosen adversarially from divergence-based ambiguity sets centered around a known nominal distribution. For a finite horizon model with Gaussian nominal noise and a structural assumption on the divergence that is satisfied by many examples -- including 2-Wasserstein distance, Kullback-Leibler divergence, moment-based divergences, entropy-regularized optimal transport, or Fisher (score-matching) divergence -- we prove that a control policy that is affine in the observations is optimal and the adversary's corresponding worst-case optimal distribution is Gaussian. When the nominal means are zero (as in the classical LQG model), we show that the adversary should optimally set the distribution's mean to zero and the optimal control policy becomes linear. Moreover, the adversary should optimally ``inflate\" the noise by choosing covariance matrices that dominate the nominal covariance in Loewner order. Exploiting these structural properties, we develop a Frank-Wolfe algorithm whose inner step solves standard LQG subproblems via Kalman filtering and dynamic programming and show that the implementation consistently outperforms semidefinite-programming reformulations of the problem. All structural and algorithmic results extend to an infinite-horizon, average-cost formulation, yielding stationary linear policies and a time-invariant Gaussian distribution for the adversary. Lastly, we show that when the divergence is 2-Wasserstein, the entire framework remains valid when the nominal distributions are elliptical rather than Gaussian.",
+      "abstract": "We study a generalization of the classical discrete-time, Linear-Quadratic-Gaussian (LQG) control problem where the noise distributions affecting the states and observations are unknown and chosen adversarially from divergence-based ambiguity sets centered around a known nominal distribution. For a finite horizon model with Gaussian nominal noise and a structural assumption on the divergence that is satisfied by many examples - including 2-Wasserstein distance, Kullback-Leibler divergence, moment-based divergences, entropy-regularized optimal transport, or Fisher (score-matching) divergence - we prove that a control policy that is affine in the observations is optimal and the adversary's corresponding worst-case optimal distribution is Gaussian. When the nominal means are zero (as in the classical LQG model), we show that the adversary should optimally set the distribution's mean to zero and the optimal control policy becomes linear. Moreover, the adversary should optimally ``inflate\" the noise by choosing covariance matrices that dominate the nominal covariance in Loewner order. Exploiting these structural properties, we develop a Frank-Wolfe algorithm whose inner step solves standard LQG subproblems via Kalman filtering and dynamic programming and show that the implementation consistently outperforms semidefinite-programming reformulations of the problem. All structural and algorithmic results extend to an infinite-horizon, average-cost formulation, yielding stationary linear policies and a time-invariant Gaussian distribution for the adversary. Lastly, we show that when the divergence is 2-Wasserstein, the entire framework remains valid when the nominal distributions are elliptical rather than Gaussian.",
       "summary": "",
       "url": "../papers/2508_11858/",
       "treeUrl": "../tree/#paper=2508_11858",
@@ -82535,7 +82443,7 @@ window.timelineData = {
         "Robust control",
         "Random variable"
       ],
-      "abstract": "Uncertainties influencing the dynamical systems pose a significant challenge in estimating the achievable performance of a controller aiming to control such uncertain systems. When the uncertainties are of stochastic nature, obtaining hard guarantees for the robustness of a controller aiming to hedge against the uncertainty is not possible. This issue set the platform for the development of probabilistic robust control approaches. In this work, we utilise the gap metric between the known nominal model and the unknown perturbed model of the uncertain system as a tool to gauge the robustness of a controller and formulate the gap as a random variable in the setting with stochastic uncertainties. The main results of this paper include giving a probabilistic bound on the gap exceeding a known threshold, followed by bounds on the expected gap value and probabilistic robust stability and performance guarantees in terms of the gap metric. We also provide a probabilistic controller performance certification under gap uncertainty and probabilistic guarantee on the achievable $\\mathcal{H}_{\\infty}$ robustness. Numerical simulations are provided to demonstrate the proposed approach.",
+      "abstract": "Uncertainties influencing the dynamical systems pose a significant challenge in estimating the achievable performance of a controller aiming to control such uncertain systems. When the uncertainties are of stochastic nature, obtaining hard guarantees for the robustness of a controller aiming to hedge against the uncertainty is not possible. This issue set the platform for the development of probabilistic robust control approaches. In this work, we utilise the gap metric between the known nominal model and the unknown perturbed model of the uncertain system as a tool to gauge the robustness of a controller and formulate the gap as a random variable in the setting with stochastic uncertainties. The main results of this paper include giving a probabilistic bound on the gap exceeding a known threshold, followed by bounds on the expected gap value and probabilistic robust stability and performance guarantees in terms of the gap metric. We also provide a probabilistic controller performance certification under gap uncertainty and probabilistic guarantee on the achievable H_infinity robustness. Numerical simulations are provided to demonstrate the proposed approach.",
       "summary": "",
       "url": "../papers/2507_10010/",
       "treeUrl": "../tree/#paper=2507_10010",
@@ -82777,7 +82685,7 @@ window.timelineData = {
         "Neural networks",
         "Optimization"
       ],
-      "abstract": "Finding an $ε$-stationary point of a nonconvex function with a Lipschitz continuous Hessian is a central problem in optimization. Regularized Newton methods are a classical tool and have been studied extensively, yet they still face a trade-off between global and local convergence. Whether a parameter-free algorithm of this type can simultaneously achieve optimal global complexity and quadratic local convergence remains an open question. To bridge this long-standing gap, we propose a new class of regularizers constructed from the current and previous gradients, and leverage the conjugate gradient approach with a negative curvature monitor to solve the regularized Newton equation. The proposed algorithm is adaptive, requiring no prior knowledge of the Hessian Lipschitz constant, and achieves a global complexity of $O(ε^{-3/2})$ in terms of the second-order oracle calls, and $\\tilde{O}(ε^{-7/4})$ for Hessian-vector products, respectively. When the iterates converge to a point where the Hessian is positive definite, the method exhibits quadratic local convergence. Preliminary numerical results, including training the physics-informed neural networks, illustrate the competitiveness of our algorithm.",
+      "abstract": "Finding an epsilon-stationary point of a nonconvex function with a Lipschitz continuous Hessian is a central problem in optimization. Regularized Newton methods are a classical tool and have been studied extensively, yet they still face a trade-off between global and local convergence. Whether a parameter-free algorithm of this type can simultaneously achieve optimal global complexity and quadratic local convergence remains an open question. To bridge this long-standing gap, we propose a new class of regularizers constructed from the current and previous gradients, and leverage the conjugate gradient approach with a negative curvature monitor to solve the regularized Newton equation. The proposed algorithm is adaptive, requiring no prior knowledge of the Hessian Lipschitz constant, and achieves a global complexity of O(epsilon^(-3/2)) in terms of the second-order oracle calls, and tildeO(epsilon^(-7/4)) for Hessian-vector products, respectively. When the iterates converge to a point where the Hessian is positive definite, the method exhibits quadratic local convergence. Preliminary numerical results, including training the physics-informed neural networks, illustrate the competitiveness of our algorithm.",
       "summary": "",
       "url": "../papers/2502_04799/",
       "treeUrl": "../tree/#paper=2502_04799",
@@ -82836,7 +82744,7 @@ window.timelineData = {
         "A Survey of Self-Evolving Agents: What, When, How, and Where to Evolve on the Path to Artificial Super Intelligence"
       ],
       "tags": [],
-      "abstract": "Large Language Models (LLMs) have demonstrated remarkable capabilities across diverse tasks but remain fundamentally static, unable to adapt their internal parameters to novel tasks, evolving knowledge domains, or dynamic interaction contexts. As LLMs are increasingly deployed in open-ended, interactive environments, this static nature has become a critical bottleneck, necessitating agents that can adaptively reason, act, and evolve in real time. This paradigm shift -- from scaling static models to developing self-evolving agents -- has sparked growing interest in architectures and methods enabling continual learning and adaptation from data, interactions, and experiences. This survey provides the first systematic and comprehensive review of self-evolving agents, organizing the field around three foundational dimensions: what, when, and how to evolve. We examine evolutionary mechanisms across agent components (e.g., models, memory, tools, architecture), categorize adaptation methods by stages (e.g., intra-test-time, inter-test-time), and analyze the algorithmic and architectural designs that guide evolutionary adaptation (e.g., scalar rewards, textual feedback, single-agent and multi-agent systems). Additionally, we analyze evaluation metrics and benchmarks tailored for self-evolving agents, highlight applications in domains such as coding, education, and healthcare, and identify critical challenges and research directions in safety, scalability, and co-evolutionary dynamics. By providing a structured framework for understanding and designing self-evolving agents, this survey establishes a roadmap for advancing more adaptive, robust, and versatile agentic systems in both research and real-world deployments, and ultimately sheds light on the realization of Artificial Super Intelligence (ASI) where agents evolve autonomously and perform beyond human-level intelligence across tasks.",
+      "abstract": "Large Language Models (LLMs) have demonstrated remarkable capabilities across diverse tasks but remain fundamentally static, unable to adapt their internal parameters to novel tasks, evolving knowledge domains, or dynamic interaction contexts. As LLMs are increasingly deployed in open-ended, interactive environments, this static nature has become a critical bottleneck, necessitating agents that can adaptively reason, act, and evolve in real time. This paradigm shift - from scaling static models to developing self-evolving agents - has sparked growing interest in architectures and methods enabling continual learning and adaptation from data, interactions, and experiences. This survey provides the first systematic and comprehensive review of self-evolving agents, organizing the field around three foundational dimensions: what, when, and how to evolve. We examine evolutionary mechanisms across agent components (e.g., models, memory, tools, architecture), categorize adaptation methods by stages (e.g., intra-test-time, inter-test-time), and analyze the algorithmic and architectural designs that guide evolutionary adaptation (e.g., scalar rewards, textual feedback, single-agent and multi-agent systems). Additionally, we analyze evaluation metrics and benchmarks tailored for self-evolving agents, highlight applications in domains such as coding, education, and healthcare, and identify critical challenges and research directions in safety, scalability, and co-evolutionary dynamics. By providing a structured framework for understanding and designing self-evolving agents, this survey establishes a roadmap for advancing more adaptive, robust, and versatile agentic systems in both research and real-world deployments, and ultimately sheds light on the realization of Artificial Super Intelligence (ASI) where agents evolve autonomously and perform beyond human-level intelligence across tasks.",
       "summary": "",
       "url": "../papers/2507_21046/",
       "treeUrl": "../tree/#paper=2507_21046",
@@ -82907,7 +82815,7 @@ window.timelineData = {
         "An Elementary Proof of the Hanson-Wright Inequality"
       ],
       "tags": [],
-      "abstract": "The Hanson-Wright inequality establishes exponential concentration for quadratic forms $X^T M X$, where $X$ is a vector with independent sub-Gaussian entries and with parameters depending on the Frobenius and operator norms of $M$. The most elementary proof to date is due to Rudelson & Vershinyn, who still rely on a convex decoupling argument due to Bourgain, followed by Gaussian comparison to arrive at the result. In this note we sidestep this decoupling and provide an arguably simpler proof reliant only on elementary properties of sub-Gaussian variables and Gaussian rotational invariance. As a consequence we also obtain improved constants.",
+      "abstract": "The Hanson-Wright inequality establishes exponential concentration for quadratic forms X^(T) M X, where X is a vector with independent sub-Gaussian entries and with parameters depending on the Frobenius and operator norms of M. The most elementary proof to date is due to Rudelson & Vershinyn, who still rely on a convex decoupling argument due to Bourgain, followed by Gaussian comparison to arrive at the result. In this note we sidestep this decoupling and provide an arguably simpler proof reliant only on elementary properties of sub-Gaussian variables and Gaussian rotational invariance. As a consequence we also obtain improved constants.",
       "summary": "",
       "url": "../papers/2509_00881/",
       "treeUrl": "../tree/#paper=2509_00881",
@@ -83025,7 +82933,7 @@ window.timelineData = {
         "TM",
         "Convex function"
       ],
-      "abstract": "We consider iterative gradient-based optimization algorithms applied to functions that are smooth and strongly convex. The fastest globally convergent algorithm for this class of functions is the Triple Momentum (TM) method. We show that if the objective function is also twice continuously differentiable, a new, faster algorithm emerges, which we call $C^2$-Momentum (C2M). We prove that C2M is globally convergent and that its worst-case convergence rate is strictly faster than that of TM, with no additional computational cost. We validate our theoretical findings with numerical examples, demonstrating that C2M outperforms TM when the objective function is twice continuously differentiable.",
+      "abstract": "We consider iterative gradient-based optimization algorithms applied to functions that are smooth and strongly convex. The fastest globally convergent algorithm for this class of functions is the Triple Momentum (TM) method. We show that if the objective function is also twice continuously differentiable, a new, faster algorithm emerges, which we call C2-Momentum (C2M). We prove that C2M is globally convergent and that its worst-case convergence rate is strictly faster than that of TM, with no additional computational cost. We validate our theoretical findings with numerical examples, demonstrating that C2M outperforms TM when the objective function is twice continuously differentiable.",
       "summary": "",
       "url": "../papers/2506_01168/",
       "treeUrl": "../tree/#paper=2506_01168",
@@ -83238,7 +83146,7 @@ window.timelineData = {
         "Distributionally Robust Optimization over Wasserstein Balls with I.i.d. Structure"
       ],
       "tags": [],
-      "abstract": "We consider distributionally robust optimization problems where the uncertainty is modeled via a structured Wasserstein ambiguity set. Specifically, the ambiguity is restricted to product measures $P^{\\otimes N}$, where $P$ lies within a Wasserstein ball centered at an empirical distribution $\\widehat{P}$. This structure reflects the assumption of independent and identically distributed (i.i.d.) uncertainty components and yields a non-convex ambiguity set that is strictly contained in its unstructured counterpart, thereby reducing conservatism. The resulting optimization problem is generally intractable due to the loss of convexity. We address this by introducing a sequence of tractable convex relaxations, each admitting strong duality, and prove that this sequence converges to the original problem value under suitable conditions. Numerical examples are provided to illustrate the effectiveness of the proposed approach. As a byproduct of our proofs, we establish a novel formula, of independent interest, relating the Wasserstein distance of a mixture of product distributions to the Wasserstein distance between its constituent measures.",
+      "abstract": "We consider distributionally robust optimization problems where the uncertainty is modeled via a structured Wasserstein ambiguity set. Specifically, the ambiguity is restricted to product measures P^(otimes) N, where P lies within a Wasserstein ball centered at an empirical distribution widehatP. This structure reflects the assumption of independent and identically distributed (i.i.d.) uncertainty components and yields a non-convex ambiguity set that is strictly contained in its unstructured counterpart, thereby reducing conservatism. The resulting optimization problem is generally intractable due to the loss of convexity. We address this by introducing a sequence of tractable convex relaxations, each admitting strong duality, and prove that this sequence converges to the original problem value under suitable conditions. Numerical examples are provided to illustrate the effectiveness of the proposed approach. As a byproduct of our proofs, we establish a novel formula, of independent interest, relating the Wasserstein distance of a mixture of product distributions to the Wasserstein distance between its constituent measures.",
       "summary": "",
       "url": "../papers/2503_23543/",
       "treeUrl": "../tree/#paper=2503_23543",
@@ -83275,7 +83183,7 @@ window.timelineData = {
         "Fantastic Pretraining Optimizers and Where to Find Them"
       ],
       "tags": [],
-      "abstract": "AdamW has long been the dominant optimizer in language model pretraining, despite numerous claims that alternative optimizers offer 1.4 to 2x speedup. We posit that two methodological shortcomings have obscured fair comparisons and hindered practical adoption: (i) unequal hyperparameter tuning and (ii) limited or misleading evaluation setups. To address these two issues, we conduct a systematic study of ten deep learning optimizers across four model scales (0.1B-1.2B parameters) and data-to-model ratios (1-8x the Chinchilla optimum). We find that fair and informative comparisons require rigorous hyperparameter tuning and evaluations across a range of model scales and data-to-model ratios, performed at the end of training. First, optimal hyperparameters for one optimizer may be suboptimal for another, making blind hyperparameter transfer unfair. Second, the actual speedup of many proposed optimizers over well-tuned baselines is lower than claimed and decreases with model size to only 1.1x for 1.2B parameter models. Thirdly, comparing intermediate checkpoints before reaching the target training budgets can be misleading, as rankings between two optimizers can flip during training due to learning rate decay. Through our thorough investigation, we find that all the fastest optimizers such as Muon and Soap, use matrices as preconditioners -- multiplying gradients with matrices rather than entry-wise scalars. However, the speedup of matrix-based optimizers is inversely proportional to model scale, decreasing from 1.4x over AdamW for 0.1B parameter models to merely 1.1x for 1.2B parameter models.",
+      "abstract": "AdamW has long been the dominant optimizer in language model pretraining, despite numerous claims that alternative optimizers offer 1.4 to 2x speedup. We posit that two methodological shortcomings have obscured fair comparisons and hindered practical adoption: (i) unequal hyperparameter tuning and (ii) limited or misleading evaluation setups. To address these two issues, we conduct a systematic study of ten deep learning optimizers across four model scales (0.1B-1.2B parameters) and data-to-model ratios (1-8x the Chinchilla optimum). We find that fair and informative comparisons require rigorous hyperparameter tuning and evaluations across a range of model scales and data-to-model ratios, performed at the end of training. First, optimal hyperparameters for one optimizer may be suboptimal for another, making blind hyperparameter transfer unfair. Second, the actual speedup of many proposed optimizers over well-tuned baselines is lower than claimed and decreases with model size to only 1.1x for 1.2B parameter models. Thirdly, comparing intermediate checkpoints before reaching the target training budgets can be misleading, as rankings between two optimizers can flip during training due to learning rate decay. Through our thorough investigation, we find that all the fastest optimizers such as Muon and Soap, use matrices as preconditioners - multiplying gradients with matrices rather than entry-wise scalars. However, the speedup of matrix-based optimizers is inversely proportional to model scale, decreasing from 1.4x over AdamW for 0.1B parameter models to merely 1.1x for 1.2B parameter models.",
       "summary": "",
       "url": "../papers/2509_02046/",
       "treeUrl": "../tree/#paper=2509_02046",
@@ -83318,7 +83226,7 @@ window.timelineData = {
         "Control",
         "Learning"
       ],
-      "abstract": "Constrained non-convex optimization is fundamentally challenging, as global solutions are generally intractable and constraint qualifications may not hold. However, in many applications, including safe policy optimization in control and reinforcement learning, such problems possess hidden convexity, meaning they can be reformulated as convex programs via a nonlinear invertible transformation. Typically such transformations are implicit or unknown, making the direct link with the convex program impossible. On the other hand, (sub-)gradients with respect to the original variables are often accessible or can be easily estimated, which motivates algorithms that operate directly in the original (non-convex) problem space using standard (sub-)gradient oracles. In this work, we develop the first algorithms to provably solve such non-convex problems to global minima. First, using a modified inexact proximal point method, we establish global last-iterate convergence guarantees with $\\widetilde{\\mathcal{O}}(\\varepsilon^{-3})$ oracle complexity in non-smooth setting. For smooth problems, we propose a new bundle-level type method based on linearly constrained quadratic subproblems, improving the oracle complexity to $\\widetilde{\\mathcal{O}}(\\varepsilon^{-1})$. Surprisingly, despite non-convexity, our methodology does not require any constraint qualifications, can handle hidden convex equality constraints, and achieves complexities matching those for solving unconstrained hidden convex optimization.",
+      "abstract": "Constrained non-convex optimization is fundamentally challenging, as global solutions are generally intractable and constraint qualifications may not hold. However, in many applications, including safe policy optimization in control and reinforcement learning, such problems possess hidden convexity, meaning they can be reformulated as convex programs via a nonlinear invertible transformation. Typically such transformations are implicit or unknown, making the direct link with the convex program impossible. On the other hand, (sub-)gradients with respect to the original variables are often accessible or can be easily estimated, which motivates algorithms that operate directly in the original (non-convex) problem space using standard (sub-)gradient oracles. In this work, we develop the first algorithms to provably solve such non-convex problems to global minima. First, using a modified inexact proximal point method, we establish global last-iterate convergence guarantees with O~(epsilon^(-3)) oracle complexity in non-smooth setting. For smooth problems, we propose a new bundle-level type method based on linearly constrained quadratic subproblems, improving the oracle complexity to O~(epsilon^(-1)). Surprisingly, despite non-convexity, our methodology does not require any constraint qualifications, can handle hidden convex equality constraints, and achieves complexities matching those for solving unconstrained hidden convex optimization.",
       "summary": "",
       "url": "../papers/2511_10626/",
       "treeUrl": "../tree/#paper=2511_10626",
@@ -83480,7 +83388,7 @@ window.timelineData = {
         "Sequential convex programming",
         "Optimization problem"
       ],
-      "abstract": "We introduce a verification framework to exactly verify the worst-case performance of sequential convex programming (SCP) algorithms for parametric non-convex optimization. The verification problem is formulated as an optimization problem that maximizes a performance metric (e.g., the suboptimality after a given number of iterations) over parameters constrained to be in a parameter set and iterate sequences consistent with the SCP update rules. Our framework is general, extending the notion of SCP to include both conventional variants such as trust-region, convex-concave, and prox-linear methods, and algorithms that combine convex subproblems with rounding steps, as in relaxing and rounding schemes. Unlike existing analyses that may only provide local guarantees under limited conditions, our framework delivers global worst-case guarantees--quantifying how well an SCP algorithm performs across all problem instances in the specified family. Applications in control, signal processing, and operations research demonstrate that our framework provides, for the first time, global worst-case guarantees for SCP algorithms in the parametric setting.",
+      "abstract": "We introduce a verification framework to exactly verify the worst-case performance of sequential convex programming (SCP) algorithms for parametric non-convex optimization. The verification problem is formulated as an optimization problem that maximizes a performance metric (e.g., the suboptimality after a given number of iterations) over parameters constrained to be in a parameter set and iterate sequences consistent with the SCP update rules. Our framework is general, extending the notion of SCP to include both conventional variants such as trust-region, convex-concave, and prox-linear methods, and algorithms that combine convex subproblems with rounding steps, as in relaxing and rounding schemes. Unlike existing analyses that may only provide local guarantees under limited conditions, our framework delivers global worst-case guarantees - quantifying how well an SCP algorithm performs across all problem instances in the specified family. Applications in control, signal processing, and operations research demonstrate that our framework provides, for the first time, global worst-case guarantees for SCP algorithms in the parametric setting.",
       "summary": "",
       "url": "../papers/2511_10622/",
       "treeUrl": "../tree/#paper=2511_10622",
@@ -83559,7 +83467,7 @@ window.timelineData = {
         "An Operator Splitting Method for Large-Scale CVaR-Constrained Quadratic Programs"
       ],
       "tags": [],
-      "abstract": "We introduce a fast and scalable method for solving quadratic programs with conditional value-at-risk (CVaR) constraints. While these problems can be formulated as standard quadratic programs, the number of variables and constraints grows linearly with the number of scenarios, making general-purpose solvers impractical for large-scale problems. Our method combines operator splitting with a specialized $O(m\\log m)$ algorithm for projecting onto CVaR constraints, where $m$ is the number of scenarios. The method alternates between solving a linear system and performing parallel projections, onto CVaR constraints using our specialized algorithm and onto box constraints by simple clipping. Numerical examples from several application domains demonstrate that our method outperforms general-purpose solvers by several orders of magnitude on problems with up to millions of scenarios. Our method is implemented in an open-source package called CVQP.",
+      "abstract": "We introduce a fast and scalable method for solving quadratic programs with conditional value-at-risk (CVaR) constraints. While these problems can be formulated as standard quadratic programs, the number of variables and constraints grows linearly with the number of scenarios, making general-purpose solvers impractical for large-scale problems. Our method combines operator splitting with a specialized O(mlog m) algorithm for projecting onto CVaR constraints, where m is the number of scenarios. The method alternates between solving a linear system and performing parallel projections, onto CVaR constraints using our specialized algorithm and onto box constraints by simple clipping. Numerical examples from several application domains demonstrate that our method outperforms general-purpose solvers by several orders of magnitude on problems with up to millions of scenarios. Our method is implemented in an open-source package called CVQP.",
       "summary": "",
       "url": "../papers/2504_10814/",
       "treeUrl": "../tree/#paper=2504_10814",
@@ -84667,7 +84575,7 @@ window.timelineData = {
         "DYNUS"
       ],
       "tags": [],
-      "abstract": "This paper introduces DYNUS, an uncertainty-aware trajectory planner designed for dynamic unknown environments. Operating in such settings presents many challenges -- most notably, because the agent cannot predict the ground-truth future paths of obstacles, a previously planned trajectory can become unsafe at any moment, requiring rapid replanning to avoid collisions. Recently developed planners have used soft-constraint approaches to achieve the necessary fast computation times; however, these methods do not guarantee collision-free paths even with static obstacles. In contrast, hard-constraint methods ensure collision-free safety, but typically have longer computation times. To address these issues, we propose three key contributions. First, the DYNUS Global Planner (DGP) and Temporal Safe Corridor Generation operate in spatio-temporal space and handle both static and dynamic obstacles in the 3D environment. Second, the Safe Planning Framework leverages a combination of exploratory, safe, and contingency trajectories to flexibly re-route when potential future collisions with dynamic obstacles are detected. Finally, the Fast Hard-Constraint Local Trajectory Formulation uses a variable elimination approach to reduce the problem size and enable faster computation by pre-computing dependencies between free and dependent variables while still ensuring collision-free trajectories. We evaluated DYNUS in a variety of simulations, including dense forests, confined office spaces, cave systems, and dynamic environments. Our experiments show that DYNUS achieves a success rate of 100% and travel times that are approximately 25.0% faster than state-of-the-art methods. We also evaluated DYNUS on multiple platforms -- a quadrotor, a wheeled robot, and a quadruped -- in both simulation and hardware experiments.",
+      "abstract": "This paper introduces DYNUS, an uncertainty-aware trajectory planner designed for dynamic unknown environments. Operating in such settings presents many challenges - most notably, because the agent cannot predict the ground-truth future paths of obstacles, a previously planned trajectory can become unsafe at any moment, requiring rapid replanning to avoid collisions. Recently developed planners have used soft-constraint approaches to achieve the necessary fast computation times; however, these methods do not guarantee collision-free paths even with static obstacles. In contrast, hard-constraint methods ensure collision-free safety, but typically have longer computation times. To address these issues, we propose three key contributions. First, the DYNUS Global Planner (DGP) and Temporal Safe Corridor Generation operate in spatio-temporal space and handle both static and dynamic obstacles in the 3D environment. Second, the Safe Planning Framework leverages a combination of exploratory, safe, and contingency trajectories to flexibly re-route when potential future collisions with dynamic obstacles are detected. Finally, the Fast Hard-Constraint Local Trajectory Formulation uses a variable elimination approach to reduce the problem size and enable faster computation by pre-computing dependencies between free and dependent variables while still ensuring collision-free trajectories. We evaluated DYNUS in a variety of simulations, including dense forests, confined office spaces, cave systems, and dynamic environments. Our experiments show that DYNUS achieves a success rate of 100% and travel times that are approximately 25.0% faster than state-of-the-art methods. We also evaluated DYNUS on multiple platforms - a quadrotor, a wheeled robot, and a quadruped - in both simulation and hardware experiments.",
       "summary": "",
       "url": "../papers/2504_16734/",
       "treeUrl": "../tree/#paper=2504_16734",
@@ -85279,7 +85187,7 @@ window.timelineData = {
         "Sampling-Based Planning under STL Specifications: A Forward Invariance Approach"
       ],
       "tags": [],
-      "abstract": "We propose a variant of the Rapidly Exploring Random Tree Star (RRT$^{\\star}$) algorithm to synthesize trajectories satisfying a given spatio-temporal specification expressed in a fragment of Signal Temporal Logic (STL) for linear systems. Previous approaches for planning trajectories under STL specifications using sampling-based methods leverage either mixed-integer or non-smooth optimization techniques, with poor scalability in the horizon and complexity of the task. We adopt instead a control-theoretic perspective on the problem, based on the notion of set forward invariance. Specifically, from a given STL task defined over polyhedral predicates, we develop a novel algorithmic framework by which the task is efficiently encoded into a time-varying set via linear programming, such that trajectories evolving within the set also satisfy the task. Forward invariance properties of the resulting set with respect to the system dynamics and input limitations are then proved via non-smooth analysis. We then present a modified RRT$^{\\star}$ algorithm to synthesize asymptotically optimal and dynamically feasible trajectories satisfying a given STL specification, by sampling a tree of trajectories within the previously constructed time-varying set. We showcase two use cases of our approach involving an autonomous inspection of the International Space Station and room-servicing task requiring timed revisit of a charging station.",
+      "abstract": "We propose a variant of the Rapidly Exploring Random Tree Star (RRT^(star)) algorithm to synthesize trajectories satisfying a given spatio-temporal specification expressed in a fragment of Signal Temporal Logic (STL) for linear systems. Previous approaches for planning trajectories under STL specifications using sampling-based methods leverage either mixed-integer or non-smooth optimization techniques, with poor scalability in the horizon and complexity of the task. We adopt instead a control-theoretic perspective on the problem, based on the notion of set forward invariance. Specifically, from a given STL task defined over polyhedral predicates, we develop a novel algorithmic framework by which the task is efficiently encoded into a time-varying set via linear programming, such that trajectories evolving within the set also satisfy the task. Forward invariance properties of the resulting set with respect to the system dynamics and input limitations are then proved via non-smooth analysis. We then present a modified RRT^(star) algorithm to synthesize asymptotically optimal and dynamically feasible trajectories satisfying a given STL specification, by sampling a tree of trajectories within the previously constructed time-varying set. We showcase two use cases of our approach involving an autonomous inspection of the International Space Station and room-servicing task requiring timed revisit of a charging station.",
       "summary": "",
       "url": "../papers/2506_10739/",
       "treeUrl": "../tree/#paper=2506_10739",
@@ -86053,7 +85961,7 @@ window.timelineData = {
         "RAKOMO",
         "KOMO"
       ],
-      "abstract": "Legged manipulators, such as quadrupeds equipped with robotic arms, require motion planning techniques that account for their complex kinematic constraints in order to perform manipulation tasks both safely and effectively. However, trajectory optimization methods often face challenges due to the hybrid dynamics introduced by contact discontinuities, and tend to neglect leg limitations during planning for computational reasons. In this work, we propose RAKOMO, a path optimization technique that integrates the strengths of K-Order Markov Optimization (KOMO) with a kinematically-aware criterion based on the reachable region defined as reachability margin. We leverage a neural-network to predict the margin and optimize it by incorporating it in the standard KOMO formulation. This approach enables rapid convergence of gradient-based motion planning -- commonly tailored for continuous systems -- while adapting it effectively to legged manipulators, successfully executing loco-manipulation tasks. We benchmark RAKOMO against a baseline KOMO approach through a set of simulations for pick-and-place tasks with the HyQReal quadruped robot equipped with a Kinova Gen3 robotic arm.",
+      "abstract": "Legged manipulators, such as quadrupeds equipped with robotic arms, require motion planning techniques that account for their complex kinematic constraints in order to perform manipulation tasks both safely and effectively. However, trajectory optimization methods often face challenges due to the hybrid dynamics introduced by contact discontinuities, and tend to neglect leg limitations during planning for computational reasons. In this work, we propose RAKOMO, a path optimization technique that integrates the strengths of K-Order Markov Optimization (KOMO) with a kinematically-aware criterion based on the reachable region defined as reachability margin. We leverage a neural-network to predict the margin and optimize it by incorporating it in the standard KOMO formulation. This approach enables rapid convergence of gradient-based motion planning - commonly tailored for continuous systems - while adapting it effectively to legged manipulators, successfully executing loco-manipulation tasks. We benchmark RAKOMO against a baseline KOMO approach through a set of simulations for pick-and-place tasks with the HyQReal quadruped robot equipped with a Kinova Gen3 robotic arm.",
       "summary": "",
       "url": "../papers/2507_19652/",
       "treeUrl": "../tree/#paper=2507_19652",
@@ -86154,7 +86062,7 @@ window.timelineData = {
         "WASP"
       ],
       "tags": [],
-      "abstract": "MuJoCo is a powerful and efficient physics simulator widely used in robotics. One common way it is applied in practice is through Model Predictive Control (MPC), which uses repeated rollouts of the simulator to optimize future actions and generate responsive control policies in real time. To make this process more accessible, the open source library MuJoCo MPC (MJPC) provides ready-to-use MPC algorithms and implementations built directly on top of the MuJoCo simulator. However, MJPC relies on finite differencing (FD) to compute derivatives through the underlying MuJoCo simulator, which is often a key bottleneck that can make it prohibitively costly for time-sensitive tasks, especially in high-DOF systems or complex scenes. In this paper, we introduce the use of Web of Affine Spaces (WASP) derivatives within MJPC as a drop-in replacement for FD. WASP is a recently developed approach for efficiently computing sequences of accurate derivative approximations. By reusing information from prior, related derivative calculations, WASP accelerates and stabilizes the computation of new derivatives, making it especially well suited for MPC's iterative, fine-grained updates over time. We evaluate WASP across a diverse suite of MJPC tasks spanning multiple robot embodiments. Our results suggest that WASP derivatives are particularly effective in MJPC: it integrates seamlessly across tasks, delivers consistently robust performance, and achieves up to a 2$\\mathsf{x}$ speedup compared to an FD backend when used with derivative-based planners, such as iLQG. In addition, WASP-based MPC outperforms MJPC's stochastic sampling-based planners on our evaluation tasks, offering both greater efficiency and reliability. To support adoption and future research, we release an open-source implementation of MJPC with WASP derivatives fully integrated.",
+      "abstract": "MuJoCo is a powerful and efficient physics simulator widely used in robotics. One common way it is applied in practice is through Model Predictive Control (MPC), which uses repeated rollouts of the simulator to optimize future actions and generate responsive control policies in real time. To make this process more accessible, the open source library MuJoCo MPC (MJPC) provides ready-to-use MPC algorithms and implementations built directly on top of the MuJoCo simulator. However, MJPC relies on finite differencing (FD) to compute derivatives through the underlying MuJoCo simulator, which is often a key bottleneck that can make it prohibitively costly for time-sensitive tasks, especially in high-DOF systems or complex scenes. In this paper, we introduce the use of Web of Affine Spaces (WASP) derivatives within MJPC as a drop-in replacement for FD. WASP is a recently developed approach for efficiently computing sequences of accurate derivative approximations. By reusing information from prior, related derivative calculations, WASP accelerates and stabilizes the computation of new derivatives, making it especially well suited for MPC's iterative, fine-grained updates over time. We evaluate WASP across a diverse suite of MJPC tasks spanning multiple robot embodiments. Our results suggest that WASP derivatives are particularly effective in MJPC: it integrates seamlessly across tasks, delivers consistently robust performance, and achieves up to a 2mathsfx speedup compared to an FD backend when used with derivative-based planners, such as iLQG. In addition, WASP-based MPC outperforms MJPC's stochastic sampling-based planners on our evaluation tasks, offering both greater efficiency and reliability. To support adoption and future research, we release an open-source implementation of MJPC with WASP derivatives fully integrated.",
       "summary": "",
       "url": "../papers/2512_21109/",
       "treeUrl": "../tree/#paper=2512_21109",
@@ -86357,7 +86265,7 @@ window.timelineData = {
         "Robust Autonomy Emerges from Self-Play"
       ],
       "tags": [],
-      "abstract": "Self-play has powered breakthroughs in two-player and multi-player games. Here we show that self-play is a surprisingly effective strategy in another domain. We show that robust and naturalistic driving emerges entirely from self-play in simulation at unprecedented scale -- 1.6~billion~km of driving. This is enabled by Gigaflow, a batched simulator that can synthesize and train on 42 years of subjective driving experience per hour on a single 8-GPU node. The resulting policy achieves state-of-the-art performance on three independent autonomous driving benchmarks. The policy outperforms the prior state of the art when tested on recorded real-world scenarios, amidst human drivers, without ever seeing human data during training. The policy is realistic when assessed against human references and achieves unprecedented robustness, averaging 17.5 years of continuous driving between incidents in simulation.",
+      "abstract": "Self-play has powered breakthroughs in two-player and multi-player games. Here we show that self-play is a surprisingly effective strategy in another domain. We show that robust and naturalistic driving emerges entirely from self-play in simulation at unprecedented scale - 1.6~billion~km of driving. This is enabled by Gigaflow, a batched simulator that can synthesize and train on 42 years of subjective driving experience per hour on a single 8-GPU node. The resulting policy achieves state-of-the-art performance on three independent autonomous driving benchmarks. The policy outperforms the prior state of the art when tested on recorded real-world scenarios, amidst human drivers, without ever seeing human data during training. The policy is realistic when assessed against human references and achieves unprecedented robustness, averaging 17.5 years of continuous driving between incidents in simulation.",
       "summary": "",
       "url": "../papers/2502_03349/",
       "treeUrl": "../tree/#paper=2502_03349",
@@ -86511,7 +86419,7 @@ window.timelineData = {
         "Learning",
         "Linear quadratic regulator"
       ],
-      "abstract": "Flow $Q$-learning has recently been introduced to integrate learning from expert demonstrations into an actor-critic structure. Central to this innovation is the ``the one-step policy'' network, which is optimized through a $Q$-function that is regularized with the behavioral cloning from expert trajectories, allowing learning more expressive policies using flow-based generative models. In this paper, we studied the convergence property and stabilizablity of the one-step policy during learning for linear quadratic problems under the offline settings. Our theoretical results are based on a new formulation of the one-step policy loss based on the average expected cost, and regularized with the behavioral cloning loss. Such a formulation allows us to tap into existing strong theoretical results from the policy gradient theorem to study the convergence properties of the one-step policy. We verify our theoretical finding with simulation results on a linearized inverted pendulum.",
+      "abstract": "Flow Q-learning has recently been introduced to integrate learning from expert demonstrations into an actor-critic structure. Central to this innovation is the ``the one-step policy'' network, which is optimized through a Q-function that is regularized with the behavioral cloning from expert trajectories, allowing learning more expressive policies using flow-based generative models. In this paper, we studied the convergence property and stabilizablity of the one-step policy during learning for linear quadratic problems under the offline settings. Our theoretical results are based on a new formulation of the one-step policy loss based on the average expected cost, and regularized with the behavioral cloning loss. Such a formulation allows us to tap into existing strong theoretical results from the policy gradient theorem to study the convergence properties of the one-step policy. We verify our theoretical finding with simulation results on a linearized inverted pendulum.",
       "summary": "",
       "url": "../papers/2511_11131/",
       "treeUrl": "../tree/#paper=2511_11131",
@@ -86820,7 +86728,7 @@ window.timelineData = {
         "Policy Optimization in Robust Control: Weak Convexity and Subgradient Methods"
       ],
       "tags": [],
-      "abstract": "Robust control seeks stabilizing policies that perform reliably under adversarial disturbances, with $\\mathcal{H}_\\infty$ control as a classical formulation. It is known that policy optimization of robust $\\mathcal{H}_\\infty$ control naturally lead to nonsmooth and nonconvex problems. This paper builds on recent advances in nonsmooth optimization to analyze discrete-time static output-feedback $\\mathcal{H}_\\infty$ control. We show that the $\\mathcal{H}_\\infty$ cost is weakly convex over any convex subset of a sublevel set. This structural property allows us to establish the first non-asymptotic deterministic convergence rate for the subgradient method under suitable assumptions. In addition, we prove a weak Polyak-Łojasiewicz (PL) inequality in the state-feedback case, implying that all stationary points are globally optimal. We finally present a few numerical examples to validate the theoretical results.",
+      "abstract": "Robust control seeks stabilizing policies that perform reliably under adversarial disturbances, with H_infinity control as a classical formulation. It is known that policy optimization of robust H_infinity control naturally lead to nonsmooth and nonconvex problems. This paper builds on recent advances in nonsmooth optimization to analyze discrete-time static output-feedback H_infinity control. We show that the H_infinity cost is weakly convex over any convex subset of a sublevel set. This structural property allows us to establish the first non-asymptotic deterministic convergence rate for the subgradient method under suitable assumptions. In addition, we prove a weak Polyak-Łojasiewicz (PL) inequality in the state-feedback case, implying that all stationary points are globally optimal. We finally present a few numerical examples to validate the theoretical results.",
       "summary": "",
       "url": "../papers/2509_25633/",
       "treeUrl": "../tree/#paper=2509_25633",
@@ -86893,7 +86801,7 @@ window.timelineData = {
         "Linear quadratic regulator",
         "Gradient method"
       ],
-      "abstract": "Policy gradient methods are a powerful family of reinforcement learning algorithms for continuous control that optimize a policy directly. However, standard first-order methods often converge slowly. Second-order methods can accelerate learning by using curvature information, but they are typically expensive to compute. The linear quadratic regulator (LQR) is a practical setting in which key quantities, such as the policy gradient, admit closed-form expressions. In this work, we develop second-order policy gradient algorithms for LQR by deriving explicit formulas for both the approximate and exact Hessians used in Gauss--Newton and Newton methods, respectively. Numerical experiments show a faster convergence rate for the proposed second-order approach over the standard first-order policy gradient baseline.",
+      "abstract": "Policy gradient methods are a powerful family of reinforcement learning algorithms for continuous control that optimize a policy directly. However, standard first-order methods often converge slowly. Second-order methods can accelerate learning by using curvature information, but they are typically expensive to compute. The linear quadratic regulator (LQR) is a practical setting in which key quantities, such as the policy gradient, admit closed-form expressions. In this work, we develop second-order policy gradient algorithms for LQR by deriving explicit formulas for both the approximate and exact Hessians used in Gauss-Newton and Newton methods, respectively. Numerical experiments show a faster convergence rate for the proposed second-order approach over the standard first-order policy gradient baseline.",
       "summary": "",
       "url": "../papers/2511_02095/",
       "treeUrl": "../tree/#paper=2511_02095",
@@ -86927,7 +86835,7 @@ window.timelineData = {
         "Explore-then-Commit for Nonstationary Linear Bandits with Latent Dynamics"
       ],
       "tags": [],
-      "abstract": "We study a nonstationary bandit problem where rewards depend on both actions and latent states, the latter governed by unknown linear dynamics. Crucially, the state dynamics also depend on the actions, resulting in tension between short-term and long-term rewards. We propose an explore-then-commit algorithm for a finite horizon $T$. During the exploration phase, random Rademacher actions enable estimation of the Markov parameters of the linear dynamics, which characterize the action-reward relationship. In the commit phase, the algorithm uses the estimated parameters to design an optimized action sequence for long-term reward. Our proposed algorithm achieves $\\tilde{\\mathcal{O}}(T^{2/3})$ regret. Our analysis handles two key challenges: learning from temporally correlated rewards, and designing action sequences with optimal long-term reward. We address the first challenge by providing near-optimal sample complexity and error bounds for system identification using bilinear rewards. We address the second challenge by proving an equivalence with indefinite quadratic optimization over a hypercube, a known NP-hard problem. We provide a sub-optimality guarantee for this problem, enabling our regret upper bound. Lastly, we propose a semidefinite relaxation with Goemans-Williamson rounding as a practical approach.",
+      "abstract": "We study a nonstationary bandit problem where rewards depend on both actions and latent states, the latter governed by unknown linear dynamics. Crucially, the state dynamics also depend on the actions, resulting in tension between short-term and long-term rewards. We propose an explore-then-commit algorithm for a finite horizon T. During the exploration phase, random Rademacher actions enable estimation of the Markov parameters of the linear dynamics, which characterize the action-reward relationship. In the commit phase, the algorithm uses the estimated parameters to design an optimized action sequence for long-term reward. Our proposed algorithm achieves tildeO(T^(2/3)) regret. Our analysis handles two key challenges: learning from temporally correlated rewards, and designing action sequences with optimal long-term reward. We address the first challenge by providing near-optimal sample complexity and error bounds for system identification using bilinear rewards. We address the second challenge by proving an equivalence with indefinite quadratic optimization over a hypercube, a known NP-hard problem. We provide a sub-optimality guarantee for this problem, enabling our regret upper bound. Lastly, we propose a semidefinite relaxation with Goemans-Williamson rounding as a practical approach.",
       "summary": "",
       "url": "../papers/2510_16208/",
       "treeUrl": "../tree/#paper=2510_16208",
@@ -87576,7 +87484,7 @@ window.timelineData = {
         "Continuous control",
         "Diffusion policy"
       ],
-      "abstract": "We study the problem of imitating an expert demonstrator in a discrete-time, continuous state-and-action space control system. We show that there exist stable dynamics (i.e. contracting exponentially quickly) and smooth, deterministic experts such that any smooth, deterministic imitator policy necessarily suffers error on execution that is exponentially larger, as a function of problem horizon, than the error under the distribution of expert training data. Our negative result applies to both behavior cloning and offline-RL algorithms, unless they produce highly \\emph{improper} imitator policies — those which are non-smooth, non-Markovian, or which exhibit highly state-dependent stochasticity — or unless the expert trajectory distribution is sufficiently spread. We provide preliminary evidence of the benefits of these more complex policy parameterizations, explicating the benefits of today’s popular policy parameterizations in robot learning (e.g. action-chunking and diffusion-policies). We also establish a host of complementary negative and positive results for imitation in control systems.",
+      "abstract": "We study the problem of imitating an expert demonstrator in a discrete-time, continuous state-and-action space control system. We show that there exist stable dynamics (i.e. contracting exponentially quickly) and smooth, deterministic experts such that any smooth, deterministic imitator policy necessarily suffers error on execution that is exponentially larger, as a function of problem horizon, than the error under the distribution of expert training data. Our negative result applies to both behavior cloning and offline-RL algorithms, unless they produce highly improper imitator policies — those which are non-smooth, non-Markovian, or which exhibit highly state-dependent stochasticity — or unless the expert trajectory distribution is sufficiently spread. We provide preliminary evidence of the benefits of these more complex policy parameterizations, explicating the benefits of today’s popular policy parameterizations in robot learning (e.g. action-chunking and diffusion-policies). We also establish a host of complementary negative and positive results for imitation in control systems.",
       "summary": "Provides theoretical analysis explaining why action chunking and high-capacity policy representations (Transformers, Diffusion Policy) outperform smooth or low-capacity representations in behavior cloning with continuous actions.",
       "url": "../papers/2503_09722/",
       "treeUrl": "../tree/#paper=2503_09722",
@@ -87817,7 +87725,7 @@ window.timelineData = {
         "Active imitation learning",
         "AIL"
       ],
-      "abstract": "Active imitation learning (AIL) combats covariate shift by querying an expert during training. However, expert action labeling often dominates the cost, especially in GPU-intensive simulators, human-in-the-loop settings, and robot fleets that revisit near-duplicate states. We present Conformalized Rejection Sampling for Active Imitation Learning (CRSAIL), a querying rule that requests an expert action only when the visited state is under-represented in the expert-labeled dataset. CRSAIL scores state novelty by the distance to the $K$-th nearest expert state and sets a single global threshold via conformal prediction. This threshold is the empirical $(1-α)$ quantile of on-policy calibration scores, providing a distribution-free calibration rule that links $α$ to the expected query rate and makes $α$ a task-agnostic tuning knob. This state-space querying strategy is robust to outliers and, unlike safety-gate-based AIL, can be run without real-time expert takeovers: we roll out full trajectories (episodes) with the learner and only afterward query the expert on a subset of visited states. Evaluated on MuJoCo robotics tasks, CRSAIL matches or exceeds expert-level reward while reducing total expert queries by up to 96% vs. DAgger and up to 65% vs. prior AIL methods, with empirical robustness to $α$ and $K$, easing deployment on novel systems with unknown dynamics.",
+      "abstract": "Active imitation learning (AIL) combats covariate shift by querying an expert during training. However, expert action labeling often dominates the cost, especially in GPU-intensive simulators, human-in-the-loop settings, and robot fleets that revisit near-duplicate states. We present Conformalized Rejection Sampling for Active Imitation Learning (CRSAIL), a querying rule that requests an expert action only when the visited state is under-represented in the expert-labeled dataset. CRSAIL scores state novelty by the distance to the K-th nearest expert state and sets a single global threshold via conformal prediction. This threshold is the empirical (1-alpha) quantile of on-policy calibration scores, providing a distribution-free calibration rule that links alpha to the expected query rate and makes alpha a task-agnostic tuning knob. This state-space querying strategy is robust to outliers and, unlike safety-gate-based AIL, can be run without real-time expert takeovers: we roll out full trajectories (episodes) with the learner and only afterward query the expert on a subset of visited states. Evaluated on MuJoCo robotics tasks, CRSAIL matches or exceeds expert-level reward while reducing total expert queries by up to 96% vs. DAgger and up to 65% vs. prior AIL methods, with empirical robustness to alpha and K, easing deployment on novel systems with unknown dynamics.",
       "summary": "",
       "url": "../papers/2512_00453/",
       "treeUrl": "../tree/#paper=2512_00453",
@@ -87946,7 +87854,7 @@ window.timelineData = {
         "Towards Optimal Offline Reinforcement Learning"
       ],
       "tags": [],
-      "abstract": "We study offline reinforcement learning problems with a long-run average reward objective. The state-action pairs generated by any fixed behavioral policy thus follow a Markov chain, and the {\\em empirical} state-action-next-state distribution satisfies a large deviations principle. We use the rate function of this large deviations principle to construct an uncertainty set for the unknown {\\em true} state-action-next-state distribution. We also construct a distribution shift transformation that maps any distribution in this uncertainty set to a state-action-next-state distribution of the Markov chain generated by a fixed evaluation policy, which may differ from the unknown behavioral policy. We prove that the worst-case average reward of the evaluation policy with respect to all distributions in the shifted uncertainty set provides, in a rigorous statistical sense, the least conservative estimator for the average reward under the unknown true distribution. This guarantee is available even if one has only access to one single trajectory of serially correlated state-action pairs. The emerging robust optimization problem can be viewed as a robust Markov decision process with a non-rectangular uncertainty set. We adapt an efficient policy gradient algorithm to solve this problem. Numerical experiments show that our methods compare favorably against state-of-the-art methods.",
+      "abstract": "We study offline reinforcement learning problems with a long-run average reward objective. The state-action pairs generated by any fixed behavioral policy thus follow a Markov chain, and the empirical state-action-next-state distribution satisfies a large deviations principle. We use the rate function of this large deviations principle to construct an uncertainty set for the unknown true state-action-next-state distribution. We also construct a distribution shift transformation that maps any distribution in this uncertainty set to a state-action-next-state distribution of the Markov chain generated by a fixed evaluation policy, which may differ from the unknown behavioral policy. We prove that the worst-case average reward of the evaluation policy with respect to all distributions in the shifted uncertainty set provides, in a rigorous statistical sense, the least conservative estimator for the average reward under the unknown true distribution. This guarantee is available even if one has only access to one single trajectory of serially correlated state-action pairs. The emerging robust optimization problem can be viewed as a robust Markov decision process with a non-rectangular uncertainty set. We adapt an efficient policy gradient algorithm to solve this problem. Numerical experiments show that our methods compare favorably against state-of-the-art methods.",
       "summary": "",
       "url": "../papers/2503_12283/",
       "treeUrl": "../tree/#paper=2503_12283",
@@ -88311,7 +88219,7 @@ window.timelineData = {
         "Datasets",
         "Benchmarks"
       ],
-      "abstract": "Existing evaluation paradigms for Autonomous Vehicles (AVs) face critical limitations. Real-world evaluation is often challenging due to safety concerns and a lack of reproducibility, whereas closed-loop simulation can face insufficient realism or high computational costs. Open-loop evaluation, while being efficient and data-driven, relies on metrics that generally overlook compounding errors. In this paper, we propose pseudo-simulation, a novel paradigm that addresses these limitations. Pseudo-simulation operates on real datasets, similar to open-loop evaluation, but augments them with synthetic observations generated prior to evaluation using 3D Gaussian Splatting. Our key idea is to approximate potential future states the AV might encounter by generating a diverse set of observations that vary in position, heading, and speed. Our method then assigns a higher importance to synthetic observations that best match the AV's likely behavior using a novel proximity-based weighting scheme. This enables evaluating error recovery and the mitigation of causal confusion, as in closed-loop benchmarks, without requiring sequential interactive simulation. We show that pseudo-simulation is better correlated with closed-loop simulations ($R^2=0.8$) than the best existing open-loop approach ($R^2=0.7$). We also establish a public leaderboard for the community to benchmark new methodologies with pseudo-simulation. Our code is available at https://github.com/autonomousvision/navsim.",
+      "abstract": "Existing evaluation paradigms for Autonomous Vehicles (AVs) face critical limitations. Real-world evaluation is often challenging due to safety concerns and a lack of reproducibility, whereas closed-loop simulation can face insufficient realism or high computational costs. Open-loop evaluation, while being efficient and data-driven, relies on metrics that generally overlook compounding errors. In this paper, we propose pseudo-simulation, a novel paradigm that addresses these limitations. Pseudo-simulation operates on real datasets, similar to open-loop evaluation, but augments them with synthetic observations generated prior to evaluation using 3D Gaussian Splatting. Our key idea is to approximate potential future states the AV might encounter by generating a diverse set of observations that vary in position, heading, and speed. Our method then assigns a higher importance to synthetic observations that best match the AV's likely behavior using a novel proximity-based weighting scheme. This enables evaluating error recovery and the mitigation of causal confusion, as in closed-loop benchmarks, without requiring sequential interactive simulation. We show that pseudo-simulation is better correlated with closed-loop simulations (R^(2) = 0.8) than the best existing open-loop approach (R^(2) = 0.7). We also establish a public leaderboard for the community to benchmark new methodologies with pseudo-simulation. Our code is available at https://github.com/autonomousvision/navsim.",
       "summary": "",
       "url": "../papers/2506_04218/",
       "treeUrl": "../tree/#paper=2506_04218",
@@ -88511,7 +88419,7 @@ window.timelineData = {
         "Transfer learning",
         "Remote sensing"
       ],
-      "abstract": "Self-supervised learning holds the promise of eliminating the need for manual data annotation, enabling models to scale effortlessly to massive datasets and larger architectures. By not being tailored to specific tasks or domains, this training paradigm has the potential to learn visual representations from diverse sources, ranging from natural to aerial images -- using a single algorithm. This technical report introduces DINOv3, a major milestone toward realizing this vision by leveraging simple yet effective strategies. First, we leverage the benefit of scaling both dataset and model size by careful data preparation, design, and optimization. Second, we introduce a new method called Gram anchoring, which effectively addresses the known yet unsolved issue of dense feature maps degrading during long training schedules. Finally, we apply post-hoc strategies that further enhance our models' flexibility with respect to resolution, model size, and alignment with text. As a result, we present a versatile vision foundation model that outperforms the specialized state of the art across a broad range of settings, without fine-tuning. DINOv3 produces high-quality dense features that achieve outstanding performance on various vision tasks, significantly surpassing previous self- and weakly-supervised foundation models. We also share the DINOv3 suite of vision models, designed to advance the state of the art on a wide spectrum of tasks and data by providing scalable solutions for diverse resource constraints and deployment scenarios.",
+      "abstract": "Self-supervised learning holds the promise of eliminating the need for manual data annotation, enabling models to scale effortlessly to massive datasets and larger architectures. By not being tailored to specific tasks or domains, this training paradigm has the potential to learn visual representations from diverse sources, ranging from natural to aerial images - using a single algorithm. This technical report introduces DINOv3, a major milestone toward realizing this vision by leveraging simple yet effective strategies. First, we leverage the benefit of scaling both dataset and model size by careful data preparation, design, and optimization. Second, we introduce a new method called Gram anchoring, which effectively addresses the known yet unsolved issue of dense feature maps degrading during long training schedules. Finally, we apply post-hoc strategies that further enhance our models' flexibility with respect to resolution, model size, and alignment with text. As a result, we present a versatile vision foundation model that outperforms the specialized state of the art across a broad range of settings, without fine-tuning. DINOv3 produces high-quality dense features that achieve outstanding performance on various vision tasks, significantly surpassing previous self- and weakly-supervised foundation models. We also share the DINOv3 suite of vision models, designed to advance the state of the art on a wide spectrum of tasks and data by providing scalable solutions for diverse resource constraints and deployment scenarios.",
       "summary": "DINOv3 is a technical report on scaling self-supervised vision pretraining into a family of dense-feature foundation models. Its most distinctive methodological contribution is Gram anchoring, which addresses degradation of dense feature maps during long training, while the system-level contribution is a suite of models and post-hoc adaptations that work across natural images, aerial imagery, dense prediction, and text-aligned zero-shot use without task-specific fine-tuning.",
       "url": "../papers/2508_10104/",
       "treeUrl": "../tree/#paper=2508_10104",
@@ -88543,7 +88451,7 @@ window.timelineData = {
         "LeJEPA"
       ],
       "tags": [],
-      "abstract": "Learning manipulable representations of the world and its dynamics is central to AI. Joint-Embedding Predictive Architectures (JEPAs) offer a promising blueprint, but lack of practical guidance and theory has led to ad-hoc R&D. We present a comprehensive theory of JEPAs and instantiate it in {\\bf LeJEPA}, a lean, scalable, and theoretically grounded training objective. First, we identify the isotropic Gaussian as the optimal distribution that JEPAs' embeddings should follow to minimize downstream prediction risk. Second, we introduce a novel objective--{\\bf Sketched Isotropic Gaussian Regularization} (SIGReg)--to constrain embeddings to reach that ideal distribution. Combining the JEPA predictive loss with SIGReg yields LeJEPA with numerous theoretical and practical benefits: (i) single trade-off hyperparameter, (ii) linear time and memory complexity, (iii) stability across hyper-parameters, architectures (ResNets, ViTs, ConvNets) and domains, (iv) heuristics-free, e.g., no stop-gradient, no teacher-student, no hyper-parameter schedulers, and (v) distributed training-friendly implementation requiring only $\\approx$50 lines of code. Our empirical validation covers 10+ datasets, 60+ architectures, all with varying scales and domains. As an example, using imagenet-1k for pretraining and linear evaluation with frozen backbone, LeJEPA reaches 79\\% with a ViT-H/14. We hope that the simplicity and theory-friendly ecosystem offered by LeJEPA will reestablish self-supervised pre-training as a core pillar of AI research (\\href{https://github.com/rbalestr-lab/lejepa}{GitHub repo}).",
+      "abstract": "Learning manipulable representations of the world and its dynamics is central to AI. Joint-Embedding Predictive Architectures (JEPAs) offer a promising blueprint, but lack of practical guidance and theory has led to ad-hoc R&D. We present a comprehensive theory of JEPAs and instantiate it in {\\bf LeJEPA}, a lean, scalable, and theoretically grounded training objective. First, we identify the isotropic Gaussian as the optimal distribution that JEPAs' embeddings should follow to minimize downstream prediction risk. Second, we introduce a novel objective - {\\bf Sketched Isotropic Gaussian Regularization} (SIGReg) - to constrain embeddings to reach that ideal distribution. Combining the JEPA predictive loss with SIGReg yields LeJEPA with numerous theoretical and practical benefits: (i) single trade-off hyperparameter, (ii) linear time and memory complexity, (iii) stability across hyper-parameters, architectures (ResNets, ViTs, ConvNets) and domains, (iv) heuristics-free, e.g., no stop-gradient, no teacher-student, no hyper-parameter schedulers, and (v) distributed training-friendly implementation requiring only approx50 lines of code. Our empirical validation covers 10+ datasets, 60+ architectures, all with varying scales and domains. As an example, using imagenet-1k for pretraining and linear evaluation with frozen backbone, LeJEPA reaches 79\\% with a ViT-H/14. We hope that the simplicity and theory-friendly ecosystem offered by LeJEPA will reestablish self-supervised pre-training as a core pillar of AI research (\\href{https://github.com/rbalestr-lab/lejepa}{GitHub repo}).",
       "summary": "",
       "url": "../papers/2511_08544/",
       "treeUrl": "../tree/#paper=2511_08544",
@@ -88698,7 +88606,7 @@ window.timelineData = {
         "PInet",
         "Optimization problem"
       ],
-      "abstract": "We introduce an output layer for neural networks that ensures satisfaction of convex constraints. Our approach, $Π$net, leverages operator splitting for rapid and reliable projections in the forward pass, and the implicit function theorem for backpropagation. We deploy $Π$net as a feasible-by-design optimization proxy for parametric constrained optimization problems and obtain modest-accuracy solutions faster than traditional solvers when solving a single problem, and significantly faster for a batch of problems. We surpass state-of-the-art learning approaches by orders of magnitude in terms of training time, solution quality, and robustness to hyperparameter tuning, while maintaining similar inference times. Finally, we tackle multi-vehicle motion planning with non-convex trajectory preferences and provide $Π$net as a GPU-ready package implemented in JAX.",
+      "abstract": "We introduce an output layer for neural networks that ensures satisfaction of convex constraints. Our approach, Pinet, leverages operator splitting for rapid and reliable projections in the forward pass, and the implicit function theorem for backpropagation. We deploy Pinet as a feasible-by-design optimization proxy for parametric constrained optimization problems and obtain modest-accuracy solutions faster than traditional solvers when solving a single problem, and significantly faster for a batch of problems. We surpass state-of-the-art learning approaches by orders of magnitude in terms of training time, solution quality, and robustness to hyperparameter tuning, while maintaining similar inference times. Finally, we tackle multi-vehicle motion planning with non-convex trajectory preferences and provide Pinet as a GPU-ready package implemented in JAX.",
       "summary": "",
       "url": "../papers/2508_10480/",
       "treeUrl": "../tree/#paper=2508_10480",
@@ -88772,7 +88680,7 @@ window.timelineData = {
         "Control",
         "Backward conformal prediction"
       ],
-      "abstract": "We introduce $\\textit{Backward Conformal Prediction}$, a method that guarantees conformal coverage while providing flexible control over the size of prediction sets. Unlike standard conformal prediction, which fixes the coverage level and allows the conformal set size to vary, our approach defines a rule that constrains how prediction set sizes behave based on the observed data, and adapts the coverage level accordingly. Our method builds on two key foundations: (i) recent results by Gauthier et al. [2025] on post-hoc validity using e-values, which ensure marginal coverage of the form $\\mathbb{P}(Y_{\\rm test} \\in \\hat C_n^{\\tilde{\\alpha}}(X_{\\rm test})) \\ge 1 - \\mathbb{E}[\\tilde{\\alpha}]$ up to a first-order Taylor approximation for any data-dependent miscoverage $\\tilde{\\alpha}$, and (ii) a novel leave-one-out estimator $\\hat{\\alpha}^{\\rm LOO}$ of the marginal miscoverage $\\mathbb{E}[\\tilde{\\alpha}]$ based on the calibration set, ensuring that the theoretical guarantees remain computable in practice. This approach is particularly useful in applications where large prediction sets are impractical such as medical diagnosis. We provide theoretical results and empirical evidence supporting the validity of our method, demonstrating that it maintains computable coverage guarantees while ensuring interpretable, well-controlled prediction set sizes.",
+      "abstract": "We introduce Backward Conformal Prediction, a method that guarantees conformal coverage while providing flexible control over the size of prediction sets. Unlike standard conformal prediction, which fixes the coverage level and allows the conformal set size to vary, our approach defines a rule that constrains how prediction set sizes behave based on the observed data, and adapts the coverage level accordingly. Our method builds on two key foundations: (i) recent results by Gauthier et al. [2025] on post-hoc validity using e-values, which ensure marginal coverage of the form P(Y_rm test in hat C_n^{tildealpha}(X_rm test)) >= 1 - E[tildealpha] up to a first-order Taylor approximation for any data-dependent miscoverage tildealpha, and (ii) a novel leave-one-out estimator hatalpha^(rm) LOO of the marginal miscoverage E[tildealpha] based on the calibration set, ensuring that the theoretical guarantees remain computable in practice. This approach is particularly useful in applications where large prediction sets are impractical such as medical diagnosis. We provide theoretical results and empirical evidence supporting the validity of our method, demonstrating that it maintains computable coverage guarantees while ensuring interpretable, well-controlled prediction set sizes.",
       "summary": "",
       "url": "../papers/2505_13732/",
       "treeUrl": "../tree/#paper=2505_13732",
@@ -92555,7 +92463,7 @@ window.timelineData = {
         "Muon Is Scalable for LLM Training"
       ],
       "tags": [],
-      "abstract": "Recently, the Muon optimizer based on matrix orthogonalization has demonstrated strong results in training small-scale language models, but the scalability to larger models has not been proven. We identify two crucial techniques for scaling up Muon: (1) adding weight decay and (2) carefully adjusting the per-parameter update scale. These techniques allow Muon to work out-of-the-box on large-scale training without the need of hyper-parameter tuning. Scaling law experiments indicate that Muon achieves $\\sim\\!2\\times$ computational efficiency compared to AdamW with compute optimal training. Based on these improvements, we introduce Moonlight, a 3B/16B-parameter Mixture-of-Expert (MoE) model trained with 5.7T tokens using Muon. Our model improves the current Pareto frontier, achieving better performance with much fewer training FLOPs compared to prior models. We open-source our distributed Muon implementation that is memory optimal and communication efficient. We also release the pretrained, instruction-tuned, and intermediate checkpoints to support future research.",
+      "abstract": "Recently, the Muon optimizer based on matrix orthogonalization has demonstrated strong results in training small-scale language models, but the scalability to larger models has not been proven. We identify two crucial techniques for scaling up Muon: (1) adding weight decay and (2) carefully adjusting the per-parameter update scale. These techniques allow Muon to work out-of-the-box on large-scale training without the need of hyper-parameter tuning. Scaling law experiments indicate that Muon achieves ~ 2x computational efficiency compared to AdamW with compute optimal training. Based on these improvements, we introduce Moonlight, a 3B/16B-parameter Mixture-of-Expert (MoE) model trained with 5.7T tokens using Muon. Our model improves the current Pareto frontier, achieving better performance with much fewer training FLOPs compared to prior models. We open-source our distributed Muon implementation that is memory optimal and communication efficient. We also release the pretrained, instruction-tuned, and intermediate checkpoints to support future research.",
       "summary": "",
       "url": "../papers/2502_16982/",
       "treeUrl": "../tree/#paper=2502_16982",
@@ -92611,7 +92519,7 @@ window.timelineData = {
         "Benchmarks",
         "Different"
       ],
-      "abstract": "We introduce Toto, a time series forecasting foundation model with 151 million parameters. Toto uses a modern decoder-only architecture coupled with architectural innovations designed to account for specific challenges found in multivariate observability time series data. Toto's pre-training corpus is a mixture of observability data, open datasets, and synthetic data, and is 4-10$\\times$ larger than those of leading time series foundation models. Additionally, we introduce BOOM, a large-scale benchmark consisting of 350 million observations across 2,807 real-world time series. For both Toto and BOOM, we source observability data exclusively from Datadog's own telemetry and internal observability metrics. Extensive evaluations demonstrate that Toto achieves state-of-the-art performance on both BOOM and on established general purpose time series forecasting benchmarks. Toto's model weights, inference code, and evaluation scripts, as well as BOOM's data and evaluation code, are all available as open source under the Apache 2.0 License available at https://huggingface.co/Datadog/Toto-Open-Base-1.0 and https://github.com/DataDog/toto.",
+      "abstract": "We introduce Toto, a time series forecasting foundation model with 151 million parameters. Toto uses a modern decoder-only architecture coupled with architectural innovations designed to account for specific challenges found in multivariate observability time series data. Toto's pre-training corpus is a mixture of observability data, open datasets, and synthetic data, and is 4-10x larger than those of leading time series foundation models. Additionally, we introduce BOOM, a large-scale benchmark consisting of 350 million observations across 2,807 real-world time series. For both Toto and BOOM, we source observability data exclusively from Datadog's own telemetry and internal observability metrics. Extensive evaluations demonstrate that Toto achieves state-of-the-art performance on both BOOM and on established general purpose time series forecasting benchmarks. Toto's model weights, inference code, and evaluation scripts, as well as BOOM's data and evaluation code, are all available as open source under the Apache 2.0 License available at https://huggingface.co/Datadog/Toto-Open-Base-1.0 and https://github.com/DataDog/toto.",
       "summary": "",
       "url": "../papers/2505_14766/",
       "treeUrl": "../tree/#paper=2505_14766",
@@ -93583,7 +93491,7 @@ window.timelineData = {
         "Kimi K1.5"
       ],
       "tags": [],
-      "abstract": "Language model pretraining with next token prediction has proved effective for scaling compute but is limited to the amount of available training data. Scaling reinforcement learning (RL) unlocks a new axis for the continued improvement of artificial intelligence, with the promise that large language models (LLMs) can scale their training data by learning to explore with rewards. However, prior published work has not produced competitive results. In light of this, we report on the training practice of Kimi k1.5, our latest multi-modal LLM trained with RL, including its RL training techniques, multi-modal data recipes, and infrastructure optimization. Long context scaling and improved policy optimization methods are key ingredients of our approach, which establishes a simplistic, effective RL framework without relying on more complex techniques such as Monte Carlo tree search, value functions, and process reward models. Notably, our system achieves state-of-the-art reasoning performance across multiple benchmarks and modalities -- e.g., 77.5 on AIME, 96.2 on MATH 500, 94-th percentile on Codeforces, 74.9 on MathVista -- matching OpenAI's o1. Moreover, we present effective long2short methods that use long-CoT techniques to improve short-CoT models, yielding state-of-the-art short-CoT reasoning results -- e.g., 60.8 on AIME, 94.6 on MATH500, 47.3 on LiveCodeBench -- outperforming existing short-CoT models such as GPT-4o and Claude Sonnet 3.5 by a large margin (up to +550%).",
+      "abstract": "Language model pretraining with next token prediction has proved effective for scaling compute but is limited to the amount of available training data. Scaling reinforcement learning (RL) unlocks a new axis for the continued improvement of artificial intelligence, with the promise that large language models (LLMs) can scale their training data by learning to explore with rewards. However, prior published work has not produced competitive results. In light of this, we report on the training practice of Kimi k1.5, our latest multi-modal LLM trained with RL, including its RL training techniques, multi-modal data recipes, and infrastructure optimization. Long context scaling and improved policy optimization methods are key ingredients of our approach, which establishes a simplistic, effective RL framework without relying on more complex techniques such as Monte Carlo tree search, value functions, and process reward models. Notably, our system achieves state-of-the-art reasoning performance across multiple benchmarks and modalities - e.g., 77.5 on AIME, 96.2 on MATH 500, 94-th percentile on Codeforces, 74.9 on MathVista - matching OpenAI's o1. Moreover, we present effective long2short methods that use long-CoT techniques to improve short-CoT models, yielding state-of-the-art short-CoT reasoning results - e.g., 60.8 on AIME, 94.6 on MATH500, 47.3 on LiveCodeBench - outperforming existing short-CoT models such as GPT-4o and Claude Sonnet 3.5 by a large margin (up to +550%).",
       "summary": "",
       "url": "../papers/2501_12599/",
       "treeUrl": "../tree/#paper=2501_12599",
@@ -93812,7 +93720,7 @@ window.timelineData = {
         "Kimi K2"
       ],
       "tags": [],
-      "abstract": "We introduce Kimi K2, a Mixture-of-Experts (MoE) large language model with 32 billion activated parameters and 1 trillion total parameters. We propose the MuonClip optimizer, which improves upon Muon with a novel QK-clip technique to address training instability while enjoying the advanced token efficiency of Muon. Based on MuonClip, K2 was pre-trained on 15.5 trillion tokens with zero loss spike. During post-training, K2 undergoes a multi-stage post-training process, highlighted by a large-scale agentic data synthesis pipeline and a joint reinforcement learning (RL) stage, where the model improves its capabilities through interactions with real and synthetic environments. Kimi K2 achieves state-of-the-art performance among open-source non-thinking models, with strengths in agentic capabilities. Notably, K2 obtains 66.1 on Tau2-Bench, 76.5 on ACEBench (En), 65.8 on SWE-Bench Verified, and 47.3 on SWE-Bench Multilingual -- surpassing most open and closed-sourced baselines in non-thinking settings. It also exhibits strong capabilities in coding, mathematics, and reasoning tasks, with a score of 53.7 on LiveCodeBench v6, 49.5 on AIME 2025, 75.1 on GPQA-Diamond, and 27.1 on OJBench, all without extended thinking. These results position Kimi K2 as one of the most capable open-source large language models to date, particularly in software engineering and agentic tasks. We release our base and post-trained model checkpoints to facilitate future research and applications of agentic intelligence.",
+      "abstract": "We introduce Kimi K2, a Mixture-of-Experts (MoE) large language model with 32 billion activated parameters and 1 trillion total parameters. We propose the MuonClip optimizer, which improves upon Muon with a novel QK-clip technique to address training instability while enjoying the advanced token efficiency of Muon. Based on MuonClip, K2 was pre-trained on 15.5 trillion tokens with zero loss spike. During post-training, K2 undergoes a multi-stage post-training process, highlighted by a large-scale agentic data synthesis pipeline and a joint reinforcement learning (RL) stage, where the model improves its capabilities through interactions with real and synthetic environments. Kimi K2 achieves state-of-the-art performance among open-source non-thinking models, with strengths in agentic capabilities. Notably, K2 obtains 66.1 on Tau2-Bench, 76.5 on ACEBench (En), 65.8 on SWE-Bench Verified, and 47.3 on SWE-Bench Multilingual - surpassing most open and closed-sourced baselines in non-thinking settings. It also exhibits strong capabilities in coding, mathematics, and reasoning tasks, with a score of 53.7 on LiveCodeBench v6, 49.5 on AIME 2025, 75.1 on GPQA-Diamond, and 27.1 on OJBench, all without extended thinking. These results position Kimi K2 as one of the most capable open-source large language models to date, particularly in software engineering and agentic tasks. We release our base and post-trained model checkpoints to facilitate future research and applications of agentic intelligence.",
       "summary": "",
       "url": "../papers/2507_20534/",
       "treeUrl": "../tree/#paper=2507_20534",
@@ -94112,7 +94020,7 @@ window.timelineData = {
         "Learning",
         "Vision-language-action model"
       ],
-      "abstract": "In order for robots to be useful, they must perform practically relevant tasks in the real world, outside of the lab. While vision-language-action (VLA) models have demonstrated impressive results for end-to-end robot control, it remains an open question how far such models can generalize in the wild. We describe $π_{0.5}$, a new model based on $π_{0}$ that uses co-training on heterogeneous tasks to enable broad generalization. $π_{0.5}$\\ uses data from multiple robots, high-level semantic prediction, web data, and other sources to enable broadly generalizable real-world robotic manipulation. Our system uses a combination of co-training and hybrid multi-modal examples that combine image observations, language commands, object detections, semantic subtask prediction, and low-level actions. Our experiments show that this kind of knowledge transfer is essential for effective generalization, and we demonstrate for the first time that an end-to-end learning-enabled robotic system can perform long-horizon and dexterous manipulation skills, such as cleaning a kitchen or bedroom, in entirely new homes.",
+      "abstract": "In order for robots to be useful, they must perform practically relevant tasks in the real world, outside of the lab. While vision-language-action (VLA) models have demonstrated impressive results for end-to-end robot control, it remains an open question how far such models can generalize in the wild. We describe pi_0.5, a new model based on pi_0 that uses co-training on heterogeneous tasks to enable broad generalization. pi_0.5\\ uses data from multiple robots, high-level semantic prediction, web data, and other sources to enable broadly generalizable real-world robotic manipulation. Our system uses a combination of co-training and hybrid multi-modal examples that combine image observations, language commands, object detections, semantic subtask prediction, and low-level actions. Our experiments show that this kind of knowledge transfer is essential for effective generalization, and we demonstrate for the first time that an end-to-end learning-enabled robotic system can perform long-horizon and dexterous manipulation skills, such as cleaning a kitchen or bedroom, in entirely new homes.",
       "summary": "",
       "url": "../papers/2504_16054/",
       "treeUrl": "../tree/#paper=2504_16054",
@@ -94156,7 +94064,7 @@ window.timelineData = {
         "Control",
         "RDAR"
       ],
-      "abstract": "Human drivers focus only on a handful of agents at any one time. On the other hand, autonomous driving systems process complex scenes with numerous agents, regardless of whether they are pedestrians on a crosswalk or vehicles parked on the side of the road. While attention mechanisms offer an implicit way to reduce the input to the elements that affect decisions, existing attention mechanisms for capturing agent interactions are quadratic, and generally computationally expensive. We propose RDAR, a strategy to learn per-agent relevance -- how much each agent influences the behavior of the controlled vehicle -- by identifying which agents can be excluded from the input to a pre-trained behavior model. We formulate the masking procedure as a Markov Decision Process where the action consists of a binary mask indicating agent selection. We evaluate RDAR on a large-scale driving dataset, and demonstrate its ability to learn an accurate numerical measure of relevance by achieving comparable driving performance, in terms of overall progress, safety and performance, while processing significantly fewer agents compared to a state of the art behavior model.",
+      "abstract": "Human drivers focus only on a handful of agents at any one time. On the other hand, autonomous driving systems process complex scenes with numerous agents, regardless of whether they are pedestrians on a crosswalk or vehicles parked on the side of the road. While attention mechanisms offer an implicit way to reduce the input to the elements that affect decisions, existing attention mechanisms for capturing agent interactions are quadratic, and generally computationally expensive. We propose RDAR, a strategy to learn per-agent relevance - how much each agent influences the behavior of the controlled vehicle - by identifying which agents can be excluded from the input to a pre-trained behavior model. We formulate the masking procedure as a Markov Decision Process where the action consists of a binary mask indicating agent selection. We evaluate RDAR on a large-scale driving dataset, and demonstrate its ability to learn an accurate numerical measure of relevance by achieving comparable driving performance, in terms of overall progress, safety and performance, while processing significantly fewer agents compared to a state of the art behavior model.",
       "summary": "",
       "url": "../papers/2509_19789/",
       "treeUrl": "../tree/#paper=2509_19789",
@@ -94277,7 +94185,7 @@ window.timelineData = {
         "SigLIP 2"
       ],
       "tags": [],
-      "abstract": "We introduce SigLIP 2, a family of new multilingual vision-language encoders that build on the success of the original SigLIP. In this second iteration, we extend the original image-text training objective with several prior, independently developed techniques into a unified recipe -- this includes captioning-based pretraining, self-supervised losses (self-distillation, masked prediction) and online data curation. With these changes, SigLIP 2 models outperform their SigLIP counterparts at all model scales in core capabilities, including zero-shot classification, image-text retrieval, and transfer performance when extracting visual representations for Vision-Language Models (VLMs). Furthermore, the new training recipe leads to significant improvements on localization and dense prediction tasks. We also train variants which support multiple resolutions and preserve the input's native aspect ratio. Finally, we train on a more diverse data-mixture that includes de-biasing techniques, leading to much better multilingual understanding and improved fairness. To allow users to trade off inference cost with performance, we release model checkpoints at four sizes: ViT-B (86M), L (303M), So400m (400M), and g (1B).",
+      "abstract": "We introduce SigLIP 2, a family of new multilingual vision-language encoders that build on the success of the original SigLIP. In this second iteration, we extend the original image-text training objective with several prior, independently developed techniques into a unified recipe - this includes captioning-based pretraining, self-supervised losses (self-distillation, masked prediction) and online data curation. With these changes, SigLIP 2 models outperform their SigLIP counterparts at all model scales in core capabilities, including zero-shot classification, image-text retrieval, and transfer performance when extracting visual representations for Vision-Language Models (VLMs). Furthermore, the new training recipe leads to significant improvements on localization and dense prediction tasks. We also train variants which support multiple resolutions and preserve the input's native aspect ratio. Finally, we train on a more diverse data-mixture that includes de-biasing techniques, leading to much better multilingual understanding and improved fairness. To allow users to trade off inference cost with performance, we release model checkpoints at four sizes: ViT-B (86M), L (303M), So400m (400M), and g (1B).",
       "summary": "",
       "url": "../papers/2502_14786/",
       "treeUrl": "../tree/#paper=2502_14786",
@@ -94705,7 +94613,7 @@ window.timelineData = {
         "MPMC",
         "Linear dynamical system"
       ],
-      "abstract": "Low-discrepancy points are designed to efficiently fill the space in a uniform manner. This uniformity is highly advantageous in many problems in science and engineering, including in numerical integration, computer vision, machine perception, computer graphics, machine learning, and simulation. Whereas most previous low-discrepancy constructions rely on abstract algebra and number theory, Message-Passing Monte Carlo (MPMC) was recently introduced to exploit machine learning methods for generating point sets with lower discrepancy than previously possible. However, MPMC is limited to generating point sets and cannot be extended to low-discrepancy sequences (LDS), i.e., sequences of points in which every prefix has low discrepancy, a property essential for many applications. To address this limitation, we introduce Neural Low-Discrepancy Sequences ($NeuroLDS$), the first machine learning-based framework for generating LDS. Drawing inspiration from classical LDS, we train a neural network to map indices to points such that the resulting sequences exhibit minimal discrepancy across all prefixes. To this end, we deploy a two-stage learning process: supervised approximation of classical constructions followed by unsupervised fine-tuning to minimize prefix discrepancies. We demonstrate that $NeuroLDS$ outperforms all previous LDS constructions by a significant margin with respect to discrepancy measures. Moreover, we demonstrate the effectiveness of $NeuroLDS$ across diverse applications, including numerical integration, robot motion planning, and scientific machine learning. These results highlight the promise and broad significance of Neural Low-Discrepancy Sequences. Our code can be found at https://github.com/camail-official/neuro-lds.",
+      "abstract": "Low-discrepancy points are designed to efficiently fill the space in a uniform manner. This uniformity is highly advantageous in many problems in science and engineering, including in numerical integration, computer vision, machine perception, computer graphics, machine learning, and simulation. Whereas most previous low-discrepancy constructions rely on abstract algebra and number theory, Message-Passing Monte Carlo (MPMC) was recently introduced to exploit machine learning methods for generating point sets with lower discrepancy than previously possible. However, MPMC is limited to generating point sets and cannot be extended to low-discrepancy sequences (LDS), i.e., sequences of points in which every prefix has low discrepancy, a property essential for many applications. To address this limitation, we introduce Neural Low-Discrepancy Sequences (NeuroLDS), the first machine learning-based framework for generating LDS. Drawing inspiration from classical LDS, we train a neural network to map indices to points such that the resulting sequences exhibit minimal discrepancy across all prefixes. To this end, we deploy a two-stage learning process: supervised approximation of classical constructions followed by unsupervised fine-tuning to minimize prefix discrepancies. We demonstrate that NeuroLDS outperforms all previous LDS constructions by a significant margin with respect to discrepancy measures. Moreover, we demonstrate the effectiveness of NeuroLDS across diverse applications, including numerical integration, robot motion planning, and scientific machine learning. These results highlight the promise and broad significance of Neural Low-Discrepancy Sequences. Our code can be found at https://github.com/camail-official/neuro-lds.",
       "summary": "",
       "url": "../papers/2510_03745/",
       "treeUrl": "../tree/#paper=2510_03745",
@@ -94828,7 +94736,7 @@ window.timelineData = {
         "Dynamic window",
         "Pure pursuit"
       ],
-      "abstract": "Pure pursuit and its variants are widely used for mobile robot path tracking owing to their simplicity and computational efficiency. However, many conventional approaches do not explicitly account for velocity and acceleration constraints, resulting in discrepancies between commanded and actual velocities that result in overshoot and degraded tracking performance. To address this problem, this paper proposes dynamic window pure pursuit (DWPP), which fundamentally reformulates the command velocity computation process to explicitly incorporate velocity and acceleration constraints. Specifically, DWPP formulates command velocity computation in the velocity space (the $v$-$ω$ plane) and selects the command velocity as the point within the dynamic window that is closest to the line $ω= κv$. Experimental results demonstrate that DWPP avoids constraint-violating commands and achieves superior path-tracking accuracy compared with conventional pure pursuit methods. The proposed method has been integrated into the official Nav2 repository and is publicly available (https://github.com/ros-navigation/navigation2).",
+      "abstract": "Pure pursuit and its variants are widely used for mobile robot path tracking owing to their simplicity and computational efficiency. However, many conventional approaches do not explicitly account for velocity and acceleration constraints, resulting in discrepancies between commanded and actual velocities that result in overshoot and degraded tracking performance. To address this problem, this paper proposes dynamic window pure pursuit (DWPP), which fundamentally reformulates the command velocity computation process to explicitly incorporate velocity and acceleration constraints. Specifically, DWPP formulates command velocity computation in the velocity space (the v-omega plane) and selects the command velocity as the point within the dynamic window that is closest to the line omega = kappav. Experimental results demonstrate that DWPP avoids constraint-violating commands and achieves superior path-tracking accuracy compared with conventional pure pursuit methods. The proposed method has been integrated into the official Nav2 repository and is publicly available (https://github.com/ros-navigation/navigation2).",
       "summary": "",
       "url": "../papers/2601_15006/",
       "treeUrl": "../tree/#paper=2601_15006",
@@ -94861,7 +94769,7 @@ window.timelineData = {
         "Kernel-Based Safe Exploration in Deep Reinforcement Learning"
       ],
       "tags": [],
-      "abstract": "Safety has been a major concern when deploying deep reinforcement learning algorithms in the real world. A promising direction that ensures that the learned policy does not visit unsafe regions is to learn a \\emph{barrier function} along with the policy. A barrier is a function from states to reals that assigns low values to the initial states, high values to the unsafe states, and decreases in expectation on each transition; such a function can be used to bound the probability of reaching unsafe states. Previous attempts learned a barrier function directly from exploration data, but this required either large amounts of data or restrictions on the system dynamics. In this paper, we show how kernel embeddings can be used to learn barrier functions during deep reinforcement learning for stochastic systems with unknown dynamics. Our algorithm, \\emph{kernel-based safe exploration (KBSE)}, learns an optimal policy and a barrier simultaneously during exploration. The barriers are computed iteratively, represented as conditional mean embeddings, and provide better probabilistic safety guarantees with more exploration. The exploration algorithm uses the learned barrier functions to identify safety violations. In the case of violation, it intervenes to modify the unsafe action to a safe action, thereby ensuring that the exploration is restricted to actions that bound the probability of reaching unsafe states. We evaluate KBSE on several complex continuous control benchmarks. Experimental results establish our new algorithm to be suitable for synthesizing control policies that are probabilistically safe without degradation in reward accumulation.",
+      "abstract": "Safety has been a major concern when deploying deep reinforcement learning algorithms in the real world. A promising direction that ensures that the learned policy does not visit unsafe regions is to learn a barrier function along with the policy. A barrier is a function from states to reals that assigns low values to the initial states, high values to the unsafe states, and decreases in expectation on each transition; such a function can be used to bound the probability of reaching unsafe states. Previous attempts learned a barrier function directly from exploration data, but this required either large amounts of data or restrictions on the system dynamics. In this paper, we show how kernel embeddings can be used to learn barrier functions during deep reinforcement learning for stochastic systems with unknown dynamics. Our algorithm, kernel-based safe exploration (KBSE), learns an optimal policy and a barrier simultaneously during exploration. The barriers are computed iteratively, represented as conditional mean embeddings, and provide better probabilistic safety guarantees with more exploration. The exploration algorithm uses the learned barrier functions to identify safety violations. In the case of violation, it intervenes to modify the unsafe action to a safe action, thereby ensuring that the exploration is restricted to actions that bound the probability of reaching unsafe states. We evaluate KBSE on several complex continuous control benchmarks. Experimental results establish our new algorithm to be suitable for synthesizing control policies that are probabilistically safe without degradation in reward accumulation.",
       "summary": "",
       "url": "../papers/2605_22207/",
       "treeUrl": "../tree/#paper=2605_22207",
@@ -95445,7 +95353,7 @@ window.timelineData = {
         "EvoClaw"
       ],
       "tags": [],
-      "abstract": "With AI agents increasingly deployed as long-running systems, it becomes essential to autonomously construct and continuously evolve customized software to enable interaction within dynamic environments. Yet, existing benchmarks evaluate agents on isolated, one-off coding tasks, neglecting the temporal dependencies and technical debt inherent in real-world software evolution. To bridge this gap, we introduce DeepCommit, an agentic pipeline that reconstructs verifiable Milestone DAGs from noisy commit logs, where milestones are defined as semantically cohesive development goals. These executable sequences enable EvoClaw, a novel benchmark that requires agents to sustain system integrity and limit error accumulation, dimensions of long-term software evolution largely missing from current benchmarks. Our evaluation of 12 frontier models across 4 agent frameworks reveals a critical vulnerability: overall performance scores drop significantly from $>$80% on isolated tasks to at most 38% in continuous settings, exposing agents' profound struggle with long-term maintenance and error propagation.",
+      "abstract": "With AI agents increasingly deployed as long-running systems, it becomes essential to autonomously construct and continuously evolve customized software to enable interaction within dynamic environments. Yet, existing benchmarks evaluate agents on isolated, one-off coding tasks, neglecting the temporal dependencies and technical debt inherent in real-world software evolution. To bridge this gap, we introduce DeepCommit, an agentic pipeline that reconstructs verifiable Milestone DAGs from noisy commit logs, where milestones are defined as semantically cohesive development goals. These executable sequences enable EvoClaw, a novel benchmark that requires agents to sustain system integrity and limit error accumulation, dimensions of long-term software evolution largely missing from current benchmarks. Our evaluation of 12 frontier models across 4 agent frameworks reveals a critical vulnerability: overall performance scores drop significantly from >80% on isolated tasks to at most 38% in continuous settings, exposing agents' profound struggle with long-term maintenance and error propagation.",
       "summary": "",
       "url": "../papers/2603_13428/",
       "treeUrl": "../tree/#paper=2603_13428",
@@ -95484,7 +95392,7 @@ window.timelineData = {
         "Learning",
         "Stochastic gradient descent"
       ],
-      "abstract": "Zeroth-order optimization aims to minimize an objective function using only function evaluations, and is therefore fundamental in black-box optimization, hyperparameter tuning, bandit learning, and adversarial machine learning. While classical zeroth-order methods are well understood in expectation, much less is known about their high-probability behavior, especially for smooth and strongly convex objectives. In this paper, we establish high-probability convergence guarantees for random zeroth-order gradient descent in both deterministic and stochastic settings. For deterministic $L$-smooth and $μ$-strongly convex objectives of $d$-dimension, we show that the classical two-query random zeroth-order method finds an $\\varepsilon$-suboptimal solution with probability at least $1-δ$ using \\[ \\mathcal{O}\\left( \\frac{dL}μ\\log\\frac{1}{\\varepsilon} + \\log\\frac{1}δ \\right) \\] function queries. Thus, compared with the standard in-expectation complexity, only an additive logarithmic dependence on the confidence parameter is needed. For stochastic objectives, under a bounded-noise condition and without assuming uniformly bounded stochastic gradients, we prove that random zeroth-order stochastic gradient descent achieves an $\\varepsilon$-suboptimal solution with probability at least $1-δ$ using \\[ \\mathcal{O}\\left( \\frac{ d\\log(1/\\varepsilon) \\left(\\log(1/\\varepsilon)+\\log(1/δ)\\right) }{\\varepsilon} \\right) \\] queries. Our results provide high-confidence counterparts to classical expectation-based zeroth-order convergence guarantees and clarify the additional cost required to obtain reliable performance guarantees.",
+      "abstract": "Zeroth-order optimization aims to minimize an objective function using only function evaluations, and is therefore fundamental in black-box optimization, hyperparameter tuning, bandit learning, and adversarial machine learning. While classical zeroth-order methods are well understood in expectation, much less is known about their high-probability behavior, especially for smooth and strongly convex objectives. In this paper, we establish high-probability convergence guarantees for random zeroth-order gradient descent in both deterministic and stochastic settings. For deterministic L-smooth and mu-strongly convex objectives of d-dimension, we show that the classical two-query random zeroth-order method finds an epsilon-suboptimal solution with probability at least 1-delta using \\[ \\mathcal{O}\\left( \\frac{dL}μ\\log\\frac{1}{\\varepsilon} + \\log\\frac{1}δ \\right) \\] function queries. Thus, compared with the standard in-expectation complexity, only an additive logarithmic dependence on the confidence parameter is needed. For stochastic objectives, under a bounded-noise condition and without assuming uniformly bounded stochastic gradients, we prove that random zeroth-order stochastic gradient descent achieves an epsilon-suboptimal solution with probability at least 1-delta using \\[ \\mathcal{O}\\left( \\frac{ d\\log(1/\\varepsilon) \\left(\\log(1/\\varepsilon)+\\log(1/δ)\\right) }{\\varepsilon} \\right) \\] queries. Our results provide high-confidence counterparts to classical expectation-based zeroth-order convergence guarantees and clarify the additional cost required to obtain reliable performance guarantees.",
       "summary": "",
       "url": "../papers/2604_23613/",
       "treeUrl": "../tree/#paper=2604_23613",
@@ -95526,7 +95434,7 @@ window.timelineData = {
         "SoftJAX & SoftTorch",
         "Automatic differentiation"
       ],
-      "abstract": "Automatic differentiation (AD) frameworks such as JAX and PyTorch have enabled gradient-based optimization for a wide range of scientific fields. Yet, many \"hard\" primitives in these libraries such as thresholding, Boolean logic, discrete indexing, and sorting operations yield zero or undefined gradients that are not useful for optimization. While numerous \"soft\" relaxations have been proposed that provide informative gradients, the respective implementations are fragmented across projects, making them difficult to combine and compare. This work introduces SoftJAX and SoftTorch, open-source, feature-complete libraries for soft differentiable programming. These libraries provide a variety of soft functions as drop-in replacements for their hard JAX and PyTorch counterparts. This includes (i) elementwise operators such as clip or abs, (ii) utility methods for manipulating Booleans and indices via fuzzy logic, (iii) axiswise operators such as sort or rank -- based on optimal transport or permutahedron projections, and (iv) offer full support for straight-through gradient estimation. Overall, SoftJAX and SoftTorch make the toolbox of soft relaxations easily accessible to differentiable programming, as demonstrated through benchmarking and a practical case study. Code is available at github.com/a-paulus/softjax and github.com/a-paulus/softtorch.",
+      "abstract": "Automatic differentiation (AD) frameworks such as JAX and PyTorch have enabled gradient-based optimization for a wide range of scientific fields. Yet, many \"hard\" primitives in these libraries such as thresholding, Boolean logic, discrete indexing, and sorting operations yield zero or undefined gradients that are not useful for optimization. While numerous \"soft\" relaxations have been proposed that provide informative gradients, the respective implementations are fragmented across projects, making them difficult to combine and compare. This work introduces SoftJAX and SoftTorch, open-source, feature-complete libraries for soft differentiable programming. These libraries provide a variety of soft functions as drop-in replacements for their hard JAX and PyTorch counterparts. This includes (i) elementwise operators such as clip or abs, (ii) utility methods for manipulating Booleans and indices via fuzzy logic, (iii) axiswise operators such as sort or rank - based on optimal transport or permutahedron projections, and (iv) offer full support for straight-through gradient estimation. Overall, SoftJAX and SoftTorch make the toolbox of soft relaxations easily accessible to differentiable programming, as demonstrated through benchmarking and a practical case study. Code is available at github.com/a-paulus/softjax and github.com/a-paulus/softtorch.",
       "summary": "",
       "url": "../papers/2603_08824/",
       "treeUrl": "../tree/#paper=2603_08824",
@@ -95684,7 +95592,7 @@ window.timelineData = {
         "Riemannian manifold",
         "Euclidean geometry"
       ],
-      "abstract": "In many robot motion planning problems, task objectives and physical constraints induce non-Euclidean geometry on the configuration space, yet many planners operate using Euclidean distances that ignore this structure. We address the problem of planning collision-free motions that minimize length under configuration-dependent Riemannian metrics, corresponding to geodesics on the configuration manifold. Conventional numerical methods for computing such paths do not scale well to high-dimensional systems, while sampling-based planners trade scalability for geometric fidelity. To bridge this gap, we propose a sampling-based motion planning framework that operates directly on Riemannian manifolds. We introduce a computationally efficient midpoint-based approximation of the Riemannian geodesic distance and prove that it matches the true Riemannian distance with third-order accuracy. Building on this approximation, we design a local planner that traces the manifold using first-order retractions guided by Riemannian natural gradients. Experiments on a two-link planar arm and a 7-DoF Franka manipulator under a kinetic-energy metric, as well as on rigid-body planning in $\\mathrm{SE}(2)$ with non-holonomic motion constraints, demonstrate that our approach consistently produces lower-cost trajectories than Euclidean-based planners and classical numerical geodesic-solver baselines.",
+      "abstract": "In many robot motion planning problems, task objectives and physical constraints induce non-Euclidean geometry on the configuration space, yet many planners operate using Euclidean distances that ignore this structure. We address the problem of planning collision-free motions that minimize length under configuration-dependent Riemannian metrics, corresponding to geodesics on the configuration manifold. Conventional numerical methods for computing such paths do not scale well to high-dimensional systems, while sampling-based planners trade scalability for geometric fidelity. To bridge this gap, we propose a sampling-based motion planning framework that operates directly on Riemannian manifolds. We introduce a computationally efficient midpoint-based approximation of the Riemannian geodesic distance and prove that it matches the true Riemannian distance with third-order accuracy. Building on this approximation, we design a local planner that traces the manifold using first-order retractions guided by Riemannian natural gradients. Experiments on a two-link planar arm and a 7-DoF Franka manipulator under a kinetic-energy metric, as well as on rigid-body planning in SE(2) with non-holonomic motion constraints, demonstrate that our approach consistently produces lower-cost trajectories than Euclidean-based planners and classical numerical geodesic-solver baselines.",
       "summary": "",
       "url": "../papers/2602_00992/",
       "treeUrl": "../tree/#paper=2602_00992",
@@ -95727,7 +95635,7 @@ window.timelineData = {
         "Real-time planning",
         "Kino-PAX+"
       ],
-      "abstract": "Sampling-based motion planners (SBMPs) are widely used for robot motion planning with complex kinodynamic constraints in high-dimensional spaces, yet they struggle to achieve \\emph{real-time} performance due to their serial computation design. Recent efforts to parallelize SBMPs have achieved significant speedups in finding feasible solutions; however, they provide no guarantees of optimizing an objective function. We introduce Kino-PAX^{+}, a massively parallel kinodynamic SBMP with asymptotic near-optimal guarantees. Kino-PAX^{+} builds a sparse tree of dynamically feasible trajectories by decomposing traditionally serial operations into three massively parallel subroutines. The algorithm focuses computation on the most promising nodes within local neighborhoods for propagation and refinement, enabling rapid improvement of solution cost. We prove that, while maintaining probabilistic \\delta-robust completeness, this focus on promising nodes ensures asymptotic \\delta-robust near-optimality. Our results show that Kino-PAX^{+} finds solutions up to three orders of magnitude faster than existing serial methods and achieves lower solution costs than a state-of-the-art GPU-based planner.",
+      "abstract": "Sampling-based motion planners (SBMPs) are widely used for robot motion planning with complex kinodynamic constraints in high-dimensional spaces, yet they struggle to achieve real-time performance due to their serial computation design. Recent efforts to parallelize SBMPs have achieved significant speedups in finding feasible solutions; however, they provide no guarantees of optimizing an objective function. We introduce Kino-PAX^{+}, a massively parallel kinodynamic SBMP with asymptotic near-optimal guarantees. Kino-PAX^{+} builds a sparse tree of dynamically feasible trajectories by decomposing traditionally serial operations into three massively parallel subroutines. The algorithm focuses computation on the most promising nodes within local neighborhoods for propagation and refinement, enabling rapid improvement of solution cost. We prove that, while maintaining probabilistic \\delta-robust completeness, this focus on promising nodes ensures asymptotic \\delta-robust near-optimality. Our results show that Kino-PAX^{+} finds solutions up to three orders of magnitude faster than existing serial methods and achieves lower solution costs than a state-of-the-art GPU-based planner.",
       "summary": "",
       "url": "../papers/2602_02846/",
       "treeUrl": "../tree/#paper=2602_02846",
@@ -95916,7 +95824,7 @@ window.timelineData = {
         "Learning",
         "TO"
       ],
-      "abstract": "Trajectory Optimization (TO) solvers exploit known system dynamics to compute locally optimal trajectories through iterative improvements. A downside is that each new problem instance is solved independently; therefore, convergence speed and quality of the solution found depend on the initial trajectory proposed. To improve efficiency, a natural approach is to warm-start TO with initial guesses produced by a learned policy trained on trajectories previously generated by the solver. Diffusion-based policies have recently emerged as expressive imitation learning models, making them promising candidates for this role. Yet, a counterintuitive challenge comes from the local optimality of TO demonstrations: when a policy is rolled out, small non-optimal deviations may push it into situations not represented in the training data, triggering compounding errors over long horizons. In this work, we focus on learning-based warm-starting for gradient-based TO solvers that also provide feedback gains. Exploiting this specificity, we derive a first-order loss for Sobolev learning of diffusion-based policies using both trajectories and feedback gains. Through comprehensive experiments, we demonstrate that the resulting policy avoids compounding errors, and so can learn from very few trajectories to provide initial guesses reducing solving time by $2\\times$ to $20 \\times$. Incorporating first-order information enables predictions with fewer diffusion steps, reducing inference latency.",
+      "abstract": "Trajectory Optimization (TO) solvers exploit known system dynamics to compute locally optimal trajectories through iterative improvements. A downside is that each new problem instance is solved independently; therefore, convergence speed and quality of the solution found depend on the initial trajectory proposed. To improve efficiency, a natural approach is to warm-start TO with initial guesses produced by a learned policy trained on trajectories previously generated by the solver. Diffusion-based policies have recently emerged as expressive imitation learning models, making them promising candidates for this role. Yet, a counterintuitive challenge comes from the local optimality of TO demonstrations: when a policy is rolled out, small non-optimal deviations may push it into situations not represented in the training data, triggering compounding errors over long horizons. In this work, we focus on learning-based warm-starting for gradient-based TO solvers that also provide feedback gains. Exploiting this specificity, we derive a first-order loss for Sobolev learning of diffusion-based policies using both trajectories and feedback gains. Through comprehensive experiments, we demonstrate that the resulting policy avoids compounding errors, and so can learn from very few trajectories to provide initial guesses reducing solving time by 2x to 20 x. Incorporating first-order information enables predictions with fewer diffusion steps, reducing inference latency.",
       "summary": "",
       "url": "../papers/2604_19011/",
       "treeUrl": "../tree/#paper=2604_19011",
@@ -96514,7 +96422,7 @@ window.timelineData = {
         "Model predictive path integral belief",
         "PIC"
       ],
-      "abstract": "This paper extends path integral control (PIC) to partially observed systems by formulating the problem in Gaussian belief space. PIC relies on the diffusion being proportional to the control channel -- the so-called matching condition -- to linearize the Hamilton-Jacobi-Bellman equation via the Cole-Hopf transform; we show that this condition fails in infinite-dimensional belief space under non-affine observations. Restricting to Gaussian beliefs yields a finite-dimensional approximation with deterministic covariance evolution, reducing the problem to stochastic control of the belief mean. We derive necessary and sufficient conditions for matching in this reduced space, obtain an exact Cole-Hopf linearization with a Feynman-Kac representation, and develop the MPPI-Belief algorithm. Numerical experiments on a navigation task with state-dependent observation noise demonstrate the effectiveness of MPPI-Belief relative to certainty-equivalent and particle-filter-based baselines.",
+      "abstract": "This paper extends path integral control (PIC) to partially observed systems by formulating the problem in Gaussian belief space. PIC relies on the diffusion being proportional to the control channel - the so-called matching condition - to linearize the Hamilton-Jacobi-Bellman equation via the Cole-Hopf transform; we show that this condition fails in infinite-dimensional belief space under non-affine observations. Restricting to Gaussian beliefs yields a finite-dimensional approximation with deterministic covariance evolution, reducing the problem to stochastic control of the belief mean. We derive necessary and sufficient conditions for matching in this reduced space, obtain an exact Cole-Hopf linearization with a Feynman-Kac representation, and develop the MPPI-Belief algorithm. Numerical experiments on a navigation task with state-dependent observation noise demonstrate the effectiveness of MPPI-Belief relative to certainty-equivalent and particle-filter-based baselines.",
       "summary": "",
       "url": "../papers/2604_13312/",
       "treeUrl": "../tree/#paper=2604_13312",
@@ -96549,7 +96457,7 @@ window.timelineData = {
         "Safe and Steerable Geometric Motion Policies for Robotic Dexterous Manipulation"
       ],
       "tags": [],
-      "abstract": "Robotic dexterous manipulation requires continuously reconciling objectives and constraints defined on heterogeneous geometric spaces: a robot controlled on a $\\mathbb{R}^7$ configuration manifold may need to track end effector poses on $\\mathrm{SE}(3)$ while satisfying obstacle avoidance margins in $\\mathbb{R}$. We present Safe Pullback Bundle Dynamical Systems (SafePBDS), a geometrically consistent framework that computes optimal, certifiably safe configuration manifold accelerations from objectives and safety requirements on arbitrary task manifolds. SafePBDS builds on prior work that combines predefined task manifold dynamical systems to produce autonomous motion. Its first innovation is a pullback control barrier function construction, which converts task manifold safety conditions into linear constraints on configuration manifold accelerations. The second innovation is a task manifold action interface that allows a high-level policy to inject low dimensional residual motions; zero input recovers the autonomous behavior, while safety is preserved under arbitrary inputs. This lets high-level policies efficiently steer exploration while leaving precise motion to the autonomous behavior. We validate SafePBDS in simulation and on a 23-DOF Franka Panda-Allegro Hand platform. On dexterous grasping, SafePBDS achieves a $92.5\\%$ success rate across 20 household objects and 120 trials. Using the action interface, the method can exclude any one of the four fingers during grasping via a one-dimensional action, achieving $94.4\\%$ 3-finger grasp success across 3 objects and 36 trials. The efficient planning and safety guarantee of SafePBDS also enables the first model-based, fully actuated palm-down in-hand reorientation, exceeding $360^\\circ$ of yaw rotation in both directions under varying object weight and wrist motion. Demo video and details: https://tml.stanford.edu/safe-pbds",
+      "abstract": "Robotic dexterous manipulation requires continuously reconciling objectives and constraints defined on heterogeneous geometric spaces: a robot controlled on a R^(7) configuration manifold may need to track end effector poses on SE(3) while satisfying obstacle avoidance margins in R. We present Safe Pullback Bundle Dynamical Systems (SafePBDS), a geometrically consistent framework that computes optimal, certifiably safe configuration manifold accelerations from objectives and safety requirements on arbitrary task manifolds. SafePBDS builds on prior work that combines predefined task manifold dynamical systems to produce autonomous motion. Its first innovation is a pullback control barrier function construction, which converts task manifold safety conditions into linear constraints on configuration manifold accelerations. The second innovation is a task manifold action interface that allows a high-level policy to inject low dimensional residual motions; zero input recovers the autonomous behavior, while safety is preserved under arbitrary inputs. This lets high-level policies efficiently steer exploration while leaving precise motion to the autonomous behavior. We validate SafePBDS in simulation and on a 23-DOF Franka Panda-Allegro Hand platform. On dexterous grasping, SafePBDS achieves a 92.5% success rate across 20 household objects and 120 trials. Using the action interface, the method can exclude any one of the four fingers during grasping via a one-dimensional action, achieving 94.4% 3-finger grasp success across 3 objects and 36 trials. The efficient planning and safety guarantee of SafePBDS also enables the first model-based, fully actuated palm-down in-hand reorientation, exceeding 360^(circ) of yaw rotation in both directions under varying object weight and wrist motion. Demo video and details: https://tml.stanford.edu/safe-pbds",
       "summary": "",
       "url": "../papers/2605_21811/",
       "treeUrl": "../tree/#paper=2605_21811",
@@ -96631,7 +96539,7 @@ window.timelineData = {
         "Sampling-based Model Predictive Control Using Trust Regions"
       ],
       "tags": [],
-      "abstract": "Sampling-based model predictive control (MPC) algorithms, such as model predictive path integral (MPPI), enable approximate, gradient-free solutions to optimal control problems by drawing samples from a proposal distribution, evaluating their trajectory costs, and updating the proposal parameters accordingly. However, these approaches typically rely on heuristics for adjusting hyperparameters, such as temperature or momentum, or manual tuning. We propose a trust region formulation for sampling-based MPC that constrains updates of the proposal distribution via a principled Kullback--Leibler (KL) divergence bound and, optionally, an entropy lower bound. This replaces heuristic hyperparameter adaptation with values that are optimal w.r.t. the underlying Lagrangian. We further improve sample efficiency and convergence by combining the trust region update with deterministic localized cumulative distribution (LCD)-based sampling. Experiments on two benchmark environments demonstrate that the proposed trust region update achieves faster convergence and better sample efficiency in low-sample and low-iteration regimes, especially when paired with deterministic LCD-based sampling.",
+      "abstract": "Sampling-based model predictive control (MPC) algorithms, such as model predictive path integral (MPPI), enable approximate, gradient-free solutions to optimal control problems by drawing samples from a proposal distribution, evaluating their trajectory costs, and updating the proposal parameters accordingly. However, these approaches typically rely on heuristics for adjusting hyperparameters, such as temperature or momentum, or manual tuning. We propose a trust region formulation for sampling-based MPC that constrains updates of the proposal distribution via a principled Kullback-Leibler (KL) divergence bound and, optionally, an entropy lower bound. This replaces heuristic hyperparameter adaptation with values that are optimal w.r.t. the underlying Lagrangian. We further improve sample efficiency and convergence by combining the trust region update with deterministic localized cumulative distribution (LCD)-based sampling. Experiments on two benchmark environments demonstrate that the proposed trust region update achieves faster convergence and better sample efficiency in low-sample and low-iteration regimes, especially when paired with deterministic LCD-based sampling.",
       "summary": "",
       "url": "../papers/2605_07801/",
       "treeUrl": "../tree/#paper=2605_07801",
@@ -96789,7 +96697,7 @@ window.timelineData = {
         "Formal methods",
         "Convex optimization"
       ],
-      "abstract": "This paper investigates continuous-time motion planning under Signal Temporal Logic (STL) specifications. The goal is to generate smooth robot trajectories that satisfy high-level logical and timing requirements while respecting low-level motion constraints. To this end, we propose an efficient framework that combines timed-automata reasoning with graphs of convex sets (GCS). An STL specification is first represented by a timed automaton, which is then coupled with a convex decomposition of the configuration space to form a joint transition system encoding both task progress and region occupancy. Based on this joint transition system, the STL motion-planning problem is reformulated as a shortest-path problem over a GCS, whose solution induces a smooth Bézier-spline trajectory satisfying the STL specification, smoothness requirements, and velocity bounds. We establish the soundness of the proposed formulation and analyze its computational complexity, showing that, once the timed automaton and convex decomposition are fixed, the convex relaxation scales polynomially with the configuration-space dimension and the Bézier degree. We further develop a compact timed-automaton construction for an expressive STL fragment using dedicated templates and Boolean composition. Numerical experiments on low-dimensional benchmarks, a $3$-D quadrotor, a $30$-DoF humanoid, and a hardware experiment on a UR-3 robot arm demonstrate that the proposed method efficiently solves complex STL motion-planning problems and produces smooth executable trajectories.",
+      "abstract": "This paper investigates continuous-time motion planning under Signal Temporal Logic (STL) specifications. The goal is to generate smooth robot trajectories that satisfy high-level logical and timing requirements while respecting low-level motion constraints. To this end, we propose an efficient framework that combines timed-automata reasoning with graphs of convex sets (GCS). An STL specification is first represented by a timed automaton, which is then coupled with a convex decomposition of the configuration space to form a joint transition system encoding both task progress and region occupancy. Based on this joint transition system, the STL motion-planning problem is reformulated as a shortest-path problem over a GCS, whose solution induces a smooth Bézier-spline trajectory satisfying the STL specification, smoothness requirements, and velocity bounds. We establish the soundness of the proposed formulation and analyze its computational complexity, showing that, once the timed automaton and convex decomposition are fixed, the convex relaxation scales polynomially with the configuration-space dimension and the Bézier degree. We further develop a compact timed-automaton construction for an expressive STL fragment using dedicated templates and Boolean composition. Numerical experiments on low-dimensional benchmarks, a 3-D quadrotor, a 30-DoF humanoid, and a hardware experiment on a UR-3 robot arm demonstrate that the proposed method efficiently solves complex STL motion-planning problems and produces smooth executable trajectories.",
       "summary": "Combines timed-automata reasoning with graphs of convex sets to generate smooth trajectories satisfying continuous-time signal temporal logic specifications. The contribution is a planning formulation that keeps high-level temporal requirements and low-level convex trajectory constraints in the same optimization pipeline.",
       "url": "../papers/2605_23240/",
       "treeUrl": "../tree/#paper=2605_23240",
@@ -97013,7 +96921,7 @@ window.timelineData = {
         "Delaunay triangulation",
         "CDT"
       ],
-      "abstract": "Motion planning through narrow passages remains a core challenge: sampling-based planners rarely place samples inside these narrow but critical regions, and even when samples land inside a passage, the straight-line connections between them run close to obstacle boundaries and are frequently rejected by collision checking. Decomposition-based planners resolve both issues by partitioning free space into convex cells -- every passage is captured exactly as a cell boundary, and any path within a cell is collision-free by construction. However, the number of candidate corridors through the cell graph grows combinatorially with environment complexity, creating a bottleneck in corridor selection. We present GNN-DIP, a framework that addresses this by integrating a Graph Neural Network (GNN) with a two-phase Decomposition-Informed Planner (DIP). The GNN predicts portal scores on the cell adjacency graph to bias corridor search toward near-optimal regions while preserving completeness. In 2D, Constrained Delaunay Triangulation (CDT) with the Funnel algorithm yields exact shortest paths within corridors; in 3D, Slab convex decomposition with portal-face sampling provides near-optimal path evaluation. Benchmarks on 2D narrow-passage scenarios, 3D bottleneck environments with up to 246 obstacles, and dynamic 2D settings show that GNN-DIP achieves 99--100% success rates with 2--280 times speedup over sampling-based baselines.",
+      "abstract": "Motion planning through narrow passages remains a core challenge: sampling-based planners rarely place samples inside these narrow but critical regions, and even when samples land inside a passage, the straight-line connections between them run close to obstacle boundaries and are frequently rejected by collision checking. Decomposition-based planners resolve both issues by partitioning free space into convex cells - every passage is captured exactly as a cell boundary, and any path within a cell is collision-free by construction. However, the number of candidate corridors through the cell graph grows combinatorially with environment complexity, creating a bottleneck in corridor selection. We present GNN-DIP, a framework that addresses this by integrating a Graph Neural Network (GNN) with a two-phase Decomposition-Informed Planner (DIP). The GNN predicts portal scores on the cell adjacency graph to bias corridor search toward near-optimal regions while preserving completeness. In 2D, Constrained Delaunay Triangulation (CDT) with the Funnel algorithm yields exact shortest paths within corridors; in 3D, Slab convex decomposition with portal-face sampling provides near-optimal path evaluation. Benchmarks on 2D narrow-passage scenarios, 3D bottleneck environments with up to 246 obstacles, and dynamic 2D settings show that GNN-DIP achieves 99-100% success rates with 2-280 times speedup over sampling-based baselines.",
       "summary": "",
       "url": "../papers/2603_12361/",
       "treeUrl": "../tree/#paper=2603_12361",
@@ -97522,7 +97430,7 @@ window.timelineData = {
         "Control",
         "Sampling"
       ],
-      "abstract": "Feedback motion planning over cell decompositions provides a robust method for generating collision-free robot motion with formal guarantees. However, existing algorithms often produce paths with unnecessary bending, leading to slower motion and higher control effort. This paper presents a computationally efficient method to mitigate this issue for a given simplicial decomposition. A heuristic is introduced that systematically aligns and assigns local vector fields to produce more direct trajectories, complemented by a novel geometric algorithm that constructs a maximal star-shaped chain of simplexes around the goal. This creates a large ``funnel'' in which an optimal, direct-to-goal control law can be safely applied. Simulations demonstrate that our method generates measurably more direct paths, reducing total bending by an average of 91.40\\% and LQR control effort by an average of 45.47\\%. Furthermore, comparative analysis against sampling-based and optimization-based planners confirms the time efficacy and robustness of our approach. While the proposed algorithms work over any finite-dimensional simplicial complex embedded in the collision-free subset of the configuration space, the practical application focuses on low-dimensional ($d\\le3$) configuration spaces, where simplicial decomposition is computationally tractable.",
+      "abstract": "Feedback motion planning over cell decompositions provides a robust method for generating collision-free robot motion with formal guarantees. However, existing algorithms often produce paths with unnecessary bending, leading to slower motion and higher control effort. This paper presents a computationally efficient method to mitigate this issue for a given simplicial decomposition. A heuristic is introduced that systematically aligns and assigns local vector fields to produce more direct trajectories, complemented by a novel geometric algorithm that constructs a maximal star-shaped chain of simplexes around the goal. This creates a large ``funnel'' in which an optimal, direct-to-goal control law can be safely applied. Simulations demonstrate that our method generates measurably more direct paths, reducing total bending by an average of 91.40\\% and LQR control effort by an average of 45.47\\%. Furthermore, comparative analysis against sampling-based and optimization-based planners confirms the time efficacy and robustness of our approach. While the proposed algorithms work over any finite-dimensional simplicial complex embedded in the collision-free subset of the configuration space, the practical application focuses on low-dimensional (dle3) configuration spaces, where simplicial decomposition is computationally tractable.",
       "summary": "",
       "url": "../papers/2604_01614/",
       "treeUrl": "../tree/#paper=2604_01614",
@@ -97580,7 +97488,7 @@ window.timelineData = {
         "ZEST"
       ],
       "tags": [],
-      "abstract": "Achieving robust, human-like whole-body control on humanoid robots for agile, contact-rich behaviors remains a central challenge, demanding heavy per-skill engineering and a brittle process of tuning controllers. We introduce ZEST (Zero-shot Embodied Skill Transfer), a streamlined motion-imitation framework that trains policies via reinforcement learning from diverse sources -- high-fidelity motion capture, noisy monocular video, and non-physics-constrained animation -- and deploys them to hardware zero-shot. ZEST generalizes across behaviors and platforms while avoiding contact labels, reference or observation windows, state estimators, and extensive reward shaping. Its training pipeline combines adaptive sampling, which focuses training on difficult motion segments, and an automatic curriculum using a model-based assistive wrench, together enabling dynamic, long-horizon maneuvers. We further provide a procedure for selecting joint-level gains from approximate analytical armature values for closed-chain actuators, along with a refined model of actuators. Trained entirely in simulation with moderate domain randomization, ZEST demonstrates remarkable generality. On Boston Dynamics' Atlas humanoid, ZEST learns dynamic, multi-contact skills (e.g., army crawl, breakdancing) from motion capture. It transfers expressive dance and scene-interaction skills, such as box-climbing, directly from videos to Atlas and the Unitree G1. Furthermore, it extends across morphologies to the Spot quadruped, enabling acrobatics, such as a continuous backflip, through animation. Together, these results demonstrate robust zero-shot deployment across heterogeneous data sources and embodiments, establishing ZEST as a scalable interface between biological movements and their robotic counterparts.",
+      "abstract": "Achieving robust, human-like whole-body control on humanoid robots for agile, contact-rich behaviors remains a central challenge, demanding heavy per-skill engineering and a brittle process of tuning controllers. We introduce ZEST (Zero-shot Embodied Skill Transfer), a streamlined motion-imitation framework that trains policies via reinforcement learning from diverse sources - high-fidelity motion capture, noisy monocular video, and non-physics-constrained animation - and deploys them to hardware zero-shot. ZEST generalizes across behaviors and platforms while avoiding contact labels, reference or observation windows, state estimators, and extensive reward shaping. Its training pipeline combines adaptive sampling, which focuses training on difficult motion segments, and an automatic curriculum using a model-based assistive wrench, together enabling dynamic, long-horizon maneuvers. We further provide a procedure for selecting joint-level gains from approximate analytical armature values for closed-chain actuators, along with a refined model of actuators. Trained entirely in simulation with moderate domain randomization, ZEST demonstrates remarkable generality. On Boston Dynamics' Atlas humanoid, ZEST learns dynamic, multi-contact skills (e.g., army crawl, breakdancing) from motion capture. It transfers expressive dance and scene-interaction skills, such as box-climbing, directly from videos to Atlas and the Unitree G1. Furthermore, it extends across morphologies to the Spot quadruped, enabling acrobatics, such as a continuous backflip, through animation. Together, these results demonstrate robust zero-shot deployment across heterogeneous data sources and embodiments, establishing ZEST as a scalable interface between biological movements and their robotic counterparts.",
       "summary": "",
       "url": "../papers/2602_00401/",
       "treeUrl": "../tree/#paper=2602_00401",
@@ -97796,7 +97704,7 @@ window.timelineData = {
         "Finite-time analysis",
         "Least squares"
       ],
-      "abstract": "We present a finite-time framework for identifying stable and unstable linear time-invariant (LTI) systems from a single closed-loop input-output trajectory. The method does not require knowledge of the stabilizing controller, an intermediate observer, or prior separation of the plant into stable and unstable components. The approach uses a non-causal finite impulse response (FIR) model obtained from a Laurent expansion of the transfer function. In this representation, stable dynamics are captured by causal Markov parameters, while unstable dynamics are captured by non-causal coefficients associated with reverse-time stable evolution. This avoids the growth of causal unstable Markov parameters. A key advantage is that the coefficients multiplying both the input and the process noise remain controlled by stable and reverse-time stable decay rates, rather than by growing forward-time unstable dynamics. To handle closed-loop data, we use the injected excitation as an instrumental variable, which removes the bias caused by correlation between the feedback input and the process noise. Under explicit instrument-strength and closed-loop concentration conditions, we derive a non-asymptotic error bound for the estimated Laurent/FIR Markov parameters with the usual $\\mathcal{O}(N^{-1/2})$ statistical rate, up to logarithmic factors and truncation terms. The bound captures the effects of process noise, measurement noise, FIR horizons, closed-loop state moments, and controller-dependent instrument conditioning. Numerical experiments support the finite-time analysis by showing the predicted Markov-parameter convergence rate and illustrating how controller-dependent instrument conditioning affects the sample complexity of closed-loop identification.",
+      "abstract": "We present a finite-time framework for identifying stable and unstable linear time-invariant (LTI) systems from a single closed-loop input-output trajectory. The method does not require knowledge of the stabilizing controller, an intermediate observer, or prior separation of the plant into stable and unstable components. The approach uses a non-causal finite impulse response (FIR) model obtained from a Laurent expansion of the transfer function. In this representation, stable dynamics are captured by causal Markov parameters, while unstable dynamics are captured by non-causal coefficients associated with reverse-time stable evolution. This avoids the growth of causal unstable Markov parameters. A key advantage is that the coefficients multiplying both the input and the process noise remain controlled by stable and reverse-time stable decay rates, rather than by growing forward-time unstable dynamics. To handle closed-loop data, we use the injected excitation as an instrumental variable, which removes the bias caused by correlation between the feedback input and the process noise. Under explicit instrument-strength and closed-loop concentration conditions, we derive a non-asymptotic error bound for the estimated Laurent/FIR Markov parameters with the usual O(1/sqrt(N)) statistical rate, up to logarithmic factors and truncation terms. The bound captures the effects of process noise, measurement noise, FIR horizons, closed-loop state moments, and controller-dependent instrument conditioning. Numerical experiments support the finite-time analysis by showing the predicted Markov-parameter convergence rate and illustrating how controller-dependent instrument conditioning affects the sample complexity of closed-loop identification.",
       "summary": "Gives finite-time guarantees for identifying stable and unstable LTI systems from a single closed-loop trajectory using non-causal FIR representations. The method avoids requiring the stabilizing controller or a separate stable/unstable decomposition, making the result conceptually tidy for closed-loop identification.",
       "url": "../papers/2605_24393/",
       "treeUrl": "../tree/#paper=2605_24393",
@@ -98014,7 +97922,7 @@ window.timelineData = {
         "Learning",
         "Linear quadratic Gaussian"
       ],
-      "abstract": "Learning methods are increasingly used to synthesize controllers from data, yet existing sample-complexity characterizations for continuous control are sharp only in the fully observed setting. This paper studies the partially observed case by deriving information-theoretic lower bounds for learning Linear Quadratic Gaussian (LQG) controllers from offline trajectories generated by a (linear) exploration policy. We prove an $\\varepsilon$-local minimax excess-cost lower bound that applies to any algorithm mapping the offline dataset to a stabilizing linear controller. The bound is expressed in terms of the Hessian of the LQG cost with respect to model parameters and the inverse Fisher Information induced by the exploration policy. We further provide system-theoretic characterizations of these objects, enabling transparent construction of hard instances. Instantiating the bound on classical fragile robust-control examples, including variants of the Doyle LQG fragility counterexample and non-minimum-phase systems, demonstrates when fragile robust control problems translate into high sample complexity for learning-enabled control. These results suggest the asymptotic optimality of certainty-equivalent synthesis and motivate the importance of both task-directed experiment design and system co-design for sample-efficient learning in partially observed control.",
+      "abstract": "Learning methods are increasingly used to synthesize controllers from data, yet existing sample-complexity characterizations for continuous control are sharp only in the fully observed setting. This paper studies the partially observed case by deriving information-theoretic lower bounds for learning Linear Quadratic Gaussian (LQG) controllers from offline trajectories generated by a (linear) exploration policy. We prove an epsilon-local minimax excess-cost lower bound that applies to any algorithm mapping the offline dataset to a stabilizing linear controller. The bound is expressed in terms of the Hessian of the LQG cost with respect to model parameters and the inverse Fisher Information induced by the exploration policy. We further provide system-theoretic characterizations of these objects, enabling transparent construction of hard instances. Instantiating the bound on classical fragile robust-control examples, including variants of the Doyle LQG fragility counterexample and non-minimum-phase systems, demonstrates when fragile robust control problems translate into high sample complexity for learning-enabled control. These results suggest the asymptotic optimality of certainty-equivalent synthesis and motivate the importance of both task-directed experiment design and system co-design for sample-efficient learning in partially observed control.",
       "summary": "",
       "url": "../papers/2604_24442/",
       "treeUrl": "../tree/#paper=2604_24442",
@@ -98048,7 +97956,7 @@ window.timelineData = {
         "OpenClaw-RL"
       ],
       "tags": [],
-      "abstract": "Every agent interaction generates a next-state signal, namely the user reply, tool output, terminal or GUI state change that follows each action, yet no existing agentic RL system recovers it as a live, online learning source. We present OpenClaw-RL, a framework that employs next-state signals to optimize personal agents online through infrastructure and methodology innovations. On the infrastructure side, we extend existing RL systems to a server-client architecture where the RL server hosts the policy behind an inference API and user terminals stream interaction data back over HTTP. From each observed next state, the system extracts two complementary training signals, evaluative and directive, via a separate asynchronous server so that neither signal extraction nor optimization blocks inference. On the methodology side, we introduce a hybrid RL objective that unifies both signal types in a single update: directive signals provide richer, token-level supervision but are sparser, while evaluative signals are more broadly available. To stabilize distillation under teacher-student mismatch, we propose overlap-guided hint selection, which picks the hint whose induced teacher distribution maximally overlaps with the student's top-$k$ tokens, together with a log-probability-difference clip that bounds per-token advantages. Applied to personal agents, OpenClaw-RL enables an agent to improve simply by being used, recovering conversational signals from user re-queries, corrections, and explicit feedback. Applied to general agents, OpenClaw-RL is the first RL framework to unify real-world agent settings spanning terminal, GUI, SWE, and tool-call environments, where we additionally demonstrate the utility of next-state signals in long-horizon settings.",
+      "abstract": "Every agent interaction generates a next-state signal, namely the user reply, tool output, terminal or GUI state change that follows each action, yet no existing agentic RL system recovers it as a live, online learning source. We present OpenClaw-RL, a framework that employs next-state signals to optimize personal agents online through infrastructure and methodology innovations. On the infrastructure side, we extend existing RL systems to a server-client architecture where the RL server hosts the policy behind an inference API and user terminals stream interaction data back over HTTP. From each observed next state, the system extracts two complementary training signals, evaluative and directive, via a separate asynchronous server so that neither signal extraction nor optimization blocks inference. On the methodology side, we introduce a hybrid RL objective that unifies both signal types in a single update: directive signals provide richer, token-level supervision but are sparser, while evaluative signals are more broadly available. To stabilize distillation under teacher-student mismatch, we propose overlap-guided hint selection, which picks the hint whose induced teacher distribution maximally overlaps with the student's top-k tokens, together with a log-probability-difference clip that bounds per-token advantages. Applied to personal agents, OpenClaw-RL enables an agent to improve simply by being used, recovering conversational signals from user re-queries, corrections, and explicit feedback. Applied to general agents, OpenClaw-RL is the first RL framework to unify real-world agent settings spanning terminal, GUI, SWE, and tool-call environments, where we additionally demonstrate the utility of next-state signals in long-horizon settings.",
       "summary": "",
       "url": "../papers/2603_10165/",
       "treeUrl": "../tree/#paper=2603_10165",
@@ -98081,7 +97989,7 @@ window.timelineData = {
         "On the Complexity of Best-Arm Identification in Non-Stationary Linear Bandits"
       ],
       "tags": [],
-      "abstract": "We study the fixed-budget best-arm identification (BAI) problem in non-stationary linear bandits. Concretely, given a fixed time budget $T\\in \\mathbb{N}$, finite arm set $\\mathcal{X} \\subset \\mathbb{R}^d$, and a potentially adversarial sequence of unknown parameters $\\lbrace θ_t\\rbrace_{t=1}^{T}$ (hence non-stationary), a learner aims to identify the arm with the largest cumulative reward $x_* = \\arg\\max_{x \\in \\mathcal{X}} x^\\top\\sum_{t=1}^T θ_t$ with high probability. In this setting, it is well-known that uniformly sampling arms from the G-optimal design yields a minimax-optimal error probability of $\\exp\\left(-Θ\\left(T / H_{G}\\right)\\right)$, where $H_{G}$ scales proportionally with the dimension $d$. However, this notion of complexity is overly pessimistic, as it is derived from a lower bound in which the arm set consists only of the standard basis vectors, thus masking any potential advantages arising from arm sets with richer geometric structure. To address this, we establish an arm-set-dependent lower bound that, in contrast, holds for any arm set. Motivated by the ideas underlying our lower bound, we propose the Adjacent-optimal design, a specialization of the well-known $\\mathcal{X}\\mathcal{Y}$-optimal design, and develop the $\\textsf{Adjacent-BAI}$ algorithm. We prove that the error probability of $\\textsf{Adjacent-BAI}$ matches our lower bound up to constants, verifying the tightness of our lower bound, and establishing the arm-set-dependent complexity of this setting.",
+      "abstract": "We study the fixed-budget best-arm identification (BAI) problem in non-stationary linear bandits. Concretely, given a fixed time budget Tin N, finite arm set X subset R^(d), and a potentially adversarial sequence of unknown parameters lbrace theta_trbrace_t = 1^(T) (hence non-stationary), a learner aims to identify the arm with the largest cumulative reward x_* = argmax_x in X x^(top)sum_t = 1^(T) theta_t with high probability. In this setting, it is well-known that uniformly sampling arms from the G-optimal design yields a minimax-optimal error probability of exp(-Theta(T / H_G)), where H_G scales proportionally with the dimension d. However, this notion of complexity is overly pessimistic, as it is derived from a lower bound in which the arm set consists only of the standard basis vectors, thus masking any potential advantages arising from arm sets with richer geometric structure. To address this, we establish an arm-set-dependent lower bound that, in contrast, holds for any arm set. Motivated by the ideas underlying our lower bound, we propose the Adjacent-optimal design, a specialization of the well-known XY-optimal design, and develop the textsfAdjacent-BAI algorithm. We prove that the error probability of textsfAdjacent-BAI matches our lower bound up to constants, verifying the tightness of our lower bound, and establishing the arm-set-dependent complexity of this setting.",
       "summary": "",
       "url": "../papers/2603_10346/",
       "treeUrl": "../tree/#paper=2603_10346",
@@ -98357,7 +98265,7 @@ window.timelineData = {
         "Function approximation",
         "Convergence analysis"
       ],
-      "abstract": "We study the global convergence of policy gradient for infinite-horizon entropy-regularized Markov decision processes (MDPs) with continuous state and action spaces. We consider log-linear softmax policies with linear function approximation, which extend the tabular softmax parameterization while retaining a tractable policy class. Under $Q^π_τ$-realizability for the regularized state-action value function, we first establish a non-uniform Polyak--Łojasiewicz (PŁ) inequality. The non-uniformity arises through degeneracy of constants associated with the policy geometry, namely the Fisher information matrix or an uncentered feature covariance matrix. We then identify two feature regimes under which this non-uniform constant can be bounded along the gradient flow. For full-affine-span features, we prove radial unboundedness of the KL regularizer and show that the smallest eigenvalue of the Fisher information matrix remains bounded below by an initialization-dependent positive constant. For simplex-valued features, we prove an analogous radial unboundedness result in the subspace orthogonal to the all-ones vector and obtain a uniform lower bound for the smallest eigenvalue of the uncentered covariance matrix. These results imply global linear convergence of the regularized objective along the gradient flow, i.e. suboptimality decaying as $\\mathcal{O}(e^{-Ct})$ for some $C>0$. Our analysis extends the global convergence theory of entropy-regularized softmax policy gradient beyond the tabular setting of Agarwal et al. (2020); Bhandari and Russo (2024); Mei et al. (2020).",
+      "abstract": "We study the global convergence of policy gradient for infinite-horizon entropy-regularized Markov decision processes (MDPs) with continuous state and action spaces. We consider log-linear softmax policies with linear function approximation, which extend the tabular softmax parameterization while retaining a tractable policy class. Under Q-pi-tau realizability for the regularized state-action value function, we first establish a non-uniform Polyak-Łojasiewicz (PŁ) inequality. The non-uniformity arises through degeneracy of constants associated with the policy geometry, namely the Fisher information matrix or an uncentered feature covariance matrix. We then identify two feature regimes under which this non-uniform constant can be bounded along the gradient flow. For full-affine-span features, we prove radial unboundedness of the KL regularizer and show that the smallest eigenvalue of the Fisher information matrix remains bounded below by an initialization-dependent positive constant. For simplex-valued features, we prove an analogous radial unboundedness result in the subspace orthogonal to the all-ones vector and obtain a uniform lower bound for the smallest eigenvalue of the uncentered covariance matrix. These results imply global linear convergence of the regularized objective along the gradient flow, i.e. suboptimality decaying as O(exp(-C t)) for some positive constant C. Our analysis extends the global convergence theory of entropy-regularized softmax policy gradient beyond the tabular setting of Agarwal et al. (2020); Bhandari and Russo (2024); Mei et al. (2020).",
       "summary": "Proves global linear convergence results for entropy-regularized softmax policy gradient beyond tabular MDPs using log-linear policies and realizability assumptions. The paper extends finite-state policy-gradient theory toward continuous state-action settings while tracking the geometry of the policy class.",
       "url": "../papers/2605_24939/",
       "treeUrl": "../tree/#paper=2605_24939",
@@ -98529,7 +98437,7 @@ window.timelineData = {
         "Learning",
         "DSPI"
       ],
-      "abstract": "In this work, we show that natural policy gradient, a core algorithm in reinforcement learning, admits an exact formulation as a smoothed and averaged form of policy iteration. Specifically, we introduce doubly smoothed policy iteration (DSPI), a Bellman-operator framework in which each policy is obtained by applying a regularized greedy step to a weighted average of past $Q$-functions. DSPI includes policy iteration, dual-averaged policy iteration, natural policy gradient, and more general policy dual averaging methods as special cases. Using only monotonicity and contraction of smoothed Bellman operators, we prove distribution-free global geometric convergence of DSPI. Consequently, standard natural policy gradient and policy dual averaging achieve an iteration complexity of $\\mathcal{O}((1-γ)^{-1}\\log((1-γ)^{-1}ε^{-1}))$ for computing an $ε$-optimal policy, without modifying the MDP, adding regularization beyond the mirror map inherent in the update, or using adaptive, trajectory-dependent stepsizes. For the unregularized greedy case, corresponding to dual-averaged policy iteration, we also prove finite termination. The same Bellman-operator framework further extends to discounted MDPs with linear function approximation and stochastic shortest path problems.",
+      "abstract": "In this work, we show that natural policy gradient, a core algorithm in reinforcement learning, admits an exact formulation as a smoothed and averaged form of policy iteration. Specifically, we introduce doubly smoothed policy iteration (DSPI), a Bellman-operator framework in which each policy is obtained by applying a regularized greedy step to a weighted average of past Q-functions. DSPI includes policy iteration, dual-averaged policy iteration, natural policy gradient, and more general policy dual averaging methods as special cases. Using only monotonicity and contraction of smoothed Bellman operators, we prove distribution-free global geometric convergence of DSPI. Consequently, standard natural policy gradient and policy dual averaging achieve an iteration complexity of O((1-gamma)^(-1)log((1-gamma)^(-1)epsilon^(-1))) for computing an epsilon-optimal policy, without modifying the MDP, adding regularization beyond the mirror map inherent in the update, or using adaptive, trajectory-dependent stepsizes. For the unregularized greedy case, corresponding to dual-averaged policy iteration, we also prove finite termination. The same Bellman-operator framework further extends to discounted MDPs with linear function approximation and stochastic shortest path problems.",
       "summary": "",
       "url": "../papers/2605_10671/",
       "treeUrl": "../tree/#paper=2605_10671",
@@ -98585,7 +98493,7 @@ window.timelineData = {
         "Learning",
         "OGPO"
       ],
-      "abstract": "Generative control policies (GCPs), such as diffusion- and flow-based control policies, have emerged as effective parameterizations for robot learning. This work introduces Off-policy Generative Policy Optimization (OGPO), a sample-efficient algorithm for finetuning GCPs that maintains off-policy critic networks to maximize data reuse and propagate policy gradients through the full generative process of the policy via a modified PPO objective, using critics as the terminal reward. OGPO achieves state-of-the-art performance on manipulation tasks spanning multi-task settings, high-precision insertion, and dexterous control. To our knowledge, it is also the only method that can fine-tune poorly-initialized behavior cloning policies to near full task-success with no expert data in the online replay buffer, and does so with few task-specific hyperparameter tuning. Through extensive empirical investigations, we demonstrate the OGPO drastically outperforms methods alternatives on policy steering and learning residual corrections, and identify the key mechanisms behind its performance. We further introduce practical stabilizers, including success-buffer regularization, conservative advantages, $χ^2$ regularization, and Q-variance reduction, to mitigate critic over-exploitation across state- and pixel-based settings. Beyond proposing OGPO, we conduct a systematic empirical study of GCP finetuning, identifying the stabilizing mechanisms and failure modes that govern successful off-policy full-policy improvement.",
+      "abstract": "Generative control policies (GCPs), such as diffusion- and flow-based control policies, have emerged as effective parameterizations for robot learning. This work introduces Off-policy Generative Policy Optimization (OGPO), a sample-efficient algorithm for finetuning GCPs that maintains off-policy critic networks to maximize data reuse and propagate policy gradients through the full generative process of the policy via a modified PPO objective, using critics as the terminal reward. OGPO achieves state-of-the-art performance on manipulation tasks spanning multi-task settings, high-precision insertion, and dexterous control. To our knowledge, it is also the only method that can fine-tune poorly-initialized behavior cloning policies to near full task-success with no expert data in the online replay buffer, and does so with few task-specific hyperparameter tuning. Through extensive empirical investigations, we demonstrate the OGPO drastically outperforms methods alternatives on policy steering and learning residual corrections, and identify the key mechanisms behind its performance. We further introduce practical stabilizers, including success-buffer regularization, conservative advantages, chi^(2) regularization, and Q-variance reduction, to mitigate critic over-exploitation across state- and pixel-based settings. Beyond proposing OGPO, we conduct a systematic empirical study of GCP finetuning, identifying the stabilizing mechanisms and failure modes that govern successful off-policy full-policy improvement.",
       "summary": "",
       "url": "../papers/2605_03065/",
       "treeUrl": "../tree/#paper=2605_03065",
@@ -98634,7 +98542,7 @@ window.timelineData = {
         "GKD",
         "Dense-feedback reinforcement learning"
       ],
-      "abstract": "Large language models (LLMs) have recently demonstrated strong potential for autonomous vehicle motion planning by reformulating trajectory prediction as a language generation problem. However, deploying capable LLMs in resource-constrained onboard systems remains a fundamental challenge. In this paper, we study how to effectively transfer motion planning knowledge from a large teacher LLM to a smaller, more deployable student model. We build on the GPT-Driver framework, which represents driving scenes as language prompts and generates waypoint trajectories with chain-of-thought reasoning, and investigate two student training paradigms: (i) on-policy generalized knowledge distillation (GKD), which trains the student on its own self-generated outputs using dense token-level feedback from the teacher, and (ii) a dense-feedback reinforcement learning (RL) baseline that uses the teacher's log-probabilities as per-token reward signals in a policy gradient framework. Experiments on the nuScenes benchmark show that GKD substantially outperforms the RL baseline and closely approaches teacher-level performance despite a 5$\\times$ reduction in model size. These results highlight the practical value of on-policy distillation as a principled and effective approach to deploying LLM-based planners in autonomous driving systems.",
+      "abstract": "Large language models (LLMs) have recently demonstrated strong potential for autonomous vehicle motion planning by reformulating trajectory prediction as a language generation problem. However, deploying capable LLMs in resource-constrained onboard systems remains a fundamental challenge. In this paper, we study how to effectively transfer motion planning knowledge from a large teacher LLM to a smaller, more deployable student model. We build on the GPT-Driver framework, which represents driving scenes as language prompts and generates waypoint trajectories with chain-of-thought reasoning, and investigate two student training paradigms: (i) on-policy generalized knowledge distillation (GKD), which trains the student on its own self-generated outputs using dense token-level feedback from the teacher, and (ii) a dense-feedback reinforcement learning (RL) baseline that uses the teacher's log-probabilities as per-token reward signals in a policy gradient framework. Experiments on the nuScenes benchmark show that GKD substantially outperforms the RL baseline and closely approaches teacher-level performance despite a 5x reduction in model size. These results highlight the practical value of on-policy distillation as a principled and effective approach to deploying LLM-based planners in autonomous driving systems.",
       "summary": "",
       "url": "../papers/2604_07944/",
       "treeUrl": "../tree/#paper=2604_07944",
@@ -98716,7 +98624,7 @@ window.timelineData = {
         "Revisiting Subgradient Dominance in Robust MDPs: Counterexamples, Hardness, and Sufficient Conditions"
       ],
       "tags": [],
-      "abstract": "Projected subgradient descent (PSD) has gained popularity for solving robust Markov decision processes (RMDPs) because it applies to a broader class of uncertainty sets than traditional dynamic programming. Existing work claims that RMDPs with a general compact uncertainty set satisfy the subgradient dominance property, under which exact PSD converges to an $\\varepsilon$-optimal policy in a polynomial number of updates (e.g., Wang et al., 2023). We show that these claims are incorrect. Even when the uncertainty set has cardinality two, the RMDP objective is not subgradient-dominant and can admit suboptimal strict local minima. Moreover, we prove that finding an $\\varepsilon$-optimal policy can be NP-hard even in settings where subgradients are efficiently computable: (i) finite transition uncertainty sets and (ii) $sa$-rectangular finite transition uncertainty sets with finite cost uncertainty sets. Finally, we identify two conditions under which RMDPs do satisfy subgradient dominance: when, for each policy, either the worst-case transition kernel or the worst-case action-value function is unique.",
+      "abstract": "Projected subgradient descent (PSD) has gained popularity for solving robust Markov decision processes (RMDPs) because it applies to a broader class of uncertainty sets than traditional dynamic programming. Existing work claims that RMDPs with a general compact uncertainty set satisfy the subgradient dominance property, under which exact PSD converges to an epsilon-optimal policy in a polynomial number of updates (e.g., Wang et al., 2023). We show that these claims are incorrect. Even when the uncertainty set has cardinality two, the RMDP objective is not subgradient-dominant and can admit suboptimal strict local minima. Moreover, we prove that finding an epsilon-optimal policy can be NP-hard even in settings where subgradients are efficiently computable: (i) finite transition uncertainty sets and (ii) sa-rectangular finite transition uncertainty sets with finite cost uncertainty sets. Finally, we identify two conditions under which RMDPs do satisfy subgradient dominance: when, for each policy, either the worst-case transition kernel or the worst-case action-value function is unique.",
       "summary": "",
       "url": "../papers/2604_21177/",
       "treeUrl": "../tree/#paper=2604_21177",
@@ -98843,7 +98751,7 @@ window.timelineData = {
         "Wasserstein distances",
         "Entropy regularization"
       ],
-      "abstract": "Wasserstein policy gradient (WPG) is a policy optimization method for reinforcement learning (RL) that exploits the optimal-transport geometry of action distributions. For the entropy-regularized RL objective, WPG evolves each state-conditional policy by transporting it along the action gradient of the soft Q-function together with a Langevin-type diffusion. Despite its appeal for continuous-control problems, its global convergence properties remain poorly understood. Standard Langevin analyses do not directly apply, because the RL objective depends on the policy through the Bellman recursion rather than through a static convex functional, and the Langevin drift is determined by the soft Q-function, whose regularity must be controlled along the policy iterates. In this paper, we develop a global convergence theory for WPG by exploiting the Bellman structure of entropy-regularized RL. We show that the role usually played by convexity can be replaced by a Bellman-based argument: the soft Bellman residual admits a statewise KL representation with respect to a Gibbs policy; Bellman contraction relates this residual to the global optimality gap; and a Bellman resolvent identity connects value improvement to relative Fisher information. Combined with a uniform log-Sobolev inequality (LSI) for the evolving Gibbs family, these ingredients yield a distributional Polyak--Łojasiewicz condition. We further establish the regularity and uniform bounds needed to control the discretization error, thereby obtaining geometric contraction up to a discretization bias. Conceptually, our analysis shows that although entropy-regularized RL is not convex in the usual flat sense, the Bellman recursion induces a favorable Polyak--Lojasiewicz-type (PL) geometry that supports global convergence of WPG.",
+      "abstract": "Wasserstein policy gradient (WPG) is a policy optimization method for reinforcement learning (RL) that exploits the optimal-transport geometry of action distributions. For the entropy-regularized RL objective, WPG evolves each state-conditional policy by transporting it along the action gradient of the soft Q-function together with a Langevin-type diffusion. Despite its appeal for continuous-control problems, its global convergence properties remain poorly understood. Standard Langevin analyses do not directly apply, because the RL objective depends on the policy through the Bellman recursion rather than through a static convex functional, and the Langevin drift is determined by the soft Q-function, whose regularity must be controlled along the policy iterates. In this paper, we develop a global convergence theory for WPG by exploiting the Bellman structure of entropy-regularized RL. We show that the role usually played by convexity can be replaced by a Bellman-based argument: the soft Bellman residual admits a statewise KL representation with respect to a Gibbs policy; Bellman contraction relates this residual to the global optimality gap; and a Bellman resolvent identity connects value improvement to relative Fisher information. Combined with a uniform log-Sobolev inequality (LSI) for the evolving Gibbs family, these ingredients yield a distributional Polyak-Łojasiewicz condition. We further establish the regularity and uniform bounds needed to control the discretization error, thereby obtaining geometric contraction up to a discretization bias. Conceptually, our analysis shows that although entropy-regularized RL is not convex in the usual flat sense, the Bellman recursion induces a favorable Polyak-Lojasiewicz-type (PL) geometry that supports global convergence of WPG.",
       "summary": "Analyzes Wasserstein policy gradient for entropy-regularized reinforcement learning, treating policy updates through optimal-transport geometry rather than standard Euclidean parameter steps. The result clarifies when this continuous-control-friendly policy-gradient flow converges globally.",
       "url": "../papers/2605_26078/",
       "treeUrl": "../tree/#paper=2605_26078",
@@ -98895,7 +98803,7 @@ window.timelineData = {
         "Intelligent driver model",
         "IDM"
       ],
-      "abstract": "Recent Autonomous Driving (AD) works such as GigaFlow and PufferDrive have unlocked Reinforcement Learning (RL) at scale as a training strategy for driving policies. Yet such policies remain disconnected from established benchmarks, leaving the performance of large-scale RL for driving on standardized evaluations unknown. We present BehaviorBench -- a comprehensive test suite that closes this gap along three axes: Evaluation, Complexity, and Behavior Diversity. In terms of Evaluation, we provide an interface connecting PufferDrive to nuPlan, which, for the first time, enables policies trained via RL at scale to be evaluated on an established planning benchmark for autonomous driving. Complementarily, we offer an evaluation framework that allows planners to be benchmarked directly inside the PufferDrive simulation, at a fraction of the time. Regarding Complexity, we observe that today's standardized benchmarks are so simple that near-perfect scores are achievable by straight lane following with collision checking. We extract a meaningful, interaction-rich split from the Waymo Open Motion Dataset (WOMD) on which strong performance is impossible without multi-agent reasoning. Lastly, we address Behavior Diversity. Existing benchmarks commonly evaluate planners against a single rule-based traffic model, the Intelligent Driver Model (IDM). We provide a diverse suite of interactive traffic agents to stress-test policies under heterogeneous behaviors, beyond just using IDM. Overall, our benchmarking analysis uncovers the following insight: despite learning interactive behaviors in an emergent manner, policies trained via pure self-play under standard reward functions overfit to their training opponents and fail to generalize to other traffic agent behaviors. Building on this observation, we propose a hybrid planner that combines a PPO policy with a rule-based planner.",
+      "abstract": "Recent Autonomous Driving (AD) works such as GigaFlow and PufferDrive have unlocked Reinforcement Learning (RL) at scale as a training strategy for driving policies. Yet such policies remain disconnected from established benchmarks, leaving the performance of large-scale RL for driving on standardized evaluations unknown. We present BehaviorBench - a comprehensive test suite that closes this gap along three axes: Evaluation, Complexity, and Behavior Diversity. In terms of Evaluation, we provide an interface connecting PufferDrive to nuPlan, which, for the first time, enables policies trained via RL at scale to be evaluated on an established planning benchmark for autonomous driving. Complementarily, we offer an evaluation framework that allows planners to be benchmarked directly inside the PufferDrive simulation, at a fraction of the time. Regarding Complexity, we observe that today's standardized benchmarks are so simple that near-perfect scores are achievable by straight lane following with collision checking. We extract a meaningful, interaction-rich split from the Waymo Open Motion Dataset (WOMD) on which strong performance is impossible without multi-agent reasoning. Lastly, we address Behavior Diversity. Existing benchmarks commonly evaluate planners against a single rule-based traffic model, the Intelligent Driver Model (IDM). We provide a diverse suite of interactive traffic agents to stress-test policies under heterogeneous behaviors, beyond just using IDM. Overall, our benchmarking analysis uncovers the following insight: despite learning interactive behaviors in an emergent manner, policies trained via pure self-play under standard reward functions overfit to their training opponents and fail to generalize to other traffic agent behaviors. Building on this observation, we propose a hybrid planner that combines a PPO policy with a rule-based planner.",
       "summary": "",
       "url": "../papers/2605_10034/",
       "treeUrl": "../tree/#paper=2605_10034",
@@ -99012,7 +98920,7 @@ window.timelineData = {
         "FSM",
         "FST"
       ],
-      "abstract": "We present the Field of Safe Motion (FSM), a quantitative safety model for determining whether a driver maintains a collision-free escape route, or \"out,\" at any given moment by accounting for that driver's physical capabilities and the foreseeable actions of other road users. The Field of Safe Travel (FST) provides a framework for representing the types of sensory information and actions available to drivers. However, the FST has remained conceptual in nature since its initial publication almost 90 years ago -- and a concrete computational operationalization is still lacking. At the same time, reachability analysis provides a quantitative basis for assessing the possible actions available to road users, using interpretable kinematic models, but reachability models have so far remained confined largely to the engineering and robotics literature. Bringing these two approaches together provides for an interpretable, quantitative tool for assessing driving behavior across a wide range of driving scenarios. Beyond being interpretable, our approach relies on a relatively small set of basic assumptions that are easy to enumerate and reason about. Furthermore, an interpretable reachability model paired with kinematic assumptions provides a way to bound uncertainty about road users' reasonably foreseeable future locations. We demonstrate the applicability of the FSM to different driving scenarios and discuss the strengths and weaknesses of the model.",
+      "abstract": "We present the Field of Safe Motion (FSM), a quantitative safety model for determining whether a driver maintains a collision-free escape route, or \"out,\" at any given moment by accounting for that driver's physical capabilities and the foreseeable actions of other road users. The Field of Safe Travel (FST) provides a framework for representing the types of sensory information and actions available to drivers. However, the FST has remained conceptual in nature since its initial publication almost 90 years ago - and a concrete computational operationalization is still lacking. At the same time, reachability analysis provides a quantitative basis for assessing the possible actions available to road users, using interpretable kinematic models, but reachability models have so far remained confined largely to the engineering and robotics literature. Bringing these two approaches together provides for an interpretable, quantitative tool for assessing driving behavior across a wide range of driving scenarios. Beyond being interpretable, our approach relies on a relatively small set of basic assumptions that are easy to enumerate and reason about. Furthermore, an interpretable reachability model paired with kinematic assumptions provides a way to bound uncertainty about road users' reasonably foreseeable future locations. We demonstrate the applicability of the FSM to different driving scenarios and discuss the strengths and weaknesses of the model.",
       "summary": "",
       "url": "../papers/2604_27168/",
       "treeUrl": "../tree/#paper=2604_27168",
@@ -99368,7 +99276,7 @@ window.timelineData = {
         "Datasets",
         "SceneSmith"
       ],
-      "abstract": "Simulation has become a key tool for training and evaluating home robots at scale, yet existing environments fail to capture the diversity and physical complexity of real indoor spaces. Current scene synthesis methods produce sparsely furnished rooms that lack the dense clutter, articulated furniture, and physical properties essential for robotic manipulation. We introduce SceneSmith, a hierarchical agentic framework that generates simulation-ready indoor environments from natural language prompts. SceneSmith constructs scenes through successive stages$\\unicode{x2013}$from architectural layout to furniture placement to small object population$\\unicode{x2013}$each implemented as an interaction among VLM agents: designer, critic, and orchestrator. The framework tightly integrates asset generation through text-to-3D synthesis for static objects, dataset retrieval for articulated objects, and physical property estimation. SceneSmith generates 3-6x more objects than prior methods, with <2% inter-object collisions and 96% of objects remaining stable under physics simulation. In a user study with 205 participants, it achieves 92% average realism and 91% average prompt faithfulness win rates against baselines. We further demonstrate that these environments can be used in an end-to-end pipeline for automatic robot policy evaluation.",
+      "abstract": "Simulation has become a key tool for training and evaluating home robots at scale, yet existing environments fail to capture the diversity and physical complexity of real indoor spaces. Current scene synthesis methods produce sparsely furnished rooms that lack the dense clutter, articulated furniture, and physical properties essential for robotic manipulation. We introduce SceneSmith, a hierarchical agentic framework that generates simulation-ready indoor environments from natural language prompts. SceneSmith constructs scenes through successive stagesunicodex2013from architectural layout to furniture placement to small object populationunicodex2013each implemented as an interaction among VLM agents: designer, critic, and orchestrator. The framework tightly integrates asset generation through text-to-3D synthesis for static objects, dataset retrieval for articulated objects, and physical property estimation. SceneSmith generates 3-6x more objects than prior methods, with <2% inter-object collisions and 96% of objects remaining stable under physics simulation. In a user study with 205 participants, it achieves 92% average realism and 91% average prompt faithfulness win rates against baselines. We further demonstrate that these environments can be used in an end-to-end pipeline for automatic robot policy evaluation.",
       "summary": "",
       "url": "../papers/2602_09153/",
       "treeUrl": "../tree/#paper=2602_09153",
@@ -99446,7 +99354,7 @@ window.timelineData = {
         "Optimization",
         "Image compression"
       ],
-      "abstract": "One of the major differentiators unlocked by learned codecs relative to their hard-coded traditional counterparts is their ability to be optimized directly to appeal to the human visual system. Despite this potential, a perceptual yet practical image codec is yet to be proposed. In this work, we aim to close this gap. We conduct a comprehensive study of the key modeling choices that govern the design of a practical learned image codec, jointly optimized for perceptual quality and runtime -- including within the ablations several novel techniques. We then perform performance-aware neural architecture search over millions of backbone configurations to identify models that achieve the target on-device runtime while maximizing compression performance as captured by perceptual metrics. We combine the various optimizations to construct a new codec that achieves a significantly improved tradeoff between speed and perceptual quality. Based on rigorous subjective user studies, it provides 2.3-3x bitrate savings against AV1, AV2, VVC, ECM and JPEG-AI, and 20-40% bitrate savings against the best learned codec alternatives. At the same time, on an iPhone 17 Pro Max, it encodes 12MP images as fast as 230ms, and decodes them in 150ms -- faster than most top ML-based codecs run on a V100 GPU.",
+      "abstract": "One of the major differentiators unlocked by learned codecs relative to their hard-coded traditional counterparts is their ability to be optimized directly to appeal to the human visual system. Despite this potential, a perceptual yet practical image codec is yet to be proposed. In this work, we aim to close this gap. We conduct a comprehensive study of the key modeling choices that govern the design of a practical learned image codec, jointly optimized for perceptual quality and runtime - including within the ablations several novel techniques. We then perform performance-aware neural architecture search over millions of backbone configurations to identify models that achieve the target on-device runtime while maximizing compression performance as captured by perceptual metrics. We combine the various optimizations to construct a new codec that achieves a significantly improved tradeoff between speed and perceptual quality. Based on rigorous subjective user studies, it provides 2.3-3x bitrate savings against AV1, AV2, VVC, ECM and JPEG-AI, and 20-40% bitrate savings against the best learned codec alternatives. At the same time, on an iPhone 17 Pro Max, it encodes 12MP images as fast as 230ms, and decodes them in 150ms - faster than most top ML-based codecs run on a V100 GPU.",
       "summary": "",
       "url": "../papers/2605_05148/",
       "treeUrl": "../tree/#paper=2605_05148",
@@ -99485,7 +99393,7 @@ window.timelineData = {
         "On the Feasibility and Opportunity of Autoregressive 3D Object Detection"
       ],
       "tags": [],
-      "abstract": "LiDAR-based 3D object detectors typically rely on proposal heads with hand-crafted components like anchor assignment and non-maximum suppression (NMS), complicating training and limiting extensibility. We present AutoReg3D, an autoregressive 3D detector that casts detection as sequence generation. Given point-cloud features, AutoReg3D emits objects in a range-causal (near-to-far) order and encodes each object as a short, discrete-token sequence consisting of its center, size, orientation, velocity, and class. This near-to-far ordering mirrors LiDAR geometry--near objects occlude far ones but not vice versa--enabling straightforward teacher forcing during training and autoregressive decoding at test time. AutoReg3D is compatible across diverse point-cloud or backbones and attains competitive nuScenes performance without anchors or NMS. Beyond parity, the sequential formulation unlocks language-model advances for 3D perception, including GRPO-style reinforcement learning for task-aligned objectives. These results position autoregressive decoding as a viable, flexible alternative for LiDAR-based detection and open a path to importing modern sequence-modeling tools into 3D perception.",
+      "abstract": "LiDAR-based 3D object detectors typically rely on proposal heads with hand-crafted components like anchor assignment and non-maximum suppression (NMS), complicating training and limiting extensibility. We present AutoReg3D, an autoregressive 3D detector that casts detection as sequence generation. Given point-cloud features, AutoReg3D emits objects in a range-causal (near-to-far) order and encodes each object as a short, discrete-token sequence consisting of its center, size, orientation, velocity, and class. This near-to-far ordering mirrors LiDAR geometry - near objects occlude far ones but not vice versa - enabling straightforward teacher forcing during training and autoregressive decoding at test time. AutoReg3D is compatible across diverse point-cloud or backbones and attains competitive nuScenes performance without anchors or NMS. Beyond parity, the sequential formulation unlocks language-model advances for 3D perception, including GRPO-style reinforcement learning for task-aligned objectives. These results position autoregressive decoding as a viable, flexible alternative for LiDAR-based detection and open a path to importing modern sequence-modeling tools into 3D perception.",
       "summary": "",
       "url": "../papers/2603_07985/",
       "treeUrl": "../tree/#paper=2603_07985",
@@ -99595,7 +99503,7 @@ window.timelineData = {
         "The Geometry of Forgetting"
       ],
       "tags": [],
-      "abstract": "Why do we forget? Why do we remember things that never happened? The conventional answer points to biological hardware. We propose a different one: geometry. Here we show that high-dimensional embedding spaces, subjected to noise, interference, and temporal degradation, reproduce quantitative signatures of human memory with no phenomenon-specific engineering. Power-law forgetting ($b = 0.460 \\pm 0.183$, human $b \\approx 0.5$) arises from interference among competing memories, not from decay. The identical decay function without competitors yields $b \\approx 0.009$, fifty times smaller. Time alone does not produce forgetting in this system. Competition does. Production embedding models (nominally 384--1{,}024 dimensions) concentrate their variance in only ${\\sim}16$ effective dimensions, placing them deep in the interference-vulnerable regime. False memories require no engineering at all: cosine similarity on unmodified pre-trained embeddings reproduces the Deese--Roediger--McDermott false alarm rate ($0.583$ versus human ${\\sim}0.55$) with zero parameter tuning and no boundary conditions. We did not build a false memory system. We found one already present in the raw geometry of semantic space. These results suggest that core memory phenomena are not bugs of biological implementation but features of any system that organizes information by meaning and retrieves it by proximity.",
+      "abstract": "Why do we forget? Why do we remember things that never happened? The conventional answer points to biological hardware. We propose a different one: geometry. Here we show that high-dimensional embedding spaces, subjected to noise, interference, and temporal degradation, reproduce quantitative signatures of human memory with no phenomenon-specific engineering. Power-law forgetting (b = 0.460 +/- 0.183, human b approx 0.5) arises from interference among competing memories, not from decay. The identical decay function without competitors yields b approx 0.009, fifty times smaller. Time alone does not produce forgetting in this system. Competition does. Production embedding models (nominally 384-1{,}024 dimensions) concentrate their variance in only ~16 effective dimensions, placing them deep in the interference-vulnerable regime. False memories require no engineering at all: cosine similarity on unmodified pre-trained embeddings reproduces the Deese-Roediger-McDermott false alarm rate (0.583 versus human ~0.55) with zero parameter tuning and no boundary conditions. We did not build a false memory system. We found one already present in the raw geometry of semantic space. These results suggest that core memory phenomena are not bugs of biological implementation but features of any system that organizes information by meaning and retrieves it by proximity.",
       "summary": "",
       "url": "../papers/2604_06222/",
       "treeUrl": "../tree/#paper=2604_06222",
@@ -99630,7 +99538,7 @@ window.timelineData = {
       "tags": [
         "Linear systems"
       ],
-      "abstract": "We describe an exact algorithm to solve linear systems of the form $Hx=b$ where $H$ is the Hessian of a deep net. The method computes Hessian-inverse-vector products without storing the Hessian or its inverse. It requires time and storage that scale linearly in the number of layers. This is in contrast to the naive approach of first computing the Hessian, then solving the linear system, which takes storage and time that are respectively quadratic and cubic in the number of layers. The Hessian-inverse-vector product method scales roughly like Pearlmutter's algorithm for computing Hessian-vector products.",
+      "abstract": "We describe an exact algorithm to solve linear systems of the form Hx = b where H is the Hessian of a deep net. The method computes Hessian-inverse-vector products without storing the Hessian or its inverse. It requires time and storage that scale linearly in the number of layers. This is in contrast to the naive approach of first computing the Hessian, then solving the linear system, which takes storage and time that are respectively quadratic and cubic in the number of layers. The Hessian-inverse-vector product method scales roughly like Pearlmutter's algorithm for computing Hessian-vector products.",
       "summary": "",
       "url": "../papers/2601_06096/",
       "treeUrl": "../tree/#paper=2601_06096",
@@ -100096,7 +100004,7 @@ window.timelineData = {
         "Efficient Equivariant Transformer for Self-Driving Agent Modeling"
       ],
       "tags": [],
-      "abstract": "Accurately modeling agent behaviors is an important task in self-driving. It is also a task with many symmetries, such as equivariance to the order of agents and objects in the scene or equivariance to arbitrary roto-translations of the entire scene as a whole; i.e., SE(2)-equivariance. The transformer architecture is a ubiquitous tool for modeling these symmetries. While standard self-attention is inherently permutation equivariant, explicit pairwise relative positional encodings have been the standard for introducing SE(2)-equivariance. However, this approach introduces an additional cost that is quadratic in the number of agents, limiting its scalability to larger scenes and batch sizes. In this work, we propose DriveGATr, a novel transformer-based architecture for agent modeling that achieves SE(2)-equivariance without the computational cost of existing methods. Inspired by recent advances in geometric deep learning, DriveGATr encodes scene elements as multivectors in the 2D projective geometric algebra $\\mathbb{R}^*_{2,0,1}$ and processes them with a stack of equivariant transformer blocks. Crucially, DriveGATr models geometric relationships using standard attention between multivectors, eliminating the need for costly explicit pairwise relative positional encodings. Experiments on the Waymo Open Motion Dataset demonstrate that DriveGATr is comparable to the state-of-the-art in traffic simulation and establishes a superior Pareto front for performance vs computational cost.",
+      "abstract": "Accurately modeling agent behaviors is an important task in self-driving. It is also a task with many symmetries, such as equivariance to the order of agents and objects in the scene or equivariance to arbitrary roto-translations of the entire scene as a whole; i.e., SE(2)-equivariance. The transformer architecture is a ubiquitous tool for modeling these symmetries. While standard self-attention is inherently permutation equivariant, explicit pairwise relative positional encodings have been the standard for introducing SE(2)-equivariance. However, this approach introduces an additional cost that is quadratic in the number of agents, limiting its scalability to larger scenes and batch sizes. In this work, we propose DriveGATr, a novel transformer-based architecture for agent modeling that achieves SE(2)-equivariance without the computational cost of existing methods. Inspired by recent advances in geometric deep learning, DriveGATr encodes scene elements as multivectors in the 2D projective geometric algebra R^*_2, 0, 1 and processes them with a stack of equivariant transformer blocks. Crucially, DriveGATr models geometric relationships using standard attention between multivectors, eliminating the need for costly explicit pairwise relative positional encodings. Experiments on the Waymo Open Motion Dataset demonstrate that DriveGATr is comparable to the state-of-the-art in traffic simulation and establishes a superior Pareto front for performance vs computational cost.",
       "summary": "",
       "url": "../papers/2604_01466/",
       "treeUrl": "../tree/#paper=2604_01466",
@@ -100144,7 +100052,7 @@ window.timelineData = {
         "Vision-language models",
         "End-to-end planning"
       ],
-      "abstract": "End-to-end autonomous driving via Vision-Language-Action (VLA) models demands a precarious balance between high-fidelity trajectory planning and efficient inference. Existing paradigms typically fall short: autoregressive (AR) VLAs are memory-bandwidth-bound on edge hardware and prone to exposure-bias drift, while full-sequence diffusion models preclude KV-cache reuse and suffer from \"logical leakage\" that violates the fundamental perceive-then-plan causality. We present Fast-dDrive, a block-diffusion VLA that performs bidirectional refinement within semantic units while enforcing strict causal ordering across them. Leveraging the observation that driving VLAs often emit structured JSON-like outputs, Fast-dDrive freezes structural tokens into a section scaffold and employs a section-aware training recipe that prioritizes safety-critical planning. We further introduce Scaffold Speculative Decoding to achieve AR-equivalent quality at significantly higher throughput. Finally, we propose a low-overhead test-time scaling scheme: by forking $N$ stochastic trajectory rollouts from a single shared-prefix KV cache and averaging them, we effectively suppress prediction variance at a fractional computational cost. Empirical results demonstrate that Fast-dDrive redefines the speed-accuracy frontier for driving agents. On the WOD-E2E test set, Fast-dDrive achieves SOTA ADE@3s and ADE@5s, alongside the highest RFS among diffusion-based VLAs; on nuScenes, it reduces average L2 error to $0.32$m (a $22\\%$ improvement). When integrated with SGLang, our framework delivers $12\\times$ throughput speedup over the AR baseline, narrowing the gap between high-capacity VLAs and the efficiency demands of real-time on-vehicle deployment.",
+      "abstract": "End-to-end autonomous driving via Vision-Language-Action (VLA) models demands a precarious balance between high-fidelity trajectory planning and efficient inference. Existing paradigms typically fall short: autoregressive (AR) VLAs are memory-bandwidth-bound on edge hardware and prone to exposure-bias drift, while full-sequence diffusion models preclude KV-cache reuse and suffer from \"logical leakage\" that violates the fundamental perceive-then-plan causality. We present Fast-dDrive, a block-diffusion VLA that performs bidirectional refinement within semantic units while enforcing strict causal ordering across them. Leveraging the observation that driving VLAs often emit structured JSON-like outputs, Fast-dDrive freezes structural tokens into a section scaffold and employs a section-aware training recipe that prioritizes safety-critical planning. We further introduce Scaffold Speculative Decoding to achieve AR-equivalent quality at significantly higher throughput. Finally, we propose a low-overhead test-time scaling scheme: by forking N stochastic trajectory rollouts from a single shared-prefix KV cache and averaging them, we effectively suppress prediction variance at a fractional computational cost. Empirical results demonstrate that Fast-dDrive redefines the speed-accuracy frontier for driving agents. On the WOD-E2E test set, Fast-dDrive achieves SOTA ADE@3s and ADE@5s, alongside the highest RFS among diffusion-based VLAs; on nuScenes, it reduces average L2 error to 0.32 m (a 22% improvement). When integrated with SGLang, our framework delivers 12x throughput speedup over the AR baseline, narrowing the gap between high-capacity VLAs and the efficiency demands of real-time on-vehicle deployment.",
       "summary": "Introduces Fast-dDrive, a block-diffusion vision-language-action model for autonomous driving that preserves causal section ordering while refining structured outputs in parallel. The paper targets the practical speed-accuracy tradeoff for real-time VLA-based driving policies.",
       "url": "../papers/2605_23163/",
       "treeUrl": "../tree/#paper=2605_23163",
@@ -100307,7 +100215,7 @@ window.timelineData = {
         "MolmoB0T"
       ],
       "tags": [],
-      "abstract": "A prevailing view in robot learning is that simulation alone is not enough; effective sim-to-real transfer is widely believed to require at least some real-world data collection or task-specific fine-tuning to bridge the gap between simulated and physical environments. We challenge that assumption. With sufficiently large-scale and diverse simulated synthetic training data, we show that zero-shot transfer to the real world is not only possible, but effective for both static and mobile manipulation. We introduce MolmoBot-Engine, a fully open-source pipeline for procedural data generation across robots, tasks, and diverse simulated environments in MolmoSpaces. With it, we release MolmoBot-Data, a dataset of 1.8 million expert trajectories for articulated object manipulation and pick-and-place tasks. We train three policy classes: MolmoBot, a Molmo2-based multi-frame vision-language model with a flow-matching action head; MolmoBot-Pi0, which replicates the $π_0$ architecture to enable direct comparison; and MolmoBot-SPOC, a lightweight policy suitable for edge deployment and amenable to RL fine-tuning. We evaluate on two robotic platforms: the Franka FR3 for tabletop manipulation tasks and the Rainbow Robotics RB-Y1 mobile manipulator for door opening, drawer manipulation, cabinet interaction, and mobile pick-and-place. Without any real-world fine-tuning, our policies achieve zero-shot transfer to unseen objects and environments. On tabletop pick-and-place, MolmoBot achieves a success rate of 79.2% in real world evaluations across 4 settings, outperforming $π_{0.5}$ at 39.2%. Our results demonstrate that procedural environment generation combined with diverse articulated assets can produce robust manipulation policies that generalize broadly to the real world. Technical website: https://allenai.github.io/MolmoBot",
+      "abstract": "A prevailing view in robot learning is that simulation alone is not enough; effective sim-to-real transfer is widely believed to require at least some real-world data collection or task-specific fine-tuning to bridge the gap between simulated and physical environments. We challenge that assumption. With sufficiently large-scale and diverse simulated synthetic training data, we show that zero-shot transfer to the real world is not only possible, but effective for both static and mobile manipulation. We introduce MolmoBot-Engine, a fully open-source pipeline for procedural data generation across robots, tasks, and diverse simulated environments in MolmoSpaces. With it, we release MolmoBot-Data, a dataset of 1.8 million expert trajectories for articulated object manipulation and pick-and-place tasks. We train three policy classes: MolmoBot, a Molmo2-based multi-frame vision-language model with a flow-matching action head; MolmoBot-Pi0, which replicates the pi_0 architecture to enable direct comparison; and MolmoBot-SPOC, a lightweight policy suitable for edge deployment and amenable to RL fine-tuning. We evaluate on two robotic platforms: the Franka FR3 for tabletop manipulation tasks and the Rainbow Robotics RB-Y1 mobile manipulator for door opening, drawer manipulation, cabinet interaction, and mobile pick-and-place. Without any real-world fine-tuning, our policies achieve zero-shot transfer to unseen objects and environments. On tabletop pick-and-place, MolmoBot achieves a success rate of 79.2% in real world evaluations across 4 settings, outperforming pi_0.5 at 39.2%. Our results demonstrate that procedural environment generation combined with diverse articulated assets can produce robust manipulation policies that generalize broadly to the real world. Technical website: https://allenai.github.io/MolmoBot",
       "summary": "",
       "url": "../papers/2603_16861/",
       "treeUrl": "../tree/#paper=2603_16861",
@@ -101037,7 +100945,7 @@ window.timelineData = {
         "MSAT",
         "Humanoid robot"
       ],
-      "abstract": "While Vision-Language-Action models (VLAs) have shown remarkable progress toward human-like generalist robotic policies through the versatile intelligence (i.e. broad scene understanding and language-conditioned generalization) inherited from pre-trained Vision-Language Models, they still struggle with complex real-world tasks requiring broader functional capabilities (e.g. motion awareness, long-term memory, and physical sensing). To address this, we introduce RLDX-1, a general-purpose robotic policy for dexterous manipulation built on the Multi-Stream Action Transformer (MSAT), an architecture that unifies these capabilities by integrating heterogeneous modalities through modality-specific streams with cross-modal joint self-attention. RLDX-1 further combines this architecture with system-level design choices, including data synthesis for rare manipulation scenarios, learning procedures specialized for human-like manipulation, and inference optimizations for real-time deployment. Through empirical evaluation, we show that RLDX-1 consistently outperforms recent frontier VLAs (e.g. $π_{0.5}$ and GR00T N1.6) across both simulation benchmarks and real-world tasks that require broad functional capabilities beyond general versatility. In particular, RLDX-1 shows superiority in ALLEX humanoid tasks by achieving success rates of 86.8% while $π_{0.5}$ and GR00T N1.6 achieve around 40%, highlighting the ability of RLDX-1 to control a high-DoF humanoid robot under diverse functional demands. Together, these results position RLDX-1 as a promising step toward reliable VLAs for complex, contact-rich, and dynamic real-world dexterous manipulation.",
+      "abstract": "While Vision-Language-Action models (VLAs) have shown remarkable progress toward human-like generalist robotic policies through the versatile intelligence (i.e. broad scene understanding and language-conditioned generalization) inherited from pre-trained Vision-Language Models, they still struggle with complex real-world tasks requiring broader functional capabilities (e.g. motion awareness, long-term memory, and physical sensing). To address this, we introduce RLDX-1, a general-purpose robotic policy for dexterous manipulation built on the Multi-Stream Action Transformer (MSAT), an architecture that unifies these capabilities by integrating heterogeneous modalities through modality-specific streams with cross-modal joint self-attention. RLDX-1 further combines this architecture with system-level design choices, including data synthesis for rare manipulation scenarios, learning procedures specialized for human-like manipulation, and inference optimizations for real-time deployment. Through empirical evaluation, we show that RLDX-1 consistently outperforms recent frontier VLAs (e.g. pi_0.5 and GR00T N1.6) across both simulation benchmarks and real-world tasks that require broad functional capabilities beyond general versatility. In particular, RLDX-1 shows superiority in ALLEX humanoid tasks by achieving success rates of 86.8% while pi_0.5 and GR00T N1.6 achieve around 40%, highlighting the ability of RLDX-1 to control a high-DoF humanoid robot under diverse functional demands. Together, these results position RLDX-1 as a promising step toward reliable VLAs for complex, contact-rich, and dynamic real-world dexterous manipulation.",
       "summary": "",
       "url": "../papers/2605_03269/",
       "treeUrl": "../tree/#paper=2605_03269",
@@ -101407,7 +101315,7 @@ window.timelineData = {
         "Tree traversal",
         "Compute unified device architecture"
       ],
-      "abstract": "Algorithms based on spatial tree traversal are widely regarded as among the most efficient and flexible approaches for many problems in CPU-based high-performance computing (HPC). However, directly transferring these algorithms to GPU architectures often yields substantially smaller performance gains than expected in light of the high computational throughput of modern GPUs. The branching nature of tree algorithms leads to thread divergence and irregular memory access patterns -- both of which may severely limit GPU performance. To address these challenges, we propose a Morton (z-order) 'plane-based tree hierarchy' that is specifically designed for GPU architectures. The resulting flattened data layout enables efficient dual-tree traversal with collaborative execution across thread groups, leading to highly coalesced memory access patterns. Based on this framework we present implementations of two important spatial algorithms -- exact $k$-nearest neighbour search and friends-of-friends (FoF) clustering. For both cases, we observe more than an order-of-magnitude performance improvement over the closest competing GPU libraries for large problem sizes ($N \\gtrsim 10^7$), together with strong scaling to distributed multi-GPU systems. We provide an open-source implementation, 'JZ-Tree' (JAX z-order tree), which serves as a foundation for efficient GPU implementations of a broad class of tree-based algorithms.",
+      "abstract": "Algorithms based on spatial tree traversal are widely regarded as among the most efficient and flexible approaches for many problems in CPU-based high-performance computing (HPC). However, directly transferring these algorithms to GPU architectures often yields substantially smaller performance gains than expected in light of the high computational throughput of modern GPUs. The branching nature of tree algorithms leads to thread divergence and irregular memory access patterns - both of which may severely limit GPU performance. To address these challenges, we propose a Morton (z-order) 'plane-based tree hierarchy' that is specifically designed for GPU architectures. The resulting flattened data layout enables efficient dual-tree traversal with collaborative execution across thread groups, leading to highly coalesced memory access patterns. Based on this framework we present implementations of two important spatial algorithms - exact k-nearest neighbour search and friends-of-friends (FoF) clustering. For both cases, we observe more than an order-of-magnitude performance improvement over the closest competing GPU libraries for large problem sizes (N >~ 10^(7)), together with strong scaling to distributed multi-GPU systems. We provide an open-source implementation, 'JZ-Tree' (JAX z-order tree), which serves as a foundation for efficient GPU implementations of a broad class of tree-based algorithms.",
       "summary": "",
       "url": "../papers/2604_05885/",
       "treeUrl": "../tree/#paper=2604_05885",
@@ -101529,8 +101437,7 @@ window.timelineData = {
       "Decision-making",
       "Prediction & Perception",
       "Evaluation",
-      "Quantitative Foundations",
-      "Human & Natural Worlds"
+      "Quantitative Foundations"
     ],
     "categoryOrder": [
       "Optimization",
@@ -101550,9 +101457,8 @@ window.timelineData = {
       "Software & Programming",
       "Algorithms & Data Structures",
       "Network Science",
-      "Environmental Impacts",
       "Biology",
-      "Humanities & Culture"
+      "Environmental Impacts"
     ],
     "categorySuperCategory": {
       "Optimization": "Decision-making",
@@ -101572,9 +101478,8 @@ window.timelineData = {
       "Software & Programming": "Quantitative Foundations",
       "Algorithms & Data Structures": "Quantitative Foundations",
       "Network Science": "Quantitative Foundations",
-      "Environmental Impacts": "Human & Natural Worlds",
-      "Biology": "Human & Natural Worlds",
-      "Humanities & Culture": "Human & Natural Worlds"
+      "Biology": "Quantitative Foundations",
+      "Environmental Impacts": "Quantitative Foundations"
     },
     "subCategoryOrder": {
       "Optimization": [
@@ -101704,8 +101609,3388 @@ window.timelineData = {
         "Genetic Engineering"
       ]
     },
-    "totalPapers": 2255,
-    "plottedPapers": 2255,
+    "navPathOrder": [
+      [
+        "Decision-making"
+      ],
+      [
+        "Decision-making",
+        "Optimization"
+      ],
+      [
+        "Decision-making",
+        "Optimization",
+        "Continuous Optimization"
+      ],
+      [
+        "Decision-making",
+        "Optimization",
+        "Continuous Optimization",
+        "Convex Optimization"
+      ],
+      [
+        "Decision-making",
+        "Optimization",
+        "Continuous Optimization",
+        "Convex Optimization",
+        "Linear Programming"
+      ],
+      [
+        "Decision-making",
+        "Optimization",
+        "Continuous Optimization",
+        "Convex Optimization",
+        "Quadratic Programming"
+      ],
+      [
+        "Decision-making",
+        "Optimization",
+        "Continuous Optimization",
+        "Convex Optimization",
+        "General Convex Optimization"
+      ],
+      [
+        "Decision-making",
+        "Optimization",
+        "Continuous Optimization",
+        "Convex Optimization",
+        "Sum-of-squares (SOS)"
+      ],
+      [
+        "Decision-making",
+        "Optimization",
+        "Continuous Optimization",
+        "Convex Optimization",
+        "Online Convex Optimization"
+      ],
+      [
+        "Decision-making",
+        "Optimization",
+        "Continuous Optimization",
+        "Convex Optimization",
+        "Applications in Probability Theory"
+      ],
+      [
+        "Decision-making",
+        "Optimization",
+        "Continuous Optimization",
+        "Nonlinear Optimization"
+      ],
+      [
+        "Decision-making",
+        "Optimization",
+        "Continuous Optimization",
+        "Nonlinear Optimization",
+        "Nonlinear Programming"
+      ],
+      [
+        "Decision-making",
+        "Optimization",
+        "Continuous Optimization",
+        "Nonlinear Optimization",
+        "Problem Classes"
+      ],
+      [
+        "Decision-making",
+        "Optimization",
+        "Continuous Optimization",
+        "Nonlinear Optimization",
+        "Problem Classes",
+        "Optimal Transport"
+      ],
+      [
+        "Decision-making",
+        "Optimization",
+        "Continuous Optimization",
+        "Nonlinear Optimization",
+        "Problem Classes",
+        "Facility Location"
+      ],
+      [
+        "Decision-making",
+        "Optimization",
+        "Continuous Optimization",
+        "Nonlinear Optimization",
+        "Zeroth-Order Methods"
+      ],
+      [
+        "Decision-making",
+        "Optimization",
+        "Continuous Optimization",
+        "Nonlinear Optimization",
+        "Zeroth-Order Methods",
+        "Direct Search & Pattern Search"
+      ],
+      [
+        "Decision-making",
+        "Optimization",
+        "Continuous Optimization",
+        "Nonlinear Optimization",
+        "Zeroth-Order Methods",
+        "Evolutionary Algorithms"
+      ],
+      [
+        "Decision-making",
+        "Optimization",
+        "Continuous Optimization",
+        "Nonlinear Optimization",
+        "First-Order Methods"
+      ],
+      [
+        "Decision-making",
+        "Optimization",
+        "Continuous Optimization",
+        "Nonlinear Optimization",
+        "First-Order Methods",
+        "Gradient descent"
+      ],
+      [
+        "Decision-making",
+        "Optimization",
+        "Continuous Optimization",
+        "Nonlinear Optimization",
+        "First-Order Methods",
+        "Gradient descent",
+        "Convergence"
+      ],
+      [
+        "Decision-making",
+        "Optimization",
+        "Continuous Optimization",
+        "Nonlinear Optimization",
+        "First-Order Methods",
+        "Gradient descent",
+        "Convergence",
+        "Polyak-Łojasiewicz"
+      ],
+      [
+        "Decision-making",
+        "Optimization",
+        "Continuous Optimization",
+        "Nonlinear Optimization",
+        "First-Order Methods",
+        "Momentum"
+      ],
+      [
+        "Decision-making",
+        "Optimization",
+        "Continuous Optimization",
+        "Nonlinear Optimization",
+        "First-Order Methods",
+        "Acceleration"
+      ],
+      [
+        "Decision-making",
+        "Optimization",
+        "Continuous Optimization",
+        "Nonlinear Optimization",
+        "First-Order Methods",
+        "Symplectic Optimization"
+      ],
+      [
+        "Decision-making",
+        "Optimization",
+        "Continuous Optimization",
+        "Nonlinear Optimization",
+        "First-Order Methods",
+        "Line Search"
+      ],
+      [
+        "Decision-making",
+        "Optimization",
+        "Continuous Optimization",
+        "Nonlinear Optimization",
+        "First-Order Methods",
+        "Adaptive Gradient Methods"
+      ],
+      [
+        "Decision-making",
+        "Optimization",
+        "Continuous Optimization",
+        "Nonlinear Optimization",
+        "First-Order Methods",
+        "Adaptive Gradient Methods",
+        "Adam"
+      ],
+      [
+        "Decision-making",
+        "Optimization",
+        "Continuous Optimization",
+        "Nonlinear Optimization",
+        "First-Order Methods",
+        "Adaptive Gradient Methods",
+        "Convergence"
+      ],
+      [
+        "Decision-making",
+        "Optimization",
+        "Continuous Optimization",
+        "Nonlinear Optimization",
+        "First-Order Methods",
+        "Coordinate Descent"
+      ],
+      [
+        "Decision-making",
+        "Optimization",
+        "Continuous Optimization",
+        "Nonlinear Optimization",
+        "First-Order Methods",
+        "Subgradient Methods"
+      ],
+      [
+        "Decision-making",
+        "Optimization",
+        "Continuous Optimization",
+        "Nonlinear Optimization",
+        "First-Order Methods",
+        "Noisy Gradient Descent"
+      ],
+      [
+        "Decision-making",
+        "Optimization",
+        "Continuous Optimization",
+        "Nonlinear Optimization",
+        "First-Order Methods",
+        "Stochastic Approximation"
+      ],
+      [
+        "Decision-making",
+        "Optimization",
+        "Continuous Optimization",
+        "Nonlinear Optimization",
+        "First-Order Methods",
+        "Stochastic Gradient Descent (SGD)"
+      ],
+      [
+        "Decision-making",
+        "Optimization",
+        "Continuous Optimization",
+        "Nonlinear Optimization",
+        "First-Order Methods",
+        "Stochastic Gradient Descent (SGD)",
+        "Variance Reduction"
+      ],
+      [
+        "Decision-making",
+        "Optimization",
+        "Continuous Optimization",
+        "Nonlinear Optimization",
+        "First-Order Methods",
+        "Stochastic Gradient Descent (SGD)",
+        "Theory"
+      ],
+      [
+        "Decision-making",
+        "Optimization",
+        "Continuous Optimization",
+        "Nonlinear Optimization",
+        "First-Order Methods",
+        "Constrained Optimization"
+      ],
+      [
+        "Decision-making",
+        "Optimization",
+        "Continuous Optimization",
+        "Nonlinear Optimization",
+        "First-Order Methods",
+        "Constrained Optimization",
+        "Projected Gradient Descent"
+      ],
+      [
+        "Decision-making",
+        "Optimization",
+        "Continuous Optimization",
+        "Nonlinear Optimization",
+        "First-Order Methods",
+        "Control-theoretic Analysis"
+      ],
+      [
+        "Decision-making",
+        "Optimization",
+        "Continuous Optimization",
+        "Nonlinear Optimization",
+        "Second-order Methods"
+      ],
+      [
+        "Decision-making",
+        "Optimization",
+        "Continuous Optimization",
+        "Nonlinear Optimization",
+        "Second-order Methods",
+        "Natural Gradient Methods"
+      ],
+      [
+        "Decision-making",
+        "Optimization",
+        "Continuous Optimization",
+        "Nonlinear Optimization",
+        "Second-order Methods",
+        "Quasi-Newton Methods"
+      ],
+      [
+        "Decision-making",
+        "Optimization",
+        "Continuous Optimization",
+        "Nonlinear Optimization",
+        "Second-order Methods",
+        "Newton's Method"
+      ],
+      [
+        "Decision-making",
+        "Optimization",
+        "Continuous Optimization",
+        "Nonlinear Optimization",
+        "Second-order Methods",
+        "Newton's Method",
+        "Regularized Newton Method"
+      ],
+      [
+        "Decision-making",
+        "Optimization",
+        "Continuous Optimization",
+        "Nonlinear Optimization",
+        "High-order Methods"
+      ],
+      [
+        "Decision-making",
+        "Optimization",
+        "Continuous Optimization",
+        "Nonlinear Optimization",
+        "High-order Methods",
+        "Midpoint Newton Method"
+      ],
+      [
+        "Decision-making",
+        "Optimization",
+        "Continuous Optimization",
+        "Nonlinear Optimization",
+        "High-order Methods",
+        "Halley's Method and High-Order Methods"
+      ],
+      [
+        "Decision-making",
+        "Optimization",
+        "Continuous Optimization",
+        "Nonlinear Optimization",
+        "Trust Region Methods"
+      ],
+      [
+        "Decision-making",
+        "Optimization",
+        "Continuous Optimization",
+        "Nonlinear Optimization",
+        "Proximal Methods"
+      ],
+      [
+        "Decision-making",
+        "Optimization",
+        "Continuous Optimization",
+        "Robust & Stochastic Optimization"
+      ],
+      [
+        "Decision-making",
+        "Optimization",
+        "Continuous Optimization",
+        "Robust & Stochastic Optimization",
+        "Scenario Optimization"
+      ],
+      [
+        "Decision-making",
+        "Optimization",
+        "Continuous Optimization",
+        "Robust & Stochastic Optimization",
+        "Distributionally Robust Optimization"
+      ],
+      [
+        "Decision-making",
+        "Optimization",
+        "Continuous Optimization",
+        "Minimax & Game Theory"
+      ],
+      [
+        "Decision-making",
+        "Optimization",
+        "Continuous Optimization",
+        "Distributed Optimization"
+      ],
+      [
+        "Decision-making",
+        "Optimization",
+        "Continuous Optimization",
+        "Automatic Differentiation"
+      ],
+      [
+        "Decision-making",
+        "Optimization",
+        "Combinatorial Optimization"
+      ],
+      [
+        "Decision-making",
+        "Optimization",
+        "Combinatorial Optimization",
+        "Complexity Theory"
+      ],
+      [
+        "Decision-making",
+        "Optimization",
+        "Combinatorial Optimization",
+        "Covering Problems"
+      ],
+      [
+        "Decision-making",
+        "Optimization",
+        "Combinatorial Optimization",
+        "Traveling Salesman Problems"
+      ],
+      [
+        "Decision-making",
+        "Optimization",
+        "Combinatorial Optimization",
+        "Assignment Problems"
+      ],
+      [
+        "Decision-making",
+        "Optimization",
+        "Combinatorial Optimization",
+        "Graph Search"
+      ],
+      [
+        "Decision-making",
+        "Optimization",
+        "Toolboxes & Solvers"
+      ],
+      [
+        "Decision-making",
+        "Optimization",
+        "Toolboxes & Solvers",
+        "Convex Optimization"
+      ],
+      [
+        "Decision-making",
+        "Optimization",
+        "Toolboxes & Solvers",
+        "Convex Optimization",
+        "CVX Ecosystem"
+      ],
+      [
+        "Decision-making",
+        "Optimization",
+        "Toolboxes & Solvers",
+        "Convex Optimization",
+        "CVX Ecosystem",
+        "CVX Base"
+      ],
+      [
+        "Decision-making",
+        "Optimization",
+        "Toolboxes & Solvers",
+        "Convex Optimization",
+        "CVX Ecosystem",
+        "CVX Extensions"
+      ],
+      [
+        "Decision-making",
+        "Optimization",
+        "Toolboxes & Solvers",
+        "Convex Optimization",
+        "Solvers"
+      ],
+      [
+        "Decision-making",
+        "Optimization",
+        "Toolboxes & Solvers",
+        "Convex Optimization",
+        "Solvers",
+        "ECOS"
+      ],
+      [
+        "Decision-making",
+        "Optimization",
+        "Toolboxes & Solvers",
+        "Convex Optimization",
+        "Solvers",
+        "Clarabel"
+      ],
+      [
+        "Decision-making",
+        "Optimization",
+        "Toolboxes & Solvers",
+        "Nonlinear Optimization"
+      ],
+      [
+        "Decision-making",
+        "Optimization",
+        "Toolboxes & Solvers",
+        "Markov Decision Processes (MDPs)"
+      ],
+      [
+        "Decision-making",
+        "Optimization",
+        "Toolboxes & Solvers",
+        "Black-Box Optimization"
+      ],
+      [
+        "Decision-making",
+        "Optimization",
+        "Toolboxes & Solvers",
+        "Black-Box Optimization",
+        "Bayesian Optimization"
+      ],
+      [
+        "Decision-making",
+        "Optimization",
+        "Toolboxes & Solvers",
+        "Black-Box Optimization",
+        "Planner / Controller Autotuning"
+      ],
+      [
+        "Decision-making",
+        "Planning"
+      ],
+      [
+        "Decision-making",
+        "Planning",
+        "Geometric Planning"
+      ],
+      [
+        "Decision-making",
+        "Planning",
+        "Geometric Planning",
+        "Path Planning"
+      ],
+      [
+        "Decision-making",
+        "Planning",
+        "Geometric Planning",
+        "Path Planning",
+        "Fundamentals"
+      ],
+      [
+        "Decision-making",
+        "Planning",
+        "Geometric Planning",
+        "Path Planning",
+        "Potential Fields"
+      ],
+      [
+        "Decision-making",
+        "Planning",
+        "Geometric Planning",
+        "Path Planning",
+        "Graph Search"
+      ],
+      [
+        "Decision-making",
+        "Planning",
+        "Geometric Planning",
+        "Path Planning",
+        "Probabilistic Roadmap (PRM)"
+      ],
+      [
+        "Decision-making",
+        "Planning",
+        "Geometric Planning",
+        "Path Planning",
+        "Sampling-based Trees"
+      ],
+      [
+        "Decision-making",
+        "Planning",
+        "Geometric Planning",
+        "Path Planning",
+        "Sampling-based Trees",
+        "Suboptimal"
+      ],
+      [
+        "Decision-making",
+        "Planning",
+        "Geometric Planning",
+        "Path Planning",
+        "Sampling-based Trees",
+        "Asymptotically Optimal"
+      ],
+      [
+        "Decision-making",
+        "Planning",
+        "Geometric Planning",
+        "Path Planning",
+        "Sampling-based Trees",
+        "Asymptotically Optimal",
+        "RRT*"
+      ],
+      [
+        "Decision-making",
+        "Planning",
+        "Geometric Planning",
+        "Path Planning",
+        "Sampling-based Trees",
+        "Asymptotically Optimal",
+        "Informed RRT*"
+      ],
+      [
+        "Decision-making",
+        "Planning",
+        "Geometric Planning",
+        "Path Planning",
+        "Vectorized Planning"
+      ],
+      [
+        "Decision-making",
+        "Planning",
+        "Geometric Planning",
+        "Path Planning",
+        "GPU Parallelized Planning"
+      ],
+      [
+        "Decision-making",
+        "Planning",
+        "Geometric Planning",
+        "Path Planning",
+        "Dynamic Replanning"
+      ],
+      [
+        "Decision-making",
+        "Planning",
+        "Geometric Planning",
+        "Path Planning",
+        "Constrained Motion Planning"
+      ],
+      [
+        "Decision-making",
+        "Planning",
+        "Geometric Planning",
+        "Path Planning",
+        "Collision Detection & Proximity Queries"
+      ],
+      [
+        "Decision-making",
+        "Planning",
+        "Geometric Planning",
+        "Path Generation"
+      ],
+      [
+        "Decision-making",
+        "Planning",
+        "Geometric Planning",
+        "Path Generation",
+        "Lines & Arcs"
+      ],
+      [
+        "Decision-making",
+        "Planning",
+        "Geometric Planning",
+        "Path Generation",
+        "Clothoids (linear curvature)"
+      ],
+      [
+        "Decision-making",
+        "Planning",
+        "Geometric Planning",
+        "Path Generation",
+        "Generalized Clothoids (nonlinear curvature)"
+      ],
+      [
+        "Decision-making",
+        "Planning",
+        "Geometric Planning",
+        "Path Generation",
+        "Polynomials & Splines"
+      ],
+      [
+        "Decision-making",
+        "Planning",
+        "Geometric Planning",
+        "Path Optimization"
+      ],
+      [
+        "Decision-making",
+        "Planning",
+        "Geometric Planning",
+        "Path Optimization",
+        "Path Shortcutting"
+      ],
+      [
+        "Decision-making",
+        "Planning",
+        "Geometric Planning",
+        "Path Optimization",
+        "Path Smoothing"
+      ],
+      [
+        "Decision-making",
+        "Planning",
+        "Geometric Planning",
+        "Path Optimization",
+        "Gradient-based Path Optimization"
+      ],
+      [
+        "Decision-making",
+        "Planning",
+        "Geometric Planning",
+        "Path Optimization",
+        "Sample-based Path Optimization"
+      ],
+      [
+        "Decision-making",
+        "Planning",
+        "Kinodynamic Planning"
+      ],
+      [
+        "Decision-making",
+        "Planning",
+        "Kinodynamic Planning",
+        "Trajectory Planning"
+      ],
+      [
+        "Decision-making",
+        "Planning",
+        "Kinodynamic Planning",
+        "Trajectory Planning",
+        "Rapidly Exploring Random Trees (RRT)"
+      ],
+      [
+        "Decision-making",
+        "Planning",
+        "Kinodynamic Planning",
+        "Trajectory Planning",
+        "Rapidly Exploring Random Trees (RRT)",
+        "Linearized RRT"
+      ],
+      [
+        "Decision-making",
+        "Planning",
+        "Kinodynamic Planning",
+        "Trajectory Planning",
+        "Expansive Space Trees (EST)"
+      ],
+      [
+        "Decision-making",
+        "Planning",
+        "Kinodynamic Planning",
+        "Trajectory Planning",
+        "Stable Sparse Tree (SST)"
+      ],
+      [
+        "Decision-making",
+        "Planning",
+        "Kinodynamic Planning",
+        "Trajectory Planning",
+        "Meta Algorithms"
+      ],
+      [
+        "Decision-making",
+        "Planning",
+        "Kinodynamic Planning",
+        "Trajectory Planning",
+        "Safe Interval Planning"
+      ],
+      [
+        "Decision-making",
+        "Planning",
+        "Kinodynamic Planning",
+        "Trajectory Planning",
+        "Discontinuity-bounded Planning"
+      ],
+      [
+        "Decision-making",
+        "Planning",
+        "Kinodynamic Planning",
+        "Trajectory Planning",
+        "Planning with Graphs of Convex Sets (GCS)"
+      ],
+      [
+        "Decision-making",
+        "Planning",
+        "Kinodynamic Planning",
+        "Trajectory Generation"
+      ],
+      [
+        "Decision-making",
+        "Planning",
+        "Kinodynamic Planning",
+        "Trajectory Generation",
+        "Wheeled Robots"
+      ],
+      [
+        "Decision-making",
+        "Planning",
+        "Kinodynamic Planning",
+        "Trajectory Generation",
+        "Quadrotors"
+      ],
+      [
+        "Decision-making",
+        "Planning",
+        "Kinodynamic Planning",
+        "Trajectory Optimization"
+      ],
+      [
+        "Decision-making",
+        "Planning",
+        "Kinodynamic Planning",
+        "Trajectory Optimization",
+        "Model Predictive Sampling-Based Control"
+      ],
+      [
+        "Decision-making",
+        "Planning",
+        "Kinodynamic Planning",
+        "Trajectory Optimization",
+        "Model Predictive Sampling-Based Control",
+        "Cross-Entropy Motion Planning (CEM)"
+      ],
+      [
+        "Decision-making",
+        "Planning",
+        "Kinodynamic Planning",
+        "Trajectory Optimization",
+        "Model Predictive Sampling-Based Control",
+        "Model Predictive Path Integral Control (MPPI)"
+      ],
+      [
+        "Decision-making",
+        "Planning",
+        "Kinodynamic Planning",
+        "Trajectory Optimization",
+        "Model Predictive Sampling-Based Control",
+        "Model Predictive Path Integral Control (MPPI)",
+        "Fundamentals"
+      ],
+      [
+        "Decision-making",
+        "Planning",
+        "Kinodynamic Planning",
+        "Trajectory Optimization",
+        "Model Predictive Sampling-Based Control",
+        "Model Predictive Path Integral Control (MPPI)",
+        "Sampling Distributions"
+      ],
+      [
+        "Decision-making",
+        "Planning",
+        "Kinodynamic Planning",
+        "Trajectory Optimization",
+        "Model Predictive Sampling-Based Control",
+        "Model Predictive Path Integral Control (MPPI)",
+        "Sampling Distributions",
+        "Reachability-informed Sampling"
+      ],
+      [
+        "Decision-making",
+        "Planning",
+        "Kinodynamic Planning",
+        "Trajectory Optimization",
+        "Model Predictive Sampling-Based Control",
+        "Model Predictive Path Integral Control (MPPI)",
+        "Sampling Distributions",
+        "Multimodal Sampling"
+      ],
+      [
+        "Decision-making",
+        "Planning",
+        "Kinodynamic Planning",
+        "Trajectory Optimization",
+        "Model Predictive Sampling-Based Control",
+        "Model Predictive Path Integral Control (MPPI)",
+        "Accelerating Integration/Simulation"
+      ],
+      [
+        "Decision-making",
+        "Planning",
+        "Kinodynamic Planning",
+        "Trajectory Optimization",
+        "Model Predictive Sampling-Based Control",
+        "Model Predictive Path Integral Control (MPPI)",
+        "Action Smoothing"
+      ],
+      [
+        "Decision-making",
+        "Planning",
+        "Kinodynamic Planning",
+        "Trajectory Optimization",
+        "Model Predictive Sampling-Based Control",
+        "Model Predictive Path Integral Control (MPPI)",
+        "Variance Reduction"
+      ],
+      [
+        "Decision-making",
+        "Planning",
+        "Kinodynamic Planning",
+        "Trajectory Optimization",
+        "Model Predictive Sampling-Based Control",
+        "Model Predictive Path Integral Control (MPPI)",
+        "Interaction-aware & Dynamic Planning"
+      ],
+      [
+        "Decision-making",
+        "Planning",
+        "Kinodynamic Planning",
+        "Trajectory Optimization",
+        "Model Predictive Sampling-Based Control",
+        "Model Predictive Path Integral Control (MPPI)",
+        "Safety & Uncertainty Handling"
+      ],
+      [
+        "Decision-making",
+        "Planning",
+        "Kinodynamic Planning",
+        "Trajectory Optimization",
+        "Model Predictive Sampling-Based Control",
+        "Model Predictive Path Integral Control (MPPI)",
+        "Heavy Vehicles"
+      ],
+      [
+        "Decision-making",
+        "Planning",
+        "Kinodynamic Planning",
+        "Trajectory Optimization",
+        "Model Predictive Sampling-Based Control",
+        "Partially Observed Systems"
+      ],
+      [
+        "Decision-making",
+        "Planning",
+        "Kinodynamic Planning",
+        "Trajectory Optimization",
+        "Model Predictive Trees"
+      ],
+      [
+        "Decision-making",
+        "Planning",
+        "Kinodynamic Planning",
+        "Trajectory Optimization",
+        "Iterative Linear Quadratic Regulator (iLQR) & Differential Dynamic Programming (DDP)"
+      ],
+      [
+        "Decision-making",
+        "Planning",
+        "Kinodynamic Planning",
+        "Trajectory Optimization",
+        "Iterative Linear Quadratic Regulator (iLQR) & Differential Dynamic Programming (DDP)",
+        "iLQR"
+      ],
+      [
+        "Decision-making",
+        "Planning",
+        "Kinodynamic Planning",
+        "Trajectory Optimization",
+        "Iterative Linear Quadratic Regulator (iLQR) & Differential Dynamic Programming (DDP)",
+        "Differential Dynamic Programming"
+      ],
+      [
+        "Decision-making",
+        "Planning",
+        "Kinodynamic Planning",
+        "Trajectory Optimization",
+        "Iterative Linear Quadratic Regulator (iLQR) & Differential Dynamic Programming (DDP)",
+        "Multiple Shooting DDP (MS-DDP)"
+      ],
+      [
+        "Decision-making",
+        "Planning",
+        "Kinodynamic Planning",
+        "Trajectory Optimization",
+        "Iterative Linear Quadratic Regulator (iLQR) & Differential Dynamic Programming (DDP)",
+        "Tutorials & Convergence Theory"
+      ],
+      [
+        "Decision-making",
+        "Planning",
+        "Kinodynamic Planning",
+        "Trajectory Optimization",
+        "Constrained DDP & iLQR"
+      ],
+      [
+        "Decision-making",
+        "Planning",
+        "Kinodynamic Planning",
+        "Trajectory Optimization",
+        "Elastic Smoothing"
+      ],
+      [
+        "Decision-making",
+        "Planning",
+        "Kinodynamic Planning",
+        "Trajectory Optimization",
+        "Nonlinear Optimization"
+      ],
+      [
+        "Decision-making",
+        "Planning",
+        "Kinodynamic Planning",
+        "Trajectory Optimization",
+        "Trajectory Optimization on Point Clouds"
+      ],
+      [
+        "Decision-making",
+        "Planning",
+        "Kinodynamic Planning",
+        "Trajectory Optimization",
+        "Trajectory Optimization on Gaussian Splats"
+      ],
+      [
+        "Decision-making",
+        "Planning",
+        "Kinodynamic Planning",
+        "Trajectory Optimization",
+        "Hybrid Approaches"
+      ],
+      [
+        "Decision-making",
+        "Planning",
+        "Kinodynamic Planning",
+        "Trajectory Optimization",
+        "Hybrid Approaches",
+        "Sampled Differential Dynamic Programming (SaDDP)"
+      ],
+      [
+        "Decision-making",
+        "Planning",
+        "Kinodynamic Planning",
+        "Trajectory Optimization",
+        "Learning in Trajectory Optimization"
+      ],
+      [
+        "Decision-making",
+        "Planning",
+        "Kinodynamic Planning",
+        "Trajectory Optimization",
+        "Learning in Trajectory Optimization",
+        "Sampling-based MPC"
+      ],
+      [
+        "Decision-making",
+        "Planning",
+        "Kinodynamic Planning",
+        "Trajectory Optimization",
+        "Learning in Trajectory Optimization",
+        "Learning Initial Solutions"
+      ],
+      [
+        "Decision-making",
+        "Planning",
+        "Kinodynamic Planning",
+        "Hybrid Approaches"
+      ],
+      [
+        "Decision-making",
+        "Planning",
+        "Speed Planning"
+      ],
+      [
+        "Decision-making",
+        "Planning",
+        "Speed Planning",
+        "Time-Optimal Path Parameterization (TOPP)"
+      ],
+      [
+        "Decision-making",
+        "Planning",
+        "Speed Planning",
+        "Optimization-based Speed Planning"
+      ],
+      [
+        "Decision-making",
+        "Planning",
+        "Planning in Changing Environments"
+      ],
+      [
+        "Decision-making",
+        "Planning",
+        "Planning in Changing Environments",
+        "Feedback Motion Planning"
+      ],
+      [
+        "Decision-making",
+        "Planning",
+        "Planning in Changing Environments",
+        "Planning Under Uncertainty"
+      ],
+      [
+        "Decision-making",
+        "Planning",
+        "Planning in Changing Environments",
+        "Planning Under Uncertainty",
+        "Planning in Belief Space"
+      ],
+      [
+        "Decision-making",
+        "Planning",
+        "Planning in Changing Environments",
+        "Planning Under Uncertainty",
+        "Planning in Belief Space",
+        "Belief Roadmap (BRM)"
+      ],
+      [
+        "Decision-making",
+        "Planning",
+        "Planning in Changing Environments",
+        "Planning Under Uncertainty",
+        "Planning in Belief Space",
+        "Belief Trees"
+      ],
+      [
+        "Decision-making",
+        "Planning",
+        "Planning in Changing Environments",
+        "Velocity Obstacles"
+      ],
+      [
+        "Decision-making",
+        "Planning",
+        "Planning in Changing Environments",
+        "Interaction-aware Planning"
+      ],
+      [
+        "Decision-making",
+        "Planning",
+        "Planning in Changing Environments",
+        "Interaction-aware Planning",
+        "Multipolicy Decision Making (MPDM)"
+      ],
+      [
+        "Decision-making",
+        "Planning",
+        "Learning-Based Motion Planning"
+      ],
+      [
+        "Decision-making",
+        "Planning",
+        "Learning-Based Motion Planning",
+        "Learned Sampling"
+      ],
+      [
+        "Decision-making",
+        "Planning",
+        "Learning-Based Motion Planning",
+        "Learned Corridor Selection"
+      ],
+      [
+        "Decision-making",
+        "Planning",
+        "Learning-Based Motion Planning",
+        "Learned Costs"
+      ],
+      [
+        "Decision-making",
+        "Planning",
+        "Learning-Based Motion Planning",
+        "Learned Environmental Conditions"
+      ],
+      [
+        "Decision-making",
+        "Planning",
+        "Learning-Based Motion Planning",
+        "Learned Steering"
+      ],
+      [
+        "Decision-making",
+        "Planning",
+        "Learning-Based Motion Planning",
+        "Learned Steering",
+        "Diffusion"
+      ],
+      [
+        "Decision-making",
+        "Planning",
+        "Learning-Based Motion Planning",
+        "Learned Steering",
+        "Flow Matching"
+      ],
+      [
+        "Decision-making",
+        "Planning",
+        "Learning-Based Motion Planning",
+        "Frameworks"
+      ],
+      [
+        "Decision-making",
+        "Planning",
+        "Planning for Robots"
+      ],
+      [
+        "Decision-making",
+        "Planning",
+        "Planning for Robots",
+        "Inverse Kinematics"
+      ],
+      [
+        "Decision-making",
+        "Planning",
+        "Planning for Robots",
+        "Manipulation & Contact"
+      ],
+      [
+        "Decision-making",
+        "Planning",
+        "Planning for Robots",
+        "Reachability"
+      ],
+      [
+        "Decision-making",
+        "Planning",
+        "Planning for Robots",
+        "Multi-Robot Planning"
+      ],
+      [
+        "Decision-making",
+        "Planning",
+        "Overviews"
+      ],
+      [
+        "Decision-making",
+        "Planning",
+        "Overviews",
+        "Surveys & Comparative Studies"
+      ],
+      [
+        "Decision-making",
+        "Planning",
+        "Overviews",
+        "Benchmarks"
+      ],
+      [
+        "Decision-making",
+        "Planning",
+        "Overviews",
+        "Frameworks"
+      ],
+      [
+        "Decision-making",
+        "Planning",
+        "Overviews",
+        "Frameworks",
+        "Whole-Body Locomotion & Manipulation"
+      ],
+      [
+        "Decision-making",
+        "Planning",
+        "Overviews",
+        "Frameworks",
+        "Whole-Body Locomotion & Manipulation",
+        "Bipeds"
+      ],
+      [
+        "Decision-making",
+        "Planning",
+        "Overviews",
+        "Frameworks",
+        "Whole-Body Locomotion & Manipulation",
+        "Quadrupeds"
+      ],
+      [
+        "Decision-making",
+        "Planning",
+        "Overviews",
+        "Frameworks",
+        "Sampling-Based MPC"
+      ],
+      [
+        "Decision-making",
+        "Planning",
+        "Overviews",
+        "Frameworks",
+        "Driving Robots"
+      ],
+      [
+        "Decision-making",
+        "Control"
+      ],
+      [
+        "Decision-making",
+        "Control",
+        "Theory"
+      ],
+      [
+        "Decision-making",
+        "Control",
+        "Theory",
+        "Stability"
+      ],
+      [
+        "Decision-making",
+        "Control",
+        "Theory",
+        "Parameterization of Stabilizing Controllers"
+      ],
+      [
+        "Decision-making",
+        "Control",
+        "Theory",
+        "Internal Modeling"
+      ],
+      [
+        "Decision-making",
+        "Control",
+        "Theory",
+        "Linear Matrix Inequalities (LMIs)"
+      ],
+      [
+        "Decision-making",
+        "Control",
+        "Theory",
+        "Architectures"
+      ],
+      [
+        "Decision-making",
+        "Control",
+        "Theory",
+        "Complexity & Hardness"
+      ],
+      [
+        "Decision-making",
+        "Control",
+        "Theory",
+        "Biological Systems"
+      ],
+      [
+        "Decision-making",
+        "Control",
+        "Frequency and Laplace-Domain Methods"
+      ],
+      [
+        "Decision-making",
+        "Control",
+        "Frequency and Laplace-Domain Methods",
+        "Classical Feedback Foundations"
+      ],
+      [
+        "Decision-making",
+        "Control",
+        "Frequency and Laplace-Domain Methods",
+        "Proportional-integral-derivative (PID)"
+      ],
+      [
+        "Decision-making",
+        "Control",
+        "State-space Methods"
+      ],
+      [
+        "Decision-making",
+        "Control",
+        "State-space Methods",
+        "Pole Placement"
+      ],
+      [
+        "Decision-making",
+        "Control",
+        "State-space Methods",
+        "Linear Quadratic Regulator (LQR)"
+      ],
+      [
+        "Decision-making",
+        "Control",
+        "State-space Methods",
+        "Linear Quadratic Regulator (LQR)",
+        "Foundations"
+      ],
+      [
+        "Decision-making",
+        "Control",
+        "State-space Methods",
+        "Linear Quadratic Regulator (LQR)",
+        "Riccati Equations"
+      ],
+      [
+        "Decision-making",
+        "Control",
+        "State-space Methods",
+        "Model Predictive Control (MPC)"
+      ],
+      [
+        "Decision-making",
+        "Control",
+        "State-space Methods",
+        "Model Predictive Control (MPC)",
+        "Nonlinear MPC (NMPC)"
+      ],
+      [
+        "Decision-making",
+        "Control",
+        "State-space Methods",
+        "Model Predictive Control (MPC)",
+        "Real-Time Iteration MPC"
+      ],
+      [
+        "Decision-making",
+        "Control",
+        "State-space Methods",
+        "Model Predictive Control (MPC)",
+        "Multi-step Prediction Models"
+      ],
+      [
+        "Decision-making",
+        "Control",
+        "State-space Methods",
+        "Model Predictive Control (MPC)",
+        "Model Predictive Contouring Control (MPCC)"
+      ],
+      [
+        "Decision-making",
+        "Control",
+        "State-space Methods",
+        "Model Predictive Control (MPC)",
+        "Data-Driven and Learning-Based MPC"
+      ],
+      [
+        "Decision-making",
+        "Control",
+        "State-space Methods",
+        "Model Predictive Control (MPC)",
+        "Robust and Stochastic MPC"
+      ],
+      [
+        "Decision-making",
+        "Control",
+        "State-space Methods",
+        "Model Predictive Control (MPC)",
+        "Robust and Stochastic MPC",
+        "Tube-based MPC"
+      ],
+      [
+        "Decision-making",
+        "Control",
+        "State-space Methods",
+        "Model Predictive Control (MPC)",
+        "Robust and Stochastic MPC",
+        "Stochastic MPC"
+      ],
+      [
+        "Decision-making",
+        "Control",
+        "State-space Methods",
+        "Model Predictive Control (MPC)",
+        "Robust and Stochastic MPC",
+        "Robust MPC"
+      ],
+      [
+        "Decision-making",
+        "Control",
+        "State-space Methods",
+        "Model Predictive Control (MPC)",
+        "Robust and Stochastic MPC",
+        "Distributionally Robust MPC"
+      ],
+      [
+        "Decision-making",
+        "Control",
+        "State-space Methods",
+        "Model Predictive Control (MPC)",
+        "MPC Applications and Implementations"
+      ],
+      [
+        "Decision-making",
+        "Control",
+        "State-space Methods",
+        "Nonlinear Control Design"
+      ],
+      [
+        "Decision-making",
+        "Control",
+        "Data-Driven Control"
+      ],
+      [
+        "Decision-making",
+        "Control",
+        "Data-Driven Control",
+        "Behavioral Data-Driven Control"
+      ],
+      [
+        "Decision-making",
+        "Control",
+        "Data-Driven Control",
+        "Behavioral Data-Driven Control",
+        "Foundations"
+      ],
+      [
+        "Decision-making",
+        "Control",
+        "Data-Driven Control",
+        "Behavioral Data-Driven Control",
+        "Identification and Experiment Design"
+      ],
+      [
+        "Decision-making",
+        "Control",
+        "Data-Driven Control",
+        "Behavioral Data-Driven Control",
+        "Direct Predictive Control"
+      ],
+      [
+        "Decision-making",
+        "Control",
+        "Data-Driven Control",
+        "Behavioral Data-Driven Control",
+        "Direct Stabilization and LQR"
+      ],
+      [
+        "Decision-making",
+        "Control",
+        "Data-Driven Control",
+        "Informativity Framework"
+      ],
+      [
+        "Decision-making",
+        "Control",
+        "Stochastic Control"
+      ],
+      [
+        "Decision-making",
+        "Control",
+        "Stochastic Control",
+        "Multiplicative Noise"
+      ],
+      [
+        "Decision-making",
+        "Control",
+        "Stochastic Control",
+        "Multiplicative Noise",
+        "Stochastic Stability"
+      ],
+      [
+        "Decision-making",
+        "Control",
+        "Stochastic Control",
+        "Multiplicative Noise",
+        "State Feedback"
+      ],
+      [
+        "Decision-making",
+        "Control",
+        "Stochastic Control",
+        "Multiplicative Noise",
+        "State Feedback",
+        "Riccati Equations"
+      ],
+      [
+        "Decision-making",
+        "Control",
+        "Stochastic Control",
+        "Multiplicative Noise",
+        "State Feedback",
+        "Linear Matrix Inequalities"
+      ],
+      [
+        "Decision-making",
+        "Control",
+        "Stochastic Control",
+        "Multiplicative Noise",
+        "Output Feedback"
+      ],
+      [
+        "Decision-making",
+        "Control",
+        "Stochastic Control",
+        "Multiplicative Noise",
+        "Anomaly Detection"
+      ],
+      [
+        "Decision-making",
+        "Control",
+        "Stochastic Control",
+        "Multiplicative Noise",
+        "Connections with Robust Control"
+      ],
+      [
+        "Decision-making",
+        "Control",
+        "Stochastic Control",
+        "Multiplicative Noise",
+        "Learning-based Control"
+      ],
+      [
+        "Decision-making",
+        "Control",
+        "Stochastic Control",
+        "Multiplicative Noise",
+        "Physical Systems"
+      ],
+      [
+        "Decision-making",
+        "Control",
+        "Stochastic Control",
+        "Control of Uncertain Linear Systems"
+      ],
+      [
+        "Decision-making",
+        "Control",
+        "Robust & Safety-Critical Control"
+      ],
+      [
+        "Decision-making",
+        "Control",
+        "Robust & Safety-Critical Control",
+        "Robust Control"
+      ],
+      [
+        "Decision-making",
+        "Control",
+        "Robust & Safety-Critical Control",
+        "Robust Control",
+        "LQR and LQG Robustness"
+      ],
+      [
+        "Decision-making",
+        "Control",
+        "Robust & Safety-Critical Control",
+        "Robust Control",
+        "H2 / H-infinity Synthesis"
+      ],
+      [
+        "Decision-making",
+        "Control",
+        "Robust & Safety-Critical Control",
+        "Robust Control",
+        "Input-Output Robustness and Integral Quadratic Constraints (IQCs)"
+      ],
+      [
+        "Decision-making",
+        "Control",
+        "Robust & Safety-Critical Control",
+        "Robust Control",
+        "Statistical and Probabilistic Robustness"
+      ],
+      [
+        "Decision-making",
+        "Control",
+        "Robust & Safety-Critical Control",
+        "Control Lyapunov Functions (CLF)"
+      ],
+      [
+        "Decision-making",
+        "Control",
+        "Robust & Safety-Critical Control",
+        "Control Barrier Functions (CBF)"
+      ],
+      [
+        "Decision-making",
+        "Control",
+        "Adaptive Control"
+      ],
+      [
+        "Decision-making",
+        "Control",
+        "Adaptive Control",
+        "L1 Adaptive Control"
+      ],
+      [
+        "Decision-making",
+        "Control",
+        "Distributed Control"
+      ],
+      [
+        "Decision-making",
+        "Control",
+        "Distributed Control",
+        "Decentralized Control"
+      ],
+      [
+        "Decision-making",
+        "Control",
+        "Distributed Control",
+        "Control of Networks"
+      ],
+      [
+        "Decision-making",
+        "Control",
+        "Distributed Control",
+        "Synchronization"
+      ],
+      [
+        "Decision-making",
+        "Control",
+        "Robot Control"
+      ],
+      [
+        "Decision-making",
+        "Control",
+        "Robot Control",
+        "Tracking control"
+      ],
+      [
+        "Decision-making",
+        "Control",
+        "Robot Control",
+        "Tracking control",
+        "Tracking Control for Wheeled Robots"
+      ],
+      [
+        "Decision-making",
+        "Control",
+        "Robot Control",
+        "Tracking control",
+        "Tracking Control for Wheeled Robots",
+        "Pure Pursuit"
+      ],
+      [
+        "Decision-making",
+        "Control",
+        "Robot Control",
+        "Tracking control",
+        "Tracking Control for Aerial Robots"
+      ],
+      [
+        "Decision-making",
+        "Control",
+        "Robot Control",
+        "Perception-Based Control"
+      ],
+      [
+        "Decision-making",
+        "Control",
+        "Robot Control",
+        "Teleoperation"
+      ],
+      [
+        "Decision-making",
+        "Control",
+        "System Modeling & Co-Design"
+      ],
+      [
+        "Decision-making",
+        "Control",
+        "System Modeling & Co-Design",
+        "Control-Oriented Physical Modeling"
+      ],
+      [
+        "Decision-making",
+        "Control",
+        "System Modeling & Co-Design",
+        "Vehicle Dynamics"
+      ],
+      [
+        "Decision-making",
+        "Control",
+        "System Modeling & Co-Design",
+        "Control-Plant Co-Design"
+      ],
+      [
+        "Decision-making",
+        "Reinforcement Learning"
+      ],
+      [
+        "Decision-making",
+        "Reinforcement Learning",
+        "Foundations"
+      ],
+      [
+        "Decision-making",
+        "Reinforcement Learning",
+        "Meta-Reinforcement Learning"
+      ],
+      [
+        "Decision-making",
+        "Reinforcement Learning",
+        "Multi-arm Bandits"
+      ],
+      [
+        "Decision-making",
+        "Reinforcement Learning",
+        "Linear Systems"
+      ],
+      [
+        "Decision-making",
+        "Reinforcement Learning",
+        "Linear Systems",
+        "Policy Optimization"
+      ],
+      [
+        "Decision-making",
+        "Reinforcement Learning",
+        "Linear Systems",
+        "Policy Optimization",
+        "LQR"
+      ],
+      [
+        "Decision-making",
+        "Reinforcement Learning",
+        "Linear Systems",
+        "Policy Optimization",
+        "Robust LQ"
+      ],
+      [
+        "Decision-making",
+        "Reinforcement Learning",
+        "Linear Systems",
+        "Policy Optimization",
+        "LQR with Multiplicative Noise"
+      ],
+      [
+        "Decision-making",
+        "Reinforcement Learning",
+        "Linear Systems",
+        "Policy Optimization",
+        "LQR with Domain Randomization"
+      ],
+      [
+        "Decision-making",
+        "Reinforcement Learning",
+        "Linear Systems",
+        "Policy Optimization",
+        "Multi-task LQR"
+      ],
+      [
+        "Decision-making",
+        "Reinforcement Learning",
+        "Linear Systems",
+        "Policy Optimization",
+        "LQR with Integral Control"
+      ],
+      [
+        "Decision-making",
+        "Reinforcement Learning",
+        "Linear Systems",
+        "Policy Optimization",
+        "Federated LQR"
+      ],
+      [
+        "Decision-making",
+        "Reinforcement Learning",
+        "Linear Systems",
+        "Policy Optimization",
+        "Static Output Linear Feedback"
+      ],
+      [
+        "Decision-making",
+        "Reinforcement Learning",
+        "Linear Systems",
+        "Policy Optimization",
+        "LQG"
+      ],
+      [
+        "Decision-making",
+        "Reinforcement Learning",
+        "Linear Systems",
+        "Policy Optimization",
+        "Nearly Linear-Quadratic Regulators"
+      ],
+      [
+        "Decision-making",
+        "Reinforcement Learning",
+        "Linear Systems",
+        "Dynamic Programming"
+      ],
+      [
+        "Decision-making",
+        "Reinforcement Learning",
+        "Linear Systems",
+        "Model-based RL"
+      ],
+      [
+        "Decision-making",
+        "Reinforcement Learning",
+        "Linear Systems",
+        "Model-based RL",
+        "System Identification"
+      ],
+      [
+        "Decision-making",
+        "Reinforcement Learning",
+        "Linear Systems",
+        "Model-based RL",
+        "System Identification",
+        "Subspace Identification"
+      ],
+      [
+        "Decision-making",
+        "Reinforcement Learning",
+        "Linear Systems",
+        "Model-based RL",
+        "System Identification",
+        "Realization-based Methods"
+      ],
+      [
+        "Decision-making",
+        "Reinforcement Learning",
+        "Linear Systems",
+        "Model-based RL",
+        "System Identification",
+        "Dynamic Mode Decomposition (DMD)"
+      ],
+      [
+        "Decision-making",
+        "Reinforcement Learning",
+        "Linear Systems",
+        "Model-based RL",
+        "System Identification",
+        "Linear Systems with Additive Noise"
+      ],
+      [
+        "Decision-making",
+        "Reinforcement Learning",
+        "Linear Systems",
+        "Model-based RL",
+        "System Identification",
+        "Linear Systems with Multiplicative Noise"
+      ],
+      [
+        "Decision-making",
+        "Reinforcement Learning",
+        "Linear Systems",
+        "Model-based RL",
+        "Adaptive Linear Quadratic Control"
+      ],
+      [
+        "Decision-making",
+        "Reinforcement Learning",
+        "Linear Systems",
+        "Model-based RL",
+        "Robust Adaptive Linear Quadratic Control"
+      ],
+      [
+        "Decision-making",
+        "Reinforcement Learning",
+        "Linear Systems",
+        "Model-based RL",
+        "LQG"
+      ],
+      [
+        "Decision-making",
+        "Reinforcement Learning",
+        "Nonlinear Systems"
+      ],
+      [
+        "Decision-making",
+        "Reinforcement Learning",
+        "Nonlinear Systems",
+        "Policy Optimization"
+      ],
+      [
+        "Decision-making",
+        "Reinforcement Learning",
+        "Nonlinear Systems",
+        "Policy Optimization",
+        "Random Search & Evolution Strategies"
+      ],
+      [
+        "Decision-making",
+        "Reinforcement Learning",
+        "Nonlinear Systems",
+        "Policy Optimization",
+        "Policy Gradient"
+      ],
+      [
+        "Decision-making",
+        "Reinforcement Learning",
+        "Nonlinear Systems",
+        "Policy Optimization",
+        "Policy Gradient",
+        "Vanilla Policy Gradient"
+      ],
+      [
+        "Decision-making",
+        "Reinforcement Learning",
+        "Nonlinear Systems",
+        "Policy Optimization",
+        "Policy Gradient",
+        "Natural Policy Gradient"
+      ],
+      [
+        "Decision-making",
+        "Reinforcement Learning",
+        "Nonlinear Systems",
+        "Policy Optimization",
+        "Policy Gradient",
+        "Variance Reduction"
+      ],
+      [
+        "Decision-making",
+        "Reinforcement Learning",
+        "Nonlinear Systems",
+        "Policy Optimization",
+        "Actor-Critic Methods"
+      ],
+      [
+        "Decision-making",
+        "Reinforcement Learning",
+        "Nonlinear Systems",
+        "Policy Optimization",
+        "Trust Region"
+      ],
+      [
+        "Decision-making",
+        "Reinforcement Learning",
+        "Nonlinear Systems",
+        "Dynamic Programming"
+      ],
+      [
+        "Decision-making",
+        "Reinforcement Learning",
+        "Nonlinear Systems",
+        "Dynamic Programming",
+        "Exact Dynamic Programming"
+      ],
+      [
+        "Decision-making",
+        "Reinforcement Learning",
+        "Nonlinear Systems",
+        "Dynamic Programming",
+        "Approximate Dynamic Programming"
+      ],
+      [
+        "Decision-making",
+        "Reinforcement Learning",
+        "Nonlinear Systems",
+        "Dynamic Programming",
+        "Approximate Dynamic Programming",
+        "Deep Neural Network-Based"
+      ],
+      [
+        "Decision-making",
+        "Reinforcement Learning",
+        "Nonlinear Systems",
+        "Dynamic Programming",
+        "Policy Evaluation"
+      ],
+      [
+        "Decision-making",
+        "Reinforcement Learning",
+        "Nonlinear Systems",
+        "Model-based RL"
+      ],
+      [
+        "Decision-making",
+        "Reinforcement Learning",
+        "Nonlinear Systems",
+        "Model-based RL",
+        "System Identification"
+      ],
+      [
+        "Decision-making",
+        "Reinforcement Learning",
+        "Nonlinear Systems",
+        "Model-based RL",
+        "System Identification",
+        "Extended Dynamic Mode Decomposition (eDMD) and Koopman"
+      ],
+      [
+        "Decision-making",
+        "Reinforcement Learning",
+        "Nonlinear Systems",
+        "Model-based RL",
+        "System Identification",
+        "Sparse Identification of Nonlinear Dynamics (SINDy)"
+      ],
+      [
+        "Decision-making",
+        "Reinforcement Learning",
+        "Nonlinear Systems",
+        "Model-based RL",
+        "System Identification",
+        "World Models"
+      ],
+      [
+        "Decision-making",
+        "Reinforcement Learning",
+        "Nonlinear Systems",
+        "Model-based RL",
+        "Surveys & Control Connections"
+      ],
+      [
+        "Decision-making",
+        "Reinforcement Learning",
+        "Nonlinear Systems",
+        "Model-based RL",
+        "MPC-RL Hybrids"
+      ],
+      [
+        "Decision-making",
+        "Reinforcement Learning",
+        "Nonlinear Systems",
+        "Imitation Learning"
+      ],
+      [
+        "Decision-making",
+        "Reinforcement Learning",
+        "Nonlinear Systems",
+        "Imitation Learning",
+        "Foundations & Reductions"
+      ],
+      [
+        "Decision-making",
+        "Reinforcement Learning",
+        "Nonlinear Systems",
+        "Imitation Learning",
+        "Behavior Cloning"
+      ],
+      [
+        "Decision-making",
+        "Reinforcement Learning",
+        "Nonlinear Systems",
+        "Imitation Learning",
+        "Active Imitation Learning"
+      ],
+      [
+        "Decision-making",
+        "Reinforcement Learning",
+        "Nonlinear Systems",
+        "Imitation Learning",
+        "Visuomotor & Skill Imitation"
+      ],
+      [
+        "Decision-making",
+        "Reinforcement Learning",
+        "Nonlinear Systems",
+        "Imitation Learning",
+        "Robot Manipulation"
+      ],
+      [
+        "Decision-making",
+        "Reinforcement Learning",
+        "Nonlinear Systems",
+        "Imitation Learning",
+        "Language-Grounded Policies"
+      ],
+      [
+        "Decision-making",
+        "Reinforcement Learning",
+        "Nonlinear Systems",
+        "Imitation Learning",
+        "Datasets"
+      ],
+      [
+        "Decision-making",
+        "Reinforcement Learning",
+        "Nonlinear Systems",
+        "Diffusion & Flow Matching"
+      ],
+      [
+        "Decision-making",
+        "Reinforcement Learning",
+        "Nonlinear Systems",
+        "Hybrid Approaches"
+      ],
+      [
+        "Decision-making",
+        "Reinforcement Learning",
+        "Multi-agent Reinforcement learning"
+      ],
+      [
+        "Decision-making",
+        "Reinforcement Learning",
+        "Robot Fleet Learning"
+      ],
+      [
+        "Decision-making",
+        "Reinforcement Learning",
+        "Inverse Reinforcement Learning & Reward Learning"
+      ],
+      [
+        "Decision-making",
+        "Reinforcement Learning",
+        "Inverse Reinforcement Learning & Reward Learning",
+        "Inverse Optimization"
+      ],
+      [
+        "Decision-making",
+        "Reinforcement Learning",
+        "Inverse Reinforcement Learning & Reward Learning",
+        "Inverse Optimal Control"
+      ],
+      [
+        "Decision-making",
+        "Reinforcement Learning",
+        "Inverse Reinforcement Learning & Reward Learning",
+        "Inverse Reinforcement Learning"
+      ],
+      [
+        "Decision-making",
+        "Reinforcement Learning",
+        "Inverse Reinforcement Learning & Reward Learning",
+        "Inverse Reinforcement Learning",
+        "Max Entropy"
+      ],
+      [
+        "Decision-making",
+        "Reinforcement Learning",
+        "Inverse Reinforcement Learning & Reward Learning",
+        "Inverse Reinforcement Learning",
+        "Adversarial"
+      ],
+      [
+        "Decision-making",
+        "Reinforcement Learning",
+        "Applications"
+      ],
+      [
+        "Decision-making",
+        "Reinforcement Learning",
+        "Applications",
+        "Manipulation & Grasping"
+      ],
+      [
+        "Decision-making",
+        "Reinforcement Learning",
+        "Applications",
+        "Driving"
+      ],
+      [
+        "Decision-making",
+        "Reinforcement Learning",
+        "Applications",
+        "Urban Planning"
+      ],
+      [
+        "Prediction & Perception"
+      ],
+      [
+        "Prediction & Perception",
+        "State Estimation"
+      ],
+      [
+        "Prediction & Perception",
+        "State Estimation",
+        "Optimal State Estimation (Kalman Filters)"
+      ],
+      [
+        "Prediction & Perception",
+        "State Estimation",
+        "Optimal State Estimation (Kalman Filters)",
+        "Linear Systems"
+      ],
+      [
+        "Prediction & Perception",
+        "State Estimation",
+        "Optimal State Estimation (Kalman Filters)",
+        "Nonlinear Systems"
+      ],
+      [
+        "Prediction & Perception",
+        "State Estimation",
+        "Optimal State Estimation (Kalman Filters)",
+        "Nonlinear Systems",
+        "Unscented Kalman Filter (UKF)"
+      ],
+      [
+        "Prediction & Perception",
+        "State Estimation",
+        "Robust State Estimation"
+      ],
+      [
+        "Prediction & Perception",
+        "State Estimation",
+        "Adaptive State Estimation"
+      ],
+      [
+        "Prediction & Perception",
+        "State Estimation",
+        "Learning-based State Estimation"
+      ],
+      [
+        "Prediction & Perception",
+        "State Estimation",
+        "Particle Filter"
+      ],
+      [
+        "Prediction & Perception",
+        "State Estimation",
+        "Localization & Mapping"
+      ],
+      [
+        "Prediction & Perception",
+        "State Estimation",
+        "Localization & Mapping",
+        "Factor Graphs"
+      ],
+      [
+        "Prediction & Perception",
+        "State Estimation",
+        "Localization & Mapping",
+        "Map-Based Localization"
+      ],
+      [
+        "Prediction & Perception",
+        "State Estimation",
+        "Localization & Mapping",
+        "Dense Mapping"
+      ],
+      [
+        "Prediction & Perception",
+        "State Estimation",
+        "Localization & Mapping",
+        "Semantic HD Map Construction"
+      ],
+      [
+        "Prediction & Perception",
+        "State Estimation",
+        "Localization & Mapping",
+        "Simultaneous Localization and Mapping (SLAM)"
+      ],
+      [
+        "Prediction & Perception",
+        "State Estimation",
+        "Localization & Mapping",
+        "Simultaneous Localization and Mapping (SLAM)",
+        "Graph-Based SLAM & Smoothing"
+      ],
+      [
+        "Prediction & Perception",
+        "State Estimation",
+        "Localization & Mapping",
+        "Simultaneous Localization and Mapping (SLAM)",
+        "Metric-Semantic SLAM"
+      ],
+      [
+        "Prediction & Perception",
+        "State Estimation",
+        "Localization & Mapping",
+        "Point Cloud Registration"
+      ],
+      [
+        "Prediction & Perception",
+        "State Estimation",
+        "Localization & Mapping",
+        "Point Cloud Registration",
+        "Iterative Closest Point (ICP)"
+      ],
+      [
+        "Prediction & Perception",
+        "State Estimation",
+        "Localization & Mapping",
+        "Visual Odometry & Structure from Motion"
+      ],
+      [
+        "Prediction & Perception",
+        "State Estimation",
+        "Localization & Mapping",
+        "Visual Odometry & Structure from Motion",
+        "Structure from Motion (SfM)"
+      ],
+      [
+        "Prediction & Perception",
+        "State Estimation",
+        "Localization & Mapping",
+        "Sensor Calibration"
+      ],
+      [
+        "Prediction & Perception",
+        "Motion Prediction"
+      ],
+      [
+        "Prediction & Perception",
+        "Motion Prediction",
+        "Driver Models"
+      ],
+      [
+        "Prediction & Perception",
+        "Motion Prediction",
+        "Multi-agent & Interaction-aware Prediction"
+      ],
+      [
+        "Prediction & Perception",
+        "Motion Prediction",
+        "Prediction Requirements"
+      ],
+      [
+        "Prediction & Perception",
+        "Motion Prediction",
+        "Surveys"
+      ],
+      [
+        "Prediction & Perception",
+        "Motion Prediction",
+        "Surveys",
+        "Automated Driving"
+      ],
+      [
+        "Prediction & Perception",
+        "Computer Vision"
+      ],
+      [
+        "Prediction & Perception",
+        "Computer Vision",
+        "Low-level & Geometric Vision"
+      ],
+      [
+        "Prediction & Perception",
+        "Computer Vision",
+        "Low-level & Geometric Vision",
+        "Edge Detection"
+      ],
+      [
+        "Prediction & Perception",
+        "Computer Vision",
+        "Low-level & Geometric Vision",
+        "Feature Detection & Description"
+      ],
+      [
+        "Prediction & Perception",
+        "Computer Vision",
+        "Low-level & Geometric Vision",
+        "Optical Flow"
+      ],
+      [
+        "Prediction & Perception",
+        "Computer Vision",
+        "Low-level & Geometric Vision",
+        "3D Vision & Shape Understanding"
+      ],
+      [
+        "Prediction & Perception",
+        "Computer Vision",
+        "Recognition & Understanding"
+      ],
+      [
+        "Prediction & Perception",
+        "Computer Vision",
+        "Recognition & Understanding",
+        "Object Detection"
+      ],
+      [
+        "Prediction & Perception",
+        "Computer Vision",
+        "Recognition & Understanding",
+        "Face Recognition"
+      ],
+      [
+        "Prediction & Perception",
+        "Computer Vision",
+        "Recognition & Understanding",
+        "Image Classification & Recognition"
+      ],
+      [
+        "Prediction & Perception",
+        "Computer Vision",
+        "Recognition & Understanding",
+        "Video Understanding"
+      ],
+      [
+        "Prediction & Perception",
+        "Computer Vision",
+        "Image Compression"
+      ],
+      [
+        "Prediction & Perception",
+        "Computer Vision",
+        "Image Processing & Computational Photography"
+      ],
+      [
+        "Prediction & Perception",
+        "Computer Vision",
+        "Image Processing & Computational Photography",
+        "Super-Resolution & Restoration"
+      ],
+      [
+        "Prediction & Perception",
+        "Computer Vision",
+        "Image Processing & Computational Photography",
+        "Super-Resolution & Restoration",
+        "CNN Super-Resolution"
+      ],
+      [
+        "Prediction & Perception",
+        "Computer Vision",
+        "Image Processing & Computational Photography",
+        "Super-Resolution & Restoration",
+        "Transformer Restoration"
+      ],
+      [
+        "Prediction & Perception",
+        "Computer Vision",
+        "Image Processing & Computational Photography",
+        "Super-Resolution & Restoration",
+        "Diffusion & Generative Restoration"
+      ],
+      [
+        "Prediction & Perception",
+        "Computer Vision",
+        "Image Assessment"
+      ],
+      [
+        "Prediction & Perception",
+        "Computer Vision",
+        "Image Assessment",
+        "Metrics"
+      ],
+      [
+        "Prediction & Perception",
+        "Computer Vision",
+        "Image Assessment",
+        "Color"
+      ],
+      [
+        "Prediction & Perception",
+        "Machine Learning"
+      ],
+      [
+        "Prediction & Perception",
+        "Machine Learning",
+        "Foundations, Data & Reliability"
+      ],
+      [
+        "Prediction & Perception",
+        "Machine Learning",
+        "Foundations, Data & Reliability",
+        "Foundations"
+      ],
+      [
+        "Prediction & Perception",
+        "Machine Learning",
+        "Foundations, Data & Reliability",
+        "Datasets"
+      ],
+      [
+        "Prediction & Perception",
+        "Machine Learning",
+        "Foundations, Data & Reliability",
+        "Uncertainty Quantification"
+      ],
+      [
+        "Prediction & Perception",
+        "Machine Learning",
+        "Foundations, Data & Reliability",
+        "Uncertainty Quantification",
+        "Conformal Prediction"
+      ],
+      [
+        "Prediction & Perception",
+        "Machine Learning",
+        "Foundations, Data & Reliability",
+        "Interpretability"
+      ],
+      [
+        "Prediction & Perception",
+        "Machine Learning",
+        "Foundations, Data & Reliability",
+        "Interpretability",
+        "Shapley"
+      ],
+      [
+        "Prediction & Perception",
+        "Machine Learning",
+        "Classical & Statistical Learning"
+      ],
+      [
+        "Prediction & Perception",
+        "Machine Learning",
+        "Classical & Statistical Learning",
+        "Clustering"
+      ],
+      [
+        "Prediction & Perception",
+        "Machine Learning",
+        "Classical & Statistical Learning",
+        "Clustering",
+        "k-means"
+      ],
+      [
+        "Prediction & Perception",
+        "Machine Learning",
+        "Classical & Statistical Learning",
+        "Clustering",
+        "Hierarchical Clustering"
+      ],
+      [
+        "Prediction & Perception",
+        "Machine Learning",
+        "Classical & Statistical Learning",
+        "Clustering",
+        "Density-based Clustering"
+      ],
+      [
+        "Prediction & Perception",
+        "Machine Learning",
+        "Classical & Statistical Learning",
+        "Clustering",
+        "Spectral Clustering"
+      ],
+      [
+        "Prediction & Perception",
+        "Machine Learning",
+        "Classical & Statistical Learning",
+        "Clustering",
+        "Deep Embedding Clustering"
+      ],
+      [
+        "Prediction & Perception",
+        "Machine Learning",
+        "Classical & Statistical Learning",
+        "Dimensionality Reduction"
+      ],
+      [
+        "Prediction & Perception",
+        "Machine Learning",
+        "Classical & Statistical Learning",
+        "Decision Trees"
+      ],
+      [
+        "Prediction & Perception",
+        "Machine Learning",
+        "Classical & Statistical Learning",
+        "Kernel Machines"
+      ],
+      [
+        "Prediction & Perception",
+        "Machine Learning",
+        "Classical & Statistical Learning",
+        "Ensemble Methods"
+      ],
+      [
+        "Prediction & Perception",
+        "Machine Learning",
+        "Deep Learning"
+      ],
+      [
+        "Prediction & Perception",
+        "Machine Learning",
+        "Deep Learning",
+        "Neural Networks"
+      ],
+      [
+        "Prediction & Perception",
+        "Machine Learning",
+        "Deep Learning",
+        "Neural Networks",
+        "Architectures"
+      ],
+      [
+        "Prediction & Perception",
+        "Machine Learning",
+        "Deep Learning",
+        "Neural Networks",
+        "Activation Functions"
+      ],
+      [
+        "Prediction & Perception",
+        "Machine Learning",
+        "Deep Learning",
+        "Neural Networks",
+        "Activation Functions",
+        "Surveys"
+      ],
+      [
+        "Prediction & Perception",
+        "Machine Learning",
+        "Deep Learning",
+        "Neural Networks",
+        "Activation Functions",
+        "Functions"
+      ],
+      [
+        "Prediction & Perception",
+        "Machine Learning",
+        "Deep Learning",
+        "Neural Networks",
+        "Training Algorithms"
+      ],
+      [
+        "Prediction & Perception",
+        "Machine Learning",
+        "Deep Learning",
+        "Neural Networks",
+        "Training Algorithms",
+        "Backpropagation"
+      ],
+      [
+        "Prediction & Perception",
+        "Machine Learning",
+        "Deep Learning",
+        "Neural Networks",
+        "Training Algorithms",
+        "Optimization with Curvature Information"
+      ],
+      [
+        "Prediction & Perception",
+        "Machine Learning",
+        "Deep Learning",
+        "Neural Networks",
+        "Training Algorithms",
+        "Optimization with Constraints"
+      ],
+      [
+        "Prediction & Perception",
+        "Machine Learning",
+        "Deep Learning",
+        "Neural Networks",
+        "Training Algorithms",
+        "Regularization"
+      ],
+      [
+        "Prediction & Perception",
+        "Machine Learning",
+        "Deep Learning",
+        "Neural Networks",
+        "Training Algorithms",
+        "Adversarial Training"
+      ],
+      [
+        "Prediction & Perception",
+        "Machine Learning",
+        "Deep Learning",
+        "Neural Networks",
+        "Training Algorithms",
+        "Overparameterization"
+      ],
+      [
+        "Prediction & Perception",
+        "Machine Learning",
+        "Deep Learning",
+        "Neural Networks",
+        "Training Algorithms",
+        "Edge of Stability"
+      ],
+      [
+        "Prediction & Perception",
+        "Machine Learning",
+        "Deep Learning",
+        "Neural Networks",
+        "Theory & Science"
+      ],
+      [
+        "Prediction & Perception",
+        "Machine Learning",
+        "Deep Learning",
+        "Representation Learning"
+      ],
+      [
+        "Prediction & Perception",
+        "Machine Learning",
+        "Deep Learning",
+        "Representation Learning",
+        "Energy-based Models"
+      ],
+      [
+        "Prediction & Perception",
+        "Machine Learning",
+        "Deep Learning",
+        "State-space Models (SSM)"
+      ],
+      [
+        "Prediction & Perception",
+        "Machine Learning",
+        "Language & Sequence Models"
+      ],
+      [
+        "Prediction & Perception",
+        "Machine Learning",
+        "Language & Sequence Models",
+        "Natural Language Processing (NLP)"
+      ],
+      [
+        "Prediction & Perception",
+        "Machine Learning",
+        "Language & Sequence Models",
+        "Large language models (LLM)"
+      ],
+      [
+        "Prediction & Perception",
+        "Machine Learning",
+        "Language & Sequence Models",
+        "Large language models (LLM)",
+        "Transformers & Attention-based models"
+      ],
+      [
+        "Prediction & Perception",
+        "Machine Learning",
+        "Language & Sequence Models",
+        "Time Series"
+      ],
+      [
+        "Prediction & Perception",
+        "Machine Learning",
+        "Language & Sequence Models",
+        "Time Series",
+        "Algorithms"
+      ],
+      [
+        "Prediction & Perception",
+        "Machine Learning",
+        "Language & Sequence Models",
+        "Time Series",
+        "Surveys and Comparative Studies"
+      ],
+      [
+        "Prediction & Perception",
+        "Machine Learning",
+        "Language & Sequence Models",
+        "Time Series",
+        "Explainability"
+      ],
+      [
+        "Prediction & Perception",
+        "Machine Learning",
+        "Multimodal & Embodied Models"
+      ],
+      [
+        "Prediction & Perception",
+        "Machine Learning",
+        "Multimodal & Embodied Models",
+        "Vision-langugage models (VLM)"
+      ],
+      [
+        "Prediction & Perception",
+        "Machine Learning",
+        "Multimodal & Embodied Models",
+        "Vision-language-action Models (VLA)"
+      ],
+      [
+        "Prediction & Perception",
+        "Machine Learning",
+        "Multimodal & Embodied Models",
+        "Large Behavioral Models (LBM)"
+      ],
+      [
+        "Prediction & Perception",
+        "Machine Learning",
+        "Multimodal & Embodied Models",
+        "Large Behavioral Models (LBM)",
+        "BehaviorGPT"
+      ],
+      [
+        "Prediction & Perception",
+        "Machine Learning",
+        "Generative Modeling"
+      ],
+      [
+        "Prediction & Perception",
+        "Machine Learning",
+        "Generative Modeling",
+        "Generative Models"
+      ],
+      [
+        "Prediction & Perception",
+        "Machine Learning",
+        "Generative Modeling",
+        "Generative Models",
+        "Generative Adversarial Networks (GAN)"
+      ],
+      [
+        "Prediction & Perception",
+        "Machine Learning",
+        "Generative Modeling",
+        "Diffusion Models"
+      ],
+      [
+        "Prediction & Perception",
+        "Machine Learning",
+        "Generative Modeling",
+        "Flow Matching"
+      ],
+      [
+        "Prediction & Perception",
+        "Machine Learning",
+        "Federated Learning"
+      ],
+      [
+        "Evaluation"
+      ],
+      [
+        "Evaluation",
+        "Simulation"
+      ],
+      [
+        "Evaluation",
+        "Simulation",
+        "Driving & Traffic Simulation"
+      ],
+      [
+        "Evaluation",
+        "Simulation",
+        "Driving & Traffic Simulation",
+        "Learned Simulation"
+      ],
+      [
+        "Evaluation",
+        "Simulation",
+        "Driving & Traffic Simulation",
+        "Diffusion-based Generation"
+      ],
+      [
+        "Evaluation",
+        "Simulation",
+        "Flying Simulation"
+      ],
+      [
+        "Evaluation",
+        "Simulation",
+        "Manipulation & Indoor Simulation"
+      ],
+      [
+        "Evaluation",
+        "Computer Graphics"
+      ],
+      [
+        "Evaluation",
+        "Computer Graphics",
+        "Noise & Dithering"
+      ],
+      [
+        "Evaluation",
+        "Computer Graphics",
+        "Line Integral Convolution (LIC)"
+      ],
+      [
+        "Evaluation",
+        "Computer Graphics",
+        "Surface Rendering"
+      ],
+      [
+        "Evaluation",
+        "Computer Graphics",
+        "Radiance Fields"
+      ],
+      [
+        "Evaluation",
+        "Computer Graphics",
+        "3D Gaussian Splatting (3DGS)"
+      ],
+      [
+        "Evaluation",
+        "Benchmarks"
+      ],
+      [
+        "Evaluation",
+        "Benchmarks",
+        "Gyms"
+      ],
+      [
+        "Evaluation",
+        "Safety, Testing, Verification & Validation (V&V)"
+      ],
+      [
+        "Evaluation",
+        "Safety, Testing, Verification & Validation (V&V)",
+        "Driving & Autonomous Vehicles"
+      ],
+      [
+        "Evaluation",
+        "Safety, Testing, Verification & Validation (V&V)",
+        "Driving & Autonomous Vehicles",
+        "Road Design"
+      ],
+      [
+        "Evaluation",
+        "Safety, Testing, Verification & Validation (V&V)",
+        "Driving & Autonomous Vehicles",
+        "Collision and Accident Assessment"
+      ],
+      [
+        "Evaluation",
+        "Safety, Testing, Verification & Validation (V&V)",
+        "Driving & Autonomous Vehicles",
+        "Autonomy Testing"
+      ],
+      [
+        "Evaluation",
+        "Safety, Testing, Verification & Validation (V&V)",
+        "Driving & Autonomous Vehicles",
+        "Standards"
+      ],
+      [
+        "Evaluation",
+        "Safety, Testing, Verification & Validation (V&V)",
+        "Driving & Autonomous Vehicles",
+        "Formal Methods"
+      ],
+      [
+        "Evaluation",
+        "Safety, Testing, Verification & Validation (V&V)",
+        "Driving & Autonomous Vehicles",
+        "Reachability"
+      ],
+      [
+        "Evaluation",
+        "Safety, Testing, Verification & Validation (V&V)",
+        "Driving & Autonomous Vehicles",
+        "Learning Methods"
+      ],
+      [
+        "Evaluation",
+        "Safety, Testing, Verification & Validation (V&V)",
+        "Risk-aware Robotics"
+      ],
+      [
+        "Evaluation",
+        "Safety, Testing, Verification & Validation (V&V)",
+        "General Automated Systems"
+      ],
+      [
+        "Evaluation",
+        "Engineering Systems"
+      ],
+      [
+        "Evaluation",
+        "Engineering Systems",
+        "Robots"
+      ],
+      [
+        "Evaluation",
+        "Engineering Systems",
+        "Robots",
+        "Balancing Robots"
+      ],
+      [
+        "Evaluation",
+        "Engineering Systems",
+        "Robots",
+        "Balancing Robots",
+        "Single-link Inverted Pendulums"
+      ],
+      [
+        "Evaluation",
+        "Engineering Systems",
+        "Robots",
+        "Balancing Robots",
+        "Multi-link Inverted Pendulums"
+      ],
+      [
+        "Evaluation",
+        "Engineering Systems",
+        "Robots",
+        "Balancing Robots",
+        "Reaction Wheel Inverted Pendulums"
+      ],
+      [
+        "Evaluation",
+        "Engineering Systems",
+        "Robots",
+        "Balancing Robots",
+        "Ball-on-beam"
+      ],
+      [
+        "Evaluation",
+        "Engineering Systems",
+        "Robots",
+        "Mobile Robots"
+      ],
+      [
+        "Evaluation",
+        "Engineering Systems",
+        "Robots",
+        "Mobile Robots",
+        "Walking Robots"
+      ],
+      [
+        "Evaluation",
+        "Engineering Systems",
+        "Robots",
+        "Mobile Robots",
+        "Walking Robots",
+        "Bipeds"
+      ],
+      [
+        "Evaluation",
+        "Engineering Systems",
+        "Robots",
+        "Mobile Robots",
+        "Walking Robots",
+        "Quadrupeds"
+      ],
+      [
+        "Evaluation",
+        "Engineering Systems",
+        "Robots",
+        "Mobile Robots",
+        "Brachiating Robots"
+      ],
+      [
+        "Evaluation",
+        "Engineering Systems",
+        "Robots",
+        "Mobile Robots",
+        "Flying Robots"
+      ],
+      [
+        "Evaluation",
+        "Engineering Systems",
+        "Robots",
+        "Mobile Robots",
+        "Flying Robots",
+        "Multirotors"
+      ],
+      [
+        "Evaluation",
+        "Engineering Systems",
+        "Robots",
+        "Mobile Robots",
+        "Wheeled Robots"
+      ],
+      [
+        "Evaluation",
+        "Engineering Systems",
+        "Robots",
+        "Mobile Robots",
+        "Driving Robots"
+      ],
+      [
+        "Evaluation",
+        "Engineering Systems",
+        "Robots",
+        "Mobile Robots",
+        "Driving Robots",
+        "DARPA Urban Challenge"
+      ],
+      [
+        "Evaluation",
+        "Engineering Systems",
+        "Stirling Engines"
+      ],
+      [
+        "Evaluation",
+        "Engineering Systems",
+        "Nuclear Reactors"
+      ],
+      [
+        "Quantitative Foundations"
+      ],
+      [
+        "Quantitative Foundations",
+        "Mathematics"
+      ],
+      [
+        "Quantitative Foundations",
+        "Mathematics",
+        "Geometry & Tiling"
+      ],
+      [
+        "Quantitative Foundations",
+        "Mathematics",
+        "Table Theorems"
+      ],
+      [
+        "Quantitative Foundations",
+        "Mathematics",
+        "Linear Algebra & Signal Processing"
+      ],
+      [
+        "Quantitative Foundations",
+        "Mathematics",
+        "Linear Algebra & Signal Processing",
+        "Fourier Transforms"
+      ],
+      [
+        "Quantitative Foundations",
+        "Mathematics",
+        "Linear Algebra & Signal Processing",
+        "Signal Filtering and Smoothing"
+      ],
+      [
+        "Quantitative Foundations",
+        "Mathematics",
+        "Linear Algebra & Signal Processing",
+        "Conjugate Gradient"
+      ],
+      [
+        "Quantitative Foundations",
+        "Mathematics",
+        "Numerical Methods"
+      ],
+      [
+        "Quantitative Foundations",
+        "Mathematics",
+        "Sampling & Quasi-Monte Carlo"
+      ],
+      [
+        "Quantitative Foundations",
+        "Mathematics",
+        "Statistics & Probability"
+      ],
+      [
+        "Quantitative Foundations",
+        "Mathematics",
+        "Statistics & Probability",
+        "Concentration Bounds"
+      ],
+      [
+        "Quantitative Foundations",
+        "Mathematics",
+        "Statistics & Probability",
+        "Risk Measures"
+      ],
+      [
+        "Quantitative Foundations",
+        "Software & Programming"
+      ],
+      [
+        "Quantitative Foundations",
+        "Software & Programming",
+        "Essays"
+      ],
+      [
+        "Quantitative Foundations",
+        "Software & Programming",
+        "Scientific Computing"
+      ],
+      [
+        "Quantitative Foundations",
+        "Software & Programming",
+        "Machine learning"
+      ],
+      [
+        "Quantitative Foundations",
+        "Software & Programming",
+        "Machine learning",
+        "JAX Ecosystem"
+      ],
+      [
+        "Quantitative Foundations",
+        "Software & Programming",
+        "Machine learning",
+        "Ray Ecosystem"
+      ],
+      [
+        "Quantitative Foundations",
+        "Software & Programming",
+        "Databases"
+      ],
+      [
+        "Quantitative Foundations",
+        "Software & Programming",
+        "Robotics"
+      ],
+      [
+        "Quantitative Foundations",
+        "Software & Programming",
+        "Robotics",
+        "ROS Ecosystem"
+      ],
+      [
+        "Quantitative Foundations",
+        "Software & Programming",
+        "Robotics",
+        "Message Protocols"
+      ],
+      [
+        "Quantitative Foundations",
+        "Software & Programming",
+        "Robotics",
+        "User Interfaces"
+      ],
+      [
+        "Quantitative Foundations",
+        "Software & Programming",
+        "Visualization & Plotting"
+      ],
+      [
+        "Quantitative Foundations",
+        "Algorithms & Data Structures"
+      ],
+      [
+        "Quantitative Foundations",
+        "Algorithms & Data Structures",
+        "Sorting"
+      ],
+      [
+        "Quantitative Foundations",
+        "Algorithms & Data Structures",
+        "Priority Queues"
+      ],
+      [
+        "Quantitative Foundations",
+        "Algorithms & Data Structures",
+        "Nearest Neighbor Search"
+      ],
+      [
+        "Quantitative Foundations",
+        "Algorithms & Data Structures",
+        "Nearest Neighbor Search",
+        "Approximate Nearest Neighbor Search"
+      ],
+      [
+        "Quantitative Foundations",
+        "Algorithms & Data Structures",
+        "Nearest Neighbor Search",
+        "Quantization"
+      ],
+      [
+        "Quantitative Foundations",
+        "Algorithms & Data Structures",
+        "Nearest Neighbor Search",
+        "Large-scale Vector Search"
+      ],
+      [
+        "Quantitative Foundations",
+        "Algorithms & Data Structures",
+        "Trees & Spatial Indexing"
+      ],
+      [
+        "Quantitative Foundations",
+        "Algorithms & Data Structures",
+        "Trees & Spatial Indexing",
+        "Ordered Search Trees"
+      ],
+      [
+        "Quantitative Foundations",
+        "Algorithms & Data Structures",
+        "Trees & Spatial Indexing",
+        "Ordered Search Trees",
+        "B-tree"
+      ],
+      [
+        "Quantitative Foundations",
+        "Algorithms & Data Structures",
+        "Trees & Spatial Indexing",
+        "Ordered Search Trees",
+        "Red-black Tree"
+      ],
+      [
+        "Quantitative Foundations",
+        "Algorithms & Data Structures",
+        "Trees & Spatial Indexing",
+        "Spatial Partition Trees"
+      ],
+      [
+        "Quantitative Foundations",
+        "Algorithms & Data Structures",
+        "Trees & Spatial Indexing",
+        "Bounding Volume Trees"
+      ],
+      [
+        "Quantitative Foundations",
+        "Algorithms & Data Structures",
+        "Probabilistic Data Structures"
+      ],
+      [
+        "Quantitative Foundations",
+        "Algorithms & Data Structures",
+        "Parallel Algorithms"
+      ],
+      [
+        "Quantitative Foundations",
+        "Network Science"
+      ],
+      [
+        "Quantitative Foundations",
+        "Network Science",
+        "Small-World and Scale-Free Networks"
+      ],
+      [
+        "Quantitative Foundations",
+        "Network Science",
+        "Centrality"
+      ],
+      [
+        "Quantitative Foundations",
+        "Network Science",
+        "Community Detection"
+      ],
+      [
+        "Quantitative Foundations",
+        "Biology"
+      ],
+      [
+        "Quantitative Foundations",
+        "Biology",
+        "Evolution"
+      ],
+      [
+        "Quantitative Foundations",
+        "Biology",
+        "DNA"
+      ],
+      [
+        "Quantitative Foundations",
+        "Biology",
+        "Genetic Engineering"
+      ],
+      [
+        "Quantitative Foundations",
+        "Environmental Impacts"
+      ]
+    ],
+    "maxBranchDepth": 8,
+    "totalPapers": 2252,
+    "plottedPapers": 2252,
     "undatedPapers": 0,
     "minYear": 1816,
     "maxYear": 2026,
@@ -101931,15 +105216,15 @@ window.timelineData = {
         "label": "2020",
         "start": 2020,
         "end": 2020,
-        "width": 14.620417266869797,
-        "count": 121
+        "width": 14.549933259161131,
+        "count": 120
       },
       {
         "label": "2021",
         "start": 2021,
         "end": 2021,
-        "width": 15.919944793516226,
-        "count": 140
+        "width": 15.78647970908938,
+        "count": 138
       },
       {
         "label": "2022",

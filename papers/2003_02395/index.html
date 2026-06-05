@@ -562,7 +562,7 @@
 </section>
 
 <h2 id="abstract">Abstract<a class="headerlink" href="#abstract" title="Permanent link">&para;</a></h2>
-<p>We provide a simple proof of convergence covering both the Adam and Adagrad adaptive optimization algorithms when applied to smooth (possibly non-convex) objective functions with bounded gradients. We show that in expectation, the squared norm of the objective gradient averaged over the trajectory has an upper-bound which is explicit in the constants of the problem, parameters of the optimizer, the dimension $d$, and the total number of iterations $N$. This bound can be made arbitrarily small, and with the right hyper-parameters, Adam can be shown to converge with the same rate of convergence $O(d\ln(N)/\sqrt{N})$. When used with the default parameters, Adam doesn't converge, however, and just like constant step-size SGD, it moves away from the initialization point faster than Adagrad, which might explain its practical success. Finally, we obtain the tightest dependency on the heavy ball momentum decay rate $β_1$ among all previous convergence bounds for non-convex Adam and Adagrad, improving from $O((1-β_1)^{-3})$ to $O((1-β_1)^{-1})$.</p>
+<p>We provide a simple proof of convergence covering both the Adam and Adagrad adaptive optimization algorithms when applied to smooth (possibly non-convex) objective functions with bounded gradients. We show that in expectation, the squared norm of the objective gradient averaged over the trajectory has an upper-bound which is explicit in the constants of the problem, parameters of the optimizer, the dimension d, and the total number of iterations N. This bound can be made arbitrarily small, and with the right hyper-parameters, Adam can be shown to converge with the same rate of convergence O(dln(N)/sqrt(N)). When used with the default parameters, Adam doesn't converge, however, and just like constant step-size SGD, it moves away from the initialization point faster than Adagrad, which might explain its practical success. Finally, we obtain the tightest dependency on the heavy ball momentum decay rate beta_1 among all previous convergence bounds for non-convex Adam and Adagrad, improving from O((1-beta_1)^(-3)) to O((1-beta_1)^(-1)).</p>
 
 <h2 id="links">Links<a class="headerlink" href="#links" title="Permanent link">&para;</a></h2>
 <div class="paper-link-stack">
@@ -657,10 +657,10 @@
   </article>
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 160.2deg;" aria-label="89% similar">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 162.0deg;" aria-label="90% similar">
       <div class="paper-similar-card__rank-top">2</div>
       <div class="paper-similar-card__rank-bottom">
-        <span>89%</span>
+        <span>90%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
@@ -695,35 +695,6 @@
       </div>
     </div>
     <div class="paper-similar-card__body">
-      <h3><a href="../../papers/2006_06835/">Adaptive Gradient Methods Converge Faster with Over-Parameterization (but You Should Do a Line-search)</a></h3>
-
-
-      <div class="paper-similar-card__meta">
-        <span>Sharan Vaswani et al. / 2020</span>
-      </div>
-
-      <div class="paper-similar-card__actions">
-        <div class="paper-similar-card__action-row">
-          <div class="paper-link-pills paper-similar-card__action-links">
-            <a class="paper-link-pill paper-link-pill--internal" href="../../papers/2006_06835/"><span class="paper-link-pill__label">Detail</span></a>
-            <a class="paper-link-pill paper-link-pill--internal" href="../../map/#paper=2006_06835"><span class="paper-link-pill__label">Map</span></a>
-            <a class="paper-link-pill paper-link-pill--internal" href="../../tree/#paper=2006_06835"><span class="paper-link-pill__label">Tree</span></a>
-            <a class="paper-link-pill paper-link-pill--internal" href="../../timeline/#paper=2006_06835"><span class="paper-link-pill__label">Timeline</span></a>
-            <a class="paper-link-pill paper-link-pill--internal" href="../../search/?paper=2006_06835"><span class="paper-link-pill__label">Search</span></a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </article>
-
-  <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 153.0deg;" aria-label="85% similar">
-      <div class="paper-similar-card__rank-top">4</div>
-      <div class="paper-similar-card__rank-bottom">
-        <span>85%</span>
-      </div>
-    </div>
-    <div class="paper-similar-card__body">
       <h3><a href="../../papers/1412_6980/">Adam: A Method for Stochastic Optimization</a></h3>
 
       <p class="paper-similar-card__label">Adam</p>
@@ -741,6 +712,35 @@
             <a class="paper-link-pill paper-link-pill--internal" href="../../tree/#paper=1412_6980"><span class="paper-link-pill__label">Tree</span></a>
             <a class="paper-link-pill paper-link-pill--internal" href="../../timeline/#paper=1412_6980"><span class="paper-link-pill__label">Timeline</span></a>
             <a class="paper-link-pill paper-link-pill--internal" href="../../search/?paper=1412_6980"><span class="paper-link-pill__label">Search</span></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <article class="paper-similar-card">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 154.8deg;" aria-label="86% similar">
+      <div class="paper-similar-card__rank-top">4</div>
+      <div class="paper-similar-card__rank-bottom">
+        <span>86%</span>
+      </div>
+    </div>
+    <div class="paper-similar-card__body">
+      <h3><a href="../../papers/2006_06835/">Adaptive Gradient Methods Converge Faster with Over-Parameterization (but You Should Do a Line-search)</a></h3>
+
+
+      <div class="paper-similar-card__meta">
+        <span>Sharan Vaswani et al. / 2020</span>
+      </div>
+
+      <div class="paper-similar-card__actions">
+        <div class="paper-similar-card__action-row">
+          <div class="paper-link-pills paper-similar-card__action-links">
+            <a class="paper-link-pill paper-link-pill--internal" href="../../papers/2006_06835/"><span class="paper-link-pill__label">Detail</span></a>
+            <a class="paper-link-pill paper-link-pill--internal" href="../../map/#paper=2006_06835"><span class="paper-link-pill__label">Map</span></a>
+            <a class="paper-link-pill paper-link-pill--internal" href="../../tree/#paper=2006_06835"><span class="paper-link-pill__label">Tree</span></a>
+            <a class="paper-link-pill paper-link-pill--internal" href="../../timeline/#paper=2006_06835"><span class="paper-link-pill__label">Timeline</span></a>
+            <a class="paper-link-pill paper-link-pill--internal" href="../../search/?paper=2006_06835"><span class="paper-link-pill__label">Search</span></a>
           </div>
         </div>
       </div>

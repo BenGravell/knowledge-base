@@ -548,7 +548,7 @@
 </section>
 
 <h2 id="abstract">Abstract<a class="headerlink" href="#abstract" title="Permanent link">&para;</a></h2>
-<p>In recent years, reinforcement learning (RL) systems with general goals beyond a cumulative sum of rewards have gained traction, such as in constrained problems, exploration, and acting upon prior experiences. In this paper, we consider policy optimization in Markov Decision Problems, where the objective is a general concave utility function of the state-action occupancy measure, which subsumes several of the aforementioned examples as special cases. Such generality invalidates the Bellman equation. As this means that dynamic programming no longer works, we focus on direct policy search. Analogously to the Policy Gradient Theorem \cite{sutton2000policy} available for RL with cumulative rewards, we derive a new Variational Policy Gradient Theorem for RL with general utilities, which establishes that the parametrized policy gradient may be obtained as the solution of a stochastic saddle point problem involving the Fenchel dual of the utility function. We develop a variational Monte Carlo gradient estimation algorithm to compute the policy gradient based on sample paths. We prove that the variational policy gradient scheme converges globally to the optimal policy for the general objective, though the optimization problem is nonconvex. We also establish its rate of convergence of the order $O(1/t)$ by exploiting the hidden convexity of the problem, and proves that it converges exponentially when the problem admits hidden strong convexity. Our analysis applies to the standard RL problem with cumulative rewards as a special case, in which case our result improves the available convergence rate.</p>
+<p>In recent years, reinforcement learning (RL) systems with general goals beyond a cumulative sum of rewards have gained traction, such as in constrained problems, exploration, and acting upon prior experiences. In this paper, we consider policy optimization in Markov Decision Problems, where the objective is a general concave utility function of the state-action occupancy measure, which subsumes several of the aforementioned examples as special cases. Such generality invalidates the Bellman equation. As this means that dynamic programming no longer works, we focus on direct policy search. Analogously to the Policy Gradient Theorem \cite{sutton2000policy} available for RL with cumulative rewards, we derive a new Variational Policy Gradient Theorem for RL with general utilities, which establishes that the parametrized policy gradient may be obtained as the solution of a stochastic saddle point problem involving the Fenchel dual of the utility function. We develop a variational Monte Carlo gradient estimation algorithm to compute the policy gradient based on sample paths. We prove that the variational policy gradient scheme converges globally to the optimal policy for the general objective, though the optimization problem is nonconvex. We also establish its rate of convergence of the order O(1/t) by exploiting the hidden convexity of the problem, and proves that it converges exponentially when the problem admits hidden strong convexity. Our analysis applies to the standard RL problem with cumulative rewards as a special case, in which case our result improves the available convergence rate.</p>
 
 <h2 id="links">Links<a class="headerlink" href="#links" title="Permanent link">&para;</a></h2>
 <div class="paper-link-stack">
@@ -634,16 +634,14 @@
   </article>
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 158.4deg;" aria-label="88% similar">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 160.2deg;" aria-label="89% similar">
       <div class="paper-similar-card__rank-top">2</div>
       <div class="paper-similar-card__rank-bottom">
-        <span>88%</span>
+        <span>89%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
       <h3><a href="../../papers/1908_00261/">On the Theory of Policy Gradient Methods: Optimality, Approximation, and Distribution Shift</a></h3>
-
-      <p class="paper-similar-card__label">Policy Gradient</p>
 
 
       <div class="paper-similar-card__meta">
@@ -701,35 +699,6 @@
       </div>
     </div>
     <div class="paper-similar-card__body">
-      <h3><a href="../../papers/2303_08431/">Policy Gradient Converges to the Globally Optimal Policy for Nearly Linear-Quadratic Regulators</a></h3>
-
-
-      <div class="paper-similar-card__meta">
-        <span>Yinbin Han et al. / 2023</span>
-      </div>
-
-      <div class="paper-similar-card__actions">
-        <div class="paper-similar-card__action-row">
-          <div class="paper-link-pills paper-similar-card__action-links">
-            <a class="paper-link-pill paper-link-pill--internal" href="../../papers/2303_08431/"><span class="paper-link-pill__label">Detail</span></a>
-            <a class="paper-link-pill paper-link-pill--internal" href="../../map/#paper=2303_08431"><span class="paper-link-pill__label">Map</span></a>
-            <a class="paper-link-pill paper-link-pill--internal" href="../../tree/#paper=2303_08431"><span class="paper-link-pill__label">Tree</span></a>
-            <a class="paper-link-pill paper-link-pill--internal" href="../../timeline/#paper=2303_08431"><span class="paper-link-pill__label">Timeline</span></a>
-            <a class="paper-link-pill paper-link-pill--internal" href="../../search/?paper=2303_08431"><span class="paper-link-pill__label">Search</span></a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </article>
-
-  <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 156.6deg;" aria-label="87% similar">
-      <div class="paper-similar-card__rank-top">5</div>
-      <div class="paper-similar-card__rank-bottom">
-        <span>87%</span>
-      </div>
-    </div>
-    <div class="paper-similar-card__body">
       <h3><a href="../../papers/2005_06392/">On the Global Convergence Rates of Softmax Policy Gradient Methods</a></h3>
 
 
@@ -745,6 +714,35 @@
             <a class="paper-link-pill paper-link-pill--internal" href="../../tree/#paper=2005_06392"><span class="paper-link-pill__label">Tree</span></a>
             <a class="paper-link-pill paper-link-pill--internal" href="../../timeline/#paper=2005_06392"><span class="paper-link-pill__label">Timeline</span></a>
             <a class="paper-link-pill paper-link-pill--internal" href="../../search/?paper=2005_06392"><span class="paper-link-pill__label">Search</span></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <article class="paper-similar-card">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 156.6deg;" aria-label="87% similar">
+      <div class="paper-similar-card__rank-top">5</div>
+      <div class="paper-similar-card__rank-bottom">
+        <span>87%</span>
+      </div>
+    </div>
+    <div class="paper-similar-card__body">
+      <h3><a href="../../papers/2303_08431/">Policy Gradient Converges to the Globally Optimal Policy for Nearly Linear-Quadratic Regulators</a></h3>
+
+
+      <div class="paper-similar-card__meta">
+        <span>Yinbin Han et al. / 2023</span>
+      </div>
+
+      <div class="paper-similar-card__actions">
+        <div class="paper-similar-card__action-row">
+          <div class="paper-link-pills paper-similar-card__action-links">
+            <a class="paper-link-pill paper-link-pill--internal" href="../../papers/2303_08431/"><span class="paper-link-pill__label">Detail</span></a>
+            <a class="paper-link-pill paper-link-pill--internal" href="../../map/#paper=2303_08431"><span class="paper-link-pill__label">Map</span></a>
+            <a class="paper-link-pill paper-link-pill--internal" href="../../tree/#paper=2303_08431"><span class="paper-link-pill__label">Tree</span></a>
+            <a class="paper-link-pill paper-link-pill--internal" href="../../timeline/#paper=2303_08431"><span class="paper-link-pill__label">Timeline</span></a>
+            <a class="paper-link-pill paper-link-pill--internal" href="../../search/?paper=2303_08431"><span class="paper-link-pill__label">Search</span></a>
           </div>
         </div>
       </div>

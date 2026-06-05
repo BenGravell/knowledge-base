@@ -5,21 +5,6 @@
   if (!app) return;
 
   const data = window.treeData;
-  const settings = document.getElementById('ct-settings');
-  const settingsToggle = document.getElementById('ct-settings-toggle');
-  const settingsState = document.getElementById('ct-settings-state');
-  const searchInput = document.getElementById('ct-search');
-  const itemTypeTrigger = document.getElementById('ct-item-type-trigger');
-  const itemTypeDialog = document.getElementById('ct-item-type-dialog');
-  const itemTypeClose = document.getElementById('ct-item-type-close');
-  const itemTypeButtons = document.getElementById('ct-item-type');
-  const itemTypeAllButton = document.getElementById('ct-all-types');
-  const itemTypeNoneButton = document.getElementById('ct-no-types');
-  const itemTypeSummary = document.getElementById('ct-item-type-summary');
-  const yearStartInput = document.getElementById('ct-year-start');
-  const yearEndInput = document.getElementById('ct-year-end');
-  const resetButton = document.getElementById('ct-reset');
-  const searchResults = document.getElementById('ct-search-results');
   const ancestorChain = document.getElementById('ct-ancestor-chain');
   const selectionDetails = document.getElementById('ct-selection-details');
   const sunburst = document.getElementById('ct-sunburst');
@@ -37,15 +22,9 @@
 
   const nodes = new Map();
   const paperNodes = new Map();
-  const searchableNodes = [];
   const sunburstLayoutCache = new Map();
   const sunburstLayoutCacheLimit = 36;
   let currentId = data.root.id;
-  let lastMatches = [];
-  let filterMemo = new Map();
-  let currentFilterKey = 'all';
-  let currentFilterTerms = [];
-  let currentFiltersActive = false;
   let sunburstAnimationFrame = 0;
   let sunburstAnimationToken = 0;
   let lastSunburstSnapshot = null;
@@ -56,13 +35,6 @@
   let activePreviewClasses = [];
   let previewNodeId = null;
   let hydrateIndex = 0;
-  const state = {
-    query: '',
-    yearStart: null,
-    yearEnd: null,
-    itemTypes: new Set(),
-    noItemTypes: false,
-  };
   const sunburstPaletteVars = [
     '--kb-map-node-color-1',
     '--kb-map-node-color-2',
@@ -78,34 +50,13 @@
     '--kb-map-node-color-12',
   ];
   const sunburstLabelFontSize = 10;
+  const sunburstLabelCollisionGap = 2.5;
   const sunburstCenterCircleRadius = 58;
   const sunburstCenterRadius = 64;
   const sunburstCenterLabelMaxChars = 15;
   const sunburstCenterLabelMaxLines = 3;
 
   hydrate(data.root, null, 0);
-  const paperYears = searchableNodes
-    .map(function (node) { return paperYear(node); })
-    .filter(Number.isInteger);
-  const minYear = paperYears.length ? Math.min.apply(null, paperYears) : null;
-  const maxYear = paperYears.length ? Math.max.apply(null, paperYears) : null;
-  const itemTypes = Array.from(new Set(searchableNodes
-    .filter(function (node) { return node.kind === 'paper'; })
-    .map(function (node) { return paperType(node); })
-    .filter(Boolean))).sort(function (a, b) { return a.localeCompare(b); });
-  const itemTypeCounts = itemTypes.reduce(function (counts, type) {
-    counts.set(type, 0);
-    return counts;
-  }, new Map());
-  searchableNodes.forEach(function (node) {
-    if (node.kind !== 'paper') return;
-    const type = paperType(node);
-    itemTypeCounts.set(type, (itemTypeCounts.get(type) || 0) + 1);
-  });
-
-  state.yearStart = minYear;
-  state.yearEnd = maxYear;
-  initControls();
 
   const initialId = readHashId();
   currentId = initialId && nodes.has(initialId) ? initialId : data.root.id;
@@ -116,7 +67,6 @@
     if (!target || !app.contains(target)) return;
     event.preventDefault();
     selectNode(target.getAttribute('data-ct-select'), {
-      centerTree: Boolean(target.closest('#ct-search-results')),
       animateSunburst: true,
     });
   });
@@ -127,7 +77,6 @@
     if (!target || !app.contains(target)) return;
     event.preventDefault();
     selectNode(target.getAttribute('data-ct-select'), {
-      centerTree: Boolean(target.closest('#ct-search-results')),
       animateSunburst: true,
     });
   });
@@ -162,98 +111,6 @@
     });
   }
 
-  if (settingsToggle && settings) {
-    settingsToggle.addEventListener('click', function () {
-      const collapsed = settings.classList.toggle('is-collapsed');
-      settingsToggle.setAttribute('aria-expanded', String(!collapsed));
-      updateSettingsState();
-    });
-  }
-
-  if (searchInput) {
-    searchInput.addEventListener('input', function () {
-      state.query = searchInput.value.trim();
-      render();
-    });
-  }
-
-  if (yearStartInput) yearStartInput.addEventListener('change', syncYearInputs);
-  if (yearEndInput) yearEndInput.addEventListener('change', syncYearInputs);
-
-  if (itemTypeTrigger && itemTypeDialog) {
-    itemTypeTrigger.addEventListener('click', function () {
-      openItemTypeDialog();
-    });
-  }
-
-  if (itemTypeClose) {
-    itemTypeClose.addEventListener('click', closeItemTypeDialog);
-  }
-
-  if (itemTypeDialog) {
-    itemTypeDialog.addEventListener('click', function (event) {
-      if (event.target === itemTypeDialog) closeItemTypeDialog();
-    });
-    itemTypeDialog.addEventListener('close', function () {
-      if (itemTypeTrigger) {
-        itemTypeTrigger.setAttribute('aria-expanded', 'false');
-        itemTypeTrigger.focus();
-      }
-    });
-  }
-
-  if (itemTypeButtons) {
-    itemTypeButtons.addEventListener('click', function (event) {
-      const button = event.target.closest('[data-ct-item-type]');
-      if (!button || !itemTypeButtons.contains(button)) return;
-      const type = button.getAttribute('data-ct-item-type') || '';
-
-      if (allItemTypesSelected()) {
-        state.itemTypes = new Set(itemTypes.filter(function (candidate) { return candidate !== type; }));
-        state.noItemTypes = state.itemTypes.size === 0;
-      } else if (state.itemTypes.has(type)) {
-        state.itemTypes.delete(type);
-        state.noItemTypes = state.itemTypes.size === 0;
-      } else {
-        state.noItemTypes = false;
-        state.itemTypes.add(type);
-      }
-      updateFilterControls();
-      render();
-    });
-  }
-
-  if (itemTypeAllButton) {
-    itemTypeAllButton.addEventListener('click', function () {
-      state.itemTypes.clear();
-      state.noItemTypes = false;
-      updateFilterControls();
-      render();
-    });
-  }
-
-  if (itemTypeNoneButton) {
-    itemTypeNoneButton.addEventListener('click', function () {
-      state.itemTypes.clear();
-      state.noItemTypes = true;
-      updateFilterControls();
-      render();
-    });
-  }
-
-  if (resetButton) {
-    resetButton.addEventListener('click', function () {
-      state.query = '';
-      state.yearStart = minYear;
-      state.yearEnd = maxYear;
-      state.itemTypes.clear();
-      state.noItemTypes = false;
-      if (searchInput) searchInput.value = '';
-      updateFilterControls();
-      render();
-    });
-  }
-
   window.addEventListener('popstate', function () {
     const hashId = readHashId();
     if (hashId && nodes.has(hashId)) {
@@ -270,12 +127,10 @@
 
   function hydrate(node, parent, siblingIndex) {
     const paper = node.paper || {};
-    const authors = Array.isArray(paper.authors) ? paper.authors.join(' ') : '';
     node.parent = parent;
     node.siblingIndex = Number.isInteger(siblingIndex) ? siblingIndex : 0;
     node.children = Array.isArray(node.children) ? node.children : [];
     node.pathNodes = parent ? parent.pathNodes.concat(node) : [node];
-    node.searchText = normalized([node.label, node.path.join(' '), node.source || '', authors, paper.year || '', paper.type || '', paper.sourceName || ''].join(' '));
     node.preorderStart = hydrateIndex;
     hydrateIndex += 1;
     nodes.set(node.id, node);
@@ -283,7 +138,6 @@
       const paperId = paper.id || paperIdFromSource(node.source);
       if (paperId) paperNodes.set(String(paperId), node.id);
     }
-    searchableNodes.push(node);
     let totalLeafCount = node.kind === 'paper' ? 1 : 0;
     let subtreeDepth = 0;
     node.children.forEach(function (child, index) {
@@ -298,104 +152,6 @@
       leafCount: totalLeafCount,
       depth: subtreeDepth,
     };
-  }
-
-  function initControls() {
-    if (itemTypeButtons) {
-      itemTypeButtons.innerHTML = itemTypes.map(function (type) {
-        return renderItemTypeButton(type, type, itemTypeCounts.get(type) || 0, itemTypeAbbreviation(type));
-      }).join('');
-    }
-    if (yearStartInput && Number.isInteger(minYear)) {
-      yearStartInput.min = minYear;
-      yearStartInput.max = maxYear;
-      yearStartInput.placeholder = String(minYear);
-    }
-    if (yearEndInput && Number.isInteger(maxYear)) {
-      yearEndInput.min = minYear;
-      yearEndInput.max = maxYear;
-      yearEndInput.placeholder = String(maxYear);
-    }
-    updateFilterControls();
-    updateSettingsState();
-  }
-
-  function renderItemTypeButton(type, label, count, abbr) {
-    return [
-      '<button type="button" class="kb-type-option" data-ct-item-type="' + escAttr(type) + '" aria-pressed="false">',
-      '<span class="kb-type-chip">' + esc(abbr) + '</span>',
-      '<span class="kb-type-name">' + esc(label) + '</span>',
-      '<span class="kb-type-count">' + esc(count) + '</span>',
-      '</button>',
-    ].join('');
-  }
-
-  function itemTypeAbbreviation(type) {
-    if (type === 'Unspecified') return 'None';
-    const parts = String(type || '')
-      .split(/[\s/&+-]+/)
-      .map(function (part) { return part.trim(); })
-      .filter(Boolean);
-    if (!parts.length) return 'NA';
-    if (parts.length === 1) return parts[0].slice(0, 2).toUpperCase();
-    return parts.slice(0, 2).map(function (part) { return part[0]; }).join('').toUpperCase();
-  }
-
-  function openItemTypeDialog() {
-    if (!itemTypeDialog) return;
-    if (!itemTypeDialog.open) {
-      if (typeof itemTypeDialog.showModal === 'function') {
-        itemTypeDialog.showModal();
-      } else {
-        itemTypeDialog.setAttribute('open', '');
-      }
-    }
-    if (itemTypeTrigger) itemTypeTrigger.setAttribute('aria-expanded', 'true');
-    window.requestAnimationFrame(function () {
-      const selected = itemTypeDialog.querySelector('[aria-pressed="true"]');
-      const first = itemTypeDialog.querySelector('[data-ct-item-type], .ct-item-type-actions button');
-      (selected || first || itemTypeClose || itemTypeDialog).focus();
-    });
-  }
-
-  function closeItemTypeDialog() {
-    if (!itemTypeDialog || !itemTypeDialog.open) return;
-    if (typeof itemTypeDialog.close === 'function') {
-      itemTypeDialog.close();
-    } else {
-      itemTypeDialog.removeAttribute('open');
-      if (itemTypeTrigger) {
-        itemTypeTrigger.setAttribute('aria-expanded', 'false');
-        itemTypeTrigger.focus();
-      }
-    }
-  }
-
-  function updateFilterControls() {
-    if (yearStartInput) yearStartInput.value = Number.isInteger(state.yearStart) ? state.yearStart : '';
-    if (yearEndInput) yearEndInput.value = Number.isInteger(state.yearEnd) ? state.yearEnd : '';
-    if (itemTypeAllButton) itemTypeAllButton.setAttribute('aria-pressed', String(!state.noItemTypes && !state.itemTypes.size));
-    if (itemTypeNoneButton) itemTypeNoneButton.setAttribute('aria-pressed', String(state.noItemTypes));
-    if (itemTypeButtons) {
-      itemTypeButtons.querySelectorAll('[data-ct-item-type]').forEach(function (button) {
-        const type = button.getAttribute('data-ct-item-type') || '';
-        const selected = !state.noItemTypes && (!state.itemTypes.size || state.itemTypes.has(type));
-        button.setAttribute('aria-pressed', String(selected));
-      });
-    }
-    if (itemTypeSummary) itemTypeSummary.textContent = itemTypeSummaryText();
-  }
-
-  function syncYearInputs() {
-    if (!Number.isInteger(minYear) || !Number.isInteger(maxYear)) return;
-    const rawStart = parseInt(yearStartInput.value, 10);
-    const rawEnd = parseInt(yearEndInput.value, 10);
-    const start = Number.isInteger(rawStart) ? clamp(rawStart, minYear, maxYear) : minYear;
-    const end = Number.isInteger(rawEnd) ? clamp(rawEnd, minYear, maxYear) : maxYear;
-    state.yearStart = Math.min(start, end);
-    state.yearEnd = Math.max(start, end);
-    updateFilterControls();
-    render();
   }
 
   function selectNode(id, options) {
@@ -413,17 +169,10 @@
     const node = nodes.get(currentId) || data.root;
     clearPreviewHighlights();
     previewNodeId = null;
-    currentFilterKey = filterStateKey();
-    currentFilterTerms = normalized(state.query).split(/\s+/).filter(Boolean);
-    currentFiltersActive = currentFilterKey !== 'all';
-    filterMemo = new Map();
     renderSunburst(node, options);
     renderFocusedTree(node);
     renderSelectionDetails(node);
-    renderSearch();
-    updateSettingsState();
     indexPreviewTargets();
-    if (options && options.centerTree) centerCurrentTreeNode(node);
   }
 
   function renderSunburst(node, options) {
@@ -454,9 +203,9 @@
     const navigationTargets = hierarchy.children.map(function (entry) {
       return renderSunburstHitTarget(entry, snapshot, centerRadius, radius, pathNodes);
     }).join('');
-    const labels = hierarchy.children.map(function (entry) {
-      return renderSunburstLabel(entry, snapshot, centerRadius, radius, ringWidth);
-    }).join('');
+    const labels = sunburstLabelLayouts(hierarchy.children, snapshot, centerRadius, radius, ringWidth)
+      .map(renderSunburstLabel)
+      .join('');
     const transitionExtras = shouldAnimate
       ? renderSunburstTransitionExtras(lastSunburstSnapshot, snapshot)
       : '';
@@ -530,11 +279,7 @@
   }
 
   function sunburstLayoutCacheKey(viewRoot) {
-    return [
-      viewRoot.id,
-      currentFilterKey,
-      currentFiltersActive ? currentId : '',
-    ].join('|');
+    return viewRoot.id;
   }
 
   function buildSunburstHierarchy(node, depth) {
@@ -984,12 +729,31 @@
     ].join(' ');
   }
 
-  function renderSunburstLabel(entry, snapshot, centerRadius, radius, ringWidth) {
-    const label = treeNodeDisplayLabel(entry.node);
+  function sunburstLabelLayouts(entries, snapshot, centerRadius, radius, ringWidth) {
+    const labels = entries.map(function (entry) {
+      return sunburstLabelCandidate(entry, snapshot, centerRadius, radius, ringWidth);
+    }).filter(Boolean);
+    return deconflictSunburstLabels(labels, radius);
+  }
+
+  function sunburstLabelCandidate(entry, snapshot, centerRadius, radius, ringWidth) {
+    const label = sunburstDisplayLabel(entry.node);
     const snapshotEntry = snapshot.entries.get(entry.node.id);
     const layout = sunburstLabelLayout(entry, centerRadius, radius, ringWidth, label);
-    if (!layout) return '';
+    if (!layout) return null;
 
+    return {
+      entry: entry,
+      label: label,
+      layout: layout,
+      snapshotEntry: snapshotEntry,
+    };
+  }
+
+  function renderSunburstLabel(labelCandidate) {
+    const label = labelCandidate.label;
+    const layout = labelCandidate.layout;
+    const snapshotEntry = labelCandidate.snapshotEntry;
     return [
       '<text class="ct-sunburst-label' + (layout.outside ? ' is-outside' : '') + '"',
       ' x="' + escAttr(fmt(layout.point.x)) + '"',
@@ -1007,6 +771,214 @@
       }).join(''),
       '</text>',
     ].join('');
+  }
+
+  function deconflictSunburstLabels(labels, radius) {
+    const groups = {
+      top: [],
+      right: [],
+      bottom: [],
+      left: [],
+    };
+
+    labels.forEach(function (labelCandidate) {
+      const layout = labelCandidate.layout;
+      if (!layout.outside) return;
+      const side = sunburstLabelSide(layout);
+      layout.side = side;
+      groups[side].push(labelCandidate);
+    });
+
+    deconflictSunburstLabelGroup(groups.left, 'y', radius);
+    deconflictSunburstLabelGroup(groups.right, 'y', radius);
+    deconflictSunburstLabelGroup(groups.top, 'x', radius);
+    deconflictSunburstLabelGroup(groups.bottom, 'x', radius);
+    deconflictSunburstLabelPairs(labels.filter(function (labelCandidate) {
+      return labelCandidate.layout.outside;
+    }), radius);
+
+    return labels;
+  }
+
+  function deconflictSunburstLabelGroup(group, axis, radius) {
+    if (group.length < 2) return;
+
+    const viewLimit = radius + 14;
+    const maxShift = sunburstLabelMaxShift(axis, group.length);
+    const items = group.map(function (labelCandidate) {
+      const layout = labelCandidate.layout;
+      const box = sunburstLabelBox(layout);
+      const size = axis === 'y' ? box.height : box.width;
+      const preferred = axis === 'y' ? layout.preferredPoint.y : layout.preferredPoint.x;
+      return {
+        labelCandidate: labelCandidate,
+        preferred: preferred,
+        position: preferred,
+        size: size,
+        min: Math.max(-viewLimit + size / 2, preferred - maxShift),
+        max: Math.min(viewLimit - size / 2, preferred + maxShift),
+      };
+    }).sort(function (a, b) {
+      return a.preferred - b.preferred;
+    });
+
+    for (let iteration = 0; iteration < 28; iteration += 1) {
+      items.sort(function (a, b) {
+        return a.position - b.position;
+      });
+
+      for (let index = 1; index < items.length; index += 1) {
+        const previous = items[index - 1];
+        const current = items[index];
+        const requiredDistance = (previous.size + current.size) / 2 + sunburstLabelCollisionGap;
+        const overlap = requiredDistance - (current.position - previous.position);
+        if (overlap <= 0) continue;
+
+        const previousRoom = previous.position - previous.min;
+        const currentRoom = current.max - current.position;
+        const totalRoom = previousRoom + currentRoom;
+        const previousPush = totalRoom > 0 ? overlap * (previousRoom / totalRoom) : overlap / 2;
+        const currentPush = overlap - previousPush;
+        previous.position = clamp(previous.position - previousPush, previous.min, previous.max);
+        current.position = clamp(current.position + currentPush, current.min, current.max);
+      }
+
+      items.forEach(function (item) {
+        item.position = clamp(item.position + (item.preferred - item.position) * 0.055, item.min, item.max);
+      });
+    }
+
+    items.forEach(function (item) {
+      const delta = item.position - item.preferred;
+      if (Math.abs(delta) < 0.1) return;
+      shiftSunburstLabelWithinBounds(item.labelCandidate, axis, delta, radius, group.length);
+    });
+  }
+
+  function deconflictSunburstLabelPairs(labels, radius) {
+    if (labels.length < 2) return;
+
+    for (let iteration = 0; iteration < 18; iteration += 1) {
+      let moved = false;
+
+      for (let index = 0; index < labels.length; index += 1) {
+        for (let otherIndex = index + 1; otherIndex < labels.length; otherIndex += 1) {
+          const label = labels[index];
+          const other = labels[otherIndex];
+          const overlap = sunburstLabelBoxOverlap(
+            sunburstLabelBox(label.layout),
+            sunburstLabelBox(other.layout)
+          );
+          if (!overlap) continue;
+
+          const axis = sunburstLabelDeconflictionAxis(label.layout);
+          const otherAxis = sunburstLabelDeconflictionAxis(other.layout);
+          if (axis === otherAxis) {
+            const amount = axis === 'y' ? overlap.y : overlap.x;
+            const direction = sunburstLabelPushDirection(label.layout, other.layout, axis);
+            moved = Boolean(shiftSunburstLabelWithinBounds(label, axis, direction * amount / 2, radius, labels.length)) || moved;
+            moved = Boolean(shiftSunburstLabelWithinBounds(other, otherAxis, -direction * amount / 2, radius, labels.length)) || moved;
+          } else {
+            const amount = axis === 'y' ? overlap.y : overlap.x;
+            const otherAmount = otherAxis === 'y' ? overlap.y : overlap.x;
+            const direction = sunburstLabelPushDirection(label.layout, other.layout, axis);
+            const otherDirection = sunburstLabelPushDirection(other.layout, label.layout, otherAxis);
+            moved = Boolean(shiftSunburstLabelWithinBounds(label, axis, direction * amount * 0.6, radius, labels.length)) || moved;
+            moved = Boolean(shiftSunburstLabelWithinBounds(other, otherAxis, otherDirection * otherAmount * 0.6, radius, labels.length)) || moved;
+          }
+        }
+      }
+
+      if (!moved) return;
+    }
+  }
+
+  function sunburstLabelBoxOverlap(box, otherBox) {
+    const x = Math.min(box.right, otherBox.right) - Math.max(box.left, otherBox.left) + sunburstLabelCollisionGap;
+    const y = Math.min(box.bottom, otherBox.bottom) - Math.max(box.top, otherBox.top) + sunburstLabelCollisionGap;
+    return x > 0 && y > 0 ? { x: x, y: y } : null;
+  }
+
+  function sunburstLabelDeconflictionAxis(layout) {
+    return layout.side === 'left' || layout.side === 'right' ? 'y' : 'x';
+  }
+
+  function sunburstLabelPushDirection(layout, otherLayout, axis) {
+    const center = sunburstLabelAxisCenter(layout, axis);
+    const otherCenter = sunburstLabelAxisCenter(otherLayout, axis);
+    if (Math.abs(center - otherCenter) > 0.001) return center < otherCenter ? -1 : 1;
+
+    const preferred = axis === 'y' ? layout.preferredPoint.y : layout.preferredPoint.x;
+    const otherPreferred = axis === 'y' ? otherLayout.preferredPoint.y : otherLayout.preferredPoint.x;
+    if (Math.abs(preferred - otherPreferred) > 0.001) return preferred < otherPreferred ? -1 : 1;
+
+    return layout.side === 'top' || layout.side === 'left' ? -1 : 1;
+  }
+
+  function sunburstLabelAxisCenter(layout, axis) {
+    const box = sunburstLabelBox(layout);
+    return axis === 'y'
+      ? (box.top + box.bottom) / 2
+      : (box.left + box.right) / 2;
+  }
+
+  function shiftSunburstLabelWithinBounds(labelCandidate, axis, delta, radius, labelCount) {
+    const layout = labelCandidate.layout;
+    const box = sunburstLabelBox(layout);
+    const size = axis === 'y' ? box.height : box.width;
+    const preferred = axis === 'y' ? layout.preferredPoint.y : layout.preferredPoint.x;
+    const current = axis === 'y' ? layout.point.y : layout.point.x;
+    const viewLimit = radius + 14;
+    const maxShift = sunburstLabelMaxShift(axis, labelCount);
+    const min = Math.max(-viewLimit + size / 2, preferred - maxShift);
+    const max = Math.min(viewLimit - size / 2, preferred + maxShift);
+    const next = clamp(current + delta, min, max);
+    const actualDelta = next - current;
+    if (Math.abs(actualDelta) < 0.05) return 0;
+    if (axis === 'y') {
+      shiftSunburstLabel(layout, 0, actualDelta);
+    } else {
+      shiftSunburstLabel(layout, actualDelta, 0);
+    }
+    return actualDelta;
+  }
+
+  function sunburstLabelMaxShift(axis, labelCount) {
+    return Math.min(axis === 'y' ? 72 : 86, (axis === 'y' ? 30 : 38) + labelCount * 6);
+  }
+
+  function sunburstLabelSide(layout) {
+    if (layout.anchor === 'start') return 'right';
+    if (layout.anchor === 'end') return 'left';
+    return layout.point.y < 0 ? 'top' : 'bottom';
+  }
+
+  function shiftSunburstLabel(layout, dx, dy) {
+    layout.point = {
+      x: layout.point.x + dx,
+      y: layout.point.y + dy,
+    };
+    layout.firstLineY += dy;
+  }
+
+  function sunburstLabelBox(layout) {
+    const width = Math.max.apply(null, layout.lines.map(sunburstLabelLineWidth));
+    const height = layout.lineHeight * Math.max(1, layout.lines.length);
+    let left = layout.point.x - width / 2;
+    if (layout.anchor === 'start') left = layout.point.x;
+    if (layout.anchor === 'end') left = layout.point.x - width;
+    return {
+      left: left,
+      right: left + width,
+      top: layout.firstLineY - layout.lineHeight / 2,
+      bottom: layout.firstLineY - layout.lineHeight / 2 + height,
+      width: width,
+      height: height,
+    };
+  }
+
+  function sunburstLabelLineWidth(line) {
+    return String(line || '').length * sunburstLabelFontSize * 0.58;
   }
 
   function sunburstLabelLayout(entry, centerRadius, radius, ringWidth, label) {
@@ -1096,7 +1068,14 @@
   function sunburstLabelResult(point, lineHeight, lines, options) {
     const labelOptions = options || {};
     return {
-      point: point,
+      point: {
+        x: point.x,
+        y: point.y,
+      },
+      preferredPoint: {
+        x: point.x,
+        y: point.y,
+      },
       lineHeight: lineHeight,
       firstLineY: point.y - ((lines.length - 1) * lineHeight) / 2,
       lines: lines,
@@ -1253,7 +1232,7 @@
 
   function sunburstNodeAriaLabel(node) {
     return [
-      treeNodeDisplayLabel(node),
+      sunburstDisplayLabel(node),
       kindLabel(node),
       plural(filteredLeafCount(node), 'descendent', 'descendents'),
     ].filter(Boolean).join(', ');
@@ -1367,8 +1346,8 @@
 
   function renderNodeSection(title, rows, sectionKind, currentNode) {
     const empty = sectionKind === 'children'
-      ? 'No children match the current filters.'
-      : 'No descendents match the current filters.';
+      ? 'No children.'
+      : 'No descendents.';
     const label = title ? ' aria-label="' + escAttr(title) + '"' : '';
     return [
       '<section class="ct-focus-section ct-focus-section--' + escAttr(sectionKind) + '"' + label + '>',
@@ -1434,11 +1413,15 @@
   function renderPaperDetails(node) {
     const paper = node.paper || {};
     const abstract = paper.abstract || 'No abstract recorded yet.';
+    const externalUrl = paper.primaryLink || '';
     const detailUrl = node.url || '';
     const mapUrl = paper.mapUrl || mapUrlFromSource(node.source);
     const timelineUrl = paper.timelineUrl || timelineUrlFromSource(node.source);
     const searchUrl = paper.searchUrl || searchUrlFromSource(node.source);
     const actions = [
+      externalUrl
+        ? '<a class="paper-link-pill paper-link-pill--primary" href="' + escAttr(externalUrl) + '" target="_blank" rel="noopener noreferrer"><span class="paper-link-pill__label">External</span></a>'
+        : '',
       detailUrl
         ? '<a class="paper-link-pill paper-link-pill--internal" href="' + escAttr(detailUrl) + '"><span class="paper-link-pill__label">Detail</span></a>'
         : '',
@@ -1476,7 +1459,8 @@
 
   function renderPaperSelectionDetails(node) {
     const paper = node.paper || {};
-    const title = treeNodeDisplayLabel(node);
+    const title = paperTitleLabel(node);
+    const algorithm = paperAlgorithm(node);
     const path = displayPath(node.path).join(' / ');
     const authors = paperAuthorsLine(paper);
     const meta = [
@@ -1489,6 +1473,7 @@
       '<div class="ct-selection-details-head">',
       '<div class="ct-selection-details-title">',
       '<h2>' + esc(title) + '</h2>',
+      algorithm ? '<p class="ct-selection-algorithm">' + esc(algorithm) + '</p>' : '',
       authors ? '<p class="ct-selection-authors">' + esc(authors) + '</p>' : '',
       '<p class="ct-selection-path">' + esc(path) + '</p>',
       meta.length ? '<div class="ct-selection-meta">' + meta.map(function (item) {
@@ -1503,88 +1488,12 @@
   }
 
   function visibleChildren(node) {
-    if (!currentFiltersActive) return node.children || [];
-    return (node.children || []).filter(function (child) {
-      return filteredLeafCount(child) > 0 || child.id === currentId;
-    });
+    return node.children || [];
   }
 
   function filteredLeafCount(node) {
     if (!node) return 0;
-    if (!currentFiltersActive) return node.totalLeafCount || 0;
-    if (filterMemo.has(node.id)) return filterMemo.get(node.id);
-    let count;
-    if (!node.children.length) {
-      count = nodeMatchesFilters(node) ? 1 : 0;
-    } else {
-      count = node.children.reduce(function (sum, child) {
-        return sum + filteredLeafCount(child);
-      }, 0);
-    }
-    filterMemo.set(node.id, count);
-    return count;
-  }
-
-  function nodeMatchesFilters(node) {
-    const matchesQuery = !currentFilterTerms.length || currentFilterTerms.every(function (term) {
-      return node.searchText.includes(term);
-    });
-    if (!matchesQuery) return false;
-
-    if (node.kind !== 'paper') {
-      return !itemTypeFilterActive() && !yearFilterActive();
-    }
-
-    if (state.noItemTypes) return false;
-    if (state.itemTypes.size && !state.itemTypes.has(paperType(node))) return false;
-    if (yearFilterActive()) {
-      const year = paperYear(node);
-      if (!Number.isInteger(year)) return false;
-      if (year < state.yearStart || year > state.yearEnd) return false;
-    }
-    return true;
-  }
-
-  function renderSearch() {
-    if (!searchInput) return;
-    const query = state.query;
-    if (!query) {
-      lastMatches = [];
-      searchResults.hidden = true;
-      searchResults.innerHTML = '';
-      return;
-    }
-
-    lastMatches = getMatches(query).slice(0, 18);
-    if (!lastMatches.length) {
-      searchResults.hidden = false;
-      searchResults.innerHTML = '<p class="ct-empty">No matches found.</p>';
-      return;
-    }
-
-    searchResults.hidden = false;
-    searchResults.innerHTML = [
-      '<div class="ct-result-grid">',
-      lastMatches.map(function (node) {
-        return [
-          '<button type="button" class="ct-result" data-ct-select="' + escAttr(node.id) + '" data-ct-preview-node="' + escAttr(node.id) + '">',
-          '<span class="ct-kind">' + esc(kindLabel(node)) + '</span>',
-          '<strong>' + esc(node.label) + '</strong>',
-          '<span>' + esc(displayPath(node.path).join(' / ')) + '</span>',
-          '</button>',
-        ].join('');
-      }).join(''),
-      '</div>',
-    ].join('');
-  }
-
-  function centerCurrentTreeNode(node) {
-    if (node.id === data.root.id) return;
-    window.requestAnimationFrame(function () {
-      const current = ancestorChain.querySelector('.ct-tree-node.is-current > .ct-tree-button');
-      if (!current) return;
-      current.scrollIntoView({ block: 'center', inline: 'nearest' });
-    });
+    return node.totalLeafCount || 0;
   }
 
   function eventTargetContains(target, relatedTarget) {
@@ -1594,21 +1503,6 @@
     } catch (error) {
       return false;
     }
-  }
-
-  function getMatches(query) {
-    const terms = normalized(query).split(/\s+/).filter(Boolean);
-    if (!terms.length) return [];
-    return searchableNodes.filter(function (node) {
-      return terms.every(function (term) {
-        return node.searchText.includes(term);
-      }) && filteredLeafCount(node) > 0;
-    }).sort(function (a, b) {
-      if (a.id === currentId) return -1;
-      if (b.id === currentId) return 1;
-      if (a.kind !== b.kind) return a.kind === 'branch' ? -1 : 1;
-      return a.path.length - b.path.length || a.label.localeCompare(b.label);
-    });
   }
 
   function readHashId() {
@@ -1624,52 +1518,6 @@
       return null;
     }
     return null;
-  }
-
-  function updateSettingsState() {
-    if (!settingsState || !settings) return;
-    settingsState.textContent = settings.classList.contains('is-collapsed') ? 'Show Settings' : 'Hide Settings';
-  }
-
-  function itemTypeFilterActive() {
-    return state.noItemTypes || state.itemTypes.size > 0;
-  }
-
-  function filterStateKey() {
-    const queryKey = normalized(state.query).trim();
-    const typeKey = state.noItemTypes
-      ? 'none'
-      : (state.itemTypes.size
-        ? Array.from(state.itemTypes).sort(function (a, b) { return a.localeCompare(b); }).join('\u001f')
-        : 'all');
-    const yearKey = yearFilterActive() ? state.yearStart + '-' + state.yearEnd : 'all';
-    if (!queryKey && typeKey === 'all' && yearKey === 'all') return 'all';
-    return [queryKey, typeKey, yearKey].join('|');
-  }
-
-  function allItemTypesSelected() {
-    return !state.noItemTypes && state.itemTypes.size === 0;
-  }
-
-  function itemTypeSummaryText() {
-    if (state.noItemTypes) return 'No item types';
-    if (!itemTypeFilterActive()) return 'All item types';
-    const selected = Array.from(state.itemTypes).sort(function (a, b) { return a.localeCompare(b); });
-    if (selected.length === 1) return selected[0];
-    return selected.length + ' item types';
-  }
-
-  function yearFilterActive() {
-    return Number.isInteger(minYear)
-      && Number.isInteger(maxYear)
-      && (state.yearStart !== minYear || state.yearEnd !== maxYear);
-  }
-
-  function paperYear(node) {
-    const paper = node && node.paper ? node.paper : {};
-    const value = paper.yearValue != null ? paper.yearValue : paper.year;
-    const year = parseInt(value, 10);
-    return Number.isInteger(year) ? year : null;
   }
 
   function paperType(node) {
@@ -1712,6 +1560,26 @@
     return node.id === data.root.id ? 'Root' : node.label;
   }
 
+  function sunburstDisplayLabel(node) {
+    if (node.kind === 'paper') return paperShortLabel(node) || treeNodeDisplayLabel(node);
+    return treeNodeDisplayLabel(node);
+  }
+
+  function paperShortLabel(node) {
+    const paper = node.paper || {};
+    return String(paper.algorithm || paper.label || '').trim();
+  }
+
+  function paperTitleLabel(node) {
+    const paper = node.paper || {};
+    return String(paper.title || node.label || '').trim() || treeNodeDisplayLabel(node);
+  }
+
+  function paperAlgorithm(node) {
+    const paper = node.paper || {};
+    return String(paper.algorithm || '').trim();
+  }
+
   function paperCitationMeta(node) {
     const paper = node.paper || {};
     const authors = paperAuthors(paper);
@@ -1750,10 +1618,6 @@
 
   function clamp(value, min, max) {
     return Math.max(min, Math.min(max, value));
-  }
-
-  function normalized(value) {
-    return String(value || '').toLowerCase().normalize('NFKD').replace(/[\u0300-\u036f]/g, '');
   }
 
   function esc(value) {

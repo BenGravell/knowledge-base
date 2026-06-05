@@ -565,7 +565,7 @@
 </section>
 
 <h2 id="abstract">Abstract<a class="headerlink" href="#abstract" title="Permanent link">&para;</a></h2>
-<p>Active imitation learning (AIL) combats covariate shift by querying an expert during training. However, expert action labeling often dominates the cost, especially in GPU-intensive simulators, human-in-the-loop settings, and robot fleets that revisit near-duplicate states. We present Conformalized Rejection Sampling for Active Imitation Learning (CRSAIL), a querying rule that requests an expert action only when the visited state is under-represented in the expert-labeled dataset. CRSAIL scores state novelty by the distance to the $K$-th nearest expert state and sets a single global threshold via conformal prediction. This threshold is the empirical $(1-α)$ quantile of on-policy calibration scores, providing a distribution-free calibration rule that links $α$ to the expected query rate and makes $α$ a task-agnostic tuning knob. This state-space querying strategy is robust to outliers and, unlike safety-gate-based AIL, can be run without real-time expert takeovers: we roll out full trajectories (episodes) with the learner and only afterward query the expert on a subset of visited states. Evaluated on MuJoCo robotics tasks, CRSAIL matches or exceeds expert-level reward while reducing total expert queries by up to 96% vs. DAgger and up to 65% vs. prior AIL methods, with empirical robustness to $α$ and $K$, easing deployment on novel systems with unknown dynamics.</p>
+<p>Active imitation learning (AIL) combats covariate shift by querying an expert during training. However, expert action labeling often dominates the cost, especially in GPU-intensive simulators, human-in-the-loop settings, and robot fleets that revisit near-duplicate states. We present Conformalized Rejection Sampling for Active Imitation Learning (CRSAIL), a querying rule that requests an expert action only when the visited state is under-represented in the expert-labeled dataset. CRSAIL scores state novelty by the distance to the K-th nearest expert state and sets a single global threshold via conformal prediction. This threshold is the empirical (1-alpha) quantile of on-policy calibration scores, providing a distribution-free calibration rule that links alpha to the expected query rate and makes alpha a task-agnostic tuning knob. This state-space querying strategy is robust to outliers and, unlike safety-gate-based AIL, can be run without real-time expert takeovers: we roll out full trajectories (episodes) with the learner and only afterward query the expert on a subset of visited states. Evaluated on MuJoCo robotics tasks, CRSAIL matches or exceeds expert-level reward while reducing total expert queries by up to 96% vs. DAgger and up to 65% vs. prior AIL methods, with empirical robustness to alpha and K, easing deployment on novel systems with unknown dynamics.</p>
 
 <h2 id="links">Links<a class="headerlink" href="#links" title="Permanent link">&para;</a></h2>
 <div class="paper-link-stack">
@@ -749,6 +749,35 @@
       </div>
     </div>
     <div class="paper-similar-card__body">
+      <h3><a href="../../papers/2507_09061/">Action Chunking and Exploratory Data Collection Yield Exponential Improvements in Behavior Cloning for Continuous Control</a></h3>
+
+
+      <div class="paper-similar-card__meta">
+        <span>Thomas T. Zhang et al. / 2025</span>
+      </div>
+
+      <div class="paper-similar-card__actions">
+        <div class="paper-similar-card__action-row">
+          <div class="paper-link-pills paper-similar-card__action-links">
+            <a class="paper-link-pill paper-link-pill--internal" href="../../papers/2507_09061/"><span class="paper-link-pill__label">Detail</span></a>
+            <a class="paper-link-pill paper-link-pill--internal" href="../../map/#paper=2507_09061"><span class="paper-link-pill__label">Map</span></a>
+            <a class="paper-link-pill paper-link-pill--internal" href="../../tree/#paper=2507_09061"><span class="paper-link-pill__label">Tree</span></a>
+            <a class="paper-link-pill paper-link-pill--internal" href="../../timeline/#paper=2507_09061"><span class="paper-link-pill__label">Timeline</span></a>
+            <a class="paper-link-pill paper-link-pill--internal" href="../../search/?paper=2507_09061"><span class="paper-link-pill__label">Search</span></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <article class="paper-similar-card">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 147.6deg;" aria-label="82% similar">
+      <div class="paper-similar-card__rank-top">5</div>
+      <div class="paper-similar-card__rank-bottom">
+        <span>82%</span>
+      </div>
+    </div>
+    <div class="paper-similar-card__body">
       <h3><a href="../../papers/2010_ross_efficient_reductions_for_imitation/">Efficient Reductions for Imitation Learning</a></h3>
 
       <p class="paper-similar-card__label">SMILe</p>
@@ -766,35 +795,6 @@
             <a class="paper-link-pill paper-link-pill--internal" href="../../tree/#paper=2010_ross_efficient_reductions_for_imitation"><span class="paper-link-pill__label">Tree</span></a>
             <a class="paper-link-pill paper-link-pill--internal" href="../../timeline/#paper=2010_ross_efficient_reductions_for_imitation"><span class="paper-link-pill__label">Timeline</span></a>
             <a class="paper-link-pill paper-link-pill--internal" href="../../search/?paper=2010_ross_efficient_reductions_for_imitation"><span class="paper-link-pill__label">Search</span></a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </article>
-
-  <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 147.6deg;" aria-label="82% similar">
-      <div class="paper-similar-card__rank-top">5</div>
-      <div class="paper-similar-card__rank-bottom">
-        <span>82%</span>
-      </div>
-    </div>
-    <div class="paper-similar-card__body">
-      <h3><a href="../../papers/2507_09061/">Action Chunking and Exploratory Data Collection Yield Exponential Improvements in Behavior Cloning for Continuous Control</a></h3>
-
-
-      <div class="paper-similar-card__meta">
-        <span>Thomas T. Zhang et al. / 2025</span>
-      </div>
-
-      <div class="paper-similar-card__actions">
-        <div class="paper-similar-card__action-row">
-          <div class="paper-link-pills paper-similar-card__action-links">
-            <a class="paper-link-pill paper-link-pill--internal" href="../../papers/2507_09061/"><span class="paper-link-pill__label">Detail</span></a>
-            <a class="paper-link-pill paper-link-pill--internal" href="../../map/#paper=2507_09061"><span class="paper-link-pill__label">Map</span></a>
-            <a class="paper-link-pill paper-link-pill--internal" href="../../tree/#paper=2507_09061"><span class="paper-link-pill__label">Tree</span></a>
-            <a class="paper-link-pill paper-link-pill--internal" href="../../timeline/#paper=2507_09061"><span class="paper-link-pill__label">Timeline</span></a>
-            <a class="paper-link-pill paper-link-pill--internal" href="../../search/?paper=2507_09061"><span class="paper-link-pill__label">Search</span></a>
           </div>
         </div>
       </div>

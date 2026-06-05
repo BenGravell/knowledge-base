@@ -1,6 +1,6 @@
 title: >
   A Sparsification Approach to Set Membership Identification of Switched Affine Systems
-algorithm: Sparsification
+algorithm:
 authors:
   - Necmiye Ozay
   - Mario Sznaier

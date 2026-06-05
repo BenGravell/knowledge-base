@@ -1,6 +1,6 @@
 title: >
   Gradient Descent Converges to Minimizers
-algorithm: Gradient Descent
+algorithm:
 authors:
   - Jason D. Lee
   - Max Simchowitz

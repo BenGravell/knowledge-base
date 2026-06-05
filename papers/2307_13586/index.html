@@ -546,7 +546,7 @@
 </section>
 
 <h2 id="abstract">Abstract<a class="headerlink" href="#abstract" title="Permanent link">&para;</a></h2>
-<p>A central issue lying at the heart of online reinforcement learning (RL) is data efficiency. While a number of recent works achieved asymptotically minimal regret in online RL, the optimality of these results is only guaranteed in a ``large-sample'' regime, imposing enormous burn-in cost in order for their algorithms to operate optimally. How to achieve minimax-optimal regret without incurring any burn-in cost has been an open problem in RL theory. We settle this problem for the context of finite-horizon inhomogeneous Markov decision processes. Specifically, we prove that a modified version of Monotonic Value Propagation (MVP), a model-based algorithm proposed by \cite{zhang2020reinforcement}, achieves a regret on the order of (modulo log factors) \begin{equation*} \min\big\{ \sqrt{SAH^3K}, \,HK \big\}, \end{equation*} where $S$ is the number of states, $A$ is the number of actions, $H$ is the planning horizon, and $K$ is the total number of episodes. This regret matches the minimax lower bound for the entire range of sample size $K\geq 1$, essentially eliminating any burn-in requirement. It also translates to a PAC sample complexity (i.e., the number of episodes needed to yield $\varepsilon$-accuracy) of $\frac{SAH^3}{\varepsilon^2}$ up to log factor, which is minimax-optimal for the full $\varepsilon$-range. Further, we extend our theory to unveil the influences of problem-dependent quantities like the optimal value/cost and certain variances. The key technical innovation lies in the development of a new regret decomposition strategy and a novel analysis paradigm to decouple complicated statistical dependency -- a long-standing challenge facing the analysis of online RL in the sample-hungry regime.</p>
+<p>A central issue lying at the heart of online reinforcement learning (RL) is data efficiency. While a number of recent works achieved asymptotically minimal regret in online RL, the optimality of these results is only guaranteed in a ``large-sample'' regime, imposing enormous burn-in cost in order for their algorithms to operate optimally. How to achieve minimax-optimal regret without incurring any burn-in cost has been an open problem in RL theory. We settle this problem for the context of finite-horizon inhomogeneous Markov decision processes. Specifically, we prove that a modified version of Monotonic Value Propagation (MVP), a model-based algorithm proposed by \cite{zhang2020reinforcement}, achieves a regret on the order of (modulo log factors) \begin{equation*} \min\big\{ \sqrt{SAH^3K}, \,HK \big\}, \end{equation*} where S is the number of states, A is the number of actions, H is the planning horizon, and K is the total number of episodes. This regret matches the minimax lower bound for the entire range of sample size K &gt;= 1, essentially eliminating any burn-in requirement. It also translates to a PAC sample complexity (i.e., the number of episodes needed to yield epsilon-accuracy) of SAH^(3)/epsilon^(2) up to log factor, which is minimax-optimal for the full epsilon-range. Further, we extend our theory to unveil the influences of problem-dependent quantities like the optimal value/cost and certain variances. The key technical innovation lies in the development of a new regret decomposition strategy and a novel analysis paradigm to decouple complicated statistical dependency - a long-standing challenge facing the analysis of online RL in the sample-hungry regime.</p>
 
 <h2 id="links">Links<a class="headerlink" href="#links" title="Permanent link">&para;</a></h2>
 <div class="paper-link-stack">
@@ -603,10 +603,10 @@
 <div class="paper-similar-list">
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 153.0deg;" aria-label="85% similar">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 154.8deg;" aria-label="86% similar">
       <div class="paper-similar-card__rank-top">1</div>
       <div class="paper-similar-card__rank-bottom">
-        <span>85%</span>
+        <span>86%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
@@ -632,10 +632,68 @@
   </article>
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 153.0deg;" aria-label="85% similar">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 154.8deg;" aria-label="86% similar">
       <div class="paper-similar-card__rank-top">2</div>
       <div class="paper-similar-card__rank-bottom">
-        <span>85%</span>
+        <span>86%</span>
+      </div>
+    </div>
+    <div class="paper-similar-card__body">
+      <h3><a href="../../papers/2007_07461/">Model-Based Multi-Agent RL in Zero-Sum Markov Games with Near-Optimal Sample Complexity</a></h3>
+
+
+      <div class="paper-similar-card__meta">
+        <span>Kaiqing Zhang et al. / 2020</span>
+      </div>
+
+      <div class="paper-similar-card__actions">
+        <div class="paper-similar-card__action-row">
+          <div class="paper-link-pills paper-similar-card__action-links">
+            <a class="paper-link-pill paper-link-pill--internal" href="../../papers/2007_07461/"><span class="paper-link-pill__label">Detail</span></a>
+            <a class="paper-link-pill paper-link-pill--internal" href="../../map/#paper=2007_07461"><span class="paper-link-pill__label">Map</span></a>
+            <a class="paper-link-pill paper-link-pill--internal" href="../../tree/#paper=2007_07461"><span class="paper-link-pill__label">Tree</span></a>
+            <a class="paper-link-pill paper-link-pill--internal" href="../../timeline/#paper=2007_07461"><span class="paper-link-pill__label">Timeline</span></a>
+            <a class="paper-link-pill paper-link-pill--internal" href="../../search/?paper=2007_07461"><span class="paper-link-pill__label">Search</span></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <article class="paper-similar-card">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 154.8deg;" aria-label="86% similar">
+      <div class="paper-similar-card__rank-top">3</div>
+      <div class="paper-similar-card__rank-bottom">
+        <span>86%</span>
+      </div>
+    </div>
+    <div class="paper-similar-card__body">
+      <h3><a href="../../papers/1905_12842/">Finite-time Analysis of Approximate Policy Iteration for the Linear Quadratic Regulator</a></h3>
+
+
+      <div class="paper-similar-card__meta">
+        <span>Karl Krauth et al. / 2019</span>
+      </div>
+
+      <div class="paper-similar-card__actions">
+        <div class="paper-similar-card__action-row">
+          <div class="paper-link-pills paper-similar-card__action-links">
+            <a class="paper-link-pill paper-link-pill--internal" href="../../papers/1905_12842/"><span class="paper-link-pill__label">Detail</span></a>
+            <a class="paper-link-pill paper-link-pill--internal" href="../../map/#paper=1905_12842"><span class="paper-link-pill__label">Map</span></a>
+            <a class="paper-link-pill paper-link-pill--internal" href="../../tree/#paper=1905_12842"><span class="paper-link-pill__label">Tree</span></a>
+            <a class="paper-link-pill paper-link-pill--internal" href="../../timeline/#paper=1905_12842"><span class="paper-link-pill__label">Timeline</span></a>
+            <a class="paper-link-pill paper-link-pill--internal" href="../../search/?paper=1905_12842"><span class="paper-link-pill__label">Search</span></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <article class="paper-similar-card">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 154.8deg;" aria-label="86% similar">
+      <div class="paper-similar-card__rank-top">4</div>
+      <div class="paper-similar-card__rank-bottom">
+        <span>86%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
@@ -662,7 +720,7 @@
 
   <article class="paper-similar-card">
     <div class="paper-similar-card__rank" style="--paper-similar-gauge: 153.0deg;" aria-label="85% similar">
-      <div class="paper-similar-card__rank-top">3</div>
+      <div class="paper-similar-card__rank-top">5</div>
       <div class="paper-similar-card__rank-bottom">
         <span>85%</span>
       </div>
@@ -683,64 +741,6 @@
             <a class="paper-link-pill paper-link-pill--internal" href="../../tree/#paper=1510_08906"><span class="paper-link-pill__label">Tree</span></a>
             <a class="paper-link-pill paper-link-pill--internal" href="../../timeline/#paper=1510_08906"><span class="paper-link-pill__label">Timeline</span></a>
             <a class="paper-link-pill paper-link-pill--internal" href="../../search/?paper=1510_08906"><span class="paper-link-pill__label">Search</span></a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </article>
-
-  <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 153.0deg;" aria-label="85% similar">
-      <div class="paper-similar-card__rank-top">4</div>
-      <div class="paper-similar-card__rank-bottom">
-        <span>85%</span>
-      </div>
-    </div>
-    <div class="paper-similar-card__body">
-      <h3><a href="../../papers/1905_12842/">Finite-time Analysis of Approximate Policy Iteration for the Linear Quadratic Regulator</a></h3>
-
-
-      <div class="paper-similar-card__meta">
-        <span>Karl Krauth et al. / 2019</span>
-      </div>
-
-      <div class="paper-similar-card__actions">
-        <div class="paper-similar-card__action-row">
-          <div class="paper-link-pills paper-similar-card__action-links">
-            <a class="paper-link-pill paper-link-pill--internal" href="../../papers/1905_12842/"><span class="paper-link-pill__label">Detail</span></a>
-            <a class="paper-link-pill paper-link-pill--internal" href="../../map/#paper=1905_12842"><span class="paper-link-pill__label">Map</span></a>
-            <a class="paper-link-pill paper-link-pill--internal" href="../../tree/#paper=1905_12842"><span class="paper-link-pill__label">Tree</span></a>
-            <a class="paper-link-pill paper-link-pill--internal" href="../../timeline/#paper=1905_12842"><span class="paper-link-pill__label">Timeline</span></a>
-            <a class="paper-link-pill paper-link-pill--internal" href="../../search/?paper=1905_12842"><span class="paper-link-pill__label">Search</span></a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </article>
-
-  <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 153.0deg;" aria-label="85% similar">
-      <div class="paper-similar-card__rank-top">5</div>
-      <div class="paper-similar-card__rank-bottom">
-        <span>85%</span>
-      </div>
-    </div>
-    <div class="paper-similar-card__body">
-      <h3><a href="../../papers/2503_12283/">Towards Optimal Offline Reinforcement Learning</a></h3>
-
-
-      <div class="paper-similar-card__meta">
-        <span>Mengmeng Li et al. / 2025</span>
-      </div>
-
-      <div class="paper-similar-card__actions">
-        <div class="paper-similar-card__action-row">
-          <div class="paper-link-pills paper-similar-card__action-links">
-            <a class="paper-link-pill paper-link-pill--internal" href="../../papers/2503_12283/"><span class="paper-link-pill__label">Detail</span></a>
-            <a class="paper-link-pill paper-link-pill--internal" href="../../map/#paper=2503_12283"><span class="paper-link-pill__label">Map</span></a>
-            <a class="paper-link-pill paper-link-pill--internal" href="../../tree/#paper=2503_12283"><span class="paper-link-pill__label">Tree</span></a>
-            <a class="paper-link-pill paper-link-pill--internal" href="../../timeline/#paper=2503_12283"><span class="paper-link-pill__label">Timeline</span></a>
-            <a class="paper-link-pill paper-link-pill--internal" href="../../search/?paper=2503_12283"><span class="paper-link-pill__label">Search</span></a>
           </div>
         </div>
       </div>

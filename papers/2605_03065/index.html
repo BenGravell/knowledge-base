@@ -593,7 +593,7 @@
 </section>
 
 <h2 id="abstract">Abstract<a class="headerlink" href="#abstract" title="Permanent link">&para;</a></h2>
-<p>Generative control policies (GCPs), such as diffusion- and flow-based control policies, have emerged as effective parameterizations for robot learning. This work introduces Off-policy Generative Policy Optimization (OGPO), a sample-efficient algorithm for finetuning GCPs that maintains off-policy critic networks to maximize data reuse and propagate policy gradients through the full generative process of the policy via a modified PPO objective, using critics as the terminal reward. OGPO achieves state-of-the-art performance on manipulation tasks spanning multi-task settings, high-precision insertion, and dexterous control. To our knowledge, it is also the only method that can fine-tune poorly-initialized behavior cloning policies to near full task-success with no expert data in the online replay buffer, and does so with few task-specific hyperparameter tuning. Through extensive empirical investigations, we demonstrate the OGPO drastically outperforms methods alternatives on policy steering and learning residual corrections, and identify the key mechanisms behind its performance. We further introduce practical stabilizers, including success-buffer regularization, conservative advantages, $χ^2$ regularization, and Q-variance reduction, to mitigate critic over-exploitation across state- and pixel-based settings. Beyond proposing OGPO, we conduct a systematic empirical study of GCP finetuning, identifying the stabilizing mechanisms and failure modes that govern successful off-policy full-policy improvement.</p>
+<p>Generative control policies (GCPs), such as diffusion- and flow-based control policies, have emerged as effective parameterizations for robot learning. This work introduces Off-policy Generative Policy Optimization (OGPO), a sample-efficient algorithm for finetuning GCPs that maintains off-policy critic networks to maximize data reuse and propagate policy gradients through the full generative process of the policy via a modified PPO objective, using critics as the terminal reward. OGPO achieves state-of-the-art performance on manipulation tasks spanning multi-task settings, high-precision insertion, and dexterous control. To our knowledge, it is also the only method that can fine-tune poorly-initialized behavior cloning policies to near full task-success with no expert data in the online replay buffer, and does so with few task-specific hyperparameter tuning. Through extensive empirical investigations, we demonstrate the OGPO drastically outperforms methods alternatives on policy steering and learning residual corrections, and identify the key mechanisms behind its performance. We further introduce practical stabilizers, including success-buffer regularization, conservative advantages, chi^(2) regularization, and Q-variance reduction, to mitigate critic over-exploitation across state- and pixel-based settings. Beyond proposing OGPO, we conduct a systematic empirical study of GCP finetuning, identifying the stabilizing mechanisms and failure modes that govern successful off-policy full-policy improvement.</p>
 
 <h2 id="links">Links<a class="headerlink" href="#links" title="Permanent link">&para;</a></h2>
 <div class="paper-link-stack">
@@ -671,10 +671,10 @@
 <div class="paper-similar-list">
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 160.2deg;" aria-label="89% similar">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 162.0deg;" aria-label="90% similar">
       <div class="paper-similar-card__rank-top">1</div>
       <div class="paper-similar-card__rank-bottom">
-        <span>89%</span>
+        <span>90%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
@@ -700,10 +700,10 @@
   </article>
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 156.6deg;" aria-label="87% similar">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 158.4deg;" aria-label="88% similar">
       <div class="paper-similar-card__rank-top">2</div>
       <div class="paper-similar-card__rank-bottom">
-        <span>87%</span>
+        <span>88%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
@@ -738,37 +738,6 @@
       </div>
     </div>
     <div class="paper-similar-card__body">
-      <h3><a href="../../papers/2604_04539/">FlashSAC: Fast and Stable Off-Policy Reinforcement Learning for High-Dimensional Robot Control</a></h3>
-
-      <p class="paper-similar-card__label">FlashSAC</p>
-
-
-      <div class="paper-similar-card__meta">
-        <span>Donghu Kim et al. / 2026</span>
-      </div>
-
-      <div class="paper-similar-card__actions">
-        <div class="paper-similar-card__action-row">
-          <div class="paper-link-pills paper-similar-card__action-links">
-            <a class="paper-link-pill paper-link-pill--internal" href="../../papers/2604_04539/"><span class="paper-link-pill__label">Detail</span></a>
-            <a class="paper-link-pill paper-link-pill--internal" href="../../map/#paper=2604_04539"><span class="paper-link-pill__label">Map</span></a>
-            <a class="paper-link-pill paper-link-pill--internal" href="../../tree/#paper=2604_04539"><span class="paper-link-pill__label">Tree</span></a>
-            <a class="paper-link-pill paper-link-pill--internal" href="../../timeline/#paper=2604_04539"><span class="paper-link-pill__label">Timeline</span></a>
-            <a class="paper-link-pill paper-link-pill--internal" href="../../search/?paper=2604_04539"><span class="paper-link-pill__label">Search</span></a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </article>
-
-  <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 151.2deg;" aria-label="84% similar">
-      <div class="paper-similar-card__rank-top">4</div>
-      <div class="paper-similar-card__rank-bottom">
-        <span>84%</span>
-      </div>
-    </div>
-    <div class="paper-similar-card__body">
       <h3><a href="../../papers/1506_02438/">High-Dimensional Continuous Control Using Generalized Advantage Estimation</a></h3>
 
       <p class="paper-similar-card__label">GAE</p>
@@ -786,6 +755,37 @@
             <a class="paper-link-pill paper-link-pill--internal" href="../../tree/#paper=1506_02438"><span class="paper-link-pill__label">Tree</span></a>
             <a class="paper-link-pill paper-link-pill--internal" href="../../timeline/#paper=1506_02438"><span class="paper-link-pill__label">Timeline</span></a>
             <a class="paper-link-pill paper-link-pill--internal" href="../../search/?paper=1506_02438"><span class="paper-link-pill__label">Search</span></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <article class="paper-similar-card">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 151.2deg;" aria-label="84% similar">
+      <div class="paper-similar-card__rank-top">4</div>
+      <div class="paper-similar-card__rank-bottom">
+        <span>84%</span>
+      </div>
+    </div>
+    <div class="paper-similar-card__body">
+      <h3><a href="../../papers/2604_04539/">FlashSAC: Fast and Stable Off-Policy Reinforcement Learning for High-Dimensional Robot Control</a></h3>
+
+      <p class="paper-similar-card__label">FlashSAC</p>
+
+
+      <div class="paper-similar-card__meta">
+        <span>Donghu Kim et al. / 2026</span>
+      </div>
+
+      <div class="paper-similar-card__actions">
+        <div class="paper-similar-card__action-row">
+          <div class="paper-link-pills paper-similar-card__action-links">
+            <a class="paper-link-pill paper-link-pill--internal" href="../../papers/2604_04539/"><span class="paper-link-pill__label">Detail</span></a>
+            <a class="paper-link-pill paper-link-pill--internal" href="../../map/#paper=2604_04539"><span class="paper-link-pill__label">Map</span></a>
+            <a class="paper-link-pill paper-link-pill--internal" href="../../tree/#paper=2604_04539"><span class="paper-link-pill__label">Tree</span></a>
+            <a class="paper-link-pill paper-link-pill--internal" href="../../timeline/#paper=2604_04539"><span class="paper-link-pill__label">Timeline</span></a>
+            <a class="paper-link-pill paper-link-pill--internal" href="../../search/?paper=2604_04539"><span class="paper-link-pill__label">Search</span></a>
           </div>
         </div>
       </div>

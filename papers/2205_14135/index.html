@@ -569,7 +569,7 @@
 </section>
 
 <h2 id="abstract">Abstract<a class="headerlink" href="#abstract" title="Permanent link">&para;</a></h2>
-<p>Transformers are slow and memory-hungry on long sequences, since the time and memory complexity of self-attention are quadratic in sequence length. Approximate attention methods have attempted to address this problem by trading off model quality to reduce the compute complexity, but often do not achieve wall-clock speedup. We argue that a missing principle is making attention algorithms IO-aware -- accounting for reads and writes between levels of GPU memory. We propose FlashAttention, an IO-aware exact attention algorithm that uses tiling to reduce the number of memory reads/writes between GPU high bandwidth memory (HBM) and GPU on-chip SRAM. We analyze the IO complexity of FlashAttention, showing that it requires fewer HBM accesses than standard attention, and is optimal for a range of SRAM sizes. We also extend FlashAttention to block-sparse attention, yielding an approximate attention algorithm that is faster than any existing approximate attention method. FlashAttention trains Transformers faster than existing baselines: 15% end-to-end wall-clock speedup on BERT-large (seq. length 512) compared to the MLPerf 1.1 training speed record, 3$\times$ speedup on GPT-2 (seq. length 1K), and 2.4$\times$ speedup on long-range arena (seq. length 1K-4K). FlashAttention and block-sparse FlashAttention enable longer context in Transformers, yielding higher quality models (0.7 better perplexity on GPT-2 and 6.4 points of lift on long-document classification) and entirely new capabilities: the first Transformers to achieve better-than-chance performance on the Path-X challenge (seq. length 16K, 61.4% accuracy) and Path-256 (seq. length 64K, 63.1% accuracy).</p>
+<p>Transformers are slow and memory-hungry on long sequences, since the time and memory complexity of self-attention are quadratic in sequence length. Approximate attention methods have attempted to address this problem by trading off model quality to reduce the compute complexity, but often do not achieve wall-clock speedup. We argue that a missing principle is making attention algorithms IO-aware - accounting for reads and writes between levels of GPU memory. We propose FlashAttention, an IO-aware exact attention algorithm that uses tiling to reduce the number of memory reads/writes between GPU high bandwidth memory (HBM) and GPU on-chip SRAM. We analyze the IO complexity of FlashAttention, showing that it requires fewer HBM accesses than standard attention, and is optimal for a range of SRAM sizes. We also extend FlashAttention to block-sparse attention, yielding an approximate attention algorithm that is faster than any existing approximate attention method. FlashAttention trains Transformers faster than existing baselines: 15% end-to-end wall-clock speedup on BERT-large (seq. length 512) compared to the MLPerf 1.1 training speed record, 3x speedup on GPT-2 (seq. length 1K), and 2.4x speedup on long-range arena (seq. length 1K-4K). FlashAttention and block-sparse FlashAttention enable longer context in Transformers, yielding higher quality models (0.7 better perplexity on GPT-2 and 6.4 points of lift on long-document classification) and entirely new capabilities: the first Transformers to achieve better-than-chance performance on the Path-X challenge (seq. length 16K, 61.4% accuracy) and Path-256 (seq. length 64K, 63.1% accuracy).</p>
 
 <h2 id="links">Links<a class="headerlink" href="#links" title="Permanent link">&para;</a></h2>
 <div class="paper-link-stack">
@@ -647,10 +647,10 @@
 <div class="paper-similar-list">
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 138.6deg;" aria-label="77% similar">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 140.4deg;" aria-label="78% similar">
       <div class="paper-similar-card__rank-top">1</div>
       <div class="paper-similar-card__rank-bottom">
-        <span>77%</span>
+        <span>78%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
@@ -678,10 +678,10 @@
   </article>
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 135.0deg;" aria-label="75% similar">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 136.8deg;" aria-label="76% similar">
       <div class="paper-similar-card__rank-top">2</div>
       <div class="paper-similar-card__rank-bottom">
-        <span>75%</span>
+        <span>76%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
@@ -747,23 +747,21 @@
       </div>
     </div>
     <div class="paper-similar-card__body">
-      <h3><a href="../../papers/2406_16793/">Adam-mini: Use Fewer Learning Rates to Gain More</a></h3>
-
-      <p class="paper-similar-card__label">Adam-mini</p>
+      <h3><a href="../../papers/1406_6247/">Recurrent Models of Visual Attention</a></h3>
 
 
       <div class="paper-similar-card__meta">
-        <span>Yushun Zhang et al. / 2024</span>
+        <span>Volodymyr Mnih et al. / 2014</span>
       </div>
 
       <div class="paper-similar-card__actions">
         <div class="paper-similar-card__action-row">
           <div class="paper-link-pills paper-similar-card__action-links">
-            <a class="paper-link-pill paper-link-pill--internal" href="../../papers/2406_16793/"><span class="paper-link-pill__label">Detail</span></a>
-            <a class="paper-link-pill paper-link-pill--internal" href="../../map/#paper=2406_16793"><span class="paper-link-pill__label">Map</span></a>
-            <a class="paper-link-pill paper-link-pill--internal" href="../../tree/#paper=2406_16793"><span class="paper-link-pill__label">Tree</span></a>
-            <a class="paper-link-pill paper-link-pill--internal" href="../../timeline/#paper=2406_16793"><span class="paper-link-pill__label">Timeline</span></a>
-            <a class="paper-link-pill paper-link-pill--internal" href="../../search/?paper=2406_16793"><span class="paper-link-pill__label">Search</span></a>
+            <a class="paper-link-pill paper-link-pill--internal" href="../../papers/1406_6247/"><span class="paper-link-pill__label">Detail</span></a>
+            <a class="paper-link-pill paper-link-pill--internal" href="../../map/#paper=1406_6247"><span class="paper-link-pill__label">Map</span></a>
+            <a class="paper-link-pill paper-link-pill--internal" href="../../tree/#paper=1406_6247"><span class="paper-link-pill__label">Tree</span></a>
+            <a class="paper-link-pill paper-link-pill--internal" href="../../timeline/#paper=1406_6247"><span class="paper-link-pill__label">Timeline</span></a>
+            <a class="paper-link-pill paper-link-pill--internal" href="../../search/?paper=1406_6247"><span class="paper-link-pill__label">Search</span></a>
           </div>
         </div>
       </div>
@@ -771,30 +769,28 @@
   </article>
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 133.2deg;" aria-label="74% similar">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 135.0deg;" aria-label="75% similar">
       <div class="paper-similar-card__rank-top">5</div>
       <div class="paper-similar-card__rank-bottom">
-        <span>74%</span>
+        <span>75%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
-      <h3><a href="../../papers/2103_14030/">Swin Transformer: Hierarchical Vision Transformer Using Shifted Windows</a></h3>
-
-      <p class="paper-similar-card__label">Swin Transformer</p>
+      <h3><a href="../../papers/2011_14439/">Scaling down Deep Learning with MNIST-1D</a></h3>
 
 
       <div class="paper-similar-card__meta">
-        <span>Ze Liu et al. / 2021</span>
+        <span>Sam Greydanus et al. / 2020</span>
       </div>
 
       <div class="paper-similar-card__actions">
         <div class="paper-similar-card__action-row">
           <div class="paper-link-pills paper-similar-card__action-links">
-            <a class="paper-link-pill paper-link-pill--internal" href="../../papers/2103_14030/"><span class="paper-link-pill__label">Detail</span></a>
-            <a class="paper-link-pill paper-link-pill--internal" href="../../map/#paper=2103_14030"><span class="paper-link-pill__label">Map</span></a>
-            <a class="paper-link-pill paper-link-pill--internal" href="../../tree/#paper=2103_14030"><span class="paper-link-pill__label">Tree</span></a>
-            <a class="paper-link-pill paper-link-pill--internal" href="../../timeline/#paper=2103_14030"><span class="paper-link-pill__label">Timeline</span></a>
-            <a class="paper-link-pill paper-link-pill--internal" href="../../search/?paper=2103_14030"><span class="paper-link-pill__label">Search</span></a>
+            <a class="paper-link-pill paper-link-pill--internal" href="../../papers/2011_14439/"><span class="paper-link-pill__label">Detail</span></a>
+            <a class="paper-link-pill paper-link-pill--internal" href="../../map/#paper=2011_14439"><span class="paper-link-pill__label">Map</span></a>
+            <a class="paper-link-pill paper-link-pill--internal" href="../../tree/#paper=2011_14439"><span class="paper-link-pill__label">Tree</span></a>
+            <a class="paper-link-pill paper-link-pill--internal" href="../../timeline/#paper=2011_14439"><span class="paper-link-pill__label">Timeline</span></a>
+            <a class="paper-link-pill paper-link-pill--internal" href="../../search/?paper=2011_14439"><span class="paper-link-pill__label">Search</span></a>
           </div>
         </div>
       </div>

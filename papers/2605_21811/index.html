@@ -546,7 +546,7 @@
 </section>
 
 <h2 id="abstract">Abstract<a class="headerlink" href="#abstract" title="Permanent link">&para;</a></h2>
-<p>Robotic dexterous manipulation requires continuously reconciling objectives and constraints defined on heterogeneous geometric spaces: a robot controlled on a $\mathbb{R}^7$ configuration manifold may need to track end effector poses on $\mathrm{SE}(3)$ while satisfying obstacle avoidance margins in $\mathbb{R}$. We present Safe Pullback Bundle Dynamical Systems (SafePBDS), a geometrically consistent framework that computes optimal, certifiably safe configuration manifold accelerations from objectives and safety requirements on arbitrary task manifolds. SafePBDS builds on prior work that combines predefined task manifold dynamical systems to produce autonomous motion. Its first innovation is a pullback control barrier function construction, which converts task manifold safety conditions into linear constraints on configuration manifold accelerations. The second innovation is a task manifold action interface that allows a high-level policy to inject low dimensional residual motions; zero input recovers the autonomous behavior, while safety is preserved under arbitrary inputs. This lets high-level policies efficiently steer exploration while leaving precise motion to the autonomous behavior. We validate SafePBDS in simulation and on a 23-DOF Franka Panda-Allegro Hand platform. On dexterous grasping, SafePBDS achieves a $92.5\%$ success rate across 20 household objects and 120 trials. Using the action interface, the method can exclude any one of the four fingers during grasping via a one-dimensional action, achieving $94.4\%$ 3-finger grasp success across 3 objects and 36 trials. The efficient planning and safety guarantee of SafePBDS also enables the first model-based, fully actuated palm-down in-hand reorientation, exceeding $360^\circ$ of yaw rotation in both directions under varying object weight and wrist motion. Demo video and details: https://tml.stanford.edu/safe-pbds</p>
+<p>Robotic dexterous manipulation requires continuously reconciling objectives and constraints defined on heterogeneous geometric spaces: a robot controlled on a R^(7) configuration manifold may need to track end effector poses on SE(3) while satisfying obstacle avoidance margins in R. We present Safe Pullback Bundle Dynamical Systems (SafePBDS), a geometrically consistent framework that computes optimal, certifiably safe configuration manifold accelerations from objectives and safety requirements on arbitrary task manifolds. SafePBDS builds on prior work that combines predefined task manifold dynamical systems to produce autonomous motion. Its first innovation is a pullback control barrier function construction, which converts task manifold safety conditions into linear constraints on configuration manifold accelerations. The second innovation is a task manifold action interface that allows a high-level policy to inject low dimensional residual motions; zero input recovers the autonomous behavior, while safety is preserved under arbitrary inputs. This lets high-level policies efficiently steer exploration while leaving precise motion to the autonomous behavior. We validate SafePBDS in simulation and on a 23-DOF Franka Panda-Allegro Hand platform. On dexterous grasping, SafePBDS achieves a 92.5% success rate across 20 household objects and 120 trials. Using the action interface, the method can exclude any one of the four fingers during grasping via a one-dimensional action, achieving 94.4% 3-finger grasp success across 3 objects and 36 trials. The efficient planning and safety guarantee of SafePBDS also enables the first model-based, fully actuated palm-down in-hand reorientation, exceeding 360^(circ) of yaw rotation in both directions under varying object weight and wrist motion. Demo video and details: <a href="https://tml.stanford.edu/safe-pbds" target="_blank" rel="noopener noreferrer">https://tml.stanford.edu/safe-pbds</a></p>
 
 <h2 id="links">Links<a class="headerlink" href="#links" title="Permanent link">&para;</a></h2>
 <div class="paper-link-stack">
@@ -610,35 +610,6 @@
       </div>
     </div>
     <div class="paper-similar-card__body">
-      <h3><a href="../../papers/2023_verginis_kdf_kinodynamic_motion_planning/">KDF: Kinodynamic Motion Planning via Geometric Sampling-Based Algorithms and Funnel Control</a></h3>
-
-
-      <div class="paper-similar-card__meta">
-        <span>Christos K. Verginis et al. / 2023</span>
-      </div>
-
-      <div class="paper-similar-card__actions">
-        <div class="paper-similar-card__action-row">
-          <div class="paper-link-pills paper-similar-card__action-links">
-            <a class="paper-link-pill paper-link-pill--internal" href="../../papers/2023_verginis_kdf_kinodynamic_motion_planning/"><span class="paper-link-pill__label">Detail</span></a>
-            <a class="paper-link-pill paper-link-pill--internal" href="../../map/#paper=2023_verginis_kdf_kinodynamic_motion_planning"><span class="paper-link-pill__label">Map</span></a>
-            <a class="paper-link-pill paper-link-pill--internal" href="../../tree/#paper=2023_verginis_kdf_kinodynamic_motion_planning"><span class="paper-link-pill__label">Tree</span></a>
-            <a class="paper-link-pill paper-link-pill--internal" href="../../timeline/#paper=2023_verginis_kdf_kinodynamic_motion_planning"><span class="paper-link-pill__label">Timeline</span></a>
-            <a class="paper-link-pill paper-link-pill--internal" href="../../search/?paper=2023_verginis_kdf_kinodynamic_motion_planning"><span class="paper-link-pill__label">Search</span></a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </article>
-
-  <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 147.6deg;" aria-label="82% similar">
-      <div class="paper-similar-card__rank-top">2</div>
-      <div class="paper-similar-card__rank-bottom">
-        <span>82%</span>
-      </div>
-    </div>
-    <div class="paper-similar-card__body">
       <h3><a href="../../papers/1801_08757/">Safe Exploration in Continuous Action Spaces</a></h3>
 
 
@@ -662,7 +633,65 @@
 
   <article class="paper-similar-card">
     <div class="paper-similar-card__rank" style="--paper-similar-gauge: 147.6deg;" aria-label="82% similar">
+      <div class="paper-similar-card__rank-top">2</div>
+      <div class="paper-similar-card__rank-bottom">
+        <span>82%</span>
+      </div>
+    </div>
+    <div class="paper-similar-card__body">
+      <h3><a href="../../papers/2026_suh_dexterous_contact_rich_manipulation/">Dexterous Contact-rich Manipulation via the Contact Trust Region</a></h3>
+
+
+      <div class="paper-similar-card__meta">
+        <span>H. J. Terry Suh et al. / 2026</span>
+      </div>
+
+      <div class="paper-similar-card__actions">
+        <div class="paper-similar-card__action-row">
+          <div class="paper-link-pills paper-similar-card__action-links">
+            <a class="paper-link-pill paper-link-pill--internal" href="../../papers/2026_suh_dexterous_contact_rich_manipulation/"><span class="paper-link-pill__label">Detail</span></a>
+            <a class="paper-link-pill paper-link-pill--internal" href="../../map/#paper=2026_suh_dexterous_contact_rich_manipulation"><span class="paper-link-pill__label">Map</span></a>
+            <a class="paper-link-pill paper-link-pill--internal" href="../../tree/#paper=2026_suh_dexterous_contact_rich_manipulation"><span class="paper-link-pill__label">Tree</span></a>
+            <a class="paper-link-pill paper-link-pill--internal" href="../../timeline/#paper=2026_suh_dexterous_contact_rich_manipulation"><span class="paper-link-pill__label">Timeline</span></a>
+            <a class="paper-link-pill paper-link-pill--internal" href="../../search/?paper=2026_suh_dexterous_contact_rich_manipulation"><span class="paper-link-pill__label">Search</span></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <article class="paper-similar-card">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 147.6deg;" aria-label="82% similar">
       <div class="paper-similar-card__rank-top">3</div>
+      <div class="paper-similar-card__rank-bottom">
+        <span>82%</span>
+      </div>
+    </div>
+    <div class="paper-similar-card__body">
+      <h3><a href="../../papers/2023_verginis_kdf_kinodynamic_motion_planning/">KDF: Kinodynamic Motion Planning via Geometric Sampling-Based Algorithms and Funnel Control</a></h3>
+
+
+      <div class="paper-similar-card__meta">
+        <span>Christos K. Verginis et al. / 2023</span>
+      </div>
+
+      <div class="paper-similar-card__actions">
+        <div class="paper-similar-card__action-row">
+          <div class="paper-link-pills paper-similar-card__action-links">
+            <a class="paper-link-pill paper-link-pill--internal" href="../../papers/2023_verginis_kdf_kinodynamic_motion_planning/"><span class="paper-link-pill__label">Detail</span></a>
+            <a class="paper-link-pill paper-link-pill--internal" href="../../map/#paper=2023_verginis_kdf_kinodynamic_motion_planning"><span class="paper-link-pill__label">Map</span></a>
+            <a class="paper-link-pill paper-link-pill--internal" href="../../tree/#paper=2023_verginis_kdf_kinodynamic_motion_planning"><span class="paper-link-pill__label">Tree</span></a>
+            <a class="paper-link-pill paper-link-pill--internal" href="../../timeline/#paper=2023_verginis_kdf_kinodynamic_motion_planning"><span class="paper-link-pill__label">Timeline</span></a>
+            <a class="paper-link-pill paper-link-pill--internal" href="../../search/?paper=2023_verginis_kdf_kinodynamic_motion_planning"><span class="paper-link-pill__label">Search</span></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <article class="paper-similar-card">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 147.6deg;" aria-label="82% similar">
+      <div class="paper-similar-card__rank-top">4</div>
       <div class="paper-similar-card__rank-bottom">
         <span>82%</span>
       </div>
@@ -691,58 +720,29 @@
 
   <article class="paper-similar-card">
     <div class="paper-similar-card__rank" style="--paper-similar-gauge: 147.6deg;" aria-label="82% similar">
-      <div class="paper-similar-card__rank-top">4</div>
-      <div class="paper-similar-card__rank-bottom">
-        <span>82%</span>
-      </div>
-    </div>
-    <div class="paper-similar-card__body">
-      <h3><a href="../../papers/2004_01142/">Safe Feedback Motion Planning: A Contraction Theory and L1-Adaptive Control Based Approach</a></h3>
-
-      <p class="paper-similar-card__label">CL1</p>
-
-
-      <div class="paper-similar-card__meta">
-        <span>Arun Lakshmanan et al. / 2020</span>
-      </div>
-
-      <div class="paper-similar-card__actions">
-        <div class="paper-similar-card__action-row">
-          <div class="paper-link-pills paper-similar-card__action-links">
-            <a class="paper-link-pill paper-link-pill--internal" href="../../papers/2004_01142/"><span class="paper-link-pill__label">Detail</span></a>
-            <a class="paper-link-pill paper-link-pill--internal" href="../../map/#paper=2004_01142"><span class="paper-link-pill__label">Map</span></a>
-            <a class="paper-link-pill paper-link-pill--internal" href="../../tree/#paper=2004_01142"><span class="paper-link-pill__label">Tree</span></a>
-            <a class="paper-link-pill paper-link-pill--internal" href="../../timeline/#paper=2004_01142"><span class="paper-link-pill__label">Timeline</span></a>
-            <a class="paper-link-pill paper-link-pill--internal" href="../../search/?paper=2004_01142"><span class="paper-link-pill__label">Search</span></a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </article>
-
-  <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 147.6deg;" aria-label="82% similar">
       <div class="paper-similar-card__rank-top">5</div>
       <div class="paper-similar-card__rank-bottom">
         <span>82%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
-      <h3><a href="../../papers/2026_suh_dexterous_contact_rich_manipulation/">Dexterous Contact-rich Manipulation via the Contact Trust Region</a></h3>
+      <h3><a href="../../papers/2409_14562/">DROP: Dexterous Reorientation via Online Planning</a></h3>
+
+      <p class="paper-similar-card__label">DROP</p>
 
 
       <div class="paper-similar-card__meta">
-        <span>H. J. Terry Suh et al. / 2026</span>
+        <span>Albert H. Li et al. / 2024</span>
       </div>
 
       <div class="paper-similar-card__actions">
         <div class="paper-similar-card__action-row">
           <div class="paper-link-pills paper-similar-card__action-links">
-            <a class="paper-link-pill paper-link-pill--internal" href="../../papers/2026_suh_dexterous_contact_rich_manipulation/"><span class="paper-link-pill__label">Detail</span></a>
-            <a class="paper-link-pill paper-link-pill--internal" href="../../map/#paper=2026_suh_dexterous_contact_rich_manipulation"><span class="paper-link-pill__label">Map</span></a>
-            <a class="paper-link-pill paper-link-pill--internal" href="../../tree/#paper=2026_suh_dexterous_contact_rich_manipulation"><span class="paper-link-pill__label">Tree</span></a>
-            <a class="paper-link-pill paper-link-pill--internal" href="../../timeline/#paper=2026_suh_dexterous_contact_rich_manipulation"><span class="paper-link-pill__label">Timeline</span></a>
-            <a class="paper-link-pill paper-link-pill--internal" href="../../search/?paper=2026_suh_dexterous_contact_rich_manipulation"><span class="paper-link-pill__label">Search</span></a>
+            <a class="paper-link-pill paper-link-pill--internal" href="../../papers/2409_14562/"><span class="paper-link-pill__label">Detail</span></a>
+            <a class="paper-link-pill paper-link-pill--internal" href="../../map/#paper=2409_14562"><span class="paper-link-pill__label">Map</span></a>
+            <a class="paper-link-pill paper-link-pill--internal" href="../../tree/#paper=2409_14562"><span class="paper-link-pill__label">Tree</span></a>
+            <a class="paper-link-pill paper-link-pill--internal" href="../../timeline/#paper=2409_14562"><span class="paper-link-pill__label">Timeline</span></a>
+            <a class="paper-link-pill paper-link-pill--internal" href="../../search/?paper=2409_14562"><span class="paper-link-pill__label">Search</span></a>
           </div>
         </div>
       </div>

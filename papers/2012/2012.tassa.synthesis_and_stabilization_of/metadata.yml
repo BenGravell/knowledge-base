@@ -1,6 +1,6 @@
 title: >
   Synthesis and Stabilization of Complex Behaviors through Online Trajectory Optimization
-algorithm: iLQR
+algorithm: iLQR (Tassa)
 authors:
   - Yuval Tassa
   - Tom Erez

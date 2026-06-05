@@ -474,11 +474,11 @@
     const byline = paper.byline || paperYearByline(paper);
     const tags = (paper.tags || [])
       .slice(0, 8)
-      .map(tag => `<a href="?tag=${encodeURIComponent(tag)}">${esc(tag)}</a>`)
+      .map(tag => `<a href="?tag=${encodeURIComponent(tag)}">${highlightSearchMatches(tag)}</a>`)
       .join('');
     const panelItems = [
       tags ? { kind: 'tags', label: 'Tags', icon: icons.tags, content: `<div class="tag-search-tags paper-similar-card__tags">${tags}</div>` } : null,
-      abstract ? { kind: 'abstract', label: 'Abstract', icon: icons.abstract, content: `<p class="paper-similar-card__abstract">${esc(abstract)}</p>` } : null,
+      abstract ? { kind: 'abstract', label: 'Abstract', icon: icons.abstract, content: `<p class="paper-similar-card__abstract">${highlightSearchMatches(abstract)}</p>` } : null,
     ].filter(Boolean);
     const toggles = panelItems.map(renderResultToggle).join('');
     const panels = panelItems.map(renderResultPanel).join('');
@@ -486,9 +486,9 @@
       '<article class="paper-similar-card">' +
         renderResultRank(index, score) +
         '<div class="paper-similar-card__body">' +
-          `<h3><a href="${escAttr(paper.url || '#')}">${esc(paperTitle(paper))}</a></h3>` +
-          (algorithm ? `<p class="paper-similar-card__label">${esc(algorithm)}</p>` : '') +
-          (byline ? `<div class="paper-similar-card__meta"><span>${esc(byline)}</span></div>` : '') +
+          `<h3><a href="${escAttr(paper.url || '#')}">${highlightSearchMatches(paperTitle(paper))}</a></h3>` +
+          (algorithm ? `<p class="paper-similar-card__label">${highlightSearchMatches(algorithm)}</p>` : '') +
+          (byline ? `<div class="paper-similar-card__meta"><span>${highlightSearchMatches(byline)}</span></div>` : '') +
           '<div class="paper-similar-card__actions">' +
             '<div class="paper-similar-card__action-row">' +
               '<div class="paper-link-pills paper-similar-card__action-links">' +
@@ -916,7 +916,129 @@
   }
 
   function comparePapers(a, b) {
-    return paperYear(b) - paperYear(a) || paperTitle(a).localeCompare(paperTitle(b));
+    const rankDelta = metadataSearchRank(b) - metadataSearchRank(a);
+    return rankDelta || paperYear(b) - paperYear(a) || paperTitle(a).localeCompare(paperTitle(b));
+  }
+
+  function metadataSearchRank(paper) {
+    const query = normalizeText(state.q);
+    const queryTokens = searchTokens(query);
+    if (!queryTokens.length) return 0;
+
+    const algorithm = clean(paper.algorithm || '');
+    const title = paperTitle(paper);
+    const tags = Array.isArray(paper.tags) ? paper.tags.join(' ') : '';
+
+    return (
+      (fieldAlgorithmExactMatch(algorithm, query) ? 6000 : 0) +
+      (fieldDecoratedAlgorithmMatch(algorithm, query) ? 700 : 0) +
+      (fieldExactMatch(title, query) ? 5000 : 0) +
+      fieldSearchRank(algorithm, query, queryTokens, 1000, fieldAlgorithmExactMatch) +
+      fieldSearchRank(title, query, queryTokens, 100) +
+      fieldSearchRank(tags, query, queryTokens, 40)
+    );
+  }
+
+  function fieldSearchRank(value, query, queryTokens, weight, isExactMatch = fieldExactMatch) {
+    const text = normalizeText(value);
+    const textTokens = searchTokens(text);
+    if (!textTokens.length) return 0;
+    if (isExactMatch(text, query)) return weight * 4;
+    if (containsTokenSequence(textTokens, queryTokens)) return weight * 3;
+    if (queryTokens.every(token => textTokens.includes(token))) return weight * 2;
+    if (queryTokens.some(token => textTokens.includes(token))) return weight;
+    return 0;
+  }
+
+  function fieldAlgorithmExactMatch(value, query) {
+    const text = normalizeText(value);
+    if (fieldStrictExactMatch(text, query)) return true;
+    if (!text || searchKey(text) !== searchKey(query)) return false;
+    return searchTokens(text).length > searchTokens(query).length;
+  }
+
+  function fieldDecoratedAlgorithmMatch(value, query) {
+    const text = normalizeText(value);
+    return Boolean(text) &&
+      !fieldAlgorithmExactMatch(text, query) &&
+      text.startsWith(query) &&
+      searchKey(text) === searchKey(query);
+  }
+
+  function fieldExactMatch(value, query) {
+    const text = normalizeText(value);
+    return Boolean(text) && (fieldStrictExactMatch(text, query) || searchKey(text) === searchKey(query));
+  }
+
+  function fieldStrictExactMatch(value, query) {
+    return normalizeText(value) === query;
+  }
+
+  function containsTokenSequence(tokens, sequence) {
+    if (!sequence.length || sequence.length > tokens.length) return false;
+    return tokens.some((_, index) => sequence.every((token, offset) => tokens[index + offset] === token));
+  }
+
+  function searchTokens(value) {
+    return normalizeText(value).split(/[^a-z0-9]+/).filter(Boolean);
+  }
+
+  function searchKey(value) {
+    return searchTokens(value).join('');
+  }
+
+  function highlightSearchMatches(value) {
+    const text = clean(value);
+    const pattern = searchHighlightPattern();
+    if (!text || !pattern) return esc(text);
+
+    const ranges = [];
+    for (const match of text.matchAll(pattern)) {
+      const prefix = match[1] || '';
+      const exact = match[2] || '';
+      if (!exact) continue;
+      ranges.push({
+        start: match.index + prefix.length,
+        end: match.index + prefix.length + exact.length,
+      });
+    }
+    if (!ranges.length) return esc(text);
+
+    ranges.sort((a, b) => a.start - b.start || b.end - a.end);
+    const merged = [];
+    ranges.forEach(range => {
+      const previous = merged[merged.length - 1];
+      if (previous && range.start <= previous.end) {
+        previous.end = Math.max(previous.end, range.end);
+      } else {
+        merged.push(range);
+      }
+    });
+
+    let cursor = 0;
+    const parts = [];
+    merged.forEach(range => {
+      parts.push(esc(text.slice(cursor, range.start)));
+      parts.push(`<mark class="unified-search-match">${esc(text.slice(range.start, range.end))}</mark>`);
+      cursor = range.end;
+    });
+    parts.push(esc(text.slice(cursor)));
+    return parts.join('');
+  }
+
+  function searchHighlightPattern() {
+    const tokens = searchTokens(state.q);
+    if (!tokens.length) return null;
+    const alternatives = [];
+    alternatives.push(tokens.map(escapeRegExp).join('[^A-Za-z0-9]+'));
+    if (tokens.length > 1) {
+      tokens.forEach(token => alternatives.push(escapeRegExp(token)));
+    }
+    return new RegExp(`(^|[^A-Za-z0-9])(${alternatives.join('|')})(?=$|[^A-Za-z0-9])`, 'gi');
+  }
+
+  function escapeRegExp(value) {
+    return String(value).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
   }
 
   function paperYear(paper) {

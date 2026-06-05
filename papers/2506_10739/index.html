@@ -546,7 +546,7 @@
 </section>
 
 <h2 id="abstract">Abstract<a class="headerlink" href="#abstract" title="Permanent link">&para;</a></h2>
-<p>We propose a variant of the Rapidly Exploring Random Tree Star (RRT$^{\star}$) algorithm to synthesize trajectories satisfying a given spatio-temporal specification expressed in a fragment of Signal Temporal Logic (STL) for linear systems. Previous approaches for planning trajectories under STL specifications using sampling-based methods leverage either mixed-integer or non-smooth optimization techniques, with poor scalability in the horizon and complexity of the task. We adopt instead a control-theoretic perspective on the problem, based on the notion of set forward invariance. Specifically, from a given STL task defined over polyhedral predicates, we develop a novel algorithmic framework by which the task is efficiently encoded into a time-varying set via linear programming, such that trajectories evolving within the set also satisfy the task. Forward invariance properties of the resulting set with respect to the system dynamics and input limitations are then proved via non-smooth analysis. We then present a modified RRT$^{\star}$ algorithm to synthesize asymptotically optimal and dynamically feasible trajectories satisfying a given STL specification, by sampling a tree of trajectories within the previously constructed time-varying set. We showcase two use cases of our approach involving an autonomous inspection of the International Space Station and room-servicing task requiring timed revisit of a charging station.</p>
+<p>We propose a variant of the Rapidly Exploring Random Tree Star (RRT^(star)) algorithm to synthesize trajectories satisfying a given spatio-temporal specification expressed in a fragment of Signal Temporal Logic (STL) for linear systems. Previous approaches for planning trajectories under STL specifications using sampling-based methods leverage either mixed-integer or non-smooth optimization techniques, with poor scalability in the horizon and complexity of the task. We adopt instead a control-theoretic perspective on the problem, based on the notion of set forward invariance. Specifically, from a given STL task defined over polyhedral predicates, we develop a novel algorithmic framework by which the task is efficiently encoded into a time-varying set via linear programming, such that trajectories evolving within the set also satisfy the task. Forward invariance properties of the resulting set with respect to the system dynamics and input limitations are then proved via non-smooth analysis. We then present a modified RRT^(star) algorithm to synthesize asymptotically optimal and dynamically feasible trajectories satisfying a given STL specification, by sampling a tree of trajectories within the previously constructed time-varying set. We showcase two use cases of our approach involving an autonomous inspection of the International Space Station and room-servicing task requiring timed revisit of a charging station.</p>
 
 <h2 id="links">Links<a class="headerlink" href="#links" title="Permanent link">&para;</a></h2>
 <div class="paper-link-stack">
@@ -703,37 +703,6 @@
       </div>
     </div>
     <div class="paper-similar-card__body">
-      <h3><a href="../../papers/2010_karaman_optimal_kinodynamic_motion_planning/">Optimal Kinodynamic Motion Planning Using Incremental Sampling-based Methods</a></h3>
-
-      <p class="paper-similar-card__label">Kinodynamic RRT*</p>
-
-
-      <div class="paper-similar-card__meta">
-        <span>Sertac Karaman et al. / 2010</span>
-      </div>
-
-      <div class="paper-similar-card__actions">
-        <div class="paper-similar-card__action-row">
-          <div class="paper-link-pills paper-similar-card__action-links">
-            <a class="paper-link-pill paper-link-pill--internal" href="../../papers/2010_karaman_optimal_kinodynamic_motion_planning/"><span class="paper-link-pill__label">Detail</span></a>
-            <a class="paper-link-pill paper-link-pill--internal" href="../../map/#paper=2010_karaman_optimal_kinodynamic_motion_planning"><span class="paper-link-pill__label">Map</span></a>
-            <a class="paper-link-pill paper-link-pill--internal" href="../../tree/#paper=2010_karaman_optimal_kinodynamic_motion_planning"><span class="paper-link-pill__label">Tree</span></a>
-            <a class="paper-link-pill paper-link-pill--internal" href="../../timeline/#paper=2010_karaman_optimal_kinodynamic_motion_planning"><span class="paper-link-pill__label">Timeline</span></a>
-            <a class="paper-link-pill paper-link-pill--internal" href="../../search/?paper=2010_karaman_optimal_kinodynamic_motion_planning"><span class="paper-link-pill__label">Search</span></a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </article>
-
-  <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 153.0deg;" aria-label="85% similar">
-      <div class="paper-similar-card__rank-top">5</div>
-      <div class="paper-similar-card__rank-bottom">
-        <span>85%</span>
-      </div>
-    </div>
-    <div class="paper-similar-card__body">
       <h3><a href="../../papers/2015_janson_deterministic_sampling_based_motion/">Deterministic Sampling-Based Motion Planning: Optimality, Complexity, and Performance</a></h3>
 
       <p class="paper-similar-card__label">Deterministic low-dispersion sampling</p>
@@ -751,6 +720,37 @@
             <a class="paper-link-pill paper-link-pill--internal" href="../../tree/#paper=2015_janson_deterministic_sampling_based_motion"><span class="paper-link-pill__label">Tree</span></a>
             <a class="paper-link-pill paper-link-pill--internal" href="../../timeline/#paper=2015_janson_deterministic_sampling_based_motion"><span class="paper-link-pill__label">Timeline</span></a>
             <a class="paper-link-pill paper-link-pill--internal" href="../../search/?paper=2015_janson_deterministic_sampling_based_motion"><span class="paper-link-pill__label">Search</span></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <article class="paper-similar-card">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 153.0deg;" aria-label="85% similar">
+      <div class="paper-similar-card__rank-top">5</div>
+      <div class="paper-similar-card__rank-bottom">
+        <span>85%</span>
+      </div>
+    </div>
+    <div class="paper-similar-card__body">
+      <h3><a href="../../papers/2010_karaman_optimal_kinodynamic_motion_planning/">Optimal Kinodynamic Motion Planning Using Incremental Sampling-based Methods</a></h3>
+
+      <p class="paper-similar-card__label">Kinodynamic RRT*</p>
+
+
+      <div class="paper-similar-card__meta">
+        <span>Sertac Karaman et al. / 2010</span>
+      </div>
+
+      <div class="paper-similar-card__actions">
+        <div class="paper-similar-card__action-row">
+          <div class="paper-link-pills paper-similar-card__action-links">
+            <a class="paper-link-pill paper-link-pill--internal" href="../../papers/2010_karaman_optimal_kinodynamic_motion_planning/"><span class="paper-link-pill__label">Detail</span></a>
+            <a class="paper-link-pill paper-link-pill--internal" href="../../map/#paper=2010_karaman_optimal_kinodynamic_motion_planning"><span class="paper-link-pill__label">Map</span></a>
+            <a class="paper-link-pill paper-link-pill--internal" href="../../tree/#paper=2010_karaman_optimal_kinodynamic_motion_planning"><span class="paper-link-pill__label">Tree</span></a>
+            <a class="paper-link-pill paper-link-pill--internal" href="../../timeline/#paper=2010_karaman_optimal_kinodynamic_motion_planning"><span class="paper-link-pill__label">Timeline</span></a>
+            <a class="paper-link-pill paper-link-pill--internal" href="../../search/?paper=2010_karaman_optimal_kinodynamic_motion_planning"><span class="paper-link-pill__label">Search</span></a>
           </div>
         </div>
       </div>

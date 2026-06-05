@@ -548,7 +548,7 @@
 </section>
 
 <h2 id="abstract">Abstract<a class="headerlink" href="#abstract" title="Permanent link">&para;</a></h2>
-<p>Several recent empirical studies demonstrate that important machine learning tasks, e.g., training deep neural networks, exhibit low-rank structure, where the loss function varies significantly in only a few directions of the input space. In this paper, we leverage such low-rank structure to reduce the high computational cost of canonical gradient-based methods such as gradient descent (GD). Our proposed \emph{Low-Rank Gradient Descent} (LRGD) algorithm finds an $ε$-approximate stationary point of a $p$-dimensional function by first identifying $r \leq p$ significant directions, and then estimating the true $p$-dimensional gradient at every iteration by computing directional derivatives only along those $r$ directions. We establish that the "directional oracle complexities" of LRGD for strongly convex and non-convex objective functions are $\mathcal{O}(r \log(1/ε) + rp)$ and $\mathcal{O}(r/ε^2 + rp)$, respectively. When $r \ll p$, these complexities are smaller than the known complexities of $\mathcal{O}(p \log(1/ε))$ and $\mathcal{O}(p/ε^2)$ of {\gd} in the strongly convex and non-convex settings, respectively. Thus, LRGD significantly reduces the computational cost of gradient-based methods for sufficiently low-rank functions. In the course of our analysis, we also formally define and characterize the classes of exact and approximately low-rank functions.</p>
+<p>Several recent empirical studies demonstrate that important machine learning tasks, e.g., training deep neural networks, exhibit low-rank structure, where the loss function varies significantly in only a few directions of the input space. In this paper, we leverage such low-rank structure to reduce the high computational cost of canonical gradient-based methods such as gradient descent (GD). Our proposed Low-Rank Gradient Descent (LRGD) algorithm finds an epsilon-approximate stationary point of a p-dimensional function by first identifying r &lt;= p significant directions, and then estimating the true p-dimensional gradient at every iteration by computing directional derivatives only along those r directions. We establish that the "directional oracle complexities" of LRGD for strongly convex and non-convex objective functions are O(r log(1/epsilon) + rp) and O(r/epsilon^(2) + rp), respectively. When r ll p, these complexities are smaller than the known complexities of O(p log(1/epsilon)) and O(p/epsilon^(2)) of {\gd} in the strongly convex and non-convex settings, respectively. Thus, LRGD significantly reduces the computational cost of gradient-based methods for sufficiently low-rank functions. In the course of our analysis, we also formally define and characterize the classes of exact and approximately low-rank functions.</p>
 
 <h2 id="links">Links<a class="headerlink" href="#links" title="Permanent link">&para;</a></h2>
 <div class="paper-link-stack">
@@ -696,10 +696,41 @@
   </article>
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 149.4deg;" aria-label="83% similar">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 147.6deg;" aria-label="82% similar">
       <div class="paper-similar-card__rank-top">4</div>
       <div class="paper-similar-card__rank-bottom">
-        <span>83%</span>
+        <span>82%</span>
+      </div>
+    </div>
+    <div class="paper-similar-card__body">
+      <h3><a href="../../papers/2013_johnson_accelerating_stochastic_gradient_descent/">Accelerating Stochastic Gradient Descent Using Predictive Variance Reduction</a></h3>
+
+      <p class="paper-similar-card__label">SVRG</p>
+
+
+      <div class="paper-similar-card__meta">
+        <span>Rie Johnson et al. / 2013</span>
+      </div>
+
+      <div class="paper-similar-card__actions">
+        <div class="paper-similar-card__action-row">
+          <div class="paper-link-pills paper-similar-card__action-links">
+            <a class="paper-link-pill paper-link-pill--internal" href="../../papers/2013_johnson_accelerating_stochastic_gradient_descent/"><span class="paper-link-pill__label">Detail</span></a>
+            <a class="paper-link-pill paper-link-pill--internal" href="../../map/#paper=2013_johnson_accelerating_stochastic_gradient_descent"><span class="paper-link-pill__label">Map</span></a>
+            <a class="paper-link-pill paper-link-pill--internal" href="../../tree/#paper=2013_johnson_accelerating_stochastic_gradient_descent"><span class="paper-link-pill__label">Tree</span></a>
+            <a class="paper-link-pill paper-link-pill--internal" href="../../timeline/#paper=2013_johnson_accelerating_stochastic_gradient_descent"><span class="paper-link-pill__label">Timeline</span></a>
+            <a class="paper-link-pill paper-link-pill--internal" href="../../search/?paper=2013_johnson_accelerating_stochastic_gradient_descent"><span class="paper-link-pill__label">Search</span></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <article class="paper-similar-card">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 147.6deg;" aria-label="82% similar">
+      <div class="paper-similar-card__rank-top">5</div>
+      <div class="paper-similar-card__rank-bottom">
+        <span>82%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
@@ -718,35 +749,6 @@
             <a class="paper-link-pill paper-link-pill--internal" href="../../tree/#paper=2012_06188"><span class="paper-link-pill__label">Tree</span></a>
             <a class="paper-link-pill paper-link-pill--internal" href="../../timeline/#paper=2012_06188"><span class="paper-link-pill__label">Timeline</span></a>
             <a class="paper-link-pill paper-link-pill--internal" href="../../search/?paper=2012_06188"><span class="paper-link-pill__label">Search</span></a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </article>
-
-  <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 147.6deg;" aria-label="82% similar">
-      <div class="paper-similar-card__rank-top">5</div>
-      <div class="paper-similar-card__rank-bottom">
-        <span>82%</span>
-      </div>
-    </div>
-    <div class="paper-similar-card__body">
-      <h3><a href="../../papers/1811_03804/">Gradient Descent Finds Global Minima of Deep Neural Networks</a></h3>
-
-
-      <div class="paper-similar-card__meta">
-        <span>Simon S. Du et al. / 2018</span>
-      </div>
-
-      <div class="paper-similar-card__actions">
-        <div class="paper-similar-card__action-row">
-          <div class="paper-link-pills paper-similar-card__action-links">
-            <a class="paper-link-pill paper-link-pill--internal" href="../../papers/1811_03804/"><span class="paper-link-pill__label">Detail</span></a>
-            <a class="paper-link-pill paper-link-pill--internal" href="../../map/#paper=1811_03804"><span class="paper-link-pill__label">Map</span></a>
-            <a class="paper-link-pill paper-link-pill--internal" href="../../tree/#paper=1811_03804"><span class="paper-link-pill__label">Tree</span></a>
-            <a class="paper-link-pill paper-link-pill--internal" href="../../timeline/#paper=1811_03804"><span class="paper-link-pill__label">Timeline</span></a>
-            <a class="paper-link-pill paper-link-pill--internal" href="../../search/?paper=1811_03804"><span class="paper-link-pill__label">Search</span></a>
           </div>
         </div>
       </div>

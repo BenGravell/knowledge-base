@@ -1,6 +1,6 @@
 title: >
   Newton's Method for a Rational Matrix Equation Occurring in Stochastic Control
-algorithm: "Newton's Method"
+algorithm:
 authors:
   - Tobias Damm
   - Diederich Hinrichsen

@@ -1,6 +1,6 @@
 title: >
   Data-Driven Model Predictive Control with Stability and Robustness Guarantees
-algorithm: "Data-Driven MPC"
+algorithm:
 authors:
   - Julian Berberich
   - Johannes Kohler

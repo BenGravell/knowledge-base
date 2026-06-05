@@ -1,6 +1,6 @@
 title: >
   Risk-Averse Trajectory Optimization via Sample Average Approximation
-algorithm: Trajectory Optimization
+algorithm:
 authors:
   - Thomas Lew
   - Riccardo Bonalli

@@ -563,7 +563,7 @@
 </section>
 
 <h2 id="abstract">Abstract<a class="headerlink" href="#abstract" title="Permanent link">&para;</a></h2>
-<p>In this work, we show that natural policy gradient, a core algorithm in reinforcement learning, admits an exact formulation as a smoothed and averaged form of policy iteration. Specifically, we introduce doubly smoothed policy iteration (DSPI), a Bellman-operator framework in which each policy is obtained by applying a regularized greedy step to a weighted average of past $Q$-functions. DSPI includes policy iteration, dual-averaged policy iteration, natural policy gradient, and more general policy dual averaging methods as special cases. Using only monotonicity and contraction of smoothed Bellman operators, we prove distribution-free global geometric convergence of DSPI. Consequently, standard natural policy gradient and policy dual averaging achieve an iteration complexity of $\mathcal{O}((1-γ)^{-1}\log((1-γ)^{-1}ε^{-1}))$ for computing an $ε$-optimal policy, without modifying the MDP, adding regularization beyond the mirror map inherent in the update, or using adaptive, trajectory-dependent stepsizes. For the unregularized greedy case, corresponding to dual-averaged policy iteration, we also prove finite termination. The same Bellman-operator framework further extends to discounted MDPs with linear function approximation and stochastic shortest path problems.</p>
+<p>In this work, we show that natural policy gradient, a core algorithm in reinforcement learning, admits an exact formulation as a smoothed and averaged form of policy iteration. Specifically, we introduce doubly smoothed policy iteration (DSPI), a Bellman-operator framework in which each policy is obtained by applying a regularized greedy step to a weighted average of past Q-functions. DSPI includes policy iteration, dual-averaged policy iteration, natural policy gradient, and more general policy dual averaging methods as special cases. Using only monotonicity and contraction of smoothed Bellman operators, we prove distribution-free global geometric convergence of DSPI. Consequently, standard natural policy gradient and policy dual averaging achieve an iteration complexity of O((1-gamma)^(-1)log((1-gamma)^(-1)epsilon^(-1))) for computing an epsilon-optimal policy, without modifying the MDP, adding regularization beyond the mirror map inherent in the update, or using adaptive, trajectory-dependent stepsizes. For the unregularized greedy case, corresponding to dual-averaged policy iteration, we also prove finite termination. The same Bellman-operator framework further extends to discounted MDPs with linear function approximation and stochastic shortest path problems.</p>
 
 <h2 id="links">Links<a class="headerlink" href="#links" title="Permanent link">&para;</a></h2>
 <div class="paper-link-stack">
@@ -637,30 +637,28 @@
 <div class="paper-similar-list">
 
   <article class="paper-similar-card">
-    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 154.8deg;" aria-label="86% similar">
+    <div class="paper-similar-card__rank" style="--paper-similar-gauge: 156.6deg;" aria-label="87% similar">
       <div class="paper-similar-card__rank-top">1</div>
       <div class="paper-similar-card__rank-bottom">
-        <span>86%</span>
+        <span>87%</span>
       </div>
     </div>
     <div class="paper-similar-card__body">
-      <h3><a href="../../papers/1979_puterman_on_the_convergence_of/">On the Convergence of Policy Iteration in Stationary Dynamic Programming</a></h3>
-
-      <p class="paper-similar-card__label">Policy Iteration</p>
+      <h3><a href="../../papers/2008_farahmand_regularized_policy_iteration/">Regularized Policy Iteration</a></h3>
 
 
       <div class="paper-similar-card__meta">
-        <span>Martin L. Puterman et al. / 1979</span>
+        <span>Amir Farahmand et al. / 2008</span>
       </div>
 
       <div class="paper-similar-card__actions">
         <div class="paper-similar-card__action-row">
           <div class="paper-link-pills paper-similar-card__action-links">
-            <a class="paper-link-pill paper-link-pill--internal" href="../../papers/1979_puterman_on_the_convergence_of/"><span class="paper-link-pill__label">Detail</span></a>
-            <a class="paper-link-pill paper-link-pill--internal" href="../../map/#paper=1979_puterman_on_the_convergence_of"><span class="paper-link-pill__label">Map</span></a>
-            <a class="paper-link-pill paper-link-pill--internal" href="../../tree/#paper=1979_puterman_on_the_convergence_of"><span class="paper-link-pill__label">Tree</span></a>
-            <a class="paper-link-pill paper-link-pill--internal" href="../../timeline/#paper=1979_puterman_on_the_convergence_of"><span class="paper-link-pill__label">Timeline</span></a>
-            <a class="paper-link-pill paper-link-pill--internal" href="../../search/?paper=1979_puterman_on_the_convergence_of"><span class="paper-link-pill__label">Search</span></a>
+            <a class="paper-link-pill paper-link-pill--internal" href="../../papers/2008_farahmand_regularized_policy_iteration/"><span class="paper-link-pill__label">Detail</span></a>
+            <a class="paper-link-pill paper-link-pill--internal" href="../../map/#paper=2008_farahmand_regularized_policy_iteration"><span class="paper-link-pill__label">Map</span></a>
+            <a class="paper-link-pill paper-link-pill--internal" href="../../tree/#paper=2008_farahmand_regularized_policy_iteration"><span class="paper-link-pill__label">Tree</span></a>
+            <a class="paper-link-pill paper-link-pill--internal" href="../../timeline/#paper=2008_farahmand_regularized_policy_iteration"><span class="paper-link-pill__label">Timeline</span></a>
+            <a class="paper-link-pill paper-link-pill--internal" href="../../search/?paper=2008_farahmand_regularized_policy_iteration"><span class="paper-link-pill__label">Search</span></a>
           </div>
         </div>
       </div>
@@ -676,8 +674,6 @@
     </div>
     <div class="paper-similar-card__body">
       <h3><a href="../../papers/1908_00261/">On the Theory of Policy Gradient Methods: Optimality, Approximation, and Distribution Shift</a></h3>
-
-      <p class="paper-similar-card__label">Policy Gradient</p>
 
 
       <div class="paper-similar-card__meta">
@@ -706,21 +702,23 @@
       </div>
     </div>
     <div class="paper-similar-card__body">
-      <h3><a href="../../papers/2008_farahmand_regularized_policy_iteration/">Regularized Policy Iteration</a></h3>
+      <h3><a href="../../papers/1979_puterman_on_the_convergence_of/">On the Convergence of Policy Iteration in Stationary Dynamic Programming</a></h3>
+
+      <p class="paper-similar-card__label">Policy Iteration</p>
 
 
       <div class="paper-similar-card__meta">
-        <span>Amir Farahmand et al. / 2008</span>
+        <span>Martin L. Puterman et al. / 1979</span>
       </div>
 
       <div class="paper-similar-card__actions">
         <div class="paper-similar-card__action-row">
           <div class="paper-link-pills paper-similar-card__action-links">
-            <a class="paper-link-pill paper-link-pill--internal" href="../../papers/2008_farahmand_regularized_policy_iteration/"><span class="paper-link-pill__label">Detail</span></a>
-            <a class="paper-link-pill paper-link-pill--internal" href="../../map/#paper=2008_farahmand_regularized_policy_iteration"><span class="paper-link-pill__label">Map</span></a>
-            <a class="paper-link-pill paper-link-pill--internal" href="../../tree/#paper=2008_farahmand_regularized_policy_iteration"><span class="paper-link-pill__label">Tree</span></a>
-            <a class="paper-link-pill paper-link-pill--internal" href="../../timeline/#paper=2008_farahmand_regularized_policy_iteration"><span class="paper-link-pill__label">Timeline</span></a>
-            <a class="paper-link-pill paper-link-pill--internal" href="../../search/?paper=2008_farahmand_regularized_policy_iteration"><span class="paper-link-pill__label">Search</span></a>
+            <a class="paper-link-pill paper-link-pill--internal" href="../../papers/1979_puterman_on_the_convergence_of/"><span class="paper-link-pill__label">Detail</span></a>
+            <a class="paper-link-pill paper-link-pill--internal" href="../../map/#paper=1979_puterman_on_the_convergence_of"><span class="paper-link-pill__label">Map</span></a>
+            <a class="paper-link-pill paper-link-pill--internal" href="../../tree/#paper=1979_puterman_on_the_convergence_of"><span class="paper-link-pill__label">Tree</span></a>
+            <a class="paper-link-pill paper-link-pill--internal" href="../../timeline/#paper=1979_puterman_on_the_convergence_of"><span class="paper-link-pill__label">Timeline</span></a>
+            <a class="paper-link-pill paper-link-pill--internal" href="../../search/?paper=1979_puterman_on_the_convergence_of"><span class="paper-link-pill__label">Search</span></a>
           </div>
         </div>
       </div>
@@ -764,23 +762,21 @@
       </div>
     </div>
     <div class="paper-similar-card__body">
-      <h3><a href="../../papers/2605_24939/">Global Linear Convergence of Entropy-Regularized Softmax Policy Gradient beyond Tabular MDPs</a></h3>
-
-      <p class="paper-similar-card__label">Entropy-Regularized Softmax Policy Gradient</p>
+      <h3><a href="../../papers/2203_08678/">Dynamic Programming through the Lens of Semismooth Newton-Type Methods (Extended Version)</a></h3>
 
 
       <div class="paper-similar-card__meta">
-        <span>Ziyue Chen et al. / 2026</span>
+        <span>Matilde Gargiani et al. / 2022</span>
       </div>
 
       <div class="paper-similar-card__actions">
         <div class="paper-similar-card__action-row">
           <div class="paper-link-pills paper-similar-card__action-links">
-            <a class="paper-link-pill paper-link-pill--internal" href="../../papers/2605_24939/"><span class="paper-link-pill__label">Detail</span></a>
-            <a class="paper-link-pill paper-link-pill--internal" href="../../map/#paper=2605_24939"><span class="paper-link-pill__label">Map</span></a>
-            <a class="paper-link-pill paper-link-pill--internal" href="../../tree/#paper=2605_24939"><span class="paper-link-pill__label">Tree</span></a>
-            <a class="paper-link-pill paper-link-pill--internal" href="../../timeline/#paper=2605_24939"><span class="paper-link-pill__label">Timeline</span></a>
-            <a class="paper-link-pill paper-link-pill--internal" href="../../search/?paper=2605_24939"><span class="paper-link-pill__label">Search</span></a>
+            <a class="paper-link-pill paper-link-pill--internal" href="../../papers/2203_08678/"><span class="paper-link-pill__label">Detail</span></a>
+            <a class="paper-link-pill paper-link-pill--internal" href="../../map/#paper=2203_08678"><span class="paper-link-pill__label">Map</span></a>
+            <a class="paper-link-pill paper-link-pill--internal" href="../../tree/#paper=2203_08678"><span class="paper-link-pill__label">Tree</span></a>
+            <a class="paper-link-pill paper-link-pill--internal" href="../../timeline/#paper=2203_08678"><span class="paper-link-pill__label">Timeline</span></a>
+            <a class="paper-link-pill paper-link-pill--internal" href="../../search/?paper=2203_08678"><span class="paper-link-pill__label">Search</span></a>
           </div>
         </div>
       </div>
