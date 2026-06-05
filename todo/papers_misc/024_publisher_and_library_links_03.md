@@ -7,7 +7,6 @@ https://openreview.net/pdf?id=NALsdGEPhB
 https://openreview.net/forum?id=MQVyuWBfSH
 https://openreview.net/pdf?id=BZ5a1r-kVsf
 https://academic.oup.com/ml/article-abstract/98/4/601/4828180
-https://www.researchgate.net/publication/329393581_Vaporwave_Is_Not_a_Critique_of_Capitalism_Genre_Work_in_An_Online_Music_Scene
 https://pdfs.semanticscholar.org/80d8/531ce3c7ad5dbf18e659addb71ed3539f395.pdf
 https://www.usenix.org/legacy/event/osdi06/tech/chang/chang.pdf
 https://dl.acm.org/doi/abs/10.5555/1620113.1620125
