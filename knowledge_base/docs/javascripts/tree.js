@@ -271,11 +271,13 @@
   function hydrate(node, parent, siblingIndex) {
     const paper = node.paper || {};
     const authors = Array.isArray(paper.authors) ? paper.authors.join(' ') : '';
+    const paperLabel = paper.label || '';
+    const algorithm = paper.algorithm || '';
     node.parent = parent;
     node.siblingIndex = Number.isInteger(siblingIndex) ? siblingIndex : 0;
     node.children = Array.isArray(node.children) ? node.children : [];
     node.pathNodes = parent ? parent.pathNodes.concat(node) : [node];
-    node.searchText = normalized([node.label, node.path.join(' '), node.source || '', authors, paper.year || '', paper.type || '', paper.sourceName || ''].join(' '));
+    node.searchText = normalized([node.label, paperLabel, algorithm, node.path.join(' '), node.source || '', authors, paper.year || '', paper.type || '', paper.sourceName || ''].join(' '));
     node.preorderStart = hydrateIndex;
     hydrateIndex += 1;
     nodes.set(node.id, node);
@@ -985,7 +987,7 @@
   }
 
   function renderSunburstLabel(entry, snapshot, centerRadius, radius, ringWidth) {
-    const label = treeNodeDisplayLabel(entry.node);
+    const label = sunburstDisplayLabel(entry.node);
     const snapshotEntry = snapshot.entries.get(entry.node.id);
     const layout = sunburstLabelLayout(entry, centerRadius, radius, ringWidth, label);
     if (!layout) return '';
@@ -1253,7 +1255,7 @@
 
   function sunburstNodeAriaLabel(node) {
     return [
-      treeNodeDisplayLabel(node),
+      sunburstDisplayLabel(node),
       kindLabel(node),
       plural(filteredLeafCount(node), 'descendent', 'descendents'),
     ].filter(Boolean).join(', ');
@@ -1476,7 +1478,8 @@
 
   function renderPaperSelectionDetails(node) {
     const paper = node.paper || {};
-    const title = treeNodeDisplayLabel(node);
+    const title = paperTitleLabel(node);
+    const algorithm = paperAlgorithm(node);
     const path = displayPath(node.path).join(' / ');
     const authors = paperAuthorsLine(paper);
     const meta = [
@@ -1489,6 +1492,7 @@
       '<div class="ct-selection-details-head">',
       '<div class="ct-selection-details-title">',
       '<h2>' + esc(title) + '</h2>',
+      algorithm ? '<p class="ct-selection-algorithm">' + esc(algorithm) + '</p>' : '',
       authors ? '<p class="ct-selection-authors">' + esc(authors) + '</p>' : '',
       '<p class="ct-selection-path">' + esc(path) + '</p>',
       meta.length ? '<div class="ct-selection-meta">' + meta.map(function (item) {
@@ -1710,6 +1714,26 @@
 
   function treeNodeDisplayLabel(node) {
     return node.id === data.root.id ? 'Root' : node.label;
+  }
+
+  function sunburstDisplayLabel(node) {
+    if (node.kind === 'paper') return paperShortLabel(node) || treeNodeDisplayLabel(node);
+    return treeNodeDisplayLabel(node);
+  }
+
+  function paperShortLabel(node) {
+    const paper = node.paper || {};
+    return String(paper.algorithm || paper.label || '').trim();
+  }
+
+  function paperTitleLabel(node) {
+    const paper = node.paper || {};
+    return String(paper.title || node.label || '').trim() || treeNodeDisplayLabel(node);
+  }
+
+  function paperAlgorithm(node) {
+    const paper = node.paper || {};
+    return String(paper.algorithm || '').trim();
   }
 
   function paperCitationMeta(node) {

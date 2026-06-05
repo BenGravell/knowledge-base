@@ -2417,6 +2417,13 @@ body:has(#semantic-search-app) .md-content {
   overflow-wrap: anywhere;
 }
 
+.ct-selection-details-title .ct-selection-algorithm {
+  color: var(--ct-cyan);
+  font-size: 0.8rem;
+  font-weight: 900;
+  line-height: 1.3;
+}
+
 .ct-selection-details-title .ct-selection-authors {
   color: var(--md-default-fg-color);
   font-size: 0.76rem;
@@ -4150,6 +4157,7 @@ body:has(#semantic-search-app) .md-content {
 .paper-similar-card h3 {
   margin: 0;
   font-size: 0.96rem;
+  font-weight: 700;
   line-height: 1.25;
 }
 
@@ -4599,6 +4607,7 @@ body:has(#semantic-search-app) .md-content {
 .tag-search-card h2 {
   margin: 0.12rem 0 0.24rem;
   font-size: 1rem;
+  font-weight: 700;
   line-height: 1.25;
 }
 
