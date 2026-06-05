@@ -23,12 +23,6 @@ hide:
       <span class="kb-map-node kb-map-node--c"></span>
       <span class="kb-map-node kb-map-node--d"></span>
       <span class="kb-map-node kb-map-node--e"></span>
-      <span class="kb-map-edge kb-map-edge--a"></span>
-      <span class="kb-map-edge kb-map-edge--b"></span>
-      <span class="kb-map-edge kb-map-edge--c"></span>
-      <span class="kb-map-edge kb-map-edge--d"></span>
-      <span class="kb-map-edge kb-map-edge--e"></span>
-      <span class="kb-map-edge kb-map-edge--f"></span>
     </span>
   </a>
 

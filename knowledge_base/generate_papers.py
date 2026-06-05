@@ -28,6 +28,13 @@ embedding_cache_file = Path("map/embedding_cache.json")
 related_result_limit = 36
 top_similar_limit = 5
 YAML_LOADER = getattr(yaml, "CSafeLoader", yaml.SafeLoader)
+URL_RE = re.compile(r"https?://[^\s<>'\"]+")
+TRAILING_URL_PUNCTUATION = ".,;:!?"
+TRAILING_URL_BRACKETS = {
+    ")": "(",
+    "]": "[",
+    "}": "{",
+}
 
 # Read template
 template_text = template_file.read_text()
@@ -40,6 +47,41 @@ def normalize_tag_key(tag: str) -> str:
     return re.sub(r"\s+", " ", clean_scalar(tag)).casefold()
 
 
+def split_trailing_url_punctuation(url: str) -> tuple[str, str]:
+    trailing = ""
+    while url:
+        last = url[-1]
+        if last in TRAILING_URL_PUNCTUATION:
+            trailing = last + trailing
+            url = url[:-1]
+            continue
+        opener = TRAILING_URL_BRACKETS.get(last)
+        if opener and url.count(last) > url.count(opener):
+            trailing = last + trailing
+            url = url[:-1]
+            continue
+        break
+    return url, trailing
+
+
+def link_plain_urls(text: str) -> str:
+    rendered = []
+    start = 0
+    for match in URL_RE.finditer(text):
+        url, trailing = split_trailing_url_punctuation(match.group(0))
+        rendered.append(html.escape(text[start : match.start()], quote=False))
+        rendered.append(
+            '<a href="{href}" target="_blank" rel="noopener noreferrer">{label}</a>'.format(
+                href=html.escape(url, quote=True),
+                label=html.escape(url, quote=False),
+            )
+        )
+        rendered.append(html.escape(trailing, quote=False))
+        start = match.end()
+    rendered.append(html.escape(text[start:], quote=False))
+    return "".join(rendered)
+
+
 def metadata_text_html(text):
     """Render metadata text as HTML paragraphs without Markdown/math parsing."""
     text = str(text or "").strip()
@@ -49,7 +91,7 @@ def metadata_text_html(text):
     paragraphs = re.split(r"\n\s*\n", text)
     rendered = []
     for paragraph in paragraphs:
-        lines = [html.escape(line.strip(), quote=False) for line in paragraph.splitlines()]
+        lines = [link_plain_urls(line.strip()) for line in paragraph.splitlines()]
         body = "<br>\n".join(line for line in lines if line)
         if body:
             rendered.append(f"<p>{body}</p>")
