@@ -18,12 +18,6 @@ python scripts/list_branching_factor_violations.py --max-depth 4 --max-results 3
 python scripts/list_branching_factor_violations.py --max-depth 3 --max-results 3
 ```
 
-## Ingest
-
-### vaporwave
-
-Move vaporwave stuff to another place outside knowledge base, too irrelevant
-
 ## Site
 
 Use git-filter-repo. It is the modern, reliable way to remove a path from all reachable Git history.
