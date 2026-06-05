@@ -147,7 +147,9 @@ _MOJIBAKE_RE = re.compile(
     r"Ã(?=\s|$)|Â[\u0080-\u00ff]?|â[\u0080-\uffff]{1,2}|�)"
 )
 _BIG_WHITESPACE_RE = re.compile(r" {3,}")
+_ASCII_MULTI_DASH_RE = re.compile(r"-{2,}")
 _BIG_WHITESPACE_ISSUE_PREFIX = "Contains 3+ consecutive spaces"
+_ASCII_MULTI_DASH_ISSUE_PREFIX = "Contains ASCII multi-dash punctuation"
 _AUTHOR_MOJIBAKE_ISSUE_PREFIX = "Author entries contain suspicious Unicode character"
 _AUTHOR_ASCII_NORMALIZATION_ISSUE_PREFIX = "Author entries are not ASCII-normalized"
 _TEXT_MOJIBAKE_ISSUE_PREFIX = "Contains likely mojibake/encoding artifact(s)"
@@ -179,6 +181,7 @@ CHECK_STATUS = "status"
 CHECK_PATH = "path"
 CHECK_SUMMARY = "summary"
 CHECK_OPTIONAL = "optional"
+CHECK_DASH = "dash"
 CHECK_WHITESPACE = "whitespace"
 CHECKS: tuple[str, ...] = (
     CHECK_UNKNOWN,
@@ -199,6 +202,7 @@ CHECKS: tuple[str, ...] = (
     CHECK_PATH,
     CHECK_SUMMARY,
     CHECK_OPTIONAL,
+    CHECK_DASH,
     CHECK_WHITESPACE,
 )
 _NEAR_EMPTY_ABSTRACT_CHAR_LIMIT = 120
@@ -373,6 +377,27 @@ _GENERIC_ALGORITHM_VALUES = {
     "vehicles",
     "work",
 }
+_BROAD_ALGORITHM_FAMILY_LABELS = {
+    "gradientdescent": "Gradient Descent",
+    "linearquadraticcontrol": "Linear Quadratic Control",
+    "linearquadraticregulator": "Linear Quadratic Regulator",
+    "lqr": "LQR",
+    "modelpredictivecontrol": "Model Predictive Control",
+    "modelpredictivepathintegral": "Model Predictive Path Integral",
+    "modelpredictivepathintegralcontrol": "Model Predictive Path Integral Control",
+    "mpc": "MPC",
+    "mppi": "MPPI",
+    "newtonmethod": "Newton Method",
+    "newtonsmethod": "Newton's Method",
+    "policygradient": "Policy Gradient",
+    "trajectoryoptimization": "Trajectory Optimization",
+}
+_BROAD_ALGORITHM_FAMILY_ORIGIN_ENTRIES = {
+    ("gradientdescent", "1847_cauchy_methode_generale_pour_la"),
+}
+_BARE_ALGORITHM_LABEL_ALLOWED_ENTRIES = {
+    ("rrt*", "2011_karaman_anytime_motion_planning_using"),
+}
 _ALGORITHM_DESCRIPTIVE_WORDS = {
     "analysis",
     "application",
@@ -411,18 +436,45 @@ _ALGORITHM_EXPANDED_NAMES = {
     "ddpg": ("deep deterministic policy gradient",),
     "ddpm": ("denoising diffusion probabilistic models",),
     "dqn": ("deep q-network", "deep q network"),
+    "gradientdescent": ("gradient descent methods",),
     "ilqr": ("iterative linear quadratic regulator",),
+    "linearquadraticcontrol": ("linear quadratic control",),
+    "linearquadraticregulator": ("linear quadratic regulator",),
+    "lqr": (
+        "linear quadratic regulator",
+        "linear quadratic regulators",
+        "linear quadratic control",
+    ),
+    "modelpredictivecontrol": ("model predictive control",),
+    "modelpredictivepathintegral": (
+        "model predictive path integral",
+        "model predictive path integral control",
+    ),
     "mppi": (
         "model predictive path integral",
         "model predictive path integral control",
     ),
     "mpc": ("model predictive control",),
     "mpcc": ("model predictive contouring control",),
+    "newtonmethod": ("newton method", "newton methods", "newton's methods"),
+    "newtonsmethod": ("newton method", "newton methods", "newton's methods"),
+    "policygradient": (
+        "policy gradients",
+        "policy gradient methods",
+        "policy gradient algorithms",
+    ),
     "ppo": ("proximal policy optimization",),
     "rrt": ("rapidly-exploring random tree", "rapidly-exploring random trees"),
     "rrt*": ("rrt*", "rapidly-exploring random tree star"),
     "sac": ("soft actor-critic", "soft actor critic"),
+    "sam": ("sharpness-aware minimization",),
+    "spynet": ("spatial pyramid network",),
+    "svrpg": ("stochastic variance-reduced policy gradient",),
     "td3": ("twin delayed deep deterministic policy gradient",),
+    "trajectoryoptimization": (
+        "trajectory optimization",
+        "trajectory optimization methods",
+    ),
 }
 _ALGORITHM_RELATIONAL_CUES: tuple[tuple[str, str, str], ...] = (
     (
@@ -476,6 +528,42 @@ _ALGORITHM_RELATIONAL_CUES: tuple[tuple[str, str, str], ...] = (
         r"{name}[^.\n]{0,120}\b(?:widely\s+used|classical|standard|existing|"
         r"established|recently\s+proposed)\b",
         "{algorithm} analysis",
+    ),
+)
+_BROAD_ALGORITHM_FAMILY_CUES: tuple[tuple[str, str], ...] = (
+    (
+        "a more specific variant or modifier in the title/abstract",
+        r"\b(?:"
+        r"adaptive|approximate|bootstrapped|constrained|covariance|damped|"
+        r"data[-\s]+driven|deep|differentiable|domain[-\s]+randomi[sz]ed|"
+        r"efficient|flow[-\s]+policy|generative|global(?:ly)?|"
+        r"interaction[-\s]+rich|koopman|large[-\s]+deviations?|learned|"
+        r"learning[-\s]+based|linear|momentum|natural|nonfragile|"
+        r"operator[-\s]+splitting|regulari[sz]ed|risk[-\s]+averse|"
+        r"sampling[-\s]+based|second[-\s]+order|stochastic|subspace|"
+        r"super[-\s]+universal|temporal|warm[-\s]+start(?:ing|s)?|"
+        r"zero(?:th)?[-\s]+order"
+        r")\b[^.\n]{0,120}{name}|"
+        r"{name}[^.\n]{0,120}\b(?:"
+        r"using|via|with|for|from|of|on|by|based\s+on|under|"
+        r"domain[-\s]+randomi[sz]ation|dynamic\s+environments?|"
+        r"international\s+space\s+station|point\s+clouds?|"
+        r"covariance|koopman"
+        r")\b|"
+        r"\b(?:for|of|on|from|via|using|with|by)\s+{name}\b",
+    ),
+    (
+        "analysis, survey, benchmark, or application of a broad family",
+        r"\b(?:"
+        r"analysis|applications?|benchmark(?:ing)?|bounds?|comparison|"
+        r"convergence|converges?|definitive\s+guide|efficient|extension|"
+        r"performance|perspective|stability|survey|theory|tour|view"
+        r")\b[^.\n]{0,140}{name}|"
+        r"{name}[^.\n]{0,140}\b(?:"
+        r"analysis|applications?|benchmark(?:ing)?|bounds?|comparison|"
+        r"convergence|converges?|efficient|extension|performance|"
+        r"perspective|stability|survey|theory"
+        r")\b",
     ),
 )
 _SENTENCE_LIKE_TAG_START_RE = re.compile(
@@ -1251,6 +1339,48 @@ def _big_whitespace_examples(text: str, *, limit: int = 5) -> list[str]:
     return examples
 
 
+def _ascii_multi_dash_examples(text: str, *, limit: int = 5) -> list[str]:
+    examples: list[str] = []
+    seen: set[str] = set()
+    for match in _ASCII_MULTI_DASH_RE.finditer(text):
+        left = _normalize_inline_text(
+            text[max(0, match.start() - 40) : match.start()]
+        )
+        right = _normalize_inline_text(text[match.end() : match.end() + 40])
+        example = f"{left} [{match.group(0)}] {right}".strip()
+        if example in seen:
+            continue
+        examples.append(example)
+        seen.add(example)
+        if len(examples) >= limit:
+            break
+    return examples
+
+
+def find_ascii_multi_dash_issues(path: Path, data: dict) -> list["Issue"]:
+    issues: list[Issue] = []
+    for field_name, value in _walk_string_values(data, ""):
+        examples = _ascii_multi_dash_examples(value)
+        if not examples:
+            continue
+
+        message = _ASCII_MULTI_DASH_ISSUE_PREFIX
+        if examples:
+            message += ": " + "; ".join(repr(example) for example in examples)
+        issues.append(
+            Issue(
+                path,
+                field_name,
+                message,
+                (
+                    "Replace ASCII multi-dash punctuation with the intended "
+                    "source punctuation, such as an em dash or en dash."
+                ),
+            )
+        )
+    return issues
+
+
 def find_big_whitespace_issues(path: Path, data: dict) -> list["Issue"]:
     issues: list[Issue] = []
     for field_name, value in _walk_string_values(data, ""):
@@ -1960,9 +2090,22 @@ def _text_mentions_algorithm(algorithm: str, text: str) -> bool:
     )
 
 
+_ALGORITHM_INTRO_VERB_RE = (
+    r"introduc(?:e|es|ed|ing)|propos(?:e|es|ed|ing)|"
+    r"present(?:s|ed|ing)?|develop(?:s|ed|ing)?|"
+    r"deriv(?:e|es|ed|ing)|formulat(?:e|es|ed|ing)"
+)
+
+
 def _text_introduces_algorithm_label(algorithm: str, title: str, text: str) -> bool:
     for name in _algorithm_reference_names(algorithm):
         name_pattern = _phrase_search_pattern(name)
+        if re.search(
+            rf"^\s*(?:the\s+)?{name_pattern}\s*$",
+            title,
+            re.I,
+        ):
+            return True
         if re.search(
             rf"^\s*{name_pattern}\s*:\s*(?:a|an|the)?\s*"
             rf"(?:new|novel)?\s*(?:algorithm|method|approach|optimizer|"
@@ -1973,8 +2116,36 @@ def _text_introduces_algorithm_label(algorithm: str, title: str, text: str) -> b
             return True
         if re.search(rf"^\s*{name_pattern}\s*:", title, re.I):
             return True
+        if (
+            _algorithm_key(algorithm) not in _BROAD_ALGORITHM_FAMILY_LABELS
+            and re.search(
+                rf"^\s*(?:[A-Z][A-Za-z0-9&./+-]*\s+){{1,3}}"
+                rf"{name_pattern}\s*:",
+                title,
+            )
+        ):
+            return True
+        if (
+            _algorithm_key(algorithm) not in _BROAD_ALGORITHM_FAMILY_LABELS
+            and re.search(
+                rf"^\s*[^:\n]{{0,120}}\(\s*{name_pattern}\s*\)\s*:",
+                title,
+                re.I,
+            )
+        ):
+            return True
+        if (
+            _algorithm_key(algorithm) not in _BROAD_ALGORITHM_FAMILY_LABELS
+            and re.search(
+                rf"^\s*(?:the\s+)?{name_pattern}\s+"
+                rf"(?:for|in|via|using|with|to)\b",
+                title,
+                re.I,
+            )
+        ):
+            return True
         if re.search(
-            rf"^\s*(?:introducing|introduce|propose|present|develop)\s+"
+            rf"^\s*(?:{_ALGORITHM_INTRO_VERB_RE})\s+"
             rf"(?:(?:a|an|the|our|new|novel|simple|generalized)\s+)*"
             rf"{name_pattern}\b",
             title,
@@ -1982,9 +2153,17 @@ def _text_introduces_algorithm_label(algorithm: str, title: str, text: str) -> b
         ):
             return True
         if re.search(
+            rf"(?:^|[.!?]\s+)(?:{_ALGORITHM_INTRO_VERB_RE})\s+"
+            rf"(?:(?:a|an|the|our|new|novel|simple|generalized)\s+)*"
+            rf"{name_pattern}\b",
+            text,
+            re.I,
+        ):
+            return True
+        if re.search(
             rf"\b(?:we|this\s+(?:paper|work|article|letter)|in\s+this\s+"
-            rf"(?:paper|work|article|letter))\s+(?:first\s+)?"
-            rf"(?:introduce|propose|present|develop|derive|formulate)\s+"
+            rf"(?:paper|work|article|letter|thesis))\s+(?:first\s+)?"
+            rf"(?:{_ALGORITHM_INTRO_VERB_RE})\s+"
             rf"(?:(?:a|an|the|our|new|novel|simple|generalized)\s+)*"
             rf"{name_pattern}\b",
             text,
@@ -1994,7 +2173,7 @@ def _text_introduces_algorithm_label(algorithm: str, title: str, text: str) -> b
         if re.search(
             rf"\b(?:we|this\s+(?:paper|work|article|letter)|in\s+this\s+"
             rf"(?:paper|work|article|letter))\s+(?:first\s+)?"
-            rf"(?:introduce|propose|present|develop|derive|formulate)\b"
+            rf"(?:{_ALGORITHM_INTRO_VERB_RE})\b"
             rf"[^.\n]{{0,140}}\b(?:algorithm|method|approach|optimizer|"
             rf"planner|controller|framework|tool|system)\s+(?:called\s+|named\s+)?"
             rf"{name_pattern}\b",
@@ -2003,7 +2182,55 @@ def _text_introduces_algorithm_label(algorithm: str, title: str, text: str) -> b
         ):
             return True
         if re.search(
+            rf"\b(?:we|this\s+(?:paper|work|article|letter)|in\s+this\s+"
+            rf"(?:paper|work|article|letter|thesis))\s+(?:first\s+)?"
+            rf"(?:{_ALGORITHM_INTRO_VERB_RE})\b[^.\n]{{0,220}}"
+            rf"\(\s*{name_pattern}\s*\)",
+            text,
+            re.I,
+        ):
+            return True
+        if re.search(
+            rf"{name_pattern}[^.\n]{{0,120}}\b(?:algorithm|method|approach|"
+            rf"optimizer|planner|controller|framework|tool|system)\b"
+            rf"[^.\n]{{0,80}}\b(?:is|are|was|were)\s+"
+            rf"(?:introduced|proposed|presented|developed|derived|formulated)\b",
+            text,
+            re.I,
+        ):
+            return True
+        if re.search(
             rf"\b(?:called|named|coined)\s+{name_pattern}\b",
+            text,
+            re.I,
+        ):
+            return True
+        if re.search(
+            rf"\bdenoted\s+by\s+{name_pattern}",
+            text,
+            re.I,
+        ):
+            return True
+        if re.search(
+            rf"\b(?:which|that)\s+we\s+(?:call|name|coin)\b"
+            rf"[^.\n]{{0,120}}\(\s*{name_pattern}\s*\)",
+            text,
+            re.I,
+        ):
+            return True
+        if (
+            _algorithm_key(algorithm) not in _BROAD_ALGORITHM_FAMILY_LABELS
+            and re.search(
+                rf"\b(?:our|the)\s+[^.\n]{{0,100}}\(\s*{name_pattern}\s*\)",
+                text,
+                re.I,
+            )
+        ):
+            return True
+        if re.search(
+            rf"\b(?:the\s+)?result\s+is\s+{name_pattern}\s*,\s*(?:a|an)\s+"
+            rf"[^.\n]{{0,120}}\b(?:algorithm|method|approach|framework|"
+            rf"model|network|system)\b",
             text,
             re.I,
         ):
@@ -2040,6 +2267,57 @@ def _algorithm_issue_cue(
     return None
 
 
+def _algorithm_label_is_broad_family_name(algorithm: str) -> bool:
+    return _algorithm_key(algorithm) in _BROAD_ALGORITHM_FAMILY_LABELS
+
+
+def _algorithm_label_is_known_origin_entry(
+    path: Path,
+    data: dict,
+    algorithm: str,
+) -> bool:
+    paper_id = paper_id_from_metadata(path, data)
+    return (
+        _algorithm_key(algorithm),
+        paper_id,
+    ) in _BROAD_ALGORITHM_FAMILY_ORIGIN_ENTRIES
+
+
+def _algorithm_label_is_allowed_entry(
+    path: Path,
+    data: dict,
+    algorithm: str,
+) -> bool:
+    paper_id = paper_id_from_metadata(path, data)
+    return (
+        _algorithm_key(algorithm),
+        paper_id,
+    ) in _BARE_ALGORITHM_LABEL_ALLOWED_ENTRIES
+
+
+def _broad_algorithm_family_issue_cue(
+    algorithm: str,
+    title: str,
+    context: str,
+) -> str | None:
+    if not _algorithm_label_is_broad_family_name(algorithm):
+        return None
+    if _text_introduces_algorithm_label(algorithm, title, context):
+        return None
+    if not _text_mentions_algorithm(algorithm, context):
+        return None
+
+    search_chunks = [title, context]
+    for name in _algorithm_reference_names(algorithm):
+        name_pattern = _phrase_search_pattern(name)
+        for reason, pattern_template in _BROAD_ALGORITHM_FAMILY_CUES:
+            pattern = re.compile(pattern_template.replace("{name}", name_pattern), re.I)
+            if any(pattern.search(chunk) for chunk in search_chunks):
+                return reason
+
+    return None
+
+
 def find_algorithm_issues(path: Path, data: dict) -> list["Issue"]:
     algorithm = str(data.get("algorithm") or "").strip()
     if not algorithm:
@@ -2056,10 +2334,34 @@ def find_algorithm_issues(path: Path, data: dict) -> list["Issue"]:
             )
         ]
 
+    title, context = _algorithm_context_text(data)
+    if _algorithm_label_is_allowed_entry(path, data, algorithm):
+        return []
+
+    if _algorithm_label_is_known_origin_entry(path, data, algorithm):
+        return []
+
+    broad_family_cue = _broad_algorithm_family_issue_cue(algorithm, title, context)
+    if broad_family_cue is not None:
+        return [
+            Issue(
+                path,
+                "algorithm",
+                (
+                    f"Overly broad algorithm label {algorithm!r} appears to describe "
+                    f"{broad_family_cue}"
+                ),
+                (
+                    "Use the paper's specific method, variant, or contribution phrase "
+                    "instead of the broad family name."
+                ),
+                severity=Severity.WARNING,
+            )
+        ]
+
     if not _algorithm_label_is_bare_method_name(algorithm):
         return []
 
-    title, context = _algorithm_context_text(data)
     if _text_introduces_algorithm_label(algorithm, title, context):
         return []
 
@@ -3008,6 +3310,9 @@ def audit_file(
 
     if should_check(CHECK_MULTILINE):
         issues.extend(find_multiline_field_issues(path, raw, data))
+
+    if should_check(CHECK_DASH):
+        issues.extend(find_ascii_multi_dash_issues(path, data))
 
     if should_check(CHECK_WHITESPACE):
         issues.extend(find_big_whitespace_issues(path, data))
@@ -5295,7 +5600,7 @@ Checks performed on each metadata.yml:
   unknown   - ERROR for any field not in the VALID_FIELDS schema
   required  - ERROR if any of title, authors, year, abstract, type, audit_status missing
   title     - ERROR if empty; ERROR if not in title case; ERROR for raw YAML character escapes like \\u2014; ERROR/WARN for corrupt characters or likely misspellings
-  algorithm - ERROR if the algorithm label is generic; WARN if a bare concrete method label appears to describe analysis/application of an existing method rather than the proposing paper
+  algorithm - ERROR if the algorithm label is generic; WARN if a broad family label appears to hide a narrower variant/contribution, or if a bare concrete method label appears to describe analysis/application of an existing method rather than the proposing paper
   authors   - ERROR if not a non-empty list of non-blank strings; ERROR if entries look like Last, First order, single-token names, known organization names, other non-individual names, suspicious Unicode corruption/control characters, or names that are not normalized to the native 26 English letters
   tags      - ERROR if tags are missing from normalization/tags.yml, differ from its canonical full-spelling form, duplicate after database or plural normalization, contain forbidden generic values, leading articles, more than 4 words, non-capital-case ordinary English words, or sentence-like prose debris copied from an abstract
   year      - ERROR if not a 4-digit integer
@@ -5310,6 +5615,7 @@ Checks performed on each metadata.yml:
   path      - ERROR if YEAR/SLUG do not match metadata or expected slug format; ERROR if map-data.js or embedding_cache.json IDs are stale, missing, malformed, or inconsistent
   summary   - ERROR if it has substantial verbatim overlap with the abstract or known low-signal generated boilerplate; WARN if missing, empty, or likely misspelled
   optional  - INFO for each optional field that is not populated
+  dash      - ERROR if any string field contains ASCII multi-dash punctuation like -- or ---
   whitespace - ERROR if any string field contains 3 or more consecutive spaces
 
 By default, every check runs. Use --check to opt into a smaller set:
@@ -5321,7 +5627,7 @@ Use --severity to filter reported issues by severity threshold:
   --severity info     # INFO, WARNING, and ERROR
 
 Available --check names:
-  unknown required title algorithm authors tags year arxiv abstract escape url multiline source type status path summary optional whitespace
+  unknown required title algorithm authors tags year arxiv abstract escape url multiline source type status path summary optional dash whitespace
 """,
     )
     parser.add_argument(
