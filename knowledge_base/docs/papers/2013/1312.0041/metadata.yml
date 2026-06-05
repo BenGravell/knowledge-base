@@ -1,6 +1,6 @@
 title: >
   On Dynamic Mode Decomposition: Theory and Applications
-algorithm: DMD
+algorithm:
 authors:
   - Jonathan H. Tu
   - Clarence W. Rowley

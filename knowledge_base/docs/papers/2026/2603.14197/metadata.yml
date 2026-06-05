@@ -1,6 +1,6 @@
 title: >
   On Globally Optimal Stochastic Policy Gradient Methods for Domain Randomized LQR Synthesis
-algorithm: Policy Gradient
+algorithm:
 authors:
   - Alex Nguyen-Le
   - Nikolai Matni

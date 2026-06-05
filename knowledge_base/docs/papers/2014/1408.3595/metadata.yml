@@ -1,6 +1,6 @@
 title: >
   Analysis and Design of Optimization Algorithms via Integral Quadratic Constraints
-algorithm: IQC
+algorithm:
 authors:
   - Laurent Lessard
   - Benjamin Recht

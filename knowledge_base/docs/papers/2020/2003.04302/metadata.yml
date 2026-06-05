@@ -1,6 +1,6 @@
 title: >
   Stochastic Recursive Momentum for Policy Gradient Methods
-algorithm: Policy Gradient
+algorithm:
 authors:
   - Huizhuo Yuan
   - Xiangru Lian

@@ -1,6 +1,6 @@
 title: >
   Zeroth-Order Randomized Subspace Newton Methods
-algorithm: Newton's Method
+algorithm: ZO-RSN
 authors:
   - Erik Berglund
   - Sarit Khirirat

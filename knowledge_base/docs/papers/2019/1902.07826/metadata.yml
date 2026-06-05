@@ -1,6 +1,6 @@
 title: >
   Certainty Equivalence Is Efficient for Linear Quadratic Control
-algorithm: LQR
+algorithm:
 authors:
   - Horia Mania
   - Stephen Tu

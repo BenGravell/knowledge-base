@@ -1,6 +1,6 @@
 title: >
   A Tour of Reinforcement Learning: The View from Continuous Control
-algorithm: LQR
+algorithm:
 authors:
   - Benjamin Recht
 year: 2018

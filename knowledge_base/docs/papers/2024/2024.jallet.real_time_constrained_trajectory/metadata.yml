@@ -1,6 +1,6 @@
 title: >
   Real-time Constrained Trajectory Optimization in Robotics: Theory, Implementation and Applications
-algorithm: "Trajectory Optimization"
+algorithm:
 authors:
   - Wilson Jallet
 year: 2024

@@ -1,6 +1,6 @@
 title: >
   Temporal Parallelization of Dynamic Programming and Linear Quadratic Control
-algorithm: "LQR"
+algorithm:
 authors:
   - Simo Sarkka
   - Angel F. Garcia-Fernandez

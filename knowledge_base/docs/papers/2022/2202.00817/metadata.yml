@@ -1,6 +1,6 @@
 title: >
   Do Differentiable Simulators Give Better Policy Gradients?
-algorithm: Policy Gradient
+algorithm:
 authors:
   - H. J. Terry Suh
   - Max Simchowitz
