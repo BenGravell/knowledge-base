@@ -55,8 +55,15 @@
   const sunburstCenterRadius = 64;
   const sunburstCenterLabelMaxChars = 15;
   const sunburstCenterLabelMaxLines = 3;
+  const sunburstFullMorphEntryLimit = 600;
+  const sunburstCoarseMorphTargetLimit = 280;
+  const sunburstCoarseMorphDepth = 3;
+  const sunburstCoarseMorphMinArcLength = 7;
+  const treePerf = createTreePerf();
 
-  hydrate(data.root, null, 0);
+  treePerf.measure('hydrate.total', { rootId: data.root.id }, function () {
+    hydrate(data.root, null, 0);
+  });
 
   const initialId = readHashId();
   currentId = initialId && nodes.has(initialId) ? initialId : data.root.id;
@@ -167,20 +174,44 @@
 
   function render(options) {
     const node = nodes.get(currentId) || data.root;
-    clearPreviewHighlights();
-    previewNodeId = null;
-    renderSunburst(node, options);
-    renderFocusedTree(node);
-    renderSelectionDetails(node);
-    indexPreviewTargets();
+    const renderId = treePerf.nextRenderId(node);
+    treePerf.withRender(renderId, function () {
+      treePerf.measure('render.total', {
+        nodeId: node.id,
+        label: treeNodeDisplayLabel(node),
+        kind: node.kind,
+        childCount: visibleChildren(node).length,
+        leafCount: filteredLeafCount(node),
+      }, function () {
+        treePerf.measure('render.clearPreview', null, clearPreviewHighlights);
+        previewNodeId = null;
+        treePerf.measure('render.sunburst', null, function () {
+          renderSunburst(node, options);
+        });
+        treePerf.measure('render.focusedTree', null, function () {
+          renderFocusedTree(node);
+        });
+        treePerf.measure('render.selectionDetails', null, function () {
+          renderSelectionDetails(node);
+        });
+        treePerf.measure('render.indexPreviewTargets', null, indexPreviewTargets);
+      });
+    });
   }
 
   function renderSunburst(node, options) {
     if (!sunburstStage) return;
     cancelSunburstAnimation();
 
-    const viewRoot = sunburstRootFor(node);
-    const model = getSunburstModel(viewRoot);
+    const viewRoot = treePerf.measure('sunburst.root', null, function () {
+      return sunburstRootFor(node);
+    });
+    const model = treePerf.measure('sunburst.model', {
+      viewRootId: viewRoot.id,
+      viewRootLabel: treeNodeDisplayLabel(viewRoot),
+    }, function () {
+      return getSunburstModel(viewRoot);
+    });
     const hierarchy = model.hierarchy;
     const depthMax = model.depthMax;
     const radius = 184;
@@ -189,30 +220,51 @@
     const ringWidth = (radius - centerRadius) / ringCount;
     const entries = model.entries;
 
-    const palette = sunburstPalette();
+    const palette = treePerf.measure('sunburst.palette', null, sunburstPalette);
     const pathNodes = new Set((node.pathNodes || []).map(function (pathNode) { return pathNode.id; }));
-    const snapshot = getSunburstSnapshot(viewRoot, model, centerRadius, ringWidth, palette);
+    const snapshot = treePerf.measure('sunburst.snapshot', {
+      entryCount: entries.length,
+      depthMax: depthMax,
+    }, function () {
+      return getSunburstSnapshot(viewRoot, model, centerRadius, ringWidth, palette);
+    });
     currentSunburstColors = sunburstColorMap(snapshot);
     const shouldAnimate = shouldAnimateSunburst(options, lastSunburstSnapshot);
-    const arcs = entries.map(function (entry, index) {
-      return renderSunburstArc(entry, snapshot, pathNodes, index);
-    }).join('');
-    const leafMarks = entries.map(function (entry) {
-      return renderSunburstLeafMark(entry, snapshot);
-    }).join('');
-    const navigationTargets = hierarchy.children.map(function (entry) {
-      return renderSunburstHitTarget(entry, snapshot, centerRadius, radius, pathNodes);
-    }).join('');
-    const labels = sunburstLabelLayouts(hierarchy.children, snapshot, centerRadius, radius, ringWidth)
-      .map(renderSunburstLabel)
-      .join('');
-    const transitionExtras = shouldAnimate
-      ? renderSunburstTransitionExtras(lastSunburstSnapshot, snapshot)
-      : '';
+    const arcs = treePerf.measure('sunburst.html.arcs', { entryCount: entries.length }, function () {
+      return entries.map(function (entry, index) {
+        return renderSunburstArc(entry, snapshot, pathNodes, index);
+      }).join('');
+    });
+    const leafMarks = treePerf.measure('sunburst.html.leafMarks', { entryCount: entries.length }, function () {
+      return entries.map(function (entry) {
+        return renderSunburstLeafMark(entry, snapshot);
+      }).join('');
+    });
+    const navigationTargets = treePerf.measure('sunburst.html.hitTargets', {
+      childCount: hierarchy.children.length,
+    }, function () {
+      return hierarchy.children.map(function (entry) {
+        return renderSunburstHitTarget(entry, snapshot, centerRadius, radius, pathNodes);
+      }).join('');
+    });
+    const labels = treePerf.measure('sunburst.html.labels', {
+      childCount: hierarchy.children.length,
+    }, function () {
+      return sunburstLabelLayouts(hierarchy.children, snapshot, centerRadius, radius, ringWidth)
+        .map(renderSunburstLabel)
+        .join('');
+    });
+    const transitionExtras = treePerf.measure('sunburst.html.transitionExtras', {
+      animate: shouldAnimate,
+    }, function () {
+      return shouldAnimate
+        ? renderSunburstTransitionExtras(lastSunburstSnapshot, snapshot)
+        : '';
+    });
 
     const svgClasses = ['ct-sunburst-svg', shouldAnimate ? 'is-unfolding' : ''].filter(Boolean).join(' ');
 
-    sunburstStage.innerHTML = [
+    const html = [
       '<svg class="' + escAttr(svgClasses) + '" viewBox="-205 -205 410 410" aria-hidden="false" focusable="false">',
       '<g class="ct-sunburst-rings">',
       arcs,
@@ -233,8 +285,21 @@
       '</svg>',
     ].join('');
 
+    treePerf.measure('sunburst.dom', {
+      htmlLength: html.length,
+      entryCount: entries.length,
+      topLevelTargetCount: hierarchy.children.length,
+      animate: shouldAnimate,
+    }, function () {
+      sunburstStage.innerHTML = html;
+    });
+
     if (shouldAnimate) {
-      animateSunburstMorph(lastSunburstSnapshot, snapshot);
+      treePerf.measure('sunburst.animationSetup', {
+        entryCount: entries.length,
+      }, function () {
+        animateSunburstMorph(lastSunburstSnapshot, snapshot);
+      });
     }
 
     lastSunburstSnapshot = snapshot;
@@ -397,7 +462,12 @@
   }
 
   function shouldAnimateSunburst(options, previousSnapshot) {
-    return Boolean(options && options.animateSunburst && previousSnapshot && !sunburstReducedMotion());
+    return Boolean(
+      options &&
+      options.animateSunburst &&
+      previousSnapshot &&
+      !sunburstReducedMotion()
+    );
   }
 
   function sunburstArcGeometry(entry, centerRadius, ringWidth) {
@@ -547,32 +617,42 @@
       : Date.now();
     const duration = 760;
     const pathTransitions = [];
+    const useCoarseMorph = snapshot.entries.size > sunburstFullMorphEntryLimit;
 
-    Array.from(sunburstStage.querySelectorAll('.ct-sunburst-segment')).forEach(function (path) {
-      const id = path.getAttribute('data-ct-sunburst-node');
-      const target = snapshot.entries.get(id);
-      if (!target) return;
-
-      const start = sunburstMorphStart(target.node, target.geometry, previousSnapshot);
-      pathTransitions.push({
-        element: path,
-        from: start.geometry,
-        to: target.geometry,
-        fromOpacity: start.opacity,
-        toOpacity: target.opacity,
+    if (useCoarseMorph) {
+      createCoarseSunburstMorphTransitions(previousSnapshot, snapshot).forEach(function (transition) {
+        pathTransitions.push(transition);
       });
-      path.setAttribute('d', sunburstShapePath(start.geometry));
-      path.style.opacity = String(start.opacity);
-    });
+    } else {
+      Array.from(sunburstStage.querySelectorAll('.ct-sunburst-segment')).forEach(function (path) {
+        const id = path.getAttribute('data-ct-sunburst-node');
+        const target = snapshot.entries.get(id);
+        if (!target) return;
+
+        const start = sunburstMorphStart(target.node, target.geometry, previousSnapshot);
+        pathTransitions.push({
+          element: path,
+          from: start.geometry,
+          to: target.geometry,
+          fromOpacity: start.opacity,
+          toOpacity: target.opacity,
+        });
+        path.setAttribute('d', sunburstShapePath(start.geometry));
+        path.style.opacity = String(start.opacity);
+      });
+    }
 
     const centerMorph = sunburstStage.querySelector('.ct-sunburst-center-morph');
     const centerMorphEntry = centerMorph ? previousSnapshot.entries.get(snapshot.rootId) : null;
+    const ringsGroup = sunburstStage.querySelector('.ct-sunburst-rings');
+    const coarseMorphGroup = useCoarseMorph ? sunburstStage.querySelector('.ct-sunburst-coarse-morphs') : null;
     const centerGroup = sunburstStage.querySelector('.ct-sunburst-center');
     const labelsGroup = sunburstStage.querySelector('.ct-sunburst-labels');
     const hitTargetsGroup = sunburstStage.querySelector('.ct-sunburst-hit-targets');
     const leafRimGroup = sunburstStage.querySelector('.ct-sunburst-leaf-rim');
     const svg = sunburstStage.querySelector('.ct-sunburst-svg');
 
+    if (useCoarseMorph && ringsGroup) ringsGroup.style.opacity = '0';
     if (centerGroup) centerGroup.style.opacity = '0';
     if (labelsGroup) labelsGroup.style.opacity = '0';
     if (hitTargetsGroup) hitTargetsGroup.style.opacity = '0';
@@ -588,13 +668,15 @@
       const rawProgress = clamp((now - startTime) / duration, 0, 1);
       const eased = easeSunburstMorph(rawProgress);
       const centerOpacity = clamp((rawProgress - 0.64) / 0.28, 0, 1);
+      const detailOpacity = useCoarseMorph ? clamp((rawProgress - 0.68) / 0.24, 0, 1) : 1;
 
       pathTransitions.forEach(function (transition) {
         const geometry = interpolateSunburstGeometry(transition.from, transition.to, eased);
         const opacity = lerp(transition.fromOpacity, transition.toOpacity, eased);
         transition.element.setAttribute('d', sunburstShapePath(geometry));
-        transition.element.style.opacity = String(opacity);
+        if (!transition.coarse) transition.element.style.opacity = String(opacity);
       });
+      if (coarseMorphGroup) coarseMorphGroup.style.opacity = String(1 - detailOpacity);
 
       if (centerMorph && centerMorphEntry) {
         const geometry = interpolateSunburstGeometry(centerMorphEntry.geometry, snapshot.center.geometry, eased);
@@ -602,17 +684,21 @@
         centerMorph.style.opacity = String(centerMorphEntry.opacity * (1 - centerOpacity));
       }
 
+      if (ringsGroup && useCoarseMorph) ringsGroup.style.opacity = String(detailOpacity);
       if (centerGroup) centerGroup.style.opacity = String(centerOpacity);
       if (labelsGroup) labelsGroup.style.opacity = String(clamp((rawProgress - 0.5) / 0.28, 0, 1));
       if (hitTargetsGroup) hitTargetsGroup.style.opacity = String(clamp((rawProgress - 0.5) / 0.28, 0, 1));
       if (leafRimGroup) leafRimGroup.style.opacity = String(clamp((rawProgress - 0.38) / 0.34, 0, 1));
 
       if (rawProgress >= 1) {
+        if (coarseMorphGroup) coarseMorphGroup.remove();
         pathTransitions.forEach(function (transition) {
+          if (transition.coarse) return;
           transition.element.setAttribute('d', sunburstShapePath(transition.to));
           transition.element.style.opacity = '';
         });
         if (centerMorph) centerMorph.remove();
+        if (ringsGroup) ringsGroup.style.opacity = '';
         if (centerGroup) centerGroup.style.opacity = '';
         if (labelsGroup) labelsGroup.style.opacity = '';
         if (hitTargetsGroup) hitTargetsGroup.style.opacity = '';
@@ -626,6 +712,130 @@
     }
 
     sunburstAnimationFrame = window.requestAnimationFrame(tick);
+  }
+
+  function createCoarseSunburstMorphTransitions(previousSnapshot, snapshot) {
+    const transitionGroup = sunburstStage.querySelector('.ct-sunburst-transition');
+    if (!transitionGroup) return [];
+
+    const targets = treePerf.measure('sunburst.coarseMorphTargets', {
+      entryCount: snapshot.entries.size,
+    }, function () {
+      return coarseSunburstMorphTargets(snapshot);
+    });
+    const group = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+    group.setAttribute('class', 'ct-sunburst-coarse-morphs');
+    transitionGroup.appendChild(group);
+    const previousMaxOuterRadiusCache = new Map();
+    return targets.map(function (target) {
+      const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+      const start = coarseSunburstMorphStart(target, previousSnapshot, previousMaxOuterRadiusCache);
+      path.setAttribute('class', 'ct-sunburst-coarse-morph');
+      path.setAttribute('d', sunburstShapePath(start.geometry));
+      path.setAttribute('fill', target.fill);
+      path.setAttribute('fill-opacity', fmt(target.opacity));
+      path.setAttribute('stroke', target.fill);
+      path.setAttribute('stroke-opacity', '0.38');
+      path.setAttribute('stroke-width', target.visualLength < 4 ? '0.12' : '0.42');
+      path.setAttribute('opacity', fmt(Math.max(start.opacity, target.opacity)));
+      group.appendChild(path);
+
+      return {
+        element: path,
+        from: start.geometry,
+        to: target.geometry,
+        fromOpacity: start.opacity,
+        toOpacity: target.opacity,
+        coarse: true,
+      };
+    });
+  }
+
+  function coarseSunburstMorphTargets(snapshot) {
+    const targets = [];
+    const maxOuterRadiusCache = new Map();
+
+    visibleChildren(snapshot.rootNode).forEach(function (child) {
+      visit(child);
+    });
+
+    function visit(node) {
+      const entry = snapshot.entries.get(node.id);
+      if (!entry) return;
+
+      const children = visibleChildren(node).filter(function (child) {
+        return snapshot.entries.has(child.id);
+      });
+      const shouldAggregate = !children.length ||
+        entry.depth >= sunburstCoarseMorphDepth ||
+        entry.visualLength < sunburstCoarseMorphMinArcLength ||
+        targets.length >= sunburstCoarseMorphTargetLimit;
+
+      if (shouldAggregate) {
+        targets.push(coarseSunburstMorphTarget(entry, snapshot, maxOuterRadiusCache));
+        return;
+      }
+
+      children.forEach(visit);
+    }
+
+    return targets;
+  }
+
+  function coarseSunburstMorphTarget(entry, snapshot, maxOuterRadiusCache) {
+    const geometry = coarseSunburstMorphGeometry(entry, snapshot, maxOuterRadiusCache);
+    return {
+      node: entry.node,
+      geometry: geometry,
+      fill: entry.fill,
+      opacity: entry.opacity,
+      visualLength: sunburstArcLength(geometry),
+    };
+  }
+
+  function coarseSunburstMorphStart(target, previousSnapshot, maxOuterRadiusCache) {
+    const previousEntry = previousSnapshot.entries.get(target.node.id);
+    if (previousEntry) {
+      return {
+        geometry: coarseSunburstMorphGeometry(previousEntry, previousSnapshot, maxOuterRadiusCache),
+        opacity: previousEntry.opacity,
+      };
+    }
+
+    if (target.node.id === previousSnapshot.rootId) {
+      return {
+        geometry: previousSnapshot.center.geometry,
+        opacity: 0.9,
+      };
+    }
+
+    return {
+      geometry: collapsedSunburstGeometry(target.geometry),
+      opacity: 0,
+    };
+  }
+
+  function coarseSunburstMorphGeometry(entry, snapshot, maxOuterRadiusCache) {
+    return {
+      innerRadius: entry.geometry.innerRadius,
+      outerRadius: maxSnapshotOuterRadius(entry.node, snapshot, maxOuterRadiusCache),
+      startAngle: entry.geometry.startAngle,
+      endAngle: entry.geometry.endAngle,
+    };
+  }
+
+  function maxSnapshotOuterRadius(node, snapshot, cache) {
+    if (cache.has(node.id)) return cache.get(node.id);
+
+    const entry = snapshot.entries.get(node.id);
+    let maxRadius = entry ? entry.geometry.outerRadius : 0;
+    visibleChildren(node).forEach(function (child) {
+      if (!snapshot.entries.has(child.id)) return;
+      maxRadius = Math.max(maxRadius, maxSnapshotOuterRadius(child, snapshot, cache));
+    });
+
+    cache.set(node.id, maxRadius);
+    return maxRadius;
   }
 
   function sunburstMorphStart(node, targetGeometry, previousSnapshot) {
@@ -1170,19 +1380,27 @@
     sunburstPreviewTargets = [];
     sunburstHitTargetPreviewTargets = [];
 
-    Array.from(app.querySelectorAll('[data-ct-preview-node]')).forEach(function (element) {
-      const node = nodes.get(element.getAttribute('data-ct-preview-node'));
-      if (!node) return;
+    const previewElements = treePerf.measure('previewTargets.query', null, function () {
+      return Array.from(app.querySelectorAll('[data-ct-preview-node]'));
+    });
 
-      const target = {
-        element: element,
-        node: node,
-      };
-      if (!previewTargetsByNodeId.has(node.id)) previewTargetsByNodeId.set(node.id, []);
-      previewTargetsByNodeId.get(node.id).push(target);
+    treePerf.measure('previewTargets.index', {
+      elementCount: previewElements.length,
+    }, function () {
+      previewElements.forEach(function (element) {
+        const node = nodes.get(element.getAttribute('data-ct-preview-node'));
+        if (!node) return;
 
-      if (element.closest('#ct-sunburst')) sunburstPreviewTargets.push(target);
-      if (element.classList.contains('ct-sunburst-hit-target')) sunburstHitTargetPreviewTargets.push(target);
+        const target = {
+          element: element,
+          node: node,
+        };
+        if (!previewTargetsByNodeId.has(node.id)) previewTargetsByNodeId.set(node.id, []);
+        previewTargetsByNodeId.get(node.id).push(target);
+
+        if (element.closest('#ct-sunburst')) sunburstPreviewTargets.push(target);
+        if (element.classList.contains('ct-sunburst-hit-target')) sunburstHitTargetPreviewTargets.push(target);
+      });
     });
   }
 
@@ -1327,21 +1545,33 @@
   function renderFocusedTree(node) {
     const ancestors = node.pathNodes.slice(0, -1);
     const children = visibleChildren(node);
-    const ego = node.kind === 'paper'
-      ? ''
-      : [
-        '<div class="ct-focus-core">',
-        renderNodeSection('', [node], 'ego', node),
+    const html = treePerf.measure('focusedTree.html', {
+      nodeId: node.id,
+      ancestorCount: ancestors.length,
+      childCount: children.length,
+      leafCount: filteredLeafCount(node),
+    }, function () {
+      const ego = node.kind === 'paper'
+        ? ''
+        : [
+          '<div class="ct-focus-core">',
+          renderNodeSection('', [node], 'ego', node),
+          '</div>',
+        ].join('');
+      return [
+        '<div class="ct-focus-stack">',
+        ancestors.length ? renderNodeSection('Ancestors', ancestors, 'path', node) : '',
+        ego,
+        node.children.length ? renderNodeSection('Children', children, 'children', node) : '',
         '</div>',
-      ].join('');
-    const html = [
-      '<div class="ct-focus-stack">',
-      ancestors.length ? renderNodeSection('Ancestors', ancestors, 'path', node) : '',
-      ego,
-      node.children.length ? renderNodeSection('Children', children, 'children', node) : '',
-      '</div>',
-    ].filter(Boolean).join('');
-    ancestorChain.innerHTML = html;
+      ].filter(Boolean).join('');
+    });
+    treePerf.measure('focusedTree.dom', {
+      htmlLength: html.length,
+      childCount: children.length,
+    }, function () {
+      ancestorChain.innerHTML = html;
+    });
   }
 
   function renderNodeSection(title, rows, sectionKind, currentNode) {
@@ -1448,13 +1678,24 @@
     if (!selectionDetails) return;
 
     if (!node || node.kind !== 'paper') {
-      selectionDetails.hidden = true;
-      selectionDetails.innerHTML = '';
+      treePerf.measure('selectionDetails.clear', null, function () {
+        selectionDetails.hidden = true;
+        selectionDetails.innerHTML = '';
+      });
       return;
     }
 
-    selectionDetails.hidden = false;
-    selectionDetails.innerHTML = renderPaperSelectionDetails(node);
+    const html = treePerf.measure('selectionDetails.html', {
+      nodeId: node.id,
+    }, function () {
+      return renderPaperSelectionDetails(node);
+    });
+    treePerf.measure('selectionDetails.dom', {
+      htmlLength: html.length,
+    }, function () {
+      selectionDetails.hidden = false;
+      selectionDetails.innerHTML = html;
+    });
   }
 
   function renderPaperSelectionDetails(node) {
@@ -1503,6 +1744,102 @@
     } catch (error) {
       return false;
     }
+  }
+
+  function createTreePerf() {
+    let enabled = false;
+    try {
+      const params = new URLSearchParams(window.location.search);
+      enabled = params.get('ct_perf') === '1' || window.localStorage.getItem('ct_perf') === '1';
+    } catch (error) {
+      enabled = false;
+    }
+
+    const entries = [];
+    let renderSeq = 0;
+    let activeRenderId = null;
+
+    const api = {
+      nextRenderId: function () {
+        renderSeq += 1;
+        return renderSeq;
+      },
+      withRender: function (renderId, fn) {
+        const previousRenderId = activeRenderId;
+        activeRenderId = renderId;
+        try {
+          return fn();
+        } finally {
+          activeRenderId = previousRenderId;
+        }
+      },
+      measure: function (name, detail, fn) {
+        let measureDetail = detail;
+        let measuredFn = fn;
+        if (typeof measureDetail === 'function') {
+          measuredFn = measureDetail;
+          measureDetail = null;
+        }
+        if (typeof measuredFn !== 'function') return undefined;
+        if (!enabled) return measuredFn();
+
+        const start = perfNow();
+        try {
+          return measuredFn();
+        } finally {
+          entries.push({
+            name: name,
+            renderId: activeRenderId,
+            start: roundMs(start),
+            duration: roundMs(perfNow() - start),
+            detail: cleanPerfDetail(measureDetail),
+          });
+        }
+      },
+    };
+
+    window.__ctTreePerf = {
+      enabled: enabled,
+      entries: entries,
+      reset: function () {
+        entries.length = 0;
+      },
+      snapshot: function () {
+        return {
+          enabled: enabled,
+          renderSeq: renderSeq,
+          entries: entries.slice(),
+        };
+      },
+    };
+
+    return api;
+  }
+
+  function perfNow() {
+    return window.performance && typeof window.performance.now === 'function'
+      ? window.performance.now()
+      : Date.now();
+  }
+
+  function roundMs(value) {
+    return Math.round(value * 1000) / 1000;
+  }
+
+  function cleanPerfDetail(detail) {
+    if (!detail || typeof detail !== 'object') return null;
+    const clean = {};
+    Object.keys(detail).forEach(function (key) {
+      const value = detail[key];
+      if (value == null) {
+        clean[key] = value;
+      } else if (typeof value === 'number') {
+        clean[key] = Number.isFinite(value) ? value : String(value);
+      } else if (typeof value === 'string' || typeof value === 'boolean') {
+        clean[key] = value;
+      }
+    });
+    return clean;
   }
 
   function readHashId() {

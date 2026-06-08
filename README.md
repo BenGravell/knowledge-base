@@ -164,6 +164,15 @@ python scripts/list_unplaced_papers.py --format paths
 python scripts/list_unplaced_papers.py --neighbors 0 --fail-on-missing
 ```
 
+Measure the Tree page default-load plus top-level branch-click timing:
+
+```bash
+mkdocs build
+python scripts/measure_tree_view.py
+python scripts/measure_tree_view.py --runs 7 --viewport 1366x900
+python scripts/measure_tree_view.py --reduced-motion
+```
+
 ## Map
 
 The Map embeds paper core content, computes semantic similarity and positions, and renders the resulting node map with [Sigma.js](https://www.sigmajs.org/) and [Graphology](https://graphology.github.io/).
