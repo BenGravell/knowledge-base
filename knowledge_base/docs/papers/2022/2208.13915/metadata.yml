@@ -1,0 +1,26 @@
+title: >
+  Finite Sample Identification of Bilinear Dynamical Systems
+algorithm:
+authors:
+  - Yahya Sattar
+  - Samet Oymak
+  - Necmiye Ozay
+year: 2022
+source: arXiv
+type: Preprint
+doi:
+arxiv_id: "2208.13915"
+tags:
+  - Bilinear systems
+  - System identification
+  - Sample complexity
+  - Martingale small-ball
+  - Control-affine systems
+  - Nonlinear dynamics
+abstract: >
+  Bilinear dynamical systems are ubiquitous in many different domains and they can also be used to approximate more general control-affine systems. This motivates the problem of learning bilinear systems from a single trajectory of the system's states and inputs. Under a mild marginal mean-square stability assumption, we identify how much data is needed to estimate the unknown bilinear system up to a desired accuracy with high probability. Our sample complexity and statistical error rates are optimal in terms of the trajectory length, the dimensionality of the system and the input size. Our proof technique relies on an application of martingale small-ball condition. This enables us to correctly capture the properties of the problem, specifically our error rates do not deteriorate with increasing instability. Finally, we show that numerical experiments are well-aligned with our theoretical results.
+summary: >
+  Gives finite-sample rates for learning bilinear dynamical systems from a single trajectory under a marginal mean-square stability condition. The analysis uses a martingale small-ball argument to obtain dimension- and trajectory-length-dependent rates without the instability penalties that simpler mixing arguments can introduce.
+link: https://arxiv.org/pdf/2208.13915
+links_alt:
+audit_status: partial

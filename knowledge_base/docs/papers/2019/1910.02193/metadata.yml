@@ -1,0 +1,26 @@
+title: >
+  Mode Clustering for Markov Jump Systems
+algorithm:
+authors:
+  - Zhe Du
+  - Necmiye Ozay
+  - Laura Balzano
+year: 2019
+source: arXiv
+type: Preprint
+doi:
+arxiv_id: "1910.02193"
+tags:
+  - Markov jump systems
+  - Mode clustering
+  - System identification
+  - Singular value decomposition
+  - k-means
+  - Model reduction
+abstract: >
+  In this work, we consider the problem of mode clustering in Markov jump models. This model class consists of multiple dynamical modes with a switching sequence that determines how the system switches between them over time. Under different active modes, the observations can have different characteristics. Given the observations only and without knowing the mode sequence, the goal is to cluster the modes based on their transition distributions in the Markov chain to find a reduced-rank Markov matrix that is embedded in the original Markov chain. Our approach involves mode sequence estimation, mode clustering and reduced-rank model estimation, where mode clustering is achieved by applying the singular value decomposition and k-means. We show that, under certain conditions, the clustering error can be bounded, and the reduced-rank Markov chain is a good approximation to the original Markov chain. Through simulations, we show the efficacy of our approach and the application of our approach to real world scenarios.
+summary: >
+  Studies how to cluster latent modes in Markov jump models using mode-sequence estimation, singular-value structure, and k-means. The paper frames model reduction for switching systems as a statistically analyzable clustering problem over transition behavior rather than only over output trajectories.
+link: https://arxiv.org/pdf/1910.02193
+links_alt:
+audit_status: partial

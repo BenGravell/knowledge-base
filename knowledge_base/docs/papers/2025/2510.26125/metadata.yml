@@ -1,0 +1,37 @@
+title: >
+  WOD-E2E: Waymo Open Dataset for End-to-End Driving in Challenging Long-Tail Scenarios
+algorithm: WOD-E2E
+authors:
+  - Runsheng Xu
+  - Hubert Lin
+  - Wonseok Jeon
+  - Hao Feng
+  - Yuliang Zou
+  - Liting Sun
+  - John Gorman
+  - Ekaterina Tolstaya
+  - Sarah Tang
+  - Brandyn White
+  - Ben Sapp
+  - Mingxing Tan
+  - Jyh-Jing Hwang
+  - Dragomir Anguelov
+year: 2025
+source: arXiv
+type: Preprint
+doi:
+arxiv_id: "2510.26125"
+tags:
+  - Autonomous driving
+  - Benchmarks
+  - Waymo open dataset
+  - End-to-end driving
+  - Long-tail scenarios
+  - Open-loop evaluation
+abstract: >
+  Vision-based end-to-end (E2E) driving has garnered significant interest in the research community due to its scalability and synergy with multimodal large language models (MLLMs). However, current E2E driving benchmarks primarily feature nominal scenarios, failing to adequately test the true potential of these systems. Furthermore, existing open-loop evaluation metrics often fall short in capturing the multi-modal nature of driving or effectively evaluating performance in long-tail scenarios. To address these gaps, we introduce the Waymo Open Dataset for End-to-End Driving (WOD-E2E). WOD-E2E contains 4,021 driving segments (approximately 12 hours), specifically curated for challenging long-tail scenarios that that are rare in daily life with an occurring frequency of less than 0.03%. Concretely, each segment in WOD-E2E includes the high-level routing information, ego states, and 360-degree camera views from 8 surrounding cameras. To evaluate the E2E driving performance on these long-tail situations, we propose a novel open-loop evaluation metric: Rater Feedback Score (RFS). Unlike conventional metrics that measure the distance between predicted way points and the logs, RFS measures how closely the predicted trajectory matches rater-annotated trajectory preference labels. We have released rater preference labels for all WOD-E2E validation set segments, while the held out test set labels have been used for the 2025 WOD-E2E Challenge. Through our work, we aim to foster state of the art research into generalizable, robust, and safe end-to-end autonomous driving agents capable of handling complex real-world situations.
+summary: >
+  Introduces a Waymo Open Dataset benchmark slice and metrics for end-to-end driving in challenging long-tail scenarios. The paper is primarily an evaluation contribution, emphasizing multimodal planning assessment and harder open-loop cases than nominal driving benchmarks usually expose.
+link: https://arxiv.org/pdf/2510.26125
+links_alt:
+audit_status: partial

@@ -1,0 +1,28 @@
+title: >
+  Planning with Learned Dynamics: Probabilistic Guarantees on Safety and Reachability via Lipschitz Constants
+algorithm:
+authors:
+  - Craig Knuth
+  - Glen Chou
+  - Necmiye Ozay
+  - Dmitry Berenson
+year: 2020
+source: IEEE Robotics and Automation Letters (RA-L)
+type: Journal Paper
+doi: 10.1109/LRA.2021.3068889
+arxiv_id: "2010.08993"
+tags:
+  - Learned dynamics
+  - Feedback motion planning
+  - Safety guarantees
+  - Reachability
+  - Lipschitz constants
+  - Sampling-based planning
+abstract: >
+  We present a method for feedback motion planning of systems with unknown dynamics which provides probabilistic guarantees on safety, reachability, and goal stability. To find a domain in which a learned control-affine approximation of the true dynamics can be trusted, we estimate the Lipschitz constant of the difference between the true and learned dynamics, and ensure the estimate is valid with a given probability. Provided the system has at least as many controls as states, we also derive existence conditions for a one-step feedback law which can keep the real system within a small bound of a nominal trajectory planned with the learned dynamics. Our method imposes the feedback law existence as a constraint in a sampling-based planner, which returns a feedback policy around a nominal plan ensuring that, if the Lipschitz constant estimate is valid, the true system is safe during plan execution, reaches the goal, and is ultimately invariant in a small set about the goal. We demonstrate our approach by planning using learned models of a 6D quadrotor and a 7DOF Kuka arm. We show that a baseline which plans using the same learned dynamics without considering the error bound or the existence of the feedback law can fail to stabilize around the plan and become unsafe.
+summary: >
+  Plans with learned control-affine dynamics while bounding model error through estimated Lipschitz constants and feedback-law existence constraints. The result is a sampling-based planner that returns nominal plans with probabilistic safety, reachability, and local goal-stability guarantees under the learned-model trust region.
+link: https://arxiv.org/pdf/2010.08993
+links_alt:
+  - https://doi.org/10.1109/LRA.2021.3068889
+audit_status: partial

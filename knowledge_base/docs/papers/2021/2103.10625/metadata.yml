@@ -1,0 +1,25 @@
+title: >
+  On the Value of Preview Information for Safety Control
+algorithm:
+authors:
+  - Zexiang Liu
+  - Necmiye Ozay
+year: 2021
+source: American Control Conference (ACC)
+type: Conference Paper
+doi:
+arxiv_id: "2103.10625"
+tags:
+  - Safety control
+  - Preview information
+  - Lookahead
+  - Nonlinear systems
+  - Brunovsky canonical form
+  - Controlled invariance
+abstract: >
+  Incorporating predictions of external inputs, which can otherwise be treated as disturbances, has been widely studied in control and computer science communities. These predictions are commonly referred to as preview in optimal control and lookahead in temporal logic synthesis. However, little work has been done for analyzing the value of preview information for safety control for systems with continuous state spaces. In this work, we start from showing general properties for discrete-time nonlinear systems with preview and strategies on how to determine a good preview time, and then we study a special class of linear systems, called systems in Brunovsky canonical form, and show special properties for this class of systems. In the end, we provide two numerical examples to further illustrate the value of preview in safety control.
+summary: >
+  Analyzes when predictions of future disturbances or external inputs improve safety-control performance. The paper gives general preview-time guidance for nonlinear systems and sharper structural results for Brunovsky-form systems, clarifying when lookahead is worth using in continuous-state safety controllers.
+link: https://arxiv.org/pdf/2103.10625
+links_alt:
+audit_status: partial

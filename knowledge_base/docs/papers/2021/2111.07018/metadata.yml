@@ -1,0 +1,29 @@
+title: >
+  Identification and Adaptive Control of Markov Jump Systems: Sample Complexity and Regret Bounds
+algorithm:
+authors:
+  - Yahya Sattar
+  - Zhe Du
+  - Davoud Ataee Tarzanagh
+  - Laura Balzano
+  - Necmiye Ozay
+  - Samet Oymak
+year: 2021
+source: arXiv
+type: Preprint
+doi:
+arxiv_id: "2111.07018"
+tags:
+  - Markov jump systems
+  - System identification
+  - Adaptive control
+  - Regret bounds
+  - Sample complexity
+  - Certainty equivalence
+abstract: >
+  Learning how to effectively control unknown dynamical systems is crucial for intelligent autonomous systems. This task becomes a significant challenge when the underlying dynamics are changing with time. Motivated by this challenge, this paper considers the problem of controlling an unknown Markov jump linear system (MJS) to optimize a quadratic objective. By taking a model-based perspective, we consider identification-based adaptive control of MJSs. We first provide a system identification algorithm for MJS to learn the dynamics in each mode as well as the Markov transition matrix, underlying the evolution of the mode switches, from a single trajectory of the system states, inputs, and modes. Through martingale-based arguments, sample complexity of this algorithm is shown to be $\mathcal{O}(1/\sqrt{T})$. We then propose an adaptive control scheme that performs system identification together with certainty equivalent control to adapt the controllers in an episodic fashion. Combining our sample complexity results with recent perturbation results for certainty equivalent control, we prove that when the episode lengths are appropriately chosen, the proposed adaptive control scheme achieves $\mathcal{O}(\sqrt{T})$ regret, which can be improved to $\mathcal{O}(polylog(T))$ with partial knowledge of the system. Our proof strategy introduces innovations to handle Markovian jumps and a weaker notion of stability common in MJSs. Our analysis provides insights into system theoretic quantities that affect learning accuracy and control performance. Numerical simulations are presented to further reinforce these insights.
+summary: >
+  Combines identification of Markov jump linear dynamics with episodic certainty-equivalent control and regret analysis. The paper is valuable because it handles both mode-dependent dynamics and transition learning from a single trajectory, then translates estimation rates into adaptive-control guarantees.
+link: https://arxiv.org/pdf/2111.07018
+links_alt:
+audit_status: partial

@@ -1,0 +1,29 @@
+title: >
+  Planning-Guided Diffusion Policy Learning for Generalizable Contact-Rich Bimanual Manipulation
+algorithm: GLIDE
+authors:
+  - Xuanlin Li
+  - Tong Zhao
+  - Xinghao Zhu
+  - Jiuguang Wang
+  - Tao Pang
+  - Kuan Fang
+year: 2024
+source: arXiv
+type: Preprint
+doi:
+arxiv_id: "2412.02676"
+tags:
+  - Diffusion policy
+  - Bimanual manipulation
+  - Contact-rich manipulation
+  - Motion planning
+  - Imitation learning
+  - Generalization
+abstract: >
+  Contact-rich bimanual manipulation involves precise coordination of two arms to change object states through strategically selected contacts and motions. Due to the inherent complexity of these tasks, acquiring sufficient demonstration data and training policies that generalize to unseen scenarios remain a largely unresolved challenge. Building on recent advances in planning through contacts, we introduce Generalizable Planning-Guided Diffusion Policy Learning (GLIDE), an approach that effectively learns to solve contact-rich bimanual manipulation tasks by leveraging model-based motion planners to generate demonstration data in high-fidelity physics simulation. Through efficient planning in randomized environments, our approach generates large-scale and high-quality synthetic motion trajectories for tasks involving diverse objects and transformations. We then train a task-conditioned diffusion policy via behavior cloning using these demonstrations. To tackle the sim-to-real gap, we propose a set of essential design options in feature extraction, task representation, action prediction, and data augmentation that enable learning robust prediction of smooth action sequences and generalization to unseen scenarios. Through experiments in both simulation and the real world, we demonstrate that our approach can enable a bimanual robotic system to effectively manipulate objects of diverse geometries, dimensions, and physical properties. Website: https://glide-manip.github.io/
+summary: >
+  Introduces GLIDE, a planning-guided diffusion-policy approach for contact-rich bimanual manipulation with limited demonstrations. The central contribution is using model-based motion planning to shape diffusion-policy learning so manipulation policies generalize better across object states and task variations.
+link: https://arxiv.org/pdf/2412.02676
+links_alt:
+audit_status: partial

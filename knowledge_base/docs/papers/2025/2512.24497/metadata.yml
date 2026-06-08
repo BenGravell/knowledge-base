@@ -1,0 +1,28 @@
+title: >
+  What Drives Success in Physical Planning with Joint-Embedding Predictive World Models?
+algorithm:
+authors:
+  - Basile Terver
+  - Tsung-Yen Yang
+  - Jean Ponce
+  - Adrien Bardes
+  - Yann LeCun
+year: 2025
+source: Transactions on Machine Learning Research (TMLR)
+type: Journal Paper
+doi:
+arxiv_id: "2512.24497"
+tags:
+  - World models
+  - JEPA
+  - Representation-space planning
+  - Physical planning
+  - Model-based reinforcement learning
+  - Generalization
+abstract: >
+  A long-standing challenge in AI is to develop agents capable of solving a wide range of physical tasks and generalizing to new, unseen tasks and environments. A popular recent approach involves training a world model from state-action trajectories and subsequently use it with a planning algorithm to solve new tasks. Planning is commonly performed in the input space, but a recent family of methods has introduced planning algorithms that optimize in the learned representation space of the world model, with the promise that abstracting irrelevant details yields more efficient planning. In this work, we characterize models from this family as JEPA-WMs and investigate the technical choices that make algorithms from this class work. We propose a comprehensive study of several key components with the objective of finding the optimal approach within the family. We conducted experiments using both simulated environments and real-world robotic data, and studied how the model architecture, the training objective, and the planning algorithm affect planning success. We combine our findings to propose a model that outperforms two established baselines, DINO-WM and V-JEPA-2-AC, in both navigation and manipulation tasks. Code, data and checkpoints are available at https://github.com/facebookresearch/jepa-wms.
+summary: >
+  Examines when joint-embedding predictive world models help physical planning, especially planning in learned representation spaces. The paper is valuable as an empirical and conceptual stress test of JEPA-style world models against input-space planning and other baseline choices.
+link: https://arxiv.org/pdf/2512.24497
+links_alt:
+audit_status: partial

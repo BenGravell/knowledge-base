@@ -1,0 +1,25 @@
+title: >
+  Stochastic Differential Dynamic Programming for Trajectory Optimization under Partial Observability
+algorithm:
+authors:
+  - Masahiro Fujiwara
+  - Naoya Ozaki
+year: 2026
+source: arXiv
+type: Preprint
+doi:
+arxiv_id: "2605.07529"
+tags:
+  - Differential dynamic programming
+  - Trajectory optimization
+  - Partial observability
+  - Spacecraft guidance
+  - Covariance control
+  - Belief-space planning
+abstract: >
+  Designing spacecraft trajectories remains challenging in the presence of stochastic effects such as maneuver execution errors and observation uncertainties. Although covariance control and belief-space planning provide useful tools for designing robust control policies and information-aware trajectories under uncertainty, practical methods remain limited for partially observable trajectory optimization problems in which trajectory design, orbit determination, and correction maneuver planning are tightly coupled. This paper presents a stochastic differential dynamic programming algorithm for such coupled problems. The proposed method optimizes the nominal control sequence and feedback gains subject to belief dynamics and general mission constraints, explicitly accounting for the dependence of covariance propagation on the nominal trajectory without relying on the separation principle. Numerical examples demonstrate that the proposed algorithm produces navigation-aware and uncertainty-robust solutions across a range of dynamical systems, observation models, and uncertainty levels. In particular, the circular restricted three-body problem shows that the proposed method can exploit the coupling between trajectory design and orbit determination to obtain navigation-aware solutions with substantially lower fuel consumption than those from deterministic local optimization starting from the same initial guess.
+summary: >
+  Extends stochastic differential dynamic programming to partially observable trajectory optimization problems where guidance, estimation, and correction maneuvers are coupled. The paper is especially relevant for spacecraft trajectory design because it incorporates orbit-determination uncertainty and maneuver-execution noise into the optimization loop.
+link: https://arxiv.org/pdf/2605.07529
+links_alt:
+audit_status: partial

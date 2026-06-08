@@ -1,0 +1,26 @@
+title: >
+  EDGS: Eliminating Densification for Efficient Convergence of 3DGS
+algorithm: EDGS
+authors:
+  - Dmytro Kotovenko
+  - Olga Grebenkova
+  - Bjorn Ommer
+year: 2025
+source: arXiv
+type: Preprint
+doi:
+arxiv_id: "2504.13204"
+tags:
+  - 3D Gaussian splatting
+  - Scene reconstruction
+  - Dense initialization
+  - Densification
+  - Computer vision
+  - Neural rendering
+abstract: >
+  3D Gaussian Splatting reconstructs scenes by starting from a sparse Structure-from-Motion initialization and refining under-reconstructed regions. This process is slow, as it requires multiple densification steps where Gaussians are repeatedly split and adjusted, following a lengthy optimization path. Moreover, this incremental approach often yields suboptimal renderings in high-frequency regions. We propose a fundamentally different approach: eliminate densification with a one-step approximation of scene geometry using triangulated pixels from dense image correspondences. This dense initialization allows us to estimate the rough geometry of the scene while preserving rich details from input RGB images, providing each Gaussian with well-informed color, scale, and position. As a result, we dramatically shorten the optimization path and remove the need for densification. Unlike methods that rely on sparse keypoints, our dense initialization ensures uniform detail across the scene, even in high-frequency regions where other methods struggle. Moreover, since all splats are initialized in parallel at the start of optimization, we remove the need to wait for densification to adjust new Gaussians. EDGS reaches LPIPS and SSIM performance of standard 3DGS significantly faster than existing efficiency-focused approaches. When trained further, it exceeds the reconstruction quality of state-of-the-art models aimed at maximizing fidelity. Our method is fully compatible with other acceleration techniques, making it a versatile and efficient solution that can be integrated with existing approaches.
+summary: >
+  Replaces iterative Gaussian-splat densification with a dense one-step initialization derived from image correspondences. The paper targets the slow convergence and high-frequency artifacts of standard 3DGS training by starting optimization from a more complete geometric scaffold.
+link: https://arxiv.org/pdf/2504.13204
+links_alt:
+audit_status: partial
