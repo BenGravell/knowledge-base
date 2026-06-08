@@ -39,3 +39,10 @@ https://github.com/personalrobotics/ssik
 https://developer.nvidia.com/blog/how-to-post-train-autonomous-vehicle-models-in-closed-loop-with-nvidia-alpamayo/
 https://github.com/NVlabs/alpasim
 https://motional.com/news/cracking-long-tail-code-autonomous-driving-nureasoning
+https://arc.aiaa.org/doi/10.2514/1.11950
+https://paper.motoniq.ai/
+https://generalistai.com/blog/beyond-world-models
+https://opencv.org/opencv-5/
+https://magenta.withgoogle.com/magenta-realtime-2
+https://drfeifei.substack.com/p/a-functional-taxonomy-of-world-models
+https://ieeexplore.ieee.org/stampPDF/getPDF.jsp?tp=&arnumber=5751929&ref=aHR0cHM6Ly93d3cuZ29vZ2xlLmNvbS8=
