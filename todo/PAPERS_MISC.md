@@ -38,3 +38,4 @@ https://alexandreamice.github.io/project/ccosmo/
 https://github.com/personalrobotics/ssik
 https://developer.nvidia.com/blog/how-to-post-train-autonomous-vehicle-models-in-closed-loop-with-nvidia-alpamayo/
 https://github.com/NVlabs/alpasim
+https://motional.com/news/cracking-long-tail-code-autonomous-driving-nureasoning
