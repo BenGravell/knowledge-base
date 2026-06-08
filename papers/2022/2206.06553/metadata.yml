@@ -1,0 +1,26 @@
+title: >
+  Safe Output Feedback Motion Planning from Images via Learned Perception Modules and Contraction Theory
+algorithm:
+authors:
+  - Glen Chou
+  - Necmiye Ozay
+  - Dmitry Berenson
+year: 2022
+source: Workshop on the Algorithmic Foundations of Robotics (WAFR)
+type: Workshop Paper
+doi:
+arxiv_id: "2206.06553"
+tags:
+  - Motion planning
+  - Output feedback
+  - Learned perception
+  - Contraction theory
+  - Safety guarantees
+  - RGB-D perception
+abstract: >
+  We present a motion planning algorithm for a class of uncertain control-affine nonlinear systems which guarantees runtime safety and goal reachability when using high-dimensional sensor measurements (e.g., RGB-D images) and a learned perception module in the feedback control loop. First, given a dataset of states and observations, we train a perception system that seeks to invert a subset of the state from an observation, and estimate an upper bound on the perception error which is valid with high probability in a trusted domain near the data. Next, we use contraction theory to design a stabilizing state feedback controller and a convergent dynamic state observer which uses the learned perception system to update its state estimate. We derive a bound on the trajectory tracking error when this controller is subjected to errors in the dynamics and incorrect state estimates. Finally, we integrate this bound into a sampling-based motion planner, guiding it to return trajectories that can be safely tracked at runtime using sensor data. We demonstrate our approach in simulation on a 4D car, a 6D planar quadrotor, and a 17D manipulation task with RGB(-D) sensor measurements, demonstrating that our method safely and reliably steers the system to the goal, while baselines that fail to consider the trusted domain or state estimation errors can be unsafe.
+summary: >
+  Integrates learned perception error bounds, contraction-based tracking, and sampling-based planning to provide safety and reachability guarantees from high-dimensional observations. The paper is a useful template for treating perception uncertainty as part of the motion-planning certificate rather than as a separate preprocessing concern.
+link: https://arxiv.org/pdf/2206.06553
+links_alt:
+audit_status: partial

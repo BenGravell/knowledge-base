@@ -1,0 +1,30 @@
+title: >
+  SCTOMP: Spatially Constrained Time-Optimal Motion Planning
+algorithm: SCTOMP
+authors:
+  - Jon Arrizabalaga
+  - Markus Ryll
+year: 2022
+source: IEEE/RSJ International Conference on Intelligent Robots and Systems
+type: Conference Paper
+doi: 10.1109/IROS55552.2023.10341500
+arxiv_id: "2210.02345"
+tags:
+  - Motion planning
+  - Time-optimal control
+  - Trajectory optimization
+  - Obstacle avoidance
+  - Path planning
+  - Path parameterization
+  - Spatial planning
+abstract: >
+  This paper focuses on spatial time-optimal motion planning, a generalization of the exact time-optimal path following problem that allows the system to plan within a predefined space. In contrast to state-of-the-art methods, we drop the assumption that a collision-free geometric reference is given. Instead, we present a two-stage motion planning method that solely relies on a goal location and a geometric representation of the environment to compute a time-optimal trajectory that is compliant with system dynamics and constraints. To do so, the proposed scheme first computes an obstacle-free Pythagorean Hodograph parametric spline, and second solves a spatially reformulated minimum-time optimization problem. The spline obtained in the first stage is not a geometric reference, but an extension of the environment representation, and thus, time-optimality of the solution is guaranteed. The efficacy of the proposed approach is benchmarked by a known planar example and validated in a more complex spatial system, illustrating its versatility and applicability.
+
+summary: >
+  Generalizes time-optimal path following by optimizing inside a spatial corridor instead of assuming a fixed collision-free reference path. SCTOMP combines corridor construction, smooth spline representation, and minimum-time optimization to produce dynamically feasible trajectories.
+
+link: https://arxiv.org/pdf/2210.02345
+links_alt:
+  - https://doi.org/10.1109/IROS55552.2023.10341500
+  - https://portal.fis.tum.de/en/publications/sctomp-spatially-constrained-time-optimal-motion-planning/
+audit_status: partial

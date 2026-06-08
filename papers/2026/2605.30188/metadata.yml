@@ -1,0 +1,27 @@
+title: >
+  CalArena: A Large-Scale Post-Hoc Calibration Benchmark
+algorithm: CalArena
+authors:
+  - Eugene Berta
+  - David Holzmuller
+  - Francis Bach
+  - Michael I. Jordan
+year: 2026
+source: arXiv
+type: Preprint
+doi:
+arxiv_id: "2605.30188"
+tags:
+  - Calibration
+  - Benchmarks
+  - Post-hoc calibration
+  - Classification
+  - Reliability
+  - Machine learning
+abstract: >
+  Reliable probability estimates are critical in many machine learning applications, yet modern classifiers are often poorly calibrated. Post-hoc calibration provides a simple and widely used solution, but the large number of proposed methods, combined with small-scale and inconsistent evaluations, makes it difficult to determine which approaches are truly effective in practice. We introduce a large-scale, standardized benchmark for post-hoc calibration, covering nearly 2000 experiments across tabular and computer vision tasks, including binary, multiclass, and large-scale classification settings. Our benchmark aggregates predictions from a diverse set of classical models, modern deep learning architectures, and foundation models, and provides unified, reproducible implementations of dozens of calibration methods within a common evaluation framework. We argue that Post-Hoc Improvement (PHI) in proper scoring rules offers a principled alternative to traditional calibration error estimators for comparing post-hoc methods, capturing both calibration quality and potential degradation to the model's predictive performance. Using this framework, we conduct the most comprehensive empirical study of post-hoc calibration to date. Our results reveal consistent patterns across domains: smooth calibration functions outperform binning-based approaches, dedicated multiclass methods are essential in high-dimensional settings, and generic machine learning models are not competitive without calibration-specific design. To facilitate future research, we release all data, code, and evaluation tools, providing a plug-and-play benchmark for developing and comparing calibration methods.
+summary: >
+  Introduces a large standardized benchmark for post-hoc calibration across tabular and computer-vision classification settings. The paper is useful as an evaluation reference because it compares many calibration methods under consistent metrics and highlights where small-scale prior evaluations can mislead.
+link: https://arxiv.org/pdf/2605.30188
+links_alt:
+audit_status: partial

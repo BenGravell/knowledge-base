@@ -1,0 +1,26 @@
+title: >
+  From Drinking Philosophers to Asynchronous Path-Following Robots
+algorithm:
+authors:
+  - Yunus Emre Sahin
+  - Necmiye Ozay
+year: 2020
+source: arXiv
+type: Preprint
+doi:
+arxiv_id: "2001.00440"
+tags:
+  - Asynchronous coordination
+  - Path following
+  - Multi-agent systems
+  - Coordination taxonomy
+  - Formal methods
+  - Robotics
+  - Control systems
+abstract: >
+  In this paper, we consider the multi-robot path execution problem where a group of robots move on predefined paths from their initial to target positions while avoiding collisions and deadlocks in the face of asynchrony. We first show that this problem can be reformulated as a distributed resource allocation problem and, in particular, as an instance of the well-known Drinking Philosophers Problem (DrPP). By careful construction of the drinking sessions capturing shared resources, we show that any existing solutions to DrPP can be used to design robot control policies that are collectively collision and deadlock-free. We then propose modifications to an existing DrPP algorithm to allow more concurrent behavior, and provide conditions under which our method is deadlock-free. Our method does not require robots to know or to estimate the speed profiles of other robots and results in distributed control policies. We demonstrate the efficacy of our method on simulation examples, which show competitive performance against the state-of-the-art.
+summary: >
+  Connects asynchronous robot path following to coordination ideas from the drinking philosophers problem. The contribution is a formal way to reason about progress and resource conflicts when robots execute paths without global synchronization.
+link: https://arxiv.org/pdf/2001.00440
+links_alt:
+audit_status: partial

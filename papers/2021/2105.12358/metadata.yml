@@ -1,0 +1,29 @@
+title: >
+  Certainty Equivalent Quadratic Control for Markov Jump Systems
+algorithm:
+authors:
+  - Zhe Du
+  - Yahya Sattar
+  - Davoud Ataee Tarzanagh
+  - Laura Balzano
+  - Samet Oymak
+  - Necmiye Ozay
+year: 2021
+source: arXiv
+type: Preprint
+doi:
+arxiv_id: "2105.12358"
+tags:
+  - Markov jump systems
+  - Certainty equivalence
+  - Linear quadratic control
+  - Riccati equation
+  - Robustness
+  - Perturbation bounds
+abstract: >
+  Real-world control applications often involve complex dynamics subject to abrupt changes or variations. Markov jump linear systems (MJS) provide a rich framework for modeling such dynamics. Despite an extensive history, theoretical understanding of parameter sensitivities of MJS control is somewhat lacking. Motivated by this, we investigate robustness aspects of certainty equivalent model-based optimal control for MJS with quadratic cost function. Given the uncertainty in the system matrices and in the Markov transition matrix is bounded by epsilon and eta respectively, robustness results are established for (i) the solution to coupled Riccati equations and (ii) the optimal cost, by providing explicit perturbation bounds which decay as O(epsilon+ eta) and O((epsilon+ eta)^(2)) respectively.
+summary: >
+  Develops perturbation bounds for certainty-equivalent quadratic control of Markov jump linear systems with errors in dynamics and transition probabilities. The paper isolates how uncertainty propagates through coupled Riccati equations and the optimal cost, supporting model-based control under estimated jump dynamics.
+link: https://arxiv.org/pdf/2105.12358
+links_alt:
+audit_status: partial

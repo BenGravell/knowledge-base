@@ -1,0 +1,76 @@
+title: >
+  AgiBot World Colosseo: A Large-Scale Manipulation Platform for Scalable and Intelligent Embodied Systems
+algorithm: AgiBot World Colosseo
+authors:
+  - Qingwen Bu
+  - Jisong Cai
+  - Li Chen
+  - Xiuqi Cui
+  - Yan Ding
+  - Siyuan Feng
+  - Shenyuan Gao
+  - Xindong He
+  - Xuan Hu
+  - Xu Huang
+  - Shu Jiang
+  - Yuxin Jiang
+  - Cheng Jing
+  - Hongyang Li
+  - Jialu Li
+  - Chiming Liu
+  - Yi Liu
+  - Yuxiang Lu
+  - Jianlan Luo
+  - Ping Luo
+  - Yao Mu
+  - Yuehan Niu
+  - Yixuan Pan
+  - Jiangmiao Pang
+  - Yu Qiao
+  - Guanghui Ren
+  - Cheng Ruan
+  - Jiaqi Shan
+  - Yongjian Shen
+  - Chengshi Shi
+  - Mingkang Shi
+  - Modi Shi
+  - Chonghao Sima
+  - Jianheng Song
+  - Huijie Wang
+  - Wenhao Wang
+  - Dafeng Wei
+  - Chengen Xie
+  - Guo Xu
+  - Junchi Yan
+  - Cunbiao Yang
+  - Lei Yang
+  - Shukai Yang
+  - Maoqing Yao
+  - Jia Zeng
+  - Chi Zhang
+  - Qinglin Zhang
+  - Bin Zhao
+  - Chengyue Zhao
+  - Jiaqi Zhao
+  - Jianchao Zhu
+year: 2025
+source: arXiv
+type: Preprint
+doi:
+arxiv_id: "2503.06669"
+tags:
+  - Robot manipulation
+  - Datasets
+  - Vision-language-action models
+  - Generalist robot policies
+  - Dexterous manipulation
+  - Scalable robot data
+abstract: >
+  We explore how scalable robot data can address real-world challenges for generalized robotic manipulation. Introducing AgiBot World, a large-scale platform comprising over 1 million trajectories across 217 tasks in five deployment scenarios, we achieve an order-of-magnitude increase in data scale compared to existing datasets. Accelerated by a standardized collection pipeline with human-in-the-loop verification, AgiBot World guarantees high-quality and diverse data distribution. It is extensible from grippers to dexterous hands and visuo-tactile sensors for fine-grained skill acquisition. Building on top of data, we introduce Genie Operator-1 (GO-1), a novel generalist policy that leverages latent action representations to maximize data utilization, demonstrating predictable performance scaling with increased data volume. Policies pre-trained on our dataset achieve an average performance improvement of 30% over those trained on Open X-Embodiment, both in in-domain and out-of-distribution scenarios. GO-1 exhibits exceptional capability in real-world dexterous and long-horizon tasks, achieving over 60% success rate on complex tasks and outperforming prior RDT approach by 32%. By open-sourcing the dataset, tools, and models, we aim to democratize access to large-scale, high-quality robot data, advancing the pursuit of scalable and general-purpose intelligence.
+summary: >
+  Introduces AgiBot World Colosseo, a large-scale manipulation dataset and platform, together with the GO-1 generalist policy trained on its trajectories. The paper is primarily a data-scaling and infrastructure contribution for embodied manipulation, with policy results showing how latent action representations can exploit the dataset.
+link: https://arxiv.org/pdf/2503.06669
+links_alt:
+  - https://agibot-world.com/
+  - https://github.com/OpenDriveLab/AgiBot-World
+audit_status: partial

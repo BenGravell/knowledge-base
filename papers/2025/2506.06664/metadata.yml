@@ -1,0 +1,33 @@
+title: >
+  Generalized Trajectory Scoring for End-to-End Multimodal Planning
+algorithm:
+authors:
+  - Zhenxin Li
+  - Wenhao Yao
+  - Zi Wang
+  - Xinglong Sun
+  - Joshua Chen
+  - Nadine Chang
+  - Maying Shen
+  - Zuxuan Wu
+  - Shiyi Lan
+  - Jose M. Alvarez
+year: 2025
+source: CVPR Autonomous Grand Challenge
+type: Workshop Paper
+doi:
+arxiv_id: "2506.06664"
+tags:
+  - Autonomous driving
+  - End-to-end planning
+  - Multimodal planning
+  - Trajectory scoring
+  - Generalization
+  - Benchmarks
+abstract: >
+  End-to-end multi-modal planning is a promising paradigm in autonomous driving, enabling decision-making with diverse trajectory candidates. A key component is a robust trajectory scorer capable of selecting the optimal trajectory from these candidates. While recent trajectory scorers focus on scoring either large sets of static trajectories or small sets of dynamically generated ones, both approaches face significant limitations in generalization. Static vocabularies provide effective coarse discretization but struggle to make fine-grained adaptation, while dynamic proposals offer detailed precision but fail to capture broader trajectory distributions. To overcome these challenges, we propose GTRS (Generalized Trajectory Scoring), a unified framework for end-to-end multi-modal planning that combines coarse and fine-grained trajectory evaluation. GTRS consists of three complementary innovations: (1) a diffusion-based trajectory generator that produces diverse fine-grained proposals; (2) a vocabulary generalization technique that trains a scorer on super-dense trajectory sets with dropout regularization, enabling its robust inference on smaller subsets; and (3) a sensor augmentation strategy that enhances out-of-domain generalization while incorporating refinement training for critical trajectory discrimination. As the winning solution of the Navsim v2 Challenge, GTRS demonstrates superior performance even with sub-optimal sensor inputs, approaching privileged methods that rely on ground-truth perception. Code will be available at https://github.com/NVlabs/GTRS.
+summary: >
+  Studies trajectory scoring as the selection layer for end-to-end multimodal driving planners, balancing static trajectory vocabularies and dynamic proposals. The paper is framed as a challenge-winning system contribution that improves generalization when choosing among diverse candidate futures.
+link: https://arxiv.org/pdf/2506.06664
+links_alt:
+audit_status: partial

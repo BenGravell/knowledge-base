@@ -1,0 +1,26 @@
+title: >
+  BP-MPC: Optimizing the Closed-Loop Performance of MPC Using Backpropagation
+algorithm: BP-MPC
+authors:
+  - Riccardo Zuliani
+  - Efe C. Balta
+  - John Lygeros
+year: 2023
+source: arXiv
+type: Preprint
+doi:
+arxiv_id: "2312.15521"
+tags:
+  - Model predictive control
+  - Backpropagation
+  - Policy optimization
+  - Differentiable control
+  - Model predictive control tuning
+  - Closed-loop performance
+abstract: >
+  Model predictive control (MPC) is pervasive in research and industry. However, designing the cost function and the constraints of the MPC to maximize closed-loop performance remains an open problem. To achieve optimal tuning, we propose a backpropagation scheme that solves a policy optimization problem with nonlinear system dynamics and MPC policies. We enforce the system dynamics using linearization and allow the MPC problem to contain elements that depend on the current system state and on past MPC solutions. Moreover, we propose a simple extension that can deal with losses of feasibility. Our approach, unlike other methods in the literature, enjoys convergence guarantees.
+summary: >
+  Optimizes MPC costs and constraints by backpropagating closed-loop performance through linearized dynamics and MPC policies. The paper contributes a convergence-backed tuning procedure for improving closed-loop behavior, including a feasibility-loss extension for cases where the MPC problem can fail.
+link: https://arxiv.org/pdf/2312.15521
+links_alt:
+audit_status: partial

@@ -1,0 +1,31 @@
+title: >
+  Autonomous Vehicle Decision-Making and Monitoring Based on Signal Temporal Logic and Mixed-Integer Programming
+algorithm:
+authors:
+  - Yunus Emre Sahin
+  - Rien Quirynen
+  - Stefano Di Cairano
+year: 2020
+source: American Control Conference
+type: Conference Paper
+doi: 10.23919/ACC45564.2020.9147917
+arxiv_id:
+tags:
+  - Autonomous driving
+  - Temporal logic
+  - Mixed-integer programming
+  - Formal verification
+  - Safety verification
+  - Decision-making
+  - Optimization-based synthesis
+abstract: >
+  We propose a decision-making system for auto-mated driving with formal guarantees, synthesized from Signal Temporal Logic (STL) specifications. STL formulae specifying overall and intermediate driving goals and the traffic rules are encoded as mixed-integer inequalities and combined with a simplified vehicle motion model, resulting in a mixed-integer optimization problem. The specification satisfaction for the actual vehicle motion is guaranteed by imposing constraints on the quantitative semantics of STL. For reducing the com-putational burden, we propose an STL encoding that results in a block-sparse structure. The same STL formulae are used for monitoring faults due to imperfect prediction on the vehicle and environment. We demonstrate our method on an urban scenario with intersections, obstacles, and no-pass zones.
+
+summary: >
+  Formulates automated-driving decision making as a mixed-integer optimization problem generated from signal-temporal-logic goals and rules. A notable secondary contribution is reusing the same specifications for online monitoring when predictions or execution deviate from the plan.
+
+link: https://www.merl.com/publications/docs/TR2020-095.pdf
+links_alt:
+  - https://www.merl.com/publications/TR2020-095
+  - https://doi.org/10.23919/ACC45564.2020.9147917
+audit_status: partial

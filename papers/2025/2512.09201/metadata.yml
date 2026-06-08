@@ -1,0 +1,35 @@
+title: >
+  Residual Primitive Fitting of 3D Shapes with SuperFrusta
+algorithm: SuperFrusta
+authors:
+  - Aditya Ganeshan
+  - Matheus Gadelha
+  - Thibault Groueix
+  - Zhiqin Chen
+  - Siddhartha Chaudhuri
+  - Vladimir Kim
+  - Wang Yifan
+  - Daniel Ritchie
+year: 2025
+source: arXiv
+type: Preprint
+doi:
+arxiv_id: "2512.09201"
+tags:
+  - 3D shape registration
+  - Shape reconstruction
+  - Geometry processing
+  - Shape preservation
+  - Computer vision
+  - 3D reconstruction
+  - Point cloud
+abstract: >
+  We introduce a framework for converting 3D shapes into compact and editable assemblies of analytic primitives, directly addressing the persistent trade-off between reconstruction fidelity and parsimony. Our approach combines two key contributions: a novel primitive, termed SuperFrustum, and an iterative fiting algorithm, Residual Primitive Fitting (ResFit). SuperFrustum is an analytical primitive that is simultaneously (1) expressive, being able to model various common solids such as cylinders, spheres, cones & their tapered and bent forms, (2) editable, being compactly parameterized with 8 parameters, and (3) optimizable, with a sign distance field differentiable w.r.t. its parameters almost everywhere. ResFit is an unsupervised procedure that interleaves global shape analysis with local optimization, iteratively fitting primitives to the unexplained residual of a shape to discover a parsimonious yet accurate decompositions for each input shape. On diverse 3D benchmarks, our method achieves state-of-the-art results, improving IoU by over 9 points while using nearly half as many primitives as prior work. The resulting assemblies bridge the gap between dense 3D data and human-controllable design, producing high-fidelity and editable shape programs.
+
+summary: >
+  Fits 3D shapes using residual primitive decomposition with SuperFrusta, aiming for compact and expressive shape approximations. The method is useful for geometry processing workflows where interpretable primitive structure is preferable to dense uninterpreted geometry.
+
+link: https://arxiv.org/pdf/2512.09201
+links_alt:
+  - https://bardofcodes.github.io/superfit/
+audit_status: partial

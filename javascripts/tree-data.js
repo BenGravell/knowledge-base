@@ -10256,6 +10256,66 @@ window.treeData = {
                                 }
                               },
                               {
+                                "id": "tree-decision-making-optimization-continuous-optimization-nonlinear-optimization-first-order-methods-stochastic-gradient-descent-sgd-on-the-computational-inefficiency-of-large-batch-sizes-for-stochastic-gradient-descent-papers-1811-12941-md",
+                                "label": "On the Computational Inefficiency of Large Batch Sizes for Stochastic Gradient Descent",
+                                "kind": "paper",
+                                "source": "papers/1811_12941.md",
+                                "url": "../papers/1811_12941/",
+                                "path": [
+                                  "Tree",
+                                  "Decision-making",
+                                  "Optimization",
+                                  "Continuous Optimization",
+                                  "Nonlinear Optimization",
+                                  "First-Order Methods",
+                                  "Stochastic Gradient Descent (SGD)",
+                                  "On the Computational Inefficiency of Large Batch Sizes for Stochastic Gradient Descent"
+                                ],
+                                "children": [],
+                                "leafCount": 1,
+                                "branchCount": 0,
+                                "paper": {
+                                  "id": "1811_12941",
+                                  "label": "Golmant et al. 2018",
+                                  "title": "On the Computational Inefficiency of Large Batch Sizes for Stochastic Gradient Descent",
+                                  "algorithm": "",
+                                  "authors": [
+                                    "Noah Golmant",
+                                    "Nikita Vemuri",
+                                    "Zhewei Yao",
+                                    "Vladimir Feinberg",
+                                    "Amir Gholami",
+                                    "Kai Rothauge",
+                                    "Michael W. Mahoney",
+                                    "Joseph Gonzalez"
+                                  ],
+                                  "year": 2018,
+                                  "yearValue": 2018,
+                                  "sourceName": "arXiv",
+                                  "type": "Preprint",
+                                  "doi": "",
+                                  "arxivId": "1811.12941",
+                                  "primaryLink": "https://arxiv.org/pdf/1811.12941",
+                                  "hasPrimaryLink": true,
+                                  "alternateLinkCount": 0,
+                                  "auditStatus": "partial",
+                                  "tags": [
+                                    "Stochastic gradient descent",
+                                    "Machine learning systems",
+                                    "Machine learning efficiency",
+                                    "Parallel computing",
+                                    "Optimization",
+                                    "Generalization",
+                                    "Neural networks"
+                                  ],
+                                  "abstract": "Increasing the mini-batch size for stochastic gradient descent offers significant opportunities to reduce wall-clock training time, but there are a variety of theoretical and systems challenges that impede the widespread success of this technique. We investigate these issues, with an emphasis on time to convergence and total computational cost, through an extensive empirical analysis of network training across several architectures and problem domains, including image classification, image segmentation, and language modeling. Although it is common practice to increase the batch size in order to fully exploit available computational resources, we find a substantially more nuanced picture. Our main finding is that across a wide range of network architectures and problem domains, increasing the batch size beyond a certain point yields no decrease in wall-clock time to convergence for either train or test loss. This batch size is usually substantially below the capacity of current systems. We show that popular training strategies for large batch size optimization begin to fail before we can populate all available compute resources, and we show that the point at which these methods break down depends more on attributes like model architecture and data complexity than it does directly on the size of the dataset.",
+                                  "summary": "Analyzes why increasing the batch size in stochastic gradient training can stop producing proportional wall-clock gains. The paper separates hardware utilization from optimization progress, giving a practical lens for deciding when large-batch training becomes computationally wasteful.",
+                                  "mapUrl": "../map/#paper=1811_12941",
+                                  "timelineUrl": "../timeline/#paper=1811_12941",
+                                  "searchUrl": "../search/?paper=1811_12941"
+                                }
+                              },
+                              {
                                 "id": "tree-decision-making-optimization-continuous-optimization-nonlinear-optimization-first-order-methods-stochastic-gradient-descent-sgd-making-sgd-parameter-free-papers-2205-02160-md",
                                 "label": "Making SGD Parameter-Free",
                                 "kind": "paper",
@@ -11361,7 +11421,7 @@ window.treeData = {
                                 "branchCount": 0
                               }
                             ],
-                            "leafCount": 22,
+                            "leafCount": 23,
                             "branchCount": 2
                           },
                           {
@@ -11637,7 +11697,7 @@ window.treeData = {
                             "branchCount": 0
                           }
                         ],
-                        "leafCount": 79,
+                        "leafCount": 80,
                         "branchCount": 20
                       },
                       {
@@ -13855,7 +13915,7 @@ window.treeData = {
                         "branchCount": 0
                       }
                     ],
-                    "leafCount": 179,
+                    "leafCount": 180,
                     "branchCount": 38
                   },
                   {
@@ -14896,6 +14956,57 @@ window.treeData = {
                         }
                       },
                       {
+                        "id": "tree-decision-making-optimization-continuous-optimization-robust-stochastic-optimization-stable-regression-papers-2020-bertsimas-stable-regression-on-the-md",
+                        "label": "Stable Regression",
+                        "kind": "paper",
+                        "source": "papers/2020_bertsimas_stable_regression_on_the.md",
+                        "url": "../papers/2020_bertsimas_stable_regression_on_the/",
+                        "path": [
+                          "Tree",
+                          "Decision-making",
+                          "Optimization",
+                          "Continuous Optimization",
+                          "Robust & Stochastic Optimization",
+                          "Stable Regression"
+                        ],
+                        "children": [],
+                        "leafCount": 1,
+                        "branchCount": 0,
+                        "paper": {
+                          "id": "2020_bertsimas_stable_regression_on_the",
+                          "label": "Stable Regression",
+                          "title": "Stable Regression: On the Power of Optimization over Randomization",
+                          "algorithm": "Stable Regression",
+                          "authors": [
+                            "Dimitris Bertsimas",
+                            "Ivan Paskov"
+                          ],
+                          "year": 2020,
+                          "yearValue": 2020,
+                          "sourceName": "Journal of Machine Learning Research",
+                          "type": "Journal Paper",
+                          "doi": "",
+                          "arxivId": "",
+                          "primaryLink": "https://jmlr.org/papers/volume21/19-408/19-408.pdf",
+                          "hasPrimaryLink": true,
+                          "alternateLinkCount": 1,
+                          "auditStatus": "partial",
+                          "tags": [
+                            "Robust optimization",
+                            "Regression",
+                            "Stability",
+                            "Training-validation split",
+                            "Feature selection",
+                            "Distributionally robust optimization"
+                          ],
+                          "abstract": "We investigate and ultimately suggest remediation to the widely held belief that the best way to train regression models is via random assignment of our data to training and validation sets. In particular, we show that taking a robust optimization approach, and optimally selecting such training and validation sets, leads to models that not only perform significantly better than their randomly constructed counterparts in terms of prediction error, but more importantly, are considerably more stable in the sense that the standard deviation of the resulting predictions, as well as of the model coefficients, is greatly reduced. Moreover, we show that this optimization approach to training is far more effective at recovering the true support of a given data set, i.e., correctly identifying important features while simultaneously excluding spurious ones. We further compare the robust optimization approach to cross validation and find that optimization continues to have a performance edge albeit smaller. Finally, we show that this optimization approach to training is equivalent to building models that are robust to all subpopulations in the data, and thus in particular are robust to the hardest subpopulation, which leads to interesting domain specific interpretations through the use of optimal classification trees. The proposed robust optimization algorithm is efficient and scales training to essentially any desired size.",
+                          "summary": "Replaces random train-validation splitting for regression with an optimization problem that selects harder, more stable splits. The paper connects stable predictive performance and support recovery to robustness over subpopulations, giving an optimization-based alternative to repeated random resampling and cross-validation.",
+                          "mapUrl": "../map/#paper=2020_bertsimas_stable_regression_on_the",
+                          "timelineUrl": "../timeline/#paper=2020_bertsimas_stable_regression_on_the",
+                          "searchUrl": "../search/?paper=2020_bertsimas_stable_regression_on_the"
+                        }
+                      },
+                      {
                         "id": "tree-decision-making-optimization-continuous-optimization-robust-stochastic-optimization-distributionally-robust-inverse-covariance-estimation-the-wasserstein-shrinkage-estimator-papers-1805-07194-md",
                         "label": "Distributionally Robust Inverse Covariance Estimation: The Wasserstein Shrinkage Estimator",
                         "kind": "paper",
@@ -15130,7 +15241,7 @@ window.treeData = {
                         }
                       }
                     ],
-                    "leafCount": 25,
+                    "leafCount": 26,
                     "branchCount": 2
                   },
                   {
@@ -16332,7 +16443,7 @@ window.treeData = {
                     "branchCount": 0
                   }
                 ],
-                "leafCount": 297,
+                "leafCount": 299,
                 "branchCount": 52
               },
               {
@@ -16697,9 +16808,64 @@ window.treeData = {
                           "timelineUrl": "../timeline/#paper=1992_laporte_the_traveling_salesman_problem",
                           "searchUrl": "../search/?paper=1992_laporte_the_traveling_salesman_problem"
                         }
+                      },
+                      {
+                        "id": "tree-decision-making-optimization-combinatorial-optimization-traveling-salesman-problems-complete-mt-tsp-o-algorithm-papers-2409-09852-md",
+                        "label": "Complete MT-TSP-O algorithm",
+                        "kind": "paper",
+                        "source": "papers/2409_09852.md",
+                        "url": "../papers/2409_09852/",
+                        "path": [
+                          "Tree",
+                          "Decision-making",
+                          "Optimization",
+                          "Combinatorial Optimization",
+                          "Traveling Salesman Problems",
+                          "Complete MT-TSP-O algorithm"
+                        ],
+                        "children": [],
+                        "leafCount": 1,
+                        "branchCount": 0,
+                        "paper": {
+                          "id": "2409_09852",
+                          "label": "Complete MT-TSP-O algorithm",
+                          "title": "A Complete Algorithm for a Moving Target Traveling Salesman Problem with Obstacles",
+                          "algorithm": "Complete MT-TSP-O algorithm",
+                          "authors": [
+                            "Anoop Bhat",
+                            "Geordan Gutow",
+                            "Bhaskar Vundurthy",
+                            "Zhongqiang Ren",
+                            "Sivakumar Rathinam",
+                            "Howie Choset"
+                          ],
+                          "year": 2024,
+                          "yearValue": 2024,
+                          "sourceName": "Workshop on the Algorithmic Foundations of Robotics (WAFR)",
+                          "type": "Workshop Paper",
+                          "doi": "",
+                          "arxivId": "2409.09852",
+                          "primaryLink": "https://arxiv.org/pdf/2409.09852",
+                          "hasPrimaryLink": true,
+                          "alternateLinkCount": 0,
+                          "auditStatus": "partial",
+                          "tags": [
+                            "Traveling salesman problem",
+                            "Moving targets",
+                            "Obstacles",
+                            "Complete algorithms",
+                            "Motion planning",
+                            "Combinatorial optimization"
+                          ],
+                          "abstract": "The moving target traveling salesman problem with obstacles (MT-TSP-O) is a generalization of the traveling salesman problem (TSP) where, as its name suggests, the targets are moving. A solution to the MT-TSP-O is a trajectory that visits each moving target during a certain time window(s), and this trajectory avoids stationary obstacles. We assume each target moves at a constant velocity during each of its time windows. The agent has a speed limit, and this speed limit is no smaller than any target's speed. This paper presents the first complete algorithm for finding feasible solutions to the MT-TSP-O. Our algorithm builds a tree where the nodes are agent trajectories intercepting a unique sequence of targets within a unique sequence of time windows. We generate each of a parent node's children by extending the parent's trajectory to intercept one additional target, each child corresponding to a different choice of target and time window. This extension consists of planning a trajectory from the parent trajectory's final point in space-time to a moving target. To solve this point-to-moving-target subproblem, we define a novel generalization of a visibility graph called a moving target visibility graph (MTVG). Our overall algorithm is called MTVG-TSP. To validate MTVG-TSP, we test it on 570 instances with up to 30 targets. We implement a baseline method that samples trajectories of targets into points, based on prior work on special cases of the MT-TSP-O. MTVG-TSP finds feasible solutions in all cases where the baseline does, and when the sum of the targets' time window lengths enters a critical range, MTVG-TSP finds a feasible solution with up to 38 times less computation time.",
+                          "summary": "Presents a complete algorithm for a moving-target traveling-salesman variant with obstacle avoidance and target time windows. The paper connects geometric motion planning with combinatorial routing by proving finite-time termination and handling the coupling between visit order, timing, and collision-free travel.",
+                          "mapUrl": "../map/#paper=2409_09852",
+                          "timelineUrl": "../timeline/#paper=2409_09852",
+                          "searchUrl": "../search/?paper=2409_09852"
+                        }
                       }
                     ],
-                    "leafCount": 3,
+                    "leafCount": 4,
                     "branchCount": 0
                   },
                   {
@@ -17082,7 +17248,7 @@ window.treeData = {
                     "branchCount": 0
                   }
                 ],
-                "leafCount": 13,
+                "leafCount": 14,
                 "branchCount": 5
               },
               {
@@ -19380,9 +19546,66 @@ window.treeData = {
                           "timelineUrl": "../timeline/#paper=1401_3436",
                           "searchUrl": "../search/?paper=1401_3436"
                         }
+                      },
+                      {
+                        "id": "tree-decision-making-optimization-toolboxes-solvers-markov-decision-processes-mdps-rop-ras3-papers-2606-04355-md",
+                        "label": "ROP-RAS3",
+                        "kind": "paper",
+                        "source": "papers/2606_04355.md",
+                        "url": "../papers/2606_04355/",
+                        "path": [
+                          "Tree",
+                          "Decision-making",
+                          "Optimization",
+                          "Toolboxes & Solvers",
+                          "Markov Decision Processes (MDPs)",
+                          "ROP-RAS3"
+                        ],
+                        "children": [],
+                        "leafCount": 1,
+                        "branchCount": 0,
+                        "paper": {
+                          "id": "2606_04355",
+                          "label": "ROP-RAS3",
+                          "title": "Think Fast and Far: Long-Horizon Online POMDP Planning via Rapid State Sampling",
+                          "algorithm": "ROP-RAS3",
+                          "authors": [
+                            "Yuanchu Liang",
+                            "Edward Kim",
+                            "J. Arden Knoll",
+                            "Wil Thomason",
+                            "Zachary Kingston",
+                            "Lydia E. Kavraki",
+                            "Hanna Kurniawati"
+                          ],
+                          "year": 2026,
+                          "yearValue": 2026,
+                          "sourceName": "International Journal of Robotics Research",
+                          "type": "Journal Paper",
+                          "doi": "",
+                          "arxivId": "2606.04355",
+                          "primaryLink": "https://arxiv.org/pdf/2606.04355",
+                          "hasPrimaryLink": true,
+                          "alternateLinkCount": 0,
+                          "auditStatus": "partial",
+                          "tags": [
+                            "POMDPs",
+                            "Online planning",
+                            "Horizon",
+                            "Sampling methods",
+                            "Partial observability",
+                            "Robotics",
+                            "Sampling-based planning"
+                          ],
+                          "abstract": "Partially Observable Markov Decision Processes (POMDPs) are a general and principled framework for motion planning under uncertainty. Despite tremendous improvement in the scalability of POMDP solvers, long-horizon POMDPs remain difficult to solve. To alleviate the difficulty, this paper proposes a new approximate online POMDP solver, called Reference-Based Online POMDP Planning via Rapid State Space Sampling (ROP-RAS3). ROP-RAS3 uses novel extremely fast sampling-based motion planning techniques to sample the state space and generate a diverse set of macro actions online, which are then used to bias belief-space sampling and infer high-quality policies without requiring exhaustive enumeration of the action space - a fundamental constraint for modern online POMDP solvers. ROP-RAS3 converges to a near-optimal reference-based solution at a rate that depends on the number of sampled actions, rather than the size of the action space. ROP-RAS3 is evaluated on various long-horizon POMDPs with up to 3000 lookahead steps and 35-dimensional state spaces, where the state, action and observation spaces can be continuous, discrete, or a hybrid of discrete and continuous. Although the reference-based optimal solution may not be the same as the optimal POMDP solution, empirical results indicate that in all of these problems, in terms of success rate, ROP-RAS3 outperforms other state-of-the-art methods by up to multiple folds. We also demonstrate the capability of our approach on a physical robot demonstration. This work extends the theory and empirical results of our ISRR24 paper. Code can be found at \\texttt{https://github.com/RDLLab/ROPRAS3}.",
+                          "summary": "Targets long-horizon online POMDP planning with a rapid state-sampling strategy that searches farther ahead under partial observability. The paper contributes to the practical planning side of POMDPs, where computation must be spent selectively during online decision making.",
+                          "mapUrl": "../map/#paper=2606_04355",
+                          "timelineUrl": "../timeline/#paper=2606_04355",
+                          "searchUrl": "../search/?paper=2606_04355"
+                        }
                       }
                     ],
-                    "leafCount": 4,
+                    "leafCount": 5,
                     "branchCount": 0
                   },
                   {
@@ -19855,9 +20078,62 @@ window.treeData = {
                               "timelineUrl": "../timeline/#paper=2104_10201",
                               "searchUrl": "../search/?paper=2104_10201"
                             }
+                          },
+                          {
+                            "id": "tree-decision-making-optimization-toolboxes-solvers-black-box-optimization-bayesian-optimization-nest-bo-papers-2510-05516-md",
+                            "label": "NeST-BO",
+                            "kind": "paper",
+                            "source": "papers/2510_05516.md",
+                            "url": "../papers/2510_05516/",
+                            "path": [
+                              "Tree",
+                              "Decision-making",
+                              "Optimization",
+                              "Toolboxes & Solvers",
+                              "Black-Box Optimization",
+                              "Bayesian Optimization",
+                              "NeST-BO"
+                            ],
+                            "children": [],
+                            "leafCount": 1,
+                            "branchCount": 0,
+                            "paper": {
+                              "id": "2510_05516",
+                              "label": "NeST-BO",
+                              "title": "NeST-BO: Fast Local Bayesian Optimization via Newton-Step Targeting of Gradient and Hessian Information",
+                              "algorithm": "NeST-BO",
+                              "authors": [
+                                "Wei-Ting Tang",
+                                "Akshay Kudva",
+                                "Joel A. Paulson"
+                              ],
+                              "year": 2025,
+                              "yearValue": 2025,
+                              "sourceName": "arXiv",
+                              "type": "Preprint",
+                              "doi": "",
+                              "arxivId": "2510.05516",
+                              "primaryLink": "https://arxiv.org/pdf/2510.05516",
+                              "hasPrimaryLink": true,
+                              "alternateLinkCount": 0,
+                              "auditStatus": "partial",
+                              "tags": [
+                                "Bayesian optimization",
+                                "Newton's method",
+                                "Gaussian processes",
+                                "High-dimensional optimization",
+                                "Hessian information",
+                                "Black-box optimization"
+                              ],
+                              "abstract": "Bayesian optimization (BO) is effective for expensive black-box problems but remains challenging in high dimensions. We propose NeST-BO, a curvature-aware local BO method that targets a (modified) Newton step by jointly learning gradient and Hessian information with Gaussian process (GP) surrogates, and selecting evaluations via a one-step lookahead bound on the Newton-step error. We show that this bound contracts with batch size, so NeST-BO drives the step error to zero; in well-behaved neighborhoods it recovers the fast local convergence behavior of inexact/modified Newton methods, while standard safeguards support global convergence to stationary points. To improve scaling with problem dimension, we optimize the acquisition in low-dimensional embedded subspaces (random or learned), reducing the dominant cost of learning curvature from O(d^(2)) to O(m^(2)) with m ll d while preserving step targeting. Across high-dimensional synthetic and real-world problems, including cases with thousands of variables and unknown active subspaces, NeST-BO consistently yields faster convergence and better final values than state-of-the-art local and high-dimensional BO baselines.",
+                              "summary": "Develops a local Bayesian optimization method that targets an estimated Newton step by learning gradient and Hessian information with Gaussian-process surrogates. The paper is a curvature-aware alternative to broader global BO strategies, aiming for fast local convergence in expensive high-dimensional objectives.",
+                              "mapUrl": "../map/#paper=2510_05516",
+                              "timelineUrl": "../timeline/#paper=2510_05516",
+                              "searchUrl": "../search/?paper=2510_05516"
+                            }
                           }
                         ],
-                        "leafCount": 2,
+                        "leafCount": 3,
                         "branchCount": 0
                       },
                       {
@@ -20148,15 +20424,15 @@ window.treeData = {
                         "branchCount": 0
                       }
                     ],
-                    "leafCount": 13,
+                    "leafCount": 14,
                     "branchCount": 2
                   }
                 ],
-                "leafCount": 54,
+                "leafCount": 56,
                 "branchCount": 12
               }
             ],
-            "leafCount": 364,
+            "leafCount": 369,
             "branchCount": 72
           },
           {
@@ -20719,6 +20995,60 @@ window.treeData = {
                             }
                           },
                           {
+                            "id": "tree-decision-making-planning-geometric-planning-path-planning-graph-search-differentially-constrained-mobile-robot-motion-planning-in-state-lattices-papers-2009-pivtoraiko-differentially-constrained-mobile-robot-md",
+                            "label": "Differentially Constrained Mobile Robot Motion Planning in State Lattices",
+                            "kind": "paper",
+                            "source": "papers/2009_pivtoraiko_differentially_constrained_mobile_robot.md",
+                            "url": "../papers/2009_pivtoraiko_differentially_constrained_mobile_robot/",
+                            "path": [
+                              "Tree",
+                              "Decision-making",
+                              "Planning",
+                              "Geometric Planning",
+                              "Path Planning",
+                              "Graph Search",
+                              "Differentially Constrained Mobile Robot Motion Planning in State Lattices"
+                            ],
+                            "children": [],
+                            "leafCount": 1,
+                            "branchCount": 0,
+                            "paper": {
+                              "id": "2009_pivtoraiko_differentially_constrained_mobile_robot",
+                              "label": "Pivtoraiko et al. 2009",
+                              "title": "Differentially Constrained Mobile Robot Motion Planning in State Lattices",
+                              "algorithm": "",
+                              "authors": [
+                                "Mihail Pivtoraiko",
+                                "Ross A. Knepper",
+                                "Alonzo Kelly"
+                              ],
+                              "year": 2009,
+                              "yearValue": 2009,
+                              "sourceName": "Journal of Field Robotics",
+                              "type": "Journal Paper",
+                              "doi": "10.1002/rob.20285",
+                              "arxivId": "",
+                              "primaryLink": "https://www.cs.cmu.edu/~alonzo/pubs/papers/JFR_09Final.pdf",
+                              "hasPrimaryLink": true,
+                              "alternateLinkCount": 2,
+                              "auditStatus": "partial",
+                              "tags": [
+                                "Motion planning",
+                                "Lattice methods",
+                                "Graph search",
+                                "State space search",
+                                "Differential constraints",
+                                "Mobile robots",
+                                "Autonomous navigation"
+                              ],
+                              "abstract": "We present an approach to the problem of differentially constrained mobile robot motion planning in arbitrary cost fields. The approach is based on deterministic search in a specially discretized state space. We compute a set of elementary motions that connects each discrete state value to a set of its reachable neighbors via feasible motions. Thus, this set of motions induces a connected search graph. The motions are carefully designed to terminate at discrete states, whose dimensions include relevant state variables (e.g., position, heading, curvature, and velocity). The discrete states, and thus the motions, repeat at regular intervals, forming a lattice. We ensure that all paths in the graph encode feasible motions via the imposition of continuity constraints on state variables at graph vertices and compliance of the graph edges with a differential equation comprising the vehicle model. The resulting state lattice permits fast full configuration space cost evaluation and collision detection. Experimental results with research prototype rovers demonstrate that the planner allows us to exploit the entire envelope of vehicle maneuverability in rough terrain, while featuring real-time performance.",
+                              "summary": "Presents state lattices as a deterministic search representation whose edges are feasible motion primitives for a differentially constrained robot. The key contribution is making graph search respect vehicle mobility constraints while retaining efficient cost evaluation and real-time planning behavior.",
+                              "mapUrl": "../map/#paper=2009_pivtoraiko_differentially_constrained_mobile_robot",
+                              "timelineUrl": "../timeline/#paper=2009_pivtoraiko_differentially_constrained_mobile_robot",
+                              "searchUrl": "../search/?paper=2009_pivtoraiko_differentially_constrained_mobile_robot"
+                            }
+                          },
+                          {
                             "id": "tree-decision-making-planning-geometric-planning-path-planning-graph-search-path-planning-for-autonomous-vehicles-in-unknown-semi-structured-environments-papers-2010-dolgov-path-planning-for-autonomous-md",
                             "label": "Path Planning for Autonomous Vehicles in Unknown Semi-structured Environments",
                             "kind": "paper",
@@ -20820,7 +21150,7 @@ window.treeData = {
                             }
                           }
                         ],
-                        "leafCount": 7,
+                        "leafCount": 8,
                         "branchCount": 0
                       },
                       {
@@ -23547,6 +23877,83 @@ window.treeData = {
                         "branchCount": 0
                       },
                       {
+                        "id": "tree-decision-making-planning-geometric-planning-path-planning-frameworks",
+                        "label": "Frameworks",
+                        "kind": "branch",
+                        "source": null,
+                        "url": null,
+                        "path": [
+                          "Tree",
+                          "Decision-making",
+                          "Planning",
+                          "Geometric Planning",
+                          "Path Planning",
+                          "Frameworks"
+                        ],
+                        "children": [
+                          {
+                            "id": "tree-decision-making-planning-geometric-planning-path-planning-frameworks-ompl-2-0-papers-2605-29301-md",
+                            "label": "OMPL 2.0",
+                            "kind": "paper",
+                            "source": "papers/2605_29301.md",
+                            "url": "../papers/2605_29301/",
+                            "path": [
+                              "Tree",
+                              "Decision-making",
+                              "Planning",
+                              "Geometric Planning",
+                              "Path Planning",
+                              "Frameworks",
+                              "OMPL 2.0"
+                            ],
+                            "children": [],
+                            "leafCount": 1,
+                            "branchCount": 0,
+                            "paper": {
+                              "id": "2605_29301",
+                              "label": "OMPL 2.0",
+                              "title": "The Open Motion Planning Library 2.0",
+                              "algorithm": "OMPL 2.0",
+                              "authors": [
+                                "Weihang Guo",
+                                "Theodoros Tyrovouzis",
+                                "Emiliano Flores",
+                                "Clayton W. Ramsey",
+                                "Zachary K. Kingston",
+                                "Ioan A. Sucan",
+                                "Mark Moll",
+                                "Lydia E. Kavraki"
+                              ],
+                              "year": 2026,
+                              "yearValue": 2026,
+                              "sourceName": "arXiv",
+                              "type": "Preprint",
+                              "doi": "",
+                              "arxivId": "2605.29301",
+                              "primaryLink": "https://arxiv.org/pdf/2605.29301",
+                              "hasPrimaryLink": true,
+                              "alternateLinkCount": 0,
+                              "auditStatus": "partial",
+                              "tags": [
+                                "Motion planning",
+                                "Sampling-based planning",
+                                "Software libraries",
+                                "OMPL",
+                                "Benchmarking",
+                                "Robotics"
+                              ],
+                              "abstract": "The Open Motion Planning Library (OMPL), first released in 2008, has become a cornerstone of the motion planning community, providing implementations of a wide range of state-of-the-art sampling-based algorithms. Over almost two decades of continuous development, we have steadily expanded the library with new planners, state spaces, and problem formulations. These additions range from asymptotically optimal and lazy planners to constrained motion planning and planning with temporal-logic goals. Building on this foundation, we introduce OMPL 2.0, a major evolution of the library that targets real-time motion planning through hardware acceleration and integrates seamlessly with modern AI research workflows. We also reflect on how OMPL and the field of motion planning have grown together over the years, and discuss the library's broader impact on the research community.",
+                              "summary": "Describes OMPL 2.0 as a major update to the long-running Open Motion Planning Library, adding modern planning abstractions, planners, and benchmarking support. The paper is an infrastructure reference for sampling-based motion planning rather than a single-planner algorithm paper.",
+                              "mapUrl": "../map/#paper=2605_29301",
+                              "timelineUrl": "../timeline/#paper=2605_29301",
+                              "searchUrl": "../search/?paper=2605_29301"
+                            }
+                          }
+                        ],
+                        "leafCount": 1,
+                        "branchCount": 0
+                      },
+                      {
                         "id": "tree-decision-making-planning-geometric-planning-path-planning-dynamic-replanning",
                         "label": "Dynamic Replanning",
                         "kind": "branch",
@@ -24246,14 +24653,69 @@ window.treeData = {
                               "timelineUrl": "../timeline/#paper=2406_02807",
                               "searchUrl": "../search/?paper=2406_02807"
                             }
+                          },
+                          {
+                            "id": "tree-decision-making-planning-geometric-planning-path-planning-collision-detection-proximity-queries-rdf-papers-2307-00533-md",
+                            "label": "RDF",
+                            "kind": "paper",
+                            "source": "papers/2307_00533.md",
+                            "url": "../papers/2307_00533/",
+                            "path": [
+                              "Tree",
+                              "Decision-making",
+                              "Planning",
+                              "Geometric Planning",
+                              "Path Planning",
+                              "Collision Detection & Proximity Queries",
+                              "RDF"
+                            ],
+                            "children": [],
+                            "leafCount": 1,
+                            "branchCount": 0,
+                            "paper": {
+                              "id": "2307_00533",
+                              "label": "RDF",
+                              "title": "Representing Robot Geometry as Distance Fields: Applications to Whole-Body Manipulation",
+                              "algorithm": "RDF",
+                              "authors": [
+                                "Yiming Li",
+                                "Yan Zhang",
+                                "Amirreza Razmjoo",
+                                "Sylvain Calinon"
+                              ],
+                              "year": 2023,
+                              "yearValue": 2023,
+                              "sourceName": "IEEE International Conference on Robotics and Automation",
+                              "type": "Conference Paper",
+                              "doi": "10.1109/ICRA57147.2024.10611674",
+                              "arxivId": "2307.00533",
+                              "primaryLink": "https://arxiv.org/pdf/2307.00533",
+                              "hasPrimaryLink": true,
+                              "alternateLinkCount": 3,
+                              "auditStatus": "partial",
+                              "tags": [
+                                "Robot kinematics",
+                                "Signed distance",
+                                "Distance queries",
+                                "Robot manipulation",
+                                "Collision avoidance",
+                                "Trajectory optimization",
+                                "Robotics"
+                              ],
+                              "abstract": "In this work, we propose a novel approach to represent robot geometry as distance fields (RDF) that extends the principle of signed distance fields (SDFs) to articulated kinematic chains. Our method employs a combination of Bernstein polynomials to encode the signed distance for each robot link with high accuracy and efficiency while ensuring the mathematical continuity and differentiability of SDFs. We further leverage the kinematics chain of the robot to produce the SDF representation in joint space, allowing robust distance queries in arbitrary joint configurations. The proposed RDF representation is differentiable and smooth in both task and joint spaces, enabling its direct integration to optimization problems. Additionally, the 0-level set of the robot corresponds to the robot surface, which can be seamlessly integrated into whole-body manipulation tasks. We conduct various experiments in both simulations and with 7-axis Franka Emika robots, comparing against baseline methods, and demonstrating its effectiveness in collision avoidance and whole-body manipulation tasks. Project page: https://sites.google.com/view/lrdf/home",
+                              "summary": "Represents articulated robot geometry with differentiable distance fields built from per-link signed-distance models and kinematic structure. This gives optimization-based manipulation and collision avoidance access to smooth robot-surface distance queries in task and joint spaces.",
+                              "mapUrl": "../map/#paper=2307_00533",
+                              "timelineUrl": "../timeline/#paper=2307_00533",
+                              "searchUrl": "../search/?paper=2307_00533"
+                            }
                           }
                         ],
-                        "leafCount": 8,
+                        "leafCount": 9,
                         "branchCount": 0
                       }
                     ],
-                    "leafCount": 71,
-                    "branchCount": 14
+                    "leafCount": 74,
+                    "branchCount": 15
                   },
                   {
                     "id": "tree-decision-making-planning-geometric-planning-path-generation",
@@ -25791,8 +26253,8 @@ window.treeData = {
                     "branchCount": 4
                   }
                 ],
-                "leafCount": 97,
-                "branchCount": 25
+                "leafCount": 100,
+                "branchCount": 26
               },
               {
                 "id": "tree-decision-making-planning-kinodynamic-planning",
@@ -29136,6 +29598,60 @@ window.treeData = {
                             }
                           },
                           {
+                            "id": "tree-decision-making-planning-kinodynamic-planning-trajectory-planning-planning-with-graphs-of-convex-sets-gcs-a-framework-for-motion-planning-with-temporal-logic-precedence-specifications-via-augmented-graphs-of-convex-sets-papers-2606-00842-md",
+                            "label": "A Framework for Motion Planning with Temporal Logic Precedence Specifications via Augmented Graphs of Convex Sets",
+                            "kind": "paper",
+                            "source": "papers/2606_00842.md",
+                            "url": "../papers/2606_00842/",
+                            "path": [
+                              "Tree",
+                              "Decision-making",
+                              "Planning",
+                              "Kinodynamic Planning",
+                              "Trajectory Planning",
+                              "Planning with Graphs of Convex Sets (GCS)",
+                              "A Framework for Motion Planning with Temporal Logic Precedence Specifications via Augmented Graphs of Convex Sets"
+                            ],
+                            "children": [],
+                            "leafCount": 1,
+                            "branchCount": 0,
+                            "paper": {
+                              "id": "2606_00842",
+                              "label": "You et al. 2026",
+                              "title": "A Framework for Motion Planning with Temporal Logic Precedence Specifications via Augmented Graphs of Convex Sets",
+                              "algorithm": "",
+                              "authors": [
+                                "Shilin You",
+                                "Gael Luna",
+                                "Tyler H. Summers"
+                              ],
+                              "year": 2026,
+                              "yearValue": 2026,
+                              "sourceName": "arXiv",
+                              "type": "Preprint",
+                              "doi": "",
+                              "arxivId": "2606.00842",
+                              "primaryLink": "https://arxiv.org/pdf/2606.00842",
+                              "hasPrimaryLink": true,
+                              "alternateLinkCount": 0,
+                              "auditStatus": "partial",
+                              "tags": [
+                                "Graphs of convex sets",
+                                "Temporal logic planning",
+                                "Specifications",
+                                "Motion planning",
+                                "Convex optimization",
+                                "Mixed-integer programming",
+                                "Planning"
+                              ],
+                              "abstract": "We present a framework for planning trajectories that avoid obstacles and satisfy logical precedence constraints expressed with a fragment of signal temporal logic (STL). Our approach models environments containing obstacles, keys, and doors, where collecting a key unlocks its associated door and potentially opens shorter paths to a goal. Based on an exact convex partitioning of the free space that encodes connectivity among convex free space, key, and door regions, we construct an augmented graph of convex sets (GCS) whose layered structure exactly encodes the key-door precedence logic. A shortest path in the augmented GCS simultaneously selects an optimal key collection sequence and computes an optimal continuous trajectory, providing an exact solution up to a finite Bezier curve parameterization.",
+                              "summary": "Extends graph-of-convex-sets planning to handle temporal-logic precedence requirements through an augmented graph construction. The paper is notable for keeping logic sequencing close to the convex-optimization planning representation rather than treating it as a separate symbolic layer.",
+                              "mapUrl": "../map/#paper=2606_00842",
+                              "timelineUrl": "../timeline/#paper=2606_00842",
+                              "searchUrl": "../search/?paper=2606_00842"
+                            }
+                          },
+                          {
                             "id": "tree-decision-making-planning-kinodynamic-planning-trajectory-planning-planning-with-graphs-of-convex-sets-gcs-stl-gcs-planning-papers-2605-23240-md",
                             "label": "STL-GCS Planning",
                             "kind": "paper",
@@ -29190,11 +29706,11 @@ window.treeData = {
                             }
                           }
                         ],
-                        "leafCount": 13,
+                        "leafCount": 14,
                         "branchCount": 0
                       }
                     ],
-                    "leafCount": 61,
+                    "leafCount": 62,
                     "branchCount": 8
                   },
                   {
@@ -31223,6 +31739,62 @@ window.treeData = {
                                     }
                                   },
                                   {
+                                    "id": "tree-decision-making-planning-kinodynamic-planning-trajectory-optimization-model-predictive-sampling-based-control-model-predictive-path-integral-control-mppi-sampling-distributions-generalized-model-predictive-path-integral-control-as-expectation-maximization-papers-2606-00317-md",
+                                    "label": "Generalized Model Predictive Path Integral Control as Expectation-Maximization",
+                                    "kind": "paper",
+                                    "source": "papers/2606_00317.md",
+                                    "url": "../papers/2606_00317/",
+                                    "path": [
+                                      "Tree",
+                                      "Decision-making",
+                                      "Planning",
+                                      "Kinodynamic Planning",
+                                      "Trajectory Optimization",
+                                      "Model Predictive Sampling-Based Control",
+                                      "Model Predictive Path Integral Control (MPPI)",
+                                      "Sampling Distributions",
+                                      "Generalized Model Predictive Path Integral Control as Expectation-Maximization"
+                                    ],
+                                    "children": [],
+                                    "leafCount": 1,
+                                    "branchCount": 0,
+                                    "paper": {
+                                      "id": "2606_00317",
+                                      "label": "Wang et al. 2026",
+                                      "title": "Generalized Model Predictive Path Integral Control as Expectation-Maximization",
+                                      "algorithm": "",
+                                      "authors": [
+                                        "Jiarui Wang",
+                                        "Sina Sharifi",
+                                        "Mahyar Fazlyab"
+                                      ],
+                                      "year": 2026,
+                                      "yearValue": 2026,
+                                      "sourceName": "arXiv",
+                                      "type": "Preprint",
+                                      "doi": "",
+                                      "arxivId": "2606.00317",
+                                      "primaryLink": "https://arxiv.org/pdf/2606.00317",
+                                      "hasPrimaryLink": true,
+                                      "alternateLinkCount": 0,
+                                      "auditStatus": "partial",
+                                      "tags": [
+                                        "Model predictive path integral control",
+                                        "Expectation maximization",
+                                        "Sampling-based control",
+                                        "Optimal control",
+                                        "Trajectory optimization",
+                                        "Path integral control",
+                                        "Control theory"
+                                      ],
+                                      "abstract": "Model Predictive Path Integral (MPPI) control is a powerful sampling-based method for solving stochastic optimal control problems and has enabled real-time control in complex robotic systems. Despite its empirical success, its theoretical understanding remains limited. In this work, we show that MPPI can be interpreted as a special case of the Expectation-Maximization (EM) algorithm applied to a probabilistic inference formulation of optimal control. This perspective leads to a generalized EM-MPPI framework that extends MPPI beyond the commonly used Gaussian parameterization. We analyze the convergence behavior of this algorithm and characterize the local convergence rate in terms of the covariance of the posterior trajectory distribution and the exploration distribution. For exponential-family distributions, we establish a sufficient increase property of the log-likelihood when the log-partition function is strongly convex. Specializing the analysis to Gaussian MPPI yields explicit global and local convergence characterizations. The code for the experiments will be available upon acceptance.",
+                                      "summary": "Recasts generalized model predictive path integral control through the lens of expectation-maximization. This perspective clarifies the update structure of MPPI-style methods and links sampling-based control to a broader probabilistic optimization template.",
+                                      "mapUrl": "../map/#paper=2606_00317",
+                                      "timelineUrl": "../timeline/#paper=2606_00317",
+                                      "searchUrl": "../search/?paper=2606_00317"
+                                    }
+                                  },
+                                  {
                                     "id": "tree-decision-making-planning-kinodynamic-planning-trajectory-optimization-model-predictive-sampling-based-control-model-predictive-path-integral-control-mppi-sampling-distributions-reachability-informed-sampling",
                                     "label": "Reachability-informed Sampling",
                                     "kind": "branch",
@@ -31490,7 +32062,7 @@ window.treeData = {
                                     "branchCount": 0
                                   }
                                 ],
-                                "leafCount": 6,
+                                "leafCount": 7,
                                 "branchCount": 2
                               },
                               {
@@ -32253,9 +32825,67 @@ window.treeData = {
                                       "timelineUrl": "../timeline/#paper=2510_00272",
                                       "searchUrl": "../search/?paper=2510_00272"
                                     }
+                                  },
+                                  {
+                                    "id": "tree-decision-making-planning-kinodynamic-planning-trajectory-optimization-model-predictive-sampling-based-control-model-predictive-path-integral-control-mppi-safety-uncertainty-handling-exact-mppi-papers-2605-29663-md",
+                                    "label": "EXACT-MPPI",
+                                    "kind": "paper",
+                                    "source": "papers/2605_29663.md",
+                                    "url": "../papers/2605_29663/",
+                                    "path": [
+                                      "Tree",
+                                      "Decision-making",
+                                      "Planning",
+                                      "Kinodynamic Planning",
+                                      "Trajectory Optimization",
+                                      "Model Predictive Sampling-Based Control",
+                                      "Model Predictive Path Integral Control (MPPI)",
+                                      "Safety & Uncertainty Handling",
+                                      "EXACT-MPPI"
+                                    ],
+                                    "children": [],
+                                    "leafCount": 1,
+                                    "branchCount": 0,
+                                    "paper": {
+                                      "id": "2605_29663",
+                                      "label": "EXACT-MPPI",
+                                      "title": "EXACT-MPPI: Exact Signed-Distance Navigation for Arbitrary-Footprint Robots from Point Clouds via Path Integral Control",
+                                      "algorithm": "EXACT-MPPI",
+                                      "authors": [
+                                        "Chen Peng",
+                                        "Zhikang Ge",
+                                        "Wenwu Lu",
+                                        "Haiming Gao",
+                                        "Stavros Vougioukas",
+                                        "Peng Wei"
+                                      ],
+                                      "year": 2026,
+                                      "yearValue": 2026,
+                                      "sourceName": "arXiv",
+                                      "type": "Preprint",
+                                      "doi": "",
+                                      "arxivId": "2605.29663",
+                                      "primaryLink": "https://arxiv.org/pdf/2605.29663",
+                                      "hasPrimaryLink": true,
+                                      "alternateLinkCount": 0,
+                                      "auditStatus": "partial",
+                                      "tags": [
+                                        "Model predictive path integral control",
+                                        "Point cloud",
+                                        "Signed distance",
+                                        "Robot navigation",
+                                        "Arbitrary footprints",
+                                        "Collision avoidance"
+                                      ],
+                                      "abstract": "Ground robots often carry payloads, implements, or other attachments that turn their effective footprint into complex, non-convex shapes. Navigating safely through clutter then requires reasoning about this true geometry, yet most local planners simplify it with convex or inflated proxies and rasterize sensor data into occupancy grids or distance fields. Both choices eliminate feasible motions when clearance is comparable to the footprint geometry. We present EXACT-MPPI, a training-free local navigation framework that maps local point-cloud observations and sparse guidance directly to motion commands, without any intermediate map representation. The framework embeds an analytic, exact signed-distance evaluator into a Model Predictive Path Integral (MPPI) controller. The footprint is represented as a simple polygon for general convex or concave planar shapes, with a rectangle-cover specialization for faster evaluation of rectilinear footprints, enabling footprint-aware collision costs without convex decomposition, inflation, or learned encoders. During each MPPI rollout, observed obstacle points are transformed into the predicted body frame and evaluated against the footprint. All operations are batched in JAX, leveraging GPU parallelism for real-time receding-horizon control. Experiments show that EXACT-MPPI accelerates batched distance evaluation over a learned point-to-robot baseline, preserves feasible motion where convex-footprint planners fail, and remains robust under dense static and moving obstacles. The same framework deploys on differential-drive, Ackermann, omnidirectional, and hybrid-mode platforms by changing only the footprint description and motion model without per-platform training. Pairing exact footprint geometry with sampling-based predictive control thus offers a practical, training-free path to footprint-aware local navigation across diverse robots.",
+                                      "summary": "Introduces an MPPI-based local navigation method that uses exact signed-distance reasoning over point clouds for robots with non-convex or payload-dependent footprints. The paper removes common occupancy-grid and convex-footprint approximations, preserving feasible motions in tight cluttered spaces.",
+                                      "mapUrl": "../map/#paper=2605_29663",
+                                      "timelineUrl": "../timeline/#paper=2605_29663",
+                                      "searchUrl": "../search/?paper=2605_29663"
+                                    }
                                   }
                                 ],
-                                "leafCount": 4,
+                                "leafCount": 5,
                                 "branchCount": 0
                               },
                               {
@@ -32389,7 +33019,7 @@ window.treeData = {
                                 "branchCount": 0
                               }
                             ],
-                            "leafCount": 25,
+                            "leafCount": 27,
                             "branchCount": 10
                           },
                           {
@@ -32862,7 +33492,7 @@ window.treeData = {
                             }
                           }
                         ],
-                        "leafCount": 34,
+                        "leafCount": 36,
                         "branchCount": 13
                       },
                       {
@@ -33424,6 +34054,114 @@ window.treeData = {
                                   "mapUrl": "../map/#paper=2010_theodorou_stochastic_differential_dynamic_programming",
                                   "timelineUrl": "../timeline/#paper=2010_theodorou_stochastic_differential_dynamic_programming",
                                   "searchUrl": "../search/?paper=2010_theodorou_stochastic_differential_dynamic_programming"
+                                }
+                              },
+                              {
+                                "id": "tree-decision-making-planning-kinodynamic-planning-trajectory-optimization-iterative-linear-quadratic-regulator-ilqr-differential-dynamic-programming-ddp-differential-dynamic-programming-stochastic-differential-dynamic-programming-for-trajectory-optimization-under-partial-observability-papers-2605-07529-md",
+                                "label": "Stochastic Differential Dynamic Programming for Trajectory Optimization under Partial Observability",
+                                "kind": "paper",
+                                "source": "papers/2605_07529.md",
+                                "url": "../papers/2605_07529/",
+                                "path": [
+                                  "Tree",
+                                  "Decision-making",
+                                  "Planning",
+                                  "Kinodynamic Planning",
+                                  "Trajectory Optimization",
+                                  "Iterative Linear Quadratic Regulator (iLQR) & Differential Dynamic Programming (DDP)",
+                                  "Differential Dynamic Programming",
+                                  "Stochastic Differential Dynamic Programming for Trajectory Optimization under Partial Observability"
+                                ],
+                                "children": [],
+                                "leafCount": 1,
+                                "branchCount": 0,
+                                "paper": {
+                                  "id": "2605_07529",
+                                  "label": "Fujiwara et al. 2026",
+                                  "title": "Stochastic Differential Dynamic Programming for Trajectory Optimization under Partial Observability",
+                                  "algorithm": "",
+                                  "authors": [
+                                    "Masahiro Fujiwara",
+                                    "Naoya Ozaki"
+                                  ],
+                                  "year": 2026,
+                                  "yearValue": 2026,
+                                  "sourceName": "arXiv",
+                                  "type": "Preprint",
+                                  "doi": "",
+                                  "arxivId": "2605.07529",
+                                  "primaryLink": "https://arxiv.org/pdf/2605.07529",
+                                  "hasPrimaryLink": true,
+                                  "alternateLinkCount": 0,
+                                  "auditStatus": "partial",
+                                  "tags": [
+                                    "Differential dynamic programming",
+                                    "Trajectory optimization",
+                                    "Partial observability",
+                                    "Spacecraft guidance",
+                                    "Covariance control",
+                                    "Belief-space planning"
+                                  ],
+                                  "abstract": "Designing spacecraft trajectories remains challenging in the presence of stochastic effects such as maneuver execution errors and observation uncertainties. Although covariance control and belief-space planning provide useful tools for designing robust control policies and information-aware trajectories under uncertainty, practical methods remain limited for partially observable trajectory optimization problems in which trajectory design, orbit determination, and correction maneuver planning are tightly coupled. This paper presents a stochastic differential dynamic programming algorithm for such coupled problems. The proposed method optimizes the nominal control sequence and feedback gains subject to belief dynamics and general mission constraints, explicitly accounting for the dependence of covariance propagation on the nominal trajectory without relying on the separation principle. Numerical examples demonstrate that the proposed algorithm produces navigation-aware and uncertainty-robust solutions across a range of dynamical systems, observation models, and uncertainty levels. In particular, the circular restricted three-body problem shows that the proposed method can exploit the coupling between trajectory design and orbit determination to obtain navigation-aware solutions with substantially lower fuel consumption than those from deterministic local optimization starting from the same initial guess.",
+                                  "summary": "Extends stochastic differential dynamic programming to partially observable trajectory optimization problems where guidance, estimation, and correction maneuvers are coupled. The paper is especially relevant for spacecraft trajectory design because it incorporates orbit-determination uncertainty and maneuver-execution noise into the optimization loop.",
+                                  "mapUrl": "../map/#paper=2605_07529",
+                                  "timelineUrl": "../timeline/#paper=2605_07529",
+                                  "searchUrl": "../search/?paper=2605_07529"
+                                }
+                              },
+                              {
+                                "id": "tree-decision-making-planning-kinodynamic-planning-trajectory-optimization-iterative-linear-quadratic-regulator-ilqr-differential-dynamic-programming-ddp-differential-dynamic-programming-maximum-entropy-ddp-papers-2606-00737-md",
+                                "label": "Maximum Entropy DDP",
+                                "kind": "paper",
+                                "source": "papers/2606_00737.md",
+                                "url": "../papers/2606_00737/",
+                                "path": [
+                                  "Tree",
+                                  "Decision-making",
+                                  "Planning",
+                                  "Kinodynamic Planning",
+                                  "Trajectory Optimization",
+                                  "Iterative Linear Quadratic Regulator (iLQR) & Differential Dynamic Programming (DDP)",
+                                  "Differential Dynamic Programming",
+                                  "Maximum Entropy DDP"
+                                ],
+                                "children": [],
+                                "leafCount": 1,
+                                "branchCount": 0,
+                                "paper": {
+                                  "id": "2606_00737",
+                                  "label": "Aoyama et al. 2026",
+                                  "title": "Beyond Pure Sampling: Hybrid Optimization Mechanisms for Non-Convex Model Predictive Control",
+                                  "algorithm": "",
+                                  "authors": [
+                                    "Yuichiro Aoyama",
+                                    "Minchan Jung",
+                                    "Akash Ratheesh",
+                                    "Evangelos A. Theodorou"
+                                  ],
+                                  "year": 2026,
+                                  "yearValue": 2026,
+                                  "sourceName": "arXiv",
+                                  "type": "Preprint",
+                                  "doi": "",
+                                  "arxivId": "2606.00737",
+                                  "primaryLink": "https://arxiv.org/pdf/2606.00737",
+                                  "hasPrimaryLink": true,
+                                  "alternateLinkCount": 0,
+                                  "auditStatus": "partial",
+                                  "tags": [
+                                    "Differential dynamic programming",
+                                    "Model predictive control",
+                                    "Trajectory optimization",
+                                    "Sampling-based control",
+                                    "Nonconvex optimization",
+                                    "Model predictive path integral control"
+                                  ],
+                                  "abstract": "This paper investigates the optimization mechanisms of non-convex Model Predictive Control (MPC) using the Maximum Entropy Differential Dynamic Programming (ME-DDP) framework. Navigating non-convex cost landscapes induced by nonlinear dynamics, multiple obstacles, etc. remains a fundamental challenge in robotics, where gradient-based methods frequently converge to suboptimal local minima. We demonstrate a dual-step optimization mechanism designed to overcome these traps. (1) an initial phase of using DDP to exploit the gradient of the cost landscape, followed by (2) disruption of the optimization via sampling from policies characterized by the inverse Hessian of the action-value function. We provide a rigorous analysis of this sampling mechanism of three ME-DDP variants: Unimodal Gaussian ME-DDP, Multimodal Gaussian ME-DDP, and Stein Variational DDP. Furthermore, with navigation tasks of four robotic systems under cluttered environments, we conduct extensive benchmarking of three variants of the ME-DDP, against deterministic DDP, and one of the most successful sampling-based schemes, Model Predictive Path Integral (MPPI) control with three policy parameterizations and update laws that correspond to those of ME-DDPs. The results show that in low-dimensional systems where the cost landscapes are relatively simple and local information is sufficiently representative, our framework consistently outperforms MPPIs. In high-dimensional systems, MPPI can occasionally discover aggressive maneuvers that enable it to steer the systems faster than DDP-based methods, whereas our method maintains a higher, more stable success rate. Finally, we validate the practical efficacy of the framework through hardware experiments with a quadrotor navigating a dense, non-convex obstacle field, confirming the robustness of the proposed framework for real-world deployment.",
+                                  "summary": "Analyzes maximum-entropy DDP variants as hybrid MPC optimizers that combine local second-order exploitation with sampling-based disruption of poor local minima. The paper is useful for comparing DDP-style and MPPI-style mechanisms across non-convex robotic navigation tasks and hardware validation.",
+                                  "mapUrl": "../map/#paper=2606_00737",
+                                  "timelineUrl": "../timeline/#paper=2606_00737",
+                                  "searchUrl": "../search/?paper=2606_00737"
                                 }
                               },
                               {
@@ -34169,7 +34907,7 @@ window.treeData = {
                                 }
                               }
                             ],
-                            "leafCount": 18,
+                            "leafCount": 20,
                             "branchCount": 0
                           },
                           {
@@ -34776,7 +35514,7 @@ window.treeData = {
                             "branchCount": 0
                           }
                         ],
-                        "leafCount": 33,
+                        "leafCount": 35,
                         "branchCount": 4
                       },
                       {
@@ -40278,7 +41016,7 @@ window.treeData = {
                         "branchCount": 2
                       }
                     ],
-                    "leafCount": 170,
+                    "leafCount": 174,
                     "branchCount": 30
                   },
                   {
@@ -40773,7 +41511,7 @@ window.treeData = {
                     "branchCount": 0
                   }
                 ],
-                "leafCount": 269,
+                "leafCount": 274,
                 "branchCount": 44
               },
               {
@@ -41283,13 +42021,121 @@ window.treeData = {
                           "timelineUrl": "../timeline/#paper=2018_zhang_toward_a_more_complete",
                           "searchUrl": "../search/?paper=2018_zhang_toward_a_more_complete"
                         }
+                      },
+                      {
+                        "id": "tree-decision-making-planning-speed-planning-optimization-based-speed-planning-nmpc-for-racing-using-a-singularity-free-path-parametric-model-with-obstacle-avoidance-papers-2020-kloeser-nmpc-for-racing-using-md",
+                        "label": "NMPC for Racing Using a Singularity-Free Path-Parametric Model with Obstacle Avoidance",
+                        "kind": "paper",
+                        "source": "papers/2020_kloeser_nmpc_for_racing_using.md",
+                        "url": "../papers/2020_kloeser_nmpc_for_racing_using/",
+                        "path": [
+                          "Tree",
+                          "Decision-making",
+                          "Planning",
+                          "Speed Planning",
+                          "Optimization-based Speed Planning",
+                          "NMPC for Racing Using a Singularity-Free Path-Parametric Model with Obstacle Avoidance"
+                        ],
+                        "children": [],
+                        "leafCount": 1,
+                        "branchCount": 0,
+                        "paper": {
+                          "id": "2020_kloeser_nmpc_for_racing_using",
+                          "label": "Kloeser et al. 2020",
+                          "title": "NMPC for Racing Using a Singularity-Free Path-Parametric Model with Obstacle Avoidance",
+                          "algorithm": "",
+                          "authors": [
+                            "Daniel Kloeser",
+                            "Tobias Schoels",
+                            "Tommaso Sartor",
+                            "Andrea Zanelli",
+                            "Gianluca Prison",
+                            "Moritz Diehl"
+                          ],
+                          "year": 2020,
+                          "yearValue": 2020,
+                          "sourceName": "IFAC-PapersOnLine",
+                          "type": "Journal Paper",
+                          "doi": "10.1016/j.ifacol.2020.12.1376",
+                          "arxivId": "",
+                          "primaryLink": "https://publications.syscop.de/Kloeser2020.pdf",
+                          "hasPrimaryLink": true,
+                          "alternateLinkCount": 2,
+                          "auditStatus": "partial",
+                          "tags": [
+                            "Nonlinear model predictive control",
+                            "Autonomous racing",
+                            "Obstacle avoidance",
+                            "Model predictive contouring control",
+                            "Autonomous vehicles",
+                            "Racing",
+                            "Trajectory optimization"
+                          ],
+                          "abstract": "This work presents the real-time control of 1:43 scale autonomous race cars using nonlinear model predictive control based on a singularity-free prediction model. This model allows the car to drive at both low and high speeds and in stop-and-go maneuvers. Additional constraints are imposed in the optimal control problem to ensure the validity of the model assumptions. Moreover, the control scheme is capable of avoiding obstacles online. The experimental results show that the proposed method converges to nearly time-optimal behavior by maximizing the progress on the track and achieves competitive lap time results.",
+                          "summary": "Applies nonlinear model predictive control to miniature autonomous racing with a path-parametric model that avoids singularities at low speed and during stop-and-go maneuvers. The method folds obstacle avoidance into the online optimal control problem while still pursuing near time-optimal laps.",
+                          "mapUrl": "../map/#paper=2020_kloeser_nmpc_for_racing_using",
+                          "timelineUrl": "../timeline/#paper=2020_kloeser_nmpc_for_racing_using",
+                          "searchUrl": "../search/?paper=2020_kloeser_nmpc_for_racing_using"
+                        }
+                      },
+                      {
+                        "id": "tree-decision-making-planning-speed-planning-optimization-based-speed-planning-sctomp-papers-2210-02345-md",
+                        "label": "SCTOMP",
+                        "kind": "paper",
+                        "source": "papers/2210_02345.md",
+                        "url": "../papers/2210_02345/",
+                        "path": [
+                          "Tree",
+                          "Decision-making",
+                          "Planning",
+                          "Speed Planning",
+                          "Optimization-based Speed Planning",
+                          "SCTOMP"
+                        ],
+                        "children": [],
+                        "leafCount": 1,
+                        "branchCount": 0,
+                        "paper": {
+                          "id": "2210_02345",
+                          "label": "SCTOMP",
+                          "title": "SCTOMP: Spatially Constrained Time-Optimal Motion Planning",
+                          "algorithm": "SCTOMP",
+                          "authors": [
+                            "Jon Arrizabalaga",
+                            "Markus Ryll"
+                          ],
+                          "year": 2022,
+                          "yearValue": 2022,
+                          "sourceName": "IEEE/RSJ International Conference on Intelligent Robots and Systems",
+                          "type": "Conference Paper",
+                          "doi": "10.1109/IROS55552.2023.10341500",
+                          "arxivId": "2210.02345",
+                          "primaryLink": "https://arxiv.org/pdf/2210.02345",
+                          "hasPrimaryLink": true,
+                          "alternateLinkCount": 2,
+                          "auditStatus": "partial",
+                          "tags": [
+                            "Motion planning",
+                            "Time-optimal control",
+                            "Trajectory optimization",
+                            "Obstacle avoidance",
+                            "Path planning",
+                            "Path parameterization",
+                            "Spatial planning"
+                          ],
+                          "abstract": "This paper focuses on spatial time-optimal motion planning, a generalization of the exact time-optimal path following problem that allows the system to plan within a predefined space. In contrast to state-of-the-art methods, we drop the assumption that a collision-free geometric reference is given. Instead, we present a two-stage motion planning method that solely relies on a goal location and a geometric representation of the environment to compute a time-optimal trajectory that is compliant with system dynamics and constraints. To do so, the proposed scheme first computes an obstacle-free Pythagorean Hodograph parametric spline, and second solves a spatially reformulated minimum-time optimization problem. The spline obtained in the first stage is not a geometric reference, but an extension of the environment representation, and thus, time-optimality of the solution is guaranteed. The efficacy of the proposed approach is benchmarked by a known planar example and validated in a more complex spatial system, illustrating its versatility and applicability.",
+                          "summary": "Generalizes time-optimal path following by optimizing inside a spatial corridor instead of assuming a fixed collision-free reference path. SCTOMP combines corridor construction, smooth spline representation, and minimum-time optimization to produce dynamically feasible trajectories.",
+                          "mapUrl": "../map/#paper=2210_02345",
+                          "timelineUrl": "../timeline/#paper=2210_02345",
+                          "searchUrl": "../search/?paper=2210_02345"
+                        }
                       }
                     ],
-                    "leafCount": 5,
+                    "leafCount": 7,
                     "branchCount": 0
                   }
                 ],
-                "leafCount": 9,
+                "leafCount": 11,
                 "branchCount": 2
               },
               {
@@ -41439,6 +42285,59 @@ window.treeData = {
                         }
                       },
                       {
+                        "id": "tree-decision-making-planning-planning-in-changing-environments-feedback-motion-planning-lipschitz-feedback-motion-planning-papers-2010-08993-md",
+                        "label": "Lipschitz feedback motion planning",
+                        "kind": "paper",
+                        "source": "papers/2010_08993.md",
+                        "url": "../papers/2010_08993/",
+                        "path": [
+                          "Tree",
+                          "Decision-making",
+                          "Planning",
+                          "Planning in Changing Environments",
+                          "Feedback Motion Planning",
+                          "Lipschitz feedback motion planning"
+                        ],
+                        "children": [],
+                        "leafCount": 1,
+                        "branchCount": 0,
+                        "paper": {
+                          "id": "2010_08993",
+                          "label": "Knuth et al. 2020",
+                          "title": "Planning with Learned Dynamics: Probabilistic Guarantees on Safety and Reachability via Lipschitz Constants",
+                          "algorithm": "",
+                          "authors": [
+                            "Craig Knuth",
+                            "Glen Chou",
+                            "Necmiye Ozay",
+                            "Dmitry Berenson"
+                          ],
+                          "year": 2020,
+                          "yearValue": 2020,
+                          "sourceName": "IEEE Robotics and Automation Letters (RA-L)",
+                          "type": "Journal Paper",
+                          "doi": "10.1109/LRA.2021.3068889",
+                          "arxivId": "2010.08993",
+                          "primaryLink": "https://arxiv.org/pdf/2010.08993",
+                          "hasPrimaryLink": true,
+                          "alternateLinkCount": 1,
+                          "auditStatus": "partial",
+                          "tags": [
+                            "Learned dynamics",
+                            "Feedback motion planning",
+                            "Safety guarantees",
+                            "Reachability",
+                            "Lipschitz constants",
+                            "Sampling-based planning"
+                          ],
+                          "abstract": "We present a method for feedback motion planning of systems with unknown dynamics which provides probabilistic guarantees on safety, reachability, and goal stability. To find a domain in which a learned control-affine approximation of the true dynamics can be trusted, we estimate the Lipschitz constant of the difference between the true and learned dynamics, and ensure the estimate is valid with a given probability. Provided the system has at least as many controls as states, we also derive existence conditions for a one-step feedback law which can keep the real system within a small bound of a nominal trajectory planned with the learned dynamics. Our method imposes the feedback law existence as a constraint in a sampling-based planner, which returns a feedback policy around a nominal plan ensuring that, if the Lipschitz constant estimate is valid, the true system is safe during plan execution, reaches the goal, and is ultimately invariant in a small set about the goal. We demonstrate our approach by planning using learned models of a 6D quadrotor and a 7DOF Kuka arm. We show that a baseline which plans using the same learned dynamics without considering the error bound or the existence of the feedback law can fail to stabilize around the plan and become unsafe.",
+                          "summary": "Plans with learned control-affine dynamics while bounding model error through estimated Lipschitz constants and feedback-law existence constraints. The result is a sampling-based planner that returns nominal plans with probabilistic safety, reachability, and local goal-stability guarantees under the learned-model trust region.",
+                          "mapUrl": "../map/#paper=2010_08993",
+                          "timelineUrl": "../timeline/#paper=2010_08993",
+                          "searchUrl": "../search/?paper=2010_08993"
+                        }
+                      },
+                      {
                         "id": "tree-decision-making-planning-planning-in-changing-environments-feedback-motion-planning-robust-feedback-motion-planning-via-contraction-theory-papers-2023-singh-robust-feedback-motion-planning-md",
                         "label": "Robust feedback motion planning via contraction theory",
                         "kind": "paper",
@@ -41540,7 +42439,7 @@ window.treeData = {
                         }
                       }
                     ],
-                    "leafCount": 4,
+                    "leafCount": 5,
                     "branchCount": 0
                   },
                   {
@@ -41639,6 +42538,60 @@ window.treeData = {
                                   "mapUrl": "../map/#paper=2009_prentice_the_belief_roadmap_efficient",
                                   "timelineUrl": "../timeline/#paper=2009_prentice_the_belief_roadmap_efficient",
                                   "searchUrl": "../search/?paper=2009_prentice_the_belief_roadmap_efficient"
+                                }
+                              },
+                              {
+                                "id": "tree-decision-making-planning-planning-in-changing-environments-planning-under-uncertainty-planning-in-belief-space-belief-roadmap-brm-pgcs-brm-papers-2309-09344-md",
+                                "label": "PGCS-BRM",
+                                "kind": "paper",
+                                "source": "papers/2309_09344.md",
+                                "url": "../papers/2309_09344/",
+                                "path": [
+                                  "Tree",
+                                  "Decision-making",
+                                  "Planning",
+                                  "Planning in Changing Environments",
+                                  "Planning Under Uncertainty",
+                                  "Planning in Belief Space",
+                                  "Belief Roadmap (BRM)",
+                                  "PGCS-BRM"
+                                ],
+                                "children": [],
+                                "leafCount": 1,
+                                "branchCount": 0,
+                                "paper": {
+                                  "id": "2309_09344",
+                                  "label": "PGCS-BRM",
+                                  "title": "Efficient Belief Road Map for Planning under Uncertainty",
+                                  "algorithm": "PGCS-BRM",
+                                  "authors": [
+                                    "Zhenyang Chen",
+                                    "Hongzhe Yu",
+                                    "Yongxin Chen"
+                                  ],
+                                  "year": 2023,
+                                  "yearValue": 2023,
+                                  "sourceName": "arXiv",
+                                  "type": "Preprint",
+                                  "doi": "",
+                                  "arxivId": "2309.09344",
+                                  "primaryLink": "https://arxiv.org/pdf/2309.09344",
+                                  "hasPrimaryLink": true,
+                                  "alternateLinkCount": 0,
+                                  "auditStatus": "partial",
+                                  "tags": [
+                                    "Belief-space planning",
+                                    "Motion planning under uncertainty",
+                                    "Covariance control",
+                                    "Roadmap",
+                                    "Output feedback",
+                                    "Robotics"
+                                  ],
+                                  "abstract": "Robotic systems, particularly in demanding environments like narrow corridors or disaster zones, often grapple with imperfect state estimation. Addressing this challenge requires a trajectory plan that not only navigates these restrictive spaces but also manages the inherent uncertainty of the system. We present a novel approach for graph-based belief space planning via the use of an efficient covariance control algorithm. By adaptively steering state statistics via output state feedback, we efficiently craft a belief roadmap characterized by nodes with controlled uncertainty and edges representing collision-free mean trajectories. The roadmap's structured design then paves the way for precise path searches that balance control costs and uncertainty considerations. Our numerical experiments affirm the efficacy and advantage of our method in different motion planning tasks. Our open-source implementation can be found at https://github.com/hzyu17/VIMP/tree/BRM.",
+                                  "summary": "Builds a graph-based belief-space planner using covariance-control edges and road-map nodes with controlled uncertainty. The paper targets practical planning in narrow or uncertain environments where paths must manage both geometry and state-estimation quality.",
+                                  "mapUrl": "../map/#paper=2309_09344",
+                                  "timelineUrl": "../timeline/#paper=2309_09344",
+                                  "searchUrl": "../search/?paper=2309_09344"
                                 }
                               },
                               {
@@ -41749,7 +42702,7 @@ window.treeData = {
                                 }
                               }
                             ],
-                            "leafCount": 3,
+                            "leafCount": 4,
                             "branchCount": 0
                           },
                           {
@@ -42316,7 +43269,7 @@ window.treeData = {
                             "branchCount": 0
                           }
                         ],
-                        "leafCount": 13,
+                        "leafCount": 14,
                         "branchCount": 2
                       },
                       {
@@ -42376,6 +43329,58 @@ window.treeData = {
                           "mapUrl": "../map/#paper=2201_01483",
                           "timelineUrl": "../timeline/#paper=2201_01483",
                           "searchUrl": "../search/?paper=2201_01483"
+                        }
+                      },
+                      {
+                        "id": "tree-decision-making-planning-planning-in-changing-environments-planning-under-uncertainty-safe-output-feedback-motion-planning-papers-2206-06553-md",
+                        "label": "Safe output-feedback motion planning",
+                        "kind": "paper",
+                        "source": "papers/2206_06553.md",
+                        "url": "../papers/2206_06553/",
+                        "path": [
+                          "Tree",
+                          "Decision-making",
+                          "Planning",
+                          "Planning in Changing Environments",
+                          "Planning Under Uncertainty",
+                          "Safe output-feedback motion planning"
+                        ],
+                        "children": [],
+                        "leafCount": 1,
+                        "branchCount": 0,
+                        "paper": {
+                          "id": "2206_06553",
+                          "label": "Chou et al. 2022",
+                          "title": "Safe Output Feedback Motion Planning from Images via Learned Perception Modules and Contraction Theory",
+                          "algorithm": "",
+                          "authors": [
+                            "Glen Chou",
+                            "Necmiye Ozay",
+                            "Dmitry Berenson"
+                          ],
+                          "year": 2022,
+                          "yearValue": 2022,
+                          "sourceName": "Workshop on the Algorithmic Foundations of Robotics (WAFR)",
+                          "type": "Workshop Paper",
+                          "doi": "",
+                          "arxivId": "2206.06553",
+                          "primaryLink": "https://arxiv.org/pdf/2206.06553",
+                          "hasPrimaryLink": true,
+                          "alternateLinkCount": 0,
+                          "auditStatus": "partial",
+                          "tags": [
+                            "Motion planning",
+                            "Output feedback",
+                            "Learned perception",
+                            "Contraction theory",
+                            "Safety guarantees",
+                            "RGB-D perception"
+                          ],
+                          "abstract": "We present a motion planning algorithm for a class of uncertain control-affine nonlinear systems which guarantees runtime safety and goal reachability when using high-dimensional sensor measurements (e.g., RGB-D images) and a learned perception module in the feedback control loop. First, given a dataset of states and observations, we train a perception system that seeks to invert a subset of the state from an observation, and estimate an upper bound on the perception error which is valid with high probability in a trusted domain near the data. Next, we use contraction theory to design a stabilizing state feedback controller and a convergent dynamic state observer which uses the learned perception system to update its state estimate. We derive a bound on the trajectory tracking error when this controller is subjected to errors in the dynamics and incorrect state estimates. Finally, we integrate this bound into a sampling-based motion planner, guiding it to return trajectories that can be safely tracked at runtime using sensor data. We demonstrate our approach in simulation on a 4D car, a 6D planar quadrotor, and a 17D manipulation task with RGB(-D) sensor measurements, demonstrating that our method safely and reliably steers the system to the goal, while baselines that fail to consider the trusted domain or state estimation errors can be unsafe.",
+                          "summary": "Integrates learned perception error bounds, contraction-based tracking, and sampling-based planning to provide safety and reachability guarantees from high-dimensional observations. The paper is a useful template for treating perception uncertainty as part of the motion-planning certificate rather than as a separate preprocessing concern.",
+                          "mapUrl": "../map/#paper=2206_06553",
+                          "timelineUrl": "../timeline/#paper=2206_06553",
+                          "searchUrl": "../search/?paper=2206_06553"
                         }
                       },
                       {
@@ -42487,9 +43492,61 @@ window.treeData = {
                           "timelineUrl": "../timeline/#paper=2605_26625",
                           "searchUrl": "../search/?paper=2605_26625"
                         }
+                      },
+                      {
+                        "id": "tree-decision-making-planning-planning-in-changing-environments-planning-under-uncertainty-fail-safe-motion-planning-of-autonomous-vehicles-papers-2016-magdici-fail-safe-motion-planning-md",
+                        "label": "Fail-Safe Motion Planning of Autonomous Vehicles",
+                        "kind": "paper",
+                        "source": "papers/2016_magdici_fail_safe_motion_planning.md",
+                        "url": "../papers/2016_magdici_fail_safe_motion_planning/",
+                        "path": [
+                          "Tree",
+                          "Decision-making",
+                          "Planning",
+                          "Planning in Changing Environments",
+                          "Planning Under Uncertainty",
+                          "Fail-Safe Motion Planning of Autonomous Vehicles"
+                        ],
+                        "children": [],
+                        "leafCount": 1,
+                        "branchCount": 0,
+                        "paper": {
+                          "id": "2016_magdici_fail_safe_motion_planning",
+                          "label": "Magdici et al. 2016",
+                          "title": "Fail-Safe Motion Planning of Autonomous Vehicles",
+                          "algorithm": "",
+                          "authors": [
+                            "Silvia Magdici",
+                            "Matthias Althoff"
+                          ],
+                          "year": 2016,
+                          "yearValue": 2016,
+                          "sourceName": "IEEE International Conference on Intelligent Transportation Systems",
+                          "type": "Conference Paper",
+                          "doi": "10.1109/ITSC.2016.7795594",
+                          "arxivId": "",
+                          "primaryLink": "https://mediatum.ub.tum.de/doc/1379704/209229.pdf",
+                          "hasPrimaryLink": true,
+                          "alternateLinkCount": 2,
+                          "auditStatus": "partial",
+                          "tags": [
+                            "Autonomous driving",
+                            "Safe planning",
+                            "Safety verification",
+                            "Reachability analysis",
+                            "Obstacle avoidance",
+                            "Contingency plan",
+                            "Motion planning"
+                          ],
+                          "abstract": "Formally verified methods for motion planning are required in order to guarantee safety for autonomous vehicles. In particular, we consider trajectory generation by considering the most probable trajectory of other traffic participants. However, if the surrounding vehicles perform unexpected maneuvers, a collision might be inevitable. In this paper, a fail-safe motion planner is developed, which generates optimal trajectories, yet guarantees safety at all times. Safety is achieved by maintaining an emergency maneuver which can safely bring the host vehicle to a stop while avoiding any collision. The emergency maneuver is computed by considering for a given time horizon the occupancy prediction which encloses all possible trajectories of the other traffic participants. The performance of the approach is evaluated through simulation against real traffic data.",
+                          "summary": "Introduces a planning architecture that keeps an emergency stop maneuver available while optimizing nominal vehicle motion. Its main value is the explicit pairing of performance-oriented trajectory generation with occupancy-based safety envelopes for unexpected traffic behavior.",
+                          "mapUrl": "../map/#paper=2016_magdici_fail_safe_motion_planning",
+                          "timelineUrl": "../timeline/#paper=2016_magdici_fail_safe_motion_planning",
+                          "searchUrl": "../search/?paper=2016_magdici_fail_safe_motion_planning"
+                        }
                       }
                     ],
-                    "leafCount": 16,
+                    "leafCount": 19,
                     "branchCount": 3
                   },
                   {
@@ -43490,6 +44547,59 @@ window.treeData = {
                         }
                       },
                       {
+                        "id": "tree-decision-making-planning-planning-in-changing-environments-interaction-aware-planning-autonomous-vehicle-decision-making-and-monitoring-based-on-signal-temporal-logic-and-mixed-integer-programming-papers-2020-sahin-autonomous-vehicle-decision-making-md",
+                        "label": "Autonomous Vehicle Decision-Making and Monitoring Based on Signal Temporal Logic and Mixed-Integer Programming",
+                        "kind": "paper",
+                        "source": "papers/2020_sahin_autonomous_vehicle_decision_making.md",
+                        "url": "../papers/2020_sahin_autonomous_vehicle_decision_making/",
+                        "path": [
+                          "Tree",
+                          "Decision-making",
+                          "Planning",
+                          "Planning in Changing Environments",
+                          "Interaction-aware Planning",
+                          "Autonomous Vehicle Decision-Making and Monitoring Based on Signal Temporal Logic and Mixed-Integer Programming"
+                        ],
+                        "children": [],
+                        "leafCount": 1,
+                        "branchCount": 0,
+                        "paper": {
+                          "id": "2020_sahin_autonomous_vehicle_decision_making",
+                          "label": "Sahin et al. 2020",
+                          "title": "Autonomous Vehicle Decision-Making and Monitoring Based on Signal Temporal Logic and Mixed-Integer Programming",
+                          "algorithm": "",
+                          "authors": [
+                            "Yunus Emre Sahin",
+                            "Rien Quirynen",
+                            "Stefano Di Cairano"
+                          ],
+                          "year": 2020,
+                          "yearValue": 2020,
+                          "sourceName": "American Control Conference",
+                          "type": "Conference Paper",
+                          "doi": "10.23919/ACC45564.2020.9147917",
+                          "arxivId": "",
+                          "primaryLink": "https://www.merl.com/publications/docs/TR2020-095.pdf",
+                          "hasPrimaryLink": true,
+                          "alternateLinkCount": 2,
+                          "auditStatus": "partial",
+                          "tags": [
+                            "Autonomous driving",
+                            "Temporal logic",
+                            "Mixed-integer programming",
+                            "Formal verification",
+                            "Safety verification",
+                            "Decision-making",
+                            "Optimization-based synthesis"
+                          ],
+                          "abstract": "We propose a decision-making system for auto-mated driving with formal guarantees, synthesized from Signal Temporal Logic (STL) specifications. STL formulae specifying overall and intermediate driving goals and the traffic rules are encoded as mixed-integer inequalities and combined with a simplified vehicle motion model, resulting in a mixed-integer optimization problem. The specification satisfaction for the actual vehicle motion is guaranteed by imposing constraints on the quantitative semantics of STL. For reducing the com-putational burden, we propose an STL encoding that results in a block-sparse structure. The same STL formulae are used for monitoring faults due to imperfect prediction on the vehicle and environment. We demonstrate our method on an urban scenario with intersections, obstacles, and no-pass zones.",
+                          "summary": "Formulates automated-driving decision making as a mixed-integer optimization problem generated from signal-temporal-logic goals and rules. A notable secondary contribution is reusing the same specifications for online monitoring when predictions or execution deviate from the plan.",
+                          "mapUrl": "../map/#paper=2020_sahin_autonomous_vehicle_decision_making",
+                          "timelineUrl": "../timeline/#paper=2020_sahin_autonomous_vehicle_decision_making",
+                          "searchUrl": "../search/?paper=2020_sahin_autonomous_vehicle_decision_making"
+                        }
+                      },
+                      {
                         "id": "tree-decision-making-planning-planning-in-changing-environments-interaction-aware-planning-interaction-aware-mpc-papers-2301-05393-md",
                         "label": "Interaction-Aware MPC",
                         "kind": "paper",
@@ -43943,11 +45053,11 @@ window.treeData = {
                         }
                       }
                     ],
-                    "leafCount": 24,
+                    "leafCount": 25,
                     "branchCount": 1
                   }
                 ],
-                "leafCount": 48,
+                "leafCount": 53,
                 "branchCount": 8
               },
               {
@@ -45290,13 +46400,71 @@ window.treeData = {
                               "timelineUrl": "../timeline/#paper=2510_11083",
                               "searchUrl": "../search/?paper=2510_11083"
                             }
+                          },
+                          {
+                            "id": "tree-decision-making-planning-learning-based-motion-planning-learned-steering-flow-matching-catg-papers-2510-26292-md",
+                            "label": "CATG",
+                            "kind": "paper",
+                            "source": "papers/2510_26292.md",
+                            "url": "../papers/2510_26292/",
+                            "path": [
+                              "Tree",
+                              "Decision-making",
+                              "Planning",
+                              "Learning-Based Motion Planning",
+                              "Learned Steering",
+                              "Flow Matching",
+                              "CATG"
+                            ],
+                            "children": [],
+                            "leafCount": 1,
+                            "branchCount": 0,
+                            "paper": {
+                              "id": "2510_26292",
+                              "label": "CATG",
+                              "title": "Beyond Imitation: Constraint-Aware Trajectory Generation with Flow Matching for End-to-End Autonomous Driving",
+                              "algorithm": "CATG",
+                              "authors": [
+                                "Lin Liu",
+                                "Guanyi Yu",
+                                "Ziying Song",
+                                "Junqiao Li",
+                                "Caiyan Jia",
+                                "Feiyang Jia",
+                                "Peiliang Wu",
+                                "Yandan Luo"
+                              ],
+                              "year": 2025,
+                              "yearValue": 2025,
+                              "sourceName": "arXiv",
+                              "type": "Preprint",
+                              "doi": "",
+                              "arxivId": "2510.26292",
+                              "primaryLink": "https://arxiv.org/pdf/2510.26292",
+                              "hasPrimaryLink": true,
+                              "alternateLinkCount": 0,
+                              "auditStatus": "partial",
+                              "tags": [
+                                "Autonomous driving",
+                                "Flow matching",
+                                "Trajectory generation",
+                                "Constraints",
+                                "Multimodal planning",
+                                "Safety"
+                              ],
+                              "abstract": "Planning is a critical component of end-to-end autonomous driving. However, prevailing imitation learning methods often suffer from mode collapse, failing to produce diverse trajectory hypotheses. Meanwhile, existing generative approaches struggle to incorporate crucial safety and physical constraints directly into the generative process, necessitating an additional optimization stage to refine their outputs. To address these limitations, we propose CATG, a novel planning framework that leverages Constrained Flow Matching. Concretely, CATG explicitly models the flow matching process, which inherently mitigates mode collapse and allows for flexible guidance from various conditioning signals. Our primary contribution is the novel imposition of explicit constraints directly within the flow matching process, ensuring that the generated trajectories adhere to vital safety and kinematic rules. Secondly, CATG parameterizes driving aggressiveness as a control signal during generation, enabling precise manipulation of trajectory style. Notably, on the NavSim v2 challenge, CATG achieved 2nd place with an EPDMS score of 51.31 and was honored with the Innovation Award.",
+                              "summary": "Proposes constraint-aware trajectory generation for end-to-end driving using flow matching instead of pure imitation. The method explicitly injects safety and physical constraints into the generative process, reducing the need for a separate post-generation optimization stage.",
+                              "mapUrl": "../map/#paper=2510_26292",
+                              "timelineUrl": "../timeline/#paper=2510_26292",
+                              "searchUrl": "../search/?paper=2510_26292"
+                            }
                           }
                         ],
-                        "leafCount": 3,
+                        "leafCount": 4,
                         "branchCount": 0
                       }
                     ],
-                    "leafCount": 10,
+                    "leafCount": 11,
                     "branchCount": 2
                   },
                   {
@@ -45417,6 +46585,71 @@ window.treeData = {
                           "mapUrl": "../map/#paper=2109_13602",
                           "timelineUrl": "../timeline/#paper=2109_13602",
                           "searchUrl": "../search/?paper=2109_13602"
+                        }
+                      },
+                      {
+                        "id": "tree-decision-making-planning-learning-based-motion-planning-frameworks-uniad-papers-2212-10156-md",
+                        "label": "UniAD",
+                        "kind": "paper",
+                        "source": "papers/2212_10156.md",
+                        "url": "../papers/2212_10156/",
+                        "path": [
+                          "Tree",
+                          "Decision-making",
+                          "Planning",
+                          "Learning-Based Motion Planning",
+                          "Frameworks",
+                          "UniAD"
+                        ],
+                        "children": [],
+                        "leafCount": 1,
+                        "branchCount": 0,
+                        "paper": {
+                          "id": "2212_10156",
+                          "label": "UniAD",
+                          "title": "Planning-Oriented Autonomous Driving",
+                          "algorithm": "UniAD",
+                          "authors": [
+                            "Yihan Hu",
+                            "Jiazhi Yang",
+                            "Li Chen",
+                            "Keyu Li",
+                            "Chonghao Sima",
+                            "Xizhou Zhu",
+                            "Siqi Chai",
+                            "Senyao Du",
+                            "Tianwei Lin",
+                            "Wenhai Wang",
+                            "Lewei Lu",
+                            "Xiaosong Jia",
+                            "Qiang Liu",
+                            "Jifeng Dai",
+                            "Yu Qiao",
+                            "Hongyang Li"
+                          ],
+                          "year": 2022,
+                          "yearValue": 2022,
+                          "sourceName": "IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+                          "type": "Conference Paper",
+                          "doi": "",
+                          "arxivId": "2212.10156",
+                          "primaryLink": "https://arxiv.org/pdf/2212.10156",
+                          "hasPrimaryLink": true,
+                          "alternateLinkCount": 1,
+                          "auditStatus": "partial",
+                          "tags": [
+                            "Autonomous driving",
+                            "End-to-end planning",
+                            "Multi-task learning",
+                            "Perception and planning",
+                            "NuScenes",
+                            "Unified architectures"
+                          ],
+                          "abstract": "Modern autonomous driving system is characterized as modular tasks in sequential order, i.e., perception, prediction, and planning. In order to perform a wide diversity of tasks and achieve advanced-level intelligence, contemporary approaches either deploy standalone models for individual tasks, or design a multi-task paradigm with separate heads. However, they might suffer from accumulative errors or deficient task coordination. Instead, we argue that a favorable framework should be devised and optimized in pursuit of the ultimate goal, i.e., planning of the self-driving car. Oriented at this, we revisit the key components within perception and prediction, and prioritize the tasks such that all these tasks contribute to planning. We introduce Unified Autonomous Driving (UniAD), a comprehensive framework up-to-date that incorporates full-stack driving tasks in one network. It is exquisitely devised to leverage advantages of each module, and provide complementary feature abstractions for agent interaction from a global perspective. Tasks are communicated with unified query interfaces to facilitate each other toward planning. We instantiate UniAD on the challenging nuScenes benchmark. With extensive ablations, the effectiveness of using such a philosophy is proven by substantially outperforming previous state-of-the-arts in all aspects. Code and models are public.",
+                          "summary": "Introduces UniAD, a full-stack autonomous-driving network organized around planning rather than separate perception and prediction tasks. The paper is important as an end-to-end driving baseline because it explicitly coordinates modular driving subtasks through unified queries and evaluates their contribution to planning quality.",
+                          "mapUrl": "../map/#paper=2212_10156",
+                          "timelineUrl": "../timeline/#paper=2212_10156",
+                          "searchUrl": "../search/?paper=2212_10156"
                         }
                       },
                       {
@@ -45691,6 +46924,65 @@ window.treeData = {
                         }
                       },
                       {
+                        "id": "tree-decision-making-planning-learning-based-motion-planning-frameworks-generalized-trajectory-scoring-papers-2506-06664-md",
+                        "label": "Generalized Trajectory Scoring",
+                        "kind": "paper",
+                        "source": "papers/2506_06664.md",
+                        "url": "../papers/2506_06664/",
+                        "path": [
+                          "Tree",
+                          "Decision-making",
+                          "Planning",
+                          "Learning-Based Motion Planning",
+                          "Frameworks",
+                          "Generalized Trajectory Scoring"
+                        ],
+                        "children": [],
+                        "leafCount": 1,
+                        "branchCount": 0,
+                        "paper": {
+                          "id": "2506_06664",
+                          "label": "Li et al. 2025",
+                          "title": "Generalized Trajectory Scoring for End-to-End Multimodal Planning",
+                          "algorithm": "",
+                          "authors": [
+                            "Zhenxin Li",
+                            "Wenhao Yao",
+                            "Zi Wang",
+                            "Xinglong Sun",
+                            "Joshua Chen",
+                            "Nadine Chang",
+                            "Maying Shen",
+                            "Zuxuan Wu",
+                            "Shiyi Lan",
+                            "Jose M. Alvarez"
+                          ],
+                          "year": 2025,
+                          "yearValue": 2025,
+                          "sourceName": "CVPR Autonomous Grand Challenge",
+                          "type": "Workshop Paper",
+                          "doi": "",
+                          "arxivId": "2506.06664",
+                          "primaryLink": "https://arxiv.org/pdf/2506.06664",
+                          "hasPrimaryLink": true,
+                          "alternateLinkCount": 0,
+                          "auditStatus": "partial",
+                          "tags": [
+                            "Autonomous driving",
+                            "End-to-end planning",
+                            "Multimodal planning",
+                            "Trajectory scoring",
+                            "Generalization",
+                            "Benchmarks"
+                          ],
+                          "abstract": "End-to-end multi-modal planning is a promising paradigm in autonomous driving, enabling decision-making with diverse trajectory candidates. A key component is a robust trajectory scorer capable of selecting the optimal trajectory from these candidates. While recent trajectory scorers focus on scoring either large sets of static trajectories or small sets of dynamically generated ones, both approaches face significant limitations in generalization. Static vocabularies provide effective coarse discretization but struggle to make fine-grained adaptation, while dynamic proposals offer detailed precision but fail to capture broader trajectory distributions. To overcome these challenges, we propose GTRS (Generalized Trajectory Scoring), a unified framework for end-to-end multi-modal planning that combines coarse and fine-grained trajectory evaluation. GTRS consists of three complementary innovations: (1) a diffusion-based trajectory generator that produces diverse fine-grained proposals; (2) a vocabulary generalization technique that trains a scorer on super-dense trajectory sets with dropout regularization, enabling its robust inference on smaller subsets; and (3) a sensor augmentation strategy that enhances out-of-domain generalization while incorporating refinement training for critical trajectory discrimination. As the winning solution of the Navsim v2 Challenge, GTRS demonstrates superior performance even with sub-optimal sensor inputs, approaching privileged methods that rely on ground-truth perception. Code will be available at https://github.com/NVlabs/GTRS.",
+                          "summary": "Studies trajectory scoring as the selection layer for end-to-end multimodal driving planners, balancing static trajectory vocabularies and dynamic proposals. The paper is framed as a challenge-winning system contribution that improves generalization when choosing among diverse candidate futures.",
+                          "mapUrl": "../map/#paper=2506_06664",
+                          "timelineUrl": "../timeline/#paper=2506_06664",
+                          "searchUrl": "../search/?paper=2506_06664"
+                        }
+                      },
+                      {
                         "id": "tree-decision-making-planning-learning-based-motion-planning-frameworks-transitioning-from-rule-based-to-ml-powered-motion-planning-papers-2025-hu-technically-speaking-transitioning-from-md",
                         "label": "Transitioning from Rule-Based to ML-Powered Motion Planning",
                         "kind": "paper",
@@ -45845,11 +47137,11 @@ window.treeData = {
                         }
                       }
                     ],
-                    "leafCount": 10,
+                    "leafCount": 12,
                     "branchCount": 0
                   }
                 ],
-                "leafCount": 32,
+                "leafCount": 35,
                 "branchCount": 8
               },
               {
@@ -46802,6 +48094,216 @@ window.treeData = {
                           "mapUrl": "../map/#paper=2012_augugliaro_generation_of_collision_free",
                           "timelineUrl": "../timeline/#paper=2012_augugliaro_generation_of_collision_free",
                           "searchUrl": "../search/?paper=2012_augugliaro_generation_of_collision_free"
+                        }
+                      },
+                      {
+                        "id": "tree-decision-making-planning-planning-for-robots-multi-robot-planning-cltl-papers-2017-sahin-synchronous-and-asynchronous-multi-md",
+                        "label": "cLTL+",
+                        "kind": "paper",
+                        "source": "papers/2017_sahin_synchronous_and_asynchronous_multi.md",
+                        "url": "../papers/2017_sahin_synchronous_and_asynchronous_multi/",
+                        "path": [
+                          "Tree",
+                          "Decision-making",
+                          "Planning",
+                          "Planning for Robots",
+                          "Multi-Robot Planning",
+                          "cLTL+"
+                        ],
+                        "children": [],
+                        "leafCount": 1,
+                        "branchCount": 0,
+                        "paper": {
+                          "id": "2017_sahin_synchronous_and_asynchronous_multi",
+                          "label": "cLTL+",
+                          "title": "Synchronous and Asynchronous Multi-Agent Coordination with cLTL+ Constraints",
+                          "algorithm": "cLTL+",
+                          "authors": [
+                            "Yunus Emre Sahin",
+                            "Petter Nilsson",
+                            "Necmiye Ozay"
+                          ],
+                          "year": 2017,
+                          "yearValue": 2017,
+                          "sourceName": "IEEE Conference on Decision and Control (CDC)",
+                          "type": "Conference Paper",
+                          "doi": "10.1109/CDC.2017.8263687",
+                          "arxivId": "",
+                          "primaryLink": "https://web.eecs.umich.edu/~necmiye/pubs/SahinNO_cdc17.pdf",
+                          "hasPrimaryLink": true,
+                          "alternateLinkCount": 1,
+                          "auditStatus": "partial",
+                          "tags": [
+                            "Multi-agent systems",
+                            "Temporal logic",
+                            "Motion planning",
+                            "Optimization-based synthesis",
+                            "Asynchronous coordination",
+                            "Formal methods"
+                          ],
+                          "abstract": "Planning trajectories for multiple agents in a way to guarantee that their collective behavior satisfies a certain high-level specification is crucial in many application domains. Motivated by this problem, we introduce a new logic called counting linear temporal logic plus (cLTL+). This logic enables specifying multi-agent tasks over possibly infinite horizons in a compact manner. We then propose an optimization-based method that generates trajectories for individual agents that, when implemented together, guarantee the satisfaction of a given cLTL+ formula. In the second part of the paper, we discuss how these results can be extended to generate trajectories that can be asynchronously implemented by the agents while preserving the satisfaction of the desired cLTL+ specification. In particular, we show that when the asynchrony between agent trajectories is bounded, it is possible to generate trajectories robust against such asynchrony with an appropriate modification of the optimization problem. Finally, we demonstrate these ideas on selected examples.",
+                          "summary": "Introduces counting linear temporal logic plus as a compact specification language for multi-agent coordination and gives optimization-based synthesis procedures for synchronous and bounded-asynchronous execution. The paper matters as a bridge between temporal-logic task specifications and practical multi-agent trajectory generation.",
+                          "mapUrl": "../map/#paper=2017_sahin_synchronous_and_asynchronous_multi",
+                          "timelineUrl": "../timeline/#paper=2017_sahin_synchronous_and_asynchronous_multi",
+                          "searchUrl": "../search/?paper=2017_sahin_synchronous_and_asynchronous_multi"
+                        }
+                      },
+                      {
+                        "id": "tree-decision-making-planning-planning-for-robots-multi-robot-planning-multirobot-coordination-with-counting-temporal-logics-papers-1810-13087-md",
+                        "label": "Multirobot Coordination with Counting Temporal Logics",
+                        "kind": "paper",
+                        "source": "papers/1810_13087.md",
+                        "url": "../papers/1810_13087/",
+                        "path": [
+                          "Tree",
+                          "Decision-making",
+                          "Planning",
+                          "Planning for Robots",
+                          "Multi-Robot Planning",
+                          "Multirobot Coordination with Counting Temporal Logics"
+                        ],
+                        "children": [],
+                        "leafCount": 1,
+                        "branchCount": 0,
+                        "paper": {
+                          "id": "1810_13087",
+                          "label": "cLTL+",
+                          "title": "Multirobot Coordination with Counting Temporal Logics",
+                          "algorithm": "cLTL+",
+                          "authors": [
+                            "Yunus Emre Sahin",
+                            "Petter Nilsson",
+                            "Necmiye Ozay"
+                          ],
+                          "year": 2018,
+                          "yearValue": 2018,
+                          "sourceName": "IEEE Transactions on Robotics",
+                          "type": "Journal Paper",
+                          "doi": "10.1109/TRO.2019.2957669",
+                          "arxivId": "1810.13087",
+                          "primaryLink": "https://arxiv.org/pdf/1810.13087",
+                          "hasPrimaryLink": true,
+                          "alternateLinkCount": 2,
+                          "auditStatus": "partial",
+                          "tags": [
+                            "Multi-agent systems",
+                            "Multi-agent pathfinding",
+                            "Temporal logic",
+                            "Formal methods",
+                            "Mixed-integer programming",
+                            "Asynchronous coordination",
+                            "Robotics"
+                          ],
+                          "abstract": "In many multirobot applications, planning trajectories in a way to guarantee that the collective behavior of the robots satisfies a certain high-level specification is crucial. Motivated by this problem, we introduce counting temporal logics-formal languages that enable concise expression of multirobot task specifications over possibly infinite horizons. We first introduce a general logic called counting linear temporal logic plus (cLTL+), and propose an optimization-based method that generates individual trajectories such that satisfaction of a given cLTL+ formula is guaranteed when these trajectories are synchronously executed. We then introduce a fragment of cLTL+, called counting linear temporal logic (cLTL), and show that a solution to planning problem with cLTL constraints can be obtained more efficiently if all robots have identical dynamics. In the second part of the paper, we relax the synchrony assumption and discuss how to generate trajectories that can be asynchronously executed, while preserving the satisfaction of the desired cLTL+ specification. In particular, we show that when the asynchrony between robots is bounded, the method presented in this paper can be modified to generate robust trajectories. We demonstrate these ideas with an experiment and provide numerical results that showcase the scalability of the method.",
+                          "summary": "Develops counting temporal logics for specifying collective multi-robot behavior without assigning every robot a unique role. The paper combines logic-based planning, optimization, and robustness to bounded asynchrony, making it a bridge between formal methods and scalable multi-agent coordination.",
+                          "mapUrl": "../map/#paper=1810_13087",
+                          "timelineUrl": "../timeline/#paper=1810_13087",
+                          "searchUrl": "../search/?paper=1810_13087"
+                        }
+                      },
+                      {
+                        "id": "tree-decision-making-planning-planning-for-robots-multi-robot-planning-multi-agent-coordination-subject-to-counting-constraints-a-hierarchical-approach-papers-2019-sahin-multi-agent-coordination-subject-md",
+                        "label": "Multi-Agent Coordination Subject to Counting Constraints: A Hierarchical Approach",
+                        "kind": "paper",
+                        "source": "papers/2019_sahin_multi_agent_coordination_subject.md",
+                        "url": "../papers/2019_sahin_multi_agent_coordination_subject/",
+                        "path": [
+                          "Tree",
+                          "Decision-making",
+                          "Planning",
+                          "Planning for Robots",
+                          "Multi-Robot Planning",
+                          "Multi-Agent Coordination Subject to Counting Constraints: A Hierarchical Approach"
+                        ],
+                        "children": [],
+                        "leafCount": 1,
+                        "branchCount": 0,
+                        "paper": {
+                          "id": "2019_sahin_multi_agent_coordination_subject",
+                          "label": "Sahin et al. 2019",
+                          "title": "Multi-Agent Coordination Subject to Counting Constraints: A Hierarchical Approach",
+                          "algorithm": "",
+                          "authors": [
+                            "Yunus Emre Sahin",
+                            "Necmiye Ozay",
+                            "Stavros Tripakis"
+                          ],
+                          "year": 2019,
+                          "yearValue": 2019,
+                          "sourceName": "Distributed Autonomous Robotic Systems",
+                          "type": "Conference Paper",
+                          "doi": "10.1007/978-3-030-05816-6_19",
+                          "arxivId": "",
+                          "primaryLink": "https://web.eecs.umich.edu/~necmiye/pubs/SahinOT_dars18.pdf",
+                          "hasPrimaryLink": true,
+                          "alternateLinkCount": 2,
+                          "auditStatus": "partial",
+                          "tags": [
+                            "Multi-agent systems",
+                            "Multi-agent pathfinding",
+                            "Temporal logic",
+                            "Hierarchical planning",
+                            "Reachability analysis",
+                            "Formal methods",
+                            "Asynchronous coordination"
+                          ],
+                          "abstract": "This paper considers the problem of generating multi-agent trajectories to satisfy properties given in counting temporal logic. A hierarchical solution approach is proposed where a coarse plan that satisfies the logic constraints is computed first at the higher-level, followed by a lower-level task of solving a sequence of multi-agent reachability problems. Collision avoidance and potential asynchronous executions are also dealt with at the lower-level. When lower-level planning problems are found to be infeasible, these infeasibility certificates are incorporated into the higher-level problem to re-generate plans. The results are demonstrated with several examples that show how the proposed approach scales with respect to different parameters.",
+                          "summary": "Proposes a two-level coordination method that first plans over counting-logic constraints and then solves lower-level reachability problems for the agents. The hierarchy makes the method scale better and gives infeasibility feedback from motion planning back to the symbolic planning layer.",
+                          "mapUrl": "../map/#paper=2019_sahin_multi_agent_coordination_subject",
+                          "timelineUrl": "../timeline/#paper=2019_sahin_multi_agent_coordination_subject",
+                          "searchUrl": "../search/?paper=2019_sahin_multi_agent_coordination_subject"
+                        }
+                      },
+                      {
+                        "id": "tree-decision-making-planning-planning-for-robots-multi-robot-planning-from-drinking-philosophers-to-asynchronous-path-following-robots-papers-2001-00440-md",
+                        "label": "From Drinking Philosophers to Asynchronous Path-Following Robots",
+                        "kind": "paper",
+                        "source": "papers/2001_00440.md",
+                        "url": "../papers/2001_00440/",
+                        "path": [
+                          "Tree",
+                          "Decision-making",
+                          "Planning",
+                          "Planning for Robots",
+                          "Multi-Robot Planning",
+                          "From Drinking Philosophers to Asynchronous Path-Following Robots"
+                        ],
+                        "children": [],
+                        "leafCount": 1,
+                        "branchCount": 0,
+                        "paper": {
+                          "id": "2001_00440",
+                          "label": "Sahin et al. 2020",
+                          "title": "From Drinking Philosophers to Asynchronous Path-Following Robots",
+                          "algorithm": "",
+                          "authors": [
+                            "Yunus Emre Sahin",
+                            "Necmiye Ozay"
+                          ],
+                          "year": 2020,
+                          "yearValue": 2020,
+                          "sourceName": "arXiv",
+                          "type": "Preprint",
+                          "doi": "",
+                          "arxivId": "2001.00440",
+                          "primaryLink": "https://arxiv.org/pdf/2001.00440",
+                          "hasPrimaryLink": true,
+                          "alternateLinkCount": 0,
+                          "auditStatus": "partial",
+                          "tags": [
+                            "Asynchronous coordination",
+                            "Path following",
+                            "Multi-agent systems",
+                            "Coordination taxonomy",
+                            "Formal methods",
+                            "Robotics",
+                            "Control systems"
+                          ],
+                          "abstract": "In this paper, we consider the multi-robot path execution problem where a group of robots move on predefined paths from their initial to target positions while avoiding collisions and deadlocks in the face of asynchrony. We first show that this problem can be reformulated as a distributed resource allocation problem and, in particular, as an instance of the well-known Drinking Philosophers Problem (DrPP). By careful construction of the drinking sessions capturing shared resources, we show that any existing solutions to DrPP can be used to design robot control policies that are collectively collision and deadlock-free. We then propose modifications to an existing DrPP algorithm to allow more concurrent behavior, and provide conditions under which our method is deadlock-free. Our method does not require robots to know or to estimate the speed profiles of other robots and results in distributed control policies. We demonstrate the efficacy of our method on simulation examples, which show competitive performance against the state-of-the-art.",
+                          "summary": "Connects asynchronous robot path following to coordination ideas from the drinking philosophers problem. The contribution is a formal way to reason about progress and resource conflicts when robots execute paths without global synchronization.",
+                          "mapUrl": "../map/#paper=2001_00440",
+                          "timelineUrl": "../timeline/#paper=2001_00440",
+                          "searchUrl": "../search/?paper=2001_00440"
                         }
                       },
                       {
@@ -47774,11 +49276,11 @@ window.treeData = {
                         }
                       }
                     ],
-                    "leafCount": 20,
+                    "leafCount": 24,
                     "branchCount": 0
                   }
                 ],
-                "leafCount": 36,
+                "leafCount": 40,
                 "branchCount": 4
               },
               {
@@ -48163,6 +49665,61 @@ window.treeData = {
                           "mapUrl": "../map/#paper=2018_schwarting_planning_and_decision_making",
                           "timelineUrl": "../timeline/#paper=2018_schwarting_planning_and_decision_making",
                           "searchUrl": "../search/?paper=2018_schwarting_planning_and_decision_making"
+                        }
+                      },
+                      {
+                        "id": "tree-decision-making-planning-overviews-surveys-comparative-studies-end-to-end-autonomous-driving-survey-papers-2306-16927-md",
+                        "label": "End-to-end autonomous driving survey",
+                        "kind": "paper",
+                        "source": "papers/2306_16927.md",
+                        "url": "../papers/2306_16927/",
+                        "path": [
+                          "Tree",
+                          "Decision-making",
+                          "Planning",
+                          "Overviews",
+                          "Surveys & Comparative Studies",
+                          "End-to-end autonomous driving survey"
+                        ],
+                        "children": [],
+                        "leafCount": 1,
+                        "branchCount": 0,
+                        "paper": {
+                          "id": "2306_16927",
+                          "label": "Chen et al. 2023",
+                          "title": "End-to-End Autonomous Driving: Challenges and Frontiers",
+                          "algorithm": "",
+                          "authors": [
+                            "Li Chen",
+                            "Penghao Wu",
+                            "Kashyap Chitta",
+                            "Bernhard Jaeger",
+                            "Andreas Geiger",
+                            "Hongyang Li"
+                          ],
+                          "year": 2023,
+                          "yearValue": 2023,
+                          "sourceName": "IEEE Transactions on Pattern Analysis and Machine Intelligence",
+                          "type": "Survey Paper",
+                          "doi": "",
+                          "arxivId": "2306.16927",
+                          "primaryLink": "https://arxiv.org/pdf/2306.16927",
+                          "hasPrimaryLink": true,
+                          "alternateLinkCount": 0,
+                          "auditStatus": "partial",
+                          "tags": [
+                            "Autonomous driving",
+                            "End-to-end planning",
+                            "Surveys",
+                            "Perception and planning",
+                            "Closed-loop evaluation",
+                            "Foundation models"
+                          ],
+                          "abstract": "The autonomous driving community has witnessed a rapid growth in approaches that embrace an end-to-end algorithm framework, utilizing raw sensor input to generate vehicle motion plans, instead of concentrating on individual tasks such as detection and motion prediction. End-to-end systems, in comparison to modular pipelines, benefit from joint feature optimization for perception and planning. This field has flourished due to the availability of large-scale datasets, closed-loop evaluation, and the increasing need for autonomous driving algorithms to perform effectively in challenging scenarios. In this survey, we provide a comprehensive analysis of more than 270 papers, covering the motivation, roadmap, methodology, challenges, and future trends in end-to-end autonomous driving. We delve into several critical challenges, including multi-modality, interpretability, causal confusion, robustness, and world models, amongst others. Additionally, we discuss current advancements in foundation models and visual pre-training, as well as how to incorporate these techniques within the end-to-end driving framework. we maintain an active repository that contains up-to-date literature and open-source projects at https://github.com/OpenDriveLab/End-to-end-Autonomous-Driving.",
+                          "summary": "Surveys the shift from modular autonomous-driving stacks toward end-to-end systems that jointly optimize perception, prediction, and planning. The paper maps current datasets, closed-loop evaluation issues, and open frontiers, making it a good orientation point for learning-based driving planners.",
+                          "mapUrl": "../map/#paper=2306_16927",
+                          "timelineUrl": "../timeline/#paper=2306_16927",
+                          "searchUrl": "../search/?paper=2306_16927"
                         }
                       },
                       {
@@ -48698,9 +50255,68 @@ window.treeData = {
                           "timelineUrl": "../timeline/#paper=2402_19033",
                           "searchUrl": "../search/?paper=2402_19033"
                         }
+                      },
+                      {
+                        "id": "tree-decision-making-planning-overviews-surveys-comparative-studies-motion-planning-in-dynamic-environments-a-survey-from-classical-to-modern-methods-papers-2606-02677-md",
+                        "label": "Motion Planning in Dynamic Environments: A Survey from Classical to Modern Methods",
+                        "kind": "paper",
+                        "source": "papers/2606_02677.md",
+                        "url": "../papers/2606_02677/",
+                        "path": [
+                          "Tree",
+                          "Decision-making",
+                          "Planning",
+                          "Overviews",
+                          "Surveys & Comparative Studies",
+                          "Motion Planning in Dynamic Environments: A Survey from Classical to Modern Methods"
+                        ],
+                        "children": [],
+                        "leafCount": 1,
+                        "branchCount": 0,
+                        "paper": {
+                          "id": "2606_02677",
+                          "label": "Shen et al. 2026",
+                          "title": "Motion Planning in Dynamic Environments: A Survey from Classical to Modern Methods",
+                          "algorithm": "",
+                          "authors": [
+                            "Zongyuan Shen",
+                            "Yaming Ou",
+                            "Shalabh Gupta",
+                            "Shancheng Zhao",
+                            "Dehua Zhou",
+                            "Gao Wang",
+                            "Zhongqiang Ren",
+                            "Junfeng Fan",
+                            "Long Cheng"
+                          ],
+                          "year": 2026,
+                          "yearValue": 2026,
+                          "sourceName": "arXiv",
+                          "type": "Survey Paper",
+                          "doi": "",
+                          "arxivId": "2606.02677",
+                          "primaryLink": "https://arxiv.org/pdf/2606.02677",
+                          "hasPrimaryLink": true,
+                          "alternateLinkCount": 0,
+                          "auditStatus": "partial",
+                          "tags": [
+                            "Motion planning",
+                            "Dynamic environments",
+                            "Survey paper",
+                            "Robotics",
+                            "Path planning",
+                            "Obstacle avoidance",
+                            "Autonomous navigation"
+                          ],
+                          "abstract": "Motion planning in dynamic environments requires robots to continuously adapt their paths in response to environmental changes for safe and uninterrupted navigation. While many surveys have reviewed planning in static settings, systematic reviews focused on dynamic environments remain limited. This paper presents a comprehensive survey of 138 works, primarily published between 2015 and 2025, spanning both classical and learning-based approaches. The motion planning methods are grouped into five categories based on the concepts of sampling, graph search, model predictive control, learning, and additional classical local planning approaches, including velocity obstacles, potential fields and dynamic windows. The learning techniques include supervised learning and reinforcement learning. We also discuss the role of dynamic perception in motion planning, covering techniques for detecting and modeling moving obstacles using cameras, LiDAR, and event-based sensors. The survey analyzes the principles, strengths, and limitations of each method, with particular attention to challenges unique to dynamic environments, such as prediction uncertainty, human-robot interaction, and the freezing robot problem. The survey provides researchers with a structured understanding of motion planning methods in dynamic environments.",
+                          "summary": "Surveys motion-planning methods for changing environments, spanning classical algorithms through modern learning-based and optimization-based approaches. Its value is organizational: it helps relate older dynamic-obstacle planning ideas to recent robot autonomy practice.",
+                          "mapUrl": "../map/#paper=2606_02677",
+                          "timelineUrl": "../timeline/#paper=2606_02677",
+                          "searchUrl": "../search/?paper=2606_02677"
+                        }
                       }
                     ],
-                    "leafCount": 17,
+                    "leafCount": 19,
                     "branchCount": 0
                   },
                   {
@@ -48890,6 +50506,69 @@ window.treeData = {
                         }
                       },
                       {
+                        "id": "tree-decision-making-planning-overviews-benchmarks-wod-e2e-papers-2510-26125-md",
+                        "label": "WOD-E2E",
+                        "kind": "paper",
+                        "source": "papers/2510_26125.md",
+                        "url": "../papers/2510_26125/",
+                        "path": [
+                          "Tree",
+                          "Decision-making",
+                          "Planning",
+                          "Overviews",
+                          "Benchmarks",
+                          "WOD-E2E"
+                        ],
+                        "children": [],
+                        "leafCount": 1,
+                        "branchCount": 0,
+                        "paper": {
+                          "id": "2510_26125",
+                          "label": "WOD-E2E",
+                          "title": "WOD-E2E: Waymo Open Dataset for End-to-End Driving in Challenging Long-Tail Scenarios",
+                          "algorithm": "WOD-E2E",
+                          "authors": [
+                            "Runsheng Xu",
+                            "Hubert Lin",
+                            "Wonseok Jeon",
+                            "Hao Feng",
+                            "Yuliang Zou",
+                            "Liting Sun",
+                            "John Gorman",
+                            "Ekaterina Tolstaya",
+                            "Sarah Tang",
+                            "Brandyn White",
+                            "Ben Sapp",
+                            "Mingxing Tan",
+                            "Jyh-Jing Hwang",
+                            "Dragomir Anguelov"
+                          ],
+                          "year": 2025,
+                          "yearValue": 2025,
+                          "sourceName": "arXiv",
+                          "type": "Preprint",
+                          "doi": "",
+                          "arxivId": "2510.26125",
+                          "primaryLink": "https://arxiv.org/pdf/2510.26125",
+                          "hasPrimaryLink": true,
+                          "alternateLinkCount": 0,
+                          "auditStatus": "partial",
+                          "tags": [
+                            "Autonomous driving",
+                            "Benchmarks",
+                            "Waymo open dataset",
+                            "End-to-end driving",
+                            "Long-tail scenarios",
+                            "Open-loop evaluation"
+                          ],
+                          "abstract": "Vision-based end-to-end (E2E) driving has garnered significant interest in the research community due to its scalability and synergy with multimodal large language models (MLLMs). However, current E2E driving benchmarks primarily feature nominal scenarios, failing to adequately test the true potential of these systems. Furthermore, existing open-loop evaluation metrics often fall short in capturing the multi-modal nature of driving or effectively evaluating performance in long-tail scenarios. To address these gaps, we introduce the Waymo Open Dataset for End-to-End Driving (WOD-E2E). WOD-E2E contains 4,021 driving segments (approximately 12 hours), specifically curated for challenging long-tail scenarios that that are rare in daily life with an occurring frequency of less than 0.03%. Concretely, each segment in WOD-E2E includes the high-level routing information, ego states, and 360-degree camera views from 8 surrounding cameras. To evaluate the E2E driving performance on these long-tail situations, we propose a novel open-loop evaluation metric: Rater Feedback Score (RFS). Unlike conventional metrics that measure the distance between predicted way points and the logs, RFS measures how closely the predicted trajectory matches rater-annotated trajectory preference labels. We have released rater preference labels for all WOD-E2E validation set segments, while the held out test set labels have been used for the 2025 WOD-E2E Challenge. Through our work, we aim to foster state of the art research into generalizable, robust, and safe end-to-end autonomous driving agents capable of handling complex real-world situations.",
+                          "summary": "Introduces a Waymo Open Dataset benchmark slice and metrics for end-to-end driving in challenging long-tail scenarios. The paper is primarily an evaluation contribution, emphasizing multimodal planning assessment and harder open-loop cases than nominal driving benchmarks usually expose.",
+                          "mapUrl": "../map/#paper=2510_26125",
+                          "timelineUrl": "../timeline/#paper=2510_26125",
+                          "searchUrl": "../search/?paper=2510_26125"
+                        }
+                      },
+                      {
                         "id": "tree-decision-making-planning-overviews-benchmarks-benchmarking-sampling-search-and-optimization-based-approaches-for-time-optimal-kinodynamic-mobile-robot-motion-planning-papers-2022-honig-benchmarking-sampling-search-and-md",
                         "label": "Benchmarking Sampling-, Search-, and Optimization-based Approaches for Time-Optimal Kinodynamic Mobile Robot Motion Planning",
                         "kind": "paper",
@@ -48995,7 +50674,7 @@ window.treeData = {
                         }
                       }
                     ],
-                    "leafCount": 5,
+                    "leafCount": 6,
                     "branchCount": 0
                   },
                   {
@@ -50569,12 +52248,12 @@ window.treeData = {
                     "branchCount": 5
                   }
                 ],
-                "leafCount": 47,
+                "leafCount": 50,
                 "branchCount": 8
               }
             ],
-            "leafCount": 538,
-            "branchCount": 106
+            "leafCount": 563,
+            "branchCount": 107
           },
           {
             "id": "tree-decision-making-control",
@@ -54227,6 +55906,59 @@ window.treeData = {
                             }
                           },
                           {
+                            "id": "tree-decision-making-control-state-space-methods-model-predictive-control-mpc-data-driven-and-learning-based-mpc-bp-mpc-papers-2312-15521-md",
+                            "label": "BP-MPC",
+                            "kind": "paper",
+                            "source": "papers/2312_15521.md",
+                            "url": "../papers/2312_15521/",
+                            "path": [
+                              "Tree",
+                              "Decision-making",
+                              "Control",
+                              "State-space Methods",
+                              "Model Predictive Control (MPC)",
+                              "Data-Driven and Learning-Based MPC",
+                              "BP-MPC"
+                            ],
+                            "children": [],
+                            "leafCount": 1,
+                            "branchCount": 0,
+                            "paper": {
+                              "id": "2312_15521",
+                              "label": "BP-MPC",
+                              "title": "BP-MPC: Optimizing the Closed-Loop Performance of MPC Using Backpropagation",
+                              "algorithm": "BP-MPC",
+                              "authors": [
+                                "Riccardo Zuliani",
+                                "Efe C. Balta",
+                                "John Lygeros"
+                              ],
+                              "year": 2023,
+                              "yearValue": 2023,
+                              "sourceName": "arXiv",
+                              "type": "Preprint",
+                              "doi": "",
+                              "arxivId": "2312.15521",
+                              "primaryLink": "https://arxiv.org/pdf/2312.15521",
+                              "hasPrimaryLink": true,
+                              "alternateLinkCount": 0,
+                              "auditStatus": "partial",
+                              "tags": [
+                                "Model predictive control",
+                                "Backpropagation",
+                                "Policy optimization",
+                                "Differentiable control",
+                                "Model predictive control tuning",
+                                "Closed-loop performance"
+                              ],
+                              "abstract": "Model predictive control (MPC) is pervasive in research and industry. However, designing the cost function and the constraints of the MPC to maximize closed-loop performance remains an open problem. To achieve optimal tuning, we propose a backpropagation scheme that solves a policy optimization problem with nonlinear system dynamics and MPC policies. We enforce the system dynamics using linearization and allow the MPC problem to contain elements that depend on the current system state and on past MPC solutions. Moreover, we propose a simple extension that can deal with losses of feasibility. Our approach, unlike other methods in the literature, enjoys convergence guarantees.",
+                              "summary": "Optimizes MPC costs and constraints by backpropagating closed-loop performance through linearized dynamics and MPC policies. The paper contributes a convergence-backed tuning procedure for improving closed-loop behavior, including a feasibility-loss extension for cases where the MPC problem can fail.",
+                              "mapUrl": "../map/#paper=2312_15521",
+                              "timelineUrl": "../timeline/#paper=2312_15521",
+                              "searchUrl": "../search/?paper=2312_15521"
+                            }
+                          },
+                          {
                             "id": "tree-decision-making-control-state-space-methods-model-predictive-control-mpc-data-driven-and-learning-based-mpc-exponential-stability-of-data-driven-nonlinear-mpc-based-on-input-output-models-papers-2603-16808-md",
                             "label": "Exponential stability of data-driven nonlinear MPC based on input/output models",
                             "kind": "paper",
@@ -54485,7 +56217,7 @@ window.treeData = {
                             }
                           }
                         ],
-                        "leafCount": 8,
+                        "leafCount": 9,
                         "branchCount": 0
                       },
                       {
@@ -55800,7 +57532,7 @@ window.treeData = {
                         "branchCount": 0
                       }
                     ],
-                    "leafCount": 50,
+                    "leafCount": 51,
                     "branchCount": 11
                   },
                   {
@@ -55926,7 +57658,7 @@ window.treeData = {
                     "branchCount": 0
                   }
                 ],
-                "leafCount": 65,
+                "leafCount": 66,
                 "branchCount": 17
               },
               {
@@ -56729,13 +58461,67 @@ window.treeData = {
                               "timelineUrl": "../timeline/#paper=2005_01082",
                               "searchUrl": "../search/?paper=2005_01082"
                             }
+                          },
+                          {
+                            "id": "tree-decision-making-control-data-driven-control-behavioral-data-driven-control-direct-stabilization-and-lqr-noise-sensitivity-of-the-semidefinite-programs-for-direct-data-driven-lqr-papers-2412-19705-md",
+                            "label": "Noise Sensitivity of the Semidefinite Programs for Direct Data-Driven LQR",
+                            "kind": "paper",
+                            "source": "papers/2412_19705.md",
+                            "url": "../papers/2412_19705/",
+                            "path": [
+                              "Tree",
+                              "Decision-making",
+                              "Control",
+                              "Data-Driven Control",
+                              "Behavioral Data-Driven Control",
+                              "Direct Stabilization and LQR",
+                              "Noise Sensitivity of the Semidefinite Programs for Direct Data-Driven LQR"
+                            ],
+                            "children": [],
+                            "leafCount": 1,
+                            "branchCount": 0,
+                            "paper": {
+                              "id": "2412_19705",
+                              "label": "Zeng et al. 2024",
+                              "title": "Noise Sensitivity of the Semidefinite Programs for Direct Data-Driven LQR",
+                              "algorithm": "",
+                              "authors": [
+                                "Xiong Zeng",
+                                "Laurent Bako",
+                                "Necmiye Ozay"
+                              ],
+                              "year": 2024,
+                              "yearValue": 2024,
+                              "sourceName": "arXiv",
+                              "type": "Preprint",
+                              "doi": "",
+                              "arxivId": "2412.19705",
+                              "primaryLink": "https://arxiv.org/pdf/2412.19705",
+                              "hasPrimaryLink": true,
+                              "alternateLinkCount": 0,
+                              "auditStatus": "partial",
+                              "tags": [
+                                "Data-driven control",
+                                "Linear quadratic regulator",
+                                "Semidefinite programming",
+                                "Noise analysis",
+                                "Robustness",
+                                "Linear systems",
+                                "Control theory"
+                              ],
+                              "abstract": "In this paper, we study the noise sensitivity of the semidefinite program (SDP) proposed for direct data-driven infinite-horizon linear quadratic regulator (LQR) problem for discrete-time linear time-invariant systems. While this SDP is shown to find the true LQR controller in the noise-free setting, we show that it leads to a trivial solution with zero gain matrices when data is corrupted by noise, even when the noise is arbitrarily small. We then study a variant of the SDP that includes a robustness promoting regularization term and prove that regularization does not fully eliminate the sensitivity issue. In particular, the solution of the regularized SDP converges in probability also to a trivial solution.",
+                              "summary": "Examines how semidefinite-programming formulations for direct data-driven LQR behave under noisy data. The paper highlights sensitivity mechanisms that matter when replacing model identification with data-dependent convex control synthesis.",
+                              "mapUrl": "../map/#paper=2412_19705",
+                              "timelineUrl": "../timeline/#paper=2412_19705",
+                              "searchUrl": "../search/?paper=2412_19705"
+                            }
                           }
                         ],
-                        "leafCount": 2,
+                        "leafCount": 3,
                         "branchCount": 0
                       }
                     ],
-                    "leafCount": 13,
+                    "leafCount": 14,
                     "branchCount": 4
                   },
                   {
@@ -57084,7 +58870,7 @@ window.treeData = {
                     "branchCount": 0
                   }
                 ],
-                "leafCount": 19,
+                "leafCount": 20,
                 "branchCount": 6
               },
               {
@@ -57398,6 +59184,62 @@ window.treeData = {
                               "mapUrl": "../map/#paper=1976_bismut_linear_quadratic_optimal_stochastic",
                               "timelineUrl": "../timeline/#paper=1976_bismut_linear_quadratic_optimal_stochastic",
                               "searchUrl": "../search/?paper=1976_bismut_linear_quadratic_optimal_stochastic"
+                            }
+                          },
+                          {
+                            "id": "tree-decision-making-control-stochastic-control-multiplicative-noise-state-feedback-certainty-equivalent-markov-jump-control-papers-2105-12358-md",
+                            "label": "Certainty-equivalent Markov jump control",
+                            "kind": "paper",
+                            "source": "papers/2105_12358.md",
+                            "url": "../papers/2105_12358/",
+                            "path": [
+                              "Tree",
+                              "Decision-making",
+                              "Control",
+                              "Stochastic Control",
+                              "Multiplicative Noise",
+                              "State Feedback",
+                              "Certainty-equivalent Markov jump control"
+                            ],
+                            "children": [],
+                            "leafCount": 1,
+                            "branchCount": 0,
+                            "paper": {
+                              "id": "2105_12358",
+                              "label": "Du et al. 2021",
+                              "title": "Certainty Equivalent Quadratic Control for Markov Jump Systems",
+                              "algorithm": "",
+                              "authors": [
+                                "Zhe Du",
+                                "Yahya Sattar",
+                                "Davoud Ataee Tarzanagh",
+                                "Laura Balzano",
+                                "Samet Oymak",
+                                "Necmiye Ozay"
+                              ],
+                              "year": 2021,
+                              "yearValue": 2021,
+                              "sourceName": "arXiv",
+                              "type": "Preprint",
+                              "doi": "",
+                              "arxivId": "2105.12358",
+                              "primaryLink": "https://arxiv.org/pdf/2105.12358",
+                              "hasPrimaryLink": true,
+                              "alternateLinkCount": 0,
+                              "auditStatus": "partial",
+                              "tags": [
+                                "Markov jump systems",
+                                "Certainty equivalence",
+                                "Linear quadratic control",
+                                "Riccati equation",
+                                "Robustness",
+                                "Perturbation bounds"
+                              ],
+                              "abstract": "Real-world control applications often involve complex dynamics subject to abrupt changes or variations. Markov jump linear systems (MJS) provide a rich framework for modeling such dynamics. Despite an extensive history, theoretical understanding of parameter sensitivities of MJS control is somewhat lacking. Motivated by this, we investigate robustness aspects of certainty equivalent model-based optimal control for MJS with quadratic cost function. Given the uncertainty in the system matrices and in the Markov transition matrix is bounded by epsilon and eta respectively, robustness results are established for (i) the solution to coupled Riccati equations and (ii) the optimal cost, by providing explicit perturbation bounds which decay as O(epsilon+ eta) and O((epsilon+ eta)^(2)) respectively.",
+                              "summary": "Develops perturbation bounds for certainty-equivalent quadratic control of Markov jump linear systems with errors in dynamics and transition probabilities. The paper isolates how uncertainty propagates through coupled Riccati equations and the optimal cost, supporting model-based control under estimated jump dynamics.",
+                              "mapUrl": "../map/#paper=2105_12358",
+                              "timelineUrl": "../timeline/#paper=2105_12358",
+                              "searchUrl": "../search/?paper=2105_12358"
                             }
                           },
                           {
@@ -58179,7 +60021,7 @@ window.treeData = {
                             "branchCount": 0
                           }
                         ],
-                        "leafCount": 16,
+                        "leafCount": 17,
                         "branchCount": 2
                       },
                       {
@@ -58994,7 +60836,7 @@ window.treeData = {
                         "branchCount": 0
                       }
                     ],
-                    "leafCount": 33,
+                    "leafCount": 34,
                     "branchCount": 9
                   },
                   {
@@ -59269,7 +61111,7 @@ window.treeData = {
                     "branchCount": 0
                   }
                 ],
-                "leafCount": 38,
+                "leafCount": 39,
                 "branchCount": 11
               },
               {
@@ -61166,14 +63008,296 @@ window.treeData = {
                           "timelineUrl": "../timeline/#paper=2605_22207",
                           "searchUrl": "../search/?paper=2605_22207"
                         }
+                      },
+                      {
+                        "id": "tree-decision-making-control-robust-safety-critical-control-control-barrier-functions-cbf-p-cbf-papers-2606-00297-md",
+                        "label": "P-CBF",
+                        "kind": "paper",
+                        "source": "papers/2606_00297.md",
+                        "url": "../papers/2606_00297/",
+                        "path": [
+                          "Tree",
+                          "Decision-making",
+                          "Control",
+                          "Robust & Safety-Critical Control",
+                          "Control Barrier Functions (CBF)",
+                          "P-CBF"
+                        ],
+                        "children": [],
+                        "leafCount": 1,
+                        "branchCount": 0,
+                        "paper": {
+                          "id": "2606_00297",
+                          "label": "P-CBF",
+                          "title": "Predicted-Flow Control Barrier Functions for Real-Time Safe Optimal Control",
+                          "algorithm": "P-CBF",
+                          "authors": [
+                            "Amirsaeid Safari",
+                            "Jesse B. Hoagg"
+                          ],
+                          "year": 2026,
+                          "yearValue": 2026,
+                          "sourceName": "arXiv",
+                          "type": "Preprint",
+                          "doi": "",
+                          "arxivId": "2606.00297",
+                          "primaryLink": "https://arxiv.org/pdf/2606.00297",
+                          "hasPrimaryLink": true,
+                          "alternateLinkCount": 0,
+                          "auditStatus": "partial",
+                          "tags": [
+                            "Control barrier functions",
+                            "Safe optimal control",
+                            "Receding horizon control",
+                            "Predictive safety",
+                            "Real-time control",
+                            "Nonlinear systems"
+                          ],
+                          "abstract": "Control barrier functions (CBFs) provide real-time safety guarantees through pointwise conditions on the state. However, synthesizing a valid CBF is difficult and the resulting controllers are myopic. To address myopia, this article introduces predicted-flow control barrier functions (P-CBFs), which generalize the CBF from a function of the current state to a functional of a predicted flow under a parametrized control plan over a finite prediction horizon. For safety, a P-CBF can certify that the predicted flow is in a safe set over the entire prediction horizon. However, candidate P-CBFs suffer from the same challenge as candidate CBFs, namely, control constraints make it difficult to guarantee that the P-CBF is valid. This article resolves this challenge by introducing a terminal candidate P-CBF requiring that the predicted flow end in a backup safe set at the terminal time, and a planning-time shift that modulates the prediction horizon, providing an additional degree of freedom to ensure feasibility. The real-time control and the evolution of the control-plan parameter and planning-time shift are determined jointly by a single convex optimization that is guaranteed to be feasible and renders the associated safe set forward invariant. The resulting safe optimal flow control provides a safety certificate over the entire prediction horizon and unifies finite-horizon integral-cost optimization with safety certification. This optimization reduces to a quadratic program (QP) if the control constraints are a convex polytope. The QP implementation, termed FlowBarrier, is validated on a nonholonomic ground robot navigating a dense environment. FlowBarrier is compared to nonlinear model predictive control and two CBF-based safety filter methods across 100 trials, where FlowBarrier achieves the highest goal-reaching rate, zero safety violations, and the lowest computation time.",
+                          "summary": "Generalizes control barrier functions from current-state certificates to finite-horizon predicted-flow functionals inside a real-time optimal-control loop. The paper targets CBF myopia by certifying predicted trajectories while retaining pointwise safety constraints that can be used online.",
+                          "mapUrl": "../map/#paper=2606_00297",
+                          "timelineUrl": "../timeline/#paper=2606_00297",
+                          "searchUrl": "../search/?paper=2606_00297"
+                        }
                       }
                     ],
-                    "leafCount": 10,
+                    "leafCount": 11,
+                    "branchCount": 0
+                  },
+                  {
+                    "id": "tree-decision-making-control-robust-safety-critical-control-invariant-sets",
+                    "label": "Invariant Sets",
+                    "kind": "branch",
+                    "source": null,
+                    "url": null,
+                    "path": [
+                      "Tree",
+                      "Decision-making",
+                      "Control",
+                      "Robust & Safety-Critical Control",
+                      "Invariant Sets"
+                    ],
+                    "children": [
+                      {
+                        "id": "tree-decision-making-control-robust-safety-critical-control-invariant-sets-data-driven-minimal-robust-control-invariant-sets-papers-2018-chen-data-driven-computation-of-md",
+                        "label": "Data-driven minimal robust control invariant sets",
+                        "kind": "paper",
+                        "source": "papers/2018_chen_data_driven_computation_of.md",
+                        "url": "../papers/2018_chen_data_driven_computation_of/",
+                        "path": [
+                          "Tree",
+                          "Decision-making",
+                          "Control",
+                          "Robust & Safety-Critical Control",
+                          "Invariant Sets",
+                          "Data-driven minimal robust control invariant sets"
+                        ],
+                        "children": [],
+                        "leafCount": 1,
+                        "branchCount": 0,
+                        "paper": {
+                          "id": "2018_chen_data_driven_computation_of",
+                          "label": "Chen et al. 2018",
+                          "title": "Data-Driven Computation of Minimal Robust Control Invariant Set",
+                          "algorithm": "",
+                          "authors": [
+                            "Yuxiao Chen",
+                            "Huei Peng",
+                            "Jessy Grizzle",
+                            "Necmiye Ozay"
+                          ],
+                          "year": 2018,
+                          "yearValue": 2018,
+                          "sourceName": "IEEE Conference on Decision and Control (CDC)",
+                          "type": "Conference Paper",
+                          "doi": "10.1109/CDC.2018.8619312",
+                          "arxivId": "",
+                          "primaryLink": "https://web.eecs.umich.edu/~necmiye/pubs/ChenPGO_cdc18.pdf",
+                          "hasPrimaryLink": true,
+                          "alternateLinkCount": 1,
+                          "auditStatus": "partial",
+                          "tags": [
+                            "Data-driven control",
+                            "Robust control invariant sets",
+                            "Robust optimization",
+                            "System identification",
+                            "Safety",
+                            "Autonomous driving"
+                          ],
+                          "abstract": "We propose a data-driven framework to compute an approximation of a minimal robust control invariant set (mRCI) for an uncertain dynamical system where the model of the system is also unknown and should be learned from data. First, the set of admissible models is characterized via a set of linear constraints extracted from the experimental data. Each model in the set of admissible models contains information about the nominal model, as well as the characterization of the model uncertainty, including additive and multiplicative uncertainties. Then an iterative algorithm based on robust optimization is proposed to simultaneously compute a minimal robust control invariant set while selecting an optimal model from the admissible set. The numerical results show that the proposed method greatly reduces the size of the invariant set compared to a benchmark method that sequentially selects a model with least squares and then computes the invariant set.",
+                          "summary": "Computes low-complexity robust control invariant sets directly from data by coupling model-admissibility constraints with robust optimization. The paper is useful for safety-control pipelines where model identification and invariant-set computation should be solved together rather than sequentially.",
+                          "mapUrl": "../map/#paper=2018_chen_data_driven_computation_of",
+                          "timelineUrl": "../timeline/#paper=2018_chen_data_driven_computation_of",
+                          "searchUrl": "../search/?paper=2018_chen_data_driven_computation_of"
+                        }
+                      },
+                      {
+                        "id": "tree-decision-making-control-robust-safety-critical-control-invariant-sets-preview-safety-control-papers-2103-10625-md",
+                        "label": "Preview safety control",
+                        "kind": "paper",
+                        "source": "papers/2103_10625.md",
+                        "url": "../papers/2103_10625/",
+                        "path": [
+                          "Tree",
+                          "Decision-making",
+                          "Control",
+                          "Robust & Safety-Critical Control",
+                          "Invariant Sets",
+                          "Preview safety control"
+                        ],
+                        "children": [],
+                        "leafCount": 1,
+                        "branchCount": 0,
+                        "paper": {
+                          "id": "2103_10625",
+                          "label": "Liu et al. 2021",
+                          "title": "On the Value of Preview Information for Safety Control",
+                          "algorithm": "",
+                          "authors": [
+                            "Zexiang Liu",
+                            "Necmiye Ozay"
+                          ],
+                          "year": 2021,
+                          "yearValue": 2021,
+                          "sourceName": "American Control Conference (ACC)",
+                          "type": "Conference Paper",
+                          "doi": "",
+                          "arxivId": "2103.10625",
+                          "primaryLink": "https://arxiv.org/pdf/2103.10625",
+                          "hasPrimaryLink": true,
+                          "alternateLinkCount": 0,
+                          "auditStatus": "partial",
+                          "tags": [
+                            "Safety control",
+                            "Preview information",
+                            "Lookahead",
+                            "Nonlinear systems",
+                            "Brunovsky canonical form",
+                            "Controlled invariance"
+                          ],
+                          "abstract": "Incorporating predictions of external inputs, which can otherwise be treated as disturbances, has been widely studied in control and computer science communities. These predictions are commonly referred to as preview in optimal control and lookahead in temporal logic synthesis. However, little work has been done for analyzing the value of preview information for safety control for systems with continuous state spaces. In this work, we start from showing general properties for discrete-time nonlinear systems with preview and strategies on how to determine a good preview time, and then we study a special class of linear systems, called systems in Brunovsky canonical form, and show special properties for this class of systems. In the end, we provide two numerical examples to further illustrate the value of preview in safety control.",
+                          "summary": "Analyzes when predictions of future disturbances or external inputs improve safety-control performance. The paper gives general preview-time guidance for nonlinear systems and sharper structural results for Brunovsky-form systems, clarifying when lookahead is worth using in continuous-state safety controllers.",
+                          "mapUrl": "../map/#paper=2103_10625",
+                          "timelineUrl": "../timeline/#paper=2103_10625",
+                          "searchUrl": "../search/?paper=2103_10625"
+                        }
+                      },
+                      {
+                        "id": "tree-decision-making-control-robust-safety-critical-control-invariant-sets-intention-aware-supervisory-control-papers-2019-sahin-intention-aware-supervisory-control-md",
+                        "label": "Intention-aware supervisory control",
+                        "kind": "paper",
+                        "source": "papers/2019_sahin_intention_aware_supervisory_control.md",
+                        "url": "../papers/2019_sahin_intention_aware_supervisory_control/",
+                        "path": [
+                          "Tree",
+                          "Decision-making",
+                          "Control",
+                          "Robust & Safety-Critical Control",
+                          "Invariant Sets",
+                          "Intention-aware supervisory control"
+                        ],
+                        "children": [],
+                        "leafCount": 1,
+                        "branchCount": 0,
+                        "paper": {
+                          "id": "2019_sahin_intention_aware_supervisory_control",
+                          "label": "Sahin et al. 2019",
+                          "title": "Intention-Aware Supervisory Control with Driving Safety Applications",
+                          "algorithm": "",
+                          "authors": [
+                            "Yunus E. Sahin",
+                            "Zexiang Liu",
+                            "Kwesi Rutledge",
+                            "Dimitra Panagou",
+                            "Sze Zheng Yong",
+                            "Necmiye Ozay"
+                          ],
+                          "year": 2019,
+                          "yearValue": 2019,
+                          "sourceName": "IEEE Conference on Control Technology and Applications (CCTA)",
+                          "type": "Conference Paper",
+                          "doi": "10.1109/CCTA.2019.8920426",
+                          "arxivId": "",
+                          "primaryLink": "https://bpb-us-e1.wpmucdn.com/sites.northeastern.edu/dist/e/2626/files/2020/04/slrpyo_ccta19.pdf",
+                          "hasPrimaryLink": true,
+                          "alternateLinkCount": 1,
+                          "auditStatus": "partial",
+                          "tags": [
+                            "Supervisory control",
+                            "Robust controlled invariant sets",
+                            "Intention estimation",
+                            "Autonomous driving",
+                            "Safety",
+                            "Human-robot interaction"
+                          ],
+                          "abstract": "This paper proposes a guardian architecture, consisting of an estimation and a supervisor module providing a set of inputs that guarantees safety, in driving scenarios. The main idea is to offline compute a library of robust controlled invariant sets (RCIS), for each possible driver intention model of the other vehicles, together with an intention-agnostic albeit conservative RCIS. At runtime, when the intention estimation module determines which driver model the other vehicles are following, the appropriate RCIS is chosen to provide the safe and less conservative input set for supervision. We show that the composition of the intention estimation module with the proposed intention-aware supervisor module is safe. Moreover, we show how to compute intention-agnostic and intention-specific RCIS by growing an analytically found simple invariant safe set. The results are demonstrated on a case study on how to safely interact with a human-driven car on a highway scenario, using data collected from a driving simulator.",
+                          "summary": "Builds a driving-safety supervisor that switches among intention-specific robust controlled invariant sets based on online estimates of other drivers. The key idea is to reduce conservatism by pairing safety supervision with behavior-model discrimination while retaining a fallback intention-agnostic invariant set.",
+                          "mapUrl": "../map/#paper=2019_sahin_intention_aware_supervisory_control",
+                          "timelineUrl": "../timeline/#paper=2019_sahin_intention_aware_supervisory_control",
+                          "searchUrl": "../search/?paper=2019_sahin_intention_aware_supervisory_control"
+                        }
+                      },
+                      {
+                        "id": "tree-decision-making-control-robust-safety-critical-control-invariant-sets-safe-tracking-control-of-discrete-time-nonlinear-systems-using-backward-reachable-sets-papers-2024-serry-safe-tracking-control-of-md",
+                        "label": "Safe Tracking Control of Discrete-Time Nonlinear Systems Using Backward Reachable Sets",
+                        "kind": "paper",
+                        "source": "papers/2024_serry_safe_tracking_control_of.md",
+                        "url": "../papers/2024_serry_safe_tracking_control_of/",
+                        "path": [
+                          "Tree",
+                          "Decision-making",
+                          "Control",
+                          "Robust & Safety-Critical Control",
+                          "Invariant Sets",
+                          "Safe Tracking Control of Discrete-Time Nonlinear Systems Using Backward Reachable Sets"
+                        ],
+                        "children": [],
+                        "leafCount": 1,
+                        "branchCount": 0,
+                        "paper": {
+                          "id": "2024_serry_safe_tracking_control_of",
+                          "label": "Serry et al. 2024",
+                          "title": "Safe Tracking Control of Discrete-Time Nonlinear Systems Using Backward Reachable Sets",
+                          "algorithm": "",
+                          "authors": [
+                            "Mohamed Serry",
+                            "Liren Yang",
+                            "Necmiye Ozay",
+                            "Jun Liu"
+                          ],
+                          "year": 2024,
+                          "yearValue": 2024,
+                          "sourceName": "American Control Conference",
+                          "type": "Conference Paper",
+                          "doi": "10.23919/ACC60939.2024.10644670",
+                          "arxivId": "",
+                          "primaryLink": "https://web.eecs.umich.edu/~necmiye/pubs/SerryYOL_acc24.pdf",
+                          "hasPrimaryLink": true,
+                          "alternateLinkCount": 1,
+                          "auditStatus": "partial",
+                          "tags": [
+                            "Safety control",
+                            "Safety guarantees",
+                            "Reachable sets",
+                            "Discrete-time systems",
+                            "Nonlinear systems",
+                            "Reachability analysis",
+                            "Control synthesis"
+                          ],
+                          "abstract": "Tracking controllers are often integrated into control systems to ensure robustness against uncertainties and disturbances during trajectory following maneuvers, where the design methods in the literature lack formal guarantees, can be applied only to limited classes of systems, and/or suffer from conservatism. In this paper, we propose a new tracking control approach for discrete-time nonlinear uncertain systems using set-based computations. In particular, we compute zonotopic backward reachable sets along prescribed nominal trajectories, and utilize such sets to synthesize tracking controllers that ensure safety and reachability in the presence of input/state constraints and disturbances. We illustrate our approach through two numerical examples (Dubin's car and planar quadrotor).",
+                          "summary": "Designs a tracking controller for discrete-time nonlinear systems by computing backward reachable sets that certify when reference tracking remains safe. The contribution is a synthesis workflow that connects reachability guarantees with a practical tracking-control objective.",
+                          "mapUrl": "../map/#paper=2024_serry_safe_tracking_control_of",
+                          "timelineUrl": "../timeline/#paper=2024_serry_safe_tracking_control_of",
+                          "searchUrl": "../search/?paper=2024_serry_safe_tracking_control_of"
+                        }
+                      }
+                    ],
+                    "leafCount": 4,
                     "branchCount": 0
                   }
                 ],
-                "leafCount": 35,
-                "branchCount": 7
+                "leafCount": 40,
+                "branchCount": 8
               },
               {
                 "id": "tree-decision-making-control-adaptive-control",
@@ -63412,8 +65536,8 @@ window.treeData = {
                 "branchCount": 3
               }
             ],
-            "leafCount": 221,
-            "branchCount": 73
+            "leafCount": 229,
+            "branchCount": 74
           },
           {
             "id": "tree-decision-making-reinforcement-learning",
@@ -64656,6 +66780,60 @@ window.treeData = {
                       "mapUrl": "../map/#paper=2506_02754",
                       "timelineUrl": "../timeline/#paper=2506_02754",
                       "searchUrl": "../search/?paper=2506_02754"
+                    }
+                  },
+                  {
+                    "id": "tree-decision-making-reinforcement-learning-linear-systems-on-the-hardness-of-learning-to-stabilize-linear-systems-papers-2311-11151-md",
+                    "label": "On the Hardness of Learning to Stabilize Linear Systems",
+                    "kind": "paper",
+                    "source": "papers/2311_11151.md",
+                    "url": "../papers/2311_11151/",
+                    "path": [
+                      "Tree",
+                      "Decision-making",
+                      "Reinforcement Learning",
+                      "Linear Systems",
+                      "On the Hardness of Learning to Stabilize Linear Systems"
+                    ],
+                    "children": [],
+                    "leafCount": 1,
+                    "branchCount": 0,
+                    "paper": {
+                      "id": "2311_11151",
+                      "label": "Zeng et al. 2023",
+                      "title": "On the Hardness of Learning to Stabilize Linear Systems",
+                      "algorithm": "",
+                      "authors": [
+                        "Xiong Zeng",
+                        "Zexiang Liu",
+                        "Zhe Du",
+                        "Necmiye Ozay",
+                        "Mario Sznaier"
+                      ],
+                      "year": 2023,
+                      "yearValue": 2023,
+                      "sourceName": "IEEE Conference on Decision and Control",
+                      "type": "Conference Paper",
+                      "doi": "10.1109/CDC49753.2023.10383487",
+                      "arxivId": "2311.11151",
+                      "primaryLink": "https://arxiv.org/pdf/2311.11151",
+                      "hasPrimaryLink": true,
+                      "alternateLinkCount": 2,
+                      "auditStatus": "partial",
+                      "tags": [
+                        "Linear systems",
+                        "Stabilization",
+                        "Sample complexity",
+                        "System identification",
+                        "Robust control",
+                        "Machine learning theory",
+                        "Control theory"
+                      ],
+                      "abstract": "Inspired by the work of Tsiamis et al. \\cite{tsiamis2022learning}, in this paper we study the statistical hardness of learning to stabilize linear time-invariant systems. Hardness is measured by the number of samples required to achieve a learning task with a given probability. The work in \\cite{tsiamis2022learning} shows that there exist system classes that are hard to learn to stabilize with the core reason being the hardness of identification. Here we present a class of systems that can be easy to identify, thanks to a non-degenerate noise process that excites all modes, but the sample complexity of stabilization still increases exponentially with the system dimension. We tie this result to the hardness of co-stabilizability for this class of systems using ideas from robust control.",
+                      "summary": "Constructs linear-system classes where learning a stabilizing controller is statistically hard even when identification itself is not the bottleneck. The paper separates stabilization difficulty from estimation difficulty by tying the lower bound to co-stabilizability and robust-control structure.",
+                      "mapUrl": "../map/#paper=2311_11151",
+                      "timelineUrl": "../timeline/#paper=2311_11151",
+                      "searchUrl": "../search/?paper=2311_11151"
                     }
                   },
                   {
@@ -68145,6 +70323,62 @@ window.treeData = {
                                 }
                               },
                               {
+                                "id": "tree-decision-making-reinforcement-learning-linear-systems-model-based-rl-system-identification-linear-systems-with-additive-noise-sample-complexity-analysis-and-self-regularization-in-identification-of-over-parameterized-arx-models-papers-2022-du-sample-complexity-analysis-and-md",
+                                "label": "Sample Complexity Analysis and Self-Regularization in Identification of Over-Parameterized ARX Models",
+                                "kind": "paper",
+                                "source": "papers/2022_du_sample_complexity_analysis_and.md",
+                                "url": "../papers/2022_du_sample_complexity_analysis_and/",
+                                "path": [
+                                  "Tree",
+                                  "Decision-making",
+                                  "Reinforcement Learning",
+                                  "Linear Systems",
+                                  "Model-based RL",
+                                  "System Identification",
+                                  "Linear Systems with Additive Noise",
+                                  "Sample Complexity Analysis and Self-Regularization in Identification of Over-Parameterized ARX Models"
+                                ],
+                                "children": [],
+                                "leafCount": 1,
+                                "branchCount": 0,
+                                "paper": {
+                                  "id": "2022_du_sample_complexity_analysis_and",
+                                  "label": "Du et al. 2022",
+                                  "title": "Sample Complexity Analysis and Self-Regularization in Identification of Over-Parameterized ARX Models",
+                                  "algorithm": "",
+                                  "authors": [
+                                    "Zhe Du",
+                                    "Zexiang Liu",
+                                    "Jack Weitze",
+                                    "Necmiye Ozay"
+                                  ],
+                                  "year": 2022,
+                                  "yearValue": 2022,
+                                  "sourceName": "IEEE Conference on Decision and Control",
+                                  "type": "Conference Paper",
+                                  "doi": "10.1109/CDC51059.2022.9993310",
+                                  "arxivId": "",
+                                  "primaryLink": "https://deepblue.lib.umich.edu/bitstream/handle/2027.42/174145/CDC2022_ARXID_Selfregularization.pdf?sequence=1",
+                                  "hasPrimaryLink": true,
+                                  "alternateLinkCount": 2,
+                                  "auditStatus": "partial",
+                                  "tags": [
+                                    "System identification",
+                                    "ARX models",
+                                    "Sample complexity",
+                                    "Self-regularization",
+                                    "Least squares",
+                                    "Parameter estimation",
+                                    "Linear systems"
+                                  ],
+                                  "abstract": "AutoRegressive eXogenous (ARX) models form one of the most important model classes in control theory, econometrics, and statistics, but they are yet to be understood in terms of their finite sample identification analysis. The technical challenges come from the strong statistical dependency not only between data samples at different time instances but also between elements within each individual sample. In this work, for ARX models with potentially unknown orders, we study how ordinary least squares (OLS) estimator performs in terms of identifying model parameters from data collected from either a single length-T trajectory or N i.i.d. trajectories. Our main results show that as long as the orders of the model are chosen optimistically, i.e., we are learning an over-parameterized model compared to the ground truth ARX, the OLS will converge with the optimal rate O(1/sqrt T ) (or O(1/sqrt N )) to the true (low-order) ARX parameters. This occurs without the aid of any regularization, thus is referred to as self-regularization. Our results imply that the oracle knowledge of the true orders and usage of regularizers are not necessary in learning ARX models - over-parameterization is all you need.",
+                                  "summary": "Shows that ordinary least squares can recover low-order ARX dynamics at optimal rates even when the fitted model is deliberately over-parameterized. The paper explains this as a self-regularization effect, reducing the need for exact model-order knowledge or explicit regularizers.",
+                                  "mapUrl": "../map/#paper=2022_du_sample_complexity_analysis_and",
+                                  "timelineUrl": "../timeline/#paper=2022_du_sample_complexity_analysis_and",
+                                  "searchUrl": "../search/?paper=2022_du_sample_complexity_analysis_and"
+                                }
+                              },
+                              {
                                 "id": "tree-decision-making-reinforcement-learning-linear-systems-model-based-rl-system-identification-linear-systems-with-additive-noise-statistical-learning-theory-for-control-a-finite-sample-perspective-papers-2209-05423-md",
                                 "label": "Statistical Learning Theory for Control: A Finite Sample Perspective",
                                 "kind": "paper",
@@ -68482,6 +70716,61 @@ window.treeData = {
                                 }
                               },
                               {
+                                "id": "tree-decision-making-reinforcement-learning-linear-systems-model-based-rl-system-identification-linear-systems-with-additive-noise-system-identification-under-bounded-noise-optimal-rates-beyond-least-squares-papers-2503-16817-md",
+                                "label": "System Identification under Bounded Noise: Optimal Rates beyond Least Squares",
+                                "kind": "paper",
+                                "source": "papers/2503_16817.md",
+                                "url": "../papers/2503_16817/",
+                                "path": [
+                                  "Tree",
+                                  "Decision-making",
+                                  "Reinforcement Learning",
+                                  "Linear Systems",
+                                  "Model-based RL",
+                                  "System Identification",
+                                  "Linear Systems with Additive Noise",
+                                  "System Identification under Bounded Noise: Optimal Rates beyond Least Squares"
+                                ],
+                                "children": [],
+                                "leafCount": 1,
+                                "branchCount": 0,
+                                "paper": {
+                                  "id": "2503_16817",
+                                  "label": "Zeng et al. 2025",
+                                  "title": "System Identification under Bounded Noise: Optimal Rates beyond Least Squares",
+                                  "algorithm": "",
+                                  "authors": [
+                                    "Xiong Zeng",
+                                    "Jing Yu",
+                                    "Necmiye Ozay"
+                                  ],
+                                  "year": 2025,
+                                  "yearValue": 2025,
+                                  "sourceName": "arXiv",
+                                  "type": "Preprint",
+                                  "doi": "",
+                                  "arxivId": "2503.16817",
+                                  "primaryLink": "https://arxiv.org/pdf/2503.16817",
+                                  "hasPrimaryLink": true,
+                                  "alternateLinkCount": 0,
+                                  "auditStatus": "partial",
+                                  "tags": [
+                                    "System identification",
+                                    "Bounded noise",
+                                    "Least squares",
+                                    "Sample complexity",
+                                    "Linear systems",
+                                    "Optimality",
+                                    "Robustness"
+                                  ],
+                                  "abstract": "System identification is a fundamental problem in control and learning, particularly in high-stakes applications where data efficiency is critical. Classical approaches, such as the ordinary least squares estimator (OLS), achieve an O(1/sqrt(T)) convergence rate under Gaussian noise assumptions, where T is the number of samples. This rate has been shown to match the lower bound. However, in many practical scenarios, noise is known to be bounded, opening the possibility of improving sample complexity. In this work, we establish the minimax lower bound for system identification under bounded noise, proving that the O(1/T) convergence rate is indeed optimal. We further demonstrate that OLS remains limited to an (1/sqrt(T)) convergence rate, making it fundamentally suboptimal in the presence of bounded noise. Finally, we instantiate two natural variations of OLS that obtain the optimal sample complexity.",
+                                  "summary": "Studies system identification when disturbances are bounded rather than stochastic in the usual least-squares-friendly way. The paper gives optimal-rate results beyond classical least squares, clarifying what estimators can exploit under adversarial or deterministic noise bounds.",
+                                  "mapUrl": "../map/#paper=2503_16817",
+                                  "timelineUrl": "../timeline/#paper=2503_16817",
+                                  "searchUrl": "../search/?paper=2503_16817"
+                                }
+                              },
+                              {
                                 "id": "tree-decision-making-reinforcement-learning-linear-systems-model-based-rl-system-identification-linear-systems-with-additive-noise-clt-optimal-parameter-error-bounds-for-linear-system-identification-papers-2604-21270-md",
                                 "label": "CLT-Optimal Parameter Error Bounds for Linear System Identification",
                                 "kind": "paper",
@@ -68588,7 +70877,7 @@ window.treeData = {
                                 }
                               }
                             ],
-                            "leafCount": 22,
+                            "leafCount": 24,
                             "branchCount": 0
                           },
                           {
@@ -68738,10 +71027,247 @@ window.treeData = {
                             ],
                             "leafCount": 2,
                             "branchCount": 0
+                          },
+                          {
+                            "id": "tree-decision-making-reinforcement-learning-linear-systems-model-based-rl-system-identification-switching-and-bilinear-systems",
+                            "label": "Switching and Bilinear Systems",
+                            "kind": "branch",
+                            "source": null,
+                            "url": null,
+                            "path": [
+                              "Tree",
+                              "Decision-making",
+                              "Reinforcement Learning",
+                              "Linear Systems",
+                              "Model-based RL",
+                              "System Identification",
+                              "Switching and Bilinear Systems"
+                            ],
+                            "children": [
+                              {
+                                "id": "tree-decision-making-reinforcement-learning-linear-systems-model-based-rl-system-identification-switching-and-bilinear-systems-dynamic-programming-arx-segmentation-papers-2016-ozay-an-exact-and-efficient-md",
+                                "label": "Dynamic programming ARX segmentation",
+                                "kind": "paper",
+                                "source": "papers/2016_ozay_an_exact_and_efficient.md",
+                                "url": "../papers/2016_ozay_an_exact_and_efficient/",
+                                "path": [
+                                  "Tree",
+                                  "Decision-making",
+                                  "Reinforcement Learning",
+                                  "Linear Systems",
+                                  "Model-based RL",
+                                  "System Identification",
+                                  "Switching and Bilinear Systems",
+                                  "Dynamic programming ARX segmentation"
+                                ],
+                                "children": [],
+                                "leafCount": 1,
+                                "branchCount": 0,
+                                "paper": {
+                                  "id": "2016_ozay_an_exact_and_efficient",
+                                  "label": "Ozay 2016",
+                                  "title": "An Exact and Efficient Algorithm for Segmentation of ARX Models",
+                                  "algorithm": "",
+                                  "authors": [
+                                    "Necmiye Ozay"
+                                  ],
+                                  "year": 2016,
+                                  "yearValue": 2016,
+                                  "sourceName": "American Control Conference (ACC)",
+                                  "type": "Conference Paper",
+                                  "doi": "10.1109/ACC.2016.7524888",
+                                  "arxivId": "",
+                                  "primaryLink": "https://web.eecs.umich.edu/~necmiye/pubs/Ozay_acc16.pdf",
+                                  "hasPrimaryLink": true,
+                                  "alternateLinkCount": 1,
+                                  "auditStatus": "partial",
+                                  "tags": [
+                                    "System identification",
+                                    "ARX models",
+                                    "Dynamic programming",
+                                    "Switched systems",
+                                    "Change detection",
+                                    "Convex relaxation"
+                                  ],
+                                  "abstract": "We consider the problem of segmentation of autoregressive models with exogenous inputs (ARX models). This problem, where the goal is to determine the parameters of a sequence of ARX models that can explain a given input/output data within some noise bound, has attracted considerable attention in recent years. Most of the recently proposed approaches are based on convex relaxations. Although efficient, these approaches do not necessarily lead to optimal solutions. In the present paper, by exploiting some early results in dynamic programming, we show that an optimal solution can indeed be obtained in polynomial-time. One salient feature of the proposed approach is that exploration of the model complexity/quality of the fit trade-off space comes with negligible additional computational cost. We discuss several other properties of the proposed approach and compare it with existing approaches on numerical examples, which show that the proposed approach is consistently faster.",
+                                  "summary": "Shows that ARX model segmentation can be solved exactly in polynomial time with dynamic programming under broad fitting-error conditions. The paper is a useful counterpoint to convex-relaxation approaches because it preserves computational efficiency while improving optimality guarantees and making model-complexity tradeoff sweeps cheap.",
+                                  "mapUrl": "../map/#paper=2016_ozay_an_exact_and_efficient",
+                                  "timelineUrl": "../timeline/#paper=2016_ozay_an_exact_and_efficient",
+                                  "searchUrl": "../search/?paper=2016_ozay_an_exact_and_efficient"
+                                }
+                              },
+                              {
+                                "id": "tree-decision-making-reinforcement-learning-linear-systems-model-based-rl-system-identification-switching-and-bilinear-systems-mode-clustering-for-markov-jump-systems-papers-1910-02193-md",
+                                "label": "Mode clustering for Markov jump systems",
+                                "kind": "paper",
+                                "source": "papers/1910_02193.md",
+                                "url": "../papers/1910_02193/",
+                                "path": [
+                                  "Tree",
+                                  "Decision-making",
+                                  "Reinforcement Learning",
+                                  "Linear Systems",
+                                  "Model-based RL",
+                                  "System Identification",
+                                  "Switching and Bilinear Systems",
+                                  "Mode clustering for Markov jump systems"
+                                ],
+                                "children": [],
+                                "leafCount": 1,
+                                "branchCount": 0,
+                                "paper": {
+                                  "id": "1910_02193",
+                                  "label": "Du et al. 2019",
+                                  "title": "Mode Clustering for Markov Jump Systems",
+                                  "algorithm": "",
+                                  "authors": [
+                                    "Zhe Du",
+                                    "Necmiye Ozay",
+                                    "Laura Balzano"
+                                  ],
+                                  "year": 2019,
+                                  "yearValue": 2019,
+                                  "sourceName": "arXiv",
+                                  "type": "Preprint",
+                                  "doi": "",
+                                  "arxivId": "1910.02193",
+                                  "primaryLink": "https://arxiv.org/pdf/1910.02193",
+                                  "hasPrimaryLink": true,
+                                  "alternateLinkCount": 0,
+                                  "auditStatus": "partial",
+                                  "tags": [
+                                    "Markov jump systems",
+                                    "Mode clustering",
+                                    "System identification",
+                                    "Singular value decomposition",
+                                    "k-means",
+                                    "Model reduction"
+                                  ],
+                                  "abstract": "In this work, we consider the problem of mode clustering in Markov jump models. This model class consists of multiple dynamical modes with a switching sequence that determines how the system switches between them over time. Under different active modes, the observations can have different characteristics. Given the observations only and without knowing the mode sequence, the goal is to cluster the modes based on their transition distributions in the Markov chain to find a reduced-rank Markov matrix that is embedded in the original Markov chain. Our approach involves mode sequence estimation, mode clustering and reduced-rank model estimation, where mode clustering is achieved by applying the singular value decomposition and k-means. We show that, under certain conditions, the clustering error can be bounded, and the reduced-rank Markov chain is a good approximation to the original Markov chain. Through simulations, we show the efficacy of our approach and the application of our approach to real world scenarios.",
+                                  "summary": "Studies how to cluster latent modes in Markov jump models using mode-sequence estimation, singular-value structure, and k-means. The paper frames model reduction for switching systems as a statistically analyzable clustering problem over transition behavior rather than only over output trajectories.",
+                                  "mapUrl": "../map/#paper=1910_02193",
+                                  "timelineUrl": "../timeline/#paper=1910_02193",
+                                  "searchUrl": "../search/?paper=1910_02193"
+                                }
+                              },
+                              {
+                                "id": "tree-decision-making-reinforcement-learning-linear-systems-model-based-rl-system-identification-switching-and-bilinear-systems-adaptive-markov-jump-linear-control-papers-2111-07018-md",
+                                "label": "Adaptive Markov jump linear control",
+                                "kind": "paper",
+                                "source": "papers/2111_07018.md",
+                                "url": "../papers/2111_07018/",
+                                "path": [
+                                  "Tree",
+                                  "Decision-making",
+                                  "Reinforcement Learning",
+                                  "Linear Systems",
+                                  "Model-based RL",
+                                  "System Identification",
+                                  "Switching and Bilinear Systems",
+                                  "Adaptive Markov jump linear control"
+                                ],
+                                "children": [],
+                                "leafCount": 1,
+                                "branchCount": 0,
+                                "paper": {
+                                  "id": "2111_07018",
+                                  "label": "Sattar et al. 2021",
+                                  "title": "Identification and Adaptive Control of Markov Jump Systems: Sample Complexity and Regret Bounds",
+                                  "algorithm": "",
+                                  "authors": [
+                                    "Yahya Sattar",
+                                    "Zhe Du",
+                                    "Davoud Ataee Tarzanagh",
+                                    "Laura Balzano",
+                                    "Necmiye Ozay",
+                                    "Samet Oymak"
+                                  ],
+                                  "year": 2021,
+                                  "yearValue": 2021,
+                                  "sourceName": "arXiv",
+                                  "type": "Preprint",
+                                  "doi": "",
+                                  "arxivId": "2111.07018",
+                                  "primaryLink": "https://arxiv.org/pdf/2111.07018",
+                                  "hasPrimaryLink": true,
+                                  "alternateLinkCount": 0,
+                                  "auditStatus": "partial",
+                                  "tags": [
+                                    "Markov jump systems",
+                                    "System identification",
+                                    "Adaptive control",
+                                    "Regret bounds",
+                                    "Sample complexity",
+                                    "Certainty equivalence"
+                                  ],
+                                  "abstract": "Learning how to effectively control unknown dynamical systems is crucial for intelligent autonomous systems. This task becomes a significant challenge when the underlying dynamics are changing with time. Motivated by this challenge, this paper considers the problem of controlling an unknown Markov jump linear system (MJS) to optimize a quadratic objective. By taking a model-based perspective, we consider identification-based adaptive control of MJSs. We first provide a system identification algorithm for MJS to learn the dynamics in each mode as well as the Markov transition matrix, underlying the evolution of the mode switches, from a single trajectory of the system states, inputs, and modes. Through martingale-based arguments, sample complexity of this algorithm is shown to be O(1/sqrt(T)). We then propose an adaptive control scheme that performs system identification together with certainty equivalent control to adapt the controllers in an episodic fashion. Combining our sample complexity results with recent perturbation results for certainty equivalent control, we prove that when the episode lengths are appropriately chosen, the proposed adaptive control scheme achieves O(sqrt(T)) regret, which can be improved to O(polylog(T)) with partial knowledge of the system. Our proof strategy introduces innovations to handle Markovian jumps and a weaker notion of stability common in MJSs. Our analysis provides insights into system theoretic quantities that affect learning accuracy and control performance. Numerical simulations are presented to further reinforce these insights.",
+                                  "summary": "Combines identification of Markov jump linear dynamics with episodic certainty-equivalent control and regret analysis. The paper is valuable because it handles both mode-dependent dynamics and transition learning from a single trajectory, then translates estimation rates into adaptive-control guarantees.",
+                                  "mapUrl": "../map/#paper=2111_07018",
+                                  "timelineUrl": "../timeline/#paper=2111_07018",
+                                  "searchUrl": "../search/?paper=2111_07018"
+                                }
+                              },
+                              {
+                                "id": "tree-decision-making-reinforcement-learning-linear-systems-model-based-rl-system-identification-switching-and-bilinear-systems-bilinear-system-identification-papers-2208-13915-md",
+                                "label": "Bilinear system identification",
+                                "kind": "paper",
+                                "source": "papers/2208_13915.md",
+                                "url": "../papers/2208_13915/",
+                                "path": [
+                                  "Tree",
+                                  "Decision-making",
+                                  "Reinforcement Learning",
+                                  "Linear Systems",
+                                  "Model-based RL",
+                                  "System Identification",
+                                  "Switching and Bilinear Systems",
+                                  "Bilinear system identification"
+                                ],
+                                "children": [],
+                                "leafCount": 1,
+                                "branchCount": 0,
+                                "paper": {
+                                  "id": "2208_13915",
+                                  "label": "Sattar et al. 2022",
+                                  "title": "Finite Sample Identification of Bilinear Dynamical Systems",
+                                  "algorithm": "",
+                                  "authors": [
+                                    "Yahya Sattar",
+                                    "Samet Oymak",
+                                    "Necmiye Ozay"
+                                  ],
+                                  "year": 2022,
+                                  "yearValue": 2022,
+                                  "sourceName": "arXiv",
+                                  "type": "Preprint",
+                                  "doi": "",
+                                  "arxivId": "2208.13915",
+                                  "primaryLink": "https://arxiv.org/pdf/2208.13915",
+                                  "hasPrimaryLink": true,
+                                  "alternateLinkCount": 0,
+                                  "auditStatus": "partial",
+                                  "tags": [
+                                    "Bilinear systems",
+                                    "System identification",
+                                    "Sample complexity",
+                                    "Martingale small-ball",
+                                    "Control-affine systems",
+                                    "Nonlinear dynamics"
+                                  ],
+                                  "abstract": "Bilinear dynamical systems are ubiquitous in many different domains and they can also be used to approximate more general control-affine systems. This motivates the problem of learning bilinear systems from a single trajectory of the system's states and inputs. Under a mild marginal mean-square stability assumption, we identify how much data is needed to estimate the unknown bilinear system up to a desired accuracy with high probability. Our sample complexity and statistical error rates are optimal in terms of the trajectory length, the dimensionality of the system and the input size. Our proof technique relies on an application of martingale small-ball condition. This enables us to correctly capture the properties of the problem, specifically our error rates do not deteriorate with increasing instability. Finally, we show that numerical experiments are well-aligned with our theoretical results.",
+                                  "summary": "Gives finite-sample rates for learning bilinear dynamical systems from a single trajectory under a marginal mean-square stability condition. The analysis uses a martingale small-ball argument to obtain dimension- and trajectory-length-dependent rates without the instability penalties that simpler mixing arguments can introduce.",
+                                  "mapUrl": "../map/#paper=2208_13915",
+                                  "timelineUrl": "../timeline/#paper=2208_13915",
+                                  "searchUrl": "../search/?paper=2208_13915"
+                                }
+                              }
+                            ],
+                            "leafCount": 4,
+                            "branchCount": 0
                           }
                         ],
-                        "leafCount": 41,
-                        "branchCount": 5
+                        "leafCount": 47,
+                        "branchCount": 6
                       },
                       {
                         "id": "tree-decision-making-reinforcement-learning-linear-systems-model-based-rl-adaptive-linear-quadratic-control",
@@ -70260,12 +72786,12 @@ window.treeData = {
                         "branchCount": 0
                       }
                     ],
-                    "leafCount": 70,
-                    "branchCount": 9
+                    "leafCount": 76,
+                    "branchCount": 10
                   }
                 ],
-                "leafCount": 103,
-                "branchCount": 22
+                "leafCount": 110,
+                "branchCount": 23
               },
               {
                 "id": "tree-decision-making-reinforcement-learning-nonlinear-systems",
@@ -79428,6 +81954,120 @@ window.treeData = {
                                 }
                               },
                               {
+                                "id": "tree-decision-making-reinforcement-learning-nonlinear-systems-model-based-rl-system-identification-world-models-what-drives-success-in-physical-planning-with-joint-embedding-predictive-world-models-papers-2512-24497-md",
+                                "label": "What Drives Success in Physical Planning with Joint-Embedding Predictive World Models?",
+                                "kind": "paper",
+                                "source": "papers/2512_24497.md",
+                                "url": "../papers/2512_24497/",
+                                "path": [
+                                  "Tree",
+                                  "Decision-making",
+                                  "Reinforcement Learning",
+                                  "Nonlinear Systems",
+                                  "Model-based RL",
+                                  "System Identification",
+                                  "World Models",
+                                  "What Drives Success in Physical Planning with Joint-Embedding Predictive World Models?"
+                                ],
+                                "children": [],
+                                "leafCount": 1,
+                                "branchCount": 0,
+                                "paper": {
+                                  "id": "2512_24497",
+                                  "label": "Terver et al. 2025",
+                                  "title": "What Drives Success in Physical Planning with Joint-Embedding Predictive World Models?",
+                                  "algorithm": "",
+                                  "authors": [
+                                    "Basile Terver",
+                                    "Tsung-Yen Yang",
+                                    "Jean Ponce",
+                                    "Adrien Bardes",
+                                    "Yann LeCun"
+                                  ],
+                                  "year": 2025,
+                                  "yearValue": 2025,
+                                  "sourceName": "Transactions on Machine Learning Research (TMLR)",
+                                  "type": "Journal Paper",
+                                  "doi": "",
+                                  "arxivId": "2512.24497",
+                                  "primaryLink": "https://arxiv.org/pdf/2512.24497",
+                                  "hasPrimaryLink": true,
+                                  "alternateLinkCount": 0,
+                                  "auditStatus": "partial",
+                                  "tags": [
+                                    "World models",
+                                    "JEPA",
+                                    "Representation-space planning",
+                                    "Physical planning",
+                                    "Model-based reinforcement learning",
+                                    "Generalization"
+                                  ],
+                                  "abstract": "A long-standing challenge in AI is to develop agents capable of solving a wide range of physical tasks and generalizing to new, unseen tasks and environments. A popular recent approach involves training a world model from state-action trajectories and subsequently use it with a planning algorithm to solve new tasks. Planning is commonly performed in the input space, but a recent family of methods has introduced planning algorithms that optimize in the learned representation space of the world model, with the promise that abstracting irrelevant details yields more efficient planning. In this work, we characterize models from this family as JEPA-WMs and investigate the technical choices that make algorithms from this class work. We propose a comprehensive study of several key components with the objective of finding the optimal approach within the family. We conducted experiments using both simulated environments and real-world robotic data, and studied how the model architecture, the training objective, and the planning algorithm affect planning success. We combine our findings to propose a model that outperforms two established baselines, DINO-WM and V-JEPA-2-AC, in both navigation and manipulation tasks. Code, data and checkpoints are available at https://github.com/facebookresearch/jepa-wms.",
+                                  "summary": "Examines when joint-embedding predictive world models help physical planning, especially planning in learned representation spaces. The paper is valuable as an empirical and conceptual stress test of JEPA-style world models against input-space planning and other baseline choices.",
+                                  "mapUrl": "../map/#paper=2512_24497",
+                                  "timelineUrl": "../timeline/#paper=2512_24497",
+                                  "searchUrl": "../search/?paper=2512_24497"
+                                }
+                              },
+                              {
+                                "id": "tree-decision-making-reinforcement-learning-nonlinear-systems-model-based-rl-system-identification-world-models-stable-worldmodel-papers-2602-08968-md",
+                                "label": "stable-worldmodel",
+                                "kind": "paper",
+                                "source": "papers/2602_08968.md",
+                                "url": "../papers/2602_08968/",
+                                "path": [
+                                  "Tree",
+                                  "Decision-making",
+                                  "Reinforcement Learning",
+                                  "Nonlinear Systems",
+                                  "Model-based RL",
+                                  "System Identification",
+                                  "World Models",
+                                  "stable-worldmodel"
+                                ],
+                                "children": [],
+                                "leafCount": 1,
+                                "branchCount": 0,
+                                "paper": {
+                                  "id": "2602_08968",
+                                  "label": "stable-worldmodel",
+                                  "title": "stable-worldmodel-v1: Reproducible World Modeling Research and Evaluation",
+                                  "algorithm": "stable-worldmodel",
+                                  "authors": [
+                                    "Lucas Maes",
+                                    "Quentin Le Lidec",
+                                    "Dan Haramati",
+                                    "Nassim Massaudi",
+                                    "Damien Scieur",
+                                    "Yann LeCun",
+                                    "Randall Balestriero"
+                                  ],
+                                  "year": 2026,
+                                  "yearValue": 2026,
+                                  "sourceName": "arXiv",
+                                  "type": "Preprint",
+                                  "doi": "",
+                                  "arxivId": "2602.08968",
+                                  "primaryLink": "https://arxiv.org/pdf/2602.08968",
+                                  "hasPrimaryLink": true,
+                                  "alternateLinkCount": 0,
+                                  "auditStatus": "partial",
+                                  "tags": [
+                                    "World models",
+                                    "Reproducibility",
+                                    "Model-based reinforcement learning",
+                                    "Benchmarks",
+                                    "Planning",
+                                    "Software"
+                                  ],
+                                  "abstract": "World Models have emerged as a powerful paradigm for learning compact, predictive representations of environment dynamics, enabling agents to reason, plan, and generalize beyond direct experience. Despite recent interest in World Models, most available implementations remain publication-specific, severely limiting their reusability, increasing the risk of bugs, and reducing evaluation standardization. To mitigate these issues, we introduce stable-worldmodel (SWM), a modular, tested, and documented world-model research ecosystem that provides efficient data-collection tools, standardized environments, planning algorithms, and baseline implementations. In addition, each environment in SWM enables controllable factors of variation, including visual and physical properties, to support robustness and continual learning research. Finally, we demonstrate the utility of SWM by using it to study zero-shot robustness in DINO-WM.",
+                                  "summary": "Introduces stable-worldmodel, a modular research ecosystem for implementing, evaluating, and comparing world-model agents. The paper is primarily an infrastructure and reproducibility contribution, intended to reduce publication-specific code drift and standardize world-model evaluation workflows.",
+                                  "mapUrl": "../map/#paper=2602_08968",
+                                  "timelineUrl": "../timeline/#paper=2602_08968",
+                                  "searchUrl": "../search/?paper=2602_08968"
+                                }
+                              },
+                              {
                                 "id": "tree-decision-making-reinforcement-learning-nonlinear-systems-model-based-rl-system-identification-world-models-pointworld-papers-2601-03782-md",
                                 "label": "PointWorld",
                                 "kind": "paper",
@@ -79547,7 +82187,7 @@ window.treeData = {
                                 }
                               }
                             ],
-                            "leafCount": 10,
+                            "leafCount": 12,
                             "branchCount": 0
                           },
                           {
@@ -80536,7 +83176,7 @@ window.treeData = {
                             }
                           }
                         ],
-                        "leafCount": 45,
+                        "leafCount": 47,
                         "branchCount": 3
                       },
                       {
@@ -81546,7 +84186,7 @@ window.treeData = {
                         "branchCount": 0
                       }
                     ],
-                    "leafCount": 62,
+                    "leafCount": 64,
                     "branchCount": 6
                   },
                   {
@@ -81683,9 +84323,62 @@ window.treeData = {
                               "timelineUrl": "../timeline/#paper=1011_0686",
                               "searchUrl": "../search/?paper=1011_0686"
                             }
+                          },
+                          {
+                            "id": "tree-decision-making-reinforcement-learning-nonlinear-systems-imitation-learning-foundations-reductions-constraint-learning-from-demonstrations-papers-1812-07084-md",
+                            "label": "Constraint learning from demonstrations",
+                            "kind": "paper",
+                            "source": "papers/1812_07084.md",
+                            "url": "../papers/1812_07084/",
+                            "path": [
+                              "Tree",
+                              "Decision-making",
+                              "Reinforcement Learning",
+                              "Nonlinear Systems",
+                              "Imitation Learning",
+                              "Foundations & Reductions",
+                              "Constraint learning from demonstrations"
+                            ],
+                            "children": [],
+                            "leafCount": 1,
+                            "branchCount": 0,
+                            "paper": {
+                              "id": "1812_07084",
+                              "label": "Chou et al. 2018",
+                              "title": "Learning Constraints from Demonstrations",
+                              "algorithm": "",
+                              "authors": [
+                                "Glen Chou",
+                                "Dmitry Berenson",
+                                "Necmiye Ozay"
+                              ],
+                              "year": 2018,
+                              "yearValue": 2018,
+                              "sourceName": "Workshop on the Algorithmic Foundations of Robotics (WAFR)",
+                              "type": "Workshop Paper",
+                              "doi": "",
+                              "arxivId": "1812.07084",
+                              "primaryLink": "https://arxiv.org/pdf/1812.07084",
+                              "hasPrimaryLink": true,
+                              "alternateLinkCount": 0,
+                              "auditStatus": "partial",
+                              "tags": [
+                                "Imitation learning",
+                                "Learning from demonstrations",
+                                "Constraints",
+                                "Integer programming",
+                                "Hit-and-run sampling",
+                                "Safe planning"
+                              ],
+                              "abstract": "We extend the learning from demonstration paradigm by providing a method for learning unknown constraints shared across tasks, using demonstrations of the tasks, their cost functions, and knowledge of the system dynamics and control constraints. Given safe demonstrations, our method uses hit-and-run sampling to obtain lower cost, and thus unsafe, trajectories. Both safe and unsafe trajectories are used to obtain a consistent representation of the unsafe set via solving an integer program. Our method generalizes across system dynamics and learns a guaranteed subset of the constraint. We also provide theoretical analysis on what subset of the constraint can be learnable from safe demonstrations. We demonstrate our method on linear and nonlinear system dynamics, show that it can be modified to work with suboptimal demonstrations, and that it can also be used to learn constraints in a feature space.",
+                              "summary": "Learns shared task constraints from safe demonstrations by synthesizing lower-cost unsafe trajectories and fitting a consistent unsafe set with an integer program. The work adds a safety-oriented inverse-learning angle: demonstrations reveal not only costs or policies but also hidden constraints that transfer across dynamics.",
+                              "mapUrl": "../map/#paper=1812_07084",
+                              "timelineUrl": "../timeline/#paper=1812_07084",
+                              "searchUrl": "../search/?paper=1812_07084"
+                            }
                           }
                         ],
-                        "leafCount": 2,
+                        "leafCount": 3,
                         "branchCount": 0
                       },
                       {
@@ -81875,6 +84568,68 @@ window.treeData = {
                             }
                           },
                           {
+                            "id": "tree-decision-making-reinforcement-learning-nonlinear-systems-imitation-learning-behavior-cloning-imitation-plus-reinforcement-learning-for-driving-papers-2212-11419-md",
+                            "label": "Imitation plus reinforcement learning for driving",
+                            "kind": "paper",
+                            "source": "papers/2212_11419.md",
+                            "url": "../papers/2212_11419/",
+                            "path": [
+                              "Tree",
+                              "Decision-making",
+                              "Reinforcement Learning",
+                              "Nonlinear Systems",
+                              "Imitation Learning",
+                              "Behavior Cloning",
+                              "Imitation plus reinforcement learning for driving"
+                            ],
+                            "children": [],
+                            "leafCount": 1,
+                            "branchCount": 0,
+                            "paper": {
+                              "id": "2212_11419",
+                              "label": "Lu et al. 2022",
+                              "title": "Imitation Is Not Enough: Robustifying Imitation with Reinforcement Learning for Challenging Driving Scenarios",
+                              "algorithm": "",
+                              "authors": [
+                                "Yiren Lu",
+                                "Justin Fu",
+                                "George Tucker",
+                                "Xinlei Pan",
+                                "Eli Bronstein",
+                                "Rebecca Roelofs",
+                                "Benjamin Sapp",
+                                "Brandyn White",
+                                "Aleksandra Faust",
+                                "Shimon Whiteson",
+                                "Dragomir Anguelov",
+                                "Sergey Levine"
+                              ],
+                              "year": 2022,
+                              "yearValue": 2022,
+                              "sourceName": "arXiv",
+                              "type": "Preprint",
+                              "doi": "",
+                              "arxivId": "2212.11419",
+                              "primaryLink": "https://arxiv.org/pdf/2212.11419",
+                              "hasPrimaryLink": true,
+                              "alternateLinkCount": 0,
+                              "auditStatus": "partial",
+                              "tags": [
+                                "Imitation learning",
+                                "Reinforcement learning",
+                                "Autonomous driving",
+                                "Robustness",
+                                "Closed-loop evaluation",
+                                "Safety"
+                              ],
+                              "abstract": "Imitation learning (IL) is a simple and powerful way to use high-quality human driving data, which can be collected at scale, to produce human-like behavior. However, policies based on imitation learning alone often fail to sufficiently account for safety and reliability concerns. In this paper, we show how imitation learning combined with reinforcement learning using simple rewards can substantially improve the safety and reliability of driving policies over those learned from imitation alone. In particular, we train a policy on over 100k miles of urban driving data, and measure its effectiveness in test scenarios grouped by different levels of collision likelihood. Our analysis shows that while imitation can perform well in low-difficulty scenarios that are well-covered by the demonstration data, our proposed approach significantly improves robustness on the most challenging scenarios (over 38% reduction in failures). To our knowledge, this is the first application of a combined imitation and reinforcement learning approach in autonomous driving that utilizes large amounts of real-world human driving data.",
+                              "summary": "Shows that large-scale behavior cloning for urban driving can be materially improved by reinforcement learning with simple safety- and reliability-oriented rewards. The paper is useful as evidence that imitation alone can under-handle rare and challenging driving scenarios even when the demonstration corpus is very large.",
+                              "mapUrl": "../map/#paper=2212_11419",
+                              "timelineUrl": "../timeline/#paper=2212_11419",
+                              "searchUrl": "../search/?paper=2212_11419"
+                            }
+                          },
+                          {
                             "id": "tree-decision-making-reinforcement-learning-nonlinear-systems-imitation-learning-behavior-cloning-pitfalls-of-imitation-learning-papers-2503-09722-md",
                             "label": "Pitfalls of Imitation Learning",
                             "kind": "paper",
@@ -81982,7 +84737,7 @@ window.treeData = {
                             }
                           }
                         ],
-                        "leafCount": 5,
+                        "leafCount": 6,
                         "branchCount": 0
                       },
                       {
@@ -82133,6 +84888,61 @@ window.treeData = {
                             }
                           },
                           {
+                            "id": "tree-decision-making-reinforcement-learning-nonlinear-systems-imitation-learning-visuomotor-skill-imitation-imi-papers-2603-27944-md",
+                            "label": "IMI",
+                            "kind": "paper",
+                            "source": "papers/2603_27944.md",
+                            "url": "../papers/2603_27944/",
+                            "path": [
+                              "Tree",
+                              "Decision-making",
+                              "Reinforcement Learning",
+                              "Nonlinear Systems",
+                              "Imitation Learning",
+                              "Visuomotor & Skill Imitation",
+                              "IMI"
+                            ],
+                            "children": [],
+                            "leafCount": 1,
+                            "branchCount": 0,
+                            "paper": {
+                              "id": "2603_27944",
+                              "label": "IMI",
+                              "title": "Flip Stunts on Bicycle Robots Using Iterative Motion Imitation",
+                              "algorithm": "IMI",
+                              "authors": [
+                                "Jeonghwan Kim",
+                                "Shamel Fahmi",
+                                "Seungeun Rho",
+                                "Sehoon Ha",
+                                "Gabriel Nelson"
+                              ],
+                              "year": 2026,
+                              "yearValue": 2026,
+                              "sourceName": "IEEE International Conference on Robotics and Automation (ICRA)",
+                              "type": "Conference Paper",
+                              "doi": "",
+                              "arxivId": "2603.27944",
+                              "primaryLink": "https://arxiv.org/pdf/2603.27944",
+                              "hasPrimaryLink": true,
+                              "alternateLinkCount": 0,
+                              "auditStatus": "partial",
+                              "tags": [
+                                "Imitation learning",
+                                "Reinforcement learning",
+                                "Bicycle robots",
+                                "Agile robotics",
+                                "Motion imitation",
+                                "Robot control"
+                              ],
+                              "abstract": "This work demonstrates a front-flip on bicycle robots via reinforcement learning, particularly by imitating reference motions that are infeasible and imperfect. To address this, we propose Iterative Motion Imitation (IMI), a method that iteratively imitates trajectories generated by prior policy rollouts. Starting from an initial reference that is kinematically or dynamically infeasible, IMI helps train policies that lead to feasible and agile behaviors. We demonstrate our method on Ultra-Mobility Vehicle (UMV), a bicycle robot that is designed to enable agile behaviors. From a self-colliding table-to-ground flip reference generated by a model-based controller, we are able to train policies that enable ground-to-ground and ground-to-table front-flips. We show that compared to a single-shot motion imitation, IMI results in policies with higher success rates and can transfer robustly to the real world. To our knowledge, this is the first unassisted acrobatic flip behavior on such a platform.",
+                              "summary": "Introduces Iterative Motion Imitation for learning agile bicycle-robot flips from imperfect or dynamically infeasible reference motions. The paper demonstrates a practical loop where policy rollouts become improved references, enabling feasible stunt behaviors that direct imitation of the initial trajectory cannot produce.",
+                              "mapUrl": "../map/#paper=2603_27944",
+                              "timelineUrl": "../timeline/#paper=2603_27944",
+                              "searchUrl": "../search/?paper=2603_27944"
+                            }
+                          },
+                          {
                             "id": "tree-decision-making-reinforcement-learning-nonlinear-systems-imitation-learning-visuomotor-skill-imitation-robot-learning-from-demonstration-by-constructing-skill-trees-papers-2011-konidaris-robot-learning-from-demonstration-md",
                             "label": "Robot Learning from Demonstration by Constructing Skill Trees",
                             "kind": "paper",
@@ -82243,7 +85053,7 @@ window.treeData = {
                             }
                           }
                         ],
-                        "leafCount": 3,
+                        "leafCount": 4,
                         "branchCount": 0
                       },
                       {
@@ -82899,7 +85709,7 @@ window.treeData = {
                         "branchCount": 0
                       }
                     ],
-                    "leafCount": 19,
+                    "leafCount": 22,
                     "branchCount": 7
                   },
                   {
@@ -83076,6 +85886,61 @@ window.treeData = {
                           "mapUrl": "../map/#paper=2407_01812",
                           "timelineUrl": "../timeline/#paper=2407_01812",
                           "searchUrl": "../search/?paper=2407_01812"
+                        }
+                      },
+                      {
+                        "id": "tree-decision-making-reinforcement-learning-nonlinear-systems-diffusion-flow-matching-glide-papers-2412-02676-md",
+                        "label": "GLIDE",
+                        "kind": "paper",
+                        "source": "papers/2412_02676.md",
+                        "url": "../papers/2412_02676/",
+                        "path": [
+                          "Tree",
+                          "Decision-making",
+                          "Reinforcement Learning",
+                          "Nonlinear Systems",
+                          "Diffusion & Flow Matching",
+                          "GLIDE"
+                        ],
+                        "children": [],
+                        "leafCount": 1,
+                        "branchCount": 0,
+                        "paper": {
+                          "id": "2412_02676",
+                          "label": "GLIDE",
+                          "title": "Planning-Guided Diffusion Policy Learning for Generalizable Contact-Rich Bimanual Manipulation",
+                          "algorithm": "GLIDE",
+                          "authors": [
+                            "Xuanlin Li",
+                            "Tong Zhao",
+                            "Xinghao Zhu",
+                            "Jiuguang Wang",
+                            "Tao Pang",
+                            "Kuan Fang"
+                          ],
+                          "year": 2024,
+                          "yearValue": 2024,
+                          "sourceName": "arXiv",
+                          "type": "Preprint",
+                          "doi": "",
+                          "arxivId": "2412.02676",
+                          "primaryLink": "https://arxiv.org/pdf/2412.02676",
+                          "hasPrimaryLink": true,
+                          "alternateLinkCount": 0,
+                          "auditStatus": "partial",
+                          "tags": [
+                            "Diffusion policy",
+                            "Bimanual manipulation",
+                            "Contact-rich manipulation",
+                            "Motion planning",
+                            "Imitation learning",
+                            "Generalization"
+                          ],
+                          "abstract": "Contact-rich bimanual manipulation involves precise coordination of two arms to change object states through strategically selected contacts and motions. Due to the inherent complexity of these tasks, acquiring sufficient demonstration data and training policies that generalize to unseen scenarios remain a largely unresolved challenge. Building on recent advances in planning through contacts, we introduce Generalizable Planning-Guided Diffusion Policy Learning (GLIDE), an approach that effectively learns to solve contact-rich bimanual manipulation tasks by leveraging model-based motion planners to generate demonstration data in high-fidelity physics simulation. Through efficient planning in randomized environments, our approach generates large-scale and high-quality synthetic motion trajectories for tasks involving diverse objects and transformations. We then train a task-conditioned diffusion policy via behavior cloning using these demonstrations. To tackle the sim-to-real gap, we propose a set of essential design options in feature extraction, task representation, action prediction, and data augmentation that enable learning robust prediction of smooth action sequences and generalization to unseen scenarios. Through experiments in both simulation and the real world, we demonstrate that our approach can enable a bimanual robotic system to effectively manipulate objects of diverse geometries, dimensions, and physical properties. Website: https://glide-manip.github.io/",
+                          "summary": "Introduces GLIDE, a planning-guided diffusion-policy approach for contact-rich bimanual manipulation with limited demonstrations. The central contribution is using model-based motion planning to shape diffusion-policy learning so manipulation policies generalize better across object states and task variations.",
+                          "mapUrl": "../map/#paper=2412_02676",
+                          "timelineUrl": "../timeline/#paper=2412_02676",
+                          "searchUrl": "../search/?paper=2412_02676"
                         }
                       },
                       {
@@ -83561,6 +86426,57 @@ window.treeData = {
                         }
                       },
                       {
+                        "id": "tree-decision-making-reinforcement-learning-nonlinear-systems-diffusion-flow-matching-eb-mbd-papers-2510-07700-md",
+                        "label": "EB-MBD",
+                        "kind": "paper",
+                        "source": "papers/2510_07700.md",
+                        "url": "../papers/2510_07700/",
+                        "path": [
+                          "Tree",
+                          "Decision-making",
+                          "Reinforcement Learning",
+                          "Nonlinear Systems",
+                          "Diffusion & Flow Matching",
+                          "EB-MBD"
+                        ],
+                        "children": [],
+                        "leafCount": 1,
+                        "branchCount": 0,
+                        "paper": {
+                          "id": "2510_07700",
+                          "label": "EB-MBD",
+                          "title": "EB-MBD: Emerging-Barrier Model-Based Diffusion for Safe Trajectory Optimization in Highly Constrained Environments",
+                          "algorithm": "EB-MBD",
+                          "authors": [
+                            "Raghav Mishra",
+                            "Ian R. Manchester"
+                          ],
+                          "year": 2025,
+                          "yearValue": 2025,
+                          "sourceName": "IEEE International Conference on Robotics and Automation (ICRA)",
+                          "type": "Conference Paper",
+                          "doi": "",
+                          "arxivId": "2510.07700",
+                          "primaryLink": "https://arxiv.org/pdf/2510.07700",
+                          "hasPrimaryLink": true,
+                          "alternateLinkCount": 1,
+                          "auditStatus": "partial",
+                          "tags": [
+                            "Diffusion models",
+                            "Trajectory optimization",
+                            "Model-based diffusion",
+                            "Barrier functions",
+                            "Safe planning",
+                            "Constrained optimization"
+                          ],
+                          "abstract": "We propose enforcing constraints on Model-Based Diffusion by introducing emerging barrier functions inspired by interior point methods. We demonstrate that the standard Model-Based Diffusion algorithm can lead to catastrophic performance degradation in highly constrained environments, even on simple 2D systems due to sample inefficiency in the Monte Carlo approximation of the score function. We introduce Emerging-Barrier Model-Based Diffusion (EB-MBD) which uses progressively introduced barrier constraints to avoid these problems, significantly improving solution quality, without expensive projection operations such as projections. We analyze the sampling liveliness of samples at each iteration to inform barrier parameter scheduling choice. We demonstrate results for 2D collision avoidance and a 3D underwater manipulator system and show that our method achieves lower cost solutions than Model-Based Diffusion, and requires orders of magnitude less computation time than projection based methods.",
+                          "summary": "Adds progressively introduced barrier functions to model-based diffusion so trajectory optimization remains effective in highly constrained spaces. The paper is useful for understanding failure modes of Monte Carlo score approximations near constraints and for adapting diffusion-style planning to safety-critical settings.",
+                          "mapUrl": "../map/#paper=2510_07700",
+                          "timelineUrl": "../timeline/#paper=2510_07700",
+                          "searchUrl": "../search/?paper=2510_07700"
+                        }
+                      },
+                      {
                         "id": "tree-decision-making-reinforcement-learning-nonlinear-systems-diffusion-flow-matching-from-demonstrations-to-safe-deployment-path-consistent-safety-filtering-for-diffusion-policies-papers-2511-06385-md",
                         "label": "From Demonstrations to Safe Deployment: Path-Consistent Safety Filtering for Diffusion Policies",
                         "kind": "paper",
@@ -83739,7 +86655,7 @@ window.treeData = {
                         }
                       }
                     ],
-                    "leafCount": 15,
+                    "leafCount": 17,
                     "branchCount": 0
                   },
                   {
@@ -83923,7 +86839,7 @@ window.treeData = {
                     "branchCount": 0
                   }
                 ],
-                "leafCount": 243,
+                "leafCount": 250,
                 "branchCount": 30
               },
               {
@@ -84827,6 +87743,58 @@ window.treeData = {
                         }
                       },
                       {
+                        "id": "tree-decision-making-reinforcement-learning-inverse-reinforcement-learning-reward-learning-inverse-optimal-control-inverse-reinforcement-learning-for-identification-of-linear-quadratic-zero-sum-differential-games-papers-2023-martirosyan-inverse-reinforcement-learning-for-md",
+                        "label": "Inverse Reinforcement Learning for Identification of Linear-Quadratic Zero-Sum Differential Games",
+                        "kind": "paper",
+                        "source": "papers/2023_martirosyan_inverse_reinforcement_learning_for.md",
+                        "url": "../papers/2023_martirosyan_inverse_reinforcement_learning_for/",
+                        "path": [
+                          "Tree",
+                          "Decision-making",
+                          "Reinforcement Learning",
+                          "Inverse Reinforcement Learning & Reward Learning",
+                          "Inverse Optimal Control",
+                          "Inverse Reinforcement Learning for Identification of Linear-Quadratic Zero-Sum Differential Games"
+                        ],
+                        "children": [],
+                        "leafCount": 1,
+                        "branchCount": 0,
+                        "paper": {
+                          "id": "2023_martirosyan_inverse_reinforcement_learning_for",
+                          "label": "Martirosyan et al. 2023",
+                          "title": "Inverse Reinforcement Learning for Identification of Linear-Quadratic Zero-Sum Differential Games",
+                          "algorithm": "",
+                          "authors": [
+                            "Emin Martirosyan",
+                            "Ming Cao"
+                          ],
+                          "year": 2023,
+                          "yearValue": 2023,
+                          "sourceName": "Systems & Control Letters",
+                          "type": "Journal Paper",
+                          "doi": "10.1016/j.sysconle.2022.105438",
+                          "arxivId": "",
+                          "primaryLink": "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=4103314",
+                          "hasPrimaryLink": true,
+                          "alternateLinkCount": 2,
+                          "auditStatus": "partial",
+                          "tags": [
+                            "Inverse reinforcement learning",
+                            "Differential games",
+                            "Zero-sum linear quadratic",
+                            "Linear quadratic games",
+                            "Game theory",
+                            "Optimal control",
+                            "Gradient descent"
+                          ],
+                          "abstract": "In this paper, we address the inverse problem in the case of linear-quadratic zero-sum differential games. The problem is to evaluate an unknown cost function given the observed trajectories that are known to be generated by a stationary linear feedback Nash equilibrium pair. Using the observed data, we construct a game that is equivalent to the game that leads to the observed trajectories in the sense that the equilibrium feedback law of any of the two player is the same for that player in the original and constructed games. Towards this end, we introduce a model-based algorithm that uses the given trajectories to accomplish this task. The algorithm combines both inverse optimal control and reinforcement learning methods making extensive use of gradient descent optimization for the latter. The analysis of the algorithm focuses on the proof of its convergence and stability. Simulation results validate the effectiveness of the proposed algorithm.",
+                          "summary": "Studies inverse learning for continuous-time linear-quadratic zero-sum differential games from trajectories generated by stationary feedback Nash strategies. The proposed model-based procedure constructs an equivalent game whose recovered feedback behavior matches the observed player behavior.",
+                          "mapUrl": "../map/#paper=2023_martirosyan_inverse_reinforcement_learning_for",
+                          "timelineUrl": "../timeline/#paper=2023_martirosyan_inverse_reinforcement_learning_for",
+                          "searchUrl": "../search/?paper=2023_martirosyan_inverse_reinforcement_learning_for"
+                        }
+                      },
+                      {
                         "id": "tree-decision-making-reinforcement-learning-inverse-reinforcement-learning-reward-learning-inverse-optimal-control-inverse-quadratic-optimal-control-papers-1810-12590-md",
                         "label": "Inverse Quadratic Optimal Control",
                         "kind": "paper",
@@ -84979,7 +87947,7 @@ window.treeData = {
                         }
                       }
                     ],
-                    "leafCount": 4,
+                    "leafCount": 5,
                     "branchCount": 0
                   },
                   {
@@ -85160,6 +88128,60 @@ window.treeData = {
                               "mapUrl": "../map/#paper=1507_04888",
                               "timelineUrl": "../timeline/#paper=1507_04888",
                               "searchUrl": "../search/?paper=1507_04888"
+                            }
+                          },
+                          {
+                            "id": "tree-decision-making-reinforcement-learning-inverse-reinforcement-learning-reward-learning-inverse-reinforcement-learning-max-entropy-identifiability-in-inverse-reinforcement-learning-papers-2106-03498-md",
+                            "label": "Identifiability in Inverse Reinforcement Learning",
+                            "kind": "paper",
+                            "source": "papers/2106_03498.md",
+                            "url": "../papers/2106_03498/",
+                            "path": [
+                              "Tree",
+                              "Decision-making",
+                              "Reinforcement Learning",
+                              "Inverse Reinforcement Learning & Reward Learning",
+                              "Inverse Reinforcement Learning",
+                              "Max Entropy",
+                              "Identifiability in Inverse Reinforcement Learning"
+                            ],
+                            "children": [],
+                            "leafCount": 1,
+                            "branchCount": 0,
+                            "paper": {
+                              "id": "2106_03498",
+                              "label": "Cao et al. 2021",
+                              "title": "Identifiability in Inverse Reinforcement Learning",
+                              "algorithm": "",
+                              "authors": [
+                                "Haoyang Cao",
+                                "Samuel N. Cohen",
+                                "Lukasz Szpruch"
+                              ],
+                              "year": 2021,
+                              "yearValue": 2021,
+                              "sourceName": "Advances in Neural Information Processing Systems",
+                              "type": "Conference Paper",
+                              "doi": "",
+                              "arxivId": "2106.03498",
+                              "primaryLink": "https://arxiv.org/pdf/2106.03498",
+                              "hasPrimaryLink": true,
+                              "alternateLinkCount": 1,
+                              "auditStatus": "partial",
+                              "tags": [
+                                "Inverse reinforcement learning",
+                                "Identifiability",
+                                "Entropy regularization",
+                                "Markov decision process",
+                                "Reward learning",
+                                "Machine learning theory",
+                                "Optimization"
+                              ],
+                              "abstract": "Inverse reinforcement learning attempts to reconstruct the reward function in a Markov decision problem, using observations of agent actions. As already observed in Russell [1998] the problem is ill-posed, and the reward function is not identifiable, even under the presence of perfect information about optimal behavior. We provide a resolution to this non-identifiability for problems with entropy regularization. For a given environment, we fully characterize the reward functions leading to a given policy and demonstrate that, given demonstrations of actions for the same reward under two distinct discount factors, or under sufficiently different environments, the unobserved reward can be recovered up to a constant. We also give general necessary and sufficient conditions for reconstruction of time-homogeneous rewards on finite horizons, and for action-independent rewards, generalizing recent results of Kim et al. [2021] and Fu et al. [2018].",
+                              "summary": "Characterizes when reward functions can and cannot be identified from demonstrations in inverse reinforcement learning. The key result is that entropy regularization, multiple discount factors, or sufficiently different environments can break the usual reward ambiguity up to well-defined equivalence classes.",
+                              "mapUrl": "../map/#paper=2106_03498",
+                              "timelineUrl": "../timeline/#paper=2106_03498",
+                              "searchUrl": "../search/?paper=2106_03498"
                             }
                           },
                           {
@@ -85355,7 +88377,7 @@ window.treeData = {
                             }
                           }
                         ],
-                        "leafCount": 7,
+                        "leafCount": 8,
                         "branchCount": 0
                       },
                       {
@@ -85634,13 +88656,120 @@ window.treeData = {
                           "timelineUrl": "../timeline/#paper=1206_5264",
                           "searchUrl": "../search/?paper=1206_5264"
                         }
+                      },
+                      {
+                        "id": "tree-decision-making-reinforcement-learning-inverse-reinforcement-learning-reward-learning-inverse-reinforcement-learning-learning-true-objectives-linear-algebraic-characterizations-of-identifiability-in-inverse-reinforcement-learning-papers-2024-shehab-learning-true-objectives-linear-md",
+                        "label": "Learning True Objectives: Linear Algebraic Characterizations of Identifiability in Inverse Reinforcement Learning",
+                        "kind": "paper",
+                        "source": "papers/2024_shehab_learning_true_objectives_linear.md",
+                        "url": "../papers/2024_shehab_learning_true_objectives_linear/",
+                        "path": [
+                          "Tree",
+                          "Decision-making",
+                          "Reinforcement Learning",
+                          "Inverse Reinforcement Learning & Reward Learning",
+                          "Inverse Reinforcement Learning",
+                          "Learning True Objectives: Linear Algebraic Characterizations of Identifiability in Inverse Reinforcement Learning"
+                        ],
+                        "children": [],
+                        "leafCount": 1,
+                        "branchCount": 0,
+                        "paper": {
+                          "id": "2024_shehab_learning_true_objectives_linear",
+                          "label": "Shehab et al. 2024",
+                          "title": "Learning True Objectives: Linear Algebraic Characterizations of Identifiability in Inverse Reinforcement Learning",
+                          "algorithm": "",
+                          "authors": [
+                            "Mohamad Louai Shehab",
+                            "Antoine Aspeel",
+                            "Nikos Arechiga",
+                            "Andrew Best",
+                            "Necmiye Ozay"
+                          ],
+                          "year": 2024,
+                          "yearValue": 2024,
+                          "sourceName": "Learning for Dynamics and Control Conference",
+                          "type": "Conference Paper",
+                          "doi": "",
+                          "arxivId": "",
+                          "primaryLink": "https://proceedings.mlr.press/v242/shehab24a/shehab24a.pdf",
+                          "hasPrimaryLink": true,
+                          "alternateLinkCount": 1,
+                          "auditStatus": "partial",
+                          "tags": [
+                            "Inverse reinforcement learning",
+                            "Identifiability",
+                            "Linear transformations",
+                            "Entropy regularization",
+                            "Markov decision process",
+                            "Reward learning",
+                            "Control theory"
+                          ],
+                          "abstract": "Inverse reinforcement Learning (IRL) has emerged as a powerful paradigm for extracting expert skills from observed behavior, with applications ranging from autonomous systems to humanrobot interaction. However, the identifiability issue within IRL poses a significant challenge, as multiple reward functions can explain the same observed behavior. This paper provides a linear algebraic characterization of several identifiability notions for an entropy-regularized finite horizon Markov decision process (MDP). Moreover, our approach allows for the seamless integration of prior knowledge, in the form of featurized reward functions, to enhance the identifiability of IRL problems. The results are demonstrated with experiments on a grid world environment.",
+                          "summary": "Gives linear-algebraic conditions for identifiability in entropy-regularized finite-horizon inverse reinforcement learning. The paper also shows how feature priors can be incorporated into those conditions, making the theory more directly applicable to structured reward models.",
+                          "mapUrl": "../map/#paper=2024_shehab_learning_true_objectives_linear",
+                          "timelineUrl": "../timeline/#paper=2024_shehab_learning_true_objectives_linear",
+                          "searchUrl": "../search/?paper=2024_shehab_learning_true_objectives_linear"
+                        }
+                      },
+                      {
+                        "id": "tree-decision-making-reinforcement-learning-inverse-reinforcement-learning-reward-learning-inverse-reinforcement-learning-data-driven-inverse-reinforcement-learning-of-linear-systems-with-model-uncertainty-a-convex-optimization-view-papers-2605-09164-md",
+                        "label": "Data-Driven Inverse Reinforcement Learning of Linear Systems with Model Uncertainty: A Convex Optimization View",
+                        "kind": "paper",
+                        "source": "papers/2605_09164.md",
+                        "url": "../papers/2605_09164/",
+                        "path": [
+                          "Tree",
+                          "Decision-making",
+                          "Reinforcement Learning",
+                          "Inverse Reinforcement Learning & Reward Learning",
+                          "Inverse Reinforcement Learning",
+                          "Data-Driven Inverse Reinforcement Learning of Linear Systems with Model Uncertainty: A Convex Optimization View"
+                        ],
+                        "children": [],
+                        "leafCount": 1,
+                        "branchCount": 0,
+                        "paper": {
+                          "id": "2605_09164",
+                          "label": "Nguyen et al. 2026",
+                          "title": "Data-Driven Inverse Reinforcement Learning of Linear Systems with Model Uncertainty: A Convex Optimization View",
+                          "algorithm": "",
+                          "authors": [
+                            "Duc Cuong Nguyen",
+                            "Phuong Nam Dao"
+                          ],
+                          "year": 2026,
+                          "yearValue": 2026,
+                          "sourceName": "arXiv",
+                          "type": "Preprint",
+                          "doi": "",
+                          "arxivId": "2605.09164",
+                          "primaryLink": "https://arxiv.org/pdf/2605.09164",
+                          "hasPrimaryLink": true,
+                          "alternateLinkCount": 0,
+                          "auditStatus": "partial",
+                          "tags": [
+                            "Inverse reinforcement learning",
+                            "Data-driven control",
+                            "Linear systems",
+                            "Model uncertainty",
+                            "Convex optimization",
+                            "Optimal control",
+                            "Robustness"
+                          ],
+                          "abstract": "Inverse reinforcement learning (IRL) for linear systems seeks a cost function whose optimal controller reproduces an expert policy from data. Existing data-driven methods for discrete-time linear systems are largely built on iterative policy/value updates, repeated matrix inversions, and, in some cases, an initial stabilizing controller, which can limit numerical robustness and practical applicability. This paper develops a convex-optimization framework for data-driven inverse reinforcement learning of discrete-time linear systems with model uncertainty. For nominal systems, we derive a semidefinite characterization of inverse optimality and a relaxed formulation that recovers an equivalent state-cost matrix together with a stabilizing controller from expert trajectories. We then obtain a model-free, off-policy reformulation by replacing the unknown system matrices with a regressed kernel matrix identified from local input-state data. For uncertain local systems, we show that a standard LQR cost is generally insufficient to represent every stabilizing target gain and therefore introduce a generalized LQR cost with a state-input cross term. Based on this model, we develop a convex data-driven inverse-RL method and extend it to robust cost design over a population of perturbations via differentiable semidefinite programming and stochastic approximation. Simulations on a discrete-time power-system example show accurate recovery of expert behavior, improved robustness to gain-estimation error and model mismatch, and a simpler computational pipeline than classical iterative inverse-RL schemes.",
+                          "summary": "Frames inverse reinforcement learning for uncertain linear systems as a convex optimization problem over data-consistent models and objectives. The work is useful because it connects reward recovery, model uncertainty, and data-driven control synthesis in a single tractable view.",
+                          "mapUrl": "../map/#paper=2605_09164",
+                          "timelineUrl": "../timeline/#paper=2605_09164",
+                          "searchUrl": "../search/?paper=2605_09164"
+                        }
                       }
                     ],
-                    "leafCount": 12,
+                    "leafCount": 15,
                     "branchCount": 2
                   }
                 ],
-                "leafCount": 18,
+                "leafCount": 22,
                 "branchCount": 5
               },
               {
@@ -86650,12 +89779,12 @@ window.treeData = {
                 "branchCount": 3
               }
             ],
-            "leafCount": 415,
-            "branchCount": 69
+            "leafCount": 433,
+            "branchCount": 70
           }
         ],
-        "leafCount": 1538,
-        "branchCount": 324
+        "leafCount": 1594,
+        "branchCount": 327
       },
       {
         "id": "tree-prediction-perception",
@@ -87540,9 +90669,61 @@ window.treeData = {
                       "timelineUrl": "../timeline/#paper=2202_11659",
                       "searchUrl": "../search/?paper=2202_11659"
                     }
+                  },
+                  {
+                    "id": "tree-prediction-perception-state-estimation-learning-based-state-estimation-transformer-based-optimal-filtering-papers-2308-08536-md",
+                    "label": "Transformer-based optimal filtering",
+                    "kind": "paper",
+                    "source": "papers/2308_08536.md",
+                    "url": "../papers/2308_08536/",
+                    "path": [
+                      "Tree",
+                      "Prediction & Perception",
+                      "State Estimation",
+                      "Learning-based State Estimation",
+                      "Transformer-based optimal filtering"
+                    ],
+                    "children": [],
+                    "leafCount": 1,
+                    "branchCount": 0,
+                    "paper": {
+                      "id": "2308_08536",
+                      "label": "Balim et al. 2023",
+                      "title": "Can Transformers Learn Optimal Filtering for Unknown Systems?",
+                      "algorithm": "",
+                      "authors": [
+                        "Haldun Balim",
+                        "Zhe Du",
+                        "Samet Oymak",
+                        "Necmiye Ozay"
+                      ],
+                      "year": 2023,
+                      "yearValue": 2023,
+                      "sourceName": "arXiv",
+                      "type": "Preprint",
+                      "doi": "",
+                      "arxivId": "2308.08536",
+                      "primaryLink": "https://arxiv.org/pdf/2308.08536",
+                      "hasPrimaryLink": true,
+                      "alternateLinkCount": 0,
+                      "auditStatus": "partial",
+                      "tags": [
+                        "Transformers",
+                        "Kalman filtering",
+                        "State estimation",
+                        "Dynamical systems",
+                        "In-context learning",
+                        "Unknown systems"
+                      ],
+                      "abstract": "Transformer models have shown great success in natural language processing; however, their potential remains mostly unexplored for dynamical systems. In this work, we investigate the optimal output estimation problem using transformers, which generate output predictions using all the past ones. Particularly, we train the transformer using various distinct systems and then evaluate the performance on unseen systems with unknown dynamics. Empirically, the trained transformer adapts exceedingly well to different unseen systems and even matches the optimal performance given by the Kalman filter for linear systems. In more complex settings with non-i.i.d. noise, time-varying dynamics, and nonlinear dynamics like a quadrotor system with unknown parameters, transformers also demonstrate promising results. To support our experimental findings, we provide statistical guarantees that quantify the amount of training data required for the transformer to achieve a desired excess risk. Finally, we point out some limitations by identifying two classes of problems that lead to degraded performance, highlighting the need for caution when using transformers for control and estimation.",
+                      "summary": "Tests whether transformers trained across families of dynamical systems can perform output estimation on unseen systems, sometimes matching Kalman-filter behavior without explicit model knowledge. The paper is a useful probe of in-context system adaptation and learned filtering rather than a new hand-derived estimator.",
+                      "mapUrl": "../map/#paper=2308_08536",
+                      "timelineUrl": "../timeline/#paper=2308_08536",
+                      "searchUrl": "../search/?paper=2308_08536"
+                    }
                   }
                 ],
-                "leafCount": 2,
+                "leafCount": 3,
                 "branchCount": 0
               },
               {
@@ -90721,7 +93902,7 @@ window.treeData = {
                 "branchCount": 12
               }
             ],
-            "leafCount": 70,
+            "leafCount": 71,
             "branchCount": 21
           },
           {
@@ -94168,6 +97349,64 @@ window.treeData = {
                         }
                       },
                       {
+                        "id": "tree-prediction-perception-computer-vision-low-level-geometric-vision-3d-vision-shape-understanding-superfrusta-papers-2512-09201-md",
+                        "label": "SuperFrusta",
+                        "kind": "paper",
+                        "source": "papers/2512_09201.md",
+                        "url": "../papers/2512_09201/",
+                        "path": [
+                          "Tree",
+                          "Prediction & Perception",
+                          "Computer Vision",
+                          "Low-level & Geometric Vision",
+                          "3D Vision & Shape Understanding",
+                          "SuperFrusta"
+                        ],
+                        "children": [],
+                        "leafCount": 1,
+                        "branchCount": 0,
+                        "paper": {
+                          "id": "2512_09201",
+                          "label": "SuperFrusta",
+                          "title": "Residual Primitive Fitting of 3D Shapes with SuperFrusta",
+                          "algorithm": "SuperFrusta",
+                          "authors": [
+                            "Aditya Ganeshan",
+                            "Matheus Gadelha",
+                            "Thibault Groueix",
+                            "Zhiqin Chen",
+                            "Siddhartha Chaudhuri",
+                            "Vladimir Kim",
+                            "Wang Yifan",
+                            "Daniel Ritchie"
+                          ],
+                          "year": 2025,
+                          "yearValue": 2025,
+                          "sourceName": "arXiv",
+                          "type": "Preprint",
+                          "doi": "",
+                          "arxivId": "2512.09201",
+                          "primaryLink": "https://arxiv.org/pdf/2512.09201",
+                          "hasPrimaryLink": true,
+                          "alternateLinkCount": 1,
+                          "auditStatus": "partial",
+                          "tags": [
+                            "3D shape registration",
+                            "Shape reconstruction",
+                            "Geometry processing",
+                            "Shape preservation",
+                            "Computer vision",
+                            "3D reconstruction",
+                            "Point cloud"
+                          ],
+                          "abstract": "We introduce a framework for converting 3D shapes into compact and editable assemblies of analytic primitives, directly addressing the persistent trade-off between reconstruction fidelity and parsimony. Our approach combines two key contributions: a novel primitive, termed SuperFrustum, and an iterative fiting algorithm, Residual Primitive Fitting (ResFit). SuperFrustum is an analytical primitive that is simultaneously (1) expressive, being able to model various common solids such as cylinders, spheres, cones & their tapered and bent forms, (2) editable, being compactly parameterized with 8 parameters, and (3) optimizable, with a sign distance field differentiable w.r.t. its parameters almost everywhere. ResFit is an unsupervised procedure that interleaves global shape analysis with local optimization, iteratively fitting primitives to the unexplained residual of a shape to discover a parsimonious yet accurate decompositions for each input shape. On diverse 3D benchmarks, our method achieves state-of-the-art results, improving IoU by over 9 points while using nearly half as many primitives as prior work. The resulting assemblies bridge the gap between dense 3D data and human-controllable design, producing high-fidelity and editable shape programs.",
+                          "summary": "Fits 3D shapes using residual primitive decomposition with SuperFrusta, aiming for compact and expressive shape approximations. The method is useful for geometry processing workflows where interpretable primitive structure is preferable to dense uninterpreted geometry.",
+                          "mapUrl": "../map/#paper=2512_09201",
+                          "timelineUrl": "../timeline/#paper=2512_09201",
+                          "searchUrl": "../search/?paper=2512_09201"
+                        }
+                      },
+                      {
                         "id": "tree-prediction-perception-computer-vision-low-level-geometric-vision-3d-vision-shape-understanding-on-the-feasibility-and-opportunity-of-autoregressive-3d-object-detection-papers-2603-07985-md",
                         "label": "On the Feasibility and Opportunity of Autoregressive 3D Object Detection",
                         "kind": "paper",
@@ -94514,11 +97753,11 @@ window.treeData = {
                         }
                       }
                     ],
-                    "leafCount": 10,
+                    "leafCount": 11,
                     "branchCount": 0
                   }
                 ],
-                "leafCount": 33,
+                "leafCount": 34,
                 "branchCount": 4
               },
               {
@@ -97536,7 +100775,7 @@ window.treeData = {
                 "branchCount": 2
               }
             ],
-            "leafCount": 83,
+            "leafCount": 84,
             "branchCount": 19
           },
           {
@@ -102710,9 +105949,79 @@ window.treeData = {
                               "timelineUrl": "../timeline/#paper=1810_12575",
                               "searchUrl": "../search/?paper=1810_12575"
                             }
+                          },
+                          {
+                            "id": "tree-prediction-perception-machine-learning-deep-learning-neural-networks-architectures-neural-computers-papers-2604-06425-md",
+                            "label": "Neural Computers",
+                            "kind": "paper",
+                            "source": "papers/2604_06425.md",
+                            "url": "../papers/2604_06425/",
+                            "path": [
+                              "Tree",
+                              "Prediction & Perception",
+                              "Machine Learning",
+                              "Deep Learning",
+                              "Neural Networks",
+                              "Architectures",
+                              "Neural Computers"
+                            ],
+                            "children": [],
+                            "leafCount": 1,
+                            "branchCount": 0,
+                            "paper": {
+                              "id": "2604_06425",
+                              "label": "Neural Computers",
+                              "title": "Neural Computers",
+                              "algorithm": "Neural Computers",
+                              "authors": [
+                                "Mingchen Zhuge",
+                                "Changsheng Zhao",
+                                "Haozhe Liu",
+                                "Zijian Zhou",
+                                "Shuming Liu",
+                                "Wenyi Wang",
+                                "Ernie Chang",
+                                "Gael Le Lan",
+                                "Junjie Fei",
+                                "Wenxuan Zhang",
+                                "Yasheng Sun",
+                                "Zhipeng Cai",
+                                "Zechun Liu",
+                                "Yunyang Xiong",
+                                "Yining Yang",
+                                "Yuandong Tian",
+                                "Yangyang Shi",
+                                "Vikas Chandra",
+                                "Jurgen Schmidhuber"
+                              ],
+                              "year": 2026,
+                              "yearValue": 2026,
+                              "sourceName": "arXiv",
+                              "type": "Preprint",
+                              "doi": "",
+                              "arxivId": "2604.06425",
+                              "primaryLink": "https://arxiv.org/pdf/2604.06425",
+                              "hasPrimaryLink": true,
+                              "alternateLinkCount": 2,
+                              "auditStatus": "partial",
+                              "tags": [
+                                "Neural networks",
+                                "Artificial intelligence",
+                                "Machine learning systems",
+                                "Code generation",
+                                "Learning",
+                                "Machine learning theory",
+                                "Generalization"
+                              ],
+                              "abstract": "We propose a new frontier: Neural Computers (NCs) that unify computation, memory, and I/O of traditional computers in a learned runtime state. Our long-term goal is the Completely Neural Computer (CNC): the mature, general-purpose realization of this emerging machine form, with stable execution, explicit reprogramming, and durable capability reuse. As an initial step, we study whether elementary NC primitives can be learned solely from collected I/O traces, without instrumented program state. Concretely, we instantiate NCs as video models that roll out screen frames from instructions, pixels, and user actions (when available) in CLI and GUI settings. We show that NCs can acquire elementary interface primitives, especially I/O alignment and short-horizon control, while routine reuse, controlled updates, and symbolic stability remain challenging. We outline a roadmap toward CNCs, to establish a new computing paradigm beyond today's agents and conventional computers.",
+                              "summary": "Proposes neural-computer systems that combine learned neural components with more explicit computational structure for reasoning and task execution. The paper sits between model architecture, program-like computation, and AI systems design.",
+                              "mapUrl": "../map/#paper=2604_06425",
+                              "timelineUrl": "../timeline/#paper=2604_06425",
+                              "searchUrl": "../search/?paper=2604_06425"
+                            }
                           }
                         ],
-                        "leafCount": 11,
+                        "leafCount": 12,
                         "branchCount": 0
                       },
                       {
@@ -102850,7 +106159,7 @@ window.treeData = {
                                     "Deployment",
                                     "Survey"
                                   ],
-                                  "abstract": "Deep neural networks have been successfully used in diverse emerging domains to solve real world complex problems with may more deep learning(DL) architectures, being developed to date. To achieve these state-of-the-art performances, the DL architectures use activation functions (AFs), to perform diverse computations between the hidden layers and the output layers of any given DL architecture. This paper presents a survey on the existing AFs used in deep learning applications and highlights the recent trends in the use of the activation functions for deep learning applications. The novelty of this paper is that it compiles majority of the AFs used in DL and outlines the current trends in the applications and usage of these functions in practical deep learning deployments against the state-of-the-art research results. This compilation will aid in making effective decisions in the choice of the most suitable and appropriate activation function for any given application, ready for deployment. This paper is timely because most research papers on AF highlights similar works and results while this paper will be the first, to compile the trends in AF applications in practice against the research results from literature, found in deep learning research to date.",
+                                  "abstract": "Deep neural networks have been successfully used in diverse emerging domains to solve real world complex problems with may more deep learning (DL) architectures, being developed to date. To achieve these state-of-the-art performances, the DL architectures use activation functions (AFs), to perform diverse computations between the hidden layers and the output layers of any given DL architecture. This paper presents a survey on the existing AFs used in deep learning applications and highlights the recent trends in the use of the activation functions for deep learning applications. The novelty of this paper is that it compiles majority of the AFs used in DL and outlines the current trends in the applications and usage of these functions in practical deep learning deployments against the state-of-the-art research results. This compilation will aid in making effective decisions in the choice of the most suitable and appropriate activation function for any given application, ready for deployment. This paper is timely because most research papers on AF highlights similar works and results while this paper will be the first, to compile the trends in AF applications in practice against the research results from literature, found in deep learning research to date.",
                                   "summary": "This survey frames activation functions through the gap between research proposals and functions actually used in deployed deep-learning architectures. It is less exhaustive than later catalogs, but it is useful for understanding which nonlinearities had practical uptake around the early post-ReLU period.",
                                   "mapUrl": "../map/#paper=1811_03378",
                                   "timelineUrl": "../timeline/#paper=1811_03378",
@@ -103593,6 +106902,121 @@ window.treeData = {
                                 }
                               },
                               {
+                                "id": "tree-prediction-perception-machine-learning-deep-learning-neural-networks-training-algorithms-optimization-with-curvature-information-fishy-papers-2022-peirson-fishy-layerwise-fisher-approximation-md",
+                                "label": "Fishy",
+                                "kind": "paper",
+                                "source": "papers/2022_peirson_fishy_layerwise_fisher_approximation.md",
+                                "url": "../papers/2022_peirson_fishy_layerwise_fisher_approximation/",
+                                "path": [
+                                  "Tree",
+                                  "Prediction & Perception",
+                                  "Machine Learning",
+                                  "Deep Learning",
+                                  "Neural Networks",
+                                  "Training Algorithms",
+                                  "Optimization with Curvature Information",
+                                  "Fishy"
+                                ],
+                                "children": [],
+                                "leafCount": 1,
+                                "branchCount": 0,
+                                "paper": {
+                                  "id": "2022_peirson_fishy_layerwise_fisher_approximation",
+                                  "label": "Fishy",
+                                  "title": "Fishy: Layerwise Fisher Approximation for Higher-Order Neural Network Optimization",
+                                  "algorithm": "Fishy",
+                                  "authors": [
+                                    "Abel Peirson",
+                                    "Ehsan Amid",
+                                    "Yatong Chen",
+                                    "Vladimir Feinberg",
+                                    "Manfred K Warmuth",
+                                    "Rohan Anil"
+                                  ],
+                                  "year": 2022,
+                                  "yearValue": 2022,
+                                  "sourceName": "Has It Trained Yet? NeurIPS Workshop",
+                                  "type": "Workshop Paper",
+                                  "doi": "",
+                                  "arxivId": "",
+                                  "primaryLink": "https://openreview.net/pdf?id=cScb-RrBQC",
+                                  "hasPrimaryLink": true,
+                                  "alternateLinkCount": 1,
+                                  "auditStatus": "partial",
+                                  "tags": [
+                                    "Natural gradient descent",
+                                    "Fisher information matrix",
+                                    "Second-order optimization",
+                                    "Neural networks",
+                                    "Fisher information",
+                                    "Regularization",
+                                    "Deep learning"
+                                  ],
+                                  "abstract": "We introduce Fishy, a local approximation of the Fisher information matrix at each layer for natural gradient descent training of deep neural networks. The true Fisher approximation for deep networks involves sampling labels from the model's predictive distribution at the output layer and performing a full backward pass - Fishy defines a Bregman exponential family distribution at each layer, performing the sampling locally. Local sampling allows for model parallelism when forming the preconditioner, removing the need for the extra backward pass. We demonstrate our approach through the Shampoo optimizer, replacing its preconditioner gradients with our locally sampled gradients. Our training results on deep autoencoder and VGG16 image classification models indicate the efficacy of our construction.",
+                                  "summary": "Introduces a layer-local approximation to Fisher information for natural-gradient-style neural network training. Fishy avoids an extra full backward pass by sampling locally at layers, making the preconditioner more compatible with model parallelism and existing optimizers such as Shampoo.",
+                                  "mapUrl": "../map/#paper=2022_peirson_fishy_layerwise_fisher_approximation",
+                                  "timelineUrl": "../timeline/#paper=2022_peirson_fishy_layerwise_fisher_approximation",
+                                  "searchUrl": "../search/?paper=2022_peirson_fishy_layerwise_fisher_approximation"
+                                }
+                              },
+                              {
+                                "id": "tree-prediction-perception-machine-learning-deep-learning-neural-networks-training-algorithms-optimization-with-curvature-information-sketchy-papers-2302-03764-md",
+                                "label": "Sketchy",
+                                "kind": "paper",
+                                "source": "papers/2302_03764.md",
+                                "url": "../papers/2302_03764/",
+                                "path": [
+                                  "Tree",
+                                  "Prediction & Perception",
+                                  "Machine Learning",
+                                  "Deep Learning",
+                                  "Neural Networks",
+                                  "Training Algorithms",
+                                  "Optimization with Curvature Information",
+                                  "Sketchy"
+                                ],
+                                "children": [],
+                                "leafCount": 1,
+                                "branchCount": 0,
+                                "paper": {
+                                  "id": "2302_03764",
+                                  "label": "Sketchy",
+                                  "title": "Sketchy: Memory-Efficient Adaptive Regularization with Frequent Directions",
+                                  "algorithm": "Sketchy",
+                                  "authors": [
+                                    "Vladimir Feinberg",
+                                    "Xinyi Chen",
+                                    "Y. Jennifer Sun",
+                                    "Rohan Anil",
+                                    "Elad Hazan"
+                                  ],
+                                  "year": 2023,
+                                  "yearValue": 2023,
+                                  "sourceName": "Advances in Neural Information Processing Systems",
+                                  "type": "Conference Paper",
+                                  "doi": "",
+                                  "arxivId": "2302.03764",
+                                  "primaryLink": "https://arxiv.org/pdf/2302.03764",
+                                  "hasPrimaryLink": true,
+                                  "alternateLinkCount": 1,
+                                  "auditStatus": "partial",
+                                  "tags": [
+                                    "Regularization",
+                                    "Sketching",
+                                    "Second-order optimization",
+                                    "Adaptive step size",
+                                    "Neural networks",
+                                    "Optimization",
+                                    "Machine learning efficiency"
+                                  ],
+                                  "abstract": "Adaptive regularization methods that exploit more than the diagonal entries exhibit state of the art performance for many tasks, but can be prohibitive in terms of memory and running time. We find the spectra of the Kronecker-factored gradient covariance matrix in deep learning (DL) training tasks are concentrated on a small leading eigenspace that changes throughout training, motivating a low-rank sketching approach. We describe a generic method for reducing memory and compute requirements of maintaining a matrix preconditioner using the Frequent Directions (FD) sketch. While previous approaches have explored applying FD for second-order optimization, we present a novel analysis which allows efficient interpolation between resource requirements and the degradation in regret guarantees with rank k: in the online convex optimization (OCO) setting over dimension d, we match full-matrix d^(2) memory regret using only dk memory up to additive error in the bottom d-k eigenvalues of the gradient covariance. Further, we show extensions of our work to Shampoo, resulting in a method competitive in quality with Shampoo and Adam, yet requiring only sub-linear memory for tracking second moments.",
+                                  "summary": "Uses frequent-directions sketches to build a memory-efficient adaptive regularization method for training large models. Sketchy is positioned as a practical compromise between richer curvature information and the memory limits of standard adaptive optimizers.",
+                                  "mapUrl": "../map/#paper=2302_03764",
+                                  "timelineUrl": "../timeline/#paper=2302_03764",
+                                  "searchUrl": "../search/?paper=2302_03764"
+                                }
+                              },
+                              {
                                 "id": "tree-prediction-perception-machine-learning-deep-learning-neural-networks-training-algorithms-optimization-with-curvature-information-the-hessian-of-tall-skinny-networks-is-easy-to-invert-papers-2601-06096-md",
                                 "label": "The Hessian of tall-skinny networks is easy to invert",
                                 "kind": "paper",
@@ -103640,7 +107064,7 @@ window.treeData = {
                                 }
                               }
                             ],
-                            "leafCount": 3,
+                            "leafCount": 5,
                             "branchCount": 0
                           },
                           {
@@ -104604,7 +108028,7 @@ window.treeData = {
                             "branchCount": 0
                           }
                         ],
-                        "leafCount": 22,
+                        "leafCount": 24,
                         "branchCount": 7
                       },
                       {
@@ -104779,6 +108203,60 @@ window.treeData = {
                               "mapUrl": "../map/#paper=2107_05719",
                               "timelineUrl": "../timeline/#paper=2107_05719",
                               "searchUrl": "../search/?paper=2107_05719"
+                            }
+                          },
+                          {
+                            "id": "tree-prediction-perception-machine-learning-deep-learning-neural-networks-theory-science-calarena-papers-2605-30188-md",
+                            "label": "CalArena",
+                            "kind": "paper",
+                            "source": "papers/2605_30188.md",
+                            "url": "../papers/2605_30188/",
+                            "path": [
+                              "Tree",
+                              "Prediction & Perception",
+                              "Machine Learning",
+                              "Deep Learning",
+                              "Neural Networks",
+                              "Theory & Science",
+                              "CalArena"
+                            ],
+                            "children": [],
+                            "leafCount": 1,
+                            "branchCount": 0,
+                            "paper": {
+                              "id": "2605_30188",
+                              "label": "CalArena",
+                              "title": "CalArena: A Large-Scale Post-Hoc Calibration Benchmark",
+                              "algorithm": "CalArena",
+                              "authors": [
+                                "Eugene Berta",
+                                "David Holzmuller",
+                                "Francis Bach",
+                                "Michael I. Jordan"
+                              ],
+                              "year": 2026,
+                              "yearValue": 2026,
+                              "sourceName": "arXiv",
+                              "type": "Preprint",
+                              "doi": "",
+                              "arxivId": "2605.30188",
+                              "primaryLink": "https://arxiv.org/pdf/2605.30188",
+                              "hasPrimaryLink": true,
+                              "alternateLinkCount": 0,
+                              "auditStatus": "partial",
+                              "tags": [
+                                "Calibration",
+                                "Benchmarks",
+                                "Post-hoc calibration",
+                                "Classification",
+                                "Reliability",
+                                "Machine learning"
+                              ],
+                              "abstract": "Reliable probability estimates are critical in many machine learning applications, yet modern classifiers are often poorly calibrated. Post-hoc calibration provides a simple and widely used solution, but the large number of proposed methods, combined with small-scale and inconsistent evaluations, makes it difficult to determine which approaches are truly effective in practice. We introduce a large-scale, standardized benchmark for post-hoc calibration, covering nearly 2000 experiments across tabular and computer vision tasks, including binary, multiclass, and large-scale classification settings. Our benchmark aggregates predictions from a diverse set of classical models, modern deep learning architectures, and foundation models, and provides unified, reproducible implementations of dozens of calibration methods within a common evaluation framework. We argue that Post-Hoc Improvement (PHI) in proper scoring rules offers a principled alternative to traditional calibration error estimators for comparing post-hoc methods, capturing both calibration quality and potential degradation to the model's predictive performance. Using this framework, we conduct the most comprehensive empirical study of post-hoc calibration to date. Our results reveal consistent patterns across domains: smooth calibration functions outperform binning-based approaches, dedicated multiclass methods are essential in high-dimensional settings, and generic machine learning models are not competitive without calibration-specific design. To facilitate future research, we release all data, code, and evaluation tools, providing a plug-and-play benchmark for developing and comparing calibration methods.",
+                              "summary": "Introduces a large standardized benchmark for post-hoc calibration across tabular and computer-vision classification settings. The paper is useful as an evaluation reference because it compares many calibration methods under consistent metrics and highlights where small-scale prior evaluations can mislead.",
+                              "mapUrl": "../map/#paper=2605_30188",
+                              "timelineUrl": "../timeline/#paper=2605_30188",
+                              "searchUrl": "../search/?paper=2605_30188"
                             }
                           },
                           {
@@ -105140,11 +108618,11 @@ window.treeData = {
                             }
                           }
                         ],
-                        "leafCount": 10,
+                        "leafCount": 11,
                         "branchCount": 0
                       }
                     ],
-                    "leafCount": 53,
+                    "leafCount": 57,
                     "branchCount": 13
                   },
                   {
@@ -105756,7 +109234,7 @@ window.treeData = {
                     "branchCount": 0
                   }
                 ],
-                "leafCount": 63,
+                "leafCount": 67,
                 "branchCount": 17
               },
               {
@@ -105972,6 +109450,184 @@ window.treeData = {
                           "mapUrl": "../map/#paper=2204_02311",
                           "timelineUrl": "../timeline/#paper=2204_02311",
                           "searchUrl": "../search/?paper=2204_02311"
+                        }
+                      },
+                      {
+                        "id": "tree-prediction-perception-machine-learning-language-sequence-models-large-language-models-llm-palm-2-papers-2305-10403-md",
+                        "label": "PaLM 2",
+                        "kind": "paper",
+                        "source": "papers/2305_10403.md",
+                        "url": "../papers/2305_10403/",
+                        "path": [
+                          "Tree",
+                          "Prediction & Perception",
+                          "Machine Learning",
+                          "Language & Sequence Models",
+                          "Large language models (LLM)",
+                          "PaLM 2"
+                        ],
+                        "children": [],
+                        "leafCount": 1,
+                        "branchCount": 0,
+                        "paper": {
+                          "id": "2305_10403",
+                          "label": "PaLM 2",
+                          "title": "PaLM 2 Technical Report",
+                          "algorithm": "PaLM 2",
+                          "authors": [
+                            "Rohan Anil",
+                            "Andrew M. Dai",
+                            "Orhan Firat",
+                            "Melvin Johnson",
+                            "Dmitry Lepikhin",
+                            "Alexandre Passos",
+                            "Siamak Shakeri",
+                            "Emanuel Taropa",
+                            "Paige Bailey",
+                            "Zhifeng Chen",
+                            "Eric Chu",
+                            "Jonathan H. Clark",
+                            "Laurent El Shafey",
+                            "Yanping Huang",
+                            "Kathy Meier-Hellstern",
+                            "Gaurav Mishra",
+                            "Erica Moreira",
+                            "Mark Omernick",
+                            "Kevin Robinson",
+                            "Sebastian Ruder",
+                            "Yi Tay",
+                            "Kefan Xiao",
+                            "Yuanzhong Xu",
+                            "Yujing Zhang",
+                            "Gustavo Hernandez Abrego",
+                            "Junwhan Ahn",
+                            "Jacob Austin",
+                            "Paul Barham",
+                            "Jan Botha",
+                            "James Bradbury",
+                            "Siddhartha Brahma",
+                            "Kevin Brooks",
+                            "Michele Catasta",
+                            "Yong Cheng",
+                            "Colin Cherry",
+                            "Christopher A. Choquette-Choo",
+                            "Aakanksha Chowdhery",
+                            "Clement Crepy",
+                            "Shachi Dave",
+                            "Mostafa Dehghani",
+                            "Sunipa Dev",
+                            "Jacob Devlin",
+                            "Mark Diaz",
+                            "Nan Du",
+                            "Ethan Dyer",
+                            "Vlad Feinberg",
+                            "Fangxiaoyu Feng",
+                            "Vlad Fienber",
+                            "Markus Freitag",
+                            "Xavier Garcia",
+                            "Sebastian Gehrmann",
+                            "Lucas Gonzalez",
+                            "Guy Gur-Ari",
+                            "Steven Hand",
+                            "Hadi Hashemi",
+                            "Le Hou",
+                            "Joshua Howland",
+                            "Andrea Hu",
+                            "Jeffrey Hui",
+                            "Jeremy Hurwitz",
+                            "Michael Isard",
+                            "Abe Ittycheriah",
+                            "Matthew Jagielski",
+                            "Wenhao Jia",
+                            "Kathleen Kenealy",
+                            "Maxim Krikun",
+                            "Sneha Kudugunta",
+                            "Chang Lan",
+                            "Katherine Lee",
+                            "Benjamin Lee",
+                            "Eric Li",
+                            "Music Li",
+                            "Wei Li",
+                            "YaGuang Li",
+                            "Jian Li",
+                            "Hyeontaek Lim",
+                            "Hanzhao Lin",
+                            "Zhongtao Liu",
+                            "Frederick Liu",
+                            "Marcello Maggioni",
+                            "Aroma Mahendru",
+                            "Joshua Maynez",
+                            "Vedant Misra",
+                            "Maysam Moussalem",
+                            "Zachary Nado",
+                            "John Nham",
+                            "Eric Ni",
+                            "Andrew Nystrom",
+                            "Alicia Parrish",
+                            "Marie Pellat",
+                            "Martin Polacek",
+                            "Alex Polozov",
+                            "Reiner Pope",
+                            "Siyuan Qiao",
+                            "Emily Reif",
+                            "Bryan Richter",
+                            "Parker Riley",
+                            "Alex Castro Ros",
+                            "Aurko Roy",
+                            "Brennan Saeta",
+                            "Rajkumar Samuel",
+                            "Renee Shelby",
+                            "Ambrose Slone",
+                            "Daniel Smilkov",
+                            "David R. So",
+                            "Daniel Sohn",
+                            "Simon Tokumine",
+                            "Dasha Valter",
+                            "Vijay Vasudevan",
+                            "Kiran Vodrahalli",
+                            "Xuezhi Wang",
+                            "Pidong Wang",
+                            "Zirui Wang",
+                            "Tao Wang",
+                            "John Wieting",
+                            "Yuhuai Wu",
+                            "Kelvin Xu",
+                            "Yunhan Xu",
+                            "Linting Xue",
+                            "Pengcheng Yin",
+                            "Jiahui Yu",
+                            "Qiao Zhang",
+                            "Steven Zheng",
+                            "Ce Zheng",
+                            "Weikang Zhou",
+                            "Denny Zhou",
+                            "Slav Petrov",
+                            "Yonghui Wu"
+                          ],
+                          "year": 2023,
+                          "yearValue": 2023,
+                          "sourceName": "Google",
+                          "type": "Technical Report",
+                          "doi": "",
+                          "arxivId": "2305.10403",
+                          "primaryLink": "https://arxiv.org/pdf/2305.10403",
+                          "hasPrimaryLink": true,
+                          "alternateLinkCount": 1,
+                          "auditStatus": "partial",
+                          "tags": [
+                            "Large language models",
+                            "Foundation models",
+                            "Language models",
+                            "Model scaling",
+                            "Code generation",
+                            "Machine translation",
+                            "Artificial intelligence"
+                          ],
+                          "abstract": "We introduce PaLM 2, a new state-of-the-art language model that has better multilingual and reasoning capabilities and is more compute-efficient than its predecessor PaLM. PaLM 2 is a Transformer-based model trained using a mixture of objectives. Through extensive evaluations on English and multilingual language, and reasoning tasks, we demonstrate that PaLM 2 has significantly improved quality on downstream tasks across different model sizes, while simultaneously exhibiting faster and more efficient inference compared to PaLM. This improved efficiency enables broader deployment while also allowing the model to respond faster, for a more natural pace of interaction. PaLM 2 demonstrates robust reasoning capabilities exemplified by large improvements over PaLM on BIG-Bench and other reasoning tasks. PaLM 2 exhibits stable performance on a suite of responsible AI evaluations, and enables inference-time control over toxicity without additional overhead or impact on other capabilities. Overall, PaLM 2 achieves state-of-the-art performance across a diverse set of tasks and capabilities. When discussing the PaLM 2 family, it is important to distinguish between pre-trained models (of various sizes), fine-tuned variants of these models, and the user-facing products that use these models. In particular, user-facing products typically include additional pre- and post-processing steps. Additionally, the underlying models may evolve over time. Therefore, one should not expect the performance of user-facing products to exactly match the results reported in this report.",
+                          "summary": "Reports the design and evaluation of the PaLM 2 family of language models, emphasizing stronger multilingual, reasoning, and coding performance relative to earlier PaLM systems. The report is mainly a model card and benchmark record for a production-scale foundation model family.",
+                          "mapUrl": "../map/#paper=2305_10403",
+                          "timelineUrl": "../timeline/#paper=2305_10403",
+                          "searchUrl": "../search/?paper=2305_10403"
                         }
                       },
                       {
@@ -115523,8 +119179,81 @@ window.treeData = {
                         "branchCount": 0
                       }
                     ],
-                    "leafCount": 31,
+                    "leafCount": 32,
                     "branchCount": 1
+                  },
+                  {
+                    "id": "tree-prediction-perception-machine-learning-language-sequence-models-societal-impacts",
+                    "label": "Societal Impacts",
+                    "kind": "branch",
+                    "source": null,
+                    "url": null,
+                    "path": [
+                      "Tree",
+                      "Prediction & Perception",
+                      "Machine Learning",
+                      "Language & Sequence Models",
+                      "Societal Impacts"
+                    ],
+                    "children": [
+                      {
+                        "id": "tree-prediction-perception-machine-learning-language-sequence-models-societal-impacts-pulse-papers-2606-05750-md",
+                        "label": "PuLSE",
+                        "kind": "paper",
+                        "source": "papers/2606_05750.md",
+                        "url": "../papers/2606_05750/",
+                        "path": [
+                          "Tree",
+                          "Prediction & Perception",
+                          "Machine Learning",
+                          "Language & Sequence Models",
+                          "Societal Impacts",
+                          "PuLSE"
+                        ],
+                        "children": [],
+                        "leafCount": 1,
+                        "branchCount": 0,
+                        "paper": {
+                          "id": "2606_05750",
+                          "label": "PuLSE",
+                          "title": "Three Years of r/ChatGPT: Societal Impact Evaluations from Social Media Data",
+                          "algorithm": "PuLSE",
+                          "authors": [
+                            "Jessica Dai",
+                            "Sean Garcia",
+                            "Emma Pierson",
+                            "Benjamin Recht",
+                            "Nika Haghtalab"
+                          ],
+                          "year": 2026,
+                          "yearValue": 2026,
+                          "sourceName": "International Conference on Machine Learning",
+                          "type": "Conference Paper",
+                          "doi": "",
+                          "arxivId": "2606.05750",
+                          "primaryLink": "https://arxiv.org/pdf/2606.05750",
+                          "hasPrimaryLink": true,
+                          "alternateLinkCount": 0,
+                          "auditStatus": "partial",
+                          "tags": [
+                            "Large language models",
+                            "Social networks",
+                            "Survey data analysis",
+                            "Human-computer interaction",
+                            "Artificial intelligence",
+                            "Societal-scale systems",
+                            "Privacy"
+                          ],
+                          "abstract": "ChatGPT was launched on November 30, 2022; the r/ChatGPT subreddit was created just one day later. Since then, chatbot-based AI products have gone from niche proofs-of-concept to widely-used household names. However, the ways in which adoption has developed among the public remains poorly understood. In this paper, we develop a framework for using social media as a data source for understanding the societal impact of widely-adopted consumer AI products, and propose PuLSE (Public and Longitudinal Signals for Evaluation), a general approach to monitoring for societally-impactful trends in real time. We apply our framework to conduct what is, to the best of our knowledge, the first longitudinal study of r/ChatGPT. We find that, overall, r/ChatGPT posts over time illustrate the normalization of ChatGPT as an everyday consumer product rather than an exceptional, novel technology. However, our retrospective analysis also finds that posts about using ChatGPT for mental health support, and posts about developing emotional attachments to ChatGPT, both rise steadily in frequency almost immediately after the launch of GPT-4o in May 2024. We show that PuLSE can detect the increase in emotional engagement as early as October 2024 - months before OpenAI made any (public) acknowledgment of this impact. An interactive site to explore our results and methods, updated daily with live data, is available at rchatgpt-pulse.github.io.",
+                          "summary": "Uses several years of r/ChatGPT social-media activity to evaluate how people discuss and experience the societal effects of generative AI. The paper is useful as an empirical complement to benchmark-centered AI evaluation, emphasizing public concerns, use cases, and community-level signals.",
+                          "mapUrl": "../map/#paper=2606_05750",
+                          "timelineUrl": "../timeline/#paper=2606_05750",
+                          "searchUrl": "../search/?paper=2606_05750"
+                        }
+                      }
+                    ],
+                    "leafCount": 1,
+                    "branchCount": 0
                   },
                   {
                     "id": "tree-prediction-perception-machine-learning-language-sequence-models-time-series",
@@ -116945,8 +120674,8 @@ window.treeData = {
                     "branchCount": 3
                   }
                 ],
-                "leafCount": 57,
-                "branchCount": 7
+                "leafCount": 59,
+                "branchCount": 8
               },
               {
                 "id": "tree-prediction-perception-machine-learning-multimodal-embodied-models",
@@ -118657,9 +122386,72 @@ window.treeData = {
                           "timelineUrl": "../timeline/#paper=2604_12374",
                           "searchUrl": "../search/?paper=2604_12374"
                         }
+                      },
+                      {
+                        "id": "tree-prediction-perception-machine-learning-multimodal-embodied-models-vision-langugage-models-vlm-locateanything-papers-2605-27365-md",
+                        "label": "LocateAnything",
+                        "kind": "paper",
+                        "source": "papers/2605_27365.md",
+                        "url": "../papers/2605_27365/",
+                        "path": [
+                          "Tree",
+                          "Prediction & Perception",
+                          "Machine Learning",
+                          "Multimodal & Embodied Models",
+                          "Vision-langugage models (VLM)",
+                          "LocateAnything"
+                        ],
+                        "children": [],
+                        "leafCount": 1,
+                        "branchCount": 0,
+                        "paper": {
+                          "id": "2605_27365",
+                          "label": "LocateAnything",
+                          "title": "LocateAnything: Fast and High-Quality Vision-Language Grounding with Parallel Box Decoding",
+                          "algorithm": "LocateAnything",
+                          "authors": [
+                            "Shihao Wang",
+                            "Shilong Liu",
+                            "Yuanguo Kuang",
+                            "Xinyu Wei",
+                            "Yangzhou Liu",
+                            "Zhiqi Li",
+                            "Yunze Man",
+                            "Guo Chen",
+                            "Andrew Tao",
+                            "Guilin Liu",
+                            "Jan Kautz",
+                            "Lei Zhang",
+                            "Zhiding Yu"
+                          ],
+                          "year": 2026,
+                          "yearValue": 2026,
+                          "sourceName": "arXiv",
+                          "type": "Preprint",
+                          "doi": "",
+                          "arxivId": "2605.27365",
+                          "primaryLink": "https://arxiv.org/pdf/2605.27365",
+                          "hasPrimaryLink": true,
+                          "alternateLinkCount": 0,
+                          "auditStatus": "partial",
+                          "tags": [
+                            "Vision-language",
+                            "Vision-language models",
+                            "Object detection",
+                            "Localization",
+                            "Computer vision",
+                            "Parallel algorithms",
+                            "Object recognition"
+                          ],
+                          "abstract": "Vision-language models (VLMs) commonly formulate visual grounding and detection as a coordinate-token generation problem, serializing each 2D box into multiple 1D tokens that are learned and decoded largely independently. This token-by-token decoding mismatches the coupled structure of box geometry and creates a practical inference bottleneck due to strictly sequential generation. We introduce LocateAnything, a unified generative grounding and detection framework based on Parallel Box Decoding (PBD). By decoding geometric elements such as bounding boxes and points as atomic units in a single step, LocateAnything preserves intra-box geometric coherence and unlocks substantial parallelism. We show that PBD improves both decoding throughput and localization accuracy. We further develop a scalable data engine and curate LocateAnything-Data, a large-scale dataset with more than 138 million training samples, substantially increasing data diversity for high-precision localization. Extensive evaluations show that LocateAnything advances the speed-accuracy frontier, achieving significantly higher decoding throughput while improving high-IoU localization quality across diverse benchmarks. The results highlight the complementary benefits of Parallel Box Decoding and large-scale training data in enabling efficient and precise unified visual grounding and detection.",
+                          "summary": "Introduces a vision-language grounding model that predicts object boxes in parallel for faster localization. The main contribution is an architecture and decoding strategy aimed at preserving grounding quality while reducing the sequential cost of box generation.",
+                          "mapUrl": "../map/#paper=2605_27365",
+                          "timelineUrl": "../timeline/#paper=2605_27365",
+                          "searchUrl": "../search/?paper=2605_27365"
+                        }
                       }
                     ],
-                    "leafCount": 14,
+                    "leafCount": 15,
                     "branchCount": 0
                   },
                   {
@@ -118881,6 +122673,59 @@ window.treeData = {
                           "mapUrl": "../map/#paper=2307_15818",
                           "timelineUrl": "../timeline/#paper=2307_15818",
                           "searchUrl": "../search/?paper=2307_15818"
+                        }
+                      },
+                      {
+                        "id": "tree-prediction-perception-machine-learning-multimodal-embodied-models-vision-language-action-models-vla-uva-papers-2503-00200-md",
+                        "label": "UVA",
+                        "kind": "paper",
+                        "source": "papers/2503_00200.md",
+                        "url": "../papers/2503_00200/",
+                        "path": [
+                          "Tree",
+                          "Prediction & Perception",
+                          "Machine Learning",
+                          "Multimodal & Embodied Models",
+                          "Vision-language-action Models (VLA)",
+                          "UVA"
+                        ],
+                        "children": [],
+                        "leafCount": 1,
+                        "branchCount": 0,
+                        "paper": {
+                          "id": "2503_00200",
+                          "label": "UVA",
+                          "title": "Unified Video Action Model",
+                          "algorithm": "UVA",
+                          "authors": [
+                            "Shuang Li",
+                            "Yihuai Gao",
+                            "Dorsa Sadigh",
+                            "Shuran Song"
+                          ],
+                          "year": 2025,
+                          "yearValue": 2025,
+                          "sourceName": "arXiv",
+                          "type": "Preprint",
+                          "doi": "",
+                          "arxivId": "2503.00200",
+                          "primaryLink": "https://arxiv.org/pdf/2503.00200",
+                          "hasPrimaryLink": true,
+                          "alternateLinkCount": 1,
+                          "auditStatus": "partial",
+                          "tags": [
+                            "Vision-language-action models",
+                            "Video prediction",
+                            "Robot learning",
+                            "Action prediction",
+                            "Unified models",
+                            "Robotics"
+                          ],
+                          "abstract": "A unified video and action model holds significant promise for robotics, where videos provide rich scene information for action prediction, and actions provide dynamics information for video prediction. However, effectively combining video generation and action prediction remains challenging, and current video generation-based methods struggle to match the performance of direct policy learning in action accuracy and inference speed. To bridge this gap, we introduce the Unified Video Action model (UVA), which jointly optimizes video and action predictions to achieve both high accuracy and efficient action inference. The key lies in learning a joint video-action latent representation and decoupling video-action decoding. The joint latent representation bridges the visual and action domains, effectively modeling the relationship between video and action sequences. Meanwhile, the decoupled decoding, powered by two lightweight diffusion heads, enables high-speed action inference by bypassing video generation during inference. Such a unified framework further enables versatile functionality through masked input training. By selectively masking actions or videos, a single model can tackle diverse tasks beyond policy learning, such as forward and inverse dynamics modeling and video generation. Via an extensive set of experiments, we demonstrate that UVA can serve as a general-purpose solution for a wide range of robotics tasks, such as policy learning, forward/inverse dynamics and video observation prediction, without compromising performance compared to methods tailored for specific applications. Results are best viewed on https://unified-video-action-model.github.io/.",
+                          "summary": "Proposes a unified video-action model that jointly predicts future video and robot actions, using each signal to improve the other. The paper is relevant for robotics world-model and policy-learning work because it tries to combine generative scene understanding with efficient action prediction in one architecture.",
+                          "mapUrl": "../map/#paper=2503_00200",
+                          "timelineUrl": "../timeline/#paper=2503_00200",
+                          "searchUrl": "../search/?paper=2503_00200"
                         }
                       },
                       {
@@ -119655,6 +123500,163 @@ window.treeData = {
                         }
                       },
                       {
+                        "id": "tree-prediction-perception-machine-learning-multimodal-embodied-models-vision-language-action-models-vla-agibot-world-colosseo-papers-2503-06669-md",
+                        "label": "AgiBot World Colosseo",
+                        "kind": "paper",
+                        "source": "papers/2503_06669.md",
+                        "url": "../papers/2503_06669/",
+                        "path": [
+                          "Tree",
+                          "Prediction & Perception",
+                          "Machine Learning",
+                          "Multimodal & Embodied Models",
+                          "Vision-language-action Models (VLA)",
+                          "AgiBot World Colosseo"
+                        ],
+                        "children": [],
+                        "leafCount": 1,
+                        "branchCount": 0,
+                        "paper": {
+                          "id": "2503_06669",
+                          "label": "AgiBot World Colosseo",
+                          "title": "AgiBot World Colosseo: A Large-Scale Manipulation Platform for Scalable and Intelligent Embodied Systems",
+                          "algorithm": "AgiBot World Colosseo",
+                          "authors": [
+                            "Qingwen Bu",
+                            "Jisong Cai",
+                            "Li Chen",
+                            "Xiuqi Cui",
+                            "Yan Ding",
+                            "Siyuan Feng",
+                            "Shenyuan Gao",
+                            "Xindong He",
+                            "Xuan Hu",
+                            "Xu Huang",
+                            "Shu Jiang",
+                            "Yuxin Jiang",
+                            "Cheng Jing",
+                            "Hongyang Li",
+                            "Jialu Li",
+                            "Chiming Liu",
+                            "Yi Liu",
+                            "Yuxiang Lu",
+                            "Jianlan Luo",
+                            "Ping Luo",
+                            "Yao Mu",
+                            "Yuehan Niu",
+                            "Yixuan Pan",
+                            "Jiangmiao Pang",
+                            "Yu Qiao",
+                            "Guanghui Ren",
+                            "Cheng Ruan",
+                            "Jiaqi Shan",
+                            "Yongjian Shen",
+                            "Chengshi Shi",
+                            "Mingkang Shi",
+                            "Modi Shi",
+                            "Chonghao Sima",
+                            "Jianheng Song",
+                            "Huijie Wang",
+                            "Wenhao Wang",
+                            "Dafeng Wei",
+                            "Chengen Xie",
+                            "Guo Xu",
+                            "Junchi Yan",
+                            "Cunbiao Yang",
+                            "Lei Yang",
+                            "Shukai Yang",
+                            "Maoqing Yao",
+                            "Jia Zeng",
+                            "Chi Zhang",
+                            "Qinglin Zhang",
+                            "Bin Zhao",
+                            "Chengyue Zhao",
+                            "Jiaqi Zhao",
+                            "Jianchao Zhu"
+                          ],
+                          "year": 2025,
+                          "yearValue": 2025,
+                          "sourceName": "arXiv",
+                          "type": "Preprint",
+                          "doi": "",
+                          "arxivId": "2503.06669",
+                          "primaryLink": "https://arxiv.org/pdf/2503.06669",
+                          "hasPrimaryLink": true,
+                          "alternateLinkCount": 2,
+                          "auditStatus": "partial",
+                          "tags": [
+                            "Robot manipulation",
+                            "Datasets",
+                            "Vision-language-action models",
+                            "Generalist robot policies",
+                            "Dexterous manipulation",
+                            "Scalable robot data"
+                          ],
+                          "abstract": "We explore how scalable robot data can address real-world challenges for generalized robotic manipulation. Introducing AgiBot World, a large-scale platform comprising over 1 million trajectories across 217 tasks in five deployment scenarios, we achieve an order-of-magnitude increase in data scale compared to existing datasets. Accelerated by a standardized collection pipeline with human-in-the-loop verification, AgiBot World guarantees high-quality and diverse data distribution. It is extensible from grippers to dexterous hands and visuo-tactile sensors for fine-grained skill acquisition. Building on top of data, we introduce Genie Operator-1 (GO-1), a novel generalist policy that leverages latent action representations to maximize data utilization, demonstrating predictable performance scaling with increased data volume. Policies pre-trained on our dataset achieve an average performance improvement of 30% over those trained on Open X-Embodiment, both in in-domain and out-of-distribution scenarios. GO-1 exhibits exceptional capability in real-world dexterous and long-horizon tasks, achieving over 60% success rate on complex tasks and outperforming prior RDT approach by 32%. By open-sourcing the dataset, tools, and models, we aim to democratize access to large-scale, high-quality robot data, advancing the pursuit of scalable and general-purpose intelligence.",
+                          "summary": "Introduces AgiBot World Colosseo, a large-scale manipulation dataset and platform, together with the GO-1 generalist policy trained on its trajectories. The paper is primarily a data-scaling and infrastructure contribution for embodied manipulation, with policy results showing how latent action representations can exploit the dataset.",
+                          "mapUrl": "../map/#paper=2503_06669",
+                          "timelineUrl": "../timeline/#paper=2503_06669",
+                          "searchUrl": "../search/?paper=2503_06669"
+                        }
+                      },
+                      {
+                        "id": "tree-prediction-perception-machine-learning-multimodal-embodied-models-vision-language-action-models-vla-univla-papers-2505-06111-md",
+                        "label": "UniVLA",
+                        "kind": "paper",
+                        "source": "papers/2505_06111.md",
+                        "url": "../papers/2505_06111/",
+                        "path": [
+                          "Tree",
+                          "Prediction & Perception",
+                          "Machine Learning",
+                          "Multimodal & Embodied Models",
+                          "Vision-language-action Models (VLA)",
+                          "UniVLA"
+                        ],
+                        "children": [],
+                        "leafCount": 1,
+                        "branchCount": 0,
+                        "paper": {
+                          "id": "2505_06111",
+                          "label": "UniVLA",
+                          "title": "UniVLA: Learning to Act Anywhere with Task-Centric Latent Actions",
+                          "algorithm": "UniVLA",
+                          "authors": [
+                            "Qingwen Bu",
+                            "Yanting Yang",
+                            "Jisong Cai",
+                            "Shenyuan Gao",
+                            "Guanghui Ren",
+                            "Maoqing Yao",
+                            "Ping Luo",
+                            "Hongyang Li"
+                          ],
+                          "year": 2025,
+                          "yearValue": 2025,
+                          "sourceName": "Robotics: Science and Systems (RSS)",
+                          "type": "Conference Paper",
+                          "doi": "",
+                          "arxivId": "2505.06111",
+                          "primaryLink": "https://arxiv.org/pdf/2505.06111",
+                          "hasPrimaryLink": true,
+                          "alternateLinkCount": 1,
+                          "auditStatus": "partial",
+                          "tags": [
+                            "Vision-language-action models",
+                            "Latent actions",
+                            "Robot learning",
+                            "Cross-embodiment learning",
+                            "Video learning",
+                            "Generalist robots"
+                          ],
+                          "abstract": "A generalist robot should perform effectively across various environments. However, most existing approaches heavily rely on scaling action-annotated data to enhance their capabilities. Consequently, they are often limited to single physical specification and struggle to learn transferable knowledge across different embodiments and environments. To confront these limitations, we propose UniVLA, a new framework for learning cross-embodiment vision-language-action (VLA) policies. Our key innovation is to derive task-centric action representations from videos with a latent action model. This enables us to exploit extensive data across a wide spectrum of embodiments and perspectives. To mitigate the effect of task-irrelevant dynamics, we incorporate language instructions and establish a latent action model within the DINO feature space. Learned from internet-scale videos, the generalist policy can be deployed to various robots through efficient latent action decoding. We obtain state-of-the-art results across multiple manipulation and navigation benchmarks, as well as real-robot deployments. UniVLA achieves superior performance over OpenVLA with less than 1/20 of pretraining compute and 1/10 of downstream data. Continuous performance improvements are observed as heterogeneous data, even including human videos, are incorporated into the training pipeline. The results underscore UniVLA's potential to facilitate scalable and efficient robot policy learning.",
+                          "summary": "Introduces UniVLA, a cross-embodiment vision-language-action policy that derives task-centric latent actions from videos before grounding them in robot-specific controls. The paper is useful for separating transferable task intent from embodiment-specific action spaces in generalist robot learning.",
+                          "mapUrl": "../map/#paper=2505_06111",
+                          "timelineUrl": "../timeline/#paper=2505_06111",
+                          "searchUrl": "../search/?paper=2505_06111"
+                        }
+                      },
+                      {
                         "id": "tree-prediction-perception-machine-learning-multimodal-embodied-models-vision-language-action-models-vla-a-taxonomy-for-evaluating-generalist-robot-manipulation-policies-papers-2503-01238-md",
                         "label": "A Taxonomy for Evaluating Generalist Robot Manipulation Policies",
                         "kind": "paper",
@@ -119700,6 +123702,70 @@ window.treeData = {
                           "mapUrl": "../map/#paper=2503_01238",
                           "timelineUrl": "../timeline/#paper=2503_01238",
                           "searchUrl": "../search/?paper=2503_01238"
+                        }
+                      },
+                      {
+                        "id": "tree-prediction-perception-machine-learning-multimodal-embodied-models-vision-language-action-models-vla-do-world-action-models-generalize-better-than-vlas-a-robustness-study-papers-2603-22078-md",
+                        "label": "Do World Action Models Generalize Better than VLAs? A Robustness Study",
+                        "kind": "paper",
+                        "source": "papers/2603_22078.md",
+                        "url": "../papers/2603_22078/",
+                        "path": [
+                          "Tree",
+                          "Prediction & Perception",
+                          "Machine Learning",
+                          "Multimodal & Embodied Models",
+                          "Vision-language-action Models (VLA)",
+                          "Do World Action Models Generalize Better than VLAs? A Robustness Study"
+                        ],
+                        "children": [],
+                        "leafCount": 1,
+                        "branchCount": 0,
+                        "paper": {
+                          "id": "2603_22078",
+                          "label": "Zhang et al. 2026",
+                          "title": "Do World Action Models Generalize Better than VLAs? A Robustness Study",
+                          "algorithm": "",
+                          "authors": [
+                            "Zhanguang Zhang",
+                            "Zhiyuan Li",
+                            "Behnam Rahmati",
+                            "Rui Heng Yang",
+                            "Yintao Ma",
+                            "Amir Rasouli",
+                            "Sajjad Pakdamansavoji",
+                            "Yangzheng Wu",
+                            "Lingfeng Zhang",
+                            "Tongtong Cao",
+                            "Feng Wen",
+                            "Xinyu Wang",
+                            "Xingyue Quan",
+                            "Yingxue Zhang"
+                          ],
+                          "year": 2026,
+                          "yearValue": 2026,
+                          "sourceName": "arXiv",
+                          "type": "Preprint",
+                          "doi": "",
+                          "arxivId": "2603.22078",
+                          "primaryLink": "https://arxiv.org/pdf/2603.22078",
+                          "hasPrimaryLink": true,
+                          "alternateLinkCount": 0,
+                          "auditStatus": "partial",
+                          "tags": [
+                            "World action model",
+                            "Vision-language-action models",
+                            "Robustness",
+                            "Generalization",
+                            "Robotics",
+                            "Robot learning",
+                            "Learning robot systems"
+                          ],
+                          "abstract": "Robot action planning in the real world is challenging as it requires not only understanding the current state of the environment but also predicting how it will evolve in response to actions. Vision-language-action (VLA), which repurpose large-scale vision-language models for robot action generation using action experts, have achieved notable success across a variety of robotic tasks. Nevertheless, their performance remains constrained by the scope of their training data, exhibiting limited generalization to unseen scenarios and vulnerability to diverse contextual perturbations. More recently, world models have been revisited as an alternative to VLAs. These models, referred to as world action models (WAMs), are built upon world models that are trained on large corpora of video data to predict future states. With minor adaptations, their latent representation can be decoded into robot actions. It has been suggested that their explicit dynamic prediction capacity, combined with spatiotemporal priors acquired from web-scale video pretraining, enables WAMs to generalize more effectively than VLAs. In this paper, we conduct a comparative study of prominent state-of-the-art VLA policies and recently released WAMs. We evaluate their performance on the LIBERO-Plus and RoboTwin 2.0-Plus benchmarks under various visual and language perturbations. Our results show that WAMs achieve strong robustness, with LingBot-VA reaching 74.2% success rate on RoboTwin 2.0-Plus and Cosmos-Policy achieving 82.2% on LIBERO-Plus. While VLAs such as _0.5 can achieve comparable robustness on certain tasks, they typically require extensive training with diverse robotic datasets and varied learning objectives. Hybrid approaches that partially incorporate video-based dynamic learning exhibit intermediate robustness, highlighting the importance of how video priors are integrated.",
+                          "summary": "Compares world action models with vision-language-action models through robustness and generalization tests. The paper is valuable less as a new architecture than as an evaluation of which model class transfers better under distribution shifts relevant to robot control.",
+                          "mapUrl": "../map/#paper=2603_22078",
+                          "timelineUrl": "../timeline/#paper=2603_22078",
+                          "searchUrl": "../search/?paper=2603_22078"
                         }
                       },
                       {
@@ -120014,6 +124080,66 @@ window.treeData = {
                           "mapUrl": "../map/#paper=2511_00088",
                           "timelineUrl": "../timeline/#paper=2511_00088",
                           "searchUrl": "../search/?paper=2511_00088"
+                        }
+                      },
+                      {
+                        "id": "tree-prediction-perception-machine-learning-multimodal-embodied-models-vision-language-action-models-vla-lcdrive-papers-2512-10226-md",
+                        "label": "LCDrive",
+                        "kind": "paper",
+                        "source": "papers/2512_10226.md",
+                        "url": "../papers/2512_10226/",
+                        "path": [
+                          "Tree",
+                          "Prediction & Perception",
+                          "Machine Learning",
+                          "Multimodal & Embodied Models",
+                          "Vision-language-action Models (VLA)",
+                          "LCDrive"
+                        ],
+                        "children": [],
+                        "leafCount": 1,
+                        "branchCount": 0,
+                        "paper": {
+                          "id": "2512_10226",
+                          "label": "LCDrive",
+                          "title": "Latent Chain-of-Thought World Modeling for End-to-End Driving",
+                          "algorithm": "LCDrive",
+                          "authors": [
+                            "Shuhan Tan",
+                            "Kashyap Chitta",
+                            "Yuxiao Chen",
+                            "Ran Tian",
+                            "Yurong You",
+                            "Yan Wang",
+                            "Wenjie Luo",
+                            "Yulong Cao",
+                            "Philipp Krahenbuhl",
+                            "Marco Pavone",
+                            "Boris Ivanovic"
+                          ],
+                          "year": 2025,
+                          "yearValue": 2025,
+                          "sourceName": "IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+                          "type": "Conference Paper",
+                          "doi": "",
+                          "arxivId": "2512.10226",
+                          "primaryLink": "https://arxiv.org/pdf/2512.10226",
+                          "hasPrimaryLink": true,
+                          "alternateLinkCount": 0,
+                          "auditStatus": "partial",
+                          "tags": [
+                            "Autonomous driving",
+                            "Vision-language-action models",
+                            "Latent reasoning",
+                            "World models",
+                            "Chain-of-thought",
+                            "Planning"
+                          ],
+                          "abstract": "Recent Vision-Language-Action (VLA) models for autonomous driving explore inference-time reasoning as a way to improve driving performance and safety in challenging scenarios. Most prior work uses natural language to express chain-of-thought (CoT) reasoning before producing driving actions. However, text may not be the most efficient representation for reasoning. In this work, we present Latent-CoT-Drive (LCDrive): a model that expresses CoT in a latent language that captures possible outcomes of the driving actions being considered. Our approach unifies CoT reasoning and decision making by representing both in an action-aligned latent space. Instead of natural language, the model reasons by interleaving (1) action-proposal tokens, which use the same vocabulary as the model's output actions; and (2) world model tokens, which are grounded in a learned latent world model and express future outcomes of these actions. We cold start latent CoT by supervising the model's action proposals and world model tokens based on ground-truth future rollouts of the scene. We then post-train with closed-loop reinforcement learning to strengthen reasoning capabilities. On a large-scale end-to-end driving benchmark, LCDrive achieves faster inference, better trajectory quality, and larger improvements from interactive reinforcement learning compared to both non-reasoning and text-reasoning baselines.",
+                          "summary": "Introduces LCDrive, which moves chain-of-thought-style driving reasoning into a latent world-model representation rather than natural language. The paper is relevant to VLA driving systems because it treats reasoning and action selection as a shared latent planning process over possible outcomes.",
+                          "mapUrl": "../map/#paper=2512_10226",
+                          "timelineUrl": "../timeline/#paper=2512_10226",
+                          "searchUrl": "../search/?paper=2512_10226"
                         }
                       },
                       {
@@ -120924,7 +125050,7 @@ window.treeData = {
                         }
                       }
                     ],
-                    "leafCount": 29,
+                    "leafCount": 34,
                     "branchCount": 0
                   },
                   {
@@ -121450,7 +125576,7 @@ window.treeData = {
                     "branchCount": 1
                   }
                 ],
-                "leafCount": 51,
+                "leafCount": 57,
                 "branchCount": 4
               },
               {
@@ -122757,12 +126883,12 @@ window.treeData = {
                 "branchCount": 0
               }
             ],
-            "leafCount": 274,
-            "branchCount": 55
+            "leafCount": 286,
+            "branchCount": 56
           }
         ],
-        "leafCount": 464,
-        "branchCount": 104
+        "leafCount": 478,
+        "branchCount": 105
       },
       {
         "id": "tree-evaluation",
@@ -123289,9 +127415,72 @@ window.treeData = {
                           "timelineUrl": "../timeline/#paper=2506_04218",
                           "searchUrl": "../search/?paper=2506_04218"
                         }
+                      },
+                      {
+                        "id": "tree-evaluation-simulation-driving-traffic-simulation-learned-simulation-simscale-papers-2511-23369-md",
+                        "label": "SimScale",
+                        "kind": "paper",
+                        "source": "papers/2511_23369.md",
+                        "url": "../papers/2511_23369/",
+                        "path": [
+                          "Tree",
+                          "Evaluation",
+                          "Simulation",
+                          "Driving & Traffic Simulation",
+                          "Learned Simulation",
+                          "SimScale"
+                        ],
+                        "children": [],
+                        "leafCount": 1,
+                        "branchCount": 0,
+                        "paper": {
+                          "id": "2511_23369",
+                          "label": "SimScale",
+                          "title": "SimScale: Learning to Drive via Real-World Simulation at Scale",
+                          "algorithm": "SimScale",
+                          "authors": [
+                            "Haochen Tian",
+                            "Tianyu Li",
+                            "Haochen Liu",
+                            "Jiazhi Yang",
+                            "Yihang Qiu",
+                            "Guang Li",
+                            "Junli Wang",
+                            "Yinfeng Gao",
+                            "Zhang Zhang",
+                            "Liang Wang",
+                            "Hangjun Ye",
+                            "Tieniu Tan",
+                            "Long Chen",
+                            "Hongyang Li"
+                          ],
+                          "year": 2025,
+                          "yearValue": 2025,
+                          "sourceName": "IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+                          "type": "Conference Paper",
+                          "doi": "",
+                          "arxivId": "2511.23369",
+                          "primaryLink": "https://arxiv.org/pdf/2511.23369",
+                          "hasPrimaryLink": true,
+                          "alternateLinkCount": 1,
+                          "auditStatus": "partial",
+                          "tags": [
+                            "Autonomous driving",
+                            "Simulation",
+                            "Data generation",
+                            "Neural rendering",
+                            "Closed-loop evaluation",
+                            "Long-tail scenarios"
+                          ],
+                          "abstract": "Achieving fully autonomous driving systems requires learning rational decisions in a wide span of scenarios, including safety-critical and out-of-distribution ones. However, such cases are underrepresented in real-world corpus collected by human experts. To complement for the lack of data diversity, we introduce a novel and scalable simulation framework capable of synthesizing massive unseen states upon existing driving logs. Our pipeline utilizes advanced neural rendering with a reactive environment to generate high-fidelity multi-view observations controlled by the perturbed ego trajectory. Furthermore, we develop a pseudo-expert trajectory generation mechanism for these newly simulated states to provide action supervision. Upon the synthesized data, we find that a simple co-training strategy on both real-world and simulated samples can lead to significant improvements in both robustness and generalization for various planning methods on challenging real-world benchmarks, up to +8.6 EPDMS on navhard and +2.9 on navtest. More importantly, such policy improvement scales smoothly by increasing simulation data only, even without extra real-world data streaming in. We further reveal several crucial findings of such a sim-real learning system, which we term SimScale, including the design of pseudo-experts and the scaling properties for different policy architectures. Simulation data and code have been released at https://github.com/OpenDriveLab/SimScale.",
+                          "summary": "Introduces a scalable simulation pipeline that perturbs real driving logs and uses neural rendering with reactive agents to create diverse training scenarios. The paper is positioned as a data-diversification tool for end-to-end driving policies, especially for rare and safety-critical cases underrepresented in logs.",
+                          "mapUrl": "../map/#paper=2511_23369",
+                          "timelineUrl": "../timeline/#paper=2511_23369",
+                          "searchUrl": "../search/?paper=2511_23369"
+                        }
                       }
                     ],
-                    "leafCount": 7,
+                    "leafCount": 8,
                     "branchCount": 0
                   },
                   {
@@ -123971,7 +128160,7 @@ window.treeData = {
                     "branchCount": 0
                   }
                 ],
-                "leafCount": 21,
+                "leafCount": 22,
                 "branchCount": 2
               },
               {
@@ -124386,6 +128575,62 @@ window.treeData = {
                 }
               },
               {
+                "id": "tree-evaluation-simulation-dojo-papers-2203-00806-md",
+                "label": "Dojo",
+                "kind": "paper",
+                "source": "papers/2203_00806.md",
+                "url": "../papers/2203_00806/",
+                "path": [
+                  "Tree",
+                  "Evaluation",
+                  "Simulation",
+                  "Dojo"
+                ],
+                "children": [],
+                "leafCount": 1,
+                "branchCount": 0,
+                "paper": {
+                  "id": "2203_00806",
+                  "label": "Dojo",
+                  "title": "Dojo: A Differentiable Physics Engine for Robotics",
+                  "algorithm": "Dojo",
+                  "authors": [
+                    "Taylor A. Howell",
+                    "Simon Le Cleac'h",
+                    "Jan Brudigam",
+                    "Qianzhong Chen",
+                    "Jiankai Sun",
+                    "J. Zico Kolter",
+                    "Mac Schwager",
+                    "Zachary Manchester"
+                  ],
+                  "year": 2022,
+                  "yearValue": 2022,
+                  "sourceName": "arXiv",
+                  "type": "Preprint",
+                  "doi": "",
+                  "arxivId": "2203.00806",
+                  "primaryLink": "https://arxiv.org/pdf/2203.00806",
+                  "hasPrimaryLink": true,
+                  "alternateLinkCount": 2,
+                  "auditStatus": "partial",
+                  "tags": [
+                    "Physics engines",
+                    "Robot simulation",
+                    "Differentiable optimization",
+                    "Robotics",
+                    "Trajectory optimization",
+                    "System identification",
+                    "Implicit differentiation"
+                  ],
+                  "abstract": "We present Dojo, a differentiable physics engine for robotics that prioritizes stable simulation, accurate contact physics, and differentiability with respect to states, actions, and system parameters. Dojo models hard contact and friction with a nonlinear complementarity problem with second-order cone constraints. We introduce a custom primal-dual interior-point method to solve the second order cone program for stable forward simulation over a broad range of sample rates. We obtain smooth gradient approximations with this solver through the implicit function theorem, giving gradients that are useful for downstream trajectory optimization, policy optimization, and system identification applications. Specifically, we propose to use the central path parameter threshold in the interior point solver as a user-tunable design parameter. A high value gives a smooth approximation to contact dynamics with smooth gradients for optimization and learning, while a low value gives precise simulation rollouts with hard contact. We demonstrate Dojo's differentiability in trajectory optimization, policy learning, and system identification examples. We also benchmark Dojo against MuJoCo, PyBullet, Drake, and Brax on a variety of robot models, and study the stability and simulation quality over a range of sample frequencies and accuracy tolerances. Finally, we evaluate the sim-to-real gap in hardware experiments with a Ufactory xArm 6 robot. Dojo is an open source project implemented in Julia with Python bindings, with code available at https://github.com/dojo-sim/Dojo.jl.",
+                  "summary": "Presents a differentiable rigid-body physics engine designed around stable contact simulation and analytic gradients. Dojo combines variational integration, cone-constrained contact modeling, and implicit differentiation so simulation can directly support planning, policy learning, and system identification.",
+                  "mapUrl": "../map/#paper=2203_00806",
+                  "timelineUrl": "../timeline/#paper=2203_00806",
+                  "searchUrl": "../search/?paper=2203_00806"
+                }
+              },
+              {
                 "id": "tree-evaluation-simulation-mujoco-playground-papers-2502-08844-md",
                 "label": "MuJoCo Playground",
                 "kind": "paper",
@@ -124510,7 +128755,7 @@ window.treeData = {
                 }
               }
             ],
-            "leafCount": 30,
+            "leafCount": 32,
             "branchCount": 5
           },
           {
@@ -125593,6 +129838,57 @@ window.treeData = {
                     }
                   },
                   {
+                    "id": "tree-evaluation-computer-graphics-3d-gaussian-splatting-3dgs-edgs-papers-2504-13204-md",
+                    "label": "EDGS",
+                    "kind": "paper",
+                    "source": "papers/2504_13204.md",
+                    "url": "../papers/2504_13204/",
+                    "path": [
+                      "Tree",
+                      "Evaluation",
+                      "Computer Graphics",
+                      "3D Gaussian Splatting (3DGS)",
+                      "EDGS"
+                    ],
+                    "children": [],
+                    "leafCount": 1,
+                    "branchCount": 0,
+                    "paper": {
+                      "id": "2504_13204",
+                      "label": "EDGS",
+                      "title": "EDGS: Eliminating Densification for Efficient Convergence of 3DGS",
+                      "algorithm": "EDGS",
+                      "authors": [
+                        "Dmytro Kotovenko",
+                        "Olga Grebenkova",
+                        "Bjorn Ommer"
+                      ],
+                      "year": 2025,
+                      "yearValue": 2025,
+                      "sourceName": "arXiv",
+                      "type": "Preprint",
+                      "doi": "",
+                      "arxivId": "2504.13204",
+                      "primaryLink": "https://arxiv.org/pdf/2504.13204",
+                      "hasPrimaryLink": true,
+                      "alternateLinkCount": 0,
+                      "auditStatus": "partial",
+                      "tags": [
+                        "3D Gaussian splatting",
+                        "Scene reconstruction",
+                        "Dense initialization",
+                        "Densification",
+                        "Computer vision",
+                        "Neural rendering"
+                      ],
+                      "abstract": "3D Gaussian Splatting reconstructs scenes by starting from a sparse Structure-from-Motion initialization and refining under-reconstructed regions. This process is slow, as it requires multiple densification steps where Gaussians are repeatedly split and adjusted, following a lengthy optimization path. Moreover, this incremental approach often yields suboptimal renderings in high-frequency regions. We propose a fundamentally different approach: eliminate densification with a one-step approximation of scene geometry using triangulated pixels from dense image correspondences. This dense initialization allows us to estimate the rough geometry of the scene while preserving rich details from input RGB images, providing each Gaussian with well-informed color, scale, and position. As a result, we dramatically shorten the optimization path and remove the need for densification. Unlike methods that rely on sparse keypoints, our dense initialization ensures uniform detail across the scene, even in high-frequency regions where other methods struggle. Moreover, since all splats are initialized in parallel at the start of optimization, we remove the need to wait for densification to adjust new Gaussians. EDGS reaches LPIPS and SSIM performance of standard 3DGS significantly faster than existing efficiency-focused approaches. When trained further, it exceeds the reconstruction quality of state-of-the-art models aimed at maximizing fidelity. Our method is fully compatible with other acceleration techniques, making it a versatile and efficient solution that can be integrated with existing approaches.",
+                      "summary": "Replaces iterative Gaussian-splat densification with a dense one-step initialization derived from image correspondences. The paper targets the slow convergence and high-frequency artifacts of standard 3DGS training by starting optimization from a more complete geometric scaffold.",
+                      "mapUrl": "../map/#paper=2504_13204",
+                      "timelineUrl": "../timeline/#paper=2504_13204",
+                      "searchUrl": "../search/?paper=2504_13204"
+                    }
+                  },
+                  {
                     "id": "tree-evaluation-computer-graphics-3d-gaussian-splatting-3dgs-gen3dsr-papers-2404-03421-md",
                     "label": "Gen3DSR",
                     "kind": "paper",
@@ -125637,11 +129933,11 @@ window.treeData = {
                     }
                   }
                 ],
-                "leafCount": 3,
+                "leafCount": 4,
                 "branchCount": 0
               }
             ],
-            "leafCount": 20,
+            "leafCount": 21,
             "branchCount": 5
           },
           {
@@ -126429,6 +130725,61 @@ window.treeData = {
                         }
                       },
                       {
+                        "id": "tree-evaluation-safety-testing-verification-validation-v-v-driving-autonomous-vehicles-autonomy-testing-controlled-invariant-set-corner-case-generation-papers-1807-09537-md",
+                        "label": "Controlled invariant set corner-case generation",
+                        "kind": "paper",
+                        "source": "papers/1807_09537.md",
+                        "url": "../papers/1807_09537/",
+                        "path": [
+                          "Tree",
+                          "Evaluation",
+                          "Safety, Testing, Verification & Validation (V&V)",
+                          "Driving & Autonomous Vehicles",
+                          "Autonomy Testing",
+                          "Controlled invariant set corner-case generation"
+                        ],
+                        "children": [],
+                        "leafCount": 1,
+                        "branchCount": 0,
+                        "paper": {
+                          "id": "1807_09537",
+                          "label": "Chou et al. 2018",
+                          "title": "Using Control Synthesis to Generate Corner Cases: A Case Study on Autonomous Driving",
+                          "algorithm": "",
+                          "authors": [
+                            "Glen Chou",
+                            "Yunus E. Sahin",
+                            "Liren Yang",
+                            "Kwesi J. Rutledge",
+                            "Petter Nilsson",
+                            "Necmiye Ozay"
+                          ],
+                          "year": 2018,
+                          "yearValue": 2018,
+                          "sourceName": "International Conference on Embedded Software (EMSOFT)",
+                          "type": "Conference Paper",
+                          "doi": "10.1109/TCAD.2018.2858464",
+                          "arxivId": "1807.09537",
+                          "primaryLink": "https://arxiv.org/pdf/1807.09537",
+                          "hasPrimaryLink": true,
+                          "alternateLinkCount": 1,
+                          "auditStatus": "partial",
+                          "tags": [
+                            "Autonomous driving",
+                            "Corner-case generation",
+                            "Control synthesis",
+                            "Controlled invariant sets",
+                            "Falsification",
+                            "Reachability"
+                          ],
+                          "abstract": "This paper employs correct-by-construction control synthesis, in particular controlled invariant set computations, for falsification. Our hypothesis is that if it is possible to compute a \"large enough\" controlled invariant set either for the actual system model or some simplification of the system model, interesting corner cases for other control designs can be generated by sampling initial conditions from the boundary of this controlled invariant set. Moreover, if falsifying trajectories for a given control design can be found through such sampling, then the controlled invariant set can be used as a supervisor to ensure safe operation of the control design under consideration. In addition to interesting initial conditions, which are mostly related to safety violations in transients, we use solutions from a dual game, a reachability game for the safety specification, to find falsifying inputs. We also propose optimization-based heuristics for input generation for cases when the state is outside the winning set of the dual game. To demonstrate the proposed ideas, we consider case studies from basic autonomous driving functionality, in particular, adaptive cruise control and lane keeping. We show how the proposed technique can be used to find interesting falsifying trajectories for classical control designs like proportional controllers, proportional integral controllers and model predictive controllers, as well as an open source real-world autonomous driving package.",
+                          "summary": "Uses controlled invariant set computations and dual reachability games to generate falsifying corner cases for autonomous-driving controllers. The contribution is notable because it turns safety certificates into a structured source of adversarial initial conditions and inputs for controller evaluation.",
+                          "mapUrl": "../map/#paper=1807_09537",
+                          "timelineUrl": "../timeline/#paper=1807_09537",
+                          "searchUrl": "../search/?paper=1807_09537"
+                        }
+                      },
+                      {
                         "id": "tree-evaluation-safety-testing-verification-validation-v-v-driving-autonomous-vehicles-autonomy-testing-challenges-in-autonomous-vehicle-testing-and-validation-papers-2016-koopman-challenges-in-autonomous-vehicle-md",
                         "label": "Challenges in Autonomous Vehicle Testing and Validation",
                         "kind": "paper",
@@ -126631,7 +130982,7 @@ window.treeData = {
                         }
                       }
                     ],
-                    "leafCount": 5,
+                    "leafCount": 6,
                     "branchCount": 0
                   },
                   {
@@ -127076,7 +131427,7 @@ window.treeData = {
                     "branchCount": 0
                   }
                 ],
-                "leafCount": 16,
+                "leafCount": 17,
                 "branchCount": 7
               },
               {
@@ -127716,7 +132067,7 @@ window.treeData = {
                 "branchCount": 0
               }
             ],
-            "leafCount": 28,
+            "leafCount": 29,
             "branchCount": 10
           },
           {
@@ -129602,6 +133953,87 @@ window.treeData = {
                             }
                           },
                           {
+                            "id": "tree-evaluation-engineering-systems-robots-mobile-robots-driving-robots-stanley-papers-2006-thrun-stanley-the-robot-that-md",
+                            "label": "Stanley",
+                            "kind": "paper",
+                            "source": "papers/2006_thrun_stanley_the_robot_that.md",
+                            "url": "../papers/2006_thrun_stanley_the_robot_that/",
+                            "path": [
+                              "Tree",
+                              "Evaluation",
+                              "Engineering Systems",
+                              "Robots",
+                              "Mobile Robots",
+                              "Driving Robots",
+                              "Stanley"
+                            ],
+                            "children": [],
+                            "leafCount": 1,
+                            "branchCount": 0,
+                            "paper": {
+                              "id": "2006_thrun_stanley_the_robot_that",
+                              "label": "Stanley",
+                              "title": "Stanley: The Robot That Won the DARPA Grand Challenge",
+                              "algorithm": "Stanley",
+                              "authors": [
+                                "Sebastian Thrun",
+                                "Mike Montemerlo",
+                                "Hendrik Dahlkamp",
+                                "David Stavens",
+                                "Andrei Aron",
+                                "James Diebel",
+                                "Philip Fong",
+                                "John Gale",
+                                "Morgan Halpenny",
+                                "Gabriel Hoffmann",
+                                "Kenny Lau",
+                                "Celia Oakley",
+                                "Mark Palatucci",
+                                "Vaughan Pratt",
+                                "Pascal Stang",
+                                "Sven Strohband",
+                                "Cedric Dupont",
+                                "Lars-Erik Jendrossek",
+                                "Christian Koelen",
+                                "Charles Markey",
+                                "Carlo Rummel",
+                                "Joe van Niekerk",
+                                "Eric Jensen",
+                                "Philippe Alessandrini",
+                                "Gary Bradski",
+                                "Bob Davies",
+                                "Scott Ettinger",
+                                "Adrian Kaehler",
+                                "Ara Nefian",
+                                "Pamela Mahoney"
+                              ],
+                              "year": 2006,
+                              "yearValue": 2006,
+                              "sourceName": "Journal of Field Robotics",
+                              "type": "Journal Paper",
+                              "doi": "10.1002/rob.20147",
+                              "arxivId": "",
+                              "primaryLink": "https://robots.stanford.edu/papers/thrun.stanley05.pdf",
+                              "hasPrimaryLink": true,
+                              "alternateLinkCount": 3,
+                              "auditStatus": "partial",
+                              "tags": [
+                                "Autonomous driving",
+                                "Autonomous navigation",
+                                "Autonomous vehicles",
+                                "DARPA urban challenge",
+                                "Probabilistic robotics",
+                                "Machine learning",
+                                "Robotics systems"
+                              ],
+                              "abstract": "This article describes the robot Stanley, which won the 2005 DARPA Grand Challenge. Stanley was developed for high-speed desert driving without manual intervention. The robot's software system relied predominately on state-of-the-art artificial intelligence technologies, such as machine learning and probabilistic reasoning. This paper describes the major components of this architecture, and discusses the results of the Grand Challenge race.",
+                              "summary": "Describes the complete autonomy stack behind Stanley, the winning vehicle in the DARPA Grand Challenge, with emphasis on perception, probabilistic terrain assessment, planning, and control integration. The paper is useful as a systems-level snapshot of how early autonomous driving combined machine learning with robust engineering constraints.",
+                              "mapUrl": "../map/#paper=2006_thrun_stanley_the_robot_that",
+                              "timelineUrl": "../timeline/#paper=2006_thrun_stanley_the_robot_that",
+                              "searchUrl": "../search/?paper=2006_thrun_stanley_the_robot_that"
+                            }
+                          },
+                          {
                             "id": "tree-evaluation-engineering-systems-robots-mobile-robots-driving-robots-darpa-urban-challenge",
                             "label": "DARPA Urban Challenge",
                             "kind": "branch",
@@ -129989,15 +134421,15 @@ window.treeData = {
                             }
                           }
                         ],
-                        "leafCount": 6,
+                        "leafCount": 7,
                         "branchCount": 1
                       }
                     ],
-                    "leafCount": 24,
+                    "leafCount": 25,
                     "branchCount": 9
                   }
                 ],
-                "leafCount": 34,
+                "leafCount": 35,
                 "branchCount": 15
               },
               {
@@ -130232,11 +134664,11 @@ window.treeData = {
                 "branchCount": 0
               }
             ],
-            "leafCount": 38,
+            "leafCount": 39,
             "branchCount": 18
           }
         ],
-        "leafCount": 123,
+        "leafCount": 128,
         "branchCount": 44
       },
       {
@@ -138130,11 +142562,11 @@ window.treeData = {
         "branchCount": 48
       }
     ],
-    "leafCount": 2252,
-    "branchCount": 524
+    "leafCount": 2327,
+    "branchCount": 528
   },
   "meta": {
-    "totalLeaves": 2252,
-    "totalBranches": 524
+    "totalLeaves": 2327,
+    "totalBranches": 528
   }
 };

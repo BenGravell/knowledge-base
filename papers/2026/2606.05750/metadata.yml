@@ -1,0 +1,29 @@
+title: >
+  Three Years of r/ChatGPT: Societal Impact Evaluations from Social Media Data
+algorithm: PuLSE
+authors:
+  - Jessica Dai
+  - Sean Garcia
+  - Emma Pierson
+  - Benjamin Recht
+  - Nika Haghtalab
+year: 2026
+source: International Conference on Machine Learning
+type: Conference Paper
+doi:
+arxiv_id: "2606.05750"
+tags:
+  - Large language models
+  - Social networks
+  - Survey data analysis
+  - Human-computer interaction
+  - Artificial intelligence
+  - Societal-scale systems
+  - Privacy
+abstract: >
+  ChatGPT was launched on November 30, 2022; the r/ChatGPT subreddit was created just one day later. Since then, chatbot-based AI products have gone from niche proofs-of-concept to widely-used household names. However, the ways in which adoption has developed among the public remains poorly understood. In this paper, we develop a framework for using social media as a data source for understanding the societal impact of widely-adopted consumer AI products, and propose PuLSE (Public and Longitudinal Signals for Evaluation), a general approach to monitoring for societally-impactful trends in real time. We apply our framework to conduct what is, to the best of our knowledge, the first longitudinal study of r/ChatGPT. We find that, overall, r/ChatGPT posts over time illustrate the normalization of ChatGPT as an everyday consumer product rather than an exceptional, novel technology. However, our retrospective analysis also finds that posts about using ChatGPT for mental health support, and posts about developing emotional attachments to ChatGPT, both rise steadily in frequency almost immediately after the launch of GPT-4o in May 2024. We show that PuLSE can detect the increase in emotional engagement as early as October 2024 - months before OpenAI made any (public) acknowledgment of this impact. An interactive site to explore our results and methods, updated daily with live data, is available at rchatgpt-pulse.github.io.
+summary: >
+  Uses several years of r/ChatGPT social-media activity to evaluate how people discuss and experience the societal effects of generative AI. The paper is useful as an empirical complement to benchmark-centered AI evaluation, emphasizing public concerns, use cases, and community-level signals.
+link: https://arxiv.org/pdf/2606.05750
+links_alt:
+audit_status: partial

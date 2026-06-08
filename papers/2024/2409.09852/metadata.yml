@@ -1,0 +1,29 @@
+title: >
+  A Complete Algorithm for a Moving Target Traveling Salesman Problem with Obstacles
+algorithm: Complete MT-TSP-O algorithm
+authors:
+  - Anoop Bhat
+  - Geordan Gutow
+  - Bhaskar Vundurthy
+  - Zhongqiang Ren
+  - Sivakumar Rathinam
+  - Howie Choset
+year: 2024
+source: Workshop on the Algorithmic Foundations of Robotics (WAFR)
+type: Workshop Paper
+doi:
+arxiv_id: "2409.09852"
+tags:
+  - Traveling salesman problem
+  - Moving targets
+  - Obstacles
+  - Complete algorithms
+  - Motion planning
+  - Combinatorial optimization
+abstract: >
+  The moving target traveling salesman problem with obstacles (MT-TSP-O) is a generalization of the traveling salesman problem (TSP) where, as its name suggests, the targets are moving. A solution to the MT-TSP-O is a trajectory that visits each moving target during a certain time window(s), and this trajectory avoids stationary obstacles. We assume each target moves at a constant velocity during each of its time windows. The agent has a speed limit, and this speed limit is no smaller than any target's speed. This paper presents the first complete algorithm for finding feasible solutions to the MT-TSP-O. Our algorithm builds a tree where the nodes are agent trajectories intercepting a unique sequence of targets within a unique sequence of time windows. We generate each of a parent node's children by extending the parent's trajectory to intercept one additional target, each child corresponding to a different choice of target and time window. This extension consists of planning a trajectory from the parent trajectory's final point in space-time to a moving target. To solve this point-to-moving-target subproblem, we define a novel generalization of a visibility graph called a moving target visibility graph (MTVG). Our overall algorithm is called MTVG-TSP. To validate MTVG-TSP, we test it on 570 instances with up to 30 targets. We implement a baseline method that samples trajectories of targets into points, based on prior work on special cases of the MT-TSP-O. MTVG-TSP finds feasible solutions in all cases where the baseline does, and when the sum of the targets' time window lengths enters a critical range, MTVG-TSP finds a feasible solution with up to 38 times less computation time.
+summary: >
+  Presents a complete algorithm for a moving-target traveling-salesman variant with obstacle avoidance and target time windows. The paper connects geometric motion planning with combinatorial routing by proving finite-time termination and handling the coupling between visit order, timing, and collision-free travel.
+link: https://arxiv.org/pdf/2409.09852
+links_alt:
+audit_status: partial

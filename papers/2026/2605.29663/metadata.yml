@@ -1,0 +1,29 @@
+title: >
+  EXACT-MPPI: Exact Signed-Distance Navigation for Arbitrary-Footprint Robots from Point Clouds via Path Integral Control
+algorithm: EXACT-MPPI
+authors:
+  - Chen Peng
+  - Zhikang Ge
+  - Wenwu Lu
+  - Haiming Gao
+  - Stavros Vougioukas
+  - Peng Wei
+year: 2026
+source: arXiv
+type: Preprint
+doi:
+arxiv_id: "2605.29663"
+tags:
+  - Model predictive path integral control
+  - Point cloud
+  - Signed distance
+  - Robot navigation
+  - Arbitrary footprints
+  - Collision avoidance
+abstract: >
+  Ground robots often carry payloads, implements, or other attachments that turn their effective footprint into complex, non-convex shapes. Navigating safely through clutter then requires reasoning about this true geometry, yet most local planners simplify it with convex or inflated proxies and rasterize sensor data into occupancy grids or distance fields. Both choices eliminate feasible motions when clearance is comparable to the footprint geometry. We present EXACT-MPPI, a training-free local navigation framework that maps local point-cloud observations and sparse guidance directly to motion commands, without any intermediate map representation. The framework embeds an analytic, exact signed-distance evaluator into a Model Predictive Path Integral (MPPI) controller. The footprint is represented as a simple polygon for general convex or concave planar shapes, with a rectangle-cover specialization for faster evaluation of rectilinear footprints, enabling footprint-aware collision costs without convex decomposition, inflation, or learned encoders. During each MPPI rollout, observed obstacle points are transformed into the predicted body frame and evaluated against the footprint. All operations are batched in JAX, leveraging GPU parallelism for real-time receding-horizon control. Experiments show that EXACT-MPPI accelerates batched distance evaluation over a learned point-to-robot baseline, preserves feasible motion where convex-footprint planners fail, and remains robust under dense static and moving obstacles. The same framework deploys on differential-drive, Ackermann, omnidirectional, and hybrid-mode platforms by changing only the footprint description and motion model without per-platform training. Pairing exact footprint geometry with sampling-based predictive control thus offers a practical, training-free path to footprint-aware local navigation across diverse robots.
+summary: >
+  Introduces an MPPI-based local navigation method that uses exact signed-distance reasoning over point clouds for robots with non-convex or payload-dependent footprints. The paper removes common occupancy-grid and convex-footprint approximations, preserving feasible motions in tight cluttered spaces.
+link: https://arxiv.org/pdf/2605.29663
+links_alt:
+audit_status: partial

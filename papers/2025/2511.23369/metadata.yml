@@ -1,0 +1,38 @@
+title: >
+  SimScale: Learning to Drive via Real-World Simulation at Scale
+algorithm: SimScale
+authors:
+  - Haochen Tian
+  - Tianyu Li
+  - Haochen Liu
+  - Jiazhi Yang
+  - Yihang Qiu
+  - Guang Li
+  - Junli Wang
+  - Yinfeng Gao
+  - Zhang Zhang
+  - Liang Wang
+  - Hangjun Ye
+  - Tieniu Tan
+  - Long Chen
+  - Hongyang Li
+year: 2025
+source: IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)
+type: Conference Paper
+doi:
+arxiv_id: "2511.23369"
+tags:
+  - Autonomous driving
+  - Simulation
+  - Data generation
+  - Neural rendering
+  - Closed-loop evaluation
+  - Long-tail scenarios
+abstract: >
+  Achieving fully autonomous driving systems requires learning rational decisions in a wide span of scenarios, including safety-critical and out-of-distribution ones. However, such cases are underrepresented in real-world corpus collected by human experts. To complement for the lack of data diversity, we introduce a novel and scalable simulation framework capable of synthesizing massive unseen states upon existing driving logs. Our pipeline utilizes advanced neural rendering with a reactive environment to generate high-fidelity multi-view observations controlled by the perturbed ego trajectory. Furthermore, we develop a pseudo-expert trajectory generation mechanism for these newly simulated states to provide action supervision. Upon the synthesized data, we find that a simple co-training strategy on both real-world and simulated samples can lead to significant improvements in both robustness and generalization for various planning methods on challenging real-world benchmarks, up to +8.6 EPDMS on navhard and +2.9 on navtest. More importantly, such policy improvement scales smoothly by increasing simulation data only, even without extra real-world data streaming in. We further reveal several crucial findings of such a sim-real learning system, which we term SimScale, including the design of pseudo-experts and the scaling properties for different policy architectures. Simulation data and code have been released at https://github.com/OpenDriveLab/SimScale.
+summary: >
+  Introduces a scalable simulation pipeline that perturbs real driving logs and uses neural rendering with reactive agents to create diverse training scenarios. The paper is positioned as a data-diversification tool for end-to-end driving policies, especially for rare and safety-critical cases underrepresented in logs.
+link: https://arxiv.org/pdf/2511.23369
+links_alt:
+  - https://opendrivelab.com/SimScale
+audit_status: partial

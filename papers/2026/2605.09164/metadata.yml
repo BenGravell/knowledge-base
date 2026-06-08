@@ -1,0 +1,26 @@
+title: >
+  Data-Driven Inverse Reinforcement Learning of Linear Systems with Model Uncertainty: A Convex Optimization View
+algorithm:
+authors:
+  - Duc Cuong Nguyen
+  - Phuong Nam Dao
+year: 2026
+source: arXiv
+type: Preprint
+doi:
+arxiv_id: "2605.09164"
+tags:
+  - Inverse reinforcement learning
+  - Data-driven control
+  - Linear systems
+  - Model uncertainty
+  - Convex optimization
+  - Optimal control
+  - Robustness
+abstract: >
+  Inverse reinforcement learning (IRL) for linear systems seeks a cost function whose optimal controller reproduces an expert policy from data. Existing data-driven methods for discrete-time linear systems are largely built on iterative policy/value updates, repeated matrix inversions, and, in some cases, an initial stabilizing controller, which can limit numerical robustness and practical applicability. This paper develops a convex-optimization framework for data-driven inverse reinforcement learning of discrete-time linear systems with model uncertainty. For nominal systems, we derive a semidefinite characterization of inverse optimality and a relaxed formulation that recovers an equivalent state-cost matrix together with a stabilizing controller from expert trajectories. We then obtain a model-free, off-policy reformulation by replacing the unknown system matrices with a regressed kernel matrix identified from local input-state data. For uncertain local systems, we show that a standard LQR cost is generally insufficient to represent every stabilizing target gain and therefore introduce a generalized LQR cost with a state-input cross term. Based on this model, we develop a convex data-driven inverse-RL method and extend it to robust cost design over a population of perturbations via differentiable semidefinite programming and stochastic approximation. Simulations on a discrete-time power-system example show accurate recovery of expert behavior, improved robustness to gain-estimation error and model mismatch, and a simpler computational pipeline than classical iterative inverse-RL schemes.
+summary: >
+  Frames inverse reinforcement learning for uncertain linear systems as a convex optimization problem over data-consistent models and objectives. The work is useful because it connects reward recovery, model uncertainty, and data-driven control synthesis in a single tractable view.
+link: https://arxiv.org/pdf/2605.09164
+links_alt:
+audit_status: partial

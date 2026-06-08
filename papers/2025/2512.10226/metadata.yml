@@ -1,0 +1,34 @@
+title: >
+  Latent Chain-of-Thought World Modeling for End-to-End Driving
+algorithm: LCDrive
+authors:
+  - Shuhan Tan
+  - Kashyap Chitta
+  - Yuxiao Chen
+  - Ran Tian
+  - Yurong You
+  - Yan Wang
+  - Wenjie Luo
+  - Yulong Cao
+  - Philipp Krahenbuhl
+  - Marco Pavone
+  - Boris Ivanovic
+year: 2025
+source: IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)
+type: Conference Paper
+doi:
+arxiv_id: "2512.10226"
+tags:
+  - Autonomous driving
+  - Vision-language-action models
+  - Latent reasoning
+  - World models
+  - Chain-of-thought
+  - Planning
+abstract: >
+  Recent Vision-Language-Action (VLA) models for autonomous driving explore inference-time reasoning as a way to improve driving performance and safety in challenging scenarios. Most prior work uses natural language to express chain-of-thought (CoT) reasoning before producing driving actions. However, text may not be the most efficient representation for reasoning. In this work, we present Latent-CoT-Drive (LCDrive): a model that expresses CoT in a latent language that captures possible outcomes of the driving actions being considered. Our approach unifies CoT reasoning and decision making by representing both in an action-aligned latent space. Instead of natural language, the model reasons by interleaving (1) action-proposal tokens, which use the same vocabulary as the model's output actions; and (2) world model tokens, which are grounded in a learned latent world model and express future outcomes of these actions. We cold start latent CoT by supervising the model's action proposals and world model tokens based on ground-truth future rollouts of the scene. We then post-train with closed-loop reinforcement learning to strengthen reasoning capabilities. On a large-scale end-to-end driving benchmark, LCDrive achieves faster inference, better trajectory quality, and larger improvements from interactive reinforcement learning compared to both non-reasoning and text-reasoning baselines.
+summary: >
+  Introduces LCDrive, which moves chain-of-thought-style driving reasoning into a latent world-model representation rather than natural language. The paper is relevant to VLA driving systems because it treats reasoning and action selection as a shared latent planning process over possible outcomes.
+link: https://arxiv.org/pdf/2512.10226
+links_alt:
+audit_status: partial

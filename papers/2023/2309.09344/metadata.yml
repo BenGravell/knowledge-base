@@ -1,0 +1,26 @@
+title: >
+  Efficient Belief Road Map for Planning under Uncertainty
+algorithm: PGCS-BRM
+authors:
+  - Zhenyang Chen
+  - Hongzhe Yu
+  - Yongxin Chen
+year: 2023
+source: arXiv
+type: Preprint
+doi:
+arxiv_id: "2309.09344"
+tags:
+  - Belief-space planning
+  - Motion planning under uncertainty
+  - Covariance control
+  - Roadmap
+  - Output feedback
+  - Robotics
+abstract: >
+  Robotic systems, particularly in demanding environments like narrow corridors or disaster zones, often grapple with imperfect state estimation. Addressing this challenge requires a trajectory plan that not only navigates these restrictive spaces but also manages the inherent uncertainty of the system. We present a novel approach for graph-based belief space planning via the use of an efficient covariance control algorithm. By adaptively steering state statistics via output state feedback, we efficiently craft a belief roadmap characterized by nodes with controlled uncertainty and edges representing collision-free mean trajectories. The roadmap's structured design then paves the way for precise path searches that balance control costs and uncertainty considerations. Our numerical experiments affirm the efficacy and advantage of our method in different motion planning tasks. Our open-source implementation can be found at https://github.com/hzyu17/VIMP/tree/BRM.
+summary: >
+  Builds a graph-based belief-space planner using covariance-control edges and road-map nodes with controlled uncertainty. The paper targets practical planning in narrow or uncertain environments where paths must manage both geometry and state-estimation quality.
+link: https://arxiv.org/pdf/2309.09344
+links_alt:
+audit_status: partial

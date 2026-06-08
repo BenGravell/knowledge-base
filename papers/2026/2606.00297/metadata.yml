@@ -1,0 +1,25 @@
+title: >
+  Predicted-Flow Control Barrier Functions for Real-Time Safe Optimal Control
+algorithm: P-CBF
+authors:
+  - Amirsaeid Safari
+  - Jesse B. Hoagg
+year: 2026
+source: arXiv
+type: Preprint
+doi:
+arxiv_id: "2606.00297"
+tags:
+  - Control barrier functions
+  - Safe optimal control
+  - Receding horizon control
+  - Predictive safety
+  - Real-time control
+  - Nonlinear systems
+abstract: >
+  Control barrier functions (CBFs) provide real-time safety guarantees through pointwise conditions on the state. However, synthesizing a valid CBF is difficult and the resulting controllers are myopic. To address myopia, this article introduces predicted-flow control barrier functions (P-CBFs), which generalize the CBF from a function of the current state to a functional of a predicted flow under a parametrized control plan over a finite prediction horizon. For safety, a P-CBF can certify that the predicted flow is in a safe set over the entire prediction horizon. However, candidate P-CBFs suffer from the same challenge as candidate CBFs, namely, control constraints make it difficult to guarantee that the P-CBF is valid. This article resolves this challenge by introducing a terminal candidate P-CBF requiring that the predicted flow end in a backup safe set at the terminal time, and a planning-time shift that modulates the prediction horizon, providing an additional degree of freedom to ensure feasibility. The real-time control and the evolution of the control-plan parameter and planning-time shift are determined jointly by a single convex optimization that is guaranteed to be feasible and renders the associated safe set forward invariant. The resulting safe optimal flow control provides a safety certificate over the entire prediction horizon and unifies finite-horizon integral-cost optimization with safety certification. This optimization reduces to a quadratic program (QP) if the control constraints are a convex polytope. The QP implementation, termed FlowBarrier, is validated on a nonholonomic ground robot navigating a dense environment. FlowBarrier is compared to nonlinear model predictive control and two CBF-based safety filter methods across 100 trials, where FlowBarrier achieves the highest goal-reaching rate, zero safety violations, and the lowest computation time.
+summary: >
+  Generalizes control barrier functions from current-state certificates to finite-horizon predicted-flow functionals inside a real-time optimal-control loop. The paper targets CBF myopia by certifying predicted trajectories while retaining pointwise safety constraints that can be used online.
+link: https://arxiv.org/pdf/2606.00297
+links_alt:
+audit_status: partial
