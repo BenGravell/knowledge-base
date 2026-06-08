@@ -82,6 +82,7 @@ tags:
 - canonical: Agglomerative clustering
 - canonical: Aggregation
 - canonical: Aggressive flight
+- canonical: Agile robotics
 - canonical: AID
 - canonical: AIL
 - canonical: AIRL
@@ -101,10 +102,10 @@ tags:
 - canonical: Aligning torque
 - canonical: All-pairs correlation
 - canonical: Almost sure convergence
+- canonical: Alternating normalization
 - canonical: Alternating-direction method of multipliers
   aliases:
   - ADMM
-- canonical: Alternating normalization
 - canonical: ALTRO
 - canonical: ALVINN
 - canonical: Amortized
@@ -139,6 +140,7 @@ tags:
 - canonical: Approximation error
 - canonical: Approximation methods
 - canonical: AprilTag
+- canonical: Arbitrary footprints
 - canonical: Arbitrary-shape clusters
 - canonical: Arcade learning environment
 - canonical: Architecture
@@ -175,6 +177,7 @@ tags:
 - canonical: Asymptotic variance
 - canonical: Asymptotically optimal
 - canonical: Asynchronous algorithms
+- canonical: Asynchronous coordination
 - canonical: Asynchronous optimization
 - canonical: Atari
 - canonical: Atomic norms
@@ -239,6 +242,7 @@ tags:
 - canonical: Barabasi-Albert model
 - canonical: Barnes-Hut algorithm
 - canonical: Barrier certificates
+- canonical: Barrier functions
 - canonical: Barrier states
 - canonical: Base pairing
 - canonical: Baseline
@@ -278,10 +282,10 @@ tags:
 - canonical: Bellman equations
   aliases:
   - Bellman equation
-- canonical: Bellman-Ford algorithm
-- canonical: Bellman-Held-Karp algorithm
 - canonical: Bellman inequalities
 - canonical: Bellman residuals
+- canonical: Bellman-Ford algorithm
+- canonical: Bellman-Held-Karp algorithm
 - canonical: Benchmark datasets
 - canonical: Benchmarking
 - canonical: Benchmarks
@@ -300,10 +304,13 @@ tags:
   aliases:
   - BiConjugate gradient
 - canonical: Bicycle model
+- canonical: Bicycle robots
 - canonical: Bidirectional search
 - canonical: Bilateral teleoperation
 - canonical: Bilevel planning
 - canonical: Bilevel rendering
+- canonical: Bilinear systems
+- canonical: Bimanual manipulation
 - canonical: Bimanual robotics
 - canonical: Binary recovery
 - canonical: Binary search trees
@@ -355,6 +362,7 @@ tags:
 - canonical: Brightness constancy
 - canonical: Brox optical flow
 - canonical: BRRL
+- canonical: Brunovsky canonical form
 - canonical: Bubble
 - canonical: Bundle adjustment
 - canonical: BVP-free
@@ -365,6 +373,7 @@ tags:
 - canonical: CAD
 - canonical: Calculus of variations
 - canonical: Calibrated cameras
+- canonical: Calibration
 - canonical: Called memoryless GAPS
 - canonical: Camera calibration
 - canonical: Camera position averaging
@@ -404,9 +413,11 @@ tags:
 - canonical: CG
 - canonical: CHAID
 - canonical: Chain termination
+- canonical: Chain-of-thought
 - canonical: Chamfer distance
-- canonical: Chance-constrained planning
 - canonical: Chance constraints
+- canonical: Chance-constrained planning
+- canonical: Change detection
 - canonical: Channel attention
 - canonical: Character animation
 - canonical: Characteristic path length
@@ -445,6 +456,8 @@ tags:
 - canonical: Closed-loop
   aliases:
   - Closed loop
+- canonical: Closed-loop evaluation
+- canonical: Closed-loop performance
 - canonical: Closed-loop planning
 - canonical: Closeness centrality
 - canonical: Closest point matching
@@ -469,13 +482,13 @@ tags:
 - canonical: Coincidence theorems
 - canonical: Collaborative filtering
 - canonical: Collapse prevention
-- canonical: Collision-affording point tree
 - canonical: Collision avoidance
 - canonical: Collision checking
 - canonical: Collision detection
+- canonical: Collision primitives
+- canonical: Collision-affording point tree
 - canonical: Collision-free
 - canonical: Collision-free motion planning
-- canonical: Collision primitives
 - canonical: COLMAP
 - canonical: Color appearance
 - canonical: Color difference
@@ -495,6 +508,7 @@ tags:
 - canonical: Comparison study
 - canonical: Compass gait
 - canonical: Competition analysis
+- canonical: Complete algorithms
 - canonical: Completeness
 - canonical: Complex adaptive systems
 - canonical: Complex behaviors
@@ -519,11 +533,11 @@ tags:
 - canonical: Compute unified device architecture
   aliases:
   - CUDA
-- canonical: Computer-aided design
 - canonical: Computer Go
 - canonical: Computer graphics
 - canonical: Computer science philosophy
 - canonical: Computer vision
+- canonical: Computer-aided design
 - canonical: Concave function
 - canonical: Concentration bounds
 - canonical: Concurrent updates
@@ -569,6 +583,7 @@ tags:
 - canonical: Consumer electronics
 - canonical: Contact dynamics
 - canonical: Contact mechanics
+- canonical: Contact-rich manipulation
 - canonical: Contingency plan
 - canonical: Continued fractions
 - canonical: Continuous action spaces
@@ -576,13 +591,14 @@ tags:
 - canonical: Continuous curvature
 - canonical: Continuous functions
 - canonical: Continuous optimization
-- canonical: Continuous-space planning
 - canonical: Continuous state spaces
 - canonical: Continuous time
+- canonical: Continuous-space planning
 - canonical: Continuous-time systems
 - canonical: Contouring control
 - canonical: Contract theory
 - canonical: Contraction analysis
+- canonical: Contraction theory
 - canonical: Contractivity
 - canonical: Contrastive loss
 - canonical: Control
@@ -592,7 +608,6 @@ tags:
 - canonical: Control benchmarks
 - canonical: Control co-design
 - canonical: Control constraints
-- canonical: Control-dependent noise
 - canonical: Control design
 - canonical: Control education
 - canonical: Control history
@@ -600,15 +615,20 @@ tags:
 - canonical: Control limits
 - canonical: Control Lyapunov functions
 - canonical: Control point
+- canonical: Control synthesis
 - canonical: Control system design
 - canonical: Control system synthesis
 - canonical: Control systems
 - canonical: Control theory
 - canonical: Control variable
+- canonical: Control-affine systems
+- canonical: Control-dependent noise
 - canonical: Controlgym
 - canonical: Controllability
 - canonical: Controllability subspaces
 - canonical: Controlled generation
+- canonical: Controlled invariance
+- canonical: Controlled invariant sets
 - canonical: Controller design
 - canonical: Controller synthesis
 - canonical: Controller uncertainty
@@ -660,17 +680,19 @@ tags:
 - canonical: Coordinate normalization
 - canonical: Coordination taxonomy
 - canonical: Coprime integers
+- canonical: Corner-case generation
 - canonical: Cornering
 - canonical: Correct-by-construction control
 - canonical: Correlation layer
 - canonical: CoSaMP
 - canonical: Cosine similarity
-- canonical: Cost-constrained planning
 - canonical: Cost memory
-- canonical: Cost-to-come methods
 - canonical: Cost volume
+- canonical: Cost-constrained planning
+- canonical: Cost-to-come methods
 - canonical: Counterexamples
 - canonical: Couplings
+- canonical: Covariance control
 - canonical: Covariance estimation
 - canonical: Covariance matrix
 - canonical: Covariance matrix adaptation
@@ -688,6 +710,7 @@ tags:
 - canonical: CRISPR-Cas9
 - canonical: Cross-correlation loss
 - canonical: Cross-dataset generalization
+- canonical: Cross-embodiment learning
 - canonical: Cross-entropy method
 - canonical: Crowd simulation
 - canonical: CRSAIL
@@ -718,19 +741,20 @@ tags:
 - canonical: Data analysis
 - canonical: Data association
 - canonical: Data centers
+- canonical: Data generation
+- canonical: Data informativity
+- canonical: Data marshalling
+- canonical: Data mining
+- canonical: Data reconstruction
+- canonical: Data structures
+- canonical: Data visualization
 - canonical: Data-driven
 - canonical: Data-driven analysis
 - canonical: Data-driven control
 - canonical: Data-driven decision making
 - canonical: Data-driven methods
 - canonical: Data-driven simulation
-- canonical: Data informativity
-- canonical: Data marshalling
-- canonical: Data mining
 - canonical: Data-parallel computation
-- canonical: Data reconstruction
-- canonical: Data structures
-- canonical: Data visualization
 - canonical: Database indexing
 - canonical: Database mining
 - canonical: Database systems
@@ -744,14 +768,14 @@ tags:
 - canonical: DEC
 - canonical: Decentralized control
 - canonical: Deception
-- canonical: Decision-making
-  aliases:
-  - Decision making
 - canonical: Decision making under uncertainty
 - canonical: Decision theory
 - canonical: Decision trees
   aliases:
   - Decision tree
+- canonical: Decision-making
+  aliases:
+  - Decision making
 - canonical: Decomposition-informed
 - canonical: Deconvolution
 - canonical: Deep deterministic policy gradient
@@ -772,15 +796,17 @@ tags:
 - canonical: Denoising
 - canonical: Denoising diffusion
 - canonical: Dense features
-- canonical: Dense-feedback reinforcement learning
+- canonical: Dense initialization
 - canonical: Dense matching
 - canonical: Dense matrices
 - canonical: Dense motion estimation
 - canonical: Dense prediction
 - canonical: Dense reconstruction
-- canonical: Density-based clustering
+- canonical: Dense-feedback reinforcement learning
+- canonical: Densification
 - canonical: Density functions
 - canonical: Density level sets
+- canonical: Density-based clustering
 - canonical: Dependent variables
 - canonical: DEPICT
 - canonical: Deployment
@@ -791,8 +817,8 @@ tags:
 - canonical: DERL
 - canonical: Descent methods
 - canonical: Design
-- canonical: Detection-localization tradeoff
 - canonical: Detection performance
+- canonical: Detection-localization tradeoff
 - canonical: Determinants
 - canonical: Deterministic policy
 - canonical: Deterministic sampling
@@ -805,6 +831,7 @@ tags:
 - canonical: Diagonal scaling
 - canonical: Dichromatic framework
 - canonical: Different
+- canonical: Differentiable control
 - canonical: Differentiable model predictive control
   aliases:
   - Differentiable MPC
@@ -885,10 +912,10 @@ tags:
   aliases:
   - Distributed RL
 - canonical: Distributed systems
-- canonical: Distribution-free inference
-- canonical: Distribution-free uncertainty quantification
 - canonical: Distribution shift
 - canonical: Distribution theory
+- canonical: Distribution-free inference
+- canonical: Distribution-free uncertainty quantification
 - canonical: Distributional robustness
 - canonical: Distributionally robust model predictive path integral control
   aliases:
@@ -937,8 +964,8 @@ tags:
 - canonical: DSPI
 - canonical: DTMPC
 - canonical: DTW
-- canonical: Dual-arm manipulation
 - canonical: Dual estimation
+- canonical: Dual-arm manipulation
 - canonical: Dubins
 - canonical: Dubins path
 - canonical: Duckietown
@@ -973,11 +1000,11 @@ tags:
 - canonical: Earth mover distance
 - canonical: ECL
 - canonical: ECOS
-- canonical: Edge-aware distance
 - canonical: Edge betweenness
 - canonical: Edge cases
 - canonical: Edge detection
 - canonical: Edge of stability
+- canonical: Edge-aware distance
 - canonical: Efficiency
 - canonical: Efficient
 - canonical: Efficient inference
@@ -1006,14 +1033,15 @@ tags:
 - canonical: Empirical risk minimization
 - canonical: ENCODE
 - canonical: End-to-end
+- canonical: End-to-end driving
 - canonical: End-to-end learning
 - canonical: End-to-end planning
-- canonical: Energy-based control
 - canonical: Energy consumption
 - canonical: Energy conversion
 - canonical: Energy efficiency
 - canonical: Energy shaping
 - canonical: Energy systems
+- canonical: Energy-based control
 - canonical: Engineering design
 - canonical: Engineering history
 - canonical: Engineering optimization
@@ -1034,10 +1062,10 @@ tags:
 - canonical: ERA
 - canonical: Ergodicity
 - canonical: Error bounds
-- canonical: Error-correcting codes
 - canonical: Error diffusion
 - canonical: Error estimation
 - canonical: Error propagation
+- canonical: Error-correcting codes
 - canonical: ESPCN
 - canonical: Essential matrix
 - canonical: Estimation
@@ -1117,6 +1145,7 @@ tags:
 - canonical: Faiss library
 - canonical: False data injection
 - canonical: False positives
+- canonical: Falsification
 - canonical: Fast
 - canonical: Fast adaptation
 - canonical: Fast fourier transform
@@ -1176,6 +1205,7 @@ tags:
 - canonical: Financial optimization
 - canonical: Financial risk
 - canonical: Finite differences
+- canonical: Finite time series
 - canonical: Finite-horizon control
 - canonical: Finite-sample coverage
 - canonical: Finite-sample guarantees
@@ -1184,7 +1214,6 @@ tags:
 - canonical: Finite-sum optimization
 - canonical: Finite-time analysis
 - canonical: Finite-time bounds
-- canonical: Finite time series
 - canonical: Finite-time stability
 - canonical: First-order methods
   aliases:
@@ -1206,12 +1235,12 @@ tags:
 - canonical: Flocking
 - canonical: FLOPS
 - canonical: Flow
-- canonical: Flow-based clustering
 - canonical: Flow control
 - canonical: Flow Gym
 - canonical: Flow matching
 - canonical: Flow regularization
 - canonical: Flow visualization
+- canonical: Flow-based clustering
 - canonical: FlowDrive
 - canonical: FlowFormer
 - canonical: FlowMP
@@ -1249,9 +1278,9 @@ tags:
 - canonical: Freedman inequality
 - canonical: Frenet frame
 - canonical: Frenet-serret
-- canonical: Frequency-domain analysis
 - canonical: Frequency estimation
 - canonical: Frequency response
+- canonical: Frequency-domain analysis
 - canonical: Fresnel integrals
 - canonical: Friction ellipse
 - canonical: FRS
@@ -1266,10 +1295,10 @@ tags:
 - canonical: Fundamental matrix
 - canonical: G2 continuity
 - canonical: GAE
-- canonical: Gain-phase relation
 - canonical: Gain ratio
 - canonical: Gain scheduling
 - canonical: Gain stability
+- canonical: Gain-phase relation
 - canonical: Gait stabilization
 - canonical: Game artificial intelligence
   aliases:
@@ -1299,6 +1328,8 @@ tags:
 - canonical: Gemma
 - canonical: Gemma 2
 - canonical: Gene regulation
+- canonical: Generalist robot policies
+- canonical: Generalist robots
 - canonical: Generalization
 - canonical: Generalization error
 - canonical: Generalization guarantees
@@ -1369,28 +1400,24 @@ tags:
 - canonical: GR00T N1
 - canonical: Grad-CAM
 - canonical: Gradient ascent
-- canonical: Gradient-based
-- canonical: Gradient-based alignment
-- canonical: Gradient-based learning
-- canonical: Gradient-based optimization
 - canonical: Gradient boosting
 - canonical: Gradient clipping
 - canonical: Gradient constancy
 - canonical: Gradient descent
 - canonical: Gradient estimation
-- canonical: Gradient-free optimization
 - canonical: Gradient method
   aliases:
   - Gradient methods
 - canonical: Gradient optimization
 - canonical: Gradient projection
+- canonical: Gradient-based
+- canonical: Gradient-based alignment
+- canonical: Gradient-based learning
+- canonical: Gradient-based optimization
+- canonical: Gradient-free optimization
 - canonical: Graduated non-convexity
 - canonical: Gram anchoring
 - canonical: Graph algorithms
-- canonical: Graph-based mapping
-- canonical: Graph-based simultaneous localization and mapping
-  aliases:
-  - Graph-based SLAM
 - canonical: Graph centrality
 - canonical: Graph clustering
 - canonical: Graph laplacians
@@ -1404,6 +1431,10 @@ tags:
 - canonical: Graph search
 - canonical: Graph theory
 - canonical: Graph transformer networks
+- canonical: Graph-based mapping
+- canonical: Graph-based simultaneous localization and mapping
+  aliases:
+  - Graph-based SLAM
 - canonical: Graphical models
 - canonical: Graphics processing unit
   aliases:
@@ -1469,16 +1500,17 @@ tags:
 - canonical: He initialization
 - canonical: Heapsort
 - canonical: Heat engines
-- canonical: Heavy-ball method
 - canonical: Heavy vehicles
+- canonical: Heavy-ball method
 - canonical: Held-Karp algorithm
 - canonical: Helicopter control
 - canonical: Heredity
 - canonical: Heritable variation
 - canonical: Hermite interpolation
 - canonical: Hessian
-- canonical: Hessian-free optimization
+- canonical: Hessian information
 - canonical: Hessian matrix
+- canonical: Hessian-free optimization
 - canonical: Hessian-vector products
 - canonical: Heterogeneous data
 - canonical: Heuristic
@@ -1495,14 +1527,14 @@ tags:
 - canonical: HierarchicalForecast
 - canonical: Hierarchy
 - canonical: High bandwidth memory
+- canonical: High learning rate
+- canonical: High performance
 - canonical: High-definition map construction
 - canonical: High-dimensional data
 - canonical: High-dimensional optimization
 - canonical: High-dimensional planning
 - canonical: High-dimensional search
 - canonical: High-dimensional statistics
-- canonical: High learning rate
-- canonical: High performance
 - canonical: High-probability
 - canonical: Hill climbing
 - canonical: Hippo
@@ -1510,6 +1542,7 @@ tags:
 - canonical: Historical priors
 - canonical: History of mathematics
 - canonical: HisTrackMap
+- canonical: Hit-and-run sampling
 - canonical: HITS
 - canonical: HNSW
 - canonical: HOG
@@ -1523,14 +1556,14 @@ tags:
 - canonical: Hub score
 - canonical: Hue uniformity
 - canonical: Human
-- canonical: Human-computer interaction
 - canonical: Human genome
 - canonical: Human guidance
-- canonical: Human-inspired robotics
 - canonical: Human locomotion
 - canonical: Human prostheses
-- canonical: Human-robot interaction
 - canonical: Human visual system
+- canonical: Human-computer interaction
+- canonical: Human-inspired robotics
+- canonical: Human-robot interaction
 - canonical: Humanoid locomotion
 - canonical: Humanoid robot
   aliases:
@@ -1564,8 +1597,6 @@ tags:
 - canonical: IK
 - canonical: iLQG
 - canonical: iLQR
-- canonical: Image-based modeling
-- canonical: Image-based rendering
 - canonical: Image classification
 - canonical: Image clustering
 - canonical: Image compression
@@ -1585,6 +1616,8 @@ tags:
 - canonical: Image synthesis
 - canonical: Image unmixing
 - canonical: Image warping
+- canonical: Image-based modeling
+- canonical: Image-based rendering
 - canonical: ImageNet
 - canonical: Imagination
 - canonical: Imitation learning
@@ -1595,6 +1628,7 @@ tags:
 - canonical: Implicit integration
 - canonical: Importance sampling
 - canonical: Impulsive noise
+- canonical: In-context learning
 - canonical: In-place computation
 - canonical: In-place sorting
 - canonical: Inception
@@ -1661,11 +1695,12 @@ tags:
 - canonical: Integrated navigation
 - canonical: Intelligent driver model
 - canonical: Intelligent vehicles
+- canonical: Intention estimation
 - canonical: Intention prediction
+- canonical: Interaction detection
 - canonical: Interaction-aware
 - canonical: Interaction-aware planning
 - canonical: Interaction-aware prediction
-- canonical: Interaction detection
 - canonical: Interactive clustering
 - canonical: Interactive systems
 - canonical: Interest points
@@ -1729,6 +1764,7 @@ tags:
 - canonical: Jacta
 - canonical: JAX
 - canonical: JAX-IK
+- canonical: JEPA
 - canonical: JIT compilation
 - canonical: Jitter reduction
 - canonical: Joint chance constraints
@@ -1796,8 +1832,8 @@ tags:
 - canonical: L1 regularization
 - canonical: L2-induced norm
 - canonical: L4DC
-- canonical: Label-correcting methods
 - canonical: Label propagation
+- canonical: Label-correcting methods
 - canonical: Lag bounds
 - canonical: LAG-ROS
 - canonical: Lagrange multiplier
@@ -1821,8 +1857,8 @@ tags:
   - Large language model
   - LLM
 - canonical: Large margin
-- canonical: Large-margin classification
 - canonical: Large samples
+- canonical: Large-margin classification
 - canonical: Large-scale computation
 - canonical: Large-scale graphs
 - canonical: Large-scale learning
@@ -1837,6 +1873,8 @@ tags:
 - canonical: Laser rangefinder
 - canonical: Latency reduction
 - canonical: Latent
+- canonical: Latent actions
+- canonical: Latent reasoning
 - canonical: Latent variable models
 - canonical: Lateral force
 - canonical: Lateral vehicle control
@@ -1845,16 +1883,19 @@ tags:
 - canonical: LB_Keogh
 - canonical: Leaky ReLU
 - canonical: LeARN
+- canonical: Learned dynamics
+- canonical: Learned perception
 - canonical: Learning
+- canonical: Learning control
+- canonical: Learning from demonstration
+- canonical: Learning from demonstrations
+- canonical: Learning in planning
+- canonical: Learning rates
+- canonical: Learning robot systems
 - canonical: Learning-based control
 - canonical: Learning-based model predictive control
   aliases:
   - Learning-based MPC
-- canonical: Learning control
-- canonical: Learning from demonstration
-- canonical: Learning in planning
-- canonical: Learning rates
-- canonical: Learning robot systems
 - canonical: Least squares
   aliases:
   - Least-squares
@@ -1944,6 +1985,7 @@ tags:
 - canonical: Linear transformations
 - canonical: Linearization
 - canonical: Link analysis
+- canonical: Lipschitz constants
 - canonical: Lipschitz gradients
 - canonical: LiteFlowNet
 - canonical: LittleDog
@@ -1961,11 +2003,13 @@ tags:
 - canonical: Location science
 - canonical: Lock-free algorithms
 - canonical: Locomotion
-- canonical: Log-det heuristic
 - canonical: Log transformation
-- canonical: Long-range interactions
+- canonical: Log-det heuristic
 - canonical: Long short-term memory
+- canonical: Long-range interactions
+- canonical: Long-tail scenarios
 - canonical: Longitudinal force
+- canonical: Lookahead
 - canonical: Lookup table
 - canonical: Loop closure
 - canonical: Loop shaping
@@ -2047,8 +2091,10 @@ tags:
   aliases:
   - Markov decision processes
   - MDP
+- canonical: Markov jump systems
 - canonical: Markov parameters
 - canonical: Marr-Hildreth
+- canonical: Martingale small-ball
 - canonical: Martingales
 - canonical: Massively parallel
 - canonical: Matching
@@ -2094,10 +2140,10 @@ tags:
 - canonical: Maximum principle
 - canonical: MCMC
 - canonical: MDPs
+- canonical: Mean squared error
 - canonical: Mean-square convergence
 - canonical: Mean-square distance
 - canonical: Mean-square stability
-- canonical: Mean squared error
 - canonical: Measurement feedback
 - canonical: Measurement matrix
 - canonical: Mechatronic systems
@@ -2139,13 +2185,13 @@ tags:
 - canonical: Minimax theorem
 - canonical: Minimized iterations
 - canonical: Minimum jerk
-- canonical: Minimum-phase systems
 - canonical: Minimum snap trajectories
 - canonical: Minimum spanning trees
 - canonical: Minimum time
+- canonical: Minimum variance control
+- canonical: Minimum-phase systems
 - canonical: Minimum-time control
 - canonical: Minimum-time planning
-- canonical: Minimum variance control
 - canonical: Minimum-volume sets
 - canonical: MINIROCKET
 - canonical: MINRES
@@ -2174,16 +2220,9 @@ tags:
   - Mobile robot
 - canonical: Mobility
 - canonical: Modal analysis
-- canonical: Model-based
-- canonical: Model-based control
-- canonical: Model-based reinforcement learning
-  aliases:
-  - Model-based RL
+- canonical: Mode clustering
 - canonical: Model evaluation
 - canonical: Model explanations
-- canonical: Model-free
-- canonical: Model-free control
-- canonical: Model-free proportional derivative
 - canonical: Model organisms
 - canonical: Model predictive contouring control
   aliases:
@@ -2191,6 +2230,7 @@ tags:
 - canonical: Model predictive control
   aliases:
   - MPC
+- canonical: Model predictive control tuning
 - canonical: Model predictive path integral
 - canonical: Model predictive path integral belief
   aliases:
@@ -2202,6 +2242,15 @@ tags:
 - canonical: Model scaling
 - canonical: Model selection
 - canonical: Model uncertainty
+- canonical: Model-based
+- canonical: Model-based control
+- canonical: Model-based diffusion
+- canonical: Model-based reinforcement learning
+  aliases:
+  - Model-based RL
+- canonical: Model-free
+- canonical: Model-free control
+- canonical: Model-free proportional derivative
 - canonical: Modeling
 - canonical: Modeling languages
 - canonical: Modified Newton method
@@ -2231,6 +2280,7 @@ tags:
 - canonical: Motion discontinuities
 - canonical: Motion estimation
 - canonical: Motion forecasting
+- canonical: Motion imitation
 - canonical: Motion perception
 - canonical: Motion planning
 - canonical: Motion planning under uncertainty
@@ -2241,6 +2291,7 @@ tags:
 - canonical: Moving average
 - canonical: Moving object indexing
 - canonical: Moving obstacles
+- canonical: Moving targets
 - canonical: MPCritic
 - canonical: MPI sintel
 - canonical: MPMC
@@ -2270,6 +2321,7 @@ tags:
 - canonical: Multi-robot systems
 - canonical: Multi-step prediction
 - canonical: Multi-Step prediction models
+- canonical: Multi-task learning
 - canonical: Multi-view reconstruction
 - canonical: Multi-view registration
 - canonical: Multi-view stereo
@@ -2277,18 +2329,19 @@ tags:
 - canonical: Multidimensional indexing
 - canonical: Multidimensional search
 - canonical: Multimodal
+- canonical: Multimodal planning
 - canonical: Multimodal sensing
 - canonical: Multimodal tracking
 - canonical: Multiple datasets
 - canonical: Multiple experiments
 - canonical: Multiple facility location
-- canonical: Multiple-model estimation
 - canonical: Multiple motion
 - canonical: Multiple shooting
   aliases:
   - Multiple-shooting
 - canonical: Multiple trajectories
 - canonical: Multiple trajectory data
+- canonical: Multiple-model estimation
 - canonical: Multiplex editing
 - canonical: Multiplicative noise
 - canonical: Multiplicative weights
@@ -2378,15 +2431,15 @@ tags:
 - canonical: Neuroscience
 - canonical: Neutron physics
 - canonical: Nevergrad
+- canonical: Newton's method
+  aliases:
+  - Newton method
+  - Newton methods
 - canonical: Newton-kantorovich iteration
 - canonical: Newton-raphson iteration
   aliases:
   - Newton-Raphson iteration
 - canonical: Newton-type optimization
-- canonical: Newton's method
-  aliases:
-  - Newton method
-  - Newton methods
 - canonical: NLP
 - canonical: NN
 - canonical: No false dismissals
@@ -2488,6 +2541,7 @@ tags:
 - canonical: Observer design
 - canonical: Observers
 - canonical: Obstacle avoidance
+- canonical: Obstacles
 - canonical: Occlusion handling
 - canonical: Occupancy grid mapping
 - canonical: Octrees
@@ -2508,8 +2562,9 @@ tags:
 - canonical: Online optimization
 - canonical: Online planning
 - canonical: OOD
-- canonical: Open-ended evolution
 - canonical: Open source
+- canonical: Open-ended evolution
+- canonical: Open-loop evaluation
 - canonical: Open-source hardware
 - canonical: Open-source software
 - canonical: OpenAI Gym
@@ -2543,6 +2598,7 @@ tags:
 - canonical: Optimization software
 - canonical: Optimization theory
 - canonical: Optimization tutorial
+- canonical: Optimization-based synthesis
 - canonical: OptNet
 - canonical: Optuna
 - canonical: Orbit
@@ -2574,12 +2630,12 @@ tags:
 - canonical: Outlier removal
 - canonical: Outlier robustness
 - canonical: Output decoupling
-- canonical: Output-error models
 - canonical: Output feedback
 - canonical: Output feedback control
 - canonical: Output matching
 - canonical: Output measurement noise
 - canonical: Output regulation
+- canonical: Output-error models
 - canonical: Overlapping communities
 - canonical: Overlapping cross-attention
 - canonical: P-T
@@ -2602,8 +2658,8 @@ tags:
 - canonical: Parallelized
 - canonical: Parameter adaptation
 - canonical: Parameter estimation
-- canonical: Parameter-free learning
 - canonical: Parameter space
+- canonical: Parameter-free learning
 - canonical: Parametric excitation
 - canonical: Parametric motion
 - canonical: Parametric optimization
@@ -2630,7 +2686,6 @@ tags:
 - canonical: Passivity-based control
 - canonical: Past
 - canonical: Patents
-- canonical: Path-consistent
 - canonical: Path filtering
 - canonical: Path following
 - canonical: Path generation
@@ -2644,8 +2699,9 @@ tags:
 - canonical: Path shortcutting
 - canonical: Path smoothing
 - canonical: Path smoothness
-- canonical: Path-time space
 - canonical: Path tracking
+- canonical: Path-consistent
+- canonical: Path-time space
 - canonical: Path-velocity decomposition
 - canonical: Pathline reuse
 - canonical: Pathological curvature
@@ -2661,6 +2717,7 @@ tags:
 - canonical: Pedestrian detection
 - canonical: Pendubot
 - canonical: Perception
+- canonical: Perception and planning
 - canonical: Perception-aware
 - canonical: Perceptron
   aliases:
@@ -2670,19 +2727,21 @@ tags:
 - canonical: Performance bounds
 - canonical: Performance limits
 - canonical: Perlin noise
-- canonical: Permutation-equivalent modeling
 - canonical: Permutation tests
+- canonical: Permutation-equivalent modeling
 - canonical: Persistency of excitation
 - canonical: Perturbation
+- canonical: Perturbation bounds
 - canonical: Phase dynamics
 - canonical: Phase transitions
 - canonical: Photo browsing
 - canonical: Photo tourism
 - canonical: Photogrammetry
 - canonical: Physical law
+- canonical: Physical planning
 - canonical: Physical plant design
-- canonical: Physics-based prediction
 - canonical: Physics engines
+- canonical: Physics-based prediction
 - canonical: PI
 - canonical: PIC
 - canonical: PID control
@@ -2694,9 +2753,9 @@ tags:
 - canonical: PInet
 - canonical: Pipeline planning
 - canonical: PIV
-- canonical: Pixel-aware attention
 - canonical: Pixel control
 - canonical: Pixel shuffle
+- canonical: Pixel-aware attention
 - canonical: Pixel-to-control
 - canonical: PL
 - canonical: Planning
@@ -2760,6 +2819,7 @@ tags:
 - canonical: Positive matrices
 - canonical: Positive operators
 - canonical: Positivstellensatz
+- canonical: Post-hoc calibration
 - canonical: Post-processing
 - canonical: Posterior belief distribution
 - canonical: Potential field
@@ -2775,22 +2835,24 @@ tags:
 - canonical: Prediction horizon
 - canonical: Prediction intervals
 - canonical: Prediction sets
+- canonical: Predictive coding
+- canonical: Predictive control
+- canonical: Predictive safety
+- canonical: Predictive sampling
 - canonical: Predictive-action model predictive path integral control
   aliases:
   - PA-MPPI
-- canonical: Predictive coding
-- canonical: Predictive control
-- canonical: Predictive sampling
 - canonical: Predictor-corrector methods
 - canonical: Preferential attachment
 - canonical: Prefix sums
 - canonical: PReLU
 - canonical: PRESTO
 - canonical: Preview control
+- canonical: Preview information
+- canonical: Primal sketch
 - canonical: Primal-dual
 - canonical: Primal-dual methods
 - canonical: Primal-dual optimization
-- canonical: Primal sketch
 - canonical: Principal component analysis
   aliases:
   - PCA
@@ -2919,7 +2981,6 @@ tags:
 - canonical: RAFT extension
 - canonical: Rainbow
 - canonical: RAKOMO
-- canonical: Random-access memory
 - canonical: Random coefficients
 - canonical: Random embeddings
 - canonical: Random features
@@ -2947,6 +3008,7 @@ tags:
 - canonical: Random walk
   aliases:
   - Random walks
+- canonical: Random-access memory
 - canonical: Randomization
 - canonical: Randomized algorithms
 - canonical: Randomized kd forest
@@ -3066,6 +3128,7 @@ tags:
 - canonical: Relaxed control
   aliases:
   - Relaxed controls
+- canonical: Reliability
 - canonical: ReLU activations
   aliases:
   - Rectified linear units
@@ -3079,6 +3142,8 @@ tags:
 - canonical: Replanning
 - canonical: Representation
 - canonical: Representation learning
+- canonical: Representation-space planning
+- canonical: Reproducibility
 - canonical: Reproducible research
 - canonical: Reproducible software
 - canonical: RES
@@ -3097,8 +3162,8 @@ tags:
 - canonical: Resource allocation
 - canonical: Responsibility-sensitive safety
 - canonical: ResShift
-- canonical: Restoration-guided sampling
 - canonical: Restoration quality
+- canonical: Restoration-guided sampling
 - canonical: Restricted isometry
 - canonical: Restricted isometry property
 - canonical: Retriangulation
@@ -3110,6 +3175,7 @@ tags:
 - canonical: Reweighted nuclear norm
 - canonical: Reynolds number
 - canonical: RF
+- canonical: RGB-D perception
 - canonical: RGB-D registration
 - canonical: Riccati equation
   aliases:
@@ -3118,18 +3184,18 @@ tags:
 - canonical: Riccati inequalities
 - canonical: Riemannian manifold
 - canonical: Riemannian optimization
-- canonical: Rigid-body dynamics
 - canonical: Rigid motion
 - canonical: Rigid registration
+- canonical: Rigid-body dynamics
 - canonical: Risk
 - canonical: Risk assessment
-- canonical: Risk-averse
-- canonical: Risk-averse routing
 - canonical: Risk aversion
-- canonical: Risk-aware planning
 - canonical: Risk measures
 - canonical: Risk metrics
 - canonical: Risk minimization
+- canonical: Risk-averse
+- canonical: Risk-averse routing
+- canonical: Risk-aware planning
 - canonical: Risk-sensitive control
 - canonical: RLDX-1
 - canonical: RLlib
@@ -3176,6 +3242,8 @@ tags:
 - canonical: Robotics systems
 - canonical: Robust communication
 - canonical: Robust control
+- canonical: Robust control invariant sets
+- canonical: Robust controlled invariant sets
 - canonical: Robust detection
 - canonical: Robust estimation
 - canonical: Robust filtering
@@ -3222,10 +3290,13 @@ tags:
 - canonical: Saddle point
 - canonical: Saddle-point problems
 - canonical: Safe interval path planning
+- canonical: Safe optimal control
 - canonical: Safe planning
 - canonical: Safety
+- canonical: Safety control
 - canonical: Safety engineering
 - canonical: Safety filtering
+- canonical: Safety guarantees
 - canonical: Safety models
 - canonical: Safety verification
 - canonical: SAGA
@@ -3237,28 +3308,29 @@ tags:
 - canonical: Sampled differential dynamic programming
 - canonical: Sampled stochastic processes
 - canonical: Sampling
+- canonical: Sampling methods
 - canonical: Sampling-based
 - canonical: Sampling-based control
 - canonical: Sampling-based methods
 - canonical: Sampling-based optimization
 - canonical: Sampling-based planning
-- canonical: Sampling methods
 - canonical: Sanger sequencing
 - canonical: SARAH
 - canonical: Scalability
+- canonical: Scalable robot data
 - canonical: Scalar quantization
 - canonical: Scale
-- canonical: Scale-free networks
 - canonical: Scale invariance
+- canonical: Scale-free networks
 - canonical: Scale-invariant features
 - canonical: Scaled unscented transform
 - canonical: Scan matching
 - canonical: Scan primitive
 - canonical: Scattering theory
-- canonical: Scenario-based
 - canonical: Scenario generation
 - canonical: Scenario methods
 - canonical: Scenario optimization
+- canonical: Scenario-based
 - canonical: Scene reconstruction
 - canonical: SceneSmith
 - canonical: Scheduling
@@ -3273,10 +3345,10 @@ tags:
 - canonical: SCS
 - canonical: SCSC
 - canonical: Search algorithm
-- canonical: Search-based planning
 - canonical: Search engines
 - canonical: Search heuristics
 - canonical: Search trees
+- canonical: Search-based planning
 - canonical: Second derivatives
 - canonical: Second-moment dynamics
 - canonical: Second-order cone program
@@ -3290,11 +3362,11 @@ tags:
 - canonical: Segregation
 - canonical: Seismic exploration
 - canonical: Selection algorithms
-- canonical: Self-adjusting indexes
-- canonical: Self-concordant barriers
 - canonical: Self driving
   aliases:
   - Self-driving
+- canonical: Self-adjusting indexes
+- canonical: Self-concordant barriers
 - canonical: Self-driving vehicles
 - canonical: Self-normalized processes
 - canonical: Self-organization
@@ -3336,10 +3408,10 @@ tags:
   aliases:
   - SQP
 - canonical: Series
-- canonical: Set-membership estimation
 - canonical: Set membership identification
 - canonical: Set prediction
 - canonical: Set similarity
+- canonical: Set-membership estimation
 - canonical: SFT
 - canonical: SGB
 - canonical: SHAP
@@ -3377,6 +3449,7 @@ tags:
 - canonical: Signal reconstruction
 - canonical: Signal separation
 - canonical: Signature verification
+- canonical: Signed distance
 - canonical: Sim-to-real transfer
 - canonical: SimHash
 - canonical: Similarity estimation
@@ -3388,10 +3461,10 @@ tags:
 - canonical: Simulated evolution
 - canonical: Simulation
 - canonical: Simulation accuracy
-- canonical: Simulation-based optimization
 - canonical: Simulation environments
 - canonical: Simulation samples per second
 - canonical: Simulation search
+- canonical: Simulation-based optimization
 - canonical: Simultaneous localization and mapping
   aliases:
   - SLAM
@@ -3411,8 +3484,8 @@ tags:
   - SVD
 - canonical: Singular values
 - canonical: Singularities
-- canonical: Sinkhorn-Knopp algorithm
 - canonical: Sinkhorn scaling
+- canonical: Sinkhorn-Knopp algorithm
 - canonical: SIPP
 - canonical: SISO
 - canonical: Six degree-of-freedom pose estimation
@@ -3460,6 +3533,7 @@ tags:
 - canonical: Software architecture
 - canonical: Software engineering
 - canonical: Software infrastructure
+- canonical: Software libraries
 - canonical: Software quality
 - canonical: Solid texture
 - canonical: SONIC
@@ -3476,6 +3550,7 @@ tags:
 - canonical: Space-time search
 - canonical: Space-time tradeoffs
 - canonical: Spacecraft
+- canonical: Spacecraft guidance
 - canonical: Sparse activations
 - canonical: Sparse approximation
 - canonical: Sparse coding interpretation
@@ -3497,10 +3572,10 @@ tags:
 - canonical: Sparse rewards
 - canonical: Sparse sampling
 - canonical: Sparse selection
-- canonical: Sparse-to-dense interpolation
 - canonical: Sparse tree
 - canonical: Sparse updates
 - canonical: Sparse voxel grid
+- canonical: Sparse-to-dense interpolation
 - canonical: Spatial data structures
 - canonical: Spatial databases
 - canonical: Spatial indexing
@@ -3560,18 +3635,18 @@ tags:
 - canonical: Standardized interface
 - canonical: STAR
 - canonical: STAR-tree
-- canonical: State-based steering
-- canonical: State-dependent noise
 - canonical: State envelopes
 - canonical: State estimation
 - canonical: State feedback
 - canonical: State space
+- canonical: State space search
+- canonical: State-based steering
+- canonical: State-dependent noise
 - canonical: State-space methods
 - canonical: State-space modeling
 - canonical: State-space models
   aliases:
   - State space models
-- canonical: State space search
 - canonical: State-space systems
 - canonical: State-time space
 - canonical: Stationary control
@@ -3647,8 +3722,8 @@ tags:
   aliases:
   - SSIM
 - canonical: Structure exploitation
-- canonical: Structure-exploiting optimization
 - canonical: Structure from motion
+- canonical: Structure-exploiting optimization
 - canonical: Structured control
 - canonical: Structured controllers
 - canonical: Structured low-rank approximation
@@ -3679,6 +3754,7 @@ tags:
 - canonical: Supermartingales
 - canonical: Supervised fine-tuning
 - canonical: Supervised learning
+- canonical: Supervisory control
 - canonical: SUPIR
 - canonical: Support vector machine
   aliases:
@@ -3688,12 +3764,13 @@ tags:
 - canonical: Surface reconstruction
 - canonical: Surgical robot
 - canonical: Surgical robot transformer
-- canonical: Surrogate-assisted illumination
 - canonical: Surrogate model
+- canonical: Surrogate-assisted illumination
 - canonical: Survey
 - canonical: Survey analysis
 - canonical: Survey data analysis
 - canonical: Survey paper
+- canonical: Surveys
 - canonical: Sustainable artificial intelligence
   aliases:
   - Sustainable AI
@@ -3765,10 +3842,11 @@ tags:
 - canonical: Temporal difference learning
   aliases:
   - Temporal-difference learning
+- canonical: Temporal logic
+- canonical: Temporal logic planning
 - canonical: Temporal-difference model predictive control
   aliases:
   - TD-MPC
-- canonical: Temporal logic planning
 - canonical: Terminal constraints
 - canonical: Terminal cost
 - canonical: Test set
@@ -3786,19 +3864,19 @@ tags:
 - canonical: Thompson sampling
 - canonical: Threshold matrix generation
 - canonical: Thue theorem
-- canonical: Time-aware encoder
 - canonical: Time correlation
 - canonical: Time delay
-- canonical: Time-delay neural networks
-- canonical: Time-dependent vector fields
 - canonical: Time horizon
 - canonical: Time normalization
-- canonical: Time-optimal
-- canonical: Time-optimal control
-- canonical: Time-optimal planning
 - canonical: Time series
 - canonical: Time series classification
 - canonical: Time series indexing
+- canonical: Time-aware encoder
+- canonical: Time-delay neural networks
+- canonical: Time-dependent vector fields
+- canonical: Time-optimal
+- canonical: Time-optimal control
+- canonical: Time-optimal planning
 - canonical: Time-varying systems
 - canonical: Timed elastic Band
 - canonical: Tire modeling
@@ -3829,6 +3907,7 @@ tags:
 - canonical: Traffic flow
 - canonical: Traffic modeling
 - canonical: Training schedule
+- canonical: Training-validation split
 - canonical: Trajectory constraints
 - canonical: Trajectory data
 - canonical: Trajectory forecasting
@@ -3838,6 +3917,7 @@ tags:
 - canonical: Trajectory parametrization
 - canonical: Trajectory planning
 - canonical: Trajectory prediction
+- canonical: Trajectory scoring
 - canonical: Trajectory smoothing
 - canonical: Trajectory spaces
 - canonical: Trajectory spanning
@@ -3907,10 +3987,10 @@ tags:
 - canonical: Uncertain systems
 - canonical: Uncertain travel times
 - canonical: Uncertainty
-- canonical: Uncertainty-aware estimation
 - canonical: Uncertainty descriptions
 - canonical: Uncertainty quantification
 - canonical: Uncertainty threshold
+- canonical: Uncertainty-aware estimation
 - canonical: Unconstrained OCO
 - canonical: Unconstrained optimal control
 - canonical: Unconstrained optimization
@@ -3926,12 +4006,15 @@ tags:
 - canonical: Underactuated robotics
 - canonical: Underactuated systems
 - canonical: Undiscounted cost
+- canonical: Unified architectures
+- canonical: Unified models
 - canonical: Uniform color spaces
 - canonical: Uniqueness conditions
 - canonical: Universal
 - canonical: Universal inputs
 - canonical: Universal regularized Newton method
 - canonical: Universal sequence preconditioning
+- canonical: Unknown systems
 - canonical: Unscented Kalman filter
 - canonical: Unscented transform
 - canonical: Unstable systems
@@ -3951,17 +4034,17 @@ tags:
 - canonical: Value functions
   aliases:
   - Value function
-- canonical: Value-gradient iteration
 - canonical: Value iteration
+- canonical: Value-gradient iteration
 - canonical: Vanishing gradients
 - canonical: Variable elimination
 - canonical: Variable impedance
 - canonical: Variable metric
 - canonical: Variable reordering
 - canonical: Variable selection
-- canonical: Variable-speed animation
 - canonical: Variable step size
 - canonical: Variable stiffness
+- canonical: Variable-speed animation
 - canonical: Variance estimates
 - canonical: Variance minimization
 - canonical: Variance reduction
@@ -3996,29 +4079,32 @@ tags:
 - canonical: VGG-style networks
 - canonical: Via ordinary least-squares regression
 - canonical: VICReg
+- canonical: Video learning
+- canonical: Video prediction
 - canonical: Video super-resolution
 - canonical: View synthesis
 - canonical: Virtual creatures
 - canonical: Vision banana
-- canonical: Vision-based control
 - canonical: Vision foundation models
+- canonical: Vision transformers
+- canonical: Vision-based control
 - canonical: Vision-language
-- canonical: Vision-language-action
-- canonical: Vision-language-action model
-  aliases:
-  - VLA
 - canonical: Vision-language models
   aliases:
   - Vision-language model
   - VLM
-- canonical: Vision transformers
+- canonical: Vision-language-action
+- canonical: Vision-language-action model
+  aliases:
+  - VLA
+- canonical: Vision-language-action models
 - canonical: Visual fiducials
-- canonical: Visual-inertial odometry
 - canonical: Visual perception
 - canonical: Visual question answering
   aliases:
   - VQA
 - canonical: Visual tracking
+- canonical: Visual-inertial odometry
 - canonical: Visualization
 - canonical: VisualSFM
 - canonical: Visuomotor policy
@@ -4048,6 +4134,7 @@ tags:
 - canonical: Wayformer
 - canonical: Waymax
 - canonical: Waymo
+- canonical: Waymo open dataset
 - canonical: Weak learning
 - canonical: Web graph
 - canonical: Web indexing
@@ -4082,8 +4169,8 @@ tags:
 - canonical: XLA
 - canonical: Yamabico
 - canonical: Yamanaka factors
-- canonical: Youla-Kucera parameterization
 - canonical: Youla parameterization
+- canonical: Youla-Kucera parameterization
 - canonical: Zero crossings
 - canonical: Zero dynamics
 - canonical: Zero-sum linear quadratic
