@@ -1,0 +1,27 @@
+title: >
+  Generalized Model Predictive Path Integral Control as Expectation-Maximization
+algorithm:
+authors:
+  - Jiarui Wang
+  - Sina Sharifi
+  - Mahyar Fazlyab
+year: 2026
+source: arXiv
+type: Preprint
+doi:
+arxiv_id: "2606.00317"
+tags:
+  - Model predictive path integral control
+  - Expectation maximization
+  - Sampling-based control
+  - Optimal control
+  - Trajectory optimization
+  - Path integral control
+  - Control theory
+abstract: >
+  Model Predictive Path Integral (MPPI) control is a powerful sampling-based method for solving stochastic optimal control problems and has enabled real-time control in complex robotic systems. Despite its empirical success, its theoretical understanding remains limited. In this work, we show that MPPI can be interpreted as a special case of the Expectation-Maximization (EM) algorithm applied to a probabilistic inference formulation of optimal control. This perspective leads to a generalized EM-MPPI framework that extends MPPI beyond the commonly used Gaussian parameterization. We analyze the convergence behavior of this algorithm and characterize the local convergence rate in terms of the covariance of the posterior trajectory distribution and the exploration distribution. For exponential-family distributions, we establish a sufficient increase property of the log-likelihood when the log-partition function is strongly convex. Specializing the analysis to Gaussian MPPI yields explicit global and local convergence characterizations. The code for the experiments will be available upon acceptance.
+summary: >
+  Recasts generalized model predictive path integral control through the lens of expectation-maximization. This perspective clarifies the update structure of MPPI-style methods and links sampling-based control to a broader probabilistic optimization template.
+link: https://arxiv.org/pdf/2606.00317
+links_alt:
+audit_status: partial

@@ -1,0 +1,29 @@
+title: >
+  Differentially Constrained Mobile Robot Motion Planning in State Lattices
+algorithm:
+authors:
+  - Mihail Pivtoraiko
+  - Ross A. Knepper
+  - Alonzo Kelly
+year: 2009
+source: Journal of Field Robotics
+type: Journal Paper
+doi: 10.1002/rob.20285
+arxiv_id:
+tags:
+  - Motion planning
+  - Lattice methods
+  - Graph search
+  - State space search
+  - Differential constraints
+  - Mobile robots
+  - Autonomous navigation
+abstract: >
+  We present an approach to the problem of differentially constrained mobile robot motion planning in arbitrary cost fields. The approach is based on deterministic search in a specially discretized state space. We compute a set of elementary motions that connects each discrete state value to a set of its reachable neighbors via feasible motions. Thus, this set of motions induces a connected search graph. The motions are carefully designed to terminate at discrete states, whose dimensions include relevant state variables (e.g., position, heading, curvature, and velocity). The discrete states, and thus the motions, repeat at regular intervals, forming a lattice. We ensure that all paths in the graph encode feasible motions via the imposition of continuity constraints on state variables at graph vertices and compliance of the graph edges with a differential equation comprising the vehicle model. The resulting state lattice permits fast full configuration space cost evaluation and collision detection. Experimental results with research prototype rovers demonstrate that the planner allows us to exploit the entire envelope of vehicle maneuverability in rough terrain, while featuring real-time performance.
+summary: >
+  Presents state lattices as a deterministic search representation whose edges are feasible motion primitives for a differentially constrained robot. The key contribution is making graph search respect vehicle mobility constraints while retaining efficient cost evaluation and real-time planning behavior.
+link: https://www.cs.cmu.edu/~alonzo/pubs/papers/JFR_09Final.pdf
+links_alt:
+  - https://doi.org/10.1002/rob.20285
+  - https://onlinelibrary.wiley.com/doi/10.1002/rob.20285
+audit_status: partial

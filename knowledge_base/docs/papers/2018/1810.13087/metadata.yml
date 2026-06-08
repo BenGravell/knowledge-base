@@ -1,0 +1,29 @@
+title: >
+  Multirobot Coordination with Counting Temporal Logics
+algorithm: cLTL+
+authors:
+  - Yunus Emre Sahin
+  - Petter Nilsson
+  - Necmiye Ozay
+year: 2018
+source: IEEE Transactions on Robotics
+type: Journal Paper
+doi: 10.1109/TRO.2019.2957669
+arxiv_id: "1810.13087"
+tags:
+  - Multi-agent systems
+  - Multi-agent pathfinding
+  - Temporal logic
+  - Formal methods
+  - Mixed-integer programming
+  - Asynchronous coordination
+  - Robotics
+abstract: >
+  In many multirobot applications, planning trajectories in a way to guarantee that the collective behavior of the robots satisfies a certain high-level specification is crucial. Motivated by this problem, we introduce counting temporal logics-formal languages that enable concise expression of multirobot task specifications over possibly infinite horizons. We first introduce a general logic called counting linear temporal logic plus (cLTL+), and propose an optimization-based method that generates individual trajectories such that satisfaction of a given cLTL+ formula is guaranteed when these trajectories are synchronously executed. We then introduce a fragment of cLTL+, called counting linear temporal logic (cLTL), and show that a solution to planning problem with cLTL constraints can be obtained more efficiently if all robots have identical dynamics. In the second part of the paper, we relax the synchrony assumption and discuss how to generate trajectories that can be asynchronously executed, while preserving the satisfaction of the desired cLTL+ specification. In particular, we show that when the asynchrony between robots is bounded, the method presented in this paper can be modified to generate robust trajectories. We demonstrate these ideas with an experiment and provide numerical results that showcase the scalability of the method.
+summary: >
+  Develops counting temporal logics for specifying collective multi-robot behavior without assigning every robot a unique role. The paper combines logic-based planning, optimization, and robustness to bounded asynchrony, making it a bridge between formal methods and scalable multi-agent coordination.
+link: https://arxiv.org/pdf/1810.13087
+links_alt:
+  - https://doi.org/10.1109/TRO.2019.2957669
+  - https://authors.library.caltech.edu/records/hzs95-m1w54
+audit_status: partial

@@ -1,0 +1,32 @@
+title: >
+  NMPC for Racing Using a Singularity-Free Path-Parametric Model with Obstacle Avoidance
+algorithm:
+authors:
+  - Daniel Kloeser
+  - Tobias Schoels
+  - Tommaso Sartor
+  - Andrea Zanelli
+  - Gianluca Prison
+  - Moritz Diehl
+year: 2020
+source: IFAC-PapersOnLine
+type: Journal Paper
+doi: 10.1016/j.ifacol.2020.12.1376
+arxiv_id:
+tags:
+  - Nonlinear model predictive control
+  - Autonomous racing
+  - Obstacle avoidance
+  - Model predictive contouring control
+  - Autonomous vehicles
+  - Racing
+  - Trajectory optimization
+abstract: >
+  This work presents the real-time control of 1:43 scale autonomous race cars using nonlinear model predictive control based on a singularity-free prediction model. This model allows the car to drive at both low and high speeds and in stop-and-go maneuvers. Additional constraints are imposed in the optimal control problem to ensure the validity of the model assumptions. Moreover, the control scheme is capable of avoiding obstacles online. The experimental results show that the proposed method converges to nearly time-optimal behavior by maximizing the progress on the track and achieves competitive lap time results.
+summary: >
+  Applies nonlinear model predictive control to miniature autonomous racing with a path-parametric model that avoids singularities at low speed and during stop-and-go maneuvers. The method folds obstacle avoidance into the online optimal control problem while still pursuing near time-optimal laps.
+link: https://publications.syscop.de/Kloeser2020.pdf
+links_alt:
+  - https://doi.org/10.1016/j.ifacol.2020.12.1376
+  - https://www.sciencedirect.com/science/article/pii/S2405896320317845
+audit_status: partial

@@ -1,0 +1,32 @@
+title: >
+  Learning True Objectives: Linear Algebraic Characterizations of Identifiability in Inverse Reinforcement Learning
+algorithm:
+authors:
+  - Mohamad Louai Shehab
+  - Antoine Aspeel
+  - Nikos Arechiga
+  - Andrew Best
+  - Necmiye Ozay
+year: 2024
+source: Learning for Dynamics and Control Conference
+type: Conference Paper
+doi:
+arxiv_id:
+tags:
+  - Inverse reinforcement learning
+  - Identifiability
+  - Linear transformations
+  - Entropy regularization
+  - Markov decision process
+  - Reward learning
+  - Control theory
+abstract: >
+  Inverse reinforcement Learning (IRL) has emerged as a powerful paradigm for extracting expert skills from observed behavior, with applications ranging from autonomous systems to humanrobot interaction. However, the identifiability issue within IRL poses a significant challenge, as multiple reward functions can explain the same observed behavior. This paper provides a linear algebraic characterization of several identifiability notions for an entropy-regularized finite horizon Markov decision process (MDP). Moreover, our approach allows for the seamless integration of prior knowledge, in the form of featurized reward functions, to enhance the identifiability of IRL problems. The results are demonstrated with experiments on a grid world environment.
+
+summary: >
+  Gives linear-algebraic conditions for identifiability in entropy-regularized finite-horizon inverse reinforcement learning. The paper also shows how feature priors can be incorporated into those conditions, making the theory more directly applicable to structured reward models.
+
+link: https://proceedings.mlr.press/v242/shehab24a/shehab24a.pdf
+links_alt:
+  - https://proceedings.mlr.press/v242/shehab24a.html
+audit_status: partial

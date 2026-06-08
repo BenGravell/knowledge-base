@@ -1,0 +1,36 @@
+title: >
+  Dojo: A Differentiable Physics Engine for Robotics
+algorithm: Dojo
+authors:
+  - Taylor A. Howell
+  - Simon Le Cleac'h
+  - Jan Brudigam
+  - Qianzhong Chen
+  - Jiankai Sun
+  - J. Zico Kolter
+  - Mac Schwager
+  - Zachary Manchester
+year: 2022
+source: arXiv
+type: Preprint
+doi:
+arxiv_id: "2203.00806"
+tags:
+  - Physics engines
+  - Robot simulation
+  - Differentiable optimization
+  - Robotics
+  - Trajectory optimization
+  - System identification
+  - Implicit differentiation
+abstract: >
+  We present Dojo, a differentiable physics engine for robotics that prioritizes stable simulation, accurate contact physics, and differentiability with respect to states, actions, and system parameters. Dojo models hard contact and friction with a nonlinear complementarity problem with second-order cone constraints. We introduce a custom primal-dual interior-point method to solve the second order cone program for stable forward simulation over a broad range of sample rates. We obtain smooth gradient approximations with this solver through the implicit function theorem, giving gradients that are useful for downstream trajectory optimization, policy optimization, and system identification applications. Specifically, we propose to use the central path parameter threshold in the interior point solver as a user-tunable design parameter. A high value gives a smooth approximation to contact dynamics with smooth gradients for optimization and learning, while a low value gives precise simulation rollouts with hard contact. We demonstrate Dojo's differentiability in trajectory optimization, policy learning, and system identification examples. We also benchmark Dojo against MuJoCo, PyBullet, Drake, and Brax on a variety of robot models, and study the stability and simulation quality over a range of sample frequencies and accuracy tolerances. Finally, we evaluate the sim-to-real gap in hardware experiments with a Ufactory xArm 6 robot. Dojo is an open source project implemented in Julia with Python bindings, with code available at https://github.com/dojo-sim/Dojo.jl.
+
+summary: >
+  Presents a differentiable rigid-body physics engine designed around stable contact simulation and analytic gradients. Dojo combines variational integration, cone-constrained contact modeling, and implicit differentiation so simulation can directly support planning, policy learning, and system identification.
+
+link: https://arxiv.org/pdf/2203.00806
+links_alt:
+  - https://github.com/dojo-sim/Dojo.jl
+  - https://rexlab.ri.cmu.edu/papers/dojo.pdf
+audit_status: partial
