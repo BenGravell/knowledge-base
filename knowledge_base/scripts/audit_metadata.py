@@ -182,8 +182,15 @@ _MOJIBAKE_RE = re.compile(
     r"Ã(?=\s|$)|Â[\u0080-\u00ff]?|â[\u0080-\uffff]{1,2}|�)"
 )
 _BIG_WHITESPACE_RE = re.compile(r" {3,}")
+_TIGHT_LETTER_PAREN_RE = re.compile(
+    r"\b(?P<left>[A-Za-z][A-Za-z0-9-]*)"
+    r"\((?P<inner>[A-Za-z][A-Za-z0-9+/-]{1,31})\)"
+)
 _ASCII_MULTI_DASH_RE = re.compile(r"-{2,}")
 _BIG_WHITESPACE_ISSUE_PREFIX = "Contains 3+ consecutive spaces"
+_TIGHT_LETTER_PAREN_ISSUE_PREFIX = (
+    "Contains tight letter-parenthetical spacing"
+)
 _ASCII_MULTI_DASH_ISSUE_PREFIX = "Contains ASCII multi-dash punctuation"
 _AUTHOR_MOJIBAKE_ISSUE_PREFIX = "Author entries contain suspicious Unicode character"
 _AUTHOR_ASCII_NORMALIZATION_ISSUE_PREFIX = "Author entries are not ASCII-normalized"
@@ -198,6 +205,34 @@ _LOW_SIGNAL_SUMMARY_PHRASE = (
     "It is useful as a compact reference for the problem formulation, "
     "main assumptions, and evaluation setting behind the contribution."
 )
+_TEXT_SPACING_EXCLUDED_FIELDS = {
+    "arxiv_id",
+    "doi",
+    "link",
+    "links_alt",
+}
+_TIGHT_PAREN_ALLOWED_PREFIXES = {
+    "argmax",
+    "argmin",
+    "cos",
+    "det",
+    "exp",
+    "frac",
+    "log",
+    "max",
+    "min",
+    "poly",
+    "rank",
+    "sigma",
+    "sigmoid",
+    "sin",
+    "softmax",
+    "sqrt",
+    "tan",
+    "tanh",
+    "tr",
+    "trace",
+}
 CHECK_UNKNOWN = "unknown"
 CHECK_REQUIRED = "required"
 CHECK_TITLE = "title"
@@ -1492,6 +1527,14 @@ def _walk_string_values(value, field_name: str):
             yield from _walk_string_values(item, nested)
 
 
+def _metadata_field_root(field_name: str) -> str:
+    return re.split(r"[.\[]", field_name, maxsplit=1)[0]
+
+
+def _is_text_spacing_field(field_name: str) -> bool:
+    return _metadata_field_root(field_name) not in _TEXT_SPACING_EXCLUDED_FIELDS
+
+
 def _big_whitespace_examples(text: str, *, limit: int = 5) -> list[str]:
     examples: list[str] = []
     seen: set[str] = set()
@@ -1501,6 +1544,44 @@ def _big_whitespace_examples(text: str, *, limit: int = 5) -> list[str]:
         )
         right = _normalize_inline_text(text[match.end() : match.end() + 40])
         example = f"{left} [{len(match.group(0))} spaces] {right}".strip()
+        if example in seen:
+            continue
+        examples.append(example)
+        seen.add(example)
+        if len(examples) >= limit:
+            break
+    return examples
+
+
+def _is_tight_letter_parenthetical_match(match: re.Match[str]) -> bool:
+    left = match.group("left")
+    inner = match.group("inner")
+    if len(left) < 3 or left.isupper():
+        return False
+    if any(char.isdigit() or char.isupper() for char in left[1:]):
+        return False
+    if re.search(r"\b(?:O|Theta|Omega)\($", match.string[: match.start()]):
+        return False
+    if left.casefold() in _TIGHT_PAREN_ALLOWED_PREFIXES:
+        return False
+    return any(char.isupper() for char in inner)
+
+
+def _iter_tight_letter_parenthetical_matches(text: str):
+    for match in _TIGHT_LETTER_PAREN_RE.finditer(text):
+        if _is_tight_letter_parenthetical_match(match):
+            yield match
+
+
+def _tight_letter_parenthetical_examples(text: str, *, limit: int = 5) -> list[str]:
+    examples: list[str] = []
+    seen: set[str] = set()
+    for match in _iter_tight_letter_parenthetical_matches(text):
+        left = _normalize_inline_text(
+            text[max(0, match.start() - 40) : match.start()]
+        )
+        right = _normalize_inline_text(text[match.end() : match.end() + 40])
+        example = f"{left} [{match.group(0)}] {right}".strip()
         if example in seen:
             continue
         examples.append(example)
@@ -1547,6 +1628,35 @@ def find_ascii_multi_dash_issues(path: Path, data: dict) -> list["Issue"]:
                     "Replace ASCII multi-dash punctuation with a single dash, "
                     "using a tight hyphen for compounds/ranges and spaces for "
                     "phrase breaks."
+                ),
+            )
+        )
+    return issues
+
+
+def find_tight_letter_parenthetical_spacing_issues(
+    path: Path,
+    data: dict,
+) -> list["Issue"]:
+    issues: list[Issue] = []
+    for field_name, value in _walk_string_values(data, ""):
+        if not _is_text_spacing_field(field_name):
+            continue
+        examples = _tight_letter_parenthetical_examples(value)
+        if not examples:
+            continue
+
+        message = _TIGHT_LETTER_PAREN_ISSUE_PREFIX
+        if examples:
+            message += ": " + "; ".join(repr(example) for example in examples)
+        issues.append(
+            Issue(
+                path,
+                field_name,
+                message,
+                (
+                    "Insert a space before parenthetical abbreviations, "
+                    "for example 'Method (ABC)'."
                 ),
             )
         )
@@ -3514,6 +3624,7 @@ def audit_file(
 
     if should_check(CHECK_WHITESPACE):
         issues.extend(find_big_whitespace_issues(path, data))
+        issues.extend(find_tight_letter_parenthetical_spacing_issues(path, data))
 
     # -- unknown fields --
     if should_check(CHECK_UNKNOWN):
@@ -4408,6 +4519,10 @@ def _is_big_whitespace_issue(issue: Issue) -> bool:
     return issue.message.startswith(_BIG_WHITESPACE_ISSUE_PREFIX)
 
 
+def _is_tight_letter_parenthetical_spacing_issue(issue: Issue) -> bool:
+    return issue.message.startswith(_TIGHT_LETTER_PAREN_ISSUE_PREFIX)
+
+
 def _is_ascii_multi_dash_issue(issue: Issue) -> bool:
     return issue.message.startswith(_ASCII_MULTI_DASH_ISSUE_PREFIX)
 
@@ -4821,6 +4936,62 @@ def _fix_big_whitespace_in_yaml(raw: str, fields: set[str]) -> tuple[str, int]:
         index = end
 
     return "".join(lines), changed
+
+
+def _replace_tight_letter_parenthetical_spacing(text: str) -> tuple[str, int]:
+    changed = 0
+
+    def replace(match: re.Match[str]) -> str:
+        nonlocal changed
+        if not _is_tight_letter_parenthetical_match(match):
+            return match.group(0)
+        changed += 1
+        return f"{match.group('left')} ({match.group('inner')})"
+
+    return _TIGHT_LETTER_PAREN_RE.sub(replace, text), changed
+
+
+def _fix_tight_letter_parenthetical_spacing_in_yaml(
+    raw: str,
+    data: dict,
+    fields: set[str],
+) -> tuple[str, int]:
+    fixed_raw = raw
+    changed = 0
+    for field_name in sorted(fields):
+        if not _is_text_spacing_field(field_name):
+            continue
+        value = data.get(field_name)
+        if isinstance(value, str):
+            fixed_value, count = _replace_tight_letter_parenthetical_spacing(value)
+            if count and fixed_value != value:
+                fixed_raw = _fix_metadata_scalar_field_in_yaml(
+                    fixed_raw,
+                    field_name,
+                    fixed_value,
+                )
+                data[field_name] = fixed_value
+                changed += count
+        elif isinstance(value, list):
+            fixed_items = list(value)
+            list_changed = 0
+            for index, item in enumerate(fixed_items):
+                if not isinstance(item, str):
+                    continue
+                fixed_item, count = _replace_tight_letter_parenthetical_spacing(item)
+                if count and fixed_item != item:
+                    fixed_items[index] = fixed_item
+                    list_changed += count
+            if list_changed:
+                fixed_raw = _fix_metadata_scalar_field_in_yaml(
+                    fixed_raw,
+                    field_name,
+                    fixed_items,
+                )
+                data[field_name] = fixed_items
+                changed += list_changed
+
+    return fixed_raw, changed
 
 
 def _fix_ascii_multi_dash_in_yaml(
@@ -5829,12 +6000,17 @@ def apply_fixes(
         has_escaped_sequence_fixes = any(_is_escaped_sequence_issue(i) for i in issues)
         has_garbled_markup_fixes = any(_is_garbled_markup_issue(i) for i in issues)
         whitespace_fields = {
-            re.split(r"[.\[]", i.field, maxsplit=1)[0]
+            _metadata_field_root(i.field)
             for i in issues
             if _is_big_whitespace_issue(i)
         }
+        tight_letter_parenthetical_fields = {
+            _metadata_field_root(i.field)
+            for i in issues
+            if _is_tight_letter_parenthetical_spacing_issue(i)
+        }
         ascii_multi_dash_fields = {
-            re.split(r"[.\[]", i.field, maxsplit=1)[0]
+            _metadata_field_root(i.field)
             for i in issues
             if _is_ascii_multi_dash_issue(i)
         }
@@ -5857,6 +6033,7 @@ def apply_fixes(
             and not has_escaped_sequence_fixes
             and not has_garbled_markup_fixes
             and not whitespace_fields
+            and not tight_letter_parenthetical_fields
             and not ascii_multi_dash_fields
         ):
             continue
@@ -6054,6 +6231,24 @@ def apply_fixes(
                         f"{n_collapsed_spaces} large whitespace run(s): {fields}"
                     )
 
+            if tight_letter_parenthetical_fields:
+                parsed = yaml.safe_load(new_raw) or {}
+                (
+                    new_raw,
+                    n_spaced_parentheticals,
+                ) = _fix_tight_letter_parenthetical_spacing_in_yaml(
+                    new_raw,
+                    parsed,
+                    tight_letter_parenthetical_fields,
+                )
+                if n_spaced_parentheticals:
+                    fields = ", ".join(sorted(tight_letter_parenthetical_fields))
+                    messages.append(
+                        "  spaced "
+                        f"{n_spaced_parentheticals} parenthetical abbreviation(s): "
+                        f"{fields}"
+                    )
+
             if ascii_multi_dash_fields:
                 parsed = yaml.safe_load(new_raw) or {}
                 new_raw, n_fixed_dashes = _fix_ascii_multi_dash_in_yaml(
@@ -6208,7 +6403,7 @@ Checks performed on each metadata.yml:
   summary   - ERROR if it has substantial verbatim overlap with the abstract or known low-signal generated boilerplate; WARN if missing or empty unless audit_status is raw, or if likely misspelled
   optional  - INFO for each optional field that is not populated
   dash      - ERROR if any string field contains ASCII multi-dash punctuation like -- or ---
-  whitespace - ERROR if any string field contains 3 or more consecutive spaces
+  whitespace - ERROR if any string field contains 3 or more consecutive spaces, or acronym-like parentheticals are joined to a preceding word without a space
 
 By default, every check runs. Use --check to opt into a smaller set:
   --check abstract escape
@@ -6240,7 +6435,8 @@ Available --check names:
             "blank arXiv-backed type fields, copied or low-signal summaries, "
             "high-confidence parse artifacts, "
             "multiline scalar fields, folded text-field style/content, large whitespace runs, "
-            "ASCII multi-dash punctuation, source years, and path slugs; "
+            "tight parenthetical abbreviation spacing, ASCII multi-dash punctuation, "
+            "source years, and path slugs; "
             "path fixes move metadata directories "
             "after metadata edits and update direct references"
         ),
