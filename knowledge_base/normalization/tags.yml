@@ -112,6 +112,9 @@ tags:
 - canonical: Amortized analysis
 - canonical: Amortized inference
 - canonical: Amplifier stabilization
+- canonical: Analytic differentiation
+  aliases:
+  - Analytical differentiation
 - canonical: Analytic manifolds
 - canonical: Ancillary controller
 - canonical: Anderson acceleration
@@ -145,6 +148,7 @@ tags:
 - canonical: Arcade learning environment
 - canonical: Architecture
 - canonical: Argoverse 2
+- canonical: Arithmetic circuits
 - canonical: Arithmetic coding
 - canonical: Arithmetic complexity
 - canonical: ARMA
@@ -205,6 +209,8 @@ tags:
 - canonical: Automatic differentiation
   aliases:
   - AD
+- canonical: Automatic differentiation history
+- canonical: Automatic programming
 - canonical: Automatic tuning
 - canonical: Automation
 - canonical: Automotive industry
@@ -538,6 +544,7 @@ tags:
 - canonical: Computational cost
 - canonical: Computational fluid dynamics
 - canonical: Computational geometry
+- canonical: Computer algebra
 - canonical: Compute unified device architecture
   aliases:
   - CUDA
@@ -1144,6 +1151,7 @@ tags:
 - canonical: Exponential stability
 - canonical: Expression grammars
 - canonical: Expression graphs
+- canonical: Expression swell
 - canonical: Extended dynamic mode decomposition
   aliases:
   - Extended DMD
@@ -1278,11 +1286,13 @@ tags:
 - canonical: Force reflection
 - canonical: Forcing
 - canonical: FORGE
+- canonical: Formula manipulation
 - canonical: Formal methods
 - canonical: Formal verification
 - canonical: Formation control
 - canonical: Formation reshaping
 - canonical: Formation tracking
+- canonical: Forward mode
 - canonical: Forward search
 - canonical: Forward sensor models
 - canonical: Foundation models
@@ -1751,6 +1761,7 @@ tags:
   - IRL
 - canonical: Inverted indexes
 - canonical: Inverted pendulum
+- canonical: Intermediate variables
 - canonical: IOC
 - canonical: IPM
 - canonical: IPT color space
@@ -2698,6 +2709,7 @@ tags:
 - canonical: Partial differential equation
   aliases:
   - PDE
+- canonical: Partial derivatives
 - canonical: Partial feedback linearization
 - canonical: Partial match queries
 - canonical: Partial observability
@@ -3198,6 +3210,7 @@ tags:
 - canonical: Resolved-rate control
 - canonical: Resource allocation
 - canonical: Responsibility-sensitive safety
+- canonical: Reverse mode
 - canonical: ResShift
 - canonical: Restoration quality
 - canonical: Restoration-guided sampling
@@ -3836,7 +3849,10 @@ tags:
 - canonical: Switching control
 - canonical: Switching systems
 - canonical: Sylvester equations
+- canonical: Symbol manipulation
 - canonical: Symbol tables
+- canonical: Symbolic computation
+- canonical: Symbolic differentiation
 - canonical: Symmetric indefinite systems
 - canonical: SYMMLQ
 - canonical: Symplectic geometry
@@ -4059,6 +4075,7 @@ tags:
 - canonical: Universal regularized Newton method
 - canonical: Universal sequence preconditioning
 - canonical: Unknown systems
+- canonical: UNIVAC
 - canonical: Unscented Kalman filter
 - canonical: Unscented transform
 - canonical: Unstable systems
@@ -4186,6 +4203,7 @@ tags:
 - canonical: Web graph
 - canonical: Web indexing
 - canonical: Web search
+- canonical: Wengert list
 - canonical: Weight initialization
 - canonical: Weighted networks
 - canonical: WestWorld

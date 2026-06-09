@@ -1,0 +1,24 @@
+title: >
+  Analytical Differentiation by a Digital Computer
+algorithm: Kahrimanian Differentiator
+authors:
+  - Harry G. Kahrimanian
+year: 1953
+source: Temple University
+type: "Master's Thesis"
+doi:
+arxiv_id:
+tags:
+  - Symbolic differentiation
+  - Analytic differentiation
+  - Computer algebra
+  - Formula manipulation
+  - UNIVAC
+  - Derivatives
+abstract: ""
+summary: >
+  Kahrimanian's master's thesis describes an early system for representing formulas and deriving their analytical derivatives on a digital computer. It is a seminal pre-computer-algebra-system contribution because it treats differentiation as a symbolic transformation over machine-manipulable expressions rather than as hand algebra or finite differencing.
+link: "https://books.google.com/books/about/Analytical_Differentiation_by_a_Digital.html?id=tkxazmCpYWUC"
+links_alt:
+  - "https://search.worldcat.org/title/Analytical-differentiation-by-a-digital-computer/oclc/23639594"
+audit_status: "partial"

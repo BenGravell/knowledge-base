@@ -1,0 +1,23 @@
+title: >
+  Analytical Differentiation on a Digital Computer
+algorithm: Analytical Differentiation
+authors:
+  - John F. Nolan
+year: 1953
+source: Massachusetts Institute of Technology
+type: "Master's Thesis"
+doi:
+arxiv_id:
+tags:
+  - Symbolic differentiation
+  - Analytic differentiation
+  - Computer algebra
+  - Automatic differentiation history
+  - Derivatives
+abstract: ""
+summary: >
+  Nolan's 1953 master's thesis is one of the earliest known works on using a digital computer to carry out analytical differentiation. It is historically important as a boundary object between later computer algebra systems and automatic differentiation, showing that derivative generation was already being framed as a programmable symbolic computation problem at the start of electronic computing.
+link: "https://users.fmi.uni-jena.de/~autodiff/?module=Publications&search%5Bauthor%5D=Nolan&submenu=list+publications"
+links_alt:
+  - "https://www.researchgate.net/publication/37603496_Analytical_differentiation_on_a_digital_computer"
+audit_status: "partial"

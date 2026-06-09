@@ -355,7 +355,14 @@
             - Differentiating through Log-Log Convex Programs: docs/papers/2020/2004.12553/metadata.yml
             - Differentiating through a Quadratic Cone Program: docs/papers/2025/2508.17522/metadata.yml
         - Symbolic Differentiation:
-          - TODO
+          - Early Analytical Differentiation:
+            - Analytical Differentiation on a Digital Computer: docs/papers/1953/1953.nolan.analytical_differentiation_on_a/metadata.yml
+            - Kahrimanian Differentiator: docs/papers/1953/1953.kahrimanian.analytical_differentiation_by_a/metadata.yml
+            - Analytic Differentiation by Computer: docs/papers/1962/1962.hanson.analytic_differentiation_by_computer/metadata.yml
+          - Complexity and AD Boundary:
+            - Wengert List: docs/papers/1964/1964.wengert.a_simple_automatic_derivative/metadata.yml
+            - Baur-Strassen Theorem: docs/papers/1983/1983.baur.the_complexity_of_partial/metadata.yml
+            - Automatic-Symbolic Differentiation Equivalence: docs/papers/2019/1904.02990/metadata.yml
       - Combinatorial Optimization:
         - Complexity Theory:
           - "Reducibility among Combinatorial Problems": docs/papers/1972/1972.karp.reducibility_among_combinatorial_problems/metadata.yml
