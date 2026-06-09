@@ -452,6 +452,7 @@
             - "Bayesian Optimization Is Superior to Random Search for Machine Learning Hyperparameter Tuning": docs/papers/2021/2104.10201/metadata.yml
             - NeST-BO: docs/papers/2025/2510.05516/metadata.yml
           - Planner & Controller Autotuning:
+            - HOOF: docs/papers/2019/1902.06583/metadata.yml
             - AutoTune: docs/papers/2021/2103.10698/metadata.yml
             - DiffLoop: docs/papers/2021/2106.10516/metadata.yml
             - DiffTune: docs/papers/2022/2209.10021/metadata.yml
@@ -1605,72 +1606,77 @@
             - Using Reinforcement Learning for Model-free Linear Quadratic Control with Process and Measurement Noises: docs/papers/2019/2019.yaghmaie.using_reinforcement_learning_for/metadata.yml
             - Linear Quadratic Control Using Model-Free Reinforcement Learning: docs/papers/2023/2023.yaghmaie.linear_quadratic_control_using/metadata.yml
           - Policy Gradient:
-            - Vanilla Policy Gradient:
-              - REINFORCE: docs/papers/1992/1992.williams.simple_statistical_gradient_following/metadata.yml
-              - Policy Gradient with Function Approximation: docs/papers/1999/1999.sutton.policy_gradient_methods_for/metadata.yml
-              - Particle Value Functions: docs/papers/2017/1703.05820/metadata.yml
-              - Quinoa: docs/papers/2019/1911.01831/metadata.yml
-              - AAPI: docs/papers/2020/2002.03069/metadata.yml
-              - A Tutorial on Linear Function Approximators for Dynamic Programming and Reinforcement Learning: docs/papers/2013/2013.geramifard.a_tutorial_on_linear/metadata.yml
-              - "POLITEX: Regret Bounds for Policy Iteration Using Expert Prediction": docs/papers/2019/2019.abbasi_yadkori.politex_regret_bounds_for/metadata.yml
-              - Sample-Based Planning and Learning with Function Approximation: docs/papers/2025/2025.lattimore.sample_based_planning_and/metadata.yml
-              - DAPO: docs/papers/2024/2410.01249/metadata.yml
-              - Robust Markov Decision Processes: docs/papers/2013/2013.wiesemann.robust_markov_decision_processes/metadata.yml
-              - "Revisiting Subgradient Dominance in Robust MDPs: Counterexamples, Hardness, and Sufficient Conditions": docs/papers/2026/2604.21177/metadata.yml
-              - "Control and Reinforcement Learning through the Lens of Optimization: An Algorithmic Perspective": docs/papers/2025/2512.07377/metadata.yml
-              - Approximately Optimal Approximate Reinforcement Learning: docs/papers/2002/2002.kakade.approximately_optimal_approximate_reinforcement/metadata.yml
-              - Error Propagation for Approximate Policy and Value Iteration: docs/papers/2010/2010.farahmand.error_propagation_for_approximate/metadata.yml
-              - Direct Gradient-Based Reinforcement Learning: docs/papers/2000/2000.baxter.direct_gradient_based_reinforcement/metadata.yml
-            - Natural Policy Gradient:
-              - Natural Policy Gradient: docs/papers/2001/2001.kakade.a_natural_policy_gradient/metadata.yml
-              - Energetic Natural Gradient Descent: docs/papers/2016/2016.thomas.energetic_natural_gradient_descent/metadata.yml
-              - Natural Policy Gradient as Doubly Smoothed Policy Iteration: docs/papers/2026/2605.10671/metadata.yml
-              - Understanding the Effects of Second-Order Approximations in Natural Policy Gradient Reinforcement Learning: docs/papers/2022/2201.09104/metadata.yml
-            - Variance Reduction:
-              - PAGE-PG: docs/papers/2022/2202.00308/metadata.yml
-              - Stochastic Variance-Reduced Policy Gradient: docs/papers/2018/1806.05618/metadata.yml
-              - On the Convergence and Sample Efficiency of Variance-Reduced Policy Gradient Method: docs/papers/2021/2102.08607/metadata.yml
-              - An Improved Analysis of Variance-Reduced Policy Gradient and Natural Policy Gradient Methods: docs/papers/2022/2211.07937/metadata.yml
-            - Towards a Theoretical Foundation of Policy Optimization for Learning Control Policies: docs/papers/2022/2210.04810/metadata.yml
-            - Learning Continuous Control Policies by Stochastic Value Gradients: docs/papers/2015/1510.09142/metadata.yml
-            - Learning Convex Optimization Control Policies: docs/papers/2019/1912.09529/metadata.yml
-            - Fitting a Linear Control Policy to Demonstrations with a Kalman Constraint: docs/papers/2020/2001.07572/metadata.yml
-            - "Learning Optimal Controllers by Policy Gradient: Global Optimality via Convex Parameterization": docs/papers/2021/2021.sun.learning_optimal_controllers_by/metadata.yml
-            - Multi-Objective LQR with Linear Scalarization: docs/papers/2024/2408.04488/metadata.yml
-            - Escaping High-order Saddles in Policy Optimization for Linear Quadratic Gaussian (LQG) Control: docs/papers/2022/2204.00912/metadata.yml
-            - Data-enabled Policy Optimization for the Linear Quadratic Regulator: docs/papers/2023/2303.17958/metadata.yml
-            - Policy Gradient Bounds in Multitask LQR: docs/papers/2025/2509.19266/metadata.yml
-            - Data-Enabled Policy Optimization for Direct Adaptive Learning of the LQR: docs/papers/2024/2401.14871/metadata.yml
-            - PGAC: docs/papers/2025/2505.03706/metadata.yml
-            - HOOF: docs/papers/2019/1902.06583/metadata.yml
-            - Evolution Strategies as a Scalable Alternative to Reinforcement Learning: docs/papers/2017/1703.03864/metadata.yml
-            - Infinite-Horizon Policy-Gradient Estimation: docs/papers/2011/1106.0665/metadata.yml
-            - "How are policy gradient methods affected by the limits of control?": docs/papers/2022/2206.06863/metadata.yml
-            - "On Linear Convergence of Policy Gradient Methods for Finite MDPs": docs/papers/2020/2007.11120/metadata.yml
-            - "On the Theory of Policy Gradient Methods: Optimality, Approximation, and Distribution Shift": docs/papers/2019/1908.00261/metadata.yml
-            - Equivalence between Policy Gradients and Soft Q-Learning: docs/papers/2017/1704.06440/metadata.yml
-            - Sample-Optimal Parametric Q-Learning Using Linearly Additive Features: docs/papers/2019/1902.04779/metadata.yml
-            - On the Global Convergence Rates of Softmax Policy Gradient Methods: docs/papers/2020/2005.06392/metadata.yml
-            - Global Linear Convergence of Entropy-Regularized Softmax Policy Gradient beyond Tabular MDPs: docs/papers/2026/2605.24939/metadata.yml
-            - Wasserstein Policy Gradient: docs/papers/2026/2605.26078/metadata.yml
-            - A Convergent O(n) Temporal-difference Algorithm for Off-policy Learning with Linear Function Approximation: docs/papers/2008/2008.sutton.a_convergent_o_n/metadata.yml
-            - Sample Efficient Reinforcement Learning with REINFORCE: docs/papers/2020/2010.11364/metadata.yml
-            - Sample Efficient Deep Reinforcement Learning via Local Planning: docs/papers/2023/2301.12579/metadata.yml
-            - Understanding the Effect of Stochasticity in Policy Optimization: docs/papers/2021/2110.15572/metadata.yml
-            - The Role of Baselines in Policy Gradient Optimization: docs/papers/2023/2301.06276/metadata.yml
-            - Fast Gradient-descent Methods for Temporal-difference Learning with Linear Function Approximation: docs/papers/2009/2009.sutton.fast_gradient_descent_methods/metadata.yml
-            - "On-Policy Distillation of Language Models for Autonomous Vehicle Motion Planning": docs/papers/2026/2604.07944/metadata.yml
-            - "The Definitive Guide to Policy Gradients in Deep Reinforcement Learning: Theory, Algorithms and Implementations": docs/papers/2024/2401.13662/metadata.yml
-            - "Do Differentiable Simulators Give Better Policy Gradients?": docs/papers/2022/2202.00817/metadata.yml
-            - "A Large Deviations Perspective on Policy Gradient Algorithms": docs/papers/2023/2311.07411/metadata.yml
-            - "Stochastic Recursive Momentum for Policy Gradient Methods": docs/papers/2020/2003.04302/metadata.yml
-            - "Unifying PAC and Regret: Uniform PAC Bounds for Episodic Reinforcement Learning": docs/papers/2017/1703.07710/metadata.yml
-            - "Policy Gradient Methods for Reinforcement Learning with Function Approximation and Action-Dependent Baselines": docs/papers/2017/1706.06643/metadata.yml
-            - "Global Convergence of Policy Gradient Methods to (Almost) Locally Optimal Policies": docs/papers/2019/1906.08383/metadata.yml
-            - Variational Policy Gradient Method for Reinforcement Learning with General Utilities: docs/papers/2020/2007.02151/metadata.yml
-            - "Being Optimistic to Be Conservative: Quickly Learning a CVaR Policy": docs/papers/2019/1911.01546/metadata.yml
-            - "Sample Complexity Bounds for Iterative Stochastic Policy Optimization": docs/papers/2015/2015.kobilarov.sample_complexity_bounds_for/metadata.yml
-            - "Online Policy Optimization in Unknown Nonlinear Systems": docs/papers/2024/2404.13009/metadata.yml
+            - Policy gradients / Natural Policy Gradient / Sample complexity:
+              - Vanilla Policy Gradient:
+                - REINFORCE: docs/papers/1992/1992.williams.simple_statistical_gradient_following/metadata.yml
+                - Policy Gradient with Function Approximation: docs/papers/1999/1999.sutton.policy_gradient_methods_for/metadata.yml
+                - Particle Value Functions: docs/papers/2017/1703.05820/metadata.yml
+                - Quinoa: docs/papers/2019/1911.01831/metadata.yml
+                - AAPI: docs/papers/2020/2002.03069/metadata.yml
+                - A Tutorial on Linear Function Approximators for Dynamic Programming and Reinforcement Learning: docs/papers/2013/2013.geramifard.a_tutorial_on_linear/metadata.yml
+                - "POLITEX: Regret Bounds for Policy Iteration Using Expert Prediction": docs/papers/2019/2019.abbasi_yadkori.politex_regret_bounds_for/metadata.yml
+                - Sample-Based Planning and Learning with Function Approximation: docs/papers/2025/2025.lattimore.sample_based_planning_and/metadata.yml
+                - DAPO: docs/papers/2024/2410.01249/metadata.yml
+                - Robust Markov Decision Processes: docs/papers/2013/2013.wiesemann.robust_markov_decision_processes/metadata.yml
+                - "Revisiting Subgradient Dominance in Robust MDPs: Counterexamples, Hardness, and Sufficient Conditions": docs/papers/2026/2604.21177/metadata.yml
+                - "Control and Reinforcement Learning through the Lens of Optimization: An Algorithmic Perspective": docs/papers/2025/2512.07377/metadata.yml
+                - Approximately Optimal Approximate Reinforcement Learning: docs/papers/2002/2002.kakade.approximately_optimal_approximate_reinforcement/metadata.yml
+                - Error Propagation for Approximate Policy and Value Iteration: docs/papers/2010/2010.farahmand.error_propagation_for_approximate/metadata.yml
+                - Direct Gradient-Based Reinforcement Learning: docs/papers/2000/2000.baxter.direct_gradient_based_reinforcement/metadata.yml
+              - Natural Policy Gradient:
+                - Natural Policy Gradient: docs/papers/2001/2001.kakade.a_natural_policy_gradient/metadata.yml
+                - Energetic Natural Gradient Descent: docs/papers/2016/2016.thomas.energetic_natural_gradient_descent/metadata.yml
+                - Natural Policy Gradient as Doubly Smoothed Policy Iteration: docs/papers/2026/2605.10671/metadata.yml
+                - Understanding the Effects of Second-Order Approximations in Natural Policy Gradient Reinforcement Learning: docs/papers/2022/2201.09104/metadata.yml
+              - Variance Reduction:
+                - PAGE-PG: docs/papers/2022/2202.00308/metadata.yml
+                - Stochastic Variance-Reduced Policy Gradient: docs/papers/2018/1806.05618/metadata.yml
+                - On the Convergence and Sample Efficiency of Variance-Reduced Policy Gradient Method: docs/papers/2021/2102.08607/metadata.yml
+                - An Improved Analysis of Variance-Reduced Policy Gradient and Natural Policy Gradient Methods: docs/papers/2022/2211.07937/metadata.yml
+              - Learning Continuous Control Policies by Stochastic Value Gradients: docs/papers/2015/1510.09142/metadata.yml
+              - Infinite-Horizon Policy-Gradient Estimation: docs/papers/2011/1106.0665/metadata.yml
+              - "How are policy gradient methods affected by the limits of control?": docs/papers/2022/2206.06863/metadata.yml
+              - "On Linear Convergence of Policy Gradient Methods for Finite MDPs": docs/papers/2020/2007.11120/metadata.yml
+              - "On the Theory of Policy Gradient Methods: Optimality, Approximation, and Distribution Shift": docs/papers/2019/1908.00261/metadata.yml
+              - Equivalence between Policy Gradients and Soft Q-Learning: docs/papers/2017/1704.06440/metadata.yml
+              - On the Global Convergence Rates of Softmax Policy Gradient Methods: docs/papers/2020/2005.06392/metadata.yml
+              - Global Linear Convergence of Entropy-Regularized Softmax Policy Gradient beyond Tabular MDPs: docs/papers/2026/2605.24939/metadata.yml
+              - Wasserstein Policy Gradient: docs/papers/2026/2605.26078/metadata.yml
+              - A Convergent O(n) Temporal-difference Algorithm for Off-policy Learning with Linear Function Approximation: docs/papers/2008/2008.sutton.a_convergent_o_n/metadata.yml
+              - Sample Efficient Reinforcement Learning with REINFORCE: docs/papers/2020/2010.11364/metadata.yml
+              - Understanding the Effect of Stochasticity in Policy Optimization: docs/papers/2021/2110.15572/metadata.yml
+              - The Role of Baselines in Policy Gradient Optimization: docs/papers/2023/2301.06276/metadata.yml
+              - Fast Gradient-descent Methods for Temporal-difference Learning with Linear Function Approximation: docs/papers/2009/2009.sutton.fast_gradient_descent_methods/metadata.yml
+              - "The Definitive Guide to Policy Gradients in Deep Reinforcement Learning: Theory, Algorithms and Implementations": docs/papers/2024/2401.13662/metadata.yml
+              - "Do Differentiable Simulators Give Better Policy Gradients?": docs/papers/2022/2202.00817/metadata.yml
+              - "A Large Deviations Perspective on Policy Gradient Algorithms": docs/papers/2023/2311.07411/metadata.yml
+              - "Stochastic Recursive Momentum for Policy Gradient Methods": docs/papers/2020/2003.04302/metadata.yml
+              - "Policy Gradient Methods for Reinforcement Learning with Function Approximation and Action-Dependent Baselines": docs/papers/2017/1706.06643/metadata.yml
+              - "Global Convergence of Policy Gradient Methods to (Almost) Locally Optimal Policies": docs/papers/2019/1906.08383/metadata.yml
+              - Variational Policy Gradient Method for Reinforcement Learning with General Utilities: docs/papers/2020/2007.02151/metadata.yml
+              - "Sample Complexity Bounds for Iterative Stochastic Policy Optimization": docs/papers/2015/2015.kobilarov.sample_complexity_bounds_for/metadata.yml
+              - "Online Policy Optimization in Unknown Nonlinear Systems": docs/papers/2024/2404.13009/metadata.yml
+            - PGAC / Stability analysis / Robustness:
+              - Towards a Theoretical Foundation of Policy Optimization for Learning Control Policies: docs/papers/2022/2210.04810/metadata.yml
+              - Learning Convex Optimization Control Policies: docs/papers/2019/1912.09529/metadata.yml
+              - Fitting a Linear Control Policy to Demonstrations with a Kalman Constraint: docs/papers/2020/2001.07572/metadata.yml
+              - "Learning Optimal Controllers by Policy Gradient: Global Optimality via Convex Parameterization": docs/papers/2021/2021.sun.learning_optimal_controllers_by/metadata.yml
+              - Multi-Objective LQR with Linear Scalarization: docs/papers/2024/2408.04488/metadata.yml
+              - Escaping High-order Saddles in Policy Optimization for Linear Quadratic Gaussian (LQG) Control: docs/papers/2022/2204.00912/metadata.yml
+              - Data-enabled Policy Optimization for the Linear Quadratic Regulator: docs/papers/2023/2303.17958/metadata.yml
+              - Policy Gradient Bounds in Multitask LQR: docs/papers/2025/2509.19266/metadata.yml
+              - Data-Enabled Policy Optimization for Direct Adaptive Learning of the LQR: docs/papers/2024/2401.14871/metadata.yml
+              - PGAC: docs/papers/2025/2505.03706/metadata.yml
+            - Evolution Strategies / Policy gradients / Q-learning:
+              - Evolution Strategies as a Scalable Alternative to Reinforcement Learning: docs/papers/2017/1703.03864/metadata.yml
+            - Bellman equations / Uncertainty / Conservative:
+              - Sample-Optimal Parametric Q-Learning Using Linearly Additive Features: docs/papers/2019/1902.04779/metadata.yml
+              - "Being Optimistic to Be Conservative: Quickly Learning a CVaR Policy": docs/papers/2019/1911.01546/metadata.yml
+            - Policy gradients / Motion planning / Autonomous driving:
+              - Sample Efficient Deep Reinforcement Learning via Local Planning: docs/papers/2023/2301.12579/metadata.yml
+              - "On-Policy Distillation of Language Models for Autonomous Vehicle Motion Planning": docs/papers/2026/2604.07944/metadata.yml
+            - Unifying PAC and Regret / Regret bounds / Probably approximately correct:
+              - "Unifying PAC and Regret: Uniform PAC Bounds for Episodic Reinforcement Learning": docs/papers/2017/1703.07710/metadata.yml
           - Actor-Critic Methods:
             - DPG: docs/papers/2014/2014.silver.deterministic_policy_gradient_algorithms/metadata.yml
             - Distributed Distributional Deterministic Policy Gradients: docs/papers/2018/1804.08617/metadata.yml
