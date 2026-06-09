@@ -1,0 +1,32 @@
+title: >
+  Image Coding Using Wavelet Transform
+algorithm: Wavelet Transform Image Coding
+authors:
+  - Marc Antonini
+  - Michel Barlaud
+  - Pierre Mathieu
+  - Ingrid Daubechies
+year: 1992
+source: IEEE Transactions on Image Processing
+type: Journal Paper
+doi: 10.1109/83.136597
+arxiv_id:
+tags:
+  - Wavelet transform
+  - Biorthogonal wavelets
+  - Vector quantization
+  - Image compression
+  - Progressive transmission
+  - Rate-distortion theory
+  - Psychovisual modeling
+  - Multiresolution coding
+abstract: >
+  Image compression is now essential for applications such as transmission and storage in data bases. This paper proposes a new scheme for image compression taking into account psychovisual features both in the space and frequency domains; this new method involves two steps. First, we use a wavelet transform in order to obtain a set of biorthogonal subclasses of images; the original image is decomposed at different scales using a pyramidal algorithm architecture. The decomposition is along the vertical and horizontal directions and maintains constant the number of pixels required to describe the image. Second, according to Shannon's rate distortion theory, the wavelet coefficients are vector quantized using a multiresolution codebook. Furthermore, to encode the wavelet coefficients, we propose a noise shaping bit allocation procedure which assumes that details at high resolution are less visible to the human eye. Finally, in order to allow the receiver to recognize a picture as quickly as possible at minimum cost, we present a progressive transmission scheme. It is shown that the wavelet transform is particularly well adapted to progressive transmission.
+summary: >
+  Antonini, Barlaud, Mathieu, and Daubechies show how biorthogonal wavelet transforms, multiresolution vector quantization, and psychovisual bit allocation can form an effective still-image coder. The paper is an early bridge from wavelet theory to practical progressive image coding, and it helped set up the wavelet-based line of work that eventually led to JPEG 2000.
+link: https://sites.math.duke.edu/~ingrid/publications/ieee1-1992.pdf
+links_alt:
+  - https://pubmed.ncbi.nlm.nih.gov/18296155/
+  - https://ieeexplore.ieee.org/document/136597
+  - https://doi.org/10.1109/83.136597
+audit_status: "partial"

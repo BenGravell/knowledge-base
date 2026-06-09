@@ -1,0 +1,28 @@
+title: >
+  A Method for the Construction of Minimum-Redundancy Codes
+algorithm: Huffman Coding
+authors:
+  - David A. Huffman
+year: 1952
+source: Proceedings of the IRE
+type: Journal Paper
+doi: 10.1109/JRPROC.1952.273898
+arxiv_id:
+tags:
+  - Huffman coding
+  - Minimum redundancy coding
+  - Prefix codes
+  - Variable length codes
+  - Entropy coding
+  - Lossless compression
+  - Source coding
+  - Coding theory
+  - Data compression
+abstract: ""
+summary: >
+  Huffman gives the constructive greedy algorithm for building minimum-redundancy prefix codes from symbol probabilities. The method became the standard practical entropy coding tool behind many lossless compressors and image formats, and it also supplies an important baseline against which arithmetic coding and later context-adaptive coders are compared.
+link: https://web.stanford.edu/class/ee398a/handouts/papers/Huffman%20-%20Min%20Redundancy%20Codes%20-%20IRE52.pdf
+links_alt:
+  - https://ieeexplore.ieee.org/document/4051119
+  - https://doi.org/10.1109/JRPROC.1952.273898
+audit_status: "partial"
