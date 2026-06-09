@@ -37,6 +37,7 @@ VALID_TYPES: list[str] = [
     "Preprint",
     "Technical Report",
     "PhD Dissertation",
+    "Master's Thesis",
     "Survey Paper",
     "Book",
     "Patent",
