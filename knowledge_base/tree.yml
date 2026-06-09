@@ -2131,6 +2131,17 @@
           - LeWorldModel: docs/papers/2026/2603.19312/metadata.yml
           - V-JEPA 2.1: docs/papers/2026/2603.14482/metadata.yml
       - Image Compression:
+        - Foundations:
+          - Information Theory: docs/papers/1948/1948.shannon.a_mathematical_theory_of/metadata.yml
+          - Huffman Coding: docs/papers/1952/1952.huffman.a_method_for_the/metadata.yml
+          - Discrete Cosine Transform: docs/papers/1974/1974.ahmed.discrete_cosine_transform/metadata.yml
+        - Traditional Image Codecs:
+          - JPEG: docs/papers/1991/1991.wallace.the_jpeg_still_picture/metadata.yml
+          - Wavelet Transform Image Coding: docs/papers/1992/1992.antonini.image_coding_using_wavelet/metadata.yml
+          - Embedded Zerotree Wavelet: docs/papers/1993/1993.shapiro.embedded_image_coding_using/metadata.yml
+          - SPIHT: docs/papers/1996/1996.said.a_new_fast_and/metadata.yml
+          - EBCOT: docs/papers/2000/2000.taubman.high_performance_scalable_image/metadata.yml
+        - Learned Image Codecs:
           - "End-to-end Optimized Image Compression": docs/papers/2016/1611.01704/metadata.yml
           - "Lossy Image Compression with Compressive Autoencoders": docs/papers/2017/1703.00395/metadata.yml
           - "What Matters in Practical Learned Image Compression": docs/papers/2026/2605.05148/metadata.yml
@@ -2163,6 +2174,15 @@
           - "Visual Sensitivities to Color Differences in Daylight": docs/papers/1942/1942.macadam.visual_sensitivities_to_color/metadata.yml
           - IPT Color Space: docs/papers/1998/1998.ebner.development_and_testing_of/metadata.yml
           - "Uniform colour spaces based on CIECAM02 colour appearance model": docs/papers/2006/2006.luo.uniform_colour_spaces_based/metadata.yml
+    - Audio:
+      - Audio Compression:
+        - Critical Bands: docs/papers/1961/1961.zwicker.subdivision_of_the_audible/metadata.yml
+        - Masking-Based Speech Coding: docs/papers/1979/1979.schroeder.optimizing_digital_speech_coders/metadata.yml
+        - Time-Domain Aliasing Cancellation: docs/papers/1986/1986.princen.analysis_synthesis_filter_bank/metadata.yml
+        - MPEG-1 Audio: docs/papers/1994/1994.brandenburg.iso_mpeg_1_audio/metadata.yml
+        - AAC: docs/papers/1997/1997.bosi.iso_iec_mpeg_2/metadata.yml
+        - SoundStream: docs/papers/2021/2107.03312/metadata.yml
+        - EnCodec: docs/papers/2022/2210.13438/metadata.yml
     - Machine Learning:
       - Foundations, Data & Reliability:
         - Foundations:
