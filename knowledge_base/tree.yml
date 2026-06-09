@@ -28,34 +28,30 @@
                 - Sharp Recovery Bounds for Convex Demixing, with Applications: docs/papers/2012/1205.1580/metadata.yml
                 - The Achievable Performance of Convex Demixing: docs/papers/2013/1309.7478/metadata.yml
             - Rank Minimization:
-              - "Guaranteed Minimum-Rank Solutions of Linear Matrix Equations via Nuclear Norm Minimization": docs/papers/2007/0706.4138/metadata.yml
-              - A Rank Minimization Heuristic with Application to Minimum Order System Approximation: docs/papers/2001/2001.fazel.a_rank_minimization_heuristic/metadata.yml
-              - A Sparsification Approach to Set Membership Identification of Switched Affine Systems: docs/papers/2012/2012.ozay.a_sparsification_approach_to/metadata.yml
-              - Log-det Heuristic for Matrix Rank Minimization with Applications to Hankel and Euclidean Distance Matrices: docs/papers/2003/2003.fazel.log_det_heuristic_for/metadata.yml
-              - Rank Minimization and Applications in System Theory: docs/papers/2004/2004.fazel.rank_minimization_and_applications/metadata.yml
-              - Iterative Reweighted Algorithms for Matrix Rank Minimization: docs/papers/2012/2012.mohan.iterative_reweighted_algorithms_for/metadata.yml
-              - Hankel Matrix Rank Minimization with Applications to System Identification and Realization: docs/papers/2013/2013.fazel.hankel_matrix_rank_minimization/metadata.yml
-              - "Finite Sample System Identification: Optimal Rates and the Role of Regularization": docs/papers/2020/2020.sun.finite_sample_system_identification/metadata.yml
-              - Nonconvex Linear System Identification with Minimal State Representation: docs/papers/2025/2504.18791/metadata.yml
-              - System Identification via Nuclear Norm Regularization: docs/papers/2022/2203.16673/metadata.yml
-              - "The Convex Geometry of Linear Inverse Problems": docs/papers/2010/1012.0621/metadata.yml
-              - Robust Computation of Linear Models by Convex Relaxation: docs/papers/2012/1202.4044/metadata.yml
-              - "Sparse and Low-rank Matrix Decompositions": docs/papers/2009/2009.chandrasekaran.sparse_and_low_rank/metadata.yml
-              - "Finding Structure with Randomness: Probabilistic Algorithms for Constructing Approximate Matrix Decompositions": docs/papers/2009/0909.4061/metadata.yml
-              - "Randomized Numerical Linear Algebra: Foundations & Algorithms": docs/papers/2020/2002.01387/metadata.yml
-              - "Randomized Algorithms for Low-rank Matrix Approximation: Design, Analysis, and Applications": docs/papers/2023/2306.12418/metadata.yml
-              - "Fast & Accurate Randomized Algorithms for Linear Systems and Eigenvalue Problems": docs/papers/2021/2111.00113/metadata.yml
-              - Robust Principal Component Analysis?: docs/papers/2009/0912.3599/metadata.yml
-              - A Simplified Approach to Recovery Conditions for Low Rank Matrices: docs/papers/2011/1103.1178/metadata.yml
-              - Compressed Sensing and Robust Recovery of Low Rank Matrices: docs/papers/2008/2008.fazel.compressed_sensing_and_robust/metadata.yml
-              - New Restricted Isometry Results for Noisy Low-rank Recovery: docs/papers/2010/2010.mohan.new_restricted_isometry_results/metadata.yml
-              - Flat Minima Generalize for Low-rank Matrix Recovery: docs/papers/2022/2203.03756/metadata.yml
-              - Computing a Nonnegative Matrix Factorization -- Provably: docs/papers/2011/1111.0952/metadata.yml
-              - Factoring Nonnegative Matrices with Linear Programs: docs/papers/2012/1206.1270/metadata.yml
-              - Practical Large-Scale Optimization for Max-norm Regularization: docs/papers/2010/2010.lee.practical_large_scale_optimization/metadata.yml
-              - Matrix Completion Has No Spurious Local Minimum: docs/papers/2016/1605.07272/metadata.yml
-            - Optimization and control:
-              - "Improved Nonnegativity Testing in the Bernstein Basis via Geometric Means": docs/papers/2023/2309.10675/metadata.yml
+              - Low-rank Recovery:
+                - Guaranteed Minimum-Rank Solutions of Linear Matrix Equations via Nuclear Norm Minimization: docs/papers/2007/0706.4138/metadata.yml
+                - The Convex Geometry of Linear Inverse Problems: docs/papers/2010/1012.0621/metadata.yml
+                - Sparse and Low-rank Matrix Decompositions: docs/papers/2009/2009.chandrasekaran.sparse_and_low_rank/metadata.yml
+                - Robust Principal Component Analysis: docs/papers/2009/0912.3599/metadata.yml
+                - A Simplified Approach to Recovery Conditions for Low Rank Matrices: docs/papers/2011/1103.1178/metadata.yml
+                - Compressed Sensing and Robust Recovery of Low Rank Matrices: docs/papers/2008/2008.fazel.compressed_sensing_and_robust/metadata.yml
+                - New Restricted Isometry Results for Noisy Low-rank Recovery: docs/papers/2010/2010.mohan.new_restricted_isometry_results/metadata.yml
+                - Flat Minima Generalize for Low-rank Matrix Recovery: docs/papers/2022/2203.03756/metadata.yml
+                - A Rank Minimization Heuristic with Application to Minimum Order System Approximation: docs/papers/2001/2001.fazel.a_rank_minimization_heuristic/metadata.yml
+                - Log-det Heuristic for Matrix Rank Minimization with Applications to Hankel and Euclidean Distance Matrices: docs/papers/2003/2003.fazel.log_det_heuristic_for/metadata.yml
+                - Rank Minimization and Applications in System Theory: docs/papers/2004/2004.fazel.rank_minimization_and_applications/metadata.yml
+                - Iterative Reweighted Algorithms for Matrix Rank Minimization: docs/papers/2012/2012.mohan.iterative_reweighted_algorithms_for/metadata.yml
+                - Robust Computation of Linear Models by Convex Relaxation: docs/papers/2012/1202.4044/metadata.yml
+              - Randomized Algorithms:
+                - "Finding Structure with Randomness: Probabilistic Algorithms for Constructing Approximate Matrix Decompositions": docs/papers/2009/0909.4061/metadata.yml
+                - "Randomized Numerical Linear Algebra: Foundations & Algorithms": docs/papers/2020/2002.01387/metadata.yml
+                - "Randomized Algorithms for Low-rank Matrix Approximation: Design, Analysis, and Applications": docs/papers/2023/2306.12418/metadata.yml
+                - "Fast & Accurate Randomized Algorithms for Linear Systems and Eigenvalue Problems": docs/papers/2021/2111.00113/metadata.yml
+              - Matrix Factorization:
+                - Computing a Nonnegative Matrix Factorization - Provably: docs/papers/2011/1111.0952/metadata.yml
+                - Factoring Nonnegative Matrices with Linear Programs: docs/papers/2012/1206.1270/metadata.yml
+                - Practical Large-Scale Optimization for Max-norm Regularization: docs/papers/2010/2010.lee.practical_large_scale_optimization/metadata.yml
+                - Matrix Completion Has No Spurious Local Minimum: docs/papers/2016/1605.07272/metadata.yml              
           - Sum-of-squares (SOS):
             - Approximation of the Joint Spectral Radius Using Sum of Squares: docs/papers/2007/0712.2887/metadata.yml
             - A Convex Polynomial That Is Not sos-convex: docs/papers/2009/0903.1287/metadata.yml
@@ -1548,14 +1544,19 @@
               - "System Identification under Bounded Noise: Optimal Rates beyond Least Squares": docs/papers/2025/2503.16817/metadata.yml
               - CLT-Optimal Parameter Error Bounds for Linear System Identification: docs/papers/2026/2604.21270/metadata.yml
               - Non-Causal FIR Identification: docs/papers/2026/2605.24393/metadata.yml
+              - Hankel Matrix Rank Minimization with Applications to System Identification and Realization: docs/papers/2013/2013.fazel.hankel_matrix_rank_minimization/metadata.yml
+              - "Finite Sample System Identification: Optimal Rates and the Role of Regularization": docs/papers/2020/2020.sun.finite_sample_system_identification/metadata.yml
+              - System Identification via Nuclear Norm Regularization: docs/papers/2022/2203.16673/metadata.yml
+              - Nonconvex Linear System Identification with Minimal State Representation: docs/papers/2025/2504.18791/metadata.yml
             - Linear Systems with Multiplicative Noise:
               - Linear System Identification Under Multiplicative Noise from Multiple Trajectory Data: docs/papers/2020/2002.06613/metadata.yml
               - Identification of Linear Systems with Multiplicative Noise from Multiple Trajectory Data: docs/papers/2021/2106.16078/metadata.yml
             - Switching and Bilinear Systems:
+              - A Sparsification Approach to Set Membership Identification of Switched Affine Systems: docs/papers/2012/2012.ozay.a_sparsification_approach_to/metadata.yml
               - Dynamic programming ARX segmentation: docs/papers/2016/2016.ozay.an_exact_and_efficient/metadata.yml
               - Mode clustering for Markov jump systems: docs/papers/2019/1910.02193/metadata.yml
               - Adaptive Markov jump linear control: docs/papers/2021/2111.07018/metadata.yml
-              - Bilinear system identification: docs/papers/2022/2208.13915/metadata.yml
+              - Bilinear system identification: docs/papers/2022/2208.13915/metadata.yml              
           - Adaptive Linear Quadratic Control:
             - Self-Tuning Regulators: docs/papers/1973/1973.astrom.on_self_tuning_regulators/metadata.yml
             - A Self-Tuning LQR Approach Demonstrated on an Inverted Pendulum: docs/papers/2014/2014.trimpe.a_self_tuning_lqr/metadata.yml
@@ -2742,6 +2743,8 @@
           - Bi-CGSTAB: docs/papers/1992/1992.van_der_vorst.bi_cgstab_a_fast/metadata.yml
           - "Towards Understanding CG and GMRES through Examples": docs/papers/2024/2024.carson.towards_understanding_cg_and/metadata.yml
           - Method of Centers for Minimizing Generalized Eigenvalues: docs/papers/1993/1993.boyd.method_of_centers_for/metadata.yml
+      - Polynomials:
+        - Improved Nonnegativity Testing in the Bernstein Basis via Geometric Means: docs/papers/2023/2309.10675/metadata.yml
       - Numerical Methods:
         - "A family of embedded Runge-Kutta formulae": docs/papers/1980/1980.dormand.a_family_of_embedded/metadata.yml
       - Sampling & Quasi-Monte Carlo:
