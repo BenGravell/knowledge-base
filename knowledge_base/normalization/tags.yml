@@ -145,6 +145,7 @@ tags:
 - canonical: Arcade learning environment
 - canonical: Architecture
 - canonical: Argoverse 2
+- canonical: Arithmetic coding
 - canonical: Arithmetic complexity
 - canonical: ARMA
 - canonical: Armijo line search
@@ -189,6 +190,7 @@ tags:
 - canonical: Attenuated walks
 - canonical: Attitude control
 - canonical: Attribution
+- canonical: Audio compression
 - canonical: Auction algorithm
 - canonical: AUFLIC
 - canonical: Augmented Lagrangian
@@ -317,6 +319,7 @@ tags:
 - canonical: Binary splitting
 - canonical: Binocular vision
 - canonical: Bio-inspired optimization
+- canonical: Biorthogonal wavelets
 - canonical: Bioinformatics
 - canonical: Biological networks
 - canonical: Biomechanical control
@@ -327,6 +330,7 @@ tags:
 - canonical: Bipedal walking
 - canonical: Bird's-eye view perception
 - canonical: BIT*
+- canonical: Bitplane coding
 - canonical: Black box
 - canonical: Black-box optimization
 - canonical: Black-box oracles
@@ -419,6 +423,8 @@ tags:
 - canonical: Chance-constrained planning
 - canonical: Change detection
 - canonical: Channel attention
+- canonical: Channel capacity
+- canonical: Channel coding
 - canonical: Character animation
 - canonical: Characteristic path length
 - canonical: Characteristic polynomial
@@ -477,6 +483,7 @@ tags:
   aliases:
   - MS-COCO
 - canonical: Code generation
+- canonical: Coding theory
 - canonical: Cognitive science
 - canonical: Coherent risk
 - canonical: Coincidence theorems
@@ -500,6 +507,7 @@ tags:
 - canonical: CommonRoad
 - canonical: Communication delays
 - canonical: Communication networks
+- canonical: Communication theory
 - canonical: Community detection
 - canonical: Community structure
 - canonical: Compact codes
@@ -741,6 +749,7 @@ tags:
 - canonical: Data analysis
 - canonical: Data association
 - canonical: Data centers
+- canonical: Data compression
 - canonical: Data generation
 - canonical: Data informativity
 - canonical: Data marshalling
@@ -883,6 +892,7 @@ tags:
 - canonical: Discontinuity bounded
 - canonical: Discovery
 - canonical: Discrete actions
+- canonical: Discrete cosine transform
 - canonical: Discrete fourier transform
 - canonical: Discrete geometry
 - canonical: Discrete Lyapunov equation
@@ -998,6 +1008,7 @@ tags:
 - canonical: Dynamical systems theory
 - canonical: Dynamics
 - canonical: Earth mover distance
+- canonical: EBCOT
 - canonical: ECL
 - canonical: ECOS
 - canonical: Edge betweenness
@@ -1024,11 +1035,14 @@ tags:
 - canonical: Electronic navigational charts
 - canonical: Ellipsoid
 - canonical: Ellipsoidal estimation
+- canonical: Embedded block coding
+- canonical: Embedded coding
 - canonical: Embedded control software
 - canonical: Embedded deformation
 - canonical: Embedded methods
 - canonical: Embedded optimization
 - canonical: Embedded solvers
+- canonical: Embedded zerotree wavelet
 - canonical: Embedded vision
 - canonical: Empirical risk minimization
 - canonical: ENCODE
@@ -1036,6 +1050,7 @@ tags:
 - canonical: End-to-end driving
 - canonical: End-to-end learning
 - canonical: End-to-end planning
+- canonical: Energy compaction
 - canonical: Energy consumption
 - canonical: Energy conversion
 - canonical: Energy efficiency
@@ -1046,6 +1061,8 @@ tags:
 - canonical: Engineering history
 - canonical: Engineering optimization
 - canonical: Ensemble methods
+- canonical: Entropy
+- canonical: Entropy coding
 - canonical: Entropy regularization
 - canonical: Environment mapping
 - canonical: EpicFlow
@@ -1062,6 +1079,7 @@ tags:
 - canonical: ERA
 - canonical: Ergodicity
 - canonical: Error bounds
+- canonical: Error correction
 - canonical: Error diffusion
 - canonical: Error estimation
 - canonical: Error propagation
@@ -1524,6 +1542,7 @@ tags:
 - canonical: Hierarchical planning
 - canonical: Hierarchical queries
 - canonical: Hierarchical reinforcement learning
+- canonical: Hierarchical trees
 - canonical: HierarchicalForecast
 - canonical: Hierarchy
 - canonical: High bandwidth memory
@@ -1555,6 +1574,7 @@ tags:
 - canonical: HRT1
 - canonical: Hub score
 - canonical: Hue uniformity
+- canonical: Huffman coding
 - canonical: Human
 - canonical: Human genome
 - canonical: Human guidance
@@ -1794,6 +1814,9 @@ tags:
 - canonical: Karp's 21 problems
 - canonical: Katyusha
 - canonical: Katz centrality
+- canonical: Karhunen-loeve transform
+  aliases:
+  - Karhunen-Loeve transform
 - canonical: Kernel density estimation
 - canonical: Kernel methods
   aliases:
@@ -2016,6 +2039,8 @@ tags:
 - canonical: LoRA
 - canonical: Lorenz system
 - canonical: Louvain method
+- canonical: Lossless compression
+- canonical: Lossy compression
 - canonical: Low-authority control
 - canonical: Low-budget optimization
 - canonical: Low-cost robotics
@@ -2185,6 +2210,7 @@ tags:
 - canonical: Minimax theorem
 - canonical: Minimized iterations
 - canonical: Minimum jerk
+- canonical: Minimum redundancy coding
 - canonical: Minimum snap trajectories
 - canonical: Minimum spanning trees
 - canonical: Minimum time
@@ -2346,6 +2372,7 @@ tags:
 - canonical: Multiplicative noise
 - canonical: Multiplicative weights
 - canonical: Multipliers
+- canonical: Multiresolution coding
 - canonical: Multirate systems
 - canonical: MultiRocket
 - canonical: Multirotor vehicles
@@ -2450,6 +2477,7 @@ tags:
 - canonical: Noise schedule
 - canonical: Noising
 - canonical: Noisy data
+- canonical: Noisy channels
 - canonical: Noisy measurements
 - canonical: Noisy observations
 - canonical: Non-asymptotic
@@ -2619,6 +2647,7 @@ tags:
 - canonical: Orthogonal matching pursuit
 - canonical: Orthogonal polynomials
 - canonical: Orthogonal projectors
+- canonical: Orthogonal transforms
 - canonical: Orthographic projection
 - canonical: Oscillation
 - canonical: Oscillator networks
@@ -2844,6 +2873,7 @@ tags:
   - PA-MPPI
 - canonical: Predictor-corrector methods
 - canonical: Preferential attachment
+- canonical: Prefix codes
 - canonical: Prefix sums
 - canonical: PReLU
 - canonical: PRESTO
@@ -2903,6 +2933,7 @@ tags:
 - canonical: Programmable biology
 - canonical: Programming methodology
 - canonical: Programming style
+- canonical: Progressive transmission
 - canonical: Projected equations
 - canonical: Projected gradient descent
 - canonical: Projected subgradients
@@ -2927,6 +2958,7 @@ tags:
 - canonical: PSD
 - canonical: PSLP
 - canonical: Psychophysics
+- canonical: Psychovisual modeling
 - canonical: Publish subscribe
 - canonical: Pulse-code modulation
 - canonical: Pure pursuit
@@ -2963,6 +2995,7 @@ tags:
 - canonical: Quadtree
 - canonical: Quality diversity
 - canonical: QUANT
+- canonical: Quantization
 - canonical: Quasi-Newton methods
 - canonical: Quasi-static planning
 - canonical: Question answering
@@ -2999,6 +3032,7 @@ tags:
 - canonical: Random networks
 - canonical: Random orientations
 - canonical: Random projections
+- canonical: Random access
 - canonical: Random sample consensus
 - canonical: Random sampling
 - canonical: Random search
@@ -3035,6 +3069,9 @@ tags:
   aliases:
   - RRT*
 - canonical: Rapidly-exploring trees
+- canonical: Rate control
+- canonical: Rate-distortion optimization
+- canonical: Rate-distortion theory
 - canonical: Rate function
 - canonical: Rate of convergence
 - canonical: Rational matrix equations
@@ -3317,6 +3354,7 @@ tags:
 - canonical: Sanger sequencing
 - canonical: SARAH
 - canonical: Scalability
+- canonical: Scalable coding
 - canonical: Scalable robot data
 - canonical: Scalar quantization
 - canonical: Scale
@@ -3409,6 +3447,7 @@ tags:
   - SQP
 - canonical: Series
 - canonical: Set membership identification
+- canonical: Set partitioning
 - canonical: Set prediction
 - canonical: Set similarity
 - canonical: Set-membership estimation
@@ -3546,6 +3585,7 @@ tags:
 - canonical: SOTA
 - canonical: SOTIF
 - canonical: Source code
+- canonical: Source coding
 - canonical: Space power systems
 - canonical: Space-time search
 - canonical: Space-time tradeoffs
@@ -3596,6 +3636,7 @@ tags:
 - canonical: Spectral norm bounds
 - canonical: Spectral signatures
 - canonical: Speech recognition
+- canonical: SPIHT
 - canonical: Speed planning
 - canonical: Speed profile
 - canonical: Sphere theorems
@@ -3632,6 +3673,7 @@ tags:
   - Stable Diffusion
 - canonical: StableSR
 - canonical: STAMP
+- canonical: Standards
 - canonical: Standardized interface
 - canonical: STAR
 - canonical: STAR-tree
@@ -3670,6 +3712,7 @@ tags:
 - canonical: Step-size rules
 - canonical: Stepsize hedging
 - canonical: Stereo vision
+- canonical: Still image coding
 - canonical: Stirling engine
   aliases:
   - Stirling engines
@@ -3933,6 +3976,7 @@ tags:
   aliases:
   - Transformer
 - canonical: Transforms
+- canonical: Transform coding
 - canonical: Transient performance
 - canonical: Transient response
 - canonical: Transport
@@ -4037,6 +4081,7 @@ tags:
 - canonical: Value iteration
 - canonical: Value-gradient iteration
 - canonical: Vanishing gradients
+- canonical: Variable length codes
 - canonical: Variable elimination
 - canonical: Variable impedance
 - canonical: Variable metric
@@ -4099,6 +4144,7 @@ tags:
   - VLA
 - canonical: Vision-language-action models
 - canonical: Visual fiducials
+- canonical: Visual masking
 - canonical: Visual perception
 - canonical: Visual question answering
   aliases:
@@ -4131,6 +4177,7 @@ tags:
 - canonical: Waterbed effect
 - canonical: Watts-Strogatz model
 - canonical: Wavelet features
+- canonical: Wavelet transform
 - canonical: Wayformer
 - canonical: Waymax
 - canonical: Waymo
@@ -4175,6 +4222,7 @@ tags:
 - canonical: Zero dynamics
 - canonical: Zero-sum linear quadratic
 - canonical: Zeroth-order optimization
+- canonical: Zerotrees
 - canonical: ZO
 - canonical: ZO-RSN
 - canonical: ZO-SVRG
