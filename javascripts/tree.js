@@ -59,6 +59,11 @@
   const sunburstCoarseMorphTargetLimit = 280;
   const sunburstCoarseMorphDepth = 3;
   const sunburstCoarseMorphMinArcLength = 7;
+  const sunburstTouchBranchingFactor = 8;
+  const sunburstMorphDuration = 920;
+  const sunburstDownwardAngularEndProgress = 0.68;
+  const sunburstDownwardRadialEndProgress = 0.82;
+  const sunburstDownwardCenterRevealStart = 0.84;
   const treePerf = createTreePerf();
 
   treePerf.measure('hydrate.total', { rootId: data.root.id }, function () {
@@ -378,15 +383,35 @@
     if (total <= 0) return;
 
     let cursor = startAngle;
+    const span = endAngle - startAngle;
+    const childSpans = sunburstChildSpans(entry, span, total);
     entry.children.forEach(function (child, index) {
       const isLast = index === entry.children.length - 1;
-      const span = (endAngle - startAngle) * (child.value / total);
       child.startAngle = cursor;
-      child.endAngle = isLast ? endAngle : cursor + span;
+      child.endAngle = isLast ? endAngle : cursor + childSpans[index];
       child.colorGroupIndex = entry.depth === 0 ? index : entry.colorGroupIndex;
       entries.push(child);
       layoutSunburstEntries(child, child.startAngle, child.endAngle, entries);
       cursor = child.endAngle;
+    });
+  }
+
+  function sunburstChildSpans(entry, availableSpan, total) {
+    if (entry.depth !== 0) {
+      return entry.children.map(function (child) {
+        return availableSpan * (child.value / total);
+      });
+    }
+
+    const childCount = entry.children.length;
+    if (!childCount) return [];
+
+    // Mobile bottoms out at a 15rem sunburst. With eight intended direct choices,
+    // one eighth of the circle keeps each direct child comfortably tappable.
+    const minSpan = availableSpan / Math.max(sunburstTouchBranchingFactor, childCount);
+    const flexibleSpan = Math.max(0, availableSpan - minSpan * childCount);
+    return entry.children.map(function (child) {
+      return minSpan + flexibleSpan * (child.value / total);
     });
   }
 
@@ -615,12 +640,14 @@
     const startTime = window.performance && typeof window.performance.now === 'function'
       ? window.performance.now()
       : Date.now();
-    const duration = 760;
+    const duration = sunburstMorphDuration;
     const pathTransitions = [];
     const useCoarseMorph = snapshot.entries.size > sunburstFullMorphEntryLimit;
+    const upwardTransition = sunburstUpwardTransition(previousSnapshot, snapshot);
+    const downwardTransition = sunburstDownwardTransition(previousSnapshot, snapshot);
 
     if (useCoarseMorph) {
-      createCoarseSunburstMorphTransitions(previousSnapshot, snapshot).forEach(function (transition) {
+      createCoarseSunburstMorphTransitions(previousSnapshot, snapshot, upwardTransition, downwardTransition).forEach(function (transition) {
         pathTransitions.push(transition);
       });
     } else {
@@ -629,16 +656,19 @@
         const target = snapshot.entries.get(id);
         if (!target) return;
 
-        const start = sunburstMorphStart(target.node, target.geometry, previousSnapshot);
+        const phase = sunburstTransitionPhase(target.node, upwardTransition);
+        const start = sunburstTransitionStart(target.node, target.geometry, previousSnapshot, phase, downwardTransition, target.opacity);
         pathTransitions.push({
           element: path,
           from: start.geometry,
           to: target.geometry,
           fromOpacity: start.opacity,
           toOpacity: target.opacity,
+          phase: phase,
         });
         path.setAttribute('d', sunburstShapePath(start.geometry));
-        path.style.opacity = String(start.opacity);
+        path.style.opacity = String(phase === 'delayed-sibling' ? 0 : start.opacity);
+        path.style.strokeOpacity = '0';
       });
     }
 
@@ -659,7 +689,10 @@
     if (leafRimGroup) leafRimGroup.style.opacity = '0';
     if (centerMorph && centerMorphEntry) {
       centerMorph.setAttribute('d', sunburstShapePath(centerMorphEntry.geometry));
-      centerMorph.style.opacity = String(centerMorphEntry.opacity);
+      centerMorph.style.opacity = downwardTransition ? '0' : String(centerMorphEntry.opacity);
+    }
+    if (centerGroup && downwardTransition) {
+      centerGroup.setAttribute('transform', 'scale(0.82)');
     }
 
     function tick(now) {
@@ -667,28 +700,55 @@
 
       const rawProgress = clamp((now - startTime) / duration, 0, 1);
       const eased = easeSunburstMorph(rawProgress);
-      const centerOpacity = clamp((rawProgress - 0.64) / 0.28, 0, 1);
-      const detailOpacity = useCoarseMorph ? clamp((rawProgress - 0.68) / 0.24, 0, 1) : 1;
+      const angularMorphProgress = sunburstAngularMorphProgress(rawProgress, downwardTransition);
+      const centerMorphProgress = sunburstCenterMorphProgress(rawProgress, downwardTransition);
+      const detailReveal = sunburstDetailRevealWindow(useCoarseMorph, upwardTransition);
+      const labelReveal = sunburstLabelRevealWindow(useCoarseMorph, upwardTransition);
+      const hitTargetReveal = sunburstHitTargetRevealWindow(useCoarseMorph, upwardTransition);
+      const centerReveal = sunburstCenterRevealWindow(downwardTransition);
+      const settledDetailOpacity = sunburstFadeProgress(rawProgress, detailReveal.start, detailReveal.end);
+      const centerOpacity = sunburstFadeProgress(rawProgress, centerReveal.start, centerReveal.end);
+      const labelOpacity = sunburstFadeProgress(rawProgress, labelReveal.start, labelReveal.end);
+      const hitTargetOpacity = sunburstFadeProgress(rawProgress, hitTargetReveal.start, hitTargetReveal.end);
 
       pathTransitions.forEach(function (transition) {
-        const geometry = interpolateSunburstGeometry(transition.from, transition.to, eased);
-        const opacity = lerp(transition.fromOpacity, transition.toOpacity, eased);
+        const geometryProgress = sunburstTransitionGeometryProgress(transition, rawProgress, eased, upwardTransition, downwardTransition);
+        const angularProgress = sunburstTransitionAngularProgress(transition, angularMorphProgress, upwardTransition);
+        const geometry = interpolateSunburstGeometry(transition.from, transition.to, geometryProgress, angularProgress);
+        const opacity = sunburstTransitionOpacity(transition, rawProgress, geometryProgress, upwardTransition);
         transition.element.setAttribute('d', sunburstShapePath(geometry));
-        if (!transition.coarse) transition.element.style.opacity = String(opacity);
+        if (transition.coarse) {
+          transition.element.setAttribute('opacity', fmt(opacity));
+        } else {
+          transition.element.style.opacity = String(opacity);
+          transition.element.style.strokeOpacity = fmt(sunburstSegmentBaseStrokeOpacity(transition.element) * settledDetailOpacity);
+        }
       });
-      if (coarseMorphGroup) coarseMorphGroup.style.opacity = String(1 - detailOpacity);
+      if (coarseMorphGroup) coarseMorphGroup.style.opacity = String(1 - settledDetailOpacity);
 
       if (centerMorph && centerMorphEntry) {
-        const geometry = interpolateSunburstGeometry(centerMorphEntry.geometry, snapshot.center.geometry, eased);
+        const geometry = interpolateSunburstGeometry(
+          centerMorphEntry.geometry,
+          snapshot.center.geometry,
+          centerMorphProgress,
+          centerMorphProgress
+        );
         centerMorph.setAttribute('d', sunburstShapePath(geometry));
-        centerMorph.style.opacity = String(centerMorphEntry.opacity * (1 - centerOpacity));
+        centerMorph.style.opacity = downwardTransition
+          ? '0'
+          : String(centerMorphEntry.opacity * (1 - centerOpacity));
       }
 
-      if (ringsGroup && useCoarseMorph) ringsGroup.style.opacity = String(detailOpacity);
-      if (centerGroup) centerGroup.style.opacity = String(centerOpacity);
-      if (labelsGroup) labelsGroup.style.opacity = String(clamp((rawProgress - 0.5) / 0.28, 0, 1));
-      if (hitTargetsGroup) hitTargetsGroup.style.opacity = String(clamp((rawProgress - 0.5) / 0.28, 0, 1));
-      if (leafRimGroup) leafRimGroup.style.opacity = String(clamp((rawProgress - 0.38) / 0.34, 0, 1));
+      if (ringsGroup && useCoarseMorph) ringsGroup.style.opacity = String(settledDetailOpacity);
+      if (centerGroup) {
+        centerGroup.style.opacity = String(centerOpacity);
+        if (downwardTransition) {
+          centerGroup.setAttribute('transform', 'scale(' + fmt(0.82 + centerOpacity * 0.18) + ')');
+        }
+      }
+      if (labelsGroup) labelsGroup.style.opacity = String(labelOpacity);
+      if (hitTargetsGroup) hitTargetsGroup.style.opacity = String(hitTargetOpacity);
+      if (leafRimGroup) leafRimGroup.style.opacity = String(settledDetailOpacity);
 
       if (rawProgress >= 1) {
         if (coarseMorphGroup) coarseMorphGroup.remove();
@@ -696,10 +756,14 @@
           if (transition.coarse) return;
           transition.element.setAttribute('d', sunburstShapePath(transition.to));
           transition.element.style.opacity = '';
+          transition.element.style.strokeOpacity = '';
         });
         if (centerMorph) centerMorph.remove();
         if (ringsGroup) ringsGroup.style.opacity = '';
-        if (centerGroup) centerGroup.style.opacity = '';
+        if (centerGroup) {
+          centerGroup.style.opacity = '';
+          centerGroup.removeAttribute('transform');
+        }
         if (labelsGroup) labelsGroup.style.opacity = '';
         if (hitTargetsGroup) hitTargetsGroup.style.opacity = '';
         if (leafRimGroup) leafRimGroup.style.opacity = '';
@@ -714,7 +778,7 @@
     sunburstAnimationFrame = window.requestAnimationFrame(tick);
   }
 
-  function createCoarseSunburstMorphTransitions(previousSnapshot, snapshot) {
+  function createCoarseSunburstMorphTransitions(previousSnapshot, snapshot, upwardTransition, downwardTransition) {
     const transitionGroup = sunburstStage.querySelector('.ct-sunburst-transition');
     if (!transitionGroup) return [];
 
@@ -729,7 +793,9 @@
     const previousMaxOuterRadiusCache = new Map();
     return targets.map(function (target) {
       const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-      const start = coarseSunburstMorphStart(target, previousSnapshot, previousMaxOuterRadiusCache);
+      const phase = sunburstTransitionPhase(target.node, upwardTransition);
+      const start = coarseSunburstTransitionStart(target, previousSnapshot, previousMaxOuterRadiusCache, phase, downwardTransition);
+      const initialOpacity = phase === 'delayed-sibling' ? 0 : Math.max(start.opacity, target.opacity);
       path.setAttribute('class', 'ct-sunburst-coarse-morph');
       path.setAttribute('d', sunburstShapePath(start.geometry));
       path.setAttribute('fill', target.fill);
@@ -737,7 +803,9 @@
       path.setAttribute('stroke', target.fill);
       path.setAttribute('stroke-opacity', '0.38');
       path.setAttribute('stroke-width', target.visualLength < 4 ? '0.12' : '0.42');
-      path.setAttribute('opacity', fmt(Math.max(start.opacity, target.opacity)));
+      path.setAttribute('opacity', fmt(initialOpacity));
+      path.setAttribute('data-ct-sunburst-node', target.node.id);
+      path.setAttribute('data-ct-sunburst-phase', phase);
       group.appendChild(path);
 
       return {
@@ -747,6 +815,7 @@
         fromOpacity: start.opacity,
         toOpacity: target.opacity,
         coarse: true,
+        phase: phase,
       };
     });
   }
@@ -860,6 +929,40 @@
     };
   }
 
+  function sunburstTransitionStart(node, targetGeometry, previousSnapshot, phase, downwardTransition, targetOpacity) {
+    if (phase === 'delayed-sibling') {
+      return {
+        geometry: radialSunburstRevealStartGeometry(targetGeometry),
+        opacity: 0,
+      };
+    }
+    if (downwardTransition) {
+      const previousEntry = previousSnapshot.entries.get(node.id);
+      return {
+        geometry: downwardSunburstStartGeometry(targetGeometry, downwardTransition),
+        opacity: previousEntry ? previousEntry.opacity : targetOpacity,
+      };
+    }
+    return sunburstMorphStart(node, targetGeometry, previousSnapshot);
+  }
+
+  function coarseSunburstTransitionStart(target, previousSnapshot, maxOuterRadiusCache, phase, downwardTransition) {
+    if (phase === 'delayed-sibling') {
+      return {
+        geometry: radialSunburstRevealStartGeometry(target.geometry),
+        opacity: 0,
+      };
+    }
+    if (downwardTransition) {
+      const previousEntry = previousSnapshot.entries.get(target.node.id);
+      return {
+        geometry: downwardSunburstStartGeometry(target.geometry, downwardTransition),
+        opacity: previousEntry ? previousEntry.opacity : target.opacity,
+      };
+    }
+    return coarseSunburstMorphStart(target, previousSnapshot, maxOuterRadiusCache);
+  }
+
   function collapsedSunburstGeometry(geometry) {
     const angle = (geometry.startAngle + geometry.endAngle) / 2;
     return {
@@ -870,13 +973,167 @@
     };
   }
 
-  function interpolateSunburstGeometry(from, to, progress) {
+  function radialSunburstRevealStartGeometry(geometry) {
+    const radius = Math.min(
+      sunburstCenterCircleRadius,
+      geometry.innerRadius,
+      geometry.outerRadius
+    );
     return {
-      startAngle: lerp(from.startAngle, to.startAngle, progress),
-      endAngle: lerp(from.endAngle, to.endAngle, progress),
+      startAngle: geometry.startAngle,
+      endAngle: geometry.endAngle,
+      innerRadius: radius,
+      outerRadius: radius,
+    };
+  }
+
+  function downwardSunburstStartGeometry(targetGeometry, downwardTransition) {
+    const source = downwardTransition.sourceGeometry;
+    const targetRange = downwardTransition.targetRange;
+    const startAngle = mapSunburstAngle(targetGeometry.startAngle, targetRange, source);
+    const endAngle = mapSunburstAngle(targetGeometry.endAngle, targetRange, source);
+    return {
+      startAngle: startAngle,
+      endAngle: Math.max(endAngle, startAngle + 0.0001),
+      innerRadius: source.innerRadius,
+      outerRadius: Math.max(source.outerRadius, targetGeometry.outerRadius),
+    };
+  }
+
+  function mapSunburstAngle(angle, fromRange, toRange) {
+    const fromSpan = fromRange.endAngle - fromRange.startAngle;
+    const toSpan = toRange.endAngle - toRange.startAngle;
+    if (!fromSpan || !toSpan) return toRange.startAngle;
+    const ratio = (angle - fromRange.startAngle) / fromSpan;
+    return toRange.startAngle + ratio * toSpan;
+  }
+
+  function interpolateSunburstGeometry(from, to, progress, angleProgress) {
+    const angularProgress = Number.isFinite(angleProgress) ? angleProgress : progress;
+    return {
+      startAngle: lerp(from.startAngle, to.startAngle, angularProgress),
+      endAngle: lerp(from.endAngle, to.endAngle, angularProgress),
       innerRadius: lerp(from.innerRadius, to.innerRadius, progress),
       outerRadius: lerp(from.outerRadius, to.outerRadius, progress),
     };
+  }
+
+  function sunburstUpwardTransition(previousSnapshot, snapshot) {
+    const previousRoot = previousSnapshot.rootNode;
+    const nextRoot = snapshot.rootNode;
+    if (!previousRoot || !nextRoot || !previousRoot.parent || previousRoot.parent.id !== nextRoot.id) {
+      return null;
+    }
+
+    return {
+      previousRootNode: previousRoot,
+      egoSettleProgress: 0.72,
+      siblingRevealStart: 0.62,
+    };
+  }
+
+  function sunburstDownwardTransition(previousSnapshot, snapshot) {
+    const previousRoot = previousSnapshot.rootNode;
+    const nextRoot = snapshot.rootNode;
+    if (!previousRoot || !nextRoot || !nextRoot.parent || nextRoot.parent.id !== previousRoot.id) {
+      return null;
+    }
+
+    const sourceEntry = previousSnapshot.entries.get(nextRoot.id);
+    if (!sourceEntry) return null;
+
+    return {
+      sourceGeometry: sourceEntry.geometry,
+      targetRange: snapshot.center.geometry,
+    };
+  }
+
+  function sunburstTransitionPhase(node, upwardTransition) {
+    if (!upwardTransition) return 'normal';
+    return isNodeWithin(node, upwardTransition.previousRootNode) ? 'ego' : 'delayed-sibling';
+  }
+
+  function sunburstTransitionGeometryProgress(transition, rawProgress, easedProgress, upwardTransition, downwardTransition) {
+    if (downwardTransition) {
+      return sunburstDownwardRadialMorphProgress(rawProgress);
+    }
+    if (!upwardTransition) return easedProgress;
+    if (transition.phase === 'ego') {
+      return easeSunburstMorph(rawProgress / upwardTransition.egoSettleProgress);
+    }
+    if (transition.phase === 'delayed-sibling') {
+      return easeSunburstMorph(
+        (rawProgress - upwardTransition.siblingRevealStart) /
+        (1 - upwardTransition.siblingRevealStart)
+      );
+    }
+    return easedProgress;
+  }
+
+  function sunburstTransitionAngularProgress(transition, angularMorphProgress, upwardTransition) {
+    if (upwardTransition && transition.phase === 'delayed-sibling') {
+      return 1;
+    }
+    return angularMorphProgress;
+  }
+
+  function sunburstAngularMorphProgress(rawProgress, downwardTransition) {
+    if (downwardTransition) {
+      return easeSunburstCenterMorph(rawProgress / sunburstDownwardAngularEndProgress);
+    }
+    return easeSunburstCenterMorph(rawProgress);
+  }
+
+  function sunburstCenterMorphProgress(rawProgress, downwardTransition) {
+    if (downwardTransition) {
+      return easeSunburstCenterMorph(
+        (rawProgress - sunburstDownwardRadialEndProgress) /
+        (1 - sunburstDownwardRadialEndProgress)
+      );
+    }
+    return easeSunburstCenterMorph(rawProgress);
+  }
+
+  function sunburstDownwardRadialMorphProgress(rawProgress) {
+    return easeSunburstCenterMorph(
+      (rawProgress - sunburstDownwardAngularEndProgress) /
+      (sunburstDownwardRadialEndProgress - sunburstDownwardAngularEndProgress)
+    );
+  }
+
+  function sunburstTransitionOpacity(transition, rawProgress, geometryProgress, upwardTransition) {
+    if (upwardTransition && transition.phase === 'delayed-sibling') {
+      return geometryProgress > 0.001 ? transition.toOpacity : 0;
+    }
+    return lerp(transition.fromOpacity, transition.toOpacity, geometryProgress);
+  }
+
+  function sunburstDetailRevealWindow(useCoarseMorph, upwardTransition) {
+    if (useCoarseMorph && upwardTransition) {
+      return { start: 0.88, end: 1 };
+    }
+    return { start: 0.72, end: 0.96 };
+  }
+
+  function sunburstLabelRevealWindow(useCoarseMorph, upwardTransition) {
+    if (useCoarseMorph && upwardTransition) {
+      return { start: 0.9, end: 1 };
+    }
+    return { start: 0.78, end: 1 };
+  }
+
+  function sunburstHitTargetRevealWindow(useCoarseMorph, upwardTransition) {
+    if (useCoarseMorph && upwardTransition) {
+      return { start: 0.92, end: 1 };
+    }
+    return { start: 0.82, end: 1 };
+  }
+
+  function sunburstCenterRevealWindow(downwardTransition) {
+    if (downwardTransition) {
+      return { start: sunburstDownwardCenterRevealStart, end: 1 };
+    }
+    return { start: 0.66, end: 0.9 };
   }
 
   function easeSunburstMorph(value) {
@@ -884,6 +1141,30 @@
     return t < 0.5
       ? 4 * t * t * t
       : 1 - Math.pow(-2 * t + 2, 3) / 2;
+  }
+
+  function easeSunburstCenterMorph(value) {
+    const t = clamp(value, 0, 1);
+    return t * t * (3 - 2 * t);
+  }
+
+  function sunburstFadeProgress(value, start, end) {
+    if (end <= start) return value >= end ? 1 : 0;
+    return easeSunburstFade((value - start) / (end - start));
+  }
+
+  function easeSunburstFade(value) {
+    const t = clamp(value, 0, 1);
+    return t * t * (3 - 2 * t);
+  }
+
+  function sunburstSegmentBaseStrokeOpacity(element) {
+    if (!element || !element.classList) return 0.74;
+    if (element.classList.contains('is-micro')) return 0;
+    if (element.classList.contains('is-tight')) return 0.18;
+    if (element.classList.contains('is-deep')) return 0.28;
+    if (element.classList.contains('ct-sunburst-segment--leaf')) return 0.42;
+    return 0.74;
   }
 
   function lerp(from, to, progress) {
