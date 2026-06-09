@@ -7,64 +7,64 @@
           - Linear Programming:
             - Probability of Unique Integer Solution to a System of Linear Equations: docs/papers/2011/2011.mangasarian.probability_of_unique_integer/metadata.yml
           - Quadratic Programming:
-            - Automatic Generation of Explicit Quadratic Programming Solvers: docs/papers/2025/2506.11513/metadata.yml
-          - General Convex Optimization:
             - Frank-Wolfe Algorithm: docs/papers/1956/1956.frank.an_algorithm_for_quadratic/metadata.yml
             - General Heuristics for Nonconvex Quadratically Constrained Quadratic Programming: docs/papers/2017/1703.07870/metadata.yml
-            - Learning Parametric Convex Functions: docs/papers/2025/2506.04183/metadata.yml
+            - Automatic Generation of Explicit Quadratic Programming Solvers: docs/papers/2025/2506.11513/metadata.yml
+          - Semidefinite Programming:
+              - Semidefinite Programming: docs/papers/1996/1996.vandenberghe.semidefinite_programming/metadata.yml
+              - Semidefinite Programming Relaxations for Semialgebraic Problems: docs/papers/2003/2003.parrilo.semidefinite_programming_relaxations_for/metadata.yml
+              - Semidefinite Approximations of the Matrix Logarithm: docs/papers/2017/1705.00812/metadata.yml
+              - Scalable Semidefinite Programming: docs/papers/2019/1912.02949/metadata.yml
+          - General Convex Optimization:
             - Automatic Repair of Convex Optimization Problems: docs/papers/2020/2001.11010/metadata.yml
-            - Learning Convex Optimization Models: docs/papers/2020/2006.04248/metadata.yml
-            - Reweighted L1 Minimization: docs/papers/2007/0711.1612/metadata.yml
-            - CoSaMP: docs/papers/2008/0803.2392/metadata.yml
-            - Computational Complexity versus Statistical Performance on Sparse Recovery Problems: docs/papers/2015/1506.03295/metadata.yml
-            - Signal Recovery from Random Measurements via Orthogonal Matching Pursuit: docs/papers/2007/2007.tropp.signal_recovery_from_random/metadata.yml
-            - Computational Methods for Sparse Solution of Linear Inverse Problems: docs/papers/2010/2010.tropp.computational_methods_for_sparse/metadata.yml
-            - "Guaranteed Minimum-Rank Solutions of Linear Matrix Equations via Nuclear Norm Minimization": docs/papers/2007/0706.4138/metadata.yml
-            - A Rank Minimization Heuristic with Application to Minimum Order System Approximation: docs/papers/2001/2001.fazel.a_rank_minimization_heuristic/metadata.yml
-            - A Sparsification Approach to Set Membership Identification of Switched Affine Systems: docs/papers/2012/2012.ozay.a_sparsification_approach_to/metadata.yml
-            - Log-det Heuristic for Matrix Rank Minimization with Applications to Hankel and Euclidean Distance Matrices: docs/papers/2003/2003.fazel.log_det_heuristic_for/metadata.yml
-            - Rank Minimization and Applications in System Theory: docs/papers/2004/2004.fazel.rank_minimization_and_applications/metadata.yml
-            - Iterative Reweighted Algorithms for Matrix Rank Minimization: docs/papers/2012/2012.mohan.iterative_reweighted_algorithms_for/metadata.yml
-            - Hankel Matrix Rank Minimization with Applications to System Identification and Realization: docs/papers/2013/2013.fazel.hankel_matrix_rank_minimization/metadata.yml
-            - "Finite Sample System Identification: Optimal Rates and the Role of Regularization": docs/papers/2020/2020.sun.finite_sample_system_identification/metadata.yml
-            - Nonconvex Linear System Identification with Minimal State Representation: docs/papers/2025/2504.18791/metadata.yml
-            - System Identification via Nuclear Norm Regularization: docs/papers/2022/2203.16673/metadata.yml
-            - "The Convex Geometry of Linear Inverse Problems": docs/papers/2010/1012.0621/metadata.yml
-            - Robust Computation of Linear Models by Convex Relaxation: docs/papers/2012/1202.4044/metadata.yml
-            - OptNet: docs/papers/2017/1703.00443/metadata.yml
-            - Differentiable Convex Optimization Layers: docs/papers/2019/1910.12430/metadata.yml
-            - "Model-Based Deep Learning: On the Intersection of Deep Learning and Optimization": docs/papers/2022/2205.02640/metadata.yml
-            - Differentiating through Log-Log Convex Programs: docs/papers/2020/2004.12553/metadata.yml
-            - Differentiating through a Quadratic Cone Program: docs/papers/2025/2508.17522/metadata.yml
-            - Coherence-based Approximate Derivatives via Web of Affine Spaces Optimization: docs/papers/2025/2504.18790/metadata.yml
-            - "Semidefinite Approximations of the Matrix Logarithm": docs/papers/2017/1705.00812/metadata.yml
-            - "Semidefinite Programming Relaxations for Semialgebraic Problems": docs/papers/2003/2003.parrilo.semidefinite_programming_relaxations_for/metadata.yml
-            - Scalable Semidefinite Programming: docs/papers/2019/1912.02949/metadata.yml
-            - Semidefinite Programming: docs/papers/1996/1996.vandenberghe.semidefinite_programming/metadata.yml
-            - "Sparse and Low-rank Matrix Decompositions": docs/papers/2009/2009.chandrasekaran.sparse_and_low_rank/metadata.yml
-            - "Finding Structure with Randomness: Probabilistic Algorithms for Constructing Approximate Matrix Decompositions": docs/papers/2009/0909.4061/metadata.yml
-            - "Randomized Numerical Linear Algebra: Foundations & Algorithms": docs/papers/2020/2002.01387/metadata.yml
-            - "Randomized Algorithms for Low-rank Matrix Approximation: Design, Analysis, and Applications": docs/papers/2023/2306.12418/metadata.yml
-            - "Fast & Accurate Randomized Algorithms for Linear Systems and Eigenvalue Problems": docs/papers/2021/2111.00113/metadata.yml
-            - Robust Principal Component Analysis?: docs/papers/2009/0912.3599/metadata.yml
-            - A Simplified Approach to Recovery Conditions for Low Rank Matrices: docs/papers/2011/1103.1178/metadata.yml
-            - Compressed Sensing and Robust Recovery of Low Rank Matrices: docs/papers/2008/2008.fazel.compressed_sensing_and_robust/metadata.yml
-            - New Restricted Isometry Results for Noisy Low-rank Recovery: docs/papers/2010/2010.mohan.new_restricted_isometry_results/metadata.yml
-            - Flat Minima Generalize for Low-rank Matrix Recovery: docs/papers/2022/2203.03756/metadata.yml
-            - Computing a Nonnegative Matrix Factorization -- Provably: docs/papers/2011/1111.0952/metadata.yml
-            - Factoring Nonnegative Matrices with Linear Programs: docs/papers/2012/1206.1270/metadata.yml
-            - Hyperspectral Image Unmixing via Alternating Projected Subgradients: docs/papers/2007/2007.zymnis.hyperspectral_image_unmixing_via/metadata.yml
-            - Practical Large-Scale Optimization for Max-norm Regularization: docs/papers/2010/2010.lee.practical_large_scale_optimization/metadata.yml
-            - Matrix Completion Has No Spurious Local Minimum: docs/papers/2016/1605.07272/metadata.yml
-            - "Sharp Recovery Bounds for Convex Demixing, with Applications": docs/papers/2012/1205.1580/metadata.yml
-            - Updating the Inverse of a Matrix: docs/papers/1989/1989.hager.updating_the_inverse_of/metadata.yml
-            - The Achievable Performance of Convex Demixing: docs/papers/2013/1309.7478/metadata.yml
-            - "Improved Nonnegativity Testing in the Bernstein Basis via Geometric Means": docs/papers/2023/2309.10675/metadata.yml
+            - Compressed Sensing & Sparse Recovery:
+              - Reweighted L1 Minimization: docs/papers/2007/0711.1612/metadata.yml
+              - CoSaMP: docs/papers/2008/0803.2392/metadata.yml
+              - Computational Complexity versus Statistical Performance on Sparse Recovery Problems: docs/papers/2015/1506.03295/metadata.yml
+              - Signal Recovery from Random Measurements via Orthogonal Matching Pursuit: docs/papers/2007/2007.tropp.signal_recovery_from_random/metadata.yml
+              - Computational Methods for Sparse Solution of Linear Inverse Problems: docs/papers/2010/2010.tropp.computational_methods_for_sparse/metadata.yml
+              - Convex Demixing:
+                - Hyperspectral Image Unmixing via Alternating Projected Subgradients: docs/papers/2007/2007.zymnis.hyperspectral_image_unmixing_via/metadata.yml
+                - Sharp Recovery Bounds for Convex Demixing, with Applications: docs/papers/2012/1205.1580/metadata.yml
+                - The Achievable Performance of Convex Demixing: docs/papers/2013/1309.7478/metadata.yml
+            - Rank Minimization:
+              - "Guaranteed Minimum-Rank Solutions of Linear Matrix Equations via Nuclear Norm Minimization": docs/papers/2007/0706.4138/metadata.yml
+              - A Rank Minimization Heuristic with Application to Minimum Order System Approximation: docs/papers/2001/2001.fazel.a_rank_minimization_heuristic/metadata.yml
+              - A Sparsification Approach to Set Membership Identification of Switched Affine Systems: docs/papers/2012/2012.ozay.a_sparsification_approach_to/metadata.yml
+              - Log-det Heuristic for Matrix Rank Minimization with Applications to Hankel and Euclidean Distance Matrices: docs/papers/2003/2003.fazel.log_det_heuristic_for/metadata.yml
+              - Rank Minimization and Applications in System Theory: docs/papers/2004/2004.fazel.rank_minimization_and_applications/metadata.yml
+              - Iterative Reweighted Algorithms for Matrix Rank Minimization: docs/papers/2012/2012.mohan.iterative_reweighted_algorithms_for/metadata.yml
+              - Hankel Matrix Rank Minimization with Applications to System Identification and Realization: docs/papers/2013/2013.fazel.hankel_matrix_rank_minimization/metadata.yml
+              - "Finite Sample System Identification: Optimal Rates and the Role of Regularization": docs/papers/2020/2020.sun.finite_sample_system_identification/metadata.yml
+              - Nonconvex Linear System Identification with Minimal State Representation: docs/papers/2025/2504.18791/metadata.yml
+              - System Identification via Nuclear Norm Regularization: docs/papers/2022/2203.16673/metadata.yml
+              - "The Convex Geometry of Linear Inverse Problems": docs/papers/2010/1012.0621/metadata.yml
+              - Robust Computation of Linear Models by Convex Relaxation: docs/papers/2012/1202.4044/metadata.yml
+              - "Sparse and Low-rank Matrix Decompositions": docs/papers/2009/2009.chandrasekaran.sparse_and_low_rank/metadata.yml
+              - "Finding Structure with Randomness: Probabilistic Algorithms for Constructing Approximate Matrix Decompositions": docs/papers/2009/0909.4061/metadata.yml
+              - "Randomized Numerical Linear Algebra: Foundations & Algorithms": docs/papers/2020/2002.01387/metadata.yml
+              - "Randomized Algorithms for Low-rank Matrix Approximation: Design, Analysis, and Applications": docs/papers/2023/2306.12418/metadata.yml
+              - "Fast & Accurate Randomized Algorithms for Linear Systems and Eigenvalue Problems": docs/papers/2021/2111.00113/metadata.yml
+              - Robust Principal Component Analysis?: docs/papers/2009/0912.3599/metadata.yml
+              - A Simplified Approach to Recovery Conditions for Low Rank Matrices: docs/papers/2011/1103.1178/metadata.yml
+              - Compressed Sensing and Robust Recovery of Low Rank Matrices: docs/papers/2008/2008.fazel.compressed_sensing_and_robust/metadata.yml
+              - New Restricted Isometry Results for Noisy Low-rank Recovery: docs/papers/2010/2010.mohan.new_restricted_isometry_results/metadata.yml
+              - Flat Minima Generalize for Low-rank Matrix Recovery: docs/papers/2022/2203.03756/metadata.yml
+              - Computing a Nonnegative Matrix Factorization -- Provably: docs/papers/2011/1111.0952/metadata.yml
+              - Factoring Nonnegative Matrices with Linear Programs: docs/papers/2012/1206.1270/metadata.yml
+              - Practical Large-Scale Optimization for Max-norm Regularization: docs/papers/2010/2010.lee.practical_large_scale_optimization/metadata.yml
+              - Matrix Completion Has No Spurious Local Minimum: docs/papers/2016/1605.07272/metadata.yml
+            - Optimization and control:
+              - "Improved Nonnegativity Testing in the Bernstein Basis via Geometric Means": docs/papers/2023/2309.10675/metadata.yml
           - Sum-of-squares (SOS):
             - Approximation of the Joint Spectral Radius Using Sum of Squares: docs/papers/2007/0712.2887/metadata.yml
             - A Convex Polynomial That Is Not sos-convex: docs/papers/2009/0903.1287/metadata.yml
           - Online Convex Optimization:
             - Reward-Doubling: docs/papers/2012/1211.2260/metadata.yml
+          - Learning Optimization Models:
+            - Learning Convex Optimization Models: docs/papers/2020/2006.04248/metadata.yml
+            - Learning Parametric Convex Functions: docs/papers/2025/2506.04183/metadata.yml
+            - "Model-Based Deep Learning: On the Intersection of Deep Learning and Optimization": docs/papers/2022/2205.02640/metadata.yml
           - Applications in Probability Theory:
             - "Optimal Inequalities in Probability Theory: A Convex Optimization Approach": docs/papers/2005/2005.bertsimas.optimal_inequalities_in_probability/metadata.yml
             - User-friendly Tail Bounds for Sums of Random Matrices: docs/papers/2010/1004.4389/metadata.yml
@@ -344,16 +344,22 @@
           - A Necessary and Sufficient Condition for Consensus over Random Networks: docs/papers/2008/2008.tahbaz_salehi.a_necessary_and_sufficient/metadata.yml
           - Accelerated Consensus with Linear Rate of Convergence: docs/papers/2018/2018.bu.accelerated_consensus_with_linear/metadata.yml
           - The Fastest Linearly Converging Discrete-time Average Consensus Using Buffered Information: docs/papers/2022/2206.09916/metadata.yml
+        - Numerical Differentiation:
+          - Coherence-based Approximate Derivatives via Web of Affine Spaces Optimization: docs/papers/2025/2504.18790/metadata.yml
         - Automatic Differentiation:
           - On Automatic Differentiation: docs/papers/1989/1989.griewank.on_automatic_differentiation/metadata.yml
           - "Automatic differentiation in machine learning: a survey": docs/papers/2015/1502.05767/metadata.yml
-          - Least Squares Auto-Tuning: docs/papers/2019/1904.05460/metadata.yml
+          - The Elements of Differentiable Programming: docs/papers/2024/2403.14606/metadata.yml
           - Fast Exact Multiplication by the Hessian: docs/papers/1994/1994.pearlmutter.fast_exact_multiplication_by/metadata.yml
-          - Gradient-Based Optimization of Hyperparameters: docs/papers/2000/2000.bengio.gradient_based_optimization_of/metadata.yml
-          - "Gradient-based Hyperparameter Optimization through Reversible Learning": docs/papers/2015/1502.03492/metadata.yml
           - "SoftJAX & SoftTorch": docs/papers/2026/2603.08824/metadata.yml
           - DiffTaichi: docs/papers/2019/1910.00935/metadata.yml
-          - "The Elements of Differentiable Programming": docs/papers/2024/2403.14606/metadata.yml
+          - Differentiable Optimization Layers:
+            - OptNet: docs/papers/2017/1703.00443/metadata.yml
+            - Differentiable Convex Optimization Layers: docs/papers/2019/1910.12430/metadata.yml
+            - Differentiating through Log-Log Convex Programs: docs/papers/2020/2004.12553/metadata.yml
+            - Differentiating through a Quadratic Cone Program: docs/papers/2025/2508.17522/metadata.yml
+        - Symbolic Differentiation:
+          - TODO
       - Combinatorial Optimization:
         - Complexity Theory:
           - "Reducibility among Combinatorial Problems": docs/papers/1972/1972.karp.reducibility_among_combinatorial_problems/metadata.yml
@@ -426,18 +432,23 @@
           - When Is Partially Observable Reinforcement Learning Not Scary?: docs/papers/2022/2204.08967/metadata.yml
           - Online Planning Algorithms for POMDPs: docs/papers/2014/1401.3436/metadata.yml
           - ROP-RAS3: docs/papers/2026/2606.04355/metadata.yml
-        - Black-Box Optimization:
-          - Hyperopt: docs/papers/2015/2015.bergstra.hyperopt_a_python_library/metadata.yml
-          - REMBO: docs/papers/2013/1301.1942/metadata.yml
+        - Hyperparameter Optimization:
           - Optuna: docs/papers/2019/1907.10902/metadata.yml
-          - Nevergrad: docs/papers/2021/2021.bennet.nevergrad_black_box_optimization/metadata.yml
-          - PyHopper: docs/papers/2022/2210.04728/metadata.yml
           - Optimizing with Low Budgets: docs/papers/2023/2310.00077/metadata.yml
+          - Least Squares Auto-Tuning: docs/papers/2019/1904.05460/metadata.yml
+          - Black-box Hyperparameter Optimization:
+            - Nevergrad: docs/papers/2021/2021.bennet.nevergrad_black_box_optimization/metadata.yml
+            - PyHopper: docs/papers/2022/2210.04728/metadata.yml
+          - Gradient-based Hyperparameter Optimization:
+            - Gradient-Based Optimization of Hyperparameters: docs/papers/2000/2000.bengio.gradient_based_optimization_of/metadata.yml
+            - Gradient-based Hyperparameter Optimization through Reversible Learning: docs/papers/2015/1502.03492/metadata.yml
           - Bayesian Optimization:
+            - REMBO: docs/papers/2013/1301.1942/metadata.yml
+            - Hyperopt: docs/papers/2015/2015.bergstra.hyperopt_a_python_library/metadata.yml
             - "Bayesian Hyperparameter Optimization with BoTorch, GPyTorch and Ax": docs/papers/2019/1912.05686/metadata.yml
             - "Bayesian Optimization Is Superior to Random Search for Machine Learning Hyperparameter Tuning": docs/papers/2021/2104.10201/metadata.yml
             - NeST-BO: docs/papers/2025/2510.05516/metadata.yml
-          - "Planner / Controller Autotuning":
+          - Planner & Controller Autotuning:
             - AutoTune: docs/papers/2021/2103.10698/metadata.yml
             - DiffLoop: docs/papers/2021/2106.10516/metadata.yml
             - DiffTune: docs/papers/2022/2209.10021/metadata.yml
@@ -2709,6 +2720,7 @@
         - Dyson's Sphere Theorem: docs/papers/1951/1951.dyson.continuous_functions_defined_on/metadata.yml
         - The Table Theorem: docs/papers/1970/1970.fenn.the_table_theorem/metadata.yml
       - Linear Algebra & Signal Processing:
+        - Updating the Inverse of a Matrix: docs/papers/1989/1989.hager.updating_the_inverse_of/metadata.yml
         - Fourier Transforms:
           - Cooley-Tukey FFT: docs/papers/1965/1965.cooley.an_algorithm_for_the/metadata.yml
           - "Discovering Transforms: A Tutorial on Circulant Matrices, Circular Convolution, and the Discrete Fourier Transform": docs/papers/2018/1805.05533/metadata.yml
