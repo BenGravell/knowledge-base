@@ -62,6 +62,8 @@
   const sunburstCoarseMorphMinArcLength = 7;
   const sunburstTouchBranchingFactor = 8;
   const sunburstMorphDuration = 600;
+  const sunburstCoarseDetailBuildProgress = 0;
+  const sunburstCoarseDetailInsertProgress = 1;
   const sunburstDownwardAngularEndProgress = 0.68;
   const sunburstDownwardRadialEndProgress = 0.82;
   const sunburstDownwardCenterRevealStart = 0.66;
@@ -818,12 +820,11 @@
     const leafRimGroup = sunburstStage.querySelector('.ct-sunburst-leaf-rim');
     const svg = sunburstStage.querySelector('.ct-sunburst-svg');
 
-    if (useCoarseMorph && ringsGroup) ringsGroup.style.opacity = '0';
-    if (centerGroup) centerGroup.style.opacity = '0';
-    if (labelsGroup) labelsGroup.style.opacity = '0';
-    if (hitTargetsGroup) hitTargetsGroup.style.opacity = '0';
-    if (selectionGroup) selectionGroup.style.opacity = '0';
-    if (leafRimGroup) leafRimGroup.style.opacity = '0';
+    if (!useCoarseMorph && centerGroup) centerGroup.style.opacity = '0';
+    if (!useCoarseMorph && labelsGroup) labelsGroup.style.opacity = '0';
+    if (!useCoarseMorph && hitTargetsGroup) hitTargetsGroup.style.opacity = '0';
+    if (!useCoarseMorph && selectionGroup) selectionGroup.style.opacity = '0';
+    if (!useCoarseMorph && leafRimGroup) leafRimGroup.style.opacity = '0';
     if (centerMorph && centerMorphEntry) {
       centerMorph.setAttribute('d', sunburstShapePath(centerMorphEntry.geometry));
       centerMorph.style.opacity = downwardTransition ? '0' : String(centerMorphEntry.opacity);
@@ -848,10 +849,10 @@
       const labelOpacity = sunburstFadeProgress(rawProgress, labelReveal.start, labelReveal.end);
       const hitTargetOpacity = sunburstFadeProgress(rawProgress, hitTargetReveal.start, hitTargetReveal.end);
 
-      if (useCoarseMorph && rawProgress >= sunburstDelayedDetailProgress(detailReveal.start, 0.12)) {
+      if (useCoarseMorph && rawProgress >= sunburstCoarseDetailBuildProgress) {
         buildDelayedSunburstDetail();
       }
-      if (useCoarseMorph && rawProgress >= sunburstDelayedDetailProgress(detailReveal.start, 0.04)) {
+      if (useCoarseMorph && rawProgress >= sunburstCoarseDetailInsertProgress) {
         insertDelayedSunburstDetail();
       }
 
@@ -867,7 +868,6 @@
           transition.element.style.opacity = String(opacity);
         }
       });
-      if (coarseMorphGroup) coarseMorphGroup.style.opacity = String(1 - settledDetailOpacity);
 
       if (centerMorph && centerMorphEntry) {
         const geometry = interpolateSunburstGeometry(
@@ -882,17 +882,17 @@
           : String(centerMorphEntry.opacity * (1 - centerOpacity));
       }
 
-      if (ringsGroup && useCoarseMorph) ringsGroup.style.opacity = String(settledDetailOpacity);
-      if (centerGroup) {
+      if (!useCoarseMorph && centerGroup) {
         centerGroup.style.opacity = String(centerOpacity);
-        if (downwardTransition) {
-          centerGroup.setAttribute('transform', 'scale(' + fmt(0.82 + centerOpacity * 0.18) + ')');
-        }
       }
-      if (labelsGroup) labelsGroup.style.opacity = String(labelOpacity);
-      if (hitTargetsGroup) hitTargetsGroup.style.opacity = String(hitTargetOpacity);
-      if (selectionGroup) selectionGroup.style.opacity = String(settledDetailOpacity);
-      if (leafRimGroup) leafRimGroup.style.opacity = String(settledDetailOpacity);
+      if (centerGroup && downwardTransition) {
+        const scaleProgress = useCoarseMorph ? easeSunburstFade(rawProgress) : centerOpacity;
+        centerGroup.setAttribute('transform', 'scale(' + fmt(0.82 + scaleProgress * 0.18) + ')');
+      }
+      if (!useCoarseMorph && labelsGroup) labelsGroup.style.opacity = String(labelOpacity);
+      if (!useCoarseMorph && hitTargetsGroup) hitTargetsGroup.style.opacity = String(hitTargetOpacity);
+      if (!useCoarseMorph && selectionGroup) selectionGroup.style.opacity = String(settledDetailOpacity);
+      if (!useCoarseMorph && leafRimGroup) leafRimGroup.style.opacity = String(settledDetailOpacity);
 
       if (rawProgress >= 1) {
         insertDelayedSunburstDetail();
@@ -952,10 +952,6 @@
     }
 
     sunburstAnimationFrame = window.requestAnimationFrame(tick);
-  }
-
-  function sunburstDelayedDetailProgress(revealStart, lead) {
-    return clamp(revealStart - lead, 0, 1);
   }
 
   function sunburstDetailHtmlLength(detailHtml) {
@@ -1299,7 +1295,7 @@
 
   function sunburstDetailRevealWindow(useCoarseMorph, upwardTransition) {
     if (useCoarseMorph) {
-      return { start: upwardTransition ? 0.76 : 0.74, end: 0.98 };
+      return { start: upwardTransition ? 0.76 : 0.74, end: 0.94 };
     }
     return { start: 0.72, end: 0.96 };
   }
