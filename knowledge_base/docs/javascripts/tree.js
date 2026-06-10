@@ -58,7 +58,7 @@
   const sunburstSelectedLeafPopout = 9;
   const sunburstCoarseMorphEntryLimit = 300;
   const sunburstCoarseMorphTargetLimit = 280;
-  const sunburstCoarseMorphDepth = 3;
+  const sunburstCoarseMorphFrontierDepth = 3;
   const sunburstCoarseMorphMinArcLength = 7;
   const sunburstTouchBranchingFactor = 8;
   const sunburstMorphDuration = 600;
@@ -860,12 +860,23 @@
         const geometryProgress = sunburstTransitionGeometryProgress(transition, rawProgress, eased, upwardTransition, downwardTransition);
         const angularProgress = sunburstTransitionAngularProgress(transition, angularMorphProgress, upwardTransition);
         const geometry = interpolateSunburstGeometry(transition.from, transition.to, geometryProgress, angularProgress);
-        const opacity = sunburstTransitionOpacity(transition, rawProgress, geometryProgress, upwardTransition);
         transition.element.setAttribute('d', sunburstShapePath(geometry));
-        if (transition.coarse) {
-          transition.element.setAttribute('opacity', fmt(opacity));
-        } else {
-          transition.element.style.opacity = String(opacity);
+        if (!transition.staticOpacity) {
+          const opacity = sunburstTransitionOpacity(transition, rawProgress, geometryProgress, upwardTransition);
+          if (transition.coarse) {
+            transition.element.setAttribute('opacity', fmt(opacity));
+          } else {
+            transition.element.style.opacity = String(opacity);
+          }
+        }
+        if (transition.colorTransition) {
+          const colorProgress = sunburstCoarseColorProgress(transition, rawProgress, eased, upwardTransition, downwardTransition);
+          const fill = interpolateSunburstColor(transition.colorTransition, colorProgress);
+          if (fill !== transition.currentFill) {
+            transition.element.setAttribute('fill', fill);
+            transition.element.setAttribute('stroke', fill);
+            transition.currentFill = fill;
+          }
         }
       });
 
@@ -980,15 +991,16 @@
       const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
       const phase = sunburstTransitionPhase(target.node, upwardTransition);
       const start = coarseSunburstTransitionStart(target, previousSnapshot, previousMaxOuterRadiusCache, phase, downwardTransition);
-      const initialOpacity = phase === 'delayed-sibling' ? 0 : Math.max(start.opacity, target.opacity);
+      const startFill = coarseSunburstStartFill(target, previousSnapshot);
+      const colorTransition = sunburstColorTransition(startFill, target.fill);
       path.setAttribute('class', 'ct-sunburst-coarse-morph');
       path.setAttribute('d', sunburstShapePath(start.geometry));
-      path.setAttribute('fill', target.fill);
+      path.setAttribute('fill', colorTransition ? colorTransition.fromText : target.fill);
       path.setAttribute('fill-opacity', fmt(target.opacity));
-      path.setAttribute('stroke', target.fill);
+      path.setAttribute('stroke', colorTransition ? colorTransition.fromText : target.fill);
       path.setAttribute('stroke-opacity', '0.38');
       path.setAttribute('stroke-width', target.visualLength < 4 ? '0.12' : '0.42');
-      path.setAttribute('opacity', fmt(initialOpacity));
+      path.setAttribute('opacity', fmt(target.opacity));
       path.setAttribute('data-ct-sunburst-node', target.node.id);
       path.setAttribute('data-ct-sunburst-phase', phase);
       group.appendChild(path);
@@ -1000,7 +1012,10 @@
         fromOpacity: start.opacity,
         toOpacity: target.opacity,
         coarse: true,
+        staticOpacity: true,
         phase: phase,
+        colorTransition: colorTransition,
+        currentFill: colorTransition ? colorTransition.fromText : target.fill,
       };
     });
   }
@@ -1020,23 +1035,44 @@
       const children = visibleChildren(node).filter(function (child) {
         return snapshot.entries.has(child.id);
       });
-      const shouldAggregate = !children.length ||
-        entry.depth >= sunburstCoarseMorphDepth ||
-        entry.visualLength < sunburstCoarseMorphMinArcLength ||
-        targets.length >= sunburstCoarseMorphTargetLimit;
-
-      if (shouldAggregate) {
-        targets.push(coarseSunburstMorphTarget(entry, snapshot, maxOuterRadiusCache));
+      if (entry.depth < sunburstCoarseMorphFrontierDepth) {
+        targets.push(coarseSunburstExactMorphTarget(entry));
+        if (shouldCollapseCoarseSunburstChildren(entry, children, targets.length)) {
+          const aggregate = coarseSunburstDescendantAggregateMorphTarget(entry, snapshot, maxOuterRadiusCache);
+          if (aggregate) targets.push(aggregate);
+          return;
+        }
+        children.forEach(visit);
         return;
       }
 
-      children.forEach(visit);
+      targets.push(coarseSunburstAggregateMorphTarget(entry, snapshot, maxOuterRadiusCache));
     }
 
     return targets;
   }
 
-  function coarseSunburstMorphTarget(entry, snapshot, maxOuterRadiusCache) {
+  function shouldCollapseCoarseSunburstChildren(entry, children, targetCount) {
+    if (!children.length) return false;
+    const remainingTargets = sunburstCoarseMorphTargetLimit - targetCount;
+    return remainingTargets <= 0 ||
+      children.length > remainingTargets ||
+      (entry.depth + 1 >= sunburstCoarseMorphFrontierDepth &&
+        entry.visualLength < sunburstCoarseMorphMinArcLength);
+  }
+
+  function coarseSunburstExactMorphTarget(entry) {
+    return {
+      node: entry.node,
+      geometry: entry.geometry,
+      fill: entry.fill,
+      opacity: entry.opacity,
+      visualLength: entry.visualLength,
+      morphType: 'exact',
+    };
+  }
+
+  function coarseSunburstAggregateMorphTarget(entry, snapshot, maxOuterRadiusCache) {
     const geometry = coarseSunburstMorphGeometry(entry, snapshot, maxOuterRadiusCache);
     return {
       node: entry.node,
@@ -1044,6 +1080,21 @@
       fill: entry.fill,
       opacity: entry.opacity,
       visualLength: sunburstArcLength(geometry),
+      morphType: 'aggregate',
+    };
+  }
+
+  function coarseSunburstDescendantAggregateMorphTarget(entry, snapshot, maxOuterRadiusCache) {
+    const geometry = coarseSunburstDescendantMorphGeometry(entry, snapshot, maxOuterRadiusCache);
+    if (!geometry) return null;
+
+    return {
+      node: entry.node,
+      geometry: geometry,
+      fill: entry.fill,
+      opacity: entry.opacity,
+      visualLength: sunburstArcLength(geometry),
+      morphType: 'descendant-aggregate',
     };
   }
 
@@ -1051,28 +1102,61 @@
     const previousEntry = previousSnapshot.entries.get(target.node.id);
     if (previousEntry) {
       return {
-        geometry: coarseSunburstMorphGeometry(previousEntry, previousSnapshot, maxOuterRadiusCache),
-        opacity: previousEntry.opacity,
+        geometry: coarseSunburstPreviousGeometry(target, previousEntry, previousSnapshot, maxOuterRadiusCache),
+        opacity: target.opacity,
       };
     }
 
     if (target.node.id === previousSnapshot.rootId) {
       return {
-        geometry: previousSnapshot.center.geometry,
-        opacity: 0.9,
+        geometry: target.morphType === 'descendant-aggregate'
+          ? sunburstSnapshotDescendantGeometry(previousSnapshot)
+          : previousSnapshot.center.geometry,
+        opacity: target.opacity,
       };
     }
 
     return {
       geometry: collapsedSunburstGeometry(target.geometry),
-      opacity: 0,
+      opacity: target.opacity,
     };
+  }
+
+  function coarseSunburstStartFill(target, previousSnapshot) {
+    const previousEntry = previousSnapshot.entries.get(target.node.id);
+    return previousEntry ? previousEntry.fill : target.fill;
+  }
+
+  function coarseSunburstPreviousGeometry(target, previousEntry, previousSnapshot, maxOuterRadiusCache) {
+    if (target.morphType === 'exact') {
+      return previousEntry.geometry;
+    }
+    if (target.morphType === 'descendant-aggregate') {
+      return coarseSunburstDescendantMorphGeometry(previousEntry, previousSnapshot, maxOuterRadiusCache) ||
+        collapsedSunburstGeometry(target.geometry);
+    }
+    return coarseSunburstMorphGeometry(previousEntry, previousSnapshot, maxOuterRadiusCache);
   }
 
   function coarseSunburstMorphGeometry(entry, snapshot, maxOuterRadiusCache) {
     return {
       innerRadius: entry.geometry.innerRadius,
       outerRadius: maxSnapshotOuterRadius(entry.node, snapshot, maxOuterRadiusCache),
+      startAngle: entry.geometry.startAngle,
+      endAngle: entry.geometry.endAngle,
+    };
+  }
+
+  function coarseSunburstDescendantMorphGeometry(entry, snapshot, maxOuterRadiusCache) {
+    const innerRadius = minSnapshotChildInnerRadius(entry.node, snapshot);
+    if (!Number.isFinite(innerRadius)) return null;
+
+    const outerRadius = maxSnapshotOuterRadius(entry.node, snapshot, maxOuterRadiusCache);
+    if (outerRadius <= innerRadius) return null;
+
+    return {
+      innerRadius: innerRadius,
+      outerRadius: outerRadius,
       startAngle: entry.geometry.startAngle,
       endAngle: entry.geometry.endAngle,
     };
@@ -1090,6 +1174,16 @@
 
     cache.set(node.id, maxRadius);
     return maxRadius;
+  }
+
+  function minSnapshotChildInnerRadius(node, snapshot) {
+    let minRadius = Infinity;
+    visibleChildren(node).forEach(function (child) {
+      const entry = snapshot.entries.get(child.id);
+      if (!entry) return;
+      minRadius = Math.min(minRadius, entry.geometry.innerRadius);
+    });
+    return minRadius;
   }
 
   function sunburstMorphStart(node, targetGeometry, previousSnapshot) {
@@ -1135,17 +1229,33 @@
     if (phase === 'delayed-sibling') {
       return {
         geometry: radialSunburstRevealStartGeometry(target.geometry),
-        opacity: 0,
+        opacity: target.opacity,
       };
     }
     if (downwardTransition) {
-      const previousEntry = previousSnapshot.entries.get(target.node.id);
       return {
-        geometry: downwardSunburstStartGeometry(target.geometry, downwardTransition),
-        opacity: previousEntry ? previousEntry.opacity : target.opacity,
+        geometry: coarseDownwardSunburstStartGeometry(target.geometry, downwardTransition),
+        opacity: target.opacity,
       };
     }
     return coarseSunburstMorphStart(target, previousSnapshot, maxOuterRadiusCache);
+  }
+
+  function coarseDownwardSunburstStartGeometry(targetGeometry, downwardTransition) {
+    const source = downwardTransition.sourceGeometry;
+    const targetRange = downwardTransition.targetRange;
+    const radialRange = downwardTransition.targetRadialRange;
+    const startAngle = mapSunburstAngle(targetGeometry.startAngle, targetRange, source);
+    const endAngle = mapSunburstAngle(targetGeometry.endAngle, targetRange, source);
+    const innerRadius = mapSunburstRadius(targetGeometry.innerRadius, radialRange, source);
+    const outerRadius = mapSunburstRadius(targetGeometry.outerRadius, radialRange, source);
+
+    return {
+      startAngle: startAngle,
+      endAngle: Math.max(endAngle, startAngle + 0.0001),
+      innerRadius: innerRadius,
+      outerRadius: Math.max(outerRadius, innerRadius + 0.0001),
+    };
   }
 
   function collapsedSunburstGeometry(geometry) {
@@ -1193,6 +1303,14 @@
     return toRange.startAngle + ratio * toSpan;
   }
 
+  function mapSunburstRadius(radius, fromRange, toRange) {
+    const fromSpan = fromRange.outerRadius - fromRange.innerRadius;
+    const toSpan = toRange.outerRadius - toRange.innerRadius;
+    if (!fromSpan || !toSpan) return toRange.innerRadius;
+    const ratio = (radius - fromRange.innerRadius) / fromSpan;
+    return toRange.innerRadius + ratio * toSpan;
+  }
+
   function interpolateSunburstGeometry(from, to, progress, angleProgress) {
     const angularProgress = Number.isFinite(angleProgress) ? angleProgress : progress;
     return {
@@ -1230,6 +1348,36 @@
     return {
       sourceGeometry: sourceEntry.geometry,
       targetRange: snapshot.center.geometry,
+      targetRadialRange: sunburstSnapshotRadialRange(snapshot),
+    };
+  }
+
+  function sunburstSnapshotRadialRange(snapshot) {
+    let innerRadius = Infinity;
+    let outerRadius = 0;
+
+    snapshot.entries.forEach(function (entry) {
+      innerRadius = Math.min(innerRadius, entry.geometry.innerRadius);
+      outerRadius = Math.max(outerRadius, entry.geometry.outerRadius);
+    });
+
+    if (!Number.isFinite(innerRadius) || outerRadius <= innerRadius) {
+      return snapshot.center.geometry;
+    }
+
+    return {
+      innerRadius: innerRadius,
+      outerRadius: outerRadius,
+    };
+  }
+
+  function sunburstSnapshotDescendantGeometry(snapshot) {
+    const radialRange = sunburstSnapshotRadialRange(snapshot);
+    return {
+      startAngle: snapshot.center.geometry.startAngle,
+      endAngle: snapshot.center.geometry.endAngle,
+      innerRadius: radialRange.innerRadius,
+      outerRadius: radialRange.outerRadius,
     };
   }
 
@@ -1293,6 +1441,16 @@
     return lerp(transition.fromOpacity, transition.toOpacity, geometryProgress);
   }
 
+  function sunburstCoarseColorProgress(transition, rawProgress, easedProgress, upwardTransition, downwardTransition) {
+    if (downwardTransition) {
+      return sunburstFadeProgress(rawProgress, 0.18, sunburstDownwardAngularEndProgress);
+    }
+    if (upwardTransition && transition.phase === 'ego') {
+      return sunburstFadeProgress(rawProgress, 0.38, upwardTransition.egoSettleProgress);
+    }
+    return easedProgress;
+  }
+
   function sunburstDetailRevealWindow(useCoarseMorph, upwardTransition) {
     if (useCoarseMorph) {
       return { start: upwardTransition ? 0.76 : 0.74, end: 0.94 };
@@ -1345,6 +1503,66 @@
 
   function lerp(from, to, progress) {
     return from + (to - from) * progress;
+  }
+
+  function sunburstColorTransition(from, to) {
+    if (from === to) return null;
+
+    const fromRgb = parseSunburstColor(from);
+    const toRgb = parseSunburstColor(to);
+    if (!fromRgb || !toRgb) return null;
+    if (fromRgb[0] === toRgb[0] && fromRgb[1] === toRgb[1] && fromRgb[2] === toRgb[2]) return null;
+
+    return {
+      from: fromRgb,
+      to: toRgb,
+      fromText: rgbSunburstColor(fromRgb),
+      toText: rgbSunburstColor(toRgb),
+    };
+  }
+
+  function interpolateSunburstColor(transition, progress) {
+    const t = clamp(progress, 0, 1);
+    if (t <= 0) return transition.fromText;
+    if (t >= 1) return transition.toText;
+
+    return rgbSunburstColor([
+      Math.round(lerp(transition.from[0], transition.to[0], t)),
+      Math.round(lerp(transition.from[1], transition.to[1], t)),
+      Math.round(lerp(transition.from[2], transition.to[2], t)),
+    ]);
+  }
+
+  function parseSunburstColor(color) {
+    const text = String(color || '').trim();
+    let match = text.match(/^#([0-9a-f]{3})$/i);
+    if (match) {
+      return match[1].split('').map(function (channel) {
+        return parseInt(channel + channel, 16);
+      });
+    }
+
+    match = text.match(/^#([0-9a-f]{6})$/i);
+    if (match) {
+      return [0, 2, 4].map(function (offset) {
+        return parseInt(match[1].slice(offset, offset + 2), 16);
+      });
+    }
+
+    match = text.match(/^rgb\(\s*([\d.]+)\s*,\s*([\d.]+)\s*,\s*([\d.]+)\s*\)$/i);
+    if (match) {
+      return [1, 2, 3].map(function (index) {
+        return clamp(Math.round(Number(match[index])), 0, 255);
+      });
+    }
+
+    return null;
+  }
+
+  function rgbSunburstColor(rgb) {
+    return 'rgb(' + rgb.map(function (channel) {
+      return String(clamp(Math.round(channel), 0, 255));
+    }).join(', ') + ')';
   }
 
   function sunburstShapePath(geometry) {
