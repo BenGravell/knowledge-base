@@ -55,6 +55,7 @@
   const sunburstCenterRadius = 64;
   const sunburstCenterLabelMaxChars = 15;
   const sunburstCenterLabelMaxLines = 3;
+  const sunburstSelectedLeafPopout = 9;
   const sunburstCoarseMorphEntryLimit = 300;
   const sunburstCoarseMorphTargetLimit = 280;
   const sunburstCoarseMorphDepth = 3;
@@ -174,7 +175,18 @@
     const url = new URL(window.location.href);
     url.hash = 'ct=' + encodeURIComponent(currentId);
     window.history.pushState(null, '', url);
-    render(options);
+    render(sunburstSelectionOptions(node, options));
+  }
+
+  function sunburstSelectionOptions(node, options) {
+    if (!isLeafNode(node)) return options;
+    return Object.assign({}, options, {
+      animateSunburst: false,
+    });
+  }
+
+  function isLeafNode(node) {
+    return Boolean(node && (!node.children || !node.children.length));
   }
 
   function render(options) {
@@ -245,6 +257,12 @@
       radius: radius,
       ringWidth: ringWidth,
     };
+    detailContext.labelCandidates = treePerf.measure('sunburst.layout.labels', {
+      childCount: hierarchy.children.length,
+    }, function () {
+      return sunburstLabelLayouts(hierarchy.children, snapshot, centerRadius, radius, ringWidth);
+    });
+    const svgViewBox = sunburstViewBox(detailContext.labelCandidates, radius);
     const detailHtml = useCoarseMorph ? null : sunburstDetailHtml(detailContext);
     const transitionExtras = treePerf.measure('sunburst.html.transitionExtras', {
       animate: shouldAnimate,
@@ -257,7 +275,7 @@
     const svgClasses = ['ct-sunburst-svg', shouldAnimate ? 'is-unfolding' : ''].filter(Boolean).join(' ');
 
     const html = [
-      '<svg class="' + escAttr(svgClasses) + '" viewBox="-205 -205 410 410" aria-hidden="false" focusable="false">',
+      '<svg class="' + escAttr(svgClasses) + '" viewBox="' + escAttr(svgViewBox) + '" preserveAspectRatio="xMidYMin meet" aria-hidden="false" focusable="false">',
       '<g class="ct-sunburst-rings">',
       detailHtml ? detailHtml.arcs : '',
       '</g>',
@@ -269,6 +287,9 @@
       '</g>',
       '<g class="ct-sunburst-hit-targets">',
       detailHtml ? detailHtml.navigationTargets : '',
+      '</g>',
+      '<g class="ct-sunburst-selection" aria-hidden="true">',
+      detailHtml ? detailHtml.selectionHighlight : '',
       '</g>',
       '<g class="ct-sunburst-labels" aria-hidden="true">',
       detailHtml ? detailHtml.labels : '',
@@ -325,20 +346,49 @@
         return renderSunburstHitTarget(entry, snapshot, centerRadius, radius, pathNodes);
       }).join('');
     });
+    const selectionHighlight = treePerf.measure('sunburst.html.selection', null, function () {
+      return renderSunburstSelectionHighlight(entries, snapshot);
+    });
     const labels = treePerf.measure('sunburst.html.labels', {
       childCount: hierarchy.children.length,
     }, function () {
-      return sunburstLabelLayouts(hierarchy.children, snapshot, centerRadius, radius, ringWidth)
-        .map(renderSunburstLabel)
-        .join('');
+      return (context.labelCandidates || []).map(renderSunburstLabel).join('');
     });
 
     return {
       arcs: arcs,
       leafMarks: leafMarks,
       navigationTargets: navigationTargets,
+      selectionHighlight: selectionHighlight,
       labels: labels,
     };
+  }
+
+  function sunburstViewBox(labelCandidates, radius) {
+    const margin = 20;
+    let minX = -radius - margin;
+    let minY = -radius - margin;
+    let maxX = radius + margin;
+    let maxY = radius + margin;
+
+    (labelCandidates || []).forEach(function (labelCandidate) {
+      const box = sunburstLabelBox(labelCandidate.layout);
+      minX = Math.min(minX, box.left - margin);
+      minY = Math.min(minY, box.top - margin);
+      maxX = Math.max(maxX, box.right + margin);
+      maxY = Math.max(maxY, box.bottom + margin);
+    });
+
+    const x = Math.floor(minX);
+    const y = Math.floor(minY);
+    const width = Math.ceil(maxX) - x;
+    const height = Math.ceil(maxY) - y;
+    return [
+      fmt(x),
+      fmt(y),
+      fmt(width),
+      fmt(height),
+    ].join(' ');
   }
 
   function shouldUseCoarseSunburstMorph(previousSnapshot, snapshot) {
@@ -571,10 +621,13 @@
 
     const visualLength = snapshotEntry.visualLength;
     const isLeaf = snapshotEntry.isLeaf;
+    const selectedLeaf = isSelectedSunburstLeaf(snapshotEntry);
+    const selectedLeafTransform = selectedLeaf ? sunburstSelectedLeafTransform(snapshotEntry) : '';
     const classes = [
       'ct-sunburst-segment',
       node.kind === 'paper' ? 'ct-sunburst-segment--paper' : 'ct-sunburst-segment--branch',
       isLeaf ? 'ct-sunburst-segment--leaf' : '',
+      selectedLeaf ? 'is-selected-leaf' : '',
       snapshotEntry.depth >= 4 ? 'is-deep' : '',
       visualLength < 4.5 ? 'is-tight' : '',
       visualLength < 1.6 ? 'is-micro' : '',
@@ -586,6 +639,7 @@
       ' d="' + escAttr(path) + '"',
       ' fill="' + escAttr(snapshotEntry.fill) + '"',
       ' fill-opacity="' + escAttr(snapshotEntry.opacity.toFixed(2)) + '"',
+      selectedLeafTransform ? ' transform="' + escAttr(selectedLeafTransform) + '"' : '',
       ' data-ct-sunburst-index="' + escAttr(String(index)) + '"',
       ' data-ct-preview-node="' + escAttr(node.id) + '"',
       ' data-ct-sunburst-node="' + escAttr(node.id) + '"',
@@ -635,6 +689,8 @@
     const geometry = snapshotEntry.geometry;
     const visualLength = snapshotEntry.visualLength;
     if (entry.depth < 5 && visualLength >= 3.2) return '';
+    const selectedLeaf = isSelectedSunburstLeaf(snapshotEntry);
+    const selectedLeafTransform = selectedLeaf ? sunburstSelectedLeafTransform(snapshotEntry) : '';
 
     const span = geometry.endAngle - geometry.startAngle;
     const midAngle = (geometry.startAngle + geometry.endAngle) / 2;
@@ -650,13 +706,49 @@
       : midAngle + minDashSpan / 2;
 
     return [
-      '<path class="ct-sunburst-leaf-mark"',
+      '<path class="ct-sunburst-leaf-mark' + (selectedLeaf ? ' is-selected-leaf' : '') + '"',
       ' d="' + escAttr(arcStrokePath(markStart, markEnd, markRadius)) + '"',
       ' stroke="' + escAttr(snapshotEntry.fill) + '"',
       ' stroke-width="' + escAttr(fmt(markWidth)) + '"',
+      selectedLeafTransform ? ' transform="' + escAttr(selectedLeafTransform) + '"' : '',
       ' stroke-opacity="' + escAttr(fmt(markOpacity)) + '">',
       '</path>',
     ].join('');
+  }
+
+  function renderSunburstSelectionHighlight(entries, snapshot) {
+    const selectedEntry = (entries || []).map(function (entry) {
+      return snapshot.entries.get(entry.node.id);
+    }).find(isSelectedSunburstLeaf);
+    if (!selectedEntry || !selectedEntry.path) return '';
+
+    const transform = sunburstSelectedLeafTransform(selectedEntry);
+    return [
+      '<path class="ct-sunburst-selected-sector"',
+      ' d="' + escAttr(selectedEntry.path) + '"',
+      ' fill="' + escAttr(selectedEntry.fill) + '"',
+      ' stroke="' + escAttr(selectedEntry.fill) + '"',
+      ' style="--ct-sunburst-selected-sector-color: ' + escAttr(selectedEntry.fill) + ';"',
+      transform ? ' transform="' + escAttr(transform) + '"' : '',
+      '>',
+      '</path>',
+    ].join('');
+  }
+
+  function isSelectedSunburstLeaf(snapshotEntry) {
+    return Boolean(snapshotEntry && snapshotEntry.node.id === currentId && snapshotEntry.isLeaf);
+  }
+
+  function sunburstSelectedLeafTransform(snapshotEntry) {
+    const vector = sunburstSelectedLeafOffset(snapshotEntry.geometry);
+    if (!vector) return '';
+    return 'translate(' + fmt(vector.x) + ' ' + fmt(vector.y) + ')';
+  }
+
+  function sunburstSelectedLeafOffset(geometry) {
+    if (!geometry) return null;
+    const midAngle = (geometry.startAngle + geometry.endAngle) / 2;
+    return polarPoint(midAngle, sunburstSelectedLeafPopout);
   }
 
   function renderSunburstTransitionExtras(previousSnapshot, snapshot) {
@@ -722,6 +814,7 @@
     const centerGroup = sunburstStage.querySelector('.ct-sunburst-center');
     const labelsGroup = sunburstStage.querySelector('.ct-sunburst-labels');
     const hitTargetsGroup = sunburstStage.querySelector('.ct-sunburst-hit-targets');
+    const selectionGroup = sunburstStage.querySelector('.ct-sunburst-selection');
     const leafRimGroup = sunburstStage.querySelector('.ct-sunburst-leaf-rim');
     const svg = sunburstStage.querySelector('.ct-sunburst-svg');
 
@@ -729,6 +822,7 @@
     if (centerGroup) centerGroup.style.opacity = '0';
     if (labelsGroup) labelsGroup.style.opacity = '0';
     if (hitTargetsGroup) hitTargetsGroup.style.opacity = '0';
+    if (selectionGroup) selectionGroup.style.opacity = '0';
     if (leafRimGroup) leafRimGroup.style.opacity = '0';
     if (centerMorph && centerMorphEntry) {
       centerMorph.setAttribute('d', sunburstShapePath(centerMorphEntry.geometry));
@@ -797,6 +891,7 @@
       }
       if (labelsGroup) labelsGroup.style.opacity = String(labelOpacity);
       if (hitTargetsGroup) hitTargetsGroup.style.opacity = String(hitTargetOpacity);
+      if (selectionGroup) selectionGroup.style.opacity = String(settledDetailOpacity);
       if (leafRimGroup) leafRimGroup.style.opacity = String(settledDetailOpacity);
 
       if (rawProgress >= 1) {
@@ -817,6 +912,7 @@
         }
         if (labelsGroup) labelsGroup.style.opacity = '';
         if (hitTargetsGroup) hitTargetsGroup.style.opacity = '';
+        if (selectionGroup) selectionGroup.style.opacity = '';
         if (leafRimGroup) leafRimGroup.style.opacity = '';
         if (svg) svg.classList.remove('is-unfolding');
         sunburstAnimationFrame = 0;
@@ -842,6 +938,7 @@
         if (ringsGroup) ringsGroup.innerHTML = delayedDetailHtml.arcs;
         if (leafRimGroup) leafRimGroup.innerHTML = delayedDetailHtml.leafMarks;
         if (hitTargetsGroup) hitTargetsGroup.innerHTML = delayedDetailHtml.navigationTargets;
+        if (selectionGroup) selectionGroup.innerHTML = delayedDetailHtml.selectionHighlight;
         if (labelsGroup) labelsGroup.innerHTML = delayedDetailHtml.labels;
       });
       delayedDetailInserted = true;
@@ -866,6 +963,7 @@
     return detailHtml.arcs.length +
       detailHtml.leafMarks.length +
       detailHtml.navigationTargets.length +
+      detailHtml.selectionHighlight.length +
       detailHtml.labels.length;
   }
 

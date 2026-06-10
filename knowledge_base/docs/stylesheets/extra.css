@@ -2211,6 +2211,8 @@ body:has(#semantic-search-app) .md-content {
     max(var(--ct-sunburst-min-size), calc(100vh - var(--ct-sunburst-viewport-reserve))),
     var(--ct-sunburst-max-size)
   );
+  --ct-app-height: calc(100vh - var(--kb-site-header-height) - var(--kb-app-top-gap) - var(--kb-app-top-gap));
+  --ct-app-height: calc(100dvh - var(--kb-site-header-height) - var(--kb-app-top-gap) - var(--kb-app-top-gap));
   --ct-list-edge-compensation: 0.55rem;
   --ct-subtle-grey-surface: #e4e7eb;
   --ct-subtle-grey-surface-hover: #b8bec8;
@@ -2227,7 +2229,21 @@ body:has(#semantic-search-app) .md-content {
   display: flex;
   flex-direction: column;
   gap: 0.9rem;
+  height: var(--ct-app-height);
+  max-height: var(--ct-app-height);
   margin-top: var(--kb-app-top-gap);
+  overflow: hidden;
+}
+
+html:has(#ct-app),
+body:has(#ct-app) {
+  overflow: hidden;
+}
+
+body:has(#ct-app) .md-content,
+body:has(#ct-app) .md-content__inner {
+  min-height: 0;
+  overflow: hidden;
 }
 
 .md-typeset .ct-title-row {
@@ -2260,6 +2276,9 @@ body:has(#semantic-search-app) .md-content {
 }
 
 .ct-sunburst-panel {
+  align-self: start;
+  display: flex;
+  min-height: 0;
   border: 1px solid var(--ct-border);
   border-radius: 8px;
   background: var(--ct-panel);
@@ -2314,34 +2333,47 @@ body:has(#semantic-search-app) .md-content {
 }
 
 .ct-sunburst-body {
+  box-sizing: border-box;
   display: grid;
   grid-template-columns: minmax(0, 1fr);
-  align-items: center;
+  align-items: start;
+  flex: 1 1 auto;
+  min-height: 0;
   padding: 0.85rem;
+  width: 100%;
 }
 
 .ct-sunburst {
   position: relative;
   display: grid;
-  place-items: center;
+  align-items: start;
+  justify-items: center;
   min-width: 0;
-  min-height: var(--ct-sunburst-size);
+  width: min(100%, var(--ct-sunburst-size));
+  height: auto;
+  aspect-ratio: 1;
+  min-height: 0;
+  justify-self: center;
 }
 
 .ct-sunburst-stage {
   display: grid;
-  place-items: center;
+  align-items: start;
+  justify-items: center;
   width: 100%;
+  height: 100%;
   min-width: 0;
-  min-height: inherit;
+  min-height: 0;
 }
 
 .ct-sunburst-svg {
   display: block;
-  width: min(100%, var(--ct-sunburst-size));
-  max-height: none;
+  width: 100%;
+  height: 100%;
+  max-width: 100%;
+  max-height: 100%;
   aspect-ratio: 1;
-  overflow: visible;
+  overflow: hidden;
 }
 
 .ct-sunburst-segment {
@@ -2399,6 +2431,18 @@ body:has(#semantic-search-app) .md-content {
   filter: drop-shadow(0 0 10px color-mix(in srgb, var(--ct-cyan) 34%, transparent));
 }
 
+.ct-sunburst-segment.is-selected-leaf {
+  fill-opacity: 1;
+  stroke: color-mix(in srgb, var(--ct-gold) 88%, #ffffff);
+  stroke-width: 1.9;
+  stroke-opacity: 1;
+  filter:
+    saturate(1.2)
+    brightness(1.08)
+    drop-shadow(0 0 7px color-mix(in srgb, var(--ct-gold) 74%, transparent))
+    drop-shadow(0 6px 14px color-mix(in srgb, #000000 18%, transparent));
+}
+
 .ct-sunburst-center-morph {
   pointer-events: none;
   stroke: color-mix(in srgb, var(--md-default-bg-color) 88%, transparent);
@@ -2418,6 +2462,36 @@ body:has(#semantic-search-app) .md-content {
   fill: none;
   stroke-linecap: round;
   vector-effect: non-scaling-stroke;
+}
+
+.ct-sunburst-leaf-mark.is-selected-leaf {
+  stroke: color-mix(in srgb, var(--ct-gold) 88%, #ffffff);
+  stroke-width: 1.35;
+  stroke-opacity: 0.9;
+  filter: drop-shadow(0 0 5px color-mix(in srgb, var(--ct-gold) 72%, transparent));
+}
+
+.ct-sunburst-selection {
+  pointer-events: none;
+}
+
+.ct-sunburst-selected-sector {
+  fill: color-mix(in srgb, var(--ct-sunburst-selected-sector-color) 62%, #ffffff);
+  fill-opacity: 0.36;
+  stroke: color-mix(in srgb, var(--ct-gold) 88%, #ffffff);
+  stroke-width: 3;
+  stroke-opacity: 0.98;
+  vector-effect: non-scaling-stroke;
+  pointer-events: none;
+  filter:
+    drop-shadow(0 0 8px color-mix(in srgb, var(--ct-gold) 80%, transparent))
+    drop-shadow(0 8px 16px color-mix(in srgb, #000000 20%, transparent));
+}
+
+[data-md-color-scheme="slate"] .ct-sunburst-selected-sector {
+  fill: color-mix(in srgb, var(--ct-sunburst-selected-sector-color) 70%, #ffffff);
+  fill-opacity: 0.28;
+  stroke: color-mix(in srgb, var(--ct-gold) 82%, #ffffff);
 }
 
 .ct-sunburst-hit-target {
@@ -2461,6 +2535,7 @@ body:has(#semantic-search-app) .md-content {
 .ct-sunburst-svg.is-unfolding .ct-sunburst-center-morph,
 .ct-sunburst-svg.is-unfolding .ct-sunburst-coarse-morph,
 .ct-sunburst-svg.is-unfolding .ct-sunburst-leaf-mark,
+.ct-sunburst-svg.is-unfolding .ct-sunburst-selected-sector,
 .ct-sunburst-svg.is-unfolding .ct-sunburst-hit-target {
   transition: none !important;
   filter: none !important;
@@ -2529,8 +2604,11 @@ body:has(#semantic-search-app) .md-content {
 .ct-workspace {
   display: grid;
   grid-template-columns: 1fr;
+  grid-template-rows: max-content minmax(0, 1fr);
   gap: 0.9rem;
-  align-items: start;
+  align-items: stretch;
+  height: 100%;
+  min-height: 0;
 }
 
 .ct-selection-details {
@@ -2638,9 +2716,18 @@ body:has(#semantic-search-app) .md-content {
 }
 
 .ct-browser {
+  box-sizing: border-box;
   display: block;
   width: 100%;
+  min-height: 0;
   margin-top: 0.35rem;
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding-left: var(--ct-list-edge-compensation);
+  padding-right: 0.12rem;
+  scrollbar-gutter: stable;
+  -webkit-overflow-scrolling: touch;
 }
 
 .ct-workspace .ct-browser {
@@ -3144,46 +3231,49 @@ body:has(#semantic-search-app) .md-content {
   }
 
   .ct-workspace .ct-sunburst {
-    min-height: var(--ct-sunburst-size);
+    min-height: 0;
   }
 
   .ct-workspace .ct-sunburst-svg {
-    width: min(100%, var(--ct-sunburst-size));
-    max-height: none;
+    width: 100%;
+    max-height: 100%;
   }
 
 }
 
+@media (min-width: 64rem) and (min-aspect-ratio: 6 / 5) {
+  .ct-page {
+    --ct-sunburst-min-size: 18rem;
+    --ct-sunburst-max-size: 34rem;
+    --ct-sunburst-viewport-reserve: 22rem;
+  }
+
+  .ct-workspace {
+    grid-template-columns: minmax(24rem, 44vw) minmax(0, 1fr);
+    grid-template-rows: minmax(0, 1fr);
+    gap: 1rem;
+  }
+
+  .ct-sunburst-body {
+    padding: 1rem;
+  }
+
+  .ct-sunburst-svg {
+    width: 100%;
+    height: 100%;
+    max-height: 100%;
+  }
+}
+
 @media (max-width: 720px) {
-  html:has(#ct-app),
-  body:has(#ct-app) {
-    overflow: hidden;
-  }
-
-  body:has(#ct-app) .md-container,
-  body:has(#ct-app) .md-main,
-  body:has(#ct-app) .md-main__inner,
-  body:has(#ct-app) .md-content,
-  body:has(#ct-app) .md-content__inner {
-    min-height: 0;
-    overflow: hidden;
-  }
-
   .ct-page {
     --ct-rail-center: 0.98rem;
     --ct-tree-button-min: 2.35rem;
     --ct-current-button-min: 3.53rem;
     --ct-tree-label-size: 0.82rem;
-    --ct-mobile-app-height: calc(100vh - var(--kb-site-header-height) - var(--kb-app-top-gap) - var(--kb-app-top-gap));
-    --ct-mobile-app-height: calc(100dvh - var(--kb-site-header-height) - var(--kb-app-top-gap) - var(--kb-app-top-gap));
     --ct-sunburst-min-size: 15rem;
     --ct-sunburst-max-size: 24rem;
     --ct-sunburst-viewport-reserve: 25rem;
-    height: var(--ct-mobile-app-height);
-    max-height: var(--ct-mobile-app-height);
-    min-height: 0;
-    margin-bottom: 0 !important;
-    overflow: hidden;
   }
 
   .md-content__inner:has(#ct-app) {
@@ -3195,54 +3285,13 @@ body:has(#semantic-search-app) .md-content {
   }
 
   .ct-workspace {
-    grid-template-rows: minmax(0, 1fr) minmax(0, 1fr);
-    align-items: stretch;
-    height: 100%;
-    min-height: 0;
     gap: 0.5rem;
-  }
-
-  .ct-sunburst-panel,
-  .ct-browser {
-    min-height: 0;
-  }
-
-  .ct-sunburst-panel {
-    display: flex;
   }
 
   .ct-sunburst-body {
     grid-template-columns: 1fr;
     gap: 0.65rem;
-    flex: 1 1 auto;
-    min-height: 0;
     padding: 0.42rem 0.5rem;
-  }
-
-  .ct-sunburst {
-    height: 100%;
-    min-height: 0;
-  }
-
-  .ct-sunburst-stage {
-    height: 100%;
-    min-height: 0;
-  }
-
-  .ct-sunburst-svg {
-    width: auto;
-    height: 100%;
-    max-width: 100%;
-    max-height: 100%;
-  }
-
-  .ct-browser {
-    overflow-x: hidden;
-    overflow-y: auto;
-    overscroll-behavior: contain;
-    padding-right: 0.12rem;
-    scrollbar-gutter: stable;
-    -webkit-overflow-scrolling: touch;
   }
 
   .ct-selection-details {
