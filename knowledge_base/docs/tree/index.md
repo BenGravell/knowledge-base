@@ -3,7 +3,7 @@ hide:
   - toc
 ---
 
-<div id="ct-app" class="ct-page">
+<div id="ct-app" class="ct-page kb-app-page">
   <div class="ct-workspace">
     <section id="ct-sunburst-panel" class="ct-sunburst-panel" aria-label="Tree sunburst navigator">
       <div class="ct-sunburst-body">

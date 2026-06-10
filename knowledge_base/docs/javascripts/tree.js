@@ -1244,17 +1244,14 @@
   function coarseDownwardSunburstStartGeometry(targetGeometry, downwardTransition) {
     const source = downwardTransition.sourceGeometry;
     const targetRange = downwardTransition.targetRange;
-    const radialRange = downwardTransition.targetRadialRange;
     const startAngle = mapSunburstAngle(targetGeometry.startAngle, targetRange, source);
     const endAngle = mapSunburstAngle(targetGeometry.endAngle, targetRange, source);
-    const innerRadius = mapSunburstRadius(targetGeometry.innerRadius, radialRange, source);
-    const outerRadius = mapSunburstRadius(targetGeometry.outerRadius, radialRange, source);
 
     return {
       startAngle: startAngle,
       endAngle: Math.max(endAngle, startAngle + 0.0001),
-      innerRadius: innerRadius,
-      outerRadius: Math.max(outerRadius, innerRadius + 0.0001),
+      innerRadius: targetGeometry.innerRadius,
+      outerRadius: targetGeometry.outerRadius,
     };
   }
 
@@ -1303,14 +1300,6 @@
     return toRange.startAngle + ratio * toSpan;
   }
 
-  function mapSunburstRadius(radius, fromRange, toRange) {
-    const fromSpan = fromRange.outerRadius - fromRange.innerRadius;
-    const toSpan = toRange.outerRadius - toRange.innerRadius;
-    if (!fromSpan || !toSpan) return toRange.innerRadius;
-    const ratio = (radius - fromRange.innerRadius) / fromSpan;
-    return toRange.innerRadius + ratio * toSpan;
-  }
-
   function interpolateSunburstGeometry(from, to, progress, angleProgress) {
     const angularProgress = Number.isFinite(angleProgress) ? angleProgress : progress;
     return {
@@ -1348,7 +1337,6 @@
     return {
       sourceGeometry: sourceEntry.geometry,
       targetRange: snapshot.center.geometry,
-      targetRadialRange: sunburstSnapshotRadialRange(snapshot),
     };
   }
 
