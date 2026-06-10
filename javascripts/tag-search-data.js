@@ -2600,7 +2600,7 @@ window.tagSearchData = {
         "Hybrid planning",
         "Local optimization"
       ],
-      "abstract": "Sampling-based optimal planners, such as RRT*, almost-surely converge asymptotically to the optimal solution, but have provably slow convergence rates in high dimensions. This is because their commitment to finding the global optimum compels them to prioritize exploration of the entire problem domain even as its size grows exponentially. Optimization techniques, such as CHOMP, have fast convergence on these problems but only to local optima. This is because they are exploitative, prioritizing the immediate improvement of a path even though this may not find the global optimum of nonconvex cost functions.",
+      "abstract": "Sampling-based optimal planners, such as RRT*, almost-surely converge asymptotically to the optimal solution, but have provably slow convergence rates in high dimensions. This is because their commitment to finding the global optimum compels them to prioritize exploration of the entire problem domain even as its size grows exponentially. Optimization techniques, such as CHOMP, have fast convergence on these problems but only to local optima. This is because they are exploitative, prioritizing the immediate improvement of a path even though this may not find the global optimum of nonconvex cost functions. In this paper, we present a hybrid technique that integrates the benefits of both methods into a single search. A key insight is that applying local optimization to a subset of edges likely to improve the solution avoids the prohibitive cost of optimizing every edge in a global search. This is made possible by Batch Informed Trees (BIT*), an informed global technique that orders its search by potential solution quality. In our algorithm, Regionally Accelerated BIT* (RABIT*), we extend BIT* by using optimization to exploit local domain information and find alternative connections for edges in collision and accelerate the search. This improves search performance in problems with difficult-to-sample homotopy classes (e.g., narrow passages) while maintaining almost-sure asymptotic convergence to the global optimum. Our experiments on simulated random worlds and real data from an autonomous helicopter show that on certain difficult problems, RABIT* converges 1.8 times faster than BIT*. Qualitatively, in problems with difficult-to-sample homotopy classes, we show that RABIT* is able to efficiently transform paths to avoid obstacles.",
       "summary": "RABIT* extends BIT* by hybridizing its global informed search with local gradient-based optimization (e.g. CHOMP). Rather than optimizing every edge, it selectively applies local optimization only to the subset of edges within the current informed set that are most likely to improve the solution, avoiding infeasible edges by finding alternative connections. This preserves asymptotic optimality while significantly accelerating convergence, particularly in problems with difficult-to-sample homotopy classes or narrow passages.",
       "url": "../papers/2016_choudhury_regionally_accelerated_batch_informed/",
       "treeUrl": "../tree/#paper=2016_choudhury_regionally_accelerated_batch_informed",
@@ -6621,6 +6621,36 @@ window.tagSearchData = {
       "mapUrl": "../map/#paper=2000_jansson_asymptotic_variance_analysis_of",
       "timelineUrl": "../timeline/#paper=2000_jansson_asymptotic_variance_analysis_of",
       "searchUrl": "../search/?paper=2000_jansson_asymptotic_variance_analysis_of"
+    },
+    "2000_taubman_high_performance_scalable_image": {
+      "id": "2000_taubman_high_performance_scalable_image",
+      "title": "High Performance Scalable Image Compression with EBCOT",
+      "label": "EBCOT",
+      "algorithm": "EBCOT",
+      "authors": [
+        "David S. Taubman"
+      ],
+      "year": "2000",
+      "source": "IEEE Transactions on Image Processing",
+      "type": "Journal Paper",
+      "tags": [
+        "EBCOT",
+        "Joint photographic experts group 2000",
+        "Embedded block coding",
+        "Wavelet transform",
+        "Rate-distortion optimization",
+        "Scalable coding",
+        "Random access",
+        "Image compression",
+        "Visual masking"
+      ],
+      "abstract": "A new image compression algorithm is proposed, based on independent Embedded Block Coding with Optimized Truncation of the embedded bit-streams (EBCOT). The algorithm exhibits state-of-the-art compression performance while producing a bit-stream with a rich set of features, including resolution and SNR scalability together with a \"random access\" property. The algorithm has modest complexity and is suitable for applications involving remote browsing of large compressed images. The algorithm lends itself to explicit optimization with respect to MSE as well as more realistic psychovisual metrics, capable of modeling the spatially varying visual masking phenomenon.",
+      "summary": "Taubman introduces EBCOT, the embedded block coding and post-compression rate-distortion optimization framework that became the core coding engine of JPEG 2000. Its independent code blocks, optimized truncation, scalability, random access, and visual-metric compatibility made wavelet image coding far more flexible than earlier global embedded coders such as EZW and SPIHT.",
+      "url": "../papers/2000_taubman_high_performance_scalable_image/",
+      "treeUrl": "../tree/#paper=2000_taubman_high_performance_scalable_image",
+      "mapUrl": "../map/#paper=2000_taubman_high_performance_scalable_image",
+      "timelineUrl": "../timeline/#paper=2000_taubman_high_performance_scalable_image",
+      "searchUrl": "../search/?paper=2000_taubman_high_performance_scalable_image"
     },
     "2000_bicchi_robotic_grasping_and_contact": {
       "id": "2000_bicchi_robotic_grasping_and_contact",
@@ -12629,6 +12659,34 @@ window.tagSearchData = {
       "mapUrl": "../map/#paper=2019_jongeneel_robust_linear_quadratic_regulator",
       "timelineUrl": "../timeline/#paper=2019_jongeneel_robust_linear_quadratic_regulator",
       "searchUrl": "../search/?paper=2019_jongeneel_robust_linear_quadratic_regulator"
+    },
+    "1904_02990": {
+      "id": "1904_02990",
+      "title": "On the Equivalence of Automatic and Symbolic Differentiation",
+      "label": "Equivalence of Automatic and Symbolic Differentiation",
+      "algorithm": "Equivalence of Automatic and Symbolic Differentiation",
+      "authors": [
+        "Soeren Laue"
+      ],
+      "year": "2019",
+      "source": "arXiv",
+      "type": "Preprint",
+      "tags": [
+        "Symbolic differentiation",
+        "Automatic differentiation",
+        "Reverse mode",
+        "Expression swell",
+        "Expression graphs",
+        "Symbolic computation",
+        "Machine learning"
+      ],
+      "abstract": "We show that reverse mode automatic differentiation and symbolic differentiation are equivalent in the sense that they both perform the same operations when computing derivatives. This is in stark contrast to the common claim that they are substantially different. The difference is often illustrated by claiming that symbolic differentiation suffers from \"expression swell\" whereas automatic differentiation does not. Here, we show that this statement is not true. \"Expression swell\" refers to the phenomenon of a much larger representation of the derivative as opposed to the representation of the original function.",
+      "summary": "Laue argues that reverse-mode automatic differentiation and symbolic differentiation are operationally equivalent when symbolic differentiation is represented with sharing rather than as fully expanded expressions. The paper is useful as a modern corrective to the common teaching contrast between AD and symbolic differentiation, especially around expression swell and control flow.",
+      "url": "../papers/1904_02990/",
+      "treeUrl": "../tree/#paper=1904_02990",
+      "mapUrl": "../map/#paper=1904_02990",
+      "timelineUrl": "../timeline/#paper=1904_02990",
+      "searchUrl": "../search/?paper=1904_02990"
     },
     "1909_09223": {
       "id": "1909_09223",
@@ -29879,6 +29937,36 @@ window.tagSearchData = {
       "timelineUrl": "../timeline/#paper=1952_lanczos_solution_of_systems_of",
       "searchUrl": "../search/?paper=1952_lanczos_solution_of_systems_of"
     },
+    "1952_huffman_a_method_for_the": {
+      "id": "1952_huffman_a_method_for_the",
+      "title": "A Method for the Construction of Minimum-Redundancy Codes",
+      "label": "Huffman Coding",
+      "algorithm": "Huffman Coding",
+      "authors": [
+        "David A. Huffman"
+      ],
+      "year": "1952",
+      "source": "Proceedings of the IRE",
+      "type": "Journal Paper",
+      "tags": [
+        "Huffman coding",
+        "Minimum redundancy coding",
+        "Prefix codes",
+        "Variable length codes",
+        "Entropy coding",
+        "Lossless compression",
+        "Source coding",
+        "Coding theory",
+        "Data compression"
+      ],
+      "abstract": "",
+      "summary": "Huffman gives the constructive greedy algorithm for building minimum-redundancy prefix codes from symbol probabilities. The method became the standard practical entropy coding tool behind many lossless compressors and image formats, and it also supplies an important baseline against which arithmetic coding and later context-adaptive coders are compared.",
+      "url": "../papers/1952_huffman_a_method_for_the/",
+      "treeUrl": "../tree/#paper=1952_huffman_a_method_for_the",
+      "mapUrl": "../map/#paper=1952_huffman_a_method_for_the",
+      "timelineUrl": "../timeline/#paper=1952_huffman_a_method_for_the",
+      "searchUrl": "../search/?paper=1952_huffman_a_method_for_the"
+    },
     "1986_saad_gmres_a_generalized_minimal": {
       "id": "1986_saad_gmres_a_generalized_minimal",
       "title": "GMRES: A Generalized Minimal Residual Algorithm for Solving Nonsymmetric Linear Systems",
@@ -29966,6 +30054,33 @@ window.tagSearchData = {
       "mapUrl": "../map/#paper=1986_tsitsiklis_distributed_asynchronous_deterministic_and",
       "timelineUrl": "../timeline/#paper=1986_tsitsiklis_distributed_asynchronous_deterministic_and",
       "searchUrl": "../search/?paper=1986_tsitsiklis_distributed_asynchronous_deterministic_and"
+    },
+    "1986_princen_analysis_synthesis_filter_bank": {
+      "id": "1986_princen_analysis_synthesis_filter_bank",
+      "title": "Analysis/Synthesis Filter Bank Design Based on Time Domain Aliasing Cancellation",
+      "label": "Time-Domain Aliasing Cancellation",
+      "algorithm": "Time-Domain Aliasing Cancellation",
+      "authors": [
+        "John P. Princen",
+        "Alan B. Bradley"
+      ],
+      "year": "1986",
+      "source": "IEEE Transactions on Acoustics, Speech, and Signal Processing",
+      "type": "Journal Paper",
+      "tags": [
+        "Audio compression",
+        "Signal processing",
+        "Filtering",
+        "Transforms",
+        "Information theory"
+      ],
+      "abstract": "A single-sideband analysis/synthesis system is proposed which provides perfect reconstruction of a signal from a set of critically sampled analysis signals. The technique is developed in terms of a weighted overlap-add method of analysis/synthesis and allows overlap between adjacent time windows. This implies that time domain aliasing is introduced in the analysis; however, this aliasing is cancelled in the synthesis process, and the system can provide perfect reconstruction. Achieving perfect reconstruction places constraints on the time domain window shape which are equivalent to those placed on the frequency domain shape of analysis/synthesis channels used in recently proposed critically sampled systems based on frequency domain aliasing cancellation. In fact, a duality exists between the new technique and the frequency domain techniques. The proposed technique is more efficient than frequency domain designs for a given number of analysis/synthesis channels, and can provide reasonably band-limited channel responses. The technique could be particularly useful in applications where critically sampled analysis/synthesis is desirable, e.g., coding.",
+      "summary": "Establishes the time-domain aliasing cancellation principle behind lapped, critically sampled analysis/synthesis filter banks. The result is central to practical transform audio coding because it enables efficient overlapping blocks with perfect reconstruction, a path that later codecs exploit through MDCT-style filter banks.",
+      "url": "../papers/1986_princen_analysis_synthesis_filter_bank/",
+      "treeUrl": "../tree/#paper=1986_princen_analysis_synthesis_filter_bank",
+      "mapUrl": "../map/#paper=1986_princen_analysis_synthesis_filter_bank",
+      "timelineUrl": "../timeline/#paper=1986_princen_analysis_synthesis_filter_bank",
+      "searchUrl": "../search/?paper=1986_princen_analysis_synthesis_filter_bank"
     },
     "1986_quinlan_induction_of_decision_trees": {
       "id": "1986_quinlan_induction_of_decision_trees",
@@ -30591,6 +30706,37 @@ window.tagSearchData = {
       "mapUrl": "../map/#paper=2104_07636",
       "timelineUrl": "../timeline/#paper=2104_07636",
       "searchUrl": "../search/?paper=2104_07636"
+    },
+    "2107_03312": {
+      "id": "2107_03312",
+      "title": "SoundStream: An End-to-End Neural Audio Codec",
+      "label": "SoundStream",
+      "algorithm": "SoundStream",
+      "authors": [
+        "Neil Zeghidour",
+        "Alejandro Luebs",
+        "Ahmed Omran",
+        "Jan Skoglund",
+        "Marco Tagliasacchi"
+      ],
+      "year": "2021",
+      "source": "IEEE/ACM Transactions on Audio, Speech, and Language Processing",
+      "type": "Journal Paper",
+      "tags": [
+        "Audio compression",
+        "End-to-end learning",
+        "Neural networks",
+        "Vector quantization",
+        "Latent",
+        "Generative adversarial network"
+      ],
+      "abstract": "We present SoundStream, a novel neural audio codec that can efficiently compress speech, music and general audio at bitrates normally targeted by speech-tailored codecs. SoundStream relies on a model architecture composed by a fully convolutional encoder/decoder network and a residual vector quantizer, which are trained jointly end-to-end. Training leverages recent advances in text-to-speech and speech enhancement, which combine adversarial and reconstruction losses to allow the generation of high-quality audio content from quantized embeddings. By training with structured dropout applied to quantizer layers, a single model can operate across variable bitrates from 3kbps to 18kbps, with a negligible quality loss when compared with models trained at fixed bitrates. In addition, the model is amenable to a low latency implementation, which supports streamable inference and runs in real time on a smartphone CPU. In subjective evaluations using audio at 24kHz sampling rate, SoundStream at 3kbps outperforms Opus at 12kbps and approaches EVS at 9.6kbps. Moreover, we are able to perform joint compression and enhancement either at the encoder or at the decoder side with no additional latency, which we demonstrate through background noise suppression for speech.",
+      "summary": "Introduces an end-to-end neural audio codec built from a convolutional encoder/decoder and residual vector quantizer, trained with reconstruction and adversarial objectives. The quantizer-dropout mechanism is especially important because it makes one model support multiple bitrates while preserving real-time, low-latency operation.",
+      "url": "../papers/2107_03312/",
+      "treeUrl": "../tree/#paper=2107_03312",
+      "mapUrl": "../map/#paper=2107_03312",
+      "timelineUrl": "../timeline/#paper=2107_03312",
+      "searchUrl": "../search/?paper=2107_03312"
     },
     "2111_00113": {
       "id": "2111_00113",
@@ -35020,6 +35166,35 @@ window.tagSearchData = {
       "timelineUrl": "../timeline/#paper=1983_sontag_a_lyapunov_like_characterization",
       "searchUrl": "../search/?paper=1983_sontag_a_lyapunov_like_characterization"
     },
+    "1983_baur_the_complexity_of_partial": {
+      "id": "1983_baur_the_complexity_of_partial",
+      "title": "The Complexity of Partial Derivatives",
+      "label": "Baur-Strassen Theorem",
+      "algorithm": "Baur-Strassen Theorem",
+      "authors": [
+        "Walter Baur",
+        "Volker Strassen"
+      ],
+      "year": "1983",
+      "source": "Theoretical Computer Science",
+      "type": "Journal Paper",
+      "tags": [
+        "Symbolic differentiation",
+        "Arithmetic circuits",
+        "Arithmetic complexity",
+        "Partial derivatives",
+        "Computational complexity",
+        "Automatic differentiation",
+        "Matrix inversion"
+      ],
+      "abstract": "Let L denote the nonscalar complexity in k(x_1,...,x_n). We prove L(f, df/dx_1, ..., df/dx_n) <= 3L(f). Using this we determine the complexity of single power sums, single elementary symmetric functions, the resultant and the discriminant as root functions, up to order of magnitude. Also we linearly reduce matrix inversion to computing the determinant.",
+      "summary": "Baur and Strassen prove that all first partial derivatives of a rational function can be computed with only a constant-factor overhead over computing the function itself, in the algebraic circuit model. The theorem is a foundational bridge between symbolic differentiation, arithmetic-circuit complexity, and the later cost model of reverse-mode automatic differentiation.",
+      "url": "../papers/1983_baur_the_complexity_of_partial/",
+      "treeUrl": "../tree/#paper=1983_baur_the_complexity_of_partial",
+      "mapUrl": "../map/#paper=1983_baur_the_complexity_of_partial",
+      "timelineUrl": "../timeline/#paper=1983_baur_the_complexity_of_partial",
+      "searchUrl": "../search/?paper=1983_baur_the_complexity_of_partial"
+    },
     "1958_sion_on_general_minimax_theorems": {
       "id": "1958_sion_on_general_minimax_theorems",
       "title": "On General Minimax Theorems",
@@ -35721,6 +35896,34 @@ window.tagSearchData = {
       "mapUrl": "../map/#paper=1979_puterman_on_the_convergence_of",
       "timelineUrl": "../timeline/#paper=1979_puterman_on_the_convergence_of",
       "searchUrl": "../search/?paper=1979_puterman_on_the_convergence_of"
+    },
+    "1979_schroeder_optimizing_digital_speech_coders": {
+      "id": "1979_schroeder_optimizing_digital_speech_coders",
+      "title": "Optimizing Digital Speech Coders by Exploiting Masking Properties of the Human Ear",
+      "label": "Masking-Based Speech Coding",
+      "algorithm": "Masking-Based Speech Coding",
+      "authors": [
+        "Manfred R. Schroeder",
+        "Bishnu S. Atal",
+        "Joseph L. Hall"
+      ],
+      "year": "1979",
+      "source": "The Journal of the Acoustical Society of America",
+      "type": "Journal Paper",
+      "tags": [
+        "Audio compression",
+        "Psychophysics",
+        "Bell Labs",
+        "Perceptual metrics",
+        "Pulse-code modulation"
+      ],
+      "abstract": "In any speech coding system that adds noise to the speech signal, the primary goal should not be to reduce the noise power as much as possible, but to make the noise inaudible or to minimize its subjective loudness. \"Hiding\" the noise under the signal spectrum is feasible because of human auditory masking: sounds whose spectrum falls near the masking threshold of another sound are either completely masked by the other sound or reduced in loudness. In speech coding applications, the \"other sound\" is, of course, the speech signal itself. In this paper we report new results of masking and loudness reduction of noise and describe the design principles of speech coding systems exploiting auditory masking.",
+      "summary": "Makes auditory masking an explicit design principle for digital speech coding, shifting the objective from minimizing numerical noise power to minimizing audible noise. This paper is an early bridge between psychoacoustics and practical lossy coding, foreshadowing the perceptual bit allocation used by later audio codecs.",
+      "url": "../papers/1979_schroeder_optimizing_digital_speech_coders/",
+      "treeUrl": "../tree/#paper=1979_schroeder_optimizing_digital_speech_coders",
+      "mapUrl": "../map/#paper=1979_schroeder_optimizing_digital_speech_coders",
+      "timelineUrl": "../timeline/#paper=1979_schroeder_optimizing_digital_speech_coders",
+      "searchUrl": "../search/?paper=1979_schroeder_optimizing_digital_speech_coders"
     },
     "1971_bertsekas_recursive_state_estimation_for": {
       "id": "1971_bertsekas_recursive_state_estimation_for",
@@ -39256,6 +39459,37 @@ window.tagSearchData = {
       "timelineUrl": "../timeline/#paper=1978_freeman_centrality_in_social_networks",
       "searchUrl": "../search/?paper=1978_freeman_centrality_in_social_networks"
     },
+    "1948_shannon_a_mathematical_theory_of": {
+      "id": "1948_shannon_a_mathematical_theory_of",
+      "title": "A Mathematical Theory of Communication",
+      "label": "Information Theory",
+      "algorithm": "Information Theory",
+      "authors": [
+        "Claude E. Shannon"
+      ],
+      "year": "1948",
+      "source": "Bell System Technical Journal",
+      "type": "Journal Paper",
+      "tags": [
+        "Information theory",
+        "Source coding",
+        "Channel coding",
+        "Entropy",
+        "Communication theory",
+        "Noisy channels",
+        "Channel capacity",
+        "Data compression",
+        "Error correction",
+        "Coding theory"
+      ],
+      "abstract": "",
+      "summary": "Shannon establishes the mathematical foundations of information theory, formalizing information, entropy, source coding, channel capacity, and reliable communication over noisy channels. For compression, the paper supplies the language and limits that later entropy coders, image codecs, and rate-distortion systems build on.",
+      "url": "../papers/1948_shannon_a_mathematical_theory_of/",
+      "treeUrl": "../tree/#paper=1948_shannon_a_mathematical_theory_of",
+      "mapUrl": "../map/#paper=1948_shannon_a_mathematical_theory_of",
+      "timelineUrl": "../timeline/#paper=1948_shannon_a_mathematical_theory_of",
+      "searchUrl": "../search/?paper=1948_shannon_a_mathematical_theory_of"
+    },
     "1987_lorensen_marching_cubes_a_high": {
       "id": "1987_lorensen_marching_cubes_a_high",
       "title": "Marching Cubes: A High Resolution 3D Surface Construction Algorithm",
@@ -39939,6 +40173,42 @@ window.tagSearchData = {
       "timelineUrl": "../timeline/#paper=1997_storn_differential_evolution_a_simple",
       "searchUrl": "../search/?paper=1997_storn_differential_evolution_a_simple"
     },
+    "1997_bosi_iso_iec_mpeg_2": {
+      "id": "1997_bosi_iso_iec_mpeg_2",
+      "title": "ISO/IEC MPEG-2 Advanced Audio Coding",
+      "label": "AAC",
+      "algorithm": "AAC",
+      "authors": [
+        "Marina Bosi",
+        "Karlheinz Brandenburg",
+        "Schuyler R. Quackenbush",
+        "Louis Fielder",
+        "Kenzo Akagiri",
+        "Henrik Fuchs",
+        "Martin Dietz",
+        "Juergen Herre",
+        "Grant Davidson",
+        "Yoshiaki Oikawa"
+      ],
+      "year": "1997",
+      "source": "Journal of the Audio Engineering Society",
+      "type": "Journal Paper",
+      "tags": [
+        "Audio compression",
+        "Information theory",
+        "Signal processing",
+        "Filtering",
+        "Prediction",
+        "Perceptual metrics"
+      ],
+      "abstract": "The ISO/IEC MPEG-2 advanced audio coding (AAC) system was designed to provide MPEG-2 with the best audio quality without any restrictions due to compatibility requirements. The main features of the AAC system (ISO/IEC 13818-7) are described. MPEG-2 AAC combines the coding efficiency of a high-resolution filter bank, prediction techniques, and Huffmann coding with additional functionalities aimed to deliver very high audio quality at a variety of data rates.",
+      "summary": "Documents the MPEG-2 AAC system, which relaxed MPEG-1 backward-compatibility constraints to achieve better coding efficiency and audio quality. It marks the standardization of a codec family whose filter-bank, prediction, entropy-coding, and perceptual-design choices became central to modern music and streaming audio formats.",
+      "url": "../papers/1997_bosi_iso_iec_mpeg_2/",
+      "treeUrl": "../tree/#paper=1997_bosi_iso_iec_mpeg_2",
+      "mapUrl": "../map/#paper=1997_bosi_iso_iec_mpeg_2",
+      "timelineUrl": "../timeline/#paper=1997_bosi_iso_iec_mpeg_2",
+      "searchUrl": "../search/?paper=1997_bosi_iso_iec_mpeg_2"
+    },
     "1997_katayama_the_sr_tree": {
       "id": "1997_katayama_the_sr_tree",
       "title": "The SR-tree",
@@ -40080,6 +40350,37 @@ window.tagSearchData = {
       "mapUrl": "../map/#paper=1991_lin_a_fast_algorithm_for",
       "timelineUrl": "../timeline/#paper=1991_lin_a_fast_algorithm_for",
       "searchUrl": "../search/?paper=1991_lin_a_fast_algorithm_for"
+    },
+    "1991_wallace_the_jpeg_still_picture": {
+      "id": "1991_wallace_the_jpeg_still_picture",
+      "title": "The JPEG Still Picture Compression Standard",
+      "label": "JPEG",
+      "algorithm": "JPEG",
+      "authors": [
+        "Gregory K. Wallace"
+      ],
+      "year": "1991",
+      "source": "Communications of the ACM",
+      "type": "Journal Paper",
+      "tags": [
+        "Joint photographic experts group",
+        "Image compression",
+        "Still image coding",
+        "Discrete cosine transform",
+        "Quantization",
+        "Huffman coding",
+        "Arithmetic coding",
+        "Lossy compression",
+        "Lossless compression",
+        "Standards"
+      ],
+      "abstract": "For the past few years, a joint ISO/CCITT committee known as JPEG (Joint Photographic Experts Group) has been working to establish the first international compression standard for continuous-tone still images, both grayscale and color. JPEG's proposed standard aims to be generic, to support a wide variety of applications for continuous-tone images. To meet the differing needs of many applications, the JPEG standard includes two basic compression methods, each with various modes of operation. A DCT-based method is specified for \"lossy\" compression, and a predictive method for \"lossless\" compression. JPEG features a simple lossy technique known as the Baseline method, a subset of the other DCT-based modes of operation. The Baseline method has been by far the most widely implemented JPEG method to date, and is sufficient in its own right for a large number of applications. This article provides an overview of the JPEG standard, and focuses in detail on the Baseline method.",
+      "summary": "Wallace explains the still-image JPEG standard at the point when DCT-based baseline JPEG was becoming the common interchange format for photographic images. The paper is useful both as a historical standardization record and as a compact engineering description of the transform, quantization, entropy coding, progressive, lossless, and hierarchical pieces that shaped practical image compression.",
+      "url": "../papers/1991_wallace_the_jpeg_still_picture/",
+      "treeUrl": "../tree/#paper=1991_wallace_the_jpeg_still_picture",
+      "mapUrl": "../map/#paper=1991_wallace_the_jpeg_still_picture",
+      "timelineUrl": "../timeline/#paper=1991_wallace_the_jpeg_still_picture",
+      "searchUrl": "../search/?paper=1991_wallace_the_jpeg_still_picture"
     },
     "1991_sanner_gaussian_networks_for_direct": {
       "id": "1991_sanner_gaussian_networks_for_direct",
@@ -40281,6 +40582,38 @@ window.tagSearchData = {
       "mapUrl": "../map/#paper=1996_ester_a_density_based_algorithm",
       "timelineUrl": "../timeline/#paper=1996_ester_a_density_based_algorithm",
       "searchUrl": "../search/?paper=1996_ester_a_density_based_algorithm"
+    },
+    "1996_said_a_new_fast_and": {
+      "id": "1996_said_a_new_fast_and",
+      "title": "A New, Fast, and Efficient Image Codec Based on Set Partitioning in Hierarchical Trees",
+      "label": "SPIHT",
+      "algorithm": "SPIHT",
+      "authors": [
+        "Amir Said",
+        "William A. Pearlman"
+      ],
+      "year": "1996",
+      "source": "IEEE Transactions on Circuits and Systems for Video Technology",
+      "type": "Journal Paper",
+      "tags": [
+        "SPIHT",
+        "Set partitioning",
+        "Hierarchical trees",
+        "Wavelet transform",
+        "Image compression",
+        "Embedded coding",
+        "Bitplane coding",
+        "Zerotrees",
+        "Arithmetic coding",
+        "Progressive transmission"
+      ],
+      "abstract": "Embedded zerotree wavelet (EZW) coding, introduced by J. M. Shapiro, is a very effective and computationally simple technique for image compression. Here we offer an alternative explanation of the principles of its operation, so that the reasons for its excellent performance can be better understood. These principles are partial ordering by magnitude with a set partitioning sorting algorithm, ordered bit plane transmission, and exploitation of self-similarity across different scales of an image wavelet transform. Moreover, we present a new and different implementation based on set partitioning in hierarchical trees (SPIHT), which provides even better performance than our previously reported extension of EZW that surpassed the performance of the original EZW. The image coding results, calculated from actual file sizes and images reconstructed by the decoding algorithm, are either comparable to or surpass previous results obtained through much more sophisticated and computationally complex methods. In addition, the new coding and decoding procedures are extremely fast, and they can be made even faster, with only small loss in performance, by omitting entropy coding of the bit stream by the arithmetic code.",
+      "summary": "Said and Pearlman reformulate zerotree wavelet coding around set partitioning and spatial-orientation trees, yielding SPIHT, a faster and stronger embedded image codec than EZW. The paper is important because it separates the core ordering idea from implementation details, producing a simple progressive bitstream with excellent rate-distortion performance and low complexity.",
+      "url": "../papers/1996_said_a_new_fast_and/",
+      "treeUrl": "../tree/#paper=1996_said_a_new_fast_and",
+      "mapUrl": "../map/#paper=1996_said_a_new_fast_and",
+      "timelineUrl": "../timeline/#paper=1996_said_a_new_fast_and",
+      "searchUrl": "../search/?paper=1996_said_a_new_fast_and"
     },
     "1996_black_the_robust_estimation_of": {
       "id": "1996_black_the_robust_estimation_of",
@@ -41343,6 +41676,36 @@ window.tagSearchData = {
       "timelineUrl": "../timeline/#paper=1993_quinlan_c4_5_programs_for_machine",
       "searchUrl": "../search/?paper=1993_quinlan_c4_5_programs_for_machine"
     },
+    "1993_shapiro_embedded_image_coding_using": {
+      "id": "1993_shapiro_embedded_image_coding_using",
+      "title": "Embedded Image Coding Using Zerotrees of Wavelet Coefficients",
+      "label": "Embedded Zerotree Wavelet",
+      "algorithm": "Embedded Zerotree Wavelet",
+      "authors": [
+        "Jerome M. Shapiro"
+      ],
+      "year": "1993",
+      "source": "IEEE Transactions on Signal Processing",
+      "type": "Journal Paper",
+      "tags": [
+        "Embedded zerotree wavelet",
+        "Wavelet transform",
+        "Image compression",
+        "Embedded coding",
+        "Progressive transmission",
+        "Bitplane coding",
+        "Zerotrees",
+        "Rate control",
+        "Transform coding"
+      ],
+      "abstract": "The embedded zerotree wavelet algorithm (EZW) is a simple, yet remarkably effective, image compression algorithm, having the property that the bits in the bit stream are generated in order of importance, yielding a fully embedded code. The embedded code represents a sequence of binary decisions that distinguish an image from the \"null\" image. Using an embedded coding algorithm, an encoder can terminate the encoding at any point thereby allowing a target rate or target distortion metric to be met exactly. Also, given a bit stream, the decoder can cease decoding at any point in the bit stream and still produce exactly the same image that would have been encoded at the bit rate corresponding to the truncated bit stream. In addition to producing a fully embedded bit stream, EZW consistently produces compression results that are competitive with virtually all known compression algorithms on standard test images. Yet this performance is achieved with a technique that requires absolutely no training, no pre-stored tables or codebooks, and requires no prior knowledge of the image source. The EZW algorithm is based on four key concepts: 1) a discrete wavelet transform or hierarchical subband decomposition, 2) prediction of the absence of significant information across scales by exploiting the self-similarity inherent in images, 3) entropy-coded successive-approximation quantization, and 4) universal lossless data compression which is achieved via adaptive arithmetic coding.",
+      "summary": "Shapiro introduces EZW, a wavelet-domain embedded coder that orders transmitted bits by importance and uses zerotrees to compactly describe insignificant coefficient descendants across scales. The paper made progressive, target-rate image coding practical with a simple algorithm and directly influenced SPIHT, SPECK, and later scalable wavelet codecs.",
+      "url": "../papers/1993_shapiro_embedded_image_coding_using/",
+      "treeUrl": "../tree/#paper=1993_shapiro_embedded_image_coding_using",
+      "mapUrl": "../map/#paper=1993_shapiro_embedded_image_coding_using",
+      "timelineUrl": "../timeline/#paper=1993_shapiro_embedded_image_coding_using",
+      "searchUrl": "../search/?paper=1993_shapiro_embedded_image_coding_using"
+    },
     "1993_bromley_signature_verification_using_a": {
       "id": "1993_bromley_signature_verification_using_a",
       "title": "Signature Verification Using a \"Siamese\" Time Delay Neural Network",
@@ -41577,6 +41940,33 @@ window.tagSearchData = {
       "mapUrl": "../map/#paper=1993_astrom_automatic_tuning_and_adaptation",
       "timelineUrl": "../timeline/#paper=1993_astrom_automatic_tuning_and_adaptation",
       "searchUrl": "../search/?paper=1993_astrom_automatic_tuning_and_adaptation"
+    },
+    "1994_brandenburg_iso_mpeg_1_audio": {
+      "id": "1994_brandenburg_iso_mpeg_1_audio",
+      "title": "ISO/MPEG-1 Audio: A Generic Standard for Coding of High-Quality Digital Audio",
+      "label": "MPEG-1 Audio Standard",
+      "algorithm": "MPEG-1 Audio Standard",
+      "authors": [
+        "Karlheinz Brandenburg",
+        "Gerhard Stoll"
+      ],
+      "year": "1994",
+      "source": "Journal of the Audio Engineering Society",
+      "type": "Journal Paper",
+      "tags": [
+        "Audio compression",
+        "Information theory",
+        "Signal processing",
+        "Perceptual metrics",
+        "Pulse-code modulation"
+      ],
+      "abstract": "The standardization body ISO/IEC/JTC1/SC29/WG11 (Moving Pictures Expert Group, MPEG), was drafting a standard for compressing the high bit rate of moving pictures and associated audio down to 1.5 Mbit/s. The audio part of the proposed standard is described. Three layers of the audio coding scheme with increasing complexity and performance were defined. These layers were developed in collaboration mainly with AT&T, CCETT, FhG/University of Erlangen, Philips, IRT, and Thomson Consumer Electronics. The generic coding system is suitable for different applications, such as storage on inexpensive storage media or transmission over channels with limited capacity (such as digital audio broadcasting or ISDN audio transmission).",
+      "summary": "Summarizes the MPEG-1 Audio standard and its three layers, including the Layer III path that became MP3. The paper is valuable as a compact technical account of how psychoacoustic analysis, bit allocation, and standardized bitstreams turned perceptual audio coding into a widely deployable consumer technology.",
+      "url": "../papers/1994_brandenburg_iso_mpeg_1_audio/",
+      "treeUrl": "../tree/#paper=1994_brandenburg_iso_mpeg_1_audio",
+      "mapUrl": "../map/#paper=1994_brandenburg_iso_mpeg_1_audio",
+      "timelineUrl": "../timeline/#paper=1994_brandenburg_iso_mpeg_1_audio",
+      "searchUrl": "../search/?paper=1994_brandenburg_iso_mpeg_1_audio"
     },
     "1994_pearlmutter_fast_exact_multiplication_by": {
       "id": "1994_pearlmutter_fast_exact_multiplication_by",
@@ -56562,6 +56952,33 @@ window.tagSearchData = {
       "timelineUrl": "../timeline/#paper=1953_watson_molecular_structure_of_nucleic",
       "searchUrl": "../search/?paper=1953_watson_molecular_structure_of_nucleic"
     },
+    "1953_kahrimanian_analytical_differentiation_by_a": {
+      "id": "1953_kahrimanian_analytical_differentiation_by_a",
+      "title": "Analytical Differentiation by a Digital Computer",
+      "label": "Kahrimanian Differentiator",
+      "algorithm": "Kahrimanian Differentiator",
+      "authors": [
+        "Harry G. Kahrimanian"
+      ],
+      "year": "1953",
+      "source": "Temple University",
+      "type": "Master's Thesis",
+      "tags": [
+        "Symbolic differentiation",
+        "Analytic differentiation",
+        "Computer algebra",
+        "Formula manipulation",
+        "UNIVAC",
+        "Derivatives"
+      ],
+      "abstract": "",
+      "summary": "Kahrimanian's master's thesis describes an early system for representing formulas and deriving their analytical derivatives on a digital computer. It is a seminal pre-computer-algebra-system contribution because it treats differentiation as a symbolic transformation over machine-manipulable expressions rather than as hand algebra or finite differencing.",
+      "url": "../papers/1953_kahrimanian_analytical_differentiation_by_a/",
+      "treeUrl": "../tree/#paper=1953_kahrimanian_analytical_differentiation_by_a",
+      "mapUrl": "../map/#paper=1953_kahrimanian_analytical_differentiation_by_a",
+      "timelineUrl": "../timeline/#paper=1953_kahrimanian_analytical_differentiation_by_a",
+      "searchUrl": "../search/?paper=1953_kahrimanian_analytical_differentiation_by_a"
+    },
     "1953_shapley_a_value_for_n": {
       "id": "1953_shapley_a_value_for_n",
       "title": "A Value for n-Person Games",
@@ -56587,6 +57004,32 @@ window.tagSearchData = {
       "mapUrl": "../map/#paper=1953_shapley_a_value_for_n",
       "timelineUrl": "../timeline/#paper=1953_shapley_a_value_for_n",
       "searchUrl": "../search/?paper=1953_shapley_a_value_for_n"
+    },
+    "1953_nolan_analytical_differentiation_on_a": {
+      "id": "1953_nolan_analytical_differentiation_on_a",
+      "title": "Analytical Differentiation on a Digital Computer",
+      "label": "Analytical Differentiation",
+      "algorithm": "Analytical Differentiation",
+      "authors": [
+        "John F. Nolan"
+      ],
+      "year": "1953",
+      "source": "Massachusetts Institute of Technology",
+      "type": "Master's Thesis",
+      "tags": [
+        "Symbolic differentiation",
+        "Analytic differentiation",
+        "Computer algebra",
+        "Automatic differentiation history",
+        "Derivatives"
+      ],
+      "abstract": "",
+      "summary": "Nolan's 1953 master's thesis is one of the earliest known works on using a digital computer to carry out analytical differentiation. It is historically important as a boundary object between later computer algebra systems and automatic differentiation, showing that derivative generation was already being framed as a programmable symbolic computation problem at the start of electronic computing.",
+      "url": "../papers/1953_nolan_analytical_differentiation_on_a/",
+      "treeUrl": "../tree/#paper=1953_nolan_analytical_differentiation_on_a",
+      "mapUrl": "../map/#paper=1953_nolan_analytical_differentiation_on_a",
+      "timelineUrl": "../timeline/#paper=1953_nolan_analytical_differentiation_on_a",
+      "searchUrl": "../search/?paper=1953_nolan_analytical_differentiation_on_a"
     },
     "2009_wang_performance_bounds_for_linear": {
       "id": "2009_wang_performance_bounds_for_linear",
@@ -63846,6 +64289,38 @@ window.tagSearchData = {
       "timelineUrl": "../timeline/#paper=1992_furuta_swing_up_control_of",
       "searchUrl": "../search/?paper=1992_furuta_swing_up_control_of"
     },
+    "1992_antonini_image_coding_using_wavelet": {
+      "id": "1992_antonini_image_coding_using_wavelet",
+      "title": "Image Coding Using Wavelet Transform",
+      "label": "Wavelet Transform Image Coding",
+      "algorithm": "Wavelet Transform Image Coding",
+      "authors": [
+        "Marc Antonini",
+        "Michel Barlaud",
+        "Pierre Mathieu",
+        "Ingrid Daubechies"
+      ],
+      "year": "1992",
+      "source": "IEEE Transactions on Image Processing",
+      "type": "Journal Paper",
+      "tags": [
+        "Wavelet transform",
+        "Biorthogonal wavelets",
+        "Vector quantization",
+        "Image compression",
+        "Progressive transmission",
+        "Rate-distortion theory",
+        "Psychovisual modeling",
+        "Multiresolution coding"
+      ],
+      "abstract": "Image compression is now essential for applications such as transmission and storage in data bases. This paper proposes a new scheme for image compression taking into account psychovisual features both in the space and frequency domains; this new method involves two steps. First, we use a wavelet transform in order to obtain a set of biorthogonal subclasses of images; the original image is decomposed at different scales using a pyramidal algorithm architecture. The decomposition is along the vertical and horizontal directions and maintains constant the number of pixels required to describe the image. Second, according to Shannon's rate distortion theory, the wavelet coefficients are vector quantized using a multiresolution codebook. Furthermore, to encode the wavelet coefficients, we propose a noise shaping bit allocation procedure which assumes that details at high resolution are less visible to the human eye. Finally, in order to allow the receiver to recognize a picture as quickly as possible at minimum cost, we present a progressive transmission scheme. It is shown that the wavelet transform is particularly well adapted to progressive transmission.",
+      "summary": "Antonini, Barlaud, Mathieu, and Daubechies show how biorthogonal wavelet transforms, multiresolution vector quantization, and psychovisual bit allocation can form an effective still-image coder. The paper is an early bridge from wavelet theory to practical progressive image coding, and it helped set up the wavelet-based line of work that eventually led to JPEG 2000.",
+      "url": "../papers/1992_antonini_image_coding_using_wavelet/",
+      "treeUrl": "../tree/#paper=1992_antonini_image_coding_using_wavelet",
+      "mapUrl": "../map/#paper=1992_antonini_image_coding_using_wavelet",
+      "timelineUrl": "../timeline/#paper=1992_antonini_image_coding_using_wavelet",
+      "searchUrl": "../search/?paper=1992_antonini_image_coding_using_wavelet"
+    },
     "1932_nyquist_regeneration_theory": {
       "id": "1932_nyquist_regeneration_theory",
       "title": "Regeneration Theory",
@@ -67258,6 +67733,37 @@ window.tagSearchData = {
       "timelineUrl": "../timeline/#paper=2201_13360",
       "searchUrl": "../search/?paper=2201_13360"
     },
+    "2210_13438": {
+      "id": "2210_13438",
+      "title": "High Fidelity Neural Audio Compression",
+      "label": "EnCodec",
+      "algorithm": "EnCodec",
+      "authors": [
+        "Alexandre Defossez",
+        "Jade Copet",
+        "Gabriel Synnaeve",
+        "Yossi Adi"
+      ],
+      "year": "2022",
+      "source": "Transactions on Machine Learning Research",
+      "type": "Journal Paper",
+      "tags": [
+        "Audio compression",
+        "End-to-end learning",
+        "Neural networks",
+        "Vector quantization",
+        "Latent",
+        "Transformers",
+        "Language models"
+      ],
+      "abstract": "We introduce a state-of-the-art real-time, high-fidelity, audio codec leveraging neural networks. It consists in a streaming encoder-decoder architecture with quantized latent space trained in an end-to-end fashion. We simplify and speed-up the training by using a single multiscale spectrogram adversary that efficiently reduces artifacts and produce high-quality samples. We introduce a novel loss balancer mechanism to stabilize training: the weight of a loss now defines the fraction of the overall gradient it should represent, thus decoupling the choice of this hyper-parameter from the typical scale of the loss. Finally, we study how lightweight Transformer models can be used to further compress the obtained representation by up to 40%, while staying faster than real time. We provide a detailed description of the key design choices of the proposed model including: training objective, architectural changes and a study of various perceptual loss functions. We present an extensive subjective evaluation (MUSHRA tests) together with an ablation study for a range of bandwidths and audio domains, including speech, noisy-reverberant speech, and music. Our approach is superior to the baselines methods across all evaluated settings, considering both 24 kHz monophonic and 48 kHz stereophonic audio. Code and models are available at github.com/facebookresearch/encodec.",
+      "summary": "Presents EnCodec, a high-fidelity neural codec that combines a streaming encoder-decoder, residual vector quantization, adversarial spectrogram losses, and optional Transformer entropy coding. The paper helped make discrete neural audio tokens practical for both compression and downstream generative audio modeling.",
+      "url": "../papers/2210_13438/",
+      "treeUrl": "../tree/#paper=2210_13438",
+      "mapUrl": "../map/#paper=2210_13438",
+      "timelineUrl": "../timeline/#paper=2210_13438",
+      "searchUrl": "../search/?paper=2210_13438"
+    },
     "2022_bisoffi_data_driven_control_via": {
       "id": "2022_bisoffi_data_driven_control_via",
       "title": "Data-driven Control via Petersen’s Lemma",
@@ -68143,6 +68649,38 @@ window.tagSearchData = {
       "timelineUrl": "../timeline/#paper=1974_rall_a_note_on_the",
       "searchUrl": "../search/?paper=1974_rall_a_note_on_the"
     },
+    "1974_ahmed_discrete_cosine_transform": {
+      "id": "1974_ahmed_discrete_cosine_transform",
+      "title": "Discrete Cosine Transform",
+      "label": "Discrete Cosine Transform",
+      "algorithm": "Discrete Cosine Transform",
+      "authors": [
+        "Nasir Ahmed",
+        "T. Natarajan",
+        "K. R. Rao"
+      ],
+      "year": "1974",
+      "source": "IEEE Transactions on Computers",
+      "type": "Journal Paper",
+      "tags": [
+        "Discrete cosine transform",
+        "Transform coding",
+        "Orthogonal transforms",
+        "Karhunen-loeve transform",
+        "Rate-distortion theory",
+        "Energy compaction",
+        "Image compression",
+        "Signal processing",
+        "Fast fourier transform"
+      ],
+      "abstract": "A discrete cosine transform (DCT) is defined and an algorithm to compute it using the fast Fourier transform is developed. It is shown that the discrete cosine transform can be used in the area of digital processing for the purposes of pattern recognition and Wiener filtering. Its performance is compared with that of a class of orthogonal transforms and is found to compare closely to that of the Karhunen-Loeve transform, which is known to be optimal. The performances of the Karhunen-Loeve and discrete cosine transforms are also found to compare closely with respect to the rate-distortion criterion.",
+      "summary": "Ahmed, Natarajan, and Rao introduce the DCT as a real orthogonal transform with fast computation and near-Karhunen-Loeve energy compaction for correlated signals. Its practical combination of decorrelation, compact basis functions, and efficient implementation made it central to transform coding and later to JPEG and many video standards.",
+      "url": "../papers/1974_ahmed_discrete_cosine_transform/",
+      "treeUrl": "../tree/#paper=1974_ahmed_discrete_cosine_transform",
+      "mapUrl": "../map/#paper=1974_ahmed_discrete_cosine_transform",
+      "timelineUrl": "../timeline/#paper=1974_ahmed_discrete_cosine_transform",
+      "searchUrl": "../search/?paper=1974_ahmed_discrete_cosine_transform"
+    },
     "1961_held_a_dynamic_programming_approach": {
       "id": "1961_held_a_dynamic_programming_approach",
       "title": "A Dynamic Programming Approach to Sequencing Problems",
@@ -68171,6 +68709,59 @@ window.tagSearchData = {
       "mapUrl": "../map/#paper=1961_held_a_dynamic_programming_approach",
       "timelineUrl": "../timeline/#paper=1961_held_a_dynamic_programming_approach",
       "searchUrl": "../search/?paper=1961_held_a_dynamic_programming_approach"
+    },
+    "1961_zwicker_subdivision_of_the_audible": {
+      "id": "1961_zwicker_subdivision_of_the_audible",
+      "title": "Subdivision of the Audible Frequency Range into Critical Bands (Frequenzgruppen)",
+      "label": "Critical Bands",
+      "algorithm": "Critical Bands",
+      "authors": [
+        "Eberhard Zwicker"
+      ],
+      "year": "1961",
+      "source": "The Journal of the Acoustical Society of America",
+      "type": "Journal Paper",
+      "tags": [
+        "Audio compression",
+        "Psychophysics",
+        "Acoustic models",
+        "Perceptual metrics"
+      ],
+      "abstract": "",
+      "summary": "Introduces the subdivision of the audible frequency range into critical bands, the psychoacoustic structure later associated with the Bark scale. Its importance for compression is foundational: perceptual codecs use critical-band masking behavior to decide which quantization noise and spectral detail can be hidden from listeners.",
+      "url": "../papers/1961_zwicker_subdivision_of_the_audible/",
+      "treeUrl": "../tree/#paper=1961_zwicker_subdivision_of_the_audible",
+      "mapUrl": "../map/#paper=1961_zwicker_subdivision_of_the_audible",
+      "timelineUrl": "../timeline/#paper=1961_zwicker_subdivision_of_the_audible",
+      "searchUrl": "../search/?paper=1961_zwicker_subdivision_of_the_audible"
+    },
+    "1964_wengert_a_simple_automatic_derivative": {
+      "id": "1964_wengert_a_simple_automatic_derivative",
+      "title": "A Simple Automatic Derivative Evaluation Program",
+      "label": "Wengert List",
+      "algorithm": "Wengert List",
+      "authors": [
+        "Robert Edwin Wengert"
+      ],
+      "year": "1964",
+      "source": "Communications of the ACM",
+      "type": "Journal Paper",
+      "tags": [
+        "Automatic differentiation",
+        "Symbolic differentiation",
+        "Wengert list",
+        "Forward mode",
+        "Intermediate variables",
+        "Derivatives",
+        "Scientific computing"
+      ],
+      "abstract": "A procedure for automatic evaluation of total/partial derivatives of arbitrary algebraic functions is presented. The technique permits computation of numerical values of derivatives without developing analytical expressions for the derivatives. The key to the method is the decomposition of the given function, by introduction of intermediate variables, into a series of elementary functional steps. A library of elementary function subroutines is provided for the automatic evaluation and differentiation of these new variables. The final step in this process produces the desired function's derivative. The main feature of this approach is its simplicity. It can be used as a quick-reaction tool where the derivation of analytical derivatives is laborious and also as a debugging tool for programs which contain derivatives.",
+      "summary": "Wengert introduces the intermediate-variable representation now called a Wengert list, avoiding expression-level derivative expansion while still applying exact chain-rule transformations. Although usually classified as automatic differentiation, the paper is central to symbolic differentiation's history because it sharpens the distinction between generating derivative expressions and evaluating derivative programs.",
+      "url": "../papers/1964_wengert_a_simple_automatic_derivative/",
+      "treeUrl": "../tree/#paper=1964_wengert_a_simple_automatic_derivative",
+      "mapUrl": "../map/#paper=1964_wengert_a_simple_automatic_derivative",
+      "timelineUrl": "../timeline/#paper=1964_wengert_a_simple_automatic_derivative",
+      "searchUrl": "../search/?paper=1964_wengert_a_simple_automatic_derivative"
     },
     "1964_sinkhorn_a_relationship_between_arbitrary": {
       "id": "1964_sinkhorn_a_relationship_between_arbitrary",
@@ -69565,6 +70156,35 @@ window.tagSearchData = {
       "mapUrl": "../map/#paper=1962_hoare_quicksort",
       "timelineUrl": "../timeline/#paper=1962_hoare_quicksort",
       "searchUrl": "../search/?paper=1962_hoare_quicksort"
+    },
+    "1962_hanson_analytic_differentiation_by_computer": {
+      "id": "1962_hanson_analytic_differentiation_by_computer",
+      "title": "Analytic Differentiation by Computer",
+      "label": "Analytic Differentiation by Computer",
+      "algorithm": "Analytic Differentiation by Computer",
+      "authors": [
+        "James W. Hanson",
+        "Jane Shearin Caviness",
+        "Camilla Joseph"
+      ],
+      "year": "1962",
+      "source": "Communications of the ACM",
+      "type": "Journal Paper",
+      "tags": [
+        "Symbolic differentiation",
+        "Analytic differentiation",
+        "Symbol manipulation",
+        "Automatic programming",
+        "Computer algebra",
+        "Derivatives"
+      ],
+      "abstract": "During the past few years a major portion of the work in computer applications has been concentrated in the two closely related fields of automatic programming and symbol manipulation. The results of this effort have been a wealth of new computer languages, a better understanding and definition of the basic principles and problems of symbol manipulation, and a growing body of algorithms and techniques for use in the applications.",
+      "summary": "Hanson, Caviness, and Joseph present analytic differentiation as a concrete symbol-manipulation problem for computers, connecting derivative generation to the broader emergence of automatic programming and computer algebra. The paper is useful historically because it cites the 1953 Nolan and Kahrimanian theses and captures how symbolic differentiation was understood before mature CAS tools.",
+      "url": "../papers/1962_hanson_analytic_differentiation_by_computer/",
+      "treeUrl": "../tree/#paper=1962_hanson_analytic_differentiation_by_computer",
+      "mapUrl": "../map/#paper=1962_hanson_analytic_differentiation_by_computer",
+      "timelineUrl": "../timeline/#paper=1962_hanson_analytic_differentiation_by_computer",
+      "searchUrl": "../search/?paper=1962_hanson_analytic_differentiation_by_computer"
     },
     "1962_bellman_dynamic_programming_treatment_of": {
       "id": "1962_bellman_dynamic_programming_treatment_of",
@@ -78047,6 +78667,14 @@ window.tagSearchData = {
     "asymptotic variance": "Asymptotic variance",
     "state-space models": "State-space models",
     "multivariable systems": "Multivariable systems",
+    "ebcot": "EBCOT",
+    "joint photographic experts group 2000": "Joint photographic experts group 2000",
+    "embedded block coding": "Embedded block coding",
+    "wavelet transform": "Wavelet transform",
+    "rate-distortion optimization": "Rate-distortion optimization",
+    "scalable coding": "Scalable coding",
+    "random access": "Random access",
+    "visual masking": "Visual masking",
     "robotic grasping": "Robotic grasping",
     "contact mechanics": "Contact mechanics",
     "robot hands": "Robot hands",
@@ -78108,7 +78736,6 @@ window.tagSearchData = {
     "robust momentum method": "Robust momentum method",
     "quadratic programming": "Quadratic programming",
     "wasserstein generative adversarial network": "Wasserstein generative adversarial network",
-    "joint photographic experts group 2000": "Joint photographic experts group 2000",
     "end-to-end learning": "End-to-end learning",
     "end-to-end": "End-to-end",
     "adamw": "AdamW",
@@ -78314,6 +78941,12 @@ window.tagSearchData = {
     "energy efficiency": "Energy efficiency",
     "research incentives": "Research incentives",
     "artificial intelligence accessibility": "Artificial intelligence accessibility",
+    "symbolic differentiation": "Symbolic differentiation",
+    "automatic differentiation": "Automatic differentiation",
+    "reverse mode": "Reverse mode",
+    "expression swell": "Expression swell",
+    "expression graphs": "Expression graphs",
+    "symbolic computation": "Symbolic computation",
     "interpretml": "InterpretML",
     "kalman filtering": "Kalman filtering",
     "kalman filter": "Kalman filter",
@@ -78706,7 +79339,6 @@ window.tagSearchData = {
     "metric": "Metric",
     "wasserstein metric": "Wasserstein metric",
     "probability distribution": "Probability distribution",
-    "automatic differentiation": "Automatic differentiation",
     "clarity": "CLARITY",
     "network architecture": "Network architecture",
     "deterministic sampling": "Deterministic sampling",
@@ -79134,6 +79766,15 @@ window.tagSearchData = {
     "minimized iterations": "Minimized iterations",
     "iterative linear solvers": "Iterative linear solvers",
     "large-scale computation": "Large-scale computation",
+    "huffman coding": "Huffman coding",
+    "minimum redundancy coding": "Minimum redundancy coding",
+    "prefix codes": "Prefix codes",
+    "variable length codes": "Variable length codes",
+    "entropy coding": "Entropy coding",
+    "lossless compression": "Lossless compression",
+    "source coding": "Source coding",
+    "coding theory": "Coding theory",
+    "data compression": "Data compression",
     "gmres": "GMRES",
     "nonsymmetric linear systems": "Nonsymmetric linear systems",
     "arnoldi process": "Arnoldi process",
@@ -79144,8 +79785,12 @@ window.tagSearchData = {
     "path-time space": "Path-time space",
     "asynchronous algorithms": "Asynchronous algorithms",
     "parallel computation": "Parallel computation",
-    "id3": "ID3",
+    "audio compression": "Audio compression",
+    "signal processing": "Signal processing",
+    "filtering": "Filtering",
+    "transforms": "Transforms",
     "information theory": "Information theory",
+    "id3": "ID3",
     "inductive learning": "Inductive learning",
     "canny edge detector": "Canny edge detector",
     "gaussian smoothing": "Gaussian smoothing",
@@ -79438,6 +80083,8 @@ window.tagSearchData = {
     "spatial planning": "Spatial planning",
     "relaxed control": "Relaxed control",
     "asymptotic controllability": "Asymptotic controllability",
+    "arithmetic circuits": "Arithmetic circuits",
+    "partial derivatives": "Partial derivatives",
     "convexity": "Convexity",
     "fixed-point theory": "Fixed-point theory",
     "bellman-ford algorithm": "Bellman-Ford algorithm",
@@ -79519,10 +80166,10 @@ window.tagSearchData = {
     "finite-time bounds": "Finite-time bounds",
     "convergence": "Convergence",
     "newton-kantorovich iteration": "Newton-kantorovich iteration",
+    "pulse-code modulation": "Pulse-code modulation",
     "set-membership estimation": "Set-membership estimation",
     "bounded uncertainty": "Bounded uncertainty",
     "ellipsoidal estimation": "Ellipsoidal estimation",
-    "filtering": "Filtering",
     "control system design": "Control system design",
     "separation principle": "Separation principle",
     "aid": "AID",
@@ -79638,7 +80285,6 @@ window.tagSearchData = {
     "attitude control": "Attitude control",
     "tutorial survey": "Tutorial survey",
     "sparse fourier transform": "Sparse fourier transform",
-    "signal processing": "Signal processing",
     "frequency estimation": "Frequency estimation",
     "gaussian filters": "Gaussian filters",
     "dolph-chebyshev filters": "Dolph-Chebyshev filters",
@@ -79809,6 +80455,12 @@ window.tagSearchData = {
     "centralization": "Centralization",
     "graph theory": "Graph theory",
     "structural analysis": "Structural analysis",
+    "channel coding": "Channel coding",
+    "entropy": "Entropy",
+    "communication theory": "Communication theory",
+    "noisy channels": "Noisy channels",
+    "channel capacity": "Channel capacity",
+    "error correction": "Error correction",
     "marching cubes": "Marching cubes",
     "isosurface extraction": "Isosurface extraction",
     "volume visualization": "Volume visualization",
@@ -79904,6 +80556,12 @@ window.tagSearchData = {
     "numerical optimization": "Numerical optimization",
     "convex polyhedra": "Convex polyhedra",
     "closest points": "Closest points",
+    "still image coding": "Still image coding",
+    "discrete cosine transform": "Discrete cosine transform",
+    "quantization": "Quantization",
+    "arithmetic coding": "Arithmetic coding",
+    "lossy compression": "Lossy compression",
+    "standards": "Standards",
     "radial basis functions": "Radial basis functions",
     "neural control": "Neural control",
     "bounded controls": "Bounded controls",
@@ -79924,6 +80582,13 @@ window.tagSearchData = {
     "unsupervised learning": "Unsupervised learning",
     "data mining": "Data mining",
     "region query": "Region query",
+    "spiht": "SPIHT",
+    "set partitioning": "Set partitioning",
+    "hierarchical trees": "Hierarchical trees",
+    "embedded coding": "Embedded coding",
+    "bitplane coding": "Bitplane coding",
+    "zerotrees": "Zerotrees",
+    "progressive transmission": "Progressive transmission",
     "multiple motion": "Multiple motion",
     "parametric motion": "Parametric motion",
     "piecewise-smooth flow": "Piecewise-smooth flow",
@@ -80011,6 +80676,9 @@ window.tagSearchData = {
     "self-concordant barriers": "Self-concordant barriers",
     "c4.5": "C4.5",
     "gain ratio": "Gain ratio",
+    "embedded zerotree wavelet": "Embedded zerotree wavelet",
+    "rate control": "Rate control",
+    "transform coding": "Transform coding",
     "siamese networks": "Siamese networks",
     "signature verification": "Signature verification",
     "time-delay neural networks": "Time-delay neural networks",
@@ -80427,9 +81095,14 @@ window.tagSearchData = {
     "base pairing": "Base pairing",
     "nucleic acids": "Nucleic acids",
     "structural biology": "Structural biology",
+    "analytic differentiation": "Analytic differentiation",
+    "computer algebra": "Computer algebra",
+    "formula manipulation": "Formula manipulation",
+    "univac": "UNIVAC",
     "cooperative games": "Cooperative games",
     "fair allocation": "Fair allocation",
     "axiomatic game theory": "Axiomatic game theory",
+    "automatic differentiation history": "Automatic differentiation history",
     "sparse models": "Sparse models",
     "matrix decomposition": "Matrix decomposition",
     "kleinman-newton method": "Kleinman-Newton method",
@@ -80679,7 +81352,6 @@ window.tagSearchData = {
     "neural network verification": "Neural network verification",
     "deep learning safety": "Deep learning safety",
     "autonomous systems": "Autonomous systems",
-    "transforms": "Transforms",
     "dft": "DFT",
     "discrete fourier transform": "Discrete fourier transform",
     "fourier transform": "Fourier transform",
@@ -80789,7 +81461,6 @@ window.tagSearchData = {
     "integral equations": "Integral equations",
     "lloyd's algorithm": "Lloyd's algorithm",
     "scalar quantization": "Scalar quantization",
-    "pulse-code modulation": "Pulse-code modulation",
     "linear filtering": "Linear filtering",
     "optimal estimation": "Optimal estimation",
     "rosenbrock method": "Rosenbrock method",
@@ -80833,6 +81504,10 @@ window.tagSearchData = {
     "douglas-rachford splitting": "Douglas-rachford splitting",
     "proximal point algorithm": "Proximal point algorithm",
     "monotone operators": "Monotone operators",
+    "biorthogonal wavelets": "Biorthogonal wavelets",
+    "rate-distortion theory": "Rate-distortion theory",
+    "psychovisual modeling": "Psychovisual modeling",
+    "multiresolution coding": "Multiresolution coding",
     "nyquist criterion": "Nyquist criterion",
     "feedback stability": "Feedback stability",
     "frequency-domain analysis": "Frequency-domain analysis",
@@ -80961,10 +81636,16 @@ window.tagSearchData = {
     "separation of concerns": "Separation of concerns",
     "computer science philosophy": "Computer science philosophy",
     "epistemology": "Epistemology",
+    "orthogonal transforms": "Orthogonal transforms",
+    "karhunen-loeve transform": "Karhunen-loeve transform",
+    "energy compaction": "Energy compaction",
     "held-karp algorithm": "Held-Karp algorithm",
     "sequencing problems": "Sequencing problems",
     "scheduling": "Scheduling",
     "approximation methods": "Approximation methods",
+    "wengert list": "Wengert list",
+    "forward mode": "Forward mode",
+    "intermediate variables": "Intermediate variables",
     "sinkhorn scaling": "Sinkhorn scaling",
     "positive matrices": "Positive matrices",
     "diagonal scaling": "Diagonal scaling",
@@ -80976,7 +81657,6 @@ window.tagSearchData = {
     "iteration methods": "Iteration methods",
     "convergence acceleration": "Convergence acceleration",
     "transportation problem": "Transportation problem",
-    "expression graphs": "Expression graphs",
     "modeling languages": "Modeling languages",
     "random features": "Random features",
     "randomization": "Randomization",
@@ -81050,6 +81730,8 @@ window.tagSearchData = {
     "in-place sorting": "In-place sorting",
     "random-access memory": "Random-access memory",
     "algorithm analysis": "Algorithm analysis",
+    "symbol manipulation": "Symbol manipulation",
+    "automatic programming": "Automatic programming",
     "bellman-held-karp algorithm": "Bellman-Held-Karp algorithm",
     "adjoint equations": "Adjoint equations",
     "variational calculus": "Variational calculus",
@@ -148214,6 +148896,10 @@ window.tagSearchData = {
         "score": 0.8395
       },
       {
+        "id": "2016_choudhury_regionally_accelerated_batch_informed",
+        "score": 0.8371
+      },
+      {
         "id": "2410_19414",
         "score": 0.8363
       },
@@ -148228,10 +148914,6 @@ window.tagSearchData = {
       {
         "id": "2007_yershova_improving_motion_planning_algorithms",
         "score": 0.8298
-      },
-      {
-        "id": "2016_choudhury_regionally_accelerated_batch_informed",
-        "score": 0.8294
       },
       {
         "id": "2002_hsu_randomized_kinodynamic_motion_planning",
@@ -148703,147 +149385,147 @@ window.tagSearchData = {
     "2016_choudhury_regionally_accelerated_batch_informed::motion planning": [
       {
         "id": "1405_5848",
-        "score": 0.8769
+        "score": 0.9077
       },
       {
         "id": "1404_2334",
-        "score": 0.8626
-      },
-      {
-        "id": "1105_1186",
-        "score": 0.8432
-      },
-      {
-        "id": "1204_6453",
-        "score": 0.8366
-      },
-      {
-        "id": "2015_janson_deterministic_sampling_based_motion",
-        "score": 0.8357
-      },
-      {
-        "id": "2020_mashayekhi_informed_rrt_connect_an",
-        "score": 0.8338
-      },
-      {
-        "id": "2016_otte_rrtx_asymptotically_optimal_single",
-        "score": 0.8294
+        "score": 0.8714
       },
       {
         "id": "2411_17902",
-        "score": 0.8278
+        "score": 0.8501
       },
       {
-        "id": "1909_09688",
-        "score": 0.8259
+        "id": "2015_janson_deterministic_sampling_based_motion",
+        "score": 0.8484
+      },
+      {
+        "id": "1105_1186",
+        "score": 0.8461
+      },
+      {
+        "id": "2016_otte_rrtx_asymptotically_optimal_single",
+        "score": 0.8371
+      },
+      {
+        "id": "2020_mashayekhi_informed_rrt_connect_an",
+        "score": 0.8361
       },
       {
         "id": "1306_3532",
-        "score": 0.8223
+        "score": 0.836
       },
       {
-        "id": "2009_10484",
-        "score": 0.8203
+        "id": "1204_6453",
+        "score": 0.829
       },
       {
         "id": "2010_abbasi_yadkori_extending_rapidly_exploring_random",
-        "score": 0.8149
+        "score": 0.8262
       },
       {
         "id": "2015_klemm_rrt_connect_faster_asymptotically",
-        "score": 0.8127
+        "score": 0.8251
       },
       {
-        "id": "2021_li_sliding_window_informed_rrt",
-        "score": 0.811
-      },
-      {
-        "id": "1409_8112",
-        "score": 0.8059
-      },
-      {
-        "id": "2011_karaman_anytime_motion_planning_using",
-        "score": 0.8041
-      },
-      {
-        "id": "2013_luna_anytime_solution_optimization_for",
-        "score": 0.8036
-      },
-      {
-        "id": "2011_perez_asymptotically_optimal_path_planning",
-        "score": 0.8025
-      },
-      {
-        "id": "1998_lavalle_rapidly_exploring_random_trees",
-        "score": 0.8017
-      },
-      {
-        "id": "2411_15651",
-        "score": 0.7922
-      },
-      {
-        "id": "2110_00173",
-        "score": 0.7913
-      },
-      {
-        "id": "2009_ratliff_chomp_gradient_optimization_techniques",
-        "score": 0.7906
-      },
-      {
-        "id": "2007_yershova_improving_motion_planning_algorithms",
-        "score": 0.7905
-      },
-      {
-        "id": "2505_10542",
-        "score": 0.7892
-      },
-      {
-        "id": "2410_19414",
-        "score": 0.7865
+        "id": "1909_09688",
+        "score": 0.8206
       },
       {
         "id": "2024_piazza_mptree_a_sampling_based",
-        "score": 0.7861
-      },
-      {
-        "id": "2014_luo_an_empirical_study_of",
-        "score": 0.7845
-      },
-      {
-        "id": "2602_02846",
-        "score": 0.784
+        "score": 0.8203
       },
       {
         "id": "2412_11270",
-        "score": 0.783
+        "score": 0.8198
       },
       {
-        "id": "2000_kuffner_rrt_connect_an_efficient",
-        "score": 0.7819
+        "id": "2411_15651",
+        "score": 0.8193
       },
       {
-        "id": "1809_07051",
-        "score": 0.781
+        "id": "2011_karaman_anytime_motion_planning_using",
+        "score": 0.8187
       },
       {
-        "id": "1710_10122",
-        "score": 0.7807
+        "id": "1409_8112",
+        "score": 0.8181
       },
       {
-        "id": "2604_14026",
-        "score": 0.78
+        "id": "2110_00173",
+        "score": 0.8174
+      },
+      {
+        "id": "2009_10484",
+        "score": 0.8169
+      },
+      {
+        "id": "2007_yershova_improving_motion_planning_algorithms",
+        "score": 0.8167
+      },
+      {
+        "id": "2021_li_sliding_window_informed_rrt",
+        "score": 0.8151
+      },
+      {
+        "id": "2013_luna_anytime_solution_optimization_for",
+        "score": 0.813
+      },
+      {
+        "id": "2011_perez_asymptotically_optimal_path_planning",
+        "score": 0.8099
+      },
+      {
+        "id": "2602_02846",
+        "score": 0.8079
+      },
+      {
+        "id": "1998_lavalle_rapidly_exploring_random_trees",
+        "score": 0.8077
+      },
+      {
+        "id": "2410_19414",
+        "score": 0.8049
+      },
+      {
+        "id": "2605_01860",
+        "score": 0.8047
       },
       {
         "id": "2508_21001",
-        "score": 0.7795
+        "score": 0.8041
       },
       {
-        "id": "1405_7421",
-        "score": 0.7755
+        "id": "2407_08848",
+        "score": 0.8024
       },
       {
         "id": "2603_12361",
-        "score": 0.7741
+        "score": 0.8005
+      },
+      {
+        "id": "2604_14026",
+        "score": 0.8001
+      },
+      {
+        "id": "2009_ratliff_chomp_gradient_optimization_techniques",
+        "score": 0.799
+      },
+      {
+        "id": "2203_11108",
+        "score": 0.798
+      },
+      {
+        "id": "2505_10542",
+        "score": 0.7968
+      },
+      {
+        "id": "2004_lamiraux_kinodynamic_motion_planning_connecting",
+        "score": 0.7948
+      },
+      {
+        "id": "2021_moll_hyperplan_a_framework_for",
+        "score": 0.7941
       }
     ],
     "2016_magdici_fail_safe_motion_planning::motion planning": [
@@ -149216,12 +149898,12 @@ window.tagSearchData = {
         "score": 0.8403
       },
       {
-        "id": "1710_10122",
-        "score": 0.836
+        "id": "2016_choudhury_regionally_accelerated_batch_informed",
+        "score": 0.8361
       },
       {
-        "id": "2016_choudhury_regionally_accelerated_batch_informed",
-        "score": 0.8338
+        "id": "1710_10122",
+        "score": 0.836
       },
       {
         "id": "2008_kuwata_motion_planning_for_urban",
@@ -149406,10 +150088,6 @@ window.tagSearchData = {
         "score": 0.8207
       },
       {
-        "id": "2016_choudhury_regionally_accelerated_batch_informed",
-        "score": 0.8203
-      },
-      {
         "id": "1809_07051",
         "score": 0.82
       },
@@ -149424,6 +150102,10 @@ window.tagSearchData = {
       {
         "id": "2004_lamiraux_kinodynamic_motion_planning_connecting",
         "score": 0.8177
+      },
+      {
+        "id": "2016_choudhury_regionally_accelerated_batch_informed",
+        "score": 0.8169
       },
       {
         "id": "2411_17902",
@@ -150838,6 +151520,10 @@ window.tagSearchData = {
         "score": 0.7743
       },
       {
+        "id": "2016_choudhury_regionally_accelerated_batch_informed",
+        "score": 0.7743
+      },
+      {
         "id": "2410_19414",
         "score": 0.7734
       },
@@ -150884,10 +151570,6 @@ window.tagSearchData = {
       {
         "id": "1998_lavalle_rapidly_exploring_random_trees",
         "score": 0.7674
-      },
-      {
-        "id": "1404_2334",
-        "score": 0.7673
       }
     ],
     "1709_05448::motion planning": [
@@ -151134,12 +151816,12 @@ window.tagSearchData = {
         "score": 0.8261
       },
       {
-        "id": "2016_choudhury_regionally_accelerated_batch_informed",
-        "score": 0.8259
-      },
-      {
         "id": "2013_luna_anytime_solution_optimization_for",
         "score": 0.821
+      },
+      {
+        "id": "2016_choudhury_regionally_accelerated_batch_informed",
+        "score": 0.8206
       },
       {
         "id": "2410_19414",
@@ -151880,6 +152562,10 @@ window.tagSearchData = {
         "score": 0.8
       },
       {
+        "id": "2016_choudhury_regionally_accelerated_batch_informed",
+        "score": 0.7968
+      },
+      {
         "id": "2410_19414",
         "score": 0.7968
       },
@@ -151906,10 +152592,6 @@ window.tagSearchData = {
       {
         "id": "2502_09556",
         "score": 0.7901
-      },
-      {
-        "id": "2508_21001",
-        "score": 0.7893
       }
     ],
     "2508_10480::motion planning": [
@@ -151932,6 +152614,10 @@ window.tagSearchData = {
       {
         "id": "2604_13323",
         "score": 0.7869
+      },
+      {
+        "id": "2016_choudhury_regionally_accelerated_batch_informed",
+        "score": 0.7778
       },
       {
         "id": "2410_16727",
@@ -152040,10 +152726,6 @@ window.tagSearchData = {
       {
         "id": "2505_06791",
         "score": 0.7462
-      },
-      {
-        "id": "2016_choudhury_regionally_accelerated_batch_informed",
-        "score": 0.7461
       },
       {
         "id": "2015_palmieri_distance_metric_learning_for",
@@ -152772,6 +153454,10 @@ window.tagSearchData = {
         "score": 0.7295
       },
       {
+        "id": "2016_choudhury_regionally_accelerated_batch_informed",
+        "score": 0.7291
+      },
+      {
         "id": "2604_02821",
         "score": 0.7287
       },
@@ -152782,10 +153468,6 @@ window.tagSearchData = {
       {
         "id": "2602_00992",
         "score": 0.7254
-      },
-      {
-        "id": "2409_09523",
-        "score": 0.725
       }
     ],
     "2508_21001::motion planning": [
@@ -153912,6 +154594,10 @@ window.tagSearchData = {
         "score": 0.8487
       },
       {
+        "id": "2016_choudhury_regionally_accelerated_batch_informed",
+        "score": 0.8484
+      },
+      {
         "id": "2020_mashayekhi_informed_rrt_connect_an",
         "score": 0.8483
       },
@@ -153950,10 +154636,6 @@ window.tagSearchData = {
       {
         "id": "1710_10122",
         "score": 0.837
-      },
-      {
-        "id": "2203_11108",
-        "score": 0.8358
       }
     ],
     "2015_klemm_rrt_connect_faster_asymptotically::motion planning": [
@@ -154074,6 +154756,10 @@ window.tagSearchData = {
         "score": 0.828
       },
       {
+        "id": "2016_choudhury_regionally_accelerated_batch_informed",
+        "score": 0.8251
+      },
+      {
         "id": "2508_21001",
         "score": 0.8237
       },
@@ -154096,10 +154782,6 @@ window.tagSearchData = {
       {
         "id": "1709_07610",
         "score": 0.8162
-      },
-      {
-        "id": "2412_11270",
-        "score": 0.816
       }
     ],
     "2010_abbasi_yadkori_extending_rapidly_exploring_random::motion planning": [
@@ -154244,8 +154926,8 @@ window.tagSearchData = {
         "score": 0.8281
       },
       {
-        "id": "1997_hsu_path_planning_in_expansive",
-        "score": 0.8251
+        "id": "2016_choudhury_regionally_accelerated_batch_informed",
+        "score": 0.8262
       }
     ],
     "2010_levinson_robust_vehicle_localization_in::motion planning": [
@@ -155077,7 +155759,7 @@ window.tagSearchData = {
       },
       {
         "id": "2016_choudhury_regionally_accelerated_batch_informed",
-        "score": 0.811
+        "score": 0.8151
       },
       {
         "id": "2024_piazza_mptree_a_sampling_based",
@@ -155530,6 +156212,10 @@ window.tagSearchData = {
         "score": 0.7531
       },
       {
+        "id": "2016_choudhury_regionally_accelerated_batch_informed",
+        "score": 0.7526
+      },
+      {
         "id": "2016_otte_rrtx_asymptotically_optimal_single",
         "score": 0.7524
       },
@@ -155556,10 +156242,6 @@ window.tagSearchData = {
       {
         "id": "1709_07610",
         "score": 0.7486
-      },
-      {
-        "id": "1404_2334",
-        "score": 0.7444
       }
     ],
     "2101_08829::motion planning": [
@@ -155904,6 +156586,10 @@ window.tagSearchData = {
         "score": 0.819
       },
       {
+        "id": "2016_choudhury_regionally_accelerated_batch_informed",
+        "score": 0.8174
+      },
+      {
         "id": "1404_2334",
         "score": 0.8159
       },
@@ -155982,10 +156668,6 @@ window.tagSearchData = {
       {
         "id": "2009_kuwata_real_time_motion_planning",
         "score": 0.7918
-      },
-      {
-        "id": "2016_choudhury_regionally_accelerated_batch_informed",
-        "score": 0.7913
       },
       {
         "id": "2002_roy_motion_planning_through_policy",
@@ -156958,16 +157640,16 @@ window.tagSearchData = {
         "score": 0.8388
       },
       {
-        "id": "2016_choudhury_regionally_accelerated_batch_informed",
-        "score": 0.8366
-      },
-      {
         "id": "1999_lavalle_randomized_kinodynamic_planning",
         "score": 0.8334
       },
       {
         "id": "2013_luna_anytime_solution_optimization_for",
         "score": 0.8298
+      },
+      {
+        "id": "2016_choudhury_regionally_accelerated_batch_informed",
+        "score": 0.829
       },
       {
         "id": "2008_kuwata_motion_planning_for_urban",
@@ -157562,6 +158244,10 @@ window.tagSearchData = {
         "score": 0.8187
       },
       {
+        "id": "2016_choudhury_regionally_accelerated_batch_informed",
+        "score": 0.8181
+      },
+      {
         "id": "2309_14545",
         "score": 0.8181
       },
@@ -157600,10 +158286,6 @@ window.tagSearchData = {
       {
         "id": "2002_hsu_randomized_kinodynamic_motion_planning",
         "score": 0.8066
-      },
-      {
-        "id": "2021_li_sliding_window_informed_rrt",
-        "score": 0.806
       }
     ],
     "1404_2334::motion planning": [
@@ -157664,16 +158346,16 @@ window.tagSearchData = {
         "score": 0.8718
       },
       {
+        "id": "2016_choudhury_regionally_accelerated_batch_informed",
+        "score": 0.8714
+      },
+      {
         "id": "1306_3532",
         "score": 0.8702
       },
       {
         "id": "2000_kuffner_rrt_connect_an_efficient",
         "score": 0.8661
-      },
-      {
-        "id": "2016_choudhury_regionally_accelerated_batch_informed",
-        "score": 0.8626
       },
       {
         "id": "1710_10122",
@@ -157754,6 +158436,10 @@ window.tagSearchData = {
     ],
     "1405_5848::motion planning": [
       {
+        "id": "2016_choudhury_regionally_accelerated_batch_informed",
+        "score": 0.9077
+      },
+      {
         "id": "1404_2334",
         "score": 0.8935
       },
@@ -157764,10 +158450,6 @@ window.tagSearchData = {
       {
         "id": "2015_janson_deterministic_sampling_based_motion",
         "score": 0.8857
-      },
-      {
-        "id": "2016_choudhury_regionally_accelerated_batch_informed",
-        "score": 0.8769
       },
       {
         "id": "2016_otte_rrtx_asymptotically_optimal_single",
@@ -158446,6 +159128,10 @@ window.tagSearchData = {
         "score": 0.8186
       },
       {
+        "id": "2016_choudhury_regionally_accelerated_batch_informed",
+        "score": 0.8167
+      },
+      {
         "id": "2021_moll_hyperplan_a_framework_for",
         "score": 0.8155
       },
@@ -158476,10 +159162,6 @@ window.tagSearchData = {
       {
         "id": "1997_hsu_path_planning_in_expansive",
         "score": 0.8111
-      },
-      {
-        "id": "2002_roy_motion_planning_through_policy",
-        "score": 0.8108
       }
     ],
     "1993_donald_kinodynamic_motion_planning::motion planning": [
@@ -159518,6 +160200,10 @@ window.tagSearchData = {
         "score": 0.86
       },
       {
+        "id": "2016_choudhury_regionally_accelerated_batch_informed",
+        "score": 0.8501
+      },
+      {
         "id": "1404_2334",
         "score": 0.8422
       },
@@ -159584,10 +160270,6 @@ window.tagSearchData = {
       {
         "id": "1204_6453",
         "score": 0.8279
-      },
-      {
-        "id": "2016_choudhury_regionally_accelerated_batch_informed",
-        "score": 0.8278
       },
       {
         "id": "2004_lamiraux_kinodynamic_motion_planning_connecting",
@@ -159894,6 +160576,10 @@ window.tagSearchData = {
         "score": 0.8214
       },
       {
+        "id": "2016_choudhury_regionally_accelerated_batch_informed",
+        "score": 0.8198
+      },
+      {
         "id": "2205_04422",
         "score": 0.8198
       },
@@ -159936,10 +160622,6 @@ window.tagSearchData = {
       {
         "id": "2022_gravell_data_driven_control_and",
         "score": 0.8118
-      },
-      {
-        "id": "2411_09887",
-        "score": 0.8115
       }
     ],
     "2411_06425::motion planning": [
@@ -160194,6 +160876,10 @@ window.tagSearchData = {
         "score": 0.8223
       },
       {
+        "id": "2016_choudhury_regionally_accelerated_batch_informed",
+        "score": 0.8193
+      },
+      {
         "id": "2011_perez_asymptotically_optimal_path_planning",
         "score": 0.8191
       },
@@ -160227,10 +160913,6 @@ window.tagSearchData = {
       },
       {
         "id": "2013_goretkin_optimal_sampling_based_planning",
-        "score": 0.8074
-      },
-      {
-        "id": "1709_07610",
         "score": 0.8074
       }
     ],
@@ -161204,6 +161886,10 @@ window.tagSearchData = {
         "score": 0.8048
       },
       {
+        "id": "2016_choudhury_regionally_accelerated_batch_informed",
+        "score": 0.8024
+      },
+      {
         "id": "2508_21001",
         "score": 0.7995
       },
@@ -161250,10 +161936,6 @@ window.tagSearchData = {
       {
         "id": "2602_02846",
         "score": 0.7843
-      },
-      {
-        "id": "2409_09852",
-        "score": 0.7828
       }
     ],
     "2024_piazza_mptree_a_sampling_based::motion planning": [
@@ -161358,6 +162040,10 @@ window.tagSearchData = {
         "score": 0.8204
       },
       {
+        "id": "2016_choudhury_regionally_accelerated_batch_informed",
+        "score": 0.8203
+      },
+      {
         "id": "2016_otte_rrtx_asymptotically_optimal_single",
         "score": 0.8199
       },
@@ -161396,10 +162082,6 @@ window.tagSearchData = {
       {
         "id": "2502_09556",
         "score": 0.8127
-      },
-      {
-        "id": "2018_schwarting_planning_and_decision_making",
-        "score": 0.8123
       }
     ],
     "2013_luna_anytime_solution_optimization_for::motion planning": [
@@ -161642,6 +162324,10 @@ window.tagSearchData = {
         "score": 0.8362
       },
       {
+        "id": "2016_choudhury_regionally_accelerated_batch_informed",
+        "score": 0.836
+      },
+      {
         "id": "2412_11270",
         "score": 0.8323
       },
@@ -161676,10 +162362,6 @@ window.tagSearchData = {
       {
         "id": "1710_10122",
         "score": 0.8245
-      },
-      {
-        "id": "2016_choudhury_regionally_accelerated_batch_informed",
-        "score": 0.8223
       },
       {
         "id": "2021_li_sliding_window_informed_rrt",
@@ -162190,6 +162872,10 @@ window.tagSearchData = {
         "score": 0.8002
       },
       {
+        "id": "2016_choudhury_regionally_accelerated_batch_informed",
+        "score": 0.8001
+      },
+      {
         "id": "1409_8112",
         "score": 0.7982
       },
@@ -162252,10 +162938,6 @@ window.tagSearchData = {
       {
         "id": "2021_moll_hyperplan_a_framework_for",
         "score": 0.7806
-      },
-      {
-        "id": "2016_choudhury_regionally_accelerated_batch_informed",
-        "score": 0.78
       },
       {
         "id": "1204_6453",
@@ -163212,6 +163894,10 @@ window.tagSearchData = {
         "score": 0.8008
       },
       {
+        "id": "2016_choudhury_regionally_accelerated_batch_informed",
+        "score": 0.8005
+      },
+      {
         "id": "2015_janson_deterministic_sampling_based_motion",
         "score": 0.7999
       },
@@ -163294,10 +163980,6 @@ window.tagSearchData = {
       {
         "id": "2011_perez_asymptotically_optimal_path_planning",
         "score": 0.7836
-      },
-      {
-        "id": "2013_luna_anytime_solution_optimization_for",
-        "score": 0.7832
       }
     ],
     "2606_00842::motion planning": [
@@ -164144,6 +164826,10 @@ window.tagSearchData = {
         "score": 0.8051
       },
       {
+        "id": "2016_choudhury_regionally_accelerated_batch_informed",
+        "score": 0.8047
+      },
+      {
         "id": "2025_trevisan_model_predictive_path_integral",
         "score": 0.8047
       },
@@ -164170,10 +164856,6 @@ window.tagSearchData = {
       {
         "id": "2510_22015",
         "score": 0.802
-      },
-      {
-        "id": "1105_1186",
-        "score": 0.8003
       }
     ],
     "2604_01614::motion planning": [
@@ -164794,6 +165476,10 @@ window.tagSearchData = {
         "score": 0.8001
       },
       {
+        "id": "2016_choudhury_regionally_accelerated_batch_informed",
+        "score": 0.799
+      },
+      {
         "id": "2002_roy_motion_planning_through_policy",
         "score": 0.7972
       },
@@ -164836,10 +165522,6 @@ window.tagSearchData = {
       {
         "id": "2602_02846",
         "score": 0.791
-      },
-      {
-        "id": "2016_choudhury_regionally_accelerated_batch_informed",
-        "score": 0.7906
       },
       {
         "id": "2410_19414",
@@ -166014,16 +166696,16 @@ window.tagSearchData = {
         "score": 0.8493
       },
       {
+        "id": "2016_choudhury_regionally_accelerated_batch_informed",
+        "score": 0.8461
+      },
+      {
         "id": "2605_26625",
         "score": 0.8459
       },
       {
         "id": "1405_7421",
         "score": 0.8458
-      },
-      {
-        "id": "2016_choudhury_regionally_accelerated_batch_informed",
-        "score": 0.8432
       },
       {
         "id": "2007_yershova_improving_motion_planning_algorithms",
@@ -168930,6 +169612,10 @@ window.tagSearchData = {
         "score": 0.795
       },
       {
+        "id": "2016_choudhury_regionally_accelerated_batch_informed",
+        "score": 0.7934
+      },
+      {
         "id": "2021_moll_hyperplan_a_framework_for",
         "score": 0.793
       },
@@ -168988,10 +169674,6 @@ window.tagSearchData = {
       {
         "id": "2412_09743",
         "score": 0.7816
-      },
-      {
-        "id": "2606_02677",
-        "score": 0.7807
       }
     ],
     "2308_10069::motion planning": [
@@ -170000,6 +170682,10 @@ window.tagSearchData = {
         "score": 0.7784
       },
       {
+        "id": "2016_choudhury_regionally_accelerated_batch_informed",
+        "score": 0.7778
+      },
+      {
         "id": "2308_10069",
         "score": 0.7757
       },
@@ -170009,10 +170695,6 @@ window.tagSearchData = {
       },
       {
         "id": "2511_18170",
-        "score": 0.7706
-      },
-      {
-        "id": "2009_pivtoraiko_differentially_constrained_mobile_robot",
         "score": 0.7706
       }
     ],
@@ -231106,12 +231788,20 @@ window.tagSearchData = {
         "score": 0.7917
       },
       {
+        "id": "2210_13438",
+        "score": 0.7857
+      },
+      {
         "id": "1811_12941",
         "score": 0.7735
       },
       {
         "id": "1611_03530",
         "score": 0.7639
+      },
+      {
+        "id": "2107_03312",
+        "score": 0.7602
       },
       {
         "id": "1805_10367",
@@ -231236,14 +231926,6 @@ window.tagSearchData = {
       {
         "id": "2410_13732",
         "score": 0.7011
-      },
-      {
-        "id": "1986_rumelhart_learning_representations_by_back",
-        "score": 0.7006
-      },
-      {
-        "id": "2109_14545",
-        "score": 0.6962
       }
     ],
     "1606_03490::neural networks": [
@@ -235748,6 +236430,10 @@ window.tagSearchData = {
         "score": 0.6903
       },
       {
+        "id": "2107_03312",
+        "score": 0.6897
+      },
+      {
         "id": "2011_glorot_deep_sparse_rectifier_neural",
         "score": 0.6883
       },
@@ -235766,10 +236452,6 @@ window.tagSearchData = {
       {
         "id": "2012_deng_the_mnist_database_of",
         "score": 0.6858
-      },
-      {
-        "id": "1512_03385",
-        "score": 0.6849
       }
     ],
     "1506_02640::neural networks": [
@@ -237670,6 +238352,152 @@ window.tagSearchData = {
         "score": 0.6435
       }
     ],
+    "2107_03312::neural networks": [
+      {
+        "id": "2210_13438",
+        "score": 0.9235
+      },
+      {
+        "id": "2013_maas_rectifier_nonlinearities_improve_neural",
+        "score": 0.7663
+      },
+      {
+        "id": "1611_01704",
+        "score": 0.7602
+      },
+      {
+        "id": "2505_13447",
+        "score": 0.6897
+      },
+      {
+        "id": "1811_12941",
+        "score": 0.6868
+      },
+      {
+        "id": "2011_glorot_deep_sparse_rectifier_neural",
+        "score": 0.6834
+      },
+      {
+        "id": "1406_1078",
+        "score": 0.6812
+      },
+      {
+        "id": "2604_06425",
+        "score": 0.6811
+      },
+      {
+        "id": "1703_00443",
+        "score": 0.6783
+      },
+      {
+        "id": "1910_13051",
+        "score": 0.6678
+      },
+      {
+        "id": "2201_02177",
+        "score": 0.6618
+      },
+      {
+        "id": "1409_4842",
+        "score": 0.6605
+      },
+      {
+        "id": "2003_02218",
+        "score": 0.659
+      },
+      {
+        "id": "1909_04939",
+        "score": 0.6572
+      },
+      {
+        "id": "1611_03530",
+        "score": 0.6537
+      },
+      {
+        "id": "1811_03378",
+        "score": 0.6513
+      },
+      {
+        "id": "1511_07289",
+        "score": 0.6504
+      },
+      {
+        "id": "2402_09092",
+        "score": 0.6488
+      },
+      {
+        "id": "2412_12036",
+        "score": 0.6487
+      },
+      {
+        "id": "1610_01439",
+        "score": 0.6472
+      },
+      {
+        "id": "1602_01783",
+        "score": 0.6453
+      },
+      {
+        "id": "1908_05968",
+        "score": 0.6448
+      },
+      {
+        "id": "1805_10367",
+        "score": 0.6439
+      },
+      {
+        "id": "2109_14545",
+        "score": 0.6424
+      },
+      {
+        "id": "1999_duch_survey_of_neural_transfer",
+        "score": 0.6405
+      },
+      {
+        "id": "2022_peirson_fishy_layerwise_fisher_approximation",
+        "score": 0.64
+      },
+      {
+        "id": "2302_03764",
+        "score": 0.6397
+      },
+      {
+        "id": "2502_06545",
+        "score": 0.6393
+      },
+      {
+        "id": "2410_13732",
+        "score": 0.6337
+      },
+      {
+        "id": "2006_11371",
+        "score": 0.6331
+      },
+      {
+        "id": "1986_rumelhart_learning_representations_by_back",
+        "score": 0.6287
+      },
+      {
+        "id": "2009_stanley_a_hypercube_based_encoding",
+        "score": 0.6276
+      },
+      {
+        "id": "2510_03745",
+        "score": 0.6251
+      },
+      {
+        "id": "1810_12575",
+        "score": 0.6243
+      },
+      {
+        "id": "2508_10480",
+        "score": 0.6239
+      },
+      {
+        "id": "1503_05671",
+        "score": 0.6237
+      }
+    ],
     "2104_09705::neural networks": [
       {
         "id": "2310_01362",
@@ -238990,6 +239818,10 @@ window.tagSearchData = {
         "score": 0.7283
       },
       {
+        "id": "2210_13438",
+        "score": 0.7268
+      },
+      {
         "id": "2502_06545",
         "score": 0.7147
       },
@@ -239032,6 +239864,10 @@ window.tagSearchData = {
       {
         "id": "1611_03530",
         "score": 0.6831
+      },
+      {
+        "id": "2107_03312",
+        "score": 0.6812
       },
       {
         "id": "1910_13051",
@@ -239120,14 +239956,6 @@ window.tagSearchData = {
       {
         "id": "2510_03745",
         "score": 0.6532
-      },
-      {
-        "id": "2210_05519",
-        "score": 0.6495
-      },
-      {
-        "id": "2002_08809",
-        "score": 0.6476
       }
     ],
     "1993_bromley_signature_verification_using_a::neural networks": [
@@ -240746,6 +241574,14 @@ window.tagSearchData = {
         "score": 0.7745
       },
       {
+        "id": "2210_13438",
+        "score": 0.773
+      },
+      {
+        "id": "2107_03312",
+        "score": 0.7663
+      },
+      {
         "id": "1610_01439",
         "score": 0.7643
       },
@@ -240872,14 +241708,6 @@ window.tagSearchData = {
       {
         "id": "2012_06188",
         "score": 0.6775
-      },
-      {
-        "id": "1909_04939",
-        "score": 0.6769
-      },
-      {
-        "id": "2002_08809",
-        "score": 0.6762
       }
     ],
     "2604_06425::neural networks": [
@@ -241884,6 +242712,10 @@ window.tagSearchData = {
         "score": 0.7213
       },
       {
+        "id": "2210_13438",
+        "score": 0.7204
+      },
+      {
         "id": "2009_stanley_a_hypercube_based_encoding",
         "score": 0.7202
       },
@@ -241898,10 +242730,6 @@ window.tagSearchData = {
       {
         "id": "1958_rosenblatt_the_perceptron_a_probabilistic",
         "score": 0.7134
-      },
-      {
-        "id": "2410_13732",
-        "score": 0.7125
       }
     ],
     "1811_12941::neural networks": [
@@ -243654,6 +244482,152 @@ window.tagSearchData = {
       {
         "id": "2411_17293",
         "score": 0.7274
+      }
+    ],
+    "2210_13438::neural networks": [
+      {
+        "id": "2107_03312",
+        "score": 0.9235
+      },
+      {
+        "id": "1611_01704",
+        "score": 0.7857
+      },
+      {
+        "id": "2013_maas_rectifier_nonlinearities_improve_neural",
+        "score": 0.773
+      },
+      {
+        "id": "1406_1078",
+        "score": 0.7268
+      },
+      {
+        "id": "2011_glorot_deep_sparse_rectifier_neural",
+        "score": 0.7204
+      },
+      {
+        "id": "1811_12941",
+        "score": 0.6876
+      },
+      {
+        "id": "2604_06425",
+        "score": 0.6857
+      },
+      {
+        "id": "1703_00443",
+        "score": 0.6797
+      },
+      {
+        "id": "2410_13732",
+        "score": 0.6765
+      },
+      {
+        "id": "2201_02177",
+        "score": 0.6742
+      },
+      {
+        "id": "1999_duch_survey_of_neural_transfer",
+        "score": 0.6731
+      },
+      {
+        "id": "1611_03530",
+        "score": 0.6702
+      },
+      {
+        "id": "2402_09092",
+        "score": 0.6669
+      },
+      {
+        "id": "2505_13447",
+        "score": 0.6642
+      },
+      {
+        "id": "1908_05968",
+        "score": 0.6612
+      },
+      {
+        "id": "2022_peirson_fishy_layerwise_fisher_approximation",
+        "score": 0.6612
+      },
+      {
+        "id": "1610_01439",
+        "score": 0.661
+      },
+      {
+        "id": "2502_06545",
+        "score": 0.6604
+      },
+      {
+        "id": "2009_stanley_a_hypercube_based_encoding",
+        "score": 0.6601
+      },
+      {
+        "id": "2109_14545",
+        "score": 0.6588
+      },
+      {
+        "id": "2003_02218",
+        "score": 0.6581
+      },
+      {
+        "id": "1503_05671",
+        "score": 0.658
+      },
+      {
+        "id": "1511_07289",
+        "score": 0.6556
+      },
+      {
+        "id": "2510_03745",
+        "score": 0.6552
+      },
+      {
+        "id": "1909_04939",
+        "score": 0.6547
+      },
+      {
+        "id": "2412_12036",
+        "score": 0.653
+      },
+      {
+        "id": "1986_rumelhart_learning_representations_by_back",
+        "score": 0.6521
+      },
+      {
+        "id": "1409_4842",
+        "score": 0.6493
+      },
+      {
+        "id": "2210_05519",
+        "score": 0.648
+      },
+      {
+        "id": "1811_03378",
+        "score": 0.6467
+      },
+      {
+        "id": "1602_01783",
+        "score": 0.6461
+      },
+      {
+        "id": "1910_13051",
+        "score": 0.645
+      },
+      {
+        "id": "1809_10252",
+        "score": 0.6444
+      },
+      {
+        "id": "1810_12575",
+        "score": 0.643
+      },
+      {
+        "id": "1805_10367",
+        "score": 0.6417
+      },
+      {
+        "id": "2508_10480",
+        "score": 0.6379
       }
     ],
     "2210_05519::neural networks": [
@@ -310698,6 +311672,10 @@ window.tagSearchData = {
         "score": 0.8395
       },
       {
+        "id": "2016_choudhury_regionally_accelerated_batch_informed",
+        "score": 0.8371
+      },
+      {
         "id": "2410_19414",
         "score": 0.8363
       },
@@ -310708,10 +311686,6 @@ window.tagSearchData = {
       {
         "id": "2007_yershova_improving_motion_planning_algorithms",
         "score": 0.8298
-      },
-      {
-        "id": "2016_choudhury_regionally_accelerated_batch_informed",
-        "score": 0.8294
       },
       {
         "id": "2503_06757",
@@ -310884,6 +311858,10 @@ window.tagSearchData = {
         "score": 0.7386
       },
       {
+        "id": "2016_choudhury_regionally_accelerated_batch_informed",
+        "score": 0.7383
+      },
+      {
         "id": "2015_palmieri_distance_metric_learning_for",
         "score": 0.7328
       },
@@ -310904,10 +311882,6 @@ window.tagSearchData = {
         "score": 0.722
       },
       {
-        "id": "2016_choudhury_regionally_accelerated_batch_informed",
-        "score": 0.7212
-      },
-      {
         "id": "2505_10542",
         "score": 0.7208
       },
@@ -310923,147 +311897,147 @@ window.tagSearchData = {
     "2016_choudhury_regionally_accelerated_batch_informed::sampling-based planning": [
       {
         "id": "1405_5848",
-        "score": 0.8769
+        "score": 0.9077
       },
       {
         "id": "1404_2334",
-        "score": 0.8626
-      },
-      {
-        "id": "1204_6453",
-        "score": 0.8366
-      },
-      {
-        "id": "2015_janson_deterministic_sampling_based_motion",
-        "score": 0.8357
-      },
-      {
-        "id": "2020_mashayekhi_informed_rrt_connect_an",
-        "score": 0.8338
-      },
-      {
-        "id": "2016_otte_rrtx_asymptotically_optimal_single",
-        "score": 0.8294
+        "score": 0.8714
       },
       {
         "id": "2411_17902",
-        "score": 0.8278
+        "score": 0.8501
+      },
+      {
+        "id": "2015_janson_deterministic_sampling_based_motion",
+        "score": 0.8484
+      },
+      {
+        "id": "2016_otte_rrtx_asymptotically_optimal_single",
+        "score": 0.8371
+      },
+      {
+        "id": "2020_mashayekhi_informed_rrt_connect_an",
+        "score": 0.8361
       },
       {
         "id": "1306_3532",
-        "score": 0.8223
+        "score": 0.836
       },
       {
-        "id": "2009_10484",
-        "score": 0.8203
-      },
-      {
-        "id": "2015_klemm_rrt_connect_faster_asymptotically",
-        "score": 0.8127
-      },
-      {
-        "id": "2021_li_sliding_window_informed_rrt",
-        "score": 0.811
+        "id": "1204_6453",
+        "score": 0.829
       },
       {
         "id": "2309_14595",
-        "score": 0.8102
+        "score": 0.8287
       },
       {
-        "id": "2013_luna_anytime_solution_optimization_for",
-        "score": 0.8036
+        "id": "2015_klemm_rrt_connect_faster_asymptotically",
+        "score": 0.8251
       },
       {
-        "id": "2011_perez_asymptotically_optimal_path_planning",
-        "score": 0.8025
-      },
-      {
-        "id": "2009_shkolnik_reachability_guided_sampling_for",
-        "score": 0.7996
-      },
-      {
-        "id": "2301_13143",
-        "score": 0.7944
+        "id": "2009_10484",
+        "score": 0.8169
       },
       {
         "id": "2007_yershova_improving_motion_planning_algorithms",
-        "score": 0.7905
+        "score": 0.8167
       },
       {
-        "id": "2505_10542",
-        "score": 0.7892
+        "id": "2021_li_sliding_window_informed_rrt",
+        "score": 0.8151
       },
       {
-        "id": "2410_19414",
-        "score": 0.7865
+        "id": "2013_luna_anytime_solution_optimization_for",
+        "score": 0.813
       },
       {
-        "id": "2014_luo_an_empirical_study_of",
-        "score": 0.7845
+        "id": "2011_perez_asymptotically_optimal_path_planning",
+        "score": 0.8099
+      },
+      {
+        "id": "2009_shkolnik_reachability_guided_sampling_for",
+        "score": 0.8092
       },
       {
         "id": "2602_02846",
-        "score": 0.784
+        "score": 0.8079
       },
       {
-        "id": "1710_10122",
-        "score": 0.7807
+        "id": "2410_19414",
+        "score": 0.8049
+      },
+      {
+        "id": "2505_10542",
+        "score": 0.7968
+      },
+      {
+        "id": "2301_13143",
+        "score": 0.7965
       },
       {
         "id": "2004_lamiraux_kinodynamic_motion_planning_connecting",
-        "score": 0.7711
+        "score": 0.7948
       },
       {
-        "id": "2019_hannigan_sbp_guided_mpc_to",
-        "score": 0.771
+        "id": "2014_luo_an_empirical_study_of",
+        "score": 0.7925
+      },
+      {
+        "id": "1710_10122",
+        "score": 0.7866
       },
       {
         "id": "2606_04355",
-        "score": 0.7684
-      },
-      {
-        "id": "2502_09556",
-        "score": 0.7592
+        "score": 0.784
       },
       {
         "id": "2605_29301",
-        "score": 0.7575
-      },
-      {
-        "id": "2022_honig_benchmarking_sampling_search_and",
-        "score": 0.757
+        "score": 0.782
       },
       {
         "id": "2503_06757",
-        "score": 0.7559
-      },
-      {
-        "id": "2015_palmieri_distance_metric_learning_for",
-        "score": 0.7523
-      },
-      {
-        "id": "2018_kingston_sampling_based_methods_for",
-        "score": 0.7493
-      },
-      {
-        "id": "2004_phillips_guided_expansive_spaces_trees",
-        "score": 0.7481
+        "score": 0.7791
       },
       {
         "id": "1705_02403",
-        "score": 0.7424
+        "score": 0.7743
+      },
+      {
+        "id": "2019_hannigan_sbp_guided_mpc_to",
+        "score": 0.7743
+      },
+      {
+        "id": "2022_honig_benchmarking_sampling_search_and",
+        "score": 0.7718
+      },
+      {
+        "id": "2004_phillips_guided_expansive_spaces_trees",
+        "score": 0.7717
+      },
+      {
+        "id": "2015_palmieri_distance_metric_learning_for",
+        "score": 0.7707
+      },
+      {
+        "id": "2502_09556",
+        "score": 0.7665
       },
       {
         "id": "1997_hsu_path_planning_in_expansive",
-        "score": 0.7414
+        "score": 0.7556
       },
       {
-        "id": "2012_kobilarov_cross_entropy_motion_planning",
-        "score": 0.7396
+        "id": "2018_kingston_sampling_based_methods_for",
+        "score": 0.7554
       },
       {
         "id": "2010_08993",
-        "score": 0.7306
+        "score": 0.7546
+      },
+      {
+        "id": "2012_kobilarov_cross_entropy_motion_planning",
+        "score": 0.7506
       }
     ],
     "2020_mashayekhi_informed_rrt_connect_an::sampling-based planning": [
@@ -311124,12 +312098,12 @@ window.tagSearchData = {
         "score": 0.8403
       },
       {
-        "id": "1710_10122",
-        "score": 0.836
+        "id": "2016_choudhury_regionally_accelerated_batch_informed",
+        "score": 0.8361
       },
       {
-        "id": "2016_choudhury_regionally_accelerated_batch_informed",
-        "score": 0.8338
+        "id": "1710_10122",
+        "score": 0.836
       },
       {
         "id": "2503_06757",
@@ -311282,16 +312256,16 @@ window.tagSearchData = {
         "score": 0.8216
       },
       {
-        "id": "2016_choudhury_regionally_accelerated_batch_informed",
-        "score": 0.8203
-      },
-      {
         "id": "2012_kobilarov_cross_entropy_motion_planning",
         "score": 0.8198
       },
       {
         "id": "2004_lamiraux_kinodynamic_motion_planning_connecting",
         "score": 0.8177
+      },
+      {
+        "id": "2016_choudhury_regionally_accelerated_batch_informed",
+        "score": 0.8169
       },
       {
         "id": "2301_13143",
@@ -311456,6 +312430,10 @@ window.tagSearchData = {
         "score": 0.7553
       },
       {
+        "id": "2016_choudhury_regionally_accelerated_batch_informed",
+        "score": 0.7546
+      },
+      {
         "id": "2009_shkolnik_path_planning_in_1000",
         "score": 0.7543
       },
@@ -311486,10 +312464,6 @@ window.tagSearchData = {
       {
         "id": "2015_klemm_rrt_connect_faster_asymptotically",
         "score": 0.732
-      },
-      {
-        "id": "2016_choudhury_regionally_accelerated_batch_informed",
-        "score": 0.7306
       },
       {
         "id": "2021_li_sliding_window_informed_rrt",
@@ -311626,16 +312600,16 @@ window.tagSearchData = {
         "score": 0.7868
       },
       {
+        "id": "2016_choudhury_regionally_accelerated_batch_informed",
+        "score": 0.7866
+      },
+      {
         "id": "2012_kobilarov_cross_entropy_motion_planning",
         "score": 0.7834
       },
       {
         "id": "2009_10484",
         "score": 0.7833
-      },
-      {
-        "id": "2016_choudhury_regionally_accelerated_batch_informed",
-        "score": 0.7807
       },
       {
         "id": "2606_04355",
@@ -311692,6 +312666,10 @@ window.tagSearchData = {
         "score": 0.7783
       },
       {
+        "id": "2016_choudhury_regionally_accelerated_batch_informed",
+        "score": 0.7743
+      },
+      {
         "id": "2410_19414",
         "score": 0.7734
       },
@@ -311746,10 +312724,6 @@ window.tagSearchData = {
       {
         "id": "2004_phillips_guided_expansive_spaces_trees",
         "score": 0.7446
-      },
-      {
-        "id": "2016_choudhury_regionally_accelerated_batch_informed",
-        "score": 0.7424
       },
       {
         "id": "2009_10484",
@@ -311886,16 +312860,16 @@ window.tagSearchData = {
         "score": 0.7753
       },
       {
+        "id": "2016_choudhury_regionally_accelerated_batch_informed",
+        "score": 0.7743
+      },
+      {
         "id": "2020_mashayekhi_informed_rrt_connect_an",
         "score": 0.7743
       },
       {
         "id": "2015_palmieri_distance_metric_learning_for",
         "score": 0.7715
-      },
-      {
-        "id": "2016_choudhury_regionally_accelerated_batch_informed",
-        "score": 0.771
       },
       {
         "id": "1405_5848",
@@ -312032,6 +313006,10 @@ window.tagSearchData = {
         "score": 0.7697
       },
       {
+        "id": "2016_choudhury_regionally_accelerated_batch_informed",
+        "score": 0.7665
+      },
+      {
         "id": "2014_luo_an_empirical_study_of",
         "score": 0.7638
       },
@@ -312046,10 +313024,6 @@ window.tagSearchData = {
       {
         "id": "2013_luna_anytime_solution_optimization_for",
         "score": 0.7599
-      },
-      {
-        "id": "2016_choudhury_regionally_accelerated_batch_informed",
-        "score": 0.7592
       },
       {
         "id": "2007_yershova_improving_motion_planning_algorithms",
@@ -312170,6 +313144,10 @@ window.tagSearchData = {
         "score": 0.8
       },
       {
+        "id": "2016_choudhury_regionally_accelerated_batch_informed",
+        "score": 0.7968
+      },
+      {
         "id": "2410_19414",
         "score": 0.7968
       },
@@ -312180,10 +313158,6 @@ window.tagSearchData = {
       {
         "id": "2502_09556",
         "score": 0.7901
-      },
-      {
-        "id": "2016_choudhury_regionally_accelerated_batch_informed",
-        "score": 0.7892
       },
       {
         "id": "2606_04355",
@@ -312320,6 +313294,10 @@ window.tagSearchData = {
         "score": 0.7916
       },
       {
+        "id": "2016_choudhury_regionally_accelerated_batch_informed",
+        "score": 0.7791
+      },
+      {
         "id": "2015_palmieri_distance_metric_learning_for",
         "score": 0.7778
       },
@@ -312346,10 +313324,6 @@ window.tagSearchData = {
       {
         "id": "2009_shkolnik_path_planning_in_1000",
         "score": 0.7562
-      },
-      {
-        "id": "2016_choudhury_regionally_accelerated_batch_informed",
-        "score": 0.7559
       },
       {
         "id": "2004_lamiraux_kinodynamic_motion_planning_connecting",
@@ -312478,6 +313452,10 @@ window.tagSearchData = {
         "score": 0.7715
       },
       {
+        "id": "2016_choudhury_regionally_accelerated_batch_informed",
+        "score": 0.7707
+      },
+      {
         "id": "1204_6453",
         "score": 0.7658
       },
@@ -312504,10 +313482,6 @@ window.tagSearchData = {
       {
         "id": "2606_04355",
         "score": 0.7569
-      },
-      {
-        "id": "2016_choudhury_regionally_accelerated_batch_informed",
-        "score": 0.7523
       },
       {
         "id": "2009_shkolnik_path_planning_in_1000",
@@ -312592,6 +313566,10 @@ window.tagSearchData = {
         "score": 0.8507
       },
       {
+        "id": "2016_choudhury_regionally_accelerated_batch_informed",
+        "score": 0.8484
+      },
+      {
         "id": "2020_mashayekhi_informed_rrt_connect_an",
         "score": 0.8483
       },
@@ -312622,10 +313600,6 @@ window.tagSearchData = {
       {
         "id": "1710_10122",
         "score": 0.837
-      },
-      {
-        "id": "2016_choudhury_regionally_accelerated_batch_informed",
-        "score": 0.8357
       },
       {
         "id": "2503_06757",
@@ -312750,6 +313724,10 @@ window.tagSearchData = {
         "score": 0.83
       },
       {
+        "id": "2016_choudhury_regionally_accelerated_batch_informed",
+        "score": 0.8251
+      },
+      {
         "id": "2410_19414",
         "score": 0.8171
       },
@@ -312764,10 +313742,6 @@ window.tagSearchData = {
       {
         "id": "2015_palmieri_distance_metric_learning_for",
         "score": 0.8132
-      },
-      {
-        "id": "2016_choudhury_regionally_accelerated_batch_informed",
-        "score": 0.8127
       },
       {
         "id": "2605_29301",
@@ -312846,6 +313820,10 @@ window.tagSearchData = {
       {
         "id": "2605_29301",
         "score": 0.7447
+      },
+      {
+        "id": "2016_choudhury_regionally_accelerated_batch_informed",
+        "score": 0.7402
       },
       {
         "id": "1404_2334",
@@ -312940,10 +313918,6 @@ window.tagSearchData = {
         "score": 0.6934
       },
       {
-        "id": "2016_choudhury_regionally_accelerated_batch_informed",
-        "score": 0.6934
-      },
-      {
         "id": "2505_10542",
         "score": 0.6923
       },
@@ -313027,7 +314001,7 @@ window.tagSearchData = {
       },
       {
         "id": "2016_choudhury_regionally_accelerated_batch_informed",
-        "score": 0.811
+        "score": 0.8151
       },
       {
         "id": "2015_palmieri_distance_metric_learning_for",
@@ -313212,6 +314186,10 @@ window.tagSearchData = {
         "score": 0.7728
       },
       {
+        "id": "2016_choudhury_regionally_accelerated_batch_informed",
+        "score": 0.7717
+      },
+      {
         "id": "2012_kobilarov_cross_entropy_motion_planning",
         "score": 0.7716
       },
@@ -313242,10 +314220,6 @@ window.tagSearchData = {
       {
         "id": "2502_09556",
         "score": 0.7484
-      },
-      {
-        "id": "2016_choudhury_regionally_accelerated_batch_informed",
-        "score": 0.7481
       },
       {
         "id": "2505_10542",
@@ -313382,6 +314356,10 @@ window.tagSearchData = {
         "score": 0.795
       },
       {
+        "id": "2016_choudhury_regionally_accelerated_batch_informed",
+        "score": 0.7948
+      },
+      {
         "id": "2010_08993",
         "score": 0.7868
       },
@@ -313396,10 +314374,6 @@ window.tagSearchData = {
       {
         "id": "2505_10542",
         "score": 0.7744
-      },
-      {
-        "id": "2016_choudhury_regionally_accelerated_batch_informed",
-        "score": 0.7711
       }
     ],
     "2012_kobilarov_cross_entropy_motion_planning::sampling-based planning": [
@@ -313512,6 +314486,10 @@ window.tagSearchData = {
         "score": 0.7547
       },
       {
+        "id": "2016_choudhury_regionally_accelerated_batch_informed",
+        "score": 0.7506
+      },
+      {
         "id": "2010_08993",
         "score": 0.7505
       },
@@ -313534,10 +314512,6 @@ window.tagSearchData = {
       {
         "id": "2015_palmieri_distance_metric_learning_for",
         "score": 0.7397
-      },
-      {
-        "id": "2016_choudhury_regionally_accelerated_batch_informed",
-        "score": 0.7396
       },
       {
         "id": "2606_04355",
@@ -313610,12 +314584,12 @@ window.tagSearchData = {
         "score": 0.8388
       },
       {
-        "id": "2016_choudhury_regionally_accelerated_batch_informed",
-        "score": 0.8366
-      },
-      {
         "id": "2013_luna_anytime_solution_optimization_for",
         "score": 0.8298
+      },
+      {
+        "id": "2016_choudhury_regionally_accelerated_batch_informed",
+        "score": 0.829
       },
       {
         "id": "2411_17902",
@@ -313800,6 +314774,10 @@ window.tagSearchData = {
         "score": 0.794
       },
       {
+        "id": "2016_choudhury_regionally_accelerated_batch_informed",
+        "score": 0.7925
+      },
+      {
         "id": "1997_hsu_path_planning_in_expansive",
         "score": 0.7924
       },
@@ -313810,10 +314788,6 @@ window.tagSearchData = {
       {
         "id": "2019_hannigan_sbp_guided_mpc_to",
         "score": 0.7913
-      },
-      {
-        "id": "2016_choudhury_regionally_accelerated_batch_informed",
-        "score": 0.7845
       },
       {
         "id": "2505_10542",
@@ -313886,12 +314860,12 @@ window.tagSearchData = {
         "score": 0.8718
       },
       {
-        "id": "1306_3532",
-        "score": 0.8702
+        "id": "2016_choudhury_regionally_accelerated_batch_informed",
+        "score": 0.8714
       },
       {
-        "id": "2016_choudhury_regionally_accelerated_batch_informed",
-        "score": 0.8626
+        "id": "1306_3532",
+        "score": 0.8702
       },
       {
         "id": "1710_10122",
@@ -313988,16 +314962,16 @@ window.tagSearchData = {
     ],
     "1405_5848::sampling-based planning": [
       {
+        "id": "2016_choudhury_regionally_accelerated_batch_informed",
+        "score": 0.9077
+      },
+      {
         "id": "1404_2334",
         "score": 0.8935
       },
       {
         "id": "2015_janson_deterministic_sampling_based_motion",
         "score": 0.8857
-      },
-      {
-        "id": "2016_choudhury_regionally_accelerated_batch_informed",
-        "score": 0.8769
       },
       {
         "id": "2016_otte_rrtx_asymptotically_optimal_single",
@@ -314242,6 +315216,10 @@ window.tagSearchData = {
         "score": 0.7601
       },
       {
+        "id": "2016_choudhury_regionally_accelerated_batch_informed",
+        "score": 0.7556
+      },
+      {
         "id": "2606_04355",
         "score": 0.7468
       },
@@ -314256,10 +315234,6 @@ window.tagSearchData = {
       {
         "id": "2602_02846",
         "score": 0.7416
-      },
-      {
-        "id": "2016_choudhury_regionally_accelerated_batch_informed",
-        "score": 0.7414
       },
       {
         "id": "2010_08993",
@@ -314344,6 +315318,10 @@ window.tagSearchData = {
         "score": 0.8186
       },
       {
+        "id": "2016_choudhury_regionally_accelerated_batch_informed",
+        "score": 0.8167
+      },
+      {
         "id": "2013_luna_anytime_solution_optimization_for",
         "score": 0.8147
       },
@@ -314378,10 +315356,6 @@ window.tagSearchData = {
       {
         "id": "2018_kingston_sampling_based_methods_for",
         "score": 0.8009
-      },
-      {
-        "id": "2016_choudhury_regionally_accelerated_batch_informed",
-        "score": 0.7905
       },
       {
         "id": "2021_li_sliding_window_informed_rrt",
@@ -314486,6 +315460,10 @@ window.tagSearchData = {
         "score": 0.7517
       },
       {
+        "id": "2016_choudhury_regionally_accelerated_batch_informed",
+        "score": 0.7495
+      },
+      {
         "id": "2011_perez_asymptotically_optimal_path_planning",
         "score": 0.7461
       },
@@ -314515,10 +315493,6 @@ window.tagSearchData = {
       },
       {
         "id": "1204_6453",
-        "score": 0.7223
-      },
-      {
-        "id": "2016_choudhury_regionally_accelerated_batch_informed",
         "score": 0.7223
       },
       {
@@ -314684,6 +315658,10 @@ window.tagSearchData = {
         "score": 0.8064
       },
       {
+        "id": "2016_choudhury_regionally_accelerated_batch_informed",
+        "score": 0.8049
+      },
+      {
         "id": "2010_08993",
         "score": 0.8047
       },
@@ -314708,10 +315686,6 @@ window.tagSearchData = {
         "score": 0.7868
       },
       {
-        "id": "2016_choudhury_regionally_accelerated_batch_informed",
-        "score": 0.7865
-      },
-      {
         "id": "2019_hannigan_sbp_guided_mpc_to",
         "score": 0.7841
       }
@@ -314728,6 +315702,10 @@ window.tagSearchData = {
       {
         "id": "2020_mashayekhi_informed_rrt_connect_an",
         "score": 0.86
+      },
+      {
+        "id": "2016_choudhury_regionally_accelerated_batch_informed",
+        "score": 0.8501
       },
       {
         "id": "1404_2334",
@@ -314764,10 +315742,6 @@ window.tagSearchData = {
       {
         "id": "1204_6453",
         "score": 0.8279
-      },
-      {
-        "id": "2016_choudhury_regionally_accelerated_batch_informed",
-        "score": 0.8278
       },
       {
         "id": "2004_lamiraux_kinodynamic_motion_planning_connecting",
@@ -314940,16 +315914,16 @@ window.tagSearchData = {
         "score": 0.8141
       },
       {
+        "id": "2016_choudhury_regionally_accelerated_batch_informed",
+        "score": 0.813
+      },
+      {
         "id": "2020_mashayekhi_informed_rrt_connect_an",
         "score": 0.8062
       },
       {
         "id": "2411_17902",
         "score": 0.8043
-      },
-      {
-        "id": "2016_choudhury_regionally_accelerated_batch_informed",
-        "score": 0.8036
       },
       {
         "id": "2505_10542",
@@ -315074,6 +316048,10 @@ window.tagSearchData = {
         "score": 0.8362
       },
       {
+        "id": "2016_choudhury_regionally_accelerated_batch_informed",
+        "score": 0.836
+      },
+      {
         "id": "2410_19414",
         "score": 0.8292
       },
@@ -315100,10 +316078,6 @@ window.tagSearchData = {
       {
         "id": "1710_10122",
         "score": 0.8245
-      },
-      {
-        "id": "2016_choudhury_regionally_accelerated_batch_informed",
-        "score": 0.8223
       },
       {
         "id": "2021_li_sliding_window_informed_rrt",
@@ -315232,6 +316206,10 @@ window.tagSearchData = {
         "score": 0.8114
       },
       {
+        "id": "2016_choudhury_regionally_accelerated_batch_informed",
+        "score": 0.8079
+      },
+      {
         "id": "2018_kingston_sampling_based_methods_for",
         "score": 0.7988
       },
@@ -315250,10 +316228,6 @@ window.tagSearchData = {
       {
         "id": "1204_6453",
         "score": 0.7866
-      },
-      {
-        "id": "2016_choudhury_regionally_accelerated_batch_informed",
-        "score": 0.784
       },
       {
         "id": "2505_10542",
@@ -315354,6 +316328,10 @@ window.tagSearchData = {
         "score": 0.785
       },
       {
+        "id": "2016_choudhury_regionally_accelerated_batch_informed",
+        "score": 0.784
+      },
+      {
         "id": "2013_luna_anytime_solution_optimization_for",
         "score": 0.7806
       },
@@ -315396,10 +316374,6 @@ window.tagSearchData = {
       {
         "id": "2020_mashayekhi_informed_rrt_connect_an",
         "score": 0.7689
-      },
-      {
-        "id": "2016_choudhury_regionally_accelerated_batch_informed",
-        "score": 0.7684
       },
       {
         "id": "2014_luo_an_empirical_study_of",
@@ -315564,6 +316538,10 @@ window.tagSearchData = {
         "score": 0.7865
       },
       {
+        "id": "2016_choudhury_regionally_accelerated_batch_informed",
+        "score": 0.782
+      },
+      {
         "id": "2502_09556",
         "score": 0.7762
       },
@@ -315586,10 +316564,6 @@ window.tagSearchData = {
       {
         "id": "2009_shkolnik_path_planning_in_1000",
         "score": 0.7674
-      },
-      {
-        "id": "2021_li_sliding_window_informed_rrt",
-        "score": 0.7666
       }
     ],
     "2009_shkolnik_reachability_guided_sampling_for::sampling-based planning": [
@@ -315722,6 +316696,10 @@ window.tagSearchData = {
         "score": 0.8103
       },
       {
+        "id": "2016_choudhury_regionally_accelerated_batch_informed",
+        "score": 0.8092
+      },
+      {
         "id": "2502_09556",
         "score": 0.8081
       },
@@ -315732,10 +316710,6 @@ window.tagSearchData = {
       {
         "id": "2016_rajamaki_sampled_differential_dynamic_programming",
         "score": 0.8011
-      },
-      {
-        "id": "2016_choudhury_regionally_accelerated_batch_informed",
-        "score": 0.7996
       }
     ],
     "2009_shkolnik_path_planning_in_1000::sampling-based planning": [
@@ -315860,6 +316834,10 @@ window.tagSearchData = {
         "score": 0.747
       },
       {
+        "id": "2016_choudhury_regionally_accelerated_batch_informed",
+        "score": 0.7462
+      },
+      {
         "id": "1204_6453",
         "score": 0.7452
       },
@@ -315878,10 +316856,6 @@ window.tagSearchData = {
       {
         "id": "2019_hannigan_sbp_guided_mpc_to",
         "score": 0.7294
-      },
-      {
-        "id": "2409_06807",
-        "score": 0.7273
       }
     ],
     "2011_perez_asymptotically_optimal_path_planning::sampling-based planning": [
@@ -315994,16 +316968,16 @@ window.tagSearchData = {
         "score": 0.8129
       },
       {
+        "id": "2016_choudhury_regionally_accelerated_batch_informed",
+        "score": 0.8099
+      },
+      {
         "id": "2019_hannigan_sbp_guided_mpc_to",
         "score": 0.8038
       },
       {
         "id": "2606_04355",
         "score": 0.8036
-      },
-      {
-        "id": "2016_choudhury_regionally_accelerated_batch_informed",
-        "score": 0.8025
       },
       {
         "id": "1997_hsu_path_planning_in_expansive",
@@ -316148,6 +317122,10 @@ window.tagSearchData = {
         "score": 0.7604
       },
       {
+        "id": "2016_choudhury_regionally_accelerated_batch_informed",
+        "score": 0.7554
+      },
+      {
         "id": "2015_klemm_rrt_connect_faster_asymptotically",
         "score": 0.7541
       },
@@ -316158,10 +317136,6 @@ window.tagSearchData = {
       {
         "id": "2015_palmieri_distance_metric_learning_for",
         "score": 0.7494
-      },
-      {
-        "id": "2016_choudhury_regionally_accelerated_batch_informed",
-        "score": 0.7493
       },
       {
         "id": "2020_mashayekhi_informed_rrt_connect_an",
@@ -316314,12 +317288,12 @@ window.tagSearchData = {
         "score": 0.7786
       },
       {
-        "id": "2021_li_sliding_window_informed_rrt",
-        "score": 0.7685
+        "id": "2016_choudhury_regionally_accelerated_batch_informed",
+        "score": 0.7718
       },
       {
-        "id": "2020_mashayekhi_informed_rrt_connect_an",
-        "score": 0.7671
+        "id": "2021_li_sliding_window_informed_rrt",
+        "score": 0.7685
       }
     ],
     "2301_13143::sampling-based planning": [
@@ -316432,12 +317406,12 @@ window.tagSearchData = {
         "score": 0.7998
       },
       {
-        "id": "2004_phillips_guided_expansive_spaces_trees",
-        "score": 0.7964
+        "id": "2016_choudhury_regionally_accelerated_batch_informed",
+        "score": 0.7965
       },
       {
-        "id": "2016_choudhury_regionally_accelerated_batch_informed",
-        "score": 0.7944
+        "id": "2004_phillips_guided_expansive_spaces_trees",
+        "score": 0.7964
       },
       {
         "id": "2018_kingston_sampling_based_methods_for",
@@ -316522,6 +317496,10 @@ window.tagSearchData = {
         "score": 0.8316
       },
       {
+        "id": "2016_choudhury_regionally_accelerated_batch_informed",
+        "score": 0.8287
+      },
+      {
         "id": "2007_yershova_improving_motion_planning_algorithms",
         "score": 0.828
       },
@@ -316548,10 +317526,6 @@ window.tagSearchData = {
       {
         "id": "1997_hsu_path_planning_in_expansive",
         "score": 0.8115
-      },
-      {
-        "id": "2016_choudhury_regionally_accelerated_batch_informed",
-        "score": 0.8102
       },
       {
         "id": "2605_29301",
@@ -316668,16 +317642,16 @@ window.tagSearchData = {
         "score": 0.8615
       },
       {
+        "id": "2016_choudhury_regionally_accelerated_batch_informed",
+        "score": 0.8371
+      },
+      {
         "id": "2411_17902",
         "score": 0.836
       },
       {
         "id": "1407_2896",
         "score": 0.8326
-      },
-      {
-        "id": "2016_choudhury_regionally_accelerated_batch_informed",
-        "score": 0.8294
       },
       {
         "id": "2602_02846",
@@ -316691,75 +317665,75 @@ window.tagSearchData = {
     "2016_choudhury_regionally_accelerated_batch_informed::asymptotic optimality": [
       {
         "id": "1405_5848",
-        "score": 0.8769
+        "score": 0.9077
       },
       {
         "id": "1404_2334",
-        "score": 0.8626
-      },
-      {
-        "id": "1204_6453",
-        "score": 0.8366
-      },
-      {
-        "id": "2015_janson_deterministic_sampling_based_motion",
-        "score": 0.8357
-      },
-      {
-        "id": "2020_mashayekhi_informed_rrt_connect_an",
-        "score": 0.8338
-      },
-      {
-        "id": "2016_otte_rrtx_asymptotically_optimal_single",
-        "score": 0.8294
+        "score": 0.8714
       },
       {
         "id": "2411_17902",
-        "score": 0.8278
+        "score": 0.8501
+      },
+      {
+        "id": "2015_janson_deterministic_sampling_based_motion",
+        "score": 0.8484
+      },
+      {
+        "id": "2016_otte_rrtx_asymptotically_optimal_single",
+        "score": 0.8371
+      },
+      {
+        "id": "2020_mashayekhi_informed_rrt_connect_an",
+        "score": 0.8361
       },
       {
         "id": "1306_3532",
-        "score": 0.8223
+        "score": 0.836
+      },
+      {
+        "id": "1204_6453",
+        "score": 0.829
       },
       {
         "id": "2010_abbasi_yadkori_extending_rapidly_exploring_random",
-        "score": 0.8149
+        "score": 0.8262
       },
       {
         "id": "2015_klemm_rrt_connect_faster_asymptotically",
-        "score": 0.8127
+        "score": 0.8251
       },
       {
         "id": "2021_li_sliding_window_informed_rrt",
-        "score": 0.811
-      },
-      {
-        "id": "2011_perez_asymptotically_optimal_path_planning",
-        "score": 0.8025
+        "score": 0.8151
       },
       {
         "id": "1809_02399",
-        "score": 0.8015
+        "score": 0.8149
       },
       {
-        "id": "2010_karaman_optimal_kinodynamic_motion_planning",
-        "score": 0.8015
-      },
-      {
-        "id": "2505_10542",
-        "score": 0.7892
-      },
-      {
-        "id": "1407_2896",
-        "score": 0.7853
+        "id": "2011_perez_asymptotically_optimal_path_planning",
+        "score": 0.8099
       },
       {
         "id": "2602_02846",
-        "score": 0.784
+        "score": 0.8079
+      },
+      {
+        "id": "2010_karaman_optimal_kinodynamic_motion_planning",
+        "score": 0.8075
+      },
+      {
+        "id": "2505_10542",
+        "score": 0.7968
+      },
+      {
+        "id": "1407_2896",
+        "score": 0.7957
       },
       {
         "id": "1505_04098",
-        "score": 0.7611
+        "score": 0.7718
       }
     ],
     "2020_mashayekhi_informed_rrt_connect_an::asymptotic optimality": [
@@ -316821,7 +317795,7 @@ window.tagSearchData = {
       },
       {
         "id": "2016_choudhury_regionally_accelerated_batch_informed",
-        "score": 0.8338
+        "score": 0.8361
       },
       {
         "id": "1407_2896",
@@ -316903,7 +317877,7 @@ window.tagSearchData = {
       },
       {
         "id": "2016_choudhury_regionally_accelerated_batch_informed",
-        "score": 0.7892
+        "score": 0.7968
       },
       {
         "id": "2602_02846",
@@ -316960,6 +317934,10 @@ window.tagSearchData = {
         "score": 0.8557
       },
       {
+        "id": "2016_choudhury_regionally_accelerated_batch_informed",
+        "score": 0.8484
+      },
+      {
         "id": "2020_mashayekhi_informed_rrt_connect_an",
         "score": 0.8483
       },
@@ -316970,10 +317948,6 @@ window.tagSearchData = {
       {
         "id": "2411_17902",
         "score": 0.8405
-      },
-      {
-        "id": "2016_choudhury_regionally_accelerated_batch_informed",
-        "score": 0.8357
       },
       {
         "id": "2021_li_sliding_window_informed_rrt",
@@ -317042,12 +318016,12 @@ window.tagSearchData = {
         "score": 0.8426
       },
       {
-        "id": "1407_2896",
-        "score": 0.8174
+        "id": "2016_choudhury_regionally_accelerated_batch_informed",
+        "score": 0.8251
       },
       {
-        "id": "2016_choudhury_regionally_accelerated_batch_informed",
-        "score": 0.8127
+        "id": "1407_2896",
+        "score": 0.8174
       },
       {
         "id": "1505_04098",
@@ -317124,12 +318098,12 @@ window.tagSearchData = {
         "score": 0.7846
       },
       {
-        "id": "2021_li_sliding_window_informed_rrt",
-        "score": 0.7712
+        "id": "2016_choudhury_regionally_accelerated_batch_informed",
+        "score": 0.7718
       },
       {
-        "id": "2016_choudhury_regionally_accelerated_batch_informed",
-        "score": 0.7611
+        "id": "2021_li_sliding_window_informed_rrt",
+        "score": 0.7712
       }
     ],
     "2010_abbasi_yadkori_extending_rapidly_exploring_random::asymptotic optimality": [
@@ -317199,7 +318173,7 @@ window.tagSearchData = {
       },
       {
         "id": "2016_choudhury_regionally_accelerated_batch_informed",
-        "score": 0.8149
+        "score": 0.8262
       },
       {
         "id": "2602_02846",
@@ -317277,7 +318251,7 @@ window.tagSearchData = {
       },
       {
         "id": "2016_choudhury_regionally_accelerated_batch_informed",
-        "score": 0.8015
+        "score": 0.8075
       }
     ],
     "2021_li_sliding_window_informed_rrt::asymptotic optimality": [
@@ -317335,7 +318309,7 @@ window.tagSearchData = {
       },
       {
         "id": "2016_choudhury_regionally_accelerated_batch_informed",
-        "score": 0.811
+        "score": 0.8151
       },
       {
         "id": "2411_17902",
@@ -317413,7 +318387,7 @@ window.tagSearchData = {
       },
       {
         "id": "2016_choudhury_regionally_accelerated_batch_informed",
-        "score": 0.8366
+        "score": 0.829
       },
       {
         "id": "2411_17902",
@@ -317495,7 +318469,7 @@ window.tagSearchData = {
       },
       {
         "id": "2016_choudhury_regionally_accelerated_batch_informed",
-        "score": 0.7853
+        "score": 0.7957
       },
       {
         "id": "2021_li_sliding_window_informed_rrt",
@@ -317548,12 +318522,12 @@ window.tagSearchData = {
         "score": 0.8718
       },
       {
-        "id": "1306_3532",
-        "score": 0.8702
+        "id": "2016_choudhury_regionally_accelerated_batch_informed",
+        "score": 0.8714
       },
       {
-        "id": "2016_choudhury_regionally_accelerated_batch_informed",
-        "score": 0.8626
+        "id": "1306_3532",
+        "score": 0.8702
       },
       {
         "id": "2505_10542",
@@ -317578,16 +318552,16 @@ window.tagSearchData = {
     ],
     "1405_5848::asymptotic optimality": [
       {
+        "id": "2016_choudhury_regionally_accelerated_batch_informed",
+        "score": 0.9077
+      },
+      {
         "id": "1404_2334",
         "score": 0.8935
       },
       {
         "id": "2015_janson_deterministic_sampling_based_motion",
         "score": 0.8857
-      },
-      {
-        "id": "2016_choudhury_regionally_accelerated_batch_informed",
-        "score": 0.8769
       },
       {
         "id": "2016_otte_rrtx_asymptotically_optimal_single",
@@ -317664,6 +318638,10 @@ window.tagSearchData = {
         "score": 0.86
       },
       {
+        "id": "2016_choudhury_regionally_accelerated_batch_informed",
+        "score": 0.8501
+      },
+      {
         "id": "1404_2334",
         "score": 0.8422
       },
@@ -317706,10 +318684,6 @@ window.tagSearchData = {
       {
         "id": "1204_6453",
         "score": 0.8279
-      },
-      {
-        "id": "2016_choudhury_regionally_accelerated_batch_informed",
-        "score": 0.8278
       },
       {
         "id": "2010_karaman_optimal_kinodynamic_motion_planning",
@@ -317782,16 +318756,16 @@ window.tagSearchData = {
         "score": 0.8386
       },
       {
+        "id": "2016_choudhury_regionally_accelerated_batch_informed",
+        "score": 0.836
+      },
+      {
         "id": "1505_04098",
         "score": 0.8317
       },
       {
         "id": "2505_10542",
         "score": 0.8257
-      },
-      {
-        "id": "2016_choudhury_regionally_accelerated_batch_informed",
-        "score": 0.8223
       },
       {
         "id": "2021_li_sliding_window_informed_rrt",
@@ -317840,6 +318814,10 @@ window.tagSearchData = {
         "score": 0.8118
       },
       {
+        "id": "2016_choudhury_regionally_accelerated_batch_informed",
+        "score": 0.8079
+      },
+      {
         "id": "2010_abbasi_yadkori_extending_rapidly_exploring_random",
         "score": 0.8075
       },
@@ -317854,10 +318832,6 @@ window.tagSearchData = {
       {
         "id": "1204_6453",
         "score": 0.7866
-      },
-      {
-        "id": "2016_choudhury_regionally_accelerated_batch_informed",
-        "score": 0.784
       },
       {
         "id": "2505_10542",
@@ -317938,12 +318912,12 @@ window.tagSearchData = {
         "score": 0.8236
       },
       {
-        "id": "1505_04098",
-        "score": 0.8084
+        "id": "2016_choudhury_regionally_accelerated_batch_informed",
+        "score": 0.8099
       },
       {
-        "id": "2016_choudhury_regionally_accelerated_batch_informed",
-        "score": 0.8025
+        "id": "1505_04098",
+        "score": 0.8084
       }
     ],
     "1809_02399::asymptotic optimality": [
@@ -318017,7 +318991,7 @@ window.tagSearchData = {
       },
       {
         "id": "2016_choudhury_regionally_accelerated_batch_informed",
-        "score": 0.8015
+        "score": 0.8149
       }
     ],
     "2016_otte_rrtx_asymptotically_optimal_single::dynamic environments": [
@@ -418776,6 +419750,10 @@ window.tagSearchData = {
         "score": 0.8809
       },
       {
+        "id": "1991_wallace_the_jpeg_still_picture",
+        "score": 0.7313
+      },
+      {
         "id": "2004_wang_image_quality_assessment_from",
         "score": 0.7224
       }
@@ -418784,6 +419762,10 @@ window.tagSearchData = {
       {
         "id": "1611_01704",
         "score": 0.8809
+      },
+      {
+        "id": "1991_wallace_the_jpeg_still_picture",
+        "score": 0.7388
       },
       {
         "id": "2004_wang_image_quality_assessment_from",
@@ -418796,8 +419778,26 @@ window.tagSearchData = {
         "score": 0.7224
       },
       {
+        "id": "1991_wallace_the_jpeg_still_picture",
+        "score": 0.7203
+      },
+      {
         "id": "1703_00395",
         "score": 0.7101
+      }
+    ],
+    "1991_wallace_the_jpeg_still_picture::joint photographic experts group": [
+      {
+        "id": "1703_00395",
+        "score": 0.7388
+      },
+      {
+        "id": "1611_01704",
+        "score": 0.7313
+      },
+      {
+        "id": "2004_wang_image_quality_assessment_from",
+        "score": 0.7203
       }
     ],
     "1611_01704::image compression": [
@@ -418808,6 +419808,64 @@ window.tagSearchData = {
       {
         "id": "2605_05148",
         "score": 0.8355
+      },
+      {
+        "id": "1992_antonini_image_coding_using_wavelet",
+        "score": 0.7561
+      },
+      {
+        "id": "1993_shapiro_embedded_image_coding_using",
+        "score": 0.7484
+      },
+      {
+        "id": "2000_taubman_high_performance_scalable_image",
+        "score": 0.7459
+      },
+      {
+        "id": "1991_wallace_the_jpeg_still_picture",
+        "score": 0.7313
+      },
+      {
+        "id": "1996_said_a_new_fast_and",
+        "score": 0.7273
+      },
+      {
+        "id": "1974_ahmed_discrete_cosine_transform",
+        "score": 0.7099
+      }
+    ],
+    "2000_taubman_high_performance_scalable_image::image compression": [
+      {
+        "id": "1993_shapiro_embedded_image_coding_using",
+        "score": 0.8374
+      },
+      {
+        "id": "1992_antonini_image_coding_using_wavelet",
+        "score": 0.8258
+      },
+      {
+        "id": "1996_said_a_new_fast_and",
+        "score": 0.825
+      },
+      {
+        "id": "1991_wallace_the_jpeg_still_picture",
+        "score": 0.7702
+      },
+      {
+        "id": "1703_00395",
+        "score": 0.754
+      },
+      {
+        "id": "1974_ahmed_discrete_cosine_transform",
+        "score": 0.752
+      },
+      {
+        "id": "1611_01704",
+        "score": 0.7459
+      },
+      {
+        "id": "2605_05148",
+        "score": 0.7225
       }
     ],
     "1703_00395::image compression": [
@@ -418818,6 +419876,132 @@ window.tagSearchData = {
       {
         "id": "2605_05148",
         "score": 0.8032
+      },
+      {
+        "id": "2000_taubman_high_performance_scalable_image",
+        "score": 0.754
+      },
+      {
+        "id": "1992_antonini_image_coding_using_wavelet",
+        "score": 0.7424
+      },
+      {
+        "id": "1991_wallace_the_jpeg_still_picture",
+        "score": 0.7388
+      },
+      {
+        "id": "1993_shapiro_embedded_image_coding_using",
+        "score": 0.7243
+      },
+      {
+        "id": "1996_said_a_new_fast_and",
+        "score": 0.7024
+      },
+      {
+        "id": "1974_ahmed_discrete_cosine_transform",
+        "score": 0.6763
+      }
+    ],
+    "1991_wallace_the_jpeg_still_picture::image compression": [
+      {
+        "id": "1974_ahmed_discrete_cosine_transform",
+        "score": 0.782
+      },
+      {
+        "id": "2000_taubman_high_performance_scalable_image",
+        "score": 0.7702
+      },
+      {
+        "id": "1992_antonini_image_coding_using_wavelet",
+        "score": 0.7667
+      },
+      {
+        "id": "1993_shapiro_embedded_image_coding_using",
+        "score": 0.7523
+      },
+      {
+        "id": "1996_said_a_new_fast_and",
+        "score": 0.7418
+      },
+      {
+        "id": "1703_00395",
+        "score": 0.7388
+      },
+      {
+        "id": "1611_01704",
+        "score": 0.7313
+      },
+      {
+        "id": "2605_05148",
+        "score": 0.6985
+      }
+    ],
+    "1996_said_a_new_fast_and::image compression": [
+      {
+        "id": "1993_shapiro_embedded_image_coding_using",
+        "score": 0.9342
+      },
+      {
+        "id": "2000_taubman_high_performance_scalable_image",
+        "score": 0.825
+      },
+      {
+        "id": "1992_antonini_image_coding_using_wavelet",
+        "score": 0.8189
+      },
+      {
+        "id": "1974_ahmed_discrete_cosine_transform",
+        "score": 0.7546
+      },
+      {
+        "id": "2605_05148",
+        "score": 0.7457
+      },
+      {
+        "id": "1991_wallace_the_jpeg_still_picture",
+        "score": 0.7418
+      },
+      {
+        "id": "1611_01704",
+        "score": 0.7273
+      },
+      {
+        "id": "1703_00395",
+        "score": 0.7024
+      }
+    ],
+    "1993_shapiro_embedded_image_coding_using::image compression": [
+      {
+        "id": "1996_said_a_new_fast_and",
+        "score": 0.9342
+      },
+      {
+        "id": "1992_antonini_image_coding_using_wavelet",
+        "score": 0.8424
+      },
+      {
+        "id": "2000_taubman_high_performance_scalable_image",
+        "score": 0.8374
+      },
+      {
+        "id": "1991_wallace_the_jpeg_still_picture",
+        "score": 0.7523
+      },
+      {
+        "id": "1611_01704",
+        "score": 0.7484
+      },
+      {
+        "id": "2605_05148",
+        "score": 0.7454
+      },
+      {
+        "id": "1974_ahmed_discrete_cosine_transform",
+        "score": 0.7424
+      },
+      {
+        "id": "1703_00395",
+        "score": 0.7243
       }
     ],
     "2605_05148::image compression": [
@@ -418828,6 +420012,98 @@ window.tagSearchData = {
       {
         "id": "1703_00395",
         "score": 0.8032
+      },
+      {
+        "id": "1996_said_a_new_fast_and",
+        "score": 0.7457
+      },
+      {
+        "id": "1993_shapiro_embedded_image_coding_using",
+        "score": 0.7454
+      },
+      {
+        "id": "1992_antonini_image_coding_using_wavelet",
+        "score": 0.7245
+      },
+      {
+        "id": "2000_taubman_high_performance_scalable_image",
+        "score": 0.7225
+      },
+      {
+        "id": "1991_wallace_the_jpeg_still_picture",
+        "score": 0.6985
+      },
+      {
+        "id": "1974_ahmed_discrete_cosine_transform",
+        "score": 0.6953
+      }
+    ],
+    "1992_antonini_image_coding_using_wavelet::image compression": [
+      {
+        "id": "1993_shapiro_embedded_image_coding_using",
+        "score": 0.8424
+      },
+      {
+        "id": "2000_taubman_high_performance_scalable_image",
+        "score": 0.8258
+      },
+      {
+        "id": "1996_said_a_new_fast_and",
+        "score": 0.8189
+      },
+      {
+        "id": "1974_ahmed_discrete_cosine_transform",
+        "score": 0.7797
+      },
+      {
+        "id": "1991_wallace_the_jpeg_still_picture",
+        "score": 0.7667
+      },
+      {
+        "id": "1611_01704",
+        "score": 0.7561
+      },
+      {
+        "id": "1703_00395",
+        "score": 0.7424
+      },
+      {
+        "id": "2605_05148",
+        "score": 0.7245
+      }
+    ],
+    "1974_ahmed_discrete_cosine_transform::image compression": [
+      {
+        "id": "1991_wallace_the_jpeg_still_picture",
+        "score": 0.782
+      },
+      {
+        "id": "1992_antonini_image_coding_using_wavelet",
+        "score": 0.7797
+      },
+      {
+        "id": "1996_said_a_new_fast_and",
+        "score": 0.7546
+      },
+      {
+        "id": "2000_taubman_high_performance_scalable_image",
+        "score": 0.752
+      },
+      {
+        "id": "1993_shapiro_embedded_image_coding_using",
+        "score": 0.7424
+      },
+      {
+        "id": "1611_01704",
+        "score": 0.7099
+      },
+      {
+        "id": "2605_05148",
+        "score": 0.6953
+      },
+      {
+        "id": "1703_00395",
+        "score": 0.6763
       }
     ],
     "1611_01704::convolutional neural network": [
@@ -425296,12 +426572,30 @@ window.tagSearchData = {
       {
         "id": "1406_2661",
         "score": 0.8447
+      },
+      {
+        "id": "2107_03312",
+        "score": 0.6226
+      }
+    ],
+    "2107_03312::generative adversarial network": [
+      {
+        "id": "1406_2661",
+        "score": 0.67
+      },
+      {
+        "id": "1611_03852",
+        "score": 0.6226
       }
     ],
     "1406_2661::generative adversarial network": [
       {
         "id": "1611_03852",
         "score": 0.8447
+      },
+      {
+        "id": "2107_03312",
+        "score": 0.67
       }
     ],
     "1612_01215::robotics": [
@@ -584183,35 +585477,35 @@ window.tagSearchData = {
     "2016_choudhury_regionally_accelerated_batch_informed::anytime planning": [
       {
         "id": "1405_5848",
-        "score": 0.8769
+        "score": 0.9077
       },
       {
         "id": "2411_17902",
-        "score": 0.8278
+        "score": 0.8501
       },
       {
         "id": "2010_abbasi_yadkori_extending_rapidly_exploring_random",
-        "score": 0.8149
+        "score": 0.8262
       },
       {
         "id": "2013_luna_anytime_solution_optimization_for",
-        "score": 0.8036
+        "score": 0.813
       },
       {
         "id": "2505_10542",
-        "score": 0.7892
+        "score": 0.7968
       },
       {
         "id": "1203_3538",
-        "score": 0.7409
+        "score": 0.7701
       },
       {
         "id": "2010_he_puma_planning_under_uncertainty",
-        "score": 0.7279
+        "score": 0.7533
       },
       {
         "id": "2011_zucker_optimization_and_learning_for",
-        "score": 0.7049
+        "score": 0.7209
       }
     ],
     "2505_10542::anytime planning": [
@@ -584233,7 +585527,7 @@ window.tagSearchData = {
       },
       {
         "id": "2016_choudhury_regionally_accelerated_batch_informed",
-        "score": 0.7892
+        "score": 0.7968
       },
       {
         "id": "1203_3538",
@@ -584267,7 +585561,7 @@ window.tagSearchData = {
       },
       {
         "id": "2016_choudhury_regionally_accelerated_batch_informed",
-        "score": 0.8149
+        "score": 0.8262
       },
       {
         "id": "1203_3538",
@@ -584296,6 +585590,10 @@ window.tagSearchData = {
         "score": 0.7637
       },
       {
+        "id": "2016_choudhury_regionally_accelerated_batch_informed",
+        "score": 0.7533
+      },
+      {
         "id": "2505_10542",
         "score": 0.7369
       },
@@ -584306,10 +585604,6 @@ window.tagSearchData = {
       {
         "id": "2013_luna_anytime_solution_optimization_for",
         "score": 0.7287
-      },
-      {
-        "id": "2016_choudhury_regionally_accelerated_batch_informed",
-        "score": 0.7279
       },
       {
         "id": "2411_17902",
@@ -584330,12 +585624,12 @@ window.tagSearchData = {
         "score": 0.792
       },
       {
-        "id": "2505_10542",
-        "score": 0.7515
+        "id": "2016_choudhury_regionally_accelerated_batch_informed",
+        "score": 0.7701
       },
       {
-        "id": "2016_choudhury_regionally_accelerated_batch_informed",
-        "score": 0.7409
+        "id": "2505_10542",
+        "score": 0.7515
       },
       {
         "id": "2013_luna_anytime_solution_optimization_for",
@@ -584353,7 +585647,7 @@ window.tagSearchData = {
     "1405_5848::anytime planning": [
       {
         "id": "2016_choudhury_regionally_accelerated_batch_informed",
-        "score": 0.8769
+        "score": 0.9077
       },
       {
         "id": "2010_abbasi_yadkori_extending_rapidly_exploring_random",
@@ -584390,16 +585684,16 @@ window.tagSearchData = {
         "score": 0.8602
       },
       {
+        "id": "2016_choudhury_regionally_accelerated_batch_informed",
+        "score": 0.8501
+      },
+      {
         "id": "2010_abbasi_yadkori_extending_rapidly_exploring_random",
         "score": 0.8416
       },
       {
         "id": "2505_10542",
         "score": 0.8409
-      },
-      {
-        "id": "2016_choudhury_regionally_accelerated_batch_informed",
-        "score": 0.8278
       },
       {
         "id": "2013_luna_anytime_solution_optimization_for",
@@ -584428,12 +585722,12 @@ window.tagSearchData = {
         "score": 0.8335
       },
       {
-        "id": "2411_17902",
-        "score": 0.8043
+        "id": "2016_choudhury_regionally_accelerated_batch_informed",
+        "score": 0.813
       },
       {
-        "id": "2016_choudhury_regionally_accelerated_batch_informed",
-        "score": 0.8036
+        "id": "2411_17902",
+        "score": 0.8043
       },
       {
         "id": "2505_10542",
@@ -584470,16 +585764,16 @@ window.tagSearchData = {
         "score": 0.7256
       },
       {
+        "id": "2016_choudhury_regionally_accelerated_batch_informed",
+        "score": 0.7209
+      },
+      {
         "id": "1405_5848",
         "score": 0.7189
       },
       {
         "id": "2411_17902",
         "score": 0.7155
-      },
-      {
-        "id": "2016_choudhury_regionally_accelerated_batch_informed",
-        "score": 0.7049
       },
       {
         "id": "1203_3538",
@@ -584489,37 +585783,37 @@ window.tagSearchData = {
     "2016_choudhury_regionally_accelerated_batch_informed::bit*": [
       {
         "id": "2411_17902",
-        "score": 0.8278
+        "score": 0.8501
       }
     ],
     "2411_17902::bit*": [
       {
         "id": "2016_choudhury_regionally_accelerated_batch_informed",
-        "score": 0.8278
+        "score": 0.8501
       }
     ],
     "2016_choudhury_regionally_accelerated_batch_informed::hybrid planning": [
       {
         "id": "2019_hannigan_sbp_guided_mpc_to",
-        "score": 0.771
+        "score": 0.7743
       }
     ],
     "2019_hannigan_sbp_guided_mpc_to::hybrid planning": [
       {
         "id": "2016_choudhury_regionally_accelerated_batch_informed",
-        "score": 0.771
+        "score": 0.7743
       }
     ],
     "2016_choudhury_regionally_accelerated_batch_informed::local optimization": [
       {
         "id": "2009_huynh_iclqg_combining_local_and",
-        "score": 0.7406
+        "score": 0.7684
       }
     ],
     "2009_huynh_iclqg_combining_local_and::local optimization": [
       {
         "id": "2016_choudhury_regionally_accelerated_batch_informed",
-        "score": 0.7406
+        "score": 0.7684
       }
     ],
     "2016_magdici_fail_safe_motion_planning::autonomous driving": [
@@ -658346,6 +659640,10 @@ window.tagSearchData = {
         "score": 0.6346
       },
       {
+        "id": "2210_13438",
+        "score": 0.6261
+      },
+      {
         "id": "2410_23916",
         "score": 0.6137
       },
@@ -658442,6 +659740,10 @@ window.tagSearchData = {
       {
         "id": "2102_12092",
         "score": 0.6879
+      },
+      {
+        "id": "2210_13438",
+        "score": 0.6849
       },
       {
         "id": "2210_05519",
@@ -658548,6 +659850,10 @@ window.tagSearchData = {
       {
         "id": "2202_07125",
         "score": 0.7162
+      },
+      {
+        "id": "2210_13438",
+        "score": 0.7114
       },
       {
         "id": "2104_14294",
@@ -658726,6 +660032,10 @@ window.tagSearchData = {
       {
         "id": "2311_05135",
         "score": 0.6324
+      },
+      {
+        "id": "2210_13438",
+        "score": 0.6301
       }
     ],
     "2103_14030::transformers": [
@@ -658832,6 +660142,10 @@ window.tagSearchData = {
       {
         "id": "2203_05794",
         "score": 0.6594
+      },
+      {
+        "id": "2210_13438",
+        "score": 0.6552
       },
       {
         "id": "2106_09685",
@@ -658956,6 +660270,10 @@ window.tagSearchData = {
         "score": 0.6175
       },
       {
+        "id": "2210_13438",
+        "score": 0.6173
+      },
+      {
         "id": "2106_09685",
         "score": 0.6058
       },
@@ -659050,6 +660368,10 @@ window.tagSearchData = {
         "score": 0.6674
       },
       {
+        "id": "2210_13438",
+        "score": 0.6672
+      },
+      {
         "id": "2102_12092",
         "score": 0.6665
       },
@@ -659138,6 +660460,10 @@ window.tagSearchData = {
       {
         "id": "2202_07125",
         "score": 0.6968
+      },
+      {
+        "id": "2210_13438",
+        "score": 0.6857
       },
       {
         "id": "2412_14415",
@@ -659272,6 +660598,10 @@ window.tagSearchData = {
       {
         "id": "2208_14437",
         "score": 0.6964
+      },
+      {
+        "id": "2210_13438",
+        "score": 0.6937
       },
       {
         "id": "2012_07436",
@@ -659432,6 +660762,10 @@ window.tagSearchData = {
         "score": 0.6922
       },
       {
+        "id": "2210_13438",
+        "score": 0.69
+      },
+      {
         "id": "2106_09685",
         "score": 0.6763
       },
@@ -659570,6 +660904,10 @@ window.tagSearchData = {
         "score": 0.6304
       },
       {
+        "id": "2210_13438",
+        "score": 0.6272
+      },
+      {
         "id": "2407_12998",
         "score": 0.6206
       },
@@ -659662,6 +661000,10 @@ window.tagSearchData = {
       {
         "id": "2205_14135",
         "score": 0.6808
+      },
+      {
+        "id": "2210_13438",
+        "score": 0.6671
       },
       {
         "id": "2407_12998",
@@ -659824,6 +661166,10 @@ window.tagSearchData = {
       {
         "id": "2010_11929",
         "score": 0.64
+      },
+      {
+        "id": "2210_13438",
+        "score": 0.6026
       }
     ],
     "2410_13732::transformers": [
@@ -659910,6 +661256,10 @@ window.tagSearchData = {
       {
         "id": "2503_14734",
         "score": 0.6808
+      },
+      {
+        "id": "2210_13438",
+        "score": 0.6765
       },
       {
         "id": "2410_23916",
@@ -660068,6 +661418,10 @@ window.tagSearchData = {
       {
         "id": "2106_09685",
         "score": 0.6099
+      },
+      {
+        "id": "2210_13438",
+        "score": 0.6003
       }
     ],
     "2408_00118::transformers": [
@@ -660134,6 +661488,10 @@ window.tagSearchData = {
       {
         "id": "2103_15691",
         "score": 0.6718
+      },
+      {
+        "id": "2210_13438",
+        "score": 0.6682
       },
       {
         "id": "2010_11929",
@@ -660312,6 +661670,10 @@ window.tagSearchData = {
       {
         "id": "2203_05794",
         "score": 0.5784
+      },
+      {
+        "id": "2210_13438",
+        "score": 0.5359
       }
     ],
     "2605_03269::transformers": [
@@ -660432,6 +661794,10 @@ window.tagSearchData = {
         "score": 0.6751
       },
       {
+        "id": "2210_13438",
+        "score": 0.6333
+      },
+      {
         "id": "2203_05794",
         "score": 0.6127
       }
@@ -660550,6 +661916,10 @@ window.tagSearchData = {
         "score": 0.5763
       },
       {
+        "id": "2210_13438",
+        "score": 0.568
+      },
+      {
         "id": "2102_12092",
         "score": 0.5558
       },
@@ -660660,6 +662030,10 @@ window.tagSearchData = {
         "score": 0.64
       },
       {
+        "id": "2210_13438",
+        "score": 0.6354
+      },
+      {
         "id": "2203_05794",
         "score": 0.6336
       },
@@ -660766,6 +662140,10 @@ window.tagSearchData = {
         "score": 0.7068
       },
       {
+        "id": "2210_13438",
+        "score": 0.7051
+      },
+      {
         "id": "2204_02311",
         "score": 0.6825
       },
@@ -660862,6 +662240,10 @@ window.tagSearchData = {
       {
         "id": "2103_14030",
         "score": 0.6952
+      },
+      {
+        "id": "2210_13438",
+        "score": 0.694
       },
       {
         "id": "2103_15691",
@@ -661034,6 +662416,10 @@ window.tagSearchData = {
         "score": 0.6667
       },
       {
+        "id": "2210_13438",
+        "score": 0.6591
+      },
+      {
         "id": "2203_05794",
         "score": 0.6582
       },
@@ -661142,6 +662528,10 @@ window.tagSearchData = {
       {
         "id": "2103_14438",
         "score": 0.6687
+      },
+      {
+        "id": "2210_13438",
+        "score": 0.6679
       },
       {
         "id": "2603_12607",
@@ -661268,6 +662658,10 @@ window.tagSearchData = {
       {
         "id": "2503_14734",
         "score": 0.6642
+      },
+      {
+        "id": "2210_13438",
+        "score": 0.6619
       },
       {
         "id": "2111_13680",
@@ -661410,6 +662804,10 @@ window.tagSearchData = {
       {
         "id": "2203_05794",
         "score": 0.6744
+      },
+      {
+        "id": "2210_13438",
+        "score": 0.6354
       }
     ],
     "2203_05794::transformers": [
@@ -661456,6 +662854,10 @@ window.tagSearchData = {
       {
         "id": "2205_14135",
         "score": 0.6708
+      },
+      {
+        "id": "2210_13438",
+        "score": 0.6706
       },
       {
         "id": "2210_05519",
@@ -661532,6 +662934,132 @@ window.tagSearchData = {
       {
         "id": "2311_05135",
         "score": 0.5405
+      }
+    ],
+    "2210_13438::transformers": [
+      {
+        "id": "1706_03762",
+        "score": 0.7114
+      },
+      {
+        "id": "2203_16194",
+        "score": 0.7051
+      },
+      {
+        "id": "2204_02311",
+        "score": 0.694
+      },
+      {
+        "id": "2102_12092",
+        "score": 0.6937
+      },
+      {
+        "id": "2103_15691",
+        "score": 0.69
+      },
+      {
+        "id": "2106_09685",
+        "score": 0.6857
+      },
+      {
+        "id": "2012_07436",
+        "score": 0.6849
+      },
+      {
+        "id": "2410_13732",
+        "score": 0.6765
+      },
+      {
+        "id": "2203_05794",
+        "score": 0.6706
+      },
+      {
+        "id": "2408_00118",
+        "score": 0.6682
+      },
+      {
+        "id": "2205_14135",
+        "score": 0.6679
+      },
+      {
+        "id": "2103_14438",
+        "score": 0.6672
+      },
+      {
+        "id": "2104_14294",
+        "score": 0.6671
+      },
+      {
+        "id": "2202_07125",
+        "score": 0.6619
+      },
+      {
+        "id": "2207_05844",
+        "score": 0.6591
+      },
+      {
+        "id": "2103_14030",
+        "score": 0.6552
+      },
+      {
+        "id": "2308_08536",
+        "score": 0.6528
+      },
+      {
+        "id": "2210_05519",
+        "score": 0.648
+      },
+      {
+        "id": "2208_14437",
+        "score": 0.6354
+      },
+      {
+        "id": "2212_06817",
+        "score": 0.6354
+      },
+      {
+        "id": "2605_03269",
+        "score": 0.6333
+      },
+      {
+        "id": "2503_14734",
+        "score": 0.6301
+      },
+      {
+        "id": "2111_13680",
+        "score": 0.6272
+      },
+      {
+        "id": "2010_11929",
+        "score": 0.6261
+      },
+      {
+        "id": "2104_02409",
+        "score": 0.6173
+      },
+      {
+        "id": "2412_14415",
+        "score": 0.6026
+      },
+      {
+        "id": "2410_23916",
+        "score": 0.6003
+      },
+      {
+        "id": "2603_12607",
+        "score": 0.568
+      },
+      {
+        "id": "2303_04137",
+        "score": 0.5426
+      },
+      {
+        "id": "2407_12998",
+        "score": 0.5359
+      },
+      {
+        "id": "2311_05135",
+        "score": 0.5336
       }
     ],
     "2210_05519::transformers": [
@@ -661646,6 +663174,10 @@ window.tagSearchData = {
       {
         "id": "2106_09685",
         "score": 0.6597
+      },
+      {
+        "id": "2210_13438",
+        "score": 0.648
       },
       {
         "id": "2408_00118",
@@ -661768,6 +663300,10 @@ window.tagSearchData = {
       {
         "id": "2408_00118",
         "score": 0.6588
+      },
+      {
+        "id": "2210_13438",
+        "score": 0.6528
       },
       {
         "id": "2203_05794",
@@ -661898,6 +663434,10 @@ window.tagSearchData = {
       {
         "id": "2203_05794",
         "score": 0.5405
+      },
+      {
+        "id": "2210_13438",
+        "score": 0.5336
       }
     ],
     "2303_04137::transformers": [
@@ -662020,6 +663560,10 @@ window.tagSearchData = {
       {
         "id": "2203_05794",
         "score": 0.5559
+      },
+      {
+        "id": "2210_13438",
+        "score": 0.5426
       }
     ],
     "2020_kloeser_nmpc_for_racing_using::nonlinear model predictive control": [
@@ -680760,6 +682304,74 @@ window.tagSearchData = {
         "score": 0.6929
       }
     ],
+    "2000_taubman_high_performance_scalable_image::joint photographic experts group 2000": [
+      {
+        "id": "1703_00395",
+        "score": 0.754
+      }
+    ],
+    "1703_00395::joint photographic experts group 2000": [
+      {
+        "id": "2000_taubman_high_performance_scalable_image",
+        "score": 0.754
+      }
+    ],
+    "2000_taubman_high_performance_scalable_image::wavelet transform": [
+      {
+        "id": "1993_shapiro_embedded_image_coding_using",
+        "score": 0.8374
+      },
+      {
+        "id": "1992_antonini_image_coding_using_wavelet",
+        "score": 0.8258
+      },
+      {
+        "id": "1996_said_a_new_fast_and",
+        "score": 0.825
+      }
+    ],
+    "1996_said_a_new_fast_and::wavelet transform": [
+      {
+        "id": "1993_shapiro_embedded_image_coding_using",
+        "score": 0.9342
+      },
+      {
+        "id": "2000_taubman_high_performance_scalable_image",
+        "score": 0.825
+      },
+      {
+        "id": "1992_antonini_image_coding_using_wavelet",
+        "score": 0.8189
+      }
+    ],
+    "1993_shapiro_embedded_image_coding_using::wavelet transform": [
+      {
+        "id": "1996_said_a_new_fast_and",
+        "score": 0.9342
+      },
+      {
+        "id": "1992_antonini_image_coding_using_wavelet",
+        "score": 0.8424
+      },
+      {
+        "id": "2000_taubman_high_performance_scalable_image",
+        "score": 0.8374
+      }
+    ],
+    "1992_antonini_image_coding_using_wavelet::wavelet transform": [
+      {
+        "id": "1993_shapiro_embedded_image_coding_using",
+        "score": 0.8424
+      },
+      {
+        "id": "2000_taubman_high_performance_scalable_image",
+        "score": 0.8258
+      },
+      {
+        "id": "1996_said_a_new_fast_and",
+        "score": 0.8189
+      }
+    ],
     "2000_bicchi_robotic_grasping_and_contact::robot hands": [
       {
         "id": "2012_smith_dual_arm_manipulation_a",
@@ -685740,6 +687352,14 @@ window.tagSearchData = {
         "score": 0.8231
       },
       {
+        "id": "2107_03312",
+        "score": 0.6155
+      },
+      {
+        "id": "2210_13438",
+        "score": 0.6146
+      },
+      {
         "id": "1501_00092",
         "score": 0.614
       }
@@ -685764,6 +687384,14 @@ window.tagSearchData = {
       {
         "id": "1501_00092",
         "score": 0.6219
+      },
+      {
+        "id": "2210_13438",
+        "score": 0.5792
+      },
+      {
+        "id": "2107_03312",
+        "score": 0.5693
       }
     ],
     "2025_hu_technically_speaking_transitioning_from::end-to-end learning": [
@@ -685784,11 +687412,57 @@ window.tagSearchData = {
         "score": 0.7779
       },
       {
+        "id": "2107_03312",
+        "score": 0.6112
+      },
+      {
+        "id": "2210_13438",
+        "score": 0.5837
+      },
+      {
         "id": "1501_00092",
         "score": 0.574
       }
     ],
+    "2107_03312::end-to-end learning": [
+      {
+        "id": "2210_13438",
+        "score": 0.9235
+      },
+      {
+        "id": "1501_00092",
+        "score": 0.6699
+      },
+      {
+        "id": "2212_06437",
+        "score": 0.6285
+      },
+      {
+        "id": "2603_15185",
+        "score": 0.6205
+      },
+      {
+        "id": "1709_07174",
+        "score": 0.6155
+      },
+      {
+        "id": "2025_hu_technically_speaking_transitioning_from",
+        "score": 0.6112
+      },
+      {
+        "id": "1988_pomerleau_alvinn_an_autonomous_land",
+        "score": 0.5693
+      }
+    ],
     "1501_00092::end-to-end learning": [
+      {
+        "id": "2210_13438",
+        "score": 0.6796
+      },
+      {
+        "id": "2107_03312",
+        "score": 0.6699
+      },
       {
         "id": "2603_15185",
         "score": 0.6276
@@ -685830,6 +687504,14 @@ window.tagSearchData = {
       {
         "id": "1501_00092",
         "score": 0.6276
+      },
+      {
+        "id": "2210_13438",
+        "score": 0.6231
+      },
+      {
+        "id": "2107_03312",
+        "score": 0.6205
       }
     ],
     "2212_06437::end-to-end learning": [
@@ -685850,8 +687532,46 @@ window.tagSearchData = {
         "score": 0.7548
       },
       {
+        "id": "2107_03312",
+        "score": 0.6285
+      },
+      {
+        "id": "2210_13438",
+        "score": 0.6139
+      },
+      {
         "id": "1501_00092",
         "score": 0.6011
+      }
+    ],
+    "2210_13438::end-to-end learning": [
+      {
+        "id": "2107_03312",
+        "score": 0.9235
+      },
+      {
+        "id": "1501_00092",
+        "score": 0.6796
+      },
+      {
+        "id": "2603_15185",
+        "score": 0.6231
+      },
+      {
+        "id": "1709_07174",
+        "score": 0.6146
+      },
+      {
+        "id": "2212_06437",
+        "score": 0.6139
+      },
+      {
+        "id": "2025_hu_technically_speaking_transitioning_from",
+        "score": 0.5837
+      },
+      {
+        "id": "1988_pomerleau_alvinn_an_autonomous_land",
+        "score": 0.5792
       }
     ],
     "2017_rosmann_kinodynamic_trajectory_optimization_and::car-like robots": [
@@ -699468,6 +701188,36 @@ window.tagSearchData = {
         "score": 0.7384
       }
     ],
+    "1912_01603::latent": [
+      {
+        "id": "2107_03312",
+        "score": 0.5852
+      },
+      {
+        "id": "2210_13438",
+        "score": 0.585
+      }
+    ],
+    "2107_03312::latent": [
+      {
+        "id": "2210_13438",
+        "score": 0.9235
+      },
+      {
+        "id": "1912_01603",
+        "score": 0.5852
+      }
+    ],
+    "2210_13438::latent": [
+      {
+        "id": "2107_03312",
+        "score": 0.9235
+      },
+      {
+        "id": "1912_01603",
+        "score": 0.585
+      }
+    ],
     "1902_07826::linear quadratic": [
       {
         "id": "2604_14905",
@@ -706960,12 +708710,50 @@ window.tagSearchData = {
         "score": 0.7943
       },
       {
+        "id": "2210_13438",
+        "score": 0.732
+      },
+      {
+        "id": "2107_03312",
+        "score": 0.7068
+      },
+      {
         "id": "1982_lloyd_least_squares_quantization_in",
         "score": 0.7033
       },
       {
         "id": "1967_macqueen_some_methods_for_classification",
         "score": 0.694
+      },
+      {
+        "id": "1992_antonini_image_coding_using_wavelet",
+        "score": 0.6861
+      }
+    ],
+    "2107_03312::vector quantization": [
+      {
+        "id": "2210_13438",
+        "score": 0.9235
+      },
+      {
+        "id": "1908_10396",
+        "score": 0.7068
+      },
+      {
+        "id": "1992_antonini_image_coding_using_wavelet",
+        "score": 0.6415
+      },
+      {
+        "id": "1982_lloyd_least_squares_quantization_in",
+        "score": 0.6401
+      },
+      {
+        "id": "2011_jegou_product_quantization_for_nearest",
+        "score": 0.6123
+      },
+      {
+        "id": "1967_macqueen_some_methods_for_classification",
+        "score": 0.5341
       }
     ],
     "1967_macqueen_some_methods_for_classification::vector quantization": [
@@ -706980,6 +708768,18 @@ window.tagSearchData = {
       {
         "id": "2011_jegou_product_quantization_for_nearest",
         "score": 0.6935
+      },
+      {
+        "id": "1992_antonini_image_coding_using_wavelet",
+        "score": 0.6338
+      },
+      {
+        "id": "2210_13438",
+        "score": 0.5463
+      },
+      {
+        "id": "2107_03312",
+        "score": 0.5341
       }
     ],
     "2011_jegou_product_quantization_for_nearest::vector quantization": [
@@ -706992,8 +708792,20 @@ window.tagSearchData = {
         "score": 0.6935
       },
       {
+        "id": "1992_antonini_image_coding_using_wavelet",
+        "score": 0.6659
+      },
+      {
         "id": "1982_lloyd_least_squares_quantization_in",
         "score": 0.659
+      },
+      {
+        "id": "2210_13438",
+        "score": 0.6308
+      },
+      {
+        "id": "2107_03312",
+        "score": 0.6123
       }
     ],
     "1982_lloyd_least_squares_quantization_in::vector quantization": [
@@ -707002,12 +708814,76 @@ window.tagSearchData = {
         "score": 0.7033
       },
       {
+        "id": "1992_antonini_image_coding_using_wavelet",
+        "score": 0.6976
+      },
+      {
         "id": "1967_macqueen_some_methods_for_classification",
         "score": 0.6938
       },
       {
         "id": "2011_jegou_product_quantization_for_nearest",
         "score": 0.659
+      },
+      {
+        "id": "2210_13438",
+        "score": 0.6482
+      },
+      {
+        "id": "2107_03312",
+        "score": 0.6401
+      }
+    ],
+    "1992_antonini_image_coding_using_wavelet::vector quantization": [
+      {
+        "id": "1982_lloyd_least_squares_quantization_in",
+        "score": 0.6976
+      },
+      {
+        "id": "1908_10396",
+        "score": 0.6861
+      },
+      {
+        "id": "2210_13438",
+        "score": 0.6795
+      },
+      {
+        "id": "2011_jegou_product_quantization_for_nearest",
+        "score": 0.6659
+      },
+      {
+        "id": "2107_03312",
+        "score": 0.6415
+      },
+      {
+        "id": "1967_macqueen_some_methods_for_classification",
+        "score": 0.6338
+      }
+    ],
+    "2210_13438::vector quantization": [
+      {
+        "id": "2107_03312",
+        "score": 0.9235
+      },
+      {
+        "id": "1908_10396",
+        "score": 0.732
+      },
+      {
+        "id": "1992_antonini_image_coding_using_wavelet",
+        "score": 0.6795
+      },
+      {
+        "id": "1982_lloyd_least_squares_quantization_in",
+        "score": 0.6482
+      },
+      {
+        "id": "2011_jegou_product_quantization_for_nearest",
+        "score": 0.6308
+      },
+      {
+        "id": "1967_macqueen_some_methods_for_classification",
+        "score": 0.5463
       }
     ],
     "1903_06842::linear quadratic regulation": [
@@ -707104,6 +708980,246 @@ window.tagSearchData = {
       {
         "id": "1907_10597",
         "score": 0.5868
+      }
+    ],
+    "1502_05767::automatic differentiation": [
+      {
+        "id": "1989_griewank_on_automatic_differentiation",
+        "score": 0.8838
+      },
+      {
+        "id": "2603_08824",
+        "score": 0.8252
+      },
+      {
+        "id": "1994_pearlmutter_fast_exact_multiplication_by",
+        "score": 0.7692
+      },
+      {
+        "id": "1974_werbos_beyond_regression_new_tools",
+        "score": 0.7523
+      },
+      {
+        "id": "2018_frostig_compiling_machine_learning_programs",
+        "score": 0.7369
+      },
+      {
+        "id": "1985_cuyt_computational_implementation_of_the",
+        "score": 0.7199
+      },
+      {
+        "id": "2605_10034",
+        "score": 0.6458
+      }
+    ],
+    "1989_griewank_on_automatic_differentiation::automatic differentiation": [
+      {
+        "id": "1502_05767",
+        "score": 0.8838
+      },
+      {
+        "id": "2603_08824",
+        "score": 0.797
+      },
+      {
+        "id": "1985_cuyt_computational_implementation_of_the",
+        "score": 0.7532
+      },
+      {
+        "id": "1974_werbos_beyond_regression_new_tools",
+        "score": 0.7224
+      },
+      {
+        "id": "1994_pearlmutter_fast_exact_multiplication_by",
+        "score": 0.7219
+      },
+      {
+        "id": "2018_frostig_compiling_machine_learning_programs",
+        "score": 0.6995
+      },
+      {
+        "id": "2605_10034",
+        "score": 0.5765
+      }
+    ],
+    "1985_cuyt_computational_implementation_of_the::automatic differentiation": [
+      {
+        "id": "1989_griewank_on_automatic_differentiation",
+        "score": 0.7532
+      },
+      {
+        "id": "1994_pearlmutter_fast_exact_multiplication_by",
+        "score": 0.7205
+      },
+      {
+        "id": "1502_05767",
+        "score": 0.7199
+      },
+      {
+        "id": "2603_08824",
+        "score": 0.6758
+      },
+      {
+        "id": "1974_werbos_beyond_regression_new_tools",
+        "score": 0.6508
+      },
+      {
+        "id": "2018_frostig_compiling_machine_learning_programs",
+        "score": 0.6204
+      },
+      {
+        "id": "2605_10034",
+        "score": 0.5582
+      }
+    ],
+    "1994_pearlmutter_fast_exact_multiplication_by::automatic differentiation": [
+      {
+        "id": "1502_05767",
+        "score": 0.7692
+      },
+      {
+        "id": "2603_08824",
+        "score": 0.7293
+      },
+      {
+        "id": "1989_griewank_on_automatic_differentiation",
+        "score": 0.7219
+      },
+      {
+        "id": "1985_cuyt_computational_implementation_of_the",
+        "score": 0.7205
+      },
+      {
+        "id": "1974_werbos_beyond_regression_new_tools",
+        "score": 0.7124
+      },
+      {
+        "id": "2018_frostig_compiling_machine_learning_programs",
+        "score": 0.6614
+      },
+      {
+        "id": "2605_10034",
+        "score": 0.5892
+      }
+    ],
+    "2605_10034::automatic differentiation": [
+      {
+        "id": "2603_08824",
+        "score": 0.6551
+      },
+      {
+        "id": "1502_05767",
+        "score": 0.6458
+      },
+      {
+        "id": "2018_frostig_compiling_machine_learning_programs",
+        "score": 0.6418
+      },
+      {
+        "id": "1974_werbos_beyond_regression_new_tools",
+        "score": 0.6166
+      },
+      {
+        "id": "1994_pearlmutter_fast_exact_multiplication_by",
+        "score": 0.5892
+      },
+      {
+        "id": "1989_griewank_on_automatic_differentiation",
+        "score": 0.5765
+      },
+      {
+        "id": "1985_cuyt_computational_implementation_of_the",
+        "score": 0.5582
+      }
+    ],
+    "2603_08824::automatic differentiation": [
+      {
+        "id": "1502_05767",
+        "score": 0.8252
+      },
+      {
+        "id": "2018_frostig_compiling_machine_learning_programs",
+        "score": 0.8196
+      },
+      {
+        "id": "1989_griewank_on_automatic_differentiation",
+        "score": 0.797
+      },
+      {
+        "id": "1994_pearlmutter_fast_exact_multiplication_by",
+        "score": 0.7293
+      },
+      {
+        "id": "1974_werbos_beyond_regression_new_tools",
+        "score": 0.6763
+      },
+      {
+        "id": "1985_cuyt_computational_implementation_of_the",
+        "score": 0.6758
+      },
+      {
+        "id": "2605_10034",
+        "score": 0.6551
+      }
+    ],
+    "2018_frostig_compiling_machine_learning_programs::automatic differentiation": [
+      {
+        "id": "2603_08824",
+        "score": 0.8196
+      },
+      {
+        "id": "1502_05767",
+        "score": 0.7369
+      },
+      {
+        "id": "1989_griewank_on_automatic_differentiation",
+        "score": 0.6995
+      },
+      {
+        "id": "1994_pearlmutter_fast_exact_multiplication_by",
+        "score": 0.6614
+      },
+      {
+        "id": "2605_10034",
+        "score": 0.6418
+      },
+      {
+        "id": "1985_cuyt_computational_implementation_of_the",
+        "score": 0.6204
+      },
+      {
+        "id": "1974_werbos_beyond_regression_new_tools",
+        "score": 0.6111
+      }
+    ],
+    "1974_werbos_beyond_regression_new_tools::automatic differentiation": [
+      {
+        "id": "1502_05767",
+        "score": 0.7523
+      },
+      {
+        "id": "1989_griewank_on_automatic_differentiation",
+        "score": 0.7224
+      },
+      {
+        "id": "1994_pearlmutter_fast_exact_multiplication_by",
+        "score": 0.7124
+      },
+      {
+        "id": "2603_08824",
+        "score": 0.6763
+      },
+      {
+        "id": "1985_cuyt_computational_implementation_of_the",
+        "score": 0.6508
+      },
+      {
+        "id": "2605_10034",
+        "score": 0.6166
+      },
+      {
+        "id": "2018_frostig_compiling_machine_learning_programs",
+        "score": 0.6111
       }
     ],
     "1903_09122::kalman filtering": [
@@ -709378,6 +711494,18 @@ window.tagSearchData = {
       {
         "id": "1934_black_stabilized_feedback_amplifiers",
         "score": 0.7854
+      }
+    ],
+    "1934_black_stabilized_feedback_amplifiers::bell labs": [
+      {
+        "id": "1979_schroeder_optimizing_digital_speech_coders",
+        "score": 0.6316
+      }
+    ],
+    "1979_schroeder_optimizing_digital_speech_coders::bell labs": [
+      {
+        "id": "1934_black_stabilized_feedback_amplifiers",
+        "score": 0.6316
       }
     ],
     "1981_lucas_an_iterative_image_registration::stereo vision": [
@@ -711862,6 +713990,10 @@ window.tagSearchData = {
       {
         "id": "2212_06437",
         "score": 0.6893
+      },
+      {
+        "id": "1997_bosi_iso_iec_mpeg_2",
+        "score": 0.4443
       }
     ],
     "2511_00814::prediction": [
@@ -711880,6 +714012,10 @@ window.tagSearchData = {
       {
         "id": "1966_fogel_artificial_intelligence_through_simulated",
         "score": 0.6247
+      },
+      {
+        "id": "1997_bosi_iso_iec_mpeg_2",
+        "score": 0.4297
       }
     ],
     "1966_fogel_artificial_intelligence_through_simulated::prediction": [
@@ -711898,6 +714034,32 @@ window.tagSearchData = {
       {
         "id": "2511_00814",
         "score": 0.6247
+      },
+      {
+        "id": "1997_bosi_iso_iec_mpeg_2",
+        "score": 0.4697
+      }
+    ],
+    "1997_bosi_iso_iec_mpeg_2::prediction": [
+      {
+        "id": "2212_06437",
+        "score": 0.4766
+      },
+      {
+        "id": "1966_fogel_artificial_intelligence_through_simulated",
+        "score": 0.4697
+      },
+      {
+        "id": "1974_werbos_beyond_regression_new_tools",
+        "score": 0.4625
+      },
+      {
+        "id": "1988_sutton_learning_to_predict_by",
+        "score": 0.4443
+      },
+      {
+        "id": "2511_00814",
+        "score": 0.4297
       }
     ],
     "2212_06437::prediction": [
@@ -711916,6 +714078,10 @@ window.tagSearchData = {
       {
         "id": "1966_fogel_artificial_intelligence_through_simulated",
         "score": 0.6287
+      },
+      {
+        "id": "1997_bosi_iso_iec_mpeg_2",
+        "score": 0.4766
       }
     ],
     "1974_werbos_beyond_regression_new_tools::prediction": [
@@ -711934,6 +714100,10 @@ window.tagSearchData = {
       {
         "id": "2212_06437",
         "score": 0.6575
+      },
+      {
+        "id": "1997_bosi_iso_iec_mpeg_2",
+        "score": 0.4625
       }
     ],
     "1988_sutton_learning_to_predict_by::online learning": [
@@ -716534,6 +718704,10 @@ window.tagSearchData = {
       {
         "id": "2203_05794",
         "score": 0.5688
+      },
+      {
+        "id": "2210_13438",
+        "score": 0.5538
       }
     ],
     "2512_15840::language models": [
@@ -716626,6 +718800,10 @@ window.tagSearchData = {
         "score": 0.6497
       },
       {
+        "id": "2210_13438",
+        "score": 0.6183
+      },
+      {
         "id": "2309_12871",
         "score": 0.6111
       }
@@ -716714,6 +718892,10 @@ window.tagSearchData = {
       {
         "id": "2305_10403",
         "score": 0.6727
+      },
+      {
+        "id": "2210_13438",
+        "score": 0.6685
       },
       {
         "id": "2303_03378",
@@ -716814,6 +718996,10 @@ window.tagSearchData = {
         "score": 0.6343
       },
       {
+        "id": "2210_13438",
+        "score": 0.6338
+      },
+      {
         "id": "2309_12871",
         "score": 0.6167
       }
@@ -716904,6 +719090,10 @@ window.tagSearchData = {
         "score": 0.7269
       },
       {
+        "id": "2210_13438",
+        "score": 0.6877
+      },
+      {
         "id": "2203_05794",
         "score": 0.6781
       },
@@ -716992,6 +719182,10 @@ window.tagSearchData = {
       {
         "id": "2204_01691",
         "score": 0.6858
+      },
+      {
+        "id": "2210_13438",
+        "score": 0.6857
       },
       {
         "id": "2410_24164",
@@ -717098,6 +719292,10 @@ window.tagSearchData = {
       {
         "id": "2309_12871",
         "score": 0.6222
+      },
+      {
+        "id": "2210_13438",
+        "score": 0.6129
       }
     ],
     "2406_09246::language models": [
@@ -717184,6 +719382,10 @@ window.tagSearchData = {
       {
         "id": "2305_10403",
         "score": 0.6965
+      },
+      {
+        "id": "2210_13438",
+        "score": 0.6136
       },
       {
         "id": "2309_12871",
@@ -717278,6 +719480,10 @@ window.tagSearchData = {
       {
         "id": "2512_15840",
         "score": 0.6781
+      },
+      {
+        "id": "2210_13438",
+        "score": 0.6682
       },
       {
         "id": "2604_07944",
@@ -717378,6 +719584,10 @@ window.tagSearchData = {
         "score": 0.6465
       },
       {
+        "id": "2210_13438",
+        "score": 0.6459
+      },
+      {
         "id": "2505_17659",
         "score": 0.6162
       }
@@ -717422,6 +719632,10 @@ window.tagSearchData = {
       {
         "id": "2605_10480",
         "score": 0.7148
+      },
+      {
+        "id": "2210_13438",
+        "score": 0.7047
       },
       {
         "id": "2406_09246",
@@ -717562,6 +719776,10 @@ window.tagSearchData = {
         "score": 0.6631
       },
       {
+        "id": "2210_13438",
+        "score": 0.6287
+      },
+      {
         "id": "2203_05794",
         "score": 0.6234
       },
@@ -717662,6 +719880,10 @@ window.tagSearchData = {
       {
         "id": "2407_07726",
         "score": 0.6594
+      },
+      {
+        "id": "2210_13438",
+        "score": 0.6516
       }
     ],
     "2605_03269::language models": [
@@ -717748,6 +719970,10 @@ window.tagSearchData = {
       {
         "id": "2307_09288",
         "score": 0.6729
+      },
+      {
+        "id": "2210_13438",
+        "score": 0.6333
       },
       {
         "id": "2203_05794",
@@ -717850,6 +720076,10 @@ window.tagSearchData = {
       {
         "id": "2506_09985",
         "score": 0.6791
+      },
+      {
+        "id": "2210_13438",
+        "score": 0.6601
       }
     ],
     "2604_08266::language models": [
@@ -717944,6 +720174,10 @@ window.tagSearchData = {
       {
         "id": "2309_12871",
         "score": 0.6501
+      },
+      {
+        "id": "2210_13438",
+        "score": 0.6462
       }
     ],
     "2204_01691::language models": [
@@ -718038,6 +720272,10 @@ window.tagSearchData = {
       {
         "id": "2309_12871",
         "score": 0.6339
+      },
+      {
+        "id": "2210_13438",
+        "score": 0.5823
       }
     ],
     "2204_02311::language models": [
@@ -718130,6 +720368,10 @@ window.tagSearchData = {
         "score": 0.7159
       },
       {
+        "id": "2210_13438",
+        "score": 0.694
+      },
+      {
         "id": "2505_17659",
         "score": 0.6607
       }
@@ -718188,6 +720430,10 @@ window.tagSearchData = {
         "score": 0.6748
       },
       {
+        "id": "2210_13438",
+        "score": 0.6706
+      },
+      {
         "id": "2604_08266",
         "score": 0.658
       },
@@ -718226,6 +720472,104 @@ window.tagSearchData = {
       {
         "id": "2505_17659",
         "score": 0.5688
+      }
+    ],
+    "2210_13438::language models": [
+      {
+        "id": "2406_16793",
+        "score": 0.7047
+      },
+      {
+        "id": "2204_02311",
+        "score": 0.694
+      },
+      {
+        "id": "2504_07491",
+        "score": 0.6877
+      },
+      {
+        "id": "2106_09685",
+        "score": 0.6857
+      },
+      {
+        "id": "2203_05794",
+        "score": 0.6706
+      },
+      {
+        "id": "2305_10403",
+        "score": 0.6694
+      },
+      {
+        "id": "2506_05454",
+        "score": 0.6685
+      },
+      {
+        "id": "2408_00118",
+        "score": 0.6682
+      },
+      {
+        "id": "2603_28052",
+        "score": 0.6601
+      },
+      {
+        "id": "2307_09288",
+        "score": 0.655
+      },
+      {
+        "id": "2605_10480",
+        "score": 0.6516
+      },
+      {
+        "id": "2604_08266",
+        "score": 0.6462
+      },
+      {
+        "id": "2407_07726",
+        "score": 0.6459
+      },
+      {
+        "id": "2506_09985",
+        "score": 0.6338
+      },
+      {
+        "id": "2605_03269",
+        "score": 0.6333
+      },
+      {
+        "id": "2303_03378",
+        "score": 0.6332
+      },
+      {
+        "id": "2309_12871",
+        "score": 0.6304
+      },
+      {
+        "id": "2604_07944",
+        "score": 0.6287
+      },
+      {
+        "id": "2512_15840",
+        "score": 0.6183
+      },
+      {
+        "id": "2406_09246",
+        "score": 0.6136
+      },
+      {
+        "id": "2410_24164",
+        "score": 0.6129
+      },
+      {
+        "id": "2307_15818",
+        "score": 0.6005
+      },
+      {
+        "id": "2204_01691",
+        "score": 0.5823
+      },
+      {
+        "id": "2505_17659",
+        "score": 0.5538
       }
     ],
     "2307_15818::language models": [
@@ -718320,6 +720664,10 @@ window.tagSearchData = {
       {
         "id": "2309_12871",
         "score": 0.6515
+      },
+      {
+        "id": "2210_13438",
+        "score": 0.6005
       }
     ],
     "2305_10403::language models": [
@@ -718410,6 +720758,10 @@ window.tagSearchData = {
       {
         "id": "2506_05454",
         "score": 0.6727
+      },
+      {
+        "id": "2210_13438",
+        "score": 0.6694
       },
       {
         "id": "2505_17659",
@@ -718508,6 +720860,10 @@ window.tagSearchData = {
       {
         "id": "2309_12871",
         "score": 0.6684
+      },
+      {
+        "id": "2210_13438",
+        "score": 0.6332
       }
     ],
     "2307_09288::language models": [
@@ -718600,6 +720956,10 @@ window.tagSearchData = {
         "score": 0.6729
       },
       {
+        "id": "2210_13438",
+        "score": 0.655
+      },
+      {
         "id": "2505_17659",
         "score": 0.6508
       }
@@ -718668,6 +721028,10 @@ window.tagSearchData = {
       {
         "id": "2204_01691",
         "score": 0.6339
+      },
+      {
+        "id": "2210_13438",
+        "score": 0.6304
       },
       {
         "id": "2604_07944",
@@ -724880,246 +727244,6 @@ window.tagSearchData = {
         "score": 0.7971
       }
     ],
-    "1502_05767::automatic differentiation": [
-      {
-        "id": "1989_griewank_on_automatic_differentiation",
-        "score": 0.8838
-      },
-      {
-        "id": "2603_08824",
-        "score": 0.8252
-      },
-      {
-        "id": "1994_pearlmutter_fast_exact_multiplication_by",
-        "score": 0.7692
-      },
-      {
-        "id": "1974_werbos_beyond_regression_new_tools",
-        "score": 0.7523
-      },
-      {
-        "id": "2018_frostig_compiling_machine_learning_programs",
-        "score": 0.7369
-      },
-      {
-        "id": "1985_cuyt_computational_implementation_of_the",
-        "score": 0.7199
-      },
-      {
-        "id": "2605_10034",
-        "score": 0.6458
-      }
-    ],
-    "1989_griewank_on_automatic_differentiation::automatic differentiation": [
-      {
-        "id": "1502_05767",
-        "score": 0.8838
-      },
-      {
-        "id": "2603_08824",
-        "score": 0.797
-      },
-      {
-        "id": "1985_cuyt_computational_implementation_of_the",
-        "score": 0.7532
-      },
-      {
-        "id": "1974_werbos_beyond_regression_new_tools",
-        "score": 0.7224
-      },
-      {
-        "id": "1994_pearlmutter_fast_exact_multiplication_by",
-        "score": 0.7219
-      },
-      {
-        "id": "2018_frostig_compiling_machine_learning_programs",
-        "score": 0.6995
-      },
-      {
-        "id": "2605_10034",
-        "score": 0.5765
-      }
-    ],
-    "1985_cuyt_computational_implementation_of_the::automatic differentiation": [
-      {
-        "id": "1989_griewank_on_automatic_differentiation",
-        "score": 0.7532
-      },
-      {
-        "id": "1994_pearlmutter_fast_exact_multiplication_by",
-        "score": 0.7205
-      },
-      {
-        "id": "1502_05767",
-        "score": 0.7199
-      },
-      {
-        "id": "2603_08824",
-        "score": 0.6758
-      },
-      {
-        "id": "1974_werbos_beyond_regression_new_tools",
-        "score": 0.6508
-      },
-      {
-        "id": "2018_frostig_compiling_machine_learning_programs",
-        "score": 0.6204
-      },
-      {
-        "id": "2605_10034",
-        "score": 0.5582
-      }
-    ],
-    "1994_pearlmutter_fast_exact_multiplication_by::automatic differentiation": [
-      {
-        "id": "1502_05767",
-        "score": 0.7692
-      },
-      {
-        "id": "2603_08824",
-        "score": 0.7293
-      },
-      {
-        "id": "1989_griewank_on_automatic_differentiation",
-        "score": 0.7219
-      },
-      {
-        "id": "1985_cuyt_computational_implementation_of_the",
-        "score": 0.7205
-      },
-      {
-        "id": "1974_werbos_beyond_regression_new_tools",
-        "score": 0.7124
-      },
-      {
-        "id": "2018_frostig_compiling_machine_learning_programs",
-        "score": 0.6614
-      },
-      {
-        "id": "2605_10034",
-        "score": 0.5892
-      }
-    ],
-    "2605_10034::automatic differentiation": [
-      {
-        "id": "2603_08824",
-        "score": 0.6551
-      },
-      {
-        "id": "1502_05767",
-        "score": 0.6458
-      },
-      {
-        "id": "2018_frostig_compiling_machine_learning_programs",
-        "score": 0.6418
-      },
-      {
-        "id": "1974_werbos_beyond_regression_new_tools",
-        "score": 0.6166
-      },
-      {
-        "id": "1994_pearlmutter_fast_exact_multiplication_by",
-        "score": 0.5892
-      },
-      {
-        "id": "1989_griewank_on_automatic_differentiation",
-        "score": 0.5765
-      },
-      {
-        "id": "1985_cuyt_computational_implementation_of_the",
-        "score": 0.5582
-      }
-    ],
-    "2603_08824::automatic differentiation": [
-      {
-        "id": "1502_05767",
-        "score": 0.8252
-      },
-      {
-        "id": "2018_frostig_compiling_machine_learning_programs",
-        "score": 0.8196
-      },
-      {
-        "id": "1989_griewank_on_automatic_differentiation",
-        "score": 0.797
-      },
-      {
-        "id": "1994_pearlmutter_fast_exact_multiplication_by",
-        "score": 0.7293
-      },
-      {
-        "id": "1974_werbos_beyond_regression_new_tools",
-        "score": 0.6763
-      },
-      {
-        "id": "1985_cuyt_computational_implementation_of_the",
-        "score": 0.6758
-      },
-      {
-        "id": "2605_10034",
-        "score": 0.6551
-      }
-    ],
-    "2018_frostig_compiling_machine_learning_programs::automatic differentiation": [
-      {
-        "id": "2603_08824",
-        "score": 0.8196
-      },
-      {
-        "id": "1502_05767",
-        "score": 0.7369
-      },
-      {
-        "id": "1989_griewank_on_automatic_differentiation",
-        "score": 0.6995
-      },
-      {
-        "id": "1994_pearlmutter_fast_exact_multiplication_by",
-        "score": 0.6614
-      },
-      {
-        "id": "2605_10034",
-        "score": 0.6418
-      },
-      {
-        "id": "1985_cuyt_computational_implementation_of_the",
-        "score": 0.6204
-      },
-      {
-        "id": "1974_werbos_beyond_regression_new_tools",
-        "score": 0.6111
-      }
-    ],
-    "1974_werbos_beyond_regression_new_tools::automatic differentiation": [
-      {
-        "id": "1502_05767",
-        "score": 0.7523
-      },
-      {
-        "id": "1989_griewank_on_automatic_differentiation",
-        "score": 0.7224
-      },
-      {
-        "id": "1994_pearlmutter_fast_exact_multiplication_by",
-        "score": 0.7124
-      },
-      {
-        "id": "2603_08824",
-        "score": 0.6763
-      },
-      {
-        "id": "1985_cuyt_computational_implementation_of_the",
-        "score": 0.6508
-      },
-      {
-        "id": "2605_10034",
-        "score": 0.6166
-      },
-      {
-        "id": "2018_frostig_compiling_machine_learning_programs",
-        "score": 0.6111
-      }
-    ],
     "1511_06581::network architecture": [
       {
         "id": "1409_4842",
@@ -731272,12 +733396,56 @@ window.tagSearchData = {
       {
         "id": "1942_macadam_visual_sensitivities_to_color",
         "score": 0.8222
+      },
+      {
+        "id": "1979_schroeder_optimizing_digital_speech_coders",
+        "score": 0.5661
+      },
+      {
+        "id": "1961_zwicker_subdivision_of_the_audible",
+        "score": 0.5544
+      }
+    ],
+    "1979_schroeder_optimizing_digital_speech_coders::psychophysics": [
+      {
+        "id": "1961_zwicker_subdivision_of_the_audible",
+        "score": 0.7513
+      },
+      {
+        "id": "1998_ebner_development_and_testing_of",
+        "score": 0.5661
+      },
+      {
+        "id": "1942_macadam_visual_sensitivities_to_color",
+        "score": 0.5632
       }
     ],
     "1942_macadam_visual_sensitivities_to_color::psychophysics": [
       {
         "id": "1998_ebner_development_and_testing_of",
         "score": 0.8222
+      },
+      {
+        "id": "1979_schroeder_optimizing_digital_speech_coders",
+        "score": 0.5632
+      },
+      {
+        "id": "1961_zwicker_subdivision_of_the_audible",
+        "score": 0.5625
+      }
+    ],
+    "1961_zwicker_subdivision_of_the_audible::psychophysics": [
+      {
+        "id": "1979_schroeder_optimizing_digital_speech_coders",
+        "score": 0.7513
+      },
+      {
+        "id": "1942_macadam_visual_sensitivities_to_color",
+        "score": 0.5625
+      },
+      {
+        "id": "1998_ebner_development_and_testing_of",
+        "score": 0.5544
       }
     ],
     "1998_watts_collective_dynamics_of_small::network topology": [
@@ -734580,6 +736748,66 @@ window.tagSearchData = {
         "score": 0.7666
       }
     ],
+    "1952_huffman_a_method_for_the::huffman coding": [
+      {
+        "id": "1991_wallace_the_jpeg_still_picture",
+        "score": 0.6839
+      }
+    ],
+    "1991_wallace_the_jpeg_still_picture::huffman coding": [
+      {
+        "id": "1952_huffman_a_method_for_the",
+        "score": 0.6839
+      }
+    ],
+    "1952_huffman_a_method_for_the::lossless compression": [
+      {
+        "id": "1991_wallace_the_jpeg_still_picture",
+        "score": 0.6839
+      }
+    ],
+    "1991_wallace_the_jpeg_still_picture::lossless compression": [
+      {
+        "id": "1952_huffman_a_method_for_the",
+        "score": 0.6839
+      }
+    ],
+    "1952_huffman_a_method_for_the::source coding": [
+      {
+        "id": "1948_shannon_a_mathematical_theory_of",
+        "score": 0.7049
+      }
+    ],
+    "1948_shannon_a_mathematical_theory_of::source coding": [
+      {
+        "id": "1952_huffman_a_method_for_the",
+        "score": 0.7049
+      }
+    ],
+    "1952_huffman_a_method_for_the::coding theory": [
+      {
+        "id": "1948_shannon_a_mathematical_theory_of",
+        "score": 0.7049
+      }
+    ],
+    "1948_shannon_a_mathematical_theory_of::coding theory": [
+      {
+        "id": "1952_huffman_a_method_for_the",
+        "score": 0.7049
+      }
+    ],
+    "1952_huffman_a_method_for_the::data compression": [
+      {
+        "id": "1948_shannon_a_mathematical_theory_of",
+        "score": 0.7049
+      }
+    ],
+    "1948_shannon_a_mathematical_theory_of::data compression": [
+      {
+        "id": "1952_huffman_a_method_for_the",
+        "score": 0.7049
+      }
+    ],
     "1986_saad_gmres_a_generalized_minimal::nonsymmetric linear systems": [
       {
         "id": "1992_van_der_vorst_bi_cgstab_a_fast",
@@ -734690,6 +736918,562 @@ window.tagSearchData = {
         "score": 0.8287
       }
     ],
+    "1986_princen_analysis_synthesis_filter_bank::audio compression": [
+      {
+        "id": "1994_brandenburg_iso_mpeg_1_audio",
+        "score": 0.7456
+      },
+      {
+        "id": "1979_schroeder_optimizing_digital_speech_coders",
+        "score": 0.742
+      },
+      {
+        "id": "1997_bosi_iso_iec_mpeg_2",
+        "score": 0.7231
+      },
+      {
+        "id": "2210_13438",
+        "score": 0.7024
+      },
+      {
+        "id": "1961_zwicker_subdivision_of_the_audible",
+        "score": 0.6997
+      },
+      {
+        "id": "2107_03312",
+        "score": 0.6831
+      }
+    ],
+    "2107_03312::audio compression": [
+      {
+        "id": "2210_13438",
+        "score": 0.9235
+      },
+      {
+        "id": "1979_schroeder_optimizing_digital_speech_coders",
+        "score": 0.7651
+      },
+      {
+        "id": "1994_brandenburg_iso_mpeg_1_audio",
+        "score": 0.7339
+      },
+      {
+        "id": "1997_bosi_iso_iec_mpeg_2",
+        "score": 0.6835
+      },
+      {
+        "id": "1986_princen_analysis_synthesis_filter_bank",
+        "score": 0.6831
+      },
+      {
+        "id": "1961_zwicker_subdivision_of_the_audible",
+        "score": 0.6575
+      }
+    ],
+    "1979_schroeder_optimizing_digital_speech_coders::audio compression": [
+      {
+        "id": "1994_brandenburg_iso_mpeg_1_audio",
+        "score": 0.7907
+      },
+      {
+        "id": "2107_03312",
+        "score": 0.7651
+      },
+      {
+        "id": "2210_13438",
+        "score": 0.7613
+      },
+      {
+        "id": "1961_zwicker_subdivision_of_the_audible",
+        "score": 0.7513
+      },
+      {
+        "id": "1986_princen_analysis_synthesis_filter_bank",
+        "score": 0.742
+      },
+      {
+        "id": "1997_bosi_iso_iec_mpeg_2",
+        "score": 0.7221
+      }
+    ],
+    "1997_bosi_iso_iec_mpeg_2::audio compression": [
+      {
+        "id": "1994_brandenburg_iso_mpeg_1_audio",
+        "score": 0.8507
+      },
+      {
+        "id": "1986_princen_analysis_synthesis_filter_bank",
+        "score": 0.7231
+      },
+      {
+        "id": "1979_schroeder_optimizing_digital_speech_coders",
+        "score": 0.7221
+      },
+      {
+        "id": "1961_zwicker_subdivision_of_the_audible",
+        "score": 0.6856
+      },
+      {
+        "id": "2210_13438",
+        "score": 0.6854
+      },
+      {
+        "id": "2107_03312",
+        "score": 0.6835
+      }
+    ],
+    "1994_brandenburg_iso_mpeg_1_audio::audio compression": [
+      {
+        "id": "1997_bosi_iso_iec_mpeg_2",
+        "score": 0.8507
+      },
+      {
+        "id": "1979_schroeder_optimizing_digital_speech_coders",
+        "score": 0.7907
+      },
+      {
+        "id": "1986_princen_analysis_synthesis_filter_bank",
+        "score": 0.7456
+      },
+      {
+        "id": "2210_13438",
+        "score": 0.7371
+      },
+      {
+        "id": "2107_03312",
+        "score": 0.7339
+      },
+      {
+        "id": "1961_zwicker_subdivision_of_the_audible",
+        "score": 0.7276
+      }
+    ],
+    "2210_13438::audio compression": [
+      {
+        "id": "2107_03312",
+        "score": 0.9235
+      },
+      {
+        "id": "1979_schroeder_optimizing_digital_speech_coders",
+        "score": 0.7613
+      },
+      {
+        "id": "1994_brandenburg_iso_mpeg_1_audio",
+        "score": 0.7371
+      },
+      {
+        "id": "1986_princen_analysis_synthesis_filter_bank",
+        "score": 0.7024
+      },
+      {
+        "id": "1997_bosi_iso_iec_mpeg_2",
+        "score": 0.6854
+      },
+      {
+        "id": "1961_zwicker_subdivision_of_the_audible",
+        "score": 0.6778
+      }
+    ],
+    "1961_zwicker_subdivision_of_the_audible::audio compression": [
+      {
+        "id": "1979_schroeder_optimizing_digital_speech_coders",
+        "score": 0.7513
+      },
+      {
+        "id": "1994_brandenburg_iso_mpeg_1_audio",
+        "score": 0.7276
+      },
+      {
+        "id": "1986_princen_analysis_synthesis_filter_bank",
+        "score": 0.6997
+      },
+      {
+        "id": "1997_bosi_iso_iec_mpeg_2",
+        "score": 0.6856
+      },
+      {
+        "id": "2210_13438",
+        "score": 0.6778
+      },
+      {
+        "id": "2107_03312",
+        "score": 0.6575
+      }
+    ],
+    "1986_princen_analysis_synthesis_filter_bank::signal processing": [
+      {
+        "id": "1994_brandenburg_iso_mpeg_1_audio",
+        "score": 0.7456
+      },
+      {
+        "id": "1997_bosi_iso_iec_mpeg_2",
+        "score": 0.7231
+      },
+      {
+        "id": "2012_hassanieh_simple_and_practical_algorithm",
+        "score": 0.7223
+      },
+      {
+        "id": "1974_ahmed_discrete_cosine_transform",
+        "score": 0.6926
+      },
+      {
+        "id": "2008_gilbert_a_tutorial_on_fast",
+        "score": 0.6642
+      },
+      {
+        "id": "1965_cooley_an_algorithm_for_the",
+        "score": 0.6438
+      },
+      {
+        "id": "1982_lloyd_least_squares_quantization_in",
+        "score": 0.6302
+      },
+      {
+        "id": "2008_kim_a_minimax_theorem_with",
+        "score": 0.5891
+      }
+    ],
+    "2012_hassanieh_simple_and_practical_algorithm::signal processing": [
+      {
+        "id": "2008_gilbert_a_tutorial_on_fast",
+        "score": 0.8701
+      },
+      {
+        "id": "1965_cooley_an_algorithm_for_the",
+        "score": 0.8322
+      },
+      {
+        "id": "1974_ahmed_discrete_cosine_transform",
+        "score": 0.7423
+      },
+      {
+        "id": "1986_princen_analysis_synthesis_filter_bank",
+        "score": 0.7223
+      },
+      {
+        "id": "1982_lloyd_least_squares_quantization_in",
+        "score": 0.6883
+      },
+      {
+        "id": "2008_kim_a_minimax_theorem_with",
+        "score": 0.6824
+      },
+      {
+        "id": "1994_brandenburg_iso_mpeg_1_audio",
+        "score": 0.6414
+      },
+      {
+        "id": "1997_bosi_iso_iec_mpeg_2",
+        "score": 0.5867
+      }
+    ],
+    "1997_bosi_iso_iec_mpeg_2::signal processing": [
+      {
+        "id": "1994_brandenburg_iso_mpeg_1_audio",
+        "score": 0.8507
+      },
+      {
+        "id": "1986_princen_analysis_synthesis_filter_bank",
+        "score": 0.7231
+      },
+      {
+        "id": "1974_ahmed_discrete_cosine_transform",
+        "score": 0.6136
+      },
+      {
+        "id": "1982_lloyd_least_squares_quantization_in",
+        "score": 0.5959
+      },
+      {
+        "id": "2012_hassanieh_simple_and_practical_algorithm",
+        "score": 0.5867
+      },
+      {
+        "id": "1965_cooley_an_algorithm_for_the",
+        "score": 0.5559
+      },
+      {
+        "id": "2008_gilbert_a_tutorial_on_fast",
+        "score": 0.5492
+      },
+      {
+        "id": "2008_kim_a_minimax_theorem_with",
+        "score": 0.4888
+      }
+    ],
+    "1994_brandenburg_iso_mpeg_1_audio::signal processing": [
+      {
+        "id": "1997_bosi_iso_iec_mpeg_2",
+        "score": 0.8507
+      },
+      {
+        "id": "1986_princen_analysis_synthesis_filter_bank",
+        "score": 0.7456
+      },
+      {
+        "id": "1974_ahmed_discrete_cosine_transform",
+        "score": 0.68
+      },
+      {
+        "id": "1982_lloyd_least_squares_quantization_in",
+        "score": 0.6503
+      },
+      {
+        "id": "2012_hassanieh_simple_and_practical_algorithm",
+        "score": 0.6414
+      },
+      {
+        "id": "1965_cooley_an_algorithm_for_the",
+        "score": 0.6041
+      },
+      {
+        "id": "2008_gilbert_a_tutorial_on_fast",
+        "score": 0.5982
+      },
+      {
+        "id": "2008_kim_a_minimax_theorem_with",
+        "score": 0.5436
+      }
+    ],
+    "1965_cooley_an_algorithm_for_the::signal processing": [
+      {
+        "id": "2012_hassanieh_simple_and_practical_algorithm",
+        "score": 0.8322
+      },
+      {
+        "id": "2008_gilbert_a_tutorial_on_fast",
+        "score": 0.7625
+      },
+      {
+        "id": "1974_ahmed_discrete_cosine_transform",
+        "score": 0.7106
+      },
+      {
+        "id": "1982_lloyd_least_squares_quantization_in",
+        "score": 0.6771
+      },
+      {
+        "id": "1986_princen_analysis_synthesis_filter_bank",
+        "score": 0.6438
+      },
+      {
+        "id": "2008_kim_a_minimax_theorem_with",
+        "score": 0.6299
+      },
+      {
+        "id": "1994_brandenburg_iso_mpeg_1_audio",
+        "score": 0.6041
+      },
+      {
+        "id": "1997_bosi_iso_iec_mpeg_2",
+        "score": 0.5559
+      }
+    ],
+    "1982_lloyd_least_squares_quantization_in::signal processing": [
+      {
+        "id": "2012_hassanieh_simple_and_practical_algorithm",
+        "score": 0.6883
+      },
+      {
+        "id": "1965_cooley_an_algorithm_for_the",
+        "score": 0.6771
+      },
+      {
+        "id": "2008_kim_a_minimax_theorem_with",
+        "score": 0.6742
+      },
+      {
+        "id": "1974_ahmed_discrete_cosine_transform",
+        "score": 0.6725
+      },
+      {
+        "id": "1994_brandenburg_iso_mpeg_1_audio",
+        "score": 0.6503
+      },
+      {
+        "id": "2008_gilbert_a_tutorial_on_fast",
+        "score": 0.6484
+      },
+      {
+        "id": "1986_princen_analysis_synthesis_filter_bank",
+        "score": 0.6302
+      },
+      {
+        "id": "1997_bosi_iso_iec_mpeg_2",
+        "score": 0.5959
+      }
+    ],
+    "1974_ahmed_discrete_cosine_transform::signal processing": [
+      {
+        "id": "2012_hassanieh_simple_and_practical_algorithm",
+        "score": 0.7423
+      },
+      {
+        "id": "1965_cooley_an_algorithm_for_the",
+        "score": 0.7106
+      },
+      {
+        "id": "1986_princen_analysis_synthesis_filter_bank",
+        "score": 0.6926
+      },
+      {
+        "id": "2008_gilbert_a_tutorial_on_fast",
+        "score": 0.6911
+      },
+      {
+        "id": "1994_brandenburg_iso_mpeg_1_audio",
+        "score": 0.68
+      },
+      {
+        "id": "1982_lloyd_least_squares_quantization_in",
+        "score": 0.6725
+      },
+      {
+        "id": "1997_bosi_iso_iec_mpeg_2",
+        "score": 0.6136
+      },
+      {
+        "id": "2008_kim_a_minimax_theorem_with",
+        "score": 0.5856
+      }
+    ],
+    "2008_kim_a_minimax_theorem_with::signal processing": [
+      {
+        "id": "2012_hassanieh_simple_and_practical_algorithm",
+        "score": 0.6824
+      },
+      {
+        "id": "1982_lloyd_least_squares_quantization_in",
+        "score": 0.6742
+      },
+      {
+        "id": "1965_cooley_an_algorithm_for_the",
+        "score": 0.6299
+      },
+      {
+        "id": "2008_gilbert_a_tutorial_on_fast",
+        "score": 0.6177
+      },
+      {
+        "id": "1986_princen_analysis_synthesis_filter_bank",
+        "score": 0.5891
+      },
+      {
+        "id": "1974_ahmed_discrete_cosine_transform",
+        "score": 0.5856
+      },
+      {
+        "id": "1994_brandenburg_iso_mpeg_1_audio",
+        "score": 0.5436
+      },
+      {
+        "id": "1997_bosi_iso_iec_mpeg_2",
+        "score": 0.4888
+      }
+    ],
+    "2008_gilbert_a_tutorial_on_fast::signal processing": [
+      {
+        "id": "2012_hassanieh_simple_and_practical_algorithm",
+        "score": 0.8701
+      },
+      {
+        "id": "1965_cooley_an_algorithm_for_the",
+        "score": 0.7625
+      },
+      {
+        "id": "1974_ahmed_discrete_cosine_transform",
+        "score": 0.6911
+      },
+      {
+        "id": "1986_princen_analysis_synthesis_filter_bank",
+        "score": 0.6642
+      },
+      {
+        "id": "1982_lloyd_least_squares_quantization_in",
+        "score": 0.6484
+      },
+      {
+        "id": "2008_kim_a_minimax_theorem_with",
+        "score": 0.6177
+      },
+      {
+        "id": "1994_brandenburg_iso_mpeg_1_audio",
+        "score": 0.5982
+      },
+      {
+        "id": "1997_bosi_iso_iec_mpeg_2",
+        "score": 0.5492
+      }
+    ],
+    "1986_princen_analysis_synthesis_filter_bank::filtering": [
+      {
+        "id": "1997_bosi_iso_iec_mpeg_2",
+        "score": 0.7231
+      },
+      {
+        "id": "1971_bertsekas_recursive_state_estimation_for",
+        "score": 0.5485
+      }
+    ],
+    "1971_bertsekas_recursive_state_estimation_for::filtering": [
+      {
+        "id": "1986_princen_analysis_synthesis_filter_bank",
+        "score": 0.5485
+      },
+      {
+        "id": "1997_bosi_iso_iec_mpeg_2",
+        "score": 0.4698
+      }
+    ],
+    "1997_bosi_iso_iec_mpeg_2::filtering": [
+      {
+        "id": "1986_princen_analysis_synthesis_filter_bank",
+        "score": 0.7231
+      },
+      {
+        "id": "1971_bertsekas_recursive_state_estimation_for",
+        "score": 0.4698
+      }
+    ],
+    "1986_princen_analysis_synthesis_filter_bank::transforms": [
+      {
+        "id": "1805_05533",
+        "score": 0.676
+      }
+    ],
+    "1805_05533::transforms": [
+      {
+        "id": "1986_princen_analysis_synthesis_filter_bank",
+        "score": 0.676
+      }
+    ],
+    "1986_princen_analysis_synthesis_filter_bank::information theory": [
+      {
+        "id": "1994_brandenburg_iso_mpeg_1_audio",
+        "score": 0.7456
+      },
+      {
+        "id": "1997_bosi_iso_iec_mpeg_2",
+        "score": 0.7231
+      },
+      {
+        "id": "1948_shannon_a_mathematical_theory_of",
+        "score": 0.5516
+      },
+      {
+        "id": "2601_03220",
+        "score": 0.5488
+      },
+      {
+        "id": "1986_quinlan_induction_of_decision_trees",
+        "score": 0.4786
+      },
+      {
+        "id": "0707_0609",
+        "score": 0.4349
+      }
+    ],
     "1986_quinlan_induction_of_decision_trees::information theory": [
       {
         "id": "2601_03220",
@@ -734698,6 +737482,74 @@ window.tagSearchData = {
       {
         "id": "0707_0609",
         "score": 0.5809
+      },
+      {
+        "id": "1948_shannon_a_mathematical_theory_of",
+        "score": 0.5564
+      },
+      {
+        "id": "1994_brandenburg_iso_mpeg_1_audio",
+        "score": 0.5153
+      },
+      {
+        "id": "1997_bosi_iso_iec_mpeg_2",
+        "score": 0.4817
+      },
+      {
+        "id": "1986_princen_analysis_synthesis_filter_bank",
+        "score": 0.4786
+      }
+    ],
+    "1948_shannon_a_mathematical_theory_of::information theory": [
+      {
+        "id": "2601_03220",
+        "score": 0.694
+      },
+      {
+        "id": "1994_brandenburg_iso_mpeg_1_audio",
+        "score": 0.6513
+      },
+      {
+        "id": "0707_0609",
+        "score": 0.6149
+      },
+      {
+        "id": "1997_bosi_iso_iec_mpeg_2",
+        "score": 0.5941
+      },
+      {
+        "id": "1986_quinlan_induction_of_decision_trees",
+        "score": 0.5564
+      },
+      {
+        "id": "1986_princen_analysis_synthesis_filter_bank",
+        "score": 0.5516
+      }
+    ],
+    "1997_bosi_iso_iec_mpeg_2::information theory": [
+      {
+        "id": "1994_brandenburg_iso_mpeg_1_audio",
+        "score": 0.8507
+      },
+      {
+        "id": "1986_princen_analysis_synthesis_filter_bank",
+        "score": 0.7231
+      },
+      {
+        "id": "1948_shannon_a_mathematical_theory_of",
+        "score": 0.5941
+      },
+      {
+        "id": "2601_03220",
+        "score": 0.5139
+      },
+      {
+        "id": "1986_quinlan_induction_of_decision_trees",
+        "score": 0.4817
+      },
+      {
+        "id": "0707_0609",
+        "score": 0.4298
       }
     ],
     "0707_0609::information theory": [
@@ -734706,11 +737558,57 @@ window.tagSearchData = {
         "score": 0.6427
       },
       {
+        "id": "1948_shannon_a_mathematical_theory_of",
+        "score": 0.6149
+      },
+      {
         "id": "1986_quinlan_induction_of_decision_trees",
         "score": 0.5809
+      },
+      {
+        "id": "1994_brandenburg_iso_mpeg_1_audio",
+        "score": 0.4705
+      },
+      {
+        "id": "1986_princen_analysis_synthesis_filter_bank",
+        "score": 0.4349
+      },
+      {
+        "id": "1997_bosi_iso_iec_mpeg_2",
+        "score": 0.4298
+      }
+    ],
+    "1994_brandenburg_iso_mpeg_1_audio::information theory": [
+      {
+        "id": "1997_bosi_iso_iec_mpeg_2",
+        "score": 0.8507
+      },
+      {
+        "id": "1986_princen_analysis_synthesis_filter_bank",
+        "score": 0.7456
+      },
+      {
+        "id": "1948_shannon_a_mathematical_theory_of",
+        "score": 0.6513
+      },
+      {
+        "id": "2601_03220",
+        "score": 0.566
+      },
+      {
+        "id": "1986_quinlan_induction_of_decision_trees",
+        "score": 0.5153
+      },
+      {
+        "id": "0707_0609",
+        "score": 0.4705
       }
     ],
     "2601_03220::information theory": [
+      {
+        "id": "1948_shannon_a_mathematical_theory_of",
+        "score": 0.694
+      },
       {
         "id": "1986_quinlan_induction_of_decision_trees",
         "score": 0.6897
@@ -734718,6 +737616,18 @@ window.tagSearchData = {
       {
         "id": "0707_0609",
         "score": 0.6427
+      },
+      {
+        "id": "1994_brandenburg_iso_mpeg_1_audio",
+        "score": 0.566
+      },
+      {
+        "id": "1986_princen_analysis_synthesis_filter_bank",
+        "score": 0.5488
+      },
+      {
+        "id": "1997_bosi_iso_iec_mpeg_2",
+        "score": 0.5139
       }
     ],
     "1986_wampler_manipulator_inverse_kinematic_solutions::damped least squares": [
@@ -737882,6 +740792,96 @@ window.tagSearchData = {
         "score": 0.7802
       }
     ],
+    "2004_wang_image_quality_assessment_from::perceptual metrics": [
+      {
+        "id": "1994_brandenburg_iso_mpeg_1_audio",
+        "score": 0.6471
+      },
+      {
+        "id": "1979_schroeder_optimizing_digital_speech_coders",
+        "score": 0.6171
+      },
+      {
+        "id": "1961_zwicker_subdivision_of_the_audible",
+        "score": 0.6167
+      },
+      {
+        "id": "1997_bosi_iso_iec_mpeg_2",
+        "score": 0.5951
+      }
+    ],
+    "1979_schroeder_optimizing_digital_speech_coders::perceptual metrics": [
+      {
+        "id": "1994_brandenburg_iso_mpeg_1_audio",
+        "score": 0.7907
+      },
+      {
+        "id": "1961_zwicker_subdivision_of_the_audible",
+        "score": 0.7513
+      },
+      {
+        "id": "1997_bosi_iso_iec_mpeg_2",
+        "score": 0.7221
+      },
+      {
+        "id": "2004_wang_image_quality_assessment_from",
+        "score": 0.6171
+      }
+    ],
+    "1997_bosi_iso_iec_mpeg_2::perceptual metrics": [
+      {
+        "id": "1994_brandenburg_iso_mpeg_1_audio",
+        "score": 0.8507
+      },
+      {
+        "id": "1979_schroeder_optimizing_digital_speech_coders",
+        "score": 0.7221
+      },
+      {
+        "id": "1961_zwicker_subdivision_of_the_audible",
+        "score": 0.6856
+      },
+      {
+        "id": "2004_wang_image_quality_assessment_from",
+        "score": 0.5951
+      }
+    ],
+    "1994_brandenburg_iso_mpeg_1_audio::perceptual metrics": [
+      {
+        "id": "1997_bosi_iso_iec_mpeg_2",
+        "score": 0.8507
+      },
+      {
+        "id": "1979_schroeder_optimizing_digital_speech_coders",
+        "score": 0.7907
+      },
+      {
+        "id": "1961_zwicker_subdivision_of_the_audible",
+        "score": 0.7276
+      },
+      {
+        "id": "2004_wang_image_quality_assessment_from",
+        "score": 0.6471
+      }
+    ],
+    "1961_zwicker_subdivision_of_the_audible::perceptual metrics": [
+      {
+        "id": "1979_schroeder_optimizing_digital_speech_coders",
+        "score": 0.7513
+      },
+      {
+        "id": "1994_brandenburg_iso_mpeg_1_audio",
+        "score": 0.7276
+      },
+      {
+        "id": "1997_bosi_iso_iec_mpeg_2",
+        "score": 0.6856
+      },
+      {
+        "id": "2004_wang_image_quality_assessment_from",
+        "score": 0.6167
+      }
+    ],
     "cond_mat_0408187::community detection": [
       {
         "id": "0803_0476",
@@ -739162,6 +742162,36 @@ window.tagSearchData = {
         "score": 0.7889
       }
     ],
+    "1979_schroeder_optimizing_digital_speech_coders::pulse-code modulation": [
+      {
+        "id": "1994_brandenburg_iso_mpeg_1_audio",
+        "score": 0.7907
+      },
+      {
+        "id": "1982_lloyd_least_squares_quantization_in",
+        "score": 0.7076
+      }
+    ],
+    "1994_brandenburg_iso_mpeg_1_audio::pulse-code modulation": [
+      {
+        "id": "1979_schroeder_optimizing_digital_speech_coders",
+        "score": 0.7907
+      },
+      {
+        "id": "1982_lloyd_least_squares_quantization_in",
+        "score": 0.6503
+      }
+    ],
+    "1982_lloyd_least_squares_quantization_in::pulse-code modulation": [
+      {
+        "id": "1979_schroeder_optimizing_digital_speech_coders",
+        "score": 0.7076
+      },
+      {
+        "id": "1994_brandenburg_iso_mpeg_1_audio",
+        "score": 0.6503
+      }
+    ],
     "1963_morgan_problems_in_the_analysis::survey data analysis": [
       {
         "id": "2606_05750",
@@ -739834,96 +742864,6 @@ window.tagSearchData = {
       {
         "id": "2012_gavriel_risk_averse_shortest_path",
         "score": 0.8029
-      }
-    ],
-    "2012_hassanieh_simple_and_practical_algorithm::signal processing": [
-      {
-        "id": "2008_gilbert_a_tutorial_on_fast",
-        "score": 0.8701
-      },
-      {
-        "id": "1965_cooley_an_algorithm_for_the",
-        "score": 0.8322
-      },
-      {
-        "id": "1982_lloyd_least_squares_quantization_in",
-        "score": 0.6883
-      },
-      {
-        "id": "2008_kim_a_minimax_theorem_with",
-        "score": 0.6824
-      }
-    ],
-    "1965_cooley_an_algorithm_for_the::signal processing": [
-      {
-        "id": "2012_hassanieh_simple_and_practical_algorithm",
-        "score": 0.8322
-      },
-      {
-        "id": "2008_gilbert_a_tutorial_on_fast",
-        "score": 0.7625
-      },
-      {
-        "id": "1982_lloyd_least_squares_quantization_in",
-        "score": 0.6771
-      },
-      {
-        "id": "2008_kim_a_minimax_theorem_with",
-        "score": 0.6299
-      }
-    ],
-    "1982_lloyd_least_squares_quantization_in::signal processing": [
-      {
-        "id": "2012_hassanieh_simple_and_practical_algorithm",
-        "score": 0.6883
-      },
-      {
-        "id": "1965_cooley_an_algorithm_for_the",
-        "score": 0.6771
-      },
-      {
-        "id": "2008_kim_a_minimax_theorem_with",
-        "score": 0.6742
-      },
-      {
-        "id": "2008_gilbert_a_tutorial_on_fast",
-        "score": 0.6484
-      }
-    ],
-    "2008_kim_a_minimax_theorem_with::signal processing": [
-      {
-        "id": "2012_hassanieh_simple_and_practical_algorithm",
-        "score": 0.6824
-      },
-      {
-        "id": "1982_lloyd_least_squares_quantization_in",
-        "score": 0.6742
-      },
-      {
-        "id": "1965_cooley_an_algorithm_for_the",
-        "score": 0.6299
-      },
-      {
-        "id": "2008_gilbert_a_tutorial_on_fast",
-        "score": 0.6177
-      }
-    ],
-    "2008_gilbert_a_tutorial_on_fast::signal processing": [
-      {
-        "id": "2012_hassanieh_simple_and_practical_algorithm",
-        "score": 0.8701
-      },
-      {
-        "id": "1965_cooley_an_algorithm_for_the",
-        "score": 0.7625
-      },
-      {
-        "id": "1982_lloyd_least_squares_quantization_in",
-        "score": 0.6484
-      },
-      {
-        "id": "2008_kim_a_minimax_theorem_with",
-        "score": 0.6177
       }
     ],
     "2012_hassanieh_simple_and_practical_algorithm::frequency estimation": [
@@ -741000,6 +743940,30 @@ window.tagSearchData = {
         "score": 0.7376
       }
     ],
+    "1991_wallace_the_jpeg_still_picture::discrete cosine transform": [
+      {
+        "id": "1974_ahmed_discrete_cosine_transform",
+        "score": 0.782
+      }
+    ],
+    "1974_ahmed_discrete_cosine_transform::discrete cosine transform": [
+      {
+        "id": "1991_wallace_the_jpeg_still_picture",
+        "score": 0.782
+      }
+    ],
+    "1991_wallace_the_jpeg_still_picture::arithmetic coding": [
+      {
+        "id": "1996_said_a_new_fast_and",
+        "score": 0.7418
+      }
+    ],
+    "1996_said_a_new_fast_and::arithmetic coding": [
+      {
+        "id": "1991_wallace_the_jpeg_still_picture",
+        "score": 0.7418
+      }
+    ],
     "1991_sanner_gaussian_networks_for_direct::neural control": [
       {
         "id": "1994_sims_evolving_virtual_creatures",
@@ -741250,6 +744214,72 @@ window.tagSearchData = {
       {
         "id": "1996_ester_a_density_based_algorithm",
         "score": 0.715
+      }
+    ],
+    "1996_said_a_new_fast_and::embedded coding": [
+      {
+        "id": "1993_shapiro_embedded_image_coding_using",
+        "score": 0.9342
+      }
+    ],
+    "1993_shapiro_embedded_image_coding_using::embedded coding": [
+      {
+        "id": "1996_said_a_new_fast_and",
+        "score": 0.9342
+      }
+    ],
+    "1996_said_a_new_fast_and::bitplane coding": [
+      {
+        "id": "1993_shapiro_embedded_image_coding_using",
+        "score": 0.9342
+      }
+    ],
+    "1993_shapiro_embedded_image_coding_using::bitplane coding": [
+      {
+        "id": "1996_said_a_new_fast_and",
+        "score": 0.9342
+      }
+    ],
+    "1996_said_a_new_fast_and::zerotrees": [
+      {
+        "id": "1993_shapiro_embedded_image_coding_using",
+        "score": 0.9342
+      }
+    ],
+    "1993_shapiro_embedded_image_coding_using::zerotrees": [
+      {
+        "id": "1996_said_a_new_fast_and",
+        "score": 0.9342
+      }
+    ],
+    "1996_said_a_new_fast_and::progressive transmission": [
+      {
+        "id": "1993_shapiro_embedded_image_coding_using",
+        "score": 0.9342
+      },
+      {
+        "id": "1992_antonini_image_coding_using_wavelet",
+        "score": 0.8189
+      }
+    ],
+    "1993_shapiro_embedded_image_coding_using::progressive transmission": [
+      {
+        "id": "1996_said_a_new_fast_and",
+        "score": 0.9342
+      },
+      {
+        "id": "1992_antonini_image_coding_using_wavelet",
+        "score": 0.8424
+      }
+    ],
+    "1992_antonini_image_coding_using_wavelet::progressive transmission": [
+      {
+        "id": "1993_shapiro_embedded_image_coding_using",
+        "score": 0.8424
+      },
+      {
+        "id": "1996_said_a_new_fast_and",
+        "score": 0.8189
       }
     ],
     "1996_van_overschee_subspace_identification_for_linear::subspace methods": [
@@ -741662,6 +744692,18 @@ window.tagSearchData = {
       {
         "id": "2604_13192",
         "score": 0.7089
+      }
+    ],
+    "1993_shapiro_embedded_image_coding_using::transform coding": [
+      {
+        "id": "1974_ahmed_discrete_cosine_transform",
+        "score": 0.7424
+      }
+    ],
+    "1974_ahmed_discrete_cosine_transform::transform coding": [
+      {
+        "id": "1993_shapiro_embedded_image_coding_using",
+        "score": 0.7424
       }
     ],
     "1993_bromley_signature_verification_using_a::siamese networks": [
@@ -742410,6 +745452,18 @@ window.tagSearchData = {
       {
         "id": "2023_steinecker_a_simple_and_model",
         "score": 0.6903
+      }
+    ],
+    "2013_maas_rectifier_nonlinearities_improve_neural::acoustic models": [
+      {
+        "id": "1961_zwicker_subdivision_of_the_audible",
+        "score": 0.6192
+      }
+    ],
+    "1961_zwicker_subdivision_of_the_audible::acoustic models": [
+      {
+        "id": "2013_maas_rectifier_nonlinearities_improve_neural",
+        "score": 0.6192
       }
     ],
     "2013_maas_rectifier_nonlinearities_improve_neural::sparse activations": [
@@ -743400,6 +746454,18 @@ window.tagSearchData = {
         "score": 0.7514
       }
     ],
+    "1965_cooley_an_algorithm_for_the::fast fourier transform": [
+      {
+        "id": "1974_ahmed_discrete_cosine_transform",
+        "score": 0.7106
+      }
+    ],
+    "1974_ahmed_discrete_cosine_transform::fast fourier transform": [
+      {
+        "id": "1965_cooley_an_algorithm_for_the",
+        "score": 0.7106
+      }
+    ],
     "1965_cooley_an_algorithm_for_the::divide and conquer": [
       {
         "id": "1962_hoare_quicksort",
@@ -743446,6 +746512,18 @@ window.tagSearchData = {
       {
         "id": "1992_laporte_the_traveling_salesman_problem",
         "score": 0.8897
+      }
+    ],
+    "1992_antonini_image_coding_using_wavelet::rate-distortion theory": [
+      {
+        "id": "1974_ahmed_discrete_cosine_transform",
+        "score": 0.7797
+      }
+    ],
+    "1974_ahmed_discrete_cosine_transform::rate-distortion theory": [
+      {
+        "id": "1992_antonini_image_coding_using_wavelet",
+        "score": 0.7797
       }
     ],
     "2210_08092::uncrewed aerial vehicle": [
@@ -743755,6 +746833,116 @@ window.tagSearchData = {
     "cond_mat_9910332::self-organization": [],
     "cond_mat_9910332::world wide web": [],
     "cond_mat_9910332::genetic networks": [],
+    "1904_02990::machine learning": [
+      {
+        "id": "2605_30188"
+      },
+      {
+        "id": "2025_hu_technically_speaking_transitioning_from"
+      },
+      {
+        "id": "2403_04133"
+      },
+      {
+        "id": "2303_04137"
+      },
+      {
+        "id": "2306_13867"
+      },
+      {
+        "id": "2312_15122"
+      },
+      {
+        "id": "2310_03589"
+      },
+      {
+        "id": "2310_08710"
+      },
+      {
+        "id": "2207_03517"
+      },
+      {
+        "id": "2212_02603"
+      },
+      {
+        "id": "2210_05519"
+      },
+      {
+        "id": "2002_05651"
+      },
+      {
+        "id": "1909_09223"
+      },
+      {
+        "id": "1911_10635"
+      },
+      {
+        "id": "1910_13204"
+      },
+      {
+        "id": "1806_00451"
+      },
+      {
+        "id": "1802_03653"
+      },
+      {
+        "id": "1812_11118"
+      },
+      {
+        "id": "1811_10154"
+      },
+      {
+        "id": "1807_05118"
+      },
+      {
+        "id": "1702_08608"
+      },
+      {
+        "id": "1610_05492"
+      },
+      {
+        "id": "1602_04938"
+      },
+      {
+        "id": "1606_03490"
+      },
+      {
+        "id": "1502_05767"
+      },
+      {
+        "id": "2015_palmieri_distance_metric_learning_for"
+      },
+      {
+        "id": "2008_kim_a_minimax_theorem_with"
+      },
+      {
+        "id": "2008_rahimi_weighted_sums_of_random"
+      },
+      {
+        "id": "2006_thrun_stanley_the_robot_that"
+      },
+      {
+        "id": "2001_friedman_greedy_function_approximation_a"
+      },
+      {
+        "id": "2001_ng_on_spectral_clustering_analysis"
+      },
+      {
+        "id": "2000_bengio_gradient_based_optimization_of"
+      },
+      {
+        "id": "1996_breiman_bagging_predictors"
+      },
+      {
+        "id": "1995_cortes_support_vector_networks"
+      },
+      {
+        "id": "1993_quinlan_c4_5_programs_for_machine"
+      },
+      {
+        "id": "1992_holland_adaptation_in_natural_and"
+      }
+    ],
     "1609_05158::sub-pixel convolution": [],
     "1609_05158::pixel shuffle": [],
     "1609_05158::espcn": [],
@@ -743838,6 +747026,56 @@ window.tagSearchData = {
     "2006_00870::quadratic stabilization": [],
     "2010_01412::sam": [],
     "2010_01412::sharpness-aware minimization": [],
+    "1983_baur_the_complexity_of_partial::computational complexity": [
+      {
+        "id": "2504_12905"
+      },
+      {
+        "id": "2402_15464"
+      },
+      {
+        "id": "2410_23916"
+      },
+      {
+        "id": "2311_11166"
+      },
+      {
+        "id": "2311_05135"
+      },
+      {
+        "id": "2103_14030"
+      },
+      {
+        "id": "2012_08791"
+      },
+      {
+        "id": "1907_06553"
+      },
+      {
+        "id": "1910_13051"
+      },
+      {
+        "id": "1809_10252"
+      },
+      {
+        "id": "1803_06843"
+      },
+      {
+        "id": "1802_06640"
+      },
+      {
+        "id": "1210_7420"
+      },
+      {
+        "id": "1111_0952"
+      },
+      {
+        "id": "1986_barnes_a_hierarchical_o_n"
+      },
+      {
+        "id": "1972_karp_reducibility_among_combinatorial_problems"
+      }
+    ],
     "2012_08791::minirocket": [],
     "2012_04456::dimension reduction": [],
     "2010_11929::vit": [],
@@ -743899,6 +747137,12 @@ window.tagSearchData = {
     "2000_bengio_gradient_based_optimization_of::cholesky differentiation": [],
     "2000_jansson_asymptotic_variance_analysis_of::asymptotic variance": [],
     "2000_jansson_asymptotic_variance_analysis_of::multivariable systems": [],
+    "2000_taubman_high_performance_scalable_image::ebcot": [],
+    "2000_taubman_high_performance_scalable_image::embedded block coding": [],
+    "2000_taubman_high_performance_scalable_image::rate-distortion optimization": [],
+    "2000_taubman_high_performance_scalable_image::scalable coding": [],
+    "2000_taubman_high_performance_scalable_image::random access": [],
+    "2000_taubman_high_performance_scalable_image::visual masking": [],
     "2000_bicchi_robotic_grasping_and_contact::robotic grasping": [],
     "2000_bicchi_robotic_grasping_and_contact::contact mechanics": [],
     "2000_bicchi_robotic_grasping_and_contact::haptics": [],
@@ -743928,7 +747172,6 @@ window.tagSearchData = {
     "1710_09483::human": [],
     "1710_04753::robust momentum method": [],
     "1701_07875::wasserstein generative adversarial network": [],
-    "1703_00395::joint photographic experts group 2000": [],
     "1709_07174::end-to-end": [],
     "1711_05101::adamw": [],
     "2017_rosmann_kinodynamic_trajectory_optimization_and::timed elastic band": [],
@@ -743984,7 +747227,6 @@ window.tagSearchData = {
     "1905_00820::parameter space": [],
     "1902_06583::hoof": [],
     "1902_06583::importance sampling": [],
-    "1912_01603::latent": [],
     "1912_01603::imagination": [],
     "1912_01603::complex behaviors": [],
     "2019_sahin_intention_aware_supervisory_control::supervisory control": [],
@@ -744034,6 +747276,217 @@ window.tagSearchData = {
     "1907_10597::model evaluation": [],
     "1907_10597::research incentives": [],
     "1907_10597::artificial intelligence accessibility": [],
+    "1904_02990::symbolic differentiation": [
+      {
+        "id": "1983_baur_the_complexity_of_partial"
+      },
+      {
+        "id": "1964_wengert_a_simple_automatic_derivative"
+      },
+      {
+        "id": "1962_hanson_analytic_differentiation_by_computer"
+      },
+      {
+        "id": "1953_nolan_analytical_differentiation_on_a"
+      },
+      {
+        "id": "1953_kahrimanian_analytical_differentiation_by_a"
+      }
+    ],
+    "1983_baur_the_complexity_of_partial::symbolic differentiation": [
+      {
+        "id": "1904_02990"
+      },
+      {
+        "id": "1964_wengert_a_simple_automatic_derivative"
+      },
+      {
+        "id": "1962_hanson_analytic_differentiation_by_computer"
+      },
+      {
+        "id": "1953_nolan_analytical_differentiation_on_a"
+      },
+      {
+        "id": "1953_kahrimanian_analytical_differentiation_by_a"
+      }
+    ],
+    "1953_kahrimanian_analytical_differentiation_by_a::symbolic differentiation": [
+      {
+        "id": "1904_02990"
+      },
+      {
+        "id": "1983_baur_the_complexity_of_partial"
+      },
+      {
+        "id": "1964_wengert_a_simple_automatic_derivative"
+      },
+      {
+        "id": "1962_hanson_analytic_differentiation_by_computer"
+      },
+      {
+        "id": "1953_nolan_analytical_differentiation_on_a"
+      }
+    ],
+    "1953_nolan_analytical_differentiation_on_a::symbolic differentiation": [
+      {
+        "id": "1904_02990"
+      },
+      {
+        "id": "1983_baur_the_complexity_of_partial"
+      },
+      {
+        "id": "1964_wengert_a_simple_automatic_derivative"
+      },
+      {
+        "id": "1962_hanson_analytic_differentiation_by_computer"
+      },
+      {
+        "id": "1953_kahrimanian_analytical_differentiation_by_a"
+      }
+    ],
+    "1964_wengert_a_simple_automatic_derivative::symbolic differentiation": [
+      {
+        "id": "1904_02990"
+      },
+      {
+        "id": "1983_baur_the_complexity_of_partial"
+      },
+      {
+        "id": "1962_hanson_analytic_differentiation_by_computer"
+      },
+      {
+        "id": "1953_nolan_analytical_differentiation_on_a"
+      },
+      {
+        "id": "1953_kahrimanian_analytical_differentiation_by_a"
+      }
+    ],
+    "1962_hanson_analytic_differentiation_by_computer::symbolic differentiation": [
+      {
+        "id": "1904_02990"
+      },
+      {
+        "id": "1983_baur_the_complexity_of_partial"
+      },
+      {
+        "id": "1964_wengert_a_simple_automatic_derivative"
+      },
+      {
+        "id": "1953_nolan_analytical_differentiation_on_a"
+      },
+      {
+        "id": "1953_kahrimanian_analytical_differentiation_by_a"
+      }
+    ],
+    "1904_02990::automatic differentiation": [
+      {
+        "id": "2605_10034"
+      },
+      {
+        "id": "2603_08824"
+      },
+      {
+        "id": "2018_frostig_compiling_machine_learning_programs"
+      },
+      {
+        "id": "1502_05767"
+      },
+      {
+        "id": "1994_pearlmutter_fast_exact_multiplication_by"
+      },
+      {
+        "id": "1989_griewank_on_automatic_differentiation"
+      },
+      {
+        "id": "1985_cuyt_computational_implementation_of_the"
+      },
+      {
+        "id": "1983_baur_the_complexity_of_partial"
+      },
+      {
+        "id": "1974_werbos_beyond_regression_new_tools"
+      },
+      {
+        "id": "1964_wengert_a_simple_automatic_derivative"
+      }
+    ],
+    "1983_baur_the_complexity_of_partial::automatic differentiation": [
+      {
+        "id": "2605_10034"
+      },
+      {
+        "id": "2603_08824"
+      },
+      {
+        "id": "1904_02990"
+      },
+      {
+        "id": "2018_frostig_compiling_machine_learning_programs"
+      },
+      {
+        "id": "1502_05767"
+      },
+      {
+        "id": "1994_pearlmutter_fast_exact_multiplication_by"
+      },
+      {
+        "id": "1989_griewank_on_automatic_differentiation"
+      },
+      {
+        "id": "1985_cuyt_computational_implementation_of_the"
+      },
+      {
+        "id": "1974_werbos_beyond_regression_new_tools"
+      },
+      {
+        "id": "1964_wengert_a_simple_automatic_derivative"
+      }
+    ],
+    "1964_wengert_a_simple_automatic_derivative::automatic differentiation": [
+      {
+        "id": "2605_10034"
+      },
+      {
+        "id": "2603_08824"
+      },
+      {
+        "id": "1904_02990"
+      },
+      {
+        "id": "2018_frostig_compiling_machine_learning_programs"
+      },
+      {
+        "id": "1502_05767"
+      },
+      {
+        "id": "1994_pearlmutter_fast_exact_multiplication_by"
+      },
+      {
+        "id": "1989_griewank_on_automatic_differentiation"
+      },
+      {
+        "id": "1985_cuyt_computational_implementation_of_the"
+      },
+      {
+        "id": "1983_baur_the_complexity_of_partial"
+      },
+      {
+        "id": "1974_werbos_beyond_regression_new_tools"
+      }
+    ],
+    "1904_02990::reverse mode": [],
+    "1904_02990::expression swell": [],
+    "1904_02990::expression graphs": [
+      {
+        "id": "2008_grant_graph_implementations_for_nonsmooth"
+      }
+    ],
+    "2008_grant_graph_implementations_for_nonsmooth::expression graphs": [
+      {
+        "id": "1904_02990"
+      }
+    ],
+    "1904_02990::symbolic computation": [],
     "1909_09223::interpretml": [],
     "1908_05968::n2d": [],
     "1903_04100::symplectic geometry": [],
@@ -744058,7 +747511,6 @@ window.tagSearchData = {
     "1934_black_stabilized_feedback_amplifiers::amplifier stabilization": [],
     "1934_black_stabilized_feedback_amplifiers::distortion reduction": [],
     "1934_black_stabilized_feedback_amplifiers::gain stability": [],
-    "1934_black_stabilized_feedback_amplifiers::bell labs": [],
     "1981_horn_determining_optical_flow::horn-schunck": [],
     "1981_horn_determining_optical_flow::brightness constancy": [],
     "1981_horn_determining_optical_flow::smoothness regularization": [],
@@ -744322,10 +747774,28 @@ window.tagSearchData = {
     "1975_bentley_multidimensional_binary_search_trees::partial match queries": [],
     "1975_gustafson_design_of_linear_regulators::linearization": [],
     "1975_gustafson_design_of_linear_regulators::linear quadratic regulator design": [],
-    "1975_csanky_fast_parallel_matrix_inversion::matrix inversion": [],
+    "1975_csanky_fast_parallel_matrix_inversion::matrix inversion": [
+      {
+        "id": "1983_baur_the_complexity_of_partial"
+      }
+    ],
+    "1983_baur_the_complexity_of_partial::matrix inversion": [
+      {
+        "id": "1975_csanky_fast_parallel_matrix_inversion"
+      }
+    ],
     "1975_csanky_fast_parallel_matrix_inversion::determinants": [],
     "1975_csanky_fast_parallel_matrix_inversion::characteristic polynomial": [],
-    "1975_csanky_fast_parallel_matrix_inversion::arithmetic complexity": [],
+    "1975_csanky_fast_parallel_matrix_inversion::arithmetic complexity": [
+      {
+        "id": "1983_baur_the_complexity_of_partial"
+      }
+    ],
+    "1983_baur_the_complexity_of_partial::arithmetic complexity": [
+      {
+        "id": "1975_csanky_fast_parallel_matrix_inversion"
+      }
+    ],
     "1975_csanky_fast_parallel_matrix_inversion::nc algorithms": [],
     "1975_rana_on_optimal_stationary_control::stationary control": [],
     "1975_rana_on_optimal_stationary_control::existence criteria": [],
@@ -744514,8 +747984,86 @@ window.tagSearchData = {
     "1989_blelloch_scans_as_primitive_parallel::parallel programming": [],
     "1989_blelloch_scans_as_primitive_parallel::functional primitives": [],
     "1989_griewank_on_automatic_differentiation::algorithmic differentiation": [],
-    "1989_griewank_on_automatic_differentiation::derivatives": [],
-    "1989_griewank_on_automatic_differentiation::scientific computing": [],
+    "1989_griewank_on_automatic_differentiation::derivatives": [
+      {
+        "id": "1964_wengert_a_simple_automatic_derivative"
+      },
+      {
+        "id": "1962_hanson_analytic_differentiation_by_computer"
+      },
+      {
+        "id": "1953_nolan_analytical_differentiation_on_a"
+      },
+      {
+        "id": "1953_kahrimanian_analytical_differentiation_by_a"
+      }
+    ],
+    "1953_kahrimanian_analytical_differentiation_by_a::derivatives": [
+      {
+        "id": "1989_griewank_on_automatic_differentiation"
+      },
+      {
+        "id": "1964_wengert_a_simple_automatic_derivative"
+      },
+      {
+        "id": "1962_hanson_analytic_differentiation_by_computer"
+      },
+      {
+        "id": "1953_nolan_analytical_differentiation_on_a"
+      }
+    ],
+    "1953_nolan_analytical_differentiation_on_a::derivatives": [
+      {
+        "id": "1989_griewank_on_automatic_differentiation"
+      },
+      {
+        "id": "1964_wengert_a_simple_automatic_derivative"
+      },
+      {
+        "id": "1962_hanson_analytic_differentiation_by_computer"
+      },
+      {
+        "id": "1953_kahrimanian_analytical_differentiation_by_a"
+      }
+    ],
+    "1964_wengert_a_simple_automatic_derivative::derivatives": [
+      {
+        "id": "1989_griewank_on_automatic_differentiation"
+      },
+      {
+        "id": "1962_hanson_analytic_differentiation_by_computer"
+      },
+      {
+        "id": "1953_nolan_analytical_differentiation_on_a"
+      },
+      {
+        "id": "1953_kahrimanian_analytical_differentiation_by_a"
+      }
+    ],
+    "1962_hanson_analytic_differentiation_by_computer::derivatives": [
+      {
+        "id": "1989_griewank_on_automatic_differentiation"
+      },
+      {
+        "id": "1964_wengert_a_simple_automatic_derivative"
+      },
+      {
+        "id": "1953_nolan_analytical_differentiation_on_a"
+      },
+      {
+        "id": "1953_kahrimanian_analytical_differentiation_by_a"
+      }
+    ],
+    "1989_griewank_on_automatic_differentiation::scientific computing": [
+      {
+        "id": "1964_wengert_a_simple_automatic_derivative"
+      }
+    ],
+    "1964_wengert_a_simple_automatic_derivative::scientific computing": [
+      {
+        "id": "1989_griewank_on_automatic_differentiation"
+      }
+    ],
     "1989_griewank_on_automatic_differentiation::sensitivity analysis": [],
     "1989_rohwer_idempotent_one_sided_approximation::idempotent filters": [],
     "1989_rohwer_idempotent_one_sided_approximation::rank filters": [],
@@ -744533,6 +748081,10 @@ window.tagSearchData = {
     "1952_lanczos_solution_of_systems_of::minimized iterations": [],
     "1952_lanczos_solution_of_systems_of::iterative linear solvers": [],
     "1952_lanczos_solution_of_systems_of::large-scale computation": [],
+    "1952_huffman_a_method_for_the::minimum redundancy coding": [],
+    "1952_huffman_a_method_for_the::prefix codes": [],
+    "1952_huffman_a_method_for_the::variable length codes": [],
+    "1952_huffman_a_method_for_the::entropy coding": [],
     "1986_saad_gmres_a_generalized_minimal::gmres": [],
     "1986_saad_gmres_a_generalized_minimal::arnoldi process": [],
     "1986_saad_gmres_a_generalized_minimal::minimal residual methods": [],
@@ -744729,7 +748281,6 @@ window.tagSearchData = {
     "2004_folkesson_graphical_slam_a_self::outdoor robots": [],
     "2004_wang_image_quality_assessment_from::structural similarity": [],
     "2004_wang_image_quality_assessment_from::image quality assessment": [],
-    "2004_wang_image_quality_assessment_from::perceptual metrics": [],
     "2004_wang_image_quality_assessment_from::human visual system": [],
     "cond_mat_0408187::cnm algorithm": [],
     "cond_mat_0408187::fast greedy modularity": [],
@@ -744741,6 +748292,8 @@ window.tagSearchData = {
     "1983_lozano_perez_spatial_planning_a_configuration::polygonal obstacles": [],
     "1983_lozano_perez_spatial_planning_a_configuration::polyhedral obstacles": [],
     "1983_sontag_a_lyapunov_like_characterization::asymptotic controllability": [],
+    "1983_baur_the_complexity_of_partial::arithmetic circuits": [],
+    "1983_baur_the_complexity_of_partial::partial derivatives": [],
     "1958_sion_on_general_minimax_theorems::fixed-point theory": [],
     "1958_bellman_on_a_routing_problem::bellman-ford algorithm": [],
     "1958_bellman_on_a_routing_problem::network routing": [],
@@ -744802,7 +748355,6 @@ window.tagSearchData = {
     "1971_bertsekas_recursive_state_estimation_for::set-membership estimation": [],
     "1971_bertsekas_recursive_state_estimation_for::bounded uncertainty": [],
     "1971_bertsekas_recursive_state_estimation_for::ellipsoidal estimation": [],
-    "1971_bertsekas_recursive_state_estimation_for::filtering": [],
     "1971_athans_the_role_and_use::control system design": [],
     "1971_athans_the_role_and_use::separation principle": [],
     "1963_morgan_problems_in_the_analysis::aid": [],
@@ -745019,6 +748571,12 @@ window.tagSearchData = {
     "1978_freeman_centrality_in_social_networks::betweenness centrality": [],
     "1978_freeman_centrality_in_social_networks::centralization": [],
     "1978_freeman_centrality_in_social_networks::structural analysis": [],
+    "1948_shannon_a_mathematical_theory_of::channel coding": [],
+    "1948_shannon_a_mathematical_theory_of::entropy": [],
+    "1948_shannon_a_mathematical_theory_of::communication theory": [],
+    "1948_shannon_a_mathematical_theory_of::noisy channels": [],
+    "1948_shannon_a_mathematical_theory_of::channel capacity": [],
+    "1948_shannon_a_mathematical_theory_of::error correction": [],
     "1987_lorensen_marching_cubes_a_high::marching cubes": [],
     "1987_lorensen_marching_cubes_a_high::isosurface extraction": [],
     "1987_lorensen_marching_cubes_a_high::volume visualization": [],
@@ -745100,6 +748658,10 @@ window.tagSearchData = {
     "1991_wang_a_combined_optimization_method::joint limits": [],
     "1991_lin_a_fast_algorithm_for::convex polyhedra": [],
     "1991_lin_a_fast_algorithm_for::closest points": [],
+    "1991_wallace_the_jpeg_still_picture::still image coding": [],
+    "1991_wallace_the_jpeg_still_picture::quantization": [],
+    "1991_wallace_the_jpeg_still_picture::lossy compression": [],
+    "1991_wallace_the_jpeg_still_picture::standards": [],
     "1991_sanner_gaussian_networks_for_direct::radial basis functions": [],
     "1991_lin_a_universal_formula_for::bounded controls": [],
     "1991_freund_qmr_a_quasi_minimal::qmr": [],
@@ -745112,6 +748674,9 @@ window.tagSearchData = {
     "1991_davidon_variable_metric_method_for::variable metric": [],
     "1996_ester_a_density_based_algorithm::noise handling": [],
     "1996_ester_a_density_based_algorithm::arbitrary-shape clusters": [],
+    "1996_said_a_new_fast_and::spiht": [],
+    "1996_said_a_new_fast_and::set partitioning": [],
+    "1996_said_a_new_fast_and::hierarchical trees": [],
     "1996_black_the_robust_estimation_of::multiple motion": [],
     "1996_black_the_robust_estimation_of::parametric motion": [],
     "1996_black_the_robust_estimation_of::piecewise-smooth flow": [],
@@ -745183,6 +748748,8 @@ window.tagSearchData = {
     "1993_boyd_method_of_centers_for::self-concordant barriers": [],
     "1993_quinlan_c4_5_programs_for_machine::c4.5": [],
     "1993_quinlan_c4_5_programs_for_machine::gain ratio": [],
+    "1993_shapiro_embedded_image_coding_using::embedded zerotree wavelet": [],
+    "1993_shapiro_embedded_image_coding_using::rate control": [],
     "1993_bromley_signature_verification_using_a::signature verification": [],
     "1993_bromley_signature_verification_using_a::time-delay neural networks": [],
     "1993_how_connections_between_the_popov::popov criterion": [],
@@ -745401,7 +748968,6 @@ window.tagSearchData = {
     "2013_domahidi_ecos_an_socp_solver::ecos": [],
     "2013_domahidi_ecos_an_socp_solver::sparse ldl": [],
     "1309_2388::non-uniform sampling": [],
-    "2013_maas_rectifier_nonlinearities_improve_neural::acoustic models": [],
     "1309_7478::structured recovery": [],
     "2013_erez_an_integrated_system_for::human guidance": [],
     "2013_erez_an_integrated_system_for::behavior generation": [],
@@ -745538,9 +749104,60 @@ window.tagSearchData = {
     "1953_watson_molecular_structure_of_nucleic::base pairing": [],
     "1953_watson_molecular_structure_of_nucleic::nucleic acids": [],
     "1953_watson_molecular_structure_of_nucleic::structural biology": [],
+    "1953_kahrimanian_analytical_differentiation_by_a::analytic differentiation": [
+      {
+        "id": "1962_hanson_analytic_differentiation_by_computer"
+      },
+      {
+        "id": "1953_nolan_analytical_differentiation_on_a"
+      }
+    ],
+    "1953_nolan_analytical_differentiation_on_a::analytic differentiation": [
+      {
+        "id": "1962_hanson_analytic_differentiation_by_computer"
+      },
+      {
+        "id": "1953_kahrimanian_analytical_differentiation_by_a"
+      }
+    ],
+    "1962_hanson_analytic_differentiation_by_computer::analytic differentiation": [
+      {
+        "id": "1953_nolan_analytical_differentiation_on_a"
+      },
+      {
+        "id": "1953_kahrimanian_analytical_differentiation_by_a"
+      }
+    ],
+    "1953_kahrimanian_analytical_differentiation_by_a::computer algebra": [
+      {
+        "id": "1962_hanson_analytic_differentiation_by_computer"
+      },
+      {
+        "id": "1953_nolan_analytical_differentiation_on_a"
+      }
+    ],
+    "1953_nolan_analytical_differentiation_on_a::computer algebra": [
+      {
+        "id": "1962_hanson_analytic_differentiation_by_computer"
+      },
+      {
+        "id": "1953_kahrimanian_analytical_differentiation_by_a"
+      }
+    ],
+    "1962_hanson_analytic_differentiation_by_computer::computer algebra": [
+      {
+        "id": "1953_nolan_analytical_differentiation_on_a"
+      },
+      {
+        "id": "1953_kahrimanian_analytical_differentiation_by_a"
+      }
+    ],
+    "1953_kahrimanian_analytical_differentiation_by_a::formula manipulation": [],
+    "1953_kahrimanian_analytical_differentiation_by_a::univac": [],
     "1953_shapley_a_value_for_n::cooperative games": [],
     "1953_shapley_a_value_for_n::fair allocation": [],
     "1953_shapley_a_value_for_n::axiomatic game theory": [],
+    "1953_nolan_analytical_differentiation_on_a::automatic differentiation history": [],
     "2009_chandrasekaran_sparse_and_low_rank::sparse models": [],
     "2009_feitzinger_inexact_kleinman_newton_method::kleinman-newton method": [],
     "2009_feitzinger_inexact_kleinman_newton_method::inexact solves": [],
@@ -745759,7 +749376,6 @@ window.tagSearchData = {
     "1806_05618::svrg": [],
     "2018_seshia_formal_specification_for_deep::neural network verification": [],
     "2018_seshia_formal_specification_for_deep::deep learning safety": [],
-    "1805_05533::transforms": [],
     "1805_05533::dft": [],
     "1805_05533::discrete fourier transform": [],
     "1805_05533::fourier transform": [],
@@ -745852,7 +749468,6 @@ window.tagSearchData = {
     "1965_magill_optimal_adaptive_estimation_of::gauss-markov processes": [],
     "1965_bogdanoff_experiments_with_an_inverted::parametric excitation": [],
     "1965_bogdanoff_experiments_with_an_inverted::random vibration": [],
-    "1965_cooley_an_algorithm_for_the::fast fourier transform": [],
     "1965_cooley_an_algorithm_for_the::cooley-tukey algorithm": [],
     "1965_cooley_an_algorithm_for_the::fourier series": [],
     "1965_cooley_an_algorithm_for_the::in-place computation": [],
@@ -745860,7 +749475,6 @@ window.tagSearchData = {
     "1965_anderson_iterative_procedures_for_nonlinear::integral equations": [],
     "1982_lloyd_least_squares_quantization_in::lloyd's algorithm": [],
     "1982_lloyd_least_squares_quantization_in::scalar quantization": [],
-    "1982_lloyd_least_squares_quantization_in::pulse-code modulation": [],
     "1960_kalman_a_new_approach_to::linear filtering": [],
     "1960_kalman_a_new_approach_to::optimal estimation": [],
     "1960_rosenbrock_an_automatic_method_for::rosenbrock method": [],
@@ -745902,6 +749516,9 @@ window.tagSearchData = {
     "1992_eckstein_on_the_douglas_rachford::douglas-rachford splitting": [],
     "1992_eckstein_on_the_douglas_rachford::proximal point algorithm": [],
     "1992_eckstein_on_the_douglas_rachford::monotone operators": [],
+    "1992_antonini_image_coding_using_wavelet::biorthogonal wavelets": [],
+    "1992_antonini_image_coding_using_wavelet::psychovisual modeling": [],
+    "1992_antonini_image_coding_using_wavelet::multiresolution coding": [],
     "1932_nyquist_regeneration_theory::nyquist criterion": [],
     "1932_nyquist_regeneration_theory::feedback stability": [],
     "1932_nyquist_regeneration_theory::frequency-domain analysis": [],
@@ -746022,9 +749639,15 @@ window.tagSearchData = {
     "1974_dijkstra_on_the_role_of::separation of concerns": [],
     "1974_dijkstra_on_the_role_of::computer science philosophy": [],
     "1974_dijkstra_on_the_role_of::epistemology": [],
+    "1974_ahmed_discrete_cosine_transform::orthogonal transforms": [],
+    "1974_ahmed_discrete_cosine_transform::karhunen-loeve transform": [],
+    "1974_ahmed_discrete_cosine_transform::energy compaction": [],
     "1961_held_a_dynamic_programming_approach::held-karp algorithm": [],
     "1961_held_a_dynamic_programming_approach::sequencing problems": [],
     "1961_held_a_dynamic_programming_approach::scheduling": [],
+    "1964_wengert_a_simple_automatic_derivative::wengert list": [],
+    "1964_wengert_a_simple_automatic_derivative::forward mode": [],
+    "1964_wengert_a_simple_automatic_derivative::intermediate variables": [],
     "1964_sinkhorn_a_relationship_between_arbitrary::sinkhorn scaling": [],
     "1964_sinkhorn_a_relationship_between_arbitrary::positive matrices": [],
     "1964_sinkhorn_a_relationship_between_arbitrary::diagonal scaling": [],
@@ -746036,7 +749659,6 @@ window.tagSearchData = {
     "1964_polyak_some_methods_of_speeding::iteration methods": [],
     "1964_polyak_some_methods_of_speeding::convergence acceleration": [],
     "1957_munkres_algorithms_for_the_assignment::transportation problem": [],
-    "2008_grant_graph_implementations_for_nonsmooth::expression graphs": [],
     "2008_grant_graph_implementations_for_nonsmooth::modeling languages": [],
     "2008_rahimi_weighted_sums_of_random::random features": [],
     "2008_rahimi_weighted_sums_of_random::randomization": [],
@@ -746103,6 +749725,8 @@ window.tagSearchData = {
     "1962_hoare_quicksort::in-place sorting": [],
     "1962_hoare_quicksort::random-access memory": [],
     "1962_hoare_quicksort::algorithm analysis": [],
+    "1962_hanson_analytic_differentiation_by_computer::symbol manipulation": [],
+    "1962_hanson_analytic_differentiation_by_computer::automatic programming": [],
     "1962_bellman_dynamic_programming_treatment_of::bellman-held-karp algorithm": [],
     "1962_bryson_a_steepest_ascent_method::adjoint equations": [],
     "1962_bryson_a_steepest_ascent_method::variational calculus": [],

@@ -1,0 +1,24 @@
+title: >
+  Subdivision of the Audible Frequency Range into Critical Bands (Frequenzgruppen)
+algorithm: "Critical Bands"
+authors:
+  - Eberhard Zwicker
+year: 1961
+source: The Journal of the Acoustical Society of America
+type: Journal Paper
+doi: 10.1121/1.1908630
+arxiv_id:
+tags:
+  - Audio compression
+  - Psychophysics
+  - Acoustic models
+  - Perceptual metrics
+abstract: ""
+summary: >
+  Introduces the subdivision of the audible frequency range into critical bands, the psychoacoustic structure later associated with the Bark scale. Its importance for compression is foundational: perceptual codecs use critical-band masking behavior to decide which quantization noise and spectral detail can be hidden from listeners.
+link: https://pubs.aip.org/asa/jasa/article-pdf/33/2/248/18743398/248_1_online.pdf
+links_alt:
+  - https://pubs.aip.org/asa/jasa/article/33/2/248/619334/Subdivision-of-the-Audible-Frequency-Range-into
+  - https://doi.org/10.1121/1.1908630
+  - https://cir.nii.ac.jp/crid/1360011143572943488
+audit_status: partial

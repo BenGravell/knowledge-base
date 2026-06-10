@@ -1,15 +1,15 @@
 window.analyticsData = {
   "metrics": {
-    "totalPapers": 2327,
-    "datedPapers": 2327,
+    "totalPapers": 2348,
+    "datedPapers": 2348,
     "undatedPapers": 0,
-    "uniqueAuthors": 13197,
-    "uniqueSources": 529,
-    "uniqueTags": 3733,
+    "uniqueAuthors": 13240,
+    "uniqueSources": 536,
+    "uniqueTags": 3795,
     "minYear": 1816,
     "maxYear": 2026,
-    "arxivPapers": 1432,
-    "doiPapers": 1241
+    "arxivPapers": 1435,
+    "doiPapers": 1256
   },
   "years": [
     {
@@ -33,7 +33,7 @@ window.analyticsData = {
       "start": 1900,
       "end": 1949,
       "width": 50,
-      "count": 8,
+      "count": 9,
       "region": "Pre-1950"
     },
     {
@@ -41,7 +41,7 @@ window.analyticsData = {
       "start": 1950,
       "end": 1959,
       "width": 10,
-      "count": 18,
+      "count": 21,
       "region": "1950-1999"
     },
     {
@@ -49,7 +49,7 @@ window.analyticsData = {
       "start": 1960,
       "end": 1969,
       "width": 10,
-      "count": 33,
+      "count": 36,
       "region": "1950-1999"
     },
     {
@@ -57,7 +57,7 @@ window.analyticsData = {
       "start": 1970,
       "end": 1979,
       "width": 10,
-      "count": 48,
+      "count": 50,
       "region": "1950-1999"
     },
     {
@@ -65,7 +65,7 @@ window.analyticsData = {
       "start": 1980,
       "end": 1989,
       "width": 10,
-      "count": 56,
+      "count": 58,
       "region": "1950-1999"
     },
     {
@@ -73,7 +73,7 @@ window.analyticsData = {
       "start": 1990,
       "end": 1999,
       "width": 10,
-      "count": 123,
+      "count": 129,
       "region": "1950-1999"
     },
     {
@@ -81,7 +81,7 @@ window.analyticsData = {
       "start": 2000,
       "end": 2004,
       "width": 5,
-      "count": 78,
+      "count": 79,
       "region": "2000-present"
     },
     {
@@ -105,7 +105,7 @@ window.analyticsData = {
       "start": 2015,
       "end": 2019,
       "width": 5,
-      "count": 530,
+      "count": 531,
       "region": "2000-present"
     },
     {
@@ -113,7 +113,7 @@ window.analyticsData = {
       "start": 2020,
       "end": 2024,
       "width": 5,
-      "count": 723,
+      "count": 725,
       "region": "2000-present"
     },
     {
@@ -149,7 +149,7 @@ window.analyticsData = {
         "start": 1900,
         "end": 1949,
         "width": 50,
-        "count": 8,
+        "count": 9,
         "region": "Pre-1950"
       },
       {
@@ -157,7 +157,7 @@ window.analyticsData = {
         "start": 1950,
         "end": 1959,
         "width": 10,
-        "count": 18,
+        "count": 21,
         "region": "1950-1999"
       },
       {
@@ -165,7 +165,7 @@ window.analyticsData = {
         "start": 1960,
         "end": 1969,
         "width": 10,
-        "count": 33,
+        "count": 36,
         "region": "1950-1999"
       },
       {
@@ -173,7 +173,7 @@ window.analyticsData = {
         "start": 1970,
         "end": 1979,
         "width": 10,
-        "count": 48,
+        "count": 50,
         "region": "1950-1999"
       },
       {
@@ -181,7 +181,7 @@ window.analyticsData = {
         "start": 1980,
         "end": 1989,
         "width": 10,
-        "count": 56,
+        "count": 58,
         "region": "1950-1999"
       },
       {
@@ -189,7 +189,7 @@ window.analyticsData = {
         "start": 1990,
         "end": 1999,
         "width": 10,
-        "count": 123,
+        "count": 129,
         "region": "1950-1999"
       },
       {
@@ -197,7 +197,7 @@ window.analyticsData = {
         "start": 2000,
         "end": 2004,
         "width": 5,
-        "count": 78,
+        "count": 79,
         "region": "2000-present"
       },
       {
@@ -221,7 +221,7 @@ window.analyticsData = {
         "start": 2015,
         "end": 2019,
         "width": 5,
-        "count": 530,
+        "count": 531,
         "region": "2000-present"
       },
       {
@@ -229,7 +229,7 @@ window.analyticsData = {
         "start": 2020,
         "end": 2024,
         "width": 5,
-        "count": 723,
+        "count": 725,
         "region": "2000-present"
       },
       {
@@ -296,7 +296,7 @@ window.analyticsData = {
         "start": 1940,
         "end": 1949,
         "width": 10,
-        "count": 5,
+        "count": 6,
         "region": "1900-1949"
       },
       {
@@ -304,7 +304,7 @@ window.analyticsData = {
         "start": 1950,
         "end": 1954,
         "width": 5,
-        "count": 8,
+        "count": 11,
         "region": "1950-1999"
       },
       {
@@ -320,7 +320,7 @@ window.analyticsData = {
         "start": 1960,
         "end": 1964,
         "width": 5,
-        "count": 13,
+        "count": 16,
         "region": "1950-1999"
       },
       {
@@ -336,7 +336,7 @@ window.analyticsData = {
         "start": 1970,
         "end": 1974,
         "width": 5,
-        "count": 25,
+        "count": 26,
         "region": "1950-1999"
       },
       {
@@ -344,7 +344,7 @@ window.analyticsData = {
         "start": 1975,
         "end": 1979,
         "width": 5,
-        "count": 23,
+        "count": 24,
         "region": "1950-1999"
       },
       {
@@ -352,7 +352,7 @@ window.analyticsData = {
         "start": 1980,
         "end": 1984,
         "width": 5,
-        "count": 16,
+        "count": 17,
         "region": "1950-1999"
       },
       {
@@ -360,7 +360,7 @@ window.analyticsData = {
         "start": 1985,
         "end": 1989,
         "width": 5,
-        "count": 40,
+        "count": 41,
         "region": "1950-1999"
       },
       {
@@ -368,7 +368,7 @@ window.analyticsData = {
         "start": 1990,
         "end": 1994,
         "width": 5,
-        "count": 51,
+        "count": 55,
         "region": "1950-1999"
       },
       {
@@ -376,7 +376,7 @@ window.analyticsData = {
         "start": 1995,
         "end": 1999,
         "width": 5,
-        "count": 72,
+        "count": 74,
         "region": "1950-1999"
       },
       {
@@ -384,7 +384,7 @@ window.analyticsData = {
         "start": 2000,
         "end": 2000,
         "width": 1,
-        "count": 12,
+        "count": 13,
         "region": "2000-present"
       },
       {
@@ -536,7 +536,7 @@ window.analyticsData = {
         "start": 2019,
         "end": 2019,
         "width": 1,
-        "count": 135,
+        "count": 136,
         "region": "2000-present"
       },
       {
@@ -552,7 +552,7 @@ window.analyticsData = {
         "start": 2021,
         "end": 2021,
         "width": 1,
-        "count": 142,
+        "count": 143,
         "region": "2000-present"
       },
       {
@@ -560,7 +560,7 @@ window.analyticsData = {
         "start": 2022,
         "end": 2022,
         "width": 1,
-        "count": 139,
+        "count": 140,
         "region": "2000-present"
       },
       {
@@ -4527,6 +4527,10 @@ window.analyticsData = {
       "count": 3
     },
     {
+      "label": "Gabriel Synnaeve",
+      "count": 3
+    },
+    {
       "label": "Gabriela Surita",
       "count": 3
     },
@@ -5512,6 +5516,10 @@ window.analyticsData = {
     },
     {
       "label": "Marco Selvi",
+      "count": 3
+    },
+    {
+      "label": "Marco Tagliasacchi",
       "count": 3
     },
     {
@@ -7303,6 +7311,10 @@ window.analyticsData = {
       "count": 2
     },
     {
+      "label": "Ahmed Omran",
+      "count": 2
+    },
+    {
       "label": "Aida Amini",
       "count": 2
     },
@@ -7504,6 +7516,10 @@ window.analyticsData = {
     },
     {
       "label": "Alexandra Chronopoulou",
+      "count": 2
+    },
+    {
+      "label": "Alexandre Defossez",
       "count": 2
     },
     {
@@ -9303,10 +9319,6 @@ window.analyticsData = {
       "count": 2
     },
     {
-      "label": "Gabriel Synnaeve",
-      "count": 2
-    },
-    {
       "label": "Gamaleldin Elsayed",
       "count": 2
     },
@@ -9948,6 +9960,10 @@ window.analyticsData = {
     },
     {
       "label": "Jacob Sacks",
+      "count": 2
+    },
+    {
+      "label": "Jade Copet",
       "count": 2
     },
     {
@@ -10695,6 +10711,10 @@ window.analyticsData = {
       "count": 2
     },
     {
+      "label": "Karlheinz Brandenburg",
+      "count": 2
+    },
+    {
       "label": "Karolis Misiunas",
       "count": 2
     },
@@ -11232,10 +11252,6 @@ window.analyticsData = {
     },
     {
       "label": "Marco Frego",
-      "count": 2
-    },
-    {
-      "label": "Marco Tagliasacchi",
       "count": 2
     },
     {
@@ -14303,6 +14319,10 @@ window.analyticsData = {
       "count": 2
     },
     {
+      "label": "Yossi Adi",
+      "count": 2
+    },
+    {
       "label": "Yossi Matias",
       "count": 2
     },
@@ -15443,10 +15463,6 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "Ahmed Omran",
-      "count": 1
-    },
-    {
       "label": "Ahmet Iscen",
       "count": 1
     },
@@ -15583,6 +15599,10 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Alan B. Bradley",
+      "count": 1
+    },
+    {
       "label": "Alan Bonomi",
       "count": 1
     },
@@ -15684,6 +15704,10 @@ window.analyticsData = {
     },
     {
       "label": "Alejandro Lince",
+      "count": 1
+    },
+    {
+      "label": "Alejandro Luebs",
       "count": 1
     },
     {
@@ -16135,10 +16159,6 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "Alexandre Defossez",
-      "count": 1
-    },
-    {
       "label": "Alexandre Galashov",
       "count": 1
     },
@@ -16572,6 +16592,10 @@ window.analyticsData = {
     },
     {
       "label": "Amir Sadik",
+      "count": 1
+    },
+    {
+      "label": "Amir Said",
       "count": 1
     },
     {
@@ -19203,6 +19227,10 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Bishnu S. Atal",
+      "count": 1
+    },
+    {
       "label": "Biswadip Dey",
       "count": 1
     },
@@ -19968,6 +19996,10 @@ window.analyticsData = {
     },
     {
       "label": "Cameron Raymond",
+      "count": 1
+    },
+    {
+      "label": "Camilla Joseph",
       "count": 1
     },
     {
@@ -21359,6 +21391,10 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Claude E. Shannon",
+      "count": 1
+    },
+    {
       "label": "Claudia Fischer",
       "count": 1
     },
@@ -22391,6 +22427,10 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "David A. Huffman",
+      "count": 1
+    },
+    {
       "label": "David A. Wassarman",
       "count": 1
     },
@@ -22684,6 +22724,10 @@ window.analyticsData = {
     },
     {
       "label": "David Ruppert",
+      "count": 1
+    },
+    {
+      "label": "David S. Taubman",
       "count": 1
     },
     {
@@ -23744,6 +23788,10 @@ window.analyticsData = {
     },
     {
       "label": "E.P. Simoncelli",
+      "count": 1
+    },
+    {
+      "label": "Eberhard Zwicker",
       "count": 1
     },
     {
@@ -26063,6 +26111,10 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Gerhard Stoll",
+      "count": 1
+    },
+    {
       "label": "Germain Forestier",
       "count": 1
     },
@@ -26315,6 +26367,10 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Grant Davidson",
+      "count": 1
+    },
+    {
       "label": "Grant Gould",
       "count": 1
     },
@@ -26376,6 +26432,10 @@ window.analyticsData = {
     },
     {
       "label": "Gregory Dibb",
+      "count": 1
+    },
+    {
+      "label": "Gregory K. Wallace",
       "count": 1
     },
     {
@@ -27247,6 +27307,10 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Harry G. Kahrimanian",
+      "count": 1
+    },
+    {
       "label": "Harry Kim",
       "count": 1
     },
@@ -27416,6 +27480,10 @@ window.analyticsData = {
     },
     {
       "label": "Henrik Christensen",
+      "count": 1
+    },
+    {
+      "label": "Henrik Fuchs",
       "count": 1
     },
     {
@@ -28227,6 +28295,10 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Ingrid Daubechies",
+      "count": 1
+    },
+    {
       "label": "Ingrid Kelly",
       "count": 1
     },
@@ -28879,10 +28951,6 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "Jade Copet",
-      "count": 1
-    },
-    {
       "label": "Jade Leung",
       "count": 1
     },
@@ -29195,6 +29263,10 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "James W. Hanson",
+      "count": 1
+    },
+    {
       "label": "James Wendt",
       "count": 1
     },
@@ -29279,6 +29351,10 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Jan Skoglund",
+      "count": 1
+    },
+    {
       "label": "Jan Swevers",
       "count": 1
     },
@@ -29320,6 +29396,10 @@ window.analyticsData = {
     },
     {
       "label": "Jane Shapiro",
+      "count": 1
+    },
+    {
+      "label": "Jane Shearin Caviness",
       "count": 1
     },
     {
@@ -29900,6 +29980,10 @@ window.analyticsData = {
     },
     {
       "label": "Jerome Connor",
+      "count": 1
+    },
+    {
+      "label": "Jerome M. Shapiro",
       "count": 1
     },
     {
@@ -31027,6 +31111,10 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "John F. Nolan",
+      "count": 1
+    },
+    {
       "label": "John Gale",
       "count": 1
     },
@@ -31068,6 +31156,10 @@ window.analyticsData = {
     },
     {
       "label": "John N. Tsitsiklis",
+      "count": 1
+    },
+    {
+      "label": "John P. Princen",
       "count": 1
     },
     {
@@ -31459,6 +31551,10 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Joseph L. Hall",
+      "count": 1
+    },
+    {
       "label": "Joseph Masterjohn",
       "count": 1
     },
@@ -31664,6 +31760,10 @@ window.analyticsData = {
     },
     {
       "label": "Judith R. Hernandez",
+      "count": 1
+    },
+    {
+      "label": "Juergen Herre",
       "count": 1
     },
     {
@@ -32084,6 +32184,10 @@ window.analyticsData = {
     },
     {
       "label": "K. Pap",
+      "count": 1
+    },
+    {
+      "label": "K. R. Rao",
       "count": 1
     },
     {
@@ -32816,6 +32920,10 @@ window.analyticsData = {
     },
     {
       "label": "Kenta Kawamoto",
+      "count": 1
+    },
+    {
+      "label": "Kenzo Akagiri",
       "count": 1
     },
     {
@@ -34583,6 +34691,10 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Louis Fielder",
+      "count": 1
+    },
+    {
       "label": "Louis O'Bryan",
       "count": 1
     },
@@ -35331,6 +35443,10 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Manfred R. Schroeder",
+      "count": 1
+    },
+    {
       "label": "Manfred Warmuth",
       "count": 1
     },
@@ -35416,6 +35532,10 @@ window.analyticsData = {
     },
     {
       "label": "Marat Dukhan",
+      "count": 1
+    },
+    {
+      "label": "Marc Antonini",
       "count": 1
     },
     {
@@ -35668,6 +35788,10 @@ window.analyticsData = {
     },
     {
       "label": "Marina Boia",
+      "count": 1
+    },
+    {
+      "label": "Marina Bosi",
       "count": 1
     },
     {
@@ -35928,6 +36052,10 @@ window.analyticsData = {
     },
     {
       "label": "Martin Bolle",
+      "count": 1
+    },
+    {
+      "label": "Martin Dietz",
       "count": 1
     },
     {
@@ -37271,6 +37399,10 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Michel Barlaud",
+      "count": 1
+    },
+    {
       "label": "Michele Bevilacqua",
       "count": 1
     },
@@ -38427,6 +38559,10 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Nasir Ahmed",
+      "count": 1
+    },
+    {
       "label": "Nassim Massaudi",
       "count": 1
     },
@@ -38660,6 +38796,10 @@ window.analyticsData = {
     },
     {
       "label": "Neil T. Dantam",
+      "count": 1
+    },
+    {
+      "label": "Neil Zeghidour",
       "count": 1
     },
     {
@@ -40839,6 +40979,10 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Pierre Mathieu",
+      "count": 1
+    },
+    {
       "label": "Pierre O.M. Scokaert",
       "count": 1
     },
@@ -42572,6 +42716,10 @@ window.analyticsData = {
     },
     {
       "label": "Robert E. Schapire",
+      "count": 1
+    },
+    {
+      "label": "Robert Edwin Wengert",
       "count": 1
     },
     {
@@ -44383,6 +44531,10 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Schuyler R. Quackenbush",
+      "count": 1
+    },
+    {
       "label": "Scott Baird",
       "count": 1
     },
@@ -45959,6 +46111,10 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Soeren Laue",
+      "count": 1
+    },
+    {
       "label": "Sofia Erell",
       "count": 1
     },
@@ -47016,6 +47172,10 @@ window.analyticsData = {
     },
     {
       "label": "T. Namerikawa",
+      "count": 1
+    },
+    {
+      "label": "T. Natarajan",
       "count": 1
     },
     {
@@ -49215,6 +49375,10 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Volker Strassen",
+      "count": 1
+    },
+    {
       "label": "Volodya Vovk",
       "count": 1
     },
@@ -49300,6 +49464,10 @@ window.analyticsData = {
     },
     {
       "label": "Waleed Khawaja",
+      "count": 1
+    },
+    {
+      "label": "Walter Baur",
       "count": 1
     },
     {
@@ -49812,6 +49980,10 @@ window.analyticsData = {
     },
     {
       "label": "William A. Johnson",
+      "count": 1
+    },
+    {
+      "label": "William A. Pearlman",
       "count": 1
     },
     {
@@ -51767,15 +51939,15 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Yoshiaki Oikawa",
+      "count": 1
+    },
+    {
       "label": "Yoshihiko Kimura",
       "count": 1
     },
     {
       "label": "Yoshiyuki Yamashita",
-      "count": 1
-    },
-    {
-      "label": "Yossi Adi",
       "count": 1
     },
     {
@@ -53394,7 +53566,7 @@ window.analyticsData = {
     },
     {
       "label": "arXiv",
-      "count": 440
+      "count": 441
     },
     {
       "label": "IEEE International Conference on Robotics and Automation (ICRA)",
@@ -53449,6 +53621,10 @@ window.analyticsData = {
       "count": 14
     },
     {
+      "label": "Communications of the ACM",
+      "count": 13
+    },
+    {
       "label": "IEEE Control Systems Letters",
       "count": 13
     },
@@ -53487,10 +53663,6 @@ window.analyticsData = {
     {
       "label": "Machine Learning",
       "count": 11
-    },
-    {
-      "label": "Communications of the ACM",
-      "count": 10
     },
     {
       "label": "SIAM Journal on Optimization",
@@ -53637,6 +53809,10 @@ window.analyticsData = {
       "count": 5
     },
     {
+      "label": "IEEE Transactions on Signal Processing",
+      "count": 5
+    },
+    {
       "label": "International Journal of Control",
       "count": 5
     },
@@ -53669,6 +53845,10 @@ window.analyticsData = {
       "count": 4
     },
     {
+      "label": "Bell System Technical Journal",
+      "count": 4
+    },
+    {
       "label": "Evolutionary Computation",
       "count": 4
     },
@@ -53678,10 +53858,6 @@ window.analyticsData = {
     },
     {
       "label": "IEEE Transactions on Intelligent Vehicles",
-      "count": 4
-    },
-    {
-      "label": "IEEE Transactions on Signal Processing",
       "count": 4
     },
     {
@@ -53729,10 +53905,6 @@ window.analyticsData = {
       "count": 3
     },
     {
-      "label": "Bell System Technical Journal",
-      "count": 3
-    },
-    {
       "label": "Computer-Aided Design",
       "count": 3
     },
@@ -53762,6 +53934,14 @@ window.analyticsData = {
     },
     {
       "label": "IEEE Signal Processing Magazine",
+      "count": 3
+    },
+    {
+      "label": "IEEE Transactions on Computers",
+      "count": 3
+    },
+    {
+      "label": "IEEE Transactions on Image Processing",
       "count": 3
     },
     {
@@ -53945,15 +54125,15 @@ window.analyticsData = {
       "count": 2
     },
     {
+      "label": "IEEE Transactions on Acoustics, Speech, and Signal Processing",
+      "count": 2
+    },
+    {
       "label": "IEEE Transactions on Automatic Control (TAC)",
       "count": 2
     },
     {
       "label": "IEEE Transactions on Big Data",
-      "count": 2
-    },
-    {
-      "label": "IEEE Transactions on Computers",
       "count": 2
     },
     {
@@ -54009,7 +54189,15 @@ window.analyticsData = {
       "count": 2
     },
     {
+      "label": "Journal of the Audio Engineering Society",
+      "count": 2
+    },
+    {
       "label": "Lecture Notes in Control and Information Sciences",
+      "count": 2
+    },
+    {
+      "label": "Massachusetts Institute of Technology",
       "count": 2
     },
     {
@@ -54082,6 +54270,14 @@ window.analyticsData = {
     },
     {
       "label": "The Annals of Mathematical Statistics",
+      "count": 2
+    },
+    {
+      "label": "The Journal of the Acoustical Society of America",
+      "count": 2
+    },
+    {
+      "label": "Theoretical Computer Science",
       "count": 2
     },
     {
@@ -54657,10 +54853,6 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "IEEE Transactions on Acoustics, Speech, and Signal Processing",
-      "count": 1
-    },
-    {
       "label": "IEEE Transactions on Aerospace and Electronic Systems",
       "count": 1
     },
@@ -54669,15 +54861,15 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "IEEE Transactions on Circuits and Systems for Video Technology",
+      "count": 1
+    },
+    {
       "label": "IEEE Transactions on Computational Imaging",
       "count": 1
     },
     {
       "label": "IEEE Transactions on Control of Network Systems",
-      "count": 1
-    },
-    {
-      "label": "IEEE Transactions on Image Processing",
       "count": 1
     },
     {
@@ -54698,6 +54890,10 @@ window.analyticsData = {
     },
     {
       "label": "IEEE-RAS International Conference on Humanoid Robots",
+      "count": 1
+    },
+    {
+      "label": "IEEE/ACM Transactions on Audio, Speech, and Language Processing",
       "count": 1
     },
     {
@@ -54950,10 +55146,6 @@ window.analyticsData = {
     },
     {
       "label": "Machine Learning: Science and Technology",
-      "count": 1
-    },
-    {
-      "label": "Massachusetts Institute of Technology",
       "count": 1
     },
     {
@@ -55225,6 +55417,10 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Proceedings of the IRE",
+      "count": 1
+    },
+    {
       "label": "Proceedings of the National Academy of Sciences (PNAS)",
       "count": 1
     },
@@ -55425,6 +55621,10 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Temple University",
+      "count": 1
+    },
+    {
       "label": "The Annals of Applied Probability",
       "count": 1
     },
@@ -55453,10 +55653,6 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "Theoretical Computer Science",
-      "count": 1
-    },
-    {
       "label": "theses.hal.science",
       "count": 1
     },
@@ -55466,6 +55662,10 @@ window.analyticsData = {
     },
     {
       "label": "Transactions on Industrial Informatics",
+      "count": 1
+    },
+    {
+      "label": "Transactions on Machine Learning Research",
       "count": 1
     },
     {
@@ -55512,11 +55712,11 @@ window.analyticsData = {
   "types": [
     {
       "label": "Preprint",
-      "count": 911
+      "count": 912
     },
     {
       "label": "Journal Paper",
-      "count": 715
+      "count": 733
     },
     {
       "label": "Conference Paper",
@@ -55548,6 +55748,10 @@ window.analyticsData = {
     },
     {
       "label": "Blog Post",
+      "count": 2
+    },
+    {
+      "label": "Master's Thesis",
       "count": 2
     },
     {
@@ -55593,11 +55797,11 @@ window.analyticsData = {
       "count": 117
     },
     {
-      "label": "Convex optimization",
-      "count": 95
+      "label": "Neural networks",
+      "count": 97
     },
     {
-      "label": "Neural networks",
+      "label": "Convex optimization",
       "count": 95
     },
     {
@@ -55697,15 +55901,15 @@ window.analyticsData = {
       "count": 41
     },
     {
+      "label": "Machine learning",
+      "count": 40
+    },
+    {
       "label": "Real-time systems",
       "count": 40
     },
     {
       "label": "Imitation learning",
-      "count": 39
-    },
-    {
-      "label": "Machine learning",
       "count": 39
     },
     {
@@ -55746,7 +55950,7 @@ window.analyticsData = {
     },
     {
       "label": "Transformers",
-      "count": 31
+      "count": 32
     },
     {
       "label": "Nonlinear control",
@@ -55766,7 +55970,7 @@ window.analyticsData = {
     },
     {
       "label": "Language models",
-      "count": 24
+      "count": 25
     },
     {
       "label": "Markov decision process",
@@ -55845,12 +56049,12 @@ window.analyticsData = {
       "count": 18
     },
     {
-      "label": "Time series",
+      "label": "Computational complexity",
       "count": 17
     },
     {
-      "label": "Computational complexity",
-      "count": 16
+      "label": "Time series",
+      "count": 17
     },
     {
       "label": "Multi-agent systems",
@@ -55983,6 +56187,10 @@ window.analyticsData = {
     {
       "label": "Supervised learning",
       "count": 12
+    },
+    {
+      "label": "Automatic differentiation",
+      "count": 11
     },
     {
       "label": "Combinatorial optimization",
@@ -56141,11 +56349,19 @@ window.analyticsData = {
       "count": 9
     },
     {
+      "label": "Image compression",
+      "count": 9
+    },
+    {
       "label": "Interior-point methods",
       "count": 9
     },
     {
       "label": "Online learning",
+      "count": 9
+    },
+    {
+      "label": "Signal processing",
       "count": 9
     },
     {
@@ -56173,10 +56389,6 @@ window.analyticsData = {
       "count": 8
     },
     {
-      "label": "Automatic differentiation",
-      "count": 8
-    },
-    {
       "label": "Black-box optimization",
       "count": 8
     },
@@ -56194,6 +56406,10 @@ window.analyticsData = {
     },
     {
       "label": "Dynamic mode decomposition",
+      "count": 8
+    },
+    {
+      "label": "End-to-end learning",
       "count": 8
     },
     {
@@ -56269,6 +56485,10 @@ window.analyticsData = {
       "count": 7
     },
     {
+      "label": "Audio compression",
+      "count": 7
+    },
+    {
       "label": "Belief-space planning",
       "count": 7
     },
@@ -56326,6 +56546,10 @@ window.analyticsData = {
     },
     {
       "label": "Hyperparameter optimization",
+      "count": 7
+    },
+    {
+      "label": "Information theory",
       "count": 7
     },
     {
@@ -56417,6 +56641,10 @@ window.analyticsData = {
       "count": 7
     },
     {
+      "label": "Vector quantization",
+      "count": 7
+    },
+    {
       "label": "Algebraic Riccati equation",
       "count": 6
     },
@@ -56466,10 +56694,6 @@ window.analyticsData = {
     },
     {
       "label": "Dynamic environments",
-      "count": 6
-    },
-    {
-      "label": "End-to-end learning",
       "count": 6
     },
     {
@@ -56537,6 +56761,10 @@ window.analyticsData = {
       "count": 6
     },
     {
+      "label": "Prediction",
+      "count": 6
+    },
+    {
       "label": "Recursive estimation",
       "count": 6
     },
@@ -56570,6 +56798,10 @@ window.analyticsData = {
     },
     {
       "label": "Sum of squares",
+      "count": 6
+    },
+    {
+      "label": "Symbolic differentiation",
       "count": 6
     },
     {
@@ -56642,6 +56874,10 @@ window.analyticsData = {
     },
     {
       "label": "Curvature continuity",
+      "count": 5
+    },
+    {
+      "label": "Derivatives",
       "count": 5
     },
     {
@@ -56781,7 +57017,7 @@ window.analyticsData = {
       "count": 5
     },
     {
-      "label": "Prediction",
+      "label": "Perceptual metrics",
       "count": 5
     },
     {
@@ -56854,10 +57090,6 @@ window.analyticsData = {
     },
     {
       "label": "Shortest path",
-      "count": 5
-    },
-    {
-      "label": "Signal processing",
       "count": 5
     },
     {
@@ -57101,6 +57333,10 @@ window.analyticsData = {
       "count": 4
     },
     {
+      "label": "Joint photographic experts group",
+      "count": 4
+    },
+    {
       "label": "k-means",
       "count": 4
     },
@@ -57210,6 +57446,10 @@ window.analyticsData = {
     },
     {
       "label": "Process control",
+      "count": 4
+    },
+    {
+      "label": "Psychophysics",
       "count": 4
     },
     {
@@ -57333,10 +57573,6 @@ window.analyticsData = {
       "count": 4
     },
     {
-      "label": "Vector quantization",
-      "count": 4
-    },
-    {
       "label": "Vectorized maps",
       "count": 4
     },
@@ -57350,6 +57586,10 @@ window.analyticsData = {
     },
     {
       "label": "Vision-language-action",
+      "count": 4
+    },
+    {
+      "label": "Wavelet transform",
       "count": 4
     },
     {
@@ -57370,6 +57610,10 @@ window.analyticsData = {
     },
     {
       "label": "Algorithm",
+      "count": 3
+    },
+    {
+      "label": "Analytic differentiation",
       "count": 3
     },
     {
@@ -57426,6 +57670,10 @@ window.analyticsData = {
     },
     {
       "label": "Collision checking",
+      "count": 3
+    },
+    {
+      "label": "Computer algebra",
       "count": 3
     },
     {
@@ -57577,6 +57825,10 @@ window.analyticsData = {
       "count": 3
     },
     {
+      "label": "Filtering",
+      "count": 3
+    },
+    {
       "label": "Finite-sum optimization",
       "count": 3
     },
@@ -57594,6 +57846,10 @@ window.analyticsData = {
     },
     {
       "label": "Gaussian splatting",
+      "count": 3
+    },
+    {
+      "label": "Generative adversarial network",
       "count": 3
     },
     {
@@ -57649,19 +57905,11 @@ window.analyticsData = {
       "count": 3
     },
     {
-      "label": "Image compression",
-      "count": 3
-    },
-    {
       "label": "Image matching",
       "count": 3
     },
     {
       "label": "Information retrieval",
-      "count": 3
-    },
-    {
-      "label": "Information theory",
       "count": 3
     },
     {
@@ -57689,15 +57937,15 @@ window.analyticsData = {
       "count": 3
     },
     {
-      "label": "Joint photographic experts group",
-      "count": 3
-    },
-    {
       "label": "L1 regularization",
       "count": 3
     },
     {
       "label": "Large-scale graphs",
+      "count": 3
+    },
+    {
+      "label": "Latent",
       "count": 3
     },
     {
@@ -57921,7 +58169,15 @@ window.analyticsData = {
       "count": 3
     },
     {
+      "label": "Progressive transmission",
+      "count": 3
+    },
+    {
       "label": "Pruning",
+      "count": 3
+    },
+    {
+      "label": "Pulse-code modulation",
       "count": 3
     },
     {
@@ -58105,6 +58361,10 @@ window.analyticsData = {
       "count": 2
     },
     {
+      "label": "Acoustic models",
+      "count": 2
+    },
+    {
       "label": "Acrobot",
       "count": 2
     },
@@ -58173,6 +58433,14 @@ window.analyticsData = {
       "count": 2
     },
     {
+      "label": "Arithmetic coding",
+      "count": 2
+    },
+    {
+      "label": "Arithmetic complexity",
+      "count": 2
+    },
+    {
       "label": "Articulated vehicles",
       "count": 2
     },
@@ -58237,7 +58505,15 @@ window.analyticsData = {
       "count": 2
     },
     {
+      "label": "Bell Labs",
+      "count": 2
+    },
+    {
       "label": "BIT*",
+      "count": 2
+    },
+    {
+      "label": "Bitplane coding",
       "count": 2
     },
     {
@@ -58314,6 +58590,10 @@ window.analyticsData = {
     },
     {
       "label": "COCO",
+      "count": 2
+    },
+    {
+      "label": "Coding theory",
       "count": 2
     },
     {
@@ -58509,6 +58789,10 @@ window.analyticsData = {
       "count": 2
     },
     {
+      "label": "Data compression",
+      "count": 2
+    },
+    {
       "label": "Data-driven",
       "count": 2
     },
@@ -58566,6 +58850,10 @@ window.analyticsData = {
     },
     {
       "label": "Direct search",
+      "count": 2
+    },
+    {
+      "label": "Discrete cosine transform",
       "count": 2
     },
     {
@@ -58629,6 +58917,10 @@ window.analyticsData = {
       "count": 2
     },
     {
+      "label": "Embedded coding",
+      "count": 2
+    },
+    {
       "label": "ENCODE",
       "count": 2
     },
@@ -58685,7 +58977,15 @@ window.analyticsData = {
       "count": 2
     },
     {
+      "label": "Expression graphs",
+      "count": 2
+    },
+    {
       "label": "Face detection",
+      "count": 2
+    },
+    {
+      "label": "Fast fourier transform",
       "count": 2
     },
     {
@@ -58770,10 +59070,6 @@ window.analyticsData = {
     },
     {
       "label": "Frequency response",
-      "count": 2
-    },
-    {
-      "label": "Generative adversarial network",
       "count": 2
     },
     {
@@ -58870,6 +59166,10 @@ window.analyticsData = {
     },
     {
       "label": "Horizon",
+      "count": 2
+    },
+    {
+      "label": "Huffman coding",
       "count": 2
     },
     {
@@ -58978,6 +59278,10 @@ window.analyticsData = {
     },
     {
       "label": "JAX",
+      "count": 2
+    },
+    {
+      "label": "Joint photographic experts group 2000",
       "count": 2
     },
     {
@@ -59109,6 +59413,10 @@ window.analyticsData = {
       "count": 2
     },
     {
+      "label": "Lossless compression",
+      "count": 2
+    },
+    {
       "label": "Low-resolution feature extraction",
       "count": 2
     },
@@ -59154,6 +59462,10 @@ window.analyticsData = {
     },
     {
       "label": "Matrix inequalities",
+      "count": 2
+    },
+    {
+      "label": "Matrix inversion",
       "count": 2
     },
     {
@@ -59521,10 +59833,6 @@ window.analyticsData = {
       "count": 2
     },
     {
-      "label": "Psychophysics",
-      "count": 2
-    },
-    {
       "label": "Pure pursuit",
       "count": 2
     },
@@ -59562,6 +59870,10 @@ window.analyticsData = {
     },
     {
       "label": "Rao-blackwellization",
+      "count": 2
+    },
+    {
+      "label": "Rate-distortion theory",
       "count": 2
     },
     {
@@ -59713,6 +60025,10 @@ window.analyticsData = {
       "count": 2
     },
     {
+      "label": "Scientific computing",
+      "count": 2
+    },
+    {
       "label": "Self-normalized processes",
       "count": 2
     },
@@ -59790,6 +60106,10 @@ window.analyticsData = {
     },
     {
       "label": "Source code",
+      "count": 2
+    },
+    {
+      "label": "Source coding",
       "count": 2
     },
     {
@@ -59985,6 +60305,14 @@ window.analyticsData = {
       "count": 2
     },
     {
+      "label": "Transform coding",
+      "count": 2
+    },
+    {
+      "label": "Transforms",
+      "count": 2
+    },
+    {
       "label": "Transient performance",
       "count": 2
     },
@@ -60085,6 +60413,10 @@ window.analyticsData = {
       "count": 2
     },
     {
+      "label": "Zerotrees",
+      "count": 2
+    },
+    {
       "label": "ZO",
       "count": 2
     },
@@ -60146,10 +60478,6 @@ window.analyticsData = {
     },
     {
       "label": "ACKTR",
-      "count": 1
-    },
-    {
-      "label": "Acoustic models",
       "count": 1
     },
     {
@@ -60469,7 +60797,7 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "Arithmetic complexity",
+      "label": "Arithmetic circuits",
       "count": 1
     },
     {
@@ -60594,6 +60922,14 @@ window.analyticsData = {
     },
     {
       "label": "Automated refinement",
+      "count": 1
+    },
+    {
+      "label": "Automatic differentiation history",
+      "count": 1
+    },
+    {
+      "label": "Automatic programming",
       "count": 1
     },
     {
@@ -60781,10 +61117,6 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "Bell Labs",
-      "count": 1
-    },
-    {
       "label": "Bellman inequalities",
       "count": 1
     },
@@ -60894,6 +61226,10 @@ window.analyticsData = {
     },
     {
       "label": "Biomechanical control",
+      "count": 1
+    },
+    {
+      "label": "Biorthogonal wavelets",
       "count": 1
     },
     {
@@ -61197,6 +61533,14 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Channel capacity",
+      "count": 1
+    },
+    {
+      "label": "Channel coding",
+      "count": 1
+    },
+    {
       "label": "Character animation",
       "count": 1
     },
@@ -61402,6 +61746,10 @@ window.analyticsData = {
     },
     {
       "label": "Communication networks",
+      "count": 1
+    },
+    {
+      "label": "Communication theory",
       "count": 1
     },
     {
@@ -62125,10 +62473,6 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "Derivatives",
-      "count": 1
-    },
-    {
       "label": "DERL",
       "count": 1
     },
@@ -62597,6 +62941,10 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "EBCOT",
+      "count": 1
+    },
+    {
       "label": "ECL",
       "count": 1
     },
@@ -62685,6 +63033,10 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Embedded block coding",
+      "count": 1
+    },
+    {
       "label": "Embedded control software",
       "count": 1
     },
@@ -62705,11 +63057,19 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Embedded zerotree wavelet",
+      "count": 1
+    },
+    {
       "label": "End-to-end",
       "count": 1
     },
     {
       "label": "End-to-end driving",
+      "count": 1
+    },
+    {
+      "label": "Energy compaction",
       "count": 1
     },
     {
@@ -62734,6 +63094,14 @@ window.analyticsData = {
     },
     {
       "label": "Engineering optimization",
+      "count": 1
+    },
+    {
+      "label": "Entropy",
+      "count": 1
+    },
+    {
+      "label": "Entropy coding",
       "count": 1
     },
     {
@@ -62786,6 +63154,10 @@ window.analyticsData = {
     },
     {
       "label": "Ergodicity",
+      "count": 1
+    },
+    {
+      "label": "Error correction",
       "count": 1
     },
     {
@@ -62929,7 +63301,7 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "Expression graphs",
+      "label": "Expression swell",
       "count": 1
     },
     {
@@ -63002,10 +63374,6 @@ window.analyticsData = {
     },
     {
       "label": "Fast adaptation",
-      "count": 1
-    },
-    {
-      "label": "Fast fourier transform",
       "count": 1
     },
     {
@@ -63142,10 +63510,6 @@ window.analyticsData = {
     },
     {
       "label": "Filter-controller co-design",
-      "count": 1
-    },
-    {
-      "label": "Filtering",
       "count": 1
     },
     {
@@ -63318,6 +63682,14 @@ window.analyticsData = {
     },
     {
       "label": "Formation tracking",
+      "count": 1
+    },
+    {
+      "label": "Formula manipulation",
+      "count": 1
+    },
+    {
+      "label": "Forward mode",
       "count": 1
     },
     {
@@ -63993,6 +64365,10 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Hierarchical trees",
+      "count": 1
+    },
+    {
       "label": "HierarchicalForecast",
       "count": 1
     },
@@ -64485,6 +64861,10 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Intermediate variables",
+      "count": 1
+    },
+    {
       "label": "Internal model principle",
       "count": 1
     },
@@ -64641,10 +65021,6 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "Joint photographic experts group 2000",
-      "count": 1
-    },
-    {
       "label": "Joint spectral radius",
       "count": 1
     },
@@ -64662,6 +65038,10 @@ window.analyticsData = {
     },
     {
       "label": "k-nearest neighbor graph",
+      "count": 1
+    },
+    {
+      "label": "Karhunen-loeve transform",
       "count": 1
     },
     {
@@ -64882,10 +65262,6 @@ window.analyticsData = {
     },
     {
       "label": "Laser rangefinder",
-      "count": 1
-    },
-    {
-      "label": "Latent",
       "count": 1
     },
     {
@@ -65177,6 +65553,10 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Lossy compression",
+      "count": 1
+    },
+    {
       "label": "Louvain method",
       "count": 1
     },
@@ -65433,10 +65813,6 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "Matrix inversion",
-      "count": 1
-    },
-    {
       "label": "Matrix methods",
       "count": 1
     },
@@ -65614,6 +65990,10 @@ window.analyticsData = {
     },
     {
       "label": "Minimum jerk",
+      "count": 1
+    },
+    {
+      "label": "Minimum redundancy coding",
       "count": 1
     },
     {
@@ -66009,6 +66389,10 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Multiresolution coding",
+      "count": 1
+    },
+    {
       "label": "MultiRocket",
       "count": 1
     },
@@ -66246,6 +66630,10 @@ window.analyticsData = {
     },
     {
       "label": "Noising",
+      "count": 1
+    },
+    {
+      "label": "Noisy channels",
       "count": 1
     },
     {
@@ -66613,6 +67001,10 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Orthogonal transforms",
+      "count": 1
+    },
+    {
       "label": "Orthographic projection",
       "count": 1
     },
@@ -66761,6 +67153,10 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Partial derivatives",
+      "count": 1
+    },
+    {
       "label": "Partial differential equation",
       "count": 1
     },
@@ -66874,10 +67270,6 @@ window.analyticsData = {
     },
     {
       "label": "Perception-aware",
-      "count": 1
-    },
-    {
-      "label": "Perceptual metrics",
       "count": 1
     },
     {
@@ -67217,6 +67609,10 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Prefix codes",
+      "count": 1
+    },
+    {
       "label": "Prefix sums",
       "count": 1
     },
@@ -67409,11 +67805,11 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "Publish subscribe",
+      "label": "Psychovisual modeling",
       "count": 1
     },
     {
-      "label": "Pulse-code modulation",
+      "label": "Publish subscribe",
       "count": 1
     },
     {
@@ -67525,6 +67921,10 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Quantization",
+      "count": 1
+    },
+    {
       "label": "Quasi-static planning",
       "count": 1
     },
@@ -67570,6 +67970,10 @@ window.analyticsData = {
     },
     {
       "label": "RAKOMO",
+      "count": 1
+    },
+    {
+      "label": "Random access",
       "count": 1
     },
     {
@@ -67681,7 +68085,15 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Rate control",
+      "count": 1
+    },
+    {
       "label": "Rate function",
+      "count": 1
+    },
+    {
+      "label": "Rate-distortion optimization",
       "count": 1
     },
     {
@@ -67970,6 +68382,10 @@ window.analyticsData = {
     },
     {
       "label": "Retriangulation",
+      "count": 1
+    },
+    {
+      "label": "Reverse mode",
       "count": 1
     },
     {
@@ -68345,6 +68761,10 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Scalable coding",
+      "count": 1
+    },
+    {
       "label": "Scalable robot data",
       "count": 1
     },
@@ -68398,10 +68818,6 @@ window.analyticsData = {
     },
     {
       "label": "Schemata",
-      "count": 1
-    },
-    {
-      "label": "Scientific computing",
       "count": 1
     },
     {
@@ -68582,6 +68998,10 @@ window.analyticsData = {
     },
     {
       "label": "Set membership identification",
+      "count": 1
+    },
+    {
+      "label": "Set partitioning",
       "count": 1
     },
     {
@@ -69089,6 +69509,10 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "SPIHT",
+      "count": 1
+    },
+    {
       "label": "Splat-Nav",
       "count": 1
     },
@@ -69169,6 +69593,10 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Standards",
+      "count": 1
+    },
+    {
       "label": "STAR",
       "count": 1
     },
@@ -69246,6 +69674,10 @@ window.analyticsData = {
     },
     {
       "label": "Stepsize hedging",
+      "count": 1
+    },
+    {
+      "label": "Still image coding",
       "count": 1
     },
     {
@@ -69541,7 +69973,15 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Symbol manipulation",
+      "count": 1
+    },
+    {
       "label": "Symbol tables",
+      "count": 1
+    },
+    {
+      "label": "Symbolic computation",
       "count": 1
     },
     {
@@ -69897,10 +70337,6 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "Transforms",
-      "count": 1
-    },
-    {
       "label": "Transient response",
       "count": 1
     },
@@ -70085,6 +70521,10 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "UNIVAC",
+      "count": 1
+    },
+    {
       "label": "Universal",
       "count": 1
     },
@@ -70138,6 +70578,10 @@ window.analyticsData = {
     },
     {
       "label": "Variable impedance",
+      "count": 1
+    },
+    {
+      "label": "Variable length codes",
       "count": 1
     },
     {
@@ -70285,6 +70729,10 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Visual masking",
+      "count": 1
+    },
+    {
       "label": "Visual question answering",
       "count": 1
     },
@@ -70386,6 +70834,10 @@ window.analyticsData = {
     },
     {
       "label": "Weighted networks",
+      "count": 1
+    },
+    {
+      "label": "Wengert list",
       "count": 1
     },
     {
@@ -70492,19 +70944,19 @@ window.analyticsData = {
   "superCategories": [
     {
       "label": "Decision-making",
-      "count": 1594
+      "count": 1598
     },
     {
       "label": "Prediction & Perception",
-      "count": 478
+      "count": 493
+    },
+    {
+      "label": "Quantitative Foundations",
+      "count": 129
     },
     {
       "label": "Evaluation",
       "count": 128
-    },
-    {
-      "label": "Quantitative Foundations",
-      "count": 127
     }
   ],
   "categories": [
@@ -70514,7 +70966,7 @@ window.analyticsData = {
     },
     {
       "label": "Reinforcement Learning",
-      "count": 433
+      "count": 435
     },
     {
       "label": "Optimization",
@@ -70526,23 +70978,23 @@ window.analyticsData = {
     },
     {
       "label": "Control",
-      "count": 229
+      "count": 231
     },
     {
       "label": "Computer Vision",
-      "count": 84
+      "count": 92
     },
     {
       "label": "State Estimation",
       "count": 71
     },
     {
-      "label": "Engineering Systems",
-      "count": 39
+      "label": "Mathematics",
+      "count": 40
     },
     {
-      "label": "Mathematics",
-      "count": 38
+      "label": "Engineering Systems",
+      "count": 39
     },
     {
       "label": "Motion Prediction",
@@ -70577,6 +71029,10 @@ window.analyticsData = {
       "count": 11
     },
     {
+      "label": "Audio",
+      "count": 7
+    },
+    {
       "label": "Benchmarks",
       "count": 7
     },
@@ -70589,7 +71045,7 @@ window.analyticsData = {
     {
       "id": "tree-decision-making",
       "label": "Decision-making",
-      "count": 1594,
+      "count": 1598,
       "children": [
         {
           "id": "tree-decision-making-optimization",
@@ -70599,12 +71055,12 @@ window.analyticsData = {
             {
               "id": "tree-decision-making-optimization-continuous-optimization",
               "label": "Continuous Optimization",
-              "count": 299,
+              "count": 295,
               "children": [
                 {
                   "id": "tree-decision-making-optimization-continuous-optimization-convex-optimization",
                   "label": "Convex Optimization",
-                  "count": 70,
+                  "count": 58,
                   "children": [
                     {
                       "id": "tree-decision-making-optimization-continuous-optimization-convex-optimization-linear-programming",
@@ -70615,14 +71071,59 @@ window.analyticsData = {
                     {
                       "id": "tree-decision-making-optimization-continuous-optimization-convex-optimization-quadratic-programming",
                       "label": "Quadratic Programming",
-                      "count": 1,
+                      "count": 3,
+                      "children": []
+                    },
+                    {
+                      "id": "tree-decision-making-optimization-continuous-optimization-convex-optimization-semidefinite-programming",
+                      "label": "Semidefinite Programming",
+                      "count": 4,
                       "children": []
                     },
                     {
                       "id": "tree-decision-making-optimization-continuous-optimization-convex-optimization-general-convex-optimization",
                       "label": "General Convex Optimization",
-                      "count": 51,
-                      "children": []
+                      "count": 30,
+                      "children": [
+                        {
+                          "id": "tree-decision-making-optimization-continuous-optimization-convex-optimization-general-convex-optimization-compressed-sensing-sparse-recovery",
+                          "label": "Compressed Sensing & Sparse Recovery",
+                          "count": 8,
+                          "children": [
+                            {
+                              "id": "tree-decision-making-optimization-continuous-optimization-convex-optimization-general-convex-optimization-compressed-sensing-sparse-recovery-convex-demixing",
+                              "label": "Convex Demixing",
+                              "count": 3,
+                              "children": []
+                            }
+                          ]
+                        },
+                        {
+                          "id": "tree-decision-making-optimization-continuous-optimization-convex-optimization-general-convex-optimization-rank-minimization",
+                          "label": "Rank Minimization",
+                          "count": 21,
+                          "children": [
+                            {
+                              "id": "tree-decision-making-optimization-continuous-optimization-convex-optimization-general-convex-optimization-rank-minimization-low-rank-recovery",
+                              "label": "Low-rank Recovery",
+                              "count": 13,
+                              "children": []
+                            },
+                            {
+                              "id": "tree-decision-making-optimization-continuous-optimization-convex-optimization-general-convex-optimization-rank-minimization-randomized-algorithms",
+                              "label": "Randomized Algorithms",
+                              "count": 4,
+                              "children": []
+                            },
+                            {
+                              "id": "tree-decision-making-optimization-continuous-optimization-convex-optimization-general-convex-optimization-rank-minimization-matrix-factorization",
+                              "label": "Matrix Factorization",
+                              "count": 4,
+                              "children": []
+                            }
+                          ]
+                        }
+                      ]
                     },
                     {
                       "id": "tree-decision-making-optimization-continuous-optimization-convex-optimization-sum-of-squares-sos",
@@ -70634,6 +71135,12 @@ window.analyticsData = {
                       "id": "tree-decision-making-optimization-continuous-optimization-convex-optimization-online-convex-optimization",
                       "label": "Online Convex Optimization",
                       "count": 1,
+                      "children": []
+                    },
+                    {
+                      "id": "tree-decision-making-optimization-continuous-optimization-convex-optimization-learning-optimization-models",
+                      "label": "Learning Optimization Models",
+                      "count": 3,
                       "children": []
                     },
                     {
@@ -70922,10 +71429,42 @@ window.analyticsData = {
                   "children": []
                 },
                 {
+                  "id": "tree-decision-making-optimization-continuous-optimization-numerical-differentiation",
+                  "label": "Numerical Differentiation",
+                  "count": 1,
+                  "children": []
+                },
+                {
                   "id": "tree-decision-making-optimization-continuous-optimization-automatic-differentiation",
                   "label": "Automatic Differentiation",
-                  "count": 9,
-                  "children": []
+                  "count": 10,
+                  "children": [
+                    {
+                      "id": "tree-decision-making-optimization-continuous-optimization-automatic-differentiation-differentiable-optimization-layers",
+                      "label": "Differentiable Optimization Layers",
+                      "count": 4,
+                      "children": []
+                    }
+                  ]
+                },
+                {
+                  "id": "tree-decision-making-optimization-continuous-optimization-symbolic-differentiation",
+                  "label": "Symbolic Differentiation",
+                  "count": 6,
+                  "children": [
+                    {
+                      "id": "tree-decision-making-optimization-continuous-optimization-symbolic-differentiation-early-analytical-differentiation",
+                      "label": "Early Analytical Differentiation",
+                      "count": 3,
+                      "children": []
+                    },
+                    {
+                      "id": "tree-decision-making-optimization-continuous-optimization-symbolic-differentiation-complexity-and-ad-boundary",
+                      "label": "Complexity and AD Boundary",
+                      "count": 3,
+                      "children": []
+                    }
+                  ]
                 }
               ]
             },
@@ -70969,7 +71508,7 @@ window.analyticsData = {
             {
               "id": "tree-decision-making-optimization-toolboxes-solvers",
               "label": "Toolboxes & Solvers",
-              "count": 56,
+              "count": 60,
               "children": [
                 {
                   "id": "tree-decision-making-optimization-toolboxes-solvers-convex-optimization",
@@ -71029,20 +71568,32 @@ window.analyticsData = {
                   "children": []
                 },
                 {
-                  "id": "tree-decision-making-optimization-toolboxes-solvers-black-box-optimization",
-                  "label": "Black-Box Optimization",
-                  "count": 14,
+                  "id": "tree-decision-making-optimization-toolboxes-solvers-hyperparameter-optimization",
+                  "label": "Hyperparameter Optimization",
+                  "count": 18,
                   "children": [
                     {
-                      "id": "tree-decision-making-optimization-toolboxes-solvers-black-box-optimization-bayesian-optimization",
-                      "label": "Bayesian Optimization",
-                      "count": 3,
+                      "id": "tree-decision-making-optimization-toolboxes-solvers-hyperparameter-optimization-black-box-hyperparameter-optimization",
+                      "label": "Black-box Hyperparameter Optimization",
+                      "count": 2,
                       "children": []
                     },
                     {
-                      "id": "tree-decision-making-optimization-toolboxes-solvers-black-box-optimization-planner-controller-autotuning",
-                      "label": "Planner / Controller Autotuning",
+                      "id": "tree-decision-making-optimization-toolboxes-solvers-hyperparameter-optimization-gradient-based-hyperparameter-optimization",
+                      "label": "Gradient-based Hyperparameter Optimization",
+                      "count": 2,
+                      "children": []
+                    },
+                    {
+                      "id": "tree-decision-making-optimization-toolboxes-solvers-hyperparameter-optimization-bayesian-optimization",
+                      "label": "Bayesian Optimization",
                       "count": 5,
+                      "children": []
+                    },
+                    {
+                      "id": "tree-decision-making-optimization-toolboxes-solvers-hyperparameter-optimization-planner-controller-autotuning",
+                      "label": "Planner & Controller Autotuning",
+                      "count": 6,
                       "children": []
                     }
                   ]
@@ -71731,7 +72282,7 @@ window.analyticsData = {
         {
           "id": "tree-decision-making-control",
           "label": "Control",
-          "count": 229,
+          "count": 231,
           "children": [
             {
               "id": "tree-decision-making-control-theory",
@@ -71804,7 +72355,7 @@ window.analyticsData = {
             {
               "id": "tree-decision-making-control-state-space-methods",
               "label": "State-space Methods",
-              "count": 66,
+              "count": 68,
               "children": [
                 {
                   "id": "tree-decision-making-control-state-space-methods-pole-placement",
@@ -71834,7 +72385,7 @@ window.analyticsData = {
                 {
                   "id": "tree-decision-making-control-state-space-methods-model-predictive-control-mpc",
                   "label": "Model Predictive Control (MPC)",
-                  "count": 51,
+                  "count": 53,
                   "children": [
                     {
                       "id": "tree-decision-making-control-state-space-methods-model-predictive-control-mpc-nonlinear-mpc-nmpc",
@@ -71851,7 +72402,7 @@ window.analyticsData = {
                     {
                       "id": "tree-decision-making-control-state-space-methods-model-predictive-control-mpc-multi-step-prediction-models",
                       "label": "Multi-step Prediction Models",
-                      "count": 4,
+                      "count": 6,
                       "children": []
                     },
                     {
@@ -72201,7 +72752,7 @@ window.analyticsData = {
         {
           "id": "tree-decision-making-reinforcement-learning",
           "label": "Reinforcement Learning",
-          "count": 433,
+          "count": 435,
           "children": [
             {
               "id": "tree-decision-making-reinforcement-learning-foundations",
@@ -72224,17 +72775,29 @@ window.analyticsData = {
             {
               "id": "tree-decision-making-reinforcement-learning-linear-systems",
               "label": "Linear Systems",
-              "count": 110,
+              "count": 137,
               "children": [
+                {
+                  "id": "tree-decision-making-reinforcement-learning-linear-systems-surveys-control-connections",
+                  "label": "Surveys & Control Connections",
+                  "count": 4,
+                  "children": []
+                },
                 {
                   "id": "tree-decision-making-reinforcement-learning-linear-systems-policy-optimization",
                   "label": "Policy Optimization",
-                  "count": 28,
+                  "count": 43,
                   "children": [
                     {
                       "id": "tree-decision-making-reinforcement-learning-linear-systems-policy-optimization-lqr",
                       "label": "LQR",
-                      "count": 10,
+                      "count": 11,
+                      "children": []
+                    },
+                    {
+                      "id": "tree-decision-making-reinforcement-learning-linear-systems-policy-optimization-model-free-and-data-enabled-lqr",
+                      "label": "Model-free and Data-enabled LQR",
+                      "count": 7,
                       "children": []
                     },
                     {
@@ -72258,7 +72821,7 @@ window.analyticsData = {
                     {
                       "id": "tree-decision-making-reinforcement-learning-linear-systems-policy-optimization-multi-task-lqr",
                       "label": "Multi-task LQR",
-                      "count": 2,
+                      "count": 3,
                       "children": []
                     },
                     {
@@ -72280,9 +72843,15 @@ window.analyticsData = {
                       "children": []
                     },
                     {
+                      "id": "tree-decision-making-reinforcement-learning-linear-systems-policy-optimization-structured-linear-control-policies",
+                      "label": "Structured Linear Control Policies",
+                      "count": 3,
+                      "children": []
+                    },
+                    {
                       "id": "tree-decision-making-reinforcement-learning-linear-systems-policy-optimization-lqg",
                       "label": "LQG",
-                      "count": 1,
+                      "count": 2,
                       "children": []
                     },
                     {
@@ -72296,23 +72865,23 @@ window.analyticsData = {
                 {
                   "id": "tree-decision-making-reinforcement-learning-linear-systems-dynamic-programming",
                   "label": "Dynamic Programming",
-                  "count": 2,
+                  "count": 7,
                   "children": []
                 },
                 {
                   "id": "tree-decision-making-reinforcement-learning-linear-systems-model-based-rl",
                   "label": "Model-based RL",
-                  "count": 76,
+                  "count": 82,
                   "children": [
                     {
                       "id": "tree-decision-making-reinforcement-learning-linear-systems-model-based-rl-system-identification",
                       "label": "System Identification",
-                      "count": 47,
+                      "count": 53,
                       "children": [
                         {
                           "id": "tree-decision-making-reinforcement-learning-linear-systems-model-based-rl-system-identification-subspace-identification",
                           "label": "Subspace Identification",
-                          "count": 7,
+                          "count": 8,
                           "children": []
                         },
                         {
@@ -72330,7 +72899,7 @@ window.analyticsData = {
                         {
                           "id": "tree-decision-making-reinforcement-learning-linear-systems-model-based-rl-system-identification-linear-systems-with-additive-noise",
                           "label": "Linear Systems with Additive Noise",
-                          "count": 24,
+                          "count": 28,
                           "children": []
                         },
                         {
@@ -72342,7 +72911,7 @@ window.analyticsData = {
                         {
                           "id": "tree-decision-making-reinforcement-learning-linear-systems-model-based-rl-system-identification-switching-and-bilinear-systems",
                           "label": "Switching and Bilinear Systems",
-                          "count": 4,
+                          "count": 5,
                           "children": []
                         }
                       ]
@@ -72372,41 +72941,85 @@ window.analyticsData = {
             {
               "id": "tree-decision-making-reinforcement-learning-nonlinear-systems",
               "label": "Nonlinear Systems",
-              "count": 250,
+              "count": 224,
               "children": [
                 {
                   "id": "tree-decision-making-reinforcement-learning-nonlinear-systems-policy-optimization",
                   "label": "Policy Optimization",
-                  "count": 102,
+                  "count": 71,
                   "children": [
                     {
                       "id": "tree-decision-making-reinforcement-learning-nonlinear-systems-policy-optimization-random-search-evolution-strategies",
                       "label": "Random Search & Evolution Strategies",
-                      "count": 5,
+                      "count": 2,
                       "children": []
                     },
                     {
                       "id": "tree-decision-making-reinforcement-learning-nonlinear-systems-policy-optimization-policy-gradient",
                       "label": "Policy Gradient",
-                      "count": 63,
+                      "count": 35,
                       "children": [
                         {
-                          "id": "tree-decision-making-reinforcement-learning-nonlinear-systems-policy-optimization-policy-gradient-vanilla-policy-gradient",
-                          "label": "Vanilla Policy Gradient",
-                          "count": 15,
+                          "id": "tree-decision-making-reinforcement-learning-nonlinear-systems-policy-optimization-policy-gradient-foundations-surveys",
+                          "label": "Foundations & Surveys",
+                          "count": 5,
                           "children": []
                         },
                         {
-                          "id": "tree-decision-making-reinforcement-learning-nonlinear-systems-policy-optimization-policy-gradient-natural-policy-gradient",
-                          "label": "Natural Policy Gradient",
+                          "id": "tree-decision-making-reinforcement-learning-nonlinear-systems-policy-optimization-policy-gradient-gradient-estimation-credit-assignment",
+                          "label": "Gradient Estimation & Credit Assignment",
+                          "count": 8,
+                          "children": []
+                        },
+                        {
+                          "id": "tree-decision-making-reinforcement-learning-nonlinear-systems-policy-optimization-policy-gradient-natural-soft-and-geometric-gradients",
+                          "label": "Natural, Soft, and Geometric Gradients",
+                          "count": 8,
+                          "children": [
+                            {
+                              "id": "tree-decision-making-reinforcement-learning-nonlinear-systems-policy-optimization-policy-gradient-natural-soft-and-geometric-gradients-natural-policy-gradient",
+                              "label": "Natural Policy Gradient",
+                              "count": 4,
+                              "children": []
+                            },
+                            {
+                              "id": "tree-decision-making-reinforcement-learning-nonlinear-systems-policy-optimization-policy-gradient-natural-soft-and-geometric-gradients-entropy-regularized-and-soft-policy-gradients",
+                              "label": "Entropy-Regularized and Soft Policy Gradients",
+                              "count": 3,
+                              "children": []
+                            }
+                          ]
+                        },
+                        {
+                          "id": "tree-decision-making-reinforcement-learning-nonlinear-systems-policy-optimization-policy-gradient-variance-reduction-momentum",
+                          "label": "Variance Reduction & Momentum",
+                          "count": 5,
+                          "children": []
+                        },
+                        {
+                          "id": "tree-decision-making-reinforcement-learning-nonlinear-systems-policy-optimization-policy-gradient-convergence-sample-complexity",
+                          "label": "Convergence & Sample Complexity",
                           "count": 4,
                           "children": []
                         },
                         {
-                          "id": "tree-decision-making-reinforcement-learning-nonlinear-systems-policy-optimization-policy-gradient-variance-reduction",
-                          "label": "Variance Reduction",
-                          "count": 4,
+                          "id": "tree-decision-making-reinforcement-learning-nonlinear-systems-policy-optimization-policy-gradient-general-utility-policy-optimization",
+                          "label": "General-Utility Policy Optimization",
+                          "count": 2,
                           "children": []
+                        },
+                        {
+                          "id": "tree-decision-making-reinforcement-learning-nonlinear-systems-policy-optimization-policy-gradient-learning-control-policies",
+                          "label": "Learning Control Policies",
+                          "count": 3,
+                          "children": [
+                            {
+                              "id": "tree-decision-making-reinforcement-learning-nonlinear-systems-policy-optimization-policy-gradient-learning-control-policies-planning-and-motion-policies",
+                              "label": "Planning and Motion Policies",
+                              "count": 2,
+                              "children": []
+                            }
+                          ]
                         }
                       ]
                     },
@@ -72427,18 +73040,24 @@ window.analyticsData = {
                 {
                   "id": "tree-decision-making-reinforcement-learning-nonlinear-systems-dynamic-programming",
                   "label": "Dynamic Programming",
-                  "count": 42,
+                  "count": 52,
                   "children": [
                     {
                       "id": "tree-decision-making-reinforcement-learning-nonlinear-systems-dynamic-programming-exact-dynamic-programming",
                       "label": "Exact Dynamic Programming",
-                      "count": 10,
+                      "count": 9,
+                      "children": []
+                    },
+                    {
+                      "id": "tree-decision-making-reinforcement-learning-nonlinear-systems-dynamic-programming-robust-and-risk-aware-mdps",
+                      "label": "Robust and Risk-Aware MDPs",
+                      "count": 3,
                       "children": []
                     },
                     {
                       "id": "tree-decision-making-reinforcement-learning-nonlinear-systems-dynamic-programming-approximate-dynamic-programming",
                       "label": "Approximate Dynamic Programming",
-                      "count": 29,
+                      "count": 35,
                       "children": [
                         {
                           "id": "tree-decision-making-reinforcement-learning-nonlinear-systems-dynamic-programming-approximate-dynamic-programming-deep-neural-network-based",
@@ -72451,7 +73070,7 @@ window.analyticsData = {
                     {
                       "id": "tree-decision-making-reinforcement-learning-nonlinear-systems-dynamic-programming-policy-evaluation",
                       "label": "Policy Evaluation",
-                      "count": 3,
+                      "count": 5,
                       "children": []
                     }
                   ]
@@ -72459,12 +73078,12 @@ window.analyticsData = {
                 {
                   "id": "tree-decision-making-reinforcement-learning-nonlinear-systems-model-based-rl",
                   "label": "Model-based RL",
-                  "count": 64,
+                  "count": 59,
                   "children": [
                     {
                       "id": "tree-decision-making-reinforcement-learning-nonlinear-systems-model-based-rl-system-identification",
                       "label": "System Identification",
-                      "count": 47,
+                      "count": 44,
                       "children": [
                         {
                           "id": "tree-decision-making-reinforcement-learning-nonlinear-systems-model-based-rl-system-identification-extended-dynamic-mode-decomposition-edmd-and-koopman",
@@ -72489,7 +73108,7 @@ window.analyticsData = {
                     {
                       "id": "tree-decision-making-reinforcement-learning-nonlinear-systems-model-based-rl-surveys-control-connections",
                       "label": "Surveys & Control Connections",
-                      "count": 6,
+                      "count": 4,
                       "children": []
                     },
                     {
@@ -72570,6 +73189,12 @@ window.analyticsData = {
               "children": []
             },
             {
+              "id": "tree-decision-making-reinforcement-learning-safe-reinforcement-learning",
+              "label": "Safe Reinforcement Learning",
+              "count": 1,
+              "children": []
+            },
+            {
               "id": "tree-decision-making-reinforcement-learning-robot-fleet-learning",
               "label": "Robot Fleet Learning",
               "count": 8,
@@ -72645,7 +73270,7 @@ window.analyticsData = {
     {
       "id": "tree-prediction-perception",
       "label": "Prediction & Perception",
-      "count": 478,
+      "count": 493,
       "children": [
         {
           "id": "tree-prediction-perception-state-estimation",
@@ -72827,7 +73452,7 @@ window.analyticsData = {
         {
           "id": "tree-prediction-perception-computer-vision",
           "label": "Computer Vision",
-          "count": 84,
+          "count": 92,
           "children": [
             {
               "id": "tree-prediction-perception-computer-vision-low-level-geometric-vision",
@@ -72894,8 +73519,27 @@ window.analyticsData = {
             {
               "id": "tree-prediction-perception-computer-vision-image-compression",
               "label": "Image Compression",
-              "count": 3,
-              "children": []
+              "count": 11,
+              "children": [
+                {
+                  "id": "tree-prediction-perception-computer-vision-image-compression-foundations",
+                  "label": "Foundations",
+                  "count": 3,
+                  "children": []
+                },
+                {
+                  "id": "tree-prediction-perception-computer-vision-image-compression-traditional-image-codecs",
+                  "label": "Traditional Image Codecs",
+                  "count": 5,
+                  "children": []
+                },
+                {
+                  "id": "tree-prediction-perception-computer-vision-image-compression-learned-image-codecs",
+                  "label": "Learned Image Codecs",
+                  "count": 3,
+                  "children": []
+                }
+              ]
             },
             {
               "id": "tree-prediction-perception-computer-vision-image-processing-computational-photography",
@@ -72947,6 +73591,19 @@ window.analyticsData = {
                   "children": []
                 }
               ]
+            }
+          ]
+        },
+        {
+          "id": "tree-prediction-perception-audio",
+          "label": "Audio",
+          "count": 7,
+          "children": [
+            {
+              "id": "tree-prediction-perception-audio-audio-compression",
+              "label": "Audio Compression",
+              "count": 7,
+              "children": []
             }
           ]
         },
@@ -73599,12 +74256,12 @@ window.analyticsData = {
     {
       "id": "tree-quantitative-foundations",
       "label": "Quantitative Foundations",
-      "count": 127,
+      "count": 129,
       "children": [
         {
           "id": "tree-quantitative-foundations-mathematics",
           "label": "Mathematics",
-          "count": 38,
+          "count": 40,
           "children": [
             {
               "id": "tree-quantitative-foundations-mathematics-geometry-tiling",
@@ -73621,7 +74278,7 @@ window.analyticsData = {
             {
               "id": "tree-quantitative-foundations-mathematics-linear-algebra-signal-processing",
               "label": "Linear Algebra & Signal Processing",
-              "count": 18,
+              "count": 19,
               "children": [
                 {
                   "id": "tree-quantitative-foundations-mathematics-linear-algebra-signal-processing-fourier-transforms",
@@ -73642,6 +74299,12 @@ window.analyticsData = {
                   "children": []
                 }
               ]
+            },
+            {
+              "id": "tree-quantitative-foundations-mathematics-polynomials",
+              "label": "Polynomials",
+              "count": 1,
+              "children": []
             },
             {
               "id": "tree-quantitative-foundations-mathematics-numerical-methods",
@@ -73911,7 +74574,7 @@ window.analyticsData = {
     },
     {
       "label": "partial",
-      "count": 662
+      "count": 683
     },
     {
       "label": "reviewed",

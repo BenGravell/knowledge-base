@@ -1,0 +1,26 @@
+title: >
+  Analysis/Synthesis Filter Bank Design Based on Time Domain Aliasing Cancellation
+algorithm: "Time-Domain Aliasing Cancellation"
+authors:
+  - John P. Princen
+  - Alan B. Bradley
+year: 1986
+source: IEEE Transactions on Acoustics, Speech, and Signal Processing
+type: Journal Paper
+doi: 10.1109/TASSP.1986.1164954
+arxiv_id:
+tags:
+  - Audio compression
+  - Signal processing
+  - Filtering
+  - Transforms
+  - Information theory
+abstract: >
+  A single-sideband analysis/synthesis system is proposed which provides perfect reconstruction of a signal from a set of critically sampled analysis signals. The technique is developed in terms of a weighted overlap-add method of analysis/synthesis and allows overlap between adjacent time windows. This implies that time domain aliasing is introduced in the analysis; however, this aliasing is cancelled in the synthesis process, and the system can provide perfect reconstruction. Achieving perfect reconstruction places constraints on the time domain window shape which are equivalent to those placed on the frequency domain shape of analysis/synthesis channels used in recently proposed critically sampled systems based on frequency domain aliasing cancellation. In fact, a duality exists between the new technique and the frequency domain techniques. The proposed technique is more efficient than frequency domain designs for a given number of analysis/synthesis channels, and can provide reasonably band-limited channel responses. The technique could be particularly useful in applications where critically sampled analysis/synthesis is desirable, e.g., coding.
+summary: >
+  Establishes the time-domain aliasing cancellation principle behind lapped, critically sampled analysis/synthesis filter banks. The result is central to practical transform audio coding because it enables efficient overlapping blocks with perfect reconstruction, a path that later codecs exploit through MDCT-style filter banks.
+link: https://citeseerx.ist.psu.edu/document?doi=4af12b649564c4d3c21ae77ec3980242eea566bb&repid=rep1&type=pdf
+links_alt:
+  - https://ieeexplore.ieee.org/document/1164954
+  - https://doi.org/10.1109/TASSP.1986.1164954
+audit_status: partial

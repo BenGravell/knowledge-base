@@ -1,0 +1,25 @@
+title: >
+  ISO/MPEG-1 Audio: A Generic Standard for Coding of High-Quality Digital Audio
+algorithm: "MPEG-1 Audio Standard"
+authors:
+  - Karlheinz Brandenburg
+  - Gerhard Stoll
+year: 1994
+source: Journal of the Audio Engineering Society
+type: Journal Paper
+doi:
+arxiv_id:
+tags:
+  - Audio compression
+  - Information theory
+  - Signal processing
+  - Perceptual metrics
+  - Pulse-code modulation
+abstract: >
+  The standardization body ISO/IEC/JTC1/SC29/WG11 (Moving Pictures Expert Group, MPEG), was drafting a standard for compressing the high bit rate of moving pictures and associated audio down to 1.5 Mbit/s. The audio part of the proposed standard is described. Three layers of the audio coding scheme with increasing complexity and performance were defined. These layers were developed in collaboration mainly with AT&T, CCETT, FhG/University of Erlangen, Philips, IRT, and Thomson Consumer Electronics. The generic coding system is suitable for different applications, such as storage on inexpensive storage media or transmission over channels with limited capacity (such as digital audio broadcasting or ISDN audio transmission).
+summary: >
+  Summarizes the MPEG-1 Audio standard and its three layers, including the Layer III path that became MP3. The paper is valuable as a compact technical account of how psychoacoustic analysis, bit allocation, and standardized bitstreams turned perceptual audio coding into a widely deployable consumer technology.
+link: https://publica.fraunhofer.de/entities/publication/7501472d-bc8b-42a1-8154-fd3411d2dd45
+links_alt:
+  - https://secure.aes.org/forum/pubs/journal/?elib=6925
+audit_status: partial

@@ -1,0 +1,32 @@
+title: >
+  A New, Fast, and Efficient Image Codec Based on Set Partitioning in Hierarchical Trees
+algorithm: SPIHT
+authors:
+  - Amir Said
+  - William A. Pearlman
+year: 1996
+source: IEEE Transactions on Circuits and Systems for Video Technology
+type: Journal Paper
+doi: 10.1109/76.499834
+arxiv_id:
+tags:
+  - SPIHT
+  - Set partitioning
+  - Hierarchical trees
+  - Wavelet transform
+  - Image compression
+  - Embedded coding
+  - Bitplane coding
+  - Zerotrees
+  - Arithmetic coding
+  - Progressive transmission
+abstract: >
+  Embedded zerotree wavelet (EZW) coding, introduced by J. M. Shapiro, is a very effective and computationally simple technique for image compression. Here we offer an alternative explanation of the principles of its operation, so that the reasons for its excellent performance can be better understood. These principles are partial ordering by magnitude with a set partitioning sorting algorithm, ordered bit plane transmission, and exploitation of self-similarity across different scales of an image wavelet transform. Moreover, we present a new and different implementation based on set partitioning in hierarchical trees (SPIHT), which provides even better performance than our previously reported extension of EZW that surpassed the performance of the original EZW. The image coding results, calculated from actual file sizes and images reconstructed by the decoding algorithm, are either comparable to or surpass previous results obtained through much more sophisticated and computationally complex methods. In addition, the new coding and decoding procedures are extremely fast, and they can be made even faster, with only small loss in performance, by omitting entropy coding of the bit stream by the arithmetic code.
+summary: >
+  Said and Pearlman reformulate zerotree wavelet coding around set partitioning and spatial-orientation trees, yielding SPIHT, a faster and stronger embedded image codec than EZW. The paper is important because it separates the core ordering idea from implementation details, producing a simple progressive bitstream with excellent rate-distortion performance and low complexity.
+link: https://citeseerx.ist.psu.edu/document?doi=cffe20f6b46e565987b48e2158720a17708b529a&repid=rep1&type=pdf
+links_alt:
+  - https://dblp.org/rec/journals/tcsv/SaidP96.html
+  - https://ieeexplore.ieee.org/document/499834
+  - https://doi.org/10.1109/76.499834
+audit_status: "partial"

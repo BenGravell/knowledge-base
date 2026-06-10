@@ -2961,9 +2961,6 @@
 
   function showAggregateTooltip(d, pos, pinned) {
     const level = detailLevelLabel(d.detailLevel);
-    const titles = (d.previewTitles || [])
-      .map(title => `<li>${escHtml(title)}</li>`)
-      .join('');
     const nextIndex = DETAIL_LEVELS.indexOf(d.detailLevel) + 1;
     const nextLabel = DETAIL_LEVELS[nextIndex]
       ? detailLevelLabel(DETAIL_LEVELS[nextIndex])
@@ -2972,7 +2969,6 @@
     tooltip.innerHTML =
       `<div class="tt-title">${escHtml(d.fullLabel || d.title)}</div>` +
       `<div class="tt-meta">${escHtml(level)} group&nbsp;&nbsp;${d.count || 0} items</div>` +
-      (titles ? `<ul class="tt-list">${titles}</ul>` : '') +
       (nextLabel ? `<div class="tt-hint">Click to expand into ${escHtml(nextLabel)}</div>` : '') +
       (!nextLabel && !pinned ? `<div class="tt-hint">Click to pin</div>` : '') +
       (!nextLabel && pinned ? `<div class="tt-hint">Click node again to unpin</div>` : '');

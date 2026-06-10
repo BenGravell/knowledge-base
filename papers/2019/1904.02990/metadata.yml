@@ -1,0 +1,26 @@
+title: >
+  On the Equivalence of Automatic and Symbolic Differentiation
+algorithm: Equivalence of Automatic and Symbolic Differentiation
+authors:
+  - Soeren Laue
+year: 2019
+source: arXiv
+type: Preprint
+doi:
+arxiv_id: "1904.02990"
+tags:
+  - Symbolic differentiation
+  - Automatic differentiation
+  - Reverse mode
+  - Expression swell
+  - Expression graphs
+  - Symbolic computation
+  - Machine learning
+abstract: >
+  We show that reverse mode automatic differentiation and symbolic differentiation are equivalent in the sense that they both perform the same operations when computing derivatives. This is in stark contrast to the common claim that they are substantially different. The difference is often illustrated by claiming that symbolic differentiation suffers from "expression swell" whereas automatic differentiation does not. Here, we show that this statement is not true. "Expression swell" refers to the phenomenon of a much larger representation of the derivative as opposed to the representation of the original function.
+summary: >
+  Laue argues that reverse-mode automatic differentiation and symbolic differentiation are operationally equivalent when symbolic differentiation is represented with sharing rather than as fully expanded expressions. The paper is useful as a modern corrective to the common teaching contrast between AD and symbolic differentiation, especially around expression swell and control flow.
+link: "https://arxiv.org/pdf/1904.02990"
+links_alt:
+  - "https://arxiv.org/abs/1904.02990"
+audit_status: "partial"

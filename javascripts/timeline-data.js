@@ -473,6 +473,48 @@ window.timelineData = {
       "searchUrl": "../search/?paper=1944_avery_studies_on_the_chemical"
     },
     {
+      "id": "1948_shannon_a_mathematical_theory_of",
+      "label": "Information Theory",
+      "title": "A Mathematical Theory of Communication",
+      "authors": [
+        "Claude E. Shannon"
+      ],
+      "authorShort": "Shannon",
+      "year": 1948,
+      "source": "Bell System Technical Journal",
+      "type": "Journal Paper",
+      "superCategory": "Prediction & Perception",
+      "category": "Computer Vision",
+      "subCategory": "Image Compression",
+      "path": [
+        "Tree",
+        "Prediction & Perception",
+        "Computer Vision",
+        "Image Compression",
+        "Foundations",
+        "Information Theory"
+      ],
+      "tags": [
+        "Information theory",
+        "Source coding",
+        "Channel coding",
+        "Entropy",
+        "Communication theory",
+        "Noisy channels",
+        "Channel capacity",
+        "Data compression",
+        "Error correction",
+        "Coding theory"
+      ],
+      "abstract": "",
+      "summary": "Shannon establishes the mathematical foundations of information theory, formalizing information, entropy, source coding, channel capacity, and reliable communication over noisy channels. For compression, the paper supplies the language and limits that later entropy coders, image codecs, and rate-distortion systems build on.",
+      "url": "../papers/1948_shannon_a_mathematical_theory_of/",
+      "treeUrl": "../tree/#paper=1948_shannon_a_mathematical_theory_of",
+      "mapUrl": "../map/#paper=1948_shannon_a_mathematical_theory_of",
+      "timelineUrl": "../timeline/#paper=1948_shannon_a_mathematical_theory_of",
+      "searchUrl": "../search/?paper=1948_shannon_a_mathematical_theory_of"
+    },
+    {
       "id": "1950_evans_control_system_synthesis_by",
       "label": "Control System Synthesis by Root Locus Method",
       "title": "Control System Synthesis by Root Locus Method",
@@ -591,6 +633,47 @@ window.timelineData = {
       "searchUrl": "../search/?paper=1951_dyson_continuous_functions_defined_on"
     },
     {
+      "id": "1952_huffman_a_method_for_the",
+      "label": "Huffman Coding",
+      "title": "A Method for the Construction of Minimum-Redundancy Codes",
+      "authors": [
+        "David A. Huffman"
+      ],
+      "authorShort": "Huffman",
+      "year": 1952,
+      "source": "Proceedings of the IRE",
+      "type": "Journal Paper",
+      "superCategory": "Prediction & Perception",
+      "category": "Computer Vision",
+      "subCategory": "Image Compression",
+      "path": [
+        "Tree",
+        "Prediction & Perception",
+        "Computer Vision",
+        "Image Compression",
+        "Foundations",
+        "Huffman Coding"
+      ],
+      "tags": [
+        "Huffman coding",
+        "Minimum redundancy coding",
+        "Prefix codes",
+        "Variable length codes",
+        "Entropy coding",
+        "Lossless compression",
+        "Source coding",
+        "Coding theory",
+        "Data compression"
+      ],
+      "abstract": "",
+      "summary": "Huffman gives the constructive greedy algorithm for building minimum-redundancy prefix codes from symbol probabilities. The method became the standard practical entropy coding tool behind many lossless compressors and image formats, and it also supplies an important baseline against which arithmetic coding and later context-adaptive coders are compared.",
+      "url": "../papers/1952_huffman_a_method_for_the/",
+      "treeUrl": "../tree/#paper=1952_huffman_a_method_for_the",
+      "mapUrl": "../map/#paper=1952_huffman_a_method_for_the",
+      "timelineUrl": "../timeline/#paper=1952_huffman_a_method_for_the",
+      "searchUrl": "../search/?paper=1952_huffman_a_method_for_the"
+    },
+    {
       "id": "1952_hestenes_methods_of_conjugate_gradients",
       "label": "Conjugate Gradient",
       "title": "Methods of Conjugate Gradients for Solving Linear Systems",
@@ -668,6 +751,83 @@ window.timelineData = {
       "mapUrl": "../map/#paper=1952_lanczos_solution_of_systems_of",
       "timelineUrl": "../timeline/#paper=1952_lanczos_solution_of_systems_of",
       "searchUrl": "../search/?paper=1952_lanczos_solution_of_systems_of"
+    },
+    {
+      "id": "1953_nolan_analytical_differentiation_on_a",
+      "label": "Analytical Differentiation on a Digital Computer",
+      "title": "Analytical Differentiation on a Digital Computer",
+      "authors": [
+        "John F. Nolan"
+      ],
+      "authorShort": "Nolan",
+      "year": 1953,
+      "source": "Massachusetts Institute of Technology",
+      "type": "Master's Thesis",
+      "superCategory": "Decision-making",
+      "category": "Optimization",
+      "subCategory": "Continuous Optimization",
+      "path": [
+        "Tree",
+        "Decision-making",
+        "Optimization",
+        "Continuous Optimization",
+        "Symbolic Differentiation",
+        "Early Analytical Differentiation",
+        "Analytical Differentiation on a Digital Computer"
+      ],
+      "tags": [
+        "Symbolic differentiation",
+        "Analytic differentiation",
+        "Computer algebra",
+        "Automatic differentiation history",
+        "Derivatives"
+      ],
+      "abstract": "",
+      "summary": "Nolan's 1953 master's thesis is one of the earliest known works on using a digital computer to carry out analytical differentiation. It is historically important as a boundary object between later computer algebra systems and automatic differentiation, showing that derivative generation was already being framed as a programmable symbolic computation problem at the start of electronic computing.",
+      "url": "../papers/1953_nolan_analytical_differentiation_on_a/",
+      "treeUrl": "../tree/#paper=1953_nolan_analytical_differentiation_on_a",
+      "mapUrl": "../map/#paper=1953_nolan_analytical_differentiation_on_a",
+      "timelineUrl": "../timeline/#paper=1953_nolan_analytical_differentiation_on_a",
+      "searchUrl": "../search/?paper=1953_nolan_analytical_differentiation_on_a"
+    },
+    {
+      "id": "1953_kahrimanian_analytical_differentiation_by_a",
+      "label": "Kahrimanian Differentiator",
+      "title": "Analytical Differentiation by a Digital Computer",
+      "authors": [
+        "Harry G. Kahrimanian"
+      ],
+      "authorShort": "Kahrimanian",
+      "year": 1953,
+      "source": "Temple University",
+      "type": "Master's Thesis",
+      "superCategory": "Decision-making",
+      "category": "Optimization",
+      "subCategory": "Continuous Optimization",
+      "path": [
+        "Tree",
+        "Decision-making",
+        "Optimization",
+        "Continuous Optimization",
+        "Symbolic Differentiation",
+        "Early Analytical Differentiation",
+        "Kahrimanian Differentiator"
+      ],
+      "tags": [
+        "Symbolic differentiation",
+        "Analytic differentiation",
+        "Computer algebra",
+        "Formula manipulation",
+        "UNIVAC",
+        "Derivatives"
+      ],
+      "abstract": "",
+      "summary": "Kahrimanian's master's thesis describes an early system for representing formulas and deriving their analytical derivatives on a digital computer. It is a seminal pre-computer-algebra-system contribution because it treats differentiation as a symbolic transformation over machine-manipulable expressions rather than as hand algebra or finite differencing.",
+      "url": "../papers/1953_kahrimanian_analytical_differentiation_by_a/",
+      "treeUrl": "../tree/#paper=1953_kahrimanian_analytical_differentiation_by_a",
+      "mapUrl": "../map/#paper=1953_kahrimanian_analytical_differentiation_by_a",
+      "timelineUrl": "../timeline/#paper=1953_kahrimanian_analytical_differentiation_by_a",
+      "searchUrl": "../search/?paper=1953_kahrimanian_analytical_differentiation_by_a"
     },
     {
       "id": "1953_shapley_a_value_for_n",
@@ -843,7 +1003,7 @@ window.timelineData = {
         "Optimization",
         "Continuous Optimization",
         "Convex Optimization",
-        "General Convex Optimization",
+        "Quadratic Programming",
         "Frank-Wolfe Algorithm"
       ],
       "tags": [
@@ -1278,6 +1438,41 @@ window.timelineData = {
       "searchUrl": "../search/?paper=1961_held_a_dynamic_programming_approach"
     },
     {
+      "id": "1961_zwicker_subdivision_of_the_audible",
+      "label": "Critical Bands",
+      "title": "Subdivision of the Audible Frequency Range into Critical Bands (Frequenzgruppen)",
+      "authors": [
+        "Eberhard Zwicker"
+      ],
+      "authorShort": "Zwicker",
+      "year": 1961,
+      "source": "The Journal of the Acoustical Society of America",
+      "type": "Journal Paper",
+      "superCategory": "Prediction & Perception",
+      "category": "Audio",
+      "subCategory": "Audio Compression",
+      "path": [
+        "Tree",
+        "Prediction & Perception",
+        "Audio",
+        "Audio Compression",
+        "Critical Bands"
+      ],
+      "tags": [
+        "Audio compression",
+        "Psychophysics",
+        "Acoustic models",
+        "Perceptual metrics"
+      ],
+      "abstract": "",
+      "summary": "Introduces the subdivision of the audible frequency range into critical bands, the psychoacoustic structure later associated with the Bark scale. Its importance for compression is foundational: perceptual codecs use critical-band masking behavior to decide which quantization noise and spectral detail can be hidden from listeners.",
+      "url": "../papers/1961_zwicker_subdivision_of_the_audible/",
+      "treeUrl": "../tree/#paper=1961_zwicker_subdivision_of_the_audible",
+      "mapUrl": "../map/#paper=1961_zwicker_subdivision_of_the_audible",
+      "timelineUrl": "../timeline/#paper=1961_zwicker_subdivision_of_the_audible",
+      "searchUrl": "../search/?paper=1961_zwicker_subdivision_of_the_audible"
+    },
+    {
       "id": "1962_bellman_dynamic_programming_treatment_of",
       "label": "Dynamic Programming Treatment of the Travelling Salesman Problem",
       "title": "Dynamic Programming Treatment of the Travelling Salesman Problem",
@@ -1314,6 +1509,47 @@ window.timelineData = {
       "mapUrl": "../map/#paper=1962_bellman_dynamic_programming_treatment_of",
       "timelineUrl": "../timeline/#paper=1962_bellman_dynamic_programming_treatment_of",
       "searchUrl": "../search/?paper=1962_bellman_dynamic_programming_treatment_of"
+    },
+    {
+      "id": "1962_hanson_analytic_differentiation_by_computer",
+      "label": "Analytic Differentiation by Computer",
+      "title": "Analytic Differentiation by Computer",
+      "authors": [
+        "James W. Hanson",
+        "Jane Shearin Caviness",
+        "Camilla Joseph"
+      ],
+      "authorShort": "Hanson, Caviness, Joseph",
+      "year": 1962,
+      "source": "Communications of the ACM",
+      "type": "Journal Paper",
+      "superCategory": "Decision-making",
+      "category": "Optimization",
+      "subCategory": "Continuous Optimization",
+      "path": [
+        "Tree",
+        "Decision-making",
+        "Optimization",
+        "Continuous Optimization",
+        "Symbolic Differentiation",
+        "Early Analytical Differentiation",
+        "Analytic Differentiation by Computer"
+      ],
+      "tags": [
+        "Symbolic differentiation",
+        "Analytic differentiation",
+        "Symbol manipulation",
+        "Automatic programming",
+        "Computer algebra",
+        "Derivatives"
+      ],
+      "abstract": "During the past few years a major portion of the work in computer applications has been concentrated in the two closely related fields of automatic programming and symbol manipulation. The results of this effort have been a wealth of new computer languages, a better understanding and definition of the basic principles and problems of symbol manipulation, and a growing body of algorithms and techniques for use in the applications.",
+      "summary": "Hanson, Caviness, and Joseph present analytic differentiation as a concrete symbol-manipulation problem for computers, connecting derivative generation to the broader emergence of automatic programming and computer algebra. The paper is useful historically because it cites the 1953 Nolan and Kahrimanian theses and captures how symbolic differentiation was understood before mature CAS tools.",
+      "url": "../papers/1962_hanson_analytic_differentiation_by_computer/",
+      "treeUrl": "../tree/#paper=1962_hanson_analytic_differentiation_by_computer",
+      "mapUrl": "../map/#paper=1962_hanson_analytic_differentiation_by_computer",
+      "timelineUrl": "../timeline/#paper=1962_hanson_analytic_differentiation_by_computer",
+      "searchUrl": "../search/?paper=1962_hanson_analytic_differentiation_by_computer"
     },
     {
       "id": "1962_bryson_a_steepest_ascent_method",
@@ -1626,6 +1862,46 @@ window.timelineData = {
       "mapUrl": "../map/#paper=1964_powell_an_efficient_method_for",
       "timelineUrl": "../timeline/#paper=1964_powell_an_efficient_method_for",
       "searchUrl": "../search/?paper=1964_powell_an_efficient_method_for"
+    },
+    {
+      "id": "1964_wengert_a_simple_automatic_derivative",
+      "label": "Wengert List",
+      "title": "A Simple Automatic Derivative Evaluation Program",
+      "authors": [
+        "Robert Edwin Wengert"
+      ],
+      "authorShort": "Wengert",
+      "year": 1964,
+      "source": "Communications of the ACM",
+      "type": "Journal Paper",
+      "superCategory": "Decision-making",
+      "category": "Optimization",
+      "subCategory": "Continuous Optimization",
+      "path": [
+        "Tree",
+        "Decision-making",
+        "Optimization",
+        "Continuous Optimization",
+        "Symbolic Differentiation",
+        "Complexity and AD Boundary",
+        "Wengert List"
+      ],
+      "tags": [
+        "Automatic differentiation",
+        "Symbolic differentiation",
+        "Wengert list",
+        "Forward mode",
+        "Intermediate variables",
+        "Derivatives",
+        "Scientific computing"
+      ],
+      "abstract": "A procedure for automatic evaluation of total/partial derivatives of arbitrary algebraic functions is presented. The technique permits computation of numerical values of derivatives without developing analytical expressions for the derivatives. The key to the method is the decomposition of the given function, by introduction of intermediate variables, into a series of elementary functional steps. A library of elementary function subroutines is provided for the automatic evaluation and differentiation of these new variables. The final step in this process produces the desired function's derivative. The main feature of this approach is its simplicity. It can be used as a quick-reaction tool where the derivation of analytical derivatives is laborious and also as a debugging tool for programs which contain derivatives.",
+      "summary": "Wengert introduces the intermediate-variable representation now called a Wengert list, avoiding expression-level derivative expansion while still applying exact chain-rule transformations. Although usually classified as automatic differentiation, the paper is central to symbolic differentiation's history because it sharpens the distinction between generating derivative expressions and evaluating derivative programs.",
+      "url": "../papers/1964_wengert_a_simple_automatic_derivative/",
+      "treeUrl": "../tree/#paper=1964_wengert_a_simple_automatic_derivative",
+      "mapUrl": "../map/#paper=1964_wengert_a_simple_automatic_derivative",
+      "timelineUrl": "../timeline/#paper=1964_wengert_a_simple_automatic_derivative",
+      "searchUrl": "../search/?paper=1964_wengert_a_simple_automatic_derivative"
     },
     {
       "id": "1964_williams_algorithm_232_heapsort",
@@ -3287,6 +3563,49 @@ window.timelineData = {
       "searchUrl": "../search/?paper=1974_werbos_beyond_regression_new_tools"
     },
     {
+      "id": "1974_ahmed_discrete_cosine_transform",
+      "label": "Discrete Cosine Transform",
+      "title": "Discrete Cosine Transform",
+      "authors": [
+        "Nasir Ahmed",
+        "T. Natarajan",
+        "K. R. Rao"
+      ],
+      "authorShort": "Ahmed, Natarajan, Rao",
+      "year": 1974,
+      "source": "IEEE Transactions on Computers",
+      "type": "Journal Paper",
+      "superCategory": "Prediction & Perception",
+      "category": "Computer Vision",
+      "subCategory": "Image Compression",
+      "path": [
+        "Tree",
+        "Prediction & Perception",
+        "Computer Vision",
+        "Image Compression",
+        "Foundations",
+        "Discrete Cosine Transform"
+      ],
+      "tags": [
+        "Discrete cosine transform",
+        "Transform coding",
+        "Orthogonal transforms",
+        "Karhunen-loeve transform",
+        "Rate-distortion theory",
+        "Energy compaction",
+        "Image compression",
+        "Signal processing",
+        "Fast fourier transform"
+      ],
+      "abstract": "A discrete cosine transform (DCT) is defined and an algorithm to compute it using the fast Fourier transform is developed. It is shown that the discrete cosine transform can be used in the area of digital processing for the purposes of pattern recognition and Wiener filtering. Its performance is compared with that of a class of orthogonal transforms and is found to compare closely to that of the Karhunen-Loeve transform, which is known to be optimal. The performances of the Karhunen-Loeve and discrete cosine transforms are also found to compare closely with respect to the rate-distortion criterion.",
+      "summary": "Ahmed, Natarajan, and Rao introduce the DCT as a real orthogonal transform with fast computation and near-Karhunen-Loeve energy compaction for correlated signals. Its practical combination of decorrelation, compact basis functions, and efficient implementation made it central to transform coding and later to JPEG and many video standards.",
+      "url": "../papers/1974_ahmed_discrete_cosine_transform/",
+      "treeUrl": "../tree/#paper=1974_ahmed_discrete_cosine_transform",
+      "mapUrl": "../map/#paper=1974_ahmed_discrete_cosine_transform",
+      "timelineUrl": "../timeline/#paper=1974_ahmed_discrete_cosine_transform",
+      "searchUrl": "../search/?paper=1974_ahmed_discrete_cosine_transform"
+    },
+    {
       "id": "1974_finkel_quad_trees_a_data",
       "label": "Quad Tree",
       "title": "Quad Trees: A Data Structure for Retrieval on Composite Keys",
@@ -3817,14 +4136,13 @@ window.timelineData = {
       "type": "Journal Paper",
       "superCategory": "Decision-making",
       "category": "Reinforcement Learning",
-      "subCategory": "Nonlinear Systems",
+      "subCategory": "Linear Systems",
       "path": [
         "Tree",
         "Decision-making",
         "Reinforcement Learning",
-        "Nonlinear Systems",
+        "Linear Systems",
         "Dynamic Programming",
-        "Exact Dynamic Programming",
         "Values and Strategies for Infinite Time Linear Quadratic Games"
       ],
       "tags": [
@@ -4269,6 +4587,44 @@ window.timelineData = {
       "searchUrl": "../search/?paper=1979_puterman_on_the_convergence_of"
     },
     {
+      "id": "1979_schroeder_optimizing_digital_speech_coders",
+      "label": "Masking-Based Speech Coding",
+      "title": "Optimizing Digital Speech Coders by Exploiting Masking Properties of the Human Ear",
+      "authors": [
+        "Manfred R. Schroeder",
+        "Bishnu S. Atal",
+        "Joseph L. Hall"
+      ],
+      "authorShort": "Schroeder, Atal, Hall",
+      "year": 1979,
+      "source": "The Journal of the Acoustical Society of America",
+      "type": "Journal Paper",
+      "superCategory": "Prediction & Perception",
+      "category": "Audio",
+      "subCategory": "Audio Compression",
+      "path": [
+        "Tree",
+        "Prediction & Perception",
+        "Audio",
+        "Audio Compression",
+        "Masking-Based Speech Coding"
+      ],
+      "tags": [
+        "Audio compression",
+        "Psychophysics",
+        "Bell Labs",
+        "Perceptual metrics",
+        "Pulse-code modulation"
+      ],
+      "abstract": "In any speech coding system that adds noise to the speech signal, the primary goal should not be to reduce the noise power as much as possible, but to make the noise inaudible or to minimize its subjective loudness. \"Hiding\" the noise under the signal spectrum is feasible because of human auditory masking: sounds whose spectrum falls near the masking threshold of another sound are either completely masked by the other sound or reduced in loudness. In speech coding applications, the \"other sound\" is, of course, the speech signal itself. In this paper we report new results of masking and loudness reduction of noise and describe the design principles of speech coding systems exploiting auditory masking.",
+      "summary": "Makes auditory masking an explicit design principle for digital speech coding, shifting the objective from minimizing numerical noise power to minimizing audible noise. This paper is an early bridge between psychoacoustics and practical lossy coding, foreshadowing the perceptual bit allocation used by later audio codecs.",
+      "url": "../papers/1979_schroeder_optimizing_digital_speech_coders/",
+      "treeUrl": "../tree/#paper=1979_schroeder_optimizing_digital_speech_coders",
+      "mapUrl": "../map/#paper=1979_schroeder_optimizing_digital_speech_coders",
+      "timelineUrl": "../timeline/#paper=1979_schroeder_optimizing_digital_speech_coders",
+      "searchUrl": "../search/?paper=1979_schroeder_optimizing_digital_speech_coders"
+    },
+    {
       "id": "1979_comer_ubiquitous_b_tree",
       "label": "Ubiquitous B-Tree",
       "title": "Ubiquitous B-Tree",
@@ -4690,6 +5046,47 @@ window.timelineData = {
       "mapUrl": "../map/#paper=1983_artstein_stabilization_with_relaxed_controls",
       "timelineUrl": "../timeline/#paper=1983_artstein_stabilization_with_relaxed_controls",
       "searchUrl": "../search/?paper=1983_artstein_stabilization_with_relaxed_controls"
+    },
+    {
+      "id": "1983_baur_the_complexity_of_partial",
+      "label": "Baur-Strassen Theorem",
+      "title": "The Complexity of Partial Derivatives",
+      "authors": [
+        "Walter Baur",
+        "Volker Strassen"
+      ],
+      "authorShort": "Baur, Strassen",
+      "year": 1983,
+      "source": "Theoretical Computer Science",
+      "type": "Journal Paper",
+      "superCategory": "Decision-making",
+      "category": "Optimization",
+      "subCategory": "Continuous Optimization",
+      "path": [
+        "Tree",
+        "Decision-making",
+        "Optimization",
+        "Continuous Optimization",
+        "Symbolic Differentiation",
+        "Complexity and AD Boundary",
+        "Baur-Strassen Theorem"
+      ],
+      "tags": [
+        "Symbolic differentiation",
+        "Arithmetic circuits",
+        "Arithmetic complexity",
+        "Partial derivatives",
+        "Computational complexity",
+        "Automatic differentiation",
+        "Matrix inversion"
+      ],
+      "abstract": "Let L denote the nonscalar complexity in k(x_1,...,x_n). We prove L(f, df/dx_1, ..., df/dx_n) <= 3L(f). Using this we determine the complexity of single power sums, single elementary symmetric functions, the resultant and the discriminant as root functions, up to order of magnitude. Also we linearly reduce matrix inversion to computing the determinant.",
+      "summary": "Baur and Strassen prove that all first partial derivatives of a rational function can be computed with only a constant-factor overhead over computing the function itself, in the algebraic circuit model. The theorem is a foundational bridge between symbolic differentiation, arithmetic-circuit complexity, and the later cost model of reverse-mode automatic differentiation.",
+      "url": "../papers/1983_baur_the_complexity_of_partial/",
+      "treeUrl": "../tree/#paper=1983_baur_the_complexity_of_partial",
+      "mapUrl": "../map/#paper=1983_baur_the_complexity_of_partial",
+      "timelineUrl": "../timeline/#paper=1983_baur_the_complexity_of_partial",
+      "searchUrl": "../search/?paper=1983_baur_the_complexity_of_partial"
     },
     {
       "id": "1983_lozano_perez_spatial_planning_a_configuration",
@@ -5294,6 +5691,43 @@ window.timelineData = {
       "mapUrl": "../map/#paper=1986_kant_toward_efficient_trajectory_planning",
       "timelineUrl": "../timeline/#paper=1986_kant_toward_efficient_trajectory_planning",
       "searchUrl": "../search/?paper=1986_kant_toward_efficient_trajectory_planning"
+    },
+    {
+      "id": "1986_princen_analysis_synthesis_filter_bank",
+      "label": "Time-Domain Aliasing Cancellation",
+      "title": "Analysis/Synthesis Filter Bank Design Based on Time Domain Aliasing Cancellation",
+      "authors": [
+        "John P. Princen",
+        "Alan B. Bradley"
+      ],
+      "authorShort": "Princen, Bradley",
+      "year": 1986,
+      "source": "IEEE Transactions on Acoustics, Speech, and Signal Processing",
+      "type": "Journal Paper",
+      "superCategory": "Prediction & Perception",
+      "category": "Audio",
+      "subCategory": "Audio Compression",
+      "path": [
+        "Tree",
+        "Prediction & Perception",
+        "Audio",
+        "Audio Compression",
+        "Time-Domain Aliasing Cancellation"
+      ],
+      "tags": [
+        "Audio compression",
+        "Signal processing",
+        "Filtering",
+        "Transforms",
+        "Information theory"
+      ],
+      "abstract": "A single-sideband analysis/synthesis system is proposed which provides perfect reconstruction of a signal from a set of critically sampled analysis signals. The technique is developed in terms of a weighted overlap-add method of analysis/synthesis and allows overlap between adjacent time windows. This implies that time domain aliasing is introduced in the analysis; however, this aliasing is cancelled in the synthesis process, and the system can provide perfect reconstruction. Achieving perfect reconstruction places constraints on the time domain window shape which are equivalent to those placed on the frequency domain shape of analysis/synthesis channels used in recently proposed critically sampled systems based on frequency domain aliasing cancellation. In fact, a duality exists between the new technique and the frequency domain techniques. The proposed technique is more efficient than frequency domain designs for a given number of analysis/synthesis channels, and can provide reasonably band-limited channel responses. The technique could be particularly useful in applications where critically sampled analysis/synthesis is desirable, e.g., coding.",
+      "summary": "Establishes the time-domain aliasing cancellation principle behind lapped, critically sampled analysis/synthesis filter banks. The result is central to practical transform audio coding because it enables efficient overlapping blocks with perfect reconstruction, a path that later codecs exploit through MDCT-style filter banks.",
+      "url": "../papers/1986_princen_analysis_synthesis_filter_bank/",
+      "treeUrl": "../tree/#paper=1986_princen_analysis_synthesis_filter_bank",
+      "mapUrl": "../map/#paper=1986_princen_analysis_synthesis_filter_bank",
+      "timelineUrl": "../timeline/#paper=1986_princen_analysis_synthesis_filter_bank",
+      "searchUrl": "../search/?paper=1986_princen_analysis_synthesis_filter_bank"
     },
     {
       "id": "1986_canny_a_computational_approach_to",
@@ -6361,45 +6795,6 @@ window.timelineData = {
       "searchUrl": "../search/?paper=1989_griewank_on_automatic_differentiation"
     },
     {
-      "id": "1989_hager_updating_the_inverse_of",
-      "label": "Updating the Inverse of a Matrix",
-      "title": "Updating the Inverse of a Matrix",
-      "authors": [
-        "William W. Hager"
-      ],
-      "authorShort": "Hager",
-      "year": 1989,
-      "source": "SIAM Review",
-      "type": "Journal Paper",
-      "superCategory": "Decision-making",
-      "category": "Optimization",
-      "subCategory": "Continuous Optimization",
-      "path": [
-        "Tree",
-        "Decision-making",
-        "Optimization",
-        "Continuous Optimization",
-        "Convex Optimization",
-        "General Convex Optimization",
-        "Updating the Inverse of a Matrix"
-      ],
-      "tags": [
-        "Matrix inverse update",
-        "Sherman-morrison-woodbury",
-        "Numerical linear algebra",
-        "Matrix computations",
-        "Rank-one updates",
-        "Linear systems"
-      ],
-      "abstract": "The Sherman–Morrison–Woodbury formulas relate the inverse of a matrix after a small-rank perturbation to the inverse of the original matrix. The history of these fomulas is presented and various applications to statistics, networks, structural analysis, asymptotic analysis, optimization, and partial differential equations are discussed. The Sherman-Morrison-Woodbury formulas express the inverse of a matrix after a small rank perturbation in terms of the inverse of the original matrix. This paper surveys the history of these formulas and we examine some applications where these formulas are helpful",
-      "summary": "Hager surveys and analyzes formulas for updating a matrix inverse after low-rank changes, including relationships to Sherman-Morrison-Woodbury-type identities. The paper is a compact reference for efficient inverse maintenance in numerical linear algebra and optimization algorithms.",
-      "url": "../papers/1989_hager_updating_the_inverse_of/",
-      "treeUrl": "../tree/#paper=1989_hager_updating_the_inverse_of",
-      "mapUrl": "../map/#paper=1989_hager_updating_the_inverse_of",
-      "timelineUrl": "../timeline/#paper=1989_hager_updating_the_inverse_of",
-      "searchUrl": "../search/?paper=1989_hager_updating_the_inverse_of"
-    },
-    {
       "id": "1989_dunn_efficient_dynamic_programming_implementations",
       "label": "Efficient Dynamic Programming Implementations of Newton's Method for Unconstrained Optimal Control Problems",
       "title": "Efficient Dynamic Programming Implementations of Newton's Method for Unconstrained Optimal Control Problems",
@@ -6518,6 +6913,43 @@ window.timelineData = {
       "mapUrl": "../map/#paper=1989_rohwer_idempotent_one_sided_approximation",
       "timelineUrl": "../timeline/#paper=1989_rohwer_idempotent_one_sided_approximation",
       "searchUrl": "../search/?paper=1989_rohwer_idempotent_one_sided_approximation"
+    },
+    {
+      "id": "1989_hager_updating_the_inverse_of",
+      "label": "Updating the Inverse of a Matrix",
+      "title": "Updating the Inverse of a Matrix",
+      "authors": [
+        "William W. Hager"
+      ],
+      "authorShort": "Hager",
+      "year": 1989,
+      "source": "SIAM Review",
+      "type": "Journal Paper",
+      "superCategory": "Quantitative Foundations",
+      "category": "Mathematics",
+      "subCategory": "Linear Algebra & Signal Processing",
+      "path": [
+        "Tree",
+        "Quantitative Foundations",
+        "Mathematics",
+        "Linear Algebra & Signal Processing",
+        "Updating the Inverse of a Matrix"
+      ],
+      "tags": [
+        "Matrix inverse update",
+        "Sherman-morrison-woodbury",
+        "Numerical linear algebra",
+        "Matrix computations",
+        "Rank-one updates",
+        "Linear systems"
+      ],
+      "abstract": "The Sherman–Morrison–Woodbury formulas relate the inverse of a matrix after a small-rank perturbation to the inverse of the original matrix. The history of these fomulas is presented and various applications to statistics, networks, structural analysis, asymptotic analysis, optimization, and partial differential equations are discussed. The Sherman-Morrison-Woodbury formulas express the inverse of a matrix after a small rank perturbation in terms of the inverse of the original matrix. This paper surveys the history of these formulas and we examine some applications where these formulas are helpful",
+      "summary": "Hager surveys and analyzes formulas for updating a matrix inverse after low-rank changes, including relationships to Sherman-Morrison-Woodbury-type identities. The paper is a compact reference for efficient inverse maintenance in numerical linear algebra and optimization algorithms.",
+      "url": "../papers/1989_hager_updating_the_inverse_of/",
+      "treeUrl": "../tree/#paper=1989_hager_updating_the_inverse_of",
+      "mapUrl": "../map/#paper=1989_hager_updating_the_inverse_of",
+      "timelineUrl": "../timeline/#paper=1989_hager_updating_the_inverse_of",
+      "searchUrl": "../search/?paper=1989_hager_updating_the_inverse_of"
     },
     {
       "id": "1990_kanayama_a_stable_tracking_control",
@@ -6997,6 +7429,48 @@ window.timelineData = {
       "searchUrl": "../search/?paper=1991_bertsekas_an_analysis_of_stochastic"
     },
     {
+      "id": "1991_wallace_the_jpeg_still_picture",
+      "label": "JPEG",
+      "title": "The JPEG Still Picture Compression Standard",
+      "authors": [
+        "Gregory K. Wallace"
+      ],
+      "authorShort": "Wallace",
+      "year": 1991,
+      "source": "Communications of the ACM",
+      "type": "Journal Paper",
+      "superCategory": "Prediction & Perception",
+      "category": "Computer Vision",
+      "subCategory": "Image Compression",
+      "path": [
+        "Tree",
+        "Prediction & Perception",
+        "Computer Vision",
+        "Image Compression",
+        "Traditional Image Codecs",
+        "JPEG"
+      ],
+      "tags": [
+        "Joint photographic experts group",
+        "Image compression",
+        "Still image coding",
+        "Discrete cosine transform",
+        "Quantization",
+        "Huffman coding",
+        "Arithmetic coding",
+        "Lossy compression",
+        "Lossless compression",
+        "Standards"
+      ],
+      "abstract": "For the past few years, a joint ISO/CCITT committee known as JPEG (Joint Photographic Experts Group) has been working to establish the first international compression standard for continuous-tone still images, both grayscale and color. JPEG's proposed standard aims to be generic, to support a wide variety of applications for continuous-tone images. To meet the differing needs of many applications, the JPEG standard includes two basic compression methods, each with various modes of operation. A DCT-based method is specified for \"lossy\" compression, and a predictive method for \"lossless\" compression. JPEG features a simple lossy technique known as the Baseline method, a subset of the other DCT-based modes of operation. The Baseline method has been by far the most widely implemented JPEG method to date, and is sufficient in its own right for a large number of applications. This article provides an overview of the JPEG standard, and focuses in detail on the Baseline method.",
+      "summary": "Wallace explains the still-image JPEG standard at the point when DCT-based baseline JPEG was becoming the common interchange format for photographic images. The paper is useful both as a historical standardization record and as a compact engineering description of the transform, quantization, entropy coding, progressive, lossless, and hierarchical pieces that shaped practical image compression.",
+      "url": "../papers/1991_wallace_the_jpeg_still_picture/",
+      "treeUrl": "../tree/#paper=1991_wallace_the_jpeg_still_picture",
+      "mapUrl": "../map/#paper=1991_wallace_the_jpeg_still_picture",
+      "timelineUrl": "../timeline/#paper=1991_wallace_the_jpeg_still_picture",
+      "searchUrl": "../search/?paper=1991_wallace_the_jpeg_still_picture"
+    },
+    {
       "id": "1991_freund_qmr_a_quasi_minimal",
       "label": "QMR",
       "title": "QMR: A Quasi-minimal Residual Method for Non-Hermitian Linear Systems",
@@ -7461,7 +7935,7 @@ window.timelineData = {
         "Nonlinear Systems",
         "Policy Optimization",
         "Policy Gradient",
-        "Vanilla Policy Gradient",
+        "Foundations & Surveys",
         "REINFORCE"
       ],
       "tags": [
@@ -7520,6 +7994,49 @@ window.timelineData = {
       "mapUrl": "../map/#paper=1992_furuta_swing_up_control_of",
       "timelineUrl": "../timeline/#paper=1992_furuta_swing_up_control_of",
       "searchUrl": "../search/?paper=1992_furuta_swing_up_control_of"
+    },
+    {
+      "id": "1992_antonini_image_coding_using_wavelet",
+      "label": "Wavelet Transform Image Coding",
+      "title": "Image Coding Using Wavelet Transform",
+      "authors": [
+        "Marc Antonini",
+        "Michel Barlaud",
+        "Pierre Mathieu",
+        "Ingrid Daubechies"
+      ],
+      "authorShort": "Antonini, Barlaud, Mathieu",
+      "year": 1992,
+      "source": "IEEE Transactions on Image Processing",
+      "type": "Journal Paper",
+      "superCategory": "Prediction & Perception",
+      "category": "Computer Vision",
+      "subCategory": "Image Compression",
+      "path": [
+        "Tree",
+        "Prediction & Perception",
+        "Computer Vision",
+        "Image Compression",
+        "Traditional Image Codecs",
+        "Wavelet Transform Image Coding"
+      ],
+      "tags": [
+        "Wavelet transform",
+        "Biorthogonal wavelets",
+        "Vector quantization",
+        "Image compression",
+        "Progressive transmission",
+        "Rate-distortion theory",
+        "Psychovisual modeling",
+        "Multiresolution coding"
+      ],
+      "abstract": "Image compression is now essential for applications such as transmission and storage in data bases. This paper proposes a new scheme for image compression taking into account psychovisual features both in the space and frequency domains; this new method involves two steps. First, we use a wavelet transform in order to obtain a set of biorthogonal subclasses of images; the original image is decomposed at different scales using a pyramidal algorithm architecture. The decomposition is along the vertical and horizontal directions and maintains constant the number of pixels required to describe the image. Second, according to Shannon's rate distortion theory, the wavelet coefficients are vector quantized using a multiresolution codebook. Furthermore, to encode the wavelet coefficients, we propose a noise shaping bit allocation procedure which assumes that details at high resolution are less visible to the human eye. Finally, in order to allow the receiver to recognize a picture as quickly as possible at minimum cost, we present a progressive transmission scheme. It is shown that the wavelet transform is particularly well adapted to progressive transmission.",
+      "summary": "Antonini, Barlaud, Mathieu, and Daubechies show how biorthogonal wavelet transforms, multiresolution vector quantization, and psychovisual bit allocation can form an effective still-image coder. The paper is an early bridge from wavelet theory to practical progressive image coding, and it helped set up the wavelet-based line of work that eventually led to JPEG 2000.",
+      "url": "../papers/1992_antonini_image_coding_using_wavelet/",
+      "treeUrl": "../tree/#paper=1992_antonini_image_coding_using_wavelet",
+      "mapUrl": "../map/#paper=1992_antonini_image_coding_using_wavelet",
+      "timelineUrl": "../timeline/#paper=1992_antonini_image_coding_using_wavelet",
+      "searchUrl": "../search/?paper=1992_antonini_image_coding_using_wavelet"
     },
     {
       "id": "1992_chen_object_modelling_by_registration",
@@ -8011,6 +8528,47 @@ window.timelineData = {
       "searchUrl": "../search/?paper=1993_afanasieva_the_characteristics_of_the"
     },
     {
+      "id": "1993_shapiro_embedded_image_coding_using",
+      "label": "Embedded Zerotree Wavelet",
+      "title": "Embedded Image Coding Using Zerotrees of Wavelet Coefficients",
+      "authors": [
+        "Jerome M. Shapiro"
+      ],
+      "authorShort": "Shapiro",
+      "year": 1993,
+      "source": "IEEE Transactions on Signal Processing",
+      "type": "Journal Paper",
+      "superCategory": "Prediction & Perception",
+      "category": "Computer Vision",
+      "subCategory": "Image Compression",
+      "path": [
+        "Tree",
+        "Prediction & Perception",
+        "Computer Vision",
+        "Image Compression",
+        "Traditional Image Codecs",
+        "Embedded Zerotree Wavelet"
+      ],
+      "tags": [
+        "Embedded zerotree wavelet",
+        "Wavelet transform",
+        "Image compression",
+        "Embedded coding",
+        "Progressive transmission",
+        "Bitplane coding",
+        "Zerotrees",
+        "Rate control",
+        "Transform coding"
+      ],
+      "abstract": "The embedded zerotree wavelet algorithm (EZW) is a simple, yet remarkably effective, image compression algorithm, having the property that the bits in the bit stream are generated in order of importance, yielding a fully embedded code. The embedded code represents a sequence of binary decisions that distinguish an image from the \"null\" image. Using an embedded coding algorithm, an encoder can terminate the encoding at any point thereby allowing a target rate or target distortion metric to be met exactly. Also, given a bit stream, the decoder can cease decoding at any point in the bit stream and still produce exactly the same image that would have been encoded at the bit rate corresponding to the truncated bit stream. In addition to producing a fully embedded bit stream, EZW consistently produces compression results that are competitive with virtually all known compression algorithms on standard test images. Yet this performance is achieved with a technique that requires absolutely no training, no pre-stored tables or codebooks, and requires no prior knowledge of the image source. The EZW algorithm is based on four key concepts: 1) a discrete wavelet transform or hierarchical subband decomposition, 2) prediction of the absence of significant information across scales by exploiting the self-similarity inherent in images, 3) entropy-coded successive-approximation quantization, and 4) universal lossless data compression which is achieved via adaptive arithmetic coding.",
+      "summary": "Shapiro introduces EZW, a wavelet-domain embedded coder that orders transmitted bits by importance and uses zerotrees to compactly describe insignificant coefficient descendants across scales. The paper made progressive, target-rate image coding practical with a simple algorithm and directly influenced SPIHT, SPECK, and later scalable wavelet codecs.",
+      "url": "../papers/1993_shapiro_embedded_image_coding_using/",
+      "treeUrl": "../tree/#paper=1993_shapiro_embedded_image_coding_using",
+      "mapUrl": "../map/#paper=1993_shapiro_embedded_image_coding_using",
+      "timelineUrl": "../timeline/#paper=1993_shapiro_embedded_image_coding_using",
+      "searchUrl": "../search/?paper=1993_shapiro_embedded_image_coding_using"
+    },
+    {
       "id": "1993_quinlan_c4_5_programs_for_machine",
       "label": "C4.5",
       "title": "C4.5: Programs for Machine Learning",
@@ -8373,6 +8931,46 @@ window.timelineData = {
       "searchUrl": "../search/?paper=1994_pearlmutter_fast_exact_multiplication_by"
     },
     {
+      "id": "1994_bradtke_adaptive_linear_quadratic_control",
+      "label": "Adaptive Linear Quadratic Control Using Policy Iteration",
+      "title": "Adaptive Linear Quadratic Control Using Policy Iteration",
+      "authors": [
+        "S.J. Bradtke",
+        "B.E. Ydstie",
+        "A.G. Barto"
+      ],
+      "authorShort": "Bradtke, Ydstie, Barto",
+      "year": 1994,
+      "source": "American Control Conference (ACC)",
+      "type": "Conference Paper",
+      "superCategory": "Decision-making",
+      "category": "Reinforcement Learning",
+      "subCategory": "Linear Systems",
+      "path": [
+        "Tree",
+        "Decision-making",
+        "Reinforcement Learning",
+        "Linear Systems",
+        "Dynamic Programming",
+        "Adaptive Linear Quadratic Control Using Policy Iteration"
+      ],
+      "tags": [
+        "Reinforcement learning",
+        "Linear quadratic control",
+        "Policy iteration",
+        "Q-learning",
+        "Adaptive control",
+        "Continuous control"
+      ],
+      "abstract": "In this paper we present the stability and convergence results for dynamic programming-based reinforcement learning applied to linear quadratic regulation (LQR). The specific algorithm we analyze is based on Q-learning and it is proven to converge to an optimal controller provided that the underlying system is controllable and a particular signal vector is persistently excited. This is the first convergence result for DP-based reinforcement learning algorithms for a continuous problem.",
+      "summary": "Analyzes reinforcement-learning policy iteration for the continuous linear-quadratic regulator setting, proving convergence to the optimal controller under controllability and persistent excitation assumptions. The paper is an early bridge between adaptive control, dynamic programming, and model-free reinforcement learning for continuous-state control problems.",
+      "url": "../papers/1994_bradtke_adaptive_linear_quadratic_control/",
+      "treeUrl": "../tree/#paper=1994_bradtke_adaptive_linear_quadratic_control",
+      "mapUrl": "../map/#paper=1994_bradtke_adaptive_linear_quadratic_control",
+      "timelineUrl": "../timeline/#paper=1994_bradtke_adaptive_linear_quadratic_control",
+      "searchUrl": "../search/?paper=1994_bradtke_adaptive_linear_quadratic_control"
+    },
+    {
       "id": "1994_verhaegen_identification_of_the_deterministic",
       "label": "IV-MOESP",
       "title": "Identification of the Deterministic Part of MIMO State Space Models Given in Innovations Form from Input-Output Data",
@@ -8461,47 +9059,6 @@ window.timelineData = {
       "searchUrl": "../search/?paper=1994_van_overschee_n4sid_numerical_algorithms_for"
     },
     {
-      "id": "1994_bradtke_adaptive_linear_quadratic_control",
-      "label": "Adaptive Linear Quadratic Control Using Policy Iteration",
-      "title": "Adaptive Linear Quadratic Control Using Policy Iteration",
-      "authors": [
-        "S.J. Bradtke",
-        "B.E. Ydstie",
-        "A.G. Barto"
-      ],
-      "authorShort": "Bradtke, Ydstie, Barto",
-      "year": 1994,
-      "source": "American Control Conference (ACC)",
-      "type": "Conference Paper",
-      "superCategory": "Decision-making",
-      "category": "Reinforcement Learning",
-      "subCategory": "Nonlinear Systems",
-      "path": [
-        "Tree",
-        "Decision-making",
-        "Reinforcement Learning",
-        "Nonlinear Systems",
-        "Dynamic Programming",
-        "Approximate Dynamic Programming",
-        "Adaptive Linear Quadratic Control Using Policy Iteration"
-      ],
-      "tags": [
-        "Reinforcement learning",
-        "Linear quadratic control",
-        "Policy iteration",
-        "Q-learning",
-        "Adaptive control",
-        "Continuous control"
-      ],
-      "abstract": "In this paper we present the stability and convergence results for dynamic programming-based reinforcement learning applied to linear quadratic regulation (LQR). The specific algorithm we analyze is based on Q-learning and it is proven to converge to an optimal controller provided that the underlying system is controllable and a particular signal vector is persistently excited. This is the first convergence result for DP-based reinforcement learning algorithms for a continuous problem.",
-      "summary": "Analyzes reinforcement-learning policy iteration for the continuous linear-quadratic regulator setting, proving convergence to the optimal controller under controllability and persistent excitation assumptions. The paper is an early bridge between adaptive control, dynamic programming, and model-free reinforcement learning for continuous-state control problems.",
-      "url": "../papers/1994_bradtke_adaptive_linear_quadratic_control/",
-      "treeUrl": "../tree/#paper=1994_bradtke_adaptive_linear_quadratic_control",
-      "mapUrl": "../map/#paper=1994_bradtke_adaptive_linear_quadratic_control",
-      "timelineUrl": "../timeline/#paper=1994_bradtke_adaptive_linear_quadratic_control",
-      "searchUrl": "../search/?paper=1994_bradtke_adaptive_linear_quadratic_control"
-    },
-    {
       "id": "1994_rummery_on_line_q_learning",
       "label": "On-Line Q-Learning Using Connectionist Systems",
       "title": "On-Line Q-Learning Using Connectionist Systems",
@@ -8582,6 +9139,43 @@ window.timelineData = {
       "mapUrl": "../map/#paper=1994_purgathofer_forced_random_dithering_improved",
       "timelineUrl": "../timeline/#paper=1994_purgathofer_forced_random_dithering_improved",
       "searchUrl": "../search/?paper=1994_purgathofer_forced_random_dithering_improved"
+    },
+    {
+      "id": "1994_brandenburg_iso_mpeg_1_audio",
+      "label": "MPEG-1 Audio",
+      "title": "ISO/MPEG-1 Audio: A Generic Standard for Coding of High-Quality Digital Audio",
+      "authors": [
+        "Karlheinz Brandenburg",
+        "Gerhard Stoll"
+      ],
+      "authorShort": "Brandenburg, Stoll",
+      "year": 1994,
+      "source": "Journal of the Audio Engineering Society",
+      "type": "Journal Paper",
+      "superCategory": "Prediction & Perception",
+      "category": "Audio",
+      "subCategory": "Audio Compression",
+      "path": [
+        "Tree",
+        "Prediction & Perception",
+        "Audio",
+        "Audio Compression",
+        "MPEG-1 Audio"
+      ],
+      "tags": [
+        "Audio compression",
+        "Information theory",
+        "Signal processing",
+        "Perceptual metrics",
+        "Pulse-code modulation"
+      ],
+      "abstract": "The standardization body ISO/IEC/JTC1/SC29/WG11 (Moving Pictures Expert Group, MPEG), was drafting a standard for compressing the high bit rate of moving pictures and associated audio down to 1.5 Mbit/s. The audio part of the proposed standard is described. Three layers of the audio coding scheme with increasing complexity and performance were defined. These layers were developed in collaboration mainly with AT&T, CCETT, FhG/University of Erlangen, Philips, IRT, and Thomson Consumer Electronics. The generic coding system is suitable for different applications, such as storage on inexpensive storage media or transmission over channels with limited capacity (such as digital audio broadcasting or ISDN audio transmission).",
+      "summary": "Summarizes the MPEG-1 Audio standard and its three layers, including the Layer III path that became MP3. The paper is valuable as a compact technical account of how psychoacoustic analysis, bit allocation, and standardized bitstreams turned perceptual audio coding into a widely deployable consumer technology.",
+      "url": "../papers/1994_brandenburg_iso_mpeg_1_audio/",
+      "treeUrl": "../tree/#paper=1994_brandenburg_iso_mpeg_1_audio",
+      "mapUrl": "../map/#paper=1994_brandenburg_iso_mpeg_1_audio",
+      "timelineUrl": "../timeline/#paper=1994_brandenburg_iso_mpeg_1_audio",
+      "searchUrl": "../search/?paper=1994_brandenburg_iso_mpeg_1_audio"
     },
     {
       "id": "1995_ghaoui_state_feedback_control_of",
@@ -9051,7 +9645,7 @@ window.timelineData = {
         "Optimization",
         "Continuous Optimization",
         "Convex Optimization",
-        "General Convex Optimization",
+        "Semidefinite Programming",
         "Semidefinite Programming"
       ],
       "tags": [
@@ -9193,6 +9787,49 @@ window.timelineData = {
       "mapUrl": "../map/#paper=1996_van_overschee_subspace_identification_for_linear",
       "timelineUrl": "../timeline/#paper=1996_van_overschee_subspace_identification_for_linear",
       "searchUrl": "../search/?paper=1996_van_overschee_subspace_identification_for_linear"
+    },
+    {
+      "id": "1996_said_a_new_fast_and",
+      "label": "SPIHT",
+      "title": "A New, Fast, and Efficient Image Codec Based on Set Partitioning in Hierarchical Trees",
+      "authors": [
+        "Amir Said",
+        "William A. Pearlman"
+      ],
+      "authorShort": "Said, Pearlman",
+      "year": 1996,
+      "source": "IEEE Transactions on Circuits and Systems for Video Technology",
+      "type": "Journal Paper",
+      "superCategory": "Prediction & Perception",
+      "category": "Computer Vision",
+      "subCategory": "Image Compression",
+      "path": [
+        "Tree",
+        "Prediction & Perception",
+        "Computer Vision",
+        "Image Compression",
+        "Traditional Image Codecs",
+        "SPIHT"
+      ],
+      "tags": [
+        "SPIHT",
+        "Set partitioning",
+        "Hierarchical trees",
+        "Wavelet transform",
+        "Image compression",
+        "Embedded coding",
+        "Bitplane coding",
+        "Zerotrees",
+        "Arithmetic coding",
+        "Progressive transmission"
+      ],
+      "abstract": "Embedded zerotree wavelet (EZW) coding, introduced by J. M. Shapiro, is a very effective and computationally simple technique for image compression. Here we offer an alternative explanation of the principles of its operation, so that the reasons for its excellent performance can be better understood. These principles are partial ordering by magnitude with a set partitioning sorting algorithm, ordered bit plane transmission, and exploitation of self-similarity across different scales of an image wavelet transform. Moreover, we present a new and different implementation based on set partitioning in hierarchical trees (SPIHT), which provides even better performance than our previously reported extension of EZW that surpassed the performance of the original EZW. The image coding results, calculated from actual file sizes and images reconstructed by the decoding algorithm, are either comparable to or surpass previous results obtained through much more sophisticated and computationally complex methods. In addition, the new coding and decoding procedures are extremely fast, and they can be made even faster, with only small loss in performance, by omitting entropy coding of the bit stream by the arithmetic code.",
+      "summary": "Said and Pearlman reformulate zerotree wavelet coding around set partitioning and spatial-orientation trees, yielding SPIHT, a faster and stronger embedded image codec than EZW. The paper is important because it separates the core ordering idea from implementation details, producing a simple progressive bitstream with excellent rate-distortion performance and low complexity.",
+      "url": "../papers/1996_said_a_new_fast_and/",
+      "treeUrl": "../tree/#paper=1996_said_a_new_fast_and",
+      "mapUrl": "../map/#paper=1996_said_a_new_fast_and",
+      "timelineUrl": "../timeline/#paper=1996_said_a_new_fast_and",
+      "searchUrl": "../search/?paper=1996_said_a_new_fast_and"
     },
     {
       "id": "1996_black_the_robust_estimation_of",
@@ -9758,6 +10395,52 @@ window.timelineData = {
       "mapUrl": "../map/#paper=1997_shen_uflic_a_line_integral",
       "timelineUrl": "../timeline/#paper=1997_shen_uflic_a_line_integral",
       "searchUrl": "../search/?paper=1997_shen_uflic_a_line_integral"
+    },
+    {
+      "id": "1997_bosi_iso_iec_mpeg_2",
+      "label": "AAC",
+      "title": "ISO/IEC MPEG-2 Advanced Audio Coding",
+      "authors": [
+        "Marina Bosi",
+        "Karlheinz Brandenburg",
+        "Schuyler R. Quackenbush",
+        "Louis Fielder",
+        "Kenzo Akagiri",
+        "Henrik Fuchs",
+        "Martin Dietz",
+        "Juergen Herre",
+        "Grant Davidson",
+        "Yoshiaki Oikawa"
+      ],
+      "authorShort": "Bosi, Brandenburg, Quackenbush",
+      "year": 1997,
+      "source": "Journal of the Audio Engineering Society",
+      "type": "Journal Paper",
+      "superCategory": "Prediction & Perception",
+      "category": "Audio",
+      "subCategory": "Audio Compression",
+      "path": [
+        "Tree",
+        "Prediction & Perception",
+        "Audio",
+        "Audio Compression",
+        "AAC"
+      ],
+      "tags": [
+        "Audio compression",
+        "Information theory",
+        "Signal processing",
+        "Filtering",
+        "Prediction",
+        "Perceptual metrics"
+      ],
+      "abstract": "The ISO/IEC MPEG-2 advanced audio coding (AAC) system was designed to provide MPEG-2 with the best audio quality without any restrictions due to compatibility requirements. The main features of the AAC system (ISO/IEC 13818-7) are described. MPEG-2 AAC combines the coding efficiency of a high-resolution filter bank, prediction techniques, and Huffmann coding with additional functionalities aimed to deliver very high audio quality at a variety of data rates.",
+      "summary": "Documents the MPEG-2 AAC system, which relaxed MPEG-1 backward-compatibility constraints to achieve better coding efficiency and audio quality. It marks the standardization of a codec family whose filter-bank, prediction, entropy-coding, and perceptual-design choices became central to modern music and streaming audio formats.",
+      "url": "../papers/1997_bosi_iso_iec_mpeg_2/",
+      "treeUrl": "../tree/#paper=1997_bosi_iso_iec_mpeg_2",
+      "mapUrl": "../map/#paper=1997_bosi_iso_iec_mpeg_2",
+      "timelineUrl": "../timeline/#paper=1997_bosi_iso_iec_mpeg_2",
+      "searchUrl": "../search/?paper=1997_bosi_iso_iec_mpeg_2"
     },
     {
       "id": "1997_freund_a_decision_theoretic_generalization",
@@ -11054,6 +11737,49 @@ window.timelineData = {
       "searchUrl": "../search/?paper=1999_lavalle_randomized_kinodynamic_planning"
     },
     {
+      "id": "1999_li_system_identification_and_long",
+      "label": "System identification and long-range predictive control of multi-rate systems",
+      "title": "System Identification and Long-range Predictive Control of Multi-rate Systems",
+      "authors": [
+        "Dongguang Li",
+        "S. L. Shah",
+        "Tongwen Chen",
+        "R. Patwardhan"
+      ],
+      "authorShort": "Li, Shah, Chen",
+      "year": 1999,
+      "source": "American Control Conference (ACC)",
+      "type": "Conference Paper",
+      "superCategory": "Decision-making",
+      "category": "Reinforcement Learning",
+      "subCategory": "Linear Systems",
+      "path": [
+        "Tree",
+        "Decision-making",
+        "Reinforcement Learning",
+        "Linear Systems",
+        "Model-based RL",
+        "System Identification",
+        "Subspace Identification",
+        "System identification and long-range predictive control of multi-rate systems"
+      ],
+      "tags": [
+        "System identification",
+        "Model predictive control",
+        "Multirate systems",
+        "Subspace identification",
+        "Lifted systems",
+        "Process control"
+      ],
+      "abstract": "Discusses system identification and model-based predictive control of multi-rate systems. In particular, the practically useful case of systems with fast manipulative variable sampling and slow output sampling is considered. The lifting method is used to analyze the multi-rate system in a state-space framework. A subspace identification algorithm, is first used to identify the lifted multi-rate system. The single-rate model at the faster sampling rate is then extracted from this estimated system and subsequently used for long-range predictive control. The fast-sampling rate model is used to estimate the outputs at inter-sample instants, using a minimum variance predictor. The estimated output is then used for model-based predictive control at the faster sampling rate. The performance of this controller is compared with the performance of the slow sample-rate scheme, and it is shown that the fast-rate controller has a significantly better performance.",
+      "summary": "Combines lifted-system identification with long-range predictive control for multirate processes where inputs are sampled faster than outputs. The method identifies a lifted state-space model, extracts a fast-rate model, and uses minimum-variance intersample output estimates to improve predictive-control performance.",
+      "url": "../papers/1999_li_system_identification_and_long/",
+      "treeUrl": "../tree/#paper=1999_li_system_identification_and_long",
+      "mapUrl": "../map/#paper=1999_li_system_identification_and_long",
+      "timelineUrl": "../timeline/#paper=1999_li_system_identification_and_long",
+      "searchUrl": "../search/?paper=1999_li_system_identification_and_long"
+    },
+    {
       "id": "1999_sutton_policy_gradient_methods_for",
       "label": "Policy Gradient with Function Approximation",
       "title": "Policy Gradient Methods for Reinforcement Learning with Function Approximation",
@@ -11077,7 +11803,7 @@ window.timelineData = {
         "Nonlinear Systems",
         "Policy Optimization",
         "Policy Gradient",
-        "Vanilla Policy Gradient",
+        "Foundations & Surveys",
         "Policy Gradient with Function Approximation"
       ],
       "tags": [
@@ -11096,48 +11822,6 @@ window.timelineData = {
       "mapUrl": "../map/#paper=1999_sutton_policy_gradient_methods_for",
       "timelineUrl": "../timeline/#paper=1999_sutton_policy_gradient_methods_for",
       "searchUrl": "../search/?paper=1999_sutton_policy_gradient_methods_for"
-    },
-    {
-      "id": "1999_li_system_identification_and_long",
-      "label": "System identification and long-range predictive control of multi-rate systems",
-      "title": "System Identification and Long-range Predictive Control of Multi-rate Systems",
-      "authors": [
-        "Dongguang Li",
-        "S. L. Shah",
-        "Tongwen Chen",
-        "R. Patwardhan"
-      ],
-      "authorShort": "Li, Shah, Chen",
-      "year": 1999,
-      "source": "American Control Conference (ACC)",
-      "type": "Conference Paper",
-      "superCategory": "Decision-making",
-      "category": "Reinforcement Learning",
-      "subCategory": "Nonlinear Systems",
-      "path": [
-        "Tree",
-        "Decision-making",
-        "Reinforcement Learning",
-        "Nonlinear Systems",
-        "Model-based RL",
-        "System Identification",
-        "System identification and long-range predictive control of multi-rate systems"
-      ],
-      "tags": [
-        "System identification",
-        "Model predictive control",
-        "Multirate systems",
-        "Subspace identification",
-        "Lifted systems",
-        "Process control"
-      ],
-      "abstract": "Discusses system identification and model-based predictive control of multi-rate systems. In particular, the practically useful case of systems with fast manipulative variable sampling and slow output sampling is considered. The lifting method is used to analyze the multi-rate system in a state-space framework. A subspace identification algorithm, is first used to identify the lifted multi-rate system. The single-rate model at the faster sampling rate is then extracted from this estimated system and subsequently used for long-range predictive control. The fast-sampling rate model is used to estimate the outputs at inter-sample instants, using a minimum variance predictor. The estimated output is then used for model-based predictive control at the faster sampling rate. The performance of this controller is compared with the performance of the slow sample-rate scheme, and it is shown that the fast-rate controller has a significantly better performance.",
-      "summary": "Combines lifted-system identification with long-range predictive control for multirate processes where inputs are sampled faster than outputs. The method identifies a lifted state-space model, extracts a fast-rate model, and uses minimum-variance intersample output estimates to improve predictive-control performance.",
-      "url": "../papers/1999_li_system_identification_and_long/",
-      "treeUrl": "../tree/#paper=1999_li_system_identification_and_long",
-      "mapUrl": "../map/#paper=1999_li_system_identification_and_long",
-      "timelineUrl": "../timeline/#paper=1999_li_system_identification_and_long",
-      "searchUrl": "../search/?paper=1999_li_system_identification_and_long"
     },
     {
       "id": "1999_thrun_minerva_a_second_generation",
@@ -11580,13 +12264,14 @@ window.timelineData = {
       "type": "Journal Paper",
       "superCategory": "Decision-making",
       "category": "Optimization",
-      "subCategory": "Continuous Optimization",
+      "subCategory": "Toolboxes & Solvers",
       "path": [
         "Tree",
         "Decision-making",
         "Optimization",
-        "Continuous Optimization",
-        "Automatic Differentiation",
+        "Toolboxes & Solvers",
+        "Hyperparameter Optimization",
+        "Gradient-based Hyperparameter Optimization",
         "Gradient-Based Optimization of Hyperparameters"
       ],
       "tags": [
@@ -11791,7 +12476,7 @@ window.timelineData = {
         "Nonlinear Systems",
         "Policy Optimization",
         "Policy Gradient",
-        "Vanilla Policy Gradient",
+        "Foundations & Surveys",
         "Direct Gradient-Based Reinforcement Learning"
       ],
       "tags": [
@@ -11851,6 +12536,47 @@ window.timelineData = {
       "mapUrl": "../map/#paper=2000_fantoni_energy_based_control_of",
       "timelineUrl": "../timeline/#paper=2000_fantoni_energy_based_control_of",
       "searchUrl": "../search/?paper=2000_fantoni_energy_based_control_of"
+    },
+    {
+      "id": "2000_taubman_high_performance_scalable_image",
+      "label": "EBCOT",
+      "title": "High Performance Scalable Image Compression with EBCOT",
+      "authors": [
+        "David S. Taubman"
+      ],
+      "authorShort": "Taubman",
+      "year": 2000,
+      "source": "IEEE Transactions on Image Processing",
+      "type": "Journal Paper",
+      "superCategory": "Prediction & Perception",
+      "category": "Computer Vision",
+      "subCategory": "Image Compression",
+      "path": [
+        "Tree",
+        "Prediction & Perception",
+        "Computer Vision",
+        "Image Compression",
+        "Traditional Image Codecs",
+        "EBCOT"
+      ],
+      "tags": [
+        "EBCOT",
+        "Joint photographic experts group 2000",
+        "Embedded block coding",
+        "Wavelet transform",
+        "Rate-distortion optimization",
+        "Scalable coding",
+        "Random access",
+        "Image compression",
+        "Visual masking"
+      ],
+      "abstract": "A new image compression algorithm is proposed, based on independent Embedded Block Coding with Optimized Truncation of the embedded bit-streams (EBCOT). The algorithm exhibits state-of-the-art compression performance while producing a bit-stream with a rich set of features, including resolution and SNR scalability together with a \"random access\" property. The algorithm has modest complexity and is suitable for applications involving remote browsing of large compressed images. The algorithm lends itself to explicit optimization with respect to MSE as well as more realistic psychovisual metrics, capable of modeling the spatially varying visual masking phenomenon.",
+      "summary": "Taubman introduces EBCOT, the embedded block coding and post-compression rate-distortion optimization framework that became the core coding engine of JPEG 2000. Its independent code blocks, optimized truncation, scalability, random access, and visual-metric compatibility made wavelet image coding far more flexible than earlier global embedded coders such as EZW and SPIHT.",
+      "url": "../papers/2000_taubman_high_performance_scalable_image/",
+      "treeUrl": "../tree/#paper=2000_taubman_high_performance_scalable_image",
+      "mapUrl": "../map/#paper=2000_taubman_high_performance_scalable_image",
+      "timelineUrl": "../timeline/#paper=2000_taubman_high_performance_scalable_image",
+      "searchUrl": "../search/?paper=2000_taubman_high_performance_scalable_image"
     },
     {
       "id": "cond_mat_0002177",
@@ -12311,6 +13037,8 @@ window.timelineData = {
         "Continuous Optimization",
         "Convex Optimization",
         "General Convex Optimization",
+        "Rank Minimization",
+        "Low-rank Recovery",
         "A Rank Minimization Heuristic with Application to Minimum Order System Approximation"
       ],
       "tags": [
@@ -12554,6 +13282,7 @@ window.timelineData = {
         "Nonlinear Systems",
         "Policy Optimization",
         "Policy Gradient",
+        "Natural, Soft, and Geometric Gradients",
         "Natural Policy Gradient",
         "Natural Policy Gradient"
       ],
@@ -13454,9 +14183,8 @@ window.timelineData = {
         "Decision-making",
         "Reinforcement Learning",
         "Nonlinear Systems",
-        "Policy Optimization",
-        "Policy Gradient",
-        "Vanilla Policy Gradient",
+        "Dynamic Programming",
+        "Approximate Dynamic Programming",
         "Approximately Optimal Approximate Reinforcement Learning"
       ],
       "tags": [
@@ -13902,6 +14630,8 @@ window.timelineData = {
         "Continuous Optimization",
         "Convex Optimization",
         "General Convex Optimization",
+        "Rank Minimization",
+        "Low-rank Recovery",
         "Log-det Heuristic for Matrix Rank Minimization with Applications to Hankel and Euclidean Distance Matrices"
       ],
       "tags": [
@@ -13941,7 +14671,7 @@ window.timelineData = {
         "Optimization",
         "Continuous Optimization",
         "Convex Optimization",
-        "General Convex Optimization",
+        "Semidefinite Programming",
         "Semidefinite Programming Relaxations for Semialgebraic Problems"
       ],
       "tags": [
@@ -14393,6 +15123,8 @@ window.timelineData = {
         "Continuous Optimization",
         "Convex Optimization",
         "General Convex Optimization",
+        "Rank Minimization",
+        "Low-rank Recovery",
         "Rank Minimization and Applications in System Theory"
       ],
       "tags": [
@@ -16674,6 +17406,8 @@ window.timelineData = {
         "Continuous Optimization",
         "Convex Optimization",
         "General Convex Optimization",
+        "Rank Minimization",
+        "Low-rank Recovery",
         "Guaranteed Minimum-Rank Solutions of Linear Matrix Equations via Nuclear Norm Minimization"
       ],
       "tags": [
@@ -16717,6 +17451,8 @@ window.timelineData = {
         "Continuous Optimization",
         "Convex Optimization",
         "General Convex Optimization",
+        "Compressed Sensing & Sparse Recovery",
+        "Convex Demixing",
         "Hyperspectral Image Unmixing via Alternating Projected Subgradients"
       ],
       "tags": [
@@ -16758,6 +17494,7 @@ window.timelineData = {
         "Continuous Optimization",
         "Convex Optimization",
         "General Convex Optimization",
+        "Compressed Sensing & Sparse Recovery",
         "Reweighted L1 Minimization"
       ],
       "tags": [
@@ -16798,6 +17535,7 @@ window.timelineData = {
         "Continuous Optimization",
         "Convex Optimization",
         "General Convex Optimization",
+        "Compressed Sensing & Sparse Recovery",
         "Signal Recovery from Random Measurements via Orthogonal Matching Pursuit"
       ],
       "tags": [
@@ -17443,6 +18181,8 @@ window.timelineData = {
         "Continuous Optimization",
         "Convex Optimization",
         "General Convex Optimization",
+        "Rank Minimization",
+        "Low-rank Recovery",
         "Compressed Sensing and Robust Recovery of Low Rank Matrices"
       ],
       "tags": [
@@ -17483,6 +18223,7 @@ window.timelineData = {
         "Continuous Optimization",
         "Convex Optimization",
         "General Convex Optimization",
+        "Compressed Sensing & Sparse Recovery",
         "CoSaMP"
       ],
       "tags": [
@@ -17933,8 +18674,8 @@ window.timelineData = {
         "Decision-making",
         "Reinforcement Learning",
         "Nonlinear Systems",
-        "Policy Optimization",
-        "Policy Gradient",
+        "Dynamic Programming",
+        "Policy Evaluation",
         "A Convergent O(n) Temporal-difference Algorithm for Off-policy Learning with Linear Function Approximation"
       ],
       "tags": [
@@ -18837,6 +19578,8 @@ window.timelineData = {
         "Continuous Optimization",
         "Convex Optimization",
         "General Convex Optimization",
+        "Rank Minimization",
+        "Randomized Algorithms",
         "Finding Structure with Randomness: Probabilistic Algorithms for Constructing Approximate Matrix Decompositions"
       ],
       "tags": [
@@ -18939,7 +19682,7 @@ window.timelineData = {
     },
     {
       "id": "0912_3599",
-      "label": "Robust Principal Component Analysis?",
+      "label": "Robust Principal Component Analysis",
       "title": "Robust Principal Component Analysis?",
       "authors": [
         "Emmanuel J. Candes",
@@ -18961,7 +19704,9 @@ window.timelineData = {
         "Continuous Optimization",
         "Convex Optimization",
         "General Convex Optimization",
-        "Robust Principal Component Analysis?"
+        "Rank Minimization",
+        "Low-rank Recovery",
+        "Robust Principal Component Analysis"
       ],
       "tags": [
         "Robust principal component analysis",
@@ -19003,6 +19748,8 @@ window.timelineData = {
         "Continuous Optimization",
         "Convex Optimization",
         "General Convex Optimization",
+        "Rank Minimization",
+        "Low-rank Recovery",
         "Sparse and Low-rank Matrix Decompositions"
       ],
       "tags": [
@@ -19709,8 +20456,8 @@ window.timelineData = {
         "Decision-making",
         "Reinforcement Learning",
         "Nonlinear Systems",
-        "Policy Optimization",
-        "Policy Gradient",
+        "Dynamic Programming",
+        "Policy Evaluation",
         "Fast Gradient-descent Methods for Temporal-difference Learning with Linear Function Approximation"
       ],
       "tags": [
@@ -20117,6 +20864,7 @@ window.timelineData = {
         "Continuous Optimization",
         "Convex Optimization",
         "General Convex Optimization",
+        "Compressed Sensing & Sparse Recovery",
         "Computational Methods for Sparse Solution of Linear Inverse Problems"
       ],
       "tags": [
@@ -20159,6 +20907,8 @@ window.timelineData = {
         "Continuous Optimization",
         "Convex Optimization",
         "General Convex Optimization",
+        "Rank Minimization",
+        "Low-rank Recovery",
         "New Restricted Isometry Results for Noisy Low-rank Recovery"
       ],
       "tags": [
@@ -20203,6 +20953,8 @@ window.timelineData = {
         "Continuous Optimization",
         "Convex Optimization",
         "General Convex Optimization",
+        "Rank Minimization",
+        "Matrix Factorization",
         "Practical Large-Scale Optimization for Max-norm Regularization"
       ],
       "tags": [
@@ -20245,6 +20997,8 @@ window.timelineData = {
         "Continuous Optimization",
         "Convex Optimization",
         "General Convex Optimization",
+        "Rank Minimization",
+        "Low-rank Recovery",
         "The Convex Geometry of Linear Inverse Problems"
       ],
       "tags": [
@@ -20740,9 +21494,8 @@ window.timelineData = {
         "Decision-making",
         "Reinforcement Learning",
         "Nonlinear Systems",
-        "Policy Optimization",
-        "Policy Gradient",
-        "Vanilla Policy Gradient",
+        "Dynamic Programming",
+        "Approximate Dynamic Programming",
         "Error Propagation for Approximate Policy and Value Iteration"
       ],
       "tags": [
@@ -21288,6 +22041,8 @@ window.timelineData = {
         "Continuous Optimization",
         "Convex Optimization",
         "General Convex Optimization",
+        "Rank Minimization",
+        "Low-rank Recovery",
         "A Simplified Approach to Recovery Conditions for Low Rank Matrices"
       ],
       "tags": [
@@ -21351,7 +22106,7 @@ window.timelineData = {
     },
     {
       "id": "1111_0952",
-      "label": "Computing a Nonnegative Matrix Factorization -- Provably",
+      "label": "Computing a Nonnegative Matrix Factorization - Provably",
       "title": "Computing a Nonnegative Matrix Factorization - Provably",
       "authors": [
         "Sanjeev Arora",
@@ -21373,7 +22128,9 @@ window.timelineData = {
         "Continuous Optimization",
         "Convex Optimization",
         "General Convex Optimization",
-        "Computing a Nonnegative Matrix Factorization -- Provably"
+        "Rank Minimization",
+        "Matrix Factorization",
+        "Computing a Nonnegative Matrix Factorization - Provably"
       ],
       "tags": [
         "Nonnegative matrix factorization",
@@ -22519,6 +23276,7 @@ window.timelineData = {
         "Nonlinear Systems",
         "Policy Optimization",
         "Policy Gradient",
+        "Gradient Estimation & Credit Assignment",
         "Infinite-Horizon Policy-Gradient Estimation"
       ],
       "tags": [
@@ -23191,49 +23949,6 @@ window.timelineData = {
       "searchUrl": "../search/?paper=1210_7420"
     },
     {
-      "id": "2012_ozay_a_sparsification_approach_to",
-      "label": "A Sparsification Approach to Set Membership Identification of Switched Affine Systems",
-      "title": "A Sparsification Approach to Set Membership Identification of Switched Affine Systems",
-      "authors": [
-        "Necmiye Ozay",
-        "Mario Sznaier",
-        "Constantino M. Lagoa",
-        "Octavia I. Camps"
-      ],
-      "authorShort": "Ozay, Sznaier, Lagoa",
-      "year": 2012,
-      "source": "IEEE Transactions on Automatic Control",
-      "type": "Journal Paper",
-      "superCategory": "Decision-making",
-      "category": "Optimization",
-      "subCategory": "Continuous Optimization",
-      "path": [
-        "Tree",
-        "Decision-making",
-        "Optimization",
-        "Continuous Optimization",
-        "Convex Optimization",
-        "General Convex Optimization",
-        "A Sparsification Approach to Set Membership Identification of Switched Affine Systems"
-      ],
-      "tags": [
-        "Switched affine systems",
-        "Set membership identification",
-        "Sparse optimization",
-        "Hybrid systems",
-        "Convex relaxation",
-        "Bounded noise",
-        "System identification"
-      ],
-      "abstract": "This paper addresses the problem of robust identification of a class of discrete-time affine hybrid systems, switched affine models, in a set membership framework. Given a finite collection of noisy input/output data and some minimal a priori information about the set of admissible plants, the objective is to identify a suitable set of affine models along with a switching sequence that can explain the available experimental information, while minimizing either the number of switches or subsystems. For the case where it is desired to minimize the number of switches, the key idea of the paper is to reduce this problem to a sparsification form, where the goal is to maximize sparsity of a suitably constructed vector sequence. Our main result shows that in the case of ℓ ∞ bounded noise, this sparsification problem can be exactly solved via convex optimization. In the general case where the noise is only known to belong to a convex set N, the problem is generically NP-hard. However, as we show in the paper, efficient convex relaxations can be obtained by exploiting recent results on sparse signal recovery. Similarly, we present both a sparsification formulation and a convex relaxation for the (known to be NP hard) case where it is desired to minimize the number of subsystems. These results are illustrated using two non-trivial problems arising in computer vision applications: video-shot and dynamic texture segmentation.",
-      "summary": "Turns set-membership identification of switched affine systems into a sparsification problem, using sparsity in constructed residual or switching sequences to recover models and switching behavior from noisy data. The key result is that, under l-infinity bounded noise for the switch-count formulation, the sparsification problem admits an exact convex optimization solution, connecting hybrid-system identification to sparse recovery tools.",
-      "url": "../papers/2012_ozay_a_sparsification_approach_to/",
-      "treeUrl": "../tree/#paper=2012_ozay_a_sparsification_approach_to",
-      "mapUrl": "../map/#paper=2012_ozay_a_sparsification_approach_to",
-      "timelineUrl": "../timeline/#paper=2012_ozay_a_sparsification_approach_to",
-      "searchUrl": "../search/?paper=2012_ozay_a_sparsification_approach_to"
-    },
-    {
       "id": "1206_1270",
       "label": "Factoring Nonnegative Matrices with Linear Programs",
       "title": "Factoring Nonnegative Matrices with Linear Programs",
@@ -23257,6 +23972,8 @@ window.timelineData = {
         "Continuous Optimization",
         "Convex Optimization",
         "General Convex Optimization",
+        "Rank Minimization",
+        "Matrix Factorization",
         "Factoring Nonnegative Matrices with Linear Programs"
       ],
       "tags": [
@@ -23338,6 +24055,8 @@ window.timelineData = {
         "Continuous Optimization",
         "Convex Optimization",
         "General Convex Optimization",
+        "Rank Minimization",
+        "Low-rank Recovery",
         "Iterative Reweighted Algorithms for Matrix Rank Minimization"
       ],
       "tags": [
@@ -23465,6 +24184,8 @@ window.timelineData = {
         "Continuous Optimization",
         "Convex Optimization",
         "General Convex Optimization",
+        "Rank Minimization",
+        "Low-rank Recovery",
         "Robust Computation of Linear Models by Convex Relaxation"
       ],
       "tags": [
@@ -23592,6 +24313,8 @@ window.timelineData = {
         "Continuous Optimization",
         "Convex Optimization",
         "General Convex Optimization",
+        "Compressed Sensing & Sparse Recovery",
+        "Convex Demixing",
         "Sharp Recovery Bounds for Convex Demixing, with Applications"
       ],
       "tags": [
@@ -24331,6 +25054,50 @@ window.timelineData = {
       "searchUrl": "../search/?paper=1206_5264"
     },
     {
+      "id": "2012_ozay_a_sparsification_approach_to",
+      "label": "A Sparsification Approach to Set Membership Identification of Switched Affine Systems",
+      "title": "A Sparsification Approach to Set Membership Identification of Switched Affine Systems",
+      "authors": [
+        "Necmiye Ozay",
+        "Mario Sznaier",
+        "Constantino M. Lagoa",
+        "Octavia I. Camps"
+      ],
+      "authorShort": "Ozay, Sznaier, Lagoa",
+      "year": 2012,
+      "source": "IEEE Transactions on Automatic Control",
+      "type": "Journal Paper",
+      "superCategory": "Decision-making",
+      "category": "Reinforcement Learning",
+      "subCategory": "Linear Systems",
+      "path": [
+        "Tree",
+        "Decision-making",
+        "Reinforcement Learning",
+        "Linear Systems",
+        "Model-based RL",
+        "System Identification",
+        "Switching and Bilinear Systems",
+        "A Sparsification Approach to Set Membership Identification of Switched Affine Systems"
+      ],
+      "tags": [
+        "Switched affine systems",
+        "Set membership identification",
+        "Sparse optimization",
+        "Hybrid systems",
+        "Convex relaxation",
+        "Bounded noise",
+        "System identification"
+      ],
+      "abstract": "This paper addresses the problem of robust identification of a class of discrete-time affine hybrid systems, switched affine models, in a set membership framework. Given a finite collection of noisy input/output data and some minimal a priori information about the set of admissible plants, the objective is to identify a suitable set of affine models along with a switching sequence that can explain the available experimental information, while minimizing either the number of switches or subsystems. For the case where it is desired to minimize the number of switches, the key idea of the paper is to reduce this problem to a sparsification form, where the goal is to maximize sparsity of a suitably constructed vector sequence. Our main result shows that in the case of ℓ ∞ bounded noise, this sparsification problem can be exactly solved via convex optimization. In the general case where the noise is only known to belong to a convex set N, the problem is generically NP-hard. However, as we show in the paper, efficient convex relaxations can be obtained by exploiting recent results on sparse signal recovery. Similarly, we present both a sparsification formulation and a convex relaxation for the (known to be NP hard) case where it is desired to minimize the number of subsystems. These results are illustrated using two non-trivial problems arising in computer vision applications: video-shot and dynamic texture segmentation.",
+      "summary": "Turns set-membership identification of switched affine systems into a sparsification problem, using sparsity in constructed residual or switching sequences to recover models and switching behavior from noisy data. The key result is that, under l-infinity bounded noise for the switch-count formulation, the sparsification problem admits an exact convex optimization solution, connecting hybrid-system identification to sparse recovery tools.",
+      "url": "../papers/2012_ozay_a_sparsification_approach_to/",
+      "treeUrl": "../tree/#paper=2012_ozay_a_sparsification_approach_to",
+      "mapUrl": "../map/#paper=2012_ozay_a_sparsification_approach_to",
+      "timelineUrl": "../timeline/#paper=2012_ozay_a_sparsification_approach_to",
+      "searchUrl": "../search/?paper=2012_ozay_a_sparsification_approach_to"
+    },
+    {
       "id": "1212_1269",
       "label": "Approximate Dynamic Programming via Sum of Squares Programming",
       "title": "Approximate Dynamic Programming via Sum of Squares Programming",
@@ -24954,49 +25721,6 @@ window.timelineData = {
       "searchUrl": "../search/?paper=2013_hast_pid_design_by_convex"
     },
     {
-      "id": "2013_fazel_hankel_matrix_rank_minimization",
-      "label": "Hankel Matrix Rank Minimization with Applications to System Identification and Realization",
-      "title": "Hankel Matrix Rank Minimization with Applications to System Identification and Realization",
-      "authors": [
-        "Maryam Fazel",
-        "Ting Kei Pong",
-        "Defeng Sun",
-        "Paul Tseng"
-      ],
-      "authorShort": "Fazel, Pong, Sun",
-      "year": 2013,
-      "source": "SIAM Journal on Matrix Analysis and Applications",
-      "type": "Journal Paper",
-      "superCategory": "Decision-making",
-      "category": "Optimization",
-      "subCategory": "Continuous Optimization",
-      "path": [
-        "Tree",
-        "Decision-making",
-        "Optimization",
-        "Continuous Optimization",
-        "Convex Optimization",
-        "General Convex Optimization",
-        "Hankel Matrix Rank Minimization with Applications to System Identification and Realization"
-      ],
-      "tags": [
-        "Hankel matrices",
-        "Rank minimization",
-        "System identification",
-        "System realization",
-        "Nuclear norm",
-        "Alternating-direction method of multipliers",
-        "First-order methods"
-      ],
-      "abstract": "We introduce a flexible optimization framework for nuclear norm minimization of matrices with linear structure, including Hankel, Toeplitz, and moment structures and catalog applications from diverse fields under this framework. We discuss various first-order methods for solving the resulting optimization problem, including alternating direction methods of multipliers, proximal point algorithms, and gradient projection methods. We perform computational experiments to compare these methods on system identification problems and system realization problems. For the system identification problem, the gradient projection method (accelerated by Nesterov's extrapolation techniques) and the proximal point algorithm usually outperform other first-order methods in terms of CPU time on both real and simulated data, for small and large regularization parameters, respectively, while for the system realization problem, the alternating direction method of multipliers, as applied to a certain primal reformulation, usually outperforms other first-order methods in terms of CPU time. We also study the convergence of the proximal alternating direction methods of multipliers used in this paper.",
-      "summary": "Builds a nuclear-norm minimization framework for linearly structured matrices such as Hankel, Toeplitz, and moment matrices, then studies first-order solvers for system identification and realization. The paper is useful because it compares ADMM, proximal-point, and accelerated gradient-projection variants in application-specific settings, showing that the best algorithm depends on the structured rank-minimization problem and regularization regime.",
-      "url": "../papers/2013_fazel_hankel_matrix_rank_minimization/",
-      "treeUrl": "../tree/#paper=2013_fazel_hankel_matrix_rank_minimization",
-      "mapUrl": "../map/#paper=2013_fazel_hankel_matrix_rank_minimization",
-      "timelineUrl": "../timeline/#paper=2013_fazel_hankel_matrix_rank_minimization",
-      "searchUrl": "../search/?paper=2013_fazel_hankel_matrix_rank_minimization"
-    },
-    {
       "id": "1307_0345",
       "label": "Performance Bounds for the Scenario Approach and an Extension to a Class of Non-convex Programs",
       "title": "Performance Bounds for the Scenario Approach and an Extension to a Class of Non-convex Programs",
@@ -25139,6 +25863,8 @@ window.timelineData = {
         "Continuous Optimization",
         "Convex Optimization",
         "General Convex Optimization",
+        "Compressed Sensing & Sparse Recovery",
+        "Convex Demixing",
         "The Achievable Performance of Convex Demixing"
       ],
       "tags": [
@@ -25265,7 +25991,8 @@ window.timelineData = {
         "Decision-making",
         "Optimization",
         "Toolboxes & Solvers",
-        "Black-Box Optimization",
+        "Hyperparameter Optimization",
+        "Bayesian Optimization",
         "REMBO"
       ],
       "tags": [
@@ -25943,6 +26670,50 @@ window.timelineData = {
       "searchUrl": "../search/?paper=1312_0041"
     },
     {
+      "id": "2013_fazel_hankel_matrix_rank_minimization",
+      "label": "Hankel Matrix Rank Minimization with Applications to System Identification and Realization",
+      "title": "Hankel Matrix Rank Minimization with Applications to System Identification and Realization",
+      "authors": [
+        "Maryam Fazel",
+        "Ting Kei Pong",
+        "Defeng Sun",
+        "Paul Tseng"
+      ],
+      "authorShort": "Fazel, Pong, Sun",
+      "year": 2013,
+      "source": "SIAM Journal on Matrix Analysis and Applications",
+      "type": "Journal Paper",
+      "superCategory": "Decision-making",
+      "category": "Reinforcement Learning",
+      "subCategory": "Linear Systems",
+      "path": [
+        "Tree",
+        "Decision-making",
+        "Reinforcement Learning",
+        "Linear Systems",
+        "Model-based RL",
+        "System Identification",
+        "Linear Systems with Additive Noise",
+        "Hankel Matrix Rank Minimization with Applications to System Identification and Realization"
+      ],
+      "tags": [
+        "Hankel matrices",
+        "Rank minimization",
+        "System identification",
+        "System realization",
+        "Nuclear norm",
+        "Alternating-direction method of multipliers",
+        "First-order methods"
+      ],
+      "abstract": "We introduce a flexible optimization framework for nuclear norm minimization of matrices with linear structure, including Hankel, Toeplitz, and moment structures and catalog applications from diverse fields under this framework. We discuss various first-order methods for solving the resulting optimization problem, including alternating direction methods of multipliers, proximal point algorithms, and gradient projection methods. We perform computational experiments to compare these methods on system identification problems and system realization problems. For the system identification problem, the gradient projection method (accelerated by Nesterov's extrapolation techniques) and the proximal point algorithm usually outperform other first-order methods in terms of CPU time on both real and simulated data, for small and large regularization parameters, respectively, while for the system realization problem, the alternating direction method of multipliers, as applied to a certain primal reformulation, usually outperforms other first-order methods in terms of CPU time. We also study the convergence of the proximal alternating direction methods of multipliers used in this paper.",
+      "summary": "Builds a nuclear-norm minimization framework for linearly structured matrices such as Hankel, Toeplitz, and moment matrices, then studies first-order solvers for system identification and realization. The paper is useful because it compares ADMM, proximal-point, and accelerated gradient-projection variants in application-specific settings, showing that the best algorithm depends on the structured rank-minimization problem and regularization regime.",
+      "url": "../papers/2013_fazel_hankel_matrix_rank_minimization/",
+      "treeUrl": "../tree/#paper=2013_fazel_hankel_matrix_rank_minimization",
+      "mapUrl": "../map/#paper=2013_fazel_hankel_matrix_rank_minimization",
+      "timelineUrl": "../timeline/#paper=2013_fazel_hankel_matrix_rank_minimization",
+      "searchUrl": "../search/?paper=2013_fazel_hankel_matrix_rank_minimization"
+    },
+    {
       "id": "2013_geramifard_a_tutorial_on_linear",
       "label": "A Tutorial on Linear Function Approximators for Dynamic Programming and Reinforcement Learning",
       "title": "A Tutorial on Linear Function Approximators for Dynamic Programming and Reinforcement Learning",
@@ -25966,9 +26737,8 @@ window.timelineData = {
         "Decision-making",
         "Reinforcement Learning",
         "Nonlinear Systems",
-        "Policy Optimization",
-        "Policy Gradient",
-        "Vanilla Policy Gradient",
+        "Dynamic Programming",
+        "Approximate Dynamic Programming",
         "A Tutorial on Linear Function Approximators for Dynamic Programming and Reinforcement Learning"
       ],
       "tags": [],
@@ -26085,9 +26855,8 @@ window.timelineData = {
         "Decision-making",
         "Reinforcement Learning",
         "Nonlinear Systems",
-        "Policy Optimization",
-        "Policy Gradient",
-        "Vanilla Policy Gradient",
+        "Dynamic Programming",
+        "Robust and Risk-Aware MDPs",
         "Robust Markov Decision Processes"
       ],
       "tags": [],
@@ -29324,6 +30093,7 @@ window.timelineData = {
         "Continuous Optimization",
         "Convex Optimization",
         "General Convex Optimization",
+        "Compressed Sensing & Sparse Recovery",
         "Computational Complexity versus Statistical Performance on Sparse Recovery Problems"
       ],
       "tags": [],
@@ -29484,48 +30254,6 @@ window.timelineData = {
       "mapUrl": "../map/#paper=1509_09259",
       "timelineUrl": "../timeline/#paper=1509_09259",
       "searchUrl": "../search/?paper=1509_09259"
-    },
-    {
-      "id": "1502_03492",
-      "label": "Gradient-based Hyperparameter Optimization through Reversible Learning",
-      "title": "Gradient-based Hyperparameter Optimization through Reversible Learning",
-      "authors": [
-        "Dougal Maclaurin",
-        "David Duvenaud",
-        "Ryan P. Adams"
-      ],
-      "authorShort": "Maclaurin, Duvenaud, Adams",
-      "year": 2015,
-      "source": "arXiv",
-      "type": "Preprint",
-      "superCategory": "Decision-making",
-      "category": "Optimization",
-      "subCategory": "Continuous Optimization",
-      "path": [
-        "Tree",
-        "Decision-making",
-        "Optimization",
-        "Continuous Optimization",
-        "Automatic Differentiation",
-        "Gradient-based Hyperparameter Optimization through Reversible Learning"
-      ],
-      "tags": [
-        "Gradient descent",
-        "Stochastic gradients",
-        "Neural networks",
-        "Optimization",
-        "Learning",
-        "Reversible learning",
-        "Hyperparameter optimization",
-        "Stochastic gradient descent"
-      ],
-      "abstract": "Tuning hyperparameters of learning algorithms is hard because gradients are usually unavailable. We compute exact gradients of cross-validation performance with respect to all hyperparameters by chaining derivatives backwards through the entire training procedure. These gradients allow us to optimize thousands of hyperparameters, including step-size and momentum schedules, weight initialization distributions, richly parameterized regularization schemes, and neural network architectures. We compute hyperparameter gradients by exactly reversing the dynamics of stochastic gradient descent with momentum.",
-      "summary": "",
-      "url": "../papers/1502_03492/",
-      "treeUrl": "../tree/#paper=1502_03492",
-      "mapUrl": "../map/#paper=1502_03492",
-      "timelineUrl": "../timeline/#paper=1502_03492",
-      "searchUrl": "../search/?paper=1502_03492"
     },
     {
       "id": "1504_04909",
@@ -29849,6 +30577,49 @@ window.timelineData = {
       "searchUrl": "../search/?paper=1510_08560"
     },
     {
+      "id": "1502_03492",
+      "label": "Gradient-based Hyperparameter Optimization through Reversible Learning",
+      "title": "Gradient-based Hyperparameter Optimization through Reversible Learning",
+      "authors": [
+        "Dougal Maclaurin",
+        "David Duvenaud",
+        "Ryan P. Adams"
+      ],
+      "authorShort": "Maclaurin, Duvenaud, Adams",
+      "year": 2015,
+      "source": "arXiv",
+      "type": "Preprint",
+      "superCategory": "Decision-making",
+      "category": "Optimization",
+      "subCategory": "Toolboxes & Solvers",
+      "path": [
+        "Tree",
+        "Decision-making",
+        "Optimization",
+        "Toolboxes & Solvers",
+        "Hyperparameter Optimization",
+        "Gradient-based Hyperparameter Optimization",
+        "Gradient-based Hyperparameter Optimization through Reversible Learning"
+      ],
+      "tags": [
+        "Gradient descent",
+        "Stochastic gradients",
+        "Neural networks",
+        "Optimization",
+        "Learning",
+        "Reversible learning",
+        "Hyperparameter optimization",
+        "Stochastic gradient descent"
+      ],
+      "abstract": "Tuning hyperparameters of learning algorithms is hard because gradients are usually unavailable. We compute exact gradients of cross-validation performance with respect to all hyperparameters by chaining derivatives backwards through the entire training procedure. These gradients allow us to optimize thousands of hyperparameters, including step-size and momentum schedules, weight initialization distributions, richly parameterized regularization schemes, and neural network architectures. We compute hyperparameter gradients by exactly reversing the dynamics of stochastic gradient descent with momentum.",
+      "summary": "",
+      "url": "../papers/1502_03492/",
+      "treeUrl": "../tree/#paper=1502_03492",
+      "mapUrl": "../map/#paper=1502_03492",
+      "timelineUrl": "../timeline/#paper=1502_03492",
+      "searchUrl": "../search/?paper=1502_03492"
+    },
+    {
       "id": "2015_bergstra_hyperopt_a_python_library",
       "label": "Hyperopt",
       "title": "Hyperopt: A Python Library for Model Selection and Hyperparameter Optimization",
@@ -29871,7 +30642,8 @@ window.timelineData = {
         "Decision-making",
         "Optimization",
         "Toolboxes & Solvers",
-        "Black-Box Optimization",
+        "Hyperparameter Optimization",
+        "Bayesian Optimization",
         "Hyperopt"
       ],
       "tags": [
@@ -30962,6 +31734,7 @@ window.timelineData = {
         "Nonlinear Systems",
         "Policy Optimization",
         "Policy Gradient",
+        "Gradient Estimation & Credit Assignment",
         "Learning Continuous Control Policies by Stochastic Value Gradients"
       ],
       "tags": [],
@@ -31036,6 +31809,7 @@ window.timelineData = {
         "Nonlinear Systems",
         "Policy Optimization",
         "Policy Gradient",
+        "Convergence & Sample Complexity",
         "Sample Complexity Bounds for Iterative Stochastic Policy Optimization"
       ],
       "tags": [],
@@ -32583,6 +33357,8 @@ window.timelineData = {
         "Continuous Optimization",
         "Convex Optimization",
         "General Convex Optimization",
+        "Rank Minimization",
+        "Matrix Factorization",
         "Matrix Completion Has No Spurious Local Minimum"
       ],
       "tags": [],
@@ -32980,7 +33756,7 @@ window.timelineData = {
         "Hybrid planning",
         "Local optimization"
       ],
-      "abstract": "Sampling-based optimal planners, such as RRT*, almost-surely converge asymptotically to the optimal solution, but have provably slow convergence rates in high dimensions. This is because their commitment to finding the global optimum compels them to prioritize exploration of the entire problem domain even as its size grows exponentially. Optimization techniques, such as CHOMP, have fast convergence on these problems but only to local optima. This is because they are exploitative, prioritizing the immediate improvement of a path even though this may not find the global optimum of nonconvex cost functions.",
+      "abstract": "Sampling-based optimal planners, such as RRT*, almost-surely converge asymptotically to the optimal solution, but have provably slow convergence rates in high dimensions. This is because their commitment to finding the global optimum compels them to prioritize exploration of the entire problem domain even as its size grows exponentially. Optimization techniques, such as CHOMP, have fast convergence on these problems but only to local optima. This is because they are exploitative, prioritizing the immediate improvement of a path even though this may not find the global optimum of nonconvex cost functions. In this paper, we present a hybrid technique that integrates the benefits of both methods into a single search. A key insight is that applying local optimization to a subset of edges likely to improve the solution avoids the prohibitive cost of optimizing every edge in a global search. This is made possible by Batch Informed Trees (BIT*), an informed global technique that orders its search by potential solution quality. In our algorithm, Regionally Accelerated BIT* (RABIT*), we extend BIT* by using optimization to exploit local domain information and find alternative connections for edges in collision and accelerate the search. This improves search performance in problems with difficult-to-sample homotopy classes (e.g., narrow passages) while maintaining almost-sure asymptotic convergence to the global optimum. Our experiments on simulated random worlds and real data from an autonomous helicopter show that on certain difficult problems, RABIT* converges 1.8 times faster than BIT*. Qualitatively, in problems with difficult-to-sample homotopy classes, we show that RABIT* is able to efficiently transform paths to avoid obstacles.",
       "summary": "RABIT* extends BIT* by hybridizing its global informed search with local gradient-based optimization (e.g. CHOMP). Rather than optimizing every edge, it selectively applies local optimization only to the subset of edges within the current informed set that are most likely to improve the solution, avoiding infeasible edges by finding alternative connections. This preserves asymptotic optimality while significantly accelerating convergence, particularly in problems with difficult-to-sample homotopy classes or narrow passages.",
       "url": "../papers/2016_choudhury_regionally_accelerated_batch_informed/",
       "treeUrl": "../tree/#paper=2016_choudhury_regionally_accelerated_batch_informed",
@@ -34074,6 +34850,7 @@ window.timelineData = {
         "Nonlinear Systems",
         "Policy Optimization",
         "Policy Gradient",
+        "Natural, Soft, and Geometric Gradients",
         "Natural Policy Gradient",
         "Energetic Natural Gradient Descent"
       ],
@@ -34487,6 +35264,7 @@ window.timelineData = {
         "Prediction & Perception",
         "Computer Vision",
         "Image Compression",
+        "Learned Image Codecs",
         "End-to-end Optimized Image Compression"
       ],
       "tags": [
@@ -35863,7 +36641,7 @@ window.timelineData = {
         "Optimization",
         "Continuous Optimization",
         "Convex Optimization",
-        "General Convex Optimization",
+        "Quadratic Programming",
         "General Heuristics for Nonconvex Quadratically Constrained Quadratic Programming"
       ],
       "tags": [],
@@ -36010,8 +36788,8 @@ window.timelineData = {
         "Decision-making",
         "Optimization",
         "Continuous Optimization",
-        "Convex Optimization",
-        "General Convex Optimization",
+        "Automatic Differentiation",
+        "Differentiable Optimization Layers",
         "OptNet"
       ],
       "tags": [
@@ -36206,7 +36984,7 @@ window.timelineData = {
         "Optimization",
         "Continuous Optimization",
         "Convex Optimization",
-        "General Convex Optimization",
+        "Semidefinite Programming",
         "Semidefinite Approximations of the Matrix Logarithm"
       ],
       "tags": [
@@ -37829,6 +38607,8 @@ window.timelineData = {
         "Nonlinear Systems",
         "Policy Optimization",
         "Policy Gradient",
+        "Natural, Soft, and Geometric Gradients",
+        "Entropy-Regularized and Soft Policy Gradients",
         "Equivalence between Policy Gradients and Soft Q-Learning"
       ],
       "tags": [],
@@ -37864,7 +38644,7 @@ window.timelineData = {
         "Reinforcement Learning",
         "Nonlinear Systems",
         "Policy Optimization",
-        "Policy Gradient",
+        "Random Search & Evolution Strategies",
         "Evolution Strategies as a Scalable Alternative to Reinforcement Learning"
       ],
       "tags": [
@@ -38065,9 +38845,8 @@ window.timelineData = {
         "Decision-making",
         "Reinforcement Learning",
         "Nonlinear Systems",
-        "Policy Optimization",
-        "Policy Gradient",
-        "Vanilla Policy Gradient",
+        "Dynamic Programming",
+        "Approximate Dynamic Programming",
         "Particle Value Functions"
       ],
       "tags": [],
@@ -38101,6 +38880,7 @@ window.timelineData = {
         "Nonlinear Systems",
         "Policy Optimization",
         "Policy Gradient",
+        "Gradient Estimation & Credit Assignment",
         "Policy Gradient Methods for Reinforcement Learning with Function Approximation and Action-Dependent Baselines"
       ],
       "tags": [
@@ -38348,8 +39128,8 @@ window.timelineData = {
         "Decision-making",
         "Reinforcement Learning",
         "Nonlinear Systems",
-        "Policy Optimization",
-        "Policy Gradient",
+        "Dynamic Programming",
+        "Approximate Dynamic Programming",
         "Unifying PAC and Regret: Uniform PAC Bounds for Episodic Reinforcement Learning"
       ],
       "tags": [
@@ -38700,6 +39480,7 @@ window.timelineData = {
         "Prediction & Perception",
         "Computer Vision",
         "Image Compression",
+        "Learned Image Codecs",
         "Lossy Image Compression with Compressive Autoencoders"
       ],
       "tags": [
@@ -42177,6 +42958,86 @@ window.timelineData = {
       "searchUrl": "../search/?paper=1810_12590"
     },
     {
+      "id": "1806_09460",
+      "label": "A Tour of Reinforcement Learning: The View from Continuous Control",
+      "title": "A Tour of Reinforcement Learning: The View from Continuous Control",
+      "authors": [
+        "Benjamin Recht"
+      ],
+      "authorShort": "Recht",
+      "year": 2018,
+      "source": "Annual Review of Control, Robotics, and Autonomous Systems",
+      "type": "Journal Paper",
+      "superCategory": "Decision-making",
+      "category": "Reinforcement Learning",
+      "subCategory": "Linear Systems",
+      "path": [
+        "Tree",
+        "Decision-making",
+        "Reinforcement Learning",
+        "Linear Systems",
+        "Surveys & Control Connections",
+        "A Tour of Reinforcement Learning: The View from Continuous Control"
+      ],
+      "tags": [
+        "Reinforcement learning",
+        "Optimal control",
+        "Safety",
+        "Optimization",
+        "Control",
+        "Learning",
+        "Linear quadratic regulator"
+      ],
+      "abstract": "This manuscript surveys reinforcement learning from the perspective of optimization and control with a focus on continuous control applications. It surveys the general formulation, terminology, and typical experimental implementations of reinforcement learning and reviews competing solution paradigms. In order to compare the relative merits of various techniques, this survey presents a case study of the Linear Quadratic Regulator (LQR) with unknown dynamics, perhaps the simplest and best-studied problem in optimal control. The manuscript describes how merging techniques from learning theory and control can provide non-asymptotic characterizations of LQR performance and shows that these characterizations tend to match experimental behavior. In turn, when revisiting more complex applications, many of the observed phenomena in LQR persist. In particular, theory and experiment demonstrate the role and importance of models and the cost of generality in reinforcement learning algorithms. This survey concludes with a discussion of some of the challenges in designing learning systems that safely and reliably interact with complex and uncertain environments and how tools from reinforcement learning and control might be combined to approach these challenges.",
+      "summary": "",
+      "url": "../papers/1806_09460/",
+      "treeUrl": "../tree/#paper=1806_09460",
+      "mapUrl": "../map/#paper=1806_09460",
+      "timelineUrl": "../timeline/#paper=1806_09460",
+      "searchUrl": "../search/?paper=1806_09460"
+    },
+    {
+      "id": "1812_08305",
+      "label": "Derivative-Free Methods for Policy Optimization",
+      "title": "Derivative-Free Methods for Policy Optimization: Guarantees for Linear Quadratic Systems",
+      "authors": [
+        "Dhruv Malik",
+        "Ashwin Pananjady",
+        "Kush Bhatia",
+        "Koulik Khamaru",
+        "Peter L. Bartlett",
+        "Martin J. Wainwright"
+      ],
+      "authorShort": "Malik, Pananjady, Bhatia",
+      "year": 2018,
+      "source": "International Conference on Artificial Intelligence and Statistics",
+      "type": "Conference Paper",
+      "superCategory": "Decision-making",
+      "category": "Reinforcement Learning",
+      "subCategory": "Linear Systems",
+      "path": [
+        "Tree",
+        "Decision-making",
+        "Reinforcement Learning",
+        "Linear Systems",
+        "Policy Optimization",
+        "Model-free and Data-enabled LQR",
+        "Derivative-Free Methods for Policy Optimization"
+      ],
+      "tags": [
+        "Optimization",
+        "Derivative-free",
+        "Policy optimization"
+      ],
+      "abstract": "We study derivative-free methods for policy optimization over the class of linear policies. We focus on characterizing the convergence rate of these methods when applied to linear-quadratic systems, and study various settings of driving noise and reward feedback. We show that these methods provably converge to within any pre-specified tolerance of the optimal policy with a number of zero-order evaluations that is an explicit polynomial of the error tolerance, dimension, and curvature properties of the problem. Our analysis reveals some interesting differences between the settings of additive driving noise and random initialization, as well as the settings of one-point and two-point reward feedback. Our theory is corroborated by extensive simulations of derivative-free methods on these systems. Along the way, we derive convergence rates for stochastic zero-order optimization algorithms when applied to a certain class of non-convex problems.",
+      "summary": "",
+      "url": "../papers/1812_08305/",
+      "treeUrl": "../tree/#paper=1812_08305",
+      "mapUrl": "../map/#paper=1812_08305",
+      "timelineUrl": "../timeline/#paper=1812_08305",
+      "searchUrl": "../search/?paper=1812_08305"
+    },
+    {
       "id": "1801_05039",
       "label": "Global Convergence of Policy Gradient Methods for LQR",
       "title": "Global Convergence of Policy Gradient Methods for the Linear Quadratic Regulator",
@@ -42267,6 +43128,40 @@ window.timelineData = {
       "mapUrl": "../map/#paper=1802_08334",
       "timelineUrl": "../timeline/#paper=1802_08334",
       "searchUrl": "../search/?paper=1802_08334"
+    },
+    {
+      "id": "1804_06021",
+      "label": "Model-Free Linear Quadratic Control via Reduction to Expert Prediction",
+      "title": "Model-Free Linear Quadratic Control via Reduction to Expert Prediction",
+      "authors": [
+        "Yasin Abbasi-Yadkori",
+        "Nevena Lazic",
+        "Csaba Szepesvari"
+      ],
+      "authorShort": "Abbasi-Yadkori, Lazic, Szepesvari",
+      "year": 2018,
+      "source": "",
+      "type": "Preprint",
+      "superCategory": "Decision-making",
+      "category": "Reinforcement Learning",
+      "subCategory": "Linear Systems",
+      "path": [
+        "Tree",
+        "Decision-making",
+        "Reinforcement Learning",
+        "Linear Systems",
+        "Policy Optimization",
+        "Model-free and Data-enabled LQR",
+        "Model-Free Linear Quadratic Control via Reduction to Expert Prediction"
+      ],
+      "tags": [],
+      "abstract": "Model-free approaches for reinforcement learning (RL) and continuous control find policies based only on past states and rewards, without fitting a model of the system dynamics. They are appealing as they are general purpose and easy to implement; however, they also come with fewer theoretical guarantees than model-based RL. In this work, we present a new model-free algorithm for controlling linear quadratic (LQ) systems, and show that its regret scales as O(T^(xi)+2/3) for any small xi > 0 if time horizon satisfies T > C^(1)/xi for a constant C. The algorithm is based on a reduction of control of Markov decision processes to an expert prediction problem. In practice, it corresponds to a variant of policy iteration with forced exploration, where the policy in each phase is greedy with respect to the average of all previous value functions. This is the first model-free algorithm for adaptive control of LQ systems that provably achieves sublinear regret and has a polynomial computation cost. Empirically, our algorithm dramatically outperforms standard policy iteration, but performs worse than a model-based approach.",
+      "summary": "",
+      "url": "../papers/1804_06021/",
+      "treeUrl": "../tree/#paper=1804_06021",
+      "mapUrl": "../map/#paper=1804_06021",
+      "timelineUrl": "../timeline/#paper=1804_06021",
+      "searchUrl": "../search/?paper=1804_06021"
     },
     {
       "id": "1806_05722",
@@ -42388,46 +43283,6 @@ window.timelineData = {
       "mapUrl": "../map/#paper=2018_dean_regret_bounds_for_robust",
       "timelineUrl": "../timeline/#paper=2018_dean_regret_bounds_for_robust",
       "searchUrl": "../search/?paper=2018_dean_regret_bounds_for_robust"
-    },
-    {
-      "id": "1806_09460",
-      "label": "A Tour of Reinforcement Learning: The View from Continuous Control",
-      "title": "A Tour of Reinforcement Learning: The View from Continuous Control",
-      "authors": [
-        "Benjamin Recht"
-      ],
-      "authorShort": "Recht",
-      "year": 2018,
-      "source": "Annual Review of Control, Robotics, and Autonomous Systems",
-      "type": "Journal Paper",
-      "superCategory": "Decision-making",
-      "category": "Reinforcement Learning",
-      "subCategory": "Nonlinear Systems",
-      "path": [
-        "Tree",
-        "Decision-making",
-        "Reinforcement Learning",
-        "Nonlinear Systems",
-        "Model-based RL",
-        "Surveys & Control Connections",
-        "A Tour of Reinforcement Learning: The View from Continuous Control"
-      ],
-      "tags": [
-        "Reinforcement learning",
-        "Optimal control",
-        "Safety",
-        "Optimization",
-        "Control",
-        "Learning",
-        "Linear quadratic regulator"
-      ],
-      "abstract": "This manuscript surveys reinforcement learning from the perspective of optimization and control with a focus on continuous control applications. It surveys the general formulation, terminology, and typical experimental implementations of reinforcement learning and reviews competing solution paradigms. In order to compare the relative merits of various techniques, this survey presents a case study of the Linear Quadratic Regulator (LQR) with unknown dynamics, perhaps the simplest and best-studied problem in optimal control. The manuscript describes how merging techniques from learning theory and control can provide non-asymptotic characterizations of LQR performance and shows that these characterizations tend to match experimental behavior. In turn, when revisiting more complex applications, many of the observed phenomena in LQR persist. In particular, theory and experiment demonstrate the role and importance of models and the cost of generality in reinforcement learning algorithms. This survey concludes with a discussion of some of the challenges in designing learning systems that safely and reliably interact with complex and uncertain environments and how tools from reinforcement learning and control might be combined to approach these challenges.",
-      "summary": "",
-      "url": "../papers/1806_09460/",
-      "treeUrl": "../tree/#paper=1806_09460",
-      "mapUrl": "../map/#paper=1806_09460",
-      "timelineUrl": "../timeline/#paper=1806_09460",
-      "searchUrl": "../search/?paper=1806_09460"
     },
     {
       "id": "1803_07055",
@@ -42595,47 +43450,6 @@ window.timelineData = {
       "searchUrl": "../search/?paper=1801_00690"
     },
     {
-      "id": "1812_08305",
-      "label": "Derivative-Free Methods for Policy Optimization",
-      "title": "Derivative-Free Methods for Policy Optimization: Guarantees for Linear Quadratic Systems",
-      "authors": [
-        "Dhruv Malik",
-        "Ashwin Pananjady",
-        "Kush Bhatia",
-        "Koulik Khamaru",
-        "Peter L. Bartlett",
-        "Martin J. Wainwright"
-      ],
-      "authorShort": "Malik, Pananjady, Bhatia",
-      "year": 2018,
-      "source": "International Conference on Artificial Intelligence and Statistics",
-      "type": "Conference Paper",
-      "superCategory": "Decision-making",
-      "category": "Reinforcement Learning",
-      "subCategory": "Nonlinear Systems",
-      "path": [
-        "Tree",
-        "Decision-making",
-        "Reinforcement Learning",
-        "Nonlinear Systems",
-        "Policy Optimization",
-        "Random Search & Evolution Strategies",
-        "Derivative-Free Methods for Policy Optimization"
-      ],
-      "tags": [
-        "Optimization",
-        "Derivative-free",
-        "Policy optimization"
-      ],
-      "abstract": "We study derivative-free methods for policy optimization over the class of linear policies. We focus on characterizing the convergence rate of these methods when applied to linear-quadratic systems, and study various settings of driving noise and reward feedback. We show that these methods provably converge to within any pre-specified tolerance of the optimal policy with a number of zero-order evaluations that is an explicit polynomial of the error tolerance, dimension, and curvature properties of the problem. Our analysis reveals some interesting differences between the settings of additive driving noise and random initialization, as well as the settings of one-point and two-point reward feedback. Our theory is corroborated by extensive simulations of derivative-free methods on these systems. Along the way, we derive convergence rates for stochastic zero-order optimization algorithms when applied to a certain class of non-convex problems.",
-      "summary": "",
-      "url": "../papers/1812_08305/",
-      "treeUrl": "../tree/#paper=1812_08305",
-      "mapUrl": "../map/#paper=1812_08305",
-      "timelineUrl": "../timeline/#paper=1812_08305",
-      "searchUrl": "../search/?paper=1812_08305"
-    },
-    {
       "id": "1810_13400",
       "label": "Differentiable MPC for End-to-end Planning and Control",
       "title": "Differentiable MPC for End-to-end Planning and Control",
@@ -42763,40 +43577,6 @@ window.timelineData = {
       "mapUrl": "../map/#paper=1803_00101",
       "timelineUrl": "../timeline/#paper=1803_00101",
       "searchUrl": "../search/?paper=1803_00101"
-    },
-    {
-      "id": "1804_06021",
-      "label": "Model-Free Linear Quadratic Control via Reduction to Expert Prediction",
-      "title": "Model-Free Linear Quadratic Control via Reduction to Expert Prediction",
-      "authors": [
-        "Yasin Abbasi-Yadkori",
-        "Nevena Lazic",
-        "Csaba Szepesvari"
-      ],
-      "authorShort": "Abbasi-Yadkori, Lazic, Szepesvari",
-      "year": 2018,
-      "source": "",
-      "type": "Preprint",
-      "superCategory": "Decision-making",
-      "category": "Reinforcement Learning",
-      "subCategory": "Nonlinear Systems",
-      "path": [
-        "Tree",
-        "Decision-making",
-        "Reinforcement Learning",
-        "Nonlinear Systems",
-        "Policy Optimization",
-        "Random Search & Evolution Strategies",
-        "Model-Free Linear Quadratic Control via Reduction to Expert Prediction"
-      ],
-      "tags": [],
-      "abstract": "Model-free approaches for reinforcement learning (RL) and continuous control find policies based only on past states and rewards, without fitting a model of the system dynamics. They are appealing as they are general purpose and easy to implement; however, they also come with fewer theoretical guarantees than model-based RL. In this work, we present a new model-free algorithm for controlling linear quadratic (LQ) systems, and show that its regret scales as O(T^(xi)+2/3) for any small xi > 0 if time horizon satisfies T > C^(1)/xi for a constant C. The algorithm is based on a reduction of control of Markov decision processes to an expert prediction problem. In practice, it corresponds to a variant of policy iteration with forced exploration, where the policy in each phase is greedy with respect to the average of all previous value functions. This is the first model-free algorithm for adaptive control of LQ systems that provably achieves sublinear regret and has a polynomial computation cost. Empirically, our algorithm dramatically outperforms standard policy iteration, but performs worse than a model-based approach.",
-      "summary": "",
-      "url": "../papers/1804_06021/",
-      "treeUrl": "../tree/#paper=1804_06021",
-      "mapUrl": "../map/#paper=1804_06021",
-      "timelineUrl": "../timeline/#paper=1804_06021",
-      "searchUrl": "../search/?paper=1804_06021"
     },
     {
       "id": "1806_06920",
@@ -43025,7 +43805,7 @@ window.timelineData = {
         "Nonlinear Systems",
         "Policy Optimization",
         "Policy Gradient",
-        "Variance Reduction",
+        "Variance Reduction & Momentum",
         "Stochastic Variance-Reduced Policy Gradient"
       ],
       "tags": [
@@ -45160,6 +45940,46 @@ window.timelineData = {
       "searchUrl": "../search/?paper=2019_gaier_are_quality_diversity_algorithms"
     },
     {
+      "id": "1904_02990",
+      "label": "Automatic-Symbolic Differentiation Equivalence",
+      "title": "On the Equivalence of Automatic and Symbolic Differentiation",
+      "authors": [
+        "Soeren Laue"
+      ],
+      "authorShort": "Laue",
+      "year": 2019,
+      "source": "arXiv",
+      "type": "Preprint",
+      "superCategory": "Decision-making",
+      "category": "Optimization",
+      "subCategory": "Continuous Optimization",
+      "path": [
+        "Tree",
+        "Decision-making",
+        "Optimization",
+        "Continuous Optimization",
+        "Symbolic Differentiation",
+        "Complexity and AD Boundary",
+        "Automatic-Symbolic Differentiation Equivalence"
+      ],
+      "tags": [
+        "Symbolic differentiation",
+        "Automatic differentiation",
+        "Reverse mode",
+        "Expression swell",
+        "Expression graphs",
+        "Symbolic computation",
+        "Machine learning"
+      ],
+      "abstract": "We show that reverse mode automatic differentiation and symbolic differentiation are equivalent in the sense that they both perform the same operations when computing derivatives. This is in stark contrast to the common claim that they are substantially different. The difference is often illustrated by claiming that symbolic differentiation suffers from \"expression swell\" whereas automatic differentiation does not. Here, we show that this statement is not true. \"Expression swell\" refers to the phenomenon of a much larger representation of the derivative as opposed to the representation of the original function.",
+      "summary": "Laue argues that reverse-mode automatic differentiation and symbolic differentiation are operationally equivalent when symbolic differentiation is represented with sharing rather than as fully expanded expressions. The paper is useful as a modern corrective to the common teaching contrast between AD and symbolic differentiation, especially around expression swell and control flow.",
+      "url": "../papers/1904_02990/",
+      "treeUrl": "../tree/#paper=1904_02990",
+      "mapUrl": "../map/#paper=1904_02990",
+      "timelineUrl": "../timeline/#paper=1904_02990",
+      "searchUrl": "../search/?paper=1904_02990"
+    },
+    {
       "id": "1906_05247",
       "label": "Bootstrapping Upper Confidence Bound",
       "title": "Bootstrapping Upper Confidence Bound",
@@ -45261,8 +46081,8 @@ window.timelineData = {
         "Decision-making",
         "Optimization",
         "Continuous Optimization",
-        "Convex Optimization",
-        "General Convex Optimization",
+        "Automatic Differentiation",
+        "Differentiable Optimization Layers",
         "Differentiable Convex Optimization Layers"
       ],
       "tags": [],
@@ -45423,38 +46243,6 @@ window.timelineData = {
       "mapUrl": "../map/#paper=1906_07413",
       "timelineUrl": "../timeline/#paper=1906_07413",
       "searchUrl": "../search/?paper=1906_07413"
-    },
-    {
-      "id": "1904_05460",
-      "label": "Least Squares Auto-Tuning",
-      "title": "Least Squares Auto-Tuning",
-      "authors": [
-        "Shane Barratt",
-        "Stephen Boyd"
-      ],
-      "authorShort": "Barratt, Boyd",
-      "year": 2019,
-      "source": "",
-      "type": "Preprint",
-      "superCategory": "Decision-making",
-      "category": "Optimization",
-      "subCategory": "Continuous Optimization",
-      "path": [
-        "Tree",
-        "Decision-making",
-        "Optimization",
-        "Continuous Optimization",
-        "Automatic Differentiation",
-        "Least Squares Auto-Tuning"
-      ],
-      "tags": [],
-      "abstract": "Least squares is by far the simplest and most commonly applied computational method in many fields. In almost all applications, the least squares objective is rarely the true objective. We account for this discrepancy by parametrizing the least squares problem and automatically adjusting these parameters using an optimization algorithm. We apply our method, which we call least squares auto-tuning, to data fitting.",
-      "summary": "",
-      "url": "../papers/1904_05460/",
-      "treeUrl": "../tree/#paper=1904_05460",
-      "mapUrl": "../map/#paper=1904_05460",
-      "timelineUrl": "../timeline/#paper=1904_05460",
-      "searchUrl": "../search/?paper=1904_05460"
     },
     {
       "id": "1910_12342",
@@ -45726,7 +46514,7 @@ window.timelineData = {
         "Optimization",
         "Continuous Optimization",
         "Convex Optimization",
-        "General Convex Optimization",
+        "Semidefinite Programming",
         "Scalable Semidefinite Programming"
       ],
       "tags": [],
@@ -45792,7 +46580,7 @@ window.timelineData = {
         "Decision-making",
         "Optimization",
         "Toolboxes & Solvers",
-        "Black-Box Optimization",
+        "Hyperparameter Optimization",
         "Bayesian Optimization",
         "Bayesian Hyperparameter Optimization with BoTorch, GPyTorch and Ax"
       ],
@@ -45891,6 +46679,81 @@ window.timelineData = {
       "searchUrl": "../search/?paper=1905_00562"
     },
     {
+      "id": "1902_06583",
+      "label": "HOOF",
+      "title": "Fast Efficient Hyperparameter Tuning for Policy Gradient Methods",
+      "authors": [
+        "Supratik Paul",
+        "Vitaly Kurin",
+        "Shimon Whiteson"
+      ],
+      "authorShort": "Paul, Kurin, Whiteson",
+      "year": 2019,
+      "source": "Advances in Neural Information Processing Systems",
+      "type": "Conference Paper",
+      "superCategory": "Decision-making",
+      "category": "Optimization",
+      "subCategory": "Toolboxes & Solvers",
+      "path": [
+        "Tree",
+        "Decision-making",
+        "Optimization",
+        "Toolboxes & Solvers",
+        "Hyperparameter Optimization",
+        "Planner & Controller Autotuning",
+        "HOOF"
+      ],
+      "tags": [
+        "HOOF",
+        "Hyperparameter optimization",
+        "Policy gradients",
+        "Reinforcement learning",
+        "Sample efficiency",
+        "Meta-learning",
+        "Importance sampling",
+        "Automatic tuning"
+      ],
+      "abstract": "The performance of policy gradient methods is sensitive to hyperparameter settings that must be tuned for any new application. Widely used grid search methods for tuning hyperparameters are sample inefficient and computationally expensive. More advanced methods like Population Based Training that learn optimal schedules for hyperparameters instead of fixed settings can yield better results, but are also sample inefficient and computationally expensive. In this paper, we propose Hyperparameter Optimisation on the Fly (HOOF), a gradient-free algorithm that requires no more than one training run to automatically adapt the hyperparameter that affect the policy update directly through the gradient. The main idea is to use existing trajectories sampled by the policy gradient method to optimise a one-step improvement objective, yielding a sample and computationally efficient algorithm that is easy to implement. Our experimental results across multiple domains and algorithms show that using HOOF to learn these hyperparameter schedules leads to faster learning with improved performance.",
+      "summary": "Presents HOOF, a one-run hyperparameter tuning method for policy-gradient reinforcement learning. The method uses trajectories already collected by the learner to rank candidate policy updates via importance-weighted one-step improvement estimates, reducing the extra sampling burden of grid search or population-based tuning.",
+      "url": "../papers/1902_06583/",
+      "treeUrl": "../tree/#paper=1902_06583",
+      "mapUrl": "../map/#paper=1902_06583",
+      "timelineUrl": "../timeline/#paper=1902_06583",
+      "searchUrl": "../search/?paper=1902_06583"
+    },
+    {
+      "id": "1904_05460",
+      "label": "Least Squares Auto-Tuning",
+      "title": "Least Squares Auto-Tuning",
+      "authors": [
+        "Shane Barratt",
+        "Stephen Boyd"
+      ],
+      "authorShort": "Barratt, Boyd",
+      "year": 2019,
+      "source": "",
+      "type": "Preprint",
+      "superCategory": "Decision-making",
+      "category": "Optimization",
+      "subCategory": "Toolboxes & Solvers",
+      "path": [
+        "Tree",
+        "Decision-making",
+        "Optimization",
+        "Toolboxes & Solvers",
+        "Hyperparameter Optimization",
+        "Least Squares Auto-Tuning"
+      ],
+      "tags": [],
+      "abstract": "Least squares is by far the simplest and most commonly applied computational method in many fields. In almost all applications, the least squares objective is rarely the true objective. We account for this discrepancy by parametrizing the least squares problem and automatically adjusting these parameters using an optimization algorithm. We apply our method, which we call least squares auto-tuning, to data fitting.",
+      "summary": "",
+      "url": "../papers/1904_05460/",
+      "treeUrl": "../tree/#paper=1904_05460",
+      "mapUrl": "../map/#paper=1904_05460",
+      "timelineUrl": "../timeline/#paper=1904_05460",
+      "searchUrl": "../search/?paper=1904_05460"
+    },
+    {
       "id": "1907_10902",
       "label": "Optuna",
       "title": "Optuna: A Next-generation Hyperparameter Optimization Framework",
@@ -45913,7 +46776,7 @@ window.timelineData = {
         "Decision-making",
         "Optimization",
         "Toolboxes & Solvers",
-        "Black-Box Optimization",
+        "Hyperparameter Optimization",
         "Optuna"
       ],
       "tags": [
@@ -47132,6 +47995,127 @@ window.timelineData = {
       "searchUrl": "../search/?paper=1903_09122"
     },
     {
+      "id": "1905_12842",
+      "label": "Finite-Time Analysis of Approximate Policy Iteration for LQR",
+      "title": "Finite-time Analysis of Approximate Policy Iteration for the Linear Quadratic Regulator",
+      "authors": [
+        "Karl Krauth",
+        "Stephen Tu",
+        "Benjamin Recht"
+      ],
+      "authorShort": "Krauth, Tu, Recht",
+      "year": 2019,
+      "source": "arXiv",
+      "type": "Preprint",
+      "superCategory": "Decision-making",
+      "category": "Reinforcement Learning",
+      "subCategory": "Linear Systems",
+      "path": [
+        "Tree",
+        "Decision-making",
+        "Reinforcement Learning",
+        "Linear Systems",
+        "Dynamic Programming",
+        "Finite-Time Analysis of Approximate Policy Iteration for LQR"
+      ],
+      "tags": [
+        "Reinforcement learning",
+        "Policy iteration",
+        "Regret bounds",
+        "Sample complexity",
+        "Control",
+        "Learning",
+        "PI",
+        "Linear quadratic regulator"
+      ],
+      "abstract": "We study the sample complexity of approximate policy iteration (PI) for the Linear Quadratic Regulator (LQR), building on a recent line of work using LQR as a testbed to understand the limits of reinforcement learning (RL) algorithms on continuous control tasks. Our analysis quantifies the tension between policy improvement and policy evaluation, and suggests that policy evaluation is the dominant factor in terms of sample complexity. Specifically, we show that to obtain a controller that is within epsilon of the optimal LQR controller, each step of policy evaluation requires at most (n+d)^(3)/epsilon^(2) samples, where n is the dimension of the state vector and d is the dimension of the input vector. On the other hand, only log(1/epsilon) policy improvement steps suffice, resulting in an overall sample complexity of (n+d)^(3) epsilon^(-2) log(1/epsilon). We furthermore build on our analysis and construct a simple adaptive procedure based on epsilon-greedy exploration which relies on approximate PI as a sub-routine and obtains T^(2/3) regret, improving upon a recent result of Abbasi-Yadkori et al.",
+      "summary": "",
+      "url": "../papers/1905_12842/",
+      "treeUrl": "../tree/#paper=1905_12842",
+      "mapUrl": "../map/#paper=1905_12842",
+      "timelineUrl": "../timeline/#paper=1905_12842",
+      "searchUrl": "../search/?paper=1905_12842"
+    },
+    {
+      "id": "1906_11392",
+      "label": "From Self-Tuning Regulators to Reinforcement Learning and Back Again",
+      "title": "From Self-tuning Regulators to Reinforcement Learning and Back Again",
+      "authors": [
+        "Nikolai Matni",
+        "Alexandre Proutiere",
+        "Anders Rantzer",
+        "Stephen Tu"
+      ],
+      "authorShort": "Matni, Proutiere, Rantzer",
+      "year": 2019,
+      "source": "IEEE 58th Conference on Decision and Control (CDC)",
+      "type": "Conference Paper",
+      "superCategory": "Decision-making",
+      "category": "Reinforcement Learning",
+      "subCategory": "Linear Systems",
+      "path": [
+        "Tree",
+        "Decision-making",
+        "Reinforcement Learning",
+        "Linear Systems",
+        "Surveys & Control Connections",
+        "From Self-Tuning Regulators to Reinforcement Learning and Back Again"
+      ],
+      "tags": [
+        "Reinforcement learning",
+        "Robotics",
+        "Vehicles",
+        "Safety",
+        "Robustness",
+        "System identification",
+        "Distributed systems",
+        "Control",
+        "Learning"
+      ],
+      "abstract": "Machine and reinforcement learning (RL) are increasingly being applied to plan and control the behavior of autonomous systems interacting with the physical world. Examples include self-driving vehicles, distributed sensor networks, and agile robots. However, when machine learning is to be applied in these new settings, the algorithms had better come with the same type of reliability, robustness, and safety bounds that are hallmarks of control theory, or failures could be catastrophic. Thus, as learning algorithms are increasingly and more aggressively deployed in safety critical settings, it is imperative that control theorists join the conversation. The goal of this tutorial paper is to provide a starting point for control theorists wishing to work on learning related problems, by covering recent advances bridging learning and control theory, and by placing these results within an appropriate historical context of system identification and adaptive control.",
+      "summary": "",
+      "url": "../papers/1906_11392/",
+      "treeUrl": "../tree/#paper=1906_11392",
+      "mapUrl": "../map/#paper=1906_11392",
+      "timelineUrl": "../timeline/#paper=1906_11392",
+      "searchUrl": "../search/?paper=1906_11392"
+    },
+    {
+      "id": "1912_09529",
+      "label": "Learning Convex Optimization Control Policies",
+      "title": "Learning Convex Optimization Control Policies",
+      "authors": [
+        "Akshay Agrawal",
+        "Shane Barratt",
+        "Stephen Boyd",
+        "Bartolomeo Stellato"
+      ],
+      "authorShort": "Agrawal, Barratt, Boyd",
+      "year": 2019,
+      "source": "",
+      "type": "Preprint",
+      "superCategory": "Decision-making",
+      "category": "Reinforcement Learning",
+      "subCategory": "Linear Systems",
+      "path": [
+        "Tree",
+        "Decision-making",
+        "Reinforcement Learning",
+        "Linear Systems",
+        "Policy Optimization",
+        "Structured Linear Control Policies",
+        "Learning Convex Optimization Control Policies"
+      ],
+      "tags": [],
+      "abstract": "Many control policies used in various applications determine the input or action by solving a convex optimization problem that depends on the current state and some parameters. Common examples of such convex optimization control policies (COCPs) include the linear quadratic regulator (LQR), convex model predictive control (MPC), and convex control-Lyapunov or approximate dynamic programming (ADP) policies. These types of control policies are tuned by varying the parameters in the optimization problem, such as the LQR weights, to obtain good performance, judged by application-specific metrics. Tuning is often done by hand, or by simple methods such as a crude grid search. In this paper we propose a method to automate this process, by adjusting the parameters using an approximate gradient of the performance metric with respect to the parameters. Our method relies on recently developed methods that can efficiently evaluate the derivative of the solution of a convex optimization problem with respect to its parameters. We illustrate our method on several examples.",
+      "summary": "",
+      "url": "../papers/1912_09529/",
+      "treeUrl": "../tree/#paper=1912_09529",
+      "mapUrl": "../map/#paper=1912_09529",
+      "timelineUrl": "../timeline/#paper=1912_09529",
+      "searchUrl": "../search/?paper=1912_09529"
+    },
+    {
       "id": "1905_13547",
       "label": "Learning Robust Control for LQR Systems with Multiplicative Noise via Policy Gradient",
       "title": "Learning Robust Control for LQR Systems with Multiplicative Noise via Policy Gradient",
@@ -47583,6 +48567,39 @@ window.timelineData = {
       "searchUrl": "../search/?paper=1905_13548"
     },
     {
+      "id": "2019_yaghmaie_using_reinforcement_learning_for",
+      "label": "Using Reinforcement Learning for Model-free Linear Quadratic Control with Process and Measurement Noises",
+      "title": "Using Reinforcement Learning for Model-free Linear Quadratic Control with Process and Measurement Noises",
+      "authors": [
+        "Farnaz Adib Yaghmaie",
+        "Fredrik Gustafsson"
+      ],
+      "authorShort": "Yaghmaie, Gustafsson",
+      "year": 2019,
+      "source": "IEEE 58th Conference on Decision and Control (CDC)",
+      "type": "Conference Paper",
+      "superCategory": "Decision-making",
+      "category": "Reinforcement Learning",
+      "subCategory": "Linear Systems",
+      "path": [
+        "Tree",
+        "Decision-making",
+        "Reinforcement Learning",
+        "Linear Systems",
+        "Policy Optimization",
+        "Model-free and Data-enabled LQR",
+        "Using Reinforcement Learning for Model-free Linear Quadratic Control with Process and Measurement Noises"
+      ],
+      "tags": [],
+      "abstract": "In this paper, we analyze a Linear Quadratic (LQ) control problem in terms of the average cost and the structure of the value function. We develop a completely model-free reinforcement learning algorithm to solve the LQ problem. Our algorithm is an off-policy routine where each policy is greedy with respect to all previous value functions. We prove that the algorithm produces stable policies given that the estimation errors remain small. Empirically, our algorithm outperforms the classical Q and off-policy learning routines.",
+      "summary": "",
+      "url": "../papers/2019_yaghmaie_using_reinforcement_learning_for/",
+      "treeUrl": "../tree/#paper=2019_yaghmaie_using_reinforcement_learning_for",
+      "mapUrl": "../map/#paper=2019_yaghmaie_using_reinforcement_learning_for",
+      "timelineUrl": "../timeline/#paper=2019_yaghmaie_using_reinforcement_learning_for",
+      "searchUrl": "../search/?paper=2019_yaghmaie_using_reinforcement_learning_for"
+    },
+    {
       "id": "1911_10635",
       "label": "Multi-Agent Reinforcement Learning: A Selective Overview of Theories and Algorithms",
       "title": "Multi-Agent Reinforcement Learning: A Selective Overview of Theories and Algorithms",
@@ -47721,8 +48738,8 @@ window.timelineData = {
         "Decision-making",
         "Reinforcement Learning",
         "Nonlinear Systems",
-        "Policy Optimization",
-        "Policy Gradient",
+        "Dynamic Programming",
+        "Robust and Risk-Aware MDPs",
         "Being Optimistic to Be Conservative: Quickly Learning a CVaR Policy"
       ],
       "tags": [
@@ -47786,94 +48803,6 @@ window.timelineData = {
       "searchUrl": "../search/?paper=1912_01603"
     },
     {
-      "id": "1905_12842",
-      "label": "Finite-Time Analysis of Approximate Policy Iteration for LQR",
-      "title": "Finite-time Analysis of Approximate Policy Iteration for the Linear Quadratic Regulator",
-      "authors": [
-        "Karl Krauth",
-        "Stephen Tu",
-        "Benjamin Recht"
-      ],
-      "authorShort": "Krauth, Tu, Recht",
-      "year": 2019,
-      "source": "arXiv",
-      "type": "Preprint",
-      "superCategory": "Decision-making",
-      "category": "Reinforcement Learning",
-      "subCategory": "Nonlinear Systems",
-      "path": [
-        "Tree",
-        "Decision-making",
-        "Reinforcement Learning",
-        "Nonlinear Systems",
-        "Dynamic Programming",
-        "Approximate Dynamic Programming",
-        "Finite-Time Analysis of Approximate Policy Iteration for LQR"
-      ],
-      "tags": [
-        "Reinforcement learning",
-        "Policy iteration",
-        "Regret bounds",
-        "Sample complexity",
-        "Control",
-        "Learning",
-        "PI",
-        "Linear quadratic regulator"
-      ],
-      "abstract": "We study the sample complexity of approximate policy iteration (PI) for the Linear Quadratic Regulator (LQR), building on a recent line of work using LQR as a testbed to understand the limits of reinforcement learning (RL) algorithms on continuous control tasks. Our analysis quantifies the tension between policy improvement and policy evaluation, and suggests that policy evaluation is the dominant factor in terms of sample complexity. Specifically, we show that to obtain a controller that is within epsilon of the optimal LQR controller, each step of policy evaluation requires at most (n+d)^(3)/epsilon^(2) samples, where n is the dimension of the state vector and d is the dimension of the input vector. On the other hand, only log(1/epsilon) policy improvement steps suffice, resulting in an overall sample complexity of (n+d)^(3) epsilon^(-2) log(1/epsilon). We furthermore build on our analysis and construct a simple adaptive procedure based on epsilon-greedy exploration which relies on approximate PI as a sub-routine and obtains T^(2/3) regret, improving upon a recent result of Abbasi-Yadkori et al.",
-      "summary": "",
-      "url": "../papers/1905_12842/",
-      "treeUrl": "../tree/#paper=1905_12842",
-      "mapUrl": "../map/#paper=1905_12842",
-      "timelineUrl": "../timeline/#paper=1905_12842",
-      "searchUrl": "../search/?paper=1905_12842"
-    },
-    {
-      "id": "1906_11392",
-      "label": "From Self-Tuning Regulators to Reinforcement Learning and Back Again",
-      "title": "From Self-tuning Regulators to Reinforcement Learning and Back Again",
-      "authors": [
-        "Nikolai Matni",
-        "Alexandre Proutiere",
-        "Anders Rantzer",
-        "Stephen Tu"
-      ],
-      "authorShort": "Matni, Proutiere, Rantzer",
-      "year": 2019,
-      "source": "IEEE 58th Conference on Decision and Control (CDC)",
-      "type": "Conference Paper",
-      "superCategory": "Decision-making",
-      "category": "Reinforcement Learning",
-      "subCategory": "Nonlinear Systems",
-      "path": [
-        "Tree",
-        "Decision-making",
-        "Reinforcement Learning",
-        "Nonlinear Systems",
-        "Model-based RL",
-        "Surveys & Control Connections",
-        "From Self-Tuning Regulators to Reinforcement Learning and Back Again"
-      ],
-      "tags": [
-        "Reinforcement learning",
-        "Robotics",
-        "Vehicles",
-        "Safety",
-        "Robustness",
-        "System identification",
-        "Distributed systems",
-        "Control",
-        "Learning"
-      ],
-      "abstract": "Machine and reinforcement learning (RL) are increasingly being applied to plan and control the behavior of autonomous systems interacting with the physical world. Examples include self-driving vehicles, distributed sensor networks, and agile robots. However, when machine learning is to be applied in these new settings, the algorithms had better come with the same type of reliability, robustness, and safety bounds that are hallmarks of control theory, or failures could be catastrophic. Thus, as learning algorithms are increasingly and more aggressively deployed in safety critical settings, it is imperative that control theorists join the conversation. The goal of this tutorial paper is to provide a starting point for control theorists wishing to work on learning related problems, by covering recent advances bridging learning and control theory, and by placing these results within an appropriate historical context of system identification and adaptive control.",
-      "summary": "",
-      "url": "../papers/1906_11392/",
-      "treeUrl": "../tree/#paper=1906_11392",
-      "mapUrl": "../map/#paper=1906_11392",
-      "timelineUrl": "../timeline/#paper=1906_11392",
-      "searchUrl": "../search/?paper=1906_11392"
-    },
-    {
       "id": "1906_08383",
       "label": "Global Convergence of Policy Gradient Methods to (Almost) Locally Optimal Policies",
       "title": "Global Convergence of Policy Gradient Methods to (Almost) Locally Optimal Policies",
@@ -47897,6 +48826,7 @@ window.timelineData = {
         "Nonlinear Systems",
         "Policy Optimization",
         "Policy Gradient",
+        "Convergence & Sample Complexity",
         "Global Convergence of Policy Gradient Methods to (Almost) Locally Optimal Policies"
       ],
       "tags": [
@@ -47918,49 +48848,6 @@ window.timelineData = {
       "mapUrl": "../map/#paper=1906_08383",
       "timelineUrl": "../timeline/#paper=1906_08383",
       "searchUrl": "../search/?paper=1906_08383"
-    },
-    {
-      "id": "1902_06583",
-      "label": "HOOF",
-      "title": "Fast Efficient Hyperparameter Tuning for Policy Gradient Methods",
-      "authors": [
-        "Supratik Paul",
-        "Vitaly Kurin",
-        "Shimon Whiteson"
-      ],
-      "authorShort": "Paul, Kurin, Whiteson",
-      "year": 2019,
-      "source": "Advances in Neural Information Processing Systems",
-      "type": "Conference Paper",
-      "superCategory": "Decision-making",
-      "category": "Reinforcement Learning",
-      "subCategory": "Nonlinear Systems",
-      "path": [
-        "Tree",
-        "Decision-making",
-        "Reinforcement Learning",
-        "Nonlinear Systems",
-        "Policy Optimization",
-        "Policy Gradient",
-        "HOOF"
-      ],
-      "tags": [
-        "HOOF",
-        "Hyperparameter optimization",
-        "Policy gradients",
-        "Reinforcement learning",
-        "Sample efficiency",
-        "Meta-learning",
-        "Importance sampling",
-        "Automatic tuning"
-      ],
-      "abstract": "The performance of policy gradient methods is sensitive to hyperparameter settings that must be tuned for any new application. Widely used grid search methods for tuning hyperparameters are sample inefficient and computationally expensive. More advanced methods like Population Based Training that learn optimal schedules for hyperparameters instead of fixed settings can yield better results, but are also sample inefficient and computationally expensive. In this paper, we propose Hyperparameter Optimisation on the Fly (HOOF), a gradient-free algorithm that requires no more than one training run to automatically adapt the hyperparameter that affect the policy update directly through the gradient. The main idea is to use existing trajectories sampled by the policy gradient method to optimise a one-step improvement objective, yielding a sample and computationally efficient algorithm that is easy to implement. Our experimental results across multiple domains and algorithms show that using HOOF to learn these hyperparameter schedules leads to faster learning with improved performance.",
-      "summary": "Presents HOOF, a one-run hyperparameter tuning method for policy-gradient reinforcement learning. The method uses trajectories already collected by the learner to rank candidate policy updates via importance-weighted one-step improvement estimates, reducing the extra sampling burden of grid search or population-based tuning.",
-      "url": "../papers/1902_06583/",
-      "treeUrl": "../tree/#paper=1902_06583",
-      "mapUrl": "../map/#paper=1902_06583",
-      "timelineUrl": "../timeline/#paper=1902_06583",
-      "searchUrl": "../search/?paper=1902_06583"
     },
     {
       "id": "2001_02153",
@@ -48007,41 +48894,6 @@ window.timelineData = {
       "mapUrl": "../map/#paper=2001_02153",
       "timelineUrl": "../timeline/#paper=2001_02153",
       "searchUrl": "../search/?paper=2001_02153"
-    },
-    {
-      "id": "1912_09529",
-      "label": "Learning Convex Optimization Control Policies",
-      "title": "Learning Convex Optimization Control Policies",
-      "authors": [
-        "Akshay Agrawal",
-        "Shane Barratt",
-        "Stephen Boyd",
-        "Bartolomeo Stellato"
-      ],
-      "authorShort": "Agrawal, Barratt, Boyd",
-      "year": 2019,
-      "source": "",
-      "type": "Preprint",
-      "superCategory": "Decision-making",
-      "category": "Reinforcement Learning",
-      "subCategory": "Nonlinear Systems",
-      "path": [
-        "Tree",
-        "Decision-making",
-        "Reinforcement Learning",
-        "Nonlinear Systems",
-        "Policy Optimization",
-        "Policy Gradient",
-        "Learning Convex Optimization Control Policies"
-      ],
-      "tags": [],
-      "abstract": "Many control policies used in various applications determine the input or action by solving a convex optimization problem that depends on the current state and some parameters. Common examples of such convex optimization control policies (COCPs) include the linear quadratic regulator (LQR), convex model predictive control (MPC), and convex control-Lyapunov or approximate dynamic programming (ADP) policies. These types of control policies are tuned by varying the parameters in the optimization problem, such as the LQR weights, to obtain good performance, judged by application-specific metrics. Tuning is often done by hand, or by simple methods such as a crude grid search. In this paper we propose a method to automate this process, by adjusting the parameters using an approximate gradient of the performance metric with respect to the parameters. Our method relies on recently developed methods that can efficiently evaluate the derivative of the solution of a convex optimization problem with respect to its parameters. We illustrate our method on several examples.",
-      "summary": "",
-      "url": "../papers/1912_09529/",
-      "treeUrl": "../tree/#paper=1912_09529",
-      "mapUrl": "../map/#paper=1912_09529",
-      "timelineUrl": "../timeline/#paper=1912_09529",
-      "searchUrl": "../search/?paper=1912_09529"
     },
     {
       "id": "1905_00820",
@@ -48111,6 +48963,7 @@ window.timelineData = {
         "Nonlinear Systems",
         "Policy Optimization",
         "Policy Gradient",
+        "Convergence & Sample Complexity",
         "On the Theory of Policy Gradient Methods: Optimality, Approximation, and Distribution Shift"
       ],
       "tags": [
@@ -48132,7 +48985,7 @@ window.timelineData = {
     },
     {
       "id": "2019_abbasi_yadkori_politex_regret_bounds_for",
-      "label": "POLITEX: Regret Bounds for Policy Iteration Using Expert Prediction",
+      "label": "POLITEX",
       "title": "POLITEX: Regret Bounds for Policy Iteration Using Expert Prediction",
       "authors": [
         "Yasin Abbasi-Yadkori",
@@ -48154,10 +49007,9 @@ window.timelineData = {
         "Decision-making",
         "Reinforcement Learning",
         "Nonlinear Systems",
-        "Policy Optimization",
-        "Policy Gradient",
-        "Vanilla Policy Gradient",
-        "POLITEX: Regret Bounds for Policy Iteration Using Expert Prediction"
+        "Dynamic Programming",
+        "Approximate Dynamic Programming",
+        "POLITEX"
       ],
       "tags": [],
       "abstract": "We present POLITEX (POLicy ITeration with EXpert advice), a variant of policy iteration where each policy is a Boltzmann distribution over the sum of action-value function estimates of the previous policies, and analyze its regret in continuing RL problems. We assume that the value function error after running a policy for tau time steps scales as epsilon(tau) = epsilon_0 + O(sqrt(d/tau)), where epsilon_0 is the worst-case approximation error and d is the number of features in a compressed representation of the state-action space. We establish that this condition is satisfied by the LSPE algorithm under certain assumptions on the MDP and policies. Under the error assumption, we show that the regret of POLITEX in uniformly mixing MDPs scales as O(d^(1/2)T^(3/4) + epsilon_0T), where O(*) hides logarithmic terms and problem-dependent constants. Thus, we provide the first regret bound for a fully practical model-free method which only scales in the number of features, and not in the size of the underlying MDP. Experiments on a queuing problem confirm that POLITEX is competitive with some of its alternatives, while preliminary results on Ms Pacman (one of the standard Atari benchmark problems) confirm the viability of POLITEX beyond linear function approximation.",
@@ -48230,9 +49082,8 @@ window.timelineData = {
         "Decision-making",
         "Reinforcement Learning",
         "Nonlinear Systems",
-        "Policy Optimization",
-        "Policy Gradient",
-        "Vanilla Policy Gradient",
+        "Dynamic Programming",
+        "Approximate Dynamic Programming",
         "Quinoa"
       ],
       "tags": [],
@@ -48264,8 +49115,8 @@ window.timelineData = {
         "Decision-making",
         "Reinforcement Learning",
         "Nonlinear Systems",
-        "Policy Optimization",
-        "Policy Gradient",
+        "Dynamic Programming",
+        "Approximate Dynamic Programming",
         "Sample-Optimal Parametric Q-Learning Using Linearly Additive Features"
       ],
       "tags": [],
@@ -48354,39 +49205,6 @@ window.timelineData = {
       "mapUrl": "../map/#paper=2019_sheckells_using_data_driven_domain",
       "timelineUrl": "../timeline/#paper=2019_sheckells_using_data_driven_domain",
       "searchUrl": "../search/?paper=2019_sheckells_using_data_driven_domain"
-    },
-    {
-      "id": "2019_yaghmaie_using_reinforcement_learning_for",
-      "label": "Using Reinforcement Learning for Model-free Linear Quadratic Control with Process and Measurement Noises",
-      "title": "Using Reinforcement Learning for Model-free Linear Quadratic Control with Process and Measurement Noises",
-      "authors": [
-        "Farnaz Adib Yaghmaie",
-        "Fredrik Gustafsson"
-      ],
-      "authorShort": "Yaghmaie, Gustafsson",
-      "year": 2019,
-      "source": "IEEE 58th Conference on Decision and Control (CDC)",
-      "type": "Conference Paper",
-      "superCategory": "Decision-making",
-      "category": "Reinforcement Learning",
-      "subCategory": "Nonlinear Systems",
-      "path": [
-        "Tree",
-        "Decision-making",
-        "Reinforcement Learning",
-        "Nonlinear Systems",
-        "Policy Optimization",
-        "Random Search & Evolution Strategies",
-        "Using Reinforcement Learning for Model-free Linear Quadratic Control with Process and Measurement Noises"
-      ],
-      "tags": [],
-      "abstract": "In this paper, we analyze a Linear Quadratic (LQ) control problem in terms of the average cost and the structure of the value function. We develop a completely model-free reinforcement learning algorithm to solve the LQ problem. Our algorithm is an off-policy routine where each policy is greedy with respect to all previous value functions. We prove that the algorithm produces stable policies given that the estimation errors remain small. Empirically, our algorithm outperforms the classical Q and off-policy learning routines.",
-      "summary": "",
-      "url": "../papers/2019_yaghmaie_using_reinforcement_learning_for/",
-      "treeUrl": "../tree/#paper=2019_yaghmaie_using_reinforcement_learning_for",
-      "mapUrl": "../map/#paper=2019_yaghmaie_using_reinforcement_learning_for",
-      "timelineUrl": "../timeline/#paper=2019_yaghmaie_using_reinforcement_learning_for",
-      "searchUrl": "../search/?paper=2019_yaghmaie_using_reinforcement_learning_for"
     },
     {
       "id": "1909_07528",
@@ -50525,8 +51343,8 @@ window.timelineData = {
         "Decision-making",
         "Optimization",
         "Continuous Optimization",
-        "Convex Optimization",
-        "General Convex Optimization",
+        "Automatic Differentiation",
+        "Differentiable Optimization Layers",
         "Differentiating through Log-Log Convex Programs"
       ],
       "tags": [],
@@ -50537,40 +51355,6 @@ window.timelineData = {
       "mapUrl": "../map/#paper=2004_12553",
       "timelineUrl": "../timeline/#paper=2004_12553",
       "searchUrl": "../search/?paper=2004_12553"
-    },
-    {
-      "id": "2020_sun_finite_sample_system_identification",
-      "label": "Finite Sample System Identification: Optimal Rates and the Role of Regularization",
-      "title": "Finite Sample System Identification: Optimal Rates and the Role of Regularization",
-      "authors": [
-        "Yue Sun",
-        "Samet Oymak",
-        "Maryam Fazel"
-      ],
-      "authorShort": "Sun, Oymak, Fazel",
-      "year": 2020,
-      "source": "Learning for Dynamics and Control",
-      "type": "Conference Paper",
-      "superCategory": "Decision-making",
-      "category": "Optimization",
-      "subCategory": "Continuous Optimization",
-      "path": [
-        "Tree",
-        "Decision-making",
-        "Optimization",
-        "Continuous Optimization",
-        "Convex Optimization",
-        "General Convex Optimization",
-        "Finite Sample System Identification: Optimal Rates and the Role of Regularization"
-      ],
-      "tags": [],
-      "abstract": "This paper studies the optimality of regularized regression for low order linear system identification. The nuclear norm of the system’s Hankel matrix is added as a regularizer to the least squares cost function due to the following advantages: (1) its easy to tune regularzation weight, (2) lower sample complexity, (3) returning a Hankel matrix with a clear singular value gap, which robustly recovers a low-order linear system from noisy output observations. Recently, the performance of unregularized least squares formulations have been studied statistically in terms of finite sample complexity and recovery error; however, no results are known for the regularized approach. In this work, we show that with the advantage of sample complexity kept, the regularized algorithm beats unregularized least squares in Hankel spectral norm bound.",
-      "summary": "",
-      "url": "../papers/2020_sun_finite_sample_system_identification/",
-      "treeUrl": "../tree/#paper=2020_sun_finite_sample_system_identification",
-      "mapUrl": "../map/#paper=2020_sun_finite_sample_system_identification",
-      "timelineUrl": "../timeline/#paper=2020_sun_finite_sample_system_identification",
-      "searchUrl": "../search/?paper=2020_sun_finite_sample_system_identification"
     },
     {
       "id": "2004_12919",
@@ -50636,7 +51420,7 @@ window.timelineData = {
         "Optimization",
         "Continuous Optimization",
         "Convex Optimization",
-        "General Convex Optimization",
+        "Learning Optimization Models",
         "Learning Convex Optimization Models"
       ],
       "tags": [],
@@ -50720,6 +51504,8 @@ window.timelineData = {
         "Continuous Optimization",
         "Convex Optimization",
         "General Convex Optimization",
+        "Rank Minimization",
+        "Randomized Algorithms",
         "Randomized Numerical Linear Algebra: Foundations & Algorithms"
       ],
       "tags": [],
@@ -52281,6 +53067,123 @@ window.timelineData = {
       "searchUrl": "../search/?paper=2012_00889"
     },
     {
+      "id": "2011_14212",
+      "label": "AMPI",
+      "title": "Approximate Midpoint Policy Iteration for Linear Quadratic Control",
+      "authors": [
+        "Benjamin Gravell",
+        "Iman Shames",
+        "Tyler Summers"
+      ],
+      "authorShort": "Gravell, Shames, Summers",
+      "year": 2020,
+      "source": "Conference on Learning for Dynamics and Control (L4DC)",
+      "type": "Conference Paper",
+      "superCategory": "Decision-making",
+      "category": "Reinforcement Learning",
+      "subCategory": "Linear Systems",
+      "path": [
+        "Tree",
+        "Decision-making",
+        "Reinforcement Learning",
+        "Linear Systems",
+        "Dynamic Programming",
+        "AMPI"
+      ],
+      "tags": [
+        "Policy iteration",
+        "Dynamic programming",
+        "Approximate dynamic programming",
+        "Reinforcement learning",
+        "Newton's method",
+        "Midpoint method",
+        "Linear systems",
+        "Linear quadratic regulator",
+        "Control",
+        "Least squares",
+        "Temporal difference learning"
+      ],
+      "abstract": "We present a midpoint policy iteration algorithm to solve linear quadratic optimal control problems in both model-based and model-free settings. The algorithm is a variation of Newton's method, and we show that in the model-based setting it achieves cubic convergence, which is superior to standard policy iteration and policy gradient algorithms that achieve quadratic and linear convergence, respectively. We also demonstrate that the algorithm can be approximately implemented without knowledge of the dynamics model by using least-squares estimates of the state-action value function from trajectory data, from which policy improvements can be obtained. With sufficient trajectory data, the policy iterates converge cubically to approximately optimal policies, and this occurs with the same available sample budget as the approximate standard policy iteration. Numerical experiments demonstrate effectiveness of the proposed algorithms.",
+      "summary": "By viewing policy iteration as Newton's method for solving MDPs and extending the analogy to the midpoint method, the work shows that policies can be solved for more efficiently, both in the model-known and model-unknown settings.",
+      "url": "../papers/2011_14212/",
+      "treeUrl": "../tree/#paper=2011_14212",
+      "mapUrl": "../map/#paper=2011_14212",
+      "timelineUrl": "../timeline/#paper=2011_14212",
+      "searchUrl": "../search/?paper=2011_14212"
+    },
+    {
+      "id": "2020_sun_finite_sample_system_identification",
+      "label": "Finite Sample System Identification: Optimal Rates and the Role of Regularization",
+      "title": "Finite Sample System Identification: Optimal Rates and the Role of Regularization",
+      "authors": [
+        "Yue Sun",
+        "Samet Oymak",
+        "Maryam Fazel"
+      ],
+      "authorShort": "Sun, Oymak, Fazel",
+      "year": 2020,
+      "source": "Learning for Dynamics and Control",
+      "type": "Conference Paper",
+      "superCategory": "Decision-making",
+      "category": "Reinforcement Learning",
+      "subCategory": "Linear Systems",
+      "path": [
+        "Tree",
+        "Decision-making",
+        "Reinforcement Learning",
+        "Linear Systems",
+        "Model-based RL",
+        "System Identification",
+        "Linear Systems with Additive Noise",
+        "Finite Sample System Identification: Optimal Rates and the Role of Regularization"
+      ],
+      "tags": [],
+      "abstract": "This paper studies the optimality of regularized regression for low order linear system identification. The nuclear norm of the system’s Hankel matrix is added as a regularizer to the least squares cost function due to the following advantages: (1) its easy to tune regularzation weight, (2) lower sample complexity, (3) returning a Hankel matrix with a clear singular value gap, which robustly recovers a low-order linear system from noisy output observations. Recently, the performance of unregularized least squares formulations have been studied statistically in terms of finite sample complexity and recovery error; however, no results are known for the regularized approach. In this work, we show that with the advantage of sample complexity kept, the regularized algorithm beats unregularized least squares in Hankel spectral norm bound.",
+      "summary": "",
+      "url": "../papers/2020_sun_finite_sample_system_identification/",
+      "treeUrl": "../tree/#paper=2020_sun_finite_sample_system_identification",
+      "mapUrl": "../map/#paper=2020_sun_finite_sample_system_identification",
+      "timelineUrl": "../timeline/#paper=2020_sun_finite_sample_system_identification",
+      "searchUrl": "../search/?paper=2020_sun_finite_sample_system_identification"
+    },
+    {
+      "id": "2001_07572",
+      "label": "Fitting a Linear Control Policy to Demonstrations with a Kalman Constraint",
+      "title": "Fitting a Linear Control Policy to Demonstrations with a Kalman Constraint",
+      "authors": [
+        "Malayandi Palan",
+        "Shane Barratt",
+        "Alex McCauley",
+        "Dorsa Sadigh",
+        "Vikas Sindhwani",
+        "Stephen Boyd"
+      ],
+      "authorShort": "Palan, Barratt, McCauley",
+      "year": 2020,
+      "source": "",
+      "type": "Preprint",
+      "superCategory": "Decision-making",
+      "category": "Reinforcement Learning",
+      "subCategory": "Linear Systems",
+      "path": [
+        "Tree",
+        "Decision-making",
+        "Reinforcement Learning",
+        "Linear Systems",
+        "Policy Optimization",
+        "Structured Linear Control Policies",
+        "Fitting a Linear Control Policy to Demonstrations with a Kalman Constraint"
+      ],
+      "tags": [],
+      "abstract": "We consider the problem of learning a linear control policy for a linear dynamical system, from demonstrations of an expert regulating the system. The standard approach to this problem is policy fitting, which fits a linear policy by minimizing a loss function between the demonstrations and the policy's outputs plus a regularization function that encodes prior knowledge. Despite its simplicity, this method fails to learn policies with low or even finite cost when there are few demonstrations. We propose to add an additional constraint to policy fitting, that the policy is the solution to some LQR problem, i.e., optimal in the stochastic control sense for some choice of quadratic cost. We refer to this constraint as a Kalman constraint. Policy fitting with a Kalman constraint requires solving an optimization problem with convex cost and bilinear constraints. We propose a heuristic method, based on the alternating direction method of multipliers (ADMM), to approximately solve this problem. Numerical experiments demonstrate that adding the Kalman constraint allows us to learn good, i.e., low cost, policies even when very few data are available.",
+      "summary": "",
+      "url": "../papers/2001_07572/",
+      "treeUrl": "../tree/#paper=2001_07572",
+      "mapUrl": "../map/#paper=2001_07572",
+      "timelineUrl": "../timeline/#paper=2001_07572",
+      "searchUrl": "../search/?paper=2001_07572"
+    },
+    {
       "id": "2002_06613",
       "label": "Linear System Identification Under Multiplicative Noise from Multiple Trajectory Data",
       "title": "Linear System Identification under Multiplicative Noise from Multiple Trajectory Data",
@@ -52721,9 +53624,8 @@ window.timelineData = {
         "Decision-making",
         "Reinforcement Learning",
         "Nonlinear Systems",
-        "Policy Optimization",
-        "Policy Gradient",
-        "Vanilla Policy Gradient",
+        "Dynamic Programming",
+        "Approximate Dynamic Programming",
         "AAPI"
       ],
       "tags": [],
@@ -52771,52 +53673,6 @@ window.timelineData = {
       "searchUrl": "../search/?paper=2006_10277"
     },
     {
-      "id": "2011_14212",
-      "label": "AMPI",
-      "title": "Approximate Midpoint Policy Iteration for Linear Quadratic Control",
-      "authors": [
-        "Benjamin Gravell",
-        "Iman Shames",
-        "Tyler Summers"
-      ],
-      "authorShort": "Gravell, Shames, Summers",
-      "year": 2020,
-      "source": "Conference on Learning for Dynamics and Control (L4DC)",
-      "type": "Conference Paper",
-      "superCategory": "Decision-making",
-      "category": "Reinforcement Learning",
-      "subCategory": "Nonlinear Systems",
-      "path": [
-        "Tree",
-        "Decision-making",
-        "Reinforcement Learning",
-        "Nonlinear Systems",
-        "Dynamic Programming",
-        "Approximate Dynamic Programming",
-        "AMPI"
-      ],
-      "tags": [
-        "Policy iteration",
-        "Dynamic programming",
-        "Approximate dynamic programming",
-        "Reinforcement learning",
-        "Newton's method",
-        "Midpoint method",
-        "Linear systems",
-        "Linear quadratic regulator",
-        "Control",
-        "Least squares",
-        "Temporal difference learning"
-      ],
-      "abstract": "We present a midpoint policy iteration algorithm to solve linear quadratic optimal control problems in both model-based and model-free settings. The algorithm is a variation of Newton's method, and we show that in the model-based setting it achieves cubic convergence, which is superior to standard policy iteration and policy gradient algorithms that achieve quadratic and linear convergence, respectively. We also demonstrate that the algorithm can be approximately implemented without knowledge of the dynamics model by using least-squares estimates of the state-action value function from trajectory data, from which policy improvements can be obtained. With sufficient trajectory data, the policy iterates converge cubically to approximately optimal policies, and this occurs with the same available sample budget as the approximate standard policy iteration. Numerical experiments demonstrate effectiveness of the proposed algorithms.",
-      "summary": "By viewing policy iteration as Newton's method for solving MDPs and extending the analogy to the midpoint method, the work shows that policies can be solved for more efficiently, both in the model-known and model-unknown settings.",
-      "url": "../papers/2011_14212/",
-      "treeUrl": "../tree/#paper=2011_14212",
-      "mapUrl": "../map/#paper=2011_14212",
-      "timelineUrl": "../timeline/#paper=2011_14212",
-      "searchUrl": "../search/?paper=2011_14212"
-    },
-    {
       "id": "2006_12983",
       "label": "dm_control",
       "title": "dm_control: Software and Tasks for Continuous Control",
@@ -52857,43 +53713,6 @@ window.timelineData = {
       "mapUrl": "../map/#paper=2006_12983",
       "timelineUrl": "../timeline/#paper=2006_12983",
       "searchUrl": "../search/?paper=2006_12983"
-    },
-    {
-      "id": "2001_07572",
-      "label": "Fitting a Linear Control Policy to Demonstrations with a Kalman Constraint",
-      "title": "Fitting a Linear Control Policy to Demonstrations with a Kalman Constraint",
-      "authors": [
-        "Malayandi Palan",
-        "Shane Barratt",
-        "Alex McCauley",
-        "Dorsa Sadigh",
-        "Vikas Sindhwani",
-        "Stephen Boyd"
-      ],
-      "authorShort": "Palan, Barratt, McCauley",
-      "year": 2020,
-      "source": "",
-      "type": "Preprint",
-      "superCategory": "Decision-making",
-      "category": "Reinforcement Learning",
-      "subCategory": "Nonlinear Systems",
-      "path": [
-        "Tree",
-        "Decision-making",
-        "Reinforcement Learning",
-        "Nonlinear Systems",
-        "Policy Optimization",
-        "Policy Gradient",
-        "Fitting a Linear Control Policy to Demonstrations with a Kalman Constraint"
-      ],
-      "tags": [],
-      "abstract": "We consider the problem of learning a linear control policy for a linear dynamical system, from demonstrations of an expert regulating the system. The standard approach to this problem is policy fitting, which fits a linear policy by minimizing a loss function between the demonstrations and the policy's outputs plus a regularization function that encodes prior knowledge. Despite its simplicity, this method fails to learn policies with low or even finite cost when there are few demonstrations. We propose to add an additional constraint to policy fitting, that the policy is the solution to some LQR problem, i.e., optimal in the stochastic control sense for some choice of quadratic cost. We refer to this constraint as a Kalman constraint. Policy fitting with a Kalman constraint requires solving an optimization problem with convex cost and bilinear constraints. We propose a heuristic method, based on the alternating direction method of multipliers (ADMM), to approximately solve this problem. Numerical experiments demonstrate that adding the Kalman constraint allows us to learn good, i.e., low cost, policies even when very few data are available.",
-      "summary": "",
-      "url": "../papers/2001_07572/",
-      "treeUrl": "../tree/#paper=2001_07572",
-      "mapUrl": "../map/#paper=2001_07572",
-      "timelineUrl": "../timeline/#paper=2001_07572",
-      "searchUrl": "../search/?paper=2001_07572"
     },
     {
       "id": "2011_06719",
@@ -53042,6 +53861,7 @@ window.timelineData = {
         "Nonlinear Systems",
         "Policy Optimization",
         "Policy Gradient",
+        "Convergence & Sample Complexity",
         "On Linear Convergence of Policy Gradient Methods for Finite MDPs"
       ],
       "tags": [
@@ -53081,6 +53901,8 @@ window.timelineData = {
         "Nonlinear Systems",
         "Policy Optimization",
         "Policy Gradient",
+        "Natural, Soft, and Geometric Gradients",
+        "Entropy-Regularized and Soft Policy Gradients",
         "On the Global Convergence Rates of Softmax Policy Gradient Methods"
       ],
       "tags": [],
@@ -53165,6 +53987,7 @@ window.timelineData = {
         "Nonlinear Systems",
         "Policy Optimization",
         "Policy Gradient",
+        "Gradient Estimation & Credit Assignment",
         "Sample Efficient Reinforcement Learning with REINFORCE"
       ],
       "tags": [],
@@ -53200,6 +54023,7 @@ window.timelineData = {
         "Nonlinear Systems",
         "Policy Optimization",
         "Policy Gradient",
+        "Variance Reduction & Momentum",
         "Stochastic Recursive Momentum for Policy Gradient Methods"
       ],
       "tags": [
@@ -53240,6 +54064,7 @@ window.timelineData = {
         "Nonlinear Systems",
         "Policy Optimization",
         "Policy Gradient",
+        "General-Utility Policy Optimization",
         "Variational Policy Gradient Method for Reinforcement Learning with General Utilities"
       ],
       "tags": [],
@@ -55335,6 +56160,8 @@ window.timelineData = {
         "Continuous Optimization",
         "Convex Optimization",
         "General Convex Optimization",
+        "Rank Minimization",
+        "Randomized Algorithms",
         "Fast & Accurate Randomized Algorithms for Linear Systems and Eigenvalue Problems"
       ],
       "tags": [],
@@ -55711,8 +56538,8 @@ window.timelineData = {
         "Decision-making",
         "Optimization",
         "Toolboxes & Solvers",
-        "Black-Box Optimization",
-        "Planner / Controller Autotuning",
+        "Hyperparameter Optimization",
+        "Planner & Controller Autotuning",
         "AutoTune"
       ],
       "tags": [
@@ -55755,7 +56582,7 @@ window.timelineData = {
         "Decision-making",
         "Optimization",
         "Toolboxes & Solvers",
-        "Black-Box Optimization",
+        "Hyperparameter Optimization",
         "Bayesian Optimization",
         "Bayesian Optimization Is Superior to Random Search for Machine Learning Hyperparameter Tuning"
       ],
@@ -55797,8 +56624,8 @@ window.timelineData = {
         "Decision-making",
         "Optimization",
         "Toolboxes & Solvers",
-        "Black-Box Optimization",
-        "Planner / Controller Autotuning",
+        "Hyperparameter Optimization",
+        "Planner & Controller Autotuning",
         "DiffLoop"
       ],
       "tags": [
@@ -55840,8 +56667,8 @@ window.timelineData = {
         "Decision-making",
         "Optimization",
         "Toolboxes & Solvers",
-        "Black-Box Optimization",
-        "Planner / Controller Autotuning",
+        "Hyperparameter Optimization",
+        "Planner & Controller Autotuning",
         "Hyperplan"
       ],
       "tags": [
@@ -55880,7 +56707,8 @@ window.timelineData = {
         "Decision-making",
         "Optimization",
         "Toolboxes & Solvers",
-        "Black-Box Optimization",
+        "Hyperparameter Optimization",
+        "Black-box Hyperparameter Optimization",
         "Nevergrad"
       ],
       "tags": [
@@ -57456,6 +58284,39 @@ window.timelineData = {
       "searchUrl": "../search/?paper=2106_16078"
     },
     {
+      "id": "2021_sun_learning_optimal_controllers_by",
+      "label": "Learning Optimal Controllers by Policy Gradient: Global Optimality via Convex Parameterization",
+      "title": "Learning Optimal Controllers by Policy Gradient: Global Optimality via Convex Parameterization",
+      "authors": [
+        "Yue Sun",
+        "Maryam Fazel"
+      ],
+      "authorShort": "Sun, Fazel",
+      "year": 2021,
+      "source": "60th IEEE Conference on Decision and Control (CDC)",
+      "type": "Conference Paper",
+      "superCategory": "Decision-making",
+      "category": "Reinforcement Learning",
+      "subCategory": "Linear Systems",
+      "path": [
+        "Tree",
+        "Decision-making",
+        "Reinforcement Learning",
+        "Linear Systems",
+        "Policy Optimization",
+        "Structured Linear Control Policies",
+        "Learning Optimal Controllers by Policy Gradient: Global Optimality via Convex Parameterization"
+      ],
+      "tags": [],
+      "abstract": "Common reinforcement learning methods seek optimal controllers for unknown dynamical systems by searching in the \"policy\" space directly. A recent line of research, starting with [1], aims to provide theoretical guarantees for such direct policy-update methods by exploring their performance in classical control settings, such as the infinite horizon linear quadratic regulator (LQR) problem. A key property these analyses rely on is that the LQR cost function satisfies the \"gradient dominance\" property with respect to the policy parameters. Gradient dominance helps guarantee that the optimal controller can be found by running gradient-based algorithms on the LQR cost. The gradient dominance property has so far been verified on a case-by-case basis for several control problems including continuous/discrete time LQR, LQR with decentralized controller, H_2/H_infinity robust control.In this paper, we make a connection between this line of work and classical convex parameterizations based on linear matrix inequalities (LMIs). Using this, we propose a unified framework for showing that gradient dominance indeed holds for a broad class of control problems, such as continuous- and discrete-time LQR, minimizing the L2 gain, and problems using system-level parameterization. Our unified framework provides insights into the landscape of the cost function as a function of the policy, and enables extending convergence results for policy gradient descent to a much larger class of problems.",
+      "summary": "",
+      "url": "../papers/2021_sun_learning_optimal_controllers_by/",
+      "treeUrl": "../tree/#paper=2021_sun_learning_optimal_controllers_by",
+      "mapUrl": "../map/#paper=2021_sun_learning_optimal_controllers_by",
+      "timelineUrl": "../timeline/#paper=2021_sun_learning_optimal_controllers_by",
+      "searchUrl": "../search/?paper=2021_sun_learning_optimal_controllers_by"
+    },
+    {
       "id": "2106_10533",
       "label": "Learning to Reach, Swim, Walk and Fly in One Trial: Data-Driven Control with Scarce Data and Side Information",
       "title": "Learning to Reach, Swim, Walk and Fly in One Trial: Data-Driven Control with Scarce Data and Side Information",
@@ -57475,6 +58336,7 @@ window.timelineData = {
         "Decision-making",
         "Reinforcement Learning",
         "Linear Systems",
+        "Surveys & Control Connections",
         "Learning to Reach, Swim, Walk and Fly in One Trial: Data-Driven Control with Scarce Data and Side Information"
       ],
       "tags": [],
@@ -58030,39 +58892,6 @@ window.timelineData = {
       "searchUrl": "../search/?paper=2109_14311"
     },
     {
-      "id": "2021_sun_learning_optimal_controllers_by",
-      "label": "Learning Optimal Controllers by Policy Gradient: Global Optimality via Convex Parameterization",
-      "title": "Learning Optimal Controllers by Policy Gradient: Global Optimality via Convex Parameterization",
-      "authors": [
-        "Yue Sun",
-        "Maryam Fazel"
-      ],
-      "authorShort": "Sun, Fazel",
-      "year": 2021,
-      "source": "60th IEEE Conference on Decision and Control (CDC)",
-      "type": "Conference Paper",
-      "superCategory": "Decision-making",
-      "category": "Reinforcement Learning",
-      "subCategory": "Nonlinear Systems",
-      "path": [
-        "Tree",
-        "Decision-making",
-        "Reinforcement Learning",
-        "Nonlinear Systems",
-        "Policy Optimization",
-        "Policy Gradient",
-        "Learning Optimal Controllers by Policy Gradient: Global Optimality via Convex Parameterization"
-      ],
-      "tags": [],
-      "abstract": "Common reinforcement learning methods seek optimal controllers for unknown dynamical systems by searching in the \"policy\" space directly. A recent line of research, starting with [1], aims to provide theoretical guarantees for such direct policy-update methods by exploring their performance in classical control settings, such as the infinite horizon linear quadratic regulator (LQR) problem. A key property these analyses rely on is that the LQR cost function satisfies the \"gradient dominance\" property with respect to the policy parameters. Gradient dominance helps guarantee that the optimal controller can be found by running gradient-based algorithms on the LQR cost. The gradient dominance property has so far been verified on a case-by-case basis for several control problems including continuous/discrete time LQR, LQR with decentralized controller, H_2/H_infinity robust control.In this paper, we make a connection between this line of work and classical convex parameterizations based on linear matrix inequalities (LMIs). Using this, we propose a unified framework for showing that gradient dominance indeed holds for a broad class of control problems, such as continuous- and discrete-time LQR, minimizing the L2 gain, and problems using system-level parameterization. Our unified framework provides insights into the landscape of the cost function as a function of the policy, and enables extending convergence results for policy gradient descent to a much larger class of problems.",
-      "summary": "",
-      "url": "../papers/2021_sun_learning_optimal_controllers_by/",
-      "treeUrl": "../tree/#paper=2021_sun_learning_optimal_controllers_by",
-      "mapUrl": "../map/#paper=2021_sun_learning_optimal_controllers_by",
-      "timelineUrl": "../timeline/#paper=2021_sun_learning_optimal_controllers_by",
-      "searchUrl": "../search/?paper=2021_sun_learning_optimal_controllers_by"
-    },
-    {
       "id": "2102_08607",
       "label": "On the Convergence and Sample Efficiency of Variance-Reduced Policy Gradient Method",
       "title": "On the Convergence and Sample Efficiency of Variance-Reduced Policy Gradient Method",
@@ -58087,7 +58916,7 @@ window.timelineData = {
         "Nonlinear Systems",
         "Policy Optimization",
         "Policy Gradient",
-        "Variance Reduction",
+        "Variance Reduction & Momentum",
         "On the Convergence and Sample Efficiency of Variance-Reduced Policy Gradient Method"
       ],
       "tags": [],
@@ -58292,6 +59121,7 @@ window.timelineData = {
         "Nonlinear Systems",
         "Policy Optimization",
         "Policy Gradient",
+        "Gradient Estimation & Credit Assignment",
         "Understanding the Effect of Stochasticity in Policy Optimization"
       ],
       "tags": [],
@@ -58672,6 +59502,47 @@ window.timelineData = {
       "mapUrl": "../map/#paper=2111_12083",
       "timelineUrl": "../timeline/#paper=2111_12083",
       "searchUrl": "../search/?paper=2111_12083"
+    },
+    {
+      "id": "2107_03312",
+      "label": "SoundStream",
+      "title": "SoundStream: An End-to-End Neural Audio Codec",
+      "authors": [
+        "Neil Zeghidour",
+        "Alejandro Luebs",
+        "Ahmed Omran",
+        "Jan Skoglund",
+        "Marco Tagliasacchi"
+      ],
+      "authorShort": "Zeghidour, Luebs, Omran",
+      "year": 2021,
+      "source": "IEEE/ACM Transactions on Audio, Speech, and Language Processing",
+      "type": "Journal Paper",
+      "superCategory": "Prediction & Perception",
+      "category": "Audio",
+      "subCategory": "Audio Compression",
+      "path": [
+        "Tree",
+        "Prediction & Perception",
+        "Audio",
+        "Audio Compression",
+        "SoundStream"
+      ],
+      "tags": [
+        "Audio compression",
+        "End-to-end learning",
+        "Neural networks",
+        "Vector quantization",
+        "Latent",
+        "Generative adversarial network"
+      ],
+      "abstract": "We present SoundStream, a novel neural audio codec that can efficiently compress speech, music and general audio at bitrates normally targeted by speech-tailored codecs. SoundStream relies on a model architecture composed by a fully convolutional encoder/decoder network and a residual vector quantizer, which are trained jointly end-to-end. Training leverages recent advances in text-to-speech and speech enhancement, which combine adversarial and reconstruction losses to allow the generation of high-quality audio content from quantized embeddings. By training with structured dropout applied to quantizer layers, a single model can operate across variable bitrates from 3kbps to 18kbps, with a negligible quality loss when compared with models trained at fixed bitrates. In addition, the model is amenable to a low latency implementation, which supports streamable inference and runs in real time on a smartphone CPU. In subjective evaluations using audio at 24kHz sampling rate, SoundStream at 3kbps outperforms Opus at 12kbps and approaches EVS at 9.6kbps. Moreover, we are able to perform joint compression and enhancement either at the encoder or at the decoder side with no additional latency, which we demonstrate through background noise suppression for speech.",
+      "summary": "Introduces an end-to-end neural audio codec built from a convolutional encoder/decoder and residual vector quantizer, trained with reconstruction and adversarial objectives. The quantizer-dropout mechanism is especially important because it makes one model support multiple bitrates while preserving real-time, low-latency operation.",
+      "url": "../papers/2107_03312/",
+      "treeUrl": "../tree/#paper=2107_03312",
+      "mapUrl": "../map/#paper=2107_03312",
+      "timelineUrl": "../timeline/#paper=2107_03312",
+      "searchUrl": "../search/?paper=2107_03312"
     },
     {
       "id": "2104_07636",
@@ -60724,6 +61595,49 @@ window.timelineData = {
       "searchUrl": "../search/?paper=2207_12517"
     },
     {
+      "id": "2203_15471",
+      "label": "State space models vs. multi-step predictors in predictive control: Are state space models complicating safe data-driven designs?",
+      "title": "State Space Models vs. Multi-step Predictors in Predictive Control: Are State Space Models Complicating Safe Data-driven Designs?",
+      "authors": [
+        "Johannes Kohler",
+        "Kim P. Wabersich",
+        "Julian Berberich",
+        "Melanie N. Zeilinger"
+      ],
+      "authorShort": "Kohler, Wabersich, Berberich",
+      "year": 2022,
+      "source": "IEEE 61st Conference on Decision and Control (CDC)",
+      "type": "Conference Paper",
+      "superCategory": "Decision-making",
+      "category": "Control",
+      "subCategory": "State-space Methods",
+      "path": [
+        "Tree",
+        "Decision-making",
+        "Control",
+        "State-space Methods",
+        "Model Predictive Control (MPC)",
+        "Multi-step Prediction Models",
+        "State space models vs. multi-step predictors in predictive control: Are state space models complicating safe data-driven designs?"
+      ],
+      "tags": [
+        "Optimal control",
+        "Predictive control",
+        "Safety",
+        "Uncertainty",
+        "System identification",
+        "Control",
+        "State space"
+      ],
+      "abstract": "This paper contrasts recursive state space models and direct multi-step predictors for linear predictive control. We provide a tutorial exposition for both model structures to solve the following problems: 1. stochastic optimal control; 2. system identification; 3. stochastic optimal control based on the estimated model. Throughout the paper, we provide detailed discussions of the benefits and limitations of these two model parametrizations for predictive control and highlight the relation to existing works. Additionally, we derive a novel (partially tight) constraint tightening for stochastic predictive control with parametric uncertainty in the multi-step predictor.",
+      "summary": "",
+      "url": "../papers/2203_15471/",
+      "treeUrl": "../tree/#paper=2203_15471",
+      "mapUrl": "../map/#paper=2203_15471",
+      "timelineUrl": "../timeline/#paper=2203_15471",
+      "searchUrl": "../search/?paper=2203_15471"
+    },
+    {
       "id": "2022_bisoffi_data_driven_control_via",
       "label": "Data-driven Control via Petersen’s Lemma",
       "title": "Data-driven Control via Petersen’s Lemma",
@@ -60963,6 +61877,8 @@ window.timelineData = {
         "Continuous Optimization",
         "Convex Optimization",
         "General Convex Optimization",
+        "Rank Minimization",
+        "Low-rank Recovery",
         "Flat Minima Generalize for Low-rank Matrix Recovery"
       ],
       "tags": [],
@@ -61150,7 +62066,7 @@ window.timelineData = {
         "Optimization",
         "Continuous Optimization",
         "Convex Optimization",
-        "General Convex Optimization",
+        "Learning Optimization Models",
         "Model-Based Deep Learning: On the Intersection of Deep Learning and Optimization"
       ],
       "tags": [],
@@ -61232,40 +62148,6 @@ window.timelineData = {
       "mapUrl": "../map/#paper=2208_05888",
       "timelineUrl": "../timeline/#paper=2208_05888",
       "searchUrl": "../search/?paper=2208_05888"
-    },
-    {
-      "id": "2203_16673",
-      "label": "System Identification via Nuclear Norm Regularization",
-      "title": "System Identification via Nuclear Norm Regularization",
-      "authors": [
-        "Yue Sun",
-        "Samet Oymak",
-        "Maryam Fazel"
-      ],
-      "authorShort": "Sun, Oymak, Fazel",
-      "year": 2022,
-      "source": "",
-      "type": "Preprint",
-      "superCategory": "Decision-making",
-      "category": "Optimization",
-      "subCategory": "Continuous Optimization",
-      "path": [
-        "Tree",
-        "Decision-making",
-        "Optimization",
-        "Continuous Optimization",
-        "Convex Optimization",
-        "General Convex Optimization",
-        "System Identification via Nuclear Norm Regularization"
-      ],
-      "tags": [],
-      "abstract": "This paper studies the problem of identifying low-order linear systems via Hankel nuclear norm regularization. Hankel regularization encourages the low-rankness of the Hankel matrix, which maps to the low-orderness of the system. We provide novel statistical analysis for this regularization and carefully contrast it with the unregularized ordinary least-squares (OLS) estimator. Our analysis leads to new bounds on estimating the impulse response and the Hankel matrix associated with the linear system. We first design an input excitation and show that Hankel regularization enables one to recover the system using optimal number of observations in the true system order and achieve strong statistical estimation rates. Surprisingly, we demonstrate that the input design indeed matters, by showing that intuitive choices such as i.i.d. Gaussian input leads to provably sub-optimal sample complexity. To better understand the benefits of regularization, we also revisit the OLS estimator. Besides refining existing bounds, we experimentally identify when regularized approach improves over OLS: (1) For low-order systems with slow impulse-response decay, OLS method performs poorly in terms of sample complexity, (2) Hankel matrix returned by regularization has a more clear singular value gap that ease identification of the system order, (3) Hankel regularization is less sensitive to hyperparameter choice. Finally, we establish model selection guarantees through a joint train-validation procedure where we tune the regularization parameter for near-optimal estimation.",
-      "summary": "",
-      "url": "../papers/2203_16673/",
-      "treeUrl": "../tree/#paper=2203_16673",
-      "mapUrl": "../map/#paper=2203_16673",
-      "timelineUrl": "../timeline/#paper=2203_16673",
-      "searchUrl": "../search/?paper=2203_16673"
     },
     {
       "id": "2206_09916",
@@ -61440,8 +62322,8 @@ window.timelineData = {
         "Decision-making",
         "Optimization",
         "Toolboxes & Solvers",
-        "Black-Box Optimization",
-        "Planner / Controller Autotuning",
+        "Hyperparameter Optimization",
+        "Planner & Controller Autotuning",
         "DiffTune"
       ],
       "tags": [
@@ -61484,8 +62366,8 @@ window.timelineData = {
         "Decision-making",
         "Optimization",
         "Toolboxes & Solvers",
-        "Black-Box Optimization",
-        "Planner / Controller Autotuning",
+        "Hyperparameter Optimization",
+        "Planner & Controller Autotuning",
         "DiffTune+"
       ],
       "tags": [
@@ -61571,7 +62453,8 @@ window.timelineData = {
         "Decision-making",
         "Optimization",
         "Toolboxes & Solvers",
-        "Black-Box Optimization",
+        "Hyperparameter Optimization",
+        "Black-box Hyperparameter Optimization",
         "PyHopper"
       ],
       "tags": [
@@ -63184,6 +64067,7 @@ window.timelineData = {
         "Decision-making",
         "Reinforcement Learning",
         "Linear Systems",
+        "Surveys & Control Connections",
         "Data-driven Control and Planning for Uncertain Complex Systems (Gravell PhD Dissertation)"
       ],
       "tags": [
@@ -63251,6 +64135,80 @@ window.timelineData = {
       "mapUrl": "../map/#paper=2022_schmid_dynamic_mode_decomposition_and",
       "timelineUrl": "../timeline/#paper=2022_schmid_dynamic_mode_decomposition_and",
       "searchUrl": "../search/?paper=2022_schmid_dynamic_mode_decomposition_and"
+    },
+    {
+      "id": "2204_00912",
+      "label": "Escaping High-order Saddles in Policy Optimization for Linear Quadratic Gaussian (LQG) Control",
+      "title": "Escaping High-order Saddles in Policy Optimization for Linear Quadratic Gaussian (LQG) Control",
+      "authors": [
+        "Yang Zheng",
+        "Yue Sun",
+        "Maryam Fazel",
+        "Na Li"
+      ],
+      "authorShort": "Zheng, Sun, Fazel",
+      "year": 2022,
+      "source": "",
+      "type": "Preprint",
+      "superCategory": "Decision-making",
+      "category": "Reinforcement Learning",
+      "subCategory": "Linear Systems",
+      "path": [
+        "Tree",
+        "Decision-making",
+        "Reinforcement Learning",
+        "Linear Systems",
+        "Policy Optimization",
+        "LQG",
+        "Escaping High-order Saddles in Policy Optimization for Linear Quadratic Gaussian (LQG) Control"
+      ],
+      "tags": [],
+      "abstract": "First order policy optimization has been widely used in reinforcement learning. It guarantees to find the optimal policy for the state-feedback linear quadratic regulator (LQR). However, the performance of policy optimization remains unclear for the linear quadratic Gaussian (LQG) control where the LQG cost has spurious suboptimal stationary points. In this paper, we introduce a novel perturbed policy gradient (PGD) method to escape a large class of bad stationary points (including high-order saddles). In particular, based on the specific structure of LQG, we introduce a novel reparameterization procedure which converts the iterate from a high-order saddle to a strict saddle, from which standard random perturbations in PGD can escape efficiently. We further characterize the high-order saddles that can be escaped by our algorithm.",
+      "summary": "",
+      "url": "../papers/2204_00912/",
+      "treeUrl": "../tree/#paper=2204_00912",
+      "mapUrl": "../map/#paper=2204_00912",
+      "timelineUrl": "../timeline/#paper=2204_00912",
+      "searchUrl": "../search/?paper=2204_00912"
+    },
+    {
+      "id": "2206_06863",
+      "label": "How are policy gradient methods affected by the limits of control?",
+      "title": "How Are Policy Gradient Methods Affected by the Limits of Control?",
+      "authors": [
+        "Ingvar Ziemann",
+        "Anastasios Tsiamis",
+        "Henrik Sandberg",
+        "Nikolai Matni"
+      ],
+      "authorShort": "Ziemann, Tsiamis, Sandberg",
+      "year": 2022,
+      "source": "IEEE 61st Conference on Decision and Control (CDC)",
+      "type": "Conference Paper",
+      "superCategory": "Decision-making",
+      "category": "Reinforcement Learning",
+      "subCategory": "Linear Systems",
+      "path": [
+        "Tree",
+        "Decision-making",
+        "Reinforcement Learning",
+        "Linear Systems",
+        "Policy Optimization",
+        "How are policy gradient methods affected by the limits of control?"
+      ],
+      "tags": [
+        "Policy gradients",
+        "Control",
+        "Curse of dimensionality",
+        "Gradient method"
+      ],
+      "abstract": "We study stochastic policy gradient methods from the perspective of control-theoretic limitations. Our main result is that ill-conditioned linear systems in the sense of Doyle inevitably lead to noisy gradient estimates. We also give an example of a class of stable systems in which policy gradient methods suffer from the curse of dimensionality. Our results apply to both state feedback and partially observed systems.",
+      "summary": "",
+      "url": "../papers/2206_06863/",
+      "treeUrl": "../tree/#paper=2206_06863",
+      "mapUrl": "../map/#paper=2206_06863",
+      "timelineUrl": "../timeline/#paper=2206_06863",
+      "searchUrl": "../search/?paper=2206_06863"
     },
     {
       "id": "2211_07411",
@@ -63704,6 +64662,88 @@ window.timelineData = {
       "searchUrl": "../search/?paper=2209_05423"
     },
     {
+      "id": "2203_16673",
+      "label": "System Identification via Nuclear Norm Regularization",
+      "title": "System Identification via Nuclear Norm Regularization",
+      "authors": [
+        "Yue Sun",
+        "Samet Oymak",
+        "Maryam Fazel"
+      ],
+      "authorShort": "Sun, Oymak, Fazel",
+      "year": 2022,
+      "source": "",
+      "type": "Preprint",
+      "superCategory": "Decision-making",
+      "category": "Reinforcement Learning",
+      "subCategory": "Linear Systems",
+      "path": [
+        "Tree",
+        "Decision-making",
+        "Reinforcement Learning",
+        "Linear Systems",
+        "Model-based RL",
+        "System Identification",
+        "Linear Systems with Additive Noise",
+        "System Identification via Nuclear Norm Regularization"
+      ],
+      "tags": [],
+      "abstract": "This paper studies the problem of identifying low-order linear systems via Hankel nuclear norm regularization. Hankel regularization encourages the low-rankness of the Hankel matrix, which maps to the low-orderness of the system. We provide novel statistical analysis for this regularization and carefully contrast it with the unregularized ordinary least-squares (OLS) estimator. Our analysis leads to new bounds on estimating the impulse response and the Hankel matrix associated with the linear system. We first design an input excitation and show that Hankel regularization enables one to recover the system using optimal number of observations in the true system order and achieve strong statistical estimation rates. Surprisingly, we demonstrate that the input design indeed matters, by showing that intuitive choices such as i.i.d. Gaussian input leads to provably sub-optimal sample complexity. To better understand the benefits of regularization, we also revisit the OLS estimator. Besides refining existing bounds, we experimentally identify when regularized approach improves over OLS: (1) For low-order systems with slow impulse-response decay, OLS method performs poorly in terms of sample complexity, (2) Hankel matrix returned by regularization has a more clear singular value gap that ease identification of the system order, (3) Hankel regularization is less sensitive to hyperparameter choice. Finally, we establish model selection guarantees through a joint train-validation procedure where we tune the regularization parameter for near-optimal estimation.",
+      "summary": "",
+      "url": "../papers/2203_16673/",
+      "treeUrl": "../tree/#paper=2203_16673",
+      "mapUrl": "../map/#paper=2203_16673",
+      "timelineUrl": "../timeline/#paper=2203_16673",
+      "searchUrl": "../search/?paper=2203_16673"
+    },
+    {
+      "id": "2210_04810",
+      "label": "Towards a Theoretical Foundation of Policy Optimization for Learning Control Policies",
+      "title": "Towards a Theoretical Foundation of Policy Optimization for Learning Control Policies",
+      "authors": [
+        "Bin Hu",
+        "Kaiqing Zhang",
+        "Na Li",
+        "Mehran Mesbahi",
+        "Maryam Fazel",
+        "Tamer Basar"
+      ],
+      "authorShort": "Hu, Zhang, Li",
+      "year": 2022,
+      "source": "arXiv",
+      "type": "Preprint",
+      "superCategory": "Decision-making",
+      "category": "Reinforcement Learning",
+      "subCategory": "Linear Systems",
+      "path": [
+        "Tree",
+        "Decision-making",
+        "Reinforcement Learning",
+        "Linear Systems",
+        "Policy Optimization",
+        "Towards a Theoretical Foundation of Policy Optimization for Learning Control Policies"
+      ],
+      "tags": [
+        "Reinforcement learning",
+        "Stability analysis",
+        "Robustness",
+        "Sample complexity",
+        "Optimization",
+        "Control",
+        "Learning",
+        "Linear quadratic regulator",
+        "Linear quadratic Gaussian",
+        "Control theory"
+      ],
+      "abstract": "Gradient-based methods have been widely used for system design and optimization in diverse application domains. Recently, there has been a renewed interest in studying theoretical properties of these methods in the context of control and reinforcement learning. This article surveys some of the recent developments on policy optimization, a gradient-based iterative approach for feedback control synthesis, popularized by successes of reinforcement learning. We take an interdisciplinary perspective in our exposition that connects control theory, reinforcement learning, and large-scale optimization. We review a number of recently-developed theoretical results on the optimization landscape, global convergence, and sample complexity of gradient-based methods for various continuous control problems such as the linear quadratic regulator (LQR), H_infinity control, risk-sensitive control, linear quadratic Gaussian (LQG) control, and output feedback synthesis. In conjunction with these optimization results, we also discuss how direct policy optimization handles stability and robustness concerns in learning-based control, two main desiderata in control engineering. We conclude the survey by pointing out several challenges and opportunities at the intersection of learning and control.",
+      "summary": "",
+      "url": "../papers/2210_04810/",
+      "treeUrl": "../tree/#paper=2210_04810",
+      "mapUrl": "../map/#paper=2210_04810",
+      "timelineUrl": "../timeline/#paper=2210_04810",
+      "searchUrl": "../search/?paper=2210_04810"
+    },
+    {
       "id": "2205_06175",
       "label": "A Generalist Agent",
       "title": "A Generalist Agent",
@@ -63852,7 +64892,7 @@ window.timelineData = {
         "Nonlinear Systems",
         "Policy Optimization",
         "Policy Gradient",
-        "Variance Reduction",
+        "Variance Reduction & Momentum",
         "An Improved Analysis of Variance-Reduced Policy Gradient and Natural Policy Gradient Methods"
       ],
       "tags": [
@@ -63979,6 +65019,7 @@ window.timelineData = {
         "Nonlinear Systems",
         "Policy Optimization",
         "Policy Gradient",
+        "Gradient Estimation & Credit Assignment",
         "Do Differentiable Simulators Give Better Policy Gradients?"
       ],
       "tags": [
@@ -64041,81 +65082,6 @@ window.timelineData = {
       "mapUrl": "../map/#paper=2203_08678",
       "timelineUrl": "../timeline/#paper=2203_08678",
       "searchUrl": "../search/?paper=2203_08678"
-    },
-    {
-      "id": "2204_00912",
-      "label": "Escaping High-order Saddles in Policy Optimization for Linear Quadratic Gaussian (LQG) Control",
-      "title": "Escaping High-order Saddles in Policy Optimization for Linear Quadratic Gaussian (LQG) Control",
-      "authors": [
-        "Yang Zheng",
-        "Yue Sun",
-        "Maryam Fazel",
-        "Na Li"
-      ],
-      "authorShort": "Zheng, Sun, Fazel",
-      "year": 2022,
-      "source": "",
-      "type": "Preprint",
-      "superCategory": "Decision-making",
-      "category": "Reinforcement Learning",
-      "subCategory": "Nonlinear Systems",
-      "path": [
-        "Tree",
-        "Decision-making",
-        "Reinforcement Learning",
-        "Nonlinear Systems",
-        "Policy Optimization",
-        "Policy Gradient",
-        "Escaping High-order Saddles in Policy Optimization for Linear Quadratic Gaussian (LQG) Control"
-      ],
-      "tags": [],
-      "abstract": "First order policy optimization has been widely used in reinforcement learning. It guarantees to find the optimal policy for the state-feedback linear quadratic regulator (LQR). However, the performance of policy optimization remains unclear for the linear quadratic Gaussian (LQG) control where the LQG cost has spurious suboptimal stationary points. In this paper, we introduce a novel perturbed policy gradient (PGD) method to escape a large class of bad stationary points (including high-order saddles). In particular, based on the specific structure of LQG, we introduce a novel reparameterization procedure which converts the iterate from a high-order saddle to a strict saddle, from which standard random perturbations in PGD can escape efficiently. We further characterize the high-order saddles that can be escaped by our algorithm.",
-      "summary": "",
-      "url": "../papers/2204_00912/",
-      "treeUrl": "../tree/#paper=2204_00912",
-      "mapUrl": "../map/#paper=2204_00912",
-      "timelineUrl": "../timeline/#paper=2204_00912",
-      "searchUrl": "../search/?paper=2204_00912"
-    },
-    {
-      "id": "2206_06863",
-      "label": "How are policy gradient methods affected by the limits of control?",
-      "title": "How Are Policy Gradient Methods Affected by the Limits of Control?",
-      "authors": [
-        "Ingvar Ziemann",
-        "Anastasios Tsiamis",
-        "Henrik Sandberg",
-        "Nikolai Matni"
-      ],
-      "authorShort": "Ziemann, Tsiamis, Sandberg",
-      "year": 2022,
-      "source": "IEEE 61st Conference on Decision and Control (CDC)",
-      "type": "Conference Paper",
-      "superCategory": "Decision-making",
-      "category": "Reinforcement Learning",
-      "subCategory": "Nonlinear Systems",
-      "path": [
-        "Tree",
-        "Decision-making",
-        "Reinforcement Learning",
-        "Nonlinear Systems",
-        "Policy Optimization",
-        "Policy Gradient",
-        "How are policy gradient methods affected by the limits of control?"
-      ],
-      "tags": [
-        "Policy gradients",
-        "Control",
-        "Curse of dimensionality",
-        "Gradient method"
-      ],
-      "abstract": "We study stochastic policy gradient methods from the perspective of control-theoretic limitations. Our main result is that ill-conditioned linear systems in the sense of Doyle inevitably lead to noisy gradient estimates. We also give an example of a class of stable systems in which policy gradient methods suffer from the curse of dimensionality. Our results apply to both state feedback and partially observed systems.",
-      "summary": "",
-      "url": "../papers/2206_06863/",
-      "treeUrl": "../tree/#paper=2206_06863",
-      "mapUrl": "../map/#paper=2206_06863",
-      "timelineUrl": "../timeline/#paper=2206_06863",
-      "searchUrl": "../search/?paper=2206_06863"
     },
     {
       "id": "2212_11419",
@@ -64262,7 +65228,7 @@ window.timelineData = {
         "Nonlinear Systems",
         "Policy Optimization",
         "Policy Gradient",
-        "Variance Reduction",
+        "Variance Reduction & Momentum",
         "PAGE-PG"
       ],
       "tags": [
@@ -64451,49 +65417,6 @@ window.timelineData = {
       "searchUrl": "../search/?paper=2204_01691"
     },
     {
-      "id": "2203_15471",
-      "label": "State space models vs. multi-step predictors in predictive control: Are state space models complicating safe data-driven designs?",
-      "title": "State Space Models vs. Multi-step Predictors in Predictive Control: Are State Space Models Complicating Safe Data-driven Designs?",
-      "authors": [
-        "Johannes Kohler",
-        "Kim P. Wabersich",
-        "Julian Berberich",
-        "Melanie N. Zeilinger"
-      ],
-      "authorShort": "Kohler, Wabersich, Berberich",
-      "year": 2022,
-      "source": "IEEE 61st Conference on Decision and Control (CDC)",
-      "type": "Conference Paper",
-      "superCategory": "Decision-making",
-      "category": "Reinforcement Learning",
-      "subCategory": "Nonlinear Systems",
-      "path": [
-        "Tree",
-        "Decision-making",
-        "Reinforcement Learning",
-        "Nonlinear Systems",
-        "Model-based RL",
-        "System Identification",
-        "State space models vs. multi-step predictors in predictive control: Are state space models complicating safe data-driven designs?"
-      ],
-      "tags": [
-        "Optimal control",
-        "Predictive control",
-        "Safety",
-        "Uncertainty",
-        "System identification",
-        "Control",
-        "State space"
-      ],
-      "abstract": "This paper contrasts recursive state space models and direct multi-step predictors for linear predictive control. We provide a tutorial exposition for both model structures to solve the following problems: 1. stochastic optimal control; 2. system identification; 3. stochastic optimal control based on the estimated model. Throughout the paper, we provide detailed discussions of the benefits and limitations of these two model parametrizations for predictive control and highlight the relation to existing works. Additionally, we derive a novel (partially tight) constraint tightening for stochastic predictive control with parametric uncertainty in the multi-step predictor.",
-      "summary": "",
-      "url": "../papers/2203_15471/",
-      "treeUrl": "../tree/#paper=2203_15471",
-      "mapUrl": "../map/#paper=2203_15471",
-      "timelineUrl": "../timeline/#paper=2203_15471",
-      "searchUrl": "../search/?paper=2203_15471"
-    },
-    {
       "id": "2205_14812",
       "label": "TaSIL",
       "title": "TaSIL: Taylor Series Imitation Learning",
@@ -64581,54 +65504,6 @@ window.timelineData = {
       "searchUrl": "../search/?paper=2203_04955"
     },
     {
-      "id": "2210_04810",
-      "label": "Towards a Theoretical Foundation of Policy Optimization for Learning Control Policies",
-      "title": "Towards a Theoretical Foundation of Policy Optimization for Learning Control Policies",
-      "authors": [
-        "Bin Hu",
-        "Kaiqing Zhang",
-        "Na Li",
-        "Mehran Mesbahi",
-        "Maryam Fazel",
-        "Tamer Basar"
-      ],
-      "authorShort": "Hu, Zhang, Li",
-      "year": 2022,
-      "source": "arXiv",
-      "type": "Preprint",
-      "superCategory": "Decision-making",
-      "category": "Reinforcement Learning",
-      "subCategory": "Nonlinear Systems",
-      "path": [
-        "Tree",
-        "Decision-making",
-        "Reinforcement Learning",
-        "Nonlinear Systems",
-        "Policy Optimization",
-        "Policy Gradient",
-        "Towards a Theoretical Foundation of Policy Optimization for Learning Control Policies"
-      ],
-      "tags": [
-        "Reinforcement learning",
-        "Stability analysis",
-        "Robustness",
-        "Sample complexity",
-        "Optimization",
-        "Control",
-        "Learning",
-        "Linear quadratic regulator",
-        "Linear quadratic Gaussian",
-        "Control theory"
-      ],
-      "abstract": "Gradient-based methods have been widely used for system design and optimization in diverse application domains. Recently, there has been a renewed interest in studying theoretical properties of these methods in the context of control and reinforcement learning. This article surveys some of the recent developments on policy optimization, a gradient-based iterative approach for feedback control synthesis, popularized by successes of reinforcement learning. We take an interdisciplinary perspective in our exposition that connects control theory, reinforcement learning, and large-scale optimization. We review a number of recently-developed theoretical results on the optimization landscape, global convergence, and sample complexity of gradient-based methods for various continuous control problems such as the linear quadratic regulator (LQR), H_infinity control, risk-sensitive control, linear quadratic Gaussian (LQG) control, and output feedback synthesis. In conjunction with these optimization results, we also discuss how direct policy optimization handles stability and robustness concerns in learning-based control, two main desiderata in control engineering. We conclude the survey by pointing out several challenges and opportunities at the intersection of learning and control.",
-      "summary": "",
-      "url": "../papers/2210_04810/",
-      "treeUrl": "../tree/#paper=2210_04810",
-      "mapUrl": "../map/#paper=2210_04810",
-      "timelineUrl": "../timeline/#paper=2210_04810",
-      "searchUrl": "../search/?paper=2210_04810"
-    },
-    {
       "id": "2201_09104",
       "label": "Understanding the Effects of Second-Order Approximations in Natural Policy Gradient Reinforcement Learning",
       "title": "Understanding the Effects of Second-Order Approximations in Natural Policy Gradient Reinforcement Learning",
@@ -64651,6 +65526,7 @@ window.timelineData = {
         "Nonlinear Systems",
         "Policy Optimization",
         "Policy Gradient",
+        "Natural, Soft, and Geometric Gradients",
         "Natural Policy Gradient",
         "Understanding the Effects of Second-Order Approximations in Natural Policy Gradient Reinforcement Learning"
       ],
@@ -64891,6 +65767,47 @@ window.timelineData = {
       "mapUrl": "../map/#paper=2203_00806",
       "timelineUrl": "../timeline/#paper=2203_00806",
       "searchUrl": "../search/?paper=2203_00806"
+    },
+    {
+      "id": "2210_13438",
+      "label": "EnCodec",
+      "title": "High Fidelity Neural Audio Compression",
+      "authors": [
+        "Alexandre Defossez",
+        "Jade Copet",
+        "Gabriel Synnaeve",
+        "Yossi Adi"
+      ],
+      "authorShort": "Defossez, Copet, Synnaeve",
+      "year": 2022,
+      "source": "Transactions on Machine Learning Research",
+      "type": "Journal Paper",
+      "superCategory": "Prediction & Perception",
+      "category": "Audio",
+      "subCategory": "Audio Compression",
+      "path": [
+        "Tree",
+        "Prediction & Perception",
+        "Audio",
+        "Audio Compression",
+        "EnCodec"
+      ],
+      "tags": [
+        "Audio compression",
+        "End-to-end learning",
+        "Neural networks",
+        "Vector quantization",
+        "Latent",
+        "Transformers",
+        "Language models"
+      ],
+      "abstract": "We introduce a state-of-the-art real-time, high-fidelity, audio codec leveraging neural networks. It consists in a streaming encoder-decoder architecture with quantized latent space trained in an end-to-end fashion. We simplify and speed-up the training by using a single multiscale spectrogram adversary that efficiently reduces artifacts and produce high-quality samples. We introduce a novel loss balancer mechanism to stabilize training: the weight of a loss now defines the fraction of the overall gradient it should represent, thus decoupling the choice of this hyper-parameter from the typical scale of the loss. Finally, we study how lightweight Transformer models can be used to further compress the obtained representation by up to 40%, while staying faster than real time. We provide a detailed description of the key design choices of the proposed model including: training objective, architectural changes and a study of various perceptual loss functions. We present an extensive subjective evaluation (MUSHRA tests) together with an ablation study for a range of bandwidths and audio domains, including speech, noisy-reverberant speech, and music. Our approach is superior to the baselines methods across all evaluated settings, considering both 24 kHz monophonic and 48 kHz stereophonic audio. Code and models are available at github.com/facebookresearch/encodec.",
+      "summary": "Presents EnCodec, a high-fidelity neural codec that combines a streaming encoder-decoder, residual vector quantization, adversarial spectrogram losses, and optional Transformer entropy coding. The paper helped make discrete neural audio tokens practical for both compression and downstream generative audio modeling.",
+      "url": "../papers/2210_13438/",
+      "treeUrl": "../tree/#paper=2210_13438",
+      "mapUrl": "../map/#paper=2210_13438",
+      "timelineUrl": "../timeline/#paper=2210_13438",
+      "searchUrl": "../search/?paper=2210_13438"
     },
     {
       "id": "2205_04437",
@@ -67154,41 +68071,6 @@ window.timelineData = {
       "searchUrl": "../search/?paper=2305_15659"
     },
     {
-      "id": "2309_10675",
-      "label": "Improved Nonnegativity Testing in the Bernstein Basis via Geometric Means",
-      "title": "Improved Nonnegativity Testing in the Bernstein Basis via Geometric Means",
-      "authors": [
-        "Mitchell Tong Harris",
-        "Pablo A. Parrilo"
-      ],
-      "authorShort": "Harris, Parrilo",
-      "year": 2023,
-      "source": "arXiv",
-      "type": "Preprint",
-      "superCategory": "Decision-making",
-      "category": "Optimization",
-      "subCategory": "Continuous Optimization",
-      "path": [
-        "Tree",
-        "Decision-making",
-        "Optimization",
-        "Continuous Optimization",
-        "Convex Optimization",
-        "General Convex Optimization",
-        "Improved Nonnegativity Testing in the Bernstein Basis via Geometric Means"
-      ],
-      "tags": [
-        "Optimization and control"
-      ],
-      "abstract": "We develop a new kind of nonnegativity certificate for univariate polynomials on an interval. In many applications, nonnegative Bernstein coefficients are often used as a simple way of certifying polynomial nonnegativity. Our proposed condition is instead an explicit lower bound for each Bernstein coefficient in terms of the geometric mean of its adjacent coefficients, which is provably less restrictive than the usual test based on nonnegative coefficients. We generalize to matrix-valued polynomials of arbitrary degree, and we provide numerical experiments suggesting the practical benefits of this condition. The techniques for constructing this inexpensive certificate could potentially be applied to other semialgebraic feasibility problems.",
-      "summary": "",
-      "url": "../papers/2309_10675/",
-      "treeUrl": "../tree/#paper=2309_10675",
-      "mapUrl": "../map/#paper=2309_10675",
-      "timelineUrl": "../timeline/#paper=2309_10675",
-      "searchUrl": "../search/?paper=2309_10675"
-    },
-    {
       "id": "2023_cosson_low_rank_gradient_descent",
       "label": "Low-Rank Gradient Descent",
       "title": "Low-Rank Gradient Descent",
@@ -67313,6 +68195,8 @@ window.timelineData = {
         "Continuous Optimization",
         "Convex Optimization",
         "General Convex Optimization",
+        "Rank Minimization",
+        "Randomized Algorithms",
         "Randomized Algorithms for Low-rank Matrix Approximation: Design, Analysis, and Applications"
       ],
       "tags": [],
@@ -67420,7 +68304,7 @@ window.timelineData = {
         "Decision-making",
         "Optimization",
         "Toolboxes & Solvers",
-        "Black-Box Optimization",
+        "Hyperparameter Optimization",
         "Optimizing with Low Budgets"
       ],
       "tags": [
@@ -69767,6 +70651,74 @@ window.timelineData = {
       "searchUrl": "../search/?paper=2307_07268"
     },
     {
+      "id": "2303_17958",
+      "label": "Data-enabled Policy Optimization for the Linear Quadratic Regulator",
+      "title": "Data-enabled Policy Optimization for the Linear Quadratic Regulator",
+      "authors": [
+        "Feiran Zhao",
+        "Florian Dorfler",
+        "Keyou You"
+      ],
+      "authorShort": "Zhao, Dorfler, You",
+      "year": 2023,
+      "source": "",
+      "type": "Preprint",
+      "superCategory": "Decision-making",
+      "category": "Reinforcement Learning",
+      "subCategory": "Linear Systems",
+      "path": [
+        "Tree",
+        "Decision-making",
+        "Reinforcement Learning",
+        "Linear Systems",
+        "Policy Optimization",
+        "Model-free and Data-enabled LQR",
+        "Data-enabled Policy Optimization for the Linear Quadratic Regulator"
+      ],
+      "tags": [],
+      "abstract": "Policy optimization (PO), an essential approach of reinforcement learning for a broad range of system classes, requires significantly more system data than indirect (identification-followed-by-control) methods or behavioral-based direct methods even in the simplest linear quadratic regulator (LQR) problem. In this paper, we take an initial step towards bridging this gap by proposing the data-enabled policy optimization (DeePO) method, which requires only a finite number of sufficiently exciting data to iteratively solve the LQR problem via PO. Based on a data-driven closed-loop parameterization, we are able to directly compute the policy gradient from a batch of persistently exciting data. Next, we show that the nonconvex PO problem satisfies a projected gradient dominance property by relating it to an equivalent convex program, leading to the global convergence of DeePO. Moreover, we apply regularization methods to enhance certainty-equivalence and robustness of the resulting controller and show an implicit regularization property. Finally, we perform simulations to validate our results.",
+      "summary": "",
+      "url": "../papers/2303_17958/",
+      "treeUrl": "../tree/#paper=2303_17958",
+      "mapUrl": "../map/#paper=2303_17958",
+      "timelineUrl": "../timeline/#paper=2303_17958",
+      "searchUrl": "../search/?paper=2303_17958"
+    },
+    {
+      "id": "2023_yaghmaie_linear_quadratic_control_using",
+      "label": "Linear Quadratic Control Using Model-Free Reinforcement Learning",
+      "title": "Linear Quadratic Control Using Model-Free Reinforcement Learning",
+      "authors": [
+        "Farnaz Adib Yaghmaie",
+        "Fredrik Gustafsson",
+        "Lennart Ljung"
+      ],
+      "authorShort": "Yaghmaie, Gustafsson, Ljung",
+      "year": 2023,
+      "source": "IEEE Transactions on Automatic Control",
+      "type": "Journal Paper",
+      "superCategory": "Decision-making",
+      "category": "Reinforcement Learning",
+      "subCategory": "Linear Systems",
+      "path": [
+        "Tree",
+        "Decision-making",
+        "Reinforcement Learning",
+        "Linear Systems",
+        "Policy Optimization",
+        "Model-free and Data-enabled LQR",
+        "Linear Quadratic Control Using Model-Free Reinforcement Learning"
+      ],
+      "tags": [],
+      "abstract": "In this article, we consider linear quadratic (LQ) control problem with process and measurement noises. We analyze the LQ problem in terms of the average cost and the structure of the value function. We assume that the dynamics of the linear system is unknown and only noisy measurements of the state variable are available. Using noisy measurements of the state variable, we propose two model-free iterative algorithms to solve the LQ problem. The proposed algorithms are variants of policy iteration routine where the policy is greedy with respect to the average of all previous iterations. We rigorously analyze the properties of the proposed algorithms, including stability of the generated controllers and convergence. We analyze the effect of measurement noise on the performance of the proposed algorithms, the classical off-policy, and the classical Q -learning routines. We also investigate a model-building approach, inspired by adaptive control, where a model of the dynamical system is estimated and the optimal control problem is solved assuming that the estimated model is the true model. We use a benchmark to evaluate and compare our proposed algorithms with the classical off-policy, the classical Q -learning, and the policy gradient. We show that our model-building approach performs nearly identical to the analytical solution and our proposed policy iteration-based algorithms outperform the classical off-policy and the classical Q -learning algorithms on this benchmark but do not outperform the model-building approach.",
+      "summary": "",
+      "url": "../papers/2023_yaghmaie_linear_quadratic_control_using/",
+      "treeUrl": "../tree/#paper=2023_yaghmaie_linear_quadratic_control_using",
+      "mapUrl": "../map/#paper=2023_yaghmaie_linear_quadratic_control_using",
+      "timelineUrl": "../timeline/#paper=2023_yaghmaie_linear_quadratic_control_using",
+      "searchUrl": "../search/?paper=2023_yaghmaie_linear_quadratic_control_using"
+    },
+    {
       "id": "2305_10634",
       "label": "Modified Gauss-Newton Algorithms under Noise",
       "title": "Modified Gauss-Newton Algorithms under Noise",
@@ -70030,6 +70982,42 @@ window.timelineData = {
       "searchUrl": "../search/?paper=2023_tian_toward_understanding_state_representation"
     },
     {
+      "id": "2307_07086",
+      "label": "Value-Gradient Iteration with Quadratic Approximate Value Functions",
+      "title": "Value-Gradient Iteration with Quadratic Approximate Value Functions",
+      "authors": [
+        "Alan Yang",
+        "Stephen Boyd"
+      ],
+      "authorShort": "Yang, Boyd",
+      "year": 2023,
+      "source": "arXiv",
+      "type": "Preprint",
+      "superCategory": "Decision-making",
+      "category": "Reinforcement Learning",
+      "subCategory": "Linear Systems",
+      "path": [
+        "Tree",
+        "Decision-making",
+        "Reinforcement Learning",
+        "Linear Systems",
+        "Dynamic Programming",
+        "Value-Gradient Iteration with Quadratic Approximate Value Functions"
+      ],
+      "tags": [
+        "Real-time systems",
+        "Control",
+        "Value-gradient iteration"
+      ],
+      "abstract": "We propose a method for designing policies for convex stochastic control problems characterized by random linear dynamics and convex stage cost. We consider policies that employ quadratic approximate value functions as a substitute for the true value function. Evaluating the associated control policy involves solving a convex problem, typically a quadratic program, which can be carried out reliably in real-time. Such policies often perform well even when the approximate value function is not a particularly good approximation of the true value function. We propose value-gradient iteration, which fits the gradient of value function, with regularization that can include constraints reflecting known bounds on the true value function. Our value-gradient iteration method can yield a good approximate value function with few samples, and little hyperparameter tuning. We find that the method can find a good policy with computational effort comparable to that required to just evaluate a control policy via simulation.",
+      "summary": "",
+      "url": "../papers/2307_07086/",
+      "treeUrl": "../tree/#paper=2307_07086",
+      "mapUrl": "../map/#paper=2307_07086",
+      "timelineUrl": "../timeline/#paper=2307_07086",
+      "searchUrl": "../search/?paper=2307_07086"
+    },
+    {
       "id": "2305_10912",
       "label": "A Generalist Dynamics Model for Control",
       "title": "A Generalist Dynamics Model for Control",
@@ -70092,6 +71080,7 @@ window.timelineData = {
         "Nonlinear Systems",
         "Policy Optimization",
         "Policy Gradient",
+        "Gradient Estimation & Credit Assignment",
         "A Large Deviations Perspective on Policy Gradient Algorithms"
       ],
       "tags": [
@@ -70163,40 +71152,6 @@ window.timelineData = {
       "searchUrl": "../search/?paper=2306_09852"
     },
     {
-      "id": "2303_17958",
-      "label": "Data-enabled Policy Optimization for the Linear Quadratic Regulator",
-      "title": "Data-enabled Policy Optimization for the Linear Quadratic Regulator",
-      "authors": [
-        "Feiran Zhao",
-        "Florian Dorfler",
-        "Keyou You"
-      ],
-      "authorShort": "Zhao, Dorfler, You",
-      "year": 2023,
-      "source": "",
-      "type": "Preprint",
-      "superCategory": "Decision-making",
-      "category": "Reinforcement Learning",
-      "subCategory": "Nonlinear Systems",
-      "path": [
-        "Tree",
-        "Decision-making",
-        "Reinforcement Learning",
-        "Nonlinear Systems",
-        "Policy Optimization",
-        "Policy Gradient",
-        "Data-enabled Policy Optimization for the Linear Quadratic Regulator"
-      ],
-      "tags": [],
-      "abstract": "Policy optimization (PO), an essential approach of reinforcement learning for a broad range of system classes, requires significantly more system data than indirect (identification-followed-by-control) methods or behavioral-based direct methods even in the simplest linear quadratic regulator (LQR) problem. In this paper, we take an initial step towards bridging this gap by proposing the data-enabled policy optimization (DeePO) method, which requires only a finite number of sufficiently exciting data to iteratively solve the LQR problem via PO. Based on a data-driven closed-loop parameterization, we are able to directly compute the policy gradient from a batch of persistently exciting data. Next, we show that the nonconvex PO problem satisfies a projected gradient dominance property by relating it to an equivalent convex program, leading to the global convergence of DeePO. Moreover, we apply regularization methods to enhance certainty-equivalence and robustness of the resulting controller and show an implicit regularization property. Finally, we perform simulations to validate our results.",
-      "summary": "",
-      "url": "../papers/2303_17958/",
-      "treeUrl": "../tree/#paper=2303_17958",
-      "mapUrl": "../map/#paper=2303_17958",
-      "timelineUrl": "../timeline/#paper=2303_17958",
-      "searchUrl": "../search/?paper=2303_17958"
-    },
-    {
       "id": "2303_04137",
       "label": "Diffusion Policy",
       "title": "Diffusion Policy: Visuomotor Policy Learning via Action Diffusion",
@@ -70242,40 +71197,6 @@ window.timelineData = {
       "mapUrl": "../map/#paper=2303_04137",
       "timelineUrl": "../timeline/#paper=2303_04137",
       "searchUrl": "../search/?paper=2303_04137"
-    },
-    {
-      "id": "2023_yaghmaie_linear_quadratic_control_using",
-      "label": "Linear Quadratic Control Using Model-Free Reinforcement Learning",
-      "title": "Linear Quadratic Control Using Model-Free Reinforcement Learning",
-      "authors": [
-        "Farnaz Adib Yaghmaie",
-        "Fredrik Gustafsson",
-        "Lennart Ljung"
-      ],
-      "authorShort": "Yaghmaie, Gustafsson, Ljung",
-      "year": 2023,
-      "source": "IEEE Transactions on Automatic Control",
-      "type": "Journal Paper",
-      "superCategory": "Decision-making",
-      "category": "Reinforcement Learning",
-      "subCategory": "Nonlinear Systems",
-      "path": [
-        "Tree",
-        "Decision-making",
-        "Reinforcement Learning",
-        "Nonlinear Systems",
-        "Policy Optimization",
-        "Random Search & Evolution Strategies",
-        "Linear Quadratic Control Using Model-Free Reinforcement Learning"
-      ],
-      "tags": [],
-      "abstract": "In this article, we consider linear quadratic (LQ) control problem with process and measurement noises. We analyze the LQ problem in terms of the average cost and the structure of the value function. We assume that the dynamics of the linear system is unknown and only noisy measurements of the state variable are available. Using noisy measurements of the state variable, we propose two model-free iterative algorithms to solve the LQ problem. The proposed algorithms are variants of policy iteration routine where the policy is greedy with respect to the average of all previous iterations. We rigorously analyze the properties of the proposed algorithms, including stability of the generated controllers and convergence. We analyze the effect of measurement noise on the performance of the proposed algorithms, the classical off-policy, and the classical Q -learning routines. We also investigate a model-building approach, inspired by adaptive control, where a model of the dynamical system is estimated and the optimal control problem is solved assuming that the estimated model is the true model. We use a benchmark to evaluate and compare our proposed algorithms with the classical off-policy, the classical Q -learning, and the policy gradient. We show that our model-building approach performs nearly identical to the analytical solution and our proposed policy iteration-based algorithms outperform the classical off-policy and the classical Q -learning algorithms on this benchmark but do not outperform the model-building approach.",
-      "summary": "",
-      "url": "../papers/2023_yaghmaie_linear_quadratic_control_using/",
-      "treeUrl": "../tree/#paper=2023_yaghmaie_linear_quadratic_control_using",
-      "mapUrl": "../map/#paper=2023_yaghmaie_linear_quadratic_control_using",
-      "timelineUrl": "../timeline/#paper=2023_yaghmaie_linear_quadratic_control_using",
-      "searchUrl": "../search/?paper=2023_yaghmaie_linear_quadratic_control_using"
     },
     {
       "id": "2306_13867",
@@ -70443,6 +71364,8 @@ window.timelineData = {
         "Nonlinear Systems",
         "Policy Optimization",
         "Policy Gradient",
+        "Learning Control Policies",
+        "Planning and Motion Policies",
         "Sample Efficient Deep Reinforcement Learning via Local Planning"
       ],
       "tags": [],
@@ -70592,6 +71515,7 @@ window.timelineData = {
         "Nonlinear Systems",
         "Policy Optimization",
         "Policy Gradient",
+        "Gradient Estimation & Credit Assignment",
         "The Role of Baselines in Policy Gradient Optimization"
       ],
       "tags": [],
@@ -70602,43 +71526,6 @@ window.timelineData = {
       "mapUrl": "../map/#paper=2301_06276",
       "timelineUrl": "../timeline/#paper=2301_06276",
       "searchUrl": "../search/?paper=2301_06276"
-    },
-    {
-      "id": "2307_07086",
-      "label": "Value-Gradient Iteration with Quadratic Approximate Value Functions",
-      "title": "Value-Gradient Iteration with Quadratic Approximate Value Functions",
-      "authors": [
-        "Alan Yang",
-        "Stephen Boyd"
-      ],
-      "authorShort": "Yang, Boyd",
-      "year": 2023,
-      "source": "arXiv",
-      "type": "Preprint",
-      "superCategory": "Decision-making",
-      "category": "Reinforcement Learning",
-      "subCategory": "Nonlinear Systems",
-      "path": [
-        "Tree",
-        "Decision-making",
-        "Reinforcement Learning",
-        "Nonlinear Systems",
-        "Dynamic Programming",
-        "Approximate Dynamic Programming",
-        "Value-Gradient Iteration with Quadratic Approximate Value Functions"
-      ],
-      "tags": [
-        "Real-time systems",
-        "Control",
-        "Value-gradient iteration"
-      ],
-      "abstract": "We propose a method for designing policies for convex stochastic control problems characterized by random linear dynamics and convex stage cost. We consider policies that employ quadratic approximate value functions as a substitute for the true value function. Evaluating the associated control policy involves solving a convex problem, typically a quadratic program, which can be carried out reliably in real-time. Such policies often perform well even when the approximate value function is not a particularly good approximation of the true value function. We propose value-gradient iteration, which fits the gradient of value function, with regularization that can include constraints reflecting known bounds on the true value function. Our value-gradient iteration method can yield a good approximate value function with few samples, and little hyperparameter tuning. We find that the method can find a good policy with computational effort comparable to that required to just evaluate a control policy via simulation.",
-      "summary": "",
-      "url": "../papers/2307_07086/",
-      "treeUrl": "../tree/#paper=2307_07086",
-      "mapUrl": "../map/#paper=2307_07086",
-      "timelineUrl": "../timeline/#paper=2307_07086",
-      "searchUrl": "../search/?paper=2307_07086"
     },
     {
       "id": "2307_15217",
@@ -74797,6 +75684,39 @@ window.timelineData = {
       "searchUrl": "../search/?paper=2303_10798"
     },
     {
+      "id": "2309_10675",
+      "label": "Improved Nonnegativity Testing in the Bernstein Basis via Geometric Means",
+      "title": "Improved Nonnegativity Testing in the Bernstein Basis via Geometric Means",
+      "authors": [
+        "Mitchell Tong Harris",
+        "Pablo A. Parrilo"
+      ],
+      "authorShort": "Harris, Parrilo",
+      "year": 2023,
+      "source": "arXiv",
+      "type": "Preprint",
+      "superCategory": "Quantitative Foundations",
+      "category": "Mathematics",
+      "subCategory": "Polynomials",
+      "path": [
+        "Tree",
+        "Quantitative Foundations",
+        "Mathematics",
+        "Polynomials",
+        "Improved Nonnegativity Testing in the Bernstein Basis via Geometric Means"
+      ],
+      "tags": [
+        "Optimization and control"
+      ],
+      "abstract": "We develop a new kind of nonnegativity certificate for univariate polynomials on an interval. In many applications, nonnegative Bernstein coefficients are often used as a simple way of certifying polynomial nonnegativity. Our proposed condition is instead an explicit lower bound for each Bernstein coefficient in terms of the geometric mean of its adjacent coefficients, which is provably less restrictive than the usual test based on nonnegative coefficients. We generalize to matrix-valued polynomials of arbitrary degree, and we provide numerical experiments suggesting the practical benefits of this condition. The techniques for constructing this inexpensive certificate could potentially be applied to other semialgebraic feasibility problems.",
+      "summary": "",
+      "url": "../papers/2309_10675/",
+      "treeUrl": "../tree/#paper=2309_10675",
+      "mapUrl": "../map/#paper=2309_10675",
+      "timelineUrl": "../timeline/#paper=2309_10675",
+      "searchUrl": "../search/?paper=2309_10675"
+    },
+    {
       "id": "2309_03873",
       "label": "A Tutorial on the Non-Asymptotic Theory of System Identification",
       "title": "A Tutorial on the Non-Asymptotic Theory of System Identification",
@@ -78169,6 +79089,41 @@ window.timelineData = {
       "searchUrl": "../search/?paper=2404_08120"
     },
     {
+      "id": "2401_14871",
+      "label": "Data-Enabled Policy Optimization for Direct Adaptive Learning of the LQR",
+      "title": "Data-Enabled Policy Optimization for Direct Adaptive Learning of the LQR",
+      "authors": [
+        "Feiran Zhao",
+        "Florian Dorfler",
+        "Alessandro Chiuso",
+        "Keyou You"
+      ],
+      "authorShort": "Zhao, Dorfler, Chiuso",
+      "year": 2024,
+      "source": "",
+      "type": "Preprint",
+      "superCategory": "Decision-making",
+      "category": "Reinforcement Learning",
+      "subCategory": "Linear Systems",
+      "path": [
+        "Tree",
+        "Decision-making",
+        "Reinforcement Learning",
+        "Linear Systems",
+        "Policy Optimization",
+        "Model-free and Data-enabled LQR",
+        "Data-Enabled Policy Optimization for Direct Adaptive Learning of the LQR"
+      ],
+      "tags": [],
+      "abstract": "Direct data-driven design methods for the linear quadratic regulator (LQR) mainly use offline or episodic data batches, and their online adaptation has been acknowledged as an open problem. In this paper, we propose a direct adaptive method to learn the LQR from online closed-loop data. First, we propose a new policy parameterization based on the sample covariance to formulate a direct data-driven LQR problem, which is shown to be equivalent to the certainty-equivalence LQR with optimal non-asymptotic guarantees. Second, we design a novel data-enabled policy optimization (DeePO) method to directly update the policy, where the gradient is explicitly computed using only a batch of persistently exciting (PE) data. Third, we establish its global convergence via a projected gradient dominance property. Importantly, we efficiently use DeePO to adaptively learn the LQR by performing only one-step projected gradient descent per sample of the closed-loop system, which also leads to an explicit recursive update of the policy. Under PE inputs and for bounded noise, we show that the average regret of the LQR cost is upper-bounded by two terms signifying a sublinear decrease in time O(1/sqrt(T)) plus a bias scaling inversely with signal-to-noise ratio (SNR), which are independent of the noise statistics. Finally, we perform simulations to validate the theoretical results and demonstrate the computational and sample efficiency of our method.",
+      "summary": "",
+      "url": "../papers/2401_14871/",
+      "treeUrl": "../tree/#paper=2401_14871",
+      "mapUrl": "../map/#paper=2401_14871",
+      "timelineUrl": "../timeline/#paper=2401_14871",
+      "searchUrl": "../search/?paper=2401_14871"
+    },
+    {
       "id": "2404_17331",
       "label": "Finite Sample Analysis for a Class of Subspace Identification Methods",
       "title": "Finite Sample Analysis for a Class of Subspace Identification Methods",
@@ -78309,6 +79264,40 @@ window.timelineData = {
       "mapUrl": "../map/#paper=2411_01982",
       "timelineUrl": "../timeline/#paper=2411_01982",
       "searchUrl": "../search/?paper=2411_01982"
+    },
+    {
+      "id": "2408_04488",
+      "label": "Multi-Objective LQR with Linear Scalarization",
+      "title": "Multi-Objective LQR with Linear Scalarization",
+      "authors": [
+        "Ali Jadbabaie",
+        "Devavrat Shah",
+        "Sean R. Sinclair"
+      ],
+      "authorShort": "Jadbabaie, Shah, Sinclair",
+      "year": 2024,
+      "source": "",
+      "type": "Preprint",
+      "superCategory": "Decision-making",
+      "category": "Reinforcement Learning",
+      "subCategory": "Linear Systems",
+      "path": [
+        "Tree",
+        "Decision-making",
+        "Reinforcement Learning",
+        "Linear Systems",
+        "Policy Optimization",
+        "LQR",
+        "Multi-Objective LQR with Linear Scalarization"
+      ],
+      "tags": [],
+      "abstract": "The framework of decision-making, modeled as a Markov Decision Process (MDP), typically assumes a single objective. However, practical scenarios often involve tradeoffs between multiple objectives. We address this in the Linear Quadratic Regulator (LQR), a canonical continuous, infinite horizon MDP. First, we establish that the Pareto front for LQR is characterized by linear scalarization: a convex combination of objectives recovers all tradeoff points, making multi-objective LQR reducible to single-objective problems. This highlights an important instance where linear scalarization suffices for a non-convex problem. Second, we show the Pareto front is smooth, in that an epsilon perturbation of a scalarization parameter yields an epsilon approximation to the objective. These results inspire a simple algorithm to approximate the Pareto front via grid search over scalarization parameters, where each optimization problem retains the computational efficiency of single-objective LQR. Lastly, we extend the analysis to certainty equivalence, where unknown dynamics are replaced with estimates.",
+      "summary": "",
+      "url": "../papers/2408_04488/",
+      "treeUrl": "../tree/#paper=2408_04488",
+      "mapUrl": "../map/#paper=2408_04488",
+      "timelineUrl": "../timeline/#paper=2408_04488",
+      "searchUrl": "../search/?paper=2408_04488"
     },
     {
       "id": "2402_05928",
@@ -78471,7 +79460,7 @@ window.timelineData = {
         "Nonlinear Systems",
         "Policy Optimization",
         "Policy Gradient",
-        "Vanilla Policy Gradient",
+        "General-Utility Policy Optimization",
         "DAPO"
       ],
       "tags": [],
@@ -78482,41 +79471,6 @@ window.timelineData = {
       "mapUrl": "../map/#paper=2410_01249",
       "timelineUrl": "../timeline/#paper=2410_01249",
       "searchUrl": "../search/?paper=2410_01249"
-    },
-    {
-      "id": "2401_14871",
-      "label": "Data-Enabled Policy Optimization for Direct Adaptive Learning of the LQR",
-      "title": "Data-Enabled Policy Optimization for Direct Adaptive Learning of the LQR",
-      "authors": [
-        "Feiran Zhao",
-        "Florian Dorfler",
-        "Alessandro Chiuso",
-        "Keyou You"
-      ],
-      "authorShort": "Zhao, Dorfler, Chiuso",
-      "year": 2024,
-      "source": "",
-      "type": "Preprint",
-      "superCategory": "Decision-making",
-      "category": "Reinforcement Learning",
-      "subCategory": "Nonlinear Systems",
-      "path": [
-        "Tree",
-        "Decision-making",
-        "Reinforcement Learning",
-        "Nonlinear Systems",
-        "Policy Optimization",
-        "Policy Gradient",
-        "Data-Enabled Policy Optimization for Direct Adaptive Learning of the LQR"
-      ],
-      "tags": [],
-      "abstract": "Direct data-driven design methods for the linear quadratic regulator (LQR) mainly use offline or episodic data batches, and their online adaptation has been acknowledged as an open problem. In this paper, we propose a direct adaptive method to learn the LQR from online closed-loop data. First, we propose a new policy parameterization based on the sample covariance to formulate a direct data-driven LQR problem, which is shown to be equivalent to the certainty-equivalence LQR with optimal non-asymptotic guarantees. Second, we design a novel data-enabled policy optimization (DeePO) method to directly update the policy, where the gradient is explicitly computed using only a batch of persistently exciting (PE) data. Third, we establish its global convergence via a projected gradient dominance property. Importantly, we efficiently use DeePO to adaptively learn the LQR by performing only one-step projected gradient descent per sample of the closed-loop system, which also leads to an explicit recursive update of the policy. Under PE inputs and for bounded noise, we show that the average regret of the LQR cost is upper-bounded by two terms signifying a sublinear decrease in time O(1/sqrt(T)) plus a bias scaling inversely with signal-to-noise ratio (SNR), which are independent of the noise statistics. Finally, we perform simulations to validate the theoretical results and demonstrate the computational and sample efficiency of our method.",
-      "summary": "",
-      "url": "../papers/2401_14871/",
-      "treeUrl": "../tree/#paper=2401_14871",
-      "mapUrl": "../map/#paper=2401_14871",
-      "timelineUrl": "../timeline/#paper=2401_14871",
-      "searchUrl": "../search/?paper=2401_14871"
     },
     {
       "id": "2402_06559",
@@ -78985,40 +79939,6 @@ window.timelineData = {
       "searchUrl": "../search/?paper=2412_12036"
     },
     {
-      "id": "2408_04488",
-      "label": "Multi-Objective LQR with Linear Scalarization",
-      "title": "Multi-Objective LQR with Linear Scalarization",
-      "authors": [
-        "Ali Jadbabaie",
-        "Devavrat Shah",
-        "Sean R. Sinclair"
-      ],
-      "authorShort": "Jadbabaie, Shah, Sinclair",
-      "year": 2024,
-      "source": "",
-      "type": "Preprint",
-      "superCategory": "Decision-making",
-      "category": "Reinforcement Learning",
-      "subCategory": "Nonlinear Systems",
-      "path": [
-        "Tree",
-        "Decision-making",
-        "Reinforcement Learning",
-        "Nonlinear Systems",
-        "Policy Optimization",
-        "Policy Gradient",
-        "Multi-Objective LQR with Linear Scalarization"
-      ],
-      "tags": [],
-      "abstract": "The framework of decision-making, modeled as a Markov Decision Process (MDP), typically assumes a single objective. However, practical scenarios often involve tradeoffs between multiple objectives. We address this in the Linear Quadratic Regulator (LQR), a canonical continuous, infinite horizon MDP. First, we establish that the Pareto front for LQR is characterized by linear scalarization: a convex combination of objectives recovers all tradeoff points, making multi-objective LQR reducible to single-objective problems. This highlights an important instance where linear scalarization suffices for a non-convex problem. Second, we show the Pareto front is smooth, in that an epsilon perturbation of a scalarization parameter yields an epsilon approximation to the objective. These results inspire a simple algorithm to approximate the Pareto front via grid search over scalarization parameters, where each optimization problem retains the computational efficiency of single-objective LQR. Lastly, we extend the analysis to certainty equivalence, where unknown dynamics are replaced with estimates.",
-      "summary": "",
-      "url": "../papers/2408_04488/",
-      "treeUrl": "../tree/#paper=2408_04488",
-      "mapUrl": "../map/#paper=2408_04488",
-      "timelineUrl": "../timeline/#paper=2408_04488",
-      "searchUrl": "../search/?paper=2408_04488"
-    },
-    {
       "id": "2404_13009",
       "label": "Online Policy Optimization in Unknown Nonlinear Systems",
       "title": "Online Policy Optimization in Unknown Nonlinear Systems",
@@ -79045,6 +79965,7 @@ window.timelineData = {
         "Nonlinear Systems",
         "Policy Optimization",
         "Policy Gradient",
+        "Learning Control Policies",
         "Online Policy Optimization in Unknown Nonlinear Systems"
       ],
       "tags": [
@@ -79301,6 +80222,7 @@ window.timelineData = {
         "Nonlinear Systems",
         "Policy Optimization",
         "Policy Gradient",
+        "Foundations & Surveys",
         "The Definitive Guide to Policy Gradients in Deep Reinforcement Learning: Theory, Algorithms and Implementations"
       ],
       "tags": [
@@ -84982,8 +85904,7 @@ window.timelineData = {
         "Decision-making",
         "Optimization",
         "Continuous Optimization",
-        "Convex Optimization",
-        "General Convex Optimization",
+        "Numerical Differentiation",
         "Coherence-based Approximate Derivatives via Web of Affine Spaces Optimization"
       ],
       "tags": [],
@@ -85083,8 +86004,8 @@ window.timelineData = {
         "Decision-making",
         "Optimization",
         "Continuous Optimization",
-        "Convex Optimization",
-        "General Convex Optimization",
+        "Automatic Differentiation",
+        "Differentiable Optimization Layers",
         "Differentiating through a Quadratic Cone Program"
       ],
       "tags": [],
@@ -85276,7 +86197,7 @@ window.timelineData = {
         "Optimization",
         "Continuous Optimization",
         "Convex Optimization",
-        "General Convex Optimization",
+        "Learning Optimization Models",
         "Learning Parametric Convex Functions"
       ],
       "tags": [
@@ -85292,42 +86213,6 @@ window.timelineData = {
       "mapUrl": "../map/#paper=2506_04183",
       "timelineUrl": "../timeline/#paper=2506_04183",
       "searchUrl": "../search/?paper=2506_04183"
-    },
-    {
-      "id": "2504_18791",
-      "label": "Nonconvex Linear System Identification with Minimal State Representation",
-      "title": "Nonconvex Linear System Identification with Minimal State Representation",
-      "authors": [
-        "Uday Kiran Reddy Tadipatri",
-        "Benjamin D. Haeffele",
-        "Joshua Agterberg",
-        "Ingvar Ziemann",
-        "Rene Vidal"
-      ],
-      "authorShort": "Tadipatri, Haeffele, Agterberg",
-      "year": 2025,
-      "source": "",
-      "type": "Preprint",
-      "superCategory": "Decision-making",
-      "category": "Optimization",
-      "subCategory": "Continuous Optimization",
-      "path": [
-        "Tree",
-        "Decision-making",
-        "Optimization",
-        "Continuous Optimization",
-        "Convex Optimization",
-        "General Convex Optimization",
-        "Nonconvex Linear System Identification with Minimal State Representation"
-      ],
-      "tags": [],
-      "abstract": "Low-order linear System IDentification (SysID) addresses the challenge of estimating the parameters of a linear dynamical system from finite samples of observations and control inputs with minimal state representation. Traditional approaches often utilize Hankel-rank minimization, which relies on convex relaxations that can require numerous, costly singular value decompositions (SVDs) to optimize. In this work, we propose two nonconvex reformulations to tackle low-order SysID (i) Burer-Monterio (BM) factorization of the Hankel matrix for efficient nuclear norm minimization, and (ii) optimizing directly over system parameters for real, diagonalizable systems with an atomic norm style decomposition. These reformulations circumvent the need for repeated heavy SVD computations, significantly improving computational efficiency. Moreover, we prove that optimizing directly over the system parameters yields lower statistical error rates, and lower sample complexities that do not scale linearly with trajectory length like in Hankel-nuclear norm minimization. Additionally, while our proposed formulations are nonconvex, we provide theoretical guarantees of achieving global optimality in polynomial time. Finally, we demonstrate algorithms that solve these nonconvex programs and validate our theoretical claims on synthetic data.",
-      "summary": "",
-      "url": "../papers/2504_18791/",
-      "treeUrl": "../tree/#paper=2504_18791",
-      "mapUrl": "../map/#paper=2504_18791",
-      "timelineUrl": "../timeline/#paper=2504_18791",
-      "searchUrl": "../search/?paper=2504_18791"
     },
     {
       "id": "2507_02131",
@@ -85630,7 +86515,7 @@ window.timelineData = {
         "Decision-making",
         "Optimization",
         "Toolboxes & Solvers",
-        "Black-Box Optimization",
+        "Hyperparameter Optimization",
         "Bayesian Optimization",
         "NeST-BO"
       ],
@@ -88867,6 +89752,113 @@ window.timelineData = {
       "searchUrl": "../search/?paper=2510_06434"
     },
     {
+      "id": "2504_18791",
+      "label": "Nonconvex Linear System Identification with Minimal State Representation",
+      "title": "Nonconvex Linear System Identification with Minimal State Representation",
+      "authors": [
+        "Uday Kiran Reddy Tadipatri",
+        "Benjamin D. Haeffele",
+        "Joshua Agterberg",
+        "Ingvar Ziemann",
+        "Rene Vidal"
+      ],
+      "authorShort": "Tadipatri, Haeffele, Agterberg",
+      "year": 2025,
+      "source": "",
+      "type": "Preprint",
+      "superCategory": "Decision-making",
+      "category": "Reinforcement Learning",
+      "subCategory": "Linear Systems",
+      "path": [
+        "Tree",
+        "Decision-making",
+        "Reinforcement Learning",
+        "Linear Systems",
+        "Model-based RL",
+        "System Identification",
+        "Linear Systems with Additive Noise",
+        "Nonconvex Linear System Identification with Minimal State Representation"
+      ],
+      "tags": [],
+      "abstract": "Low-order linear System IDentification (SysID) addresses the challenge of estimating the parameters of a linear dynamical system from finite samples of observations and control inputs with minimal state representation. Traditional approaches often utilize Hankel-rank minimization, which relies on convex relaxations that can require numerous, costly singular value decompositions (SVDs) to optimize. In this work, we propose two nonconvex reformulations to tackle low-order SysID (i) Burer-Monterio (BM) factorization of the Hankel matrix for efficient nuclear norm minimization, and (ii) optimizing directly over system parameters for real, diagonalizable systems with an atomic norm style decomposition. These reformulations circumvent the need for repeated heavy SVD computations, significantly improving computational efficiency. Moreover, we prove that optimizing directly over the system parameters yields lower statistical error rates, and lower sample complexities that do not scale linearly with trajectory length like in Hankel-nuclear norm minimization. Additionally, while our proposed formulations are nonconvex, we provide theoretical guarantees of achieving global optimality in polynomial time. Finally, we demonstrate algorithms that solve these nonconvex programs and validate our theoretical claims on synthetic data.",
+      "summary": "",
+      "url": "../papers/2504_18791/",
+      "treeUrl": "../tree/#paper=2504_18791",
+      "mapUrl": "../map/#paper=2504_18791",
+      "timelineUrl": "../timeline/#paper=2504_18791",
+      "searchUrl": "../search/?paper=2504_18791"
+    },
+    {
+      "id": "2505_03706",
+      "label": "PGAC",
+      "title": "Policy Gradient Adaptive Control for the LQR: Indirect and Direct Approaches",
+      "authors": [
+        "Feiran Zhao",
+        "Alessandro Chiuso",
+        "Florian Dorfler"
+      ],
+      "authorShort": "Zhao, Chiuso, Dorfler",
+      "year": 2025,
+      "source": "",
+      "type": "Preprint",
+      "superCategory": "Decision-making",
+      "category": "Reinforcement Learning",
+      "subCategory": "Linear Systems",
+      "path": [
+        "Tree",
+        "Decision-making",
+        "Reinforcement Learning",
+        "Linear Systems",
+        "Policy Optimization",
+        "Model-free and Data-enabled LQR",
+        "PGAC"
+      ],
+      "tags": [],
+      "abstract": "Motivated by recent advances of reinforcement learning and direct data-driven control, we propose policy gradient adaptive control (PGAC) for the linear quadratic regulator (LQR), which uses online closed-loop data to improve the control policy while maintaining stability. Our method adaptively updates the policy in feedback by descending the gradient of the LQR cost and is categorized as indirect, when gradients are computed via an estimated model, versus direct, when gradients are derived from data using sample covariance parameterization. Beyond the vanilla gradient, we also showcase the merits of the natural gradient and Gauss-Newton methods for the policy update. Notably, natural gradient descent bridges the indirect and direct PGAC, and the Gauss-Newton method of the indirect PGAC leads to an adaptive version of the celebrated Hewer's algorithm. To account for the uncertainty from noise, we propose a regularization method for both indirect and direct PGAC. For all the considered PGAC approaches, we show closed-loop stability and convergence of the policy to the optimal LQR gain. Simulations validate our theoretical findings and demonstrate the robustness and computational efficiency of PGAC.",
+      "summary": "",
+      "url": "../papers/2505_03706/",
+      "treeUrl": "../tree/#paper=2505_03706",
+      "mapUrl": "../map/#paper=2505_03706",
+      "timelineUrl": "../timeline/#paper=2505_03706",
+      "searchUrl": "../search/?paper=2505_03706"
+    },
+    {
+      "id": "2509_19266",
+      "label": "Policy Gradient Bounds in Multitask LQR",
+      "title": "Policy Gradient Bounds in Multitask LQR",
+      "authors": [
+        "Charis Stamouli",
+        "Leonardo F. Toso",
+        "Anastasios Tsiamis",
+        "George J. Pappas",
+        "James Anderson"
+      ],
+      "authorShort": "Stamouli, Toso, Tsiamis",
+      "year": 2025,
+      "source": "",
+      "type": "Preprint",
+      "superCategory": "Decision-making",
+      "category": "Reinforcement Learning",
+      "subCategory": "Linear Systems",
+      "path": [
+        "Tree",
+        "Decision-making",
+        "Reinforcement Learning",
+        "Linear Systems",
+        "Policy Optimization",
+        "Multi-task LQR",
+        "Policy Gradient Bounds in Multitask LQR"
+      ],
+      "tags": [],
+      "abstract": "We analyze the performance of policy gradient in multitask linear quadratic regulation (LQR), where the system and cost parameters differ across tasks. The main goal of multitask LQR is to find a controller with satisfactory performance on every task. Prior analyses on relevant contexts fail to capture closed-loop task similarities, resulting in conservative performance guarantees. To account for such similarities, we propose bisimulation-based measures of task heterogeneity. Our measures employ new bisimulation functions to bound the cost gradient distance between a pair of tasks in closed loop with a common stabilizing controller. Employing these measures, we derive suboptimality bounds for both the multitask optimal controller and the asymptotic policy gradient controller with respect to each of the tasks. We further provide conditions under which the policy gradient iterates remain stabilizing for every system. For multiple random sets of certain tasks, we observe that our bisimulation-based measures improve upon baseline measures of task heterogeneity dramatically.",
+      "summary": "",
+      "url": "../papers/2509_19266/",
+      "treeUrl": "../tree/#paper=2509_19266",
+      "mapUrl": "../map/#paper=2509_19266",
+      "timelineUrl": "../timeline/#paper=2509_19266",
+      "searchUrl": "../search/?paper=2509_19266"
+    },
+    {
       "id": "2503_24371",
       "label": "Policy Gradient for LQR with Domain Randomization",
       "title": "Policy Gradient for LQR with Domain Randomization",
@@ -88940,38 +89932,6 @@ window.timelineData = {
       "mapUrl": "../map/#paper=2509_25633",
       "timelineUrl": "../timeline/#paper=2509_25633",
       "searchUrl": "../search/?paper=2509_25633"
-    },
-    {
-      "id": "2506_02754",
-      "label": "Safely Learning Controlled Stochastic Dynamics",
-      "title": "Safely Learning Controlled Stochastic Dynamics",
-      "authors": [
-        "Luc Brogat-Motte",
-        "Alessandro Rudi",
-        "Riccardo Bonalli"
-      ],
-      "authorShort": "Brogat-Motte, Rudi, Bonalli",
-      "year": 2025,
-      "source": "",
-      "type": "Preprint",
-      "superCategory": "Decision-making",
-      "category": "Reinforcement Learning",
-      "subCategory": "Linear Systems",
-      "path": [
-        "Tree",
-        "Decision-making",
-        "Reinforcement Learning",
-        "Linear Systems",
-        "Safely Learning Controlled Stochastic Dynamics"
-      ],
-      "tags": [],
-      "abstract": "We address the problem of safely learning controlled stochastic dynamics from discrete-time trajectory observations, ensuring system trajectories remain within predefined safe regions during both training and deployment. Safety-critical constraints of this kind are crucial in applications such as autonomous robotics, finance, and biomedicine. We introduce a method that ensures safe exploration and efficient estimation of system dynamics by iteratively expanding an initial known safe control set using kernel-based confidence bounds. After training, the learned model enables predictions of the system's dynamics and permits safety verification of any given control. Our approach requires only mild smoothness assumptions and access to an initial safe control set, enabling broad applicability to complex real-world systems. We provide theoretical guarantees for safety and derive adaptive learning rates that improve with increasing Sobolev regularity of the true dynamics. Experimental evaluations demonstrate the practical effectiveness of our method in terms of safety, estimation accuracy, and computational efficiency.",
-      "summary": "",
-      "url": "../papers/2506_02754/",
-      "treeUrl": "../tree/#paper=2506_02754",
-      "mapUrl": "../map/#paper=2506_02754",
-      "timelineUrl": "../timeline/#paper=2506_02754",
-      "searchUrl": "../search/?paper=2506_02754"
     },
     {
       "id": "2511_02095",
@@ -89242,7 +90202,7 @@ window.timelineData = {
         "Nonlinear Systems",
         "Policy Optimization",
         "Policy Gradient",
-        "Vanilla Policy Gradient",
+        "Foundations & Surveys",
         "Control and Reinforcement Learning through the Lens of Optimization: An Algorithmic Perspective"
       ],
       "tags": [],
@@ -89706,40 +90666,6 @@ window.timelineData = {
       "searchUrl": "../search/?paper=2512_14450"
     },
     {
-      "id": "2505_03706",
-      "label": "PGAC",
-      "title": "Policy Gradient Adaptive Control for the LQR: Indirect and Direct Approaches",
-      "authors": [
-        "Feiran Zhao",
-        "Alessandro Chiuso",
-        "Florian Dorfler"
-      ],
-      "authorShort": "Zhao, Chiuso, Dorfler",
-      "year": 2025,
-      "source": "",
-      "type": "Preprint",
-      "superCategory": "Decision-making",
-      "category": "Reinforcement Learning",
-      "subCategory": "Nonlinear Systems",
-      "path": [
-        "Tree",
-        "Decision-making",
-        "Reinforcement Learning",
-        "Nonlinear Systems",
-        "Policy Optimization",
-        "Policy Gradient",
-        "PGAC"
-      ],
-      "tags": [],
-      "abstract": "Motivated by recent advances of reinforcement learning and direct data-driven control, we propose policy gradient adaptive control (PGAC) for the linear quadratic regulator (LQR), which uses online closed-loop data to improve the control policy while maintaining stability. Our method adaptively updates the policy in feedback by descending the gradient of the LQR cost and is categorized as indirect, when gradients are computed via an estimated model, versus direct, when gradients are derived from data using sample covariance parameterization. Beyond the vanilla gradient, we also showcase the merits of the natural gradient and Gauss-Newton methods for the policy update. Notably, natural gradient descent bridges the indirect and direct PGAC, and the Gauss-Newton method of the indirect PGAC leads to an adaptive version of the celebrated Hewer's algorithm. To account for the uncertainty from noise, we propose a regularization method for both indirect and direct PGAC. For all the considered PGAC approaches, we show closed-loop stability and convergence of the policy to the optimal LQR gain. Simulations validate our theoretical findings and demonstrate the robustness and computational efficiency of PGAC.",
-      "summary": "",
-      "url": "../papers/2505_03706/",
-      "treeUrl": "../tree/#paper=2505_03706",
-      "mapUrl": "../map/#paper=2505_03706",
-      "timelineUrl": "../timeline/#paper=2505_03706",
-      "searchUrl": "../search/?paper=2505_03706"
-    },
-    {
       "id": "2503_09722",
       "label": "Pitfalls of Imitation Learning",
       "title": "The Pitfalls of Imitation Learning When Actions Are Continuous",
@@ -89778,42 +90704,6 @@ window.timelineData = {
       "mapUrl": "../map/#paper=2503_09722",
       "timelineUrl": "../timeline/#paper=2503_09722",
       "searchUrl": "../search/?paper=2503_09722"
-    },
-    {
-      "id": "2509_19266",
-      "label": "Policy Gradient Bounds in Multitask LQR",
-      "title": "Policy Gradient Bounds in Multitask LQR",
-      "authors": [
-        "Charis Stamouli",
-        "Leonardo F. Toso",
-        "Anastasios Tsiamis",
-        "George J. Pappas",
-        "James Anderson"
-      ],
-      "authorShort": "Stamouli, Toso, Tsiamis",
-      "year": 2025,
-      "source": "",
-      "type": "Preprint",
-      "superCategory": "Decision-making",
-      "category": "Reinforcement Learning",
-      "subCategory": "Nonlinear Systems",
-      "path": [
-        "Tree",
-        "Decision-making",
-        "Reinforcement Learning",
-        "Nonlinear Systems",
-        "Policy Optimization",
-        "Policy Gradient",
-        "Policy Gradient Bounds in Multitask LQR"
-      ],
-      "tags": [],
-      "abstract": "We analyze the performance of policy gradient in multitask linear quadratic regulation (LQR), where the system and cost parameters differ across tasks. The main goal of multitask LQR is to find a controller with satisfactory performance on every task. Prior analyses on relevant contexts fail to capture closed-loop task similarities, resulting in conservative performance guarantees. To account for such similarities, we propose bisimulation-based measures of task heterogeneity. Our measures employ new bisimulation functions to bound the cost gradient distance between a pair of tasks in closed loop with a common stabilizing controller. Employing these measures, we derive suboptimality bounds for both the multitask optimal controller and the asymptotic policy gradient controller with respect to each of the tasks. We further provide conditions under which the policy gradient iterates remain stabilizing for every system. For multiple random sets of certain tasks, we observe that our bisimulation-based measures improve upon baseline measures of task heterogeneity dramatically.",
-      "summary": "",
-      "url": "../papers/2509_19266/",
-      "treeUrl": "../tree/#paper=2509_19266",
-      "mapUrl": "../map/#paper=2509_19266",
-      "timelineUrl": "../timeline/#paper=2509_19266",
-      "searchUrl": "../search/?paper=2509_19266"
     },
     {
       "id": "2511_11308",
@@ -89959,9 +90849,8 @@ window.timelineData = {
         "Decision-making",
         "Reinforcement Learning",
         "Nonlinear Systems",
-        "Policy Optimization",
-        "Policy Gradient",
-        "Vanilla Policy Gradient",
+        "Dynamic Programming",
+        "Approximate Dynamic Programming",
         "Sample-Based Planning and Learning with Function Approximation"
       ],
       "tags": [],
@@ -90233,6 +91122,38 @@ window.timelineData = {
       "mapUrl": "../map/#paper=2512_24497",
       "timelineUrl": "../timeline/#paper=2512_24497",
       "searchUrl": "../search/?paper=2512_24497"
+    },
+    {
+      "id": "2506_02754",
+      "label": "Safely Learning Controlled Stochastic Dynamics",
+      "title": "Safely Learning Controlled Stochastic Dynamics",
+      "authors": [
+        "Luc Brogat-Motte",
+        "Alessandro Rudi",
+        "Riccardo Bonalli"
+      ],
+      "authorShort": "Brogat-Motte, Rudi, Bonalli",
+      "year": 2025,
+      "source": "",
+      "type": "Preprint",
+      "superCategory": "Decision-making",
+      "category": "Reinforcement Learning",
+      "subCategory": "Safe Reinforcement Learning",
+      "path": [
+        "Tree",
+        "Decision-making",
+        "Reinforcement Learning",
+        "Safe Reinforcement Learning",
+        "Safely Learning Controlled Stochastic Dynamics"
+      ],
+      "tags": [],
+      "abstract": "We address the problem of safely learning controlled stochastic dynamics from discrete-time trajectory observations, ensuring system trajectories remain within predefined safe regions during both training and deployment. Safety-critical constraints of this kind are crucial in applications such as autonomous robotics, finance, and biomedicine. We introduce a method that ensures safe exploration and efficient estimation of system dynamics by iteratively expanding an initial known safe control set using kernel-based confidence bounds. After training, the learned model enables predictions of the system's dynamics and permits safety verification of any given control. Our approach requires only mild smoothness assumptions and access to an initial safe control set, enabling broad applicability to complex real-world systems. We provide theoretical guarantees for safety and derive adaptive learning rates that improve with increasing Sobolev regularity of the true dynamics. Experimental evaluations demonstrate the practical effectiveness of our method in terms of safety, estimation accuracy, and computational efficiency.",
+      "summary": "",
+      "url": "../papers/2506_02754/",
+      "treeUrl": "../tree/#paper=2506_02754",
+      "mapUrl": "../map/#paper=2506_02754",
+      "timelineUrl": "../timeline/#paper=2506_02754",
+      "searchUrl": "../search/?paper=2506_02754"
     },
     {
       "id": "2512_20642",
@@ -97850,6 +98771,45 @@ window.timelineData = {
       "searchUrl": "../search/?paper=2026_possieri_solving_the_linear_quadratic"
     },
     {
+      "id": "2603_23465",
+      "label": "Statistical Efficiency of Single- and Multi-step Models for Forecasting and Control",
+      "title": "Statistical Efficiency of Single- and Multi-step Models for Forecasting and Control",
+      "authors": [
+        "Anne Somalwar",
+        "Bruce D. Lee",
+        "George J. Pappas",
+        "Nikolai Matni"
+      ],
+      "authorShort": "Somalwar, Lee, Pappas",
+      "year": 2026,
+      "source": "arXiv",
+      "type": "Preprint",
+      "superCategory": "Decision-making",
+      "category": "Control",
+      "subCategory": "State-space Methods",
+      "path": [
+        "Tree",
+        "Decision-making",
+        "Control",
+        "State-space Methods",
+        "Model Predictive Control (MPC)",
+        "Multi-step Prediction Models",
+        "Statistical Efficiency of Single- and Multi-step Models for Forecasting and Control"
+      ],
+      "tags": [
+        "Accuracy",
+        "Control",
+        "Learning"
+      ],
+      "abstract": "Compounding error, where small prediction mistakes accumulate over time, presents a major challenge in learning-based control. A common remedy is to train multi-step predictors directly instead of rolling out single-step models. However, it is unclear when the benefits of multi-step predictors outweigh the difficulty of learning a more complex model. We provide the first quantitative analysis of this trade-off for linear dynamical systems. We study three predictor classes: (i) single step models, (ii) multi-step models, and (iii) single step models trained with multi-step losses. We show that when the model class is well-specified and accurately captures the system dynamics, single-step models achieve the lowest asymptotic prediction error. On the other hand, when the model class is misspecified due to partial observability, direct multi-step predictors can significantly reduce bias and improve accuracy. We provide theoretical and empirical evidence that these trade-offs persist when predictors are used in closed-loop control.",
+      "summary": "",
+      "url": "../papers/2603_23465/",
+      "treeUrl": "../tree/#paper=2603_23465",
+      "mapUrl": "../map/#paper=2603_23465",
+      "timelineUrl": "../timeline/#paper=2603_23465",
+      "searchUrl": "../search/?paper=2603_23465"
+    },
+    {
       "id": "2026_gottweis_accelerating_scientific_discovery_with",
       "label": "Accelerating Scientific Discovery with Co-Scientist",
       "title": "Accelerating Scientific Discovery with Co-Scientist",
@@ -101378,6 +102338,8 @@ window.timelineData = {
         "Nonlinear Systems",
         "Policy Optimization",
         "Policy Gradient",
+        "Natural, Soft, and Geometric Gradients",
+        "Entropy-Regularized and Soft Policy Gradients",
         "Global Linear Convergence of Entropy-Regularized Softmax Policy Gradient beyond Tabular MDPs"
       ],
       "tags": [
@@ -101591,6 +102553,7 @@ window.timelineData = {
         "Nonlinear Systems",
         "Policy Optimization",
         "Policy Gradient",
+        "Natural, Soft, and Geometric Gradients",
         "Natural Policy Gradient",
         "Natural Policy Gradient as Doubly Smoothed Policy Iteration"
       ],
@@ -101690,6 +102653,8 @@ window.timelineData = {
         "Nonlinear Systems",
         "Policy Optimization",
         "Policy Gradient",
+        "Learning Control Policies",
+        "Planning and Motion Policies",
         "On-Policy Distillation of Language Models for Autonomous Vehicle Motion Planning"
       ],
       "tags": [
@@ -101783,9 +102748,8 @@ window.timelineData = {
         "Decision-making",
         "Reinforcement Learning",
         "Nonlinear Systems",
-        "Policy Optimization",
-        "Policy Gradient",
-        "Vanilla Policy Gradient",
+        "Dynamic Programming",
+        "Robust and Risk-Aware MDPs",
         "Revisiting Subgradient Dominance in Robust MDPs: Counterexamples, Hardness, and Sufficient Conditions"
       ],
       "tags": [],
@@ -101892,45 +102856,6 @@ window.timelineData = {
       "searchUrl": "../search/?paper=2602_08968"
     },
     {
-      "id": "2603_23465",
-      "label": "Statistical Efficiency of Single- and Multi-step Models for Forecasting and Control",
-      "title": "Statistical Efficiency of Single- and Multi-step Models for Forecasting and Control",
-      "authors": [
-        "Anne Somalwar",
-        "Bruce D. Lee",
-        "George J. Pappas",
-        "Nikolai Matni"
-      ],
-      "authorShort": "Somalwar, Lee, Pappas",
-      "year": 2026,
-      "source": "arXiv",
-      "type": "Preprint",
-      "superCategory": "Decision-making",
-      "category": "Reinforcement Learning",
-      "subCategory": "Nonlinear Systems",
-      "path": [
-        "Tree",
-        "Decision-making",
-        "Reinforcement Learning",
-        "Nonlinear Systems",
-        "Model-based RL",
-        "System Identification",
-        "Statistical Efficiency of Single- and Multi-step Models for Forecasting and Control"
-      ],
-      "tags": [
-        "Accuracy",
-        "Control",
-        "Learning"
-      ],
-      "abstract": "Compounding error, where small prediction mistakes accumulate over time, presents a major challenge in learning-based control. A common remedy is to train multi-step predictors directly instead of rolling out single-step models. However, it is unclear when the benefits of multi-step predictors outweigh the difficulty of learning a more complex model. We provide the first quantitative analysis of this trade-off for linear dynamical systems. We study three predictor classes: (i) single step models, (ii) multi-step models, and (iii) single step models trained with multi-step losses. We show that when the model class is well-specified and accurately captures the system dynamics, single-step models achieve the lowest asymptotic prediction error. On the other hand, when the model class is misspecified due to partial observability, direct multi-step predictors can significantly reduce bias and improve accuracy. We provide theoretical and empirical evidence that these trade-offs persist when predictors are used in closed-loop control.",
-      "summary": "",
-      "url": "../papers/2603_23465/",
-      "treeUrl": "../tree/#paper=2603_23465",
-      "mapUrl": "../map/#paper=2603_23465",
-      "timelineUrl": "../timeline/#paper=2603_23465",
-      "searchUrl": "../search/?paper=2603_23465"
-    },
-    {
       "id": "2605_26078",
       "label": "Wasserstein Policy Gradient",
       "title": "Global Convergence of Wasserstein Policy Gradient for Entropy-Regularized Reinforcement Learning",
@@ -101953,6 +102878,7 @@ window.timelineData = {
         "Nonlinear Systems",
         "Policy Optimization",
         "Policy Gradient",
+        "Natural, Soft, and Geometric Gradients",
         "Wasserstein Policy Gradient"
       ],
       "tags": [
@@ -102559,6 +103485,7 @@ window.timelineData = {
         "Prediction & Perception",
         "Computer Vision",
         "Image Compression",
+        "Learned Image Codecs",
         "What Matters in Practical Learned Image Compression"
       ],
       "tags": [
@@ -104904,6 +105831,7 @@ window.timelineData = {
       "State Estimation",
       "Motion Prediction",
       "Computer Vision",
+      "Audio",
       "Machine Learning",
       "Simulation",
       "Computer Graphics",
@@ -104925,6 +105853,7 @@ window.timelineData = {
       "State Estimation": "Prediction & Perception",
       "Motion Prediction": "Prediction & Perception",
       "Computer Vision": "Prediction & Perception",
+      "Audio": "Prediction & Perception",
       "Machine Learning": "Prediction & Perception",
       "Simulation": "Evaluation",
       "Computer Graphics": "Evaluation",
@@ -104972,6 +105901,7 @@ window.timelineData = {
         "Linear Systems",
         "Nonlinear Systems",
         "Multi-agent Reinforcement learning",
+        "Safe Reinforcement Learning",
         "Robot Fleet Learning",
         "Inverse Reinforcement Learning & Reward Learning",
         "Applications"
@@ -104996,6 +105926,9 @@ window.timelineData = {
         "Image Compression",
         "Image Processing & Computational Photography",
         "Image Assessment"
+      ],
+      "Audio": [
+        "Audio Compression"
       ],
       "Machine Learning": [
         "Foundations, Data & Reliability",
@@ -105035,6 +105968,7 @@ window.timelineData = {
         "Geometry & Tiling",
         "Table Theorems",
         "Linear Algebra & Signal Processing",
+        "Polynomials",
         "Numerical Methods",
         "Sampling & Quasi-Monte Carlo",
         "Statistics & Probability"
@@ -105104,7 +106038,66 @@ window.timelineData = {
         "Optimization",
         "Continuous Optimization",
         "Convex Optimization",
+        "Semidefinite Programming"
+      ],
+      [
+        "Decision-making",
+        "Optimization",
+        "Continuous Optimization",
+        "Convex Optimization",
         "General Convex Optimization"
+      ],
+      [
+        "Decision-making",
+        "Optimization",
+        "Continuous Optimization",
+        "Convex Optimization",
+        "General Convex Optimization",
+        "Compressed Sensing & Sparse Recovery"
+      ],
+      [
+        "Decision-making",
+        "Optimization",
+        "Continuous Optimization",
+        "Convex Optimization",
+        "General Convex Optimization",
+        "Compressed Sensing & Sparse Recovery",
+        "Convex Demixing"
+      ],
+      [
+        "Decision-making",
+        "Optimization",
+        "Continuous Optimization",
+        "Convex Optimization",
+        "General Convex Optimization",
+        "Rank Minimization"
+      ],
+      [
+        "Decision-making",
+        "Optimization",
+        "Continuous Optimization",
+        "Convex Optimization",
+        "General Convex Optimization",
+        "Rank Minimization",
+        "Low-rank Recovery"
+      ],
+      [
+        "Decision-making",
+        "Optimization",
+        "Continuous Optimization",
+        "Convex Optimization",
+        "General Convex Optimization",
+        "Rank Minimization",
+        "Randomized Algorithms"
+      ],
+      [
+        "Decision-making",
+        "Optimization",
+        "Continuous Optimization",
+        "Convex Optimization",
+        "General Convex Optimization",
+        "Rank Minimization",
+        "Matrix Factorization"
       ],
       [
         "Decision-making",
@@ -105119,6 +106112,13 @@ window.timelineData = {
         "Continuous Optimization",
         "Convex Optimization",
         "Online Convex Optimization"
+      ],
+      [
+        "Decision-making",
+        "Optimization",
+        "Continuous Optimization",
+        "Convex Optimization",
+        "Learning Optimization Models"
       ],
       [
         "Decision-making",
@@ -105474,7 +106474,40 @@ window.timelineData = {
         "Decision-making",
         "Optimization",
         "Continuous Optimization",
+        "Numerical Differentiation"
+      ],
+      [
+        "Decision-making",
+        "Optimization",
+        "Continuous Optimization",
         "Automatic Differentiation"
+      ],
+      [
+        "Decision-making",
+        "Optimization",
+        "Continuous Optimization",
+        "Automatic Differentiation",
+        "Differentiable Optimization Layers"
+      ],
+      [
+        "Decision-making",
+        "Optimization",
+        "Continuous Optimization",
+        "Symbolic Differentiation"
+      ],
+      [
+        "Decision-making",
+        "Optimization",
+        "Continuous Optimization",
+        "Symbolic Differentiation",
+        "Early Analytical Differentiation"
+      ],
+      [
+        "Decision-making",
+        "Optimization",
+        "Continuous Optimization",
+        "Symbolic Differentiation",
+        "Complexity and AD Boundary"
       ],
       [
         "Decision-making",
@@ -105584,21 +106617,35 @@ window.timelineData = {
         "Decision-making",
         "Optimization",
         "Toolboxes & Solvers",
-        "Black-Box Optimization"
+        "Hyperparameter Optimization"
       ],
       [
         "Decision-making",
         "Optimization",
         "Toolboxes & Solvers",
-        "Black-Box Optimization",
+        "Hyperparameter Optimization",
+        "Black-box Hyperparameter Optimization"
+      ],
+      [
+        "Decision-making",
+        "Optimization",
+        "Toolboxes & Solvers",
+        "Hyperparameter Optimization",
+        "Gradient-based Hyperparameter Optimization"
+      ],
+      [
+        "Decision-making",
+        "Optimization",
+        "Toolboxes & Solvers",
+        "Hyperparameter Optimization",
         "Bayesian Optimization"
       ],
       [
         "Decision-making",
         "Optimization",
         "Toolboxes & Solvers",
-        "Black-Box Optimization",
-        "Planner / Controller Autotuning"
+        "Hyperparameter Optimization",
+        "Planner & Controller Autotuning"
       ],
       [
         "Decision-making",
@@ -106862,6 +107909,12 @@ window.timelineData = {
         "Decision-making",
         "Reinforcement Learning",
         "Linear Systems",
+        "Surveys & Control Connections"
+      ],
+      [
+        "Decision-making",
+        "Reinforcement Learning",
+        "Linear Systems",
         "Policy Optimization"
       ],
       [
@@ -106870,6 +107923,13 @@ window.timelineData = {
         "Linear Systems",
         "Policy Optimization",
         "LQR"
+      ],
+      [
+        "Decision-making",
+        "Reinforcement Learning",
+        "Linear Systems",
+        "Policy Optimization",
+        "Model-free and Data-enabled LQR"
       ],
       [
         "Decision-making",
@@ -106919,6 +107979,13 @@ window.timelineData = {
         "Linear Systems",
         "Policy Optimization",
         "Static Output Linear Feedback"
+      ],
+      [
+        "Decision-making",
+        "Reinforcement Learning",
+        "Linear Systems",
+        "Policy Optimization",
+        "Structured Linear Control Policies"
       ],
       [
         "Decision-making",
@@ -107053,7 +108120,7 @@ window.timelineData = {
         "Nonlinear Systems",
         "Policy Optimization",
         "Policy Gradient",
-        "Vanilla Policy Gradient"
+        "Foundations & Surveys"
       ],
       [
         "Decision-making",
@@ -107061,6 +108128,23 @@ window.timelineData = {
         "Nonlinear Systems",
         "Policy Optimization",
         "Policy Gradient",
+        "Gradient Estimation & Credit Assignment"
+      ],
+      [
+        "Decision-making",
+        "Reinforcement Learning",
+        "Nonlinear Systems",
+        "Policy Optimization",
+        "Policy Gradient",
+        "Natural, Soft, and Geometric Gradients"
+      ],
+      [
+        "Decision-making",
+        "Reinforcement Learning",
+        "Nonlinear Systems",
+        "Policy Optimization",
+        "Policy Gradient",
+        "Natural, Soft, and Geometric Gradients",
         "Natural Policy Gradient"
       ],
       [
@@ -107069,7 +108153,49 @@ window.timelineData = {
         "Nonlinear Systems",
         "Policy Optimization",
         "Policy Gradient",
-        "Variance Reduction"
+        "Natural, Soft, and Geometric Gradients",
+        "Entropy-Regularized and Soft Policy Gradients"
+      ],
+      [
+        "Decision-making",
+        "Reinforcement Learning",
+        "Nonlinear Systems",
+        "Policy Optimization",
+        "Policy Gradient",
+        "Variance Reduction & Momentum"
+      ],
+      [
+        "Decision-making",
+        "Reinforcement Learning",
+        "Nonlinear Systems",
+        "Policy Optimization",
+        "Policy Gradient",
+        "Convergence & Sample Complexity"
+      ],
+      [
+        "Decision-making",
+        "Reinforcement Learning",
+        "Nonlinear Systems",
+        "Policy Optimization",
+        "Policy Gradient",
+        "General-Utility Policy Optimization"
+      ],
+      [
+        "Decision-making",
+        "Reinforcement Learning",
+        "Nonlinear Systems",
+        "Policy Optimization",
+        "Policy Gradient",
+        "Learning Control Policies"
+      ],
+      [
+        "Decision-making",
+        "Reinforcement Learning",
+        "Nonlinear Systems",
+        "Policy Optimization",
+        "Policy Gradient",
+        "Learning Control Policies",
+        "Planning and Motion Policies"
       ],
       [
         "Decision-making",
@@ -107097,6 +108223,13 @@ window.timelineData = {
         "Nonlinear Systems",
         "Dynamic Programming",
         "Exact Dynamic Programming"
+      ],
+      [
+        "Decision-making",
+        "Reinforcement Learning",
+        "Nonlinear Systems",
+        "Dynamic Programming",
+        "Robust and Risk-Aware MDPs"
       ],
       [
         "Decision-making",
@@ -107242,6 +108375,11 @@ window.timelineData = {
         "Decision-making",
         "Reinforcement Learning",
         "Multi-agent Reinforcement learning"
+      ],
+      [
+        "Decision-making",
+        "Reinforcement Learning",
+        "Safe Reinforcement Learning"
       ],
       [
         "Decision-making",
@@ -107540,6 +108678,24 @@ window.timelineData = {
       [
         "Prediction & Perception",
         "Computer Vision",
+        "Image Compression",
+        "Foundations"
+      ],
+      [
+        "Prediction & Perception",
+        "Computer Vision",
+        "Image Compression",
+        "Traditional Image Codecs"
+      ],
+      [
+        "Prediction & Perception",
+        "Computer Vision",
+        "Image Compression",
+        "Learned Image Codecs"
+      ],
+      [
+        "Prediction & Perception",
+        "Computer Vision",
         "Image Processing & Computational Photography"
       ],
       [
@@ -107585,6 +108741,15 @@ window.timelineData = {
         "Computer Vision",
         "Image Assessment",
         "Color"
+      ],
+      [
+        "Prediction & Perception",
+        "Audio"
+      ],
+      [
+        "Prediction & Perception",
+        "Audio",
+        "Audio Compression"
       ],
       [
         "Prediction & Perception",
@@ -108257,6 +109422,11 @@ window.timelineData = {
       [
         "Quantitative Foundations",
         "Mathematics",
+        "Polynomials"
+      ],
+      [
+        "Quantitative Foundations",
+        "Mathematics",
         "Numerical Methods"
       ],
       [
@@ -108473,8 +109643,8 @@ window.timelineData = {
       ]
     ],
     "maxBranchDepth": 8,
-    "totalPapers": 2327,
-    "plottedPapers": 2327,
+    "totalPapers": 2348,
+    "plottedPapers": 2348,
     "undatedPapers": 0,
     "minYear": 1816,
     "maxYear": 2026,
@@ -108483,15 +109653,15 @@ window.timelineData = {
         "label": "1816-1949",
         "start": 1816,
         "end": 1949,
-        "width": 13.095718801446232,
-        "count": 12
+        "width": 13.267310531054875,
+        "count": 13
       },
       {
         "label": "1950-1954",
         "start": 1950,
         "end": 1954,
-        "width": 7.339154053656161,
-        "count": 8
+        "width": 7.918085684292347,
+        "count": 11
       },
       {
         "label": "1955-1959",
@@ -108504,8 +109674,8 @@ window.timelineData = {
         "label": "1960-1964",
         "start": 1960,
         "end": 1964,
-        "width": 8.267310531054875,
-        "count": 13
+        "width": 8.752101866684487,
+        "count": 16
       },
       {
         "label": "1965-1969",
@@ -108518,50 +109688,50 @@ window.timelineData = {
         "label": "1970-1974",
         "start": 1970,
         "end": 1974,
-        "width": 10.021448464739192,
-        "count": 25
+        "width": 10.150161469471369,
+        "count": 26
       },
       {
         "label": "1975-1979",
         "start": 1975,
         "end": 1979,
-        "width": 9.757733394189387,
-        "count": 23
+        "width": 9.890680571298486,
+        "count": 24
       },
       {
         "label": "1980-1984",
         "start": 1980,
         "end": 1984,
-        "width": 8.752101866684487,
-        "count": 16
+        "width": 8.905282265781135,
+        "count": 17
       },
       {
         "label": "1985-1989",
         "start": 1985,
         "end": 1989,
-        "width": 11.785128803420683,
-        "count": 40
+        "width": 11.892475557143666,
+        "count": 41
       },
       {
         "label": "1990-1994",
         "start": 1990,
         "end": 1994,
-        "width": 12.915155342056346,
-        "count": 51
+        "width": 13.301989334429697,
+        "count": 55
       },
       {
         "label": "1995-1999",
         "start": 1995,
         "end": 1999,
-        "width": 14.837352104956791,
-        "count": 72
+        "width": 15.008251568339618,
+        "count": 74
       },
       {
         "label": "2000",
         "start": 2000,
         "end": 2000,
-        "width": 4.095718801446233,
-        "count": 12
+        "width": 4.267310531054875,
+        "count": 13
       },
       {
         "label": "2001",
@@ -108693,8 +109863,8 @@ window.timelineData = {
         "label": "2019",
         "start": 2019,
         "end": 2019,
-        "width": 15.584885197703914,
-        "count": 135
+        "width": 15.652272145501033,
+        "count": 136
       },
       {
         "label": "2020",
@@ -108707,15 +109877,15 @@ window.timelineData = {
         "label": "2021",
         "start": 2021,
         "end": 2021,
-        "width": 16.05268210232181,
-        "count": 142
+        "width": 16.11878229969948,
+        "count": 143
       },
       {
         "label": "2022",
         "start": 2022,
         "end": 2022,
-        "width": 15.853304130339463,
-        "count": 139
+        "width": 15.919944793516226,
+        "count": 140
       },
       {
         "label": "2023",

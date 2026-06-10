@@ -1,0 +1,34 @@
+title: >
+  ISO/IEC MPEG-2 Advanced Audio Coding
+algorithm: "AAC"
+authors:
+  - Marina Bosi
+  - Karlheinz Brandenburg
+  - Schuyler R. Quackenbush
+  - Louis Fielder
+  - Kenzo Akagiri
+  - Henrik Fuchs
+  - Martin Dietz
+  - Juergen Herre
+  - Grant Davidson
+  - Yoshiaki Oikawa
+year: 1997
+source: Journal of the Audio Engineering Society
+type: Journal Paper
+doi:
+arxiv_id:
+tags:
+  - Audio compression
+  - Information theory
+  - Signal processing
+  - Filtering
+  - Prediction
+  - Perceptual metrics
+abstract: >
+  The ISO/IEC MPEG-2 advanced audio coding (AAC) system was designed to provide MPEG-2 with the best audio quality without any restrictions due to compatibility requirements. The main features of the AAC system (ISO/IEC 13818-7) are described. MPEG-2 AAC combines the coding efficiency of a high-resolution filter bank, prediction techniques, and Huffmann coding with additional functionalities aimed to deliver very high audio quality at a variety of data rates.
+summary: >
+  Documents the MPEG-2 AAC system, which relaxed MPEG-1 backward-compatibility constraints to achieve better coding efficiency and audio quality. It marks the standardization of a codec family whose filter-bank, prediction, entropy-coding, and perceptual-design choices became central to modern music and streaming audio formats.
+link: https://publica.fraunhofer.de/entities/publication/fa43e8a4-4d41-454c-9222-8f8b9055afd9
+links_alt:
+  - https://aes2.org/publications/elibrary-page/?id=10271
+audit_status: partial
