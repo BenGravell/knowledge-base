@@ -1201,7 +1201,9 @@
             - "On multi-step prediction models for receding horizon control": docs/papers/2018/1802.09767/metadata.yml
             - "Learning multi-step prediction models for receding horizon control": docs/papers/2018/2018.terzi.learning_multi_step_prediction/metadata.yml
             - Robust multi-rate predictive control using multi-step prediction models learned from data: docs/papers/2021/2102.08302/metadata.yml
+            - "State space models vs. multi-step predictors in predictive control: Are state space models complicating safe data-driven designs?": docs/papers/2022/2203.15471/metadata.yml
             - "Learning with Imperfect Models: When Multi-step Prediction Mitigates Compounding Error": docs/papers/2025/2504.01766/metadata.yml
+            - "Statistical Efficiency of Single- and Multi-step Models for Forecasting and Control": docs/papers/2026/2603.23465/metadata.yml
           - Model Predictive Contouring Control (MPCC):
             - MPCC: docs/papers/2010/2010.lam.model_predictive_contouring_control/metadata.yml
             - "MPCC (RC Cars)": docs/papers/2015/1711.07300/metadata.yml
@@ -1459,10 +1461,12 @@
         - "Optimal Thompson Sampling Strategies for Support-aware CVaR Bandits": docs/papers/2020/2012.05754/metadata.yml
         - "Bandit Algorithms Based on Thompson Sampling for Bounded Reward Distributions": docs/papers/2020/2020.riou.bandit_algorithms_based_on/metadata.yml
       - Linear Systems:
-        - "Data-driven Control and Planning for Uncertain Complex Systems (Gravell PhD Dissertation)": docs/papers/2022/2022.gravell.data_driven_control_and/metadata.yml
-        - "Learning to Reach, Swim, Walk and Fly in One Trial: Data-Driven Control with Scarce Data and Side Information": docs/papers/2021/2106.10533/metadata.yml
-        - Safely Learning Controlled Stochastic Dynamics: docs/papers/2025/2506.02754/metadata.yml
         - On the Hardness of Learning to Stabilize Linear Systems: docs/papers/2023/2311.11151/metadata.yml
+        - Surveys & Control Connections:
+          - "A Tour of Reinforcement Learning: The View from Continuous Control": docs/papers/2018/1806.09460/metadata.yml
+          - From Self-Tuning Regulators to Reinforcement Learning and Back Again: docs/papers/2019/1906.11392/metadata.yml
+          - "Learning to Reach, Swim, Walk and Fly in One Trial: Data-Driven Control with Scarce Data and Side Information": docs/papers/2021/2106.10533/metadata.yml
+          - "Data-driven Control and Planning for Uncertain Complex Systems (Gravell PhD Dissertation)": docs/papers/2022/2022.gravell.data_driven_control_and/metadata.yml
         - Policy Optimization:
           - Towards a Theoretical Foundation of Policy Optimization for Learning Control Policies: docs/papers/2022/2210.04810/metadata.yml
           - "How are policy gradient methods affected by the limits of control?": docs/papers/2022/2206.06863/metadata.yml
@@ -1520,8 +1524,13 @@
           - Nearly Linear-Quadratic Regulators:
             - Policy Gradient Converges to the Globally Optimal Policy for Nearly Linear-Quadratic Regulators: docs/papers/2023/2303.08431/metadata.yml
         - Dynamic Programming:
+          - Values and Strategies for Infinite Time Linear Quadratic Games: docs/papers/1976/1976.mageirou.values_and_strategies_for/metadata.yml
+          - Adaptive Linear Quadratic Control Using Policy Iteration: docs/papers/1994/1994.bradtke.adaptive_linear_quadratic_control/metadata.yml
+          - Finite-Time Analysis of Approximate Policy Iteration for LQR: docs/papers/2019/1905.12842/metadata.yml
+          - AMPI: docs/papers/2020/2011.14212/metadata.yml
           - "Policy Iteration for Linear Quadratic Games with Stochastic Parameters": docs/papers/2021/2021.gravell.policy_iteration_for_linear/metadata.yml
           - "Policy iteration using Q-functions: Linear dynamics with multiplicative noise": docs/papers/2022/2212.01192/metadata.yml
+          - "Value-Gradient Iteration with Quadratic Approximate Value Functions": docs/papers/2023/2307.07086/metadata.yml
         - Model-based RL:
           - System Identification:
             - Analysis of Recursive Stochastic Algorithms: docs/papers/1977/1977.ljung.analysis_of_recursive_stochastic/metadata.yml
@@ -1534,6 +1543,7 @@
               - Finite Sample Analysis of Open-loop Subspace Identification Methods: docs/papers/2025/2501.16639/metadata.yml
               - IV-MOESP: docs/papers/1994/1994.verhaegen.identification_of_the_deterministic/metadata.yml
               - N4SID: docs/papers/1994/1994.van_overschee.n4sid_numerical_algorithms_for/metadata.yml
+              - System identification and long-range predictive control of multi-rate systems: docs/papers/1999/1999.li.system_identification_and_long/metadata.yml
             - Realization-based Methods:
               - ERA: docs/papers/1985/1985.juang.an_eigensystem_realization_algorithm/metadata.yml
               - OKID: docs/papers/1993/1993.juang.identification_of_observer_kalman/metadata.yml
@@ -1581,7 +1591,7 @@
               - Dynamic programming ARX segmentation: docs/papers/2016/2016.ozay.an_exact_and_efficient/metadata.yml
               - Mode clustering for Markov jump systems: docs/papers/2019/1910.02193/metadata.yml
               - Adaptive Markov jump linear control: docs/papers/2021/2111.07018/metadata.yml
-              - Bilinear system identification: docs/papers/2022/2208.13915/metadata.yml              
+              - Bilinear system identification: docs/papers/2022/2208.13915/metadata.yml
           - Adaptive Linear Quadratic Control:
             - Self-Tuning Regulators: docs/papers/1973/1973.astrom.on_self_tuning_regulators/metadata.yml
             - A Self-Tuning LQR Approach Demonstrated on an Inverted Pendulum: docs/papers/2014/2014.trimpe.a_self_tuning_lqr/metadata.yml
@@ -1705,7 +1715,6 @@
           - Exact Dynamic Programming:
             - On the Convergence of Policy Iteration in Stationary Dynamic Programming: docs/papers/1979/1979.puterman.on_the_convergence_of/metadata.yml
             - A Cantor-Kantorovich Metric between Markov Decision Processes with Application to Transfer Learning: docs/papers/2024/2407.08324/metadata.yml
-            - Values and Strategies for Infinite Time Linear Quadratic Games: docs/papers/1976/1976.mageirou.values_and_strategies_for/metadata.yml
             - An Analysis of Stochastic Shortest Path Problems: docs/papers/1991/1991.bertsekas.an_analysis_of_stochastic/metadata.yml
             - Stochastic Reachability Analysis in Complex Biological Networks: docs/papers/2006/2006.el_samad.stochastic_reachability_analysis_in/metadata.yml
             - Risk-averse Shortest Path Problems: docs/papers/2012/2012.gavriel.risk_averse_shortest_path/metadata.yml
@@ -1723,7 +1732,6 @@
             - The Asymptotic Convergence-Rate of Q-learning: docs/papers/1997/1997.szepesvari.the_asymptotic_convergence_rate/metadata.yml
             - On-Line Q-Learning Using Connectionist Systems: docs/papers/1994/1994.rummery.on_line_q_learning/metadata.yml
             - Sample-Optimal Parametric Q-Learning Using Linearly Additive Features: docs/papers/2019/1902.04779/metadata.yml
-            - Adaptive Linear Quadratic Control Using Policy Iteration: docs/papers/1994/1994.bradtke.adaptive_linear_quadratic_control/metadata.yml
             - LSPI: docs/papers/2003/2003.lagoudakis.least_squares_policy_iteration/metadata.yml
             - "Approximate Policy Iteration: A Survey and Some New Methods": docs/papers/2011/2011.bertsekas.approximate_policy_iteration_a/metadata.yml
             - Regularized Policy Iteration: docs/papers/2008/2008.farahmand.regularized_policy_iteration/metadata.yml
@@ -1740,9 +1748,6 @@
             - Value Function Approximation and Model Predictive Control: docs/papers/2013/2013.zhong.value_function_approximation_and/metadata.yml
             - Finite-Time Bounds for Fitted Value Iteration: docs/papers/2008/2008.munos.finite_time_bounds_for/metadata.yml
             - "Data-driven Approximate Dynamic Programming: A Linear Programming Approach": docs/papers/2017/2017.sutter.data_driven_approximate_dynamic/metadata.yml
-            - Finite-Time Analysis of Approximate Policy Iteration for LQR: docs/papers/2019/1905.12842/metadata.yml
-            - AMPI: docs/papers/2020/2011.14212/metadata.yml
-            - "Value-Gradient Iteration with Quadratic Approximate Value Functions": docs/papers/2023/2307.07086/metadata.yml
             - "Sample Complexity of Episodic Fixed-Horizon Reinforcement Learning": docs/papers/2015/1510.08906/metadata.yml
             - Settling the Sample Complexity of Online Reinforcement Learning: docs/papers/2023/2307.13586/metadata.yml
             - "Unifying PAC and Regret: Uniform PAC Bounds for Episodic Reinforcement Learning": docs/papers/2017/1703.07710/metadata.yml
@@ -1806,19 +1811,14 @@
             - "Physics-Informed Machine Learning for Modeling and Control of Dynamical Systems": docs/papers/2023/2306.13867/metadata.yml
             - "Self-Normalized Processes: Exponential Inequalities, Moment Bounds and Iterated Logarithm Laws": docs/papers/2004/math/0410102/metadata.yml
             - A Vector Bernstein Inequality for Self-Normalized Martingales: docs/papers/2024/2412.20949/metadata.yml
-            - "State space models vs. multi-step predictors in predictive control: Are state space models complicating safe data-driven designs?": docs/papers/2022/2203.15471/metadata.yml
-            - "Statistical Efficiency of Single- and Multi-step Models for Forecasting and Control": docs/papers/2026/2603.23465/metadata.yml
             - Nonlinear System Identification Nano-drone Benchmark: docs/papers/2025/2512.14450/metadata.yml
             - ASIA: docs/papers/2026/2605.10480/metadata.yml
-            - "System identification and long-range predictive control of multi-rate systems": docs/papers/1999/1999.li.system_identification_and_long/metadata.yml
             - "Robust Nonlinear System Identification Using Neural-network Models": docs/papers/1998/1998.lu.robust_nonlinear_system_identification/metadata.yml
             - "How to Model Your Crazyflie Brushless": docs/papers/2026/2603.05944/metadata.yml
             - "Using Data-Driven Domain Randomization to Transfer Robust Control Policies to Mobile Robots": docs/papers/2019/2019.sheckells.using_data_driven_domain/metadata.yml
             - Autonomous Drifting Using Simulation-aided Reinforcement Learning: docs/papers/2016/2016.cutler.autonomous_drifting_using_simulation/metadata.yml
             - "Reference-Free Formula Drift with Reinforcement Learning: From Driving Data to Tire Energy-Inspired, Real-World Policies": docs/papers/2024/2410.20990/metadata.yml
           - Surveys & Control Connections:
-            - From Self-Tuning Regulators to Reinforcement Learning and Back Again: docs/papers/2019/1906.11392/metadata.yml
-            - "A Tour of Reinforcement Learning: The View from Continuous Control": docs/papers/2018/1806.09460/metadata.yml
             - A Crash Course on Reinforcement Learning: docs/papers/2021/2103.04910/metadata.yml
             - "A view on learning robust goal-conditioned value functions: Interplay between RL and MPC": docs/papers/2025/2502.06996/metadata.yml
             - "Synthesis of Model Predictive Control and Reinforcement Learning: Survey and Classification": docs/papers/2025/2502.02133/metadata.yml
@@ -1893,6 +1893,8 @@
         - OpenClaw-RL: docs/papers/2026/2603.10165/metadata.yml
         - "Model-Based Multi-Agent RL in Zero-Sum Markov Games with Near-Optimal Sample Complexity": docs/papers/2020/2007.07461/metadata.yml
         - "Slopey Quantizers Are Locally Optimal for Witsenhausen's Counterexample": docs/papers/2016/2016.ajorlou.slopey_quantizers_are_locally/metadata.yml
+      - Safe Reinforcement Learning:
+        - Safely Learning Controlled Stochastic Dynamics: docs/papers/2025/2506.02754/metadata.yml
       - Robot Fleet Learning:
         - Learning Hand-Eye Coordination for Robotic Grasping with Deep Learning and Large-Scale Data Collection: docs/papers/2016/1603.02199/metadata.yml
         - MT-Opt: docs/papers/2021/2104.08212/metadata.yml
