@@ -24,10 +24,9 @@ hide:
       <section class="ct-chain" aria-label="Focused tree">
         <div id="ct-ancestor-chain"></div>
       </section>
+      <section id="ct-selection-details" class="ct-selection-details" aria-live="polite" hidden></section>
     </section>
   </div>
-
-  <section id="ct-selection-details" class="ct-selection-details" aria-live="polite" hidden></section>
 </div>
 
 <script src="../javascripts/tree-data.js"></script>

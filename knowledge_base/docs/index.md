@@ -18,6 +18,9 @@ hide:
     </h3>
     <p>Browse in semantic similarity space.</p>
     <span class="kb-bento-visual kb-bento-visual--map" aria-hidden="true">
+      <span class="kb-map-dot-cloud kb-map-dot-cloud--one"></span>
+      <span class="kb-map-dot-cloud kb-map-dot-cloud--two"></span>
+      <span class="kb-map-dot-cloud kb-map-dot-cloud--three"></span>
       <span class="kb-map-node kb-map-node--a"></span>
       <span class="kb-map-node kb-map-node--b"></span>
       <span class="kb-map-node kb-map-node--c"></span>
@@ -35,6 +38,23 @@ hide:
     </h3>
     <p>Walk the taxonomy.</p>
     <span class="kb-bento-visual kb-bento-visual--tree" aria-hidden="true">
+      <svg class="kb-tree-sunburst" viewBox="0 0 200 200" preserveAspectRatio="xMidYMid meet" focusable="false">
+        <circle class="kb-tree-sunburst-base kb-tree-sunburst-base--outer" cx="100" cy="100" r="70" pathLength="100"></circle>
+        <circle class="kb-tree-sunburst-sector kb-tree-sunburst-sector--one" cx="100" cy="100" r="70" pathLength="100" stroke-dasharray="13 87" transform="rotate(-92 100 100)"></circle>
+        <circle class="kb-tree-sunburst-sector kb-tree-sunburst-sector--two" cx="100" cy="100" r="70" pathLength="100" stroke-dasharray="8 92" transform="rotate(-48 100 100)"></circle>
+        <circle class="kb-tree-sunburst-sector kb-tree-sunburst-sector--three" cx="100" cy="100" r="70" pathLength="100" stroke-dasharray="11 89" transform="rotate(-4 100 100)"></circle>
+        <circle class="kb-tree-sunburst-sector kb-tree-sunburst-sector--four" cx="100" cy="100" r="70" pathLength="100" stroke-dasharray="9 91" transform="rotate(50 100 100)"></circle>
+        <circle class="kb-tree-sunburst-sector kb-tree-sunburst-sector--five" cx="100" cy="100" r="70" pathLength="100" stroke-dasharray="15 85" transform="rotate(95 100 100)"></circle>
+        <circle class="kb-tree-sunburst-sector kb-tree-sunburst-sector--six" cx="100" cy="100" r="70" pathLength="100" stroke-dasharray="10 90" transform="rotate(160 100 100)"></circle>
+        <circle class="kb-tree-sunburst-sector kb-tree-sunburst-sector--seven" cx="100" cy="100" r="70" pathLength="100" stroke-dasharray="7 93" transform="rotate(238 100 100)"></circle>
+        <circle class="kb-tree-sunburst-base kb-tree-sunburst-base--inner" cx="100" cy="100" r="46" pathLength="100"></circle>
+        <circle class="kb-tree-sunburst-inner kb-tree-sunburst-inner--one" cx="100" cy="100" r="46" pathLength="100" stroke-dasharray="12 88" transform="rotate(-80 100 100)"></circle>
+        <circle class="kb-tree-sunburst-inner kb-tree-sunburst-inner--two" cx="100" cy="100" r="46" pathLength="100" stroke-dasharray="9 91" transform="rotate(-16 100 100)"></circle>
+        <circle class="kb-tree-sunburst-inner kb-tree-sunburst-inner--three" cx="100" cy="100" r="46" pathLength="100" stroke-dasharray="14 86" transform="rotate(44 100 100)"></circle>
+        <circle class="kb-tree-sunburst-inner kb-tree-sunburst-inner--four" cx="100" cy="100" r="46" pathLength="100" stroke-dasharray="11 89" transform="rotate(128 100 100)"></circle>
+        <circle class="kb-tree-sunburst-inner kb-tree-sunburst-inner--five" cx="100" cy="100" r="46" pathLength="100" stroke-dasharray="10 90" transform="rotate(210 100 100)"></circle>
+        <circle class="kb-tree-sunburst-core" cx="100" cy="100" r="30"></circle>
+      </svg>
       <span class="kb-tree-root"></span>
       <span class="kb-tree-branch kb-tree-branch--one"></span>
       <span class="kb-tree-branch kb-tree-branch--two"></span>
