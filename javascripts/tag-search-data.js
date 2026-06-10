@@ -305418,6 +305418,10 @@ window.tagSearchData = {
         "score": 0.6302
       },
       {
+        "id": "1904_02990",
+        "score": 0.6272
+      },
+      {
         "id": "2310_08710",
         "score": 0.6239
       },
@@ -305460,10 +305464,6 @@ window.tagSearchData = {
       {
         "id": "1966_fogel_artificial_intelligence_through_simulated",
         "score": 0.5937
-      },
-      {
-        "id": "2303_04137",
-        "score": 0.5902
       }
     ],
     "1606_03490::machine learning": [
@@ -305526,6 +305526,10 @@ window.tagSearchData = {
       {
         "id": "1806_00451",
         "score": 0.6833
+      },
+      {
+        "id": "1904_02990",
+        "score": 0.6779
       },
       {
         "id": "2306_13867",
@@ -305606,10 +305610,6 @@ window.tagSearchData = {
       {
         "id": "2310_08710",
         "score": 0.6084
-      },
-      {
-        "id": "2015_palmieri_distance_metric_learning_for",
-        "score": 0.5887
       }
     ],
     "1602_04938::machine learning": [
@@ -305714,6 +305714,10 @@ window.tagSearchData = {
         "score": 0.6256
       },
       {
+        "id": "1904_02990",
+        "score": 0.6232
+      },
+      {
         "id": "2306_13867",
         "score": 0.6224
       },
@@ -305752,10 +305756,6 @@ window.tagSearchData = {
       {
         "id": "2008_kim_a_minimax_theorem_with",
         "score": 0.5811
-      },
-      {
-        "id": "2310_08710",
-        "score": 0.5739
       }
     ],
     "2002_05651::machine learning": [
@@ -305860,6 +305860,10 @@ window.tagSearchData = {
         "score": 0.6424
       },
       {
+        "id": "1904_02990",
+        "score": 0.6406
+      },
+      {
         "id": "1986_rumelhart_learning_representations_by_back",
         "score": 0.6387
       },
@@ -305898,10 +305902,6 @@ window.tagSearchData = {
       {
         "id": "2008_kim_a_minimax_theorem_with",
         "score": 0.5935
-      },
-      {
-        "id": "1910_13204",
-        "score": 0.5913
       }
     ],
     "2000_bengio_gradient_based_optimization_of::machine learning": [
@@ -305928,6 +305928,10 @@ window.tagSearchData = {
       {
         "id": "1986_rumelhart_learning_representations_by_back",
         "score": 0.7329
+      },
+      {
+        "id": "1904_02990",
+        "score": 0.7272
       },
       {
         "id": "2008_kim_a_minimax_theorem_with",
@@ -306044,10 +306048,6 @@ window.tagSearchData = {
       {
         "id": "2303_04137",
         "score": 0.6006
-      },
-      {
-        "id": "2312_15122",
-        "score": 0.5961
       }
     ],
     "1702_08608::machine learning": [
@@ -306078,6 +306078,10 @@ window.tagSearchData = {
       {
         "id": "1502_05767",
         "score": 0.7015
+      },
+      {
+        "id": "1904_02990",
+        "score": 0.6946
       },
       {
         "id": "2306_13867",
@@ -306190,10 +306194,6 @@ window.tagSearchData = {
       {
         "id": "2008_kim_a_minimax_theorem_with",
         "score": 0.5964
-      },
-      {
-        "id": "1910_13204",
-        "score": 0.5924
       }
     ],
     "1910_13204::machine learning": [
@@ -306306,6 +306306,10 @@ window.tagSearchData = {
         "score": 0.5871
       },
       {
+        "id": "1904_02990",
+        "score": 0.5864
+      },
+      {
         "id": "1606_03490",
         "score": 0.5799
       },
@@ -306336,10 +306340,152 @@ window.tagSearchData = {
       {
         "id": "1992_holland_adaptation_in_natural_and",
         "score": 0.5537
+      }
+    ],
+    "1904_02990::machine learning": [
+      {
+        "id": "1502_05767",
+        "score": 0.8399
+      },
+      {
+        "id": "1802_03653",
+        "score": 0.7475
+      },
+      {
+        "id": "1812_11118",
+        "score": 0.7341
+      },
+      {
+        "id": "2000_bengio_gradient_based_optimization_of",
+        "score": 0.7272
+      },
+      {
+        "id": "1986_rumelhart_learning_representations_by_back",
+        "score": 0.7252
+      },
+      {
+        "id": "1993_quinlan_c4_5_programs_for_machine",
+        "score": 0.7068
+      },
+      {
+        "id": "1702_08608",
+        "score": 0.6946
+      },
+      {
+        "id": "2001_friedman_greedy_function_approximation_a",
+        "score": 0.6943
+      },
+      {
+        "id": "1986_quinlan_induction_of_decision_trees",
+        "score": 0.6808
+      },
+      {
+        "id": "1606_03490",
+        "score": 0.6779
+      },
+      {
+        "id": "1966_fogel_artificial_intelligence_through_simulated",
+        "score": 0.6695
+      },
+      {
+        "id": "2605_30188",
+        "score": 0.6647
+      },
+      {
+        "id": "2001_ng_on_spectral_clustering_analysis",
+        "score": 0.6596
+      },
+      {
+        "id": "1992_holland_adaptation_in_natural_and",
+        "score": 0.6582
+      },
+      {
+        "id": "1909_09223",
+        "score": 0.6525
+      },
+      {
+        "id": "1807_05118",
+        "score": 0.6513
+      },
+      {
+        "id": "2207_03517",
+        "score": 0.6493
+      },
+      {
+        "id": "2210_05519",
+        "score": 0.6491
+      },
+      {
+        "id": "2306_13867",
+        "score": 0.6477
+      },
+      {
+        "id": "2212_02603",
+        "score": 0.6459
+      },
+      {
+        "id": "2008_rahimi_weighted_sums_of_random",
+        "score": 0.6432
+      },
+      {
+        "id": "2025_hu_technically_speaking_transitioning_from",
+        "score": 0.6423
+      },
+      {
+        "id": "1995_cortes_support_vector_networks",
+        "score": 0.6409
+      },
+      {
+        "id": "2002_05651",
+        "score": 0.6406
+      },
+      {
+        "id": "1911_10635",
+        "score": 0.637
+      },
+      {
+        "id": "2312_15122",
+        "score": 0.6354
+      },
+      {
+        "id": "2008_kim_a_minimax_theorem_with",
+        "score": 0.6353
+      },
+      {
+        "id": "1811_10154",
+        "score": 0.6317
+      },
+      {
+        "id": "1610_05492",
+        "score": 0.6272
+      },
+      {
+        "id": "1806_00451",
+        "score": 0.6242
+      },
+      {
+        "id": "1602_04938",
+        "score": 0.6232
+      },
+      {
+        "id": "2403_04133",
+        "score": 0.623
       },
       {
         "id": "2303_04137",
-        "score": 0.5421
+        "score": 0.6208
+      },
+      {
+        "id": "2310_08710",
+        "score": 0.6157
+      },
+      {
+        "id": "2310_03589",
+        "score": 0.6075
+      },
+      {
+        "id": "2015_palmieri_distance_metric_learning_for",
+        "score": 0.6043
       }
     ],
     "1909_09223::machine learning": [
@@ -306390,6 +306536,10 @@ window.tagSearchData = {
       {
         "id": "1802_03653",
         "score": 0.6535
+      },
+      {
+        "id": "1904_02990",
+        "score": 0.6525
       },
       {
         "id": "2605_30188",
@@ -306482,10 +306632,6 @@ window.tagSearchData = {
       {
         "id": "2008_kim_a_minimax_theorem_with",
         "score": 0.5592
-      },
-      {
-        "id": "2006_thrun_stanley_the_robot_that",
-        "score": 0.5492
       }
     ],
     "1911_10635::machine learning": [
@@ -306570,6 +306716,10 @@ window.tagSearchData = {
         "score": 0.6476
       },
       {
+        "id": "1904_02990",
+        "score": 0.637
+      },
+      {
         "id": "1811_10154",
         "score": 0.6352
       },
@@ -306628,10 +306778,6 @@ window.tagSearchData = {
       {
         "id": "1995_cortes_support_vector_networks",
         "score": 0.5743
-      },
-      {
-        "id": "1806_00451",
-        "score": 0.5704
       }
     ],
     "2025_hu_technically_speaking_transitioning_from::machine learning": [
@@ -306704,6 +306850,10 @@ window.tagSearchData = {
         "score": 0.6433
       },
       {
+        "id": "1904_02990",
+        "score": 0.6423
+      },
+      {
         "id": "1966_fogel_artificial_intelligence_through_simulated",
         "score": 0.6396
       },
@@ -306774,10 +306924,6 @@ window.tagSearchData = {
       {
         "id": "1995_cortes_support_vector_networks",
         "score": 0.5723
-      },
-      {
-        "id": "2008_kim_a_minimax_theorem_with",
-        "score": 0.572
       }
     ],
     "2015_palmieri_distance_metric_learning_for::machine learning": [
@@ -306874,6 +307020,10 @@ window.tagSearchData = {
         "score": 0.6067
       },
       {
+        "id": "1904_02990",
+        "score": 0.6043
+      },
+      {
         "id": "1610_05492",
         "score": 0.6007
       },
@@ -306920,13 +307070,13 @@ window.tagSearchData = {
       {
         "id": "1992_holland_adaptation_in_natural_and",
         "score": 0.5595
-      },
-      {
-        "id": "1811_10154",
-        "score": 0.5492
       }
     ],
     "1502_05767::machine learning": [
+      {
+        "id": "1904_02990",
+        "score": 0.8399
+      },
       {
         "id": "1812_11118",
         "score": 0.7914
@@ -307066,10 +307216,6 @@ window.tagSearchData = {
       {
         "id": "1910_13204",
         "score": 0.6395
-      },
-      {
-        "id": "2303_04137",
-        "score": 0.6368
       }
     ],
     "1995_cortes_support_vector_networks::machine learning": [
@@ -307154,6 +307300,10 @@ window.tagSearchData = {
         "score": 0.6414
       },
       {
+        "id": "1904_02990",
+        "score": 0.6409
+      },
+      {
         "id": "1811_10154",
         "score": 0.634
       },
@@ -307212,10 +307362,6 @@ window.tagSearchData = {
       {
         "id": "2303_04137",
         "score": 0.5642
-      },
-      {
-        "id": "2312_15122",
-        "score": 0.5642
       }
     ],
     "1966_fogel_artificial_intelligence_through_simulated::machine learning": [
@@ -307250,6 +307396,10 @@ window.tagSearchData = {
       {
         "id": "2212_02603",
         "score": 0.6713
+      },
+      {
+        "id": "1904_02990",
+        "score": 0.6695
       },
       {
         "id": "2000_bengio_gradient_based_optimization_of",
@@ -307358,10 +307508,6 @@ window.tagSearchData = {
       {
         "id": "1806_00451",
         "score": 0.5832
-      },
-      {
-        "id": "2310_03589",
-        "score": 0.5745
       }
     ],
     "1986_quinlan_induction_of_decision_trees::machine learning": [
@@ -307384,6 +307530,10 @@ window.tagSearchData = {
       {
         "id": "1995_cortes_support_vector_networks",
         "score": 0.6809
+      },
+      {
+        "id": "1904_02990",
+        "score": 0.6808
       },
       {
         "id": "1986_rumelhart_learning_representations_by_back",
@@ -307504,10 +307654,6 @@ window.tagSearchData = {
       {
         "id": "2312_15122",
         "score": 0.5639
-      },
-      {
-        "id": "2006_thrun_stanley_the_robot_that",
-        "score": 0.5614
       }
     ],
     "1986_rumelhart_learning_representations_by_back::machine learning": [
@@ -307534,6 +307680,10 @@ window.tagSearchData = {
       {
         "id": "1502_05767",
         "score": 0.7284
+      },
+      {
+        "id": "1904_02990",
+        "score": 0.7252
       },
       {
         "id": "1995_cortes_support_vector_networks",
@@ -307650,10 +307800,6 @@ window.tagSearchData = {
       {
         "id": "2312_15122",
         "score": 0.6197
-      },
-      {
-        "id": "1909_09223",
-        "score": 0.6105
       }
     ],
     "1996_breiman_bagging_predictors::machine learning": [
@@ -307770,6 +307916,10 @@ window.tagSearchData = {
         "score": 0.5802
       },
       {
+        "id": "1904_02990",
+        "score": 0.5754
+      },
+      {
         "id": "2212_02603",
         "score": 0.5734
       },
@@ -307796,10 +307946,6 @@ window.tagSearchData = {
       {
         "id": "2006_thrun_stanley_the_robot_that",
         "score": 0.5166
-      },
-      {
-        "id": "2312_15122",
-        "score": 0.5086
       }
     ],
     "1993_quinlan_c4_5_programs_for_machine::machine learning": [
@@ -307826,6 +307972,10 @@ window.tagSearchData = {
       {
         "id": "1966_fogel_artificial_intelligence_through_simulated",
         "score": 0.7069
+      },
+      {
+        "id": "1904_02990",
+        "score": 0.7068
       },
       {
         "id": "2605_30188",
@@ -307942,10 +308092,6 @@ window.tagSearchData = {
       {
         "id": "2025_hu_technically_speaking_transitioning_from",
         "score": 0.6167
-      },
-      {
-        "id": "2006_thrun_stanley_the_robot_that",
-        "score": 0.5987
       }
     ],
     "2403_04133::machine learning": [
@@ -308070,6 +308216,10 @@ window.tagSearchData = {
         "score": 0.6234
       },
       {
+        "id": "1904_02990",
+        "score": 0.623
+      },
+      {
         "id": "1986_rumelhart_learning_representations_by_back",
         "score": 0.6212
       },
@@ -308088,10 +308238,6 @@ window.tagSearchData = {
       {
         "id": "2008_kim_a_minimax_theorem_with",
         "score": 0.5931
-      },
-      {
-        "id": "1986_quinlan_induction_of_decision_trees",
-        "score": 0.5925
       }
     ],
     "2605_30188::machine learning": [
@@ -308150,6 +308296,10 @@ window.tagSearchData = {
       {
         "id": "1802_03653",
         "score": 0.6726
+      },
+      {
+        "id": "1904_02990",
+        "score": 0.6647
       },
       {
         "id": "2310_03589",
@@ -308234,10 +308384,6 @@ window.tagSearchData = {
       {
         "id": "1911_10635",
         "score": 0.5988
-      },
-      {
-        "id": "2303_04137",
-        "score": 0.5912
       }
     ],
     "2001_friedman_greedy_function_approximation_a::machine learning": [
@@ -308292,6 +308438,10 @@ window.tagSearchData = {
       {
         "id": "1986_rumelhart_learning_representations_by_back",
         "score": 0.6984
+      },
+      {
+        "id": "1904_02990",
+        "score": 0.6943
       },
       {
         "id": "2207_03517",
@@ -308380,10 +308530,6 @@ window.tagSearchData = {
       {
         "id": "1992_holland_adaptation_in_natural_and",
         "score": 0.6014
-      },
-      {
-        "id": "2310_08710",
-        "score": 0.5991
       }
     ],
     "2001_ng_on_spectral_clustering_analysis::machine learning": [
@@ -308406,6 +308552,10 @@ window.tagSearchData = {
       {
         "id": "1807_05118",
         "score": 0.6611
+      },
+      {
+        "id": "1904_02990",
+        "score": 0.6596
       },
       {
         "id": "1812_11118",
@@ -308526,10 +308676,6 @@ window.tagSearchData = {
       {
         "id": "2310_03589",
         "score": 0.5641
-      },
-      {
-        "id": "2312_15122",
-        "score": 0.5461
       }
     ],
     "1802_03653::machine learning": [
@@ -308548,6 +308694,10 @@ window.tagSearchData = {
       {
         "id": "2212_02603",
         "score": 0.75
+      },
+      {
+        "id": "1904_02990",
+        "score": 0.7475
       },
       {
         "id": "2001_friedman_greedy_function_approximation_a",
@@ -308672,10 +308822,6 @@ window.tagSearchData = {
       {
         "id": "1602_04938",
         "score": 0.6447
-      },
-      {
-        "id": "1986_quinlan_induction_of_decision_trees",
-        "score": 0.6418
       }
     ],
     "1812_11118::machine learning": [
@@ -308714,6 +308860,10 @@ window.tagSearchData = {
       {
         "id": "1702_08608",
         "score": 0.7353
+      },
+      {
+        "id": "1904_02990",
+        "score": 0.7341
       },
       {
         "id": "2008_rahimi_weighted_sums_of_random",
@@ -308818,10 +308968,6 @@ window.tagSearchData = {
       {
         "id": "2303_04137",
         "score": 0.638
-      },
-      {
-        "id": "2310_08710",
-        "score": 0.6319
       }
     ],
     "1811_10154::machine learning": [
@@ -308922,6 +309068,10 @@ window.tagSearchData = {
         "score": 0.634
       },
       {
+        "id": "1904_02990",
+        "score": 0.6317
+      },
+      {
         "id": "1986_quinlan_induction_of_decision_trees",
         "score": 0.6246
       },
@@ -308964,10 +309114,6 @@ window.tagSearchData = {
       {
         "id": "2006_thrun_stanley_the_robot_that",
         "score": 0.5941
-      },
-      {
-        "id": "2001_ng_on_spectral_clustering_analysis",
-        "score": 0.5871
       }
     ],
     "1806_00451::machine learning": [
@@ -309060,6 +309206,10 @@ window.tagSearchData = {
         "score": 0.6271
       },
       {
+        "id": "1904_02990",
+        "score": 0.6242
+      },
+      {
         "id": "2212_02603",
         "score": 0.6145
       },
@@ -309110,10 +309260,6 @@ window.tagSearchData = {
       {
         "id": "2310_08710",
         "score": 0.568
-      },
-      {
-        "id": "2006_thrun_stanley_the_robot_that",
-        "score": 0.5654
       }
     ],
     "1807_05118::machine learning": [
@@ -309238,6 +309384,10 @@ window.tagSearchData = {
         "score": 0.6586
       },
       {
+        "id": "1904_02990",
+        "score": 0.6513
+      },
+      {
         "id": "1992_holland_adaptation_in_natural_and",
         "score": 0.6481
       },
@@ -309256,10 +309406,6 @@ window.tagSearchData = {
       {
         "id": "1986_quinlan_induction_of_decision_trees",
         "score": 0.6225
-      },
-      {
-        "id": "2008_kim_a_minimax_theorem_with",
-        "score": 0.6152
       }
     ],
     "1992_holland_adaptation_in_natural_and::machine learning": [
@@ -309282,6 +309428,10 @@ window.tagSearchData = {
       {
         "id": "1802_03653",
         "score": 0.6622
+      },
+      {
+        "id": "1904_02990",
+        "score": 0.6582
       },
       {
         "id": "2212_02603",
@@ -309402,10 +309552,6 @@ window.tagSearchData = {
       {
         "id": "2310_03589",
         "score": 0.5622
-      },
-      {
-        "id": "2015_palmieri_distance_metric_learning_for",
-        "score": 0.5595
       }
     ],
     "2212_02603::machine learning": [
@@ -309490,6 +309636,10 @@ window.tagSearchData = {
         "score": 0.6484
       },
       {
+        "id": "1904_02990",
+        "score": 0.6459
+      },
+      {
         "id": "2008_rahimi_weighted_sums_of_random",
         "score": 0.6457
       },
@@ -309548,10 +309698,6 @@ window.tagSearchData = {
       {
         "id": "2001_ng_on_spectral_clustering_analysis",
         "score": 0.5834
-      },
-      {
-        "id": "1996_breiman_bagging_predictors",
-        "score": 0.5734
       }
     ],
     "2207_03517::machine learning": [
@@ -309618,6 +309764,10 @@ window.tagSearchData = {
       {
         "id": "1610_05492",
         "score": 0.6518
+      },
+      {
+        "id": "1904_02990",
+        "score": 0.6493
       },
       {
         "id": "2210_05519",
@@ -309694,10 +309844,6 @@ window.tagSearchData = {
       {
         "id": "1910_13204",
         "score": 0.6055
-      },
-      {
-        "id": "1806_00451",
-        "score": 0.5997
       }
     ],
     "2210_05519::machine learning": [
@@ -309822,6 +309968,10 @@ window.tagSearchData = {
         "score": 0.6525
       },
       {
+        "id": "1904_02990",
+        "score": 0.6491
+      },
+      {
         "id": "2207_03517",
         "score": 0.646
       },
@@ -309840,10 +309990,6 @@ window.tagSearchData = {
       {
         "id": "1910_13204",
         "score": 0.6249
-      },
-      {
-        "id": "1966_fogel_artificial_intelligence_through_simulated",
-        "score": 0.6181
       }
     ],
     "2008_rahimi_weighted_sums_of_random::machine learning": [
@@ -309936,6 +310082,10 @@ window.tagSearchData = {
         "score": 0.6457
       },
       {
+        "id": "1904_02990",
+        "score": 0.6432
+      },
+      {
         "id": "1992_holland_adaptation_in_natural_and",
         "score": 0.6375
       },
@@ -309986,10 +310136,6 @@ window.tagSearchData = {
       {
         "id": "2310_08710",
         "score": 0.6134
-      },
-      {
-        "id": "2006_thrun_stanley_the_robot_that",
-        "score": 0.6009
       }
     ],
     "2008_kim_a_minimax_theorem_with::machine learning": [
@@ -310040,6 +310186,10 @@ window.tagSearchData = {
       {
         "id": "2306_13867",
         "score": 0.6371
+      },
+      {
+        "id": "1904_02990",
+        "score": 0.6353
       },
       {
         "id": "1986_rumelhart_learning_representations_by_back",
@@ -310132,10 +310282,6 @@ window.tagSearchData = {
       {
         "id": "2006_thrun_stanley_the_robot_that",
         "score": 0.5716
-      },
-      {
-        "id": "2303_04137",
-        "score": 0.5647
       }
     ],
     "2306_13867::machine learning": [
@@ -310220,6 +310366,10 @@ window.tagSearchData = {
         "score": 0.652
       },
       {
+        "id": "1904_02990",
+        "score": 0.6477
+      },
+      {
         "id": "1986_rumelhart_learning_representations_by_back",
         "score": 0.647
       },
@@ -310278,10 +310428,6 @@ window.tagSearchData = {
       {
         "id": "1806_00451",
         "score": 0.6068
-      },
-      {
-        "id": "1995_cortes_support_vector_networks",
-        "score": 0.6064
       }
     ],
     "2310_03589::machine learning": [
@@ -310402,6 +310548,10 @@ window.tagSearchData = {
         "score": 0.6077
       },
       {
+        "id": "1904_02990",
+        "score": 0.6075
+      },
+      {
         "id": "1995_cortes_support_vector_networks",
         "score": 0.6071
       },
@@ -310424,10 +310574,6 @@ window.tagSearchData = {
       {
         "id": "1911_10635",
         "score": 0.5767
-      },
-      {
-        "id": "1966_fogel_artificial_intelligence_through_simulated",
-        "score": 0.5745
       }
     ],
     "2310_08710::machine learning": [
@@ -310508,6 +310654,10 @@ window.tagSearchData = {
         "score": 0.6161
       },
       {
+        "id": "1904_02990",
+        "score": 0.6157
+      },
+      {
         "id": "2008_rahimi_weighted_sums_of_random",
         "score": 0.6134
       },
@@ -310570,10 +310720,6 @@ window.tagSearchData = {
       {
         "id": "1986_quinlan_induction_of_decision_trees",
         "score": 0.5262
-      },
-      {
-        "id": "1910_13204",
-        "score": 0.5249
       }
     ],
     "2312_15122::machine learning": [
@@ -310666,6 +310812,10 @@ window.tagSearchData = {
         "score": 0.6375
       },
       {
+        "id": "1904_02990",
+        "score": 0.6354
+      },
+      {
         "id": "1992_holland_adaptation_in_natural_and",
         "score": 0.6322
       },
@@ -310716,10 +310866,6 @@ window.tagSearchData = {
       {
         "id": "1986_quinlan_induction_of_decision_trees",
         "score": 0.5639
-      },
-      {
-        "id": "1910_13204",
-        "score": 0.559
       }
     ],
     "2303_04137::machine learning": [
@@ -310786,6 +310932,10 @@ window.tagSearchData = {
       {
         "id": "2008_rahimi_weighted_sums_of_random",
         "score": 0.6271
+      },
+      {
+        "id": "1904_02990",
+        "score": 0.6208
       },
       {
         "id": "1606_03490",
@@ -310862,10 +311012,6 @@ window.tagSearchData = {
       {
         "id": "1986_quinlan_induction_of_decision_trees",
         "score": 0.5384
-      },
-      {
-        "id": "2001_ng_on_spectral_clustering_analysis",
-        "score": 0.5333
       }
     ],
     "2006_thrun_stanley_the_robot_that::machine learning": [
@@ -310962,6 +311108,10 @@ window.tagSearchData = {
         "score": 0.5941
       },
       {
+        "id": "1904_02990",
+        "score": 0.5918
+      },
+      {
         "id": "1606_03490",
         "score": 0.5887
       },
@@ -311008,10 +311158,6 @@ window.tagSearchData = {
       {
         "id": "1602_04938",
         "score": 0.5426
-      },
-      {
-        "id": "2001_ng_on_spectral_clustering_analysis",
-        "score": 0.5369
       }
     ],
     "1609_05158::image super-resolution": [
@@ -652458,6 +652604,10 @@ window.tagSearchData = {
         "score": 0.5909
       },
       {
+        "id": "1983_baur_the_complexity_of_partial",
+        "score": 0.5701
+      },
+      {
         "id": "2311_11166",
         "score": 0.5678
       },
@@ -652520,6 +652670,10 @@ window.tagSearchData = {
         "score": 0.5591
       },
       {
+        "id": "1983_baur_the_complexity_of_partial",
+        "score": 0.536
+      },
+      {
         "id": "1802_06640",
         "score": 0.526
       },
@@ -652580,6 +652734,10 @@ window.tagSearchData = {
       {
         "id": "2402_15464",
         "score": 0.5866
+      },
+      {
+        "id": "1983_baur_the_complexity_of_partial",
+        "score": 0.5596
       },
       {
         "id": "1972_karp_reducibility_among_combinatorial_problems",
@@ -652648,6 +652806,10 @@ window.tagSearchData = {
         "score": 0.5948
       },
       {
+        "id": "1983_baur_the_complexity_of_partial",
+        "score": 0.5735
+      },
+      {
         "id": "2311_11166",
         "score": 0.5722
       },
@@ -652672,6 +652834,10 @@ window.tagSearchData = {
       {
         "id": "1111_0952",
         "score": 0.7343
+      },
+      {
+        "id": "1983_baur_the_complexity_of_partial",
+        "score": 0.6926
       },
       {
         "id": "2402_15464",
@@ -652764,6 +652930,10 @@ window.tagSearchData = {
         "score": 0.5863
       },
       {
+        "id": "1983_baur_the_complexity_of_partial",
+        "score": 0.5832
+      },
+      {
         "id": "2311_11166",
         "score": 0.5772
       },
@@ -652838,6 +653008,10 @@ window.tagSearchData = {
         "score": 0.5739
       },
       {
+        "id": "1983_baur_the_complexity_of_partial",
+        "score": 0.5621
+      },
+      {
         "id": "1210_7420",
         "score": 0.5423
       },
@@ -652850,7 +653024,77 @@ window.tagSearchData = {
         "score": 0.4997
       }
     ],
+    "1983_baur_the_complexity_of_partial::computational complexity": [
+      {
+        "id": "1210_7420",
+        "score": 0.7493
+      },
+      {
+        "id": "1803_06843",
+        "score": 0.7278
+      },
+      {
+        "id": "1972_karp_reducibility_among_combinatorial_problems",
+        "score": 0.6926
+      },
+      {
+        "id": "1111_0952",
+        "score": 0.6662
+      },
+      {
+        "id": "2311_11166",
+        "score": 0.6303
+      },
+      {
+        "id": "2311_05135",
+        "score": 0.5971
+      },
+      {
+        "id": "2410_23916",
+        "score": 0.5929
+      },
+      {
+        "id": "1986_barnes_a_hierarchical_o_n",
+        "score": 0.5832
+      },
+      {
+        "id": "2504_12905",
+        "score": 0.5735
+      },
+      {
+        "id": "2012_08791",
+        "score": 0.5701
+      },
+      {
+        "id": "2402_15464",
+        "score": 0.5671
+      },
+      {
+        "id": "1802_06640",
+        "score": 0.5621
+      },
+      {
+        "id": "2103_14030",
+        "score": 0.5621
+      },
+      {
+        "id": "1910_13051",
+        "score": 0.5596
+      },
+      {
+        "id": "1809_10252",
+        "score": 0.5403
+      },
+      {
+        "id": "1907_06553",
+        "score": 0.536
+      }
+    ],
     "1210_7420::computational complexity": [
+      {
+        "id": "1983_baur_the_complexity_of_partial",
+        "score": 0.7493
+      },
       {
         "id": "1972_karp_reducibility_among_combinatorial_problems",
         "score": 0.7376
@@ -652972,6 +653216,10 @@ window.tagSearchData = {
       {
         "id": "2311_05135",
         "score": 0.5831
+      },
+      {
+        "id": "1983_baur_the_complexity_of_partial",
+        "score": 0.5671
       }
     ],
     "2410_23916::computational complexity": [
@@ -653028,6 +653276,10 @@ window.tagSearchData = {
         "score": 0.6023
       },
       {
+        "id": "1983_baur_the_complexity_of_partial",
+        "score": 0.5929
+      },
+      {
         "id": "1111_0952",
         "score": 0.5709
       },
@@ -653044,6 +653296,10 @@ window.tagSearchData = {
       {
         "id": "1210_7420",
         "score": 0.6717
+      },
+      {
+        "id": "1983_baur_the_complexity_of_partial",
+        "score": 0.6662
       },
       {
         "id": "2402_15464",
@@ -653152,6 +653408,10 @@ window.tagSearchData = {
         "score": 0.5838
       },
       {
+        "id": "1983_baur_the_complexity_of_partial",
+        "score": 0.5621
+      },
+      {
         "id": "1803_06843",
         "score": 0.5351
       },
@@ -653220,12 +653480,20 @@ window.tagSearchData = {
       {
         "id": "1972_karp_reducibility_among_combinatorial_problems",
         "score": 0.5521
+      },
+      {
+        "id": "1983_baur_the_complexity_of_partial",
+        "score": 0.5403
       }
     ],
     "1803_06843::computational complexity": [
       {
         "id": "1210_7420",
         "score": 0.7358
+      },
+      {
+        "id": "1983_baur_the_complexity_of_partial",
+        "score": 0.7278
       },
       {
         "id": "2410_23916",
@@ -653314,6 +653582,10 @@ window.tagSearchData = {
         "score": 0.6154
       },
       {
+        "id": "1983_baur_the_complexity_of_partial",
+        "score": 0.5971
+      },
+      {
         "id": "2504_12905",
         "score": 0.5948
       },
@@ -653370,6 +653642,10 @@ window.tagSearchData = {
       {
         "id": "1803_06843",
         "score": 0.647
+      },
+      {
+        "id": "1983_baur_the_complexity_of_partial",
+        "score": 0.6303
       },
       {
         "id": "1111_0952",
@@ -708982,14 +709258,196 @@ window.tagSearchData = {
         "score": 0.5868
       }
     ],
+    "1904_02990::symbolic differentiation": [
+      {
+        "id": "1962_hanson_analytic_differentiation_by_computer",
+        "score": 0.8263
+      },
+      {
+        "id": "1964_wengert_a_simple_automatic_derivative",
+        "score": 0.7971
+      },
+      {
+        "id": "1983_baur_the_complexity_of_partial",
+        "score": 0.7935
+      },
+      {
+        "id": "1953_kahrimanian_analytical_differentiation_by_a",
+        "score": 0.7394
+      },
+      {
+        "id": "1953_nolan_analytical_differentiation_on_a",
+        "score": 0.7255
+      }
+    ],
+    "1983_baur_the_complexity_of_partial::symbolic differentiation": [
+      {
+        "id": "1962_hanson_analytic_differentiation_by_computer",
+        "score": 0.8021
+      },
+      {
+        "id": "1904_02990",
+        "score": 0.7935
+      },
+      {
+        "id": "1964_wengert_a_simple_automatic_derivative",
+        "score": 0.7761
+      },
+      {
+        "id": "1953_kahrimanian_analytical_differentiation_by_a",
+        "score": 0.7465
+      },
+      {
+        "id": "1953_nolan_analytical_differentiation_on_a",
+        "score": 0.7247
+      }
+    ],
+    "1953_kahrimanian_analytical_differentiation_by_a::symbolic differentiation": [
+      {
+        "id": "1962_hanson_analytic_differentiation_by_computer",
+        "score": 0.8993
+      },
+      {
+        "id": "1953_nolan_analytical_differentiation_on_a",
+        "score": 0.8771
+      },
+      {
+        "id": "1964_wengert_a_simple_automatic_derivative",
+        "score": 0.7785
+      },
+      {
+        "id": "1983_baur_the_complexity_of_partial",
+        "score": 0.7465
+      },
+      {
+        "id": "1904_02990",
+        "score": 0.7394
+      }
+    ],
+    "1953_nolan_analytical_differentiation_on_a::symbolic differentiation": [
+      {
+        "id": "1953_kahrimanian_analytical_differentiation_by_a",
+        "score": 0.8771
+      },
+      {
+        "id": "1962_hanson_analytic_differentiation_by_computer",
+        "score": 0.8771
+      },
+      {
+        "id": "1964_wengert_a_simple_automatic_derivative",
+        "score": 0.7581
+      },
+      {
+        "id": "1904_02990",
+        "score": 0.7255
+      },
+      {
+        "id": "1983_baur_the_complexity_of_partial",
+        "score": 0.7247
+      }
+    ],
+    "1964_wengert_a_simple_automatic_derivative::symbolic differentiation": [
+      {
+        "id": "1962_hanson_analytic_differentiation_by_computer",
+        "score": 0.8297
+      },
+      {
+        "id": "1904_02990",
+        "score": 0.7971
+      },
+      {
+        "id": "1953_kahrimanian_analytical_differentiation_by_a",
+        "score": 0.7785
+      },
+      {
+        "id": "1983_baur_the_complexity_of_partial",
+        "score": 0.7761
+      },
+      {
+        "id": "1953_nolan_analytical_differentiation_on_a",
+        "score": 0.7581
+      }
+    ],
+    "1962_hanson_analytic_differentiation_by_computer::symbolic differentiation": [
+      {
+        "id": "1953_kahrimanian_analytical_differentiation_by_a",
+        "score": 0.8993
+      },
+      {
+        "id": "1953_nolan_analytical_differentiation_on_a",
+        "score": 0.8771
+      },
+      {
+        "id": "1964_wengert_a_simple_automatic_derivative",
+        "score": 0.8297
+      },
+      {
+        "id": "1904_02990",
+        "score": 0.8263
+      },
+      {
+        "id": "1983_baur_the_complexity_of_partial",
+        "score": 0.8021
+      }
+    ],
+    "1904_02990::automatic differentiation": [
+      {
+        "id": "1989_griewank_on_automatic_differentiation",
+        "score": 0.8405
+      },
+      {
+        "id": "1502_05767",
+        "score": 0.8399
+      },
+      {
+        "id": "1964_wengert_a_simple_automatic_derivative",
+        "score": 0.7971
+      },
+      {
+        "id": "1983_baur_the_complexity_of_partial",
+        "score": 0.7935
+      },
+      {
+        "id": "2603_08824",
+        "score": 0.7689
+      },
+      {
+        "id": "1994_pearlmutter_fast_exact_multiplication_by",
+        "score": 0.7337
+      },
+      {
+        "id": "1974_werbos_beyond_regression_new_tools",
+        "score": 0.7189
+      },
+      {
+        "id": "2018_frostig_compiling_machine_learning_programs",
+        "score": 0.7107
+      },
+      {
+        "id": "1985_cuyt_computational_implementation_of_the",
+        "score": 0.6948
+      },
+      {
+        "id": "2605_10034",
+        "score": 0.6203
+      }
+    ],
     "1502_05767::automatic differentiation": [
       {
         "id": "1989_griewank_on_automatic_differentiation",
         "score": 0.8838
       },
       {
+        "id": "1904_02990",
+        "score": 0.8399
+      },
+      {
         "id": "2603_08824",
         "score": 0.8252
+      },
+      {
+        "id": "1964_wengert_a_simple_automatic_derivative",
+        "score": 0.7706
       },
       {
         "id": "1994_pearlmutter_fast_exact_multiplication_by",
@@ -709002,6 +709460,10 @@ window.tagSearchData = {
       {
         "id": "2018_frostig_compiling_machine_learning_programs",
         "score": 0.7369
+      },
+      {
+        "id": "1983_baur_the_complexity_of_partial",
+        "score": 0.731
       },
       {
         "id": "1985_cuyt_computational_implementation_of_the",
@@ -709018,8 +709480,20 @@ window.tagSearchData = {
         "score": 0.8838
       },
       {
+        "id": "1964_wengert_a_simple_automatic_derivative",
+        "score": 0.8451
+      },
+      {
+        "id": "1904_02990",
+        "score": 0.8405
+      },
+      {
         "id": "2603_08824",
         "score": 0.797
+      },
+      {
+        "id": "1983_baur_the_complexity_of_partial",
+        "score": 0.7786
       },
       {
         "id": "1985_cuyt_computational_implementation_of_the",
@@ -709042,10 +709516,56 @@ window.tagSearchData = {
         "score": 0.5765
       }
     ],
+    "1983_baur_the_complexity_of_partial::automatic differentiation": [
+      {
+        "id": "1904_02990",
+        "score": 0.7935
+      },
+      {
+        "id": "1989_griewank_on_automatic_differentiation",
+        "score": 0.7786
+      },
+      {
+        "id": "1964_wengert_a_simple_automatic_derivative",
+        "score": 0.7761
+      },
+      {
+        "id": "1502_05767",
+        "score": 0.731
+      },
+      {
+        "id": "1994_pearlmutter_fast_exact_multiplication_by",
+        "score": 0.7088
+      },
+      {
+        "id": "1985_cuyt_computational_implementation_of_the",
+        "score": 0.6959
+      },
+      {
+        "id": "2603_08824",
+        "score": 0.6819
+      },
+      {
+        "id": "2018_frostig_compiling_machine_learning_programs",
+        "score": 0.6278
+      },
+      {
+        "id": "1974_werbos_beyond_regression_new_tools",
+        "score": 0.6206
+      },
+      {
+        "id": "2605_10034",
+        "score": 0.5478
+      }
+    ],
     "1985_cuyt_computational_implementation_of_the::automatic differentiation": [
       {
         "id": "1989_griewank_on_automatic_differentiation",
         "score": 0.7532
+      },
+      {
+        "id": "1964_wengert_a_simple_automatic_derivative",
+        "score": 0.7448
       },
       {
         "id": "1994_pearlmutter_fast_exact_multiplication_by",
@@ -709054,6 +709574,14 @@ window.tagSearchData = {
       {
         "id": "1502_05767",
         "score": 0.7199
+      },
+      {
+        "id": "1983_baur_the_complexity_of_partial",
+        "score": 0.6959
+      },
+      {
+        "id": "1904_02990",
+        "score": 0.6948
       },
       {
         "id": "2603_08824",
@@ -709078,6 +709606,10 @@ window.tagSearchData = {
         "score": 0.7692
       },
       {
+        "id": "1904_02990",
+        "score": 0.7337
+      },
+      {
         "id": "2603_08824",
         "score": 0.7293
       },
@@ -709090,8 +709622,16 @@ window.tagSearchData = {
         "score": 0.7205
       },
       {
+        "id": "1964_wengert_a_simple_automatic_derivative",
+        "score": 0.7127
+      },
+      {
         "id": "1974_werbos_beyond_regression_new_tools",
         "score": 0.7124
+      },
+      {
+        "id": "1983_baur_the_complexity_of_partial",
+        "score": 0.7088
       },
       {
         "id": "2018_frostig_compiling_machine_learning_programs",
@@ -709116,6 +709656,10 @@ window.tagSearchData = {
         "score": 0.6418
       },
       {
+        "id": "1904_02990",
+        "score": 0.6203
+      },
+      {
         "id": "1974_werbos_beyond_regression_new_tools",
         "score": 0.6166
       },
@@ -709128,8 +709672,16 @@ window.tagSearchData = {
         "score": 0.5765
       },
       {
+        "id": "1964_wengert_a_simple_automatic_derivative",
+        "score": 0.5675
+      },
+      {
         "id": "1985_cuyt_computational_implementation_of_the",
         "score": 0.5582
+      },
+      {
+        "id": "1983_baur_the_complexity_of_partial",
+        "score": 0.5478
       }
     ],
     "2603_08824::automatic differentiation": [
@@ -709146,8 +709698,20 @@ window.tagSearchData = {
         "score": 0.797
       },
       {
+        "id": "1904_02990",
+        "score": 0.7689
+      },
+      {
+        "id": "1964_wengert_a_simple_automatic_derivative",
+        "score": 0.7296
+      },
+      {
         "id": "1994_pearlmutter_fast_exact_multiplication_by",
         "score": 0.7293
+      },
+      {
+        "id": "1983_baur_the_complexity_of_partial",
+        "score": 0.6819
       },
       {
         "id": "1974_werbos_beyond_regression_new_tools",
@@ -709172,8 +709736,16 @@ window.tagSearchData = {
         "score": 0.7369
       },
       {
+        "id": "1904_02990",
+        "score": 0.7107
+      },
+      {
         "id": "1989_griewank_on_automatic_differentiation",
         "score": 0.6995
+      },
+      {
+        "id": "1964_wengert_a_simple_automatic_derivative",
+        "score": 0.6704
       },
       {
         "id": "1994_pearlmutter_fast_exact_multiplication_by",
@@ -709182,6 +709754,10 @@ window.tagSearchData = {
       {
         "id": "2605_10034",
         "score": 0.6418
+      },
+      {
+        "id": "1983_baur_the_complexity_of_partial",
+        "score": 0.6278
       },
       {
         "id": "1985_cuyt_computational_implementation_of_the",
@@ -709202,8 +709778,16 @@ window.tagSearchData = {
         "score": 0.7224
       },
       {
+        "id": "1904_02990",
+        "score": 0.7189
+      },
+      {
         "id": "1994_pearlmutter_fast_exact_multiplication_by",
         "score": 0.7124
+      },
+      {
+        "id": "1964_wengert_a_simple_automatic_derivative",
+        "score": 0.6861
       },
       {
         "id": "2603_08824",
@@ -709214,12 +709798,70 @@ window.tagSearchData = {
         "score": 0.6508
       },
       {
+        "id": "1983_baur_the_complexity_of_partial",
+        "score": 0.6206
+      },
+      {
         "id": "2605_10034",
         "score": 0.6166
       },
       {
         "id": "2018_frostig_compiling_machine_learning_programs",
         "score": 0.6111
+      }
+    ],
+    "1964_wengert_a_simple_automatic_derivative::automatic differentiation": [
+      {
+        "id": "1989_griewank_on_automatic_differentiation",
+        "score": 0.8451
+      },
+      {
+        "id": "1904_02990",
+        "score": 0.7971
+      },
+      {
+        "id": "1983_baur_the_complexity_of_partial",
+        "score": 0.7761
+      },
+      {
+        "id": "1502_05767",
+        "score": 0.7706
+      },
+      {
+        "id": "1985_cuyt_computational_implementation_of_the",
+        "score": 0.7448
+      },
+      {
+        "id": "2603_08824",
+        "score": 0.7296
+      },
+      {
+        "id": "1994_pearlmutter_fast_exact_multiplication_by",
+        "score": 0.7127
+      },
+      {
+        "id": "1974_werbos_beyond_regression_new_tools",
+        "score": 0.6861
+      },
+      {
+        "id": "2018_frostig_compiling_machine_learning_programs",
+        "score": 0.6704
+      },
+      {
+        "id": "2605_10034",
+        "score": 0.5675
+      }
+    ],
+    "1904_02990::expression graphs": [
+      {
+        "id": "2008_grant_graph_implementations_for_nonsmooth",
+        "score": 0.7334
+      }
+    ],
+    "2008_grant_graph_implementations_for_nonsmooth::expression graphs": [
+      {
+        "id": "1904_02990",
+        "score": 0.7334
       }
     ],
     "1903_09122::kalman filtering": [
@@ -730082,6 +730724,30 @@ window.tagSearchData = {
         "score": 0.8786
       }
     ],
+    "1975_csanky_fast_parallel_matrix_inversion::matrix inversion": [
+      {
+        "id": "1983_baur_the_complexity_of_partial",
+        "score": 0.7927
+      }
+    ],
+    "1983_baur_the_complexity_of_partial::matrix inversion": [
+      {
+        "id": "1975_csanky_fast_parallel_matrix_inversion",
+        "score": 0.7927
+      }
+    ],
+    "1975_csanky_fast_parallel_matrix_inversion::arithmetic complexity": [
+      {
+        "id": "1983_baur_the_complexity_of_partial",
+        "score": 0.7927
+      }
+    ],
+    "1983_baur_the_complexity_of_partial::arithmetic complexity": [
+      {
+        "id": "1975_csanky_fast_parallel_matrix_inversion",
+        "score": 0.7927
+      }
+    ],
     "1975_rana_on_optimal_stationary_control::state-dependent noise": [
       {
         "id": "1971_haussmann_optimal_stationary_control_with",
@@ -736388,6 +737054,108 @@ window.tagSearchData = {
       {
         "id": "1983_artstein_stabilization_with_relaxed_controls",
         "score": 0.8625
+      }
+    ],
+    "1989_griewank_on_automatic_differentiation::derivatives": [
+      {
+        "id": "1962_hanson_analytic_differentiation_by_computer",
+        "score": 0.8493
+      },
+      {
+        "id": "1964_wengert_a_simple_automatic_derivative",
+        "score": 0.8451
+      },
+      {
+        "id": "1953_kahrimanian_analytical_differentiation_by_a",
+        "score": 0.7837
+      },
+      {
+        "id": "1953_nolan_analytical_differentiation_on_a",
+        "score": 0.7711
+      }
+    ],
+    "1953_kahrimanian_analytical_differentiation_by_a::derivatives": [
+      {
+        "id": "1962_hanson_analytic_differentiation_by_computer",
+        "score": 0.8993
+      },
+      {
+        "id": "1953_nolan_analytical_differentiation_on_a",
+        "score": 0.8771
+      },
+      {
+        "id": "1989_griewank_on_automatic_differentiation",
+        "score": 0.7837
+      },
+      {
+        "id": "1964_wengert_a_simple_automatic_derivative",
+        "score": 0.7785
+      }
+    ],
+    "1953_nolan_analytical_differentiation_on_a::derivatives": [
+      {
+        "id": "1953_kahrimanian_analytical_differentiation_by_a",
+        "score": 0.8771
+      },
+      {
+        "id": "1962_hanson_analytic_differentiation_by_computer",
+        "score": 0.8771
+      },
+      {
+        "id": "1989_griewank_on_automatic_differentiation",
+        "score": 0.7711
+      },
+      {
+        "id": "1964_wengert_a_simple_automatic_derivative",
+        "score": 0.7581
+      }
+    ],
+    "1964_wengert_a_simple_automatic_derivative::derivatives": [
+      {
+        "id": "1989_griewank_on_automatic_differentiation",
+        "score": 0.8451
+      },
+      {
+        "id": "1962_hanson_analytic_differentiation_by_computer",
+        "score": 0.8297
+      },
+      {
+        "id": "1953_kahrimanian_analytical_differentiation_by_a",
+        "score": 0.7785
+      },
+      {
+        "id": "1953_nolan_analytical_differentiation_on_a",
+        "score": 0.7581
+      }
+    ],
+    "1962_hanson_analytic_differentiation_by_computer::derivatives": [
+      {
+        "id": "1953_kahrimanian_analytical_differentiation_by_a",
+        "score": 0.8993
+      },
+      {
+        "id": "1953_nolan_analytical_differentiation_on_a",
+        "score": 0.8771
+      },
+      {
+        "id": "1989_griewank_on_automatic_differentiation",
+        "score": 0.8493
+      },
+      {
+        "id": "1964_wengert_a_simple_automatic_derivative",
+        "score": 0.8297
+      }
+    ],
+    "1989_griewank_on_automatic_differentiation::scientific computing": [
+      {
+        "id": "1964_wengert_a_simple_automatic_derivative",
+        "score": 0.8451
+      }
+    ],
+    "1964_wengert_a_simple_automatic_derivative::scientific computing": [
+      {
+        "id": "1989_griewank_on_automatic_differentiation",
+        "score": 0.8451
       }
     ],
     "1989_rohwer_idempotent_one_sided_approximation::signal filtering": [
@@ -745742,6 +746510,66 @@ window.tagSearchData = {
         "score": 0.7803
       }
     ],
+    "1953_kahrimanian_analytical_differentiation_by_a::analytic differentiation": [
+      {
+        "id": "1962_hanson_analytic_differentiation_by_computer",
+        "score": 0.8993
+      },
+      {
+        "id": "1953_nolan_analytical_differentiation_on_a",
+        "score": 0.8771
+      }
+    ],
+    "1953_nolan_analytical_differentiation_on_a::analytic differentiation": [
+      {
+        "id": "1953_kahrimanian_analytical_differentiation_by_a",
+        "score": 0.8771
+      },
+      {
+        "id": "1962_hanson_analytic_differentiation_by_computer",
+        "score": 0.8771
+      }
+    ],
+    "1962_hanson_analytic_differentiation_by_computer::analytic differentiation": [
+      {
+        "id": "1953_kahrimanian_analytical_differentiation_by_a",
+        "score": 0.8993
+      },
+      {
+        "id": "1953_nolan_analytical_differentiation_on_a",
+        "score": 0.8771
+      }
+    ],
+    "1953_kahrimanian_analytical_differentiation_by_a::computer algebra": [
+      {
+        "id": "1962_hanson_analytic_differentiation_by_computer",
+        "score": 0.8993
+      },
+      {
+        "id": "1953_nolan_analytical_differentiation_on_a",
+        "score": 0.8771
+      }
+    ],
+    "1953_nolan_analytical_differentiation_on_a::computer algebra": [
+      {
+        "id": "1953_kahrimanian_analytical_differentiation_by_a",
+        "score": 0.8771
+      },
+      {
+        "id": "1962_hanson_analytic_differentiation_by_computer",
+        "score": 0.8771
+      }
+    ],
+    "1962_hanson_analytic_differentiation_by_computer::computer algebra": [
+      {
+        "id": "1953_kahrimanian_analytical_differentiation_by_a",
+        "score": 0.8993
+      },
+      {
+        "id": "1953_nolan_analytical_differentiation_on_a",
+        "score": 0.8771
+      }
+    ],
     "2009_chandrasekaran_sparse_and_low_rank::matrix decomposition": [
       {
         "id": "0912_3599",
@@ -746833,116 +747661,6 @@ window.tagSearchData = {
     "cond_mat_9910332::self-organization": [],
     "cond_mat_9910332::world wide web": [],
     "cond_mat_9910332::genetic networks": [],
-    "1904_02990::machine learning": [
-      {
-        "id": "2605_30188"
-      },
-      {
-        "id": "2025_hu_technically_speaking_transitioning_from"
-      },
-      {
-        "id": "2403_04133"
-      },
-      {
-        "id": "2303_04137"
-      },
-      {
-        "id": "2306_13867"
-      },
-      {
-        "id": "2312_15122"
-      },
-      {
-        "id": "2310_03589"
-      },
-      {
-        "id": "2310_08710"
-      },
-      {
-        "id": "2207_03517"
-      },
-      {
-        "id": "2212_02603"
-      },
-      {
-        "id": "2210_05519"
-      },
-      {
-        "id": "2002_05651"
-      },
-      {
-        "id": "1909_09223"
-      },
-      {
-        "id": "1911_10635"
-      },
-      {
-        "id": "1910_13204"
-      },
-      {
-        "id": "1806_00451"
-      },
-      {
-        "id": "1802_03653"
-      },
-      {
-        "id": "1812_11118"
-      },
-      {
-        "id": "1811_10154"
-      },
-      {
-        "id": "1807_05118"
-      },
-      {
-        "id": "1702_08608"
-      },
-      {
-        "id": "1610_05492"
-      },
-      {
-        "id": "1602_04938"
-      },
-      {
-        "id": "1606_03490"
-      },
-      {
-        "id": "1502_05767"
-      },
-      {
-        "id": "2015_palmieri_distance_metric_learning_for"
-      },
-      {
-        "id": "2008_kim_a_minimax_theorem_with"
-      },
-      {
-        "id": "2008_rahimi_weighted_sums_of_random"
-      },
-      {
-        "id": "2006_thrun_stanley_the_robot_that"
-      },
-      {
-        "id": "2001_friedman_greedy_function_approximation_a"
-      },
-      {
-        "id": "2001_ng_on_spectral_clustering_analysis"
-      },
-      {
-        "id": "2000_bengio_gradient_based_optimization_of"
-      },
-      {
-        "id": "1996_breiman_bagging_predictors"
-      },
-      {
-        "id": "1995_cortes_support_vector_networks"
-      },
-      {
-        "id": "1993_quinlan_c4_5_programs_for_machine"
-      },
-      {
-        "id": "1992_holland_adaptation_in_natural_and"
-      }
-    ],
     "1609_05158::sub-pixel convolution": [],
     "1609_05158::pixel shuffle": [],
     "1609_05158::espcn": [],
@@ -747026,56 +747744,6 @@ window.tagSearchData = {
     "2006_00870::quadratic stabilization": [],
     "2010_01412::sam": [],
     "2010_01412::sharpness-aware minimization": [],
-    "1983_baur_the_complexity_of_partial::computational complexity": [
-      {
-        "id": "2504_12905"
-      },
-      {
-        "id": "2402_15464"
-      },
-      {
-        "id": "2410_23916"
-      },
-      {
-        "id": "2311_11166"
-      },
-      {
-        "id": "2311_05135"
-      },
-      {
-        "id": "2103_14030"
-      },
-      {
-        "id": "2012_08791"
-      },
-      {
-        "id": "1907_06553"
-      },
-      {
-        "id": "1910_13051"
-      },
-      {
-        "id": "1809_10252"
-      },
-      {
-        "id": "1803_06843"
-      },
-      {
-        "id": "1802_06640"
-      },
-      {
-        "id": "1210_7420"
-      },
-      {
-        "id": "1111_0952"
-      },
-      {
-        "id": "1986_barnes_a_hierarchical_o_n"
-      },
-      {
-        "id": "1972_karp_reducibility_among_combinatorial_problems"
-      }
-    ],
     "2012_08791::minirocket": [],
     "2012_04456::dimension reduction": [],
     "2010_11929::vit": [],
@@ -747276,216 +747944,8 @@ window.tagSearchData = {
     "1907_10597::model evaluation": [],
     "1907_10597::research incentives": [],
     "1907_10597::artificial intelligence accessibility": [],
-    "1904_02990::symbolic differentiation": [
-      {
-        "id": "1983_baur_the_complexity_of_partial"
-      },
-      {
-        "id": "1964_wengert_a_simple_automatic_derivative"
-      },
-      {
-        "id": "1962_hanson_analytic_differentiation_by_computer"
-      },
-      {
-        "id": "1953_nolan_analytical_differentiation_on_a"
-      },
-      {
-        "id": "1953_kahrimanian_analytical_differentiation_by_a"
-      }
-    ],
-    "1983_baur_the_complexity_of_partial::symbolic differentiation": [
-      {
-        "id": "1904_02990"
-      },
-      {
-        "id": "1964_wengert_a_simple_automatic_derivative"
-      },
-      {
-        "id": "1962_hanson_analytic_differentiation_by_computer"
-      },
-      {
-        "id": "1953_nolan_analytical_differentiation_on_a"
-      },
-      {
-        "id": "1953_kahrimanian_analytical_differentiation_by_a"
-      }
-    ],
-    "1953_kahrimanian_analytical_differentiation_by_a::symbolic differentiation": [
-      {
-        "id": "1904_02990"
-      },
-      {
-        "id": "1983_baur_the_complexity_of_partial"
-      },
-      {
-        "id": "1964_wengert_a_simple_automatic_derivative"
-      },
-      {
-        "id": "1962_hanson_analytic_differentiation_by_computer"
-      },
-      {
-        "id": "1953_nolan_analytical_differentiation_on_a"
-      }
-    ],
-    "1953_nolan_analytical_differentiation_on_a::symbolic differentiation": [
-      {
-        "id": "1904_02990"
-      },
-      {
-        "id": "1983_baur_the_complexity_of_partial"
-      },
-      {
-        "id": "1964_wengert_a_simple_automatic_derivative"
-      },
-      {
-        "id": "1962_hanson_analytic_differentiation_by_computer"
-      },
-      {
-        "id": "1953_kahrimanian_analytical_differentiation_by_a"
-      }
-    ],
-    "1964_wengert_a_simple_automatic_derivative::symbolic differentiation": [
-      {
-        "id": "1904_02990"
-      },
-      {
-        "id": "1983_baur_the_complexity_of_partial"
-      },
-      {
-        "id": "1962_hanson_analytic_differentiation_by_computer"
-      },
-      {
-        "id": "1953_nolan_analytical_differentiation_on_a"
-      },
-      {
-        "id": "1953_kahrimanian_analytical_differentiation_by_a"
-      }
-    ],
-    "1962_hanson_analytic_differentiation_by_computer::symbolic differentiation": [
-      {
-        "id": "1904_02990"
-      },
-      {
-        "id": "1983_baur_the_complexity_of_partial"
-      },
-      {
-        "id": "1964_wengert_a_simple_automatic_derivative"
-      },
-      {
-        "id": "1953_nolan_analytical_differentiation_on_a"
-      },
-      {
-        "id": "1953_kahrimanian_analytical_differentiation_by_a"
-      }
-    ],
-    "1904_02990::automatic differentiation": [
-      {
-        "id": "2605_10034"
-      },
-      {
-        "id": "2603_08824"
-      },
-      {
-        "id": "2018_frostig_compiling_machine_learning_programs"
-      },
-      {
-        "id": "1502_05767"
-      },
-      {
-        "id": "1994_pearlmutter_fast_exact_multiplication_by"
-      },
-      {
-        "id": "1989_griewank_on_automatic_differentiation"
-      },
-      {
-        "id": "1985_cuyt_computational_implementation_of_the"
-      },
-      {
-        "id": "1983_baur_the_complexity_of_partial"
-      },
-      {
-        "id": "1974_werbos_beyond_regression_new_tools"
-      },
-      {
-        "id": "1964_wengert_a_simple_automatic_derivative"
-      }
-    ],
-    "1983_baur_the_complexity_of_partial::automatic differentiation": [
-      {
-        "id": "2605_10034"
-      },
-      {
-        "id": "2603_08824"
-      },
-      {
-        "id": "1904_02990"
-      },
-      {
-        "id": "2018_frostig_compiling_machine_learning_programs"
-      },
-      {
-        "id": "1502_05767"
-      },
-      {
-        "id": "1994_pearlmutter_fast_exact_multiplication_by"
-      },
-      {
-        "id": "1989_griewank_on_automatic_differentiation"
-      },
-      {
-        "id": "1985_cuyt_computational_implementation_of_the"
-      },
-      {
-        "id": "1974_werbos_beyond_regression_new_tools"
-      },
-      {
-        "id": "1964_wengert_a_simple_automatic_derivative"
-      }
-    ],
-    "1964_wengert_a_simple_automatic_derivative::automatic differentiation": [
-      {
-        "id": "2605_10034"
-      },
-      {
-        "id": "2603_08824"
-      },
-      {
-        "id": "1904_02990"
-      },
-      {
-        "id": "2018_frostig_compiling_machine_learning_programs"
-      },
-      {
-        "id": "1502_05767"
-      },
-      {
-        "id": "1994_pearlmutter_fast_exact_multiplication_by"
-      },
-      {
-        "id": "1989_griewank_on_automatic_differentiation"
-      },
-      {
-        "id": "1985_cuyt_computational_implementation_of_the"
-      },
-      {
-        "id": "1983_baur_the_complexity_of_partial"
-      },
-      {
-        "id": "1974_werbos_beyond_regression_new_tools"
-      }
-    ],
     "1904_02990::reverse mode": [],
     "1904_02990::expression swell": [],
-    "1904_02990::expression graphs": [
-      {
-        "id": "2008_grant_graph_implementations_for_nonsmooth"
-      }
-    ],
-    "2008_grant_graph_implementations_for_nonsmooth::expression graphs": [
-      {
-        "id": "1904_02990"
-      }
-    ],
     "1904_02990::symbolic computation": [],
     "1909_09223::interpretml": [],
     "1908_05968::n2d": [],
@@ -747774,28 +748234,8 @@ window.tagSearchData = {
     "1975_bentley_multidimensional_binary_search_trees::partial match queries": [],
     "1975_gustafson_design_of_linear_regulators::linearization": [],
     "1975_gustafson_design_of_linear_regulators::linear quadratic regulator design": [],
-    "1975_csanky_fast_parallel_matrix_inversion::matrix inversion": [
-      {
-        "id": "1983_baur_the_complexity_of_partial"
-      }
-    ],
-    "1983_baur_the_complexity_of_partial::matrix inversion": [
-      {
-        "id": "1975_csanky_fast_parallel_matrix_inversion"
-      }
-    ],
     "1975_csanky_fast_parallel_matrix_inversion::determinants": [],
     "1975_csanky_fast_parallel_matrix_inversion::characteristic polynomial": [],
-    "1975_csanky_fast_parallel_matrix_inversion::arithmetic complexity": [
-      {
-        "id": "1983_baur_the_complexity_of_partial"
-      }
-    ],
-    "1983_baur_the_complexity_of_partial::arithmetic complexity": [
-      {
-        "id": "1975_csanky_fast_parallel_matrix_inversion"
-      }
-    ],
     "1975_csanky_fast_parallel_matrix_inversion::nc algorithms": [],
     "1975_rana_on_optimal_stationary_control::stationary control": [],
     "1975_rana_on_optimal_stationary_control::existence criteria": [],
@@ -747984,86 +748424,6 @@ window.tagSearchData = {
     "1989_blelloch_scans_as_primitive_parallel::parallel programming": [],
     "1989_blelloch_scans_as_primitive_parallel::functional primitives": [],
     "1989_griewank_on_automatic_differentiation::algorithmic differentiation": [],
-    "1989_griewank_on_automatic_differentiation::derivatives": [
-      {
-        "id": "1964_wengert_a_simple_automatic_derivative"
-      },
-      {
-        "id": "1962_hanson_analytic_differentiation_by_computer"
-      },
-      {
-        "id": "1953_nolan_analytical_differentiation_on_a"
-      },
-      {
-        "id": "1953_kahrimanian_analytical_differentiation_by_a"
-      }
-    ],
-    "1953_kahrimanian_analytical_differentiation_by_a::derivatives": [
-      {
-        "id": "1989_griewank_on_automatic_differentiation"
-      },
-      {
-        "id": "1964_wengert_a_simple_automatic_derivative"
-      },
-      {
-        "id": "1962_hanson_analytic_differentiation_by_computer"
-      },
-      {
-        "id": "1953_nolan_analytical_differentiation_on_a"
-      }
-    ],
-    "1953_nolan_analytical_differentiation_on_a::derivatives": [
-      {
-        "id": "1989_griewank_on_automatic_differentiation"
-      },
-      {
-        "id": "1964_wengert_a_simple_automatic_derivative"
-      },
-      {
-        "id": "1962_hanson_analytic_differentiation_by_computer"
-      },
-      {
-        "id": "1953_kahrimanian_analytical_differentiation_by_a"
-      }
-    ],
-    "1964_wengert_a_simple_automatic_derivative::derivatives": [
-      {
-        "id": "1989_griewank_on_automatic_differentiation"
-      },
-      {
-        "id": "1962_hanson_analytic_differentiation_by_computer"
-      },
-      {
-        "id": "1953_nolan_analytical_differentiation_on_a"
-      },
-      {
-        "id": "1953_kahrimanian_analytical_differentiation_by_a"
-      }
-    ],
-    "1962_hanson_analytic_differentiation_by_computer::derivatives": [
-      {
-        "id": "1989_griewank_on_automatic_differentiation"
-      },
-      {
-        "id": "1964_wengert_a_simple_automatic_derivative"
-      },
-      {
-        "id": "1953_nolan_analytical_differentiation_on_a"
-      },
-      {
-        "id": "1953_kahrimanian_analytical_differentiation_by_a"
-      }
-    ],
-    "1989_griewank_on_automatic_differentiation::scientific computing": [
-      {
-        "id": "1964_wengert_a_simple_automatic_derivative"
-      }
-    ],
-    "1964_wengert_a_simple_automatic_derivative::scientific computing": [
-      {
-        "id": "1989_griewank_on_automatic_differentiation"
-      }
-    ],
     "1989_griewank_on_automatic_differentiation::sensitivity analysis": [],
     "1989_rohwer_idempotent_one_sided_approximation::idempotent filters": [],
     "1989_rohwer_idempotent_one_sided_approximation::rank filters": [],
@@ -749104,54 +749464,6 @@ window.tagSearchData = {
     "1953_watson_molecular_structure_of_nucleic::base pairing": [],
     "1953_watson_molecular_structure_of_nucleic::nucleic acids": [],
     "1953_watson_molecular_structure_of_nucleic::structural biology": [],
-    "1953_kahrimanian_analytical_differentiation_by_a::analytic differentiation": [
-      {
-        "id": "1962_hanson_analytic_differentiation_by_computer"
-      },
-      {
-        "id": "1953_nolan_analytical_differentiation_on_a"
-      }
-    ],
-    "1953_nolan_analytical_differentiation_on_a::analytic differentiation": [
-      {
-        "id": "1962_hanson_analytic_differentiation_by_computer"
-      },
-      {
-        "id": "1953_kahrimanian_analytical_differentiation_by_a"
-      }
-    ],
-    "1962_hanson_analytic_differentiation_by_computer::analytic differentiation": [
-      {
-        "id": "1953_nolan_analytical_differentiation_on_a"
-      },
-      {
-        "id": "1953_kahrimanian_analytical_differentiation_by_a"
-      }
-    ],
-    "1953_kahrimanian_analytical_differentiation_by_a::computer algebra": [
-      {
-        "id": "1962_hanson_analytic_differentiation_by_computer"
-      },
-      {
-        "id": "1953_nolan_analytical_differentiation_on_a"
-      }
-    ],
-    "1953_nolan_analytical_differentiation_on_a::computer algebra": [
-      {
-        "id": "1962_hanson_analytic_differentiation_by_computer"
-      },
-      {
-        "id": "1953_kahrimanian_analytical_differentiation_by_a"
-      }
-    ],
-    "1962_hanson_analytic_differentiation_by_computer::computer algebra": [
-      {
-        "id": "1953_nolan_analytical_differentiation_on_a"
-      },
-      {
-        "id": "1953_kahrimanian_analytical_differentiation_by_a"
-      }
-    ],
     "1953_kahrimanian_analytical_differentiation_by_a::formula manipulation": [],
     "1953_kahrimanian_analytical_differentiation_by_a::univac": [],
     "1953_shapley_a_value_for_n::cooperative games": [],
