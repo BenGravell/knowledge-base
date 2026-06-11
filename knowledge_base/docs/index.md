@@ -128,11 +128,9 @@ hide:
       </span>
     </summary>
     <div class="kb-home-expander-content kb-home-about">
-      <h2>Why does this exist?</h2>
+      <h2>What is this?</h2>
 
-      <p>Paper indexes, citation databases, search engines, and literature review tools are already good at retrieval. I wanted something a little different: a place where a curated corpus could be explored through several complementary lenses.</p>
-
-      <p>The collection is meant to be browsed, searched, compared, and revisited from different angles. Together, those views make it easier to wander, follow threads, notice relationships, and build a feel for the surrounding landscape.</p>
+      <p>My curated corpus of references (mostly research papers) that one can search, compare, and explore through several complementary lenses. Together, those views make it easier to follow threads, notice relationships, and build a feel for the surrounding landscape.</p>
 
       <div class="kb-about-compare">
         <section class="kb-about-compare-panel kb-about-compare-panel--is">
@@ -155,6 +153,23 @@ hide:
           </ul>
         </section>
       </div>
+
+      <h2>Why does this exist?</h2>
+
+      <p>My goal is to make exploring research feel less like grasping at straws and more like (re-)discovering a world whose landmarks are slowly becoming familiar.</p>
+
+      <h2>Why not use an existing tool?</h2>
+
+      <p>Paper indexes, citation databases, search engines, and literature review tools are already good at retrieval. I wanted something a little different: a durable place for the special subset of references I have already triaged, cleaned up, summarized, and placed.</p>
+
+      <p>There are other cool related tools such as <a href="https://www.connectedpapers.com/">Connected Papers</a>, <a href="https://openknowledgemaps.org/">Open Knowledge Maps</a>, <a href="https://www.researchrabbit.ai/">ResearchRabbit</a>, and <a href="https://incitefulmed.com/academic/">Inciteful</a>. They are useful for discovering literature from the outside in: start with a seed paper, query, collection, or citation graph, then expand into a much larger external corpus. The blockers for my use case are different.</p>
+
+      <ul>
+        <li>They are optimized for discovery sessions, not for maintaining a stable, hand-curated library with my own labels, summaries, tags, and placement decisions.</li>
+        <li>Their maps are usually generated around a query, seed, or remote account state, while I wanted the same corpus to be available as a tree, map, timeline, search surface, and per-paper notes.</li>
+        <li>They depend on live third-party services and external ranking logic; this site is static, inspectable, and rebuildable from local metadata.</li>
+        <li>They can help find more papers, but they do not answer the quieter question: what have I already decided is worth keeping, and where does it sit relative to everything else I care about?</li>
+      </ul>
 
       <h2>Reach Out</h2>
 

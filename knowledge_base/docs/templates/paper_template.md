@@ -89,7 +89,7 @@
 {% endif %}
 
 {% if top_similar_papers %}
-## Top 5 Most Similar Papers
+## Similar Papers
 
 <div class="paper-similar-list">
 {% for paper in top_similar_papers %}
