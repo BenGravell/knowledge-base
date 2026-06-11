@@ -3325,15 +3325,15 @@ body:has(#ct-app) .md-content__inner {
 @media (max-width: 720px) {
   .ct-page {
     --ct-rail-center: 0.98rem;
-    --ct-tree-button-min: 2.35rem;
-    --ct-tree-button-counter-min: 2.72rem;
-    --ct-current-button-min: 3.53rem;
-    --ct-tree-label-size: 0.82rem;
-    --ct-tree-count-font-size: 0.52rem;
-    --ct-tree-count-icon-size: 0.5rem;
-    --ct-tree-count-column-gap: 0.18rem;
-    --ct-tree-count-pad-inline-start: 0.26rem;
-    --ct-tree-count-pad-inline-end: 0.06rem;
+    --ct-tree-button-min: 2.08rem;
+    --ct-tree-button-counter-min: 2.34rem;
+    --ct-current-button-min: 2.92rem;
+    --ct-tree-label-size: 0.78rem;
+    --ct-tree-count-font-size: 0.5rem;
+    --ct-tree-count-icon-size: 0.48rem;
+    --ct-tree-count-column-gap: 0.16rem;
+    --ct-tree-count-pad-inline-start: 0.22rem;
+    --ct-tree-count-pad-inline-end: 0.04rem;
     --ct-tree-count-stack-gap: 0;
     --ct-sunburst-min-size: 15rem;
     --ct-sunburst-max-size: 24rem;
@@ -3383,22 +3383,26 @@ body:has(#ct-app) .md-content__inner {
   }
 
   .ct-focus-stack {
-    gap: 0.58rem;
+    gap: 0.42rem;
   }
 
   .ct-focus-core {
     grid-template-columns: 1fr;
-    gap: 0.58rem;
+    gap: 0.42rem;
+  }
+
+  .ct-tree-node {
+    margin-block: 0.12rem;
   }
 
   .ct-tree-button {
     gap: 0.34rem;
     min-height: var(--ct-tree-button-min);
-    padding: 0.34rem 0.46rem 0.34rem 0;
+    padding: 0.26rem 0.42rem 0.26rem 0;
   }
 
   .ct-tree-button.has-counters .ct-tree-copy {
-    padding-block: 0.32rem;
+    padding-block: 0.22rem;
   }
 
   .ct-tree-node.is-current > .ct-tree-button {
