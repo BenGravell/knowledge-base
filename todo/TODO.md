@@ -94,14 +94,6 @@ Set up an automation orchestration script to invest from paper funnel, run prefi
 
 ### Links
 
-- Google Scholar link
-- <https://www.connectedpapers.com/>
-  - ex. <https://www.connectedpapers.com/main/4326d7e9933c77ff9dc53056c62ef6712d90c633/Sampling%20based-algorithms-for-optimal-motion-planning/graph>
-- <https://openalex.org/>
-- <https://openknowledgemaps.org/>
-- <https://www.researchrabbit.ai/>
-- <https://incitefulmed.com/academic/>
-
 Try to render arXiv in the app window natively as much as possible (using HTML when available)
 
 ### Chat with paper

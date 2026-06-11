@@ -142,6 +142,45 @@ def link_domain(url: str) -> str:
     return host or url
 
 
+def is_openalex_url(url: str) -> bool:
+    return "openalex.org" in link_domain(url)
+
+
+def is_google_scholar_url(url: str) -> bool:
+    return link_domain(url) == "scholar.google.com"
+
+
+def google_scholar_url(data: dict) -> str:
+    for url in [clean_scalar(data.get("link")), *as_links(data.get("links_alt"))]:
+        if is_google_scholar_url(url):
+            return url
+
+    doi = clean_doi(data.get("doi"))
+    if doi:
+        query = doi
+    else:
+        title = clean_scalar(data.get("title"))
+        arxiv_id = clean_arxiv_id(data.get("arxiv_id"))
+        if title:
+            query = f'"{title}"'
+        elif arxiv_id:
+            query = f"arXiv:{arxiv_id}"
+        else:
+            return ""
+    return f"https://scholar.google.com/scholar?q={quote(query, safe='')}"
+
+
+def openalex_work_url(data: dict) -> str:
+    for url in [clean_scalar(data.get("link")), *as_links(data.get("links_alt"))]:
+        if is_openalex_url(url):
+            return url
+
+    doi = clean_doi(data.get("doi"))
+    if not doi:
+        return ""
+    return f"https://openalex.org/works?filter=doi:{quote(doi, safe='')}"
+
+
 def alternate_link_label(url: str) -> str:
     parsed = urlparse(url)
     host = parsed.netloc.lower().removeprefix("www.")
@@ -289,6 +328,12 @@ def build_link_sections(data: dict, paper_id: str) -> list[dict]:
         add_standard("arXiv HTML", arxiv_html_url(arxiv_id))
     if doi:
         add_standard("DOI", f"https://doi.org/{doi}")
+    google_scholar = google_scholar_url(data)
+    if google_scholar:
+        add_standard("Google Scholar", google_scholar)
+    openalex = openalex_work_url(data)
+    if openalex:
+        add_standard("OpenAlex", openalex)
 
     external_links.extend(standard_links)
 
