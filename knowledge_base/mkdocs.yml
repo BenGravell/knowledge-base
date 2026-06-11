@@ -79,6 +79,7 @@ extra_javascript:
   - javascripts/math-fit.js
   - javascripts/header-link.js
   - javascripts/nav-drawer-state.js
+  - javascripts/paper-link-pills.js
 
 markdown_extensions:
   - meta

@@ -20,6 +20,8 @@
     return;
   }
 
+  configureCounterSizing();
+
   const nodes = new Map();
   const paperNodes = new Map();
   const sunburstLayoutCache = new Map();
@@ -189,6 +191,14 @@
 
   function isLeafNode(node) {
     return Boolean(node && (!node.children || !node.children.length));
+  }
+
+  function configureCounterSizing() {
+    const totalLeaves = Number(data.meta && data.meta.totalLeaves);
+    const rootLeaves = Number(data.root && data.root.leafCount);
+    const maxCounterValue = Math.max(1, totalLeaves || 0, rootLeaves || 0);
+    const digitCount = String(Math.floor(maxCounterValue)).length;
+    app.style.setProperty('--ct-tree-count-value-width', digitCount + 'ch');
   }
 
   function render(options) {
@@ -657,9 +667,12 @@
     const path = sunburstShapePath(geometry);
     if (!path || !snapshotEntry) return '';
 
+    const selectedLeaf = isSelectedSunburstLeaf(snapshotEntry);
+    const selectedLeafTransform = selectedLeaf ? sunburstSelectedLeafTransform(snapshotEntry) : '';
     const classes = [
       'ct-sunburst-hit-target',
       node.kind === 'paper' ? 'ct-sunburst-hit-target--paper' : 'ct-sunburst-hit-target--branch',
+      selectedLeaf ? 'is-selected-leaf' : '',
       node.id === currentId ? 'is-current' : '',
       pathNodes.has(node.id) && node.id !== currentId ? 'is-path' : '',
     ].filter(Boolean).join(' ');
@@ -671,6 +684,7 @@
       ' fill="' + escAttr(snapshotEntry.fill) + '"',
       ' stroke="' + escAttr(snapshotEntry.fill) + '"',
       ' style="--ct-sunburst-target-color: ' + escAttr(snapshotEntry.fill) + ';"',
+      selectedLeafTransform ? ' transform="' + escAttr(selectedLeafTransform) + '"' : '',
       ' data-ct-select="' + escAttr(node.id) + '"',
       ' data-ct-preview-node="' + escAttr(node.id) + '"',
       ' data-ct-sunburst-node="' + escAttr(node.id) + '"',
@@ -1627,11 +1641,15 @@
     const label = labelCandidate.label;
     const layout = labelCandidate.layout;
     const snapshotEntry = labelCandidate.snapshotEntry;
+    const selectedLeafTransform = isSelectedSunburstLeaf(snapshotEntry)
+      ? sunburstSelectedLeafTransform(snapshotEntry)
+      : '';
     return [
       '<text class="ct-sunburst-label' + (layout.outside ? ' is-outside' : '') + '"',
       ' x="' + escAttr(fmt(layout.point.x)) + '"',
       ' y="' + escAttr(fmt(layout.firstLineY)) + '"',
       snapshotEntry ? ' style="--ct-sunburst-label-stroke: ' + escAttr(snapshotEntry.fill) + ';"' : '',
+      selectedLeafTransform ? ' transform="' + escAttr(selectedLeafTransform) + '"' : '',
       ' text-anchor="' + escAttr(layout.anchor) + '" dominant-baseline="central">',
       '<title>' + esc(label) + '</title>',
       layout.lines.map(function (line, index) {
@@ -2402,7 +2420,6 @@
     const paper = node.paper || {};
     const title = paperTitleLabel(node);
     const algorithm = paperAlgorithm(node);
-    const path = displayPath(node.path).join(' / ');
     const authors = paperAuthorsLine(paper);
     const meta = [
       paper.year || '',
@@ -2416,7 +2433,6 @@
       '<h2>' + esc(title) + '</h2>',
       algorithm ? '<p class="ct-selection-algorithm">' + esc(algorithm) + '</p>' : '',
       authors ? '<p class="ct-selection-authors">' + esc(authors) + '</p>' : '',
-      '<p class="ct-selection-path">' + esc(path) + '</p>',
       meta.length ? '<div class="ct-selection-meta">' + meta.map(function (item) {
         return '<span>' + esc(item) + '</span>';
       }).join('') + '</div>' : '',
@@ -2641,12 +2657,6 @@
     if (node.kind === 'paper') return 'Paper';
     if (node.kind === 'page') return 'Page';
     return 'Link';
-  }
-
-  function displayPath(path) {
-    return path.map(function (label, index) {
-      return index === 0 && label === data.root.label ? 'Root' : label;
-    });
   }
 
   function plural(count, singular, pluralLabel) {

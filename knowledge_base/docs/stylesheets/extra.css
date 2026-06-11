@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap");
 
 /* Global page width
 
@@ -8,6 +8,7 @@
    intentionally framed. */
 :root {
   --kb-heading-font: "Space Grotesk", var(--md-text-font, system-ui), sans-serif;
+  --kb-mono-font: "Space Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
   --kb-page-gutter: clamp(0.8rem, 2vw, 1.8rem);
   --kb-narrow-page-gutter: clamp(1.25rem, 5vw, 2rem);
   --kb-app-page-gutter: var(--kb-page-gutter);
@@ -42,6 +43,10 @@
   --kb-link-external: var(--kb-color-gold);
   --kb-link-alternate: var(--kb-color-rose);
   --kb-chip-height: 1.46rem;
+  --kb-chip-border-width: 1px;
+  --kb-chip-action-gap: 0.3rem;
+  --kb-chip-action-padding-inline-start: 0.42rem;
+  --kb-chip-action-bubble-size: var(--kb-chip-height);
   --kb-chip-font-size: 0.66rem;
   --kb-z-page: 0;
   --kb-z-app-sticky: 8;
@@ -750,22 +755,24 @@ a.md-nav__link[href*="portfolio"]:hover {
   border-color: rgba(30, 136, 229, 0.38);
 }
 
-/* External-link icon */
-a.md-nav__link[href*="portfolio"]::after {
-  content: "";
-  display: inline-block;
-  width: 1em;
-  height: 1em;
+.kb-nav-external-icon {
+  display: inline-grid;
   flex-shrink: 0;
-  background:
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='white' d='M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z'/%3E%3C/svg%3E")
-    center / contain no-repeat;
+  inline-size: 1em;
+  block-size: 1em;
+  place-items: center;
+  color: #fff;
 }
 
-[data-md-color-scheme="default"] a.md-nav__link[href*="portfolio"]::after {
-  background:
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%231e88e5' d='M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z'/%3E%3C/svg%3E")
-    center / contain no-repeat;
+[data-md-color-scheme="default"] .kb-nav-external-icon {
+  color: #1e88e5;
+}
+
+.kb-nav-external-icon svg {
+  display: block;
+  inline-size: 1em;
+  block-size: 1em;
+  fill: currentColor;
 }
 
 /* Use one stable primary-sidebar rhythm on every page. */
@@ -2193,9 +2200,27 @@ body:has(.md-content__inner > :is(.kb-app-page, [id$="-app"])) .md-content {
   --kb-app-panel: var(--ct-panel);
   --ct-muted-bg: color-mix(in srgb, var(--md-default-fg-color) 4%, transparent);
   --ct-muted-line: color-mix(in srgb, var(--md-default-fg-color) 28%, transparent);
+  --ct-tree-button-radius: 8px;
+  --ct-tree-button-border-width: 1px;
   --ct-tree-button-min: 2.78rem;
+  --ct-tree-button-counter-min: 3.16rem;
   --ct-current-button-min: 4.17rem;
   --ct-tree-label-size: clamp(0.94rem, 0.9rem + 0.18vw, 1.06rem);
+  --ct-tree-count-font-size: 0.6rem;
+  --ct-tree-count-icon-size: 0.62rem;
+  --ct-tree-count-value-width: 4ch;
+  --ct-tree-count-column-gap: 0.22rem;
+  --ct-tree-count-pad-inline-start: 0.34rem;
+  --ct-tree-count-pad-inline-end: 0.08rem;
+  --ct-tree-count-rail-width: calc(
+    var(--ct-tree-count-pad-inline-start) +
+    var(--ct-tree-count-icon-size) +
+    var(--ct-tree-count-column-gap) +
+    var(--ct-tree-count-value-width) +
+    var(--ct-tree-count-pad-inline-end)
+  );
+  --ct-tree-count-stack-gap: 0;
+  --ct-scrollbar-reserve: 0.72rem;
   --ct-sunburst-min-size: 12rem;
   --ct-sunburst-max-size: 30rem;
   --ct-sunburst-viewport-reserve: 31rem;
@@ -2420,7 +2445,7 @@ body:has(#ct-app) .md-content__inner {
 .ct-sunburst-segment.is-current {
   stroke: var(--md-default-fg-color);
   stroke-width: 1.6;
-  filter: drop-shadow(0 0 10px color-mix(in srgb, var(--ct-cyan) 34%, transparent));
+  filter: saturate(1.04) brightness(1.03);
 }
 
 .ct-sunburst-segment.is-selected-leaf {
@@ -2430,9 +2455,7 @@ body:has(#ct-app) .md-content__inner {
   stroke-opacity: 1;
   filter:
     saturate(1.2)
-    brightness(1.08)
-    drop-shadow(0 0 7px color-mix(in srgb, var(--ct-gold) 74%, transparent))
-    drop-shadow(0 6px 14px color-mix(in srgb, #000000 18%, transparent));
+    brightness(1.08);
 }
 
 .ct-sunburst-center-morph {
@@ -2460,7 +2483,6 @@ body:has(#ct-app) .md-content__inner {
   stroke: color-mix(in srgb, var(--ct-gold) 88%, #ffffff);
   stroke-width: 1.35;
   stroke-opacity: 0.9;
-  filter: drop-shadow(0 0 5px color-mix(in srgb, var(--ct-gold) 72%, transparent));
 }
 
 .ct-sunburst-selection {
@@ -2475,9 +2497,6 @@ body:has(#ct-app) .md-content__inner {
   stroke-opacity: 0.98;
   vector-effect: non-scaling-stroke;
   pointer-events: none;
-  filter:
-    drop-shadow(0 0 8px color-mix(in srgb, var(--ct-gold) 80%, transparent))
-    drop-shadow(0 8px 16px color-mix(in srgb, #000000 20%, transparent));
 }
 
 [data-md-color-scheme="slate"] .ct-sunburst-selected-sector {
@@ -2503,7 +2522,7 @@ body:has(#ct-app) .md-content__inner {
   fill-opacity: 0.12;
   stroke-width: 1.35;
   stroke-opacity: 0.94;
-  filter: drop-shadow(0 0 10px color-mix(in srgb, var(--ct-sunburst-target-color) 30%, transparent));
+  filter: saturate(1.04) brightness(1.02);
 }
 
 .ct-sunburst-hit-target.is-path {
@@ -2561,7 +2580,6 @@ body:has(#ct-app) .md-content__inner {
   fill: color-mix(in srgb, var(--md-default-bg-color) 92%, var(--md-code-bg-color));
   stroke: color-mix(in srgb, var(--ct-cyan) 42%, transparent);
   stroke-width: 1.4;
-  filter: drop-shadow(0 8px 18px color-mix(in srgb, #000000 12%, transparent));
   transition: stroke 0.16s ease, stroke-width 0.16s ease, fill 0.16s ease;
 }
 
@@ -2703,7 +2721,7 @@ body:has(#ct-app) .md-content__inner {
 }
 
 .ct-tree-button {
-  border-radius: 8px;
+  border-radius: var(--ct-tree-button-radius);
   font: inherit;
 }
 
@@ -2717,8 +2735,9 @@ body:has(#ct-app) .md-content__inner {
   overflow-y: auto;
   overscroll-behavior: contain;
   padding-left: var(--ct-list-edge-compensation);
-  padding-right: 0.12rem;
+  padding-right: var(--ct-scrollbar-reserve);
   scrollbar-gutter: stable;
+  scrollbar-width: thin;
   -webkit-overflow-scrolling: touch;
 }
 
@@ -2864,6 +2883,7 @@ body:has(#ct-app) .md-content__inner {
   margin-left: 0;
   padding: 0.42rem 0.62rem 0.42rem 0;
   border: 1px solid transparent;
+  border-width: var(--ct-tree-button-border-width);
   background: transparent;
   color: var(--md-default-fg-color);
   text-align: left;
@@ -2876,7 +2896,14 @@ body:has(#ct-app) .md-content__inner {
 }
 
 .ct-tree-button.has-counters {
-  grid-template-columns: calc(var(--ct-rail-center) * 2) minmax(0, 1fr) max-content;
+  grid-template-columns: calc(var(--ct-rail-center) * 2) minmax(0, 1fr);
+  min-height: var(--ct-tree-button-counter-min);
+  overflow: hidden;
+  padding: 0 var(--ct-tree-count-rail-width) 0 0;
+}
+
+.ct-tree-button.has-counters .ct-tree-copy {
+  padding-block: 0.48rem;
 }
 
 .ct-tree-button:hover {
@@ -2923,33 +2950,54 @@ body:has(#ct-app) .md-content__inner {
 }
 
 .ct-tree-counts {
-  display: inline-grid;
-  grid-auto-flow: column;
-  gap: 0.24rem;
-  align-items: center;
-  justify-self: end;
-  align-self: center;
+  position: absolute;
+  z-index: 2;
+  inset-block: 0;
+  inset-inline-end: calc(-1 * var(--ct-tree-button-border-width));
+  display: grid;
+  grid-auto-flow: row;
+  grid-auto-rows: minmax(0, 1fr);
+  grid-template-columns: 1fr;
+  grid-template-rows: repeat(2, minmax(0, 1fr));
+  gap: var(--ct-tree-count-stack-gap);
+  align-items: stretch;
+  justify-items: stretch;
+  inline-size: calc(var(--ct-tree-count-rail-width) + var(--ct-tree-button-border-width));
+  border-left: 1px solid color-mix(in srgb, var(--ct-tree-node-color) 24%, var(--md-default-bg-color));
+  border-radius: 0 var(--ct-tree-button-radius) var(--ct-tree-button-radius) 0;
+  background: var(--md-default-bg-color);
+  font-family: var(--kb-mono-font);
+  overflow: hidden;
 }
 
 .ct-tree-count {
   --ct-tree-count-color: var(--ct-cyan);
-  display: inline-flex;
+  display: grid;
+  grid-template-columns: var(--ct-tree-count-icon-size) var(--ct-tree-count-value-width);
   align-items: center;
-  justify-content: center;
-  gap: 0.16rem;
+  justify-content: start;
+  column-gap: var(--ct-tree-count-column-gap);
   box-sizing: border-box;
-  min-width: 1.5rem;
-  height: 1.08rem;
-  padding: 0 0.25rem;
-  border: 1px solid color-mix(in srgb, var(--ct-tree-count-color) 30%, transparent);
-  border-radius: 999px;
-  background: color-mix(in srgb, var(--ct-tree-count-color) 8%, var(--md-default-bg-color));
+  min-width: 0;
+  width: 100%;
+  min-height: 0;
+  height: auto;
+  padding: 0 var(--ct-tree-count-pad-inline-end) 0 var(--ct-tree-count-pad-inline-start);
+  border: 0;
+  border-radius: 0;
+  background: color-mix(in srgb, var(--ct-tree-count-color) 10%, var(--md-default-bg-color));
   color: var(--ct-tree-count-color);
-  font-size: 0.6rem;
-  font-weight: 900;
+  font-family: var(--kb-mono-font);
+  font-size: var(--ct-tree-count-font-size);
+  font-weight: 700;
   font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1, "lnum" 1;
   line-height: 1;
   white-space: nowrap;
+}
+
+.ct-tree-count + .ct-tree-count {
+  border-top: 1px solid color-mix(in srgb, var(--ct-tree-node-color) 18%, var(--md-default-bg-color));
 }
 
 .ct-tree-count--children {
@@ -2957,13 +3005,16 @@ body:has(#ct-app) .md-content__inner {
 }
 
 .ct-tree-count-icon {
-  flex: 0 0 auto;
-  width: 0.62rem;
-  height: 0.62rem;
+  justify-self: start;
+  width: var(--ct-tree-count-icon-size);
+  height: var(--ct-tree-count-icon-size);
   fill: currentColor;
 }
 
 .ct-tree-count-value {
+  min-width: var(--ct-tree-count-value-width);
+  justify-self: end;
+  text-align: right;
   line-height: 1;
 }
 
@@ -3055,9 +3106,23 @@ body:has(#ct-app) .md-content__inner {
 }
 
 .ct-tree-node.is-current > .ct-tree-button .ct-tree-count {
-  border-color: color-mix(in srgb, var(--ct-selected-text) 34%, transparent);
-  background: color-mix(in srgb, #ffffff 24%, transparent);
-  color: var(--ct-selected-text);
+  border-color: color-mix(in srgb, var(--ct-tree-count-color) 24%, var(--md-default-bg-color));
+  background: color-mix(in srgb, var(--ct-tree-count-color) 10%, var(--md-default-bg-color));
+  color: var(--ct-tree-count-color);
+}
+
+.ct-tree-node.is-current > .ct-tree-button.has-counters .ct-tree-counts {
+  border-left-color: color-mix(in srgb, var(--ct-selected-text) 28%, var(--md-default-bg-color));
+  background: var(--md-default-bg-color);
+}
+
+.ct-tree-node.is-current > .ct-tree-button.has-counters .ct-tree-count {
+  background: color-mix(in srgb, var(--ct-tree-count-color) 10%, var(--md-default-bg-color));
+  color: var(--ct-tree-count-color);
+}
+
+.ct-tree-node.is-current > .ct-tree-button.has-counters .ct-tree-count + .ct-tree-count {
+  border-top-color: color-mix(in srgb, var(--ct-selected-text) 22%, var(--md-default-bg-color));
 }
 
 .ct-tree-node.is-current > .ct-tree-button .ct-tree-label {
@@ -3261,8 +3326,15 @@ body:has(#ct-app) .md-content__inner {
   .ct-page {
     --ct-rail-center: 0.98rem;
     --ct-tree-button-min: 2.35rem;
+    --ct-tree-button-counter-min: 2.72rem;
     --ct-current-button-min: 3.53rem;
     --ct-tree-label-size: 0.82rem;
+    --ct-tree-count-font-size: 0.52rem;
+    --ct-tree-count-icon-size: 0.5rem;
+    --ct-tree-count-column-gap: 0.18rem;
+    --ct-tree-count-pad-inline-start: 0.26rem;
+    --ct-tree-count-pad-inline-end: 0.06rem;
+    --ct-tree-count-stack-gap: 0;
     --ct-sunburst-min-size: 15rem;
     --ct-sunburst-max-size: 24rem;
     --ct-sunburst-viewport-reserve: 25rem;
@@ -3325,8 +3397,8 @@ body:has(#ct-app) .md-content__inner {
     padding: 0.34rem 0.46rem 0.34rem 0;
   }
 
-  .ct-tree-button.has-counters {
-    grid-template-columns: calc(var(--ct-rail-center) * 2) minmax(0, 1fr) max-content;
+  .ct-tree-button.has-counters .ct-tree-copy {
+    padding-block: 0.32rem;
   }
 
   .ct-tree-node.is-current > .ct-tree-button {
@@ -3335,22 +3407,6 @@ body:has(#ct-app) .md-content__inner {
 
   .ct-tree-label {
     line-height: 1.08;
-  }
-
-  .ct-tree-counts {
-    gap: 0.18rem;
-  }
-
-  .ct-tree-count {
-    min-width: 1.32rem;
-    height: 0.96rem;
-    padding-inline: 0.2rem;
-    font-size: 0.54rem;
-  }
-
-  .ct-tree-count-icon {
-    width: 0.54rem;
-    height: 0.54rem;
   }
 
   .ct-tree-meta,
@@ -3551,15 +3607,16 @@ body:has(#ct-app) .md-content__inner {
 
 .paper-link-pill {
   display: inline-grid;
-  grid-template-columns: minmax(0, 1fr) auto;
+  box-sizing: border-box;
+  grid-template-columns: minmax(0, 1fr) var(--kb-chip-action-bubble-size);
   align-items: center;
   justify-content: start;
   max-width: 100%;
   min-width: 0;
   min-height: var(--kb-chip-height);
-  gap: 0 0.28rem;
-  padding: 0.16rem 0.28rem 0.16rem 0.42rem;
-  border: 1px solid color-mix(in srgb, var(--kb-link-external) 40%, transparent);
+  gap: 0 var(--kb-chip-action-gap);
+  padding: 0 0 0 var(--kb-chip-action-padding-inline-start);
+  border: var(--kb-chip-border-width) solid color-mix(in srgb, var(--kb-link-external) 40%, transparent);
   border-radius: 999px;
   background: color-mix(in srgb, var(--kb-link-external) 7%, var(--md-default-bg-color));
   color: var(--kb-link-external);
@@ -3571,25 +3628,34 @@ body:has(#ct-app) .md-content__inner {
   transition: background 0.16s ease, border-color 0.16s ease, transform 0.16s ease;
 }
 
-.paper-link-pill::after {
-  content: "\2197";
+.paper-link-pill__icon {
   display: inline-grid;
+  box-sizing: border-box;
   grid-column: 2;
   grid-row: 1;
   justify-self: end;
-  flex: 0 0 auto;
-  width: 0.94rem;
-  height: 0.94rem;
+  align-self: center;
+  inline-size: var(--kb-chip-action-bubble-size);
+  block-size: var(--kb-chip-action-bubble-size);
+  margin-inline-end: calc(-1 * var(--kb-chip-border-width));
   place-items: center;
   border: 1px solid color-mix(in srgb, currentColor 28%, transparent);
   border-radius: 999px;
   background: color-mix(in srgb, currentColor 9%, transparent);
-  font-size: 0.54rem;
-  line-height: 1;
+  pointer-events: none;
+  color: currentColor;
 }
 
-.paper-link-pill--internal::after {
-  content: "\2192";
+.paper-link-pill__icon svg {
+  display: block;
+  inline-size: 0.82rem;
+  block-size: 0.82rem;
+  fill: currentColor;
+}
+
+.paper-link-pill__icon--external svg {
+  inline-size: 0.66rem;
+  block-size: 0.66rem;
 }
 
 .paper-link-pill:hover {
