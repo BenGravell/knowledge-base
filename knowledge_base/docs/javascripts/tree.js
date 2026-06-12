@@ -2418,24 +2418,25 @@
     const externalUrl = paper.primaryLink || '';
     const detailUrl = node.url || '';
     const mapUrl = paper.mapUrl || mapUrlFromSource(node.source);
+    const treeUrl = paper.treeUrl || treeUrlFromSource(node.source);
     const timelineUrl = paper.timelineUrl || timelineUrlFromSource(node.source);
     const searchUrl = paper.searchUrl || searchUrlFromSource(node.source);
     const actions = [
       externalUrl
-        ? '<a class="paper-link-pill paper-link-pill--primary" href="' + escAttr(externalUrl) + '" target="_blank" rel="noopener noreferrer"><span class="paper-link-pill__label">External</span></a>'
+        ? window.kbSiteLinks.renderPill({
+            url: externalUrl,
+            label: 'External',
+            variant: 'primary',
+            external: true,
+          })
         : '',
-      detailUrl
-        ? '<a class="paper-link-pill paper-link-pill--internal" href="' + escAttr(detailUrl) + '"><span class="paper-link-pill__label">Detail</span></a>'
-        : '',
-      mapUrl
-        ? '<a class="paper-link-pill paper-link-pill--internal" href="' + escAttr(mapUrl) + '"><span class="paper-link-pill__label">Map</span></a>'
-        : '',
-      timelineUrl
-        ? '<a class="paper-link-pill paper-link-pill--internal" href="' + escAttr(timelineUrl) + '"><span class="paper-link-pill__label">Timeline</span></a>'
-        : '',
-      searchUrl
-        ? '<a class="paper-link-pill paper-link-pill--internal" href="' + escAttr(searchUrl) + '"><span class="paper-link-pill__label">Search</span></a>'
-        : '',
+      window.kbSiteLinks.renderPaperSiteLinks({
+        url: detailUrl,
+        mapUrl: mapUrl,
+        treeUrl: treeUrl,
+        timelineUrl: timelineUrl,
+        searchUrl: searchUrl,
+      }),
     ].filter(Boolean).join('');
 
     return [
@@ -2635,6 +2636,11 @@
   function mapUrlFromSource(source) {
     const match = String(source || '').match(/^papers\/(.+)\.md$/);
     return match ? '../map/#paper=' + encodeURIComponent(match[1]) : '';
+  }
+
+  function treeUrlFromSource(source) {
+    const match = String(source || '').match(/^papers\/(.+)\.md$/);
+    return match ? '../tree/#paper=' + encodeURIComponent(match[1]) : '';
   }
 
   function timelineUrlFromSource(source) {

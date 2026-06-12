@@ -1,9 +1,4 @@
-from pathlib import Path
-
-import material
-
-
-MATERIAL_ICON_DIR = Path(material.__file__).parent / "templates" / ".icons"
+from knowledge_base.utils.site_links import material_icon_svg
 
 
 TIMELINE_PREVIEW_PROFILES = (
@@ -80,10 +75,7 @@ def _timeline_preview_dots(profile: dict) -> list[tuple[float, float]]:
 def define_env(env):
     @env.macro
     def material_icon(icon_name):
-        icon_path = MATERIAL_ICON_DIR / f"{icon_name}.svg"
-        if not icon_path.is_file():
-            raise FileNotFoundError(f"Material icon not found: {icon_name}")
-        return icon_path.read_text(encoding="utf-8")
+        return material_icon_svg(icon_name)
 
     @env.macro
     def timeline_preview():

@@ -9,5 +9,7 @@ hide:
   <p class="tag-search-loading">Loading search...</p>
 </div>
 
+<script src="../javascripts/site-link-data.js"></script>
+<script src="../javascripts/paper-link-pills.js"></script>
 <script src="../javascripts/search-data.js"></script>
 <script src="../javascripts/search.js"></script>

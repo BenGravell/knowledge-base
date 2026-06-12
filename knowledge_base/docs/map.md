@@ -1371,6 +1371,8 @@ html, body          { overflow: hidden !important; height: 100vh !important; }
 <!-- Generated map data (run generate_map_data.py to regenerate) -->
 <script src="../javascripts/map-data.js"></script>
 <!-- Visualisation logic -->
+<script src="../javascripts/site-link-data.js"></script>
+<script src="../javascripts/paper-link-pills.js"></script>
 <script src="../javascripts/map.js"></script>
 <script>
 (function () {

@@ -58,10 +58,17 @@ hide:
         <circle class="kb-tree-sunburst-inner kb-tree-sunburst-inner--six" cx="100" cy="100" r="46" pathLength="100" stroke-dasharray="9 91" transform="rotate(222 100 100)"></circle>
         <circle class="kb-tree-sunburst-core" cx="100" cy="100" r="30"></circle>
       </svg>
-      <span class="kb-tree-root"></span>
-      <span class="kb-tree-branch kb-tree-branch--one"></span>
-      <span class="kb-tree-branch kb-tree-branch--two"></span>
-      <span class="kb-tree-branch kb-tree-branch--three"></span>
+      <span class="kb-tree-list-preview">
+        <span class="kb-tree-preview-row kb-tree-preview-row--parent">
+          <span class="kb-tree-preview-rail"><span class="kb-tree-preview-dot"></span></span>
+        </span>
+        <span class="kb-tree-preview-row kb-tree-preview-row--selected">
+          <span class="kb-tree-preview-rail"><span class="kb-tree-preview-dot"></span></span>
+        </span>
+        <span class="kb-tree-preview-row kb-tree-preview-row--child">
+          <span class="kb-tree-preview-rail"><span class="kb-tree-preview-dot"></span></span>
+        </span>
+      </span>
     </span>
   </a>
 
@@ -192,4 +199,5 @@ hide:
 </div>
 
 <script src="javascripts/analytics-data.js"></script>
+<script src="javascripts/home-bento.js"></script>
 <script src="javascripts/analytics.js"></script>

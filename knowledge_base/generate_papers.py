@@ -14,6 +14,7 @@ from knowledge_base.utils.arxiv_utils import (
     normalize_arxiv_id,
 )
 from knowledge_base.utils.paper_ids import paper_id_from_metadata
+from knowledge_base.utils.site_links import paper_site_links, site_link_data
 
 try:
     import numpy as np
@@ -109,6 +110,13 @@ def as_links(value) -> list[str]:
     return [text] if text else []
 
 
+def as_clean_list(value) -> list[str]:
+    if isinstance(value, list):
+        return [clean_scalar(item) for item in value if clean_scalar(item)]
+    text = clean_scalar(value)
+    return [text] if text else []
+
+
 def normalize_url_key(url: str) -> str:
     parsed = urlparse(clean_scalar(url))
     if not parsed.scheme or not parsed.netloc:
@@ -176,9 +184,35 @@ def openalex_work_url(data: dict) -> str:
             return url
 
     doi = clean_doi(data.get("doi"))
-    if not doi:
+    if doi:
+        return f"https://openalex.org/works?filter=doi:{quote(doi, safe='')}"
+
+    query = openalex_metadata_query(data)
+    if not query:
         return ""
-    return f"https://openalex.org/works?filter=doi:{quote(doi, safe='')}"
+    return f"https://openalex.org/works?search={quote(query, safe='')}"
+
+
+def openalex_metadata_query(data: dict) -> str:
+    title = clean_scalar(data.get("title"))
+    authors = as_clean_list(data.get("authors"))
+    year = clean_scalar(data.get("year"))
+    arxiv_id = clean_arxiv_id(data.get("arxiv_id"))
+
+    if title:
+        return " ".join([part for part in (title, authors[0] if authors else "", year) if part])
+
+    return " ".join(
+        part
+        for part in (
+            clean_scalar(data.get("algorithm")),
+            authors[0] if authors else "",
+            year,
+            clean_scalar(data.get("source")),
+            f"arXiv {arxiv_id}" if arxiv_id else "",
+        )
+        if part
+    )
 
 
 def alternate_link_label(url: str) -> str:
@@ -258,55 +292,18 @@ def build_tag_links(tags: list[str], paper_id: str) -> list[dict[str, str]]:
     return links
 
 
-def as_clean_list(value) -> list[str]:
-    if isinstance(value, list):
-        return [clean_scalar(item) for item in value if clean_scalar(item)]
-    text = clean_scalar(value)
-    return [text] if text else []
-
-
 def build_link_sections(data: dict, paper_id: str) -> list[dict]:
     primary = clean_scalar(data.get("link"))
     arxiv_id = clean_arxiv_id(data.get("arxiv_id"))
     doi = clean_doi(data.get("doi"))
     sections = []
     external_links = []
-    quoted_paper_id = quote(paper_id, safe="")
 
     sections.append(
         {
             "title": "Knowledge Base",
             "kind": "internal",
-            "links": [
-                make_link(
-                    "Tree",
-                    f"../../tree/#paper={quoted_paper_id}",
-                    "Open in Tree",
-                    "internal",
-                    False,
-                ),
-                make_link(
-                    "Map",
-                    f"../../map/#paper={quoted_paper_id}",
-                    "Open in Map",
-                    "internal",
-                    False,
-                ),
-                make_link(
-                    "Timeline",
-                    f"../../timeline/#paper={quoted_paper_id}",
-                    "Open in Timeline",
-                    "internal",
-                    False,
-                ),
-                make_link(
-                    "Search",
-                    f"../../search/?paper={quoted_paper_id}",
-                    "Open in Search",
-                    "internal",
-                    False,
-                ),
-            ],
+            "links": paper_site_links(paper_id, base_path="../.."),
         }
     )
 
@@ -453,6 +450,11 @@ def build_top_similar_papers(records: list[dict], limit: int = top_similar_limit
                     "map_url": f"../../map/#paper={quote(other_id, safe='')}",
                     "timeline_url": f"../../timeline/#paper={quote(other_id, safe='')}",
                     "search_url": f"../../search/?paper={quote(other_id, safe='')}",
+                    "site_links": paper_site_links(
+                        other_id,
+                        base_path="../..",
+                        include_detail=True,
+                    ),
                 }
             )
             if len(items) >= limit:
@@ -597,6 +599,11 @@ for entry in paper_entries:
     #     f_disk.write(paper_template.render(**data))
 
 search_data = build_tag_search_data(paper_records)
+with mkdocs_gen_files.open("javascripts/site-link-data.js", "w") as out:
+    out.write("window.kbSiteLinkData = ")
+    out.write(json.dumps(site_link_data(), indent=2, ensure_ascii=False))
+    out.write(";\n")
+
 for asset_name in ("search-data.js", "tag-search-data.js"):
     with mkdocs_gen_files.open(f"javascripts/{asset_name}", "w") as out:
         out.write("window.tagSearchData = ")

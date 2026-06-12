@@ -1,5 +1,14 @@
 # {{ title }} {.paper-detail-title}
 
+{% macro paper_link_pill(item) -%}
+      <a class="paper-link-pill paper-link-pill--{{ item.variant | e }}" href="{{ item.url | e }}"{% if item.key %} data-kb-site-link="{{ item.key | e }}"{% endif %}{% if item.detail %} aria-label="{{ item.detail | e }}" title="{{ item.detail | e }}"{% endif %}{% if item.external %} target="_blank" rel="noopener noreferrer"{% endif %}>
+        <span class="paper-link-pill__label">{{ item.label | e }}</span>
+{% if item.icon_svg %}
+        <span class="paper-link-pill__icon paper-link-pill__icon--{% if item.external %}external{% else %}internal{% endif %}" aria-hidden="true">{{ item.icon_svg }}</span>
+{% endif %}
+      </a>
+{%- endmacro %}
+
 <section class="paper-meta-grid" aria-label="Paper metadata">
 {% if authors %}
   <div class="paper-meta-card paper-meta-card--wide">
@@ -68,9 +77,7 @@
     <h3>{{ section.title | e }}</h3>
     <div class="paper-link-pills">
 {% for item in section.links %}
-      <a class="paper-link-pill paper-link-pill--{{ item.variant | e }}" href="{{ item.url | e }}"{% if item.detail %} aria-label="{{ item.detail | e }}" title="{{ item.detail | e }}"{% endif %}{% if item.external %} target="_blank" rel="noopener noreferrer"{% endif %}>
-        <span class="paper-link-pill__label">{{ item.label | e }}</span>
-      </a>
+{{ paper_link_pill(item) }}
 {% endfor %}
     </div>
   </section>
@@ -113,11 +120,9 @@
       <div class="paper-similar-card__actions">
         <div class="paper-similar-card__action-row">
           <div class="paper-link-pills paper-similar-card__action-links">
-            <a class="paper-link-pill paper-link-pill--internal" href="{{ paper.url | e }}"><span class="paper-link-pill__label">Detail</span></a>
-            <a class="paper-link-pill paper-link-pill--internal" href="{{ paper.map_url | e }}"><span class="paper-link-pill__label">Map</span></a>
-            <a class="paper-link-pill paper-link-pill--internal" href="{{ paper.tree_url | e }}"><span class="paper-link-pill__label">Tree</span></a>
-            <a class="paper-link-pill paper-link-pill--internal" href="{{ paper.timeline_url | e }}"><span class="paper-link-pill__label">Timeline</span></a>
-            <a class="paper-link-pill paper-link-pill--internal" href="{{ paper.search_url | e }}"><span class="paper-link-pill__label">Search</span></a>
+{% for link in paper.site_links %}
+{{ paper_link_pill(link) }}
+{% endfor %}
           </div>
         </div>
       </div>
