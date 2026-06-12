@@ -29,6 +29,8 @@
   let currentId = data.root.id;
   let sunburstAnimationFrame = 0;
   let sunburstAnimationToken = 0;
+  let sunburstPaletteSyncFrame = 0;
+  let currentSunburstPaletteKey = '';
   let lastSunburstSnapshot = null;
   let currentSunburstColors = new Map();
   let previewTargetsByNodeId = new Map();
@@ -78,6 +80,7 @@
   const initialId = readHashId();
   currentId = initialId && nodes.has(initialId) ? initialId : data.root.id;
   render();
+  observeSunburstPalette();
 
   app.addEventListener('click', function (event) {
     const target = event.target.closest('[data-ct-select]');
@@ -250,6 +253,7 @@
     const entries = model.entries;
 
     const palette = treePerf.measure('sunburst.palette', null, sunburstPalette);
+    currentSunburstPaletteKey = sunburstPaletteKey(palette);
     const pathNodes = new Set((node.pathNodes || []).map(function (pathNode) { return pathNode.id; }));
     const snapshot = treePerf.measure('sunburst.snapshot', {
       entryCount: entries.length,
@@ -2143,6 +2147,56 @@
       return style.getPropertyValue(name).trim();
     }).filter(Boolean);
     return palette.length ? palette : ['#2276c9', '#12877f', '#c33d80', '#b66d18', '#4c8a2f'];
+  }
+
+  function observeSunburstPalette() {
+    if (typeof MutationObserver === 'function' && document.body) {
+      const observer = new MutationObserver(scheduleSunburstPaletteSync);
+      observer.observe(document.body, {
+        attributes: true,
+        attributeFilter: [
+          'data-md-color-accent',
+          'data-md-color-primary',
+          'data-md-color-scheme',
+        ],
+      });
+    }
+
+    const paletteControl = document.querySelector('[data-md-component="palette"]');
+    if (paletteControl) {
+      paletteControl.addEventListener('change', scheduleSunburstPaletteSync);
+    }
+
+    if (typeof window.matchMedia === 'function') {
+      const colorSchemeQuery = window.matchMedia('(prefers-color-scheme: dark)');
+      if (typeof colorSchemeQuery.addEventListener === 'function') {
+        colorSchemeQuery.addEventListener('change', scheduleSunburstPaletteSync);
+      } else if (typeof colorSchemeQuery.addListener === 'function') {
+        colorSchemeQuery.addListener(scheduleSunburstPaletteSync);
+      }
+    }
+  }
+
+  function scheduleSunburstPaletteSync() {
+    if (sunburstPaletteSyncFrame) return;
+    const sync = function () {
+      sunburstPaletteSyncFrame = 0;
+      syncSunburstPalette();
+    };
+    sunburstPaletteSyncFrame = typeof window.requestAnimationFrame === 'function'
+      ? window.requestAnimationFrame(sync)
+      : window.setTimeout(sync, 0);
+  }
+
+  function syncSunburstPalette() {
+    const palette = sunburstPalette();
+    const paletteKey = sunburstPaletteKey(palette);
+    if (paletteKey === currentSunburstPaletteKey) return;
+    render({ animateSunburst: false });
+  }
+
+  function sunburstPaletteKey(palette) {
+    return (palette || []).join('\u001f');
   }
 
   function arcPath(startAngle, endAngle, innerRadius, outerRadius) {
