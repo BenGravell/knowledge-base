@@ -15,3 +15,6 @@ https://arxiv.org/abs/1506.01497
 https://arxiv.org/abs/2303.05499
 https://arxiv.org/abs/2304.10984
 https://arxiv.org/abs/1607.06374
+https://docs.rapids.ai/api/cudf/stable/cudf_polars/
+https://journals.sagepub.com/doi/10.1177/0278364910388315
+https://github.com/aurora-opensource/au
