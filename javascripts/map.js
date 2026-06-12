@@ -3285,21 +3285,29 @@
   }
 
   function paperActionLink(url, label, variant, external) {
-    if (!url) return '';
-    return `<a class="paper-link-pill paper-link-pill--${escHtml(variant || 'internal')}" href="${escHtml(url)}"` +
-      (external ? ' target="_blank" rel="noopener noreferrer"' : '') +
-      `><span class="paper-link-pill__label">${escHtml(label)}</span></a>`;
+    return window.kbSiteLinks.renderPill({
+      url,
+      label,
+      variant: variant || 'internal',
+      external: Boolean(external),
+      detail: external ? '' : `Open in ${label}`,
+    });
   }
 
   function paperActionLinks(d, options) {
     const includeMap = !options || options.includeMap !== false;
     return [
       paperActionLink(d.link, 'Document', 'primary', true),
-      paperActionLink(paperDetailUrl(d), 'Detail', 'internal', false),
-      includeMap ? paperActionLink(paperMapUrl(d), 'Map', 'internal', false) : '',
-      paperActionLink(paperTreeUrl(d), 'Tree', 'internal', false),
-      paperActionLink(paperTimelineUrl(d), 'Timeline', 'internal', false),
-      paperActionLink(paperSearchUrl(d), 'Search', 'internal', false),
+      window.kbSiteLinks.renderPaperSiteLinks(
+        {
+          url: paperDetailUrl(d),
+          mapUrl: paperMapUrl(d),
+          treeUrl: paperTreeUrl(d),
+          timelineUrl: paperTimelineUrl(d),
+          searchUrl: paperSearchUrl(d),
+        },
+        { includeMap }
+      ),
     ].join('');
   }
 

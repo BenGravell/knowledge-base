@@ -492,11 +492,7 @@
           '<div class="paper-similar-card__actions">' +
             '<div class="paper-similar-card__action-row">' +
               '<div class="paper-link-pills paper-similar-card__action-links">' +
-                actionLink(paper.url, 'Detail') +
-                actionLink(paper.mapUrl, 'Map') +
-                actionLink(paper.treeUrl, 'Tree') +
-                actionLink(paper.timelineUrl, 'Timeline') +
-                actionLink(paper.searchUrl, 'Search') +
+                window.kbSiteLinks.renderPaperSiteLinks(paper) +
               '</div>' +
               (toggles ? `<div class="paper-similar-card__toggles">${toggles}</div>` : '') +
             '</div>' +
@@ -907,12 +903,6 @@
         '<h2>Searching</h2>' +
         `<p>${esc(message || 'Working...')}</p>` +
       '</div>';
-  }
-
-  function actionLink(url, label) {
-    return url
-      ? `<a class="paper-link-pill paper-link-pill--internal" href="${escAttr(url)}"><span class="paper-link-pill__label">${esc(label)}</span></a>`
-      : '';
   }
 
   function comparePapers(a, b) {

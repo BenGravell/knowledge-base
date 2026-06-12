@@ -29,6 +29,8 @@
   let currentId = data.root.id;
   let sunburstAnimationFrame = 0;
   let sunburstAnimationToken = 0;
+  let sunburstPaletteSyncFrame = 0;
+  let currentSunburstPaletteKey = '';
   let lastSunburstSnapshot = null;
   let currentSunburstColors = new Map();
   let previewTargetsByNodeId = new Map();
@@ -78,6 +80,7 @@
   const initialId = readHashId();
   currentId = initialId && nodes.has(initialId) ? initialId : data.root.id;
   render();
+  observeSunburstPalette();
 
   app.addEventListener('click', function (event) {
     const target = event.target.closest('[data-ct-select]');
@@ -250,6 +253,7 @@
     const entries = model.entries;
 
     const palette = treePerf.measure('sunburst.palette', null, sunburstPalette);
+    currentSunburstPaletteKey = sunburstPaletteKey(palette);
     const pathNodes = new Set((node.pathNodes || []).map(function (pathNode) { return pathNode.id; }));
     const snapshot = treePerf.measure('sunburst.snapshot', {
       entryCount: entries.length,
@@ -2145,6 +2149,56 @@
     return palette.length ? palette : ['#2276c9', '#12877f', '#c33d80', '#b66d18', '#4c8a2f'];
   }
 
+  function observeSunburstPalette() {
+    if (typeof MutationObserver === 'function' && document.body) {
+      const observer = new MutationObserver(scheduleSunburstPaletteSync);
+      observer.observe(document.body, {
+        attributes: true,
+        attributeFilter: [
+          'data-md-color-accent',
+          'data-md-color-primary',
+          'data-md-color-scheme',
+        ],
+      });
+    }
+
+    const paletteControl = document.querySelector('[data-md-component="palette"]');
+    if (paletteControl) {
+      paletteControl.addEventListener('change', scheduleSunburstPaletteSync);
+    }
+
+    if (typeof window.matchMedia === 'function') {
+      const colorSchemeQuery = window.matchMedia('(prefers-color-scheme: dark)');
+      if (typeof colorSchemeQuery.addEventListener === 'function') {
+        colorSchemeQuery.addEventListener('change', scheduleSunburstPaletteSync);
+      } else if (typeof colorSchemeQuery.addListener === 'function') {
+        colorSchemeQuery.addListener(scheduleSunburstPaletteSync);
+      }
+    }
+  }
+
+  function scheduleSunburstPaletteSync() {
+    if (sunburstPaletteSyncFrame) return;
+    const sync = function () {
+      sunburstPaletteSyncFrame = 0;
+      syncSunburstPalette();
+    };
+    sunburstPaletteSyncFrame = typeof window.requestAnimationFrame === 'function'
+      ? window.requestAnimationFrame(sync)
+      : window.setTimeout(sync, 0);
+  }
+
+  function syncSunburstPalette() {
+    const palette = sunburstPalette();
+    const paletteKey = sunburstPaletteKey(palette);
+    if (paletteKey === currentSunburstPaletteKey) return;
+    render({ animateSunburst: false });
+  }
+
+  function sunburstPaletteKey(palette) {
+    return (palette || []).join('\u001f');
+  }
+
   function arcPath(startAngle, endAngle, innerRadius, outerRadius) {
     if (endAngle <= startAngle || outerRadius <= innerRadius) return '';
     const span = endAngle - startAngle;
@@ -2364,24 +2418,25 @@
     const externalUrl = paper.primaryLink || '';
     const detailUrl = node.url || '';
     const mapUrl = paper.mapUrl || mapUrlFromSource(node.source);
+    const treeUrl = paper.treeUrl || treeUrlFromSource(node.source);
     const timelineUrl = paper.timelineUrl || timelineUrlFromSource(node.source);
     const searchUrl = paper.searchUrl || searchUrlFromSource(node.source);
     const actions = [
       externalUrl
-        ? '<a class="paper-link-pill paper-link-pill--primary" href="' + escAttr(externalUrl) + '" target="_blank" rel="noopener noreferrer"><span class="paper-link-pill__label">External</span></a>'
+        ? window.kbSiteLinks.renderPill({
+            url: externalUrl,
+            label: 'External',
+            variant: 'primary',
+            external: true,
+          })
         : '',
-      detailUrl
-        ? '<a class="paper-link-pill paper-link-pill--internal" href="' + escAttr(detailUrl) + '"><span class="paper-link-pill__label">Detail</span></a>'
-        : '',
-      mapUrl
-        ? '<a class="paper-link-pill paper-link-pill--internal" href="' + escAttr(mapUrl) + '"><span class="paper-link-pill__label">Map</span></a>'
-        : '',
-      timelineUrl
-        ? '<a class="paper-link-pill paper-link-pill--internal" href="' + escAttr(timelineUrl) + '"><span class="paper-link-pill__label">Timeline</span></a>'
-        : '',
-      searchUrl
-        ? '<a class="paper-link-pill paper-link-pill--internal" href="' + escAttr(searchUrl) + '"><span class="paper-link-pill__label">Search</span></a>'
-        : '',
+      window.kbSiteLinks.renderPaperSiteLinks({
+        url: detailUrl,
+        mapUrl: mapUrl,
+        treeUrl: treeUrl,
+        timelineUrl: timelineUrl,
+        searchUrl: searchUrl,
+      }),
     ].filter(Boolean).join('');
 
     return [
@@ -2581,6 +2636,11 @@
   function mapUrlFromSource(source) {
     const match = String(source || '').match(/^papers\/(.+)\.md$/);
     return match ? '../map/#paper=' + encodeURIComponent(match[1]) : '';
+  }
+
+  function treeUrlFromSource(source) {
+    const match = String(source || '').match(/^papers\/(.+)\.md$/);
+    return match ? '../tree/#paper=' + encodeURIComponent(match[1]) : '';
   }
 
   function timelineUrlFromSource(source) {
