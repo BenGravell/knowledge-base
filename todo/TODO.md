@@ -86,15 +86,11 @@ Should call:
 
 Take an argument -g or --github to use gh-deploy mkdocs
 
-Set up an automation orchestration script to invest from paper funnel, run prefill, ask ai for preliminary metadata fixup using audit script, generate map data, place papers in tree
+### Create a one-click site ingest script
+
+Set up an automation orchestration script to ingest from paper funnel, run prefill, ask ai for preliminary metadata fixup using audit script, generate map data, place papers in tree
 
 ## Paper Detail Pages
-
-### UX
-
-### Links
-
-Try to render arXiv in the app window natively as much as possible (using HTML when available)
 
 ### Chat with paper
 
