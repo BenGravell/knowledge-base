@@ -2209,9 +2209,9 @@ body:has(.md-content__inner > :is(.kb-app-page, [id$="-app"])) .md-content {
   --ct-tree-count-font-size: 0.6rem;
   --ct-tree-count-icon-size: 0.62rem;
   --ct-tree-count-value-width: 4ch;
-  --ct-tree-count-column-gap: 0.22rem;
-  --ct-tree-count-pad-inline-start: 0.34rem;
-  --ct-tree-count-pad-inline-end: 0.08rem;
+  --ct-tree-count-column-gap: 0.3rem;
+  --ct-tree-count-pad-inline-start: 0.42rem;
+  --ct-tree-count-pad-inline-end: 0.03rem;
   --ct-tree-count-rail-width: calc(
     var(--ct-tree-count-pad-inline-start) +
     var(--ct-tree-count-icon-size) +
