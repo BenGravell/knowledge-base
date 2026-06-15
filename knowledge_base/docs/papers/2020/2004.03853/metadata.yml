@@ -1,0 +1,29 @@
+title: >
+  Shape-Constrained Regression Using Sum of Squares Polynomials
+algorithm: SOS Shape-Constrained Regression
+authors:
+  - Mihaela Curmei
+  - Georgina Hall
+year: 2020
+source: arXiv
+type: Preprint
+doi:
+arxiv_id: "2004.03853"
+tags:
+  - Shape-constrained regression
+  - Sum of squares
+  - Semidefinite programming
+  - Convex regression
+  - Monotone regression
+  - Polynomial regression
+  - Statistical consistency
+  - Optimal transport
+abstract: >
+  We present a hierarchy of semidefinite programs (SDPs) for the problem of fitting a shape-constrained (multivariate) polynomial to noisy evaluations of an unknown shape-constrained function. These shape constraints include convexity or monotonicity over a box. We show that polynomial functions that are optimal to any fixed level of our hierarchy form a consistent estimator of the underlying shape-constrained function. As a byproduct of the proof, we establish that sum-of-squares-convex polynomials are dense in the set of polynomials that are convex over an arbitrary box. A similar sum of squares type density result is established for monotone polynomials. In addition, we classify the complexity of convex and monotone polynomial regression as a function of the degree of the polynomial regressor. While our results show NP-hardness of these problems for degree three or larger, we can check numerically that our SDP-based regressors often achieve similar training error at low levels of the hierarchy. Finally, on the computational side, we present an empirical comparison of our SDP-based convex regressors with the convex least squares estimator introduced in [Hildreth, 1954] and [Holloway, 1979] and show that our regressor is valuable in settings where the number of data points is large and the dimension is relatively small. We demonstrate the performance of our regressor for the problem of computing optimal transport maps in a color transfer task and that of estimating the optimal value function of a conic program. A real-time application of the latter problem to inventory management contract negotiation is presented.
+
+summary: >
+  Builds an SDP hierarchy for fitting multivariate polynomial regressors subject to shape constraints such as convexity and monotonicity on a box. Beyond the estimator, the paper proves SOS density results for convex and monotone polynomials and clarifies when polynomial shape-constrained regression becomes computationally hard.
+link: https://arxiv.org/pdf/2004.03853
+links_alt:
+  - https://arxiv.org/abs/2004.03853
+audit_status: partial

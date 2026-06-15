@@ -1,0 +1,38 @@
+title: >
+  FactoryBench: Evaluating Industrial Machine Understanding
+algorithm: FactoryBench
+authors:
+  - Yanis Merzouki
+  - Coral Izquierdo
+  - Matei Ignuta-Ciuncanu
+  - Marcos Gomez-Bracamonte
+  - Riccardo Maggioni
+  - Alessandro Lombardi
+  - Camilla Mazzoleni
+  - Federico Martelli
+  - Balazs Gunther
+  - Jonas Petersen
+  - Philipp Petersen
+year: 2026
+source: arXiv
+type: Preprint
+doi:
+arxiv_id: "2605.07675"
+tags:
+  - Industrial machine understanding
+  - Benchmarks
+  - Time series
+  - Robotic telemetry
+  - Causal reasoning
+  - Large language model evaluation
+  - Question answering
+  - FactoryWave
+abstract: >
+  We introduce FactoryBench, a benchmark for evaluating time-series models and LLMs on machine understanding over industrial robotic telemetry. Q&A pairs are organized along four causal levels (state, intervention, counterfactual, decision) instantiating Pearl's ladder of causation, and span five answer formats: four structured formats are scored deterministically and free-form answers are scored by an LLM-as-judge voting protocol. We propose a scalable Q&A generation framework built around structured question templates, present FactoryWave (a dense, multitask, multivariate sensor dataset collected from a UR3 cobot and a KUKA KR10 industrial arm), and construct FactoryBench as a large-scale benchmark of over 70k Q&A items grounded in roughly 15k normalized episodes from FactoryWave, AURSAD, and voraus-AD. Zero-shot evaluation of six frontier LLMs shows that no model exceeds 50% on structured levels or 18% on decision-making, revealing a wide gap between current models and operational machine understanding.
+
+summary: >
+  Introduces FactoryBench, a benchmark that turns industrial robotic telemetry into structured question-answer tasks across state, intervention, counterfactual, and decision levels. The paper highlights a large gap between frontier LLMs and operational machine understanding, especially for structured causal and decision-making questions grounded in time-series data.
+link: https://arxiv.org/pdf/2605.07675
+links_alt:
+  - https://arxiv.org/abs/2605.07675
+audit_status: partial

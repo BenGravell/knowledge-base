@@ -1,0 +1,40 @@
+title: >
+  Reinforcement Learning-Based Oscillation Dampening: Scaling up Single-Agent RL Algorithms to a 100 AV Highway Field Operational Test
+algorithm:
+authors:
+  - Kathy Jang
+  - Nathan Lichtle
+  - Eugene Vinitsky
+  - Adit Shah
+  - Matthew Bunting
+  - Matthew Nice
+  - Benedetto Piccoli
+  - Benjamin Seibold
+  - Daniel B. Work
+  - Maria Laura Delle Monache
+  - Jonathan Sprinkle
+  - Jonathan W. Lee
+  - Alexandre M. Bayen
+year: 2024
+source: arXiv
+type: Preprint
+doi:
+arxiv_id: "2402.17050"
+tags:
+  - Reinforcement learning
+  - Autonomous vehicles
+  - Traffic flow smoothing
+  - Field operational test
+  - Single-agent reinforcement learning
+  - Control deployment
+  - Highway traffic
+  - Safety validation
+abstract: >
+  In this article, we explore the technical details of the reinforcement learning (RL) algorithms that were deployed in the largest field test of automated vehicles designed to smooth traffic flow in history as of 2023, uncovering the challenges and breakthroughs that come with developing RL controllers for automated vehicles. We delve into the fundamental concepts behind RL algorithms and their application in the context of self-driving cars, discussing the developmental process from simulation to deployment in detail, from designing simulators to reward function shaping. We present the results in both simulation and deployment, discussing the flow-smoothing benefits of the RL controller. From understanding the basics of Markov decision processes to exploring advanced techniques such as deep RL, our article offers a comprehensive overview and deep dive of the theoretical foundations and practical implementations driving this rapidly evolving field. We also showcase real-world case studies and alternative research projects that highlight the impact of RL controllers in revolutionizing autonomous driving. From tackling complex urban environments to dealing with unpredictable traffic scenarios, these intelligent controllers are pushing the boundaries of what automated vehicles can achieve. Furthermore, we examine the safety considerations and hardware-focused technical details surrounding deployment of RL controllers into automated vehicles. As these algorithms learn and evolve through interactions with the environment, ensuring their behavior aligns with safety standards becomes crucial. We explore the methodologies and frameworks being developed to address these challenges, emphasizing the importance of building reliable control systems for automated vehicles.
+
+summary: >
+  Documents the RL controller design and deployment path for a large automated-vehicle field test aimed at damping stop-and-go traffic oscillations. The paper is especially useful as an engineering account of moving from simulation and reward shaping to hardware constraints, safety considerations, and fleet-scale highway deployment.
+link: https://arxiv.org/pdf/2402.17050
+links_alt:
+  - https://arxiv.org/abs/2402.17050
+audit_status: partial
