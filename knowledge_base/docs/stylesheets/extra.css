@@ -1747,14 +1747,23 @@ body:has(.kb-home-bento) .md-content {
   --kb-tree-preview-selected-gap: 0.24rem;
   --kb-tree-preview-rail-width: 1.1rem;
   --kb-tree-preview-line: color-mix(in srgb, var(--md-default-fg-color) 27%, transparent);
-  --kb-tree-preview-row-bg: color-mix(in srgb, var(--md-default-fg-color) 5%, var(--md-default-bg-color));
-  --kb-tree-preview-row-border: color-mix(in srgb, var(--md-default-fg-color) 11%, transparent);
-  --kb-tree-preview-row-accent-bg: color-mix(in srgb, var(--kb-bento-accent) 8%, var(--md-default-bg-color));
-  --kb-tree-preview-row-accent-border: color-mix(in srgb, var(--kb-bento-accent) 24%, transparent);
+  --kb-tree-preview-row-bg: color-mix(in srgb, var(--md-default-fg-color) 9%, var(--md-default-bg-color));
+  --kb-tree-preview-row-border: color-mix(in srgb, var(--md-default-fg-color) 22%, transparent);
+  --kb-tree-preview-row-parent-bg: color-mix(in srgb, var(--md-default-fg-color) 10%, var(--md-default-bg-color));
+  --kb-tree-preview-row-accent-bg: color-mix(in srgb, var(--kb-bento-accent) 18%, var(--md-default-bg-color));
+  --kb-tree-preview-row-accent-border: color-mix(in srgb, var(--kb-bento-accent) 46%, transparent);
   width: 9.55rem;
   height: 8.35rem;
   opacity: var(--kb-bento-preview-opacity);
   transform: translate(-50%, -50%) scale(0.9);
+}
+
+[data-md-color-scheme="slate"] .md-typeset .kb-bento-visual--tree {
+  --kb-tree-preview-row-bg: color-mix(in srgb, var(--md-default-fg-color) 5%, var(--md-default-bg-color));
+  --kb-tree-preview-row-border: color-mix(in srgb, var(--md-default-fg-color) 11%, transparent);
+  --kb-tree-preview-row-parent-bg: color-mix(in srgb, var(--md-default-fg-color) 6%, var(--md-default-bg-color));
+  --kb-tree-preview-row-accent-bg: color-mix(in srgb, var(--kb-bento-accent) 8%, var(--md-default-bg-color));
+  --kb-tree-preview-row-accent-border: color-mix(in srgb, var(--kb-bento-accent) 24%, transparent);
 }
 
 .md-typeset .kb-tree-sunburst {
@@ -1866,7 +1875,7 @@ body:has(.kb-home-bento) .md-content {
 }
 
 .md-typeset .kb-tree-preview-row--parent {
-  background: color-mix(in srgb, var(--md-default-fg-color) 6%, var(--md-default-bg-color));
+  background: var(--kb-tree-preview-row-parent-bg);
 }
 
 .md-typeset .kb-tree-preview-row--child {
