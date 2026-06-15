@@ -1,0 +1,31 @@
+title: >
+  Policy Iteration for Multiplicative Noise Output Feedback Control
+algorithm:
+authors:
+  - Benjamin Gravell
+  - Matilde Gargiani
+  - John Lygeros
+  - Tyler H. Summers
+year: 2022
+source: IEEE 61st Conference on Decision and Control (CDC)
+type: Conference Paper
+doi: 10.1109/CDC51059.2022.9993098
+arxiv_id: "2203.17165"
+tags:
+  - Policy iteration
+  - Multiplicative noise
+  - Output feedback
+  - Linear quadratic control
+  - Stochastic optimal control
+  - POMDPs
+  - Riccati equations
+  - Dynamic output feedback
+abstract: >
+  We propose a policy iteration algorithm for solving the multiplicative noise linear quadratic output feedback design problem. The algorithm solves a set of coupled Riccati equations for estimation and control arising from a partially observable Markov decision process (POMDP) under a class of linear dynamic control policies. We show in numerical experiments far faster convergence than a value iteration algorithm, formerly the only known algorithm for solving this class of problem. The results suggest promising future research directions for policy optimization algorithms in more general POMDPs, including the potential to develop novel approximate data-driven approaches when model parameters are not available.
+summary: >
+  Extends policy iteration to the partially observed multiplicative-noise linear quadratic setting, where the controller is a linear dynamic output-feedback policy rather than a static state-feedback gain. The main contribution is a coupled estimator-controller Riccati iteration that delivers results much more quickly/with less computation effort than the prior value-iteration approach, in some cases. This points toward scalable policy optimization methods for more general POMDPs.
+link: https://arxiv.org/pdf/2203.17165
+links_alt:
+  - https://ieeexplore.ieee.org/document/9993098
+  - https://github.com/TSummersLab/policy-iteration-mlqc
+audit_status: reviewed
