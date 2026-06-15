@@ -381,6 +381,9 @@ _FOLDED_TEXT_FIELD_ISSUE_PREFIX = (
 _FOLDED_TEXT_FIELD_MULTILINE_ISSUE_PREFIX = (
     "Folded text field should use a single YAML content line"
 )
+_FOLDED_TEXT_FIELD_BLANK_LINE_ISSUE_PREFIX = (
+    "Folded text field contains blank YAML content line"
+)
 _MULTILINE_FORBIDDEN_FIELDS = {
     "algorithm",
     "year",
@@ -3457,6 +3460,10 @@ def _nonblank_content_line_count(lines: list[str], start: int, end: int) -> int:
     return sum(1 for line in lines[start + 1 : end] if line.strip())
 
 
+def _blank_content_line_count(lines: list[str], start: int, end: int) -> int:
+    return sum(1 for line in lines[start + 1 : end] if not line.strip())
+
+
 def find_multiline_field_issues(path: Path, raw: str, data: dict) -> list["Issue"]:
     issues: list[Issue] = []
     lines = raw.splitlines(keepends=True)
@@ -3487,6 +3494,7 @@ def find_multiline_field_issues(path: Path, raw: str, data: dict) -> list["Issue
                 and _is_folded_scalar_header(value)
             ):
                 content_line_count = _nonblank_content_line_count(lines, index, end)
+                blank_line_count = _blank_content_line_count(lines, index, end)
                 if content_line_count > 1:
                     issues.append(
                         Issue(
@@ -3498,6 +3506,19 @@ def find_multiline_field_issues(path: Path, raw: str, data: dict) -> list["Issue
                                 "content line(s)"
                             ),
                             f"Collapse the text to one indented line under `{field_name}: >`.",
+                        )
+                    )
+                elif blank_line_count:
+                    issues.append(
+                        Issue(
+                            path,
+                            field_name,
+                            (
+                                f"{_FOLDED_TEXT_FIELD_BLANK_LINE_ISSUE_PREFIX}: "
+                                f"{field_name} contains {blank_line_count} blank "
+                                "YAML content line(s)"
+                            ),
+                            f"Remove blank lines from the folded `{field_name}: >` block.",
                         )
                     )
             continue
@@ -5178,6 +5199,7 @@ def _is_folded_text_field_issue(issue: Issue) -> bool:
             (
                 _FOLDED_TEXT_FIELD_ISSUE_PREFIX,
                 _FOLDED_TEXT_FIELD_MULTILINE_ISSUE_PREFIX,
+                _FOLDED_TEXT_FIELD_BLANK_LINE_ISSUE_PREFIX,
             )
         )
     )
