@@ -1,15 +1,15 @@
 window.analyticsData = {
   "metrics": {
-    "totalPapers": 2348,
-    "datedPapers": 2348,
+    "totalPapers": 2382,
+    "datedPapers": 2382,
     "undatedPapers": 0,
-    "uniqueAuthors": 13240,
-    "uniqueSources": 536,
-    "uniqueTags": 3795,
+    "uniqueAuthors": 13374,
+    "uniqueSources": 538,
+    "uniqueTags": 3933,
     "minYear": 1816,
     "maxYear": 2026,
-    "arxivPapers": 1435,
-    "doiPapers": 1256
+    "arxivPapers": 1468,
+    "doiPapers": 1259
   },
   "years": [
     {
@@ -97,7 +97,7 @@ window.analyticsData = {
       "start": 2010,
       "end": 2014,
       "width": 5,
-      "count": 221,
+      "count": 222,
       "region": "2000-present"
     },
     {
@@ -105,7 +105,7 @@ window.analyticsData = {
       "start": 2015,
       "end": 2019,
       "width": 5,
-      "count": 531,
+      "count": 534,
       "region": "2000-present"
     },
     {
@@ -113,7 +113,7 @@ window.analyticsData = {
       "start": 2020,
       "end": 2024,
       "width": 5,
-      "count": 725,
+      "count": 738,
       "region": "2000-present"
     },
     {
@@ -121,7 +121,7 @@ window.analyticsData = {
       "start": 2025,
       "end": 2026,
       "width": 5,
-      "count": 372,
+      "count": 389,
       "region": "2000-present",
       "presentYear": 2026
     }
@@ -213,7 +213,7 @@ window.analyticsData = {
         "start": 2010,
         "end": 2014,
         "width": 5,
-        "count": 221,
+        "count": 222,
         "region": "2000-present"
       },
       {
@@ -221,7 +221,7 @@ window.analyticsData = {
         "start": 2015,
         "end": 2019,
         "width": 5,
-        "count": 531,
+        "count": 534,
         "region": "2000-present"
       },
       {
@@ -229,7 +229,7 @@ window.analyticsData = {
         "start": 2020,
         "end": 2024,
         "width": 5,
-        "count": 725,
+        "count": 738,
         "region": "2000-present"
       },
       {
@@ -237,7 +237,7 @@ window.analyticsData = {
         "start": 2025,
         "end": 2026,
         "width": 5,
-        "count": 372,
+        "count": 389,
         "region": "2000-present",
         "presentYear": 2026
       }
@@ -464,7 +464,7 @@ window.analyticsData = {
         "start": 2010,
         "end": 2010,
         "width": 1,
-        "count": 28,
+        "count": 29,
         "region": "2000-present"
       },
       {
@@ -504,7 +504,7 @@ window.analyticsData = {
         "start": 2015,
         "end": 2015,
         "width": 1,
-        "count": 82,
+        "count": 83,
         "region": "2000-present"
       },
       {
@@ -512,7 +512,7 @@ window.analyticsData = {
         "start": 2016,
         "end": 2016,
         "width": 1,
-        "count": 84,
+        "count": 85,
         "region": "2000-present"
       },
       {
@@ -528,7 +528,7 @@ window.analyticsData = {
         "start": 2018,
         "end": 2018,
         "width": 1,
-        "count": 123,
+        "count": 124,
         "region": "2000-present"
       },
       {
@@ -544,7 +544,7 @@ window.analyticsData = {
         "start": 2020,
         "end": 2020,
         "width": 1,
-        "count": 125,
+        "count": 126,
         "region": "2000-present"
       },
       {
@@ -552,7 +552,7 @@ window.analyticsData = {
         "start": 2021,
         "end": 2021,
         "width": 1,
-        "count": 143,
+        "count": 144,
         "region": "2000-present"
       },
       {
@@ -560,7 +560,7 @@ window.analyticsData = {
         "start": 2022,
         "end": 2022,
         "width": 1,
-        "count": 140,
+        "count": 143,
         "region": "2000-present"
       },
       {
@@ -568,7 +568,7 @@ window.analyticsData = {
         "start": 2023,
         "end": 2023,
         "width": 1,
-        "count": 163,
+        "count": 166,
         "region": "2000-present"
       },
       {
@@ -576,7 +576,7 @@ window.analyticsData = {
         "start": 2024,
         "end": 2024,
         "width": 1,
-        "count": 154,
+        "count": 159,
         "region": "2000-present"
       },
       {
@@ -584,7 +584,7 @@ window.analyticsData = {
         "start": 2025,
         "end": 2025,
         "width": 1,
-        "count": 211,
+        "count": 214,
         "region": "2000-present"
       },
       {
@@ -592,7 +592,7 @@ window.analyticsData = {
         "start": 2026,
         "end": 2026,
         "width": 1,
-        "count": 161,
+        "count": 175,
         "region": "2000-present"
       }
     ]
@@ -612,11 +612,11 @@ window.analyticsData = {
     },
     {
       "label": "Russ Tedrake",
-      "count": 36
+      "count": 38
     },
     {
       "label": "Nikolai Matni",
-      "count": 35
+      "count": 36
     },
     {
       "label": "Csaba Szepesvari",
@@ -635,11 +635,11 @@ window.analyticsData = {
       "count": 30
     },
     {
-      "label": "Benjamin Recht",
-      "count": 29
+      "label": "Sergey Levine",
+      "count": 30
     },
     {
-      "label": "Sergey Levine",
+      "label": "Benjamin Recht",
       "count": 29
     },
     {
@@ -684,6 +684,10 @@ window.analyticsData = {
     },
     {
       "label": "Pieter Abbeel",
+      "count": 21
+    },
+    {
+      "label": "John Lygeros",
       "count": 20
     },
     {
@@ -696,10 +700,6 @@ window.analyticsData = {
     },
     {
       "label": "Joel A. Tropp",
-      "count": 19
-    },
-    {
-      "label": "John Lygeros",
       "count": 19
     },
     {
@@ -727,6 +727,14 @@ window.analyticsData = {
       "count": 17
     },
     {
+      "label": "Max Simchowitz",
+      "count": 17
+    },
+    {
+      "label": "Yann LeCun",
+      "count": 17
+    },
+    {
       "label": "Zachary Kingston",
       "count": 17
     },
@@ -747,19 +755,11 @@ window.analyticsData = {
       "count": 16
     },
     {
-      "label": "Max Simchowitz",
-      "count": 16
-    },
-    {
       "label": "Michael I. Jordan",
       "count": 16
     },
     {
       "label": "Stephen Tu",
-      "count": 16
-    },
-    {
-      "label": "Yann LeCun",
       "count": 16
     },
     {
@@ -777,6 +777,10 @@ window.analyticsData = {
     {
       "label": "Riccardo Bonalli",
       "count": 15
+    },
+    {
+      "label": "Benjamin Gravell",
+      "count": 14
     },
     {
       "label": "Josh Merel",
@@ -799,7 +803,7 @@ window.analyticsData = {
       "count": 14
     },
     {
-      "label": "Benjamin Gravell",
+      "label": "Evangelos A. Theodorou",
       "count": 13
     },
     {
@@ -811,19 +815,19 @@ window.analyticsData = {
       "count": 13
     },
     {
+      "label": "Raffaello D'Andrea",
+      "count": 13
+    },
+    {
+      "label": "Dragomir Anguelov",
+      "count": 12
+    },
+    {
       "label": "Emanuel Todorov",
       "count": 12
     },
     {
-      "label": "Evangelos A. Theodorou",
-      "count": 12
-    },
-    {
       "label": "Moritz Diehl",
-      "count": 12
-    },
-    {
-      "label": "Raffaello D'Andrea",
       "count": 12
     },
     {
@@ -871,6 +875,10 @@ window.analyticsData = {
       "count": 11
     },
     {
+      "label": "Sergio Casas",
+      "count": 11
+    },
+    {
       "label": "Sertac Karaman",
       "count": 11
     },
@@ -915,15 +923,15 @@ window.analyticsData = {
       "count": 10
     },
     {
-      "label": "Sergio Casas",
-      "count": 10
-    },
-    {
       "label": "Steven L. Brunton",
       "count": 10
     },
     {
       "label": "Thomas Lew",
+      "count": 10
+    },
+    {
+      "label": "Tyler H. Summers",
       "count": 10
     },
     {
@@ -1015,10 +1023,6 @@ window.analyticsData = {
       "count": 9
     },
     {
-      "label": "Tyler H. Summers",
-      "count": 9
-    },
-    {
       "label": "Akshay Agrawal",
       "count": 8
     },
@@ -1032,10 +1036,6 @@ window.analyticsData = {
     },
     {
       "label": "Dimitri P. Bertsekas",
-      "count": 8
-    },
-    {
-      "label": "Dragomir Anguelov",
       "count": 8
     },
     {
@@ -1160,6 +1160,14 @@ window.analyticsData = {
     },
     {
       "label": "Franck Djeumou",
+      "count": 7
+    },
+    {
+      "label": "Hao Zhang",
+      "count": 7
+    },
+    {
+      "label": "Holger Caesar",
       "count": 7
     },
     {
@@ -1303,6 +1311,14 @@ window.analyticsData = {
       "count": 6
     },
     {
+      "label": "Bassam Bamieh",
+      "count": 6
+    },
+    {
+      "label": "Benjamin Sapp",
+      "count": 6
+    },
+    {
       "label": "Bin Hu",
       "count": 6
     },
@@ -1359,10 +1375,6 @@ window.analyticsData = {
       "count": 6
     },
     {
-      "label": "Hao Zhang",
-      "count": 6
-    },
-    {
       "label": "Henrik Sandberg",
       "count": 6
     },
@@ -1403,6 +1415,14 @@ window.analyticsData = {
       "count": 6
     },
     {
+      "label": "John Lambert",
+      "count": 6
+    },
+    {
+      "label": "Kaiming He",
+      "count": 6
+    },
+    {
       "label": "Kanishka Rao",
       "count": 6
     },
@@ -1420,6 +1440,10 @@ window.analyticsData = {
     },
     {
       "label": "Ken Goldberg",
+      "count": 6
+    },
+    {
+      "label": "Lei Zhang",
       "count": 6
     },
     {
@@ -1599,6 +1623,10 @@ window.analyticsData = {
       "count": 5
     },
     {
+      "label": "Aviral Kumar",
+      "count": 5
+    },
+    {
       "label": "Ayzaan Wahid",
       "count": 5
     },
@@ -1608,10 +1636,6 @@ window.analyticsData = {
     },
     {
       "label": "Basil Mustafa",
-      "count": 5
-    },
-    {
-      "label": "Bassam Bamieh",
       "count": 5
     },
     {
@@ -1715,6 +1739,10 @@ window.analyticsData = {
       "count": 5
     },
     {
+      "label": "Eugene Vinitsky",
+      "count": 5
+    },
+    {
       "label": "Evan Senter",
       "count": 5
     },
@@ -1724,6 +1752,10 @@ window.analyticsData = {
     },
     {
       "label": "Farnaz Adib Yaghmaie",
+      "count": 5
+    },
+    {
+      "label": "Frank Allgower",
       "count": 5
     },
     {
@@ -1747,15 +1779,19 @@ window.analyticsData = {
       "count": 5
     },
     {
-      "label": "Holger Caesar",
-      "count": 5
-    },
-    {
       "label": "Hongkai Dai",
       "count": 5
     },
     {
       "label": "Hyeontaek Lim",
+      "count": 5
+    },
+    {
+      "label": "Ian R. Manchester",
+      "count": 5
+    },
+    {
+      "label": "Igor Gilitschenski",
       "count": 5
     },
     {
@@ -1831,10 +1867,6 @@ window.analyticsData = {
       "count": 5
     },
     {
-      "label": "Kaiming He",
-      "count": 5
-    },
-    {
       "label": "Katie Millican",
       "count": 5
     },
@@ -1856,10 +1888,6 @@ window.analyticsData = {
     },
     {
       "label": "Krzysztof Choromanski",
-      "count": 5
-    },
-    {
-      "label": "Lei Zhang",
       "count": 5
     },
     {
@@ -1903,6 +1931,10 @@ window.analyticsData = {
       "count": 5
     },
     {
+      "label": "Mingxing Tan",
+      "count": 5
+    },
+    {
       "label": "Minh Giang",
       "count": 5
     },
@@ -1920,6 +1952,10 @@ window.analyticsData = {
     },
     {
       "label": "Olivier Bachem",
+      "count": 5
+    },
+    {
+      "label": "Panagiotis Tsiotras",
       "count": 5
     },
     {
@@ -1972,6 +2008,10 @@ window.analyticsData = {
     },
     {
       "label": "Robert Nishihara",
+      "count": 5
+    },
+    {
+      "label": "Ross Girshick",
       "count": 5
     },
     {
@@ -2179,6 +2219,10 @@ window.analyticsData = {
       "count": 4
     },
     {
+      "label": "Amir Bar",
+      "count": 4
+    },
+    {
       "label": "Anca Dragan",
       "count": 4
     },
@@ -2231,10 +2275,6 @@ window.analyticsData = {
       "count": 4
     },
     {
-      "label": "Aviral Kumar",
-      "count": 4
-    },
-    {
       "label": "Barret Zoph",
       "count": 4
     },
@@ -2248,10 +2288,6 @@ window.analyticsData = {
     },
     {
       "label": "Benjamin Lee",
-      "count": 4
-    },
-    {
-      "label": "Benjamin Sapp",
       "count": 4
     },
     {
@@ -2312,6 +2348,10 @@ window.analyticsData = {
     },
     {
       "label": "Christof Angermueller",
+      "count": 4
+    },
+    {
+      "label": "Christoph Stiller",
       "count": 4
     },
     {
@@ -2431,10 +2471,6 @@ window.analyticsData = {
       "count": 4
     },
     {
-      "label": "Eugene Vinitsky",
-      "count": 4
-    },
-    {
       "label": "Evgenii Eltyshev",
       "count": 4
     },
@@ -2464,10 +2500,6 @@ window.analyticsData = {
     },
     {
       "label": "Francisco Massa",
-      "count": 4
-    },
-    {
-      "label": "Frank Allgower",
       "count": 4
     },
     {
@@ -2532,14 +2564,6 @@ window.analyticsData = {
     },
     {
       "label": "Huabin Zheng",
-      "count": 4
-    },
-    {
-      "label": "Ian R. Manchester",
-      "count": 4
-    },
-    {
-      "label": "Igor Gilitschenski",
       "count": 4
     },
     {
@@ -2639,10 +2663,6 @@ window.analyticsData = {
       "count": 4
     },
     {
-      "label": "John Lambert",
-      "count": 4
-    },
-    {
       "label": "John Subosits",
       "count": 4
     },
@@ -2668,6 +2688,10 @@ window.analyticsData = {
     },
     {
       "label": "Joshua Maynez",
+      "count": 4
+    },
+    {
+      "label": "Julian Berberich",
       "count": 4
     },
     {
@@ -2879,6 +2903,10 @@ window.analyticsData = {
       "count": 4
     },
     {
+      "label": "Matilde Gargiani",
+      "count": 4
+    },
+    {
       "label": "Matteo Hessel",
       "count": 4
     },
@@ -2931,6 +2959,10 @@ window.analyticsData = {
       "count": 4
     },
     {
+      "label": "Michael Rabbat",
+      "count": 4
+    },
+    {
       "label": "Mingchuan Zhang",
       "count": 4
     },
@@ -2971,7 +3003,7 @@ window.analyticsData = {
       "count": 4
     },
     {
-      "label": "Panagiotis Tsiotras",
+      "label": "Omer Sahin Tas",
       "count": 4
     },
     {
@@ -3095,11 +3127,11 @@ window.analyticsData = {
       "count": 4
     },
     {
-      "label": "Ross Girshick",
+      "label": "Ross McIlroy",
       "count": 4
     },
     {
-      "label": "Ross McIlroy",
+      "label": "Rui Wang",
       "count": 4
     },
     {
@@ -3731,10 +3763,6 @@ window.analyticsData = {
       "count": 3
     },
     {
-      "label": "Amir Bar",
-      "count": 3
-    },
-    {
       "label": "Amir Globerson",
       "count": 3
     },
@@ -3860,6 +3888,10 @@ window.analyticsData = {
     },
     {
       "label": "Anton Tsitsulin",
+      "count": 3
+    },
+    {
+      "label": "Antonio Terpin",
       "count": 3
     },
     {
@@ -3995,6 +4027,10 @@ window.analyticsData = {
       "count": 3
     },
     {
+      "label": "Camilla Mazzoleni",
+      "count": 3
+    },
+    {
       "label": "Carey Radebaugh",
       "count": 3
     },
@@ -4079,6 +4115,10 @@ window.analyticsData = {
       "count": 3
     },
     {
+      "label": "Chiyu Max Jiang",
+      "count": 3
+    },
+    {
       "label": "Chong Ruan",
       "count": 3
     },
@@ -4132,6 +4172,10 @@ window.analyticsData = {
     },
     {
       "label": "Clement Crepy",
+      "count": 3
+    },
+    {
+      "label": "Cole Gulino",
       "count": 3
     },
     {
@@ -4468,6 +4512,10 @@ window.analyticsData = {
     },
     {
       "label": "Federico Lebron",
+      "count": 3
+    },
+    {
+      "label": "Federico Martelli",
       "count": 3
     },
     {
@@ -5063,6 +5111,10 @@ window.analyticsData = {
       "count": 3
     },
     {
+      "label": "Jonas Petersen",
+      "count": 3
+    },
+    {
       "label": "Jonathan How",
       "count": 3
     },
@@ -5116,10 +5168,6 @@ window.analyticsData = {
     },
     {
       "label": "Joss Moore",
-      "count": 3
-    },
-    {
-      "label": "Julian Berberich",
       "count": 3
     },
     {
@@ -5559,6 +5607,10 @@ window.analyticsData = {
       "count": 3
     },
     {
+      "label": "Marlon Steiner",
+      "count": 3
+    },
+    {
       "label": "Martin Baeuml",
       "count": 3
     },
@@ -5588,10 +5640,6 @@ window.analyticsData = {
     },
     {
       "label": "Matan Eyal",
-      "count": 3
-    },
-    {
-      "label": "Matilde Gargiani",
       "count": 3
     },
     {
@@ -5659,11 +5707,11 @@ window.analyticsData = {
       "count": 3
     },
     {
-      "label": "Michael Muehlebach",
+      "label": "Michael Laskin",
       "count": 3
     },
     {
-      "label": "Michael Rabbat",
+      "label": "Michael Muehlebach",
       "count": 3
     },
     {
@@ -5995,6 +6043,10 @@ window.analyticsData = {
       "count": 3
     },
     {
+      "label": "Philipp Petersen",
+      "count": 3
+    },
+    {
       "label": "Pier Giuseppe Sessa",
       "count": 3
     },
@@ -6091,6 +6143,10 @@ window.analyticsData = {
       "count": 3
     },
     {
+      "label": "Rami Al-Rfou",
+      "count": 3
+    },
+    {
       "label": "Ranjay Krishna",
       "count": 3
     },
@@ -6120,6 +6176,10 @@ window.analyticsData = {
     },
     {
       "label": "Rhys May",
+      "count": 3
+    },
+    {
+      "label": "Riccardo Maggioni",
       "count": 3
     },
     {
@@ -6192,10 +6252,6 @@ window.analyticsData = {
     },
     {
       "label": "Roy S. Smith",
-      "count": 3
-    },
-    {
-      "label": "Rui Wang",
       "count": 3
     },
     {
@@ -6307,6 +6363,10 @@ window.analyticsData = {
       "count": 3
     },
     {
+      "label": "Scott Ettinger",
+      "count": 3
+    },
+    {
       "label": "Sebastian Riedel",
       "count": 3
     },
@@ -6399,6 +6459,10 @@ window.analyticsData = {
       "count": 3
     },
     {
+      "label": "Shilong Liu",
+      "count": 3
+    },
+    {
       "label": "Shimon Whiteson",
       "count": 3
     },
@@ -6424,6 +6488,10 @@ window.analyticsData = {
     },
     {
       "label": "Shubham Agrawal",
+      "count": 3
+    },
+    {
+      "label": "Shuhan Tan",
       "count": 3
     },
     {
@@ -6612,6 +6680,10 @@ window.analyticsData = {
     },
     {
       "label": "Thomas Buschmann",
+      "count": 3
+    },
+    {
+      "label": "Thomas Cohn",
       "count": 3
     },
     {
@@ -6995,7 +7067,15 @@ window.analyticsData = {
       "count": 3
     },
     {
+      "label": "Yijing Bai",
+      "count": 3
+    },
+    {
       "label": "Yiliang Xiong",
+      "count": 3
+    },
+    {
+      "label": "Yin Zhou",
       "count": 3
     },
     {
@@ -7387,6 +7467,10 @@ window.analyticsData = {
       "count": 2
     },
     {
+      "label": "Albert Zhan",
+      "count": 2
+    },
+    {
       "label": "Alborz Geramifard",
       "count": 2
     },
@@ -7424,6 +7508,10 @@ window.analyticsData = {
     },
     {
       "label": "Alessandro Chiuso",
+      "count": 2
+    },
+    {
+      "label": "Alessandro Lombardi",
       "count": 2
     },
     {
@@ -7512,6 +7600,10 @@ window.analyticsData = {
     },
     {
       "label": "Alexander Rakhlin",
+      "count": 2
+    },
+    {
+      "label": "Alexander Shkolnik",
       "count": 2
     },
     {
@@ -7795,6 +7887,10 @@ window.analyticsData = {
       "count": 2
     },
     {
+      "label": "Anikait Singh",
+      "count": 2
+    },
+    {
       "label": "Anirudh Goyal",
       "count": 2
     },
@@ -7840,10 +7936,6 @@ window.analyticsData = {
     },
     {
       "label": "Antonia Paterson",
-      "count": 2
-    },
-    {
-      "label": "Antonio Terpin",
       "count": 2
     },
     {
@@ -8135,6 +8227,10 @@ window.analyticsData = {
       "count": 2
     },
     {
+      "label": "Bin Yu",
+      "count": 2
+    },
+    {
       "label": "Bing Xu",
       "count": 2
     },
@@ -8172,6 +8268,10 @@ window.analyticsData = {
     },
     {
       "label": "Bofei Gao",
+      "count": 2
+    },
+    {
+      "label": "Bogdan Vlahov",
       "count": 2
     },
     {
@@ -8287,6 +8387,14 @@ window.analyticsData = {
       "count": 2
     },
     {
+      "label": "Carlos Fernandez",
+      "count": 2
+    },
+    {
+      "label": "Carlos Fuertes",
+      "count": 2
+    },
+    {
       "label": "Carlos Guestrin",
       "count": 2
     },
@@ -8316,6 +8424,10 @@ window.analyticsData = {
     },
     {
       "label": "Chalence Safranek-Shrader",
+      "count": 2
+    },
+    {
+      "label": "Chandan Singh",
       "count": 2
     },
     {
@@ -8475,10 +8587,6 @@ window.analyticsData = {
       "count": 2
     },
     {
-      "label": "Christoph Stiller",
-      "count": 2
-    },
-    {
       "label": "Christy Koh",
       "count": 2
     },
@@ -8544,10 +8652,6 @@ window.analyticsData = {
     },
     {
       "label": "Colby Banbury",
-      "count": 2
-    },
-    {
-      "label": "Cole Gulino",
       "count": 2
     },
     {
@@ -8991,11 +9095,19 @@ window.analyticsData = {
       "count": 2
     },
     {
+      "label": "Dominik Strutz",
+      "count": 2
+    },
+    {
       "label": "Dominique Orban",
       "count": 2
     },
     {
       "label": "Dongjie Ji",
+      "count": 2
+    },
+    {
+      "label": "Dongliang Zheng",
       "count": 2
     },
     {
@@ -9187,6 +9299,10 @@ window.analyticsData = {
       "count": 2
     },
     {
+      "label": "Fabian Immel",
+      "count": 2
+    },
+    {
       "label": "Fabian Mentzer",
       "count": 2
     },
@@ -9224,6 +9340,10 @@ window.analyticsData = {
     },
     {
       "label": "Felix Gimeno",
+      "count": 2
+    },
+    {
+      "label": "Felix Hauser",
       "count": 2
     },
     {
@@ -9391,6 +9511,10 @@ window.analyticsData = {
       "count": 2
     },
     {
+      "label": "Georgina Hall",
+      "count": 2
+    },
+    {
       "label": "Gheorghe Comanici",
       "count": 2
     },
@@ -9551,6 +9675,10 @@ window.analyticsData = {
       "count": 2
     },
     {
+      "label": "Hao Liu",
+      "count": 2
+    },
+    {
       "label": "Hao Zhou",
       "count": 2
     },
@@ -9703,6 +9831,10 @@ window.analyticsData = {
       "count": 2
     },
     {
+      "label": "Hong Jeon",
+      "count": 2
+    },
+    {
       "label": "Hong Liu",
       "count": 2
     },
@@ -9744,6 +9876,10 @@ window.analyticsData = {
     },
     {
       "label": "Huajian Xin",
+      "count": 2
+    },
+    {
+      "label": "Hubert Lin",
       "count": 2
     },
     {
@@ -9971,6 +10107,10 @@ window.analyticsData = {
       "count": 2
     },
     {
+      "label": "Jaime Villa",
+      "count": 2
+    },
+    {
       "label": "Jake Varley",
       "count": 2
     },
@@ -10043,6 +10183,10 @@ window.analyticsData = {
       "count": 2
     },
     {
+      "label": "Jan-Hendrik Pauls",
+      "count": 2
+    },
+    {
       "label": "Jan-Michael Frahm",
       "count": 2
     },
@@ -10060,6 +10204,10 @@ window.analyticsData = {
     },
     {
       "label": "Jarrod Kahn",
+      "count": 2
+    },
+    {
+      "label": "Jason Gibson",
       "count": 2
     },
     {
@@ -10148,6 +10296,10 @@ window.analyticsData = {
     },
     {
       "label": "Jens Heitkaemper",
+      "count": 2
+    },
+    {
+      "label": "Jens Kober",
       "count": 2
     },
     {
@@ -10248,6 +10400,10 @@ window.analyticsData = {
     },
     {
       "label": "Jian Liang",
+      "count": 2
+    },
+    {
+      "label": "Jian Sun",
       "count": 2
     },
     {
@@ -10436,6 +10592,10 @@ window.analyticsData = {
     },
     {
       "label": "Johan Ekekrantz",
+      "count": 2
+    },
+    {
+      "label": "Johan Engstrom",
       "count": 2
     },
     {
@@ -10631,6 +10791,10 @@ window.analyticsData = {
       "count": 2
     },
     {
+      "label": "Jun Zhu",
+      "count": 2
+    },
+    {
       "label": "Junehyuk Jung",
       "count": 2
     },
@@ -10667,6 +10831,10 @@ window.analyticsData = {
       "count": 2
     },
     {
+      "label": "Jyh-Jing Hwang",
+      "count": 2
+    },
+    {
       "label": "K.J. Astrom",
       "count": 2
     },
@@ -10684,6 +10852,10 @@ window.analyticsData = {
     },
     {
       "label": "Kai Zhao",
+      "count": 2
+    },
+    {
+      "label": "Kaiwen Wang",
       "count": 2
     },
     {
@@ -10708,6 +10880,10 @@ window.analyticsData = {
     },
     {
       "label": "Karl Johan Astrom",
+      "count": 2
+    },
+    {
+      "label": "Karl Worthmann",
       "count": 2
     },
     {
@@ -10807,6 +10983,10 @@ window.analyticsData = {
       "count": 2
     },
     {
+      "label": "Kevin Rosch",
+      "count": 2
+    },
+    {
       "label": "Kevin Stone",
       "count": 2
     },
@@ -10868,6 +11048,10 @@ window.analyticsData = {
     },
     {
       "label": "Koustuv Sinha",
+      "count": 2
+    },
+    {
+      "label": "Kratarth Goel",
       "count": 2
     },
     {
@@ -10967,11 +11151,19 @@ window.analyticsData = {
       "count": 2
     },
     {
+      "label": "Leif Johnson",
+      "count": 2
+    },
+    {
       "label": "Leland McInnes",
       "count": 2
     },
     {
       "label": "Leonidas Guibas",
+      "count": 2
+    },
+    {
+      "label": "Lerrel Pinto",
       "count": 2
     },
     {
@@ -11355,6 +11547,10 @@ window.analyticsData = {
       "count": 2
     },
     {
+      "label": "Matei Ignuta-Ciuncanu",
+      "count": 2
+    },
+    {
       "label": "Matej Kastelic",
       "count": 2
     },
@@ -11404,6 +11600,10 @@ window.analyticsData = {
     },
     {
       "label": "Matthew Muckley",
+      "count": 2
+    },
+    {
+      "label": "Matthew O'Kelly",
       "count": 2
     },
     {
@@ -11559,10 +11759,6 @@ window.analyticsData = {
       "count": 2
     },
     {
-      "label": "Michael Laskin",
-      "count": 2
-    },
-    {
       "label": "Michael Petrov",
       "count": 2
     },
@@ -11600,6 +11796,10 @@ window.analyticsData = {
     },
     {
       "label": "Michelle Pokrass",
+      "count": 2
+    },
+    {
+      "label": "Mihaela Curmei",
       "count": 2
     },
     {
@@ -11652,10 +11852,6 @@ window.analyticsData = {
     },
     {
       "label": "Mingming Li",
-      "count": 2
-    },
-    {
-      "label": "Mingxing Tan",
       "count": 2
     },
     {
@@ -11844,6 +12040,10 @@ window.analyticsData = {
     },
     {
       "label": "Niccolo Fusai",
+      "count": 2
+    },
+    {
+      "label": "Nicholas Pfaff",
       "count": 2
     },
     {
@@ -12051,10 +12251,6 @@ window.analyticsData = {
       "count": 2
     },
     {
-      "label": "Omer Sahin Tas",
-      "count": 2
-    },
-    {
       "label": "Ondrej Skopek",
       "count": 2
     },
@@ -12139,7 +12335,15 @@ window.analyticsData = {
       "count": 2
     },
     {
+      "label": "Patrick Spieler",
+      "count": 2
+    },
+    {
       "label": "Paul Christiano",
+      "count": 2
+    },
+    {
+      "label": "Paul Covington",
       "count": 2
     },
     {
@@ -12443,10 +12647,6 @@ window.analyticsData = {
       "count": 2
     },
     {
-      "label": "Rami Al-Rfou",
-      "count": 2
-    },
-    {
       "label": "Ramya Sree Boppana",
       "count": 2
     },
@@ -12559,6 +12759,10 @@ window.analyticsData = {
       "count": 2
     },
     {
+      "label": "Richard Schwarzkopf",
+      "count": 2
+    },
+    {
       "label": "Richard Sinkhorn",
       "count": 2
     },
@@ -12635,6 +12839,10 @@ window.analyticsData = {
       "count": 2
     },
     {
+      "label": "Ron Alterovitz",
+      "count": 2
+    },
+    {
       "label": "Ronald J. Williams",
       "count": 2
     },
@@ -12664,6 +12872,10 @@ window.analyticsData = {
     },
     {
       "label": "Rowan Zellers",
+      "count": 2
+    },
+    {
+      "label": "Royden Wagner",
       "count": 2
     },
     {
@@ -12704,6 +12916,10 @@ window.analyticsData = {
     },
     {
       "label": "Ruizhe Pan",
+      "count": 2
+    },
+    {
+      "label": "Runsheng Xu",
       "count": 2
     },
     {
@@ -12771,6 +12987,10 @@ window.analyticsData = {
       "count": 2
     },
     {
+      "label": "Sakshum Kulshrestha",
+      "count": 2
+    },
+    {
       "label": "Sam Altman",
       "count": 2
     },
@@ -12812,6 +13032,10 @@ window.analyticsData = {
     },
     {
       "label": "Sander Dieleman",
+      "count": 2
+    },
+    {
+      "label": "Sandro Papais",
       "count": 2
     },
     {
@@ -12868,10 +13092,6 @@ window.analyticsData = {
     },
     {
       "label": "Sayed Hadi Hashemi",
-      "count": 2
-    },
-    {
-      "label": "Scott Ettinger",
       "count": 2
     },
     {
@@ -12987,6 +13207,10 @@ window.analyticsData = {
       "count": 2
     },
     {
+      "label": "Shaoqing Ren",
+      "count": 2
+    },
+    {
       "label": "Shaoqing Wu",
       "count": 2
     },
@@ -13047,10 +13271,6 @@ window.analyticsData = {
       "count": 2
     },
     {
-      "label": "Shilong Liu",
-      "count": 2
-    },
-    {
       "label": "Shimu Wu",
       "count": 2
     },
@@ -13092,10 +13312,6 @@ window.analyticsData = {
     },
     {
       "label": "Shubin Zhao",
-      "count": 2
-    },
-    {
-      "label": "Shuhan Tan",
       "count": 2
     },
     {
@@ -13419,10 +13635,6 @@ window.analyticsData = {
       "count": 2
     },
     {
-      "label": "Thomas Cohn",
-      "count": 2
-    },
-    {
       "label": "Thomas Degry",
       "count": 2
     },
@@ -13448,6 +13660,10 @@ window.analyticsData = {
     },
     {
       "label": "Thomas Scialom",
+      "count": 2
+    },
+    {
+      "label": "Thomas T. Zhang",
       "count": 2
     },
     {
@@ -13540,6 +13756,10 @@ window.analyticsData = {
     },
     {
       "label": "Tomer Kaftan",
+      "count": 2
+    },
+    {
+      "label": "Tong He",
       "count": 2
     },
     {
@@ -13780,6 +14000,10 @@ window.analyticsData = {
     },
     {
       "label": "Wei Song",
+      "count": 2
+    },
+    {
+      "label": "Wei-Chih Hung",
       "count": 2
     },
     {
@@ -14259,6 +14483,10 @@ window.analyticsData = {
       "count": 2
     },
     {
+      "label": "Yinzhe Shen",
+      "count": 2
+    },
+    {
       "label": "Yinzhen Xu",
       "count": 2
     },
@@ -14284,6 +14512,10 @@ window.analyticsData = {
     },
     {
       "label": "Yixuan Tan",
+      "count": 2
+    },
+    {
+      "label": "Yixuan Wang",
       "count": 2
     },
     {
@@ -14951,6 +15183,10 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Aaron Kornblith",
+      "count": 1
+    },
+    {
       "label": "Aaron M. Johnson",
       "count": 1
     },
@@ -15084,6 +15320,10 @@ window.analyticsData = {
     },
     {
       "label": "Abhinav Singh",
+      "count": 1
+    },
+    {
+      "label": "Abhineet Agarwal",
       "count": 1
     },
     {
@@ -15235,6 +15475,10 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Adam Wei",
+      "count": 1
+    },
+    {
       "label": "Adam Zhang",
       "count": 1
     },
@@ -15275,6 +15519,10 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Adit Shah",
+      "count": 1
+    },
+    {
       "label": "Adithya Gangidi",
       "count": 1
     },
@@ -15288,6 +15536,10 @@ window.analyticsData = {
     },
     {
       "label": "Aditi Chaudhary",
+      "count": 1
+    },
+    {
+      "label": "Aditi Krishnapriyan",
       "count": 1
     },
     {
@@ -15627,6 +15879,10 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Alan Kuntz",
+      "count": 1
+    },
+    {
       "label": "Alan Papir",
       "count": 1
     },
@@ -15648,10 +15904,6 @@ window.analyticsData = {
     },
     {
       "label": "Albert Weston",
-      "count": 1
-    },
-    {
-      "label": "Albert Zhan",
       "count": 1
     },
     {
@@ -16031,6 +16283,10 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Alexander Blumberg",
+      "count": 1
+    },
+    {
       "label": "Alexander Bukharin",
       "count": 1
     },
@@ -16107,10 +16363,6 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "Alexander Shkolnik",
-      "count": 1
-    },
-    {
       "label": "Alexander Spiridonov",
       "count": 1
     },
@@ -16160,6 +16412,10 @@ window.analyticsData = {
     },
     {
       "label": "Alexandre Galashov",
+      "count": 1
+    },
+    {
+      "label": "Alexandre M. Bayen",
       "count": 1
     },
     {
@@ -16420,6 +16676,10 @@ window.analyticsData = {
     },
     {
       "label": "Alok Kumar",
+      "count": 1
+    },
+    {
+      "label": "Alok Shah",
       "count": 1
     },
     {
@@ -16804,6 +17064,10 @@ window.analyticsData = {
     },
     {
       "label": "Andras Sasfi",
+      "count": 1
+    },
+    {
+      "label": "Andre Cornman",
       "count": 1
     },
     {
@@ -17303,10 +17567,6 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "Anikait Singh",
-      "count": 1
-    },
-    {
       "label": "Aniket Ray",
       "count": 1
     },
@@ -17528,6 +17788,10 @@ window.analyticsData = {
     },
     {
       "label": "Annie Franco",
+      "count": 1
+    },
+    {
+      "label": "Annika Batz",
       "count": 1
     },
     {
@@ -17887,6 +18151,10 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Ari Seff",
+      "count": 1
+    },
+    {
       "label": "Ariel Anders",
       "count": 1
     },
@@ -17904,6 +18172,10 @@ window.analyticsData = {
     },
     {
       "label": "Ariel Stolovich",
+      "count": 1
+    },
+    {
+      "label": "Arif Kerem Dayi",
       "count": 1
     },
     {
@@ -17948,6 +18220,10 @@ window.analyticsData = {
     },
     {
       "label": "Arkadiusz Socala",
+      "count": 1
+    },
+    {
+      "label": "Arkady Zgonnikov",
       "count": 1
     },
     {
@@ -18299,6 +18575,10 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Aswin Ramachandran",
+      "count": 1
+    },
+    {
       "label": "Asya Fadeeva",
       "count": 1
     },
@@ -18623,6 +18903,10 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Balazs Gunther",
+      "count": 1
+    },
+    {
       "label": "Balazs Hidasi",
       "count": 1
     },
@@ -18871,6 +19155,10 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Benedetto Piccoli",
+      "count": 1
+    },
+    {
       "label": "Benedikt Schifferer",
       "count": 1
     },
@@ -18880,6 +19168,10 @@ window.analyticsData = {
     },
     {
       "label": "Benjamin Brown",
+      "count": 1
+    },
+    {
+      "label": "Benjamin Charrow",
       "count": 1
     },
     {
@@ -18904,6 +19196,10 @@ window.analyticsData = {
     },
     {
       "label": "Benjamin P. Berman",
+      "count": 1
+    },
+    {
+      "label": "Benjamin Seibold",
       "count": 1
     },
     {
@@ -19167,10 +19463,6 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "Bin Yu",
-      "count": 1
-    },
-    {
       "label": "Bin Zhao",
       "count": 1
     },
@@ -19360,10 +19652,6 @@ window.analyticsData = {
     },
     {
       "label": "Bochao Wu",
-      "count": 1
-    },
-    {
-      "label": "Bogdan Vlahov",
       "count": 1
     },
     {
@@ -20179,6 +20467,10 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Catherine Cang",
+      "count": 1
+    },
+    {
       "label": "Catherine R. Nelson",
       "count": 1
     },
@@ -20275,10 +20567,6 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "Chandan Singh",
-      "count": 1
-    },
-    {
       "label": "Chandu Thekkath",
       "count": 1
     },
@@ -20308,6 +20596,10 @@ window.analyticsData = {
     },
     {
       "label": "Chang Ye",
+      "count": 1
+    },
+    {
+      "label": "Chang Yuan",
       "count": 1
     },
     {
@@ -20456,6 +20748,10 @@ window.analyticsData = {
     },
     {
       "label": "Charles Beattie",
+      "count": 1
+    },
+    {
+      "label": "Charles Cossette",
       "count": 1
     },
     {
@@ -20647,6 +20943,10 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Cheng-Yen Yang",
+      "count": 1
+    },
+    {
       "label": "Cheng-Zhi Anna Huang",
       "count": 1
     },
@@ -20712,6 +21012,10 @@ window.analyticsData = {
     },
     {
       "label": "Chenjie Luo",
+      "count": 1
+    },
+    {
+      "label": "Chenjie Yang",
       "count": 1
     },
     {
@@ -20875,10 +21179,6 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "Chiyu Max Jiang",
-      "count": 1
-    },
-    {
       "label": "Chizu Kawamoto",
       "count": 1
     },
@@ -20920,6 +21220,10 @@ window.analyticsData = {
     },
     {
       "label": "Chris Beaumont",
+      "count": 1
+    },
+    {
+      "label": "Chris Bowen",
       "count": 1
     },
     {
@@ -21059,6 +21363,10 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Christian Kinzig",
+      "count": 1
+    },
+    {
       "label": "Christian Koelen",
       "count": 1
     },
@@ -21184,6 +21492,10 @@ window.analyticsData = {
     },
     {
       "label": "Christopher D. Manning",
+      "count": 1
+    },
+    {
+      "label": "Christopher Davis",
       "count": 1
     },
     {
@@ -21316,6 +21628,10 @@ window.analyticsData = {
     },
     {
       "label": "Chunyang Wu",
+      "count": 1
+    },
+    {
+      "label": "Chunyuan Li",
       "count": 1
     },
     {
@@ -21520,6 +21836,14 @@ window.analyticsData = {
     },
     {
       "label": "Constantino M. Lagoa",
+      "count": 1
+    },
+    {
+      "label": "Constantinos Daskalakis",
+      "count": 1
+    },
+    {
+      "label": "Coral Izquierdo",
       "count": 1
     },
     {
@@ -21919,6 +22243,10 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Dan Klein",
+      "count": 1
+    },
+    {
       "label": "Dan Luu",
       "count": 1
     },
@@ -21996,6 +22324,10 @@ window.analyticsData = {
     },
     {
       "label": "Daniel Afrimi",
+      "count": 1
+    },
+    {
+      "label": "Daniel B. Work",
       "count": 1
     },
     {
@@ -22959,6 +23291,10 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Denis Yarats",
+      "count": 1
+    },
+    {
       "label": "Denise Lam",
       "count": 1
     },
@@ -23080,6 +23416,10 @@ window.analyticsData = {
     },
     {
       "label": "Dhruva Bhaswar",
+      "count": 1
+    },
+    {
+      "label": "Di Huang",
       "count": 1
     },
     {
@@ -23363,6 +23703,10 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Dokook Choe",
+      "count": 1
+    },
+    {
       "label": "Domagoj Cevid",
       "count": 1
     },
@@ -23460,10 +23804,6 @@ window.analyticsData = {
     },
     {
       "label": "Dongliang Wang",
-      "count": 1
-    },
-    {
-      "label": "Dongliang Zheng",
       "count": 1
     },
     {
@@ -24707,6 +25047,10 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Eve Fleisig",
+      "count": 1
+    },
+    {
       "label": "Evelina Bakhturina",
       "count": 1
     },
@@ -24824,6 +25168,10 @@ window.analyticsData = {
     },
     {
       "label": "Fabian Gura",
+      "count": 1
+    },
+    {
+      "label": "Fabian Konstantinidis",
       "count": 1
     },
     {
@@ -25076,6 +25424,10 @@ window.analyticsData = {
     },
     {
       "label": "Feng Han",
+      "count": 1
+    },
+    {
+      "label": "Feng Li",
       "count": 1
     },
     {
@@ -25384,6 +25736,10 @@ window.analyticsData = {
     },
     {
       "label": "Francois Savard",
+      "count": 1
+    },
+    {
+      "label": "Frank Bieder",
       "count": 1
     },
     {
@@ -26135,6 +26491,14 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Ghassen Jerfel",
+      "count": 1
+    },
+    {
+      "label": "Gian-Alessandro Lombardi",
+      "count": 1
+    },
+    {
       "label": "Giancarlo Baldan",
       "count": 1
     },
@@ -26156,6 +26520,10 @@ window.analyticsData = {
     },
     {
       "label": "Gianni Ferretti",
+      "count": 1
+    },
+    {
+      "label": "Giannis Daras",
       "count": 1
     },
     {
@@ -26260,6 +26628,10 @@ window.analyticsData = {
     },
     {
       "label": "Gleb Makarchuk",
+      "count": 1
+    },
+    {
+      "label": "Gleb Stepanov",
       "count": 1
     },
     {
@@ -26588,6 +26960,10 @@ window.analyticsData = {
     },
     {
       "label": "Guillermo Garcia-Cobo",
+      "count": 1
+    },
+    {
+      "label": "Guillermo S. Guitierrez-Cabello",
       "count": 1
     },
     {
@@ -27035,6 +27411,10 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Hang Su",
+      "count": 1
+    },
+    {
       "label": "Hang Yin",
       "count": 1
     },
@@ -27131,10 +27511,6 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "Hao Liu",
-      "count": 1
-    },
-    {
       "label": "Hao Shao",
       "count": 1
     },
@@ -27208,6 +27584,10 @@ window.analyticsData = {
     },
     {
       "label": "Haotian Tang",
+      "count": 1
+    },
+    {
+      "label": "Haotian Wang",
       "count": 1
     },
     {
@@ -27452,6 +27832,10 @@ window.analyticsData = {
     },
     {
       "label": "Hendrik Kirchner",
+      "count": 1
+    },
+    {
+      "label": "Hendrik Konigshof",
       "count": 1
     },
     {
@@ -27807,6 +28191,10 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Hsiang-Wei Huang",
+      "count": 1
+    },
+    {
       "label": "Hsueh-Cheng Wang",
       "count": 1
     },
@@ -27860,10 +28248,6 @@ window.analyticsData = {
     },
     {
       "label": "Huazheng Wang",
-      "count": 1
-    },
-    {
-      "label": "Hubert Lin",
       "count": 1
     },
     {
@@ -27972,6 +28356,10 @@ window.analyticsData = {
     },
     {
       "label": "Hussain Masoom",
+      "count": 1
+    },
+    {
+      "label": "Huy Anh Nguyen",
       "count": 1
     },
     {
@@ -29163,11 +29551,19 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "James Duncan",
+      "count": 1
+    },
+    {
       "label": "James Freedman",
       "count": 1
     },
     {
       "label": "James Geboski",
+      "count": 1
+    },
+    {
+      "label": "James Guo",
       "count": 1
     },
     {
@@ -29340,6 +29736,10 @@ window.analyticsData = {
     },
     {
       "label": "Jan Hendrik Kirchner",
+      "count": 1
+    },
+    {
+      "label": "Jan Kamm",
       "count": 1
     },
     {
@@ -29516,10 +29916,6 @@ window.analyticsData = {
     },
     {
       "label": "Jason Gelman",
-      "count": 1
-    },
-    {
-      "label": "Jason Gibson",
       "count": 1
     },
     {
@@ -29883,11 +30279,11 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "Jens Beisswenger",
+      "label": "Jenq-Neng Hwang",
       "count": 1
     },
     {
-      "label": "Jens Kober",
+      "label": "Jens Beisswenger",
       "count": 1
     },
     {
@@ -30207,10 +30603,6 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "Jian Sun",
-      "count": 1
-    },
-    {
       "label": "Jian Xiang Kuan",
       "count": 1
     },
@@ -30296,6 +30688,10 @@ window.analyticsData = {
     },
     {
       "label": "Jianshu Chen",
+      "count": 1
+    },
+    {
+      "label": "Jianwei Yang",
       "count": 1
     },
     {
@@ -30475,6 +30871,10 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Jie Yang",
+      "count": 1
+    },
+    {
       "label": "Jie Yu",
       "count": 1
     },
@@ -30639,6 +31039,10 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Jing Luo",
+      "count": 1
+    },
+    {
       "label": "Jing Shuang Li",
       "count": 1
     },
@@ -30711,7 +31115,15 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Jingtao He",
+      "count": 1
+    },
+    {
       "label": "Jinguo Zhu",
+      "count": 1
+    },
+    {
+      "label": "Jingwei Ji",
       "count": 1
     },
     {
@@ -30887,6 +31299,10 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Joao Messias",
+      "count": 1
+    },
+    {
       "label": "Joao P. Hespanha",
       "count": 1
     },
@@ -31015,7 +31431,7 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "Johan Engstrom",
+      "label": "Joey Hong",
       "count": 1
     },
     {
@@ -31275,6 +31691,10 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Jonas Merkert",
+      "count": 1
+    },
+    {
       "label": "Jonas Rothfuss",
       "count": 1
     },
@@ -31387,7 +31807,15 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Jonathan Sprinkle",
+      "count": 1
+    },
+    {
       "label": "Jonathan Torres",
+      "count": 1
+    },
+    {
+      "label": "Jonathan W. Lee",
       "count": 1
     },
     {
@@ -31795,6 +32223,10 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Julian F. Schumann",
+      "count": 1
+    },
+    {
       "label": "Julian Nyarko",
       "count": 1
     },
@@ -31804,6 +32236,10 @@ window.analyticsData = {
     },
     {
       "label": "Julian Salazar",
+      "count": 1
+    },
+    {
+      "label": "Julian Truetsch",
       "count": 1
     },
     {
@@ -31884,10 +32320,6 @@ window.analyticsData = {
     },
     {
       "label": "Jun Zhou",
-      "count": 1
-    },
-    {
-      "label": "Jun Zhu",
       "count": 1
     },
     {
@@ -32088,10 +32520,6 @@ window.analyticsData = {
     },
     {
       "label": "Justyn Harriman",
-      "count": 1
-    },
-    {
-      "label": "Jyh-Jing Hwang",
       "count": 1
     },
     {
@@ -32463,6 +32891,10 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Karim Othman",
+      "count": 1
+    },
+    {
       "label": "Karin Remington",
       "count": 1
     },
@@ -32492,10 +32924,6 @@ window.analyticsData = {
     },
     {
       "label": "Karl Van Wyk",
-      "count": 1
-    },
-    {
-      "label": "Karl Worthmann",
       "count": 1
     },
     {
@@ -32632,6 +33060,10 @@ window.analyticsData = {
     },
     {
       "label": "Kathryn Tunyasuvunakool",
+      "count": 1
+    },
+    {
+      "label": "Kathy Jang",
       "count": 1
     },
     {
@@ -32999,6 +33431,10 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Kevin Lu",
+      "count": 1
+    },
+    {
       "label": "Kevin M. Judd",
       "count": 1
     },
@@ -33068,6 +33504,10 @@ window.analyticsData = {
     },
     {
       "label": "Kexin Zhu",
+      "count": 1
+    },
+    {
+      "label": "Keyan Nasseri",
       "count": 1
     },
     {
@@ -33164,6 +33604,10 @@ window.analyticsData = {
     },
     {
       "label": "Kim Tien Ly",
+      "count": 1
+    },
+    {
+      "label": "Kimin Lee",
       "count": 1
     },
     {
@@ -33295,10 +33739,6 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "Kratarth Goel",
-      "count": 1
-    },
-    {
       "label": "Kremena Goranova",
       "count": 1
     },
@@ -33360,6 +33800,10 @@ window.analyticsData = {
     },
     {
       "label": "Kristofer Kusano",
+      "count": 1
+    },
+    {
+      "label": "Kristy Choi",
       "count": 1
     },
     {
@@ -33987,10 +34431,6 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "Leif Johnson",
-      "count": 1
-    },
-    {
       "label": "Leif Schelin",
       "count": 1
     },
@@ -34099,10 +34539,6 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "Lerrel Pinto",
-      "count": 1
-    },
-    {
       "label": "Lesley Katzen",
       "count": 1
     },
@@ -34168,6 +34604,10 @@ window.analyticsData = {
     },
     {
       "label": "Leyla Bayraktaroglu",
+      "count": 1
+    },
+    {
+      "label": "Lezhou Feng",
       "count": 1
     },
     {
@@ -34316,6 +34756,10 @@ window.analyticsData = {
     },
     {
       "label": "Lih-Chung Wang",
+      "count": 1
+    },
+    {
+      "label": "Lihan Huang",
       "count": 1
     },
     {
@@ -34472,6 +34916,10 @@ window.analyticsData = {
     },
     {
       "label": "Lingming Zhang",
+      "count": 1
+    },
+    {
+      "label": "Lingting Ge",
       "count": 1
     },
     {
@@ -35507,6 +35955,10 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Manuel Schaller",
+      "count": 1
+    },
+    {
       "label": "Manuel Tragut",
       "count": 1
     },
@@ -35707,6 +36159,10 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Marcos Gomez-Bracamonte",
+      "count": 1
+    },
+    {
       "label": "Margaret Zhang",
       "count": 1
     },
@@ -35724,6 +36180,10 @@ window.analyticsData = {
     },
     {
       "label": "Maria Ivanova",
+      "count": 1
+    },
+    {
+      "label": "Maria Laura Delle Monache",
       "count": 1
     },
     {
@@ -36039,10 +36499,6 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "Marlon Steiner",
-      "count": 1
-    },
-    {
       "label": "Martial Hebert",
       "count": 1
     },
@@ -36096,6 +36552,10 @@ window.analyticsData = {
     },
     {
       "label": "Martin L. Puterman",
+      "count": 1
+    },
+    {
+      "label": "Martin Lauer",
       "count": 1
     },
     {
@@ -36439,11 +36899,19 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Matthew Bunting",
+      "count": 1
+    },
+    {
       "label": "Matthew D. Houghton",
       "count": 1
     },
     {
       "label": "Matthew Denton",
+      "count": 1
+    },
+    {
+      "label": "Matthew Epland",
       "count": 1
     },
     {
@@ -36487,7 +36955,7 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "Matthew O'Kelly",
+      "label": "Matthew Nice",
       "count": 1
     },
     {
@@ -37223,6 +37691,10 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Michael Levashov",
+      "count": 1
+    },
+    {
       "label": "Michael Lutter",
       "count": 1
     },
@@ -37284,6 +37756,10 @@ window.analyticsData = {
     },
     {
       "label": "Michael Pokorny",
+      "count": 1
+    },
+    {
+      "label": "Michael Psenka",
       "count": 1
     },
     {
@@ -37492,10 +37968,6 @@ window.analyticsData = {
     },
     {
       "label": "Mihael Ankerst",
-      "count": 1
-    },
-    {
-      "label": "Mihaela Curmei",
       "count": 1
     },
     {
@@ -37832,6 +38304,10 @@ window.analyticsData = {
     },
     {
       "label": "Mingzhou Yin",
+      "count": 1
+    },
+    {
+      "label": "Minh Hoai",
       "count": 1
     },
     {
@@ -38315,6 +38791,10 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Mustafa Baniodeh",
+      "count": 1
+    },
+    {
       "label": "Mustafa Haiderbhai",
       "count": 1
     },
@@ -38659,6 +39139,10 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Nathan Lichtle",
+      "count": 1
+    },
+    {
       "label": "Nathan Srebro",
       "count": 1
     },
@@ -38879,15 +39363,15 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "Nicholas Pfaff",
-      "count": 1
-    },
-    {
       "label": "Nicholas Rober",
       "count": 1
     },
     {
       "label": "Nicholas Roth",
+      "count": 1
+    },
+    {
+      "label": "Nicholas Tomlin",
       "count": 1
     },
     {
@@ -39211,7 +39695,15 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Nils Alexander Rack",
+      "count": 1
+    },
+    {
       "label": "Nils Papenberg",
+      "count": 1
+    },
+    {
+      "label": "Nils Rack",
       "count": 1
     },
     {
@@ -39687,6 +40179,10 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Omer Ronen",
+      "count": 1
+    },
+    {
       "label": "Omer Ullman Argov",
       "count": 1
     },
@@ -40147,10 +40643,6 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "Patrick Spieler",
-      "count": 1
-    },
-    {
       "label": "Patrick Tree Miller",
       "count": 1
     },
@@ -40204,10 +40696,6 @@ window.analyticsData = {
     },
     {
       "label": "Paul Collins",
-      "count": 1
-    },
-    {
-      "label": "Paul Covington",
       "count": 1
     },
     {
@@ -41452,6 +41940,10 @@ window.analyticsData = {
     },
     {
       "label": "Qing Huang",
+      "count": 1
+    },
+    {
+      "label": "Qing Jiang",
       "count": 1
     },
     {
@@ -42871,6 +43363,10 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Robin Strasser",
+      "count": 1
+    },
+    {
       "label": "Robin Walters",
       "count": 1
     },
@@ -43096,10 +43592,6 @@ window.analyticsData = {
     },
     {
       "label": "Romina Stella",
-      "count": 1
-    },
-    {
-      "label": "Ron Alterovitz",
       "count": 1
     },
     {
@@ -43400,10 +43892,6 @@ window.analyticsData = {
     },
     {
       "label": "Runsheng Guo",
-      "count": 1
-    },
-    {
-      "label": "Runsheng Xu",
       "count": 1
     },
     {
@@ -44248,10 +44736,6 @@ window.analyticsData = {
     },
     {
       "label": "Sandra Lefdal",
-      "count": 1
-    },
-    {
-      "label": "Sandro Papais",
       "count": 1
     },
     {
@@ -45111,10 +45595,6 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "Shaoqing Ren",
-      "count": 1
-    },
-    {
       "label": "Shaoshuai Mou",
       "count": 1
     },
@@ -45580,6 +46060,10 @@ window.analyticsData = {
     },
     {
       "label": "Shuangxuan Ran",
+      "count": 1
+    },
+    {
+      "label": "Shuangyu Li",
       "count": 1
     },
     {
@@ -46891,6 +47375,10 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Supreeth Narasimhaswamy",
+      "count": 1
+    },
+    {
       "label": "Suraj Kothawade",
       "count": 1
     },
@@ -47719,10 +48207,6 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "Thomas T. Zhang",
-      "count": 1
-    },
-    {
       "label": "Thorgane Marques",
       "count": 1
     },
@@ -47788,6 +48272,10 @@ window.analyticsData = {
     },
     {
       "label": "Tianhe Li",
+      "count": 1
+    },
+    {
+      "label": "Tianhe Ren",
       "count": 1
     },
     {
@@ -47968,6 +48456,10 @@ window.analyticsData = {
     },
     {
       "label": "Tim Seyde",
+      "count": 1
+    },
+    {
+      "label": "Tim Shen",
       "count": 1
     },
     {
@@ -48320,10 +48812,6 @@ window.analyticsData = {
     },
     {
       "label": "Tong Gao",
-      "count": 1
-    },
-    {
-      "label": "Tong He",
       "count": 1
     },
     {
@@ -49103,6 +49591,10 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Vincent Zhang",
+      "count": 1
+    },
+    {
       "label": "Vincenzo Bevilacqua",
       "count": 1
     },
@@ -49144,6 +49636,10 @@ window.analyticsData = {
     },
     {
       "label": "Vinu Rajashekhar",
+      "count": 1
+    },
+    {
+      "label": "Vinutha Kallem",
       "count": 1
     },
     {
@@ -49276,6 +49772,10 @@ window.analyticsData = {
     },
     {
       "label": "Vivek Sampathkumar",
+      "count": 1
+    },
+    {
+      "label": "Vivek Verma",
       "count": 1
     },
     {
@@ -49583,10 +50083,6 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "Wei-Chih Hung",
-      "count": 1
-    },
-    {
       "label": "Wei-Chiu Ma",
       "count": 1
     },
@@ -49776,6 +50272,10 @@ window.analyticsData = {
     },
     {
       "label": "Wenhan Xiong",
+      "count": 1
+    },
+    {
+      "label": "Wenhao Chai",
       "count": 1
     },
     {
@@ -49976,6 +50476,10 @@ window.analyticsData = {
     },
     {
       "label": "Will Wu",
+      "count": 1
+    },
+    {
+      "label": "Willi Poh",
       "count": 1
     },
     {
@@ -50491,6 +50995,10 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Xiaoyun Qiu",
+      "count": 1
+    },
+    {
       "label": "Xide Xia",
       "count": 1
     },
@@ -50615,6 +51123,10 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Xinhu Zheng",
+      "count": 1
+    },
+    {
       "label": "Xinjie Sun",
       "count": 1
     },
@@ -50691,6 +51203,10 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Xiukun Huang",
+      "count": 1
+    },
+    {
       "label": "Xiuqi Cui",
       "count": 1
     },
@@ -50756,6 +51272,10 @@ window.analyticsData = {
     },
     {
       "label": "Xuansong Xie",
+      "count": 1
+    },
+    {
+      "label": "Xuanyu Zhou",
       "count": 1
     },
     {
@@ -50955,6 +51475,10 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Yan Shuo Tan",
+      "count": 1
+    },
+    {
       "label": "Yan Virin",
       "count": 1
     },
@@ -51096,6 +51620,10 @@ window.analyticsData = {
     },
     {
       "label": "Yanif Ahmad",
+      "count": 1
+    },
+    {
+      "label": "Yanis Merzouki",
       "count": 1
     },
     {
@@ -51491,6 +52019,10 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Yifei Zhang",
+      "count": 1
+    },
+    {
       "label": "Yifeng Liu",
       "count": 1
     },
@@ -51507,11 +52039,11 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "Yijie Deng",
+      "label": "Yijie Chen",
       "count": 1
     },
     {
-      "label": "Yijing Bai",
+      "label": "Yijie Deng",
       "count": 1
     },
     {
@@ -51592,10 +52124,6 @@ window.analyticsData = {
     },
     {
       "label": "Yin Zhong",
-      "count": 1
-    },
-    {
-      "label": "Yin Zhou",
       "count": 1
     },
     {
@@ -51776,10 +52304,6 @@ window.analyticsData = {
     },
     {
       "label": "Yixuan Pan",
-      "count": 1
-    },
-    {
-      "label": "Yixuan Wang",
       "count": 1
     },
     {
@@ -52531,6 +53055,10 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Yusong Huang",
+      "count": 1
+    },
+    {
       "label": "Yusuf Roohani",
       "count": 1
     },
@@ -52896,6 +53424,10 @@ window.analyticsData = {
     },
     {
       "label": "Zhaoyang Huang",
+      "count": 1
+    },
+    {
+      "label": "Zhaoyang Zeng",
       "count": 1
     },
     {
@@ -53283,6 +53815,10 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Zhongyu Jiang",
+      "count": 1
+    },
+    {
       "label": "Zhongzheng Ren",
       "count": 1
     },
@@ -53566,7 +54102,7 @@ window.analyticsData = {
     },
     {
       "label": "arXiv",
-      "count": 441
+      "count": 462
     },
     {
       "label": "IEEE International Conference on Robotics and Automation (ICRA)",
@@ -53582,7 +54118,7 @@ window.analyticsData = {
     },
     {
       "label": "Advances in Neural Information Processing Systems",
-      "count": 36
+      "count": 38
     },
     {
       "label": "IEEE Robotics and Automation Letters",
@@ -53590,7 +54126,7 @@ window.analyticsData = {
     },
     {
       "label": "The International Journal of Robotics Research",
-      "count": 29
+      "count": 30
     },
     {
       "label": "IEEE International Conference on Robotics and Automation",
@@ -53613,6 +54149,10 @@ window.analyticsData = {
       "count": 15
     },
     {
+      "label": "IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+      "count": 14
+    },
+    {
       "label": "Mathematical Programming",
       "count": 14
     },
@@ -53630,10 +54170,6 @@ window.analyticsData = {
     },
     {
       "label": "IEEE Conference on Computer Vision and Pattern Recognition (CVPR)",
-      "count": 12
-    },
-    {
-      "label": "IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
       "count": 12
     },
     {
@@ -53681,6 +54217,10 @@ window.analyticsData = {
       "count": 9
     },
     {
+      "label": "IEEE Conference on Decision and Control (CDC)",
+      "count": 8
+    },
+    {
       "label": "International Conference on Learning Representations",
       "count": 8
     },
@@ -53706,10 +54246,6 @@ window.analyticsData = {
     },
     {
       "label": "IEEE Conference on Decision and Control",
-      "count": 7
-    },
-    {
-      "label": "IEEE Conference on Decision and Control (CDC)",
       "count": 7
     },
     {
@@ -53865,6 +54401,10 @@ window.analyticsData = {
       "count": 4
     },
     {
+      "label": "Nature Communications",
+      "count": 4
+    },
+    {
       "label": "Neural Computation",
       "count": 4
     },
@@ -53957,6 +54497,10 @@ window.analyticsData = {
       "count": 3
     },
     {
+      "label": "International Conference on Learning Representations (ICLR)",
+      "count": 3
+    },
+    {
       "label": "International Journal of Robotics Research",
       "count": 3
     },
@@ -53974,10 +54518,6 @@ window.analyticsData = {
     },
     {
       "label": "Mathematics of Operations Research",
-      "count": 3
-    },
-    {
-      "label": "Nature Communications",
       "count": 3
     },
     {
@@ -54093,6 +54633,10 @@ window.analyticsData = {
       "count": 2
     },
     {
+      "label": "ICML Workshop on Foundation Models for Structured Data",
+      "count": 2
+    },
+    {
       "label": "IEEE 56th Annual Conference on Decision and Control (CDC)",
       "count": 2
     },
@@ -54158,10 +54702,6 @@ window.analyticsData = {
     },
     {
       "label": "IFAC World Congress",
-      "count": 2
-    },
-    {
-      "label": "International Conference on Learning Representations (ICLR)",
       "count": 2
     },
     {
@@ -54237,6 +54777,10 @@ window.analyticsData = {
       "count": 2
     },
     {
+      "label": "Princeton University",
+      "count": 2
+    },
+    {
       "label": "Proceedings of the Genetic and Evolutionary Computation Conference",
       "count": 2
     },
@@ -54278,6 +54822,10 @@ window.analyticsData = {
     },
     {
       "label": "Theoretical Computer Science",
+      "count": 2
+    },
+    {
+      "label": "Transactions on Machine Learning Research (TMLR)",
       "count": 2
     },
     {
@@ -54578,6 +55126,10 @@ window.analyticsData = {
     },
     {
       "label": "Computing in Science & Engineering",
+      "count": 1
+    },
+    {
+      "label": "Conference of the North American Chapter of the Association for Computational Linguistics (NAACL)",
       "count": 1
     },
     {
@@ -55277,10 +55829,6 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "Princeton University",
-      "count": 1
-    },
-    {
       "label": "Proceedings of the 15th ACM SIGKDD international conference on Knowledge discovery and data mining",
       "count": 1
     },
@@ -55669,10 +56217,6 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "Transactions on Machine Learning Research (TMLR)",
-      "count": 1
-    },
-    {
       "label": "TU Delft",
       "count": 1
     },
@@ -55712,31 +56256,31 @@ window.analyticsData = {
   "types": [
     {
       "label": "Preprint",
-      "count": 912
+      "count": 932
     },
     {
       "label": "Journal Paper",
-      "count": 733
+      "count": 736
     },
     {
       "label": "Conference Paper",
-      "count": 603
+      "count": 610
     },
     {
       "label": "Survey Paper",
       "count": 25
     },
     {
+      "label": "Technical Report",
+      "count": 20
+    },
+    {
       "label": "Other",
       "count": 19
     },
     {
-      "label": "Technical Report",
-      "count": 19
-    },
-    {
       "label": "Workshop Paper",
-      "count": 15
+      "count": 17
     },
     {
       "label": "Book",
@@ -55744,7 +56288,7 @@ window.analyticsData = {
     },
     {
       "label": "PhD Dissertation",
-      "count": 7
+      "count": 8
     },
     {
       "label": "Blog Post",
@@ -55770,47 +56314,47 @@ window.analyticsData = {
     },
     {
       "label": "Optimization",
-      "count": 215
+      "count": 216
     },
     {
       "label": "Robotics",
-      "count": 189
+      "count": 190
     },
     {
       "label": "Reinforcement learning",
-      "count": 167
+      "count": 169
     },
     {
       "label": "Motion planning",
-      "count": 158
+      "count": 162
     },
     {
       "label": "Trajectory optimization",
-      "count": 126
+      "count": 128
     },
     {
       "label": "Robustness",
-      "count": 125
+      "count": 126
     },
     {
       "label": "Planning",
-      "count": 117
+      "count": 119
     },
     {
       "label": "Neural networks",
       "count": 97
     },
     {
+      "label": "Autonomous driving",
+      "count": 96
+    },
+    {
       "label": "Convex optimization",
       "count": 95
     },
     {
-      "label": "Autonomous driving",
-      "count": 87
-    },
-    {
       "label": "Datasets",
-      "count": 87
+      "count": 88
     },
     {
       "label": "Online algorithms",
@@ -55818,7 +56362,7 @@ window.analyticsData = {
     },
     {
       "label": "Benchmarks",
-      "count": 81
+      "count": 83
     },
     {
       "label": "Safety",
@@ -55826,7 +56370,7 @@ window.analyticsData = {
     },
     {
       "label": "Optimal control",
-      "count": 77
+      "count": 78
     },
     {
       "label": "Sampling",
@@ -55834,7 +56378,7 @@ window.analyticsData = {
     },
     {
       "label": "Model predictive control",
-      "count": 70
+      "count": 71
     },
     {
       "label": "System identification",
@@ -55869,12 +56413,20 @@ window.analyticsData = {
       "count": 45
     },
     {
-      "label": "Vehicles",
-      "count": 43
+      "label": "Sampling-based planning",
+      "count": 44
     },
     {
       "label": "Computer vision",
-      "count": 42
+      "count": 43
+    },
+    {
+      "label": "Diffusion models",
+      "count": 43
+    },
+    {
+      "label": "Vehicles",
+      "count": 43
     },
     {
       "label": "Robust control",
@@ -55889,15 +56441,11 @@ window.analyticsData = {
       "count": 41
     },
     {
-      "label": "Diffusion models",
+      "label": "Imitation learning",
       "count": 41
     },
     {
       "label": "Sampling-based methods",
-      "count": 41
-    },
-    {
-      "label": "Sampling-based planning",
       "count": 41
     },
     {
@@ -55909,7 +56457,7 @@ window.analyticsData = {
       "count": 40
     },
     {
-      "label": "Imitation learning",
+      "label": "Semidefinite programming",
       "count": 39
     },
     {
@@ -55921,19 +56469,19 @@ window.analyticsData = {
       "count": 38
     },
     {
-      "label": "Semidefinite programming",
-      "count": 37
+      "label": "Linear quadratic regulator",
+      "count": 36
     },
     {
       "label": "Path planning",
       "count": 36
     },
     {
-      "label": "Linear quadratic regulator",
-      "count": 35
+      "label": "Convolutional networks",
+      "count": 34
     },
     {
-      "label": "Convolutional networks",
+      "label": "Transformers",
       "count": 34
     },
     {
@@ -55949,20 +56497,16 @@ window.analyticsData = {
       "count": 32
     },
     {
-      "label": "Transformers",
-      "count": 32
+      "label": "Nonlinear systems",
+      "count": 31
+    },
+    {
+      "label": "Kinodynamic planning",
+      "count": 30
     },
     {
       "label": "Nonlinear control",
       "count": 30
-    },
-    {
-      "label": "Nonlinear systems",
-      "count": 30
-    },
-    {
-      "label": "Kinodynamic planning",
-      "count": 29
     },
     {
       "label": "Aerial robotics",
@@ -55973,7 +56517,15 @@ window.analyticsData = {
       "count": 25
     },
     {
+      "label": "Autonomous vehicles",
+      "count": 24
+    },
+    {
       "label": "Markov decision process",
+      "count": 24
+    },
+    {
+      "label": "Multiplicative noise",
       "count": 24
     },
     {
@@ -55981,15 +56533,11 @@ window.analyticsData = {
       "count": 24
     },
     {
-      "label": "Multiplicative noise",
+      "label": "Data-driven control",
       "count": 23
     },
     {
-      "label": "Autonomous vehicles",
-      "count": 22
-    },
-    {
-      "label": "Data-driven control",
+      "label": "Collision avoidance",
       "count": 22
     },
     {
@@ -56017,6 +56565,10 @@ window.analyticsData = {
       "count": 21
     },
     {
+      "label": "Foundation models",
+      "count": 21
+    },
+    {
       "label": "Nonconvex optimization",
       "count": 21
     },
@@ -56029,19 +56581,15 @@ window.analyticsData = {
       "count": 21
     },
     {
-      "label": "Collision avoidance",
-      "count": 20
-    },
-    {
       "label": "Asymptotic optimality",
       "count": 19
     },
     {
-      "label": "Foundation models",
+      "label": "Probabilistic models",
       "count": 19
     },
     {
-      "label": "Probabilistic models",
+      "label": "Time series",
       "count": 19
     },
     {
@@ -56053,8 +56601,16 @@ window.analyticsData = {
       "count": 17
     },
     {
-      "label": "Time series",
+      "label": "State estimation",
       "count": 17
+    },
+    {
+      "label": "Trajectory planning",
+      "count": 17
+    },
+    {
+      "label": "Large language models",
+      "count": 16
     },
     {
       "label": "Multi-agent systems",
@@ -56069,7 +56625,7 @@ window.analyticsData = {
       "count": 16
     },
     {
-      "label": "Trajectory planning",
+      "label": "Vision-language models",
       "count": 16
     },
     {
@@ -56081,7 +56637,11 @@ window.analyticsData = {
       "count": 15
     },
     {
-      "label": "Large language models",
+      "label": "Policy iteration",
+      "count": 15
+    },
+    {
+      "label": "Riccati equation",
       "count": 15
     },
     {
@@ -56093,15 +56653,7 @@ window.analyticsData = {
       "count": 15
     },
     {
-      "label": "State estimation",
-      "count": 15
-    },
-    {
       "label": "Gradient method",
-      "count": 14
-    },
-    {
-      "label": "Policy iteration",
       "count": 14
     },
     {
@@ -56117,11 +56669,11 @@ window.analyticsData = {
       "count": 14
     },
     {
-      "label": "Vision-language models",
-      "count": 14
+      "label": "Constrained optimization",
+      "count": 13
     },
     {
-      "label": "Constrained optimization",
+      "label": "Decision trees",
       "count": 13
     },
     {
@@ -56129,11 +56681,19 @@ window.analyticsData = {
       "count": 13
     },
     {
+      "label": "Kalman filtering",
+      "count": 13
+    },
+    {
+      "label": "Object detection",
+      "count": 13
+    },
+    {
       "label": "Policy optimization",
       "count": 13
     },
     {
-      "label": "Riccati equation",
+      "label": "Self-supervised learning",
       "count": 13
     },
     {
@@ -56145,10 +56705,6 @@ window.analyticsData = {
       "count": 12
     },
     {
-      "label": "Decision trees",
-      "count": 12
-    },
-    {
       "label": "Feedback control",
       "count": 12
     },
@@ -56157,11 +56713,11 @@ window.analyticsData = {
       "count": 12
     },
     {
-      "label": "Kalman filtering",
+      "label": "Linear matrix inequalities",
       "count": 12
     },
     {
-      "label": "Linear matrix inequalities",
+      "label": "Linear quadratic Gaussian",
       "count": 12
     },
     {
@@ -56177,7 +56733,11 @@ window.analyticsData = {
       "count": 12
     },
     {
-      "label": "Self-supervised learning",
+      "label": "Representation learning",
+      "count": 12
+    },
+    {
+      "label": "Robot learning",
       "count": 12
     },
     {
@@ -56205,15 +56765,7 @@ window.analyticsData = {
       "count": 11
     },
     {
-      "label": "Linear quadratic Gaussian",
-      "count": 11
-    },
-    {
       "label": "Nearest neighbors",
-      "count": 11
-    },
-    {
-      "label": "Object detection",
       "count": 11
     },
     {
@@ -56237,19 +56789,19 @@ window.analyticsData = {
       "count": 11
     },
     {
-      "label": "Representation learning",
-      "count": 11
-    },
-    {
-      "label": "Robot learning",
-      "count": 11
-    },
-    {
       "label": "Robust optimization",
       "count": 11
     },
     {
       "label": "Stabilization",
+      "count": 11
+    },
+    {
+      "label": "Stochastic optimal control",
+      "count": 11
+    },
+    {
+      "label": "Stochastic optimization",
       "count": 11
     },
     {
@@ -56266,6 +56818,10 @@ window.analyticsData = {
     },
     {
       "label": "Convergence analysis",
+      "count": 10
+    },
+    {
+      "label": "Convolutional neural network",
       "count": 10
     },
     {
@@ -56301,14 +56857,6 @@ window.analyticsData = {
       "count": 10
     },
     {
-      "label": "Stochastic optimal control",
-      "count": 10
-    },
-    {
-      "label": "Stochastic optimization",
-      "count": 10
-    },
-    {
       "label": "Trajectory prediction",
       "count": 10
     },
@@ -56333,10 +56881,6 @@ window.analyticsData = {
       "count": 9
     },
     {
-      "label": "Convolutional neural network",
-      "count": 9
-    },
-    {
       "label": "Data structures",
       "count": 9
     },
@@ -56357,7 +56901,23 @@ window.analyticsData = {
       "count": 9
     },
     {
+      "label": "Linear programming",
+      "count": 9
+    },
+    {
+      "label": "Linear quadratic control",
+      "count": 9
+    },
+    {
       "label": "Online learning",
+      "count": 9
+    },
+    {
+      "label": "Optimal transport",
+      "count": 9
+    },
+    {
+      "label": "POMDPs",
       "count": 9
     },
     {
@@ -56385,7 +56945,15 @@ window.analyticsData = {
       "count": 9
     },
     {
+      "label": "World models",
+      "count": 9
+    },
+    {
       "label": "Autoencoders",
+      "count": 8
+    },
+    {
+      "label": "Belief-space planning",
       "count": 8
     },
     {
@@ -56394,6 +56962,10 @@ window.analyticsData = {
     },
     {
       "label": "Compressed sensing",
+      "count": 8
+    },
+    {
+      "label": "Continuous control",
       "count": 8
     },
     {
@@ -56437,23 +57009,11 @@ window.analyticsData = {
       "count": 8
     },
     {
-      "label": "Linear programming",
-      "count": 8
-    },
-    {
-      "label": "Linear quadratic control",
-      "count": 8
-    },
-    {
       "label": "Low-rank models",
       "count": 8
     },
     {
       "label": "Mobile robotics",
-      "count": 8
-    },
-    {
-      "label": "Optimal transport",
       "count": 8
     },
     {
@@ -56473,6 +57033,10 @@ window.analyticsData = {
       "count": 8
     },
     {
+      "label": "Sum of squares",
+      "count": 8
+    },
+    {
       "label": "Wasserstein distances",
       "count": 8
     },
@@ -56489,7 +57053,7 @@ window.analyticsData = {
       "count": 7
     },
     {
-      "label": "Belief-space planning",
+      "label": "Behavior cloning",
       "count": 7
     },
     {
@@ -56505,15 +57069,15 @@ window.analyticsData = {
       "count": 7
     },
     {
-      "label": "Continuous control",
-      "count": 7
-    },
-    {
       "label": "Derivative-free optimization",
       "count": 7
     },
     {
       "label": "Embedded optimization",
+      "count": 7
+    },
+    {
+      "label": "Exponential stability",
       "count": 7
     },
     {
@@ -56589,6 +57153,10 @@ window.analyticsData = {
       "count": 7
     },
     {
+      "label": "Output feedback",
+      "count": 7
+    },
+    {
       "label": "Parallelized",
       "count": 7
     },
@@ -56598,10 +57166,6 @@ window.analyticsData = {
     },
     {
       "label": "Persistency of excitation",
-      "count": 7
-    },
-    {
-      "label": "POMDPs",
       "count": 7
     },
     {
@@ -56622,6 +57186,10 @@ window.analyticsData = {
     },
     {
       "label": "Receding horizon control",
+      "count": 7
+    },
+    {
+      "label": "Robot motion planning",
       "count": 7
     },
     {
@@ -56661,10 +57229,6 @@ window.analyticsData = {
       "count": 6
     },
     {
-      "label": "Behavior cloning",
-      "count": 6
-    },
-    {
       "label": "Code generation",
       "count": 6
     },
@@ -56701,10 +57265,6 @@ window.analyticsData = {
       "count": 6
     },
     {
-      "label": "Exponential stability",
-      "count": 6
-    },
-    {
       "label": "Image restoration",
       "count": 6
     },
@@ -56722,6 +57282,10 @@ window.analyticsData = {
     },
     {
       "label": "Monte Carlo tree search",
+      "count": 6
+    },
+    {
+      "label": "Motion forecasting",
       "count": 6
     },
     {
@@ -56769,10 +57333,6 @@ window.analyticsData = {
       "count": 6
     },
     {
-      "label": "Robot motion planning",
-      "count": 6
-    },
-    {
       "label": "Sampling-based",
       "count": 6
     },
@@ -56797,11 +57357,11 @@ window.analyticsData = {
       "count": 6
     },
     {
-      "label": "Sum of squares",
+      "label": "Symbolic differentiation",
       "count": 6
     },
     {
-      "label": "Symbolic differentiation",
+      "label": "Tutorial",
       "count": 6
     },
     {
@@ -56821,7 +57381,7 @@ window.analyticsData = {
       "count": 6
     },
     {
-      "label": "World models",
+      "label": "Vision-language-action models",
       "count": 6
     },
     {
@@ -56878,6 +57438,10 @@ window.analyticsData = {
     },
     {
       "label": "Derivatives",
+      "count": 5
+    },
+    {
+      "label": "Diffusion policy",
       "count": 5
     },
     {
@@ -56961,7 +57525,7 @@ window.analyticsData = {
       "count": 5
     },
     {
-      "label": "Motion forecasting",
+      "label": "Motion primitives",
       "count": 5
     },
     {
@@ -56997,15 +57561,15 @@ window.analyticsData = {
       "count": 5
     },
     {
-      "label": "Output feedback",
-      "count": 5
-    },
-    {
       "label": "Parallel algorithms",
       "count": 5
     },
     {
       "label": "Parallel computing",
+      "count": 5
+    },
+    {
+      "label": "Particle filters",
       "count": 5
     },
     {
@@ -57018,6 +57582,10 @@ window.analyticsData = {
     },
     {
       "label": "Perceptual metrics",
+      "count": 5
+    },
+    {
+      "label": "Polynomial optimization",
       "count": 5
     },
     {
@@ -57141,10 +57709,6 @@ window.analyticsData = {
       "count": 5
     },
     {
-      "label": "Tutorial",
-      "count": 5
-    },
-    {
       "label": "Unconstrained optimization",
       "count": 5
     },
@@ -57162,10 +57726,6 @@ window.analyticsData = {
     },
     {
       "label": "Vehicle dynamics",
-      "count": 5
-    },
-    {
-      "label": "Vision-language-action models",
       "count": 5
     },
     {
@@ -57209,6 +57769,10 @@ window.analyticsData = {
       "count": 4
     },
     {
+      "label": "Closed-loop evaluation",
+      "count": 4
+    },
+    {
       "label": "Computational fluid dynamics",
       "count": 4
     },
@@ -57249,10 +57813,6 @@ window.analyticsData = {
       "count": 4
     },
     {
-      "label": "Diffusion policy",
-      "count": 4
-    },
-    {
       "label": "Direct control",
       "count": 4
     },
@@ -57270,6 +57830,14 @@ window.analyticsData = {
     },
     {
       "label": "DR",
+      "count": 4
+    },
+    {
+      "label": "Efficient inference",
+      "count": 4
+    },
+    {
+      "label": "End-to-end driving",
       "count": 4
     },
     {
@@ -57298,6 +57866,10 @@ window.analyticsData = {
     },
     {
       "label": "Graph clustering",
+      "count": 4
+    },
+    {
+      "label": "Greedy algorithms",
       "count": 4
     },
     {
@@ -57373,10 +57945,6 @@ window.analyticsData = {
       "count": 4
     },
     {
-      "label": "Motion primitives",
-      "count": 4
-    },
-    {
       "label": "MuJoCo",
       "count": 4
     },
@@ -57421,15 +57989,7 @@ window.analyticsData = {
       "count": 4
     },
     {
-      "label": "Particle filters",
-      "count": 4
-    },
-    {
       "label": "Perception",
-      "count": 4
-    },
-    {
-      "label": "Polynomial optimization",
       "count": 4
     },
     {
@@ -57513,6 +58073,10 @@ window.analyticsData = {
       "count": 4
     },
     {
+      "label": "Second-order cone programming",
+      "count": 4
+    },
+    {
       "label": "Signal filtering",
       "count": 4
     },
@@ -57585,6 +58149,10 @@ window.analyticsData = {
       "count": 4
     },
     {
+      "label": "Vision transformers",
+      "count": 4
+    },
+    {
       "label": "Vision-language-action",
       "count": 4
     },
@@ -57641,6 +58209,10 @@ window.analyticsData = {
       "count": 3
     },
     {
+      "label": "Bagging",
+      "count": 3
+    },
+    {
       "label": "Bayes tree",
       "count": 3
     },
@@ -57661,11 +58233,11 @@ window.analyticsData = {
       "count": 3
     },
     {
-      "label": "Closed-loop evaluation",
+      "label": "Clothoid",
       "count": 3
     },
     {
-      "label": "Clothoid",
+      "label": "COCO",
       "count": 3
     },
     {
@@ -57789,10 +58361,6 @@ window.analyticsData = {
       "count": 3
     },
     {
-      "label": "Efficient inference",
-      "count": 3
-    },
-    {
       "label": "Eigenvector centrality",
       "count": 3
     },
@@ -57881,10 +58449,6 @@ window.analyticsData = {
       "count": 3
     },
     {
-      "label": "Greedy algorithms",
-      "count": 3
-    },
-    {
       "label": "Hashing",
       "count": 3
     },
@@ -57917,6 +58481,10 @@ window.analyticsData = {
       "count": 3
     },
     {
+      "label": "Input-output data",
+      "count": 3
+    },
+    {
       "label": "Internet photo collections",
       "count": 3
     },
@@ -57937,6 +58505,10 @@ window.analyticsData = {
       "count": 3
     },
     {
+      "label": "Koopman operator",
+      "count": 3
+    },
+    {
       "label": "L1 regularization",
       "count": 3
     },
@@ -57946,6 +58518,10 @@ window.analyticsData = {
     },
     {
       "label": "Latent",
+      "count": 3
+    },
+    {
+      "label": "Legged locomotion",
       "count": 3
     },
     {
@@ -57961,7 +58537,15 @@ window.analyticsData = {
       "count": 3
     },
     {
+      "label": "Local optimization",
+      "count": 3
+    },
+    {
       "label": "Localization",
+      "count": 3
+    },
+    {
+      "label": "Long-tail scenarios",
       "count": 3
     },
     {
@@ -58033,6 +58617,10 @@ window.analyticsData = {
       "count": 3
     },
     {
+      "label": "Motion planning under uncertainty",
+      "count": 3
+    },
+    {
       "label": "Multi-agent pathfinding",
       "count": 3
     },
@@ -58054,6 +58642,10 @@ window.analyticsData = {
     },
     {
       "label": "Neural rendering",
+      "count": 3
+    },
+    {
+      "label": "NLP",
       "count": 3
     },
     {
@@ -58209,6 +58801,10 @@ window.analyticsData = {
       "count": 3
     },
     {
+      "label": "Real-world deployment",
+      "count": 3
+    },
+    {
       "label": "Reward learning",
       "count": 3
     },
@@ -58222,10 +58818,6 @@ window.analyticsData = {
     },
     {
       "label": "Safety guarantees",
-      "count": 3
-    },
-    {
-      "label": "Second-order cone programming",
       "count": 3
     },
     {
@@ -58337,10 +58929,6 @@ window.analyticsData = {
       "count": 3
     },
     {
-      "label": "Vision transformers",
-      "count": 3
-    },
-    {
       "label": "Warping",
       "count": 3
     },
@@ -58351,6 +58939,10 @@ window.analyticsData = {
     {
       "label": "Willems' fundamental lemma",
       "count": 3
+    },
+    {
+      "label": "3D object detection",
+      "count": 2
     },
     {
       "label": "3D perception",
@@ -58385,6 +58977,10 @@ window.analyticsData = {
       "count": 2
     },
     {
+      "label": "Adam",
+      "count": 2
+    },
+    {
       "label": "Adaptation",
       "count": 2
     },
@@ -58410,6 +59006,10 @@ window.analyticsData = {
     },
     {
       "label": "Almost sure convergence",
+      "count": 2
+    },
+    {
+      "label": "Anomaly detection",
       "count": 2
     },
     {
@@ -58485,10 +59085,6 @@ window.analyticsData = {
       "count": 2
     },
     {
-      "label": "Bagging",
-      "count": 2
-    },
-    {
       "label": "Balanced trees",
       "count": 2
     },
@@ -58501,11 +59097,19 @@ window.analyticsData = {
       "count": 2
     },
     {
+      "label": "Belief-space control",
+      "count": 2
+    },
+    {
       "label": "Belief-state planning",
       "count": 2
     },
     {
       "label": "Bell Labs",
+      "count": 2
+    },
+    {
+      "label": "Benchmark datasets",
       "count": 2
     },
     {
@@ -58586,10 +59190,6 @@ window.analyticsData = {
     },
     {
       "label": "Coarse-to-fine estimation",
-      "count": 2
-    },
-    {
-      "label": "COCO",
       "count": 2
     },
     {
@@ -58710,6 +59310,10 @@ window.analyticsData = {
     },
     {
       "label": "Convex geometry",
+      "count": 2
+    },
+    {
+      "label": "Convex polynomials",
       "count": 2
     },
     {
@@ -58849,6 +59453,10 @@ window.analyticsData = {
       "count": 2
     },
     {
+      "label": "DINO",
+      "count": 2
+    },
+    {
       "label": "Direct search",
       "count": 2
     },
@@ -58893,6 +59501,18 @@ window.analyticsData = {
       "count": 2
     },
     {
+      "label": "Driver models",
+      "count": 2
+    },
+    {
+      "label": "Driving datasets",
+      "count": 2
+    },
+    {
+      "label": "Driving simulation",
+      "count": 2
+    },
+    {
       "label": "DROID",
       "count": 2
     },
@@ -58902,6 +59522,10 @@ window.analyticsData = {
     },
     {
       "label": "Dynamic graphs",
+      "count": 2
+    },
+    {
+      "label": "Dynamic output feedback",
       "count": 2
     },
     {
@@ -59006,6 +59630,10 @@ window.analyticsData = {
     },
     {
       "label": "Feedback motion planning",
+      "count": 2
+    },
+    {
+      "label": "Feedback stabilization",
       "count": 2
     },
     {
@@ -59237,10 +59865,6 @@ window.analyticsData = {
       "count": 2
     },
     {
-      "label": "Input-output data",
-      "count": 2
-    },
-    {
       "label": "Instrumental variable",
       "count": 2
     },
@@ -59258,6 +59882,10 @@ window.analyticsData = {
     },
     {
       "label": "Intelligent vehicles",
+      "count": 2
+    },
+    {
+      "label": "Interpretable machine learning",
       "count": 2
     },
     {
@@ -59294,10 +59922,6 @@ window.analyticsData = {
     },
     {
       "label": "Kimera",
-      "count": 2
-    },
-    {
-      "label": "Koopman operator",
       "count": 2
     },
     {
@@ -59357,11 +59981,11 @@ window.analyticsData = {
       "count": 2
     },
     {
-      "label": "Legged locomotion",
+      "label": "Levenberg-Marquardt",
       "count": 2
     },
     {
-      "label": "Levenberg-Marquardt",
+      "label": "LiDAR",
       "count": 2
     },
     {
@@ -59402,14 +60026,6 @@ window.analyticsData = {
     },
     {
       "label": "Local minima",
-      "count": 2
-    },
-    {
-      "label": "Local optimization",
-      "count": 2
-    },
-    {
-      "label": "Long-tail scenarios",
       "count": 2
     },
     {
@@ -59525,10 +60141,6 @@ window.analyticsData = {
       "count": 2
     },
     {
-      "label": "Motion planning under uncertainty",
-      "count": 2
-    },
-    {
       "label": "Moving obstacles",
       "count": 2
     },
@@ -59601,10 +60213,6 @@ window.analyticsData = {
       "count": 2
     },
     {
-      "label": "NLP",
-      "count": 2
-    },
-    {
       "label": "Noise analysis",
       "count": 2
     },
@@ -59641,6 +60249,10 @@ window.analyticsData = {
       "count": 2
     },
     {
+      "label": "Object tracking",
+      "count": 2
+    },
+    {
       "label": "Observer design",
       "count": 2
     },
@@ -59650,6 +60262,10 @@ window.analyticsData = {
     },
     {
       "label": "Off-policy learning",
+      "count": 2
+    },
+    {
+      "label": "Off-road driving",
       "count": 2
     },
     {
@@ -59837,6 +60453,10 @@ window.analyticsData = {
       "count": 2
     },
     {
+      "label": "Question answering",
+      "count": 2
+    },
+    {
       "label": "Quicksort",
       "count": 2
     },
@@ -59878,10 +60498,6 @@ window.analyticsData = {
     },
     {
       "label": "Real-time inference",
-      "count": 2
-    },
-    {
-      "label": "Real-world deployment",
       "count": 2
     },
     {
@@ -59953,6 +60569,10 @@ window.analyticsData = {
       "count": 2
     },
     {
+      "label": "Risk-aware planning",
+      "count": 2
+    },
+    {
       "label": "Risk-sensitive control",
       "count": 2
     },
@@ -59997,7 +60617,15 @@ window.analyticsData = {
       "count": 2
     },
     {
+      "label": "Robotic telemetry",
+      "count": 2
+    },
+    {
       "label": "Robust recovery",
+      "count": 2
+    },
+    {
+      "label": "Rough terrain",
       "count": 2
     },
     {
@@ -60137,6 +60765,10 @@ window.analyticsData = {
       "count": 2
     },
     {
+      "label": "Sparse rewards",
+      "count": 2
+    },
+    {
       "label": "Spatial databases",
       "count": 2
     },
@@ -60178,6 +60810,10 @@ window.analyticsData = {
     },
     {
       "label": "State-space methods",
+      "count": 2
+    },
+    {
+      "label": "Statistical consistency",
       "count": 2
     },
     {
@@ -60301,6 +60937,10 @@ window.analyticsData = {
       "count": 2
     },
     {
+      "label": "Traffic simulation",
+      "count": 2
+    },
+    {
       "label": "Trajectory modeling",
       "count": 2
     },
@@ -60373,6 +61013,10 @@ window.analyticsData = {
       "count": 2
     },
     {
+      "label": "Visual tracking",
+      "count": 2
+    },
+    {
       "label": "Visual-inertial odometry",
       "count": 2
     },
@@ -60434,6 +61078,10 @@ window.analyticsData = {
     },
     {
       "label": "4D correlation volume",
+      "count": 1
+    },
+    {
+      "label": "4D radar",
       "count": 1
     },
     {
@@ -60509,6 +61157,10 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Active inference",
+      "count": 1
+    },
+    {
       "label": "Active safety",
       "count": 1
     },
@@ -60526,10 +61178,6 @@ window.analyticsData = {
     },
     {
       "label": "Actuator saturation",
-      "count": 1
-    },
-    {
-      "label": "Adam",
       "count": 1
     },
     {
@@ -60570,6 +61218,10 @@ window.analyticsData = {
     },
     {
       "label": "Adaptive sampling",
+      "count": 1
+    },
+    {
+      "label": "Additive models",
       "count": 1
     },
     {
@@ -60617,11 +61269,19 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Agent behavior modeling",
+      "count": 1
+    },
+    {
       "label": "Aggregation",
       "count": 1
     },
     {
       "label": "Agile robotics",
+      "count": 1
+    },
+    {
+      "label": "AI-generated text detection",
       "count": 1
     },
     {
@@ -60730,10 +61390,6 @@ window.analyticsData = {
     },
     {
       "label": "Annihilators",
-      "count": 1
-    },
-    {
-      "label": "Anomaly detection",
       "count": 1
     },
     {
@@ -60869,6 +61525,10 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Asymptotically optimal planning",
+      "count": 1
+    },
+    {
       "label": "Asynchronous algorithms",
       "count": 1
     },
@@ -60957,6 +61617,10 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Autoregressive models",
+      "count": 1
+    },
+    {
       "label": "AutoTune",
       "count": 1
     },
@@ -61041,6 +61705,10 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Batch planning",
+      "count": 1
+    },
+    {
       "label": "Batch smoothing",
       "count": 1
     },
@@ -61113,10 +61781,6 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "Belief-space control",
-      "count": 1
-    },
-    {
       "label": "Bellman inequalities",
       "count": 1
     },
@@ -61133,10 +61797,6 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "Benchmark datasets",
-      "count": 1
-    },
-    {
       "label": "Bernstein bounds",
       "count": 1
     },
@@ -61146,6 +61806,10 @@ window.analyticsData = {
     },
     {
       "label": "Betweenness centrality",
+      "count": 1
+    },
+    {
+      "label": "BEV perception",
       "count": 1
     },
     {
@@ -61186,6 +61850,10 @@ window.analyticsData = {
     },
     {
       "label": "Bilevel rendering",
+      "count": 1
+    },
+    {
+      "label": "Bilinear surrogate models",
       "count": 1
     },
     {
@@ -61465,6 +62133,14 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Causal reasoning",
+      "count": 1
+    },
+    {
+      "label": "Causal transformers",
+      "count": 1
+    },
+    {
       "label": "CCD",
       "count": 1
     },
@@ -61629,6 +62305,10 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "City-scale simulation",
+      "count": 1
+    },
+    {
       "label": "Clarabel",
       "count": 1
     },
@@ -61649,6 +62329,10 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Clinical decision instruments",
+      "count": 1
+    },
+    {
       "label": "CLIP",
       "count": 1
     },
@@ -61661,7 +62345,15 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Closed-loop guarantees",
+      "count": 1
+    },
+    {
       "label": "Closed-loop performance",
+      "count": 1
+    },
+    {
+      "label": "Closed-loop simulation",
       "count": 1
     },
     {
@@ -61701,6 +62393,10 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Co-training",
+      "count": 1
+    },
+    {
       "label": "Cognitive science",
       "count": 1
     },
@@ -61726,6 +62422,10 @@ window.analyticsData = {
     },
     {
       "label": "Collision-free motion planning",
+      "count": 1
+    },
+    {
+      "label": "Collocation",
       "count": 1
     },
     {
@@ -62005,6 +62705,10 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Control deployment",
+      "count": 1
+    },
+    {
       "label": "Control limitations",
       "count": 1
     },
@@ -62030,6 +62734,10 @@ window.analyticsData = {
     },
     {
       "label": "Controllability subspaces",
+      "count": 1
+    },
+    {
+      "label": "Controllable generation",
       "count": 1
     },
     {
@@ -62097,11 +62805,11 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "Convex polynomials",
+      "label": "Convex polytope",
       "count": 1
     },
     {
-      "label": "Convex polytope",
+      "label": "Convex regression",
       "count": 1
     },
     {
@@ -62166,6 +62874,10 @@ window.analyticsData = {
     },
     {
       "label": "Cosine similarity",
+      "count": 1
+    },
+    {
+      "label": "Cost maps",
       "count": 1
     },
     {
@@ -62234,6 +62946,14 @@ window.analyticsData = {
     },
     {
       "label": "Cross-embodiment learning",
+      "count": 1
+    },
+    {
+      "label": "Cross-embodiment transfer",
+      "count": 1
+    },
+    {
+      "label": "Cross-modal fusion",
       "count": 1
     },
     {
@@ -62309,6 +63029,10 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Data quality",
+      "count": 1
+    },
+    {
       "label": "Data reconstruction",
       "count": 1
     },
@@ -62369,6 +63093,10 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Decomposition methods",
+      "count": 1
+    },
+    {
       "label": "Decomposition-informed",
       "count": 1
     },
@@ -62385,11 +63113,19 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Deep learning optimizers",
+      "count": 1
+    },
+    {
       "label": "Deep learning safety",
       "count": 1
     },
     {
       "label": "DeePC",
+      "count": 1
+    },
+    {
+      "label": "DeepMind control suite",
       "count": 1
     },
     {
@@ -62541,6 +63277,10 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Differentiable models",
+      "count": 1
+    },
+    {
       "label": "Differentiable planning",
       "count": 1
     },
@@ -62586,10 +63326,6 @@ window.analyticsData = {
     },
     {
       "label": "Dimension reduction",
-      "count": 1
-    },
-    {
-      "label": "DINO",
       "count": 1
     },
     {
@@ -62717,6 +63453,10 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Distributional dynamics",
+      "count": 1
+    },
+    {
       "label": "Distributionally robust model predictive path integral control",
       "count": 1
     },
@@ -62825,15 +63565,15 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "Driver models",
-      "count": 1
-    },
-    {
       "label": "Driver nodes",
       "count": 1
     },
     {
       "label": "Driving simulator",
+      "count": 1
+    },
+    {
+      "label": "Driving style",
       "count": 1
     },
     {
@@ -62854,6 +63594,10 @@ window.analyticsData = {
     },
     {
       "label": "Drosophila melanogaster",
+      "count": 1
+    },
+    {
+      "label": "DSOS",
       "count": 1
     },
     {
@@ -62914,10 +63658,6 @@ window.analyticsData = {
     },
     {
       "label": "Dynamic motions",
-      "count": 1
-    },
-    {
-      "label": "Dynamic output feedback",
       "count": 1
     },
     {
@@ -63065,10 +63805,6 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "End-to-end driving",
-      "count": 1
-    },
-    {
       "label": "Energy compaction",
       "count": 1
     },
@@ -63205,7 +63941,15 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Event prediction",
+      "count": 1
+    },
+    {
       "label": "Everyday robotics",
+      "count": 1
+    },
+    {
+      "label": "Evidence accumulation",
       "count": 1
     },
     {
@@ -63261,6 +64005,10 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Expected free energy",
+      "count": 1
+    },
+    {
       "label": "Experience replay",
       "count": 1
     },
@@ -63274,6 +64022,10 @@ window.analyticsData = {
     },
     {
       "label": "Experimentation",
+      "count": 1
+    },
+    {
+      "label": "Expert demonstrations",
       "count": 1
     },
     {
@@ -63349,6 +64101,14 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Factory data",
+      "count": 1
+    },
+    {
+      "label": "FactoryWave",
+      "count": 1
+    },
+    {
       "label": "Fair allocation",
       "count": 1
     },
@@ -63390,6 +64150,10 @@ window.analyticsData = {
     },
     {
       "label": "Fast marching tree",
+      "count": 1
+    },
+    {
+      "label": "Fast R-CNN",
       "count": 1
     },
     {
@@ -63437,6 +64201,10 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Feature search",
+      "count": 1
+    },
+    {
       "label": "Feature synthesis",
       "count": 1
     },
@@ -63481,11 +64249,11 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "Feedback stabilization",
+      "label": "Feedforward control",
       "count": 1
     },
     {
-      "label": "Feedforward control",
+      "label": "Few-shot generalization",
       "count": 1
     },
     {
@@ -63502,6 +64270,10 @@ window.analyticsData = {
     },
     {
       "label": "Field of safe motion",
+      "count": 1
+    },
+    {
+      "label": "Field operational test",
       "count": 1
     },
     {
@@ -63589,11 +64361,19 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Fleet coordination",
+      "count": 1
+    },
+    {
       "label": "Flexibility",
       "count": 1
     },
     {
       "label": "Flight control",
+      "count": 1
+    },
+    {
+      "label": "Floating robots",
       "count": 1
     },
     {
@@ -63869,6 +64649,10 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Generalist models",
+      "count": 1
+    },
+    {
       "label": "Generalist robot policies",
       "count": 1
     },
@@ -63902,6 +64686,10 @@ window.analyticsData = {
     },
     {
       "label": "Generative predictive control",
+      "count": 1
+    },
+    {
+      "label": "Generative world models",
       "count": 1
     },
     {
@@ -63986,6 +64774,10 @@ window.analyticsData = {
     },
     {
       "label": "GLD",
+      "count": 1
+    },
+    {
+      "label": "Global exploration",
       "count": 1
     },
     {
@@ -64105,6 +64897,10 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Gradient-based planning",
+      "count": 1
+    },
+    {
       "label": "Gradient-free optimization",
       "count": 1
     },
@@ -64197,6 +64993,10 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Grounded pretraining",
+      "count": 1
+    },
+    {
       "label": "Group-relative",
       "count": 1
     },
@@ -64230,6 +65030,10 @@ window.analyticsData = {
     },
     {
       "label": "Hamiltonian systems",
+      "count": 1
+    },
+    {
+      "label": "Hand-object interaction",
       "count": 1
     },
     {
@@ -64270,6 +65074,10 @@ window.analyticsData = {
     },
     {
       "label": "HD",
+      "count": 1
+    },
+    {
+      "label": "HD maps",
       "count": 1
     },
     {
@@ -64397,6 +65205,10 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Highway traffic",
+      "count": 1
+    },
+    {
       "label": "Hill climbing",
       "count": 1
     },
@@ -64437,11 +65249,19 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Homogeneous coordinates",
+      "count": 1
+    },
+    {
       "label": "Homogeneous self-dual embedding",
       "count": 1
     },
     {
       "label": "Homology-directed repair",
+      "count": 1
+    },
+    {
+      "label": "Homotopy classes",
       "count": 1
     },
     {
@@ -64473,6 +65293,10 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Human behavior modeling",
+      "count": 1
+    },
+    {
       "label": "Human genome",
       "count": 1
     },
@@ -64494,6 +65318,10 @@ window.analyticsData = {
     },
     {
       "label": "Human-inspired robotics",
+      "count": 1
+    },
+    {
+      "label": "Human-object interaction",
       "count": 1
     },
     {
@@ -64661,6 +65489,10 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "In-the-wild datasets",
+      "count": 1
+    },
+    {
       "label": "Inception",
       "count": 1
     },
@@ -64705,6 +65537,10 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Industrial machine understanding",
+      "count": 1
+    },
+    {
       "label": "Industrial process control",
       "count": 1
     },
@@ -64714,6 +65550,10 @@ window.analyticsData = {
     },
     {
       "label": "Industrial robots",
+      "count": 1
+    },
+    {
+      "label": "Industrial time series",
       "count": 1
     },
     {
@@ -64730,6 +65570,10 @@ window.analyticsData = {
     },
     {
       "label": "Infeasibility detection",
+      "count": 1
+    },
+    {
+      "label": "Inference-time compute",
       "count": 1
     },
     {
@@ -64798,6 +65642,14 @@ window.analyticsData = {
     },
     {
       "label": "Inside madupite",
+      "count": 1
+    },
+    {
+      "label": "Instance segmentation",
+      "count": 1
+    },
+    {
+      "label": "Instruction following",
       "count": 1
     },
     {
@@ -64889,11 +65741,11 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "Interpretable machine learning",
+      "label": "InterpretML",
       "count": 1
     },
     {
-      "label": "InterpretML",
+      "label": "Intrinsic rewards",
       "count": 1
     },
     {
@@ -65017,6 +65869,10 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Joint embedding predictive architectures",
+      "count": 1
+    },
+    {
       "label": "Joint limits",
       "count": 1
     },
@@ -65070,6 +65926,10 @@ window.analyticsData = {
     },
     {
       "label": "Keypoint matching",
+      "count": 1
+    },
+    {
+      "label": "KFAC",
       "count": 1
     },
     {
@@ -65201,6 +66061,10 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Language model features",
+      "count": 1
+    },
+    {
       "label": "Laplace transform method",
       "count": 1
     },
@@ -65214,6 +66078,10 @@ window.analyticsData = {
     },
     {
       "label": "Large displacement",
+      "count": 1
+    },
+    {
+      "label": "Large language model evaluation",
       "count": 1
     },
     {
@@ -65269,6 +66137,10 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Latent dynamics",
+      "count": 1
+    },
+    {
       "label": "Latent reasoning",
       "count": 1
     },
@@ -65298,6 +66170,10 @@ window.analyticsData = {
     },
     {
       "label": "Learned dynamics",
+      "count": 1
+    },
+    {
+      "label": "Learned dynamics models",
       "count": 1
     },
     {
@@ -65342,10 +66218,6 @@ window.analyticsData = {
     },
     {
       "label": "Library",
-      "count": 1
-    },
-    {
-      "label": "LiDAR",
       "count": 1
     },
     {
@@ -65522,6 +66394,14 @@ window.analyticsData = {
     },
     {
       "label": "Long short-term memory",
+      "count": 1
+    },
+    {
+      "label": "Long-horizon planning",
+      "count": 1
+    },
+    {
+      "label": "Long-horizon tasks",
       "count": 1
     },
     {
@@ -66109,6 +66989,10 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Model interpretability",
+      "count": 1
+    },
+    {
       "label": "Model organisms",
       "count": 1
     },
@@ -66189,6 +67073,10 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Monotone regression",
+      "count": 1
+    },
+    {
       "label": "Monte Carlo planning",
       "count": 1
     },
@@ -66226,6 +67114,10 @@ window.analyticsData = {
     },
     {
       "label": "Motion uncertainty",
+      "count": 1
+    },
+    {
+      "label": "Motion-aware memory",
       "count": 1
     },
     {
@@ -66313,6 +67205,10 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Multi-robot motion planning",
+      "count": 1
+    },
+    {
       "label": "Multi-robot systems",
       "count": 1
     },
@@ -66329,6 +67225,10 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Multi-view perception",
+      "count": 1
+    },
+    {
       "label": "Multi-view reconstruction",
       "count": 1
     },
@@ -66342,6 +67242,18 @@ window.analyticsData = {
     },
     {
       "label": "Multidimensional indexing",
+      "count": 1
+    },
+    {
+      "label": "Multimodal datasets",
+      "count": 1
+    },
+    {
+      "label": "Multimodal learning",
+      "count": 1
+    },
+    {
+      "label": "Multimodal models",
       "count": 1
     },
     {
@@ -66422,6 +67334,10 @@ window.analyticsData = {
     },
     {
       "label": "Multivariate statistics",
+      "count": 1
+    },
+    {
+      "label": "Muon",
       "count": 1
     },
     {
@@ -66761,6 +67677,10 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Nonnegative polynomials",
+      "count": 1
+    },
+    {
       "label": "Nonparametric statistics",
       "count": 1
     },
@@ -66845,6 +67765,10 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Object segmentation",
+      "count": 1
+    },
+    {
       "label": "Objective function",
       "count": 1
     },
@@ -66869,7 +67793,7 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "Off-road driving",
+      "label": "Offline reinforcement learning",
       "count": 1
     },
     {
@@ -66897,11 +67821,27 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Online map construction",
+      "count": 1
+    },
+    {
+      "label": "Open X-embodiment",
+      "count": 1
+    },
+    {
       "label": "Open-ended evolution",
       "count": 1
     },
     {
       "label": "Open-loop evaluation",
+      "count": 1
+    },
+    {
+      "label": "Open-set detection",
+      "count": 1
+    },
+    {
+      "label": "Open-source benchmark",
       "count": 1
     },
     {
@@ -67109,6 +68049,10 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Parallel planning",
+      "count": 1
+    },
+    {
       "label": "Parallel programming",
       "count": 1
     },
@@ -67186,6 +68130,10 @@ window.analyticsData = {
     },
     {
       "label": "PAS 21448",
+      "count": 1
+    },
+    {
+      "label": "PASCAL VOC",
       "count": 1
     },
     {
@@ -67473,6 +68421,10 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Polynomial regression",
+      "count": 1
+    },
+    {
       "label": "Polynomial solver",
       "count": 1
     },
@@ -67570,6 +68522,10 @@ window.analyticsData = {
     },
     {
       "label": "Preconditioned conjugate gradient",
+      "count": 1
+    },
+    {
+      "label": "Preconditioning",
       "count": 1
     },
     {
@@ -67901,6 +68857,10 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Quadruped robots",
+      "count": 1
+    },
+    {
       "label": "QuadSoft",
       "count": 1
     },
@@ -67926,10 +68886,6 @@ window.analyticsData = {
     },
     {
       "label": "Quasi-static planning",
-      "count": 1
-    },
-    {
-      "label": "Question answering",
       "count": 1
     },
     {
@@ -68085,6 +69041,10 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Rare events",
+      "count": 1
+    },
+    {
       "label": "Rate control",
       "count": 1
     },
@@ -68153,6 +69113,10 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Real-time vision",
+      "count": 1
+    },
+    {
       "label": "Real-world",
       "count": 1
     },
@@ -68166,6 +69130,10 @@ window.analyticsData = {
     },
     {
       "label": "REAPER",
+      "count": 1
+    },
+    {
+      "label": "Reasoning traces",
       "count": 1
     },
     {
@@ -68241,11 +69209,19 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Referring expression comprehension",
+      "count": 1
+    },
+    {
       "label": "Regenerative amplifiers",
       "count": 1
     },
     {
       "label": "Regenerator",
+      "count": 1
+    },
+    {
+      "label": "Region proposal networks",
       "count": 1
     },
     {
@@ -68401,6 +69377,10 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Reward-free pretraining",
+      "count": 1
+    },
+    {
       "label": "Reweighted L1",
       "count": 1
     },
@@ -68477,7 +69457,7 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "Risk-aware planning",
+      "label": "Risk-aware control",
       "count": 1
     },
     {
@@ -68505,6 +69485,10 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Road graph prediction",
+      "count": 1
+    },
+    {
       "label": "Road vehicle control",
       "count": 1
     },
@@ -68529,6 +69513,10 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Robot policy learning",
+      "count": 1
+    },
+    {
       "label": "Robot safety",
       "count": 1
     },
@@ -68546,6 +69534,10 @@ window.analyticsData = {
     },
     {
       "label": "Robotic grasping",
+      "count": 1
+    },
+    {
+      "label": "Robotic manipulation",
       "count": 1
     },
     {
@@ -68641,10 +69633,6 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "Rough terrain",
-      "count": 1
-    },
-    {
       "label": "Route planning",
       "count": 1
     },
@@ -68662,6 +69650,10 @@ window.analyticsData = {
     },
     {
       "label": "RRG",
+      "count": 1
+    },
+    {
+      "label": "RRTs",
       "count": 1
     },
     {
@@ -68729,6 +69721,10 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Safety validation",
+      "count": 1
+    },
+    {
       "label": "SAIL",
       "count": 1
     },
@@ -68793,6 +69789,10 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Scaling laws",
+      "count": 1
+    },
+    {
       "label": "Scan primitive",
       "count": 1
     },
@@ -68809,11 +69809,19 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Scene generation",
+      "count": 1
+    },
+    {
       "label": "SceneSmith",
       "count": 1
     },
     {
       "label": "Scheduling",
+      "count": 1
+    },
+    {
+      "label": "Schema design",
       "count": 1
     },
     {
@@ -68846,6 +69854,10 @@ window.analyticsData = {
     },
     {
       "label": "SCSC",
+      "count": 1
+    },
+    {
+      "label": "SDSOS",
       "count": 1
     },
     {
@@ -68882,6 +69894,10 @@ window.analyticsData = {
     },
     {
       "label": "Security",
+      "count": 1
+    },
+    {
+      "label": "Segment anything",
       "count": 1
     },
     {
@@ -69037,6 +70053,10 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Shape-constrained regression",
+      "count": 1
+    },
+    {
       "label": "Shapelets",
       "count": 1
     },
@@ -69146,6 +70166,10 @@ window.analyticsData = {
     },
     {
       "label": "Simultaneous perturbation",
+      "count": 1
+    },
+    {
+      "label": "Single-agent reinforcement learning",
       "count": 1
     },
     {
@@ -69377,6 +70401,10 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Sparse attention",
+      "count": 1
+    },
+    {
       "label": "Sparse coding interpretation",
       "count": 1
     },
@@ -69406,10 +70434,6 @@ window.analyticsData = {
     },
     {
       "label": "Sparse reconstruction",
-      "count": 1
-    },
-    {
-      "label": "Sparse rewards",
       "count": 1
     },
     {
@@ -69629,10 +70653,6 @@ window.analyticsData = {
       "count": 1
     },
     {
-      "label": "Statistical consistency",
-      "count": 1
-    },
-    {
       "label": "Statistical estimation",
       "count": 1
     },
@@ -69841,6 +70861,14 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Suboptimal data",
+      "count": 1
+    },
+    {
+      "label": "Suboptimal demonstrations",
+      "count": 1
+    },
+    {
       "label": "Subsequence search",
       "count": 1
     },
@@ -69910,6 +70938,10 @@ window.analyticsData = {
     },
     {
       "label": "Surveys",
+      "count": 1
+    },
+    {
+      "label": "Survival analysis",
       "count": 1
     },
     {
@@ -70121,6 +71153,14 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Test-time feedback",
+      "count": 1
+    },
+    {
+      "label": "Text classification",
+      "count": 1
+    },
+    {
       "label": "Text-guided restoration",
       "count": 1
     },
@@ -70205,6 +71245,10 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Token pruning",
+      "count": 1
+    },
+    {
       "label": "Topological combinatorics",
       "count": 1
     },
@@ -70273,7 +71317,19 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Traffic flow smoothing",
+      "count": 1
+    },
+    {
       "label": "Traffic modeling",
+      "count": 1
+    },
+    {
+      "label": "Traffic safety",
+      "count": 1
+    },
+    {
+      "label": "Training compute",
       "count": 1
     },
     {
@@ -70349,7 +71405,15 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Transverse linearization",
+      "count": 1
+    },
+    {
       "label": "Tree codes",
+      "count": 1
+    },
+    {
+      "label": "Tree ensembles",
       "count": 1
     },
     {
@@ -70421,6 +71485,10 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Two-stage detectors",
+      "count": 1
+    },
+    {
       "label": "U-Net",
       "count": 1
     },
@@ -70470,6 +71538,10 @@ window.analyticsData = {
     },
     {
       "label": "Uncertainty descriptions",
+      "count": 1
+    },
+    {
+      "label": "Uncertainty propagation",
       "count": 1
     },
     {
@@ -70542,6 +71614,10 @@ window.analyticsData = {
     },
     {
       "label": "Unknown systems",
+      "count": 1
+    },
+    {
+      "label": "Unsupervised reinforcement learning",
       "count": 1
     },
     {
@@ -70709,6 +71785,14 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Video segmentation",
+      "count": 1
+    },
+    {
+      "label": "Video understanding",
+      "count": 1
+    },
+    {
       "label": "View synthesis",
       "count": 1
     },
@@ -70725,6 +71809,10 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Visual control",
+      "count": 1
+    },
+    {
       "label": "Visual fiducials",
       "count": 1
     },
@@ -70734,10 +71822,6 @@ window.analyticsData = {
     },
     {
       "label": "Visual question answering",
-      "count": 1
-    },
-    {
-      "label": "Visual tracking",
       "count": 1
     },
     {
@@ -70814,6 +71898,10 @@ window.analyticsData = {
     },
     {
       "label": "Waymo open dataset",
+      "count": 1
+    },
+    {
+      "label": "Waymo open motion dataset",
       "count": 1
     },
     {
@@ -70929,6 +72017,14 @@ window.analyticsData = {
       "count": 1
     },
     {
+      "label": "Zero-shot tracking",
+      "count": 1
+    },
+    {
+      "label": "Zero-shot transfer",
+      "count": 1
+    },
+    {
       "label": "Zeroth-order optimization",
       "count": 1
     },
@@ -70944,49 +72040,53 @@ window.analyticsData = {
   "superCategories": [
     {
       "label": "Decision-making",
-      "count": 1598
+      "count": 1614
     },
     {
       "label": "Prediction & Perception",
-      "count": 493
+      "count": 509
+    },
+    {
+      "label": "Evaluation",
+      "count": 130
     },
     {
       "label": "Quantitative Foundations",
       "count": 129
-    },
-    {
-      "label": "Evaluation",
-      "count": 128
     }
   ],
   "categories": [
     {
       "label": "Planning",
-      "count": 563
+      "count": 569
     },
     {
       "label": "Reinforcement Learning",
-      "count": 435
+      "count": 440
     },
     {
       "label": "Optimization",
-      "count": 369
+      "count": 372
     },
     {
       "label": "Machine Learning",
-      "count": 286
+      "count": 292
     },
     {
       "label": "Control",
-      "count": 231
+      "count": 233
     },
     {
       "label": "Computer Vision",
-      "count": 92
+      "count": 97
     },
     {
       "label": "State Estimation",
-      "count": 71
+      "count": 72
+    },
+    {
+      "label": "Motion Prediction",
+      "count": 41
     },
     {
       "label": "Mathematics",
@@ -70997,16 +72097,12 @@ window.analyticsData = {
       "count": 39
     },
     {
-      "label": "Motion Prediction",
-      "count": 37
-    },
-    {
       "label": "Algorithms & Data Structures",
       "count": 36
     },
     {
       "label": "Simulation",
-      "count": 32
+      "count": 34
     },
     {
       "label": "Safety, Testing, Verification & Validation (V&V)",
@@ -71045,22 +72141,22 @@ window.analyticsData = {
     {
       "id": "tree-decision-making",
       "label": "Decision-making",
-      "count": 1598,
+      "count": 1614,
       "children": [
         {
           "id": "tree-decision-making-optimization",
           "label": "Optimization",
-          "count": 369,
+          "count": 372,
           "children": [
             {
               "id": "tree-decision-making-optimization-continuous-optimization",
               "label": "Continuous Optimization",
-              "count": 295,
+              "count": 298,
               "children": [
                 {
                   "id": "tree-decision-making-optimization-continuous-optimization-convex-optimization",
                   "label": "Convex Optimization",
-                  "count": 58,
+                  "count": 60,
                   "children": [
                     {
                       "id": "tree-decision-making-optimization-continuous-optimization-convex-optimization-linear-programming",
@@ -71128,7 +72224,7 @@ window.analyticsData = {
                     {
                       "id": "tree-decision-making-optimization-continuous-optimization-convex-optimization-sum-of-squares-sos",
                       "label": "Sum-of-squares (SOS)",
-                      "count": 2,
+                      "count": 4,
                       "children": []
                     },
                     {
@@ -71154,7 +72250,7 @@ window.analyticsData = {
                 {
                   "id": "tree-decision-making-optimization-continuous-optimization-nonlinear-optimization",
                   "label": "Nonlinear Optimization",
-                  "count": 180,
+                  "count": 181,
                   "children": [
                     {
                       "id": "tree-decision-making-optimization-continuous-optimization-nonlinear-optimization-nonlinear-programming",
@@ -71203,7 +72299,7 @@ window.analyticsData = {
                     {
                       "id": "tree-decision-making-optimization-continuous-optimization-nonlinear-optimization-first-order-methods",
                       "label": "First-Order Methods",
-                      "count": 80,
+                      "count": 81,
                       "children": [
                         {
                           "id": "tree-decision-making-optimization-continuous-optimization-nonlinear-optimization-first-order-methods-gradient-descent",
@@ -71252,7 +72348,7 @@ window.analyticsData = {
                         {
                           "id": "tree-decision-making-optimization-continuous-optimization-nonlinear-optimization-first-order-methods-adaptive-gradient-methods",
                           "label": "Adaptive Gradient Methods",
-                          "count": 16,
+                          "count": 17,
                           "children": [
                             {
                               "id": "tree-decision-making-optimization-continuous-optimization-nonlinear-optimization-first-order-methods-adaptive-gradient-methods-adam",
@@ -71605,7 +72701,7 @@ window.analyticsData = {
         {
           "id": "tree-decision-making-planning",
           "label": "Planning",
-          "count": 563,
+          "count": 569,
           "children": [
             {
               "id": "tree-decision-making-planning-geometric-planning",
@@ -71778,7 +72874,7 @@ window.analyticsData = {
             {
               "id": "tree-decision-making-planning-kinodynamic-planning",
               "label": "Kinodynamic Planning",
-              "count": 274,
+              "count": 275,
               "children": [
                 {
                   "id": "tree-decision-making-planning-kinodynamic-planning-trajectory-planning",
@@ -72051,7 +73147,7 @@ window.analyticsData = {
                 {
                   "id": "tree-decision-making-planning-kinodynamic-planning-hybrid-approaches",
                   "label": "Hybrid Approaches",
-                  "count": 9,
+                  "count": 10,
                   "children": []
                 }
               ]
@@ -72078,7 +73174,7 @@ window.analyticsData = {
             {
               "id": "tree-decision-making-planning-planning-in-changing-environments",
               "label": "Planning in Changing Environments",
-              "count": 53,
+              "count": 55,
               "children": [
                 {
                   "id": "tree-decision-making-planning-planning-in-changing-environments-feedback-motion-planning",
@@ -72089,12 +73185,12 @@ window.analyticsData = {
                 {
                   "id": "tree-decision-making-planning-planning-in-changing-environments-planning-under-uncertainty",
                   "label": "Planning Under Uncertainty",
-                  "count": 19,
+                  "count": 21,
                   "children": [
                     {
                       "id": "tree-decision-making-planning-planning-in-changing-environments-planning-under-uncertainty-planning-in-belief-space",
                       "label": "Planning in Belief Space",
-                      "count": 14,
+                      "count": 16,
                       "children": [
                         {
                           "id": "tree-decision-making-planning-planning-in-changing-environments-planning-under-uncertainty-planning-in-belief-space-belief-roadmap-brm",
@@ -72105,7 +73201,7 @@ window.analyticsData = {
                         {
                           "id": "tree-decision-making-planning-planning-in-changing-environments-planning-under-uncertainty-planning-in-belief-space-belief-trees",
                           "label": "Belief Trees",
-                          "count": 10,
+                          "count": 12,
                           "children": []
                         }
                       ]
@@ -72136,7 +73232,7 @@ window.analyticsData = {
             {
               "id": "tree-decision-making-planning-learning-based-motion-planning",
               "label": "Learning-Based Motion Planning",
-              "count": 35,
+              "count": 36,
               "children": [
                 {
                   "id": "tree-decision-making-planning-learning-based-motion-planning-learned-sampling",
@@ -72184,7 +73280,7 @@ window.analyticsData = {
                 {
                   "id": "tree-decision-making-planning-learning-based-motion-planning-frameworks",
                   "label": "Frameworks",
-                  "count": 12,
+                  "count": 13,
                   "children": []
                 }
               ]
@@ -72192,7 +73288,7 @@ window.analyticsData = {
             {
               "id": "tree-decision-making-planning-planning-for-robots",
               "label": "Planning for Robots",
-              "count": 40,
+              "count": 41,
               "children": [
                 {
                   "id": "tree-decision-making-planning-planning-for-robots-inverse-kinematics",
@@ -72215,7 +73311,7 @@ window.analyticsData = {
                 {
                   "id": "tree-decision-making-planning-planning-for-robots-multi-robot-planning",
                   "label": "Multi-Robot Planning",
-                  "count": 24,
+                  "count": 25,
                   "children": []
                 }
               ]
@@ -72223,7 +73319,7 @@ window.analyticsData = {
             {
               "id": "tree-decision-making-planning-overviews",
               "label": "Overviews",
-              "count": 50,
+              "count": 51,
               "children": [
                 {
                   "id": "tree-decision-making-planning-overviews-surveys-comparative-studies",
@@ -72240,12 +73336,12 @@ window.analyticsData = {
                 {
                   "id": "tree-decision-making-planning-overviews-frameworks",
                   "label": "Frameworks",
-                  "count": 25,
+                  "count": 26,
                   "children": [
                     {
                       "id": "tree-decision-making-planning-overviews-frameworks-whole-body-locomotion-manipulation",
                       "label": "Whole-Body Locomotion & Manipulation",
-                      "count": 17,
+                      "count": 18,
                       "children": [
                         {
                           "id": "tree-decision-making-planning-overviews-frameworks-whole-body-locomotion-manipulation-bipeds",
@@ -72256,7 +73352,7 @@ window.analyticsData = {
                         {
                           "id": "tree-decision-making-planning-overviews-frameworks-whole-body-locomotion-manipulation-quadrupeds",
                           "label": "Quadrupeds",
-                          "count": 9,
+                          "count": 10,
                           "children": []
                         }
                       ]
@@ -72282,7 +73378,7 @@ window.analyticsData = {
         {
           "id": "tree-decision-making-control",
           "label": "Control",
-          "count": 231,
+          "count": 233,
           "children": [
             {
               "id": "tree-decision-making-control-theory",
@@ -72467,7 +73563,7 @@ window.analyticsData = {
             {
               "id": "tree-decision-making-control-data-driven-control",
               "label": "Data-Driven Control",
-              "count": 20,
+              "count": 21,
               "children": [
                 {
                   "id": "tree-decision-making-control-data-driven-control-behavioral-data-driven-control",
@@ -72505,18 +73601,24 @@ window.analyticsData = {
                   "label": "Informativity Framework",
                   "count": 6,
                   "children": []
+                },
+                {
+                  "id": "tree-decision-making-control-data-driven-control-koopman-and-nonlinear-data-driven-control",
+                  "label": "Koopman and Nonlinear Data-Driven Control",
+                  "count": 1,
+                  "children": []
                 }
               ]
             },
             {
               "id": "tree-decision-making-control-stochastic-control",
               "label": "Stochastic Control",
-              "count": 39,
+              "count": 40,
               "children": [
                 {
                   "id": "tree-decision-making-control-stochastic-control-multiplicative-noise",
                   "label": "Multiplicative Noise",
-                  "count": 34,
+                  "count": 35,
                   "children": [
                     {
                       "id": "tree-decision-making-control-stochastic-control-multiplicative-noise-stochastic-stability",
@@ -72546,7 +73648,7 @@ window.analyticsData = {
                     {
                       "id": "tree-decision-making-control-stochastic-control-multiplicative-noise-output-feedback",
                       "label": "Output Feedback",
-                      "count": 3,
+                      "count": 4,
                       "children": []
                     },
                     {
@@ -72752,7 +73854,7 @@ window.analyticsData = {
         {
           "id": "tree-decision-making-reinforcement-learning",
           "label": "Reinforcement Learning",
-          "count": 435,
+          "count": 440,
           "children": [
             {
               "id": "tree-decision-making-reinforcement-learning-foundations",
@@ -72941,12 +74043,12 @@ window.analyticsData = {
             {
               "id": "tree-decision-making-reinforcement-learning-nonlinear-systems",
               "label": "Nonlinear Systems",
-              "count": 224,
+              "count": 228,
               "children": [
                 {
                   "id": "tree-decision-making-reinforcement-learning-nonlinear-systems-policy-optimization",
                   "label": "Policy Optimization",
-                  "count": 71,
+                  "count": 72,
                   "children": [
                     {
                       "id": "tree-decision-making-reinforcement-learning-nonlinear-systems-policy-optimization-random-search-evolution-strategies",
@@ -73026,7 +74128,7 @@ window.analyticsData = {
                     {
                       "id": "tree-decision-making-reinforcement-learning-nonlinear-systems-policy-optimization-actor-critic-methods",
                       "label": "Actor-Critic Methods",
-                      "count": 20,
+                      "count": 21,
                       "children": []
                     },
                     {
@@ -73078,12 +74180,12 @@ window.analyticsData = {
                 {
                   "id": "tree-decision-making-reinforcement-learning-nonlinear-systems-model-based-rl",
                   "label": "Model-based RL",
-                  "count": 59,
+                  "count": 60,
                   "children": [
                     {
                       "id": "tree-decision-making-reinforcement-learning-nonlinear-systems-model-based-rl-system-identification",
                       "label": "System Identification",
-                      "count": 44,
+                      "count": 45,
                       "children": [
                         {
                           "id": "tree-decision-making-reinforcement-learning-nonlinear-systems-model-based-rl-system-identification-extended-dynamic-mode-decomposition-edmd-and-koopman",
@@ -73100,7 +74202,7 @@ window.analyticsData = {
                         {
                           "id": "tree-decision-making-reinforcement-learning-nonlinear-systems-model-based-rl-system-identification-world-models",
                           "label": "World Models",
-                          "count": 12,
+                          "count": 13,
                           "children": []
                         }
                       ]
@@ -73122,7 +74224,7 @@ window.analyticsData = {
                 {
                   "id": "tree-decision-making-reinforcement-learning-nonlinear-systems-imitation-learning",
                   "label": "Imitation Learning",
-                  "count": 22,
+                  "count": 23,
                   "children": [
                     {
                       "id": "tree-decision-making-reinforcement-learning-nonlinear-systems-imitation-learning-foundations-reductions",
@@ -73133,7 +74235,7 @@ window.analyticsData = {
                     {
                       "id": "tree-decision-making-reinforcement-learning-nonlinear-systems-imitation-learning-behavior-cloning",
                       "label": "Behavior Cloning",
-                      "count": 6,
+                      "count": 7,
                       "children": []
                     },
                     {
@@ -73171,7 +74273,7 @@ window.analyticsData = {
                 {
                   "id": "tree-decision-making-reinforcement-learning-nonlinear-systems-diffusion-flow-matching",
                   "label": "Diffusion & Flow Matching",
-                  "count": 17,
+                  "count": 18,
                   "children": []
                 },
                 {
@@ -73241,7 +74343,7 @@ window.analyticsData = {
             {
               "id": "tree-decision-making-reinforcement-learning-applications",
               "label": "Applications",
-              "count": 17,
+              "count": 18,
               "children": [
                 {
                   "id": "tree-decision-making-reinforcement-learning-applications-manipulation-grasping",
@@ -73252,7 +74354,7 @@ window.analyticsData = {
                 {
                   "id": "tree-decision-making-reinforcement-learning-applications-driving",
                   "label": "Driving",
-                  "count": 3,
+                  "count": 4,
                   "children": []
                 },
                 {
@@ -73270,22 +74372,22 @@ window.analyticsData = {
     {
       "id": "tree-prediction-perception",
       "label": "Prediction & Perception",
-      "count": 493,
+      "count": 509,
       "children": [
         {
           "id": "tree-prediction-perception-state-estimation",
           "label": "State Estimation",
-          "count": 71,
+          "count": 72,
           "children": [
             {
               "id": "tree-prediction-perception-state-estimation-optimal-state-estimation-kalman-filters",
               "label": "Optimal State Estimation (Kalman Filters)",
-              "count": 9,
+              "count": 10,
               "children": [
                 {
                   "id": "tree-prediction-perception-state-estimation-optimal-state-estimation-kalman-filters-linear-systems",
                   "label": "Linear Systems",
-                  "count": 5,
+                  "count": 6,
                   "children": []
                 },
                 {
@@ -73414,12 +74516,12 @@ window.analyticsData = {
         {
           "id": "tree-prediction-perception-motion-prediction",
           "label": "Motion Prediction",
-          "count": 37,
+          "count": 41,
           "children": [
             {
               "id": "tree-prediction-perception-motion-prediction-driver-models",
               "label": "Driver Models",
-              "count": 6,
+              "count": 7,
               "children": []
             },
             {
@@ -73431,18 +74533,18 @@ window.analyticsData = {
             {
               "id": "tree-prediction-perception-motion-prediction-prediction-requirements",
               "label": "Prediction Requirements",
-              "count": 1,
+              "count": 2,
               "children": []
             },
             {
               "id": "tree-prediction-perception-motion-prediction-surveys",
               "label": "Surveys",
-              "count": 22,
+              "count": 24,
               "children": [
                 {
                   "id": "tree-prediction-perception-motion-prediction-surveys-automated-driving",
                   "label": "Automated Driving",
-                  "count": 20,
+                  "count": 22,
                   "children": []
                 }
               ]
@@ -73452,12 +74554,12 @@ window.analyticsData = {
         {
           "id": "tree-prediction-perception-computer-vision",
           "label": "Computer Vision",
-          "count": 92,
+          "count": 97,
           "children": [
             {
               "id": "tree-prediction-perception-computer-vision-low-level-geometric-vision",
               "label": "Low-level & Geometric Vision",
-              "count": 34,
+              "count": 35,
               "children": [
                 {
                   "id": "tree-prediction-perception-computer-vision-low-level-geometric-vision-edge-detection",
@@ -73480,7 +74582,7 @@ window.analyticsData = {
                 {
                   "id": "tree-prediction-perception-computer-vision-low-level-geometric-vision-3d-vision-shape-understanding",
                   "label": "3D Vision & Shape Understanding",
-                  "count": 11,
+                  "count": 12,
                   "children": []
                 }
               ]
@@ -73488,12 +74590,12 @@ window.analyticsData = {
             {
               "id": "tree-prediction-perception-computer-vision-recognition-understanding",
               "label": "Recognition & Understanding",
-              "count": 26,
+              "count": 30,
               "children": [
                 {
                   "id": "tree-prediction-perception-computer-vision-recognition-understanding-object-detection",
                   "label": "Object Detection",
-                  "count": 6,
+                  "count": 8,
                   "children": []
                 },
                 {
@@ -73511,7 +74613,7 @@ window.analyticsData = {
                 {
                   "id": "tree-prediction-perception-computer-vision-recognition-understanding-video-understanding",
                   "label": "Video Understanding",
-                  "count": 7,
+                  "count": 9,
                   "children": []
                 }
               ]
@@ -73610,12 +74712,12 @@ window.analyticsData = {
         {
           "id": "tree-prediction-perception-machine-learning",
           "label": "Machine Learning",
-          "count": 286,
+          "count": 292,
           "children": [
             {
               "id": "tree-prediction-perception-machine-learning-foundations-data-reliability",
               "label": "Foundations, Data & Reliability",
-              "count": 41,
+              "count": 42,
               "children": [
                 {
                   "id": "tree-prediction-perception-machine-learning-foundations-data-reliability-foundations",
@@ -73645,12 +74747,12 @@ window.analyticsData = {
                 {
                   "id": "tree-prediction-perception-machine-learning-foundations-data-reliability-interpretability",
                   "label": "Interpretability",
-                  "count": 27,
+                  "count": 28,
                   "children": [
                     {
                       "id": "tree-prediction-perception-machine-learning-foundations-data-reliability-interpretability-shapley",
                       "label": "Shapley",
-                      "count": 5,
+                      "count": 6,
                       "children": []
                     }
                   ]
@@ -73841,7 +74943,7 @@ window.analyticsData = {
             {
               "id": "tree-prediction-perception-machine-learning-language-sequence-models",
               "label": "Language & Sequence Models",
-              "count": 59,
+              "count": 63,
               "children": [
                 {
                   "id": "tree-prediction-perception-machine-learning-language-sequence-models-natural-language-processing-nlp",
@@ -73865,18 +74967,24 @@ window.analyticsData = {
                 {
                   "id": "tree-prediction-perception-machine-learning-language-sequence-models-societal-impacts",
                   "label": "Societal Impacts",
-                  "count": 1,
+                  "count": 2,
                   "children": []
                 },
                 {
                   "id": "tree-prediction-perception-machine-learning-language-sequence-models-time-series",
                   "label": "Time Series",
-                  "count": 25,
+                  "count": 28,
                   "children": [
                     {
                       "id": "tree-prediction-perception-machine-learning-language-sequence-models-time-series-algorithms",
                       "label": "Algorithms",
-                      "count": 19,
+                      "count": 20,
+                      "children": []
+                    },
+                    {
+                      "id": "tree-prediction-perception-machine-learning-language-sequence-models-time-series-datasets-benchmarks",
+                      "label": "Datasets & Benchmarks",
+                      "count": 2,
                       "children": []
                     },
                     {
@@ -73898,7 +75006,7 @@ window.analyticsData = {
             {
               "id": "tree-prediction-perception-machine-learning-multimodal-embodied-models",
               "label": "Multimodal & Embodied Models",
-              "count": 57,
+              "count": 58,
               "children": [
                 {
                   "id": "tree-prediction-perception-machine-learning-multimodal-embodied-models-vision-langugage-models-vlm",
@@ -73909,7 +75017,7 @@ window.analyticsData = {
                 {
                   "id": "tree-prediction-perception-machine-learning-multimodal-embodied-models-vision-language-action-models-vla",
                   "label": "Vision-language-action Models (VLA)",
-                  "count": 34,
+                  "count": 35,
                   "children": []
                 },
                 {
@@ -73972,17 +75080,17 @@ window.analyticsData = {
     {
       "id": "tree-evaluation",
       "label": "Evaluation",
-      "count": 128,
+      "count": 130,
       "children": [
         {
           "id": "tree-evaluation-simulation",
           "label": "Simulation",
-          "count": 32,
+          "count": 34,
           "children": [
             {
               "id": "tree-evaluation-simulation-driving-traffic-simulation",
               "label": "Driving & Traffic Simulation",
-              "count": 22,
+              "count": 24,
               "children": [
                 {
                   "id": "tree-evaluation-simulation-driving-traffic-simulation-learned-simulation",
@@ -73993,7 +75101,7 @@ window.analyticsData = {
                 {
                   "id": "tree-evaluation-simulation-driving-traffic-simulation-diffusion-based-generation",
                   "label": "Diffusion-based Generation",
-                  "count": 13,
+                  "count": 15,
                   "children": []
                 }
               ]
@@ -74574,11 +75682,11 @@ window.analyticsData = {
     },
     {
       "label": "partial",
-      "count": 683
+      "count": 716
     },
     {
       "label": "reviewed",
-      "count": 243
+      "count": 244
     }
   ]
 };

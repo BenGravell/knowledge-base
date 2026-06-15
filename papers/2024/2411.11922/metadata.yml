@@ -1,0 +1,32 @@
+title: >
+  SAMURAI: Adapting Segment Anything Model for Zero-Shot Visual Tracking with Motion-Aware Memory
+algorithm: SAMURAI
+authors:
+  - Cheng-Yen Yang
+  - Hsiang-Wei Huang
+  - Wenhao Chai
+  - Zhongyu Jiang
+  - Jenq-Neng Hwang
+year: 2024
+source: arXiv
+type: Preprint
+doi:
+arxiv_id: "2411.11922"
+tags:
+  - Visual tracking
+  - Video segmentation
+  - Segment anything
+  - Zero-shot tracking
+  - Motion-aware memory
+  - Object tracking
+  - Real-time vision
+  - Foundation models
+abstract: >
+  The Segment Anything Model 2 (SAM 2) has demonstrated strong performance in object segmentation tasks but faces challenges in visual object tracking, particularly when managing crowded scenes with fast-moving or self-occluding objects. Furthermore, the fixed-window memory approach in the original model does not consider the quality of memories selected to condition the image features for the next frame, leading to error propagation in videos. This paper introduces SAMURAI, an enhanced adaptation of SAM 2 specifically designed for visual object tracking. By incorporating temporal motion cues with the proposed motion-aware memory selection mechanism, SAMURAI effectively predicts object motion and refines mask selection, achieving robust, accurate tracking without the need for retraining or fine-tuning. SAMURAI operates in real-time and demonstrates strong zero-shot performance across diverse benchmark datasets, showcasing its ability to generalize without fine-tuning. In evaluations, SAMURAI achieves significant improvements in success rate and precision over existing trackers, with a 7.1% AUC gain on LaSOT_ext and a 3.5% AO gain on GOT-10k. Moreover, it achieves competitive results compared to fully supervised methods on LaSOT, underscoring its robustness in complex tracking scenarios and its potential for real-world applications in dynamic environments.
+summary: >
+  Adapts SAM 2 for zero-shot visual object tracking by adding motion-aware memory selection that filters the memories used to condition future masks. This directly addresses error accumulation in crowded or fast-motion videos and demonstrates that promptable segmentation models can be made into competitive trackers without task-specific fine-tuning.
+link: https://arxiv.org/pdf/2411.11922
+links_alt:
+  - https://arxiv.org/abs/2411.11922
+  - https://yangchris11.github.io/samurai/
+audit_status: partial

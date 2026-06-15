@@ -1747,14 +1747,23 @@ body:has(.kb-home-bento) .md-content {
   --kb-tree-preview-selected-gap: 0.24rem;
   --kb-tree-preview-rail-width: 1.1rem;
   --kb-tree-preview-line: color-mix(in srgb, var(--md-default-fg-color) 27%, transparent);
-  --kb-tree-preview-row-bg: color-mix(in srgb, var(--md-default-fg-color) 5%, var(--md-default-bg-color));
-  --kb-tree-preview-row-border: color-mix(in srgb, var(--md-default-fg-color) 11%, transparent);
-  --kb-tree-preview-row-accent-bg: color-mix(in srgb, var(--kb-bento-accent) 8%, var(--md-default-bg-color));
-  --kb-tree-preview-row-accent-border: color-mix(in srgb, var(--kb-bento-accent) 24%, transparent);
+  --kb-tree-preview-row-bg: color-mix(in srgb, var(--md-default-fg-color) 9%, var(--md-default-bg-color));
+  --kb-tree-preview-row-border: color-mix(in srgb, var(--md-default-fg-color) 22%, transparent);
+  --kb-tree-preview-row-parent-bg: color-mix(in srgb, var(--md-default-fg-color) 10%, var(--md-default-bg-color));
+  --kb-tree-preview-row-accent-bg: color-mix(in srgb, var(--kb-bento-accent) 18%, var(--md-default-bg-color));
+  --kb-tree-preview-row-accent-border: color-mix(in srgb, var(--kb-bento-accent) 46%, transparent);
   width: 9.55rem;
   height: 8.35rem;
   opacity: var(--kb-bento-preview-opacity);
   transform: translate(-50%, -50%) scale(0.9);
+}
+
+[data-md-color-scheme="slate"] .md-typeset .kb-bento-visual--tree {
+  --kb-tree-preview-row-bg: color-mix(in srgb, var(--md-default-fg-color) 5%, var(--md-default-bg-color));
+  --kb-tree-preview-row-border: color-mix(in srgb, var(--md-default-fg-color) 11%, transparent);
+  --kb-tree-preview-row-parent-bg: color-mix(in srgb, var(--md-default-fg-color) 6%, var(--md-default-bg-color));
+  --kb-tree-preview-row-accent-bg: color-mix(in srgb, var(--kb-bento-accent) 8%, var(--md-default-bg-color));
+  --kb-tree-preview-row-accent-border: color-mix(in srgb, var(--kb-bento-accent) 24%, transparent);
 }
 
 .md-typeset .kb-tree-sunburst {
@@ -1866,7 +1875,7 @@ body:has(.kb-home-bento) .md-content {
 }
 
 .md-typeset .kb-tree-preview-row--parent {
-  background: color-mix(in srgb, var(--md-default-fg-color) 6%, var(--md-default-bg-color));
+  background: var(--kb-tree-preview-row-parent-bg);
 }
 
 .md-typeset .kb-tree-preview-row--child {
@@ -3626,7 +3635,9 @@ body:has(#ct-app) .md-content__inner {
 .md-typeset .paper-meta-identifiers a,
 .md-typeset .paper-meta-identifiers a:visited {
   display: inline-flex;
+  box-sizing: border-box;
   align-items: center;
+  min-width: 0;
   max-width: 100%;
   padding: 0.11rem 0.36rem;
   border: 1px solid color-mix(in srgb, var(--md-default-fg-color) 10%, transparent);
@@ -3635,6 +3646,15 @@ body:has(#ct-app) .md-content__inner {
   font-size: 0.68rem;
   font-weight: 760;
   line-height: 1.2;
+  overflow-wrap: anywhere;
+  white-space: normal;
+  word-break: break-word;
+}
+
+.md-typeset .paper-meta-identifiers a,
+.md-typeset .paper-meta-identifiers a:visited {
+  display: inline-block;
+  border-radius: 8px;
 }
 
 .md-typeset .paper-meta-card a,
@@ -3879,8 +3899,9 @@ body:has(#ct-app) .md-content__inner {
 
 .md-typeset a.paper-tag-chip,
 .md-typeset a.paper-tag-chip:visited {
-  display: inline-flex;
-  align-items: center;
+  display: inline-block;
+  box-sizing: border-box;
+  min-width: 0;
   min-height: 1.8rem;
   max-width: 100%;
   padding: 0.26rem 0.58rem;
@@ -3891,7 +3912,10 @@ body:has(#ct-app) .md-content__inner {
   font-size: 0.74rem;
   font-weight: 800;
   line-height: 1.2;
+  overflow-wrap: anywhere;
   text-decoration: none;
+  white-space: normal;
+  word-break: break-word;
 }
 
 .md-typeset a.paper-tag-chip:hover,

@@ -1,0 +1,31 @@
+title: >
+  Parallel Stochastic Gradient-Based Planning for World Models
+algorithm: GRASP
+authors:
+  - Michael Psenka
+  - Michael Rabbat
+  - Aditi Krishnapriyan
+  - Yann LeCun
+  - Amir Bar
+year: 2026
+source: arXiv
+type: Preprint
+doi:
+arxiv_id: "2602.00475"
+tags:
+  - World models
+  - Planning
+  - Gradient-based planning
+  - Stochastic optimization
+  - Collocation
+  - Visual control
+  - Long-horizon planning
+  - Differentiable models
+abstract: >
+  World models simulate environment dynamics from raw sensory inputs like video. However, using them for planning can be challenging due to the vast and unstructured search space. We propose a robust and highly parallelizable planner that leverages the differentiability of the learned world model for efficient optimization, solving long-horizon control tasks from visual input. Our method treats states as optimization variables ("virtual states") with soft dynamics constraints, enabling parallel computation and easier optimization. To facilitate exploration and avoid local optima, we introduce stochasticity into the states. To mitigate sensitive gradients through high-dimensional vision-based world models, we modify the gradient structure to descend towards valid plans while only requiring action-input gradients. Our planner, which we call GRASP (Gradient RelAxed Stochastic Planner), can be viewed as a stochastic version of a non-condensed or collocation-based optimal controller. We provide theoretical justification and experiments on video-based world models, where our resulting planner outperforms existing planning algorithms like the cross-entropy method (CEM) and vanilla gradient-based optimization (GD) on long-horizon experiments, both in success rate and time to convergence.
+summary: >
+  Introduces GRASP, a planner that optimizes virtual states and actions inside differentiable visual world models using stochastic, parallelizable gradient-based search. By relaxing dynamics constraints and altering the gradient structure, the method avoids fragile backpropagation through high-dimensional video models while improving long-horizon planning relative to CEM and vanilla gradient descent.
+link: https://arxiv.org/pdf/2602.00475
+links_alt:
+  - https://arxiv.org/abs/2602.00475
+audit_status: partial

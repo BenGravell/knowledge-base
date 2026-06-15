@@ -21350,6 +21350,53 @@ window.timelineData = {
       "searchUrl": "../search/?paper=2010_theodorou_stochastic_differential_dynamic_programming"
     },
     {
+      "id": "2010_shkolnik_bounding_on_rough_terrain",
+      "label": "Reachability-Guided RRT",
+      "title": "Bounding on Rough Terrain with the LittleDog Robot",
+      "authors": [
+        "Alexander Shkolnik",
+        "Michael Levashov",
+        "Ian R. Manchester",
+        "Russ Tedrake"
+      ],
+      "authorShort": "Shkolnik, Levashov, Manchester",
+      "year": 2010,
+      "source": "The International Journal of Robotics Research",
+      "type": "Journal Paper",
+      "superCategory": "Decision-making",
+      "category": "Planning",
+      "subCategory": "Overviews",
+      "path": [
+        "Tree",
+        "Decision-making",
+        "Planning",
+        "Overviews",
+        "Frameworks",
+        "Whole-Body Locomotion & Manipulation",
+        "Quadrupeds",
+        "Reachability-Guided RRT"
+      ],
+      "tags": [
+        "Motion planning",
+        "Kinodynamic planning",
+        "Sampling-based planning",
+        "RRTs",
+        "Legged locomotion",
+        "Quadruped robots",
+        "Rough terrain",
+        "Motion primitives",
+        "Feedback stabilization",
+        "Transverse linearization"
+      ],
+      "abstract": "A motion planning algorithm is described for bounding over rough terrain with the LittleDog robot. Unlike walking gaits, bounding is highly dynamic and cannot be planned with quasi-steady approximations. LittleDog is modeled as a planar five-link system, with a 16-dimensional state space; computing a plan over rough terrain in this high-dimensional state space that respects the kinodynamic constraints due to underactuation and motor limits is extremely challenging. Rapidly Exploring Random Trees (RRTs) are known for fast kinematic path planning in high-dimensional configuration spaces in the presence of obstacles, but search efficiency degrades rapidly with the addition of challenging dynamics. A computationally tractable planner for bounding was developed by modifying the RRT algorithm by using: (1) motion primitives to reduce the dimensionality of the problem; (2) Reachability Guidance, which dynamically changes the sampling distribution and distance metric to address differential constraints and discontinuous motion primitive dynamics; and (3) sampling with a Voronoi bias in a lower-dimensional “task space” for bounding. Short trajectories were demonstrated to work on the robot, however open-loop bounding is inherently unstable. A feedback controller based on transverse linearization was implemented, and shown in simulation to stabilize perturbations in the presence of noise and time delays.",
+      "summary": "Develops a practical kinodynamic planner for highly dynamic LittleDog bounding by combining motion primitives, reachability-guided sampling, and task-space Voronoi bias inside an RRT-style search. The paper is useful because it pairs the planner with transverse-linearization feedback, separating the problem of finding dynamic rough-terrain motions from the problem of stabilizing inherently unstable open-loop bounds on hardware.",
+      "url": "../papers/2010_shkolnik_bounding_on_rough_terrain/",
+      "treeUrl": "../tree/#paper=2010_shkolnik_bounding_on_rough_terrain",
+      "mapUrl": "../map/#paper=2010_shkolnik_bounding_on_rough_terrain",
+      "timelineUrl": "../timeline/#paper=2010_shkolnik_bounding_on_rough_terrain",
+      "searchUrl": "../search/?paper=2010_shkolnik_bounding_on_rough_terrain"
+    },
+    {
       "id": "2010_he_puma_planning_under_uncertainty",
       "label": "PUMA",
       "title": "PUMA: Planning under Uncertainty with Macro-Actions",
@@ -32240,6 +32287,49 @@ window.timelineData = {
       "searchUrl": "../search/?paper=1503_03832"
     },
     {
+      "id": "1506_01497",
+      "label": "Faster R-CNN",
+      "title": "Faster R-CNN: Towards Real-Time Object Detection with Region Proposal Networks",
+      "authors": [
+        "Shaoqing Ren",
+        "Kaiming He",
+        "Ross Girshick",
+        "Jian Sun"
+      ],
+      "authorShort": "Ren, He, Girshick",
+      "year": 2015,
+      "source": "Advances in Neural Information Processing Systems",
+      "type": "Conference Paper",
+      "superCategory": "Prediction & Perception",
+      "category": "Computer Vision",
+      "subCategory": "Recognition & Understanding",
+      "path": [
+        "Tree",
+        "Prediction & Perception",
+        "Computer Vision",
+        "Recognition & Understanding",
+        "Object Detection",
+        "Faster R-CNN"
+      ],
+      "tags": [
+        "Object detection",
+        "Region proposal networks",
+        "Convolutional neural network",
+        "Two-stage detectors",
+        "Fast R-CNN",
+        "PASCAL VOC",
+        "COCO",
+        "Computer vision"
+      ],
+      "abstract": "State-of-the-art object detection networks depend on region proposal algorithms to hypothesize object locations. Advances like SPPnet and Fast R-CNN have reduced the running time of these detection networks, exposing region proposal computation as a bottleneck. In this work, we introduce a Region Proposal Network (RPN) that shares full-image convolutional features with the detection network, thus enabling nearly cost-free region proposals. An RPN is a fully convolutional network that simultaneously predicts object bounds and objectness scores at each position. The RPN is trained end-to-end to generate high-quality region proposals, which are used by Fast R-CNN for detection. We further merge RPN and Fast R-CNN into a single network by sharing their convolutional features - using the recently popular terminology of neural networks with 'attention' mechanisms, the RPN component tells the unified network where to look. For the very deep VGG-16 model, our detection system has a frame rate of 5fps (including all steps) on a GPU, while achieving state-of-the-art object detection accuracy on PASCAL VOC 2007, 2012, and MS COCO datasets with only 300 proposals per image. In ILSVRC and COCO 2015 competitions, Faster R-CNN and RPN are the foundations of the 1st-place winning entries in several tracks. Code has been made publicly available.",
+      "summary": "Introduces Region Proposal Networks as a learned, convolutional replacement for external proposal methods, letting proposals and Fast R-CNN detection share the same feature backbone. This made two-stage object detection substantially faster while improving accuracy, and became the reference architecture behind many later detection and instance-segmentation systems.",
+      "url": "../papers/1506_01497/",
+      "treeUrl": "../tree/#paper=1506_01497",
+      "mapUrl": "../map/#paper=1506_01497",
+      "timelineUrl": "../timeline/#paper=1506_01497",
+      "searchUrl": "../search/?paper=1506_01497"
+    },
+    {
       "id": "1512_03385",
       "label": "ResNet",
       "title": "Deep Residual Learning for Image Recognition",
@@ -33883,6 +33973,48 @@ window.timelineData = {
       "mapUrl": "../map/#paper=1604_07316",
       "timelineUrl": "../timeline/#paper=1604_07316",
       "searchUrl": "../search/?paper=1604_07316"
+    },
+    {
+      "id": "1607_06374",
+      "label": "IOS-MP",
+      "title": "Interleaving Optimization with Sampling-Based Motion Planning (IOS-MP): Combining Local Optimization with Global Exploration",
+      "authors": [
+        "Alan Kuntz",
+        "Chris Bowen",
+        "Ron Alterovitz"
+      ],
+      "authorShort": "Kuntz, Bowen, Alterovitz",
+      "year": 2016,
+      "source": "arXiv",
+      "type": "Preprint",
+      "superCategory": "Decision-making",
+      "category": "Planning",
+      "subCategory": "Kinodynamic Planning",
+      "path": [
+        "Tree",
+        "Decision-making",
+        "Planning",
+        "Kinodynamic Planning",
+        "Hybrid Approaches",
+        "IOS-MP"
+      ],
+      "tags": [
+        "Motion planning",
+        "Sampling-based planning",
+        "Trajectory optimization",
+        "Asymptotically optimal planning",
+        "Local optimization",
+        "Global exploration",
+        "Robot motion planning",
+        "Homotopy classes"
+      ],
+      "abstract": "Computing globally optimal motion plans for a robot is challenging in part because it requires analyzing a robot's configuration space simultaneously from both a macroscopic viewpoint (i.e., considering paths in multiple homotopic classes) and a microscopic viewpoint (i.e., locally optimizing path quality). We introduce Interleaved Optimization with Sampling-based Motion Planning (IOS-MP), a new method that effectively combines global exploration and local optimization to quickly compute high quality motion plans. Our approach combines two paradigms: (1) asymptotically-optimal sampling-based motion planning, which is effective at global exploration but relatively slow at locally refining paths, and (2) optimization-based motion planning, which locally optimizes paths quickly but lacks a global view of the configuration space. IOS-MP iteratively alternates between global exploration and local optimization, sharing information between the two, to improve motion planning efficiency. We evaluate IOS-MP as it scales with respect to dimensionality and complexity, as well as demonstrate its effectiveness on a 7-DOF manipulator for tasks specified using goal configurations and workspace goal regions.",
+      "summary": "Proposes IOS-MP, a hybrid planning loop that alternates between sampling-based global exploration and local trajectory optimization. The key idea is to keep broad coverage of different homotopy classes while continually refining promising paths, addressing a weakness of purely asymptotically optimal planners and purely local optimizers.",
+      "url": "../papers/1607_06374/",
+      "treeUrl": "../tree/#paper=1607_06374",
+      "mapUrl": "../map/#paper=1607_06374",
+      "timelineUrl": "../timeline/#paper=1607_06374",
+      "searchUrl": "../search/?paper=1607_06374"
     },
     {
       "id": "1610_05182",
@@ -41117,6 +41249,48 @@ window.timelineData = {
       "mapUrl": "../map/#paper=1805_07194",
       "timelineUrl": "../timeline/#paper=1805_07194",
       "searchUrl": "../search/?paper=1805_07194"
+    },
+    {
+      "id": "1806_06996",
+      "label": "DSOS/SDSOS Polynomial Optimization",
+      "title": "Optimization over Nonnegative and Convex Polynomials with and without Semidefinite Programming",
+      "authors": [
+        "Georgina Hall"
+      ],
+      "authorShort": "Hall",
+      "year": 2018,
+      "source": "Princeton University",
+      "type": "PhD Dissertation",
+      "superCategory": "Decision-making",
+      "category": "Optimization",
+      "subCategory": "Continuous Optimization",
+      "path": [
+        "Tree",
+        "Decision-making",
+        "Optimization",
+        "Continuous Optimization",
+        "Convex Optimization",
+        "Sum-of-squares (SOS)",
+        "DSOS/SDSOS Polynomial Optimization"
+      ],
+      "tags": [
+        "Polynomial optimization",
+        "Sum of squares",
+        "Semidefinite programming",
+        "DSOS",
+        "SDSOS",
+        "Nonnegative polynomials",
+        "Convex polynomials",
+        "Linear programming",
+        "Second-order cone programming"
+      ],
+      "abstract": "The problem of optimizing over the cone of nonnegative polynomials is a fundamental problem in computational mathematics, with applications to polynomial optimization, control, machine learning, game theory, and combinatorics, among others. A number of breakthrough papers in the early 2000s showed that this problem, long thought to be out of reach, could be tackled by using sum of squares programming. This technique however has proved to be expensive for large-scale problems, as it involves solving large semidefinite programs (SDPs). In the first part of this thesis, we present two methods for approximately solving large-scale sum of squares programs that dispense altogether with semidefinite programming and only involve solving a sequence of linear or second order cone programs generated in an adaptive fashion. We then focus on the problem of finding tight lower bounds on polynomial optimization problems (POPs), a fundamental task in this area that is most commonly handled through the use of SDP-based sum of squares hierarchies (e.g., due to Lasserre and Parrilo). In contrast to previous approaches, we provide the first theoretical framework for constructing converging hierarchies of lower bounds on POPs whose computation simply requires the ability to multiply certain fixed polynomials together and to check nonnegativity of the coefficients of their product. In the second part of this thesis, we focus on the theory and applications of the problem of optimizing over convex polynomials, a subcase of the problem of optimizing over nonnegative polynomials. (See manuscript for the rest of the abstract.)",
+      "summary": "Studies polynomial optimization through both classical SOS/SDP machinery and scalable alternatives based on DSOS and SDSOS certificates. The dissertation is valuable as a bridge between nonnegative-polynomial theory, convex-polynomial structure, and large-scale conic relaxations that trade SDP strength for LP/SOCP tractability.",
+      "url": "../papers/1806_06996/",
+      "treeUrl": "../tree/#paper=1806_06996",
+      "mapUrl": "../map/#paper=1806_06996",
+      "timelineUrl": "../timeline/#paper=1806_06996",
+      "searchUrl": "../search/?paper=1806_06996"
     },
     {
       "id": "1803_09050",
@@ -51611,6 +51785,48 @@ window.timelineData = {
       "searchUrl": "../search/?paper=2010_01412"
     },
     {
+      "id": "2004_03853",
+      "label": "SOS Shape-Constrained Regression",
+      "title": "Shape-Constrained Regression Using Sum of Squares Polynomials",
+      "authors": [
+        "Mihaela Curmei",
+        "Georgina Hall"
+      ],
+      "authorShort": "Curmei, Hall",
+      "year": 2020,
+      "source": "arXiv",
+      "type": "Preprint",
+      "superCategory": "Decision-making",
+      "category": "Optimization",
+      "subCategory": "Continuous Optimization",
+      "path": [
+        "Tree",
+        "Decision-making",
+        "Optimization",
+        "Continuous Optimization",
+        "Convex Optimization",
+        "Sum-of-squares (SOS)",
+        "SOS Shape-Constrained Regression"
+      ],
+      "tags": [
+        "Shape-constrained regression",
+        "Sum of squares",
+        "Semidefinite programming",
+        "Convex regression",
+        "Monotone regression",
+        "Polynomial regression",
+        "Statistical consistency",
+        "Optimal transport"
+      ],
+      "abstract": "We present a hierarchy of semidefinite programs (SDPs) for the problem of fitting a shape-constrained (multivariate) polynomial to noisy evaluations of an unknown shape-constrained function. These shape constraints include convexity or monotonicity over a box. We show that polynomial functions that are optimal to any fixed level of our hierarchy form a consistent estimator of the underlying shape-constrained function. As a byproduct of the proof, we establish that sum-of-squares-convex polynomials are dense in the set of polynomials that are convex over an arbitrary box. A similar sum of squares type density result is established for monotone polynomials. In addition, we classify the complexity of convex and monotone polynomial regression as a function of the degree of the polynomial regressor. While our results show NP-hardness of these problems for degree three or larger, we can check numerically that our SDP-based regressors often achieve similar training error at low levels of the hierarchy. Finally, on the computational side, we present an empirical comparison of our SDP-based convex regressors with the convex least squares estimator introduced in [Hildreth, 1954] and [Holloway, 1979] and show that our regressor is valuable in settings where the number of data points is large and the dimension is relatively small. We demonstrate the performance of our regressor for the problem of computing optimal transport maps in a color transfer task and that of estimating the optimal value function of a conic program. A real-time application of the latter problem to inventory management contract negotiation is presented.",
+      "summary": "Builds an SDP hierarchy for fitting multivariate polynomial regressors subject to shape constraints such as convexity and monotonicity on a box. Beyond the estimator, the paper proves SOS density results for convex and monotone polynomials and clarifies when polynomial shape-constrained regression becomes computationally hard.",
+      "url": "../papers/2004_03853/",
+      "treeUrl": "../tree/#paper=2004_03853",
+      "mapUrl": "../map/#paper=2004_03853",
+      "timelineUrl": "../timeline/#paper=2004_03853",
+      "searchUrl": "../search/?paper=2004_03853"
+    },
+    {
       "id": "2020_bertsimas_stable_regression_on_the",
       "label": "Stable Regression",
       "title": "Stable Regression: On the Power of Optimization over Randomization",
@@ -59173,6 +59389,55 @@ window.timelineData = {
       "searchUrl": "../search/?paper=2104_12820"
     },
     {
+      "id": "2110_15191",
+      "label": "URLB",
+      "title": "URLB: Unsupervised Reinforcement Learning Benchmark",
+      "authors": [
+        "Michael Laskin",
+        "Denis Yarats",
+        "Hao Liu",
+        "Kimin Lee",
+        "Albert Zhan",
+        "Kevin Lu",
+        "Catherine Cang",
+        "Lerrel Pinto",
+        "Pieter Abbeel"
+      ],
+      "authorShort": "Laskin, Yarats, Liu",
+      "year": 2021,
+      "source": "arXiv",
+      "type": "Preprint",
+      "superCategory": "Decision-making",
+      "category": "Reinforcement Learning",
+      "subCategory": "Nonlinear Systems",
+      "path": [
+        "Tree",
+        "Decision-making",
+        "Reinforcement Learning",
+        "Nonlinear Systems",
+        "Policy Optimization",
+        "Actor-Critic Methods",
+        "URLB"
+      ],
+      "tags": [
+        "Reinforcement learning",
+        "Unsupervised reinforcement learning",
+        "Benchmarks",
+        "Reward-free pretraining",
+        "DeepMind control suite",
+        "Intrinsic rewards",
+        "Continuous control",
+        "Open-source benchmark"
+      ],
+      "abstract": "Deep Reinforcement Learning (RL) has emerged as a powerful paradigm to solve a range of complex yet specific control tasks. Yet training generalist agents that can quickly adapt to new tasks remains an outstanding challenge. Recent advances in unsupervised RL have shown that pre-training RL agents with self-supervised intrinsic rewards can result in efficient adaptation. However, these algorithms have been hard to compare and develop due to the lack of a unified benchmark. To this end, we introduce the Unsupervised Reinforcement Learning Benchmark (URLB). URLB consists of two phases: reward-free pre-training and downstream task adaptation with extrinsic rewards. Building on the DeepMind Control Suite, we provide twelve continuous control tasks from three domains for evaluation and open-source code for eight leading unsupervised RL methods. We find that the implemented baselines make progress but are not able to solve URLB and propose directions for future research.",
+      "summary": "Introduces URLB, a two-phase benchmark for unsupervised RL in which agents first pretrain without rewards and then adapt to downstream control tasks. The benchmark standardizes environments and baselines, making it easier to compare intrinsic-motivation methods and exposing that existing approaches still struggle on broad continuous-control pretraining.",
+      "url": "../papers/2110_15191/",
+      "treeUrl": "../tree/#paper=2110_15191",
+      "mapUrl": "../map/#paper=2110_15191",
+      "timelineUrl": "../timeline/#paper=2110_15191",
+      "searchUrl": "../search/?paper=2110_15191"
+    },
+    {
       "id": "2104_08212",
       "label": "MT-Opt",
       "title": "MT-Opt: Continuous Multi-Task Robotic Reinforcement Learning at Scale",
@@ -61670,6 +61935,50 @@ window.timelineData = {
       "mapUrl": "../map/#paper=2022_bisoffi_data_driven_control_via",
       "timelineUrl": "../timeline/#paper=2022_bisoffi_data_driven_control_via",
       "searchUrl": "../search/?paper=2022_bisoffi_data_driven_control_via"
+    },
+    {
+      "id": "2203_17165",
+      "label": "Multiplicative Noise Output Feedback Policy Iteration",
+      "title": "Policy Iteration for Multiplicative Noise Output Feedback Control",
+      "authors": [
+        "Benjamin Gravell",
+        "Matilde Gargiani",
+        "John Lygeros",
+        "Tyler H. Summers"
+      ],
+      "authorShort": "Gravell, Gargiani, Lygeros",
+      "year": 2022,
+      "source": "IEEE Conference on Decision and Control (CDC)",
+      "type": "Conference Paper",
+      "superCategory": "Decision-making",
+      "category": "Control",
+      "subCategory": "Stochastic Control",
+      "path": [
+        "Tree",
+        "Decision-making",
+        "Control",
+        "Stochastic Control",
+        "Multiplicative Noise",
+        "Output Feedback",
+        "Multiplicative Noise Output Feedback Policy Iteration"
+      ],
+      "tags": [
+        "Policy iteration",
+        "Multiplicative noise",
+        "Output feedback",
+        "Linear quadratic control",
+        "Stochastic optimal control",
+        "POMDPs",
+        "Riccati equation",
+        "Dynamic output feedback"
+      ],
+      "abstract": "We propose a policy iteration algorithm for solving the multiplicative noise linear quadratic output feedback design problem. The algorithm solves a set of coupled Riccati equations for estimation and control arising from a partially observable Markov decision process (POMDP) under a class of linear dynamic control policies. We show in numerical experiments far faster convergence than a value iteration algorithm, formerly the only known algorithm for solving this class of problem. The results suggest promising future research directions for policy optimization algorithms in more general POMDPs, including the potential to develop novel approximate data-driven approaches when model parameters are not available.",
+      "summary": "Extends policy iteration to the partially observed multiplicative-noise linear quadratic setting, where the controller is a linear dynamic output-feedback policy rather than a static state-feedback gain. The main contribution is a coupled estimator-controller Riccati iteration that delivers results much more quickly/with less computation effort than the prior value-iteration approach, in some cases. This points toward scalable policy optimization methods for more general POMDPs.",
+      "url": "../papers/2203_17165/",
+      "treeUrl": "../tree/#paper=2203_17165",
+      "mapUrl": "../map/#paper=2203_17165",
+      "timelineUrl": "../timeline/#paper=2203_17165",
+      "searchUrl": "../search/?paper=2203_17165"
     },
     {
       "id": "2207_06062",
@@ -65172,6 +65481,50 @@ window.timelineData = {
       "searchUrl": "../search/?paper=2202_07415"
     },
     {
+      "id": "2204_05618",
+      "label": "Offline RL vs Behavioral Cloning Analysis",
+      "title": "When Should We Prefer Offline Reinforcement Learning over Behavioral Cloning?",
+      "authors": [
+        "Aviral Kumar",
+        "Joey Hong",
+        "Anikait Singh",
+        "Sergey Levine"
+      ],
+      "authorShort": "Kumar, Hong, Singh",
+      "year": 2022,
+      "source": "International Conference on Learning Representations (ICLR)",
+      "type": "Conference Paper",
+      "superCategory": "Decision-making",
+      "category": "Reinforcement Learning",
+      "subCategory": "Nonlinear Systems",
+      "path": [
+        "Tree",
+        "Decision-making",
+        "Reinforcement Learning",
+        "Nonlinear Systems",
+        "Imitation Learning",
+        "Behavior Cloning",
+        "Offline RL vs Behavioral Cloning Analysis"
+      ],
+      "tags": [
+        "Offline reinforcement learning",
+        "Behavior cloning",
+        "Imitation learning",
+        "Expert demonstrations",
+        "Sparse rewards",
+        "Long-horizon tasks",
+        "Suboptimal data",
+        "Robotic manipulation"
+      ],
+      "abstract": "Offline reinforcement learning (RL) algorithms can acquire effective policies by utilizing previously collected experience, without any online interaction. It is widely understood that offline RL is able to extract good policies even from highly suboptimal data, a scenario where imitation learning finds suboptimal solutions that do not improve over the demonstrator that generated the dataset. However, another common use case for practitioners is to learn from data that resembles demonstrations. In this case, one can choose to apply offline RL, but can also use behavioral cloning (BC) algorithms, which mimic a subset of the dataset via supervised learning. Therefore, it seems natural to ask: when can an offline RL method outperform BC with an equal amount of expert data, even when BC is a natural choice? To answer this question, we characterize the properties of environments that allow offline RL methods to perform better than BC methods, even when only provided with expert data. Additionally, we show that policies trained on sufficiently noisy suboptimal data can attain better performance than even BC algorithms with expert data, especially on long-horizon problems. We validate our theoretical results via extensive experiments on both diagnostic and high-dimensional domains including robotic manipulation, maze navigation, and Atari games, with a variety of data distributions. We observe that, under specific but common conditions such as sparse rewards or noisy data sources, modern offline RL methods can significantly outperform BC.",
+      "summary": "Analyzes when offline RL can outperform behavioral cloning even when the dataset resembles expert demonstrations. The paper identifies conditions such as sparse rewards, long horizons, and useful noise or suboptimality where value-based improvement can exploit data better than direct imitation, then validates the story across diagnostic and high-dimensional domains.",
+      "url": "../papers/2204_05618/",
+      "treeUrl": "../tree/#paper=2204_05618",
+      "mapUrl": "../map/#paper=2204_05618",
+      "timelineUrl": "../timeline/#paper=2204_05618",
+      "searchUrl": "../search/?paper=2204_05618"
+    },
+    {
       "id": "2202_02435",
       "label": "On Neural Differential Equations",
       "title": "On Neural Differential Equations",
@@ -66146,6 +66499,55 @@ window.timelineData = {
       "mapUrl": "../map/#paper=2207_10422",
       "timelineUrl": "../timeline/#paper=2207_10422",
       "searchUrl": "../search/?paper=2207_10422"
+    },
+    {
+      "id": "2201_11931",
+      "label": "FIGS",
+      "title": "Fast Interpretable Greedy-Tree Sums",
+      "authors": [
+        "Yan Shuo Tan",
+        "Chandan Singh",
+        "Keyan Nasseri",
+        "Abhineet Agarwal",
+        "James Duncan",
+        "Omer Ronen",
+        "Matthew Epland",
+        "Aaron Kornblith",
+        "Bin Yu"
+      ],
+      "authorShort": "Tan, Singh, Nasseri",
+      "year": 2022,
+      "source": "arXiv",
+      "type": "Preprint",
+      "superCategory": "Prediction & Perception",
+      "category": "Machine Learning",
+      "subCategory": "Foundations, Data & Reliability",
+      "path": [
+        "Tree",
+        "Prediction & Perception",
+        "Machine Learning",
+        "Foundations, Data & Reliability",
+        "Interpretability",
+        "Shapley",
+        "FIGS"
+      ],
+      "tags": [
+        "Interpretable machine learning",
+        "Decision trees",
+        "Tree ensembles",
+        "Additive models",
+        "Greedy algorithms",
+        "Clinical decision instruments",
+        "Bagging",
+        "Model interpretability"
+      ],
+      "abstract": "Modern machine learning has achieved impressive prediction performance, but often sacrifices interpretability, a critical consideration in high-stakes domains such as medicine. In such settings, practitioners often use highly interpretable decision tree models, but these suffer from inductive bias against additive structure. To overcome this bias, we propose Fast Interpretable Greedy-Tree Sums (FIGS), which generalizes the CART algorithm to simultaneously grow a flexible number of trees in summation. By combining logical rules with addition, FIGS is able to adapt to additive structure while remaining highly interpretable. Extensive experiments on real-world datasets show that FIGS achieves state-of-the-art prediction performance. To demonstrate the usefulness of FIGS in high-stakes domains, we adapt FIGS to learn clinical decision instruments (CDIs), which are tools for guiding clinical decision-making. Specifically, we introduce a variant of FIGS known as G-FIGS that accounts for the heterogeneity in medical data. G-FIGS derives CDIs that reflect domain knowledge and enjoy improved specificity (by up to 20% over CART) without sacrificing sensitivity or interpretability. To provide further insight into FIGS, we prove that FIGS learns components of additive models, a property we refer to as disentanglement. Further, we show (under oracle conditions) that unconstrained tree-sum models leverage disentanglement to generalize more efficiently than single decision tree models when fitted to additive regression functions. Finally, to avoid overfitting with an unconstrained number of splits, we develop Bagging-FIGS, an ensemble version of FIGS that borrows the variance reduction techniques of random forests. Bagging-FIGS enjoys competitive performance with random forests and XGBoost on real-world datasets.",
+      "summary": "Introduces FIGS, an interpretable model class that greedily builds a sum of decision trees rather than a single tree or opaque ensemble. The method keeps rule-level readability while capturing additive structure, and the paper connects this behavior to disentanglement properties of additive target functions.",
+      "url": "../papers/2201_11931/",
+      "treeUrl": "../tree/#paper=2201_11931",
+      "mapUrl": "../map/#paper=2201_11931",
+      "timelineUrl": "../timeline/#paper=2201_11931",
+      "searchUrl": "../search/?paper=2201_11931"
     },
     {
       "id": "2210_02747",
@@ -69951,6 +70353,48 @@ window.timelineData = {
       "searchUrl": "../search/?paper=2309_08821"
     },
     {
+      "id": "2304_10984",
+      "label": "IBBT",
+      "title": "IBBT: Informed Batch Belief Trees for Motion Planning under Uncertainty",
+      "authors": [
+        "Dongliang Zheng",
+        "Panagiotis Tsiotras"
+      ],
+      "authorShort": "Zheng, Tsiotras",
+      "year": 2023,
+      "source": "arXiv",
+      "type": "Preprint",
+      "superCategory": "Decision-making",
+      "category": "Planning",
+      "subCategory": "Planning in Changing Environments",
+      "path": [
+        "Tree",
+        "Decision-making",
+        "Planning",
+        "Planning in Changing Environments",
+        "Planning Under Uncertainty",
+        "Planning in Belief Space",
+        "Belief Trees",
+        "IBBT"
+      ],
+      "tags": [
+        "Motion planning under uncertainty",
+        "Belief-space planning",
+        "Batch planning",
+        "Sampling-based planning",
+        "POMDPs",
+        "State estimation",
+        "Risk-aware planning"
+      ],
+      "abstract": "In this work, we propose the Informed Batch Belief Trees (IBBT) algorithm for motion planning under motion and sensing uncertainties. The original stochastic motion planning problem is divided into a deterministic motion planning problem and a graph search problem. We solve the deterministic planning problem using sampling-based methods such as PRM or RRG to construct a graph of nominal trajectories. Then, an informed cost-to-go heuristic for the original problem is computed based on the nominal trajectory graph. Finally, we grow a belief tree by searching over the graph using the proposed heuristic. IBBT interleaves between batch state sampling, nominal trajectory graph construction, heuristic computing, and search over the graph to find belief space motion plans. IBBT is an anytime, incremental algorithm. With an increasing number of batches of samples added to the graph, the algorithm finds motion plans that converge to the optimal one. IBBT is efficient by reusing results between sequential iterations. The belief tree searching is an ordered search guided by an informed heuristic. We test IBBT in different planning environments. Our numerical investigation confirms that IBBT finds non-trivial motion plans and is faster compared with previous similar methods.",
+      "summary": "Introduces Informed Batch Belief Trees for planning in belief space, using batch expansion and informed sampling to search efficiently under state uncertainty. The contribution sits between sampling-based motion planning and POMDP-style planning, with emphasis on reducing wasted exploration in high-dimensional belief spaces.",
+      "url": "../papers/2304_10984/",
+      "treeUrl": "../tree/#paper=2304_10984",
+      "mapUrl": "../map/#paper=2304_10984",
+      "timelineUrl": "../timeline/#paper=2304_10984",
+      "searchUrl": "../search/?paper=2304_10984"
+    },
+    {
       "id": "2301_05393",
       "label": "Interaction-Aware MPC",
       "title": "Interaction-Aware Trajectory Planning for Autonomous Vehicles with Analytic Integration of Neural Networks into Model Predictive Control",
@@ -72534,6 +72978,57 @@ window.timelineData = {
       "searchUrl": "../search/?paper=2304_07193"
     },
     {
+      "id": "2303_05499",
+      "label": "Grounding DINO",
+      "title": "Grounding DINO: Marrying DINO with Grounded Pre-Training for Open-Set Object Detection",
+      "authors": [
+        "Shilong Liu",
+        "Zhaoyang Zeng",
+        "Tianhe Ren",
+        "Feng Li",
+        "Hao Zhang",
+        "Jie Yang",
+        "Qing Jiang",
+        "Chunyuan Li",
+        "Jianwei Yang",
+        "Hang Su",
+        "Jun Zhu",
+        "Lei Zhang"
+      ],
+      "authorShort": "Liu, Zeng, Ren",
+      "year": 2023,
+      "source": "arXiv",
+      "type": "Preprint",
+      "superCategory": "Prediction & Perception",
+      "category": "Computer Vision",
+      "subCategory": "Recognition & Understanding",
+      "path": [
+        "Tree",
+        "Prediction & Perception",
+        "Computer Vision",
+        "Recognition & Understanding",
+        "Object Detection",
+        "Grounding DINO"
+      ],
+      "tags": [
+        "Object detection",
+        "Open-set detection",
+        "Vision-language models",
+        "Grounded pretraining",
+        "DINO",
+        "Referring expression comprehension",
+        "Cross-modal fusion",
+        "Zero-shot transfer"
+      ],
+      "abstract": "In this paper, we present an open-set object detector, called Grounding DINO, by marrying Transformer-based detector DINO with grounded pre-training, which can detect arbitrary objects with human inputs such as category names or referring expressions. The key solution of open-set object detection is introducing language to a closed-set detector for open-set concept generalization. To effectively fuse language and vision modalities, we conceptually divide a closed-set detector into three phases and propose a tight fusion solution, which includes a feature enhancer, a language-guided query selection, and a cross-modality decoder for cross-modality fusion. While previous works mainly evaluate open-set object detection on novel categories, we propose to also perform evaluations on referring expression comprehension for objects specified with attributes. Grounding DINO performs remarkably well on all three settings, including benchmarks on COCO, LVIS, ODinW, and RefCOCO/+/g. Grounding DINO achieves a 52.5 AP on the COCO detection zero-shot transfer benchmark, i.e., without any training data from COCO. It sets a new record on the ODinW zero-shot benchmark with a mean 26.1 AP. Code will be available at \\url{https://github.com/IDEA-Research/GroundingDINO}.",
+      "summary": "Combines the DINO detector with language-conditioned grounded pretraining to support open-set detection from category names or referring expressions. Its feature enhancer, language-guided query selection, and cross-modality decoder made Grounding DINO a widely used bridge between object detection and promptable vision-language grounding.",
+      "url": "../papers/2303_05499/",
+      "treeUrl": "../tree/#paper=2303_05499",
+      "mapUrl": "../map/#paper=2303_05499",
+      "timelineUrl": "../timeline/#paper=2303_05499",
+      "searchUrl": "../search/?paper=2303_05499"
+    },
+    {
       "id": "2309_13420",
       "label": "DenMune",
       "title": "DenMune: Density Peak Based Clustering Using Mutual Nearest Neighbors",
@@ -74392,6 +74887,49 @@ window.timelineData = {
       "mapUrl": "../map/#paper=2312_11805",
       "timelineUrl": "../timeline/#paper=2312_11805",
       "searchUrl": "../search/?paper=2312_11805"
+    },
+    {
+      "id": "2305_15047",
+      "label": "Ghostbuster",
+      "title": "Ghostbuster: Detecting Text Ghostwritten by Large Language Models",
+      "authors": [
+        "Vivek Verma",
+        "Eve Fleisig",
+        "Nicholas Tomlin",
+        "Dan Klein"
+      ],
+      "authorShort": "Verma, Fleisig, Tomlin",
+      "year": 2023,
+      "source": "Conference of the North American Chapter of the Association for Computational Linguistics (NAACL)",
+      "type": "Conference Paper",
+      "superCategory": "Prediction & Perception",
+      "category": "Machine Learning",
+      "subCategory": "Language & Sequence Models",
+      "path": [
+        "Tree",
+        "Prediction & Perception",
+        "Machine Learning",
+        "Language & Sequence Models",
+        "Societal Impacts",
+        "Ghostbuster"
+      ],
+      "tags": [
+        "AI-generated text detection",
+        "Large language models",
+        "Text classification",
+        "Feature search",
+        "Language model features",
+        "Robustness",
+        "Benchmark datasets",
+        "NLP"
+      ],
+      "abstract": "We introduce Ghostbuster, a state-of-the-art system for detecting AI-generated text. Our method works by passing documents through a series of weaker language models, running a structured search over possible combinations of their features, and then training a classifier on the selected features to predict whether documents are AI-generated. Crucially, Ghostbuster does not require access to token probabilities from the target model, making it useful for detecting text generated by black-box models or unknown model versions. In conjunction with our model, we release three new datasets of human- and AI-generated text as detection benchmarks in the domains of student essays, creative writing, and news articles. We compare Ghostbuster to a variety of existing detectors, including DetectGPT and GPTZero, as well as a new RoBERTa baseline. Ghostbuster achieves 99.0 F1 when evaluated across domains, which is 5.9 F1 higher than the best preexisting model. It also outperforms all previous approaches in generalization across writing domains (+7.5 F1), prompting strategies (+2.1 F1), and language models (+4.4 F1). We also analyze the robustness of our system to a variety of perturbations and paraphrasing attacks and evaluate its performance on documents written by non-native English speakers.",
+      "summary": "Presents Ghostbuster, a detector for AI-generated text that constructs features from weaker language models and searches over feature combinations before training a classifier. The method is notable because it does not require token probabilities from the suspected generator, making it applicable to black-box and unknown model settings.",
+      "url": "../papers/2305_15047/",
+      "treeUrl": "../tree/#paper=2305_15047",
+      "mapUrl": "../map/#paper=2305_15047",
+      "timelineUrl": "../timeline/#paper=2305_15047",
+      "searchUrl": "../search/?paper=2305_15047"
     },
     {
       "id": "2303_08774",
@@ -79012,6 +79550,58 @@ window.timelineData = {
       "searchUrl": "../search/?paper=2409_06613"
     },
     {
+      "id": "2402_17050",
+      "label": "RL Oscillation Dampening",
+      "title": "Reinforcement Learning-Based Oscillation Dampening: Scaling up Single-Agent RL Algorithms to a 100 AV Highway Field Operational Test",
+      "authors": [
+        "Kathy Jang",
+        "Nathan Lichtle",
+        "Eugene Vinitsky",
+        "Adit Shah",
+        "Matthew Bunting",
+        "Matthew Nice",
+        "Benedetto Piccoli",
+        "Benjamin Seibold",
+        "Daniel B. Work",
+        "Maria Laura Delle Monache",
+        "Jonathan Sprinkle",
+        "Jonathan W. Lee",
+        "Alexandre M. Bayen"
+      ],
+      "authorShort": "Jang, Lichtle, Vinitsky",
+      "year": 2024,
+      "source": "arXiv",
+      "type": "Preprint",
+      "superCategory": "Decision-making",
+      "category": "Reinforcement Learning",
+      "subCategory": "Applications",
+      "path": [
+        "Tree",
+        "Decision-making",
+        "Reinforcement Learning",
+        "Applications",
+        "Driving",
+        "RL Oscillation Dampening"
+      ],
+      "tags": [
+        "Reinforcement learning",
+        "Autonomous vehicles",
+        "Traffic flow smoothing",
+        "Field operational test",
+        "Single-agent reinforcement learning",
+        "Control deployment",
+        "Highway traffic",
+        "Safety validation"
+      ],
+      "abstract": "In this article, we explore the technical details of the reinforcement learning (RL) algorithms that were deployed in the largest field test of automated vehicles designed to smooth traffic flow in history as of 2023, uncovering the challenges and breakthroughs that come with developing RL controllers for automated vehicles. We delve into the fundamental concepts behind RL algorithms and their application in the context of self-driving cars, discussing the developmental process from simulation to deployment in detail, from designing simulators to reward function shaping. We present the results in both simulation and deployment, discussing the flow-smoothing benefits of the RL controller. From understanding the basics of Markov decision processes to exploring advanced techniques such as deep RL, our article offers a comprehensive overview and deep dive of the theoretical foundations and practical implementations driving this rapidly evolving field. We also showcase real-world case studies and alternative research projects that highlight the impact of RL controllers in revolutionizing autonomous driving. From tackling complex urban environments to dealing with unpredictable traffic scenarios, these intelligent controllers are pushing the boundaries of what automated vehicles can achieve. Furthermore, we examine the safety considerations and hardware-focused technical details surrounding deployment of RL controllers into automated vehicles. As these algorithms learn and evolve through interactions with the environment, ensuring their behavior aligns with safety standards becomes crucial. We explore the methodologies and frameworks being developed to address these challenges, emphasizing the importance of building reliable control systems for automated vehicles.",
+      "summary": "Documents the RL controller design and deployment path for a large automated-vehicle field test aimed at damping stop-and-go traffic oscillations. The paper is especially useful as an engineering account of moving from simulation and reward shaping to hardware constraints, safety considerations, and fleet-scale highway deployment.",
+      "url": "../papers/2402_17050/",
+      "treeUrl": "../tree/#paper=2402_17050",
+      "mapUrl": "../map/#paper=2402_17050",
+      "timelineUrl": "../timeline/#paper=2402_17050",
+      "searchUrl": "../search/?paper=2402_17050"
+    },
+    {
       "id": "2024_shehab_learning_true_objectives_linear",
       "label": "Learning True Objectives: Linear Algebraic Characterizations of Identifiability in Inverse Reinforcement Learning",
       "title": "Learning True Objectives: Linear Algebraic Characterizations of Identifiability in Inverse Reinforcement Learning",
@@ -80576,6 +81166,60 @@ window.timelineData = {
       "searchUrl": "../search/?paper=2406_15349"
     },
     {
+      "id": "2412_12129",
+      "label": "SceneDiffuser",
+      "title": "SceneDiffuser: Efficient and Controllable Driving Simulation Initialization and Rollout",
+      "authors": [
+        "Chiyu Max Jiang",
+        "Yijing Bai",
+        "Andre Cornman",
+        "Christopher Davis",
+        "Xiukun Huang",
+        "Hong Jeon",
+        "Sakshum Kulshrestha",
+        "John Lambert",
+        "Shuangyu Li",
+        "Xuanyu Zhou",
+        "Carlos Fuertes",
+        "Chang Yuan",
+        "Mingxing Tan",
+        "Yin Zhou",
+        "Dragomir Anguelov"
+      ],
+      "authorShort": "Jiang, Bai, Cornman",
+      "year": 2024,
+      "source": "Advances in Neural Information Processing Systems",
+      "type": "Conference Paper",
+      "superCategory": "Evaluation",
+      "category": "Simulation",
+      "subCategory": "Driving & Traffic Simulation",
+      "path": [
+        "Tree",
+        "Evaluation",
+        "Simulation",
+        "Driving & Traffic Simulation",
+        "Diffusion-based Generation",
+        "SceneDiffuser"
+      ],
+      "tags": [
+        "Driving simulation",
+        "Diffusion models",
+        "Traffic simulation",
+        "Scene generation",
+        "Closed-loop simulation",
+        "Autonomous driving",
+        "Controllable generation",
+        "World models"
+      ],
+      "abstract": "Realistic and interactive scene simulation is a key prerequisite for autonomous vehicle (AV) development. In this work, we present SceneDiffuser, a scene-level diffusion prior designed for traffic simulation. It offers a unified framework that addresses two key stages of simulation: scene initialization, which involves generating initial traffic layouts, and scene rollout, which encompasses the closed-loop simulation of agent behaviors. While diffusion models have been proven effective in learning realistic and multimodal agent distributions, several challenges remain, including controllability, maintaining realism in closed-loop simulations, and ensuring inference efficiency. To address these issues, we introduce amortized diffusion for simulation. This novel diffusion denoising paradigm amortizes the computational cost of denoising over future simulation steps, significantly reducing the cost per rollout step (16x less inference steps) while also mitigating closed-loop errors. We further enhance controllability through the introduction of generalized hard constraints, a simple yet effective inference-time constraint mechanism, as well as language-based constrained scene generation via few-shot prompting of a large language model (LLM). Our investigations into model scaling reveal that increased computational resources significantly improve overall simulation realism. We demonstrate the effectiveness of our approach on the Waymo Open Sim Agents Challenge, achieving top open-loop performance and the best closed-loop performance among diffusion models.",
+      "summary": "Presents SceneDiffuser, a diffusion-based scene-level prior for both traffic-scene initialization and closed-loop rollout. Its amortized denoising scheme lowers inference cost while generalized hard constraints and language-guided constraints make generated driving scenarios more controllable.",
+      "url": "../papers/2412_12129/",
+      "treeUrl": "../tree/#paper=2412_12129",
+      "mapUrl": "../map/#paper=2412_12129",
+      "timelineUrl": "../timeline/#paper=2412_12129",
+      "searchUrl": "../search/?paper=2412_12129"
+    },
+    {
       "id": "2401_13627",
       "label": "SUPIR",
       "title": "Scaling up to Excellence: Practicing Model Scaling for Photo-Realistic Image Restoration in the Wild",
@@ -80626,6 +81270,49 @@ window.timelineData = {
       "searchUrl": "../search/?paper=2401_13627"
     },
     {
+      "id": "2404_13819",
+      "label": "HOIST-Former",
+      "title": "HOIST-Former: Hand-Held Objects Identification, Segmentation, and Tracking in the Wild",
+      "authors": [
+        "Supreeth Narasimhaswamy",
+        "Huy Anh Nguyen",
+        "Lihan Huang",
+        "Minh Hoai"
+      ],
+      "authorShort": "Narasimhaswamy, Nguyen, Huang",
+      "year": 2024,
+      "source": "arXiv",
+      "type": "Preprint",
+      "superCategory": "Prediction & Perception",
+      "category": "Computer Vision",
+      "subCategory": "Recognition & Understanding",
+      "path": [
+        "Tree",
+        "Prediction & Perception",
+        "Computer Vision",
+        "Recognition & Understanding",
+        "Video Understanding",
+        "HOIST-Former"
+      ],
+      "tags": [
+        "Video understanding",
+        "Object segmentation",
+        "Object tracking",
+        "Hand-object interaction",
+        "Transformers",
+        "In-the-wild datasets",
+        "Instance segmentation",
+        "Human-object interaction"
+      ],
+      "abstract": "We address the challenging task of identifying, segmenting, and tracking hand-held objects, which is crucial for applications such as human action segmentation and performance evaluation. This task is particularly challenging due to heavy occlusion, rapid motion, and the transitory nature of objects being hand-held, where an object may be held, released, and subsequently picked up again. To tackle these challenges, we have developed a novel transformer-based architecture called HOIST-Former. HOIST-Former is adept at spatially and temporally segmenting hands and objects by iteratively pooling features from each other, ensuring that the processes of identification, segmentation, and tracking of hand-held objects depend on the hands' positions and their contextual appearance. We further refine HOIST-Former with a contact loss that focuses on areas where hands are in contact with objects. Moreover, we also contribute an in-the-wild video dataset called HOIST, which comprises 4,125 videos complete with bounding boxes, segmentation masks, and tracking IDs for hand-held objects. Through experiments on the HOIST dataset and two additional public datasets, we demonstrate the efficacy of HOIST-Former in segmenting and tracking hand-held objects.",
+      "summary": "Targets the difficult video problem of identifying, segmenting, and tracking objects being held by hands, where occlusion and hand-offs make standard trackers brittle. HOIST-Former couples hand and object features through iterative pooling and contact-aware training, and the paper also contributes the HOIST in-the-wild video dataset.",
+      "url": "../papers/2404_13819/",
+      "treeUrl": "../tree/#paper=2404_13819",
+      "mapUrl": "../map/#paper=2404_13819",
+      "timelineUrl": "../timeline/#paper=2404_13819",
+      "searchUrl": "../search/?paper=2404_13819"
+    },
+    {
       "id": "2408_00714",
       "label": "SAM 2",
       "title": "SAM 2: Segment Anything in Images and Videos",
@@ -80672,6 +81359,50 @@ window.timelineData = {
       "mapUrl": "../map/#paper=2408_00714",
       "timelineUrl": "../timeline/#paper=2408_00714",
       "searchUrl": "../search/?paper=2408_00714"
+    },
+    {
+      "id": "2411_11922",
+      "label": "SAMURAI",
+      "title": "SAMURAI: Adapting Segment Anything Model for Zero-Shot Visual Tracking with Motion-Aware Memory",
+      "authors": [
+        "Cheng-Yen Yang",
+        "Hsiang-Wei Huang",
+        "Wenhao Chai",
+        "Zhongyu Jiang",
+        "Jenq-Neng Hwang"
+      ],
+      "authorShort": "Yang, Huang, Chai",
+      "year": 2024,
+      "source": "arXiv",
+      "type": "Preprint",
+      "superCategory": "Prediction & Perception",
+      "category": "Computer Vision",
+      "subCategory": "Recognition & Understanding",
+      "path": [
+        "Tree",
+        "Prediction & Perception",
+        "Computer Vision",
+        "Recognition & Understanding",
+        "Video Understanding",
+        "SAMURAI"
+      ],
+      "tags": [
+        "Visual tracking",
+        "Video segmentation",
+        "Segment anything",
+        "Zero-shot tracking",
+        "Motion-aware memory",
+        "Object tracking",
+        "Real-time vision",
+        "Foundation models"
+      ],
+      "abstract": "The Segment Anything Model 2 (SAM 2) has demonstrated strong performance in object segmentation tasks but faces challenges in visual object tracking, particularly when managing crowded scenes with fast-moving or self-occluding objects. Furthermore, the fixed-window memory approach in the original model does not consider the quality of memories selected to condition the image features for the next frame, leading to error propagation in videos. This paper introduces SAMURAI, an enhanced adaptation of SAM 2 specifically designed for visual object tracking. By incorporating temporal motion cues with the proposed motion-aware memory selection mechanism, SAMURAI effectively predicts object motion and refines mask selection, achieving robust, accurate tracking without the need for retraining or fine-tuning. SAMURAI operates in real-time and demonstrates strong zero-shot performance across diverse benchmark datasets, showcasing its ability to generalize without fine-tuning. In evaluations, SAMURAI achieves significant improvements in success rate and precision over existing trackers, with a 7.1% AUC gain on LaSOT_ext and a 3.5% AO gain on GOT-10k. Moreover, it achieves competitive results compared to fully supervised methods on LaSOT, underscoring its robustness in complex tracking scenarios and its potential for real-world applications in dynamic environments.",
+      "summary": "Adapts SAM 2 for zero-shot visual object tracking by adding motion-aware memory selection that filters the memories used to condition future masks. This directly addresses error accumulation in crowded or fast-motion videos and demonstrates that promptable segmentation models can be made into competitive trackers without task-specific fine-tuning.",
+      "url": "../papers/2411_11922/",
+      "treeUrl": "../tree/#paper=2411_11922",
+      "mapUrl": "../map/#paper=2411_11922",
+      "timelineUrl": "../timeline/#paper=2411_11922",
+      "searchUrl": "../search/?paper=2411_11922"
     },
     {
       "id": "2404_08471",
@@ -84499,6 +85230,59 @@ window.timelineData = {
       "mapUrl": "../map/#paper=2412_14415",
       "timelineUrl": "../timeline/#paper=2412_14415",
       "searchUrl": "../search/?paper=2412_14415"
+    },
+    {
+      "id": "2410_23262",
+      "label": "EMMA",
+      "title": "EMMA: End-to-End Multimodal Model for Autonomous Driving",
+      "authors": [
+        "Jyh-Jing Hwang",
+        "Runsheng Xu",
+        "Hubert Lin",
+        "Wei-Chih Hung",
+        "Jingwei Ji",
+        "Kristy Choi",
+        "Di Huang",
+        "Tong He",
+        "Paul Covington",
+        "Benjamin Sapp",
+        "Yin Zhou",
+        "James Guo",
+        "Dragomir Anguelov",
+        "Mingxing Tan"
+      ],
+      "authorShort": "Hwang, Xu, Lin",
+      "year": 2024,
+      "source": "Transactions on Machine Learning Research (TMLR)",
+      "type": "Journal Paper",
+      "superCategory": "Prediction & Perception",
+      "category": "Machine Learning",
+      "subCategory": "Multimodal & Embodied Models",
+      "path": [
+        "Tree",
+        "Prediction & Perception",
+        "Machine Learning",
+        "Multimodal & Embodied Models",
+        "Vision-language-action Models (VLA)",
+        "EMMA"
+      ],
+      "tags": [
+        "Autonomous driving",
+        "Multimodal models",
+        "Vision-language models",
+        "End-to-end driving",
+        "Motion planning",
+        "3D object detection",
+        "Road graph prediction",
+        "Generalist models"
+      ],
+      "abstract": "We introduce EMMA, an End-to-end Multimodal Model for Autonomous driving. Built upon a multi-modal large language model foundation like Gemini, EMMA directly maps raw camera sensor data into various driving-specific outputs, including planner trajectories, perception objects, and road graph elements. EMMA maximizes the utility of world knowledge from the pre-trained large language models, by representing all non-sensor inputs (e.g. navigation instructions and ego vehicle status) and outputs (e.g. trajectories and 3D locations) as natural language text. This approach allows EMMA to jointly process various driving tasks in a unified language space, and generate the outputs for each task using task-specific prompts. Empirically, we demonstrate EMMA's effectiveness by achieving state-of-the-art performance in motion planning on nuScenes as well as competitive results on the Waymo Open Motion Dataset (WOMD). EMMA also yields competitive results for camera-primary 3D object detection on the Waymo Open Dataset (WOD). We show that co-training EMMA with planner trajectories, object detection, and road graph tasks yields improvements across all three domains, highlighting EMMA's potential as a generalist model for autonomous driving applications. We hope that our results will inspire research to further evolve the state of the art in autonomous driving model architectures.",
+      "summary": "Introduces EMMA, a camera-primary multimodal model that casts driving tasks such as trajectory planning, object detection, and road graph prediction into a unified language-style output space. The central value is showing how pretrained multimodal world knowledge can be co-trained with driving-specific prompts, while also exposing current limits in frame context, sensor coverage, and compute cost.",
+      "url": "../papers/2410_23262/",
+      "treeUrl": "../tree/#paper=2410_23262",
+      "mapUrl": "../map/#paper=2410_23262",
+      "timelineUrl": "../timeline/#paper=2410_23262",
+      "searchUrl": "../search/?paper=2410_23262"
     },
     {
       "id": "2405_12213",
@@ -91556,6 +92340,54 @@ window.timelineData = {
       "searchUrl": "../search/?paper=2025_djeumou_one_model_to_drift"
     },
     {
+      "id": "2506_21976",
+      "label": "SceneDiffuser++",
+      "title": "SceneDiffuser++: City-Scale Traffic Simulation via a Generative World Model",
+      "authors": [
+        "Shuhan Tan",
+        "John Lambert",
+        "Hong Jeon",
+        "Sakshum Kulshrestha",
+        "Yijing Bai",
+        "Jing Luo",
+        "Dragomir Anguelov",
+        "Mingxing Tan",
+        "Chiyu Max Jiang"
+      ],
+      "authorShort": "Tan, Lambert, Jeon",
+      "year": 2025,
+      "source": "IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+      "type": "Conference Paper",
+      "superCategory": "Evaluation",
+      "category": "Simulation",
+      "subCategory": "Driving & Traffic Simulation",
+      "path": [
+        "Tree",
+        "Evaluation",
+        "Simulation",
+        "Driving & Traffic Simulation",
+        "Diffusion-based Generation",
+        "SceneDiffuser++"
+      ],
+      "tags": [
+        "Driving simulation",
+        "Traffic simulation",
+        "Generative world models",
+        "Diffusion models",
+        "Autonomous driving",
+        "City-scale simulation",
+        "Agent behavior modeling",
+        "Waymo open motion dataset"
+      ],
+      "abstract": "The goal of traffic simulation is to augment a potentially limited amount of manually-driven miles that is available for testing and validation, with a much larger amount of simulated synthetic miles. The culmination of this vision would be a generative simulated city, where given a map of the city and an autonomous vehicle (AV) software stack, the simulator can seamlessly simulate the trip from point A to point B by populating the city around the AV and controlling all aspects of the scene, from animating the dynamic agents (e.g., vehicles, pedestrians) to controlling the traffic light states. We refer to this vision as CitySim, which requires an agglomeration of simulation technologies: scene generation to populate the initial scene, agent behavior modeling to animate the scene, occlusion reasoning, dynamic scene generation to seamlessly spawn and remove agents, and environment simulation for factors such as traffic lights. While some key technologies have been separately studied in various works, others such as dynamic scene generation and environment simulation have received less attention in the research community. We propose SceneDiffuser++, the first end-to-end generative world model trained on a single loss function capable of point A-to-B simulation on a city scale integrating all the requirements above. We demonstrate the city-scale traffic simulation capability of SceneDiffuser++ and study its superior realism under long simulation conditions. We evaluate the simulation quality on an augmented version of the Waymo Open Motion Dataset (WOMD) with larger map regions to support trip-level simulation.",
+      "summary": "Extends the SceneDiffuser line toward city-scale traffic simulation, integrating scene generation, agent behavior, dynamic spawning and removal, and environment state such as traffic lights into a single generative world model. The contribution is important because it moves from isolated scene snippets toward point-to-point synthetic driving miles over larger map regions.",
+      "url": "../papers/2506_21976/",
+      "treeUrl": "../tree/#paper=2506_21976",
+      "mapUrl": "../map/#paper=2506_21976",
+      "timelineUrl": "../timeline/#paper=2506_21976",
+      "searchUrl": "../search/?paper=2506_21976"
+    },
+    {
       "id": "2511_23369",
       "label": "SimScale",
       "title": "SimScale: Learning to Drive via Real-World Simulation at Scale",
@@ -97804,6 +98636,52 @@ window.timelineData = {
       "searchUrl": "../search/?paper=2503_00200"
     },
     {
+      "id": "2506_02215",
+      "label": "Active Inference Collision Avoidance Model",
+      "title": "Active Inference as a Unified Model of Collision Avoidance Behavior in Human Drivers",
+      "authors": [
+        "Julian F. Schumann",
+        "Johan Engstrom",
+        "Leif Johnson",
+        "Matthew O'Kelly",
+        "Joao Messias",
+        "Jens Kober",
+        "Arkady Zgonnikov"
+      ],
+      "authorShort": "Schumann, Engstrom, Johnson",
+      "year": 2025,
+      "source": "Nature Communications",
+      "type": "Journal Paper",
+      "superCategory": "Prediction & Perception",
+      "category": "Motion Prediction",
+      "subCategory": "Driver Models",
+      "path": [
+        "Tree",
+        "Prediction & Perception",
+        "Motion Prediction",
+        "Driver Models",
+        "Active Inference Collision Avoidance Model"
+      ],
+      "tags": [
+        "Active inference",
+        "Driver models",
+        "Collision avoidance",
+        "Human behavior modeling",
+        "Autonomous driving",
+        "Evidence accumulation",
+        "Particle filters",
+        "Expected free energy",
+        "Traffic safety"
+      ],
+      "abstract": "Collision avoidance - involving a rapid threat detection and quick execution of the appropriate evasive maneuver - is a critical aspect of driving. However, existing models of human collision avoidance behavior are fragmented, focusing on specific scenarios or only describing certain aspects of the avoidance behavior, such as response times. This paper addresses these gaps by proposing a novel computational cognitive model of human collision avoidance behavior based on active inference. Active inference provides a unified approach to modeling human behavior: the minimization of free energy. Building on prior active inference work, our model incorporates established cognitive mechanisms such as evidence accumulation to simulate human responses in two distinct collision avoidance scenarios: front-to-rear lead vehicle braking and lateral incursion by an oncoming vehicle. We demonstrate that our model explains a wide range of previous empirical findings on human collision avoidance behavior. Specifically, the model closely reproduces both aggregate results from meta-analyses previously reported in the literature and detailed, scenario-specific effects observed in a recent driving simulator study, including response timing, maneuver selection, and execution. Our results highlight the potential of active inference as a unified framework for understanding and modeling human behavior in complex real-life driving tasks.",
+      "summary": "Builds an active-inference model of human collision avoidance that combines looming-based perception, norm-conditioned particle-filter prediction, evidence accumulation, and expected-free-energy policy selection. The model is valuable because it explains response timing, maneuver choice, and execution across several crash-imminent driving scenarios rather than fitting a single narrow behavioral metric.",
+      "url": "../papers/2506_02215/",
+      "treeUrl": "../tree/#paper=2506_02215",
+      "mapUrl": "../map/#paper=2506_02215",
+      "timelineUrl": "../timeline/#paper=2506_02215",
+      "searchUrl": "../search/?paper=2506_02215"
+    },
+    {
       "id": "2511_00814",
       "label": "Real-Time Learning of Predictive Dynamic Obstacle Models for Robotic Motion Planning",
       "title": "Real-Time Learning of Predictive Dynamic Obstacle Models for Robotic Motion Planning",
@@ -97838,6 +98716,61 @@ window.timelineData = {
       "mapUrl": "../map/#paper=2511_00814",
       "timelineUrl": "../timeline/#paper=2511_00814",
       "searchUrl": "../search/?paper=2511_00814"
+    },
+    {
+      "id": "2506_08228",
+      "label": "Motion Forecasting Scaling Laws",
+      "title": "Scaling Laws of Motion Forecasting and Planning: Technical Report",
+      "authors": [
+        "Mustafa Baniodeh",
+        "Kratarth Goel",
+        "Scott Ettinger",
+        "Carlos Fuertes",
+        "Ari Seff",
+        "Tim Shen",
+        "Cole Gulino",
+        "Chenjie Yang",
+        "Ghassen Jerfel",
+        "Dokook Choe",
+        "Rui Wang",
+        "Benjamin Charrow",
+        "Vinutha Kallem",
+        "Sergio Casas",
+        "Rami Al-Rfou",
+        "Benjamin Sapp",
+        "Dragomir Anguelov"
+      ],
+      "authorShort": "Baniodeh, Goel, Ettinger",
+      "year": 2025,
+      "source": "arXiv",
+      "type": "Technical Report",
+      "superCategory": "Prediction & Perception",
+      "category": "Motion Prediction",
+      "subCategory": "Prediction Requirements",
+      "path": [
+        "Tree",
+        "Prediction & Perception",
+        "Motion Prediction",
+        "Prediction Requirements",
+        "Motion Forecasting Scaling Laws"
+      ],
+      "tags": [
+        "Autonomous driving",
+        "Motion forecasting",
+        "Planning",
+        "Scaling laws",
+        "Transformers",
+        "Training compute",
+        "Inference-time compute",
+        "Closed-loop evaluation"
+      ],
+      "abstract": "We study the empirical scaling laws of a family of encoder-decoder autoregressive transformer models on the task of joint motion forecasting and planning in the autonomous driving domain. Using a 500 thousand hours driving dataset, we demonstrate that, similar to language modeling, model performance improves as a power-law function of the total compute budget, and we observe a strong correlation between model training loss and model evaluation metrics. Most interestingly, closed-loop metrics also improve with scaling, which has important implications for the suitability of open-loop metrics for model development and hill climbing. We also study the optimal scaling of the number of transformer parameters and the training data size for a training compute-optimal model. We find that as the training compute budget grows, optimal scaling requires increasing the model size 1.5x as fast as the dataset size. We also study inference-time compute scaling, where we observe that sampling and clustering the output of smaller models makes them competitive with larger models, up to a crossover point beyond which a larger models becomes more inference-compute efficient. Overall, our experimental results demonstrate that optimizing the training and inference-time scaling properties of motion forecasting and planning models is a key lever for improving their performance to address a wide variety of driving scenarios. Finally, we briefly study the utility of training on general logged driving data of other agents to improve the performance of the ego-agent, an important research area to address the scarcity of robotics data for large capacity models training.",
+      "summary": "Studies empirical scaling laws for autoregressive transformer models on joint motion forecasting and planning using a very large driving dataset. The report is useful because it connects training loss, open-loop metrics, closed-loop metrics, data scale, model scale, and inference-time sampling into one scaling-law view of driving model development.",
+      "url": "../papers/2506_08228/",
+      "treeUrl": "../tree/#paper=2506_08228",
+      "mapUrl": "../map/#paper=2506_08228",
+      "timelineUrl": "../timeline/#paper=2506_08228",
+      "searchUrl": "../search/?paper=2506_08228"
     },
     {
       "id": "2502_08664",
@@ -98274,6 +99207,50 @@ window.timelineData = {
       "mapUrl": "../map/#paper=2501_16973",
       "timelineUrl": "../timeline/#paper=2501_16973",
       "searchUrl": "../search/?paper=2501_16973"
+    },
+    {
+      "id": "2606_07758",
+      "label": "Koopman Input-Output Output-Feedback Control",
+      "title": "Koopman Meets Input-Output Data: Data-Driven Output-Feedback Control of Nonlinear Systems with Closed-Loop Guarantees",
+      "authors": [
+        "Robin Strasser",
+        "Julian Berberich",
+        "Manuel Schaller",
+        "Karl Worthmann",
+        "Frank Allgower"
+      ],
+      "authorShort": "Strasser, Berberich, Schaller",
+      "year": 2026,
+      "source": "arXiv",
+      "type": "Preprint",
+      "superCategory": "Decision-making",
+      "category": "Control",
+      "subCategory": "Data-Driven Control",
+      "path": [
+        "Tree",
+        "Decision-making",
+        "Control",
+        "Data-Driven Control",
+        "Koopman and Nonlinear Data-Driven Control",
+        "Koopman Input-Output Output-Feedback Control"
+      ],
+      "tags": [
+        "Data-driven control",
+        "Output feedback",
+        "Koopman operator",
+        "Nonlinear systems",
+        "Input-output data",
+        "Closed-loop guarantees",
+        "Bilinear surrogate models",
+        "Exponential stability"
+      ],
+      "abstract": "Data-driven control of nonlinear systems from input-output measurements remains a fundamental challenge, as existing approaches with rigorous closed-loop guarantees predominantly require access to full state measurements. In this paper, we address this gap by proposing a data-driven output-feedback controller design method for nonlinear systems that provides provable closed-loop guarantees while operating solely on measured input-output data. Our approach combines Koopman operator theory with an extended state representation of the nonlinear system constructed from input-output trajectories. This allows us to obtain a bilinear surrogate model directly from data, on which robust state-feedback design methods can be applied. By exploiting the observability of the underlying nonlinear system, we establish exponential stability of the extended state, which in turn implies exponential convergence of the original system state to the origin. Finally, we validate our theoretical findings in numerical simulations.",
+      "summary": "Combines Koopman operator ideas with input-output trajectory data to design output-feedback controllers for nonlinear systems with closed-loop guarantees. The method constructs an extended-state bilinear surrogate directly from measurements, then applies robust state-feedback design while proving convergence back for the original nonlinear state.",
+      "url": "../papers/2606_07758/",
+      "treeUrl": "../tree/#paper=2606_07758",
+      "mapUrl": "../map/#paper=2606_07758",
+      "timelineUrl": "../timeline/#paper=2606_07758",
+      "searchUrl": "../search/?paper=2606_07758"
     },
     {
       "id": "2604_15918",
@@ -98965,6 +99942,54 @@ window.timelineData = {
       "mapUrl": "../map/#paper=2605_18747",
       "timelineUrl": "../timeline/#paper=2605_18747",
       "searchUrl": "../search/?paper=2605_18747"
+    },
+    {
+      "id": "2606_06418",
+      "label": "DoPr",
+      "title": "Double Preconditioning (DoPr): Optimization for Test-Time Performance, Not Validation Loss",
+      "authors": [
+        "Thomas T. Zhang",
+        "Alok Shah",
+        "Yifei Zhang",
+        "Vincent Zhang",
+        "Nikolai Matni",
+        "Max Simchowitz"
+      ],
+      "authorShort": "Zhang, Shah, Zhang",
+      "year": 2026,
+      "source": "arXiv",
+      "type": "Preprint",
+      "superCategory": "Decision-making",
+      "category": "Optimization",
+      "subCategory": "Continuous Optimization",
+      "path": [
+        "Tree",
+        "Decision-making",
+        "Optimization",
+        "Continuous Optimization",
+        "Nonlinear Optimization",
+        "First-Order Methods",
+        "Adaptive Gradient Methods",
+        "DoPr"
+      ],
+      "tags": [
+        "Optimization",
+        "Deep learning optimizers",
+        "Preconditioning",
+        "Test-time feedback",
+        "Autoregressive models",
+        "Robot policy learning",
+        "KFAC",
+        "Adam",
+        "Muon"
+      ],
+      "abstract": "Many modern applications of deep learning involve training a neural network via a one-step prediction loss (e.g., L^(2) regression, cross-entropy), but deploy the network by rolling out along its own predictions. Key examples include autoregressive language modeling, flow-based generative modeling, and robot policy learning. It is well-documented that these settings induce a phenomenon we call test-time feedback (TTF): the mismatch between the training/validation loss and downstream metrics of interest, such as task success rate and generation quality, which grows with task length. While data curation, architecture, and objective design have been proposed to combat train-test shift in TTF settings, this paper proposes optimization as a new design axis to mitigate error accumulation. Specifically, we introduce a new optimization paradigm called double-preconditioning (DoPr) uniquely tailored to the challenges of TTF. DoPr combines gradient-wise preconditioning, as in Adam and Muon, with activation-wise preconditioning (AP), such as in KFAC. We show that the addition of AP yields a drop-in intervention for increasing downstream model performance across a range of TTF settings. Interestingly, these gains in test-time performance do not consistently accompany improvements in validation loss, opening new questions about how to properly evaluate models trained with one-step supervised objectives.",
+      "summary": "Proposes Double Preconditioning, an optimizer design aimed at improving rolled-out test-time behavior rather than one-step validation loss. DoPr combines gradient-wise preconditioning with activation-wise preconditioning, arguing that optimization itself can mitigate error accumulation in autoregressive, flow-based, and robot-policy settings.",
+      "url": "../papers/2606_06418/",
+      "treeUrl": "../tree/#paper=2606_06418",
+      "mapUrl": "../map/#paper=2606_06418",
+      "timelineUrl": "../timeline/#paper=2606_06418",
+      "searchUrl": "../search/?paper=2606_06418"
     },
     {
       "id": "2602_11988",
@@ -101008,6 +102033,52 @@ window.timelineData = {
       "searchUrl": "../search/?paper=2604_14026"
     },
     {
+      "id": "2606_06014",
+      "label": "PLAN-S",
+      "title": "PLAN-S: Bridging Planning with Latent Style Dynamics for Autonomous Driving World Models",
+      "authors": [
+        "Xiaoyun Qiu",
+        "Jingtao He",
+        "Yijie Chen",
+        "Yusong Huang",
+        "Haotian Wang",
+        "Yixuan Wang",
+        "Xinhu Zheng"
+      ],
+      "authorShort": "Qiu, He, Chen",
+      "year": 2026,
+      "source": "arXiv",
+      "type": "Preprint",
+      "superCategory": "Decision-making",
+      "category": "Planning",
+      "subCategory": "Learning-Based Motion Planning",
+      "path": [
+        "Tree",
+        "Decision-making",
+        "Planning",
+        "Learning-Based Motion Planning",
+        "Frameworks",
+        "PLAN-S"
+      ],
+      "tags": [
+        "Autonomous driving",
+        "World models",
+        "Motion planning",
+        "Latent dynamics",
+        "Driving style",
+        "Cost maps",
+        "Trajectory planning",
+        "End-to-end driving"
+      ],
+      "abstract": "Latent world models (LWMs) have strengthened end-to-end autonomous driving by forecasting compact scene dynamics for downstream planning. However, existing LWM-based planners usually generate trajectories directly from entangled latent representations. This compact latent-to-planner pathway lacks explicit modeling of risk, drivability, and diverse style preferences, making driving-style dynamics difficult to supervise, inspect, or modulate before a final trajectory is selected. We propose PLAN-S (PLANning with latent Style dynamics), a planner-facing bridge that addresses this compactness-controllability dilemma by decoding a style-conditioned, four-channel semantic cost map from the latent representation. The cost map is conditioned on ego state and driving style and is consumed up-stream of the planning decision through two host-side interfaces: attention-level fusion for regression planners and reward-level fusion for anchor-score planners. We validate PLAN-S on two architecturally distinct hosts, ResWorld on nuScenes and WoTE on NAVSIM, while keeping the host backbones frozen to isolate the contribution of the proposed bridge. On nuScenes, PLAN-S reduces L2 at every horizon over the baseline, with 0.55 m average L2 and a 42% relative reduction in the 3 s collision rate. On NAVSIM, the rule-cost variant reaches 89.4 Predictive Driver Model Score (PDMS), while the learned cost variant provides complementary gains on baseline-challenging scenes. Ablations show that the cost pathway contributes most directly to safer trajectory selection. Qualitative results further show that PLAN-S can produce diverse cost maps, with spatially consistent variations aligned to different driving styles.",
+      "summary": "Adds a planner-facing bridge between latent autonomous-driving world models and trajectory selection by decoding style-conditioned semantic cost maps. PLAN-S is useful because it makes risk, drivability, and driving-style preferences explicit enough to inspect and modulate, while still plugging into frozen learned planning hosts.",
+      "url": "../papers/2606_06014/",
+      "treeUrl": "../tree/#paper=2606_06014",
+      "mapUrl": "../map/#paper=2606_06014",
+      "timelineUrl": "../timeline/#paper=2606_06014",
+      "searchUrl": "../search/?paper=2606_06014"
+    },
+    {
       "id": "2026_wang_score_guided_motion_planning",
       "label": "Score-Guided Motion Planning: Learning the Gradient Field of Promising Regions",
       "title": "Score-Guided Motion Planning: Learning the Gradient Field of Promising Regions",
@@ -101278,6 +102349,49 @@ window.timelineData = {
       "searchUrl": "../search/?paper=2604_08508"
     },
     {
+      "id": "2606_09620",
+      "label": "Cluster-Decomposed Floating-Robot Motion Planning",
+      "title": "Motion Planning for Hundreds of Floating Robots",
+      "authors": [
+        "Jan Kamm",
+        "Antonio Terpin",
+        "Raffaello D'Andrea",
+        "Aswin Ramachandran"
+      ],
+      "authorShort": "Kamm, Terpin, D'Andrea",
+      "year": 2026,
+      "source": "arXiv",
+      "type": "Preprint",
+      "superCategory": "Decision-making",
+      "category": "Planning",
+      "subCategory": "Planning for Robots",
+      "path": [
+        "Tree",
+        "Decision-making",
+        "Planning",
+        "Planning for Robots",
+        "Multi-Robot Planning",
+        "Cluster-Decomposed Floating-Robot Motion Planning"
+      ],
+      "tags": [
+        "Multi-robot motion planning",
+        "Fleet coordination",
+        "Collision avoidance",
+        "Trajectory optimization",
+        "Decomposition methods",
+        "Floating robots",
+        "Parallel planning",
+        "Real-world deployment"
+      ],
+      "abstract": "Planning collision-free motion for large robot fleets is difficult because collision avoidance induces strong inter-agent coupling that grows rapidly with team size. We consider omnidirectional floating robots on water, where choreographies are specified by sparse keyframes and an interactive tool must generate trajectories within seconds, even when transitions span minutes and thousands of time steps. We propose a scalable pipeline that builds a collision graph from an initialization, decomposes the coupled problem into interaction clusters, and solves clusters independently (and in parallel) with robustness mechanisms for common decomposition pathologies. We validate the approach in simulations up to 500 robots. The synthesized trajectories have also been deployed in two real-world demonstrations, on Lake Zürich with a fleet of 24 Way of Water crafts and at the Time Space Existence 2025 Venice Biennale.",
+      "summary": "Presents a scalable motion-planning pipeline for large fleets of omnidirectional floating robots, where dense collision constraints would otherwise couple hundreds of agents. The approach builds a collision graph, decomposes interactions into clusters, solves them in parallel, and includes robustness mechanisms validated in simulation and real water-based deployments.",
+      "url": "../papers/2606_09620/",
+      "treeUrl": "../tree/#paper=2606_09620",
+      "mapUrl": "../map/#paper=2606_09620",
+      "timelineUrl": "../timeline/#paper=2606_09620",
+      "searchUrl": "../search/?paper=2606_09620"
+    },
+    {
       "id": "2604_12857",
       "label": "Artificial Intelligence for Modeling and Simulation of Mixed Automated and Human Traffic",
       "title": "Artificial Intelligence for Modeling and Simulation of Mixed Automated and Human Traffic",
@@ -101347,6 +102461,51 @@ window.timelineData = {
       "mapUrl": "../map/#paper=2604_16406",
       "timelineUrl": "../timeline/#paper=2604_16406",
       "searchUrl": "../search/?paper=2604_16406"
+    },
+    {
+      "id": "2605_12628",
+      "label": "Multistep Belief Space Dynamics Learning",
+      "title": "Multistep Belief Space Dynamics Learning for Risk-Aware Control",
+      "authors": [
+        "Jason Gibson",
+        "Bogdan Vlahov",
+        "Patrick Spieler",
+        "Evangelos A. Theodorou"
+      ],
+      "authorShort": "Gibson, Vlahov, Spieler",
+      "year": 2026,
+      "source": "arXiv",
+      "type": "Preprint",
+      "superCategory": "Decision-making",
+      "category": "Planning",
+      "subCategory": "Planning in Changing Environments",
+      "path": [
+        "Tree",
+        "Decision-making",
+        "Planning",
+        "Planning in Changing Environments",
+        "Planning Under Uncertainty",
+        "Planning in Belief Space",
+        "Belief Trees",
+        "Multistep Belief Space Dynamics Learning"
+      ],
+      "tags": [
+        "Belief-space control",
+        "Risk-aware control",
+        "Model predictive control",
+        "Distributional dynamics",
+        "Autonomous vehicles",
+        "Off-road driving",
+        "Uncertainty propagation",
+        "Learned dynamics models"
+      ],
+      "abstract": "As autonomous vehicles move from a simplified research setting to practical use, there exists a large gap between the dynamic behavior of a human driving and an autonomous system. Risk-aware behavior needs to naturally develop in order to scale to the demands of the real world. A major issue for risk-aware planning and control has been predicting how dynamical uncertainty evolves through time and optimizing plans that account for this without being overly conservative. Here, we present a learning framework to predict distributional dynamics that can be optimized in real time for Model Predictive Control (MPC). We explore the importance of structure when learning distributional dynamics for use in MPC. A rigorous ablation study is conducted on a large dataset of real world off-road driving that shows the impact of deviations from our proposed structure. Furthermore, we deploy our learned model and planning stack on a full sized vehicle in challenging off-road conditions. Our planning architecture is able to naturally regulate the speed of the vehicle based on the environment and consistently demonstrates intelligent behavior over miles of diverse terrain.",
+      "summary": "Learns multistep distributional dynamics in belief space for use inside risk-aware MPC, with the goal of planning through uncertainty without becoming overly conservative. The paper is grounded in off-road autonomous driving data and vehicle deployment, showing how learned uncertainty propagation can regulate speed and behavior in rough terrain.",
+      "url": "../papers/2605_12628/",
+      "treeUrl": "../tree/#paper=2605_12628",
+      "mapUrl": "../map/#paper=2605_12628",
+      "timelineUrl": "../timeline/#paper=2605_12628",
+      "searchUrl": "../search/?paper=2605_12628"
     },
     {
       "id": "2605_01860",
@@ -102126,6 +103285,52 @@ window.timelineData = {
       "searchUrl": "../search/?paper=2603_05385"
     },
     {
+      "id": "2606_12365",
+      "label": "Ambient Diffusion Policy",
+      "title": "Ambient Diffusion Policy: Imitation Learning from Suboptimal Data in Robotics",
+      "authors": [
+        "Adam Wei",
+        "Nicholas Pfaff",
+        "Thomas Cohn",
+        "Arif Kerem Dayi",
+        "Constantinos Daskalakis",
+        "Giannis Daras",
+        "Russ Tedrake"
+      ],
+      "authorShort": "Wei, Pfaff, Cohn",
+      "year": 2026,
+      "source": "arXiv",
+      "type": "Preprint",
+      "superCategory": "Decision-making",
+      "category": "Reinforcement Learning",
+      "subCategory": "Nonlinear Systems",
+      "path": [
+        "Tree",
+        "Decision-making",
+        "Reinforcement Learning",
+        "Nonlinear Systems",
+        "Diffusion & Flow Matching",
+        "Ambient Diffusion Policy"
+      ],
+      "tags": [
+        "Imitation learning",
+        "Diffusion policy",
+        "Robotics",
+        "Suboptimal demonstrations",
+        "Co-training",
+        "Robot learning",
+        "Open X-embodiment",
+        "Data quality"
+      ],
+      "abstract": "We propose Ambient Diffusion Policy, a simple and principled method for imitation learning from suboptimal data in robotics. High-quality, task-specific robot data is expensive and time-consuming to collect, while suboptimal datasets with lower-quality or out-of-distribution demonstrations are abundant. Existing methods that co-train on both data sources in robotics often fail to separate the meaningful and the harmful features in the suboptimal samples. In contrast, our method extracts only the useful features by introducing a new axis to co-training in robotics: noise-dependent data usage. Ambient Diffusion Policy restricts the contribution of suboptimal data during training to only the high and low diffusion times. To rigorously justify our approach, we first observe that robot action data exhibits a spectral power law. This induces two important properties on the optimal Diffusion Policy that we exploit: a global-to-local hierarchy and locality. We theoretically formalize this discussion using a simplified model. Our experiments validate Ambient Diffusion Policy on four types of suboptimal action data (noisy trajectories, sim-to-real gap, task mismatch, and large-scale data mixtures) across six tasks. The results show that it effectively learns from arbitrary sources of suboptimal data. Notably, it outperforms existing co-training baselines by up to 33% when scaled to Open X-Embodiment - a large dataset with heterogeneous data quality and unstructured distribution shifts. Overall, Ambient Diffusion Policy increases the utility of suboptimal demonstrations and expands the set of usable data sources in robotics.",
+      "summary": "Introduces Ambient Diffusion Policy, a way to use suboptimal robot demonstrations by restricting when they influence diffusion-policy training. The paper argues that robot action data has useful spectral structure, then exploits diffusion time to extract coarse and local features from imperfect data without letting harmful mid-scale details dominate the learned policy.",
+      "url": "../papers/2606_12365/",
+      "treeUrl": "../tree/#paper=2606_12365",
+      "mapUrl": "../map/#paper=2606_12365",
+      "timelineUrl": "../timeline/#paper=2606_12365",
+      "searchUrl": "../search/?paper=2606_12365"
+    },
+    {
       "id": "2605_10480",
       "label": "ASIA",
       "title": "ASIA: An Autonomous System Identification Agent",
@@ -102356,6 +103561,52 @@ window.timelineData = {
       "mapUrl": "../map/#paper=2605_24939",
       "timelineUrl": "../timeline/#paper=2605_24939",
       "searchUrl": "../search/?paper=2605_24939"
+    },
+    {
+      "id": "2602_00475",
+      "label": "GRASP",
+      "title": "Parallel Stochastic Gradient-Based Planning for World Models",
+      "authors": [
+        "Michael Psenka",
+        "Michael Rabbat",
+        "Aditi Krishnapriyan",
+        "Yann LeCun",
+        "Amir Bar"
+      ],
+      "authorShort": "Psenka, Rabbat, Krishnapriyan",
+      "year": 2026,
+      "source": "arXiv",
+      "type": "Preprint",
+      "superCategory": "Decision-making",
+      "category": "Reinforcement Learning",
+      "subCategory": "Nonlinear Systems",
+      "path": [
+        "Tree",
+        "Decision-making",
+        "Reinforcement Learning",
+        "Nonlinear Systems",
+        "Model-based RL",
+        "System Identification",
+        "World Models",
+        "GRASP"
+      ],
+      "tags": [
+        "World models",
+        "Planning",
+        "Gradient-based planning",
+        "Stochastic optimization",
+        "Collocation",
+        "Visual control",
+        "Long-horizon planning",
+        "Differentiable models"
+      ],
+      "abstract": "World models simulate environment dynamics from raw sensory inputs like video. However, using them for planning can be challenging due to the vast and unstructured search space. We propose a robust and highly parallelizable planner that leverages the differentiability of the learned world model for efficient optimization, solving long-horizon control tasks from visual input. Our method treats states as optimization variables (\"virtual states\") with soft dynamics constraints, enabling parallel computation and easier optimization. To facilitate exploration and avoid local optima, we introduce stochasticity into the states. To mitigate sensitive gradients through high-dimensional vision-based world models, we modify the gradient structure to descend towards valid plans while only requiring action-input gradients. Our planner, which we call GRASP (Gradient RelAxed Stochastic Planner), can be viewed as a stochastic version of a non-condensed or collocation-based optimal controller. We provide theoretical justification and experiments on video-based world models, where our resulting planner outperforms existing planning algorithms like the cross-entropy method (CEM) and vanilla gradient-based optimization (GD) on long-horizon experiments, both in success rate and time to convergence.",
+      "summary": "Introduces GRASP, a planner that optimizes virtual states and actions inside differentiable visual world models using stochastic, parallelizable gradient-based search. By relaxing dynamics constraints and altering the gradient structure, the method avoids fragile backpropagation through high-dimensional video models while improving long-horizon planning relative to CEM and vanilla gradient descent.",
+      "url": "../papers/2602_00475/",
+      "treeUrl": "../tree/#paper=2602_00475",
+      "mapUrl": "../map/#paper=2602_00475",
+      "timelineUrl": "../timeline/#paper=2602_00475",
+      "searchUrl": "../search/?paper=2602_00475"
     },
     {
       "id": "2604_03208",
@@ -103540,6 +104791,49 @@ window.timelineData = {
       "searchUrl": "../search/?paper=2603_07985"
     },
     {
+      "id": "2605_14110",
+      "label": "SToRe3D",
+      "title": "SToRe3D: Sparse Token Relevance in ViTs for Efficient Multi-View 3D Object Detection",
+      "authors": [
+        "Sandro Papais",
+        "Lezhou Feng",
+        "Charles Cossette",
+        "Lingting Ge"
+      ],
+      "authorShort": "Papais, Feng, Cossette",
+      "year": 2026,
+      "source": "IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)",
+      "type": "Conference Paper",
+      "superCategory": "Prediction & Perception",
+      "category": "Computer Vision",
+      "subCategory": "Low-level & Geometric Vision",
+      "path": [
+        "Tree",
+        "Prediction & Perception",
+        "Computer Vision",
+        "Low-level & Geometric Vision",
+        "3D Vision & Shape Understanding",
+        "SToRe3D"
+      ],
+      "tags": [
+        "3D object detection",
+        "Autonomous driving",
+        "Vision transformers",
+        "Token pruning",
+        "Multi-view perception",
+        "Sparse attention",
+        "Efficient inference",
+        "BEV perception"
+      ],
+      "abstract": "Vision Transformers (ViTs) enable strong multi-view 3D detection but are limited by high inference latency from dense token and query processing across multiple views and large 3D regions. Existing sparsity methods, designed mainly for 2D vision, prune or merge image tokens but do not extend to full-model sparsity or address 3D object queries. We introduce SToRe3D, a relevance-aligned sparsity framework that jointly selects 2D image tokens and 3D object queries while storing filtered features for reactivation. Mutual 2D-3D relevance heads allocate compute to driving-critical content and preserve other embeddings. Evaluated on nuScenes and our new nuScenes-Relevance benchmark, SToRe3D achieves up to 3x faster inference with marginal accuracy loss, establishing real-time large-scale ViT-based 3D detection while maintaining accuracy on planning-critical agents.",
+      "summary": "Introduces SToRe3D, an efficiency method for multi-view 3D object detection that identifies and exploits sparse token relevance inside Vision Transformers. The paper targets the practical cost of camera-based autonomous-driving perception, aiming to preserve 3D detection quality while reducing the amount of visual-token processing.",
+      "url": "../papers/2605_14110/",
+      "treeUrl": "../tree/#paper=2605_14110",
+      "mapUrl": "../map/#paper=2605_14110",
+      "timelineUrl": "../timeline/#paper=2605_14110",
+      "searchUrl": "../search/?paper=2605_14110"
+    },
+    {
       "id": "2603_19312",
       "label": "LeWorldModel",
       "title": "LeWorldModel: Stable End-to-End Joint-Embedding Predictive Architecture from Pixels",
@@ -104056,6 +105350,151 @@ window.timelineData = {
       "mapUrl": "../map/#paper=2604_20329",
       "timelineUrl": "../timeline/#paper=2604_20329",
       "searchUrl": "../search/?paper=2604_20329"
+    },
+    {
+      "id": "2605_07675",
+      "label": "FactoryBench",
+      "title": "FactoryBench: Evaluating Industrial Machine Understanding",
+      "authors": [
+        "Yanis Merzouki",
+        "Coral Izquierdo",
+        "Matei Ignuta-Ciuncanu",
+        "Marcos Gomez-Bracamonte",
+        "Riccardo Maggioni",
+        "Alessandro Lombardi",
+        "Camilla Mazzoleni",
+        "Federico Martelli",
+        "Balazs Gunther",
+        "Jonas Petersen",
+        "Philipp Petersen"
+      ],
+      "authorShort": "Merzouki, Izquierdo, Ignuta-Ciuncanu",
+      "year": 2026,
+      "source": "arXiv",
+      "type": "Preprint",
+      "superCategory": "Prediction & Perception",
+      "category": "Machine Learning",
+      "subCategory": "Language & Sequence Models",
+      "path": [
+        "Tree",
+        "Prediction & Perception",
+        "Machine Learning",
+        "Language & Sequence Models",
+        "Time Series",
+        "Datasets & Benchmarks",
+        "FactoryBench"
+      ],
+      "tags": [
+        "Industrial machine understanding",
+        "Benchmarks",
+        "Time series",
+        "Robotic telemetry",
+        "Causal reasoning",
+        "Large language model evaluation",
+        "Question answering",
+        "FactoryWave"
+      ],
+      "abstract": "We introduce FactoryBench, a benchmark for evaluating time-series models and LLMs on machine understanding over industrial robotic telemetry. Q&A pairs are organized along four causal levels (state, intervention, counterfactual, decision) instantiating Pearl's ladder of causation, and span five answer formats: four structured formats are scored deterministically and free-form answers are scored by an LLM-as-judge voting protocol. We propose a scalable Q&A generation framework built around structured question templates, present FactoryWave (a dense, multitask, multivariate sensor dataset collected from a UR3 cobot and a KUKA KR10 industrial arm), and construct FactoryBench as a large-scale benchmark of over 70k Q&A items grounded in roughly 15k normalized episodes from FactoryWave, AURSAD, and voraus-AD. Zero-shot evaluation of six frontier LLMs shows that no model exceeds 50% on structured levels or 18% on decision-making, revealing a wide gap between current models and operational machine understanding.",
+      "summary": "Introduces FactoryBench, a benchmark that turns industrial robotic telemetry into structured question-answer tasks across state, intervention, counterfactual, and decision levels. The paper highlights a large gap between frontier LLMs and operational machine understanding, especially for structured causal and decision-making questions grounded in time-series data.",
+      "url": "../papers/2605_07675/",
+      "treeUrl": "../tree/#paper=2605_07675",
+      "mapUrl": "../map/#paper=2605_07675",
+      "timelineUrl": "../timeline/#paper=2605_07675",
+      "searchUrl": "../search/?paper=2605_07675"
+    },
+    {
+      "id": "2605_09081",
+      "label": "FactoryNet",
+      "title": "FactoryNet: A Large-Scale Dataset Toward Industrial Time-Series Foundation Models",
+      "authors": [
+        "Karim Othman",
+        "Jonas Petersen",
+        "Matei Ignuta-Ciuncanu",
+        "Camilla Mazzoleni",
+        "Federico Martelli",
+        "Alessandro Lombardi",
+        "Riccardo Maggioni",
+        "Philipp Petersen"
+      ],
+      "authorShort": "Othman, Petersen, Ignuta-Ciuncanu",
+      "year": 2026,
+      "source": "ICML Workshop on Foundation Models for Structured Data",
+      "type": "Workshop Paper",
+      "superCategory": "Prediction & Perception",
+      "category": "Machine Learning",
+      "subCategory": "Language & Sequence Models",
+      "path": [
+        "Tree",
+        "Prediction & Perception",
+        "Machine Learning",
+        "Language & Sequence Models",
+        "Time Series",
+        "Datasets & Benchmarks",
+        "FactoryNet"
+      ],
+      "tags": [
+        "Industrial time series",
+        "Foundation models",
+        "Datasets",
+        "Anomaly detection",
+        "Cross-embodiment transfer",
+        "Robotic telemetry",
+        "Schema design",
+        "Factory data"
+      ],
+      "abstract": "We introduce the first universal pretraining corpus for industrial time-series data: FactoryNet. 51M datapoints across 23k end-to-end task executions (13.3k real, 9.8k synthetic) on six embodiments, unified by a shared schema that enables robust zero-shot cross-embodiment transfer and highly parameter-efficient anomaly detection. We introduce a novel schema: Setpoint, Effort, Feedback, Context (S-E-F-C) underlying the whole pipeline that maps any actuated system into a common representational frame. The corpus spans 27 annotated anomaly types alongside healthy baselines and counterfactual pairs across robotic manipulation and machining domains. Cross-embodiment transfer experiments yield positive results: under bias-aware metrics our model demonstrates fair cross-embodiment transfer capabilities on the evaluated source-target pair, while 24 schema-aligned signals achieves competitive anomaly detection performance compared to high-dimensional baselines. We release FactoryNet as a growing, multi-embodiment dataset to drive progress toward industrial foundation models.",
+      "summary": "Introduces FactoryNet, a large industrial time-series corpus built around a shared Setpoint-Effort-Feedback-Context schema for actuated systems. The dataset is designed to make pretraining and transfer across machines possible, with annotated anomalies, healthy baselines, counterfactual pairs, and early evidence of cross-embodiment transfer.",
+      "url": "../papers/2605_09081/",
+      "treeUrl": "../tree/#paper=2605_09081",
+      "mapUrl": "../map/#paper=2605_09081",
+      "timelineUrl": "../timeline/#paper=2605_09081",
+      "searchUrl": "../search/?paper=2605_09081"
+    },
+    {
+      "id": "2605_11130",
+      "label": "HEPA",
+      "title": "HEPA: A Self-Supervised Horizon-Conditioned Event Predictive Architecture for Time Series",
+      "authors": [
+        "Jonas Petersen",
+        "Gian-Alessandro Lombardi",
+        "Riccardo Maggioni",
+        "Camilla Mazzoleni",
+        "Federico Martelli",
+        "Philipp Petersen"
+      ],
+      "authorShort": "Petersen, Lombardi, Maggioni",
+      "year": 2026,
+      "source": "ICML Workshop on Foundation Models for Structured Data",
+      "type": "Workshop Paper",
+      "superCategory": "Prediction & Perception",
+      "category": "Machine Learning",
+      "subCategory": "Language & Sequence Models",
+      "path": [
+        "Tree",
+        "Prediction & Perception",
+        "Machine Learning",
+        "Language & Sequence Models",
+        "Time Series",
+        "Algorithms",
+        "HEPA"
+      ],
+      "tags": [
+        "Time series",
+        "Self-supervised learning",
+        "Event prediction",
+        "Joint embedding predictive architectures",
+        "Survival analysis",
+        "Causal transformers",
+        "Rare events",
+        "Representation learning"
+      ],
+      "abstract": "Critical events in multivariate time series, from turbine failures to cardiac arrhythmias, demand accurate prediction, yet labeled data is scarce because such events are rare and costly to annotate. We introduce HEPA (Horizon-conditioned Event Predictive Architecture), built on two key principles. First, a causal Transformer encoder is pretrained via a Joint-Embedding Predictive Architecture (JEPA): a horizon-conditioned predictor learns to forecast future representations rather than future values, forcing the encoder to capture predictable temporal dynamics from unlabeled data alone. Second, we freeze the encoder and finetune only the predictor toward the target event, producing a monotonic survival cumulative distribution function (CDF) over horizons. With fixed architecture and optimiser hyperparameters across all benchmarks, HEPA handles water contamination, cyberattack detection, volatility regimes, and eight further event types across 11 domains, exceeding leading time-series architectures including PatchTST, iTransformer, MAE, and Chronos-2 on at least 10 of 14 benchmarks, with an order of magnitude fewer tuned parameters and, on lifecycle datasets, an order of magnitude less labeled data.",
+      "summary": "Introduces HEPA, a time-series architecture that pretrains a causal Transformer encoder with a horizon-conditioned JEPA objective and then fine-tunes a predictor into a monotonic survival CDF over future event horizons. The method targets rare-event prediction with little labeled data and reports strong cross-domain results with a small number of tuned parameters.",
+      "url": "../papers/2605_11130/",
+      "treeUrl": "../tree/#paper=2605_11130",
+      "mapUrl": "../map/#paper=2605_11130",
+      "timelineUrl": "../timeline/#paper=2605_11130",
+      "searchUrl": "../search/?paper=2605_11130"
     },
     {
       "id": "2603_28052",
@@ -105504,6 +106943,129 @@ window.timelineData = {
       "searchUrl": "../search/?paper=2604_12425"
     },
     {
+      "id": "2603_23607",
+      "label": "KITScenes LongTail",
+      "title": "Long-Tail Driving Scenarios with Reasoning Traces: The KITScenes LongTail Dataset",
+      "authors": [
+        "Royden Wagner",
+        "Omer Sahin Tas",
+        "Jaime Villa",
+        "Felix Hauser",
+        "Yinzhe Shen",
+        "Marlon Steiner",
+        "Dominik Strutz",
+        "Carlos Fernandez",
+        "Christian Kinzig",
+        "Guillermo S. Guitierrez-Cabello",
+        "Hendrik Konigshof",
+        "Fabian Immel",
+        "Richard Schwarzkopf",
+        "Nils Alexander Rack",
+        "Kevin Rosch",
+        "Kaiwen Wang",
+        "Jan-Hendrik Pauls",
+        "Martin Lauer",
+        "Igor Gilitschenski",
+        "Holger Caesar",
+        "Christoph Stiller"
+      ],
+      "authorShort": "Wagner, Tas, Villa",
+      "year": 2026,
+      "source": "arXiv",
+      "type": "Preprint",
+      "superCategory": "Prediction & Perception",
+      "category": "Motion Prediction",
+      "subCategory": "Surveys",
+      "path": [
+        "Tree",
+        "Prediction & Perception",
+        "Motion Prediction",
+        "Surveys",
+        "Automated Driving",
+        "KITScenes LongTail"
+      ],
+      "tags": [
+        "Autonomous driving",
+        "Driving datasets",
+        "Long-tail scenarios",
+        "Reasoning traces",
+        "Vision-language-action models",
+        "Multimodal learning",
+        "Instruction following",
+        "Few-shot generalization"
+      ],
+      "abstract": "In real-world domains such as self-driving, generalization to rare scenarios remains a fundamental challenge. To address this, we introduce a new dataset designed for end-to-end driving that focuses on long-tail driving events. We provide multi-view video data, trajectories, high-level instructions, and detailed reasoning traces, facilitating in-context learning and few-shot generalization. The resulting benchmark for multimodal models, such as VLMs and VLAs, goes beyond safety and comfort metrics by evaluating instruction following and semantic coherence between model outputs. The multilingual reasoning traces in English, Spanish, and Chinese are from domain experts with diverse cultural backgrounds. Thus, our dataset is a unique resource for studying how different forms of reasoning affect driving competence. Our dataset is available at: https://hf.co/datasets/kit-mrt/kitscenes-longtail",
+      "summary": "Introduces KITScenes LongTail, a driving dataset focused on rare and semantically difficult scenarios, with multi-view video, trajectories, instructions, and multilingual expert reasoning traces. The benchmark is useful for testing whether VLM/VLA driving systems can reason about scenario meaning and follow instructions, not just optimize comfort or collision metrics.",
+      "url": "../papers/2603_23607/",
+      "treeUrl": "../tree/#paper=2603_23607",
+      "mapUrl": "../map/#paper=2603_23607",
+      "timelineUrl": "../timeline/#paper=2603_23607",
+      "searchUrl": "../search/?paper=2603_23607"
+    },
+    {
+      "id": "2606_02956",
+      "label": "KITScenes Multimodal",
+      "title": "The Road Ahead in Autonomous Driving: The KITScenes Multimodal Dataset",
+      "authors": [
+        "Richard Schwarzkopf",
+        "Fabian Immel",
+        "Alexander Blumberg",
+        "Jonas Merkert",
+        "Nils Rack",
+        "Kaiwen Wang",
+        "Fabian Konstantinidis",
+        "Julian Truetsch",
+        "Carlos Fernandez",
+        "Annika Batz",
+        "Kevin Rosch",
+        "Marlon Steiner",
+        "Willi Poh",
+        "Yinzhe Shen",
+        "Royden Wagner",
+        "Felix Hauser",
+        "Dominik Strutz",
+        "Jaime Villa",
+        "Gleb Stepanov",
+        "Holger Caesar",
+        "Omer Sahin Tas",
+        "Frank Bieder",
+        "Jan-Hendrik Pauls",
+        "Christoph Stiller"
+      ],
+      "authorShort": "Schwarzkopf, Immel, Blumberg",
+      "year": 2026,
+      "source": "arXiv",
+      "type": "Preprint",
+      "superCategory": "Prediction & Perception",
+      "category": "Motion Prediction",
+      "subCategory": "Surveys",
+      "path": [
+        "Tree",
+        "Prediction & Perception",
+        "Motion Prediction",
+        "Surveys",
+        "Automated Driving",
+        "KITScenes Multimodal"
+      ],
+      "tags": [
+        "Autonomous driving",
+        "Driving datasets",
+        "Multimodal datasets",
+        "HD maps",
+        "4D radar",
+        "LiDAR",
+        "Online map construction",
+        "End-to-end driving"
+      ],
+      "abstract": "Existing autonomous driving datasets have enabled major progress, but fall short in sensor fidelity, map completeness, or geographic diversity. We present KITScenes Multimodal, a European dataset built around high-fidelity sensors and maps. Our fully synchronized sensor suite combines high-resolution global-shutter cameras, long-range lidar beyond 400m, 4D imaging radar, and redundant GNSS/INS localization. Our HD maps are, to our knowledge, the most complete of any sensor dataset, validated through autonomous driving trials on open-source software. For the first time in a public dataset, all driving-relevant traffic elements, such as traffic lights, are mapped in 3D to a reprojection-accurate level with full topological connectivity. Recorded in cities with irregular street layouts and mixed traffic modes, our dataset complements existing datasets by broadening the available geographic diversity. We also introduce four benchmarks, each advancing spatial learning for embodied AI: online HD map construction, long-range depth estimation, novel view synthesis, and end-to-end driving. Project page: https://kitscenes.com/",
+      "summary": "Introduces KITScenes Multimodal, a European autonomous-driving dataset with synchronized high-resolution cameras, long-range lidar, 4D radar, redundant localization, and unusually detailed 3D HD maps. The dataset is positioned to complement existing driving corpora with richer map topology, irregular urban geography, and benchmarks for mapping, depth, novel-view synthesis, and end-to-end driving.",
+      "url": "../papers/2606_02956/",
+      "treeUrl": "../tree/#paper=2606_02956",
+      "mapUrl": "../map/#paper=2606_02956",
+      "timelineUrl": "../timeline/#paper=2606_02956",
+      "searchUrl": "../search/?paper=2606_02956"
+    },
+    {
       "id": "2603_02413",
       "label": "TruckDrive",
       "title": "TruckDrive: Long-Range Autonomous Highway Driving Dataset",
@@ -105620,6 +107182,46 @@ window.timelineData = {
       "mapUrl": "../map/#paper=2602_02454",
       "timelineUrl": "../timeline/#paper=2602_02454",
       "searchUrl": "../search/?paper=2602_02454"
+    },
+    {
+      "id": "2606_12327",
+      "label": "Deterministic Kalman Filter via LQR",
+      "title": "From the Linear Quadratic Regulator (LQR) to the (Deterministic) Kalman Filter in Two Easy Steps",
+      "authors": [
+        "Bassam Bamieh"
+      ],
+      "authorShort": "Bamieh",
+      "year": 2026,
+      "source": "arXiv",
+      "type": "Preprint",
+      "superCategory": "Prediction & Perception",
+      "category": "State Estimation",
+      "subCategory": "Optimal State Estimation (Kalman Filters)",
+      "path": [
+        "Tree",
+        "Prediction & Perception",
+        "State Estimation",
+        "Optimal State Estimation (Kalman Filters)",
+        "Linear Systems",
+        "Deterministic Kalman Filter via LQR"
+      ],
+      "tags": [
+        "Kalman filtering",
+        "Linear quadratic regulator",
+        "State estimation",
+        "Riccati equation",
+        "Optimal control",
+        "Linear quadratic Gaussian",
+        "Tutorial",
+        "Homogeneous coordinates"
+      ],
+      "abstract": "This note is a tutorial on the deterministic version of the Kalman filter (state estimator), which is formulated as finding the state trajectory consistent with the system's equations with the minimal amount of L^(2) process and measurement uncertainty. As stated, this is an input signal design problem with linear dynamics and an objective that is affine-quadratic in the state and inputs. The first step is to convert this problem to one with a purely quadratic objective by embedding in a larger system using ``homogeneous coordinates''. This converts the problem to a purely quadratic (i.e. an LQR) problem, but with non-standard initial or final state constraints. This latter problem can then be solved using a version of the matrix Differential Riccati Equation (DRE) for the larger LQR problem. The second step is a partitioning of this larger problem, which then yields the optimal dynamic observer and the DRE of the traditional Kalman filter. For comparison, the solution of the traditional LQ-tracking (Servomechanism) problem is also treated using a similar construction.",
+      "summary": "Gives a tutorial derivation of the deterministic Kalman filter by embedding a trajectory-estimation problem into an enlarged LQR with homogeneous coordinates and nonstandard boundary constraints. The derivation then partitions the resulting Riccati equations to recover the dynamic observer, making the LQR-Kalman connection unusually explicit.",
+      "url": "../papers/2606_12327/",
+      "treeUrl": "../tree/#paper=2606_12327",
+      "mapUrl": "../map/#paper=2606_12327",
+      "timelineUrl": "../timeline/#paper=2606_12327",
+      "searchUrl": "../search/?paper=2606_12327"
     },
     {
       "id": "2603_01176",
@@ -107643,6 +109245,12 @@ window.timelineData = {
       [
         "Decision-making",
         "Control",
+        "Data-Driven Control",
+        "Koopman and Nonlinear Data-Driven Control"
+      ],
+      [
+        "Decision-making",
+        "Control",
         "Stochastic Control"
       ],
       [
@@ -109046,6 +110654,13 @@ window.timelineData = {
         "Machine Learning",
         "Language & Sequence Models",
         "Time Series",
+        "Datasets & Benchmarks"
+      ],
+      [
+        "Prediction & Perception",
+        "Machine Learning",
+        "Language & Sequence Models",
+        "Time Series",
         "Surveys and Comparative Studies"
       ],
       [
@@ -109643,8 +111258,8 @@ window.timelineData = {
       ]
     ],
     "maxBranchDepth": 8,
-    "totalPapers": 2348,
-    "plottedPapers": 2348,
+    "totalPapers": 2382,
+    "plottedPapers": 2382,
     "undatedPapers": 0,
     "minYear": 1816,
     "maxYear": 2026,
@@ -109800,8 +111415,8 @@ window.timelineData = {
         "label": "2010",
         "start": 2010,
         "end": 2010,
-        "width": 6.401863102162943,
-        "count": 28
+        "width": 6.525047542642129,
+        "count": 29
       },
       {
         "label": "2011",
@@ -109835,15 +111450,15 @@ window.timelineData = {
         "label": "2015",
         "start": 2015,
         "end": 2015,
-        "width": 11.674775537464182,
-        "count": 82
+        "width": 11.756293115303295,
+        "count": 83
       },
       {
         "label": "2016",
         "start": 2016,
         "end": 2016,
-        "width": 11.837433791622589,
-        "count": 84
+        "width": 11.918203818957823,
+        "count": 85
       },
       {
         "label": "2017",
@@ -109856,8 +111471,8 @@ window.timelineData = {
         "label": "2018",
         "start": 2018,
         "end": 2018,
-        "width": 14.760719271758349,
-        "count": 123
+        "width": 14.830542294827174,
+        "count": 124
       },
       {
         "label": "2019",
@@ -109870,50 +111485,50 @@ window.timelineData = {
         "label": "2020",
         "start": 2020,
         "end": 2020,
-        "width": 14.900149934545086,
-        "count": 125
+        "width": 14.969544584303272,
+        "count": 126
       },
       {
         "label": "2021",
         "start": 2021,
         "end": 2021,
-        "width": 16.11878229969948,
-        "count": 143
+        "width": 16.184705843959698,
+        "count": 144
       },
       {
         "label": "2022",
         "start": 2022,
         "end": 2022,
-        "width": 15.919944793516226,
-        "count": 140
+        "width": 16.11878229969948,
+        "count": 143
       },
       {
         "label": "2023",
         "start": 2023,
         "end": 2023,
-        "width": 17.405797589349106,
-        "count": 163
+        "width": 17.593503276623824,
+        "count": 166
       },
       {
         "label": "2024",
         "start": 2024,
         "end": 2024,
-        "width": 16.834586511332155,
-        "count": 154
+        "width": 17.153455288515893,
+        "count": 159
       },
       {
         "label": "2025",
         "start": 2025,
         "end": 2025,
-        "width": 20.269657819478304,
-        "count": 211
+        "width": 20.439871691929255,
+        "count": 214
       },
       {
         "label": "2026",
         "start": 2026,
         "end": 2026,
-        "width": 17.279926104138163,
-        "count": 161
+        "width": 18.148991060233183,
+        "count": 175
       }
     ],
     "uncategorizedCategory": "Uncategorized"

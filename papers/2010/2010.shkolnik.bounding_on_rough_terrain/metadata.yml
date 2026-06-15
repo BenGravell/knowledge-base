@@ -1,0 +1,32 @@
+title: >
+  Bounding on Rough Terrain with the LittleDog Robot
+algorithm: Reachability-Guided RRT
+authors:
+  - Alexander Shkolnik
+  - Michael Levashov
+  - Ian R. Manchester
+  - Russ Tedrake
+year: 2010
+source: The International Journal of Robotics Research
+type: Journal Paper
+doi: 10.1177/0278364910388315
+arxiv_id:
+tags:
+  - Motion planning
+  - Kinodynamic planning
+  - Sampling-based planning
+  - RRTs
+  - Legged locomotion
+  - Quadruped robots
+  - Rough terrain
+  - Motion primitives
+  - Feedback stabilization
+  - Transverse linearization
+abstract: >
+  A motion planning algorithm is described for bounding over rough terrain with the LittleDog robot. Unlike walking gaits, bounding is highly dynamic and cannot be planned with quasi-steady approximations. LittleDog is modeled as a planar five-link system, with a 16-dimensional state space; computing a plan over rough terrain in this high-dimensional state space that respects the kinodynamic constraints due to underactuation and motor limits is extremely challenging. Rapidly Exploring Random Trees (RRTs) are known for fast kinematic path planning in high-dimensional configuration spaces in the presence of obstacles, but search efficiency degrades rapidly with the addition of challenging dynamics. A computationally tractable planner for bounding was developed by modifying the RRT algorithm by using: (1) motion primitives to reduce the dimensionality of the problem; (2) Reachability Guidance, which dynamically changes the sampling distribution and distance metric to address differential constraints and discontinuous motion primitive dynamics; and (3) sampling with a Voronoi bias in a lower-dimensional “task space” for bounding. Short trajectories were demonstrated to work on the robot, however open-loop bounding is inherently unstable. A feedback controller based on transverse linearization was implemented, and shown in simulation to stabilize perturbations in the presence of noise and time delays.
+summary: >
+  Develops a practical kinodynamic planner for highly dynamic LittleDog bounding by combining motion primitives, reachability-guided sampling, and task-space Voronoi bias inside an RRT-style search. The paper is useful because it pairs the planner with transverse-linearization feedback, separating the problem of finding dynamic rough-terrain motions from the problem of stabilizing inherently unstable open-loop bounds on hardware.
+link: https://journals.sagepub.com/doi/10.1177/0278364910388315
+links_alt:
+  - https://doi.org/10.1177/0278364910388315
+audit_status: partial

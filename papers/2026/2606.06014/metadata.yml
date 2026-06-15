@@ -1,0 +1,33 @@
+title: >
+  PLAN-S: Bridging Planning with Latent Style Dynamics for Autonomous Driving World Models
+algorithm: PLAN-S
+authors:
+  - Xiaoyun Qiu
+  - Jingtao He
+  - Yijie Chen
+  - Yusong Huang
+  - Haotian Wang
+  - Yixuan Wang
+  - Xinhu Zheng
+year: 2026
+source: arXiv
+type: Preprint
+doi:
+arxiv_id: "2606.06014"
+tags:
+  - Autonomous driving
+  - World models
+  - Motion planning
+  - Latent dynamics
+  - Driving style
+  - Cost maps
+  - Trajectory planning
+  - End-to-end driving
+abstract: >
+  Latent world models (LWMs) have strengthened end-to-end autonomous driving by forecasting compact scene dynamics for downstream planning. However, existing LWM-based planners usually generate trajectories directly from entangled latent representations. This compact latent-to-planner pathway lacks explicit modeling of risk, drivability, and diverse style preferences, making driving-style dynamics difficult to supervise, inspect, or modulate before a final trajectory is selected. We propose PLAN-S (PLANning with latent Style dynamics), a planner-facing bridge that addresses this compactness-controllability dilemma by decoding a style-conditioned, four-channel semantic cost map from the latent representation. The cost map is conditioned on ego state and driving style and is consumed up-stream of the planning decision through two host-side interfaces: attention-level fusion for regression planners and reward-level fusion for anchor-score planners. We validate PLAN-S on two architecturally distinct hosts, ResWorld on nuScenes and WoTE on NAVSIM, while keeping the host backbones frozen to isolate the contribution of the proposed bridge. On nuScenes, PLAN-S reduces L2 at every horizon over the baseline, with 0.55 m average L2 and a 42% relative reduction in the 3 s collision rate. On NAVSIM, the rule-cost variant reaches 89.4 Predictive Driver Model Score (PDMS), while the learned cost variant provides complementary gains on baseline-challenging scenes. Ablations show that the cost pathway contributes most directly to safer trajectory selection. Qualitative results further show that PLAN-S can produce diverse cost maps, with spatially consistent variations aligned to different driving styles.
+summary: >
+  Adds a planner-facing bridge between latent autonomous-driving world models and trajectory selection by decoding style-conditioned semantic cost maps. PLAN-S is useful because it makes risk, drivability, and driving-style preferences explicit enough to inspect and modulate, while still plugging into frozen learned planning hosts.
+link: https://arxiv.org/pdf/2606.06014
+links_alt:
+  - https://arxiv.org/abs/2606.06014
+audit_status: partial

@@ -1,0 +1,39 @@
+title: >
+  Grounding DINO: Marrying DINO with Grounded Pre-Training for Open-Set Object Detection
+algorithm: Grounding DINO
+authors:
+  - Shilong Liu
+  - Zhaoyang Zeng
+  - Tianhe Ren
+  - Feng Li
+  - Hao Zhang
+  - Jie Yang
+  - Qing Jiang
+  - Chunyuan Li
+  - Jianwei Yang
+  - Hang Su
+  - Jun Zhu
+  - Lei Zhang
+year: 2023
+source: arXiv
+type: Preprint
+doi:
+arxiv_id: "2303.05499"
+tags:
+  - Object detection
+  - Open-set detection
+  - Vision-language models
+  - Grounded pretraining
+  - DINO
+  - Referring expression comprehension
+  - Cross-modal fusion
+  - Zero-shot transfer
+abstract: >
+  In this paper, we present an open-set object detector, called Grounding DINO, by marrying Transformer-based detector DINO with grounded pre-training, which can detect arbitrary objects with human inputs such as category names or referring expressions. The key solution of open-set object detection is introducing language to a closed-set detector for open-set concept generalization. To effectively fuse language and vision modalities, we conceptually divide a closed-set detector into three phases and propose a tight fusion solution, which includes a feature enhancer, a language-guided query selection, and a cross-modality decoder for cross-modality fusion. While previous works mainly evaluate open-set object detection on novel categories, we propose to also perform evaluations on referring expression comprehension for objects specified with attributes. Grounding DINO performs remarkably well on all three settings, including benchmarks on COCO, LVIS, ODinW, and RefCOCO/+/g. Grounding DINO achieves a 52.5 AP on the COCO detection zero-shot transfer benchmark, i.e., without any training data from COCO. It sets a new record on the ODinW zero-shot benchmark with a mean 26.1 AP. Code will be available at \url{https://github.com/IDEA-Research/GroundingDINO}.
+summary: >
+  Combines the DINO detector with language-conditioned grounded pretraining to support open-set detection from category names or referring expressions. Its feature enhancer, language-guided query selection, and cross-modality decoder made Grounding DINO a widely used bridge between object detection and promptable vision-language grounding.
+link: https://arxiv.org/pdf/2303.05499
+links_alt:
+  - https://arxiv.org/abs/2303.05499
+  - https://github.com/IDEA-Research/GroundingDINO
+audit_status: partial

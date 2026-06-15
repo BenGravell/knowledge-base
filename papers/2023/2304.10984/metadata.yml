@@ -1,0 +1,27 @@
+title: >
+  IBBT: Informed Batch Belief Trees for Motion Planning under Uncertainty
+algorithm: IBBT
+authors:
+  - Dongliang Zheng
+  - Panagiotis Tsiotras
+year: 2023
+source: arXiv
+type: Preprint
+doi:
+arxiv_id: "2304.10984"
+tags:
+  - Motion planning under uncertainty
+  - Belief-space planning
+  - Batch planning
+  - Sampling-based planning
+  - POMDPs
+  - State estimation
+  - Risk-aware planning
+abstract: >
+  In this work, we propose the Informed Batch Belief Trees (IBBT) algorithm for motion planning under motion and sensing uncertainties. The original stochastic motion planning problem is divided into a deterministic motion planning problem and a graph search problem. We solve the deterministic planning problem using sampling-based methods such as PRM or RRG to construct a graph of nominal trajectories. Then, an informed cost-to-go heuristic for the original problem is computed based on the nominal trajectory graph. Finally, we grow a belief tree by searching over the graph using the proposed heuristic. IBBT interleaves between batch state sampling, nominal trajectory graph construction, heuristic computing, and search over the graph to find belief space motion plans. IBBT is an anytime, incremental algorithm. With an increasing number of batches of samples added to the graph, the algorithm finds motion plans that converge to the optimal one. IBBT is efficient by reusing results between sequential iterations. The belief tree searching is an ordered search guided by an informed heuristic. We test IBBT in different planning environments. Our numerical investigation confirms that IBBT finds non-trivial motion plans and is faster compared with previous similar methods.
+summary: >
+  Introduces Informed Batch Belief Trees for planning in belief space, using batch expansion and informed sampling to search efficiently under state uncertainty. The contribution sits between sampling-based motion planning and POMDP-style planning, with emphasis on reducing wasted exploration in high-dimensional belief spaces.
+link: https://arxiv.org/pdf/2304.10984
+links_alt:
+  - https://arxiv.org/abs/2304.10984
+audit_status: partial
