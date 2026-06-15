@@ -12,7 +12,6 @@ extra:
     search: material/magnify
     analytics: material/chart-line
     about: material/information-outline
-    credits: material/heart-outline
     portfolio: material/briefcase-outline
 
 not_in_nav: |
