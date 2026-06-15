@@ -1,0 +1,4 @@
+interface:
+  display_name: "Tree Placement"
+  short_description: "Place paper metadata entries in tree.yml."
+  default_prompt: "Use this skill when auditing or editing the Tree nav placement for metadata-backed papers."

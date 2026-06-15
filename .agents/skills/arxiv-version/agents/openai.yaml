@@ -1,0 +1,4 @@
+interface:
+  display_name: "Arxiv Version"
+  short_description: "Find and verify arXiv versions before paper metadata work."
+  default_prompt: "Use this skill to decide whether a paper has a matching arXiv version before choosing metadata paths or links."

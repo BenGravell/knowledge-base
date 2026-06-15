@@ -1,0 +1,4 @@
+interface:
+  display_name: "Paper Metadata"
+  short_description: "Create or update one paper metadata.yml entry."
+  default_prompt: "Use this skill when creating or fixing a single metadata.yml entry for a paper in the knowledge base."

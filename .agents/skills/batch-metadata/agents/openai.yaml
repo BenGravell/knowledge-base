@@ -1,0 +1,4 @@
+interface:
+  display_name: "Batch Metadata"
+  short_description: "Generate metadata for lists or groups of papers."
+  default_prompt: "Use this skill when processing a source list of papers and adding each paper to the knowledge base."

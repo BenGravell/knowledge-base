@@ -1,0 +1,4 @@
+interface:
+  display_name: "Raw Metadata Audit"
+  short_description: "Audit and fix raw paper metadata entries."
+  default_prompt: "Use this skill when running the raw metadata audit and resolving reported metadata issues."
