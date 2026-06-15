@@ -46,3 +46,5 @@ https://opencv.org/opencv-5/
 https://magenta.withgoogle.com/magenta-realtime-2
 https://drfeifei.substack.com/p/a-functional-taxonomy-of-world-models
 https://ieeexplore.ieee.org/stampPDF/getPDF.jsp?tp=&arnumber=5751929&ref=aHR0cHM6Ly93d3cuZ29vZ2xlLmNvbS8=
+https://docs.rapids.ai/api/cudf/stable/cudf_polars/
+https://github.com/aurora-opensource/au
