@@ -1517,7 +1517,7 @@ body:has(.kb-home-bento) .md-content {
   line-height: 1.55;
 }
 
-.md-typeset .kb-home-about h2:first-child {
+.md-typeset .kb-home-about > :first-child {
   margin-top: 0;
 }
 
@@ -2287,6 +2287,7 @@ body:has(.md-content__inner > :is(.kb-app-page, [id$="-app"])) .md-content {
 }
 
 .ct-page {
+  --ct-page-gutter: clamp(0.85rem, 2vw, 1.8rem);
   --ct-rail-center: 1.14rem;
   --ct-teal: var(--kb-color-teal);
   --ct-cyan: var(--kb-color-blue);
@@ -2298,6 +2299,7 @@ body:has(.md-content__inner > :is(.kb-app-page, [id$="-app"])) .md-content {
   --ct-selected-blue-violet: oklch(87% 0.052 276);
   --ct-selected-blue-mint: oklch(88% 0.044 198);
   --ct-selected-text: #111827;
+  --ct-selected-border: color-mix(in srgb, var(--ct-cyan) 46%, var(--ct-selected-blue-violet));
   --ct-selected-dot-border: color-mix(in srgb, #ffffff 84%, transparent);
   --ct-selected-dot-fill: var(--ct-cyan);
   --ct-selected-inset: color-mix(in srgb, #ffffff 42%, transparent);
@@ -2329,7 +2331,9 @@ body:has(.md-content__inner > :is(.kb-app-page, [id$="-app"])) .md-content {
     var(--ct-tree-count-pad-inline-end)
   );
   --ct-tree-count-stack-gap: 0;
-  --ct-scrollbar-reserve: 0.72rem;
+  --ct-scrollbar-reserve: 0.35rem;
+  --ct-scrollbar-gutter-width: 0.5rem;
+  --ct-scrollbar-lane: calc(var(--ct-scrollbar-reserve) + var(--ct-scrollbar-gutter-width));
   --ct-sunburst-min-size: 12rem;
   --ct-sunburst-max-size: 30rem;
   --ct-sunburst-viewport-reserve: 31rem;
@@ -2339,7 +2343,6 @@ body:has(.md-content__inner > :is(.kb-app-page, [id$="-app"])) .md-content {
   );
   --ct-app-height: calc(100vh - var(--kb-site-header-height) - var(--kb-app-top-gap) - var(--kb-app-top-gap));
   --ct-app-height: calc(100dvh - var(--kb-site-header-height) - var(--kb-app-top-gap) - var(--kb-app-top-gap));
-  --ct-list-edge-compensation: 0.55rem;
   --ct-subtle-grey-surface: #e4e7eb;
   --ct-subtle-grey-surface-hover: #b8bec8;
   --ct-subtle-grey-border: #8d96a3;
@@ -2359,6 +2362,15 @@ body:has(.md-content__inner > :is(.kb-app-page, [id$="-app"])) .md-content {
   max-height: var(--ct-app-height);
   margin-top: var(--kb-app-top-gap);
   overflow: hidden;
+}
+
+body:has(#ct-app) .md-grid,
+body:has(#ct-app) .md-main__inner {
+  padding-inline: 0 !important;
+}
+
+.md-content__inner > #ct-app.ct-page {
+  padding-inline: var(--ct-page-gutter);
 }
 
 html:has(#ct-app),
@@ -2390,6 +2402,7 @@ body:has(#ct-app) .md-content__inner {
   --ct-selected-blue-violet: oklch(34% 0.064 276);
   --ct-selected-blue-mint: oklch(34% 0.054 198);
   --ct-selected-text: #ffffff;
+  --ct-selected-border: color-mix(in srgb, var(--ct-cyan) 54%, #ffffff);
   --ct-selected-dot-border: #ffffff;
   --ct-selected-dot-fill: var(--ct-cyan);
   --ct-selected-inset: color-mix(in srgb, #000000 18%, transparent);
@@ -2837,17 +2850,44 @@ body:has(#ct-app) .md-content__inner {
 .ct-browser {
   box-sizing: border-box;
   display: block;
-  width: 100%;
+  width: calc(100% + var(--ct-scrollbar-lane));
   min-height: 0;
-  margin-top: 0.35rem;
+  margin: 0.35rem calc(-1 * var(--ct-scrollbar-lane)) 0 0;
   overflow-x: hidden;
   overflow-y: auto;
   overscroll-behavior: contain;
-  padding-left: var(--ct-list-edge-compensation);
-  padding-right: var(--ct-scrollbar-reserve);
+  padding: 0 var(--ct-scrollbar-reserve) 0 0;
+  scrollbar-color: transparent transparent;
   scrollbar-gutter: stable;
   scrollbar-width: thin;
   -webkit-overflow-scrolling: touch;
+  transition: scrollbar-color 0.16s ease;
+}
+
+.ct-browser::-webkit-scrollbar {
+  width: var(--ct-scrollbar-gutter-width);
+  height: var(--ct-scrollbar-gutter-width);
+}
+
+.ct-browser::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.ct-browser::-webkit-scrollbar-thumb {
+  border-radius: 999px;
+  background: transparent;
+}
+
+.ct-browser:hover,
+.ct-browser:focus-within,
+.ct-browser:active {
+  scrollbar-color: color-mix(in srgb, var(--md-default-fg-color) 28%, transparent) transparent;
+}
+
+.ct-browser:hover::-webkit-scrollbar-thumb,
+.ct-browser:focus-within::-webkit-scrollbar-thumb,
+.ct-browser:active::-webkit-scrollbar-thumb {
+  background: color-mix(in srgb, var(--md-default-fg-color) 24%, transparent);
 }
 
 .ct-workspace .ct-browser {
@@ -2889,8 +2929,6 @@ body:has(#ct-app) .md-content__inner {
 
 .ct-focus-section {
   min-width: 0;
-  margin-left: calc(0rem - var(--ct-list-edge-compensation));
-  width: calc(100% + var(--ct-list-edge-compensation));
 }
 
 .ct-focus-section--ego {
@@ -2921,6 +2959,14 @@ body:has(#ct-app) .md-content__inner {
   margin: 0;
   padding: 0;
   list-style: none;
+}
+
+[dir="ltr"] .md-typeset .ct-tree-list {
+  margin-left: 0;
+}
+
+[dir="rtl"] .md-typeset .ct-tree-list {
+  margin-right: 0;
 }
 
 .md-typeset .ct-tree-list .ct-tree-node {
@@ -3192,7 +3238,7 @@ body:has(#ct-app) .md-content__inner {
 }
 
 .ct-tree-node.is-current > .ct-tree-button {
-  border-color: transparent;
+  border-color: var(--ct-selected-border);
   background:
     radial-gradient(circle at 16% 18%, color-mix(in srgb, var(--ct-selected-blue-cyan) 44%, transparent) 0 8%, transparent 19%),
     radial-gradient(circle at 52% 24%, color-mix(in srgb, var(--ct-selected-blue-mint) 34%, transparent) 0 7%, transparent 16%),
@@ -3221,7 +3267,7 @@ body:has(#ct-app) .md-content__inner {
 }
 
 .ct-tree-node.is-current > .ct-tree-button.has-counters .ct-tree-counts {
-  border-left-color: color-mix(in srgb, var(--ct-selected-text) 28%, var(--md-default-bg-color));
+  border-left-color: var(--ct-selected-border);
   background: var(--md-default-bg-color);
 }
 
@@ -3313,6 +3359,11 @@ body:has(#ct-app) .md-content__inner {
   color: var(--md-default-fg-color);
   font-size: 0.78rem;
   line-height: 1.55;
+}
+
+.ct-page,
+.ct-page * {
+  box-shadow: none !important;
 }
 
 .ct-paper-actions {

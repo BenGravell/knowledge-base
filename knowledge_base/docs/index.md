@@ -135,16 +135,13 @@ hide:
       </span>
     </summary>
     <div class="kb-home-expander-content kb-home-about">
-      <h2>What is this?</h2>
-
-      <p>My curated corpus of references (mostly research papers) that one can search, compare, and explore through several complementary lenses. Together, those views make it easier to follow threads, notice relationships, and build a feel for the surrounding landscape.</p>
-
       <div class="kb-about-compare">
         <section class="kb-about-compare-panel kb-about-compare-panel--is">
           <h3>What This Is</h3>
-          <p>A moderately sized collection of items that have passed my personal sniff test and manual triage.</p>
+          <p>My curated corpus of references organized for exploration across several complementary views.</p>
           <ul>
-            <li>Papers, ideas, and methods I find useful, intriguing, or worth returning to.</li>
+            <li>Only items that have passed my personal sniff test: papers, ideas, and methods I find useful, intriguing, or worth returning to.</li>
+            <li>A way to follow threads, notice relationships, and build a feel for the surrounding landscape.</li>
             <li>Stronger coverage in areas I know, work near, or especially admire.</li>
           </ul>
         </section>
