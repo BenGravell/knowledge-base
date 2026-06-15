@@ -2366,7 +2366,16 @@ body:has(.md-content__inner > :is(.kb-app-page, [id$="-app"])) .md-content {
 
 body:has(#ct-app) .md-grid,
 body:has(#ct-app) .md-main__inner {
-  padding-inline: 0 !important;
+  padding-inline: var(--kb-page-gutter) !important;
+}
+
+body:has(#ct-app) .md-main__inner {
+  justify-content: center;
+}
+
+body:has(#ct-app) .md-content {
+  flex: 0 1 calc(76rem + 2.4rem);
+  width: min(100%, calc(76rem + 2.4rem));
 }
 
 .md-content__inner > #ct-app.ct-page {
