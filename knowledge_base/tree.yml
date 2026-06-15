@@ -55,6 +55,8 @@
           - Sum-of-squares (SOS):
             - Approximation of the Joint Spectral Radius Using Sum of Squares: docs/papers/2007/0712.2887/metadata.yml
             - A Convex Polynomial That Is Not sos-convex: docs/papers/2009/0903.1287/metadata.yml
+            - DSOS/SDSOS Polynomial Optimization: docs/papers/2018/1806.06996/metadata.yml
+            - SOS Shape-Constrained Regression: docs/papers/2020/2004.03853/metadata.yml
           - Online Convex Optimization:
             - Reward-Doubling: docs/papers/2012/1211.2260/metadata.yml
           - Learning Optimization Models:
@@ -183,6 +185,7 @@
               - "Convergence Conditions for Ascent Methods. II: Some Corrections": docs/papers/1971/1971.wolfe.convergence_conditions_for_ascent/metadata.yml
             - Adaptive Gradient Methods:
               - Revisiting the Polyak step size: docs/papers/2019/1905.00313/metadata.yml
+              - DoPr: docs/papers/2026/2606.06418/metadata.yml
               - Adam:
                 - Adam: docs/papers/2014/1412.6980/metadata.yml
                 - A Smoother Way to Train Structured Prediction Models: docs/papers/2019/1902.03228/metadata.yml
@@ -896,6 +899,7 @@
             - Receding Horizon Control: docs/papers/2011/2011.mattingley.receding_horizon_control/metadata.yml
             - "A Data-Driven Approach to Synthesizing Dynamics-Aware Trajectories for Underactuated Robotic Systems": docs/papers/2023/2307.13782/metadata.yml
         - Hybrid Approaches:
+          - IOS-MP: docs/papers/2016/1607.06374/metadata.yml
           - Motion Planning Through Policy Search: docs/papers/2002/2002.roy.motion_planning_through_policy/metadata.yml
           - SBP-Guided MPC: docs/papers/2019/2019.hannigan.sbp_guided_mpc_to/metadata.yml
           - RRT-MPPI: docs/papers/2023/2301.13143/metadata.yml
@@ -942,8 +946,10 @@
               - PUMA: docs/papers/2010/2010.he.puma_planning_under_uncertainty/metadata.yml
               - PBD: docs/papers/2014/1401.3827/metadata.yml
               - BBT: docs/papers/2021/2110.00173/metadata.yml
+              - IBBT: docs/papers/2023/2304.10984/metadata.yml
               - Optimizing Trajectory-Trees in Belief Space: docs/papers/2026/2605.01860/metadata.yml
               - Online Belief Prediction: docs/papers/2024/2401.15315/metadata.yml
+              - Multistep Belief Space Dynamics Learning: docs/papers/2026/2605.12628/metadata.yml
           - "Risk Bounded Nonlinear Robot Motion Planning with Integrated Perception & Control": docs/papers/2022/2201.01483/metadata.yml
           - Safe output-feedback motion planning: docs/papers/2022/2206.06553/metadata.yml
           - "Distributionally Robust CVaR-Based Safety Filtering for Motion Planning in Uncertain Environments": docs/papers/2023/2309.08821/metadata.yml
@@ -1022,6 +1028,7 @@
           - CarPLAN: docs/papers/2026/2603.12607/metadata.yml
           - What Matters for Scalable and Robust Learning in End-to-End Driving Planners?: docs/papers/2026/2603.15185/metadata.yml
           - Generalized Trajectory Scoring: docs/papers/2025/2506.06664/metadata.yml
+          - PLAN-S: docs/papers/2026/2606.06014/metadata.yml
           - Transitioning from Rule-Based to ML-Powered Motion Planning: docs/papers/2025/2025.hu.technically_speaking_transitioning_from/metadata.yml        
           - Parting with Misconceptions about Learning-based Vehicle Motion Planning: docs/papers/2023/2306.07962/metadata.yml
           - "Imitation with Spatial-Temporal Heatmap: 2nd Place Solution for NuPlan Challenge": docs/papers/2023/2306.15700/metadata.yml
@@ -1064,6 +1071,7 @@
           - "Safe multi-agent motion planning via filtered reinforcement learning": docs/papers/2022/2022.vinod.safe_multi_agent_motion/metadata.yml
           - Safe Reinforcement Learning via Shielding: docs/papers/2017/1708.08611/metadata.yml
           - Safe Exploration in Continuous Action Spaces: docs/papers/2018/1801.08757/metadata.yml
+          - Cluster-Decomposed Floating-Robot Motion Planning: docs/papers/2026/2606.09620/metadata.yml
           - Safe Multi-agent Motion Planning under Uncertainty for Drones Using Filtered Reinforcement Learning: docs/papers/2023/2311.00063/metadata.yml
           - CGD: docs/papers/2024/2405.01758/metadata.yml
           - "Downwash-Aware Trajectory Planning for Large Quadrotor Teams": docs/papers/2017/1704.04852/metadata.yml
@@ -1111,6 +1119,7 @@
               - Robust Imitation of Diverse Behaviors: docs/papers/2017/1707.02747/metadata.yml
             - Quadrupeds:
               - Optimization and Learning for Rough Terrain Legged Locomotion: docs/papers/2011/2011.zucker.optimization_and_learning_for/metadata.yml
+              - Reachability-Guided RRT: docs/papers/2010/2010.shkolnik.bounding_on_rough_terrain/metadata.yml
               - Barkour: docs/papers/2023/2305.14654/metadata.yml
               - Jacta: docs/papers/2024/2408.01258/metadata.yml
               - Whole-Body Model-Predictive Control of Legged Robots with MuJoCo: docs/papers/2025/2503.04613/metadata.yml
@@ -1280,6 +1289,8 @@
           - Matrix S-Lemma: docs/papers/2020/2006.00870/metadata.yml
           - Matrix Finsler's Lemma: docs/papers/2021/2103.13461/metadata.yml
           - Data-Driven Feedback Fragility Analysis: docs/papers/2025/2510.00717/metadata.yml
+        - Koopman and Nonlinear Data-Driven Control:
+          - Koopman Input-Output Output-Feedback Control: docs/papers/2026/2606.07758/metadata.yml
       - Stochastic Control:
         - Multiplicative Noise:
           - Stochastic Stability:
@@ -1682,6 +1693,7 @@
             - DDPG: docs/papers/2015/1509.02971/metadata.yml
             - Benchmarking Deep Reinforcement Learning for Continuous Control: docs/papers/2016/1604.06778/metadata.yml
             - DeepMind Control Suite: docs/papers/2018/1801.00690/metadata.yml
+            - URLB: docs/papers/2021/2110.15191/metadata.yml
             - Behaviour Suite for Reinforcement Learning: docs/papers/2019/1908.03568/metadata.yml
             - dm_control: docs/papers/2020/2006.12983/metadata.yml
             - Quantifying Generalization in Reinforcement Learning: docs/papers/2018/1812.02341/metadata.yml
@@ -1798,6 +1810,7 @@
               - Imagination-Augmented Agents for Deep Reinforcement Learning: docs/papers/2017/1707.06203/metadata.yml
               - World Models: docs/papers/2018/1803.10122/metadata.yml
               - Genie: docs/papers/2024/2402.15391/metadata.yml
+              - GRASP: docs/papers/2026/2602.00475/metadata.yml
               - Dream to Fly: docs/papers/2025/2501.14377/metadata.yml
               - "What Drives Success in Physical Planning with Joint-Embedding Predictive World Models?": docs/papers/2025/2512.24497/metadata.yml
               - stable-worldmodel: docs/papers/2026/2602.08968/metadata.yml
@@ -1844,6 +1857,7 @@
           - Behavior Cloning:
             - BC-Z: docs/papers/2022/2202.02005/metadata.yml
             - Is Behavior Cloning All You Need?: docs/papers/2024/2407.15007/metadata.yml
+            - Offline RL vs Behavioral Cloning Analysis: docs/papers/2022/2204.05618/metadata.yml
             - TaSIL: docs/papers/2022/2205.14812/metadata.yml
             - Imitation plus reinforcement learning for driving: docs/papers/2022/2212.11419/metadata.yml
             - Pitfalls of Imitation Learning: docs/papers/2025/2503.09722/metadata.yml
@@ -1868,6 +1882,7 @@
             - DROID: docs/papers/2024/2403.12945/metadata.yml
         - Diffusion & Flow Matching:
           - Diffusion Policy: docs/papers/2023/2303.04137/metadata.yml
+          - Ambient Diffusion Policy: docs/papers/2026/2606.12365/metadata.yml
           - End-to-End Training of Deep Visuomotor Policies: docs/papers/2015/1504.00702/metadata.yml
           - Equivariant Diffusion Policy: docs/papers/2024/2407.01812/metadata.yml
           - GLIDE: docs/papers/2024/2412.02676/metadata.yml
@@ -1950,6 +1965,7 @@
           - REQ: docs/papers/2020/2010.08587/metadata.yml
         - Driving:
           - CaRL: docs/papers/2025/2504.17838/metadata.yml
+          - RL Oscillation Dampening: docs/papers/2024/2402.17050/metadata.yml
           - Outracing champion Gran Turismo drivers with deep reinforcement learning: docs/papers/2022/2022.wurman.outracing_champion_gran_turismo/metadata.yml
           - Scaling Is All You Need: docs/papers/2023/2312.15122/metadata.yml
         - Urban Planning:
@@ -1959,6 +1975,7 @@
       - Optimal State Estimation (Kalman Filters):
         - Linear Systems:
           - Kalman Filter: docs/papers/1960/1960.kalman.a_new_approach_to/metadata.yml
+          - Deterministic Kalman Filter via LQR: docs/papers/2026/2606.12327/metadata.yml
           - "Sensor Placement for Optimal Kalman Filtering: Fundamental Limits, Submodularity, and Algorithms": docs/papers/2015/1509.08146/metadata.yml
           - ISKF: docs/papers/2025/2507.00272/metadata.yml
           - Sensor Selection via Convex Optimization: docs/papers/2009/2009.joshi.sensor_selection_via_convex/metadata.yml
@@ -2051,6 +2068,7 @@
     - Motion Prediction:
       - Driver Models:
         - IDM: docs/papers/2000/cond-mat/0002177/metadata.yml
+        - Active Inference Collision Avoidance Model: docs/papers/2025/2506.02215/metadata.yml
         - Interaction Aware Trajectory Planning for Merge Scenarios in Congested Traffic Situations: docs/papers/2016/2016.evestedt.interaction_aware_trajectory_planning/metadata.yml
         - Probabilistic Model for Interaction Aware Planning in Merge Scenarios: docs/papers/2017/2017.ward.probabilistic_model_for_interaction/metadata.yml
         - Interaction-Aware Trajectory Prediction and Planning for Autonomous Vehicles in Forced Merge Scenarios: docs/papers/2021/2112.07624/metadata.yml
@@ -2067,6 +2085,7 @@
         - Real-Time Learning of Predictive Dynamic Obstacle Models for Robotic Motion Planning: docs/papers/2025/2511.00814/metadata.yml
       - Prediction Requirements:
         - Prediction Horizon Requirements for Automated Driving: docs/papers/2024/2402.03893/metadata.yml
+        - Motion Forecasting Scaling Laws: docs/papers/2025/2506.08228/metadata.yml
       - Surveys:
         - Automated Driving:
           - A Survey on Motion Prediction and Risk Assessment for Intelligent Vehicles: docs/papers/2014/2014.lefevre.a_survey_on_motion/metadata.yml
@@ -2077,6 +2096,8 @@
           - Argoverse: docs/papers/2019/1911.02620/metadata.yml
           - Argoverse 2: docs/papers/2023/2301.00493/metadata.yml
           - TruckDrive: docs/papers/2026/2603.02413/metadata.yml
+          - KITScenes Multimodal: docs/papers/2026/2606.02956/metadata.yml
+          - KITScenes LongTail: docs/papers/2026/2603.23607/metadata.yml
           - 123D: docs/papers/2026/2605.08084/metadata.yml
           - LookOut: docs/papers/2021/2101.06547/metadata.yml
           - Motion Forecasting for Autonomous Vehicles: docs/papers/2025/2502.08664/metadata.yml
@@ -2123,6 +2144,7 @@
           - 3D ShapeNets: docs/papers/2014/1406.5670/metadata.yml
           - VoxelNet: docs/papers/2017/1711.06396/metadata.yml
           - PointPillars: docs/papers/2018/1812.05784/metadata.yml
+          - SToRe3D: docs/papers/2026/2605.14110/metadata.yml
           - SuperFrusta: docs/papers/2025/2512.09201/metadata.yml
           - On the Feasibility and Opportunity of Autoregressive 3D Object Detection: docs/papers/2026/2603.07985/metadata.yml
           - PIXOR: docs/papers/2019/1902.06326/metadata.yml
@@ -2137,6 +2159,8 @@
           - Viola-Jones Detector: docs/papers/2001/2001.viola.rapid_object_detection_using/metadata.yml
           - HOG: docs/papers/2005/2005.dalal.histograms_of_oriented_gradients/metadata.yml
           - YOLO: docs/papers/2015/1506.02640/metadata.yml
+          - Faster R-CNN: docs/papers/2015/1506.01497/metadata.yml
+          - Grounding DINO: docs/papers/2023/2303.05499/metadata.yml
           - Recurrent Models of Visual Attention: docs/papers/2014/1406.6247/metadata.yml
           - Focal Loss for Dense Object Detection: docs/papers/2017/1708.02002/metadata.yml
         - Face Recognition:
@@ -2157,6 +2181,8 @@
         - Video Understanding:
           - ViViT: docs/papers/2021/2103.15691/metadata.yml
           - SAM 2: docs/papers/2024/2408.00714/metadata.yml
+          - SAMURAI: docs/papers/2024/2411.11922/metadata.yml
+          - HOIST-Former: docs/papers/2024/2404.13819/metadata.yml
           - V-JEPA: docs/papers/2024/2404.08471/metadata.yml
           - V-JEPA 2: docs/papers/2025/2506.09985/metadata.yml
           - LeJEPA: docs/papers/2025/2511.08544/metadata.yml
@@ -2242,6 +2268,7 @@
             - SHAP: docs/papers/2017/1705.07874/metadata.yml
             - Efficient Shapley Performance Attribution for Least-Squares Regression: docs/papers/2023/2310.19245/metadata.yml
             - TreeSHAP: docs/papers/2018/1802.03888/metadata.yml
+            - FIGS: docs/papers/2022/2201.11931/metadata.yml
           - "\"Why Should I Trust You?\": Explaining the Predictions of Any Classifier": docs/papers/2016/1602.04938/metadata.yml
           - "Beyond Sparsity: Tree Regularization of Deep Models for Interpretability": docs/papers/2017/1711.06178/metadata.yml
           - "Explainable AI: Learning from the Learners": docs/papers/2026/2601.05525/metadata.yml
@@ -2439,6 +2466,7 @@
             - "Reducing the Transformer Architecture to a Minimum": docs/papers/2024/2410.13732/metadata.yml
         - Societal Impacts:
           - PuLSE: docs/papers/2026/2606.05750/metadata.yml
+          - Ghostbuster: docs/papers/2023/2305.15047/metadata.yml
         - Time Series:
           - Algorithms:
             - BOSS: docs/papers/2014/2014.schafer.the_boss_is_concerned/metadata.yml
@@ -2459,7 +2487,11 @@
             - MultiRocket: docs/papers/2021/2102.00457/metadata.yml
             - QUANT: docs/papers/2023/2308.00928/metadata.yml
             - TimeGPT-1: docs/papers/2023/2310.03589/metadata.yml
+            - HEPA: docs/papers/2026/2605.11130/metadata.yml
             - "This Time Is Different: An Observability Perspective on Time Series Foundation Models": docs/papers/2025/2505.14766/metadata.yml
+          - Datasets & Benchmarks:
+            - FactoryNet: docs/papers/2026/2605.09081/metadata.yml
+            - FactoryBench: docs/papers/2026/2605.07675/metadata.yml
           - Surveys and Comparative Studies:
             - Bake Off Redux: docs/papers/2023/2304.13029/metadata.yml
             - "Time series classification: nearest neighbor versus deep learning models": docs/papers/2020/2020.jiang.time_series_classification_nearest/metadata.yml
@@ -2506,6 +2538,7 @@
           - OpenVLA: docs/papers/2024/2406.09246/metadata.yml
           - Alpamayo-R1: docs/papers/2025/2511.00088/metadata.yml
           - LCDrive: docs/papers/2025/2512.10226/metadata.yml
+          - EMMA: docs/papers/2024/2410.23262/metadata.yml
           - Fast-dDrive: docs/papers/2026/2605.23163/metadata.yml
           - MultiNet: docs/papers/2016/1612.07695/metadata.yml
           - nuScenes: docs/papers/2019/1903.11027/metadata.yml
@@ -2573,6 +2606,8 @@
           - SimScale: docs/papers/2025/2511.23369/metadata.yml
         - Diffusion-based Generation:
           - Causal Composition Diffusion Model for Closed-loop Traffic Generation: docs/papers/2024/2412.17920/metadata.yml
+          - SceneDiffuser: docs/papers/2024/2412.12129/metadata.yml
+          - SceneDiffuser++: docs/papers/2025/2506.21976/metadata.yml
           - "One Model to Drift Them All: Physics-Informed Conditional Diffusion Model for Driving at the Limits": docs/papers/2025/2025.djeumou.one_model_to_drift/metadata.yml
           - Autonomous Drifting with 3 Minutes of Data via Learned Tire Models: docs/papers/2023/2306.06330/metadata.yml
           - Generating Driving Scenes with Diffusion: docs/papers/2023/2305.18452/metadata.yml
