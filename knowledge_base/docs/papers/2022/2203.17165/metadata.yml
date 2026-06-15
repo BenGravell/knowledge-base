@@ -7,7 +7,7 @@ authors:
   - John Lygeros
   - Tyler H. Summers
 year: 2022
-source: IEEE 61st Conference on Decision and Control (CDC)
+source: IEEE Conference on Decision and Control (CDC)
 type: Conference Paper
 doi: 10.1109/CDC51059.2022.9993098
 arxiv_id: "2203.17165"
@@ -18,7 +18,7 @@ tags:
   - Linear quadratic control
   - Stochastic optimal control
   - POMDPs
-  - Riccati equations
+  - Riccati equation
   - Dynamic output feedback
 abstract: >
   We propose a policy iteration algorithm for solving the multiplicative noise linear quadratic output feedback design problem. The algorithm solves a set of coupled Riccati equations for estimation and control arising from a partially observable Markov decision process (POMDP) under a class of linear dynamic control policies. We show in numerical experiments far faster convergence than a value iteration algorithm, formerly the only known algorithm for solving this class of problem. The results suggest promising future research directions for policy optimization algorithms in more general POMDPs, including the potential to develop novel approximate data-driven approaches when model parameters are not available.
