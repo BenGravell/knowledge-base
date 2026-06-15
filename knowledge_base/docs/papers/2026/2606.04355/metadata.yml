@@ -24,10 +24,8 @@ tags:
   - Sampling-based planning
 abstract: >
   Partially Observable Markov Decision Processes (POMDPs) are a general and principled framework for motion planning under uncertainty. Despite tremendous improvement in the scalability of POMDP solvers, long-horizon POMDPs remain difficult to solve. To alleviate the difficulty, this paper proposes a new approximate online POMDP solver, called Reference-Based Online POMDP Planning via Rapid State Space Sampling (ROP-RAS3). ROP-RAS3 uses novel extremely fast sampling-based motion planning techniques to sample the state space and generate a diverse set of macro actions online, which are then used to bias belief-space sampling and infer high-quality policies without requiring exhaustive enumeration of the action space - a fundamental constraint for modern online POMDP solvers. ROP-RAS3 converges to a near-optimal reference-based solution at a rate that depends on the number of sampled actions, rather than the size of the action space. ROP-RAS3 is evaluated on various long-horizon POMDPs with up to 3000 lookahead steps and 35-dimensional state spaces, where the state, action and observation spaces can be continuous, discrete, or a hybrid of discrete and continuous. Although the reference-based optimal solution may not be the same as the optimal POMDP solution, empirical results indicate that in all of these problems, in terms of success rate, ROP-RAS3 outperforms other state-of-the-art methods by up to multiple folds. We also demonstrate the capability of our approach on a physical robot demonstration. This work extends the theory and empirical results of our ISRR24 paper. Code can be found at \texttt{https://github.com/RDLLab/ROPRAS3}.
-
 summary: >
   Targets long-horizon online POMDP planning with a rapid state-sampling strategy that searches farther ahead under partial observability. The paper contributes to the practical planning side of POMDPs, where computation must be spent selectively during online decision making.
-
 link: https://arxiv.org/pdf/2606.04355
 links_alt:
 audit_status: partial

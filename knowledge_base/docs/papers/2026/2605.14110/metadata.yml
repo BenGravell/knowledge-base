@@ -22,7 +22,6 @@ tags:
   - BEV perception
 abstract: >
   Vision Transformers (ViTs) enable strong multi-view 3D detection but are limited by high inference latency from dense token and query processing across multiple views and large 3D regions. Existing sparsity methods, designed mainly for 2D vision, prune or merge image tokens but do not extend to full-model sparsity or address 3D object queries. We introduce SToRe3D, a relevance-aligned sparsity framework that jointly selects 2D image tokens and 3D object queries while storing filtered features for reactivation. Mutual 2D-3D relevance heads allocate compute to driving-critical content and preserve other embeddings. Evaluated on nuScenes and our new nuScenes-Relevance benchmark, SToRe3D achieves up to 3x faster inference with marginal accuracy loss, establishing real-time large-scale ViT-based 3D detection while maintaining accuracy on planning-critical agents.
-
 summary: >
   Introduces SToRe3D, an efficiency method for multi-view 3D object detection that identifies and exploits sparse token relevance inside Vision Transformers. The paper targets the practical cost of camera-based autonomous-driving perception, aiming to preserve 3D detection quality while reducing the amount of visual-token processing.
 link: https://arxiv.org/pdf/2605.14110

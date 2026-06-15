@@ -27,7 +27,6 @@ tags:
   - Open-source benchmark
 abstract: >
   Deep Reinforcement Learning (RL) has emerged as a powerful paradigm to solve a range of complex yet specific control tasks. Yet training generalist agents that can quickly adapt to new tasks remains an outstanding challenge. Recent advances in unsupervised RL have shown that pre-training RL agents with self-supervised intrinsic rewards can result in efficient adaptation. However, these algorithms have been hard to compare and develop due to the lack of a unified benchmark. To this end, we introduce the Unsupervised Reinforcement Learning Benchmark (URLB). URLB consists of two phases: reward-free pre-training and downstream task adaptation with extrinsic rewards. Building on the DeepMind Control Suite, we provide twelve continuous control tasks from three domains for evaluation and open-source code for eight leading unsupervised RL methods. We find that the implemented baselines make progress but are not able to solve URLB and propose directions for future research.
-
 summary: >
   Introduces URLB, a two-phase benchmark for unsupervised RL in which agents first pretrain without rewards and then adapt to downstream control tasks. The benchmark standardizes environments and baselines, making it easier to compare intrinsic-motivation methods and exposing that existing approaches still struggle on broad continuous-control pretraining.
 link: https://arxiv.org/pdf/2110.15191

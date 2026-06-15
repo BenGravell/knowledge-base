@@ -22,7 +22,6 @@ tags:
   - Real-world deployment
 abstract: >
   Planning collision-free motion for large robot fleets is difficult because collision avoidance induces strong inter-agent coupling that grows rapidly with team size. We consider omnidirectional floating robots on water, where choreographies are specified by sparse keyframes and an interactive tool must generate trajectories within seconds, even when transitions span minutes and thousands of time steps. We propose a scalable pipeline that builds a collision graph from an initialization, decomposes the coupled problem into interaction clusters, and solves clusters independently (and in parallel) with robustness mechanisms for common decomposition pathologies. We validate the approach in simulations up to 500 robots. The synthesized trajectories have also been deployed in two real-world demonstrations, on Lake Zürich with a fleet of 24 Way of Water crafts and at the Time Space Existence 2025 Venice Biennale.
-
 summary: >
   Presents a scalable motion-planning pipeline for large fleets of omnidirectional floating robots, where dense collision constraints would otherwise couple hundreds of agents. The approach builds a collision graph, decomposes interactions into clusters, solves them in parallel, and includes robustness mechanisms validated in simulation and real water-based deployments.
 link: https://arxiv.org/pdf/2606.09620
