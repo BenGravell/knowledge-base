@@ -3635,7 +3635,9 @@ body:has(#ct-app) .md-content__inner {
 .md-typeset .paper-meta-identifiers a,
 .md-typeset .paper-meta-identifiers a:visited {
   display: inline-flex;
+  box-sizing: border-box;
   align-items: center;
+  min-width: 0;
   max-width: 100%;
   padding: 0.11rem 0.36rem;
   border: 1px solid color-mix(in srgb, var(--md-default-fg-color) 10%, transparent);
@@ -3644,6 +3646,15 @@ body:has(#ct-app) .md-content__inner {
   font-size: 0.68rem;
   font-weight: 760;
   line-height: 1.2;
+  overflow-wrap: anywhere;
+  white-space: normal;
+  word-break: break-word;
+}
+
+.md-typeset .paper-meta-identifiers a,
+.md-typeset .paper-meta-identifiers a:visited {
+  display: inline-block;
+  border-radius: 8px;
 }
 
 .md-typeset .paper-meta-card a,
@@ -3888,8 +3899,9 @@ body:has(#ct-app) .md-content__inner {
 
 .md-typeset a.paper-tag-chip,
 .md-typeset a.paper-tag-chip:visited {
-  display: inline-flex;
-  align-items: center;
+  display: inline-block;
+  box-sizing: border-box;
+  min-width: 0;
   min-height: 1.8rem;
   max-width: 100%;
   padding: 0.26rem 0.58rem;
@@ -3900,7 +3912,10 @@ body:has(#ct-app) .md-content__inner {
   font-size: 0.74rem;
   font-weight: 800;
   line-height: 1.2;
+  overflow-wrap: anywhere;
   text-decoration: none;
+  white-space: normal;
+  word-break: break-word;
 }
 
 .md-typeset a.paper-tag-chip:hover,
