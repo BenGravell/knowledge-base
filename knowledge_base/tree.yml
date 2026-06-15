@@ -1308,6 +1308,7 @@
               - "Robust Non-fragile LQ Controllers: The Static State Feedback Case": docs/papers/2000/2000.famularo.robust_non_fragile_lq/metadata.yml
           - Output Feedback:
             - On the Separation Theorem of Stochastic Control: docs/papers/1968/1968.wonham.on_the_separation_theorem/metadata.yml
+            - Multiplicative Noise Output Feedback Policy Iteration: docs/papers/2022/2203.17165/metadata.yml
             - Sub-optimality of the Separation Principle for Quadratic Control from Bilinear Observations: docs/papers/2025/2504.11555/metadata.yml
             - When Multiplicative Noise Stymies Control: docs/papers/2016/1612.03239/metadata.yml
           - Anomaly Detection:
