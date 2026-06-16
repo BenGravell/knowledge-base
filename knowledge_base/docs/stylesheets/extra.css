@@ -2999,10 +2999,11 @@ body:has(#ct-app) .md-content__inner {
   z-index: 2;
   top: 0.62rem;
   bottom: 0.62rem;
-  left: var(--ct-rail-center);
-  width: 1px;
+  left: calc(var(--ct-rail-center) + var(--ct-tree-button-border-width));
+  width: 2px;
   background: var(--ct-muted-line);
   pointer-events: none;
+  transform: translateX(-50%);
 }
 
 .ct-tree-list .ct-tree-list {
@@ -3023,10 +3024,11 @@ body:has(#ct-app) .md-content__inner {
   z-index: 2;
   top: -0.18rem;
   bottom: 0.18rem;
-  left: var(--ct-rail-center);
-  width: 1px;
+  left: calc(var(--ct-rail-center) + var(--ct-tree-button-border-width));
+  width: 2px;
   background: var(--ct-muted-line);
   pointer-events: none;
+  transform: translateX(-50%);
 }
 
 .ct-tree-node {
@@ -3521,6 +3523,13 @@ body:has(#ct-app) .md-content__inner {
     gap: 0.5rem;
   }
 
+  .ct-workspace .ct-browser {
+    width: 100%;
+    margin-right: 0;
+    padding-right: 0;
+    scrollbar-gutter: auto;
+  }
+
   .ct-sunburst-body {
     grid-template-columns: 1fr;
     gap: 0.65rem;
@@ -3959,7 +3968,8 @@ body:has(#ct-app) .md-content__inner {
 
 .md-typeset a.paper-tag-chip,
 .md-typeset a.paper-tag-chip:visited {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
   box-sizing: border-box;
   min-width: 0;
   min-height: 1.8rem;
@@ -5477,6 +5487,10 @@ body:has(#ct-app) .md-content__inner {
   }
 
   .md-content__inner > :is(.kb-app-page, [id$="-app"]) {
+    padding-inline: 0;
+  }
+
+  .md-content__inner > #ct-app.ct-page {
     padding-inline: 0;
   }
 
