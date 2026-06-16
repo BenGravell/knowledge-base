@@ -354,9 +354,32 @@ def build_link_sections(data: dict, paper_id: str) -> list[dict]:
     return sections
 
 
+def paper_identifier_terms(data: dict, paper_id: str) -> list[str]:
+    doi = clean_doi(data.get("doi"))
+    arxiv_id = clean_arxiv_id(data.get("arxiv_id"))
+    terms = [
+        paper_id,
+        doi,
+        f"DOI:{doi}" if doi else "",
+        f"DOI {doi}" if doi else "",
+        f"https://doi.org/{doi}" if doi else "",
+        arxiv_id,
+        f"arXiv:{arxiv_id}" if arxiv_id else "",
+        f"arXiv {arxiv_id}" if arxiv_id else "",
+        arxiv_abs_url(arxiv_id) if arxiv_id else "",
+        arxiv_pdf_url(arxiv_id) if arxiv_id else "",
+        arxiv_html_url(arxiv_id) if arxiv_id else "",
+        clean_scalar(data.get("link")),
+        *as_links(data.get("links_alt")),
+    ]
+    return list(dict.fromkeys(term for term in terms if term))
+
+
 def paper_record(data: dict, paper_id: str) -> dict:
     authors = as_clean_list(data.get("authors"))
     tags = as_clean_list(data.get("tags"))
+    doi = clean_doi(data.get("doi"))
+    arxiv_id = clean_arxiv_id(data.get("arxiv_id"))
     return {
         "id": paper_id,
         "title": clean_scalar(data.get("title")),
@@ -366,6 +389,9 @@ def paper_record(data: dict, paper_id: str) -> dict:
         "year": data.get("year") or "",
         "source": clean_scalar(data.get("source")),
         "type": clean_scalar(data.get("type")),
+        "doi": doi,
+        "arxiv_id": arxiv_id,
+        "identifiers": paper_identifier_terms(data, paper_id),
         "tags": tags,
         "abstract": clean_scalar(data.get("abstract")),
         "summary": clean_scalar(data.get("summary")),
