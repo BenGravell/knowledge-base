@@ -1,5 +1,9 @@
 # TODO
 
+## Search
+
+make search hits on arxiv id and doi work for metadata search
+
 ## Taxonomy
 
 ```sh
