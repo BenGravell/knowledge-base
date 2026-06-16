@@ -9,6 +9,8 @@ description: Shared project context for the knowledge-base repository. Use befor
 
 Use this skill first for repository context. Other knowledge-base skills depend on it.
 
+Read `../ponytail/SKILL.md` after this skill for the default repo working style unless the user says "stop ponytail" or "normal mode". Ponytail's minimalism rules do not override repository guardrails, especially the limits on programmatic test runs.
+
 ## Project Shape
 
 This is a personal knowledge base of publications, distilled notes, and paper summaries, published as a static site via MkDocs.
@@ -69,3 +71,27 @@ streamlit run apps/generator_app.py
 - There is no general test suite.
 - Do not run programmatic tests except when a task skill explicitly requires a verification command or UX controls changed.
 - When UX controls changed, verify with `mkdocs build` from `knowledge_base/` and check for warnings.
+
+## Extra Repo-Local Skills
+
+Ponytail skills are vendored in this repo:
+
+- `../ponytail/SKILL.md`: default minimalism guardrail.
+- `../ponytail-review/SKILL.md`, `../ponytail-audit/SKILL.md`, `../ponytail-debt/SKILL.md`, and `../ponytail-help/SKILL.md`: callable complexity review, audit, debt ledger, and help workflows.
+
+Matt Pocock engineering skills are also vendored:
+
+- `../diagnose/SKILL.md`
+- `../grill-with-docs/SKILL.md`
+- `../improve-codebase-architecture/SKILL.md`
+- `../prototype/SKILL.md`
+- `../setup-matt-pocock-skills/SKILL.md`
+- `../tdd/SKILL.md`
+- `../to-issues/SKILL.md`
+- `../to-prd/SKILL.md`
+- `../triage/SKILL.md`
+- `../zoom-out/SKILL.md`
+
+Before using Matt Pocock issue-tracker workflows (`to-issues`, `to-prd`, or `triage`) for the first time, run `setup-matt-pocock-skills` so `docs/agents/` records issue tracker, triage-label, and domain-doc conventions.
+
+Vendored source licenses live in `../vendor-licenses/`.

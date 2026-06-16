@@ -10,6 +10,7 @@ description: Generate metadata for a group, list, or source file of papers in th
 Read these first:
 
 - `../core/SKILL.md`
+- `../ponytail/SKILL.md`
 - `../arxiv-version/SKILL.md`
 - `../paper-metadata/SKILL.md`
 - `../tree-placement/SKILL.md`

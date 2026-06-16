@@ -10,6 +10,7 @@ description: Create or update a single paper metadata.yml entry in the knowledge
 Read these first:
 
 - `../core/SKILL.md`
+- `../ponytail/SKILL.md`
 - `../arxiv-version/SKILL.md`
 
 ## Workflow

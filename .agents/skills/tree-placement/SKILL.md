@@ -7,7 +7,10 @@ description: Audit and place metadata-backed papers in the knowledge-base Tree n
 
 ## Dependencies
 
-Read `../core/SKILL.md` first.
+Read these first:
+
+- `../core/SKILL.md`
+- `../ponytail/SKILL.md`
 
 ## Audit Workflow
 

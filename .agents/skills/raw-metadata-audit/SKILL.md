@@ -7,7 +7,10 @@ description: Audit and fix raw paper metadata in the knowledge-base repository. 
 
 ## Dependencies
 
-Read `../core/SKILL.md` first.
+Read these first:
+
+- `../core/SKILL.md`
+- `../ponytail/SKILL.md`
 
 When an audit issue requires paper research, source verification, arXiv lookup, or metadata reconstruction, also read:
 

@@ -7,7 +7,10 @@ description: Find, verify, and normalize arXiv versions for papers in the knowle
 
 ## Dependencies
 
-Read `../core/SKILL.md` first if repository context is not already loaded.
+Read these first if repository context is not already loaded:
+
+- `../core/SKILL.md`
+- `../ponytail/SKILL.md`
 
 ## Workflow
 
