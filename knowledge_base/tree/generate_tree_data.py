@@ -20,27 +20,26 @@ import mkdocs_gen_files
 import yaml
 
 from knowledge_base.catalog import Catalog
-from knowledge_base.tree.nav_source import metadata_source_path, tree_from_config, tree_from_file
+from knowledge_base.tree.model import (
+    TreeBranch,
+    TreeChild,
+    TreeLeaf,
+    TreeModel,
+    resolve_metadata_or_generated_source,
+)
+from knowledge_base.tree.nav_source import tree_from_config, tree_from_file
 from knowledge_base.tree.validation import format_tree_validation_report, validate_tree
 
 
 MKDOCS_YML = "mkdocs.yml"
 TREE_YML = Path("tree.yml")
 METADATA_ROOT = Path("docs/papers")
-LANDING_PAGES = {"tree.md", "tree/index.md"}
 UNCATEGORIZED_CATEGORY = "Uncategorized"
 YAML_LOADER = getattr(yaml, "CSafeLoader", yaml.SafeLoader)
 
 
 def as_list(value: Any) -> list[Any]:
     return value if isinstance(value, list) else []
-
-
-def is_landing_item(label: str, child: Any) -> bool:
-    return isinstance(child, str) and (
-        child in LANDING_PAGES
-        or (str(label).strip().lower() == "overview" and child in LANDING_PAGES)
-    )
 
 
 def slugify_id(text: str) -> str:
@@ -86,22 +85,10 @@ def clean_text(value: Any) -> str:
     return re.sub(r"[ \t\r\f\v]+", " ", text)
 
 
-def last_name(author: str) -> str:
-    author = clean_text(author)
-    if "," in author:
-        return author.split(",", 1)[0].strip()
-    parts = author.split()
-    return parts[-1] if parts else author
-
-
-paper_source_by_metadata_path: dict[Path, str] = {}
-
-
 def collect_paper_details() -> dict[str, dict[str, Any]]:
     details: dict[str, dict[str, Any]] = {}
     for entry in Catalog.from_metadata_root(METADATA_ROOT).entries:
         source = entry.generated_source
-        paper_source_by_metadata_path[entry.metadata_path.resolve()] = source
         details[source] = {
             "id": entry.id,
             "label": entry.label,
@@ -132,21 +119,21 @@ def collect_paper_details() -> dict[str, dict[str, Any]]:
 paper_details_by_source = collect_paper_details()
 
 
-def normalize_leaf_source(source: str) -> str:
-    metadata_file = metadata_source_path(source, Path.cwd())
-    if metadata_file is None:
-        return source
-    if not metadata_file.exists():
-        raise FileNotFoundError(f"Tree source does not exist: {source}")
-    return paper_source_by_metadata_path.get(metadata_file.resolve(), source)
+def display_path(path: tuple[str, ...]) -> list[str]:
+    return ["Tree"] if path == ("Tree",) else ["Tree", *path]
 
 
-def build_leaf(label: str, source: str, path: list[str], ids: IdFactory) -> dict[str, Any]:
-    source = normalize_leaf_source(source)
-    full_path = path + [label]
+def branch_path_for_child(branch: TreeBranch, child: TreeChild) -> tuple[str, ...]:
+    parent_path = () if branch.path == ("Tree",) else branch.path
+    return (*parent_path, child.label)
+
+
+def build_leaf(leaf: TreeLeaf, ids: IdFactory) -> dict[str, Any]:
+    source = leaf.generated_source or leaf.source
+    full_path = ["Tree", *leaf.nav_path]
     node = {
         "id": ids.make(full_path, source),
-        "label": label,
+        "label": leaf.label,
         "kind": link_kind(source),
         "source": source,
         "url": page_url(source),
@@ -160,15 +147,26 @@ def build_leaf(label: str, source: str, path: list[str], ids: IdFactory) -> dict
     return node
 
 
-def build_branch(label: str, child: list[Any], path: list[str], ids: IdFactory) -> dict[str, Any]:
-    full_path = path + [label]
-    children = build_children(child, full_path, ids)
+def build_branch(
+    branch: TreeBranch,
+    *,
+    branches_by_path: dict[tuple[str, ...], TreeBranch],
+    leaves_by_parent_label_source: dict[tuple[tuple[str, ...], str, str], TreeLeaf],
+    ids: IdFactory,
+) -> dict[str, Any]:
+    full_path = display_path(branch.path)
+    children = build_branch_children(
+        branch,
+        branches_by_path=branches_by_path,
+        leaves_by_parent_label_source=leaves_by_parent_label_source,
+        ids=ids,
+    )
     leaf_count = sum(node["leafCount"] for node in children)
     branch_count = len([node for node in children if node["kind"] == "branch"])
     branch_count += sum(node["branchCount"] for node in children)
     return {
         "id": ids.make(full_path),
-        "label": label,
+        "label": full_path[-1],
         "kind": "branch",
         "source": None,
         "url": None,
@@ -179,29 +177,62 @@ def build_branch(label: str, child: list[Any], path: list[str], ids: IdFactory) 
     }
 
 
-def build_children(items: list[Any], path: list[str], ids: IdFactory) -> list[dict[str, Any]]:
+def build_branch_children(
+    branch: TreeBranch,
+    *,
+    branches_by_path: dict[tuple[str, ...], TreeBranch],
+    leaves_by_parent_label_source: dict[tuple[tuple[str, ...], str, str], TreeLeaf],
+    ids: IdFactory,
+) -> list[dict[str, Any]]:
     nodes: list[dict[str, Any]] = []
-    for item in items:
-        if isinstance(item, str):
-            if item in LANDING_PAGES:
-                continue
-            label = item.removesuffix(".md").replace("-", " ").replace("_", " ").title()
-            nodes.append(build_leaf(label, item, path, ids))
+    parent_path = () if branch.path == ("Tree",) else branch.path
+    for child in branch.children:
+        if child.kind == "branch":
+            child_branch = branches_by_path.get(branch_path_for_child(branch, child))
+            if child_branch is not None:
+                nodes.append(
+                    build_branch(
+                        child_branch,
+                        branches_by_path=branches_by_path,
+                        leaves_by_parent_label_source=leaves_by_parent_label_source,
+                        ids=ids,
+                    )
+                )
             continue
 
-        if not isinstance(item, dict):
+        if child.source is None:
             continue
-
-        for label_raw, child in item.items():
-            label = str(label_raw)
-            if is_landing_item(label, child):
-                continue
-            if isinstance(child, str):
-                nodes.append(build_leaf(label, child, path, ids))
-            elif isinstance(child, list):
-                nodes.append(build_branch(label, child, path, ids))
+        leaf = leaves_by_parent_label_source.get((parent_path, child.label, child.source))
+        if leaf is not None:
+            nodes.append(build_leaf(leaf, ids))
 
     return nodes
+
+
+def build_browser_tree(tree_model: TreeModel, ids: IdFactory) -> dict[str, Any]:
+    branches_by_path = {branch.path: branch for branch in tree_model.branches}
+    leaves_by_parent_label_source = {
+        (leaf.path, leaf.label, leaf.source): leaf
+        for leaf in tree_model.leaves
+    }
+    root_children = build_branch_children(
+        tree_model.root,
+        branches_by_path=branches_by_path,
+        leaves_by_parent_label_source=leaves_by_parent_label_source,
+        ids=ids,
+    )
+    return {
+        "id": "tree",
+        "label": "Tree",
+        "kind": "branch",
+        "source": None,
+        "url": None,
+        "path": ["Tree"],
+        "children": root_children,
+        "leafCount": sum(node["leafCount"] for node in root_children),
+        "branchCount": len([node for node in root_children if node["kind"] == "branch"])
+        + sum(node["branchCount"] for node in root_children),
+    }
 
 
 tree_validation_report = validate_tree()
@@ -214,19 +245,15 @@ with open(MKDOCS_YML, "r", encoding="utf-8") as f:
 
 ids = IdFactory()
 tree_source = tree_from_file(TREE_YML, normalize=False) if TREE_YML.exists() else tree_from_config(config)
-root_children = build_children(as_list(tree_source), ["Tree"], ids)
-root = {
-    "id": "tree",
-    "label": "Tree",
-    "kind": "branch",
-    "source": None,
-    "url": None,
-    "path": ["Tree"],
-    "children": root_children,
-    "leafCount": sum(node["leafCount"] for node in root_children),
-    "branchCount": len([node for node in root_children if node["kind"] == "branch"])
-    + sum(node["branchCount"] for node in root_children),
-}
+tree_model = TreeModel.from_tree(
+    tree_source,
+    resolve_source=lambda source: resolve_metadata_or_generated_source(
+        source,
+        base_dir=Path.cwd(),
+        metadata_root=(Path.cwd() / METADATA_ROOT).resolve(),
+    ),
+)
+root = build_browser_tree(tree_model, ids)
 
 data = {
     "root": root,
@@ -242,92 +269,39 @@ with mkdocs_gen_files.open("javascripts/tree-data.js", "w") as out:
     out.write(";\n")
 
 
-def build_timeline_nav_index(root_node: dict[str, Any]) -> dict[str, dict[str, Any]]:
+def build_timeline_nav_index(model: TreeModel) -> dict[str, dict[str, Any]]:
     index: dict[str, dict[str, Any]] = {}
-
-    def walk(node: dict[str, Any]) -> None:
-        if node.get("kind") == "paper" and node.get("source"):
-            path = as_list(node.get("path"))
-            super_category = path[1] if len(path) > 1 else None
-            category = path[2] if len(path) > 2 else super_category or UNCATEGORIZED_CATEGORY
-            sub_category = path[3] if len(path) > 3 else None
-            index[str(node["source"])] = {
-                "navLabel": node.get("label") or "",
-                "superCategory": super_category,
-                "category": category,
-                "subCategory": sub_category,
-                "path": path,
-                "url": node.get("url") or page_url(str(node["source"])),
-            }
-
-        for child in as_list(node.get("children")):
-            if isinstance(child, dict):
-                walk(child)
-
-    walk(root_node)
+    for placement in model.placements_by_paper_id.values():
+        source = placement.generated_source
+        path = ["Tree", *placement.nav_path]
+        super_category = path[1] if len(path) > 1 else None
+        category = path[2] if len(path) > 2 else super_category or UNCATEGORIZED_CATEGORY
+        sub_category = path[3] if len(path) > 3 else None
+        index[source] = {
+            "navLabel": placement.label,
+            "superCategory": super_category,
+            "category": category,
+            "subCategory": sub_category,
+            "path": path,
+            "url": page_url(source),
+        }
     return index
 
 
-def build_timeline_order(root_node: dict[str, Any]) -> dict[str, Any]:
-    super_categories: list[str] = []
-    category_order: list[str] = []
-    category_super_category: dict[str, str | None] = {}
-    sub_category_order: dict[str, list[str]] = {}
-    nav_path_order: list[list[str]] = []
-    seen_nav_paths: set[tuple[str, ...]] = set()
-
-    def add_once(items: list[str], label: str) -> None:
-        if label not in items:
-            items.append(label)
-
-    def add_nav_path(path: list[str]) -> None:
-        clean_path = [str(part or "").strip() for part in path if str(part or "").strip()]
-        key = tuple(clean_path)
-        if clean_path and key not in seen_nav_paths:
-            seen_nav_paths.add(key)
-            nav_path_order.append(clean_path)
-
-    def collect_branch_paths(node: dict[str, Any], path: list[str]) -> None:
-        for child in as_list(node.get("children")):
-            if not isinstance(child, dict) or child.get("kind") != "branch":
-                continue
-            next_path = [*path, str(child.get("label") or "")]
-            add_nav_path(next_path)
-            collect_branch_paths(child, next_path)
-
-    for super_node in as_list(root_node.get("children")):
-        if not isinstance(super_node, dict) or super_node.get("kind") != "branch":
-            continue
-        super_label = str(super_node.get("label") or "")
-        add_once(super_categories, super_label)
-
-        for category_node in as_list(super_node.get("children")):
-            if not isinstance(category_node, dict) or category_node.get("kind") != "branch":
-                continue
-            category_label = str(category_node.get("label") or "")
-            add_once(category_order, category_label)
-            category_super_category.setdefault(category_label, super_label)
-
-            for sub_node in as_list(category_node.get("children")):
-                if not isinstance(sub_node, dict) or sub_node.get("kind") != "branch":
-                    continue
-                sub_category_order.setdefault(category_label, [])
-                add_once(sub_category_order[category_label], str(sub_node.get("label") or ""))
-
-    collect_branch_paths(root_node, [])
-
+def build_timeline_order(model: TreeModel) -> dict[str, Any]:
+    order = model.order.category_order_fields()
     return {
-        "superCategoryOrder": super_categories,
-        "categoryOrder": category_order,
-        "categorySuperCategory": category_super_category,
-        "subCategoryOrder": sub_category_order,
-        "navPathOrder": nav_path_order,
-        "maxBranchDepth": max((len(path) for path in nav_path_order), default=0),
+        "superCategoryOrder": order["superCategories"],
+        "categoryOrder": order["categories"],
+        "categorySuperCategory": order["categorySuperCategory"],
+        "subCategoryOrder": order["subCategoryOrder"],
+        "navPathOrder": order["navPathOrder"],
+        "maxBranchDepth": order["maxBranchDepth"],
     }
 
 
-def build_timeline_data(root_node: dict[str, Any]) -> dict[str, Any]:
-    nav_index = build_timeline_nav_index(root_node)
+def build_timeline_data(model: TreeModel) -> dict[str, Any]:
+    nav_index = build_timeline_nav_index(model)
     papers: list[dict[str, Any]] = []
     year_counts: Counter[int] = Counter()
 
@@ -390,7 +364,7 @@ def build_timeline_data(root_node: dict[str, Any]) -> dict[str, Any]:
     return {
         "papers": papers,
         "meta": {
-            **build_timeline_order(root_node),
+            **build_timeline_order(model),
             "totalPapers": len(papers),
             "plottedPapers": sum(year_counts.values()),
             "undatedPapers": len(papers) - sum(year_counts.values()),
@@ -563,8 +537,8 @@ def build_analytics_category_tree(root_node: dict[str, Any]) -> list[dict[str, A
     return rows
 
 
-def build_analytics_data(root_node: dict[str, Any]) -> dict[str, Any]:
-    nav_index = build_timeline_nav_index(root_node)
+def build_analytics_data(root_node: dict[str, Any], model: TreeModel) -> dict[str, Any]:
+    nav_index = build_timeline_nav_index(model)
     year_counts: Counter[int] = Counter()
     author_counts: Counter[str] = Counter()
     author_display: dict[str, str] = {}
@@ -1162,8 +1136,8 @@ TIMELINE_JS = r"""'use strict';
 })();"""
 
 
-analytics_data = build_analytics_data(root)
-timeline_data = build_timeline_data(root)
+analytics_data = build_analytics_data(root, tree_model)
+timeline_data = build_timeline_data(tree_model)
 
 with mkdocs_gen_files.open("stylesheets/analytics.css", "w") as out:
     out.write(ANALYTICS_HOME_CSS)
