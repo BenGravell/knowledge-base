@@ -1,9 +1,5 @@
 # TODO
 
-## ponytail
-
-delete: Perfetto build timing subsystem. Print elapsed seconds per step; use `/usr/bin/time` when profiling. [knowledge_base/scripts/build_metrics.py, knowledge_base/scripts/open_build_trace.py, knowledge_base/scripts/refresh_offline_data.py]
-
 ## speedup offline data regen
 
 biggest time sink is on
@@ -24,10 +20,6 @@ Pandoc on the .tex directly for quick LaTeX→Markdown/GFM, though it struggles 
 ar5iv/arXiv-HTML → Markdown via Pandoc as the primary path, falling back to Marker or Docling only for papers without usable source. 
 
 DO NOT store images or any other rich content that would blow up storage size.
-
-## remove unused apps, scripts, etc
-
-knowledge_base/apps
 
 ## perf
 

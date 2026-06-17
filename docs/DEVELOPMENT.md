@@ -69,21 +69,8 @@ poetry run python knowledge_base/scripts/refresh_offline_data.py
 Use `--force` to recompute cached embeddings, or `--strict` to also fail on
 Tree algorithm-label drift and MkDocs warnings.
 
-Each non-dry-run local refresh appends timing metadata to
-`knowledge_base/.build-metrics/builds.jsonl` and writes a Chrome Trace JSON
-file beside it for phase drilldown. The script prints an `Open trace UI`
-command that serves a local Perfetto UI and opens the trace in it. Under
-`CI=true`, the default local metrics write is skipped unless a custom
-`--metrics-dir` is passed.
-
-Build a pinned local Perfetto UI once and point the opener at its built
-`ui/out/dist` directory:
-
-```bash
-git clone --depth 1 --branch v56.1 https://github.com/google/perfetto.git knowledge_base/.tools/perfetto-v56.1
-(cd knowledge_base/.tools/perfetto-v56.1 && tools/install-build-deps --ui && ui/build)
-ln -sfn perfetto-v56.1/ui/out/dist knowledge_base/.tools/perfetto-ui
-```
+The refresh script prints elapsed seconds for each step and a compact grouped
+timing report at the end. For deeper profiling, wrap it with `/usr/bin/time`.
 
 ## Streamlit apps
 

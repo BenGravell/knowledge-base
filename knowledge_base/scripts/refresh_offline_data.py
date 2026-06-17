@@ -21,26 +21,34 @@ import time
 from dataclasses import dataclass
 from pathlib import Path
 
-from knowledge_base.scripts.build_metrics import (
-    DEFAULT_METRICS_DIR,
-    StepTiming,
-    utc_now,
-    utc_stamp,
-    write_build_metrics,
-)
-
 KB_DIR = Path(__file__).resolve().parents[1]
 REPO_ROOT = KB_DIR.parent
 
 
 @dataclass(frozen=True)
 class Step:
+    group: str
+    label: str
     name: str
     command: list[str]
 
 
+@dataclass(frozen=True)
+class StepResult:
+    step: Step
+    duration_s: float
+    returncode: int
+
+
 def format_command(command: list[str]) -> str:
     return shlex.join(command)
+
+
+def format_duration(duration_s: float) -> str:
+    if duration_s < 60:
+        return f"{duration_s:.1f}s"
+    minutes, seconds = divmod(duration_s, 60)
+    return f"{int(minutes)}m {seconds:.0f}s"
 
 
 def subprocess_env() -> dict[str, str]:
@@ -52,21 +60,13 @@ def subprocess_env() -> dict[str, str]:
     return env
 
 
-def run_step(step: Step, *, index: int, total: int, dry_run: bool, run_start_ns: int) -> StepTiming:
-    print(f"\n[{index}/{total}] {step.name}")
-    print(f"$ {format_command(step.command)}")
-    step_start_ns = time.perf_counter_ns()
-    started_at = utc_stamp()
+def run_step(step: Step, *, index: int, total: int, dry_run: bool) -> StepResult:
+    print(f"\n[{index}/{total}] {step.name}", flush=True)
+    print(f"$ {format_command(step.command)}", flush=True)
     if dry_run:
-        return StepTiming(
-            step.name,
-            step.command,
-            started_at,
-            0.0,
-            0.0,
-            0,
-        )
+        return StepResult(step, 0.0, 0)
 
+    step_start_ns = time.perf_counter_ns()
     error = None
     try:
         result = subprocess.run(step.command, cwd=REPO_ROOT, env=subprocess_env(), check=False)
@@ -75,26 +75,24 @@ def run_step(step: Step, *, index: int, total: int, dry_run: bool, run_start_ns:
         returncode = 127
         error = str(exc)
     elapsed_s = (time.perf_counter_ns() - step_start_ns) / 1_000_000_000
-    timing = StepTiming(
-        step.name,
-        step.command,
-        started_at,
-        (step_start_ns - run_start_ns) / 1_000_000_000,
-        elapsed_s,
-        returncode,
-        error,
-    )
     if error:
-        print(f"\nStep failed after {elapsed_s:.1f}s: {step.name}: {error}", file=sys.stderr)
+        print(f"\nStep failed after {format_duration(elapsed_s)}: {step.name}: {error}", file=sys.stderr)
     elif returncode:
-        print(f"\nStep failed after {elapsed_s:.1f}s: {step.name}", file=sys.stderr)
+        print(f"\nStep failed after {format_duration(elapsed_s)}: {step.name}", file=sys.stderr)
     else:
-        print(f"Done in {elapsed_s:.1f}s.")
-    return timing
+        print(f"Done in {format_duration(elapsed_s)}.", flush=True)
+    return StepResult(step, elapsed_s, returncode)
 
 
-def should_write_metrics(args: argparse.Namespace) -> bool:
-    return not args.dry_run and (not os.environ.get("CI") or Path(args.metrics_dir) != DEFAULT_METRICS_DIR)
+def print_timing_report(results: list[StepResult], total_s: float, *, failed: bool) -> None:
+    print("\nTiming report" + (" (failed)" if failed else ""))
+    for group in dict.fromkeys(result.step.group for result in results):
+        group_results = [result for result in results if result.step.group == group]
+        print(f"  {group}: {format_duration(sum(result.duration_s for result in group_results))}")
+        for result in group_results:
+            status = " failed" if result.returncode else ""
+            print(f"    - {result.step.label}: {format_duration(result.duration_s)}{status}")
+    print(f"  Total: {format_duration(total_s)}")
 
 
 def build_steps(args: argparse.Namespace) -> list[Step]:
@@ -104,10 +102,12 @@ def build_steps(args: argparse.Namespace) -> list[Step]:
     validate_tree = [py, "knowledge_base/scripts/validate_tree.py"]
     if args.strict:
         validate_tree.append("--check-algorithm-labels")
-    steps.append(Step("Validate Tree nav links and paper coverage", validate_tree))
+    steps.append(Step("Validate", "Tree nav", "Validate Tree nav links and paper coverage", validate_tree))
 
     steps.append(
         Step(
+            "Validate",
+            "Tree coverage",
             "Check that every metadata-backed paper is in the Tree",
             [
                 py,
@@ -123,7 +123,14 @@ def build_steps(args: argparse.Namespace) -> list[Step]:
         semantic_search = [py, "knowledge_base/semantic_search/generate_semantic_search_index.py"]
         if args.force:
             semantic_search.append("--force")
-        steps.append(Step("Regenerate Semantic Search index, settings, and vector table", semantic_search))
+        steps.append(
+            Step(
+                "Generate",
+                "Semantic Search",
+                "Regenerate Semantic Search index, settings, and vector table",
+                semantic_search,
+            )
+        )
 
     if not args.skip_map:
         map_data = [py, "knowledge_base/map/generate_map_data.py"]
@@ -133,11 +140,15 @@ def build_steps(args: argparse.Namespace) -> list[Step]:
             map_data.append("--force")
         if args.skip_force_layout:
             map_data.append("--skip-force-layout")
-        steps.append(Step("Regenerate Map embeddings, layout, map-data.js, and sidecar", map_data))
+        steps.append(
+            Step("Generate", "Map data", "Regenerate Map embeddings, layout, map-data.js, and sidecar", map_data)
+        )
 
     if not args.skip_audit:
         steps.append(
             Step(
+                "Verify",
+                "Metadata audit",
                 "Audit metadata and generated Map/Search assets",
                 [py, "knowledge_base/scripts/audit_metadata.py", "--severity", args.audit_severity],
             )
@@ -147,7 +158,7 @@ def build_steps(args: argparse.Namespace) -> list[Step]:
         mkdocs = [py, "-m", "mkdocs", "build", "-f", "knowledge_base/mkdocs.yml"]
         if args.strict:
             mkdocs.append("--strict")
-        steps.append(Step("Build MkDocs site and republish gen-files assets", mkdocs))
+        steps.append(Step("Verify", "MkDocs build", "Build MkDocs site and republish gen-files assets", mkdocs))
 
     return steps
 
@@ -212,46 +223,29 @@ def parse_args() -> argparse.Namespace:
         action="store_true",
         help="Print the planned commands without running them.",
     )
-    parser.add_argument(
-        "--metrics-dir",
-        type=Path,
-        default=DEFAULT_METRICS_DIR,
-        help="Directory for append-only build timing records and Chrome Trace JSON.",
-    )
     return parser.parse_args()
 
 
 def main() -> int:
     args = parse_args()
     steps = build_steps(args)
-    run_started_at = utc_now()
     run_start_ns = time.perf_counter_ns()
-    timings: list[StepTiming] = []
     returncode = 0
-    print(f"Working directory: {REPO_ROOT}")
+    results: list[StepResult] = []
+    print(f"Working directory: {REPO_ROOT}", flush=True)
     if args.dry_run:
-        print("Dry run: no commands will be executed.")
+        print("Dry run: no commands will be executed.", flush=True)
 
     for index, step in enumerate(steps, start=1):
-        timing = run_step(step, index=index, total=len(steps), dry_run=args.dry_run, run_start_ns=run_start_ns)
-        timings.append(timing)
-        if timing.returncode:
-            returncode = timing.returncode
+        result = run_step(step, index=index, total=len(steps), dry_run=args.dry_run)
+        results.append(result)
+        returncode = result.returncode
+        if returncode:
             break
 
     run_duration_s = (time.perf_counter_ns() - run_start_ns) / 1_000_000_000
-    status = "dry-run" if args.dry_run else "success" if returncode == 0 else "failed"
-    if should_write_metrics(args):
-        write_build_metrics(
-            args=args,
-            run_started_at=run_started_at,
-            run_duration_s=run_duration_s,
-            status=status,
-            returncode=returncode,
-            steps=timings,
-        )
-    elif not args.dry_run:
-        print("\nBuild metrics skipped under CI.")
+    if not args.dry_run:
+        print_timing_report(results, run_duration_s, failed=bool(returncode))
     if returncode:
         return returncode
 
