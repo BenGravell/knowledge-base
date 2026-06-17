@@ -31,6 +31,27 @@ class MetadataAuditRuleTests(unittest.TestCase):
         self.assertTrue(audit_metadata._is_fixable_tag_issue(issue))
         self.assertEqual(audit_metadata._tag_issue_index(issue), 2)
 
+    def test_misspelling_detector_uses_word_boundaries(self) -> None:
+        issues = audit_metadata.find_likely_misspelling_issues(
+            Path("metadata.yml"),
+            "abstract",
+            "The method can acheive stable tracking; preacheive is not a word hit.",
+        )
+
+        self.assertEqual(len(issues), 1)
+        self.assertIn("'acheive' -> 'achieve'", issues[0].message)
+
+    def test_ocr_split_detector_keeps_allowed_hyphenated_words(self) -> None:
+        issues = audit_metadata.find_ocr_spacing_issues(
+            Path("metadata.yml"),
+            "abstract",
+            "The algor ithm handles non-convex optimization.",
+        )
+
+        self.assertEqual(len(issues), 1)
+        self.assertIn("'algor ithm' -> 'algorithm'", issues[0].message)
+        self.assertNotIn("non-convex", issues[0].message)
+
 
 class NormalizationAuditRuleTests(unittest.TestCase):
     def test_normalization_tag_routing_uses_rule_code_and_index(self) -> None:

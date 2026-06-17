@@ -45,6 +45,11 @@ from knowledge_base.utils.paper_ids import paper_id_from_metadata
 
 console = Console(highlight=False)
 err_console = Console(stderr=True, highlight=False)
+_YAML_LOADER = getattr(yaml, "CSafeLoader", yaml.SafeLoader)
+
+
+def _yaml_safe_load(stream: Any) -> Any:
+    return yaml.load(stream, Loader=_YAML_LOADER)
 
 # Minor words that stay lowercase unless first/last in title (Chicago style)
 _LOWERCASE_TITLE_WORDS = {
@@ -792,6 +797,12 @@ _COMMON_MISSPELLINGS: dict[str, str] = {
     "unkown": "unknown",
     "usefull": "useful",
 }
+_COMMON_MISSPELLING_CORRECTIONS = {typo.casefold(): correction for typo, correction in _COMMON_MISSPELLINGS.items()}
+_COMMON_MISSPELLING_RE = re.compile(
+    r"(?<![A-Za-z])("
+    + "|".join(re.escape(typo.casefold()) for typo in sorted(_COMMON_MISSPELLINGS, key=len, reverse=True))
+    + r")(?![A-Za-z])"
+)
 _HIGH_CONFIDENCE_OCR_ARTIFACTS: tuple[tuple[str, re.Pattern[str], str], ...] = (
     ("solution", re.compile(r"\bso[-\s]*Iutio+n\b"), "solution"),
     ("conventional", re.compile(r"\bcorwen[-\s]*tional\b"), "conventional"),
@@ -864,6 +875,17 @@ _OCR_SPLIT_WORDS = {
 _VALID_HYPHENATED_OCR_SPLITS = {
     ("nonconvex", 3),  # non-convex is a standard alternate spelling.
 }
+_OCR_SPLIT_RE = re.compile(
+    r"\b(?:"
+    + "|".join(
+        re.escape(word[:split_at]) + r"(?:\s+|-\s*)" + re.escape(word[split_at:])
+        for word in sorted(_OCR_SPLIT_WORDS)
+        for split_at in range(3, len(word) - 2)
+    )
+    + r")\b",
+    re.I,
+)
+_OCR_SPLIT_PARTS_RE = re.compile(r"^(?P<head>[A-Za-z]+)(?P<sep>\s+|-\s*)(?P<tail>[A-Za-z]+)$", re.I)
 _COMMON_SHORT_TAG_WORDS = {
     "agent",
     "agents",
@@ -2076,12 +2098,13 @@ def find_likely_misspelling_issues(
     field: str,
     text: str,
 ) -> list[Issue]:
-    hits: list[tuple[str, str]] = []
     folded = text.casefold()
-    for typo, correction in _COMMON_MISSPELLINGS.items():
-        pattern = rf"(?<![A-Za-z]){re.escape(typo.casefold())}(?![A-Za-z])"
-        if re.search(pattern, folded):
-            hits.append((typo, correction))
+    found = {match.group(1) for match in _COMMON_MISSPELLING_RE.finditer(folded)}
+    hits = [
+        (typo, _COMMON_MISSPELLING_CORRECTIONS[typo.casefold()])
+        for typo in _COMMON_MISSPELLINGS
+        if typo.casefold() in found
+    ]
 
     if not hits:
         return []
@@ -2139,23 +2162,21 @@ def find_high_confidence_ocr_artifact_issues(
 def _ocr_split_examples(text: str, *, limit: int = 8) -> list[str]:
     examples: list[str] = []
     seen: set[str] = set()
-    for word in sorted(_OCR_SPLIT_WORDS):
-        for split_at in range(3, len(word) - 2):
-            left = re.escape(word[:split_at])
-            right = re.escape(word[split_at:])
-            pattern = re.compile(rf"\b{left}(?P<sep>\s+|-\s*){right}\b", re.I)
-            match = pattern.search(text)
-            if not match:
-                continue
-            if match.group("sep").startswith("-") and (word, split_at) in _VALID_HYPHENATED_OCR_SPLITS:
-                continue
-            example = f"{match.group(0)!r} -> {word!r}"
-            if example in seen:
-                continue
-            examples.append(example)
-            seen.add(example)
-            if len(examples) >= limit:
-                return examples
+    for match in _OCR_SPLIT_RE.finditer(text):
+        parts = _OCR_SPLIT_PARTS_RE.match(match.group(0))
+        if parts is None:
+            continue
+        word = (parts.group("head") + parts.group("tail")).casefold()
+        split_at = len(parts.group("head"))
+        if parts.group("sep").startswith("-") and (word, split_at) in _VALID_HYPHENATED_OCR_SPLITS:
+            continue
+        example = f"{match.group(0)!r} -> {word!r}"
+        if example in seen:
+            continue
+        examples.append(example)
+        seen.add(example)
+        if len(examples) >= limit:
+            return examples
     return examples
 
 
@@ -2808,7 +2829,7 @@ def _collect_missing_tag_canonical_fixes(
             continue
 
         try:
-            metadata = yaml.safe_load(path.read_text(encoding="utf-8")) or {}
+            metadata = _yaml_safe_load(path.read_text(encoding="utf-8")) or {}
         except (OSError, yaml.YAMLError):
             continue
         if not isinstance(metadata, dict):
@@ -3540,7 +3561,7 @@ def audit_file(
 
     try:
         raw = path.read_text(encoding="utf-8")
-        data = yaml.safe_load(raw)
+        data = _yaml_safe_load(raw)
     except yaml.YAMLError as exc:
         issues.append(Issue(path, "parse", f"YAML parse error: {exc}"))
         return {}, issues
@@ -3944,17 +3965,25 @@ def _load_map_data_js(path: Path) -> tuple[dict[str, Any] | None, str | None]:
     return data, None
 
 
-def _canonical_metadata_ids(targets: list[Path], kb_root: Path) -> tuple[dict[str, Path], list[Issue]]:
+def _canonical_metadata_ids(
+    targets: list[Path],
+    kb_root: Path,
+    *,
+    metadata_by_path: dict[Path, dict[str, Any]] | None = None,
+) -> tuple[dict[str, Path], list[Issue]]:
     metadata_root = kb_root / "docs" / "papers"
     expected: dict[str, Path] = {}
     issues: list[Issue] = []
     collisions: dict[str, list[Path]] = {}
 
     for path in targets:
-        try:
-            data = yaml.safe_load(path.read_text(encoding="utf-8")) or {}
-        except Exception:
-            continue
+        if metadata_by_path is not None and path in metadata_by_path:
+            data = metadata_by_path[path]
+        else:
+            try:
+                data = _yaml_safe_load(path.read_text(encoding="utf-8")) or {}
+            except Exception:
+                continue
         if not isinstance(data, dict):
             continue
 
@@ -4026,8 +4055,9 @@ def audit_map_data_paths(
     *,
     kb_root: Path,
     report_stale: bool,
+    metadata_by_path: dict[Path, dict[str, Any]] | None = None,
 ) -> list[tuple[Path, list[Issue]]]:
-    expected_by_id, setup_issues = _canonical_metadata_ids(targets, kb_root)
+    expected_by_id, setup_issues = _canonical_metadata_ids(targets, kb_root, metadata_by_path=metadata_by_path)
     expected_ids = set(expected_by_id)
     grouped: dict[Path, list[Issue]] = {}
     for issue in setup_issues:
@@ -4444,7 +4474,7 @@ def _plain_multiline_title_parts(raw: str) -> tuple[str, str] | None:
 
         header = value.strip()
         try:
-            parsed = yaml.safe_load(f"title: {header}\n")
+            parsed = _yaml_safe_load(f"title: {header}\n")
             header = str(parsed.get("title", header)) if isinstance(parsed, dict) else header
         except yaml.YAMLError:
             header = header.strip("'\"")
@@ -5226,7 +5256,7 @@ def _clean_garbled_markup_text(text: str) -> str:
 
 def _fix_garbled_markup_in_yaml(raw: str) -> tuple[str, int]:
     changed = 0
-    data = yaml.safe_load(raw)
+    data = _yaml_safe_load(raw)
     if not isinstance(data, dict):
         return raw, 0
 
@@ -5923,7 +5953,7 @@ def _path_parts(path: Path) -> tuple[Path, str, str] | None:
 def _path_fix_for(path: Path, kb_root: Path) -> PathFix | None:
     try:
         raw = path.read_text(encoding="utf-8")
-        data = yaml.safe_load(raw)
+        data = _yaml_safe_load(raw)
     except Exception:
         return None
     if not isinstance(data, dict):
@@ -6177,18 +6207,18 @@ def apply_fixes(
 
             if title_fixes and title_fixes[0].suggestion is not None:
                 new_title = title_fixes[0].suggestion
-                old_title = (yaml.safe_load(new_raw) or {}).get("title", "")
+                old_title = (_yaml_safe_load(new_raw) or {}).get("title", "")
                 new_raw = _fix_title_in_yaml(new_raw, new_title)
                 messages.append(f"  title: {old_title!r} [green]->[/] {new_title!r}")
 
             if source_year_fixes and source_year_fixes[0].suggestion is not None:
-                old_source = yaml.safe_load(new_raw).get("source", "")
+                old_source = _yaml_safe_load(new_raw).get("source", "")
                 new_source = source_year_fixes[0].suggestion
                 new_raw = _fix_source_in_yaml(new_raw, new_source)
                 messages.append(f"  source: {old_source!r} [green]->[/] {new_source!r}")
 
             if abstract_publisher_fixes:
-                parsed = yaml.safe_load(new_raw) or {}
+                parsed = _yaml_safe_load(new_raw) or {}
                 old_abstract = str(parsed.get("abstract") or "")
                 new_abstract, n_removed_marks = _delete_publisher_marks_from_abstract(old_abstract)
                 if n_removed_marks and new_abstract != old_abstract:
@@ -6200,7 +6230,7 @@ def apply_fixes(
                     messages.append(f"  removed {n_removed_marks} publisher/copyright notice(s) from abstract")
 
             if abstract_dollar_math_fixes:
-                parsed = yaml.safe_load(new_raw) or {}
+                parsed = _yaml_safe_load(new_raw) or {}
                 old_abstract = str(parsed.get("abstract") or "")
                 new_abstract, n_math_spans = _replace_dollar_math_in_text(old_abstract)
                 if n_math_spans and new_abstract != old_abstract:
@@ -6212,7 +6242,7 @@ def apply_fixes(
                     messages.append(f"  converted {n_math_spans} dollar math span(s) in abstract")
 
             if abstract_latex_artifact_fixes:
-                parsed = yaml.safe_load(new_raw) or {}
+                parsed = _yaml_safe_load(new_raw) or {}
                 old_abstract = str(parsed.get("abstract") or "")
                 new_abstract, n_artifacts = _replace_plain_latex_math_artifacts_in_text(old_abstract)
                 if n_artifacts and new_abstract != old_abstract:
@@ -6224,7 +6254,7 @@ def apply_fixes(
                     messages.append(f"  repaired {n_artifacts} plain LaTeX math artifact(s) in abstract")
 
             if author_name_fixes:
-                parsed = yaml.safe_load(new_raw) or {}
+                parsed = _yaml_safe_load(new_raw) or {}
                 (
                     new_raw,
                     n_fixed_authors,
@@ -6241,7 +6271,7 @@ def apply_fixes(
                         messages.append(f"  ASCII-normalized {n_fixed_authors} author name(s)")
 
             if non_individual_author_fixes:
-                parsed = yaml.safe_load(new_raw) or {}
+                parsed = _yaml_safe_load(new_raw) or {}
                 new_raw, n_repaired_authors = _fix_non_individual_authors_in_yaml(
                     new_raw,
                     parsed,
@@ -6250,7 +6280,7 @@ def apply_fixes(
                     messages.append(f"  repaired {n_repaired_authors} non-individual author entry(s)")
 
             if type_fixes:
-                parsed = yaml.safe_load(new_raw) or {}
+                parsed = _yaml_safe_load(new_raw) or {}
                 old_type = parsed.get("type", "")
                 new_type = type_fixes[0].suggestion
                 new_raw = _fix_metadata_scalar_field_in_yaml(new_raw, "type", new_type)
@@ -6261,7 +6291,7 @@ def apply_fixes(
                 messages.append("  cleared copied or low-signal summary")
 
             if mojibake_text_fields:
-                parsed = yaml.safe_load(new_raw) or {}
+                parsed = _yaml_safe_load(new_raw) or {}
                 new_raw, n_decoded_text = _fix_mojibake_text_fields_in_yaml(
                     new_raw,
                     parsed,
@@ -6272,7 +6302,7 @@ def apply_fixes(
                     messages.append(f"  decoded {n_decoded_text} text mojibake sequence(s): {fields}")
 
             if ocr_artifact_fields:
-                parsed = yaml.safe_load(new_raw) or {}
+                parsed = _yaml_safe_load(new_raw) or {}
                 new_raw, n_fixed_ocr = _fix_high_confidence_ocr_artifacts_in_yaml(
                     new_raw,
                     parsed,
@@ -6283,7 +6313,7 @@ def apply_fixes(
                     messages.append(f"  fixed {n_fixed_ocr} high-confidence OCR artifact(s): {fields}")
 
             if multiline_fields:
-                parsed = yaml.safe_load(new_raw) or {}
+                parsed = _yaml_safe_load(new_raw) or {}
                 new_raw, n_single_lined = _fix_multiline_fields_in_yaml(
                     new_raw,
                     parsed,
@@ -6294,7 +6324,7 @@ def apply_fixes(
                     messages.append(f"  single-lined {n_single_lined} field(s): {fields}")
 
             if folded_text_fields:
-                parsed = yaml.safe_load(new_raw) or {}
+                parsed = _yaml_safe_load(new_raw) or {}
                 new_raw, folded_fields = _fix_folded_text_fields_in_yaml(
                     new_raw,
                     parsed,
@@ -6305,7 +6335,7 @@ def apply_fixes(
                     messages.append(f"  folded {len(folded_fields)} text field(s): {fields}")
 
             if tag_fixes:
-                parsed = yaml.safe_load(new_raw) or {}
+                parsed = _yaml_safe_load(new_raw) or {}
                 new_raw, n_fixed_tags = _fix_tags_in_yaml(
                     new_raw,
                     parsed,
@@ -6334,7 +6364,7 @@ def apply_fixes(
                     messages.append(f"  collapsed {n_collapsed_spaces} large whitespace run(s): {fields}")
 
             if tight_letter_parenthetical_fields:
-                parsed = yaml.safe_load(new_raw) or {}
+                parsed = _yaml_safe_load(new_raw) or {}
                 (
                     new_raw,
                     n_spaced_parentheticals,
@@ -6348,7 +6378,7 @@ def apply_fixes(
                     messages.append(f"  spaced {n_spaced_parentheticals} parenthetical abbreviation(s): {fields}")
 
             if ascii_multi_dash_fields:
-                parsed = yaml.safe_load(new_raw) or {}
+                parsed = _yaml_safe_load(new_raw) or {}
                 new_raw, n_fixed_dashes = _fix_ascii_multi_dash_in_yaml(
                     new_raw,
                     parsed,
@@ -6361,7 +6391,7 @@ def apply_fixes(
             if new_raw == raw:
                 err_console.print(f"  [dim](no change written for {path})[/]")
                 continue
-            yaml.safe_load(new_raw)
+            _yaml_safe_load(new_raw)
             path.write_text(new_raw, encoding="utf-8")
             console.print(f"[green]Fixed:[/] {path}")
             for message in messages:
@@ -6415,7 +6445,7 @@ def _audit_status(data: dict[str, Any]) -> str:
 
 def _read_audit_status(path: Path) -> str | None:
     try:
-        data = yaml.safe_load(path.read_text(encoding="utf-8"))
+        data = _yaml_safe_load(path.read_text(encoding="utf-8"))
     except (OSError, yaml.YAMLError):
         return None
     if not isinstance(data, dict):
@@ -6601,11 +6631,14 @@ Available --check names:
 
     skipped_reviewed_errors = 0
     results: list[tuple[Path, list[Issue]]] = []
+    metadata_by_path: dict[Path, dict[str, Any]] = {}
     checked_file_count = len(targets)
     checked_map_data = selected_checks is None or CHECK_PATH in selected_checks
     report_stale_map_ids = not args.file and args.audit_status is None
     for p in targets:
         data, issues = audit_file(p, selected_checks=selected_checks)
+        if not any(issue.field == "parse" for issue in issues):
+            metadata_by_path[p] = data
         if args.skip_reviewed_errors:
             issues, skipped_count = _skip_reviewed_errors(data, issues)
             skipped_reviewed_errors += skipped_count
@@ -6618,6 +6651,7 @@ Available --check names:
                 targets,
                 kb_root=kb_root,
                 report_stale=report_stale_map_ids,
+                metadata_by_path=metadata_by_path,
             )
         )
 
