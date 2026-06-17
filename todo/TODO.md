@@ -146,16 +146,6 @@ Hand-crafted
 - can have a "view from above" that just hits the most important papers
 - can have "deep dives" that go into weeds on topics
 
-## Analytics
-
-### UX
-
-## Timeline
-
-### UX
-
-## Tree
-
 ## Map
 
 ### UX
