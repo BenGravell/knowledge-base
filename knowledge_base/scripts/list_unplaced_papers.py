@@ -306,7 +306,7 @@ def print_markdown(
     total_missing: int,
 ) -> None:
     placed_ids = set(nav_locations)
-    print(f"# Unplaced Papers\n")
+    print("# Unplaced Papers\n")
     print(f"{total_missing} paper(s) have metadata but are missing from the Tree.\n")
     for paper in missing:
         print(f"- {paper.title} (`{paper.id}`)")

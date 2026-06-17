@@ -14,6 +14,7 @@ from rich.console import Console
 from knowledge_base.config import AUDIT_STATUS_FIELD
 
 console = Console(highlight=False)
+err_console = Console(stderr=True, highlight=False)
 
 
 def main() -> None:
@@ -47,7 +48,7 @@ def main() -> None:
         try:
             data = yaml.safe_load(path.read_text(encoding="utf-8"))
         except yaml.YAMLError as exc:
-            console.print(f"[red]YAML error:[/] {path}: {exc}", stderr=True)
+            err_console.print(f"[red]YAML error:[/] {path}: {exc}")
             errors += 1
             continue
 

@@ -26,7 +26,6 @@ REPO_ROOT = Path(__file__).resolve().parents[2]
 if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))
 
-from knowledge_base.config import KB_DIR  # noqa: E402
 from knowledge_base.scripts.audit_metadata import find_algorithm_issues  # noqa: E402
 from knowledge_base.tree.nav_source import YAML_LOADER  # noqa: E402
 from knowledge_base.tree.validation import (  # noqa: E402

@@ -205,18 +205,11 @@ def child_embedding(
 
 
 def cluster_with_k(matrix: np.ndarray, k: int) -> np.ndarray:
-    try:
-        model = AgglomerativeClustering(
-            n_clusters=k,
-            metric="cosine",
-            linkage="average",
-        )
-    except TypeError:
-        model = AgglomerativeClustering(
-            n_clusters=k,
-            affinity="cosine",
-            linkage="average",
-        )
+    model = AgglomerativeClustering(
+        n_clusters=k,
+        metric="cosine",
+        linkage="average",
+    )
     return model.fit_predict(matrix)
 
 

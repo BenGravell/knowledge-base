@@ -533,7 +533,6 @@ def main() -> None:
     updated = 0
     official = 0
     for idx, path in enumerate(files, 1):
-        before = yaml.safe_load(path.read_text(encoding="utf-8")) or {}
         changed = refine(path, cache)
         after = yaml.safe_load(path.read_text(encoding="utf-8")) or {}
         if changed:

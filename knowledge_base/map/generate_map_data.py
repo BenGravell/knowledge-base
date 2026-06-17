@@ -85,11 +85,12 @@ For fastembed backend:
 from __future__ import annotations
 
 import argparse
+from collections.abc import Callable
 from dataclasses import dataclass, field
 import hashlib
+import importlib.util
 import json
 import os
-import re
 import sys
 import time
 from pathlib import Path
@@ -933,7 +934,7 @@ def embed_fastembed(
     return np.array(vecs, dtype=np.float32)
 
 
-def choose_backend(requested: str | None) -> tuple[str, callable]:
+def choose_backend(requested: str | None) -> tuple[str, Callable[[list[str]], np.ndarray]]:
     """
     Select the embedding backend.
 
@@ -941,9 +942,7 @@ def choose_backend(requested: str | None) -> tuple[str, callable]:
     signature: ``fn(texts: list[str]) -> np.ndarray``.
     """
     if requested == "voyage" or (requested is None and os.environ.get("VOYAGE_API_KEY")):
-        try:
-            import voyageai  # noqa: F401
-        except ImportError:
+        if importlib.util.find_spec("voyageai") is None:
             print("WARNING: voyageai package not installed. Falling back to fastembed.")
             print("         Install with: pip install voyageai")
         else:

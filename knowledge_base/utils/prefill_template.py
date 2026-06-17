@@ -15,7 +15,7 @@ from urllib.parse import quote
 
 import requests
 
-from knowledge_base.config import REPO_ROOT
+from knowledge_base.config import REPO_ROOT  # noqa: F401 - re-exported for source-specific prefill scripts
 from knowledge_base.utils.arxiv_utils import metadata_to_yaml
 from knowledge_base.utils.doi_utils import (
     BASE_DELAY,

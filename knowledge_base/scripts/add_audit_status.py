@@ -18,6 +18,7 @@ from knowledge_base.config import (
 )
 
 console = Console(highlight=False)
+err_console = Console(stderr=True, highlight=False)
 
 
 def _has_audit_status(path: Path) -> bool:
@@ -48,7 +49,7 @@ def main() -> None:
     parser = argparse.ArgumentParser(
         description="Add audit_status field to metadata.yml files missing it.",
         formatter_class=argparse.RawDescriptionHelpFormatter,
-        epilog=f"""
+        epilog="""
 Audit status lifecycle:
   raw       - auto-generated/imported, never manually reviewed
   partial   - some fields manually reviewed, not yet complete
@@ -104,7 +105,7 @@ Files that already have audit_status are left untouched.
             console.print(f"{verb} [dim]{path}[/]")
         except Exception as exc:
             errors += 1
-            console.print(f"[red]Error:[/] {path}: {exc}", stderr=True)
+            err_console.print(f"[red]Error:[/] {path}: {exc}")
 
     dry = " (dry run)" if args.dry_run else ""
     console.print(

@@ -38,7 +38,6 @@ from knowledge_base.utils.normalization_db import (  # noqa: E402
     canonical_source_display,
     expand_tag_acronyms,
     load_yaml,
-    parse_author,
     source_key,
     tag_key,
 )
