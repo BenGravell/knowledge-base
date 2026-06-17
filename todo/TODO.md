@@ -2,7 +2,11 @@
 
 ## Search, Map
 
-Incorporate the full text as the embed text when available.
+Incorporate the full text as the embed text when available. Ensure that extraneous information that would confuse or mess up the embedding model is excluded:
+- author list
+- references, citations
+
+We only want to feed the real meaty content to the embeddings, representing the core content and ideas in the paper, not just the boilerplate and mentions.
 
 ## perf
 
