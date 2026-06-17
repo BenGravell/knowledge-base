@@ -1,5 +1,15 @@
 # TODO
 
+
+## speedup offline data regen
+
+biggest time sink is on
+
+scripts/audit_metadata.py --severity error
+
+can you figure out a way to get it to run faster without losing the strength of the checks? consider sweeping rewrites, perhaps even with another language like Rust.
+
+
 ## Full text ingest and conversion to Markdown
 
 Goal: provide an optional full-text Markdown file for each entry in the catalog. It should live alongside knowledge_base/docs/papers/YYYY/**/metadata.yml
