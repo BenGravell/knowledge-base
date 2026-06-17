@@ -2,6 +2,9 @@
 
 import re
 from pathlib import Path
+from typing import Any
+
+from typing_extensions import override
 
 if __package__ in (None, ""):
     import sys
@@ -34,9 +37,11 @@ class MitPressPrefill(UrlDoiPrefillScript):
     default_input = DEFAULT_INPUT
     source_hint = "MIT Press"
 
+    @override
     def accept_url(self, url: str) -> bool:
         return "direct.mit.edu/" in url or "mitpress.mit.edu/" in url
 
+    @override
     def entry_doi(self, entry: str) -> str | None:
         match = _MIT_ARTICLE_DOI_RE.search(entry)
         if match:
@@ -54,7 +59,8 @@ class MitPressPrefill(UrlDoiPrefillScript):
             return _KNOWN_DOIS_BY_ISBN[match.group(1)]
         return super().entry_doi(entry)
 
-    def postprocess_crossref_data(self, entry: str, data: dict) -> dict:
+    @override
+    def postprocess_crossref_data(self, entry: str, data: dict[str, Any]) -> dict[str, Any]:
         data = super().postprocess_crossref_data(entry, data)
         if _MIT_BOOK_RE.search(entry) or _MIT_LEGACY_BOOK_RE.search(entry):
             data = {**data, "source": data.get("source") or "MIT Press", "type": "Book"}

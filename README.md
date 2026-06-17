@@ -23,7 +23,7 @@ Lint and type-check Python code from the repository root:
 ```bash
 poetry run ruff check knowledge_base tests
 poetry run ruff format --check knowledge_base tests
-poetry run pyrefly check --baseline .pyrefly-baseline.json
+poetry run pyrefly check
 ```
 
 Run unit tests from the repository root (`~/knowledge-base`, not `knowledge_base/`):

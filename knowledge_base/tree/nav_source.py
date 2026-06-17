@@ -23,7 +23,7 @@ def paper_id_from_metadata_file(metadata_file: Path) -> str:
     with metadata_file.open("r", encoding="utf-8") as f:
         data = yaml.load(f, Loader=YAML_LOADER) or {}
     if not isinstance(data, dict):
-        data = {}
+        data = dict[str, Any]()
     return paper_id_from_metadata(metadata_file, data, METADATA_ROOT)
 
 
@@ -64,7 +64,7 @@ def tree_from_config(config: dict[str, Any]) -> Any:
     for item in as_list(config.get("nav")):
         if isinstance(item, dict) and "Tree" in item:
             return item["Tree"]
-    return []
+    return list[Any]()
 
 
 def tree_nav_item_from_file(
@@ -99,5 +99,5 @@ def load_tree(config: dict[str, Any] | None = None) -> Any:
     if TREE_YML.exists():
         return tree_from_file(TREE_YML)
     if config is None:
-        return []
+        return list[Any]()
     return tree_from_config(config)

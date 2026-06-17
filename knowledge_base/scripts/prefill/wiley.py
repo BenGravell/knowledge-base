@@ -2,6 +2,8 @@
 
 from pathlib import Path
 
+from typing_extensions import override
+
 if __package__ in (None, ""):
     import sys
 
@@ -17,6 +19,7 @@ class WileyPrefill(UrlDoiPrefillScript):
     default_input = DEFAULT_INPUT
     source_hint = "Wiley"
 
+    @override
     def accept_url(self, url: str) -> bool:
         return "onlinelibrary.wiley.com/" in url
 

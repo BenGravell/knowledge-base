@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import sys
 from pathlib import Path
+from typing import Any
 
 import streamlit as st
 
@@ -47,7 +48,7 @@ def refresh_suggestions() -> None:
     )
 
 
-def metadata_context(metadata_path: Path) -> dict:
+def metadata_context(metadata_path: Path) -> dict[str, Any]:
     return load_metadata(metadata_path)
 
 
@@ -252,6 +253,8 @@ with left:
         ]
     )
     for button_label, value in options:
+        if value is None:
+            continue
         if st.button(button_label, key=f"{button_label}-{value}", use_container_width=True):
             apply_label(suggestion, value)
     if st.button(
@@ -261,10 +264,10 @@ with left:
     ):
         apply_algorithm(suggestion, "")
 
-    manual_default = suggestion.canonical_label or suggestion.algorithm or suggestion.tree_label
+    manual_default = suggestion.canonical_label or suggestion.algorithm or suggestion.tree_label or ""
     manual_label = st.text_input("Manual canonical label", value=manual_default)
     if st.button("Apply manual label", type="primary", use_container_width=True):
-        apply_label(suggestion, manual_label)
+        apply_label(suggestion, manual_label or "")
 
 with right:
     st.subheader("Metadata")

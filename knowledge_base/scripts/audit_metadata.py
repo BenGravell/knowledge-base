@@ -7,11 +7,13 @@ import re
 import shutil
 import sys
 import unicodedata
+from collections.abc import Iterator
 from dataclasses import dataclass
 from dataclasses import field as dc_field
 from enum import Enum
 from functools import lru_cache
 from pathlib import Path
+from typing import Any
 
 if __package__ in {None, ""}:
     sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
@@ -1480,7 +1482,7 @@ def _html_unescape_repeated(text: str, max_rounds: int = 3) -> str:
     return current
 
 
-def _walk_string_values(value, field_name: str):
+def _walk_string_values(value: Any, field_name: str) -> Iterator[tuple[str, str]]:
     if isinstance(value, str):
         yield field_name, value
     elif isinstance(value, list):
@@ -1568,7 +1570,7 @@ def _ascii_multi_dash_examples(text: str, *, limit: int = 5) -> list[str]:
     return examples
 
 
-def find_ascii_multi_dash_issues(path: Path, data: dict) -> list["Issue"]:
+def find_ascii_multi_dash_issues(path: Path, data: dict[str, Any]) -> list["Issue"]:
     issues: list[Issue] = []
     for field_name, value in _walk_string_values(data, ""):
         examples = _ascii_multi_dash_examples(value)
@@ -1595,7 +1597,7 @@ def find_ascii_multi_dash_issues(path: Path, data: dict) -> list["Issue"]:
 
 def find_tight_letter_parenthetical_spacing_issues(
     path: Path,
-    data: dict,
+    data: dict[str, Any],
 ) -> list["Issue"]:
     issues: list[Issue] = []
     for field_name, value in _walk_string_values(data, ""):
@@ -1619,7 +1621,7 @@ def find_tight_letter_parenthetical_spacing_issues(
     return issues
 
 
-def find_big_whitespace_issues(path: Path, data: dict) -> list["Issue"]:
+def find_big_whitespace_issues(path: Path, data: dict[str, Any]) -> list["Issue"]:
     issues: list[Issue] = []
     for field_name, value in _walk_string_values(data, ""):
         examples = _big_whitespace_examples(value)
@@ -1640,7 +1642,7 @@ def find_big_whitespace_issues(path: Path, data: dict) -> list["Issue"]:
     return issues
 
 
-def find_escaped_sequence_issues(path: Path, data: dict) -> list["Issue"]:
+def find_escaped_sequence_issues(path: Path, data: dict[str, Any]) -> list["Issue"]:
     issues: list[Issue] = []
     for field_name, value in _walk_string_values(data, ""):
         matches = sorted(set(_HTML_ENTITY_RE.findall(value)))
@@ -2122,7 +2124,7 @@ def _is_suspended_hyphen_compound(match: re.Match[str]) -> bool:
 
 def find_ocr_spacing_issues(path: Path, field: str, text: str) -> list[Issue]:
     examples = _ocr_split_examples(text)
-    linebreak_examples = []
+    linebreak_examples: list[str] = []
     for match in _LINEBREAK_HYPHEN_RE.finditer(text):
         if _is_suspended_hyphen_compound(match):
             continue
@@ -2151,7 +2153,7 @@ def find_ocr_spacing_issues(path: Path, field: str, text: str) -> list[Issue]:
     ]
 
 
-def find_garbled_markup_issues(path: Path, data: dict) -> list[Issue]:
+def find_garbled_markup_issues(path: Path, data: dict[str, Any]) -> list[Issue]:
     issues: list[Issue] = []
     for field_name, value in _walk_string_values(data, ""):
         if not value:
@@ -2208,7 +2210,7 @@ def _find_urls(text: object) -> list[str]:
     return _URL_RE.findall(str(text))
 
 
-def find_disallowed_url_issues(path: Path, data: dict) -> list["Issue"]:
+def find_disallowed_url_issues(path: Path, data: dict[str, Any]) -> list["Issue"]:
     issues: list[Issue] = []
     for field_name in sorted(_URL_DISALLOWED_FIELDS):
         if field_name not in data:
@@ -2447,7 +2449,7 @@ def _text_introduces_algorithm_label(algorithm: str, title: str, text: str) -> b
     return False
 
 
-def _algorithm_context_text(data: dict) -> tuple[str, str]:
+def _algorithm_context_text(data: dict[str, Any]) -> tuple[str, str]:
     title = str(data.get("title") or "").strip()
     body = " ".join(str(data.get(field) or "") for field in ("title", "abstract", "summary"))
     body = _URL_RE.sub("", body)
@@ -2479,7 +2481,7 @@ def _algorithm_label_is_broad_family_name(algorithm: str) -> bool:
 
 def _algorithm_label_is_known_origin_entry(
     path: Path,
-    data: dict,
+    data: dict[str, Any],
     algorithm: str,
 ) -> bool:
     paper_id = paper_id_from_metadata(path, data)
@@ -2491,7 +2493,7 @@ def _algorithm_label_is_known_origin_entry(
 
 def _algorithm_label_is_allowed_entry(
     path: Path,
-    data: dict,
+    data: dict[str, Any],
     algorithm: str,
 ) -> bool:
     paper_id = paper_id_from_metadata(path, data)
@@ -2524,7 +2526,7 @@ def _broad_algorithm_family_issue_cue(
     return None
 
 
-def find_algorithm_issues(path: Path, data: dict) -> list["Issue"]:
+def find_algorithm_issues(path: Path, data: dict[str, Any]) -> list["Issue"]:
     algorithm = str(data.get("algorithm") or "").strip()
     if not algorithm:
         return []
@@ -2662,14 +2664,14 @@ def _is_tag_database_missing_issue(issue: Issue) -> bool:
     return issue.field == "tags" and issue.message.startswith(_TAG_DATABASE_MISSING_ISSUE_PREFIX)
 
 
-def _tag_entry_aliases(entry: dict) -> list[str]:
+def _tag_entry_aliases(entry: dict[str, Any]) -> list[str]:
     aliases = entry.get("aliases")
     if not isinstance(aliases, list):
         return []
     return [str(alias).strip() for alias in aliases if str(alias).strip()]
 
 
-def _tag_entry_known_keys(entries: list[dict]) -> set[str]:
+def _tag_entry_known_keys(entries: list[dict[str, Any]]) -> set[str]:
     keys: set[str] = set()
     for entry in entries:
         canonical = str(entry.get("canonical") or "").strip()
@@ -2683,7 +2685,7 @@ def _tag_entry_known_keys(entries: list[dict]) -> set[str]:
 
 def _missing_tag_canonical_fix(
     tag: str,
-    data: dict,
+    data: dict[str, Any],
     existing_keys: set[str],
 ) -> TagCanonicalFix | None:
     observed = _normalize_inline_text(tag)
@@ -2995,7 +2997,7 @@ def _plural_duplicate_tag_fix_suggestion(
     return "Prefer singular spelling: " + "; ".join(suggestions)
 
 
-def _author_last_name_tag_proper_words(data: dict) -> dict[str, str]:
+def _author_last_name_tag_proper_words(data: dict[str, Any]) -> dict[str, str]:
     authors = data.get("authors")
     if not isinstance(authors, list):
         return {}
@@ -3119,7 +3121,7 @@ def _suggest_tag_without_leading_article(
     return _suggest_tag_capitalization(rest, proper_name_words) if rest else None
 
 
-def find_tag_issues(path: Path, data: dict) -> list["Issue"]:
+def find_tag_issues(path: Path, data: dict[str, Any]) -> list["Issue"]:
     tags = data.get("tags")
     if tags in (None, ""):
         return []
@@ -3321,7 +3323,7 @@ def _blank_content_line_count(lines: list[str], start: int, end: int) -> int:
     return sum(1 for line in lines[start + 1 : end] if not line.strip())
 
 
-def find_multiline_field_issues(path: Path, raw: str, data: dict) -> list["Issue"]:
+def find_multiline_field_issues(path: Path, raw: str, data: dict[str, Any]) -> list["Issue"]:
     issues: list[Issue] = []
     lines = raw.splitlines(keepends=True)
     for index, _line in enumerate(lines):
@@ -3434,7 +3436,7 @@ def find_title_character_escape_issues(
     if len(matches) > 5:
         examples += f", ... ({len(matches)} total)"
 
-    decoded = []
+    decoded: list[str] = []
     for match in matches[:3]:
         decoded_char = _decode_yaml_character_escape(match)
         if decoded_char is None:
@@ -3462,7 +3464,7 @@ def audit_file(
     path: Path,
     *,
     selected_checks: set[str] | None = None,
-) -> tuple[dict, list[Issue]]:
+) -> tuple[dict[str, Any], list[Issue]]:
     issues: list[Issue] = []
 
     def should_check(check: str) -> bool:
@@ -3541,11 +3543,11 @@ def audit_file(
         issues.extend(find_algorithm_issues(path, data))
 
     # -- authors --
-    authors = data.get("authors")
+    authors_raw = data.get("authors")
+    authors: list[Any] = authors_raw if isinstance(authors_raw, list) else []
     if should_check(CHECK_AUTHORS) and "authors" not in missing:
-        if not isinstance(authors, list):
+        if not isinstance(authors_raw, list):
             issues.append(Issue(path, "authors", "Must be a list"))
-            authors = []
         elif len(authors) == 0:
             issues.append(Issue(path, "authors", "List is empty -- at least one entry required"))
         else:
@@ -3581,7 +3583,7 @@ def audit_file(
                         f"Replace organizations, team/institution placeholders, and one-token names with individual human authors where available; review: {examples}",
                     )
                 )
-            suspicious_chars = {}
+            suspicious_chars: dict[int, list[str]] = {}
             for i, a in enumerate(authors):
                 char_descriptions = _suspicious_author_char_descriptions(str(a))
                 if char_descriptions:
@@ -3622,7 +3624,7 @@ def audit_file(
                     )
                 )
     else:
-        authors = authors if isinstance(authors, list) else []
+        pass
 
     # -- tags --
     if should_check(CHECK_TAGS):
@@ -3854,7 +3856,7 @@ def _load_json_file(path: Path) -> tuple[object | None, str | None]:
         return None, f"Could not read file: {exc}"
 
 
-def _load_map_data_js(path: Path) -> tuple[dict | None, str | None]:
+def _load_map_data_js(path: Path) -> tuple[dict[str, Any] | None, str | None]:
     try:
         raw = path.read_text(encoding="utf-8")
     except FileNotFoundError:
@@ -4775,7 +4777,7 @@ def _replace_tight_letter_parenthetical_spacing(text: str) -> tuple[str, int]:
 
 def _fix_tight_letter_parenthetical_spacing_in_yaml(
     raw: str,
-    data: dict,
+    data: dict[str, Any],
     fields: set[str],
 ) -> tuple[str, int]:
     fixed_raw = raw
@@ -4818,7 +4820,7 @@ def _fix_tight_letter_parenthetical_spacing_in_yaml(
 
 def _fix_ascii_multi_dash_in_yaml(
     raw: str,
-    data: dict,
+    data: dict[str, Any],
     fields: set[str],
 ) -> tuple[str, int]:
     fixed_raw = raw
@@ -5137,7 +5139,7 @@ def _fix_metadata_scalar_field_in_yaml(raw: str, field_name: str, new_value: obj
 
 def _fix_high_confidence_ocr_artifacts_in_yaml(
     raw: str,
-    data: dict,
+    data: dict[str, Any],
     fields: set[str],
 ) -> tuple[str, int]:
     fixed_raw = raw
@@ -5164,7 +5166,7 @@ def _fix_high_confidence_ocr_artifacts_in_yaml(
 
 def _fix_multiline_fields_in_yaml(
     raw: str,
-    data: dict,
+    data: dict[str, Any],
     fields: set[str],
 ) -> tuple[str, int]:
     lines = raw.splitlines(keepends=True)
@@ -5201,7 +5203,7 @@ def _fix_multiline_fields_in_yaml(
 
 def _fix_folded_text_fields_in_yaml(
     raw: str,
-    data: dict,
+    data: dict[str, Any],
     fields: set[str],
 ) -> tuple[str, list[str]]:
     fixed_raw = raw
@@ -5238,7 +5240,7 @@ def _format_authors_block(authors: list[object], newline: str = "\n") -> str:
     return newline.join(lines) + newline
 
 
-def _fix_author_names_in_yaml(raw: str, data: dict) -> tuple[str, int, int]:
+def _fix_author_names_in_yaml(raw: str, data: dict[str, Any]) -> tuple[str, int, int]:
     authors_raw = data.get("authors")
     if not isinstance(authors_raw, list):
         return raw, 0, 0
@@ -5351,7 +5353,7 @@ def _repair_non_individual_author_list(authors_raw: list[object]) -> tuple[list[
     return authors, changed
 
 
-def _fix_non_individual_authors_in_yaml(raw: str, data: dict) -> tuple[str, int]:
+def _fix_non_individual_authors_in_yaml(raw: str, data: dict[str, Any]) -> tuple[str, int]:
     authors_raw = data.get("authors")
     if not isinstance(authors_raw, list):
         return raw, 0
@@ -5392,7 +5394,7 @@ def _fix_non_individual_authors_in_yaml(raw: str, data: dict) -> tuple[str, int]
 
 def _fix_mojibake_text_fields_in_yaml(
     raw: str,
-    data: dict,
+    data: dict[str, Any],
     fields: set[str],
 ) -> tuple[str, int]:
     fixed_raw = raw
@@ -5437,7 +5439,7 @@ def _format_tags_block(tags: list[object], newline: str = "\n") -> str:
 
 def _fix_tags_in_yaml(
     raw: str,
-    data: dict,
+    data: dict[str, Any],
     tag_fixes: list[Issue],
 ) -> tuple[str, int]:
     tags_raw = data.get("tags")
@@ -5588,9 +5590,14 @@ def _path_fix_for(path: Path, kb_root: Path) -> PathFix | None:
     papers_root, path_year_str, path_slug = parsed
 
     meta_year = data.get("year")
-    try:
-        year = int(meta_year)
-    except (TypeError, ValueError):
+    if isinstance(meta_year, int | str):
+        try:
+            year = int(meta_year)
+        except ValueError:
+            if not re.match(r"^\d{4}$", path_year_str):
+                return None
+            year = int(path_year_str)
+    else:
         if not re.match(r"^\d{4}$", path_year_str):
             return None
         year = int(path_year_str)
@@ -5600,7 +5607,7 @@ def _path_fix_for(path: Path, kb_root: Path) -> PathFix | None:
 
     title = str(data.get("title") or "").strip()
     authors_raw = data.get("authors")
-    authors = [str(author) for author in authors_raw] if isinstance(authors_raw, list) else []
+    authors: list[str] = [str(author) for author in authors_raw] if isinstance(authors_raw, list) else []
     arxiv_id = str(data.get("arxiv_id") or "").strip()
     if not title or not authors:
         return None
@@ -5823,13 +5830,13 @@ def apply_fixes(
                 new_raw, parse_messages = _fix_high_confidence_parse_errors_in_yaml(new_raw)
                 messages.extend(parse_messages)
 
-            if title_fixes:
+            if title_fixes and title_fixes[0].suggestion is not None:
                 new_title = title_fixes[0].suggestion
                 old_title = (yaml.safe_load(new_raw) or {}).get("title", "")
                 new_raw = _fix_title_in_yaml(new_raw, new_title)
                 messages.append(f"  title: {old_title!r} [green]->[/] {new_title!r}")
 
-            if source_year_fixes:
+            if source_year_fixes and source_year_fixes[0].suggestion is not None:
                 old_source = yaml.safe_load(new_raw).get("source", "")
                 new_source = source_year_fixes[0].suggestion
                 new_raw = _fix_source_in_yaml(new_raw, new_source)
@@ -6057,7 +6064,7 @@ def _normalize_check_names(names: list[str]) -> tuple[set[str], list[str]]:
     return selected, invalid
 
 
-def _audit_status(data: dict) -> str:
+def _audit_status(data: dict[str, Any]) -> str:
     return str(data.get(AUDIT_STATUS_FIELD) or "").strip()
 
 
@@ -6087,7 +6094,7 @@ def _filter_targets_by_audit_status(
     return filtered, unreadable
 
 
-def _skip_reviewed_errors(data: dict, issues: list[Issue]) -> tuple[list[Issue], int]:
+def _skip_reviewed_errors(data: dict[str, Any], issues: list[Issue]) -> tuple[list[Issue], int]:
     if _audit_status(data) != "reviewed":
         return issues, 0
 

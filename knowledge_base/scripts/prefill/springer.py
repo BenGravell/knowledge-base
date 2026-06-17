@@ -13,7 +13,11 @@ DOIs are extracted directly from Springer URLs, e.g.:
 """
 
 import re
+from collections.abc import Callable
 from pathlib import Path
+from typing import Any
+
+from typing_extensions import override
 
 if __package__ in (None, ""):
     import sys
@@ -33,7 +37,7 @@ DEFAULT_INPUT = REPO_ROOT / "todo" / "papers" / "SPRINGER.md"
 _SPRINGER_DOI_RE = re.compile(r"link\.springer\.com/(?:article|chapter|book|referenceworkentry)/(\S+?)(?:\s|$)")
 
 
-def extract_entries(path: Path, on_parse_failure=None) -> list[tuple[str, str]]:
+def extract_entries(path: Path, on_parse_failure: Callable[[str], None] | None = None) -> list[tuple[str, str]]:
     """Return (original_url, doi) pairs, deduplicated by DOI."""
     seen: set[str] = set()
     entries: list[tuple[str, str]] = []
@@ -57,16 +61,20 @@ class SpringerPrefill(DoiPrefillScript[tuple[str, str]]):
     description = "Prefill metadata from Springer URLs."
     default_input = DEFAULT_INPUT
 
+    @override
     def extract_entries(self, path: Path) -> list[tuple[str, str]]:
         return extract_entries(path, self.record_parse_failure)
 
+    @override
     def entry_label(self, entry: tuple[str, str]) -> str:
         return entry[1]
 
+    @override
     def entry_doi(self, entry: tuple[str, str]) -> str:
         return entry[1]
 
-    def postprocess_crossref_data(self, entry: tuple[str, str], data: dict) -> dict:
+    @override
+    def postprocess_crossref_data(self, entry: tuple[str, str], data: dict[str, Any]) -> dict[str, Any]:
         url, _doi = entry
         if data["abstract"]:
             return data

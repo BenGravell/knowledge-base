@@ -495,7 +495,7 @@ def refine(path: Path, cache: dict[str, Any]) -> bool:
 
     openalex = openalex_for_title(cache, title)
     if not official_source:
-        location = official_location(openalex) if openalex else {}
+        location: dict[str, Any] = official_location(openalex) if openalex else {}
         if location:
             official_source, official_type = openalex_type_to_metadata(openalex, location)
             official_links = official_links_from_openalex(openalex, location)

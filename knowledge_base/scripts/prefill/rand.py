@@ -2,6 +2,8 @@
 
 from pathlib import Path
 
+from typing_extensions import override
+
 if __package__ in (None, ""):
     import sys
 
@@ -19,6 +21,7 @@ class RandPrefill(CitationPagePrefillScript):
     type_fallback = "Technical Report"
     source_hint = "RAND"
 
+    @override
     def accept_url(self, url: str) -> bool:
         return "rand.org/" in url
 

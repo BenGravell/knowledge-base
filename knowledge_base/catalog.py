@@ -199,7 +199,7 @@ class CatalogLoadError(ValueError):
         return cls(CatalogLoadIssue(metadata_path, _validation_issue_message(issue)) for issue in error.errors())
 
 
-def _validation_issue_message(issue: dict[str, Any]) -> str:
+def _validation_issue_message(issue: Any) -> str:
     location = ".".join(str(part) for part in issue.get("loc", ())) or "metadata"
     return f"{location}: {issue.get('msg', 'Invalid value')}"
 

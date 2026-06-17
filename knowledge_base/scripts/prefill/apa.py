@@ -2,6 +2,8 @@
 
 from pathlib import Path
 
+from typing_extensions import override
+
 if __package__ in (None, ""):
     import sys
 
@@ -17,6 +19,7 @@ class ApaPrefill(UrlDoiPrefillScript):
     default_input = DEFAULT_INPUT
     source_hint = "APA PsycNet"
 
+    @override
     def accept_url(self, url: str) -> bool:
         return "psycnet.apa.org/" in url
 

@@ -1,6 +1,9 @@
 """Batch-prefill metadata.yml files from BMVA archive PDFs."""
 
 from pathlib import Path
+from typing import Any
+
+from typing_extensions import override
 
 if __package__ in (None, ""):
     import sys
@@ -22,13 +25,15 @@ class BmvaPrefill(PdfTextPrefillScript):
     default_input = DEFAULT_INPUT
     source_hint = "BMVA"
 
+    @override
     def accept_url(self, url: str) -> bool:
         return "bmva-archive.org.uk/" in url and url.lower().endswith(".pdf")
 
-    def fields_from_pdf(self, url: str, text: str) -> dict:
+    @override
+    def fields_from_pdf(self, url: str, text: str) -> dict[str, Any]:
         lines = [line.strip() for line in text.splitlines() if line.strip()]
         title = clean_text(lines[0]).title() if lines else ""
-        authors = split_authors(lines[1]) if len(lines) > 1 else []
+        authors: list[str] = split_authors(lines[1]) if len(lines) > 1 else []
         doi = extract_doi(text)
 
         abstract = ""

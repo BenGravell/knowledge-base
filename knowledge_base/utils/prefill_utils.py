@@ -9,6 +9,7 @@ import re
 import tempfile
 from dataclasses import dataclass
 from pathlib import Path
+from typing import Any
 from urllib.parse import parse_qs, unquote, urljoin, urlparse
 
 from knowledge_base.config import AUDIT_STATUS_FIELD, DEFAULT_AUDIT_STATUS
@@ -239,7 +240,7 @@ def fetch_citation_page_fields(
     source_fallback: str = "",
     type_fallback: str = "Journal Paper",
     page_html: str | None = None,
-) -> dict:
+) -> dict[str, Any]:
     """Fetch a publisher page and return normalized metadata fields."""
     page_html = fetch_page_html(url) if page_html is None else page_html
 
@@ -314,7 +315,7 @@ def fetch_citation_page_fields(
     }
 
 
-def build_page_metadata(fields: dict) -> dict:
+def build_page_metadata(fields: dict[str, Any]) -> dict[str, Any]:
     """Return an ordered metadata dict for non-Crossref proceedings pages."""
     return {
         "title": fields["title"],

@@ -8,12 +8,14 @@ import subprocess
 import tempfile
 import time
 from abc import ABC, abstractmethod
+from collections.abc import Callable
 from email.utils import parsedate_to_datetime
 from pathlib import Path
 from typing import Any, Generic, TypeVar
 from urllib.parse import quote
 
 import requests
+from typing_extensions import override
 
 from knowledge_base.config import REPO_ROOT  # noqa: F401 - re-exported for source-specific prefill scripts
 from knowledge_base.utils.arxiv_utils import metadata_to_yaml
@@ -43,6 +45,7 @@ from knowledge_base.utils.prefill_utils import (
 )
 
 EntryT = TypeVar("EntryT")
+FieldMap = dict[str, Any]
 
 
 class HaltPrefill(Exception):
@@ -52,7 +55,7 @@ class HaltPrefill(Exception):
 class SourceFileCleanup:
     """Remove handled input rows by re-reading and atomically replacing the file."""
 
-    def __init__(self, path: Path, key_for_token) -> None:
+    def __init__(self, path: Path, key_for_token: Callable[[str], str | None]) -> None:
         self.path = path
         self.key_for_token = key_for_token
 
@@ -186,7 +189,8 @@ class PrefillScript(ABC, Generic[EntryT]):
                 print(self.skipped_list_message(entry, fields, existing))
             time.sleep(self.delay)
 
-    def prepare_context(self, _args: Any) -> dict[str, Any]:
+    def prepare_context(self, args: Any) -> dict[str, Any]:
+        _ = args
         return {}
 
     def normalize_source_key(self, value: str) -> str:
@@ -226,36 +230,41 @@ class PrefillScript(ABC, Generic[EntryT]):
     def entry_label(self, entry: EntryT) -> str:
         return str(entry)
 
-    def existing_for_entry(self, _entry: EntryT, _context: dict[str, Any]) -> Path | None:
+    def existing_for_entry(self, entry: EntryT, context: dict[str, Any]) -> Path | None:
+        _ = entry, context
         return None
 
-    def needs_fetch_for_list_skipped(self, _entry: EntryT, _context: dict[str, Any]) -> bool:
+    def needs_fetch_for_list_skipped(self, entry: EntryT, context: dict[str, Any]) -> bool:
+        _ = entry, context
         return True
 
     @abstractmethod
-    def fetch_fields(self, entry: EntryT, context: dict[str, Any]) -> dict:
+    def fetch_fields(self, entry: EntryT, context: dict[str, Any]) -> FieldMap:
         """Return normalized metadata fields for *entry*."""
 
-    def existing_for_fields(self, _fields: dict, _context: dict[str, Any]) -> Path | None:
+    def existing_for_fields(self, fields: FieldMap, context: dict[str, Any]) -> Path | None:
+        _ = fields, context
         return None
 
     @abstractmethod
-    def build_metadata(self, entry: EntryT, fields: dict) -> dict:
+    def build_metadata(self, entry: EntryT, fields: FieldMap) -> FieldMap:
         """Build an ordered metadata dict ready for YAML serialization."""
 
     @abstractmethod
-    def write_metadata(self, entry: EntryT, fields: dict, yaml_text: str) -> Path:
+    def write_metadata(self, entry: EntryT, fields: FieldMap, yaml_text: str) -> Path:
         """Write *yaml_text* and return the target path."""
 
-    def success_message(self, prefix: str, _entry: EntryT, _fields: dict, out: Path) -> str:
+    def success_message(self, prefix: str, entry: EntryT, fields: FieldMap, out: Path) -> str:
+        _ = entry, fields
         return f"{prefix}  OK -> {out}"
 
     def skipped_list_message(
         self,
         entry: EntryT,
-        _fields: dict | None,
+        fields: FieldMap | None,
         existing: Path,
     ) -> str:
+        _ = fields
         return f"{self.entry_label(entry)}  {existing}"
 
 
@@ -265,11 +274,14 @@ class DoiPrefillScript(PrefillScript[EntryT], ABC):
     entry_kind = "DOIs"
     show_resolved_doi = False
 
-    def prepare_context(self, _args: Any) -> dict[str, Any]:
+    @override
+    def prepare_context(self, args: Any) -> dict[str, Any]:
+        _ = args
         return {"doi_index": build_doi_index()}
 
-    def entry_doi(self, _entry: EntryT) -> str | None:
+    def entry_doi(self, entry: EntryT) -> str | None:
         """Return a DOI known from the input entry, if available before fetching."""
+        _ = entry
         return None
 
     def resolve_doi(self, entry: EntryT) -> str:
@@ -278,25 +290,33 @@ class DoiPrefillScript(PrefillScript[EntryT], ABC):
             return doi
         raise NotImplementedError("Subclasses must implement resolve_doi() or entry_doi().")
 
+    @override
     def existing_for_entry(self, entry: EntryT, context: dict[str, Any]) -> Path | None:
         doi = self.entry_doi(entry)
         return context["doi_index"].get(doi.lower()) if doi else None
 
-    def needs_fetch_for_list_skipped(self, entry: EntryT, _context: dict[str, Any]) -> bool:
+    @override
+    def needs_fetch_for_list_skipped(self, entry: EntryT, context: dict[str, Any]) -> bool:
+        _ = context
         return self.entry_doi(entry) is None
 
-    def fetch_fields(self, entry: EntryT, _context: dict[str, Any]) -> dict:
+    @override
+    def fetch_fields(self, entry: EntryT, context: dict[str, Any]) -> FieldMap:
+        _ = context
         doi = self.resolve_doi(entry)
         data = fetch_with_retry(fetch_crossref, doi)
         return self.postprocess_crossref_data(entry, data)
 
-    def postprocess_crossref_data(self, _entry: EntryT, data: dict) -> dict:
+    def postprocess_crossref_data(self, entry: EntryT, data: FieldMap) -> FieldMap:
+        _ = entry
         return data
 
-    def existing_for_fields(self, fields: dict, context: dict[str, Any]) -> Path | None:
+    @override
+    def existing_for_fields(self, fields: FieldMap, context: dict[str, Any]) -> Path | None:
         doi = str(fields.get("doi") or "").strip()
         return context["doi_index"].get(doi.lower()) if doi else None
 
+    @override
     def source_key_for_entry(self, entry: EntryT) -> str | None:
         if isinstance(entry, tuple) and len(entry) >= 2:
             return self.normalize_source_key(str(entry[1]))
@@ -305,35 +325,42 @@ class DoiPrefillScript(PrefillScript[EntryT], ABC):
             return self.normalize_source_key(doi)
         return super().source_key_for_entry(entry)
 
+    @override
     def source_key_for_token(self, token: str) -> str | None:
         doi = extract_doi_from_url(token)
         if doi:
             return self.normalize_source_key(doi)
         return super().source_key_for_token(token)
 
-    def build_metadata(self, entry: EntryT, fields: dict) -> dict:
+    @override
+    def build_metadata(self, entry: EntryT, fields: FieldMap) -> FieldMap:
         return self.postprocess_metadata(entry, fields, build_doi_metadata(fields))
 
-    def postprocess_metadata(self, _entry: EntryT, _fields: dict, metadata: dict) -> dict:
+    def postprocess_metadata(self, entry: EntryT, fields: FieldMap, metadata: FieldMap) -> FieldMap:
+        _ = entry, fields
         return metadata
 
-    def write_metadata(self, _entry: EntryT, fields: dict, yaml_text: str) -> Path:
+    @override
+    def write_metadata(self, entry: EntryT, fields: FieldMap, yaml_text: str) -> Path:
+        _ = entry
         folder = generate_folder_name(fields["year"], fields["authors"], fields["title"])
         return write_doi_metadata(fields["year"], folder, yaml_text)
 
-    def output_path(self, fields: dict) -> Path:
+    def output_path(self, fields: FieldMap) -> Path:
         folder = generate_folder_name(fields["year"], fields["authors"], fields["title"])
         return doi_target_path(fields["year"], folder)
 
-    def success_message(self, prefix: str, entry: EntryT, fields: dict, out: Path) -> str:
+    @override
+    def success_message(self, prefix: str, entry: EntryT, fields: FieldMap, out: Path) -> str:
         if self.show_resolved_doi or self.entry_doi(entry) is None:
             return f"{prefix}  OK doi={fields['doi']} -> {out}"
         return super().success_message(prefix, entry, fields, out)
 
+    @override
     def skipped_list_message(
         self,
         entry: EntryT,
-        fields: dict | None,
+        fields: FieldMap | None,
         existing: Path,
     ) -> str:
         doi = str(fields.get("doi") or "") if fields else self.entry_doi(entry)
@@ -345,10 +372,13 @@ class PagePrefillScript(PrefillScript[EntryT], ABC):
 
     entry_kind = "entries"
 
-    def prepare_context(self, _args: Any) -> dict[str, Any]:
+    @override
+    def prepare_context(self, args: Any) -> dict[str, Any]:
+        _ = args
         return {"doi_index": build_doi_index()}
 
-    def existing_for_fields(self, fields: dict, context: dict[str, Any]) -> Path | None:
+    @override
+    def existing_for_fields(self, fields: FieldMap, context: dict[str, Any]) -> Path | None:
         doi = str(fields.get("doi") or "").strip()
         if doi:
             existing = context["doi_index"].get(doi.lower())
@@ -357,14 +387,18 @@ class PagePrefillScript(PrefillScript[EntryT], ABC):
         out = self.output_path(fields)
         return out if out.exists() else None
 
-    def build_metadata(self, _entry: EntryT, fields: dict) -> dict:
+    @override
+    def build_metadata(self, entry: EntryT, fields: FieldMap) -> FieldMap:
+        _ = entry
         return build_page_metadata(fields)
 
-    def output_path(self, fields: dict) -> Path:
+    def output_path(self, fields: FieldMap) -> Path:
         folder = generate_folder_name(fields["year"], fields["authors"], fields["title"])
         return doi_target_path(fields["year"], folder)
 
-    def write_metadata(self, _entry: EntryT, fields: dict, yaml_text: str) -> Path:
+    @override
+    def write_metadata(self, entry: EntryT, fields: FieldMap, yaml_text: str) -> Path:
+        _ = entry
         folder = generate_folder_name(fields["year"], fields["authors"], fields["title"])
         return write_doi_metadata(fields["year"], folder, yaml_text)
 
@@ -375,6 +409,7 @@ class UrlDoiPrefillScript(DoiPrefillScript[str]):
     entry_kind = "URLs"
     source_hint = "publisher"
 
+    @override
     def extract_entries(self, path: Path) -> list[str]:
         seen: set[str] = set()
         entries: list[str] = []
@@ -388,26 +423,32 @@ class UrlDoiPrefillScript(DoiPrefillScript[str]):
                 entries.append(url)
         return entries
 
-    def accept_url(self, _url: str) -> bool:
+    def accept_url(self, url: str) -> bool:
+        _ = url
         return True
 
     def entry_key(self, url: str) -> str:
         return (self.entry_doi(url) or url).lower()
 
+    @override
     def source_key_for_entry(self, entry: str) -> str | None:
         return self.normalize_source_key(self.entry_key(entry))
 
+    @override
     def source_key_for_token(self, token: str) -> str | None:
         if not self.accept_url(token):
             return None
         return self.normalize_source_key(self.entry_key(token))
 
+    @override
     def entry_label(self, entry: str) -> str:
         return self.entry_doi(entry) or entry
 
+    @override
     def entry_doi(self, entry: str) -> str | None:
         return extract_doi_from_url(entry) or None
 
+    @override
     def resolve_doi(self, entry: str) -> str:
         doi = self.entry_doi(entry)
         if doi:
@@ -421,7 +462,8 @@ class UrlDoiPrefillScript(DoiPrefillScript[str]):
                 return str(doi)
             raise
 
-    def postprocess_crossref_data(self, entry: str, data: dict) -> dict:
+    @override
+    def postprocess_crossref_data(self, entry: str, data: FieldMap) -> FieldMap:
         data = {**data, "link": entry}
         if data["abstract"]:
             return data
@@ -431,7 +473,8 @@ class UrlDoiPrefillScript(DoiPrefillScript[str]):
             return data
         return {**data, "abstract": abstract} if abstract else data
 
-    def postprocess_metadata(self, entry: str, fields: dict, metadata: dict) -> dict:
+    @override
+    def postprocess_metadata(self, entry: str, fields: FieldMap, metadata: FieldMap) -> FieldMap:
         links_alt = list(metadata.get("links_alt") or [])
         doi = str(fields.get("doi") or self.entry_doi(entry) or "").strip()
         if doi:
@@ -448,6 +491,7 @@ class CitationPagePrefillScript(PagePrefillScript[str]):
     type_fallback = "Journal Paper"
     source_hint = "citation"
 
+    @override
     def extract_entries(self, path: Path) -> list[str]:
         seen: set[str] = set()
         entries: list[str] = []
@@ -461,21 +505,26 @@ class CitationPagePrefillScript(PagePrefillScript[str]):
                 entries.append(key)
         return entries
 
-    def accept_url(self, _url: str) -> bool:
+    def accept_url(self, url: str) -> bool:
+        _ = url
         return True
 
     def normalize_url(self, url: str) -> str:
         return url
 
+    @override
     def source_key_for_entry(self, entry: str) -> str | None:
         return self.normalize_source_key(entry)
 
+    @override
     def source_key_for_token(self, token: str) -> str | None:
         if not self.accept_url(token):
             return None
         return self.normalize_source_key(self.normalize_url(token))
 
-    def fetch_fields(self, entry: str, _context: dict) -> dict:
+    @override
+    def fetch_fields(self, entry: str, context: dict[str, Any]) -> FieldMap:
+        _ = context
         return fetch_citation_page_fields(
             entry,
             source_fallback=self.source_fallback,
@@ -568,7 +617,7 @@ def _semantic_scholar_rate_limit_message() -> str:
     )
 
 
-def _semantic_scholar_get_json(url: str) -> dict:
+def _semantic_scholar_get_json(url: str) -> FieldMap:
     headers = _semantic_scholar_headers()
     last_exc: Exception | None = None
 
@@ -609,7 +658,7 @@ def semantic_scholar_type(publication_types: list[str] | None) -> str:
     return "Other"
 
 
-def semantic_scholar_fields(identifier: str, fallback_url: str = "") -> dict:
+def semantic_scholar_fields(identifier: str, fallback_url: str = "") -> FieldMap:
     """Return normalized metadata for a Semantic Scholar paper id or URL lookup."""
     if identifier.startswith("URL:"):
         paper_id = "URL:" + quote(identifier.removeprefix("URL:"), safe="")
@@ -653,6 +702,7 @@ class SemanticScholarPrefillScript(PagePrefillScript[str]):
     entry_kind = "Semantic Scholar papers"
     source_fallback = "Semantic Scholar"
 
+    @override
     def extract_entries(self, path: Path) -> list[str]:
         seen: set[str] = set()
         entries: list[str] = []
@@ -671,24 +721,31 @@ class SemanticScholarPrefillScript(PagePrefillScript[str]):
             return url.rstrip("/").split("/")[-1]
         return f"URL:{url}"
 
+    @override
     def source_key_for_entry(self, entry: str) -> str | None:
         return self.normalize_source_key(entry)
 
+    @override
     def source_key_for_token(self, token: str) -> str | None:
         identifier = self.identifier_for_url(token)
         return self.normalize_source_key(identifier) if identifier else None
 
+    @override
     def entry_label(self, entry: str) -> str:
         return entry.removeprefix("URL:")
 
-    def fetch_fields(self, entry: str, _context: dict) -> dict:
+    @override
+    def fetch_fields(self, entry: str, context: dict[str, Any]) -> FieldMap:
+        _ = context
         fallback_url = entry.removeprefix("URL:") if entry.startswith("URL:") else ""
         fields = semantic_scholar_fields(entry, fallback_url)
         if not fields.get("source"):
             fields["source"] = self.source_fallback
         return fields
 
-    def build_metadata(self, _entry: str, fields: dict) -> dict:
+    @override
+    def build_metadata(self, entry: str, fields: FieldMap) -> FieldMap:
+        _ = entry
         metadata = build_page_metadata(fields)
         if fields.get("arxiv_id"):
             metadata["arxiv_id"] = fields["arxiv_id"]
@@ -718,6 +775,7 @@ class PdfTextPrefillScript(PagePrefillScript[str], ABC):
     source_hint = "PDF"
     first_pages = 2
 
+    @override
     def extract_entries(self, path: Path) -> list[str]:
         seen: set[str] = set()
         entries: list[str] = []
@@ -733,17 +791,21 @@ class PdfTextPrefillScript(PagePrefillScript[str], ABC):
     def accept_url(self, url: str) -> bool:
         return url.lower().endswith(".pdf")
 
+    @override
     def source_key_for_entry(self, entry: str) -> str | None:
         return self.normalize_source_key(entry)
 
+    @override
     def source_key_for_token(self, token: str) -> str | None:
         if not self.accept_url(token):
             return None
         return self.normalize_source_key(token)
 
-    def fetch_fields(self, entry: str, _context: dict) -> dict:
+    @override
+    def fetch_fields(self, entry: str, context: dict[str, Any]) -> FieldMap:
+        _ = context
         return self.fields_from_pdf(entry, pdf_text_from_url(entry, first_pages=self.first_pages))
 
     @abstractmethod
-    def fields_from_pdf(self, url: str, text: str) -> dict:
+    def fields_from_pdf(self, url: str, text: str) -> FieldMap:
         """Return normalized metadata fields from extracted PDF text."""

@@ -1,3 +1,5 @@
+from typing import Any
+
 import streamlit as st
 
 from knowledge_base.config import VALID_TYPES
@@ -12,7 +14,7 @@ from knowledge_base.utils.arxiv_utils import (
 # Session state defaults
 # ---------------------------------------------------------------------------
 
-FIELD_DEFAULTS: dict = {
+FIELD_DEFAULTS: dict[str, Any] = {
     "title": "",
     "algorithm": "",
     "authors": [],
@@ -44,7 +46,7 @@ raw_id = st.text_input("arXiv ID", placeholder="e.g. 2403.10745")
 
 fetch_clicked = st.button("Fetch", use_container_width=False)
 
-data = {}
+data: dict[str, Any] = {}
 if fetch_clicked and raw_id.strip():
     with st.spinner("Fetching from arXiv…"):
         try:

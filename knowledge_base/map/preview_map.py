@@ -20,6 +20,9 @@ import tempfile
 import threading
 import webbrowser
 from pathlib import Path
+from typing import Any
+
+from typing_extensions import override
 
 DATA_FILE = Path(__file__).parent / "map-data.js"
 
@@ -38,7 +41,7 @@ SUPER_CATEGORY_PALETTE = [
 NODE_MARKER_DIAMETER = 7
 
 
-def load_data() -> dict:
+def load_data() -> dict[str, Any]:
     text = DATA_FILE.read_text(encoding="utf-8").strip()
     # Strip JS wrapper: const mapData = {...};
     text = re.sub(r"^const\s+mapData\s*=\s*", "", text)
@@ -50,7 +53,7 @@ def is_uncategorized(category: str | None) -> bool:
     return category in UNCATEGORIZED_CATEGORIES
 
 
-def category_super_category(data: dict, category: str) -> str:
+def category_super_category(data: dict[str, Any], category: str) -> str:
     explicit = data.get("meta", {}).get("categorySuperCategory", {}).get(category)
     if explicit:
         return explicit
@@ -66,7 +69,7 @@ def category_super_category(data: dict, category: str) -> str:
     return node["data"]["super_category"] if node else category
 
 
-def category_order(data: dict) -> list[str]:
+def category_order(data: dict[str, Any]) -> list[str]:
     configured = data.get("meta", {}).get("categoryOrder") or []
     data_categories = {item["data"].get("category") for item in data.get("nodes", []) if item["data"].get("category")}
     ordered = [cat for cat in configured if cat in data_categories]
@@ -74,7 +77,7 @@ def category_order(data: dict) -> list[str]:
     return ordered
 
 
-def super_category_order(data: dict) -> list[str]:
+def super_category_order(data: dict[str, Any]) -> list[str]:
     ordered = list(data.get("meta", {}).get("superCategoryOrder") or [])
     for category in category_order(data):
         if is_uncategorized(category):
@@ -85,7 +88,7 @@ def super_category_order(data: dict) -> list[str]:
     return ordered
 
 
-def super_category_hsl(data: dict, super_category: str) -> dict[str, float]:
+def super_category_hsl(data: dict[str, Any], super_category: str) -> dict[str, float]:
     order = super_category_order(data)
     index = max(order.index(super_category), 0) if super_category in order else 0
     palette_index = index % len(SUPER_CATEGORY_PALETTE)
@@ -99,7 +102,7 @@ def super_category_hsl(data: dict, super_category: str) -> dict[str, float]:
     }
 
 
-def categories_for_super(data: dict, super_category: str, current_category: str) -> list[str]:
+def categories_for_super(data: dict[str, Any], super_category: str, current_category: str) -> list[str]:
     siblings = [cat for cat in category_order(data) if category_super_category(data, cat) == super_category]
     if current_category not in siblings:
         siblings.append(current_category)
@@ -123,7 +126,7 @@ def hsl_to_hex(hsl: dict[str, float]) -> str:
     return f"#{round(r * 255):02X}{round(g * 255):02X}{round(b * 255):02X}"
 
 
-def category_hsl(data: dict, category: str) -> dict[str, float]:
+def category_hsl(data: dict[str, Any], category: str) -> dict[str, float]:
     super_category = category_super_category(data, category)
     base = super_category_hsl(data, super_category)
     siblings = categories_for_super(data, super_category, category)
@@ -138,7 +141,7 @@ def category_hsl(data: dict, category: str) -> dict[str, float]:
     }
 
 
-def sub_category_hsl(data: dict, category: str, sub_category: str) -> dict[str, float]:
+def sub_category_hsl(data: dict[str, Any], category: str, sub_category: str) -> dict[str, float]:
     base = category_hsl(data, category)
     ordered = [item for item in data.get("meta", {}).get("subCategoryOrder", {}).get(category, []) if item]
     siblings = ordered if sub_category in ordered else sorted([*ordered, sub_category])
@@ -153,7 +156,7 @@ def sub_category_hsl(data: dict, category: str, sub_category: str) -> dict[str, 
     }
 
 
-def node_color(data: dict, category: str, sub_category: str | None = None) -> str:
+def node_color(data: dict[str, Any], category: str, sub_category: str | None = None) -> str:
     if is_uncategorized(category):
         return "#000000"
     if sub_category:
@@ -161,8 +164,10 @@ def node_color(data: dict, category: str, sub_category: str | None = None) -> st
     return hsl_to_hex(category_hsl(data, category))
 
 
-def ordered_groups(data: dict, nodes: list[dict]) -> list[tuple[tuple[str, str | None], list[dict]]]:
-    groups: dict[tuple[str, str | None], list[dict]] = {}
+def ordered_groups(
+    data: dict[str, Any], nodes: list[dict[str, Any]]
+) -> list[tuple[tuple[str, str | None], list[dict[str, Any]]]]:
+    groups: dict[tuple[str, str | None], list[dict[str, Any]]] = {}
     for node in nodes:
         attrs = node["data"]
         key = (attrs["category"], attrs.get("sub_category"))
@@ -172,7 +177,7 @@ def ordered_groups(data: dict, nodes: list[dict]) -> list[tuple[tuple[str, str |
     categories = [cat for cat in category_order(data) if cat in data_categories]
     categories.extend(sorted(data_categories - set(categories)))
 
-    ordered: list[tuple[tuple[str, str | None], list[dict]]] = []
+    ordered: list[tuple[tuple[str, str | None], list[dict[str, Any]]]] = []
     for category in categories:
         sub_order = data.get("meta", {}).get("subCategoryOrder", {}).get(category, [])
         data_sub_categories = {key[1] for key in groups if key[0] == category and key[1] is not None}
@@ -190,7 +195,7 @@ def ordered_groups(data: dict, nodes: list[dict]) -> list[tuple[tuple[str, str |
     return ordered
 
 
-def build_figure(data: dict):
+def build_figure(data: dict[str, Any]):
     try:
         import plotly.graph_objects as go
     except ImportError:
@@ -330,8 +335,9 @@ def main():
         os.chdir(out_path.parent)
 
         class QuietHandler(SimpleHTTPRequestHandler):
-            def log_message(self, *_):
-                pass
+            @override
+            def log_message(self, format: str, *args: Any) -> None:
+                _ = (format, args)
 
         server = HTTPServer(("localhost", args.port), QuietHandler)
         url = f"http://localhost:{args.port}/{out_path.name}"

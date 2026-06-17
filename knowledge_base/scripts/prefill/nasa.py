@@ -1,7 +1,11 @@
 """Batch-prefill metadata.yml files from NASA NTRS URLs."""
 
 import re
+from collections.abc import Callable
 from pathlib import Path
+from typing import Any
+
+from typing_extensions import override
 
 if __package__ in (None, ""):
     import sys
@@ -32,7 +36,7 @@ def display_name(name: str) -> str:
     return f"{given} {family}".strip()
 
 
-def extract_entries(path: Path, on_parse_failure=None) -> list[str]:
+def extract_entries(path: Path, on_parse_failure: Callable[[str], None] | None = None) -> list[str]:
     seen: set[str] = set()
     entries: list[str] = []
     for url in read_url_lines(path):
@@ -51,7 +55,7 @@ def extract_entries(path: Path, on_parse_failure=None) -> list[str]:
     return entries
 
 
-def fetch_nasa_fields(citation_id: str) -> dict:
+def fetch_nasa_fields(citation_id: str) -> dict[str, Any]:
     r = requests.get(_NTRS_API.format(citation_id=citation_id), headers=_HEADERS, timeout=60)
     r.raise_for_status()
     data = r.json()
@@ -102,17 +106,22 @@ class NasaPrefill(PagePrefillScript[str]):
     default_input = DEFAULT_INPUT
     entry_kind = "NASA NTRS citations"
 
+    @override
     def extract_entries(self, path: Path) -> list[str]:
         return extract_entries(path, self.record_parse_failure)
 
+    @override
     def source_key_for_entry(self, entry: str) -> str | None:
         return self.normalize_source_key(entry)
 
+    @override
     def source_key_for_token(self, token: str) -> str | None:
         match = _NTRS_ID_RE.search(token)
         return self.normalize_source_key(match.group(1)) if match else None
 
-    def fetch_fields(self, entry: str, _context: dict) -> dict:
+    @override
+    def fetch_fields(self, entry: str, context: dict[str, Any]) -> dict[str, Any]:
+        _ = context
         return fetch_nasa_fields(entry)
 
 

@@ -4,11 +4,13 @@ import json
 import re
 from collections import Counter
 from pathlib import Path
+from typing import Any, cast
 
 import numpy as np
 import pandas as pd
 import plotly.express as px
 import plotly.figure_factory as ff
+import plotly.graph_objects as go
 import streamlit as st
 from scipy.cluster.hierarchy import fcluster, linkage
 from scipy.spatial.distance import pdist
@@ -21,7 +23,7 @@ MAP_DATA = MAP_DIR / "map-data.js"
 EMBEDDING_CACHE = MAP_DIR / "embedding_cache.json"
 
 
-def _read_map_json(path: Path) -> dict:
+def _read_map_json(path: Path) -> dict[str, Any]:
     text = path.read_text(encoding="utf-8")
     match = re.search(r"const\s+mapData\s*=\s*(\{.*\})\s*;?\s*$", text, re.S)
     if not match:
@@ -38,8 +40,8 @@ def load_map() -> tuple[pd.DataFrame, np.ndarray, str]:
         paper_id: paper["embedding"] for paper_id, paper in cache.get("papers", {}).items() if paper.get("embedding")
     }
 
-    rows = []
-    embeddings = []
+    rows: list[dict[str, Any]] = []
+    embeddings: list[Any] = []
     for node in map_data.get("nodes", []):
         data = node.get("data", {})
         paper_id = data.get("id")
@@ -92,7 +94,7 @@ def cluster_embeddings(
         return np.empty((0, 4)), np.ones(len(ids), dtype=int)
 
     distance_metric = "euclidean" if method == "ward" else metric
-    distances = pdist(embeddings, metric=distance_metric)
+    distances = pdist(embeddings, metric=cast(Any, distance_metric))
     tree = linkage(distances, method=method, optimal_ordering=len(ids) <= 750)
     labels = fcluster(tree, t=min(n_clusters, len(ids)), criterion="maxclust")
     return tree, labels
@@ -125,7 +127,7 @@ def centroid_dendrogram(
     method: str,
     metric: str,
     max_leaves: int,
-) -> object | None:
+) -> go.Figure | None:
     groups = list(frame.groupby("cluster", sort=True).groups.items())
     if len(groups) < 2:
         return None
@@ -135,7 +137,7 @@ def centroid_dendrogram(
     for cluster, indices in groups:
         cluster_frame = frame.loc[indices]
         centroids.append(embeddings[list(indices)].mean(axis=0))
-        labels.append(f"{int(cluster):02d} ({len(indices)}): {describe_cluster(cluster_frame)}")
+        labels.append(f"{str(cluster).zfill(2)} ({len(indices)}): {describe_cluster(cluster_frame)}")
 
     centroids = normalize(np.asarray(centroids, dtype=np.float32))
     if len(centroids) > max_leaves:
@@ -148,7 +150,7 @@ def centroid_dendrogram(
     distance_metric = "euclidean" if method == "ward" else metric
 
     def distfun(values: np.ndarray) -> np.ndarray:
-        return pdist(values, metric=distance_metric)
+        return pdist(values, metric=cast(Any, distance_metric))
 
     def linkagefun(distances: np.ndarray) -> np.ndarray:
         return linkage(distances, method=method, optimal_ordering=True)
@@ -166,7 +168,7 @@ def centroid_dendrogram(
         xaxis_title="Embedding distance",
         yaxis_title="Cluster",
     )
-    return fig
+    return cast(go.Figure, fig)
 
 
 def filter_frame(frame: pd.DataFrame) -> pd.Series:
@@ -175,15 +177,7 @@ def filter_frame(frame: pd.DataFrame) -> pd.Series:
     query = st.sidebar.text_input("Search", placeholder="title, label, tag, summary")
     if query.strip():
         needle = query.strip().lower()
-        haystack = (
-            frame["label"].fillna("")
-            + " "
-            + frame["title"].fillna("")
-            + " "
-            + frame["tags"].fillna("")
-            + " "
-            + frame["summary"].fillna("")
-        ).str.lower()
+        haystack = frame[["label", "title", "tags", "summary"]].fillna("").astype(str).agg(" ".join, axis=1).str.lower()
         mask &= haystack.str.contains(re.escape(needle), regex=True)
 
     super_categories = sorted(frame["super_category"].dropna().unique())
@@ -315,7 +309,7 @@ with tab_dendrogram:
     if dendrogram is None:
         st.info("Need at least two clusters for a dendrogram.")
     else:
-        st.plotly_chart(dendrogram, width="stretch")
+        st.plotly_chart(dendrogram, use_container_width=True)
 
 with tab_table:
     cluster_options = sorted(display_df["cluster_name"].unique())

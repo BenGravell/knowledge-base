@@ -3,6 +3,8 @@
 import re
 from pathlib import Path
 
+from typing_extensions import override
+
 if __package__ in (None, ""):
     import sys
 
@@ -25,9 +27,11 @@ class MdpiPrefill(UrlDoiPrefillScript):
     default_input = DEFAULT_INPUT
     source_hint = "MDPI"
 
+    @override
     def accept_url(self, url: str) -> bool:
         return "mdpi.com/" in url
 
+    @override
     def entry_doi(self, entry: str) -> str | None:
         match = _MDPI_ARTICLE_RE.search(entry)
         if match and match.group("issn") in _JOURNAL_BY_ISSN:

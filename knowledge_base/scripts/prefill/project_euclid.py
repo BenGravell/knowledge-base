@@ -1,6 +1,10 @@
 """Batch-prefill metadata.yml files from Project Euclid URLs."""
 
+from collections.abc import Callable
 from pathlib import Path
+from typing import Any
+
+from typing_extensions import override
 
 if __package__ in (None, ""):
     import sys
@@ -13,7 +17,7 @@ from knowledge_base.utils.prefill_utils import extract_doi_from_url, read_url_li
 
 DEFAULT_INPUT = REPO_ROOT / "todo" / "papers" / "PROJECT_EUCLID.md"
 
-_KNOWN_FIELDS_BY_TOKEN = {
+_KNOWN_FIELDS_BY_TOKEN: dict[str, dict[str, Any]] = {
     # Project Euclid's old Berkeley Symposium pages sit behind a bot challenge,
     # so keep the stable bibliographic record for the listed chapter here.
     "bsmsp/1200501645": {
@@ -54,7 +58,7 @@ def preferred_project_euclid_link(url: str) -> str:
     return url
 
 
-def extract_entries(path: Path, on_parse_failure=None) -> list[str]:
+def extract_entries(path: Path, on_parse_failure: Callable[[str], None] | None = None) -> list[str]:
     seen: set[str] = set()
     entries: list[str] = []
     for url in read_url_lines(path):
@@ -71,12 +75,13 @@ def extract_entries(path: Path, on_parse_failure=None) -> list[str]:
     return entries
 
 
-def fetch_project_euclid_fields(url: str) -> dict:
+def fetch_project_euclid_fields(url: str) -> dict[str, Any]:
     for token, fields in _KNOWN_FIELDS_BY_TOKEN.items():
         if token in url:
             record = {**fields}
             link = record.get("link") or url
-            links_alt = list(record.get("links_alt") or [])
+            links_alt_raw = record.get("links_alt")
+            links_alt = list(links_alt_raw) if isinstance(links_alt_raw, list) else []
             if link != url:
                 links_alt.append(url)
             return {
@@ -111,10 +116,13 @@ class ProjectEuclidPrefill(PagePrefillScript[str]):
     default_input = DEFAULT_INPUT
     entry_kind = "Project Euclid URLs"
 
+    @override
     def extract_entries(self, path: Path) -> list[str]:
         return extract_entries(path, self.record_parse_failure)
 
-    def fetch_fields(self, entry: str, _context: dict) -> dict:
+    @override
+    def fetch_fields(self, entry: str, context: dict[str, Any]) -> dict[str, Any]:
+        _ = context
         return fetch_project_euclid_fields(entry)
 
 

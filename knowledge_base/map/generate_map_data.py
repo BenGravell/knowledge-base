@@ -94,10 +94,11 @@ import time
 from collections.abc import Callable
 from dataclasses import dataclass, field
 from pathlib import Path
+from typing import Any
 
 import numpy as np
 import yaml
-from scipy.spatial import cKDTree
+from scipy.spatial import KDTree as cKDTree
 from sklearn.preprocessing import normalize
 
 from knowledge_base.catalog import Catalog
@@ -183,7 +184,7 @@ def compute_umap_positions(
 def umap_cache_key(
     paper_ids: list[str],
     embeddings: np.ndarray,
-    **umap_params,
+    **umap_params: Any,
 ) -> str:
     """Stable hash over inputs that fully determine the UMAP result."""
     h = hashlib.sha256()
@@ -201,7 +202,7 @@ def umap_cache_key(
 def force_cache_key(
     umap_coords: np.ndarray,
     embeddings: np.ndarray,
-    **force_params,
+    **force_params: Any,
 ) -> str:
     """Stable hash over inputs that fully determine the force layout result."""
     h = hashlib.sha256()
@@ -387,7 +388,7 @@ def _build_attraction_pairs(
 
     sim_matrix = emb_norm @ emb_norm.T
 
-    pairs = []
+    pairs: list[tuple[int, int, float]] = []
     for i in range(N):
         sims = sim_matrix[i]
         sims[i] = -1.0
@@ -467,7 +468,7 @@ class AggregateLayoutGroup:
     centroid_y: float | None = None
 
 
-def aggregate_branch_levels(papers: list[dict], nav_order: dict) -> list[dict[str, int | str]]:
+def aggregate_branch_levels(papers: list[dict[str, Any]], nav_order: dict[str, Any]) -> list[dict[str, int | str]]:
     data_depth = max((len(p.get("nav_path") or []) for p in papers), default=0)
     max_depth = max(4, int(nav_order.get("maxBranchDepth") or 0), data_depth)
     return [
@@ -677,11 +678,11 @@ def aggregate_force_layout_postprocess(
 
 
 def build_aggregate_layouts(
-    papers: list[dict],
+    papers: list[dict[str, Any]],
     paper_coords: np.ndarray,
     embeddings: np.ndarray,
-    nav_order: dict,
-    force_params: dict,
+    nav_order: dict[str, Any],
+    force_params: dict[str, Any],
 ) -> dict[str, dict[str, list[float]]]:
     """Precompute aggregate LOD positions so the browser avoids layout work."""
     branch_levels = aggregate_branch_levels(papers, nav_order)
@@ -783,8 +784,8 @@ def build_aggregate_layouts(
     return {
         level: {
             aggregate_group_key(group.path): [
-                round(float(group.layout_x), 1),
-                round(float(group.layout_y), 1),
+                round(group.layout_x if group.layout_x is not None else group.x, 1),
+                round(group.layout_y if group.layout_y is not None else group.y, 1),
             ]
             for group in groups
         }
@@ -799,12 +800,12 @@ def build_aggregate_layouts(
 UNCATEGORIZED_CATEGORY = "Uncategorized"
 
 
-def find_tree_nav(config: dict) -> object | None:
+def find_tree_nav(config: dict[str, Any]) -> object | None:
     """Return the nav subtree under ``Tree`` if present."""
     return load_tree(config)
 
 
-def parse_nav_categories(config: dict) -> dict[str, dict]:
+def parse_nav_categories(config: dict[str, Any]) -> dict[str, dict[str, Any]]:
     """
     Recursively walk the mkdocs ``Tree`` nav and record each paper's
     full tree branch path, plus legacy category fields used by the
@@ -832,7 +833,7 @@ def parse_nav_categories(config: dict) -> dict[str, dict]:
     return TreeModel.from_tree(tree).placement_fields_by_paper_id()
 
 
-def parse_nav_category_order(config: dict) -> dict:
+def parse_nav_category_order(config: dict[str, Any]) -> dict[str, Any]:
     """
     Walk the mkdocs ``Tree`` nav and return ordered hierarchy lists as
     they appear in mkdocs.yml (not alphabetically).
@@ -953,7 +954,7 @@ def choose_backend(requested: str | None) -> tuple[str, Callable[[list[str]], np
 # ---------------------------------------------------------------------------
 
 
-def load_cache(cache_path: Path) -> dict:
+def load_cache(cache_path: Path) -> dict[str, Any]:
     """
     Load the embedding cache from disk.
 
@@ -983,7 +984,7 @@ def load_cache(cache_path: Path) -> dict:
     return {"model": None, "papers": {}}
 
 
-def save_cache(cache_path: Path, cache: dict) -> None:
+def save_cache(cache_path: Path, cache: dict[str, Any]) -> None:
     """Persist the full cache dict (embeddings + umap) to disk."""
     with open(cache_path, "w", encoding="utf-8") as f:
         json.dump(cache, f, separators=(",", ":"))
@@ -991,7 +992,7 @@ def save_cache(cache_path: Path, cache: dict) -> None:
     print(f"Cache saved: {cache_path}  ({size_kb} KB)")
 
 
-def prune_missing_papers_from_cache(cache: dict, active_paper_ids: set[str]) -> list[str]:
+def prune_missing_papers_from_cache(cache: dict[str, Any], active_paper_ids: set[str]) -> list[str]:
     """
     Remove embeddings for papers that no longer have a metadata.yml file.
 
@@ -1000,7 +1001,7 @@ def prune_missing_papers_from_cache(cache: dict, active_paper_ids: set[str]) -> 
     """
     cached_papers = cache.get("papers")
     if not isinstance(cached_papers, dict):
-        cache["papers"] = {}
+        cache["papers"] = dict[str, Any]()
         cache.pop("umap", None)
         cache.pop("force", None)
         return []
@@ -1160,7 +1161,7 @@ def kl_divergence(
 
 
 def tree_proximity_metadata(
-    papers: list[dict],
+    papers: list[dict[str, Any]],
     similarity_rows: np.ndarray,
     similarity_scale: int,
 ) -> dict[str, object]:
@@ -1252,7 +1253,7 @@ def main() -> None:
 
     # ---- collect papers ----------------------------------------------------
     print("\n[1/7] Collecting paper metadata…")
-    papers: list[dict] = []
+    papers: list[dict[str, Any]] = []
     catalog = Catalog.from_metadata_root(METADATA_ROOT)
     for entry in catalog.entries:
         pid = entry.id
@@ -1295,19 +1296,29 @@ def main() -> None:
 
     # ---- load cache and find which papers need (re-)embedding --------------
     print("\n[3/7] Checking embedding cache…")
-    cache = load_cache(args.cache)
+    cache: dict[str, Any] = load_cache(args.cache)
 
     # Invalidate entire cache if the model changed
     if cache.get("model") and cache["model"] != model_name:
         print(f"    Model changed ({cache['model']} → {model_name}). Discarding cache and re-embedding all papers.")
-        cache = {"model": model_name, "papers": {}}
+        cache = {"model": model_name, "papers": dict[str, dict[str, Any]]()}
 
-    cached_papers: dict[str, dict] = cache.get("papers", {})
+    cached_papers_raw = cache.get("papers")
+    cached_papers: dict[str, dict[str, Any]] = (
+        {str(paper_id): dict(entry) for paper_id, entry in cached_papers_raw.items() if isinstance(entry, dict)}
+        if isinstance(cached_papers_raw, dict)
+        else {}
+    )
     active_paper_ids = {p["id"] for p in papers}
     pruned_ids = prune_missing_papers_from_cache(cache, active_paper_ids)
     if pruned_ids:
         print(f"    Removed {len(pruned_ids)} stale cached paper(s) with no metadata.yml")
-        cached_papers = cache["papers"]
+        cached_papers_raw = cache.get("papers")
+        cached_papers = (
+            {str(paper_id): dict(entry) for paper_id, entry in cached_papers_raw.items() if isinstance(entry, dict)}
+            if isinstance(cached_papers_raw, dict)
+            else {}
+        )
 
     # Determine which papers need new embeddings
     to_embed: list[int] = []  # indices into `papers`
@@ -1355,7 +1366,7 @@ def main() -> None:
     # ---- UMAP layout -------------------------------------------------------
     print("\n[5/7] Computing UMAP 2-D layout…")
 
-    umap_params = {
+    umap_params: dict[str, Any] = {
         "scale": DEFAULT_UMAP_SCALE,
         "random_state": 42,
         "n_neighbors": min(50, len(embeddings) - 1),
@@ -1363,7 +1374,8 @@ def main() -> None:
         "n_epochs": 500,
     }
     key = umap_cache_key([p["id"] for p in papers], embeddings, **umap_params)
-    umap_entry = cache.get("umap", {})
+    umap_entry_raw = cache.get("umap")
+    umap_entry: dict[str, Any] = umap_entry_raw if isinstance(umap_entry_raw, dict) else dict[str, Any]()
 
     if not args.force and umap_entry.get("key") == key:
         print("    UMAP layout loaded from cache (embeddings unchanged)")
@@ -1380,7 +1392,7 @@ def main() -> None:
     # ---- force-directed layout post-processing -----------------------------
     print("\n[6/7] Force-directed layout post-processing…")
 
-    force_params = {
+    force_params: dict[str, Any] = {
         "pre_layout_scale": 2.0,
         "anchor_strength": 0.85,
         "sim_threshold": 0.75,
@@ -1400,7 +1412,8 @@ def main() -> None:
         layout_coords = umap_coords
     else:
         fkey = force_cache_key(umap_coords, embeddings, **force_params)
-        force_entry = cache.get("force", {})
+        force_entry_raw = cache.get("force")
+        force_entry: dict[str, Any] = force_entry_raw if isinstance(force_entry_raw, dict) else dict[str, Any]()
 
         if not args.force and force_entry.get("key") == fkey:
             print("    Force layout loaded from cache (UMAP + embeddings unchanged)")

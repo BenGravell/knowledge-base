@@ -3,10 +3,14 @@
 import random
 import re
 import time
+from collections.abc import Callable
 from datetime import UTC, datetime
 from email.utils import parsedate_to_datetime
 from pathlib import Path
+from typing import Any
 from urllib.parse import parse_qs, urlparse
+
+from typing_extensions import override
 
 if __package__ in (None, ""):
     import sys
@@ -37,7 +41,7 @@ RETRY_STATUS_CODES = {429, 500, 502, 503, 504}
 LEGACY_FALLBACK_STATUS_CODES = {404}
 
 
-def content_value(content: dict, key: str, default=None):
+def content_value(content: dict[str, Any], key: str, default: Any = None) -> Any:
     value = content.get(key, default)
     if isinstance(value, dict) and "value" in value:
         return value["value"]
@@ -53,7 +57,7 @@ def extract_note_id(url: str) -> str:
     return parts[-1] if parts else ""
 
 
-def extract_entries(path: Path, on_parse_failure=None) -> list[str]:
+def extract_entries(path: Path, on_parse_failure: Callable[[str], None] | None = None) -> list[str]:
     seen: set[str] = set()
     entries: list[str] = []
     for url in read_url_lines(path):
@@ -98,7 +102,7 @@ def wait_for_retry(label: str, attempt: int, response: requests.Response | None)
     time.sleep(wait)
 
 
-def fetch_openreview_json(label: str, url: str) -> dict:
+def fetch_openreview_json(label: str, url: str) -> dict[str, Any]:
     last_exc: Exception | None = None
     for attempt in range(MAX_RETRIES):
         try:
@@ -123,7 +127,7 @@ def fetch_openreview_json(label: str, url: str) -> dict:
     ) from last_exc
 
 
-def fetch_openreview_notes(note_id: str) -> list[dict]:
+def fetch_openreview_notes(note_id: str) -> list[dict[str, Any]]:
     for index, (label, api) in enumerate(_OPENREVIEW_APIS):
         try:
             data = fetch_openreview_json(label, api.format(note_id=note_id))
@@ -148,7 +152,7 @@ def fetch_openreview_notes(note_id: str) -> list[dict]:
     return []
 
 
-def timestamp_year(value) -> str:
+def timestamp_year(value: Any) -> str:
     if value in (None, ""):
         return ""
     text = str(value).strip()
@@ -187,7 +191,7 @@ def type_from_source(source: str, venue: str) -> str:
     return "Other"
 
 
-def fetch_openreview_fields(note_id: str) -> dict:
+def fetch_openreview_fields(note_id: str) -> dict[str, Any]:
     notes = fetch_openreview_notes(note_id)
     if not notes:
         raise ValueError(f"No OpenReview note found for {note_id!r}")
@@ -234,17 +238,22 @@ class OpenReviewPrefill(PagePrefillScript[str]):
     default_input = DEFAULT_INPUT
     entry_kind = "OpenReview notes"
 
+    @override
     def extract_entries(self, path: Path) -> list[str]:
         return extract_entries(path, self.record_parse_failure)
 
+    @override
     def source_key_for_entry(self, entry: str) -> str | None:
         return self.normalize_source_key(entry)
 
+    @override
     def source_key_for_token(self, token: str) -> str | None:
         note_id = extract_note_id(token)
         return self.normalize_source_key(note_id) if note_id else None
 
-    def fetch_fields(self, entry: str, _context: dict) -> dict:
+    @override
+    def fetch_fields(self, entry: str, context: dict[str, Any]) -> dict[str, Any]:
+        _ = context
         return fetch_openreview_fields(entry)
 
 

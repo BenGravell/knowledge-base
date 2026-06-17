@@ -3,6 +3,7 @@ import json
 import re
 from collections import defaultdict
 from pathlib import Path
+from typing import Any, TypedDict
 from urllib.parse import quote, unquote, urlparse
 
 import mkdocs_gen_files
@@ -38,6 +39,13 @@ TRAILING_URL_BRACKETS = {
     "]": "[",
     "}": "{",
 }
+
+
+class PaperTemplateEntry(TypedDict):
+    metadata_file: Path
+    entry: Entry
+    data: dict[str, Any]
+
 
 # Read template
 template_text = template_file.read_text()
@@ -79,14 +87,14 @@ def link_plain_urls(text: str) -> str:
     return "".join(rendered)
 
 
-def metadata_text_html(text):
+def metadata_text_html(text: Any) -> str:
     """Render metadata text as HTML paragraphs without Markdown/math parsing."""
     text = str(text or "").strip()
     if not text:
         return ""
 
     paragraphs = re.split(r"\n\s*\n", text)
-    rendered = []
+    rendered: list[str] = []
     for paragraph in paragraphs:
         lines = [link_plain_urls(line.strip()) for line in paragraph.splitlines()]
         body = "<br>\n".join(line for line in lines if line)
@@ -95,18 +103,18 @@ def metadata_text_html(text):
     return "\n".join(rendered)
 
 
-def clean_scalar(value) -> str:
+def clean_scalar(value: Any) -> str:
     return str(value or "").strip()
 
 
-def as_links(value) -> list[str]:
+def as_links(value: Any) -> list[str]:
     if isinstance(value, list):
         return [clean_scalar(item) for item in value if clean_scalar(item)]
     text = clean_scalar(value)
     return [text] if text else []
 
 
-def as_clean_list(value) -> list[str]:
+def as_clean_list(value: Any) -> list[str]:
     if isinstance(value, list):
         return [clean_scalar(item) for item in value if clean_scalar(item)]
     text = clean_scalar(value)
@@ -131,11 +139,11 @@ def clean_arxiv_id(arxiv_id: str | None) -> str:
     return normalize_arxiv_id(arxiv_id)
 
 
-def url_quote(value) -> str:
+def url_quote(value: Any) -> str:
     return quote(clean_scalar(value), safe="")
 
 
-def url_path_quote(value) -> str:
+def url_path_quote(value: Any) -> str:
     return quote(clean_scalar(value), safe="/")
 
 
@@ -153,7 +161,7 @@ def is_google_scholar_url(url: str) -> bool:
     return link_domain(url) == "scholar.google.com"
 
 
-def google_scholar_url(data: dict) -> str:
+def google_scholar_url(data: dict[str, Any]) -> str:
     for url in [clean_scalar(data.get("link")), *as_links(data.get("links_alt"))]:
         if is_google_scholar_url(url):
             return url
@@ -173,7 +181,7 @@ def google_scholar_url(data: dict) -> str:
     return f"https://scholar.google.com/scholar?q={quote(query, safe='')}"
 
 
-def openalex_work_url(data: dict) -> str:
+def openalex_work_url(data: dict[str, Any]) -> str:
     for url in [clean_scalar(data.get("link")), *as_links(data.get("links_alt"))]:
         if is_openalex_url(url):
             return url
@@ -188,7 +196,7 @@ def openalex_work_url(data: dict) -> str:
     return f"https://openalex.org/works?search={quote(query, safe='')}"
 
 
-def openalex_metadata_query(data: dict) -> str:
+def openalex_metadata_query(data: dict[str, Any]) -> str:
     title = clean_scalar(data.get("title"))
     authors = as_clean_list(data.get("authors"))
     year = clean_scalar(data.get("year"))
@@ -287,12 +295,12 @@ def build_tag_links(tags: list[str], paper_id: str) -> list[dict[str, str]]:
     return links
 
 
-def build_link_sections(data: dict, paper_id: str) -> list[dict]:
+def build_link_sections(data: dict[str, Any], paper_id: str) -> list[dict[str, Any]]:
     primary = clean_scalar(data.get("link"))
     arxiv_id = clean_arxiv_id(data.get("arxiv_id"))
     doi = clean_doi(data.get("doi"))
-    sections = []
-    external_links = []
+    sections: list[dict[str, Any]] = []
+    external_links: list[dict[str, str | bool]] = []
 
     sections.append(
         {
@@ -305,7 +313,7 @@ def build_link_sections(data: dict, paper_id: str) -> list[dict]:
     if primary:
         external_links.append(make_link("Document", primary, "", "primary"))
 
-    standard_links = []
+    standard_links: list[dict[str, str | bool]] = []
     standard_seen = set()
 
     def add_standard(label: str, url: str) -> None:
@@ -329,7 +337,7 @@ def build_link_sections(data: dict, paper_id: str) -> list[dict]:
 
     external_links.extend(standard_links)
 
-    alternate_links = []
+    alternate_links: list[dict[str, str | bool]] = []
     alternate_seen = {normalize_url_key(primary)} if primary else set()
     alternate_seen.update(standard_seen)
     for url in as_links(data.get("links_alt")):
@@ -347,7 +355,7 @@ def build_link_sections(data: dict, paper_id: str) -> list[dict]:
     return sections
 
 
-def paper_record(entry: Entry) -> dict:
+def paper_record(entry: Entry) -> dict[str, Any]:
     return {
         "id": entry.id,
         "title": entry.title,
@@ -371,7 +379,7 @@ def paper_record(entry: Entry) -> dict:
     }
 
 
-def paper_byline(record: dict) -> str:
+def paper_byline(record: dict[str, Any]) -> str:
     authors = as_clean_list(record.get("authors"))
     author = ""
     if authors:
@@ -397,7 +405,9 @@ def load_embedding_cache() -> dict[str, list[float]]:
     return embeddings
 
 
-def build_top_similar_papers(records: list[dict], limit: int = top_similar_limit) -> dict[str, list[dict]]:
+def build_top_similar_papers(
+    records: list[dict[str, Any]], limit: int = top_similar_limit
+) -> dict[str, list[dict[str, Any]]]:
     if np is None:
         return {}
 
@@ -412,7 +422,7 @@ def build_top_similar_papers(records: list[dict], limit: int = top_similar_limit
     norms[norms == 0] = 1.0
     matrix = matrix / norms
     sim = matrix @ matrix.T
-    top_similar: dict[str, list[dict]] = {}
+    top_similar: dict[str, list[dict[str, Any]]] = {}
 
     for i, paper_id in enumerate(embedded_ids):
         order = np.argsort(-sim[i])
@@ -455,7 +465,7 @@ def build_top_similar_papers(records: list[dict], limit: int = top_similar_limit
     return top_similar
 
 
-def build_tag_search_data(records: list[dict]) -> dict:
+def build_tag_search_data(records: list[dict[str, Any]]) -> dict[str, Any]:
     record_by_id = {record["id"]: record for record in records}
     tag_members: dict[str, list[str]] = defaultdict(list)
     tag_labels: dict[str, str] = {}
@@ -471,7 +481,7 @@ def build_tag_search_data(records: list[dict]) -> dict:
             tag_labels.setdefault(key, tag)
 
     embeddings = load_embedding_cache()
-    related: dict[str, list[dict[str, str | float]]] = {}
+    related: dict[str, list[dict[str, Any]]] = {}
 
     if np is not None and embeddings:
         embedded_ids = [record["id"] for record in records if record["id"] in embeddings]
@@ -536,7 +546,7 @@ env.filters["metadata_text_html"] = metadata_text_html
 env.filters["url_quote"] = url_quote
 env.filters["url_path_quote"] = url_path_quote
 
-paper_entries = []
+paper_entries: list[PaperTemplateEntry] = []
 
 # Iterate over all YAML files
 for metadata_file in metadata_root.rglob("*.yml"):

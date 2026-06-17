@@ -25,6 +25,7 @@ from pathlib import Path
 from typing import Any
 from urllib.parse import parse_qsl, urlencode, urlparse, urlunparse
 
+from typing_extensions import override
 from verify_map_view import (
     CdpClient,
     find_chrome,
@@ -214,8 +215,9 @@ JS_MEASURE_INTERACTION = r"""
 
 
 class QuietHandler(SimpleHTTPRequestHandler):
-    def log_message(self, _format: str, *_args: Any) -> None:
-        return
+    @override
+    def log_message(self, format: str, *args: Any) -> None:
+        _ = (format, args)
 
 
 def serve_site(site_dir: Path) -> tuple[ThreadingHTTPServer, str]:
@@ -225,7 +227,8 @@ def serve_site(site_dir: Path) -> tuple[ThreadingHTTPServer, str]:
     server = ThreadingHTTPServer(("127.0.0.1", 0), handler)
     thread = threading.Thread(target=server.serve_forever, daemon=True)
     thread.start()
-    host, port = server.server_address
+    host = str(server.server_address[0])
+    port = int(server.server_address[1])
     return server, f"http://{host}:{port}/tree/"
 
 

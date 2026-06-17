@@ -11,8 +11,12 @@ The script scrapes PMLR citation meta tags and abstract text, then writes a
 raw metadata.yml entry using the repository's non-arXiv folder convention.
 """
 
+from collections.abc import Callable
 from pathlib import Path
+from typing import Any
 from urllib.parse import urlparse, urlunparse
+
+from typing_extensions import override
 
 if __package__ in (None, ""):
     import sys
@@ -56,7 +60,7 @@ def normalize_url(url: str) -> str:
     return urlunparse((scheme, parsed.netloc, path, "", "", ""))
 
 
-def extract_entries(path: Path, on_parse_failure=None) -> list[str]:
+def extract_entries(path: Path, on_parse_failure: Callable[[str], None] | None = None) -> list[str]:
     """Return deduplicated normalized PMLR URLs."""
     seen: set[str] = set()
     entries: list[str] = []
@@ -75,7 +79,7 @@ def extract_entries(path: Path, on_parse_failure=None) -> list[str]:
     return entries
 
 
-def fetch_mlr_fields(url: str) -> dict:
+def fetch_mlr_fields(url: str) -> dict[str, Any]:
     html = fetch_page_html(url)
     title = first_meta(html, "citation_title") or first_element_text(html, "h1")
     authors = meta_contents(html, "citation_author")
@@ -89,7 +93,7 @@ def fetch_mlr_fields(url: str) -> dict:
 
     pdf_url = first_meta(html, "citation_pdf_url")
     link = absolutize_url(url, pdf_url) if pdf_url else url
-    links_alt = [url] if link != url else []
+    links_alt: list[str] = [url] if link != url else []
 
     if not title or not authors or not year:
         raise ValueError(f"Incomplete PMLR metadata at {url!r}")
@@ -111,18 +115,23 @@ class MlrPrefill(PagePrefillScript[str]):
     default_input = DEFAULT_INPUT
     entry_kind = "PMLR URLs"
 
+    @override
     def extract_entries(self, path: Path) -> list[str]:
         return extract_entries(path, self.record_parse_failure)
 
+    @override
     def source_key_for_entry(self, entry: str) -> str | None:
         return self.normalize_source_key(entry)
 
+    @override
     def source_key_for_token(self, token: str) -> str | None:
         if "proceedings.mlr.press/" not in token:
             return None
         return self.normalize_source_key(normalize_url(token))
 
-    def fetch_fields(self, entry: str, _context: dict) -> dict:
+    @override
+    def fetch_fields(self, entry: str, context: dict[str, Any]) -> dict[str, Any]:
+        _ = context
         return fetch_mlr_fields(entry)
 
 

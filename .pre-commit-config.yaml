@@ -13,7 +13,7 @@ repos:
         types_or: [python, pyi]
       - id: pyrefly
         name: pyrefly
-        entry: poetry run pyrefly check --baseline .pyrefly-baseline.json
+        entry: poetry run pyrefly check
         language: system
         pass_filenames: false
         types_or: [python, pyi]

@@ -108,7 +108,7 @@ def load_metadata_papers(metadata_root: Path) -> list[MetadataPaper]:
         with metadata_file.open("r", encoding="utf-8") as f:
             data = yaml.load(f, Loader=YAML_LOADER) or {}
         if not isinstance(data, dict):
-            data = {}
+            data = dict[str, Any]()
 
         paper_id = paper_id_from_metadata(metadata_file, data, metadata_root)
         papers.append(

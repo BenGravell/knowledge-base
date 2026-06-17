@@ -16,7 +16,10 @@ Strategy:
 """
 
 import re
+from collections.abc import Callable
 from pathlib import Path
+
+from typing_extensions import override
 
 if __package__ in (None, ""):
     import sys
@@ -37,7 +40,7 @@ _SD_PII_RE = re.compile(r"sciencedirect\.com/science/article/(?:abs/|pii/)?pii/(
 _SD_PAGE_TMPL = "https://www.sciencedirect.com/science/article/pii/{pii}"
 
 
-def extract_entries(path: Path, on_parse_failure=None) -> list[tuple[str, str]]:
+def extract_entries(path: Path, on_parse_failure: Callable[[str], None] | None = None) -> list[tuple[str, str]]:
     """Return (url, pii) pairs, deduplicated."""
     seen: set[str] = set()
     entries: list[tuple[str, str]] = []
@@ -85,17 +88,21 @@ class ElsevierPrefill(DoiPrefillScript[tuple[str, str]]):
     fetch_error_label = "fetching metadata"
     show_resolved_doi = True
 
+    @override
     def extract_entries(self, path: Path) -> list[tuple[str, str]]:
         return extract_entries(path, self.record_parse_failure)
 
+    @override
     def entry_label(self, entry: tuple[str, str]) -> str:
         _url, pii = entry
         return pii
 
+    @override
     def source_key_for_token(self, token: str) -> str | None:
         match = _SD_PII_RE.search(token)
         return self.normalize_source_key(match.group(1).upper()) if match else None
 
+    @override
     def resolve_doi(self, entry: tuple[str, str]) -> str:
         url, pii = entry
         return fetch_elsevier_doi(url, pii)

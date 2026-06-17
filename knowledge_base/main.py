@@ -1,4 +1,5 @@
 import itertools
+from typing import Any
 
 from knowledge_base.utils.site_links import material_icon_svg
 
@@ -53,7 +54,7 @@ def _profile_width(points: tuple[tuple[float, float], ...], x: float) -> float:
     return points[-1][1]
 
 
-def _timeline_preview_stream(profile: dict) -> str:
+def _timeline_preview_stream(profile: dict[str, Any]) -> str:
     center = profile["center"]
     points = profile["points"]
     top = [(x, center - width) for x, width in points]
@@ -61,7 +62,7 @@ def _timeline_preview_stream(profile: dict) -> str:
     return f"{_catmull_rom_path(top)} L {bottom[0][0]:.1f} {bottom[0][1]:.1f} {_catmull_rom_path(bottom)[2:]} Z"
 
 
-def _timeline_preview_dots(profile: dict) -> list[tuple[float, float]]:
+def _timeline_preview_dots(profile: dict[str, Any]) -> list[tuple[float, float]]:
     dots = []
     center = profile["center"]
     points = profile["points"]
@@ -73,9 +74,9 @@ def _timeline_preview_dots(profile: dict) -> list[tuple[float, float]]:
     return dots
 
 
-def define_env(env):
+def define_env(env: Any) -> None:
     @env.macro
-    def material_icon(icon_name):
+    def material_icon(icon_name: str) -> str:
         return material_icon_svg(icon_name)
 
     @env.macro

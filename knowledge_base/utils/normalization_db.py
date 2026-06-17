@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import re
 import unicodedata
+from collections.abc import Callable
 from dataclasses import dataclass
 from difflib import SequenceMatcher
 from pathlib import Path
@@ -475,7 +476,7 @@ class NormalizationIndex:
         return best if best_score >= threshold else None
 
 
-def build_index(entries: list[dict[str, Any]], *, key_fn) -> NormalizationIndex:
+def build_index(entries: list[dict[str, Any]], *, key_fn: Callable[[str], str]) -> NormalizationIndex:
     canonical_by_key: dict[str, str] = {}
     for entry in entries:
         canonical = str(entry.get("canonical") or "").strip()

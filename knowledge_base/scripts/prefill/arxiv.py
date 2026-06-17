@@ -13,6 +13,9 @@ import re
 import time
 from email.utils import parsedate_to_datetime
 from pathlib import Path
+from typing import Any
+
+from typing_extensions import override
 
 if __package__ in (None, ""):
     import sys
@@ -31,7 +34,7 @@ from knowledge_base.utils.arxiv_utils import (
     write_metadata,
 )
 from knowledge_base.utils.doi_utils import find_existing_by_arxiv_id
-from knowledge_base.utils.prefill_template import REPO_ROOT, HaltPrefill, PrefillScript
+from knowledge_base.utils.prefill_template import REPO_ROOT, FieldMap, HaltPrefill, PrefillScript
 from knowledge_base.utils.prefill_utils import read_url_lines
 
 DEFAULT_INPUT = REPO_ROOT / "todo" / "papers" / "ARXIV.md"
@@ -138,7 +141,7 @@ def wait_for_request_slot(label: str = "arXiv") -> None:
     write_timestamp(THROTTLE_STATE, time.time())
 
 
-def fetch_many_with_retry(arxiv_ids: list[str]) -> dict[str, dict]:
+def fetch_many_with_retry(arxiv_ids: list[str]) -> dict[str, FieldMap]:
     last_exc: Exception | None = None
     for attempt in range(MAX_RETRIES):
         wait_for_request_slot("export.arxiv.org")
@@ -165,7 +168,7 @@ def fetch_many_with_retry(arxiv_ids: list[str]) -> dict[str, dict]:
     ) from last_exc
 
 
-def fetch_oai_with_retry(arxiv_id: str) -> dict:
+def fetch_oai_with_retry(arxiv_id: str) -> FieldMap:
     last_exc: Exception | None = None
     for attempt in range(MAX_RETRIES):
         wait_for_request_slot("OAI-PMH")
@@ -189,8 +192,8 @@ def fetch_oai_with_retry(arxiv_id: str) -> dict:
     ) from last_exc
 
 
-def fetch_many_via_oai(arxiv_ids: list[str]) -> dict[str, dict]:
-    records: dict[str, dict] = {}
+def fetch_many_via_oai(arxiv_ids: list[str]) -> dict[str, FieldMap]:
+    records: dict[str, FieldMap] = {}
     for arxiv_id in arxiv_ids:
         try:
             fields = fetch_oai_with_retry(arxiv_id)
@@ -201,7 +204,7 @@ def fetch_many_via_oai(arxiv_ids: list[str]) -> dict[str, dict]:
     return records
 
 
-def fetch_with_retry(arxiv_id: str) -> dict:
+def fetch_with_retry(arxiv_id: str) -> FieldMap:
     last_exc: Exception | None = None
     for attempt in range(MAX_RETRIES):
         wait_for_request_slot("export.arxiv.org")
@@ -236,12 +239,12 @@ class ArxivBatchCache:
         self.entries = [normalize_arxiv_id(entry) for entry in entries]
         self.index = {entry: i for i, entry in enumerate(self.entries)}
         self.batch_size = batch_size
-        self.cache: dict[str, dict] = {}
+        self.cache: dict[str, FieldMap] = {}
         self.missing: set[str] = set()
         self.use_oai = export_blocked_for_seconds() > 0.0
         self.printed_oai_cooldown = False
 
-    def fetch(self, entry: str) -> dict:
+    def fetch(self, entry: str) -> FieldMap:
         arxiv_id = normalize_arxiv_id(entry)
         if arxiv_id in self.cache:
             return self.cache[arxiv_id]
@@ -270,7 +273,7 @@ class ArxivBatchCache:
             batch.append(candidate)
         return batch or [arxiv_id]
 
-    def fetch_batch(self, batch: list[str]) -> tuple[dict[str, dict], list[str]]:
+    def fetch_batch(self, batch: list[str]) -> tuple[dict[str, FieldMap], list[str]]:
         if self.use_oai:
             if not self.printed_oai_cooldown:
                 blocked_for = export_blocked_for_seconds()
@@ -295,11 +298,13 @@ class ArxivPrefill(PrefillScript[str]):
     delay = 0.0
     fetch_error_label = "fetching"
 
+    @override
     def extract_entries(self, path: Path) -> list[str]:
         self.entries = extract_ids(path)
         return self.entries
 
-    def prepare_context(self, args) -> dict:
+    @override
+    def prepare_context(self, args: Any) -> dict[str, Any]:
         batch_size = BATCH_SIZE
         if args.first is not None:
             batch_size = max(1, min(BATCH_SIZE, args.first))
@@ -310,34 +315,46 @@ class ArxivPrefill(PrefillScript[str]):
             )
         }
 
+    @override
     def source_key_for_entry(self, entry: str) -> str | None:
         return self.normalize_source_key(normalize_arxiv_id(entry))
 
+    @override
     def source_key_for_token(self, token: str) -> str | None:
         m = ARXIV_URL_RE.search(token)
         arxiv_id = m.group(1) if m else token
         arxiv_id = normalize_arxiv_id(arxiv_id)
         return self.normalize_source_key(arxiv_id) if arxiv_id else None
 
-    def existing_for_entry(self, entry: str, _context: dict) -> Path | None:
+    @override
+    def existing_for_entry(self, entry: str, context: dict[str, Any]) -> Path | None:
+        _ = context
         return find_existing_by_arxiv_id(entry)
 
-    def needs_fetch_for_list_skipped(self, _entry: str, _context: dict) -> bool:
+    @override
+    def needs_fetch_for_list_skipped(self, entry: str, context: dict[str, Any]) -> bool:
+        _ = (entry, context)
         return False
 
-    def fetch_fields(self, entry: str, _context: dict) -> dict:
-        batch_cache = _context.get("batch_cache")
+    @override
+    def fetch_fields(self, entry: str, context: dict[str, Any]) -> FieldMap:
+        batch_cache = context.get("batch_cache")
         if batch_cache is None:
             return fetch_with_retry(entry)
         return batch_cache.fetch(entry)
 
-    def build_metadata(self, _entry: str, fields: dict) -> dict:
+    @override
+    def build_metadata(self, entry: str, fields: FieldMap) -> FieldMap:
+        _ = entry
         return build_metadata(fields)
 
-    def write_metadata(self, entry: str, fields: dict, yaml_text: str) -> Path:
+    @override
+    def write_metadata(self, entry: str, fields: FieldMap, yaml_text: str) -> Path:
         return write_metadata(entry, fields["year"], yaml_text)
 
-    def success_message(self, prefix: str, entry: str, fields: dict, _out: Path) -> str:
+    @override
+    def success_message(self, prefix: str, entry: str, fields: FieldMap, out: Path) -> str:
+        _ = out
         return f"{prefix}  OK -> {target_path(entry, fields['year'])}"
 
 

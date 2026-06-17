@@ -17,7 +17,10 @@ Strategy:
 """
 
 import re
+from collections.abc import Callable
 from pathlib import Path
+
+from typing_extensions import override
 
 if __package__ in (None, ""):
     import sys
@@ -43,7 +46,7 @@ _IEEE_REST_TMPL = "https://ieeexplore.ieee.org/rest/document/{article_id}/metada
 _IEEE_PAGE_TMPL = "https://ieeexplore.ieee.org/document/{article_id}"
 
 
-def extract_articles(path: Path, on_parse_failure=None) -> list[tuple[str, str]]:
+def extract_articles(path: Path, on_parse_failure: Callable[[str], None] | None = None) -> list[tuple[str, str]]:
     """Return (url, article_id) pairs, deduplicated."""
     seen: set[str] = set()
     entries: list[tuple[str, str]] = []
@@ -106,17 +109,21 @@ class IeeePrefill(DoiPrefillScript[tuple[str, str]]):
     fetch_error_label = "fetching metadata"
     show_resolved_doi = True
 
+    @override
     def extract_entries(self, path: Path) -> list[tuple[str, str]]:
         return extract_articles(path, self.record_parse_failure)
 
+    @override
     def entry_label(self, entry: tuple[str, str]) -> str:
         _url, article_id = entry
         return article_id
 
+    @override
     def source_key_for_token(self, token: str) -> str | None:
         match = _IEEE_ARTICLE_RE.search(token)
         return self.normalize_source_key(match.group(1)) if match else None
 
+    @override
     def resolve_doi(self, entry: tuple[str, str]) -> str:
         _url, article_id = entry
         return fetch_ieee_doi(article_id)

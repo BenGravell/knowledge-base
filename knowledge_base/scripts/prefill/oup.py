@@ -3,6 +3,8 @@
 import re
 from pathlib import Path
 
+from typing_extensions import override
+
 if __package__ in (None, ""):
     import sys
 
@@ -30,9 +32,11 @@ class OupPrefill(UrlDoiPrefillScript):
     default_input = DEFAULT_INPUT
     source_hint = "Oxford Academic"
 
+    @override
     def accept_url(self, url: str) -> bool:
         return "academic.oup.com/" in url
 
+    @override
     def entry_doi(self, entry: str) -> str | None:
         match = _OUP_DOI_PATH_RE.search(entry)
         if match:

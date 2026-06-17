@@ -13,7 +13,11 @@ from the embedded BibTeX block when present.
 """
 
 import re
+from collections.abc import Callable
 from pathlib import Path
+from typing import Any
+
+from typing_extensions import override
 
 if __package__ in (None, ""):
     import sys
@@ -37,7 +41,7 @@ _RSS_RE = re.compile(r"roboticsproceedings\.org/(rss\d{2})/(p\d+)\.(?:pdf|html)"
 _BASE = "https://www.roboticsproceedings.org"
 
 
-def extract_entries(path: Path, on_parse_failure=None) -> list[tuple[str, str, str]]:
+def extract_entries(path: Path, on_parse_failure: Callable[[str], None] | None = None) -> list[tuple[str, str, str]]:
     """Return deduplicated (html_url, pdf_url, key) tuples."""
     seen: set[str] = set()
     entries: list[tuple[str, str, str]] = []
@@ -81,7 +85,7 @@ def canonical_source(source: str) -> str:
     return source
 
 
-def fetch_rss_fields(html_url: str, fallback_pdf_url: str) -> dict:
+def fetch_rss_fields(html_url: str, fallback_pdf_url: str) -> dict[str, Any]:
     html = fetch_page_html(html_url)
     title = first_meta(html, "citation_title") or first_element_text(html, "h3")
     authors = meta_contents(html, "citation_author")
@@ -118,20 +122,25 @@ class RssPrefill(PagePrefillScript[tuple[str, str, str]]):
     default_input = DEFAULT_INPUT
     entry_kind = "RSS papers"
 
+    @override
     def extract_entries(self, path: Path) -> list[tuple[str, str, str]]:
         return extract_entries(path, self.record_parse_failure)
 
+    @override
     def entry_label(self, entry: tuple[str, str, str]) -> str:
         _html_url, _pdf_url, key = entry
         return key
 
+    @override
     def source_key_for_token(self, token: str) -> str | None:
         match = _RSS_RE.search(token)
         if not match:
             return None
         return self.normalize_source_key(f"{match.group(1).lower()}/{match.group(2)}")
 
-    def fetch_fields(self, entry: tuple[str, str, str], _context: dict) -> dict:
+    @override
+    def fetch_fields(self, entry: tuple[str, str, str], context: dict[str, Any]) -> dict[str, Any]:
+        _ = context
         html_url, pdf_url, _key = entry
         return fetch_rss_fields(html_url, pdf_url)
 

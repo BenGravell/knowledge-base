@@ -419,7 +419,7 @@ def main() -> None:
     missing = [paper for paper_id, paper in sorted(papers.items()) if paper_id not in nav_locations]
     display = missing[: args.max_results] if args.max_results is not None else missing
     needs_embeddings = args.neighbors > 0 or args.write_tree
-    embeddings = load_embeddings(EMBEDDING_CACHE) if needs_embeddings else {}
+    embeddings: dict[str, list[float]] = load_embeddings(EMBEDDING_CACHE) if needs_embeddings else {}
 
     if args.write_tree:
         if not embeddings:

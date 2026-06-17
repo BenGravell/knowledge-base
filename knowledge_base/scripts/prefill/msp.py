@@ -1,7 +1,11 @@
 """Batch-prefill metadata.yml files from Mathematical Sciences Publishers URLs."""
 
 import re
+from collections.abc import Callable
 from pathlib import Path
+from typing import Any
+
+from typing_extensions import override
 
 if __package__ in (None, ""):
     import sys
@@ -20,7 +24,7 @@ _MSP_RE = re.compile(
 )
 
 
-def extract_entries(path: Path, on_parse_failure=None) -> list[tuple[str, str]]:
+def extract_entries(path: Path, on_parse_failure: Callable[[str], None] | None = None) -> list[tuple[str, str]]:
     seen: set[str] = set()
     entries: list[tuple[str, str]] = []
     for url in read_url_lines(path):
@@ -49,15 +53,19 @@ class MspPrefill(DoiPrefillScript[tuple[str, str]]):
     default_input = DEFAULT_INPUT
     entry_kind = "MSP DOIs"
 
+    @override
     def extract_entries(self, path: Path) -> list[tuple[str, str]]:
         return extract_entries(path, self.record_parse_failure)
 
+    @override
     def entry_label(self, entry: tuple[str, str]) -> str:
         return entry[1]
 
+    @override
     def entry_doi(self, entry: tuple[str, str]) -> str:
         return entry[1]
 
+    @override
     def source_key_for_token(self, token: str) -> str | None:
         match = _MSP_RE.search(token)
         if not match:
@@ -70,11 +78,15 @@ class MspPrefill(DoiPrefillScript[tuple[str, str]]):
         )
         return self.normalize_source_key(doi)
 
-    def postprocess_crossref_data(self, entry: tuple[str, str], data: dict) -> dict:
+    @override
+    def postprocess_crossref_data(self, entry: tuple[str, str], data: dict[str, Any]) -> dict[str, Any]:
         url, _doi = entry
         return {**data, "link": url}
 
-    def postprocess_metadata(self, entry: tuple[str, str], fields: dict, metadata: dict) -> dict:
+    @override
+    def postprocess_metadata(
+        self, entry: tuple[str, str], fields: dict[str, Any], metadata: dict[str, Any]
+    ) -> dict[str, Any]:
         _url, _doi = entry
         return {**metadata, "links_alt": [f"https://doi.org/{fields['doi']}"]}
 

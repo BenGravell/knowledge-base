@@ -2,6 +2,9 @@
 
 import re
 from pathlib import Path
+from typing import Any
+
+from typing_extensions import override
 
 if __package__ in (None, ""):
     import sys
@@ -19,10 +22,12 @@ class NistPrefill(PdfTextPrefillScript):
     default_input = DEFAULT_INPUT
     source_hint = "NIST"
 
+    @override
     def accept_url(self, url: str) -> bool:
         return "nist.gov/" in url and url.lower().endswith(".pdf")
 
-    def fields_from_pdf(self, url: str, text: str) -> dict:
+    @override
+    def fields_from_pdf(self, url: str, text: str) -> dict[str, Any]:
         title_match = re.search(
             r"Methods of Conjugate Gradients for Solving\s+Linear Systems",
             text,

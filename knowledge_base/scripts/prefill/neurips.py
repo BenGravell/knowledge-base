@@ -12,7 +12,11 @@ NeurIPS ``-Metadata.json`` file beside each PDF, with HTML fallbacks.
 """
 
 import re
+from collections.abc import Callable
 from pathlib import Path
+from typing import Any
+
+from typing_extensions import override
 
 if __package__ in (None, ""):
     import sys
@@ -44,7 +48,7 @@ _FILE_RE = re.compile(
 _BASE = "https://proceedings.neurips.cc"
 
 
-def extract_entries(path: Path, on_parse_failure=None) -> list[tuple[str, str]]:
+def extract_entries(path: Path, on_parse_failure: Callable[[str], None] | None = None) -> list[tuple[str, str]]:
     """Return deduplicated (year, hash) pairs."""
     seen: set[tuple[str, str]] = set()
     entries: list[tuple[str, str]] = []
@@ -76,7 +80,7 @@ def metadata_url(year: str, paper_hash: str) -> str:
     return f"{_BASE}/paper_files/paper/{year}/file/{paper_hash}-Metadata.json"
 
 
-def fetch_metadata_json(url: str) -> dict:
+def fetch_metadata_json(url: str) -> dict[str, Any]:
     r = requests.get(url, timeout=60)
     if not r.ok:
         return {}
@@ -86,7 +90,7 @@ def fetch_metadata_json(url: str) -> dict:
         return {}
 
 
-def authors_from_json(payload: dict) -> list[str]:
+def authors_from_json(payload: dict[str, Any]) -> list[str]:
     authors: list[str] = []
     for author in payload.get("authors") or []:
         given = str(author.get("given_name") or "").strip()
@@ -104,7 +108,7 @@ def abstract_from_full_text(text: str) -> str:
     if not m:
         return ""
     tail = text[m.end() :]
-    end_positions = []
+    end_positions: list[int] = []
     for pat in (
         r"\n\s*1(?:\.|\s)+(?:Introduction|Overview)\b",
         r"\n\s*Introduction\s*\n",
@@ -118,7 +122,7 @@ def abstract_from_full_text(text: str) -> str:
     return re.sub(r"\s+", " ", abstract).strip()
 
 
-def fetch_neurips_fields(year: str, paper_hash: str) -> dict:
+def fetch_neurips_fields(year: str, paper_hash: str) -> dict[str, Any]:
     meta_url = metadata_url(year, paper_hash)
     abs_url = abstract_url(year, paper_hash)
     paper_url = pdf_url(year, paper_hash)
@@ -166,29 +170,36 @@ class NeuripsPrefill(PagePrefillScript[tuple[str, str]]):
     default_input = DEFAULT_INPUT
     entry_kind = "NeurIPS papers"
 
+    @override
     def extract_entries(self, path: Path) -> list[tuple[str, str]]:
         return extract_entries(path, self.record_parse_failure)
 
+    @override
     def entry_label(self, entry: tuple[str, str]) -> str:
         year, paper_hash = entry
         return f"{year}/{paper_hash}"
 
+    @override
     def source_key_for_token(self, token: str) -> str | None:
         match = _ABSTRACT_RE.search(token) or _FILE_RE.search(token)
         if not match:
             return None
         return self.normalize_source_key(f"{match.group(1)}/{match.group(2).lower()}")
 
-    def fetch_fields(self, entry: tuple[str, str], _context: dict) -> dict:
+    @override
+    def fetch_fields(self, entry: tuple[str, str], context: dict[str, Any]) -> dict[str, Any]:
+        _ = context
         year, paper_hash = entry
         return fetch_neurips_fields(year, paper_hash)
 
+    @override
     def skipped_list_message(
         self,
         entry: tuple[str, str],
-        _fields: dict | None,
+        fields: dict[str, Any] | None,
         existing: Path,
     ) -> str:
+        _ = fields
         _year, paper_hash = entry
         return f"{paper_hash}  {existing}"
 

@@ -2,6 +2,9 @@
 
 import re
 from pathlib import Path
+from typing import Any
+
+from typing_extensions import override
 
 if __package__ in (None, ""):
     import sys
@@ -23,10 +26,12 @@ class UsenixPrefill(PdfTextPrefillScript):
     default_input = DEFAULT_INPUT
     source_hint = "USENIX"
 
+    @override
     def accept_url(self, url: str) -> bool:
         return "usenix.org/" in url and url.lower().endswith(".pdf")
 
-    def fields_from_pdf(self, url: str, text: str) -> dict:
+    @override
+    def fields_from_pdf(self, url: str, text: str) -> dict[str, Any]:
         lines = [line.strip() for line in text.splitlines() if line.strip()]
         title = clean_text(lines[0]) if lines else ""
         author_lines: list[str] = []

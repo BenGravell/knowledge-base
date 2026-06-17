@@ -3,6 +3,8 @@
 import re
 from pathlib import Path
 
+from typing_extensions import override
+
 if __package__ in (None, ""):
     import sys
 
@@ -24,9 +26,11 @@ class AsmePrefill(UrlDoiPrefillScript):
     default_input = DEFAULT_INPUT
     source_hint = "ASME"
 
+    @override
     def accept_url(self, url: str) -> bool:
         return "asmedigitalcollection.asme.org/" in url
 
+    @override
     def entry_doi(self, entry: str) -> str | None:
         match = _ARTICLE_ID_RE.search(entry)
         if match and match.group(1) in _KNOWN_DOIS_BY_ARTICLE_ID:

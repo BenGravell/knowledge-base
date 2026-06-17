@@ -2,6 +2,8 @@
 
 from pathlib import Path
 
+from typing_extensions import override
+
 if __package__ in (None, ""):
     import sys
 
@@ -17,6 +19,7 @@ class SiamPrefill(UrlDoiPrefillScript):
     default_input = DEFAULT_INPUT
     source_hint = "SIAM"
 
+    @override
     def accept_url(self, url: str) -> bool:
         return "epubs.siam.org/" in url
 

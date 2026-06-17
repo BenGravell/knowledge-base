@@ -187,7 +187,7 @@ def resolve_metadata_or_generated_source(
     with metadata_path.open("r", encoding="utf-8") as f:
         data = yaml.load(f, Loader=YAML_LOADER) or {}
     if not isinstance(data, dict):
-        data = {}
+        data = dict[str, Any]()
     paper_id = paper_id_from_metadata(metadata_path, data, root.resolve())
     return TreeSource(
         paper_id=paper_id,

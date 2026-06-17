@@ -1,6 +1,10 @@
 """Batch-prefill metadata.yml files from ResearchGate URLs."""
 
+from collections.abc import Callable
 from pathlib import Path
+from typing import Any
+
+from typing_extensions import override
 
 if __package__ in (None, ""):
     import sys
@@ -13,7 +17,7 @@ from knowledge_base.utils.prefill_utils import read_url_lines
 
 DEFAULT_INPUT = REPO_ROOT / "todo" / "papers" / "RESEARCHGATE.md"
 
-_KNOWN_FIELDS_BY_TOKEN = {
+_KNOWN_FIELDS_BY_TOKEN: dict[str, dict[str, Any]] = {
     "An_Isotropic_3x3_Image_Gradient_Operator": {
         "title": "An Isotropic 3x3 Image Gradient Operator",
         "authors": ["Irwin Sobel", "Gary Feldman"],
@@ -91,7 +95,7 @@ _DOI_BY_TOKEN = {
 }
 
 
-def extract_entries(path: Path, on_parse_failure=None) -> list[str]:
+def extract_entries(path: Path, on_parse_failure: Callable[[str], None] | None = None) -> list[str]:
     seen: set[str] = set()
     entries: list[str] = []
     for url in read_url_lines(path):
@@ -108,11 +112,12 @@ def extract_entries(path: Path, on_parse_failure=None) -> list[str]:
     return entries
 
 
-def fetch_researchgate_fields(url: str) -> dict:
+def fetch_researchgate_fields(url: str) -> dict[str, Any]:
     for token, fields in _KNOWN_FIELDS_BY_TOKEN.items():
         if token in url:
             link = fields.get("link") or url
-            links_alt = list(fields.get("links_alt") or [])
+            links_alt_raw = fields.get("links_alt")
+            links_alt = list(links_alt_raw) if isinstance(links_alt_raw, list) else []
             if link != url:
                 links_alt.append(url)
             if fields.get("doi"):
@@ -143,10 +148,13 @@ class ResearchGatePrefill(PagePrefillScript[str]):
     default_input = DEFAULT_INPUT
     entry_kind = "ResearchGate URLs"
 
+    @override
     def extract_entries(self, path: Path) -> list[str]:
         return extract_entries(path, self.record_parse_failure)
 
-    def fetch_fields(self, entry: str, _context: dict) -> dict:
+    @override
+    def fetch_fields(self, entry: str, context: dict[str, Any]) -> dict[str, Any]:
+        _ = context
         return fetch_researchgate_fields(entry)
 
 

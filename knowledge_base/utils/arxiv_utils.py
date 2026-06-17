@@ -3,6 +3,7 @@ import re
 import xml.etree.ElementTree as ET
 from collections.abc import Iterable
 from pathlib import Path
+from typing import Any
 from urllib.parse import quote, unquote, urlparse
 
 import requests
@@ -93,7 +94,7 @@ def arxiv_html_url(arxiv_id: str | None) -> str:
     return f"https://ar5iv.labs.arxiv.org/html/{encoded}"
 
 
-def _entry_fields(entry: ET.Element, fallback_id: str = "") -> dict:
+def _entry_fields(entry: ET.Element, fallback_id: str = "") -> dict[str, Any]:
     def text(tag: str) -> str:
         el = entry.find(f"{{{ARXIV_NS}}}{tag}")
         return el.text.strip() if el is not None and el.text else ""
@@ -120,9 +121,9 @@ def _entry_fields(entry: ET.Element, fallback_id: str = "") -> dict:
     }
 
 
-def _parse_arxiv_feed(feed_xml: str, fallback_id: str = "") -> dict[str, dict]:
+def _parse_arxiv_feed(feed_xml: str, fallback_id: str = "") -> dict[str, dict[str, Any]]:
     root = ET.fromstring(feed_xml)
-    records: dict[str, dict] = {}
+    records: dict[str, dict[str, Any]] = {}
     for entry in root.findall(f"{{{ARXIV_NS}}}entry"):
         fields = _entry_fields(entry, fallback_id)
         arxiv_id = normalize_arxiv_id(fields.get("arxiv_id"))
@@ -145,7 +146,7 @@ def _parse_oai_author(author: ET.Element) -> str:
     return " ".join(part for part in (forenames, keyname, suffix) if part).strip()
 
 
-def _parse_arxiv_oai_record(record_xml: str, fallback_id: str = "") -> dict:
+def _parse_arxiv_oai_record(record_xml: str, fallback_id: str = "") -> dict[str, Any]:
     root = ET.fromstring(record_xml)
     error = root.find(f"{{{OAI_NS}}}error")
     if error is not None:
@@ -184,7 +185,7 @@ def _parse_arxiv_oai_record(record_xml: str, fallback_id: str = "") -> dict:
     return fields
 
 
-def fetch_arxiv_oai(arxiv_id: str) -> dict:
+def fetch_arxiv_oai(arxiv_id: str) -> dict[str, Any]:
     """Fetch metadata for one arXiv ID from arXiv's OAI-PMH endpoint."""
     arxiv_id = normalize_arxiv_id(arxiv_id)
     r = requests.get(
@@ -201,7 +202,7 @@ def fetch_arxiv_oai(arxiv_id: str) -> dict:
     return _parse_arxiv_oai_record(r.text, fallback_id=arxiv_id)
 
 
-def fetch_arxiv_many(arxiv_ids: Iterable[str]) -> dict[str, dict]:
+def fetch_arxiv_many(arxiv_ids: Iterable[str]) -> dict[str, dict[str, Any]]:
     """Fetch basic metadata for several arXiv IDs in one Atom API request."""
     ids = [normalize_arxiv_id(arxiv_id) for arxiv_id in arxiv_ids]
     ids = list(dict.fromkeys(arxiv_id for arxiv_id in ids if arxiv_id))
@@ -218,7 +219,7 @@ def fetch_arxiv_many(arxiv_ids: Iterable[str]) -> dict[str, dict]:
     return _parse_arxiv_feed(r.text)
 
 
-def fetch_arxiv(arxiv_id: str) -> dict:
+def fetch_arxiv(arxiv_id: str) -> dict[str, Any]:
     """Fetch basic metadata from the arXiv Atom API and return a dict."""
     arxiv_id = normalize_arxiv_id(arxiv_id)
     r = requests.get(
@@ -234,7 +235,7 @@ def fetch_arxiv(arxiv_id: str) -> dict:
     return records[arxiv_id]
 
 
-def build_metadata(fields: dict) -> dict:
+def build_metadata(fields: dict[str, Any]) -> dict[str, Any]:
     """Return an ordered dict ready to serialise as YAML."""
     tags_raw: str = fields.get("tags_raw", "")
     tags = [t.strip() for t in tags_raw.splitlines() if t.strip()]
@@ -261,11 +262,11 @@ def build_metadata(fields: dict) -> dict:
     }
 
 
-def metadata_to_yaml(metadata: dict) -> str:
+def metadata_to_yaml(metadata: dict[str, Any]) -> str:
     """Serialise metadata to a YAML string matching the project style."""
     lines: list[str] = []
 
-    def add(key: str, value) -> None:
+    def add(key: str, value: Any) -> None:
         if value is None:
             lines.append(f"{key}:")
         elif isinstance(value, list):

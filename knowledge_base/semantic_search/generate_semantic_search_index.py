@@ -12,6 +12,7 @@ from __future__ import annotations
 import argparse
 import json
 from pathlib import Path
+from typing import Any
 
 import numpy as np
 from fastembed import TextEmbedding
@@ -39,27 +40,27 @@ def clean_scalar(value: object) -> str:
     return str(value or "").strip()
 
 
-def load_cache(path: Path) -> dict:
+def load_cache(path: Path) -> dict[str, Any]:
     if not path.exists():
-        return {"model": None, "papers": {}}
+        return {"model": None, "papers": dict[str, Any]()}
     try:
         cache = json.loads(path.read_text(encoding="utf-8"))
     except Exception:
-        return {"model": None, "papers": {}}
+        return {"model": None, "papers": dict[str, Any]()}
     if not isinstance(cache, dict):
-        return {"model": None, "papers": {}}
+        return {"model": None, "papers": dict[str, Any]()}
     if not isinstance(cache.get("papers"), dict):
-        cache["papers"] = {}
+        cache["papers"] = dict[str, Any]()
     return cache
 
 
-def save_cache(path: Path, cache: dict) -> None:
+def save_cache(path: Path, cache: dict[str, Any]) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(cache, separators=(",", ":")), encoding="utf-8")
     print(f"Cache saved: {path} ({path.stat().st_size // 1024} KB)")
 
 
-def load_papers() -> list[dict]:
+def load_papers() -> list[dict[str, Any]]:
     return [
         {
             "id": entry.id,
@@ -132,7 +133,7 @@ def best_threshold_at_recall(metrics: list[dict[str, float]], target_recall: flo
     return max(candidates, key=lambda item: (item["threshold"], item["precision"]))
 
 
-def best_thresholds_for_shared_tags(matrix: np.ndarray, papers: list[dict]) -> dict:
+def best_thresholds_for_shared_tags(matrix: np.ndarray, papers: list[dict[str, Any]]) -> dict[str, Any]:
     if len(papers) < 2:
         return {
             "scoreThreshold": DEFAULT_SCORE_THRESHOLD,
@@ -215,9 +216,15 @@ def generate(args: argparse.Namespace) -> None:
     cache = load_cache(args.cache)
     if cache.get("model") and cache.get("model") != args.model:
         print(f"Model changed ({cache.get('model')} -> {args.model}); rebuilding cache")
-        cache = {"model": args.model, "papers": {}}
+        cache = {"model": args.model, "papers": dict[str, dict[str, Any]]()}
 
-    cached_papers: dict[str, dict] = cache.setdefault("papers", {})
+    cached_papers_raw = cache.setdefault("papers", dict[str, Any]())
+    cached_papers: dict[str, dict[str, Any]] = (
+        {str(paper_id): dict(entry) for paper_id, entry in cached_papers_raw.items() if isinstance(entry, dict)}
+        if isinstance(cached_papers_raw, dict)
+        else {}
+    )
+    cache["papers"] = cached_papers
     active_ids = {paper["id"] for paper in papers}
     for paper_id in sorted(set(cached_papers) - active_ids):
         del cached_papers[paper_id]

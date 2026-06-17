@@ -28,6 +28,7 @@ if str(REPO_ROOT) not in sys.path:
 
 from knowledge_base.config import KB_DIR
 from knowledge_base.utils.normalization_db import (
+    NormalizationIndex,
     ascii_clean,
     author_initial_last_key,
     author_key,
@@ -75,7 +76,7 @@ def load_entries(path: Path, field: str) -> list[dict[str, Any]]:
     return [entry for entry in entries if isinstance(entry, dict)] if isinstance(entries, list) else []
 
 
-def build_author_lookup(author_entries: list[dict[str, Any]]):
+def build_author_lookup(author_entries: list[dict[str, Any]]) -> tuple[NormalizationIndex, dict[str, set[str]]]:
     index = build_index(author_entries, key_fn=author_key)
     initial_index: dict[str, set[str]] = {}
     for entry in author_entries:
@@ -88,7 +89,7 @@ def build_author_lookup(author_entries: list[dict[str, Any]]):
     return index, initial_index
 
 
-def author_suggestion(name: str, index, initial_index: dict[str, set[str]]) -> str | None:
+def author_suggestion(name: str, index: NormalizationIndex, initial_index: dict[str, set[str]]) -> str | None:
     key = author_key(name)
     suggestion = index.lookup(key)
     if suggestion:
@@ -107,7 +108,7 @@ def audit_author(
     path: Path,
     author: str,
     index: int,
-    author_index,
+    author_index: NormalizationIndex,
     initial_index: dict[str, set[str]],
 ) -> list[Issue]:
     issues: list[Issue] = []
@@ -150,7 +151,7 @@ def audit_author(
     return issues
 
 
-def audit_source(path: Path, source: str, source_index) -> list[Issue]:
+def audit_source(path: Path, source: str, source_index: NormalizationIndex) -> list[Issue]:
     if not source:
         return []
 
@@ -173,7 +174,7 @@ def audit_source(path: Path, source: str, source_index) -> list[Issue]:
     return []
 
 
-def audit_tag(path: Path, tag: str, index: int, tag_index) -> list[Issue]:
+def audit_tag(path: Path, tag: str, index: int, tag_index: NormalizationIndex) -> list[Issue]:
     if not tag:
         return []
 
@@ -207,7 +208,7 @@ def audit_tag(path: Path, tag: str, index: int, tag_index) -> list[Issue]:
     return []
 
 
-def normalized_tag_value(tag: str, tag_index) -> str:
+def normalized_tag_value(tag: str, tag_index: NormalizationIndex) -> str:
     suggestion = tag_index.lookup(tag_key(tag))
     if suggestion:
         return suggestion
@@ -219,7 +220,7 @@ def normalized_tag_value(tag: str, tag_index) -> str:
     return tag
 
 
-def audit_tag_duplicates(path: Path, tags: list[Any], tag_index) -> list[Issue]:
+def audit_tag_duplicates(path: Path, tags: list[Any], tag_index: NormalizationIndex) -> list[Issue]:
     normalized_indexes: dict[str, list[int]] = {}
     for index, tag in enumerate(tags):
         normalized = normalized_tag_value(str(tag).strip(), tag_index)
@@ -251,7 +252,13 @@ def audit_tag_duplicates(path: Path, tags: list[Any], tag_index) -> list[Issue]:
     ]
 
 
-def audit_file(path: Path, author_index, initial_index, source_index, tag_index) -> tuple[dict[str, Any], list[Issue]]:
+def audit_file(
+    path: Path,
+    author_index: NormalizationIndex,
+    initial_index: dict[str, set[str]],
+    source_index: NormalizationIndex,
+    tag_index: NormalizationIndex,
+) -> tuple[dict[str, Any], list[Issue]]:
     data = load_metadata(path)
     issues: list[Issue] = []
     authors = data.get("authors")
@@ -377,7 +384,7 @@ def apply_fixes(results: list[tuple[Path, dict[str, Any], list[Issue]]]) -> int:
     for path, data, issues in results:
         raw = path.read_text(encoding="utf-8")
         new_raw = raw
-        authors = list(data.get("authors") or []) if isinstance(data.get("authors"), list) else []
+        authors: list[Any] = list(data.get("authors") or []) if isinstance(data.get("authors"), list) else []
         changed_authors = 0
         for issue in issues:
             if issue.field != "authors" or issue.suggestion is None:
@@ -393,7 +400,7 @@ def apply_fixes(results: list[tuple[Path, dict[str, Any], list[Issue]]]) -> int:
         if changed_authors:
             new_raw = _replace_field(new_raw, "authors", _format_authors_block(authors))
 
-        tags = list(data.get("tags") or []) if isinstance(data.get("tags"), list) else []
+        tags: list[Any] = list(data.get("tags") or []) if isinstance(data.get("tags"), list) else []
         changed_tags = 0
         for issue in issues:
             if (

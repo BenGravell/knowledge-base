@@ -129,19 +129,19 @@ def branch_path_for_child(branch: TreeBranch, child: TreeChild) -> tuple[str, ..
 def build_leaf(leaf: TreeLeaf, ids: IdFactory) -> dict[str, Any]:
     source = leaf.generated_source or leaf.source
     full_path = ["Tree", *leaf.nav_path]
-    node = {
+    node: dict[str, Any] = {
         "id": ids.make(full_path, source),
         "label": leaf.label,
         "kind": link_kind(source),
         "source": source,
         "url": page_url(source),
         "path": full_path,
-        "children": [],
+        "children": list[dict[str, Any]](),
         "leafCount": 1,
         "branchCount": 0,
     }
     if node["kind"] == "paper":
-        node["paper"] = paper_details_by_source.get(source, {})
+        node["paper"] = paper_details_by_source.get(source, dict[str, Any]())
     return node
 
 
@@ -368,7 +368,7 @@ def build_timeline_data(model: TreeModel) -> dict[str, Any]:
     }
 
 
-def count_rows(counter: Counter, *, limit: int | None = None) -> list[dict[str, Any]]:
+def count_rows(counter: Counter[Any], *, limit: int | None = None) -> list[dict[str, Any]]:
     rows = [
         {"label": str(label), "count": int(count)}
         for label, count in sorted(counter.items(), key=lambda item: (-item[1], str(item[0]).casefold()))

@@ -23,15 +23,12 @@ import argparse
 import json
 import math
 import re
+from collections.abc import Sequence
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
-try:
-    import numpy as np
-except ImportError:  # pragma: no cover - the script has a pure-Python fallback.
-    np = None
-
+import numpy as np
 
 DATA_FILE = Path(__file__).with_name("map-data.js")
 SEMANTIC_MIN = 0.0
@@ -104,7 +101,7 @@ def tree_distance(a: tuple[str, ...], b: tuple[str, ...]) -> int:
     return (len(a) - common) + (len(b) - common)
 
 
-def percentile(sorted_values: list[int], pct: float) -> float:
+def percentile(sorted_values: Sequence[float], pct: float) -> float:
     if not sorted_values:
         return math.nan
     if len(sorted_values) == 1:
@@ -153,11 +150,8 @@ def build_similarity_matrix(data: dict[str, Any], ids: list[str]) -> list[list[f
                 if isinstance(row, list) and paper_index < len(row):
                     value = row[paper_index]
 
-            try:
-                numeric = float(value)
-            except (TypeError, ValueError):
-                numeric = -1.0
-            else:
+            numeric = float(value) if isinstance(value, int | float | str) else -1.0
+            if numeric >= 0:
                 numeric = numeric / scale if scale else numeric
             ego_row.append(numeric)
         matrix.append(ego_row)
@@ -176,8 +170,8 @@ def build_similarity_array(data: dict[str, Any], ids: list[str]) -> np.ndarray:
 
     matrix = np.full((len(ids), len(ids)), -1.0)
     index_by_id = {paper_id: index for index, paper_id in enumerate(similarity_ids)}
-    source_indexes = []
-    target_indexes = []
+    source_indexes: list[int] = []
+    target_indexes: list[int] = []
     for target_index, paper_id in enumerate(ids):
         source_index = index_by_id.get(paper_id)
         if source_index is None or source_index >= rows.shape[0] or source_index >= rows.shape[1]:
@@ -363,59 +357,29 @@ def suggest_defaults(
     tree_distance_matrix = build_tree_distance_matrix(paths)
     precomputed_scale = precomputed_tree_proximity_scale(data)
 
-    candidates = []
+    candidates: list[Candidate] = []
     thresholds = semantic_thresholds(semantic_min, semantic_max, semantic_step)
 
-    if np is not None:
-        similarity_array = build_similarity_array(data, ids)
-        tree_distance_array = np.array(tree_distance_matrix, dtype=int)
-        valid = np.isfinite(similarity_array) & (similarity_array >= 0)
-        semantic_values = similarity_array[valid].clip(0, 1).tolist()
-        if precomputed_scale:
-            tree_scale = precomputed_scale
-        else:
-            tree_distances = tree_distance_array[valid].astype(int).tolist()
-            tree_scale = learn_tree_proximity_scale(semantic_values, tree_distances, max_tree_distance)
-        tree_indexes = np.clip(tree_distance_array, 0, len(tree_scale) - 1)
-        tree_proximity_array = np.take(np.array(tree_scale), tree_indexes)
-        tree_kl = kl_divergence(
-            semantic_values,
-            tree_proximity_array[valid].tolist(),
-        )
+    similarity_array = build_similarity_array(data, ids)
+    tree_distance_array = np.array(tree_distance_matrix, dtype=int)
+    valid = np.isfinite(similarity_array) & (similarity_array >= 0)
+    semantic_values = similarity_array[valid].clip(0, 1).tolist()
+    if precomputed_scale:
+        tree_scale = precomputed_scale
     else:
-        similarity_matrix = build_similarity_matrix(data, ids)
-        semantic_values = []
-        tree_distances = []
-        for similarities, distances in zip(similarity_matrix, tree_distance_matrix, strict=False):
-            for similarity, distance in zip(similarities, distances, strict=False):
-                if math.isfinite(similarity) and similarity >= 0:
-                    semantic_values.append(min(max(similarity, 0.0), 1.0))
-                    tree_distances.append(distance)
-        tree_scale = precomputed_scale or learn_tree_proximity_scale(
-            semantic_values,
-            tree_distances,
-            max_tree_distance,
-        )
-        tree_proximity_matrix = [
-            [tree_scale[min(max(distance, 0), len(tree_scale) - 1)] for distance in distances]
-            for distances in tree_distance_matrix
-        ]
-        tree_kl = kl_divergence(
-            semantic_values,
-            [value for row in tree_proximity_matrix for value in row],
-        )
+        tree_distances = tree_distance_array[valid].astype(int).tolist()
+        tree_scale = learn_tree_proximity_scale(semantic_values, tree_distances, max_tree_distance)
+    tree_indexes = np.clip(tree_distance_array, 0, len(tree_scale) - 1)
+    tree_proximity_array = np.take(np.array(tree_scale), tree_indexes)
+    tree_kl = kl_divergence(
+        semantic_values,
+        tree_proximity_array[valid].tolist(),
+    )
 
     for threshold in thresholds:
-        if np is not None:
-            counts = (
-                ((similarity_array >= threshold) & (tree_proximity_array >= threshold)).sum(axis=1).astype(int).tolist()
-            )
-        else:
-            counts = match_counts(
-                similarity_matrix,
-                tree_proximity_matrix,
-                threshold,
-            )
+        counts = (
+            ((similarity_array >= threshold) & (tree_proximity_array >= threshold)).sum(axis=1).astype(int).tolist()
+        )
         candidates.append(
             score_candidate(
                 threshold,

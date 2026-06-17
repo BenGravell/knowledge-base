@@ -13,7 +13,11 @@ Nature article URLs map directly to Springer Nature DOIs, e.g.:
 """
 
 import re
+from collections.abc import Callable
 from pathlib import Path
+from typing import Any
+
+from typing_extensions import override
 
 if __package__ in (None, ""):
     import sys
@@ -35,7 +39,7 @@ DEFAULT_INPUT = REPO_ROOT / "todo" / "papers" / "NATURE.md"
 _NATURE_ARTICLE_RE = re.compile(r"nature\.com/articles/([^/?#\s]+)", re.I)
 
 
-def extract_entries(path: Path, on_parse_failure=None) -> list[tuple[str, str]]:
+def extract_entries(path: Path, on_parse_failure: Callable[[str], None] | None = None) -> list[tuple[str, str]]:
     """Return (original_url, doi) pairs, deduplicated by DOI."""
     seen: set[str] = set()
     entries: list[tuple[str, str]] = []
@@ -55,7 +59,7 @@ def extract_entries(path: Path, on_parse_failure=None) -> list[tuple[str, str]]:
     return entries
 
 
-def fetch_nature_data(url: str, doi: str) -> dict:
+def fetch_nature_data(url: str, doi: str) -> dict[str, Any]:
     """Fetch Crossref metadata, with Nature-page DOI and abstract fallbacks."""
     try:
         data = fetch_with_retry(fetch_crossref, doi)
@@ -85,26 +89,36 @@ class NaturePrefill(DoiPrefillScript[tuple[str, str]]):
     entry_kind = "Nature DOIs"
     show_resolved_doi = True
 
+    @override
     def extract_entries(self, path: Path) -> list[tuple[str, str]]:
         return extract_entries(path, self.record_parse_failure)
 
+    @override
     def entry_label(self, entry: tuple[str, str]) -> str:
         return entry[1]
 
+    @override
     def entry_doi(self, entry: tuple[str, str]) -> str:
         return entry[1]
 
+    @override
     def source_key_for_token(self, token: str) -> str | None:
         match = _NATURE_ARTICLE_RE.search(token)
         if not match:
             return None
         return self.normalize_source_key(f"10.1038/{match.group(1).rstrip('/')}")
 
-    def fetch_fields(self, entry: tuple[str, str], _context: dict) -> dict:
+    @override
+    def fetch_fields(self, entry: tuple[str, str], context: dict[str, Any]) -> dict[str, Any]:
+        _ = context
         url, doi = entry
         return fetch_nature_data(url, doi)
 
-    def postprocess_metadata(self, _entry: tuple[str, str], fields: dict, metadata: dict) -> dict:
+    @override
+    def postprocess_metadata(
+        self, entry: tuple[str, str], fields: dict[str, Any], metadata: dict[str, Any]
+    ) -> dict[str, Any]:
+        _ = entry
         return {**metadata, "links_alt": [f"https://doi.org/{fields['doi']}"]}
 
 

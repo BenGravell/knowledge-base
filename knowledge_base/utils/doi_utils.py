@@ -8,7 +8,9 @@ import argparse
 import re
 import time
 import unicodedata
+from collections.abc import Callable
 from pathlib import Path
+from typing import Any
 from urllib.parse import quote
 
 import requests
@@ -127,7 +129,7 @@ def _fetch_abstract_fallback(doi: str) -> str:
 # ---------------------------------------------------------------------------
 
 
-def fetch_crossref(doi: str) -> dict:
+def fetch_crossref(doi: str) -> dict[str, Any]:
     """Return paper fields from the Crossref API for *doi*."""
     doi = doi.strip()
     r = requests.get(
@@ -176,7 +178,7 @@ def fetch_crossref(doi: str) -> dict:
     }
 
 
-def fetch_with_retry(fetch_fn, *args, **kwargs):
+def fetch_with_retry(fetch_fn: Callable[..., Any], *args: Any, **kwargs: Any) -> Any:
     """Call *fetch_fn* with retry/backoff on HTTP 429."""
     delay = BACKOFF_BASE
     last_exc: Exception = RuntimeError("no attempts made")
@@ -201,7 +203,7 @@ def fetch_with_retry(fetch_fn, *args, **kwargs):
 # ---------------------------------------------------------------------------
 
 
-def build_doi_metadata(fields: dict) -> dict:
+def build_doi_metadata(fields: dict[str, Any]) -> dict[str, Any]:
     """Return an ordered dict ready for metadata_to_yaml, from Crossref fields."""
     return {
         "title": fields["title"],
@@ -384,7 +386,7 @@ def fetch_doi_from_crossref_pii(pii: str) -> str:
     return doi
 
 
-def fetch_page_html(url: str, extra_headers: dict | None = None) -> str:
+def fetch_page_html(url: str, extra_headers: dict[str, Any] | None = None) -> str:
     headers = dict(_BROWSER_HEADERS)
     if extra_headers:
         headers.update(extra_headers)
@@ -410,7 +412,7 @@ def needs_reingest(path: Path) -> bool:
         return True
 
 
-def should_skip(existing: Path | None, args) -> bool:
+def should_skip(existing: Path | None, args: argparse.Namespace) -> bool:
     """Return True if the item should not be fetched or written.
 
     Centralises the overwrite/reingest decision shared by all prefill scripts.

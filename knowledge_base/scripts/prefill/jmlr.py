@@ -3,6 +3,8 @@
 import re
 from pathlib import Path
 
+from typing_extensions import override
+
 if __package__ in (None, ""):
     import sys
 
@@ -26,9 +28,11 @@ class JmlrPrefill(CitationPagePrefillScript):
     type_fallback = "Journal Paper"
     source_hint = "JMLR"
 
+    @override
     def accept_url(self, url: str) -> bool:
         return "jmlr.org/" in url or "jmlr.csail.mit.edu/" in url
 
+    @override
     def normalize_url(self, url: str) -> str:
         match = _JMLR_PDF_RE.search(url)
         if match:

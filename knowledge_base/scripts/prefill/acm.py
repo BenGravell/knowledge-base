@@ -13,10 +13,13 @@ characters, e.g.:
     https://dl.acm.org/doi/full/10.1145/...  →  10.1145/...
 """
 
+from collections.abc import Callable
 from pathlib import Path
+from typing import Any
 from urllib.parse import urlparse
 
 import requests
+from typing_extensions import override
 
 if __package__ in (None, ""):
     import sys
@@ -266,7 +269,7 @@ def is_acm_dl_url(url: str) -> bool:
     return host == "dl.acm.org"
 
 
-def extract_entries(path: Path, on_parse_failure=None) -> list[Entry]:
+def extract_entries(path: Path, on_parse_failure: Callable[[str], None] | None = None) -> list[Entry]:
     seen: set[str] = set()
     entries: list[Entry] = []
     for url in read_url_lines(path):
@@ -292,7 +295,7 @@ def extract_entries(path: Path, on_parse_failure=None) -> list[Entry]:
     return entries
 
 
-def extract_dois(path: Path, on_parse_failure=None) -> list[str]:
+def extract_dois(path: Path, on_parse_failure: Callable[[str], None] | None = None) -> list[str]:
     """Backward-compatible DOI-only view for callers/tests."""
     return [doi for _url, doi in extract_entries(path, on_parse_failure)]
 
@@ -301,18 +304,22 @@ class AcmPrefill(DoiPrefillScript[Entry]):
     description = "Prefill metadata from ACM DL URLs."
     default_input = DEFAULT_INPUT
 
+    @override
     def extract_entries(self, path: Path) -> list[Entry]:
         return extract_entries(path, self.record_parse_failure)
 
+    @override
     def entry_label(self, entry: Entry) -> str:
         _url, doi = entry
         return doi
 
+    @override
     def entry_doi(self, entry: Entry) -> str:
         _url, doi = entry
         return DOI_ALIASES.get(doi.lower(), doi)
 
-    def fetch_fields(self, entry: Entry, context: dict) -> dict:
+    @override
+    def fetch_fields(self, entry: Entry, context: dict[str, Any]) -> dict[str, Any]:
         url, input_doi = entry
         doi_key = input_doi.lower()
         if doi_key in FALLBACK_RECORDS:
@@ -331,12 +338,14 @@ class AcmPrefill(DoiPrefillScript[Entry]):
         overrides = FIELD_OVERRIDES.get(str(fields.get("doi") or "").lower())
         return {**fields, **overrides} if overrides else fields
 
-    def postprocess_crossref_data(self, entry: Entry, data: dict) -> dict:
+    @override
+    def postprocess_crossref_data(self, entry: Entry, data: dict[str, Any]) -> dict[str, Any]:
         url, input_doi = entry
         link = LINK_OVERRIDES.get(input_doi.lower(), url)
         return {**data, "link": link}
 
-    def postprocess_metadata(self, entry: Entry, fields: dict, metadata: dict) -> dict:
+    @override
+    def postprocess_metadata(self, entry: Entry, fields: dict[str, Any], metadata: dict[str, Any]) -> dict[str, Any]:
         _url, input_doi = entry
         doi = str(fields.get("doi") or self.entry_doi(entry) or "").strip()
         links_alt = list(metadata.get("links_alt") or [])

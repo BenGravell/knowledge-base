@@ -701,7 +701,7 @@ class CdpClient:
     def call(self, method: str, params: dict[str, Any] | None = None, timeout: float = 10) -> dict[str, Any]:
         self.next_id += 1
         message_id = self.next_id
-        payload = {"id": message_id, "method": method}
+        payload: dict[str, Any] = {"id": message_id, "method": method}
         if params is not None:
             payload["params"] = params
         self._send_json(payload)

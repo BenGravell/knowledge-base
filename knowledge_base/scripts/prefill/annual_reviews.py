@@ -2,6 +2,8 @@
 
 from pathlib import Path
 
+from typing_extensions import override
+
 if __package__ in (None, ""):
     import sys
 
@@ -17,6 +19,7 @@ class AnnualReviewsPrefill(UrlDoiPrefillScript):
     default_input = DEFAULT_INPUT
     source_hint = "Annual Reviews"
 
+    @override
     def accept_url(self, url: str) -> bool:
         return "annualreviews.org/" in url
 

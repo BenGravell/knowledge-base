@@ -7,13 +7,15 @@ from typing import Any
 
 from mkdocs.config import config_options
 from mkdocs.plugins import BasePlugin
+from typing_extensions import override
 
 from knowledge_base.tree.nav_source import tree_nav_item_from_file
 
 
-class TreeNavPlugin(BasePlugin):
+class TreeNavPlugin(BasePlugin[Any]):
     config_scheme = (("source", config_options.Type(str, default="tree.yml")),)
 
+    @override
     def on_config(self, config: Any) -> Any:
         config_file = Path(config.config_file_path or "mkdocs.yml")
         source_path = Path(self.config["source"])
