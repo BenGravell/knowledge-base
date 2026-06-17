@@ -150,7 +150,7 @@ def build_steps(args: argparse.Namespace) -> list[Step]:
                 "Verify",
                 "Metadata audit",
                 "Audit metadata and generated Map/Search assets",
-                [py, "knowledge_base/scripts/audit_metadata.py", "--severity", args.audit_severity],
+                [py, "knowledge_base/scripts/audit_metadata.py", "knowledge_base", "--severity", args.audit_severity],
             )
         )
 
