@@ -92,6 +92,9 @@
   }
 
   const DATA = mapData;
+  const MAP_SCRIPT_URL = document.currentScript && document.currentScript.src
+    ? document.currentScript.src
+    : window.location.href;
   const NODE_DIAMETER_SCALE = 2;
   const PAPER_NODE_RADIUS_CLEARANCE_RATIO = 0.30;
   const PAPER_NODE_RADIUS_TARGET = 12 * NODE_DIAMETER_SCALE;
@@ -817,6 +820,10 @@
   const similarityData = DATA.similarity || {};
   const similarityScale = Number(similarityData.scale || (DATA.meta || {}).similarityScale || 1);
   const similarityIdIndex = new Map((similarityData.ids || []).map((id, index) => [id, index]));
+  const similarityShape = Array.isArray(similarityData.shape) ? similarityData.shape.map(Number) : [];
+  let similarityRows = Array.isArray(similarityData.rows) ? similarityData.rows : null;
+
+  loadSimilarityRows();
 
   function paperData(paperId) {
     return paperDataById.get(paperId) || null;
@@ -845,13 +852,48 @@
     if (aId === bId) return 1;
     const aIndex = similarityIdIndex.get(aId);
     const bIndex = similarityIdIndex.get(bId);
-    const rows = similarityData.rows || [];
-    if (aIndex === undefined || bIndex === undefined || !rows[aIndex]) return null;
+    if (aIndex === undefined || bIndex === undefined || !similarityRows) return null;
 
-    const raw = rows[aIndex][bIndex];
+    const raw = similarityValueAt(aIndex, bIndex);
     const numeric = Number(raw);
     if (!Number.isFinite(numeric)) return null;
     return similarityScale ? numeric / similarityScale : numeric;
+  }
+
+  function similarityValueAt(row, col) {
+    if (Array.isArray(similarityRows)) {
+      const values = similarityRows[row];
+      return values ? values[col] : null;
+    }
+    const width = Number(similarityShape[1] || similarityIdIndex.size || 0);
+    if (!width || row < 0 || col < 0) return null;
+    return similarityRows[row * width + col];
+  }
+
+  function loadSimilarityRows() {
+    if (similarityRows || !similarityData.file) return;
+    const height = Number(similarityShape[0] || similarityIdIndex.size || 0);
+    const width = Number(similarityShape[1] || similarityIdIndex.size || 0);
+    if (!height || !width) return;
+
+    const url = new URL(String(similarityData.file), MAP_SCRIPT_URL);
+    fetch(url.href, { cache: 'no-cache' })
+      .then(response => {
+        if (!response.ok) throw new Error(`Could not load ${url.href}: ${response.status}`);
+        return response.arrayBuffer();
+      })
+      .then(buffer => {
+        const expectedBytes = height * width * Int16Array.BYTES_PER_ELEMENT;
+        if (buffer.byteLength !== expectedBytes) {
+          throw new Error(`Similarity matrix shape mismatch: expected ${expectedBytes} bytes, found ${buffer.byteLength}.`);
+        }
+        similarityRows = new Int16Array(buffer);
+        relevanceMetricsByEgo.clear();
+        if (relevanceFilterActive()) refreshView();
+      })
+      .catch(error => {
+        console.warn('[map] Similarity matrix unavailable:', error);
+      });
   }
 
   function maxTreeDistance() {

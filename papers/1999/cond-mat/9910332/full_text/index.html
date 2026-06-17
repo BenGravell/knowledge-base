@@ -1,0 +1,580 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://bengravell.github.io/knowledge-base/papers/1999/cond-mat/9910332/full_text/">
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../../../favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.0">
+    
+    
+      
+        <title>Emergence of Scaling in Random Networks - Knowledge Base</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../../../assets/stylesheets/main.618322db.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Atkinson+Hyperlegible+Next:300,300i,400,400i,700,700i%7CAtkinson+Hyperlegible+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Atkinson Hyperlegible Next";--md-code-font:"Atkinson Hyperlegible Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../../../../stylesheets/extra.css">
+    
+      <link rel="stylesheet" href="../../../../../stylesheets/analytics.css">
+    
+    <script>__md_scope=new URL("../../../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  
+  <script>
+    (function () {
+      try {
+        if (window.matchMedia("(min-width: 60em)").matches) {
+          var state = window.localStorage.getItem("kb-primary-nav-open");
+          if (state === "open" || state === "closed") {
+            document.documentElement.dataset.kbPrimaryNavState = state;
+          }
+        }
+      } catch (error) {
+        document.documentElement.dataset.kbPrimaryNavState = "closed";
+      }
+    })();
+  </script>
+
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#emergence-of-scaling-in-random-networks" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../../../.." title="Knowledge Base" class="md-header__button md-logo" aria-label="Knowledge Base" data-md-component="logo">
+      
+  <img src="../../../../../icon.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer" aria-label="Toggle navigation" title="Toggle navigation">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Knowledge Base
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      <div class="kb-header-search" role="search">
+        <form class="kb-header-search__form" action="../../../../../search/" method="get">
+          <button class="kb-header-search__button md-icon" type="submit" aria-label="Search paper metadata">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+          </button>
+          <input id="kb-header-search-input" class="kb-header-search__input" type="search" name="q" aria-label="Search paper metadata" placeholder="Search papers, authors, tags" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false">
+        </form>
+      </div>
+    
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m14.3 16-.7-2h-3.2l-.7 2H7.8L11 7h2l3.2 9zM20 8.69V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12zm-9.15 3.96h2.3L12 9z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="blue" data-md-color-accent="cyan"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_2" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="blue" data-md-color-accent="cyan"  aria-label="Switch to system preference"  type="radio" name="__palette" id="__palette_2">
+    
+      <label class="md-header__button md-icon" title="Switch to system preference" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../../../.." title="Knowledge Base" class="md-nav__button md-logo" aria-label="Knowledge Base" data-md-component="logo">
+      
+  <img src="../../../../../icon.png" alt="logo">
+
+    </a>
+    Knowledge Base
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../.." class="md-nav__link">
+        
+  
+  
+  
+  
+    
+    <span class="kb-nav-icon" aria-hidden="true">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+    </span>
+  
+
+  <span class="kb-nav-label">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../map/" class="md-nav__link">
+        
+  
+  
+  
+  
+    
+    <span class="kb-nav-icon" aria-hidden="true">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m15 19-6-2.11V5l6 2.11M20.5 3h-.16L15 5.1 9 3 3.36 4.9c-.21.07-.36.25-.36.48V20.5a.5.5 0 0 0 .5.5c.05 0 .11 0 .16-.03L9 18.9l6 2.1 5.64-1.9c.21-.1.36-.25.36-.48V3.5a.5.5 0 0 0-.5-.5"/></svg>
+    </span>
+  
+
+  <span class="kb-nav-label">
+    
+  
+    Map
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../tree/" class="md-nav__link">
+        
+  
+  
+  
+  
+    
+    <span class="kb-nav-icon" aria-hidden="true">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 13H7v5h5v2H5V10h2v1h5zM8 4v2H4V4zm2-2H2v6h8zm10 9v2h-4v-2zm2-2h-8v6h8zm-2 9v2h-4v-2zm2-2h-8v6h8z"/></svg>
+    </span>
+  
+
+  <span class="kb-nav-label">
+    
+  
+    Tree
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../timeline/" class="md-nav__link">
+        
+  
+  
+  
+  
+    
+    <span class="kb-nav-icon" aria-hidden="true">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 2v6H2V2zM2 22v-6h2v6zm3-10c0 1.11-.89 2-2 2a2 2 0 1 1 2-2m11-8c4.42 0 8 3.58 8 8s-3.58 8-8 8c-3.6 0-6.64-2.38-7.65-5.65L6 12l2.35-2.35C9.36 6.38 12.4 4 16 4m0 2c-3.31 0-6 2.69-6 6s2.69 6 6 6 6-2.69 6-6-2.69-6-6-6m-1 7V8h1.5v4.2l3 1.8-.82 1.26z"/></svg>
+    </span>
+  
+
+  <span class="kb-nav-label">
+    
+  
+    Timeline
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../search/" class="md-nav__link">
+        
+  
+  
+  
+  
+    
+    <span class="kb-nav-icon" aria-hidden="true">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+    </span>
+  
+
+  <span class="kb-nav-label">
+    
+  
+    Search
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://bengravell.github.io/portfolio/" class="md-nav__link">
+        
+  
+  
+  
+  
+    
+    <span class="kb-nav-icon" aria-hidden="true">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 6c.58 0 1.05.2 1.42.59.38.41.58.86.58 1.41v11c0 .55-.2 1-.58 1.41-.37.39-.84.59-1.42.59H4c-.58 0-1.05-.2-1.42-.59C2.2 20 2 19.55 2 19V8c0-.55.2-1 .58-1.41C2.95 6.2 3.42 6 4 6h4V4c0-.58.2-1.05.58-1.42C8.95 2.2 9.42 2 10 2h4c.58 0 1.05.2 1.42.58.38.37.58.84.58 1.42v2zM4 8v11h16V8zm10-2V4h-4v2z"/></svg>
+    </span>
+  
+
+  <span class="kb-nav-label">
+    
+  
+    Portfolio
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="emergence-of-scaling-in-random-networks">Emergence of Scaling in Random Networks<a class="headerlink" href="#emergence-of-scaling-in-random-networks" title="Permanent link">&para;</a></h1>
+<ul>
+<li>arXiv ID: <a href="https://arxiv.org/abs/cond-mat/9910332">cond-mat/9910332</a></li>
+<li>HTML source: <a href="https://ar5iv.labs.arxiv.org/html/cond-mat/9910332">ar5iv</a></li>
+</ul>
+<p>Albert-László Barabási and Réka Albert alb@nd.edu Department of Physics, University of Notre-Dame, Notre-Dame, IN 46556</p>
+<p>Systems as diverse as genetic networks or the world wide web are best described as networks with complex topology. A common property of many large networks is that the vertex connectivities follow a scale-free power-law distribution. This feature is found to be a consequence of the two generic mechanisms that networks expand continuously by the addition of new vertices, and new vertices attach preferentially to already well connected sites. A model based on these two ingredients reproduces the observed stationary scale-free distributions, indicating that the development of large networks is governed by robust self-organizing phenomena that go beyond the particulars of the individual systems.</p>
+<p>The inability of contemporary science to describe systems composed of non-identical elements that have diverse and nonlocal interactions currently limits advances in many disciplines, ranging from molecular biology to computer science (1). The difficulty in describing these systems lies partly in their topology: many of them form rather complex networks, whose vertices are the elements of the system and edges represent the interactions between them. For example, living systems form a huge genetic network, whose vertices are proteins and genes, the edges representing the chemical interactions between them (2). At a different organizational level, a large network is formed by the nervous system, whose vertices are the nerve cells, connected by axons (3). But equally complex networks occur in social science, where vertices are individuals or organizations, and the edges characterize the social interaction between them (4), or describe the world wide web (www), whose vertices are HTML documents connected by links pointing from one page to another (5, 6). Due to their large size and the complexity of the interactions, the topology of these networks is largely unknown.</p>
+<p>Traditionally, networks of complex topology have been described using the random graph theory of Erdős and Rényi (ER) (7), but in the absence of data on large networks the predictions of the ER theory were rarely tested in the real world. However, driven by the computerization of data acquisition, such topological information is increasingly available, raising the possibility of understanding the dynamical and topological stability of large networks.</p>
+<p>In this paper we report on the existence of a high degree of self-organization characterizing the large scale properties of complex networks. Exploring several large databases describing the topology of large networks that span as diverse fields as the www or the citation patterns in science we show that, independent of the system and the identity of its constituents, the probability <span class="arithmatex">\(P\hspace{0pt}{(k)}\)</span> that a vertex in the network interacts with <span class="arithmatex">\(k\)</span> other vertices decays as a power-law, following <span class="arithmatex">\({P\hspace{0pt}{(k)}} \sim k^{- \gamma}\)</span>. This result indicates that large networks self-organize into a scale-free state, a feature unexpected by all existing random network models. To understand the origin of this scale invariance, we show that existing network models fail to incorporate growth and preferential attachment, two key features of real networks. Using a model incorporating these two ingredients, we show that they are responsible for the power-law scaling observed in real networks. Finally, we argue that these ingredients play an easily identifiable and important role in the formation of many complex systems, implying that our results are relevant to a large class of networks observed in Nature.</p>
+<p>While there are a large number of systems that form complex networks, detailed topological data is available only for a few. The collaboration graph of movie actors represents a well documented example of a social network. Each actor is represented by a vertex, two actors being connected if they were cast together in the same movie. The probability that an actor has <span class="arithmatex">\(k\)</span> links (characterizing his or her popularity) has a power-law tail for large <span class="arithmatex">\(k\)</span>, following <span class="arithmatex">\({P\hspace{0pt}{(k)}} \sim k^{- \gamma_{a\hspace{0pt}c\hspace{0pt}t\hspace{0pt}o\hspace{0pt}r}}\)</span>, where <span class="arithmatex">\(\gamma_{a\hspace{0pt}c\hspace{0pt}t\hspace{0pt}o\hspace{0pt}r} = {2.3 \pm 0.1}\)</span> (Fig. 1A). A more complex network with over <span class="arithmatex">\(800\)</span> million vertices (8) is the www, where a vertex is a document and the edges are the links pointing from one document to another. The topology of this graph determines the web's connectivity and, consequently, our effectiveness in locating information on the www (5). Information about <span class="arithmatex">\(P\hspace{0pt}{(k)}\)</span> can be obtained using robots (6), indicating that the probability that <span class="arithmatex">\(k\)</span> documents point to a certain webpage follows a power-law, with <span class="arithmatex">\(\gamma_{w\hspace{0pt}w\hspace{0pt}w} = {2.1 \pm 0.1}\)</span> ( Fig. 1B) (9). A network whose topology reflects the historical patterns of urban and industrial development is the electrical powergrid of western US, the vertices representing generators, transformers and substations, the edges corresponding to the high voltage transmission lines between them (10). Due to the relatively modest size of the network, containing only 4941 vertices, the scaling region is less prominent, but is nevertheless approximated with a power-law with an exponent <span class="arithmatex">\(\gamma_{p\hspace{0pt}o\hspace{0pt}w\hspace{0pt}e\hspace{0pt}r} \simeq 4\)</span> (Fig. 1C). Finally, a rather large, complex network is formed by the citation patterns of the scientific publications, the vertices standing for papers published in refereed journals, the edges representing links to the articles cited in a paper. Recently Redner (11) has shown that the probability that a paper is cited <span class="arithmatex">\(k\)</span> times (representing the connectivity of a paper within the network) follows a power-law with exponent <span class="arithmatex">\(\gamma_{c\hspace{0pt}i\hspace{0pt}t\hspace{0pt}e} = 3\)</span>.</p>
+<p>The above examples (12) demonstrate that many large random networks share the common feature that the distribution of their local connectivity is free of scale, following a power-law for large <span class="arithmatex">\(k\)</span>, with an exponent <span class="arithmatex">\(\gamma\)</span> between 2.1 and 4 which is unexpected within the framework of the existing network models. The random graph model of ER (7) assumes that we start with <span class="arithmatex">\(N\)</span> vertices, and connect each pair of vertices with probability <span class="arithmatex">\(p\)</span>. In the model the probability that a vertex has <span class="arithmatex">\(k\)</span> edges follows a Poisson distribution <span class="arithmatex">\({P\hspace{0pt}{(k)}} = {{e^{- \lambda}\hspace{0pt}\lambda^{k}}/{k!}}\)</span>, where <span class="arithmatex">\(\lambda = {N\hspace{0pt}\begin{pmatrix}
+{N - 1} \\
+k
+\end{pmatrix}\hspace{0pt}p^{k}\hspace{0pt}{({1 - p})}^{N - 1 - k}}\)</span>. In the small world model recently introduced by Watts and Strogatz (WS) (10), <span class="arithmatex">\(N\)</span> vertices form a one-dimensional lattice, each vertex being connected to its two nearest and next-nearest neighbors. With probability <span class="arithmatex">\(p\)</span> each edge is reconnected to a vertex chosen at random. The long-range connections generated by this process decrease the distance between the vertices, leading to a small-world phenomenon (13), often referred to as six degrees of separation (14). For <span class="arithmatex">\(p = 0\)</span> the probability distribution of the connectivities is <span class="arithmatex">\({P\hspace{0pt}{(k)}} = {\delta\hspace{0pt}{({k - z})}}\)</span>, where <span class="arithmatex">\(z\)</span> is the coordination number in the lattice, while for finite <span class="arithmatex">\(p\)</span>, <span class="arithmatex">\(P\hspace{0pt}{(k)}\)</span> is still peaked around <span class="arithmatex">\(z\)</span>, but it gets broader (15). A common feature of the ER and WS models is that the probability of finding a highly connected vertex (that is, a large <span class="arithmatex">\(k\)</span>) decreases exponentially with <span class="arithmatex">\(k\)</span>, thus vertices with large connectivity are practically absent. In contrast, the power-law tail characterizing <span class="arithmatex">\(P\hspace{0pt}{(k)}\)</span> for the studied networks indicates that highly connected (large <span class="arithmatex">\(k\)</span>) vertices have a large chance of occurring, dominating the connectivity.</p>
+<p>There are two generic aspects of real networks that are not incorporated in these models. First, both models assume that we start with a fixed number (<span class="arithmatex">\(N\)</span>) of vertices, that are then randomly connected (ER model), or reconnected (WS model), without modifying <span class="arithmatex">\(N\)</span>. In contrast, most real world networks are open, they form by the continuous addition of new vertices to the system, thus the number of vertices, <span class="arithmatex">\(N\)</span>, increases throughout the lifetime of the network. For example, the actor network grows by the addition of new actors to the system, the www grows exponentially in time by the addition of new web pages (8), the research literature constantly grows by the publication of new papers. Consequently, a common feature of these systems is that the network continuously expands by the addition of new vertices that are connected to the vertices already present in the system.</p>
+<p>Second, the random network models assume that the probability that two vertices are connected is random and uniform. In contrast, most real networks exhibit preferential connectivity. For example, a new actor is cast most likely in a supporting role, with more established, well known actors. Consequently, the probability that a new actor is cast with an established one is much higher than casting with other less known actors. Similarly, a newly created webpage will more likely include links to well known, popular documents with already high connectivity, or a new manuscript is more likely to cite a well known and thus much cited paper than its less cited and consequently less known peer. These examples indicate that the probability with which a new vertex connects to the existing vertices is not uniform, but there is a higher probability to be linked to a vertex that already has a large number of connections.</p>
+<p>We next show that a model based on these two ingredients naturally leads to the observed scale invariant distribution. To incorporate the growing character of the network, starting with a small number (<span class="arithmatex">\(m_{0}\)</span>) of vertices, at every timestep we add a new vertex with <span class="arithmatex">\(m\)</span>(<span class="arithmatex">\(\leq m_{0}\)</span>) edges that link the new vertex to <span class="arithmatex">\(m\)</span> different vertices already present in the system. To incorporate preferential attachment, we assume that the probability <span class="arithmatex">\(\Pi\)</span> that a new vertex will be connected to vertex <span class="arithmatex">\(i\)</span> depends on the connectivity <span class="arithmatex">\(k_{i}\)</span> of that vertex, such that <span class="arithmatex">\({\Pi\hspace{0pt}{(k_{i})}} = {k_{i}/{\sum_{j}k_{j}}}\)</span>. After <span class="arithmatex">\(t\)</span> timesteps the model leads to a random network with <span class="arithmatex">\(t + m_{0}\)</span> vertices and <span class="arithmatex">\(m\hspace{0pt}t\)</span> edges. This network evolves into a scale-invariant state with the probability that a vertex has <span class="arithmatex">\(k\)</span> edges following a power-law with an exponent <span class="arithmatex">\(\gamma_{m\hspace{0pt}o\hspace{0pt}d\hspace{0pt}e\hspace{0pt}l} = {2.9 \pm 0.1}\)</span> (Fig. 2A). As the power-law observed for real networks describes systems of rather different sizes at different stages of their development, it is expected that a correct model should provide a distribution whose main features are independent of time. Indeed, as Fig. 2A demonstrates, <span class="arithmatex">\(P\hspace{0pt}{(k)}\)</span> is independent of time (and, subsequently, independent of the system size <span class="arithmatex">\(m_{0} + t\)</span>), indicating that despite its continuous growth, the system organizes itself into a scale-free stationary state.</p>
+<p>The development of the power-law scaling in the model indicates that growth and preferential attachment play an important role in network development. To verify that both ingredients are necessary, we investigated two variants of the model. Model A keeps the growing character of the network, but preferential attachment is eliminated by assuming that a new vertex is connected with equal probability to any vertex in the system (that is, <span class="arithmatex">\({\Pi\hspace{0pt}{(k)}} = {c\hspace{0pt}o\hspace{0pt}n\hspace{0pt}s\hspace{0pt}t} = {1/{({{m_{0} + t} - 1})}}\)</span>). Such a model (Fig. 2B) leads to <span class="arithmatex">\({P\hspace{0pt}{(k)}} \sim {\exp{({- {\beta\hspace{0pt}k}})}}\)</span>, indicating that the absence of preferential attachment eliminates the scale-free feature of the distribution. In model B we start with <span class="arithmatex">\(N\)</span> vertices and no edges. At each time step we randomly select a vertex and connect it with probability <span class="arithmatex">\({\Pi\hspace{0pt}{(k_{i})}} = {k_{i}/{\sum_{j}k_{j}}}\)</span> to vertex <span class="arithmatex">\(i\)</span> in the system. While at early times the model exhibits power-law scaling, <span class="arithmatex">\(P\hspace{0pt}{(k)}\)</span> is not stationary: since <span class="arithmatex">\(N\)</span> is constant, and the number of edges increases with time, after <span class="arithmatex">\(T \simeq N^{2}\)</span> timesteps the system reaches a state in which all vertices are connected. The failure of models A and B indicates that both ingredients, namely growth and preferential attachment, are needed for the development of the stationary power-law distribution observed in Fig. 1.</p>
+<p>Due to the preferential attachment, a vertex that acquired more connections than another one will increase its connectivity at a higher rate, thus an initial difference in the connectivity between two vertices will increase further as the network grows. The rate at which a vertex acquires edges is <span class="arithmatex">\({\partial{k_{i}/{\partial t}}} = {{k_{i}/2}\hspace{0pt}t}\)</span>, which gives <span class="arithmatex">\({k_{i}\hspace{0pt}{(t)}} = {m\hspace{0pt}{({t/t_{i}})}^{0.5}}\)</span>, where <span class="arithmatex">\(t_{i}\)</span> is the time at which vertex <span class="arithmatex">\(i\)</span> was added to the system (see Fig. 2C), a scaling property that could be directly tested once time-resolved data on network connectivity becomes available. Thus older (smaller <span class="arithmatex">\(t_{i}\)</span>) vertices increase their connectivity at the expense of the younger (larger <span class="arithmatex">\(t_{i}\)</span>) ones, leading with time to some vertices that are highly connected, a "rich-gets-richer" phenomenon that can be easily detected in real networks. Furthermore, this property can be used to calculate <span class="arithmatex">\(\gamma\)</span> analytically. The probability that a vertex <span class="arithmatex">\(i\)</span> has a connectivity smaller than <span class="arithmatex">\(k\)</span>, <span class="arithmatex">\(P\hspace{0pt}{({{k_{i}\hspace{0pt}{(t)}} &lt; k})}\)</span>, can be written as <span class="arithmatex">\(P\hspace{0pt}{({t_{i} &gt; {{m^{2}\hspace{0pt}t}/k^{2}}})}\)</span>. Assuming that we add the vertices at equal time intervals to the system, we obtain that <span class="arithmatex">\({P\hspace{0pt}{({t_{i} &gt; {{m^{2}\hspace{0pt}t}/k^{2}}})}} = {1 - {P\hspace{0pt}{({t_{i} \leq {{m^{2}\hspace{0pt}t}/k^{2}}})}}} = {1 - {{{m^{2}\hspace{0pt}t}/k^{2}}\hspace{0pt}{({t + m_{0}})}}}\)</span>. The probability density <span class="arithmatex">\(P\hspace{0pt}{(k)}\)</span> can be obtained from <span class="arithmatex">\({P\hspace{0pt}{(k)}} = {\partial{{P\hspace{0pt}{({{k_{i}\hspace{0pt}{(t)}} &lt; k})}}/{\partial k}}}\)</span>, which, at long times, leads to the stationary solution</p>
+<hr />
+<pre><code> $${{P\hspace{0pt}{(k)}} = \frac{2\hspace{0pt}m^{2}}{k^{3}}},$$
+</code></pre>
+<hr />
+<p>giving <span class="arithmatex">\(\gamma = 3\)</span>, independent of <span class="arithmatex">\(m\)</span>. While it reproduces the observed scale-free distribution, the proposed model cannot be expected to account for all aspects of the studied networks. For this we need to model these systems in more detail. For example, in the model we assumed linear preferential attachment, that is <span class="arithmatex">\({\Pi\hspace{0pt}{(k)}} \sim k\)</span>. However, while in general <span class="arithmatex">\(\Pi\hspace{0pt}{(k)}\)</span> could have an arbitrary nonlinear form <span class="arithmatex">\({\Pi\hspace{0pt}{(k)}} \sim k^{\alpha}\)</span>, simulations indicate that scaling is present only for <span class="arithmatex">\(\alpha = 1\)</span>. Furthermore, the exponents obtained for the different networks are scattered between <span class="arithmatex">\(2.1\)</span> and <span class="arithmatex">\(4\)</span>. However, it is easy to modify our model to account for exponents different from <span class="arithmatex">\(\gamma = 3\)</span>. For example, if we assume that a fraction <span class="arithmatex">\(p\)</span> of the links is directed, we obtain <span class="arithmatex">\({\gamma\hspace{0pt}{(p)}} = {3 - p}\)</span>, which is supported by numerical simulations (16). Finally, some networks evolve not only by adding new vertices, but by adding (and sometimes removing) connections between established vertices. While these and other system-specific features could modify the exponent <span class="arithmatex">\(\gamma\)</span>, our model offers the first successful mechanism accounting for the scale-invariant nature of real networks.</p>
+<p>Growth and preferential attachment are mechanisms common to a number of complex systems, including business networks (17, 18), social networks (describing individuals or organizations), transportation networks (19), etc. Consequently, we expect that the scale-invariant state, observed in all systems for which detailed data has been available to us, is a generic property of many complex networks, its applicability reaching far beyond the quoted examples. A better description of these systems would help in understanding other complex systems as well, for which so far less topological information is available, including such important examples as genetic or signaling networks in biological systems. We often do not think of biological systems as open or growing, since their features are genetically coded. However, possible scale-free features of genetic and signaling networks could reflect the evolutionary history dominated by growth and aggregation of different constituents, leading from simple molecules to complex organisms. With the fast advances in mapping out genetic networks, answers to these questions might not be too far. Similar mechanisms could explain the origin of the social and economic disparities governing competitive systems, since the scale-free inhomogeneities are the inevitable consequence of self-organization due to the local decisions made by the individual vertices, based on information that is biased towards the more visible (richer) vertices, irrespective of the nature and the origin of this visibility.</p>
+<p>References and Notes</p>
+<p>1. R. Gallagher and T. Appenzeller, Science 284, 79 (1999); R. F. Service, Science 284, 80 (1999).</p>
+<p>2. G. Weng, U. S. Bhalla, R. Iyengar, Science 284, 92 (1999).</p>
+<p>3. C. Koch and G. Laurent, Science 284, 96 (1999).</p>
+<p>4. S. Wasserman and K. Faust, Social Network Analysis, (Cambridge University Press, Cambridge, 1994).</p>
+<p>5. Members of the Clever project, Sci. Am 280, 54 (June 1999).</p>
+<p>6. R. Albert, H. Jeong and A.-L. Barabási, Nature 401, 130 (1999), see also http://www.nd.edu/ networks.</p>
+<p>7. P. Erdős, and A. Rényi, Publ. Math. Inst. Hung. Acad. Sci 5, 17 (1960); B. Bollobás, Random Graphs (Academic Press, London, 1985).</p>
+<p>8. S. Lawrence and C. L. Giles, Science 280, 98 (1998); Nature 400, 107 (1999).</p>
+<p>9. Note that in addition to the distribution of incoming links, the www displays a number of other scale-free features, characterizing the organization of the webpages within a domain [B. A. Huberman and L. A. Adamic, Nature 401, 131 (1999)], the distribution of searches [B. A. Huberman, P. L. T. Pirolli, J. E. Pitkow and R. J. Lukose, Science 280, 95 (1998)], or the number of links per webpage (6).</p>
+<p>10. D. J. Watts and S. H. Strogatz, Nature 393, 440 (1998).</p>
+<p>11. S. Redner, European Physical Journal B 4, 131 (1998).</p>
+<p>12. We also studied the neural network of the worm Caenorhabditis elegans (3, 10) and the benchmark diagram of a computer chip\
+(http://vlsicad.cs.ucla.edu/<span class="arithmatex">\(\sim\)</span>cheese/ispd98.html). We find that <span class="arithmatex">\(P\hspace{0pt}{(k)}\)</span> for both is consistent with power-law tails, despite the fact that for C. elegans the relatively small size of the system (<span class="arithmatex">\(306\)</span> vertices) limits severely the data quality, while for the wiring diagram of the chips vertices with over <span class="arithmatex">\(200\)</span> edges have been eliminated from the database.</p>
+<p>13. S. Milgram, Psychol. Today 2, 60 (1967); M. Kochen (ed.) The Small World (Ablex, Norwood, NJ, 1989).</p>
+<p>14. J. Guare, Six Degrees of Separation: A play (Vintage Books, New York, 1990).</p>
+<p>15. M. Barthélémy and L. A. N. Amaral, Phys. Rev. Lett. 82, 15 (1999).</p>
+<p>16. Note that for most networks the connectivity <span class="arithmatex">\(m\)</span> of the newly added vertices is not constant. However, choosing <span class="arithmatex">\(m\)</span> randomly will not change the exponent <span class="arithmatex">\(\gamma\)</span> [Y. Tu, private communication].</p>
+<p>17. W. B. Arthur, Science 284, 107 (1999).</p>
+<p>18. Note that preferential attachment was also used to model correlations between stock prices [L. A. N. Amaral and M. Barthélémy, private communication].</p>
+<p>19. J. R. Banavar, A. Maritan and A. Rinaldo, Nature 399, 130 (1999).</p>
+<p>20. We thank D. J. Watts for providing the C. elegans and the power grid data, B. C. Tjaden for supplying the actor data, H. Jeong for collecting the data on the www and L. A. N. Amaral for helpful discussions. This work was partially supported by NSF Career Award DMR-9710998.</p>
+<p>FIG. 1.: The distribution function of connectivities for various large networks. (A) Actor collaboration graph with N = 212, 250 vertices and average connectivity ⟨k⟩ = 28.78; (B) World wide web, N = 325, 729, ⟨k⟩ = 5.46 (6); (C) Powergrid data, N = 4, 941, ⟨k⟩ = 2.67. The dashed lines have slopes (A) γa c t o r = 2.3, (B) γw w w = 2.1 and (C) γp o w e r = 4.</p>
+<p>FIG. 2.: (A) The power-law connectivity distribution at t = 150, 000 (o) and t = 200, 000 (▫) as obtained from the model (see text), using m0 = m = 5. The slope of the dashed line is γ = 2.9. (B) The exponential connectivity distribution for model A, in the case of m0 = m = 1 (o), m0 = m = 3 (▫), m0 = m = 5 (◇) and m0 = m = 7 (△). (C) Time evolution of the connectivity for two vertices added to the system at t1 = 5 and t2 = 95. The dashed line has slope 0.5.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../../../..", "features": ["content.code.annotate", "content.tabs.link", "metadata", "navigation.indexes", "tags"], "search": "../../../../../assets/javascripts/workers/search.7a47a382.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../../../assets/javascripts/bundle.e71a0d61.min.js"></script>
+      
+        <script src="../../../../../javascripts/mathjax.js"></script>
+      
+        <script src="https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+        <script src="../../../../../javascripts/math-fit.js"></script>
+      
+        <script src="../../../../../javascripts/header-link.js"></script>
+      
+        <script src="../../../../../javascripts/nav-drawer-state.js"></script>
+      
+        <script src="../../../../../javascripts/site-link-data.js"></script>
+      
+        <script src="../../../../../javascripts/paper-link-pills.js"></script>
+      
+    
+  </body>
+</html>

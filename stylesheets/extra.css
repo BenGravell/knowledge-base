@@ -2287,7 +2287,6 @@ body:has(.md-content__inner > :is(.kb-app-page, [id$="-app"])) .md-content {
 }
 
 .ct-page {
-  --ct-page-gutter: clamp(0.85rem, 2vw, 1.8rem);
   --ct-rail-center: 1.14rem;
   --ct-teal: var(--kb-color-teal);
   --ct-cyan: var(--kb-color-blue);
@@ -2362,24 +2361,6 @@ body:has(.md-content__inner > :is(.kb-app-page, [id$="-app"])) .md-content {
   max-height: var(--ct-app-height);
   margin-top: var(--kb-app-top-gap);
   overflow: hidden;
-}
-
-body:has(#ct-app) .md-grid,
-body:has(#ct-app) .md-main__inner {
-  padding-inline: var(--kb-page-gutter) !important;
-}
-
-body:has(#ct-app) .md-main__inner {
-  justify-content: center;
-}
-
-body:has(#ct-app) .md-content {
-  flex: 0 1 calc(76rem + 2.4rem);
-  width: min(100%, calc(76rem + 2.4rem));
-}
-
-.md-content__inner > #ct-app.ct-page {
-  padding-inline: var(--ct-page-gutter);
 }
 
 html:has(#ct-app),
@@ -2999,10 +2980,11 @@ body:has(#ct-app) .md-content__inner {
   z-index: 2;
   top: 0.62rem;
   bottom: 0.62rem;
-  left: var(--ct-rail-center);
-  width: 1px;
+  left: calc(var(--ct-rail-center) + var(--ct-tree-button-border-width));
+  width: 2px;
   background: var(--ct-muted-line);
   pointer-events: none;
+  transform: translateX(-50%);
 }
 
 .ct-tree-list .ct-tree-list {
@@ -3023,10 +3005,11 @@ body:has(#ct-app) .md-content__inner {
   z-index: 2;
   top: -0.18rem;
   bottom: 0.18rem;
-  left: var(--ct-rail-center);
-  width: 1px;
+  left: calc(var(--ct-rail-center) + var(--ct-tree-button-border-width));
+  width: 2px;
   background: var(--ct-muted-line);
   pointer-events: none;
+  transform: translateX(-50%);
 }
 
 .ct-tree-node {
@@ -3521,6 +3504,13 @@ body:has(#ct-app) .md-content__inner {
     gap: 0.5rem;
   }
 
+  .ct-workspace .ct-browser {
+    width: 100%;
+    margin-right: 0;
+    padding-right: 0;
+    scrollbar-gutter: auto;
+  }
+
   .ct-sunburst-body {
     grid-template-columns: 1fr;
     gap: 0.65rem;
@@ -3959,7 +3949,8 @@ body:has(#ct-app) .md-content__inner {
 
 .md-typeset a.paper-tag-chip,
 .md-typeset a.paper-tag-chip:visited {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
   box-sizing: border-box;
   min-width: 0;
   min-height: 1.8rem;

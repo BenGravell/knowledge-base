@@ -15,6 +15,7 @@
   const semanticLimit = 80;
   const semanticDisplayLimit = 20;
   const fallbackSemanticScoreThreshold = 0.25;
+  const metadataConnectorWords = new Set(['and']);
   const modeLabels = {
     metadata: 'Metadata',
     semantic: 'Semantic',
@@ -67,10 +68,14 @@
     return Object.assign({}, paper, {
       authors,
       tags,
-      searchText: normalizeText([
+      searchText: metadataSearchText([
         paper.title,
         paper.label,
         paper.algorithm,
+        paper.id,
+        paper.doi,
+        paper.arxiv_id,
+        Array.isArray(paper.identifiers) ? paper.identifiers.join(' ') : '',
         authors.join(' '),
         paper.year,
         paper.source,
@@ -414,8 +419,8 @@
   function matchesFilters(paper, options) {
     if (!paper) return false;
     if (options.includeQuery) {
-      const terms = normalizeText(state.q).split(' ').filter(Boolean);
-      if (terms.length && !terms.every(term => paper.searchText.includes(term))) return false;
+      const terms = metadataQueryTokens(state.q);
+      if (terms.length && !terms.every(term => paper.searchText.includes(` ${term} `))) return false;
     }
     return filterFields.every(field => {
       const value = normalizeFacet(state[field]);
@@ -975,6 +980,16 @@
 
   function searchKey(value) {
     return searchTokens(value).join('');
+  }
+
+  function metadataSearchText(value) {
+    return ` ${searchTokens(value).join(' ')} `;
+  }
+
+  function metadataQueryTokens(value) {
+    const tokens = searchTokens(value);
+    const filtered = tokens.filter(token => !metadataConnectorWords.has(token));
+    return filtered.length ? filtered : tokens;
   }
 
   function highlightSearchMatches(value) {
