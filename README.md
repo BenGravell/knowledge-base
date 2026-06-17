@@ -9,6 +9,7 @@ The public site is published at
 
 - `knowledge_base/docs/` contains the MkDocs source pages and paper metadata.
 - `knowledge_base/docs/papers/**/metadata.yml` drives generated paper pages.
+- `knowledge_base/docs/papers/**/full_text.md` may contain public Markdown conversions of arXiv/ar5iv HTML.
 - `knowledge_base/tree.yml` is the editable Tree navigation and classification source.
 - `knowledge_base/apps/` contains Streamlit apps.
 - `knowledge_base/scripts/` contains maintenance, audit, placement, and prefill entrypoints.
@@ -45,6 +46,21 @@ Run `poetry run mkdocs serve -f knowledge_base/mkdocs.yml` from the repo root.
 ### Add papers
 
 Put URLs in `todo/PAPERS_FUNNEL.md`, route them, prefill metadata, audit it, then place entries in `knowledge_base/tree.yml`.
+
+### Ingest arXiv full text
+
+Some paper entries can have an optional `full_text.md` sidecar next to `metadata.yml`.
+These sidecars are public Markdown conversions of arXiv/ar5iv HTML for search and reading convenience only.
+They are not the canonical e-print, PDF, or LaTeX source of truth, and this repo intentionally does not store PDFs, LaTeX source archives, images, or other rich paper assets.
+Reuse of paper text remains governed by each paper's original license and rights holder terms.
+
+Run the ingest script from the repo root:
+
+```bash
+poetry run python knowledge_base/scripts/ingest_arxiv_full_text.py --id 2402.08954
+```
+
+The script requires `pandoc` on `PATH`, skips existing sidecars unless `--force` is passed, and probes only entries with `arxiv_id`.
 
 ### Develop Python scripts or site helpers
 

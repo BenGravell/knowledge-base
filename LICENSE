@@ -19,3 +19,14 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+
+Third-party paper content notice:
+
+This license applies to this repository's software and original documentation.
+It does not grant rights to third-party paper text, figures, PDFs, LaTeX source
+files, or other e-print content. Optional `full_text.md` paper sidecars are
+public Markdown conversions of arXiv/ar5iv HTML for search and reading
+convenience only. They are not the canonical e-print, PDF, or LaTeX source of
+truth, and this repository intentionally omits PDFs, LaTeX source archives,
+images, and other rich paper assets. Reuse of paper text remains governed by
+each paper's original license and rights holder terms.
