@@ -16,6 +16,26 @@ Activate the environment:
 poetry shell
 ```
 
+## Development Checks
+
+Run unit tests from the repository root (`~/knowledge-base`, not `knowledge_base/`):
+
+```bash
+poetry run python -m unittest discover -s tests -p 'test_*.py'
+```
+
+Install the pre-commit hooks once:
+
+```bash
+pre-commit install
+```
+
+Run all pre-commit hooks manually:
+
+```bash
+pre-commit run --all-files
+```
+
 Unless otherwise noted, run the commands below from the `knowledge_base/` directory.
 
 ## MkDocs Site
