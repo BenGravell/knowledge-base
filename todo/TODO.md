@@ -5,8 +5,9 @@
 Incorporate the full text as the embed text when available. Ensure that extraneous information that would confuse or mess up the embedding model is excluded:
 - author list
 - references, citations
+- garbled long stretches of numbers, mangled tables, etc.
 
-We only want to feed the real meaty content to the embeddings, representing the core content and ideas in the paper, not just the boilerplate and mentions.
+We only want to feed the real meaty content to the embeddings, representing the core content and ideas in the paper, not just the boilerplate and mentions. We are never going to show the markdown in the deployed site, it is purely an agentic search aid. So full_text can be replaced with the boiled down version (perhaps rename the file accordingly).
 
 ## perf
 
