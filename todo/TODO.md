@@ -1,18 +1,5 @@
 # TODO
 
-## Full text ingest and conversion to Markdown
-
-Goal: provide an optional full-text Markdown file for each entry in the catalog. It should live alongside knowledge_base/docs/papers/YYYY/**/metadata.yml
-
-Initial MVP: Only consider arXiv articles where we already have arXiv labs HTML available (and no other entries in the catalog).
-
-arXiv source → LaTeXML → HTML/Markdown. Fetch arxiv.org/e-print/{id} to get the .tar.gz source, then run LaTeXML or latexml/latexmlpost. This is what powers ar5iv.org — you can also just fetch ar5iv.org/abs/{id} or arxiv.org/html/{id} directly and convert that HTML. Preserves math, structure, references, figure captions.
-Pandoc on the .tex directly for quick LaTeX→Markdown/GFM, though it struggles with custom macros and multi-file projects.
-
-ar5iv/arXiv-HTML → Markdown via Pandoc as the primary path, falling back to Marker or Docling only for papers without usable source. 
-
-DO NOT store images or any other rich content that would blow up storage size.
-
 ## perf
 
 Tree and Timeline pages need major performance increase for handling large number of items.
