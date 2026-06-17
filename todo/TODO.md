@@ -20,6 +20,10 @@ ar5iv/arXiv-HTML → Markdown via Pandoc as the primary path, falling back to Ma
 DO NOT store images or any other rich content that would blow up storage size.
 
 
+## remove unused apps, scripts, etc
+
+knowledge_base/apps
+
 
 ## Search
 
