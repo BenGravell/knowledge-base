@@ -4,6 +4,10 @@
 # Site
 knowledge_base/site/
 
+# Interrupted atomic writes from generated-data tooling.
+knowledge_base/map/.*.tmp
+knowledge_base/semantic_search/.*.tmp
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[codz]
