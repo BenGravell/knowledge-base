@@ -38,23 +38,11 @@ mkdocs serve
 
 Open the URL printed by MkDocs, usually <http://127.0.0.1:8000/>.
 
-Build the static site with:
-
-```bash
-mkdocs build
-```
-
-If local generated data is stale, refresh it from `knowledge_base/`:
-
-```bash
-python scripts/refresh_offline_data.py
-```
-
 ## Common workflows
 
-### Use the site locally
+### Serve the site locally
 
-Edit `knowledge_base/docs/`, then run `mkdocs serve` from `knowledge_base/`.
+Run `mkdocs serve` from `knowledge_base/`.
 
 ### Add papers
 
@@ -63,6 +51,14 @@ Put URLs in `todo/PAPERS_FUNNEL.md`, route them, prefill metadata, audit it, the
 ### Develop Python scripts or site helpers
 
 Work from the repo root, use Poetry, and run the narrowest check that covers the change.
+
+### Refresh offline data
+
+If local generated data is stale, refresh it from `knowledge_base/`:
+
+```bash
+python scripts/refresh_offline_data.py
+```
 
 ### Deploy
 
