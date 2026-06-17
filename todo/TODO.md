@@ -1,14 +1,12 @@
 # TODO
 
-
 ## speedup offline data regen
 
 biggest time sink is on
 
 scripts/audit_metadata.py --severity error
 
-can you figure out a way to get it to run faster without losing the strength of the checks? consider sweeping rewrites, perhaps even with another language like Rust.
-
+can you figure out a way to get it to run faster without losing the strength of the checks? consider sweeping rewrites, perhaps even with python bindings (using nanobind) against another language like Rust. use off-the-shelf packages where possible.
 
 ## Full text ingest and conversion to Markdown
 
