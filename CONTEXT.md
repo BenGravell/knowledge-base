@@ -48,3 +48,11 @@ Canonical in-process view of the `Tree`, containing ordered branches, leaves, so
 Browser Tree data, Map categories, Timeline order, validation reports, and Tree scripts remain adapter-specific projections.
 
 _Avoid_: nav parser, tree helper, tree.yml wrapper
+
+### Embedding Workbench
+
+Canonical in-process module for refreshing paper embedding caches from ordered embedding rows: stable paper ID, embedding text, and content hash.
+It owns cache loading, cache shape normalization, model-change rebuilds, stale paper pruning, changed-row detection, embedding writeback, and ordered matrix assembly.
+Map layout, Semantic Search vector output, browser settings, and generated asset publication remain adapter-specific projections.
+
+_Avoid_: map cache helper, semantic search cache helper, embedding script glue

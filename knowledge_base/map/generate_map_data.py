@@ -102,6 +102,11 @@ from scipy.spatial import KDTree as cKDTree
 from sklearn.preprocessing import normalize
 
 from knowledge_base.catalog import Catalog
+from knowledge_base.embedding_workbench import (
+    EmbeddingRow,
+    refresh_embedding_cache,
+    save_embedding_cache,
+)
 from knowledge_base.tree.model import (
     TreeModel,
 )
@@ -950,74 +955,6 @@ def choose_backend(requested: str | None) -> tuple[str, Callable[[list[str]], np
 
 
 # ---------------------------------------------------------------------------
-# Cache helpers
-# ---------------------------------------------------------------------------
-
-
-def load_cache(cache_path: Path) -> dict[str, Any]:
-    """
-    Load the embedding cache from disk.
-
-    Cache schema::
-
-        {
-          "model": "<model name>",
-          "papers": {
-            "<paper_id>": {
-              "hash": "<16-char hex>",
-              "embedding": [<float>, ...]
-            }
-          },
-          "umap": {
-            "key": "<24-char hex — hash of paper IDs + embeddings + UMAP params>",
-            "coords": [[x, y], ...]
-          },
-          "force": {
-            "key": "<24-char hex — hash of UMAP coords + embeddings + force params>",
-            "coords": [[x, y], ...]
-          }
-        }
-    """
-    if cache_path.exists():
-        with open(cache_path, encoding="utf-8") as f:
-            return json.load(f)
-    return {"model": None, "papers": {}}
-
-
-def save_cache(cache_path: Path, cache: dict[str, Any]) -> None:
-    """Persist the full cache dict (embeddings + umap) to disk."""
-    with open(cache_path, "w", encoding="utf-8") as f:
-        json.dump(cache, f, separators=(",", ":"))
-    size_kb = cache_path.stat().st_size // 1024
-    print(f"Cache saved: {cache_path}  ({size_kb} KB)")
-
-
-def prune_missing_papers_from_cache(cache: dict[str, Any], active_paper_ids: set[str]) -> list[str]:
-    """
-    Remove embeddings for papers that no longer have a metadata.yml file.
-
-    The derived layout caches depend on the active paper set, so they are
-    invalidated whenever an embedding entry is pruned.
-    """
-    cached_papers = cache.get("papers")
-    if not isinstance(cached_papers, dict):
-        cache["papers"] = dict[str, Any]()
-        cache.pop("umap", None)
-        cache.pop("force", None)
-        return []
-
-    stale_ids = sorted(set(cached_papers) - active_paper_ids)
-    for paper_id in stale_ids:
-        del cached_papers[paper_id]
-
-    if stale_ids:
-        cache.pop("umap", None)
-        cache.pop("force", None)
-
-    return stale_ids
-
-
-# ---------------------------------------------------------------------------
 # Cosine similarity
 # ---------------------------------------------------------------------------
 
@@ -1252,7 +1189,7 @@ def main() -> None:
     nav_order = parse_nav_category_order(config)
 
     # ---- collect papers ----------------------------------------------------
-    print("\n[1/7] Collecting paper metadata…")
+    print("\n[1/6] Collecting paper metadata…")
     papers: list[dict[str, Any]] = []
     catalog = Catalog.from_metadata_root(METADATA_ROOT)
     for entry in catalog.entries:
@@ -1291,80 +1228,43 @@ def main() -> None:
     print(f"    Found {len(papers)} papers")
 
     # ---- choose backend ----------------------------------------------------
-    print("\n[2/7] Selecting embedding backend…")
+    print("\n[2/6] Selecting embedding backend…")
     model_name, embed_fn = choose_backend(args.backend)
 
-    # ---- load cache and find which papers need (re-)embedding --------------
-    print("\n[3/7] Checking embedding cache…")
-    cache: dict[str, Any] = load_cache(args.cache)
+    # ---- refresh embedding cache ------------------------------------------
+    print("\n[3/6] Refreshing embedding cache…")
+    rows = [EmbeddingRow(id=p["id"], text=p["embed_text"], content_hash=p["hash"]) for p in papers]
 
-    # Invalidate entire cache if the model changed
-    if cache.get("model") and cache["model"] != model_name:
-        print(f"    Model changed ({cache['model']} → {model_name}). Discarding cache and re-embedding all papers.")
-        cache = {"model": model_name, "papers": dict[str, dict[str, Any]]()}
+    def embed_changed(texts: list[str]) -> np.ndarray:
+        print(f"    {len(texts)} paper(s) need (re-)embedding  ({len(papers) - len(texts)} cached)")
+        return embed_fn(texts)
 
-    cached_papers_raw = cache.get("papers")
-    cached_papers: dict[str, dict[str, Any]] = (
-        {str(paper_id): dict(entry) for paper_id, entry in cached_papers_raw.items() if isinstance(entry, dict)}
-        if isinstance(cached_papers_raw, dict)
-        else {}
+    embedding_refresh = refresh_embedding_cache(
+        rows,
+        cache_path=args.cache,
+        model=model_name,
+        embed_texts=embed_changed,
+        force=args.force,
+        invalidate_keys=("umap", "force"),
     )
-    active_paper_ids = {p["id"] for p in papers}
-    pruned_ids = prune_missing_papers_from_cache(cache, active_paper_ids)
-    if pruned_ids:
-        print(f"    Removed {len(pruned_ids)} stale cached paper(s) with no metadata.yml")
-        cached_papers_raw = cache.get("papers")
-        cached_papers = (
-            {str(paper_id): dict(entry) for paper_id, entry in cached_papers_raw.items() if isinstance(entry, dict)}
-            if isinstance(cached_papers_raw, dict)
-            else {}
+    if embedding_refresh.model_changed:
+        print(
+            f"    Model changed ({embedding_refresh.previous_model} -> {model_name}). "
+            "Discarded cached embeddings."
         )
-
-    # Determine which papers need new embeddings
-    to_embed: list[int] = []  # indices into `papers`
-    for i, p in enumerate(papers):
-        cached = cached_papers.get(p["id"])
-        if args.force or cached is None or cached.get("hash") != p["hash"]:
-            to_embed.append(i)
-
-    if to_embed:
-        print(f"    {len(to_embed)} paper(s) need (re-)embedding  ({len(papers) - len(to_embed)} cached)")
-    else:
+    if embedding_refresh.pruned_ids:
+        print(f"    Removed {len(embedding_refresh.pruned_ids)} stale cached paper(s) with no metadata.yml")
+    if not embedding_refresh.changed_count:
         print(f"    All {len(papers)} papers are cached — skipping embedding API call")
-
-    # ---- generate embeddings -----------------------------------------------
-    print("\n[4/7] Generating embeddings…")
-    if to_embed:
-        texts = [papers[i]["embed_text"] for i in to_embed]
-        new_embeddings = embed_fn(texts)
-
-        for idx, paper_idx in enumerate(to_embed):
-            p = papers[paper_idx]
-            cached_papers[p["id"]] = {
-                "hash": p["hash"],
-                "embedding": new_embeddings[idx].tolist(),
-            }
-
-        cache["model"] = model_name
-        cache["papers"] = cached_papers
-        # Invalidate UMAP cache whenever embeddings change
-        cache.pop("umap", None)
-        cache.pop("force", None)
-        save_cache(args.cache, cache)
-    elif pruned_ids:
-        cache["model"] = model_name
-        cache["papers"] = cached_papers
-        save_cache(args.cache, cache)
     else:
-        print("    (nothing to do)")
+        print(f"    Refreshed {embedding_refresh.changed_count} embedding(s)")
 
-    # Assemble full embedding matrix in paper order
-    embedding_list = [cached_papers[p["id"]]["embedding"] for p in papers]
-    embeddings = np.array(embedding_list, dtype=np.float32)
+    cache = embedding_refresh.cache
+    embeddings = embedding_refresh.matrix
     print(f"    Embedding matrix: {embeddings.shape}")
 
     # ---- UMAP layout -------------------------------------------------------
-    print("\n[5/7] Computing UMAP 2-D layout…")
+    print("\n[4/6] Computing UMAP 2-D layout…")
 
     umap_params: dict[str, Any] = {
         "scale": DEFAULT_UMAP_SCALE,
@@ -1383,14 +1283,14 @@ def main() -> None:
     else:
         umap_coords = compute_umap_positions(embeddings, **umap_params)
         cache["umap"] = {"key": key, "coords": umap_coords.tolist()}
-        save_cache(args.cache, cache)
+        save_embedding_cache(args.cache, cache)
 
     print(
         f"    UMAP coords: {umap_coords.shape}  range x=[{umap_coords[:, 0].min():.0f}, {umap_coords[:, 0].max():.0f}]  y=[{umap_coords[:, 1].min():.0f}, {umap_coords[:, 1].max():.0f}]"
     )
 
     # ---- force-directed layout post-processing -----------------------------
-    print("\n[6/7] Force-directed layout post-processing…")
+    print("\n[5/6] Force-directed layout post-processing…")
 
     force_params: dict[str, Any] = {
         "pre_layout_scale": 2.0,
@@ -1421,14 +1321,14 @@ def main() -> None:
         else:
             layout_coords = force_layout_postprocess(umap_coords, embeddings, verbose=True, **force_params)
             cache["force"] = {"key": fkey, "coords": layout_coords.tolist()}
-            save_cache(args.cache, cache)
+            save_embedding_cache(args.cache, cache)
 
         print(
             f"    Force coords: {layout_coords.shape}  range x=[{layout_coords[:, 0].min():.0f}, {layout_coords[:, 0].max():.0f}]  y=[{layout_coords[:, 1].min():.0f}, {layout_coords[:, 1].max():.0f}]"
         )
 
     # ---- build browser data -----------------------------------------------
-    print("\n[7/7] Building map data and writing output…")
+    print("\n[6/6] Building map data and writing output…")
 
     raw_sim = cosine_similarity_matrix(embeddings)
     sim, similarity_transform = quantile_unitize_similarity_matrix(raw_sim)

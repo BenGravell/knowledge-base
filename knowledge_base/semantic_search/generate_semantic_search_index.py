@@ -18,6 +18,7 @@ import numpy as np
 from fastembed import TextEmbedding
 
 from knowledge_base.catalog import Catalog
+from knowledge_base.embedding_workbench import EmbeddingRow, refresh_embedding_cache
 
 KB_DIR = Path(__file__).resolve().parents[1]
 DOCS_DIR = KB_DIR / "docs"
@@ -38,26 +39,6 @@ DEFAULT_SCORE_THRESHOLD = 0.25
 
 def clean_scalar(value: object) -> str:
     return str(value or "").strip()
-
-
-def load_cache(path: Path) -> dict[str, Any]:
-    if not path.exists():
-        return {"model": None, "papers": dict[str, Any]()}
-    try:
-        cache = json.loads(path.read_text(encoding="utf-8"))
-    except Exception:
-        return {"model": None, "papers": dict[str, Any]()}
-    if not isinstance(cache, dict):
-        return {"model": None, "papers": dict[str, Any]()}
-    if not isinstance(cache.get("papers"), dict):
-        cache["papers"] = dict[str, Any]()
-    return cache
-
-
-def save_cache(path: Path, cache: dict[str, Any]) -> None:
-    path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps(cache, separators=(",", ":")), encoding="utf-8")
-    print(f"Cache saved: {path} ({path.stat().st_size // 1024} KB)")
 
 
 def load_papers() -> list[dict[str, Any]]:
@@ -213,44 +194,28 @@ def generate(args: argparse.Namespace) -> None:
     papers = load_papers()
     print(f"Found {len(papers)} papers")
 
-    cache = load_cache(args.cache)
-    if cache.get("model") and cache.get("model") != args.model:
-        print(f"Model changed ({cache.get('model')} -> {args.model}); rebuilding cache")
-        cache = {"model": args.model, "papers": dict[str, dict[str, Any]]()}
-
-    cached_papers_raw = cache.setdefault("papers", dict[str, Any]())
-    cached_papers: dict[str, dict[str, Any]] = (
-        {str(paper_id): dict(entry) for paper_id, entry in cached_papers_raw.items() if isinstance(entry, dict)}
-        if isinstance(cached_papers_raw, dict)
-        else {}
-    )
-    cache["papers"] = cached_papers
-    active_ids = {paper["id"] for paper in papers}
-    for paper_id in sorted(set(cached_papers) - active_ids):
-        del cached_papers[paper_id]
-
-    to_embed = [
-        paper
-        for paper in papers
-        if args.force or paper["id"] not in cached_papers or cached_papers[paper["id"]].get("hash") != paper["hash"]
-    ]
-
-    if to_embed:
-        print(f"Embedding {len(to_embed)} changed paper(s) with {args.model}")
+    def embed_changed(texts: list[str]) -> np.ndarray:
+        print(f"Embedding {len(texts)} changed paper(s) with {args.model}")
         embedder = TextEmbedding(args.model)
-        vectors = list(embedder.embed([paper["embed_text"] for paper in to_embed], batch_size=32))
-        for paper, vector in zip(to_embed, vectors, strict=True):
-            cached_papers[paper["id"]] = {
-                "hash": paper["hash"],
-                "embedding": np.asarray(vector, dtype=np.float32).tolist(),
-            }
-        cache["model"] = args.model
-        save_cache(args.cache, cache)
+        return np.asarray(list(embedder.embed(texts, batch_size=32)), dtype=np.float32)
+
+    embedding_refresh = refresh_embedding_cache(
+        [EmbeddingRow(id=paper["id"], text=paper["embed_text"], content_hash=paper["hash"]) for paper in papers],
+        cache_path=args.cache,
+        model=args.model,
+        embed_texts=embed_changed,
+        force=args.force,
+    )
+    if embedding_refresh.model_changed:
+        print(f"Model changed ({embedding_refresh.previous_model} -> {args.model}); rebuilt cache")
+    if embedding_refresh.pruned_ids:
+        print(f"Removed {len(embedding_refresh.pruned_ids)} stale cached paper(s)")
+    if embedding_refresh.changed_count:
+        print(f"Refreshed {embedding_refresh.changed_count} paper embedding(s)")
     else:
         print("All paper embeddings are cached")
 
-    matrix = np.asarray([cached_papers[paper["id"]]["embedding"] for paper in papers], dtype=np.float32)
-    matrix = l2_normalize(matrix)
+    matrix = l2_normalize(embedding_refresh.matrix)
     quantized = quantize_normalized(matrix)
     threshold_data = best_thresholds_for_shared_tags(matrix, papers)
 
