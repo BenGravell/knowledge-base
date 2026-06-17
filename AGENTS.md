@@ -21,9 +21,9 @@ Use this dependency chain:
 Additional repo-local skills are available under `.agents/skills/`:
 
 - Ponytail skills: `ponytail`, `ponytail-review`, `ponytail-audit`, `ponytail-debt`, and `ponytail-help`.
-- Matt Pocock engineering skills: `diagnose`, `grill-with-docs`, `improve-codebase-architecture`, `prototype`, `setup-matt-pocock-skills`, `tdd`, `to-issues`, `to-prd`, `triage`, and `zoom-out`.
+- Engineering skills: `diagnose`, `grill-with-docs`, `improve-codebase-architecture`, `prototype`, `tdd`, `to-todos`, `to-prd`, and `zoom-out`.
 
-Run `setup-matt-pocock-skills` before the first Matt Pocock issue-tracker workflow (`to-issues`, `to-prd`, or `triage`) so `docs/agents/` records this repo's issue tracker, triage labels, and domain-doc layout.
+This repo has no issue tracker workflow. Future work lives in markdown under `todo/`; use `to-todos` or `to-prd` for task breakdowns and PRDs. Do not create `docs/agents/` or triage-label setup for work tracking.
 
 ## Global guardrails
 

@@ -83,19 +83,17 @@ Ponytail skills are vendored in this repo:
 - `../ponytail/SKILL.md`: default minimalism guardrail.
 - `../ponytail-review/SKILL.md`, `../ponytail-audit/SKILL.md`, `../ponytail-debt/SKILL.md`, and `../ponytail-help/SKILL.md`: callable complexity review, audit, debt ledger, and help workflows.
 
-Matt Pocock engineering skills are also vendored:
+Matt Pocock engineering skills are forked and adapted for this repo:
 
 - `../diagnose/SKILL.md`
 - `../grill-with-docs/SKILL.md`
 - `../improve-codebase-architecture/SKILL.md`
 - `../prototype/SKILL.md`
-- `../setup-matt-pocock-skills/SKILL.md`
 - `../tdd/SKILL.md`
-- `../to-issues/SKILL.md`
+- `../to-todos/SKILL.md`
 - `../to-prd/SKILL.md`
-- `../triage/SKILL.md`
 - `../zoom-out/SKILL.md`
 
-Before using Matt Pocock issue-tracker workflows (`to-issues`, `to-prd`, or `triage`) for the first time, run `setup-matt-pocock-skills` so `docs/agents/` records issue tracker, triage-label, and domain-doc conventions.
+This repo has no issue tracker workflow. Future work lives in markdown under `todo/`; use `to-todos` or `to-prd` for task breakdowns and PRDs. Do not create `docs/agents/` or triage-label setup for work tracking.
 
-Vendored source licenses live in `../vendor-licenses/`.
+Upstream license notices live in `../vendor-licenses/`.

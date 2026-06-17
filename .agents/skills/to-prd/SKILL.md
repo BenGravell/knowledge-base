@@ -1,11 +1,11 @@
 ---
 name: to-prd
-description: Turn the current conversation context into a PRD and publish it to the project issue tracker. Use when user wants to create a PRD from the current context.
+description: Turn the current conversation context into a PRD and write it as a markdown future-work note under `todo/`. Use when user wants to create a PRD from the current context without an issue tracker.
 ---
 
 This skill takes the current conversation context and codebase understanding and produces a PRD. Do NOT interview the user — just synthesize what you already know.
 
-The issue tracker and triage label vocabulary should have been provided to you — run `/setup-matt-pocock-skills` if not.
+This repo has no issue tracker. Future work lives in markdown files under `todo/`.
 
 ## Process
 
@@ -13,11 +13,13 @@ The issue tracker and triage label vocabulary should have been provided to you �
 
 2. Sketch out the seams at which you're going to test the feature. Existing seams should be preferred to new ones. Use the highest seam possible. If new seams are needed, propose them at the highest point you can.
 
-Check with the user that these seams match their expectations.
+If the user asked for a review checkpoint, check that these seams match their expectations. Otherwise write the PRD with explicit assumptions.
 
-3. Write the PRD using the template below, then publish it to the project issue tracker. Apply the `ready-for-agent` triage label - no need for additional triage.
+3. Write the PRD using the template below. Prefer `todo/<short-slug>-prd.md` unless the user gave a specific todo file. Do not create `docs/agents/`, labels, or external tracker artifacts.
 
 <prd-template>
+
+# <Feature Or Project Title>
 
 ## Problem Statement
 
