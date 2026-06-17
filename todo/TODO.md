@@ -210,13 +210,6 @@ For this page, the UX should operate more like a gallery or a bookshelf. Each di
 
 Include a link to the Advanced Search page for the selected dissertation's author.
 
-## Knowledge Studio (new feature)
-
-Tightly integrate the Map, Timeline, and Tree into a single multi-panel studio.
-They share an identical hierarchy.
-The map can be shown on the side / top of the nav tree as a kind of minimap (Gran Turismo style).
-It should focus on the currently selected branch by zooming and centering on it (not discarding the upper levels of hierarchy, just letting ancestors and other non descendent parts of the tree go off screen).
-
 ## Ideas
 
 <https://www.litmaps.com/about/us>
