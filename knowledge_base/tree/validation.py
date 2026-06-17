@@ -13,9 +13,8 @@ from knowledge_base.config import KB_DIR
 from knowledge_base.tree.nav_source import (
     YAML_LOADER,
     metadata_source_path,
-    tree_from_file,
 )
-from knowledge_base.tree.model import TreeModel, resolve_metadata_or_generated_source
+from knowledge_base.tree.model import load_tree_model
 from knowledge_base.utils.paper_ids import paper_id_from_metadata
 
 
@@ -137,14 +136,10 @@ def validate_tree(
     docs_dir = docs_dir.resolve()
     metadata_root = metadata_root.resolve()
 
-    tree = tree_from_file(tree_path, normalize=False)
-    tree_model = TreeModel.from_tree(
-        tree,
-        resolve_source=lambda source: resolve_metadata_or_generated_source(
-            source,
-            base_dir=tree_dir,
-            metadata_root=metadata_root,
-        ),
+    tree_model = load_tree_model(
+        tree_path,
+        base_dir=tree_dir,
+        metadata_root=metadata_root,
     )
     metadata_papers = load_metadata_papers(metadata_root)
     papers_by_path = {paper.metadata_path: paper for paper in metadata_papers}

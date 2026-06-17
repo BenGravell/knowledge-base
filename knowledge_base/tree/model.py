@@ -9,7 +9,12 @@ from typing import Any, Callable, Literal
 
 import yaml
 
-from knowledge_base.tree.nav_source import YAML_LOADER, metadata_source_path
+from knowledge_base.tree.nav_source import (
+    YAML_LOADER,
+    metadata_source_path,
+    tree_from_config,
+    tree_from_file,
+)
 from knowledge_base.utils.paper_ids import paper_id_from_metadata
 
 
@@ -379,3 +384,29 @@ class TreeModel:
             paper_id: placement.category_fields()
             for paper_id, placement in self.placements_by_paper_id.items()
         }
+
+
+def load_tree_model(
+    tree_path: Path,
+    *,
+    config: dict[str, Any] | None = None,
+    base_dir: Path | None = None,
+    metadata_root: Path | None = None,
+) -> TreeModel:
+    tree_path = Path(tree_path)
+    if tree_path.exists():
+        tree = tree_from_file(tree_path, normalize=False)
+    elif config is not None:
+        tree = tree_from_config(config)
+    else:
+        tree = tree_from_file(tree_path, normalize=False)
+
+    source_base = base_dir or tree_path.parent
+    return TreeModel.from_tree(
+        tree,
+        resolve_source=lambda source: resolve_metadata_or_generated_source(
+            source,
+            base_dir=source_base,
+            metadata_root=metadata_root,
+        ),
+    )

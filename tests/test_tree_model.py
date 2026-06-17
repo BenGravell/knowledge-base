@@ -7,6 +7,7 @@ from pathlib import Path
 from knowledge_base.tree.model import (
     TreeModel,
     common_prefix_length,
+    load_tree_model,
     resolve_metadata_or_generated_source,
     tree_distance,
 )
@@ -119,6 +120,28 @@ class TreeModelTests(unittest.TestCase):
 
         placement = model.placements_by_paper_id["tiny_paper"]
         self.assertEqual(placement.source, source)
+        self.assertEqual(placement.generated_source, "papers/tiny_paper.md")
+        self.assertEqual(placement.path, ("Theory",))
+
+    def test_load_tree_model_reads_file_with_metadata_source_resolution(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            metadata_root = root / "docs" / "papers"
+            metadata_path = metadata_root / "2024" / "tiny-paper" / "metadata.yml"
+            metadata_path.parent.mkdir(parents=True)
+            metadata_path.write_text("title: Tiny Paper\n", encoding="utf-8")
+            tree_path = root / "tree.yml"
+            tree_path.write_text(
+                "Tree:\n"
+                "  - Theory:\n"
+                "      - Tiny: docs/papers/2024/tiny-paper/metadata.yml\n",
+                encoding="utf-8",
+            )
+
+            model = load_tree_model(tree_path, metadata_root=metadata_root)
+
+        placement = model.placements_by_paper_id["tiny_paper"]
+        self.assertEqual(placement.source, "docs/papers/2024/tiny-paper/metadata.yml")
         self.assertEqual(placement.generated_source, "papers/tiny_paper.md")
         self.assertEqual(placement.path, ("Theory",))
 

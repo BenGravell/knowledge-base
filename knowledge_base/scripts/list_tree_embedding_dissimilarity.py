@@ -29,14 +29,10 @@ if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))
 
 from knowledge_base.config import KB_DIR  # noqa: E402
-from knowledge_base.tree.nav_source import (  # noqa: E402
-    TREE_YML,
-    tree_from_file,
-)
+from knowledge_base.tree.nav_source import TREE_YML  # noqa: E402
 from knowledge_base.tree.model import (  # noqa: E402
     TreeBranch as Branch,
-    TreeModel,
-    resolve_metadata_or_generated_source,
+    load_tree_model,
 )
 from knowledge_base.utils.paper_ids import paper_id_from_metadata  # noqa: E402
 
@@ -104,16 +100,14 @@ def load_papers() -> dict[str, Paper]:
     return by_id
 
 
-def collect_branches(nav: Any) -> list[Branch]:
-    model = TreeModel.from_tree(
-        nav,
-        resolve_source=lambda source: resolve_metadata_or_generated_source(
-            source,
+def collect_branches(tree_path: Path = TREE_YML) -> list[Branch]:
+    return list(
+        load_tree_model(
+            tree_path,
             base_dir=KB_DIR,
             metadata_root=METADATA_ROOT,
-        ),
+        ).branches
     )
-    return list(model.branches)
 
 
 def load_embeddings(path: Path = EMBEDDING_CACHE) -> dict[str, tuple[float, ...]]:
@@ -393,7 +387,7 @@ def main() -> int:
 
     papers = load_papers()
     embeddings = load_embeddings()
-    branches = collect_branches(tree_from_file(TREE_YML, normalize=False))
+    branches = collect_branches(TREE_YML)
     findings = find_outliers(
         branches,
         papers=papers,

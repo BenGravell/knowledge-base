@@ -71,6 +71,8 @@ loads that standalone file through the local `tree-nav` plugin.
 Paper entries in `tree.yml` should use their literal metadata paths,
 such as `docs/papers/2025/2506.11513/metadata.yml`; the build converts those
 paths to generated `papers/<slug>.md` pages behind the scenes.
+For the in-process Tree model design, see
+[knowledge_base/tree/README.md](knowledge_base/tree/README.md).
 
 ## Local generated data
 
@@ -249,5 +251,6 @@ Semantic Search intentionally uses `sentence-transformers/all-MiniLM-L6-v2` / `X
 - `scripts/prefill/` contains source-specific paper metadata importers.
 - `map/` contains graph generation, preview, and MkDocs asset publishing.
 - `semantic_search/` contains client-side semantic search index generation and MkDocs asset publishing.
-- `tree/` contains the MkDocs Tree data generator.
+- `tree/` contains the Tree model, validation helpers, MkDocs nav plugin, and Tree data generator.
+  Start with [tree/README.md](knowledge_base/tree/README.md).
 - `utils/` contains shared DOI, arXiv, and prefill helpers used by the scripts.

@@ -25,9 +25,8 @@ from knowledge_base.tree.model import (
     TreeChild,
     TreeLeaf,
     TreeModel,
-    resolve_metadata_or_generated_source,
+    load_tree_model,
 )
-from knowledge_base.tree.nav_source import tree_from_config, tree_from_file
 from knowledge_base.tree.validation import format_tree_validation_report, validate_tree
 
 
@@ -244,14 +243,11 @@ with open(MKDOCS_YML, "r", encoding="utf-8") as f:
     config = yaml.load(f, Loader=YAML_LOADER)
 
 ids = IdFactory()
-tree_source = tree_from_file(TREE_YML, normalize=False) if TREE_YML.exists() else tree_from_config(config)
-tree_model = TreeModel.from_tree(
-    tree_source,
-    resolve_source=lambda source: resolve_metadata_or_generated_source(
-        source,
-        base_dir=Path.cwd(),
-        metadata_root=(Path.cwd() / METADATA_ROOT).resolve(),
-    ),
+tree_model = load_tree_model(
+    TREE_YML,
+    config=config,
+    base_dir=Path.cwd(),
+    metadata_root=(Path.cwd() / METADATA_ROOT).resolve(),
 )
 root = build_browser_tree(tree_model, ids)
 

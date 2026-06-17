@@ -26,9 +26,9 @@ if str(REPO_ROOT) not in sys.path:
 from knowledge_base.config import KB_DIR  # noqa: E402
 from knowledge_base.tree.model import (  # noqa: E402
     TreeModel,
-    resolve_metadata_or_generated_source,
+    load_tree_model,
 )
-from knowledge_base.tree.nav_source import TREE_YML, tree_from_file  # noqa: E402
+from knowledge_base.tree.nav_source import TREE_YML  # noqa: E402
 
 
 METADATA_ROOT = KB_DIR / "docs" / "papers"
@@ -60,14 +60,11 @@ def load_metadata(path: Path) -> dict[str, Any]:
     return data if isinstance(data, dict) else {}
 
 
-def load_tree_model() -> TreeModel:
-    return TreeModel.from_tree(
-        tree_from_file(TREE_YML, normalize=False),
-        resolve_source=lambda source: resolve_metadata_or_generated_source(
-            source,
-            base_dir=KB_DIR,
-            metadata_root=METADATA_ROOT,
-        ),
+def load_algorithm_tree_model() -> TreeModel:
+    return load_tree_model(
+        TREE_YML,
+        base_dir=KB_DIR,
+        metadata_root=METADATA_ROOT,
     )
 
 
@@ -157,7 +154,7 @@ def main() -> int:
     if args.max_results < 1:
         parser.error("--max-results must be at least 1")
 
-    matches = collect_matches(load_tree_model())
+    matches = collect_matches(load_algorithm_tree_model())
     displayed = matches[: args.max_results]
     if args.format == "json":
         print_json(displayed)

@@ -29,9 +29,8 @@ from knowledge_base.config import KB_DIR
 from knowledge_base.tree.model import (
     TreeLeaf,
     TreeModel,
-    resolve_metadata_or_generated_source,
+    load_tree_model,
 )
-from knowledge_base.tree.nav_source import tree_from_config, tree_from_file
 from knowledge_base.utils.paper_ids import paper_id_from_metadata
 
 DOCS_DIR = KB_DIR / "docs"
@@ -86,22 +85,6 @@ def collect_papers(metadata_root: Path) -> dict[str, Paper]:
             tags=tags,
         )
     return papers
-
-
-def load_tree_model(tree_path: Path, config: dict[str, Any]) -> TreeModel:
-    tree = (
-        tree_from_file(tree_path, normalize=False)
-        if tree_path.exists()
-        else tree_from_config(config)
-    )
-    return TreeModel.from_tree(
-        tree,
-        resolve_source=lambda source: resolve_metadata_or_generated_source(
-            source,
-            base_dir=KB_DIR,
-            metadata_root=METADATA_ROOT,
-        ),
-    )
 
 
 def collect_nav_locations(model: TreeModel) -> dict[str, list[str]]:
@@ -433,7 +416,12 @@ def main() -> None:
     if not isinstance(config, dict):
         sys.exit(f"Could not parse MkDocs config: {MKDOCS_YML}")
 
-    tree_model = load_tree_model(args.tree_yml, config)
+    tree_model = load_tree_model(
+        args.tree_yml,
+        config=config,
+        base_dir=KB_DIR,
+        metadata_root=METADATA_ROOT,
+    )
     papers = collect_papers(METADATA_ROOT)
     nav_locations = collect_nav_locations(tree_model)
     missing = [paper for paper_id, paper in sorted(papers.items()) if paper_id not in nav_locations]

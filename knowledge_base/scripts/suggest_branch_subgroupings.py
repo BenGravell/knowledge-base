@@ -36,15 +36,11 @@ if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))
 
 from knowledge_base.config import KB_DIR  # noqa: E402
-from knowledge_base.tree.nav_source import (  # noqa: E402
-    TREE_YML,
-    tree_nav_item_from_file,
-)
+from knowledge_base.tree.nav_source import TREE_YML  # noqa: E402
 from knowledge_base.tree.model import (  # noqa: E402
     TreeBranch as Branch,
     TreeChild as ChildItem,
-    TreeModel,
-    resolve_metadata_or_generated_source,
+    load_tree_model,
 )
 from knowledge_base.utils.paper_ids import paper_id_from_metadata  # noqa: E402
 
@@ -184,14 +180,11 @@ def load_embeddings(cache_path: Path = EMBEDDING_CACHE) -> dict[str, np.ndarray]
     return embeddings
 
 
-def collect_branches(nav: Any, *, include_root: bool, base_dir: Path = KB_DIR) -> list[Branch]:
-    model = TreeModel.from_tree(
-        nav,
-        resolve_source=lambda source: resolve_metadata_or_generated_source(
-            source,
-            base_dir=base_dir,
-            metadata_root=METADATA_ROOT,
-        ),
+def collect_branches(tree_path: Path, *, include_root: bool) -> list[Branch]:
+    model = load_tree_model(
+        tree_path,
+        base_dir=tree_path.parent,
+        metadata_root=METADATA_ROOT,
     )
     return [model.root, *model.branches] if include_root else list(model.branches)
 
@@ -791,11 +784,9 @@ def main() -> None:
         sys.exit("--max-groups must be at least 2.")
 
     tree_path = args.tree_yml
-    nav = tree_nav_item_from_file(tree_path, normalize=False)["Tree"]
     branches = collect_branches(
-        nav,
         include_root=not args.exclude_root,
-        base_dir=tree_path.parent,
+        tree_path=tree_path,
     )
     too_many = find_too_many_branches(
         branches,
