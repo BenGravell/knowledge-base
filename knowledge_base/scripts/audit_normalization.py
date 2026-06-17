@@ -57,6 +57,14 @@ class Issue:
     field: str
     message: str
     suggestion: str | None = None
+    rule: str | None = None
+    index: int | None = None
+
+
+RULE_AUTHOR_VALUE = "authors.value"
+RULE_SOURCE_VALUE = "source.value"
+RULE_TAG_VALUE = "tags.value"
+RULE_TAG_DATABASE_MISSING = "tags.database-missing"
 
 
 def as_list(value: Any) -> list[Any]:
@@ -125,6 +133,8 @@ def audit_author(
                 "authors",
                 f"Author has non-ASCII or compatibility characters at authors[{index}]: {author!r}",
                 suggestion or clean_author,
+                rule=RULE_AUTHOR_VALUE,
+                index=index,
             )
         )
 
@@ -135,6 +145,8 @@ def audit_author(
                 "authors",
                 f"Author appears to use a first/last-name initial at authors[{index}]: {author!r}",
                 suggestion,
+                rule=RULE_AUTHOR_VALUE,
+                index=index,
             )
         )
 
@@ -145,6 +157,8 @@ def audit_author(
                 "authors",
                 f"Author spelling differs from normalization database at authors[{index}]: {author!r}",
                 suggestion,
+                rule=RULE_AUTHOR_VALUE,
+                index=index,
             )
         )
 
@@ -169,6 +183,7 @@ def audit_source(path: Path, source: str, source_index: NormalizationIndex) -> l
                 "source",
                 f"Source differs from normalization database: {source!r}",
                 suggestion,
+                rule=RULE_SOURCE_VALUE,
             )
         ]
     return []
@@ -190,6 +205,8 @@ def audit_tag(path: Path, tag: str, index: int, tag_index: NormalizationIndex) -
                 "tags",
                 f"{TAG_DATABASE_ISSUE_PREFIX} at tags[{index}]: {tag!r}",
                 suggestion,
+                rule=RULE_TAG_VALUE,
+                index=index,
             )
         ]
 
@@ -203,6 +220,8 @@ def audit_tag(path: Path, tag: str, index: int, tag_index: NormalizationIndex) -
                 "tags",
                 f"{TAG_DATABASE_MISSING_PREFIX} at tags[{index}]: {tag!r}",
                 fallback,
+                rule=RULE_TAG_DATABASE_MISSING,
+                index=index,
             )
         ]
     return []
@@ -370,13 +389,21 @@ def _replace_field(raw: str, field: str, replacement: str) -> str:
 
 
 def issue_author_index(issue: Issue) -> int | None:
+    if issue.index is not None:
+        return issue.index
     match = re.search(r"authors\[(\d+)\]", issue.message)
     return int(match.group(1)) if match else None
 
 
 def issue_tag_index(issue: Issue) -> int | None:
+    if issue.index is not None:
+        return issue.index
     match = re.search(r"tags\[(\d+)\]", issue.message)
     return int(match.group(1)) if match else None
+
+
+def issue_rule_or_legacy(issue: Issue, rule: str, legacy_match: bool) -> bool:
+    return issue.rule == rule or (issue.rule is None and legacy_match)
 
 
 def apply_fixes(results: list[tuple[Path, dict[str, Any], list[Issue]]]) -> int:
@@ -406,7 +433,11 @@ def apply_fixes(results: list[tuple[Path, dict[str, Any], list[Issue]]]) -> int:
             if (
                 issue.field != "tags"
                 or issue.suggestion is None
-                or not issue.message.startswith(TAG_DATABASE_ISSUE_PREFIX)
+                or not issue_rule_or_legacy(
+                    issue,
+                    RULE_TAG_VALUE,
+                    issue.message.startswith(TAG_DATABASE_ISSUE_PREFIX),
+                )
             ):
                 continue
             index = issue_tag_index(issue)
@@ -476,6 +507,8 @@ def print_json(results: list[tuple[Path, dict[str, Any], list[Issue]]]) -> None:
                     "field": issue.field,
                     "message": issue.message,
                     "suggestion": issue.suggestion,
+                    "rule": issue.rule,
+                    "index": issue.index,
                 }
                 for issue in issues
             ],

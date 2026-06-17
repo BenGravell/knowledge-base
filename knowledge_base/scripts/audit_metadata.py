@@ -1214,6 +1214,7 @@ def find_weird_text_character_issues(
                 field,
                 f"Contains likely mojibake/encoding artifact(s): {examples}",
                 "Replace with the correctly decoded source text.",
+                rule=RULE_TEXT_MOJIBAKE,
             )
         )
 
@@ -1590,6 +1591,7 @@ def find_ascii_multi_dash_issues(path: Path, data: dict[str, Any]) -> list["Issu
                     "using a tight hyphen for compounds/ranges and spaces for "
                     "phrase breaks."
                 ),
+                rule=RULE_ASCII_MULTI_DASH,
             )
         )
     return issues
@@ -1616,6 +1618,7 @@ def find_tight_letter_parenthetical_spacing_issues(
                 field_name,
                 message,
                 ("Insert a space before parenthetical abbreviations, for example 'Method (ABC)'."),
+                rule=RULE_TIGHT_LETTER_PARENTHETICAL_SPACING,
             )
         )
     return issues
@@ -1637,6 +1640,7 @@ def find_big_whitespace_issues(path: Path, data: dict[str, Any]) -> list["Issue"
                 field_name,
                 message,
                 "Collapse accidental spacing to one space unless the spacing is semantically meaningful.",
+                rule=RULE_BIG_WHITESPACE,
             )
         )
     return issues
@@ -1659,6 +1663,7 @@ def find_escaped_sequence_issues(path: Path, data: dict[str, Any]) -> list["Issu
                 field_name,
                 f"Contains escaped HTML/entity sequence(s): {examples}",
                 decoded_examples,
+                rule=RULE_ESCAPED_SEQUENCE,
             )
         )
     return issues
@@ -1754,6 +1759,35 @@ class Issue:
     message: str
     suggestion: str | None = None
     severity: Severity = dc_field(default=Severity.ERROR)
+    rule: str | None = None
+    index: int | None = None
+
+
+RULE_TITLE_VALUE = "title.value"
+RULE_ESCAPED_SEQUENCE = "text.escaped-sequence"
+RULE_GARBLED_MARKUP = "text.garbled-markup"
+RULE_BIG_WHITESPACE = "text.big-whitespace"
+RULE_TIGHT_LETTER_PARENTHETICAL_SPACING = "text.tight-letter-parenthetical-spacing"
+RULE_ASCII_MULTI_DASH = "text.ascii-multi-dash"
+RULE_AUTHOR_MOJIBAKE = "authors.mojibake"
+RULE_AUTHOR_ASCII_NORMALIZATION = "authors.ascii-normalization"
+RULE_NON_INDIVIDUAL_AUTHOR = "authors.non-individual"
+RULE_ABSTRACT_PUBLISHER_MARK = "abstract.publisher-mark"
+RULE_ABSTRACT_DOLLAR_MATH = "abstract.dollar-math"
+RULE_ABSTRACT_LATEX_ARTIFACT = "abstract.latex-artifact"
+RULE_TEXT_MOJIBAKE = "text.mojibake"
+RULE_TYPE_VALUE = "type.value"
+RULE_CLEARABLE_SUMMARY = "summary.clearable"
+RULE_HIGH_CONFIDENCE_OCR_ARTIFACT = "text.high-confidence-ocr-artifact"
+RULE_SOURCE_YEAR = "source.year"
+RULE_MULTILINE_FIELD = "field.multiline"
+RULE_FOLDED_TEXT_FIELD = "field.folded-text"
+RULE_TAG_DATABASE_MISSING = "tags.database-missing"
+RULE_TAG_VALUE = "tags.value"
+RULE_FORBIDDEN_TAG = "tags.forbidden"
+RULE_DUPLICATE_TAG = "tags.duplicate"
+RULE_PLURAL_DUPLICATE_TAG = "tags.plural-duplicate"
+RULE_DATABASE_DUPLICATE_TAG = "tags.database-duplicate"
 
 
 @dataclass
@@ -1864,6 +1898,7 @@ def find_summary_abstract_overlap_issues(
                 f"({shingle_coverage:.0%} of summary). Example: {snippet!r}"
             ),
             "Rewrite the summary in original observer-language instead of reusing abstract phrasing.",
+            rule=RULE_CLEARABLE_SUMMARY,
         )
     ]
 
@@ -1882,6 +1917,7 @@ def find_low_signal_summary_issues(path: Path, summary: str) -> list[Issue]:
                 "Replace with a paper-specific observer-language summary, or leave "
                 "the field blank until one can be written from the source."
             ),
+            rule=RULE_CLEARABLE_SUMMARY,
         )
     ]
 
@@ -1964,6 +2000,7 @@ def find_malformed_abstract_issues(
                 "abstract",
                 f"{_PUBLISHER_MARK_ABSTRACT_ISSUE_PREFIX} {_format_labeled_text_hits(publisher_mark_hits)}",
                 "Remove publisher notices, copyright footers, and rights-reserved text; keep only the source abstract.",
+                rule=RULE_ABSTRACT_PUBLISHER_MARK,
             )
         )
 
@@ -1999,6 +2036,7 @@ def find_malformed_abstract_issues(
                 f"{_ABSTRACT_DOLLAR_MATH_ISSUE_PREFIX}: {dollar_count} dollar sign(s), likely from inline/display math",
                 "Rewrite math notation as readable plain text, for example O(n/k) instead of LaTeX dollar math.",
                 severity=Severity.WARNING,
+                rule=RULE_ABSTRACT_DOLLAR_MATH,
             )
         )
 
@@ -2011,6 +2049,7 @@ def find_malformed_abstract_issues(
                 f"{_ABSTRACT_LATEX_ARTIFACT_ISSUE_PREFIX}: {latex_artifact_count} likely artifact(s)",
                 "Rewrite glued or command-name math artifacts as readable plain text, for example l_p or beta in [0, 1).",
                 severity=Severity.WARNING,
+                rule=RULE_ABSTRACT_LATEX_ARTIFACT,
             )
         )
 
@@ -2087,6 +2126,7 @@ def find_high_confidence_ocr_artifact_issues(
             f"{_HIGH_CONFIDENCE_OCR_ARTIFACT_ISSUE_PREFIX} {examples}",
             "Replace exact OCR artifacts with their clean source words.",
             severity=Severity.WARNING,
+            rule=RULE_HIGH_CONFIDENCE_OCR_ARTIFACT,
         )
     ]
 
@@ -2173,6 +2213,7 @@ def find_garbled_markup_issues(path: Path, data: dict[str, Any]) -> list[Issue]:
                 field_name,
                 f"Contains likely garbled HTML/XML markup: {example!r}",
                 "Replace with clean plain text or a plain URL.",
+                rule=RULE_GARBLED_MARKUP,
             )
         )
     return issues
@@ -2661,7 +2702,11 @@ def _tag_database_canonical(tag: str) -> str | None:
 
 
 def _is_tag_database_missing_issue(issue: Issue) -> bool:
-    return issue.field == "tags" and issue.message.startswith(_TAG_DATABASE_MISSING_ISSUE_PREFIX)
+    return issue.field == "tags" and _issue_rule_or_legacy(
+        issue,
+        RULE_TAG_DATABASE_MISSING,
+        issue.message.startswith(_TAG_DATABASE_MISSING_ISSUE_PREFIX),
+    )
 
 
 def _tag_entry_aliases(entry: dict[str, Any]) -> list[str]:
@@ -3164,6 +3209,8 @@ def find_tag_issues(path: Path, data: dict[str, Any]) -> list["Issue"]:
                         "tags",
                         f"{_TAG_DATABASE_MISSING_ISSUE_PREFIX} at tags[{index}]: {tag!r}",
                         suggestion,
+                        rule=RULE_TAG_DATABASE_MISSING,
+                        index=index,
                     )
                 )
             elif canonical_tag != tag:
@@ -3173,6 +3220,8 @@ def find_tag_issues(path: Path, data: dict[str, Any]) -> list["Issue"]:
                         "tags",
                         f"{_TAG_DATABASE_ISSUE_PREFIX} at tags[{index}]: {tag!r}",
                         canonical_tag,
+                        rule=RULE_TAG_VALUE,
+                        index=index,
                     )
                 )
 
@@ -3184,6 +3233,8 @@ def find_tag_issues(path: Path, data: dict[str, Any]) -> list["Issue"]:
                     "tags",
                     f"Forbidden tag at tags[{index}]: {tag!r} ({forbidden_reason})",
                     "Remove this tag.",
+                    rule=RULE_FORBIDDEN_TAG,
+                    index=index,
                 )
             )
             continue
@@ -3207,6 +3258,8 @@ def find_tag_issues(path: Path, data: dict[str, Any]) -> list["Issue"]:
                     "tags",
                     f"Tag starts with an article at tags[{index}]: {tag!r}",
                     without_article,
+                    rule=RULE_TAG_VALUE,
+                    index=index,
                 )
             )
         else:
@@ -3218,6 +3271,8 @@ def find_tag_issues(path: Path, data: dict[str, Any]) -> list["Issue"]:
                         "tags",
                         f"Tag is not in capital case at tags[{index}]: {tag!r}",
                         suggested_tag,
+                        rule=RULE_TAG_VALUE,
+                        index=index,
                     )
                 )
 
@@ -3245,6 +3300,7 @@ def find_tag_issues(path: Path, data: dict[str, Any]) -> list["Issue"]:
                 "tags",
                 f"Duplicate tag value(s): {examples}",
                 "Remove duplicate tags or merge near-identical spellings into one canonical tag.",
+                rule=RULE_DUPLICATE_TAG,
             )
         )
 
@@ -3262,6 +3318,7 @@ def find_tag_issues(path: Path, data: dict[str, Any]) -> list["Issue"]:
                 "tags",
                 f"{_PLURAL_DUPLICATE_TAG_MESSAGE_PREFIX}: {examples}",
                 _plural_duplicate_tag_fix_suggestion(tags, plural_duplicate_tags),
+                rule=RULE_PLURAL_DUPLICATE_TAG,
             )
         )
 
@@ -3280,6 +3337,7 @@ def find_tag_issues(path: Path, data: dict[str, Any]) -> list["Issue"]:
                     "tags",
                     f"{_DATABASE_DUPLICATE_TAG_MESSAGE_PREFIX}: {examples}",
                     _database_duplicate_tag_fix_suggestion(tags, database_duplicate_tags),
+                    rule=RULE_DATABASE_DUPLICATE_TAG,
                 )
             )
 
@@ -3341,6 +3399,7 @@ def find_multiline_field_issues(path: Path, raw: str, data: dict[str, Any]) -> l
                         field_name,
                         f"{_FOLDED_TEXT_FIELD_ISSUE_PREFIX}: {field_name}",
                         "Use the `field: >` newline pattern with indented text.",
+                        rule=RULE_FOLDED_TEXT_FIELD,
                     )
                 )
             elif isinstance(field_value, str) and field_value.strip() and _is_folded_scalar_header(value):
@@ -3357,6 +3416,7 @@ def find_multiline_field_issues(path: Path, raw: str, data: dict[str, Any]) -> l
                                 "content line(s)"
                             ),
                             f"Collapse the text to one indented line under `{field_name}: >`.",
+                            rule=RULE_FOLDED_TEXT_FIELD,
                         )
                     )
                 elif blank_line_count:
@@ -3370,6 +3430,7 @@ def find_multiline_field_issues(path: Path, raw: str, data: dict[str, Any]) -> l
                                 "YAML content line(s)"
                             ),
                             f"Remove blank lines from the folded `{field_name}: >` block.",
+                            rule=RULE_FOLDED_TEXT_FIELD,
                         )
                     )
             continue
@@ -3383,6 +3444,7 @@ def find_multiline_field_issues(path: Path, raw: str, data: dict[str, Any]) -> l
                     path,
                     field_name,
                     f"Field must be a single-line scalar but spans {end - index} YAML line(s)",
+                    rule=RULE_MULTILINE_FIELD,
                 )
             )
 
@@ -3451,6 +3513,7 @@ def find_title_character_escape_issues(
             "title",
             f"{_TITLE_CHARACTER_ESCAPE_ISSUE_PREFIX}: {examples}{decoded_note}",
             fixed_title,
+            rule=RULE_TITLE_VALUE,
         )
     ]
 
@@ -3535,6 +3598,7 @@ def audit_file(
                         "title",
                         message,
                         title_corrected,
+                        rule=RULE_TITLE_VALUE,
                     )
                 )
 
@@ -3581,6 +3645,7 @@ def audit_file(
                         "authors",
                         f"Author entries appear to be non-individual names at index(es): {list(non_individual)}",
                         f"Replace organizations, team/institution placeholders, and one-token names with individual human authors where available; review: {examples}",
+                        rule=RULE_NON_INDIVIDUAL_AUTHOR,
                     )
                 )
             suspicious_chars: dict[int, list[str]] = {}
@@ -3602,6 +3667,7 @@ def audit_file(
                         "Author entries contain suspicious Unicode character(s) at index(es): "
                         f"{list(suspicious_chars)}",
                         f"Replace mojibake/control characters with clean author names; review: {examples}",
+                        rule=RULE_AUTHOR_MOJIBAKE,
                     )
                 )
             ascii_normalization = _author_ascii_normalization_issues(authors)
@@ -3621,6 +3687,7 @@ def audit_file(
                             "Normalize author names to the native 26 English "
                             f"letters for centralized author matching; review: {examples}"
                         ),
+                        rule=RULE_AUTHOR_ASCII_NORMALIZATION,
                     )
                 )
     else:
@@ -3655,6 +3722,7 @@ def audit_file(
                         "source",
                         f"Contains year in source field: {source!r}",
                         source_without_years,
+                        rule=RULE_SOURCE_YEAR,
                     )
                 )
 
@@ -3707,6 +3775,7 @@ def audit_file(
                     "type",
                     f"Invalid value {type_str!r}; must be one of: {sorted(VALID_TYPES)}",
                     type_suggestion,
+                    rule=RULE_TYPE_VALUE,
                 )
             )
 
@@ -4351,44 +4420,78 @@ def _fix_title_in_yaml(raw: str, new_title: str) -> str:
     return raw
 
 
+def _issue_rule_or_legacy(issue: Issue, rule: str, legacy_match: bool) -> bool:
+    return issue.rule == rule or (issue.rule is None and legacy_match)
+
+
 def _is_escaped_sequence_issue(issue: Issue) -> bool:
-    return issue.message.startswith("Contains escaped HTML/entity sequence")
+    return _issue_rule_or_legacy(
+        issue,
+        RULE_ESCAPED_SEQUENCE,
+        issue.message.startswith("Contains escaped HTML/entity sequence"),
+    )
 
 
 def _is_garbled_markup_issue(issue: Issue) -> bool:
-    return issue.message.startswith("Contains likely garbled HTML/XML markup")
+    return _issue_rule_or_legacy(
+        issue,
+        RULE_GARBLED_MARKUP,
+        issue.message.startswith("Contains likely garbled HTML/XML markup"),
+    )
 
 
 def _is_big_whitespace_issue(issue: Issue) -> bool:
-    return issue.message.startswith(_BIG_WHITESPACE_ISSUE_PREFIX)
+    return _issue_rule_or_legacy(
+        issue,
+        RULE_BIG_WHITESPACE,
+        issue.message.startswith(_BIG_WHITESPACE_ISSUE_PREFIX),
+    )
 
 
 def _is_tight_letter_parenthetical_spacing_issue(issue: Issue) -> bool:
-    return issue.message.startswith(_TIGHT_LETTER_PAREN_ISSUE_PREFIX)
+    return _issue_rule_or_legacy(
+        issue,
+        RULE_TIGHT_LETTER_PARENTHETICAL_SPACING,
+        issue.message.startswith(_TIGHT_LETTER_PAREN_ISSUE_PREFIX),
+    )
 
 
 def _is_ascii_multi_dash_issue(issue: Issue) -> bool:
-    return issue.message.startswith(_ASCII_MULTI_DASH_ISSUE_PREFIX)
+    return _issue_rule_or_legacy(
+        issue,
+        RULE_ASCII_MULTI_DASH,
+        issue.message.startswith(_ASCII_MULTI_DASH_ISSUE_PREFIX),
+    )
 
 
 def _is_title_value_fix_issue(issue: Issue) -> bool:
-    return (
-        issue.field == "title"
-        and issue.suggestion is not None
-        and (
-            issue.message.startswith("Not in title case:")
-            or issue.message.startswith("Contains title markup/math garbage:")
-            or issue.message.startswith(_TITLE_CHARACTER_ESCAPE_ISSUE_PREFIX)
-        )
+    return issue.field == "title" and issue.suggestion is not None and _issue_rule_or_legacy(
+        issue,
+        RULE_TITLE_VALUE,
+        issue.message.startswith(
+            (
+                "Not in title case:",
+                "Contains title markup/math garbage:",
+                _TITLE_CHARACTER_ESCAPE_ISSUE_PREFIX,
+            )
+        ),
     )
 
 
 def _is_author_mojibake_issue(issue: Issue) -> bool:
-    return issue.field == "authors" and issue.message.startswith(_AUTHOR_MOJIBAKE_ISSUE_PREFIX)
+    return issue.field == "authors" and _issue_rule_or_legacy(
+        issue,
+        RULE_AUTHOR_MOJIBAKE,
+        issue.message.startswith(_AUTHOR_MOJIBAKE_ISSUE_PREFIX),
+    )
 
 
 def _is_author_ascii_normalization_issue(issue: Issue) -> bool:
-    return issue.field == "authors" and issue.message.startswith(_AUTHOR_ASCII_NORMALIZATION_ISSUE_PREFIX)
+    return issue.field == "authors" and _issue_rule_or_legacy(
+        issue,
+        RULE_AUTHOR_ASCII_NORMALIZATION,
+        issue.message.startswith(_AUTHOR_ASCII_NORMALIZATION_ISSUE_PREFIX),
+    )
 
 
 def _is_fixable_author_name_issue(issue: Issue) -> bool:
@@ -4396,38 +4499,72 @@ def _is_fixable_author_name_issue(issue: Issue) -> bool:
 
 
 def _is_fixable_non_individual_author_issue(issue: Issue) -> bool:
-    return issue.field == "authors" and issue.message.startswith(_NON_INDIVIDUAL_AUTHOR_ISSUE_PREFIX)
+    return issue.field == "authors" and _issue_rule_or_legacy(
+        issue,
+        RULE_NON_INDIVIDUAL_AUTHOR,
+        issue.message.startswith(_NON_INDIVIDUAL_AUTHOR_ISSUE_PREFIX),
+    )
 
 
 def _is_publisher_mark_abstract_issue(issue: Issue) -> bool:
-    return issue.field == "abstract" and issue.message.startswith(_PUBLISHER_MARK_ABSTRACT_ISSUE_PREFIX)
+    return issue.field == "abstract" and _issue_rule_or_legacy(
+        issue,
+        RULE_ABSTRACT_PUBLISHER_MARK,
+        issue.message.startswith(_PUBLISHER_MARK_ABSTRACT_ISSUE_PREFIX),
+    )
 
 
 def _is_abstract_dollar_math_issue(issue: Issue) -> bool:
-    return issue.field == "abstract" and issue.message.startswith(_ABSTRACT_DOLLAR_MATH_ISSUE_PREFIX)
+    return issue.field == "abstract" and _issue_rule_or_legacy(
+        issue,
+        RULE_ABSTRACT_DOLLAR_MATH,
+        issue.message.startswith(_ABSTRACT_DOLLAR_MATH_ISSUE_PREFIX),
+    )
 
 
 def _is_abstract_latex_artifact_issue(issue: Issue) -> bool:
-    return issue.field == "abstract" and issue.message.startswith(_ABSTRACT_LATEX_ARTIFACT_ISSUE_PREFIX)
+    return issue.field == "abstract" and _issue_rule_or_legacy(
+        issue,
+        RULE_ABSTRACT_LATEX_ARTIFACT,
+        issue.message.startswith(_ABSTRACT_LATEX_ARTIFACT_ISSUE_PREFIX),
+    )
 
 
 def _is_text_mojibake_issue(issue: Issue) -> bool:
-    return issue.message.startswith(_TEXT_MOJIBAKE_ISSUE_PREFIX)
+    return _issue_rule_or_legacy(
+        issue,
+        RULE_TEXT_MOJIBAKE,
+        issue.message.startswith(_TEXT_MOJIBAKE_ISSUE_PREFIX),
+    )
 
 
 def _is_type_fix_issue(issue: Issue) -> bool:
-    return issue.field == "type" and issue.suggestion in VALID_TYPES
+    return issue.field == "type" and issue.suggestion in VALID_TYPES and _issue_rule_or_legacy(
+        issue,
+        RULE_TYPE_VALUE,
+        issue.message.startswith("Invalid value"),
+    )
 
 
 def _is_clearable_summary_issue(issue: Issue) -> bool:
-    return issue.field == "summary" and (
-        issue.message.startswith(_SUMMARY_ABSTRACT_OVERLAP_ISSUE_PREFIX)
-        or issue.message.startswith(_LOW_SIGNAL_SUMMARY_ISSUE_PREFIX)
+    return issue.field == "summary" and _issue_rule_or_legacy(
+        issue,
+        RULE_CLEARABLE_SUMMARY,
+        issue.message.startswith(
+            (
+                _SUMMARY_ABSTRACT_OVERLAP_ISSUE_PREFIX,
+                _LOW_SIGNAL_SUMMARY_ISSUE_PREFIX,
+            )
+        ),
     )
 
 
 def _is_high_confidence_ocr_artifact_issue(issue: Issue) -> bool:
-    return issue.message.startswith(_HIGH_CONFIDENCE_OCR_ARTIFACT_ISSUE_PREFIX)
+    return _issue_rule_or_legacy(
+        issue,
+        RULE_HIGH_CONFIDENCE_OCR_ARTIFACT,
+        issue.message.startswith(_HIGH_CONFIDENCE_OCR_ARTIFACT_ISSUE_PREFIX),
+    )
 
 
 def _mojibake_byte(char: str) -> int | None:
@@ -4979,42 +5116,70 @@ def _fix_source_in_yaml(raw: str, new_source: str) -> str:
 
 
 def _is_source_year_issue(issue: Issue) -> bool:
-    return issue.field == "source" and issue.suggestion is not None and issue.message.startswith("Contains year")
+    return issue.field == "source" and issue.suggestion is not None and _issue_rule_or_legacy(
+        issue,
+        RULE_SOURCE_YEAR,
+        issue.message.startswith("Contains year"),
+    )
 
 
 def _is_multiline_field_issue(issue: Issue) -> bool:
-    return issue.field in _MULTILINE_FORBIDDEN_FIELDS and issue.message.startswith("Field must be a single-line scalar")
+    return issue.field in _MULTILINE_FORBIDDEN_FIELDS and _issue_rule_or_legacy(
+        issue,
+        RULE_MULTILINE_FIELD,
+        issue.message.startswith("Field must be a single-line scalar"),
+    )
 
 
 def _is_folded_text_field_issue(issue: Issue) -> bool:
-    return issue.field in _FOLDED_TEXT_FIELDS and issue.message.startswith(
-        (
-            _FOLDED_TEXT_FIELD_ISSUE_PREFIX,
-            _FOLDED_TEXT_FIELD_MULTILINE_ISSUE_PREFIX,
-            _FOLDED_TEXT_FIELD_BLANK_LINE_ISSUE_PREFIX,
-        )
+    return issue.field in _FOLDED_TEXT_FIELDS and _issue_rule_or_legacy(
+        issue,
+        RULE_FOLDED_TEXT_FIELD,
+        issue.message.startswith(
+            (
+                _FOLDED_TEXT_FIELD_ISSUE_PREFIX,
+                _FOLDED_TEXT_FIELD_MULTILINE_ISSUE_PREFIX,
+                _FOLDED_TEXT_FIELD_BLANK_LINE_ISSUE_PREFIX,
+            )
+        ),
     )
 
 
 def _is_plural_duplicate_tag_issue(issue: Issue) -> bool:
-    return issue.field == "tags" and issue.message.startswith(_PLURAL_DUPLICATE_TAG_MESSAGE_PREFIX)
+    return issue.field == "tags" and _issue_rule_or_legacy(
+        issue,
+        RULE_PLURAL_DUPLICATE_TAG,
+        issue.message.startswith(_PLURAL_DUPLICATE_TAG_MESSAGE_PREFIX),
+    )
 
 
 def _is_database_duplicate_tag_issue(issue: Issue) -> bool:
-    return issue.field == "tags" and issue.message.startswith(_DATABASE_DUPLICATE_TAG_MESSAGE_PREFIX)
+    return issue.field == "tags" and _issue_rule_or_legacy(
+        issue,
+        RULE_DATABASE_DUPLICATE_TAG,
+        issue.message.startswith(_DATABASE_DUPLICATE_TAG_MESSAGE_PREFIX),
+    )
 
 
 def _is_duplicate_tag_issue(issue: Issue) -> bool:
     return (
         issue.field == "tags"
-        and issue.message.startswith(_DUPLICATE_TAG_MESSAGE_PREFIX)
+        and _issue_rule_or_legacy(
+            issue,
+            RULE_DUPLICATE_TAG,
+            issue.message.startswith(_DUPLICATE_TAG_MESSAGE_PREFIX),
+        )
         and not _is_plural_duplicate_tag_issue(issue)
         and not _is_database_duplicate_tag_issue(issue)
     )
 
 
 def _is_forbidden_tag_issue(issue: Issue) -> bool:
-    return issue.field == "tags" and issue.message.startswith("Forbidden tag at tags[")
+    return issue.field == "tags" and _issue_rule_or_legacy(
+        issue,
+        RULE_FORBIDDEN_TAG,
+        issue.message.startswith("Forbidden tag at tags["),
+    )
 
 
 def _is_fixable_missing_tag_canonical_replacement(
@@ -5040,15 +5205,23 @@ def _is_fixable_tag_issue(issue: Issue) -> bool:
     return (
         issue.field == "tags"
         and issue.suggestion is not None
-        and (
-            issue.message.startswith("Tag is not in capital case")
-            or issue.message.startswith("Tag starts with an article")
-            or issue.message.startswith(_TAG_DATABASE_ISSUE_PREFIX)
+        and _issue_rule_or_legacy(
+            issue,
+            RULE_TAG_VALUE,
+            issue.message.startswith(
+                (
+                    "Tag is not in capital case",
+                    "Tag starts with an article",
+                    _TAG_DATABASE_ISSUE_PREFIX,
+                )
+            ),
         )
     )
 
 
 def _tag_issue_index(issue: Issue) -> int | None:
+    if issue.index is not None:
+        return issue.index
     match = re.search(r"tags\[(\d+)\]", issue.message)
     if not match:
         return None

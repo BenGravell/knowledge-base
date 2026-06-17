@@ -21,6 +21,13 @@ Every field needed by adapters belongs on the `Entry` interface from day one; do
 
 _Avoid_: Item, paper dict, metadata row
 
+### Audit Rule
+
+Stable metadata-audit fact behind a reported issue: rule code, field, optional list index, severity, human message, and suggestion.
+Fix routing should use the Audit Rule identity and indexed location rather than parsing prose messages.
+
+_Avoid_: message prefix, fix heuristic, regex-routed audit case
+
 ### Tree
 
 Human-maintained hierarchical navigation and classification source rooted at `knowledge_base/tree.yml`.
