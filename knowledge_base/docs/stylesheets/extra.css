@@ -2287,7 +2287,6 @@ body:has(.md-content__inner > :is(.kb-app-page, [id$="-app"])) .md-content {
 }
 
 .ct-page {
-  --ct-page-gutter: clamp(0.85rem, 2vw, 1.8rem);
   --ct-rail-center: 1.14rem;
   --ct-teal: var(--kb-color-teal);
   --ct-cyan: var(--kb-color-blue);
@@ -2362,24 +2361,6 @@ body:has(.md-content__inner > :is(.kb-app-page, [id$="-app"])) .md-content {
   max-height: var(--ct-app-height);
   margin-top: var(--kb-app-top-gap);
   overflow: hidden;
-}
-
-body:has(#ct-app) .md-grid,
-body:has(#ct-app) .md-main__inner {
-  padding-inline: var(--kb-page-gutter) !important;
-}
-
-body:has(#ct-app) .md-main__inner {
-  justify-content: center;
-}
-
-body:has(#ct-app) .md-content {
-  flex: 0 1 calc(76rem + 2.4rem);
-  width: min(100%, calc(76rem + 2.4rem));
-}
-
-.md-content__inner > #ct-app.ct-page {
-  padding-inline: var(--ct-page-gutter);
 }
 
 html:has(#ct-app),
@@ -5487,10 +5468,6 @@ body:has(#ct-app) .md-content__inner {
   }
 
   .md-content__inner > :is(.kb-app-page, [id$="-app"]) {
-    padding-inline: 0;
-  }
-
-  .md-content__inner > #ct-app.ct-page {
     padding-inline: 0;
   }
 

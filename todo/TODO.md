@@ -1,11 +1,5 @@
 # TODO
 
-## Tree
-
-UX 
-
-for wide windows, use more of the page width, just like the Map and Timeline pages do. uSe a unified margin-setting strategy and single source of truth in codebase.
-
 ## Full text ingest and conversion to Markdown
 
 Goal: provide an optional full-text Markdown file for each entry in the catalog.
