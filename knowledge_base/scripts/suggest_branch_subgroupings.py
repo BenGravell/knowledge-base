@@ -38,9 +38,13 @@ if str(REPO_ROOT) not in sys.path:
 from knowledge_base.config import KB_DIR  # noqa: E402
 from knowledge_base.tree.nav_source import (  # noqa: E402
     TREE_YML,
-    metadata_source_path,
-    paper_id_from_metadata_file,
     tree_nav_item_from_file,
+)
+from knowledge_base.tree.model import (  # noqa: E402
+    TreeBranch as Branch,
+    TreeChild as ChildItem,
+    TreeModel,
+    resolve_metadata_or_generated_source,
 )
 from knowledge_base.utils.paper_ids import paper_id_from_metadata  # noqa: E402
 
@@ -84,38 +88,6 @@ class Paper:
 
 
 @dataclass(frozen=True)
-class ChildItem:
-    label: str
-    kind: Literal["branch", "leaf"]
-    paper_ids: tuple[str, ...]
-    source: str | None = None
-
-
-@dataclass(frozen=True)
-class Branch:
-    path: tuple[str, ...]
-    children: tuple[ChildItem, ...]
-
-    @property
-    def branch_count(self) -> int:
-        return sum(1 for child in self.children if child.kind == "branch")
-
-    @property
-    def leaf_count(self) -> int:
-        return sum(1 for child in self.children if child.kind == "leaf")
-
-    def count_for(self, mode: CountMode) -> int:
-        if mode == "branches":
-            return self.branch_count
-        return len(self.children)
-
-    def children_for(self, mode: CountMode) -> tuple[ChildItem, ...]:
-        if mode == "branches":
-            return tuple(child for child in self.children if child.kind == "branch")
-        return self.children
-
-
-@dataclass(frozen=True)
 class Cluster:
     name: str
     children: tuple[ChildItem, ...]
@@ -146,8 +118,16 @@ def as_list(value: Any) -> list[Any]:
     return value if isinstance(value, list) else []
 
 
+def display_path(path: tuple[str, ...]) -> tuple[str, ...]:
+    return path if path == ("Tree",) else ("Tree", *path)
+
+
+def tree_yml_path(path: tuple[str, ...]) -> tuple[str, ...]:
+    return display_path(path)
+
+
 def format_path(path: tuple[str, ...]) -> str:
-    return " > ".join(path)
+    return " > ".join(display_path(path))
 
 
 def relative_to_kb(path: Path) -> str:
@@ -204,75 +184,16 @@ def load_embeddings(cache_path: Path = EMBEDDING_CACHE) -> dict[str, np.ndarray]
     return embeddings
 
 
-def paper_id_from_source(source: str) -> str | None:
-    source = source.replace("\\", "/").strip()
-    if source.startswith("papers/") and source.endswith(".md"):
-        return source.removeprefix("papers/").removesuffix(".md")
-
-    metadata_file = metadata_source_path(source, KB_DIR)
-    if metadata_file is None or not metadata_file.exists():
-        return None
-    return paper_id_from_metadata_file(metadata_file)
-
-
-def collect_branches(nav: Any, *, include_root: bool) -> list[Branch]:
-    branches: list[Branch] = []
-
-    def walk(items: list[Any], path: tuple[str, ...]) -> tuple[str, ...]:
-        children: list[ChildItem] = []
-        descendant_ids: list[str] = []
-
-        for item in items:
-            if isinstance(item, str):
-                if item in LANDING_PAGES:
-                    continue
-                paper_id = paper_id_from_source(item)
-                paper_ids = (paper_id,) if paper_id else ()
-                children.append(
-                    ChildItem(
-                        label=item.removesuffix(".md").replace("-", " ").replace("_", " ").title(),
-                        kind="leaf",
-                        paper_ids=paper_ids,
-                        source=item,
-                    )
-                )
-                descendant_ids.extend(paper_ids)
-                continue
-
-            if not isinstance(item, dict):
-                continue
-
-            for raw_label, child in item.items():
-                label = str(raw_label)
-                if is_landing_item(label, child):
-                    continue
-
-                if isinstance(child, list):
-                    child_path = path + (label,)
-                    child_paper_ids = walk(child, child_path)
-                    children.append(
-                        ChildItem(label=label, kind="branch", paper_ids=child_paper_ids)
-                    )
-                    descendant_ids.extend(child_paper_ids)
-                elif isinstance(child, str):
-                    paper_id = paper_id_from_source(child)
-                    paper_ids = (paper_id,) if paper_id else ()
-                    children.append(
-                        ChildItem(
-                            label=label,
-                            kind="leaf",
-                            paper_ids=paper_ids,
-                            source=child,
-                        )
-                    )
-                    descendant_ids.extend(paper_ids)
-
-        if include_root or path != ("Tree",):
-            branches.append(Branch(path=path, children=tuple(children)))
-        return tuple(descendant_ids)
-
-    walk(as_list(nav), ("Tree",))
-    return branches
+def collect_branches(nav: Any, *, include_root: bool, base_dir: Path = KB_DIR) -> list[Branch]:
+    model = TreeModel.from_tree(
+        nav,
+        resolve_source=lambda source: resolve_metadata_or_generated_source(
+            source,
+            base_dir=base_dir,
+            metadata_root=METADATA_ROOT,
+        ),
+    )
+    return [model.root, *model.branches] if include_root else list(model.branches)
 
 
 def child_embedding(
@@ -499,7 +420,7 @@ def find_too_many_branches(
     filtered = []
     branch_filter_lower = branch_filter.lower() if branch_filter else None
     for branch in branches:
-        if max_depth is not None and len(branch.path) - 1 > max_depth:
+        if max_depth is not None and branch.depth > max_depth:
             continue
         if branch.count_for(mode) <= maximum:
             continue
@@ -562,7 +483,7 @@ def print_markdown(
 
 def suggestion_to_json(suggestion: Suggestion, *, mode: CountMode) -> dict[str, Any]:
     return {
-        "path": list(suggestion.branch.path),
+        "path": list(display_path(suggestion.branch.path)),
         "count": suggestion.branch.count_for(mode),
         "branch_count": suggestion.branch.branch_count,
         "leaf_count": suggestion.branch.leaf_count,
@@ -728,7 +649,10 @@ def apply_tree_suggestion(tree_path: Path, suggestion: Suggestion) -> None:
     lines = text.splitlines(keepends=True)
     had_trailing_newline = text.endswith("\n")
 
-    branch_line, branch_end, branch_indent = find_branch_line(lines, suggestion.branch.path)
+    branch_line, branch_end, branch_indent = find_branch_line(
+        lines,
+        tree_yml_path(suggestion.branch.path),
+    )
     child_indent = branch_indent + 2
     line_items = collect_direct_line_items(
         lines,
@@ -868,7 +792,11 @@ def main() -> None:
 
     tree_path = args.tree_yml
     nav = tree_nav_item_from_file(tree_path, normalize=False)["Tree"]
-    branches = collect_branches(nav, include_root=not args.exclude_root)
+    branches = collect_branches(
+        nav,
+        include_root=not args.exclude_root,
+        base_dir=tree_path.parent,
+    )
     too_many = find_too_many_branches(
         branches,
         mode=args.count,

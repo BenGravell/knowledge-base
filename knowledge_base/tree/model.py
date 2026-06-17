@@ -5,7 +5,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 from pathlib import Path
 import re
-from typing import Any, Callable
+from typing import Any, Callable, Literal
 
 import yaml
 
@@ -15,6 +15,7 @@ from knowledge_base.utils.paper_ids import paper_id_from_metadata
 
 UNCATEGORIZED_CATEGORY = "Uncategorized"
 TRANSPARENT_ROOT_LABELS = {"Tree"}
+LANDING_PAGES = {"tree.md", "tree/index.md"}
 GENERATED_PAPER_RE = re.compile(r"^papers/(?P<paper_id>.+)\.md$")
 
 
@@ -28,6 +29,12 @@ def clean_label(value: Any) -> str:
 
 def leaf_label_from_source(source: str) -> str:
     return source.removesuffix(".md").replace("-", " ").replace("_", " ").title()
+
+
+def is_landing_item(label: str, source: str) -> bool:
+    return source in LANDING_PAGES or (
+        label.strip().lower() == "overview" and source in LANDING_PAGES
+    )
 
 
 def generated_paper_id(source: str) -> str | None:
@@ -54,15 +61,41 @@ class TreeLeaf:
 
 
 @dataclass(frozen=True, slots=True)
+class TreeChild:
+    label: str
+    kind: Literal["branch", "leaf"]
+    paper_ids: tuple[str, ...] = ()
+    source: str | None = None
+
+
+@dataclass(frozen=True, slots=True)
 class TreeBranch:
     path: tuple[str, ...]
-    children: tuple[str, ...]
+    children: tuple[TreeChild, ...]
     direct_paper_ids: tuple[str, ...]
     descendant_paper_ids: tuple[str, ...]
 
     @property
     def depth(self) -> int:
-        return len(self.path)
+        return 0 if self.path == ("Tree",) else len(self.path)
+
+    @property
+    def branch_count(self) -> int:
+        return sum(1 for child in self.children if child.kind == "branch")
+
+    @property
+    def leaf_count(self) -> int:
+        return sum(1 for child in self.children if child.kind == "leaf")
+
+    def count_for(self, mode: str) -> int:
+        if mode == "branches":
+            return self.branch_count
+        return len(self.children)
+
+    def children_for(self, mode: str) -> tuple[TreeChild, ...]:
+        if mode == "branches":
+            return tuple(child for child in self.children if child.kind == "branch")
+        return self.children
 
 
 @dataclass(frozen=True, slots=True)
@@ -210,6 +243,7 @@ def _tree_order(branch_paths: list[tuple[str, ...]]) -> TreeOrder:
 
 @dataclass(frozen=True, slots=True)
 class TreeModel:
+    root: TreeBranch
     leaves: tuple[TreeLeaf, ...]
     branches: tuple[TreeBranch, ...]
     placements_by_paper_id: dict[str, TreePlacement]
@@ -233,7 +267,11 @@ class TreeModel:
                 seen_branch_paths.add(path)
                 branch_paths.append(path)
 
-        def add_leaf(label: str, source: str, path: tuple[str, ...]) -> str | None:
+        def add_leaf(
+            label: str,
+            source: str,
+            path: tuple[str, ...],
+        ) -> tuple[TreeChild | None, str | None]:
             clean_source = source.replace("\\", "/").strip()
             resolved = resolve_source(clean_source) if resolve_source else None
             nav_path = path + (label,)
@@ -258,19 +296,29 @@ class TreeModel:
                     nav_path=nav_path,
                     metadata_path=resolved.metadata_path,
                 )
-            return resolved.paper_id if resolved else None
+            paper_ids = (resolved.paper_id,) if resolved else ()
+            child = None
+            if not is_landing_item(label, clean_source):
+                child = TreeChild(
+                    label=label,
+                    kind="leaf",
+                    paper_ids=paper_ids,
+                    source=clean_source,
+                )
+            return child, resolved.paper_id if resolved else None
 
-        def walk(items: list[Any], path: tuple[str, ...]) -> tuple[str, ...]:
+        def walk(items: list[Any], path: tuple[str, ...]) -> TreeBranch:
             add_branch_path(path)
-            children: list[str] = []
+            children: list[TreeChild] = []
             direct_paper_ids: list[str] = []
             descendant_paper_ids: list[str] = []
 
             for item in items:
                 if isinstance(item, str):
                     label = leaf_label_from_source(item)
-                    paper_id = add_leaf(label, item, path)
-                    children.append(label)
+                    child, paper_id = add_leaf(label, item, path)
+                    if child is not None:
+                        children.append(child)
                     if paper_id:
                         direct_paper_ids.append(paper_id)
                         descendant_paper_ids.append(paper_id)
@@ -283,32 +331,43 @@ class TreeModel:
                     label = clean_label(raw_label)
                     if isinstance(child, list):
                         if label in TRANSPARENT_ROOT_LABELS and not path:
-                            descendant_paper_ids.extend(walk(child, path))
+                            transparent = walk(child, path)
+                            children.extend(transparent.children)
+                            direct_paper_ids.extend(transparent.direct_paper_ids)
+                            descendant_paper_ids.extend(transparent.descendant_paper_ids)
                             continue
-                        children.append(label)
                         child_path = path + (label,)
-                        descendant_paper_ids.extend(walk(child, child_path))
+                        branch = walk(child, child_path)
+                        children.append(
+                            TreeChild(
+                                label=label,
+                                kind="branch",
+                                paper_ids=branch.descendant_paper_ids,
+                            )
+                        )
+                        descendant_paper_ids.extend(branch.descendant_paper_ids)
                     elif isinstance(child, str):
-                        paper_id = add_leaf(label, child, path)
-                        children.append(label)
+                        tree_child, paper_id = add_leaf(label, child, path)
+                        if tree_child is not None:
+                            children.append(tree_child)
                         if paper_id:
                             direct_paper_ids.append(paper_id)
                             descendant_paper_ids.append(paper_id)
 
+            branch = TreeBranch(
+                path=path or ("Tree",),
+                children=tuple(children),
+                direct_paper_ids=tuple(dict.fromkeys(direct_paper_ids)),
+                descendant_paper_ids=tuple(dict.fromkeys(descendant_paper_ids)),
+            )
             if path:
-                branches.append(
-                    TreeBranch(
-                        path=path,
-                        children=tuple(children),
-                        direct_paper_ids=tuple(dict.fromkeys(direct_paper_ids)),
-                        descendant_paper_ids=tuple(dict.fromkeys(descendant_paper_ids)),
-                    )
-                )
-            return tuple(dict.fromkeys(descendant_paper_ids))
+                branches.append(branch)
+            return branch
 
         root_items = tree if isinstance(tree, list) else [tree] if isinstance(tree, dict) else []
-        walk(root_items, ())
+        root = walk(root_items, ())
         return cls(
+            root=root,
             leaves=tuple(leaves),
             branches=tuple(branches),
             placements_by_paper_id=placements_by_paper_id,

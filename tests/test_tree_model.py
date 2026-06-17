@@ -66,6 +66,39 @@ class TreeModelTests(unittest.TestCase):
         self.assertEqual(placement.path, ("Theory",))
         self.assertEqual(model.order.super_categories, ("Theory",))
 
+    def test_branch_children_carry_taxonomy_facts_without_landing_pages(self) -> None:
+        model = TreeModel.from_tree(
+            {
+                "Tree": [
+                    "tree/index.md",
+                    {
+                        "Theory": [
+                            {"Direct": "papers/direct.md"},
+                            {"Nested": [{"Leaf": "papers/leaf.md"}]},
+                        ],
+                    },
+                ],
+            }
+        )
+
+        self.assertEqual(
+            [leaf.source for leaf in model.leaves],
+            ["tree/index.md", "papers/direct.md", "papers/leaf.md"],
+        )
+        self.assertEqual([child.label for child in model.root.children], ["Theory"])
+        theory = next(branch for branch in model.branches if branch.path == ("Theory",))
+        self.assertEqual(theory.branch_count, 1)
+        self.assertEqual(theory.leaf_count, 1)
+        self.assertEqual(theory.direct_paper_ids, ("direct",))
+        self.assertEqual(theory.descendant_paper_ids, ("direct", "leaf"))
+        self.assertEqual(
+            [(child.label, child.kind, child.paper_ids, child.source) for child in theory.children],
+            [
+                ("Direct", "leaf", ("direct",), "papers/direct.md"),
+                ("Nested", "branch", ("leaf",), None),
+            ],
+        )
+
     def test_metadata_source_resolution_keeps_raw_and_generated_sources(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

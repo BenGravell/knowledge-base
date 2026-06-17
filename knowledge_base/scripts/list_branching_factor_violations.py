@@ -24,36 +24,12 @@ REPO_ROOT = Path(__file__).resolve().parents[2]
 if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))
 
+from knowledge_base.tree.model import TreeBranch as Branch  # noqa: E402
+from knowledge_base.tree.model import TreeModel  # noqa: E402
 from knowledge_base.tree.nav_source import load_tree  # noqa: E402
 
 
-LANDING_PAGES = {"tree.md", "tree/index.md"}
 CountMode = Literal["all", "branches"]
-
-
-@dataclass(frozen=True)
-class Child:
-    label: str
-    kind: Literal["branch", "leaf"]
-
-
-@dataclass(frozen=True)
-class Branch:
-    path: tuple[str, ...]
-    children: tuple[Child, ...]
-
-    @property
-    def branch_count(self) -> int:
-        return sum(1 for child in self.children if child.kind == "branch")
-
-    @property
-    def leaf_count(self) -> int:
-        return sum(1 for child in self.children if child.kind == "leaf")
-
-    def count_for(self, mode: CountMode) -> int:
-        if mode == "branches":
-            return self.branch_count
-        return len(self.children)
 
 
 @dataclass(frozen=True)
@@ -64,54 +40,9 @@ class Violation:
     distance_from_sweet_spot: int
 
 
-def as_list(value: Any) -> list[Any]:
-    return value if isinstance(value, list) else []
-
-
-def leaf_label(source: str) -> str:
-    return source.removesuffix(".md").replace("-", " ").replace("_", " ").title()
-
-
-def is_landing_item(label: str, child: Any) -> bool:
-    return isinstance(child, str) and (
-        child in LANDING_PAGES
-        or (label.strip().lower() == "overview" and child in LANDING_PAGES)
-    )
-
-
 def collect_branches(nav: Any, *, include_root: bool) -> list[Branch]:
-    branches: list[Branch] = []
-
-    def walk(items: list[Any], path: tuple[str, ...]) -> tuple[Child, ...]:
-        children: list[Child] = []
-        for item in items:
-            if isinstance(item, str):
-                if item in LANDING_PAGES:
-                    continue
-                children.append(Child(label=leaf_label(item), kind="leaf"))
-                continue
-
-            if not isinstance(item, dict):
-                continue
-
-            for raw_label, child in item.items():
-                label = str(raw_label)
-                if is_landing_item(label, child):
-                    continue
-                if isinstance(child, list):
-                    child_path = path + (label,)
-                    branch_children = walk(child, child_path)
-                    branches.append(Branch(path=child_path, children=branch_children))
-                    children.append(Child(label=label, kind="branch"))
-                elif isinstance(child, str):
-                    children.append(Child(label=label, kind="leaf"))
-
-        return tuple(children)
-
-    root_children = walk(as_list(nav), ("Tree",))
-    if include_root:
-        branches.append(Branch(path=("Tree",), children=root_children))
-    return branches
+    model = TreeModel.from_tree(nav)
+    return [model.root, *model.branches] if include_root else list(model.branches)
 
 
 def find_violations(
@@ -147,8 +78,12 @@ def find_violations(
     return violations
 
 
+def display_path(path: tuple[str, ...]) -> tuple[str, ...]:
+    return path if path == ("Tree",) else ("Tree", *path)
+
+
 def format_path(path: tuple[str, ...]) -> str:
-    return " > ".join(path)
+    return " > ".join(display_path(path))
 
 
 def child_labels(branch: Branch, *, show_children: int) -> list[str]:
@@ -236,7 +171,7 @@ def print_json(
         "displayed_violation_count": len(violations),
         "violations": [
             {
-                "path": list(violation.branch.path),
+                "path": list(display_path(violation.branch.path)),
                 "count": violation.count,
                 "reason": violation.reason,
                 "branch_count": violation.branch.branch_count,
@@ -342,7 +277,7 @@ def main() -> None:
 
     branches = collect_branches(load_tree(), include_root=not args.exclude_root)
     if args.max_depth is not None:
-        branches = [branch for branch in branches if len(branch.path) - 1 <= args.max_depth]
+        branches = [branch for branch in branches if branch.depth <= args.max_depth]
     violations = find_violations(
         branches,
         mode=args.count,

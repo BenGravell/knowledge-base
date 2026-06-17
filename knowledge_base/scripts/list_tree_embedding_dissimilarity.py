@@ -31,8 +31,12 @@ if str(REPO_ROOT) not in sys.path:
 from knowledge_base.config import KB_DIR  # noqa: E402
 from knowledge_base.tree.nav_source import (  # noqa: E402
     TREE_YML,
-    metadata_source_path,
     tree_from_file,
+)
+from knowledge_base.tree.model import (  # noqa: E402
+    TreeBranch as Branch,
+    TreeModel,
+    resolve_metadata_or_generated_source,
 )
 from knowledge_base.utils.paper_ids import paper_id_from_metadata  # noqa: E402
 
@@ -47,13 +51,6 @@ class Paper:
     id: str
     title: str
     metadata_path: Path
-
-
-@dataclass(frozen=True)
-class Branch:
-    path: tuple[str, ...]
-    direct_ids: tuple[str, ...]
-    descendant_ids: tuple[str, ...]
 
 
 @dataclass(frozen=True)
@@ -73,10 +70,6 @@ class Finding:
     outliers: tuple[Outlier, ...]
 
 
-def as_list(value: Any) -> list[Any]:
-    return value if isinstance(value, list) else []
-
-
 def relative_to_kb(path: Path) -> str:
     try:
         return str(path.relative_to(KB_DIR))
@@ -84,8 +77,12 @@ def relative_to_kb(path: Path) -> str:
         return str(path)
 
 
+def display_path(path: tuple[str, ...]) -> tuple[str, ...]:
+    return path if path == ("Tree",) else ("Tree", *path)
+
+
 def format_path(path: tuple[str, ...]) -> str:
-    return " > ".join(path)
+    return " > ".join(display_path(path))
 
 
 def load_metadata(path: Path) -> dict[str, Any]:
@@ -94,9 +91,8 @@ def load_metadata(path: Path) -> dict[str, Any]:
     return data if isinstance(data, dict) else {}
 
 
-def load_papers() -> tuple[dict[str, Paper], dict[Path, str]]:
+def load_papers() -> dict[str, Paper]:
     by_id: dict[str, Paper] = {}
-    by_path: dict[Path, str] = {}
     for metadata_path in sorted(METADATA_ROOT.rglob("metadata.yml")):
         data = load_metadata(metadata_path)
         paper_id = paper_id_from_metadata(metadata_path, data, METADATA_ROOT)
@@ -105,70 +101,19 @@ def load_papers() -> tuple[dict[str, Paper], dict[Path, str]]:
             title=" ".join(str(data.get("title") or paper_id).split()),
             metadata_path=metadata_path,
         )
-        by_path[metadata_path.resolve()] = paper_id
-    return by_id, by_path
+    return by_id
 
 
-def paper_id_from_source(
-    source: str,
-    papers: dict[str, Paper],
-    paths_to_ids: dict[Path, str],
-) -> str | None:
-    source = source.replace("\\", "/").strip()
-    if source.startswith("papers/") and source.endswith(".md"):
-        paper_id = source.removeprefix("papers/").removesuffix(".md")
-        return paper_id if paper_id in papers else None
-
-    metadata_path = metadata_source_path(source, KB_DIR)
-    if metadata_path is None:
-        return None
-    return paths_to_ids.get(metadata_path.resolve())
-
-
-def collect_branches(
-    nav: Any,
-    papers: dict[str, Paper],
-    paths_to_ids: dict[Path, str],
-) -> list[Branch]:
-    branches: list[Branch] = []
-
-    def walk(node: Any, path: tuple[str, ...]) -> tuple[str, ...]:
-        direct_ids: list[str] = []
-        descendant_ids: list[str] = []
-
-        for item in as_list(node):
-            if isinstance(item, str):
-                paper_id = paper_id_from_source(item, papers, paths_to_ids)
-                if paper_id:
-                    direct_ids.append(paper_id)
-                    descendant_ids.append(paper_id)
-                continue
-
-            if not isinstance(item, dict):
-                continue
-
-            for raw_label, child in item.items():
-                label = str(raw_label)
-                if isinstance(child, str):
-                    paper_id = paper_id_from_source(child, papers, paths_to_ids)
-                    if paper_id:
-                        direct_ids.append(paper_id)
-                        descendant_ids.append(paper_id)
-                elif isinstance(child, list):
-                    descendant_ids.extend(walk(child, path + (label,)))
-
-        if path != ("Tree",):
-            branches.append(
-                Branch(
-                    path=path,
-                    direct_ids=tuple(dict.fromkeys(direct_ids)),
-                    descendant_ids=tuple(dict.fromkeys(descendant_ids)),
-                )
-            )
-        return tuple(dict.fromkeys(descendant_ids))
-
-    walk(as_list(nav), ("Tree",))
-    return branches
+def collect_branches(nav: Any) -> list[Branch]:
+    model = TreeModel.from_tree(
+        nav,
+        resolve_source=lambda source: resolve_metadata_or_generated_source(
+            source,
+            base_dir=KB_DIR,
+            metadata_root=METADATA_ROOT,
+        ),
+    )
+    return list(model.branches)
 
 
 def load_embeddings(path: Path = EMBEDDING_CACHE) -> dict[str, tuple[float, ...]]:
@@ -196,12 +141,12 @@ def cosine(left: tuple[float, ...], right: tuple[float, ...]) -> float:
 
 def category_ids(branch: Branch, scope: Scope) -> tuple[str, ...]:
     if scope == "descendants":
-        return branch.descendant_ids
-    return branch.direct_ids
+        return branch.descendant_paper_ids
+    return branch.direct_paper_ids
 
 
 def branch_depth(branch: Branch) -> int:
-    return len(branch.path) - 1
+    return branch.depth
 
 
 def find_branch_outliers(
@@ -351,7 +296,7 @@ def print_markdown(
 def print_json(findings: list[Finding]) -> None:
     payload = [
         {
-            "branch_path": list(finding.branch.path),
+            "branch_path": list(display_path(finding.branch.path)),
             "item_count": len(finding.audited_ids),
             "mean_pairwise_similarity": round(finding.mean_pairwise_similarity, 6),
             "outliers": [
@@ -446,13 +391,9 @@ def main() -> int:
     if args.max_outliers_per_branch < 1:
         parser.error("--max-outliers-per-branch must be at least 1")
 
-    papers, paths_to_ids = load_papers()
+    papers = load_papers()
     embeddings = load_embeddings()
-    branches = collect_branches(
-        tree_from_file(TREE_YML, normalize=False),
-        papers,
-        paths_to_ids,
-    )
+    branches = collect_branches(tree_from_file(TREE_YML, normalize=False))
     findings = find_outliers(
         branches,
         papers=papers,
