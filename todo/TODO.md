@@ -2,7 +2,7 @@
 
 ## Full text ingest and conversion to Markdown
 
-Goal: provide an optional full-text Markdown file for each entry in the catalog.
+Goal: provide an optional full-text Markdown file for each entry in the catalog. It should live alongside knowledge_base/docs/papers/YYYY/**/metadata.yml
 
 Initial MVP: Only consider arXiv articles where we already have arXiv labs HTML available (and no other entries in the catalog).
 
