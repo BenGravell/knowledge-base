@@ -1,11 +1,5 @@
 # TODO
 
-/improve-codebase-architecture
-
-file:///tmp/architecture-review-20260616-164100.html
-
-Deepen Metadata Audit Rules
-
 ## Full text ingest and conversion to Markdown
 
 Goal: provide an optional full-text Markdown file for each entry in the catalog.
