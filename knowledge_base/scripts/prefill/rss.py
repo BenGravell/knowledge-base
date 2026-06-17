@@ -17,15 +17,13 @@ from collections.abc import Callable
 from pathlib import Path
 from typing import Any
 
-from typing_extensions import override
-
 if __package__ in (None, ""):
     import sys
 
     sys.path.append(str(Path(__file__).resolve().parents[3]))
 
 from knowledge_base.utils.doi_utils import fetch_page_html
-from knowledge_base.utils.prefill_template import REPO_ROOT, PagePrefillScript
+from knowledge_base.utils.prefill_template import REPO_ROOT
 from knowledge_base.utils.prefill_utils import (
     absolutize_url,
     clean_text,
@@ -117,37 +115,19 @@ def fetch_rss_fields(html_url: str, fallback_pdf_url: str) -> dict[str, Any]:
     }
 
 
-class RssPrefill(PagePrefillScript[tuple[str, str, str]]):
-    description = "Prefill metadata from RSS proceedings URLs."
-    default_input = DEFAULT_INPUT
-    entry_kind = "RSS papers"
-
-    @override
-    def extract_entries(self, path: Path) -> list[tuple[str, str, str]]:
-        return extract_entries(path, self.record_parse_failure)
-
-    @override
-    def entry_label(self, entry: tuple[str, str, str]) -> str:
-        _html_url, _pdf_url, key = entry
-        return key
-
-    @override
-    def source_key_for_token(self, token: str) -> str | None:
-        match = _RSS_RE.search(token)
-        if not match:
-            return None
-        return self.normalize_source_key(f"{match.group(1).lower()}/{match.group(2)}")
-
-    @override
-    def fetch_fields(self, entry: tuple[str, str, str], context: dict[str, Any]) -> dict[str, Any]:
-        _ = context
-        html_url, pdf_url, _key = entry
-        return fetch_rss_fields(html_url, pdf_url)
+def entry_label(entry: tuple[str, str, str]) -> str:
+    _html_url, _pdf_url, key = entry
+    return key
 
 
-def main() -> None:
-    RssPrefill().run()
+def source_key_for_token(token: str) -> str | None:
+    match = _RSS_RE.search(token)
+    if not match:
+        return None
+    return f"{match.group(1).lower()}/{match.group(2)}"
 
 
-if __name__ == "__main__":
-    main()
+def fetch_fields(entry: tuple[str, str, str], context: dict[str, Any]) -> dict[str, Any]:
+    _ = context
+    html_url, pdf_url, _key = entry
+    return fetch_rss_fields(html_url, pdf_url)

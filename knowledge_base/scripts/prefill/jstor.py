@@ -5,14 +5,12 @@ from collections.abc import Callable
 from pathlib import Path
 from typing import Any
 
-from typing_extensions import override
-
 if __package__ in (None, ""):
     import sys
 
     sys.path.append(str(Path(__file__).resolve().parents[3]))
 
-from knowledge_base.utils.prefill_template import REPO_ROOT, DoiPrefillScript
+from knowledge_base.utils.prefill_template import REPO_ROOT
 from knowledge_base.utils.prefill_utils import read_url_lines
 
 DEFAULT_INPUT = REPO_ROOT / "todo" / "papers" / "JSTOR.md"
@@ -50,46 +48,26 @@ def extract_entries(path: Path, on_parse_failure: Callable[[str], None] | None =
     return entries
 
 
-class JstorPrefill(DoiPrefillScript[tuple[str, str, str]]):
-    description = "Prefill metadata from JSTOR stable URLs."
-    default_input = DEFAULT_INPUT
-    entry_kind = "JSTOR stable URLs"
-
-    @override
-    def extract_entries(self, path: Path) -> list[tuple[str, str, str]]:
-        return extract_entries(path, self.record_parse_failure)
-
-    @override
-    def entry_label(self, entry: tuple[str, str, str]) -> str:
-        _url, stable_id, _doi = entry
-        return stable_id
-
-    @override
-    def entry_doi(self, entry: tuple[str, str, str]) -> str:
-        _url, _stable_id, doi = entry
-        return doi
-
-    @override
-    def source_key_for_token(self, token: str) -> str | None:
-        match = _STABLE_RE.search(token)
-        return self.normalize_source_key(match.group(1)) if match else None
-
-    @override
-    def postprocess_crossref_data(self, entry: tuple[str, str, str], data: dict[str, Any]) -> dict[str, Any]:
-        url, _stable_id, _doi = entry
-        return {**data, "link": url}
-
-    @override
-    def postprocess_metadata(
-        self, entry: tuple[str, str, str], fields: dict[str, Any], metadata: dict[str, Any]
-    ) -> dict[str, Any]:
-        _url, _stable_id, _doi = entry
-        return {**metadata, "links_alt": [f"https://doi.org/{fields['doi']}"]}
+def entry_label(entry: tuple[str, str, str]) -> str:
+    _url, stable_id, _doi = entry
+    return stable_id
 
 
-def main() -> None:
-    JstorPrefill().run()
+def entry_doi(entry: tuple[str, str, str]) -> str:
+    _url, _stable_id, doi = entry
+    return doi
 
 
-if __name__ == "__main__":
-    main()
+def source_key_for_token(token: str) -> str | None:
+    match = _STABLE_RE.search(token)
+    return match.group(1) if match else None
+
+
+def source_key_for_entry(entry: tuple[str, str, str]) -> str | None:
+    _url, stable_id, _doi = entry
+    return stable_id
+
+
+def postprocess_crossref_data(entry: tuple[str, str, str], data: dict[str, Any]) -> dict[str, Any]:
+    url, _stable_id, _doi = entry
+    return {**data, "link": url}

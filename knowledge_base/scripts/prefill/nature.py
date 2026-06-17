@@ -17,8 +17,6 @@ from collections.abc import Callable
 from pathlib import Path
 from typing import Any
 
-from typing_extensions import override
-
 if __package__ in (None, ""):
     import sys
 
@@ -31,7 +29,7 @@ from knowledge_base.utils.doi_utils import (
     scrape_abstract_from_html,
     scrape_doi_from_html,
 )
-from knowledge_base.utils.prefill_template import REPO_ROOT, DoiPrefillScript
+from knowledge_base.utils.prefill_template import REPO_ROOT
 from knowledge_base.utils.prefill_utils import read_url_lines
 
 DEFAULT_INPUT = REPO_ROOT / "todo" / "papers" / "NATURE.md"
@@ -83,48 +81,22 @@ def fetch_nature_data(url: str, doi: str) -> dict[str, Any]:
     return data
 
 
-class NaturePrefill(DoiPrefillScript[tuple[str, str]]):
-    description = "Prefill metadata from nature.com URLs."
-    default_input = DEFAULT_INPUT
-    entry_kind = "Nature DOIs"
-    show_resolved_doi = True
-
-    @override
-    def extract_entries(self, path: Path) -> list[tuple[str, str]]:
-        return extract_entries(path, self.record_parse_failure)
-
-    @override
-    def entry_label(self, entry: tuple[str, str]) -> str:
-        return entry[1]
-
-    @override
-    def entry_doi(self, entry: tuple[str, str]) -> str:
-        return entry[1]
-
-    @override
-    def source_key_for_token(self, token: str) -> str | None:
-        match = _NATURE_ARTICLE_RE.search(token)
-        if not match:
-            return None
-        return self.normalize_source_key(f"10.1038/{match.group(1).rstrip('/')}")
-
-    @override
-    def fetch_fields(self, entry: tuple[str, str], context: dict[str, Any]) -> dict[str, Any]:
-        _ = context
-        url, doi = entry
-        return fetch_nature_data(url, doi)
-
-    @override
-    def postprocess_metadata(
-        self, entry: tuple[str, str], fields: dict[str, Any], metadata: dict[str, Any]
-    ) -> dict[str, Any]:
-        _ = entry
-        return {**metadata, "links_alt": [f"https://doi.org/{fields['doi']}"]}
+def entry_label(entry: tuple[str, str]) -> str:
+    return entry[1]
 
 
-def main() -> None:
-    NaturePrefill().run()
+def entry_doi(entry: tuple[str, str]) -> str:
+    return entry[1]
 
 
-if __name__ == "__main__":
-    main()
+def source_key_for_token(token: str) -> str | None:
+    match = _NATURE_ARTICLE_RE.search(token)
+    if not match:
+        return None
+    return f"10.1038/{match.group(1).rstrip('/')}"
+
+
+def fetch_fields(entry: tuple[str, str], context: dict[str, Any]) -> dict[str, Any]:
+    _ = context
+    url, doi = entry
+    return fetch_nature_data(url, doi)

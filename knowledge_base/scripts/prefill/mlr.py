@@ -16,8 +16,6 @@ from pathlib import Path
 from typing import Any
 from urllib.parse import urlparse, urlunparse
 
-from typing_extensions import override
-
 if __package__ in (None, ""):
     import sys
 
@@ -26,7 +24,7 @@ if __package__ in (None, ""):
 from knowledge_base.utils.doi_utils import (
     fetch_page_html,
 )
-from knowledge_base.utils.prefill_template import REPO_ROOT, PagePrefillScript
+from knowledge_base.utils.prefill_template import REPO_ROOT
 from knowledge_base.utils.prefill_utils import (
     absolutize_url,
     clean_text,
@@ -110,34 +108,12 @@ def fetch_mlr_fields(url: str) -> dict[str, Any]:
     }
 
 
-class MlrPrefill(PagePrefillScript[str]):
-    description = "Prefill metadata from PMLR/MLR URLs."
-    default_input = DEFAULT_INPUT
-    entry_kind = "PMLR URLs"
-
-    @override
-    def extract_entries(self, path: Path) -> list[str]:
-        return extract_entries(path, self.record_parse_failure)
-
-    @override
-    def source_key_for_entry(self, entry: str) -> str | None:
-        return self.normalize_source_key(entry)
-
-    @override
-    def source_key_for_token(self, token: str) -> str | None:
-        if "proceedings.mlr.press/" not in token:
-            return None
-        return self.normalize_source_key(normalize_url(token))
-
-    @override
-    def fetch_fields(self, entry: str, context: dict[str, Any]) -> dict[str, Any]:
-        _ = context
-        return fetch_mlr_fields(entry)
+def source_key_for_token(token: str) -> str | None:
+    if "proceedings.mlr.press/" not in token:
+        return None
+    return normalize_url(token)
 
 
-def main() -> None:
-    MlrPrefill().run()
-
-
-if __name__ == "__main__":
-    main()
+def fetch_fields(entry: str, context: dict[str, Any]) -> dict[str, Any]:
+    _ = context
+    return fetch_mlr_fields(entry)

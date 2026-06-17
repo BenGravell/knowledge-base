@@ -10,8 +10,6 @@ from pathlib import Path
 from typing import Any
 from urllib.parse import parse_qs, urlparse
 
-from typing_extensions import override
-
 if __package__ in (None, ""):
     import sys
 
@@ -19,7 +17,7 @@ if __package__ in (None, ""):
 
 import requests
 
-from knowledge_base.utils.prefill_template import REPO_ROOT, HaltPrefill, PagePrefillScript
+from knowledge_base.utils.prefill_template import REPO_ROOT, HaltPrefill
 from knowledge_base.utils.prefill_utils import first_year, read_url_lines
 
 DEFAULT_INPUT = REPO_ROOT / "todo" / "papers" / "OPENREVIEW.md"
@@ -233,33 +231,14 @@ def fetch_openreview_fields(note_id: str) -> dict[str, Any]:
     }
 
 
-class OpenReviewPrefill(PagePrefillScript[str]):
-    description = "Prefill metadata from OpenReview URLs."
-    default_input = DEFAULT_INPUT
-    entry_kind = "OpenReview notes"
-
-    @override
-    def extract_entries(self, path: Path) -> list[str]:
-        return extract_entries(path, self.record_parse_failure)
-
-    @override
-    def source_key_for_entry(self, entry: str) -> str | None:
-        return self.normalize_source_key(entry)
-
-    @override
-    def source_key_for_token(self, token: str) -> str | None:
-        note_id = extract_note_id(token)
-        return self.normalize_source_key(note_id) if note_id else None
-
-    @override
-    def fetch_fields(self, entry: str, context: dict[str, Any]) -> dict[str, Any]:
-        _ = context
-        return fetch_openreview_fields(entry)
+def source_key_for_entry(entry: str) -> str | None:
+    return entry
 
 
-def main() -> None:
-    OpenReviewPrefill().run()
+def source_key_for_token(token: str) -> str | None:
+    return extract_note_id(token)
 
 
-if __name__ == "__main__":
-    main()
+def fetch_fields(entry: str, context: dict[str, Any]) -> dict[str, Any]:
+    _ = context
+    return fetch_openreview_fields(entry)

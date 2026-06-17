@@ -3,14 +3,12 @@
 import re
 from pathlib import Path
 
-from typing_extensions import override
-
 if __package__ in (None, ""):
     import sys
 
     sys.path.append(str(Path(__file__).resolve().parents[3]))
 
-from knowledge_base.utils.prefill_template import REPO_ROOT, CitationPagePrefillScript
+from knowledge_base.utils.prefill_template import REPO_ROOT
 
 DEFAULT_INPUT = REPO_ROOT / "todo" / "papers" / "JMLR.md"
 
@@ -21,31 +19,15 @@ _JMLR_PDF_RE = re.compile(
 )
 
 
-class JmlrPrefill(CitationPagePrefillScript):
-    description = "Prefill metadata from JMLR URLs."
-    default_input = DEFAULT_INPUT
-    source_fallback = "Journal of Machine Learning Research"
-    type_fallback = "Journal Paper"
-    source_hint = "JMLR"
-
-    @override
-    def accept_url(self, url: str) -> bool:
-        return "jmlr.org/" in url or "jmlr.csail.mit.edu/" in url
-
-    @override
-    def normalize_url(self, url: str) -> str:
-        match = _JMLR_PDF_RE.search(url)
-        if match:
-            volume, slug = match.groups()
-            return f"https://jmlr.org/papers/v{volume}/{slug}.html"
-        if url.endswith(".pdf"):
-            return url[:-4] + ".html"
-        return url
+def accept_url(url: str) -> bool:
+    return "jmlr.org/" in url or "jmlr.csail.mit.edu/" in url
 
 
-def main() -> None:
-    JmlrPrefill().run()
-
-
-if __name__ == "__main__":
-    main()
+def normalize_url(url: str) -> str:
+    match = _JMLR_PDF_RE.search(url)
+    if match:
+        volume, slug = match.groups()
+        return f"https://jmlr.org/papers/v{volume}/{slug}.html"
+    if url.endswith(".pdf"):
+        return url[:-4] + ".html"
+    return url

@@ -5,14 +5,12 @@ from collections.abc import Callable
 from pathlib import Path
 from typing import Any
 
-from typing_extensions import override
-
 if __package__ in (None, ""):
     import sys
 
     sys.path.append(str(Path(__file__).resolve().parents[3]))
 
-from knowledge_base.utils.prefill_template import REPO_ROOT, DoiPrefillScript
+from knowledge_base.utils.prefill_template import REPO_ROOT
 from knowledge_base.utils.prefill_utils import read_url_lines
 
 DEFAULT_INPUT = REPO_ROOT / "todo" / "papers" / "DAGSTUHL.md"
@@ -39,46 +37,21 @@ def extract_entries(path: Path, on_parse_failure: Callable[[str], None] | None =
     return entries
 
 
-class DagstuhlPrefill(DoiPrefillScript[tuple[str, str]]):
-    description = "Prefill metadata from Dagstuhl/LIPIcs URLs."
-    default_input = DEFAULT_INPUT
-    entry_kind = "Dagstuhl DOIs"
-
-    @override
-    def extract_entries(self, path: Path) -> list[tuple[str, str]]:
-        return extract_entries(path, self.record_parse_failure)
-
-    @override
-    def entry_label(self, entry: tuple[str, str]) -> str:
-        return entry[1]
-
-    @override
-    def entry_doi(self, entry: tuple[str, str]) -> str:
-        return entry[1]
-
-    @override
-    def source_key_for_token(self, token: str) -> str | None:
-        match = _LIPICS_RE.search(token)
-        if not match:
-            return None
-        return self.normalize_source_key(f"10.4230/{match.group(1)}")
-
-    @override
-    def postprocess_crossref_data(self, entry: tuple[str, str], data: dict[str, Any]) -> dict[str, Any]:
-        url, _doi = entry
-        return {**data, "link": url}
-
-    @override
-    def postprocess_metadata(
-        self, entry: tuple[str, str], fields: dict[str, Any], metadata: dict[str, Any]
-    ) -> dict[str, Any]:
-        _url, _doi = entry
-        return {**metadata, "links_alt": [f"https://doi.org/{fields['doi']}"]}
+def entry_label(entry: tuple[str, str]) -> str:
+    return entry[1]
 
 
-def main() -> None:
-    DagstuhlPrefill().run()
+def entry_doi(entry: tuple[str, str]) -> str:
+    return entry[1]
 
 
-if __name__ == "__main__":
-    main()
+def source_key_for_token(token: str) -> str | None:
+    match = _LIPICS_RE.search(token)
+    if not match:
+        return None
+    return f"10.4230/{match.group(1)}"
+
+
+def postprocess_crossref_data(entry: tuple[str, str], data: dict[str, Any]) -> dict[str, Any]:
+    url, _doi = entry
+    return {**data, "link": url}

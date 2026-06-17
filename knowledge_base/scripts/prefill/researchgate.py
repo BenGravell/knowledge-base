@@ -4,15 +4,13 @@ from collections.abc import Callable
 from pathlib import Path
 from typing import Any
 
-from typing_extensions import override
-
 if __package__ in (None, ""):
     import sys
 
     sys.path.append(str(Path(__file__).resolve().parents[3]))
 
 from knowledge_base.utils.doi_utils import fetch_crossref, fetch_with_retry
-from knowledge_base.utils.prefill_template import REPO_ROOT, PagePrefillScript
+from knowledge_base.utils.prefill_template import REPO_ROOT
 from knowledge_base.utils.prefill_utils import read_url_lines
 
 DEFAULT_INPUT = REPO_ROOT / "todo" / "papers" / "RESEARCHGATE.md"
@@ -143,24 +141,6 @@ def fetch_researchgate_fields(url: str) -> dict[str, Any]:
     raise ValueError(f"No known ResearchGate metadata strategy for {url!r}")
 
 
-class ResearchGatePrefill(PagePrefillScript[str]):
-    description = "Prefill metadata from ResearchGate URLs."
-    default_input = DEFAULT_INPUT
-    entry_kind = "ResearchGate URLs"
-
-    @override
-    def extract_entries(self, path: Path) -> list[str]:
-        return extract_entries(path, self.record_parse_failure)
-
-    @override
-    def fetch_fields(self, entry: str, context: dict[str, Any]) -> dict[str, Any]:
-        _ = context
-        return fetch_researchgate_fields(entry)
-
-
-def main() -> None:
-    ResearchGatePrefill().run()
-
-
-if __name__ == "__main__":
-    main()
+def fetch_fields(entry: str, context: dict[str, Any]) -> dict[str, Any]:
+    _ = context
+    return fetch_researchgate_fields(entry)

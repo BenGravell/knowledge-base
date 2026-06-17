@@ -19,8 +19,6 @@ import re
 from collections.abc import Callable
 from pathlib import Path
 
-from typing_extensions import override
-
 if __package__ in (None, ""):
     import sys
 
@@ -31,7 +29,7 @@ from knowledge_base.utils.doi_utils import (
     fetch_page_html,
     scrape_doi_from_html,
 )
-from knowledge_base.utils.prefill_template import REPO_ROOT, DoiPrefillScript
+from knowledge_base.utils.prefill_template import REPO_ROOT
 from knowledge_base.utils.prefill_utils import read_url_lines
 
 DEFAULT_INPUT = REPO_ROOT / "todo" / "papers" / "ELSEVIER.md"
@@ -81,36 +79,16 @@ def fetch_elsevier_doi(url: str, pii: str) -> str:
     return scrape_doi_from_html(html)
 
 
-class ElsevierPrefill(DoiPrefillScript[tuple[str, str]]):
-    description = "Prefill metadata from ScienceDirect URLs."
-    default_input = DEFAULT_INPUT
-    entry_kind = "ScienceDirect PIIs"
-    fetch_error_label = "fetching metadata"
-    show_resolved_doi = True
-
-    @override
-    def extract_entries(self, path: Path) -> list[tuple[str, str]]:
-        return extract_entries(path, self.record_parse_failure)
-
-    @override
-    def entry_label(self, entry: tuple[str, str]) -> str:
-        _url, pii = entry
-        return pii
-
-    @override
-    def source_key_for_token(self, token: str) -> str | None:
-        match = _SD_PII_RE.search(token)
-        return self.normalize_source_key(match.group(1).upper()) if match else None
-
-    @override
-    def resolve_doi(self, entry: tuple[str, str]) -> str:
-        url, pii = entry
-        return fetch_elsevier_doi(url, pii)
+def entry_label(entry: tuple[str, str]) -> str:
+    _url, pii = entry
+    return pii
 
 
-def main() -> None:
-    ElsevierPrefill().run()
+def source_key_for_token(token: str) -> str | None:
+    match = _SD_PII_RE.search(token)
+    return match.group(1).upper() if match else None
 
 
-if __name__ == "__main__":
-    main()
+def resolve_doi(entry: tuple[str, str]) -> str:
+    url, pii = entry
+    return fetch_elsevier_doi(url, pii)

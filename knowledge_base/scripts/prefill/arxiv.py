@@ -11,11 +11,10 @@ Defaults:
 import random
 import re
 import time
+from collections.abc import Callable
 from email.utils import parsedate_to_datetime
 from pathlib import Path
 from typing import Any
-
-from typing_extensions import override
 
 if __package__ in (None, ""):
     import sys
@@ -34,7 +33,7 @@ from knowledge_base.utils.arxiv_utils import (
     write_metadata,
 )
 from knowledge_base.utils.doi_utils import find_existing_by_arxiv_id
-from knowledge_base.utils.prefill_template import REPO_ROOT, FieldMap, HaltPrefill, PrefillScript
+from knowledge_base.utils.prefill_template import REPO_ROOT, FieldMap, HaltPrefill
 from knowledge_base.utils.prefill_utils import read_url_lines
 
 DEFAULT_INPUT = REPO_ROOT / "todo" / "papers" / "ARXIV.md"
@@ -291,76 +290,55 @@ class ArxivBatchCache:
             return fetch_many_via_oai(attempted), attempted
 
 
-class ArxivPrefill(PrefillScript[str]):
-    description = "Prefill arXiv metadata files."
-    default_input = DEFAULT_INPUT
-    entry_kind = "arXiv IDs"
-    delay = 0.0
-    fetch_error_label = "fetching"
-
-    @override
-    def extract_entries(self, path: Path) -> list[str]:
-        self.entries = extract_ids(path)
-        return self.entries
-
-    @override
-    def prepare_context(self, args: Any) -> dict[str, Any]:
-        batch_size = BATCH_SIZE
-        if args.first is not None:
-            batch_size = max(1, min(BATCH_SIZE, args.first))
-        return {
-            "batch_cache": ArxivBatchCache(
-                getattr(self, "entries", []),
-                batch_size=batch_size,
-            )
-        }
-
-    @override
-    def source_key_for_entry(self, entry: str) -> str | None:
-        return self.normalize_source_key(normalize_arxiv_id(entry))
-
-    @override
-    def source_key_for_token(self, token: str) -> str | None:
-        m = ARXIV_URL_RE.search(token)
-        arxiv_id = m.group(1) if m else token
-        arxiv_id = normalize_arxiv_id(arxiv_id)
-        return self.normalize_source_key(arxiv_id) if arxiv_id else None
-
-    @override
-    def existing_for_entry(self, entry: str, context: dict[str, Any]) -> Path | None:
-        _ = context
-        return find_existing_by_arxiv_id(entry)
-
-    @override
-    def needs_fetch_for_list_skipped(self, entry: str, context: dict[str, Any]) -> bool:
-        _ = (entry, context)
-        return False
-
-    @override
-    def fetch_fields(self, entry: str, context: dict[str, Any]) -> FieldMap:
-        batch_cache = context.get("batch_cache")
-        if batch_cache is None:
-            return fetch_with_retry(entry)
-        return batch_cache.fetch(entry)
-
-    @override
-    def build_metadata(self, entry: str, fields: FieldMap) -> FieldMap:
-        _ = entry
-        return build_metadata(fields)
-
-    @override
-    def write_metadata(self, entry: str, fields: FieldMap, yaml_text: str) -> Path:
-        return write_metadata(entry, fields["year"], yaml_text)
-
-    @override
-    def success_message(self, prefix: str, entry: str, fields: FieldMap, out: Path) -> str:
-        _ = out
-        return f"{prefix}  OK -> {target_path(entry, fields['year'])}"
+def extract_entries(path: Path, record_parse_failure: Callable[[str], None] | None = None) -> list[str]:
+    _ = record_parse_failure
+    return extract_ids(path)
 
 
-def main() -> None:
-    ArxivPrefill().run()
+def prepare_context(entries: list[str], args: Any) -> dict[str, Any]:
+    batch_size = BATCH_SIZE
+    if args.first is not None:
+        batch_size = max(1, min(BATCH_SIZE, args.first))
+    return {"batch_cache": ArxivBatchCache(entries, batch_size=batch_size)}
 
 
-if __name__ == "__main__":
-    main()
+def source_key_for_entry(entry: str) -> str | None:
+    return normalize_arxiv_id(entry)
+
+
+def source_key_for_token(token: str) -> str | None:
+    m = ARXIV_URL_RE.search(token)
+    arxiv_id = m.group(1) if m else token
+    arxiv_id = normalize_arxiv_id(arxiv_id)
+    return arxiv_id or None
+
+
+def existing_for_entry(entry: str, context: dict[str, Any]) -> Path | None:
+    _ = context
+    return find_existing_by_arxiv_id(entry)
+
+
+def needs_fetch_for_list_skipped(entry: str, context: dict[str, Any]) -> bool:
+    _ = (entry, context)
+    return False
+
+
+def fetch_fields(entry: str, context: dict[str, Any]) -> FieldMap:
+    batch_cache = context.get("batch_cache")
+    if batch_cache is None:
+        return fetch_with_retry(entry)
+    return batch_cache.fetch(entry)
+
+
+def build_prefill_metadata(entry: str, fields: FieldMap) -> FieldMap:
+    _ = entry
+    return build_metadata(fields)
+
+
+def write_prefill_metadata(entry: str, fields: FieldMap, yaml_text: str) -> Path:
+    return write_metadata(entry, fields["year"], yaml_text)
+
+
+def success_message(prefix: str, entry: str, fields: FieldMap, out: Path) -> str:
+    _ = out
+    return f"{prefix}  OK -> {target_path(entry, fields['year'])}"

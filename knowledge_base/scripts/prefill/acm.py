@@ -19,7 +19,6 @@ from typing import Any
 from urllib.parse import urlparse
 
 import requests
-from typing_extensions import override
 
 if __package__ in (None, ""):
     import sys
@@ -27,7 +26,7 @@ if __package__ in (None, ""):
     sys.path.append(str(Path(__file__).resolve().parents[3]))
 
 from knowledge_base.utils.doi_utils import fetch_crossref, fetch_with_retry
-from knowledge_base.utils.prefill_template import REPO_ROOT, DoiPrefillScript
+from knowledge_base.utils.prefill_template import REPO_ROOT
 from knowledge_base.utils.prefill_utils import extract_doi_from_url, read_url_lines
 
 DEFAULT_INPUT = REPO_ROOT / "todo" / "papers" / "ACM.md"
@@ -300,67 +299,57 @@ def extract_dois(path: Path, on_parse_failure: Callable[[str], None] | None = No
     return [doi for _url, doi in extract_entries(path, on_parse_failure)]
 
 
-class AcmPrefill(DoiPrefillScript[Entry]):
-    description = "Prefill metadata from ACM DL URLs."
-    default_input = DEFAULT_INPUT
-
-    @override
-    def extract_entries(self, path: Path) -> list[Entry]:
-        return extract_entries(path, self.record_parse_failure)
-
-    @override
-    def entry_label(self, entry: Entry) -> str:
-        _url, doi = entry
-        return doi
-
-    @override
-    def entry_doi(self, entry: Entry) -> str:
-        _url, doi = entry
-        return DOI_ALIASES.get(doi.lower(), doi)
-
-    @override
-    def fetch_fields(self, entry: Entry, context: dict[str, Any]) -> dict[str, Any]:
-        url, input_doi = entry
-        doi_key = input_doi.lower()
-        if doi_key in FALLBACK_RECORDS:
-            return {**FALLBACK_RECORDS[doi_key], "link": FALLBACK_RECORDS[doi_key]["link"]}
-
-        try:
-            fields = super().fetch_fields(entry, context)
-        except requests.HTTPError as exc:
-            if exc.response is None or exc.response.status_code != 404:
-                raise
-            alias = DOI_ALIASES.get(doi_key)
-            if not alias:
-                raise
-            fields = fetch_with_retry(fetch_crossref, alias)
-            fields = {**fields, "link": url}
-        overrides = FIELD_OVERRIDES.get(str(fields.get("doi") or "").lower())
-        return {**fields, **overrides} if overrides else fields
-
-    @override
-    def postprocess_crossref_data(self, entry: Entry, data: dict[str, Any]) -> dict[str, Any]:
-        url, input_doi = entry
-        link = LINK_OVERRIDES.get(input_doi.lower(), url)
-        return {**data, "link": link}
-
-    @override
-    def postprocess_metadata(self, entry: Entry, fields: dict[str, Any], metadata: dict[str, Any]) -> dict[str, Any]:
-        _url, input_doi = entry
-        doi = str(fields.get("doi") or self.entry_doi(entry) or "").strip()
-        links_alt = list(metadata.get("links_alt") or [])
-        links_alt.extend(fields.get("links_alt") or [])
-        if doi and input_doi.lower() not in FALLBACK_RECORDS:
-            links_alt.append(f"https://doi.org/{doi}")
-        if input_doi != doi and input_doi.startswith("10."):
-            links_alt.append(f"https://dl.acm.org/doi/{input_doi}")
-        links_alt = list(dict.fromkeys(x for x in links_alt if x and x != metadata.get("link")))
-        return {**metadata, "links_alt": links_alt}
+def entry_label(entry: Entry) -> str:
+    _url, doi = entry
+    return doi
 
 
-def main() -> None:
-    AcmPrefill().run()
+def entry_doi(entry: Entry) -> str:
+    _url, doi = entry
+    return DOI_ALIASES.get(doi.lower(), doi)
 
 
-if __name__ == "__main__":
-    main()
+def source_key_for_entry(entry: Entry) -> str | None:
+    _url, doi = entry
+    return doi
+
+
+def postprocess_crossref_data(entry: Entry, data: dict[str, Any]) -> dict[str, Any]:
+    url, input_doi = entry
+    link = LINK_OVERRIDES.get(input_doi.lower(), url)
+    return {**data, "link": link}
+
+
+def fetch_fields(entry: Entry, context: dict[str, Any]) -> dict[str, Any]:
+    _ = context
+    url, input_doi = entry
+    doi_key = input_doi.lower()
+    if doi_key in FALLBACK_RECORDS:
+        return {**FALLBACK_RECORDS[doi_key], "link": FALLBACK_RECORDS[doi_key]["link"]}
+
+    try:
+        fields = fetch_with_retry(fetch_crossref, entry_doi(entry))
+        fields = postprocess_crossref_data(entry, fields)
+    except requests.HTTPError as exc:
+        if exc.response is None or exc.response.status_code != 404:
+            raise
+        alias = DOI_ALIASES.get(doi_key)
+        if not alias:
+            raise
+        fields = fetch_with_retry(fetch_crossref, alias)
+        fields = {**fields, "link": url}
+    overrides = FIELD_OVERRIDES.get(str(fields.get("doi") or "").lower())
+    return {**fields, **overrides} if overrides else fields
+
+
+def postprocess_metadata(entry: Entry, fields: dict[str, Any], metadata: dict[str, Any]) -> dict[str, Any]:
+    _url, input_doi = entry
+    doi = str(fields.get("doi") or entry_doi(entry) or "").strip()
+    links_alt = list(metadata.get("links_alt") or [])
+    links_alt.extend(fields.get("links_alt") or [])
+    if doi and input_doi.lower() not in FALLBACK_RECORDS:
+        links_alt.append(f"https://doi.org/{doi}")
+    if input_doi != doi and input_doi.startswith("10."):
+        links_alt.append(f"https://dl.acm.org/doi/{input_doi}")
+    links_alt = list(dict.fromkeys(x for x in links_alt if x and x != metadata.get("link")))
+    return {**metadata, "links_alt": links_alt}

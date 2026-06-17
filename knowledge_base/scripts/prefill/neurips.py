@@ -16,8 +16,6 @@ from collections.abc import Callable
 from pathlib import Path
 from typing import Any
 
-from typing_extensions import override
-
 if __package__ in (None, ""):
     import sys
 
@@ -26,7 +24,7 @@ if __package__ in (None, ""):
 import requests
 
 from knowledge_base.utils.doi_utils import fetch_page_html
-from knowledge_base.utils.prefill_template import REPO_ROOT, PagePrefillScript
+from knowledge_base.utils.prefill_template import REPO_ROOT
 from knowledge_base.utils.prefill_utils import (
     clean_text,
     first_element_text,
@@ -165,48 +163,19 @@ def fetch_neurips_fields(year: str, paper_hash: str) -> dict[str, Any]:
     }
 
 
-class NeuripsPrefill(PagePrefillScript[tuple[str, str]]):
-    description = "Prefill metadata from NeurIPS/NIPS URLs."
-    default_input = DEFAULT_INPUT
-    entry_kind = "NeurIPS papers"
-
-    @override
-    def extract_entries(self, path: Path) -> list[tuple[str, str]]:
-        return extract_entries(path, self.record_parse_failure)
-
-    @override
-    def entry_label(self, entry: tuple[str, str]) -> str:
-        year, paper_hash = entry
-        return f"{year}/{paper_hash}"
-
-    @override
-    def source_key_for_token(self, token: str) -> str | None:
-        match = _ABSTRACT_RE.search(token) or _FILE_RE.search(token)
-        if not match:
-            return None
-        return self.normalize_source_key(f"{match.group(1)}/{match.group(2).lower()}")
-
-    @override
-    def fetch_fields(self, entry: tuple[str, str], context: dict[str, Any]) -> dict[str, Any]:
-        _ = context
-        year, paper_hash = entry
-        return fetch_neurips_fields(year, paper_hash)
-
-    @override
-    def skipped_list_message(
-        self,
-        entry: tuple[str, str],
-        fields: dict[str, Any] | None,
-        existing: Path,
-    ) -> str:
-        _ = fields
-        _year, paper_hash = entry
-        return f"{paper_hash}  {existing}"
+def entry_label(entry: tuple[str, str]) -> str:
+    year, paper_hash = entry
+    return f"{year}/{paper_hash}"
 
 
-def main() -> None:
-    NeuripsPrefill().run()
+def source_key_for_token(token: str) -> str | None:
+    match = _ABSTRACT_RE.search(token) or _FILE_RE.search(token)
+    if not match:
+        return None
+    return f"{match.group(1)}/{match.group(2).lower()}"
 
 
-if __name__ == "__main__":
-    main()
+def fetch_fields(entry: tuple[str, str], context: dict[str, Any]) -> dict[str, Any]:
+    _ = context
+    year, paper_hash = entry
+    return fetch_neurips_fields(year, paper_hash)

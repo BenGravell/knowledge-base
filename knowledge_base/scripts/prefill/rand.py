@@ -2,33 +2,15 @@
 
 from pathlib import Path
 
-from typing_extensions import override
-
 if __package__ in (None, ""):
     import sys
 
     sys.path.append(str(Path(__file__).resolve().parents[3]))
 
-from knowledge_base.utils.prefill_template import REPO_ROOT, CitationPagePrefillScript
+from knowledge_base.utils.prefill_template import REPO_ROOT
 
 DEFAULT_INPUT = REPO_ROOT / "todo" / "papers" / "RAND.md"
 
 
-class RandPrefill(CitationPagePrefillScript):
-    description = "Prefill metadata from RAND URLs."
-    default_input = DEFAULT_INPUT
-    source_fallback = "RAND Corporation"
-    type_fallback = "Technical Report"
-    source_hint = "RAND"
-
-    @override
-    def accept_url(self, url: str) -> bool:
-        return "rand.org/" in url
-
-
-def main() -> None:
-    RandPrefill().run()
-
-
-if __name__ == "__main__":
-    main()
+def accept_url(url: str) -> bool:
+    return "rand.org/" in url

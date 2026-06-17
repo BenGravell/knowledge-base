@@ -2,13 +2,7 @@
 
 ## ponytail
 
-
-yagni: source-specific prefill class farm and Template Method hierarchy. One table-driven `prefill SOURCE` runner; custom handlers only for weird publishers. [knowledge_base/scripts/prefill, knowledge_base/utils/prefill_template.py]
-
-delete: tracked generated Map blobs and embedding caches. Regenerate with `refresh_offline_data.py`/CI and publish only built artifacts. [knowledge_base/map]
-
 delete: Perfetto build timing subsystem. Print elapsed seconds per step; use `/usr/bin/time` when profiling. [knowledge_base/scripts/build_metrics.py, knowledge_base/scripts/open_build_trace.py, knowledge_base/scripts/refresh_offline_data.py]
-
 
 ## speedup offline data regen
 

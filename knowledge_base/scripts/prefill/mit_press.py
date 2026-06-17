@@ -4,14 +4,12 @@ import re
 from pathlib import Path
 from typing import Any
 
-from typing_extensions import override
-
 if __package__ in (None, ""):
     import sys
 
     sys.path.append(str(Path(__file__).resolve().parents[3]))
 
-from knowledge_base.utils.prefill_template import REPO_ROOT, UrlDoiPrefillScript
+from knowledge_base.utils.prefill_template import REPO_ROOT
 
 DEFAULT_INPUT = REPO_ROOT / "todo" / "papers" / "MIT_PRESS.md"
 
@@ -32,44 +30,29 @@ _KNOWN_DOIS_BY_ISBN = {
 }
 
 
-class MitPressPrefill(UrlDoiPrefillScript):
-    description = "Prefill metadata from MIT Press Direct URLs."
-    default_input = DEFAULT_INPUT
-    source_hint = "MIT Press"
-
-    @override
-    def accept_url(self, url: str) -> bool:
-        return "direct.mit.edu/" in url or "mitpress.mit.edu/" in url
-
-    @override
-    def entry_doi(self, entry: str) -> str | None:
-        match = _MIT_ARTICLE_DOI_RE.search(entry)
-        if match:
-            return match.group(1)
-        match = _MIT_ARTICLE_RE.search(entry)
-        if match:
-            key = match.groups()
-            if key in _KNOWN_DOIS_BY_KEY:
-                return _KNOWN_DOIS_BY_KEY[key]
-        match = _MIT_BOOK_RE.search(entry)
-        if match and match.group(1) in _KNOWN_DOIS_BY_BOOK_ID:
-            return _KNOWN_DOIS_BY_BOOK_ID[match.group(1)]
-        match = _MIT_LEGACY_BOOK_RE.search(entry)
-        if match and match.group(1) in _KNOWN_DOIS_BY_ISBN:
-            return _KNOWN_DOIS_BY_ISBN[match.group(1)]
-        return super().entry_doi(entry)
-
-    @override
-    def postprocess_crossref_data(self, entry: str, data: dict[str, Any]) -> dict[str, Any]:
-        data = super().postprocess_crossref_data(entry, data)
-        if _MIT_BOOK_RE.search(entry) or _MIT_LEGACY_BOOK_RE.search(entry):
-            data = {**data, "source": data.get("source") or "MIT Press", "type": "Book"}
-        return data
+def accept_url(url: str) -> bool:
+    return "direct.mit.edu/" in url or "mitpress.mit.edu/" in url
 
 
-def main() -> None:
-    MitPressPrefill().run()
+def entry_doi(entry: str) -> str | None:
+    match = _MIT_ARTICLE_DOI_RE.search(entry)
+    if match:
+        return match.group(1)
+    match = _MIT_ARTICLE_RE.search(entry)
+    if match:
+        key = match.groups()
+        if key in _KNOWN_DOIS_BY_KEY:
+            return _KNOWN_DOIS_BY_KEY[key]
+    match = _MIT_BOOK_RE.search(entry)
+    if match and match.group(1) in _KNOWN_DOIS_BY_BOOK_ID:
+        return _KNOWN_DOIS_BY_BOOK_ID[match.group(1)]
+    match = _MIT_LEGACY_BOOK_RE.search(entry)
+    if match and match.group(1) in _KNOWN_DOIS_BY_ISBN:
+        return _KNOWN_DOIS_BY_ISBN[match.group(1)]
+    return None
 
 
-if __name__ == "__main__":
-    main()
+def postprocess_crossref_data(entry: str, data: dict[str, Any]) -> dict[str, Any]:
+    if _MIT_BOOK_RE.search(entry) or _MIT_LEGACY_BOOK_RE.search(entry):
+        return {**data, "source": data.get("source") or "MIT Press", "type": "Book"}
+    return data

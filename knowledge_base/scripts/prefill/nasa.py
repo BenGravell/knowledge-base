@@ -5,8 +5,6 @@ from collections.abc import Callable
 from pathlib import Path
 from typing import Any
 
-from typing_extensions import override
-
 if __package__ in (None, ""):
     import sys
 
@@ -14,7 +12,7 @@ if __package__ in (None, ""):
 
 import requests
 
-from knowledge_base.utils.prefill_template import REPO_ROOT, PagePrefillScript
+from knowledge_base.utils.prefill_template import REPO_ROOT
 from knowledge_base.utils.prefill_utils import first_year, read_url_lines
 
 DEFAULT_INPUT = REPO_ROOT / "todo" / "papers" / "NASA.md"
@@ -101,33 +99,15 @@ def fetch_nasa_fields(citation_id: str) -> dict[str, Any]:
     }
 
 
-class NasaPrefill(PagePrefillScript[str]):
-    description = "Prefill metadata from NASA NTRS URLs."
-    default_input = DEFAULT_INPUT
-    entry_kind = "NASA NTRS citations"
-
-    @override
-    def extract_entries(self, path: Path) -> list[str]:
-        return extract_entries(path, self.record_parse_failure)
-
-    @override
-    def source_key_for_entry(self, entry: str) -> str | None:
-        return self.normalize_source_key(entry)
-
-    @override
-    def source_key_for_token(self, token: str) -> str | None:
-        match = _NTRS_ID_RE.search(token)
-        return self.normalize_source_key(match.group(1)) if match else None
-
-    @override
-    def fetch_fields(self, entry: str, context: dict[str, Any]) -> dict[str, Any]:
-        _ = context
-        return fetch_nasa_fields(entry)
+def source_key_for_entry(entry: str) -> str | None:
+    return entry
 
 
-def main() -> None:
-    NasaPrefill().run()
+def source_key_for_token(token: str) -> str | None:
+    match = _NTRS_ID_RE.search(token)
+    return match.group(1) if match else None
 
 
-if __name__ == "__main__":
-    main()
+def fetch_fields(entry: str, context: dict[str, Any]) -> dict[str, Any]:
+    _ = context
+    return fetch_nasa_fields(entry)

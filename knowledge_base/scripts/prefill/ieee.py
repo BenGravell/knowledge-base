@@ -20,8 +20,6 @@ import re
 from collections.abc import Callable
 from pathlib import Path
 
-from typing_extensions import override
-
 if __package__ in (None, ""):
     import sys
 
@@ -31,7 +29,7 @@ from knowledge_base.utils.doi_utils import (
     fetch_page_html,
     scrape_doi_from_html,
 )
-from knowledge_base.utils.prefill_template import REPO_ROOT, DoiPrefillScript
+from knowledge_base.utils.prefill_template import REPO_ROOT
 from knowledge_base.utils.prefill_utils import read_url_lines
 
 DEFAULT_INPUT = REPO_ROOT / "todo" / "papers" / "IEEE.md"
@@ -102,36 +100,20 @@ def fetch_ieee_doi(article_id: str) -> str:
     return scrape_doi_from_html(html)
 
 
-class IeeePrefill(DoiPrefillScript[tuple[str, str]]):
-    description = "Prefill metadata from IEEE Xplore URLs."
-    default_input = DEFAULT_INPUT
-    entry_kind = "IEEE articles"
-    fetch_error_label = "fetching metadata"
-    show_resolved_doi = True
-
-    @override
-    def extract_entries(self, path: Path) -> list[tuple[str, str]]:
-        return extract_articles(path, self.record_parse_failure)
-
-    @override
-    def entry_label(self, entry: tuple[str, str]) -> str:
-        _url, article_id = entry
-        return article_id
-
-    @override
-    def source_key_for_token(self, token: str) -> str | None:
-        match = _IEEE_ARTICLE_RE.search(token)
-        return self.normalize_source_key(match.group(1)) if match else None
-
-    @override
-    def resolve_doi(self, entry: tuple[str, str]) -> str:
-        _url, article_id = entry
-        return fetch_ieee_doi(article_id)
+def extract_entries(path: Path, on_parse_failure: Callable[[str], None] | None = None) -> list[tuple[str, str]]:
+    return extract_articles(path, on_parse_failure)
 
 
-def main() -> None:
-    IeeePrefill().run()
+def entry_label(entry: tuple[str, str]) -> str:
+    _url, article_id = entry
+    return article_id
 
 
-if __name__ == "__main__":
-    main()
+def source_key_for_token(token: str) -> str | None:
+    match = _IEEE_ARTICLE_RE.search(token)
+    return match.group(1) if match else None
+
+
+def resolve_doi(entry: tuple[str, str]) -> str:
+    _url, article_id = entry
+    return fetch_ieee_doi(article_id)

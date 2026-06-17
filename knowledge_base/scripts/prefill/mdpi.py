@@ -3,14 +3,12 @@
 import re
 from pathlib import Path
 
-from typing_extensions import override
-
 if __package__ in (None, ""):
     import sys
 
     sys.path.append(str(Path(__file__).resolve().parents[3]))
 
-from knowledge_base.utils.prefill_template import REPO_ROOT, UrlDoiPrefillScript
+from knowledge_base.utils.prefill_template import REPO_ROOT
 
 DEFAULT_INPUT = REPO_ROOT / "todo" / "papers" / "MDPI.md"
 
@@ -22,30 +20,16 @@ _JOURNAL_BY_ISSN = {
 }
 
 
-class MdpiPrefill(UrlDoiPrefillScript):
-    description = "Prefill metadata from MDPI URLs."
-    default_input = DEFAULT_INPUT
-    source_hint = "MDPI"
-
-    @override
-    def accept_url(self, url: str) -> bool:
-        return "mdpi.com/" in url
-
-    @override
-    def entry_doi(self, entry: str) -> str | None:
-        match = _MDPI_ARTICLE_RE.search(entry)
-        if match and match.group("issn") in _JOURNAL_BY_ISSN:
-            journal = _JOURNAL_BY_ISSN[match.group("issn")]
-            volume = int(match.group("volume"))
-            issue = int(match.group("issue"))
-            article = int(match.group("article"))
-            return f"10.3390/{journal}{volume}{issue:02d}{article:04d}"
-        return super().entry_doi(entry)
+def accept_url(url: str) -> bool:
+    return "mdpi.com/" in url
 
 
-def main() -> None:
-    MdpiPrefill().run()
-
-
-if __name__ == "__main__":
-    main()
+def entry_doi(entry: str) -> str | None:
+    match = _MDPI_ARTICLE_RE.search(entry)
+    if match and match.group("issn") in _JOURNAL_BY_ISSN:
+        journal = _JOURNAL_BY_ISSN[match.group("issn")]
+        volume = int(match.group("volume"))
+        issue = int(match.group("issue"))
+        article = int(match.group("article"))
+        return f"10.3390/{journal}{volume}{issue:02d}{article:04d}"
+    return None
