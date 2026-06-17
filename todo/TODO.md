@@ -1,5 +1,11 @@
 # TODO
 
+/improve-codebase-architecture
+
+file:///tmp/architecture-review-20260616-164100.html
+
+Deepen Metadata Audit Rules
+
 ## Search
 
 make search hits on arxiv id and doi work for metadata search
