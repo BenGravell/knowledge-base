@@ -13,16 +13,13 @@ ar5iv/arXiv-HTML → Markdown via Pandoc as the primary path, falling back to Ma
 
 DO NOT store images or any other rich content that would blow up storage size.
 
-
 ## remove unused apps, scripts, etc
 
 knowledge_base/apps
 
-
 ## perf
 
-Tree and Timeline pages need major performance increase for handling large number of items. 
-
+Tree and Timeline pages need major performance increase for handling large number of items.
 
 ## Search
 
