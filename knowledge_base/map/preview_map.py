@@ -13,8 +13,6 @@ Usage:
 
 import argparse
 import colorsys
-import json
-import re
 import sys
 import tempfile
 import threading
@@ -24,7 +22,9 @@ from typing import Any
 
 from typing_extensions import override
 
-DATA_FILE = Path(__file__).parent / "map-data.js"
+from knowledge_base.generated_assets import MAP_DATA
+
+DATA_FILE = Path(__file__).parent / MAP_DATA.name
 
 UNCATEGORIZED_CATEGORY = "Uncategorized"
 UNCATEGORIZED_CATEGORIES = {UNCATEGORIZED_CATEGORY, "Other", None, ""}
@@ -42,11 +42,7 @@ NODE_MARKER_DIAMETER = 7
 
 
 def load_data() -> dict[str, Any]:
-    text = DATA_FILE.read_text(encoding="utf-8").strip()
-    # Strip JS wrapper: const mapData = {...};
-    text = re.sub(r"^const\s+mapData\s*=\s*", "", text)
-    text = text.rstrip(";").rstrip()
-    return json.loads(text)
+    return MAP_DATA.loads_js_assignment(DATA_FILE.read_text(encoding="utf-8"))
 
 
 def is_uncategorized(category: str | None) -> bool:

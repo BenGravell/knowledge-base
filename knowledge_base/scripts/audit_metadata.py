@@ -29,6 +29,11 @@ from knowledge_base.config import (
     VALID_FIELDS,
     VALID_TYPES,
 )
+from knowledge_base.generated_assets import (
+    MAP_DATA,
+    SEMANTIC_SEARCH_INDEX,
+    SEMANTIC_SEARCH_SETTINGS,
+)
 from knowledge_base.utils.normalization_db import (
     build_index,
     dump_yaml,
@@ -3903,9 +3908,6 @@ def audit_file(
 # ---------------------------------------------------------------------------
 
 
-_MAP_DATA_DECL_RE = re.compile(r"^\s*const\s+mapData\s*=\s*(?P<json>.*?);\s*$", re.S)
-
-
 def _format_id_examples(ids: set[str] | list[str], limit: int = 8) -> str:
     ordered = sorted(ids)
     examples = ", ".join(ordered[:limit])
@@ -3933,16 +3935,12 @@ def _load_map_data_js(path: Path) -> tuple[dict[str, Any] | None, str | None]:
     except OSError as exc:
         return None, f"Could not read file: {exc}"
 
-    match = _MAP_DATA_DECL_RE.match(raw)
-    if not match:
-        return None, "Expected JavaScript assignment like 'const mapData={...};'"
-
     try:
-        data = json.loads(match.group("json"))
+        data = MAP_DATA.loads_js_assignment(raw)
     except json.JSONDecodeError as exc:
         return None, f"mapData JSON parse error: {exc}"
-    if not isinstance(data, dict):
-        return None, "mapData root is not an object"
+    except ValueError:
+        return None, "Expected JavaScript assignment like 'const mapData={...};'"
     return data, None
 
 
@@ -3970,7 +3968,7 @@ def _canonical_metadata_ids(targets: list[Path], kb_root: Path) -> tuple[dict[st
         path_list = ", ".join(str(path) for path in paths)
         issues.append(
             Issue(
-                kb_root / "map" / "map-data.js",
+                kb_root / "map" / MAP_DATA.name,
                 CHECK_PATH,
                 f"Canonical metadata ID {paper_id!r} is produced by multiple metadata files: {path_list}",
             )
@@ -4035,7 +4033,7 @@ def audit_map_data_paths(
     for issue in setup_issues:
         grouped.setdefault(issue.path, []).append(issue)
 
-    map_data_path = kb_root / "map" / "map-data.js"
+    map_data_path = kb_root / "map" / MAP_DATA.name
     map_data, error = _load_map_data_js(map_data_path)
     if error:
         grouped.setdefault(map_data_path, []).append(Issue(map_data_path, CHECK_PATH, error))
@@ -4209,7 +4207,7 @@ def audit_map_data_paths(
             Issue(cache_path, CHECK_PATH, "embedding_cache.json root is not an object")
         )
 
-    semantic_index_path = kb_root / "semantic_search" / "semantic-search-index.json"
+    semantic_index_path = kb_root / "semantic_search" / SEMANTIC_SEARCH_INDEX.name
     semantic_index, error = _load_json_file(semantic_index_path)
     semantic_ids: list[str] = []
     if error:
@@ -4315,7 +4313,7 @@ def audit_map_data_paths(
                     )
                 )
 
-        settings_path = semantic_index_path.with_name("semantic-search-settings.json")
+        settings_path = semantic_index_path.with_name(SEMANTIC_SEARCH_SETTINGS.name)
         settings, settings_error = _load_json_file(settings_path)
         if settings_error:
             grouped.setdefault(settings_path, []).append(Issue(settings_path, CHECK_PATH, settings_error))

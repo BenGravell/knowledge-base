@@ -1,5 +1,4 @@
 import html
-import json
 import re
 from collections import defaultdict
 from pathlib import Path
@@ -11,6 +10,7 @@ import yaml
 from jinja2 import Environment
 
 from knowledge_base.catalog import Entry
+from knowledge_base.generated_assets import SEARCH_DATA, SITE_LINK_DATA, TAG_SEARCH_DATA
 from knowledge_base.utils.arxiv_utils import (
     arxiv_abs_url,
     arxiv_html_url,
@@ -603,13 +603,9 @@ for entry in paper_entries:
     #     f_disk.write(paper_template.render(**data))
 
 search_data = build_tag_search_data(paper_records)
-with mkdocs_gen_files.open("javascripts/site-link-data.js", "w") as out:
-    out.write("window.kbSiteLinkData = ")
-    out.write(json.dumps(site_link_data(), indent=2, ensure_ascii=False))
-    out.write(";\n")
+with mkdocs_gen_files.open(SITE_LINK_DATA.published_path, "w") as out:
+    out.write(SITE_LINK_DATA.js_assignment(site_link_data(), indent=2))
 
-for asset_name in ("search-data.js", "tag-search-data.js"):
-    with mkdocs_gen_files.open(f"javascripts/{asset_name}", "w") as out:
-        out.write("window.tagSearchData = ")
-        out.write(json.dumps(search_data, indent=2, ensure_ascii=False))
-        out.write(";\n")
+for asset in (SEARCH_DATA, TAG_SEARCH_DATA):
+    with mkdocs_gen_files.open(asset.published_path, "w") as out:
+        out.write(asset.js_assignment(search_data, indent=2))

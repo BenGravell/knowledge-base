@@ -19,34 +19,27 @@ that the page loads without a JS error and shows a helpful message instead.
 from __future__ import annotations
 
 import json
-import re
 from pathlib import Path
 
 import mkdocs_gen_files
 
 from knowledge_base.catalog import Catalog
+from knowledge_base.generated_assets import MAP_DATA, MAP_PLACEHOLDER_PAYLOAD, MAP_SIMILARITY
 
 MAP_DIR = Path(__file__).resolve().parent
 KB_DIR = MAP_DIR.parent
 METADATA_ROOT = KB_DIR / "docs" / "papers"
-MAP_DATA_RE = re.compile(r"^\s*const\s+mapData\s*=\s*(.*);\s*$", re.S)
 
-PLACEHOLDER_DATA = (
-    'const mapData = {nodes:[], similarity:{scale:1, ids:[], file:"map-similarity.i16", dtype:"int16", shape:[0,0]}, meta:{model:"none", total_papers:0}};\n'
-)
+PLACEHOLDER_DATA = MAP_DATA.js_assignment(MAP_PLACEHOLDER_PAYLOAD, separators=(",", ":"))
 
 
 def load_map_data(content: str) -> dict[str, object]:
-    match = MAP_DATA_RE.match(content)
-    if not match:
-        raise RuntimeError("map/map-data.js is malformed; run python map/generate_map_data.py")
     try:
-        data = json.loads(match.group(1))
+        return MAP_DATA.loads_js_assignment(content)
     except json.JSONDecodeError as exc:
         raise RuntimeError("map/map-data.js is not valid JSON; run python map/generate_map_data.py") from exc
-    if not isinstance(data, dict):
-        raise RuntimeError("map/map-data.js must contain an object; run python map/generate_map_data.py")
-    return data
+    except ValueError as exc:
+        raise RuntimeError("map/map-data.js is malformed; run python map/generate_map_data.py") from exc
 
 
 def validate_similarity_sidecar(map_data: dict[str, object]) -> tuple[str, Path]:
@@ -104,9 +97,9 @@ def validate_current_papers(map_data: dict[str, object]) -> None:
         raise RuntimeError(f"map/map-data.js is stale for current metadata{reason}; run python map/generate_map_data.py")
 
 
-map_data_src = MAP_DIR / "map-data.js"
+map_data_src = MAP_DIR / MAP_DATA.name
 map_data_content = PLACEHOLDER_DATA
-similarity_name = "map-similarity.i16"
+similarity_name = MAP_SIMILARITY.name
 similarity = MAP_DIR / similarity_name
 if map_data_src.exists():
     map_data_content = map_data_src.read_text(encoding="utf-8")
@@ -116,7 +109,7 @@ if map_data_src.exists():
 
 text_assets = {
     "map.js": MAP_DIR / "map.js",
-    "map-data.js": map_data_content,
+    MAP_DATA.name: map_data_content,
 }
 
 for fname, source in text_assets.items():

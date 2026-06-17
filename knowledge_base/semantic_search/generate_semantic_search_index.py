@@ -19,22 +19,29 @@ from fastembed import TextEmbedding
 
 from knowledge_base.catalog import Catalog
 from knowledge_base.embedding_workbench import EmbeddingRow, refresh_embedding_cache
+from knowledge_base.generated_assets import (
+    SEMANTIC_BROWSER_MODEL,
+    SEMANTIC_SCORE_THRESHOLD,
+    SEMANTIC_SEARCH_INDEX,
+    SEMANTIC_SEARCH_SETTINGS,
+    SEMANTIC_SEARCH_VECTORS,
+)
 
 KB_DIR = Path(__file__).resolve().parents[1]
 DOCS_DIR = KB_DIR / "docs"
 METADATA_ROOT = DOCS_DIR / "papers"
 OUT_DIR = KB_DIR / "semantic_search"
 DEFAULT_MODEL = "sentence-transformers/all-MiniLM-L6-v2"
-DEFAULT_BROWSER_MODEL = "Xenova/all-MiniLM-L6-v2"
+DEFAULT_BROWSER_MODEL = SEMANTIC_BROWSER_MODEL
 DEFAULT_CACHE = OUT_DIR / "embedding_cache.json"
-DEFAULT_MANIFEST = OUT_DIR / "semantic-search-index.json"
-DEFAULT_SETTINGS = OUT_DIR / "semantic-search-settings.json"
-DEFAULT_VECTORS = OUT_DIR / "semantic-search-vectors.i8"
+DEFAULT_MANIFEST = OUT_DIR / SEMANTIC_SEARCH_INDEX.name
+DEFAULT_SETTINGS = OUT_DIR / SEMANTIC_SEARCH_SETTINGS.name
+DEFAULT_VECTORS = OUT_DIR / SEMANTIC_SEARCH_VECTORS.name
 QUANTIZATION_SCALE = 127
 THRESHOLD_GRID_STEP = 0.01
 THRESHOLD_ROUNDING_STEP = 0.05
 THRESHOLD_TARGET_RECALL = 0.85
-DEFAULT_SCORE_THRESHOLD = 0.25
+DEFAULT_SCORE_THRESHOLD = SEMANTIC_SCORE_THRESHOLD
 
 
 def clean_scalar(value: object) -> str:

@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-import json
 import re
 from collections import Counter
 from pathlib import Path
@@ -17,20 +16,21 @@ from scipy.spatial.distance import pdist
 from sklearn.preprocessing import normalize
 
 from knowledge_base.embedding_workbench import load_embedding_table
+from knowledge_base.generated_assets import MAP_DATA as MAP_DATA_ASSET
 
 APP_DIR = Path(__file__).resolve().parent
 KB_DIR = APP_DIR.parent
 MAP_DIR = KB_DIR / "map"
-MAP_DATA = MAP_DIR / "map-data.js"
+MAP_DATA = MAP_DIR / MAP_DATA_ASSET.name
 EMBEDDING_CACHE = MAP_DIR / "embedding_cache.json"
 
 
 def _read_map_json(path: Path) -> dict[str, Any]:
     text = path.read_text(encoding="utf-8")
-    match = re.search(r"const\s+mapData\s*=\s*(\{.*\})\s*;?\s*$", text, re.S)
-    if not match:
-        raise ValueError(f"Could not find `const mapData = ...` in {path}")
-    return json.loads(match.group(1))
+    try:
+        return MAP_DATA_ASSET.loads_js_assignment(text)
+    except ValueError as exc:
+        raise ValueError(f"Could not find `const mapData = ...` in {path}") from exc
 
 
 @st.cache_data(show_spinner="Loading map data...")

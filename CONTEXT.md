@@ -56,3 +56,11 @@ It owns cache loading, cache shape normalization, model-change rebuilds, stale p
 Map layout, Semantic Search vector output, browser settings, and generated asset publication remain adapter-specific projections.
 
 _Avoid_: map cache helper, semantic search cache helper, embedding script glue
+
+### Generated Asset Contract
+
+Canonical in-process contract for generated static-site asset names, published
+paths, browser globals, and empty placeholder payloads shared by MkDocs
+gen-files producers and browser adapters.
+
+_Avoid_: JS filename strings, generated file glue, copy-script constants

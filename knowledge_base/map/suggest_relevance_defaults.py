@@ -20,9 +20,7 @@ Usage:
 from __future__ import annotations
 
 import argparse
-import json
 import math
-import re
 from collections.abc import Sequence
 from dataclasses import dataclass
 from pathlib import Path
@@ -30,7 +28,9 @@ from typing import Any
 
 import numpy as np
 
-DATA_FILE = Path(__file__).with_name("map-data.js")
+from knowledge_base.generated_assets import MAP_DATA
+
+DATA_FILE = Path(__file__).with_name(MAP_DATA.name)
 SEMANTIC_MIN = 0.0
 SEMANTIC_MAX = 1.0
 SEMANTIC_STEP = 0.01
@@ -65,13 +65,10 @@ class Candidate:
 
 
 def load_data(path: Path) -> dict[str, Any]:
-    text = path.read_text(encoding="utf-8").strip()
-    text = re.sub(r"^const\s+mapData\s*=\s*", "", text)
-    text = text.rstrip(";").rstrip()
-    data = json.loads(text)
-    if not isinstance(data, dict):
-        raise ValueError(f"{path} did not contain a mapData object")
-    return data
+    try:
+        return MAP_DATA.loads_js_assignment(path.read_text(encoding="utf-8"))
+    except ValueError as exc:
+        raise ValueError(f"{path} did not contain a mapData object") from exc
 
 
 def load_similarity_rows(data: dict[str, Any], *, data_path: Path = DATA_FILE) -> np.ndarray:

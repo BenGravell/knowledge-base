@@ -8,31 +8,31 @@ from pathlib import Path
 import mkdocs_gen_files
 
 from knowledge_base.catalog import Catalog
+from knowledge_base.generated_assets import (
+    SEMANTIC_SEARCH_INDEX,
+    SEMANTIC_SEARCH_PLACEHOLDER_MANIFEST,
+    SEMANTIC_SEARCH_PLACEHOLDER_SETTINGS,
+    SEMANTIC_SEARCH_SETTINGS,
+    SEMANTIC_SEARCH_VECTORS,
+)
 
 ASSET_DIR = Path(__file__).resolve().parent
 KB_DIR = ASSET_DIR.parent
 METADATA_ROOT = KB_DIR / "docs" / "papers"
 
-PLACEHOLDER_MANIFEST = (
-    '{"model":"none","browserModel":"Xenova/all-MiniLM-L6-v2",'
-    '"dimension":0,"count":0,"vectors":"semantic-search-vectors.i8",'
-    '"quantization":{"type":"int8","scale":127,"normalized":true},'
-    '"scoreThreshold":0.25,'
-    '"scoreThresholdCalibration":{"method":"shared-tag-proxy","status":"placeholder"},'
-    '"papers":[]}'
-)
-
 TEXT_ASSETS = {
-    "semantic-search-index.json": PLACEHOLDER_MANIFEST,
-    "semantic-search-settings.json": (
-        '{"model":"none","browserModel":"Xenova/all-MiniLM-L6-v2","count":0,'
-        '"scoreThreshold":0.25,'
-        '"scoreThresholdCalibration":{"method":"shared-tag-proxy","status":"placeholder"}}'
+    SEMANTIC_SEARCH_INDEX.name: SEMANTIC_SEARCH_INDEX.dumps(
+        SEMANTIC_SEARCH_PLACEHOLDER_MANIFEST,
+        separators=(",", ":"),
+    ),
+    SEMANTIC_SEARCH_SETTINGS.name: SEMANTIC_SEARCH_SETTINGS.dumps(
+        SEMANTIC_SEARCH_PLACEHOLDER_SETTINGS,
+        separators=(",", ":"),
     ),
 }
 
 BINARY_ASSETS = {
-    "semantic-search-vectors.i8": b"",
+    SEMANTIC_SEARCH_VECTORS.name: b"",
 }
 
 
@@ -47,9 +47,10 @@ def read_json(path: Path) -> dict[str, object]:
 
 
 def validate_semantic_assets() -> tuple[dict[str, str], dict[str, bytes]]:
-    manifest_path = ASSET_DIR / "semantic-search-index.json"
-    settings_path = ASSET_DIR / "semantic-search-settings.json"
-    vector_candidates = [path for path in ASSET_DIR.glob("semantic-search-vectors*.i8") if path.is_file()]
+    manifest_path = ASSET_DIR / SEMANTIC_SEARCH_INDEX.name
+    settings_path = ASSET_DIR / SEMANTIC_SEARCH_SETTINGS.name
+    vector_stem = SEMANTIC_SEARCH_VECTORS.name.removesuffix(".i8")
+    vector_candidates = [path for path in ASSET_DIR.glob(f"{vector_stem}*.i8") if path.is_file()]
 
     if not manifest_path.exists():
         if settings_path.exists() or any(path.stat().st_size for path in vector_candidates):
@@ -125,8 +126,8 @@ def validate_semantic_assets() -> tuple[dict[str, str], dict[str, bytes]]:
 
     return (
         {
-            "semantic-search-index.json": manifest_path.read_text(encoding="utf-8"),
-            "semantic-search-settings.json": settings_path.read_text(encoding="utf-8"),
+            SEMANTIC_SEARCH_INDEX.name: manifest_path.read_text(encoding="utf-8"),
+            SEMANTIC_SEARCH_SETTINGS.name: settings_path.read_text(encoding="utf-8"),
         },
         {vector_name: vector_path.read_bytes() if vector_path.exists() else b""},
     )

@@ -113,6 +113,7 @@ from knowledge_base.embedding_workbench import (
     refresh_embedding_cache,
     save_embedding_cache,
 )
+from knowledge_base.generated_assets import MAP_DATA, MAP_SIMILARITY
 from knowledge_base.tree.model import (
     TreeModel,
 )
@@ -135,8 +136,8 @@ DOCS_DIR = KB_DIR / "docs"
 METADATA_ROOT = DOCS_DIR / "papers"
 MKDOCS_YML = KB_DIR / "mkdocs.yml"
 DEFAULT_CACHE = MAP_DIR / "embedding_cache.json"
-DEFAULT_OUTPUT = MAP_DIR / "map-data.js"
-DEFAULT_SIMILARITY_OUTPUT = MAP_DIR / "map-similarity.i16"
+DEFAULT_OUTPUT = MAP_DIR / MAP_DATA.name
+DEFAULT_SIMILARITY_OUTPUT = MAP_DIR / MAP_SIMILARITY.name
 
 DEFAULT_UMAP_SCALE = 1500.0  # Base UMAP coordinate extent; formerly 1000 px.
 SIMILARITY_EXPORT_SCALE = 1000  # Store cosine similarities as compact rounded integers.
@@ -1652,7 +1653,7 @@ def main() -> None:
     }
 
     args.output.parent.mkdir(parents=True, exist_ok=True)
-    js = f"const mapData={json.dumps(graph_data, ensure_ascii=False, separators=(',', ':'))};\n"
+    js = MAP_DATA.js_assignment(graph_data, separators=(",", ":"))
     write_text_atomic(args.output, js)
     cache["mapData"] = {
         "key": map_artifact_key,

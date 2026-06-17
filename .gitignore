@@ -7,6 +7,9 @@ knowledge_base/site/
 # Local build timing history and trace files.
 knowledge_base/.build-metrics/
 
+# Local tool bundles such as a pinned Perfetto UI build.
+knowledge_base/.tools/
+
 # Interrupted atomic writes from generated-data tooling.
 knowledge_base/map/.*.tmp
 knowledge_base/semantic_search/.*.tmp

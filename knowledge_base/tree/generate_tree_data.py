@@ -20,6 +20,7 @@ import mkdocs_gen_files
 import yaml
 
 from knowledge_base.catalog import Catalog
+from knowledge_base.generated_assets import ANALYTICS_DATA, TIMELINE_DATA, TREE_DATA
 from knowledge_base.tree.model import (
     TreeBranch,
     TreeChild,
@@ -255,10 +256,8 @@ data = {
     },
 }
 
-with mkdocs_gen_files.open("javascripts/tree-data.js", "w") as out:
-    out.write("window.treeData = ")
-    out.write(json.dumps(data, indent=2, ensure_ascii=False))
-    out.write(";\n")
+with mkdocs_gen_files.open(TREE_DATA.published_path, "w") as out:
+    out.write(TREE_DATA.js_assignment(data, indent=2))
 
 
 def build_timeline_nav_index(model: TreeModel) -> dict[str, dict[str, Any]]:
@@ -1129,10 +1128,8 @@ with mkdocs_gen_files.open("stylesheets/analytics.css", "w") as out:
     out.write(ANALYTICS_HOME_CSS)
     out.write("\n")
 
-with mkdocs_gen_files.open("javascripts/analytics-data.js", "w") as out:
-    out.write("window.analyticsData = ")
-    out.write(json.dumps(analytics_data, indent=2, ensure_ascii=False))
-    out.write(";\n")
+with mkdocs_gen_files.open(ANALYTICS_DATA.published_path, "w") as out:
+    out.write(ANALYTICS_DATA.js_assignment(analytics_data, indent=2))
 
 with mkdocs_gen_files.open("javascripts/analytics.js", "w") as out:
     analytics_js = ANALYTICS_JS.replace(
@@ -1149,10 +1146,8 @@ with mkdocs_gen_files.open("javascripts/analytics.js", "w") as out:
 with mkdocs_gen_files.open("timeline.md", "w") as out:
     out.write(TIMELINE_PAGE)
 
-with mkdocs_gen_files.open("javascripts/timeline-data.js", "w") as out:
-    out.write("window.timelineData = ")
-    out.write(json.dumps(timeline_data, indent=2, ensure_ascii=False))
-    out.write(";\n")
+with mkdocs_gen_files.open(TIMELINE_DATA.published_path, "w") as out:
+    out.write(TIMELINE_DATA.js_assignment(timeline_data, indent=2))
 
 with mkdocs_gen_files.open("javascripts/timeline.js", "w") as out:
     out.write(TIMELINE_JS)

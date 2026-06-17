@@ -10,7 +10,7 @@ from pathlib import Path
 from unittest.mock import patch
 
 from knowledge_base.scripts.build_metrics import DEFAULT_METRICS_DIR, StepTiming, write_build_metrics
-from knowledge_base.scripts.open_build_trace import main as open_build_trace_main
+from knowledge_base.scripts.open_build_trace import opener_html, main as open_build_trace_main
 from knowledge_base.scripts.refresh_offline_data import should_write_metrics
 
 
@@ -59,6 +59,19 @@ class RefreshOfflineDataMetricsTests(unittest.TestCase):
             missing = Path(tmp) / "missing.trace.json"
             with patch("sys.argv", ["open_build_trace.py", str(missing)]):
                 self.assertEqual(open_build_trace_main(), 1)
+
+    def test_open_build_trace_requires_local_perfetto_ui(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            trace = Path(tmp) / "example.trace.json"
+            trace.write_text("{}", encoding="utf-8")
+            with patch("sys.argv", ["open_build_trace.py", str(trace), "--perfetto-ui-dir", str(Path(tmp) / "missing")]):
+                self.assertEqual(open_build_trace_main(), 1)
+
+    def test_open_build_trace_uses_local_perfetto_ui(self) -> None:
+        html = opener_html(Path("example.trace.json"))
+
+        self.assertIn('src="/#!/?mode=embedded"', html)
+        self.assertNotIn("ui.perfetto.dev", html)
 
 
 if __name__ == "__main__":
