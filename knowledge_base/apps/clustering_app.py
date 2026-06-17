@@ -16,6 +16,8 @@ from scipy.cluster.hierarchy import fcluster, linkage
 from scipy.spatial.distance import pdist
 from sklearn.preprocessing import normalize
 
+from knowledge_base.embedding_workbench import load_embedding_table
+
 APP_DIR = Path(__file__).resolve().parent
 KB_DIR = APP_DIR.parent
 MAP_DIR = KB_DIR / "map"
@@ -34,11 +36,8 @@ def _read_map_json(path: Path) -> dict[str, Any]:
 @st.cache_data(show_spinner="Loading map data...")
 def load_map() -> tuple[pd.DataFrame, np.ndarray, str]:
     map_data = _read_map_json(MAP_DATA)
-    cache = json.loads(EMBEDDING_CACHE.read_text(encoding="utf-8"))
-
-    embedding_by_id = {
-        paper_id: paper["embedding"] for paper_id, paper in cache.get("papers", {}).items() if paper.get("embedding")
-    }
+    table = load_embedding_table(EMBEDDING_CACHE, mmap_mode="r")
+    embedding_by_id = table.by_id()
 
     rows: list[dict[str, Any]] = []
     embeddings: list[Any] = []
@@ -77,7 +76,7 @@ def load_map() -> tuple[pd.DataFrame, np.ndarray, str]:
 
     df = pd.DataFrame(rows)
     matrix = normalize(np.asarray(embeddings, dtype=np.float32))
-    return df, matrix, cache.get("model", "unknown")
+    return df, matrix, table.model or "unknown"
 
 
 @st.cache_data(show_spinner="Clustering embeddings...")

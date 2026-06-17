@@ -190,6 +190,18 @@ def best_thresholds_for_shared_tags(matrix: np.ndarray, papers: list[dict[str, A
     }
 
 
+def write_text_atomic(path: Path, content: str) -> None:
+    tmp = path.with_name(f".{path.name}.tmp")
+    tmp.write_text(content, encoding="utf-8")
+    tmp.replace(path)
+
+
+def write_bytes_atomic(path: Path, content: bytes) -> None:
+    tmp = path.with_name(f".{path.name}.tmp")
+    tmp.write_bytes(content)
+    tmp.replace(path)
+
+
 def generate(args: argparse.Namespace) -> None:
     papers = load_papers()
     print(f"Found {len(papers)} papers")
@@ -253,9 +265,12 @@ def generate(args: argparse.Namespace) -> None:
         "papers": paper_records,
     }
 
-    args.manifest.parent.mkdir(parents=True, exist_ok=True)
-    args.manifest.write_text(json.dumps(manifest, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
-    args.settings.write_text(
+    for path in (args.manifest, args.settings, args.vectors):
+        path.parent.mkdir(parents=True, exist_ok=True)
+
+    write_bytes_atomic(args.vectors, quantized.tobytes(order="C"))
+    write_text_atomic(
+        args.settings,
         json.dumps(
             {
                 "model": args.model,
@@ -266,9 +281,8 @@ def generate(args: argparse.Namespace) -> None:
             ensure_ascii=False,
             separators=(",", ":"),
         ),
-        encoding="utf-8",
     )
-    args.vectors.write_bytes(quantized.tobytes(order="C"))
+    write_text_atomic(args.manifest, json.dumps(manifest, ensure_ascii=False, separators=(",", ":")))
 
     print(f"Manifest: {args.manifest} ({args.manifest.stat().st_size // 1024} KB)")
     print(f"Settings: {args.settings} ({args.settings.stat().st_size} bytes)")

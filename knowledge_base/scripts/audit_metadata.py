@@ -3986,6 +3986,7 @@ def _audit_id_set(
     actual_ids: set[str],
     expected_ids: set[str],
     report_stale: bool,
+    suggestion: str = "Regenerate map data, or run --fix after a metadata path change.",
 ) -> list[Issue]:
     issues: list[Issue] = []
     missing = expected_ids - actual_ids
@@ -3995,7 +3996,7 @@ def _audit_id_set(
                 path,
                 CHECK_PATH,
                 f"{label} missing {len(missing)} metadata-backed paper ID(s): {_format_id_examples(missing)}",
-                "Regenerate map data, or run --fix after a metadata path change.",
+                suggestion,
             )
         )
 
@@ -4006,7 +4007,7 @@ def _audit_id_set(
                 path,
                 CHECK_PATH,
                 f"{label} contains {len(stale)} stale paper ID(s) with no metadata.yml: {_format_id_examples(stale)}",
-                "Regenerate map data, or run --fix after a metadata path change.",
+                suggestion,
             )
         )
     return issues
@@ -4128,6 +4129,49 @@ def audit_map_data_paths(
                             "Regenerate map data.",
                         )
                     )
+            elif similarity_ids:
+                sidecar = similarity.get("file")
+                shape = similarity.get("shape")
+                if not isinstance(sidecar, str) or not isinstance(shape, list) or len(shape) != 2:
+                    grouped.setdefault(map_data_path, []).append(
+                        Issue(
+                            map_data_path,
+                            CHECK_PATH,
+                            "mapData.similarity has neither rows nor a valid binary sidecar descriptor",
+                            "Regenerate map data.",
+                        )
+                    )
+                else:
+                    sidecar_path = map_data_path.with_name(sidecar)
+                    expected_shape = [len(similarity_ids), len(similarity_ids)]
+                    expected_bytes = len(similarity_ids) * len(similarity_ids) * 2
+                    if shape != expected_shape:
+                        grouped.setdefault(map_data_path, []).append(
+                            Issue(
+                                map_data_path,
+                                CHECK_PATH,
+                                "mapData.similarity sidecar shape does not match similarity.ids",
+                                "Regenerate map data.",
+                            )
+                        )
+                    elif not sidecar_path.exists():
+                        grouped.setdefault(map_data_path, []).append(
+                            Issue(
+                                sidecar_path,
+                                CHECK_PATH,
+                                "mapData.similarity sidecar is missing",
+                                "Regenerate map data.",
+                            )
+                        )
+                    elif sidecar_path.stat().st_size != expected_bytes:
+                        grouped.setdefault(map_data_path, []).append(
+                            Issue(
+                                sidecar_path,
+                                CHECK_PATH,
+                                f"mapData.similarity sidecar is {sidecar_path.stat().st_size} bytes; expected {expected_bytes}",
+                                "Regenerate map data.",
+                            )
+                        )
 
         meta = map_data.get("meta")
         if report_stale and isinstance(meta, dict) and meta.get("total_papers") != len(expected_ids):
@@ -4163,6 +4207,136 @@ def audit_map_data_paths(
     else:
         grouped.setdefault(cache_path, []).append(
             Issue(cache_path, CHECK_PATH, "embedding_cache.json root is not an object")
+        )
+
+    semantic_index_path = kb_root / "semantic_search" / "semantic-search-index.json"
+    semantic_index, error = _load_json_file(semantic_index_path)
+    semantic_ids: list[str] = []
+    if error:
+        grouped.setdefault(semantic_index_path, []).append(Issue(semantic_index_path, CHECK_PATH, error))
+    elif isinstance(semantic_index, dict):
+        papers = semantic_index.get("papers")
+        if not isinstance(papers, list):
+            grouped.setdefault(semantic_index_path, []).append(
+                Issue(semantic_index_path, CHECK_PATH, "semantic-search-index.json papers field is not a list")
+            )
+        else:
+            bad_papers = 0
+            for paper in papers:
+                paper_id = paper.get("id") if isinstance(paper, dict) else None
+                if isinstance(paper_id, str) and paper_id:
+                    semantic_ids.append(paper_id)
+                else:
+                    bad_papers += 1
+            if bad_papers:
+                grouped.setdefault(semantic_index_path, []).append(
+                    Issue(
+                        semantic_index_path,
+                        CHECK_PATH,
+                        f"semantic-search-index.json has {bad_papers} paper(s) without id",
+                    )
+                )
+
+            duplicate_semantic_ids = _duplicate_values(semantic_ids)
+            if duplicate_semantic_ids:
+                grouped.setdefault(semantic_index_path, []).append(
+                    Issue(
+                        semantic_index_path,
+                        CHECK_PATH,
+                        f"semantic-search-index.json has duplicate paper ID(s): {_format_id_examples(duplicate_semantic_ids)}",
+                    )
+                )
+
+            grouped.setdefault(semantic_index_path, []).extend(
+                _audit_id_set(
+                    path=semantic_index_path,
+                    label="semantic-search-index.json papers",
+                    actual_ids=set(semantic_ids),
+                    expected_ids=expected_ids,
+                    report_stale=report_stale,
+                    suggestion="Regenerate Semantic Search data.",
+                )
+            )
+
+        count = semantic_index.get("count")
+        dimension = semantic_index.get("dimension")
+        if not isinstance(count, int) or count < 0:
+            grouped.setdefault(semantic_index_path, []).append(
+                Issue(semantic_index_path, CHECK_PATH, "semantic-search-index.json count is not a non-negative integer")
+            )
+        elif semantic_ids and count != len(semantic_ids):
+            grouped.setdefault(semantic_index_path, []).append(
+                Issue(
+                    semantic_index_path,
+                    CHECK_PATH,
+                    f"semantic-search-index.json count is {count}; expected {len(semantic_ids)}",
+                    "Regenerate Semantic Search data.",
+                )
+            )
+        if not isinstance(dimension, int) or dimension < 0:
+            grouped.setdefault(semantic_index_path, []).append(
+                Issue(
+                    semantic_index_path,
+                    CHECK_PATH,
+                    "semantic-search-index.json dimension is not a non-negative integer",
+                )
+            )
+
+        quantization = semantic_index.get("quantization")
+        if not isinstance(quantization, dict) or quantization.get("type") != "int8":
+            grouped.setdefault(semantic_index_path, []).append(
+                Issue(
+                    semantic_index_path,
+                    CHECK_PATH,
+                    "semantic-search-index.json quantization.type is not int8",
+                    "Regenerate Semantic Search data.",
+                )
+            )
+
+        vector_name = semantic_index.get("vectors")
+        if not isinstance(vector_name, str) or not vector_name or Path(vector_name).name != vector_name:
+            grouped.setdefault(semantic_index_path, []).append(
+                Issue(semantic_index_path, CHECK_PATH, "semantic-search-index.json vectors field is invalid")
+            )
+        elif isinstance(count, int) and isinstance(dimension, int) and count >= 0 and dimension >= 0:
+            vector_path = semantic_index_path.with_name(vector_name)
+            expected_bytes = count * dimension
+            if not vector_path.exists():
+                grouped.setdefault(vector_path, []).append(
+                    Issue(vector_path, CHECK_PATH, "Semantic Search vector sidecar is missing")
+                )
+            elif vector_path.stat().st_size != expected_bytes:
+                grouped.setdefault(vector_path, []).append(
+                    Issue(
+                        vector_path,
+                        CHECK_PATH,
+                        f"Semantic Search vector sidecar is {vector_path.stat().st_size} bytes; expected {expected_bytes}",
+                        "Regenerate Semantic Search data.",
+                    )
+                )
+
+        settings_path = semantic_index_path.with_name("semantic-search-settings.json")
+        settings, settings_error = _load_json_file(settings_path)
+        if settings_error:
+            grouped.setdefault(settings_path, []).append(Issue(settings_path, CHECK_PATH, settings_error))
+        elif isinstance(settings, dict):
+            for key in ("model", "browserModel", "count", "scoreThreshold"):
+                if settings.get(key) != semantic_index.get(key):
+                    grouped.setdefault(settings_path, []).append(
+                        Issue(
+                            settings_path,
+                            CHECK_PATH,
+                            f"semantic-search-settings.json {key} does not match semantic-search-index.json",
+                            "Regenerate Semantic Search data.",
+                        )
+                    )
+        else:
+            grouped.setdefault(settings_path, []).append(
+                Issue(settings_path, CHECK_PATH, "semantic-search-settings.json root is not an object")
+            )
+    else:
+        grouped.setdefault(semantic_index_path, []).append(
+            Issue(semantic_index_path, CHECK_PATH, "semantic-search-index.json root is not an object")
         )
 
     return [(path, issues) for path, issues in grouped.items() if issues]
@@ -6315,7 +6489,7 @@ Checks performed on each metadata.yml:
   source    - ERROR if the source/venue field contains a publication year
   type      - ERROR if not a recognised paper type
   status    - ERROR if audit_status is not one of: raw, partial, reviewed
-  path      - ERROR if YEAR/SLUG do not match metadata or expected slug format; ERROR if map-data.js or embedding_cache.json IDs are stale, missing, malformed, or inconsistent
+  path      - ERROR if YEAR/SLUG do not match metadata or expected slug format; ERROR if generated Map or Semantic Search IDs/sidecars are stale, missing, malformed, or inconsistent
   summary   - ERROR if it has substantial verbatim overlap with the abstract or known low-signal generated boilerplate; WARN if missing or empty unless audit_status is raw, or if likely misspelled
   optional  - INFO for each optional field that is not populated
   dash      - ERROR if any string field contains ASCII multi-dash punctuation like -- or ---
@@ -6440,7 +6614,7 @@ Available --check names:
         if issues:
             results.append((p, issues))
     if checked_map_data:
-        checked_file_count += 2
+        checked_file_count += 6
         results.extend(
             audit_map_data_paths(
                 targets,
@@ -6459,7 +6633,7 @@ Available --check names:
 
     if not all_issues:
         if checked_map_data:
-            console.print(f"[green]All {len(targets)} metadata.yml file(s) and map data pass audit.[/]")
+            console.print(f"[green]All {len(targets)} metadata.yml file(s) and generated data pass audit.[/]")
         else:
             console.print(f"[green]All {len(targets)} metadata.yml file(s) pass audit.[/]")
         if skipped_reviewed_errors:

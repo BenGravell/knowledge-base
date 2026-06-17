@@ -20,7 +20,7 @@ file (``embedding_cache.json`` by default).  On each run it:
   3. Removes cached entries for papers whose ``metadata.yml`` no longer exists.
   4. Re-embeds only the papers whose hash differs from the cached value or
      which are entirely new.
-  5. Writes the updated cache back to disk.
+  5. Writes the updated cache manifest and binary vector matrix back to disk.
   6. Recomputes the full similarity matrix from the (now complete) set of
      embeddings and rewrites the JS output file.
 
@@ -29,6 +29,12 @@ The UMAP cache is keyed by a SHA-256 hash of the paper IDs (in order),
 the embedding matrix bytes, and the UMAP hyperparameters, so it is
 automatically invalidated whenever any paper is added/removed/changed or
 the parameters change.
+
+For small append-only updates, the layout cache keeps enough repeated ID/hash
+metadata to skip a full UMAP/force recompute: existing paper coordinates are
+kept, and new papers are placed near their nearest cached embedding neighbours.
+Any removal, changed existing paper, model change, or larger batch falls back
+to the full deterministic layout path.
 
 Embedding backends
 ------------------
@@ -130,10 +136,16 @@ METADATA_ROOT = DOCS_DIR / "papers"
 MKDOCS_YML = KB_DIR / "mkdocs.yml"
 DEFAULT_CACHE = MAP_DIR / "embedding_cache.json"
 DEFAULT_OUTPUT = MAP_DIR / "map-data.js"
+DEFAULT_SIMILARITY_OUTPUT = MAP_DIR / "map-similarity.i16"
 
 DEFAULT_UMAP_SCALE = 1500.0  # Base UMAP coordinate extent; formerly 1000 px.
 SIMILARITY_EXPORT_SCALE = 1000  # Store cosine similarities as compact rounded integers.
 TREE_PROXIMITY_HISTOGRAM_BINS = 101
+MAP_DATA_FORMAT_VERSION = 2
+INCREMENTAL_LAYOUT_MAX_ADDED = 50
+INCREMENTAL_LAYOUT_MAX_ADDED_RATIO = 0.05
+INCREMENTAL_LAYOUT_NEIGHBORS = 8
+INCREMENTAL_LAYOUT_JITTER_RATIO = 0.35
 
 LEGACY_BRANCH_LEVEL_IDS = ["super_category", "category", "sub_category"]
 NODE_DIAMETER_SCALE = 2
@@ -215,6 +227,149 @@ def force_cache_key(
     h.update(embeddings.tobytes())
     h.update(json.dumps(force_params, sort_keys=True).encode("utf-8"))
     return h.hexdigest()[:24]
+
+
+def map_data_cache_key(
+    papers: list[dict[str, Any]],
+    layout_coords: np.ndarray,
+    nav_order: dict[str, Any],
+    model_name: str,
+) -> str:
+    """Stable key for generated browser Map artifacts."""
+    node_fields = (
+        "id",
+        "title",
+        "label",
+        "authors",
+        "year",
+        "item_type",
+        "super_category",
+        "category",
+        "sub_category",
+        "nav_path",
+        "tags",
+        "summary",
+        "abstract",
+        "link",
+        "hash",
+    )
+    payload = [{field: paper.get(field) for field in node_fields} for paper in papers]
+    h = hashlib.sha256()
+    h.update(str(MAP_DATA_FORMAT_VERSION).encode("ascii"))
+    h.update(model_name.encode("utf-8"))
+    h.update(json.dumps(payload, ensure_ascii=False, sort_keys=True, separators=(",", ":")).encode("utf-8"))
+    h.update(json.dumps(nav_order, ensure_ascii=False, sort_keys=True, separators=(",", ":")).encode("utf-8"))
+    h.update(np.rint(np.asarray(layout_coords, dtype=np.float64) * 10).astype("<i4").tobytes())
+    h.update(str(SIMILARITY_EXPORT_SCALE).encode("ascii"))
+    return h.hexdigest()[:24]
+
+
+def write_text_atomic(path: Path, content: str) -> None:
+    tmp = path.with_name(f".{path.name}.tmp")
+    tmp.write_text(content, encoding="utf-8")
+    tmp.replace(path)
+
+
+def write_bytes_atomic(path: Path, content: bytes) -> None:
+    tmp = path.with_name(f".{path.name}.tmp")
+    tmp.write_bytes(content)
+    tmp.replace(path)
+
+
+def paper_hashes(papers: list[dict[str, Any]]) -> dict[str, str]:
+    return {str(paper["id"]): str(paper["hash"]) for paper in papers}
+
+
+def cache_ids(entry: dict[str, Any]) -> list[str]:
+    ids = entry.get("ids")
+    return [str(paper_id) for paper_id in ids] if isinstance(ids, list) else []
+
+
+def cache_hashes(entry: dict[str, Any]) -> dict[str, str]:
+    hashes = entry.get("hashes")
+    return {str(paper_id): str(value) for paper_id, value in hashes.items()} if isinstance(hashes, dict) else {}
+
+
+def added_only_cache_hit(
+    entry: dict[str, Any],
+    papers: list[dict[str, Any]],
+) -> tuple[list[str], list[str]] | None:
+    previous_ids = cache_ids(entry)
+    previous_hashes = cache_hashes(entry)
+    if not previous_ids or not previous_hashes:
+        return None
+
+    current_ids = [str(paper["id"]) for paper in papers]
+    current_hashes = paper_hashes(papers)
+    previous_set = set(previous_ids)
+    current_set = set(current_ids)
+    if not previous_set < current_set:
+        return None
+    if any(current_hashes.get(paper_id) != previous_hashes.get(paper_id) for paper_id in previous_ids):
+        return None
+
+    added_ids = [paper_id for paper_id in current_ids if paper_id not in previous_set]
+    max_added = max(1, min(INCREMENTAL_LAYOUT_MAX_ADDED, int(len(previous_ids) * INCREMENTAL_LAYOUT_MAX_ADDED_RATIO)))
+    if not added_ids or len(added_ids) > max_added:
+        return None
+    return previous_ids, added_ids
+
+
+def deterministic_layout_jitter(paper_id: str, scale: float) -> tuple[float, float]:
+    digest = hashlib.sha256(paper_id.encode("utf-8")).digest()
+    angle_seed = int.from_bytes(digest[:8], "little") / 2**64
+    radius_seed = int.from_bytes(digest[8:16], "little") / 2**64
+    angle = angle_seed * np.pi * 2
+    radius = scale * (0.45 + 0.55 * radius_seed)
+    return float(np.cos(angle) * radius), float(np.sin(angle) * radius)
+
+
+def median_neighbor_distance(coords: np.ndarray) -> float:
+    if len(coords) < 2:
+        return 20.0
+    tree = cKDTree(coords)
+    nn_dists, _ = tree.query(coords, k=2)
+    value = float(np.median(nn_dists[:, 1]))
+    return value if np.isfinite(value) and value > 0 else 20.0
+
+
+def incremental_neighbor_positions(
+    *,
+    current_ids: list[str],
+    embeddings: np.ndarray,
+    previous_ids: list[str],
+    previous_coords: np.ndarray,
+) -> np.ndarray:
+    """Keep previous coordinates and place new IDs near embedding neighbours."""
+    current_index = {paper_id: index for index, paper_id in enumerate(current_ids)}
+    previous_index = {paper_id: index for index, paper_id in enumerate(previous_ids)}
+    previous_embedding_indexes = [current_index[paper_id] for paper_id in previous_ids if paper_id in current_index]
+    if not previous_embedding_indexes:
+        raise ValueError("Incremental layout needs at least one previous embedding")
+
+    previous_embeddings = normalize(embeddings[previous_embedding_indexes].astype(np.float32))
+    old_coords = np.asarray(previous_coords, dtype=np.float64)
+    coords = np.empty((len(current_ids), 2), dtype=np.float64)
+    jitter_scale = median_neighbor_distance(old_coords) * INCREMENTAL_LAYOUT_JITTER_RATIO
+
+    for paper_id, target_index in current_index.items():
+        old_index = previous_index.get(paper_id)
+        if old_index is not None:
+            coords[target_index] = old_coords[old_index]
+            continue
+
+        query = normalize(embeddings[target_index : target_index + 1].astype(np.float32))[0]
+        similarities = previous_embeddings @ query
+        k = min(INCREMENTAL_LAYOUT_NEIGHBORS, len(similarities))
+        neighbor_indexes = np.argpartition(similarities, -k)[-k:]
+        weights = np.clip(similarities[neighbor_indexes], 0.0, None).astype(np.float64)
+        if not np.any(weights):
+            weights = np.ones(k, dtype=np.float64)
+        base = np.average(old_coords[neighbor_indexes], axis=0, weights=weights)
+        jitter = deterministic_layout_jitter(paper_id, jitter_scale)
+        coords[target_index] = base + jitter
+
+    return coords
 
 
 def force_layout_postprocess(
@@ -1171,6 +1326,12 @@ def main() -> None:
         help=f"Path to the output JS file (default: {DEFAULT_OUTPUT}).",
     )
     parser.add_argument(
+        "--similarity-output",
+        type=Path,
+        default=DEFAULT_SIMILARITY_OUTPUT,
+        help=f"Path to the binary similarity matrix sidecar (default: {DEFAULT_SIMILARITY_OUTPUT}).",
+    )
+    parser.add_argument(
         "--skip-force-layout",
         action="store_true",
         dest="skip_force_layout",
@@ -1273,16 +1434,43 @@ def main() -> None:
         "min_dist": 0.05,
         "n_epochs": 500,
     }
-    key = umap_cache_key([p["id"] for p in papers], embeddings, **umap_params)
+    paper_ids = [str(p["id"]) for p in papers]
+    current_hashes = paper_hashes(papers)
+    key = umap_cache_key(paper_ids, embeddings, **umap_params)
     umap_entry_raw = cache.get("umap")
     umap_entry: dict[str, Any] = umap_entry_raw if isinstance(umap_entry_raw, dict) else dict[str, Any]()
 
     if not args.force and umap_entry.get("key") == key:
         print("    UMAP layout loaded from cache (embeddings unchanged)")
         umap_coords = np.array(umap_entry["coords"], dtype=np.float64)
+        if not cache_ids(umap_entry) or not cache_hashes(umap_entry):
+            cache["umap"] = {
+                **umap_entry,
+                "ids": paper_ids,
+                "hashes": current_hashes,
+                "placement": umap_entry.get("placement") or "umap",
+            }
+            save_embedding_cache(args.cache, cache)
     else:
-        umap_coords = compute_umap_positions(embeddings, **umap_params)
-        cache["umap"] = {"key": key, "coords": umap_coords.tolist()}
+        incremental = None if args.force else added_only_cache_hit(umap_entry, papers)
+        if incremental is not None:
+            previous_ids, added_ids = incremental
+            print(f"    UMAP layout incrementally extended for {len(added_ids)} added paper(s)")
+            umap_coords = incremental_neighbor_positions(
+                current_ids=paper_ids,
+                embeddings=embeddings,
+                previous_ids=previous_ids,
+                previous_coords=np.array(umap_entry["coords"], dtype=np.float64),
+            )
+        else:
+            umap_coords = compute_umap_positions(embeddings, **umap_params)
+        cache["umap"] = {
+            "key": key,
+            "ids": paper_ids,
+            "hashes": current_hashes,
+            "coords": umap_coords.tolist(),
+            "placement": "incremental-nearest-neighbors" if incremental is not None else "umap",
+        }
         save_embedding_cache(args.cache, cache)
 
     print(
@@ -1318,9 +1506,34 @@ def main() -> None:
         if not args.force and force_entry.get("key") == fkey:
             print("    Force layout loaded from cache (UMAP + embeddings unchanged)")
             layout_coords = np.array(force_entry["coords"], dtype=np.float64)
+            if not cache_ids(force_entry) or not cache_hashes(force_entry):
+                cache["force"] = {
+                    **force_entry,
+                    "ids": paper_ids,
+                    "hashes": current_hashes,
+                    "placement": force_entry.get("placement") or "force",
+                }
+                save_embedding_cache(args.cache, cache)
         else:
-            layout_coords = force_layout_postprocess(umap_coords, embeddings, verbose=True, **force_params)
-            cache["force"] = {"key": fkey, "coords": layout_coords.tolist()}
+            incremental = None if args.force else added_only_cache_hit(force_entry, papers)
+            if incremental is not None:
+                previous_ids, added_ids = incremental
+                print(f"    Force layout incrementally extended for {len(added_ids)} added paper(s)")
+                layout_coords = incremental_neighbor_positions(
+                    current_ids=paper_ids,
+                    embeddings=embeddings,
+                    previous_ids=previous_ids,
+                    previous_coords=np.array(force_entry["coords"], dtype=np.float64),
+                )
+            else:
+                layout_coords = force_layout_postprocess(umap_coords, embeddings, verbose=True, **force_params)
+            cache["force"] = {
+                "key": fkey,
+                "ids": paper_ids,
+                "hashes": current_hashes,
+                "coords": layout_coords.tolist(),
+                "placement": "incremental-nearest-neighbors" if incremental is not None else "force",
+            }
             save_embedding_cache(args.cache, cache)
 
         print(
@@ -1329,6 +1542,20 @@ def main() -> None:
 
     # ---- build browser data -----------------------------------------------
     print("\n[6/6] Building map data and writing output…")
+
+    map_artifact_key = map_data_cache_key(papers, layout_coords, nav_order, model_name)
+    map_artifact_entry_raw = cache.get("mapData")
+    map_artifact_entry = map_artifact_entry_raw if isinstance(map_artifact_entry_raw, dict) else {}
+    if (
+        not args.force
+        and map_artifact_entry.get("key") == map_artifact_key
+        and args.output.exists()
+        and args.similarity_output.exists()
+    ):
+        print("    Map browser artifacts loaded from cache (inputs unchanged)")
+        print(f"    Output: {args.output}")
+        print("\nDone!")
+        return
 
     raw_sim = cosine_similarity_matrix(embeddings)
     sim, similarity_transform = quantile_unitize_similarity_matrix(raw_sim)
@@ -1342,6 +1569,8 @@ def main() -> None:
         similarity_rows,
         SIMILARITY_EXPORT_SCALE,
     )
+    args.similarity_output.parent.mkdir(parents=True, exist_ok=True)
+    write_bytes_atomic(args.similarity_output, similarity_rows.astype("<i2", copy=False).tobytes(order="C"))
 
     nodes = [
         {
@@ -1400,7 +1629,10 @@ def main() -> None:
         "similarity": {
             "scale": SIMILARITY_EXPORT_SCALE,
             "ids": [p["id"] for p in papers],
-            "rows": similarity_rows.tolist(),
+            "file": args.similarity_output.name,
+            "dtype": "int16",
+            "shape": [int(similarity_rows.shape[0]), int(similarity_rows.shape[1])],
+            "byteOrder": "little",
         },
         "meta": {
             "model": model_name,
@@ -1421,13 +1653,20 @@ def main() -> None:
 
     args.output.parent.mkdir(parents=True, exist_ok=True)
     js = f"const mapData={json.dumps(graph_data, ensure_ascii=False, separators=(',', ':'))};\n"
-    with open(args.output, "w", encoding="utf-8") as f:
-        f.write(js)
+    write_text_atomic(args.output, js)
+    cache["mapData"] = {
+        "key": map_artifact_key,
+        "format": MAP_DATA_FORMAT_VERSION,
+        "output": args.output.name,
+        "similarity": args.similarity_output.name,
+    }
+    save_embedding_cache(args.cache, cache)
 
     print(f"    Nodes : {len(nodes)}")
     print(
         f"    Similarity matrix: exported ({similarity_transform['method']} {similarity_transform['source']} → [0, 1])"
     )
+    print(f"    Similarity sidecar: {args.similarity_output} ({args.similarity_output.stat().st_size // 1024} KB)")
     print(f"    Tree proximity scale: exported (KL={tree_proximity['klDivergence']})")
     print(f"    Output: {args.output}")
     print("\nDone!")

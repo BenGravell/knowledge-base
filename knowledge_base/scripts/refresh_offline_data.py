@@ -9,8 +9,9 @@ Or from the repository root:
     python knowledge_base/scripts/refresh_offline_data.py
 
 The script intentionally avoids ingest, prefill, and online enrichment flows.
-It regenerates local Map/Semantic Search data, validates metadata placement,
-and runs a final MkDocs build so gen-files assets are republished together.
+It regenerates local Map/Semantic Search data and their sidecars, validates
+metadata placement, and runs a final MkDocs build so gen-files assets are
+republished together.
 """
 
 from __future__ import annotations
@@ -90,7 +91,7 @@ def build_steps(args: argparse.Namespace) -> list[Step]:
         semantic_search = [py, "semantic_search/generate_semantic_search_index.py"]
         if args.force:
             semantic_search.append("--force")
-        steps.append(Step("Regenerate Semantic Search index and vector table", semantic_search))
+        steps.append(Step("Regenerate Semantic Search index, settings, and vector table", semantic_search))
 
     if not args.skip_map:
         map_data = [py, "map/generate_map_data.py"]
@@ -100,12 +101,12 @@ def build_steps(args: argparse.Namespace) -> list[Step]:
             map_data.append("--force")
         if args.skip_force_layout:
             map_data.append("--skip-force-layout")
-        steps.append(Step("Regenerate Map embeddings, layout, and map-data.js", map_data))
+        steps.append(Step("Regenerate Map embeddings, layout, map-data.js, and sidecar", map_data))
 
     if not args.skip_audit:
         steps.append(
             Step(
-                "Audit metadata and generated Map IDs",
+                "Audit metadata and generated Map/Search assets",
                 [py, "scripts/audit_metadata.py", "--severity", args.audit_severity],
             )
         )

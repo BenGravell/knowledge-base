@@ -387,22 +387,16 @@ def paper_byline(record: dict[str, Any]) -> str:
     return " / ".join(clean_scalar(value) for value in (author, record.get("year")) if clean_scalar(value))
 
 
-def load_embedding_cache() -> dict[str, list[float]]:
-    if not embedding_cache_file.exists():
+def load_embedding_cache() -> dict[str, Any]:
+    if np is None or not embedding_cache_file.exists():
         return {}
     try:
-        cache = json.loads(embedding_cache_file.read_text(encoding="utf-8"))
+        from knowledge_base.embedding_workbench import load_embedding_table
+
+        table = load_embedding_table(embedding_cache_file, mmap_mode="r")
     except Exception:
         return {}
-    papers = cache.get("papers") if isinstance(cache, dict) else None
-    if not isinstance(papers, dict):
-        return {}
-    embeddings = {}
-    for paper_id, entry in papers.items():
-        embedding = entry.get("embedding") if isinstance(entry, dict) else None
-        if isinstance(embedding, list) and embedding:
-            embeddings[str(paper_id)] = embedding
-    return embeddings
+    return table.by_id()
 
 
 def build_top_similar_papers(

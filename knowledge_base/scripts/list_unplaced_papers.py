@@ -26,6 +26,7 @@ if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))
 
 from knowledge_base.config import KB_DIR
+from knowledge_base.embedding_workbench import load_embedding_table
 from knowledge_base.tree.model import (
     TreeLeaf,
     TreeModel,
@@ -104,16 +105,7 @@ def collect_tree_leaves(model: TreeModel) -> dict[str, TreeLeaf]:
 def load_embeddings(cache_path: Path) -> dict[str, list[float]]:
     if not cache_path.exists():
         return {}
-    with cache_path.open("r", encoding="utf-8") as f:
-        cache = json.load(f)
-    papers = cache.get("papers", {})
-    if not isinstance(papers, dict):
-        return {}
-    embeddings: dict[str, list[float]] = {}
-    for paper_id, entry in papers.items():
-        if isinstance(entry, dict) and isinstance(entry.get("embedding"), list):
-            embeddings[str(paper_id)] = entry["embedding"]
-    return embeddings
+    return {paper_id: vector.tolist() for paper_id, vector in load_embedding_table(cache_path).by_id().items()}
 
 
 def nearest_placed_neighbors(

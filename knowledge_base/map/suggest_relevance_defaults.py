@@ -74,6 +74,32 @@ def load_data(path: Path) -> dict[str, Any]:
     return data
 
 
+def load_similarity_rows(data: dict[str, Any], *, data_path: Path = DATA_FILE) -> np.ndarray:
+    similarity = data.get("similarity") or {}
+    inline_rows = similarity.get("rows")
+    if isinstance(inline_rows, list):
+        rows = np.asarray(inline_rows, dtype=float)
+        return rows if rows.ndim == 2 else np.empty((0, 0), dtype=float)
+
+    filename = similarity.get("file")
+    shape = similarity.get("shape") or []
+    if not isinstance(filename, str) or len(shape) != 2:
+        return np.empty((0, 0), dtype=float)
+
+    height, width = (int(shape[0]), int(shape[1]))
+    if height <= 0 or width <= 0:
+        return np.empty((0, 0), dtype=float)
+
+    dtype = np.dtype("<i2" if similarity.get("dtype") == "int16" else "<f4")
+    path = data_path.with_name(filename)
+    if not path.exists():
+        return np.empty((0, 0), dtype=float)
+    rows = np.fromfile(path, dtype=dtype)
+    if rows.size != height * width:
+        return np.empty((0, 0), dtype=float)
+    return rows.reshape((height, width)).astype(float, copy=False)
+
+
 def paper_nav_path(attrs: dict[str, Any]) -> tuple[str, ...]:
     raw_path = attrs.get("nav_path")
     if not isinstance(raw_path, list):
@@ -131,7 +157,7 @@ def build_similarity_matrix(data: dict[str, Any], ids: list[str]) -> list[list[f
     similarity = data.get("similarity") or {}
     scale = float(similarity.get("scale") or data.get("meta", {}).get("similarityScale") or 1)
     similarity_ids = similarity.get("ids") or []
-    rows = similarity.get("rows") or []
+    rows = load_similarity_rows(data)
     index_by_id = {str(paper_id): index for index, paper_id in enumerate(similarity_ids)}
 
     matrix: list[list[float]] = []
@@ -145,9 +171,9 @@ def build_similarity_matrix(data: dict[str, Any], ids: list[str]) -> list[list[f
 
             paper_index = index_by_id.get(paper_id)
             value = None
-            if ego_index is not None and paper_index is not None and ego_index < len(rows):
+            if ego_index is not None and paper_index is not None and ego_index < rows.shape[0]:
                 row = rows[ego_index]
-                if isinstance(row, list) and paper_index < len(row):
+                if paper_index < len(row):
                     value = row[paper_index]
 
             numeric = float(value) if isinstance(value, int | float | str) else -1.0
@@ -162,9 +188,7 @@ def build_similarity_array(data: dict[str, Any], ids: list[str]) -> np.ndarray:
     similarity = data.get("similarity") or {}
     scale = float(similarity.get("scale") or data.get("meta", {}).get("similarityScale") or 1)
     similarity_ids = [str(paper_id) for paper_id in similarity.get("ids") or []]
-    rows = np.array(similarity.get("rows") or [], dtype=float)
-    if rows.ndim != 2:
-        rows = np.empty((0, 0), dtype=float)
+    rows = load_similarity_rows(data)
     if scale:
         rows = rows / scale
 

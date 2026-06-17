@@ -11,6 +11,8 @@ from typing import Any
 
 import numpy as np
 
+FORMAT_VERSION = "embedding-workbench-v2"
+
 
 @dataclass(frozen=True)
 class EmbeddingRow:
@@ -27,6 +29,21 @@ class EmbeddingRefresh:
     pruned_ids: tuple[str, ...]
     model_changed: bool
     previous_model: str | None
+
+
+@dataclass(frozen=True)
+class EmbeddingTable:
+    model: str | None
+    ids: tuple[str, ...]
+    matrix: np.ndarray
+    hashes: dict[str, str]
+
+    def by_id(self, *, normalize_rows: bool = False) -> dict[str, np.ndarray]:
+        matrix = self.matrix.astype(np.float32, copy=False)
+        if normalize_rows:
+            norms = np.linalg.norm(matrix, axis=1, keepdims=True)
+            matrix = matrix / np.clip(norms, 1e-10, None)
+        return {paper_id: matrix[index] for index, paper_id in enumerate(self.ids)}
 
 
 EmbedTexts = Callable[[list[str]], Sequence[Sequence[float]] | np.ndarray]
@@ -48,8 +65,59 @@ def load_embedding_cache(path: Path) -> dict[str, Any]:
 
 def save_embedding_cache(path: Path, cache: dict[str, Any]) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps(cache, separators=(",", ":")), encoding="utf-8")
+    _write_text_atomic(path, json.dumps(cache, separators=(",", ":")))
     print(f"Cache saved: {path} ({path.stat().st_size // 1024} KB)")
+
+
+def load_embedding_table(path: Path, *, mmap_mode: str | None = None) -> EmbeddingTable:
+    """Load cached embeddings from the v2 binary format or legacy JSON caches."""
+    cache = load_embedding_cache(path)
+    papers = _cached_papers(cache)
+    model = cache.get("model") if isinstance(cache.get("model"), str) else None
+
+    if cache.get("format") == FORMAT_VERSION:
+        vectors_path = _vectors_path(path, cache)
+        try:
+            matrix = np.load(vectors_path, mmap_mode=mmap_mode, allow_pickle=False)
+        except OSError:
+            return EmbeddingTable(model=model, ids=(), matrix=np.empty((0, 0), dtype=np.float32), hashes={})
+
+        ordered: list[tuple[int, str, str]] = []
+        for paper_id, entry in papers.items():
+            row = entry.get("row")
+            if isinstance(row, int) and 0 <= row < len(matrix):
+                ordered.append((row, paper_id, str(entry.get("hash") or "")))
+        ordered.sort()
+        indexes = [row for row, _, _ in ordered]
+        ids = tuple(paper_id for _, paper_id, _ in ordered)
+        hashes = {paper_id: content_hash for _, paper_id, content_hash in ordered}
+        if indexes and indexes != list(range(len(indexes))):
+            matrix = matrix[indexes]
+        if matrix.dtype != np.float32:
+            matrix = matrix.astype(np.float32)
+        return EmbeddingTable(
+            model=model,
+            ids=ids,
+            matrix=matrix,
+            hashes=hashes,
+        )
+
+    ids: list[str] = []
+    vectors: list[np.ndarray] = []
+    hashes: dict[str, str] = {}
+    for paper_id, entry in papers.items():
+        raw_vector = entry.get("embedding")
+        if not isinstance(raw_vector, list):
+            continue
+        vector = np.asarray(raw_vector, dtype=np.float32)
+        if vector.ndim != 1:
+            continue
+        ids.append(paper_id)
+        vectors.append(vector)
+        hashes[paper_id] = str(entry.get("hash") or "")
+
+    matrix = np.vstack(vectors).astype(np.float32, copy=False) if vectors else np.empty((0, 0), dtype=np.float32)
+    return EmbeddingTable(model=model, ids=tuple(ids), matrix=matrix, hashes=hashes)
 
 
 def refresh_embedding_cache(
@@ -69,34 +137,43 @@ def refresh_embedding_cache(
         cache = {"model": model, "papers": {}}
 
     cached_papers = _cached_papers(cache)
+    table = (
+        EmbeddingTable(model=None, ids=(), matrix=np.empty((0, 0), dtype=np.float32), hashes={})
+        if model_changed
+        else load_embedding_table(cache_path)
+    )
+    vector_by_id = table.by_id()
     active_ids = {row.id for row in ordered_rows}
     pruned_ids = tuple(sorted(set(cached_papers) - active_ids))
     for paper_id in pruned_ids:
         del cached_papers[paper_id]
+        vector_by_id.pop(paper_id, None)
 
     changed_rows = [
         row
         for row in ordered_rows
-        if force or row.id not in cached_papers or cached_papers[row.id].get("hash") != row.content_hash
+        if force
+        or row.id not in cached_papers
+        or row.id not in vector_by_id
+        or cached_papers[row.id].get("hash") != row.content_hash
     ]
 
     if changed_rows:
         vectors = _embedding_matrix(embed_texts([row.text for row in changed_rows]), len(changed_rows))
         for row, vector in zip(changed_rows, vectors, strict=True):
+            vector_by_id[row.id] = vector.astype(np.float32, copy=False)
             cached_papers[row.id] = {
                 "hash": row.content_hash,
-                "embedding": vector.astype(np.float32).tolist(),
             }
 
-    saved = bool(changed_rows or pruned_ids or model_changed)
+    matrix = _ordered_matrix(ordered_rows, vector_by_id)
+    needs_v2_write = cache.get("format") != FORMAT_VERSION or not _vectors_path(cache_path, cache).exists()
+    saved = bool(changed_rows or pruned_ids or model_changed or needs_v2_write)
     if saved:
         for key in invalidate_keys:
             cache.pop(key, None)
-        cache["model"] = model
-        cache["papers"] = cached_papers
-        save_embedding_cache(cache_path, cache)
+        _save_embedding_table(cache_path, cache, ordered_rows, matrix, model)
 
-    matrix = _ordered_matrix(ordered_rows, cached_papers)
     return EmbeddingRefresh(
         cache=cache,
         matrix=matrix,
@@ -136,7 +213,48 @@ def _embedding_matrix(vectors: Sequence[Sequence[float]] | np.ndarray, expected_
     return matrix
 
 
-def _ordered_matrix(rows: Sequence[EmbeddingRow], cached_papers: dict[str, dict[str, Any]]) -> np.ndarray:
+def _ordered_matrix(rows: Sequence[EmbeddingRow], vector_by_id: dict[str, np.ndarray]) -> np.ndarray:
     if not rows:
         return np.empty((0, 0), dtype=np.float32)
-    return np.asarray([cached_papers[row.id]["embedding"] for row in rows], dtype=np.float32)
+    return np.asarray([vector_by_id[row.id] for row in rows], dtype=np.float32)
+
+
+def _vectors_path(cache_path: Path, cache: dict[str, Any]) -> Path:
+    configured = cache.get("vectors")
+    if isinstance(configured, str) and configured:
+        return cache_path.parent / configured
+    return cache_path.with_name(f"{cache_path.stem}.vectors.npy")
+
+
+def _write_text_atomic(path: Path, content: str) -> None:
+    tmp = path.with_name(f".{path.name}.tmp")
+    tmp.write_text(content, encoding="utf-8")
+    tmp.replace(path)
+
+
+def _save_embedding_table(
+    path: Path,
+    cache: dict[str, Any],
+    rows: Sequence[EmbeddingRow],
+    matrix: np.ndarray,
+    model: str,
+) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    vectors_path = path.with_name(f"{path.stem}.vectors.npy")
+    matrix = np.asarray(matrix, dtype=np.float32)
+    vectors_tmp = vectors_path.with_name(f".{vectors_path.name}.tmp")
+    with vectors_tmp.open("wb") as out:
+        np.save(out, matrix, allow_pickle=False)
+    vectors_tmp.replace(vectors_path)
+
+    cache["format"] = FORMAT_VERSION
+    cache["model"] = model
+    cache["vectors"] = vectors_path.name
+    cache["papers"] = {
+        row.id: {
+            "hash": row.content_hash,
+            "row": index,
+        }
+        for index, row in enumerate(rows)
+    }
+    save_embedding_cache(path, cache)

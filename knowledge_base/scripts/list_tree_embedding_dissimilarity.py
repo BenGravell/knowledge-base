@@ -28,6 +28,7 @@ if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))
 
 from knowledge_base.config import KB_DIR
+from knowledge_base.embedding_workbench import load_embedding_table
 from knowledge_base.tree.model import (
     TreeBranch as Branch,
 )
@@ -111,21 +112,15 @@ def collect_branches(tree_path: Path = TREE_YML) -> list[Branch]:
 
 
 def load_embeddings(path: Path = EMBEDDING_CACHE) -> dict[str, tuple[float, ...]]:
-    with path.open("r", encoding="utf-8") as f:
-        cache = json.load(f)
-    papers = cache.get("papers", {})
-    if not isinstance(papers, dict):
+    if not path.exists():
         return {}
 
     embeddings: dict[str, tuple[float, ...]] = {}
-    for paper_id, entry in papers.items():
-        if not isinstance(entry, dict) or not isinstance(entry.get("embedding"), list):
-            continue
-        vector = tuple(float(value) for value in entry["embedding"])
-        norm = math.sqrt(sum(value * value for value in vector))
-        if norm == 0:
-            continue
-        embeddings[str(paper_id)] = tuple(value / norm for value in vector)
+    for paper_id, vector in load_embedding_table(path, mmap_mode="r").by_id().items():
+        values = tuple(float(value) for value in vector)
+        norm = math.sqrt(sum(value * value for value in values))
+        if norm:
+            embeddings[str(paper_id)] = tuple(value / norm for value in values)
     return embeddings
 
 

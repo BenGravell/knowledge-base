@@ -5,7 +5,7 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from knowledge_base.embedding_workbench import EmbeddingRow, refresh_embedding_cache
+from knowledge_base.embedding_workbench import EmbeddingRow, load_embedding_table, refresh_embedding_cache
 
 
 class EmbeddingWorkbenchTests(unittest.TestCase):
@@ -75,14 +75,77 @@ class EmbeddingWorkbenchTests(unittest.TestCase):
                 invalidate_keys=("umap", "force"),
             )
             saved = json.loads(cache_path.read_text(encoding="utf-8"))
+            vectors_saved = (cache_path.parent / saved["vectors"]).exists()
 
         self.assertEqual(embedded_texts, [["Changed text", "Fresh text"]])
         self.assertEqual(result.pruned_ids, ("stale",))
         self.assertEqual(result.changed_count, 2)
         self.assertEqual(result.matrix.tolist(), [[1.0, 2.0], [3.0, 4.0]])
         self.assertEqual(set(saved["papers"]), {"changed", "fresh"})
+        self.assertEqual(saved["format"], "embedding-workbench-v2")
+        self.assertEqual(saved["vectors"], "embedding_cache.vectors.npy")
+        self.assertTrue(vectors_saved)
+        self.assertEqual(saved["papers"]["changed"]["row"], 0)
+        self.assertNotIn("embedding", saved["papers"]["changed"])
         self.assertNotIn("umap", saved)
         self.assertNotIn("force", saved)
+
+    def test_load_embedding_table_reads_binary_cache(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            cache_path = Path(tmp) / "embedding_cache.json"
+
+            result = refresh_embedding_cache(
+                [
+                    EmbeddingRow("left", "Left text", "h1"),
+                    EmbeddingRow("right", "Right text", "h2"),
+                ],
+                cache_path=cache_path,
+                model="model-a",
+                embed_texts=lambda _texts: [[1.0, 0.0], [0.0, 1.0]],
+            )
+            table = load_embedding_table(cache_path, mmap_mode="r")
+
+        self.assertEqual(result.matrix.tolist(), [[1.0, 0.0], [0.0, 1.0]])
+        self.assertEqual(table.model, "model-a")
+        self.assertEqual(table.ids, ("left", "right"))
+        self.assertEqual(table.matrix.tolist(), [[1.0, 0.0], [0.0, 1.0]])
+        self.assertEqual(table.by_id()["right"].tolist(), [0.0, 1.0])
+
+    def test_binary_cache_embeds_only_new_rows(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            cache_path = Path(tmp) / "embedding_cache.json"
+            refresh_embedding_cache(
+                [
+                    EmbeddingRow("left", "Left text", "h1"),
+                    EmbeddingRow("right", "Right text", "h2"),
+                ],
+                cache_path=cache_path,
+                model="model-a",
+                embed_texts=lambda _texts: [[1.0, 0.0], [0.0, 1.0]],
+            )
+            embedded_texts: list[list[str]] = []
+
+            def embed(texts: list[str]) -> list[list[float]]:
+                embedded_texts.append(texts)
+                return [[0.5, 0.5]]
+
+            result = refresh_embedding_cache(
+                [
+                    EmbeddingRow("left", "Left text", "h1"),
+                    EmbeddingRow("middle", "Middle text", "h3"),
+                    EmbeddingRow("right", "Right text", "h2"),
+                ],
+                cache_path=cache_path,
+                model="model-a",
+                embed_texts=embed,
+            )
+            table = load_embedding_table(cache_path)
+
+        self.assertEqual(embedded_texts, [["Middle text"]])
+        self.assertEqual(result.changed_count, 1)
+        self.assertEqual(result.matrix.tolist(), [[1.0, 0.0], [0.5, 0.5], [0.0, 1.0]])
+        self.assertEqual(table.ids, ("left", "middle", "right"))
+        self.assertEqual(table.matrix.tolist(), [[1.0, 0.0], [0.5, 0.5], [0.0, 1.0]])
 
 
 if __name__ == "__main__":

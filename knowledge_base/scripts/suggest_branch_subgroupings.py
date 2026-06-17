@@ -35,6 +35,7 @@ if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))
 
 from knowledge_base.config import KB_DIR
+from knowledge_base.embedding_workbench import load_embedding_table
 from knowledge_base.tree.model import (
     TreeBranch as Branch,
 )
@@ -164,21 +165,11 @@ def load_embeddings(cache_path: Path = EMBEDDING_CACHE) -> dict[str, np.ndarray]
     if not cache_path.exists():
         raise FileNotFoundError(f"Embedding cache not found: {cache_path}")
 
-    with cache_path.open("r", encoding="utf-8") as f:
-        cache = json.load(f)
-
-    embeddings: dict[str, np.ndarray] = {}
-    papers = cache.get("papers", {})
-    if not isinstance(papers, dict):
-        return embeddings
-
-    for paper_id, entry in papers.items():
-        if not isinstance(entry, dict) or not isinstance(entry.get("embedding"), list):
-            continue
-        vector = np.asarray(entry["embedding"], dtype=np.float32)
-        if vector.ndim == 1 and np.linalg.norm(vector) > 0:
-            embeddings[str(paper_id)] = vector
-    return embeddings
+    return {
+        paper_id: vector
+        for paper_id, vector in load_embedding_table(cache_path, mmap_mode="r").by_id().items()
+        if vector.ndim == 1 and np.linalg.norm(vector) > 0
+    }
 
 
 def collect_branches(tree_path: Path, *, include_root: bool) -> list[Branch]:
