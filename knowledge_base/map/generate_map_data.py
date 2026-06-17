@@ -101,6 +101,11 @@ from sklearn.preprocessing import normalize
 
 from knowledge_base.catalog import Catalog
 from knowledge_base.tree.nav_source import load_tree
+from knowledge_base.tree.model import (
+    TreeModel,
+    common_prefix_length as tree_common_prefix_length,
+    tree_distance as tree_model_distance,
+)
 
 # ---------------------------------------------------------------------------
 # Paths (relative to this script's location: knowledge_base/map/)
@@ -813,11 +818,6 @@ def build_aggregate_layouts(
 
 UNCATEGORIZED_CATEGORY = "Uncategorized"
 
-# Nav sections that act as transparent grouping wrappers: their children are
-# treated as top-level tree branches rather than the wrapper itself.
-TRANSPARENT_NAV_SECTIONS = {"Tree"}
-
-
 def find_tree_nav(config: dict) -> object | None:
     """Return the nav subtree under ``Tree`` if present."""
     return load_tree(config)
@@ -845,43 +845,10 @@ def parse_nav_categories(config: dict) -> dict[str, dict]:
             "nav_path": [str, ...],
         }
     """
-    mapping: dict[str, dict] = {}
-
-    def category_info_from_path(path: list[str]) -> dict:
-        super_category = path[0] if len(path) > 0 else None
-        category = path[1] if len(path) > 1 else super_category or UNCATEGORIZED_CATEGORY
-        sub_category = path[2] if len(path) > 2 else None
-        return {
-            "super_category": super_category,
-            "category": category,
-            "sub_category": sub_category,
-            "nav_path": path,
-        }
-
-    def walk(node: object, path: list[str] | None = None) -> None:
-        path = path or []
-        if isinstance(node, str):
-            if node.startswith("papers/") and node.endswith(".md"):
-                pid = node[len("papers/"):-len(".md")]
-                if pid not in mapping:          # first occurrence wins
-                    mapping[pid] = category_info_from_path(path)
-        elif isinstance(node, list):
-            for item in node:
-                walk(item, path)
-        elif isinstance(node, dict):
-            for key, value in node.items():
-                if isinstance(value, str):
-                    walk(value, path)
-                elif key in TRANSPARENT_NAV_SECTIONS and not path:
-                    walk(value, path)
-                else:
-                    walk(value, [*path, key])
-
     tree = find_tree_nav(config)
-    if tree is not None:
-        walk(tree)
-
-    return mapping
+    if tree is None:
+        return {}
+    return TreeModel.from_tree(tree).placement_fields_by_paper_id()
 
 
 def parse_nav_category_order(config: dict) -> dict:
@@ -899,66 +866,10 @@ def parse_nav_category_order(config: dict) -> dict:
             "maxBranchDepth": int,
         }
     """
-    super_categories: list[str] = []
-    categories: list[str] = []
-    category_super_category: dict[str, str | None] = {}
-    sub_category_order: dict[str, list[str]] = {}
-    nav_path_order: list[list[str]] = []
-    seen_nav_paths: set[tuple[str, ...]] = set()
-
-    def add_super_category(name: str) -> None:
-        if name not in super_categories:
-            super_categories.append(name)
-
-    def add_category(name: str, super_category: str | None) -> None:
-        if name not in categories:
-            categories.append(name)
-        category_super_category.setdefault(name, super_category)
-
-    def add_nav_path(path: list[str]) -> None:
-        key = tuple(path)
-        if path and key not in seen_nav_paths:
-            seen_nav_paths.add(key)
-            nav_path_order.append(path)
-
-    def walk(node: object, path: list[str] | None = None) -> None:
-        path = path or []
-        if isinstance(node, list):
-            for item in node:
-                walk(item, path)
-        elif isinstance(node, dict):
-            for key, value in node.items():
-                if isinstance(value, str):
-                    continue
-                if key in TRANSPARENT_NAV_SECTIONS and not path:
-                    walk(value, path)
-                    continue
-
-                next_path = [*path, key]
-                add_nav_path(next_path)
-                if len(next_path) == 1:
-                    add_super_category(key)
-                elif len(next_path) == 2:
-                    add_category(key, next_path[0])
-                else:
-                    category = next_path[1]
-                    sub_category_order.setdefault(category, [])
-                    if len(next_path) == 3 and key not in sub_category_order[category]:
-                        sub_category_order[category].append(key)
-                walk(value, next_path)
-
     tree = find_tree_nav(config)
-    if tree is not None:
-        walk(tree)
-
-    return {
-        "superCategories": super_categories,
-        "categories": categories,
-        "categorySuperCategory": category_super_category,
-        "subCategoryOrder": sub_category_order,
-        "navPathOrder": nav_path_order,
-        "maxBranchDepth": max((len(path) for path in nav_path_order), default=0),
-    }
+    if tree is None:
+        return TreeModel.from_tree([]).order.category_order_fields()
+    return TreeModel.from_tree(tree).order.category_order_fields()
 
 
 # ---------------------------------------------------------------------------
@@ -1187,17 +1098,12 @@ def quantile_unitize_similarity_matrix(similarity: "np.ndarray") -> tuple["np.nd
 
 def common_prefix_length(a: list[str], b: list[str]) -> int:
     """Return the number of matching leading path components."""
-    limit = min(len(a), len(b))
-    index = 0
-    while index < limit and a[index] == b[index]:
-        index += 1
-    return index
+    return tree_common_prefix_length(tuple(a), tuple(b))
 
 
 def tree_distance(a: list[str], b: list[str]) -> int:
     """Return tree distance between two nav paths."""
-    common = common_prefix_length(a, b)
-    return (len(a) - common) + (len(b) - common)
+    return tree_model_distance(tuple(a), tuple(b))
 
 
 def learn_tree_proximity_scale(

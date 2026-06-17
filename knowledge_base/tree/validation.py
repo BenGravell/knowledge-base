@@ -15,6 +15,7 @@ from knowledge_base.tree.nav_source import (
     metadata_source_path,
     tree_from_file,
 )
+from knowledge_base.tree.model import TreeModel, resolve_metadata_or_generated_source
 from knowledge_base.utils.paper_ids import paper_id_from_metadata
 
 
@@ -30,13 +31,6 @@ class MetadataPaper:
     algorithm: str
     metadata_path: Path
     generated_path: str
-
-
-@dataclass(frozen=True)
-class TreeLeaf:
-    label: str
-    source: str
-    nav_path: tuple[str, ...]
 
 
 @dataclass(frozen=True)
@@ -72,10 +66,6 @@ def relative_to_kb(path: Path) -> str:
         return str(path.relative_to(KB_DIR))
     except ValueError:
         return str(path)
-
-
-def as_list(value: Any) -> list[Any]:
-    return value if isinstance(value, list) else []
 
 
 def local_source_path(source: str) -> str:
@@ -114,32 +104,6 @@ def doc_path_from_source(source: str, *, tree_dir: Path, docs_dir: Path) -> Path
     return (docs_dir / source_path).resolve()
 
 
-def iter_tree_leaves(node: Any, labels: tuple[str, ...] = ()) -> list[TreeLeaf]:
-    leaves: list[TreeLeaf] = []
-
-    def walk(child: Any, path: tuple[str, ...]) -> None:
-        if isinstance(child, str):
-            leaves.append(TreeLeaf(path[-1] if path else child, child, path or (child,)))
-            return
-
-        if isinstance(child, list):
-            for item in child:
-                walk(item, path)
-            return
-
-        if isinstance(child, dict):
-            for label_raw, value in child.items():
-                label = str(label_raw)
-                next_path = path + (label,)
-                if isinstance(value, str):
-                    leaves.append(TreeLeaf(label, value, next_path))
-                else:
-                    walk(value, next_path)
-
-    walk(node, labels)
-    return leaves
-
-
 def load_metadata_papers(metadata_root: Path) -> list[MetadataPaper]:
     papers: list[MetadataPaper] = []
     for metadata_file in sorted(metadata_root.rglob("metadata.yml")):
@@ -174,6 +138,14 @@ def validate_tree(
     metadata_root = metadata_root.resolve()
 
     tree = tree_from_file(tree_path, normalize=False)
+    tree_model = TreeModel.from_tree(
+        tree,
+        resolve_source=lambda source: resolve_metadata_or_generated_source(
+            source,
+            base_dir=tree_dir,
+            metadata_root=metadata_root,
+        ),
+    )
     metadata_papers = load_metadata_papers(metadata_root)
     papers_by_path = {paper.metadata_path: paper for paper in metadata_papers}
     papers_by_id: dict[str, list[MetadataPaper]] = {}
@@ -185,7 +157,8 @@ def validate_tree(
     referenced_paper_ids: set[str] = set()
     checked_links = 0
 
-    for leaf in iter_tree_leaves(tree, ("Tree",)):
+    for leaf in tree_model.leaves:
+        nav_path = ("Tree",) + leaf.nav_path
         source = leaf.source.replace("\\", "/").strip()
         if not source or source.startswith("#") or is_external_source(source):
             continue
@@ -202,7 +175,7 @@ def validate_tree(
                         message="Tree metadata source does not exist.",
                         source=source,
                         expected_path=metadata_file,
-                        nav_path=leaf.nav_path,
+                        nav_path=nav_path,
                     )
                 )
                 continue
@@ -215,7 +188,7 @@ def validate_tree(
                         message="Tree metadata source is outside docs/papers.",
                         source=source,
                         expected_path=metadata_file,
-                        nav_path=leaf.nav_path,
+                        nav_path=nav_path,
                     )
                 )
                 continue
@@ -238,7 +211,7 @@ def validate_tree(
                         algorithm=paper.algorithm,
                         source=source,
                         metadata_path=paper.metadata_path,
-                        nav_path=leaf.nav_path,
+                        nav_path=nav_path,
                     )
                 )
             continue
@@ -253,7 +226,7 @@ def validate_tree(
                         message="Generated paper page has no source metadata.",
                         source=source,
                         expected_path=docs_dir / source_path,
-                        nav_path=leaf.nav_path,
+                        nav_path=nav_path,
                     )
                 )
                 continue
@@ -275,7 +248,7 @@ def validate_tree(
                         algorithm=paper.algorithm,
                         source=source,
                         metadata_path=paper.metadata_path,
-                        nav_path=leaf.nav_path,
+                        nav_path=nav_path,
                     )
                 )
             continue
@@ -288,7 +261,7 @@ def validate_tree(
                     message="Tree page source does not exist.",
                     source=source,
                     expected_path=doc_path,
-                    nav_path=leaf.nav_path,
+                    nav_path=nav_path,
                 )
             )
 
