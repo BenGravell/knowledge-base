@@ -72,6 +72,10 @@ streamlit run apps/generator_app.py
 - Do not run programmatic tests except when a task skill explicitly requires a verification command or UX controls changed.
 - When UX controls changed, verify with `mkdocs build` from `knowledge_base/` and check for warnings.
 
+## Sub-Agent Delegation
+
+Use sub-agents as an internal implementation detail whenever the primary agent judges they would improve exploration, validation, or parallel analysis. Do not wait for the user to request or approve sub-agent use. Keep delegation bounded to the task, pass only the context each sub-agent needs, and have the primary agent synthesize the result and decide what to do next.
+
 ## Extra Repo-Local Skills
 
 Ponytail skills are vendored in this repo:

@@ -1,6 +1,8 @@
 # Interface Design
 
-When the user wants to explore alternative interfaces for a chosen deepening candidate, use this parallel sub-agent pattern. Based on "Design It Twice" (Ousterhout) — your first idea is unlikely to be the best.
+When a chosen deepening candidate would benefit from alternative interface designs, use this parallel sub-agent pattern. The primary agent decides when to run it; do not wait for the user to request or approve sub-agent use.
+
+Based on "Design It Twice" (Ousterhout) — your first idea is unlikely to be the best.
 
 Uses the vocabulary in [LANGUAGE.md](LANGUAGE.md) — **module**, **interface**, **seam**, **adapter**, **leverage**.
 
