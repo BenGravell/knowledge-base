@@ -4,6 +4,9 @@
 # Site
 knowledge_base/site/
 
+# Local build timing history and trace files.
+knowledge_base/.build-metrics/
+
 # Interrupted atomic writes from generated-data tooling.
 knowledge_base/map/.*.tmp
 knowledge_base/semantic_search/.*.tmp

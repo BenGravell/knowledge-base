@@ -71,6 +71,8 @@ python scripts/refresh_offline_data.py
 Use `--force` to recompute cached embeddings, or `--strict` to also fail on
 Tree algorithm-label drift and MkDocs warnings.
 
+Each non-dry-run refresh appends timing metadata to `knowledge_base/.build-metrics/builds.jsonl` and writes a Chrome Trace JSON file beside it for phase drilldown in Perfetto or Chrome tracing.
+
 ## Streamlit apps
 
 Generate and edit a `metadata.yml` entry from an arXiv ID from `knowledge_base/`:

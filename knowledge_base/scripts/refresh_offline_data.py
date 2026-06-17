@@ -25,6 +25,14 @@ import time
 from dataclasses import dataclass
 from pathlib import Path
 
+from knowledge_base.scripts.build_metrics import (
+    DEFAULT_METRICS_DIR,
+    StepTiming,
+    utc_now,
+    utc_stamp,
+    write_build_metrics,
+)
+
 KB_DIR = Path(__file__).resolve().parents[1]
 REPO_ROOT = KB_DIR.parent
 
@@ -48,21 +56,45 @@ def subprocess_env() -> dict[str, str]:
     return env
 
 
-def run_step(step: Step, *, index: int, total: int, dry_run: bool) -> int:
+def run_step(step: Step, *, index: int, total: int, dry_run: bool, run_start_ns: int) -> StepTiming:
     print(f"\n[{index}/{total}] {step.name}")
     print(f"$ {format_command(step.command)}")
+    step_start_ns = time.perf_counter_ns()
+    started_at = utc_stamp()
     if dry_run:
-        return 0
+        return StepTiming(
+            step.name,
+            step.command,
+            started_at,
+            0.0,
+            0.0,
+            0,
+        )
 
-    start = time.monotonic()
-    result = subprocess.run(step.command, cwd=KB_DIR, env=subprocess_env(), check=False)
-    elapsed = time.monotonic() - start
-    if result.returncode:
-        print(f"\nStep failed after {elapsed:.1f}s: {step.name}", file=sys.stderr)
-        return result.returncode
-
-    print(f"Done in {elapsed:.1f}s.")
-    return 0
+    error = None
+    try:
+        result = subprocess.run(step.command, cwd=KB_DIR, env=subprocess_env(), check=False)
+        returncode = result.returncode
+    except OSError as exc:
+        returncode = 127
+        error = str(exc)
+    elapsed_s = (time.perf_counter_ns() - step_start_ns) / 1_000_000_000
+    timing = StepTiming(
+        step.name,
+        step.command,
+        started_at,
+        (step_start_ns - run_start_ns) / 1_000_000_000,
+        elapsed_s,
+        returncode,
+        error,
+    )
+    if error:
+        print(f"\nStep failed after {elapsed_s:.1f}s: {step.name}: {error}", file=sys.stderr)
+    elif returncode:
+        print(f"\nStep failed after {elapsed_s:.1f}s: {step.name}", file=sys.stderr)
+    else:
+        print(f"Done in {elapsed_s:.1f}s.")
+    return timing
 
 
 def build_steps(args: argparse.Namespace) -> list[Step]:
@@ -180,20 +212,46 @@ def parse_args() -> argparse.Namespace:
         action="store_true",
         help="Print the planned commands without running them.",
     )
+    parser.add_argument(
+        "--metrics-dir",
+        type=Path,
+        default=DEFAULT_METRICS_DIR,
+        help="Directory for append-only build timing records and Chrome Trace JSON.",
+    )
     return parser.parse_args()
 
 
 def main() -> int:
     args = parse_args()
     steps = build_steps(args)
+    run_started_at = utc_now()
+    run_start_ns = time.perf_counter_ns()
+    timings: list[StepTiming] = []
+    returncode = 0
     print(f"Working directory: {KB_DIR}")
     if args.dry_run:
         print("Dry run: no commands will be executed.")
 
     for index, step in enumerate(steps, start=1):
-        returncode = run_step(step, index=index, total=len(steps), dry_run=args.dry_run)
-        if returncode:
-            return returncode
+        timing = run_step(step, index=index, total=len(steps), dry_run=args.dry_run, run_start_ns=run_start_ns)
+        timings.append(timing)
+        if timing.returncode:
+            returncode = timing.returncode
+            break
+
+    run_duration_s = (time.perf_counter_ns() - run_start_ns) / 1_000_000_000
+    status = "dry-run" if args.dry_run else "success" if returncode == 0 else "failed"
+    if not args.dry_run:
+        write_build_metrics(
+            args=args,
+            run_started_at=run_started_at,
+            run_duration_s=run_duration_s,
+            status=status,
+            returncode=returncode,
+            steps=timings,
+        )
+    if returncode:
+        return returncode
 
     if args.dry_run:
         print("\nDry run complete.")
