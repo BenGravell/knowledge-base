@@ -21,8 +21,13 @@ import time
 from dataclasses import dataclass
 from pathlib import Path
 
+from rich.console import Console
+from rich.progress import BarColumn, Progress, SpinnerColumn, TaskProgressColumn, TextColumn, TimeElapsedColumn
+from rich.table import Table
+
 KB_DIR = Path(__file__).resolve().parents[1]
 REPO_ROOT = KB_DIR.parent
+CONSOLE = Console()
 
 
 @dataclass(frozen=True)
@@ -65,39 +70,77 @@ def site_has_paper_pages() -> bool:
     return papers_dir.exists() and next(papers_dir.rglob("index.html"), None) is not None
 
 
-def run_step(step: Step, *, index: int, total: int, dry_run: bool) -> StepResult:
-    print(f"\n[{index}/{total}] {step.name}", flush=True)
-    print(f"$ {format_command(step.command)}", flush=True)
+def run_command(command: list[str], console: Console) -> tuple[int, str | None]:
+    try:
+        with subprocess.Popen(
+            command,
+            cwd=REPO_ROOT,
+            env=subprocess_env(),
+            stdout=subprocess.PIPE,
+            stderr=subprocess.STDOUT,
+            text=True,
+            encoding="utf-8",
+            errors="replace",
+            bufsize=1,
+        ) as process:
+            if process.stdout is None:
+                return process.wait(), "stdout pipe was not created"
+            for line in process.stdout:
+                console.print(line.rstrip("\n"), markup=False, highlight=False)
+            return process.wait(), None
+    except OSError as exc:
+        return 127, str(exc)
+
+
+def run_step(
+    step: Step,
+    *,
+    index: int,
+    total: int,
+    dry_run: bool,
+    console: Console,
+    progress: Progress | None = None,
+    progress_task: int | None = None,
+) -> StepResult:
+    console.rule(f"{index}/{total} {step.group}: {step.label}", style="cyan")
+    console.print(step.name, style="bold")
+    console.print(f"$ {format_command(step.command)}", style="dim", markup=False, highlight=False, soft_wrap=True)
+    if progress is not None and progress_task is not None:
+        progress.update(progress_task, description=f"{step.group}: {step.label}")
     if dry_run:
+        if progress is not None and progress_task is not None:
+            progress.advance(progress_task)
         return StepResult(step, 0.0, 0)
 
     step_start_ns = time.perf_counter_ns()
-    error = None
-    try:
-        result = subprocess.run(step.command, cwd=REPO_ROOT, env=subprocess_env(), check=False)
-        returncode = result.returncode
-    except OSError as exc:
-        returncode = 127
-        error = str(exc)
+    returncode, error = run_command(step.command, console)
     elapsed_s = (time.perf_counter_ns() - step_start_ns) / 1_000_000_000
     if error:
-        print(f"\nStep failed after {format_duration(elapsed_s)}: {step.name}: {error}", file=sys.stderr)
+        console.print(f"Step failed after {format_duration(elapsed_s)}: {step.name}: {error}", style="bold red")
     elif returncode:
-        print(f"\nStep failed after {format_duration(elapsed_s)}: {step.name}", file=sys.stderr)
+        console.print(f"Step failed after {format_duration(elapsed_s)}: {step.name}", style="bold red")
     else:
-        print(f"Done in {format_duration(elapsed_s)}.", flush=True)
+        console.print(f"Done in {format_duration(elapsed_s)}.", style="green")
+    if progress is not None and progress_task is not None:
+        progress.advance(progress_task)
     return StepResult(step, elapsed_s, returncode)
 
 
-def print_timing_report(results: list[StepResult], total_s: float, *, failed: bool) -> None:
-    print("\nTiming report" + (" (failed)" if failed else ""))
+def print_timing_report(results: list[StepResult], total_s: float, *, failed: bool, console: Console) -> None:
+    table = Table(title="Timing report" + (" (failed)" if failed else ""))
+    table.add_column("Phase", style="bold")
+    table.add_column("Step")
+    table.add_column("Duration", justify="right")
+    table.add_column("Status")
     for group in dict.fromkeys(result.step.group for result in results):
         group_results = [result for result in results if result.step.group == group]
-        print(f"  {group}: {format_duration(sum(result.duration_s for result in group_results))}")
+        table.add_row(group, "Total", format_duration(sum(result.duration_s for result in group_results)), "")
         for result in group_results:
-            status = " failed" if result.returncode else ""
-            print(f"    - {result.step.label}: {format_duration(result.duration_s)}{status}")
-    print(f"  Total: {format_duration(total_s)}")
+            status = "[red]FAIL[/]" if result.returncode else "[green]PASS[/]"
+            table.add_row("", result.step.label, format_duration(result.duration_s), status)
+    table.add_row("Total", "", format_duration(total_s), "[red]FAILED[/]" if failed else "[green]PASSED[/]")
+    console.print()
+    console.print(table)
 
 
 def build_steps(args: argparse.Namespace) -> list[Step]:
@@ -248,27 +291,49 @@ def main() -> int:
     run_start_ns = time.perf_counter_ns()
     returncode = 0
     results: list[StepResult] = []
-    print(f"Working directory: {REPO_ROOT}", flush=True)
+    CONSOLE.print(f"Working directory: {REPO_ROOT}", style="dim", markup=False, highlight=False)
     if args.dry_run:
-        print("Dry run: no commands will be executed.", flush=True)
+        CONSOLE.print("Dry run: no commands will be executed.", style="yellow")
 
-    for index, step in enumerate(steps, start=1):
-        result = run_step(step, index=index, total=len(steps), dry_run=args.dry_run)
-        results.append(result)
-        returncode = result.returncode
-        if returncode:
-            break
+    with Progress(
+        SpinnerColumn(),
+        TextColumn("[progress.description]{task.description}"),
+        BarColumn(),
+        TaskProgressColumn(),
+        TimeElapsedColumn(),
+        console=CONSOLE,
+        redirect_stdout=False,
+        redirect_stderr=False,
+    ) as progress:
+        progress_task = progress.add_task("Starting", total=len(steps))
+        for index, step in enumerate(steps, start=1):
+            result = run_step(
+                step,
+                index=index,
+                total=len(steps),
+                dry_run=args.dry_run,
+                console=CONSOLE,
+                progress=progress,
+                progress_task=progress_task,
+            )
+            results.append(result)
+            returncode = result.returncode
+            if returncode:
+                progress.update(progress_task, description="Stopped")
+                break
+        else:
+            progress.update(progress_task, description="Complete")
 
     run_duration_s = (time.perf_counter_ns() - run_start_ns) / 1_000_000_000
     if not args.dry_run:
-        print_timing_report(results, run_duration_s, failed=bool(returncode))
+        print_timing_report(results, run_duration_s, failed=bool(returncode), console=CONSOLE)
     if returncode:
         return returncode
 
     if args.dry_run:
-        print("\nDry run complete.")
+        CONSOLE.print("\nDry run complete.", style="green")
     else:
-        print("\nOffline generated data is refreshed and the consistency checks passed.")
+        CONSOLE.print("\nOffline generated data is refreshed and the consistency checks passed.", style="green")
     return 0
 
 
