@@ -37,27 +37,27 @@ poetry install
 poetry shell
 ```
 
-Run MkDocs commands from `knowledge_base/`:
+Run MkDocs commands from the repo root:
 
 ```bash
-mkdocs serve
-mkdocs build
-mkdocs gh-deploy
+mkdocs serve -f knowledge_base/mkdocs.yml
+mkdocs build -f knowledge_base/mkdocs.yml
+mkdocs gh-deploy -f knowledge_base/mkdocs.yml
 ```
 
 Map utilities:
 
 ```bash
-python map/generate_map_data.py
-python map/preview_map.py
+python knowledge_base/map/generate_map_data.py
+python knowledge_base/map/preview_map.py
 ```
 
 Human-oriented dev tools:
 
 ```bash
-python scripts/audit_metadata.py
-streamlit run apps/analyzer_app.py
-streamlit run apps/generator_app.py
+python knowledge_base/scripts/audit_metadata.py
+streamlit run knowledge_base/apps/analyzer_app.py
+streamlit run knowledge_base/apps/generator_app.py
 ```
 
 ## Conventions
@@ -70,7 +70,7 @@ streamlit run apps/generator_app.py
 - Do not promote `audit_status` to `reviewed`. Agents may set it to `partial` after meaningful manual review or correction.
 - There is no general test suite.
 - Do not run programmatic tests except when a task skill explicitly requires a verification command or UX controls changed.
-- When UX controls changed, verify with `mkdocs build` from `knowledge_base/` and check for warnings.
+- When UX controls changed, verify with `mkdocs build -f knowledge_base/mkdocs.yml` from the repo root and check for warnings.
 
 ## Sub-Agent Delegation
 

@@ -85,9 +85,9 @@ Run focused checks from the repository root:
 .venv/bin/python knowledge_base/scripts/validate_tree.py --max-results 5
 ```
 
-When changing `generate_tree_data.py`, also build the MkDocs site from
-`knowledge_base/`:
+When changing `generate_tree_data.py`, also build the MkDocs site from the
+repository root:
 
 ```bash
-../.venv/bin/python -m mkdocs build
+.venv/bin/python -m mkdocs build -f knowledge_base/mkdocs.yml
 ```

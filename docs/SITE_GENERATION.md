@@ -1,37 +1,37 @@
 # Site generation and derived features
 
-Commands in this file run from `knowledge_base/` unless noted otherwise.
+Commands in this file run from the repository root.
 
 ## MkDocs site
 
 Serve the site locally:
 
 ```bash
-mkdocs serve
+poetry run mkdocs serve -f knowledge_base/mkdocs.yml
 ```
 
 Build the static site:
 
 ```bash
-mkdocs build
+poetry run mkdocs build -f knowledge_base/mkdocs.yml
 ```
 
 Deploy to GitHub Pages:
 
 ```bash
-mkdocs gh-deploy
+poetry run mkdocs gh-deploy -f knowledge_base/mkdocs.yml
 ```
 
 During `mkdocs serve` and `mkdocs build`, MkDocs runs these gen-files scripts
 automatically:
 
-- `generate_papers.py` renders generated paper pages from `docs/papers/**/metadata.yml`.
-- `map/copy_assets.py` publishes Map JavaScript and vendor assets.
-- `semantic_search/copy_assets.py` publishes the Semantic Search index and vector table.
-- `tree/generate_tree_data.py` publishes Tree browser data.
+- `knowledge_base/generate_papers.py` renders generated paper pages from `knowledge_base/docs/papers/**/metadata.yml`.
+- `knowledge_base/map/copy_assets.py` publishes Map JavaScript and vendor assets.
+- `knowledge_base/semantic_search/copy_assets.py` publishes the Semantic Search index and vector table.
+- `knowledge_base/tree/generate_tree_data.py` publishes Tree browser data.
 
-`mkdocs.yml` loads `tree.yml` through the local `tree-nav` plugin. For the
-in-process Tree model design, see
+`knowledge_base/mkdocs.yml` loads `knowledge_base/tree.yml` through the local
+`tree-nav` plugin. For the in-process Tree model design, see
 [knowledge_base/tree/README.md](../knowledge_base/tree/README.md).
 
 ## Map
@@ -42,39 +42,39 @@ and renders the resulting node map with Sigma.js and Graphology.
 Regenerate embeddings and graph data:
 
 ```bash
-python map/generate_map_data.py
+poetry run python knowledge_base/map/generate_map_data.py
 ```
 
 Useful variants:
 
 ```bash
-python map/generate_map_data.py --force
-python map/generate_map_data.py --backend fastembed
-python map/generate_map_data.py --backend voyage
-python map/generate_map_data.py --skip-force-layout
+poetry run python knowledge_base/map/generate_map_data.py --force
+poetry run python knowledge_base/map/generate_map_data.py --backend fastembed
+poetry run python knowledge_base/map/generate_map_data.py --backend voyage
+poetry run python knowledge_base/map/generate_map_data.py --skip-force-layout
 ```
 
 Preview the layout quickly with Plotly:
 
 ```bash
-python map/preview_map.py
-python map/preview_map.py --serve
-python map/preview_map.py --out preview.html
+poetry run python knowledge_base/map/preview_map.py
+poetry run python knowledge_base/map/preview_map.py --serve
+poetry run python knowledge_base/map/preview_map.py --out preview.html
 ```
 
 Smoke-test the served MkDocs Map page in headless Chrome:
 
 ```bash
-python scripts/verify_map_view.py --url http://127.0.0.1:8000/map/
+poetry run python knowledge_base/scripts/verify_map_view.py --url http://127.0.0.1:8000/map/
 ```
 
 Measure the Tree page default-load plus top-level branch-click timing:
 
 ```bash
-mkdocs build
-python scripts/measure_tree_view.py
-python scripts/measure_tree_view.py --runs 7 --viewport 1366x900
-python scripts/measure_tree_view.py --reduced-motion
+poetry run mkdocs build -f knowledge_base/mkdocs.yml
+poetry run python knowledge_base/scripts/measure_tree_view.py
+poetry run python knowledge_base/scripts/measure_tree_view.py --runs 7 --viewport 1366x900
+poetry run python knowledge_base/scripts/measure_tree_view.py --reduced-motion
 ```
 
 ## Semantic Search
@@ -94,7 +94,7 @@ runtime.
 Regenerate the Semantic Search index after paper metadata changes:
 
 ```bash
-python semantic_search/generate_semantic_search_index.py
+poetry run python knowledge_base/semantic_search/generate_semantic_search_index.py
 ```
 
 Semantic Search intentionally uses `sentence-transformers/all-MiniLM-L6-v2` /

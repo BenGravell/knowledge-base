@@ -1,10 +1,6 @@
 """Refresh local generated data needed by the static knowledge-base site.
 
-Run from ``knowledge_base/``:
-
-    python scripts/refresh_offline_data.py
-
-Or from the repository root:
+Run from the repository root:
 
     python knowledge_base/scripts/refresh_offline_data.py
 
@@ -73,7 +69,7 @@ def run_step(step: Step, *, index: int, total: int, dry_run: bool, run_start_ns:
 
     error = None
     try:
-        result = subprocess.run(step.command, cwd=KB_DIR, env=subprocess_env(), check=False)
+        result = subprocess.run(step.command, cwd=REPO_ROOT, env=subprocess_env(), check=False)
         returncode = result.returncode
     except OSError as exc:
         returncode = 127
@@ -105,7 +101,7 @@ def build_steps(args: argparse.Namespace) -> list[Step]:
     py = sys.executable
     steps: list[Step] = []
 
-    validate_tree = [py, "scripts/validate_tree.py"]
+    validate_tree = [py, "knowledge_base/scripts/validate_tree.py"]
     if args.strict:
         validate_tree.append("--check-algorithm-labels")
     steps.append(Step("Validate Tree nav links and paper coverage", validate_tree))
@@ -115,7 +111,7 @@ def build_steps(args: argparse.Namespace) -> list[Step]:
             "Check that every metadata-backed paper is in the Tree",
             [
                 py,
-                "scripts/list_unplaced_papers.py",
+                "knowledge_base/scripts/list_unplaced_papers.py",
                 "--neighbors",
                 "0",
                 "--fail-on-missing",
@@ -124,13 +120,13 @@ def build_steps(args: argparse.Namespace) -> list[Step]:
     )
 
     if not args.skip_semantic_search:
-        semantic_search = [py, "semantic_search/generate_semantic_search_index.py"]
+        semantic_search = [py, "knowledge_base/semantic_search/generate_semantic_search_index.py"]
         if args.force:
             semantic_search.append("--force")
         steps.append(Step("Regenerate Semantic Search index, settings, and vector table", semantic_search))
 
     if not args.skip_map:
-        map_data = [py, "map/generate_map_data.py"]
+        map_data = [py, "knowledge_base/map/generate_map_data.py"]
         if args.map_backend != "auto":
             map_data.extend(["--backend", args.map_backend])
         if args.force:
@@ -143,12 +139,12 @@ def build_steps(args: argparse.Namespace) -> list[Step]:
         steps.append(
             Step(
                 "Audit metadata and generated Map/Search assets",
-                [py, "scripts/audit_metadata.py", "--severity", args.audit_severity],
+                [py, "knowledge_base/scripts/audit_metadata.py", "--severity", args.audit_severity],
             )
         )
 
     if not args.skip_build:
-        mkdocs = [py, "-m", "mkdocs", "build"]
+        mkdocs = [py, "-m", "mkdocs", "build", "-f", "knowledge_base/mkdocs.yml"]
         if args.strict:
             mkdocs.append("--strict")
         steps.append(Step("Build MkDocs site and republish gen-files assets", mkdocs))
@@ -232,7 +228,7 @@ def main() -> int:
     run_start_ns = time.perf_counter_ns()
     timings: list[StepTiming] = []
     returncode = 0
-    print(f"Working directory: {KB_DIR}")
+    print(f"Working directory: {REPO_ROOT}")
     if args.dry_run:
         print("Dry run: no commands will be executed.")
 

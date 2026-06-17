@@ -14,21 +14,19 @@ Prerequisites:
 git clone https://github.com/BenGravell/knowledge-base.git
 cd knowledge-base
 poetry install
-poetry shell
-cd knowledge_base
-mkdocs serve
+poetry run mkdocs serve -f knowledge_base/mkdocs.yml
 ```
 
-Build the site from `knowledge_base/`:
+Build the site from the repository root:
 
 ```bash
-mkdocs build
+poetry run mkdocs build -f knowledge_base/mkdocs.yml
 ```
 
-Deploy to GitHub Pages from `knowledge_base/`:
+Deploy to GitHub Pages from the repository root:
 
 ```bash
-mkdocs gh-deploy
+poetry run mkdocs gh-deploy -f knowledge_base/mkdocs.yml
 ```
 
 ## Development checks
@@ -62,10 +60,10 @@ pre-commit run --all-files
 ## Local generated data
 
 Refresh local generated data and validate that the site is self-consistent from
-`knowledge_base/`:
+the repository root:
 
 ```bash
-python scripts/refresh_offline_data.py
+poetry run python knowledge_base/scripts/refresh_offline_data.py
 ```
 
 Use `--force` to recompute cached embeddings, or `--strict` to also fail on
@@ -89,16 +87,16 @@ ln -sfn perfetto-v56.1/ui/out/dist knowledge_base/.tools/perfetto-ui
 
 ## Streamlit apps
 
-Generate and edit a `metadata.yml` entry from an arXiv ID from `knowledge_base/`:
+Generate and edit a `metadata.yml` entry from an arXiv ID:
 
 ```bash
-streamlit run apps/generator_app.py
+poetry run streamlit run knowledge_base/apps/generator_app.py
 ```
 
-Run the metadata analyzer from `knowledge_base/`:
+Run the metadata analyzer:
 
 ```bash
-streamlit run apps/analyzer_app.py
+poetry run streamlit run knowledge_base/apps/analyzer_app.py
 ```
 
 ## Repo layout

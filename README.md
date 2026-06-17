@@ -31,9 +31,7 @@ Prerequisites: Python `>=3.11,<3.14` and Poetry.
 git clone https://github.com/BenGravell/knowledge-base.git
 cd knowledge-base
 poetry install
-poetry shell
-cd knowledge_base
-mkdocs serve
+poetry run mkdocs serve -f knowledge_base/mkdocs.yml
 ```
 
 Open the URL printed by MkDocs, usually <http://127.0.0.1:8000/>.
@@ -42,7 +40,7 @@ Open the URL printed by MkDocs, usually <http://127.0.0.1:8000/>.
 
 ### Serve the site locally
 
-Run `mkdocs serve` from `knowledge_base/`.
+Run `poetry run mkdocs serve -f knowledge_base/mkdocs.yml` from the repo root.
 
 ### Add papers
 
@@ -54,12 +52,12 @@ Work from the repo root, use Poetry, and run the narrowest check that covers the
 
 ### Refresh offline data
 
-If local generated data is stale, refresh it from `knowledge_base/`:
+If local generated data is stale, refresh it from the repo root:
 
 ```bash
-python scripts/refresh_offline_data.py
+poetry run python knowledge_base/scripts/refresh_offline_data.py
 ```
 
 ### Deploy
 
-Run `mkdocs gh-deploy` from `knowledge_base/`.
+Run `poetry run mkdocs gh-deploy -f knowledge_base/mkdocs.yml` from the repo root.

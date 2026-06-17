@@ -415,7 +415,10 @@ def main() -> None:
 
     if args.write_tree:
         if not embeddings:
-            sys.exit(f"Could not load embeddings from {EMBEDDING_CACHE}. Run `python map/generate_map_data.py` first.")
+            sys.exit(
+                f"Could not load embeddings from {EMBEDDING_CACHE}. "
+                "Run `python knowledge_base/map/generate_map_data.py` first."
+            )
         tree_leaves = collect_tree_leaves(tree_model)
         placed, skipped = write_tree_placements(
             display,

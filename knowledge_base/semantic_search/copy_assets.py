@@ -19,6 +19,7 @@ from knowledge_base.generated_assets import (
 ASSET_DIR = Path(__file__).resolve().parent
 KB_DIR = ASSET_DIR.parent
 METADATA_ROOT = KB_DIR / "docs" / "papers"
+RUN_GENERATE_SEMANTIC_SEARCH = "python knowledge_base/semantic_search/generate_semantic_search_index.py"
 
 TEXT_ASSETS = {
     SEMANTIC_SEARCH_INDEX.name: SEMANTIC_SEARCH_INDEX.dumps(
@@ -40,9 +41,9 @@ def read_json(path: Path) -> dict[str, object]:
     try:
         data = json.loads(path.read_text(encoding="utf-8"))
     except json.JSONDecodeError as exc:
-        raise RuntimeError(f"{path} is not valid JSON; run python semantic_search/generate_semantic_search_index.py") from exc
+        raise RuntimeError(f"{path} is not valid JSON; run {RUN_GENERATE_SEMANTIC_SEARCH}") from exc
     if not isinstance(data, dict):
-        raise RuntimeError(f"{path} must contain an object; run python semantic_search/generate_semantic_search_index.py")
+        raise RuntimeError(f"{path} must contain an object; run {RUN_GENERATE_SEMANTIC_SEARCH}")
     return data
 
 
@@ -55,7 +56,7 @@ def validate_semantic_assets() -> tuple[dict[str, str], dict[str, bytes]]:
     if not manifest_path.exists():
         if settings_path.exists() or any(path.stat().st_size for path in vector_candidates):
             raise RuntimeError(
-                "Semantic Search assets are partial; run python semantic_search/generate_semantic_search_index.py"
+                f"Semantic Search assets are partial; run {RUN_GENERATE_SEMANTIC_SEARCH}"
             )
         return TEXT_ASSETS, BINARY_ASSETS
 
@@ -64,7 +65,7 @@ def validate_semantic_assets() -> tuple[dict[str, str], dict[str, bytes]]:
     if not isinstance(papers, list):
         raise RuntimeError(
             "semantic-search-index.json has no paper list; "
-            "run python semantic_search/generate_semantic_search_index.py"
+            f"run {RUN_GENERATE_SEMANTIC_SEARCH}"
         )
     indexed_ids = [
         str(paper["id"])
@@ -83,17 +84,17 @@ def validate_semantic_assets() -> tuple[dict[str, str], dict[str, bytes]]:
         reason = f" ({', '.join(detail)})" if detail else ""
         raise RuntimeError(
             f"semantic-search-index.json is stale for current metadata{reason}; "
-            "run python semantic_search/generate_semantic_search_index.py"
+            f"run {RUN_GENERATE_SEMANTIC_SEARCH}"
         )
 
     if not settings_path.exists():
-        raise RuntimeError(f"Missing {settings_path}; run python semantic_search/generate_semantic_search_index.py")
+        raise RuntimeError(f"Missing {settings_path}; run {RUN_GENERATE_SEMANTIC_SEARCH}")
     settings = read_json(settings_path)
 
     for key in ("model", "browserModel", "count", "scoreThreshold"):
         if settings.get(key) != manifest.get(key):
             raise RuntimeError(
-                f"{settings_path} is stale for {key}; run python semantic_search/generate_semantic_search_index.py"
+                f"{settings_path} is stale for {key}; run {RUN_GENERATE_SEMANTIC_SEARCH}"
             )
 
     count = manifest.get("count")
@@ -101,14 +102,14 @@ def validate_semantic_assets() -> tuple[dict[str, str], dict[str, bytes]]:
     if not isinstance(count, int) or count < 0 or not isinstance(dimension, int) or dimension < 0:
         raise RuntimeError(
             "semantic-search-index.json has invalid count/dimension; "
-            "run python semantic_search/generate_semantic_search_index.py"
+            f"run {RUN_GENERATE_SEMANTIC_SEARCH}"
         )
 
     quantization = manifest.get("quantization")
     if not isinstance(quantization, dict) or quantization.get("type") != "int8":
         raise RuntimeError(
             "semantic-search-index.json must point at int8 vectors; "
-            "run python semantic_search/generate_semantic_search_index.py"
+            f"run {RUN_GENERATE_SEMANTIC_SEARCH}"
         )
 
     vector_name = manifest.get("vectors")
@@ -117,11 +118,11 @@ def validate_semantic_assets() -> tuple[dict[str, str], dict[str, bytes]]:
     vector_path = ASSET_DIR / vector_name
     expected_bytes = count * dimension
     if expected_bytes and not vector_path.exists():
-        raise RuntimeError(f"Missing {vector_path}; run python semantic_search/generate_semantic_search_index.py")
+        raise RuntimeError(f"Missing {vector_path}; run {RUN_GENERATE_SEMANTIC_SEARCH}")
     if vector_path.exists() and vector_path.stat().st_size != expected_bytes:
         raise RuntimeError(
             f"{vector_path} is stale ({vector_path.stat().st_size} bytes, expected {expected_bytes}); "
-            "run python semantic_search/generate_semantic_search_index.py"
+            f"run {RUN_GENERATE_SEMANTIC_SEARCH}"
         )
 
     return (

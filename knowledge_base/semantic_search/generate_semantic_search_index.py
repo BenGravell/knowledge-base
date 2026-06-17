@@ -2,9 +2,9 @@
 
 The browser search embeds a free-form query with the same sentence-transformer
 model used here, then scores it against this static quantized vector table.
-Run this script from ``knowledge_base/`` whenever paper metadata changes:
+Run this script from the repository root whenever paper metadata changes:
 
-    python semantic_search/generate_semantic_search_index.py
+    python knowledge_base/semantic_search/generate_semantic_search_index.py
 """
 
 from __future__ import annotations

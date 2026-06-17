@@ -10,6 +10,7 @@ import yaml
 from jinja2 import Environment
 
 from knowledge_base.catalog import Entry
+from knowledge_base.config import KB_DIR
 from knowledge_base.generated_assets import SEARCH_DATA, SITE_LINK_DATA, TAG_SEARCH_DATA
 from knowledge_base.utils.arxiv_utils import (
     arxiv_abs_url,
@@ -25,10 +26,10 @@ except Exception:  # pragma: no cover - build fallback for environments without 
     np = None
 
 # Root folder for metadata
-metadata_root = Path("docs/papers")
-template_file = Path("docs/templates/paper_template.md")
+metadata_root = KB_DIR / "docs" / "papers"
+template_file = KB_DIR / "docs" / "templates" / "paper_template.md"
 generated_root = Path("papers")
-embedding_cache_file = Path("map/embedding_cache.json")
+embedding_cache_file = KB_DIR / "map" / "embedding_cache.json"
 related_result_limit = 36
 top_similar_limit = 5
 YAML_LOADER = getattr(yaml, "CSafeLoader", yaml.SafeLoader)
@@ -593,7 +594,7 @@ for entry in paper_entries:
     data = entry["data"]
     output_path = catalog_entry.generated_path
     data["top_similar_papers"] = top_similar_by_id.get(paper_id, [])
-    mkdocs_gen_files.set_edit_path(output_path, metadata_file)
+    mkdocs_gen_files.set_edit_path(output_path, metadata_file.relative_to(KB_DIR))
     with mkdocs_gen_files.open(output_path, "w") as f_out:
         f_out.write(paper_template.render(**data))
 
@@ -604,7 +605,7 @@ for entry in paper_entries:
 
 search_data = build_tag_search_data(paper_records)
 with mkdocs_gen_files.open(SITE_LINK_DATA.published_path, "w") as out:
-    out.write(SITE_LINK_DATA.js_assignment(site_link_data(), indent=2))
+    out.write(SITE_LINK_DATA.js_assignment(site_link_data(str(KB_DIR / "mkdocs.yml")), indent=2))
 
 for asset in (SEARCH_DATA, TAG_SEARCH_DATA):
     with mkdocs_gen_files.open(asset.published_path, "w") as out:

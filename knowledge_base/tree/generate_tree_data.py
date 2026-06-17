@@ -12,7 +12,7 @@ from __future__ import annotations
 import json
 import re
 from collections import Counter
-from pathlib import Path, PurePosixPath
+from pathlib import PurePosixPath
 from typing import Any
 from urllib.parse import quote
 
@@ -20,6 +20,7 @@ import mkdocs_gen_files
 import yaml
 
 from knowledge_base.catalog import Catalog
+from knowledge_base.config import KB_DIR
 from knowledge_base.generated_assets import ANALYTICS_DATA, TIMELINE_DATA, TREE_DATA
 from knowledge_base.tree.model import (
     TreeBranch,
@@ -30,9 +31,9 @@ from knowledge_base.tree.model import (
 )
 from knowledge_base.tree.validation import format_tree_validation_report, validate_tree
 
-MKDOCS_YML = "mkdocs.yml"
-TREE_YML = Path("tree.yml")
-METADATA_ROOT = Path("docs/papers")
+MKDOCS_YML = KB_DIR / "mkdocs.yml"
+TREE_YML = KB_DIR / "tree.yml"
+METADATA_ROOT = KB_DIR / "docs" / "papers"
 UNCATEGORIZED_CATEGORY = "Uncategorized"
 YAML_LOADER = getattr(yaml, "CSafeLoader", yaml.SafeLoader)
 
@@ -243,8 +244,8 @@ ids = IdFactory()
 tree_model = load_tree_model(
     TREE_YML,
     config=config,
-    base_dir=Path.cwd(),
-    metadata_root=(Path.cwd() / METADATA_ROOT).resolve(),
+    base_dir=KB_DIR,
+    metadata_root=METADATA_ROOT,
 )
 root = build_browser_tree(tree_model, ids)
 

@@ -5,11 +5,11 @@ large first-level Decision-making branch. It combines phase timings emitted by
 the Tree page when loaded with ``?ct_perf=1`` with Chrome Performance metrics
 for script, style, and layout work.
 
-Examples, from ``knowledge_base/``:
+Examples, from the repository root:
 
-  python scripts/measure_tree_view.py
-  python scripts/measure_tree_view.py --url http://127.0.0.1:8000/tree/
-  python scripts/measure_tree_view.py --runs 7 --viewport 1366x900
+  python knowledge_base/scripts/measure_tree_view.py
+  python knowledge_base/scripts/measure_tree_view.py --url http://127.0.0.1:8000/tree/
+  python knowledge_base/scripts/measure_tree_view.py --runs 7 --viewport 1366x900
 """
 
 from __future__ import annotations
@@ -222,7 +222,9 @@ class QuietHandler(SimpleHTTPRequestHandler):
 
 def serve_site(site_dir: Path) -> tuple[ThreadingHTTPServer, str]:
     if not site_dir.exists():
-        raise FileNotFoundError(f"{site_dir} does not exist. Run mkdocs build first or pass --url.")
+        raise FileNotFoundError(
+            f"{site_dir} does not exist. Run `mkdocs build -f knowledge_base/mkdocs.yml` first or pass --url."
+        )
     handler = functools.partial(QuietHandler, directory=str(site_dir))
     server = ThreadingHTTPServer(("127.0.0.1", 0), handler)
     thread = threading.Thread(target=server.serve_forever, daemon=True)

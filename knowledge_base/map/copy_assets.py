@@ -29,6 +29,7 @@ from knowledge_base.generated_assets import MAP_DATA, MAP_PLACEHOLDER_PAYLOAD, M
 MAP_DIR = Path(__file__).resolve().parent
 KB_DIR = MAP_DIR.parent
 METADATA_ROOT = KB_DIR / "docs" / "papers"
+RUN_GENERATE_MAP_DATA = "python knowledge_base/map/generate_map_data.py"
 
 PLACEHOLDER_DATA = MAP_DATA.js_assignment(MAP_PLACEHOLDER_PAYLOAD, separators=(",", ":"))
 
@@ -37,21 +38,21 @@ def load_map_data(content: str) -> dict[str, object]:
     try:
         return MAP_DATA.loads_js_assignment(content)
     except json.JSONDecodeError as exc:
-        raise RuntimeError("map/map-data.js is not valid JSON; run python map/generate_map_data.py") from exc
+        raise RuntimeError(f"map/map-data.js is not valid JSON; run {RUN_GENERATE_MAP_DATA}") from exc
     except ValueError as exc:
-        raise RuntimeError("map/map-data.js is malformed; run python map/generate_map_data.py") from exc
+        raise RuntimeError(f"map/map-data.js is malformed; run {RUN_GENERATE_MAP_DATA}") from exc
 
 
 def validate_similarity_sidecar(map_data: dict[str, object]) -> tuple[str, Path]:
     similarity = map_data.get("similarity")
     if not isinstance(similarity, dict):
-        raise RuntimeError("map/map-data.js has no similarity metadata; run python map/generate_map_data.py")
+        raise RuntimeError(f"map/map-data.js has no similarity metadata; run {RUN_GENERATE_MAP_DATA}")
 
     file_name = similarity.get("file")
     if not isinstance(file_name, str) or not file_name or Path(file_name).name != file_name:
         raise RuntimeError("map/map-data.js has an invalid similarity sidecar name")
     if similarity.get("dtype") != "int16":
-        raise RuntimeError("map/map-data.js similarity dtype must be int16; run python map/generate_map_data.py")
+        raise RuntimeError(f"map/map-data.js similarity dtype must be int16; run {RUN_GENERATE_MAP_DATA}")
 
     shape = similarity.get("shape")
     if (
@@ -59,16 +60,16 @@ def validate_similarity_sidecar(map_data: dict[str, object]) -> tuple[str, Path]
         or len(shape) != 2
         or not all(isinstance(value, int) and value >= 0 for value in shape)
     ):
-        raise RuntimeError("map/map-data.js has an invalid similarity shape; run python map/generate_map_data.py")
+        raise RuntimeError(f"map/map-data.js has an invalid similarity shape; run {RUN_GENERATE_MAP_DATA}")
 
     expected_bytes = int(shape[0]) * int(shape[1]) * 2
     sidecar = MAP_DIR / file_name
     if expected_bytes and not sidecar.exists():
-        raise RuntimeError(f"Missing {sidecar}; run python map/generate_map_data.py")
+        raise RuntimeError(f"Missing {sidecar}; run {RUN_GENERATE_MAP_DATA}")
     if sidecar.exists() and sidecar.stat().st_size != expected_bytes:
         raise RuntimeError(
             f"{sidecar} is stale ({sidecar.stat().st_size} bytes, expected {expected_bytes}); "
-            "run python map/generate_map_data.py"
+            f"run {RUN_GENERATE_MAP_DATA}"
         )
     return file_name, sidecar
 
@@ -76,7 +77,7 @@ def validate_similarity_sidecar(map_data: dict[str, object]) -> tuple[str, Path]
 def validate_current_papers(map_data: dict[str, object]) -> None:
     nodes = map_data.get("nodes")
     if not isinstance(nodes, list):
-        raise RuntimeError("map/map-data.js has no node list; run python map/generate_map_data.py")
+        raise RuntimeError(f"map/map-data.js has no node list; run {RUN_GENERATE_MAP_DATA}")
     node_ids = [
         str(node["data"]["id"])
         for node in nodes
@@ -94,7 +95,7 @@ def validate_current_papers(map_data: dict[str, object]) -> None:
         if extra:
             detail.append(f"contains {len(extra)} stale paper(s)")
         reason = f" ({', '.join(detail)})" if detail else ""
-        raise RuntimeError(f"map/map-data.js is stale for current metadata{reason}; run python map/generate_map_data.py")
+        raise RuntimeError(f"map/map-data.js is stale for current metadata{reason}; run {RUN_GENERATE_MAP_DATA}")
 
 
 map_data_src = MAP_DIR / MAP_DATA.name
