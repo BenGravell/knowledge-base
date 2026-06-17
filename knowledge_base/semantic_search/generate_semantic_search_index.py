@@ -10,16 +10,13 @@ Run this script from ``knowledge_base/`` whenever paper metadata changes:
 from __future__ import annotations
 
 import argparse
-import hashlib
 import json
 from pathlib import Path
-from urllib.parse import quote
 
 import numpy as np
-import yaml
 from fastembed import TextEmbedding
 
-from knowledge_base.utils.paper_ids import paper_id_from_metadata
+from knowledge_base.catalog import Catalog
 
 
 KB_DIR = Path(__file__).resolve().parents[1]
@@ -43,36 +40,6 @@ def clean_scalar(value: object) -> str:
     return str(value or "").strip()
 
 
-def as_clean_list(value: object) -> list[str]:
-    if isinstance(value, list):
-        return [clean_scalar(item) for item in value if clean_scalar(item)]
-    text = clean_scalar(value)
-    return [text] if text else []
-
-
-def content_hash(text: str) -> str:
-    return hashlib.sha256(text.encode("utf-8")).hexdigest()[:16]
-
-
-def build_embed_text(data: dict) -> str:
-    parts = [
-        f"Title: {data.get('title', '')}",
-        f"Tags: {', '.join(data.get('tags') or [])}",
-        f"Summary: {(data.get('summary') or '').strip()}",
-    ]
-    abstract = (data.get("abstract") or "").strip()
-    if abstract:
-        parts.append(f"Abstract: {abstract}")
-    return "\n".join(p for p in parts if p.split(": ", 1)[-1].strip())
-
-
-def paper_byline(authors: list[str], year: object) -> str:
-    author = ""
-    if authors:
-        author = authors[0] + (" et al." if len(authors) > 1 else "")
-    return " / ".join(part for part in (author, clean_scalar(year)) if part)
-
-
 def load_cache(path: Path) -> dict:
     if not path.exists():
         return {"model": None, "papers": {}}
@@ -94,45 +61,28 @@ def save_cache(path: Path, cache: dict) -> None:
 
 
 def load_papers() -> list[dict]:
-    papers = []
-    for metadata_file in sorted(METADATA_ROOT.rglob("metadata.yml")):
-        with metadata_file.open("r", encoding="utf-8") as f:
-            data = yaml.safe_load(f) or {}
-        if not isinstance(data, dict):
-            continue
-
-        paper_id = paper_id_from_metadata(metadata_file, data, METADATA_ROOT)
-        title = clean_scalar(data.get("title"))
-        algorithm = clean_scalar(data.get("algorithm"))
-        authors = as_clean_list(data.get("authors"))
-        tags = as_clean_list(data.get("tags"))
-        abstract = clean_scalar(data.get("abstract"))
-        summary = clean_scalar(data.get("summary"))
-        year = data.get("year") or ""
-        embed_text = build_embed_text({**data, "tags": tags})
-
-        papers.append(
-            {
-                "id": paper_id,
-                "title": title,
-                "label": algorithm or title or paper_id,
-                "algorithm": algorithm,
-                "authors": authors,
-                "year": year,
-                "tags": tags,
-                "abstract": abstract,
-                "summary": summary,
-                "url": f"../papers/{quote(paper_id, safe='')}/",
-                "mapUrl": f"../map/#paper={quote(paper_id, safe='')}",
-                "treeUrl": f"../tree/#paper={quote(paper_id, safe='')}",
-                "timelineUrl": f"../timeline/#paper={quote(paper_id, safe='')}",
-                "searchUrl": f"../search/?paper={quote(paper_id, safe='')}",
-                "byline": paper_byline(authors, year),
-                "embed_text": embed_text,
-                "hash": content_hash(embed_text),
-            }
-        )
-    return papers
+    return [
+        {
+            "id": entry.id,
+            "title": entry.title,
+            "label": entry.title_label,
+            "algorithm": entry.algorithm,
+            "authors": entry.authors,
+            "year": entry.year,
+            "tags": entry.tags,
+            "abstract": entry.abstract,
+            "summary": entry.summary,
+            "url": entry.url("detail"),
+            "mapUrl": entry.url("map"),
+            "treeUrl": entry.url("tree"),
+            "timelineUrl": entry.url("timeline"),
+            "searchUrl": entry.url("search"),
+            "byline": entry.byline,
+            "embed_text": entry.embedding_text,
+            "hash": entry.embedding_hash,
+        }
+        for entry in Catalog.from_metadata_root(METADATA_ROOT).entries
+    ]
 
 
 def l2_normalize(matrix: np.ndarray) -> np.ndarray:

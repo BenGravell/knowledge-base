@@ -7,13 +7,13 @@ from pathlib import Path
 from urllib.parse import quote, unquote, urlparse
 import mkdocs_gen_files
 from jinja2 import Environment
+from knowledge_base.catalog import Entry
 from knowledge_base.utils.arxiv_utils import (
     arxiv_abs_url,
     arxiv_html_url,
     arxiv_pdf_url,
     normalize_arxiv_id,
 )
-from knowledge_base.utils.paper_ids import paper_id_from_metadata
 from knowledge_base.utils.site_links import paper_site_links, site_link_data
 
 try:
@@ -39,9 +39,6 @@ TRAILING_URL_BRACKETS = {
 
 # Read template
 template_text = template_file.read_text()
-
-def paper_id_for(metadata_file: Path, data: dict) -> str:
-    return paper_id_from_metadata(metadata_file, data, metadata_root)
 
 
 def normalize_tag_key(tag: str) -> str:
@@ -354,52 +351,27 @@ def build_link_sections(data: dict, paper_id: str) -> list[dict]:
     return sections
 
 
-def paper_identifier_terms(data: dict, paper_id: str) -> list[str]:
-    doi = clean_doi(data.get("doi"))
-    arxiv_id = clean_arxiv_id(data.get("arxiv_id"))
-    terms = [
-        paper_id,
-        doi,
-        f"DOI:{doi}" if doi else "",
-        f"DOI {doi}" if doi else "",
-        f"https://doi.org/{doi}" if doi else "",
-        arxiv_id,
-        f"arXiv:{arxiv_id}" if arxiv_id else "",
-        f"arXiv {arxiv_id}" if arxiv_id else "",
-        arxiv_abs_url(arxiv_id) if arxiv_id else "",
-        arxiv_pdf_url(arxiv_id) if arxiv_id else "",
-        arxiv_html_url(arxiv_id) if arxiv_id else "",
-        clean_scalar(data.get("link")),
-        *as_links(data.get("links_alt")),
-    ]
-    return list(dict.fromkeys(term for term in terms if term))
-
-
-def paper_record(data: dict, paper_id: str) -> dict:
-    authors = as_clean_list(data.get("authors"))
-    tags = as_clean_list(data.get("tags"))
-    doi = clean_doi(data.get("doi"))
-    arxiv_id = clean_arxiv_id(data.get("arxiv_id"))
+def paper_record(entry: Entry) -> dict:
     return {
-        "id": paper_id,
-        "title": clean_scalar(data.get("title")),
-        "label": clean_scalar(data.get("algorithm")) or clean_scalar(data.get("title")) or paper_id,
-        "algorithm": clean_scalar(data.get("algorithm")),
-        "authors": authors,
-        "year": data.get("year") or "",
-        "source": clean_scalar(data.get("source")),
-        "type": clean_scalar(data.get("type")),
-        "doi": doi,
-        "arxiv_id": arxiv_id,
-        "identifiers": paper_identifier_terms(data, paper_id),
-        "tags": tags,
-        "abstract": clean_scalar(data.get("abstract")),
-        "summary": clean_scalar(data.get("summary")),
-        "url": f"../papers/{paper_id}/",
-        "treeUrl": f"../tree/#paper={quote(paper_id, safe='')}",
-        "mapUrl": f"../map/#paper={quote(paper_id, safe='')}",
-        "timelineUrl": f"../timeline/#paper={quote(paper_id, safe='')}",
-        "searchUrl": f"../search/?paper={quote(paper_id, safe='')}",
+        "id": entry.id,
+        "title": entry.title,
+        "label": entry.title_label,
+        "algorithm": entry.algorithm,
+        "authors": entry.authors,
+        "year": entry.year,
+        "source": entry.source,
+        "type": entry.type,
+        "doi": entry.doi,
+        "arxiv_id": entry.arxiv_id,
+        "identifiers": entry.identifiers,
+        "tags": entry.tags,
+        "abstract": entry.abstract,
+        "summary": entry.summary,
+        "url": entry.url("detail"),
+        "treeUrl": entry.url("tree"),
+        "mapUrl": entry.url("map"),
+        "timelineUrl": entry.url("timeline"),
+        "searchUrl": entry.url("search"),
     }
 
 
@@ -587,33 +559,49 @@ for metadata_file in metadata_root.rglob("*.yml"):
     if not isinstance(data, dict):
         continue
 
-    paper_id = paper_id_for(metadata_file, data)
-    for key in ("title", "algorithm", "source", "type", "abstract", "summary", "year"):
-        data[key] = clean_scalar(data.get(key))
-    data["authors"] = as_clean_list(data.get("authors"))
-    data["tags"] = as_clean_list(data.get("tags"))
-    data["doi_clean"] = clean_doi(data.get("doi"))
-    data["arxiv_clean"] = clean_arxiv_id(data.get("arxiv_id"))
+    entry = Entry.from_metadata(
+        metadata_file,
+        data,
+        metadata_root=metadata_root,
+        generated_root=generated_root,
+    )
+    paper_id = entry.id
+    data.update(
+        {
+            "title": entry.title,
+            "algorithm": entry.algorithm,
+            "source": entry.source,
+            "type": entry.type,
+            "abstract": entry.abstract,
+            "summary": entry.summary,
+            "year": entry.year_text,
+            "authors": list(entry.authors),
+            "tags": list(entry.tags),
+            "doi_clean": entry.doi,
+            "arxiv_clean": entry.arxiv_id,
+        }
+    )
     data["link_sections"] = build_link_sections(data, paper_id)
     data["tag_links"] = build_tag_links(data["tags"], paper_id)
     paper_entries.append(
         {
             "metadata_file": metadata_file,
-            "paper_id": paper_id,
+            "entry": entry,
             "data": data,
         }
     )
 
-paper_records = [paper_record(entry["data"], entry["paper_id"]) for entry in paper_entries]
+paper_records = [paper_record(item["entry"]) for item in paper_entries]
 top_similar_by_id = build_top_similar_papers(paper_records)
 paper_template = env.from_string(template_text)
 
 # Iterate over prepared papers now that cross-paper similarity is available
 for entry in paper_entries:
-    paper_id = entry["paper_id"]
+    catalog_entry = entry["entry"]
+    paper_id = catalog_entry.id
     metadata_file = entry["metadata_file"]
     data = entry["data"]
-    output_path = generated_root / f"{paper_id}.md"
+    output_path = catalog_entry.generated_path
     data["top_similar_papers"] = top_similar_by_id.get(paper_id, [])
     mkdocs_gen_files.set_edit_path(output_path, metadata_file)
     with mkdocs_gen_files.open(output_path, "w") as f_out:

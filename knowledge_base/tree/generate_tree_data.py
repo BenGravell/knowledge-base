@@ -10,7 +10,6 @@ the landing page can render as a focused browser.
 from __future__ import annotations
 
 from collections import Counter
-from datetime import date
 import json
 import re
 from pathlib import Path, PurePosixPath
@@ -20,9 +19,9 @@ from urllib.parse import quote
 import mkdocs_gen_files
 import yaml
 
+from knowledge_base.catalog import Catalog
 from knowledge_base.tree.nav_source import metadata_source_path, tree_from_config, tree_from_file
 from knowledge_base.tree.validation import format_tree_validation_report, validate_tree
-from knowledge_base.utils.paper_ids import paper_id_from_metadata as generated_paper_id
 
 
 MKDOCS_YML = "mkdocs.yml"
@@ -82,27 +81,9 @@ def link_kind(source: str) -> str:
     return "link"
 
 
-def paper_id_from_metadata(metadata_file: Path, data: dict[str, Any]) -> str:
-    return generated_paper_id(metadata_file, data, METADATA_ROOT)
-
-
 def clean_text(value: Any) -> str:
     text = str(value or "").strip()
     return re.sub(r"[ \t\r\f\v]+", " ", text)
-
-
-def year_as_int(value: Any) -> int | None:
-    if isinstance(value, int):
-        year = value
-    else:
-        match = re.search(r"\b([12][0-9]{3})\b", str(value or ""))
-        if not match:
-            return None
-        year = int(match.group(1))
-
-    if 1500 <= year <= date.today().year + 5:
-        return year
-    return None
 
 
 def last_name(author: str) -> str:
@@ -113,60 +94,37 @@ def last_name(author: str) -> str:
     return parts[-1] if parts else author
 
 
-def make_paper_label(data: dict[str, Any]) -> str:
-    algorithm = clean_text(data.get("algorithm"))
-    if algorithm:
-        return algorithm
-
-    authors = as_list(data.get("authors"))
-    year = year_as_int(data.get("year"))
-    if authors:
-        et_al = " et al." if len(authors) > 1 else ""
-        year_suffix = f" {year}" if year else ""
-        return f"{last_name(str(authors[0]))}{et_al}{year_suffix}"
-
-    return clean_text(data.get("title")) or "Untitled"
-
-
 paper_source_by_metadata_path: dict[Path, str] = {}
 
 
 def collect_paper_details() -> dict[str, dict[str, Any]]:
     details: dict[str, dict[str, Any]] = {}
-    for metadata_file in sorted(METADATA_ROOT.rglob("*.yml")):
-        with open(metadata_file, "r", encoding="utf-8") as f:
-            data = yaml.load(f, Loader=YAML_LOADER) or {}
-        if not isinstance(data, dict):
-            continue
-
-        paper_id = paper_id_from_metadata(metadata_file, data)
-        source = f"papers/{paper_id}.md"
-        paper_source_by_metadata_path[metadata_file.resolve()] = source
-        authors = [clean_text(author) for author in as_list(data.get("authors"))]
-        authors = [author for author in authors if author]
-        primary_link = clean_text(data.get("link"))
+    for entry in Catalog.from_metadata_root(METADATA_ROOT).entries:
+        source = entry.generated_source
+        paper_source_by_metadata_path[entry.metadata_path.resolve()] = source
         details[source] = {
-            "id": paper_id,
-            "label": make_paper_label(data),
-            "title": clean_text(data.get("title")),
-            "algorithm": clean_text(data.get("algorithm")),
-            "authors": authors,
-            "year": data.get("year") or "",
-            "yearValue": year_as_int(data.get("year")),
-            "sourceName": clean_text(data.get("source")),
-            "type": clean_text(data.get("type")),
-            "doi": clean_text(data.get("doi")),
-            "arxivId": clean_text(data.get("arxiv_id")),
-            "primaryLink": primary_link,
-            "hasPrimaryLink": bool(primary_link),
-            "alternateLinkCount": len(as_list(data.get("links_alt"))),
-            "auditStatus": clean_text(data.get("audit_status")),
-            "tags": [clean_text(tag) for tag in as_list(data.get("tags")) if clean_text(tag)],
-            "abstract": clean_text(data.get("abstract")),
-            "summary": clean_text(data.get("summary")),
-            "mapUrl": f"../map/#paper={quote(paper_id, safe='')}",
-            "timelineUrl": f"../timeline/#paper={quote(paper_id, safe='')}",
-            "searchUrl": f"../search/?paper={quote(paper_id, safe='')}",
+            "id": entry.id,
+            "label": entry.label,
+            "title": clean_text(entry.title),
+            "algorithm": clean_text(entry.algorithm),
+            "authors": list(entry.authors),
+            "year": entry.year,
+            "yearValue": entry.year_value,
+            "sourceName": clean_text(entry.source),
+            "type": clean_text(entry.type),
+            "doi": clean_text(entry.doi),
+            "arxivId": clean_text(entry.arxiv_id),
+            "primaryLink": entry.primary_link,
+            "hasPrimaryLink": entry.has_primary_link,
+            "alternateLinkCount": entry.alternate_link_count,
+            "auditStatus": clean_text(entry.audit_status),
+            "authorShort": entry.author_short,
+            "tags": [clean_text(tag) for tag in entry.tags if clean_text(tag)],
+            "abstract": clean_text(entry.abstract),
+            "summary": clean_text(entry.summary),
+            "mapUrl": entry.url("map"),
+            "timelineUrl": entry.url("timeline"),
+            "searchUrl": entry.url("search"),
         }
     return details
 
@@ -398,7 +356,7 @@ def build_timeline_data(root_node: dict[str, Any]) -> dict[str, Any]:
                 "label": label,
                 "title": clean_text(details.get("title")),
                 "authors": authors,
-                "authorShort": ", ".join(last_name(str(author)) for author in authors[:3]),
+                "authorShort": clean_text(details.get("authorShort")),
                 "year": year,
                 "source": clean_text(details.get("sourceName")),
                 "type": clean_text(details.get("type")),

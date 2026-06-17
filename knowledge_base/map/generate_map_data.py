@@ -99,8 +99,8 @@ import numpy as np
 from scipy.spatial import cKDTree
 from sklearn.preprocessing import normalize
 
+from knowledge_base.catalog import Catalog
 from knowledge_base.tree.nav_source import load_tree
-from knowledge_base.utils.paper_ids import paper_id_from_metadata
 
 # ---------------------------------------------------------------------------
 # Paths (relative to this script's location: knowledge_base/map/)
@@ -134,43 +134,6 @@ AGGREGATE_COLLISION_EPSILON = 1e-3
 # ---------------------------------------------------------------------------
 # Helper utilities
 # ---------------------------------------------------------------------------
-
-def last_name(author: str) -> str:
-    """Extract the last name from an author string."""
-    author = author.strip()
-    if "," in author:
-        return author.split(",")[0].strip()
-    parts = author.split()
-    return parts[-1] if parts else author
-
-
-def make_label(data: dict) -> str:
-    """
-    Node label: algorithm name if present, otherwise
-    '<FirstAuthorLastName> [et al.] <year>'.
-    """
-    algorithm = (data.get("algorithm") or "").strip()
-    if algorithm:
-        return algorithm
-    authors = data.get("authors") or []
-    year = data.get("year")
-    if not authors:
-        return str(year or "")
-    name = last_name(authors[0])
-    et_al = " et al." if len(authors) > 1 else ""
-    year_str = f" {year}" if year else ""
-    return f"{name}{et_al}{year_str}"
-
-
-def paper_id_from_file(metadata_file: Path, data: dict) -> str:
-    """Reproduce the ID logic used by generate_papers.py."""
-    return paper_id_from_metadata(metadata_file, data, METADATA_ROOT)
-
-
-def content_hash(text: str) -> str:
-    """SHA-256 of the embedding input text (first 16 hex chars is plenty)."""
-    return hashlib.sha256(text.encode("utf-8")).hexdigest()[:16]
-
 
 def compute_umap_positions(
     embeddings: "np.ndarray",
@@ -844,19 +807,6 @@ def build_aggregate_layouts(
     }
 
 
-def build_embed_text(data: dict) -> str:
-    """Construct the text that represents a paper for embedding purposes."""
-    parts = [
-        f"Title: {data.get('title', '')}",
-        f"Tags: {', '.join(data.get('tags') or [])}",
-        f"Summary: {(data.get('summary') or '').strip()}",
-    ]
-    abstract = (data.get("abstract") or "").strip()
-    if abstract:
-        parts.append(f"Abstract: {abstract}")
-    return "\n".join(p for p in parts if p.split(": ", 1)[-1].strip())
-
-
 # ---------------------------------------------------------------------------
 # Navigation parsing — paper_id → tree category
 # ---------------------------------------------------------------------------
@@ -1413,20 +1363,9 @@ def main() -> None:
     # ---- collect papers ----------------------------------------------------
     print("\n[1/7] Collecting paper metadata…")
     papers: list[dict] = []
-    for metadata_file in sorted(METADATA_ROOT.rglob("metadata.yml")):
-        with open(metadata_file, "r", encoding="utf-8") as f:
-            data = yaml.safe_load(f)
-
-        pid = paper_id_from_file(metadata_file, data)
-        title = data.get("title", "")
-        summary = (data.get("summary") or "").strip()
-        abstract = (data.get("abstract") or "").strip()
-        tags = data.get("tags") or []
-        authors = data.get("authors") or []
-        year = data.get("year")
-        item_type = (data.get("type") or "Unspecified").strip()
-        link = (data.get("link") or "").strip()
-        embed_text = build_embed_text(data)
+    catalog = Catalog.from_metadata_root(METADATA_ROOT)
+    for entry in catalog.entries:
+        pid = entry.id
 
         cat_info = paper_to_category.get(
             pid,
@@ -1439,21 +1378,21 @@ def main() -> None:
         )
         papers.append({
             "id": pid,
-            "title": title,
-            "label": make_label(data),
-            "authors": [last_name(a) for a in authors[:3]],
-            "year": year,
-            "item_type": item_type,
+            "title": entry.title,
+            "label": entry.label,
+            "authors": list(entry.author_last_names[:3]),
+            "year": entry.year,
+            "item_type": entry.type or "Unspecified",
             "super_category": cat_info["super_category"],
             "category": cat_info["category"],
             "sub_category": cat_info["sub_category"],
             "nav_path": cat_info.get("nav_path") or [cat_info["category"]],
-            "tags": tags,
-            "summary": summary,
-            "abstract": abstract,
-            "link": link,
-            "embed_text": embed_text,
-            "hash": content_hash(embed_text),
+            "tags": list(entry.tags),
+            "summary": entry.summary,
+            "abstract": entry.abstract,
+            "link": entry.primary_link,
+            "embed_text": entry.embedding_text,
+            "hash": entry.embedding_hash,
         })
 
     print(f"    Found {len(papers)} papers")
