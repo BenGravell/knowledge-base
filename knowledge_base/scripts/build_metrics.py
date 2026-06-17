@@ -170,6 +170,8 @@ def write_build_metrics(
     with history_path.open("a", encoding="utf-8") as out:
         out.write(json.dumps(record, sort_keys=True, separators=(",", ":")) + "\n")
     trace_path.write_text(json.dumps(trace_payload(record), separators=(",", ":")), encoding="utf-8")
+    open_trace = shlex.join([sys.executable, str(KB_DIR / "scripts" / "open_build_trace.py"), str(trace_path)])
     print(f"\nBuild metrics: {history_path}")
-    print(f"Trace file: {trace_path} (Chrome Trace / Perfetto format)")
+    print(f"Trace file: {trace_path} (Perfetto trace)")
+    print(f"Open trace UI: {open_trace}")
     return record

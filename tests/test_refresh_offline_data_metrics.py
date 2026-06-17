@@ -2,15 +2,28 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import tempfile
 import unittest
 from datetime import datetime, timezone
 from pathlib import Path
+from unittest.mock import patch
 
-from knowledge_base.scripts.build_metrics import StepTiming, write_build_metrics
+from knowledge_base.scripts.build_metrics import DEFAULT_METRICS_DIR, StepTiming, write_build_metrics
+from knowledge_base.scripts.open_build_trace import main as open_build_trace_main
+from knowledge_base.scripts.refresh_offline_data import should_write_metrics
 
 
 class RefreshOfflineDataMetricsTests(unittest.TestCase):
+    def test_default_metrics_are_local_only_under_ci(self) -> None:
+        args = argparse.Namespace(dry_run=False, metrics_dir=DEFAULT_METRICS_DIR)
+        with patch.dict(os.environ, {"CI": "true"}):
+            self.assertFalse(should_write_metrics(args))
+
+        args.metrics_dir = Path("/tmp/explicit-build-metrics")
+        with patch.dict(os.environ, {"CI": "true"}):
+            self.assertTrue(should_write_metrics(args))
+
     def test_write_build_metrics_appends_history_and_trace(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             args = argparse.Namespace(metrics_dir=Path(tmp), dry_run=False)
@@ -40,6 +53,12 @@ class RefreshOfflineDataMetricsTests(unittest.TestCase):
         self.assertEqual(saved["steps"][0]["name"], "Example phase")
         self.assertEqual(trace["traceEvents"][0]["name"], "Example phase")
         self.assertEqual(trace["traceEvents"][0]["ph"], "X")
+
+    def test_open_build_trace_rejects_missing_trace(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            missing = Path(tmp) / "missing.trace.json"
+            with patch("sys.argv", ["open_build_trace.py", str(missing)]):
+                self.assertEqual(open_build_trace_main(), 1)
 
 
 if __name__ == "__main__":

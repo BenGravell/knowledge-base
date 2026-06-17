@@ -97,6 +97,10 @@ def run_step(step: Step, *, index: int, total: int, dry_run: bool, run_start_ns:
     return timing
 
 
+def should_write_metrics(args: argparse.Namespace) -> bool:
+    return not args.dry_run and (not os.environ.get("CI") or Path(args.metrics_dir) != DEFAULT_METRICS_DIR)
+
+
 def build_steps(args: argparse.Namespace) -> list[Step]:
     py = sys.executable
     steps: list[Step] = []
@@ -241,7 +245,7 @@ def main() -> int:
 
     run_duration_s = (time.perf_counter_ns() - run_start_ns) / 1_000_000_000
     status = "dry-run" if args.dry_run else "success" if returncode == 0 else "failed"
-    if not args.dry_run:
+    if should_write_metrics(args):
         write_build_metrics(
             args=args,
             run_started_at=run_started_at,
@@ -250,6 +254,8 @@ def main() -> int:
             returncode=returncode,
             steps=timings,
         )
+    elif not args.dry_run:
+        print("\nBuild metrics skipped under CI.")
     if returncode:
         return returncode
 
