@@ -1,0 +1,15 @@
+INHERIT: mkdocs.yml
+
+# Used by refresh_offline_data.py with `mkdocs build --dirty` so existing
+# generated paper pages stay in site/ while data assets are republished.
+plugins:
+  - macros:
+      render_by_default: false
+      force_render_paths: |
+        index.md
+  - gen-files:
+      scripts:
+        - generate_paper_assets.py
+        - map/copy_assets.py
+        - semantic_search/copy_assets.py
+        - tree/generate_tree_data.py

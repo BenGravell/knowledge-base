@@ -52,6 +52,25 @@ class MetadataAuditRuleTests(unittest.TestCase):
         self.assertIn("'algor ithm' -> 'algorithm'", issues[0].message)
         self.assertNotIn("non-convex", issues[0].message)
 
+    def test_algorithm_intro_detector_uses_cached_patterns(self) -> None:
+        self.assertTrue(
+            audit_metadata._text_introduces_algorithm_label(
+                "MPPI",
+                "MPPI: A New Planner",
+                "",
+            )
+        )
+
+    def test_algorithm_cue_detector_uses_cached_patterns(self) -> None:
+        self.assertEqual(
+            audit_metadata._algorithm_issue_cue(
+                "MPC",
+                "Stability of MPC",
+                "We study stability of model predictive control in uncertain systems.",
+            ),
+            ("stability analysis", "MPC stability analysis"),
+        )
+
 
 class NormalizationAuditRuleTests(unittest.TestCase):
     def test_normalization_tag_routing_uses_rule_code_and_index(self) -> None:

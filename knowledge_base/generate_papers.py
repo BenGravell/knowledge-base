@@ -541,72 +541,89 @@ env.filters["metadata_text_html"] = metadata_text_html
 env.filters["url_quote"] = url_quote
 env.filters["url_path_quote"] = url_path_quote
 
-paper_entries: list[PaperTemplateEntry] = []
+def build_paper_entries() -> list[PaperTemplateEntry]:
+    paper_entries: list[PaperTemplateEntry] = []
+    for metadata_file in metadata_root.rglob("*.yml"):
+        with open(metadata_file, encoding="utf-8") as f:
+            data = yaml.load(f, Loader=YAML_LOADER) or {}
+        if not isinstance(data, dict):
+            continue
 
-# Iterate over all YAML files
-for metadata_file in metadata_root.rglob("*.yml"):
-    with open(metadata_file, encoding="utf-8") as f:
-        data = yaml.load(f, Loader=YAML_LOADER) or {}
-    if not isinstance(data, dict):
-        continue
+        entry = Entry.from_metadata(
+            metadata_file,
+            data,
+            metadata_root=metadata_root,
+            generated_root=generated_root,
+        )
+        paper_id = entry.id
+        data.update(
+            {
+                "title": entry.title,
+                "algorithm": entry.algorithm,
+                "source": entry.source,
+                "type": entry.type,
+                "abstract": entry.abstract,
+                "summary": entry.summary,
+                "year": entry.year_text,
+                "authors": list(entry.authors),
+                "tags": list(entry.tags),
+                "doi_clean": entry.doi,
+                "arxiv_clean": entry.arxiv_id,
+            }
+        )
+        data["link_sections"] = build_link_sections(data, paper_id)
+        data["tag_links"] = build_tag_links(data["tags"], paper_id)
+        paper_entries.append(
+            {
+                "metadata_file": metadata_file,
+                "entry": entry,
+                "data": data,
+            }
+        )
+    return paper_entries
 
-    entry = Entry.from_metadata(
-        metadata_file,
-        data,
-        metadata_root=metadata_root,
-        generated_root=generated_root,
-    )
-    paper_id = entry.id
-    data.update(
-        {
-            "title": entry.title,
-            "algorithm": entry.algorithm,
-            "source": entry.source,
-            "type": entry.type,
-            "abstract": entry.abstract,
-            "summary": entry.summary,
-            "year": entry.year_text,
-            "authors": list(entry.authors),
-            "tags": list(entry.tags),
-            "doi_clean": entry.doi,
-            "arxiv_clean": entry.arxiv_id,
-        }
-    )
-    data["link_sections"] = build_link_sections(data, paper_id)
-    data["tag_links"] = build_tag_links(data["tags"], paper_id)
-    paper_entries.append(
-        {
-            "metadata_file": metadata_file,
-            "entry": entry,
-            "data": data,
-        }
-    )
 
-paper_records = [paper_record(item["entry"]) for item in paper_entries]
-top_similar_by_id = build_top_similar_papers(paper_records)
-paper_template = env.from_string(template_text)
+def publish_paper_pages(
+    paper_entries: list[PaperTemplateEntry],
+    paper_records: list[dict[str, Any]],
+) -> None:
+    top_similar_by_id = build_top_similar_papers(paper_records)
+    paper_template = env.from_string(template_text)
 
-# Iterate over prepared papers now that cross-paper similarity is available
-for entry in paper_entries:
-    catalog_entry = entry["entry"]
-    paper_id = catalog_entry.id
-    metadata_file = entry["metadata_file"]
-    data = entry["data"]
-    output_path = catalog_entry.generated_path
-    data["top_similar_papers"] = top_similar_by_id.get(paper_id, [])
-    mkdocs_gen_files.set_edit_path(output_path, metadata_file.relative_to(KB_DIR))
-    with mkdocs_gen_files.open(output_path, "w") as f_out:
-        f_out.write(paper_template.render(**data))
+    for entry in paper_entries:
+        catalog_entry = entry["entry"]
+        paper_id = catalog_entry.id
+        metadata_file = entry["metadata_file"]
+        data = entry["data"]
+        output_path = catalog_entry.generated_path
+        data["top_similar_papers"] = top_similar_by_id.get(paper_id, [])
+        mkdocs_gen_files.set_edit_path(output_path, metadata_file.relative_to(KB_DIR))
+        with mkdocs_gen_files.open(output_path, "w") as f_out:
+            f_out.write(paper_template.render(**data))
 
-    # # DEBUG: actually write out to real filesystem
-    # output_path.parent.mkdir(parents=True, exist_ok=True)
-    # with open(output_path, "w") as f_disk:
-    #     f_disk.write(paper_template.render(**data))
 
-search_data = build_tag_search_data(paper_records)
-with mkdocs_gen_files.open(SITE_LINK_DATA.published_path, "w") as out:
-    out.write(SITE_LINK_DATA.js_assignment(site_link_data(str(KB_DIR / "mkdocs.yml")), indent=2))
+def publish_paper_assets(paper_records: list[dict[str, Any]]) -> None:
+    search_data = build_tag_search_data(paper_records)
+    with mkdocs_gen_files.open(SITE_LINK_DATA.published_path, "w") as out:
+        out.write(
+            SITE_LINK_DATA.js_assignment(
+                site_link_data(str(KB_DIR / "mkdocs.yml")),
+                separators=(",", ":"),
+            )
+        )
 
-for asset in (SEARCH_DATA, TAG_SEARCH_DATA):
-    with mkdocs_gen_files.open(asset.published_path, "w") as out:
-        out.write(asset.js_assignment(search_data, indent=2))
+    for asset in (SEARCH_DATA, TAG_SEARCH_DATA):
+        with mkdocs_gen_files.open(asset.published_path, "w") as out:
+            out.write(asset.js_assignment(search_data, separators=(",", ":")))
+
+
+def main(*, include_pages: bool = True) -> None:
+    paper_entries = build_paper_entries()
+    paper_records = [paper_record(item["entry"]) for item in paper_entries]
+    if include_pages:
+        publish_paper_pages(paper_entries, paper_records)
+    publish_paper_assets(paper_records)
+
+
+if __name__ in {"__main__", "<run_path>"}:
+    main()

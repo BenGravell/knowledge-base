@@ -18,7 +18,10 @@ not_in_nav: |
   papers/**/*.md
 
 plugins:
-  - macros
+  - macros:
+      render_by_default: false
+      force_render_paths: |
+        index.md
   - gen-files:
       scripts:
         - generate_papers.py

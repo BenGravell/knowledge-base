@@ -258,7 +258,7 @@ data = {
 }
 
 with mkdocs_gen_files.open(TREE_DATA.published_path, "w") as out:
-    out.write(TREE_DATA.js_assignment(data, indent=2))
+    out.write(TREE_DATA.js_assignment(data, separators=(",", ":")))
 
 
 def build_timeline_nav_index(model: TreeModel) -> dict[str, dict[str, Any]]:
@@ -1130,7 +1130,7 @@ with mkdocs_gen_files.open("stylesheets/analytics.css", "w") as out:
     out.write("\n")
 
 with mkdocs_gen_files.open(ANALYTICS_DATA.published_path, "w") as out:
-    out.write(ANALYTICS_DATA.js_assignment(analytics_data, indent=2))
+    out.write(ANALYTICS_DATA.js_assignment(analytics_data, separators=(",", ":")))
 
 with mkdocs_gen_files.open("javascripts/analytics.js", "w") as out:
     analytics_js = ANALYTICS_JS.replace(
@@ -1148,7 +1148,7 @@ with mkdocs_gen_files.open("timeline.md", "w") as out:
     out.write(TIMELINE_PAGE)
 
 with mkdocs_gen_files.open(TIMELINE_DATA.published_path, "w") as out:
-    out.write(TIMELINE_DATA.js_assignment(timeline_data, indent=2))
+    out.write(TIMELINE_DATA.js_assignment(timeline_data, separators=(",", ":")))
 
 with mkdocs_gen_files.open("javascripts/timeline.js", "w") as out:
     out.write(TIMELINE_JS)

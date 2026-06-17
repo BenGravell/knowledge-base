@@ -60,6 +60,11 @@ def subprocess_env() -> dict[str, str]:
     return env
 
 
+def site_has_paper_pages() -> bool:
+    papers_dir = KB_DIR / "site" / "papers"
+    return papers_dir.exists() and next(papers_dir.rglob("index.html"), None) is not None
+
+
 def run_step(step: Step, *, index: int, total: int, dry_run: bool) -> StepResult:
     print(f"\n[{index}/{total}] {step.name}", flush=True)
     print(f"$ {format_command(step.command)}", flush=True)
@@ -155,10 +160,16 @@ def build_steps(args: argparse.Namespace) -> list[Step]:
         )
 
     if not args.skip_build:
-        mkdocs = [py, "-m", "mkdocs", "build", "-f", "knowledge_base/mkdocs.yml"]
+        use_full_build = args.full_build or not site_has_paper_pages()
+        mkdocs_config = "knowledge_base/mkdocs.yml" if use_full_build else "knowledge_base/mkdocs.refresh.yml"
+        mkdocs = [py, "-m", "mkdocs", "build", "-f", mkdocs_config]
+        if not use_full_build:
+            mkdocs.extend(["--dirty", "--quiet"])
         if args.strict:
             mkdocs.append("--strict")
-        steps.append(Step("Verify", "MkDocs build", "Build MkDocs site and republish gen-files assets", mkdocs))
+        label = "MkDocs full build" if use_full_build else "MkDocs refresh build"
+        name = "Build full MkDocs site" if use_full_build else "Refresh MkDocs generated assets"
+        steps.append(Step("Verify", label, name, mkdocs))
 
     return steps
 
@@ -216,7 +227,12 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--skip-build",
         action="store_true",
-        help="Do not run the final MkDocs build.",
+        help="Do not run the final MkDocs asset refresh build.",
+    )
+    parser.add_argument(
+        "--full-build",
+        action="store_true",
+        help="Render every MkDocs page, including generated paper detail pages.",
     )
     parser.add_argument(
         "--dry-run",
