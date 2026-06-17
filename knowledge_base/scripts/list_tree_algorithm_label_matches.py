@@ -24,11 +24,14 @@ if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))
 
 from knowledge_base.config import KB_DIR  # noqa: E402
-from knowledge_base.tree.nav_source import (  # noqa: E402
-    TREE_YML,
-    metadata_source_path,
-    tree_from_file,
+from knowledge_base.tree.model import (  # noqa: E402
+    TreeModel,
+    resolve_metadata_or_generated_source,
 )
+from knowledge_base.tree.nav_source import TREE_YML, tree_from_file  # noqa: E402
+
+
+METADATA_ROOT = KB_DIR / "docs" / "papers"
 
 
 @dataclass(frozen=True)
@@ -38,10 +41,6 @@ class Match:
     algorithm: str
     metadata_path: Path
     title: str
-
-
-def as_list(value: Any) -> list[Any]:
-    return value if isinstance(value, list) else []
 
 
 def normalize_label(value: str) -> str:
@@ -61,51 +60,41 @@ def load_metadata(path: Path) -> dict[str, Any]:
     return data if isinstance(data, dict) else {}
 
 
-def collect_matches(nav: Any) -> list[Match]:
+def load_tree_model() -> TreeModel:
+    return TreeModel.from_tree(
+        tree_from_file(TREE_YML, normalize=False),
+        resolve_source=lambda source: resolve_metadata_or_generated_source(
+            source,
+            base_dir=KB_DIR,
+            metadata_root=METADATA_ROOT,
+        ),
+    )
+
+
+def collect_matches(model: TreeModel) -> list[Match]:
     matches: list[Match] = []
 
-    def visit_leaf(label: str, source: str, path: tuple[str, ...]) -> None:
-        metadata_path = metadata_source_path(source, KB_DIR)
-        if metadata_path is None or not metadata_path.exists():
-            return
+    for leaf in model.leaves:
+        if leaf.metadata_path is None:
+            continue
 
-        data = load_metadata(metadata_path)
+        data = load_metadata(leaf.metadata_path)
         algorithm = " ".join(str(data.get("algorithm") or "").split())
         if not algorithm:
-            return
-        if normalize_label(label) != normalize_label(algorithm):
-            return
+            continue
+        if normalize_label(leaf.label) != normalize_label(algorithm):
+            continue
 
         title = " ".join(str(data.get("title") or "").split())
         matches.append(
             Match(
-                tree_path=path,
-                tree_label=label,
+                tree_path=("Tree", *leaf.nav_path),
+                tree_label=leaf.label,
                 algorithm=algorithm,
-                metadata_path=metadata_path,
+                metadata_path=leaf.metadata_path,
                 title=title,
             )
         )
-
-    def walk(node: Any, path: tuple[str, ...]) -> None:
-        if isinstance(node, str):
-            return
-        if isinstance(node, list):
-            for item in node:
-                walk(item, path)
-            return
-        if not isinstance(node, dict):
-            return
-
-        for raw_label, child in node.items():
-            label = str(raw_label)
-            child_path = path + (label,)
-            if isinstance(child, str):
-                visit_leaf(label, child, child_path)
-            else:
-                walk(child, child_path)
-
-    walk(as_list(nav), ("Tree",))
     return matches
 
 
@@ -168,7 +157,7 @@ def main() -> int:
     if args.max_results < 1:
         parser.error("--max-results must be at least 1")
 
-    matches = collect_matches(tree_from_file(TREE_YML, normalize=False))
+    matches = collect_matches(load_tree_model())
     displayed = matches[: args.max_results]
     if args.format == "json":
         print_json(displayed)

@@ -26,7 +26,12 @@ if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))
 
 from knowledge_base.config import KB_DIR
-from knowledge_base.tree.nav_source import load_tree, metadata_source_path, tree_from_file
+from knowledge_base.tree.model import (
+    TreeLeaf,
+    TreeModel,
+    resolve_metadata_or_generated_source,
+)
+from knowledge_base.tree.nav_source import tree_from_config, tree_from_file
 from knowledge_base.utils.paper_ids import paper_id_from_metadata
 
 DOCS_DIR = KB_DIR / "docs"
@@ -45,14 +50,6 @@ class Paper:
     generated_path: str
     abstract: str
     tags: tuple[str, ...]
-
-
-@dataclass(frozen=True)
-class TreeLeaf:
-    id: str
-    label: str
-    source: str
-    nav_path: list[str]
 
 
 def paper_id_from_file(metadata_file: Path, data: dict[str, Any]) -> str:
@@ -91,71 +88,36 @@ def collect_papers(metadata_root: Path) -> dict[str, Paper]:
     return papers
 
 
-def collect_nav_locations(nav: Any) -> dict[str, list[str]]:
+def load_tree_model(tree_path: Path, config: dict[str, Any]) -> TreeModel:
+    tree = (
+        tree_from_file(tree_path, normalize=False)
+        if tree_path.exists()
+        else tree_from_config(config)
+    )
+    return TreeModel.from_tree(
+        tree,
+        resolve_source=lambda source: resolve_metadata_or_generated_source(
+            source,
+            base_dir=KB_DIR,
+            metadata_root=METADATA_ROOT,
+        ),
+    )
+
+
+def collect_nav_locations(model: TreeModel) -> dict[str, list[str]]:
     """Map generated paper ID to the human-readable nav path containing it."""
-    locations: dict[str, list[str]] = {}
-
-    def walk(node: Any, labels: list[str]) -> None:
-        if isinstance(node, str):
-            if node.startswith("papers/") and node.endswith(".md"):
-                paper_id = node.removeprefix("papers/").removesuffix(".md")
-                locations.setdefault(paper_id, labels[:])
-            return
-
-        if isinstance(node, list):
-            for item in node:
-                walk(item, labels)
-            return
-
-        if isinstance(node, dict):
-            for label, child in node.items():
-                if isinstance(child, str):
-                    if child.startswith("papers/") and child.endswith(".md"):
-                        paper_id = child.removeprefix("papers/").removesuffix(".md")
-                        locations.setdefault(paper_id, labels + [str(label)])
-                    continue
-                walk(child, labels + [str(label)])
-
-    walk(nav, [])
-    return locations
+    return {
+        paper_id: list(placement.nav_path)
+        for paper_id, placement in model.placements_by_paper_id.items()
+    }
 
 
-def collect_tree_leaves(nav: Any, *, base_dir: Path = KB_DIR) -> dict[str, TreeLeaf]:
+def collect_tree_leaves(model: TreeModel) -> dict[str, TreeLeaf]:
     """Map generated paper ID to its raw tree source and nav path."""
     leaves: dict[str, TreeLeaf] = {}
-
-    def walk(node: Any, labels: list[str]) -> None:
-        if isinstance(node, str):
-            return
-
-        if isinstance(node, list):
-            for item in node:
-                walk(item, labels)
-            return
-
-        if isinstance(node, dict):
-            for label, child in node.items():
-                label_text = str(label)
-                if isinstance(child, str):
-                    metadata_path = metadata_source_path(child, base_dir)
-                    if metadata_path is not None and metadata_path.exists():
-                        with metadata_path.open("r", encoding="utf-8") as f:
-                            data = yaml.safe_load(f) or {}
-                        if isinstance(data, dict):
-                            paper_id = paper_id_from_file(metadata_path, data)
-                            leaves.setdefault(
-                                paper_id,
-                                TreeLeaf(
-                                    id=paper_id,
-                                    label=label_text,
-                                    source=child,
-                                    nav_path=labels + [label_text],
-                                ),
-                            )
-                    continue
-                walk(child, labels + [label_text])
-
-    walk(nav, [])
+    for leaf in model.leaves:
+        if leaf.paper_id:
+            leaves.setdefault(leaf.paper_id, leaf)
     return leaves
 
 
@@ -311,13 +273,17 @@ def write_tree_placements(
         placed.append((paper, neighbor, score))
         placed_ids.add(paper.id)
         used_sources.add(source)
+        nav_path = (*neighbor.nav_path[:-1], tree_label(paper))
         tree_leaves[paper.id] = TreeLeaf(
-            id=paper.id,
             label=tree_label(paper),
             source=source,
-            nav_path=neighbor.nav_path[:-1] + [tree_label(paper)],
+            path=neighbor.path,
+            nav_path=nav_path,
+            paper_id=paper.id,
+            generated_source=paper.generated_path,
+            metadata_path=paper.metadata_path,
         )
-        nav_locations[paper.id] = neighbor.nav_path[:-1] + [tree_label(paper)]
+        nav_locations[paper.id] = list(nav_path)
 
     new_text = "".join(lines)
     if had_trailing_newline and not new_text.endswith("\n"):
@@ -338,7 +304,7 @@ def print_write_summary(
     for paper, neighbor, score in placed:
         location = " > ".join(neighbor.nav_path[:-1])
         print(
-            f"- {tree_label(paper)} (`{paper.id}`) after `{neighbor.id}` "
+            f"- {tree_label(paper)} (`{paper.id}`) after `{neighbor.paper_id}` "
             f"({score:.3f}) in {location}"
         )
 
@@ -467,8 +433,9 @@ def main() -> None:
     if not isinstance(config, dict):
         sys.exit(f"Could not parse MkDocs config: {MKDOCS_YML}")
 
+    tree_model = load_tree_model(args.tree_yml, config)
     papers = collect_papers(METADATA_ROOT)
-    nav_locations = collect_nav_locations(load_tree(config))
+    nav_locations = collect_nav_locations(tree_model)
     missing = [paper for paper_id, paper in sorted(papers.items()) if paper_id not in nav_locations]
     display = missing[: args.max_results] if args.max_results is not None else missing
     needs_embeddings = args.neighbors > 0 or args.write_tree
@@ -480,7 +447,7 @@ def main() -> None:
                 f"Could not load embeddings from {EMBEDDING_CACHE}. "
                 "Run `python map/generate_map_data.py` first."
             )
-        tree_leaves = collect_tree_leaves(tree_from_file(args.tree_yml, normalize=False))
+        tree_leaves = collect_tree_leaves(tree_model)
         placed, skipped = write_tree_placements(
             display,
             nav_locations,
