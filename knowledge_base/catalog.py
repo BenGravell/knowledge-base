@@ -7,16 +7,20 @@ from datetime import date
 import hashlib
 import re
 from pathlib import Path
-from typing import Any, Iterable
+from typing import Any, Iterable, Literal
 from urllib.parse import quote
 
+from pydantic import BaseModel, ConfigDict, ValidationError, field_validator
 import yaml
 
+from knowledge_base.config import VALID_AUDIT_STATUSES, VALID_TYPES
 from knowledge_base.utils.arxiv_utils import normalize_arxiv_id
 from knowledge_base.utils.paper_ids import paper_id_from_metadata
 
 
 YAML_LOADER = getattr(yaml, "CSafeLoader", yaml.SafeLoader)
+MetadataYear = int | str
+UrlKey = Literal["detail", "tree", "map", "timeline", "search"]
 
 
 def clean_scalar(value: Any) -> str:
@@ -25,13 +29,6 @@ def clean_scalar(value: Any) -> str:
 
 def clean_inline(value: Any) -> str:
     return re.sub(r"[ \t\r\f\v]+", " ", clean_scalar(value))
-
-
-def as_clean_tuple(value: Any) -> tuple[str, ...]:
-    if isinstance(value, list):
-        return tuple(text for item in value if (text := clean_scalar(item)))
-    text = clean_scalar(value)
-    return (text,) if text else ()
 
 
 def year_as_int(value: Any) -> int | None:
@@ -75,7 +72,157 @@ def join_url(base_path: str, target: str) -> str:
     return f"{base}/{path}" if base else path
 
 
-@dataclass(frozen=True)
+def _clean_metadata_scalar(value: Any) -> str:
+    if value is None:
+        return ""
+    if isinstance(value, (list, tuple, dict, set)):
+        raise ValueError("expected a scalar value")
+    return clean_scalar(value)
+
+
+def _clean_metadata_tuple(value: Any) -> tuple[str, ...]:
+    if value is None:
+        return ()
+    if isinstance(value, (list, tuple)):
+        items = value
+    elif isinstance(value, (dict, set)):
+        raise ValueError("expected a scalar value or list")
+    else:
+        items = (value,)
+
+    cleaned: list[str] = []
+    for item in items:
+        if isinstance(item, (list, tuple, dict, set)):
+            raise ValueError("expected scalar list entries")
+        if text := clean_scalar(item):
+            cleaned.append(text)
+    return tuple(cleaned)
+
+
+def _clean_metadata_year(value: Any) -> MetadataYear:
+    if value is None:
+        return ""
+    if isinstance(value, bool) or isinstance(value, (list, tuple, dict, set)):
+        raise ValueError("expected an integer year or year string")
+    if isinstance(value, int):
+        return value
+    return clean_scalar(value)
+
+
+class _MetadataRecord(BaseModel):
+    model_config = ConfigDict(extra="forbid", frozen=True)
+
+    title: str = ""
+    algorithm: str = ""
+    authors: tuple[str, ...] = ()
+    year: MetadataYear = ""
+    source: str = ""
+    type: str = ""
+    doi: str = ""
+    arxiv_id: str = ""
+    tags: tuple[str, ...] = ()
+    abstract: str = ""
+    summary: str = ""
+    link: str = ""
+    links_alt: tuple[str, ...] = ()
+    audit_status: str = ""
+
+    @field_validator(
+        "title",
+        "algorithm",
+        "source",
+        "abstract",
+        "summary",
+        "link",
+        mode="before",
+    )
+    @classmethod
+    def clean_scalar_fields(cls, value: Any) -> str:
+        return _clean_metadata_scalar(value)
+
+    @field_validator("authors", "tags", "links_alt", mode="before")
+    @classmethod
+    def clean_tuple_fields(cls, value: Any) -> tuple[str, ...]:
+        return _clean_metadata_tuple(value)
+
+    @field_validator("year", mode="before")
+    @classmethod
+    def clean_year_field(cls, value: Any) -> MetadataYear:
+        return _clean_metadata_year(value)
+
+    @field_validator("doi", mode="before")
+    @classmethod
+    def clean_doi_field(cls, value: Any) -> str:
+        return clean_doi(_clean_metadata_scalar(value))
+
+    @field_validator("arxiv_id", mode="before")
+    @classmethod
+    def clean_arxiv_id_field(cls, value: Any) -> str:
+        return normalize_arxiv_id(_clean_metadata_scalar(value))
+
+    @field_validator("type", mode="before")
+    @classmethod
+    def clean_type_field(cls, value: Any) -> str:
+        text = _clean_metadata_scalar(value)
+        if text and text not in VALID_TYPES:
+            raise ValueError(f"must be one of: {', '.join(VALID_TYPES)}")
+        return text
+
+    @field_validator("audit_status", mode="before")
+    @classmethod
+    def clean_audit_status_field(cls, value: Any) -> str:
+        text = _clean_metadata_scalar(value)
+        if text and text not in VALID_AUDIT_STATUSES:
+            raise ValueError(f"must be one of: {', '.join(VALID_AUDIT_STATUSES)}")
+        return text
+
+
+@dataclass(frozen=True, slots=True)
+class CatalogLoadIssue:
+    metadata_path: Path
+    message: str
+
+
+class CatalogLoadError(ValueError):
+    issues: tuple[CatalogLoadIssue, ...]
+
+    def __init__(self, issues: Iterable[CatalogLoadIssue]) -> None:
+        self.issues = tuple(issues)
+        super().__init__(_format_catalog_load_issues(self.issues))
+
+    @classmethod
+    def from_validation_error(
+        cls,
+        metadata_path: Path,
+        error: ValidationError,
+    ) -> CatalogLoadError:
+        return cls(
+            CatalogLoadIssue(metadata_path, _validation_issue_message(issue))
+            for issue in error.errors()
+        )
+
+
+def _validation_issue_message(issue: dict[str, Any]) -> str:
+    location = ".".join(str(part) for part in issue.get("loc", ())) or "metadata"
+    return f"{location}: {issue.get('msg', 'Invalid value')}"
+
+
+def _format_catalog_load_issues(issues: tuple[CatalogLoadIssue, ...]) -> str:
+    count = len(issues)
+    header = f"Failed to load Catalog ({count} issue{'s' if count != 1 else ''})"
+    lines = [header]
+    lines.extend(f"- {issue.metadata_path}: {issue.message}" for issue in issues)
+    return "\n".join(lines)
+
+
+def _validate_metadata_record(metadata_path: Path, data: dict[str, Any]) -> _MetadataRecord:
+    try:
+        return _MetadataRecord.model_validate(data)
+    except ValidationError as exc:
+        raise CatalogLoadError.from_validation_error(metadata_path, exc) from exc
+
+
+@dataclass(frozen=True, slots=True)
 class Entry:
     metadata_path: Path
     id: str
@@ -85,7 +232,7 @@ class Entry:
     algorithm: str
     authors: tuple[str, ...]
     author_last_names: tuple[str, ...]
-    year: Any
+    year: MetadataYear
     year_text: str
     year_value: int | None
     source: str
@@ -122,26 +269,27 @@ class Entry:
         metadata_root: Path,
         generated_root: Path = Path("papers"),
     ) -> Entry:
+        record = _validate_metadata_record(metadata_path, data)
         paper_id = paper_id_from_metadata(metadata_path, data, metadata_root)
         generated_path = generated_root / f"{paper_id}.md"
         generated_source = generated_path.as_posix()
-        title = clean_scalar(data.get("title"))
-        algorithm = clean_scalar(data.get("algorithm"))
-        authors = as_clean_tuple(data.get("authors"))
+        title = record.title
+        algorithm = record.algorithm
+        authors = record.authors
         author_last_names = tuple(last_name(author) for author in authors)
-        year = data.get("year") or ""
+        year = record.year
         year_text = clean_scalar(year)
         year_value = year_as_int(year)
-        source = clean_scalar(data.get("source"))
-        item_type = clean_scalar(data.get("type"))
-        doi = clean_doi(data.get("doi"))
-        arxiv_id = normalize_arxiv_id(data.get("arxiv_id"))
-        tags = as_clean_tuple(data.get("tags"))
-        abstract = clean_scalar(data.get("abstract"))
-        summary = clean_scalar(data.get("summary"))
-        primary_link = clean_scalar(data.get("link"))
-        alternate_links = as_clean_tuple(data.get("links_alt"))
-        audit_status = clean_scalar(data.get("audit_status"))
+        source = record.source
+        item_type = record.type
+        doi = record.doi
+        arxiv_id = record.arxiv_id
+        tags = record.tags
+        abstract = record.abstract
+        summary = record.summary
+        primary_link = record.link
+        alternate_links = record.links_alt
+        audit_status = record.audit_status
         identifiers = identifier_terms(
             paper_id,
             doi=doi,
@@ -209,7 +357,7 @@ class Entry:
             embedding_hash=content_hash(embedding_text),
         )
 
-    def url(self, key: str, base_path: str = "..") -> str:
+    def url(self, key: UrlKey, base_path: str = "..") -> str:
         paths = {
             "detail": self.detail_path,
             "tree": self.tree_path,
@@ -220,7 +368,7 @@ class Entry:
         return join_url(base_path, paths[key])
 
 
-@dataclass(frozen=True)
+@dataclass(frozen=True, slots=True)
 class Catalog:
     entries: tuple[Entry, ...]
     by_id: dict[str, Entry]
@@ -235,19 +383,35 @@ class Catalog:
         generated_root: Path = Path("papers"),
     ) -> Catalog:
         entries: list[Entry] = []
+        issues: list[CatalogLoadIssue] = []
         for metadata_path in sorted(metadata_root.rglob("metadata.yml")):
-            with metadata_path.open("r", encoding="utf-8") as f:
-                data = yaml.load(f, Loader=YAML_LOADER) or {}
-            if not isinstance(data, dict):
+            try:
+                with metadata_path.open("r", encoding="utf-8") as f:
+                    data = yaml.load(f, Loader=YAML_LOADER) or {}
+            except yaml.YAMLError as exc:
+                issues.append(CatalogLoadIssue(metadata_path, str(exc)))
                 continue
-            entries.append(
-                Entry.from_metadata(
-                    metadata_path,
-                    data,
-                    metadata_root=metadata_root,
-                    generated_root=generated_root,
+            if not isinstance(data, dict):
+                issues.append(
+                    CatalogLoadIssue(
+                        metadata_path,
+                        f"metadata.yml must contain a mapping, got {type(data).__name__}",
+                    )
                 )
-            )
+                continue
+            try:
+                entries.append(
+                    Entry.from_metadata(
+                        metadata_path,
+                        data,
+                        metadata_root=metadata_root,
+                        generated_root=generated_root,
+                    )
+                )
+            except CatalogLoadError as exc:
+                issues.extend(exc.issues)
+        if issues:
+            raise CatalogLoadError(issues)
         return cls.from_entries(entries)
 
     @classmethod
@@ -266,7 +430,10 @@ def unique_index(entries: tuple[Entry, ...], field_name: str) -> dict[Any, Entry
     for entry in entries:
         key = getattr(entry, field_name)
         if key in index:
-            raise ValueError(f"Duplicate Catalog {field_name}: {key}")
+            raise ValueError(
+                f"Duplicate Catalog {field_name}: {key} "
+                f"({index[key].metadata_path} and {entry.metadata_path})"
+            )
         index[key] = entry
     return index
 
@@ -276,7 +443,7 @@ def paper_label(
     title: str,
     algorithm: str,
     authors: tuple[str, ...],
-    year: Any,
+    year: MetadataYear,
 ) -> str:
     if algorithm:
         return algorithm
