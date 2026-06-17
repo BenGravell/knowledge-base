@@ -1,5 +1,9 @@
 # TODO
 
+## Search, Map
+
+Incorporate the full text as the embed text when available.
+
 ## perf
 
 Tree and Timeline pages need major performance increase for handling large number of items.
