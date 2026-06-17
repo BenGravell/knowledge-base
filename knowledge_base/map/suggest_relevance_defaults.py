@@ -92,7 +92,7 @@ def paper_nav_path(attrs: dict[str, Any]) -> tuple[str, ...]:
 
 def common_prefix_length(a: tuple[str, ...], b: tuple[str, ...]) -> int:
     count = 0
-    for left, right in zip(a, b):
+    for left, right in zip(a, b, strict=False):
         if left != right:
             break
         count += 1
@@ -164,7 +164,7 @@ def build_similarity_matrix(data: dict[str, Any], ids: list[str]) -> list[list[f
     return matrix
 
 
-def build_similarity_array(data: dict[str, Any], ids: list[str]) -> "np.ndarray":
+def build_similarity_array(data: dict[str, Any], ids: list[str]) -> np.ndarray:
     similarity = data.get("similarity") or {}
     scale = float(similarity.get("scale") or data.get("meta", {}).get("similarityScale") or 1)
     similarity_ids = [str(paper_id) for paper_id in similarity.get("ids") or []]
@@ -195,10 +195,7 @@ def build_similarity_array(data: dict[str, Any], ids: list[str]) -> "np.ndarray"
 
 
 def build_tree_distance_matrix(paths: list[tuple[str, ...]]) -> list[list[int]]:
-    return [
-        [tree_distance(ego_path, paper_path) for paper_path in paths]
-        for ego_path in paths
-    ]
+    return [[tree_distance(ego_path, paper_path) for paper_path in paths] for ego_path in paths]
 
 
 def learn_tree_proximity_scale(
@@ -214,8 +211,7 @@ def learn_tree_proximity_scale(
 
     if not values or not any(distance_counts):
         return [
-            1 - distance / max_tree_distance if max_tree_distance else 1.0
-            for distance in range(max_tree_distance + 1)
+            1 - distance / max_tree_distance if max_tree_distance else 1.0 for distance in range(max_tree_distance + 1)
         ]
 
     total = sum(distance_counts)
@@ -256,7 +252,7 @@ def kl_divergence(
     reference_total = sum(reference) + epsilon * bins
     candidate_total = sum(candidate) + epsilon * bins
     total = 0.0
-    for ref_count, cand_count in zip(reference, candidate):
+    for ref_count, cand_count in zip(reference, candidate, strict=False):
         p = (ref_count + epsilon) / reference_total
         q = (cand_count + epsilon) / candidate_total
         total += p * math.log(p / q)
@@ -288,10 +284,10 @@ def match_counts(
     threshold: float,
 ) -> list[int]:
     counts = []
-    for similarities, proximities in zip(similarity_matrix, tree_proximity_matrix):
+    for similarities, proximities in zip(similarity_matrix, tree_proximity_matrix, strict=False):
         count = sum(
             1
-            for similarity, proximity in zip(similarities, proximities)
+            for similarity, proximity in zip(similarities, proximities, strict=False)
             if similarity >= threshold and proximity >= threshold
         )
         counts.append(count)
@@ -325,19 +321,9 @@ def score_candidate(
     semantic_half_range = max((semantic_max - semantic_min) / 2, 1e-9)
     centeredness = ((threshold - semantic_mid) / semantic_half_range) ** 2
 
-    lower_tail_deficit = (
-        max(0, primary_min_neighbors - p05_neighbors)
-        + max(0, fallback_min_neighbors - p01_neighbors)
-    )
-    broadness_penalty = (
-        max(0, p95_count - soft_max_p95) * 2
-        + max(0, p99_count - soft_max_p99) * 4
-    )
-    score = (
-        lower_tail_deficit * 1000
-        + broadness_penalty
-        + centeredness * center_weight
-    )
+    lower_tail_deficit = max(0, primary_min_neighbors - p05_neighbors) + max(0, fallback_min_neighbors - p01_neighbors)
+    broadness_penalty = max(0, p95_count - soft_max_p95) * 2 + max(0, p99_count - soft_max_p99) * 4
+    score = lower_tail_deficit * 1000 + broadness_penalty + centeredness * center_weight
     return Candidate(
         threshold=threshold,
         p01_neighbors=p01_neighbors,
@@ -400,8 +386,8 @@ def suggest_defaults(
         similarity_matrix = build_similarity_matrix(data, ids)
         semantic_values = []
         tree_distances = []
-        for similarities, distances in zip(similarity_matrix, tree_distance_matrix):
-            for similarity, distance in zip(similarities, distances):
+        for similarities, distances in zip(similarity_matrix, tree_distance_matrix, strict=False):
+            for similarity, distance in zip(similarities, distances, strict=False):
                 if math.isfinite(similarity) and similarity >= 0:
                     semantic_values.append(min(max(similarity, 0.0), 1.0))
                     tree_distances.append(distance)
@@ -422,9 +408,8 @@ def suggest_defaults(
     for threshold in thresholds:
         if np is not None:
             counts = (
-                (similarity_array >= threshold)
-                & (tree_proximity_array >= threshold)
-            ).sum(axis=1).astype(int).tolist()
+                ((similarity_array >= threshold) & (tree_proximity_array >= threshold)).sum(axis=1).astype(int).tolist()
+            )
         else:
             counts = match_counts(
                 similarity_matrix,
@@ -466,10 +451,7 @@ def threshold_to_slider_position(threshold: float) -> float:
 
 
 def print_candidates(candidates: list[Candidate]) -> None:
-    print(
-        "rank  threshold  "
-        "p01_nbr  p05_nbr  median  p95  p99  mean   min-max  broad  score"
-    )
+    print("rank  threshold  p01_nbr  p05_nbr  median  p95  p99  mean   min-max  broad  score")
     for index, candidate in enumerate(candidates, start=1):
         print(
             f"{index:>4}  "
@@ -567,20 +549,12 @@ def main() -> None:
         f"{args.fallback_coverage:.0%} should show at least "
         f"{args.fallback_min_neighbors} non-self neighbor"
     )
-    print(
-        "Soft upper targets: "
-        f"p95 <= {args.soft_max_p95}, p99 <= {args.soft_max_p99}"
-    )
+    print(f"Soft upper targets: p95 <= {args.soft_max_p95}, p99 <= {args.soft_max_p99}")
     print(f"Shared threshold range: {args.semantic_min:.2f}-{args.semantic_max:.2f}")
-    print(
-        "Slider curve: "
-        f"{SLIDER_EXPANDED_POSITION:.0%} position maps to "
-        f"{SLIDER_EXPANDED_THRESHOLD:.2f} threshold"
-    )
+    print(f"Slider curve: {SLIDER_EXPANDED_POSITION:.0%} position maps to {SLIDER_EXPANDED_THRESHOLD:.2f} threshold")
     print(f"Raw tree distance range: 0-{max_tree_distance}")
     print(
-        "Learned tree proximity: "
-        + ", ".join(f"d{distance}={value:.2f}" for distance, value in enumerate(tree_scale))
+        "Learned tree proximity: " + ", ".join(f"d{distance}={value:.2f}" for distance, value in enumerate(tree_scale))
     )
     print(f"Tree-proximity KL divergence vs semantic distribution: {tree_kl:.4f}")
     print()
@@ -595,11 +569,7 @@ def main() -> None:
         f"p95 {format_count(best.p95_count)}, p99 {format_count(best.p99_count)}, "
         f"range {best.min_count}-{best.max_count}"
     )
-    print(
-        "  expected neighbors:  "
-        f"p01 {format_count(best.p01_neighbors)}, "
-        f"p05 {format_count(best.p05_neighbors)}"
-    )
+    print(f"  expected neighbors:  p01 {format_count(best.p01_neighbors)}, p05 {format_count(best.p05_neighbors)}")
     print()
     print_candidates(candidates[: max(args.top, 0)])
 

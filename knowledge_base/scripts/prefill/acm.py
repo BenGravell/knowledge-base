@@ -20,10 +20,11 @@ import requests
 
 if __package__ in (None, ""):
     import sys
+
     sys.path.append(str(Path(__file__).resolve().parents[3]))
 
-from knowledge_base.utils.prefill_template import DoiPrefillScript, REPO_ROOT
 from knowledge_base.utils.doi_utils import fetch_crossref, fetch_with_retry
+from knowledge_base.utils.prefill_template import REPO_ROOT, DoiPrefillScript
 from knowledge_base.utils.prefill_utils import extract_doi_from_url, read_url_lines
 
 DEFAULT_INPUT = REPO_ROOT / "todo" / "papers" / "ACM.md"
@@ -39,12 +40,8 @@ DOI_ALIASES = {
 }
 
 LINK_OVERRIDES = {
-    "10.5555/3022473.3022494": (
-        "https://ojs.aaai.org/index.php/AIIDE/article/download/18726/18503"
-    ),
-    "10.5555/2095116.2095209": (
-        "https://people.csail.mit.edu/haitham/Papers/sFFT.pdf"
-    ),
+    "10.5555/3022473.3022494": ("https://ojs.aaai.org/index.php/AIIDE/article/download/18726/18503"),
+    "10.5555/2095116.2095209": ("https://people.csail.mit.edu/haitham/Papers/sFFT.pdf"),
 }
 
 # Some 10.5555 ACM DL records are not registered with Crossref/doi.org, and
@@ -171,8 +168,7 @@ FALLBACK_RECORDS = {
         "doi": "10.5555/3008904.3009053",
         "abstract": "",
         "link": (
-            "https://proceedings.neurips.cc/paper_files/paper/1997/file/"
-            "cd0dce8fca267bf1fb86cf43e18d5598-Paper.pdf"
+            "https://proceedings.neurips.cc/paper_files/paper/1997/file/cd0dce8fca267bf1fb86cf43e18d5598-Paper.pdf"
         ),
         "links_alt": [
             "https://dl.acm.org/doi/10.5555/3008904.3009053",
@@ -196,16 +192,12 @@ FALLBACK_RECORDS = {
         "doi": "10.5555/2997189.2997253",
         "abstract": "",
         "link": (
-            "https://proceedings.neurips.cc/paper_files/paper/2010/file/"
-            "65cc2c8205a05d7379fa3a6386f710e1-Paper.pdf"
+            "https://proceedings.neurips.cc/paper_files/paper/2010/file/65cc2c8205a05d7379fa3a6386f710e1-Paper.pdf"
         ),
         "links_alt": [
             "https://dl.acm.org/doi/10.5555/2997189.2997253",
             "https://dblp.org/rec/conf/nips/FarahmandMS10",
-            (
-                "https://proceedings.neurips.cc/paper/2010/hash/"
-                "65cc2c8205a05d7379fa3a6386f710e1-Abstract.html"
-            ),
+            ("https://proceedings.neurips.cc/paper/2010/hash/65cc2c8205a05d7379fa3a6386f710e1-Abstract.html"),
         ],
     },
     "10.5555/2969442.2969525": {
@@ -222,16 +214,12 @@ FALLBACK_RECORDS = {
         "doi": "10.5555/2969442.2969525",
         "abstract": "",
         "link": (
-            "https://proceedings.neurips.cc/paper_files/paper/2015/file/"
-            "4dcf435435894a4d0972046fc566af76-Paper.pdf"
+            "https://proceedings.neurips.cc/paper_files/paper/2015/file/4dcf435435894a4d0972046fc566af76-Paper.pdf"
         ),
         "links_alt": [
             "https://dl.acm.org/doi/10.5555/2969442.2969525",
             "https://dblp.org/rec/conf/nips/KoolenMBA15",
-            (
-                "https://proceedings.neurips.cc/paper/2015/hash/"
-                "4dcf435435894a4d0972046fc566af76-Abstract.html"
-            ),
+            ("https://proceedings.neurips.cc/paper/2015/hash/4dcf435435894a4d0972046fc566af76-Abstract.html"),
         ],
     },
 }

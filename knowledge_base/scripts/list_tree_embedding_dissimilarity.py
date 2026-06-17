@@ -23,19 +23,19 @@ from typing import Any, Literal
 
 import yaml
 
-
 REPO_ROOT = Path(__file__).resolve().parents[2]
 if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))
 
-from knowledge_base.config import KB_DIR  # noqa: E402
-from knowledge_base.tree.nav_source import TREE_YML  # noqa: E402
-from knowledge_base.tree.model import (  # noqa: E402
+from knowledge_base.config import KB_DIR
+from knowledge_base.tree.model import (
     TreeBranch as Branch,
+)
+from knowledge_base.tree.model import (
     load_tree_model,
 )
-from knowledge_base.utils.paper_ids import paper_id_from_metadata  # noqa: E402
-
+from knowledge_base.tree.nav_source import TREE_YML
+from knowledge_base.utils.paper_ids import paper_id_from_metadata
 
 METADATA_ROOT = KB_DIR / "docs" / "papers"
 EMBEDDING_CACHE = KB_DIR / "map" / "embedding_cache.json"
@@ -130,7 +130,7 @@ def load_embeddings(path: Path = EMBEDDING_CACHE) -> dict[str, tuple[float, ...]
 
 
 def cosine(left: tuple[float, ...], right: tuple[float, ...]) -> float:
-    return sum(a * b for a, b in zip(left, right))
+    return sum(a * b for a, b in zip(left, right, strict=False))
 
 
 def category_ids(branch: Branch, scope: Scope) -> tuple[str, ...]:
@@ -174,11 +174,7 @@ def find_branch_outliers(
 
     outliers: list[Outlier] = []
     for paper_id in ids:
-        peer_scores = [
-            (other_id, pairwise[(paper_id, other_id)])
-            for other_id in ids
-            if other_id != paper_id
-        ]
+        peer_scores = [(other_id, pairwise[(paper_id, other_id)]) for other_id in ids if other_id != paper_id]
         mean_to_peers = sum(score for _, score in peer_scores) / len(peer_scores)
         closest_peer_id, closest_score = max(peer_scores, key=lambda item: item[1])
         if mean_to_peers >= min_similarity and mean_pairwise - mean_to_peers < min_drop_from_mean:
@@ -316,9 +312,7 @@ def print_json(findings: list[Finding]) -> None:
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(
-        description="Soft-audit Tree categories for embedding outliers."
-    )
+    parser = argparse.ArgumentParser(description="Soft-audit Tree categories for embedding outliers.")
     parser.add_argument(
         "--scope",
         choices=("direct", "descendants"),

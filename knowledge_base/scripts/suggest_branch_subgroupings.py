@@ -30,20 +30,22 @@ from sklearn.cluster import AgglomerativeClustering
 from sklearn.metrics import silhouette_score
 from sklearn.preprocessing import normalize
 
-
 REPO_ROOT = Path(__file__).resolve().parents[2]
 if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))
 
-from knowledge_base.config import KB_DIR  # noqa: E402
-from knowledge_base.tree.nav_source import TREE_YML  # noqa: E402
-from knowledge_base.tree.model import (  # noqa: E402
+from knowledge_base.config import KB_DIR
+from knowledge_base.tree.model import (
     TreeBranch as Branch,
+)
+from knowledge_base.tree.model import (
     TreeChild as ChildItem,
+)
+from knowledge_base.tree.model import (
     load_tree_model,
 )
-from knowledge_base.utils.paper_ids import paper_id_from_metadata  # noqa: E402
-
+from knowledge_base.tree.nav_source import TREE_YML
+from knowledge_base.utils.paper_ids import paper_id_from_metadata
 
 DOCS_DIR = KB_DIR / "docs"
 METADATA_ROOT = DOCS_DIR / "papers"
@@ -135,8 +137,7 @@ def relative_to_kb(path: Path) -> str:
 
 def is_landing_item(label: str, child: Any) -> bool:
     return isinstance(child, str) and (
-        child in LANDING_PAGES
-        or (label.strip().lower() == "overview" and child in LANDING_PAGES)
+        child in LANDING_PAGES or (label.strip().lower() == "overview" and child in LANDING_PAGES)
     )
 
 
@@ -221,10 +222,7 @@ def candidate_cluster_counts(
 ) -> range:
     if item_count < 3:
         return range(0)
-    if max_groups is None:
-        inferred_max = maximum
-    else:
-        inferred_max = max_groups
+    inferred_max = maximum if max_groups is None else max_groups
     upper = min(item_count - 1, max(2, inferred_max))
     return range(2, upper + 1)
 
@@ -281,8 +279,7 @@ def choose_labels(
 
 
 def normalize_phrase(value: str) -> str:
-    value = re.sub(r"\s+", " ", value.replace("\n", " ")).strip(" '\"`.,:;")
-    return value
+    return re.sub(r"\s+", " ", value.replace("\n", " ")).strip(" '\"`.,:;")
 
 
 def add_phrase(
@@ -454,10 +451,7 @@ def print_markdown(
             f"(silhouette {suggestion.silhouette:.3f}, score {suggestion.score:.3f}).\n"
         )
         for cluster in suggestion.clusters:
-            print(
-                f"- `{cluster.name}` ({len(cluster.children)} items; "
-                f"mean similarity {cluster.mean_similarity:.3f})"
-            )
+            print(f"- `{cluster.name}` ({len(cluster.children)} items; mean similarity {cluster.mean_similarity:.3f})")
             for child in cluster.children[:shown_items]:
                 kind = "branch" if child.kind == "branch" else "leaf"
                 print(f"  - {child.label} [{kind}]")
@@ -814,10 +808,7 @@ def main() -> None:
         if not suggestions:
             sys.exit("--write-tree found no suggestion to write.")
         if len(suggestions) > 1:
-            sys.exit(
-                "--write-tree needs exactly one suggestion. "
-                "Narrow with --branch or pass --max-results 1."
-            )
+            sys.exit("--write-tree needs exactly one suggestion. Narrow with --branch or pass --max-results 1.")
         apply_tree_suggestion(tree_path, suggestions[0])
         wrote_tree = True
 
@@ -829,10 +820,7 @@ def main() -> None:
                     "suggestion_count": len(suggestions),
                     "wrote_tree": wrote_tree,
                     "tree_yml": relative_to_kb(tree_path),
-                    "suggestions": [
-                        suggestion_to_json(suggestion, mode=args.count)
-                        for suggestion in suggestions
-                    ],
+                    "suggestions": [suggestion_to_json(suggestion, mode=args.count) for suggestion in suggestions],
                 },
                 indent=2,
                 ensure_ascii=False,

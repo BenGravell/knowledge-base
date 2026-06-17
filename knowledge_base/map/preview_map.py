@@ -57,9 +57,9 @@ def category_super_category(data: dict, category: str) -> str:
 
     node = next(
         (
-            item for item in data.get("nodes", [])
-            if item["data"].get("category") == category
-            and item["data"].get("super_category")
+            item
+            for item in data.get("nodes", [])
+            if item["data"].get("category") == category and item["data"].get("super_category")
         ),
         None,
     )
@@ -68,11 +68,7 @@ def category_super_category(data: dict, category: str) -> str:
 
 def category_order(data: dict) -> list[str]:
     configured = data.get("meta", {}).get("categoryOrder") or []
-    data_categories = {
-        item["data"].get("category")
-        for item in data.get("nodes", [])
-        if item["data"].get("category")
-    }
+    data_categories = {item["data"].get("category") for item in data.get("nodes", []) if item["data"].get("category")}
     ordered = [cat for cat in configured if cat in data_categories]
     ordered.extend(sorted(data_categories - set(ordered)))
     return ordered
@@ -104,10 +100,7 @@ def super_category_hsl(data: dict, super_category: str) -> dict[str, float]:
 
 
 def categories_for_super(data: dict, super_category: str, current_category: str) -> list[str]:
-    siblings = [
-        cat for cat in category_order(data)
-        if category_super_category(data, cat) == super_category
-    ]
+    siblings = [cat for cat in category_order(data) if category_super_category(data, cat) == super_category]
     if current_category not in siblings:
         siblings.append(current_category)
     return siblings
@@ -127,11 +120,7 @@ def hsl_to_hex(hsl: dict[str, float]) -> str:
         clamp(hsl["l"], 0, 100) / 100,
         clamp(hsl["s"], 0, 100) / 100,
     )
-    return "#{:02X}{:02X}{:02X}".format(
-        round(r * 255),
-        round(g * 255),
-        round(b * 255),
-    )
+    return f"#{round(r * 255):02X}{round(g * 255):02X}{round(b * 255):02X}"
 
 
 def category_hsl(data: dict, category: str) -> dict[str, float]:
@@ -151,11 +140,8 @@ def category_hsl(data: dict, category: str) -> dict[str, float]:
 
 def sub_category_hsl(data: dict, category: str, sub_category: str) -> dict[str, float]:
     base = category_hsl(data, category)
-    ordered = [
-        item for item in data.get("meta", {}).get("subCategoryOrder", {}).get(category, [])
-        if item
-    ]
-    siblings = ordered if sub_category in ordered else sorted(ordered + [sub_category])
+    ordered = [item for item in data.get("meta", {}).get("subCategoryOrder", {}).get(category, []) if item]
+    siblings = ordered if sub_category in ordered else sorted([*ordered, sub_category])
     index = max(siblings.index(sub_category), 0)
     center = (len(siblings) - 1) / 2
     hue_step = min(4, 14 / (len(siblings) - 1)) if len(siblings) > 1 else 0
@@ -189,10 +175,7 @@ def ordered_groups(data: dict, nodes: list[dict]) -> list[tuple[tuple[str, str |
     ordered: list[tuple[tuple[str, str | None], list[dict]]] = []
     for category in categories:
         sub_order = data.get("meta", {}).get("subCategoryOrder", {}).get(category, [])
-        data_sub_categories = {
-            key[1] for key in groups
-            if key[0] == category and key[1] is not None
-        }
+        data_sub_categories = {key[1] for key in groups if key[0] == category and key[1] is not None}
         sub_categories = [sub for sub in sub_order if sub in data_sub_categories]
         sub_categories.extend(sorted(data_sub_categories - set(sub_categories)))
 
@@ -251,12 +234,12 @@ def build_figure(data: dict):
                 y=ys,
                 mode="markers",
                 name=trace_name,
-                marker=dict(
-                    size=NODE_MARKER_DIAMETER,
-                    color=node_color(data, cat, sub_cat),
-                    line=dict(width=0.8, color="rgba(255,255,255,0.35)"),
-                    opacity=0.9,
-                ),
+                marker={
+                    "size": NODE_MARKER_DIAMETER,
+                    "color": node_color(data, cat, sub_cat),
+                    "line": {"width": 0.8, "color": "rgba(255,255,255,0.35)"},
+                    "opacity": 0.9,
+                },
                 text=hover_texts,
                 hovertemplate="%{text}<extra></extra>",
                 legendgroup=legend_group,
@@ -270,37 +253,42 @@ def build_figure(data: dict):
 
     fig = go.Figure(traces)
     fig.update_layout(
-        title=dict(
-            text=f"Knowledge Base Map — {n_nodes} papers · {model}",
-            font=dict(size=13, color="#8b949e"),
-            x=0.5,
-            xanchor="center",
-        ),
+        title={
+            "text": f"Knowledge Base Map — {n_nodes} papers · {model}",
+            "font": {"size": 13, "color": "#8b949e"},
+            "x": 0.5,
+            "xanchor": "center",
+        },
         hovermode="closest",
         plot_bgcolor="#0d1117",
         paper_bgcolor="#0d1117",
-        font=dict(color="#c9d1d9", family="system-ui, sans-serif"),
-        xaxis=dict(showgrid=False, zeroline=False, showticklabels=False, showline=False),
-        yaxis=dict(showgrid=False, zeroline=False, showticklabels=False, showline=False, scaleanchor="x", autorange="reversed"),
-        margin=dict(l=10, r=10, t=50, b=10),
+        font={"color": "#c9d1d9", "family": "system-ui, sans-serif"},
+        xaxis={"showgrid": False, "zeroline": False, "showticklabels": False, "showline": False},
+        yaxis={
+            "showgrid": False,
+            "zeroline": False,
+            "showticklabels": False,
+            "showline": False,
+            "scaleanchor": "x",
+            "autorange": "reversed",
+        },
+        margin={"l": 10, "r": 10, "t": 50, "b": 10},
         height=920,
-        legend=dict(
-            bgcolor="rgba(13,17,23,0.85)",
-            bordercolor="#30363d",
-            borderwidth=1,
-            font=dict(size=11),
-            itemclick="toggle",
-            itemdoubleclick="toggleothers",
-        ),
+        legend={
+            "bgcolor": "rgba(13,17,23,0.85)",
+            "bordercolor": "#30363d",
+            "borderwidth": 1,
+            "font": {"size": 11},
+            "itemclick": "toggle",
+            "itemdoubleclick": "toggleothers",
+        },
         dragmode="pan",
     )
     return fig
 
 
 def main():
-    parser = argparse.ArgumentParser(
-        description="Fast Plotly preview of the knowledge-base map"
-    )
+    parser = argparse.ArgumentParser(description="Fast Plotly preview of the knowledge-base map")
     parser.add_argument("--serve", action="store_true", help="Start a local HTTP server")
     parser.add_argument("--port", type=int, default=8765, metavar="PORT")
     parser.add_argument("--out", type=str, metavar="FILE", help="Save HTML to this path")
@@ -319,9 +307,8 @@ def main():
     if args.out:
         out_path = Path(args.out)
     else:
-        tmp = tempfile.NamedTemporaryFile(suffix=".html", prefix="map_", delete=False)
-        out_path = Path(tmp.name)
-        tmp.close()
+        with tempfile.NamedTemporaryFile(suffix=".html", prefix="map_", delete=False) as tmp:
+            out_path = Path(tmp.name)
 
     print("Writing HTML (CDN-linked plotly.js) …")
     fig.write_html(

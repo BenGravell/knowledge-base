@@ -22,13 +22,12 @@ from typing import Any
 
 import yaml
 
-
 REPO_ROOT = Path(__file__).resolve().parents[2]
 if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))
 
-from knowledge_base.config import KB_DIR  # noqa: E402
-from knowledge_base.utils.normalization_db import (  # noqa: E402
+from knowledge_base.config import KB_DIR
+from knowledge_base.utils.normalization_db import (
     ascii_clean,
     author_initial_last_key,
     author_key,
@@ -43,7 +42,6 @@ from knowledge_base.utils.normalization_db import (  # noqa: E402
     tag_dedupe_key,
     tag_key,
 )
-
 
 METADATA_ROOT = KB_DIR / "docs" / "papers"
 NORMALIZATION_DIR = KB_DIR / "normalization"
@@ -122,11 +120,7 @@ def choose_author_canonical(names: list[str], counts: Counter[str]) -> str:
 
 
 def merge_aliases(canonical: str, values: list[str]) -> list[str]:
-    aliases = {
-        ascii_clean(value)
-        for value in values
-        if ascii_clean(value) and ascii_clean(value) != canonical
-    }
+    aliases = {ascii_clean(value) for value in values if ascii_clean(value) and ascii_clean(value) != canonical}
     return sorted(aliases, key=str.casefold)
 
 
@@ -164,7 +158,7 @@ def build_author_entries(
                 parsed_by_initial[key].append(name)
 
     assigned: set[str] = set()
-    for initial_key, names in parsed_by_initial.items():
+    for names in parsed_by_initial.values():
         parsed_names = [(name, parse_author(name)) for name in names]
         full_first_names = {
             parsed.first.casefold()
@@ -248,7 +242,7 @@ def _tag_canonical_score(tag: str, counts: Counter[str]) -> tuple[int, int, int,
 
 def choose_tag_canonical(values: list[str], counts: Counter[str]) -> str:
     expanded_values = [expand_tag_acronyms(value) for value in values]
-    candidates = sorted(set([*values, *expanded_values]))
+    candidates = sorted({*values, *expanded_values})
     for value in expanded_values:
         if value not in counts:
             counts[value] += sum(counts[raw] for raw in values if expand_tag_acronyms(raw) == value)
@@ -307,9 +301,7 @@ def build_tag_entries(
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(
-        description="Build starter author/source/tag normalization databases."
-    )
+    parser = argparse.ArgumentParser(description="Build starter author/source/tag normalization databases.")
     parser.add_argument(
         "--update",
         action="store_true",
@@ -343,9 +335,7 @@ def main() -> int:
         "sources": SOURCES_DB,
         "tags": TAGS_DB,
     }
-    existing_selected = [
-        name for name, path in selected_paths.items() if name in selected and path.exists()
-    ]
+    existing_selected = [name for name, path in selected_paths.items() if name in selected and path.exists()]
     if not args.update and not args.force and existing_selected and not args.dry_run:
         print(
             "Normalization database(s) already exist for: "
@@ -364,17 +354,13 @@ def main() -> int:
             authors,
             existing=existing_entries(AUTHORS_DB, "authors") if args.update else [],
         )
-        print(
-            f"Observed {len(authors)} author spellings -> {len(author_entries)} author entries."
-        )
+        print(f"Observed {len(authors)} author spellings -> {len(author_entries)} author entries.")
     if "sources" in selected:
         source_entries = build_source_entries(
             sources,
             existing=existing_entries(SOURCES_DB, "sources") if args.update else [],
         )
-        print(
-            f"Observed {len(sources)} source spellings -> {len(source_entries)} source entries."
-        )
+        print(f"Observed {len(sources)} source spellings -> {len(source_entries)} source entries.")
     if "tags" in selected:
         tag_entries = build_tag_entries(
             tags,

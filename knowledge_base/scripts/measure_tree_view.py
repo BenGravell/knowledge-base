@@ -34,7 +34,6 @@ from verify_map_view import (
     shutdown_chrome,
 )
 
-
 DEFAULT_VIEWPORTS = ["1366x900"]
 DEFAULT_BRANCH = "Decision-making"
 PERFORMANCE_METRICS = [
@@ -215,7 +214,7 @@ JS_MEASURE_INTERACTION = r"""
 
 
 class QuietHandler(SimpleHTTPRequestHandler):
-    def log_message(self, format: str, *args: Any) -> None:  # noqa: A002 - stdlib signature
+    def log_message(self, _format: str, *_args: Any) -> None:
         return
 
 
@@ -256,7 +255,7 @@ def wait_for_tree_ready(client: CdpClient, timeout: float = 25) -> None:
         try:
             if client.evaluate(expression, timeout=2):
                 return
-        except Exception as exc:  # noqa: BLE001 - page may still be navigating
+        except Exception as exc:
             last_error = exc
         time.sleep(0.15)
     raise TimeoutError(f"Tree page did not become ready: {last_error}")
@@ -363,8 +362,7 @@ def summarize_viewport(label: str, runs: list[dict[str, Any]]) -> str:
     timings = [run["interaction"]["timings"] for run in runs]
     cdp = [run.get("cdpMetricDelta", {}) for run in runs]
     long_tasks = [
-        sum(float(task.get("duration", 0.0)) for task in run["interaction"].get("longTasks", []))
-        for run in runs
+        sum(float(task.get("duration", 0.0)) for task in run["interaction"].get("longTasks", [])) for run in runs
     ]
     first = runs[0]
     counts_after = first["interaction"]["countsAfter"]
@@ -486,6 +484,6 @@ def main() -> int:
 if __name__ == "__main__":
     try:
         raise SystemExit(main())
-    except Exception as exc:  # noqa: BLE001
+    except Exception as exc:
         print(f"FAIL: {exc}", file=sys.stderr)
-        raise SystemExit(1)
+        raise SystemExit(1) from exc

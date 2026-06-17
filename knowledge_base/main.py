@@ -1,5 +1,6 @@
-from knowledge_base.utils.site_links import material_icon_svg
+import itertools
 
+from knowledge_base.utils.site_links import material_icon_svg
 
 TIMELINE_PREVIEW_PROFILES = (
     {
@@ -45,7 +46,7 @@ def _catmull_rom_path(points: list[tuple[float, float]]) -> str:
 
 
 def _profile_width(points: tuple[tuple[float, float], ...], x: float) -> float:
-    for left, right in zip(points, points[1:]):
+    for left, right in itertools.pairwise(points):
         if left[0] <= x <= right[0]:
             t = (x - left[0]) / (right[0] - left[0])
             return left[1] + (right[1] - left[1]) * t

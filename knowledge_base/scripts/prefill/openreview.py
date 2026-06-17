@@ -15,7 +15,7 @@ if __package__ in (None, ""):
 
 import requests
 
-from knowledge_base.utils.prefill_template import HaltPrefill, PagePrefillScript, REPO_ROOT
+from knowledge_base.utils.prefill_template import REPO_ROOT, HaltPrefill, PagePrefillScript
 from knowledge_base.utils.prefill_utils import first_year, read_url_lines
 
 DEFAULT_INPUT = REPO_ROOT / "todo" / "papers" / "OPENREVIEW.md"
@@ -94,10 +94,7 @@ def wait_for_retry(label: str, attempt: int, response: requests.Response | None)
     wait = retry_after if retry_after is not None else fallback
     wait += random.uniform(0.0, min(3.0, wait * 0.1))
     status = response.status_code if response is not None else "network"
-    print(
-        f"    {status} from {label} - "
-        f"waiting {wait:.0f}s before retry {attempt + 2}/{MAX_RETRIES}"
-    )
+    print(f"    {status} from {label} - waiting {wait:.0f}s before retry {attempt + 2}/{MAX_RETRIES}")
     time.sleep(wait)
 
 

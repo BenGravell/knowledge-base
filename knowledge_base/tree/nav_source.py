@@ -9,7 +9,6 @@ import yaml
 
 from knowledge_base.utils.paper_ids import paper_id_from_metadata
 
-
 KB_DIR = Path(__file__).resolve().parents[1]
 METADATA_ROOT = KB_DIR / "docs" / "papers"
 TREE_YML = KB_DIR / "tree.yml"
@@ -33,11 +32,7 @@ def metadata_source_path(source: str, base_dir: Path = KB_DIR) -> Path | None:
     if source_path.startswith("doc/papers/"):
         source_path = f"docs/{source_path.removeprefix('doc/')}"
 
-    if not (
-        source_path.startswith("docs/papers/")
-        or source_path.startswith("./docs/papers/")
-        or source_path.startswith("../knowledge_base/docs/papers/")
-    ):
+    if not (source_path.startswith(("docs/papers/", "./docs/papers/", "../knowledge_base/docs/papers/"))):
         return None
 
     path = (base_dir / source_path).resolve() if not Path(source_path).is_absolute() else Path(source_path)
@@ -61,10 +56,7 @@ def normalize_nav_sources(node: Any, base_dir: Path = KB_DIR) -> Any:
     if isinstance(node, list):
         return [normalize_nav_sources(item, base_dir) for item in node]
     if isinstance(node, dict):
-        return {
-            label: normalize_nav_sources(child, base_dir)
-            for label, child in node.items()
-        }
+        return {label: normalize_nav_sources(child, base_dir) for label, child in node.items()}
     return node
 
 

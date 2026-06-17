@@ -14,7 +14,6 @@ from scipy.cluster.hierarchy import fcluster, linkage
 from scipy.spatial.distance import pdist
 from sklearn.preprocessing import normalize
 
-
 APP_DIR = Path(__file__).resolve().parent
 KB_DIR = APP_DIR.parent
 MAP_DIR = KB_DIR / "map"
@@ -36,9 +35,7 @@ def load_map() -> tuple[pd.DataFrame, np.ndarray, str]:
     cache = json.loads(EMBEDDING_CACHE.read_text(encoding="utf-8"))
 
     embedding_by_id = {
-        paper_id: paper["embedding"]
-        for paper_id, paper in cache.get("papers", {}).items()
-        if paper.get("embedding")
+        paper_id: paper["embedding"] for paper_id, paper in cache.get("papers", {}).items() if paper.get("embedding")
     }
 
     rows = []
@@ -64,9 +61,7 @@ def load_map() -> tuple[pd.DataFrame, np.ndarray, str]:
                 "super_category": super_category,
                 "category": category,
                 "sub_category": sub_category,
-                "current_path": " / ".join(
-                    part for part in [super_category, category, sub_category] if part
-                ),
+                "current_path": " / ".join(part for part in [super_category, category, sub_category] if part),
                 "tags": ", ".join(tags),
                 "summary": data.get("summary") or "",
                 "x": node.get("position", {}).get("x", 0.0),
@@ -118,14 +113,9 @@ def describe_cluster(frame: pd.DataFrame) -> str:
 
 def add_cluster_summaries(frame: pd.DataFrame) -> pd.DataFrame:
     frame = frame.copy()
-    descriptions = {
-        cluster: describe_cluster(group)
-        for cluster, group in frame.groupby("cluster", sort=True)
-    }
+    descriptions = {cluster: describe_cluster(group) for cluster, group in frame.groupby("cluster", sort=True)}
     sizes = frame["cluster"].value_counts().to_dict()
-    frame["cluster_name"] = frame["cluster"].map(
-        lambda c: f"{int(c):02d}: {descriptions[c]} ({sizes[c]})"
-    )
+    frame["cluster_name"] = frame["cluster"].map(lambda c: f"{int(c):02d}: {descriptions[c]} ({sizes[c]})")
     return frame
 
 
@@ -153,7 +143,7 @@ def centroid_dendrogram(
         keep = set(sizes.head(max_leaves).index)
         mask = [cluster in keep for cluster, _ in groups]
         centroids = centroids[mask]
-        labels = [label for label, keep_label in zip(labels, mask) if keep_label]
+        labels = [label for label, keep_label in zip(labels, mask, strict=False) if keep_label]
 
     distance_metric = "euclidean" if method == "ward" else metric
 
@@ -172,7 +162,7 @@ def centroid_dendrogram(
     )
     fig.update_layout(
         height=max(520, 18 * len(labels)),
-        margin=dict(l=20, r=20, t=30, b=20),
+        margin={"l": 20, "r": 20, "t": 30, "b": 20},
         xaxis_title="Embedding distance",
         yaxis_title="Cluster",
     )
@@ -266,7 +256,7 @@ tree, cluster_labels = cluster_embeddings(
 )
 scope_df["cluster"] = cluster_labels
 
-cluster_by_id = dict(zip(scope_df["id"], scope_df["cluster"]))
+cluster_by_id = dict(zip(scope_df["id"], scope_df["cluster"], strict=False))
 display_df = base_df.loc[display_mask].copy()
 display_df["cluster"] = display_df["id"].map(cluster_by_id)
 display_df = display_df.dropna(subset=["cluster"])
@@ -280,9 +270,7 @@ st.caption(
     f"{n_clusters} clusters · embedding model: `{embedding_model}`"
 )
 
-tab_scatter, tab_dendrogram, tab_table = st.tabs(
-    ["Map", "Hierarchy", "Cluster Table"]
-)
+tab_scatter, tab_dendrogram, tab_table = st.tabs(["Map", "Hierarchy", "Cluster Table"])
 
 with tab_scatter:
     fig = px.scatter(
@@ -303,12 +291,12 @@ with tab_scatter:
         },
         height=760,
     )
-    fig.update_traces(marker=dict(size=9, opacity=0.82), selector=dict(mode="markers"))
+    fig.update_traces(marker={"size": 9, "opacity": 0.82}, selector={"mode": "markers"})
     fig.update_layout(
         legend_title_text="Cluster",
-        margin=dict(l=10, r=10, t=20, b=10),
-        xaxis=dict(visible=False),
-        yaxis=dict(visible=False, scaleanchor="x", scaleratio=1),
+        margin={"l": 10, "r": 10, "t": 20, "b": 10},
+        xaxis={"visible": False},
+        yaxis={"visible": False, "scaleanchor": "x", "scaleratio": 1},
     )
     st.plotly_chart(fig, width="stretch")
 

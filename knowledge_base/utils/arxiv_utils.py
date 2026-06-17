@@ -27,10 +27,7 @@ ARXIV_CONTACT_EMAIL = os.environ.get("ARXIV_CONTACT_EMAIL", "bjgravell@gmail.com
 ARXIV_HEADERS = {
     "Accept": "application/atom+xml, application/xml;q=0.9, */*;q=0.8",
     "From": ARXIV_CONTACT_EMAIL,
-    "User-Agent": (
-        "knowledge-base-prefill/1.0 "
-        f"({ARXIV_CONTACT_EMAIL}; https://github.com/bjgravell/knowledge-base)"
-    ),
+    "User-Agent": (f"knowledge-base-prefill/1.0 ({ARXIV_CONTACT_EMAIL}; https://github.com/bjgravell/knowledge-base)"),
 }
 
 
@@ -169,10 +166,7 @@ def _parse_arxiv_oai_record(record_xml: str, fallback_id: str = "") -> dict:
     year = id_year or (int(year_match.group(0)) if year_match else 0)
     authors = [
         author
-        for author in (
-            _parse_oai_author(author_el)
-            for author_el in entry.findall(f".//{{{OAI_ARXIV_NS}}}author")
-        )
+        for author in (_parse_oai_author(author_el) for author_el in entry.findall(f".//{{{OAI_ARXIV_NS}}}author"))
         if author
     ]
 
@@ -276,8 +270,7 @@ def metadata_to_yaml(metadata: dict) -> str:
             lines.append(f"{key}:")
         elif isinstance(value, list):
             lines.append(f"{key}:")
-            for item in value:
-                lines.append(f"  - {item}")
+            lines.extend(f"  - {item}" for item in value)
         elif key == "arxiv_id":
             lines.append(f'{key}: "{value}"')
         elif isinstance(value, str) and len(value) > 80:

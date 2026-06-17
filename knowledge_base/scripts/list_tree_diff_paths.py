@@ -17,7 +17,6 @@ import subprocess
 import sys
 from pathlib import Path
 
-
 KB_DIR = Path(__file__).resolve().parents[1]
 REPO_ROOT = KB_DIR.parent
 TREE = KB_DIR / "tree.yml"
@@ -26,9 +25,7 @@ METADATA_PATH_RE = re.compile(r"\bdocs/papers/[^\s,'\"]+/metadata\.yml\b")
 
 
 def parse_args() -> argparse.Namespace:
-    parser = argparse.ArgumentParser(
-        description="Print metadata.yml paths touched by git diff in tree.yml."
-    )
+    parser = argparse.ArgumentParser(description="Print metadata.yml paths touched by git diff in tree.yml.")
     parser.add_argument(
         "--relative",
         action="store_true",
@@ -75,7 +72,7 @@ def changed_metadata_paths(diff_text: str, *, added: bool, removed: bool) -> lis
     seen: set[str] = set()
 
     for line in diff_text.splitlines():
-        if line.startswith("+++") or line.startswith("---"):
+        if line.startswith(("+++", "---")):
             continue
 
         is_added = line.startswith("+")

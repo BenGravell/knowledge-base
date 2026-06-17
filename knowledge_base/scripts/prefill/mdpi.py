@@ -12,7 +12,9 @@ from knowledge_base.utils.prefill_template import REPO_ROOT, UrlDoiPrefillScript
 
 DEFAULT_INPUT = REPO_ROOT / "todo" / "papers" / "MDPI.md"
 
-_MDPI_ARTICLE_RE = re.compile(r"mdpi\.com/(?P<issn>\d{4}-\d{3}[\dX])/(?P<volume>\d+)/(?P<issue>\d+)/(?P<article>\d+)", re.I)
+_MDPI_ARTICLE_RE = re.compile(
+    r"mdpi\.com/(?P<issn>\d{4}-\d{3}[\dX])/(?P<volume>\d+)/(?P<issue>\d+)/(?P<article>\d+)", re.I
+)
 _JOURNAL_BY_ISSN = {
     "2413-8851": "urbansci",
 }

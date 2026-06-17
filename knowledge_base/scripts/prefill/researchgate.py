@@ -8,7 +8,7 @@ if __package__ in (None, ""):
     sys.path.append(str(Path(__file__).resolve().parents[3]))
 
 from knowledge_base.utils.doi_utils import fetch_crossref, fetch_with_retry
-from knowledge_base.utils.prefill_template import PagePrefillScript, REPO_ROOT
+from knowledge_base.utils.prefill_template import REPO_ROOT, PagePrefillScript
 from knowledge_base.utils.prefill_utils import read_url_lines
 
 DEFAULT_INPUT = REPO_ROOT / "todo" / "papers" / "RESEARCHGATE.md"
@@ -87,9 +87,7 @@ _KNOWN_FIELDS_BY_TOKEN = {
     },
 }
 _DOI_BY_TOKEN = {
-    "The_BOSS_is_concerned_with_time_series_classification_in_the_presence_of_noise": (
-        "10.1007/s10618-014-0377-7"
-    ),
+    "The_BOSS_is_concerned_with_time_series_classification_in_the_presence_of_noise": ("10.1007/s10618-014-0377-7"),
 }
 
 

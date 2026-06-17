@@ -11,7 +11,6 @@ from typing import Any
 
 import yaml
 
-
 ASCII_TRANSLATION = str.maketrans(
     {
         "Æ": "AE",

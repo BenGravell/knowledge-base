@@ -6,9 +6,14 @@ repos:
         entry: poetry run ruff check --fix
         language: system
         types_or: [python, pyi]
+      - id: ruff-format
+        name: ruff format
+        entry: poetry run ruff format
+        language: system
+        types_or: [python, pyi]
       - id: pyrefly
         name: pyrefly
-        entry: poetry run pyrefly check
+        entry: poetry run pyrefly check --baseline .pyrefly-baseline.json
         language: system
         pass_filenames: false
         types_or: [python, pyi]

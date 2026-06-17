@@ -81,6 +81,7 @@ _LAST_NAME_PARTICLES = {
 # Abstract fallbacks (Semantic Scholar → OpenAlex)
 # ---------------------------------------------------------------------------
 
+
 def _fetch_s2_abstract(doi: str) -> str:
     r = requests.get(_S2_API.format(doi=quote(doi, safe="")), timeout=30)
     if not r.ok:
@@ -99,9 +100,7 @@ def _fetch_openalex_abstract(doi: str) -> str:
     inv = r.json().get("abstract_inverted_index") or {}
     if not inv:
         return ""
-    tokens: list[tuple[int, str]] = [
-        (pos, word) for word, positions in inv.items() for pos in positions
-    ]
+    tokens: list[tuple[int, str]] = [(pos, word) for word, positions in inv.items() for pos in positions]
     return " ".join(w for _, w in sorted(tokens))
 
 
@@ -127,6 +126,7 @@ def _fetch_abstract_fallback(doi: str) -> str:
 # Crossref
 # ---------------------------------------------------------------------------
 
+
 def fetch_crossref(doi: str) -> dict:
     """Return paper fields from the Crossref API for *doi*."""
     doi = doi.strip()
@@ -149,12 +149,7 @@ def fetch_crossref(doi: str) -> dict:
         if name:
             authors.append(name)
 
-    published = (
-        msg.get("published")
-        or msg.get("published-print")
-        or msg.get("issued")
-        or {}
-    )
+    published = msg.get("published") or msg.get("published-print") or msg.get("issued") or {}
     date_parts = published.get("date-parts") or [[0]]
     year = date_parts[0][0] if date_parts and date_parts[0] else 0
 
@@ -205,6 +200,7 @@ def fetch_with_retry(fetch_fn, *args, **kwargs):
 # Metadata assembly
 # ---------------------------------------------------------------------------
 
+
 def build_doi_metadata(fields: dict) -> dict:
     """Return an ordered dict ready for metadata_to_yaml, from Crossref fields."""
     return {
@@ -228,6 +224,7 @@ def build_doi_metadata(fields: dict) -> dict:
 # ---------------------------------------------------------------------------
 # Path / write helpers
 # ---------------------------------------------------------------------------
+
 
 def slugify(text: str, max_words: int = 4) -> str:
     text = unicodedata.normalize("NFKD", text)
@@ -282,6 +279,7 @@ def write_doi_metadata(year: int, folder: str, yaml_text: str) -> Path:
 # ---------------------------------------------------------------------------
 # HTML scraping (IEEE, Elsevier)
 # ---------------------------------------------------------------------------
+
 
 def scrape_abstract_from_html(html: str) -> str:
     """Extract a paper abstract from raw HTML using publisher-specific and generic patterns."""
@@ -402,6 +400,7 @@ def fetch_page_html(url: str, extra_headers: dict | None = None) -> str:
 # Shared CLI helpers
 # ---------------------------------------------------------------------------
 
+
 def needs_reingest(path: Path) -> bool:
     """Return True if an existing metadata.yml has an empty abstract."""
     try:
@@ -418,9 +417,7 @@ def should_skip(existing: Path | None, args) -> bool:
     """
     if existing is None or args.overwrite:
         return False
-    if args.reingest and needs_reingest(existing):
-        return False
-    return True
+    return not (args.reingest and needs_reingest(existing))
 
 
 def build_doi_index(papers_dir: Path | None = None) -> dict[str, Path]:
@@ -450,12 +447,20 @@ def make_parser(description: str, default_input: Path) -> argparse.ArgumentParse
     """Return a pre-configured ArgumentParser shared by all prefill scripts."""
     p = argparse.ArgumentParser(description=description)
     p.add_argument("--input", type=Path, default=default_input)
-    p.add_argument("--overwrite", action="store_true",
-                   help="Overwrite existing metadata.yml files")
-    p.add_argument("--reingest", action="store_true",
-                   help="Re-fetch and overwrite entries whose existing abstract is empty")
-    p.add_argument("--first", type=int, default=None, metavar="N",
-                   help="Stop after N processed (written + failed) entries; skips do not count")
-    p.add_argument("--list-skipped", action="store_true",
-                   help="Print items from the input that already exist locally, then exit without fetching or writing")
+    p.add_argument("--overwrite", action="store_true", help="Overwrite existing metadata.yml files")
+    p.add_argument(
+        "--reingest", action="store_true", help="Re-fetch and overwrite entries whose existing abstract is empty"
+    )
+    p.add_argument(
+        "--first",
+        type=int,
+        default=None,
+        metavar="N",
+        help="Stop after N processed (written + failed) entries; skips do not count",
+    )
+    p.add_argument(
+        "--list-skipped",
+        action="store_true",
+        help="Print items from the input that already exist locally, then exit without fetching or writing",
+    )
     return p

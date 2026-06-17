@@ -21,14 +21,13 @@ from typing import Any
 
 import yaml
 
-
 REPO_ROOT = Path(__file__).resolve().parents[2]
 if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))
 
-from knowledge_base.scripts.audit_metadata import find_algorithm_issues  # noqa: E402
-from knowledge_base.tree.nav_source import YAML_LOADER  # noqa: E402
-from knowledge_base.tree.validation import (  # noqa: E402
+from knowledge_base.scripts.audit_metadata import find_algorithm_issues
+from knowledge_base.tree.nav_source import YAML_LOADER
+from knowledge_base.tree.validation import (
     METADATA_ROOT,
     TREE_YML,
     TreeIssue,
@@ -36,7 +35,6 @@ from knowledge_base.tree.validation import (  # noqa: E402
     relative_to_kb,
     validate_tree,
 )
-
 
 ACTION_UPDATE_TREE = "update-tree-label"
 ACTION_UPDATE_METADATA = "update-metadata-algorithm"
@@ -184,9 +182,7 @@ def is_code_like(value: str) -> bool:
         return True
     if re.search(r"[0-9+_*]", text):
         return True
-    if len(alpha) > 1 and any(char.isupper() for char in alpha[1:]):
-        return True
-    return False
+    return bool(len(alpha) > 1 and any(char.isupper() for char in alpha[1:]))
 
 
 def algorithm_looks_invalid(algorithm: str) -> bool:
@@ -202,9 +198,7 @@ def algorithm_looks_invalid(algorithm: str) -> bool:
         return True
     if folded in ROMAN_PART_LABELS and text.isupper():
         return True
-    if len(core) <= 2 and not is_code_like(text):
-        return True
-    return False
+    return bool(len(core) <= 2 and not is_code_like(text))
 
 
 def soft_equivalence_reason(tree_label: str, algorithm: str) -> str | None:
@@ -216,8 +210,7 @@ def soft_equivalence_reason(tree_label: str, algorithm: str) -> str | None:
 
     tree_base = without_trailing_parenthetical(tree_label)
     if tree_base != clean_text(tree_label) and (
-        alnum_key(tree_base) == alnum_key(algorithm)
-        or stripped_type_words(tree_base) == stripped_type_words(algorithm)
+        alnum_key(tree_base) == alnum_key(algorithm) or stripped_type_words(tree_base) == stripped_type_words(algorithm)
     ):
         return "Tree label adds a parenthetical disambiguator to an otherwise equivalent label."
 
@@ -234,17 +227,12 @@ def phrase_in_text(phrase: str, text: str) -> bool:
 
 def algorithm_in_metadata_text(algorithm: str, data: dict[str, Any]) -> bool:
     tags = " ".join(str(tag) for tag in data.get("tags") or [])
-    body = " ".join(
-        clean_text(data.get(field)) for field in ("title", "abstract", "summary")
-    )
+    body = " ".join(clean_text(data.get(field)) for field in ("title", "abstract", "summary"))
     return phrase_in_text(algorithm, f"{body} {tags}")
 
 
 def algorithm_in_tags(algorithm: str, data: dict[str, Any]) -> bool:
-    return any(
-        alnum_key(str(tag)) == alnum_key(algorithm)
-        for tag in data.get("tags") or []
-    )
+    return any(alnum_key(str(tag)) == alnum_key(algorithm) for tag in data.get("tags") or [])
 
 
 def title_head(value: str) -> str | None:
@@ -255,9 +243,7 @@ def title_head(value: str) -> str | None:
 
 
 def text_introduces_algorithm(algorithm: str, data: dict[str, Any]) -> bool:
-    text = " ".join(
-        clean_text(data.get(field)) for field in ("title", "abstract", "summary")
-    )
+    text = " ".join(clean_text(data.get(field)) for field in ("title", "abstract", "summary"))
     algorithm_pattern = re.escape(clean_text(algorithm)).replace(r"\ ", r"\s+")
     intro = (
         r"\b(?:we|this\s+(?:paper|work|article|letter)|in\s+this\s+"
@@ -326,11 +312,7 @@ def yaml_key(value: str) -> str:
 def replace_metadata_algorithm(metadata_path: Path, algorithm: str) -> bool:
     lines = metadata_path.read_text(encoding="utf-8").splitlines(keepends=True)
     algorithm = clean_text(algorithm)
-    replacement = (
-        "algorithm:\n"
-        if not algorithm
-        else f"algorithm: {yaml_inline_value(algorithm)}\n"
-    )
+    replacement = "algorithm:\n" if not algorithm else f"algorithm: {yaml_inline_value(algorithm)}\n"
     for index, line in enumerate(lines):
         if re.match(r"^algorithm\s*:", line):
             if line == replacement:
@@ -353,9 +335,7 @@ def replace_metadata_algorithm(metadata_path: Path, algorithm: str) -> bool:
 def replace_tree_label(tree_path: Path, source: str, new_label: str) -> bool:
     lines = tree_path.read_text(encoding="utf-8").splitlines(keepends=True)
     source_pattern = re.escape(source)
-    leaf_pattern = re.compile(
-        rf"^(?P<indent>\s*)-\s+(?P<label>.+):\s+{source_pattern}\s*(?P<comment>#.*)?$"
-    )
+    leaf_pattern = re.compile(rf"^(?P<indent>\s*)-\s+(?P<label>.+):\s+{source_pattern}\s*(?P<comment>#.*)?$")
     for index, line in enumerate(lines):
         body = line.rstrip("\n")
         match = leaf_pattern.match(body)
@@ -474,9 +454,7 @@ def make_suggestion(
     duplicate_method = algorithm_count > 1
     broad_duplicate = duplicate_method and not is_code_like(algorithm)
     strong_method_signal = (
-        is_code_like(algorithm)
-        or algorithm_in_tags(algorithm, data)
-        or text_introduces_algorithm(algorithm, data)
+        is_code_like(algorithm) or algorithm_in_tags(algorithm, data) or text_introduces_algorithm(algorithm, data)
     ) and algorithm_in_metadata_text(algorithm, data)
 
     if duplicate_method and strong_method_signal:
@@ -516,10 +494,7 @@ def make_suggestion(
             reason="Reviewed metadata has a strong method-name signal.",
         )
 
-    if (
-        alnum_key(tree_label) == alnum_key(title)
-        and strong_method_signal
-    ):
+    if alnum_key(tree_label) == alnum_key(title) and strong_method_signal:
         return Suggestion(
             nav_path=issue.nav_path,
             tree_label=tree_label,
@@ -588,8 +563,7 @@ def make_suggestion(
             suggested_metadata_algorithm=None,
             canonical_label=None,
             reason=(
-                f"Metadata algorithm is used by {algorithm_count} papers "
-                "and is not a compact code-like method name."
+                f"Metadata algorithm is used by {algorithm_count} papers and is not a compact code-like method name."
             ),
         )
 
@@ -608,8 +582,7 @@ def make_suggestion(
             suggested_metadata_algorithm=None,
             canonical_label=None,
             reason=(
-                "Tree label is the paper title, but metadata algorithm is not "
-                "strong enough to update automatically."
+                "Tree label is the paper title, but metadata algorithm is not strong enough to update automatically."
             ),
         )
 
@@ -681,8 +654,7 @@ def filter_suggestions(
     return [
         suggestion
         for suggestion in suggestions
-        if (action is None or suggestion.action == action)
-        and CONFIDENCE_RANK[suggestion.confidence] >= minimum
+        if (action is None or suggestion.action == action) and CONFIDENCE_RANK[suggestion.confidence] >= minimum
     ]
 
 
@@ -712,10 +684,7 @@ def print_markdown(suggestions: list[Suggestion], *, total: int, max_results: in
         if suggestion.suggested_tree_label:
             print(f"  - Suggested tree label: `{suggestion.suggested_tree_label}`")
         if suggestion.suggested_metadata_algorithm:
-            print(
-                "  - Suggested metadata algorithm: "
-                f"`{suggestion.suggested_metadata_algorithm}`"
-            )
+            print(f"  - Suggested metadata algorithm: `{suggestion.suggested_metadata_algorithm}`")
         print(f"  - Reason: {suggestion.reason}")
         print(f"  - Audit status: `{suggestion.audit_status}`")
         print(f"  - Title: {suggestion.title}")
@@ -726,9 +695,7 @@ def print_markdown(suggestions: list[Suggestion], *, total: int, max_results: in
 
 
 def parse_args() -> argparse.Namespace:
-    parser = argparse.ArgumentParser(
-        description="Suggest canonical labels for Tree/metadata algorithm disagreements."
-    )
+    parser = argparse.ArgumentParser(description="Suggest canonical labels for Tree/metadata algorithm disagreements.")
     parser.add_argument(
         "--tree-yml",
         type=Path,

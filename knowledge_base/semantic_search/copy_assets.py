@@ -4,7 +4,6 @@ from pathlib import Path
 
 import mkdocs_gen_files
 
-
 ASSET_DIR = Path(__file__).resolve().parent
 
 PLACEHOLDER_MANIFEST = (

@@ -19,7 +19,14 @@ if __package__ in {None, ""}:
 import yaml
 from rich.console import Console
 
-from knowledge_base.config import AUDIT_STATUS_FIELD, KB_DIR, REQUIRED_FIELDS, VALID_AUDIT_STATUSES, VALID_FIELDS, VALID_TYPES
+from knowledge_base.config import (
+    AUDIT_STATUS_FIELD,
+    KB_DIR,
+    REQUIRED_FIELDS,
+    VALID_AUDIT_STATUSES,
+    VALID_FIELDS,
+    VALID_TYPES,
+)
 from knowledge_base.utils.normalization_db import (
     build_index,
     dump_yaml,
@@ -111,19 +118,13 @@ _ARXIV_NEW_RE = re.compile(r"^\d{4}\.\d{4,5}(v\d+)?$")  # e.g. 2401.09241
 _ARXIV_OLD_RE = re.compile(  # e.g. math.CO/0701001
     r"^[a-z]+(-[a-z]+)?(\.[A-Z]{2})?/\d{7}(v\d+)?$"
 )
-_HTML_ENTITY_RE = re.compile(
-    r"&(?:#[0-9]+|#x[0-9A-Fa-f]+|[A-Za-z][A-Za-z0-9]+);"
-)
-_YAML_CHARACTER_ESCAPE_RE = re.compile(
-    r"\\(?:x[0-9A-Fa-f]{2}|u[0-9A-Fa-f]{4}|U[0-9A-Fa-f]{8})"
-)
+_HTML_ENTITY_RE = re.compile(r"&(?:#[0-9]+|#x[0-9A-Fa-f]+|[A-Za-z][A-Za-z0-9]+);")
+_YAML_CHARACTER_ESCAPE_RE = re.compile(r"\\(?:x[0-9A-Fa-f]{2}|u[0-9A-Fa-f]{4}|U[0-9A-Fa-f]{8})")
 _SOURCE_YEAR_RE = re.compile(r"(?<!\d)(?:18|19|20)\d{2}(?!\d)")
 _URL_RE = re.compile(r"\b(?:https?://|ftp://|www\.)[^\s<>()]+", re.IGNORECASE)
 _TITLE_HTML_TAG_RE = re.compile(r"</?\s*[A-Za-z][^>]*>")
 _TITLE_MATH_SPAN_RE = re.compile(r"\$(?P<math>[^$]+)\$")
-_TITLE_LATEX_COMMAND_RE = re.compile(
-    r"\\(?:mathcal|mathrm|mathbf|mathit|operatorname)\{([^{}]+)\}"
-)
+_TITLE_LATEX_COMMAND_RE = re.compile(r"\\(?:mathcal|mathrm|mathbf|mathit|operatorname)\{([^{}]+)\}")
 _TEXT_LATEX_COMMAND_RE = re.compile(
     r"\\(?:emph|mathbb|mathcal|mathscr|mathrm|mathbf|mathit|operatorname|text|textbf|textit)\{([^{}]+)\}"
 )
@@ -145,36 +146,24 @@ _XML_HTML_TAG_RE = re.compile(
 _ABSTRACT_WORD_RE = re.compile(r"\babstract\b", re.I)
 _DOLLAR_SIGN_RE = re.compile(r"\$")
 _DISPLAY_MATH_SPAN_RE = re.compile(r"\$\$(?P<math>.+?)\$\$", re.S)
-_INLINE_MATH_SPAN_RE = re.compile(
-    r"(?<!\$)\$(?!\$)(?P<math>[^$\n]+?)(?<!\$)\$(?!\$)"
-)
+_INLINE_MATH_SPAN_RE = re.compile(r"(?<!\$)\$(?!\$)(?P<math>[^$\n]+?)(?<!\$)\$(?!\$)")
 _PLAIN_LATEX_ELL_ARTIFACT_RE = re.compile(r"\bell_(?=[A-Za-z0-9])")
 _PLAIN_LATEX_GREEK_IN_ARTIFACT_RE = re.compile(
     r"\b(?P<var>alpha|beta|gamma|delta|epsilon|zeta|eta|theta|iota|kappa|"
     r"lambda|mu|nu|xi|pi|rho|sigma|tau|upsilon|phi|chi|psi|omega)in"
     r"(?=\s*(?:[\[({]|mathbb))"
 )
-_PLAIN_LATEX_VARIABLE_IN_ARTIFACT_RE = re.compile(
-    r"\b(?P<var>[a-z])in(?=\s*[\[(]\s*(?:[-+]?\d|infinity))"
-)
+_PLAIN_LATEX_VARIABLE_IN_ARTIFACT_RE = re.compile(r"\b(?P<var>[a-z])in(?=\s*[\[(]\s*(?:[-+]?\d|infinity))")
 _PLAIN_LATEX_STAR_ARTIFACT_RE = re.compile(r"\b(?P<var>[A-Z])star\b")
-_PLAIN_LATEX_LIMIT_INFINITY_ARTIFACT_RE = re.compile(
-    r"\blim_(?P<var>[A-Za-z])toinfinity(?P<expr>[A-Za-z])"
-)
-_PLAIN_LATEX_EMPH_ARTIFACT_RE = re.compile(
-    r"(?:\{\\em\s+(?P<braced>[^{}]+)\}|\\emph\{(?P<command>[^{}]+)\})"
-)
+_PLAIN_LATEX_LIMIT_INFINITY_ARTIFACT_RE = re.compile(r"\blim_(?P<var>[A-Za-z])toinfinity(?P<expr>[A-Za-z])")
+_PLAIN_LATEX_EMPH_ARTIFACT_RE = re.compile(r"(?:\{\\em\s+(?P<braced>[^{}]+)\}|\\emph\{(?P<command>[^{}]+)\})")
 _PLAIN_LATEX_MATHSCR_ARTIFACT_RE = re.compile(r"\bmathscr(?=[A-Z])")
 _PLAIN_LATEX_MATHBB_ARTIFACT_RE = re.compile(r"\bmathbb(?=[A-Z])")
 _PLAIN_LATEX_SUBSET_ARTIFACT_RE = re.compile(r"(?<=[A-Za-z])subset\b")
-_PLAIN_LATEX_WORD_OPERATOR_ARTIFACT_RE = re.compile(
-    r"\b(?:triangleq|lesssim|gtrsim)\b"
-)
+_PLAIN_LATEX_WORD_OPERATOR_ARTIFACT_RE = re.compile(r"\b(?:triangleq|lesssim|gtrsim)\b")
 _PLAIN_LATEX_CAL_ARTIFACT_RE = re.compile(r"\bcal\s+(?P<symbol>[A-Z])\b")
 _PLAIN_LATEX_WIDETILDE_ARTIFACT_RE = re.compile(r"\bwidetilde(?P<symbol>[A-Z])\b")
-_PLAIN_LATEX_TEXTIT_ARTIFACT_RE = re.compile(
-    r"\btextit(?P<word>[A-Za-z][A-Za-z-]*)"
-)
+_PLAIN_LATEX_TEXTIT_ARTIFACT_RE = re.compile(r"\btextit(?P<word>[A-Za-z][A-Za-z-]*)")
 _MOJIBAKE_RE = re.compile(
     r"(?:[\u00c2-\u00df][\u0080-\u00bf]|"
     r"[\u00e0-\u00ef][\u0080-\u00bf]{2}|"
@@ -188,16 +177,12 @@ _TIGHT_LETTER_PAREN_RE = re.compile(
 )
 _ASCII_MULTI_DASH_RE = re.compile(r"-{2,}")
 _BIG_WHITESPACE_ISSUE_PREFIX = "Contains 3+ consecutive spaces"
-_TIGHT_LETTER_PAREN_ISSUE_PREFIX = (
-    "Contains tight letter-parenthetical spacing"
-)
+_TIGHT_LETTER_PAREN_ISSUE_PREFIX = "Contains tight letter-parenthetical spacing"
 _ASCII_MULTI_DASH_ISSUE_PREFIX = "Contains ASCII multi-dash punctuation"
 _AUTHOR_MOJIBAKE_ISSUE_PREFIX = "Author entries contain suspicious Unicode character"
 _AUTHOR_ASCII_NORMALIZATION_ISSUE_PREFIX = "Author entries are not ASCII-normalized"
 _TEXT_MOJIBAKE_ISSUE_PREFIX = "Contains likely mojibake/encoding artifact(s)"
-_NON_INDIVIDUAL_AUTHOR_ISSUE_PREFIX = (
-    "Author entries appear to be non-individual names"
-)
+_NON_INDIVIDUAL_AUTHOR_ISSUE_PREFIX = "Author entries appear to be non-individual names"
 _EMPTY_ABSTRACT_ISSUE_PREFIX = "Empty abstract"
 _EMPTY_SUMMARY_ISSUE_PREFIX = "Missing or empty"
 _LOW_SIGNAL_SUMMARY_ISSUE_PREFIX = "Low-signal generated summary"
@@ -350,14 +335,10 @@ _PUBLISHER_MARK_ABSTRACT_PATTERNS: tuple[tuple[str, re.Pattern[str]], ...] = (
         re.compile(r"\ball\s+rights\s+reserved\.?", re.I),
     ),
 )
-_PUBLISHER_MARK_ABSTRACT_ISSUE_PREFIX = (
-    "Contains publisher/copyright notice in the abstract:"
-)
+_PUBLISHER_MARK_ABSTRACT_ISSUE_PREFIX = "Contains publisher/copyright notice in the abstract:"
 _ABSTRACT_DOLLAR_MATH_ISSUE_PREFIX = "Contains dollar math in the abstract"
 _ABSTRACT_LATEX_ARTIFACT_ISSUE_PREFIX = "Contains plain LaTeX math artifact(s) in the abstract"
-_TITLE_CHARACTER_ESCAPE_ISSUE_PREFIX = (
-    "Contains escaped YAML character sequence(s) in title"
-)
+_TITLE_CHARACTER_ESCAPE_ISSUE_PREFIX = "Contains escaped YAML character sequence(s) in title"
 _URL_DISALLOWED_FIELDS = {
     "title",
     "algorithm",
@@ -375,15 +356,9 @@ _FOLDED_TEXT_FIELDS = {
     "abstract",
     "summary",
 }
-_FOLDED_TEXT_FIELD_ISSUE_PREFIX = (
-    "Long text field should use folded YAML block style"
-)
-_FOLDED_TEXT_FIELD_MULTILINE_ISSUE_PREFIX = (
-    "Folded text field should use a single YAML content line"
-)
-_FOLDED_TEXT_FIELD_BLANK_LINE_ISSUE_PREFIX = (
-    "Folded text field contains blank YAML content line"
-)
+_FOLDED_TEXT_FIELD_ISSUE_PREFIX = "Long text field should use folded YAML block style"
+_FOLDED_TEXT_FIELD_MULTILINE_ISSUE_PREFIX = "Folded text field should use a single YAML content line"
+_FOLDED_TEXT_FIELD_BLANK_LINE_ISSUE_PREFIX = "Folded text field contains blank YAML content line"
 _MULTILINE_FORBIDDEN_FIELDS = {
     "algorithm",
     "year",
@@ -826,9 +801,7 @@ _HIGH_CONFIDENCE_OCR_ARTIFACTS: tuple[tuple[str, re.Pattern[str], str], ...] = (
     ),
     ("particular", re.compile(r"\bpt~rticular\b"), "particular"),
 )
-_HIGH_CONFIDENCE_OCR_ARTIFACT_ISSUE_PREFIX = (
-    "Contains high-confidence OCR artifact(s):"
-)
+_HIGH_CONFIDENCE_OCR_ARTIFACT_ISSUE_PREFIX = "Contains high-confidence OCR artifact(s):"
 _OCR_SPLIT_WORDS = {
     "acceleration",
     "algorithm",
@@ -942,13 +915,9 @@ _COMMON_SHORT_TAG_WORDS = {
 }
 _TAG_LEADING_ARTICLES = {"a", "an", "and", "as", "i", "in", "or", "recent", "such", "the", "we"}
 _MAX_TAG_WORDS = 4
-_PLURAL_DUPLICATE_TAG_MESSAGE_PREFIX = (
-    "Duplicate tag value(s) after trivial plural normalization"
-)
+_PLURAL_DUPLICATE_TAG_MESSAGE_PREFIX = "Duplicate tag value(s) after trivial plural normalization"
 _DUPLICATE_TAG_MESSAGE_PREFIX = "Duplicate tag value(s)"
-_DATABASE_DUPLICATE_TAG_MESSAGE_PREFIX = (
-    "Duplicate tag value(s) after tag database normalization"
-)
+_DATABASE_DUPLICATE_TAG_MESSAGE_PREFIX = "Duplicate tag value(s) after tag database normalization"
 _TAG_DATABASE_ISSUE_PREFIX = "Tag differs from normalization database"
 _TAG_DATABASE_MISSING_ISSUE_PREFIX = "Tag is missing from normalization database"
 _FORBIDDEN_TAGS = {
@@ -1279,10 +1248,7 @@ def _looks_like_last_first_author(author: str) -> bool:
     for part in comma_parts[1:]:
         if not part or _looks_like_author_suffix(part):
             continue
-        return bool(
-            re.search(r"[A-Za-z]", comma_parts[0])
-            and re.search(r"[A-Za-z]", part)
-        )
+        return bool(re.search(r"[A-Za-z]", comma_parts[0]) and re.search(r"[A-Za-z]", part))
 
     return False
 
@@ -1378,11 +1344,7 @@ def _is_identifier_like_hyphenated_core(core: str) -> bool:
     first_alpha = re.sub(r"[^a-zA-Z]", "", first)
     return bool(
         first_alpha
-        and (
-            first_alpha == first_alpha.upper()
-            or first_alpha[0].isupper()
-            or _is_intentional_mixed_case(first_alpha)
-        )
+        and (first_alpha == first_alpha.upper() or first_alpha[0].isupper() or _is_intentional_mixed_case(first_alpha))
     )
 
 
@@ -1465,18 +1427,18 @@ def to_title_case(title: str) -> str:
         protected = _canonical_protected_token(core)
         if protected is not None:
             result.append(lead + protected + tail)
-        elif _is_scientific_binomial_epithet(previous_core, core):
-            result.append(word)
-        elif _is_lowercase_leading_label(core, tail, is_first):
-            result.append(word)
-        elif _is_identifier_like_hyphenated_core(core):
+        elif (
+            _is_scientific_binomial_epithet(previous_core, core)
+            or _is_lowercase_leading_label(core, tail, is_first)
+            or _is_identifier_like_hyphenated_core(core)
+        ):
             result.append(word)
         elif "-" in core:
             # Hyphenated compound: case the first part normally; preserve
             # existing case on subsequent parts (e.g. "Sampling-based" stays
             # "Sampling-based", not "Sampling-Based").
             parts = core.split("-")
-            cased_parts = [_case_token(parts[0], force)] + parts[1:]
+            cased_parts = [_case_token(parts[0], force), *parts[1:]]
             result.append(lead + "-".join(cased_parts) + tail)
         else:
             result.append(_case_token(word, force))
@@ -1542,9 +1504,7 @@ def _big_whitespace_examples(text: str, *, limit: int = 5) -> list[str]:
     examples: list[str] = []
     seen: set[str] = set()
     for match in _BIG_WHITESPACE_RE.finditer(text):
-        left = _normalize_inline_text(
-            text[max(0, match.start() - 40) : match.start()]
-        )
+        left = _normalize_inline_text(text[max(0, match.start() - 40) : match.start()])
         right = _normalize_inline_text(text[match.end() : match.end() + 40])
         example = f"{left} [{len(match.group(0))} spaces] {right}".strip()
         if example in seen:
@@ -1580,9 +1540,7 @@ def _tight_letter_parenthetical_examples(text: str, *, limit: int = 5) -> list[s
     examples: list[str] = []
     seen: set[str] = set()
     for match in _iter_tight_letter_parenthetical_matches(text):
-        left = _normalize_inline_text(
-            text[max(0, match.start() - 40) : match.start()]
-        )
+        left = _normalize_inline_text(text[max(0, match.start() - 40) : match.start()])
         right = _normalize_inline_text(text[match.end() : match.end() + 40])
         example = f"{left} [{match.group(0)}] {right}".strip()
         if example in seen:
@@ -1598,9 +1556,7 @@ def _ascii_multi_dash_examples(text: str, *, limit: int = 5) -> list[str]:
     examples: list[str] = []
     seen: set[str] = set()
     for match in _ASCII_MULTI_DASH_RE.finditer(text):
-        left = _normalize_inline_text(
-            text[max(0, match.start() - 40) : match.start()]
-        )
+        left = _normalize_inline_text(text[max(0, match.start() - 40) : match.start()])
         right = _normalize_inline_text(text[match.end() : match.end() + 40])
         example = f"{left} [{match.group(0)}] {right}".strip()
         if example in seen:
@@ -1657,10 +1613,7 @@ def find_tight_letter_parenthetical_spacing_issues(
                 path,
                 field_name,
                 message,
-                (
-                    "Insert a space before parenthetical abbreviations, "
-                    "for example 'Method (ABC)'."
-                ),
+                ("Insert a space before parenthetical abbreviations, for example 'Method (ABC)'."),
             )
         )
     return issues
@@ -1681,8 +1634,7 @@ def find_big_whitespace_issues(path: Path, data: dict) -> list["Issue"]:
                 path,
                 field_name,
                 message,
-                "Collapse accidental spacing to one space unless the spacing is "
-                "semantically meaningful.",
+                "Collapse accidental spacing to one space unless the spacing is semantically meaningful.",
             )
         )
     return issues
@@ -1698,10 +1650,7 @@ def find_escaped_sequence_issues(path: Path, data: dict) -> list["Issue"]:
         examples = ", ".join(matches[:5])
         if len(matches) > 5:
             examples += f", ... ({len(matches)} total)"
-        decoded_examples = ", ".join(
-            f"{match} decodes to {_html_unescape_repeated(match)!r}"
-            for match in matches[:3]
-        )
+        decoded_examples = ", ".join(f"{match} decodes to {_html_unescape_repeated(match)!r}" for match in matches[:3])
         issues.append(
             Issue(
                 path,
@@ -1720,10 +1669,7 @@ def find_escaped_sequence_issues(path: Path, data: dict) -> list["Issue"]:
 
 def _normalize_slug_separators(text: str) -> str:
     """Preserve Unicode dash word breaks before ASCII folding removes them."""
-    return "".join(
-        "-" if unicodedata.category(ch) == "Pd" or ch == "\N{MINUS SIGN}" else ch
-        for ch in text
-    )
+    return "".join("-" if unicodedata.category(ch) == "Pd" or ch == "\N{MINUS SIGN}" else ch for ch in text)
 
 
 def _ascii_fold(text: str) -> str:
@@ -1773,9 +1719,7 @@ def expected_slug(year: int, arxiv_id: str, title: str, authors: list[str]) -> s
     if arxiv_id:
         return strip_arxiv_version(arxiv_id)
     first_author = authors[0] if authors else ""
-    last_name = _slugify(
-        _collapse_intra_word_apostrophes(_extract_last_name(first_author))
-    )
+    last_name = _slugify(_collapse_intra_word_apostrophes(_extract_last_name(first_author)))
     # First four slug-bearing words of title; punctuation separates words except
     # inside dotted terms such as C4.5.
     title_tokens = _title_slug_tokens(title)[:4]
@@ -1838,10 +1782,7 @@ def _abstract_word_count(text: str) -> int:
 
 
 def _overlap_words(text: str) -> list[str]:
-    return [
-        match.group(0).casefold()
-        for match in _SUMMARY_ABSTRACT_WORD_RE.finditer(text)
-    ]
+    return [match.group(0).casefold() for match in _SUMMARY_ABSTRACT_WORD_RE.finditer(text)]
 
 
 def _longest_common_word_run(left: list[str], right: list[str]) -> tuple[int, int]:
@@ -1872,10 +1813,7 @@ def _shared_shingle_coverage(
     if len(summary_words) < size or len(abstract_words) < size:
         return 0.0
 
-    abstract_shingles = {
-        tuple(abstract_words[index : index + size])
-        for index in range(len(abstract_words) - size + 1)
-    }
+    abstract_shingles = {tuple(abstract_words[index : index + size]) for index in range(len(abstract_words) - size + 1)}
     covered = [False] * len(summary_words)
     for index in range(len(summary_words) - size + 1):
         if tuple(summary_words[index : index + size]) in abstract_shingles:
@@ -1986,12 +1924,8 @@ def find_malformed_abstract_issues(
                 "Replace with the full source abstract, or leave blank only when no abstract truly exists.",
             )
         )
-    elif (
-        not allow_short
-        and (
-            len(text) < _NEAR_EMPTY_ABSTRACT_CHAR_LIMIT
-            or word_count < _NEAR_EMPTY_ABSTRACT_WORD_LIMIT
-        )
+    elif not allow_short and (
+        len(text) < _NEAR_EMPTY_ABSTRACT_CHAR_LIMIT or word_count < _NEAR_EMPTY_ABSTRACT_WORD_LIMIT
     ):
         issues.append(
             Issue(
@@ -2002,11 +1936,7 @@ def find_malformed_abstract_issues(
             )
         )
 
-    scraped_hits = [
-        label
-        for label, pattern in _SCRAPED_ABSTRACT_PATTERNS
-        if pattern.search(text)
-    ]
+    scraped_hits = [label for label, pattern in _SCRAPED_ABSTRACT_PATTERNS if pattern.search(text)]
     if scraped_hits:
         examples = ", ".join(scraped_hits[:4])
         if len(scraped_hits) > 4:
@@ -2030,8 +1960,7 @@ def find_malformed_abstract_issues(
             Issue(
                 path,
                 "abstract",
-                f"{_PUBLISHER_MARK_ABSTRACT_ISSUE_PREFIX} "
-                f"{_format_labeled_text_hits(publisher_mark_hits)}",
+                f"{_PUBLISHER_MARK_ABSTRACT_ISSUE_PREFIX} {_format_labeled_text_hits(publisher_mark_hits)}",
                 "Remove publisher notices, copyright footers, and rights-reserved text; keep only the source abstract.",
             )
         )
@@ -2141,15 +2070,12 @@ def find_high_confidence_ocr_artifact_issues(
 ) -> list[Issue]:
     hits: list[tuple[str, str]] = []
     for label, pattern, _replacement in _HIGH_CONFIDENCE_OCR_ARTIFACTS:
-        for match in pattern.finditer(text):
-            hits.append((match.group(0), label))
+        hits.extend((match.group(0), label) for match in pattern.finditer(text))
 
     if not hits:
         return []
 
-    examples = ", ".join(
-        f"{artifact!r} -> {replacement!r}" for artifact, replacement in hits[:6]
-    )
+    examples = ", ".join(f"{artifact!r} -> {replacement!r}" for artifact, replacement in hits[:6])
     if len(hits) > 6:
         examples += f", ... ({len(hits)} total)"
     return [
@@ -2174,10 +2100,7 @@ def _ocr_split_examples(text: str, *, limit: int = 8) -> list[str]:
             match = pattern.search(text)
             if not match:
                 continue
-            if (
-                match.group("sep").startswith("-")
-                and (word, split_at) in _VALID_HYPHENATED_OCR_SPLITS
-            ):
+            if match.group("sep").startswith("-") and (word, split_at) in _VALID_HYPHENATED_OCR_SPLITS:
                 continue
             example = f"{match.group(0)!r} -> {word!r}"
             if example in seen:
@@ -2189,9 +2112,7 @@ def _ocr_split_examples(text: str, *, limit: int = 8) -> list[str]:
     return examples
 
 
-_LINEBREAK_HYPHEN_RE = re.compile(
-    r"\b(?P<head>[A-Za-z]{3,})-\s+(?P<tail>[A-Za-z]{3,})\b"
-)
+_LINEBREAK_HYPHEN_RE = re.compile(r"\b(?P<head>[A-Za-z]{3,})-\s+(?P<tail>[A-Za-z]{3,})\b")
 _SUSPENDED_HYPHEN_JOINERS = {"and", "nor", "or"}
 
 
@@ -2218,10 +2139,7 @@ def find_ocr_spacing_issues(path: Path, field: str, text: str) -> list[Issue]:
     if examples:
         fragments.append(", ".join(examples[:5]))
     if linebreak_examples:
-        fragments.append(
-            "line-break hyphenation: "
-            + ", ".join(repr(example) for example in linebreak_examples[:5])
-        )
+        fragments.append("line-break hyphenation: " + ", ".join(repr(example) for example in linebreak_examples[:5]))
     return [
         Issue(
             path,
@@ -2279,8 +2197,7 @@ def _strip_years_from_source(source: str) -> str:
     source = re.sub(r"(?<=^)\s*[-–—]\s*", "", source)
     source = re.sub(r"\s{2,}", " ", source)
     source = re.sub(r"\b(?:on|at|in|of)\s*$", "", source, flags=re.IGNORECASE)
-    source = source.strip(" ,;:-–—")
-    return source
+    return source.strip(" ,;:-–—")
 
 
 def _looks_like_url(text: str) -> bool:
@@ -2360,14 +2277,10 @@ def _algorithm_label_is_bare_method_name(algorithm: str) -> bool:
         return False
 
     folded_tokens = [token.casefold() for token in tokens]
-    if len(tokens) > 1 and any(
-        token in _ALGORITHM_DESCRIPTIVE_WORDS for token in folded_tokens
-    ):
+    if len(tokens) > 1 and any(token in _ALGORITHM_DESCRIPTIVE_WORDS for token in folded_tokens):
         return False
 
-    if len(tokens) > 1 and not any(
-        _algorithm_token_is_abbreviation_like(token) for token in tokens
-    ):
+    if len(tokens) > 1 and not any(_algorithm_token_is_abbreviation_like(token) for token in tokens):
         return False
 
     return any(_algorithm_token_is_method_like(token) for token in tokens)
@@ -2395,10 +2308,7 @@ def _algorithm_reference_names(algorithm: str) -> list[str]:
 
 
 def _text_mentions_algorithm(algorithm: str, text: str) -> bool:
-    return any(
-        re.search(_phrase_search_pattern(name), text, re.I)
-        for name in _algorithm_reference_names(algorithm)
-    )
+    return any(re.search(_phrase_search_pattern(name), text, re.I) for name in _algorithm_reference_names(algorithm))
 
 
 _ALGORITHM_INTRO_VERB_RE = (
@@ -2427,32 +2337,23 @@ def _text_introduces_algorithm_label(algorithm: str, title: str, text: str) -> b
             return True
         if re.search(rf"^\s*{name_pattern}\s*:", title, re.I):
             return True
-        if (
-            _algorithm_key(algorithm) not in _BROAD_ALGORITHM_FAMILY_LABELS
-            and re.search(
-                rf"^\s*(?:[A-Z][A-Za-z0-9&./+-]*\s+){{1,3}}"
-                rf"{name_pattern}\s*:",
-                title,
-            )
+        if _algorithm_key(algorithm) not in _BROAD_ALGORITHM_FAMILY_LABELS and re.search(
+            rf"^\s*(?:[A-Z][A-Za-z0-9&./+-]*\s+){{1,3}}"
+            rf"{name_pattern}\s*:",
+            title,
         ):
             return True
-        if (
-            _algorithm_key(algorithm) not in _BROAD_ALGORITHM_FAMILY_LABELS
-            and re.search(
-                rf"^\s*[^:\n]{{0,120}}\(\s*{name_pattern}\s*\)\s*:",
-                title,
-                re.I,
-            )
+        if _algorithm_key(algorithm) not in _BROAD_ALGORITHM_FAMILY_LABELS and re.search(
+            rf"^\s*[^:\n]{{0,120}}\(\s*{name_pattern}\s*\)\s*:",
+            title,
+            re.I,
         ):
             return True
-        if (
-            _algorithm_key(algorithm) not in _BROAD_ALGORITHM_FAMILY_LABELS
-            and re.search(
-                rf"^\s*(?:the\s+)?{name_pattern}\s+"
-                rf"(?:for|in|via|using|with|to)\b",
-                title,
-                re.I,
-            )
+        if _algorithm_key(algorithm) not in _BROAD_ALGORITHM_FAMILY_LABELS and re.search(
+            rf"^\s*(?:the\s+)?{name_pattern}\s+"
+            rf"(?:for|in|via|using|with|to)\b",
+            title,
+            re.I,
         ):
             return True
         if re.search(
@@ -2529,13 +2430,10 @@ def _text_introduces_algorithm_label(algorithm: str, title: str, text: str) -> b
             re.I,
         ):
             return True
-        if (
-            _algorithm_key(algorithm) not in _BROAD_ALGORITHM_FAMILY_LABELS
-            and re.search(
-                rf"\b(?:our|the)\s+[^.\n]{{0,100}}\(\s*{name_pattern}\s*\)",
-                text,
-                re.I,
-            )
+        if _algorithm_key(algorithm) not in _BROAD_ALGORITHM_FAMILY_LABELS and re.search(
+            rf"\b(?:our|the)\s+[^.\n]{{0,100}}\(\s*{name_pattern}\s*\)",
+            text,
+            re.I,
         ):
             return True
         if re.search(
@@ -2551,10 +2449,7 @@ def _text_introduces_algorithm_label(algorithm: str, title: str, text: str) -> b
 
 def _algorithm_context_text(data: dict) -> tuple[str, str]:
     title = str(data.get("title") or "").strip()
-    body = " ".join(
-        str(data.get(field) or "")
-        for field in ("title", "abstract", "summary")
-    )
+    body = " ".join(str(data.get(field) or "") for field in ("title", "abstract", "summary"))
     body = _URL_RE.sub("", body)
     return title, _normalize_inline_text(body)
 
@@ -2658,14 +2553,8 @@ def find_algorithm_issues(path: Path, data: dict) -> list["Issue"]:
             Issue(
                 path,
                 "algorithm",
-                (
-                    f"Overly broad algorithm label {algorithm!r} appears to describe "
-                    f"{broad_family_cue}"
-                ),
-                (
-                    "Use the paper's specific method, variant, or contribution phrase "
-                    "instead of the broad family name."
-                ),
+                (f"Overly broad algorithm label {algorithm!r} appears to describe {broad_family_cue}"),
+                ("Use the paper's specific method, variant, or contribution phrase instead of the broad family name."),
                 severity=Severity.WARNING,
             )
         ]
@@ -2684,10 +2573,7 @@ def find_algorithm_issues(path: Path, data: dict) -> list["Issue"]:
                 path,
                 "algorithm",
                 f"Bare algorithm label {algorithm!r} appears to be {reason}, not the original proposing paper",
-                (
-                    "Use a descriptive contribution phrase instead, for example "
-                    f"{suggested_label!r}."
-                ),
+                (f"Use a descriptive contribution phrase instead, for example {suggested_label!r}."),
                 severity=Severity.WARNING,
             )
         ]
@@ -2773,10 +2659,7 @@ def _tag_database_canonical(tag: str) -> str | None:
 
 
 def _is_tag_database_missing_issue(issue: Issue) -> bool:
-    return (
-        issue.field == "tags"
-        and issue.message.startswith(_TAG_DATABASE_MISSING_ISSUE_PREFIX)
-    )
+    return issue.field == "tags" and issue.message.startswith(_TAG_DATABASE_MISSING_ISSUE_PREFIX)
 
 
 def _tag_entry_aliases(entry: dict) -> list[str]:
@@ -2826,10 +2709,7 @@ def _missing_tag_canonical_fix(
         return None
     if _suggest_tag_capitalization(canonical, proper_name_words) != canonical:
         return None
-    if (
-        _tag_word_count(canonical) > _MAX_TAG_WORDS
-        and not _is_long_tag_allowed(canonical)
-    ):
+    if _tag_word_count(canonical) > _MAX_TAG_WORDS and not _is_long_tag_allowed(canonical):
         return None
 
     aliases: tuple[str, ...] = ()
@@ -2871,9 +2751,7 @@ def _collect_missing_tag_canonical_fixes(
     fixes: dict[str, TagCanonicalFix] = {}
 
     for path, issues in results:
-        missing_issues = [
-            issue for issue in issues if _is_tag_database_missing_issue(issue)
-        ]
+        missing_issues = [issue for issue in issues if _is_tag_database_missing_issue(issue)]
         if path.name != "metadata.yml" or not missing_issues:
             continue
 
@@ -2929,9 +2807,7 @@ def _write_missing_tag_canonical_fixes(
         aliases = [
             alias
             for alias in fix.aliases
-            if tag_key(alias)
-            and tag_key(alias) != canonical_key
-            and tag_key(alias) not in existing_keys
+            if tag_key(alias) and tag_key(alias) != canonical_key and tag_key(alias) not in existing_keys
         ]
         entry: dict[str, object] = {"canonical": fix.canonical}
         if aliases:
@@ -2997,11 +2873,7 @@ def _database_duplicate_tag_fix_suggestion(
     suggestions: list[str] = []
     for indexes in groups.values():
         keep_index = _preferred_database_duplicate_tag_index(tags, indexes)
-        removals = [
-            f"{str(tags[index]).strip()!r} at index {index}"
-            for index in indexes
-            if index != keep_index
-        ]
+        removals = [f"{str(tags[index]).strip()!r} at index {index}" for index in indexes if index != keep_index]
         canonical = _tag_database_canonical(str(tags[keep_index]).strip())
         canonical_note = f" as {canonical!r}" if canonical else ""
         suggestions.append(
@@ -3018,11 +2890,7 @@ def _duplicate_tag_groups(tags: list[object]) -> dict[str, list[int]]:
         if normalized:
             tag_indexes.setdefault(normalized, []).append(index)
 
-    return {
-        key: indexes
-        for key, indexes in tag_indexes.items()
-        if len(indexes) > 1
-    }
+    return {key: indexes for key, indexes in tag_indexes.items() if len(indexes) > 1}
 
 
 def _duplicate_tag_removal_indexes(tags: list[object]) -> set[int]:
@@ -3087,8 +2955,7 @@ def _plural_duplicate_tag_groups(tags: list[object]) -> dict[str, list[int]]:
     return {
         key: indexes
         for key, indexes in plural_tag_indexes.items()
-        if len(indexes) > 1
-        and len({normalized_tag_by_index[index] for index in indexes}) > 1
+        if len(indexes) > 1 and len({normalized_tag_by_index[index] for index in indexes}) > 1
     }
 
 
@@ -3120,14 +2987,9 @@ def _plural_duplicate_tag_fix_suggestion(
     suggestions: list[str] = []
     for plural_key, indexes in groups.items():
         keep_index = _preferred_plural_duplicate_tag_index(tags, plural_key, indexes)
-        removals = [
-            f"{str(tags[index]).strip()!r} at index {index}"
-            for index in indexes
-            if index != keep_index
-        ]
+        removals = [f"{str(tags[index]).strip()!r} at index {index}" for index in indexes if index != keep_index]
         suggestions.append(
-            f"keep {str(tags[keep_index]).strip()!r} at index {keep_index}; "
-            f"remove {', '.join(removals)}"
+            f"keep {str(tags[keep_index]).strip()!r} at index {keep_index}; remove {', '.join(removals)}"
         )
 
     return "Prefer singular spelling: " + "; ".join(suggestions)
@@ -3368,13 +3230,10 @@ def find_tag_issues(path: Path, data: dict) -> list["Issue"]:
                 )
             )
 
-    duplicate_tags = {
-        key: indexes for key, indexes in tag_indexes.items() if len(indexes) > 1
-    }
+    duplicate_tags = {key: indexes for key, indexes in tag_indexes.items() if len(indexes) > 1}
     if duplicate_tags:
         examples = ", ".join(
-            f"{tag_display[key]!r} at indexes {indexes}"
-            for key, indexes in list(duplicate_tags.items())[:6]
+            f"{tag_display[key]!r} at indexes {indexes}" for key, indexes in list(duplicate_tags.items())[:6]
         )
         if len(duplicate_tags) > 6:
             examples += f", ... ({len(duplicate_tags)} total)"
@@ -3425,9 +3284,7 @@ def find_tag_issues(path: Path, data: dict) -> list["Issue"]:
     return issues
 
 
-_TOP_LEVEL_SCALAR_FIELD_RE = re.compile(
-    r"^(?P<key>[A-Za-z_][A-Za-z0-9_]*)\s*:\s*(?P<value>.*?)(?P<newline>\r?\n?)$"
-)
+_TOP_LEVEL_SCALAR_FIELD_RE = re.compile(r"^(?P<key>[A-Za-z_][A-Za-z0-9_]*)\s*:\s*(?P<value>.*?)(?P<newline>\r?\n?)$")
 
 
 def _top_level_field_span(lines: list[str], start: int) -> tuple[str, str, int] | None:
@@ -3467,7 +3324,7 @@ def _blank_content_line_count(lines: list[str], start: int, end: int) -> int:
 def find_multiline_field_issues(path: Path, raw: str, data: dict) -> list["Issue"]:
     issues: list[Issue] = []
     lines = raw.splitlines(keepends=True)
-    for index, line in enumerate(lines):
+    for index, _line in enumerate(lines):
         parsed = _top_level_field_span(lines, index)
         if parsed is None:
             continue
@@ -3475,11 +3332,7 @@ def find_multiline_field_issues(path: Path, raw: str, data: dict) -> list["Issue
         field_name, value, end = parsed
         if field_name in _FOLDED_TEXT_FIELDS:
             field_value = data.get(field_name)
-            if (
-                isinstance(field_value, str)
-                and field_value.strip()
-                and not _is_folded_scalar_header(value)
-            ):
+            if isinstance(field_value, str) and field_value.strip() and not _is_folded_scalar_header(value):
                 issues.append(
                     Issue(
                         path,
@@ -3488,11 +3341,7 @@ def find_multiline_field_issues(path: Path, raw: str, data: dict) -> list["Issue
                         "Use the `field: >` newline pattern with indented text.",
                     )
                 )
-            elif (
-                isinstance(field_value, str)
-                and field_value.strip()
-                and _is_folded_scalar_header(value)
-            ):
+            elif isinstance(field_value, str) and field_value.strip() and _is_folded_scalar_header(value):
                 content_line_count = _nonblank_content_line_count(lines, index, end)
                 blank_line_count = _blank_content_line_count(lines, index, end)
                 if content_line_count > 1:
@@ -3650,15 +3499,12 @@ def audit_file(
     # -- unknown fields --
     if should_check(CHECK_UNKNOWN):
         _valid_set = set(VALID_FIELDS)
-        for key in data:
-            if key not in _valid_set:
-                issues.append(Issue(path, key, f"Unknown field {key!r}"))
+        issues.extend(Issue(path, key, f"Unknown field {key!r}") for key in data if key not in _valid_set)
 
     # -- required fields presence --
     missing = {f for f in REQUIRED_FIELDS if data.get(f) is None}
     if should_check(CHECK_REQUIRED):
-        for f in sorted(missing):
-            issues.append(Issue(path, f, "Missing required field"))
+        issues.extend(Issue(path, f, "Missing required field") for f in sorted(missing))
 
     # -- title --
     title_raw = data.get("title")
@@ -3674,9 +3520,7 @@ def audit_file(
         else:
             issues.extend(find_weird_text_character_issues(path, "title", title))
             issues.extend(find_likely_misspelling_issues(path, "title", title))
-            issues.extend(
-                find_high_confidence_ocr_artifact_issues(path, "title", title)
-            )
+            issues.extend(find_high_confidence_ocr_artifact_issues(path, "title", title))
             if title != title_corrected:
                 message = (
                     f"Contains title markup/math garbage: {title!r}"
@@ -3703,20 +3547,12 @@ def audit_file(
             issues.append(Issue(path, "authors", "Must be a list"))
             authors = []
         elif len(authors) == 0:
-            issues.append(
-                Issue(path, "authors", "List is empty -- at least one entry required")
-            )
+            issues.append(Issue(path, "authors", "List is empty -- at least one entry required"))
         else:
             blank = [i for i, a in enumerate(authors) if not str(a).strip()]
             if blank:
-                issues.append(
-                    Issue(path, "authors", f"Blank entries at index(es): {blank}")
-                )
-            last_first = [
-                i
-                for i, a in enumerate(authors)
-                if _looks_like_last_first_author(str(a))
-            ]
+                issues.append(Issue(path, "authors", f"Blank entries at index(es): {blank}"))
+            last_first = [i for i, a in enumerate(authors) if _looks_like_last_first_author(str(a))]
             if last_first:
                 examples = ", ".join(repr(str(authors[i])) for i in last_first[:3])
                 if len(last_first) > 3:
@@ -3725,22 +3561,15 @@ def audit_file(
                     Issue(
                         path,
                         "authors",
-                        "Author entries appear to use 'Last, First' order at index(es): "
-                        f"{last_first}",
+                        f"Author entries appear to use 'Last, First' order at index(es): {last_first}",
                         f"Use first-name last-name order; review: {examples}",
                     )
                 )
-            non_individual = {
-                i: _non_individual_author_reason(str(a))
-                for i, a in enumerate(authors)
-            }
-            non_individual = {
-                i: reason for i, reason in non_individual.items() if reason is not None
-            }
+            non_individual = {i: _non_individual_author_reason(str(a)) for i, a in enumerate(authors)}
+            non_individual = {i: reason for i, reason in non_individual.items() if reason is not None}
             if non_individual:
                 examples = ", ".join(
-                    f"{i}: {repr(str(authors[i]))} ({reason})"
-                    for i, reason in list(non_individual.items())[:4]
+                    f"{i}: {str(authors[i])!r} ({reason})" for i, reason in list(non_individual.items())[:4]
                 )
                 if len(non_individual) > 4:
                     examples += f", ... ({len(non_individual)} total)"
@@ -3748,8 +3577,7 @@ def audit_file(
                     Issue(
                         path,
                         "authors",
-                        "Author entries appear to be non-individual names at index(es): "
-                        f"{list(non_individual)}",
+                        f"Author entries appear to be non-individual names at index(es): {list(non_individual)}",
                         f"Replace organizations, team/institution placeholders, and one-token names with individual human authors where available; review: {examples}",
                     )
                 )
@@ -3760,7 +3588,7 @@ def audit_file(
                     suspicious_chars[i] = sorted(set(char_descriptions))
             if suspicious_chars:
                 examples = ", ".join(
-                    f"{i}: {repr(str(authors[i]))} ({', '.join(chars[:3])})"
+                    f"{i}: {str(authors[i])!r} ({', '.join(chars[:3])})"
                     for i, chars in list(suspicious_chars.items())[:3]
                 )
                 if len(suspicious_chars) > 3:
@@ -3777,7 +3605,7 @@ def audit_file(
             ascii_normalization = _author_ascii_normalization_issues(authors)
             if ascii_normalization:
                 examples = ", ".join(
-                    f"{i}: {repr(str(authors[i]))} -> {normalized!r}"
+                    f"{i}: {str(authors[i])!r} -> {normalized!r}"
                     for i, normalized in list(ascii_normalization.items())[:4]
                 )
                 if len(ascii_normalization) > 4:
@@ -3786,8 +3614,7 @@ def audit_file(
                     Issue(
                         path,
                         "authors",
-                        "Author entries are not ASCII-normalized at index(es): "
-                        f"{list(ascii_normalization)}",
+                        f"Author entries are not ASCII-normalized at index(es): {list(ascii_normalization)}",
                         (
                             "Normalize author names to the native 26 English "
                             f"letters for centralized author matching; review: {examples}"
@@ -3910,9 +3737,7 @@ def audit_file(
             return data, issues
 
         if not re.match(r"^\d{4}$", path_year_str):
-            issues.append(
-                Issue(path, "path", f"YEAR component {path_year_str!r} is not 4 digits")
-            )
+            issues.append(Issue(path, "path", f"YEAR component {path_year_str!r} is not 4 digits"))
             return data, issues
 
         path_year = int(path_year_str)
@@ -3962,9 +3787,7 @@ def audit_file(
                 )
         else:
             issues.extend(find_low_signal_summary_issues(path, str(summary)))
-            issues.extend(
-                find_likely_misspelling_issues(path, "summary", str(summary))
-            )
+            issues.extend(find_likely_misspelling_issues(path, "summary", str(summary)))
             issues.extend(
                 find_high_confidence_ocr_artifact_issues(
                     path,
@@ -3985,7 +3808,9 @@ def audit_file(
     if should_check(CHECK_OPTIONAL):
         audit_status_val = str(data.get(AUDIT_STATUS_FIELD) or "").strip()
         if audit_status_val == "raw":
-            issues.append(Issue(path, AUDIT_STATUS_FIELD, "raw; skipping optional field checks", severity=Severity.INFO))
+            issues.append(
+                Issue(path, AUDIT_STATUS_FIELD, "raw; skipping optional field checks", severity=Severity.INFO)
+            )
         else:
             for f in VALID_FIELDS:
                 if f in REQUIRED_FIELDS or f == "summary":
@@ -4191,7 +4016,9 @@ def audit_map_data_paths(
             )
         else:
             similarity_ids_raw = similarity.get("ids")
-            if not isinstance(similarity_ids_raw, list) or not all(isinstance(item, str) for item in similarity_ids_raw):
+            if not isinstance(similarity_ids_raw, list) or not all(
+                isinstance(item, str) for item in similarity_ids_raw
+            ):
                 grouped.setdefault(map_data_path, []).append(
                     Issue(map_data_path, CHECK_PATH, "mapData.similarity.ids is not a string list")
                 )
@@ -4257,7 +4084,7 @@ def audit_map_data_paths(
                 _audit_id_set(
                     path=cache_path,
                     label="embedding_cache.json papers",
-                    actual_ids=set(str(key) for key in cached_papers),
+                    actual_ids={str(key) for key in cached_papers},
                     expected_ids=expected_ids,
                     report_stale=report_stale,
                 )
@@ -4359,9 +4186,7 @@ def _plain_multiline_title_parts(raw: str) -> tuple[str, str] | None:
             continue
 
         value = m.group("value")
-        if _is_block_scalar_header(value) or not _has_indented_continuation(
-            lines, start
-        ):
+        if _is_block_scalar_header(value) or not _has_indented_continuation(lines, start):
             return None
 
         end = start + 1
@@ -4393,9 +4218,7 @@ def _normalize_for_duplicate_title_check(title: str) -> str:
 
 def _title_has_garbage(title: str) -> bool:
     return bool(
-        _TITLE_HTML_TAG_RE.search(title)
-        or _TITLE_MATH_SPAN_RE.search(title)
-        or _TITLE_LATEX_COMMAND_RE.search(title)
+        _TITLE_HTML_TAG_RE.search(title) or _TITLE_MATH_SPAN_RE.search(title) or _TITLE_LATEX_COMMAND_RE.search(title)
     )
 
 
@@ -4408,8 +4231,7 @@ def _plain_latex_math(text: str) -> str:
     text = text.replace(r"\times", "x")
     text = re.sub(r"\{([^{}]+)\}", r"\1", text)
     text = re.sub(r"_\{?([^{}\s]+)\}?", r"\1", text)
-    text = text.replace("\\", "")
-    return text
+    return text.replace("\\", "")
 
 
 def _protect_title_spans(title: str) -> tuple[str, list[str], bool]:
@@ -4485,8 +4307,7 @@ def _suggest_title_fix(raw: str, title: str) -> str:
         if (
             header
             and continuation
-            and _normalize_for_duplicate_title_check(header)
-            == _normalize_for_duplicate_title_check(continuation)
+            and _normalize_for_duplicate_title_check(header) == _normalize_for_duplicate_title_check(continuation)
         ):
             title_to_fix = header
 
@@ -4523,7 +4344,7 @@ def _fix_title_in_yaml(raw: str, new_title: str) -> str:
                 end += 1
 
         replacement = _format_title_line(new_title, m.group("newline"))
-        return "".join(lines[:start] + [replacement] + lines[end:])
+        return "".join([*lines[:start], replacement, *lines[end:]])
 
     return raw
 
@@ -4561,15 +4382,11 @@ def _is_title_value_fix_issue(issue: Issue) -> bool:
 
 
 def _is_author_mojibake_issue(issue: Issue) -> bool:
-    return issue.field == "authors" and issue.message.startswith(
-        _AUTHOR_MOJIBAKE_ISSUE_PREFIX
-    )
+    return issue.field == "authors" and issue.message.startswith(_AUTHOR_MOJIBAKE_ISSUE_PREFIX)
 
 
 def _is_author_ascii_normalization_issue(issue: Issue) -> bool:
-    return issue.field == "authors" and issue.message.startswith(
-        _AUTHOR_ASCII_NORMALIZATION_ISSUE_PREFIX
-    )
+    return issue.field == "authors" and issue.message.startswith(_AUTHOR_ASCII_NORMALIZATION_ISSUE_PREFIX)
 
 
 def _is_fixable_author_name_issue(issue: Issue) -> bool:
@@ -4577,30 +4394,19 @@ def _is_fixable_author_name_issue(issue: Issue) -> bool:
 
 
 def _is_fixable_non_individual_author_issue(issue: Issue) -> bool:
-    return issue.field == "authors" and issue.message.startswith(
-        _NON_INDIVIDUAL_AUTHOR_ISSUE_PREFIX
-    )
+    return issue.field == "authors" and issue.message.startswith(_NON_INDIVIDUAL_AUTHOR_ISSUE_PREFIX)
 
 
 def _is_publisher_mark_abstract_issue(issue: Issue) -> bool:
-    return (
-        issue.field == "abstract"
-        and issue.message.startswith(_PUBLISHER_MARK_ABSTRACT_ISSUE_PREFIX)
-    )
+    return issue.field == "abstract" and issue.message.startswith(_PUBLISHER_MARK_ABSTRACT_ISSUE_PREFIX)
 
 
 def _is_abstract_dollar_math_issue(issue: Issue) -> bool:
-    return (
-        issue.field == "abstract"
-        and issue.message.startswith(_ABSTRACT_DOLLAR_MATH_ISSUE_PREFIX)
-    )
+    return issue.field == "abstract" and issue.message.startswith(_ABSTRACT_DOLLAR_MATH_ISSUE_PREFIX)
 
 
 def _is_abstract_latex_artifact_issue(issue: Issue) -> bool:
-    return (
-        issue.field == "abstract"
-        and issue.message.startswith(_ABSTRACT_LATEX_ARTIFACT_ISSUE_PREFIX)
-    )
+    return issue.field == "abstract" and issue.message.startswith(_ABSTRACT_LATEX_ARTIFACT_ISSUE_PREFIX)
 
 
 def _is_text_mojibake_issue(issue: Issue) -> bool:
@@ -4725,8 +4531,7 @@ def _plain_text_latex_math(math: str) -> str:
     text = re.sub(r"\s*([<>]=?|=|!=)\s*", r" \1 ", text)
     text = text.replace("< ~", "<~").replace("> ~", ">~")
     text = text.replace("\\", "")
-    text = re.sub(r"\s+", " ", text).strip()
-    return text
+    return re.sub(r"\s+", " ", text).strip()
 
 
 def _tidy_plain_math_surrounding_text(text: str) -> str:
@@ -4866,9 +4671,7 @@ def _decode_utf8_mojibake_text(text: str) -> tuple[str, int]:
             byte_count = 0
 
         token = text[index : index + byte_count]
-        token_bytes = [
-            byte for char in token for byte in [_mojibake_byte(char)] if byte is not None
-        ]
+        token_bytes = [byte for char in token for byte in [_mojibake_byte(char)] if byte is not None]
         if (
             byte_count
             and len(token) == byte_count
@@ -4949,9 +4752,7 @@ def _fix_big_whitespace_in_yaml(raw: str, fields: set[str]) -> tuple[str, int]:
             continue
 
         for line_index in range(index, end):
-            lines[line_index], count = _collapse_big_whitespace_after_indent(
-                lines[line_index]
-            )
+            lines[line_index], count = _collapse_big_whitespace_after_indent(lines[line_index])
             changed += count
 
         index = end
@@ -5169,54 +4970,36 @@ def _fix_source_in_yaml(raw: str, new_source: str) -> str:
                     break
                 end += 1
 
-        replacement = match.group("indent") + _format_source_line(
-            new_source, match.group("newline") or "\n"
-        )
-        return "".join(lines[:start] + [replacement] + lines[end:])
+        replacement = match.group("indent") + _format_source_line(new_source, match.group("newline") or "\n")
+        return "".join([*lines[:start], replacement, *lines[end:]])
 
     return raw
 
 
 def _is_source_year_issue(issue: Issue) -> bool:
-    return (
-        issue.field == "source"
-        and issue.suggestion is not None
-        and issue.message.startswith("Contains year")
-    )
+    return issue.field == "source" and issue.suggestion is not None and issue.message.startswith("Contains year")
 
 
 def _is_multiline_field_issue(issue: Issue) -> bool:
-    return (
-        issue.field in _MULTILINE_FORBIDDEN_FIELDS
-        and issue.message.startswith("Field must be a single-line scalar")
-    )
+    return issue.field in _MULTILINE_FORBIDDEN_FIELDS and issue.message.startswith("Field must be a single-line scalar")
 
 
 def _is_folded_text_field_issue(issue: Issue) -> bool:
-    return (
-        issue.field in _FOLDED_TEXT_FIELDS
-        and issue.message.startswith(
-            (
-                _FOLDED_TEXT_FIELD_ISSUE_PREFIX,
-                _FOLDED_TEXT_FIELD_MULTILINE_ISSUE_PREFIX,
-                _FOLDED_TEXT_FIELD_BLANK_LINE_ISSUE_PREFIX,
-            )
+    return issue.field in _FOLDED_TEXT_FIELDS and issue.message.startswith(
+        (
+            _FOLDED_TEXT_FIELD_ISSUE_PREFIX,
+            _FOLDED_TEXT_FIELD_MULTILINE_ISSUE_PREFIX,
+            _FOLDED_TEXT_FIELD_BLANK_LINE_ISSUE_PREFIX,
         )
     )
 
 
 def _is_plural_duplicate_tag_issue(issue: Issue) -> bool:
-    return (
-        issue.field == "tags"
-        and issue.message.startswith(_PLURAL_DUPLICATE_TAG_MESSAGE_PREFIX)
-    )
+    return issue.field == "tags" and issue.message.startswith(_PLURAL_DUPLICATE_TAG_MESSAGE_PREFIX)
 
 
 def _is_database_duplicate_tag_issue(issue: Issue) -> bool:
-    return (
-        issue.field == "tags"
-        and issue.message.startswith(_DATABASE_DUPLICATE_TAG_MESSAGE_PREFIX)
-    )
+    return issue.field == "tags" and issue.message.startswith(_DATABASE_DUPLICATE_TAG_MESSAGE_PREFIX)
 
 
 def _is_duplicate_tag_issue(issue: Issue) -> bool:
@@ -5340,14 +5123,14 @@ def _fix_metadata_scalar_field_in_yaml(raw: str, field_name: str, new_value: obj
         if current_field_name != field_name:
             continue
 
-        match = _TOP_LEVEL_SCALAR_FIELD_RE.match(lines[start])
+        match = _TOP_LEVEL_SCALAR_FIELD_RE.match(_line)
         newline = match.group("newline") if match else "\n"
         replacement = _format_metadata_scalar_line(
             field_name,
             new_value,
             newline or "\n",
         )
-        return "".join(lines[:start] + [replacement] + lines[end:])
+        return "".join([*lines[:start], replacement, *lines[end:]])
 
     return raw
 
@@ -5506,7 +5289,7 @@ def _fix_author_names_in_yaml(raw: str, data: dict) -> tuple[str, int, int]:
             match.group("newline") or "\n",
         )
         return (
-            "".join(lines[:start] + [replacement] + lines[end:]),
+            "".join([*lines[:start], replacement, *lines[end:]]),
             changed_authors,
             decoded_sequences,
         )
@@ -5602,7 +5385,7 @@ def _fix_non_individual_authors_in_yaml(raw: str, data: dict) -> tuple[str, int]
             authors,
             match.group("newline") or "\n",
         )
-        return "".join(lines[:start] + [replacement] + lines[end:]), changed
+        return "".join([*lines[:start], replacement, *lines[end:]]), changed
 
     return raw, 0
 
@@ -5748,7 +5531,7 @@ def _fix_tags_in_yaml(
             tags,
             match.group("newline") or "\n",
         )
-        return "".join(lines[:start] + [replacement] + lines[end:]), changed
+        return "".join([*lines[:start], replacement, *lines[end:]]), changed
 
     return raw, 0
 
@@ -5962,9 +5745,7 @@ def apply_fixes(
     fixed = 0
     path_replacements: dict[Path, Path] = {}
     metadata_paths_seen: set[Path] = set()
-    added_tag_canonical_fixes = _write_missing_tag_canonical_fixes(
-        _collect_missing_tag_canonical_fixes(results)
-    )
+    added_tag_canonical_fixes = _write_missing_tag_canonical_fixes(_collect_missing_tag_canonical_fixes(results))
     added_canonical_tag_keys = set(added_tag_canonical_fixes)
     if added_tag_canonical_fixes:
         console.print("[green]Updated:[/] normalization/tags.yml")
@@ -5980,9 +5761,7 @@ def apply_fixes(
         title_fixes = [
             i
             for i in issues
-            if _is_title_value_fix_issue(i)
-            and not _is_multiline_field_issue(i)
-            and not _is_folded_text_field_issue(i)
+            if _is_title_value_fix_issue(i) and not _is_multiline_field_issue(i) and not _is_folded_text_field_issue(i)
         ]
         source_year_fixes = [i for i in issues if _is_source_year_issue(i)]
         tag_fixes = [
@@ -5994,48 +5773,24 @@ def apply_fixes(
                 added_canonical_tag_keys,
             )
         ]
-        abstract_publisher_fixes = [
-            i for i in issues if _is_publisher_mark_abstract_issue(i)
-        ]
-        abstract_dollar_math_fixes = [
-            i for i in issues if _is_abstract_dollar_math_issue(i)
-        ]
-        abstract_latex_artifact_fixes = [
-            i for i in issues if _is_abstract_latex_artifact_issue(i)
-        ]
+        abstract_publisher_fixes = [i for i in issues if _is_publisher_mark_abstract_issue(i)]
+        abstract_dollar_math_fixes = [i for i in issues if _is_abstract_dollar_math_issue(i)]
+        abstract_latex_artifact_fixes = [i for i in issues if _is_abstract_latex_artifact_issue(i)]
         author_name_fixes = [i for i in issues if _is_fixable_author_name_issue(i)]
-        non_individual_author_fixes = [
-            i for i in issues if _is_fixable_non_individual_author_issue(i)
-        ]
+        non_individual_author_fixes = [i for i in issues if _is_fixable_non_individual_author_issue(i)]
         type_fixes = [i for i in issues if _is_type_fix_issue(i)]
         summary_clear_fixes = [i for i in issues if _is_clearable_summary_issue(i)]
-        mojibake_text_fields = {
-            i.field for i in issues if _is_text_mojibake_issue(i)
-        }
-        ocr_artifact_fields = {
-            i.field for i in issues if _is_high_confidence_ocr_artifact_issue(i)
-        }
+        mojibake_text_fields = {i.field for i in issues if _is_text_mojibake_issue(i)}
+        ocr_artifact_fields = {i.field for i in issues if _is_high_confidence_ocr_artifact_issue(i)}
         multiline_fields = {i.field for i in issues if _is_multiline_field_issue(i)}
-        folded_text_fields = {
-            i.field for i in issues if _is_folded_text_field_issue(i)
-        }
+        folded_text_fields = {i.field for i in issues if _is_folded_text_field_issue(i)}
         has_escaped_sequence_fixes = any(_is_escaped_sequence_issue(i) for i in issues)
         has_garbled_markup_fixes = any(_is_garbled_markup_issue(i) for i in issues)
-        whitespace_fields = {
-            _metadata_field_root(i.field)
-            for i in issues
-            if _is_big_whitespace_issue(i)
-        }
+        whitespace_fields = {_metadata_field_root(i.field) for i in issues if _is_big_whitespace_issue(i)}
         tight_letter_parenthetical_fields = {
-            _metadata_field_root(i.field)
-            for i in issues
-            if _is_tight_letter_parenthetical_spacing_issue(i)
+            _metadata_field_root(i.field) for i in issues if _is_tight_letter_parenthetical_spacing_issue(i)
         }
-        ascii_multi_dash_fields = {
-            _metadata_field_root(i.field)
-            for i in issues
-            if _is_ascii_multi_dash_issue(i)
-        }
+        ascii_multi_dash_fields = {_metadata_field_root(i.field) for i in issues if _is_ascii_multi_dash_issue(i)}
         if (
             not has_parse_fixes
             and not title_fixes
@@ -6065,9 +5820,7 @@ def apply_fixes(
             messages = []
 
             if has_parse_fixes:
-                new_raw, parse_messages = _fix_high_confidence_parse_errors_in_yaml(
-                    new_raw
-                )
+                new_raw, parse_messages = _fix_high_confidence_parse_errors_in_yaml(new_raw)
                 messages.extend(parse_messages)
 
             if title_fixes:
@@ -6085,19 +5838,14 @@ def apply_fixes(
             if abstract_publisher_fixes:
                 parsed = yaml.safe_load(new_raw) or {}
                 old_abstract = str(parsed.get("abstract") or "")
-                new_abstract, n_removed_marks = _delete_publisher_marks_from_abstract(
-                    old_abstract
-                )
+                new_abstract, n_removed_marks = _delete_publisher_marks_from_abstract(old_abstract)
                 if n_removed_marks and new_abstract != old_abstract:
                     new_raw = _fix_metadata_scalar_field_in_yaml(
                         new_raw,
                         "abstract",
                         new_abstract,
                     )
-                    messages.append(
-                        "  removed "
-                        f"{n_removed_marks} publisher/copyright notice(s) from abstract"
-                    )
+                    messages.append(f"  removed {n_removed_marks} publisher/copyright notice(s) from abstract")
 
             if abstract_dollar_math_fixes:
                 parsed = yaml.safe_load(new_raw) or {}
@@ -6109,25 +5857,19 @@ def apply_fixes(
                         "abstract",
                         new_abstract,
                     )
-                    messages.append(
-                        f"  converted {n_math_spans} dollar math span(s) in abstract"
-                    )
+                    messages.append(f"  converted {n_math_spans} dollar math span(s) in abstract")
 
             if abstract_latex_artifact_fixes:
                 parsed = yaml.safe_load(new_raw) or {}
                 old_abstract = str(parsed.get("abstract") or "")
-                new_abstract, n_artifacts = _replace_plain_latex_math_artifacts_in_text(
-                    old_abstract
-                )
+                new_abstract, n_artifacts = _replace_plain_latex_math_artifacts_in_text(old_abstract)
                 if n_artifacts and new_abstract != old_abstract:
                     new_raw = _fix_metadata_scalar_field_in_yaml(
                         new_raw,
                         "abstract",
                         new_abstract,
                     )
-                    messages.append(
-                        f"  repaired {n_artifacts} plain LaTeX math artifact(s) in abstract"
-                    )
+                    messages.append(f"  repaired {n_artifacts} plain LaTeX math artifact(s) in abstract")
 
             if author_name_fixes:
                 parsed = yaml.safe_load(new_raw) or {}
@@ -6144,9 +5886,7 @@ def apply_fixes(
                             f"and ASCII-normalized {n_fixed_authors} name(s)"
                         )
                     else:
-                        messages.append(
-                            f"  ASCII-normalized {n_fixed_authors} author name(s)"
-                        )
+                        messages.append(f"  ASCII-normalized {n_fixed_authors} author name(s)")
 
             if non_individual_author_fixes:
                 parsed = yaml.safe_load(new_raw) or {}
@@ -6155,9 +5895,7 @@ def apply_fixes(
                     parsed,
                 )
                 if n_repaired_authors:
-                    messages.append(
-                        f"  repaired {n_repaired_authors} non-individual author entry(s)"
-                    )
+                    messages.append(f"  repaired {n_repaired_authors} non-individual author entry(s)")
 
             if type_fixes:
                 parsed = yaml.safe_load(new_raw) or {}
@@ -6179,9 +5917,7 @@ def apply_fixes(
                 )
                 if n_decoded_text:
                     fields = ", ".join(sorted(mojibake_text_fields))
-                    messages.append(
-                        f"  decoded {n_decoded_text} text mojibake sequence(s): {fields}"
-                    )
+                    messages.append(f"  decoded {n_decoded_text} text mojibake sequence(s): {fields}")
 
             if ocr_artifact_fields:
                 parsed = yaml.safe_load(new_raw) or {}
@@ -6192,10 +5928,7 @@ def apply_fixes(
                 )
                 if n_fixed_ocr:
                     fields = ", ".join(sorted(ocr_artifact_fields))
-                    messages.append(
-                        "  fixed "
-                        f"{n_fixed_ocr} high-confidence OCR artifact(s): {fields}"
-                    )
+                    messages.append(f"  fixed {n_fixed_ocr} high-confidence OCR artifact(s): {fields}")
 
             if multiline_fields:
                 parsed = yaml.safe_load(new_raw) or {}
@@ -6217,9 +5950,7 @@ def apply_fixes(
                 )
                 if folded_fields:
                     fields = ", ".join(folded_fields)
-                    messages.append(
-                        f"  folded {len(folded_fields)} text field(s): {fields}"
-                    )
+                    messages.append(f"  folded {len(folded_fields)} text field(s): {fields}")
 
             if tag_fixes:
                 parsed = yaml.safe_load(new_raw) or {}
@@ -6248,10 +5979,7 @@ def apply_fixes(
                 )
                 if n_collapsed_spaces:
                     fields = ", ".join(sorted(whitespace_fields))
-                    messages.append(
-                        "  collapsed "
-                        f"{n_collapsed_spaces} large whitespace run(s): {fields}"
-                    )
+                    messages.append(f"  collapsed {n_collapsed_spaces} large whitespace run(s): {fields}")
 
             if tight_letter_parenthetical_fields:
                 parsed = yaml.safe_load(new_raw) or {}
@@ -6265,11 +5993,7 @@ def apply_fixes(
                 )
                 if n_spaced_parentheticals:
                     fields = ", ".join(sorted(tight_letter_parenthetical_fields))
-                    messages.append(
-                        "  spaced "
-                        f"{n_spaced_parentheticals} parenthetical abbreviation(s): "
-                        f"{fields}"
-                    )
+                    messages.append(f"  spaced {n_spaced_parentheticals} parenthetical abbreviation(s): {fields}")
 
             if ascii_multi_dash_fields:
                 parsed = yaml.safe_load(new_raw) or {}
@@ -6280,10 +6004,7 @@ def apply_fixes(
                 )
                 if n_fixed_dashes:
                     fields = ", ".join(sorted(ascii_multi_dash_fields))
-                    messages.append(
-                        "  replaced "
-                        f"{n_fixed_dashes} ASCII multi-dash run(s): {fields}"
-                    )
+                    messages.append(f"  replaced {n_fixed_dashes} ASCII multi-dash run(s): {fields}")
 
             if new_raw == raw:
                 err_console.print(f"  [dim](no change written for {path})[/]")
@@ -6314,10 +6035,7 @@ def apply_fixes(
         if added_tag_canonical_fixes
         else ""
     )
-    console.print(
-        f"\n[green]{fixed} file(s) fixed; {moved} path(s) moved"
-        f"{tag_entry_summary}.[/]"
-    )
+    console.print(f"\n[green]{fixed} file(s) fixed; {moved} path(s) moved{tag_entry_summary}.[/]")
     return path_replacements
 
 
@@ -6385,11 +6103,7 @@ def _filter_results_by_severity(
     minimum_rank = _SEVERITY_RANK[minimum]
     filtered: list[tuple[Path, list[Issue]]] = []
     for path, issues in results:
-        kept = [
-            issue
-            for issue in issues
-            if _SEVERITY_RANK[issue.severity] >= minimum_rank
-        ]
+        kept = [issue for issue in issues if _SEVERITY_RANK[issue.severity] >= minimum_rank]
         if kept:
             filtered.append((path, kept))
     return filtered
@@ -6473,8 +6187,7 @@ Available --check names:
         choices=VALID_AUDIT_STATUSES,
         metavar="STATUS",
         help=(
-            "Audit only metadata files whose audit_status matches STATUS. "
-            "Choices: " + ", ".join(VALID_AUDIT_STATUSES)
+            "Audit only metadata files whose audit_status matches STATUS. Choices: " + ", ".join(VALID_AUDIT_STATUSES)
         ),
     )
     parser.add_argument(
@@ -6501,9 +6214,7 @@ Available --check names:
         ),
     )
     args = parser.parse_args()
-    selected_names, invalid_names = _normalize_check_names(
-        _flatten_check_args(args.check_names)
-    )
+    selected_names, invalid_names = _normalize_check_names(_flatten_check_args(args.check_names))
     if invalid_names:
         parser.error(
             "unknown --check value(s): "
@@ -6533,10 +6244,7 @@ Available --check names:
                 f"--audit-status {args.audit_status}.[/]"
             )
         if not targets:
-            console.print(
-                f"[yellow]No metadata.yml file(s) matched "
-                f"{AUDIT_STATUS_FIELD}: {args.audit_status}.[/]"
-            )
+            console.print(f"[yellow]No metadata.yml file(s) matched {AUDIT_STATUS_FIELD}: {args.audit_status}.[/]")
             return
 
     skipped_reviewed_errors = 0
@@ -6571,15 +6279,11 @@ Available --check names:
 
     if not all_issues:
         if checked_map_data:
-            console.print(
-                f"[green]All {len(targets)} metadata.yml file(s) and map data pass audit.[/]"
-            )
+            console.print(f"[green]All {len(targets)} metadata.yml file(s) and map data pass audit.[/]")
         else:
             console.print(f"[green]All {len(targets)} metadata.yml file(s) pass audit.[/]")
         if skipped_reviewed_errors:
-            console.print(
-                f"[dim]Skipped {skipped_reviewed_errors} error(s) from reviewed metadata.[/]"
-            )
+            console.print(f"[dim]Skipped {skipped_reviewed_errors} error(s) from reviewed metadata.[/]")
         return
 
     parts = []
@@ -6589,13 +6293,9 @@ Available --check names:
         parts.append(f"[bold yellow]{n_warnings} warning(s)[/]")
     if n_infos:
         parts.append(f"[bold cyan]{n_infos} info(s)[/]")
-    console.print(
-        ", ".join(parts) + f" across {len(results)} / {checked_file_count} file(s):\n"
-    )
+    console.print(", ".join(parts) + f" across {len(results)} / {checked_file_count} file(s):\n")
     if skipped_reviewed_errors:
-        console.print(
-            f"[dim]Skipped {skipped_reviewed_errors} error(s) from reviewed metadata.[/]\n"
-        )
+        console.print(f"[dim]Skipped {skipped_reviewed_errors} error(s) from reviewed metadata.[/]\n")
 
     for path, issues in results:
         console.print(f"[bold]{path}[/]")
@@ -6632,10 +6332,7 @@ Available --check names:
                 report_stale=report_stale_map_ids,
             )
             remaining_errors += sum(
-                1
-                for _, issues in map_results
-                for issue in issues
-                if issue.severity == Severity.ERROR
+                1 for _, issues in map_results for issue in issues if issue.severity == Severity.ERROR
             )
         sys.exit(1 if remaining_errors else 0)
 

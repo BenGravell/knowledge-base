@@ -9,6 +9,7 @@ from __future__ import annotations
 
 import argparse
 import base64
+import contextlib
 import json
 import os
 import secrets
@@ -23,7 +24,6 @@ import urllib.request
 from dataclasses import dataclass
 from typing import Any
 from urllib.parse import quote, urlparse
-
 
 JS_CHECKS = r"""
 (async () => {
@@ -695,10 +695,8 @@ class CdpClient:
         self.next_id = 0
 
     def close(self) -> None:
-        try:
+        with contextlib.suppress(OSError):
             self.sock.close()
-        except OSError:
-            pass
 
     def call(self, method: str, params: dict[str, Any] | None = None, timeout: float = 10) -> dict[str, Any]:
         self.next_id += 1
@@ -855,7 +853,7 @@ def wait_for_json(session: ChromeSession, path: str, timeout: float = 10) -> Any
         try:
             with urllib.request.urlopen(url, timeout=1) as response:
                 return json.loads(response.read().decode("utf-8"))
-        except Exception as exc:  # noqa: BLE001 - retry startup races
+        except Exception as exc:
             last_error = exc
             time.sleep(0.1)
     raise TimeoutError(f"Timed out waiting for {url}: {last_error}")
@@ -868,10 +866,10 @@ def get_tab_websocket(session: ChromeSession, url: str) -> str:
         with urllib.request.urlopen(request, timeout=2) as response:
             tab = json.loads(response.read().decode("utf-8"))
             return str(tab["webSocketDebuggerUrl"])
-    except Exception:
+    except Exception as exc:
         tabs = wait_for_json(session, "/json/list")
         if not tabs:
-            raise RuntimeError(f"Could not create a Chrome tab for {url}")
+            raise RuntimeError(f"Could not create a Chrome tab for {url}") from exc
         return str(tabs[0]["webSocketDebuggerUrl"])
 
 
@@ -892,7 +890,7 @@ def wait_for_page_ready(client: CdpClient, timeout: float = 35) -> None:
         try:
             if client.evaluate(expression, timeout=2):
                 return
-        except Exception as exc:  # noqa: BLE001 - page may still be navigating
+        except Exception as exc:
             last_error = exc
         time.sleep(0.25)
     raise TimeoutError(f"Map did not become ready: {last_error}")
@@ -985,6 +983,6 @@ def main() -> int:
 if __name__ == "__main__":
     try:
         raise SystemExit(main())
-    except Exception as exc:  # noqa: BLE001
+    except Exception as exc:
         print(f"FAIL: {exc}", file=sys.stderr)
-        raise SystemExit(1)
+        raise SystemExit(1) from exc

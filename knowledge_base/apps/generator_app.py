@@ -1,12 +1,12 @@
 import streamlit as st
 
+from knowledge_base.config import VALID_TYPES
 from knowledge_base.utils.arxiv_utils import (
     build_metadata,
     fetch_arxiv,
     metadata_to_yaml,
     target_path,
 )
-from knowledge_base.config import VALID_TYPES
 
 # ---------------------------------------------------------------------------
 # Session state defaults
@@ -73,18 +73,10 @@ if link := data.get("link"):
 st.header("Edit Fields")
 
 st.session_state["title"] = st.text_input("Title *", value=st.session_state["title"])
-st.session_state["algorithm"] = st.text_input(
-    "Algorithm / Short name", value=st.session_state["algorithm"]
-)
-st.session_state["year"] = st.number_input(
-    "Year *", value=st.session_state["year"], step=1, format="%d"
-)
-st.session_state["arxiv_id"] = st.text_input(
-    "arXiv ID", value=st.session_state["arxiv_id"]
-)
-st.session_state["doi"] = st.text_input(
-    "DOI", value=st.session_state["doi"], placeholder="10.1109/…"
-)
+st.session_state["algorithm"] = st.text_input("Algorithm / Short name", value=st.session_state["algorithm"])
+st.session_state["year"] = st.number_input("Year *", value=st.session_state["year"], step=1, format="%d")
+st.session_state["arxiv_id"] = st.text_input("arXiv ID", value=st.session_state["arxiv_id"])
+st.session_state["doi"] = st.text_input("DOI", value=st.session_state["doi"], placeholder="10.1109/…")
 st.session_state["link"] = st.text_input("Primary link", value=st.session_state["link"])
 
 st.session_state["source"] = st.text_input(
@@ -100,9 +92,7 @@ authors_text = st.text_area(
     value="\n".join(st.session_state["authors"]),
     height=120,
 )
-st.session_state["authors"] = [
-    a.strip() for a in authors_text.splitlines() if a.strip()
-]
+st.session_state["authors"] = [a.strip() for a in authors_text.splitlines() if a.strip()]
 
 st.session_state["tags_raw"] = st.text_area(
     "Tags (one per line)",
@@ -117,9 +107,7 @@ st.session_state["links_alt_raw"] = st.text_area(
 )
 
 
-st.session_state["abstract"] = st.text_area(
-    "Abstract", value=st.session_state["abstract"], height=180
-)
+st.session_state["abstract"] = st.text_area("Abstract", value=st.session_state["abstract"], height=180)
 st.session_state["summary"] = st.text_area(
     "Summary (your one-paragraph digest)",
     value=st.session_state["summary"],
@@ -166,11 +154,7 @@ st.caption(f"Will write to: `{out_path}`")
 
 st.header("Write Entry")
 
-ready = bool(
-    st.session_state["title"]
-    and st.session_state["authors"]
-    and st.session_state["year"]
-)
+ready = bool(st.session_state["title"] and st.session_state["authors"] and st.session_state["year"])
 
 if not ready:
     st.info("Fill in at least Title, Authors, and Year before writing.")

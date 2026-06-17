@@ -21,13 +21,14 @@ from pathlib import Path
 
 if __package__ in (None, ""):
     import sys
+
     sys.path.append(str(Path(__file__).resolve().parents[3]))
 
 from knowledge_base.utils.doi_utils import (
     fetch_page_html,
     scrape_doi_from_html,
 )
-from knowledge_base.utils.prefill_template import DoiPrefillScript, REPO_ROOT
+from knowledge_base.utils.prefill_template import REPO_ROOT, DoiPrefillScript
 from knowledge_base.utils.prefill_utils import read_url_lines
 
 DEFAULT_INPUT = REPO_ROOT / "todo" / "papers" / "IEEE.md"
@@ -71,14 +72,14 @@ def fetch_ieee_doi(article_id: str) -> str:
     # Try the internal REST API first (JSON, no JS required)
     try:
         import requests
+
         r = requests.get(
             rest_url,
             headers={
                 "Accept": "application/json, */*",
                 "Referer": page_url,
                 "User-Agent": (
-                    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
-                    "AppleWebKit/537.36 Chrome/124.0.0.0 Safari/537.36"
+                    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/124.0.0.0 Safari/537.36"
                 ),
             },
             timeout=60,

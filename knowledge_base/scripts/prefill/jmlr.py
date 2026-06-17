@@ -8,7 +8,7 @@ if __package__ in (None, ""):
 
     sys.path.append(str(Path(__file__).resolve().parents[3]))
 
-from knowledge_base.utils.prefill_template import CitationPagePrefillScript, REPO_ROOT
+from knowledge_base.utils.prefill_template import REPO_ROOT, CitationPagePrefillScript
 
 DEFAULT_INPUT = REPO_ROOT / "todo" / "papers" / "JMLR.md"
 

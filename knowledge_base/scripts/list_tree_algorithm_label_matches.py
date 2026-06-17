@@ -18,18 +18,16 @@ from typing import Any
 
 import yaml
 
-
 REPO_ROOT = Path(__file__).resolve().parents[2]
 if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))
 
-from knowledge_base.config import KB_DIR  # noqa: E402
-from knowledge_base.tree.model import (  # noqa: E402
+from knowledge_base.config import KB_DIR
+from knowledge_base.tree.model import (
     TreeModel,
     load_tree_model,
 )
-from knowledge_base.tree.nav_source import TREE_YML  # noqa: E402
-
+from knowledge_base.tree.nav_source import TREE_YML
 
 METADATA_ROOT = KB_DIR / "docs" / "papers"
 
@@ -101,10 +99,7 @@ def format_tree_path(path: tuple[str, ...]) -> str:
 
 def print_markdown(matches: list[Match], *, total_matches: int) -> None:
     print("# Tree Labels Matching Metadata Algorithm\n")
-    print(
-        f"{total_matches} Tree leaf label(s) exactly match the metadata "
-        "algorithm field.\n"
-    )
+    print(f"{total_matches} Tree leaf label(s) exactly match the metadata algorithm field.\n")
     for match in matches:
         print(f"- `{format_tree_path(match.tree_path)}`")
         print(f"  - Tree label: `{match.tree_label}`")
@@ -130,9 +125,7 @@ def print_json(matches: list[Match]) -> None:
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(
-        description="List Tree leaves whose label exactly matches metadata algorithm."
-    )
+    parser = argparse.ArgumentParser(description="List Tree leaves whose label exactly matches metadata algorithm.")
     parser.add_argument(
         "--format",
         choices=("markdown", "json"),

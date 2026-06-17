@@ -18,7 +18,6 @@ from fastembed import TextEmbedding
 
 from knowledge_base.catalog import Catalog
 
-
 KB_DIR = Path(__file__).resolve().parents[1]
 DOCS_DIR = KB_DIR / "docs"
 METADATA_ROOT = DOCS_DIR / "papers"
@@ -145,10 +144,7 @@ def best_thresholds_for_shared_tags(matrix: np.ndarray, papers: list[dict]) -> d
             },
         }
 
-    tags = [
-        {normalize_tag(tag) for tag in paper.get("tags", []) if normalize_tag(tag)}
-        for paper in papers
-    ]
+    tags = [{normalize_tag(tag) for tag in paper.get("tags", []) if normalize_tag(tag)} for paper in papers]
     row_idx, col_idx = np.triu_indices(len(papers), k=1)
     labels = np.asarray(
         [bool(tags[row] & tags[col]) for row, col in zip(row_idx, col_idx, strict=True)],
@@ -229,9 +225,7 @@ def generate(args: argparse.Namespace) -> None:
     to_embed = [
         paper
         for paper in papers
-        if args.force
-        or paper["id"] not in cached_papers
-        or cached_papers[paper["id"]].get("hash") != paper["hash"]
+        if args.force or paper["id"] not in cached_papers or cached_papers[paper["id"]].get("hash") != paper["hash"]
     ]
 
     if to_embed:
@@ -253,30 +247,24 @@ def generate(args: argparse.Namespace) -> None:
     quantized = quantize_normalized(matrix)
     threshold_data = best_thresholds_for_shared_tags(matrix, papers)
 
-    paper_records = []
-    for paper in papers:
-        paper_records.append(
-            {
-                key: paper[key]
-                for key in (
-                    "id",
-                    "title",
-                    "label",
-                    "algorithm",
-                    "authors",
-                    "year",
-                    "tags",
-                    "abstract",
-                    "summary",
-                    "url",
-                    "mapUrl",
-                    "treeUrl",
-                    "timelineUrl",
-                    "searchUrl",
-                    "byline",
-                )
-            }
-        )
+    paper_keys = (
+        "id",
+        "title",
+        "label",
+        "algorithm",
+        "authors",
+        "year",
+        "tags",
+        "abstract",
+        "summary",
+        "url",
+        "mapUrl",
+        "treeUrl",
+        "timelineUrl",
+        "searchUrl",
+        "byline",
+    )
+    paper_records = [{key: paper[key] for key in paper_keys} for paper in papers]
 
     manifest = {
         "model": args.model,
@@ -320,11 +308,26 @@ def generate(args: argparse.Namespace) -> None:
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--model", default=DEFAULT_MODEL, help=f"fastembed model name (default: {DEFAULT_MODEL})")
-    parser.add_argument("--browser-model", default=DEFAULT_BROWSER_MODEL, help=f"Transformers.js model name (default: {DEFAULT_BROWSER_MODEL})")
-    parser.add_argument("--cache", type=Path, default=DEFAULT_CACHE, help=f"Embedding cache path (default: {DEFAULT_CACHE})")
-    parser.add_argument("--manifest", type=Path, default=DEFAULT_MANIFEST, help=f"Output JSON manifest (default: {DEFAULT_MANIFEST})")
-    parser.add_argument("--settings", type=Path, default=DEFAULT_SETTINGS, help=f"Output search settings JSON (default: {DEFAULT_SETTINGS})")
-    parser.add_argument("--vectors", type=Path, default=DEFAULT_VECTORS, help=f"Output int8 vector table (default: {DEFAULT_VECTORS})")
+    parser.add_argument(
+        "--browser-model",
+        default=DEFAULT_BROWSER_MODEL,
+        help=f"Transformers.js model name (default: {DEFAULT_BROWSER_MODEL})",
+    )
+    parser.add_argument(
+        "--cache", type=Path, default=DEFAULT_CACHE, help=f"Embedding cache path (default: {DEFAULT_CACHE})"
+    )
+    parser.add_argument(
+        "--manifest", type=Path, default=DEFAULT_MANIFEST, help=f"Output JSON manifest (default: {DEFAULT_MANIFEST})"
+    )
+    parser.add_argument(
+        "--settings",
+        type=Path,
+        default=DEFAULT_SETTINGS,
+        help=f"Output search settings JSON (default: {DEFAULT_SETTINGS})",
+    )
+    parser.add_argument(
+        "--vectors", type=Path, default=DEFAULT_VECTORS, help=f"Output int8 vector table (default: {DEFAULT_VECTORS})"
+    )
     parser.add_argument("--force", action="store_true", help="Re-embed all papers even when cached")
     return parser.parse_args()
 

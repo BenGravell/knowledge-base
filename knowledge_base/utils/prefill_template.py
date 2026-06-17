@@ -37,9 +37,9 @@ from knowledge_base.utils.prefill_utils import (
     citation_doi,
     extract_doi_from_url,
     fetch_citation_page_fields,
+    read_url_lines,
     source_row_token,
     write_text_atomic,
-    read_url_lines,
 )
 
 EntryT = TypeVar("EntryT")
@@ -157,10 +157,7 @@ class PrefillScript(ABC, Generic[EntryT]):
                 f"({parse_failed} parse), {source_removed} source row(s) removed"
             )
         else:
-            print(
-                f"\nDone: {ok} written, {skipped} skipped, {failed} failed, "
-                f"{source_removed} source row(s) removed"
-            )
+            print(f"\nDone: {ok} written, {skipped} skipped, {failed} failed, {source_removed} source row(s) removed")
 
     def record_parse_failure(self, message: str) -> None:
         self.parse_failures.append(message)
@@ -554,22 +551,16 @@ def _wait_for_semantic_scholar_retry(
     response: requests.Response | None,
 ) -> None:
     retry_after = _retry_after_seconds(response)
-    fallback = min(_S2_BACKOFF_BASE * (2 ** attempt), _S2_BACKOFF_MAX)
+    fallback = min(_S2_BACKOFF_BASE * (2**attempt), _S2_BACKOFF_MAX)
     wait = retry_after if retry_after is not None else fallback
     wait += random.uniform(0.0, min(5.0, wait * 0.1))
     status = response.status_code if response is not None else "network"
-    print(
-        f"    {status} from Semantic Scholar - waiting {wait:.0f}s "
-        f"before retry {attempt + 2}/{_S2_MAX_RETRIES}"
-    )
+    print(f"    {status} from Semantic Scholar - waiting {wait:.0f}s before retry {attempt + 2}/{_S2_MAX_RETRIES}")
     time.sleep(wait)
 
 
 def _semantic_scholar_rate_limit_message() -> str:
-    hint = (
-        "Set SEMANTIC_SCHOLAR_API_KEY or S2_API_KEY to use an individual "
-        "Semantic Scholar API key."
-    )
+    hint = "Set SEMANTIC_SCHOLAR_API_KEY or S2_API_KEY to use an individual Semantic Scholar API key."
     return (
         "Semantic Scholar is still rate-limiting this run after several polite "
         f"retries. {hint} The run stopped so it can be resumed later without "
@@ -590,8 +581,7 @@ def _semantic_scholar_get_json(url: str) -> dict:
                 _wait_for_semantic_scholar_retry(attempt, None)
                 continue
             raise HaltPrefill(
-                "Semantic Scholar did not respond after several retries. "
-                "The run stopped so it can be resumed later."
+                "Semantic Scholar did not respond after several retries. The run stopped so it can be resumed later."
             ) from exc
 
         if response.status_code in _S2_RETRY_STATUS_CODES:

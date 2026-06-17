@@ -33,14 +33,13 @@ def collapse_text(value: Any) -> str:
 def scalar_line(key: str, value: str) -> str:
     if not value:
         return f"{key}:"
-    dumped = yaml.safe_dump(
+    return yaml.safe_dump(
         {key: value},
         allow_unicode=True,
         default_flow_style=False,
         sort_keys=False,
         width=1_000_000_000,
     ).strip()
-    return dumped
 
 
 def replace_field(raw: str, key: str, value: str) -> str:
@@ -64,7 +63,7 @@ def replace_field(raw: str, key: str, value: str) -> str:
         end += 1
 
     replacement = f"{indent}{scalar_line(key, value)}\n"
-    return "".join(lines[:start] + [replacement] + lines[end:])
+    return "".join([*lines[:start], replacement, *lines[end:]])
 
 
 def process_file(path: Path, *, check: bool = False) -> bool:

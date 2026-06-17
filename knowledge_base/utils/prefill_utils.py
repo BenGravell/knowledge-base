@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import contextlib
 import html
 import os
 import re
@@ -83,10 +84,8 @@ def write_text_atomic(path: Path, text: str) -> None:
             os.close(dir_fd)
     except Exception:
         if tmp_path is not None:
-            try:
+            with contextlib.suppress(OSError):
                 tmp_path.unlink(missing_ok=True)
-            except OSError:
-                pass
         raise
 
 
@@ -95,7 +94,7 @@ def clean_doi(raw: str) -> str:
     doi = html.unescape(str(raw or "")).strip()
     doi = doi.split("?", 1)[0]
     doi = doi.split("#", 1)[0] if "%23" not in doi.lower() else doi
-    doi = unquote(doi).strip().strip('"\'')
+    doi = unquote(doi).strip().strip("\"'")
     doi = doi.removeprefix("doi:").removeprefix("DOI:")
     doi = doi.removeprefix("https://doi.org/").removeprefix("http://doi.org/")
     doi = doi.strip()
@@ -244,10 +243,9 @@ def fetch_citation_page_fields(
     """Fetch a publisher page and return normalized metadata fields."""
     page_html = fetch_page_html(url) if page_html is None else page_html
 
-    title = (
-        first_meta(page_html, "citation_title", "dc.title", "DC.Title", "og:title", "twitter:title")
-        or first_element_text(page_html, "h1")
-    )
+    title = first_meta(
+        page_html, "citation_title", "dc.title", "DC.Title", "og:title", "twitter:title"
+    ) or first_element_text(page_html, "h1")
     authors = citation_authors(page_html)
     publication_date = first_meta(
         page_html,

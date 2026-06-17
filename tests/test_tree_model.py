@@ -132,9 +132,7 @@ class TreeModelTests(unittest.TestCase):
             metadata_path.write_text("title: Tiny Paper\n", encoding="utf-8")
             tree_path = root / "tree.yml"
             tree_path.write_text(
-                "Tree:\n"
-                "  - Theory:\n"
-                "      - Tiny: docs/papers/2024/tiny-paper/metadata.yml\n",
+                "Tree:\n  - Theory:\n      - Tiny: docs/papers/2024/tiny-paper/metadata.yml\n",
                 encoding="utf-8",
             )
 

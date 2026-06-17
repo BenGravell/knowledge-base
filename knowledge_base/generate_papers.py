@@ -1,12 +1,14 @@
 import html
 import json
 import re
-import yaml
 from collections import defaultdict
 from pathlib import Path
 from urllib.parse import quote, unquote, urlparse
+
 import mkdocs_gen_files
+import yaml
 from jinja2 import Environment
+
 from knowledge_base.catalog import Entry
 from knowledge_base.utils.arxiv_utils import (
     arxiv_abs_url,
@@ -69,10 +71,7 @@ def link_plain_urls(text: str) -> str:
         url, trailing = split_trailing_url_punctuation(match.group(0))
         rendered.append(html.escape(text[start : match.start()], quote=False))
         rendered.append(
-            '<a href="{href}" target="_blank" rel="noopener noreferrer">{label}</a>'.format(
-                href=html.escape(url, quote=True),
-                label=html.escape(url, quote=False),
-            )
+            f'<a href="{html.escape(url, quote=True)}" target="_blank" rel="noopener noreferrer">{html.escape(url, quote=False)}</a>'
         )
         rendered.append(html.escape(trailing, quote=False))
         start = match.end()
@@ -125,8 +124,7 @@ def normalize_url_key(url: str) -> str:
 
 def clean_doi(doi: str | None) -> str:
     text = clean_scalar(doi)
-    text = re.sub(r"^https?://(?:dx\.)?doi\.org/", "", text, flags=re.IGNORECASE)
-    return text
+    return re.sub(r"^https?://(?:dx\.)?doi\.org/", "", text, flags=re.IGNORECASE)
 
 
 def clean_arxiv_id(arxiv_id: str | None) -> str:
@@ -339,9 +337,7 @@ def build_link_sections(data: dict, paper_id: str) -> list[dict]:
         if key in alternate_seen:
             continue
         alternate_seen.add(key)
-        alternate_links.append(
-            make_link(alternate_link_label(url), url, "", "alternate")
-        )
+        alternate_links.append(make_link(alternate_link_label(url), url, "", "alternate"))
 
     external_links.extend(alternate_links)
 
@@ -380,11 +376,7 @@ def paper_byline(record: dict) -> str:
     author = ""
     if authors:
         author = authors[0] + (" et al." if len(authors) > 1 else "")
-    return " / ".join(
-        clean_scalar(value)
-        for value in (author, record.get("year"))
-        if clean_scalar(value)
-    )
+    return " / ".join(clean_scalar(value) for value in (author, record.get("year")) if clean_scalar(value))
 
 
 def load_embedding_cache() -> dict[str, list[float]]:
@@ -517,9 +509,7 @@ def build_tag_search_data(records: list[dict]) -> dict:
         ordered = sorted(
             ids,
             key=lambda paper_id: (
-                -int(record_by_id[paper_id]["year"] or 0)
-                if str(record_by_id[paper_id]["year"]).isdigit()
-                else 0,
+                -int(record_by_id[paper_id]["year"] or 0) if str(record_by_id[paper_id]["year"]).isdigit() else 0,
                 record_by_id[paper_id]["label"].casefold(),
             ),
         )
@@ -527,11 +517,7 @@ def build_tag_search_data(records: list[dict]) -> dict:
             key = f"{ego_id}::{tag_key}"
             if key in related:
                 continue
-            related[key] = [
-                {"id": paper_id}
-                for paper_id in ordered
-                if paper_id != ego_id
-            ][:related_result_limit]
+            related[key] = [{"id": paper_id} for paper_id in ordered if paper_id != ego_id][:related_result_limit]
 
     return {
         "papers": record_by_id,
@@ -554,7 +540,7 @@ paper_entries = []
 
 # Iterate over all YAML files
 for metadata_file in metadata_root.rglob("*.yml"):
-    with open(metadata_file, "r", encoding="utf-8") as f:
+    with open(metadata_file, encoding="utf-8") as f:
         data = yaml.load(f, Loader=YAML_LOADER) or {}
     if not isinstance(data, dict):
         continue

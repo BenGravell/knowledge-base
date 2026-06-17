@@ -8,7 +8,7 @@ if __package__ in (None, ""):
 
     sys.path.append(str(Path(__file__).resolve().parents[3]))
 
-from knowledge_base.utils.prefill_template import PdfTextPrefillScript, REPO_ROOT
+from knowledge_base.utils.prefill_template import REPO_ROOT, PdfTextPrefillScript
 from knowledge_base.utils.prefill_utils import clean_text
 
 DEFAULT_INPUT = REPO_ROOT / "todo" / "papers" / "NIST.md"

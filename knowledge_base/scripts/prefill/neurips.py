@@ -16,12 +16,13 @@ from pathlib import Path
 
 if __package__ in (None, ""):
     import sys
+
     sys.path.append(str(Path(__file__).resolve().parents[3]))
 
 import requests
 
 from knowledge_base.utils.doi_utils import fetch_page_html
-from knowledge_base.utils.prefill_template import PagePrefillScript, REPO_ROOT
+from knowledge_base.utils.prefill_template import REPO_ROOT, PagePrefillScript
 from knowledge_base.utils.prefill_utils import (
     clean_text,
     first_element_text,
@@ -102,7 +103,7 @@ def abstract_from_full_text(text: str) -> str:
     m = re.search(r"\bAbstract\s*\n+", text, flags=re.I)
     if not m:
         return ""
-    tail = text[m.end():]
+    tail = text[m.end() :]
     end_positions = []
     for pat in (
         r"\n\s*1(?:\.|\s)+(?:Introduction|Overview)\b",
@@ -141,7 +142,9 @@ def fetch_neurips_fields(year: str, paper_hash: str) -> dict:
             authors_raw = first_element_text(html, "p", "paper-authors")
             authors = [a.strip() for a in authors_raw.split(",") if a.strip()]
         abstract = abstract or first_element_text(html, "p", "paper-abstract")
-        source = source or first_meta(html, "citation_journal_title") or "Advances in Neural Information Processing Systems"
+        source = (
+            source or first_meta(html, "citation_journal_title") or "Advances in Neural Information Processing Systems"
+        )
 
     if not title or not authors:
         raise ValueError(f"Incomplete NeurIPS metadata for {paper_hash}")

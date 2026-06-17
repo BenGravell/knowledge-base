@@ -16,15 +16,13 @@ that the page loads without a JS error and shows a helpful message instead.
 """
 
 from pathlib import Path
+
 import mkdocs_gen_files
 
 MAP_DIR = Path(__file__).resolve().parent
 
 PLACEHOLDER_DATA = (
-    "const mapData = {"
-    'nodes:[], similarity:{scale:1, ids:[], rows:[]}, meta:{'
-    'model:"none", total_papers:0'
-    "}};\n"
+    'const mapData = {nodes:[], similarity:{scale:1, ids:[], rows:[]}, meta:{model:"none", total_papers:0}};\n'
 )
 
 for fname in ("map.js", "map-data.js"):

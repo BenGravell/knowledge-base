@@ -170,8 +170,9 @@ def dump_yaml(data: dict[str, Any]) -> str:
             lines.append(f'{key}: "{value}"')
         elif isinstance(value, str) and ("\n" in value or len(value) > 80):
             lines.append(f"{key}: >")
-            for line in textwrap.wrap(value, width=100, break_long_words=False, break_on_hyphens=False):
-                lines.append(f"  {line}")
+            lines.extend(
+                f"  {line}" for line in textwrap.wrap(value, width=100, break_long_words=False, break_on_hyphens=False)
+            )
         elif isinstance(value, str):
             dumped = yaml.safe_dump({key: value}, sort_keys=False, allow_unicode=True).strip()
             lines.extend(dumped.splitlines())
@@ -182,17 +183,14 @@ def dump_yaml(data: dict[str, Any]) -> str:
         value = data.get(key)
         if isinstance(value, list):
             lines.append(f"{key}:")
-            for item in value:
-                lines.append(f"  - {item}")
+            lines.extend(f"  - {item}" for item in value)
         else:
             add_scalar(key, value)
 
     return "\n".join(lines) + "\n"
 
 
-TOP_LEVEL_FIELD_RE = re.compile(
-    r"^(?P<key>[A-Za-z_][A-Za-z0-9_]*):(?P<value>[^\n\r]*)(?P<newline>\r?\n?)$"
-)
+TOP_LEVEL_FIELD_RE = re.compile(r"^(?P<key>[A-Za-z_][A-Za-z0-9_]*):(?P<value>[^\n\r]*)(?P<newline>\r?\n?)$")
 
 
 def top_level_field_span(lines: list[str], start: int) -> tuple[str, str, int] | None:
@@ -203,9 +201,7 @@ def top_level_field_span(lines: list[str], start: int) -> tuple[str, str, int] |
     field_name = match.group("key")
     value = match.group("value")
     end = start + 1
-    if value.lstrip().startswith(("|", ">")) or (
-        end < len(lines) and lines[end].startswith((" ", "\t"))
-    ):
+    if value.lstrip().startswith(("|", ">")) or (end < len(lines) and lines[end].startswith((" ", "\t"))):
         while end < len(lines):
             next_line = lines[end]
             if next_line.strip() and not next_line.startswith((" ", "\t")):
@@ -242,7 +238,7 @@ def replace_scalar_field(raw: str, field_name: str, value: object) -> str:
         match = TOP_LEVEL_FIELD_RE.match(line)
         newline = match.group("newline") if match else "\n"
         replacement = format_scalar_line(field_name, value, newline or "\n")
-        return "".join(lines[:start] + [replacement] + lines[end:])
+        return "".join([*lines[:start], replacement, *lines[end:]])
 
     prefix = raw if raw.endswith("\n") or not raw else f"{raw}\n"
     return f"{prefix}{format_scalar_line(field_name, value)}"
@@ -280,12 +276,7 @@ def title_case_ascii(title: str) -> str:
             cased.append(token)
             continue
         bare = token.strip(",:;()[]{}")
-        if (
-            any(ch.isupper() for ch in bare[1:])
-            or any(ch.isdigit() for ch in bare)
-            or "\\" in bare
-            or "$" in bare
-        ):
+        if any(ch.isupper() for ch in bare[1:]) or any(ch.isdigit() for ch in bare) or "\\" in bare or "$" in bare:
             cased.append(token)
             continue
         lower = token.lower()
@@ -424,10 +415,7 @@ def algorithm_like(text: str) -> bool:
 
     # Allow compact named releases such as "Llama 2", but do not let digits or
     # hyphens inside broad title phrases make the whole phrase look algorithmic.
-    if len(tokens) <= 2 and any(any(ch.isdigit() for ch in token) for token in tokens):
-        return True
-
-    return False
+    return bool(len(tokens) <= 2 and any(any(ch.isdigit() for ch in token) for token in tokens))
 
 
 def title_prefix_like_algorithm(text: str) -> bool:
@@ -480,18 +468,13 @@ def infer_algorithm(record: ArxivRecord) -> str:
     named_method = extract_named_method(f"{title} {abstract}")
     if named_method:
         return named_method
-    for pattern in (
-        r"\b(?:introduce|introduces|propose|proposes|present|presents)\s+([A-Z][A-Za-z0-9+_-]{1,24})\b",
-    ):
+    for pattern in (r"\b(?:introduce|introduces|propose|proposes|present|presents)\s+([A-Z][A-Za-z0-9+_-]{1,24})\b",):
         match = re.search(pattern, title)
         if match and algorithm_like(match.group(1)):
             return match.group(1).strip()
     if ":" in title:
         head = title.split(":", 1)[0].strip()
-        if (
-            not head.lower().startswith(("a ", "an ", "the "))
-            and title_prefix_like_algorithm(head)
-        ):
+        if not head.lower().startswith(("a ", "an ", "the ")) and title_prefix_like_algorithm(head):
             return head
     return ""
 
@@ -520,9 +503,7 @@ def parse_entry(entry: ET.Element, requested_id: str) -> ArxivRecord:
     primary_el = entry.find(f"{{{ARXIV_SCHEMA_NS}}}primary_category")
     primary_category = primary_el.attrib.get("term", "") if primary_el is not None else ""
     categories = [
-        cat.attrib.get("term", "")
-        for cat in entry.findall(f"{{{ARXIV_NS}}}category")
-        if cat.attrib.get("term")
+        cat.attrib.get("term", "") for cat in entry.findall(f"{{{ARXIV_NS}}}category") if cat.attrib.get("term")
     ]
     if primary_category and primary_category not in categories:
         categories.insert(0, primary_category)
@@ -634,11 +615,11 @@ def refresh_derived(path: Path, *, dry_run: bool = False) -> bool:
 
     algorithm = data.get("algorithm") or ""
     inferred = infer_algorithm(record)
-    if algorithm.lower() in GENERIC_ALGORITHMS or (
-        algorithm and len(algorithm) <= 2 and not algorithm_like(algorithm)
+    if (
+        algorithm.lower() in GENERIC_ALGORITHMS
+        or (algorithm and len(algorithm) <= 2 and not algorithm_like(algorithm))
+        or not algorithm
     ):
-        new_algorithm = inferred or None
-    elif not algorithm:
         new_algorithm = inferred or None
     else:
         new_algorithm = algorithm or None
@@ -702,9 +683,7 @@ def main() -> None:
                 print(f"  MISSING {arxiv_id}")
                 missing += 1
                 continue
-            if args.dry_run:
-                updated += 1
-            elif enrich(by_id[arxiv_id], record):
+            if args.dry_run or enrich(by_id[arxiv_id], record):
                 updated += 1
         time.sleep(args.delay)
 

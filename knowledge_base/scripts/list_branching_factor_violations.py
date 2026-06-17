@@ -1,4 +1,3 @@
-
 """List Tree branches whose immediate child count is outside guidance.
 
 Usage:
@@ -19,15 +18,13 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Literal
 
-
 REPO_ROOT = Path(__file__).resolve().parents[2]
 if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))
 
-from knowledge_base.tree.model import TreeBranch as Branch  # noqa: E402
-from knowledge_base.tree.model import TreeModel  # noqa: E402
-from knowledge_base.tree.nav_source import load_tree  # noqa: E402
-
+from knowledge_base.tree.model import TreeBranch as Branch
+from knowledge_base.tree.model import TreeModel
+from knowledge_base.tree.nav_source import load_tree
 
 CountMode = Literal["all", "branches"]
 
@@ -112,15 +109,9 @@ def print_markdown(
     print("# Tree Branching Factor Violations\n")
     count_label = "branches" if mode == "branches" else "items"
     if check_too_few:
-        print(
-            f"Guidance: {minimum} to {maximum} direct child "
-            f"{count_label}; sweet spot {sweet_spot}."
-        )
+        print(f"Guidance: {minimum} to {maximum} direct child {count_label}; sweet spot {sweet_spot}.")
     else:
-        print(
-            f"Guidance: at most {maximum} direct child "
-            f"{count_label}; sweet spot {sweet_spot}."
-        )
+        print(f"Guidance: at most {maximum} direct child {count_label}; sweet spot {sweet_spot}.")
         print("Too-few check: disabled.")
     print(f"Counting mode: `{mode}`.")
     if max_depth is not None:
@@ -177,10 +168,7 @@ def print_json(
                 "branch_count": violation.branch.branch_count,
                 "leaf_count": violation.branch.leaf_count,
                 "distance_from_sweet_spot": violation.distance_from_sweet_spot,
-                "children": [
-                    {"label": child.label, "kind": child.kind}
-                    for child in violation.branch.children
-                ],
+                "children": [{"label": child.label, "kind": child.kind} for child in violation.branch.children],
             }
             for violation in violations
         ],
@@ -191,8 +179,7 @@ def print_json(
 def main() -> None:
     parser = argparse.ArgumentParser(
         description=(
-            "List Tree branches whose immediate child count is below "
-            "or above the taxonomy branching-factor guidance."
+            "List Tree branches whose immediate child count is below or above the taxonomy branching-factor guidance."
         )
     )
     parser.add_argument(
@@ -244,10 +231,7 @@ def main() -> None:
         type=int,
         default=None,
         metavar="N",
-        help=(
-            "Only audit branches through depth N. "
-            "Tree is depth 0, top-level categories are depth 1."
-        ),
+        help=("Only audit branches through depth N. Tree is depth 0, top-level categories are depth 1."),
     )
     parser.add_argument(
         "--max-results",

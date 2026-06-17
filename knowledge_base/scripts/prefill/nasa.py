@@ -10,7 +10,7 @@ if __package__ in (None, ""):
 
 import requests
 
-from knowledge_base.utils.prefill_template import PagePrefillScript, REPO_ROOT
+from knowledge_base.utils.prefill_template import REPO_ROOT, PagePrefillScript
 from knowledge_base.utils.prefill_utils import first_year, read_url_lines
 
 DEFAULT_INPUT = REPO_ROOT / "todo" / "papers" / "NASA.md"
@@ -21,10 +21,7 @@ _NTRS_PAGE = "https://ntrs.nasa.gov/citations/{citation_id}"
 _NTRS_BASE = "https://ntrs.nasa.gov"
 _HEADERS = {
     "Accept": "application/json",
-    "User-Agent": (
-        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
-        "AppleWebKit/537.36 Chrome/124.0.0.0 Safari/537.36"
-    ),
+    "User-Agent": ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/124.0.0.0 Safari/537.36"),
 }
 
 
@@ -65,10 +62,7 @@ def fetch_nasa_fields(citation_id: str) -> dict:
         if name:
             authors.append(display_name(name))
 
-    publication_dates = [
-        str(item.get("publicationDate") or "")
-        for item in data.get("publications") or []
-    ]
+    publication_dates = [str(item.get("publicationDate") or "") for item in data.get("publications") or []]
     year = first_year(*publication_dates, data.get("submittedDate", ""), data.get("distributionDate", ""))
 
     downloads = data.get("downloads") or []

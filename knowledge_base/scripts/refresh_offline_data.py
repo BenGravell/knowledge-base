@@ -17,13 +17,12 @@ from __future__ import annotations
 
 import argparse
 import os
-from dataclasses import dataclass
 import shlex
 import subprocess
 import sys
 import time
+from dataclasses import dataclass
 from pathlib import Path
-
 
 KB_DIR = Path(__file__).resolve().parents[1]
 REPO_ROOT = KB_DIR.parent
@@ -55,7 +54,7 @@ def run_step(step: Step, *, index: int, total: int, dry_run: bool) -> int:
         return 0
 
     start = time.monotonic()
-    result = subprocess.run(step.command, cwd=KB_DIR, env=subprocess_env())
+    result = subprocess.run(step.command, cwd=KB_DIR, env=subprocess_env(), check=False)
     elapsed = time.monotonic() - start
     if result.returncode:
         print(f"\nStep failed after {elapsed:.1f}s: {step.name}", file=sys.stderr)

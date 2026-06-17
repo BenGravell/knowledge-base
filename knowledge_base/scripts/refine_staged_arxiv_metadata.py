@@ -2,8 +2,8 @@
 
 from __future__ import annotations
 
-import json
 import html
+import json
 import re
 import subprocess
 import time
@@ -378,13 +378,15 @@ def official_links_from_openalex(work: dict[str, Any], location: dict[str, Any])
     doi = (work.get("doi") or "").replace("https://doi.org/", "")
     if doi and not ARXIV_DOI_RE.search(doi):
         links.append(f"https://doi.org/{doi}")
-    for candidate in (
-        location.get("landing_page_url"),
-        location.get("pdf_url"),
-        (work.get("primary_location") or {}).get("landing_page_url"),
-    ):
-        if candidate:
-            links.append(candidate)
+    links.extend(
+        candidate
+        for candidate in (
+            location.get("landing_page_url"),
+            location.get("pdf_url"),
+            (work.get("primary_location") or {}).get("landing_page_url"),
+        )
+        if candidate
+    )
     return clean_links(links)
 
 
@@ -413,11 +415,8 @@ def display_to_tag(display: str) -> str:
 def openalex_literal_tags(work: dict[str, Any], title: str, abstract: str) -> list[str]:
     corpus = normalize_title(f"{title} {abstract}")
     tags: list[str] = []
-    candidates: list[str] = []
-    for keyword in work.get("keywords") or []:
-        candidates.append(keyword.get("display_name") or "")
-    for topic in work.get("topics") or []:
-        candidates.append(topic.get("display_name") or "")
+    candidates = [keyword.get("display_name") or "" for keyword in work.get("keywords") or []]
+    candidates.extend(topic.get("display_name") or "" for topic in work.get("topics") or [])
     primary_topic = work.get("primary_topic") or {}
     candidates.append(primary_topic.get("display_name") or "")
 
@@ -440,11 +439,12 @@ def phrase_tags(title: str, abstract: str, algorithm: str | None, openalex: dict
         if needle in corpus and tag not in tags:
             tags.append(tag)
 
-    if algorithm and algorithm not in tags:
-        if re.search(rf"\b{re.escape(algorithm.lower())}\b", corpus):
-            tags.append(algorithm)
+    if algorithm and algorithm not in tags and re.search(rf"\b{re.escape(algorithm.lower())}\b", corpus):
+        tags.append(algorithm)
 
-    for long_name, acronym in re.findall(r"([A-Za-z][A-Za-z0-9+_. -]{3,80}?)\s*\(([A-Z][A-Z0-9+_.-]{1,16})\)", f"{title} {abstract}"):
+    for long_name, acronym in re.findall(
+        r"([A-Za-z][A-Za-z0-9+_. -]{3,80}?)\s*\(([A-Z][A-Z0-9+_.-]{1,16})\)", f"{title} {abstract}"
+    ):
         long_name = clean_space(long_name).strip(" ,.;:")
         if 2 <= len(long_name.split()) <= 7 and not sentence_like_tag(long_name):
             tag = long_name[:1].upper() + long_name[1:]

@@ -85,40 +85,44 @@ For fastembed backend:
 from __future__ import annotations
 
 import argparse
-from collections.abc import Callable
-from dataclasses import dataclass, field
 import hashlib
 import importlib.util
 import json
 import os
 import sys
 import time
+from collections.abc import Callable
+from dataclasses import dataclass, field
 from pathlib import Path
 
-import yaml
 import numpy as np
+import yaml
 from scipy.spatial import cKDTree
 from sklearn.preprocessing import normalize
 
 from knowledge_base.catalog import Catalog
-from knowledge_base.tree.nav_source import load_tree
 from knowledge_base.tree.model import (
     TreeModel,
+)
+from knowledge_base.tree.model import (
     common_prefix_length as tree_common_prefix_length,
+)
+from knowledge_base.tree.model import (
     tree_distance as tree_model_distance,
 )
+from knowledge_base.tree.nav_source import load_tree
 
 # ---------------------------------------------------------------------------
 # Paths (relative to this script's location: knowledge_base/map/)
 # ---------------------------------------------------------------------------
 
-MAP_DIR = Path(__file__).parent          # knowledge_base/map/
-KB_DIR       = MAP_DIR.parent            # knowledge_base/
-REPO_ROOT    = KB_DIR.parent                  # repo root
-DOCS_DIR     = KB_DIR / "docs"
+MAP_DIR = Path(__file__).parent  # knowledge_base/map/
+KB_DIR = MAP_DIR.parent  # knowledge_base/
+REPO_ROOT = KB_DIR.parent  # repo root
+DOCS_DIR = KB_DIR / "docs"
 METADATA_ROOT = DOCS_DIR / "papers"
-MKDOCS_YML   = KB_DIR / "mkdocs.yml"
-DEFAULT_CACHE  = MAP_DIR / "embedding_cache.json"
+MKDOCS_YML = KB_DIR / "mkdocs.yml"
+DEFAULT_CACHE = MAP_DIR / "embedding_cache.json"
 DEFAULT_OUTPUT = MAP_DIR / "map-data.js"
 
 DEFAULT_UMAP_SCALE = 1500.0  # Base UMAP coordinate extent; formerly 1000 px.
@@ -141,14 +145,15 @@ AGGREGATE_COLLISION_EPSILON = 1e-3
 # Helper utilities
 # ---------------------------------------------------------------------------
 
+
 def compute_umap_positions(
-    embeddings: "np.ndarray",
+    embeddings: np.ndarray,
     scale: float = DEFAULT_UMAP_SCALE,
     random_state: int = 42,
     n_neighbors: int | None = None,
     min_dist: float = 0.05,
     n_epochs: int = 500,
-) -> "np.ndarray":
+) -> np.ndarray:
     """Project high-dimensional embeddings to 2-D UMAP coords scaled to pixel-space.
 
     The result is centred at the origin and scaled so the largest axis spans
@@ -163,8 +168,8 @@ def compute_umap_positions(
         n_components=2,
         metric="cosine",
         n_neighbors=n_neighbors,  # large neighbourhood → global structure
-        min_dist=min_dist,        # tighter packing within clusters
-        n_epochs=n_epochs,        # more optimisation steps → better convergence
+        min_dist=min_dist,  # tighter packing within clusters
+        n_epochs=n_epochs,  # more optimisation steps → better convergence
         random_state=random_state,
     )
     coords = reducer.fit_transform(embeddings).astype(np.float64)
@@ -176,8 +181,8 @@ def compute_umap_positions(
 
 
 def umap_cache_key(
-    paper_ids: "list[str]",
-    embeddings: "np.ndarray",
+    paper_ids: list[str],
+    embeddings: np.ndarray,
     **umap_params,
 ) -> str:
     """Stable hash over inputs that fully determine the UMAP result."""
@@ -192,9 +197,10 @@ def umap_cache_key(
 # Force-directed layout post-processing
 # ---------------------------------------------------------------------------
 
+
 def force_cache_key(
-    umap_coords: "np.ndarray",
-    embeddings: "np.ndarray",
+    umap_coords: np.ndarray,
+    embeddings: np.ndarray,
     **force_params,
 ) -> str:
     """Stable hash over inputs that fully determine the force layout result."""
@@ -206,8 +212,8 @@ def force_cache_key(
 
 
 def force_layout_postprocess(
-    umap_coords: "np.ndarray",
-    embeddings: "np.ndarray",
+    umap_coords: np.ndarray,
+    embeddings: np.ndarray,
     *,
     pre_layout_scale: float = 1.0,
     anchor_strength: float = 0.85,
@@ -222,8 +228,7 @@ def force_layout_postprocess(
     alpha_decay: float = 0.98,
     post_scale: float = 2.0,
     verbose: bool = True,
-    random_seed: int = 42,
-) -> "np.ndarray":
+) -> np.ndarray:
     """Post-process UMAP coordinates with a constrained force simulation.
 
     Three forces act each iteration:
@@ -283,9 +288,6 @@ def force_layout_postprocess(
         Multiplicative decay applied to alpha each iteration.
     verbose:
         Print per-iteration progress to stdout.
-    random_seed:
-        NumPy random seed for reproducibility.
-
     post_scale:
         After the simulation, all coordinates are scaled by this factor
         outward from the centroid.  ``2.0`` doubles inter-node spacing.
@@ -297,7 +299,6 @@ def force_layout_postprocess(
         (N, 2) array of adjusted coordinates, scaled *post_scale*× outward
         from the centroid relative to the post-simulation positions.
     """
-    np.random.seed(random_seed)
     N = len(umap_coords)
 
     if verbose:
@@ -311,7 +312,7 @@ def force_layout_postprocess(
     pos = home.copy()
 
     canvas = np.ptp(pos, axis=0)
-    area   = canvas[0] * canvas[1]
+    area = canvas[0] * canvas[1]
     collision_radius = np.sqrt(area / N) * collision_radius_factor
     if verbose:
         print(f"    [force_layout] collision_radius = {collision_radius:.4f}")
@@ -321,12 +322,9 @@ def force_layout_postprocess(
     median_nn_dist = np.median(nn_dists[:, 1])
     gap_threshold = gap_factor * median_nn_dist
     if verbose:
-        print(f"    [force_layout] median nn dist = {median_nn_dist:.4f}, "
-              f"gap threshold = {gap_threshold:.4f}")
+        print(f"    [force_layout] median nn dist = {median_nn_dist:.4f}, gap threshold = {gap_threshold:.4f}")
 
-    attract_pairs = _build_attraction_pairs(
-        emb_norm, home, sim_candidate_limit, sim_threshold, gap_threshold, verbose
-    )
+    attract_pairs = _build_attraction_pairs(emb_norm, home, sim_candidate_limit, sim_threshold, gap_threshold, verbose)
 
     alpha = initial_alpha
     t0 = time.time()
@@ -349,21 +347,18 @@ def force_layout_postprocess(
 
         if verbose and (it % 20 == 0 or it == iterations - 1):
             drift = np.mean(np.linalg.norm(pos - home, axis=1))
-            print(f"    [force_layout] iter {it:4d}  alpha={alpha:.4f}  "
-                  f"mean drift from UMAP = {drift:.4f}")
+            print(f"    [force_layout] iter {it:4d}  alpha={alpha:.4f}  mean drift from UMAP = {drift:.4f}")
 
     if verbose:
         elapsed = time.time() - t0
         final_drift = np.mean(np.linalg.norm(pos - home, axis=1))
-        print(f"    [force_layout] done in {elapsed:.2f}s  "
-              f"final mean drift = {final_drift:.4f}")
+        print(f"    [force_layout] done in {elapsed:.2f}s  final mean drift = {final_drift:.4f}")
 
     centroid = pos.mean(axis=0)
-    pos = centroid + (pos - centroid) * post_scale
-    return pos
+    return centroid + (pos - centroid) * post_scale
 
 
-def scale_positions_about_centroid(coords: "np.ndarray", scale: float) -> "np.ndarray":
+def scale_positions_about_centroid(coords: np.ndarray, scale: float) -> np.ndarray:
     """Return coordinates scaled outward from their centroid."""
     numeric_scale = float(scale)
     if not np.isfinite(numeric_scale) or numeric_scale <= 0:
@@ -376,13 +371,13 @@ def scale_positions_about_centroid(coords: "np.ndarray", scale: float) -> "np.nd
 
 
 def _build_attraction_pairs(
-    emb_norm: "np.ndarray",
-    home: "np.ndarray",
+    emb_norm: np.ndarray,
+    home: np.ndarray,
     candidate_limit: int,
     sim_threshold: float,
     gap_threshold: float,
     verbose: bool,
-) -> "np.ndarray":
+) -> np.ndarray:
     N = len(emb_norm)
     candidate_limit = min(max(candidate_limit, 0), N - 1)
     if candidate_limit == 0:
@@ -415,25 +410,25 @@ def _build_attraction_pairs(
 
 
 def _apply_attraction(
-    pos: "np.ndarray",
-    pairs: "np.ndarray",
+    pos: np.ndarray,
+    pairs: np.ndarray,
     strength: float,
-    forces: "np.ndarray",
+    forces: np.ndarray,
 ) -> None:
     i_idx = pairs[:, 0].astype(int)
     j_idx = pairs[:, 1].astype(int)
     weights = pairs[:, 2]
 
     delta = pos[j_idx] - pos[i_idx]
-    dist  = np.linalg.norm(delta, axis=1, keepdims=True) + 1e-8
-    unit  = delta / dist
-    mag   = strength * weights[:, None]
+    dist = np.linalg.norm(delta, axis=1, keepdims=True) + 1e-8
+    unit = delta / dist
+    mag = strength * weights[:, None]
 
-    np.add.at(forces, i_idx,  mag * unit)
+    np.add.at(forces, i_idx, mag * unit)
     np.add.at(forces, j_idx, -mag * unit)
 
 
-def _resolve_collisions(pos: "np.ndarray", radius: float) -> None:
+def _resolve_collisions(pos: np.ndarray, radius: float) -> None:
     tree = cKDTree(pos)
     pairs = tree.query_pairs(r=2 * radius, output_type="ndarray")
 
@@ -444,12 +439,12 @@ def _resolve_collisions(pos: "np.ndarray", radius: float) -> None:
     j_idx = pairs[:, 1]
 
     delta = pos[i_idx] - pos[j_idx]
-    dist  = np.linalg.norm(delta, axis=1, keepdims=True) + 1e-8
+    dist = np.linalg.norm(delta, axis=1, keepdims=True) + 1e-8
     overlap = np.maximum(2 * radius - dist, 0)
-    unit  = delta / dist
+    unit = delta / dist
     correction = 0.5 * overlap * unit
 
-    np.add.at(pos, i_idx,  correction)
+    np.add.at(pos, i_idx, correction)
     np.add.at(pos, j_idx, -correction)
 
 
@@ -459,9 +454,9 @@ class AggregateLayoutGroup:
     label: str
     path: list[str]
     path_index: int
-    parent: "AggregateLayoutGroup | None" = None
-    children: list["AggregateLayoutGroup"] = field(default_factory=list)
-    child_map: dict[str, "AggregateLayoutGroup"] = field(default_factory=dict)
+    parent: AggregateLayoutGroup | None = None
+    children: list[AggregateLayoutGroup] = field(default_factory=list)
+    child_map: dict[str, AggregateLayoutGroup] = field(default_factory=dict)
     leaf_indices: list[int] = field(default_factory=list)
     x: float = 0.0
     y: float = 0.0
@@ -560,11 +555,7 @@ def biased_aggregate_position(
         AGGREGATE_POSITION_OUTER_QUANTILE,
     )
 
-    if (
-        outer_projection is None
-        or not np.isfinite(outer_projection)
-        or outer_projection <= centroid_projection
-    ):
+    if outer_projection is None or not np.isfinite(outer_projection) or outer_projection <= centroid_projection:
         return centroid_x, centroid_y
 
     offset = (outer_projection - centroid_projection) * aggregate_position_bias(group)
@@ -581,10 +572,10 @@ def deterministic_pair_unit(i: int, j: int) -> tuple[float, float]:
 
 
 def _resolve_variable_collisions(
-    pos: "np.ndarray",
-    radii: "np.ndarray",
+    pos: np.ndarray,
+    radii: np.ndarray,
     padding: float = 0.0,
-    pair_indices: tuple["np.ndarray", "np.ndarray"] | None = None,
+    pair_indices: tuple[np.ndarray, np.ndarray] | None = None,
 ) -> float:
     n = len(pos)
     if n < 2:
@@ -623,9 +614,9 @@ def _resolve_variable_collisions(
 
 
 def aggregate_force_layout_postprocess(
-    home_coords: "np.ndarray",
-    aggregate_embeddings: "np.ndarray",
-    radii: "np.ndarray",
+    home_coords: np.ndarray,
+    aggregate_embeddings: np.ndarray,
+    radii: np.ndarray,
     *,
     anchor_strength: float = 0.85,
     sim_threshold: float = 0.75,
@@ -639,7 +630,7 @@ def aggregate_force_layout_postprocess(
     initial_alpha: float = 0.3,
     alpha_decay: float = 0.98,
     verbose: bool = False,
-) -> "np.ndarray":
+) -> np.ndarray:
     """Apply the item-level anchor/similarity force pass to aggregate disks."""
     n = len(home_coords)
     if n < 2:
@@ -687,8 +678,8 @@ def aggregate_force_layout_postprocess(
 
 def build_aggregate_layouts(
     papers: list[dict],
-    paper_coords: "np.ndarray",
-    embeddings: "np.ndarray",
+    paper_coords: np.ndarray,
+    embeddings: np.ndarray,
     nav_order: dict,
     force_params: dict,
 ) -> dict[str, dict[str, list[float]]]:
@@ -698,9 +689,7 @@ def build_aggregate_layouts(
     branch_depth = len(branch_levels)
     roots: list[AggregateLayoutGroup] = []
     root_map: dict[str, AggregateLayoutGroup] = {}
-    groups_by_level: dict[str, list[AggregateLayoutGroup]] = {
-        str(level["id"]): [] for level in branch_levels
-    }
+    groups_by_level: dict[str, list[AggregateLayoutGroup]] = {str(level["id"]): [] for level in branch_levels}
     embedding_norm = normalize(embeddings.astype(np.float32))
 
     def ensure_group(
@@ -735,7 +724,7 @@ def build_aggregate_layouts(
 
         for level_index, level_info in enumerate(branch_levels):
             label = path[level_index] or path[-1] or UNCATEGORIZED_CATEGORY
-            path_prefix = path[:level_index + 1]
+            path_prefix = path[: level_index + 1]
             level = str(level_info["id"])
             group = ensure_group(parent, label, level, path_prefix, level_index)
 
@@ -750,11 +739,7 @@ def build_aggregate_layouts(
     root_total_x = sum(group.x for group in roots)
     root_total_y = sum(group.y for group in roots)
     root_count = sum(len(group.leaf_indices) for group in roots)
-    global_centroid = (
-        (root_total_x / root_count, root_total_y / root_count)
-        if root_count
-        else (0.0, 0.0)
-    )
+    global_centroid = (root_total_x / root_count, root_total_y / root_count) if root_count else (0.0, 0.0)
 
     def visit(group: AggregateLayoutGroup, parent_centroid: tuple[float, float] | None = None) -> None:
         reference_point = parent_centroid or global_centroid
@@ -771,7 +756,7 @@ def build_aggregate_layouts(
     for root in roots:
         visit(root)
 
-    for level, groups in groups_by_level.items():
+    for groups in groups_by_level.values():
         if len(groups) < 2:
             continue
 
@@ -780,16 +765,10 @@ def build_aggregate_layouts(
             dtype=np.float64,
         )
         radii = np.array(
-            [
-                aggregate_node_size(len(group.leaf_indices), group.level, level_indices)
-                for group in groups
-            ],
+            [aggregate_node_size(len(group.leaf_indices), group.level, level_indices) for group in groups],
             dtype=np.float64,
         )
-        aggregate_embeddings = np.vstack([
-            embedding_norm[group.leaf_indices].mean(axis=0)
-            for group in groups
-        ])
+        aggregate_embeddings = np.vstack([embedding_norm[group.leaf_indices].mean(axis=0) for group in groups])
         layout_coords = aggregate_force_layout_postprocess(
             home_coords,
             aggregate_embeddings,
@@ -797,7 +776,7 @@ def build_aggregate_layouts(
             **force_params,
         )
 
-        for group, coords in zip(groups, layout_coords):
+        for group, coords in zip(groups, layout_coords, strict=False):
             group.layout_x = float(coords[0])
             group.layout_y = float(coords[1])
 
@@ -818,6 +797,7 @@ def build_aggregate_layouts(
 # ---------------------------------------------------------------------------
 
 UNCATEGORIZED_CATEGORY = "Uncategorized"
+
 
 def find_tree_nav(config: dict) -> object | None:
     """Return the nav subtree under ``Tree`` if present."""
@@ -877,7 +857,8 @@ def parse_nav_category_order(config: dict) -> dict:
 # Embedding backends
 # ---------------------------------------------------------------------------
 
-def embed_voyage(texts: list[str], model: str = "voyage-3-large") -> "np.ndarray":
+
+def embed_voyage(texts: list[str], model: str = "voyage-3-large") -> np.ndarray:
     """
     Embed *texts* using the Voyage AI API.
 
@@ -909,7 +890,7 @@ def embed_voyage(texts: list[str], model: str = "voyage-3-large") -> "np.ndarray
 def embed_fastembed(
     texts: list[str],
     model: str = "mixedbread-ai/mxbai-embed-large-v1",
-) -> "np.ndarray":
+) -> np.ndarray:
     """
     Embed *texts* using fastembed (local ONNX inference, no API key needed).
 
@@ -971,6 +952,7 @@ def choose_backend(requested: str | None) -> tuple[str, Callable[[list[str]], np
 # Cache helpers
 # ---------------------------------------------------------------------------
 
+
 def load_cache(cache_path: Path) -> dict:
     """
     Load the embedding cache from disk.
@@ -996,7 +978,7 @@ def load_cache(cache_path: Path) -> dict:
         }
     """
     if cache_path.exists():
-        with open(cache_path, "r", encoding="utf-8") as f:
+        with open(cache_path, encoding="utf-8") as f:
             return json.load(f)
     return {"model": None, "papers": {}}
 
@@ -1038,14 +1020,15 @@ def prune_missing_papers_from_cache(cache: dict, active_paper_ids: set[str]) -> 
 # Cosine similarity
 # ---------------------------------------------------------------------------
 
-def cosine_similarity_matrix(embeddings: "np.ndarray") -> "np.ndarray":
+
+def cosine_similarity_matrix(embeddings: np.ndarray) -> np.ndarray:
     """Return the (n × n) pairwise cosine similarity matrix."""
     norms = np.linalg.norm(embeddings, axis=1, keepdims=True)
     normalised = embeddings / np.clip(norms, 1e-10, None)
     return (normalised @ normalised.T).astype(np.float32)
 
 
-def quantile_unitize_similarity_matrix(similarity: "np.ndarray") -> tuple["np.ndarray", dict[str, object]]:
+def quantile_unitize_similarity_matrix(similarity: np.ndarray) -> tuple[np.ndarray, dict[str, object]]:
     """
     Map raw cosine similarities to empirical quantile scores in [0, 1].
 
@@ -1095,6 +1078,7 @@ def quantile_unitize_similarity_matrix(similarity: "np.ndarray") -> tuple["np.nd
 # Tree proximity scale
 # ---------------------------------------------------------------------------
 
+
 def common_prefix_length(a: list[str], b: list[str]) -> int:
     """Return the number of matching leading path components."""
     return tree_common_prefix_length(tuple(a), tuple(b))
@@ -1106,8 +1090,8 @@ def tree_distance(a: list[str], b: list[str]) -> int:
 
 
 def learn_tree_proximity_scale(
-    semantic_values: "np.ndarray",
-    tree_distances: "np.ndarray",
+    semantic_values: np.ndarray,
+    tree_distances: np.ndarray,
     max_tree_distance: int,
 ) -> list[float]:
     """
@@ -1152,8 +1136,8 @@ def learn_tree_proximity_scale(
 
 
 def kl_divergence(
-    reference_values: "np.ndarray",
-    candidate_values: "np.ndarray",
+    reference_values: np.ndarray,
+    candidate_values: np.ndarray,
     bins: int = TREE_PROXIMITY_HISTOGRAM_BINS,
     epsilon: float = 1e-12,
 ) -> float:
@@ -1168,8 +1152,8 @@ def kl_divergence(
         bins=bins,
         range=(0.0, 1.0),
     )
-    p = (reference_hist.astype(np.float64) + epsilon)
-    q = (candidate_hist.astype(np.float64) + epsilon)
+    p = reference_hist.astype(np.float64) + epsilon
+    q = candidate_hist.astype(np.float64) + epsilon
     p /= p.sum()
     q /= q.sum()
     return float(np.sum(p * np.log(p / q)))
@@ -1177,7 +1161,7 @@ def kl_divergence(
 
 def tree_proximity_metadata(
     papers: list[dict],
-    similarity_rows: "np.ndarray",
+    similarity_rows: np.ndarray,
     similarity_scale: int,
 ) -> dict[str, object]:
     """Build precomputed tree-proximity metadata consumed by the browser."""
@@ -1217,6 +1201,7 @@ def tree_proximity_metadata(
 # ---------------------------------------------------------------------------
 # Main
 # ---------------------------------------------------------------------------
+
 
 def main() -> None:
     parser = argparse.ArgumentParser(
@@ -1260,7 +1245,7 @@ def main() -> None:
     print("=" * 60)
 
     # ---- load config -------------------------------------------------------
-    with open(MKDOCS_YML, "r", encoding="utf-8") as f:
+    with open(MKDOCS_YML, encoding="utf-8") as f:
         config = yaml.safe_load(f)
     paper_to_category = parse_nav_categories(config)
     nav_order = parse_nav_category_order(config)
@@ -1281,24 +1266,26 @@ def main() -> None:
                 "nav_path": [UNCATEGORIZED_CATEGORY],
             },
         )
-        papers.append({
-            "id": pid,
-            "title": entry.title,
-            "label": entry.label,
-            "authors": list(entry.author_last_names[:3]),
-            "year": entry.year,
-            "item_type": entry.type or "Unspecified",
-            "super_category": cat_info["super_category"],
-            "category": cat_info["category"],
-            "sub_category": cat_info["sub_category"],
-            "nav_path": cat_info.get("nav_path") or [cat_info["category"]],
-            "tags": list(entry.tags),
-            "summary": entry.summary,
-            "abstract": entry.abstract,
-            "link": entry.primary_link,
-            "embed_text": entry.embedding_text,
-            "hash": entry.embedding_hash,
-        })
+        papers.append(
+            {
+                "id": pid,
+                "title": entry.title,
+                "label": entry.label,
+                "authors": list(entry.author_last_names[:3]),
+                "year": entry.year,
+                "item_type": entry.type or "Unspecified",
+                "super_category": cat_info["super_category"],
+                "category": cat_info["category"],
+                "sub_category": cat_info["sub_category"],
+                "nav_path": cat_info.get("nav_path") or [cat_info["category"]],
+                "tags": list(entry.tags),
+                "summary": entry.summary,
+                "abstract": entry.abstract,
+                "link": entry.primary_link,
+                "embed_text": entry.embedding_text,
+                "hash": entry.embedding_hash,
+            }
+        )
 
     print(f"    Found {len(papers)} papers")
 
@@ -1312,10 +1299,7 @@ def main() -> None:
 
     # Invalidate entire cache if the model changed
     if cache.get("model") and cache["model"] != model_name:
-        print(
-            f"    Model changed ({cache['model']} → {model_name}). "
-            "Discarding cache and re-embedding all papers."
-        )
+        print(f"    Model changed ({cache['model']} → {model_name}). Discarding cache and re-embedding all papers.")
         cache = {"model": model_name, "papers": {}}
 
     cached_papers: dict[str, dict] = cache.get("papers", {})
@@ -1326,15 +1310,14 @@ def main() -> None:
         cached_papers = cache["papers"]
 
     # Determine which papers need new embeddings
-    to_embed: list[int] = []   # indices into `papers`
+    to_embed: list[int] = []  # indices into `papers`
     for i, p in enumerate(papers):
         cached = cached_papers.get(p["id"])
         if args.force or cached is None or cached.get("hash") != p["hash"]:
             to_embed.append(i)
 
     if to_embed:
-        print(f"    {len(to_embed)} paper(s) need (re-)embedding  "
-              f"({len(papers) - len(to_embed)} cached)")
+        print(f"    {len(to_embed)} paper(s) need (re-)embedding  ({len(papers) - len(to_embed)} cached)")
     else:
         print(f"    All {len(papers)} papers are cached — skipping embedding API call")
 
@@ -1372,13 +1355,13 @@ def main() -> None:
     # ---- UMAP layout -------------------------------------------------------
     print("\n[5/7] Computing UMAP 2-D layout…")
 
-    umap_params = dict(
-        scale=DEFAULT_UMAP_SCALE,
-        random_state=42,
-        n_neighbors=min(50, len(embeddings) - 1),
-        min_dist=0.05,
-        n_epochs=500,
-    )
+    umap_params = {
+        "scale": DEFAULT_UMAP_SCALE,
+        "random_state": 42,
+        "n_neighbors": min(50, len(embeddings) - 1),
+        "min_dist": 0.05,
+        "n_epochs": 500,
+    }
     key = umap_cache_key([p["id"] for p in papers], embeddings, **umap_params)
     umap_entry = cache.get("umap", {})
 
@@ -1390,26 +1373,27 @@ def main() -> None:
         cache["umap"] = {"key": key, "coords": umap_coords.tolist()}
         save_cache(args.cache, cache)
 
-    print(f"    UMAP coords: {umap_coords.shape}  range x=[{umap_coords[:,0].min():.0f}, {umap_coords[:,0].max():.0f}]  y=[{umap_coords[:,1].min():.0f}, {umap_coords[:,1].max():.0f}]")
+    print(
+        f"    UMAP coords: {umap_coords.shape}  range x=[{umap_coords[:, 0].min():.0f}, {umap_coords[:, 0].max():.0f}]  y=[{umap_coords[:, 1].min():.0f}, {umap_coords[:, 1].max():.0f}]"
+    )
 
     # ---- force-directed layout post-processing -----------------------------
     print("\n[6/7] Force-directed layout post-processing…")
 
-    force_params = dict(
-        pre_layout_scale=2.0,
-        anchor_strength=0.85,
-        sim_threshold=0.75,
-        sim_candidate_limit=10,
-        sim_attraction_strength=0.4,
-        gap_factor=2.0,
-        collision_radius_factor=0.2,
-        collision_iterations=3,
-        iterations=120,
-        initial_alpha=0.3,
-        alpha_decay=0.98,
-        post_scale=1.0,
-        random_seed=42,
-    )
+    force_params = {
+        "pre_layout_scale": 2.0,
+        "anchor_strength": 0.85,
+        "sim_threshold": 0.75,
+        "sim_candidate_limit": 10,
+        "sim_attraction_strength": 0.4,
+        "gap_factor": 2.0,
+        "collision_radius_factor": 0.2,
+        "collision_iterations": 3,
+        "iterations": 120,
+        "initial_alpha": 0.3,
+        "alpha_decay": 0.98,
+        "post_scale": 1.0,
+    }
 
     if args.skip_force_layout:
         print("    Skipped (--skip-force-layout)")
@@ -1422,13 +1406,13 @@ def main() -> None:
             print("    Force layout loaded from cache (UMAP + embeddings unchanged)")
             layout_coords = np.array(force_entry["coords"], dtype=np.float64)
         else:
-            layout_coords = force_layout_postprocess(
-                umap_coords, embeddings, verbose=True, **force_params
-            )
+            layout_coords = force_layout_postprocess(umap_coords, embeddings, verbose=True, **force_params)
             cache["force"] = {"key": fkey, "coords": layout_coords.tolist()}
             save_cache(args.cache, cache)
 
-        print(f"    Force coords: {layout_coords.shape}  range x=[{layout_coords[:,0].min():.0f}, {layout_coords[:,0].max():.0f}]  y=[{layout_coords[:,1].min():.0f}, {layout_coords[:,1].max():.0f}]")
+        print(
+            f"    Force coords: {layout_coords.shape}  range x=[{layout_coords[:, 0].min():.0f}, {layout_coords[:, 0].max():.0f}]  y=[{layout_coords[:, 1].min():.0f}, {layout_coords[:, 1].max():.0f}]"
+        )
 
     # ---- build browser data -----------------------------------------------
     print("\n[7/7] Building map data and writing output…")
@@ -1474,25 +1458,22 @@ def main() -> None:
 
     print("    Precomputing aggregate LOD layouts…")
     node_coords = np.array(
-        [
-            [node["position"]["x"], node["position"]["y"]]
-            for node in nodes
-        ],
+        [[node["position"]["x"], node["position"]["y"]] for node in nodes],
         dtype=np.float64,
     )
-    aggregate_force_params = dict(
-        anchor_strength=force_params["anchor_strength"],
-        sim_threshold=force_params["sim_threshold"],
-        sim_candidate_limit=force_params["sim_candidate_limit"],
-        sim_attraction_strength=force_params["sim_attraction_strength"],
-        gap_factor=force_params["gap_factor"],
-        collision_padding=AGGREGATE_COLLISION_PADDING,
-        collision_iterations=force_params["collision_iterations"],
-        final_collision_iterations=AGGREGATE_FINAL_COLLISION_ITERATIONS,
-        iterations=force_params["iterations"],
-        initial_alpha=force_params["initial_alpha"],
-        alpha_decay=force_params["alpha_decay"],
-    )
+    aggregate_force_params = {
+        "anchor_strength": force_params["anchor_strength"],
+        "sim_threshold": force_params["sim_threshold"],
+        "sim_candidate_limit": force_params["sim_candidate_limit"],
+        "sim_attraction_strength": force_params["sim_attraction_strength"],
+        "gap_factor": force_params["gap_factor"],
+        "collision_padding": AGGREGATE_COLLISION_PADDING,
+        "collision_iterations": force_params["collision_iterations"],
+        "final_collision_iterations": AGGREGATE_FINAL_COLLISION_ITERATIONS,
+        "iterations": force_params["iterations"],
+        "initial_alpha": force_params["initial_alpha"],
+        "alpha_decay": force_params["alpha_decay"],
+    }
     aggregate_layouts = build_aggregate_layouts(
         papers,
         node_coords,
@@ -1532,13 +1513,9 @@ def main() -> None:
 
     print(f"    Nodes : {len(nodes)}")
     print(
-        "    Similarity matrix: exported "
-        f"({similarity_transform['method']} {similarity_transform['source']} → [0, 1])"
+        f"    Similarity matrix: exported ({similarity_transform['method']} {similarity_transform['source']} → [0, 1])"
     )
-    print(
-        "    Tree proximity scale: "
-        f"exported (KL={tree_proximity['klDivergence']})"
-    )
+    print(f"    Tree proximity scale: exported (KL={tree_proximity['klDivergence']})")
     print(f"    Output: {args.output}")
     print("\nDone!")
 

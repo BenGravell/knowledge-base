@@ -9,9 +9,9 @@ the landing page can render as a focused browser.
 
 from __future__ import annotations
 
-from collections import Counter
 import json
 import re
+from collections import Counter
 from pathlib import Path, PurePosixPath
 from typing import Any
 from urllib.parse import quote
@@ -28,7 +28,6 @@ from knowledge_base.tree.model import (
     load_tree_model,
 )
 from knowledge_base.tree.validation import format_tree_validation_report, validate_tree
-
 
 MKDOCS_YML = "mkdocs.yml"
 TREE_YML = Path("tree.yml")
@@ -210,10 +209,7 @@ def build_branch_children(
 
 def build_browser_tree(tree_model: TreeModel, ids: IdFactory) -> dict[str, Any]:
     branches_by_path = {branch.path: branch for branch in tree_model.branches}
-    leaves_by_parent_label_source = {
-        (leaf.path, leaf.label, leaf.source): leaf
-        for leaf in tree_model.leaves
-    }
+    leaves_by_parent_label_source = {(leaf.path, leaf.label, leaf.source): leaf for leaf in tree_model.leaves}
     root_children = build_branch_children(
         tree_model.root,
         branches_by_path=branches_by_path,
@@ -239,7 +235,7 @@ if not tree_validation_report.ok:
     raise RuntimeError(format_tree_validation_report(tree_validation_report, max_results=50))
 
 
-with open(MKDOCS_YML, "r", encoding="utf-8") as f:
+with open(MKDOCS_YML, encoding="utf-8") as f:
     config = yaml.load(f, Loader=YAML_LOADER)
 
 ids = IdFactory()
@@ -404,10 +400,8 @@ def build_year_bins(year_counts: Counter[int]) -> list[dict[str, Any]]:
 
     if min_year < 1950:
         ranges.append((min_year, min(1949, max_year)))
-    for start in range(1950, min(2000, max_year + 1), 5):
-        ranges.append((max(start, min_year), min(start + 4, max_year)))
-    for year in range(max(2000, min_year), max_year + 1):
-        ranges.append((year, year))
+    ranges.extend((max(start, min_year), min(start + 4, max_year)) for start in range(1950, min(2000, max_year + 1), 5))
+    ranges.extend((year, year) for year in range(max(2000, min_year), max_year + 1))
 
     return [
         {
@@ -748,13 +742,9 @@ body:has(.md-content__inner > #an-app) .md-grid,body:has(.md-content__inner > #a
 """
 
 
-ANALYTICS_CSS = (
-    ANALYTICS_PAGE.split("<style>\n", 1)[1].split("</style>", 1)[0].strip()
-)
+ANALYTICS_CSS = ANALYTICS_PAGE.split("<style>\n", 1)[1].split("</style>", 1)[0].strip()
 ANALYTICS_HOME_CSS = "\n".join(ANALYTICS_CSS.splitlines()[1:]).strip()
-ANALYTICS_APP_HTML = (
-    ANALYTICS_PAGE.split("</style>\n\n", 1)[1].split("\n\n<script", 1)[0].strip()
-)
+ANALYTICS_APP_HTML = ANALYTICS_PAGE.split("</style>\n\n", 1)[1].split("\n\n<script", 1)[0].strip()
 ANALYTICS_APP_HTML = re.sub(
     r"\n\s*<header class=\"an-header.*?</header>\n",
     "\n",

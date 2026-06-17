@@ -8,14 +8,15 @@ Defaults:
     --overwrite  False (skip IDs whose metadata.yml already exists)
 """
 
-import re
 import random
+import re
 import time
 from email.utils import parsedate_to_datetime
 from pathlib import Path
 
 if __package__ in (None, ""):
     import sys
+
     sys.path.append(str(Path(__file__).resolve().parents[3]))
 
 import requests
@@ -29,8 +30,8 @@ from knowledge_base.utils.arxiv_utils import (
     target_path,
     write_metadata,
 )
-from knowledge_base.utils.prefill_template import HaltPrefill, PrefillScript, REPO_ROOT
 from knowledge_base.utils.doi_utils import find_existing_by_arxiv_id
+from knowledge_base.utils.prefill_template import REPO_ROOT, HaltPrefill, PrefillScript
 from knowledge_base.utils.prefill_utils import read_url_lines
 
 DEFAULT_INPUT = REPO_ROOT / "todo" / "papers" / "ARXIV.md"
@@ -93,7 +94,7 @@ def retry_after_seconds(response: requests.Response | None) -> float | None:
 
 def wait_for_retry(attempt: int, response: requests.Response | None) -> None:
     retry_after = retry_after_seconds(response)
-    fallback = min(BACKOFF_BASE * (2 ** attempt), BACKOFF_MAX)
+    fallback = min(BACKOFF_BASE * (2**attempt), BACKOFF_MAX)
     wait = retry_after if retry_after is not None else fallback
     wait += random.uniform(0.0, min(BASE_DELAY, wait * 0.1))
     status = response.status_code if response is not None else "network"
@@ -274,10 +275,7 @@ class ArxivBatchCache:
             if not self.printed_oai_cooldown:
                 blocked_for = export_blocked_for_seconds()
                 if blocked_for > 0.0:
-                    print(
-                        "    export.arxiv.org is in local cooldown "
-                        f"({blocked_for / 3600:.1f}h left); using OAI-PMH"
-                    )
+                    print(f"    export.arxiv.org is in local cooldown ({blocked_for / 3600:.1f}h left); using OAI-PMH")
                 self.printed_oai_cooldown = True
             attempted = batch[:OAI_BATCH_SIZE]
             return fetch_many_via_oai(attempted), attempted
@@ -285,10 +283,7 @@ class ArxivBatchCache:
             return fetch_many_with_retry(batch), batch
         except ArxivExportRateLimited:
             self.use_oai = True
-            print(
-                "    export.arxiv.org returned 429 on a cold request; "
-                "switching to OAI-PMH for this run"
-            )
+            print("    export.arxiv.org returned 429 on a cold request; switching to OAI-PMH for this run")
             attempted = batch[:OAI_BATCH_SIZE]
             return fetch_many_via_oai(attempted), attempted
 

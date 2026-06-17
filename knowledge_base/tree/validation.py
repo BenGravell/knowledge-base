@@ -10,13 +10,12 @@ from urllib.parse import urlparse
 import yaml
 
 from knowledge_base.config import KB_DIR
+from knowledge_base.tree.model import load_tree_model
 from knowledge_base.tree.nav_source import (
     YAML_LOADER,
     metadata_source_path,
 )
-from knowledge_base.tree.model import load_tree_model
 from knowledge_base.utils.paper_ids import paper_id_from_metadata
-
 
 DOCS_DIR = KB_DIR / "docs"
 METADATA_ROOT = DOCS_DIR / "papers"
@@ -153,7 +152,7 @@ def validate_tree(
     checked_links = 0
 
     for leaf in tree_model.leaves:
-        nav_path = ("Tree",) + leaf.nav_path
+        nav_path = ("Tree", *leaf.nav_path)
         source = leaf.source.replace("\\", "/").strip()
         if not source or source.startswith("#") or is_external_source(source):
             continue
@@ -345,8 +344,7 @@ def format_tree_validation_report(
         lines.append("")
         lines.append(f"{titles.get(code, code)} ({len(group)}):")
         shown = group if max_results is None else group[:max_results]
-        for issue in shown:
-            lines.append(f"- {format_issue(issue)}")
+        lines.extend(f"- {format_issue(issue)}" for issue in shown)
         if max_results is not None and len(group) > len(shown):
             lines.append(f"- ... {len(group) - len(shown)} more")
 

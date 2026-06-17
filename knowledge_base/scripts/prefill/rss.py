@@ -17,10 +17,11 @@ from pathlib import Path
 
 if __package__ in (None, ""):
     import sys
+
     sys.path.append(str(Path(__file__).resolve().parents[3]))
 
 from knowledge_base.utils.doi_utils import fetch_page_html
-from knowledge_base.utils.prefill_template import PagePrefillScript, REPO_ROOT
+from knowledge_base.utils.prefill_template import REPO_ROOT, PagePrefillScript
 from knowledge_base.utils.prefill_utils import (
     absolutize_url,
     clean_text,

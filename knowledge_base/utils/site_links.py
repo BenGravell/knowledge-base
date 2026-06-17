@@ -10,7 +10,6 @@ from urllib.parse import quote
 import material
 import yaml
 
-
 YAML_LOADER = getattr(yaml, "CSafeLoader", yaml.SafeLoader)
 MATERIAL_ICON_DIR = Path(material.__file__).parent / "templates" / ".icons"
 
@@ -84,10 +83,7 @@ def nav_page_order(config: dict[str, Any]) -> list[str]:
     order: list[str] = []
     seen: set[str] = set()
     for item in as_list(config.get("nav")):
-        if isinstance(item, dict):
-            pairs = item.items()
-        else:
-            pairs = ((item, item),)
+        pairs = item.items() if isinstance(item, dict) else ((item, item),)
 
         for label, source in pairs:
             key = nav_page_key(str(label), source)
@@ -95,9 +91,7 @@ def nav_page_order(config: dict[str, Any]) -> list[str]:
                 seen.add(key)
                 order.append(key)
 
-    for key in PAPER_SITE_LINK_KEYS:
-        if key not in seen:
-            order.append(key)
+    order.extend(key for key in PAPER_SITE_LINK_KEYS if key not in seen)
     return order
 
 
@@ -199,13 +193,13 @@ def paper_site_links(
     if include_detail:
         links.append(make_paper_site_link("detail", paper_id, base_path=base_path))
 
-    for spec in paper_site_link_specs(config_path):
-        links.append(
-            make_paper_site_link(
-                spec["key"],
-                paper_id,
-                base_path=base_path,
-                icon=spec["icon"],
-            )
+    links.extend(
+        make_paper_site_link(
+            spec["key"],
+            paper_id,
+            base_path=base_path,
+            icon=spec["icon"],
         )
+        for spec in paper_site_link_specs(config_path)
+    )
     return links

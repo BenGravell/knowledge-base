@@ -89,10 +89,7 @@ def collect_papers(metadata_root: Path) -> dict[str, Paper]:
 
 def collect_nav_locations(model: TreeModel) -> dict[str, list[str]]:
     """Map generated paper ID to the human-readable nav path containing it."""
-    return {
-        paper_id: list(placement.nav_path)
-        for paper_id, placement in model.placements_by_paper_id.items()
-    }
+    return {paper_id: list(placement.nav_path) for paper_id, placement in model.placements_by_paper_id.items()}
 
 
 def collect_tree_leaves(model: TreeModel) -> dict[str, TreeLeaf]:
@@ -142,7 +139,7 @@ def nearest_placed_neighbors(
         placed_norm = math.sqrt(sum(value * value for value in vector))
         if placed_norm == 0.0:
             continue
-        score = sum(a * b for a, b in zip(missing, vector)) / (missing_norm * placed_norm)
+        score = sum(a * b for a, b in zip(missing, vector, strict=False)) / (missing_norm * placed_norm)
         rows.append((placed_id, score))
 
     return sorted(rows, key=lambda item: item[1], reverse=True)[:top_k]
@@ -176,9 +173,7 @@ def tree_source(paper: Paper) -> str:
 
 
 def leaf_line_pattern(source: str) -> re.Pattern[str]:
-    return re.compile(
-        rf"^(?P<indent>\s*)-\s+(?P<label>.+):\s+{re.escape(source)}\s*(?P<comment>#.*)?$"
-    )
+    return re.compile(rf"^(?P<indent>\s*)-\s+(?P<label>.+):\s+{re.escape(source)}\s*(?P<comment>#.*)?$")
 
 
 def insert_after_leaf(lines: list[str], source: str, new_line: str) -> bool:
@@ -286,10 +281,7 @@ def print_write_summary(
     print(f"Wrote {len(placed)} placement(s) to tree.yml.")
     for paper, neighbor, score in placed:
         location = " > ".join(neighbor.nav_path[:-1])
-        print(
-            f"- {tree_label(paper)} (`{paper.id}`) after `{neighbor.paper_id}` "
-            f"({score:.3f}) in {location}"
-        )
+        print(f"- {tree_label(paper)} (`{paper.id}`) after `{neighbor.paper_id}` ({score:.3f}) in {location}")
 
     if skipped:
         print(f"\nSkipped {len(skipped)} paper(s):")
@@ -431,10 +423,7 @@ def main() -> None:
 
     if args.write_tree:
         if not embeddings:
-            sys.exit(
-                f"Could not load embeddings from {EMBEDDING_CACHE}. "
-                "Run `python map/generate_map_data.py` first."
-            )
+            sys.exit(f"Could not load embeddings from {EMBEDDING_CACHE}. Run `python map/generate_map_data.py` first.")
         tree_leaves = collect_tree_leaves(tree_model)
         placed, skipped = write_tree_placements(
             display,

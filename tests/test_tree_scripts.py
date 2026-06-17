@@ -16,7 +16,7 @@ class TreeScriptHelperTests(unittest.TestCase):
     def test_unplaced_helpers_use_tree_model_paths_and_raw_sources(self) -> None:
         model = TreeModel.from_tree(
             [{"Area": [{"Tiny Paper": "docs/papers/2024/tiny/metadata.yml"}]}],
-            resolve_source=lambda source: TreeSource(
+            resolve_source=lambda _source: TreeSource(
                 paper_id="tiny",
                 generated_source="papers/tiny.md",
             ),
@@ -40,11 +40,7 @@ class TreeScriptHelperTests(unittest.TestCase):
             model = TreeModel.from_tree(
                 [
                     "tree/index.md",
-                    {
-                        "Area": [
-                            {"Exact Algorithm": "docs/papers/2024/tiny/metadata.yml"}
-                        ]
-                    },
+                    {"Area": [{"Exact Algorithm": "docs/papers/2024/tiny/metadata.yml"}]},
                 ],
                 resolve_source=lambda source: (
                     TreeSource(

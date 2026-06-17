@@ -2,21 +2,21 @@
 
 from __future__ import annotations
 
-from dataclasses import dataclass
-from datetime import date
 import hashlib
 import re
+from collections.abc import Iterable
+from dataclasses import dataclass
+from datetime import date
 from pathlib import Path
-from typing import Any, Iterable, Literal
+from typing import Any, Literal
 from urllib.parse import quote
 
-from pydantic import BaseModel, ConfigDict, ValidationError, field_validator
 import yaml
+from pydantic import BaseModel, ConfigDict, ValidationError, field_validator
 
 from knowledge_base.config import VALID_AUDIT_STATUSES, VALID_TYPES
 from knowledge_base.utils.arxiv_utils import normalize_arxiv_id
 from knowledge_base.utils.paper_ids import paper_id_from_metadata
-
 
 YAML_LOADER = getattr(yaml, "CSafeLoader", yaml.SafeLoader)
 MetadataYear = int | str
@@ -102,7 +102,7 @@ def _clean_metadata_tuple(value: Any) -> tuple[str, ...]:
 def _clean_metadata_year(value: Any) -> MetadataYear:
     if value is None:
         return ""
-    if isinstance(value, bool) or isinstance(value, (list, tuple, dict, set)):
+    if isinstance(value, (bool, list, tuple, dict, set)):
         raise ValueError("expected an integer year or year string")
     if isinstance(value, int):
         return value
@@ -196,10 +196,7 @@ class CatalogLoadError(ValueError):
         metadata_path: Path,
         error: ValidationError,
     ) -> CatalogLoadError:
-        return cls(
-            CatalogLoadIssue(metadata_path, _validation_issue_message(issue))
-            for issue in error.errors()
-        )
+        return cls(CatalogLoadIssue(metadata_path, _validation_issue_message(issue)) for issue in error.errors())
 
 
 def _validation_issue_message(issue: dict[str, Any]) -> str:
@@ -431,8 +428,7 @@ def unique_index(entries: tuple[Entry, ...], field_name: str) -> dict[Any, Entry
         key = getattr(entry, field_name)
         if key in index:
             raise ValueError(
-                f"Duplicate Catalog {field_name}: {key} "
-                f"({index[key].metadata_path} and {entry.metadata_path})"
+                f"Duplicate Catalog {field_name}: {key} ({index[key].metadata_path} and {entry.metadata_path})"
             )
         index[key] = entry
     return index

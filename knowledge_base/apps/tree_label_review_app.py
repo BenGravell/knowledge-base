@@ -5,12 +5,11 @@ from pathlib import Path
 
 import streamlit as st
 
-
 REPO_ROOT = Path(__file__).resolve().parents[2]
 if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))
 
-from knowledge_base.scripts.suggest_tree_algorithm_labels import (  # noqa: E402
+from knowledge_base.scripts.suggest_tree_algorithm_labels import (
     ACTIONS,
     CONFIDENCES,
     METADATA_ROOT,
@@ -109,18 +108,12 @@ def apply_algorithm(suggestion: Suggestion, algorithm: str) -> None:
             )
         else:
             st.session_state.tree_label_last_result = (
-                f"Cleared algorithm and labeled the Tree with "
-                f"{display_label(suggestion.title)} in {changed_text}."
+                f"Cleared algorithm and labeled the Tree with {display_label(suggestion.title)} in {changed_text}."
             )
+    elif algorithm:
+        st.session_state.tree_label_last_result = f"Algorithm {display_label(algorithm)} was already applied."
     else:
-        if algorithm:
-            st.session_state.tree_label_last_result = (
-                f"Algorithm {display_label(algorithm)} was already applied."
-            )
-        else:
-            st.session_state.tree_label_last_result = (
-                "Empty algorithm and title Tree label were already applied."
-            )
+        st.session_state.tree_label_last_result = "Empty algorithm and title Tree label were already applied."
     refresh_suggestions()
     st.rerun()
 
@@ -133,13 +126,9 @@ def apply_label(suggestion: Suggestion, label: str) -> None:
     changed = apply_canonical_label(suggestion, label, tree_path=TREE_YML)
     if changed:
         changed_text = ", ".join(f"`{relative_to_kb(path)}`" for path in changed)
-        st.session_state.tree_label_last_result = (
-            f"Applied {display_label(label)} to {changed_text}."
-        )
+        st.session_state.tree_label_last_result = f"Applied {display_label(label)} to {changed_text}."
     else:
-        st.session_state.tree_label_last_result = (
-            f"{display_label(label)} was already applied."
-        )
+        st.session_state.tree_label_last_result = f"{display_label(label)} was already applied."
     refresh_suggestions()
     st.rerun()
 

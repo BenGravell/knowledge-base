@@ -17,6 +17,7 @@ from pathlib import Path
 
 if __package__ in (None, ""):
     import sys
+
     sys.path.append(str(Path(__file__).resolve().parents[3]))
 
 from knowledge_base.utils.doi_utils import (
@@ -26,7 +27,7 @@ from knowledge_base.utils.doi_utils import (
     scrape_abstract_from_html,
     scrape_doi_from_html,
 )
-from knowledge_base.utils.prefill_template import DoiPrefillScript, REPO_ROOT
+from knowledge_base.utils.prefill_template import REPO_ROOT, DoiPrefillScript
 from knowledge_base.utils.prefill_utils import read_url_lines
 
 DEFAULT_INPUT = REPO_ROOT / "todo" / "papers" / "NATURE.md"

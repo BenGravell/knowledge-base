@@ -54,9 +54,7 @@ def report_to_dict(report: Any) -> dict[str, Any]:
 
 
 def parse_args() -> argparse.Namespace:
-    parser = argparse.ArgumentParser(
-        description="Validate tree.yml links and metadata-backed paper placement."
-    )
+    parser = argparse.ArgumentParser(description="Validate tree.yml links and metadata-backed paper placement.")
     parser.add_argument(
         "--tree-yml",
         type=Path,
@@ -84,10 +82,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--check-algorithm-labels",
         action="store_true",
-        help=(
-            "Fail when a metadata-backed Tree leaf label and non-empty "
-            "metadata algorithm field disagree."
-        ),
+        help=("Fail when a metadata-backed Tree leaf label and non-empty metadata algorithm field disagree."),
     )
     parser.add_argument(
         "--max-results",

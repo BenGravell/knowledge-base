@@ -2,10 +2,11 @@
 
 from __future__ import annotations
 
+import re
+from collections.abc import Callable
 from dataclasses import dataclass
 from pathlib import Path
-import re
-from typing import Any, Callable, Literal
+from typing import Any, Literal
 
 import yaml
 
@@ -16,7 +17,6 @@ from knowledge_base.tree.nav_source import (
     tree_from_file,
 )
 from knowledge_base.utils.paper_ids import paper_id_from_metadata
-
 
 UNCATEGORIZED_CATEGORY = "Uncategorized"
 TRANSPARENT_ROOT_LABELS = {"Tree"}
@@ -37,9 +37,7 @@ def leaf_label_from_source(source: str) -> str:
 
 
 def is_landing_item(label: str, source: str) -> bool:
-    return source in LANDING_PAGES or (
-        label.strip().lower() == "overview" and source in LANDING_PAGES
-    )
+    return source in LANDING_PAGES or (label.strip().lower() == "overview" and source in LANDING_PAGES)
 
 
 def generated_paper_id(source: str) -> str | None:
@@ -153,10 +151,7 @@ class TreeOrder:
             "superCategories": list(self.super_categories),
             "categories": list(self.categories),
             "categorySuperCategory": dict(self.category_super_category),
-            "subCategoryOrder": {
-                category: list(labels)
-                for category, labels in self.sub_category_order.items()
-            },
+            "subCategoryOrder": {category: list(labels) for category, labels in self.sub_category_order.items()},
             "navPathOrder": [list(path) for path in self.nav_path_order],
             "maxBranchDepth": self.max_branch_depth,
         }
@@ -203,7 +198,7 @@ def resolve_metadata_or_generated_source(
 
 def common_prefix_length(a: tuple[str, ...], b: tuple[str, ...]) -> int:
     count = 0
-    for left, right in zip(a, b):
+    for left, right in zip(a, b, strict=False):
         if left != right:
             break
         count += 1
@@ -279,7 +274,7 @@ class TreeModel:
         ) -> tuple[TreeChild | None, str | None]:
             clean_source = source.replace("\\", "/").strip()
             resolved = resolve_source(clean_source) if resolve_source else None
-            nav_path = path + (label,)
+            nav_path = (*path, label)
             leaf = TreeLeaf(
                 label=label,
                 source=clean_source,
@@ -341,7 +336,7 @@ class TreeModel:
                             direct_paper_ids.extend(transparent.direct_paper_ids)
                             descendant_paper_ids.extend(transparent.descendant_paper_ids)
                             continue
-                        child_path = path + (label,)
+                        child_path = (*path, label)
                         branch = walk(child, child_path)
                         children.append(
                             TreeChild(
@@ -380,10 +375,7 @@ class TreeModel:
         )
 
     def placement_fields_by_paper_id(self) -> dict[str, dict[str, Any]]:
-        return {
-            paper_id: placement.category_fields()
-            for paper_id, placement in self.placements_by_paper_id.items()
-        }
+        return {paper_id: placement.category_fields() for paper_id, placement in self.placements_by_paper_id.items()}
 
 
 def load_tree_model(

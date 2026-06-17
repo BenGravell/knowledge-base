@@ -22,13 +22,12 @@ from typing import Any
 
 import yaml
 
-
 REPO_ROOT = Path(__file__).resolve().parents[2]
 if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))
 
-from knowledge_base.config import KB_DIR  # noqa: E402
-from knowledge_base.utils.normalization_db import (  # noqa: E402
+from knowledge_base.config import KB_DIR
+from knowledge_base.utils.normalization_db import (
     ascii_clean,
     author_initial_last_key,
     author_key,
@@ -41,7 +40,6 @@ from knowledge_base.utils.normalization_db import (  # noqa: E402
     source_key,
     tag_key,
 )
-
 
 METADATA_ROOT = KB_DIR / "docs" / "papers"
 NORMALIZATION_DIR = KB_DIR / "normalization"
@@ -196,9 +194,7 @@ def audit_tag(path: Path, tag: str, index: int, tag_index) -> list[Issue]:
 
     if suggestion is None:
         fallback = (
-            expanded
-            if expanded != tag
-            else f"Add {tag!r} to normalization/tags.yml as a canonical tag or alias."
+            expanded if expanded != tag else f"Add {tag!r} to normalization/tags.yml as a canonical tag or alias."
         )
         return [
             Issue(
@@ -234,8 +230,7 @@ def audit_tag_duplicates(path: Path, tags: list[Any], tag_index) -> list[Issue]:
     duplicate_groups = {
         key: indexes
         for key, indexes in normalized_indexes.items()
-        if len(indexes) > 1
-        and len({str(tags[index]).strip().casefold() for index in indexes}) > 1
+        if len(indexes) > 1 and len({str(tags[index]).strip().casefold() for index in indexes}) > 1
     }
     if not duplicate_groups:
         return []
@@ -363,7 +358,7 @@ def _replace_field(raw: str, field: str, replacement: str) -> str:
             continue
         span_field, _, end = span
         if span_field == field:
-            return "".join(lines[:start] + [replacement] + lines[end:])
+            return "".join([*lines[:start], replacement, *lines[end:]])
     return raw
 
 
@@ -484,9 +479,7 @@ def print_json(results: list[tuple[Path, dict[str, Any], list[Issue]]]) -> None:
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(
-        description="Audit author/source/tag metadata against normalization databases."
-    )
+    parser = argparse.ArgumentParser(description="Audit author/source/tag metadata against normalization databases.")
     parser.add_argument(
         "--file",
         metavar="PATH",
@@ -520,10 +513,7 @@ def main() -> int:
     source_index = build_index(source_entries, key_fn=source_key)
     tag_index = build_index(tag_entries, key_fn=tag_key)
 
-    if args.file:
-        targets = [Path(args.file)]
-    else:
-        targets = sorted(METADATA_ROOT.rglob("metadata.yml"))
+    targets = [Path(args.file)] if args.file else sorted(METADATA_ROOT.rglob("metadata.yml"))
 
     results: list[tuple[Path, dict[str, Any], list[Issue]]] = []
     for target in targets:

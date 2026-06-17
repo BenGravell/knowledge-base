@@ -13,7 +13,6 @@ from knowledge_base.catalog import (
     year_as_int,
 )
 
-
 VALID_METADATA = """\
 title: A Tiny Paper
 authors:
