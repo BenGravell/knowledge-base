@@ -25,6 +25,11 @@ DO NOT store images or any other rich content that would blow up storage size.
 knowledge_base/apps
 
 
+## perf
+
+Tree and Timeline pages need major performance increase for handling large number of items. 
+
+
 ## Search
 
 make search hits on arxiv id and doi work for metadata search
