@@ -8,14 +8,14 @@ import sys
 import time
 from pathlib import Path
 
-from ingest_arxiv_full_text import (
+from knowledge_base.catalog import Catalog, Entry
+from knowledge_base.scripts.ingest_arxiv_full_text import (
     DEFAULT_SLEEP_SECONDS,
     METADATA_ROOT,
     MIN_MARKDOWN_CHARS,
     embed_text_path,
     process_entry,
 )
-from knowledge_base.catalog import Catalog, Entry
 
 DEFAULT_SKIP_LOG = Path(".cache/arxiv_embed_text_backfill_skips.txt")
 

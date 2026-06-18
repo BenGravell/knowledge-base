@@ -15,12 +15,7 @@ import argparse
 import json
 import sys
 from dataclasses import dataclass
-from pathlib import Path
 from typing import Any, Literal
-
-REPO_ROOT = Path(__file__).resolve().parents[2]
-if str(REPO_ROOT) not in sys.path:
-    sys.path.insert(0, str(REPO_ROOT))
 
 from knowledge_base.tree.model import TreeBranch as Branch
 from knowledge_base.tree.model import TreeModel

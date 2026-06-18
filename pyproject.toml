@@ -24,6 +24,7 @@ dependencies = [
 tree-nav = "knowledge_base.tree.nav_plugin:TreeNavPlugin"
 
 [project.scripts]
+kb = "knowledge_base.dev_cli:main"
 prefill = "knowledge_base.utils.prefill_template:main"
 
 [dependency-groups]
@@ -47,14 +48,14 @@ knowledge-base = { path = ".", editable = true }
 default = { features = ["dev"], solve-group = "default" }
 
 [tool.pixi.tasks]
-serve = "mkdocs serve -f knowledge_base/mkdocs.yml"
-build = "mkdocs build -f knowledge_base/mkdocs.yml"
-deploy = "mkdocs gh-deploy -f knowledge_base/mkdocs.yml"
-refresh = "python knowledge_base/scripts/refresh_offline_data.py"
-test = "python -m unittest discover -s tests -p test_*.py"
-lint = "ruff check knowledge_base tests"
-format-check = "ruff format --check knowledge_base tests"
-typecheck = "pyrefly check"
+serve = "kb serve"
+build = "kb build"
+deploy = "kb deploy"
+refresh = "kb refresh"
+test = "kb test"
+lint = "kb lint"
+format-check = "kb format-check"
+typecheck = "kb typecheck"
 
 [tool.ruff]
 line-length = 120
@@ -79,9 +80,6 @@ select = [
     "PL",
 ]
 ignore = [
-    # Several standalone scripts prepend the repo root to sys.path before
-    # importing local modules, so those imports intentionally sit below setup.
-    "E402",
     # Long embedded JS/help text is not made clearer by Python line wrapping.
     "E501",
     # Script and data-shaping code in this repo intentionally has long,
@@ -104,7 +102,7 @@ ignore = [
 [tool.pyrefly]
 preset = "strict"
 project-includes = ["knowledge_base", "tests"]
-search-path = [".", "knowledge_base/scripts"]
+search-path = ["."]
 python-version = "3.11"
 
 [build-system]

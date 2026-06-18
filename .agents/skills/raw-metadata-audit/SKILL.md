@@ -19,10 +19,10 @@ When an audit issue requires paper research, source verification, arXiv lookup, 
 
 ## Workflow
 
-Run from `knowledge_base/`:
+Run from the repository root:
 
 ```bash
-python scripts/list_raw_papers.py | python scripts/audit_metadata.py
+python knowledge_base/scripts/audit_metadata.py --audit-status raw
 ```
 
 Resolve all reported issues in the affected `metadata.yml` files.

@@ -1,12 +1,6 @@
 """Batch-prefill metadata.yml files from ASME Digital Collection URLs."""
 
 import re
-from pathlib import Path
-
-if __package__ in (None, ""):
-    import sys
-
-    sys.path.append(str(Path(__file__).resolve().parents[3]))
 
 from knowledge_base.utils.prefill_template import REPO_ROOT
 

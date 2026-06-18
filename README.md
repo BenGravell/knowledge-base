@@ -7,17 +7,18 @@ The public site is published at
 
 ## Repo layout
 
-- `knowledge_base/docs/` contains the MkDocs source pages and paper metadata.
-- `knowledge_base/docs/papers/**/metadata.yml` drives generated paper pages.
-- `knowledge_base/docs/papers/**/embed_text.md` may contain cleaned arXiv/ar5iv HTML conversions for embeddings.
-- `knowledge_base/tree.yml` is the editable Tree navigation and classification source.
-- `knowledge_base/apps/` contains Streamlit apps.
-- `knowledge_base/scripts/` contains maintenance, audit, placement, and prefill entrypoints.
-- `knowledge_base/map/` contains graph generation, preview, and MkDocs asset publishing.
-- `knowledge_base/semantic_search/` contains client-side semantic search index generation and asset publishing.
-- `knowledge_base/tree/` contains the Tree model, validation helpers, MkDocs nav plugin, and Tree data generator.
-- `knowledge_base/utils/` contains shared DOI, arXiv, and prefill helpers.
-- Map, Timeline, Tree, and Semantic Search are derived from metadata plus Tree placement.
+- `knowledge_base/` contains the published site source and supporting tools.
+  - `docs/` contains the MkDocs source pages and paper metadata.
+    - `papers/**/metadata.yml` drives generated paper pages.
+    - `papers/**/embed_text.md` may contain cleaned arXiv/ar5iv HTML conversions for embeddings.
+  - `tree.yml` is the editable Tree navigation and classification source.
+  - `apps/` contains Streamlit apps.
+  - `scripts/` contains maintenance, audit, placement, and prefill entrypoints.
+  - `map/` contains graph generation, preview, and MkDocs asset publishing.
+  - `semantic_search/` contains client-side semantic search index generation and asset publishing.
+  - `tree/` contains the Tree model, validation helpers, MkDocs nav plugin, and Tree data generator.
+  - `utils/` contains shared DOI, arXiv, and prefill helpers.
+  - `map/`, `tree/`, and `semantic_search/` derive Map, Timeline, Tree, and Semantic Search from `docs/papers/**/metadata.yml` plus `tree.yml`.
 - `todo/PAPERS_FUNNEL.md` and `todo/papers/*.md` hold incoming paper URLs before ingest.
 - `docs/` contains repository docs for maintainers; it is not the published site content.
   - [Setup and development](docs/DEVELOPMENT.md)
@@ -34,8 +35,11 @@ The `./dev` wrapper installs Pixi locally on first use, then uses the checked-in
 git clone https://github.com/BenGravell/knowledge-base.git
 cd knowledge-base
 ./dev install
-./dev run serve
+eval "$(./dev shell-hook)"
+kb serve
 ```
+
+Run `eval "$(./dev shell-hook)"` once per terminal, or let VS Code use the configured Pixi interpreter.
 
 Open the URL printed by MkDocs, usually <http://127.0.0.1:8000/>.
 
@@ -46,7 +50,7 @@ Open the URL printed by MkDocs, usually <http://127.0.0.1:8000/>.
 From the repo root, run
 
 ```bash
-./dev run serve
+kb serve
 ```
 
 ### Add papers
@@ -55,20 +59,20 @@ Put URLs in `todo/PAPERS_FUNNEL.md`, route them, prefill metadata, audit it, the
 
 ```bash
 # Route URLs into todo/papers/<SOURCE>.md or todo/PAPERS_MISC.md.
-./dev run python knowledge_base/scripts/funnel_papers.py
+python knowledge_base/scripts/funnel_papers.py
 
 # List prefill sources, then run the populated ones.
-./dev run python -m knowledge_base.scripts.prefill --help
-./dev run python -m knowledge_base.scripts.prefill arxiv
-./dev run python -m knowledge_base.scripts.prefill openreview
+python -m knowledge_base.scripts.prefill --help
+python -m knowledge_base.scripts.prefill arxiv
+python -m knowledge_base.scripts.prefill openreview
 
 # Audit raw metadata after prefill and fix reported files.
-./dev run python knowledge_base/scripts/audit_metadata.py knowledge_base --audit-status raw
+python knowledge_base/scripts/audit_metadata.py knowledge_base --audit-status raw
 
 # Find unplaced papers, edit knowledge_base/tree.yml, then verify.
-./dev run python knowledge_base/scripts/list_unplaced_papers.py --neighbors 3
-./dev run python knowledge_base/scripts/list_unplaced_papers.py --neighbors 0 --fail-on-missing
-./dev run build
+python knowledge_base/scripts/list_unplaced_papers.py --neighbors 3
+python knowledge_base/scripts/list_unplaced_papers.py --neighbors 0 --fail-on-missing
+kb build
 ```
 
 Use the source names printed by the prefill help, such as `ieee`, `mlr`, or `taylor_francis`; replace the example source commands with whichever `todo/papers/*.md` files the funnel populated.
@@ -83,7 +87,7 @@ Reuse of paper text remains governed by each paper's original license and rights
 Run the ingest script from the repo root:
 
 ```bash
-./dev run python knowledge_base/scripts/ingest_arxiv_full_text.py --id 2402.08954
+python knowledge_base/scripts/ingest_arxiv_full_text.py --id 2402.08954
 ```
 
 The script requires `pandoc` on `PATH`, skips existing sidecars unless `--force` is passed, and probes only entries with `arxiv_id`. It strips author blocks, references, source chrome, images, and obvious table/math noise before writing `embed_text.md`.
@@ -93,13 +97,13 @@ The script requires `pandoc` on `PATH`, skips existing sidecars unless `--force`
 For a script-only change, run a syntax/import check on the edited file:
 
 ```bash
-./dev run python -m py_compile knowledge_base/scripts/refresh_offline_data.py
+python -m py_compile knowledge_base/scripts/refresh_offline_data.py
 ```
 
 Replace the path with the file you changed. If the change affects MkDocs rendering, navigation, or plugins, run:
 
 ```bash
-./dev run build
+kb build
 ```
 
 ### Refresh offline data
@@ -107,9 +111,9 @@ Replace the path with the file you changed. If the change affects MkDocs renderi
 If local generated data is stale, refresh it from the repo root:
 
 ```bash
-./dev run refresh
+kb refresh
 ```
 
 ### Deploy
 
-Run `./dev run deploy` from the repo root.
+Run `kb deploy` from the repo root.

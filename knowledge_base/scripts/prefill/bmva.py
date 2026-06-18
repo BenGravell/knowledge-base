@@ -1,12 +1,6 @@
 """Batch-prefill metadata.yml files from BMVA archive PDFs."""
 
-from pathlib import Path
 from typing import Any
-
-if __package__ in (None, ""):
-    import sys
-
-    sys.path.append(str(Path(__file__).resolve().parents[3]))
 
 from knowledge_base.utils.prefill_template import REPO_ROOT
 from knowledge_base.utils.prefill_utils import clean_text, extract_doi

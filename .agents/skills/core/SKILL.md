@@ -30,32 +30,33 @@ Important paths:
 
 Run repository commands from the repo root unless a command says otherwise.
 
-Install dependencies:
+Install dependencies and activate the Pixi environment:
 
 ```bash
 ./dev install
+eval "$(./dev shell-hook)"
 ```
 
 Run MkDocs commands from the repo root:
 
 ```bash
-./dev run serve
-./dev run build
-./dev run deploy
+kb serve
+kb build
+kb deploy
 ```
 
 Map utilities:
 
 ```bash
-./dev run python knowledge_base/map/generate_map_data.py
-./dev run python knowledge_base/map/preview_map.py
+python knowledge_base/map/generate_map_data.py
+python knowledge_base/map/preview_map.py
 ```
 
 Human-oriented dev tools:
 
 ```bash
-./dev run python knowledge_base/scripts/audit_metadata.py
-./dev run streamlit run knowledge_base/apps/generator_app.py
+python knowledge_base/scripts/audit_metadata.py
+streamlit run knowledge_base/apps/generator_app.py
 ```
 
 ## Conventions
@@ -68,7 +69,7 @@ Human-oriented dev tools:
 - Do not promote `audit_status` to `reviewed`. Agents may set it to `partial` after meaningful manual review or correction.
 - There is no general test suite.
 - Do not run programmatic tests except when a task skill explicitly requires a verification command or UX controls changed.
-- When UX controls changed, verify with `./dev run build` from the repo root and check for warnings.
+- When UX controls changed, verify with `kb build` from the repo root and check for warnings.
 
 ## Sub-Agent Delegation
 

@@ -15,11 +15,6 @@ from urllib.parse import quote
 import requests
 import yaml
 
-if __package__ in (None, ""):
-    import sys
-
-    sys.path.append(str(Path(__file__).resolve().parents[2]))
-
 from knowledge_base.scripts.enrich_existing_arxiv_metadata import dump_yaml
 
 CACHE_PATH = Path("/tmp/kb_refine_staged_arxiv_metadata_cache.json")

@@ -11,12 +11,9 @@ from collections.abc import Iterator
 from dataclasses import dataclass
 from dataclasses import field as dc_field
 from enum import Enum
-from functools import lru_cache
+from functools import cache, lru_cache
 from pathlib import Path
 from typing import Any
-
-if __package__ in {None, ""}:
-    sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 
 import yaml
 from rich.console import Console
@@ -2362,12 +2359,12 @@ def _phrase_search_pattern(phrase: str) -> str:
     return rf"(?<![A-Za-z0-9]){escaped}(?![A-Za-z0-9])"
 
 
-@lru_cache(maxsize=None)
+@cache
 def _cached_regex(pattern: str, flags: int = 0) -> re.Pattern[str]:
     return re.compile(pattern, flags)
 
 
-@lru_cache(maxsize=None)
+@cache
 def _algorithm_reference_names(algorithm: str) -> tuple[str, ...]:
     names = [algorithm]
     names.extend(_ALGORITHM_EXPANDED_NAMES.get(_algorithm_key(algorithm), ()))
@@ -2383,7 +2380,7 @@ def _algorithm_reference_names(algorithm: str) -> tuple[str, ...]:
     return tuple(deduped)
 
 
-@lru_cache(maxsize=None)
+@cache
 def _algorithm_mention_patterns(algorithm: str) -> tuple[re.Pattern[str], ...]:
     return tuple(re.compile(_phrase_search_pattern(name), re.I) for name in _algorithm_reference_names(algorithm))
 
@@ -2399,7 +2396,7 @@ _ALGORITHM_INTRO_VERB_RE = (
 )
 
 
-@lru_cache(maxsize=None)
+@cache
 def _algorithm_intro_patterns(algorithm: str) -> tuple[tuple[str, str, int], ...]:
     algorithm_is_broad = _algorithm_key(algorithm) in _BROAD_ALGORITHM_FAMILY_LABELS
     patterns: list[tuple[str, str, int]] = []
@@ -2535,7 +2532,7 @@ def _algorithm_context_text(data: dict[str, Any]) -> tuple[str, str]:
     return title, _normalize_inline_text(body)
 
 
-@lru_cache(maxsize=None)
+@cache
 def _algorithm_issue_cue_patterns(algorithm: str) -> tuple[tuple[str, str, str], ...]:
     return tuple(
         (
@@ -2597,7 +2594,7 @@ def _algorithm_label_is_allowed_entry(
     ) in _BARE_ALGORITHM_LABEL_ALLOWED_ENTRIES
 
 
-@lru_cache(maxsize=None)
+@cache
 def _broad_algorithm_family_cue_patterns(algorithm: str) -> tuple[tuple[str, str], ...]:
     return tuple(
         (
@@ -6548,6 +6545,14 @@ def _filter_results_by_severity(
     return filtered
 
 
+def _default_kb_root() -> Path:
+    if (Path("docs") / "papers").exists():
+        return Path(".")
+    if (Path("knowledge_base") / "docs" / "papers").exists():
+        return Path("knowledge_base")
+    return KB_DIR
+
+
 # ---------------------------------------------------------------------------
 # Entry point
 # ---------------------------------------------------------------------------
@@ -6595,8 +6600,8 @@ Available --check names:
     parser.add_argument(
         "root",
         nargs="?",
-        default=".",
-        help="Repository root (default: current directory)",
+        default=_default_kb_root(),
+        help="Knowledge base root containing docs/papers (default: auto-detect)",
     )
     parser.add_argument(
         "--fix",

@@ -11,8 +11,8 @@ Create a new directory under `knowledge_base/docs/papers/` and add a
 After metadata exists:
 
 ```bash
-./dev run python knowledge_base/scripts/audit_metadata.py
-./dev run python knowledge_base/scripts/validate_tree.py
+python knowledge_base/scripts/audit_metadata.py
+python knowledge_base/scripts/validate_tree.py
 ```
 
 ## Batch funnel
@@ -22,8 +22,8 @@ into source-specific files under `todo/papers/`, or into `todo/PAPERS_MISC.md`
 when the source is unknown:
 
 ```bash
-./dev run python knowledge_base/scripts/funnel_papers.py --dry-run
-./dev run python knowledge_base/scripts/funnel_papers.py
+python knowledge_base/scripts/funnel_papers.py --dry-run
+python knowledge_base/scripts/funnel_papers.py
 ```
 
 ## Source prefill scripts
@@ -39,18 +39,18 @@ Generated metadata starts as `audit_status: raw` and should be reviewed with
 Run a prefill script with its default input file:
 
 ```bash
-./dev run python knowledge_base/scripts/prefill/arxiv.py
-./dev run python knowledge_base/scripts/prefill/ieee.py
+python knowledge_base/scripts/prefill/arxiv.py
+python knowledge_base/scripts/prefill/ieee.py
 ```
 
 Common options shared by the prefill scripts:
 
 ```bash
-./dev run python knowledge_base/scripts/prefill/<source>.py --input todo/papers/<SOURCE>.md
-./dev run python knowledge_base/scripts/prefill/<source>.py --first 5
-./dev run python knowledge_base/scripts/prefill/<source>.py --list-skipped
-./dev run python knowledge_base/scripts/prefill/<source>.py --overwrite
-./dev run python knowledge_base/scripts/prefill/<source>.py --reingest
+python knowledge_base/scripts/prefill/<source>.py --input todo/papers/<SOURCE>.md
+python knowledge_base/scripts/prefill/<source>.py --first 5
+python knowledge_base/scripts/prefill/<source>.py --list-skipped
+python knowledge_base/scripts/prefill/<source>.py --overwrite
+python knowledge_base/scripts/prefill/<source>.py --reingest
 ```
 
 ## Metadata audit
@@ -58,26 +58,26 @@ Common options shared by the prefill scripts:
 Audit all paper metadata files:
 
 ```bash
-./dev run python knowledge_base/scripts/audit_metadata.py
+python knowledge_base/scripts/audit_metadata.py
 ```
 
 Audit only entries marked `audit_status: partial`:
 
 ```bash
-./dev run python knowledge_base/scripts/audit_metadata.py --audit-status partial
+python knowledge_base/scripts/audit_metadata.py --audit-status partial
 ```
 
 List entries still marked `audit_status: raw`:
 
 ```bash
-./dev run python knowledge_base/scripts/list_raw_papers.py
+python knowledge_base/scripts/list_raw_papers.py
 ```
 
 Add `audit_status` to older metadata files that do not have it yet:
 
 ```bash
-./dev run python knowledge_base/scripts/add_audit_status.py --dry-run
-./dev run python knowledge_base/scripts/add_audit_status.py
+python knowledge_base/scripts/add_audit_status.py --dry-run
+python knowledge_base/scripts/add_audit_status.py
 ```
 
 ## Tree placement
@@ -95,23 +95,23 @@ scenes.
 Validate `knowledge_base/tree.yml` local links and paper placement:
 
 ```bash
-./dev run python knowledge_base/scripts/validate_tree.py
-./dev run python knowledge_base/scripts/validate_tree.py --check-algorithm-labels
+python knowledge_base/scripts/validate_tree.py
+python knowledge_base/scripts/validate_tree.py --check-algorithm-labels
 ```
 
 Suggest likely fixes for Tree and metadata algorithm-label disagreements:
 
 ```bash
-./dev run python knowledge_base/scripts/suggest_tree_algorithm_labels.py
-./dev run python knowledge_base/scripts/suggest_tree_algorithm_labels.py --min-confidence high
-./dev run python knowledge_base/scripts/suggest_tree_algorithm_labels.py --format json
-./dev run streamlit run knowledge_base/apps/tree_label_review_app.py
+python knowledge_base/scripts/suggest_tree_algorithm_labels.py
+python knowledge_base/scripts/suggest_tree_algorithm_labels.py --min-confidence high
+python knowledge_base/scripts/suggest_tree_algorithm_labels.py --format json
+streamlit run knowledge_base/apps/tree_label_review_app.py
 ```
 
 Find generated paper pages that are missing from the Tree nav:
 
 ```bash
-./dev run python knowledge_base/scripts/list_unplaced_papers.py --neighbors 3
-./dev run python knowledge_base/scripts/list_unplaced_papers.py --format paths
-./dev run python knowledge_base/scripts/list_unplaced_papers.py --neighbors 0 --fail-on-missing
+python knowledge_base/scripts/list_unplaced_papers.py --neighbors 3
+python knowledge_base/scripts/list_unplaced_papers.py --format paths
+python knowledge_base/scripts/list_unplaced_papers.py --neighbors 0 --fail-on-missing
 ```

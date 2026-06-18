@@ -16,11 +16,6 @@ from typing import Any
 
 import yaml
 
-if __package__ in (None, ""):
-    import sys
-
-    sys.path.append(str(Path(__file__).resolve().parents[2]))
-
 from knowledge_base.config import KB_DIR
 
 TEXT_FIELDS = ("abstract", "summary")

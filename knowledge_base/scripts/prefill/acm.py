@@ -20,11 +20,6 @@ from urllib.parse import urlparse
 
 import requests
 
-if __package__ in (None, ""):
-    import sys
-
-    sys.path.append(str(Path(__file__).resolve().parents[3]))
-
 from knowledge_base.utils.doi_utils import fetch_crossref, fetch_with_retry
 from knowledge_base.utils.prefill_template import REPO_ROOT
 from knowledge_base.utils.prefill_utils import extract_doi_from_url, read_url_lines

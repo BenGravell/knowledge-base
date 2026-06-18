@@ -26,7 +26,8 @@ from typing import Any
 from urllib.parse import parse_qsl, urlencode, urlparse, urlunparse
 
 from typing_extensions import override
-from verify_map_view import (
+
+from knowledge_base.scripts.verify_map_view import (
     CdpClient,
     find_chrome,
     get_tab_websocket,

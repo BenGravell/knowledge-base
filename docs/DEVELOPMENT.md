@@ -13,19 +13,22 @@ The `./dev` wrapper installs Pixi locally on first use, then uses the checked-in
 git clone https://github.com/BenGravell/knowledge-base.git
 cd knowledge-base
 ./dev install
-./dev run serve
+eval "$(./dev shell-hook)"
+kb serve
 ```
+
+Run `eval "$(./dev shell-hook)"` once per terminal, or let VS Code use the configured Pixi interpreter.
 
 Build the site from the repository root:
 
 ```bash
-./dev run build
+kb build
 ```
 
 Deploy to GitHub Pages from the repository root:
 
 ```bash
-./dev run deploy
+kb deploy
 ```
 
 ## Development checks
@@ -33,27 +36,27 @@ Deploy to GitHub Pages from the repository root:
 Lint and type-check Python code from the repository root:
 
 ```bash
-./dev run lint
-./dev run format-check
-./dev run typecheck
+kb lint
+kb format-check
+kb typecheck
 ```
 
 Run unit tests from the repository root:
 
 ```bash
-./dev run test
+kb test
 ```
 
 Install the pre-commit hooks once:
 
 ```bash
-./dev run pre-commit install
+pre-commit install
 ```
 
 Run all pre-commit hooks manually:
 
 ```bash
-./dev run pre-commit run --all-files
+pre-commit run --all-files
 ```
 
 ## Local generated data
@@ -62,7 +65,7 @@ Refresh local generated data and validate that the site is self-consistent from
 the repository root:
 
 ```bash
-./dev run refresh
+kb refresh
 ```
 
 Use `--force` to recompute cached embeddings, or `--strict` to also fail on
@@ -76,13 +79,13 @@ timing report at the end. For deeper profiling, wrap it with `/usr/bin/time`.
 Generate and edit a `metadata.yml` entry from an arXiv ID:
 
 ```bash
-./dev run streamlit run knowledge_base/apps/generator_app.py
+streamlit run knowledge_base/apps/generator_app.py
 ```
 
 Review Tree and metadata algorithm-label disagreements interactively:
 
 ```bash
-./dev run streamlit run knowledge_base/apps/tree_label_review_app.py
+streamlit run knowledge_base/apps/tree_label_review_app.py
 ```
 
 The Tree Label Review app uses the same suggestions as

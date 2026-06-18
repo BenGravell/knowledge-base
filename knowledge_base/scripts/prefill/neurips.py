@@ -16,11 +16,6 @@ from collections.abc import Callable
 from pathlib import Path
 from typing import Any
 
-if __package__ in (None, ""):
-    import sys
-
-    sys.path.append(str(Path(__file__).resolve().parents[3]))
-
 import requests
 
 from knowledge_base.utils.doi_utils import fetch_page_html

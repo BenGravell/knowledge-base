@@ -24,7 +24,7 @@ from dataclasses import dataclass
 from pathlib import Path
 
 from rich.console import Console
-from rich.progress import BarColumn, Progress, SpinnerColumn, TaskProgressColumn, TextColumn, TimeElapsedColumn
+from rich.progress import BarColumn, Progress, SpinnerColumn, TaskID, TaskProgressColumn, TextColumn, TimeElapsedColumn
 from rich.table import Table
 
 from knowledge_base.embedding_workbench import FASTEMBED_DEVICE_CHOICES
@@ -98,10 +98,6 @@ def format_status(failed: bool) -> str:
 
 def subprocess_env() -> dict[str, str]:
     env = os.environ.copy()
-    pythonpath_parts = [str(REPO_ROOT)]
-    if env.get("PYTHONPATH"):
-        pythonpath_parts.append(env["PYTHONPATH"])
-    env["PYTHONPATH"] = os.pathsep.join(pythonpath_parts)
     env.setdefault("PYTHONUNBUFFERED", "1")
     env[PROGRESS_ENV] = "1"
     return env
@@ -138,8 +134,7 @@ def hot_start_fast_path(args: argparse.Namespace) -> tuple[bool, str]:
     status = subprocess.run(
         ["git", "status", "--porcelain=v1", "--untracked-files=all", "--", *HOT_START_STATUS_PATHS],
         cwd=REPO_ROOT,
-        stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE,
+        capture_output=True,
         text=True,
         encoding="utf-8",
         errors="replace",
@@ -193,8 +188,8 @@ def run_step(
     dry_run: bool,
     console: Console,
     progress: Progress | None = None,
-    progress_task: int | None = None,
-    work_task: int | None = None,
+    progress_task: TaskID | None = None,
+    work_task: TaskID | None = None,
 ) -> StepResult:
     console.rule(f"{index}/{total} {step.group}: {step.label}", style="cyan")
     console.print(step.name, style="bold")

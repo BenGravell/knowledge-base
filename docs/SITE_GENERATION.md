@@ -7,19 +7,19 @@ Commands in this file run from the repository root.
 Serve the site locally:
 
 ```bash
-./dev run serve
+kb serve
 ```
 
 Build the static site:
 
 ```bash
-./dev run build
+kb build
 ```
 
 Deploy to GitHub Pages:
 
 ```bash
-./dev run deploy
+kb deploy
 ```
 
 During `mkdocs serve` and `mkdocs build`, MkDocs runs these gen-files scripts
@@ -42,39 +42,39 @@ and renders the resulting node map with Sigma.js and Graphology.
 Regenerate embeddings and graph data:
 
 ```bash
-./dev run python knowledge_base/map/generate_map_data.py
+python knowledge_base/map/generate_map_data.py
 ```
 
 Useful variants:
 
 ```bash
-./dev run python knowledge_base/map/generate_map_data.py --force
-./dev run python knowledge_base/map/generate_map_data.py --backend fastembed
-./dev run python knowledge_base/map/generate_map_data.py --backend voyage
-./dev run python knowledge_base/map/generate_map_data.py --skip-force-layout
+python knowledge_base/map/generate_map_data.py --force
+python knowledge_base/map/generate_map_data.py --backend fastembed
+python knowledge_base/map/generate_map_data.py --backend voyage
+python knowledge_base/map/generate_map_data.py --skip-force-layout
 ```
 
 Preview the layout quickly with Plotly:
 
 ```bash
-./dev run python knowledge_base/map/preview_map.py
-./dev run python knowledge_base/map/preview_map.py --serve
-./dev run python knowledge_base/map/preview_map.py --out preview.html
+python knowledge_base/map/preview_map.py
+python knowledge_base/map/preview_map.py --serve
+python knowledge_base/map/preview_map.py --out preview.html
 ```
 
 Smoke-test the served MkDocs Map page in headless Chrome:
 
 ```bash
-./dev run python knowledge_base/scripts/verify_map_view.py --url http://127.0.0.1:8000/map/
+python knowledge_base/scripts/verify_map_view.py --url http://127.0.0.1:8000/map/
 ```
 
 Measure the Tree page default-load plus top-level branch-click timing:
 
 ```bash
-./dev run build
-./dev run python knowledge_base/scripts/measure_tree_view.py
-./dev run python knowledge_base/scripts/measure_tree_view.py --runs 7 --viewport 1366x900
-./dev run python knowledge_base/scripts/measure_tree_view.py --reduced-motion
+kb build
+python knowledge_base/scripts/measure_tree_view.py
+python knowledge_base/scripts/measure_tree_view.py --runs 7 --viewport 1366x900
+python knowledge_base/scripts/measure_tree_view.py --reduced-motion
 ```
 
 ## Semantic Search
@@ -94,7 +94,7 @@ runtime.
 Regenerate the Semantic Search index after paper metadata changes:
 
 ```bash
-./dev run python knowledge_base/semantic_search/generate_semantic_search_index.py
+python knowledge_base/semantic_search/generate_semantic_search_index.py
 ```
 
 Semantic Search intentionally uses `sentence-transformers/all-MiniLM-L6-v2` /

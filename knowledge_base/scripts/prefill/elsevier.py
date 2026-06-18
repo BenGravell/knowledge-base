@@ -19,11 +19,6 @@ import re
 from collections.abc import Callable
 from pathlib import Path
 
-if __package__ in (None, ""):
-    import sys
-
-    sys.path.append(str(Path(__file__).resolve().parents[3]))
-
 from knowledge_base.utils.doi_utils import (
     fetch_doi_from_crossref_pii,
     fetch_page_html,

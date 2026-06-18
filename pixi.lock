@@ -739,7 +739,7 @@ packages:
 - pypi: ./
   name: knowledge-base
   version: 0.0.0
-  sha256: ccf6e81c62694271a981ee9df50b70e8982d6f4c0da615de6cc17d354d7fa746
+  sha256: 59daeb19ea38490a4a129c1fc0959096c056d88b7dfd38059e8c8cd7f368abeb
   requires_dist:
   - mkdocs-material>=9.7.0,<10.0.0
   - mkdocs-macros-plugin>=1.5.0,<2.0.0
