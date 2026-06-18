@@ -18,18 +18,12 @@ from ingest_arxiv_full_text import (
 from knowledge_base.catalog import Catalog, Entry
 
 DEFAULT_SKIP_LOG = Path(".cache/arxiv_embed_text_backfill_skips.txt")
-LEGACY_SKIP_LOG = Path(".cache/arxiv_full_text_backfill_skips.txt")
 
 
 def skipped_ids(path: Path) -> set[str]:
-    paths = [path]
-    if path == DEFAULT_SKIP_LOG:
-        paths.append(LEGACY_SKIP_LOG)
-    ids: set[str] = set()
-    for skip_path in paths:
-        if skip_path.exists():
-            ids.update(line.split("\t", 1)[0].strip() for line in skip_path.read_text(encoding="utf-8").splitlines() if line.strip())
-    return ids
+    if not path.exists():
+        return set()
+    return {line.split("\t", 1)[0].strip() for line in path.read_text(encoding="utf-8").splitlines() if line.strip()}
 
 
 def record_skip(path: Path, entry: Entry, message: str) -> None:
