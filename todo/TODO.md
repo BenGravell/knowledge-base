@@ -98,15 +98,6 @@ add other URIs besides DOI since not all papers have DOI e.g. dissertations, arx
 
 Set up an automation orchestration script+skill to ingest from paper funnel, run prefill, ask ai for preliminary metadata fixup using audit script, generate map data, place papers in tree
 
-## Paper Detail Pages
-
-### Related papers
-
-Add a section with links to most closely related papers, either Top N or similarity threshold cutoff (variable N).
-
-- Leverage the embeddings we already have, should be tied to the Map
-- Make the Top N / cutoff threshold a dynamic slider widget.
-
 ## Reading plans
 
 Hand-crafted
@@ -170,11 +161,6 @@ For this page, the UX should operate more like a gallery or a bookshelf. Each di
 Include a link to the Advanced Search page for the selected dissertation's author.
 
 ## Ideas
-
-<https://www.litmaps.com/about/us>
-
-<https://chatgpt.com/share/69d55fa0-e2dc-8332-b847-357e80355305>
-<https://chatgpt.com/share/69d41a6e-df98-8333-bc8f-429f7f8717c3>
 
 ### Creative idea
 
