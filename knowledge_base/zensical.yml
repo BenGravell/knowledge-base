@@ -14,13 +14,6 @@ extra:
     about: lucide/info
     portfolio: lucide/briefcase
 
-not_in_nav: |
-  papers/**/*.md
-
-exclude_docs: |
-  papers/**/embed_text.md
-  papers/**/embed_input.md
-
 plugins:
   - macros:
       render_by_default: false

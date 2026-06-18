@@ -78,10 +78,6 @@ def write_zensical_config() -> None:
         raise RuntimeError(f"{rel(ZENSICAL_SOURCE_CONFIG)} must contain a mapping")
 
     config["docs_dir"] = ".generated/docs"
-    theme = dict(config.get("theme") or {})
-    theme["name"] = "zensical"
-    config["theme"] = theme
-    config["plugins"] = [{"macros": {"render_by_default": False}}]
 
     ZENSICAL_CONFIG.write_text(yaml.safe_dump(config, sort_keys=False), encoding="utf-8")
 

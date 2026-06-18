@@ -116,4 +116,4 @@ kb refresh
 
 ### Deploy
 
-Run `kb build` from the repo root, then publish `knowledge_base/site/` with the GitHub Pages workflow.
+Push to `main` or `master`; the GitHub Pages workflow runs `kb build` and publishes `knowledge_base/site/`.
