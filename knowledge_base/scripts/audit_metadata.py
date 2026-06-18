@@ -34,6 +34,7 @@ from knowledge_base.generated_assets import (
     SEMANTIC_SEARCH_INDEX,
     SEMANTIC_SEARCH_SETTINGS,
 )
+from knowledge_base.progress import emit_progress
 from knowledge_base.utils.normalization_db import (
     build_index,
     dump_yaml,
@@ -6691,7 +6692,7 @@ Available --check names:
     checked_file_count = len(targets)
     checked_map_data = selected_checks is None or CHECK_PATH in selected_checks
     report_stale_map_ids = not args.file and args.audit_status is None
-    for p in targets:
+    for index, p in enumerate(targets, start=1):
         data, issues = audit_file(p, selected_checks=selected_checks)
         if not any(issue.field == "parse" for issue in issues):
             metadata_by_path[p] = data
@@ -6700,6 +6701,7 @@ Available --check names:
             skipped_reviewed_errors += skipped_count
         if issues:
             results.append((p, issues))
+        emit_progress(index, len(targets), "Audit metadata files", every=25)
     if checked_map_data:
         checked_file_count += 6
         results.extend(

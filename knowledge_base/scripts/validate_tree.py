@@ -19,6 +19,7 @@ if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))
 
 from knowledge_base.config import KB_DIR
+from knowledge_base.progress import emit_progress
 from knowledge_base.tree.validation import (
     format_tree_validation_report,
     relative_to_kb,
@@ -100,6 +101,7 @@ def main() -> int:
         docs_dir=args.docs_dir,
         metadata_root=args.metadata_root,
         check_algorithm_labels=args.check_algorithm_labels,
+        progress_callback=lambda current, total, label: emit_progress(current, total, label, every=100),
     )
 
     if args.format == "json":

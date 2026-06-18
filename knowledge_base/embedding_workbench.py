@@ -13,6 +13,7 @@ from typing import Any
 import numpy as np
 
 FORMAT_VERSION = "embedding-workbench-v2"
+FASTEMBED_DEVICE_CHOICES = ("auto", "cpu", "cuda")
 
 
 @dataclass(frozen=True)
@@ -50,6 +51,37 @@ class EmbeddingTable:
 
 
 EmbedTexts = Callable[[list[str]], Sequence[Sequence[float]] | np.ndarray]
+ProgressCallback = Callable[[int, int, str], None]
+
+
+def available_onnx_providers() -> list[str]:
+    try:
+        import onnxruntime as ort  # type: ignore[import]
+    except ImportError:
+        return []
+    return list(ort.get_available_providers())
+
+
+def preload_onnxruntime_cuda() -> None:
+    try:
+        import onnxruntime as ort  # type: ignore[import]
+    except ImportError:
+        return
+    preload = getattr(ort, "preload_dlls", None)
+    if callable(preload):
+        preload()
+
+
+def fastembed_effective_device(device: str, providers: Sequence[str]) -> str:
+    if device == "cuda" and "CUDAExecutionProvider" not in providers:
+        raise SystemExit(
+            "ERROR: --fastembed-device cuda requested, but ONNX Runtime cannot see CUDAExecutionProvider.\n"
+            f"Available ONNX providers: {', '.join(providers) or 'none'}\n"
+            "Install a CUDA-enabled onnxruntime-gpu build in this venv, then rerun with --force to re-embed."
+        )
+    if device == "auto":
+        return "cuda" if "CUDAExecutionProvider" in providers else "cpu"
+    return device
 
 
 def load_embedding_cache(path: Path) -> dict[str, Any]:
@@ -146,6 +178,7 @@ def refresh_embedding_cache(
     embed_texts: EmbedTexts,
     force: bool = False,
     invalidate_keys: Sequence[str] = (),
+    progress_callback: ProgressCallback | None = None,
 ) -> EmbeddingRefresh:
     ordered_rows = _validate_rows(rows)
     cache = load_embedding_cache(cache_path)
@@ -167,22 +200,27 @@ def refresh_embedding_cache(
         del cached_papers[paper_id]
         vector_by_id.pop(paper_id, None)
 
-    changed_rows = [
-        row
-        for row in ordered_rows
-        if force
-        or row.id not in cached_papers
-        or row.id not in vector_by_id
-        or cached_papers[row.id].get("hash") != row.content_hash
-    ]
+    changed_rows: list[EmbeddingRow] = []
+    for index, row in enumerate(ordered_rows, start=1):
+        if (
+            force
+            or row.id not in cached_papers
+            or row.id not in vector_by_id
+            or cached_papers[row.id].get("hash") != row.content_hash
+        ):
+            changed_rows.append(row)
+        if progress_callback is not None:
+            progress_callback(index, len(ordered_rows), "Check embedding cache")
 
     if changed_rows:
         vectors = _embedding_matrix(embed_texts([row.text for row in changed_rows]), len(changed_rows))
-        for row, vector in zip(changed_rows, vectors, strict=True):
+        for index, (row, vector) in enumerate(zip(changed_rows, vectors, strict=True), start=1):
             vector_by_id[row.id] = vector.astype(np.float32, copy=False)
             cached_papers[row.id] = {
                 "hash": row.content_hash,
             }
+            if progress_callback is not None:
+                progress_callback(index, len(changed_rows), "Store changed embeddings")
 
     row_matrix = _ordered_matrix(ordered_rows, vector_by_id)
     matrix = _aggregate_rows(ordered_rows, vector_by_id)
@@ -201,6 +239,23 @@ def refresh_embedding_cache(
         model_changed=model_changed,
         previous_model=previous_model,
     )
+
+
+def materialize_embedding_table(
+    rows: Sequence[EmbeddingRow],
+    matrix: Sequence[Sequence[float]] | np.ndarray,
+    *,
+    cache_path: Path,
+    model: str,
+    cache: dict[str, Any] | None = None,
+    invalidate_keys: Sequence[str] = (),
+) -> dict[str, Any]:
+    ordered_rows = _validate_rows(rows)
+    target_cache = load_embedding_cache(cache_path) if cache is None else cache
+    for key in invalidate_keys:
+        target_cache.pop(key, None)
+    _save_embedding_table(cache_path, target_cache, ordered_rows, _embedding_matrix(matrix, len(ordered_rows)), model)
+    return target_cache
 
 
 def _validate_rows(rows: Sequence[EmbeddingRow]) -> list[EmbeddingRow]:

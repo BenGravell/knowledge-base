@@ -27,6 +27,7 @@ if str(REPO_ROOT) not in sys.path:
 
 from knowledge_base.config import KB_DIR
 from knowledge_base.embedding_workbench import load_embedding_table
+from knowledge_base.progress import emit_progress
 from knowledge_base.tree.model import (
     TreeLeaf,
     TreeModel,
@@ -65,10 +66,12 @@ def as_list(value: Any) -> list[Any]:
 
 def collect_papers(metadata_root: Path) -> dict[str, Paper]:
     papers: dict[str, Paper] = {}
-    for metadata_file in sorted(metadata_root.rglob("metadata.yml")):
+    metadata_files = sorted(metadata_root.rglob("metadata.yml"))
+    for index, metadata_file in enumerate(metadata_files, start=1):
         with metadata_file.open("r", encoding="utf-8") as f:
             data = yaml.safe_load(f)
         if not isinstance(data, dict):
+            emit_progress(index, len(metadata_files), "Collect unplaced-paper metadata", every=100)
             continue
 
         paper_id = paper_id_from_file(metadata_file, data)
@@ -85,6 +88,7 @@ def collect_papers(metadata_root: Path) -> dict[str, Paper]:
             abstract=abstract,
             tags=tags,
         )
+        emit_progress(index, len(metadata_files), "Collect unplaced-paper metadata", every=100)
     return papers
 
 

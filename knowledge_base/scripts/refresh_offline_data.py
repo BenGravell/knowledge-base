@@ -14,10 +14,12 @@ from __future__ import annotations
 
 import argparse
 import os
+import re
 import shlex
 import subprocess
 import sys
 import time
+from collections.abc import Callable
 from dataclasses import dataclass
 from pathlib import Path
 
@@ -25,9 +27,13 @@ from rich.console import Console
 from rich.progress import BarColumn, Progress, SpinnerColumn, TaskProgressColumn, TextColumn, TimeElapsedColumn
 from rich.table import Table
 
+from knowledge_base.embedding_workbench import FASTEMBED_DEVICE_CHOICES
+from knowledge_base.progress import PROGRESS_ENV, PROGRESS_PREFIX
+
 KB_DIR = Path(__file__).resolve().parents[1]
 REPO_ROOT = KB_DIR.parent
 CONSOLE = Console()
+CHILD_PROGRESS_RE = re.compile(rf"^\s*{re.escape(PROGRESS_PREFIX)}\s+(\d+)/(\d+)(?:\s+(.*))?$")
 
 
 @dataclass(frozen=True)
@@ -56,12 +62,18 @@ def format_duration(duration_s: float) -> str:
     return f"{int(minutes)}m {seconds:.0f}s"
 
 
+def format_status(failed: bool) -> str:
+    return "[red]FAIL[/]" if failed else "[green]PASS[/]"
+
+
 def subprocess_env() -> dict[str, str]:
     env = os.environ.copy()
     pythonpath_parts = [str(REPO_ROOT)]
     if env.get("PYTHONPATH"):
         pythonpath_parts.append(env["PYTHONPATH"])
     env["PYTHONPATH"] = os.pathsep.join(pythonpath_parts)
+    env.setdefault("PYTHONUNBUFFERED", "1")
+    env[PROGRESS_ENV] = "1"
     return env
 
 
@@ -70,7 +82,18 @@ def site_has_paper_pages() -> bool:
     return papers_dir.exists() and next(papers_dir.rglob("index.html"), None) is not None
 
 
-def run_command(command: list[str], console: Console) -> tuple[int, str | None]:
+def run_command(
+    command: list[str],
+    console: Console,
+    *,
+    on_stdout_line: Callable[[str], bool] | None = None,
+) -> tuple[int, str | None]:
+    def handle_stdout_line(line: str) -> None:
+        text = line.rstrip("\n")
+        if on_stdout_line is not None and on_stdout_line(text):
+            return
+        console.print(text, markup=False, highlight=False)
+
     try:
         with subprocess.Popen(
             command,
@@ -86,7 +109,7 @@ def run_command(command: list[str], console: Console) -> tuple[int, str | None]:
             if process.stdout is None:
                 return process.wait(), "stdout pipe was not created"
             for line in process.stdout:
-                console.print(line.rstrip("\n"), markup=False, highlight=False)
+                handle_stdout_line(line)
             return process.wait(), None
     except OSError as exc:
         return 127, str(exc)
@@ -101,19 +124,46 @@ def run_step(
     console: Console,
     progress: Progress | None = None,
     progress_task: int | None = None,
+    work_task: int | None = None,
 ) -> StepResult:
     console.rule(f"{index}/{total} {step.group}: {step.label}", style="cyan")
     console.print(step.name, style="bold")
     console.print(f"$ {format_command(step.command)}", style="dim", markup=False, highlight=False, soft_wrap=True)
     if progress is not None and progress_task is not None:
         progress.update(progress_task, description=f"{step.group}: {step.label}")
+    if progress is not None and work_task is not None:
+        progress.update(work_task, description="Current work", completed=0, total=1, visible=False)
     if dry_run:
         if progress is not None and progress_task is not None:
             progress.advance(progress_task)
         return StepResult(step, 0.0, 0)
 
+    def update_work_progress(current: int, total: int, label: str) -> None:
+        if progress is None or work_task is None or total <= 0:
+            return
+        progress.update(
+            work_task,
+            description=label or f"{step.group}: {step.label}",
+            completed=min(current, total),
+            total=total,
+            visible=True,
+        )
+
+    def advance_for_output(line: str) -> bool:
+        match = CHILD_PROGRESS_RE.match(line)
+        if not match:
+            return False
+        current = int(match.group(1))
+        total = int(match.group(2))
+        update_work_progress(current, total, match.group(3) or "")
+        return True
+
     step_start_ns = time.perf_counter_ns()
-    returncode, error = run_command(step.command, console)
+    returncode, error = run_command(
+        step.command,
+        console,
+        on_stdout_line=advance_for_output,
+    )
     elapsed_s = (time.perf_counter_ns() - step_start_ns) / 1_000_000_000
     if error:
         console.print(f"Step failed after {format_duration(elapsed_s)}: {step.name}: {error}", style="bold red")
@@ -121,8 +171,10 @@ def run_step(
         console.print(f"Step failed after {format_duration(elapsed_s)}: {step.name}", style="bold red")
     else:
         console.print(f"Done in {format_duration(elapsed_s)}.", style="green")
-    if progress is not None and progress_task is not None:
+    if progress is not None and progress_task is not None and not error and not returncode:
         progress.advance(progress_task)
+    if progress is not None and work_task is not None and not error and not returncode:
+        progress.update(work_task, visible=False)
     return StepResult(step, elapsed_s, returncode)
 
 
@@ -136,9 +188,8 @@ def print_timing_report(results: list[StepResult], total_s: float, *, failed: bo
         group_results = [result for result in results if result.step.group == group]
         table.add_row(group, "Total", format_duration(sum(result.duration_s for result in group_results)), "")
         for result in group_results:
-            status = "[red]FAIL[/]" if result.returncode else "[green]PASS[/]"
-            table.add_row("", result.step.label, format_duration(result.duration_s), status)
-    table.add_row("Total", "", format_duration(total_s), "[red]FAILED[/]" if failed else "[green]PASSED[/]")
+            table.add_row("", result.step.label, format_duration(result.duration_s), format_status(bool(result.returncode)))
+    table.add_row("Total", "", format_duration(total_s), format_status(failed))
     console.print()
     console.print(table)
 
@@ -168,7 +219,12 @@ def build_steps(args: argparse.Namespace) -> list[Step]:
     )
 
     if not args.skip_semantic_search:
-        semantic_search = [py, "knowledge_base/semantic_search/generate_semantic_search_index.py"]
+        semantic_search = [
+            py,
+            "knowledge_base/semantic_search/generate_semantic_search_index.py",
+            "--fastembed-device",
+            args.fastembed_device,
+        ]
         if args.force:
             semantic_search.append("--force")
         steps.append(
@@ -181,7 +237,12 @@ def build_steps(args: argparse.Namespace) -> list[Step]:
         )
 
     if not args.skip_map:
-        map_data = [py, "knowledge_base/map/generate_map_data.py"]
+        map_data = [
+            py,
+            "knowledge_base/map/generate_map_data.py",
+            "--fastembed-device",
+            args.fastembed_device,
+        ]
         if args.map_backend != "auto":
             map_data.extend(["--backend", args.map_backend])
         if args.force:
@@ -235,6 +296,12 @@ def parse_args() -> argparse.Namespace:
             "Map embedding backend. fastembed is the local default; auto lets "
             "generate_map_data.py choose, including Voyage when configured."
         ),
+    )
+    parser.add_argument(
+        "--fastembed-device",
+        choices=FASTEMBED_DEVICE_CHOICES,
+        default="auto",
+        help="Device for local fastembed inference in Map and Semantic Search: auto uses CUDA when available.",
     )
     parser.add_argument(
         "--skip-force-layout",
@@ -306,6 +373,7 @@ def main() -> int:
         redirect_stderr=False,
     ) as progress:
         progress_task = progress.add_task("Starting", total=len(steps))
+        work_task = progress.add_task("Current work", total=1, visible=False)
         for index, step in enumerate(steps, start=1):
             result = run_step(
                 step,
@@ -315,6 +383,7 @@ def main() -> int:
                 console=CONSOLE,
                 progress=progress,
                 progress_task=progress_task,
+                work_task=work_task,
             )
             results.append(result)
             returncode = result.returncode

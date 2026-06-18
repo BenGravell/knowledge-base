@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from collections.abc import Callable
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
@@ -20,6 +21,7 @@ from knowledge_base.utils.paper_ids import paper_id_from_metadata
 DOCS_DIR = KB_DIR / "docs"
 METADATA_ROOT = DOCS_DIR / "papers"
 TREE_YML = KB_DIR / "tree.yml"
+ProgressCallback = Callable[[int, int, str], None]
 
 
 @dataclass(frozen=True)
@@ -102,9 +104,14 @@ def doc_path_from_source(source: str, *, tree_dir: Path, docs_dir: Path) -> Path
     return (docs_dir / source_path).resolve()
 
 
-def load_metadata_papers(metadata_root: Path) -> list[MetadataPaper]:
+def load_metadata_papers(
+    metadata_root: Path,
+    *,
+    progress_callback: ProgressCallback | None = None,
+) -> list[MetadataPaper]:
     papers: list[MetadataPaper] = []
-    for metadata_file in sorted(metadata_root.rglob("metadata.yml")):
+    metadata_files = sorted(metadata_root.rglob("metadata.yml"))
+    for index, metadata_file in enumerate(metadata_files, start=1):
         with metadata_file.open("r", encoding="utf-8") as f:
             data = yaml.load(f, Loader=YAML_LOADER) or {}
         if not isinstance(data, dict):
@@ -120,6 +127,8 @@ def load_metadata_papers(metadata_root: Path) -> list[MetadataPaper]:
                 generated_path=f"papers/{paper_id}.md",
             )
         )
+        if progress_callback is not None:
+            progress_callback(index, len(metadata_files), "Load tree metadata")
     return papers
 
 
@@ -129,6 +138,7 @@ def validate_tree(
     docs_dir: Path = DOCS_DIR,
     metadata_root: Path = METADATA_ROOT,
     check_algorithm_labels: bool = False,
+    progress_callback: ProgressCallback | None = None,
 ) -> TreeValidationReport:
     tree_path = tree_path.resolve()
     tree_dir = tree_path.parent
@@ -140,7 +150,7 @@ def validate_tree(
         base_dir=tree_dir,
         metadata_root=metadata_root,
     )
-    metadata_papers = load_metadata_papers(metadata_root)
+    metadata_papers = load_metadata_papers(metadata_root, progress_callback=progress_callback)
     papers_by_path = {paper.metadata_path: paper for paper in metadata_papers}
     papers_by_id: dict[str, list[MetadataPaper]] = {}
     for paper in metadata_papers:
@@ -151,7 +161,9 @@ def validate_tree(
     referenced_paper_ids: set[str] = set()
     checked_links = 0
 
-    for leaf in tree_model.leaves:
+    for index, leaf in enumerate(tree_model.leaves, start=1):
+        if progress_callback is not None and index > 1:
+            progress_callback(index - 1, len(tree_model.leaves), "Check tree leaves")
         nav_path = ("Tree", *leaf.nav_path)
         source = leaf.source.replace("\\", "/").strip()
         if not source or source.startswith("#") or is_external_source(source):
@@ -258,22 +270,25 @@ def validate_tree(
                     nav_path=nav_path,
                 )
             )
+    if progress_callback is not None:
+        progress_callback(len(tree_model.leaves), len(tree_model.leaves), "Check tree leaves")
 
     referenced_paper_paths = set(referenced_metadata_paths)
     for paper_id in referenced_paper_ids:
         referenced_paper_paths.update(paper.metadata_path for paper in papers_by_id.get(paper_id, []))
 
-    for paper in metadata_papers:
-        if paper.metadata_path in referenced_paper_paths:
-            continue
-        issues.append(
-            TreeIssue(
-                code="unplaced-paper",
-                message="Metadata-backed paper is not referenced in tree.yml.",
-                metadata_path=paper.metadata_path,
-                generated_path=paper.generated_path,
+    for index, paper in enumerate(metadata_papers, start=1):
+        if paper.metadata_path not in referenced_paper_paths:
+            issues.append(
+                TreeIssue(
+                    code="unplaced-paper",
+                    message="Metadata-backed paper is not referenced in tree.yml.",
+                    metadata_path=paper.metadata_path,
+                    generated_path=paper.generated_path,
+                )
             )
-        )
+        if progress_callback is not None:
+            progress_callback(index, len(metadata_papers), "Check tree placement")
 
     return TreeValidationReport(
         tree_path=tree_path,

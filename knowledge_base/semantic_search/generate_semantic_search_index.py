@@ -15,10 +15,16 @@ from pathlib import Path
 from typing import Any
 
 import numpy as np
-from fastembed import TextEmbedding
 
 from knowledge_base.catalog import Catalog, Entry, content_hash
-from knowledge_base.embedding_workbench import EmbeddingRow, refresh_embedding_cache
+from knowledge_base.embedding_workbench import (
+    FASTEMBED_DEVICE_CHOICES,
+    EmbeddingRow,
+    available_onnx_providers,
+    fastembed_effective_device,
+    preload_onnxruntime_cuda,
+    refresh_embedding_cache,
+)
 from knowledge_base.generated_assets import (
     SEMANTIC_BROWSER_MODEL,
     SEMANTIC_SCORE_THRESHOLD,
@@ -26,6 +32,7 @@ from knowledge_base.generated_assets import (
     SEMANTIC_SEARCH_SETTINGS,
     SEMANTIC_SEARCH_VECTORS,
 )
+from knowledge_base.progress import emit_progress
 
 KB_DIR = Path(__file__).resolve().parents[1]
 DOCS_DIR = KB_DIR / "docs"
@@ -42,6 +49,7 @@ THRESHOLD_GRID_STEP = 0.01
 THRESHOLD_ROUNDING_STEP = 0.05
 THRESHOLD_TARGET_RECALL = 0.85
 DEFAULT_SCORE_THRESHOLD = SEMANTIC_SCORE_THRESHOLD
+EMBED_PROGRESS_INTERVAL = 32
 
 
 def clean_scalar(value: object) -> str:
@@ -64,7 +72,8 @@ def embedding_rows_for_entry(entry: Entry) -> list[EmbeddingRow]:
 def load_papers() -> tuple[list[dict[str, Any]], list[EmbeddingRow]]:
     papers: list[dict[str, Any]] = []
     rows: list[EmbeddingRow] = []
-    for entry in Catalog.from_metadata_root(METADATA_ROOT, write_embedding_input_sidecars=True).entries:
+    entries = Catalog.from_metadata_root(METADATA_ROOT, write_embedding_input_sidecars=True).entries
+    for index, entry in enumerate(entries, start=1):
         papers.append(
             {
                 "id": entry.id,
@@ -87,6 +96,7 @@ def load_papers() -> tuple[list[dict[str, Any]], list[EmbeddingRow]]:
             }
         )
         rows.extend(embedding_rows_for_entry(entry))
+        emit_progress(index, len(entries), "Build semantic search rows", every=100)
     return papers, rows
 
 
@@ -227,20 +237,48 @@ def write_bytes_atomic(path: Path, content: bytes) -> None:
 
 
 def generate(args: argparse.Namespace) -> None:
+    print("Loading paper catalog")
     papers, rows = load_papers()
-    print(f"Found {len(papers)} papers")
+    print(f"Found {len(papers)} papers and {len(rows)} embedding chunk(s)")
 
     def embed_changed(texts: list[str]) -> np.ndarray:
-        print(f"Embedding {len(texts)} changed chunk(s) with {args.model}")
-        embedder = TextEmbedding(args.model)
-        return np.asarray(list(embedder.embed(texts, batch_size=32)), dtype=np.float32)
+        from fastembed import TextEmbedding
+        from fastembed.common.types import Device
 
+        print(f"Embedding {len(texts)} changed chunk(s) with {args.model}")
+        cuda_setting_by_device = {
+            "auto": Device.AUTO,
+            "cpu": Device.CPU,
+            "cuda": Device.CUDA,
+        }
+        providers = available_onnx_providers()
+        effective_device = fastembed_effective_device(args.fastembed_device, providers)
+        if effective_device == "cuda":
+            preload_onnxruntime_cuda()
+        print(f"fastembed device: requested={args.fastembed_device}, effective={effective_device}")
+        print(f"ONNX Runtime providers: {', '.join(providers) or 'none'}")
+        print("Loading fastembed model")
+        embedder = TextEmbedding(args.model, cuda=cuda_setting_by_device[args.fastembed_device])
+        session = getattr(getattr(embedder, "model", None), "model", None)
+        if session is not None:
+            print(f"Active ONNX providers: {', '.join(session.get_providers())}")
+        print("Fastembed model ready")
+        vectors = []
+        for index, vector in enumerate(embedder.embed(texts, batch_size=EMBED_PROGRESS_INTERVAL), start=1):
+            vectors.append(vector)
+            if index % EMBED_PROGRESS_INTERVAL == 0 or index == len(texts):
+                print(f"Embedded {index}/{len(texts)} changed chunk(s)")
+                emit_progress(index, len(texts), "Embed changed semantic chunks")
+        return np.asarray(vectors, dtype=np.float32)
+
+    print("Refreshing embedding cache")
     embedding_refresh = refresh_embedding_cache(
         rows,
         cache_path=args.cache,
         model=args.model,
         embed_texts=embed_changed,
         force=args.force,
+        progress_callback=lambda current, total, label: emit_progress(current, total, label, every=512),
     )
     if embedding_refresh.model_changed:
         print(f"Model changed ({embedding_refresh.previous_model} -> {args.model}); rebuilt cache")
@@ -251,6 +289,7 @@ def generate(args: argparse.Namespace) -> None:
     else:
         print("All embedding chunks are cached")
 
+    print("Preparing semantic search assets")
     matrix = l2_normalize(embedding_refresh.matrix)
     quantized = quantize_normalized(matrix)
     threshold_data = best_thresholds_for_shared_tags(matrix, papers)
@@ -292,6 +331,7 @@ def generate(args: argparse.Namespace) -> None:
     for path in (args.manifest, args.settings, args.vectors):
         path.parent.mkdir(parents=True, exist_ok=True)
 
+    print("Writing semantic search assets")
     write_bytes_atomic(args.vectors, quantized.tobytes(order="C"))
     write_text_atomic(
         args.settings,
@@ -318,6 +358,12 @@ def generate(args: argparse.Namespace) -> None:
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--model", default=DEFAULT_MODEL, help=f"fastembed model name (default: {DEFAULT_MODEL})")
+    parser.add_argument(
+        "--fastembed-device",
+        choices=FASTEMBED_DEVICE_CHOICES,
+        default="auto",
+        help="Device for local fastembed inference: auto uses CUDA when ONNX Runtime exposes it (default: auto).",
+    )
     parser.add_argument(
         "--browser-model",
         default=DEFAULT_BROWSER_MODEL,

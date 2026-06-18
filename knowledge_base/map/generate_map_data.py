@@ -44,9 +44,9 @@ Two backends are supported, tried in order of quality:
      Requires the ``voyageai`` Python package and a ``VOYAGE_API_KEY``
      environment variable.  Get a key at https://www.voyageai.com/.
 
-  2. **fastembed** ``mixedbread-ai/mxbai-embed-large-v1`` (1024-d, top
-     open-source model on the MTEB benchmark, runs fully locally with no
-     API key via ONNX).  Requires the ``fastembed`` Python package:
+  2. **fastembed** ``sentence-transformers/all-MiniLM-L6-v2`` (384-d, local
+     ONNX, shared with Semantic Search's tracked chunk cache by default).
+     Requires the ``fastembed`` Python package:
          pip install fastembed
 
 Set ``VOYAGE_API_KEY`` in your environment to use Voyage AI.  Without it
@@ -63,6 +63,14 @@ Force full re-embed (ignores cache):
 Choose a specific backend explicitly:
     python generate_map_data.py --backend voyage
     python generate_map_data.py --backend fastembed
+
+Require CUDA for local fastembed inference:
+    python generate_map_data.py --backend fastembed --fastembed-device cuda --force
+
+Use the heavier historical Map model with a separate chunk cache:
+    python generate_map_data.py --backend fastembed \\
+        --fastembed-model mixedbread-ai/mxbai-embed-large-v1 \\
+        --chunk-cache knowledge_base/map/embedding_cache.chunks.json
 
 Custom paths:
     python knowledge_base/map/generate_map_data.py \\
@@ -109,11 +117,19 @@ from sklearn.preprocessing import normalize
 
 from knowledge_base.catalog import Catalog, Entry, content_hash
 from knowledge_base.embedding_workbench import (
+    FASTEMBED_DEVICE_CHOICES,
     EmbeddingRow,
+    available_onnx_providers,
+    fastembed_effective_device,
+    load_embedding_cache,
+    load_embedding_table,
+    materialize_embedding_table,
+    preload_onnxruntime_cuda,
     refresh_embedding_cache,
     save_embedding_cache,
 )
 from knowledge_base.generated_assets import MAP_DATA, MAP_SIMILARITY
+from knowledge_base.progress import emit_progress
 from knowledge_base.tree.model import (
     TreeModel,
 )
@@ -138,9 +154,12 @@ MKDOCS_YML = KB_DIR / "mkdocs.yml"
 DEFAULT_CACHE = MAP_DIR / "embedding_cache.json"
 DEFAULT_OUTPUT = MAP_DIR / MAP_DATA.name
 DEFAULT_SIMILARITY_OUTPUT = MAP_DIR / MAP_SIMILARITY.name
+DEFAULT_FASTEMBED_MODEL = "sentence-transformers/all-MiniLM-L6-v2"
+DEFAULT_SHARED_CHUNK_CACHE = KB_DIR / "semantic_search" / "embedding_cache.json"
 
 DEFAULT_UMAP_SCALE = 1500.0  # Base UMAP coordinate extent; formerly 1000 px.
 SIMILARITY_EXPORT_SCALE = 1000  # Store cosine similarities as compact rounded integers.
+EMBED_PROGRESS_INTERVAL = 32
 TREE_PROXIMITY_HISTOGRAM_BINS = 101
 MAP_DATA_FORMAT_VERSION = 2
 INCREMENTAL_LAYOUT_MAX_ADDED = 50
@@ -176,6 +195,30 @@ def embedding_rows_for_entry(entry: Entry) -> list[EmbeddingRow]:
         )
         for chunk in entry.embedding_chunks
     ]
+
+
+def paper_embedding_rows(papers: list[dict[str, Any]]) -> list[EmbeddingRow]:
+    return [
+        EmbeddingRow(id=str(paper["id"]), text="", content_hash=str(paper["hash"]))
+        for paper in papers
+    ]
+
+
+def default_chunk_cache_for_model(model: str, map_cache: Path) -> Path:
+    if model == DEFAULT_FASTEMBED_MODEL:
+        return DEFAULT_SHARED_CHUNK_CACHE
+    return map_cache.with_name(f"{map_cache.stem}.chunks.json")
+
+
+def paper_embedding_cache_is_current(cache_path: Path, rows: list[EmbeddingRow], model: str) -> bool:
+    if not cache_path.exists():
+        return False
+    table = load_embedding_table(cache_path, mmap_mode="r", aggregate=False)
+    return (
+        table.model == model
+        and table.ids == tuple(row.id for row in rows)
+        and table.hashes == {row.id: row.content_hash for row in rows}
+    )
 
 
 def compute_umap_positions(
@@ -520,9 +563,10 @@ def force_layout_postprocess(
 
         alpha *= alpha_decay
 
-        if verbose and (it % 20 == 0 or it == iterations - 1):
+        if verbose and (it % 10 == 0 or it == iterations - 1):
             drift = np.mean(np.linalg.norm(pos - home, axis=1))
             print(f"    [force_layout] iter {it:4d}  alpha={alpha:.4f}  mean drift from UMAP = {drift:.4f}")
+            emit_progress(it + 1, iterations, "Force layout iterations")
 
     if verbose:
         elapsed = time.time() - t0
@@ -829,7 +873,7 @@ def aggregate_force_layout_postprocess(
     )
 
     alpha = initial_alpha
-    for _ in range(iterations):
+    for iteration in range(iterations):
         forces = np.zeros_like(pos)
         forces += anchor_strength * (home_coords - pos)
 
@@ -842,6 +886,9 @@ def aggregate_force_layout_postprocess(
             _resolve_variable_collisions(pos, radii, collision_padding, pair_indices)
 
         alpha *= alpha_decay
+        if verbose and (iteration % 20 == 0 or iteration == iterations - 1):
+            print(f"    [aggregate_layout] iter {iteration:4d}/{iterations}")
+            emit_progress(iteration + 1, iterations, "Aggregate layout iterations")
 
     for _ in range(final_collision_iterations):
         overlap = _resolve_variable_collisions(pos, radii, collision_padding, pair_indices)
@@ -857,6 +904,8 @@ def build_aggregate_layouts(
     embeddings: np.ndarray,
     nav_order: dict[str, Any],
     force_params: dict[str, Any],
+    *,
+    verbose: bool = False,
 ) -> dict[str, dict[str, list[float]]]:
     """Precompute aggregate LOD positions so the browser avoids layout work."""
     branch_levels = aggregate_branch_levels(papers, nav_order)
@@ -931,9 +980,12 @@ def build_aggregate_layouts(
     for root in roots:
         visit(root)
 
-    for groups in groups_by_level.values():
+    layout_levels = [(level, groups) for level, groups in groups_by_level.items() if len(groups) >= 2]
+    for level_index, (level, groups) in enumerate(layout_levels, start=1):
         if len(groups) < 2:
             continue
+        if verbose:
+            print(f"    Aggregate layout {level_index}/{len(layout_levels)}: {level} ({len(groups)} group(s))")
 
         home_coords = np.array(
             [[group.layout_x, group.layout_y] for group in groups],
@@ -949,11 +1001,13 @@ def build_aggregate_layouts(
             aggregate_embeddings,
             radii,
             **force_params,
+            verbose=verbose,
         )
 
         for group, coords in zip(groups, layout_coords, strict=False):
             group.layout_x = float(coords[0])
             group.layout_y = float(coords[1])
+        emit_progress(level_index, len(layout_levels), "Aggregate layout levels")
 
     return {
         level: {
@@ -1058,13 +1112,15 @@ def embed_voyage(texts: list[str], model: str = "voyage-3-large") -> np.ndarray:
         print(f"    Voyage AI batch {batch_num}/{n_batches} ({len(batch)} texts)…")
         result = client.embed(batch, model=model, input_type="document")
         all_embeddings.extend(result.embeddings)
+        emit_progress(len(all_embeddings), len(texts), "Embed map chunks")
 
     return np.array(all_embeddings, dtype=np.float32)
 
 
 def embed_fastembed(
     texts: list[str],
-    model: str = "mixedbread-ai/mxbai-embed-large-v1",
+    model: str = DEFAULT_FASTEMBED_MODEL,
+    device: str = "auto",
 ) -> np.ndarray:
     """
     Embed *texts* using fastembed (local ONNX inference, no API key needed).
@@ -1075,22 +1131,46 @@ def embed_fastembed(
     The model is downloaded from HuggingFace on first use and cached in
     ``~/.cache/fastembed``.  Subsequent runs use the cached copy.
 
-    ``mixedbread-ai/mxbai-embed-large-v1`` (1024-d) is the default because
-    it is at the top of the open-source MTEB leaderboard for semantic
-    similarity as of 2025 and produces embeddings competitive with many
-    commercial APIs.
+    ``sentence-transformers/all-MiniLM-L6-v2`` is the default so Map and
+    Semantic Search can share the tracked chunk embedding cache.
     """
     from fastembed import TextEmbedding  # type: ignore[import]
+    from fastembed.common.types import Device  # type: ignore[import]
+
+    cuda_setting_by_device = {
+        "auto": Device.AUTO,
+        "cpu": Device.CPU,
+        "cuda": Device.CUDA,
+    }
+    providers = available_onnx_providers()
+    effective_device = fastembed_effective_device(device, providers)
+    if effective_device == "cuda":
+        preload_onnxruntime_cuda()
 
     print(f"    Loading fastembed model: {model}")
+    print(f"    fastembed device: requested={device}, effective={effective_device}")
+    print(f"    ONNX Runtime providers: {', '.join(providers) or 'none'}")
     print("    (First run downloads the model; subsequent runs use the cache.)")
-    embedder = TextEmbedding(model)
+    embedder = TextEmbedding(model, cuda=cuda_setting_by_device[device])
+    session = getattr(getattr(embedder, "model", None), "model", None)
+    if session is not None:
+        print(f"    Active ONNX providers: {', '.join(session.get_providers())}")
     print(f"    Embedding {len(texts)} texts…")
-    vecs = list(embedder.embed(texts, batch_size=32))
+    vecs = []
+    for index, vector in enumerate(embedder.embed(texts, batch_size=EMBED_PROGRESS_INTERVAL), start=1):
+        vecs.append(vector)
+        if index % EMBED_PROGRESS_INTERVAL == 0 or index == len(texts):
+            print(f"    Embedded {index}/{len(texts)} text(s)")
+            emit_progress(index, len(texts), "Embed map chunks")
     return np.array(vecs, dtype=np.float32)
 
 
-def choose_backend(requested: str | None) -> tuple[str, Callable[[list[str]], np.ndarray]]:
+def choose_backend(
+    requested: str | None,
+    *,
+    fastembed_device: str = "auto",
+    fastembed_model: str = DEFAULT_FASTEMBED_MODEL,
+) -> tuple[str, Callable[[list[str]], np.ndarray]]:
     """
     Select the embedding backend.
 
@@ -1118,9 +1198,9 @@ def choose_backend(requested: str | None) -> tuple[str, Callable[[list[str]], np
             "  Or set VOYAGE_API_KEY and install voyageai: pip install voyageai"
         )
 
-    model = "mixedbread-ai/mxbai-embed-large-v1"
+    model = fastembed_model
     print(f"Backend: fastembed {model} (local ONNX)")
-    return model, lambda texts: embed_fastembed(texts, model)
+    return model, lambda texts: embed_fastembed(texts, model, fastembed_device)
 
 
 # ---------------------------------------------------------------------------
@@ -1323,6 +1403,17 @@ def main() -> None:
         help="Force a specific embedding backend (default: auto-select).",
     )
     parser.add_argument(
+        "--fastembed-device",
+        choices=FASTEMBED_DEVICE_CHOICES,
+        default="auto",
+        help="Device for local fastembed inference: auto uses CUDA when ONNX Runtime exposes it (default: auto).",
+    )
+    parser.add_argument(
+        "--fastembed-model",
+        default=DEFAULT_FASTEMBED_MODEL,
+        help=f"Local fastembed model to use with --backend fastembed (default: {DEFAULT_FASTEMBED_MODEL}).",
+    )
+    parser.add_argument(
         "--force",
         action="store_true",
         help="Ignore the embedding cache and re-embed every paper.",
@@ -1332,6 +1423,15 @@ def main() -> None:
         type=Path,
         default=DEFAULT_CACHE,
         help=f"Path to the embedding cache file (default: {DEFAULT_CACHE}).",
+    )
+    parser.add_argument(
+        "--chunk-cache",
+        type=Path,
+        default=None,
+        help=(
+            "Path to materialized chunk embeddings. Defaults to the tracked Semantic Search cache for the "
+            "default MiniLM model, otherwise <cache-stem>.chunks.json next to --cache."
+        ),
     )
     parser.add_argument(
         "--output",
@@ -1368,7 +1468,7 @@ def main() -> None:
     papers: list[dict[str, Any]] = []
     rows: list[EmbeddingRow] = []
     catalog = Catalog.from_metadata_root(METADATA_ROOT, write_embedding_input_sidecars=True)
-    for entry in catalog.entries:
+    for index, entry in enumerate(catalog.entries, start=1):
         pid = entry.id
         rows.extend(embedding_rows_for_entry(entry))
 
@@ -1401,15 +1501,22 @@ def main() -> None:
                 "hash": entry.embedding_hash,
             }
         )
+        emit_progress(index, len(catalog.entries), "Build map rows", every=100)
 
     print(f"    Found {len(papers)} papers")
 
     # ---- choose backend ----------------------------------------------------
     print("\n[2/6] Selecting embedding backend…")
-    model_name, embed_fn = choose_backend(args.backend)
+    model_name, embed_fn = choose_backend(
+        args.backend,
+        fastembed_device=args.fastembed_device,
+        fastembed_model=args.fastembed_model,
+    )
 
     # ---- refresh embedding cache ------------------------------------------
     print("\n[3/6] Refreshing embedding cache…")
+    chunk_cache = args.chunk_cache or default_chunk_cache_for_model(model_name, args.cache)
+    print(f"    Chunk cache: {chunk_cache}")
 
     def embed_changed(texts: list[str]) -> np.ndarray:
         print(f"    {len(texts)} chunk(s) need (re-)embedding")
@@ -1417,16 +1524,16 @@ def main() -> None:
 
     embedding_refresh = refresh_embedding_cache(
         rows,
-        cache_path=args.cache,
+        cache_path=chunk_cache,
         model=model_name,
         embed_texts=embed_changed,
         force=args.force,
-        invalidate_keys=("umap", "force"),
+        progress_callback=lambda current, total, label: emit_progress(current, total, label, every=512),
     )
     if embedding_refresh.model_changed:
         print(
             f"    Model changed ({embedding_refresh.previous_model} -> {model_name}). "
-            "Discarded cached embeddings."
+            "Discarded cached chunk embeddings."
         )
     if embedding_refresh.pruned_ids:
         print(f"    Removed {len(embedding_refresh.pruned_ids)} stale cached chunk(s)")
@@ -1435,9 +1542,21 @@ def main() -> None:
     else:
         print(f"    Refreshed {embedding_refresh.changed_count} chunk embedding(s)")
 
-    cache = embedding_refresh.cache
     embeddings = embedding_refresh.matrix
     print(f"    Embedding matrix: {embeddings.shape}")
+    paper_rows = paper_embedding_rows(papers)
+    cache = load_embedding_cache(args.cache)
+    if not args.force and paper_embedding_cache_is_current(args.cache, paper_rows, model_name):
+        print(f"    Paper cache is current: {args.cache}")
+    else:
+        print(f"    Materializing paper embedding cache: {args.cache}")
+        cache = materialize_embedding_table(
+            paper_rows,
+            embeddings,
+            cache_path=args.cache,
+            model=model_name,
+            cache=cache,
+        )
 
     # ---- UMAP layout -------------------------------------------------------
     print("\n[4/6] Computing UMAP 2-D layout…")
@@ -1637,6 +1756,7 @@ def main() -> None:
         embeddings,
         nav_order,
         aggregate_force_params,
+        verbose=True,
     )
 
     graph_data = {
