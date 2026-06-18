@@ -1,0 +1,252 @@
+## INTRODUCTION
+
+Planning and control with guarantees on safety and reachability for systems with unknown dynamics has long been sought-after in the robotics and control community. Model-based optimal control can achieve this if the dynamics are precisely modeled, but modeling assumptions inevitably break down when applied to real physical systems due to unmodeled effects from friction, slip, flexing, etc. To account for this gap, data-driven machine learning methods and robust control seek to sidestep the need to precisely model the dynamics a priori. While robust control can provide strong guarantees when the unmodeled component of the dynamics is small and satisfies strong structural assumptions, such methods requires an accurate prior which may not be readily available. In contrast, machine learning methods are flexible but often lack formal guarantees, precluding their use in safety-critical applications. For instance, small perturbations from training data cause drastically poor and costly predictions in stock prices and power consumption. Since even small perturbations from the training distribution can yield untrustworthy results, applying AI systems to predict dynamics can lead to unsafe, unpredictable behavior.
+
+To address this gap, we propose a method for planning with learned dynamics which yields probabilistic guarantees on safety, reachability, and goal invariance in execution on the true system. Our core insight is that we can determine where a learned model can be trusted for planning using the Lipschitz constant of the error (the difference between the true and learned dynamics), which also informs how well the training data covers the task-relevant domain. Under the assumption of deterministic true dynamics, we can plan trajectories in this trusted domain with strong safety guarantees for an important class of learned dynamical systems.
+
+Specifically, with a Lipschitz constant, we can bound the difference in dynamics between a novel point (that our model was not trained on) and a training point. Since the bound grows with the distance to training points, we can naturally define a domain where the model can be trusted as the set of points within a certain distance to training points. Conversely, to obtain a small bound over a desired domain, it is necessary to have good training data coverage in the task-relevant domain. At a high level, to obtain a small bound on the error in a domain, we want to have good coverage over the domain and regularity of the learned model via the Lipschitz constant of the error.
+
+Our safety and reachability guarantees ultimately rely on an overestimate of the smallest Lipschitz constant. To find an estimate that exceeds the smallest Lipschitz constant with a given probability $\rho$, we use a statistical approach based on Extreme Value Theory and validate its result with a Kolmogorov-Smirnov goodness-of-fit test. If the test validates our estimate, we can choose a confidence interval with an upper bound that overestimates the true Lipschitz constant with probability $\rho$. Our method requires the estimation of three Lipschitz constants, translating to system safety and reachability guarantees which hold with a probability of at least $\rho^{3}$. This guarantee is fairly strong as it holds for all time, unlike many methods offering probabilistic guarantees on a per trajectory or episode basis.
+
+If the learned dynamics have at least as many controls as states and are control-affine (note we do not assume the true dynamics are also control-affine), then we also determine conditions for the existence of a feedback controller that tightly tracks the planned trajectory in execution under the true dynamics. The tight tracking error bound yields favorable properties for our planner and controller: if we have a valid Lipschitz constant estimate for a sufficiently-accurate learned model, 1) we guarantee safety if no obstacle is within the tracking error of the trajectory, 2) we guarantee we can reach the goal within a small tolerance, and 3) if we can assert a feedback law that keeps the system at the goal exists, then the closed-loop system is guaranteed to remain in a small region around the goal. In this paper, we assume the learned dynamics are control-affine, deterministic, and have at least as many controls as states (such as a robotic arm under velocity control), the true dynamics are deterministic, and that independent samples of the true dynamics can be taken in the domain of interest. Our contributions are:
+
+A method to bound error between two general dynamics functions in a domain by using a Lipschitz constant
+
+A condition for uncertain control-affine systems that guarantees the existence of a feasible feedback law
+
+A planner that probabilistically guarantees safety and closed-loop stability-like properties about the goal for learned dynamics with as many controls as states
+
+Evaluation on a 7DOF Kuka arm and a 6D quadrotor
+
+## RELATED WORK
+
+Prior work has used data coverage and Lipschitz constant regularization to ensure properties of a learned function. shows that a linearization of a nonlinear state estimator generalizes with bounded error by estimating the maximum slope (related to the Lipschitz constant) of the error. learns a control barrier function (CBF) from data, ensuring its validity through Lipschitz constant regularity and by checking the CBF conditions at a finite set of points. In contrast, we apply and extend these ideas to plan with learned dynamics, using the Lipschitz constant of the error dynamics to provide safety, reachability, and stability-like guarantees.
+
+More broadly, our work is related to methods for planning and control of unknown dynamics with performance guarantees. A traditional approach is robust control, which assumes a good prior on the true dynamics and that unmodeled components are tightly bounded in some set. Robust control has been applied in model predictive control and Hamilton-Jacobi (HJ) reachability analysis. While these methods have strong guarantees, the assumption that the unmodeled dynamics can be tightly bounded requires a accurate prior whereas our method does not, by actively keeping both planned and executed trajectories in a domain where the model can be trusted without a priori knowledge.
+
+Other methods use Gaussian Processes (GPs) to estimate the mean and covariance of the dynamics, providing probabilistic bounds on safety and reachability. For example, probabilistically bounds the reachable set of a fixed horizon trajectory. Similarly explores the environment while ensuring (with some probability) safety via HJ reachability analysis. In many contexts, GPs are used to derive confidence bounds that can provide probabilistic safety guarantees. These methods can model dynamics with stochasticity, which our method cannot handle. However, the GP-based methods are incapable of long-horizon planning due to the unbounded growth of the covariance ellipse unless a known feedback controller exists. Our method does not require any prior controller, and we can plan trajectories of arbitrary length without unbounded growth of the reachable set.
+
+Other work performs long-horizon planning with learned models without safety or reachability guarantees. plans in learned latent spaces. estimates the confidence that a controller can move between states to guide planning. learns when a reduced-order model can be used. Unlike -, our method provides safety and reachability guarantees.
+
+Our safety guarantees rely on proving the existence of a stabilizing feedback controller in execution, like LQR-trees, funnel libraries, and LQG-MP. Unlike these approaches, our method requires no a priori model and can prove a feedback law exists without structural assumptions on the true dynamics (e.g. that they are polynomial).
+
+## PRELIMINARIES
+
+Let $f:{{\mathcal{X} \times \mathcal{U}}\rightarrow\mathcal{X}}$ be the true unknown discrete-time dynamics where $\mathcal{X}$ is the state space and $\mathcal{U}$ is the control space, which we assume are deterministic. We define $g:{{\mathcal{X} \times \mathcal{U}}\rightarrow\mathcal{X}}$ to be an approximation of the true dynamics that is control-affine and therefore can be written as follows
+
+In this paper, we represent the approximate dynamics with a neural network, though our method is agnostic to the structure of the model and how it is derived. Let $\mathcal{S} = {\{{(x_{i},u_{i},{f{(x_{i},u_{i})}})}\}}_{i = 1}^{N}$ be the training data for $g$, and let $\Psi = {\{{(x_{j},u_{j},{f{(x_{j},u_{j})}})}\}}_{j = 1}^{M}$ be another set of samples collected near $\mathcal{S}$ that will be used to estimate the Lipschitz constant. We use $\overline{\cdot}$ to refer to data points from $\mathcal{S}$ or $\Psi$. We place no assumption on how $\mathcal{S}$ is obtained; any appropriate method (uniform sampling, perturbations from expert trajectories, etc.) may be employed, although we require independent and identically distributed (i.i.d.) samples for $\Psi$. A single state-control pair is written as $(x,u)$. With some abuse of notation, we write ${(\overline{x},\overline{u})} \in \mathcal{S}$ if ${(\overline{x},\overline{u})} = {(x_{i},u_{i})}$ for some $1 \leq i \leq N$ (similarly for $\Psi$).
+
+A Lipschitz constant bounds how much outputs change with respect to a change in the inputs. For some function $h$, a Lipschitz constant over a domain $\mathcal{Z}$ is any number $L$ such that for all ${z_{1},z_{2}} \in \mathcal{Z}$
+
+Norms $\parallel \cdot \parallel$ are always the 2-norm or induced 2-norm. We define $L_{f - g}$, $L_{g_{0}}$, and $L_{g_{1}}$ as the smallest Lipschitz constants of the error $f - g$, $g_{0}$, and $g_{1}$. The input to $f - g$ is a state-control pair $(x,u)$ and its output is a state. For $g_{0}$, both the input and output are a state. For $g_{1}$, its input is a state and its output is a ${{\text{dim}{(\mathcal{X})}} \times \text{dim}}{(\mathcal{U})}$ matrix where dim$( \cdot )$ is the dimension of the space. A ball $\mathcal{B}_{r}{(x)}$ of radius $r$ about a point $x$ is defined as the set $\left. \{ y \middle| {{\|{y - x}\|} < r}\} \right.$, also referred to as a $r$-ball about $x$. We suppose the state space $\mathcal{X}$ is partitioned into safe $\mathcal{X}_{\text{safe}}$ and unsafe $\mathcal{X}_{\text{unsafe}}$ sets (e.g., the states in collision with an obstacle).
+
+The method consists of two major components. First, we determine a trusted domain $D \subseteq {\mathcal{X} \times \mathcal{U}}$ and estimate the Lipschitz constants. Second, we use $D$ to find a path to the goal satisfying our safety and reachability requirements.
+
+### Problem 1
+
+Given a learned model $g$, unknown dynamics $f$, and datasets $\Psi$ and $\mathcal{S}$, determine the trusted domain $D$ where ${\|{{f{(x,u)}} - {g{(x,u)}}}\|} \leq \epsilon$, for some $\epsilon > 0$. Additionally determine the Lipschitz constants $L_{f - g}$, $L_{g_{0}}$, and $L_{g_{1}}$ in $D$.
+
+### Problem 2
+
+Given control-affine $g$, unknown $f$, start $x_{I}$, goal $x_{G}$, goal tolerance $\lambda$, $D$, $L_{f - g}$, $L_{g_{0}}$, $L_{g_{1}}$, and $\mathcal{X}_{\text{unsafe}}$, plan a trajectory $(x_{0},\ldots,x_{K})$, $(u_{0},\ldots,u_{K - 1})$ such that $x_{0} = x_{I}$, $x_{k + 1} = {g{(x_{k},u_{k})}}$, $K < \infty$, and ${\|{x_{K} - x_{G}}\|} \leq \lambda$. Additionally, under the true dynamics $f$, guarantee that closed loop execution does not enter $\mathcal{X}_{\text{unsafe}}$, converges to $\mathcal{B}_{\epsilon + \lambda}{(x_{G})}$, and remains in $\mathcal{B}_{\epsilon + \lambda}{(x_{G})}$ after reaching $x_{K}$.
+
+## METHOD
+
+Secs. IV-A - IV-B and IV-C - IV-D cover our approaches to Probs. 1 and 2, respectively. In Sec. IV-A, we show how $L_{f - g}$ can establish a trusted domain and how $L_{f - g}$ can be estimated in Sec. IV-B. In Sec. IV-C, we design a planner that ensures safety, that the system remains in the trusted domain, and that a feedback law maintaining minimal tracking error exists. We present the full algorithm in Sec. IV-D.
+
+### IV-A The trusted domain
+
+For many systems, we are only interested in a task-relevant domain, and it is often impossible to collect data everywhere in state space, especially for high-dimensional systems. Hence, it is natural that our learned model is only accurate near training data. With a Lipschitz constant of the error, we can precisely define how accurate the learned dynamics are in a domain constructed from the training data. We note this derivation can also be done for systems without the control-affine assumption on the learned dynamics, and thus it can still be useful for determining where a broader class of learned models can be trusted. However, removing the control-affine structure makes controller synthesis much more difficult, and is the subject of future work.
+
+Consider a single training point $(\overline{x},\overline{u})$ and a novel point $(x,u)$. We derive a bound on the error between the true and estimated dynamics at $(x,u)$ using the triangle inequality and Lipschitz constant of the error:
+
+The above relation describes the error at a novel point, but we can also generalize to any domain $D$. Define $b_{T}$ to be the dispersion of $\mathcal{S} \cap D$ in $D$ and define $e_{T}$ to be the maximum training error of the learned model. Explicitly,
+
+Then, we can uniformly bound the error across the entire set $D$ to yield a simple and exact relation between $f$ and $g$.
+
+Figure 1: An example with f (x) = x′, dim (𝒳) = 1, and dim (𝒰) = 0. True dynamics: yellow; learned linear dynamics: orange; 𝒮: green crosses; Ψ: light blue crosses; domain D: interval [−1, 2], bordered in black. Here, bT = 0.3633 (purple) and eT = 0.1161 (blue). The Lipschitz constant of the error is Lf − g = 0.1919, yielding ϵ = 0.1859. We can use this bound to ensure the difference between the learned and true dynamics is no more than ϵ in D (shaded orange area). Note Lf − g can be larger outside of D.
+
+See Fig. 1 for an example of these quantities. For the remainder of the method, we select $D$ to be the union of $r$-balls about a subset of the training data $\mathcal{S}_{D} \subset \mathcal{S}$:
+
+In the next section we discuss selection of $\mathcal{S}_{D}$, its role in estimating $L_{f - g}$, and how $r$ is selected.
+
+### IV-B Estimating the Lipschitz constant
+
+For to hold over all of $D$, we require that $L_{f - g}$ is a Lipschitz constant for the error. We use results from Extreme Value Theory to obtain an estimate ${\hat{L}}_{f - g}$ that overestimates $L_{f - g}$, i.e. ${\hat{L}}_{f - g} \geq L_{f - g}$, with a user-defined probability $\rho$.
+
+We build on -, which find an estimate ${\hat{L}}_{h}$ of the Lipschitz constant $L_{h}$ for a function $h{(z)}$ over a domain $\mathcal{Z}$ by estimating the location parameter $\gamma$ of a three-parameter reverse Weibull distribution, which for a random variable $W$ has the cumulative distribution function (CDF)
+
+Here, the location parameter $\gamma$ is the upper limit on the support of the distribution, and $\alpha$ and $\beta$ are the scale and shape parameters, respectively. Consider the random variable described by the maximum slope taken over $N_{L}$ pairs of i.i.d. samples ${\{{(z_{1}^{i},z_{2}^{i})}\}}_{i = 1}^{N_{L}}$ from $\mathcal{Z}$, i.e. $s = {\max_{i}\frac{\|{{h{(z_{1}^{i})}} - {h{(z_{2}^{i})}}}\|}{\|{z_{1}^{i} - z_{2}^{i}}\|}}$. From the Fisher-Tippett-Gnedenko Theorem, $s$ follows one of the Frechet, reverse Weibull, or Gumbel distributions in the limit as $N_{L}$ approaches infinity. If $s$ follows the reverse Weibull distribution, which we validate in our results using the Kolmogorov-Smirnov (KS) goodness-of-fit test with a significance value of 0.05 (the same threshold used in ), then $L_{h}$ is finite and equals $\gamma$. We estimate $L_{h}$ using the location parameter $\hat{\gamma}$ of a reverse Weibull distribution fit via maximum likelihood to $N_{S}$ samples of $s$. Finally, we compute a confidence interval $c = {\Phi^{- 1}{(\rho)}\xi}$ on $\hat{\gamma}$. Here $\xi$ is the standard error of the fit $\hat{\gamma}$, which correlates with the quality of the fit, and $\Phi{( \cdot )}$ is the standard normal CDF. We select the upper end of the confidence interval as our estimate ${\hat{L}}_{h} = {\hat{\gamma} + c}$, which overestimates $L_{h}$ with probability $\rho$. Note that increasing $\rho$ increases $c$, improving the safety probability at the cost of loosening ${\hat{L}}_{h}$, which can make planning more conservative. We also note that this probability is valid in the limit as $N_{L}$ approaches infinity, due to the Fisher-Tippett-Gnedenko theorem making claims only on the asymptotic distribution. We summarize the estimation method in Alg. 1.
+
+5fit reverse Weibull to {sj} to obtain γ̂ and standard error ξ
+6 validate fit using KS test with significance level 0.05
+if validated return L̂h = γ̂ + Φ−1 (ρ) ξ else return failure
+Algorithm 1 Lipschitz estimation for h (z) over 𝒵
+
+We wish to choose $D$ to be large enough for planning while also keeping $L_{f - g}$ small. To achieve this, we use a filtering procedure to reduce the impact of outliers in $\mathcal{S}$. Let $\mu$ and $\sigma$ be the mean and standard deviation of the error over $\mathcal{S}$. Then, let $\mathcal{S}_{D} = \left. \{{{(\overline{x},\overline{u})} \in \mathcal{S}} \middle| {{\|{{f{(\overline{x},\overline{u})}} - {g{(\overline{x},\overline{u})}}}\|} \leq {\mu + {a\sigma}}}\} \right.$ where $a$ is a user-defined parameter. Then, we run Alg. 2 in order to grow $D$. This method works by proposing values of $r$, estimating $L_{f - g}$, and increasing $r$ until $r > \epsilon$ or $L_{f - g} \geq 1$. Finding $D$ with $r > \epsilon$ and $L_{f - g} < 1$ is useful for planning (described further in Sec. IV-C, see ). Note that, in Euclidean spaces, $r \geq b_{T}$. If no filtering is done, $r = b_{T}$, since no point in $D$ is further than a distance $r$ from $\mathcal{S}_{D}$ and the furthest any point in $D$ can lie from a point in $\mathcal{S}_{D}$ is $r$; however, filtering shrinks $D$ and thus decreases the dispersion, making it possible that $r \geq b_{T}$. The parameter $a$ should be chosen to balance the size of $D$ against the magnitude of $L_{f - g}$, which we tune heuristically.
+
+This filtering lets us exclude regions where our learned model is less accurate, yielding smaller $e_{T}$. Note that filtering does not affect the i.i.d. property of the samples needed for Alg. 1; it only applies a mask to the domain. We also note that Alg. 2 returns a minimum value for $r$, but a larger $r$ can be chosen as long as $L_{f - g}$ is estimated with Alg. 1. A larger $r$ makes planning easier by expanding the trusted domain.
+
+4 construct D using equation
+5 estimate Lf − g using Alg. 1 and Ψ
+6 calculate ϵ using equation
+7 if Lf − g ≥ 1 then return failure
+8 if r &gt; ϵ then return r and D
+9 else r ← ϵ + α // α is a small constant
+Algorithm 2 Selecting r and D
+
+While we never explicitly address the assumption that the true dynamics are deterministic, the estimated Lipschitz constant may be unbounded in the stochastic case, such as when two samples have the same inputs but different outputs due to noise, causing a division by 0 in line 3 of Alg. 1.
+
+$L_{g_{0}}$ and $L_{g_{1}}$ may also be estimated with Alg. 1, which we employ in the results. Alternatively, can give tight upper bounds on the Lipschitz constant of neural networks, though it could not scale to the networks used in our results. Other approaches improve scalability at the cost of looser Lipschitz upper bounds, and will be examined in the future.
+
+### IV-C Planning
+
+We want to plan a trajectory from start $x_{I}$ to goal $x_{G}$ using the learned dynamics while remaining in $\mathcal{X}_{\text{safe}}$ in execution. We constrain the system to stay inside $D$, as model accuracy may degrade outside of the trusted domain. We develop a planner similar to a kinodynamic RRT, growing a search tree $\mathcal{T}$ by sampling controls that steer towards novel states until we reach the goal. If a path is found the we can ensure the goal is reachable with safety guarantees.
+
+### IV-C1 Staying inside $D$
+
+To remain inside the set $D$, we introduce another set $D_{\epsilon}:={D \ominus {\mathcal{B}_{\epsilon}{}}}$, which is the Minkowski difference between $D$ and a ball of radius $\epsilon$. Every point in $D_{\epsilon}$ is at least a distance of $\epsilon$ from any point in the complement of $D$. Since the learned dynamics differs from the true dynamics by at most $\epsilon$ in $D$, controlling to a point in $D_{\epsilon}$ under the learned dynamics ensures the system remains within $D$ under the true dynamics (see Fig. 2).
+
+Figure 2: Visualizing D (boundary in black), Dϵ (yellow), and Dc (complement of D). Each point in Dϵ is at least ϵ distance away from Dc. If the system is controlled to a point in Dϵ from anywhere in D under the learned dynamics, then it remains in D under the true dynamics.
+
+How do we determine if a query point $(x,u)$ is inside of $D_{\epsilon}$? Since we define $D$ to be a union of balls, it would suffice to find a subset of training points $\mathcal{W} \subset S_{D}$ such that the union of $r$-balls about the training points completely covers an $\epsilon$-ball about $(x,u)$. Explicitly,
+
+In general, checking is difficult, but if $L_{f - g} < 1$ and
+
+then only one training point within a distance $r - \epsilon$ is needed to ensure a query point is in $D_{\epsilon}$ (see Fig. 3). Note by Alg. 2 lines 2-2, either is guaranteed or $L_{f - g} \geq 1$, in which we return failure.
+
+### Lemma 1
+
+If $L_{f - g} < 1$ and $r$ is selected according to equation, then a point $(x,u)$ is in $D_{\epsilon}$ if there exists ${(\overline{x},\overline{u})} \in S$ such that ${\|{{(x,u)} - {(\overline{x},\overline{u})}}\|} \leq {r - \epsilon}$.
+
+### Proof
+
+To prove, note we can rearrange terms in equation to get $r > {{L_{f - g}r} + e_{T}} \geq \epsilon$. If there exists ${(\overline{x},\overline{u})} \in S_{D}$ such that ${\|{{(x,u)} - {(\overline{x},\overline{u})}}\|} \leq {r - \epsilon}$, then ${\mathcal{B}_{\epsilon}{(x,u)}} \subset {\mathcal{B}_{r}{(\overline{x},\overline{u})}} \subset D$ since no point in $\mathcal{B}_{\epsilon}{(x,u)}$ is further than $r$ distance from $(\overline{x},\overline{u})$. Since ${\mathcal{B}_{\epsilon}{(x,u)}} \subset D$, $(x,u)$ is at least $\epsilon$ distance from any point in $D^{c}$ and therefore ${(x,u)} \in D_{\epsilon}$. ∎
+
+In order to ensure $L_{f - g} < 1$, since it is derived from the training data and learned model, we must train a learned model that is sufficiently accurate (i.e. low error on $\mathcal{S} \cup \Psi$). In our experiments, it was enough to minimize mean squared error over the training set to learn models with this property.
+
+Figure 3: Illustrating the advantage of Lf − g &lt; 1 and r selected according to. An ϵ-ball about a query point is shown in black; r-balls about training data are shown in blue. Left: Lf − g &gt; 1, therefore requiring many training points to cover an ϵ-ball about the query point. Right: Lf − g &lt; 1 and r is selected according to. Under these conditions, only one training point within a r − ϵ distance ensures an ϵ-ball about the (x,u) is entirely in D, ensuring that the query point is in Dϵ.
+
+To ensure that the resulting trajectory remains in $D_{\epsilon}$, we ensure that corresponding pairs of state and control lie in $D_{\epsilon}$ at each step. In growing the search tree $\mathcal{T}$, we break down this requirement into two separate checks, the first of which optimistically adds states to the search tree and the second that requires pairs of states and controls to lie in $D_{\epsilon}$. To illustrate, suppose we sample a new configuration $x_{\text{new}}$ and grow the tree from some $x$ to $x_{\text{new}}$. At this point, when sampling a control $u$ to steer from $x$ to $x_{\text{new}}$ we enforce that ${(x,u)} \in D_{\epsilon}$ (see line 3 in Alg. 3). However, how do we know the resulting state, $x^{\prime} = {g{(x,u)}}$, will lie in $D_{\epsilon}$? Since $x^{\prime}$ is a state and not a state-control pair, the above question is not well defined. Instead, we perform an optimistic check in adding $x^{\prime}$ which requires that there exists some $\hat{u}$ such that ${(x^{\prime},\hat{u})} \in D_{\epsilon}$ (see line 3 in Alg. 3). In turn, when growing the search tree from $x^{\prime}$ to some other sampled point $x_{\text{new}}^{\prime}$ we ensure that the pair of state and newly sampled control $u^{\prime}$ lies in $D_{\epsilon}$, i.e. ${(x^{\prime},u^{\prime})} \in D_{\epsilon}$.
+
+### IV-C2 One step feedback law
+
+To prevent drift in execution, we also seek to ensure the trajectory planned with RRT can be tracked with minimal error. One key requirement to guarantee a feedback law exists is that the system is sufficiently actuated under the learned dynamics. This requires that ${\text{dim}{(\mathcal{U})}} \geq {\text{dim}{(\mathcal{X})}}$. The check for sufficient actuation is done on a per state basis and can be done as we grow $\mathcal{T}$. This feedback law ensures that, under the learned dynamics, we can return to a planned trajectory in exactly one step.
+
+Figure 4: The one-step feedback law: plan with the learned dynamics (dashed black); rollout with the true dynamics (blue); prediction with the learned dynamics using the feedback law (red). At each point, we use to find a feedback control ${\overset{\sim}{u}}_{k}$ so $x_{k + 1} = {g{({\overset{\sim}{x}}_{k},{\overset{\sim}{u}}_{k})}}$. We arrive within ϵ of the next state under the true dynamics. This repeats until we reach the goal.
+
+Suppose we are executing a trajectory $(x_{0},\ldots,x_{K})$ with corresponding control $(u_{0},\ldots,u_{K - 1})$ planned with the learned dynamics, and the system is currently at $x_{k - 1}$. Under the learned dynamics, the plan is to move to $x_{k} = {g{(x_{k - 1},u_{k - 1})}}$, but, under the true dynamics, the system will end up at some ${\overset{\sim}{x}}_{k} = {f{(x_{k - 1},u_{k - 1})}}$ which is no more than an $\epsilon$ distance from $x_{k}$. Our goal is to find an input ${\overset{\sim}{u}}_{k}$ such that $x_{k + 1} = {g{({\overset{\sim}{x}}_{k},{\overset{\sim}{u}}_{k})}}$. If this one-step feedback law exists for all $1 \leq k \leq {K - 1}$, it ensures the executed trajectory stays within $\epsilon$ distance of the planned trajectory (see Fig. 4).
+
+With Lipschitz constants $L_{g_{0}}$ and $L_{g_{1}}$, we can bound how much the learned dynamics varies in the $\epsilon$-ball about $x_{k}$.
+
+where ${\|\Delta_{0}\|} \leq {L_{g_{0}}\epsilon}$ and ${\|\Delta_{1}\|} \leq {L_{g_{1}}\epsilon}$. With, the existence of ${\overset{\sim}{u}}_{k}$ is informed by a perturbed linear equation:
+
+Prior to execution, we seek to answer two questions: when does ${\overset{\sim}{u}}_{k}$ exist and does ${\overset{\sim}{u}}_{k}$ lie in the control space $\mathcal{U}$ (for instance in the presence of box constraints)? Results from the literature give a bound on the difference between the nominal solution $u_{k}$ and perturbed solution ${\overset{\sim}{u}}_{k}$,
+
+where $g_{1}{(x_{k})}^{+}$ is the pseudo-inverse of $g_{1}{(x_{k})}$ (in general $g_{1}{(x_{k})}$ is not square). We can use this bound to ensure that ${\overset{\sim}{u}}_{k}$ is guaranteed to lie in $\mathcal{U}$ by enforcing that ${u_{k} + {u_{\text{pert}}\mathbf{1}_{\infty}}} \subseteq \mathcal{U}$, where $\mathbf{1}_{\infty}$ is the unit infinity-norm ball. Furthermore, $A$ may become singular if ${1 - {{\|{g_{1}{(x_{k})}^{+}}\|}{\|\Delta_{1}\|}}} \leq 0$. In this case, ${\overset{\sim}{u}}_{k}$ is not guaranteed to exist.
+
+If ${\overset{\sim}{u}}_{k}$ exists and satisfies the control constraints for all $1 \leq k \leq {K - 1}$, then we ensure that the system will track the path up to an $\epsilon$ error under the one-step feedback law. In planning, we add the existence of a valid one step feedback law as a check when growing the search tree. Formally:
+
+### Theorem 1
+
+For trajectory $(x_{0},\ldots,x_{K})$ and $(u_{0},{\ldotsu_{K - 1}})$, if the solution to the perturbed linear equation, ${\overset{\sim}{u}}_{k}$, exists for all $k \in {\{ 1,\ldots,{K - 1}\}}$, then under the true dynamics ${\|{{\overset{\sim}{x}}_{k} - x_{k}}\|} \leq \epsilon$ for all $k$, given $L_{f - g}$, $L_{g_{0}}$, and $L_{g_{1}}$ are each an overestimate of the true Lipschitz constant of $f - g$, $g_{0}$, and $g_{1}$, respectively.
+
+### Proof
+
+Proof by induction. For the induction step, assume ${\|{{\overset{\sim}{x}}_{k} - x_{k}}\|} \leq \epsilon$ for some $k$. Since ${\overset{\sim}{x}}_{k} \in {\mathcal{B}_{\epsilon}{(x_{k})}}$, the perturbed linear equation is valid. If a solution exists, then $x_{k + 1} = {g{({\overset{\sim}{x}}_{k},{\overset{\sim}{u}}_{k})}}$ and ${\|{{f{({\overset{\sim}{x}}_{k},{\overset{\sim}{u}}_{k})}} - x_{k + 1}}\|} \leq \epsilon$. This satisfies the induction step. For the base case, we have ${g{(x_{0},u_{0})}} = x_{1}$ and ${\|{{f{(x_{0},u_{0})}} - x_{1}}\|} \leq \epsilon$. Thus, for all $k$, ${\|{{\overset{\sim}{x}}_{k} - x_{k}}\|} \leq \epsilon$.∎
+
+### IV-C3 Ensuring safety and invariance about the goal
+
+Since it is guaranteed by Thm. 1 that ${\|{\overset{\sim}{x} - x_{k}}\|} \leq \epsilon$, we check that ${\mathcal{B}_{\epsilon}{(x_{k})}} \subset \mathcal{X}_{\text{safe}}$ for each $x_{k}$ on the path to ensure safety.
+
+The exact nature of this check depends on the system and definition of $\mathcal{X}_{\text{unsafe}}$. For example, in our experiments on quadrotor, the state includes the quadrotor's position in ${\mathbb{R}}^{3}$ and $\mathcal{X}_{\text{unsafe}}$ is defined by unions of boxes in ${\mathbb{R}}^{3}$. By defining a bounding sphere that completely contains the quadrotor, we can verify a path is safe via sphere-box intersection. With the Kuka arm, we randomly sample joint configurations in an $\epsilon$-ball about states, transform the joint configurations via forward kinematics, and check collisions in workspace. While this method is not guaranteed to validate the entire ball around a state, in practice no collisions resulted from execution of plans. Another approach computes a free-space bubble around a given state $x$ and check if it contains $\mathcal{B}_{\epsilon}{(x)}$, however this is known to be conservative.
+
+To stay near the goal after executing the trajectory, we use the same perturbed linear equation to ensure the existence of a one-step feedback law. Here, rather than checking the next state along the trajectory is reachable from the previous, we check that the final state is reachable from itself, i.e. $x_{K}$ is reachable from $x_{K}$. Similar to the arguments above, we can repeatedly execute the feedback law to ensure the system remains in an $({\epsilon + \lambda})$-ball about the goal. Formally, we have:
+
+### Theorem 2
+
+If the solution, denoted $u_{\text{st}}$, to the perturbed linear equation exists for $A = {{g_{1}{(x_{K})}} + \Delta_{1}}$ and $b = {x_{K} - {g_{0}{(x_{K})}} - \Delta_{0}}$ for all $x \in {\mathcal{B}_{\epsilon}{(x_{K})}}$, then the closed loop system will remain in $\mathcal{B}_{\epsilon + \lambda}{(x_{G})}$, given $L_{f - g}$, $L_{g_{0}}$, and $L_{g_{1}}$ are each an overestimate of the true Lipschitz constant of $f - g$, $g_{0}$, and $g_{1}$, respectively.
+
+### Proof
+
+By Thm. 1, ${\|{{\overset{\sim}{x}}_{K} - x_{K}}\|} \leq \epsilon$. Thus, if the solution to the perturbed linear equation with $A = {{g_{1}{(x_{K})}} + \Delta_{1}}$ and $b = {x_{K} - {g_{0}{(x_{K})}} - \Delta_{0}}$ exists and is valid then ${g{({\overset{\sim}{x}}_{K},u_{\text{st}})}} = x_{K}$ and ${\|{{f{({\overset{\sim}{x}}_{K},u_{\text{st}})}} - x_{K}}\|} \leq \epsilon$. Since ${\|{x_{K} - x_{G}}\|} \leq \lambda$, the system remains in $\mathcal{B}_{\epsilon + \lambda}{(x_{K})}$ by the triangle inequality.∎
+
+To close, we note that the overall safety and invariance probability of our method is $\rho^{3}$, arising from our need to estimate three Lipschitz constants: $L_{f - g}$, $L_{g_{0}}$, and $L_{g_{1}}$. Given independent samples for overestimating each constant with probability $\rho$ via Alg. 1, the overall correctness probability is the product of the correctness of each constant, i.e. $\rho^{3}$.
+
+### IV-D Algorithm
+
+We present our full method, Learned Models in Trusted Domains (LMTD-RRT), in Alg. 3. In practice, we implemented SampleState and SampleControl in two different ways: uniform sampling and perturbations from training data. Sampling perturbations (up to a norm of $r - \epsilon$) does not exclude valid $(x,u)$ pairs since all points in $D_{\epsilon}$ lie within $r - \epsilon$ from a training point, and, in cases where $D_{\epsilon}$ is a relatively small volume, can yield a faster search. However, it also biases samples near regions where training data is more dense. We define the set $\mathcal{S}_{\mathcal{X}} = \left. \{\overline{x} \middle| {{\exists{\overline{u}\text{s.t.}{(\overline{x},\overline{u})}}} \in \mathcal{S}_{D}}\} \right.$ to describe the optimistic check described in Sec. IV-C1. NN finds the nearest neighbor and OneStep checks that a valid feedback exists as described in Sec. IV-C2. Model evaluates the learned dynamics and InCollision checks if an $\epsilon$-ball is in $\mathcal{X}_{\text{safe}}$ as described in Sec. IV-C3.
+
+Input: xI, xG, S𝒳, SD, r, ϵ, λ, Nsamples, goal_bias
+6 xnew← SampleState(goal_bias)
+19 ubest ← u, xbest ← xnext
+
+Once a plan has been computed, it can be executed in closed-loop with Alg. 4. ModelG0 and ModelG1 evaluate $g_{0}$ and $g_{1}$ of the learned model. SolveLE solves the linear equation and Dynamics executes the true dynamics $f$.
+
+2${\overset{\sim}{x}}_{0}\leftarrow x_{0}$, k ← 0
+4 b ← xk + 1− ModelG0(${\overset{\sim}{x}}_{k}$), A←ModelG1(${\overset{\sim}{x}}_{k}$)
+5 ${\overset{\sim}{u}}_{k}\leftarrow$SolveLE(A, b)
+6 ${\overset{\sim}{x}}_{k + 1}\leftarrow$ Dynamics(${\overset{\sim}{x}}_{k}$, ${\overset{\sim}{u}}_{k}$)
+
+## RESULTS
+
+We present results on 1) a 2D system to illustrate the need for remaining near the trusted domain, 2) a 6D quadrotor to show scaling to higher-dimensional systems, and 3) a 7DOF Kuka arm simulated in Mujoco to show scaling to complex dynamics that are not available in closed form. Using $\rho = 0.975$, we plan with LMTD-RRT and rollout the plans in open-loop (no computation of ${\overset{\sim}{u}}_{k}$) and closed-loop (Alg. 4). We compare with a naïve kinodynamic RRT that skips the checks on lines 3, 3, 3-3 of Alg. 3 in both open and closed loop. See the video for experiment visualizations.
+
+### V-A 2D Sinusoidal Model
+
+To aid in visualization, we demonstrate LMTD-RRT on a 2D system with dynamics ${f{(x,u)}} = {{f_{0}{(x)}} + {f_{1}{(x)}u}}$:
+
+where ${\DeltaT} = 0.2$. We are given 9000 training points $(x_{i},u_{i},{f{(x_{i},u_{i})}})$, where $x_{i}$ is drawn uniformly from an 'L'-shaped subset of $\mathcal{X}$ (see Fig. 5) and $u_{i}$ is drawn uniformly from $\mathcal{U} = {\lbrack{- 1},1\rbrack}^{2}$. $g_{0}{(x)}$ and $g_{1}{(x)}$ are modeled with separate neural networks with one hidden layer of size 128 and 512, respectively. We select $a = 3$ in Alg. 2. 1000 more samples are used to estimate $L_{f - g}$ via Alg. 1, which we validate with a KS test with a $p$ value of $0.56$, far above the $0.05$ threshold significance value. We obtain $\hat{\gamma} = 0.117$ and $c = {6.85 \times 10^{- 4}}$, giving $\epsilon = 0.215$ over $D$.
+
+See Fig. 5 for examples of the nominal, open-loop, and closed-loop trajectories planned with LMTD-RRT and a naïve kinodynamic RRT. The plan computed with LMTD-RRT remains in regions where we can trust the learned model (i.e. within $D_{\epsilon}$) and the closed-loop execution of the trajectory converges to $\mathcal{B}_{\epsilon + \lambda}{(x_{G})}$. In contrast, both the open-loop and closed-loop execution of the naïve RRT plan diverge. We provide statistics in Table I of maximum $\ell_{2}$ tracking error $\max_{i \in {\{ 1,\ldots,T\}}}{\|{{\overset{\sim}{x}}_{i} - x_{i}}\|}$ and final $\ell_{2}$ distance to the goal ${\|{{\overset{\sim}{x}}_{T} - x_{G}}\|}_{2}$ for both the open loop (OL) and closed loop (CL) variants, averaged over 70 random start/goal states. To give the baseline an advantage, we fix the start/goal states and plan with naïve RRT using two different dynamics models: 1) the same learned dynamics model used in LMTD-RRT and 2) a learned dynamics model with the same hyperparameters trained on the full dataset ($10^{4}$ datapoints), and report the statistics on the minimum of the two errors. The worst case tracking error for the plan computed with LMTD-RRT was $0.199$, which is within the guaranteed tracking error bound of $\epsilon = 0.215$, while despite the data advantage, plans computed with naïve RRT suffer from higher tracking error. Average planning times for LMTD-RRT and naïve RRT are 4.5 and 17 seconds, respectively. Overall, this suggests that planning with LMTD-RRT avoids regions where model error may lead to poor tracking, unlike planning with a naïve RRT.
+
+Figure 5: 2D sinusoidal dynamics. The LMTD-RRT plan (magenta) stays in D and ensures a valid feedback law exists at each step. The plan can be tracked within ϵ under closed loop control (cyan). If feedback is not applied, the system drifts to the edge of the trusted domain, exits, and diverges (green). The naïve RRT plan (brown) does not consider D, and does not reach the goal under closed loop (grey) or open loop (red) control.
+
+Max. trck. err. (CL)
+
+Max. trck. err. (OL)
+
+TABLE I: Sinusoid errors in closed loop (CL) and open loop (OL).
+Mean ± standard deviation (worst case).
+
+### V-B 6D Quadrotor Model
+
+Figure 6: Quadrotor tracking example. The trajectory planned with LMTD-RRT (magenta) is tracked in closed loop (blue) and reaches the goal. The open loop (green) also converges near the goal, but not as close as the closed loop. The naïve RRT produces a plan (brown) that leaves the trusted domain. Thus, both the open (red) and closed (light blue) loop rapidly diverge.
+
+We evaluate our method on 6-dimensional fully-actuated quadrotor dynamics with state $x = {\lbrack\chi,y,z,\phi,\theta,\psi\rbrack}^{\top}$, where ${f{(x,u)}} = {{f_{0}{(x)}} + {f_{1}{(x)}u}}$, ${f_{0}{(x)}} = x$ and ${f_{1}{(x)}} =$
+
+where ${\DeltaT} = 0.1$ and $s_{( \cdot )}$, $c_{( \cdot )}$, and $t_{( \cdot )}$ are short for $\sin{( \cdot )}$, $\cos{( \cdot )}$, and $\tan{( \cdot )}$ respectively. We are given $9 \times 10^{6}$ training data tuples $(x_{i},u_{i},{f{(x_{i},u_{i})}})$, where $x_{i}$, $u_{i}$ are generated with Halton sampling over ${\lbrack{- 1},1\rbrack}^{3} \times {\lbrack{- \frac{\pi}{20}},\frac{\pi}{20}\rbrack}^{3}$ and ${\lbrack{- 1},1\rbrack}^{6}$, respectively (data is collected near hover). As $f_{0}{(x)}$ is a simple integrator term, we assume it is known and we set ${g_{0}{(x)}} = x$, while $g_{1}{(x)}$ is learned with a neural network with one hidden layer of size 4000. We select $a = 6$ in Alg. 2. We use $10^{6}$ more samples in Alg. 1 to estimate $L_{f - g}$, and conduct a KS test resulting in a $p$-value of $0.43 \gg 0.05$. We obtain $\hat{\gamma} = 0.205$, $c = 0.011$, and $\epsilon = 0.134$.
+
+See Fig. 6 for examples of the planned, open-loop, and closed-loop trajectories planned with LMTD-RRT and a naïve RRT. The trajectory planned with LMTD-RRT remains close to the training data, and the closed-loop system tracks the planned path with $\epsilon$-accuracy converging to $\mathcal{B}_{\epsilon + \lambda}{(x_{G})}$. We note that using the feedback controller to track trajectories planned with naïve RRT tends to worsen the tracking error, implying our learned model is highly inaccurate outside of the domain. We provide statistics in Table II for maximum tracking error and distance to goal, averaged over 100 random start/goal states. The worst case closed-loop tracking error for trajectories planned with LMTD-RRT is $0.011$, again much smaller than $\epsilon$. As with the 2D example, we give the baseline an advantage in computing tracking error statistics by reporting the minimum of the two errors when planning with 1) the same model used in LMTD-RRT and 2) a model trained on the full dataset ($10^{7}$ points). Despite the data advantage, the plans computed using naïve RRT have much higher tracking error. Average planning times for our unoptimized code are 100 sec. for LMTD-RRT and 15 min. for naïve RRT, suggesting that sampling focused near the training data can improve planning efficiency.
+
+Figure 7: Left: Quadrotor obstacle (red) avoidance. Example plans (green, blue, black), tracking error bound ϵ overlaid (light blue). Closed-loop trajectories remain in the tubes, converging to the goal without colliding. Right: Naïve RRT plan (pink) fails to be tracked (cyan) and collides (red dots).
+
+We also evaluate LMTD-RRT on an obstacle avoidance problem (Fig. 7). We perform collision checking as described in Sec. IV-C3. As the tracking error tubes (of radius $\epsilon = 0.134$) centered around the nominal trajectories never intersect with any obstacles, we can guarantee that the system never collides in execution. Empirically, in running Alg. 3 over 500 random seeds to obtain different nominal paths, the closed-loop trajectory never collides. In contrast, the naïve RRT plan fails to be tracked and collides (Fig. 7, right).
+
+Max. trck. err. (CL)
+
+Max. trck. err. (OL)
+
+TABLE II: Quadrotor errors (no obstacles) in closed loop (CL) and
+open loop (OL). Mean ± standard deviation (worst case).
+
+### V-C 7DOF Kuka Arm in Mujoco
+
+Figure 8: Planning to move a 7DOF arm from below to above a table. Trajectory-tracking time-lapse (time increases from left to right). Red (nominal), green (closed loop), blue (open loop). Top: LMTD-RRT (red, green, blue overlap due to tight tracking). Bottom: Naïve RRT (poor tracking causes collision).
+
+We evaluate our method on a 7DOF Kuka iiwa arm simulated in Mujoco using a Kuka model from. We train two models using different datasets, one for evaluating tracking error without the presence of obstacles (Table III), and the other for obstacle avoidance. For both models, $g_{0}{(x)}$ is again set to be $x$ while $g_{1}{(x)}$ is learned with a neural network with one hidden layer of size 4000. For the results in Table III, we are provided 2475 training data tuples, which are collected by recording continuous state-control trajectories from an expert and evaluating $f{(x,u)}$ on the trajectories and on random state-control perturbations locally around the trajectories. We select $a = 5$ in Alg. 2. 275 more samples are used in Alg. 1 to estimate $L_{f - g}$, validated with a KS test with a $p$ value of $0.58 \gg 0.05$. We obtain $\hat{\gamma} = 0.087$ and $c = 0.001$, leading to $\epsilon = 0.111$. In Table III, we provide statistics on maximum tracking error and distance to goal under plans with LMTD-RRT and the naïve RRT baseline (with a model trained on the full dataset of 2750 points), averaged over 25 runs of each method. Notably, closed-loop tracking of plans found with LMTD-RRT have lowest error, with a worst case error much smaller than $\epsilon = 0.111$. Planning takes on average 1.552 and 0.167 sec. for LMTD-RRT and naïve RRT, respectively. We suspect the naïve RRT exploits poor dynamics outside of $D$, expediting planning.
+
+Max. trck. err. (CL)
+
+Max. trck. err. (OL)
+
+TABLE III: 7DOF arm errors (no obstacles) in closed loop (CL) and
+open loop (OL). Mean ± standard deviation (worst case).
+
+For the obstacle avoidance example (Fig. 8), we are provided 15266 datapoints, which again take the form of continuous trajectories plus perturbations. We select $a = 8$ in Alg. 2, and use 1696 more points to estimate $L_{f - g}$ using Alg. 1, which we validate with a KS test with a $p$ value of $0.37 \gg 0.05$. We obtain $\hat{\gamma} = 0.156$ and $c = 0.010$, leading to $\epsilon = 0.111$. In planning, as described in Sec. IV-C3, we perform collision checking by randomly sampling configurations in an $\epsilon$-ball about each point along the trajectory. Though this collision checker is not guaranteed to detect collision, in running LMTD-RRT over 20 random seeds, we did not observe collisions in execution for any of the 20 plans, and the arm safely reaches the goal without collision. Over these trajectories, the worst case tracking error is $0.107$, which remains within $\epsilon = 0.111$. One such plan computed by LMTD-RRT and the corresponding open-loop and closed-loop tracking trajectories, is shown in the top row of Fig. 8. The three trajectories nearly overlap exactly due to small tracking error. In contrast, the naïve RRT plan cannot be accurately tracked, even with closed-loop control, due to planning outside of the trusted domain, causing the executed trajectories to diverge and collide with the table.
+
+## DISCUSSION AND CONCLUSION
+
+We present a method to bound the difference between learned and true dynamics in a given domain and derive conditions that guarantee a one-step feedback law exists. We combine these two properties to design a planner that can guarantee safety, goal reachability, and that the closed-loop system remains in a small region about the goal.
+
+While the method presented has strong guarantees, it also has limitations which are interesting targets for future work. First, the true dynamics are assumed to be deterministic. Stochastic dynamics may be possible by estimating the Lipschitz constant of the mean dynamics while also appropriately modeling the noise. Second, the actuation requirement limits the systems that this method can be applied to. For systems with ${\text{dim}{(\mathcal{U})}} < {\text{dim}{(\mathcal{X})}}$, it may be possible to construct a similar feedback law that guarantees the learned dynamics will lie within a tolerance of planned states which, in turn, could still give strong guarantees on safety and reachability.

@@ -1,0 +1,573 @@
+## Introduction
+
+Optimal control theory (see, e.g., ) is concerned with designing control signals to steer a system such that a given cost function is minimised, or equivalently, a performance measure is maximised. The system can be, for example, an airplane or autonomous vehicle which is steered to follow a given trajectory, an inventory system, a chemical reaction, or a mobile robot.
+
+Dynamic programming, in the form first introduced by Bellman 1950's, is a general method for determining feedback laws for optimal control and other sequential decision problems, and it also forms the basis of reinforcement learning, which is a subfield of machine learning. The classic dynamic programming algorithm is a sequential procedure that proceeds backwards from the final time step to the initial time step, and determines the value (cost-to-go) function as well as the optimal control law in time complexity of $O{(T)}$, where $T$ is the number of time steps. The algorithm is optimal in the sense that no sequential algorithm that processes all the $T$ time steps can have a time-complexity less than $O{(T)}$.
+
+However, the complexity $O{(T)}$ is only optimal in a computer with one single-core central processing unit (CPU). Nowadays, even general-purpose computers typically have multi-core CPUs with tens of cores and higher-end computers can have hundreds of them. Furthermore, graphics processing units (GPUs) have become common accessories of general-purpose computers and current high-end GPUs can have tens of thousands of computational cores that can be used to parallelise computations and lower the time-complexity.
+
+Dynamic programming algorithms that parallelise computations at each time step, but operate sequentially, are provided in for discrete states, and in for the Riccati recursion in linear quadratic problems. Another approach to speed up computations for model predictive control (MPC) in linear quadratic problems is partial condensing, which is based on splitting the problem into temporal blocks and eliminating the intermediate states algebraically. The required block-conversion can be done in parallel and the resulting modified linear quadratic problem can be solved using parallel methods such as in. However, the complexity of the resulting algorithm is still linear in time.
+
+The previous dynamic programming algorithms have linear time-complexity $O{(T)}$, but there are some approaches in literature to lower this complexity by using parallelisation across time. One idea applied in the context of an allocation process can be found in \[9, Sec. I.30\], where the time interval is divided into two, and the two problems are solved in parallel. Various forms of parallel algorithms for dynamic programming with discrete states are given in. Reference presents a partitioned dynamic programming suitable for parallelisation for linear quadratic control problems, though it has the disadvantage that some required inverse matrices may not exist. An iterated method for linear quadratic control problems, with constraints, in which each step can be parallelised is proposed in, though it requires positive definite matrices in the cost function and may require regularisation. An algorithm to approximately solve an optimal control problem by solving different subproblems with partially overlapping time windows is provided in, and an approximate parallel algorithm for linear MPC is given in. Reference provides combination rules to separate the dynamic programming algorithm into different subproblems across the temporal domain. These combination rules are the foundation for temporal parallelisation.
+
+The main contribution of this paper is to present a parallel formulation of dynamic programming that is exact and has a time complexity $O{({\log T})}$. None of the previous works achieve these two aspects simultaneously. The central idea is to reformulate dynamic programming in terms of associative operators, which enable the use of parallel scan algorithms to parallelise the algorithm. The resulting algorithm has a span-complexity of $O{({\log T})}$, which translates into a time-complexity of $O{({\log T})}$ with a large enough number of computational cores. The algorithm can therefore speed up the computations significantly for long time horizons.
+
+In this paper, we first provide the general formulation to parallelise dynamic programming by defining conditional value functions between two different time steps and combining them via the rule in. We also show how to obtain the optimal control laws and resulting trajectories making use of parallel computation. Then, we explain how this general methodology can be directly applied to problems with finite state and control spaces. The second contribution of this paper is to specialise the methodology to linear quadratic optimal control problems, that is, to linear quadratic trackers (LQTs). The parallel LQT formulation is not straightforward, as it requires the propagation of the dual function associated with the conditional value function to avoid numerical problems. Our third contribution is to extend the parallel LQT algorithm to approximately solve certain nonlinear control problems by iterated linearisations, as in. Finally, we have implemented these algorithms in TensorFlow, which enables parallel computations on GPUs, to experimentally show that the parallel algorithms provide a significant speed-up also in practice.
+
+The present approach is closely related to the temporal parallelisation of Bayesian smoothers and hidden Markov model inference recently considered in. These approaches use a similar scan-algorithm-based parallelisation in the context of state-estimation problems. The combination rule is also related to so-called max-plus algebras for dynamic programming which have been considered, for example, in.
+
+The structure of the paper is the following. In Section 2 we provide a brief background on dynamic programming and parallel computing, in Section 3 we provide the parallel methods to general and finite-state problems, in Section 4 we consider the parallel solution to LQT problems, in Section 5, we discuss some practical implementation aspects and computational complexity, in Section 6 we experimentally illustrate the performance of the methods on a GPU platform, and finally we conclude the article in Section 7.
+
+## Background
+
+We provide a brief background on optimal deterministic control and its dynamic programming solution in Section 2.1, the LQT case in Section 2.2 and the parallel scan algorithm in Section 2.3.
+
+### Deterministic control problem
+
+We consider a deterministic control problem that consists of a difference equation and a cost function of the form
+
+where, for $k = {S,\ldots,T}$, $x_{k}$ is the state (typically $x_{k} \in {\mathbb{R}}^{n_{x}}$), $f_{k}{( \cdot )}$ is the function that models the state dynamics at time step $k$, $u_{S:{T - 1}} = {(u_{S},\ldots,u_{T - 1})}$ is the control/decision sequence (typically $u_{k} \in {\mathbb{R}}^{n_{u}}$ with $n_{u} \leq n_{x}$), and $\ell_{k}{( \cdot )}$ is a lower bounded function that indicates the cost at time step $k$. The initial state $x_{S}$ is known. The aim is now to find a feedback control law or policy $u_{k}{(x_{k})}$ such that if at step $k$ the state is $x_{k}$, the cost function $C{\lbrack u_{S:{T - 1}}\rbrack}$ for the steps from $S$ to $T$ is minimized with the sequence ${u_{S}{(x_{S})}},\ldots,{u_{T}{(x_{T})}}$.
+
+In Bellman's dynamic programming the idea is to form a cost-to-go or value function $V_{k}{(x_{k})}$ which gives the cost of the trajectory when we follow the optimal decisions for the remaining steps up to $T$ starting from state $x_{k}$. It can be shown that the value function admits the recursion
+
+with ${V_{T}{(x_{T})}} = {\ell_{T}{(x_{T})}}$, which determines the optimal control law via
+
+Given the control law for all time steps, we can compute the optimal trajectory from time steps $S + 1$ to $T$, which is denoted as $(x_{S + 1}^{\ast},\ldots,x_{T}^{\ast})$, by an additional forward pass starting at $x_{S}^{\ast} = x_{S}$ and
+
+### Linear quadratic tracker
+
+The LQT problem is the solution to a linear quadratic control problem of the form
+
+for $n = {S,\ldots,{T - 1}}$. We assume that $X_{n}$ and $U_{n}$ are symmetric matrices such that $X_{n} \geq 0$, $U_{n} > 0$.
+
+In this setting, the objective is that a linear combination of the states $H_{k}x_{k}$ follows a reference trajectory $r_{k}$ from time step $S$ to $T$. The linear quadratic regulator is a special case of the LQT problem by setting $r_{k} = 0$, $c_{k} = 0$, and $H_{k} = {I{\forall k}}$.
+
+In this case, the value function is
+
+where $v_{k}$ is an $n_{x} \times 1$ vector and $S_{k}$ is an $n_{x} \times n_{x}$ symmetric matrix and, throughout the paper, we use $z$ to denote an undetermined constant that does not affect the calculations. The parameters $v_{k}$ and $S_{k}$ can be obtained recursively backwards. Starting with $v_{T} = {H_{T}^{\top}X_{T}r_{N}}$ and $S_{T} = {H_{T}^{\top}X_{T}H_{T}}$, we obtain
+
+The optimal control law is
+
+The optimal trajectory resulting from applying the optimal control law can be computed with an additional forward pass starting at $x_{S}$ and with control law.
+
+It should be noted that the derivation of LQT in does not include time-varying matrices or parameter $c_{k}$ in the problem formulation, but it is straightforward to include these. It is also possible to use the LQT solution as a basis for approximate non-linear control by linearizing the system along a nominal trajectory (see and Sec. 4.4.3).
+
+### Associative operators and parallel computing
+
+Parallel computing (see, e.g., ) refers to programming and algorithm design methods that take the availability of multiple computational cores into account. When some parts of the problem can be solved independently, then those parts can be solved in parallel to reduce the computational time. The more parts we can solve in parallel, the more speed-up we get.
+
+Sequential problems which at first glance do not seem to be parallelisable can often be parallelised using so called parallel scan or all-prefix-sums algorithms. Given a sequence of elements $a_{1},\ldots,a_{T}$ and an associative operator $\otimes$ defined on them, such as summation, multiplication, or minimisation, the parallel scan algorithm computes the all-prefix-sums operation which returns the values $s_{1},\ldots,s_{T}$ such that
+
+in $O{({\log T})}$ time. The key aspect is that because the operator $\otimes$ is associative, we can rearrange the computations in various ways which generate independent sub-problems, for example,
+
+and, by a suitable combination of the partial solutions, we can obtain the result in $O{({\log T})}$ parallel steps. The specific combination requires an up-sweep and a down-sweep on a binary tree of computations. A pseudocode is given in Algorithm 1. Clearly, the prefix sums can also be computed in parallel in the backward direction $({a_{1} \otimes \cdots \otimes a_{T}},\ldots,{a_{T - 1} \otimes a_{T}},a_{T})$.
+
+It should be noted that while parallel scans significantly lower the wall-clock time to compute all-prefix-sums, they have the drawback that the number of total computations is higher than in the sequential algorithm. This implies that they require higher energy, which may not be suitable for small-scale mobile systems.
+
+Input: The elements ak for k = 1, …, T and an associative operator ⊗.
+Output: The all prefix sums are returned in ak for k = 1, …, T.
+1: // Save the input:
+2: for i ← 1 to T do {Compute in parallel}
+7: for i ← 0 to T − 1 by 2d + 1 do {Compute in parallel}
+13: aT ← 0 {Here, 0 is the neutral element for ⊗}
+16: for i ← 0 to T − 1 by 2d + 1 do {Compute in parallel}
+25: for i ← 1 to T do {Compute in parallel}
+Algorithm 1 Parallel-scan algorithm. The algorithm in this form assumes that T is a power of 2, but it can easily be generalized to an arbitrary T.
+
+## Parallel optimal control
+
+In this section, we start by defining conditional value functions and their combination rules (Section 3.1) and then we use them to define the associative operators and elements for parallelisation (Section 3.2). We also derive the parallel solution of the resulting optimal trajectory (Section 3.3), and finally, we discuss the case where the state space and controls take values in finite sets (Section 3.4).
+
+### Conditional value functions and combination rules
+
+In this section, we present the conditional value functions and their combination rules, which are required to design the parallel algorithms.
+
+### Definition 1 (Conditional value function)
+
+The conditional value function $V_{k\rightarrow i}{(x_{k},x_{i})}$ is the cost of the optimal trajectory starting from $x_{k}$ and ending at $x_{i}$, that is
+
+If there is no path connecting $x_{k}$ and $x_{i}$, then the constraint (16 ‣ 3.1 Conditional value functions and combination rules ‣ 3 Parallel optimal control ‣ Temporal Parallelisation of Dynamic Programming and Linear Quadratic Control")) cannot be met and ${V_{k\rightarrow i}{(x_{k},x_{i})}} = \infty$.
+
+The combination rule for conditional value functions is provided in the following theorem.
+
+### Theorem 2
+
+The recursions for the value functions and conditional value functions can be written as
+
+for $k < j < i \leq T$ and
+
+### Proof 3.1
+
+As part of the minimisation in, we also get the minimizing state $x_{i}$. Due to the principle of optimality, this value is the state at time step $i$ that is on the optimal trajectory from $x_{k}$ until time $T$. Similarly, the argument of minimisation $x_{j}$ in is part of the optimal trajectory from $x_{k}$ to $x_{i}$.
+
+### Associative operator for value functions
+
+The associative element $a$ of the parallel scan algorithm is defined to be a conditional value function ${V_{a}{( \cdot, \cdot )}}:{{{\mathbb{R}}^{n_{x}} \times {\mathbb{R}}^{n_{x}}}\rightarrow{\mathbb{R}}}$ such that
+
+The combination rule for two elements $a = {V_{a}{(x,y)}}$ and $b = {V_{b}{(x,y)}}$ is then given as follows.
+
+### Definition 3
+
+Given elements $a$ and $b$ of the form, the binary associative operator for dynamic programming is
+
+This operator is an associative operator because $\min$ operation is associative. This is summarized in the following lemma.
+
+### Lemma 4
+
+The operator in Definition 3 is associative.
+
+### Proof 3.2
+
+For three elements $a$, $b$, and $c$, we have
+
+which shows that ${{({a \otimes b})} \otimes c} = {a \otimes {({b \otimes c})}}$.
+
+The elements and combination rule allows us to construct the conditional and conventional value functions as follows.
+
+### Theorem 5
+
+If we initialize the elements $a_{k}$ for $k = {S,\ldots,T}$ as
+
+where ${V_{T\rightarrow{T + 1}}{(x_{T},x_{T + 1})}} \triangleq {V_{T}{(x_{T})}}$, then
+
+### Proof 3.3
+
+Equation results from the sequential application of forward, and from the sequential application backwards.
+
+Theorem 5 implies that we can compute all value functions $V_{k}{( \cdot )}$ by initializing the elements as in, using the associative operator in Definition 3 and computing for $k = {S,\ldots,{T - 1}}$, which corresponds to a (reverted) all-prefix-sum operation. Because the initialisation is fully parallelisable, we can directly use the parallel scan algorithm (see Algorithm 1) to compute all value functions in $O{({\log T})}$ parallel steps.
+
+### Remark 6
+
+After computing all the value functions, we can obtain all the control laws $u_{k}{(x_{k})}$ for $k = {S,\cdots,{T - 1}}$ by using. This operation can be done in parallel for each $k$.
+
+### Remark 7
+
+If we are interested in evaluating $V_{S\rightarrow k}{(x_{S},x_{k})}$ at a given $x_{S}$, as we are in trajectory recovery, then instead of first using with initialisation, and then evaluating the result at $x_{S}$, we can also initialise an extra element
+
+### Optimal trajectory recovery
+
+Once we have obtained the optimal control laws in parallel, we can compute the resulting optimal trajectory $(x_{S + 1}^{\ast},\ldots,x_{T}^{\ast})$ in parallel using two methods.
+
+### Method 1
+
+In the first method for trajectory recovery, the state of the optimal trajectory at time step $k$ can be computed by using and the composition of functions
+
+We can compute using parallel scans as follows. The associative element $a$ is defined to be a function on $x$, $a = {f_{a}{( \cdot )}}$ and the operator is the function composition in the following definition.
+
+### Definition 8
+
+Given elements $a = {f_{a}{( \cdot )}}$ and $b = {f_{b}{( \cdot )}}$, the binary associative operator for optimal trajectory recovery is
+
+where $\circ$ denotes the composition of two functions, which is an associative operator. We should note that the order of the function composition is reverted.
+
+Then, we can recover the optimal trajectory via the following lemma.
+
+### Lemma 9
+
+If we initialize element $a_{S}$ as the function $f_{S}^{\ast}{( \cdot )}$, which is given by, evaluated at $x_{S}$
+
+and, for $k = {{S + 1},\ldots,{T - 1}}$, $a_{k}$ is initialised as the function
+
+where $x_{k}^{\ast}$ is the state of the optimal trajectory at time step $k$.
+
+### Method 2
+
+An alternative method, which resembles the max-product algorithm in probabilistic graphical models, is based on noticing that, from the definition of the conditional value function (15 ‣ 3.1 Conditional value functions and combination rules ‣ 3 Parallel optimal control ‣ Temporal Parallelisation of Dynamic Programming and Linear Quadratic Control")) and the value function, the state of the optimal trajectory at time step $k$ is given by
+
+where we recall that $x_{S}$ is the initial known state. That is, we can just minimise the sum of the forward conditional value function $V_{S\rightarrow k}{(x_{S},x_{k})}$ and the (backwards) value function $V_{k}{(x_{k})}$, which can be calculated using parallel scans via and, respectively. Then, the minimisation can be done for each node in parallel.
+
+It should be noted that both approaches for optimal trajectory recovery require two parallel scans, one forward and one backwards, and one minimisation for each node.
+
+### Finite state and control spaces
+
+The case in which the state and the control input belong to finite state spaces is important as we can solve the control problem in both sequential and parallel forms in closed-form. Let $x_{k} \in \left\{ 1,\ldots,D_{x} \right\}$ and $u_{k} \in \left\{ 1,\ldots,D_{u} \right\}$ where $D_{x}$ and $D_{u}$ are natural numbers. Then, $f_{k}\left( x_{k},u_{k} \right)$ and $\ell_{n}{(x_{n},u_{n})}$ can be represented by matrices of dimensions $D_{x} \times D_{u}$, $V_{k}{(x_{k})}$ by a vector of dimension $D_{x}$, $u_{k}{(x_{k})}$ by a vector of dimension $D_{x}$, and $V_{k\rightarrow i}{(x_{k},x_{i})}$ by a matrix of size $D_{x} \times D_{x}$. Due to the finite state space, the required minimisations in and, can be performed by exhaustive search, which can also be parallelised.
+
+For Method 1 for optimal trajectory recovery, the function $f_{k}^{\ast}{( \cdot )}$ can be represented as a vector of dimension $D_{x}$, and the function composition in can be performed by evaluating all cases.
+
+## Parallel linear quadratic tracker
+
+In this section, we provide the parallel solution to the LQT case. In Section 4.1, we derive the conditional value functions and combination rules. In Section 4.2, we derive the associative elements to obtain the value functions $V_{S\rightarrow k}{(x_{S},x_{k})}$ and $V_{k}{(x_{k})}$. In Section 4.3, we address the computation of the optimal trajectory. Finally, in Section 4.4, we discuss extensions to stochastic and non-linear problems.
+
+### Conditional value functions and combination rules
+
+For the LQT problem in, $V_{k\rightarrow i}{(x_{k},x_{i})}$ in (15 ‣ 3.1 Conditional value functions and combination rules ‣ 3 Parallel optimal control ‣ Temporal Parallelisation of Dynamic Programming and Linear Quadratic Control")) is a quadratic program with affine equality constraints that we represent by its dual problem
+
+where $\lambda$ is a Lagrange multiplier $n_{x} \times 1$ vector and the dual function $g_{k\rightarrow i}( \cdot, \cdot, \cdot )$ has the parameterisation
+
+If $C_{k,i}$ is invertible, one can solve by calculating the gradient of with respect to $\lambda$ and setting it equal to zero, to obtain
+
+In this case, we can also interpret the conditional value function in terms of conditional Gaussian distributions as
+
+where $N{( \cdot;\overline{x},P)}$ denotes a Gaussian density with mean $\overline{x}$ and covariance matrix $P$, and $N_{I}( \cdot;\eta,J)$ denotes a Gaussian density parameterised in information form with information vector $\eta$ and information matrix $J$. A Gaussian distribution with mean $\overline{x}$ and covariance matrix $P$ can be written in its information form as $\eta = {P^{- 1}\overline{x}}$ and $J = P^{- 1}$.
+
+Nevertheless, in general, $C_{k,i}$ is not invertible so it is suitable to keep the dual function parameterisation in.
+
+### Lemma 10
+
+Given two elements $V_{k\rightarrow j}{(x_{k},x_{j})}$ and $V_{j\rightarrow i}{(x_{j},x_{i})}$ of the form, their combination $V_{k\rightarrow i}{(x_{k},x_{i})}$, which is obtained using Theorem 2, is of the form and characterised by
+
+where $I$ is an identity matrix of size $n_{x}$.
+
+The proof is provided in Appendix 8.2. It should be noted that the combination rule is equivalent to the combination rule for the parallel linear and Gaussian filter, which also considers Gaussian densities of the form \[27, Lem. 8\].
+
+### Associative elements to obtain the value functions
+
+The following lemma establishes how to define the elements of the parallel scan algorithms to obtain the value functions $V_{S\rightarrow k}{(x_{S},x_{k})}$ and $V_{k}{(x_{k})}$.
+
+### Lemma 11
+
+If we initialize the elements $a_{k}$ for $k = {S,\ldots,T}$ as:
+
+where $V_{k\rightarrow{k + 1}}{(x_{k},x_{k + 1})}$ is of the form with
+
+for $k = {S,\cdots,{T - 1}}$ and $V_{T\rightarrow{T + 1}}{(x_{T},x_{T + 1})}$ has parameters
+
+Furthermore, $V_{k}{(x_{k})}$ is of the form with
+
+### Proof 4.1
+
+This lemma is proved in Appendix 8.3.
+
+Once we obtain $v_{k + 1}$ and $S_{k + 1}$ using Lemma 11, we can compute the optimal control $u_{k}$ using.
+
+### Remark 12
+
+If we are interested in evaluating the conditional value functions $V_{S\rightarrow k}{(x_{S},x_{k})}$ for a given $x_{S}$, then we can also directly initialise by
+
+### Optimal trajectory recovery
+
+We proceed to explain how the two optimal trajectory recovery methods explained in Section 3.3 work for the LQT problem.
+
+### Method 1
+
+Plugging the optimal control law into the dynamic equation in, the optimal trajectory function in becomes
+
+We denote a conditional optimal trajectory from time step $k$ to $i$ as
+
+### Lemma 13
+
+Given two elements $f_{k\rightarrow j}^{\ast}{(x_{k},x_{j})}$ and $f_{j\rightarrow i}^{\ast}{(x_{j},x_{i})}$ of the form, their combination $f_{k\rightarrow i}^{\ast}{(x_{k},x_{i})}$, given by Definition 8, is a function $f_{k\rightarrow i}^{\ast}{(x_{k},x_{i})}$ of the form with
+
+### Proof 4.2
+
+The proof of this lemma is direct by using function compositions.
+
+How to recover the optimal trajectory using parallel scans is indicated in the following lemma.
+
+### Lemma 14
+
+If we initialise the elements of the parallel scan as $a_{k} = {f_{k\rightarrow{k + 1}}^{\ast}{(x_{k})}}$, with
+
+for $k \in \left\{ {S + 1},\ldots,{T - 1} \right\}$, and, for $k = S$, we set ${\overset{\sim}{F}}_{S,{S + 1}} = 0$ and ${\overset{\sim}{c}}_{S,{S + 1}} = {{{\overset{\sim}{F}}_{S}x_{S}} + {\overset{\sim}{c}}_{S}}$, then,
+
+where $x_{k}^{\ast}$ is the state of the optimal trajectory at time step $k$.
+
+### Method 2
+
+This method makes use of to recover the optimal trajectory. It first runs a forward pass to compute $V_{S\rightarrow k}{(x_{S},x_{k})}$ and then a backward pass to compute $V_{k}{(x_{k})}$. Then, the optimal trajectory is obtained via the following lemma.
+
+### Lemma 15
+
+Given $V_{k}{(x_{k})}$ of the form and $V_{S\rightarrow k}{(x_{S},x_{k})}$ of the form, the state of the optimal trajectory at time step $k$, which is obtained using, is
+
+### Proof 4.3
+
+The proof is provided in Appendix 8.4.
+
+### Extensions
+
+In this section, the aim is to discuss some straightforward extensions of the parallel LQT.
+
+### Extension to stochastic control
+
+Although the extension of the general framework introduced in this article to stochastic control problems is hard, the stochastic LQT case follows easily. Stochastic LQT is concerned with models of the form
+
+where $\ell_{T}{(x_{T})}$ and $\ell_{n}{(x_{n})}$ are as given in, and $w_{k}$ is a zero mean white noise process with covariance $Q_{k}$, $G_{k}$ is a given matrix, and $E\lbrack \cdot \rbrack$ denotes expectation over the state trajectory. It turns out that due to certainty equivalence property of linear stochastic control problems, the optimal control is still given by and the solution exactly matches the deterministic solution, that is, it is independent of $Q_{k}$ and $G_{k}$. The optimal value functions both in deterministic and stochastic cases have the form, but the value of the (irrelevant) constant is different.
+
+It also results from the certainty equivalence property that the optimal control solution to the partially observed linear (affine) stochastic control problem with function and dynamic and measurement models
+
+where $y_{k}$ is a measurement, $O_{k}$ is a measurement model matrix, $d_{k}$ is a deterministic bias, and $e_{k}$ is a zero mean Gaussian measurement noise, is given by, where the state $x_{k}$ is replaced with its Kalman filter estimate.
+
+### Extension to more general cost functions
+
+Sometimes (such as in the nonlinear case below) we are interested in generalising the cost function in to the following form for $n < T$:
+
+We can now transform into the form using the factorisation
+
+we get a system of the form. This system can then be solved for $(x_{n},{\overset{\sim}{u}}_{n})$, and the final control signal can be recovered via
+
+### Extension to nonlinear control
+
+The equations for solving the LQT problem can be extended to approximately solve nonlinear LQT systems by performing iterated linearisations, as in. Let us consider a system of the form
+
+where $f_{k}{( \cdot )}$, $g_{n}{( \cdot )}$ and $h_{n}{( \cdot )}$ are possibly nonlinear functions. Given a nominal trajectory ${\overline{x}}_{k},{\overline{u}}_{k}$ for $k \in {S,\ldots,T}$, we can linearise the nonlinear functions using first-order Taylor series as
+
+where $J_{f_{k}}^{x}$ represents the Jacobian of function $f_{k}{( \cdot )}$ evaluated at ${\overline{x}}_{k},{\overline{u}}_{k}$ with respect to variable $x$.
+
+Starting with a nominal trajectory ${\overline{x}}_{k}^{1},{\overline{u}}_{k}^{1}$ for $k \in {S,\ldots,T}$, we linearise the system using, obtain the value functions using parallel scans (see Lemma 11), and obtain a new optimal trajectory ${\overline{x}}_{k}^{2}$ and control ${\overline{u}}_{k}^{2}$. Then, we can repeat this procedure of linearisation and optimal trajectory/control computation until convergence. The procedure may be initialised, for example, with ${{\overline{x}}_{k}^{1} = 0},{{\overline{u}}_{k}^{1} = 0}$ or ${{\overline{x}}_{k}^{1} = x_{S}},{{\overline{u}}_{k}^{1} = 0}$ $\forall k$.
+
+## Implementation and computational complexity
+
+In this section, we first discuss the practical implementation of the methods in Section 5.1. We then analyse the computational complexity in Section 5.2. Finally, we explain how to perform parallelisation in blocks in Section 5.3.
+
+### Practical implementation of parallel control
+
+Given the associative operators and the elements, the solutions to the dynamic programming and trajectory prediction problems reduce to an initialisation step followed by a single call to a parallel scan algorithm routine parameterised by these operators and elements. Given the result of the scan, there can also be a result-extraction step which computes the final optimal control from the scan results. For example, the LQT control law computation consists of the following steps:
+
+*Initialisation:* Compute the elements $A_{k,{k + 1}}$, $b_{k,{k + 1}}$, $C_{k,{k + 1}}$, $\eta_{k,{k + 1}}$, and $J_{k,{k + 1}}$ defined in Lemma 11 for all $k$ in parallel.
+
+*Parallel scan:* Call the backward parallel scan routine and, as its arguments, give the initialised elements above along with pointer to the operator in Lemma 10. This returns $V_{k}{(x_{k})}$ for all $k$, see and.
+
+*Extraction:* Compute the optimal control using in parallel for all $k$.
+
+The control law for a finite-state control problem is initialised with the conditional value functions in Theorem 5 and the parallel scan routine is given a pointer to the operator in Definition 3. The control law computation is finally done with using the value functions computed in parallel.
+
+Sometimes, we also need to compute the actual trajectory and the corresponding optimal controls forward in time. For example, in iterative non-linear extensions of LQT discussed in Section 4.4.3 we need to linearise the trajectory with respect to the optimal trajectory and control obtained at the previous iteration. In this case, after computing the control laws, we need to do another computational pass. For example, in the LQT case when using Method 1 from Section 4.3, we do the following:
+
+*Initialisation:* Compute the elements ${\overset{\sim}{F}}_{k,{k + 1}}$ and ${\overset{\sim}{c}}_{k,{k + 1}}$ using Lemma 14 for all $k$ in parallel.
+
+*Parallel scan:* Call the forward parallel scan routine and, as its arguments, give the initialised elements above along with pointer to the operator given in Lemma 13.
+
+*Extraction:* The optimal trajectory can be extracted from the forward scan results as the elements ${\overset{\sim}{c}}_{S,k}$, see Lemma 14.
+
+The steps for Method 1 in the finite-state case are analogous, but the elements are initialised according to Lemma 9 and the combination operator is given in Definition 8.
+
+When using Method 2 for optimal trajectory recovery, the operator is the same as in the backward computation for the control law. The parallel scan is done in the forward direction and the final results still need to be evaluated at $x_{S}$ unless initialisation is done using Remark 12. Furthermore, after computing the backward and forward scans, we still need to compute the optimal states by using, which in the case of LQT reduces to
+
+### Computational complexity
+
+We proceed to analyse the computational complexity of the proposed methods. For this purpose it is useful to assume that the computer that we have operates according to the PRAM (parallel random access machine) model of computation (see, e.g., ). In this model, we assume that we have a bounded number $P$ of identical processors controller by a common clock with a read/write access to a shared random access memory. This model is quite accurate for multi-core CPUs and GPUs.
+
+For simplicity of analysis, we assume that the number of processors is large enough (say $P\rightarrow\infty$), so that the number of processors does not limit the parallelisation. Thus, the parallel scan algorithm has a time-complexity (i.e, span-complexity) of $O{({\log T})}$ in the number of associative operations. In the following, we also take the dimensionality of the state into account and therefore the time-complexities not only depend on the number of time steps $T$, but also on the number of states $D_{x}$ and number of controls $D_{u}$ in finite state-space case, and dimensionalities of the state $n_{x}$ and control $n_{u}$ in the LQT case. We analyse complexity using $O{( \cdot )}$ notation, as it enables us to analyse computational complexity avoiding low-level operation details that are not relevant to this contribution.
+
+The combination rule computations can also be parallelised, and their complexity will therefore depend on whether they are parallelised or not. For example, if we do not parallelise the computations in the LQT combination rule given in Lemma 10, then their complexity is $O{(n_{x}^{3})}$ due to the matrix inverses (or equivalent LU-factorisations) involved. If we perform the parallelisation, these LU-factorisations can be performed in parallel in $O{(n_{x})}$ span time. The following analysis is based on assuming that we in fact use parallel matrix routines to implement the operations at the combination steps, along with all the other steps.
+
+For the parallel algorithms we obtain the following results.
+
+### Lemma 16
+
+In a PRAM computer with large enough number of processors ($P\rightarrow\infty$) and the finite-state control problem, the span time complexity of
+
+computing value functions and the control law is $O{({{\log D_{u}} + {{({\log T})}{({\log D_{x}})}}})}$;
+
+recovering the trajectory is $O{({\log T})}$ with Method 1, and $O{({{\log D_{u}} + {\log D_{x}} + {{({\log T})}{({\log D_{x}})}}})}$ with Method 2.
+
+### Proof 5.1
+
+The initialisation of the value function computation is done using which has a time (span) complexity of $O{({\log D_{u}})}$ due to the minimisation operation over the control input. The associative operator in Definition 3 is fully parallelisable in summation, but the span complexity of the minimisation over the state is $O{({\log D_{x}})}$. The control law computation also has the complexity $O{({\log D_{u}})}$ and hence the total span complexity follows. For trajectory recovery with Method 1, we notice that each of the steps of initialisation and associative operator application are fully parallelisable. In Method 2, the initialisation and value function computation have the same complexity as in the backward value function computation and the minimisation at the final combination step takes $O{({\log D_{x}})}$ time.
+
+### Lemma 17
+
+In a PRAM computer with large enough number of processors ($P\rightarrow\infty$) and the LQT problem, the span time complexity of
+
+computing value functions and the control law is $O{({n_{u} + {n_{x}{\log T}}})}$;
+
+recovering the trajectory is $O{({{\log n_{u}} + {{({\log T})}{({\log n_{x}})}}})}$ with Method 1, and $O{({n_{x} + {n_{x}{\log T}}})}$ with Method 2.
+
+### Proof 5.2
+
+A product of $n \times n$ matrices can be computed in parallel in $O{({\log n})}$ time, and an $n \times n$ LU factorisation can be computed in parallel in $O{(n)}$ time. Hence the initialisation requires $O{(n_{u})}$ time as the contribution of the matrix products is negligible. The time complexity of the associative operator is dominated by the LU factorisations which take $O{(n_{x})}$ time and the matrix factorisations at the control law computation can be performed in $O{(n_{u})}$ time. The matrix products required in initialisation have negligible effect and therefore, the total complexity follows. In trajectory recovery Method 1, the matrix products at the initialisation can be computed in $O{({\log n_{u}})}$ time and the associative operators in $O{({\log n_{x}})}$ time. In Method 2, the initialisation is again negligible, and associative operations take $O{(n_{x})}$ time, and the final combination $O{(n_{x})}$ time.
+
+It should be noted that, according to Lemmas 16 and 17, Method 1 is computationally more efficient than Method 2 for large $D_{u}$ or large $D_{x}$ in the discrete case, and for large $n_{x}$ and $n_{u}$ in the LQT case. Nevertheless, a benefit of Method 2 is that it can be run in parallel with the backward pass.
+
+Although the above analysis results give a guideline for performance in large number of processors (computational cores), with finite number of processors, we can expect worse performance as we cannot allocate a single task to single processor. However, at the time of writing the typical number of cores in a GPU was already $\sim$`<!-- -->`{=html}10k, and therefore the above analysis can be expected to become more and more accurate in the future with the steadily increasing number of computational cores.
+
+### Block processing
+
+Up to now, we have considered parallelisation of control problems at a single time step level. That is, we initialise the element $a_{k}$ for all $k$ using and then apply the parallel scan algorithm. Another option is to apply the parallel scan algorithm to non-overlapping blocks of $B$ time steps. That is, we can initialise the elements of the parallel scan with $V_{k\rightarrow{k + B}}$ for $k = {S + {nB}}$, with $n = {0,1,\ldots,{{T/B} - 1}}$. The initialisation of each element can be done using in $B - 1$ sequential steps. Then, we can apply the parallel scan algorithm to fuse the information from all blocks. In this case, the time-complexity in a PRAM computer with large enough number of processors is $O{({B + {\log{({N/B})}}})}$, so it is optimal to choose $B = 1$. Nevertheless, this approach can be useful if we have a limited number of processors.
+
+In the case of LQT, an efficient implementation of the above can achieved by using partial condensing, where the idea is to reformulate the problem in terms of blocks of states and controls of size $B$:
+
+By elimination of the state variables inside each block, we can reformulate the problem in terms of the initial states of blocks only, ${x_{0},x_{B},x_{2B},\ldots},$ which reduces the state dimensions from full state blocks to the original state dimension. The resulting problem is still a LQT problem, but with modified states and inputs, and hence we can use the proposed parallel LQT algorithms to solve it.
+
+## Experimental Results
+
+In this section, we experimentally evaluate the performance of the methods in simulated applications. We implemented the methods using the open-source TensorFlow 2.6 software library using its Python 3.8 interface, which provides means to run parallel vectorised operations and parallel associative scans on GPUs. The experiments were run using NVIDIA A100-SXM GPU with 80GB of memory. In the experiments, we concentrate on the computational speed benefits because the sequential and parallel version of the algorithm compute exactly the same solution (provided that it is unique), the only difference being in the computational speed. The computation speeds were measured by averaging over 10 runs and the time taken to (jit) compile the code was not included in the measurement.
+
+We would like to point out that, as we are using TensorFlow with GPUs, the matrix operations on the individual time steps of the sequential algorithms are parallelised. Therefore, the sequential LQT algorithms can be interpreted as a TensorFlow parallel implementation of the Riccati recursion.
+
+### Experiment with basic LQT
+
+Figure 1: Simulated trajectory from the linear control problem and optimal trajectory produced by LQT (see Section 6.1). The trajectory starts at.
+
+The aim of the experiment is to demonstrate the benefit of the proposed parallelization method over the classical sequential solution in an LQT problem. We consider a 2-D tracking problem obeying Newton's law \[2, Example 4.4.2\]. In this LQT problem, the aim is to steer an object to follow a given trajectory of reference points in 2-D by using applied forces as the control signals.
+
+The state consists of the positions and velocities $x = \begin{bmatrix}
+\end{bmatrix}^{\top}$ and the control signal $u = \begin{bmatrix}
+\end{bmatrix}^{\top}$ contains the accelerations (forces divided by the mass which is unity in our case). If we assume that the control signal is kept fixed over each discretisation interval $\lbrack t_{k},t_{k + 1}\rbrack$, then the dynamic model can be written as
+
+and ${\Deltat_{k}} = {t_{k + 1} - t_{k}}$ is the sampling interval. Fig. 1 illustrates the scenario.
+
+Figure 2: LQT control law computation run times on GPU. The sequential and parallel run times are shown in the top left figure, and a zoom to the parallel run time is shown in the top right figure. The speed-up provided by the parallelisation is shown in figure at the bottom.
+
+Figure 3: The GPU run times (left) and zoomed run times of the parallel methods (right) for combined control law computation and trajectory recovery (Methods 1 &amp; 2) in LQT.
+
+The dynamic trajectory is discretized so that we add 10 intermediate steps between each of the reference point time steps which then results in a total of $T$ times steps (giving ${\Deltat_{k}} = 0.1$). The cost function parameters are for $k = {0,\ldots,{T - 1}}$ selected to be
+
+where $c_{k} = 100$ when there is a reference point at step $k$ and $10^{- 6}$ otherwise. At the final step we set $H_{T} = I_{4 \times 4}$ and $X_{T} = I_{4 \times 4}$. The reference trajectory contains the actual reference points at every 10th step $k$, and the intermediate steps are set equal to the previous reference point. At the final step the reference velocity is also zero. Together with the value $c_{k} = 10^{- 6}$ at these intermediate points this results in tiny regularisation of the intermediate paths, but the effect on the final result is practically negligible. It would also be possible to put $c_{k} = 0$ for the intermediate steps to yield almost the same result.
+
+The results computing the control law (i.e, the backward pass) of the classic sequential LQT and the proposed parallel LQT on the GPU for $T = {10^{2},\ldots,10^{5}}$ are shown in Fig. 2. The figure shows the run times of both in log-log scale on the top right figure and the parallel result up to $10^{4}$ is shown in linear scale on the top right. The speed-up, computed as the ratio of sequential and parallel run times, is shown in the bottom figure. It can be seen that the parallel version is significantly faster than the sequential version (illustrated in the top left figure) and the logarithmic scaling of the parallel algorithm can also be seen (illustrated in the top right figure). The speed-up (illustrated in the bottom figure) is of the order of $\sim$`<!-- -->`{=html}470 with $10^{5}$ time points and although it is close to saturating, it still increases a bit.
+
+We also ran the combined control law computation pass and the trajectory recovery pass on GPU, and the results are shown in Fig. 3. The advantage of parallel version over the sequential version can again be clearly seen. Furthermore, in this case, Method 1 for the parallel trajectory recovery is faster than Method 2.
+
+Figure 4: Result of partial condensing with different values of block size B when the LQT is implemented by using parallel matrix operations within sequential Riccati solution and trajectory reconstruction.
+
+Figure 5: Run times of partial condensing for T = 105 with different values of block size B when the LQT is implemented by using parallel matrix operations within sequential Riccati solution and trajectory reconstruction.
+
+### Experiment with partial condensing
+
+In this experiment we compare the proposed parallelisation method for LQT to partial condensing based parallelisation. We also demonstrate how parallel condensing can be combined with the proposed methodology to yield improved results. The same 2-D tracking problem and data are used as in Sec. 6.1.
+
+As discussed in Sec. 5.3, the idea of partial condensing is to reduce a control problem of length $T$ to a control problem of length $T/B$ by dividing the problem into blocks of length $B$. In each of these blocks we can eliminate all but the state at the beginning of the block, which effectively reduces a control problem with state dimension $n_{x}$, input dimension $Bn_{u}$, and length $T/B$. The required computations are 1) conversion of the model into block form, 2) computation of LQT solution of length $T/B$, and 3) reconstruction of the intermediate states in each block. Partial condensing allows for parallelisation of the computations because steps 1) and 3) are fully parallelisable and step 2) can be efficiently implemented by using parallel matrix operations within the sequential Riccati solution and trajectory reconstruction.
+
+The GPU run times of the aforementioned parallel condensing method with $B = {2,4,8,\ldots,256}$ are shown Fig. 4. The run times of the classical backward-forward sequential LQT solution for trajectory recovery and of the proposed parallel method with trajectory recovery with Method 1 are also shown in the figure. The trajectory lengths were $T = {10^{2},\ldots,10^{5}}$. It can be seen that the run times of partial condensing methods are significantly lower than of the classical sequential LQT while still, for the most of the cases, higher than of the proposed parallel method. It can be seen that with short trajectory lengths the partial condensing method is faster than the proposed parallel method when $B = 16$ or $32$. However, with larger trajectory lengths the proposed parallel method is faster.
+
+In the results of Fig. 4 we can see some evidence of an effect that when increasing $B$, the run time no longer decreases after a certain value. This is confirmed in Fig. 5 which shows the run times of the partial condensing over trajectory of length $T = 10^{5}$ with different values of $B$. It can be seen that the run time attains minimum somewhere around $B = 200$ and after that the run time starts to increase.
+
+Figure 6: Result of partial condensing with different values of Nc when the LQT is implemented by using the proposed parallel methods.
+
+Figure 7: Run times of partial condensing for T = 105 with different values of B when the LQT is implemented by using the proposed parallel methods.
+
+As discussed in Sec. 5.3, it is also possible to combine partial condensing with the proposed parallelization methodology. This can be done by implementing the LQT solution (of length $T/B$) by using one of the parallel methods. Fig. 6 shows the results of using this combined approach. It can be seen that the partial condensing can be used to improve run time of the proposed parallel methods when $B$ is in suitable range (2--64 in this case). When $B$ is too large ($128$ or $256$), then partial condensing no longer improves the run times. This also happens with $B = 64$ when the trajectory length is short. Fig. 7 shows the run times with $T = 10^{5}$ as function of $B$. It can be seen in the figure that the minimum run time is attained roughly at value $B = 15$.
+
+### Experiment with increasing state dimensionality
+
+In this experiment the aim is to test the scaling of run time when the dimensionality of the state increases. For this purpose, we use a slight modification of a mass-spring-damper problem \[43, Section 2.5.3\], where we have removed the control constraints, as we do not consider them in this paper. This is a linear model for controlling a chain of $N$ masses $m = 1$ kg connected with springs with constants $c = 1$ kg/s^2^ and dampers with constants $d = 0.2$ kg/s. The control is applied to the first and last mass. The model is thus (see Fig. 8):
+
+where $i = {2,\ldots,{N - 1}}$. The state of the system is $x = \begin{bmatrix}
+y_{1} & {\overset{˙}{y}}_{1} & \cdots & y_{N} & {\overset{˙}{y}}_{N}
+\end{bmatrix}^{\top}$. Similar to the case in, the aim is to control the system to origin from an initial condition where the first mass and middle mass, with index $i = {\left\lfloor \frac{N}{2} \right\rfloor + 1}$, are started at position $1$ m. The model is uniformly discretised, with closed-form zero-order-hold (ZOH) discretisation, using varying number of time steps $T = {10^{2},\ldots,10^{3}}$ such that the total control interval length is $10$ s.
+
+Figure 8: Illustration of the mass-spring-damper problem (see Section 6.3).
+
+The cost function is
+
+Figure 9: Run times of the mass-spring-damper problem with different number of masses N corresponding to state dimensionalities 2 N.
+
+Fig. 9 shows the results of sequential LQT and proposed parallel LQT. Due to parallelisation of the matrix operations on the individual steps of the sequential LQT, its run time is essentially independent of the state dimension. The parallel method, however, experiences significant run time increase with larger state dimension. Although when the number of masses $N$ is 2--64, the run times of the parallel methods are shorter than those of the sequential method, with $N = 128$ the parallel method is slower with small numbers of time steps and with $N = 256$ it is slower with all the time step counts.
+
+### Experiment with finite state space
+
+In this experiment, we consider an aircraft routing problem \[2, Example 6.1.1\], where an aircraft proceeds from left to right, and the aim is to control up and down movement on a finite grid so that the total cost is minimised. Each of the grid points incurs a cost $\{ 0,1,2\}$ which is related to the fuel required to go through it. Taking a control up or down costs a single unit, and proceeding straight costs nothing. The scenario is illustrated in Fig. 10.
+
+Figure 10: Finite state space scenario where the aim is to find a minimum cost path from left to right by steering up or down (see Section 6.4). The gray scale values show the cost function values.
+
+In this case we tested the finite-state control law computation using different state dimensionalities as the parallel combination rule can be expected to have a dependence on the state dimensionality when the number of computational cores is limited. The GPU speed-ups for state dimensions $D_{x} \in {\{ 5,11,21\}}$ are shown in Fig. 11. It can be seen that with state dimensionality $D_{x} = 5$ the speed-up reaches $\sim$`<!-- -->`{=html}1500 with $T = 10^{5}$ and is still slightly increasing. With the state dimensionality $D_{x} = 11$ the maximum achieved speed-up is roughly $\sim$`<!-- -->`{=html}700, and with state dimensionality $D_{x} = 21$ the speed-up saturates to a value around $350$. However, with all of the state dimensionalities parallelisation provides a significant speed-up.
+
+Figure 11: Finite state space GPU speed-ups for control law computation (parallel vs. sequential) with state dimensions 5, 11, and 21.
+
+### Experiment with nonlinear LQT
+
+This experiment is concerned with a non-linear dynamic model where we control a simple unicycle \[34, Sec. 13.2.4.1\] whose state consists of 2-D position, orientation, and speed $x = \begin{bmatrix}
+\end{bmatrix}^{\top}$. The aim is to steer the device to follow a given position and orientation trajectory which corresponds to going around a fixed race track multiple times. The control signal consists of the tangential acceleration and turn rate $u = \begin{bmatrix}
+\end{bmatrix}^{\top}$. The discretized nonlinear model has the form
+
+and ${\Deltat_{k}} = {t_{k + 1} - t_{k}}$. Fig. 12 shows the trajectory and the optimal trajectory produced by the nonlinear LQT.
+
+Figure 12: Simulated trajectory from the nonlinear control problem and optimal trajectory produced by nonlinear LQT (see Section 6.5).
+
+The cost function parameters were selected to be the following for $k = {0,\ldots,{T - 1}}$:
+
+where ${c_{k} = 100},{d_{k} = 1000}$, when there is a reference point at step $k$, and $10^{- 6}$ otherwise. The latter values were also used for the terminal step $k = T$. The time step length was ${\Deltat_{k}} = 0.1$.
+
+Figure 13: Nonlinear LQT GPU run times and speedup for 10 iterations.
+
+An iterated nonlinear LQT using a Taylor series approximation was applied to the model, and the number of iterations was fixed to $10$. Fig. 13 shows the run times for GPU. It can be seen that parallelisation provides a significant speed-up over sequential computation. When the Method 1 was used to compute the recovered trajectory at each iteration step, the speed-up grows to around $800$ for $T = 10^{5}$ on GPU. Method 2 reaches a speed-up of around $600$.
+
+## Conclusion
+
+In this paper, we have shown how dynamic programming solutions to optimal control problems and their linear quadratic special case, the linear quadratic tracker (LQT), can be parallelised in the temporal domain by defining the corresponding associative operators and making use of parallel scans. The parallel methods have logarithmic complexity with respect to the number of time steps, which significantly reduces the linear complexity of standard (sequential) methods for long time horizon control problems. These benefits are shown via numerical experiments run on a GPU. This paper shows that the contribution is timely as it can leverage modern hardware and software for parallel computing, such as GPUs and TensorFlow.
+
+An interesting future extension of the framework would be parallel stochastic dynamic programming solution to stochastic control problems. As discussed in Section 4.4, this is straightforward in the LQT case due to certainty equivalence, but the general stochastic case is not straightforward. Formally it is possible to replace the state $x_{k}$ with the distribution of the state $p_{k}$ and consider condition value functionals of the form $V_{i\rightarrow j}{\lbrack p_{i},p_{j}\rbrack}$ and value functionals of the form $V_{i}{\lbrack p_{i}\rbrack}$. The present framework then, in principle, applies as such. In particular, when the distributions have finite-dimensional sufficient statistics, this can lead to tractable methods. Unfortunately, unlike in the sequential dynamic programming case, more generally, this approach does not seem to lead to a tractable algorithm.
+
+Another interesting extension is to consider continuous optimal control problems in which case also the stochastic control solution has certain group properties which might allow for parallelisation. However, the benefit of parallelisation in the continuous case is not as clear as in discrete-time case because of the infinite number of time steps.
+
+## Derivations and Proofs
+
+### Proof of Theorem 2
+
+In this appendix we prove Theorem 2. We first prove. From and, we obtain
+
+where the previous minimisations are subject to the trajectory constraints in.
+
+We can also minimise over $x_{i}$ explicitly such that
+
+Proceeding analogously, we now prove. From (15 ‣ 3.1 Conditional value functions and combination rules ‣ 3 Parallel optimal control ‣ Temporal Parallelisation of Dynamic Programming and Linear Quadratic Control")), we obtain
+
+which completes the proof of (15 ‣ 3.1 Conditional value functions and combination rules ‣ 3 Parallel optimal control ‣ Temporal Parallelisation of Dynamic Programming and Linear Quadratic Control")).
+
+### Proof of LQT combination rule
+
+In this appendix, we prove the combination rule for LQT in Lemma 10. Combining $V_{k\rightarrow j}{(x_{k},x_{j})}$ and $V_{j\rightarrow i}{(x_{j},x_{i})}$ of the form, we obtain
+
+We prove the result by calculating the minimum w.r.t. $x_{j}$ and maximum w.r.t. $\lambda_{1}$, leaving the Lagrange multiplier $\lambda_{2}$ as the Lagrange multiplier of $V_{k\rightarrow i}{(x_{k},x_{i})}$.
+
+Setting the gradient w.r.t. $x_{j}$ equal to zero, we obtain
+
+where $J_{j,i}$ is not invertible in general.
+
+Setting the gradient w.r.t $\lambda_{1}$ equal to zero, we have
+
+Then, substituting into yields
+
+Substituting into, we obtain
+
+We now substitute the stationary points and in each of the terms in $V_{k\rightarrow i}{(x_{k},x_{i})}$ to recover a function of the form. This step involves the use of long mathematical expressions so it is left out of the paper. Lemma 10 then follows by term identification.
+
+### Proof of Parallel LQT
+
+In this section, we prove Lemma 11.
+
+### Proof of (40)
+
+We first show the form of $V_{k\rightarrow{k + 1}}{(x_{k},x_{k + 1})}$ in its dual representation for $k = {S,\ldots,T}$. Using (15 ‣ 3.1 Conditional value functions and combination rules ‣ 3 Parallel optimal control ‣ Temporal Parallelisation of Dynamic Programming and Linear Quadratic Control")) and the LQT problem formulation in, we obtain
+
+The Lagrangian of $V_{k\rightarrow{k + 1}}{(x_{k},x_{k + 1})}$ is
+
+and the dual function is
+
+where the minimum is obtained setting the gradient of $L_{k\rightarrow{k + 1}}( \cdot )$ w.r.t. $u_{k}$ equal to zero, which gives
+
+Comparing (86 ‣ 8.3 Proof of Parallel LQT ‣ 8 Derivations and Proofs ‣ Temporal Parallelisation of Dynamic Programming and Linear Quadratic Control")) with proves the initialisation in. Then, by applying Theorem 2, which is equivalent to Lemma 10 in the LQT setting, we complete the proof of.
+
+### Proof of (41)
+
+We use induction backwards to prove. At the last time step, from Lemma 11, we have
+
+For $x_{T + 1} \neq 0$, this function is infinite. For $x_{T + 1} = 0$, we have
+
+which coincides with $V_{T}{(x_{T})}$, see Section 2.2.
+
+We now assume that holds for $k + 1$, which implies that we have
+
+where $v_{k + 1}$ and $S_{k + 1}$ are the parameters in, and then show that holds for $k$. From Lemma 11, we have
+
+By applying the combination rules in Lemma 10, we obtain
+
+We need to prove that these equations are equivalent to and. We first prove that $\eta_{k,{T + 1}} = v_{k}$, which requires proving that the following identity holds
+
+On one hand, the right hand side can be written as
+
+On the other hand, by applying the matrix inversion lemma, the left-hand side becomes
+
+which proves $\eta_{k,{T + 1}} = v_{k}$.
+
+To prove that $J_{k,{T + 1}} = S_{k}$, we need to prove that
+
+On one hand, the right-hand side can be written as
+
+On the other hand, using (91 ‣ 8.3 Proof of Parallel LQT ‣ 8 Derivations and Proofs ‣ Temporal Parallelisation of Dynamic Programming and Linear Quadratic Control")), the left-hand side is
+
+which proves the result.
+
+### Proof of optimal trajectory recovery
+
+In this appendix, we prove Lemma 15. Substituting $V_{k}{(x_{k})}$ of the form and $V_{S\rightarrow k}{(x_{S},x_{k})}$ of the form into, we obtain
+
+The minimum of w.r.t. $x_{k}$ can be found by setting the gradient of the function equal to zero, which yields
+
+We substitute into the function (without argmin) in to obtain
+
+Making the gradient of this function w.r.t. $\lambda$ equal to zero, we obtain that the maximum is obtained for
+
+Substituting into, we obtain, which finishes the proof of Lemma 15.

@@ -1,0 +1,165 @@
+## Introduction
+
+With the recent successes of reinforcement learning (RL) on continuous control tasks, there has been a renewed interest in understanding the sample complexity of RL methods. A recent line of work has focused on the Linear Quadratic Regulator (LQR) as a testbed to understand the behavior and trade-offs of various RL algorithms in the continuous state and action space setting. These results can be broadly grouped into two categories: the study of *model-based* methods which use data to build an estimate of the transition dynamics, and *model-free* methods which directly estimate the optimal feedback controller from data without building a dynamics model as an intermediate step. Much of the recent progress in LQR has focused on the model-based side, with an analysis of robust control from Dean et al. and certainty equivalence control by Fiechter and Mania et al.. These techniques have also been extended to the online, adaptive setting. On the other hand, for classic model-free RL algorithms such as Q-learning, SARSA, and approximate policy iteration (PI), our understanding is much less complete despite the fact that these algorithms are well understood in the tabular (finite state and action space) setting. Indeed, most of the model-free analysis for LQR has focused exclusively on derivative-free random search methods.
+
+In this paper, we extend our understanding of model-free algorithms for LQR by studying the performance of approximate PI on LQR, which is a classic approximate dynamic programming algorithm. Approximate PI is a model-free algorithm which iteratively uses trajectory data to estimate the state-value function associated to the current policy (via e.g. temporal difference learning), and then uses this estimate to greedily improve the policy. A key issue in analyzing approximate PI is to understand the trade-off between the number of policy improvement iterations, and the amount of data to collect for each policy evaluation phase. Our analysis quantifies this trade-off, showing that if least-squares temporal difference learning (LSTD-Q) is used for policy evaluation, then a trajectory of length $\overset{\sim}{O}{({{({n + d})}^{3}/\varepsilon^{2}})}$ for each inner step of policy evaluation combined with $\mathcal{O}{({\log{({1/\varepsilon})}})}$ outer steps of policy improvement suffices to learn a controller that has $\varepsilon$-error from the optimal controller. This yields an overall sample complexity of $\mathcal{O}{({{({n + d})}^{3}\varepsilon^{- 2}{\log{({1/\varepsilon})}}})}$. Prior to our work, the only known guarantee for approximate PI on LQR was the asymptotic consistency result of Bradtke in the setting of no process noise.
+
+We also extend our analysis of approximate PI to the online, adaptive LQR setting popularized by Abbasi-Yadkori and Szepesvári. By using a greedy exploration scheme similar to Dean et al. and Mania et al., we prove a $\overset{\sim}{O}{(T^{2/3})}$ regret bound for a simple adaptive policy improvement algorithm. While the $T^{2/3}$ rate is sub-optimal compared to the $T^{1/2}$ regret from model-based methods, our analysis improves the $\overset{\sim}{O}{(T^{{2/3} + \varepsilon})}$ regret (for $T \geq C^{1/\varepsilon}$) from the model-free Follow the Leader (FTL) algorithm of Abbasi-Yadkori et al.. To the best of our knowledge, we give the best regret guarantee known for a model-free algorithm. We leave open the question of whether or not a model-free algorithm can achieve optimal $T^{1/2}$ regret.
+
+## Main Results
+
+In this paper, we consider the following linear dynamical system:
+
+We let $n$ denote the dimension of the state $x_{t}$ and $d$ denote the dimension of the input $u_{t}$. For simplicity we assume that $d \leq n$, e.g. the system is under-actuated. We fix two positive definite cost matrices $(S,R)$, and consider the infinite horizon average-cost Linear Quadratic Regulator (LQR):
+
+We assume the dynamics matrices $(A,B)$ are unknown to us, and our method of interaction with (2.1) is to choose an input sequence $\{ u_{t}\}$ and observe the resulting states $\{ x_{t}\}$.
+
+We study the solution to (2.2) using *least-squares policy iteration (LSPI)*, a well-known approximate dynamic programming method in RL introduced by Lagoudakis and Parr. The study of approximate PI on LQR dates back to the Ph.D. thesis of Bradtke, where he showed that for *noiseless* LQR (when $w_{t} = 0$ for all $t$), the approximate PI algorithm is asymptotically consistent. In this paper we expand on this result and quantify non-asymptotic rates for approximate PI on LQR.
+
+### Notation
+
+For a positive scalar $x > 0$, we let $x_{+} = {\max{\{ 1,x\}}}$. A square matrix $L$ is called stable if ${\rho{(L)}} < 1$ where $\rho{( \cdot )}$ denotes the spectral radius of $L$. For a symmetric matrix $M \in {\mathbb{R}}^{n \times n}$, we let ${\mathsf{d}\mathsf{l}\mathsf{y}\mathsf{a}\mathsf{p}}{(L,M)}$ denote the unique solution to the discrete Lyapunov equation $P = {{L^{\mathsf{T}}PL} + M}$. We also let ${{svec}{(M)}} \in {\mathbb{R}}^{{n{({n + 1})}}/2}$ denote the vectorized version of the upper triangular part of $M$ so that ${\parallel M\parallel}_{F}^{2} = {\langle{{svec}{(M)}},{{svec}{(M)}}\rangle}$. Finally, ${smat}{( \cdot )}$ denotes the inverse of ${svec}{( \cdot )}$, so that ${{smat}{({{svec}{(M)}})}} = M$.
+
+### Least-Squares Temporal Difference Learning (LSTD-Q)
+
+The first component towards an understanding of approximate PI is to understand least-squares temporal difference learning (LSTD-Q) for $Q$-functions, which is the fundamental building block of LSPI. Given a policy $K_{eval}$ which stabilizes $(A,B)$, the goal of LSTD-Q is to estimate the parameters of the $Q$-function associated to $K_{eval}$. Bellman's equation for infinite-horizon average cost MDPs (c.f. Bertsekas ) states that the (relative) $Q$-function associated to a policy $\pi$ satisfies the following fixed-point equation:
+
+Here, $\lambda \in {\mathbb{R}}$ is a free parameter chosen so that the fixed-point equation holds. LSTD-Q operates under the *linear architecture* assumption, which states that the $Q$-function can be described as ${Q{(x,u)}} = {q^{\mathsf{T}}\phi{(x,u)}}$, for a known (possibly non-linear) feature map $\phi{(x,u)}$. It is well known that LQR satisfies the linear architecture assumption, since we have:
+
+Here, we slightly abuse notation and let $Q$ denote the $Q$-function and also the matrix parameterizing the $Q$-function. Now suppose that a trajectory ${\{{(x_{t},u_{t},x_{t + 1})}\}}_{t = 1}^{T}$ is collected. Note that LSTD-Q is an *off-policy* method (unlike the closely related LSTD estimator for value functions), and therefore the inputs $u_{t}$ can come from any sequence that provides sufficient excitation for learning. In particular, it does *not* have to come from the policy $K_{eval}$. In this paper, we will consider inputs of the form:
+
+where $K_{play}$ is a stabilizing controller for $(A,B)$. Once again we emphasize that $K_{play} \neq K_{eval}$ in general. The injected noise $\eta_{t}$ is needed in order to provide sufficient excitation for learning. In order to describe the LSTD-Q estimator, we define the following quantities which play a key role throughout the paper:
+
+The LSTD-Q estimator estimates $q$ via:
+
+Here, ${( \cdot )}^{\dagger}$ denotes the Moore-Penrose pseudo-inverse. Our first result establishes a non-asymptotic bound on the quality of the estimator $\hat{q}$, measured in terms of $\parallel{\hat{q} - q}\parallel$. Before we state our result, we introduce a key definition that we will use extensively.
+
+### Definition 1
+
+Let $L$ be a square matrix. Let $\tau \geq 1$ and $\rho \in {}$. We say that $L$ is $(\tau,\rho)$-stable if
+
+While stability of a matrix is an asymptotic notion, Definition 1 ‣ 2 Main Results ‣ Finite-time Analysis of Approximate Policy Iteration for the Linear Quadratic Regulator") quantifies the degree of stability by characterizing the transient response of the powers of a matrix by the parameter $\tau$. It is closely related to the notion of *strong stability* from Cohen et al..
+
+With Definition 1 ‣ 2 Main Results ‣ Finite-time Analysis of Approximate Policy Iteration for the Linear Quadratic Regulator") in place, we state our first result for LSTD-Q.
+
+### Theorem 2.1
+
+Fix a $\delta \in {}$. Let policies $K_{play}$ and $K_{eval}$ stabilize $(A,B)$, and assume that both $A + {BK_{play}}$ and $A + {BK_{eval}}$ are $(\tau,\rho)$-stable. Let the initial state $x_{0} \sim {\mathcal{N}{(0,\Sigma_{0})}}$ and consider the inputs $u_{t} = {{K_{play}x_{t}} + \eta_{t}}$ with $\eta_{t} \sim {\mathcal{N}{(0,{\sigma_{\eta}^{2}I})}}$. For simplicity, assume that $\sigma_{\eta} \leq \sigma_{w}$. Let $P_{\infty}$ denote the steady-state covariance of the trajectory $\{ x_{t}\}$:
+
+Define the proxy variance ${\overline{\sigma}}^{2}$ by:
+
+Suppose that $T$ satisfies:
+
+Then we have with probability at least $1 - \delta$,
+
+Here the $\overset{\sim}{O}{}$ hides $\operatorname{polylog}{(n,\tau,{\parallel\Sigma_{0}\parallel},{\parallel P_{\infty}\parallel},{\parallel K_{play}\parallel},{T/\delta},{1/\sigma_{\eta}})}$ factors.
+
+Theorem 2.1 ‣ 2 Main Results ‣ Finite-time Analysis of Approximate Policy Iteration for the Linear Quadratic Regulator") states that:
+
+timesteps are sufficient to achieve error ${\parallel{\hat{q} - q}\parallel} \leq \varepsilon$ w.h.p. Several remarks are in order. First, while the ${({n + d})}^{4}$ burn-in is likely sub-optimal, the ${({n + d})}^{3}/\varepsilon^{2}$ dependence is sharp as shown by the asymptotic results of Tu and Recht. Second, the $1/\sigma_{\eta}^{4}$ dependence on the injected excitation noise will be important when we study the online, adaptive setting in Section 2.3. We leave improving the polynomial dependence of the burn-in period to future work.
+
+The proof of Theorem 2.1 ‣ 2 Main Results ‣ Finite-time Analysis of Approximate Policy Iteration for the Linear Quadratic Regulator") appears in Section A and rests on top of several recent advances. First, we build off the work of Abbasi-Yadkori et al. to derive a new basic inequality for LSTD-Q which serves as a starting point for the analysis. Next, we combine the small-ball techniques of Simchowitz et al. with the self-normalized martingale inequalities of Abbasi-Yadkori et al.. While an analysis of LSTD-Q is presented in Abbasi-Yadkori et al. (which builds on the analysis for LSTD from Tu and Recht ), a direct application of their result yields a $1/\sigma_{\eta}^{8}$ dependence; the use of self-normalized inequalities is necessary in order to reduce this dependence to $1/\sigma_{\eta}^{4}$.
+
+### Least-Squares Policy Iteration (LSPI)
+
+With Theorem 2.1 ‣ 2 Main Results ‣ Finite-time Analysis of Approximate Policy Iteration for the Linear Quadratic Regulator") in place, we are ready to present the main results for LSPI. We describe two versions of LSPI in Algorithm 1 ‣ 2 Main Results ‣ Finite-time Analysis of Approximate Policy Iteration for the Linear Quadratic Regulator") and Algorithm 2 ‣ 2 Main Results ‣ Finite-time Analysis of Approximate Policy Iteration for the Linear Quadratic Regulator").
+
+1:K0: initial stabilizing controller,
+2: N: number of policy iterations,
+5: μ: lower eigenvalue bound.
+6:Collect 𝒟 = {(xk,uk,xk + 1)}k = 1T with input uk = K0 xk + ηk, ηk ∼ 𝒩 (0,ση2 I).
+Algorithm 1 LSPIv1 for LQR
+
+1:K0: initial stabilizing controller,
+2: N: number of policy iterations,
+5: μ: lower eigenvalue bound.
+Algorithm 2 LSPIv2 for LQR
+
+In Algorithms 1 ‣ 2 Main Results ‣ Finite-time Analysis of Approximate Policy Iteration for the Linear Quadratic Regulator") and 2 ‣ 2 Main Results ‣ Finite-time Analysis of Approximate Policy Iteration for the Linear Quadratic Regulator"), ${\mathsf{P}\mathsf{r}\mathsf{o}\mathsf{j}}_{\mu}{( \cdot )} = \arg\min_{{X = X^{\mathsf{T}}}:{X \succeq {\mu \cdot I}}}{\parallel X - \cdot \parallel}_{F}$ is the Euclidean projection onto the set of symmetric matrices lower bounded by $\mu \cdot I$. Furthermore, the map $G{( \cdot )}$ takes an ${({n + d})} \times {({n + d})}$ positive definite matrix and returns a $d \times n$ matrix:
+
+Algorithm 1 ‣ 2 Main Results ‣ Finite-time Analysis of Approximate Policy Iteration for the Linear Quadratic Regulator") corresponds to the version presented in Lagoudakis and Parr, where all the data $\mathcal{D}$ is collected up front and is re-used in every iteration of LSTD-Q. Algorithm 2 ‣ 2 Main Results ‣ Finite-time Analysis of Approximate Policy Iteration for the Linear Quadratic Regulator") is the one we will analyze in this paper, where new data is collected for every iteration of LSTD-Q. The modification made in Algorithm 2 ‣ 2 Main Results ‣ Finite-time Analysis of Approximate Policy Iteration for the Linear Quadratic Regulator") simplifies the analysis by allowing the controller $K_{t}$ to be independent of the data $\mathcal{D}_{t}$ in LSTD-Q. We remark that this does *not* require the system to be reset after every iteration of LSTD-Q. We leave analyzing Algorithm 1 ‣ 2 Main Results ‣ Finite-time Analysis of Approximate Policy Iteration for the Linear Quadratic Regulator") to future work.
+
+Before we state our main finite-sample guarantee for Algorithm 2 ‣ 2 Main Results ‣ Finite-time Analysis of Approximate Policy Iteration for the Linear Quadratic Regulator"), we review the notion of a (relative) value-function. Similarly to (relative) $Q$-functions, the infinite horizon average-cost Bellman equation states that the (relative) value function $V$ associated to a policy $\pi$ satisfies the fixed-point equation:
+
+For a stabilizing policy $K$, it is well known that for LQR the value function ${V{(x)}} = {x^{\mathsf{T}}Vx}$ with
+
+Once again as we did for $Q$-functions, we slightly abuse notation and let $V$ denote the value function and the matrix that parameterizes the value function. Our main result for Algorithm 2 ‣ 2 Main Results ‣ Finite-time Analysis of Approximate Policy Iteration for the Linear Quadratic Regulator") appears in the following theorem. For simplicity, we will assume that ${\parallel S\parallel} \geq 1$ and ${\parallel R\parallel} \geq 1$.
+
+### Theorem 2.2
+
+Fix a $\delta \in {}$. Let the initial policy $K_{0}$ input to Algorithm 2 ‣ 2 Main Results ‣ Finite-time Analysis of Approximate Policy Iteration for the Linear Quadratic Regulator") stabilize $(A,B)$. Suppose the initial state $x_{0} \sim {\mathcal{N}{(0,\Sigma_{0})}}$ and that the excitation noise satisfies $\sigma_{\eta} \leq \sigma_{w}$. Recall that the steady-state covariance of the trajectory $\{ x_{t}\}$ is
+
+Let $V_{0}$ denote the value function associated to the initial policy $K_{0}$, and $V_{\star}$ denote the value function associated to the optimal policy $K_{\star}$ for the LQR problem (2.2). Define the variables $\mu,L$ as:
+
+Fix an $\varepsilon > 0$ that satisfies:
+
+Suppose we run Algorithm 2 ‣ 2 Main Results ‣ Finite-time Analysis of Approximate Policy Iteration for the Linear Quadratic Regulator") for $N:={N_{0} + 1}$ policy improvement iterations where
+
+and we set the rollout length $T$ to satisfy:
+
+Then with probability $1 - \delta$, we have that each policy $K_{t}$ for $t = {1,\ldots,N}$ stabilizes $(A,B)$ and furthermore:
+
+Here the $\overset{\sim}{O}{}$ hides $\operatorname{polylog}{(n,\tau,{\parallel\Sigma_{0}\parallel},{\parallel P_{\infty}\parallel},{L/\mu},{T/\delta},N_{0},{1/\sigma_{\eta}})}$ factors.
+
+Theorem 2.2 ‣ 2 Main Results ‣ Finite-time Analysis of Approximate Policy Iteration for the Linear Quadratic Regulator") states roughly that ${T \cdot N} \leq {\overset{\sim}{O}{({\frac{{({n + d})}^{3}}{\varepsilon^{2}}{\log{({1/\varepsilon})}}})}}$ samples are sufficient for LSPI to recover a controller $K$ that is within $\varepsilon$ of the optimal $K_{\star}$. That is, only $\log{({1/\varepsilon})}$ iterations of policy improvement are necessary, and furthermore more iterations of policy improvement do not necessary help due to the inherent statistical noise of estimating the $Q$-function for every policy $K_{t}$. We note that the polynomial factor in $L/\mu$ is by no means optimal and was deliberately made quite conservative in order to simplify the presentation of the bound. A sharper bound can be recovered from our analysis techniques at the expense of a less concise expression.
+
+It is worth taking a moment to compare Theorem 2.2 ‣ 2 Main Results ‣ Finite-time Analysis of Approximate Policy Iteration for the Linear Quadratic Regulator") to classical results in the RL literature regarding approximate policy iteration. For example, a well known result (c.f. Theorem 7.1 of Lagoudakis and Parr ) states that if LSTD-Q is able to return $Q$-function estimates with error $L_{\infty}$ bounded by $\varepsilon$ at every iteration, then letting ${\hat{Q}}_{t}$ denote the approximate $Q$-function at the $t$-th iteration of LSPI:
+
+Here, $\gamma$ is the discount factor of the MDP. Theorem 2.2 ‣ 2 Main Results ‣ Finite-time Analysis of Approximate Policy Iteration for the Linear Quadratic Regulator") is qualitatively similar to this result in that we show roughly that $\varepsilon$ error in the $Q$-function estimate translates to $\varepsilon$ error in the estimated policy. However, there are several fundamental differences. First, our analysis does not rely on discounting to show contraction of the Bellman operator. Instead, we use the $(\tau,\rho)$-stability of closed loop system to achieve this effect. Second, our analysis does not rely on $L_{\infty}$ bounds on the estimated $Q$-function, which are generally not possible to achieve with LQR since the $Q$-function is a quadratic function and the states and inputs are not uniformly bounded. And finally, our analysis is non-asymptotic.
+
+The proof of Theorem 2.2 ‣ 2 Main Results ‣ Finite-time Analysis of Approximate Policy Iteration for the Linear Quadratic Regulator") is given in Section B, and combines the estimation guarantee of Theorem 2.1 ‣ 2 Main Results ‣ Finite-time Analysis of Approximate Policy Iteration for the Linear Quadratic Regulator") with a new analysis of policy iteration for LQR, which we believe is of independent interest. Our new policy iteration analysis combines the work of Bertsekas on policy iteration in infinite horizon average cost MDPs with the contraction theory of Lee and Lim for non-linear matrix equations.
+
+### LSPI for Adaptive LQR
+
+We now turn our attention to the online, adaptive LQR problem as studied in Abbasi-Yadkori and Szepesvári. In the adaptive LQR problem, the quantity of interest is the *regret*, defined as:
+
+Here, the algorithm is penalized for the cost incurred from learning the optimal policy $K_{\star}$, and must balance exploration (to better learn the optimal policy) versus exploitation (to reduce cost). As mentioned previously, there are several known algorithms which achieve $\overset{\sim}{O}{(\sqrt{T})}$ regret. However, these algorithms operate in a *model-based* manner, using the collected data to build a confidence interval around the true dynamics $(A,B)$. On the other hand, the performance of adaptive algorithms which are *model-free* is less well understood. We use the results of the previous section to give an adaptive model-free algorithm for LQR which achieves $\overset{\sim}{O}{(T^{2/3})}$ regret, which improves upon the $\overset{\sim}{O}{(T^{{2/3} + \varepsilon})}$ regret (for $T \geq C^{1/\varepsilon}$) achieved by the adaptive model-free algorithm of Abbasi-Yadkori et al.. Our adaptive algorithm based on LSPI is shown in Algorithm 3.
+
+1:Initial stabilizing controller K, number of epochs E, epoch multiplier Tmult, lower eigenvalue bound μ.
+4: Set $\sigma_{\eta,i}^{2} = {\sigma_{w}^{2}\left( \frac{1}{2^{i}} \right)^{1/3}}$.
+5: Set $K^{({i + 1})} = {{\mathsf{L}\mathsf{S}\mathsf{P}\mathsf{I}\mathsf{v}\mathsf{2}}{({{K_{0} = K^{(i)}},{{N = {\overset{\sim}{O}{({{{({i + 1})}\Gamma_{\star}}/\mu})}}},{{T = T_{i}},{\sigma_{\eta}^{2} = \sigma_{\eta,i}^{2}}}}})}}$.
+Algorithm 3 Online Adaptive Model-free LQR Algorithm
+
+Using an analysis technique similar to that in Dean et al., we prove the following $\overset{\sim}{O}{(T^{2/3})}$ regret bound for Algorithm 3.
+
+### Theorem 2.3
+
+Fix a $\delta \in {}$. Let the initial feedback $K^{}$ stabilize $(A,B)$ and let $V^{}$ denote its associated value function. Also let $K_{\star}$ denote the optimal LQR controller and let $V_{\star}$ denote the optimal value function. Let $\Gamma_{\star} = {1 + {\max{\{{\parallel A\parallel},{\parallel B\parallel},{\parallel V^{}\parallel},{\parallel V_{\star}\parallel},{\parallel K^{}\parallel},{\parallel K_{\star}\parallel},{\parallel Q\parallel},{\parallel R\parallel}\}}}}$. Suppose that $T_{mult}$ is set to:
+
+and suppose $\mu$ is set to $\mu = {\min{\{{\lambda_{\min}{(S)}},{\lambda_{\min}{(R)}}\}}}$. With probability at least $1 - \delta$, we have that the regret of Algorithm 3 satisfies:
+
+The proof of Theorem 2.3 appears in Section C. We note that the regret scaling as $T^{2/3}$ in Theorem 2.3 is due to the $1/\sigma_{\eta}^{4}$ dependence from LSTD-Q (c.f. (2.9 ‣ 2 Main Results ‣ Finite-time Analysis of Approximate Policy Iteration for the Linear Quadratic Regulator"))). As mentioned previously, the existing LSTD-Q analysis from Abbasi-Yadkori et al. yields a $1/\sigma_{\eta}^{8}$ dependence in LSTD-Q; using this $1/\sigma_{\eta}^{8}$ dependence in the analysis of Algorithm 3 would translate into $T^{4/5}$ regret.
+
+## Related Work
+
+For model-based methods, in the offline setting Fiechter provided the first PAC-learning bound for infinite horizon *discounted* LQR using certainty equivalence (nominal) control. Later, Dean et al. use tools from robust control to analyze a robust synthesis method for infinite horizon *average cost* LQR, which is applicable in regimes of moderate uncertainty when nominal control fails. Mania et al. show that certainty equivalence control actually provides a fast $\mathcal{O}{(\varepsilon^{2})}$ rate of sub-optimality where $\varepsilon$ is the size of the parameter error, unlike the $\mathcal{O}{(\varepsilon)}$ sub-optimality guarantee of. For the online adaptive setting, give $\overset{\sim}{O}{(\sqrt{T})}$ regret algorithms. A key component of model-based algorithms is being able to quantify a confidence interval for the parameter estimate, for which several recent works provide non-asymptotic results.
+
+Turning to model-free methods, Tu and Recht study the behavior of least-squares temporal difference (LSTD) for learning the *discounted value* function associated to a stabilizing policy. They evaluate the LSPI algorithm studied in this paper empirically, but do not provide any analysis. In terms of policy optimization, most of the work has focused on derivative-free random search methods. Tu and Recht study a special family of LQR instances and characterize the asymptotic behavior of both model-based certainty equivalent control versus policy gradients (REINFORCE), showing that policy gradients has polynomially worse sample complexity. Most related to our work is Abbasi-Yadkori et al., who analyze a model-free algorithm for adaptive LQR based on ideas from online convex optimization. LSTD-Q is a sub-routine of their algorithm, and their analysis incurs a sub-optimal $1/\sigma_{\eta}^{8}$ dependence on the injected exploration noise, which we improve to $1/\sigma_{\eta}^{4}$ using self-normalized martingale inequalities. This improvement allows us to use a simple greedy exploration strategy to obtain $T^{2/3}$ regret. Finally, as mentioned earlier, the Ph.D. thesis of Bradtke presents an asymptotic consistency argument for approximate PI for discounted LQR in the noiseless setting (i.e. $w_{t} = 0$ for all $t$).
+
+For the general function approximation setting in RL, Antos et al. and Lazaric et al. analyze variants of LSPI for discounted MDPs where the state space is compact and the action space finite. In Lazaric et al., the policy is greedily updated via an update operator that requires access to the underlying dynamics (and is therefore not implementable). Farahmand et al. extend the results of Lazaric et al. to when the function spaces considered are reproducing kernel Hilbert spaces. Zou et al. give a finite-time analysis of both Q-learning and SARSA, combining the asymptotic analysis of Melo et al. with the finite-time analysis of TD-learning from Bhandari et al.. We note that checking the required assumptions to apply the results of Zou et al. is non-trivial (c.f. Section 3.1, ). We are un-aware of any non-asymptotic analysis of LSPI in the *average cost* setting, which is more difficult as the Bellman operator is no longer a contraction.
+
+Finally, we remark that our LSPI analysis relies on understanding exact policy iteration for LQR, which is closely related to the fixed-point Riccati recurrence (value iteration). An elegant analysis for value iteration is given by Lincoln and Rantzer. Recently, Fazel et al. show that exact policy iteration is a special case of Gauss-Newton and prove linear convergence results. Our analysis, on the other hand, is based on combining the fixed-point theory from Lee and Lim with recent work on policy iteration for average cost problems from Bertsekas.
+
+## Experiments
+
+In this section, we evaluate LSPI in both the non-adaptive offline setting (Section 2.2 ‣ 2 Main Results ‣ Finite-time Analysis of Approximate Policy Iteration for the Linear Quadratic Regulator")) as well as the adaptive online setting (Section 2.3). Section G contains more details about both the algorithms we compare to as well as our experimental methodology.
+
+We first look at the performance of LSPI in the non-adaptive, offline setting. Here, we compare LSPI to other popular model-free methods, and the model-based certainty equivalence (nominal) controller (c.f. ). For model-free, we look at policy gradients (REINFORCE) (c.f. ) and derivative-free optimization (c.f. ). We consider the LQR instance $(A,B,S,R)$ with
+
+We choose an LQR problem where the $A$ matrix is stable, since the model-free methods we consider need to be seeded with an initial stabilizing controller; using a stable $A$ allows us to start at $K_{0} = 0_{2 \times 3}$. We fix the process noise $\sigma_{w} = 1$. The model-based nominal method learns $(A,B)$ using least-squares, exciting the system with Gaussian inputs $u_{t}$ with variance $\sigma_{u} = 1$.
+
+For policy gradients and derivative-free optimization, we use the projected stochastic gradient descent (SGD) method with a constant step size $\mu$ as the optimization procedure. For policy iteration, we evaluate both $\mathsf{L}\mathsf{S}\mathsf{P}\mathsf{I}\mathsf{v}\mathsf{1}$ (Algorithm 1 ‣ 2 Main Results ‣ Finite-time Analysis of Approximate Policy Iteration for the Linear Quadratic Regulator")) and $\mathsf{L}\mathsf{S}\mathsf{P}\mathsf{I}\mathsf{v}\mathsf{2}$ (Algorithm 2 ‣ 2 Main Results ‣ Finite-time Analysis of Approximate Policy Iteration for the Linear Quadratic Regulator")). For every iteration of LSTD-Q, we project the resulting $Q$-function parameter matrix onto the set $\{ Q:{Q \succeq {\gammaI}}\}$ with $\gamma = {\min{\{{\lambda_{\min}{(S)}},{\lambda_{\min}{(R)}}\}}}$. For $\mathsf{L}\mathsf{S}\mathsf{P}\mathsf{I}\mathsf{v}\mathsf{1}$, we choose $N = 15$ by picking the $N \in {\lbrack 5,10,15\rbrack}$ which results in the best performance after $T = 10^{6}$ timesteps. For $\mathsf{L}\mathsf{S}\mathsf{P}\mathsf{I}\mathsf{v}\mathsf{2}$, we set ${(N,T)} = {}$ which yields the lowest cost over the grid $N \in {\lbrack 1,2,3,4,5,6,7\rbrack}$ and $T$ such that ${NT} = 10^{6}$.
+
+Figure 1: Plot of non-adaptive performance. The shaded regions represent the lower 10th and upper 90th percentile over 100 trials, and the solid line represents the median performance. Here, PG (simple) is policy gradients with the simple baseline, PG (vf) is policy gradients with the value function baseline, LSPIv2 is Algorithm 2, LSPIv1 is Algorithm 1, and DFO is derivative-free optimization.
+
+Figure 1 contains the results of our non-adaptive evaluation. In Figure 1, we plot the relative error ${({{J{(\hat{K})}} - J_{\star}})}/J_{\star}$ versus the number of timesteps. We see that the model-based certainty equivalence (nominal) method is more sample efficient than the other model-free methods considered. We also see that the value function baseline is able to dramatically reduce the variance of the policy gradient estimator compared to the simple baseline. The DFO method performs the best out of all the model-free methods considered on this example after $10^{6}$ timesteps, although the performance of policy iteration is comparable.
+
+Next, we compare the performance of LSPI in the adaptive setting. We compare LSPI against the model-free linear quadratic control (MFLQ) algorithm of Abbasi-Yadkori et al., the certainty equivalence (nominal) controller (c.f. ), and the optimal controller. We set the process noise $\sigma_{w} = 1$, and consider the example of Dean et al.:
+
+Figure 2: Plot of adaptive performance. The shaded regions represent the median to upper 90th percentile over 100 trials. Here, LSPI is Algorithm 3 using LSPIv1, MFLQ is from Abbasi-Yadkori et al., nominal is the ε-greedy adaptive certainty equivalent controller (c.f. ), and optimal has access to the true dynamics. (a) Plot of regret versus time. (b) Plot of the cost sub-optimality versus time.
+
+Figure 2 shows the results of these experiments. In Figure 2(a), we plot the regret (c.f. Equation 2.15) versus the number of timesteps. We see that LSPI and MFLQ both perform similarly with MFLQ slightly outperforming LSPI. We also note that the model-based nominal controller performs significantly better than both LSPI and MFLQ, which is consistent with the experiments of Abbasi-Yadkori et al.. In Figure 2(b), we plot the relative cost ${({{J{(\hat{K})}} - J_{\star}})}/J_{\star}$ versus the number of timesteps. This quantity represents the sub-optimality incurred if further exploration ceases and the current controller is played indefinitely. Here, we see again that LSPI and MFLQ are both comparable, but both are outperformed by nominal control.
+
+## Conclusion
+
+We studied the sample complexity of approximate PI on LQR, showing that order ${({n + d})}^{3}\varepsilon^{- 2}{\log{({1/\varepsilon})}}$ samples are sufficient to estimate a controller that is within $\varepsilon$ of the optimal. We also show how to turn this offline method into an adaptive LQR method with $T^{2/3}$ regret. Several questions remain open with our work. The first is if policy iteration is able to achieve $T^{1/2}$ regret, which is possible with other model-based methods. The second is whether or not model-free methods provide advantages in situations of partial observability for LQ control. Finally, an asymptotic analysis of LSPI, in the spirit of Tu and Recht, is of interest in order to clarify which parts of our analysis are sub-optimal due to the techniques we use versus are inherent in the algorithm.

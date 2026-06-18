@@ -1,0 +1,487 @@
+## Introduction
+
+Recent years have witnessed a number of successes in applying modern reinforcement learning (RL) methods to many fields, including robotics and competitive gaming. Impressively, most of these successes have been achieved by using general-purpose RL methods that are applicable to a host of problems. Prevalent general-purpose RL approaches can be broadly categorized into: (a) *model-based approaches*, in which an agent attempts to learn a model for the dynamics by observing the evolution of its state sequence; and (b) *model-free approaches*, including DQN, and TRPO, in which the agent attempts to learn an optimal policy directly, by observing rewards from the environment. While model-free approaches typically require more samples to learn a policy of equivalent accuracy, they are naturally more robust to model mis-specification.
+
+A literature that is closely related to model-free RL is that of *zero-order or derivative-free* methods for stochastic optimization; see the book by for an overview. Here, the goal is to optimize an unknown function from noisy observations of its values at judiciously chosen points. While most analytical results in this space apply to convex optimization, many of the procedures themselves rely on moving along randomized approximations to the directional derivatives of the function being optimized, and are thus applicable even to non-convex problems. In the particular context of RL, variants of derivative-free methods, including TRPO, PSNG and evolutionary strategies, have been used to solve highly non-convex optimization problems and have been shown to achieve state-of-the-art performance on various RL tasks.
+
+While many RL algorithms are easy to describe and run in practice, certain theoretical aspects of their behavior remain mysterious, even when they are applied in relatively simple settings. One such setting is the most canonical problem in continuous control, that of controlling a linear dynamical system with quadratic costs, a problem known as the linear quadratic regulator (LQR). A recent line of work has sought to delineate the properties and limitations of various RL algorithms in application to LQR problems. An appealing property of LQR systems from an analytical point of view is that the optimal policy is guaranteed to be linear in the states. Thus, when the system dynamics are known, as in classical control, the optimal policy can be obtained by solving the discrete-time algebraic Ricatti equation.
+
+In contrast, methods in reinforcement learning target the case of unknown dynamics, and seek to learn an optimal policy on the basis of observations. A basic form of model-free RL for linear quadratic systems involves applying derivative-free methods in the space of linear policies. It can be used even when the only observations possible are the costs from a set of rollouts, each referred to as a sample^11^1Such an offline setting with multiple, restarted rollouts should be contrasted with an online setting, in which the agent interacts continuously with the environment, and no hard resets are allowed. In contrast to the offline setting, the goal in the online setting is to control the system for all time steps while simultaneously learning better policies, and performance is usually measured in terms of regret., and when our goal is to obtain a policy whose cost is at most $\epsilon$-suboptimal. The sample complexity of a given method refers to the number of samples, as a function of the problem parameters and tolerance, required to meet a given tolerance $\epsilon$. With this context, we are led to the following concrete question: *What is the sample complexity of derivative-free methods for the linear quadratic regulator?* This question underlies the analysis in this paper. In particular, we study a standard derivative-free algorithm in an offline setting and derive explicit bounds on its sample complexity, carefully controlling the dependence on not only the tolerance $\epsilon$, but also the dimension and conditioning of the underlying problem.
+
+Our analysis treats two distinct forms of randomness in the underlying linear system. In the first setting---more commonly assumed in practice---the linear updates are driven by an additive noise term, whereas in the second setting, the initial state is chosen randomly but the linear dynamics remain deterministic. We refer to these two settings, respectively, as the *additive noise setting*, and the *randomly initialized setting.* We are now in a position to discuss related work on the problem, and to state our contributions.
+
+### Related work
+
+Quantitative gaps between model-based and model-free reinforcement learning have been studied extensively in the setting of finite state-action spaces, and several interesting questions here still remain open.
+
+For continuous state-action spaces and in the specific context of the linear quadratic systems, classical system identification has been model-based, with a particular focus on asymptotic results (e.g., see the book by as well as references therein). Non-asymptotic guarantees for model-based control of linear quadratic systems were first obtained by, who studied the offline problem under additive noise and obtained non-asymptotic rates for parameter identification using nominal control procedures. In more recent work, Dean et al. proposed a robust alternative to nominal control, showing an improved sample complexity as well as better-behaved policies. The online setting for model-based control of linear quadratic systems has also seen extensive study, with multiple algorithms known to achieve sub-linear regret.
+
+In this paper, we study model-free control of these systems, a problem that has seen some recent work in both the offline and online settings. Most directly relevant to our work is the paper of Fazel et al., who studied the offline setting for the randomly initialized variant of the LQR, and showed that a population version of gradient descent (and natural gradient descent), when run on the non-convex LQR cost objective, converges to the global optimum. In order to turn this into a derivative-free algorithm, they constructed near-exact gradient estimates from reward samples and showed that the sample complexity of such a procedure is bounded polynomially in the parameters of the problem; however, the dependence on various parameters is not made explicit in their analysis. We remark that Fazel et al. also show polynomially bounded sample complexity for a zero order algorithm which builds near exact estimates of the *natural* gradient, although this requires access to a stronger oracle than the one assumed in this paper.
+
+Also of particular relevance to our paper is the extensive literature on zero-order optimization. Flaxman et al. showed that these methods can be analyzed for convex optimization by making an explicit connection to function smoothing, and Agarwal et al. improved some of these convergence rates. Results are also available for strongly convex, smooth and convex functions, with Shamir characterizing the fundamental limits of many problems in this space. Broadly speaking, all of the methods in this literature can be seen as variants of *stochastic search*: they proceed by constructing estimates of directional derivatives of the function from randomly chosen zero order evaluations. In the regime where the function evaluations are stochastic, different convergence rates are obtained based on whether such a procedure uses a *one-point estimate* that is obtained from a single function evaluation, or a *$k$-point estimate* for some $k \geq 2$. There has also been some recent work on zero-order optimization of non-convex functions satisfying certain smoothness properties that are motivated by statistical estimation.
+
+### Our contributions
+
+In this paper, we study both randomly initialized and additive-noise linear quadratic systems in the offline setting through the lens of derivative-free optimization. We begin with a general result that characterizes the convergence behavior of a canonical derivative-free algorithm when applied to a general class of functions satisfying certain curvature conditions. In particular, our main contribution is to establish upper bounds on the sample complexity as a function of the dimension, error tolerance, and curvature parameters of the problem instance. We then specialize this result to a variety of LQR models. In contrast to prior work, the rates that we provide are explicit, and the algorithms that we analyze are standard and practical one-point and two-point variants of the random search heuristic. Our results reveal interesting dichotomies between the settings of one-point and two-point feedback, as well as the models involving random initialization and additive noise. Our main contribution is stated in the following informal theorem (to be stated more precisely in the sequel):
+
+### Main Theorem (informal)
+
+*With high probability, one can obtain an $\epsilon$-approximate solution to any linear quadratic system from observing the noisy costs of $\overset{\sim}{\mathcal{O}}{({1/\epsilon^{2}})}$ trajectories from the system, which can be further reduced to $\overset{\sim}{\mathcal{O}}{({1/\epsilon})}$ trajectories when pairs of costs are observed for each trajectory.*\
+
+In our theoretical statements, the multiplicative pre-factors are explicit lower-order polynomials of the dimension of the state space, and curvature properties of the cost function. From a technical standpoint, we build upon some known properties of the LQR cost function established in past work on randomly initialized systems, and establish de novo some analogous properties for the additive noise setting. We also isolate and sharpen some key properties that are essential to establishing sharp rates of zero-order optimization; as an example, for the setting with random-initialization and one-point reward feedback studied by Fazel et al., establishing these properties allows us to analyze a natural algorithm that improves^22^2While the rates established by Fazel et al. are not explicit, their analysis is conservative and yields a bound of order $1/\epsilon^{4}$ up to logarithmic factors. To be clear, the properties that we establish also enable us to provide a sharper analysis of their algorithm; see Appendix E to follow. the dependence of the bound on the error tolerance $\epsilon$ from at least $\mathcal{O}\left( {1/\epsilon^{4}} \right)$ to $\mathcal{O}\left( {1/\epsilon^{2}} \right)$. Crucially, our analysis is complicated by the fact that we must ensure that the iterates are confined to the region in which the linear system is stable, and such stability considerations introduce additional restrictions on the parameters used in our optimization procedure.
+
+## Background and problem set-up
+
+In this section, we discuss the background related to zero-order optimization and the setup for the linear quadratic control problem.
+
+### Optimization background
+
+We first introduce some standard optimization related background and assumptions, and make the zero-order setting precise.
+
+### Stochastic zero-order optimization
+
+We consider optimization problems of the form
+
+where $\xi$ is a zero mean random variable^33^3While the zero mean assumption on $\xi$ is not strictly necessary for generic optimization, the canonical (additive noise) LQR settings that we specialize our results to require noise to be zero mean. So we make this assumption at the outset for convenience. that represents the noise in the problem, and the function $f$ above can be non-convex in general with a possibly non-convex domain $\mathcal{X} \subseteq^{d}$.
+
+In particular, we consider stochastic zero-order optimization methods with oracle access to noisy function evaluations. We operate under two distinct oracle models. The first is the one-point setting, in which the optimizer specifies a point $x \in \mathcal{X}$, and an evaluation consists of an instantiation of the random variable $F{(x,\xi)}$. The second is the two-point extension of such a setting, in which the optimizer specifies a pair of points $(x,y)$, then an instantiation of the random variable $\xi$ occurs, and the optimizer obtains the values $F{(x,\xi)}$ and $F{(y,\xi)}$. Crucially, the function evaluations $F{(x,\xi)}$ and $F{(y,\xi)}$ share the same noise, so the two-point oracle cannot be reduced to querying the one-point oracle twice (where sharing the same noise across multiple function evaluations cannot be guaranteed). Such two-point settings are known in the optimization literature to enjoy reduced variance of gradient estimates.
+
+### Function properties
+
+Before defining the optimization problems considered in this paper by instantiating the pair of functions $(f,F)$, let us precisely define some standard properties that make repeated appearances in the sequel.
+
+### Definition 1 (Locally Lipschitz Gradients)
+
+A continuously differentiable function $g$ with domain $\mathcal{X}$ is said to have $(\phi,\beta)$ locally Lipschitz gradients at $x \in \mathcal{X}$ if
+
+We often say that $g$ has locally Lipschitz gradients, by which we mean for each $x \in \mathcal{X}$ the function $g$ has locally Lipschitz gradients, albeit with constants $(\phi,\beta)$ that may depend on $x$. This property guarantees that the function $g$ has at most quadratic growth locally around every point, but the shape of the quadratic and the radius of the ball within which such an approximation holds may depend on the point itself.
+
+### Definition 2 (Locally Lipschitz Function)
+
+A continuously differentiable function $g$ with domain $\mathcal{X}$ is said to be $(\lambda,\zeta)$ locally Lipschitz at $x \in \mathcal{X}$ if
+
+As before, when we say that the function $g$ is locally Lipschitz, we mean that this condition holds for all $x \in \mathcal{X}$, albeit with parameters $(\lambda,\zeta)$ that may depend on $x$. The local Lipschitz property guarantees that the function $g$ grows no faster than linearly in a local neighborhood around each point.
+
+### Definition 3 (PL Condition)
+
+A continuously differentiable function $g$ with domain $\mathcal{X}$ and a finite global minimum $g^{\ast}$ is said to be $\mu$-PL if it satisfies the Polyak-Łojasiewicz (PL) inequality with constant $\mu > 0$, given by
+
+The PL condition, first introduced by Polyak and Lojasiewicz, is a relaxation of the notion of strong convexity. It allows for a certain degree of non-convexity in the function $g$. Note that inequality (4. ‣ Function properties: ‣ 2.1 Optimization background ‣ 2 Background and problem set-up")) yields an upper bound on the gap to optimality that is proportional to the squared norm of the gradient. Thus, while the condition admits non-convex functions, it requires that all first-order stationary points also be global minimizers. Karimi et al. recently showed that many standard first-order convex optimization algorithms retain their attractive convergence guarantees over this more general class.
+
+### Optimal control background
+
+We now turn to some basic background on optimal control and reinforcement learning. An optimal control problem is specified by a dynamics model and a real-valued cost function. The dynamics model consists of a sequence of functions $\left\{ {h_{t}{(s_{t},a_{t},z_{t})}} \right\}_{t \geq 0}$, which models how the state vector $s_{t}$ transitions to the next state $s_{t + 1}$ when a control input $a_{t}$ is applied at a timestep $t$. The term $z_{t}$ captures the noise disturbance in the system. The cost function $c_{t}{(s_{t},a_{t})}$ specifies the cost incurred by taking an action $a_{t}$ in the state $s_{t}$. The goal of the control problem is to find a sequence of control inputs $\left\{ a_{t} \right\}_{t \geq 0}$, dependent on the history of states $\mathcal{H}_{t}: = {(s_{0},s_{1},\ldots,s_{t - 1})}$, so as to solve the optimization problem
+
+where the expectation above is with respect to the noise in the transition dynamics as well as any randomness in the selection of control inputs, and $0 < \gamma \leq 1$ represents a multiplicative discount factor. A mapping from histories $\mathcal{H}_{t}$ to controls $a_{t}$ is called a *policy*, and the above minimization is effectively over the space of policies.
+
+There is a distinction to be made here between the classical fully-observed setting in stochastic control in which the dynamics model $h_{t}$ is known---in this case, such a problem may be solved (at least in principle) by the Bellman recursion, and the system identification setting in which the dynamics are completely unknown. We operate in the latter setting, and accommodate the further assumption that even the cost function $c_{t}$ is unknown.
+
+In this paper, we assume that the state space is $m$-dimensional, and the control space is $k$-dimensional, so that $s_{t} \in^{m}$ and $a_{t} \in^{k}$. The linear quadratic system specifies particular forms for the dynamics and costs, respectively. In particular, the cost function obeys the quadratic form
+
+for a pair of positive definite matrices $(Q,R)$ of the appropriate dimensions. Additionally, the dynamics model is linear in both states and controls, and takes the form
+
+where $A$ and $B$ are transition matrices of the appropriate dimension, and the random variable $z_{t}$ models additive noise in the problem which is drawn i.i.d. for each $t$ from a distribution $\mathcal{D}_{\mathsf{a}\mathsf{d}\mathsf{d}}$. We call this setting the *noisy dynamics* model.
+
+We also consider the *randomly initialized* linear quadratic system without additive noise, in which the state transitions obey
+
+and the randomness in the problem comes from choosing the initial state $s_{0}$ at random from a distribution $\mathcal{D}_{0}$.
+
+Throughout this paper, we assume^44^4It is important to note that our assumption of identity covariance of the noise distributions can be made without loss of generality: for a problem with known, non-identity (but full-dimensional) covariance $\Sigma$, we may reparametrize the problem with the modifications ${{A^{\prime} = {\Sigma^{- {1/2}}A\Sigma^{1/2}}},{{B^{\prime} = {\Sigma^{- {1/2}}B}},{{\text{~and~}s_{t}^{\prime}} = {\Sigma^{- {1/2}}s_{t}\text{~for all~}t} \geq 0}}},$ in which case the new problem with states $s_{t}^{\prime}$ and the pair of transition matrices $(A^{\prime},B^{\prime})$ is driven by noise satisfying the assumptions. that for both distributions $\mathcal{D} \in {\{\mathcal{D}_{\mathsf{a}\mathsf{d}\mathsf{d}},\mathcal{D}_{0}\}}$ and for a random variable $v \sim \mathcal{D}$, we have
+
+While we assume boundedness of the distribution for convenience, our results extend straightforwardly to sub-Gaussian distributions by appealing to high-probability bounds for quadratic forms of sub-Gaussian random vectors and standard truncation arguments. The final iteration complexity also changes by at most poly-logarithmic factors in the problem parameters; for brevity, we operate under the assumptions throughout the paper and omit standard calculations for sub-Gaussian distributions.
+
+By classical results in optimal control theory, the optimal controller for the LQR problem under both of these noise models takes the linear form $a_{t} = {- {K^{\ast}s_{t}}}$, for some matrix $K^{\ast} \in {\mathbb{R}}^{k \times m}$. When the system matrices are known, the controller matrix $K^{\ast}$ can be obtained by solving the discrete-time algebraic Riccati equation.
+
+With the knowledge that the optimal policy is an invariant linear transformation of the state, one can re-parametrize the LQR objective in terms of the linear class of policies, and focus on optimization procedures that only search over the class of linear policies. Below, we define such a parametrization under the noise models introduced above, and make explicit the connections to the stochastic optimization model.
+
+### Random initialization
+
+For each choice of the (random) initial state $s_{0}$, let $\mathcal{C}_{{\mathsf{i}\mathsf{n}\mathsf{i}\mathsf{t}},\gamma}{(K;s_{0})}$ denote the cost of executing a linear policy $K$ from initial state $s_{0}$, so that
+
+where we have the noiseless dynamics $s_{t + 1} = {{As_{t}} + {Ba_{t}}}$ and $a_{t} = {- {Ks_{t}}}$ for each $t \geq 0$, and $0 < \gamma \leq 1$. While $\mathcal{C}_{{\mathsf{i}\mathsf{n}\mathsf{i}\mathsf{t}},\gamma}{(K;s_{0})}$ is a random variable that denotes some notion of sample cost, our goal is to minimize the population cost
+
+over choices of the policy $K$.
+
+### Noisy dynamics
+
+In this case, the noise in the problem is given by the sequence of random variables $\mathcal{Z} = {\{ z_{t}\}}_{t \geq 0}$, and for every instantiation of $\mathcal{Z} \sim \mathcal{D}_{\mathsf{a}\mathsf{d}\mathsf{d}}^{\mathbb{N}}: = {(\mathcal{D}_{\mathsf{a}\mathsf{d}\mathsf{d}} \otimes \mathcal{D}_{\mathsf{a}\mathsf{d}\mathsf{d}} \otimes \ldots)}$, our sample cost is given by the function
+
+where we have $s_{0} = 0$, random state evolution $s_{t + 1} = {{As_{t}} + {Ba_{t}} + z_{t}}$ and action $a_{t} = {- {Ks_{t}}}$ for each $t \geq 0$, and $0 < \gamma < 1$. In contrast to the random initialization setting, the discount factor in this setting obeys $\gamma < 1$, since this is required to keep the costs finite.
+
+Once again, we are interested in optimizing the population cost function
+
+From here on, the word policy will always refer to a linear policy, and since we work with this natural parametrization of the cost function, our problem has effective dimension $D = {m \cdot k}$, given by the product of state and control dimensions.
+
+A policy $K$ is said to stabilize the system $(A,B)$ if we have ${\rho_{\text{spec}}{({A - {BK}})}} < 1$, where $\rho_{\text{spec}}{( \cdot )}$ denotes the spectral radius of a matrix. We assume throughout that the LQR system to be optimized is controllable, meaning that there exists some policy $K$ satisfying the condition ${\rho_{\text{spec}}{({A - {BK}})}} < 1$. Furthermore, we assume access to *some* policy $K_{0}$ with finite cost; this is a mild assumption that is can be satisfied in a variety of ways; see the related literature by Fazel et al. and Dean et al.. We use such a policy $K_{0}$ as an initialization for our algorithms.
+
+### Some properties of the LQR cost function
+
+Let us turn to establishing properties of the pair of population cost functions $\left( {\mathcal{C}_{{\mathsf{i}\mathsf{n}\mathsf{i}\mathsf{t}},\gamma}{(K)}},{\mathcal{C}_{{\mathsf{d}\mathsf{y}\mathsf{n}},\gamma}{(K)}} \right)$ and their respective sample variants $\left( {\mathcal{C}_{{\mathsf{i}\mathsf{n}\mathsf{i}\mathsf{t}},\gamma}{(K,s_{0})}},{\mathcal{C}_{{\mathsf{d}\mathsf{y}\mathsf{n}},\gamma}{(K;\mathcal{Z})}} \right)$, in order to place the problem within the context of optimization.
+
+First, it is important to note that both the population cost functions $\left( {\mathcal{C}_{{\mathsf{i}\mathsf{n}\mathsf{i}\mathsf{t}},\gamma}{(K)}},{\mathcal{C}_{{\mathsf{d}\mathsf{y}\mathsf{n}},\gamma}{(K)}} \right)$ are non-convex. In particular, for any unstable policy, the state sequence blows up and the costs becomes infinite, but as noted by Fazel et al., the stabilizing region $\{ K:{{\rho_{\text{spec}}{({A - {BK}})}} < 1}\}$ is non-convex, thereby rendering our optimization problems non-convex.
+
+In spite of this non-convexity, the cost functions exhibit many properties that make them amenable to fast stochastic optimization methods. Variants of the following properties were first established by Fazel et al. for the random initialization cost function $\mathcal{C}_{{\mathsf{i}\mathsf{n}\mathsf{i}\mathsf{t}},\gamma}$. The following Lemma 1. ‣ 2.2.1 Some properties of the LQR cost function ‣ 2.2 Optimal control background ‣ 2 Background and problem set-up") and Lemma 2. ‣ 2.2.1 Some properties of the LQR cost function ‣ 2.2 Optimal control background ‣ 2 Background and problem set-up") require certain refinements of their claims, which we prove in Appendix A. Lemma 3. ‣ 2.2.1 Some properties of the LQR cost function ‣ 2.2 Optimal control background ‣ 2 Background and problem set-up") follows directly from Lemma 3 in Fazel et al.. Lemma 4. ‣ 2.2.1 Some properties of the LQR cost function ‣ 2.2 Optimal control background ‣ 2 Background and problem set-up") relates the population cost of the noisy dynamics model to that of the random initialization model in a pointwise sense.
+
+### Lemma 1 (LQR Cost is locally Lipschitz)
+
+Given any linear policy $K$, there exist positive scalars $(\lambda_{K4pt},\overset{\sim}{\lambda_{K4pt}},\zeta_{K4pt})$, depending on the function value $\mathcal{C}_{{\mathsf{i}\mathsf{n}\mathsf{i}\mathsf{t}},\gamma}{(K)}$, such that for all policies $K^{\prime}$ satisfying ${\|{|{K^{\prime} - K}|}\|}_{\text{F}} \leq \zeta_{K4pt}$, and for all initial states $s_{0}$, we have
+
+$|{{\mathcal{C}_{{\mathsf{i}\mathsf{n}\mathsf{i}\mathsf{t}},\gamma}{(K^{\prime})}} - {\mathcal{C}_{{\mathsf{i}\mathsf{n}\mathsf{i}\mathsf{t}},\gamma}{(K)}}}|$ $\leq {{\lambda_{K4pt}{\|{|{K^{\prime} - K}|}\|}_{\text{F}}},\text{~and}}$ (10a)
+$|{{\mathcal{C}_{{\mathsf{i}\mathsf{n}\mathsf{i}\mathsf{t}},\gamma}{(K^{\prime};s_{0})}} - {\mathcal{C}_{{\mathsf{i}\mathsf{n}\mathsf{i}\mathsf{t}},\gamma}{(K;s_{0})}}}|$ ${\leq {\overset{\sim}{\lambda_{K4pt}}{\|{|{K^{\prime} - K}|}\|}_{\text{F}}}}.$ (10b)
+
+### Lemma 2 (LQR Cost has locally Lipschitz Gradients)
+
+Given any linear policy $K$, there exist positive scalars $(\beta_{K4pt},\phi_{K4pt})$, depending on the function value $\mathcal{C}_{{\mathsf{i}\mathsf{n}\mathsf{i}\mathsf{t}},\gamma}{(K)}$, such that for all policies $K^{\prime}$ satisfying ${\|{|{K^{\prime} - K}|}\|}_{\text{F}} \leq \beta_{K4pt}$, we have
+
+### Lemma 3 (LQR satisfies PL)
+
+There exists a universal constant $\mu_{\mathsf{l}\mathsf{q}\mathsf{r}} > 0$ such that for all stable policies $K$, we have
+
+where $K^{\ast}$ is the global minimum of the cost function $\mathcal{C}_{{\mathsf{i}\mathsf{n}\mathsf{i}\mathsf{t}},\gamma}$.
+
+For the sake of exposition, we have stated these properties without specifying the various smoothness and PL constants. Appendix A collects explicit expressions for the tuple $(\lambda_{K4pt},\overset{\sim}{\lambda_{K4pt}},\phi_{K4pt},\beta_{K4pt},\zeta_{K4pt},\mu_{\mathsf{l}\mathsf{q}\mathsf{r}})$ as functions of the parameters of the LQR problem.
+
+### Lemma 4 (Equivalence of population costs up to scaling)
+
+For all policies $K$, we have
+
+Lemma 4. ‣ 2.2.1 Some properties of the LQR cost function ‣ 2.2 Optimal control background ‣ 2 Background and problem set-up") thus shows that, at least in a population sense, both the noisy dynamics and random initialization models behave identically when driven by noise with the same first two moments. Hence, the properties posited by Lemmas 1. ‣ 2.2.1 Some properties of the LQR cost function ‣ 2.2 Optimal control background ‣ 2 Background and problem set-up"), 2. ‣ 2.2.1 Some properties of the LQR cost function ‣ 2.2 Optimal control background ‣ 2 Background and problem set-up"), and 3. ‣ 2.2.1 Some properties of the LQR cost function ‣ 2.2 Optimal control background ‣ 2 Background and problem set-up") for the *population* cost function $\mathcal{C}_{{\mathsf{i}\mathsf{n}\mathsf{i}\mathsf{t}},\gamma}{(K)}$ also carry over to the function $\mathcal{C}_{{\mathsf{d}\mathsf{y}\mathsf{n}},\gamma}{(K)}$. In particular, the cost function $\mathcal{C}_{{\mathsf{d}\mathsf{y}\mathsf{n}},\gamma}{(K)}$ is also $\left( {\frac{\gamma}{1 - \gamma}\phi_{K4pt}},\beta_{K4pt} \right)$ locally smooth and $\left( {\frac{\gamma}{1 - \gamma}\lambda_{K4pt}},\zeta_{K4pt} \right)$ locally Lipschitz, and also globally $\frac{\gamma}{1 - \gamma}\mu_{\mathsf{l}\mathsf{q}\mathsf{r}}$-PL. We stress that although the population costs are very similar, the observed costs in the two cases are quite different.
+
+### Stochastic zero-order oracle in LQR
+
+Let us now describe the form of observations that we make in the LQR system. Recall that we are operating in the derivative-free setting, where we have access to only (noisy) function evaluations and not the problem parameters; in particular, the tuple $(A,B,Q,R)$ that parametrizes the LQR problem is unknown.
+
+Our observations consist of the noisy function evaluations $\mathcal{C}_{{\mathsf{i}\mathsf{n}\mathsf{i}\mathsf{t}},\gamma}{(K;s_{0})}$ or $\mathcal{C}_{{\mathsf{d}\mathsf{y}\mathsf{n}},\gamma}{(K;\mathcal{Z})}$. We consider both the one-point and two-point settings in the former case. In the one-point setting for the randomly initialized model, a *query* of the function at the point $K$ obtains the noisy function value $\mathcal{C}_{{\mathsf{i}\mathsf{n}\mathsf{i}\mathsf{t}},\gamma}{(K;s_{0})}$ for an initial state $s_{0}$ drawn at random from the distribution $\mathcal{D}_{0}$. In the two-point setting, a query of the function at the points $(K,K^{\prime})$ obtains the pair of noisy function values $\mathcal{C}_{{\mathsf{i}\mathsf{n}\mathsf{i}\mathsf{t}},\gamma}{(K;s_{0})}$ and $\mathcal{C}_{{\mathsf{i}\mathsf{n}\mathsf{i}\mathsf{t}},\gamma}{(K^{\prime};s_{0})}$ for an initial state $s_{0}$ drawn at random; this setting has an immediate operational interpretation as running two policies with the same random initialization. The one-point query model is defined analogously for the noisy dynamics cost $\mathcal{C}_{{\mathsf{d}\mathsf{y}\mathsf{n}},\gamma}$.
+
+A few points regarding our query model merit discussion. First, note that in the context of the control objective, each query produces a noisy sample of the long term trajectory cost, and so our sample complexity is measured in terms of the number of *rollouts*, or trajectories. Such an assumption is reasonable since the "true" sample complexity that also takes into account the length of the trajectories is only larger by a small factor---the truncated, finite cost converges exponentially quickly to the infinite sum for stable policies.^55^5To elaborate further on this point, note that the length of the rollout required to obtain a $\delta$-accurate cost evaluation for policy $K$ will depend on both $\delta$ as well as the eigen-structure of the matrix $A - {BK}$. However, assuming that this matrix has maximum eigenvalue $\rho < 1$ (which is a common assumption in the related literature ), the dependence on $\delta$ is quite mild: we only require a rollout of length $\mathcal{O}\left( {\log{({1/\delta})}} \right)$, with the constant pre-factor depending on $\rho$ (or equivalently, on $\mathcal{C}{(K_{0})}$. Since we are interested in obtaining $\epsilon$-approximations to the optimal policy, it suffices to obtain ${\mathsf{p}\mathsf{o}\mathsf{l}\mathsf{y}}{(\epsilon)}$-approximate cost evaluations per trajectory to avoid a blow-up of the bias in our estimates (see, e.g., ), and this only adds another factor $\log{({1/\epsilon})}$ to our sample complexity when measured in terms of the number of iterations. To avoid tracking these additional factors, we work with the offline setting defined above. The offline nature of the query model also assumed access to restarts of the system, which can be obtained in a simulation environment. Second, we note that while the one-point query model was studied by Fazel et al. for the random initialization model---albeit with sub-optimal guarantees---we also study a two-point query model, which is known to lead to faster convergence rates in zero-order stochastic optimization.
+
+Finally, note that our setting of the problem---in which we are only given access to (noisy) evaluations of the cost of the policy and not to the state sequence---intentionally precludes the use of procedures that rely on observations of the state sequence. This setting allows us to distill the difficulties of truly 'model-free' control, since it prevents any possibility of constructing a dynamics model from our observations; the latter is, loosely speaking, the guiding principle of model-based control. This is not to suggest that practical applications of learning-based LQR control take this form, but rather to provide a concrete framework within which model-based and model-free algorithms can be separated, by endowing them with distinct information oracles. In doing so, we hope to lay the broader foundations for studying derivative-free methods in the context of model-free reinforcement learning.
+
+## Main results
+
+We now turn to a statement of our main result, which characterizes the convergence rate of a natural derivative-free algorithm for any (population) function that satisfies certain PL and smoothness properties. We thus obtain, as corollaries, rates of zero-order optimization algorithms when applied to the functions $\mathcal{C}_{{\mathsf{i}\mathsf{n}\mathsf{i}\mathsf{t}},\gamma}$ and $\mathcal{C}_{{\mathsf{d}\mathsf{y}\mathsf{n}},\gamma}$; these corollaries are collected in Section 3.3.
+
+### Stochastic zero-order algorithm
+
+We analyze a standard zero-order algorithm for stochastic optimization in application to the LQR problem. We begin by introducing some notation required to describe this algorithm, operating in the general setting where we want to optimize a function $f:{\mathcal{X}\mapsto}$ of the form ${f{(x)}} = {{\mathbb{E}}_{\xi \sim \mathcal{D}}{\lbrack{F{(x;\xi)}}\rbrack}}$. Here we assume the inclusion $\mathcal{X} \subseteq^{d}$, and let $\mathcal{D}$ denote a generic source of randomness in the zero-order function evaluation.
+
+The zero-order algorithms that we study here use noisy function evaluations in order to construct near-unbiased estimates of the gradient. Let us now describe how such an estimate is constructed in the one-point and two-point settings. Let ${\mathbb{S}}^{d - 1} = {\{ u \in {}_{}^{} \parallel u \parallel_{2} = 1\}}$ denote the $d$-dimensional unit shell. Let ${Unif}{({\mathbb{S}}^{d - 1})}$ denote the uniform distribution over the set ${\mathbb{S}}^{d - 1}$.
+
+For a given scalar $r > 0$ and a random direction $u \sim {{Unif}{({\mathbb{S}}^{d - 1})}}$ chosen independently of the random variable $\xi$, consider the one point gradient estimate
+
+and its two-point analogue
+
+$g_{r}^{2}{(x,u,\xi)}$ $: = \left\lbrack F{(x + ru,\xi)} - F{(x - ru,\xi)} \right\rbrack\frac{d}{2r}u.$ (12b)
+
+Here $\xi$ should be viewed as an instantiation of the underlying random variable; in the two point setting, we compute a gradient estimate with the *same instantiation* of the noise used to evaluate $F$ at the points $x \pm {ru}$.
+
+In both the one-point and two-point cases, the resulting ratios are almost unbiased approximations of the secant ratio that defines the derivative at $x$, and these approximations get better and better as the *smoothing radius* $r$ gets smaller. On the other hand, small values of the radius $r$ may result in estimates with large variance. Our algorithms make use of such randomized approximations in a sequence of rounds by choosing appropriate values of the radius $r$; the general form of such an algorithm is stated below.
+
+1:Given iteration number T ≥ 1, initial point x0 ∈ 𝒳, step size η &gt; 0 and smoothing radius r &gt; 0
+3: Sample ξt ∼ 𝒟 and ut ∼ Unif (𝕊d − 1)
+4: ${g{(x_{t})}}\leftarrow\left\{ \begin{array}{lc}
+operating in one-point setting}} &amp; \\
+{g_{r}^{2}{(x_{t},u_{t},\xi_{t})}\text{~if operating in two-point
+\end{array} \right.$
+Algorithm 1 Stochastic Zero-Order Method
+
+### Convergence guarantees
+
+We now turn to analyzing Algorithm 1 in the settings of interest. In particular, our first (main) theorem is stated as a generic optimization result for non-convex functions which are (locally) smooth and satisfy the PL inequality, which we then specialize to various LQR settings.
+
+As mentioned before, the difficulty of optimizing the LQR cost functions is governed by multiple factors such as stability, non-convexity of the feasible set, and non-convexity of the objective. Furthermore, the Lipschitz gradient and Lipschitz properties for this cost function only hold locally with the radius of locality depending on the current iterate. Most crucially, the function is infinite outside of the region of stability, and so large steps can have disastrous consequences since we do not have access to a projection oracle that brings us back into the region of stability. It is thus essential to control the behavior of our stochastic, high variance algorithm over the entire course of optimization.
+
+Our strategy to overcome these challenges is to perform a careful martingale analysis, showing that the iterates remain bounded throughout the course of the algorithm; the rate depends, among other things, on the variance of the gradient estimates obtained over the course of the algorithm. By showing that the algorithm remains within the region of finite cost, we can also obtain good bounds on the local Lipschitz constants and gradient smoothness parameters, so that our step-size can be set accordingly.
+
+Let us now introduce some notation in order to make this intuition precise. We operate once again in the setting of general function optimization, i.e., we are interested in optimizing a function ${f{(x)}} = {{\mathbb{E}}_{\xi}{\lbrack{F{(x;\xi)}}\rbrack}}$ obeying the (global) PL inequality with constant $\mu$, as well as certain local curvature conditions.
+
+Recall that we are given an initial point $x_{0}$ with finite cost $f{(x_{0})}$; the global upper bound on the cost that we target in the analysis is set according to the cost $f{(x_{0})}$ of this initialization. Given the initial gap to optimality $\Delta_{0}: = f{(x_{0})} - f{(x^{\ast})}$, we define the set
+
+corresponding to points $x$ whose cost gap is at most ten times the initial cost gap $\Delta_{0}$.
+
+Assume that the function $f$ is $(\phi_{x},\beta_{x4pt})$ locally smooth and $(\lambda_{x},\zeta_{x4pt})$ locally Lipschitz at the point $x$. Thus, both of these properties hold simultaneously within a neighborhood of radius $\rho_{x} = {\min{\{\beta_{x4pt},\zeta_{x4pt}\}}}$ of the point $x$. Now define the quantities
+
+By defining these quantities, we have effectively transformed the local properties of the function $f$ into global properties that hold over the bounded set $\mathcal{G}^{0}$. We also define a convenient functional of these curvature parameters $\theta_{0}: = \min\left\{ \frac{1}{2\phi_{0}},\frac{\rho_{0}}{\lambda_{0}} \right\}$, which simplifies the statements of our results. Importantly, these smoothness properties only hold locally, and so we must also ensure that the steps taken by our algorithm are not too large. This is controlled by both the step-size as well as the norms of our gradient estimate $g$ computed over the course of the algorithm. Define the uniform bounds
+
+on the point-wise gradient norm and its variance, respectively. Note that these quantities also depend implicitly on the smoothing radius $r$ and on how the gradient estimate $g$ is computed.
+
+With this set-up, we are now ready to state the main result regarding the convergence rate of Algorithm 1 on the functions of interest. Note that here and throughout the rest of the paper, $C$ denotes some universal constant (which may change from line to line). For two sequences $g_{n}$ and $h_{n}$, we also use the standard notation $g_{n} \sim h_{n}$ and $g_{n} = {\Theta{(h_{n})}}$ interchangeably, to mean that the sequences are within a (universal) constant multiplicative factor of each other.
+
+### Theorem 1
+
+Suppose that the step-size and smoothing radius are chosen so as to satisfy
+
+${{\eta \leq {{\min\left\{ \frac{\epsilon\mu}{240\phi_{0}G_{2}},\frac{1}{2\phi_{0}},\frac{\rho_{0}}{G_{\infty}} \right\}},\text{~and~}}}\qquad{r \leq {\min\left\{ {\frac{\theta_{0}\mu}{8\phi_{0}}\sqrt{\frac{\epsilon}{15}}},{\frac{1}{2\phi_{0}}\sqrt{\frac{\epsilon\mu}{30}}},\rho_{0} \right\}}}}.$ (14a)
+Then for a given error tolerance $\epsilon$ such that ${\epsilon{\log{({{120\Delta_{0}}/\epsilon})}}} < {\frac{10}{3}\Delta_{0}}$, the iterate $x_{T}$ of Algorithm 1 after $T = {\frac{4}{\eta\mu}{\log\left( \frac{120\Delta_{0}}{\epsilon} \right)}}$ steps satisfies the bound
+
+${{f{(x_{T})}} - {f{(x^{\ast})}}} \leq \epsilon$ (14b)
+
+with probability greater than $3/4$.
+
+A few comments on Theorem 1 are in order. First, notice that the algorithm is guaranteed to return an $\epsilon$-accurate solution with constant probability $\frac{3}{4}$. This probability bound of $\frac{3}{4}$ in itself can be sharpened by a slightly more refined analysis with different constants. Additionally, by examining the proof, it can be seen that we establish a result (cf. Proposition 1 in Section 4) that is slightly stronger than Theorem 1, and then obtain the theorem from this more general result. The proof of the theorem itself is relatively short, and makes use of a carefully constructed martingale along with an appropriately defined stopping time. As mentioned before, the main challenge in the proof is to ensure that we have bounded iterates while still preserving the strong convergence properties of zero-order stochastic methods for smooth functions that satisfy the PL property.
+
+It should be noted that Theorem 1 is a general guarantee: it characterizes the zero-order complexity of optimizing locally smooth functions that satisfy a PL inequality in terms of properties of the gradient estimates obtained over the course of the algorithm. In particular, two properties of these estimates appear: the variance of the estimate, as well as a uniform bound on its size. These quantities, in turn, depend on both the noise in the zero-order evaluations as well as our choice of query model. In the next section, we specialize Theorem 1 so as to derive particular consequences for the LQR models introduced above.
+
+### Consequences for LQR optimization
+
+Theorem 1 yields immediate consequences for LQR optimization in various settings, and the dependence of the optimization rates on the tolerance $\epsilon$ is summarized by Table 1. We state and discuss precise versions of these results below.
+
+#queries T
+
+$\mathcal{O}\left( \sqrt{\epsilon} \right)$
+$\overset{\sim}{\mathcal{O}}\left( \epsilon^{- 2} \right)$
+
+$\mathcal{O}\left( \sqrt{\epsilon} \right)$
+$\overset{\sim}{\mathcal{O}}\left( \epsilon^{- 1} \right)$
+
+Table 1: Derivative-free complexity of LQR optimization under the two query models, as a function of the final error tolerance ϵ. The multiplicative pre-factors are functions of the effective dimension D and curvature parameters, and differ in the three cases; see the statements of the corollaries below.
+
+First, let us consider the random initialization model. From the various lemmas in Section 2.2.1, we know that the population objective $\mathcal{C}_{{\mathsf{i}\mathsf{n}\mathsf{i}\mathsf{t}},\gamma}{(K)}$ is locally $(\phi_{K4pt},\beta_{K4pt})$ smooth and $(\lambda_{K4pt},\zeta_{K4pt})$ Lipschitz, and also globally $\mu_{\mathsf{l}\mathsf{q}\mathsf{r}}$-PL. By assumption, we are given a starting point $K_{0}$ having finite population cost $\mathcal{C}_{{\mathsf{i}\mathsf{n}\mathsf{i}\mathsf{t}},\gamma}{(K_{0})}$. Proceeding as in the previous section, we may thus define the set
+
+corresponding to point $x$ whose cost gap is at most ten times the initial cost gap to optimality $\Delta_{0} = {{\mathcal{C}_{{\mathsf{i}\mathsf{n}\mathsf{i}\mathsf{t}},\gamma}{(K_{0})}} - {\mathcal{C}_{{\mathsf{i}\mathsf{n}\mathsf{i}\mathsf{t}},\gamma}{(K^{\ast})}}}$.
+
+Now define the quantities
+
+thereby transforming the local smoothness properties of the function $\mathcal{C}_{{\mathsf{i}\mathsf{n}\mathsf{i}\mathsf{t}},\gamma}$ into global properties that hold over the bounded set $\mathcal{G}^{0}$. Once again, let $\theta_{\mathsf{l}\mathsf{q}\mathsf{r}}: = \min\left\{ \frac{1}{2\phi_{\mathsf{l}\mathsf{q}\mathsf{r}}},\frac{\rho_{\mathsf{l}\mathsf{q}\mathsf{r}}}{\lambda_{\mathsf{l}\mathsf{q}\mathsf{r}}} \right\}$ be a functional of these curvature parameters that simplifies the statements of our results. ^66^6Let us make a brief comment on the finiteness of these quantities in the absence of compactness. The quantity $\phi_{\mathsf{l}\mathsf{q}\mathsf{r}}$ is finite, simply by definition of the set $\mathcal{G}^{\mathsf{l}\mathsf{q}\mathsf{r}}$. In the sequel, we show that for any $K \in \mathcal{G}^{\mathsf{l}\mathsf{q}\mathsf{r}}$, $\phi_{K}$ can be bounded by a polynomial of $10\Delta_{0}$. Hence, $\phi_{\mathsf{l}\mathsf{q}\mathsf{r}}$ can also be bounded by a polynomial of $10\Delta_{0}$, implying it is finite. A similar argument shows that $\lambda_{\mathsf{l}\mathsf{q}\mathsf{r}}$ is finite and $\rho_{\mathsf{l}\mathsf{q}\mathsf{r}} > 0$.
+
+With this setup, we now establish the following corollaries for derivative-free policy optimization for linear quadratic systems.
+
+### Corollary 1 (One-point, Random initialization)
+
+Suppose that the step-size and smoothing radius are chosen such that
+
+for some universal constant $C$. Then for any error tolerance $\epsilon$ such that ${\epsilon{\log{({{120\Delta_{0}}/\epsilon})}}} < {\frac{10}{3}\Delta_{0}}$, running Algorithm 1 for $T = {\frac{4}{\eta\mu}{\log\left( \frac{120\Delta_{0}}{\epsilon} \right)}}$ iterations yields an iterate $K_{T}$ such that
+
+with probability greater than $3/4$.
+
+Let us parse this result briefly. Treating the other parameters as constants, note that it is valid to choose $r \sim \epsilon^{1/2}$; the above result then shows that with a choice of step-size $\eta \sim \epsilon^{2}$, the canonical zero-order algorithm converges using $T \sim {\eta^{- 1}{\log{({1/\epsilon})}}} = {\overset{\sim}{\mathcal{O}}\left( \epsilon^{- 2} \right)}$ steps. This is in spite of the high-variance estimates obtained by the algorithm, and the theorem also guarantees stability of all the iterates with constant probability.
+
+Interestingly, the result above (or more generally, Theorem 1) also yields an $\overset{\sim}{\mathcal{O}}\left( \epsilon^{- 2} \right)$ convergence rate for the family of high-variance *minibatch* derivative-free algorithms, where $k$ zero-order samples are used to estimate the gradient at any point, thereby reducing its variance. The canonical algorithm corresponds to the case $k = 1$, while that of Fazel et al. corresponds to the case of some large $k$. In particular, choosing a minibatch of size $k$ results in the variance of the gradient $G_{2}$ being reduced by a factor $k$, allowing us to increase our step-size proportionally and converge in $1/k$-fraction of the number of iterations (but with the same number of zero-order evaluations in total). For completeness, we provide an analysis tailored to the algorithm of Fazel et al. in Appendix E, which shows that our techniques can be used to sharpen their rates to guarantee $\epsilon$-approximate policy optimization with $\overset{\sim}{\mathcal{O}}\left( \epsilon^{- 2} \right)$ zero-order evaluations.
+
+Let us also briefly discuss the upper bounds on the step-size that are required for the corollary to hold. As stated, the step-size is required to satisfy the bound $\eta \leq \frac{r\rho_{\mathsf{l}\mathsf{q}\mathsf{r}}}{10\mathcal{C}_{{\mathsf{i}\mathsf{n}\mathsf{i}\mathsf{t}},\gamma}{(K_{0})}}$, but this condition is an artifact of the analysis and can be removed (see Appendix E). In addition, the step-size is also required to be bounded by the curvature properties of the function. Operationally speaking, this means that for larger step-sizes, we are unable to guarantee stability of the policies obtained over the course of the algorithm. Such a bottleneck is in fact also observed in practice, as shown in Figure 1 for both the one-point and two-point settings.
+
+Figure 1: Plot of the maximum step-size that allows for convergence, plotted against the size of the mini-batch used to estimate the gradient in randomly initialized LQR with (a) one-point evaluations and (b) two-point evaluations. The step-size plateaus due to stability considerations, leading to a higher zero-order complexity in spite of the lower variance estimates afforded by large batch-sizes. Plots were obtained by averaging 20 runs of Algorithm 1. For more problem details, see Appendix D.
+
+We now turn to the two-point setting, in which we obtain two noisy evaluations per query.
+
+### Corollary 2 (Two-point, Random initialization)
+
+Suppose that the step-size and smoothing radius are chosen so as to satisfy
+
+Then for any error tolerance $\epsilon$ such that ${\epsilon{\log{({{120\Delta_{0}}/\epsilon})}}} < {\frac{10}{3}\Delta_{0}}$, running Algorithm 1 for $T = {\frac{4}{\eta\mu}{\log\left( \frac{120\Delta_{0}}{\epsilon} \right)}}$ iterations yields an iterate $K_{T}$ such that
+
+with probability greater than $3/4$.
+
+As known from the literature on zero-order optimization in convex settings, the two-point query model allows us to substantially reduce the variance of our gradient estimate, thus ensuring much faster convergence than with one-point evaluations. The most salient difference is the fact that we now converge with $\overset{\sim}{\mathcal{O}}\left( {1/\epsilon} \right)$ iterations as opposed to the $\overset{\sim}{\mathcal{O}}\left( {1/\epsilon^{2}} \right)$ iterations required in Corollary 1. ‣ 3.3 Consequences for LQR optimization ‣ 3 Main results"). This gap between the two settings is substantial and merits further investigation, but in general, it is clear that two-point evaluations should certainly be used if available. This gap, and other differences, are discussed shortly.
+
+Let us now turn to establishing convergence results for the noisy dynamics model in the one-point setting. Note that Lemma 4. ‣ 2.2.1 Some properties of the LQR cost function ‣ 2.2 Optimal control background ‣ 2 Background and problem set-up") provides a way to directly relate the population costs of the random initialization and noisy dynamics models; furthermore, the set $\mathcal{G}^{\mathsf{l}\mathsf{q}\mathsf{r}}$ is exactly the same. In addition, since we look at a discounted cost $\mathcal{C}_{{\mathsf{d}\mathsf{y}\mathsf{n}},\gamma}$ in this setting, the corresponding curvature parameters have an inherent dependence on $\gamma$ which we denote using corresponding subscripts. With an additional computation of the variance and norm of the gradient estimates, we then obtain the following corollary for one-point optimization of the noisy dynamics model. Our statement involves the constants
+
+### Corollary 3 (One-point, Noisy dynamics)
+
+Suppose that the step-size and smoothing radius are chosen so as to satisfy
+
+Then for any error tolerance $\epsilon$ such that ${\epsilon{\log{({{120\Delta_{0}}/\epsilon})}}} < {\frac{10}{3}\Delta_{0}}$, Algorithm 1 with $T = {\frac{4}{\eta\mu_{{\mathsf{l}\mathsf{q}\mathsf{r}},\gamma}}{\log\left( \frac{120\Delta_{0}}{\epsilon} \right)}}$ iterations yields an iterate $K_{T}$ such that
+
+with probability greater than $3/4$.
+
+Thus, we have shown that the one-point settings for both the random initialization and noisy dynamics models exhibit similar behaviors in the different parameters. Reasoning heuristically, such a behavior is due to the fact that the additional additive noise in the dynamics is quickly damped away by the discount factor, so that the cost is dominated by the noise in the initial iterates. The variance bound, however, is substantially different, and this leads to the differing dependence on the smoothness parameters and dimension of the problem.
+
+Another interesting problem studied in the noisy dynamics model is one of bounding the regret of online procedures. Equipped with a high probability bound on convergence---as opposed to the constant probability bound currently posited by Corollary 3. ‣ 3.3 Consequences for LQR optimization ‣ 3 Main results")---the offline guarantee and associated algorithm can in principle be turned into a no-regret learner in the online setting. We leave this extension to future work.
+
+Let us now briefly discuss the dependence of the various bounds on the different parameters of the LQR objective, in the various cases above.
+
+Figure 2: Number of samples required to reach an error tolerance of ϵ, plotted against 1/ϵ, for (a) Randomly initialized LQR with one-point evaluations (b) Randomly initialized LQR with two-point evaluations for differing values of the initial cost, and (c) Noisy dynamics LQR model with one-point evaluations. We use 𝒞 to denote the population cost in the various cases, and the plots were obtained by averaging 20 runs of Algorithm 1. Each dotted line represents the line of best fit for the corresponding data points. For more problem details, see Appendix D.
+
+### Dependence on $\epsilon$
+
+Our bounds illustrate two distinct dependences on the tolerance parameter $\epsilon$. In particular, the zero-order complexity scales proportional to $\epsilon^{- 2}$ for both one-point settings (Corollaries 1. ‣ 3.3 Consequences for LQR optimization ‣ 3 Main results") and 3. ‣ 3.3 Consequences for LQR optimization ‣ 3 Main results")), but proportional to $\epsilon^{- 1}$ in the two-point setting (Corollary 2. ‣ 3.3 Consequences for LQR optimization ‣ 3 Main results")). As alluded to before, this distinction arises due to the lower variance of the gradient estimator in the two-point setting. Lemma 1. ‣ 2.2.1 Some properties of the LQR cost function ‣ 2.2 Optimal control background ‣ 2 Background and problem set-up") establishes the Lipschitz property of the LQR cost function for each instantiation of the noise variable $s_{0}$, which ensures that the Lipschitz constant of our *sample* cost function is also bounded; therefore, the noise of the problem reduces as we approach the optimum solution. In contrast, the optimization problem with one-point evaluations becomes more difficult the closer we are to the optimum solution, since the noise remains constant, while the "signal" in the problem (measured by the rate of decrease of the population cost function) reduces as we approach the optimum. The $O{({1/\epsilon^{2}})}$ dependence in the one-point settings is reminiscent of the complexity required to optimize strongly convex and smooth functions, and it would be interesting if a matching lower bound could also be proved in this LQR setting^77^7Note that this lower bound follows immediately for the class of PL and smooth functions.. Even in the absence of such a lower bound, the one-point setting is strictly worse than the two-point setting even with respect to the other parameters of the problem, which we discuss next. Figure 2 shows the convergence rate of the algorithm in all three settings as a function of $\epsilon$, where we confirm that scalings in practice corroborate our theory quite accurately. It is also worth noting that model-based algorithms for this problem require $\mathcal{O}\left( \epsilon^{- 1} \right)$ trajectory samples to return an $\epsilon$-approximate policy in the noisy dynamics setting (see, e.g. ). Thus, while a one-point zero-order method is outperformed by these algorithms---note that the comparison is not quite fair, since zero-order algorithms only require access to noise cost evaluations and not the state sequence---a two-point variant is similar to model-based methods in its dependence^88^8Note that the comparison is inherently imprecise, since we are comparing upper bounds to upper bounds. In practice, one would certainly prefer the use of a model-based method when provided access to the state sequence. on $\epsilon$.
+
+### Dependence on dimension
+
+The dependence on dimension enters once again via our bound on the variance of the gradient estimate, as is typical of many derivative-free procedures. The two-point setting gives rise to the best dimension dependence (linear in $D$), and the reason is similar to why this occurs for convex optimization. It is particularly interesting to compare the dimension dependence to results in model-based control. There, in the noisy dynamics model, the sample complexity scales with the sum of state and control dimensions $m + k$, whereas the dependence in the two-point setting is on their product $D = {m \cdot k}$. However, each observation in that setting consists of a state vector of length $m$, while here we only get access to scalar cost values, and so in that loose sense, the complexities of the two settings are comparable.
+
+In the one-point setting, the dependence on dimension is significantly poorer, and at least quadratic. This of course ignores other dimension-dependent factors such as $C_{m}$, as well as the curvature parameters $(\phi_{\mathsf{l}\mathsf{q}\mathsf{r}},\lambda_{\mathsf{l}\mathsf{q}\mathsf{r}},\mu)$ (see the discussion below).
+
+Figure 3: Number of samples required to reach a fixed error tolerance of ϵ, plotted against the cost of the initialization K0, for (a) Randomly initialized LQR with two-point evaluations (b) Noisy dynamics LQR with one-point evaluations. The plots were obtained by averaging 20 runs of Algorithm 1. Each dotted line represents the line of best fit for the corresponding data points. For more problem details, see Appendix D.
+
+### Dependence on curvature parameters
+
+The iteration complexity scales linearly in the smoothness parameter of the problem $\phi_{\mathsf{l}\mathsf{q}\mathsf{r}}$, and quadratically in the other curvature parameters. See Appendix A.3 ‣ Appendix A Properties of the randomly initialized LQR problem") for precise definitions of these parameters for the LQR problem. In particular, it is worth noting that our tightest bounds for these quantities depend on the dimension of the problem implicitly for some LQR instances, and are actually lower-order polynomials of the initial cost. In practice, however, it is likely that much sharper bounds can be proved on these parameters, e.g., in simulation (see Figure 3), the dependence of the sample complexity on the initial cost is in fact relatively weak---of the order $\mathcal{C}{(K_{0})}^{2}$---and our bounds are clearly not sharp in that sense.
+
+## Proofs of main results
+
+In this section, we provide proofs of Theorem 1, and Corollaries 1. ‣ 3.3 Consequences for LQR optimization ‣ 3 Main results"), 2. ‣ 3.3 Consequences for LQR optimization ‣ 3 Main results"), and 3. ‣ 3.3 Consequences for LQR optimization ‣ 3 Main results"). The proofs of the corollaries require many technical lemmas, whose proofs we postpone to the appendix.
+
+### Proof of Theorem 1
+
+Recall that by assumption, the population function $f$ has domain $\mathcal{X} \subseteq^{d}$ and satisfies the following properties over the restricted domain $\mathcal{G}^{0} \subseteq \mathcal{X}$, previously defined in equation:
+
+It has $(\phi_{0},\rho_{0})$-locally Lipschitz gradients,
+
+It is $(\lambda_{0},\rho_{0})$-locally Lipschitz, and
+
+Recall the values of the step-size $\eta$, smoothing radius $r$, and iteration complexity $T$ posited by Theorem 1. For ease of exposition, it is helpful to run our stochastic zero-order method on this problem for $2T$ iterations; we thus obtain a (random) sequence of iterates ${\{ x_{t}\}}_{t = 0}^{2T}$. For each $t = {0,1,2,\ldots}$, we define the cost error $\Delta_{t} = {{f{(x_{t})}} - {f{(x^{\ast})}}}$, as well as the stopping time
+
+In words, the time $\tau$ is the index of the first iterate that exits the bounded region $\mathcal{G}^{0}$. The gradient estimate $g$ at any point $x \in \mathcal{G}^{0}$ is assumed to satisfy the bounds
+
+With this set up in place, we now state and prove a proposition that is stronger than the assertion of Theorem 1.
+
+### Proposition 1
+
+With the parameter settings of Theorem 1, we have
+
+and furthermore, the event $\{{\tau > T}\}$ occurs with probability greater than $4/5$.
+
+Let us verify that Proposition 1 implies the claim of Theorem 1. We have
+
+where step (i) follows from Markov's inequality, and step (ii) from Proposition 1. Thus, Theorem 1 follows as a direct consequence of Proposition 1, and we dedicate the rest of the proof to establishing Proposition 1.
+
+Let ${\mathbb{E}}^{t}$ to represent the expectation conditioned on the randomness up to time $t$. The following lemma bounds the progress of one step of the algorithm:
+
+### Lemma 5
+
+Given any function satisfying the previously stated properties, suppose that we run Algorithm 1 with smoothing radius $r \leq \rho_{0}$, and with a step-size $\eta$ such that ${\|{\etag^{t}}\|}_{2} \leq \rho_{0}$ almost surely. Then for any $t = {0,1,\ldots}$ such that $x_{t} \in \mathcal{G}^{0}$, we have
+
+The proof of the lemma is postponed to Section 4.1.1. Taking it as given, let us now establish Proposition 1.
+
+Proposition 1 has two natural parts; let us focus first on proving the bound on the expectation. Let $\mathcal{F}_{t}$ denote the $\sigma$-field containing all the randomness in the first $t$ iterates. Conditioning on this $\sigma$-field yields
+
+where step (i) follows since $\tau$ is a stopping time, and so the random variable $1_{\tau > t}$ is determined completely by the sigma-field $\mathcal{F}_{t}$.\
+
+We now split the proof into two cases.
+
+### Case 1
+
+Assume that $\tau > t$, so that we have the inclusion $x_{t} \in \mathcal{G}^{0}$. In addition, note that the iterate $x_{t + 1}$ is obtained after a stochastic zero-order step whose size is bounded as
+
+where we have used the fact that $\eta \leq \frac{\rho_{0}}{G_{\infty}}$.
+
+We may thus apply Lemma 5 to obtain
+
+${\mathbb{E}}{\lbrack{\Delta_{t + 1} \mid \mathcal{F}_{t}}\rbrack}$ ${\leq {{\left( {1 - \frac{\eta\mu}{4}} \right)\Delta_{t}} + {\frac{\phi_{0}\eta^{2}}{2}G_{2}} + {\eta\mu\frac{\epsilon}{120}}}}.$ (18a)
+
+### Case 2
+
+In this case, we have $\tau \leq t$, so that
+
+Now combining the bounds (18a) and (18b) from the the two cases yields the inequality
+
+Taking expectations over the sigma-field $\mathcal{F}_{t}$ and then arguing inductively yields
+
+Setting ${t + 1} = T$ then establishes the first part of the proposition with substitutions of the various parameters.
+
+We now turn to establishing that ${{\mathbb{P}}{\{{\tau > T}\}}} \geq {4/5}$. We do so by setting up a suitable super-martingale on our iterate sequence and appealing to classical maximal inequalities. Recall that we run the algorithm for $2T$ steps for convenience, and thereby obtain a set of $2T$ random variables $\{\Delta_{1},\ldots,\Delta_{2T}\}$. With the stopping time $\tau$ defined as before, define the stopped process
+
+Note that by construction, each random variable $Y_{t}$ is non-negative and almost surely bounded by the locally Lipschitz nature of the function.
+
+We claim that ${\{ Y_{t}\}}_{t = 0}^{2T}$ is a super-martingale. In order to prove this claim, we first write
+
+Beginning by bounding the first term on the right-hand side, we have
+
+${{{\mathbb{E}}{\lbrack{{\Delta_{\tau \land {({t + 1})}}1_{\tau \leq t}} \mid \mathcal{F}_{t}}\rbrack}} = {{\mathbb{E}}{\lbrack{{\Delta_{\tau \land t}1_{\tau \leq t}} \mid \mathcal{F}_{t}}\rbrack}} = {\Delta_{\tau \land t}1_{\tau \leq t}}}.$ (21a)
+As for the second term, we have
+
+${\mathbb{E}}{\lbrack{{\Delta_{\tau \land {({t + 1})}}1_{\tau > t}} \mid \mathcal{F}_{t}}\rbrack}$ $= {{\mathbb{E}}{\lbrack{{\Delta_{t + 1}1_{\tau > t}} \mid \mathcal{F}_{t}}\rbrack}}$
+$= {{\mathbb{E}}{\lbrack{\Delta_{t + 1} \mid \mathcal{F}_{t}}\rbrack}1_{\tau > t}}$
+$\overset{({iii})}{\leq}{{\left( {1 - \frac{\eta\mu}{4}} \right)\Delta_{t}1_{\tau > t}} + {\left( {{\frac{\phi_{0}\eta^{2}}{2}G_{2}} + {\eta\mu\frac{\epsilon}{120}}} \right)1_{\tau > t}}}$
+${\leq {{\left( {1 - \frac{\eta\mu}{4}} \right)\Delta_{\tau \land t}1_{\tau > t}} + {\frac{\phi_{0}\eta^{2}}{2}G_{2}} + {\eta\mu\frac{\epsilon}{120}}}},$ (21b)
+
+where step (iii) follows from using inequality.
+
+Substituting the bounds (21a) and (21b) into our original inequality, we find that
+
+where step (iv) follows from the inequality ${\eta\mu\Delta_{\tau \land t}} \geq 0$. We have thus verified the super-martingale property.
+
+Finally, applying Doob's maximal inequality for super-martingales (see, e.g. 15) yields
+
+where step (v) follows from the substitutions $T = {\frac{4}{\eta\mu}{\log{({{120\Delta_{0}}/\epsilon})}}}$, and $\eta \leq \frac{\epsilon\mu}{240\phi_{0}G_{2}}$. As long as $\epsilon$ is sufficiently small so as to ensure that ${\epsilon{\log{({{120\Delta_{0}}/\epsilon})}}} < {5\Delta_{0}}$, setting $\nu = {10\Delta_{0}}$ completes the proof.
+
+### Proof of Lemma 5
+
+Recall that the domain of the function $f$ is $\mathcal{X} \subseteq {\mathbb{R}}^{d}$. For a scalar $r > 0$, the smoothed version $f_{r}{(x)}$ is given by $f_{r}{(x)}: = {\mathbb{E}}\left\lbrack f{(x + rv)} \right\rbrack$, where the expectation above is taken with respect to the randomness in $v$, and $v$ has uniform distribution on a $d$-dimensional ball ${\mathbb{B}}^{d}$ of unit radius. The estimate $g$ of the gradient $\nabla f_{r}$ at $x$ is given by
+
+where $u$ has a uniform distribution on the shell of the sphere ${\mathbb{S}}^{d - 1}$ of unit radius, and $\xi$ is sampled at random from $\mathcal{D}$. The following result summarizes some useful properties of the smoothed version of $f$, and relates it to the gradient estimate $g$.
+
+### Lemma 6
+
+The smoothed version $f_{r}$ of $f$ with smoothing radius $r$ has the following properties:
+
+${{\nabla f_{r}}{(x)}} = {{\mathbb{E}}\left\lbrack {g{(x)}} \right\rbrack}$.
+
+${\|{{{\nabla f_{r}}{(x)}} - {{\nabla f}{(x)}}}\|}_{2} \leq {\phi_{0}r}$.
+
+Versions of these properties have appeared in past work, but we provide proofs in Appendix C for completeness.
+
+Taking Lemma 6 as given, we now prove Lemma 5. Let $\mathcal{F}_{t}$ denote the sigma field generated by the randomness up to iteration $t$, and $\mathbb{E}$ denote the total expectation operator. We define ${\mathbb{E}}^{t}: = {\mathbb{E}}\left\lbrack \cdot \mid \mathcal{F}_{t} \right\rbrack$ as the expectation operator conditioned on the sigma field $\mathcal{F}_{t}$. Recall that the function $f$ is smooth with smoothness parameter $\phi_{0}$, and we have
+
+Steps (i) and (ii) above follow from parts (a) and (b), respectively, of Lemma 6. Now make the observation that
+
+In addition, since the function is locally smooth at the point $x_{t}$, we have
+
+for some parameter $\theta$ chosen small enough such that the relation ${\theta{\|{{\nabla f}{(x_{t})}}\|}_{2}} \leq \rho_{0}$ holds. We may thus set $\theta = \theta_{0} = {\min\left\{ \frac{1}{2\phi_{0}},\frac{\rho_{0}}{\lambda_{0}} \right\}}$ and recall the notation $\Delta_{t} = {{f{(x_{t})}} - {f{(x^{\ast})}}}$ to obtain
+
+where step (iii) follows from applying the PL inequality and using the fact that $\eta \leq \frac{1}{2\phi_{0}}$, and step (iv) from the inequality ${2ab} \leq {a^{2} + b^{2}}$ which holds for any pair of scalars $(a,b)$.
+
+Recall the assumed bounds on our parameters, namely
+
+Using these bounds, we have
+
+Finally, rearranging yields
+
+which completes the proof of Lemma 5.
+
+### Proof of Corollary 1. ‣ 3.3 Consequences for LQR optimization ‣ 3 Main results")
+
+Recall the properties of the LQR cost function $\mathcal{C}_{{\mathsf{i}\mathsf{n}\mathsf{i}\mathsf{t}},\gamma}$ that were established in Lemmas 1. ‣ 2.2.1 Some properties of the LQR cost function ‣ 2.2 Optimal control background ‣ 2 Background and problem set-up") through 3. ‣ 2.2.1 Some properties of the LQR cost function ‣ 2.2 Optimal control background ‣ 2 Background and problem set-up"). Taking these properties as given (see Appendix A for the proofs of the lemmas), the only remaining detail is to establish the bounds
+
+In fact, it suffices to prove the second bound in equation, since we have $G_{2} \leq G_{\infty}^{2}$.
+
+Given a unit vector $u$, the norm of the gradient estimate can be bounded as
+
+where step (i) follows from the relation, and step (ii) from the relation, since $P_{K}$ is a PSD matrix. Finally, since $r \leq \rho_{\mathsf{l}\mathsf{q}\mathsf{r}}$, the local Lipschitz property of the function $\mathcal{C}_{{\mathsf{i}\mathsf{n}\mathsf{i}\mathsf{t}},\gamma}$ yields
+
+where step (iii) uses the fact that $K_{t} \in \mathcal{G}^{\mathsf{l}\mathsf{q}\mathsf{r}}$ so that ${\mathcal{C}_{{\mathsf{i}\mathsf{n}\mathsf{i}\mathsf{t}},\gamma}{(K_{t})}} \leq {10\mathcal{C}_{{\mathsf{i}\mathsf{n}\mathsf{i}\mathsf{t}},\gamma}{(K_{0})}}$, and the upper bound $r \leq \frac{10\mathcal{C}_{{\mathsf{i}\mathsf{n}\mathsf{i}\mathsf{t}},\gamma}{(K_{0})}}{\lambda_{\mathsf{l}\mathsf{q}\mathsf{r}}}$. Putting together the pieces completes the proof.
+
+### Proof of Corollary 2. ‣ 3.3 Consequences for LQR optimization ‣ 3 Main results")
+
+As before, establishing Corollary 2. ‣ 3.3 Consequences for LQR optimization ‣ 3 Main results") requires bounds on the values of the pair $(G_{2},G_{\infty})$, since the remaining properties are established in Lemmas 1. ‣ 2.2.1 Some properties of the LQR cost function ‣ 2.2 Optimal control background ‣ 2 Background and problem set-up") through 3. ‣ 2.2.1 Some properties of the LQR cost function ‣ 2.2 Optimal control background ‣ 2 Background and problem set-up").
+
+In particular, let us establish bounds on these quantities for general optimization of a function with a two-point gradient estimate. The following computations closely follow those of Shamir.
+
+### Second moment control
+
+Using the law of iterated expectations, we have
+
+Define the placeholder variable $q$ and now evaluate:
+
+where equality (i) follows from the fact that $u$ is a unit vector and inequality (ii) follows from the inequality ${({a - b})}^{2} \leq {2{({a^{2} + b^{2}})}}$. We further simplify this to obtain:
+
+where inequality (i) follows from the symmetry of the uniform distribution on the sphere, and inequality (ii) follows from Jensen's inequality. For a fixed $\xi$, we now define $q = {{\mathbb{E}}{\lbrack\left. {F{({x + {ru}},\xi)}} \middle| \xi \right.\rbrack}}$. Substituting this expression yields
+
+where inequality (i) follows directly from Lemma 9 in Shamir. The lemma can be applied since we are conditioning on $\xi$, and all the randomness lies in the selection of $u$. We have thus established the claim in part (c).
+
+### Gradient estimates are bounded
+
+Note that smoothing radius $r$ satisfies $r \leq \rho_{0}$, where $\rho_{0}$ is the radius within which the function is Lipschitz. Consequently, the local Lipschitz property of $F$ implies that
+
+### Proof of Corollary 3. ‣ 3.3 Consequences for LQR optimization ‣ 3 Main results")
+
+As in Section 4.2, we establish bounds on the values $G_{2}$ and $G_{\infty}$ for the noisy LQR dynamics model. In particular, we derive a bound on $G_{\infty}$ and use the fact that $G_{2} \leq G_{\infty}^{2}$ to establish the bound on $G_{2}$. For deriving these bounds, we use properties of the cost function $\mathcal{C}_{{\mathsf{d}\mathsf{y}\mathsf{n}},\gamma}$ and its connections with $\mathcal{C}_{{\mathsf{i}\mathsf{n}\mathsf{i}\mathsf{t}},\gamma}$ which are established in Lemma 4. ‣ 2.2.1 Some properties of the LQR cost function ‣ 2.2 Optimal control background ‣ 2 Background and problem set-up") and Lemma 11; the proofs of these are deferred to Appendix B.
+
+In particular, we establish the bounds
+
+For any unit vector $u$, we have,
+
+where $(\mathsf{i})$ follows from using the bound in Lemma 11, as well as the explicit choice of $\lambda_{{\mathsf{l}\mathsf{q}\mathsf{r}},\gamma}$ made using Lemma 9 ‣ Appendix A Properties of the randomly initialized LQR problem"). Finally, using Lemma 4. ‣ 2.2.1 Some properties of the LQR cost function ‣ 2.2 Optimal control background ‣ 2 Background and problem set-up") and since $r \leq \rho_{{\mathsf{l}\mathsf{q}\mathsf{r}},\gamma}$, the local Lipschitz property of the function $\mathcal{C}_{{\mathsf{i}\mathsf{n}\mathsf{i}\mathsf{t}},\gamma}$ yields
+
+where step $(\mathsf{i})$ uses the fact that $K_{t} \in \mathcal{G}^{\mathsf{l}\mathsf{q}\mathsf{r}}$ so that ${\mathcal{C}_{{\mathsf{i}\mathsf{n}\mathsf{i}\mathsf{t}},\gamma}{(K_{t})}} \leq {10\mathcal{C}_{{\mathsf{i}\mathsf{n}\mathsf{i}\mathsf{t}},\gamma}{(K_{0})}}$, and the upper bound $r \leq \frac{10\mathcal{C}_{{\mathsf{i}\mathsf{n}\mathsf{i}\mathsf{t}},\gamma}{(K_{0})}}{\lambda_{{\mathsf{l}\mathsf{q}\mathsf{r}},\gamma}}$. Putting together the pieces completes the proof.
+
+## Discussion
+
+In this paper, we studied the model-free control problem over linear policies through the lens of derivative-free optimization. We derived quantitative convergence rates for various zero-order methods when applied to learn optimal policies based on data from noisy linear systems with quadratic costs. In particular, we showed that one-point and two-point variants of a canonical derivative-free optimization method achieve fast rates of convergence for the non-convex LQR problem. Notably, our proof deals directly with some additional difficulties that are specific to this problem and do not arise in the analysis of typical optimization algorithms. More precisely, our proof involves careful control of both the (potentially) unbounded nature of the cost function, and the non-convexity of the underlying domain. Interestingly, our proof only relies on certain local properties of the function that can be guaranteed over a bounded set; for this reason, the optimization-theoretic result in this paper (stated as Theorem 1) is more broadly applicable beyond the RL setting.
+
+While this paper analyzes a canonical zero-order optimization algorithm for model-free control of linear quadratic systems, many open questions remain. One such question concerns lower bounds for LQR problems in the model-free setting, thereby showing quantitative gaps between such a setting and that of model-based control. While we conjecture that the convergence bounds of Corollaries 1. ‣ 3.3 Consequences for LQR optimization ‣ 3 Main results"), 2. ‣ 3.3 Consequences for LQR optimization ‣ 3 Main results"), and 3. ‣ 3.3 Consequences for LQR optimization ‣ 3 Main results") are sharp in terms of their dependence on the error tolerance $\epsilon$, establishing this rigorously will require ideas from the extensive literature on lower bounds in zero-order optimization. Another important direction is establish the sharpness (or otherwise) of our bounds in terms of the dimension of the problem, as well as to obtain tight characterizations of the local curvature parameters of the problem around a particular policy $K$ in terms of the cost at $K$.
+
+We also mention that our sharp characterizations of the cost function are likely to be useful in sharpening analyses^99^9Here again, the techniques of Fazel et al. yield a bound of the order $\overset{\sim}{\mathcal{O}}\left( \epsilon^{- 4} \right)$, but we conjecture that this bound should be improvable at least to $\overset{\sim}{\mathcal{O}}\left( \epsilon^{- 2} \right)$. of the natural gradient algorithm as well as in analyzing the popular REINFORCE algorithm as applied to the LQR problem. We leave these interesting questions to future work.
+
+In the broader context of model-free reinforcement learning as well, there are many open questions. First, a derivative-free algorithm over linear policies is reasonable even in other systems; can we establish provable guarantees over larger classes of problems? Second, there is no need to restrict ourselves to linear policies; in practical RL systems, derivative-free algorithms are run for policies that parametrized in a much more complex fashion. How does the sample complexity of the problem change with the class of policies over which we are optimizing?

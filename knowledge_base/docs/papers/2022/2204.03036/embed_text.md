@@ -1,0 +1,587 @@
+## Introduction
+
+In the last decades, risk-averse stochastic optimal control has seen a surge of interest as a tool for designing control laws that enjoy robustness properties against uncertainties. Relevant applications of this theory encompass broad research fields, ranging from risk-averse financial investments to the safe control of autonomous systems, as evidenced e.g. by the recent monographs and their bibliography. In this context, first-order necessary conditions for optimality in the form of Pontryagin's Maximum Principle (we will refer to these latter as "risk-averse PMP" in the sequel) are bound to play a key role in characterizing and numerically computing optimal control strategies, as it is known to be the case for classical stochastic optimal control problems in which only expectation-based costs and constraints are considered. However, extending the PMP in its general form to more involved risk-averse settings still requires substantial investigations.
+
+To the best of our knowledge, the derivation of a risk-averse PMP was attempted firstly in, where appropriate adjoint equations and maximality conditions formulated in terms of the so-called $G$-Stochastic calculus are introduced in order to cope with the presence of risk measures. This framework was originally introduced by Peng, and developed by the stochastic control community later on, see e.g.. In this setting, the standard Brownian motion is replaced by a so-called $G$-Brownian motion, which is modelled as a stochastic process whose distribution is the product of a standard Gaussian and a Lipschitz map, and whose role is to transform the coherent risk measure into a standard, though non-linear expectation. While practical for some applications, this procedure requires to change the dynamics of the system, which is not always natural e.g. when the diffusion term aims at rendering an unknown uncertainty exerted on the system by the environment. Therefore, for certain classes of problems, it is still relevant to investigate optimality conditions relying on standard stochastic calculus, and which do not require to infuse additional uncertainty in the formulation of the control problem. Along this line, a risk-averse PMP for problems which are subject to stochastic differential equations stemming from classical Wiener processes is proposed in, though no final constraints are included therein and the underlying risk measures are assumed to be continuously Fréchet differentiable. From a different standpoint, first-order necessary optimality conditions for convex risk-averse optimization problems subject to partial differential equations and general subdifferentiable risk-measure-based costs are derived in, by leveraging classical tools from convex analysis. Nevertheless, final constraints are also ruled out in this work, and the necessary conditions for optimality are written down as simple Euler conditions and not as a general Karush-Kuhn-Tucker system, which would be the natural "static" counterpart of the PMP.
+
+In this paper, we propose a first step towards bridging the aforedescribed gap by establishing a first-order risk-averse PMP for a class of finite-dimensional constrained stochastic optimal control problems. Therein, one aims at minimizing a final cost modelled as a general subdifferentiable coherent risk measure over a class of admissible trajectories driven by a controlled stochastic differential equations involving standard Wiener processes, and subject to final time inequality constraints. Our proof leverages a general methodology that was first developed in, allowing for a natural extension of the first-order PMP for stochastic optimal control problems with expectation-based costs discussed in to the risk-averse setting. Specifically, the main advantages offered by this approach over more classical needle-like variations or Ekeland's principle-based methods are twofold. Firstly, no additional second-order adjoint variables (nor related second-order adjoint equations) are required to establish a fully informative PMP. Secondly, it permits the derivation of the so-called strong maximum principle, in which the optimal controls are characterized as being pointwise maximizers of the Hamiltonian. This is in contrast with some reference contributions in stochastic optimal control that establish weaker variants of the PMP in which the maximization condition is relaxed by requiring the stationarity of the Hamiltonian. In what follows, we propose two separate sets of optimality conditions for the class of optimal control problems at hand, depending on whether the control variable appears in the diffusion term or not. When the control acts only on the deterministic drift, the variational linearization techniques subtending the proof of the maximum principle can be performed much like in the deterministic case, by considering perturbations which are tangent to the set of relaxed velocities. When the diffusion is controlled, however, it is not possible to replicate such a strategy as the Itô integral does not exhibit the nice convexifying effects of the Lebesgue or Bochner integrals -- a fact which is expounded by an original example in Remark 2.15. ‣ 2.4 Stochastic Differential Inclusions ‣ 2 Preliminaries ‣ First-Order Pontryagin Maximum Principle for Risk-Averse Stochastic Optimal Control Problems") --, and one thus needs to impose an a priori convexity assumptions on the sets of admissible drift and diffusion pairs, similar to that considered e.g. in.
+
+The paper is organized as follows. In Section 2, we recollect known concepts of stochastic calculus and set-valued analysis, which feature a counterexample to Aumann's theorem for the Itô integral that we believe to be of independent interest. In Section 3, we expose the main contributions of this article, which are first-order Pontryagin optimality conditions for risk-averse stochastic optimal control problems. We start in Section 3.1 with the case in which the diffusion term of the driving stochastic dynamics is controlled, and expose the proof in great details in this context. We then show in Section 3.2 how the aforeproposed methodology can be used to prove the PMP under more general assumptions when the diffusion term is control-free, and close the paper with Sections 4 and 5 which respectively contain some application examples and important perspectives.
+
+## Preliminaries
+
+In this section, we recollect some useful concepts and results of stochastic calculus, for which we mainly refer to, as well as notions of set-valued analysis mostly excerpted from. From now on, we fix positive integers ${n,m,d} \in {\mathbb{N}}$, a finite time horizon $T > 0$, and let $\beta \in {\lbrack 1,{+ \infty})}$.
+
+### Stochastic Calculus
+
+Throughout this article, we will consider random variables defined over a probability space $(\Omega,\mathcal{G},{\mathbb{P}})$. For any sub $\sigma$-algebra $\mathcal{S} \subset \mathcal{G}$, we denote by $L_{\mathcal{S}}^{\beta}{(\Omega,{\mathbb{R}}^{n})}$ the Banach space of random variables $z:{\Omega\rightarrow{\mathbb{R}}^{n}}$ which are $\mathcal{S}$-measurable and such that
+
+where $\parallel \cdot \parallel$ denotes the Euclidean norm. It is a standard consequence of Riesz's theorem that $L_{\mathcal{S}}^{\beta}{(\Omega,{\mathbb{R}})}^{\ast}$ is isomorphic to $L_{\mathcal{S}}^{\gamma}{(\Omega,{\mathbb{R}})}$ where $\gamma \in {(1,{+ \infty}\rbrack}$ satisfies ${{1/\beta} + {1/\gamma}} = 1$.
+
+Let ${(W_{s})}_{s \in {\lbrack 0,T\rbrack}} = {(W_{s}^{1},\ldots,W_{s}^{d})}_{s \in {\lbrack 0,T\rbrack}}$ be a $d$--dimensional Wiener process which generates a complete filtration
+
+and denote by $L_{\mathcal{F}}^{\beta}{({{\lbrack 0,T\rbrack} \times \Omega},{\mathbb{R}}^{n})}$ the corresponding Banach space of $\mathcal{F}$-progressively measurable -- or progressively measurable -- processes $x:{{{\lbrack 0,T\rbrack} \times \Omega}\rightarrow{\mathbb{R}}^{n}}$ which satisfy
+
+In addition, denote by $C_{\mathcal{F}}^{\beta}{({{\lbrack 0,T\rbrack} \times \Omega},{\mathbb{R}}^{n})}$ the Banach space of $\mathcal{F}$-adapted processes $x:{{{\lbrack 0,T\rbrack} \times \Omega}\rightarrow{\mathbb{R}}^{n}}$ which have continuous sample paths and finite sup norm, namely
+
+In particular, ${C_{\mathcal{F}}^{\beta}{({{\lbrack 0,T\rbrack} \times \Omega},{\mathbb{R}}^{n})}} \subset {L_{\mathcal{F}}^{\beta}{({{\lbrack 0,T\rbrack} \times \Omega},{\mathbb{R}}^{n})}}$. In the sequel given $t \in {\lbrack 0,T\rbrack}$, we will often use the standard notation ${x{(t)}}:{\Omega\rightarrow{\mathbb{R}}^{n}}$ to refer to progressively measurable processes. In addition, when we say that a property holds "almost everywhere", it shall always be understood with respect to the progressive $\sigma$-algebra generated by the filtration $\mathcal{F}$ on ${\lbrack 0,T\rbrack} \times \Omega$.
+
+An $\mathcal{F}$-adapted process $x:{{{\lbrack 0,T\rbrack} \times \Omega}\rightarrow{\mathbb{R}}^{n}}$ such that ${x{(s)}} \in {L_{\mathcal{F}_{s}}^{1}{(\Omega,{\mathbb{R}}^{n})}}$ for every $s \in {\lbrack 0,T\rbrack}$ is called a martingale provided that
+
+for all $0 \leq s < t \leq T$. We then say that a martingale $x:{{{\lbrack 0,T\rbrack} \times \Omega}\rightarrow{\mathbb{R}}^{n}}$ is uniformly bounded in $L^{\beta}$ if there exists a constant $C > 0$ such that
+
+In this setting, for every $x \in {L_{\mathcal{F}}^{\beta}{({{\lbrack 0,T\rbrack} \times \Omega},{\mathbb{R}}^{n})}}$ and each $i \in {\{ 1,\ldots,d\}}$, we write
+
+for the Itô integral of $x$ with respect to $W^{i}$, and recall that $y^{i}$ is then a martingale which is additionally in $C_{\mathcal{F}}^{\beta}{({{\lbrack 0,T\rbrack} \times \Omega},{\mathbb{R}}^{n})}$. Analogously, we introduce the notation
+
+for $x \in {L_{\mathcal{F}}^{\beta}{({{\lbrack 0,T\rbrack} \times \Omega},{\mathbb{R}}^{n \times d})}}$, where ${x{(s)}} = {({x{(s)}^{1}{|\ldots|}x{(s)}^{d}})}$ and ${x{(s)}^{i}} \in {L_{\mathcal{F}_{s}}^{\beta}{(\Omega,{\mathbb{R}}^{n})}}$, and recall the famed Burkholder-Davis-Gundy inequality
+
+which holds for some constant $C_{\beta} > 0$ that only depends on $\beta \in {\lbrack 1,{+ \infty})}$. The following representation theorem for martingales (see e.g. \[13, Theorem 5.18\]) will be crucial in the derivation of the adjoint dynamics of the PMP in Section 3.
+
+### Theorem 2.1 (Martingale representation theorem)
+
+Let $x:{{{\lbrack 0,T\rbrack} \times \Omega}\rightarrow{\mathbb{R}}^{n}}$ be a martingale which is uniformly bounded in $L^{2}$. Then, there exist a vector $N \in {\mathbb{R}}^{n}$ and a stochastic process $\mu \in {L_{\mathcal{F}}^{2}{({{\lbrack 0,T\rbrack} \times \Omega},{\mathbb{R}}^{n \times d})}}$ such that
+
+In this article, we will study risk-averse stochastic optimal control problems, which involve the following class of functionals called finite coherent risk measures, whose properties are extensively studied in.
+
+### Definition 2.2 (Finite coherent risk measure)
+
+A mapping $\rho:{{L_{\mathcal{S}}^{1}{(\Omega,{\mathbb{R}})}}\rightarrow{\mathbb{R}}}$ is called a finite coherent risk measure if it satisfies the following properties.
+
+(Convexity) For every ${Z_{1},Z_{2}} \in {L_{\mathcal{S}}^{1}{(\Omega,{\mathbb{R}})}}$ and all $\lambda \in {\lbrack 0,1\rbrack}$, it holds
+
+(Monotonicity) If ${Z_{1},Z_{2}} \in {L_{\mathcal{S}}^{1}{(\Omega,{\mathbb{R}})}}$ are such that $Z_{1} \leq Z_{2}$, then
+
+(Translation invariance) For every $Z \in {L_{\mathcal{S}}^{1}{(\Omega,{\mathbb{R}})}}$ and $\alpha \in {\mathbb{R}}$, it holds
+
+(Positive homogeneity) For every $Z \in {L_{\mathcal{S}}^{1}{(\Omega,{\mathbb{R}})}}$ and $\alpha > 0$, it holds
+
+As detailed throughout \[17, Chapter 6\], coherent risk measures satisfy the following fundamental properties.
+
+### Theorem 2.3 (Structure of finite coherent risk measures)
+
+Given a finite coherent risk measure $\rho:{{L_{\mathcal{S}}^{1}{(\Omega,{\mathbb{R}})}}\rightarrow{\mathbb{R}}}$, the following holds true.
+
+For every $Z \in {L_{\mathcal{S}}^{1}{(\Omega,{\mathbb{R}})}}$, the risk measure can be represented as
+
+where $\partial{\rho{}}$ denotes the convex subdifferential of $\rho$ at $Z = 0$.
+
+For every $Z \in {L_{\mathcal{S}}^{1}{(\Omega,{\mathbb{R}})}}$, the subdifferential ${\partial{\rho{(Z)}}} \subset {L_{\mathcal{S}}^{\infty}{(\Omega,{\mathbb{R}})}}$ is a nonempty, convex, and weakly-^∗^ compact set which can be expressed as
+
+For every ${Z,H} \in {L_{\mathcal{S}}^{1}{(\Omega,{\mathbb{R}})}}$, the mapping $\rho$ has a sublinear directional derivative ${D\rho{(Z)}} \cdot H$ at $Z$ along $H$, which satisfies
+
+As previously mentioned in the introduction, coherent risk measures appear very naturally in a broad range of stochastic decision problems, with their most common representative being the Average Value-at-Risk, see e.g. \[17, Section 6.2.4\] and the examples of Section 4 below.
+
+### Stochastic Differential Equations
+
+In what follows, we detail the setting in which we study controlled stochastic dynamics. Let $U \subset {\mathbb{R}}^{m}$ be a compact set representing admissible control values, and consider a stochastic drift mapping $f:{{{\lbrack 0,T\rbrack} \times \Omega \times {\mathbb{R}}^{n} \times U}\rightarrow{\mathbb{R}}^{n}}$ as well as a stochastic diffusion mapping $\sigma:{{{\lbrack 0,T\rbrack} \times \Omega \times {\mathbb{R}}^{n} \times U}\rightarrow{\mathbb{R}}^{n \times d}}$ which satisfy the following series of standard assumptions (see e.g. \[22, Chapter 3.3\]).
+
+### Main Assumptions on the Stochastic Dynamics -- (MSD)
+
+are progressively measurable for every ${(x,u)} \in {{\mathbb{R}}^{n} \times U}$ and the maps
+
+are continuous for almost every ${(t,\omega)} \in {{\lbrack 0,T\rbrack} \times \Omega}$.
+
+There exists a map $k \in {L_{\mathcal{F}}^{2}{({{\lbrack 0,T\rbrack} \times \Omega},{\mathbb{R}}_{+})}}$ such that ^11^1Note that since $U \subset {\mathbb{R}}^{m}$ is compact, this assumption encompasses control-affine dynamics.
+
+for almost every ${(t,\omega)} \in {{\lbrack 0,T\rbrack} \times \Omega}$ and each $u \in U$.
+
+For almost every ${(t,\omega)} \in {{\lbrack 0,T\rbrack} \times \Omega}$ and all $u \in U$, the mappings
+
+are Fréchet differentiable, and there exists a constant $L > 0$ such that
+
+for almost every ${(t,\omega)} \in {{\lbrack 0,T\rbrack} \times \Omega}$, any $u \in U$ and all ${x,y} \in {\mathbb{R}}^{n}$.
+
+From now on, we fix an initial condition $x_{0} \in {L_{\mathcal{F}_{0}}^{2}{(\Omega,{\mathbb{R}}^{n})}}$. Under hypotheses (MSD). ‣ 2.2 Stochastic Differential Equations ‣ 2 Preliminaries ‣ First-Order Pontryagin Maximum Principle for Risk-Averse Stochastic Optimal Control Problems"), the stochastic differential equation
+
+has a unique (up to stochastic indistinguishability) solution $x_{u} \in {C_{\mathcal{F}}^{2}{({{\lbrack 0,T\rbrack} \times \Omega},{\mathbb{R}}^{n})}}$ for every progressively measurable control $u:{{{\lbrack 0,T\rbrack} \times \Omega}\rightarrow U}$. In the following lemma, we recall a useful estimate for this class of dynamics (see e.g. \[14, Proposition 2.1\]).
+
+### Lemma 2.4
+
+Let $u:{{{\lbrack 0,T\rbrack} \times \Omega}\rightarrow U}$ be a progressively measurable control signal and suppose that assumptions (MSD). ‣ 2.2 Stochastic Differential Equations ‣ 2 Preliminaries ‣ First-Order Pontryagin Maximum Principle for Risk-Averse Stochastic Optimal Control Problems"). Then, the corresponding solution $x_{u} \in {C_{\mathcal{F}}^{2}{({{\lbrack 0,T\rbrack} \times \Omega},{\mathbb{R}}^{n})}}$ of (SDE) satisfies the estimate
+
+where the constant $C > 0$ only depends on the magnitudes of $T$ and $L$.
+
+### Set-valued Analysis
+
+In the sequel given a closed set $K \subset {\mathbb{R}}^{n}$, we define its closed convex hull by
+
+If the set $K$ is convex, we shall denote its tangent cone at some $x \in K$ by
+
+where ${\text{dist}_{K}{(x)}}:={\inf_{y \in K}{\|{x - y}\|}}$ denotes the distance from a point $x \in {\mathbb{R}}^{n}$ to $K$.
+
+We will write $F:{{{\lbrack 0,T\rbrack} \times \Omega}\rightrightarrows{\mathbb{R}}^{n}}$ to denote a set-valued map -- or multifunction -- from ${\lbrack 0,T\rbrack} \times \Omega$ into ${\mathbb{R}}^{n}$, namely a mapping valued in the subsets of ${\mathbb{R}}^{n}$. In this context, we shall say that $F$ has closed, compact or convex images if its values are closed, compact or convex sets respectively.
+
+### Definition 2.5 (Progressively measurable set-valued maps)
+
+We say that a set-valued map $F:{{{\lbrack 0,T\rbrack} \times \Omega}\rightrightarrows{\mathbb{R}}^{n}}$ is progressively measurable if
+
+is measurable with respect to the progressive $\sigma$-algebra generated by the filtration $\mathcal{F}$ on ${\lbrack 0,T\rbrack} \times \Omega$ for every open set $\mathcal{O} \subset {\mathbb{R}}^{n}$.
+
+We recall in the following theorem a direct consequence of \[2, Theorem 8.1.3\].
+
+### Theorem 2.6 (Existence of progressively measurable selections)
+
+A progressively measurable set-valued map $F:{{{\lbrack 0,T\rbrack} \times \Omega}\rightrightarrows{\mathbb{R}}^{n}}$ with nonempty closed images admits a progressively measurable selection, namely a progressively measurable function $f:{{{\lbrack 0,T\rbrack} \times \Omega}\rightarrow{\mathbb{R}}^{n}}$ such that ${f{(t,\omega)}} \in {F{(t,\omega)}}$ for almost every ${(t,\omega)} \in {{\lbrack 0,T\rbrack} \times \Omega}$.
+
+In the following definitions, we recall classical adaptations of the concepts of integral boundedness and Lipschitz regularity for progressively measurable set-valued maps with compact images. The latter of these properties is expressed in terms of the so-called Pompeiu-Hausdorff distance, defined by
+
+for any pair of compact sets ${A,B} \subset {\mathbb{R}}^{n}$.
+
+### Definition 2.7 (Integrably bounded multifunction)
+
+A set-valued mapping $F:{{{\lbrack 0,T\rbrack} \times \Omega \times {\mathbb{R}}^{n}}\rightrightarrows{\mathbb{R}}^{n}}$ with nonempty compact images is integrably bounded if
+
+for almost every ${(t,\omega)} \in {{\lbrack 0,T\rbrack} \times \Omega}$ and all $x \in {\mathbb{R}}^{n}$, where $k \in {L_{\mathcal{F}}^{2}{({{\lbrack 0,T\rbrack} \times \Omega},{\mathbb{R}}_{+})}}$ and ${\mathbb{B}} \subset {\mathbb{R}}^{n}$ denotes the closed unit ball centered at the origin.
+
+### Definition 2.8 (Progressively measurable-Lipschitz multifunction)
+
+We say that a set-valued mapping $F:{{{\lbrack 0,T\rbrack} \times \Omega \times {\mathbb{R}}^{n}}\rightrightarrows{\mathbb{R}}^{n}}$ with nonemtpy compact images is progressively measurable-Lipschitz if
+
+is progressively measurable for each $x \in {\mathbb{R}}^{n}$, and there exists $L > 0$ such that
+
+for almost every ${(t,\omega)} \in {{\lbrack 0,T\rbrack} \times \Omega}$ and all ${x,y} \in {\mathbb{R}}^{n}$.
+
+We recall in the following theorem some classical adaptations of \[2, Corollary 8.2.13, Theorem 8.5.1, Corollary 8.5.2\], which ensure the existence of progressively measurable selections for various classes of set-valued mappings.
+
+### Theorem 2.9 (Some progressively measurable selection results)
+
+Let $F:{{{\lbrack 0,T\rbrack} \times \Omega \times {\mathbb{R}}^{n}}\rightrightarrows{\mathbb{R}}^{n}}$ be progressively measurable-Lipschitz with nonempty compact images, fix ${x,y} \in {C_{\mathcal{F}}^{\beta}{({{\lbrack 0,T\rbrack} \times \Omega},{\mathbb{R}}^{n})}}$ and $l \in {L_{\mathcal{F}}^{\beta}{({{\lbrack 0,T\rbrack} \times \Omega},{\mathbb{R}}_{+})}}$. Then, the following holds.
+
+The set-valued mapping
+
+is progressively measurable and admits a progressively measurable selection.
+
+Let ${(t,\omega)} \in {{\lbrack 0,T\rbrack} \times \Omega}\mapsto{f{(t,\omega)}} \in {F{(t,\omega,{x{(t,\omega)}})}}$ be a progressively measurable selection such that $f \in {L_{\mathcal{F}}^{\beta}{({{\lbrack 0,T\rbrack} \times \Omega},{\mathbb{R}}^{n})}}$. Then the set-valued mapping
+
+is progressively measurable and admits selections in $L_{\mathcal{F}}^{\beta}{({{\lbrack 0,T\rbrack} \times \Omega},{\mathbb{R}}^{n})}$.
+
+If for almost every ${(t,\omega)} \in {{\lbrack 0,T\rbrack} \times \Omega}$ the sets
+
+are nonempty, then there exists a progressively measurable selection
+
+such that ${\|{{f{(t,\omega)}} - {y{(t,\omega)}}}\|} \leq {l{(t,\omega)}}$.
+
+### Remark 2.10 (Concerning progressively measurable selections)
+
+Observe that since ${\mathcal{B}{({\lbrack 0,T\rbrack})}} \otimes \mathcal{G}$ endowed with the progressive $\sigma$-algebra induced by the filtration $\mathcal{F}$ is not a complete measure space, one cannot directly apply \[2, Corollary 8.2.13, Theorem 8.5.1 and Corollary 8.5.2\] to derive Theorem 2.9. ‣ 2.3 Set-valued Analysis ‣ 2 Preliminaries ‣ First-Order Pontryagin Maximum Principle for Risk-Averse Stochastic Optimal Control Problems"). To overcome this difficulty, one needs first to apply these latter results to the measure-theoretic completion $\overline{{\mathcal{B}{({\lbrack 0,T\rbrack})}}\otimes\mathcal{G}}$ to obtain measurable selections, and modify them on a negligible set so that they become measurable in ${\mathcal{B}{({\lbrack 0,T\rbrack})}} \otimes \mathcal{G}$ (see also \[8, Theorem 4.1\]).
+
+### Remark 2.11 (Shorter notation for stochastic processes)
+
+For the sake of conciseness, we will often drop the dependence with respect to the parameter $\omega \in \Omega$ and write $t \in {\lbrack 0,T\rbrack}\mapsto{f{(t)}} \in {F{(t,{x{(t)}})}}$ for progressively measurable selections and maps.
+
+We end this preliminary section by recalling an adaptation of a general minimax theorem due to Sion.
+
+### Theorem 2.12 (Sion's minimax theorem)
+
+Let $X,Y$ be two convex subsets of Hausdorff topological spaces with $X$ being compact, and consider a continuous map $\varphi:{{X \times Y}\rightarrow{\mathbb{R}}}$ that is such that
+
+for each $y \in Y$, and
+
+for each $x \in X$. Then, it holds that
+
+### Stochastic Differential Inclusions
+
+In this section, we recollect some facts concerning set-valued stochastic dynamics. Given a progressively measurable-Lipschitz set-valued map $F:{{{\lbrack 0,T\rbrack} \times \Omega \times {\mathbb{R}}^{n}}\rightrightarrows{\mathbb{R}}^{n + {d \times n}}}$ with nonempty compact images, we say that $x \in {C_{\mathcal{F}}^{2}{({{\lbrack 0,T\rbrack} \times \Omega},{\mathbb{R}}^{n})}}$ solves the stochastic differential inclusion
+
+if there exists a progressively measurable selection $t \in {\lbrack 0,T\rbrack}\rightrightarrows{({f{(t)}},{\sigma{(t)}})} \in {F{(t,{x{(t)}})}}$ such that
+
+As for deterministic differential inclusion, this class of dynamics enjoys an existence result "à la Filippov", which incorporates handy a priori distance estimates with respect to a given process. This is the object of the following theorem, whose proof can be established up to a small variation of the arguments proposed in.
+
+### Theorem 2.13 (Filippov estimates)
+
+Let $F:{{{\lbrack 0,T\rbrack} \times \Omega \times {\mathbb{R}}^{n}}\rightrightarrows{\mathbb{R}}^{n + {d \times n}}}$ be an integrably bounded and progressively measurable-Lipschitz set-valued mapping, fix ${x_{0},y_{0}} \in {L_{\mathcal{F}_{0}}^{2}{(\Omega,{\mathbb{R}}^{n})}}$ and ${(g,\zeta)} \in {L_{\mathcal{F}}^{2}{({{\lbrack 0,T\rbrack} \times \Omega},{\mathbb{R}}^{n + {n \times d}})}}$, and consider the solution $y \in {C_{\mathcal{F}}^{2}{({{\lbrack 0,T\rbrack} \times \Omega},{\mathbb{R}}^{n})}}$ of the stochastic differential equation
+
+Moreover, suppose that the progressively measurable mismatch function, defined by
+
+is an element of $L_{\mathcal{F}}^{2}{({{\lbrack 0,T\rbrack} \times \Omega},{\mathbb{R}}_{+})}$.
+
+Then, there exists a solution $x \in {C_{\mathcal{F}}^{2}{({{\lbrack 0,T\rbrack} \times \Omega},{\mathbb{R}}^{n})}}$ of (SDI) which satisfies
+
+for all times $t \in {\lbrack 0,T\rbrack}$, where the constant $C > 0$ depends only on the magnitudes of the bounding map and Lipschitz constant of $F:{{{\lbrack 0,T\rbrack} \times \Omega \times {\mathbb{R}}^{d}}\rightrightarrows{\mathbb{R}}^{n + {d \times n}}}$.
+
+In the sequel given an integrably bounded and progressively measurable-Lipschitz set-valued mapping $F:{{{\lbrack 0,T\rbrack} \times \Omega \times {\mathbb{R}}^{n}}\rightrightarrows{\mathbb{R}}^{n}}$ along with a diffusion map $\sigma:{{{\lbrack 0,T\rbrack} \times \Omega \times {\mathbb{R}}^{n}}\rightarrow{\mathbb{R}}^{n}}$ satisfying the relevant parts of Assumptions (MSD). ‣ 2.2 Stochastic Differential Equations ‣ 2 Preliminaries ‣ First-Order Pontryagin Maximum Principle for Risk-Averse Stochastic Optimal Control Problems"), we will also work with stochastic differential inclusions of the form
+
+whose solutions are the processes $x \in {C_{\mathcal{F}}^{2}{({{\lbrack 0,T\rbrack} \times \Omega},{\mathbb{R}}^{n})}}$ which solve (2.4) for some progressively measurable selection $t \in {\lbrack 0,T\rbrack}\mapsto{f{(t)}} \in {F{(t,{x{(t)}})}}$. Below, we recall a stochastic version of the well-known relaxation theorem for this class of dynamics.
+
+### Theorem 2.14 (Relaxation)
+
+Let $F:{{{\lbrack 0,T\rbrack} \times \Omega \times {\mathbb{R}}^{n}}\rightrightarrows{\mathbb{R}}^{n}}$ and $\sigma:{{{\lbrack 0,T\rbrack} \times \Omega \times {\mathbb{R}}^{n}}\rightarrow{\mathbb{R}}^{d \times n}}$ be integrably bounded and progressively measurable Lipschtz, fix $x_{0} \in {L_{\mathcal{F}_{0}}^{2}{(\Omega,{\mathbb{R}}^{n})}}$ and suppose that $x \in {C_{\mathcal{F}}^{2}{({{\lbrack 0,T\rbrack} \times \Omega},{\mathbb{R}}^{n})}}$ is a solution of the relaxed differential inclusion
+
+Then for each $\varepsilon > 0$, there exists a solution $x_{\varepsilon} \in {C_{\mathcal{F}}^{2}{({{\lbrack 0,T\rbrack} \times \Omega},{\mathbb{R}}^{n})}}$ of (SDI') which satisfies
+
+### Proof
+
+Although we did not find a satisfactory reference for this result in the literature, its proof is standard and can be carried out by following the procedure detailed e.g. in \[21, Section 2.7\]. ∎
+
+### Remark 2.15 (Obstruction to relaxation for general stochastic inclusions)
+
+The relaxation theorem for stochastic differential inclusions of the form (SDI') stems from Aumann's famed convexity principle for the Lebesgue -- or more generally the Bochner -- integral (see e.g. \[2, Theorem 8.6.4\]). The latter asserts that, given a Borel set $I \subset {\lbrack 0,T\rbrack}$, a real number $\beta \in {\lbrack 1,{+ \infty})}$, an integrably bounded progressively measurable set-valued map $F:{{I \times \Omega}\rightrightarrows{\mathbb{R}}^{n}}$ with closed nonempty images and a progressive selection $t \in I\mapsto{f{(t)}} \in {\overline{\text{co}}F{(t)}}$, there exists for each $\varepsilon > 0$ another progressively measurable selection $t \in I\mapsto f_{\varepsilon} \in {F{(t)}}$ such that
+
+Unfortunately, as evidenced by the following elementary counterexample, such an identity does not hold for the Itô integral. Indeed, consider the constant set-valued map ${(t,\omega)} \in {{\lbrack 0,1\rbrack} \times \Omega}\rightrightarrows F \subset {\mathbb{R}}^{2}$ defined by
+
+which is clearly integrably bounded with nonempty compact images. Fixing the constant selection $t \in {\lbrack 0,1\rbrack}\mapsto{f{(t)}}:={(\frac{1}{2},1)} \in {\overline{\text{co}}F{(t)}}$, it follows from Itô's isometry formula (see e.g. \[13, Expression (5.8)\]) that
+
+for each $\varepsilon > 0$ and any progressively measurable selection $t \in {\lbrack 0,1\rbrack}\mapsto{f_{\varepsilon}{(t)}} \in {F{(t)}}$. This violates (2.5. ‣ 2.4 Stochastic Differential Inclusions ‣ 2 Preliminaries ‣ First-Order Pontryagin Maximum Principle for Risk-Averse Stochastic Optimal Control Problems")) for each $\beta \in {\lbrack 2,{+ \infty})}$ by Hölder's inequality, whereas a simple contradiction argument based on both reverse dominated convergence and Egoroff theorems also yields the obstruction for $\beta \in {\lbrack 1,2)}$. To illustrate the contrast with the Lebesgue integral, notice that in this example one can very easily find progressively measurable selections $t \in {\lbrack 0,T\rbrack}\mapsto{\overset{\sim}{f}{(t)}} \in {F{(t)}}$ which satisfy
+
+by choosing for instance ${\overset{\sim}{f}{(t)}}:={{\mathbb{1}_{\lbrack 0,{1/2}\rbrack}{(t)}{}} + {\mathbb{1}_{\lbrack{1/2},1\rbrack}{(t)}{}}}$ for all times $t \in {\lbrack 0,1\rbrack}$.
+
+## Risk-Averse Optimal Control and Pontryagin Maximum Principle
+
+In the sequel, we will investigate Pontryagin optimality conditions for the following class of risk-averse stochastic optimal control problems
+
+Therein, the minimization is taken over the set of curves $x_{u} \in {C_{\mathcal{F}}^{2}{({{\lbrack 0,T\rbrack} \times \Omega},{\mathbb{R}}^{n})}}$ solution of (SDE) for some admissible control $u \in \mathcal{U}$, where
+
+The mapping $\rho:{{L_{\mathcal{F}_{T}}^{1}{(\Omega,{\mathbb{R}})}}\rightarrow{\mathbb{R}}}$ is a finite coherent risk measure, while $\varphi_{i}:{{\Omega \times {\mathbb{R}}^{n}}\rightarrow{\mathbb{R}}}$ for $i \in {\{ 0,{\ldots\ell}\}}$ represent a cost and functional constraints at the final time.
+
+From now on, we assume that the maps $f:{{{\lbrack 0,T\rbrack} \times \Omega \times {\mathbb{R}}^{n} \times U}\rightarrow{\mathbb{R}}^{n}}$ and $\sigma:{{{\lbrack 0,T\rbrack} \times \Omega \times {\mathbb{R}}^{n} \times U}\rightarrow{\mathbb{R}}^{d \times n}}$ satisfy hypotheses (MSD). ‣ 2.2 Stochastic Differential Equations ‣ 2 Preliminaries ‣ First-Order Pontryagin Maximum Principle for Risk-Averse Stochastic Optimal Control Problems"), and posit that the cost and constraint mappings satisfy the following assumptions.
+
+### Main Assumptions on the Cost and Constraints -- (MCC)
+
+For each $i \in {\{ 0,\ldots,\ell\}}$ and all $x \in {\mathbb{R}}^{n}$, the mapping ${\varphi_{i}{( \cdot,x)}}:{\Omega\rightarrow{\mathbb{R}}}$ is $\mathcal{F}_{T}$-measurable and such that ${\varphi_{i}{( \cdot,0)}} \in {L_{\mathcal{F}_{T}}^{1}{(\Omega,{\mathbb{R}}_{+})}}$.
+
+For every $i \in {\{ 0,\ldots,\ell\}}$ and almost every $\omega \in \Omega$, the application ${\varphi_{i}{(\omega, \cdot )}}:{{\mathbb{R}}^{n}\rightarrow{\mathbb{R}}}$ is Fréchet differentiable, with
+
+for all ${x,y} \in {\mathbb{R}}^{n}$, where the constant $L > 0$ is the same as in (MSD). ‣ 2.2 Stochastic Differential Equations ‣ 2 Preliminaries ‣ First-Order Pontryagin Maximum Principle for Risk-Averse Stochastic Optimal Control Problems")-(iii).
+
+### Remark 3.1 (On the equivalence between Bolza and Mayer problems)
+
+It is a standard fact in optimal control theory that every Bolza problem involving a running cost can be recast as a Mayer problem in which one only minimizes a final cost. Hence, the results that we prove in this article for Mayer problems still apply to Bolza problems under appropriate assumptions. Besides, one could then relax the compactness assumption on $U \subset {\mathbb{R}}^{m}$ by simply requiring that the latter be closed, provided that the running cost satisfies a Tonelli-type growth condition with respect to the control variable.
+
+Throughout this article, we will use the following terminology to refer to solutions of (OCP) using the following terminology.
+
+### Definition 3.2 (Admissible pairs and local minima for (OCP))
+
+We say that $(x,u)$ is an admissible trajectory-control pair for (OCP) if $u \in \mathcal{U}$ and $x = x_{u}$ is a solution of (SDE) satisfying ${{\mathbb{E}}\left\lbrack {\varphi_{i}{({x{(T)}})}} \right\rbrack} \leq 0$ for all $i \in {\{ 1,\ldots,\ell\}}$. Moreover, an admissible pair $(x^{\ast},u^{\ast})$ is a local minimum for (OCP) if there exists $\varepsilon > 0$ such that
+
+for every other admissible pair $(x,u)$ satisfying ${\|{x - x^{\ast}}\|}_{C_{\mathcal{F}}^{2}} \leq \varepsilon$.
+
+From now on, we assume the existence of a local minimum for (OCP), denoted $(x^{\ast},u^{\ast})$.
+
+We are now ready to state and prove our main result, which are first-order necessary optimality conditions for (OCP) in the form of a Pontryagin Maximum Principle. In what follows, we denote by $H:{{{\lbrack 0,T\rbrack} \times \Omega \times {\mathbb{R}}^{n} \times U \times {\mathbb{R}}^{n} \times {\mathbb{R}}^{n \times d}}\rightarrow{\mathbb{R}}}$ the Hamiltonian associated with (OCP), defined by
+
+for all ${(t,\omega,x,u,p,q)} \in {{\lbrack 0,T\rbrack} \times \Omega \times {\mathbb{R}}^{n} \times U \times {\mathbb{R}}^{n} \times {\mathbb{R}}^{n \times d}}$. We also consider the set of active indices at $x^{\ast}{(T)}$, which is given by
+
+Finally, for the sake of clarity in the exposition, we separate the cases of controlled and uncontrolled diffusions, as the latter can be proven under milder assumptions.
+
+### The PMP with Controlled Diffusion
+
+In the case where the control variable acts on both the drift and the diffusion terms, we need to supplement hypotheses (MSD). ‣ 2.2 Stochastic Differential Equations ‣ 2 Preliminaries ‣ First-Order Pontryagin Maximum Principle for Risk-Averse Stochastic Optimal Control Problems") and (MCC). ‣ 3 Risk-Averse Optimal Control and Pontryagin Maximum Principle ‣ First-Order Pontryagin Maximum Principle for Risk-Averse Stochastic Optimal Control Problems") with the following assumption.
+
+### Additional Assumptions for Controlled Diffusion -- (ACD)
+
+The stochastic drift $f:{{{\lbrack 0,T\rbrack} \times \Omega \times {\mathbb{R}}^{n} \times U}\rightarrow{\mathbb{R}}^{n}}$ and the diffusion term $\sigma:{{{\lbrack 0,T\rbrack} \times \Omega \times {\mathbb{R}}^{n} \times U}\rightarrow{\mathbb{R}}^{n \times d}}$ are such that the velocity sets, defined by
+
+are convex for almost every ${(t,\omega)} \in {{\lbrack 0,T\rbrack} \times \Omega}$ and all $x \in {\mathbb{R}}^{n}$.
+
+### Remark 3.3
+
+The above assumption, which has already been considered in in a similar setting, is standard in deterministic optimal control, where it is very useful to guarantee the existence of optimal controls. In particular, (ACD). ‣ 3.1 The PMP with Controlled Diffusion ‣ 3 Risk-Averse Optimal Control and Pontryagin Maximum Principle ‣ First-Order Pontryagin Maximum Principle for Risk-Averse Stochastic Optimal Control Problems") holds true e.g. when $f$ and $\sigma$ are affine in the control variable and $U$ is convex.
+
+### Theorem 3.4 (Risk-averse PMP for (OCP) with controlled diffusion)
+
+Suppose that hypotheses (MSD). ‣ 2.2 Stochastic Differential Equations ‣ 2 Preliminaries ‣ First-Order Pontryagin Maximum Principle for Risk-Averse Stochastic Optimal Control Problems"), (MCC). ‣ 3 Risk-Averse Optimal Control and Pontryagin Maximum Principle ‣ First-Order Pontryagin Maximum Principle for Risk-Averse Stochastic Optimal Control Problems"), and (ACD). ‣ 3.1 The PMP with Controlled Diffusion ‣ 3 Risk-Averse Optimal Control and Pontryagin Maximum Principle ‣ First-Order Pontryagin Maximum Principle for Risk-Averse Stochastic Optimal Control Problems") hold, and let $(x^{\ast},u^{\ast})$ be a local minimum for (OCP). Then there exists a risk parameter $\xi^{\ast} \in {\partial{\rho\left( {\varphi_{0}{({x^{\ast}{(T)}})}} \right)}}$, non-trivial Lagrange multipliers ${({\mathfrak{p}}_{0},\ldots,{\mathfrak{p}}_{\ell})} \in {{\{{- 1},0\}} \times {\mathbb{R}}_{-}^{\ell}}$ and a pair of stochastic processes ${(p^{\ast},q^{\ast})} \in {{{C_{\mathcal{F}}^{2}{({{\lbrack 0,T\rbrack} \times \Omega},{\mathbb{R}}^{n})}} \times L_{\mathcal{F}}^{2}}{({{\lbrack 0,T\rbrack} \times \Omega},{\mathbb{R}}^{n \times d})}}$ such that the following holds.
+
+The complementary slackness conditions
+
+are satisfied for each $i \in {\{ 1,\ldots,\ell\}}$.
+
+The risk parameter $\xi^{\ast} \in {\partial{\rho\left( {\varphi_{0}{({x^{\ast}{(T)}})}} \right)}}$ is characterised by the condition
+
+The processes ${(p^{\ast},q^{\ast})} \in {{{C_{\mathcal{F}}^{2}{({{\lbrack 0,T\rbrack} \times \Omega},{\mathbb{R}}^{n})}} \times L_{\mathcal{F}}^{2}}{({{\lbrack 0,T\rbrack} \times \Omega},{\mathbb{R}}^{d \times n})}}$ solve the backward adjoint equations
+
+The Pontryagin maximization condition
+
+holds almost everywhere.
+
+Furthermore, if there exists a solution $y_{g_{1},g_{2}} \in {C_{\mathcal{F}}^{2}{({{\lbrack 0,T\rbrack} \times \Omega},{\mathbb{R}}^{n})}}$ of the linearized dynamics ($\text{LSDE}_{g_{1},g_{2}}$) (see Step 1 below) that is such that
+
+for every $i \in {I^{\circ}{({x^{\ast}{(T)}})}}$, then the PMP is normal, i.e. ${\mathfrak{p}}_{0} = {- 1}$.
+
+We split the proof of Theorem 3.4 with controlled diffusion). ‣ 3.1 The PMP with Controlled Diffusion ‣ 3 Risk-Averse Optimal Control and Pontryagin Maximum Principle ‣ First-Order Pontryagin Maximum Principle for Risk-Averse Stochastic Optimal Control Problems") into five steps. In Step 1, we start by introducing a class of set-valued linearizations along candidate optimal trajectory-control pairs. We subsequently perform a separation argument on the reachable set of the corresponding linearized system and the linearizing cone to the constraints, first in the absence of qualification conditions in Step 2, and then when the constraints are qualified in Step 3. We further show in Step 4 that one can in fact select an optimal risk parameter for which the variational inequalities hold uniformly with respect to the whole reachable set, and finally conclude in Step 5 by proving that these latter yield the PMP in conjunction with the adjoint dynamics.
+
+In what follows, we will almost systematically use the convention introduced in Remark 2.11. ‣ 2.3 Set-valued Analysis ‣ 2 Preliminaries ‣ First-Order Pontryagin Maximum Principle for Risk-Averse Stochastic Optimal Control Problems") for stochastic processes, and drop all explicit dependence in the variable $\omega \in \Omega$ unless necessary.
+
+Step 1 -- Variational linearizations along $(x^{\ast},u^{\ast})$. For every ${(t,\omega,x,u)} \in {{\lbrack 0,T\rbrack} \times \Omega \times {\mathbb{R}}^{n} \times U}$, we introduce the notation
+
+and recall following hypotheses (ACD). ‣ 3.1 The PMP with Controlled Diffusion ‣ 3 Risk-Averse Optimal Control and Pontryagin Maximum Principle ‣ First-Order Pontryagin Maximum Principle for Risk-Averse Stochastic Optimal Control Problems") that the set
+
+is convex. Besides, under hypotheses (MCC). ‣ 3 Risk-Averse Optimal Control and Pontryagin Maximum Principle ‣ First-Order Pontryagin Maximum Principle for Risk-Averse Stochastic Optimal Control Problems"), one can easily prove that the set-valued mapping $F:{{{\lbrack 0,T\rbrack} \times \Omega \times {\mathbb{R}}^{n}}\rightrightarrows{\mathbb{R}}^{n + {n \times d}}}$ is integrably bounded as well as progressively measurable-Lipschitz with nonempty compact images, following e.g. \[2, Theorem 8.2.8\]. In particular, using the condensed notation of Remark 2.11. ‣ 2.3 Set-valued Analysis ‣ 2 Preliminaries ‣ First-Order Pontryagin Maximum Principle for Risk-Averse Stochastic Optimal Control Problems"), it holds that
+
+is an element of $L_{\mathcal{F}}^{2}{({{\lbrack 0,T\rbrack} \times \Omega},{\mathbb{R}}^{n + {n \times d}})}$. Moreover, it follows from Theorem 2.9. ‣ 2.3 Set-valued Analysis ‣ 2 Preliminaries ‣ First-Order Pontryagin Maximum Principle for Risk-Averse Stochastic Optimal Control Problems") that the progressively measurable set-valued map
+
+has nonempty compact and convex images, and thus admits progressive selections
+
+which belong to $L_{\mathcal{F}}^{2}{({{\lbrack 0,T\rbrack} \times \Omega},{\mathbb{R}}^{n + {n \times d}})}$.
+
+Given such a progressively measurable tangent selection $(g_{1},g_{2})$, we denote by $y_{g_{1},g_{2}} \in {C_{\mathcal{F}}^{2}{({{\lbrack 0,T\rbrack} \times \Omega},{\mathbb{R}}^{n})}}$ the unique (up to stochastic indistinguishability) solution of the linearized stochastic differential equation
+
+in which we used the condensed notations
+
+for almost every $t \in {\lbrack 0,T\rbrack}$ and each $i \in {\{ 1,\ldots,d\}}$. In the following lemma, we prove that $y_{g_{1},g_{2}}$ is continuous with respect to $(g_{1},g_{2})$ in the strong $L_{\mathcal{F}}^{2}$-topology. This result will be useful later on in the proof of the maximum principle.
+
+### Lemma 3.5
+
+There exists a constant $C > 0$ depending only on the magnitudes of $T,{\| k\|}_{L_{\mathcal{F}}^{2}}$ and $L$ such that for any given pair of progressively measurable selections
+
+### Proof
+
+Thanks to hypotheses (MSD). ‣ 2.2 Stochastic Differential Equations ‣ 2 Preliminaries ‣ First-Order Pontryagin Maximum Principle for Risk-Averse Stochastic Optimal Control Problems") and a routine application of Burkholder-Davis-Gundy's and Hölder's inequalities, we obtain for every $t \in {\lbrack 0,T\rbrack}$ that
+
+where $C > 0$ denotes some overloaded constant which only depends on the magnitudes of $T,{\| k\|}_{L_{\mathcal{F}}^{2}}$ and $L$. We then conclude by an application of Gronwäll's lemma. ∎
+
+In this context, we have the following fundamental linearization result.
+
+### Theorem 3.6 (Variational linearization)
+
+For any progressively measurable selection $t \in {\lbrack 0,T\rbrack}\mapsto{{(g_{1},g_{2})}{(t)}} \in {T_{F{(t,{x^{\ast}{(t)}})}}{(f,\sigma)}{(t,{x^{\ast}{(t)}},{u^{\ast}{(t)}})}}$ and each $\varepsilon > 0$, there exists a solution $x_{g_{1},g_{2}}^{\varepsilon} \in {C_{\mathcal{F}}^{2}{({{\lbrack 0,T\rbrack} \times \Omega},{\mathbb{R}}^{n})}}$ of the dynamics (SDI) such that
+
+where $y_{g_{1},g_{2}} \in {C_{\mathcal{F}}^{2}{({{\lbrack 0,T\rbrack} \times \Omega},{\mathbb{R}}^{n})}}$ is the unique solution of ($\text{LSDE}_{g_{1},g_{2}}$).
+
+### Proof
+
+Our proof is inspired from that of \[3, Theorem 3.12\]. We fix a progressively measurable selection $t \in {\lbrack 0,T\rbrack}\mapsto{{(g_{1},g_{2})}{(t)}} \in {T_{F{(t,{x^{\ast}{(t)}})}}{(f,\sigma)}{(t,{x^{\ast}{(t)}},{u^{\ast}{(t)}})}}$, some $\varepsilon > 0$ and consider the progressively measurable mapping
+
+It can be checked that the latter satisfies
+
+for almost every ${(t,\omega)} \in {{\lbrack 0,T\rbrack} \times \Omega}$, so that in particular $d_{\varepsilon} \in {L_{\mathcal{F}}^{2}{({{\lbrack 0,T\rbrack} \times \Omega},{\mathbb{R}})}}$. Let ${\overline{x}}_{g_{1},g_{2}}^{\varepsilon} \in {C_{\mathcal{F}}^{2}{({{\lbrack 0,T\rbrack} \times \Omega},{\mathbb{R}}^{n})}}$ be the unique (up to stochastic indistinguishability) solution of
+
+Thanks to hypotheses (MSD). ‣ 2.2 Stochastic Differential Equations ‣ 2 Preliminaries ‣ First-Order Pontryagin Maximum Principle for Risk-Averse Stochastic Optimal Control Problems") and a routine application of the Burkholder-Davis-Gundy and Hölder inequalities, we readily obtain that for every $t \in {\lbrack 0,T\rbrack}$, it holds
+
+where $C > 0$ denotes some overloaded constant which only depends on $T$ and $L$. Then, a direct application of Gronwäll's inequality leads to
+
+On the other hand, by introducing the notations
+
+for all times $t \in {\lbrack 0,T\rbrack}$, one may easily show that the process defined by
+
+solves the stochastic differential equation
+
+Thanks to hypotheses (MSD). ‣ 2.2 Stochastic Differential Equations ‣ 2 Preliminaries ‣ First-Order Pontryagin Maximum Principle for Risk-Averse Stochastic Optimal Control Problems"), it then follows from Lemma 2.4 applied to the latter dynamics that
+
+where $C > 0$ denotes some overloaded constant which only depends on the magnitudes of $T,{\| k\|}_{L_{\mathcal{F}}^{2}}$ and $L$. Observe that now that, from (3.7), we may infer that
+
+almost surely. From hypothesis (MSD). ‣ 2.2 Stochastic Differential Equations ‣ 2 Preliminaries ‣ First-Order Pontryagin Maximum Principle for Risk-Averse Stochastic Optimal Control Problems") and the dominated convergence, we thus have
+
+which allows us to conclude that
+
+To end the proof of our claim, there remains to establish the existence of a solution $x_{g_{1},g_{2}}^{\varepsilon} \in {C_{\mathcal{F}}^{2}{({{\lbrack 0,T\rbrack} \times \Omega},{\mathbb{R}}^{n})}}$ to (SDI) which satisfies
+
+By Theorem 2.9. ‣ 2.3 Set-valued Analysis ‣ 2 Preliminaries ‣ First-Order Pontryagin Maximum Principle for Risk-Averse Stochastic Optimal Control Problems"), there exists for every $\varepsilon > 0$ a progressively measurable selection $t \in {\lbrack 0,T\rbrack}\mapsto{{(h_{1}^{\varepsilon},h_{2}^{\varepsilon})}{(t)}} \in {F{(t,{x^{\ast}{(t)}})}}$ which is such that
+
+almost everywhere. Therefore, the progressively measurable maps defined by
+
+are elements of $L_{\mathcal{F}}^{2}{({{\lbrack 0,T\rbrack} \times \Omega},{\mathbb{R}}^{n + {n \times d}})}$ since they are bounded almost everywhere in norm by $2{\|{(g_{1},g_{2})}\|}$ $+ 1$, and are such that
+
+Moreover, it can be easily checked that since ${{d_{\sqrt{\varepsilon}}{(t)}}/\sqrt{\varepsilon}}\rightarrow 0^{+}$ as $\varepsilon\rightarrow 0^{+}$, one has
+
+by Lebesgue's dominated convergence theorem. Similarly, by Theorem 2.9. ‣ 2.3 Set-valued Analysis ‣ 2 Preliminaries ‣ First-Order Pontryagin Maximum Principle for Risk-Averse Stochastic Optimal Control Problems") combined with (3.9), one can find a selection $t \in {\lbrack 0,T\rbrack}\mapsto{{(\kappa_{1}^{\varepsilon},\kappa_{2}^{\varepsilon})}{(t)}} \in {F{(t,{{\overline{x}}_{g_{1},g_{2}}^{\varepsilon}{(t)}})}}$ for which
+
+holds almost everywhere. At this stage, thanks to the convexity requirement formulated in hypothesis (ACD). ‣ 3.1 The PMP with Controlled Diffusion ‣ 3 Risk-Averse Optimal Control and Pontryagin Maximum Principle ‣ First-Order Pontryagin Maximum Principle for Risk-Averse Stochastic Optimal Control Problems"), one can further observe that
+
+which implies in particular that
+
+Since ${\overline{x}}_{g_{1},g_{2}}^{\varepsilon} \in {C_{\mathcal{F}}^{2}{({{\lbrack 0,T\rbrack} \times \Omega},{\mathbb{R}}^{n})}}$ solves ($\text{SDI}_{g_{1},g_{2}}^{\varepsilon}$), we can apply Theorem 2.13. ‣ 2.4 Stochastic Differential Inclusions ‣ 2 Preliminaries ‣ First-Order Pontryagin Maximum Principle for Risk-Averse Stochastic Optimal Control Problems") to obtain the existence of a solution $x_{g_{1},g_{2}}^{\varepsilon} \in {C_{\mathcal{F}}^{2}{({{\lbrack 0,T\rbrack} \times \Omega},{\mathbb{R}}^{n})}}$ to (SDI) which satisfies
+
+This last identity together with the convergence results of (3.8)-(3.10) and the constructions detailed in (3.11)-(3.12) allows us to finally recover that
+
+thanks to (3.7), where $C > 0$ is some overloaded constant which only depends on the magnitudes of $T,{\| k\|}_{L_{\mathcal{F}}^{2}}$ and $L$, from which the thesis follows. ∎
+
+Step 2 -- Separation theorem without constraint qualification. From now on, up to relabeling the indices, we assume without loss of generality that there exists $j \in {\{ 1,\ldots,\ell\}}$ such that ${I^{\circ}{({x^{\ast}{(T)}})}} = {\{ 1,\ldots,j\}}$. In addition, we posit that
+
+as elements of $L_{\mathcal{F}_{T}}^{2}{(\Omega,{\mathbb{R}}^{n})}$. Otherwise, if ${{\nabla\varphi_{k}}{({x^{\ast}{(T)}})}} = 0$ for some $k \in {\{ 0,\ldots,j\}}$, one can observe that the statements of Theorem 3.4 with controlled diffusion). ‣ 3.1 The PMP with Controlled Diffusion ‣ 3 Risk-Averse Optimal Control and Pontryagin Maximum Principle ‣ First-Order Pontryagin Maximum Principle for Risk-Averse Stochastic Optimal Control Problems") are trivially satisfied with ${\mathfrak{p}}_{k} = 1$, ${\mathfrak{p}}_{i} = 0$ for $i \in {{\{ 0,\ldots,\ell\}} \smallsetminus {\{ k\}}}$, $p^{\ast},q^{\ast}$being set to zero, and $\xi^{\ast}$ being a solution of (3.3 ‣ Theorem 3.4 (Risk-averse PMP for (OCP) with controlled diffusion). ‣ 3.1 The PMP with Controlled Diffusion ‣ 3 Risk-Averse Optimal Control and Pontryagin Maximum Principle ‣ First-Order Pontryagin Maximum Principle for Risk-Averse Stochastic Optimal Control Problems")).
+
+By leveraging the notation introduced hereinabove, we define the reachable set of the linearized Cauchy problem ($\text{LSDE}_{g_{1},g_{2}}$) by
+
+Since the images of $T_{F{( \cdot,{x^{\ast}{( \cdot )}})}}{(f,\sigma)}{( \cdot,{x^{\ast}{( \cdot )}},{u^{\ast}{( \cdot )}})}$ are convex cones and ($\text{LSDE}_{g_{1},g_{2}}$) is linear with respect to both $y_{g_{1},g_{2}}$ and $(g_{1},g_{2})$, one can easily check that $\mathcal{R}_{T} \subset {L_{\mathcal{F}_{T}}^{2}{(\Omega,{\mathbb{R}}^{n})}}$ is a nonempty convex cone as well. At this stage, we introduce the set
+
+which is a nonempty convex cone in ${\mathbb{R}}^{j}$, and assume at first that
+
+In that case, by the separation theorem, we may infer the existence of a non-trivial element ${\mathfrak{p}} \in {{\mathbb{R}}^{j} \smallsetminus {\{ 0\}}}$ such that
+
+Observing that both $\mathcal{B}_{T}$ and ${({- \infty},0)}^{j}$ are cones while using standard results of convex analysis, the latter separation inequality implies that
+
+Step 3 -- Separation theorem with constraint qualification. We now investigate the scenario in which ${\mathcal{B}_{T} \cap {({- \infty},0)}^{j}} \neq \varnothing$, which calls for a deeper analysis in the separation argument. To this end, we introduce the nonempty convex cone of ${\mathbb{R}}^{j + 1}$
+
+and assume by contradiction that
+
+The latter identity is tantamount to the existence a progressively measurable selection $t \in {\lbrack 0,T\rbrack}\mapsto{{(g_{1},g_{2})}{(t)}} \in {T_{F{(t,{x^{\ast}{(t)}})}}{(f,\sigma)}{(t,{x^{\ast}{(t)}},{u^{\ast}{(t)}})}}$ such that
+
+At this stage, thanks to Theorem 3.6. ‣ 3.1 The PMP with Controlled Diffusion ‣ 3 Risk-Averse Optimal Control and Pontryagin Maximum Principle ‣ First-Order Pontryagin Maximum Principle for Risk-Averse Stochastic Optimal Control Problems"), we may find for every $\varepsilon > 0$ a solution $x_{g_{1},g_{2}}^{\varepsilon} \in {C_{\mathcal{F}}^{2}{({{\lbrack 0,T\rbrack} \times \Omega},{\mathbb{R}}^{n})}}$ to (SDI) which satisfies (3.6. ‣ 3.1 The PMP with Controlled Diffusion ‣ 3 Risk-Averse Optimal Control and Pontryagin Maximum Principle ‣ First-Order Pontryagin Maximum Principle for Risk-Averse Stochastic Optimal Control Problems")). In particular, from \[2, Theorem 8.1.3 and Theorem 8.2.10\] we readily obtain the existence of a progressively measurable control mapping $u_{g_{1},g_{2}}^{\varepsilon}:{{{\lbrack 0,T\rbrack} \times \Omega}\rightarrow U}$ such that $x_{g_{1},g_{2}}^{\varepsilon} = x_{u_{g_{1},g_{2}}^{\varepsilon}}$ is an admissible trajectory of (SDE). Besides, by leveraging Theorem 2.3. ‣ 2.1 Stochastic Calculus ‣ 2 Preliminaries ‣ First-Order Pontryagin Maximum Principle for Risk-Averse Stochastic Optimal Control Problems"), we may write that
+
+where we used hypothesis (MCC). ‣ 3 Risk-Averse Optimal Control and Pontryagin Maximum Principle ‣ First-Order Pontryagin Maximum Principle for Risk-Averse Stochastic Optimal Control Problems")-$({ii})$ along with the distance estimates of Theorem 3.6. ‣ 3.1 The PMP with Controlled Diffusion ‣ 3 Risk-Averse Optimal Control and Pontryagin Maximum Principle ‣ First-Order Pontryagin Maximum Principle for Risk-Averse Stochastic Optimal Control Problems") and the fact that ${\partial{\rho\left( {\varphi_{0}{({x^{\ast}{(T)}})}} \right)}} \subset {L_{\mathcal{F}_{T}}^{\infty}{(\Omega,{\mathbb{R}})}}$ is bounded by Theorem 2.3. ‣ 2.1 Stochastic Calculus ‣ 2 Preliminaries ‣ First-Order Pontryagin Maximum Principle for Risk-Averse Stochastic Optimal Control Problems"). Analogously, it holds for every $i \in {\{ 1,\ldots,j\}}$ that
+
+By combining (3.14)-(3.16) on the one hand and (3.11)-(3.17) on the other hand, we conclude that whenever $\varepsilon > 0$ is small enough, $(x_{g_{1},g_{2}}^{\varepsilon},u_{g_{1},g_{2}}^{\varepsilon})$ is an admissible pair for (OCP) whose cost is strictly lower than that of $(x^{\ast},u^{\ast})$, which contradicts our standing assumption. Whence, it necessarily holds that ${\mathcal{A}_{T} \cap {({- \infty},0)}^{j + 1}} = \varnothing$.
+
+At this stage, by applying yet again the separation theorem, we may infer the existence of a nontrivial multiplier ${({\mathfrak{p}}_{0},{\mathfrak{p}})} \triangleq {({\mathfrak{p}}_{0},{\mathfrak{p}}_{1},\ldots,{\mathfrak{p}}_{\ell})} \in {{\mathbb{R}}^{j + 1} \smallsetminus {\{ 0\}}}$ such that
+
+First, we show that we necessarily have ${\mathfrak{p}}_{0} \neq 0$. Indeed, if by contradiction we assume that ${\mathfrak{p}}_{0} = 0$, the latter inequality becomes
+
+Now, since we assumed that there exists at least one element in $c \in {{({- \infty},0)}^{j} \cap \mathcal{B}_{T}}$, we may select by continuity another point $a_{c} \in {({- \infty},0)}^{j}$ in such a way that
+
+which leads to a contradiction. Moreover, since ${({- \infty},0)}^{j}$ and $\mathcal{B}_{T}$ are both cones, we further obtain up to a renormalization by ${\mathfrak{p}}_{0}$ that ${\mathfrak{p}}_{i} \geq 0$ for every $i = {1,\ldots,j}$, and
+
+Up to trivially embedding $\mathfrak{p}$ into ${\mathbb{R}}^{\ell}$, changing its sign and merging (3.18) with (3.13), there exists a nontrivial multiplier ${({\mathfrak{p}}_{0},\ldots,{\mathfrak{p}}_{\ell})} \in {{\{{- 1},0\}} \times {\mathbb{R}}_{-}^{\ell}}$ such that
+
+and for which, thanks to Theorem 2.3. ‣ 2.1 Stochastic Calculus ‣ 2 Preliminaries ‣ First-Order Pontryagin Maximum Principle for Risk-Averse Stochastic Optimal Control Problems"), the following linearized inequality
+
+holds for any selection $t \in {\lbrack 0,T\rbrack}\mapsto{({g_{1}{(t)}},{g_{2}{(t)}})} \in {T_{F{(t,{x^{\ast}{(t)}})}}{(f,\sigma)}\left( t,{x^{\ast}{(t)}},{u^{\ast}{(t)}} \right)}$. In particular, the Lagrange multiplier $({\mathfrak{p}}_{0},\ldots,{\mathfrak{p}}_{\ell})$ is non-trivial, and complies with the complementary slackness conditions (3.2 ‣ Theorem 3.4 (Risk-averse PMP for (OCP) with controlled diffusion). ‣ 3.1 The PMP with Controlled Diffusion ‣ 3 Risk-Averse Optimal Control and Pontryagin Maximum Principle ‣ First-Order Pontryagin Maximum Principle for Risk-Averse Stochastic Optimal Control Problems")) of the PMP.
+
+Step 4 -- Universal separation theorem. In what follows, we extract further information from (3.19), by observing that the latter inequality can be rewritten as
+
+which leads us to consider the mapping
+
+that is defined for each $\xi \in {L_{\mathcal{F}_{T}}^{\infty}{(\Omega,{\mathbb{R}})}}$ and every progressively measurable selection $t \in {\lbrack 0,T\rbrack}\mapsto{({g_{1}{(t)}},{g_{2}{(t)}})} \in {T_{F{(t,{x^{\ast}{(t)}})}}\left( {{(f,\sigma)}{(t,{x^{\ast}{(t)}},{u^{\ast}{(t)}})}} \right)}$.
+
+By Theorem 2.3. ‣ 2.1 Stochastic Calculus ‣ 2 Preliminaries ‣ First-Order Pontryagin Maximum Principle for Risk-Averse Stochastic Optimal Control Problems"), the set ${\partial{\rho\left( {\varphi_{0}{({x^{\ast}{(T)}})}} \right)}} \subset {L_{\mathcal{F}_{T}}^{\infty}{(\Omega,{\mathbb{R}})}}$ is convex and weakly-^∗^ compact, whereas the set of all progressively measurable selections
+
+is a convex subset of $L_{\mathcal{F}}^{2}{({{\lbrack 0,T\rbrack} \times \Omega},{\mathbb{R}}^{n + {n \times d}})}$. Moreover, it can be checked that
+
+is continuous for the weak-^∗^ topology of $L_{\mathcal{F}_{T}}^{\infty}{(\Omega,{\mathbb{R}})}$ since ${{{{\mathfrak{p}}_{0}{\nabla\varphi_{0}}{({x^{\ast}{(T)}})}} \cdot y_{g_{1},g_{2}}}{(T)}} \in {L_{\mathcal{F}_{T}}^{1}{(\Omega,{\mathbb{R}}^{n})}}$. On the other hand, it follows from Lemma 3.5 that
+
+is continuous for the strong topology of $L_{\mathcal{F}}^{2}{({{\lbrack 0,T\rbrack} \times \Omega},{\mathbb{R}}^{n + {n \times d}})}$. Since both topologies under consideration are Hausdorff (see e.g. \[4, Proposition 3.11\] for the former), it follows from the separation result of Theorem 2.12. ‣ 2.3 Set-valued Analysis ‣ 2 Preliminaries ‣ First-Order Pontryagin Maximum Principle for Risk-Averse Stochastic Optimal Control Problems") that we can rewrite (3.20) as
+
+Because the supremum of a family of lower semicontinuous functions remains lower semicontinuous for that same topology (see e.g. \[1, Proposition 3.2.3\]), the mapping
+
+is weakly-^∗^ lower-semicontinuous. This, along with the fact that ${\partial{\rho\left( {\varphi_{0}{({x^{\ast}{(T)}})}} \right)}} \subset {L_{\mathcal{F}_{T}}^{\infty}{(\Omega,{\mathbb{R}})}}$ is weakly-^∗^ compact, yields the existence of $\xi^{\ast} \in {\partial{\rho\left( {\varphi_{0}{({x^{\ast}{(T)}})}} \right)}}$ such that
+
+In particular, this directly provides us with the condition (3.3 ‣ Theorem 3.4 (Risk-averse PMP for (OCP) with controlled diffusion). ‣ 3.1 The PMP with Controlled Diffusion ‣ 3 Risk-Averse Optimal Control and Pontryagin Maximum Principle ‣ First-Order Pontryagin Maximum Principle for Risk-Averse Stochastic Optimal Control Problems")) of the PMP as consequence of the characterization of $\partial{\rho\left( {\varphi_{0}{({x^{\ast}{(T)}})}} \right)}$ given in Theorem 2.3. ‣ 2.1 Stochastic Calculus ‣ 2 Preliminaries ‣ First-Order Pontryagin Maximum Principle for Risk-Averse Stochastic Optimal Control Problems").
+
+Step 5 -- Costate dynamics and maximisation condition. In what follows, we derive the adjoint equation and recover the maximality condition from (3.21), which will conclude the proof of Theorem 3.4 with controlled diffusion). ‣ 3.1 The PMP with Controlled Diffusion ‣ 3 Risk-Averse Optimal Control and Pontryagin Maximum Principle ‣ First-Order Pontryagin Maximum Principle for Risk-Averse Stochastic Optimal Control Problems"). While the underlying computations come from classical BSDE theory, see e.g., we reproduce them below for the sake of readability and completeness. Notice first that (3.21) straightforwardly implies that
+
+for every selection $t \in {\lbrack 0,T\rbrack}\mapsto{{(g_{1},g_{2})}{(t)}} \in {T_{F{(t,{x^{\ast}{(t)}})}}\left( {{(f,\sigma)}{(t,{x^{\ast}{(t)}},{u^{\ast}{(t)}})}} \right)}$. We denote by ${\phi,\psi} \in {L_{\mathcal{F}}^{2}{({{\lbrack 0,T\rbrack} \times \Omega},{\mathbb{R}}^{n \times n})}}$ the unique (up to stochastic indistinguishability) solutions of the matrix-valued stochastic differential equations
+
+whose well-posedness are guaranteed e.g. by \[22, Section 1.6.3\]. We list in the following lemma some properties of these maps, whose proofs rely on simple componentwise applications of the Itô formula in the spirit e.g. of \[22, Theorem 6.14, Chapter 1\].
+
+### Lemma 3.7
+
+The maps $\phi,\psi$ are elements of $C_{\mathcal{F}}^{\beta}{({{\lbrack 0,T\rbrack} \times \Omega},{\mathbb{R}}^{n \times n})}$ for every $\beta \in {\lbrack 2,{+ \infty})}$, and satisfy the identity ${\psi{(t)}} = {\phi{(t)}^{- 1}}$ for all times $t \in {\lbrack 0,T\rbrack}$.
+
+Thanks to \[22, Theorem 6.14, Chapter 1\], any solution $y_{g_{1},g_{2}} \in {C_{\mathcal{F}}^{2}{({{\lbrack 0,T\rbrack} \times \Omega},{\mathbb{R}}^{n})}}$ of ($\text{LSDE}_{g_{1},g_{2}}$) can be expressed as
+
+for all times $t \in {\lbrack 0,T\rbrack}$. At this stage, let it be noted that the stochastic process
+
+is a martingale that is uniformly bounded in $L^{2}$ as a direct consequence of Jensen's and Hölder's inequalities. Therefore, thanks to Theorem 2.1. ‣ 2.1 Stochastic Calculus ‣ 2 Preliminaries ‣ First-Order Pontryagin Maximum Principle for Risk-Averse Stochastic Optimal Control Problems"), there exist a vector $N \in {\mathbb{R}}^{n}$ and a process $\mu \in {L_{\mathcal{F}}^{2}{({{\lbrack 0,T\rbrack} \times \Omega},{\mathbb{R}}^{n \times d})}}$ such that
+
+for every $t \in {\lbrack 0,T\rbrack}$. It then follows from (3.23) and (3.24) that
+
+At this stage, thanks to integration by parts formula of the Itô calculus (see e.g. \[13, p. 116\]), it further holds that
+
+by \[13, Section 4.3 and Section 5.1 Formula (5.7)\], wherein $\langle \cdot, \cdot \rangle$ stands for standard the quadratic variation of a continuous martingale (see e.g. \[13, Section 4.3\]). Merging the previous computations finally leads to
+
+Notice at this point that, by defining the costate curves
+
+for almost every $t \in {\lbrack 0,T\rbrack}$, the variational inequality (3.22) can be rewritten as
+
+for every selection $t \in {\lbrack 0,T\rbrack}\mapsto{({g_{1}{(t)}},{g_{2}{(t)}})} \in {T_{F{(t,{x^{\ast}{(t)}})}}\left( {{(f,\sigma)}{(t,{x^{\ast}{(t)}},{u^{\ast}{(t)}})}} \right)}$.
+
+We are now going to show that (3.27) in fact yields the maximization condition. For any $u \in \mathcal{U}$, observe that the maps defined by
+
+for almost every $t \in {\lbrack 0,T\rbrack}$ are such that
+
+by construction, since we assumed that the sets ${F{(t,{x^{\ast}{(t)}})}} \subset {\mathbb{R}}^{n + {d \times n}}$ are convex. This together with (3.26) and the definition (3.1) of the Hamiltonian implies that
+
+for every $u \in \mathcal{U}$. Given an integer $m \geq 1$, consider the closed subset of control values
+
+and suppose by contradiction that the corresponding set
+
+which, by construction, is measurable with respect to the progressive $\sigma$-algebra generated by $\mathcal{F}$, has positive measure. Then, by choosing any admissible control signal ${\overset{\sim}{u}}_{m}:{{{\lbrack 0,T\rbrack} \times \Omega}\rightarrow U}$ such that ${{\overset{\sim}{u}}_{m}{(t,\omega)}} \in {{\overset{\sim}{U}}_{m}{(t,\omega)}}$ for almost every ${(t,\omega)} \in {\overset{\sim}{\mathcal{F}}}_{m}$ and ${{\overset{\sim}{u}}_{m}{(t,\omega)}} = {u^{\ast}{(t,\omega)}}$ otherwise, it holds that
+
+which contradicts (3.27). Whence, the set defined by
+
+necessarily has zero ${dt} \otimes {\mathbb{P}}$-measure, which together with (3.28)-(3.29) implies that the maximisation condition (3.5 ‣ Theorem 3.4 (Risk-averse PMP for (OCP) with controlled diffusion). ‣ 3.1 The PMP with Controlled Diffusion ‣ 3 Risk-Averse Optimal Control and Pontryagin Maximum Principle ‣ First-Order Pontryagin Maximum Principle for Risk-Averse Stochastic Optimal Control Problems")) of the PMP holds.
+
+To conclude, we now shift our focus to the dynamics of the costate variable. First, note that $p^{\ast}$ is adapted to the filtration $\mathcal{F}$ by construction, and that it has continuous sample-paths. Moreover, we may infer from a straightforward use of Doob's, Jensen's, and Hölder's inequalities, along with the facts that ${\phi,\psi} \in {C^{\beta}{({{\lbrack 0,T\rbrack} \times \Omega},{\mathbb{R}}^{n \times n})}}$ for every $\beta \in {\lbrack 2,\infty)}$ and $\xi^{\ast} \in {L_{\mathcal{F}_{T}}^{\infty}{(\Omega,{\mathbb{R}})}}$, that $p \in {C_{\mathcal{F}}^{2}{({{\lbrack 0,T\rbrack} \times \Omega},{\mathbb{R}}^{n})}}$. In addition, we have by Itô's formula that
+
+for all times $t \in {\lbrack 0,T\rbrack}$. This, combined with the definition (3.25) of $(p^{\ast},q^{\ast})$ along with that of the Hamiltonian in (3.1) allows us to deduce that
+
+where we also used the fact that ${\psi{}} = \text{Id}$ by construction. Regarding the terminal condition, observe that owing to (3.24) along with (3.25), there holds
+
+because ${\phi{(T)}} = {\psi{(T)}^{- 1}}$ and the random variable in the conditional expectation is $\mathcal{F}_{T}$-measurable, we precisely recover the adjoint dynamics posited in (3.4 ‣ Theorem 3.4 (Risk-averse PMP for (OCP) with controlled diffusion). ‣ 3.1 The PMP with Controlled Diffusion ‣ 3 Risk-Averse Optimal Control and Pontryagin Maximum Principle ‣ First-Order Pontryagin Maximum Principle for Risk-Averse Stochastic Optimal Control Problems")) of Theorem 3.4 with controlled diffusion). ‣ 3.1 The PMP with Controlled Diffusion ‣ 3 Risk-Averse Optimal Control and Pontryagin Maximum Principle ‣ First-Order Pontryagin Maximum Principle for Risk-Averse Stochastic Optimal Control Problems"). Finally, by repeating the argument developed e.g. in the proof of \[22, Theorem 2.2, Section 7.2\], we obtain that $q^{\ast} \in {L_{\mathcal{F}}^{2}{({{\lbrack 0,T\rbrack} \times \Omega},{\mathbb{R}}^{n \times d})}}$.
+
+### Uncontrolled Diffusion
+
+We now turn our attention towards the simpler scenario in which the control variable does not appear in the diffusion, namely ${\sigma{(t,\omega,x,u)}} \equiv {\sigma{(t,\omega,x)}}$. Unlike the previous situation, we may relax our assumptions and obtain the PMP without hypothesis (ACD). ‣ 3.1 The PMP with Controlled Diffusion ‣ 3 Risk-Averse Optimal Control and Pontryagin Maximum Principle ‣ First-Order Pontryagin Maximum Principle for Risk-Averse Stochastic Optimal Control Problems").
+
+### Theorem 3.8 (Risk-averse PMP for (OCP) with uncontrolled diffusion)
+
+Suppose that the diffusion term is independent of the control variable, that hypotheses (MSD). ‣ 2.2 Stochastic Differential Equations ‣ 2 Preliminaries ‣ First-Order Pontryagin Maximum Principle for Risk-Averse Stochastic Optimal Control Problems") and (MCC). ‣ 3 Risk-Averse Optimal Control and Pontryagin Maximum Principle ‣ First-Order Pontryagin Maximum Principle for Risk-Averse Stochastic Optimal Control Problems") are satisfied, and let $(x^{\ast},u^{\ast})$ be a local minimum for (OCP). Then, the conclusions of Theorem 3.4 with controlled diffusion). ‣ 3.1 The PMP with Controlled Diffusion ‣ 3 Risk-Averse Optimal Control and Pontryagin Maximum Principle ‣ First-Order Pontryagin Maximum Principle for Risk-Averse Stochastic Optimal Control Problems") hold.
+
+The proof of Theorem 3.8 with uncontrolled diffusion). ‣ 3.2 Uncontrolled Diffusion ‣ 3 Risk-Averse Optimal Control and Pontryagin Maximum Principle ‣ First-Order Pontryagin Maximum Principle for Risk-Averse Stochastic Optimal Control Problems") is almost identical to that of Theorem 3.4 with controlled diffusion). ‣ 3.1 The PMP with Controlled Diffusion ‣ 3 Risk-Averse Optimal Control and Pontryagin Maximum Principle ‣ First-Order Pontryagin Maximum Principle for Risk-Averse Stochastic Optimal Control Problems"), and we shall thus only highlight the few key modifications needed with respect to the argument developed in Section 3.1. In this context, we will work with the set-valued map
+
+Adopting the convention introduced in Remark 2.3. ‣ 2.1 Stochastic Calculus ‣ 2 Preliminaries ‣ First-Order Pontryagin Maximum Principle for Risk-Averse Stochastic Optimal Control Problems"), the set-valued maps ${(t,\omega,x)} \in {{\lbrack 0,T\rbrack} \times \Omega \times {\mathbb{R}}^{n}}\rightrightarrows{F{(t,x)}}$ and ${(t,\omega,x)} \in {{\lbrack 0,T\rbrack} \times \Omega \times {\mathbb{R}}^{n}}\rightrightarrows{\overline{\text{co}}F{(t,x)}}$ have nonempty compact images, are integrably bounded and progressively measurable-Lipschitz under hypotheses (MSD). ‣ 2.2 Stochastic Differential Equations ‣ 2 Preliminaries ‣ First-Order Pontryagin Maximum Principle for Risk-Averse Stochastic Optimal Control Problems"). Thus by Theorem 2.9. ‣ 2.3 Set-valued Analysis ‣ 2 Preliminaries ‣ First-Order Pontryagin Maximum Principle for Risk-Averse Stochastic Optimal Control Problems"), the progressive multifunction $t \in {\lbrack 0,T\rbrack}\rightrightarrows{T_{\overline{\text{co}}F{(t,{x^{\ast}{(t)}})}}\left( {f{(t,{x^{\ast}{(t)}},{u^{\ast}{(t)}})}} \right)}$ admits progressively measurable selections
+
+In what follows given such a selection, we denote by $y_{g} \in {C_{\mathcal{F}}^{2}{({{\lbrack 0,T\rbrack} \times \Omega},{\mathbb{R}}^{n})}}$ the unique (up to stochastic indistinguishability) solution of the stochastic differential equation
+
+where we used the condensed notations
+
+for almost every $t \in {\lbrack 0,T\rbrack}$ and each $i \in {\{ 1,\ldots,d\}}$. Thanks to the relaxation property of Theorem 2.14. ‣ 2.4 Stochastic Differential Inclusions ‣ 2 Preliminaries ‣ First-Order Pontryagin Maximum Principle for Risk-Averse Stochastic Optimal Control Problems"), the variational linearization studied in Theorem 3.6. ‣ 3.1 The PMP with Controlled Diffusion ‣ 3 Risk-Averse Optimal Control and Pontryagin Maximum Principle ‣ First-Order Pontryagin Maximum Principle for Risk-Averse Stochastic Optimal Control Problems") can be adapted and improved as follows for stochastic dynamics with uncontrolled diffusions.
+
+### Theorem 3.9 (Variational linearization for uncontrolled diffusions)
+
+For any progressively measurable selection $t \in {\lbrack 0,T\rbrack}\mapsto{g{(t)}} \in {T_{\overline{\text{co}}F{(t,{x^{\ast}{(t)}})}}f{(t,{x{(t)}},{u^{\ast}{(t)}})}}$ and each $\varepsilon > 0$, there exists a solution $x_{g}^{\varepsilon} \in {C_{\mathcal{F}}^{2}{({{\lbrack 0,T\rbrack} \times \Omega},{\mathbb{R}}^{n})}}$ to (SDI') such that
+
+where $y_{g} \in {C_{\mathcal{F}}^{2}{({{\lbrack 0,T\rbrack} \times \Omega},{\mathbb{R}}^{n})}}$ is the unique solution of ($\text{LSDE}_{g}$).
+
+### Proof
+
+By repeating the argument outlined earlier in the proof of Theorem 3.6. ‣ 3.1 The PMP with Controlled Diffusion ‣ 3 Risk-Averse Optimal Control and Pontryagin Maximum Principle ‣ First-Order Pontryagin Maximum Principle for Risk-Averse Stochastic Optimal Control Problems"), one may readily check that there exists a solution ${\overline{x}}_{g}^{\varepsilon} \in {C_{\mathcal{F}}^{2}{({{\lbrack 0,T\rbrack} \times \Omega},{\mathbb{R}}^{n})}}$ to the stochastic differential inclusion
+
+Besides by Theorem 2.14. ‣ 2.4 Stochastic Differential Inclusions ‣ 2 Preliminaries ‣ First-Order Pontryagin Maximum Principle for Risk-Averse Stochastic Optimal Control Problems"), there exists a solution $x_{g}^{\varepsilon} \in {C_{\mathcal{F}}^{2}{({{\lbrack 0,T\rbrack} \times \Omega},{\mathbb{R}}^{n})}}$ to (SDI') that is such that
+
+from whence the thesis follows. ∎
+
+By repeating the arguments of Step 1 and Step 2 of Section 3.1 while using the variational linearization of Theorem 3.9. ‣ 3.2 Uncontrolled Diffusion ‣ 3 Risk-Averse Optimal Control and Pontryagin Maximum Principle ‣ First-Order Pontryagin Maximum Principle for Risk-Averse Stochastic Optimal Control Problems") instead of Theorem 3.6. ‣ 3.1 The PMP with Controlled Diffusion ‣ 3 Risk-Averse Optimal Control and Pontryagin Maximum Principle ‣ First-Order Pontryagin Maximum Principle for Risk-Averse Stochastic Optimal Control Problems"), one can again recover the existence of Lagrange multipliers ${({\mathfrak{p}}_{0},\ldots,{\mathfrak{p}}_{\ell})} \in {{\{ 0,{- 1}\}} \times {\mathbb{R}}_{-}^{\ell}}$ satisfying
+
+such that the variational inequality
+
+holds for any progressively measurable selection
+
+From there on, one can prove the PMP by repeating verbatim the arguments elaborated in Step 3, Step 4 and Step 5 of Section 3.1, thus details are skipped.
+
+## Examples of application
+
+In this section, we briefly discuss general examples of risk functions and risk-averse stochastic optimal control problems which are encompassed by our results. In this context, we will consider the simple case in which $(x^{\ast},u^{\ast})$ is a local minimum for (OCP) in the case where there is no control in the diffusion and no final-time constraints. Then, Theorem 3.8 with uncontrolled diffusion). ‣ 3.2 Uncontrolled Diffusion ‣ 3 Risk-Averse Optimal Control and Pontryagin Maximum Principle ‣ First-Order Pontryagin Maximum Principle for Risk-Averse Stochastic Optimal Control Problems") shall provide us with the existence of stochastic processes ${(p^{\ast},q^{\ast})} \in {{{C_{\mathcal{F}}^{2}{({{\lbrack 0,T\rbrack} \times \Omega},{\mathbb{R}}^{n})}} \times L_{\mathcal{F}}^{2}}{({{\lbrack 0,T\rbrack} \times \Omega},{\mathbb{R}}^{d \times n})}}$ and a risk parameter $\xi^{\ast} \in {\partial{\rho\left( {\varphi_{0}{({x^{\ast}{(T)}})}} \right)}}$ for which (3.3 ‣ Theorem 3.4 (Risk-averse PMP for (OCP) with controlled diffusion). ‣ 3.1 The PMP with Controlled Diffusion ‣ 3 Risk-Averse Optimal Control and Pontryagin Maximum Principle ‣ First-Order Pontryagin Maximum Principle for Risk-Averse Stochastic Optimal Control Problems")), (3.4 ‣ Theorem 3.4 (Risk-averse PMP for (OCP) with controlled diffusion). ‣ 3.1 The PMP with Controlled Diffusion ‣ 3 Risk-Averse Optimal Control and Pontryagin Maximum Principle ‣ First-Order Pontryagin Maximum Principle for Risk-Averse Stochastic Optimal Control Problems")), and (3.5 ‣ Theorem 3.4 (Risk-averse PMP for (OCP) with controlled diffusion). ‣ 3.1 The PMP with Controlled Diffusion ‣ 3 Risk-Averse Optimal Control and Pontryagin Maximum Principle ‣ First-Order Pontryagin Maximum Principle for Risk-Averse Stochastic Optimal Control Problems")) hold with ${({\mathfrak{p}}_{0},\ldots,{\mathfrak{p}}_{\ell})} = {({- 1},0,\ldots,0)}$.
+
+### Examples of risk-parameters characterization
+
+Suppose at first that $\rho:{{L_{\mathcal{F}_{T}}^{1}{(\Omega,{\mathbb{R}})}}\rightarrow{\mathbb{R}}}$ is Fréchet differentiable, as it was for instance assumed in. This situation includes for instance the $\log$-$\exp$ utility function and the mean-variance risk measures, see e.g.. In that case, ${\partial{\rho{(Z)}}} = {\{{{\nabla\rho}{(Z)}}\}}$ for every $Z \in {L_{\mathcal{F}_{T}}^{1}{(\Omega,{\mathbb{R}})}}$, and the result of Theorem 3.4 with controlled diffusion). ‣ 3.1 The PMP with Controlled Diffusion ‣ 3 Risk-Averse Optimal Control and Pontryagin Maximum Principle ‣ First-Order Pontryagin Maximum Principle for Risk-Averse Stochastic Optimal Control Problems") hold with the uniquely determined risk parameter
+
+Suppose now that $\rho:{{L_{\mathcal{F}_{T}}^{1}{(\Omega,{\mathbb{R}})}}\rightarrow{\mathbb{R}}}$ is the prototypical example of subdifferentiable risk measure given by the Average-Value-at-Risk of a random variable $Z \in {L_{\mathcal{F}_{T}}^{1}{(\Omega,{\mathbb{R}})}}$ with level $\alpha \in {(0,1\rbrack}$, namely
+
+In that case, the results of Theorem 3.4 with controlled diffusion). ‣ 3.1 The PMP with Controlled Diffusion ‣ 3 Risk-Averse Optimal Control and Pontryagin Maximum Principle ‣ First-Order Pontryagin Maximum Principle for Risk-Averse Stochastic Optimal Control Problems") hold for some $\xi^{\ast} \in {\partial{\rho\left( {\varphi_{0}{({x^{\ast}{(T)}})}} \right)}}$, which satisfies in particular (3.3 ‣ Theorem 3.4 (Risk-averse PMP for (OCP) with controlled diffusion). ‣ 3.1 The PMP with Controlled Diffusion ‣ 3 Risk-Averse Optimal Control and Pontryagin Maximum Principle ‣ First-Order Pontryagin Maximum Principle for Risk-Averse Stochastic Optimal Control Problems")). From \[17, Example 6.16\], there exists a $({1 - \alpha})$-quantile
+
+of the cumulative distribution function $H_{\varphi_{0}{({x^{\ast}{(T)}})}}:{{\mathbb{R}}\rightarrow{\lbrack 0,1\rbrack}}$ of $\varphi_{0}{({x^{\ast}{(T)}})}$ such that
+
+### The risk-averse double integrator problem
+
+In addition to the computational examples provided hereinabove, we discuss the application of the PMP of Theorem 3.8 with uncontrolled diffusion). ‣ 3.2 Uncontrolled Diffusion ‣ 3 Risk-Averse Optimal Control and Pontryagin Maximum Principle ‣ First-Order Pontryagin Maximum Principle for Risk-Averse Stochastic Optimal Control Problems") to the following stochastic optimal planning problem
+
+in which ${y_{0},v_{0},y_{T}} \in {\mathbb{R}}$ are given such that $y_{0} < y_{T}$, the control set is defined by $\mathcal{U}:=L^{2}{({\lbrack 0,T\rbrack},{\lbrack - 1,1\rbrack}}$), and the average value-at-risk is defined as in (4.1).
+
+In what follows, we show that the PMP of Theorem 3.8 with uncontrolled diffusion). ‣ 3.2 Uncontrolled Diffusion ‣ 3 Risk-Averse Optimal Control and Pontryagin Maximum Principle ‣ First-Order Pontryagin Maximum Principle for Risk-Averse Stochastic Optimal Control Problems") provides a necessary condition for optimal solutions of (SOP) to be safe, in the sense
+
+Our definition of safe optimal solutions to (SOP) is driven by the applications, and the rationale behind it is the following. Imagine for instance that (SOP) models a one-dimensional traffic lane over which one aims at steering a vehicle from some station $y_{0}$ to a point which lies as close as possible to the end of the lane $y_{T}$. It is then of paramount importance that the vehicle stops with high probability at a point which is strictly located on the left of $y_{T}$.
+
+### Proposition 4.1 (Bang-bang principle for safe trajectories)
+
+If an optimal trajectory is safe for (SOP) in the sense of (4.3), then the optimal control is bang-bang.
+
+### Proof
+
+Suppose by contradiction that we are given a safe optimal trajectory $(y^{\ast},v^{\ast})$ driven by a control $u^{\ast}$ that is not bang-bang. It can be easily verified that the data of (SOP) satisfy Hypotheses (MCC). ‣ 3 Risk-Averse Optimal Control and Pontryagin Maximum Principle ‣ First-Order Pontryagin Maximum Principle for Risk-Averse Stochastic Optimal Control Problems"), so that by Theorem 3.8 with uncontrolled diffusion). ‣ 3.2 Uncontrolled Diffusion ‣ 3 Risk-Averse Optimal Control and Pontryagin Maximum Principle ‣ First-Order Pontryagin Maximum Principle for Risk-Averse Stochastic Optimal Control Problems"), there exist stochastic processes ${p_{y}^{\ast},p_{v}^{\ast}} \in {C_{\mathcal{F}}^{2}{({{\lbrack 0,T\rbrack} \times \Omega},{\mathbb{R}})}}$ and ${q_{y}^{\ast},q_{v}^{\ast}} \in {L_{\mathcal{F}}^{2}{({{\lbrack 0,T\rbrack} \times \Omega},{\mathbb{R}})}}$ such that
+
+where in particular $\xi^{\ast} \in {\partial{{({\text{AV@R}})}{}}}$, and for which the maximization condition
+
+holds almost everywhere. Since we assumed that $u^{\ast}$ is not bang-bang, as a consequence of (4.5) there must exist a closed interval $I \subset {\lbrack 0,T\rbrack}$ over which $p_{v}^{\ast} = 0$. Besides, it follows from standard properties of the Brownian motion applied to (4.4) that
+
+for all times $t \in {\lbrack 0,T\rbrack}$. Since $t \in {\lbrack 0,T\rbrack}\mapsto{{\mathbb{E}}{\lbrack{p_{v}^{\ast}{(t)}}\rbrack}}$ is Lipschitz by construction, it necessarily holds that ${{\mathbb{E}}{\lbrack{p_{v}^{\ast}{(t)}}\rbrack}} = 0$ on $I$, so that ${{\mathbb{E}}{\lbrack{p_{y}^{\ast}{(t)}}\rbrack}} = 0$ on $I$ as well, and thus
+
+thanks to the uniqueness of solutions to (4.6). Observing now that $\xi^{\ast} \in {\partial{{\text{AV@R}}{}}}$ by construction, it follows from Definition 2.2. ‣ 2.1 Stochastic Calculus ‣ 2 Preliminaries ‣ First-Order Pontryagin Maximum Principle for Risk-Averse Stochastic Optimal Control Problems") and Theorem 2.3. ‣ 2.1 Stochastic Calculus ‣ 2 Preliminaries ‣ First-Order Pontryagin Maximum Principle for Risk-Averse Stochastic Optimal Control Problems") that
+
+In particular, we then recover that $y_{T} \leq {{\text{AV@R}}{({y^{\ast}{(T)}})}}$ and the optimal trajectory is not safe, which contradicts our primary assumption. ∎
+
+## Conclusion and perspectives
+
+In this paper, we developed a new method for proving a first-order version of the Pontryagin Maximum Principle for non-smooth risk-averse optimal control problems, based on set-valued linearisations. The main incentive to do so was to produce optimality conditions that could encompass typical risk functions such as the AV@R, which is merely directionally differentiable. In the future, we aim at furthering these investigations in three main directions.
+
+Firstly, we want to see whether it is feasible to weaken or remove the convexity assumptions on the dynamics. Owing to the lack of relaxation property for sollutions of (SDI) illustrated in Remark 2.15. ‣ 2.4 Stochastic Differential Inclusions ‣ 2 Preliminaries ‣ First-Order Pontryagin Maximum Principle for Risk-Averse Stochastic Optimal Control Problems"), this will most likely call for innovative proof strategies. Secondly, we want to leverage the optimality conditions proposed here to design efficient numerical methods for solving risk-averse optimal control problems, such as indirect risk-averse shooting methods. Lastly, we plan to investigate whether the optimality conditions discussed in this article might yield other important structure properties on risk-averse optimal controls, such as semi-Markovianity. Usually, the fact that optimal controls exhibit a Markovian dependance with respect to the state variable usually stems from the dynamic programming and HJB equations. While these latter are still largely unavailable in the risk-averse settings, we hope that our risk-averse PMP may take over and be sufficiently powerful to carry out the analysis.

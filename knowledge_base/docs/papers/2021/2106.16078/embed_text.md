@@ -1,0 +1,360 @@
+## Introduction
+
+The study of stochastic systems with multiplicative noise (i.e., system states and inputs multiplied by noise) has a long history in control theory, and is re-emerging in the context of complex networked systems and learning-based control. In contrast to the additive-noise setting, the multiplicative-noise modeling framework has the ability to capture the coupling between noise and system states. This situation occurs in modern control systems as diverse as robotics with distance-dependent sensor errors, networked systems with noisy communication channels, modern power networks with high penetration of intermittent renewables, turbulent fluid flow, and neuronal brain networks. Linear systems with multiplicative noise are particularly attractive as a stochastic modeling framework because they remain simple enough to admit closed-form expressions for stabilization and optimal control.
+
+It is important to study identification of linear systems with multiplicative noise, because, when solving problems such as control design of multiplicative-noise linear quadratic regulator (LQR), system parameters including the nominal system matrices and the noise covariance matrix, especially the latter, generally need be known. In contrast, for the design problem of additive-noise LQR, the covariance matrix of additive noise needs not be known. Moreover, the identification problem requires further investigation; for instance, it is unclear how to formally quantify identifiability issues resulting from coupling between system states and multiplicative noise, and how to design identification algorithms to efficiently tackle the influence of multiplicative noise.
+
+Another issue that must be addressed is how to perform system identification based on multiple-trajectory data, rather than on single-trajectory data. Multiple-trajectory data arises in two broad situations: episodic tasks where a system is reset to an initial state after a finite run time, as encountered in iterative learning control and reinforcement learning; and data collected from multiple identical systems in parallel, for example, robotic-grasping dataset collected by Google running several robot arms concurrently. For multiple-trajectory data, the length of each trajectory may be small, but the number of trajectories can be large. However, the classic literature of system identification mainly focuses on studying online estimation over a single trajectory, so there is a need to study how to identify systems based on multiple-trajectory data. In addition, system identification based on multiple trajectories can be a pre-step of conducting other tasks such as control design of LQR. Thus, studying the performance of identification algorithms based on multiple trajectories is necessary for obtaining performance guarantees of later tasks.
+
+### Related Work
+
+For identification of a nominal linear system, recursive algorithms, such as the recursive least-squares algorithm, have been developed in the control literature. These algorithms can be applied to identification of linear systems with multiplicative noise, provided that certain conditions of system stability and noise hold. Non-asymptotic performance analysis of identification methods can be found in Weyer and Campi Campi and Weyer,. It has once again attracted attention from different domains and been investigated more extensively, because of recent development of random matrix theories, self-normalized martingales, and so on (see Dean et al. Matni and Tu Zheng and Li, and references therein).
+
+For estimation of noise covariance, both recursive and batch methods have been proposed over the last few decades, but most of these methods focus on the additive-noise case. In order to estimate multiplicative noise covariance, Schön et al., introduces a maximum-likelihood approach, and Kitagawa Kantas et al., utilize Bayesian frameworks. These methods, however, require prior assumptions on the noise distributions, whose incorrectness may worsen algorithm performance. Coppens and Patrinos Coppens et al., study stochastic LQR design for a special case of linear systems with multiplicative noise. It is assumed that the multiplicative noise is observed directly so that a concentration inequality can be obtained for estimates of the noise covariance. The most relevant work to our paper is Di and Lamperski which studies simultaneously estimating the nominal system parameters and noise covariance matrix based on single-trajectory data. In that paper, a self-normalizing (ellipsoidal) bound and a Euclidean (box) bound are provided for least-squares estimates, but it is not clear whether the bounds converge to zero under the setting of linear systems with multiplicative noise.
+
+There is a growing interest in system identification based on multiple-trajectory data, along with their applications in data-driven control, due to the powerful and convenient estimator schemes facilitated by resetting the system. This framework can be applied to both stable and unstable systems, because of the finite duration of each trajectory. The authors in Tu and Recht Sun et al., introduce the procedure of collecting multiple trajectories, to identify finite impulse response systems. In Dean et al. the authors develop a framework called coarse-ID control to solve the problem of LQR with unknown linear dynamics. The first step of this framework is to learn a coarse model of the unknown linear system, by observing multiple independent trajectories with finite length. However, only the last input-state pairs of the trajectories are used in the theoretical analysis of the learning algorithm. The performance of a least-squares algorithm, using all samples of every trajectory, is studied in Zheng and Li for partially observed, possibly open-loop unstable, linear systems.
+
+### Contributions
+
+This paper considers identification of linear systems with multiplicative noise from multiple-trajectory data. The contributions are three-fold:
+
+An algorithm (Algorithm 1) based on the least-squares method and multiple-trajectory data is proposed for joint identification of the nominal system matrices and the multiplicative noise covariance from multiple-trajectory data. The algorithm does not need prior knowledge of the noise or stability of the system, but requires only independent inputs with pre-designed first and second moments, relatively small length for each trajectory, and the assumption of independent and identically distributed (i.i.d.) noise with finite first and second moments. It is theoretically shown that, under the preceding conditions, the algorithm solves the identification problem.
+
+Identifiability of the noise covariance matrix is investigated (Propositions 1 and 2). It is shown that there exists an equivalent class of covariance matrices that generate the same second-moment dynamic of system states. In addition, it is studied when such equivalent class has a unique element, meaning that the covariance matrix can be uniquely determined. An explicit expression of the equivalent class is provided for the recovery of the noise covariance based on estimates given by the proposed algorithm.
+
+Asymptotic consistency of the proposed algorithm is verified (Theorem 3.10), under sufficiently exciting inputs and system controllability conditions. Non-asymptotic estimation performance is also analyzed under the assumption that the system is bounded. This analysis provides high-probability error bounds, which vanish as the number of trajectories grows to infinity (Theorems 3.16 and 3.17).
+
+Compared with Di and Lamperski the current paper provides high-probability error bounds, for the proposed algorithm, that converge to zero as the number of trajectories increases. In addition, identifiability of the noise covariance matrix is thoroughly studied, and conditions, under which the covariance matrix is uniquely determined, are provided. In our problem, because of the complicated structure of the second-moment dynamic of system states, both analysis of the error bounds and study of the identifiability require more elaborate use of tools from linear algebra and high-dimensional probability theory. The differences between this paper and its conference version are as follows. This paper studies identifiability of the noise covariance matrix in detail, demonstrating a framework to recover the equivalent class of covariance matrices. Moreover, sharper bounds for the required length of each trajectory are obtained. Finally, finite sample analysis of the proposed algorithm is provided.
+
+### Outline
+
+The remainder of the paper is organized as follows. The problem is formulated in Section 2. In Section 3 the algorithm is introduced and theoretical results are given. Numerical simulation results are presented in Section 4. Section 5 concludes the paper. Some proofs are postponed to Appendix.
+
+Denote the $n$-dimensional Euclidean space by ${\mathbb{R}}^{n}$, and the set of $n \times m$ real matrices by ${\mathbb{R}}^{n \times m}$. Let $\mathbb{N}$ stand for the set of nonnegative integers, and ${\mathbb{N}}^{+}:={{\mathbb{N}} \smallsetminus {\{ 0\}}}$. Let ${\lbrack k\rbrack}:={\{ 1,2,\ldots,k\}}$, $k \in {\mathbb{N}}^{+}$. We use $\parallel \cdot \parallel$ to denote the Euclidean norm for vectors, and use $\parallel \cdot \parallel_{F}$ and $\parallel \cdot \parallel_{2}$ to denote the Frobenius and spectral norm for matrices. The probability of an event $E$ is denoted by ${\mathbb{P}}{\{ E\}}$, and the expectation of a random vector $x$ is represented by ${\mathbb{E}}{\{ x\}}$. An event happening almost surely (a.s.) means that it happens with probability one. Let $A \times B$ be the Cartesian product of sets $A$ and $B$, namely, ${A \times B} = {\{{(a,b)}:{{a \in A},{b \in B}}\}}$. For two sequences of real numbers $a_{k}$ and $b_{k} \neq 0$, $k \in {\mathbb{N}}^{+}$, denote $a_{k} = {\mathcal{O}{(b_{k})}}$, if there exists a positive constant $C$ such that ${|{a_{k}/b_{k}}|} \leq C$ for all $k \in {\mathbb{N}}^{+}$.
+
+Let $a_{ij}$ or ${\lbrack A\rbrack}_{ij}$ represent the $(i,j)$-th entry of $A \in {\mathbb{R}}^{n \times m}$. Denote the $n$-dimensional all-one vector and all-zero vector by $\mathbf{1}_{n}$ and $\mathbf{0}_{n}$, respectively. The $n$-dimensional unit vector with $i$-th component being one is represented by $\mathbf{e}_{i}^{n}$. $I_{n}$ is the $n$-dimensional identity matrix. For two symmetric matrices ${A,B} \in {\mathbb{R}}^{n \times n}$, $A \succeq 0$ ($A \succ 0$) means that $A$ is positive semidefinite (positive definite), and $A \succeq B$ ($A \succ B$) means that ${A - B} \succeq 0$ (${A - B} \succ 0$). For a matrix $A \in {\mathbb{R}}^{n \times n}$, $\rho{(A)}$ represents the spectral radius of $A$. For a symmetric matrix $A \in {\mathbb{R}}^{n}$, denote its smallest and largest eigenvalue by $\lambda_{\min}{(A)}$ and $\lambda_{\max}{(A)}$ respectively. A block diagonal matrix $A$ with $A_{1}$, $\ldots$, $A_{k}$ on its diagonal is denoted by $\text{blockdiag}{(A_{1},\ldots,A_{k})}$.
+
+The Kronecker product of two matrices $A \in {\mathbb{R}}^{m \times n}$ and $B \in {\mathbb{R}}^{p \times q}$ is represented by $A \otimes B$. The full vectorization of $A = {\lbrack a_{ij}\rbrack} \in {\mathbb{R}}^{m \times n}$ is found by stacking the columns of $A$ (i.e., ${{vec}{(A)}} = {\lbrack{a_{11}a_{21}\cdotsa_{m1}a_{12}a_{22}\cdotsa_{mn}}\rbrack}^{\intercal}$). The symmetric vectorization (also called half-vectorization) of a symmetric matrix $A \in {\mathbb{R}}^{n \times n}$ is found by stacking the upper triangular part of the columns of $A$ (i.e., ${{svec}{(A)}} = {\lbrack{a_{11}a_{12}a_{22}\cdotsa_{1n}a_{2n}\cdotsa_{nn}}\rbrack}^{\intercal}$). The inverse operations of ${vec}{( \cdot )}$ and ${svec}{( \cdot )}$, given ${p,q} \in {\mathbb{N}}$, are the full matricization ${mat}_{p \times q}{(x)}:={({vec}{(I_{q})}^{\intercal} \otimes I_{p})}{(I_{q} \otimes x)}$ for a vector $x \in {\mathbb{R}}^{pq}$ and symmetric matricization ${smat}_{p}{(y)}$ for a vector $y \in {\mathbb{R}}^{{p{({p + 1})}}/2}$, respectively. To generalize the vectorization and matricization operations to a block matrix
+
+where $B_{ij} \in {\mathbb{R}}^{p \times q}$, define the following matrix reshaping operator $F:{{\mathbb{R}}^{{{mp} \times n}q}\rightarrow{\mathbb{R}}^{{{mn} \times p}q}}$,
+
+Then it holds that $F{(A \otimes A,m,n,m,n)} = {vec}{(A)}{vec}{(A)}^{\intercal}$ for $A \in {\mathbb{R}}^{m \times n}$, which demonstrates the correspondence between the entries of $A \otimes A$ and those of ${vec}{(A)}{vec}{(A)}^{\intercal}$. Note when $p = q = 1$, $F{( \cdot )}$ degenerates to ${vec}{( \cdot )}$. Define the inverse reshaping operator $G:{{\mathbb{R}}^{{{mn} \times p}q}\rightarrow{\mathbb{R}}^{{{mp} \times n}q}}$ as
+
+where $B \in {\mathbb{R}}^{{{mn} \times p}q}$, $B_{i}^{\intercal}$ is the $i$-th row of $B$. Thus $F$ and $G$ are inverses of each other in the sense that
+
+for any $A \in {\mathbb{R}}^{{{mn} \times p}q}$ and $B \in {\mathbb{R}}^{{{mp} \times n}q}$. In this way, $G{({vec}{(A)}{vec}{(A)}^{\intercal},m,n,m,n)} = A \otimes A$ for $A \in {\mathbb{R}}^{m \times n}$. Note that both $F$ and $G$ are linear: ${F{({A + B},m,n,p,q)}} = {{F{(A,m,n,p,q)}} + {F{(B,m,n,p,q)}}}$ for ${A,B} \in {\mathbb{R}}^{{{mp} \times n}q}$, and ${G{({A + B},m,n,p,q)}} = {{G{(A,m,n,p,q)}} + {G{(B,m,n,p,q)}}}$ for ${A,B} \in {\mathbb{R}}^{{{mn} \times p}q}$.
+
+## Problem Formulation
+
+Consider the linear system with multiplicative noise
+
+where $x_{t} \in {\mathbb{R}}^{n}$ is the system state, and $u_{t} \in {\mathbb{R}}^{m}$ is the control input, $m \leq n$. The system is described by the nominal dynamic matrix $A \in {\mathbb{R}}^{n \times n}$ and the nominal input matrix $B \in {\mathbb{R}}^{n \times m}$, and incorporates multiplicative noise terms modeled by i.i.d. and mutually independent random matrices ${\overline{A}}_{t}$ and ${\overline{B}}_{t}$, which have zero mean and covariance matrices $\Sigma_{A}:={\mathbb{E}}{\{{vec}{({\overline{A}}_{t})}{vec}{({\overline{A}}_{t})}^{T}\}} \in {\mathbb{R}}^{n^{2} \times n^{2}}$ and $\Sigma_{B}:={\mathbb{E}}{\{{vec}{({\overline{B}}_{t})}{vec}{({\overline{B}}_{t})}^{T}\}} \in {\mathbb{R}}^{{{nm} \times n}m}$, respectively. The multiplicative noise is assumed to be independent of the inputs. Note that if ${\overline{A}}_{t}$ and ${\overline{B}}_{t}$ have non-zero means $\overline{A}$ and $\overline{B}$, respectively, then we can consider a system with nominal matrix $\lbrack{A + {\overline{A}B} + \overline{B}}\rbrack$, as well as noise terms ${\overline{A}}_{t} - \overline{A}$ and ${\overline{B}}_{t} - \overline{B}$, which satisfies the preceding zero-mean assumption. The term multiplicative noise refers to that noise, ${\overline{A}}_{t}$ and ${\overline{B}}_{t}$, enters the system as multipliers of $x_{t}$ and $u_{t}$, rather than as additions. The independence of ${\overline{A}}_{t}$ and ${\overline{B}}_{t}$ is assumed for simplicity, and under this assumption the covariance matrix of the entire multiplicative noise is a block diagonal matrix ${\mathbb{E}}{\{{vec}{({\lbrack{\overline{A}}_{t}{\overline{B}}_{t}\rbrack})}{vec}{({\lbrack{\overline{A}}_{t}{\overline{B}}_{t}\rbrack})}^{\intercal}\}} = \text{blockdiag}{(\Sigma_{A},\Sigma_{B})}$. Throughout the paper, we use ${(\Sigma_{A},\Sigma_{B})} \in {{\mathbb{R}}^{n^{2} \times n^{2}} \times {\mathbb{R}}^{{{nm} \times n}m}}$ to represent this matrix. If ${\overline{A}}_{t}$ and ${\overline{B}}_{t}$ are dependent, there is an extra but amenable term on their correlations, ${\mathbb{E}}{\{{vec}{({\overline{A}}_{t})}{vec}{({\overline{B}}_{t})}^{\intercal}\}}$.
+
+An example of System is the following system studied in the optimal control literature,
+
+where $\{ p_{i,t}\}$ and $\{ q_{i,t}\}$ are mutually independent scalar random variables, with ${{\mathbb{E}}{\{ p_{i,t}\}}} = {{\mathbb{E}}{\{ q_{j,t}\}}} = 0$, ${{\mathbb{E}}{\{ p_{i,t}^{2}\}}} = \sigma_{i}^{2}$, and ${{\mathbb{E}}{\{ q_{j,t}^{2}\}}} = \delta_{j}^{2}$, ${{\forall i} \in {\lbrack r\rbrack}},{{j \in {\lbrack s\rbrack}},{t \in {\mathbb{N}}}}$. It can be seen that ${\overline{A}}_{t} = {\sum_{i = 1}^{r}{A_{i}p_{i,t}}}$ and ${\overline{B}}_{t} = {\sum_{j = 1}^{s}{B_{j}q_{j,t}}}$, where $\sigma_{i}$ and $\delta_{j}$ are the eigenvalues of $\Sigma_{A}$ and $\Sigma_{B}$, and $A_{i}$ and $B_{j}$ are the reshaped eigenvectors of $\Sigma_{A}$ and $\Sigma_{B}$. These parameters are necessary for optimal controller design. It is also possible to use System to model cyber-physical systems in which fault signals appear as multiplicative noise. For new systems with unknown parameters, the key problem is to identify the parameters in the first place. Another example of System is interconnected systems, where the nominal part captures relationships between different subsystems, and multiplicative noise characterizes randomly varying topologies.
+
+In the rest of the paper, a trajectory sample is referred to as a *rollout*. Suppose that multiple rollouts consisting of system states and inputs (i.e., $\{{{{\lbrack x_{0}^{(k)},u_{0}^{(k)},\ldots,x_{\ell - 1}^{(k)},u_{\ell - 1}^{(k)},x_{\ell}^{(k)}\rbrack},k} \in {\lbrack n_{r}\rbrack}}\}$) are available, where $\lbrack x_{0}^{(k)},u_{0}^{(k)},\ldots,x_{\ell - 1}^{(k)},u_{\ell - 1}^{(k)},x_{\ell}^{(k)}\rbrack$ is the $k$-th trajectory, $\ell$ is the length (index of the final time-step) of every rollout, and $n_{r}$ is the number of rollouts. The problem considered in this paper is as follows.
+
+Problem. Given multiple-trajectory data $\{{\lbrack x_{0}^{(k)},u_{0}^{(k)},}$ $\ldots,$ ${x_{\ell - 1}^{(k)},u_{\ell - 1}^{(k)},x_{\ell}^{(k)}\rbrack},k \in {\lbrack n_{r}\rbrack}\}$, estimate the nominal system matrix $\lbrack{AB}\rbrack$ and the noise covariance matrix $(\Sigma_{A},\Sigma_{B})$.
+
+## Identification Algorithm Based on Least-Squares and Multiple-Trajectory Data
+
+In this section, we propose and study an identification algorithm solving the considered problem. Section 3.1 studies identifiability of the noise covariance matrix, paving the way to algorithm design. Consistency of the algorithm is given by Theorem 3.10 in Section 3.2. Finally, sample complexity of the algorithm is studied in Section 3.3, and the results are provided in Theorems 3.16 and 3.17.
+
+### Moment Dynamics and Algorithm Design
+
+In this subsection, we propose an algorithm based on multiple trajectories collected independently to estimate system parameters. Before algorithm design, the effect of multiplicative noise on moment dynamics is studied, and identifiability of the noise covariance matrix is clarified.
+
+Taking the expectation of both sides of System and denoting $\mu_{t}:={{\mathbb{E}}{\{ x_{t}\}}}$ and $\nu_{t}:={{\mathbb{E}}{\{ u_{t}\}}}$ yield the first-moment dynamic of system states (i.e., the dynamic of ${\mathbb{E}}{\{ x_{t}\}}$) as follows,
+
+Denote the vectorization of the second-moment matrices of state, state-input, and input at time $t$ by $X_{t}:={{vec}{({{\mathbb{E}}{\{{x_{t}x_{t}^{\intercal}}\}}})}}$, $W_{t}:={{vec}{({{\mathbb{E}}{\{{x_{t}u_{t}^{\intercal}}\}}})}}$, $W_{t}^{\prime}:={{vec}{({{\mathbb{E}}{\{{u_{t}x_{t}^{\intercal}}\}}})}}$, and $U_{t}:={{vec}{({{\mathbb{E}}{\{{u_{t}u_{t}^{\intercal}}\}}})}}$. From the independence of ${\overline{A}}_{t}$ and ${\overline{B}}_{t}$, as well as vectorization, the second-moment dynamic of system states is
+
+where $\Sigma_{A}^{\prime} = {{\mathbb{E}}{\{{{\overline{A}}_{t} \otimes {\overline{A}}_{t}}\}}} \in {\mathbb{R}}^{n^{2} \times n^{2}}$ and $\Sigma_{B}^{\prime} = {{\mathbb{E}}{\{{{\overline{B}}_{t} \otimes {\overline{B}}_{t}}\}}} \in {\mathbb{R}}^{n^{2} \times m^{2}}$. The relation between $(\Sigma_{A},\Sigma_{B})$ and $(\Sigma_{A}^{\prime},\Sigma_{B}^{\prime})$ can be illustrated by ${F{(\Sigma_{A}^{\prime},n,n,n,n)}} = \Sigma_{A}$ and ${F{(\Sigma_{B}^{\prime},n,m,n,m)}} = \Sigma_{B}$, where the reshaping operator $F{( \cdot )}$ is defined in the notation section.
+
+An intrinsic identifiability issue arises in the second-moment dynamic. Since ${\mathbb{E}}{\{{x_{t}x_{t}^{\intercal}}\}}$ is symmetric, $X_{t}$ has ${n{({n - 1})}}/2$ pairs of identical entries corresponding to the off-diagonal entries of ${\mathbb{E}}{\{{x_{t}x_{t}^{\intercal}}\}}$ (i.e., ${{\mathbb{E}}{\{{x_{t,i}x_{t,j}}\}}} = {{\mathbb{E}}{\{{x_{t,j}x_{t,i}}\}}}$ for all ${i,j} \in {\lbrack n\rbrack}$). To remove the redundant terms, introduce binary row- and column-selection matrices, which are also called elimination and duplication matrices.
+
+To begin, notice that the redundant entries of $X_{t}$ are associated with the index set $\{{{{({j - 1})}n} + i}:{{{i,j} \in {\lbrack n\rbrack}},{i < j}}\}$. Define matrix $T_{1} \in {\mathbb{R}}^{n^{2} \times n^{2}}$ by replacing the $\lbrack{{{({j - 1})}n} + i}\rbrack$-th row of $I_{n^{2}}$ by ${(\mathbf{e}_{{{({i - 1})}n} + j}^{n^{2}})}^{\intercal}$ for all ${i,j} \in {\lbrack n\rbrack}$ with $i < j$. Note that ${\mathbb{E}}{\{{x_{t,i}x_{t,j}}\}}$ is the $\lbrack{{{({j - 1})}n} + i}\rbrack$-th entry of $X_{t}$, so $X_{t}$ is invariant under $T_{1}$ (i.e., $X_{t} = {T_{1}X_{t}}$). Furthermore, define a binary elimination matrix $P_{1}$ that picks out only the unique entries of $X_{t}$, and a complementary binary duplication matrix $Q_{1}$ which in turn reconstructs $X_{t}$ from the unique representation, by repeating the redundant entries in the proper order. These matrices are defined explicitly as $P_{1} \in {\mathbb{R}}^{{\lbrack{{n{({n + 1})}}/2}\rbrack} \times n^{2}}$ by removing the $\lbrack{{{({j - 1})}n} + i}\rbrack$-th row of $I_{n^{2}}$, ${i,j} \in {\lbrack n\rbrack}$ with $i < j$, and $Q_{1} \in {\mathbb{R}}^{n^{2} \times {\lbrack{{n{({n + 1})}}/2}\rbrack}}$ by removing the $\lbrack{{{({j - 1})}n} + i}\rbrack$-th column of $T_{1}$, ${i,j} \in {\lbrack n\rbrack}$ with $i < j$. Then one is able to freely convert between the full vectorization (with redundant entries) $X_{t}$ and the symmetric vectorization (without redundant entries) ${\overset{\sim}{X}}_{t}:={{svec}{(X_{t})}}$, by employing the linear transformations defined by the matrices $P_{1}$ and $Q_{1}$:
+
+Now apply the same arguments to the second moment of input $U_{t}$: $U_{t}$ has ${m{({m - 1})}}/2$ pairs of identical entries corresponding to the off-diagonal entries of ${\mathbb{E}}{\{{u_{t}u_{t}^{\intercal}}\}}$, so define $T_{2} \in {\mathbb{R}}^{m^{2} \times m^{2}}$, $P_{2} \in {\mathbb{R}}^{{\lbrack{{m{({m + 1})}}/2}\rbrack} \times m^{2}}$, and $Q_{2} \in {\mathbb{R}}^{m^{2} \times {\lbrack{{m{({m + 1})}}/2}\rbrack}}$ by replacing $n$ by $m$ in the definitions of $T_{1},P_{1}$, and $Q_{1}$, respectively.
+
+Applying the symmetric vectorization transformations ${\overset{\sim}{X}}_{t} = {P_{1}X_{t}}$ and ${\overset{\sim}{U}}_{t} = {P_{2}U_{t}}$ yields the second-moment dynamic with unique entries,
+
+where the penultimate equation follows from $T_{1} = {Q_{1}P_{1}}$ and $T_{2} = {Q_{2}P_{2}}$. In the last equation the following notations are introduced:
+
+Note that ${\overset{\sim}{X}}_{t}$ and ${\overset{\sim}{U}}_{t}$ have no redundant entries but are able to capture the second-moment dynamic of system states. By the definition of Kronecker product, $\Sigma_{A}^{\prime}$ and $\Sigma_{B}^{\prime}$ have the following structures.
+
+\end{matrix} & \begin{bmatrix}
+\cdots & {{\mathbb{E}}{\{{{\lbrack{\overline{B}}_{t}\rbrack}_{ip}{\lbrack{\overline{B}}_{t}\rbrack}_{jq}}\}}} & \cdots & {{\mathbb{E}}{\{{{\lbrack{\overline{B}}_{t}\rbrack}_{iq}{\lbrack{\overline{B}}_{t}\rbrack}_{jp}}\}}} & \cdots \\
+\cdots & {{\mathbb{E}}{\{{{\lbrack{\overline{B}}_{t}\rbrack}_{jp}{\lbrack{\overline{B}}_{t}\rbrack}_{iq}}\}}} & \cdots & {{\mathbb{E}}{\{{{\lbrack{\overline{B}}_{t}\rbrack}_{jq}{\lbrack{\overline{B}}_{t}\rbrack}_{ip}}\}}} & \cdots \\
+
+where ${i,j,k,l} \in {\lbrack n\rbrack}$, ${p,q} \in {\lbrack m\rbrack}$, and ${\lbrack{\overline{A}}_{t}\rbrack}_{ij}$ (${\lbrack{\overline{B}}_{t}\rbrack}_{ip}$) is the $(i,j)$-th entry of ${\overline{A}}_{t}$ ($(i,p)$-th entry of ${\overline{B}}_{t}$). If $i = j$ ($k = l$), the corresponding two rows (two columns) coincide. The following proposition demonstrates the correspondences between the entries of ${\overset{\sim}{\Sigma}}_{A}^{\prime}$ and ${\overset{\sim}{\Sigma}}_{B}^{\prime}$ and those of $\Sigma_{A}^{\prime}$ and $\Sigma_{B}^{\prime}$, respectively.
+
+### Proposition 1
+
+Denote the $(i,j)$-th entry of ${\overset{\sim}{\Sigma}}_{A}^{\prime}$ by ${\lbrack{\overset{\sim}{\Sigma}}_{A}^{\prime}\rbrack}_{ij}$. It holds for ${i,j,k,l} \in {\lbrack n\rbrack}$ with $i < j$ and $k < l$ that
+
+Denote the $(i,j)$-th entry of ${\overset{\sim}{\Sigma}}_{B}^{\prime}$ by ${\lbrack{\overset{\sim}{\Sigma}}_{B}^{\prime}\rbrack}_{ij}$. It holds for ${i,j} \in {\lbrack n\rbrack}$ with $i < j$ and ${p,q} \in {\lbrack m\rbrack}$ with $p < q$ that
+
+By observing the definitions of $P_{i}$ and $Q_{i}$, $i = {1,2}$, and the structures of $\Sigma_{A}^{\prime}$ and $\Sigma_{B}^{\prime}$ shown in, we can get the expressions of the entries of ${\overset{\sim}{\Sigma}}_{A}^{\prime}$ and ${\overset{\sim}{\Sigma}}_{B}^{\prime}$ as in the proposition. To determine their positions, note from the definition of $P_{1}$ that all of the $\lbrack{{{({j - 1})}n} + i}\rbrack$-th rows of $\Sigma_{A}^{\prime}$ are removed during the transformation $P_{1}\Sigma_{A}^{\prime}$, where $j > i$, ${i,j} \in {\lbrack n\rbrack}$. This means that the following rows above the $\lbrack{{{({i - 1})}n} + j}\rbrack$-th row of $\Sigma_{A}^{\prime}$, $i \leq j$, ${i,j} \in {\lbrack n\rbrack}$, are removed: ${{({i - 1})}n} + 1$, $\ldots$, ${{{({i - 1})}n} + i} - 1$, ${{({i - 2})}n} + 1$, $\ldots$, ${{{({i - 2})}n} + i} - 2$, $\ldots$, $n + 1$, whose total number is ${i{({i - 1})}}/2$. Thus, the $\lbrack{{{({i - 1})}n} + j}\rbrack$-th rows of $\Sigma_{A}^{\prime}$ becomes the $\lbrack{{{{({i - 1})}n} + j} - {{i{({i - 1})}}/2}}\rbrack$-th row of ${\overset{\sim}{\Sigma}}_{A}^{\prime}$, i.e., the $\lbrack{{{({i - 1})}{({n - {i/2}})}} + j}\rbrack$-th row, where $i \leq j$, ${i,j} \in {\lbrack n\rbrack}$. Applying the same argument to the columns of $\Sigma_{A}^{\prime}$ and to $\Sigma_{B}^{\prime}$, we obtain the correspondence given in the proposition.
+
+### Remark 3.1
+
+The preceding discussion indicates that $X_{t}$ is determined by $\lbrack{AB}\rbrack$ and $\lbrack{{\overset{\sim}{\Sigma}}_{A}^{\prime}{\overset{\sim}{\Sigma}}_{B}^{\prime}}\rbrack$, and the proposition shows that there exists a set of equivalent covariance matrices in the sense that they generate the same second-moment dynamic of system states, given the nominal matrix $\lbrack{AB}\rbrack$. This fact results from that the dynamic of $X_{t} = {Q_{1}{\overset{\sim}{X}}_{t}}$ only depends on $\lbrack{AB}\rbrack$ and $\lbrack{{\overset{\sim}{\Sigma}}_{A}^{\prime}{\overset{\sim}{\Sigma}}_{B}^{\prime}}\rbrack$, and is the same under all $(\Sigma_{1}^{\prime},\Sigma_{2}^{\prime})$ satisfying ${P_{1}\Sigma_{1}^{\prime}Q_{1}} = {\overset{\sim}{\Sigma}}_{A}^{\prime}$ and ${P_{2}\Sigma_{2}^{\prime}Q_{2}} = {\overset{\sim}{\Sigma}}_{B}^{\prime}$.
+
+From an entry-wise point of view, ${\mathbb{E}}{\{{{\lbrack{\overline{A}}_{t}\rbrack}_{ik}{\lbrack{\overline{A}}_{t}\rbrack}_{jl}}\}}$ and ${\mathbb{E}}{\{{{\lbrack{\overline{A}}_{t}\rbrack}_{il}{\lbrack{\overline{A}}_{t}\rbrack}_{jk}}\}}$, $i \neq j$ and $k \neq l$, have a coupled effect on the second-moment dynamic of system states. We may only estimate the sum of these two entries out of $X_{t}$, rather than their exact values, since realizations of ${\overline{A}}_{t}$ and ${\overline{B}}_{t}$ are not observed directly but indirectly through their effect on system states. Fortunately, some entries of $\Sigma_{A}^{\prime}$ and $\Sigma_{B}^{\prime}$ are identifiable, such as ${\mathbb{E}}{\{{{\lbrack{\overline{A}}_{t}\rbrack}_{ik}{\lbrack{\overline{A}}_{t}\rbrack}_{ik}}\}}$, the variance of ${\lbrack{\overline{A}}_{t}\rbrack}_{ik}$, and ${\mathbb{E}}{\{{{\lbrack{\overline{A}}_{t}\rbrack}_{ik}{\lbrack{\overline{A}}_{t}\rbrack}_{jk}}\}}$, the covariance between entries in the same column. Similar issues also appear, when estimating covariance matrices, in topics such as Kalman filtering. Critically, since these identifiable quantities uniquely generate the second-moment dynamic of system states, it suffices to estimate ${\overset{\sim}{\Sigma}}_{A}^{\prime}$ and ${\overset{\sim}{\Sigma}}_{B}^{\prime}$ for LQR design. This fact can be verified by expanding the Bellman equation; we omit the details to keep the paper concise.
+
+Given $(\Sigma_{A},\Sigma_{B})$ with $\Sigma_{A} \succeq 0$ and $\Sigma_{B} \succeq 0$ (then ${\overset{\sim}{\Sigma}}_{A}^{\prime} = {P_{1}\Sigma_{A}^{\prime}Q_{1}}$ and ${\overset{\sim}{\Sigma}}_{B}^{\prime} = {P_{2}\Sigma_{B}^{\prime}Q_{2}}$), the set of equivalent matrices discussed in Remark 3.1 can be written explicitly as follows, where positive semidefinite conditions are imposed because $\Sigma_{A}$ and $\Sigma_{B}$ are covariance matrices,
+
+with ${\Sigma_{A}{(\alpha)}}:={F{({{Q_{1}{\overset{\sim}{\Sigma}}_{A}^{\prime}Q_{1}^{\intercal}D_{n}} + E_{\alpha}},n,n,n,n)}}$ and ${\Sigma_{B}{(\beta)}}:={F{({{Q_{1}{\overset{\sim}{\Sigma}}_{B}^{\prime}Q_{2}^{\intercal}D_{m}} + E_{\beta}},n,m,n,m)}}$. Here
+
+where $\alpha = {\lbrack\alpha_{{ij},{kl}}\rbrack} \in {\mathbb{R}}^{{n^{2}{({n - 1})}^{2}}/4}$, $\beta = {\lbrack\beta_{{ij},{pq}}\rbrack} \in {\mathbb{R}}^{{nm{({n - 1})}{({m - 1})}}/4}$, ${i,j,k,l} \in {\lbrack n\rbrack}$, ${p,q} \in {\lbrack m\rbrack}$, $i < j$, $k < l$, $p < q$, $Q_{1}$ and $Q_{2}$ are given before, $D_{n}$ is an $n^{2}$-dimensional diagonal matrix with $\lbrack{{{({i - 1})}n} + i}\rbrack$-th diagonal entry being $1$ and the rest being $1/2$, $i \in {\lbrack n\rbrack}$, and $D_{m}$ is an $m^{2}$-dimensional diagonal matrix with $\lbrack{{{({p - 1})}m} + p}\rbrack$-th diagonal entry being $1$ and the rest being $1/2$, $p \in {\lbrack m\rbrack}$. Note that $S_{\Sigma}^{\ast}$ is given by two inequalities which respectively depend on $\alpha$ and $\beta$. These two inequalities are linear matrix inequalities, since the reshaping operator $F$ is linear. Obviously $S_{\Sigma}^{\ast}$ is not empty, because $(\Sigma_{A},\Sigma_{B})$ is one of its elements. The following example provides an intuitive idea of previous discussions.
+
+### Example 3.2
+
+Consider System with $n = 2$ and $m = 1$, where $X_{t} = {\lbrack{\mathbb{E}}{\{ x_{t,1}x_{t,1}\}}{\mathbb{E}}{\{ x_{t,2}x_{t,1}\}}{\mathbb{E}}{\{ x_{t,1}x_{t,2}\}}}$ ${\mathbb{E}}{\{ x_{t,2}x_{t,2}\}}\rbrack^{T}$. So ${\mathbb{E}}{\{{X_{t,2}X_{t,1}}\}}$ and ${\mathbb{E}}{\{{X_{t,1}X_{t,2}}\}}$ are identical and have the same dynamic from. Thus,
+
+According to the previously discussed simplification, from
+
+where $\sigma_{a,{ij},{kl}} = {{\mathbb{E}}{\{{{\lbrack{\overline{A}}_{t}\rbrack}_{ij}{\lbrack{\overline{A}}_{t}\rbrack}_{kl}}\}}}$ and $\sigma_{b,{ij}} = {{\mathbb{E}}{\{{\lbrack{\overline{B}}_{t}\rbrack}_{i},{\lbrack{\overline{B}}_{t}\rbrack}_{j}\}}}$, and that
+
+In this example, $\Sigma_{B}$ is unique, but based on the covariance matrix $\Sigma_{A}{(\alpha)}$, equivalent to $\Sigma_{A}$, is given by
+
+where $\alpha \in {\mathbb{R}}$ is such that ${\Sigma_{A}{(\alpha)}} \succeq 0$.
+
+### Example 3.3
+
+Consider System with ${\overline{A}}_{t} = {\sum_{i = 1}^{r}{A_{i}p_{i,t}}}$, ${\overline{B}}_{t} = {\sum_{j = 1}^{s}{B_{j}q_{j,t}}}$. Hence,
+
+Suppose that for $A_{i}$, $i \in {\lbrack r\rbrack}$, there exist $k_{i}$, $l_{i} \in {\lbrack n\rbrack}$ such that ${\lbrack A_{i}\rbrack}_{k_{i},l_{i}} \neq 0$ and ${\lbrack A_{j}\rbrack}_{k_{i},l_{i}}$ for all $j \in {{\lbrack r\rbrack} \smallsetminus {\{ i\}}}$. That is, the $(k_{i},l_{i})$-th entry of $A_{i}$ is nonzero but the $(k_{i},l_{i})$-th entry of $A_{j}$ is zero for all $j \neq i$. Then ${{\mathbb{E}}{\{{{\lbrack{\overline{A}}_{t}\rbrack}_{k_{i},l_{i}}{\lbrack{\overline{A}}_{t}\rbrack}_{k_{i},l_{i}}}\}}} = {{\lbrack A_{i}\rbrack}_{k_{i},l_{i}}^{2}{\mathbb{E}}{\{ p_{i,t}^{2}\}}} = {{\lbrack A_{i}\rbrack}_{k_{i},l_{i}}^{2}\sigma_{i}^{2}}$. From Proposition 1 we know that $\sigma_{i}^{2} = {{\mathbb{E}}{\{ p_{i,t}^{2}\}}}$ can be uniquely determined if second-moment dynamic, or ${\overset{\sim}{\Sigma}}_{A}^{\prime}$, is given. A similar conclusion holds for $\{ q_{j,t}\}$. However there are also situations where $\sigma_{i}^{2}$ cannot be uniquely determined. For instance, assume that $r \geq 2$ and for all $i \in {\lbrack r\rbrack}$, ${\lbrack A_{i}\rbrack}_{11} \neq 0$ but all other entries of $A_{i}$ are zero. Then we only have a single equation ${\sum_{i = 1}^{r}{{\lbrack A_{i}\rbrack}_{11}^{2}\sigma_{i}^{2}}} = {\lbrack{\overset{\sim}{\Sigma}}_{A}^{\prime}\rbrack}_{11}$ for $\{\sigma_{i}^{2}\}$.
+
+As shown in Example 3.2, given $(\Sigma_{A},\Sigma_{B})$ with $\Sigma_{A} \succeq 0$ and $\Sigma_{B} \succeq 0$, the set $S_{\Sigma}^{\ast}$ is not empty but may have infinitely many elements, resulting in unidentifiable entries ${\mathbb{E}}{\{{{\lbrack{\overline{A}}_{t}\rbrack}_{ik}{\lbrack{\overline{A}}_{t}\rbrack}_{jl}}\}}$ and ${\mathbb{E}}{\{{{\lbrack{\overline{B}}_{t}\rbrack}_{ip}{\lbrack{\overline{B}}_{t}\rbrack}_{jq}}\}}$, $i \neq j$, $k \neq l$, $p \neq q$, ${i,j,k,l} \in {\lbrack n\rbrack}$, ${p,q} \in {\lbrack m\rbrack}$. The following proposition gives several conditions under which the covariance matrix of the multiplicative noise can or cannot be uniquely determined from $\lbrack{{\overset{\sim}{\Sigma}}_{A}^{\prime}{\overset{\sim}{\Sigma}}_{B}^{\prime}}\rbrack$.
+
+### Proposition 2
+
+Given $(\Sigma_{A},\Sigma_{B})$ with $\Sigma_{A} \succeq 0$ and $\Sigma_{B} \succeq 0$, ${\overset{\sim}{\Sigma}}_{A}^{\prime} = {P_{1}\Sigma_{A}^{\prime}Q_{1}}$ and ${\overset{\sim}{\Sigma}}_{B}^{\prime} = {P_{2}\Sigma_{B}^{\prime}Q_{2}}$, the following results hold.\
+(i) If $n = m = 1$, then $S_{\Sigma}^{\ast}$ has a unique element. If $m = 1$, then $S^{\ast}{({\overset{\sim}{\Sigma}}_{B}^{\prime})}$ has a unique element. If $n \geq 2$ and $\Sigma_{A} \succ 0$ (resp. $m \geq 2$ and $\Sigma_{B} \succ 0$), then $S^{\ast}{({\overset{\sim}{\Sigma}}_{A}^{\prime})}$ (resp. $S^{\ast}{({\overset{\sim}{\Sigma}}_{B}^{\prime})}$) has infinitely many elements. As a result, under either condition, $S_{\Sigma}^{\ast}$ has infinitely many elements.\
+(ii) If $S^{\ast}{({\overset{\sim}{\Sigma}}_{A}^{\prime})}$ has infinitely many elements, then ${S^{\ast}{({\overset{\sim}{\Sigma}}_{A}^{\prime})}} \cap T_{A}$ has a unique element, where
+
+with constants ${\gamma_{{ij},{kl}},\delta_{{ij},{kl}},\tau_{{ij},{kl}}} \in {\mathbb{R}}$ and $\gamma_{{ij},{kl}} \neq \delta_{{ij},{kl}}$ for all $i < j$, $k < l$, ${i,j,k,l} \in {\lbrack n\rbrack}$. The same result holds for $S^{\ast}{({\overset{\sim}{\Sigma}}_{B}^{\prime})}$ by modifying the definition of $T_{A}$ according to the dimension of $\Sigma_{B}$.
+
+The first two conclusions of (i) are trivial. If $n \geq 2$, then ${\overset{\sim}{\Sigma}}_{A}^{\prime}$ has entries of the form ${{\mathbb{E}}{\{{{\lbrack{\overline{A}}_{t}\rbrack}_{ik}{\lbrack{\overline{A}}_{t}\rbrack}_{jl}}\}}} + {{\mathbb{E}}{\{{{\lbrack{\overline{A}}_{t}\rbrack}_{il}{\lbrack{\overline{A}}_{t}\rbrack}_{jk}}\}}}$. Since $\Sigma_{A} \succ 0$, its minimum eigenvalue is larger than zero. Note that from the definition of $S^{\ast}{({\overset{\sim}{\Sigma}}_{A}^{\prime})}$ there exists $\alpha^{\ast}$ such that $\Sigma_{A} = {\Sigma_{A}{(\alpha^{\ast})}}$. Because the eigenvalues of a matrix depend continuously on its entries (Theorem 2.4.9.2 of Horn and Johnson, ), $\Sigma_{A}{({\alpha^{\ast} + \varepsilon})}$ is still a positive definite matrix for small enough $\varepsilon > 0$. This proves the last result in (i). From (i), we know that if $S^{\ast}{({\overset{\sim}{\Sigma}}_{A}^{\prime})}$ has infinitely many elements, then $n \geq 2$. To show (ii), just note that if $\Sigma = {vec}{(\overline{A})}{vec}{(\overline{A})}^{\intercal}$ for some $A \in {\mathbb{R}}^{n \times n}$, then the $\lbrack{{{({k - 1})}n} + i},{{{({l - 1})}n} + j}\rbrack$-th entry of $\Sigma$ is ${\lbrack\overline{A}\rbrack}_{ik}{\lbrack\overline{A}\rbrack}_{jl}$ and the $\lbrack{{{({l - 1})}n} + i},{{{({k - 1})}n} + j}\rbrack$-th entry is ${\lbrack\overline{A}\rbrack}_{il}{\lbrack\overline{A}\rbrack}_{jk}$, $i \neq j$, $k \neq l$. Hence if $\gamma_{{ij},{kl}} \neq \delta_{{ij},{kl}}$ then we have two linearly independent equations for ${\lbrack\overline{A}\rbrack}_{ik}{\lbrack\overline{A}\rbrack}_{jl}$ and ${\lbrack\overline{A}\rbrack}_{il}{\lbrack\overline{A}\rbrack}_{jk}$ (the other one from Proposition 1 is ${{{\lbrack\overline{A}\rbrack}_{ik}{\lbrack\overline{A}\rbrack}_{jl}} + {{\lbrack\overline{A}\rbrack}_{il}{\lbrack\overline{A}\rbrack}_{jk}}} = {\lbrack{\overset{\sim}{\Sigma}}_{A}^{\prime}\rbrack}_{{{{({i - 1})}{({n - {i/2}})}} + j},{{{({k - 1})}{({n - {k/2}})}} + l}}$). So these entries can be uniquely determined, and the conclusion follows.
+
+### Remark 3.4
+
+The first part of the proposition shows that if $\Sigma_{A} \succ 0$ or $\Sigma_{B} \succ 0$ and $n \geq m \geq 2$, then it is impossible to uniquely determine $(\Sigma_{A},\Sigma_{B})$ only based on second-moment dynamic. However the second part indicates that more conditions imposed on the covariance matrix can make all entries of $\Sigma_{A}$ and $\Sigma_{B}$ identifiable. The set $T_{A}$ introduces additional constraints for ${\mathbb{E}}{\{{{\lbrack{\overline{A}}_{t}\rbrack}_{ik}{\lbrack{\overline{A}}_{t}\rbrack}_{jl}}\}}$, $i \neq j$, $k \neq l$. For example, if entries in ${\overline{A}}_{t}$ are mutually independent, then $\Sigma_{A}$ is diagonal. In this case, it holds that ${{{\mathbb{E}}{\{{{\lbrack{\overline{A}}_{t}\rbrack}_{ik}{\lbrack{\overline{A}}_{t}\rbrack}_{jl}}\}}} - {{\mathbb{E}}{\{{{\lbrack{\overline{A}}_{t}\rbrack}_{il}{\lbrack{\overline{A}}_{t}\rbrack}_{jk}}\}}}} = 0$, $i \neq j$, $k \neq l$, and hence the covariance matrix of ${\overline{A}}_{t}$ is uniquely determined.
+
+Now we are ready to propose our estimation algorithm. Following the previous discussion, we introduce an algorithm based on the first- and second-moment dynamics and. Since the exact moment dynamics are unavailable, we average over multiple independent rollouts to obtain their estimates. To get persistently exciting inputs, it is necessary to design their first and second moments in advance, in either a deterministic or a stochastic way. For example, generate the two moments from standard Gaussian and Wishart distributions, respectively, or set them periodically. The initial states of different rollouts are assumed to be i.i.d. subject to a same distribution $\mathcal{X}_{0}$ with finite second moment (see Section 3.2.2). The overall algorithm is shown in Algorithm 1, where the superscript $(k)$ represents the $k$-th rollout. Note that Algorithm 1 is different from classic recursive identification algorithms. The recursive least-squares algorithm, for example, uses only one trajectory of a system. In contrast, Algorithm 1 is based on multiple trajectories with finite length.
+
+Based on the estimates ${\hat{\overset{\sim}{\Sigma}}}_{A}^{\prime}$ and ${\hat{\overset{\sim}{\Sigma}}}_{B}^{\prime}$, it is able to obtain an estimate ${\hat{S}}_{\Sigma}^{\ast}$ of the equivalent class, via replacing ${\overset{\sim}{\Sigma}}_{A}^{\prime}$ and ${\overset{\sim}{\Sigma}}_{B}^{\prime}$ in the definition by their estimates. If the linear matrix inequalities are infeasible (i.e., ${\hat{S}}_{\Sigma}^{\ast} = \varnothing$), then project the estimates onto the positive semidefinite cone. However this situation is unlikely to happen when $n_{r}$ is large, because of the consistency of Algorithm 1 given in the next section.
+
+1:Input: Rollout length ℓ and the number of rollouts nr.
+2:Output: [Â B̂], $\lbrack{{\hat{\overset{\sim}{\Sigma}}}_{A}^{\prime}{\hat{\overset{\sim}{\Sigma}}}_{B}^{\prime}}\rbrack$.
+5: Generate νt ∈ ℝm and ${\overline{U}}_{t} \in {\mathbb{R}}^{m \times m}$ with ${\overline{U}}_{t} \succeq 0$.
+9: Generate x0(k) independently from the initial multivariate distribution 𝒳0.
+11: Generate ut(k) independently from a multivariate distribution with first moment νt and second central
+
+${:={\frac{1}{n_{r}}{\sum\limits_{k = 1}^{n_{r}}x_{t}^{(k)}}}},$
+
+${\hat{\overset{\sim}{X}}}_{t}$
+${:={\frac{1}{n_{r}}P_{1}{{vec}\left( {\sum\limits_{k = 1}^{n_{r}}{x_{t}^{(k)}{(x_{t}^{(k)})}^{\intercal}}} \right)}}},$
+
+${:={\frac{1}{n_{r}}{{vec}\left( {\sum\limits_{k = 1}^{n_{r}}{x_{t}^{(k)}\nu_{t}^{\intercal}}} \right)}} = {{vec}{({{\hat{\mu}}_{t}\nu_{t}^{\intercal}})}}},$
+
+${:={\frac{1}{n_{r}}{{vec}\left( {\sum\limits_{k = 1}^{n_{r}}{\nu_{t}{}_{}^{(k)}}} \right)}} = {{vec}{({\nu_{t}{\hat{\mu}}_{t}^{\intercal}})}}},$
+
+${:={P_{2}{{vec}{({{\overline{U}}_{t} + {\nu_{t}\nu_{t}^{\intercal}}})}}}}.$
+
+20:${\lbrack{\hat{A}\hat{B}}\rbrack} = {\underset{\lbrack{AB}\rbrack}{\text{argmin}}{\left. \{\sum_{t = 0}^{\ell - 1} \right\|{{\hat{\mu}}_{t + 1} - {{({{A{\hat{\mu}}_{t}} + {B\nu_{t}}})}\parallel}_{2}^{2}}\}}}$,
+21:Compute $\hat{\overset{\sim}{A}} = {P_{1}{({\hat{A} \otimes \hat{A}})}Q_{1}}$, $\hat{\overset{\sim}{B}} = {P_{1}{({\hat{B} \otimes \hat{B}})}Q_{2}}$, K̂B A = P1 (B̂⊗Â), and K̂A B = P1 (Â⊗B̂), where P1, P2, Q1, and Q2 are given before,
+22:${\lbrack{\hat{\overset{\sim}{\Sigma}}}_{A}^{\prime}{\hat{\overset{\sim}{\Sigma}}}_{B}^{\prime}\rbrack} = \underset{\lbrack{{\overset{\sim}{\Sigma}}_{A}^{\prime}{\overset{\sim}{\Sigma}}_{B}^{\prime}}\rbrack}{\text{argmin}}{\{\sum_{t = 0}^{\ell - 1} \parallel {\hat{\overset{\sim}{X}}}_{t + 1}}$ $- {\lbrack\overset{\sim}{A}{\hat{\overset{\sim}{X}}}_{t} + K_{BA}{\hat{W}}_{t}}$ ${+ K_{AB}{\hat{W}}_{t}^{\prime} + \overset{\sim}{B}{\overset{\sim}{U}}_{t} + {\overset{\sim}{\Sigma}}_{A}^{\prime}{\hat{\overset{\sim}{X}}}_{t} + {\overset{\sim}{\Sigma}}_{B}^{\prime}{\overset{\sim}{U}}_{t}\rbrack} \parallel_{2}^{2}\}$.
+Multiple-trajectory averaging least-squares (MALS)
+
+### Performance of Algorithm 1
+
+This section analyzes performance of Algorithm 1 by investigating the moment dynamics and.
+
+### Moment Dynamics and Input Design
+
+Provided that $\mu_{t}$ and ${\overset{\sim}{X}}_{t}$ are known, it is possible to recover the parameters via least-squares as in lines $14$-$16$ in Algorithm 1. Denote
+
+where $C_{t} = {{\overset{\sim}{X}}_{t} - \left( {{\overset{\sim}{A}{\overset{\sim}{X}}_{t - 1}} + {K_{BA}W_{t - 1}} + {K_{AB}W_{t - 1}^{\prime}} + {\overset{\sim}{B}{\overset{\sim}{U}}_{t - 1}}} \right)}$, $1 \leq t \leq \ell$. Then closed-form solutions of the least-squares problems are
+
+where $\dagger$ represents the pseudoinverse. When the inverse matrices exist, the solutions are identical to true values; that is, ${\lbrack{\hat{A}\hat{B}}\rbrack} = {\lbrack{AB}\rbrack}$ and ${\lbrack{{\hat{\overset{\sim}{\Sigma}}}_{A}^{\prime}{\hat{\overset{\sim}{\Sigma}}}_{B}^{\prime}}\rbrack} = {\lbrack{{\overset{\sim}{\Sigma}}_{A}^{\prime}{\overset{\sim}{\Sigma}}_{B}^{\prime}}\rbrack}$. Hence, the first question towards the consistency of Algorithm 1 is whether the matrices ${\mathbf{Z}\mathbf{Z}}^{\intercal}$ and ${\mathbf{D}\mathbf{D}}^{\intercal}$ are invertible. As to be shown, designing a proper input sequence ensures this invertibility, if systems $(A,B)$ and $({\overset{\sim}{A} + {\overset{\sim}{\Sigma}}_{A}^{\prime}},{\overset{\sim}{B} + {\overset{\sim}{\Sigma}}_{B}^{\prime}})$ are controllable, and the rollout length $\ell$ is large enough.
+
+### Proposition 3
+
+Suppose that $\ell \geq {n + m}$ and $(A,B)$ is controllable. For fixed $\mu_{0} \in {\mathbb{R}}^{n}$, the matrix $\mathbf{Z}$ has full row rank, and consequently ${\mathbf{Z}\mathbf{Z}}^{\intercal}$ is invertible, for almost all ${\lbrack{\nu_{0}^{\intercal}\cdots\nu_{\ell - 1}^{\intercal}}\rbrack}^{\intercal} \in {\mathbb{R}}^{m\ell}$.
+
+### Remark 3.5
+
+The proposition shows that for large enough rollout length, the full row rankness of $\mathbf{Z}$ can be guaranteed for almost all ${\lbrack{\nu_{0}^{\intercal}\cdots\nu_{\ell - 1}^{\intercal}}\rbrack}^{\intercal} \in {\mathbb{R}}^{m\ell}$. The controllability of $(A,B)$ plays a key role in the proof, similar to classic results on identification of linear systems. The condition $\ell \geq {n + m}$ is necessary for the invertibility of ${\mathbf{Z}\mathbf{Z}}^{\intercal}$. This lower bound is much smaller than that given in Xing et al.,. According to the proposition, ${\mathbf{Z}\mathbf{Z}}^{\intercal}$ is invertible with probability one if the first moments of inputs are generated i.i.d. from a distribution absolutely continuous with respect to Lebesgue measure (e.g., Gaussian distribution or uniform distribution). This proposition can be seen as a generalization of the single-input case studied in Schmidt et al.,.
+
+### Proposition 4
+
+Suppose that $\ell \geq {{\lbrack{{n{({n + 1})}} + {m{({m + 1})}}}\rbrack}/2}$ and $({\overset{\sim}{A} + {\overset{\sim}{\Sigma}}_{A}^{\prime}},{\overset{\sim}{B} + {\overset{\sim}{\Sigma}}_{B}^{\prime}})$ is controllable. For fixed $\mu_{0} \in {\mathbb{R}}^{n}$ and ${\overset{\sim}{X}}_{0} \in {\mathbb{R}}^{{n{({n + 1})}}/2}$, the matrix $\mathbf{D}$ has full row rank, and consequently ${\mathbf{D}\mathbf{D}}^{\intercal}$ is invertible, for almost all $\lbrack\nu_{0}^{\intercal}\cdots\nu_{\ell - 1}^{\intercal}{svec}{({\overline{U}}_{0})}^{\intercal}$ $\cdots$ ${{svec}{({\overline{U}}_{\ell - 1})})}^{\intercal}\rbrack^{\intercal} \in {\mathbb{R}}^{{\ellm{({m + 3})}}/2}$, where ${\overline{U}}_{t}$ is defined in line 2 of Algorithm 1.
+
+### Remark 3.6
+
+The controllability condition in Proposition 4 reflects the nature of the multiplicative noise (i.e., coupling between ${\overline{A}}_{t}$ and $x_{t}$, and that between ${\overline{B}}_{t}$ and $u_{t}$). The result indicates that a controllability condition on may be necessary to ensure successful identification. The lower bound for $\ell$ is necessary for the invertibility of ${\mathbf{D}\mathbf{D}}^{\intercal}$, and is much smaller than that given in Xing et al.,. As in Algorithm 1, ${\overset{\sim}{U}}_{t} = {{svec}{({{\overline{U}}_{t} + {\nu_{t}\nu_{t}^{\intercal}}})}}$, so random generation of $\nu_{t}$ and ${\overline{U}}_{t}$ ensures ${\mathbf{D}\mathbf{D}}^{\intercal}$ is invertible with probability one.
+
+We summarize the preceding two results in the following corollary.
+
+### Corollary 3.7
+
+Suppose that $\ell \geq {{\lbrack{{n{({n + 1})}} + {m{({m + 1})}}}\rbrack}/2}$, and both $(A,B)$ and $({\overset{\sim}{A} + {\overset{\sim}{\Sigma}}_{A}^{\prime}},{\overset{\sim}{B} + {\overset{\sim}{\Sigma}}_{B}^{\prime}})$ are controllable. For fixed $\mu_{0} \in {\mathbb{R}}^{n}$ and ${\overset{\sim}{X}}_{0} \in {\mathbb{R}}^{{n{({n + 1})}}/2}$, the matrices ${\mathbf{Z}\mathbf{Z}}^{\intercal}$ and ${\mathbf{D}\mathbf{D}}^{\intercal}$ are invertible, for almost all $\lbrack\nu_{0}^{\intercal}\cdots\nu_{\ell - 1}^{\intercal}{svec}{({\overline{U}}_{0})}^{\intercal}$ $\cdots$ ${{svec}{({\overline{U}}_{\ell - 1})})}^{\intercal}\rbrack^{\intercal} \in {\mathbb{R}}^{{\ellm{({m + 3})}}/2}$, where ${\overline{U}}_{t}$ is defined in line 2 of Algorithm 1.
+
+### Remark 3.8
+
+The corollary implies that the existence of ${({\mathbf{Z}\mathbf{Z}}^{\intercal})}^{- 1}$ and ${({\mathbf{D}\mathbf{D}}^{\intercal})}^{- 1}$ can be guaranteed with probability one, as long as both $\nu_{t}$ and ${\overline{U}}_{t}$ are independently generated from distributions that is absolutely continuous with respect to Lebesgue measure. For example, the entries of $\nu_{t}$ are generated i.i.d. from a non-degenerate Gaussian distribution and then ${\overline{U}}_{t}$ is generated i.i.d. from a non-degenerate Wishart distribution, $0 \leq t \leq {\ell - 1}$.
+
+### Asymptotic Consistency
+
+In this subsection, we assume that the expectations and covariance matrices of inputs have been generated as discussed in the previous section, and that both ${\mathbf{Z}\mathbf{Z}}^{\intercal}$ and ${\mathbf{D}\mathbf{D}}^{\intercal}$ have been designed to be invertible. The closed-form estimates generated by Algorithm 1 are
+
+and ${\hat{C}}_{t} = {{\hat{\overset{\sim}{X}}}_{t} - \left( {{\hat{\overset{\sim}{A}}{\hat{\overset{\sim}{X}}}_{t - 1}} + {{\hat{K}}_{BA}{\hat{W}}_{t - 1}} + {{\hat{K}}_{AB}{\hat{W}}_{t - 1}^{\prime}} + {\hat{\overset{\sim}{B}}{\overset{\sim}{U}}_{t - 1}}} \right)}$, $1 \leq t \leq \ell$. Here $\hat{\overset{\sim}{A}}$, $\hat{\overset{\sim}{B}}$, ${\hat{K}}_{AB}$, and ${\hat{K}}_{BA}$ are estimates of $\overset{\sim}{A}$, $\overset{\sim}{B}$, $K_{AB}$, and $K_{BA}$, obtained from $\hat{A}$ and $\hat{B}$ given by Algorithm 1. The estimates depend on the number of rollouts $n_{r}$, which is omitted for convenience. For the convergence result, we present the following assumptions.
+
+### Assumption 1
+
+For all rollouts indexed by $k \in {\lbrack n_{r}\rbrack}$, the below conditions hold.\
+(i) The rollout length is $\ell \geq {{\lbrack{{n{({n + 1})}} + {m{({m + 1})}}}\rbrack}/2}$.\
+(ii) The initial states ${x_{0}^{(k)},k} \in {\lbrack n_{r}\rbrack}$, are i.i.d. subject to the same distribution $\mathcal{X}_{0}$ with finite second moment, and are independent of the multiplicative noise and inputs.\
+(iii) $\{{{{{\overline{A}}_{t}^{(k)},0} \leq t \leq \ell},{k \in {\lbrack n_{r}\rbrack}}}\}$ and $\{{{{{\overline{B}}_{t}^{(k)},0} \leq t \leq \ell},{k \in {\lbrack n_{r}\rbrack}}}\}$, are i.i.d. sequences respectively and are mutually independent, both with zero mean and finite second moments (i.e., ${\mathbb{E}}{\{{\overline{A}}_{t}^{(k)}\}}$ and ${\mathbb{E}}{\{{\overline{B}}_{t}^{(k)}\}}$ are zero matrices, and ${{\|\Sigma_{A}\|}_{2},{\|\Sigma_{B}\|}_{2}} < \infty$).\
+(iv) The parameters of inputs are given by lines $1$-$3$ of Algorithm 1, and the inputs are generated, according to line $7$ of Algorithm 1. The inputs and noise are independent.\
+(v) Both ${\mathbf{Z}\mathbf{Z}}^{\intercal}$ and ${\mathbf{D}\mathbf{D}}^{\intercal}$ are invertible.
+
+### Remark 3.9
+
+From Corollary 3.7, the lower bound of the rollout length in Assumption 1 (i) is necessary for estimating the noise covariance matrix, whereas, from Proposition 3, trajectories with length $\ell \geq {n + m}$ may be enough for estimating the nominal system matrix. The initial states of different trajectories need not start with the same value, but it is required that they have the same first and second moments (Assumption 1 (ii)). The mutual independence of noise at different time steps in one trajectory is a standard assumption (Assumption 1 (iii)), but the results in this paper still hold, if the noise sequence in the same trajectory is dependent, but the noise sequences in different trajectories are mutually independent and the noise has zero mean and the same second moment. The physical meaning of the independence between the noise and the inputs in Assumption 1 (iv) is that the former is an intrinsic part of the system and cannot be influenced by inputs. To keep the analysis concise, we separately discuss the input design (Section 3.2.1) and the performance of Algorithm 1. Assumption 1 (v) indicates that the input design yields invertible ${\mathbf{Z}\mathbf{Z}}^{\intercal}$ and ${\mathbf{D}\mathbf{D}}^{\intercal}$, but note that it implicitly assumes the controllability of the first- and second-moment dynamics of system states.
+
+Under Assumption 1 the rollouts $\lbrack x_{0}^{(k)},\ldots,x_{l}^{(k)}\rbrack$, $k \in {\lbrack n_{r}\rbrack}$, are i.i.d., so the following consistency result can be obtained from strong law of large numbers.
+
+### Theorem 3.10
+
+(Consistency) Suppose that Assumption 1 holds, then the estimators - are asymptotically consistent, namely,
+
+with probability one as the number of rollouts $n_{r}\rightarrow\infty$.
+
+### Remark 3.11
+
+This theorem indicates that consistency of Algorithm 1 may hold even when the rollout length is relatively small. In Di and Lamperski the estimation of the first and second moments of multiplicative noise is decoupled, whereas here the estimate of $\lbrack{{\overset{\sim}{\Sigma}}_{A}^{\prime}{\overset{\sim}{\Sigma}}_{B}^{\prime}}\rbrack$ relies on $\lbrack{\hat{A}\hat{B}}\rbrack$. The coupling exists because here the noise covariance matrix, which from definition depends on the mean of the noise, is estimated. Note that $\ell$ is assumed to be fixed and we do not consider the case where $\ell\rightarrow\infty$, since an averaging step is used in Algorithm 1. Study of the case with increasing rollout length is left to future work.
+
+### Finite-Sample Analysis
+
+This subsection studies finite-sample performance of Algorithm 1, demonstrating its non-asymptotic behavior. The existence of multiplicative noise complicates the analysis, so the following assumptions, ensuring that the system is bounded a.s., are introduced.
+
+### Assumption 2
+
+For all rollouts indexed by $k \in {\lbrack n_{r}\rbrack}$, the following conditions hold.\
+(i) The initial state is bounded a.s. for all $k \in {\lbrack n_{r}\rbrack}$ as
+
+\(ii\) The inputs are bounded a.s. for all $0 \leq t \leq {\ell - 1}$ and $k \in {\lbrack n_{r}\rbrack}$ as
+
+\(iii\) The multiplicative noise, ${\overline{A}}_{t}^{(k)}$ and ${\overline{B}}_{t}^{(k)}$, is bounded a.s. for all $0 \leq t \leq {\ell - 1}$ and $k \in {\lbrack n_{r}\rbrack}$ as
+
+### Remark 3.12
+
+The assumption of bounded multiplicative noise is reasonable for physical systems, which cannot have infinite variations. For example, in interconnected systems, the noise represents randomly varying topologies of subsystems, and is naturally bounded.
+
+Introduce the state- and input-deviation quantities
+
+The next proposition is a natural consequence of Assumption 2.
+
+### Proposition 5
+
+Under Assumption 2, the following results hold.\
+(i) The initial state-deviation is bounded a.s. for all rollouts $k \in {\lbrack n_{r}\rbrack}$ as
+
+\(ii\) The outer product initial state deviation is bounded a.s. for all rollouts $k \in {\lbrack n_{r}\rbrack}$ as
+
+\(iii\) The input-deviations are bounded a.s. for all $0 \leq t \leq {\ell - 1}$ and $k \in {\lbrack n_{r}\rbrack}$ as
+
+\(iv\) The Kronecker products of ${\overline{A}}_{t}^{(k)}$ and ${\overline{B}}_{t}^{(k)}$ are bounded a.s. for all $0 \leq t \leq {\ell - 1}$ and $k \in {\lbrack n_{r}\rbrack}$ as
+
+### Remark 3.13
+
+This proposition captures the deviations of random components of System from their expectations. Using the bounds in Assumption 2 one could upper-bound these deviations, for instance,
+
+However, these bounds may not depend on those in Assumption 2. For example, when $x_{0}^{(k)}$ is a nonzero constant, $c_{\mu} = 0$ but $c_{X}$ is positive.
+
+The boundedness of the states and state-deviations follows from Assumptions 1 and 2 according to the following statement.
+
+### Lemma 3.14
+
+Suppose that Assumptions 1 and 2 hold, then for all $k \in {\lbrack n_{r}\rbrack}$ and $0 \leq t \leq \ell$ we have that
+
+### Remark 3.15
+
+The quantity $c_{M}$ can be interpreted as a bound on the radius from the origin to the outer boundary of the set of reachable states from any valid $x_{0}$ over $\ell$ time steps. If the system is not robustly stable in the sense that $c_{A} > 1$, then the limit as $\ell\rightarrow\infty$ of $c_{M}$ could be infinite. However, since we consider only finite-length rollouts, $c_{M}$ is finite regardless of the stability properties of the system.
+
+Analogous interpretations follow for the quantity $c_{N}$ and the reachable state-deviations. Notice that the constants $c_{N}$ grows with increasing maximum initial state and input deviations $c_{\mu}$ and $c_{\nu}$, and maximum noise magnitudes $c_{\overline{A}}$ and $c_{\overline{B}}$. Conversely, $c_{N}$ vanishes as those quantities become smaller, i.e. in the case that the initial state $x_{0}$ is a fixed deterministic value, the inputs $u_{t}$ follow a deterministic sequence, and there is no multiplicative noise. Likewise, $c_{F}$ vanishes in such a scenario, so that $c_{\DeltaX} = c_{FX} = c_{FU} = c_{FXU} = 0$.
+
+The following theorems state finite-sample results for the estimates of $\lbrack{AB}\rbrack$ and $\lbrack{{\overset{\sim}{\Sigma}}_{A}^{\prime}{\overset{\sim}{\Sigma}}_{B}^{\prime}}\rbrack$, whose proofs are given in Appendices F and G, respectively.
+
+### Theorem 3.16
+
+Suppose that Assumptions 1 and 2 hold. Fix a failure probability $\delta \in {}$. It holds with probability at least $1 - \delta$ that
+
+### Theorem 3.17
+
+Under the same condition of Theorem 3.16, with probability at least $1 - \delta$, it holds that
+
+### Remark 3.18
+
+In Theorems 3.16 and 3.17, high-probability upper bounds are given for the estimates of $\lbrack{AB}\rbrack$ and $\lbrack{{\overset{\sim}{\Sigma}}_{A}^{\prime}{\overset{\sim}{\Sigma}}_{B}^{\prime}}\rbrack$. It can be observed that these bounds shrink as $\mathcal{O}\left( {1/\sqrt{n_{r}}} \right)$ with the number of rollouts, and converge to zero as the number of rollouts grows to infinity, indicating the consistency of the estimators. Note that the bounds are deterministic, although they depend on the failure probability $\delta$. The theorems also indicate that the probability of the estimation error exceeding an arbitrary positive constant decays exponentially fast with the number of rollouts, which is illustrated in Section 4.1.
+
+The $\mathcal{O}{( \cdot )}$ notation hides the coefficients of the error bounds, and the polynomial and exponential factors of $n$ and $m$ in the logarithm term. Their explicit forms are given in Appendices F and G, respectively. The coefficient of the estimation error of $\lbrack{AB}\rbrack$ increases with ${\|\mathbf{Y}\|}_{2}$, ${\|\mathbf{Z}\|}_{2}$, and the bound of the system, but decreases with the minimum eigenvalue of ${\mathbf{Z}\mathbf{Z}}^{\intercal}$. Similarly, the coefficient of the estimation error of $\lbrack{{\overset{\sim}{\Sigma}}_{A}^{\prime}{\overset{\sim}{\Sigma}}_{B}^{\prime}}\rbrack$ decreases with the minimum eigenvalue of ${\mathbf{D}\mathbf{D}}^{\intercal}$, but increases with ${\|\mathbf{C}\|}_{2}$, ${\|\mathbf{D}\|}_{2}$, and the bound of the system. It also increases with ${\| A\|}_{2}$, ${\| B\|}_{2}$, and quantities related to the second-moment dynamic of system states, because of the dependence of $\lbrack{{\hat{\overset{\sim}{\Sigma}}}_{A}^{\prime}{\hat{\overset{\sim}{\Sigma}}}_{B}^{\prime}}\rbrack$ on $\lbrack{\hat{A}\hat{B}}\rbrack$. From definition, $\mathbf{Y}$, $\mathbf{Z}$, $\mathbf{C}$, and $\mathbf{D}$ depend on system parameters and inputs, so proper input design could reduce the estimation error. It remains for future study how to design the moments of inputs so that the coefficients of the bounds can achieve their smallest values, and how to obtain data-dependent bounds, because the nominal system matrix is unknown.
+
+In Di and Lamperski the authors study identification of System from single-trajectory data, by developing error bounds for a least-squares algorithm, but it is unclear under what conditions of System these error bounds converge to zero. In contrast, our analysis provides sufficient conditions under which the error bounds for estimates given by Algorithm 1 vanish. The results show that a relatively small rollout length is enough to guarantee consistency, but the current bounds imply that longer rollout length $\ell$ may lead to worse performance, which seems to be contrary to the intuition that longer trajectory provides more information. This could result from the averaging step which eliminates some excitation. Future work will consider how to use the data more efficiently.
+
+## Numerical Simulations
+
+In this section we empirically validate the theoretical results for Algorithm 1, and compare its performance with the recursive least-squares algorithm based on single-trajectory data.
+
+### Consistency and Finite-Sample Result
+
+This subsection considers identification of the $2$-dimensional system discussed in Example 3.2 with parameters
+
+According to the reshaping operator $G$ defined in the notation section and the discussion in Example 3.2, it holds that
+
+A simulated experiment is conducted with rollout data of length $\ell = 4$. For $0 \leq t \leq 3$, $\nu_{t}$ is generated independently from uniform distribution $\mathcal{U}{({\lbrack 0,1\rbrack})}$ and then fixed. Three types of inputs are considered: Gaussian, uniform, and deterministic inputs. An identical sequence of input covariances, independently generated from $1$-dimensional Wishart distribution $W_{p}{(0.1,1)}$ and then fixed, is used in the former two cases. For the case of deterministic inputs, the covariances are set to be zero (i.e., ${\overline{U}}_{t} = 0$). In this setting ${\mathbf{D}\mathbf{D}}^{\intercal}$ can be invertible because the second moment of the input at time $t$ satisfies that $U_{t} = {{\overline{U}}_{t} + {\nu_{t}\nu_{t}^{\intercal}}}$, and the generation of $\nu_{t}$ provides randomness. For each case, Algorithm 1 is run for $50$ times. The mean of estimation error in each case is shown in Fig. 1. It can be seen that Algorithm 1 converges with convergence rate $\mathcal{O}{({1/\sqrt{n_{r}}})}$, and performs similarly under all three types of inputs. The algorithm fluctuates when the number of rollouts is small, which may result from the averaging step.
+
+Fig. 2 provides the relative frequency of the normalized estimation errors, ${\|{{\lbrack{\hat{A}\hat{B}}\rbrack} - {\lbrack{AB}\rbrack}}\|}_{2}/{\|{\lbrack{AB}\rbrack}\|}_{2}$ and $\parallel {\lbrack{\hat{\overset{\sim}{\Sigma}}}_{A}^{\prime}{\hat{\overset{\sim}{\Sigma}}}_{B}^{\prime}\rbrack}$ $- {\lbrack{\overset{\sim}{\Sigma}}_{A}^{\prime}{\overset{\sim}{\Sigma}}_{B}^{\prime}\rbrack} \parallel_{2}/$ ${\|{\lbrack{{\overset{\sim}{\Sigma}}_{A}^{\prime}{\overset{\sim}{\Sigma}}_{B}^{\prime}}\rbrack}\|}_{2}$, exceeding a given constant, under the uniform-input case. This result shows an exponential decay of the frequency and validates the finite-sample results. The relative frequency of $n_{r}$ rollouts is denoted by $p_{n_{r}}$.
+
+From Remark 3.1 and, it follows that defines an equivalent class of covariance matrices that generates the same second-moment dynamic of system states. In the current example, $\Sigma_{B}$ is unique, but the following covariance matrix is equivalent to $\Sigma_{A}$,
+
+with $\alpha \in {\mathbb{R}}$ such that ${\Sigma_{A}{(\alpha)}} \succeq 0$. Fig. 3 illustrates the dynamic, starting with the same initial condition $\mu_{0} = \mathbf{0}_{2}$ and $X_{0} = \mathbf{0}_{4}$, and with the noise covariance matrix given by $(\Sigma_{A},\Sigma_{B})$, $({\Sigma_{A}{}},\Sigma_{B})$, and estimates from Algorithm 1, respectively. The parameters of inputs ($\nu_{t}$ and ${\overline{U}}_{t}$) are the same as the uniform-input case. Note that ${\Sigma_{A}{({- 1})}} = \Sigma_{A}$, and ${\Sigma_{A}{}} \succ 0$. It can be observed that the dynamics defined by $(\Sigma_{A},\Sigma_{B})$ and $({\Sigma_{A}{}},\Sigma_{B})$ are identical, and the dynamic defined by the estimates from Algorithm 1 is close to the former.
+
+Figure 1: Consistency of Algorithm 1.
+
+Figure 2: Finite-sample result of Algorithm 1.
+
+Figure 3: The second-moment dynamic of system states defined by several noise covariance matrices.
+
+It is assumed that there is no additive noise in System, but Algorithm 1 can also be applied to identifying linear systems with both multiplicative and additive noise. If additive noise $w_{t}$, independent of the inputs and the multiplicative noise, exists, then write the system as
+
+In other words, $w_{t}$ can be considered as a part of multiplicative noise corresponding to a constant input equal to one. Consider the above $2$-dimensional system with Gaussian noise $w_{t} \sim {\mathcal{N}{(\mathbf{0}_{2},{\sigma^{2}I_{2}})}}$ and previously designed Gaussian inputs. Note that in this case $\ell = 6$ is needed because the dimension of inputs increases by one in, compared with the original system. Fig. 4 shows the consistency of Algorithm 1 under the presence of additive noise.
+
+Figure 4: Consistency of Algorithm 1 under both multiplicative and additive noise.
+
+### Performance Comparison
+
+The recursive form of the ordinary least-squares (OLS), namely, the recursive least-squares (RLS), is widely used in identification of dynamic systems. It is possible to apply RLS to identify System if certain conditions hold. Note that from System, we have that
+
+where $w_{t}^{}:={{{\overline{A}}_{t}x_{t}} + {{\overline{B}}_{t}u_{t}}}$ is considered to be noise. Under Assumption 1, $\{ w_{t}^{},\mathcal{F}_{t}\}$ is a martingale difference sequence, i.e., ${{\mathbb{E}}\left. \{ w_{t}^{} \middle| \mathcal{F}_{t - 1}\} \right.} = 0$, where $\mathcal{F}_{t}:={\sigma{({{{\overline{A}}_{k},{\overline{B}}_{k},u_{k},0} \leq k \leq t})}}$. A mild condition for $w_{t}^{}$ to ensure convergence of RLS in literature is that ${\sup_{t}{{\mathbb{E}}{\{\left. {\| w_{t}^{}\|}^{\beta} \middle| \mathcal{F}_{t - 1} \right.\}}}} < \infty$ holds a.s. for some $\beta > 2$. However in our case $w_{t}^{}$ is state-dependent, so certain stability assumption is needed to ensure this boundedness condition. This fact means that RLS could fail if the nominal part of System is marginally stable (${\rho{(A)}} = 1$) or unstable (${\rho{(A)}} > 1$). In contrast, Algorithm 1 can handle this situation with the help of multiple-trajectory data. Similarly, the noise covariance matrix of System may be estimated using the following dynamic
+
+It can be verified that, under Assumption 1, despite state-dependent, $\{ w_{t}^{},\mathcal{F}_{t}\}$ is also a martingale difference sequence. To estimate the covariance matrix of the multiplicative noise, Di and Lamperski, apply OLS, which is equivalent to RLS. Note that, when using OLS or RLS, one estimates the second moments of $A + {\overline{A}}_{t}$ and $B + {\overline{B}}_{t}$, rather than their covariance matrices, which are $\Sigma_{A}$ and $\Sigma_{B}$ in our context. The estimation of noise covariance is still coupled with the estimation of the nominal system, since $\Sigma_{A}^{\prime} = {{{\mathbb{E}}{\{{{({A + {\overline{A}}_{t}})} \otimes {({A + {\overline{A}}_{t}})}}\}}} - {A \otimes A}}$ and $\Sigma_{B}^{\prime} = {{{\mathbb{E}}{\{{{({B + {\overline{B}}_{t}})} \otimes {({B + {\overline{B}}_{t}})}}\}}} - {B \otimes B}}$.
+
+Figure 5: Performance comparison of RLS, RLSp, and Algorithm 1.
+
+To compare the performance of RLS and Algorithm 1, we consider four systems. In the first case, the nominal system matrices are
+
+and both $\Sigma_{A}$ and $\Sigma_{B}$ are zero matrices. That is, a linear system without noise and ${\rho{(A)}} = 0.6$, where $\rho{(A)}$ is the spectral radius of $A$. We use this case to show the consistency of RLS. In the other three cases, the matrix $A$ is set to be
+
+respectively. $B$ is the same as the first case, while $\Sigma_{A}$ and $\Sigma_{B}$ in Section 4.1 are adopted to be the covariance matrices. The implementation of Algorithm 1 is the same as in Section 4.1. That is, $\nu_{t}$ and ${\overline{U}}_{t}$ are randomly generated, and then fixed in all runs of the entire numerical experiment. The input $u_{t}$ at time $0 \leq t \leq {\ell - 1}$ in each rollout is generated from Gaussian distribution $\mathcal{N}{(\nu_{t},{\overline{U}}_{t})}$, and $\ell = 4$. Since RLS is based on single-trajectory data, the length of the trajectory is set to be $\elln_{r}$, so that the number of samples that RLS uses is the same as that of Algorithm 1. RLS with independent standard Gaussian inputs is considered as a baseline. In order to rule out the effect of different input design, we also run RLS with periodic inputs (RLSp) satisfying that, in each period, the inputs are generated in the same way as those in a rollout of Algorithm 1.
+
+For each system, the three algorithms, RLS, RLSp, and Algorithm 1 are run for $50$ times, respectively. The mean of estimation error in each case is presented in Fig. 5. It can be observed that RLS and RLSp perform similarly in all cases. When multiplicative noise is absent, they converge slightly faster than Algorithm 1. They are also a little better than Algorithm 1, in the case ${\rho{(A)}} = 0.6$ with noise, for the estimation of $\lbrack{AB}\rbrack$, indicating OLS could be applied to Algorithm 1 as a way to estimate $\lbrack{AB}\rbrack$. However, Algorithm 1 surpasses RLS and RLSp when identifying the noise covariance matrix. Moreover, the performance of RLS gets worse as $\rho{(A)}$ grows. Interestingly, in the case of ${\rho{(A)}} = 0.8$, although the nominal system is stable, the second-moment dynamic of system states is not. This instability leads to degraded performance of RLS estimating $\lbrack{AB}\rbrack$ and divergence of RLS estimating the covariance matrix. In the marginally stable case, namely ${\rho{(A)}} = 1$, RLS and RLSp explode in finite time. In contrast, Algorithm 1 behaves almost identically for all cases (the consistency of Algorithm 1 in the marginally stable case is shown in Fig. 1). To sum up, Algorithm 1 can deal with the estimation of noise covariance matrix better and relies less on the stability of both the nominal system and the second-moment dynamic of system states.
+
+## Conclusion and Future Work
+
+In this paper an identification algorithm based on multiple-trajectory data was proposed for linear systems with multiplicative noise. With appropriately designed exciting inputs, the proposed algorithm is able to jointly estimate the nominal system and the multiplicative noise covariance. The asymptotic and non-asymptotic performance of the algorithm was analyzed theoretically, and illustrated by numerical experiments. Future work include studying more efficient algorithms that can be used in online settings, optimal and adaptive input design, sparsity-promoting regularization for identification of networked systems, end-to-end finite-sample performance guarantees for identification-based optimal control, and applications to identification of cyber-physical systems with coupling between noise and inputs.

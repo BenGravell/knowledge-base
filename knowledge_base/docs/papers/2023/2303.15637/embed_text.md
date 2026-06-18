@@ -1,0 +1,314 @@
+## Introduction
+
+Reinforcement Learning (RL) has demonstrated success in a variety of domains, including robotics and games. However, it is known to be very data intensive, making it challenging to apply to complex control tasks. This has motivated efforts by both the machine learning and control communities to understand the statistical hardness of RL in analytically tractable settings, such as the tabular setting and the linear-quadratic control setting. Such studies provide insights into the fundamental limitations of RL, and the efficiency of particular algorithms.
+
+There are two common problems of interest for understanding the statistical hardness of RL from the perspective of learning a linear-quadratic regulator (LQR): online LQR, and offline LQR. Online LQR models an interactive problem in which the learning agent attempts to minimize a regret-based objective, while simultaneously learning the dynamics. Offline LQR models a two-step pipeline, where data from the system is collected, and then used to design a controller. Guarantees in the online setting are in the form of regret bounds, whereas the offline setting focuses on Probably Approximately Correct (PAC) guarantees. The high data requirements of RL often render offline approaches the only feasible option for physical systems Levine et al.. Despite this fact, recent years have seen greater efforts to provide lower bounds for the online LQR problem. Meanwhile, lower bounds in the offline LQR setting are conspicuously absent. Motivated by this fact, we derive lower bounds for designing a linear-quadratic controller from offline data.
+
+Notation: The Euclidean norm of a vector $x$ is denoted by $\left\| x \right\|$. The quadratic norm of a vector $x$ with respect to a matrix $P$ is denoted $\left\| x \right\|_{P} = \sqrt{x^{\top}Px}$. For a matrix $A$, the spectral norm is denoted $\left\| A \right\|$ and the Frobenius norm is denoted $\left\| A \right\|_{F}$. The spectral radius of a square matrix $A$ is denoted $\rho{(A)}$. A symmetric, positive semidefinite matrix $A = A^{\top}$ is denoted $A \succeq 0$, and a symmetric, positive definite matrix is denoted $A \succ 0$. Similarly, $A \succeq B$ denotes that $A - B$ is positive semidefinite. The eigenvalues of a symmetric positive definite matrix $A \in {\mathbb{R}}^{n \times n}$ are denoted ${\lambda_{1}{(A)}},\ldots,{\lambda_{n}{(A)}}$, and are sorted in non-ascending order. We also denote ${\lambda_{1}{(A)}} = {\lambda_{\max}{(A)}}$, and ${\lambda_{n}{(A)}} = {\lambda_{\min}{(A)}}$. For a matrix $A$, the vectorization operator ${\mathsf{v}\mathsf{e}\mathsf{c}}A$ maps $A$ to a column vector by stacking the columns of $A$. The kronecker product of $A$ with $B$ is denoted $A \otimes B$. Expectation and probability with respect to all the randomness of the underlying probability space are denoted $\text{E}$ and $\mathbf{P}$, respectively. Conditional expectation and probability given the random variable $X$ are denoted by $\text{E}{\lbrack \cdot |X\rbrack}$ and $\mathbf{P}{\lbrack \cdot |X\rbrack}$. For an event $\mathcal{G}$, $\mathbf{1}_{\mathcal{G}}$ denotes the indicator function for $\mathcal{G}$. For a matrix $A \in {\mathbb{R}}^{d_{\mathsf{X}} \times d_{\mathsf{X}}}$ and a symmetric matrix $Q \in {\mathbb{R}}^{d_{\mathsf{X}} \times d_{\mathsf{X}}}$, we denote the solution $P$ to the discrete Lyapunov equation, ${{{A^{\top}PA} - P} + Q} = 0$, by $\text{dlyap}{(A,Q)}$. If we also have $B \in {\mathbb{R}}^{d_{\mathsf{U}} \times d_{\mathsf{U}}}$ and $R \in {\mathbb{R}}^{d_{\mathsf{U}} \times d_{\mathsf{U}}}$, $R \succ 0$, we denote the solution $P$ to the discrete algebraic Riccati equation ${{Q + {A^{\top}PA}} - {A^{\top}PB{({{B^{\top}PB} + R})}^{- 1}B^{\top}PA}} = 0$ by $\text{DARE}{(A,B,Q,R)}$. We use the indexing shorthand ${\lbrack K\rbrack}:=\left\{ 1,\ldots,K \right\}$.
+
+### Problem Formulation
+
+Let $\theta \in {\mathbb{R}}^{d_{\Theta}}$ be an unknown parameter. We study the fundamental limitations to learning to control the following parametric system model:
+
+The noise process $W_{t}$ is assumed to be iid mean zero Gaussian with fixed covariance matrices $\Sigma_{W} \succ 0$. The matrices ${A{(\theta)}} \in {\mathbb{R}}^{d_{\mathsf{X}} \times d_{\mathsf{X}}}$ and ${B{(\theta)}} \in {\mathbb{R}}^{d_{\mathsf{X}} \times d_{\mathsf{U}}}$ are known continuously differentiable functions of the unknown parameter. The system $({A{(\theta)}},{B{(\theta)}})$ is assumed to be stabilizable.
+
+We assume that the learner is given access to $N \in {\mathbb{N}}$ experiments ${{(X_{0,n},\ldots,X_{{T - 1},n})},n} \in {\lbrack N\rbrack}$ from of length $T \in {\mathbb{N}}$. The input signal during these experiments is
+
+where $F$ renders the system stable^11^1Access to a stabilizing controller is often assumed unstable system identification Ljung. Open-loop unstable identification leads to poor conditioning., i.e. ${\rho{({{A{(\theta)}} + {B{(\theta)}F}})}} < 1$. Meanwhile, ${\overset{\sim}{U}}_{t,n}$ is an exploration component with energy budget $\sigma_{\overset{\sim}{u}}^{2}NT$,^22^2The choice to place a budget on the exploratory input ${\overset{\sim}{U}}_{t,n}$ rather than the total input $U_{t,n}$ is for ease of exposition. The energy of the exploratory input is bounded by the total budget, which is sufficient for our bounds. where $\sigma_{\overset{\sim}{u}} \in {\mathbb{R}}_{+}$. More precisely, ${\overset{\sim}{U}}_{t,n}$ may be selected as a function of past observations $(X_{0,n},\ldots,X_{t,n})$, past trajectories ${{(X_{0,m},\ldots,X_{{T - 1},m})},m} < n$ and possible auxiliary randomization, while being constrained to an energy budget
+
+This formulation allows both open- and closed-loop experiments, but normalizes the average exploratory input energy to $\sigma_{\overset{\sim}{u}}^{2}$. The subscript $\theta$ on the expectation denotes that the system is rolled out with parameter $\theta$. For a fixed parameter $\theta$, we denote the data collected from these experiments by the random variable $\mathcal{Z}:={\{{\{{(X_{t,n},U_{t,n}\}}_{t = 0}^{T - 1}\}}_{n = 1}^{N}}$.
+
+The learner deploys a policy $\pi$ which is a measureable function of the $N$ offline experiments and the current state. In particular, the learner maps the offline data and the current state to the control input, $U_{t} = {\pi{(X_{t};\mathcal{Z})}}$. This is the case if the learner outputs a non-adaptive state feedback controller designed with the offline data. The goal of the learner is to minimize the cost defined by:
+
+The expectation is over both the offline experiments, and a new evaluation rollout. Single subscripts on the states and actions, $X_{t}$ and $U_{t}$, refer to the evaluation rollout at time $t$. The superscript on the expectation denotes that the inputs applied in the evaluation rollout follow the policy $U_{t} = {\pi{(X_{t};\mathcal{Z})}}$. Note that due to the dependence of the terminal cost $Q_{T}{(\theta)}$ on the unknown parameter $\theta$, the learner does not explicitly know the cost function it is minimizing. This is not an issue: it simply means that the learner must infer the objective function from the collected data.
+
+The following assumption guarantees the existence of a static state feedback controller that minimizes $V_{T}^{\pi}{(\theta)}$.
+
+### Assumption 1.1
+
+We assume $({A{(\theta)}},{B{(\theta)}})$ is stabilizable, $({A{(\theta)}},Q^{1/2})$ is detectable, and $R \succ 0$ and that ${Q_{T}{(\theta)}} = {P{(\theta)}}$, where ${P{(\theta)}} = {\text{DARE}{({A{(\theta)}},{B{(\theta)}},Q,R)}}$.
+
+Under this assumption, the optimal policy for the known system is $U_{t} = {K{(\theta)}X_{t}}$, where $K{(\theta)}$ is the LQR:
+
+In light of this, we focus on the case in which the search space of the learner is the class of linear time-invariant state feedback policies where the gain is a measurable function of the past $N$ experiments^33^3This assumption is not critical, and may be removed without significantly changing the result. See the proof of the main result in Ziemann and Sandberg for details on how to remove this assumption.. This set is denoted $\Pi_{\mathsf{l}\mathsf{i}\mathsf{n}}$.
+
+The stochastic LQR cost $V_{T}^{\pi}{(\theta)}$ may be represented in terms of the gap between the control actions taken by the policy $\pi$ and the optimal policy, as shown below.
+
+### Lemma 1.1 (Lemma 11.2 of Söderström (2002))
+
+where ${\Psi{(\theta)}}:={{B^{\top}{(\theta)}P{(\theta)}B{(\theta)}} + R}$.
+
+Using the above lemma, the objective of the learner may be restated from minimizing $V_{T}^{\pi}{(\theta)}$ to minimizing the excess cost:
+
+The second equality follows from the representation of the stochastic LQR cost in Lemma 1.1). ‣ Problem Formulation ‣ 1 Introduction ‣ The Fundamental Limitations of Learning Linear-Quadratic Regulators") by cancelling the constant terms. Note that the infimum in the second term is given access to the true parameter value $\theta$, and will therefore be attained by the optimal LQR controller. In particular, it does not rely upon the offline experimental data. We denote this optimal policy by ${\pi_{\theta}{(X_{t};\mathcal{Z})}} = {K{(\theta)}X_{t}}$.
+
+Our objective is to lower bound the excess cost for any learning agent in the class $\Pi_{\mathsf{l}\mathsf{i}\mathsf{n}}$. To this end, we introduce the $\varepsilon$-local minimax excess cost:
+
+To motivate this choice, first note that if we were instead interested in an excess cost bound for only a single value of $\theta$ that holds for all estimators, the optimal policy would trivially be the LQR, ${\pi{(X_{t},\mathcal{Z})}} = {K{(\theta)}X_{t}}$. This policy would result in a lower bound of zero. By instead requiring that the learner perform well on all parameter instances in a nearby neighborhood, we remove the possibility of the trivial solution, and can achieve meaningful lower bounds. The emphasis of the nearby neighborhood in is essential. As the local neighborhood defined by the ball of radius $\varepsilon$, ${\mathcal{B}{(\theta,\varepsilon)}} = \left\{ \theta^{\prime} \middle| {\left\| {\theta^{\prime} - \theta} \right\| \leq \varepsilon} \right\}$, becomes sufficiently small, we are still able to provide instance-specific lower bounds for a single parameter value $\theta$. Therefore, the $\varepsilon$-local minimax excess cost is a much stronger notion than the standard *global* minimax excess cost, $\inf_{\pi \in \Pi_{\mathsf{l}\mathsf{i}\mathsf{n}}}{\sup_{\theta^{\prime}}{{\mathsf{E}\mathsf{C}}_{T}^{\pi}{(\theta^{\prime})}}}$, as it does not require our estimator to perform well on *all possible* parameter values but only those in a small (possibly infinitesimal) neighborhood. Indeed, the global minimax excess cost for learning the optimal controller of the class of unknown stable scalar systems is infinite, as shown in Corollary 2.2, and illustrated in Figure 1.
+
+Figure 1: Consider the scalar system Xt + 1 = a Xt + b Ut + Wt. We plot a lower bound arising from Corollary 2.1 letting $V = \begin{bmatrix}
+\end{bmatrix}^{\top}$ for the system a = 1 − γ, b = γ as γ ranges from 10−3 to 10−2 with F = 0, $\sigma_{\overset{\sim}{u}}^{2} = 1$, ΣW = 1. As γ → 0 the optimally regulated system approaches marginal stability and controllability is lost. The problem of learning a controller therefore becomes challenging as γ → 0, which is reflected by our excess cost lower bound; it approaches ∞. This illustrates the observation that systems which are difficult to control are also difficult to learn to control. This plot illustrates the result Corollary 2.2 in demonstrating that the global minimax excess cost is uninformative.
+
+Our focus in obtaining the lower bound on $\mathcal{E}\mathcal{C}_{T}^{\mathsf{l}\mathsf{i}\mathsf{n}}{(\theta,\varepsilon)}$ is to gain an understanding of what system-theoretic quantities render the learning problem statistically challenging. To this end, our lower bound depends on familiar system-theoretic quantities, such as $P{(\theta)}$. The covariance of the state under the optimal LQR controller also appears in our analysis. Under the optimal LQR controller, the covariance of the state converges to the stationary covariance as $T\rightarrow\infty$:
+
+### Contributions
+
+Our main contribution is the following theorem. For the formal statements, see Theorem 2.2 and Corollary 2.1.
+
+### Theorem 1.1 (Main result, Informal)
+
+The $\varepsilon$-local minimax excess cost is lower bounded as
+
+In the above bound, the system-theoretic condition number depends on familiar system-theoretic quantities such as the covariance of the state under the optimal controller, and the solution to the Riccati equation. The signal-to-noise ratio depends on how easily the system is excited via both the exploratory input, and the noise. This signal-to-noise ratio may be quantified in terms of the controllability gramian of the system, as well as the exploratory input budget.
+
+We also study several consequences of the above result by restricting attention to the setting where all system parameters are unknown, i.e. ${{\mathsf{v}\mathsf{e}\mathsf{c}}\begin{bmatrix}
+\end{bmatrix}} = \theta$. In this setting, Theorem 1.1. ‣ 1.1 Contributions ‣ 1 Introduction ‣ The Fundamental Limitations of Learning Linear-Quadratic Regulators") may be reduced to ${\mathcal{E}\mathcal{C}_{T}^{\mathsf{l}\mathsf{i}\mathsf{n}}{(\theta,\varepsilon)}} \geq \frac{c{(\theta,\varepsilon)}}{NT}$, where $c{(\theta,\varepsilon)}$ is easily interpretable. In particular, we may reach the following conclusions:\
+
+$\bullet$ For classes of system where the operator norm of system-theoretic matrices such as the controllability gramian and the solution to the Riccati equation are constant with respect to dimension, we may take ${{c{(\theta,\varepsilon)}} \propto {d_{\mathsf{U}}d_{\mathsf{X}}}}.$ Combining results from Mania et al. and Tu et al. demonstrates that when $d_{\mathsf{U}} \leq d_{\mathsf{X}}$, the upper bound on the excess cost is also proportional to $\frac{d_{\mathsf{X}}d_{\mathsf{U}}}{NT}$. In particular, our bound is optimal in the dimension for underactuated systems when the remaining system-theoretic quantities are constant with respect to dimension.\
+$\bullet$ There exist classes of systems for which we may take ${c{(\theta,\varepsilon)}} \propto {\exp{(d_{\mathsf{X}})}}$. This demonstrates that the excess cost of a learned LQR controller may grow exponentially in the dimension.\
+$\bullet$ The lower bound grows in an interpretable manner with familiar system-theoretic quantities. In particular, we may take $c{(\theta,\varepsilon)}$ to grow with the eigenvalues of both the solution to the Riccati equation, ${P{(\theta)}},$ and the state covariance under the optimal controller, $\Sigma_{X}{(\theta)}$. This suggests that the problem of learning to control a system with a small gap from the optimal controller is data intensive when controlling the underlying system is hard.
+
+### Related Work
+
+Figure 2: A classic model-based pipeline for learning a controller from data.
+
+### System Identification
+
+System identification is often a first step in designing a controller from experimental data, and has a longstanding history. The text Ljung covers classic asymptotic results. Control oriented identification was studied in Chen and Nett; Helmicki et al.. Recently, there has been interest in finite sample analysis for fully-observed linear systems, and partially-observed linear systems. Lower bounds for the sample complexity of system identification are presented in Jedra and Proutiere; Tsiamis and Pappas. For a more extensive discussion of prior work, we refer to the survey by Tsiamis et al..
+
+### Learning Controllers Offline
+
+Learning a controller from offline data is a familiar paradigm for control theorist and practitioners. It typically consists of system identification, followed by robust or certainty-equivalent control design, see Figure 2. Recent work provides finite sample guarantees for such methods. Upper and lower bounds on the sample complexity of stabilization from offline data are presented in Tsiamis et al.. The RL community has a similar paradigm, known as offline RL. Policy gradient approaches are a model-free algorithm suitable for offline RL, and are analyzed in Fazel et al.. Lower bounds on the variance of the gradient estimates in policy gradient approaches are supplied in Ziemann et al.. Lower bounds for offline linear control are also studied in Wagenmaker et al. with the objective of designing optimal experiments. We instead focus on the LQR setting to understand the dependence of the excess cost on interpretable system-theoretic quantities.
+
+### Online LQR
+
+The problem of learning the optimal LQR controller online has a rich history beginning with Åström and Wittenmark. Regret minimization was introduced in Lai; Lai and Wei. The study of regret in online LQR was re-initiated by Abbasi-Yadkori and Szepesvári, inspired by works in the RL community. Many works followed to propose algorithms which were computationally tractable. Lower bounds on the regret of online LQR are presented in Simchowitz and Foster; Cassel et al.; Ziemann and Sandberg. The results in this paper follow a similar proof to Ziemann and Sandberg. The primary difference is that since our controller is designed via offline data, we may not make use of the exploration-exploitation tradeoff to upper bound the information available to the learner, as is done in Ziemann and Sandberg.
+
+## Excess Cost Lower Bound
+
+We now proceed to establish our lower bound. As we are interested in the worst-case excess cost from any element of $\mathcal{B}{(\theta,\varepsilon)}$, we make the additional assumption that $F$ stabilizes $({A{(\theta^{\prime})}},{B{(\theta^{\prime})}})$ for all $\theta^{\prime} \in {\mathcal{B}{(\theta,\varepsilon)}}$.^44^4We ultimately study the limit as $\varepsilon$ becomes small. Therefore, this is not significantly stronger than assuming that $F$ stabilizes (${A{(\theta)}},{B{(\theta)}}$). This also ensures that the optimal LQR controller exists for all points in the prior.
+
+To obtain a lower bound on the local minimax excess cost, we lower bound the maximization over $\theta^{\prime} \in {\mathcal{B}{(\theta,\varepsilon)}}$ by an average over a distribution supported on $\mathcal{B}{(\theta,\varepsilon)}$. This reduces the problem to lower bounding a Bayesian complexity. Instead of fixing the parameter $\theta$, we let $\Theta$ be a random vector taking values in ${\mathbb{R}}^{d_{\Theta}}$ and suppose that it has prior density $\lambda$. Doing so enables the use of information theoretic tools to lower bound the complexity of estimating the parameter from data. The relaxation of the the maximization is shown in the following lemma.
+
+### Lemma 2.1
+
+Fix $\varepsilon > 0$ and let $\lambda$ be any prior on $\mathcal{B}{(\theta,\varepsilon)}$. Then for any $\pi \in \Pi^{\mathsf{l}\mathsf{i}\mathsf{n}}$ with ${\pi{(X_{t},\mathcal{Z})}} = {\hat{K}{(\mathcal{Z})}X_{t}}$,
+
+where $\Sigma_{\Theta}^{\hat{K}{(\mathcal{Z})}}:={\frac{1}{T}{\sum_{t = 0}^{T - 1}{\text{E}^{\pi}\left\lbrack {X_{t}X_{t}^{\top}} \middle| {\mathcal{Z},\Theta} \right\rbrack}}}$. The expectation is over the prior $\Theta \sim \lambda$, and the randomness of both the offline rollouts and the evaluation rollout. We recall the shorthand ${\Psi{(\Theta)}} = {{B{(\Theta)}^{\top}P{(\Theta)}B{(\Theta)}} + R}$.
+
+### Proof
+
+By the quadratic expression for the excess cost in and the fact that the supremum over a set always exceeds the weighted average over a set, we have the following inequality:
+
+The second to last equality follows by the tower rule. The last equality results by substituting $U_{t} = {\hat{K}{(\mathcal{Z})}X_{t}}$, followed by the trace-cyclic property and linearity of expectation. ∎
+
+We may treat the data from offline experimentation, $\mathcal{Z}$, as an observation of the underlying parameter $\Theta$. In particular, $\mathcal{Z}$ may be expressed as a random vector taking values in ${\mathbb{R}}^{NT{({d_{\mathsf{X}} + d_{\mathsf{U}}})}}$ with conditional density $p{( \cdot |\theta)}$. The following Fisher information matrix and prior density concentration matrix measure estimation performance of $\Theta$ from the sample $\mathcal{Z}$ with respect to the square loss:
+
+The first quantity measures the information content of the sample $\mathcal{Z}$ with regards to $\Theta$. The second quantity measures the concentration of the prior density $\lambda$. As the gradient operator $\nabla_{\theta}$ maps to a vector of dimension $d_{\Theta}$, both $I_{p}{(\theta)}$ and $J{(\lambda)}$ are $d_{\Theta} \times d_{\Theta}$ dimensional. See Ibragimov and Has'minskii for further details about these integrals and their existence.
+
+As we seek lower bounds for estimating $K{(\Theta)}$ instead of just $\Theta$, we must account for the transformation from a quadratic loss over the error in esimating $\Theta$ to the error in estimating $K{(\Theta)}$, as appears in Lemma 2.1. To do so, we introduce the Van Trees' inequality. We first impose the following standard regularity conditions:
+
+### Assumption 2.1
+
+The prior $\lambda$ is smooth with compact support.
+
+The conditional density of $\mathcal{Z}$ given $\Theta$, $p{(\left. z \middle| \cdot \right.)}$, is continuously differentiable on the domain of $\lambda$ for almost every $z$.
+
+The score^55^5The score is the gradient of the log-likelihood. It evaluates to $\frac{{\nabla_{\theta}p}{(\left. z \middle| \theta \right.)}}{p{(\left. z \middle| \theta \right.)}}$. has mean zero; ${\int{\left( \frac{{\nabla_{\theta}p}{(\left. z \middle| \theta \right.)}}{p{(\left. z \middle| \theta \right.)}} \right)p{(\left. z \middle| \theta \right.)}{dz}}} = 0$.
+
+$\mathtt{J}{(\lambda)}$ is finite and $\mathtt{I}_{p}{(\theta)}$ is a continuous function of $\theta$ on the domain of $\lambda$.
+
+${\mathsf{v}\mathsf{e}\mathsf{c}}K$ is differentiable on the domain of $\lambda$.
+
+The following theorem is a less general adaption from Bobrovsky et al. which suffices for our needs.
+
+### Theorem 2.1 (Van Trees Inequality)
+
+Fix two random variables ${(\mathcal{Z},\Theta)} \sim p{( \cdot | \cdot )}\lambda{( \cdot )}$ and suppose Assumption 2.1 holds. Let $\mathcal{G}$ be a $\sigma{(\mathcal{Z})}$-measurable event. Then for any $\sigma{(\mathcal{Z})}$-measurable $\hat{K}$:
+
+The notation ${\mathsf{D}_{\theta}{{\mathsf{v}\mathsf{e}\mathsf{c}}K}}{( \cdot )}$ above follows the standard convention for a Jacobian: it stacks the transposed gradients of each element of ${{\mathsf{v}\mathsf{e}\mathsf{c}}K}{( \cdot )}$ into a ${d_{\mathsf{X}}d_{\mathsf{U}}} \times d_{\Theta}$ dimensional matrix.
+
+We see from Theorem 2.1. ‣ 2 Excess Cost Lower Bound ‣ The Fundamental Limitations of Learning Linear-Quadratic Regulators") that the transformation to the error in estimating $K{(\Theta)}$ is accounted for by ${\mathsf{D}_{\theta}{{\mathsf{v}\mathsf{e}\mathsf{c}}K}}{( \cdot )}$.
+
+We now massage the lower bound in Lemma 2.1 to a form compatible with Theorem 2.1. ‣ 2 Excess Cost Lower Bound ‣ The Fundamental Limitations of Learning Linear-Quadratic Regulators"). Doing so requires us to express the lower bound as a quadratic form conditioned on some $\sigma{(\mathcal{Z})}$-measureable event $\mathcal{G}$. We therefore select an event $\mathcal{G}$ for which we may uniformly lower bound the quantities $\Psi{(\Theta)}$ and $\Sigma_{\Theta}^{\hat{K}{(\mathcal{Z})}}$. To this end, we define positive definite matrices $\Psi_{\theta,\varepsilon}$ and $\Sigma_{\theta,\varepsilon}$ that satisfy
+
+The matrix $\Psi_{\theta,\varepsilon}$ will serve to uniformly lower bound $\Psi{(\Theta)}$. When the learned controller is close to the optimal controller, the covariance of the state under the learned controller will be close to the covariance of the state under the optimal controller, which is in turn lower bounded in terms of $\Sigma_{\theta,\varepsilon}$. In particular, if $\left\| {{\hat{K}{(\mathcal{Z})}} - {K{(\Theta)}}} \right\|$ is sufficiently small, we can argue that $\Sigma_{\Theta}^{\hat{K}{(\mathcal{Z})}} \succeq {\frac{1}{2}\Sigma_{X}{(\Theta)}} \succeq \Sigma_{\theta,\varepsilon}$. The aforementioned condition on $\left\| {{\hat{K}{(\mathcal{Z})}} - {K{(\Theta)}}} \right\|$ will hold only if there is a large amount of data available to fit $\hat{K}{(\mathcal{Z})}$. To achieve a bound that holds in the low data regime, we observe that the state covariance under the learned controller is always lower bounded by the noise covariance: $\Sigma_{\Theta}^{\mathcal{Z}} \succeq \Sigma_{W}$. For this reason, the subsequent results will be presented in two parts: one in which we condition on an event where $\left\| {{\hat{K}{(\mathcal{Z})}} - {K{(\theta)}}} \right\|$ is small, and one that holds generally. To present these results concisely, the positive definite matrix $\Gamma_{\theta,\varepsilon}$ is used to denote either $\Sigma_{W}$ or $\Sigma_{\theta,\varepsilon}$. The Kronecker product of these lower bounds arises frequently, motivating the shorthand
+
+### Lemma 2.2 (Application of Van Trees' Inequality)
+
+For any smooth prior $\lambda$ on $\mathcal{B}{(\theta,\varepsilon)}$ and any $\pi \in \Pi^{\mathsf{l}\mathsf{i}\mathsf{n}}$ with ${\pi{(X_{t},\mathcal{Z})}} = {\hat{K}{(\mathcal{Z})}X_{t}}$,
+
+$1)$ $\Gamma_{\theta,\varepsilon} = \Sigma_{W}$ and $\mathcal{G} = \Omega$, or\
+$2)$ $\Gamma_{\theta,\varepsilon} = \Sigma_{\theta,\varepsilon}$ and $\mathcal{G} = \mathcal{E}$, if $T \geq {\sup\limits_{\theta^{\prime} \in {\mathcal{B}{(\theta,\varepsilon)}}}\frac{16\left\| {\Sigma_{X}{(\theta^{\prime})}} \right\|}{\lambda_{\min}{({\Sigma_{X}{(\theta^{\prime})}})}}}$.
+
+The event $\Omega$ is the entire sample space, i.e. ${{\mathbb{P}}\lbrack\Omega\rbrack} = 1$, and
+
+Here, ${A_{cl}{(\theta)}} = {{A{(\theta)}} + {B{(\theta)}K{(\theta)}}}$ and ${\mathcal{J}{({A_{cl}{(\theta)}})}} = {\sum_{t = 0}^{\infty}\left\| {A_{cl}{(\theta)}^{t}} \right\|^{2}}$.
+
+### Proof
+
+We always have that $\Sigma_{\hat{K}{(\mathcal{Z})}} \succeq \Sigma_{W}$. Lemma A.2 shows that if $T \geq \frac{16\left\| {\Sigma_{X}{(\Theta)}} \right\|^{2}}{\lambda_{\min}{({\Sigma_{X}{(\Theta)}})}}$, then under event $\mathcal{E}$, we have $\left\| {{\Sigma_{X}{(\Theta)}^{- {1/2}}\Sigma_{\Theta}^{\hat{K}{(\mathcal{Z})}}\Sigma_{X}{(\Theta)}^{- {1/2}}} - I} \right\| \leq \frac{1}{2}$. This in turn implies that $\Sigma_{\Theta}^{\hat{K}{(\mathcal{Z})}} \succeq {\Sigma_{\theta,\varepsilon}\mathbf{1}_{\mathcal{E}}}$.
+
+With this fact in hand, we may replace $\Psi{(\Theta)}$ in the lower bound from Lemma 2.1 by $\Psi_{\theta,\varepsilon}$, and $\Sigma_{\Theta}^{\hat{K}{(\mathcal{Z})}}$ by $\Gamma_{\theta,\varepsilon}\mathbf{1}_{\mathcal{G}}$, where $(\Gamma_{\theta,\varepsilon},\mathcal{G})$ can only be set as $(\Sigma_{\theta,\varepsilon},\mathcal{E})$ if $T$ is sufficiently large. Then
+
+where ${\overset{\sim}{K}{(\mathcal{Z})}} = {\sqrt{\Psi_{\theta,\varepsilon}}\hat{K}{(\mathcal{Z})}\sqrt{\Gamma_{\theta,\varepsilon}}}$. We now invoke the Van Trees' inequality, Theorem 2.1. ‣ 2 Excess Cost Lower Bound ‣ The Fundamental Limitations of Learning Linear-Quadratic Regulators"):
+
+where we used that ${{{\mathsf{v}\mathsf{e}\mathsf{c}}{\sqrt{\Psi_{\theta,\varepsilon}}K}}{(\Theta)}\sqrt{\Gamma_{\theta,\varepsilon}}} = {{({\sqrt{\Gamma_{\theta,\varepsilon}} \otimes \sqrt{\Psi_{\theta,\varepsilon}}})}{{\mathsf{v}\mathsf{e}\mathsf{c}}K}{(\Theta)}}$ in the last line.
+
+We conclude by applying the trace cyclic property, and extracting the minimum eigenvalue of ${\lbrack{{{\text{E}_{\Theta}I_{p}}{(\theta)}} + {J{(\lambda)}}}\rbrack}^{- 1}$.
+
+Lemma 2.2. ‣ 2 Excess Cost Lower Bound ‣ The Fundamental Limitations of Learning Linear-Quadratic Regulators") may be interpreted according to the following intuition. To design a controller that attains low cost, it is essential to distinguish between two nearby instances of the underlying parameter, $\theta$ and $\theta^{\prime}$, from the experimental data, $\mathcal{Z}$. The Fisher Information term on the denominator of the bound in Lemma 2.2. ‣ 2 Excess Cost Lower Bound ‣ The Fundamental Limitations of Learning Linear-Quadratic Regulators") captures the ease with which we can distinguish between $\theta$ and an infinitesimally perturbed $\theta^{\prime}$ from the collected data $\mathcal{Z}$, and can be thought of as a signal-to-noise ratio. The derivative of the controller appearing on the numerator of the bound in Lemma 2.2. ‣ 2 Excess Cost Lower Bound ‣ The Fundamental Limitations of Learning Linear-Quadratic Regulators") is a change of variables term that accounts for the extent to which infinitesimal perturbations of the underlying parameter impact the optimal controller gain. Sensitive perturbations are those which are difficult to detect from the collected data, yet lead to a large change in the controller gain. Such perturbations dictate the statistical hardness of learning a LQR controller. Motivated by this fact, we can select particularly sensitive perturbation directions of the underlying parameter which emphasize the hardness of the problem. To do so, we restrict the support of the prior $\lambda$ to a lower dimensional subspace. Before presenting this result, it will be useful to see the expression for Fisher information matrix from this experimental setup. It can be shown via the chain rule of Fisher Information that
+
+where $Z_{t,n} = \begin{bmatrix}
+\end{bmatrix}$. See, for instance, Lemma 3.1 of Ziemann and Sandberg. With this in hand, the following Lemma provides a restriction to lower dimensional priors, which allows us to understand how poor conditioning of the information matrix along any particular parameter perturbation direction pushes through to a challenge in estimating the optimal controller.
+
+### Lemma 2.3
+
+Consider any matrix $V \in {\mathbb{R}}^{d_{\Theta} \times k}$ with $k \leq d_{\Theta}$ which has orthonormal columns. For any smooth prior $\lambda$ over $\left\{ {\theta + {V\overset{\sim}{\theta}}}:{\left\| \overset{\sim}{\theta} \right\| \leq \varepsilon} \right\}$, and any $\pi \in \Pi^{\mathsf{l}\mathsf{i}\mathsf{n}}$ with ${\pi{(X_{t},\mathcal{Z})}} = {\hat{K}{(\mathcal{Z})}X_{t}}$,
+
+where $\Xi_{\theta,\varepsilon}$ is defined in and $\mathcal{G}$ is defined in Lemma 2.2. ‣ 2 Excess Cost Lower Bound ‣ The Fundamental Limitations of Learning Linear-Quadratic Regulators").
+
+### Proof
+
+We may write $\Theta = {\theta + {V\overset{\sim}{\Theta}}}$, where $\overset{\sim}{\Theta} \sim \overset{\sim}{\lambda}$, and $\overset{\sim}{\lambda}$ is a smooth prior on $\left\{ {\overset{\sim}{\theta} \in {\mathbb{R}}^{k}}:{\left\| \overset{\sim}{\theta} \right\| \leq \epsilon} \right\}$. Defining ${\overset{\sim}{A}{(\overset{\sim}{\theta})}}:={A{({\theta + {V\overset{\sim}{\theta}}})}}$, ${\overset{\sim}{B}{(\overset{\sim}{\theta})}}:={B{({\theta + {V\overset{\sim}{\theta}}})}}$, and ${\overset{\sim}{K}{(\overset{\sim}{\theta})}}:={K{({\theta + {V\overset{\sim}{\theta}}})}}$, we may instantiate the bound in Lemma 2.2. ‣ 2 Excess Cost Lower Bound ‣ The Fundamental Limitations of Learning Linear-Quadratic Regulators") over the lower dimensional parameter $\overset{\sim}{\theta}$. We have that the Jacobian of the contoller becomes ${{{\mathsf{D}_{\overset{\sim}{\theta}}{{\mathsf{v}\mathsf{e}\mathsf{c}}\overset{\sim}{K}}}{(\overset{\sim}{\Theta})}} = {{\mathsf{D}_{\theta}{{\mathsf{v}\mathsf{e}\mathsf{c}}K}}{(\Theta)}V}}.$ Similarly, the Jacobian arising in the Fisher information may be written ${D_{\overset{\sim}{\theta}}{{\mathsf{v}\mathsf{e}\mathsf{c}}\begin{bmatrix}
+{\overset{\sim}{A}{(\overset{\sim}{\Theta})}} & {\overset{\sim}{B}{(\overset{\sim}{\Theta})}}
+\end{bmatrix}}} = {D_{\theta}{{\mathsf{v}\mathsf{e}\mathsf{c}}{\begin{bmatrix}
+\end{bmatrix}V}}}$. Lastly, the prior density of the lower dimensional parameter satisfies ${\overset{\sim}{J}{(\overset{\sim}{\lambda})}} = {V^{\top}J{(\lambda)}V}$. Then under this prior, the lower bound in Lemma 2.2. ‣ 2 Excess Cost Lower Bound ‣ The Fundamental Limitations of Learning Linear-Quadratic Regulators") becomes that in the lemma statement. ∎
+
+In the above lemma, the columns of $V$ may be interpreted as perturbation directions of the system parameters.
+
+We now upper bound the denominator arising in the above bound. In particular, we show how to bound the Fisher Information in any particular perturbation direction.
+
+### Lemma 2.4
+
+For any matrix $V \in {\mathbb{R}}^{d_{\Theta} \times k}$ with orthonormal columns,
+
+where $\overline{L} = {\sup_{\theta^{\prime} \in {\mathcal{B}{(\theta,\varepsilon)}}}{L{(\theta^{\prime})}}}$ and
+
+Here, ${\nu_{1}{(w)}} = {\left\| {D_{\theta}{{\mathsf{v}\mathsf{e}\mathsf{c}}A}{(\theta^{\prime})}w} \right\|^{2} + {2\left\| {D_{\theta}{{\mathsf{v}\mathsf{e}\mathsf{c}}B}{(\theta^{\prime})}w} \right\|^{2}\left\| F \right\|^{2}}}$ and ${\nu_{2}{(w)}} = \left\| {D_{\theta}{{\mathsf{v}\mathsf{e}\mathsf{c}}B}{(\theta^{\prime})}w} \right\|^{2}$ are change of coordinate terms that quantify the impact of the perturbation direction on the information upper bound. We recall that $\sigma_{\overset{\sim}{u}}^{2}$ is the average exploratory input energy.
+
+The quantity $\text{dlyap}{({({{A{(\theta^{\prime})}} + {B{(\theta^{\prime})}F}})}^{\top},\Sigma_{W})}$, in the above bound may be interpreted as either the steady state covariance during exploration in the absence of exploratory inputs, or the controllability gramian from the noise to the state. The quantity $\sum_{t = 0}^{\infty}\left\| {{({{A{(\theta^{\prime})}} + {B{(\theta^{\prime})}F}})}^{t}B{(\theta^{\prime})}} \right\|$ bounds the $\mathcal{H}_{\infty}$ norm of the closed-loop system during offline experimentation. Therefore, $\sigma_{\overset{\sim}{u}}^{2}\left( {\sum_{t = 0}^{\infty}\left\| {{({{A{(\theta^{\prime})}} + {B{(\theta^{\prime})}F}})}^{t}B{(\theta^{\prime})}} \right\|} \right)^{2}$ upper bounds the impact of exploratory input on the state during offline experimentation. The proof of the above lemma applies repeated use of the triangle inequality, submultiplicativity, the Cauchy-Schwarz inequality. See Section A.1 for proof details.
+
+We now present our first main result: a non-asymptotic lower bound on the local minimax excess cost. As with Lemma 2.2. ‣ 2 Excess Cost Lower Bound ‣ The Fundamental Limitations of Learning Linear-Quadratic Regulators"), it is presented in two components: one that holds generally, and another that requires enough data such that any sufficiently good policy $\pi \in \Pi_{\mathsf{l}\mathsf{i}\mathsf{n}}$ outputs a feedback controller $\hat{K}{(\mathcal{Z})}$ which is near optimal with high probability. Consequently, the burn-in times are larger for the second result, and the size of the prior, $\varepsilon$, is required to be small. We drop the dependence of $A$, $B$, $P$, $\Psi$, $K$, and $\Sigma_{X}$ on $\theta$ when the argument is clear from context.
+
+### Theorem 2.2
+
+Consider any matrix $V \in {\mathbb{R}}^{d_{\Theta} \times k}$ with $k \leq d_{\Theta}$ which has orthonormal columns. Let
+
+and $\overline{L}$ be as in Lemma 2.4. Also let $\Xi_{\theta,\varepsilon}$ be as defined in. Then for any smooth prior $\lambda$ over $\left\{ {\theta + {V\overset{\sim}{\theta}}}:{\left\| \overset{\sim}{\theta} \right\| \leq \varepsilon} \right\}$,
+
+$1)$ $\Gamma_{\theta,\varepsilon} = \Sigma_{W}$ if ${TN} \geq \frac{\left\| {J{(\lambda)}} \right\|}{\overline{L}}$.\
+$2)$ $\Gamma_{\theta,\varepsilon} = \Sigma_{\theta,\varepsilon}$ if $T \geq {\sup_{\theta^{\prime} \in {\mathcal{B}{(\theta,\varepsilon)}}}\frac{16\left\| {\Sigma_{X}{(\theta^{\prime})}} \right\|^{2}}{\lambda_{\min}{({\Sigma_{X}{(\theta^{\prime})}})}}}$, ${TN} \geq {\frac{1}{\overline{L}}{\max\left\{ \left\| {J{(\lambda)}} \right\|,\frac{G}{\lambda_{\min}{(\Sigma_{W})}\lambda_{\min}{(R)}\alpha^{2}} \right\}}}$, and $\varepsilon \leq {\min\left\{ \frac{\alpha}{2c_{1}},c_{2} \right\}}$, where
+
+### Proof
+
+We must show that for all $\pi \in \Pi^{\mathsf{l}\mathsf{i}\mathsf{n}}$, ${\sup_{\theta^{\prime} \in {\mathcal{B}{(\theta,\varepsilon)}}}{{\mathsf{E}\mathsf{C}}_{T}^{\pi}{(\theta^{\prime})}}} \geq \frac{G}{8NT\overline{L}}$. Suppose that for some $\pi \in \Pi^{\mathsf{l}\mathsf{i}\mathsf{n}}$, ${\sup_{\theta^{\prime} \in {\mathcal{B}{(\theta,\varepsilon)}}}{{\mathsf{E}\mathsf{C}}_{T}^{\pi}{(\theta^{\prime})}}} \leq \frac{G}{8NT\overline{L}}$. We have by Lemma 2.3 that
+
+The burn-in requirement ${TN} \geq \frac{\left\| {J{(\lambda)}} \right\|}{\overline{L}}$ enables upper bounding $\left\| {V^{\top}J{(\lambda)}V} \right\|$ by $TN\overline{L}$. Lemma 2.4 then allows us to upper bound the denominator in by $2TN\overline{L}$.
+
+To remove the indicators from the lower bound, we take an infimum over ${\overset{\sim}{\theta},\theta^{\prime}} \in {\mathcal{B}{(\theta,\varepsilon)}}$ to lower bound the numerator in by $\mathbf{P}{\lbrack\mathcal{G}\rbrack}^{2}G$. For case 1, we immediately have ${\mathbf{P}{\lbrack\mathcal{G}\rbrack}^{2}} = {\mathbf{P}{\lbrack\Omega\rbrack}^{2}} = 1$. For case 2, we may leverage the assumptions that the prior is small and that the burn-in time is satisfied to show that ${\mathbf{P}{\lbrack\mathcal{G}\rbrack}^{2}} = {\mathbf{P}{\lbrack\mathcal{E}\rbrack}^{2}} \geq \frac{1}{4}$. See Section A.2 for more details. This in turn implies that
+
+Therefore, for all $\pi \in \Pi^{\mathsf{l}\mathsf{i}\mathsf{n}}$, the above lower bound is satisfied. This implies that
+
+The above result holds non-asymptotically. It will be helpful to present the result asymptotically, as the number of experiments tends to $\infty$ for an understanding of the dependence on control-theoretic quantities.
+
+### Corollary 2.1
+
+For any $\alpha \in {(0,{1/2})}$ and any matrix $V \in {\mathbb{R}}^{d_{\Theta} \times k}$ with $k \leq d_{\Theta}$ which has orthonormal columns, we have that
+
+holds always for $\Gamma = \Sigma_{W}$ and for $\Gamma = {\frac{1}{2}\Sigma_{X}}$ if $T \geq \frac{16\left\| \Sigma_{X} \right\|^{2}}{\lambda_{\min}{(\Sigma_{X})}}$, where $L$ is as in Lemma 2.4 and
+
+### Proof
+
+The burn-in requirements in Theorem 2.2 are satisfied asymptotically, see Section A.3 for more details. ∎
+
+Using a similar argument to the derivations above, it can be shown that the global minimax complexity is infinite.
+
+### Corollary 2.2
+
+The global minimax excess cost is infinite for the class of scalar systems of the form:
+
+with $\theta = \begin{bmatrix}
+\end{bmatrix}^{\top}$, and $Q = R = \Sigma_{W} = \sigma_{\overset{\sim}{u}}^{2} = 1$. More precisely, for the class of stable scalar systems with the offline exploration policy $F = 0$, we have
+
+### Proof
+
+We argue as in the proof of Corollary 2.1 with $V = \begin{bmatrix}
+\end{bmatrix}^{\top}$. In this perturbation direction, the lower bound evaluates to $\frac{1}{T}\frac{{b^{2}P} + 1}{32}\frac{\partial K}{\partial b}{(a,b)}^{2}$. Considering $a = {1 - \gamma}$ and $b = \gamma$ for $0 < \gamma < 1$ and taking the limit as $\gamma\rightarrow 0$ results in the lower bound of $\infty$. For more details, see Section A.4. ∎
+
+## Consequences of the Lower Bound
+
+In this section, we examine cases where the bound in Corollary 2.1 has interpretable dependence upon system properties. To do so, we restrict attention to the setting where all system parameters are unknown, i.e. ${{\mathsf{v}\mathsf{e}\mathsf{c}}\begin{bmatrix}
+\end{bmatrix}} = \theta$. In this setting, the quantity $\mathsf{D}_{\theta}{{\mathsf{v}\mathsf{e}\mathsf{c}}\begin{bmatrix}
+\end{bmatrix}}$ arising in the bounds from the previous section is the identity matrix.
+
+The derivative of the controller multiplied by a matrix with orthonormal columns, ${\mathsf{D}_{\theta}{{\mathsf{v}\mathsf{e}\mathsf{c}}K}}{(\theta)}V$, arises in the bounds from the previous section. In this section, this quantity is expressed in terms of the directional derivative of the controller in some direction $v$, denoted $d_{v}K{(\theta)}$. In particular, we represent the columns of $V$ as $v = {{\mathsf{v}\mathsf{e}\mathsf{c}}\begin{bmatrix}
+\end{bmatrix}}$ for arbitrary perturbations $\Delta_{A}$ of $A$ and $\Delta_{B}$ of $B$ which satisfy $\left\| \begin{bmatrix}
+\end{bmatrix} \right\|_{F} = 1$. The corresponding change in the closed-loop state matrix is denoted $\Delta_{A_{cl}} = {\Delta_{A} + {\Delta_{B}K}}$. Then the directional derivative of the controller is shown in Lemma B.1 of Simchowitz and Foster to be
+
+where $P^{\prime} = {\text{dlyap}{(A_{cl},{{A_{cl}^{\top}P\Delta_{A_{cl}}} + {\Delta_{A_{cl}}^{\top}PA_{cl}}})}}$. The subsequent sections study the bound from Corollary 2.1 under various perturbations $\begin{bmatrix}
+\end{bmatrix}$. Proofs are deferred to Appendix B.
+
+### Dimensional dependence
+
+In the setting of online LQR for an unknown system, recent works obtaining lower bounds on the regret have used perturbation directions which cause tension between identification and control. In particular, they considered the set of perturbation directions
+
+For all such perturbations, $\Delta_{A_{cl}} = 0$, making it impossible to distinguish between the true parameters and the perturbed parameters online without sufficient exploratory input noise.
+
+While the tension between identification and control is no longer present in the offline setting, this set of perturbation directions retains the benefit that the directional derivative in is easy to work with. In particular for any $v = {{\mathsf{v}\mathsf{e}\mathsf{c}}\begin{bmatrix}
+\end{bmatrix}} \in \mathbf{\Delta}$,
+
+As the matrices $\Delta$ parametrizing the set $\mathbf{\Delta}$ are $d_{\mathsf{X}} \times d_{\mathsf{U}}$ dimensional, we may stack $d_{\mathsf{X}}d_{\mathsf{U}}$ orthogonal vectors $v_{i}$ belonging $\mathbf{\Delta}$ into a matrix $V = \begin{bmatrix}
+v_{1} & \ldots & v_{d_{\mathsf{X}}d_{\mathsf{U}}}
+\end{bmatrix}$. This allows us to present a lower bound which demonstrates the dependence of the offline LQR problem upon the system dimensions $d_{\mathsf{X}}$ and $d_{\mathsf{U}}$.
+
+### Proposition 3.1
+
+Suppose that $T \geq \frac{16\left\| \Sigma_{X} \right\|^{2}}{\lambda_{\min}{(\Sigma_{X})}}$. Then for $\alpha \in {(0,{1/2})}$,
+
+where $\overset{\sim}{L}$ is given by $L{(\theta)}$ as in (LABEL:eq:\_info_bound_L) by replacing $\nu_{1}$ with $1$ and $\nu_{2}$ with $1 + {2\left\| F \right\|^{2}}$.
+
+In addition to the system dimensions, we can interpret the remaining system-theoretic parameters. Note that $\overset{\sim}{L}$ bounds the information available from the offline experimentation. It depends on the norm of the controllability gramian from noise to the state, as well as $\sigma_{\overset{\sim}{u}}^{2}\left( {\sum_{t = 0}^{\infty}\left\| {{({A + {BF}})}^{t}B} \right\|} \right)^{2}$, which bounds the impact of the exploratory input on the state. The $\Psi$ in the denominator of the above bound may scale as $\lambda_{\max}{(P)}$, and therefore effectively cancels a $\lambda_{\min}{(P)}$ in the numerator for well-conditioned problems. This leaves a single $\lambda_{\min}{(P)}$ in the numerator. As $x^{\top}Px$ is the optimal objective value of the noiseless LQR problem starting from initial state $x$, the appearance of $\lambda_{\min}{(P)}$ in the bound captures the fact that as the system becomes harder to control, it also becomes harder to learn to control. Lastly, the variance term $\lambda_{\min}{({\Sigma_{X} - \Sigma_{W}})}$ implies that the excess cost is large when the optimal closed-loop system has a large state covariance relative to the process noise covariance.
+
+### Remark 3.1
+
+The dimensional dependence $d_{\mathsf{X}}d_{\mathsf{U}}$ in the above bound is optimal up to constant factors when $d_{\mathsf{U}} \leq d_{\mathsf{X}}$. To see that this is so, observe that Theorem 2 of Mania et al. demonstrates an upper bound on the excess cost that scales as $d_{\mathsf{U}}\varepsilon^{2}$, where $\varepsilon^{2}$ bounds the system identification error, $\max\left\{ \left\| {\hat{A} - A} \right\|^{2},\left\| {\hat{B} - B} \right\|^{2} \right\}$. A consequence of Theorem 5.4 in Tu et al. is that if we apply exploratory inputs which are generated from a Gaussian distribution with mean zero and covariance $\sigma_{\overset{\sim}{u}}^{2}I$, then the upper bound on the system identification error scales as $\frac{d_{\mathsf{X}} + d_{\mathsf{U}}}{NT}$. In particular, as long as number of offline trajectories $N$ exceeds $cd_{\mathsf{X}}$, for some universal constant $c$, then ${\max\left\{ \left\| {\hat{A} - A} \right\|^{2},\left\| {\hat{B} - B} \right\|^{2} \right\}} \lesssim {\left\| \Sigma_{W} \right\|\frac{d_{\mathsf{X}} + d_{\mathsf{U}}}{NT\lambda_{\min}{(\text{controllability gramian})}}}$. Consequently, the upper bound on the excess cost scales with $\frac{d_{\mathsf{U}}{({d_{\mathsf{X}} + d_{\mathsf{U}}})}}{NT} \lesssim \frac{d_{\mathsf{X}}d_{\mathsf{U}}}{NT}$ in the underactuated setting. Therefore, for classes of systems where the remaining system-theoretic quantities are constant with respect to system dimension, the bound is optimal in the dimension.
+
+### Exponential Lower Bounds
+
+The previous section demonstrated a lower bound that scales linearly with $d_{\mathsf{X}}d_{\mathsf{U}}$. Prior work has shown that in the setting of online LQR, there exist classes of systems where the lower bounds on the regret may scale exponentially with the state dimension. This is shown by demonstrating that particular system-theoretic terms, which are often treated as constant with respect to dimension, may actually grow exponentially with the state dimension. We demonstrate that in the setting of offline LQR, such systems still cause exponential dependence on dimension. Furthermore, because there are fewer restrictions upon the perturbation directions in the lower bound for the offline setting, we construct a simpler class of a systems which exhibits this behavior. In particular, consider the system
+
+with $0 < \rho < 1$, $F = 0$, $Q = I$, $R = 1$, and $\Sigma_{W} = I$. Let $V = {{\mathsf{v}\mathsf{e}\mathsf{c}}\begin{bmatrix}
+\end{bmatrix}}$. Then the quantity $L{(\theta)}$ in Corollary 2.1 becomes $8\sigma_{\overset{\sim}{u}}^{2}$, as ${\nu_{1}{(V)}} = 0$. Meanwhile, (using the option $\Gamma = \Sigma_{W} = I$), the quantity $G$ becomes
+
+Using this insight, we may show that the lower bound grows exponentially with the system dimension.
+
+### Proposition 3.2
+
+For the system in suppose $d_{\mathsf{X}} \geq 3$. Then for $\alpha \in {(0,{1/2})}$,
+
+We have therefore demonstrated that accurately learning the LQR controller from offline data may require an amount of data that is exponential in the state dimension. The reason that this system is particularly challenging to learn to control is that a small misidentification of $B$ causes the learner to apply slightly suptoptimal control inputs, which are then amplified by the off-diagonal terms of $A$. The construction used avoids the two subsystem example that was used to derive exponential lower bounds for online LQR in Tsiamis et al.. A crucial reason that we are able to bypass such a construction in the offline setting is that the dominant statistical rate of $\frac{1}{NT}$ for offline LQR is present for any perturbation direction of the underlying parameters. In contrast, the regret in the online setting only has the dominant statistical rate in the directions defined by the perturbation set in.
+
+### Interesting System-Theoretic Quantities
+
+A consequence of the result in Section 3.2 is that treating system-theoretic quantities as constant with respect to dimension, as is done in Remark 3.1, may fail to capture the difficulty of the problem. This leads to unfavorable aspects of the lower bound in Remark 3.1, such as the dependence of the denominator on $\left\| K \right\|$. Such an appearance indicates that for systems where the optimal LQR has a large gain, the lower bound becomes small. This is in contrast to our expectations, as a large optimal gain is often indicative of poor controllability (consider a scalar system, with $B\rightarrow 0$).
+
+Motivated by the above discussion, we focus our attention on deriving bounds which have favorable dependence upon system-theoretic quantities. To do so, we examine a perturbation direction for which the lower bound from Corollary 2.1 reduces to easily interpretable quantities which align with our intuition. By taking $V = {{\mathsf{v}\mathsf{e}\mathsf{c}}\frac{\begin{bmatrix}
+\end{bmatrix}}{\left\| \begin{bmatrix}
+\end{bmatrix} \right\|_{F}}}$, the directional derivative expression from reduces to
+
+Then the quantity $G$ in Corollary 2.1 (using $\Gamma = \Sigma_{X}$), is
+
+This leads to the following proposition.
+
+### Proposition 3.3
+
+Suppose that $R$ and $B^{\top}PB$ are simultaneously diagonalizable by $U$: ${B^{\top}PB} = {U\Lambda_{B^{\top}PB}U^{\top}}$ and $R = {U\Lambda_{R}U^{\top}}$, where $\Lambda_{B^{\top}PB}$ and $\Lambda_{R}$ are diagonal. Also suppose that the diagonal entries of $\Lambda_{B^{\top}PB}$ are sorted in non-ascending order. Assume $T \geq \frac{16\left\| \Sigma_{X} \right\|^{2}}{\lambda_{\min}{(\Sigma_{X})}}$. Let $\overset{\sim}{L}$ be as in Proposition 3.1. Then for $\alpha \in {(0,{1/2})}$
+
+As $R$ is often chosen to be a scalar multiple of the identity for LQR problems, the assumption that $R$ and $B^{\top}PB$ are simultaneously diagonalizable is often satisfied. If we additionally have $R \preceq {B^{\top}PB}$, then ${\inf_{i \in {\lbrack d_{\mathsf{U}}\rbrack}}\frac{\lambda_{i}{({B^{\top}PB})}}{{\lambda_{i}{({B^{\top}PB})}} + \Lambda_{R,{ii}}}} \geq \frac{1}{2}$. As in Proposition 3.1, $\lambda_{\min}{({\Sigma_{X} - \Sigma_{W}})}$ highlights the dependence on the closed-loop state covariance, and $\overset{\sim}{L}$ describes the impact of the controllability of the closed-loop system under the pre-stabilizing controller, as well as the input budget. Note that $\overset{\sim}{L}$ provides an upper bound on the information in the face of an optimal offline exploration policy. Studying it may therefore assist with experiment design, as in Wagenmaker et al.. Rather than the appearance of $\left\| \begin{bmatrix}
+\end{bmatrix} \right\|$ on the denominator, as we saw in Proposition 3.1, we have $\left\| \begin{bmatrix}
+\end{bmatrix} \right\|_{F}$. Therefore, the bound does not diminish as a result of a large optimal controller gain. Lastly, observe that $\sum_{j = 1}^{du}{\lambda_{n - j}{({\text{dlyap}{(A_{cl},P)}})}}$ replaces $\lambda_{\min}{(P)}$ from Proposition 3.1. This quantity captures the $d_{\mathsf{U}}$ smallest eigenvalues rather than just the smallest. If $d_{\mathsf{U}} = d_{\mathsf{X}}$, we get all eigenvalues of $\text{dlyap}{(A_{cl},P)}$. Further note that the eigenvalues of $\text{dlyap}{(A_{cl},P)}$ diverge as $A_{cl}$ approaches marginal stability, leading to an infinite excess cost.
+
+## Conclusion
+
+We presented lower bounds for offline linear-quadratic control problems. The focus was to understand the fundamental limitations of learning controllers from offline data in terms of system-theoretic properties. Several interesting consequences arose, such as the fact that our lower bound achieves the optimal dimensional dependence $d_{\mathsf{X}}d_{\mathsf{U}}$ for underactuated systems. We also showed that there exist classes of systems where the sample complexity is exponential with the system dimension, $d_{\mathsf{X}}$. We finally demonstrated that the lower bound scales in a natural way with familiar system-theoretic constants including the eigenvalues of the Riccati solution. An avenue for future work is extension of the lower bounds to the partially observed setting.

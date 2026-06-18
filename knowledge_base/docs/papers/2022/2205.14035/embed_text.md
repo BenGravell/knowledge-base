@@ -1,0 +1,230 @@
+## Introduction
+
+In stochastic linear control, the goal is to design a controller for a system of the form
+
+where $x_{k} \in {\mathbb{R}}^{n}$ is the system internal state, $u_{k} \in {\mathbb{R}}^{p}$ is some exogenous input, and $w_{k} \in {\mathbb{R}}^{r}$ is some random disturbance sequence. Matrices $A,B,H$ determine the evolution of the state, based on the previous state, control input, and disturbance respectively. Control theory has a long history of studying how to design controllers for system when its model is *known*. However, in reality system might be *unknown* and we might not have access to its model. In this case, we have to learn how to control based on data.
+
+Controlling unknown dynamical systems has also been studied from the perspective of Reinforcement Learning (RL). Although the setting of tabular RL is relatively well-understood, it has been challenging to analyze the continuous setting, where the state and/or action spaces are infinite. Recently, there has been renewed interest in learning to control linear systems. Indeed, linear systems are simple enough to allow for an in-depth theoretical analysis, yet exhibit sufficiently rich behavior so that we can draw conclusions about continuous control of more general system classes. In this paper we focus on the following two problems.
+
+Regret of online LQR. A fundamental benchmark for continuous control is the Linear Quadratic Regulator (LQR) problem, where the goal is to compute a policy ^11^1A policy decides the current control input $u_{t}$ based on past state-input values --see Section 2 for details. $\pi$ that minimizes
+
+where $Q \in {\mathbb{R}}^{n \times n}$, $R \in {\mathbb{R}}^{p \times p}$ are the state and input penalties respectively; these penalties control the tradeoff between state regulation and control effort. When model is known, LQR enjoys a closed-form solution; the optimal policy is a linear feedback law ${\pi_{\star,t}{(x_{t})}} = {K_{\star}x_{t}}$, where the control gain $K_{\star}$ is given by solving the celebrated Algebraic Riccati Equation (ARE). If model is unknown, we have to learn the optimal policy from data. In the online learning setting, the goal of the learner is to find a policy that adapts online and competes with the optimal LQR policy that has access to the true model. The suboptimality of the online learning policy at time $T$ is captured by the *regret*
+
+The learning task is to find a policy with as small regret as possible.
+
+Sample Complexity of Stabilization Another important benchmark is the problem of stabilization from data. The goal is to learn a linear gain $K \in {\mathbb{R}}^{m \times n}$ such that the closed-loop system $A + {BK}$ is stable, i.e., such that its spectral radius $\rho{({A + {BK}})}$ is less than one. Many algorithms for online LQR require the existence of such a stabilizing gain to initialize the online learning policy. Furthermore, stabilization is a problem of independent interest. In this setting, the learner designs an exploration policy $\pi$ and an algorithm that uses batch state-input data $x_{0},\ldots,x_{N},u_{0},\ldots,u_{N - 1}$ to output a control gain ${\hat{K}}_{N}$, at the end of the exploration phase. Here we focus on *sample complexity*, i.e., the minimum number of samples $N$ required to find a stabilizing gain.
+
+Since the seminal papers by Abbasi-Yadkori and Szepesvári and Dean et al. both LQR and stabilization have been studied extensively in the literature -- see Section 1.1. Current state-of-the-art results state that the regret of online LQR and the sample complexity of stabilization scale at most polynomially with system dimension $n$
+
+where $C_{1}^{sys},C_{2}^{sys}$ are system specific constants that depend on several control theoretic quantities of system. However, the above statements might not reveal the whole picture.
+
+In fact, system theoretic parameters $C_{1}^{sys},C_{2}^{sys}$ can actually hide dimensional dependence on $n$. This dependence has been overlooked in prior work. As we show in this paper, there exist non-trivial classes of linear systems for which system theoretic parameters scale dramatically, i.e. exponentially, with the dimension $n$. As a result, the system theoretic quantities $C_{1}^{sys},C_{2}^{sys}$ might be very large and in fact *dominate* the ${poly}{(n)}$ term in the upper bounds. This phenomenon especially arises in systems which are structurally difficult to control, such as for example underactuated systems. Then, the upper bounds suggest that learning might be difficult for such instances. This brings up the following questions. *Can learning LQR or stabilizing controllers indeed be hard for such systems? How does system structure affect difficulty of learning?*
+
+To answer the first question, we need to establish lower bounds. As we discuss in Section 1.1, existing lower bounds for online LQR might not always reveal the dependence on control theoretic parameters. Chen and Hazan provided exponential lower bounds for the start-up regret of stabilization. Still, to the best of our knowledge, there are no existing lower bounds for the *sample complexity* of stabilization. Recently, it was shown that the sample complexity of system identification can grow exponentially with the dimension $n$. However, it is not clear if difficulty of identification translates into difficulty of control. Besides, we do not always need to identify the whole system in order to control it. To answer the second question, we need to provide upper bounds for several control theoretic parameters. Our contributions are the following:
+
+Exp($n$) Stabilization Lower Bounds. We prove an information-theoretic lower bound for the problem of learning stabilizing controllers, showing that it can indeed be statistically hard for underactuated systems. In particular, we show that the sample complexity of stabilizing an unknown underactuated linear system can scale exponentially with the state dimension $n$. To the best of our knowledge this is the first paper to address this issue and consider lower bounds in this setting.
+
+Exp($n$) LQR Regret Lower Bounds. We show that the regret of online LQR can scale exponentially with the dimension as ${\exp{(n)}}\sqrt{T}$. In fact, even common integrator-like systems can exhibit this behavior. To prove our result, we leverage recent regret lower bounds, which provide a refined analysis linking regret to system theoretic parameters. Chen and Hazan first showed that the start-up cost of the regret (terms of low order) can scale exponentially with $n$. Here, we show that this exponential dependence can also affect multiplicatively the dominant $\sqrt{T}$ term.
+
+Exponential Upper Bounds. Under some additional structural assumptions (bounding systems away from uncontrollability), we provide matching global upper bounds. We show that the sample complexity of stabilization and the regret of online LQR can be at most exponential with the dimension $n$. In fact, we prove a stronger result, that they can be at most exponential with the *controllability index* of the system, which captures the structural difficulty of control -- see Section 3. This implies that if the controllability index is small with respect to the dimension $n$, then learning is guaranteed to be easy.
+
+### Related Work
+
+System Identification. A related problem is that of system identification, where the learning objective is to recover the model parameters $A,B,H$ from data. The sample complexity of system identification was studied extensively in the setting of fully observed linear systems as well as partially-observed systems. Recently, it was shown that the sample complexity of system identification can grow exponentially with the dimension $n$.
+
+Learning Feedback Laws. The problem of learning stabilizing feedback laws from data was studied before in the case of stochastic as well as adversarial disturbances. The standard paradigm has been to perform system identification, followed by a robust control or certainty equivalent gain design. Prior work is limited to sample complexity upper bounds. To the best of our knowledge, there have been no sample complexity lower bounds.
+
+Online LQR. While adaptive control in the LQR framework has a rich history, the recent line of work on regret minimization in online LQR begins with Abbasi-Yadkori and Szepesvári. They provide a computationally intractable algorithm based on optimism attaining $O{(\sqrt{T})}$ regret. Algorithms based on optimism have since been improved and made more tractable. In a closely related line of work, Dean et al. provide an $O{(T^{2/3})}$ regret bound for robust adaptive LQR control, drawing inspiration from classical methods in system identification and robust adaptive control. It has since been shown that certainty equivalent control, without robustness, can attain the (locally) minimax optimal $O{(\sqrt{T})}$ regret. In particular, by providing nearly matching upper and lower bounds, Simchowitz and Foster refine this analysis and establish that the optimal rate, without taking system theoretic quantities into account, is $R_{T} = {\Theta{(\sqrt{p^{2}nT})}}$. In this work, we rely on the lower bounds by Ziemann and Sandberg, which provide a refined instance specific analysis and also lower bounds for the partially observed setting. Here, we further refine their lower bounds to reveal a sharper dependence of the regret on control theoretic parameters. Hence, we how that certain non-local minimax complexities can be far worse than $R_{T} = {\Omega{(\sqrt{p^{2}nT})}}$ and scale exponentially in the problem dimension. Indeed, an exponential start-up cost has already been observed by Chen and Hazan, in the case of adversarial disturbances. Here we show that this exponential dependency can persist multiplicatively even for large $T$, in the case of stochastic disturbances. Thus, our results complement the results of Chen and Hazan.
+
+### Notation
+
+The transpose of $X$ is denoted by $X^{\prime}$. For vectors $v \in {\mathbb{R}}^{d}$, ${\| v\|}_{2}$ denotes the $\ell_{2}$-norm. For matrices $X \in {\mathbb{R}}^{d_{1} \times d_{2}}$, the spectral norm is denoted by ${\| X\|}_{2}$. For comparison with respect to the positive semi-definite cone we will use $\succeq$ or $\succ$ for strict inequality. By $\mathbb{P}$ we will denote probability measures and by $\mathbb{E}$ expectation. By ${poly}{( \cdot )}$ we denote a polynomial function of its arguments. By $\exp{( \cdot )}$ we denote a exponential function of its arguments.
+
+## Problem Statement
+
+System is characterized by the matrices ${A \in {\mathbb{R}}^{n \times n}},{{B \in {\mathbb{R}}^{n \times p}},{H \in {\mathbb{R}}^{n \times r}}}$. We assume that $w_{k} \sim {\mathcal{N}{(0,I_{r})}}$ is i.i.d. Gaussian with unit covariance. Without loss of generality the initial state is assumed to be zero $x_{0} = 0$. In a departure from prior work, we do not necessarily assume that the noise is isotropic. Instead, we consider a more general model, where the noise $Hw_{k}$ is allowed to be degenerate--see also Remark 1. ‣ 4 Difficulty of Stabilization ‣ Learning to Control Linear Systems can be Hard").
+
+### Assumption 1
+
+Matrices $A,B,H$ and the noise dimension $r \leq n$ are all unknown. The unknown matrices are bounded, i.e. ${{\| A\|}_{2},{\| B\|}_{2},{\| H\|}_{2}} \leq M$, for some positive constant $M \geq 1$. Matrices $B,H$ have full column rank ${{rank}{(B)}} = p \leq n$, ${{rank}{(H)}} = r \leq n$. We also assume that the system is non-explosive ${\rho{(A)}} \leq 1$.
+
+The boundedness assumption on the state parameters allows us to argue about global sample complexity upper bounds. To simplify the presentation, we make the assumption that the system is non-explosive ${\rho{(A)}} \leq 1$. This setting includes marginally stable systems and is rich enough to provide insights about the difficulty of learning more general systems.
+
+A policy is a sequence of functions $\pi = \left\{ \pi_{t} \right\}_{t = 0}^{N - 1}$. Every function $\pi_{t}$ maps previous state-input values $x_{0},\ldots,x_{t},u_{0},\ldots,u_{t - 1}$ and potentially an auxiliary randomization signal $AUX$ to the new input $u_{t}$. Hence all inputs $u_{t}$ are $\mathcal{F}_{t}$-measurable, where $\mathcal{F}_{t} \triangleq {\sigma{(x_{0},\ldots,x_{t},u_{0},\ldots,u_{t - 1},{AUX})}}$. For brevity we will use the symbol $S$ to denote a system $S = {(A,B,H)}$. Let ${\mathbb{P}}_{S,\pi}$ (${\mathbb{E}}_{S,\pi}{( \cdot )}$) denote the probability distribution (expectation) of the input-state data when the true system is equal to $S$ and we apply a policy $\pi$.
+
+### Difficulty of Stabilization
+
+In the stabilization problem, the goal is to find a state-feedback control law $u = {Kx}$, where $K$ renders the closed-loop system $A + {BK}$ stable with spectral radius less than one, i.e., ${\rho{({A + {BK}})}} < 1$. We assume that we collect data $x_{0},\ldots,x_{N},u_{0},\ldots,u_{N}$, which are generated by system using any exploration policy $\pi$, e.g. white-noise excitation, active learning etc. Since we care only about sample complexity, the policy is allowed to be maximally exploratory. To make the problem meaningful, we restrict the average control energy.
+
+### Assumption 2
+
+The control energy is bounded ${{\mathbb{E}}_{S,\pi}{\| u_{t}\|}_{2}^{2}} \leq \sigma_{u}^{2}$, for some $\sigma_{u} > 0$.
+
+Next, we define a notion of learning difficulty for classes of linear systems. By $\mathcal{C}_{n}$ we will denote a class of systems with dimension $n$. We will define as easy, classes of linear system that exhibit ${poly}{(n)}$ sample complexity.
+
+### Definition 1 (Poly$(n)$-stabilizable classes)
+
+Let $\mathcal{C}_{n}$ be a class of systems. Let ${\hat{K}}_{N}$ be a function that maps input-state data ${(u_{0},x_{1})},\ldots$,$(u_{N - 1},x_{N})$ to a control gain. We call the class $\mathcal{C}_{n}$ ${{poly}{(n)}} -$stabilizable if there exists an algorithm ${\hat{K}}_{N}$ and an exploration policy $\pi$ satisfying Assumption 2, such that for any confidence $0 \leq \delta < 1$:
+
+Our definition requires both the number of samples and the input energy to be polynomial with the arguments. The above class-specific definition can be turned into a local, instance-specific, definition of sample complexity by considering a neighborhood around an unknown system. The question then arises whether linear systems are generally poly$(n)$-stabilizable.
+
+### Problem 1
+
+Are there linear system classes which are not ${poly}{(n)}$-stabilizable? When can we guarantee ${poly}{(n)}$-stabilizability?
+
+### Difficulty of Online LQR
+
+Consider the LQR objective. Let the state penalty matrix $Q \in {\mathbb{R}}^{n \times n} \succ 0$ be positive definite, with the input penalty matrix $R \in {\mathbb{R}}^{p \times p}$ also positive definite. When the model is known, the optimal policy is a linear feedback law $\pi_{\star} = \left\{ {K_{\star}x_{k}} \right\}_{k = 0}^{T - 1}$, where $K_{\star}$ is given by
+
+and $P$ is the unique positive definite solution to the Algebraic Riccati Equation (ARE)
+
+Throughout the paper, we will assume that $Q_{T} = P$. If the model of is unknown, the goal of the learner is to find an online learning policy $\pi$ that leads to minimum regret $R_{T}{(S)}$. In the setting of online LQR, the data are revealed sequentially, i.e. $x_{t + 1}$ is revealed after we select $u_{t}$. Contrary to the stabilization problem, here we study regret, i.e. there is a tradoff between exploration and exploitation. We will define a class-specific notion of learning difficulty based on the ratio between the regret and $\sqrt{T}$.
+
+### Definition 2 (Poly$(n)$-Regret)
+
+Let $\mathcal{C}_{n}$ be a class of systems of dimension $n$. We say that the class $\mathcal{C}_{n}$ exhibits poly($n$) minimax expected regret if
+
+where $\overset{\sim}{O}{}$ hides ${poly}{\log T}$ terms.
+
+Our definition here is based on expected regret, but we could have a similar definition based on high probability regret guarantees -- see Dann et al. for distinctions between the two definitions. Similar to the stabilization problem, we pose the following questions.
+
+### Problem 2
+
+Are there classes of systems for which poly$(n)$-regret is impossible? When is poly$(n)$-regret guaranteed?
+
+## Classes with Rich Controllability Structure
+
+Before we present our learning guarantees, we need to find classes of systems, where learning is meaningful. To make sure that the stabilization and the LQR problems are well-defined, we assume that system is controllable^22^2We can slightly relax the condition to $(A,B)$ stabilizable. To avoid technicalities we leave that for future work..
+
+### Assumption 3
+
+System is $(A,B)$ *controllable*, i.e. matrix
+
+has full column rank ${{rank}{({\mathcal{C}_{k}{(A,B)}})}} = n$, for some $k \leq n$.
+
+Unsurprisingly, the class of all controllable systems does not exhibit finite sample complexity/regret, let alone polynomial sample complexity/regret. The main issue is that there exist systems which satisfy the rank condition but are arbitrarily close to uncontrollability. For example, consider the following controllable system, which we want to stabilize
+
+The only way to stabilize the system is indirectly by using the second state $x_{k,2}$, via the coupling coefficient $\alpha$. However, we need to know the sign of $\alpha$. If $\alpha$ is allowed to be arbitrarily small, i.e. the system is arbitrarily close to uncontrollability, then an arbitrarily large number of samples is required to learn the sign of $\alpha$, leading to infinite complexity. To obtain classes with finite sample complexity/regret we need to bound the system instances away from uncontrollability. One way is to consider the least singular value of the controllability Gramian $\Gamma_{k}{(A,B)}$ at time $k$:
+
+An implicit assumption in prior literature is that ${\sigma_{\min}^{- 1}{({\Gamma_{k}{(A,B)}})}} \leq {{poly}{(n)}}$. We will not assume this here, since it might exclude many systems of interest, such as integrator-like systems, also known as underactuated systems, or networks. Instead, we will relax this requirement to allow richer system structures.
+
+To avoid pathologies, we will lower bound the coupling between states in the case of indirectly controlled systems. To formalize this idea, let us review some notions from system theory. The *controllability index* is defined as follows
+
+i.e., it is the minimum time such that the controllability rank condition is satisfied. It captures the degree of underactuation and reflects the structural difficulty of control.
+
+Based on the fact that the rank of the controllability matrix at time $\kappa$ is $n$, we can show that the pair $(A,B)$ admits the following canonical representation, under a unitary similarity transformation. It is called the Staircase or Hessenberg form of system.
+
+### Proposition 1 (Staircase form)
+
+Consider a controllable pair $(A,B)$ with controllability index $\kappa$ and controllability matrix $\mathcal{C}_{k}$, $k \geq 0$. There exists a unitary similarity transformation $U \in {\mathbb{R}}^{n \times n}$ such that ${U^{\prime}U} = {UU^{\prime}} = I$ and:
+
+where $A_{i,j} \in {\mathbb{R}}^{p_{i} \times p_{j}}$ are block matrices, with $p_{i} = {{{rank}{(\mathcal{C}_{i})}} - {{rank}{(\mathcal{C}_{i - 1})}}}$, $p_{1} = p$, $B_{1} \in {\mathbb{R}}^{p \times p}$. Matrices $A_{{i + 1},i}$ have full row rank ${{rank}{(A_{{i + 1},i})}} = p_{i + 1}$ and the sequence $p_{i}$ is decreasing.
+
+Matrix $U$ is the orthonormal matrix of the QR decomposition of the first $n$ independent columns of $\mathcal{C}_{\kappa}{(A,B)}$. It is unique up to sign flips of its columns. The above representation captures the coupling between the several sub-states via the matrices $A_{{i + 1},i}$. It has been used before as a test of controllability Dooren. This motivates the following definition, wherein we bound the coupling matrices $A_{{i + 1},i}$ away from zero.
+
+### Definition 3 (Robustly coupled systems)
+
+Consider a controllable system $(A,B)$ with controllability index $\kappa$. It is called $\mu -$robustly coupled if and only if for some positive $\mu > 0$:
+
+where $B_{1}$, $A_{{i + 1},i}$ are defined as in the Staircase form (13. ‣ 3 Classes with Rich Controllability Structure ‣ Learning to Control Linear Systems can be Hard")).
+
+In the previous example, by introducing the $\mu -$robust coupling requirement, we enforce a lower bound on the coupling coefficient $\alpha \geq \mu$, thus, avoiding pathological systems.
+
+In the following sections, we connect the controllability index to the hardness/ease of control. We prove rigorously why performance might degrade as the index becomes $\kappa = {O{(n)}}$, as, e.g., in the case of integrator-like systems or networks. This cannot be explained based on prior work or based on global lower-bounds on the least singular value of the controllability Gramian. The controllability index and the controllability Gramian are two different measures that are suitable for different types of guarantees. The controllability index captures the structural difficulty of control, so it might be more suitable for class-specific guarantees versus instance-specific local guarantees.
+
+## Difficulty of Stabilization
+
+In this section, we show that there exist non-trivial classes of linear systems for which the problem of stabilization from data is hard. In fact, the class of robustly coupled systems requires at least an exponential, in the state dimension $n$, number of samples.
+
+### Theorem 1 (Stabilization can be Hard)
+
+Consider the class $\mathcal{C}_{n,\kappa}^{\mu}$ of all $\mu$-robustly coupled systems $S = {(A,B,H)}$ of dimension $n$ and controllability index $\kappa$. Let Assumption 2 hold and let $\mu < 1$. Then, for any stabilization algorithm, the sample complexity is exponential in the index $\kappa$. For any confidence $0 \leq \delta < {1/2}$ the requirement
+
+Theorem 1. ‣ 4 Difficulty of Stabilization ‣ Learning to Control Linear Systems can be Hard") implies that system classes with large controllability index, e.g. $\kappa = n$, suffer in general from sample complexity which is exponential with the dimension $n$. In other words, learning difficulty arises in the case of under-actuated systems. Only a limited number of system states are directly driven by inputs and the remaining states are only indirectly excited, leading to a hard learning and stabilization problem. Consider now systems
+
+where $0 < \mu < 1$, $\alpha_{1} = 1$, $\alpha_{2} = {- 1}$. Systems $S_{1}$, $S_{2}$ are almost identical with the exception of element $A_{12}$ where they have different signs. Both systems have one marginally stable mode corresponding to state $x_{k,1}$. The only way to stabilize $x_{k,1}$ with state feedback is indirectly, via $x_{k,2}$. Given system $S_{1}$, since ${\alpha_{1}\mu} > 0$, it is necessary that the first component of the gain is negative ${\hat{K}}_{N,1} < 0$. This follows from the Jury stability criterion, a standard stability test in control theory. Let ${\phi_{1}{(z)}} = {\det{({{zI} - A_{1} - {B{\hat{K}}_{N}}})}}$ be the characteristic polynomial of system $S_{1}$. Then one of the necessary conditions in Jury's criterion requires:
+
+which can only be satisfied if ${\hat{K}}_{N,1} < 0$ (see Appendix C for details). On the other hand, we can only stabilize $S_{2}$ if ${\hat{K}}_{N,1} > 0$. Hence, the only way to stabilize the system is to identify the sign of $\alpha_{i}$. In other words, we transform the stabilization problem into a system identification problem. However, identification of the correct sign is very hard since the excitation of $x_{k,2} = {\mu^{n - 1}u_{{k - n} + 1}}$ scales with $\mu^{n - 1}$. The proof relies on Birgé's inequality. In Section C we construct a slightly more general example with non-zero diagonal elements. Our construction relies on the fact that $\mu < 1$. It is an open question whether we can construct hard learning instances for $\mu \geq 1$.
+
+One insight that we obtain from the above example is that lack of excitation might lead to large sample complexity of stabilization. In particular, this can happen when we have an unstable/marginally stable mode, which can only be controlled via the system identification bottleneck, like $A_{1,2}$ in the above example.
+
+### Remark 1 (Singular noise)
+
+Our stabilization lower bound exploits the fact that the constructed system has low-rank noise, such that system identification is hard. It is an open problem whether we can construct examples of systems that are not ${{poly}{(n)}} -$stabilizable even though they are excited by full-rank noise. Nonetheless, in our regret lower bounds, we allow the noise to be full-rank.
+
+### Sample complexity upper bounds
+
+As we show below, sample complexity cannot be worse than exponential under the assumption of robust coupling. If the exploration policy is a white noise input sequence, then using a least squares identification algorithm, and a robust control design scheme, the sample complexity can be upper bounded by a function which is at most exponential with the dimension $n$. In fact, we provide a more refined result, directly linking sample complexity to the controllability index $\kappa$. Our proof relies on bounding control theoretic quantities like the least singular value of the controllablility Gramian. The details of the proof and the algorithm can be found in Section D.
+
+### Theorem 2 (Exponential Upper Bounds)
+
+Consider the class $\mathcal{C}_{n,\kappa}^{\mu}$ of all $\mu$-robustly coupled systems $S = {(A,B,H)}$ of dimension $n$ and controllability index $\kappa$. Let Assumption 2 hold. Then, the sample complexity is at most exponential with $\kappa$. There exists an exploration policy $\pi$ and algorithm ${\hat{K}}_{N}$ such that for any $\delta < 1$:
+
+Assume that the constants $\mu$ and $M$ are dimensionless. Then, our upper and lower bounds match qualitatively with respect to the dependence on $\kappa$. Theorem 2. ‣ 4.1 Sample complexity upper bounds ‣ 4 Difficulty of Stabilization ‣ Learning to Control Linear Systems can be Hard") implies that if the degree of underactuation is mild, i.e. $\kappa = {O{({\log n})}}$, then robustly coupled systems are guaranteed to be poly$(n)$-stabilizable. Our upper bound picks up a dependence on the quantity $M/\mu$. Recall that $M$ upper-bounds the norm of $A$. Hence, it captures a notion of sensitivity of the dynamics $A$ to inputs/noise. In the lower bounds only the coupling term $\mu$ appears. It is an open question to prove or disprove whether the sensitivity of $A$ affects stabilization or it is an artifact of our analysis. Another important open problem is to determine the optimal constant that multiplies $\kappa$ in the exponent. Our lower bound suggests that the exponent can be at least of the order of $2$ times $\kappa$. In our upper bounds, by following the proof, we get an exponent which is larger than $2$.
+
+## Difficulty of online LQR
+
+In the following theorem, we prove that classes of robustly coupled systems can exhibit minimax expected regret which grows at least exponentially with the dimension $n$. Let $\mathcal{C}_{n,\kappa}^{\mu}$ denote the class of $\mu$-robustly coupled systems $S = {(A,B,H)}$ of state dimension $n$ and controllability index $\kappa$. Define the $\epsilon$-dilation $\mathcal{C}_{n,\kappa}^{\mu}{(\epsilon)}$ of $\mathcal{C}_{n,\kappa}^{\mu}$ as
+
+which consists of every system in $\mathcal{C}_{n,\kappa}^{\mu}$ along with its $\epsilon -$ball around it.
+
+### Theorem 3 (Exponential Regret Lower Bounds)
+
+Consider the class $\mathcal{C}_{n,\kappa}^{\mu}$ of all $\mu$-robustly coupled systems $S = {(A,B,H)}$ of state dimension $n$ and controllability index $\kappa$, with $\kappa \leq {n - 1}$. For every $\epsilon > 0$ define the $\epsilon$-dilation $\mathcal{C}_{n,\kappa}^{\mu}{(\epsilon)}$. Let $Q_{T} = P$, the solution to the ARE, and assume $\mu < 1$. Let $0 < \alpha < {1/4}$. For any policy $\pi$
+
+When the controllability index is large, e.g. $\kappa = n$, then the lower bounds become exponential with $n$. Hence, achieving poly($n$)-regret is impossible in the case of general linear systems. In general, learning difficulty depends on fundamental control theoretic parameters, i.e. on the solution $P$ to the ARE or the steady-state covariance of the closed-loop system, both of which can scale exponentially with the controllability index. Existing regret upper-bounds depend on such quantities in a transparent way Simchowitz and Foster. Here, we reveal the dependence on such parameters in the regret lower-bounds as well (Lemma 1. ‣ 5.1 Sketch of Lower Bound Proof ‣ 5 Difficulty of online LQR ‣ Learning to Control Linear Systems can be Hard")).
+
+Let us now explain when learning can be difficult. Consider the following $1 -$strongly coupled system, which consists of two independent subsystems
+
+where the first subsystem is a memoryless system, while the second one is the discrete integrator of order $n - 1$. Since the sub-systems are decoupled, the optimal LQR controller will also be decoupled and structured
+
+where $K_{\star,0}$ is the optimal gain of the second subsystem. The first subsystem (upper-left) is memoryless and does not require any regulation, that is, ${\lbrack K_{\star}\rbrack}_{11} = 0$.
+
+Consider now a perturbed system $\overset{\sim}{A} = {A - {\DeltaK_{\star}}}$, $\overset{\sim}{B} = {B + \Delta}$, for some $\Delta \in {\mathbb{R}}^{p \times n}$. Such perturbations are responsible for the $\sqrt{T}$ term in the regret of LQR; systems $(A,B)$ and $(\overset{\sim}{A},\overset{\sim}{B})$ are indistinguishable under the control law $u_{t} = {K_{\star}x_{t}}$ since ${{A + {BK_{\star}}} = {\overset{\sim}{A} + {\overset{\sim}{B}K_{\star}}}}.$ Now, informally, to get an ${\exp{(n)}}\sqrt{T}$ regret bound it is sufficient to satisfy two conditions: i) the system is sensitive to inputs or noise, in the sense that any exploratory signal can incur extra cost, which grows exponentially with $n$. ii) the difference $\overset{\sim}{A} - A$, $\overset{\sim}{B} - B$ is small enough, i.e. polynomial in $n$, so that identification of $\Delta$ requires significant deviation from the optimal policy.
+
+The $n - 1$-th integrator is very sensitive to inputs or noises. As inputs $u_{k,2}$ and noises $w_{k}$ get integrated $({n - 1})$-times, this will result in accumulated values that grow exponentially as we move up the integrator chain. Hence, the first informal condition is satisfied. To satisfy the second condition we let the perturbation $\Delta$ have the following structure
+
+where we only perturb the matrix of the first input $u_{k,1}$. By using two subsystems and the above construction, we make it harder to detect $\Delta$. In particular, because of the structure of the system (${\lbrack K_{\star}\rbrack}_{11} = 0$) and the perturbation $\Delta$, we have $\overset{\sim}{A} = {A - {\DeltaK_{\star}}} = A$. Hence ${{\|{\begin{bmatrix}
+\end{bmatrix} - \begin{bmatrix}
+\overset{\sim}{A} & \overset{\sim}{B}
+\end{bmatrix}}\|}_{2} = {\|\Delta\|}_{2} \leq {{poly}{(n)}{\|\Delta\|}_{2}}},$ i.e., the perturbed system does not lie too far away from the nominal one. This last condition might be crucial. If ${\|{\DeltaK_{\star}}\|} \geq {{\exp{(n)}}{\|\Delta\|}_{2}}$, then it might be possible to distinguish between $(A,B)$ and $(\overset{\sim}{A},\overset{\sim}{B})$ without deviating too much from the optimal policy. This may happen if we use only one subsystem, since ${\| K_{\star,0}\|}_{2}$ might be large. By using two subsystems, we cancel the effect of $K_{\star,0}$ in $\DeltaK_{\star}$.
+
+In the stabilization problem, we show that the lack of excitation during the system identification stage might hurt sample complexity. Here, we show that if a system is too sensitive to inputs and noises, i.e. some state subspaces are too easy to excite, this can lead to large regret. Both lack of excitation and too much excitation of certain subspaces can hurt learning performance. This was observed before in control.
+
+### Sketch of Lower Bound Proof
+
+Let $S_{0} = {(A_{0},B_{0},I_{n - 1})} \in \mathcal{C}_{{n - 1},\kappa}^{\mu}$ be a $\mu -$robustly coupled system of state dimension $n - 1$, input dimension $p - 1$ and controllability index $\kappa \leq {n - 1}$. Let $P_{0}$ be the solution of the Riccati equation for $Q_{0} = I_{n - 1}$, $R_{0} = I_{p - 1}$, with $K_{\star,0}$ the corresponding optimal gain. Define the steady-state covariance of the closed-loop system
+
+Now, consider the composite system:
+
+with ${Q = I_{n}},{R = I_{p}}$. Let $\Delta$ be structured as in, for some arbitrary $\Delta_{1}$ of unit norm ${\|\Delta_{1}\|}_{2} = 1$. The Riccati matrix of the composite system is denoted by $P$ and the corresponding gain by $K_{\star}$. Consider the parameterization:
+
+for any $\theta \in {\mathbb{R}}$. Let $\mathcal{B}{(\theta,\epsilon)}$ denote the open Euclidean ball of radius $\epsilon$ around $\theta$. For every $\epsilon > 0$, define the local class of systems around $S$ as ${\mathcal{C}_{S}{(\epsilon)}} \triangleq \left\{ {{{({A{(\theta)}},{B{(\theta)}},I_{n})},\theta} \in {\mathcal{B}{(0,\epsilon)}}} \right\}$. Based on the above construction and Theorem 1 of Ziemann and Sandberg, a general information-theoretic regret lower bound, we prove the following lemma.
+
+### Lemma 1 (Two-Subsystems Lower Bound)
+
+Consider the parameterized family of linear systems defined in, for ${n,p} \geq 2$ where $\Delta$ is structured as in. Let $Q = I_{n}$, $R = I_{p}$. Let $Q_{T} = {P{(\theta)}}$, where $P{(\theta)}$ is the solution to the Riccati equation for $({A{(\theta)}},{B{(\theta)}})$. Then, for any policy $\pi$ and any $0 < a < {1/4}$ the expected regret is lower bounded by
+
+Optimizing over $\Delta_{1}$, we obtain a lower bound on the order of ${\|{P_{0}\left\lbrack {\Sigma_{0,x} - I_{n - 1}} \right\rbrackP_{0}}\|}_{2}$. What remains to show is that for the $({n - 1})$-th order integrator (second subsystem in ) the product ${\|{P_{0}\left\lbrack {\Sigma_{0,x} - I_{n - 1}} \right\rbrackP_{0}}\|}_{2}$ is exponentially large with $n$.
+
+### Lemma 2 (System Theoretic Parameters can be Large)
+
+Consider the ${({n - 1})} - {th}$ order integrator (second subsystem in ). Let $P_{0}$ be the Riccati matrix for ${Q_{0} = I_{n - 1}},{R_{0} = 1}$, with $K_{\star,0}$, $\Sigma_{0,x}$ the corresponding LQR control gain and steady-state covariance. Then
+
+Our lemma shows that control theoretic parameters can scale exponentially with the dimension $n$. The ${({n - 1})} -$th order integrator is a system which is mildly unstable. In Section E.4, we show that stable systems can also suffer from the same issue.
+
+### Regret Upper Bounds
+
+Similar to the stabilization problem, we show that under the assumption of robust coupling, the regret cannot be worse than ${\exp{(\kappa)}}\sqrt{T}$ with high probability. As we prove in Lemma 3. ‣ Appendix B System Theoretic Bounds for Robustly Coupled Systems ‣ Learning to Control Linear Systems can be Hard"), the solution $P$ to the Riccati equation has norm ${\| P\|}_{2}$ that scales at most exponentially with the index $\kappa$ in the case of robustly-coupled systems. This result combined with the regret upper bounds of Simchowitz and Foster, give us the following result.
+
+### Theorem 4 (Exponential Upper Bounds)
+
+Consider a $\mu$-robustly coupled system $S = {(A,B,H)}$ of dimension $n$, controllability index $\kappa$. Assume that we are given an initial stabilizing gain $K_{0}$. Let $Q = I_{n}$, $R \succeq I_{p}$, and $Q_{T} = 0$. Assume that the noise is non-singular ${HH^{\prime}} = I_{n}$^33^3It is possible to relax some of the assumptions on the noise--see Simchowitz and Foster. Let $\delta \in {(0,{1/T})}$. Using the Algorithm 1 of Simchowitz and Foster with probability at least $1 - \delta$:
+
+The result follows immediately by our Lemma 3. ‣ Appendix B System Theoretic Bounds for Robustly Coupled Systems ‣ Learning to Control Linear Systems can be Hard") and the upper bounds of Theorem 2 in Simchowitz and Foster. Assuming that the plant sensitivity $M$ and the coupling coefficient $\mu$ are dimensionless, then if we have a mild degree of underactuation, i.e. $\kappa = {O{({\log n})}}$, we get poly($n$)-regret with high probability. Note that the above guarantees are for high probability regret which is not always equivalent to expected regret. Our upper-bounds are almost global for all robustly coupled systems, in the sense that the dominant $\sqrt{T}$-term is globally bounded. To provide truly global regret guarantees it is sufficient to add an initial exploration phase to Algorithm 1 of Simchowitz and Foster, which first learns a stabilizing gain $K_{0}$. For this stage we could use the results of Section 4.1, and Section D. We leave this for future work.
+
+## Conclusion
+
+We prove that learning to control linear systems can be hard for non-trivial system classes. The problem of stabilization might require sample complexity which scales exponentially with the system dimension $n$. Similarly, online LQR might exhibit regret which scales exponentially with $n$. This difficulty arises in the case of underactuated systems. Such systems are structurally difficult to control; they can be very sensitive to inputs/noise or very hard to excite. If the system is robustly coupled and has a mild degree of underactuation (small controllability index), then we can guarantee that learning will be easy.
+
+We stress that system theoretic quantities might not be dimensionless. On the contrary, they might grow very large with the dimension and dominate any poly$(n)$ terms. Hence, going forward, an important direction of future work is to find policies with optimal dependence on such system theoretic quantities. Although the optimal dependence is known for the problem of system identification, it is still not clear what is the optimal dependence in the case of control. For example, an interesting open problem is to find the optimal dependence of the regret $R_{T}$ on the Riccati equation solution $P$. For the problem of stabilization, it is open to find how sample complexity optimally scales with the least singular value of the controllability Gramian.

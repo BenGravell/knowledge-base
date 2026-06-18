@@ -1,0 +1,126 @@
+## Introduction
+
+Several applications in machine learning, signal processing and communication networks can often be cast into optimization problems, where gradients are difficult or even infeasible to compute. Popular application examples include optimal hyper-parameter tuning for learning models, black-box adversarial attacks on neural network models and sensor selection problems in smart grids or wireless networks. This motivates the study of the zeroth-order methods. A prominent type of zeroth order methods uses function value differences to estimate the gradients \[10, Section 3.4\]. However, these methods are much slower than classical gradient descent, and also suffers from poor performance particularly for ill-conditioned problems. An alternative way to improve their performance is to incorporate the second order information into zeroth-order methods. However, computing the full Hessian matrix can heavily increase the number of function evaluations and make the Newton step hard to compute, especially for high-dimensional problems. This necessitates us to approximate the Hessian matrix in a lower-dimensional subspace.
+
+Ye *et al.* developed the Hessian-aware zeroth order (ZOHA) methods, which integrate Hessian information into zeroth-order methods. The power-iteration based method ZOHA-PW has a lower query complexity than the gradient-estimating method by when the eigenvalues of the Hessian decay sufficiently quickly. However, the power iteration method requires $O{(n)}$ function queries per iteration for $n$-dimensional problems, which is expensive when $n$ is large. To decrease the query cost, they proposed the heuristic methods ZOHA-Gauss-DC and ZOHA-Diag-DC, which estimate the Hessian based on a limited number of random directions. However, no complexity bounds are provided for them.
+
+Another approach to reduce the times of computing Hessian information for high-dimensional problems is to use randomized sketching techniques. These sketching techniques construct lower dimensional sub-problems, which can be solved within small computation times, and enable classical optimization algorithms to have better scalability. For instance, a randomized subspace newton (RSN) method exploits the sketching techniques on the Newton method to solve the problems with very large dimension and to achieve accelerated convergence rate.
+
+In this paper, we propose Hessian-based zeroth-order algorithms using sketching techniques for huge-dimensional problems, called zeroth-order RSN (ZO-RSN). The methods exploit finite differences and sketching to approximate projections of the gradient and Hessian. We provide complexity bounds and prove that under certain conditions ZO-RSN attains lower query complexity than existing zeroth-order algorithms for strongly convex problems. Finally, our experiments with black-box attack problems on a convolutional neural network show that ZO-RSN has an overall competitive performance and higher success rate, compared to the ZOHA-Gauss-DC method in.
+
+### Notation
+
+For $x \in {\mathbb{R}}^{n}$ and $M \succ 0$, ${\| x\|}_{2}$ and ${\| x\|}_{\infty}$ are the $\ell_{2}$ and $\ell_{\infty}$ norm, respectively, and ${\| x\|}_{M}^{2} = {x^{T}Mx}$. Given the sketching matrix $S \in {\mathbb{R}}^{n \times m}$, ${s_{1},s_{2},\ldots,s_{m}} \in {\mathbb{R}}^{n}$ are its columns. For $f:{{\mathbb{R}}^{n}\rightarrow{\mathbb{R}}}$, ${g{(x)}} = {{\nabla f}{(x)}}$ and ${H{(x)}} = {{\nabla^{2}f}{(x)}}$ are its gradient and Hessian. The function $f{(x)}$ is $L$-Lipschitz continuous if there exists a positive constant $L$ such that ${{{\|{{f{(y)}} - {f{(x)}}}\|}_{2} \leq {L{\|{y - x}\|}_{2}\text{~for all~}x}},{y \in {\mathbb{R}}^{n}}},$ and $\mu$-strongly convex if there exists a positive constant $\mu$ such that ${{{f{(y)}} \geq {{f{(x)}} + {\langle{{\nabla f}{(x)}},{y - x}\rangle} + {{({\mu/2})}{\|{y - x}\|}_{2}^{2}\text{~for all~}x}}},{y \in {\mathbb{R}}^{n}}}.$ We also state that the differentiable function $f{(x)}$ is $L_{s}$-smooth if its gradient $g{(x)}$ is $L_{s}$-Lipschitz continuous. Finally, for any $y \in {\mathbb{R}}^{n}$, ${\Delta_{y}f{(x)}} = {{f{({x + y})}} - {f{(x)}}}$.
+
+## Problem Formulation
+
+We consider the unconstrained optimization problem
+
+where the dimension $n$ could be very large. Here, $f{(x)}$ is a three times differentiable and $\mu$-strongly convex function, which is bounded from below and has its minimum value $f^{\ast}$ at the point $x^{\ast}$. $g{(x)}$ and $H{(x)}$ are also $L_{1}$- and $L_{2}$-Lipschitz continuous. To facilitate the analysis, we further make the following standard assumption on $f{(x)}$.
+
+### Assumption 1 (\[14, 16\])
+
+There exists $\hat{L} \geq \hat{\mu} > 0$ such that for any ${x,y} \in {\mathbb{R}}^{n}$:
+
+Assumption 1. ‣ 2 Problem Formulation ‣ Zeroth-Order Randomized Subspace Newton Methods") states the smoothness and strong convexity of $f{(x)}$ under the norm weighted by its Hessian $\parallel \cdot \parallel_{H{(x)}}$. Also, the $\hat{L}$-relative smoothness and $\hat{\mu}$-relative convexity exist as a result of the $L_{1}$-smoothness and $\mu$-strong convexity assumption on $f{(x)}$, as shown below:
+
+### Proposition 2.1 (\[14, 16\])
+
+A function $f{(x)}$ is $c$-stable on a domain $D$ if ${{\forall y},z} \in D$, ${\|{z - y}\|}_{H{(y)}}^{2}$ and there exists a constant $c \geq 1$ such that ${c = {{\|{z - y}\|}_{H{(z)}}^{2}/{\|{z - y}\|}_{H{(y)}}^{2}}}.$ If $f{(x)}$ is $\mu$-strongly convex and $L_{1}$-smooth, then $f$ is $({L_{1}/\mu})$-stable. Furthermore, if $f{(x)}$ is $c$-stable, then Assumption 1. ‣ 2 Problem Formulation ‣ Zeroth-Order Randomized Subspace Newton Methods") holds with $\hat{L} \leq c$ and $\hat{\mu} \geq {1/c}$.
+
+### RSN Methods
+
+The randomized subspace Newton (RSN) method is a popular inexact Newton method for solving huge-dimensional problems. This method solves an exact Newton system restricted to a random subspace. Given a fixed step-size $\gamma > 0$ and an initial point $x_{0} \in {\mathbb{R}}^{d}$, the iterate $x_{k}$ of the RSN method is updated via:
+
+where $S_{k} \in {\mathbb{R}}^{n \times m}$ stores $m$ vectors that span the randomly selected subspace of ${\mathbb{R}}^{n}$. The next lemma characterizes the decrease in the function value from the ZO-RSN method.
+
+### Lemma 1
+
+Consider the RSN method for solving Problem. If $\gamma \leq {1/\hat{L}}$, then
+
+This descent lemma for the RSN method can be used to prove its linear convergence toward the exact optimum. Furthermore, to implement the RSN method $S_{k}^{T}H{(x_{k})}S_{k}$ and $S_{k}^{T}g{(x_{k})}$ are computed efficiently by various sketching techniques such as sub-Gaussian sketches, randomized orthonormal system sketches, random sampling sketches and the Iterative Hessian Sketch as well as the fast Johnson-Lindenstrauss sketch for problems with the appropriate structure. These sketching techniques allow for computing $\lambda_{k}$ with very small linear equation systems. If $m \ll n$, then $\lambda_{k}$ in Eq. can be solved quickly by inverting ${S_{k}^{T}H{(x_{k})}S_{k}} \in {\mathbb{R}}^{m \times m}$.
+
+## Zeroth-order RSN Methods
+
+In this section, we introduce the zeroth-order randomized subspace Newton (ZO-RSN) method, which builds on the RSN method. The iterate $x_{k}$ of the ZO-RSN algorithm is updated according to:
+
+Here ${\overset{\sim}{g}}_{S_{k}}{(x_{k})}$ and ${\overset{\sim}{H}}_{S_{k}}{(x_{k})}$ are approximations of the sketched gradient and Hessian respectively. For a positive scalar $\alpha$, they can be computed via:
+
+for all $i = {1,\ldots,m}$. Similarly to Lemma 1, the ZO-RSN method can be proved to achieve the following bound:
+
+This ensures function value improvement in Eq. if $\alpha$ is sufficiently small and ${\overset{\sim}{H}}_{S_{k}}{(x_{k})}$ is positive definite. In fact, we can ensure that positive definiteness of ${\overset{\sim}{H}}_{S_{k}}{(x_{k})}$ follows from $\alpha$ being small enough if we choose $S_{k}$ appropriately.
+
+### Lemma 2
+
+Based on this lemma, we set ${S_{k}^{T}S_{k}} = I$ to ensure that ${{\overset{\sim}{H}}_{S_{k}}{(x_{k})}} \succ 0$. We also require ${{\mathbb{E}}{\lbrack{S_{k}S_{k}^{T}}\rbrack}} \succ 0$ so that the approximate sketching does not leave out any directions throughout every iteration. This requirement can be easily satisfied if $s_{1,k},\ldots,s_{m,k}$ are sampled from unit coordinate directions without replacement.
+
+## Theoretical results
+
+We now provide a complexity bound for ZO-RSN methods.
+
+### Theorem 1
+
+Let the sketching matrix $S_{k} \in {\mathbb{R}}^{n \times m}$ satisfy ${S_{k}^{T}S_{k}} = I$ and ${{\mathbb{E}}_{S_{k} \sim D}{\lbrack{S_{k}S_{k}^{T}}\rbrack}} \succ 0$, and define ${G{(x)}} = {{\mathbb{E}}_{S_{k} \sim \mathcal{D}}{\lbrack{S_{k}{({S_{k}^{T}H{(x)}S_{k}})}^{- 1}S_{k}^{T}}\rbrack}}$,
+
+Given $\varepsilon > 0$ and $\delta \in {}$, consider the ZO-RSN method for Problem. If $\gamma \leq {1/\hat{L}}$ and $\alpha \leq {{0.3\mu}/{({mL_{2}})}}$ is small enough that
+
+then we can achieve ${{\mathbb{E}}{\lbrack{{f{(x_{k})}} - f^{\ast}}\rbrack}} \leq \varepsilon$ after
+
+Theorem 1 establishes a global, linear convergence for the ZO-RSN method toward an $\varepsilon$-accurate solution. The worst-case iteration complexity can be upper bounded as
+
+where $\beta_{1} = {1/{({{\rho\hat{\mu}\gamma} - {\alphaC_{1}} - {\alpha^{2}C_{3}}})}}$. We can recover the convergence complexity for the RSN method if $\alpha$ and $\delta$ approach zero. Furthermore, by choosing $S_{k}$ properly, the iteration complexity for the ZO-RSN method in Eq. can be lower than the complexities for existing zeroth-order methods. We show this with the following corollary:
+
+### Corollary 4.1
+
+Suppose all the conditions of Theorem 1 hold. If the columns of $S_{k}$ are chosen randomly without replacement from a basis of orthonormal eigenvectors of $H{(x_{k})}$, step-size $\gamma = {1/\hat{L}}$, and $\alpha = {{({\sqrt{{C_{1}^{2}/4} + {{({1 - \sigma})}\rho\hat{\mu}\gamma}} - {C_{1}/2}})}/C_{2}}$ for some $\sigma \in {}$, then $\rho = {m/n}$ and hence to achieve ${{\mathbb{E}}{\lbrack{{f{(x_{k})}} - f^{\ast}}\rbrack}} \leq \varepsilon$, we need
+
+Corollary 4.1 shows that the iteration complexity of the ZO-RSN methods depends on the subspace dimension $m$, the problem dimension $n$ and other parameters $\hat{\mu},\hat{L}$. Since the ZO-RSN methods need ${m{({m + 1})}}/2$ function queries per iteration, we can obtain the total query complexity by multiplying Eq. with this factor.
+
+Now, we compare the complexity bounds for the ZO-RSN methods against the Hessian-aware zeroth-order method using the power iteration (ZOHA-PW), which previously has been compared favourably to the zeroth-order method in. Since the ZOHA-PW method also generates multiple random directions, here $m$ refers to the number of the generated directions. For $\mu$-strongly convex problems, the iteration complexity of ZOHA-PW is
+
+where $\beta_{2} = {{64{({n + 2})}{({\mu + {10\lambda_{s + 1}}})}}/{({\mum})}}$, $\lambda_{s + 1}$ is an upper bound on the Hessian's ${({s + 1})}^{\text{th}}$ largest eigenvalue and $\hat{\delta}$ is a free parameter which is similar to $\delta$ in Eq.. Disregarding the function evaluations required to implement the power method, the total query complexity for ZOHA-PW is $2m$ times its iteration complexity. Consider the problem of minimizing a quadratic function. Then, $\hat{L} = \hat{\mu} = 1$. If $\delta$, $\hat{\delta}$ and $m$ all are set to be equal for both methods, and also $\sigma = 0.5$, then the speedup in iteration complexity from using ZO-RSN instead of ZOHA-PW is
+
+ZO-RSN is thus faster than ZOHA-PW by more than two orders of magnitude in iteration complexity, even for well-conditioned problems (when $\lambda_{s + 1}/\mu$ is close to one). If function queries can be performed efficiently in parallel, then ZO-RSN has significantly lower run-time than ZOHA-PW. We can also prove that the speedup in query complexity for ZO-RSN compared to ZOHA-PW is
+
+Thus, as long as $m < {{128\left( {1 + {{10\lambda_{s + 1}}/\mu}} \right)} - 1}$, the query complexity will be lower for ZO-RSN.
+
+## Numerical experiments
+
+We compare the performance of ZO-RSN against the existing Hessian-aware zeroth methods called ZOHA-Gauss-DC that uses a descent-checking procedure to increase an attack success rate, and approximates Hessian according to
+
+where $\lambda$ is a positive constant and $u_{1},\ldots,u_{b}$ are the vectors generated from the Gaussian distribution with zero mean and unit variance. In particular, we evaluate both methods on training un-targeted black box adversarial attacks over the MNIST data set. These attacks are carried out against the trained convolutional neural network (CNN) model described in \[Section 5.2\]. For each example $x_{i}^{nat}$ in the test set, the optimizer aims to generate an adversarial example $x_{i}$ which differs from $x_{i}^{nat}$ by at most $\epsilon$ in $\ell_{\infty}$ norm, while being classified differently with sufficient confidence. This is done by minimizing the following function:
+
+Here, ${\lbrack{Z{(x)}}\rbrack}_{i}$ represents the probability of an input $x$ belonging to class $i$ according to the trained neural network.
+
+Since the problem is constrained and does not have guarantees for $\mu$-strong convexity or $L_{1}$-smoothness, we need to modify the ZO-RSN algorithm. Firstly, we artificially ensure positive definiteness and boundedness of ${\overset{\sim}{H}}_{S_{k}}{(x_{k})}$ by applying the operator $\Pi_{\lbrack\lambda_{\min},\lambda_{\max}\rbrack}{( \cdot )}$ that projects its eigenvalues onto an interval $\lbrack\lambda_{\min},\lambda_{\max}\rbrack$ to get a modified matrix ${\hat{H}}_{S_{k}}{(x_{k})}$. Secondly, we consider $\ell_{\infty}$-norm constraints by determining ${\overset{\sim}{\lambda}}_{k}$ that solves the following minimization problem
+
+This approach corresponds to using sequential quadratic programming (SQP) for nonlinear problems with linear constraints, but with the step to the next iterate being restricted to lie in a specific subspace. To solve the auxiliary problem quickly with a standard cvxopt solver, we generate $S_{k}$ by choosing its columns to be unit coordinate vectors. This enables us to formulate the problem with only $m$ constraints. This adapted ZO-RSN algorithm is called ZO-RSN-SQP. Finally, we use the descent-checking technique corresponding to that for ZOHA-Gauss-DC. The full description of ZO-RSN-SQP is given in Algorithm 1.
+
+Compute ${\overset{\sim}{g}}_{S_{k}}$ and ${\overset{\sim}{H}}_{S_{k}}$
+${\hat{H}}_{S_{k}}\leftarrow{\Pi_{\lbrack\lambda_{\min},\lambda_{\max}\rbrack}\left( {\overset{\sim}{H}}_{S_{k}} \right)}$
+${\overset{\sim}{\lambda}}_{k}\leftarrow{{\text{Solution to (}\text{) with~}}{\hat{H}}_{S_{k}}\left( x_{k} \right)\text{~and~}{\overset{\sim}{g}}_{S_{k}}\left( x_{k} \right)}$
+$x_{trial}\leftarrow{x_{k} + {S_{k}{\overset{\sim}{\lambda}}_{k}}}$
+while f (xt r i a l) ≥ f (xk) and $\overline{m} &lt; m_{max}$ do
+$\overline{m}\leftarrow{\overline{m} + 1}$
+Generate ${s_{\overline{m},k}\text{~such that~}\left\lbrack S_{k},s_{\overline{m},k} \right\rbrack^{T}\left\lbrack S_{k},s_{\overline{m},k} \right\rbrack} = I$
+$S_{k}\leftarrow\left\lbrack s_{1,k},\ldots,s_{\overline{m},k} \right\rbrack$
+$\left\lbrack {{\overset{\sim}{g}}_{S_{k}}\left( x_{k} \right)} \right\rbrack_{\overline{m}}\leftarrow\left. {\Delta_{\alphas_{i,k}}f\left( x_{k} \right)}/\alpha \right.$
+for $j = {1,2,\ldots,\overline{m}}$ do
+$\left. \left. {\overset{\sim}{H}}_{S_{k}}\left( x_{k} \right) \right\rbrack_{\overline{m},j}\leftarrow\Delta_{\alphas_{i,k}}\Delta_{\alphas_{j,k}}f\left( x_{k} \right)/\alpha^{2} \right.$
+$\left\lbrack {{\overset{\sim}{H}}_{S_{k}}\left( x_{k} \right)} \right\rbrack_{j,\overline{m}}\leftarrow\left\lbrack {{\overset{\sim}{H}}_{S_{k}}\left( x_{k} \right)} \right\rbrack_{\overline{m},j}$
+${\hat{H}}_{S_{k}}\leftarrow{\Pi_{\lbrack\lambda_{\min},\lambda_{\max}\rbrack}\left( {\overset{\sim}{H}}_{S_{k}} \right)}$
+${\overset{\sim}{\lambda}}_{k}\leftarrow{{\text{Solution to (}\text{) with~}}{\hat{H}}_{S_{k}}\left( x_{k} \right)\text{~and~}{\overset{\sim}{g}}_{S_{k}}\left( x_{k} \right)}$
+$x_{trial}\leftarrow{x_{k} + {\gammaS_{k}{\overset{\sim}{\lambda}}_{k}}}$
+Algorithm 1 ZO-RSN-SQP for black-box attack
+
+We trained the network model until its accuracy reached $98.84\%$, and also set ${\alpha = 0.1},{{\gamma = 1},{m = 3}}$ and $m_{\max} = 20$ for ZO-RSN-SQP and the same parameters for ZOHA-Gauss-DC for the un-targeted black box attacks described in \[. In the experiments, we either ended a test run if the algorithm managed to find a point with function value at $\omega = {- 1}$, or if the algorithm called queried the neural network for a prediction 50000 times. We labelled the former result as a success and the latter result as a failure.
+
+Table 1: Comparison of ℓ∞ norm based black-box attacks on a CNN model trained on the MNIST data.
+
+The results of our black box attack experiments were summarized in Table 1. Firstly, ZO-RSN-SQP has a more stable performance than ZOHA-Gauss-DC. Even though both algorithms implement the same decent checking technique, only ZO-RSN-SQP succeeds in the attacks for all cases. Secondly, the mean number of queries for ZO-RSN-SQP is lower than that for ZOHA-Gauss-DC. This results from a minority of the problems, where ZOHA-Gauss-DC requires a large number of queries to solve. In contrast, ZOHA-Gauss-DC has a lower median value than ZO-RSN-SQP. As ZO-RSN requires more function queries per iteration and subspace dimension than ZOHA-Gauss-DC, one can hypothesize this extra effort is worthwhile mainly for the harder-to-attack test examples.
+
+To investigate the speed of convergence, we also ran a separate experiment where we made estimates of the average objective value after 2000, 4000 and 6000 queries, $f_{est2000}$, $f_{est4000}$, $f_{est6000}$, using the first 100 MNIST examples. The suboptimalities based on these results are also shown in Table 1. As we can see, ZOHA-Gauss-DC is initially faster, but ZO-RSN-SQP becomes more accurate towards the end.
+
+## Conclusions
+
+We have proposed the ZO-RSN method, a Hessian-based zeroth-order method that approximates sketched gradients and Hessians by finite differences. Our results display a lower iteration complexity of the ZO-RSN method than existing zeroth-order methods for strongly convex problems. The experiments with un-targeted adversarial attacks on a CNN model illustrate that the modified ZO-RSN method named ZO-RSN-SQP attains an overall competitive performance and a higher stability, compared to ZOHA-Gauss-DC.

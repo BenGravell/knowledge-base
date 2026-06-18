@@ -1,0 +1,177 @@
+## Introduction
+
+The problem of adaptively controlling an unknown dynamical system has a rich history, with classical asymptotic results of convergence and stability dating back decades. Of late, there has been a renewed interest in the study of a particular instance of such problems, namely the adaptive Linear Quadratic Regulator (LQR), with an emphasis on *non-asymptotic* guarantees of stability and performance. Initiated by Abbasi-Yadkori and Szepesvári, there have since been several works analyzing the regret suffered by various adaptive algorithms on LQR-- here the regret incurred by an algorithm is thought of as a measure of deviations in performance from optimality over time. These results can be broadly divided into two categories: those providing high-probability guarantees for a single execution of the algorithm, and those providing bounds on the expected *Bayesian* regret incurred over a family of possible systems. As we discuss in more detail, these methods all suffer from one or several of the following limitations: restrictive and unverifiable assumptions, limited applicability, and computationally intractable subroutines. In this paper, we provide, to the best of our knowledge, the first polynomial-time algorithm for the adaptive LQR problem that provides high probability guarantees of sub-linear regret, and that does not require unverifiable or unrealistic assumptions.
+
+### Related Work
+
+There is a rich body of work on the estimation of linear systems as well as on the robust and adaptive control of unknown systems. We target our discussion to works on non-asymptotic guarantees for the LQR control of an unknown system, broadly divided into three categories.
+
+*Offline estimation and control synthesis:* In a non-adaptive setting, i.e., when system identification can be done offline prior to controller synthesis and implementation, the first work to provide end-to-end guarantees for the LQR optimal control problem is that of Fiechter, who shows that the *discounted* LQR problem is PAC-learnable. Dean et al Dean et al. improve on this result, and provide the first end-to-end sample complexity guarantees for the infinite horizon average cost LQR problem.
+
+*Optimism in the Face of Uncertainty (OFU):* Abbasi-Yadkori and Szepesvári, Faradonbeh et al., and Ibrahimi et al. employ the *Optimism in the Face of Uncertainty* (OFU) principle, which optimistically selects model parameters from a confidence set by choosing those that lead to the *best* closed-loop (infinite horizon) control performance, and then plays the corresponding optimal controller, repeating this process online as the confidence set shrinks. While OFU in the LQR setting has been shown to achieve optimal regret $\overset{\sim}{\mathcal{O}}{(\sqrt{T})}$, its implementation requires solving a non-convex optimization problem to precision $\overset{\sim}{\mathcal{O}}{(T^{- {1/2}})}$, for which no provably efficient implementation exists.
+
+*Thompson Sampling (TS):* To circumvent the computational roadblock of OFU, recent works replace the intractable OFU subroutine with a random draw from the model uncertainty set, resulting in *Thompson Sampling* (TS) based policies. Abeille and Lazaric show that such a method achieves $\overset{\sim}{\mathcal{O}}{(T^{2/3})}$ regret with high-probability for scalar systems. However, their proof does not extend to the non-scalar setting. Abbasi-Yadkori and Szepesvári and Ouyang et al. consider expected regret in a Bayesian setting, and provide TS methods which achieve $\overset{\sim}{\mathcal{O}}{(\sqrt{T})}$ regret. Although not directly comparable to our result, we remark on the computational challenges of these algorithms. Whereas the proof of Abbasi-Yadkori and Szepesvári was shown to be incorrect, Ouyang et al. make the restrictive assumption that there exists a (known) initial compact set $\Theta$ describing the uncertainty in the system parameters, such that for any system $\theta_{1} \in \Theta$, the optimal controller $K{(\theta_{1})}$ is stabilizing when applied to any other system $\theta_{2} \in \Theta$. No means of constructing such a set are provided, and there is no known tractable algorithm to verify if a given set satisfies this property. Also, it is implicitly assumed that projecting onto this set can be done efficiently.
+
+### Contributions
+
+To develop the first polynomial-time algorithm that provides high probability guarantees of sub-linear regret, we leverage recent results from the estimation of linear systems, robust controller synthesis, and coarse-ID control. We show that our robust adaptive control algorithm: (i) guarantees stability and near-optimal performance at all times; (ii) achieves a regret up to time $T$ bounded by $\overset{\sim}{\mathcal{O}}{(T^{2/3})}$; and (iii) is based on finite-dimensional semidefinite programs of size logarithmic in $T$.
+
+Furthermore, our method estimates the system parameters at $\overset{\sim}{\mathcal{O}}{(T^{- {1/3}})}$ rate in operator norm. Although system parameter identification is not necessary for optimal control performance, an accurate system model is often desirable in practice. Motivated by this, we study the interplay between regret minimization and parameter estimation, and identify fundamental limits connecting the two. We show that the expected regret of our algorithm is lower bounded by $\Omega{(T^{2/3})}$, proving that our analysis is sharp up to logarithmic factors. Moreover, our lower bound suggests that the estimation rate achievable by any algorithm with $\mathcal{O}{(T^{\alpha})}$ regret is $\Omega{(T^{- {\alpha/2}})}$.
+
+Finally, we conduct a numerical study of the adaptive LQR problem, in which we implement our algorithm, and compare its performance to heuristic implementations of OFU and TS based methods. We show on several examples that the regret incurred by our algorithm is comparable to that of the OFU and TS based methods. Furthermore, the infinite horizon cost achieved by our algorithm at any given time on the true system is consistently lower than that attained by OFU and TS based algorithms. Finally, we use a demand forecasting example to show how our algorithm naturally generalizes to incorporate environmental uncertainty and safety constraints.
+
+## Problem Statement and Preliminaries
+
+In this work we consider adaptive control of the following discrete-time linear system
+
+where $x_{k} \in {\mathbb{R}}^{n}$ is the state, $u_{k} \in {\mathbb{R}}^{p}$ is the control input, and $w_{k} \in {\mathbb{R}}^{n}$ is the process noise. We assume that the state variables are observed exactly and, for simplicity, that $x_{0} = 0$. We consider the *Linear Quadratic Regulator* optimal control problem, given by cost matrices $Q \succeq 0$ and $R \succ 0$,
+
+where the minimum is taken over measurable functions $u = {\{{u_{k}{( \cdot )}}\}}_{k \geq 1}$, with each $u_{k}$ adapted to the history $x_{k}$, $x_{k - 1}$,..., $x_{1}$, and possibe additional randomness independent of future states. Given knowledge of $(A_{\star},B_{\star})$, the optimal policy is a static state-feedback law $u_{k} = {K_{\star}x_{k}}$, where $K_{\star}$ is derived from the solution to a discrete algebraic Riccati equation.
+
+We are interested in algorithms which operate without knowledge of the true system transition matrices $(A_{\star},B_{\star})$. We measure the performance of such algorithms via their regret, defined as
+
+The regret of any algorithm is lower-bounded by $\Omega{(\sqrt{T})}$, a bound matched by OFU up to logarithmic factors. However, after each epoch, OFU requires optimizing a non-convex objective to $\mathcal{O}{(T^{- {1/2}})}$ precision. Instead, our method uses a subroutine based on convex optimization and robust control.
+
+### Preliminaries: System Level Synthesis
+
+We briefly describe the necessary background on robust control and System Level Synthesis (SLS). These tools were recently used by Dean et al. to provide non-asymptotic bounds for LQR in the offline "estimate-and-then-control" setting. In Appendix A, we expand on these preliminaries.
+
+Consider the dynamics (2.1), and fix a static state-feedback control policy $K$, i.e., let $u_{k} = {Kx_{k}}$. Then, the closed loop map from the disturbance process $\{ w_{0},w_{1},\ldots\}$ to the state $x_{k}$ and control input $u_{k}$ at time $k$ is given by
+
+Letting ${\Phi_{x}{(k)}}:={({A_{\star} + {B_{\star}K}})}^{k - 1}$ and ${\Phi_{u}{(k)}}:={K{({A_{\star} + {B_{\star}K}})}^{k - 1}}$, we can rewrite Eq. (2.2) as
+
+where $\{{\Phi_{x}{(k)}},{\Phi_{u}{(k)}}\}$ are called the *closed loop system response elements* induced by the controller $K$. The SLS framework shows that for any elements $\{{\Phi_{x}{(k)}},{\Phi_{u}{(k)}}\}$ constrained to obey
+
+there exists some controller that achieves the desired system responses (2.3). Theorem A.1. ‣ Appendix A Background on System Level Synthesis ‣ Regret Bounds for Robust Adaptive Control of the Linear Quadratic Regulator") formalizes this observation: the SLS framework thereore allows for any optimal control problem over linear systems to be cast as an optimization problem over elements $\{{\Phi_{x}{(k)}},{\Phi_{u}{(k)}}\}$, constrained to satisfy the affine equations (2.4). Comparing equations (2.2) and (2.3), we see that the former is non-convex in the controller $K$, whereas the latter is affine in the elements $\{{\Phi_{x}{(k)}},{\Phi_{u}{(k)}}\}$, enabling solutions to previously difficult optimal control problems.
+
+As we work with infinite horizon problems, it is notationally more convenient to work with *transfer function* representations of the above objects, which can be obtained by taking a $z$-transform of their time-domain representations. The frequency domain variable $z$ can be informally thought of as the time-shift operator, i.e., ${z{\{ x_{k},x_{k + 1},\ldots\}}} = {\{ x_{k + 1},x_{k + 2},\ldots\}}$, allowing for a compact representation of LTI dynamics. We use boldface letters to denote such transfer functions, e.g., ${\mathbf{\Phi}_{x}{(z)}} = {\sum_{k = 1}^{\infty}{\Phi_{x}{(k)}z^{- k}}}$. Then, the constraints (2.4) can be rewritten as
+
+and the corresponding (not necessarily static) control law $\mathbf{u} = {\mathbf{K}\mathbf{x}}$ is given by $\mathbf{K} = {\mathbf{\Phi}_{u}\mathbf{\Phi}_{x}^{- 1}}$.
+
+Although other approaches to optimal controller design exists, we argue now that the SLS parameterization has some appealing properties when applied to the control of uncertain systems. In particular, suppose that rather than having access to the true system transition matrices $(A_{\star},B_{\star})$, we instead only have access to estimates $(\hat{A},\hat{B})$. The SLS framework allows us to characterize the system responses achieved by a controller, computed using only the estimates $(\hat{A},\hat{B})$, on the true system $(A_{\star},B_{\star})$. Specifically, if we denote $\hat{\mathbf{\Delta}}:={{{({\hat{A} - A_{\star}})}\mathbf{\Phi}_{x}} + {{({\hat{B} - B_{\star}})}\mathbf{\Phi}_{u}}}$, simple algebra shows that
+
+Theorem A.7. ‣ Appendix A Background on System Level Synthesis ‣ Regret Bounds for Robust Adaptive Control of the Linear Quadratic Regulator") shows that if ${({I + \hat{\mathbf{\Delta}}})}^{- 1}$ exists, then the controller $\mathbf{K} = {\mathbf{\Phi}_{u}\mathbf{\Phi}_{x}^{- 1}}$, computed using only the estimates $(\hat{A},\hat{B})$, achieves the following response on the true system $(A_{\star},B_{\star})$:
+
+Further, if $\mathbf{K}$ stabilizes the system $(\hat{A},\hat{B})$, and ${({I + \hat{\mathbf{\Delta}}})}^{- 1}$ is stable (simple sufficient conditions can be derived to ensure this, see ), then $\mathbf{K}$ is also stabilizing for the true system. It is this transparency between system uncertainty and controller performance that we exploit in our algorithm.
+
+We end this discussion with the definition of a function space that we use extensively throughout:
+
+The space $\mathcal{S}{(C,\rho)}$ consists of stable transfer functions that satisfy a certain decay rate in the spectral norm of their impulse response elements. We denote the restriction of $\mathcal{S}{(C,\rho)}$ to the space of $F$-length finite impulse response (FIR) filters by $\mathcal{S}_{F}{(C,\rho)}$, i.e., $\mathbf{M} \in {\mathcal{S}_{F}{(C,\rho)}}$ if $\mathbf{M} \in {\mathcal{S}{(C,\rho)}}$, and ${M{(k)}} = 0$ for all $k > F$. Further note that we write $\mathbf{M} \in {\frac{1}{z}\mathcal{S}{(C,\rho)}}$ to mean that ${z\mathbf{M}} \in {\mathcal{S}{(C,\rho)}}$, i.e., that ${M{}} = 0$.
+
+We equip $\mathcal{S}{(C,\rho)}$ with the $\mathcal{H}_{\infty}$ and $\mathcal{H}_{2}$ norms, which are infinite horizon analogs of the spectral and Frobenius norms of a matrix, respectively: ${\|\mathbf{M}\|}_{\mathcal{H}_{\infty}} = {\sup_{{\parallel\mathbf{w}\parallel}_{2} = 1}{\parallel{\mathbf{M}\mathbf{w}}\parallel}_{2}}$ and ${\|\mathbf{M}\|}_{\mathcal{H}_{2}} = \sqrt{\sum_{k = 0}^{\infty}{\parallel{M{(k)}}\parallel}_{F}^{2}}$. The $\mathcal{H}_{\infty}$ and $\mathcal{H}_{2}$ norm have distinct interpretations. The $\mathcal{H}_{\infty}$ norm of a system $\mathbf{M}$ is equal to its $\ell_{2}\mapsto\ell_{2}$ operator norm, and can be used to measure the robustness of a system to unmodelled dynamics. The $\mathcal{H}_{2}$ norm has a direct interpretation as the energy transferred to the system by a white noise process, and is hence closely related to the LQR optimal control problem. Unsurprisingly, the $\mathcal{H}_{2}$ norm appears in the objective function of our optimization problem, whereas the $\mathcal{H}_{\infty}$ norm appears in the constraints to ensure robust stability and performance.
+
+## Algorithm and Guarantees
+
+Our proposed robust adaptive control algorithm for LQR is shown in Algorithm 1. We note that while Line 9 of Algorithm 1 is written as an infinite-dimensional optimization problem, because of the FIR nature of the decision variables, it can be equivalently written as a finite-dimensional semidefinite program. We describe this transformation in Section G.3 of the Appendix.
+
+1:Stabilizing controller K, failure probability δ ∈, and constants (C⋆,ρ⋆, ∥ K⋆∥).
+2:Set $C_{x}\leftarrow\frac{\mathcal{O}{}C_{\star}}{{({1 - \rho_{\star}})}^{3}}$, Cu ← ∥ K⋆∥ Cx, and ρ ←.999 +.001 ρ⋆.
+3:Set $C_{T}\leftarrow{\overset{\sim}{\mathcal{O}}\left( {{({n + p})}\frac{C_{\star}^{4}{({1 + {\parallel K_{\star}\parallel}})}^{4}}{{({1 - \rho_{\star}})}^{8}}} \right)}$.
+6: Di = {(xk(i), uk(i)}k = 1Ti← evolve system forward Ti steps using feedback u = K(i) x + ηi, where each entry of ηi is drawn i.i.d. from 𝒩 (0,ση, i2 Ip).
+8: Set $\varepsilon_{i}\leftarrow{\overset{\sim}{\mathcal{O}}\left( {\frac{\sigma_{w}{\parallel K_{\star}\parallel}C_{\star}}{\sigma_{\eta,i}{({1 - \rho_{\star}})}^{3}}\sqrt{\frac{n + p}{T_{i}}}} \right)}$ and $F_{i}\leftarrow\frac{\overset{\sim}{\mathcal{O}}{}{({i + 1})}}{1 - \rho_{\star}}$.
+9: Set K(i+1) = Φu Φx−1, where (Φx,Φu) are the solution to
+
+$\frac{1}{1 - \gamma}\min\limits_{\mathbf{\Phi}_{x},\mathbf{\Phi}_{u},V}\left. \parallel\begin{bmatrix}
+\end{bmatrix}\begin{bmatrix}
+\end{bmatrix}\parallel \right._{\mathcal{H}_{2}}$
+
+{{zI} - {\hat{A}}_{i}} &amp; {- {\hat{B}}_{i}}
+\end{bmatrix}\begin{bmatrix}
+\end{bmatrix}} = {I + {\frac{1}{z^{F_{i}}}V}}},{{\frac{\sqrt{2}\varepsilon_{i}}{1 - {C_{x}\rho^{F_{i} + 1}}}\left. \parallel\begin{bmatrix}
+\mathbf{\Phi}_{\mathbf{x}} \\
+\mathbf{\Phi}_{\mathbf{u}}
+\end{bmatrix}\parallel \right._{\mathcal{H}_{\infty}}} \leq \gamma}},$
+
+${{{\parallel V\parallel} \leq {C_{x}\rho^{F_{i} + 1}}},{{\mathbf{\Phi}_{x} \in {\frac{1}{z}\mathcal{S}_{F_{i}}{(C_{x},\rho)}}},{\mathbf{\Phi}_{u} \in {\frac{1}{z}\mathcal{S}_{F_{i}}{(C_{u},\rho)}}}}}.$
+
+Algorithm 1 Robust Adaptive Control Algorithm
+
+Some remarks on practice are in order. First, in Line [7, only the trajectory data collected during the $i$-th epoch is used for the least squares estimate. Second, the epoch lengths we use grow exponentially in the epoch index. These settings are chosen primarily to simplify the analysis; in practice all the data collected should be used, and it may be preferable to use a slower growing epoch schedule (such as $T_{i} = {C_{T}{({i + 1})}}$). Finally, for storage considerations, instead of performing a batch least squares update of the model, a recursive least squares (RLS) estimator rule can be used to update the parameters in an online manner.
+
+### Regret Upper Bounds
+
+Our guarantees for Algorithm 1 are stated in terms of certain system specific constants, which we define here. We let $K_{\star}$ denote the static feedback solution to the LQR problem for $(A_{\star},B_{\star},Q,R)$. Next, we define $(C_{\star},\rho_{\star})$ such that the closed loop system $A_{\star} + {B_{\star}K_{\star}}$ belongs to $\mathcal{S}{(C_{\star},\rho_{\star})}$. Our main assumption is stated as follows.
+
+### Assumption 3.1
+
+We are given a controller $\mathbf{K}^{}$ that stabilizes the true system $(A_{\star},B_{\star})$. Furthermore, letting $(\mathbf{\Phi}_{x},\mathbf{\Phi}_{u})$ denote the response of $\mathbf{K}^{}$ on $(A_{\star},B_{\star})$, we assume that $\mathbf{\Phi}_{x} \in {\mathcal{S}{(C_{x},\rho)}}$ and $\mathbf{\Phi}_{u} \in {\mathcal{S}{(C_{u},\rho)}}$, where the constants $C_{x},C_{u},\rho$ are defined in Algorithm 1.
+
+The requirement of an initial stabilizing controller $\mathbf{K}^{}$ is not restrictive; Dean et al. provide an offline strategy for finding such a controller. Furthermore, in practice Algorithm 1 can be initialized with no controller, with random inputs applied instead to the system in the first epoch to estimate $(A_{\star},B_{\star})$ within an initial confidence set for which the synthesis problem becomes feasible.
+
+Our first guarantee is on the rate of estimation of $(A_{\star},B_{\star})$ as the algorithm progresses through time. This result builds on recent progress for estimation along trajectories of a linear dynamical system. For what follows, the notation $\overset{\sim}{\mathcal{O}}{( \cdot )}$ hides absolute constants and ${polylog}\left( T,\frac{1}{\delta},C_{\star},\frac{1}{1 - \rho_{\star}},n,p,{\parallel B_{\star}\parallel},{\parallel K_{\star}\parallel} \right)$ factors.
+
+### Theorem 3.2
+
+Fix a $\delta \in {}$ and suppose that Assumption 3.1 holds. With probability at least $1 - \delta$ the following statement holds. Suppose that $T$ is at an epoch boundary. Let $({\hat{A}{(T)}},{\hat{B}{(T)}})$ denote the current estimate of $(A_{\star},B_{\star})$ computed by Algorithm 1 at the end of time $T$. Then, this estimate satisfies the guarantee
+
+Theorem 3.2 shows that Algorithm 1 achieves a consistent estimate of the true dynamics $(A_{\star},B_{\star})$, and learns at a rate of $\overset{\sim}{\mathcal{O}}{(T^{- {1/3}})}$. We note that consistency of parameter estimates is not a guarantee provided by OFU or TS based approaches.
+
+Next, we state an upper bound on the regret incurred by Algorithm 1.
+
+### Theorem 3.3
+
+Fix a $\delta \in {}$ and suppose that Assumption 3.1 holds. With probability at least $1 - \delta$ the following statement holds. For all $T \geq 0$ we have that Algorithm 1 satisfies
+
+Here, the notation $\overset{\sim}{\mathcal{O}}{( \cdot )}$ also hides $o{(T^{2/3})}$ terms.
+
+The intuition behind our proof is transparent. We use SLS to show that the cost during epoch $i$ is bounded by $T_{i}{({1 + {\mathcal{O}{({\sigma_{\eta,i}^{2}/\sigma_{w}^{2}})}}})}{({1 + {\mathcal{O}{(\varepsilon_{i - 1})}}})}J_{\star}$, where the $({1 + {\mathcal{O}{(\varepsilon_{i - 1})}}})$ factor is the performance degredation incurred by model uncertainty, and the $({1 + {\mathcal{O}{({\sigma_{\eta,i}^{2}/\sigma_{w}^{2}})}}})$ factor is the additional cost incurred from injecting exploration noise. Hence, the regret incurred during this epoch is $\mathcal{O}{({T_{i}{({{\sigma_{\eta,i}^{2}/\sigma_{w}^{2}} + \varepsilon_{i - 1}})}J_{\star}})}$, We then bound our estimation error by $\varepsilon_{i} = {\overset{\sim}{\mathcal{O}}{({{({\sigma_{w}/\sigma_{\eta,i}})}T_{i}^{- {1/2}}})}}$. Setting $\sigma_{\eta,i}^{2} = {\sigma_{w}^{2}T_{i}^{- \alpha}}$, we have the per epoch bound $\overset{\sim}{\mathcal{O}}{({T_{i}^{1 - \alpha} + T_{i}^{1 - {{({1 - \alpha})}/2}}})}$. Choosing $\alpha = {1/3}$ to balance these competing powers of $T_{i}$ and summing over logarithmic number of epochs, we obtain a final regret of $\overset{\sim}{\mathcal{O}}{(T^{2/3})}$.
+
+The main difficulty in the proof is ensuring that the transient behavior of the resulting controllers is uniformly bounded when applied to the true system. Prior works sidestep this issue by assuming that the true dynamics lie within a (known) compact set for which the Heine-Borel theorem asserts the existence of finite constants that capture this behavior. We go a step further and work through the perturbation analysis which allows us to give a regret bound that depends only on simple quantities of the true system $(A_{\star},B_{\star})$. The full proof is given in the appendix.
+
+Finally, we remark that the dependence on $1/{({1 - \rho_{\star}})}$ in our results is an artifact of our perturbation analysis, and we leave sharpening this dependence to future work.
+
+### Regret Lower Bounds and Parameter Estimation Rates
+
+We saw that Algorithm 1 achieves $\overset{\sim}{\mathcal{O}}{(T^{2/3})}$ regret with high probability. Now we provide a matching algorithmic lower bound on the expected regret, showing that the analysis presented in Section 3.1 is sharp as a function of $T$. Moreover, our lower bound characterizes how much regret must be accrued in order to achieve a specified estimation rate for the system parameters $(A_{\star},B_{\star})$.
+
+### Theorem 3.4
+
+Let the initial state $x_{0}$ be distributed according to the steady state distribution $\mathcal{N}{(0,P_{\infty})}$ of the optimal closed loop system, and let ${\{ u_{t}\}}_{t \geq 0}$ be any sequence of inputs as in Section 2. Furthermore, let $f:{{\mathbb{R}}\rightarrow{\mathbb{R}}}$ be any function such that with probability $1 - \delta$ we have
+
+Then, there exist positive values $T_{0}$ and $C_{0}$ such that for all $T \geq T_{0}$ we have
+
+where $T_{0}$ and $C_{0}$ are functions of $A_{\star}$, $B_{\star}$, $Q$, $R$, $\sigma_{w}^{2}$, and $n$, detailed in Appendix E.
+
+The proof of the estimation error Theorem 3.2 shows that Algorithm 1 satisfies Eq. (3.1) with ${f{(T)}} = {\overset{\sim}{\mathcal{O}}{({T\sigma_{\eta,{\Theta{({\log_{2}{(T)}})}}}^{2}})}}$. Since the exploration variance $\sigma_{\eta,i}^{2}$ used by Algorithm 1 during the $i$-th epoch is given by $\sigma_{\eta,i}^{2} = {\mathcal{O}{({\sigma_{w}^{2}T^{- {i/3}}})}}$, we obtain the following corollary which demonstrates the sharpness of our regret analysis with respect to the scaling of $T$.
+
+### Corollary 3.5
+
+For $T > {C_{1}{(n,\delta,\sigma_{w}^{2},A_{\star},B_{\star},Q,R)}}$ the expected regret of Algorithm 1 satisfies
+
+A natural question to ask is how much regret does any algorithm accrue in order to achieve estimation error ${\parallel{\hat{A} - A_{\star}}\parallel} \leq \varepsilon$ and ${\parallel{\hat{B} - B_{\star}}\parallel} \leq \varepsilon$. From Theorem 3.2 we know that Algorithm 1 estimates $(A_{\star},B_{\star})$ at rate $\overset{\sim}{\mathcal{O}}{(T^{- {1/3}})}$. Therefore, in order to achieve $\varepsilon$ estimation error, $T$ must be $\overset{\sim}{\Omega}{(\varepsilon^{- 3})}$. Hence, Theorem 3.3 implies that the regret of Algorithm 1 to achieve $\varepsilon$ estimation error is $\overset{\sim}{\mathcal{O}}{(\varepsilon^{- 2})}$.
+
+Interestingly, let us consider any other Algorithm achieving $\mathcal{O}{(T^{\alpha})}$ regret for some $0 < \alpha < 1$. Then, Theorem 3.4 suggests that the best rate achievable by such an algorithm is $\mathcal{O}{(T^{- {\alpha/2}})}$, since the minimum eigenvalue condition Eq. (3.1) governs the signal-to-noise ratio. In the case of linear-regression with independent data it is known that the minimax estimation rate is lower bounded by square root of the inverse of the minimum eigenvalue (3.1). We conjecture that the same results holds in our case. Therefore, to achieve $\varepsilon$ estimation error, any Algorithm would likely require $\Omega{(\varepsilon^{- 2})}$ regret, showing that Algorithm 1 is optimal up to logarithmic factors in this sense. Finally, we note that while Algorithm 1 estimates $(A_{\star},B_{\star})$ at a rate $\overset{\sim}{\mathcal{O}}{(T^{- {1/3}})}$, Theorem 3.4 suggests that any algorithm achieving the $\mathcal{O}{(\sqrt{T})}$ regret would estimate $(A_{\star},B_{\star})$ at a rate $\Omega{(T^{- {1/4}})}$.
+
+## Experiments
+
+### Regret Comparison
+
+We illustrate the performance of several adaptive schemes empirically. We compare the proposed robust adaptive method with non-Bayesian Thompson sampling (TS) as in Abeille and Lazaric and a heuristic projected gradient descent (PGD) implementation of OFU. As a simple baseline, we use the nominal control method, which synthesizes the optimal infinite-horizon LQR controller for the estimated system and injects noise with the same schedule as the robust approach. Implementation details and computational considerations for all adaptive methods are in Appendix G.
+
+The comparison experiments are carried out on the following LQR problem:
+
+This system corresponds to a marginally unstable Laplacian system where adjacent nodes are weakly connected; these dynamics were also studied by. The cost is such that input size is penalized relatively less than state. This problem setting is amenable to robust methods due to both the cost ratio and the marginal instability, which are factors that may hurt optimistic methods. In Appendix H.1, we show similar results for an unstable system with large transients.
+
+To standardize the initialization of the various adaptive methods, we use a rollout of length $T_{0} = 100$ where the input is a stabilizing controller plus Gaussian noise with fixed variance $\sigma_{u} = 1$. This trajectory is not counted towards the regret, but the recorded states and inputs are used to initialize parameter estimates. In each experiment, the system starts from $x_{0} = 0$ to reduce variance over runs. For all methods, the actual errors ${\hat{A}}_{t} - A_{\star}$ and ${\hat{B}}_{t} - B_{\star}$ are used rather than bounds or bootstrapped estimates. The effect of this choice on regret is small, as examined empirically in Appendix H.2.
+
+(b) Infinite Horizon LQR Cost
+
+Figure 1: A comparison of different adaptive methods on 500 experiments of the marginally unstable Laplacian example in 4.1. In (a), the median and 90th percentile regret is plotted over time. In (b), the median and 90th percentile infinite-horizon LQR cost of the epoch’s controller.
+
+The performance of the various adaptive methods is compared in Figure 1. The median and 90th percentile regret over 500 instances is displayed in Figure 1a, which gives an idea of both typical and worst-case behavior. The regret of the optimal LQR controller for the true system is displayed as a baseline. Overall, the methods have very similar performance. One benefit of robustness is the guaranteed stability and bounded infinite-horizon cost at every point during operation. In Figure 1b, this infinite-horizon LQR cost is plotted for the controllers played during each epoch. This value measures the cost of using each epoch's controller indefinitely, rather than continuing to update its parameters. The robust adaptive method performs relatively better than other adaptive algorithms, indicating that it is more amenable to early stopping, i.e., to turning off the adaptive component of the algorithm and playing the current controller indefinitely.
+
+### Extension to Uncertain Environment with State Constraints
+
+Figure 2: The addition of constraints in the robust synthesis problem can guarantee the safe execution of adaptive systems. We consider an example inspired by demand forecasting, as illustrated in (a), where the left hand side of the diagram represents unknown dynamics. The median and maximum values of ∥xt∥∞ over 500 trials are plotted for both the unconstrained and constrained synthesis problems in (b).
+
+The proposed robust adaptive method naturally generalizes beyond the standard LQR problem. We consider a disturbance forecasting example which incorporates environmental uncertainty and safety constraints. Consider a system with known dynamics driven by stochastic disturbances that are now correlated in time. We model the disturbance process as the output of an unknown autonomous LTI system, as illustrated in Figure 2(a). This setting can be interpreted as a demand forecasting problem, where, for example, the system is a server farm and the disturbances represent changes in the amount of incoming jobs. If the dynamics of the correlated disturbance process are known, this knowledge can be used for more cost-effective temperature control.
+
+We let the system $(A_{\star},B_{\star})$ with known dynamics be described by the graph Laplacian dynamics as in Eq. (4.1). The disturbance dynamics are unknown and are governed by a stable system transition matrix $A_{d}$, resulting in the following dynamics for the full system:
+
+The costs are set to model expensive inputs, with $Q = I$ and $R = {{1 \times 10^{3}}I}$. The controller synthesis problem in Line 9 of Algorithm 1 is modified to reflect the problem structure, and crucially, we add a constraint on the system response $\mathbf{\Phi}_{x}$. Further details of the formulation are explained in Appendix H.3. Figure 2(b) illustrates the effect. While the unconstrained synthesis results in trajectories with large state values, the constrained synthesis results in much more moderate behavior.
+
+## Conclusions and Future Work
+
+We presented a polynomial-time algorithm for the adaptive LQR problem that provides high probability guarantees of sub-linear regret. In contrast to other approaches to this problem, our robust adaptive method guarantees stability, robust performance, and parameter estimation. We also explored the interplay between regret minimization and parameter estimation, identifying fundamental limits connecting the two.
+
+Several questions remain to be answered. It is an open question whether a polynomial-time algorithm can achieve a regret of $\overset{\sim}{\mathcal{O}}{(\sqrt{T})}$. In our implementation of OFU, we observed that PGD performed quite effectively. Interesting future work is to see if the techniques of Fazel et al. for policy gradient optimization on LQR can be applied to prove convergence of PGD on the OFU subroutine, which would provide an optimal polynomial-time algorithm. Moreover, we observed that OFU and TS methods in practice gave estimates of system parameters that were comparable with our method which explicitly adds excitation noise. It seems that the switching of control policies at epoch boundaries provides more excitation for system identification than is currently understood by the theory. Furthermore, practical issues that remain to be addressed include satisfying safety constraints and dealing with nonlinear dynamics; in both settings, finite-sample parameter estimation/system identification and adaptive control remain an open problem.

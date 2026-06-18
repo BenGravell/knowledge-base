@@ -1,0 +1,304 @@
+## Introduction
+
+One of the central questions in modern machine learning theory is the generalization capability of overparametrized models trained by stochastic gradient descent (SGD). Recent work identifies the implicit regularization effect due to the optimization algorithm as one key factor in explaining the generalization of overparameterized models. This implicit regularization is controlled by many properties of the optimization algorithm including search direction, learning rate, batch size, momentum and dropout.
+
+The parameter-dependent noise distribution in SGD is a crucial source of regularization. Blanc et al. initiated the study of the regularization effect of label noise SGD with square loss^11^1Label noise SGD computes the stochastic gradient by first drawing a sample $(x_{i},y_{i})$, perturbing $y_{i}^{\prime} = {y_{i} + \epsilon}$ with $\epsilon \sim {\{{- \sigma},\sigma\}}$, and computing the gradient with respect to $(x_{i},y_{i}^{\prime})$. by characterizing the local stability of global minimizers of the training loss. By identifying a data-dependent regularizer $R{(\theta)}$, Blanc et al. proved that label noise SGD locally diverges from the global minimizer $\theta^{\ast}$ if and only if $\theta^{\ast}$ is not a first-order stationary point of
+
+The analysis is only able to demonstrate that with sufficiently small step size $\eta$, label noise SGD initialized at $\theta^{\ast}$ locally diverges by a distance of $\eta^{0.4}$ and correspondingly decreases the regularizer by $\eta^{0.4}$. This is among the first results that establish that the noise distribution alters the local stability of stochastic gradient descent. However, the parameter movement of $\eta^{0.4}$ is required to be inversely polynomially small in dimension and condition number and is thus too small to affect the predictions of the model.
+
+HaoChen et al., motivated by the local nature of Blanc et al., analyzed label noise SGD in the quadratically-parametrized linear regression model. Under a well-specified sparse linear regression model and with isotropic features, HaoChen et al. proved that label noise SGD recovers the sparse ground-truth despite overparametrization, which demonstrated a global implicit bias towards sparsity in the quadratically-parametrized linear regression model.
+
+This work seeks to identify the global implicit regularization effect of label noise SGD. Our primary result, which supports Blanc et al., proves that label noise SGD converges to a stationary point of ${L{(\theta)}} + {\lambdaR{(\theta)}}$, where the regularizer $R{(\theta)}$ penalizes sharp regions of the loss landscape.
+
+The focus of this paper is on label noise SGD due to its strong regularization effects in both real and synthetic experiments. Furthermore, label noise is used in large-batch training as an additional regularizer when the regularization from standard regularizers (e.g. mini-batch, batch-norm, and dropout) is not sufficient. Label noise SGD is also known to be less sensitive to initialization, as shown in HaoChen et al.. In stark contrast, mini-batch SGD remains stuck when initialized at any poor global minimizer. Our analysis demonstrates a global regularization effect of label noise SGD by proving it converges to a stationary point of a regularized loss ${L{(\theta)}} + {\lambdaR{(\theta)}}$, even when initialized at a zero error global minimum.
+
+The learning rate and minibatch size in SGD are also known to be important sources of regularization. Our main theorem highlights the importance of learning rate and batch size as the hyperparameters that control the balance between the loss and the regularizer -- larger learning rate and smaller batch size leads to stronger regularization.
+
+Section 2 reviews the notation and assumptions used throughout the paper. Section 2.4 formally states the main result and Section 3 sketches the proof. Section 4 presents experimental results which support our theory. Finally, Section 6 discusses the implications of this work.
+
+## Problem Setup and Main Result
+
+Section 2.1 describes our notation and the SGD with label noise algorithm. Section 2.2 ‣ 2 Problem Setup and Main Result ‣ Label Noise SGD Provably Prefers Flat Global Minimizers") introduces the explicit formula for the regularizer $R{(\theta)}$. Sections 2.3-Stationary Points ‣ 2 Problem Setup and Main Result ‣ Label Noise SGD Provably Prefers Flat Global Minimizers") and 2.4 formally state our main result.
+
+### Notation
+
+We focus on the regression setting (see Appendix E for the extension to the classification setting). Let ${\{{(x_{i},y_{i})}\}}_{i \in {\lbrack n\rbrack}}$ be $n$ datapoints with $x_{i} \in \mathcal{D}$ and $y_{i} \in {\mathbb{R}}$. Let $f:{{\mathcal{D} \times {\mathbb{R}}^{d}}\rightarrow{\mathbb{R}}}$ and let ${f_{i}{(\theta)}} = {f{(x_{i},\theta)}}$ denote the value of $f$ on the datapoint $x_{i}$. Define ${\ell_{i}{(\theta)}} = {\frac{1}{2}\left( {{f_{i}{(\theta)}} - y_{i}} \right)^{2}}$ and ${L{(\theta)}} = {\frac{1}{n}{\sum_{i = 1}^{n}{\ell_{i}{(\theta)}}}}$. Then we will follow Algorithm 1 which adds fresh additive noise to the labels $y_{i}$ at every step before computing the gradient:
+
+Input: θ0, step size η, noise variance σ2, batch size B, steps T
+Sample batch ℬ(k) ⊂ [n]B uniformly and label noise ϵi(k) ∼ {−σ, σ} for i ∈ ℬ(k).
+Let ${{\hat{\ell}}_{i}^{(k)}{(\theta)}} = {\frac{1}{2}\left( {{f_{i}{(\theta)}} - y_{i} - \epsilon_{i}^{(k)}} \right)^{2}}$ and ${\hat{L}}^{(k)} = {\frac{1}{B}{\sum_{i \in \mathcal{B}^{(k)}}{\hat{\ell}}_{i}^{(k)}}}$.
+Algorithm 1 SGD with Label Noise
+
+Note that $\sigma$ controls the strength of the label noise and will control the strength of the implicit regularization in Theorem 1. Throughout the paper we will use $\parallel \cdot \parallel = \parallel \cdot \parallel_{2}$. We make the following standard assumption on $f$:
+
+### Assumption 1 (Smoothness)
+
+We assume that each $f_{i}$ is $\ell_{f}$-Lipschitz, $\nabla f_{i}$ is $\rho_{f}$-Lipschitz, and $\nabla^{2}f_{i}$ is $\kappa_{f}$-Lipschitz with respect to $\parallel \cdot \parallel_{2}$ for $i = {1,\ldots,n}$.
+
+We will define $\ell = \ell_{f}^{2}$ to be an upper bound on ${\|{\frac{1}{n}{\sum_{i}{{\nabla f_{i}}{(\theta)}{\nabla f_{i}}{(\theta)}^{T}}}}\|}_{2}$, which is equal to ${\|{{\nabla^{2}L}{(\theta)}}\|}_{2}$ at any global minimizer $\theta$. Our results extend to any learning rate $\eta \in {(0,\frac{2}{\ell})}$. However, they do not extend to the limit as $\eta\rightarrow\frac{2}{\ell}$. Because we still want to track the dependence on $\frac{1}{\eta}$, we do not assume $\eta$ is a fixed constant and instead assume some constant separation:
+
+### Assumption 2 (Learning Rate Separation)
+
+There exists a constant $\nu \in {}$ such that $\eta \leq \frac{2 - \nu}{\ell}$.
+
+In addition, we make the following local Kurdyka-Łojasiewicz assumption (KL assumption) which ensures that there are no regions where the loss is very flat. The KL assumption is very general and holds for some $\delta > 0$ for any analytic function defined on a compact domain (see Lemma 17).
+
+### Assumption 3 (KL)
+
+Let $\theta^{\ast}$ be any global minimizer of $L$. Then there exist ${\epsilon_{KL} > 0},{\mu > 0}$ and $0 < \delta \leq {1/2}$ such that if ${{L{(\theta)}} - {L{(\theta^{\ast})}}} \leq \epsilon_{KL}$, then ${{L{(\theta)}} - {L{(\theta^{\ast})}}} \leq {\mu{\|{{\nabla L}{(\theta)}}\|}^{1 + \delta}}$.
+
+We assume ${L{(\theta^{\ast})}} = 0$ for any global minimizer $\theta^{\ast}$. Note that if $L$ satisfies 3. ‣ 2.1 Notation ‣ 2 Problem Setup and Main Result ‣ Label Noise SGD Provably Prefers Flat Global Minimizers") for some $\delta$ then it also satisfies 3. ‣ 2.1 Notation ‣ 2 Problem Setup and Main Result ‣ Label Noise SGD Provably Prefers Flat Global Minimizers") for any $\delta^{\prime} < \delta$. 3. ‣ 2.1 Notation ‣ 2 Problem Setup and Main Result ‣ Label Noise SGD Provably Prefers Flat Global Minimizers") with $\delta = 1$ is equivalent to the much stronger Polyak-Łojasiewicz condition which is equivalent to local strong convexity.
+
+We will use $O,\Theta,\Omega$ to hide any polynomial dependence on $\mu,\ell_{f},\rho_{f},\kappa_{f},\nu,{1/\sigma},n,d$ and $\overset{\sim}{O}$ to hide additional polynomial dependence on ${\log{1/\eta}},{\log B}$.
+
+### The Implicit Regularizer $R\hspace{0pt}{(\theta)}$
+
+For $L,\sigma^{2},B,\eta$ as defined above, we define the implicit regularizer $R{(\theta)}$, the effective regularization parameter $\lambda$, and the regularized loss $\overset{\sim}{L}{(\theta)}$:
+
+[width=]tikz/regplot
+Figure 1: Comparison of regularization strength in one dimension for the implicit regularizer ${\lambdaR{(\theta)}} \propto {\log{({1 - \frac{\eta\ell}{2}})}}$ and its linear approximation around η = 0, ${\frac{\lambda}{4}{tr}{\nabla^{2}L}{(\theta)}} \propto {\eta\ell}$. Here ℓ = ∥∇2L (θ)∥2 measures the sharpness at θ.
+
+Here $\log$ refers to the matrix logarithm. To better understand the regularizer $R{(\theta)}$, let $\lambda_{1},\ldots,\lambda_{d}$ be the eigenvalues of ${\nabla^{2}L}{(\theta)}$ and let ${R{(\lambda_{i})}} = {- {\frac{1}{2\eta}{\log{({1 - \frac{\eta\lambda_{i}}{2}})}}}}$. Then,
+
+In the limit as $\eta\rightarrow 0$, ${R{(\theta)}}\rightarrow{\frac{1}{4}{tr}{\nabla^{2}L}{(\theta)}}$, which matches the regularizer in Blanc et al. for infinitesimal learning rate near a global minimizer. However, in additional to the linear scaling rule, which is implicit in our definition of $\lambda$, our analysis uncovers an additional regularization effect of large learning rates that penalizes larger eigenvalues more than smaller ones (see Figure 1 ‣ 2 Problem Setup and Main Result ‣ Label Noise SGD Provably Prefers Flat Global Minimizers") and Section 6.1).
+
+The goal of this paper is to show that Algorithm 1 converges to a stationary point of the regularized loss $\overset{\sim}{L} = {L + {\lambdaR}}$. In particular, we will show convergence to an $(\epsilon,\gamma)$-stationary point, which is defined in the next section.
+
+### $(\epsilon,\gamma)$-Stationary Points
+
+We begin with the standard definition of an approximate stationary point:
+
+### Definition 1 ($\epsilon$-stationary point)
+
+$\theta$ is an $\epsilon$-stationary point of $f$ if ${{\|{{\nabla f}{(\theta)}}\|} \leq \epsilon}.$
+
+In stochastic gradient descent it is often necessary to allow $\lambda = \frac{\eta\sigma^{2}}{B}$ to scale with $\epsilon$ to reach an $\epsilon$-stationary point (e.g., $\lambda$ may need to be less than $\epsilon^{2}$). However, for $\lambda = {O{(\epsilon)}}$, any local minimizer $\theta^{\ast}$ is an $\epsilon$-stationary point of $\overset{\sim}{L} = {L + {\lambdaR}}$. Therefore, reaching a $\epsilon$-stationary point of $\overset{\sim}{L}$ would be equivalent to finding a local minimizer and would not be evidence for implicit regularization. To address this scaling issue, we consider the rescaled regularized loss:
+
+Reaching an $\epsilon$-stationary point of $\frac{1}{\lambda}\overset{\sim}{L}$ requires non-trivially taking the regularizer $R$ into account. However, it is not possible for Algorithm 1 to reach an $\epsilon$-stationary point of $\frac{1}{\lambda}\overset{\sim}{L}$ even in the ideal setting when $\theta$ is initialized near a global minimizer $\theta^{\ast}$ of $\overset{\sim}{L}$. The label noise will cause fluctuations of order $\sqrt{\lambda}$ around $\theta^{\ast}$ (see section 3) so $\|{\nabla L}\|$ will remain around $\sqrt{\lambda}$. This causes $\frac{1}{\lambda}{\nabla L}$ to become unbounded for $\lambda$ (and therefore $\epsilon$) sufficiently small, and thus Algorithm 1 cannot converge to an $\epsilon$-stationary point. We therefore prove convergence to an $(\epsilon,\gamma)$-stationary point:
+
+### Definition 2 ($(\epsilon,\gamma)$-stationary point)
+
+$\theta$ is an $(\epsilon,\gamma)$-stationary point of $f$ if there exists some $\theta^{\ast}$ such that ${\|{{\nabla f}{(\theta^{\ast})}}\|} \leq \epsilon$ and ${\|{\theta - \theta^{\ast}}\|} \leq \gamma$.
+
+Intuitively, Algorithm 1 converges to an $(\epsilon,\gamma)$-stationary point when it converges to a neighborhood of some $\epsilon$-stationary point $\theta^{\ast}$.
+
+### Main Result
+
+Having defined an $(\epsilon,\gamma)$-stationary point we can now state our main result:
+
+### Theorem 1
+
+Assume that $f$ satisfies Assumption 1. ‣ 2.1 Notation ‣ 2 Problem Setup and Main Result ‣ Label Noise SGD Provably Prefers Flat Global Minimizers"), $\eta$ satisfies Assumption 2. ‣ 2.1 Notation ‣ 2 Problem Setup and Main Result ‣ Label Noise SGD Provably Prefers Flat Global Minimizers"), and $L$ satisfies Assumption 3. ‣ 2.1 Notation ‣ 2 Problem Setup and Main Result ‣ Label Noise SGD Provably Prefers Flat Global Minimizers"), i.e. ${L{(\theta)}} \leq {\mu{\|{{\nabla L}{(\theta)}}\|}^{1 + \delta}}$ for ${L{(\theta)}} \leq \epsilon_{KL}$. Let $\eta,B$ be chosen such that $\lambda:=\frac{\eta\sigma^{2}}{B} = {\overset{\sim}{\Theta}{({\min{(\epsilon^{2/\delta},\gamma^{2})}})}}$, and let $T = {\overset{\sim}{\Theta}{({\eta^{- 1}\lambda^{{- 1} - \delta}})}} = {{poly}{(\eta^{- 1},\gamma^{- 1})}}$. Assume that $\theta$ is initialized within $O{(\sqrt{\lambda^{1 + \delta}})}$ of some $\theta^{\ast}$ satisfying ${L{(\theta^{\ast})}} = {O{(\lambda^{1 + \delta})}}$. Then for any $\zeta \in {}$, with probability at least $1 - \zeta$, if $\{\theta_{k}\}$ follows Algorithm 1 with parameters $\eta,\sigma,T$, there exists $k < T$ such that $\theta_{k}$ is an $(\epsilon,\gamma)$-stationary point of $\frac{1}{\lambda}\overset{\sim}{L}$.
+
+Theorem 1 guarantees that Algorithm 1 will hit an $(\epsilon,\gamma)$-stationary point of $\frac{1}{\lambda}\overset{\sim}{L}$ within a polynomial number of steps in $\epsilon^{- 1},\gamma^{- 1}$. In particular, when $\delta = \frac{1}{2}$, Theorem 1 guarantees convergence within $\overset{\sim}{O}{({\epsilon^{- 6} + \gamma^{- 3}})}$ steps. The condition that $\theta_{0}$ is close to an approximate global minimizer $\theta^{\ast}$ is not a strong assumption as recent methods have shown that overparameterized models can easily achieve zero training loss in the kernel regime (see Appendix C). However, in practice these minimizers of the training loss generalize poorly. Theorem 1 shows that Algorithm 1 can then converge to a stationary point of the regularized loss which has better generalization guarantees (see Section 6.2). Theorem 1 also generalizes the local analysis in Blanc et al. to a global result with weaker assumptions on the learning rate $\eta$. For a full comparison with Blanc et al., see section 3.1.
+
+## Proof Sketch
+
+The proof of convergence to an $(\epsilon,\varphi)$-stationary point of $\frac{1}{\lambda}\overset{\sim}{L}$ has two components. In Section 3.1, we pick a reference point $\theta^{\ast}$ and analyze the behavior of Algorithm 1 in a neighborhood of $\theta^{\ast}$. In Section 3.2, we repeat this local analysis with a sequence of reference points $\{\theta_{m}^{\ast}\}$.
+
+[width=0.8]tikz/proofsketch
+Figure 2: Local Coupling: The local coupling decomposes θ as θτ1 = Φτ1 (θ0*) + ξτ1 + Δ1. Φτ1 (θ0*) denotes τ1 steps of gradient descent on the regularized loss $\overset{\sim}{L}$ (denoted by the solid red curve), ξτ1 is a mean zero oscillating process (denoted by the dotted black line), and Δ1 is a small error term (denoted by the dotted red line). Global Convergence: By repeating this local coupling with a sequence of reference points {θm*}m, we prove convergence to a stationary point of $\frac{1}{\lambda}\overset{\sim}{L}$.
+
+### Local Coupling
+
+Let $\Phi_{k}{( \cdot )}$ denote $k$ steps of gradient descent on the regularized loss $\overset{\sim}{L}$, i.e.
+
+where ${\overset{\sim}{L}{(\theta)}} = {{L{(\theta)}} + {\lambdaR{(\theta)}}}$ is the regularized loss defined in Equation 1 ‣ 2 Problem Setup and Main Result ‣ Label Noise SGD Provably Prefers Flat Global Minimizers"). Lemma 1 states that if $\theta$ is initialized at an approximate global minimizer $\theta^{\ast}$ and follows Algorithm 1, there is a small mean zero random process $\xi$ such that $\theta_{k} \approx {{\Phi_{k}{(\theta^{\ast})}} + \xi_{k}}$:
+
+### Lemma 1
+
+where $c$ is a sufficiently large constant. Assume $f$ satisfies 1. ‣ 2.1 Notation ‣ 2 Problem Setup and Main Result ‣ Label Noise SGD Provably Prefers Flat Global Minimizers") and $\eta$ satisfies 2. ‣ 2.1 Notation ‣ 2 Problem Setup and Main Result ‣ Label Noise SGD Provably Prefers Flat Global Minimizers"). Let $\theta$ follow Algorithm 1 starting at $\theta^{\ast}$ and assume that ${L{(\theta^{\ast})}} \leq \mathcal{L}$ for some $0 < \delta \leq {1/2}$. Then there exists a random process $\{\xi_{k}\}$ such that for any $\tau \leq \mathcal{T}$ satisfying ${\max_{k \leq \tau}{\|{{\Phi_{k}{(\theta^{\ast})}} - \theta^{\ast}}\|}} \leq {8\mathcal{M}}$, with probability at least $1 - {10d\taue^{- \iota}}$ we have simultaneously for all $k \leq \tau$,
+
+Note that because $\mathcal{M} \geq \mathcal{D}$, the error term $\mathcal{D}$ is at least $8$ times smaller than the movement in the direction of the regularized trajectory $\Phi_{\tau}{(\theta^{\ast})}$, which will allow us to prove convergence to an $(\epsilon,\gamma)$-stationary point of $\frac{1}{\lambda}\overset{\sim}{L}$ in Section 3.2.
+
+Toward simplifying the update in Algorithm 1, we define $L^{(k)}$ to be the true loss without label noise on batch $\mathcal{B}^{(k)}$. The label-noise update ${\hat{L}}^{(k)}{(\theta_{k})}$ is an unbiased perturbation of the mini-batch update: ${{\nabla{\hat{L}}^{(k)}}{(\theta_{k})}} = {{{\nabla L^{(k)}}{(\theta_{k})}} - {\frac{1}{B}{\sum_{i \in \mathcal{B}^{(k)}}{\epsilon_{i}^{(k)}{\nabla f_{i}}{(\theta_{k})}}}}}$. We decompose the update rule into three parts:
+
+Let $m_{k} = {- {\eta{\lbrack{{{\nabla L^{(k)}}{(\theta_{k})}} - {{\nabla L}{(\theta_{k})}}}\rbrack}}}$ denote the minibatch noise. Throughout the proof we will show that the minibatch noise is dominated by the label noise. We will also decompose the label noise into two terms. The first, $\epsilon_{k}^{\ast}$ will represent the label noise if the gradient were evaluated at $\theta^{\ast}$ whose distribution does not vary with $k$. The other term, $z_{k}$ represents the change in the noise due to evaluating the gradient at $\theta_{k}$ rather than $\theta^{\ast}$. More precisely, we have
+
+We define ${G{(\theta)}} = {\frac{1}{n}{\sum_{i}{{\nabla f_{i}}{(\theta)}{\nabla f_{i}}{(\theta)}^{T}}}}$ to be the covariance of the model gradients. Note that $\epsilon_{k}^{\ast}$ has covariance $\eta\lambdaG{(\theta^{\ast})}$. To simplify notation in the Taylor expansions, we will use the following shorthand to refer to various quantities evaluated at $\theta^{\ast}$:
+
+First we need the following standard decompositions of the Hessian:
+
+### Proposition 1
+
+For any $\theta \in {\mathbb{R}}^{d}$ we can decompose ${{\nabla^{2}L}{(\theta)}} = {{G{(\theta)}} + {E{(\theta)}}}$ where ${E{(\theta)}} = {\frac{1}{n}{\sum_{i = 1}^{n}{{({{f_{i}{(\theta)}} - y_{i}})}{\nabla^{2}f_{i}}{(\theta)}}}}$ satisfies ${\|{E{(\theta)}}\|} \leq \sqrt{2\rho_{f}L{(\theta)}}$ where $\rho_{f}$ is defined in 1. ‣ 2.1 Notation ‣ 2 Problem Setup and Main Result ‣ Label Noise SGD Provably Prefers Flat Global Minimizers").
+
+The matrix $G$ in Proposition 1 is known as the Gauss-Newton term of the Hessian. We can now Taylor expand Algorithm 1 and Equation 2 to first order around $\theta^{\ast}$:
+
+We define $v_{k} = {\theta_{k} - {\Phi_{k}{(\theta^{\ast})}}}$ to be the deviation from the regularized trajectory. Then subtracting these two equations gives
+
+where we used Proposition 1 to replace $\nabla^{2}L$ with $G$. Temporarily ignoring the higher order terms, we define the random process $\xi$ by
+
+The process $\xi$ is referred to as an Ornstein Uhlenbeck process and it encodes the movement of $\theta$ to first order around $\theta^{\ast}$. We defer the proofs of the following properties of $\xi$ to Appendix B:
+
+### Proposition 2
+
+For any $k \geq 0$, with probability at least $1 - {2de^{- \iota}}$, ${\|\xi_{k}\|} \leq \mathcal{X}$. In addition, as $k\rightarrow\infty$, ${{\mathbb{E}}{\lbrack{\xi_{k}\xi_{k}^{T}}\rbrack}}\rightarrow{\lambda\Pi_{G}{({2 - {\etaG}})}^{- 1}}$ where $\Pi_{G}$ is the projection onto the span of $G$.
+
+We can now analyze the effect of $\xi_{k}$ on the second order Taylor expansion. Let $r_{k} = {\theta_{k} - {\Phi_{k}{(\theta^{\ast})}} - \xi_{k}}$ be the deviation of $\theta$ from the regularized trajectory after removing the Ornstein Uhlenbeck process $\xi$. Lemma 1 is equivalent to ${\Pr{\lbrack{{\| r_{\tau}\|} \geq \mathcal{D}}\rbrack}} \leq {10\taude^{- \iota}}$.
+
+We will prove by induction that ${\| r_{k}\|} \leq \mathcal{D}$ for all $k \leq t$ with probability at least $1 - {10tde^{- \iota}}$ for all $t \leq \tau$. The base case follows from $r_{0} = 0$ so assume the result for some $t \geq 0$. The remainder of this section will be conditioned on the event ${\| r_{k}\|} \leq \mathcal{D}$ for all $k \leq t$. $O{( \cdot )}$ notation will only be used to hide absolute constants that do not change with $t$ and will additionally not hide dependence on the absolute constant $c$. The following proposition fills in the missing second order terms in the Taylor expansion around $\theta^{\ast}$ of $r_{k}$:
+
+### Proposition 3
+
+With probability at least $1 - {2de^{- \iota}}$,
+
+The intuition for the implicit regularizer $R{(\theta)}$ is that by Propositions 2 and 1,
+
+Therefore, when averaged over long timescales,
+
+The second equality follows from the more general equality that for any matrix function $A$ and any scalar function $h$ that acts independently on each eigenvalue, ${\nabla{({{{tr}h}{({A{(\theta)}})}})}} = {{({{\nabla A}{(\theta)}})}{({h^{\prime}{({A{(\theta)}})}})}}$ which follows from the chain rule. The above equality is the special case when ${A{(\theta)}} = {{\nabla^{2}L}{(\theta)}}$ and ${h{(x)}} = {- {\frac{1}{\eta}{\log\left( {1 - {\frac{\eta}{2}x}} \right)}}}$, which satisfies ${h^{\prime}{(x)}} = \frac{1}{2 - {\etax}}$.
+
+The remaining details involve concentrating the mean zero error terms $m_{k},z_{k}$ and showing that ${\mathbb{E}}{\lbrack{\xi_{k}\xi_{k}^{T}}\rbrack}$ does concentrate in the directions with large eigenvalues and that the directions with small eigenvalues, in which the covariance does not concentrate, do not contribute much to the error. This yields the following bound:
+
+### Proposition 4
+
+With probability at least $1 - {10de^{- \iota}}$, ${\| r_{t + 1}\|} = {\overset{\sim}{O}\left( \frac{\lambda^{{1/2} + {\delta/2}}}{\sqrt{c}} \right)}$.
+
+The proof of Proposition 4 can be found in Appendix B. Finally, because $\mathcal{D} = {\overset{\sim}{O}{({c^{5/2}\lambda^{{1/2} + {\delta/2}}})}}$, ${\| r_{t + 1}\|} \leq \mathcal{D}$ for sufficiently large $c$. This completes the induction and the proof of Lemma 1.
+
+### Comparison with Blanc et al. \[3\]
+
+Like Blanc et al., Lemma 1 shows that $\theta$ locally follows the trajectory of gradient descent on an implicit regularizer $R{(\theta)}$. However, there are a few crucial differences:
+
+Because we do not assume we start near a global minimizer where $L = 0$, we couple to a regularized loss $\overset{\sim}{L} = {L + {\lambdaR}}$ rather than just the regularizer $R{(\theta)}$. In this setting there is an additional correction term to the Hessian (Proposition 1) that requires carefully controlling the value of the loss across reference points to prove convergence to a stationary point.
+
+The analysis in Blanc et al. requires $\eta,\tau$ to be chosen in terms of the condition number of $\nabla^{2}L$ which can quickly grow during training as $\nabla^{2}L$ is changing. This makes it impossible to directly repeat the argument. We avoid this by precisely analyzing the error incurred by small eigenvalues, allowing us to prove convergence to an $(\epsilon,\gamma)$ stationary point of $\frac{1}{\lambda}\overset{\sim}{L}$ for fixed $\eta,\lambda$ even if the smallest nonzero eigenvalue of $\nabla^{2}L$ converges to $0$ during training.
+
+Unlike in Blanc et al., we do not require the learning rate $\eta$ to be small. Instead, we only require that $\lambda$ scales with $\epsilon$ which can be accomplished either by decreasing the learning rate $\eta$ or increasing the batch size $B$. This allows for stronger implicit regularization in the setting when $\eta$ is large (see Section 6.1). In particular, our regularizer $R{(\theta)}$ changes with $\eta$ and is only equal to the regularizer in Blanc et al. in the limit $\eta\rightarrow 0$.
+
+### Global Convergence
+
+In order to prove convergence to an $(\epsilon,\gamma)$-stationary point of $\frac{1}{\eta}{\nabla\overset{\sim}{L}}$, we will define a sequence of reference points $\theta_{m}^{\ast}$ and coupling times $\{\tau_{m}\}$ and repeatedly use a version of Lemma 1 to describe the long term behavior of $\theta$. For notational simplicity, given a sequence of coupling times $\{\tau_{m}\}$, define $T_{m} = {\sum_{k < m}\tau_{k}}$ to be the total number of steps until we have reached the reference point $\theta_{m}^{\ast}$.
+
+To be able to repeat the local analysis in Lemma 1 with multiple reference points, we need a more general coupling lemma that allows the random process $\xi$ defined in each coupling to continue where the random process in the previous coupling ended. To accomplish this, we define $\xi$ outside the scope of the local coupling lemma:
+
+### Definition 3
+
+Given a sequence of reference points $\{\theta_{m}^{\ast}\}$ and a sequence of coupling times $\{\tau_{m}\}$, we define the random process $\xi$ by $\xi_{0} = 0$, and for $k \in {\lbrack T_{m},T_{m + 1})}$,
+
+Then we can prove the following more general coupling lemma:
+
+### Lemma 2
+
+Let $\mathcal{X},\mathcal{L},\mathcal{D},\mathcal{M},\mathcal{T}$ be defined as in Lemma 1. Assume $f$ satisfies 1. ‣ 2.1 Notation ‣ 2 Problem Setup and Main Result ‣ Label Noise SGD Provably Prefers Flat Global Minimizers") and $\eta$ satisfies 2. ‣ 2.1 Notation ‣ 2 Problem Setup and Main Result ‣ Label Noise SGD Provably Prefers Flat Global Minimizers"). Let $\Delta_{m} = {\theta_{T_{m}} - \xi_{T_{m}} - \theta_{m}^{\ast}}$ and assume that ${\|\Delta_{m}\|} \leq \mathcal{D}$ and ${L{(\theta_{m}^{\ast})}} \leq \mathcal{L}$ for some $0 < \delta \leq {1/2}$. Then for any $\tau_{m} \leq \mathcal{T}$ satisfying ${\max_{k \in {\lbrack T_{m},T_{m + 1})}}{\|{{\Phi_{k - T_{m}}{({\theta_{m}^{\ast} + \Delta_{m}})}} - \theta_{m}^{\ast}}\|}} \leq {8\mathcal{M}}$, with probability at least $1 - {10d\tau_{m}e^{- \iota}}$ we have simultaneously for all $k \in {(T_{m},T_{m + 1}\rbrack}$,
+
+Unlike in Lemma 1, we couple to the regularized trajectory starting at $\theta_{m}^{\ast} + \Delta_{m}$ rather than at $\theta_{m}^{\ast}$ to avoid accumulating errors (see Figure 2). The proof is otherwise identical to that of Lemma 1.
+
+The proof of Theorem 1 easily follows from the following lemma which states that we decrease the regularized loss $\overset{\sim}{L}$ by at least $\mathcal{F}$ after every coupling:
+
+### Lemma 3
+
+Let $\mathcal{F} = \frac{\mathcal{D}^{2}}{\eta\nu\mathcal{T}}$. Let $\Delta_{m} = {\theta_{T_{m}} - \xi_{T_{m}} - \theta_{m}^{\ast}}$ and assume ${\|\Delta_{m}\|} \leq \mathcal{D}$ and ${L{(\theta_{m}^{\ast})}} \leq \mathcal{L}$. Then if $\theta_{T_{m}}$ is not an $(\epsilon,\gamma)$-stationary point, there exists some $\tau_{m} < \mathcal{T}$ such that if we define
+
+then with probability $1 - {10d\tau_{m}e^{- \iota}}$,
+
+We defer the proofs of Lemma 2 and Lemma 3 to Appendix B. Theorem 1 now follows directly from repeated applications of Lemma 3:
+
+### Proof of Theorem 1
+
+By assumption there exists some $\theta_{0}^{\ast}$ such that ${L{(\theta_{0}^{\ast})}} \leq \mathcal{L}$ and ${\|{\theta_{0} - \theta_{0}^{\ast}}\|} \leq \mathcal{D}$. Then so long as $\theta_{T_{m}}$ is not an $(\epsilon,\gamma)$-stationary point, we can inductively apply Lemma 3 to get the existence of coupling times $\{\tau_{m}\}$ and reference points $\{\theta_{m}^{\ast}\}$ such that for any $m \geq 0$, with probability $1 - {10dT_{m}e^{- \iota}}$ we have ${\overset{\sim}{L}{(\theta_{m}^{\ast})}} \leq {{\overset{\sim}{L}{(\theta_{0}^{\ast})}} - {m\mathcal{F}}}$. As ${{\overset{\sim}{L}{(\theta_{0}^{\ast})}} - {\overset{\sim}{L}{(\theta_{m}^{\ast})}}} = {O{(\lambda)}}$, this can happen for at most $m = {O\left( \frac{\lambda}{\mathcal{F}} \right)}$ reference points, so at most $T = {O\left( \frac{\lambda\mathcal{T}}{\mathcal{F}} \right)} = {\overset{\sim}{O}\left( {\eta^{- 1}\lambda^{{- 1} - \delta}} \right)}$ iterations of Algorithm 1. By the choice of $\iota$, this happens with probability ${1 - {10dTe^{- \iota}}} \geq {1 - \zeta}$. ∎
+
+## Experiments
+
+Figure 3: Label Noise SGD escapes poor global minimizers. The left column displays the training accuracy over time, the middle column displays the value of tr ∇2L (θ) over time which we use to approximate the implicit regularizer R (θ), and the right column displays their correlation. The horizontal dashed line represents the minibatch SGD baseline with random initialization. We report the median results over 3 random seeds and shaded error bars denote the min/max over the three runs. The correlation plot uses a running average of 100 epochs for visual clarity.
+
+In order to test the ability of SGD with label noise to escape poor global minimizers and converge to better minimizers, we initialize Algorithm 1 at global minimizers of the training loss which achieve $100\%$ training accuracy yet generalize poorly to the test set. Minibatch SGD would remain fixed at these initializations because both the gradient and the noise in minibatch SGD vanish at any global minimizer of the training loss. We show that SGD with label noise escapes these poor initializations and converges to flatter minimizers that generalize well, which supports Theorem 1. We run experiments with two initializations:
+
+Full Batch Initialization: We run full batch gradient descent with random initialization until convergence to a global minimizer. We call this minimizer the full batch initialization. The final test accuracy of the full batch initialization was 76%.
+
+Adversarial Initialization: Following Liu et al., we generate an adversarial initialization with final test accuracy $48\%$ that achieves zero training loss by first teaching the network to memorize random labels and then training it on the true labels. See Appendix D for full details.
+
+Experiments were run with on without data augmentation or weight decay. The experiments were conducted with randomized label flipping with probability $0.2$ (see Appendix E for the extension of Theorem 1 to classification with label flipping), cross entropy loss, and batch size 256. Because of the difficulty in computing the regularizer $R{(\theta)}$, we approximate it by its lower bound ${tr}{\nabla^{2}L}{(\theta)}$. Figure 3 shows the test accuracy and ${tr}{\nabla^{2}L}$ throughout training.
+
+SGD with label noise escapes both zero training loss initializations and converges to flatter minimizers that generalize much better, reaching the SGD baseline from the fullbatch initialization and getting within $1\%$ of the baseline from the adversarial initialization. The test accuracy in both cases is strongly correlated with ${tr}{\nabla^{2}L}$. The strength of the regularization is also strongly correlated with $\eta$, which supports Theorem 1. See Figure 4 for experimental results for SGD with momentum.
+
+## Extensions
+
+### Classification
+
+We restrict $y_{i} \in {\{{- 1},1\}}$, let $l:{{\mathbb{R}}\rightarrow{\mathbb{R}}^{+}}$ be an arbitrary loss function, and $p \in {}$ be a smoothing factor. Examples of $l$ include logistic loss, exponential loss, and square loss (see Table 1). We define $\overline{l}$ to be the expected smoothed loss where we flip each label with probability $p$:
+
+We make the following mild assumption on the smoothed loss $\overline{l}$ which is explicitly verified for the logistic loss, exponential loss, and square loss in Section E.2:
+
+### Assumption 4 (Quadratic Approximation)
+
+If $c \in {\mathbb{R}}$ is the unique global minimizer of $\overline{l}$, there exist constants ${\epsilon_{Q} > 0},{\nu > 0}$ such that if ${\overline{l}{(x)}} \leq \epsilon_{Q}$ then,
+
+In addition, we assume that ${\overline{l}}^{\prime},{\overline{l}}^{\operatorname{\prime\prime}}$ are $\rho_{l}$, $\kappa_{l}$ Lipschitz respectively restricted to the set $\{ x:{{\overline{l}{(x)}} \leq \epsilon_{Q}}\}$.
+
+Then we define the per-sample loss and the sample loss as:
+
+We will follow Algorithm 2:
+
+Input: θ0, step size η, smoothing constant p, batch size B, steps T, loss function l
+Sample batch ℬ(k) ∼ [n]B uniformly and sample σi(k) = 1, −1 with probability 1 − p, p respectively for i ∈ ℬ(k).
+Let ${{\hat{\ell}}_{i}^{(k)}{(\theta)}} = {l{\lbrack{\sigma_{i}^{(k)}y_{i}f_{i}{(\theta)}}\rbrack}}$ and ${\hat{L}}^{(k)} = {\frac{1}{B}{\sum_{i \in \mathcal{B}^{(k)}}{\hat{\ell}}_{i}^{(k)}}}$.
+Algorithm 2 SGD with Label Smoothing
+
+Now note that the noise per sample from label smoothing at a zero loss global minimizer $\theta^{\ast}$ can be written as
+
+so ${E{\lbrack\epsilon\rbrack}} = 0$ and
+
+which will determine the strength of the regularization in Theorem 2. Finally, in order to study the local behavior around $c$ we define $\alpha = {{\overline{l}}^{\operatorname{\prime\prime}}{(c)}} > 0$ by 4. ‣ 5.1 Classification ‣ 5 Extensions ‣ Label Noise SGD Provably Prefers Flat Global Minimizers"). Corresponding values for $c,\sigma^{2},\alpha$ for logistic loss, exponential loss, and square loss are given in Table 1.
+
+$c = {{\arg{\min_{x}\overline{l}}}{(x)}}$
+$\alpha = {{\overline{l}}^{\operatorname{\prime\prime}}{(c)}}$
+
+$\frac{1}{2}{\log\frac{1 - p}{p}}$
+
+Table 1: Values of l (x), c, σ2, α for different binary classification loss functions
+
+Our main result is a version of Theorem 1:
+
+### Theorem 2
+
+Assume that $f$ satisfies Assumption 1. ‣ 2.1 Notation ‣ 2 Problem Setup and Main Result ‣ Label Noise SGD Provably Prefers Flat Global Minimizers"), $\eta$ satisfies Assumption 2. ‣ 2.1 Notation ‣ 2 Problem Setup and Main Result ‣ Label Noise SGD Provably Prefers Flat Global Minimizers"), $L$ satisfies Assumption 3. ‣ 2.1 Notation ‣ 2 Problem Setup and Main Result ‣ Label Noise SGD Provably Prefers Flat Global Minimizers") and $l$ satisfies 4. ‣ 5.1 Classification ‣ 5 Extensions ‣ Label Noise SGD Provably Prefers Flat Global Minimizers"). Let $\eta,B$ be chosen such that $\lambda:=\frac{\eta\sigma^{2}}{B} = {\overset{\sim}{\Theta}{({\min{(\epsilon^{2/\delta},\gamma^{2})}})}}$, and let $T = {\overset{\sim}{\Theta}{({\eta^{- 1}\lambda^{{- 1} - \delta}})}} = {{poly}{(\eta^{- 1},\gamma^{- 1})}}$. Assume that $\theta$ is initialized within $O{(\sqrt{\lambda^{1 + \delta}})}$ of some $\theta^{\ast}$ satisfying ${L{(\theta^{\ast})}} = {O{(\lambda^{1 + \delta})}}$. Then for any $\zeta \in {}$, with probability at least $1 - \zeta$, if $\{\theta_{k}\}$ follows Algorithm 2 with parameters $\eta,\sigma,T$, there exists $k < T$ such that $\theta_{k}$ is an $(\epsilon,\gamma)$-stationary point of $\frac{1}{\lambda}\overset{\sim}{L}$.
+
+### SGD with Momentum
+
+Figure 4: Label Noise SGD with Momentum (β = 0.9) The left column displays the training accuracy over time, the middle column displays the value of tr ∇2L (θ) over time which we use to approximate the implicit regularizer R (θ), and the right column displays their correlation. The horizontal dashed line represents the minibatch SGD baseline with random initialization. We report the median results over 3 random seeds and shaded error bars denote the min/max over the three runs. The correlation plot uses a running average of 100 epochs for visual clarity.
+
+We consider heavy ball momentum with momentum $\beta$, i.e. we replace the update in Algorithm 1 with
+
+and as before ${\overset{\sim}{L}{(\theta)}} = {{L{(\theta)}} + {\lambdaR{(\theta)}}}$. Let
+
+represent gradient descent with momentum on $\overset{\sim}{L}$. Then we have the following local coupling lemma:
+
+### Lemma 4
+
+where $c$ is a sufficiently large constant. Assume $f$ satisfies 1. ‣ 2.1 Notation ‣ 2 Problem Setup and Main Result ‣ Label Noise SGD Provably Prefers Flat Global Minimizers") and $\eta \leq \frac{{({2 - \nu})}{({1 + \beta})}}{\ell}$. Let $\theta$ follow Algorithm 1 with momentum parameter $\beta$ starting at $\theta^{\ast}$ and assume that ${L{(\theta^{\ast})}} \leq \mathcal{L}$ for some $0 < \delta \leq {1/2}$. Then there exists a random process $\{\xi_{k}\}$ such that for any $\tau \leq \mathcal{T}$ satisfying ${\max_{k \leq \tau}{\|{{\Phi_{k}{(\theta^{\ast})}} - \theta^{\ast}}\|}} \leq {8\mathcal{D}}$, with probability at least $1 - {10d\taue^{- \iota}}$ we have simultaneously for all $k \leq \tau$,
+
+As in Lemma 1, the error is $8$ times smaller than the maximum movement of the regularized trajectory. Note that momentum increases the regularization parameter $\lambda$ by $\frac{1}{1 - \beta}$. For the commonly used momentum parameter $\beta = 0.9$, this represents a $10 \times$ increase in regularization, which is likely the cause of the improved performance in Figure 4 ($\beta = 0.9$) over Figure 3 ($\beta = 0$).
+
+### Arbitrary Noise Covariances
+
+The analysis in Section 3.1 is not specific to label noise SGD and can be carried out for arbitrary noise schemes. Let $\theta$ follow $\theta_{k + 1} = {{\theta_{k} - {\eta{\nabla L}{(\theta_{k})}}} + \epsilon_{k}}$ starting at $\theta_{0}$ where $\epsilon_{k} \sim {N{(0,{\eta\lambda\Sigma{(\theta_{k})}})}}$ and $\Sigma^{1/2}$ is Lipschitz. Given a matrix $S$ we define the regularizer ${R_{S}{(\theta)}} = \left\langle S,{{\nabla^{2}L}{(\theta)}} \right\rangle$. The matrix $S$ controls the weight of each eigenvalue. As before we can define ${{\overset{\sim}{L}}_{S}{(\theta)}} = {{L{(\theta)}} + {\lambdaR_{S}{(\theta)}}}$ and ${\Phi_{k + 1}^{S}{(\theta)}} = {{\Phi_{k}^{S}{(\theta)}} - {\eta{\nabla{\overset{\sim}{L}}_{S}}{({\Phi_{k}{(\theta)}})}}}$ to be the regularized loss and the regularized trajectory respectively. Then we have the following version of Lemma 1:
+
+### Proposition 5
+
+Let $\theta$ be initialized at a minimizer $\theta^{\ast}$ of $L$. Assume $\nabla^{2}L$ is Lipschitz, let $H = {{\nabla^{2}L}{(\theta^{\ast})}}$ and assume that ${\Sigma{(\theta^{\ast})}} \preceq {CH}$ for some absolute constant $C$. Let $\mathcal{X} = \sqrt{\frac{Cd\lambda\iota}{\nu}}$, $\mathcal{D} = {c\lambda^{3/4}\iota}$, and $\mathcal{T} = \frac{1}{c^{2}\eta\mathcal{X}\iota}$ for a sufficiently large constant $c$. Then there exists a mean zero random process $\xi$ such that for any $\tau \leq \mathcal{T}$ satisfying ${\max_{k < \tau}{\|{{\Phi_{k}{(\theta^{\ast})}} - \theta^{\ast}}\|}} \leq {8\mathcal{D}}$ and with probability $1 - {10d\taue^{- \iota}}$, we have simultaneously for all $k \leq \tau$:
+
+where $S$ is the unique fixed point of $S\leftarrow{{{({I - {\etaH}})}S{({I - {\etaH}})}} + {\eta\lambda\Sigma{(\theta^{\ast})}}}$ restricted to ${span}{(H)}$.
+
+As in Lemma 1, the error is $8$ times smaller than the maximum movement of the regularized trajectory. Although Proposition 5 couples to gradient descent on $R_{S}$, $S$ is defined in terms of the Hessian and the noise covariance at $\theta^{\ast}$ and therefore depends on the choice of reference point. Because $R_{S}$ is changing, we cannot repeat Proposition 5 as in Section 3.2 to prove convergence to a stationary point because there is no fixed potential. Although it is sometimes possible to relate $R_{S}$ to a fixed potential $R$, we show in Section F.2 that this is not generally possible by providing an example where minibatch SGD perpetually cycles. Exploring the properties of these continuously changing potentials and their connections to generalization is an interesting avenue for future work.
+
+## Discussion
+
+### Sharpness and the Effect of Large Learning Rates
+
+Various factors can control the strength of the implicit regularization in Theorem 1. Most important is the implicit regularization parameter $\lambda = \frac{\eta\sigma^{2}}{|B|}$. This supports the hypothesis that large learning rates and small batch sizes are necessary for implicit regularization, and agrees with the standard linear scaling rule which proposes that for constant regularization strength, the learning rate $\eta$ needs to be inversely proportional to the batch size $|B|$.
+
+However, our analysis also uncovers an additional regularization effect of large learning rates. Unlike the regularizer in Blanc et al., the implicit regularizer $R{(\theta)}$ defined in Equation 1 ‣ 2 Problem Setup and Main Result ‣ Label Noise SGD Provably Prefers Flat Global Minimizers") is dependent on $\eta$. It is not possible to directly analyze the behavior of $R{(\theta)}$ as $\eta\rightarrow{2/\lambda_{1}}$ where $\lambda_{1}$ is the largest eigenvalue of $\nabla^{2}L$, as in this regime ${R{(\theta)}}\rightarrow\infty$ (see Figure 1 ‣ 2 Problem Setup and Main Result ‣ Label Noise SGD Provably Prefers Flat Global Minimizers")). If we let $\eta = \frac{2 - \nu}{\lambda_{1}}$, then we can better understand the behavior of $R{(\theta)}$ by normalizing it by $\log{2/\nu}$. This gives^22^2Here we assume $\lambda_{1} > \lambda_{2}$. If instead $\lambda_{1} = \ldots = \lambda_{k} > \lambda_{k + 1}$, this limit will be $k{\|{{\nabla^{2}L}{(\theta)}}\|}_{2}$.
+
+so after normalization, $R{(\theta)}$ becomes a better and better approximation of the spectral norm $\|{{\nabla^{2}L}{(\theta)}}\|$ as $\eta\rightarrow{2/\lambda_{1}}$. $R{(\theta)}$ can therefore be seen as interpolating between ${tr}{\nabla^{2}L}{(\theta)}$, when $\eta \approx 0$, and ${\|{{\nabla^{2}L}{(\theta)}}\|}_{2}$ when $\eta \approx {2/\lambda_{1}}$. This also suggests that SGD with large learning rates may be more resilient to the edge of stability phenomenon observed in Cohen et al. as the implicit regularization works harder to control eigenvalues approaching $2/\eta$.
+
+The sharpness-aware algorithm (SAM) of is also closely related to $R{(\theta)}$. SAM proposes to minimize ${\max_{{\|\delta\|}_{2} \leq \epsilon}L}{({\theta + \delta})}$. At a global minimizer of the training loss,
+
+The SAM algorithm is therefore explicitly regularizing the spectral norm of ${\nabla^{2}L}{(\theta)}$, which is closely connected to the large learning rate regularization effect of $R{(\theta)}$ when $\eta \approx {2/\lambda_{1}}$.
+
+### Generalization Bounds
+
+The implicit regularizer $R{(\theta)}$ is intimately connected to data-dependent generalization bounds, which measure the Lipschitzness of the network via the network Jacobian. Specifically, Wei and Ma propose the all-layer margin, which bounds the $\text{generalization error} \lesssim {\frac{\sum_{l = 1}^{L}\mathcal{C}_{l}}{\sqrt{n}}\sqrt{\frac{1}{n}{\sum_{i = 1}^{n}\frac{1}{m_{F}{(x_{i},y_{i})}^{2}}}}}$, where $\mathcal{C}_{l}$ depends only on the norm of the parameters and $m_{F}$ is the all-layer margin. The norm of the parameters is generally controlled by weight decay regularization, so we focus our discussion on the all-layer margin. Ignoring higher-order secondary terms, Wei and Ma \[30, Heuristic derivation of Lemma 3.1\] showed for a feed-forward network ${f{(\theta;x)}} = {\theta_{L}\sigma{({\theta_{L - 1}\ldots\sigma{({\theta_{1}x})}})}}$, the all-layer margin satisfies^33^3The output margin is defined as ${\min_{i}f_{i}}{(\theta)}y_{i}$. The following uses Equation (3.3) and the first-order approximation provided Wei and Ma and the chain rule $\frac{\partial f}{\partial\theta_{l}} = {\frac{\partial f}{\partial h_{l}}\frac{\partial h_{l}}{\partial\theta_{l - 1}}} = {\frac{\partial f}{\partial h_{l}}h_{l - 1}^{\top}}$.:
+
+as $R{(\theta)}$ is an upper bound on the squared norm of the Jacobian at any global minimizer $\theta$. We emphasize this bound is informal as we discarded the higher-order terms in controlling the all-layer margin, but it accurately reflects that the regularizer $R{(\theta)}$ lower bounds the all-layer margin $m_{F}$ up to higher-order terms. Therefore SGD with label noise implicitly regularizes the all-layer margin.

@@ -1,0 +1,160 @@
+## INTRODUCTION
+
+From critical infrastructures and industrial process control to autonomous driving and various biomedical applications, dynamical control systems are increasingly able to be instrumented with new sensing and actuation capabilities. These cyber-physical systems (CPS) comprise growing webs of interconnected feedback loops and must operate efficiently and resiliently in dynamic and uncertain environments. As these systems become large, devising both model-based and data-driven methods for detecting anomalies (such as component failures or malicious attacks) are critical for their robust and efficient operation. Such critically important cyber-physical networks have become an attractive target to attackers. These systems are large and complex and are often not monitored well enough, enabling attackers to manipulate the system without being detected and cause damage.
+
+To simplify the analysis and design, often such complex cyber-networks are modeled as a discrete-time linear time invariant system with Gaussian noises. However, this can lead to a significant miscalculation of probabilities and risk if the underlying processes behave differently, for example due to various nonlinearities or malicious attacks. In the context of attacks, it is possible for an attacker to modify the sensor outputs and effectively generate aggressive and strategic noise profiles to sabotage the operation of the system. With stochastic optimization techniques, particularly using the emerging area of distributionally robust optimization (DRO) approaches, these limitations can be recognized and addressed. DRO enables modelers to explicitly incorporate inherent ambiguity in probability distributions into optimization problems. DRO approaches can be categorized based on the form of the ambiguity set. There are several different parameterizations, including those based on moments, support, directional derivatives, and Wasserstein balls. In practice, we have access to only a finite amount of historical data. However, it is possible to use finite historical data and guarantee resiliency in such critical cyber-physical networks. Here, we propose to use moment-based DRO methods to improve modeling and reduce false alarm rates in cyber-physical networks.
+
+In the context of attacks, the detector tuning has a direct implication on the effect an attacker can have while still remaining stealthy. A model-based approach to attack detection uses a detector that raises alarms when there is a large enough discrepancy between the actual and predicted measurements, a statistic termed the residual. The detector's sensitivity can be increased by decreasing the threshold of detection, but there is an inherent trade-off between sensitivity and the rate at which false alarms are generated. Keeping false alarms to a manageable level requires adjusting sensitivity and the tuning of the detector threshold is typically informed by the distribution of the residual. Authors in used Gaussian Mixture Model to approximate the arbitrary noise distributions and obtained a detector threshold corresponding to a desired false alarm rate.
+
+However, when noise distributions are only known to an ambiguity set, traditional tools and approximations no longer suffice to select the threshold and so we turn to a distributionally robust approach. Interest in a DRO-informed perspective on detector tuning is supported by recent work on using a Wasserstein metric. Our moment-based ambiguity set formulation includes all distributions with fixed moments up to some order. The problem of designing anomaly detector thresholds subject to moment constraints of system uncertainties can be addressed using Generalized Moment Problems described in. Further, the conditions for a truncated (finite) moment sequence to represent a probability measure were studied in. Authors in proposed semidefinite programs to compute a probability bound for a random variable lying in a set with known moments up to some order. These techniques can be utilized to design detector thresholds for residual distributions consistent with finite fixed moments up to some order.
+
+Contributions: This paper is a significant extension of our previous work where we used a moment-based ambiguity set formulation with fixed first two moments (Proposition 2) to obtain a detector threshold via generalized Chebyshev inequality. The main contributions of the present paper are:
+
+We propose an approach to construct moment-based ambiguity sets with fixed moments up to $k$ order for the anomaly detection measure and design an anomaly detector threshold for CPSs that exhibit non-Gaussian uncertainties. The approach can utilize either residual moments obtained through a dynamic model or estimated directly from residual data.
+
+We use a semidefinite program (SDP) defined using higher-order moments of the detection measure to find a sharper probability bound for classifying the residual with an improved detector threshold (Theorem 4-Moment Bound ‣ III Design of Anomaly Detector Thresholds ‣ Higher-Order Moment-Based Anomaly Detection")).
+
+We illustrate empirically that inclusion of higher-order moments results in tightened threshold (Lemma 3-Moment Bound ‣ III Design of Anomaly Detector Thresholds ‣ Higher-Order Moment-Based Anomaly Detection")), thereby restricting an attacker's potential impact, and also prove that the volume of the attack-reachable set shrinks with a tightened threshold (Corollary 5).
+
+While anomaly detection is widely studied in CPS literature, our distributionally robust approach using higher-order moments of the detection measure data marks the novel contribution of this paper. The rest of the paper is organized as follows. Section II formulates the problem using moment-based ambiguity sets. In Section III, the design of anomaly detector threshold is discussed. Section IV describes the procedure to find the boundary of the reachable sets obtained using distributionally robust tuned detector. Section V presents the numerical results with inferences. Finally, Section VI concludes and summarizes the future research directions.
+
+## Problem Formulation Using Higher-Order Moment-Based Ambiguity Sets
+
+In this section, we propose a framework for designing an anomaly detector threshold for cyberphysical systems. The approach can utilize either model-based propagation of residual moments or data-driven estimation of detection measure moments directly from data.
+
+### II-A Model-based Problem Formulation
+
+Here, we model an uncertain cyber-physical system as a stochastic discrete-time linear system
+
+where ${x_{t} \in {\mathbb{R}}^{n}},{u_{t} \in {\mathbb{R}}^{m}}$ are the system state and input respectively at time $t$. The matrices $A$ and $B$ denote the system matrix and control input matrix, respectively. The output $y_{t} \in {\mathbb{R}}^{p}$ aggregates a linear combination of the states with the observation matrix $C \in {\mathbb{R}}^{p \times n}$. We assume that the pair $(A,C)$ is detectable and $(A,B)$ is stabilizable. The process noise $w_{t} \in {\mathbb{R}}^{n}$ and the sensor noise $v_{t} \in {\mathbb{R}}^{p}$ are modeled as zero-mean random vectors independent and identically distributed across time with covariance matrix $\Sigma_{w},\Sigma_{v}$ respectively. Let $\kappa = {(k_{1},\ldots,k_{n})}^{\top}$ with $k_{j} \in {\mathbb{Z}}_{+}$ non-negative integers and $J_{k} = \left. \{\kappa \middle| {{\sum_{i = 1}^{n}k_{i}} \leq k}\} \right.$. Further, assume that the feasible first $k$ moment sequence of the distributions of the $w_{t},v_{t}$ namely ${M_{w}^{\kappa},M_{v}^{\kappa},\kappa} \in J_{k}$ respectively are known. The distributions $P_{w}$ of $w_{t}$ and $P_{v}$ of $v_{t}$ are unknown (and not necessarily Gaussian and possibly heavy-tailed^11^1For the purposes of this paper, we consider heavy-tailed distributions as those whose moments above a certain order may be infinite, in which case their tails are heavier than a Gaussian. We assume the moments up to order $k$ are finite.) and will be assumed to belong to the $k$-moments-based ambiguity sets of distributions $\mathcal{P}_{k}^{w}$ and $\mathcal{P}_{k}^{v}$ respectively defined as follows
+
+When the actual measurement $y_{t}$ is corrupted by an additive attack, $\delta_{t} \in {\mathbb{R}}^{p}$, the true output of the system fed to the controller becomes
+
+We utilize a steady-state Kalman filter to construct a state estimate ${\hat{x}}_{t}$ to minimize the squared norm of the estimation error $e_{t} = {x_{t} - {\hat{x}}_{t}}$ where,
+
+and the estimation error evolves as
+
+In the absence of attacks (that is, $\delta_{t} = 0$) and when the covariance matrices of the noises are fixed and known, the Kalman gain $L = {PC^{\top}{({{CPC^{\top}} + \Sigma_{v}})}^{- 1}}$ minimizes the steady state covariance matrix
+
+Since $(A,C)$ is assumed to be detectable, the existence of $P$ is guaranteed and it can be found through the solution of an algebraic Ricatti equation. We define a residual sequence $r_{t}$ as the difference between the actual received output ${\overline{y}}_{t}$ and the predicted output $C{\hat{x}}_{t}$ as,
+
+and in the attack free setting, $r_{t}$ falls according to a zero mean distribution with covariance
+
+Since is linear, it is possible to obtain the fixed and first $k$ moments of the random variable $r_{t}$ by propagating the corresponding moments of the primitive random variables $w_{t},v_{t}$. Thus, the distribution $P_{r}$ of $r_{t}$ (not necessarily Gaussian) belongs to an ambiguity set $\mathcal{P}_{k}^{r}$ given by
+
+We define detection measure $q_{t}$ as a quadratic function of $r_{t}$
+
+which will be compared to a threshold for anomaly detection.
+
+### II-B Data-Driven Moment Estimation from Residual Data
+
+An alternative to obtaining residual moments by propagating the moments of primitive random variables through the system model is to instead collect residual data $r_{t}$ (from attack-free operation) and estimate residual moments or the moments of $q_{t}$ directly from the data. Such a data-driven approach allows our proposed tuning approaches to be used in much broader settings where it is difficult to propagate moments through a model (or even to obtain a model), but where residual data is easily generated from sensors and a state estimator. Higher-order moments require increasingly more data to obtain accurate estimates. Determining the required amount of data is possible using finite-sample measure concentration results given as in, but we leave such an analysis for future work. The proposed methods for setting thresholds for anomaly detection can be used together with ambiguity sets built upon data-driven residual estimates, although the false alarm rates will also be affected by sampling errors. Moment estimation uncertainty could be accommodated using the same generalized moment problem computations we propose here, but with assumed *bounds* on moment estimates rather than having them fixed to exact known values. Such problems can also be reformulated in a computationally tractable manner, as described in, e.g., Section 3 of, which incorporate uncertainty sets for estimated moments. These formulations would simply impose further constraints on our primal problem defined in subsection III.B of our revised manuscript. It is possible and would be interesting to explore how to use statistical confidence intervals for data-driven moment estimates to inform bounds used in the SDP and obtain end-to-end guarantees on false alarm rates associated with certain thresholds. This will be pursued in future work.
+
+In either setting, the feasible first $k$ moment sequence of the distribution of $q_{t}$ denoted by $M_{q}^{k}$ is assumed to be known either from its primitive variables through the model-based approach or estimated from data. Then, the $k$-moments-based ambiguity set of the scalar random variable $q_{t}$ is defined as
+
+### Proposition 1
+
+Consider a univariate random variable $X$ defined on $\Omega = {\mathbb{R}}_{+}$, endowed with its Borel sigma algebra of events. A sequence $\overline{\sigma} = {(M_{1},M_{2},\ldots,M_{k})}^{\top}$ is a feasible ${(1,k,\Omega)} -$moment vector of the random variable $X$, if and only if the matrices $R_{k} \succeq 0$ and $R_{k - 1} \succeq 0$, where for any integer $l \geq 0$, the matrices are defined as
+
+## Design of Anomaly Detector Thresholds
+
+Given a threshold ^22^2The first and second subscripts in the threshold separated by a comma denote the random variable and number of moments respectively.$\alpha_{q,k} > 0$ and the distance measure $q_{t}$, alarm time(s) $t^{\star}$ are produced according to the following rules,
+
+Even in the absence of attacks, the detector is expected to generate false alarms due to the infinite support of $v_{t}$, because some values drawn from $P_{q}$ will exceed the threshold $\alpha_{q,k}$. If $P_{q}$ is known, then it is possible to extract an optimum threshold value $\alpha_{q}^{\ast}$ from the corresponding cumulative distribution function $F_{q}$ for a desired false alarm rate, $\mathcal{A}$. For example, if $r_{t}$ is Gaussian, $q_{t}$ would be a chi-squared random variable, and the optimum threshold $\alpha_{q}^{\star}$ corresponding to the desired false alarm rate $\mathcal{A} = \mathcal{A}^{\star}$ is then
+
+where ${\mathbb{P}}^{- 1}{( \cdot, \cdot )}$ denotes the inverse regularized lower incomplete gamma function. When the complete distribution is not available, tuning methods using may design thresholds that generate actual false alarm rates significantly higher than what is desired. With the distributionally robust approach, we aim to achieve a false alarm rate less than $\mathcal{A}$, and the detector threshold $\alpha_{r,k}^{\star}$ is selected such that
+
+When the first two moments $({k = 2})$ of $r_{t}$ are known, the following proposition using the generalized Chebyshev inequality explained in can be used to obtain the worst case detector threshold $\alpha_{r,2}^{\star}$ satisfying.
+
+### Proposition 2
+
+Given a desired false alarm rate $\mathcal{A}$ and $r_{t} \sim P_{r} \in \mathcal{P}_{k}^{r}$ with $k = 2$, the optimal distributionally robust threshold $\alpha_{r,2}^{\star}$ satisfying is
+
+### III-A Improved Detector Threshold With Higher-Order Moments
+
+It is possible to obtain a sharpened detector threshold than $\alpha_{r,2}^{\star}$, if higher-order moments are taken into account. For example, the skewness and kurtosis parameters convey asymmetry and heaviness of tails of the distribution, respectively. We can leverage such information about the true but unknown distribution revealed by the higher-order moments to tighten the required probability bound and thereby obtain an improved detector threshold. It is possible to use $r_{t}$ with higher order moments (first $k$ moments) to obtain a sharpened detector threshold $\alpha_{r,k}^{\star}$. However, it was shown in that for $r_{t} \in {\mathbb{R}}^{p}$ with support $\Omega = {\mathbb{R}}^{p}$ and $k \geq 4$, it is NP-hard to find tight bounds for the corresponding moment bound problem with rational problem data. On the other hand, they provide a semidefinite optimization problem in $k + 1$ dimension for the case of a univariate random variable with $k$ moments. Hence, rather looking for higher-order moments of $r_{t}$, instead we look for higher-order moments of scalar random variable $q_{t}$. Subsequently, we use a bisection algorithm to obtain a sharpened detection threshold $\alpha_{q,k}^{\star}$ for a given $\mathcal{A}$.
+
+### III-B Estimating Probability Using ${(1,k,\Omega)} -$Moment Bound
+
+Figure 1: A moment based polynomial bounding the indicator function 1𝒮k representing the set 𝒮k = ℝ &gt; αq, k is shown here.
+
+Given the first $k$ moments of random variable $q_{t}$ with support $\Omega = {\mathbb{R}}_{\geq 0}$ and the set $\mathcal{S}_{k} = {\mathbb{R}}_{> \alpha_{q,k}}$ representing an alarm event as shown in Figure 1-Moment Bound ‣ III Design of Anomaly Detector Thresholds ‣ Higher-Order Moment-Based Anomaly Detection"), the infinite dimensional ${(1,k,\Omega)} -$moment bound primal problem is given by
+
+Since (19-Moment Bound ‣ III Design of Anomaly Detector Thresholds ‣ Higher-Order Moment-Based Anomaly Detection")) is infinite dimensional, it is difficult to solve efficiently. However, we can use the linear programming duality theory to associate a dual variable ${{y_{r},r} = 0},{1,\ldots,k}$ with each equality constraint of (19-Moment Bound ‣ III Design of Anomaly Detector Thresholds ‣ Higher-Order Moment-Based Anomaly Detection")) to get the corresponding dual problem
+
+The probability obtained as the solution to (20-Moment Bound ‣ III Design of Anomaly Detector Thresholds ‣ Higher-Order Moment-Based Anomaly Detection")) is an upper bound to the probability associated with (19-Moment Bound ‣ III Design of Anomaly Detector Thresholds ‣ Higher-Order Moment-Based Anomaly Detection")). In general, if the moment vector ${\overline{\sigma}}_{k} = {(M_{q}^{0},M_{q}^{1},{\ldotsM_{q}^{k}})}$ is an interior point of the set $\mathcal{M}_{k}$ of all feasible moment vectors, then strong duality exists between (19-Moment Bound ‣ III Design of Anomaly Detector Thresholds ‣ Higher-Order Moment-Based Anomaly Detection")) and (20-Moment Bound ‣ III Design of Anomaly Detector Thresholds ‣ Higher-Order Moment-Based Anomaly Detection")) enabling us to obtain a *tight* bound on $P_{q}{({q_{t} \in \mathcal{S}_{k}})}$. To achieve a desired false alarm rate $\mathcal{A}$, we can tune the threshold $\alpha_{q,k}$ defining the set $\mathcal{S}_{k}$ such that solution to (20-Moment Bound ‣ III Design of Anomaly Detector Thresholds ‣ Higher-Order Moment-Based Anomaly Detection")) is $\mathcal{A}$. The following lemma establishes the general trend observed between the values of the tuned threshold $\alpha_{q,k}$ for increasing values of $k$.
+
+### Lemma 3
+
+Let $\mathcal{A}$ be the desired false alarm rate and $q_{t} \sim P_{q} \in \mathcal{P}_{k}^{q}$ as in. Then, ${{\forall j},k} \in {\mathbb{Z}}_{\geq 1}$ with $j < k$, we have
+
+when the associated moments agree up to order $j$.
+
+### Proof
+
+When the associated moments up to order $j < k$ agree, clearly we have $\mathcal{P}_{k}^{q} \subseteq \mathcal{P}_{j}^{q}$, since additional moment constraints restrict the set of distributions. For a fixed threshold $\alpha_{q,j}^{\star}$ tuned for the false alarm rate $\mathcal{A}$, it follows that
+
+Thus, to achieve a desired false alarm rate $\mathcal{A}$ under the constraint that $P_{q} \in \mathcal{P}_{k}^{q}$, the threshold $\alpha_{q,k}^{\star}$ must be non-increasing in $k$, satisfying $\alpha_{q,k}^{\star} \leq \alpha_{q,j}^{\star}$ for $j < k$. ∎
+
+### Theorem 4
+
+Let $\epsilon > 0$, $k \in {\mathbb{Z}}_{\geq 2}$ and consider $q_{t}$ with its first $k$ moments of distribution $(M_{q}^{1},M_{q}^{2},\ldots,M_{q}^{k})$ (we let $M_{q}^{0} = 1$) defined on ${\mathbb{R}}_{+}$ being known (or estimated from the given data) and the associated anomaly detector threshold $\alpha_{q,k}$ introduced in, which is intended to achieve a desired false alarm rate $\mathcal{A}$. Suppose that $\alpha_{q,k}$ is obtained by solving the following bisection algorithm (knowing that the desired $\alpha_{q,k}^{\star} \in {\lbrack\alpha_{l},\alpha_{u}\rbrack}$ and $\alpha_{u} = \alpha_{q,{k - 1}}^{\star}$ by Lemma 3-Moment Bound ‣ III Design of Anomaly Detector Thresholds ‣ Higher-Order Moment-Based Anomaly Detection"))
+
+pm i n← optimal value of with αq, k = αq, k⋆
+Algorithm 1 Bisection Subroutine
+
+where the SDP that gives the tight upper bound on $P_{q}{({q_{t} \geq \alpha_{q,k}})}$ in the third line is
+
+with variables ${{X,Z} \in {\mathbb{R}}^{{({k + 1})} \times {({k + 1})}}},{{y_{r},r} = 0},{1,\ldots,k}$. Then with this optimal detector threshold $\alpha_{q,k}^{\star}$, the false alarm rate under the worst-case distribution of the $q_{t}$ specified by the $k$-moments-based ambiguity set is at most $\mathcal{A}$.
+
+### Proof
+
+To get an upper bound on required probability in (19-Moment Bound ‣ III Design of Anomaly Detector Thresholds ‣ Higher-Order Moment-Based Anomaly Detection")), it suffices to check for the polynomials defined in (20-Moment Bound ‣ III Design of Anomaly Detector Thresholds ‣ Higher-Order Moment-Based Anomaly Detection")) to be non-negative in their respective sets. That is, the polynomial $p{(q)}$ satisfies ${{{p{(q)}} - 1} \geq 0},{{\forall q} \in \mathcal{S}_{k}}$ if and only if there exists a positive semidefinite matrix $X \in {\mathbb{R}}^{{({k + 1})} \times {({k + 1})}}$ that satisfies the first four constraints defined in (23-Moment Bound ‣ III Design of Anomaly Detector Thresholds ‣ Higher-Order Moment-Based Anomaly Detection")). Similarly, the same polynomial $p{(q)}$ satisfies ${{p{(q)}} \geq 0},{{\forall q} \in {\lbrack 0,\alpha_{q,k}\rbrack}}$ if and only if there exists a positive semidefinite matrix $Z \in {\mathbb{R}}^{{({k + 1})} \times {({k + 1})}}$ that satisfies the last three constraints defined in (23-Moment Bound ‣ III Design of Anomaly Detector Thresholds ‣ Higher-Order Moment-Based Anomaly Detection")). Then using the results given in Theorem 3.2 of, for a fixed threshold $\alpha_{q,k}$, the optimal value of the semidefinite program in (23-Moment Bound ‣ III Design of Anomaly Detector Thresholds ‣ Higher-Order Moment-Based Anomaly Detection")) yields the worst-case false alarm rate generated by the worst-case $P_{q} \in \mathcal{P}_{k}^{q}$ in. To ensure that the optimal value of (23-Moment Bound ‣ III Design of Anomaly Detector Thresholds ‣ Higher-Order Moment-Based Anomaly Detection")) is equal to the desired false alarm rate $\mathcal{A}$, it suffices to tune the threshold $\alpha_{q,k}$ using the bisection algorithm 1-Moment Bound ‣ III Design of Anomaly Detector Thresholds ‣ Higher-Order Moment-Based Anomaly Detection"), to get $\alpha_{q,k}^{\star}$. ∎
+
+### III-C Discussion
+
+For $k = {1,2,3}$, the solution to (23-Moment Bound ‣ III Design of Anomaly Detector Thresholds ‣ Higher-Order Moment-Based Anomaly Detection")) can be obtained in closed-form using Theorem 3.3 of with the corresponding moments data without explicitly solving the SDP in (23-Moment Bound ‣ III Design of Anomaly Detector Thresholds ‣ Higher-Order Moment-Based Anomaly Detection")). For $k = {1,2}$, we recover the Markov bound and a strictly improved Chebyshev bound respectively as the solution of (23-Moment Bound ‣ III Design of Anomaly Detector Thresholds ‣ Higher-Order Moment-Based Anomaly Detection")). Assuming that ${{\hat{\delta}}_{k} > 0},{\alpha_{q,k}^{\star} = {{({1 + {\hat{\delta}}_{k}})}M_{q}^{1}}}$, the resulting closed form solutions for the optimal detector threshold $\alpha_{q,k}^{\star}$ for a desired false alarm rate $\mathcal{A}$ with $k = {1,2}$ are summarized in Table I with $C_{M}^{2} = \frac{M_{q}^{2} - {(M_{q}^{1})}^{2}}{{(M_{q}^{1})}^{2}}$ and these values can be used as $\alpha_{u}$ towards computing $\alpha_{q,k}^{\star}$ for any $k > 2$. We omit the expression for the threshold $\alpha_{q,3}^{\star}$ for the sake of brevity.
+
+$\left( {1 + {\sqrt{\frac{1 - \mathcal{A}}{\mathcal{A}}}C_{M}}} \right)M_{q}^{1}$
+
+TABLE I: Closed-form solutions for αq, k⋆ with k = 1, 2.
+
+Further, the optimal threshold $\alpha_{q,k}^{\star}$ is tight for a given $\mathcal{P}_{k}^{q}$ up to a tolerance $\epsilon > 0$ specified by the bisection in Algorithm 1-Moment Bound ‣ III Design of Anomaly Detector Thresholds ‣ Higher-Order Moment-Based Anomaly Detection").
+
+The exact detector threshold (which we call $\alpha_{q}^{\star}$) corresponding to $P_{q}$ is obtained only asymptotically (or equivalently when true $P_{q}$ is known exactly). That is,
+
+However, while determining how many moments are needed to get a close approximation of the exact threshold is difficult in general, we find that significant improvements can be obtained from a small number of moments. Given $k$ moments of $q_{t}$, the complexity of this higher-order moment based approach involves solving the SDP given by (23-Moment Bound ‣ III Design of Anomaly Detector Thresholds ‣ Higher-Order Moment-Based Anomaly Detection")) with variables ${{X,Z} \in {\mathbb{R}}^{{({k + 1})} \times {({k + 1})}}},{{y_{r},r} = 0},{1,\ldots,k}$. For large $k$, it is advisable to use, e.g., the Legendre polynomial basis instead of the standard polynomial basis for obtaining the moment-based polynomial in (23-Moment Bound ‣ III Design of Anomaly Detector Thresholds ‣ Higher-Order Moment-Based Anomaly Detection")) as the former has nice orthogonal properties that improve numerical stability.
+
+## Attack-Reachable Set Bounds
+
+With the attacker assumed to have perfect knowledge of the system dynamics, the Kalman filter, control inputs, measurements along with read and write access to all the sensors at each time step, we show that the volume of the attack-reachable set shrinks with the tightened threshold. We define a zero-alarm attack, which generates attack sequences so that no alarms are raised during attack. With $\Sigma_{r}^{\frac{1}{2}}$ being the symmetric square root of $\Sigma_{r}$ and an attack input ${\overline{\delta}}_{t}$ such that ${{\overline{\delta}}_{t}^{\top}{\overline{\delta}}_{t}} \leq \alpha$ (here $\alpha = \alpha_{q,k}^{\star}$), the attack sequence $\delta_{t} = {{{- {Ce_{t}}} - v_{t}} + {\Sigma_{r}^{\frac{1}{2}}{\overline{\delta}}_{t}}}$ guarantees that no alarm is raised. Then, using a static estimator feedback $u_{t} = {K{\hat{x}}_{t}}$ with ${\overline{\delta}}_{t}$, the evolution of the system dynamics with the joint state $\xi_{t} = {\lbrack x_{t},e_{t}\rbrack}^{\top}$ with input $\zeta_{t} = {\lbrack w_{t},{\overline{\delta}}_{t}\rbrack}^{\top}$ is studied. We define a reachable set of interest, driven by the ellipsoidally bounded inputs $w_{t}$ and ${\overline{\delta}}_{t}$, as
+
+where the noise threshold $\overline{w}$ obtained using satisfies,
+
+and ${\hat{A} = \begin{bmatrix}
+\end{bmatrix}},{\hat{B} = \begin{bmatrix}
+\end{bmatrix}}$. Using the geometric approach presented in with $H_{i} = {A_{cl}^{i} - A^{i}}$, the reachable set of states is the Minkowski sum of the following ellipsoidal bound
+
+Specifically, theorem 1 of provides us the exact boundary of Minkowski sum in using an analytical formula. The following corollary highlights the effects of the tightened threshold on the size of the reachable set.
+
+### Corollary 5
+
+The volume of the reachable set $\mathcal{R}_{x,t}{(\overline{w},\alpha)}$ shrinks with the tightened threshold $\alpha_{q,k}^{\star}$ for all $k \geq 1$. Further, ${{\forall k_{1}},k_{2}} \geq 1$ and $k_{1} < k_{2}$, the following inclusion holds ${\mathcal{R}_{x,t}{(\overline{w},\alpha_{q,k_{1}}^{\star})}} \supseteq {\mathcal{R}_{x,t}{(\overline{w},\alpha_{q,k_{2}}^{\star})}}$.
+
+### Proof
+
+Apply with ${k_{1},k_{2}} \geq 1$ & $k_{1} < k_{2}$ along with $\alpha_{q,k_{1}}^{\star} > \alpha_{q,k_{2}}^{\star}$ (by Lemma 3-Moment Bound ‣ III Design of Anomaly Detector Thresholds ‣ Higher-Order Moment-Based Anomaly Detection")), to see that volume${({\mathcal{R}_{x,t}{(\overline{w},\alpha_{q,k_{2}}^{\star})}})} \leq {\text{volume}{({\mathcal{R}_{x,t}{(\overline{w},\alpha_{q,k_{1}}^{\star})}})}}$. Inclusion follows from Minkowski sum with $\alpha_{q,k_{1}}^{\star} > \alpha_{q,k_{2}}^{\star}$. ∎
+
+## Numerical Simulation
+
+We consider an empirical system under study with the detector tuned to a false alarm rate $\mathcal{A} = 0.05$ ($5$%). We demonstrate here simulation results when the uncertainties are zero-mean Gaussian. We compare the size of the reachable set boundary computed using for thresholds $\alpha_{q,1}^{\star},\alpha_{q,2}^{\star},\alpha_{q,4}^{\star}$. We assume that the modeler is unaware of the functional form of the uncertainties and has to arrive at a detector threshold satisfying the desired false alarm rate. The SDP in (23-Moment Bound ‣ III Design of Anomaly Detector Thresholds ‣ Higher-Order Moment-Based Anomaly Detection")) was solved with $\epsilon = 10^{- 4}$ using SOSToolbox in Matlab with SeDuMi solver.
+
+Figure 2: The reachable sets associated with the detector thresholds αq, 1⋆, αq, 2⋆, αq, 4⋆, αχ2 are shown in orange, green, blue and magenta colors respectively. It is evident from the size of the reachable set that given a desired false alarm rate 𝒜, the knowledge of higher-order moments results in a tightened detector threshold and thereby restricting the attacker’s ability to launch a larger attack.
+
+Figure 3: The moment based polynomials in orange, green and blue bounding their respective indicator functions 1(αq, 1⋆,∞), 1(αq, 2⋆,∞), 1(αq, 4⋆,∞) in shaded orange, green and blue colors are shown here. Clearly, αq, 1⋆ is very conservative and with k = 4, the threshold αq, 4⋆ starts getting closer to the true threshold αχ2 given by.
+
+When the noises $w_{t}$ and $v_{t}$ are truly Gaussian, it is evident from Fig. 2 that the reachable set corresponding to the thresholds $\alpha_{q,1}^{\star} = \alpha_{r,2}^{\star} = 40$ is conservative and ensures that the false alarm does not exceed 5% but this also provides the attacker with the ability to launch a larger attack. However, with the knowledge of additional moments, the detector thresholds $\alpha_{q,2}^{\star} = 10.7684$, $\alpha_{q,4}^{\star} = 9.1315$ get tightened with $\alpha_{q,4}^{\star} \leq \alpha_{q,2}^{\star} \leq \alpha_{q,1}^{\star}$ as shown in Fig. 3. Further, this threshold tightening limits the attacker's ability to launch a larger attack which is depicted through the reachable sets corresponding to the thresholds $\alpha_{q,1}^{\star},\alpha_{q,2}^{\star},\alpha_{q,4}^{\star}$ as shown in Fig. 2. Subsequently, the false alarm rate corresponding to the threshold $\alpha_{\chi^{2}}$ was 5% as expected and with the thresholds $\alpha_{q,4}^{\star},\alpha_{q,2}^{\star},\alpha_{q,1}^{\star}$, it dropped to ${1\%},{0.45\%},{0\%}$ respectively. When noises are truly multi-variate Laplacian (which has heavier tails than normal distribution with same mean and covariance), it resulted in thresholds $\alpha_{q,1}^{\star} = 39.83$, ${\alpha_{q,2}^{\star} = 17.23},{\alpha_{q,4}^{\star} = 16.54}$ with false alarm rates ${0\%},{0.9\%},{1\%}$ respectively. Thus, no matter what distributions satisfying, govern the noises $w_{t}$, $v_{t}$ respectively, the inclusion of higher-order moments restricts the attacker's potential impact through a tightened detector threshold.
+
+## Conclusion & Future Outlook
+
+We have proposed a distributionally robust approach to form the $k$ moments based ambiguity set for the detection measure data and used it to tune the anomaly detectors for a desired false alarm rate. We found a detector threshold which guaranteed that the false alarm rate did not exceed a desired value using a semidefinite program. We have demonstrated the effectiveness of our proposed approach with a numerical example. Further, our approach using higher-order moments restricted the attacker's potential impact. Future works include addressing the problems associated with the data-driven formulation with moment estimation uncertainty and securing nonlinear cyberphysical systems with distributionally robust unscented Kalman filter based state estimation.

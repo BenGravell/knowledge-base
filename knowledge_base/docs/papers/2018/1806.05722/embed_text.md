@@ -1,0 +1,225 @@
+## Introduction
+
+Many modern control design techniques rely on the existence of a fairly accurate state-space model of the plant to be controlled. Although in some cases a model can be obtained from first principles, there are many situations in which a model should be learned from input/output data. Classical results in system identification provide asymptotic convergence guarantees for learning models from data. However, finite sample complexity properties have been rarely discussed in system identification literature; and earlier results are conservative.
+
+There is recent interest from the machine learning community in data-driven control and non-asymptotic analysis. Putting aside the reinforcement learning literature and restricting our attention to linear state-space models, the work in this area can be divided into two categories: (i) directly learning the control inputs to optimize a control objective or analyzing the predictive power of the learned representation, (ii) learning the parameters of the system model from limited data. For the former problem, the focus has been on exploration/exploitation type formulations and regret analysis. Since the goal is to learn how to control the system to achieve a specific task, the system is not necessarily fully learned. On the other hand, the latter problem aims to learn a general purpose model that can be used in different control tasks, for instance, by combining it with robust control techniques. The focus for the latter work has been to analyze data--accuracy trade-offs.
+
+In this paper we focus on learning a realization for an LTI system from a single *input/output* trajectory. This setting is significantly more challenging than earlier studies that assume that (multiple independent) *state* trajectories are available. One of our main contributions is to derive sample complexity results in learning the Markov parameters, to be precisely defined later, of the system using a least squares algorithm. Markov parameters play a central role in system identification and they can also be directly used in control design when the system model itself is not available. In Section 4, we show that using few Markov parameter estimates and leveraging stability assumption, one can approximate system's Hankel operator with near optimal sample size. When only input/output data is available, it is well known that the system matrices can be identified only up to a similarity transformation even in the noise-free case but Markov parameters are identifiable. Therefore, we focus on obtaining a realization. One classical technique to derive a realization from the Markov parameters is the Ho-Kalman (a.k.a., eigensystem realization algorithm -- ERA) algorithm. The Ho-Kalman algorithm constructs a balanced realization^22^2Balanced realizations give a representation of the system in a basis that orders the states in terms of their effect on the input/output behavior. This is relevant for determining the system order and for model reduction. for the system from the singular value decomposition of the Hankel matrix of the Markov parameters. By proving a stability result for the Ho-Kalman algorithm and combining it with the sample complexity results, we show how much data is needed to learn a balanced realization of the system up to a desired accuracy with high probability.
+
+## Problem Setup
+
+We first introduce the basic notation. Spectral norm $\parallel \cdot \parallel$ returns the largest singular value of a matrix. Multivariate normal distribution with mean $\mathbf{μ}$ and covariance matrix $\mathbf{\Sigma}$ is denoted by $\mathcal{N}{({\mathbf{μ}},\mathbf{\Sigma})}$. ${\mathbf{X}}^{\ast}$ denotes the transpose of a matrix $\mathbf{X}$. ${\mathbf{X}}^{\dagger}$ returns the Moore--Penrose inverse of the matrix $\mathbf{X}$. Covariance matrix of a random vector $\mathbf{v}$ is denoted by $\mathbf{\Sigma}{({\mathbf{v}})}$. $\text{tr}{( \cdot )}$ returns the trace of a matrix. $c,C,c^{\prime},c_{1},c_{2},\ldots$ stands for absolute constants.
+
+Suppose we have an observable and controllable linear system characterized by the system matrices ${{\mathbf{A}} \in {\mathbb{R}}^{n \times n}},{{{\mathbf{B}} \in {\mathbb{R}}^{n \times p}},{{{\mathbf{C}} \in {\mathbb{R}}^{m \times n}},{{\mathbf{D}} \in {\mathbb{R}}^{m \times p}}}}$ and this system evolves according to
+
+Our goal is to learn the characteristics of this system and to provide finite sample bounds on the estimation accuracy. Given a horizon $T$, we will learn the first $T$ Markov parameters of the system. The first Markov parameter is the matrix $\mathbf{D}$, and the remaining parameters are the set of matrices ${\{{{\mathbf{C}}{\mathbf{A}}^{i}{\mathbf{B}}}\}}_{i = 0}^{T - 2}$. As it will be discussed later on, by learning these parameters,
+
+we can provide bounds on how well ${\mathbf{y}}_{t}$ can be estimated for a future time $t$,
+
+we can identify the state-space matrices ${\mathbf{A}},{\mathbf{B}},{\mathbf{C}},{\mathbf{D}}$ (up to a similarity transformation).
+
+Problem setup: We assume that ${\{{\mathbf{u}}_{t},{\mathbf{w}}_{t},{\mathbf{z}}_{t}\}}_{t = 1}^{\infty}$ are vectors that are independent of each other with distributions ${\mathbf{u}}_{t} \sim {\mathcal{N}{(0,{\sigma_{u}^{2}{\mathbf{I}}_{p}})}}$, ${\mathbf{w}}_{t} \sim {\mathcal{N}{(0,{\sigma_{w}^{2}{\mathbf{I}}_{n}})}}$, and ${\mathbf{z}}_{t} \sim {\mathcal{N}{(0,{\sigma_{z}^{2}{\mathbf{I}}_{m}})}}$^33^3While we assume diagonal covariance throughout the paper, we believe our proof strategy can be adapted to arbitrary covariance matrices.. ${\mathbf{u}}_{t}$ is the input vector which is known to us. ${\mathbf{w}}_{t}$ and ${\mathbf{z}}_{t}$ are the process and measurement noise vectors respectively. We also assume that the initial condition of the hidden state is ${\mathbf{x}}_{1} = 0$. Observe that Markov parameters can be found if we have access to cross correlations ${\mathbb{E}}{\lbrack{{\mathbf{y}}_{t}{\mathbf{u}}_{t - k}^{\ast}}\rbrack}$. In particular, we have the identities
+
+Hence, if we had access to infinitely many independent $({\mathbf{y}}_{t},{\mathbf{u}}_{t - k})$ pairs, our task could be accomplished by a simple averaging. In this work, we will show that, one can robustly learn these matrices from a small amount of data generated from a single realization of the system trajectory. The challenge is efficiently using finite and dependent data points to perform reliable estimation. Observe that, our problem is identical to learning the concatenated matrix $\mathbf{G}$ defined as
+
+Next section describes our input and output data. Based on this, we formulate a least-squares procedure that estimates $\mathbf{G}$. The estimate $\hat{\mathbf{G}}$ will play a critical role in the identification of the system matrices.
+
+### Least-Squares Procedure
+
+To describe the estimation procedure, we start by explaining the data collection process. Given a single input/output trajectory ${\{{\mathbf{y}}_{t},{\mathbf{u}}_{t}\}}_{t = 1}^{\overline{N}}$, we generate $N$ subsequences of length $T$, where $\overline{N} = {{T + N} - 1}$ and $N \geq 1$. To ease representation, we organize the data ${\mathbf{u}}_{t}$ and the noise ${\mathbf{w}}_{t}$ into length $T$ chunks denoted by the following vectors,
+
+In a similar fashion to $\mathbf{G}$ define the matrix,
+
+To establish an explicit connection to Markov parameters, ${\mathbf{y}}_{t}$ can be expanded recursively until ${t - T} + 1$ to relate the output to the input ${\overline{\mathbf{u}}}_{t}$ and Markov parameter matrix $\mathbf{G}$ as follows,
+
+where, ${\mathbf{e}}_{t} = {{\mathbf{C}}{\mathbf{A}}^{T - 1}{\mathbf{x}}_{{t - T} + 1}}$ corresponds to the error due to the effect of the state at time ${t - T} + 1$. With this relation, we will use ${({\overline{\mathbf{u}}}_{t},{\mathbf{y}}_{t})}_{t = T}^{\overline{N}}$ as inputs and outputs of our regression problem. We treat ${\overline{\mathbf{w}}}_{t}$, ${\mathbf{z}}_{t}$, and ${\mathbf{e}}_{t}$ as additive noise and attempt to estimate $\mathbf{G}$ from covariates ${\overline{\mathbf{u}}}_{t}$. Note that, the noise terms are zero-mean including ${\mathbf{e}}_{t}$ since we assumed ${\mathbf{x}}_{1} = 0$. With these in mind, we form the following least-squares problem,
+
+Defining our label matrix $\mathbf{Y}$ and input data matrix $\mathbf{U}$ as,
+
+we obtain the minimization $\min_{\mathbf{X}}{\|{{\mathbf{Y}} - {{\mathbf{U}}{\mathbf{X}}^{\ast}}}\|}_{F}^{2}$. Hence, the least-squares solution $\hat{\mathbf{G}}$ is given by
+
+where ${\mathbf{U}}^{\dagger} = {{({{\mathbf{U}}^{\ast}{\mathbf{U}}})}^{- 1}{\mathbf{U}}^{\ast}}$ is the left pseudo-inverse of $\mathbf{U}$. Ideally, we would like the estimation error ${\|{{\mathbf{G}} - \hat{\mathbf{G}}}\|}_{F}^{2}$ to be small. Our main result bounds the norm of the error as a function of the sample size $N$ and noise levels $\sigma_{w}$ and $\sigma_{z}$.
+
+## Results on Learning Markov Parameters
+
+Let $\rho{( \cdot )}$ denote the spectral radius of a matrix which is the largest absolute value of its eigenvalues. Our results in this section apply to stable systems where ${\rho{({\mathbf{A}})}} < 1$. Additionally we need a related quantity involving $\mathbf{A}$ which is the spectral norm to spectral radius ratio of its exponents defined as ${\Phi{({\mathbf{A}})}} = {\sup_{\tau \geq 0}\frac{\|{\mathbf{A}}^{\tau}\|}{\rho{({\mathbf{A}})}^{\tau}}}$. We will assume ${\Phi{({\mathbf{A}})}} < \infty$ which is a mild condition: For instance, if $\mathbf{A}$ is diagonalizable, $\Phi{({\mathbf{A}})}$ is a function of its eigenvector matrix and is finite. Another important parameter is the steady state covariance matrix of ${\mathbf{x}}_{t}$ which is given by
+
+It is rather trivial to show that for all $t \geq 1$, ${\mathbf{\Sigma}{({\mathbf{x}}_{t})}} \preceq \mathbf{\Gamma}_{\infty}$. We will use $\mathbf{\Gamma}_{\infty}$ to bound the error ${\mathbf{e}}_{t}$ due to the unknown state at time ${t - T} + 1$. Following the definition of ${\mathbf{e}}_{t}$, we have that ${\|{\mathbf{\Sigma}{({\mathbf{e}}_{t})}}\|} \leq {{\|{{\mathbf{C}}{\mathbf{A}}^{T - 1}}\|}^{2}{\|\mathbf{\Gamma}_{\infty}\|}}$. We characterize the impact of ${\mathbf{e}}_{t}$ by its "effective standard deviation" $\sigma_{e}$ that is obtained by scaling the bound on $\sqrt{\|{\mathbf{\Sigma}{({\mathbf{e}}_{t})}}\|}$ by an additional factor $\Phi{({\mathbf{A}})}\sqrt{T/{({1 - {\rho{({\mathbf{A}})}^{2T}}})}}$ which yields,
+
+Our first result is a simplified version of Theorem 3.2 and captures the problem dependencies in terms of the total standard deviations $\sigma_{z} + \sigma_{e} + {\sigma_{w}{\|{\mathbf{F}}\|}}$ and the total dimensions $m + p + n$.
+
+### Theorem 3.1
+
+Suppose ${\rho{(\mathbf{A})}^{T}} \leq 0.99$ and $N \geq N_{0} = {cTq{\log^{2}{({2Tq})}}{\log^{2}{({2Nq})}}}$ where $q = {p + n + m}$. Given observations of a single trajectory until time $\overline{N} = {{N + T} - 1}$, with high probability^44^4Precise statement on the probability of success is provided in the proof, the least-square estimator of the Markov parameter matrix obeys
+
+Remark: Our result is stated in terms of the spectral norm error $\|{\hat{\mathbf{G}} - {\mathbf{G}}}\|$. One can deduce the following Frobenius norm bound by naively bounding $\sigma_{e},\sigma_{z}$ terms and swapping $\|{\mathbf{F}}\|$ term by ${\|{\mathbf{F}}\|}_{F}$ (following (A.2), (A.3)). This yields, ${\|{\hat{\mathbf{G}} - {\mathbf{G}}}\|}_{F} \leq {\frac{{{({\sigma_{z} + \sigma_{e}})}\sqrt{m}} + {\sigma_{w}{\|{\mathbf{F}}\|}_{F}}}{\sigma_{u}}\sqrt{\frac{N_{0}}{N}}}$.
+
+Our bound individually accounts for the the process noise sequence ${\{{\mathbf{w}}_{\tau}\}}_{\tau = {{t - T} + 1}}^{t}$, measurement noise ${\mathbf{z}}_{t}$, and the contribution of the unknown state ${\mathbf{x}}_{{t - T} + 1}$. Setting $\sigma_{w}$ and $\sigma_{z}$ to $0$, we end up with the unknown state component $\sigma_{e}$. $\sigma_{e}$ has a $\|{{\mathbf{C}}{\mathbf{A}}^{T - 1}}\|$ multiplier inside hence larger $T$ implies smaller $\sigma_{e}$. On the other hand, larger $T$ increases the size of the $\mathbf{G}$ matrix as its dimensions are ${m \times T}p$. This dependence is contained inside the $N_{0}$ term which grows proportional to $Tp$ (ignoring $\log$ terms). $Tp$ corresponds to the minimum observation period since there are $mTp$ unknowns and we get to observe $m$ measurements at each timestamp. Hence, ignoring logarithmic terms, our result requires $N \gtrsim {Tp}$ and estimation error decays as $\sqrt{{Tp}/N}$. This behavior is similar to what we would get from solving a linear regression problem with independent noise and independent covariates. This highlights the fact that our analysis successfully overcomes the dependencies of covariates and noise terms.
+
+Our main theorem is a slightly improved version of Theorem 3.1 and is stated below. Theorem 3.1 is operational in the regime $N \gtrsim {T{({p + m + n})}}$. In practical applications, hidden state dimension $n$ can be much larger than number of sensors $m$ and input dimension $p$. On the other hand, the input data matrix $\mathbf{U}$ becomes tall as soon as $N \geq {Tp}$ hence ideally (2.7) should work as soon as $N \gtrsim {Tp}$. Our main result shows that reliable estimation is indeed possible in this more challenging regime. It also carefully quantifies the contribution of each term to the overall estimation error.
+
+### Theorem 3.2
+
+Suppose system is stable (i.e. ${\rho{(\mathbf{A})}} < 1$) and $N \geq {cTp{\log^{2}{({2Tp})}}{\log^{2}{({2Np})}}}$. We observe a trajectory until time $\overline{N} = {{N + T} - 1}$. Then, with high probability, the least-square estimator of the Markov parameter matrix obeys
+
+where $R_{w},R_{e},R_{z}$ are given by
+
+Here ${c,C} > 0$ are absolute constants and $N_{w} = {cTq{\log^{2}{({2Tq})}}{\log^{2}{({2Nq})}}}$ where $q = {p + n}$.
+
+One can obtain Theorem 3.1 from Theorem 3.2 as follows. When $N \geq N_{0} \geq N_{w}$: $R_{w}$ satisfies $R_{w} \leq {\sigma_{w}{\|{\mathbf{F}}\|}\sqrt{N_{w}}} \leq {\sigma_{w}{\|{\mathbf{F}}\|}\sqrt{N_{0}}}$. Similarly, when $\rho{({\mathbf{A}})}^{T}$ is bounded away from $1$ by a constant and $N \geq N_{0} \geq {\mathcal{O}{({Tm})}}$: $R_{e}$ satisfies $R_{e} \leq {2C\sigma_{e}\sqrt{{Tp} + m}} \leq {\sigma_{e}\sqrt{N_{0}}}$.
+
+One advantage of Theorem 3.2 is that it works in the regime ${Tp} \lesssim N \lesssim {T{({p + n + m})}}$. Additionally, Theorem 3.2 provides tighter individual error bounds for the $\sigma_{z},\sigma_{w},\sigma_{e}$ terms and explicitly characterizes the dependence on $\rho{({\mathbf{A}})}$ inside the $R_{e}$ term.
+
+Theorem 3.2 can be improved in a few directions. Some of the log factors that appear in our sample size might be spurious. These terms are arising from a theorem borrowed from Krahmer et al.; which actually has a stronger implication than what we need in this work. We also believe (3.1) is overestimating the correct dependence by a factor of $\sqrt{T}$.
+
+### Estimating the Output via Markov Parameters
+
+The following lemma illustrates how learning Markov parameters helps us bound the prediction error.
+
+### Lemma 3.3 (Estimating $y_{T}$)
+
+Suppose $\mathbf{x}_{1} = 0$ and $\mathbf{z}_{t} \sim {\mathcal{N}{(0,{\sigma_{z}^{2}\mathbf{I}})}}$, $\mathbf{u}_{t} \sim {\mathcal{N}{(0,{\sigma_{u}^{2}\mathbf{I}})}}$, $\mathbf{w}_{t} \sim {\mathcal{N}{(0,{\sigma_{w}^{2}\mathbf{I}})}}$ for $t \geq 0$ as described in Section 2. Assume, we have an estimate $\hat{\mathbf{G}}$ of $\mathbf{G}$ that is independent of these variables and we employ the $\mathbf{y}_{t}$ estimator
+
+Proof Following from the input/output identity (2.5), the key observation is that for a fixed $t$, ${\overline{\mathbf{u}}}_{t},{\overline{\mathbf{w}}}_{t},{\mathbf{z}}_{t},{\mathbf{e}}_{t}$ are all independent of each other and their prediction errors are uncorrelated. Since ${\overline{\mathbf{u}}}_{t} \sim {\mathcal{N}{(0,{\sigma_{u}^{2}{\mathbf{I}}})}}$, ${{\mathbb{E}}{\lbrack{\|{{({{\mathbf{G}} - \hat{\mathbf{G}}})}\overline{\mathbf{u}}}\|}_{\ell_{2}}^{2}\rbrack}} = {\sigma_{u}^{2}{\|{{\mathbf{G}} - \hat{\mathbf{G}}}\|}_{F}^{2}}$. Same argument applies to ${\overline{\mathbf{w}} \sim {\mathcal{N}{(0,{\sigma_{w}^{2}{\mathbf{I}}})}}},{{\mathbf{z}}_{t} \sim {\mathcal{N}{(0,{\sigma_{z}^{2}{\mathbf{I}}})}}}$ and ${\mathbf{e}}_{t}$ which obeys ${{\mathbb{E}}{\lbrack{\|{\mathbf{e}}_{t}\|}_{\ell_{2}}^{2}\rbrack}} = {\text{tr}{({\mathbf{\Sigma}{({\mathbf{e}}_{t})}})}}$. Observe that $i$th largest eigenvalue $\lambda_{i}{({\mathbf{\Sigma}{({\mathbf{e}}_{t})}})}$ of $\mathbf{\Sigma}{({\mathbf{e}}_{t})}$ is upper bounded by ${\|{{\mathbf{C}}{\mathbf{A}}^{T - 1}}\|}^{2}\lambda_{i}{({\mathbf{\Sigma}{({\mathbf{x}}_{{t - T} + 1})}})}$ via Min-Max principle hence ${{\mathbb{E}}{\lbrack{\|{\mathbf{e}}_{t}\|}_{\ell_{2}}^{2}\rbrack}} \leq {{\|{{\mathbf{C}}{\mathbf{A}}^{T - 1}}\|}^{2}\text{tr}{({\mathbf{\Sigma}{({\mathbf{x}}_{{t - T} + 1})}})}}$ $\leq {{\|{{\mathbf{C}}{\mathbf{A}}^{T - 1}}\|}^{2}\text{tr}{(\mathbf{\Gamma}_{\infty})}}$.
+
+## Markov Parameters to Hankel Matrix: Low Order Approximation of Stable Systems
+
+So far our attention has focused on estimating the impulse response $\mathbf{G}$ for a particular horizon $T$. Clearly, we are also interested in understanding how well we learn the overall behavior of the system by learning a finite impulse approximation. In this section, we will apply our earlier results to approximate the overall system by using as few samples as possible. A useful idea towards this goal is taking advantage of the stability of the system. The Markov parameters decay exponentially fast if the system is stable i.e. ${\rho{({\mathbf{A}})}} < 1$. This means that, most of the Markov parameters will be very small after a while and not learning them might not be a big loss for learning the overall behavior. In particular, $\tau$'th Markov parameter obeys
+
+This implies that, the impact of the impulse response terms we don't learn can be upper bounded. For instance, the total spectral norm of the tail terms obey
+
+To proceed fix a finite horizon $K$ that will later be allowed to go infinity. Represent the estimate $\hat{\mathbf{G}}$ as $\lbrack\hat{\mathbf{D}},{\hat{\mathbf{G}}}_{0},{\ldots{\hat{\mathbf{G}}}_{T - 2}}\rbrack$ where ${\hat{\mathbf{G}}}_{i}$ corresponds to the noisy estimate of ${\mathbf{C}}{\mathbf{A}}^{i}{\mathbf{B}}$. Now, let us consider the estimated and true order $K$ Markov parameters
+
+Similarly we define the associated $K \times K$ block Hankel matrices of size ${{mK} \times p}K$ as follows
+
+The following theorem merges results of this section with a specific choice of $T$ to give approximation bounds for the infinite Markov operator ${\mathbf{G}}^{(\infty)}$ and Hankel operator ${\mathbf{H}}^{(\infty)}$. For notational simplicity, we shall assume that there is no process noise.
+
+### Theorem 4.1
+
+Suppose the spectral radius obeys ${\rho{(\mathbf{A})}} < 1$. Fix a number $1 > \varepsilon_{0} > 0$ and suppose process noise obeys $\sigma_{w} = 0$. Assume sample size $N$ and estimation horizon $T$ satisfies^55^5Exact form of the bounds depend on $\mathbf{A},\mathbf{B},\mathbf{C}$ and is provided in the proof.
+
+Then, given observations of a single trajectory until time $\overline{N} = {{N + T} - 1}$ and estimating first $T$ Markov parameters via least-squares estimator (2.7), with high probability, the following bounds hold on the infinite impulse response and Hankel matrix of the system.
+
+In essence, the above theorem is a corollary of Theorem 3.2. However, it further simplifies the bounds and also provides approximation to systems overall behavior (e.g. infinite Hankel matrix). In particular, these bounds exploit stability of the system and allows us to treat the system as if it has a logarithmic order. Observe that (4.3) only logarithmically depends on the critical problem variables such as precision $\varepsilon_{0}$ and spectral radius. In essence, the effective system order is dictated by the eigen-decay and equal to $T \sim {\mathcal{O}{({- \frac{1}{\log{({\rho{({\mathbf{A}})}})}}})}}$ hence stability allows us to treat the system as if it has a logarithmically small order. Ignoring logarithmic terms except $\rho{({\mathbf{A}})}$, using ${\varepsilon_{0},{\sigma_{z}/\sigma_{u}}} = {\mathcal{O}{}}$ and picking
+
+Remarkably, sample size is independent of the state dimension $n$ and only linearly grows with $p$. Indeed, one needs at least $\mathcal{O}{(p)}$ samples to estimate a single Markov parameter and we need only logarithmically more than this minimum (i.e. $N \approx \frac{- {\mathcal{O}{(p)}}}{\log{({\rho{({\mathbf{A}})}})}}$) to estimate the infinite Hankel matrix.
+
+## Non-Asymptotic System Identification via Ho-Kalman
+
+1:procedure Ho-Kalman Minimum Realization
+2:Inputs: Length T, Markov parameter matrix estimate $\hat{\mathbf{G}}$, system order n, Hankel shape (T1,T2 + 1) with T1 + T2 + 1 = T.
+3:Outputs: State-space realization $\hat{\mathbf{A}},\hat{\mathbf{B}},\hat{\mathbf{C}}$.
+4: Form the Hankel matrix $\hat{\mathbf{H}} \in {\mathbb{R}}^{{{mT_{1}} \times p}{({T_{2} + 1})}}$ from $\hat{\mathbf{G}}$.
+5: ${\hat{\mathbf{H}}}^{-} \in {\mathbb{R}}^{{{mT_{1}} \times p}T_{2}}\leftarrow{{\text{first-}{pT_{2}}\text{-columns-of}}{(\hat{\mathbf{H}})}}$.
+6: $\hat{\mathbf{L}} \in {\mathbb{R}}^{{{mT_{1}} \times p}T_{2}}\leftarrow{{\text{rank-}n\text{-approximation-of}}{({\hat{\mathbf{H}}}^{-})}}$.
+7: ${{\mathbf{U}},\mathbf{\Sigma},{\mathbf{V}}} = {\text{SVD}{(\hat{\mathbf{L}})}}$.
+8: $\hat{\mathbf{O}} \in {\mathbb{R}}^{{mT_{1}} \times n}\leftarrow{{\mathbf{U}}\mathbf{\Sigma}^{1/2}}$.
+9: $\hat{\mathbf{Q}} \in {\mathbb{R}}^{{n \times p}T_{2}}\leftarrow{\mathbf{\Sigma}^{1/2}{\mathbf{V}}^{\ast}}$.
+10: $\hat{\mathbf{C}}\leftarrow{{\text{first-}m\text{-rows-of}}{(\hat{\mathbf{O}})}}$.
+11: $\hat{\mathbf{B}}\leftarrow{{\text{first-}p\text{-columns-of}}{(\hat{\mathbf{Q}})}}$.
+12: ${\hat{\mathbf{H}}}^{+} \in {\mathbb{R}}^{{{mT_{1}} \times p}T_{2}}\leftarrow{{\text{last-}{pT_{2}}\text{-columns-of}}{(\hat{\mathbf{H}})}}$.
+13: $\hat{\mathbf{A}}\leftarrow{{\hat{\mathbf{O}}}^{\dagger}{\hat{\mathbf{H}}}^{+}{\hat{\mathbf{Q}}}^{\dagger}}$.
+14:return ${\hat{\mathbf{A}} \in {\mathbb{R}}^{n \times n}},{{\hat{\mathbf{B}} \in {\mathbb{R}}^{n \times p}},{\hat{\mathbf{C}} \in {\mathbb{R}}^{m \times n}}}$.
+Algorithm 1 Ho-Kalman Algorithm to find a State-Space Realization.
+
+In this section, we first describe the Ho-Kalman algorithm that generates ${\mathbf{A}},{\mathbf{B}},{\mathbf{C}},{\mathbf{D}}$ from the Markov parameter matrix $\mathbf{G}$. We also show that the algorithm is stable to perturbations in $\mathbf{G}$ and the output of Ho-Kalman gracefully degrades as a function of $\|{{\mathbf{G}} - \hat{\mathbf{G}}}\|$. Combining this with Theorem 3.1 implies guaranteed non-asymptotic identification of multi-input-multi-output systems from a single trajectory. We remark that results of this section do not assume stability and applies to arbitrary, possibly unstable, systems. We will use the following Hankel matrix definition to introduce the algorithms.
+
+### Definition 5.1 (Clipped Hankel matrix)
+
+Given a block matrix $\mathbf{X} = {\lbrack\mathbf{X}_{1},\mathbf{X}_{2},{\ldots\mathbf{X}_{T}}\rbrack} \in {\mathbb{R}}^{{m \times T}p}$ and integers $T_{1},T_{2}$ satisfying ${T_{1} + T_{2}} \leq T$, define the associated $(T_{1},T_{2})$ Hankel matrix $\mathbf{H} = {\mathbf{H}{(\mathbf{X})}} \in {\mathbb{R}}^{{{T_{1}m} \times T_{2}}p}$ to be the $T_{1} \times T_{2}$ block matrix with $m \times p$ size blocks where $(i,j)$th block is given by
+
+Note that, $\mathbf{H}$ does not contain ${\mathbf{X}}_{1}$, which shall correspond to the $\mathbf{D}$ (or $\hat{\mathbf{D}}$) matrix for our purposes. This is solely for notational convenience as the first Markov parameter in $\mathbf{G}$ is $\mathbf{D}$; however ${\mathbf{A}},{\mathbf{B}},{\mathbf{C}}$ are identified from the remaining Markov parameters of type ${\mathbf{C}}{\mathbf{A}}^{i}{\mathbf{B}}$.
+
+### System Identification Algorithm
+
+Given a noisy estimate $\hat{\mathbf{G}}$ of $\mathbf{G}$, we wish to learn good system matrices $\hat{\mathbf{A}},\hat{\mathbf{B}},\hat{\mathbf{C}},\hat{\mathbf{D}}$ from $\hat{\mathbf{G}}$ up to trivial ambiguities. This will be achieved by using Algorithm 1 which admits the matrix $\hat{\mathbf{G}}$, system order $n$ and Hankel dimensions $T_{1},T_{2}$ as inputs. Throughout this section, we make the following two assumptions to ensure that the system we wish to learn is order-$n$ and our system identification problem is well-conditioned.
+
+the system is observable and controllable; hence $n > 0$ is the order of the system.
+
+$(T_{1},T_{2})$ Hankel matrix ${\mathbf{H}}{({\mathbf{G}})}$ formed from $\mathbf{G}$ is rank-$n$. This can be ensured by choosing sufficiently large $T_{1},T_{2}$. In particular ${T_{1} \geq n},{T_{2} \geq n}$ is guaranteed to work by the first assumption above.
+
+Learning state-space representations is a non-trivial, inherently non-convex problem. Observe that there are multiple state-space realizations that yields the same system and Markov matrix $\mathbf{G}$. In particular, for any nonsingular matrix ${\mathbf{T}} \in {\mathbb{R}}^{n \times n}$,
+
+is a valid realization and yields the same system. Hence, similarity transformations of ${\mathbf{A}},{\mathbf{B}},{\mathbf{C}}$ generate a class of solutions. Note that $\mathbf{D}$ is already estimated as part of $\mathbf{G}$. Since $\mathbf{D}$ is a submatrix of $\mathbf{G}$, we clearly have
+
+Hence, we focus our attention on learning ${\mathbf{A}},{\mathbf{B}},{\mathbf{C}}$. Suppose we have access to the true Markov parameters $\mathbf{G}$ and the corresponding $(T_{1},{T_{2} + 1})$ Hankel matrix ${\mathbf{H}}{({\mathbf{G}})}$. In this case, $\mathbf{H}$ is a rank-$n$ matrix and $(i,j)$th block of $\mathbf{H}$ is equal to ${\mathbf{C}}{\mathbf{A}}^{{i + j} - 2}{\mathbf{B}}$. Defining (extended) controllability and observability matrices ${\mathbf{Q}} = {\lbrack{\mathbf{B}},{{\mathbf{A}}{\mathbf{B}}},{\ldots{\mathbf{A}}^{T_{2}}{\mathbf{B}}}\rbrack}$ and ${\mathbf{O}} = {\lbrack{\mathbf{C}}^{\ast},{({\mathbf{C}}{\mathbf{A}})}^{\ast},}$ $\ldots{({\mathbf{C}}{\mathbf{A}}^{T_{1} - 1})}^{\ast}\rbrack^{\ast}$, we have ${\mathbf{H}} = {{\mathbf{O}}{\mathbf{Q}}}$. However, it is not clear how to find ${\mathbf{O}},{\mathbf{Q}}$.
+
+The Ho-Kalman algorithm accomplishes this task by finding a balanced realization and returning some $\hat{\mathbf{A}},\hat{\mathbf{B}},\hat{\mathbf{C}}$ matrices from possibly noisy Markov parameter matrix $\hat{\mathbf{G}}$. Let the input to the algorithm be $\hat{\mathbf{G}} = {\lbrack\hat{\mathbf{D}},{\hat{\mathbf{G}}}_{0},{\ldots{\hat{\mathbf{G}}}_{T - 2}}\rbrack}$ where ${\hat{\mathbf{G}}}_{i}$ corresponds to the noisy estimate of ${\mathbf{C}}{\mathbf{A}}^{i}{\mathbf{B}}$. We construct the $(T_{1},{T_{2} + 1})$ Hankel matrix $\hat{\mathbf{H}}$ as described above so that $(i,j)$th block of $\hat{\mathbf{H}}$ is equal to ${\hat{\mathbf{G}}}_{{i + j} - 2}$. Let ${\hat{\mathbf{H}}}^{-} \in {\mathbb{R}}^{{{mT_{1}} \times p}T_{2}}$ be the submatrix of $\hat{\mathbf{H}}$ after discarding the rightmost ${mT_{1}} \times p$ block and $\hat{\mathbf{L}}$ be the best rank-$n$ approximation of ${\hat{\mathbf{H}}}^{-}$ obtained by setting its all but top $n$ singular values to zero. Let ${\hat{\mathbf{H}}}^{+}$ be the submatrix after discarding the left-most ${mT_{1}} \times p$ block. Note that both $\hat{\mathbf{L}},{\hat{\mathbf{H}}}^{+}$ have size ${\mathbb{R}}^{{{mT_{1}} \times p}T_{2}}$. Take the singular value decomposition (SVD) of the rank-$n$ matrix $\hat{\mathbf{L}}$ as $\hat{\mathbf{L}} = {{\mathbf{U}}\mathbf{\Sigma}{\mathbf{V}}^{\ast}}$ (with $\mathbf{\Sigma} \in {\mathbb{R}}^{n \times n}$) and write
+
+If $\hat{\mathbf{G}}$ was equal to the ground truth $\mathbf{G}$, then $\hat{\mathbf{O}},\hat{\mathbf{Q}}$ would correspond to the order $T_{1}$ observability matrix $\overline{\mathbf{O}} = {{\mathbf{U}}\mathbf{\Sigma}^{1/2}}$ and the order $T_{2}$ controllability matrix $\overline{\mathbf{Q}} = {\mathbf{\Sigma}^{1/2}{\mathbf{V}}^{\ast}}$ of the actual balanced realization based on noiseless SVD. Here, $\overline{\mathbf{O}},\overline{\mathbf{Q}}$ matrices are not necessarily equal to ${\mathbf{O}},{\mathbf{Q}}$, however they yield the same system. Note that, the columns of $\hat{\mathbf{O}},\hat{\mathbf{Q}}$ are the scaled versions of the left and right singular vectors of $\hat{\mathbf{L}}$ respectively. The Ho-Kalman algorithm finds $\hat{\mathbf{A}},\hat{\mathbf{B}},\hat{\mathbf{C}}$ as follows.
+
+$\hat{\mathbf{C}}$ is the first $m \times n$ submatrix of $\hat{\mathbf{O}}$.
+
+$\hat{\mathbf{B}}$ is the first $n \times p$ submatrix of $\hat{\mathbf{Q}}$.
+
+$\hat{\mathbf{A}} = {{\hat{\mathbf{O}}}^{\dagger}{\hat{\mathbf{H}}}^{+}{\hat{\mathbf{Q}}}^{\dagger}}$.
+
+This procedure (Ho-Kalman) returns the true balanced realization of the system when Markov parameters are known i.e. $\hat{\mathbf{G}} = {\mathbf{G}}$. Our goal is to show that even with noisy Markov parameters, this procedure returns good estimates of the true balanced realization. We remark that there are variations of this procedure; however the core idea is the same and they are equivalent when the true Markov parameters are used as input. For instance, when constructing $\hat{\mathbf{H}}$, one can attempt to improve the noise robustness of the algorithm by picking balanced dimensions ${mT_{1}} \approx {pT_{2}}$.
+
+### Robustness of the Ho-Kalman Algorithm
+
+Observe that $\hat{\mathbf{H}},{\hat{\mathbf{H}}}^{-},\hat{\mathbf{L}},{\hat{\mathbf{H}}}^{+},\hat{\mathbf{O}},\hat{\mathbf{Q}}$ of Algorithm 1 are functions of the input matrix $\hat{\mathbf{G}}$. For the subsequent discussion, we let
+
+${\mathbf{H}},{\mathbf{H}}^{-},{\mathbf{L}},{\mathbf{H}}^{+},{\mathbf{O}},{\mathbf{Q}}$ be the matrices corresponding to ground truth $\mathbf{G}$.
+
+$\hat{\mathbf{H}},{\hat{\mathbf{H}}}^{-},\hat{\mathbf{L}},{\hat{\mathbf{H}}}^{+},\hat{\mathbf{O}},\hat{\mathbf{Q}}$ be the matrices corresponding to the estimate $\hat{\mathbf{G}}$.
+
+Furthermore, let $\overline{\mathbf{A}},\overline{\mathbf{B}},\overline{\mathbf{C}}$ be the actual balanced realization associated with $\mathbf{G}$ and let $\hat{\mathbf{A}},\hat{\mathbf{B}},\hat{\mathbf{C}}$ be the Ho-Kalman output associated with $\hat{\mathbf{G}}$. Note that ${\mathbf{L}} = {\mathbf{H}}^{-}$ since ${\mathbf{H}}^{-}$ is already rank $n$. We now provide a lemma relating the estimation error of $\mathbf{G}$ to that of $\mathbf{L}$ and $\mathbf{H}$.
+
+### Lemma 5.2
+
+${\mathbf{H}},\hat{\mathbf{H}}$ and $\mathbf{L},\hat{\mathbf{L}}$ satisfies the following perturbation bounds,
+
+Let us denote the $n$th largest singular value of $\mathbf{L}$ via $\sigma_{\min}{({\mathbf{L}})}$. Note that $\sigma_{\min}{({\mathbf{L}})}$ is the smallest nonzero singular value of $\mathbf{L}$ since ${\text{rank}{({\mathbf{L}})}} = n$. A useful implication of Theorem 3.1 (in light of Lemma 5.2) is that if $\sigma_{\min}{({\mathbf{L}})}$ is large enough, the true system order $n$ can be non-asymptotically estimated from the noisy Markov parameter estimates via singular value thresholding.
+
+Our next result shows the robustness of the Ho-Kalman algorithm to possibly adversarial perturbations on the Markov parameter matrix $\mathbf{G}$.
+
+### Theorem 5.3
+
+Suppose $\mathbf{H}$ and $\hat{\mathbf{H}}$ be the Hankel matrices derived from $\mathbf{G}$ and $\hat{\mathbf{G}}$ respectively per Definition 5.1 ‣ 5 Non-Asymptotic System Identification via Ho-Kalman ‣ Non-asymptotic Identification of LTI Systems from a Single Trajectory"). Let $\overline{\mathbf{A}},\overline{\mathbf{B}},\overline{\mathbf{C}}$ be the state-space realization corresponding to the output of Ho-Kalman with input $\mathbf{G}$ and $\hat{\mathbf{A}},\hat{\mathbf{B}},\hat{\mathbf{C}}$ be the state-space realization corresponding to output of Ho-Kalman with input $\hat{\mathbf{G}}$. Suppose the system $\mathbf{A},\mathbf{B},\mathbf{C},\mathbf{D}$ is observable and controllable and let $\mathbf{O},\mathbf{Q}$ and $\hat{\mathbf{O}},\hat{\mathbf{Q}}$ be order-$n$ controllability/observability matrices associated with $\mathbf{G}$ and $\hat{\mathbf{G}}$ respectively. Suppose ${\sigma_{\min}{(\mathbf{L})}} > 0$ and perturbation obeys
+
+Then, there exists a unitary matrix $\mathbf{T} \in {\mathbb{R}}^{n \times n}$ such that,
+
+Furthermore, hidden state matrices $\hat{\mathbf{A}},\overline{\mathbf{A}}$ satisfy
+
+Above, ${\|{{\mathbf{H}}^{+} - {\hat{\mathbf{H}}}^{+}}\|},{\|{{\mathbf{L}} - \hat{\mathbf{L}}}\|}$ are perturbation terms that can be bounded in terms of $\|{{\mathbf{H}} - \hat{\mathbf{H}}}\|$ or $\|{{\mathbf{G}} - \hat{\mathbf{G}}}\|$ via Lemma 5.2. This result shows that Ho-Kalman solution is robust to noise up to trivial ambiguities. Robustness is controlled by $\sigma_{\min}{({\mathbf{L}})}$ which typically corresponds to the weakest mode of the system. We remark that for reasonably large $T_{2}$ choice, we have ${\sigma_{\min}{({\mathbf{L}})}} \approx {\sigma_{\min}{({\mathbf{H}})}}$ as ${\mathbf{L}} = {\mathbf{H}}^{-}$ is obtained by discarding the last block column of $\mathbf{H}$ which is exponentially small in $T_{2}$.
+
+Since the Ho-Kalman algorithm is based on SVD, having a good control over singular vectors is crucial for the proof. We do this by utilizing the perturbation results from the recent literature. While we believe our result has the correct dependency, it is in terms of Frobenius norm rather than spectral. Having a better spectral norm control over $\overline{\mathbf{A}},\overline{\mathbf{B}},\overline{\mathbf{C}}$ would be an ideal future improvement.
+
+A corollary to this result can be stated in terms of $\sigma_{\min}{({\mathbf{L}})}$ and Hankel matrices ${\mathbf{H}},\hat{\mathbf{H}}$. The result below follows from an application of Lemma 5.2.
+
+### Corollary 5.4
+
+Consider the setup of Theorem 5.3 and suppose ${\sigma_{\min}{(\mathbf{L})}} > 0$ and
+
+Then, there exists a unitary matrix $\mathbf{T} \in {\mathbb{R}}^{n \times n}$ such that,
+
+Furthermore, hidden state matrices $\hat{\mathbf{A}},\overline{\mathbf{A}}$ satisfy
+
+Recall from Lemma 5.2 that ${\|{{\mathbf{H}} - \hat{\mathbf{H}}}\|} \leq {\sqrt{\min{\{ T_{1},{T_{2} + 1}\}}}{\|{{\mathbf{G}} - \hat{\mathbf{G}}}\|}}$. Hence, combining Corollary 5.4 and Theorem 3.1 provides non-asymptotic guarantees for end-to-end system identification procedure. Theorem 3.1 finds a good Markov parameter estimate $\hat{\mathbf{G}}$ from a small amount of data and Corollary 5.4 translates this $\hat{\mathbf{G}}$ into a robust state-space realization $\hat{\mathbf{A}},\hat{\mathbf{B}},\hat{\mathbf{C}},\hat{\mathbf{D}}$.
+
+Figure 1: We consider the matrices that can directly be inferred from the Markov parameter matrix G. These are D, C B which are the first two block submatrices of G, G itself, and H which is the Hankel matrix that is constructed from blocks of G. These results are for T = 18 which implies G ∈ ℝ2 × 54 and H ∈ ℝ18 × 27 as we picked T1 = T2 + 1 = 9.
+
+## Numerical Experiments
+
+We considered a MIMO (multiple input, multiple output) system with $m = 2$ sensors, $n = 5$ hidden states and input dimension $p = 3$. To assess the typical performance of the least-squares and the Ho-Kalman algorithms, we consider random state-spaces as follows. We generate ${\mathbf{C}},{\mathbf{D}}$ with independent $\mathcal{N}{(0,{1/m})}$ entries. We generate $\mathbf{B}$ with independent $\mathcal{N}{(0,{1/n})}$ entries. These variance choices are to ensure these matrices are isometric in the sense that ${{\mathbb{E}}{\lbrack{\|{{\mathbf{M}}{\mathbf{v}}}\|}_{\ell_{2}}^{2}\rbrack}} = {\|{\mathbf{v}}\|}_{\ell_{2}}^{2}$ for a given vector $\mathbf{v}$ and ${\mathbf{M}} \in {\{{\mathbf{B}},{\mathbf{C}},{\mathbf{D}}\}}$. Hence, the impact of the standard deviations $\sigma_{u},\sigma_{w},\sigma_{z}$ are properly normalized. The input variance is fixed at $\sigma_{u} = 1$ however noise variances will be modified during the experiments.
+
+The most critical component of an LTI system is the $\mathbf{A}$ matrix. We picked $\mathbf{A}$ to be a diagonal matrix with its $n$ eigenvalues (i.e. diagonal entries) are generated to be uniform random variables between $\lbrack 0,0.9\rbrack$. The upper bound $0.9$ implies that we are working with stable matrices and the effect of unknown state vanishes for large $T$.
+
+Finally, we conduct experiments for different $T$ values of $T \in {\{ 6,12,18\}}$. During Ho-Kalman procedure, we create a Hankel matrix $\hat{\mathbf{H}}$ of size ${{{{mT}/2} \times p}T}/2$ and apply Algorithm 1. Due to random generation of problem data, even for $T = 6$, the ground truth Hankel matrix ${\mathbf{H}}^{-} \in {\mathbb{R}}^{6 \times 6}$ has rank $n = 5$ so that Ho-Kalman procedure can indeed learn a good realization.
+
+In our experimental setup, we pick a hyperparameter configuration of $T,\sigma_{w},\sigma_{z}$ and generate a single rollout of the system until some time $t_{\infty}$. For each $T \leq \overline{N} \leq t_{\infty}$, we solve the system via (2.7) to obtain the estimate of $\mathbf{G}$ and use Algorithm 1 to obtain a state-space realization $\hat{\mathbf{A}},\hat{\mathbf{B}},\hat{\mathbf{C}},\hat{\mathbf{D}}$. The $x$-axis displays $N$ (which is the amount of available data at time $t = \overline{N}$) and the $y$-axis displays the estimation error. Each curve in the figures is generated by averaging the outcomes of $20$ independent realizations of single trajectories.
+
+In Figure 1, we considered the problem of estimating the matrices ${\mathbf{D}},{{\mathbf{C}}{\mathbf{B}}},{\mathbf{G}},{\mathbf{H}}$ when $T = 18$. ${\mathbf{D}},{{\mathbf{C}}{\mathbf{B}}}$ are the first two impulse responses. Estimating $\mathbf{G}$ and the associated Hankel matrix $\mathbf{H}$ helps verify our findings in Theorem 3.2. We plotted curves for varying noise levels $\sigma_{w} = \sigma_{z} \in {\{ 0,{1/4},{1/2},1\}}$. The main conclusion is that indeed estimation accuracy drastically improves as we observe the system for a longer period of time and collect more data. Note that estimation errors on $\mathbf{D}$ and ${\mathbf{C}}{\mathbf{B}}$ are in the same ballpark. These are submatrices of $\mathbf{G}$ hence their associated spectral norm errors are strictly lower compared to $\|{{\mathbf{G}} - \hat{\mathbf{G}}}\|$. Per Definition 5.1 ‣ 5 Non-Asymptotic System Identification via Ho-Kalman ‣ Non-asymptotic Identification of LTI Systems from a Single Trajectory"), $\mathbf{H}$ is constructed from the blocks of $\mathbf{G}$ and its spectral norm error is in lines with $\mathbf{G}$. The other observation is that estimation error decays gracefully as a function of the noise levels for all matrices of interest. Since we picked a large $T$, the error due to unknown initial conditions (i.e. ${\mathbf{e}}_{t}$) is fairly negligible. Hence when $\sigma_{w} = \sigma_{z} = 0$, we quickly achieve near $0$ estimation error as the impact of the ${\mathbf{e}}_{t}$ term is also small.
+
+Figure 2: Relative estimation errors for systems $\mathcal{S},\hat{\mathcal{S}}$ for varying noise levels. $\hat{\mathcal{S}}$ is obtained by the Ho-Kalman procedure of Algorithm 1. Based on Theorem 5.3, we expect improved estimation accuracy for larger N and smaller σw, σz; since the error in estimating the system matrices is directly controlled by the error in the Markov parameter matrix ${\mathbf{G}} - \hat{\mathbf{G}}$.
+
+In Figure 2 we study the stability of the Ho-Kalman procedure which returns a realization up to a unitary transformation as described in Theorem 5.3. Hence, rather than focusing on individual outputs $\hat{\mathbf{A}},\hat{\mathbf{B}},\hat{\mathbf{C}}$ we directly study the LTI systems $\mathcal{S} = {\text{LTI-sys}{({\mathbf{A}},{\mathbf{B}},{\mathbf{C}},{\mathbf{D}})}}$ and $\hat{\mathcal{S}} = {\text{LTI-sys}{(\hat{\mathbf{A}},\hat{\mathbf{B}},\hat{\mathbf{C}},\hat{\mathbf{D}})}}$. In particular, we focus on the $\mathcal{H}_{\infty}$ norm of the error $\mathcal{S} - \hat{\mathcal{S}}$. During this process, we clipped the singular values of $\hat{\mathbf{A}}$ at $0.99$ i.e. if $\hat{\mathbf{A}}$ has a singular value larger than $0.99$, we replace it by $0.99$ in the SVD of $\hat{\mathbf{A}}$ which returns a new $\hat{\mathbf{A}}$ whose singular vectors are same but singular values are clipped. This essentially corresponds to projecting the estimated system on the set of stable systems. While we verified that ${\|\hat{\mathbf{A}}\|} > 0.99$ rarely happens for large $N$, clipping ensures that $\mathcal{H}_{\infty}$ norm is always bounded and smooths out the results. Figure 2 illustrates the normalized $\mathcal{H}_{\infty}$ error $\frac{{\|{\hat{\mathcal{S}} - \mathcal{S}}\|}_{\mathcal{H}_{\infty}}}{{\|\mathcal{S}\|}_{\mathcal{H}_{\infty}}}$ for varying $\sigma_{w} = \sigma_{z}$ and $T \in {\{ 6,12,18\}}$. For zero-noise regime, $T = 18$ outperforms the rest demonstrating the benefit of using a larger $T$ to overcome the contribution of the $\sigma_{e}$ term. In the other regimes, all $T$ choices perform fairly similar; however $T = 6$ appears to suffer less from increasing noise levels $\sigma_{w},\sigma_{z}$. Another observation is that for very small sample size $N$, $T = 6$ converges faster than the others. This is supported by our Theorem 3.2 as $T = 6$ has less unknowns and the minimal $N$ is in the order of $Tp$, hence smaller $T$ means faster estimation.
+
+We remark that one might be interested in other metrics to assess the error such as Frobenius norm. While not shown in the figures, we also verified that the Frobenius norm ${\|{{\mathbf{G}} - \hat{\mathbf{G}}}\|}_{F}$ (and the errors for ${{\mathbf{C}}{\mathbf{B}}},{\mathbf{D}},{\mathbf{H}}$ as well as ${\|{\mathcal{S} - \hat{\mathcal{S}}}\|}_{\mathcal{H}_{2}}$) behaves in a similar fashion to spectral norm and $\mathcal{H}_{\infty}$ norm.
+
+## Conclusions
+
+In this paper, we analyzed the sample complexity of linear system identification from input/output data. Our analysis neither requires multiple independent trajectories nor relies on splitting the trajectory into non-overlapping intervals, therefore makes very efficient use of the available data from a single trajectory. More crucially, it does not rely on state measurements and works with only the inputs and outputs. Based on this analysis, we showed that one can approximate system's Hankel operator using near optimal amount of samples and shed light on the stability of finding a balanced realization.
+
+There are many directions for future work. First, we are interested in combining our results with control synthesis techniques based on Markov parameters. Second, it is shown empirically that minimizing the rank or nuclear norm of the estimated Hankel matrix as a denoising step (see e.g., ) works better than Ho-Kalman. It is of interest to analyze the stability of such optimization-based algorithms. Finally, it would be interesting to see what type of recovery guarantees can be obtained if additional constraints, such as subspace constraints, on the system matrices are known.

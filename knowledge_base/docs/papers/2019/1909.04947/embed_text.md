@@ -1,0 +1,155 @@
+## Introduction
+
+Multi-contact optimal control promises to generate whole-body motions and control policies that allow legged robots to robustly react to unexpected events in real-time. It has several advantages compared with state-of-the-art frameworks (e.g. ) in which a whole-body controller (e.g. ) compliantly tracks an optimized Centroidal dynamics trajectory (e.g. ) with optionally an optimized contact plan (e.g. ). For instance, they cannot properly handle the robot orientation, particularly during flight phases due to the nonholonomic effect on the dynamics, and to regulate the angular momentum to zero leads to tracking errors even in walking motions. Furthermore, it is well-known that instantaneous time-invariant control (i.e. instantaneous whole-body control) cannot properly track nonholonomic systems. Indeed, in our previous work, we have shown that whole-body planning produces more efficient motions, with lower forces and impacts.
+
+Figure 1: Crocoddyl: an efficient and versatile framework for multi-contact optimal control. Highly-dynamic maneuvers are needed to traverse an obstacle with the ANYmal robot.
+
+Recent work on optimal control has shown that nonlinear Model Predictive Control (MPC) is plausible for controlling legged robots in real-time. All these methods have in common that they solve the nonlinear Optimal Control (OC) problem by iteratively building and solving a Linear-Quadratic Regulator (LQR) problem (i.e. DDP with Gauss-Newton approximation ). These frameworks use numerical or automatic differentiation which is often inefficient compared to sparse and analytical derivatives. Furthermore, they do not explicitly handle the geometric structure of legged systems which include elements of ${\mathbb{S}}{\mathbb{E}}{}$. DDP has proven to efficiently solve nonlinear OC problems due to its intrinsic sparse structure. However, it has poor globalization strategy and struggles to handle infeasible warm-start^11^1An infeasible warm-start refers to state and control trajectories that are not consistent with the system dynamics.. In this vein, Giftthaler et al. proposed a variant of the DDP algorithm for multiple-shooting OC, which has a better convergence rate than DDP. Nonetheless, the gap contraction rate does not numerically match the Karush-Kuhn-Tucker (KKT) problem applied to the multiple-shooting formulation with only equality constraints. In this work, we address these drawbacks by computing highly-dynamic maneuvers as shown in Fig. 1.
+
+### I-A Contribution
+
+We propose a novel and efficient framework for multi-contact OC called Crocoddyl. Our framework efficiently solves this problem by employing sparse and analytical derivatives of the contact and impulse dynamics. The OC solver properly handles the geometry of rigid bodies using dedicated numerical routines for Lie groups and their derivatives. Indeed, we model the floating-base as a ${\mathbb{S}}{\mathbb{E}}{}$ element, needed for example for the generation of front-flip motions. Additionally, we propose a variant of the DDP algorithm that matches the behavior of the Newton method applied to the KKT conditions of a direct multiple-shooting formulation with only equality constraints. Our algorithm is called Feasibility-driven Differential Dynamic Programming (FDDP)^22^2We also refer as feasibility-prone DDP. as it handles infeasible guesses that occur whenever there is a gap between subsequent nodes in the trajectory. FDDP has a greater globalization strategy compared to classical DDP, allowing us to solve complex maneuvers in few iterations.
+
+## Multi-contact Optimal Control
+
+In this section, we first introduce the multi-contact optimal control problem for multibody systems under physical constraints (Section II-A). We simplify the problem by modeling contacts as holonomic constraints (Section II-B). With this method, we derive tailored analytical and sparse derivatives for fast computation. The calculation of derivatives typically represents the main computation carried out by optimal control solvers.
+
+### II-A Formulation of the optimal control problem
+
+We focus on an efficient formulation of the multi-contact optimal control problem. One can formulate this problem as follows:
+
+where the state $\mathbf{x} = {(\mathbf{q},\mathbf{v})} \in X$ lies on a differential manifold formed by the configuration point $\mathbf{q}$ and its tangent vector $\mathbf{v}$ and is described by a $n_{x}$-tuple, the control $\mathbf{u} = {({\mathbf{τ}},{\mathbf{λ}})} \in {\mathbb{R}}^{n_{u}}$ composed by input torque commands $\mathbf{τ}$ and contact forces $\mathbf{λ}$, $\overset{˙}{\mathbf{x}} \in {T_{\mathbf{x}}X}$ lies in the tangent space of the state manifold and it is described by a $n_{dx}$-tuple, and $\mathcal{X}$, $\mathcal{U}$ represent the state and control admissible sets, respectively, ${\overset{˙}{\mathbf{v}}}_{free}$ is the unconstrained acceleration in generalized coordinates, and $\mathbf{M}$ is the joint-space inertia matrix.
+
+This problem can be seen as a bilevel optimization, where the lower-level optimization uses the Gauss principle of least constraint to describe the physical constraints as described in. State and control admissible sets can belong to the lower-level optimization (e.g., joint limits and force friction constraints) as well as to the upper-level one (e.g., task-related constraints and collision with the environment).
+
+### II-B Contacts as holonomic constraints
+
+To solve this optimization problem in real-time, we need to efficiently handle (a) the high-dimensionality of the search-space and (b) the instabilities, discontinuities, and non-convexity of the system dynamics (lower-level optimization), among others. One way of reducing the complexity of the OC problem is by solving the lower-level optimization analytically, e.g.. Indeed, we have implemented the contact model using holonomic scleronomic constraints on the frame placement (i.e. ${\mathbf{\phi}{(\mathbf{q})}} = \mathbf{0}$ where $\mathbf{J}_{c} = \frac{\partial\mathbf{\phi}}{\partial\mathbf{q}}$ is the contact Jacobian) as:
+
+where $\mathbf{J}_{c}$ is expressed in the local frame, and $\mathbf{a}_{0} \in {\mathbb{R}}^{n_{f}}$ is the desired acceleration in the constraint space. Eq. allows us to express the contact forces in terms of the state and torques, and it has a unique solution if $\mathbf{J}_{c}$ is full-rank. To improve stability in the numerical integration, we define PD gains that are similar in spirit to Baumgarte stabilization:
+
+where $\mathbf{v}_{\lambda{(c)}}$, $\mathbf{a}_{\lambda{(c)}}$ are the spatial velocity and acceleration at the parent body of the contact $\lambda{(c)}$, respectively, $\alpha$ and $\beta$ are the stabilization gains, and ${{}_{}^{}{}_{\lambda{(c)}}^{ref}} \ominus^{o}M_{\lambda{(c)}}$ is the ${\mathbb{S}}{\mathbb{E}}{}$ inverse composition between the reference contact placement and the current one.
+
+As Eq. neglects the friction-cone constraints and the joint limits, the dynamics describe an equality constraint and we can use an unconstrained DDP solver. Nonetheless, inequality constraints can still be included in DDP-like solvers, i.e. using penalization, active-set, or Augmented Lagrangian strategy.
+
+### II-B1 Efficient rollout and derivative computation
+
+We do not need to invert the entire KKT matrix in Eq. during the numerical integration of the dynamics. Indeed, the evolution of the system acceleration and contact can be described as:
+
+and, for instance, we can use the Cholesky decomposition for efficiently computing $\mathbf{M}^{- 1}$ and ${\hat{\mathbf{M}}}^{- 1} = {\mathbf{J}_{c}\mathbf{M}^{- 1}\mathbf{J}_{c}^{\top}}$. Note that $\hat{\mathbf{M}}$ is the operational space inertia matrix.
+
+If we analytically derive Eq. by applying the chain rule, then we can describe the Jacobians of $\mathbf{y}{( \cdot )}$ and $\mathbf{g}{( \cdot )}$ with respect to the derivatives of the Recursive Newton-Euler Algorithm (RNEA) algorithm and kinematics, i.e.:
+
+where $\frac{\partial{\mathbf{τ}}}{\partial\mathbf{x}}$, $\frac{\partial{\mathbf{τ}}}{\partial\mathbf{u}}$ are the RNEA derivatives, and $\frac{\partial\mathbf{a}_{0}}{\partial\mathbf{x}}$, $\frac{\partial\mathbf{a}_{0}}{\partial\mathbf{u}}$ are the kinematics derivatives of the frame acceleration. We use a LDU decomposition to invert the blockwise matrix^33^3Note that this is the KKT matrix. in Eq..
+
+### II-B2 Impulse dynamics
+
+We can similarly describe the impulse dynamics of a multibody system^44^4Transitions from non-contact to contact condition. as:
+
+where $e \in {\lbrack 0,1\rbrack}$ is the restitution coefficient that considers compression / expansion, $\mathbf{\Lambda}$ is the contact impulse and, $\mathbf{v}^{-}$ and $\mathbf{v}^{+}$ are the discontinuous changes in the generalized velocity (i.e., velocity before and after impact, respectively). Perfect inelastic collision produces a contact velocity equal to zero, i.e., $e = 0$. Similarly, we use the Cholesky decomposition to efficiently compute the impulse dynamics and its derivatives.
+
+## Feasibility-prone Differential Dynamic Programming
+
+In this section, we describe our novel solver for multiple-shooting OC called Feasibility-driven Differential Dynamic Programming (FDDP). First, we briefly describe the DDP algorithm (Section III-A). Then, we analyze the numerical behavior of classical multiple-shooting methods (Section III-B). With this in mind, we propose a modification of the forward and the backward passes in Section III-C and III-D, respectively. Finally, we propose a new model for the expected reduction cost and line-search procedure based on the Goldstein condition (Section III-E).
+
+### III-A Differential dynamic programming
+
+DDP belongs to the family of OC and indirect trajectory optimization methods. It locally approximates the optimal flow (i.e., the Value function) around $({\delta\mathbf{x}_{k}},{\delta\mathbf{u}_{k}})$ as
+
+which breaks the OC problem into a sequence of simpler subproblems by using "Bellman's principle of optimality", i.e.:
+
+Note that $l_{k}{( \cdot )}$, $\mathbf{f}_{k}{( \cdot )}$ are the Linear Quadratic (LQ) approximation of the cost and dynamics functions, respectively; $\delta\mathbf{x}_{k}$, $\delta\mathbf{u}_{k}$ reflects the fact that we linearize the problem around a guess $(\mathbf{x}_{k}^{i},\mathbf{u}_{k}^{i})$. This remark is particularly important to understand our FDDP algorithm and to deal with the geometric structure of dynamical systems^55^5The configuration point lies on a manifold $Q$ (e.g., a Lie group) and the system derivatives lies in its tangent space. (e.g. using symplectic integrators ).
+
+The $\mathbf{Q}_{\ast \ast}$ terms represent the LQ approximation of the control Hamiltonian function $\mathbf{H}{( \cdot )}$. The solution of the entire OC problem is computed through the Riccati recursion formed by sequentially solving Eq.. This procedure provides the feed-forward term $\mathbf{k}_{k}$ and feedback gains $\mathbf{K}_{k}$ at each discretization point $k$.
+
+### III-B The role of gaps in multiple-shooting
+
+The multiple-shooting OC formulation introduces intermediate states $\mathbf{x}_{k}$ (i.e., shooting nodes) as additional decision variables to the numerical optimization problem with extra equality constraints that attend to close the gaps^66^6It is also called defects in multiple-shooting literature., i.e.
+
+where ${\overline{\mathbf{f}}}_{k + 1}$ represents the gap in the dynamics, $\mathbf{f}{(\mathbf{x}_{k},\mathbf{u}_{k})}$ is the rollout state at interval $k + 1$, and $\mathbf{x}_{k + 1}$ is the next shooting state (decision variable). For the remainder of this paper, we assume that there is a shooting node for each integration step along the trajectory.
+
+By approaching the direct multiple-shooting formulation as a Sequential Quadratic Programming (SQP) problem, one can describe a single Quadratic Programming (QP) iteration as
+
+where the SQP sequentially builds and solves a single QP problem until it reaches the convergence criteria. The solution of Eq. provides us a search direction. Then, we can find a step length $\alpha$ for updating the next guess $(\mathbf{X}_{i + 1},\mathbf{U}_{i + 1})$ as
+
+where the new guess trajectory $\left( \mathbf{X}_{i + 1},\mathbf{U}_{i + 1} \right)$ does not necessarily close the gaps as we explain below.
+
+### III-B1 KKT problem of the multiple-shooting formulation
+
+To understand the behavior of the gaps, we formulate the KKT problem in Eq. for a single shooting interval $k$ as:
+
+where Eq., are the dual and primal feasibility of the First-order Necessary Condition (FONC) of optimality, respectively. The Jacobians and Hessians of the cost function (LQ approximation) are $\mathbf{l}_{\mathbf{x}}$, $\mathbf{l}_{\mathbf{u}}$, and $\mathbf{l}_{\mathbf{x}\mathbf{x}}$, $\mathbf{l}_{\mathbf{x}\mathbf{u}}$, $\mathbf{l}_{\mathbf{u}\mathbf{u}}$, respectively. The Lagrangian multipliers of the KKT problem are $({\mathbf{λ}}_{k},{\mathbf{λ}}_{k + 1})$.
+
+We obtain the search direction $\delta\mathbf{w}_{k}$ by solving the FONC as follows:
+
+in which we note that a $\alpha$-step closes the gap at $k$ by a factor of ${({1 - \alpha})}{\overline{\mathbf{f}}}_{k}$, while only a full-step $({\alpha = 1})$ can close the gap completely. Below, we explain how to ensure this multiple-shooting behavior in the forward-pass.
+
+### III-C Nonlinear rollout avoids merit function
+
+SQP often requires a *merit* function to compensate the errors that arise from the local approximation of the classical line-search. Defining a suitable merit function is often challenging, which is why we do not follow this approach. Instead, we avoid (a) the linear-prediction error of the dynamics -- i.e. search direction defined by Eq. -- with a nonlinear rollout and (b) the requirement of a merit function.
+
+For a nonlinear rollout, the prediction of the gaps after applying an $\alpha$-step is:
+
+and we maintain the same gap contraction rate of the search direction Eq.. Therefore, we have the following rollout:
+
+where $\mathbf{k}_{k}$ and $\mathbf{K}_{k}$ are the feed-forward term and feedback gains computed during the backward pass, respectively. Note that the forward pass of the classical DDP always closes the gaps, and with $\alpha = 1$, the FDDP forward pass behaves exactly as the classical DDP one.
+
+### III-D Backward pass under an infeasible guess trajectory
+
+Gaps in the dynamics and infeasible warm-starts generate derivatives at different points. The Riccati recursion updates the Value and Hamiltonian functions based on these derivatives. The classical DDP algorithm overcomes this problem by first performing an initial forward pass. However, from a theoretical point, it corresponds to only being able to warm-start the solver with the control trajectory $\mathbf{U}_{0}$, which is not convenient in practice^77^7It is straight-forward to obtain a state trajectory $\mathbf{X}_{0}$ that provides an initial guess for the OC solver, however, establishing a corresponding control trajectory $\mathbf{U}_{0}$ beyond quasi-static maneuvers is a limiting factor..
+
+We adapt the backward pass to accept infeasible guesses as proposed by. It assumes a LQ approximation of the Value function, i.e. the Hessian is constant and the Jacobian varies linearly. We use this fact to map the Jacobians and Hessian of the Value function from the next shooting-node to the current one. Therefore, the Riccati recursions are modified as follows:
+
+where $V_{\mathbf{x}_{k + 1}}^{+} = {V_{\mathbf{x}_{k + 1}} + {V_{{\mathbf{x}\mathbf{x}}_{k + 1}}{\overline{\mathbf{f}}}_{k + 1}}}$ is the Jacobian of the Value function after the deflection produced by the gap ${\overline{\mathbf{f}}}_{k + 1}$, and the Hessian of the Value function remains unchanged.
+
+### III-E Accepting a step
+
+The expectation of the total cost reduction proposed by does not consider the deflection introduced by the gaps. This is a critical point to evaluate the success of a trial step during the numerical optimization. From our line-search procedure, we know that the expected reduction on the cost has the form:
+
+where, by closing the gaps as predicted in Eq. in the linear rollout, we obtain:
+
+Note that if all gaps are closed, then this expectation model matches the one reported in.
+
+We use the Goldstein condition to check for the trial step, instead of the Armijo condition typically used in classical DDP algorithms, e.g.,. The reason is due to the fact that $\DeltaJ$ might be an ascent direction, for instance, during the infeasible iterations. Therefore, FDDP accepts the step if the cost reduction is:
+
+where $b_{1}$, $b_{2}$ are adjustable parameters, we used in this paper $b_{1} = 0.1$ and $b_{2} = 2$. This critical mathematical aspect has not been considered in.
+
+## Results
+
+In this section, we show the capabilities of our multi-contact optimal control framework. We first compute various legged gaits for both quadruped and biped robots (Section IV-A). As our formulation is simple and does not depend on a good initial guess, it can be used easily with different legged robots. Next, we analyze the performance of the FDDP with the generation of highly-dynamic maneuvers such as jumps and front-flips. These motions are computed within a few iterations and milliseconds as reported. We have deliberately ignored friction-cone constraints and torque limits for the sake of evaluating the FDDP, however, it is possible to include those inequality constraints through quadratic penalization as shown in the cover clip of accompanying video. The accompanying video^88^8[https://youtu.be/wHy8YAHwj-M](https://youtu.be/wHy8YAHwj-M). highlights all different motions reported in this section.
+
+### IV-A Various legged gaits
+
+We computed different gaits --- walking, trotting, pacing, and bounding --- with our FDDP algorithm in the order of milliseconds. All these gaits are a direct outcome of our algorithm given a predefined sequence of contacts and step timings. These motions are computed in around 12 iterations. We used the same weight values and cost functions for all the quadrupedal gaits, and similar weight values for the bipedal walking.
+
+The cost function is composed of the Center of Mass (CoM) and the foot placement tracking costs together with regularization terms for the state and control. We used piecewise-linear functions to describe the reference trajectory for the swing foot. Additionally, we strongly penalize footstep deviation from the reference placement. We warm-start our solver using a linear interpolation between the nominal body postures of a sequence of contact configurations. This provides us a set of body postures together with the nominal joint postures as state warm-start $\mathbf{X}_{0}$. Then, the control warm-start $\mathbf{U}_{0}$ is obtained by applying the quasi-static assumption^99^9The quasi-static torques are numerically computed through Newton steps using the reference posture as an equilibrium point. along $\mathbf{X}_{0}$.
+
+In each switching phase^1010^10In this work, with "switching phases" we refer to contact gain., we use the impulse dynamics to ensure the contact velocity equals zero, see Eq.. We observed that the use of impulse models improves the algorithm convergence compared to penalizing the contact velocity. We used a weighted least-squares function to regularize the state with respect to the nominal robot posture, and quadratic functions for the tracking costs and control regularization.
+
+Figure 2: Gaps contraction, step length, and convergence rates for different motions. (top) Gaps are closed in the first iteration for simpler motions such as biped walking and quadrupedal gaits. Instead, the FDDP solver chooses to keep the gaps open for the early iterations for highly-dynamic maneuvers. Note that we use the L2-norm of the total gaps, i.e., gaps for all the nodes of the trajectory. (bottom) The required iterations increases mainly with the dynamics of the gait and numbers of nodes. For instance, we can see lower rate of improvement in the first nine iterations in the ANYmal (jump-4f) and ICub jumps (jump-2f). In case of the quadrupedal walking, we have very short durations in the four-feet support phases, making it a dynamic walk.
+
+Figure 3: Snapshots of generated highly-dynamic maneuvers in legged robots using the feasibility-prone differential dynamic algorithm. (top) jumping obstacles in a humanoid robot; (middle) front-flip maneuver in a biped robot; (bottom) jumping obstacles in a quadruped robot.
+
+### IV-B Highly-dynamic maneuvers
+
+Our FDDP algorithm is able to compute highly-dynamic maneuvers such as front-flip and jumping in the order of milliseconds (Fig. 3). These motions are often computed in between 12--36 iterations with a naïve and infeasible $\mathbf{X}_{0},\mathbf{U}_{0}$ warm-start. We used the same initialization, weight values and cost functions reported in Section IV-A, with a slightly incremented weight for the state regularization during the impact phases (i.e. $w_{xReg} = 10$). Additionally, and for simplicity, we included a cost that penalizes the body orientation in the ICub jumps. Similarly to other cost functions, we used a quadratic penalization with a weight value of $10^{4}$. Note that a more elaborate cost function could be incorporated: arm motions, angular momentum regulation, etc.
+
+The advantage of our FDDP algorithm is clearly evident in the generation of highly-dynamic maneuvers, where feasible rollouts might produce trajectories that are unstable and far from the solution. The classical DDP has a poor globalization strategy that comes from inappropriate feasible rollouts in the first iterations; it struggles to solve these kind of problems.
+
+### IV-C Runtime, contraction, and convergence
+
+We analyzed the gaps contraction and convergence rates for all the presented motions. To easily compare the results, we normalize the gaps and cost values per each iteration as shown in Fig. 2. We use the L2-norm of the total gaps and plot the applied step-length for the jumping motions (ajump-4f and ajump-2f). These results show that keeping the gaps open is particularly important for highly-dynamic maneuvers such as jumping. Indeed, in the jumping motions, FDDP keeps the gaps open for few iterations. Additionally, we often observed in practice super-linear convergence of the FDDP algorithm after closing the gaps. This is expected since the FDDP forward-pass behaves as the DDP forward pass when the gaps are closed, which is defined by the search direction of a multiple-shooting formulation with only equality constraints (Section III-B1).
+
+Highly-dynamic maneuvers have a lower rate of improvement in the first iterations, cf. Fig. 2 (bottom). The same occurs in the quadrupedal walking case (walk-4f), in which the four-feet support phases have a very short duration (${\Deltat} = 2$ $ms$). Our FDDP algorithm, together with the impact models, shows competitive convergence rates when compared to the reported results in, respectively.
+
+The motions converge within 10 to 34 iterations, with an overall computation time of less than $0.5\ s$. The numerical integration step size is often ${\deltat} = {1 \times 10^{- 2}}$ $s$, with the exception of the biped walking ${\deltat} = {3 \times 10^{- 2}}$ $s$, and the number of nodes are typically between 60 to 115. Therefore, the optimized trajectories have a horizon of between ${0.6\ s}\text{~to~}{3\ s}$.
+
+We also benchmark the computation time for a single iteration using our solver. The number of contacts does not affect the computation time; it scales linearly with respect to the number of nodes. With multi-threading, our efficient implementation of contact dynamics achieves computation rates up to $859.6\ {Hz}$ (jump-4f on i9-9900K, 60 nodes). We parallelize only the computation of the derivatives, and roughly speaking, we reduce the computation time in half using four to eight threads (cf. Fig. 4). To understand the performance of Crocoddyl, we have run 50000 trials, for each of the benchmark motions, on four different Intel PCs with varying levels of parallelization^1111^11*PC1*: i7-6700K @ ${4.00{GHz}} \times 8$ with 32 $GB$ $2133{MHz}$ RAM, *PC2*: i7-7700K @ ${4.20{GHz}} \times 8$ with 16 $GB$ $2666{MHz}$ RAM, *PC3*: i9-9900K @ ${3.60{GHz}} \times 16$ with 64 $GB$ $3000{MHz}$ RAM, and *PC4*: i7-9900XE @ ${3.00{GHz}} \times 36$ with 128 $GB$ $2666{MHz}$ RAM.. We used the optimal number of threads for each PC as identified in Fig. 4. The computation frequency per one iteration is reported in Fig. 5.
+
+Figure 4: Computation time per iteration for different CPUs and level of parallelism. Note that the use of hyper-threading decreases the computation frequency for all tested CPUs.
+
+Figure 5: Computation frequency per iteration for different motions for different PCs. PC1 has specifications typical for on-board computers found on robots, while PC3 uses high-performance CPU and RAM. The reported values use the optimal number of threads as identified in Fig. 4.
+
+## Conclusion
+
+We presented a novel and efficient framework for multi-contact optimal control. The gap contraction of FDDP is equivalent to direct multiple-shooting formulations with only equality constraints (i.e. the Newton method applied to the KKT conditions). However, and in contrast to classical multiple-shooting, FDDP does not add extra decision variables which often increases the computation time per iteration due to factorization; it has cubic complexity in matrix dimension. FDDP also improves the poor globalization strategy of classical DDP methods. This allows us to solve highly-dynamic maneuvers such as jumping and front-flip in the order of milliseconds. Thanks to our efficient method for computing the contact dynamics and their derivatives, we can solve the optimal control problem at high frequencies. Finally, we demonstrated the benefits of using impact models for contact gain phases. Our core idea about feasibility could incorporate inequality constraints in the form of penalization terms. Future work will focus on feasibility under inequality constraints such as torque limits, and friction cone. Those inequalities constraints can be handled using interior-point or Augmented Lagrangian methods.

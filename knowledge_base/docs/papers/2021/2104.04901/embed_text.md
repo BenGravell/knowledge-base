@@ -1,0 +1,361 @@
+## Introduction
+
+The techniques in conventional optimal control theory often require an explicit dynamical model. Such a model-based idea is relatively easy to provide theoretical guarantees but is usually sensitive to modeling inaccuracy. Policy optimization (PO) methods, as an end-to-end approach, directly search for an optimal control policy to minimize a performance metric of interest and has advantages in scenarios where the dynamical model is complex and difficult to identify. In fact, it has been proved to be an essential approach for applications of reinforcement learning (RL), e.g., robotic in-hand manipulation.
+
+However, there are only a few theoretical guarantees on PO methods as they often involve challenging non-convex optimization problems. To study their convergence and sample complexities, there has recently been a resurgent interest in PO methods for classical control problems. For example, the seminal work studies the well-known linear quadratic regulator (LQR) problem via PO methods. Though an optimal policy can be simply parameterized by a gain matrix, the quadratic cost is non-convex in the gain matrix space. A major contribution of shows that the cost function is globally gradient dominated (aka Polyak-Lojasiewicz condition ) with respect to (w.r.t.) the policy gain, which is indispensable to prove the global convergence of their PO methods.
+
+Since the LQR problem only focuses on the quadratic regulation performance, the closed-loop system may be largely jeopardized by low-probability yet significant events, which is not allowed for safety-critical applications. To remedy it, risk-aware controllers have become natural choices. In, a finite-horizon LQR problem with a variance-like constraint was first proposed, which is then extended to the infinite-horizon version in our previous work. While both are solved via the model-based dynamic programming (DP), this paper studies the risk-constrained LQR (RC-LQR) problem of under the PO framework in both model-based and sample-based settings. In fact, various constrained LQ problems have also been studied via PO methods, e.g., the LEQG and distributed LQG.
+
+In sharp contrast to those PO works, the non-convex variance-like constraint results in a fundamentally different optimization landscape. In particular, we lack the global gradient dominance property. Thus, a natural question is whether there still exists a good PO method that yields a globally optimal policy for the infinite-horizon RC-LQR problem. We provide a positive answer in this paper. As the finite-horizon version, an optimal policy has also been shown in to have an affine structure in the form of ${u^{\ast}{(x)}} = {{- {K^{\ast}x}} + l^{\ast}}$ with a gain matrix $K^{\ast}$ and a vector $l^{\ast}$. We take this as a starting point, and propose here a novel primal-dual method where the primal and dual iterations alternatively compute an optimal policy-multiplier pair.
+
+Even though the primal-dual method is conceptually simple, it is challenging to establish theoretical guarantees since (a) the optimization landscape of the Lagrangian function is yet unclear (in fact, we only obtain that the Lagrangian under a fixed multiplier is locally gradient dominated, meaning that there may exist multiple optimal policies for the Lagrangian); (b) the strong duality does not trivially hold in a non-convex constrained optimization problem (note that the strong duality is the key to primal-dual methods and is usually established for convex problems ); and (c) exact gradients of both the Lagrangian and the dual function are unavailable. Our main contribution here lies in satisfactorily addressing the above issues, and further showing that the Lagrangian is also coercive with locally Lipschitz gradient, which along with local gradient dominance establishes the global convergence of our primal-dual method.
+
+Clearly, the RC-LQR can be regarded as a special case of the long-studied constrained Markov decision problems (CMDPs). Strong duality for CMDPs has been proved, but only if the state-action space is finite or the cost is uniformly bounded, neither of which holds in the RC-LQR of this paper. To the best of our knowledge, we are the first to formally prove the strong duality for such a class of continuous CMDPs with quadratic costs.
+
+Even though a similar policy gradient primal-dual framework has been adopted to solve continuous CMDPs in, none of them can achieve global convergence. For example, the primal-dual methods in have only been shown to converge to a neighborhood of the global optimum and can even lead to constraint violations. Even though it has been resolved in, their optimization landscape lends them resort to function approximations for optimal policies and thus can only achieve local convergence. In comparison, an optimal policy of our RC-LQR problem has an exact affine structure in the state feedback. While for finite CMDPs, the primal-dual methods are relatively easy and can ensure the convergence to a globally optimal policy. It is worth mentioning that there are also other PO-based works that do not follow a primal-dual framework, e.g., they leverage the interior-point method and trust region method to directly solve the constrained problem. Again, they still lack provable global convergence.
+
+The remainder of this paper is organized as follows. In Section II, we formulate the infinite-horizon RC-LQR problem. In Section III, we approach it by proposing policy gradient primal-dual methods and recognizing the local gradient dominance property, based on which we prove the strong duality. In Section IV and Section V, we propose primal-dual methods with convergence guarantees in model-based and sample-based settings, respectively. In Section VI, we conduct simulations to validate our theoretical results. Concluding remarks of Section VII and five appendices complete the paper.
+
+## Problem Formulation
+
+Consider a discrete-time linear time-invariant stochastic system
+
+where $x_{t} \in {\mathbb{R}}^{n}$ and $u_{t} \in {\mathbb{R}}^{m}$ are the state and control vectors, and $\{ w_{t}\}$ is an independently and identically distributed noise sequence.
+
+The infinite-horizon LQR problem aims to find a sequence of control policies $\{\pi_{t}\}$ to minimize a time-average cost, i.e.,
+
+where $h_{t} = {\{ x_{0},u_{0},\cdots,x_{t - 1},u_{t - 1}\}}$ is the system history trajectory. The expectation is taken over the statistics of the noise sequence $\{ w_{t}\}$. Throughout this paper, we make the following standard assumption.
+
+### Assumption 1
+
+$Q$ is positive semi-definite and $R$ is positive definite. The pair $(A,B)$ is controllable and $(A,Q^{1/2})$ is observable.
+
+Under Assumption 1, solving yields a unique optimal policy ${\pi_{t}^{\ast}{(x_{t},h_{t})}} = {- {Kx_{t}}}$ if the sequence $\{ w_{t}\}$ has zero mean. Clearly, the LQR is risk-neutral as it only minimizes the quadratic cost, and the state may be substantially influenced by extreme noises, especially if $w_{t}$ has a heavy-tailed distribution. To address it, the finite-horizon RC-LQR problem has been proposed in, which has been extended to the infinite-horizon case in our recent work, which has the following form
+
+where $\rho > 0$ is a user-defined constant to reflect our risk tolerance and $w_{t}$ has a finite 4th-order moment for tractability.
+
+Different from and, however, in this paper we re-solve the RC-LQR problem via policy optimization (PO) methods. Following the notations of, let the mean and covariance of stationary noise $\{ w_{t}\}$ be given by $\overline{w} = {{\mathbb{E}}{\lbrack w_{t}\rbrack}}$, $W = {{\mathbb{E}}{\lbrack{{({w_{t} - \overline{w}})}{({w_{t} - \overline{w}})}^{\top}}\rbrack}} > 0$. Define
+
+By \[26, Theorem 1\], an optimal policy of has a time-invariant affine structure, i.e., ${\pi_{t}^{\ast}{(x_{t},h_{t})}} = {{- {K^{\ast}x_{t}}} + l^{\ast}}$, which also stabilizes the system in the mean square sense. Thus, there is no loss of optimality to solve by focusing on the parameterized policies in the form of ${u{(x)}} = {{- {Kx}} + l}$, leading to the following optimization problem
+
+with $\overline{\rho} = {{\rho - m_{4}} + {4{{tr}{\{{({WQ})}^{2}\}}}}}$.
+
+The PO method for the risk-neutral LQR in is shown to be globally convergent by random search and policy gradient methods. However, the non-convex constraint in renders our problem much more involved and we resort to the duality theory to establish global convergence.
+
+## Primal-dual Methods for the Risk-constrained LQR
+
+In this section, we solve the RC-LQR problem via the primal-dual method. We first show that its Lagrangian function is coercive and locally gradient dominated. Then, we establish strong duality.
+
+### III-A Overview of Our Policy Gradient Primal-dual Method
+
+Let $X = {\lbrack K,l\rbrack}$ be the decision vector of and define the set of stabilizing policy by
+
+Let $\mu \geq 0$ denote a Lagrange multiplier of, $Q_{\mu} = {Q + {4\muQWQ}}$ and $S = {2\muQM_{3}}$. Then, the Lagrangian is given as
+
+is a reshaped cost with a non-negative weight $\mu$ to balance the quadratic cost and the risk. Define the dual function as
+
+In the sequel, we refer to as the primal problem and
+
+as its dual problem. Our primal-dual method is alternatively updated as
+
+$X^{k}$ ${\in {\underset{X \in \mathcal{S}}{\text{argmin}}{\mathcal{L}{(X,\mu^{k})}}}},$ (11a)
+$\mu^{k + 1}$ ${= {\lbrack{\mu^{k} + {\zeta^{k} \cdot d^{k}}}\rbrack}_{+}},$ (11b)
+
+where the stepsize $\zeta^{k} > 0$, $d^{k}$ is a subgradient of $D{(\mu)}$ at $\mu^{k}$ and ${\lbrack x\rbrack}_{+} = {\max{\{ 0,x\}}}$ for any $x \in {\mathbb{R}}$.
+
+To achieve its global convergence, the strong duality property between the primal problem and the dual problem is essential. Since is non-convex, it does not trivially hold. Even though the Lagrangian in is the LQR cost with a linear term, its non-convex optimization landscape is yet unclear. Thus, computing the primal update in (11a) is itself challenging. In the rest of this section, we show that: (a) $\mathcal{L}{(X,\mu)}$ is coercive over $\mathcal{S}$ and locally gradient dominated in Section III-B, which is key to establish that a critical point of (11a) is globally optimal; (b) $\mathcal{L}{(X,\mu)}$ and its gradient are locally Lipschitz in Section III-C, which implies a linear convergence rate of gradient methods for solving (11a); (c) The strong duality property indeed holds in Section III-D. Combining these results prove the global convergence of. Note that all the proofs on the properties of the Lagrangian are provided in Appendix A and B.
+
+### III-B Coercivity and Local Gradient Dominance of the Lagrangian
+
+We first derive closed-form expressions for the Lagrangian and its gradient. For any $X \in \mathcal{S}$, the state of the system has a stationary distribution, the mean ${\overline{x}}_{X}$ and covariance $\Sigma_{K}$ of which satisfy
+
+Then, we define the value function under $X$ associated with the reshaped cost $c_{\mu}{(x_{t},u_{t})}$ as
+
+where ${\mathbb{E}}{\lbrack \cdot \rbrack}$ takes expectation under a fixed policy $X \in \mathcal{S}$. Moreover, let $P_{K} \geq 0$ satisfy the following Lyapunov equation
+
+We show that $V_{X}{(x)}$ is quadratic and provide a closed-form of $\mathcal{L}{(X,\mu)}$.
+
+### Lemma 1
+
+For any $X \in \mathcal{S}$, it follows that
+
+where $g_{X}^{\top} = {2{({{- {l^{\top}E_{K}}} + S^{\top} + {{\overline{w}}^{\top}P_{K}{({A - {BK}})}}})}V}$ and $z_{X}$ is a constant irrespective of $x$.
+
+Moreover, the gradient of $\mathcal{L}{(X,\mu)}$ w.r.t. $X$ is explicitly given in the following lemma.
+
+### Lemma 2
+
+For any $X \in \mathcal{S}$, the gradient of $\mathcal{L}{(X,\mu)}$ in $X$ is
+
+where $G_{X} = {{R_{K}l} + {B^{\top}P_{K}\overline{w}} + {\frac{1}{2}B^{\top}g_{X}}}$ and $\Phi_{X}$ is an ergodic matrix
+
+Since $\Phi_{X} > 0$, letting ${{\nabla_{X}\mathcal{L}}{(X,\mu)}} = 0$ yields a unique critical point
+
+with $K_{\mu} = {R_{K_{\mu}}^{- 1}B^{\top}P_{K_{\mu}}A}$ and $l_{\mu} = {- {R_{K_{\mu}}^{- 1}B^{\top}V^{\top}{({{P_{K_{\mu}}\overline{w}} + S})}}}$. Now, we are ready to show two important properties of the Lagrangian.
+
+### Lemma 3 (Coercivity)
+
+Under a fixed $\mu > 0$, $\mathcal{L}{(X,\mu)}$ is coercive in $X$ in the sense that ${{\lim_{X\rightarrow{\partial\mathcal{S}}}{\mathcal{L}{(X,\mu)}}} = {+ \infty}},$ where $\partial\mathcal{S}$ denotes the boundary of $\mathcal{S}$, and has a compact $\alpha$-sublevel set
+
+### Definition 1
+
+For a differentiable function ${f{(x)}}:{{\mathbb{R}}^{n}\rightarrow{\mathbb{R}}}$ with a finite global minimum $f^{\ast}$, it is gradient dominated over a set $\mathcal{X} \subseteq {\text{dom}{(f)}}$ if
+
+If $\mathcal{X} = {\text{dom}{(f)}}$, it reduces to the Polyak-Lojasiewicz condition which is key to the global convergence of. In this paper, we can only show that holds for some proper subset of $\text{dom}{(f)}$, and for distinction refer to them as the global and local gradient dominance, respectively.
+
+For a given policy $X \in \mathcal{S}$, define a truncated value function
+
+and an advantage function ${A_{X}^{T}{(x,u)}} = {{{{c_{\mu}{(x,u)}} - {\mathcal{L}{(X,\mu)}}} + {{\mathbb{E}}{\lbrack{{\left. {V_{X}^{T}{(x_{t + 1})}} \middle| x_{t} \right. = x},{u_{t} = u}}\rbrack}}} - {V_{X}^{T}{(x)}}}$. Then, the Lagrangian difference between the two stabilizing policies can be described by the advantage function.
+
+### Lemma 4
+
+Let $\{ x_{t}^{\prime}\}$ and $\{ u_{t}^{\prime}\}$ be sequences generated by the stabilizing policy $X^{\prime} \in \mathcal{S}$. For any $X \in \mathcal{S}$, it follows that
+
+Lemma 4 is consistent with Lemma 10 in, though we focus on the ergodic cost here.
+
+### Lemma 5
+
+For any $X \in \mathcal{S}$, it holds that
+
+where ${\nabla_{X}\mathcal{L}} = {{\nabla_{X}\mathcal{L}}{(X,\mu)}}$ is given in, $\Phi^{\ast}$ is the ergodic matrix under $X^{\ast}{(\mu)}$ of, $\underset{¯}{\sigma}{( \cdot )}$ returns the minimum eigenvalue of a positive definite matrix, and ${\mathcal{L}^{\ast}{(\mu)}} = {{\min_{X \in S}\mathcal{L}}{(X,\mu)}}$.
+
+Since ${\lim_{l\rightarrow\infty}{\underset{¯}{\sigma}{(\Phi_{X})}}} = 0$ (cf. and ), the coefficient on the right hand side of is unbounded, in contrast to the case of the LQR, where it is a finite constant, i.e., their quadratic cost is globally gradient dominated. The good news here is that it is also finite over the $\alpha$-sublevel set $\mathcal{S}_{\alpha}$ in (18 ‣ III-B Coercivity and Local Gradient Dominance of the Lagrangian ‣ III Primal-dual Methods for the Risk-constrained LQR ‣ Global Convergence of Policy Gradient Primal-dual Methods for Risk-constrained LQRs Research of the first two authors was supported by National Natural Science Foundation of China under Grant no. 62033006. Research of the third author was supported by the ONR MURI Grant N00014-16-1-2710. F. Zhao and K. You are with the Department of Automation and BNRist, Tsinghua University, Beijing 100084, China. e-mail: zhaofr18@mails.tsinghua.edu.cn, youky@tsinghua.edu.cn. Tamer Başar is with the Coordinated Science Laboratory, University of Illinois at Urbana-Champaign, Urbana, IL 61801 USA. e-mail: basar1@illinois.edu.")), as established below.
+
+### Lemma 6 (Local gradient dominance)
+
+For any $\mu > 0$, $\mathcal{L}{(X,\mu)}$ is gradient dominated over its $\alpha$-sublevel set, i.e.,
+
+where $\lambda_{\alpha} = {{\|\Phi^{\ast}\|}/{({{4\underset{¯}{\sigma}{(R)}} \cdot \sigma_{\alpha}^{2}})}} > 0$ is a constant over $\mathcal{S}_{\alpha}$ in (18 ‣ III-B Coercivity and Local Gradient Dominance of the Lagrangian ‣ III Primal-dual Methods for the Risk-constrained LQR ‣ Global Convergence of Policy Gradient Primal-dual Methods for Risk-constrained LQRs Research of the first two authors was supported by National Natural Science Foundation of China under Grant no. 62033006. Research of the third author was supported by the ONR MURI Grant N00014-16-1-2710. F. Zhao and K. You are with the Department of Automation and BNRist, Tsinghua University, Beijing 100084, China. e-mail: zhaofr18@mails.tsinghua.edu.cn, youky@tsinghua.edu.cn. Tamer Başar is with the Coordinated Science Laboratory, University of Illinois at Urbana-Champaign, Urbana, IL 61801 USA. e-mail: basar1@illinois.edu.")) and $\sigma_{\alpha} = {{\min_{X \in \mathcal{S}_{\alpha}}\underset{¯}{\sigma}}{(\Phi_{X})}} > 0$.
+
+### Proof
+
+Since $\Phi_{X} > 0$ is continuous in $X$, then $\underset{¯}{\sigma}{(\Phi_{X})}$ can be lower bounded by a positive constant over the compact set $\mathcal{S}_{\alpha}$. The result then follows. ∎
+
+Since Lemma 6 ‣ III-B Coercivity and Local Gradient Dominance of the Lagrangian ‣ III Primal-dual Methods for the Risk-constrained LQR ‣ Global Convergence of Policy Gradient Primal-dual Methods for Risk-constrained LQRs Research of the first two authors was supported by National Natural Science Foundation of China under Grant no. 62033006. Research of the third author was supported by the ONR MURI Grant N00014-16-1-2710. F. Zhao and K. You are with the Department of Automation and BNRist, Tsinghua University, Beijing 100084, China. e-mail: zhaofr18@mails.tsinghua.edu.cn, youky@tsinghua.edu.cn. Tamer Başar is with the Coordinated Science Laboratory, University of Illinois at Urbana-Champaign, Urbana, IL 61801 USA. e-mail: basar1@illinois.edu.") holds for any $\alpha > 0$, joint use of coercivity is sufficient for finding a global minimizer of (11a).
+
+### Theorem 1
+
+For any $\mu > 0$, the critical point $X^{\ast}{(\mu)}$ in is the unique global minimizer of $\mathcal{L}{(X,\mu)}$.
+
+### Proof
+
+It is straightforward from and Lemma 6 ‣ III-B Coercivity and Local Gradient Dominance of the Lagrangian ‣ III Primal-dual Methods for the Risk-constrained LQR ‣ Global Convergence of Policy Gradient Primal-dual Methods for Risk-constrained LQRs Research of the first two authors was supported by National Natural Science Foundation of China under Grant no. 62033006. Research of the third author was supported by the ONR MURI Grant N00014-16-1-2710. F. Zhao and K. You are with the Department of Automation and BNRist, Tsinghua University, Beijing 100084, China. e-mail: zhaofr18@mails.tsinghua.edu.cn, youky@tsinghua.edu.cn. Tamer Başar is with the Coordinated Science Laboratory, University of Illinois at Urbana-Champaign, Urbana, IL 61801 USA. e-mail: basar1@illinois.edu."). ∎
+
+### III-C Locally Lipschitz Gradient of the Lagrangian
+
+For a fixed $\mu$, we show in this subsection that both $\mathcal{L}{(X,\mu)}$ and its gradient are locally Lipschitz continuous.
+
+### Lemma 7
+
+For any pair of stabilizing policies $X$ and $X^{\prime}$, the gap of their Lagrangians is given as
+
+where ${\overline{x}}^{\prime}$ denotes ${\overline{x}}_{X^{\prime}}$ in for notational simplicity.
+
+### Lemma 8 (Locally Lipschitz Lagrangian and gradient)
+
+For any $X \in \mathcal{S}$, there exist positive scalars $(\xi_{X},\beta_{X},\gamma_{X})$ such that for any $X^{\prime} \in \mathcal{S}$ and ${\|{X^{\prime} - X}\|} \leq \gamma_{X}$, it holds
+
+The scalars $(\xi_{X},\beta_{X},\gamma_{X})$ are polynomials of $\| A\|$, $\| B\|$, $\underset{¯}{\sigma}{(Q_{\mu})}$, $\underset{¯}{\sigma}{(R)}$, and are uniformly bounded over a compact set.
+
+Comparing with, i.e., letting $\mu$ be fixed and ${M_{3} = 0},{\overline{w} = 0}$, we have $S = 0$ and $l = 0$ in and the Lagrangian reduces to the standard LQR cost. Then, Section III-B and III-C recover the results in \[6, Section 3\].
+
+### III-D Strong Duality
+
+In this subsection, we show that the strong duality between the primal problem and dual problem holds.
+
+### Lemma 9
+
+Both the policy $X^{\ast}{(\mu)}$ in and the constraint function $J_{c}{({X^{\ast}{(\mu)}})}$ are continuous over $\mu \in {\lbrack 0,\infty)}$.
+
+### Proof
+
+For $\mu \geq 0$ and $X \in \mathcal{S}$, it follows from that the Lyapunov equation yields a unique $P_{K} > 0$, which jointly with implies that $X^{\ast}{(\mu)}$ is continuous in $\mu \geq 0$. The continuity of $J_{c}{({X^{\ast}{(\mu)}})}$ can be established by using the arguments in \[10, Lemma 3.6\]. ∎
+
+Note that the continuity in Lemma 9 is a strong result and usually lacks in the primal-dual framework. Particularly, it holds only if $X^{\ast}{(\mu)}$ in is unique, which is not the case for a general non-convex optimization problem. We now formally prove the strong duality result under Slater's condition, which essentially follows from \[25, Theorem 3\] and \[27, Chapter 6\].
+
+### Assumption 2 (Slater's condition)
+
+There exists a policy $\overset{\sim}{X} \in \mathcal{S}$ such that ${J_{c}{(\overset{\sim}{X})}} < \overline{\rho}$.
+
+### Theorem 2 (Strong duality)
+
+Under Assumption 2 ‣ III-D Strong Duality ‣ III Primal-dual Methods for the Risk-constrained LQR ‣ Global Convergence of Policy Gradient Primal-dual Methods for Risk-constrained LQRs Research of the first two authors was supported by National Natural Science Foundation of China under Grant no. 62033006. Research of the third author was supported by the ONR MURI Grant N00014-16-1-2710. F. Zhao and K. You are with the Department of Automation and BNRist, Tsinghua University, Beijing 100084, China. e-mail: zhaofr18@mails.tsinghua.edu.cn, youky@tsinghua.edu.cn. Tamer Başar is with the Coordinated Science Laboratory, University of Illinois at Urbana-Champaign, Urbana, IL 61801 USA. e-mail: basar1@illinois.edu."), there is no duality gap between the primal problem and the dual problem.
+
+### Proof
+
+where ${X^{\ast}{(\mu)}} \in {\text{argmin}_{X \in \mathcal{S}}{\mathcal{L}{(X,\mu)}}}$. By \[27, Proposition 6.1.5\], it is sufficient to show that (a) $\mu^{\ast}$ is finite, and (b) the policy-multiplier pair $(X^{\ast},\mu^{\ast})$ with $X^{\ast} = {X^{\ast}{(\mu^{\ast})}}$ satisfies the following optimality conditions
+
+\(a\) By Assumption 2 ‣ III-D Strong Duality ‣ III Primal-dual Methods for the Risk-constrained LQR ‣ Global Convergence of Policy Gradient Primal-dual Methods for Risk-constrained LQRs Research of the first two authors was supported by National Natural Science Foundation of China under Grant no. 62033006. Research of the third author was supported by the ONR MURI Grant N00014-16-1-2710. F. Zhao and K. You are with the Department of Automation and BNRist, Tsinghua University, Beijing 100084, China. e-mail: zhaofr18@mails.tsinghua.edu.cn, youky@tsinghua.edu.cn. Tamer Başar is with the Coordinated Science Laboratory, University of Illinois at Urbana-Champaign, Urbana, IL 61801 USA. e-mail: basar1@illinois.edu."), there exists a constant $a > 0$ such that ${{J_{c}{(\overset{\sim}{X})}} + a} \leq \overline{\rho}$. We prove by contradiction and assume that for all $\mu \geq 0$, ${J_{c}{({X^{\ast}{(\mu)}})}} > \overline{\rho}$. Then,
+
+Letting $\mu\rightarrow\infty$ implies that ${J{(\overset{\sim}{X})}} > \infty$, which contradicts Slater's condition that $\overset{\sim}{X} \in \mathcal{S}$. Thus, $\mu^{\ast}$ in is finite.
+
+\(b\) Clearly, we only need to verify that ${\mu^{\ast}{({{J_{c}{(X^{\ast})}} - \overline{\rho}})}} = 0$. If $\mu^{\ast} = 0$, then it trivially holds. If $\mu^{\ast} > 0$, it follows from that ${J_{c}{({X^{\ast}{}})}} > \overline{\rho}$. Since $\mu^{\ast}$ is finite, there must exist a $\mu^{\prime} > 0$ such that ${J_{c}{({X^{\ast}{(\mu^{\prime})}})}} \leq \overline{\rho}$. The continuity of $J_{c}{({X^{\ast}{(\mu)}})}$ in Lemma 9 implies that ${J_{c}{(X^{\ast})}} = \overline{\rho}$. ∎
+
+## Policy Gradient Primal-dual Algorithm for the Model-based Setting
+
+In the model-based setting, we assume that all the parameters in is known and propose three gradient-based methods with linear convergence to solve (11a). Then, we develop a primal-dual method in the form of with global convergence to solve.
+
+### IV-A Policy Gradient Methods for Solving (11a)
+
+To solve (11a), we consider three widely-used policy gradient methods. Let $X^{\prime}$ be the one-step updated policy and $\eta$ be the stepsize. The update rules are given by
+
+where $\nabla_{X}\mathcal{L}$ and $\Phi_{X}$ can be computed via and, respectively. The NPG update is related to the gradient over a Riemannian manifold, while the GN update is one type of quasi-Newton update.
+
+For simplicity, we follow to assume the access of an initial stabilizing policy $X^{} \in \mathcal{S}$. Note that this can be relaxed via the PO methods; see e.g.,.
+
+The key to the linear convergence of (23 ‣ IV Policy Gradient Primal-dual Algorithm for the Model-based Setting ‣ Global Convergence of Policy Gradient Primal-dual Methods for Risk-constrained LQRs Research of the first two authors was supported by National Natural Science Foundation of China under Grant no. 62033006. Research of the third author was supported by the ONR MURI Grant N00014-16-1-2710. F. Zhao and K. You are with the Department of Automation and BNRist, Tsinghua University, Beijing 100084, China. e-mail: zhaofr18@mails.tsinghua.edu.cn, youky@tsinghua.edu.cn. Tamer Başar is with the Coordinated Science Laboratory, University of Illinois at Urbana-Champaign, Urbana, IL 61801 USA. e-mail: basar1@illinois.edu.")) is to find an appropriate stepsize such that (23 ‣ IV Policy Gradient Primal-dual Algorithm for the Model-based Setting ‣ Global Convergence of Policy Gradient Primal-dual Methods for Risk-constrained LQRs Research of the first two authors was supported by National Natural Science Foundation of China under Grant no. 62033006. Research of the third author was supported by the ONR MURI Grant N00014-16-1-2710. F. Zhao and K. You are with the Department of Automation and BNRist, Tsinghua University, Beijing 100084, China. e-mail: zhaofr18@mails.tsinghua.edu.cn, youky@tsinghua.edu.cn. Tamer Başar is with the Coordinated Science Laboratory, University of Illinois at Urbana-Champaign, Urbana, IL 61801 USA. e-mail: basar1@illinois.edu.")) yields a stabilizing $X^{\prime}$ and decreases the Lagrangian per iteration, which is formally stated below. Note that the proof is given in Appendix C.
+
+### Theorem 3
+
+Define the compact sublevel set
+
+and $\sigma_{0} = {{\min_{X \in \mathcal{S}_{0}}\underset{¯}{\sigma}}{(\Phi_{X})}}$. If $X \in \mathcal{S}_{0}$ and $\eta$ in (23 ‣ IV Policy Gradient Primal-dual Algorithm for the Model-based Setting ‣ Global Convergence of Policy Gradient Primal-dual Methods for Risk-constrained LQRs Research of the first two authors was supported by National Natural Science Foundation of China under Grant no. 62033006. Research of the third author was supported by the ONR MURI Grant N00014-16-1-2710. F. Zhao and K. You are with the Department of Automation and BNRist, Tsinghua University, Beijing 100084, China. e-mail: zhaofr18@mails.tsinghua.edu.cn, youky@tsinghua.edu.cn. Tamer Başar is with the Coordinated Science Laboratory, University of Illinois at Urbana-Champaign, Urbana, IL 61801 USA. e-mail: basar1@illinois.edu.")) is appropriately selected, then there exists a finite $\beta \in {}$ such that
+
+Moreover, (a) $0 < \eta \leq {1/2}$ and $\beta = {{2\eta\sigma_{0}}/{\|\Phi^{\ast}\|}}$ for the GN update; (b) $0 < \eta \leq {1/{({2{\| R_{K_{0}}\|}})}}$ and $\beta = {{2\eta\sigma_{0}\underset{¯}{\sigma}{(R)}}/{\|\Phi^{\ast}\|}}$ for the NPG update; and (c) $\eta$ is a polynomial in problem parameters and $\beta = {{2\eta\sigma_{0}^{2}\underset{¯}{\sigma}{(R)}}/{\|\Phi^{\ast}\|}}$ for the PG update.
+
+TABLE I: Comparison of three gradient methods (I-best, III-worst).
+
+We provide a comparison of the three methods of (23 ‣ IV Policy Gradient Primal-dual Algorithm for the Model-based Setting ‣ Global Convergence of Policy Gradient Primal-dual Methods for Risk-constrained LQRs Research of the first two authors was supported by National Natural Science Foundation of China under Grant no. 62033006. Research of the third author was supported by the ONR MURI Grant N00014-16-1-2710. F. Zhao and K. You are with the Department of Automation and BNRist, Tsinghua University, Beijing 100084, China. e-mail: zhaofr18@mails.tsinghua.edu.cn, youky@tsinghua.edu.cn. Tamer Başar is with the Coordinated Science Laboratory, University of Illinois at Urbana-Champaign, Urbana, IL 61801 USA. e-mail: basar1@illinois.edu.")) in Table I ‣ IV Policy Gradient Primal-dual Algorithm for the Model-based Setting ‣ Global Convergence of Policy Gradient Primal-dual Methods for Risk-constrained LQRs Research of the first two authors was supported by National Natural Science Foundation of China under Grant no. 62033006. Research of the third author was supported by the ONR MURI Grant N00014-16-1-2710. F. Zhao and K. You are with the Department of Automation and BNRist, Tsinghua University, Beijing 100084, China. e-mail: zhaofr18@mails.tsinghua.edu.cn, youky@tsinghua.edu.cn. Tamer Başar is with the Coordinated Science Laboratory, University of Illinois at Urbana-Champaign, Urbana, IL 61801 USA. e-mail: basar1@illinois.edu."). Since the NPG and GN updates use more information, e.g., $\Phi_{X}$ and $R_{K}$, they tend to use less conservative stepsizes and achieve better convergence rates. Even though the PG update is given in the simplest form in (23 ‣ IV Policy Gradient Primal-dual Algorithm for the Model-based Setting ‣ Global Convergence of Policy Gradient Primal-dual Methods for Risk-constrained LQRs Research of the first two authors was supported by National Natural Science Foundation of China under Grant no. 62033006. Research of the third author was supported by the ONR MURI Grant N00014-16-1-2710. F. Zhao and K. You are with the Department of Automation and BNRist, Tsinghua University, Beijing 100084, China. e-mail: zhaofr18@mails.tsinghua.edu.cn, youky@tsinghua.edu.cn. Tamer Başar is with the Coordinated Science Laboratory, University of Illinois at Urbana-Champaign, Urbana, IL 61801 USA. e-mail: basar1@illinois.edu.")), the updates of $K$ and $l$ in GN and NPG can be decoupled, e.g., the NPG is rewritten as
+
+which can reduce the computational complexity per update. Nonetheless, their computational complexities are essentially the same as $\mathcal{O}{(n^{3})}$. Interestingly, the GN update with stepsize $\eta = {1/2}$ is equivalent to the policy iteration and achieves a superlinear convergence rate which is also confirmed via simulation in Section VI.
+
+### IV-B A Model-based Primal-dual Algorithm
+
+1:A randomly initialized multiplier μ1 ≥ 0, and a set of stepsizes {ζk}.
+3: Solve Xk = argminX ∈ 𝒮 ℒ (X,μk) via.
+4: Compute a subgradient dk by and Lemma 10.
+5: Update the multiplier by μk + 1 = [μk + ζk ⋅ dk]+.
+Algorithm 1 The model-based primal-dual algorithm for the risk-constrained LQR
+
+By duality theory, a subgradient in (11b) is
+
+where $X^{k}$ is given in (11a) and $J_{c}{(X^{k})}$ is computed by the following lemma.
+
+### Lemma 10
+
+For a stabilizing policy $X \in \mathcal{S}$, we have
+
+where $P_{c} > 0$ is a unique solution of the Lyapunov equation
+
+### Proof
+
+The proof is similar to that of Lemma 1. ∎
+
+Our model-based primal-dual method is summarized in Algorithm 1. In general, the primal iteration will not converge to a feasible solution unless the subdifferential of the dual function is a singleton. Fortunately, Theorem 1 implies that $X^{k}$ is the unique minimizer of $\mathcal{L}{(X,\mu^{k})}$. Since $X^{k}$ is always able to stabilize the system, the subgradient (actually gradient) $d^{k}$ and $\mu^{k}$ are uniformly bounded. Jointly with the concavity of $D{(\mu)}$, it follows from \[26, Theorem 3\] that Algorithm 1 converges globally.
+
+### Theorem 4
+
+Let ${\overline{\mu}}^{k} = {\frac{1}{k}{\sum_{i = 1}^{k}\mu^{i}}}$ and $\zeta^{k} = {\mathcal{O}{(k^{- {1/2}})}}$. Under Assumption 2 ‣ III-D Strong Duality ‣ III Primal-dual Methods for the Risk-constrained LQR ‣ Global Convergence of Policy Gradient Primal-dual Methods for Risk-constrained LQRs Research of the first two authors was supported by National Natural Science Foundation of China under Grant no. 62033006. Research of the third author was supported by the ONR MURI Grant N00014-16-1-2710. F. Zhao and K. You are with the Department of Automation and BNRist, Tsinghua University, Beijing 100084, China. e-mail: zhaofr18@mails.tsinghua.edu.cn, youky@tsinghua.edu.cn. Tamer Başar is with the Coordinated Science Laboratory, University of Illinois at Urbana-Champaign, Urbana, IL 61801 USA. e-mail: basar1@illinois.edu."), Algorithm 1 yields
+
+where the maximum of the dual function $D^{\ast} = {{\max_{\mu \geq 0}D}{(\mu)}}$ is finite.
+
+### Proof
+
+It is similar to that of \[26, Theorem 3\] and omitted for saving space. ∎
+
+By Lemma 10, a simple bisection method could be adopted to solve $\mu^{\ast}$ in for the model-based setting. However, it is unclear how to adopt it for the sample-based setting as the constraint function can only be randomly evaluated as well.
+
+## Policy Gradient Primal-dual Algorithm for the Sample-based Setting
+
+If $(A,B)$ in is unknown, both ${\nabla_{X}\mathcal{L}}{(X,\mu)}$ in and $d^{k}$ in cannot be computed directly. In the sample-based setting, we estimate them via system trajectories and develop a sampled-based primal-dual algorithm with global convergence.
+
+Specifically, assume that there is an oracle to return noisy values of $\mathcal{L}{(X,\mu)}$ and $J_{c}{(X)}$ viz
+
+where $\{ x_{t}\}$ and $\{ u_{t}\}$ denote the states and control inputs of a sampled trajectory under the policy $X \in \mathcal{S}$. In practice, $T$ is often selected to be finite as the resulted approximation error of decreases exponentially to zero w.r.t. $T$.
+
+### V-A Random Search for Solving (11a)
+
+We adopt the random search of Algorithm 2 ‣ V Policy Gradient Primal-dual Algorithm for the Sample-based Setting ‣ Global Convergence of Policy Gradient Primal-dual Methods for Risk-constrained LQRs Research of the first two authors was supported by National Natural Science Foundation of China under Grant no. 62033006. Research of the third author was supported by the ONR MURI Grant N00014-16-1-2710. F. Zhao and K. You are with the Department of Automation and BNRist, Tsinghua University, Beijing 100084, China. e-mail: zhaofr18@mails.tsinghua.edu.cn, youky@tsinghua.edu.cn. Tamer Başar is with the Coordinated Science Laboratory, University of Illinois at Urbana-Champaign, Urbana, IL 61801 USA. e-mail: basar1@illinois.edu.") to estimate $\nabla_{X}\mathcal{L}$ via the oracle. The smoothing radius $r$ in Step 4 is used to control its estimation error. Motivated by, we shall show that with a large probability, Algorithm 2 ‣ V Policy Gradient Primal-dual Algorithm for the Sample-based Setting ‣ Global Convergence of Policy Gradient Primal-dual Methods for Risk-constrained LQRs Research of the first two authors was supported by National Natural Science Foundation of China under Grant no. 62033006. Research of the third author was supported by the ONR MURI Grant N00014-16-1-2710. F. Zhao and K. You are with the Department of Automation and BNRist, Tsinghua University, Beijing 100084, China. e-mail: zhaofr18@mails.tsinghua.edu.cn, youky@tsinghua.edu.cn. Tamer Başar is with the Coordinated Science Laboratory, University of Illinois at Urbana-Champaign, Urbana, IL 61801 USA. e-mail: basar1@illinois.edu.") converges and $\{ X^{(i)}\}$ remains in the following compact sublevel set
+
+1:An initial policy X ∈ 𝒮, the number of iterations N, a smoothing radius r, the stepsize η, a multiplier μ.
+3: Sample U(i) ∈ ℝm × n uniformly from a unit sphere 𝕊 and let X̂ = X(i) + r U(i).
+4: Obtain a noisy Lagrangian $\hat{\mathcal{L}}{(\hat{X},\mu)}$ from the oracle.
+5: Compute a gradient estimate
+
+$${\hat{\nabla_{X}\mathcal{L}} = {\hat{\mathcal{L}}{(\hat{X},\mu)}\frac{n}{r^{2}}U^{(i)}}}.$$
+
+6: Update the policy by $X^{({i + 1})} = {X^{(i)} - {\eta\hat{\nabla_{X}\mathcal{L}}}}$.
+Algorithm 2 The random search algorithm for (11a)
+
+where $\Delta_{0} = {{\mathcal{L}{(X^{},\mu)}} - {\mathcal{L}^{\ast}{(\mu)}}}$.
+
+Denote ${\beta_{0} = {\sup_{X \in \mathcal{S}_{10}}\beta_{X}}},{{\xi_{0} = {\sup_{X \in \mathcal{S}_{10}}\xi_{X}}},{\gamma_{0} = {\inf_{X \in \mathcal{S}_{10}}\gamma_{X}}}}$, and for notational simplicity, let $\lambda_{0} = \lambda_{\mathcal{S}_{10}}$(cf. ) and $\theta_{0} = {\min{\{{1/{({2\beta_{0}})}},{\gamma_{0}/\xi_{0}}\}}}$. Moreover, we make the following assumption in the rest of this section.
+
+### Assumption 3
+
+The noise sequence $\{ w_{t}\}$ is uniformly bounded, i.e., ${\| w_{t}\|} \leq v$, where $v$ is a positive constant.
+
+both of which are finite under Assumption 3 ‣ V Policy Gradient Primal-dual Algorithm for the Sample-based Setting ‣ Global Convergence of Policy Gradient Primal-dual Methods for Risk-constrained LQRs Research of the first two authors was supported by National Natural Science Foundation of China under Grant no. 62033006. Research of the third author was supported by the ONR MURI Grant N00014-16-1-2710. F. Zhao and K. You are with the Department of Automation and BNRist, Tsinghua University, Beijing 100084, China. e-mail: zhaofr18@mails.tsinghua.edu.cn, youky@tsinghua.edu.cn. Tamer Başar is with the Coordinated Science Laboratory, University of Illinois at Urbana-Champaign, Urbana, IL 61801 USA. e-mail: basar1@illinois.edu.").
+
+### Theorem 5
+
+Suppose that the stepsize $\eta$ and the smoothing radius $r$ are chosen such that
+
+For any error tolerance $\epsilon$ such that ${\epsilon{\log{({{120\Delta_{0}}/\epsilon})}}} < {{10\Delta_{0}}/3}$ and $N \geq {{4\lambda_{0}{\log{({{120\Delta_{0}}/\epsilon})}}}/\eta}$, Algorithm 2 ‣ V Policy Gradient Primal-dual Algorithm for the Sample-based Setting ‣ Global Convergence of Policy Gradient Primal-dual Methods for Risk-constrained LQRs Research of the first two authors was supported by National Natural Science Foundation of China under Grant no. 62033006. Research of the third author was supported by the ONR MURI Grant N00014-16-1-2710. F. Zhao and K. You are with the Department of Automation and BNRist, Tsinghua University, Beijing 100084, China. e-mail: zhaofr18@mails.tsinghua.edu.cn, youky@tsinghua.edu.cn. Tamer Başar is with the Coordinated Science Laboratory, University of Illinois at Urbana-Champaign, Urbana, IL 61801 USA. e-mail: basar1@illinois.edu.") yields that
+
+with a probability greater than $3/4$
+
+The proof is given in Appendix D. In view of, the convergence probability in Theorem 5 ‣ V Policy Gradient Primal-dual Algorithm for the Sample-based Setting ‣ Global Convergence of Policy Gradient Primal-dual Methods for Risk-constrained LQRs Research of the first two authors was supported by National Natural Science Foundation of China under Grant no. 62033006. Research of the third author was supported by the ONR MURI Grant N00014-16-1-2710. F. Zhao and K. You are with the Department of Automation and BNRist, Tsinghua University, Beijing 100084, China. e-mail: zhaofr18@mails.tsinghua.edu.cn, youky@tsinghua.edu.cn. Tamer Başar is with the Coordinated Science Laboratory, University of Illinois at Urbana-Champaign, Urbana, IL 61801 USA. e-mail: basar1@illinois.edu.") can be improved to $1 - \delta$ for any $0 < \delta < 1$ by focusing on ${\mathcal{S}_{\delta} = \left. \{ X \middle| {{{\mathcal{L}{(X,\mu)}} - {\mathcal{L}{(X^{},\mu)}}} \leq {10\delta^{- 1}\Delta_{0}}}\} \right.}.$
+
+1:A multiplier μ1 ≥ 0, and a set of stepsizes {ζk}.
+3: Solve (11a) by Algorithm 2 and obtain X̂k.
+4: Obtain a noisy $\hat{J_{c}}{({\hat{X}}^{k})}$ from the oracle.
+5: Compute a subgradient estimate ${\hat{d}}^{k} = {{\hat{J_{c}}{({\hat{X}}^{k})}} - \overline{\rho}}$.
+6: Update the multiplier by μk + 1 = [μk + ζk ⋅ d̂k]+.
+Algorithm 3 The sample-based primal-dual algorithm for the risk-constrained LQR
+
+### V-B A Sample-based Primal-dual Algorithm
+
+In this subsection, we let ${\hat{X}}^{k} = X^{(N)}$ and assume that (28 ‣ V Policy Gradient Primal-dual Algorithm for the Sample-based Setting ‣ Global Convergence of Policy Gradient Primal-dual Methods for Risk-constrained LQRs Research of the first two authors was supported by National Natural Science Foundation of China under Grant no. 62033006. Research of the third author was supported by the ONR MURI Grant N00014-16-1-2710. F. Zhao and K. You are with the Department of Automation and BNRist, Tsinghua University, Beijing 100084, China. e-mail: zhaofr18@mails.tsinghua.edu.cn, youky@tsinghua.edu.cn. Tamer Başar is with the Coordinated Science Laboratory, University of Illinois at Urbana-Champaign, Urbana, IL 61801 USA. e-mail: basar1@illinois.edu.")) holds for the sake of simplifying our presentation; see also e.g.,. The oracle is adopted to compute a subgradient estimate
+
+with the estimation error resulting from the oracle computation and the gap between ${\hat{X}}^{k}$ and $X^{k}$.
+
+Now, we present our sample-based primal-dual method in Algorithm 3 ‣ V Policy Gradient Primal-dual Algorithm for the Sample-based Setting ‣ Global Convergence of Policy Gradient Primal-dual Methods for Risk-constrained LQRs Research of the first two authors was supported by National Natural Science Foundation of China under Grant no. 62033006. Research of the third author was supported by the ONR MURI Grant N00014-16-1-2710. F. Zhao and K. You are with the Department of Automation and BNRist, Tsinghua University, Beijing 100084, China. e-mail: zhaofr18@mails.tsinghua.edu.cn, youky@tsinghua.edu.cn. Tamer Başar is with the Coordinated Science Laboratory, University of Illinois at Urbana-Champaign, Urbana, IL 61801 USA. e-mail: basar1@illinois.edu."). Due to the use of biased subgradient estimate, we can obtain the global convergence to a value close to $D^{\ast}$.
+
+### Theorem 6
+
+Let ${\overline{\mu}}^{k} = {\frac{1}{k}{\sum_{i = 1}^{k}\mu^{i}}}$ and $\zeta^{k} = {{\text{poly}^{- 1}{(\epsilon,v)}} \cdot k^{- {1/2}}}$ in Algorithm 3 ‣ V Policy Gradient Primal-dual Algorithm for the Sample-based Setting ‣ Global Convergence of Policy Gradient Primal-dual Methods for Risk-constrained LQRs Research of the first two authors was supported by National Natural Science Foundation of China under Grant no. 62033006. Research of the third author was supported by the ONR MURI Grant N00014-16-1-2710. F. Zhao and K. You are with the Department of Automation and BNRist, Tsinghua University, Beijing 100084, China. e-mail: zhaofr18@mails.tsinghua.edu.cn, youky@tsinghua.edu.cn. Tamer Başar is with the Coordinated Science Laboratory, University of Illinois at Urbana-Champaign, Urbana, IL 61801 USA. e-mail: basar1@illinois.edu."), where $\text{poly}{(\epsilon,v)}$ is a polynomial of degree $4$ and given in Appendix E. Under Assumptions 2 ‣ III-D Strong Duality ‣ III Primal-dual Methods for the Risk-constrained LQR ‣ Global Convergence of Policy Gradient Primal-dual Methods for Risk-constrained LQRs Research of the first two authors was supported by National Natural Science Foundation of China under Grant no. 62033006. Research of the third author was supported by the ONR MURI Grant N00014-16-1-2710. F. Zhao and K. You are with the Department of Automation and BNRist, Tsinghua University, Beijing 100084, China. e-mail: zhaofr18@mails.tsinghua.edu.cn, youky@tsinghua.edu.cn. Tamer Başar is with the Coordinated Science Laboratory, University of Illinois at Urbana-Champaign, Urbana, IL 61801 USA. e-mail: basar1@illinois.edu.") and 3 ‣ V Policy Gradient Primal-dual Algorithm for the Sample-based Setting ‣ Global Convergence of Policy Gradient Primal-dual Methods for Risk-constrained LQRs Research of the first two authors was supported by National Natural Science Foundation of China under Grant no. 62033006. Research of the third author was supported by the ONR MURI Grant N00014-16-1-2710. F. Zhao and K. You are with the Department of Automation and BNRist, Tsinghua University, Beijing 100084, China. e-mail: zhaofr18@mails.tsinghua.edu.cn, youky@tsinghua.edu.cn. Tamer Başar is with the Coordinated Science Laboratory, University of Illinois at Urbana-Champaign, Urbana, IL 61801 USA. e-mail: basar1@illinois.edu."), it holds that
+
+## Simulation
+
+In this section, we use simulation to illustrate the effectiveness of our RC-LQR, and the convergence of the policy gradient primal-dual methods in both model-based and sample-based settings.
+
+### VI-A The performance of RC-LQR
+
+We adopt the dynamical model in with
+
+Let ${Q = {\text{diag}{(1,0.1,2,0.2)}\text{and}R} = I_{2}}.$ The noise sequence $\{ w_{t}\}$ is given by ${w_{t} = {\text{clip}{({{Bv_{t}} + e_{t}})}}},$ where $v_{t} = {\lbrack{v_{t,1}v_{t,2}}\rbrack}^{\top}$, $e_{t}$, and clip$( \cdot )$ are chosen as follows. $\{ v_{t}\}$ is an independent sequence and satisfies that (a) $v_{t,1}$ follows a mixed Gaussian distribution of $\mathcal{N}{}$ and $\mathcal{N}{}$ with weights 0.2 and 0.8, respectively; (b) $v_{t,2}$ follows $\mathcal{N}{(0,0.01)}$. $\{ e_{t}\}$ is another Gaussian independent sequence and follows $\mathcal{N}{(0,{0.01 \times I_{4}})}$. The operator $\text{clip}{( \cdot )}$ is used to ensure a uniform bound of $w_{t}$ in Assumption 3 ‣ V Policy Gradient Primal-dual Algorithm for the Sample-based Setting ‣ Global Convergence of Policy Gradient Primal-dual Methods for Risk-constrained LQRs Research of the first two authors was supported by National Natural Science Foundation of China under Grant no. 62033006. Research of the third author was supported by the ONR MURI Grant N00014-16-1-2710. F. Zhao and K. You are with the Department of Automation and BNRist, Tsinghua University, Beijing 100084, China. e-mail: zhaofr18@mails.tsinghua.edu.cn, youky@tsinghua.edu.cn. Tamer Başar is with the Coordinated Science Laboratory, University of Illinois at Urbana-Champaign, Urbana, IL 61801 USA. e-mail: basar1@illinois.edu."), and projects each argurment onto the interval $\lbrack{- 10^{4}},10^{4}\rbrack$. Here the statistics of $\{ w_{t}\}$ are evaluated by the Monte Carlo method and the risk tolerance is set as $\overline{\rho} = 15$.
+
+Figure 1: Evolution of the controlled state xk, 1 via three different methods.
+
+To illustrate the effectiveness of the RC-LQR, we compare it with the standard LQR and the LEQG with $\theta = 0.01$. Fig. 1 depicts the evolution of their controlled states $x_{k,1}$ under the same noise realization, and confirms that our RC-LQR controller compensates the risk better than that of the LQR and LEQG. A similar observation can also be found in.
+
+(b) Backtracking line search (except GN).
+
+Figure 2: Relative Lagrangian error of model-based gradient methods in with μ = 2.
+
+### VI-B Model-based Setting
+
+In the model-based setting, we assume that all the parameters in the model are known. Since the system is open-loop unstable, we select an initial policy
+
+such that ${\rho{({A - {BK^{}}})}} < 1$. Since the bounds for the stepsizes in Theorem 3 ‣ IV Policy Gradient Primal-dual Algorithm for the Model-based Setting ‣ Global Convergence of Policy Gradient Primal-dual Methods for Risk-constrained LQRs Research of the first two authors was supported by National Natural Science Foundation of China under Grant no. 62033006. Research of the third author was supported by the ONR MURI Grant N00014-16-1-2710. F. Zhao and K. You are with the Department of Automation and BNRist, Tsinghua University, Beijing 100084, China. e-mail: zhaofr18@mails.tsinghua.edu.cn, youky@tsinghua.edu.cn. Tamer Başar is with the Coordinated Science Laboratory, University of Illinois at Urbana-Champaign, Urbana, IL 61801 USA. e-mail: basar1@illinois.edu.") could be conservative in practice, we manually tune them to be large before divergence of (23 ‣ IV Policy Gradient Primal-dual Algorithm for the Model-based Setting ‣ Global Convergence of Policy Gradient Primal-dual Methods for Risk-constrained LQRs Research of the first two authors was supported by National Natural Science Foundation of China under Grant no. 62033006. Research of the third author was supported by the ONR MURI Grant N00014-16-1-2710. F. Zhao and K. You are with the Department of Automation and BNRist, Tsinghua University, Beijing 100084, China. e-mail: zhaofr18@mails.tsinghua.edu.cn, youky@tsinghua.edu.cn. Tamer Başar is with the Coordinated Science Laboratory, University of Illinois at Urbana-Champaign, Urbana, IL 61801 USA. e-mail: basar1@illinois.edu.")) and obtain that $\eta = {3 \times 10^{- 3}}$ for the PG, $\eta = 0.02$ for the NPG and $\eta = 0.5$ for the GN. We also consider the backtracking line search with ${\alpha = 0.25},{\beta = 0.5}$ for the PG and NPG where an initial stepsize is set to $\eta = 0.01$ for the PG and $\eta = 0.05$ for the NPG. Note that $\eta = 0.5$ is already an optimal stepsize for the GN; see the end of Section IV-A ‣ IV Policy Gradient Primal-dual Algorithm for the Model-based Setting ‣ Global Convergence of Policy Gradient Primal-dual Methods for Risk-constrained LQRs Research of the first two authors was supported by National Natural Science Foundation of China under Grant no. 62033006. Research of the third author was supported by the ONR MURI Grant N00014-16-1-2710. F. Zhao and K. You are with the Department of Automation and BNRist, Tsinghua University, Beijing 100084, China. e-mail: zhaofr18@mails.tsinghua.edu.cn, youky@tsinghua.edu.cn. Tamer Başar is with the Coordinated Science Laboratory, University of Illinois at Urbana-Champaign, Urbana, IL 61801 USA. e-mail: basar1@illinois.edu.").
+
+First, we validate the convergence results in Theorem 3 ‣ IV Policy Gradient Primal-dual Algorithm for the Model-based Setting ‣ Global Convergence of Policy Gradient Primal-dual Methods for Risk-constrained LQRs Research of the first two authors was supported by National Natural Science Foundation of China under Grant no. 62033006. Research of the third author was supported by the ONR MURI Grant N00014-16-1-2710. F. Zhao and K. You are with the Department of Automation and BNRist, Tsinghua University, Beijing 100084, China. e-mail: zhaofr18@mails.tsinghua.edu.cn, youky@tsinghua.edu.cn. Tamer Başar is with the Coordinated Science Laboratory, University of Illinois at Urbana-Champaign, Urbana, IL 61801 USA. e-mail: basar1@illinois.edu.") on the three gradient methods in (23 ‣ IV Policy Gradient Primal-dual Algorithm for the Model-based Setting ‣ Global Convergence of Policy Gradient Primal-dual Methods for Risk-constrained LQRs Research of the first two authors was supported by National Natural Science Foundation of China under Grant no. 62033006. Research of the third author was supported by the ONR MURI Grant N00014-16-1-2710. F. Zhao and K. You are with the Department of Automation and BNRist, Tsinghua University, Beijing 100084, China. e-mail: zhaofr18@mails.tsinghua.edu.cn, youky@tsinghua.edu.cn. Tamer Başar is with the Coordinated Science Laboratory, University of Illinois at Urbana-Champaign, Urbana, IL 61801 USA. e-mail: basar1@illinois.edu.")). We adopt the relative Lagrangian error ${{({{\mathcal{L}{(X^{(i)},\mu)}} - {\mathcal{L}^{\ast}{(\mu)}}})}/\mathcal{L}^{\ast}}{(\mu)}$ to examine the convergence behaviors of (23 ‣ IV Policy Gradient Primal-dual Algorithm for the Model-based Setting ‣ Global Convergence of Policy Gradient Primal-dual Methods for Risk-constrained LQRs Research of the first two authors was supported by National Natural Science Foundation of China under Grant no. 62033006. Research of the third author was supported by the ONR MURI Grant N00014-16-1-2710. F. Zhao and K. You are with the Department of Automation and BNRist, Tsinghua University, Beijing 100084, China. e-mail: zhaofr18@mails.tsinghua.edu.cn, youky@tsinghua.edu.cn. Tamer Başar is with the Coordinated Science Laboratory, University of Illinois at Urbana-Champaign, Urbana, IL 61801 USA. e-mail: basar1@illinois.edu.")). Fig. 2 validates their linear convergence rates of Theorem 3 ‣ IV Policy Gradient Primal-dual Algorithm for the Model-based Setting ‣ Global Convergence of Policy Gradient Primal-dual Methods for Risk-constrained LQRs Research of the first two authors was supported by National Natural Science Foundation of China under Grant no. 62033006. Research of the third author was supported by the ONR MURI Grant N00014-16-1-2710. F. Zhao and K. You are with the Department of Automation and BNRist, Tsinghua University, Beijing 100084, China. e-mail: zhaofr18@mails.tsinghua.edu.cn, youky@tsinghua.edu.cn. Tamer Başar is with the Coordinated Science Laboratory, University of Illinois at Urbana-Champaign, Urbana, IL 61801 USA. e-mail: basar1@illinois.edu.") and Table I ‣ IV Policy Gradient Primal-dual Algorithm for the Model-based Setting ‣ Global Convergence of Policy Gradient Primal-dual Methods for Risk-constrained LQRs Research of the first two authors was supported by National Natural Science Foundation of China under Grant no. 62033006. Research of the third author was supported by the ONR MURI Grant N00014-16-1-2710. F. Zhao and K. You are with the Department of Automation and BNRist, Tsinghua University, Beijing 100084, China. e-mail: zhaofr18@mails.tsinghua.edu.cn, youky@tsinghua.edu.cn. Tamer Başar is with the Coordinated Science Laboratory, University of Illinois at Urbana-Champaign, Urbana, IL 61801 USA. e-mail: basar1@illinois.edu."). As expected, it is also observed that the use of a backtracking line search increases the convergence rate.
+
+Figure 3: Convergence of the model-based Algorithm 1.
+
+Then, we validate the sublinear convergence result in Theorem 4, where the GN is applied to minimize the Lagrangian in Algorithm 1. Let the initial multiplier be $\mu_{1} = 0$ and the diminishing stepsize be $\zeta^{k} = {1/{({15\sqrt{k}})}}$. Fig. 3 displays how the relative optimality gap ${{|{{J{(X^{k})}} - {J{(X^{\ast})}}}|}/J}{(X^{\ast})}$ and the constraint violation ${\max{\{{{J_{c}{(X^{k})}} - \overline{\rho}},0\}}}/\overline{\rho}$ decrease to zero. Clearly, both converge fast under our model-based policy gradient primal-dual method. Note that both the objective function $J{(X)}$ and the constraint function $J_{c}{(X)}$ are quadratic, and converge with a similar behavior.
+
+Figure 4: Relative Lagrangian error of Algorithm 2 for μ = 2.
+
+Figure 5: Convergence of the sample-based Algorithm 3.
+
+### VI-C Sample-based Setting
+
+In the sample-based setting, we use trajectory samples of the system to compute and conduct $20$ independent trials. First, we examine the convergence performance of Algorithm 2 ‣ V Policy Gradient Primal-dual Algorithm for the Sample-based Setting ‣ Global Convergence of Policy Gradient Primal-dual Methods for Risk-constrained LQRs Research of the first two authors was supported by National Natural Science Foundation of China under Grant no. 62033006. Research of the third author was supported by the ONR MURI Grant N00014-16-1-2710. F. Zhao and K. You are with the Department of Automation and BNRist, Tsinghua University, Beijing 100084, China. e-mail: zhaofr18@mails.tsinghua.edu.cn, youky@tsinghua.edu.cn. Tamer Başar is with the Coordinated Science Laboratory, University of Illinois at Urbana-Champaign, Urbana, IL 61801 USA. e-mail: basar1@illinois.edu.") and set the smoothing radius to $r = 0.2$, the sample horizon of the oracle $T = 100$ and the constant stepsize $\eta = {1 \times 10^{- 5}}$. Moreover, we display the relative Lagrangian error for $\mu = 2$ in Fig. 4, where the bold centerline denotes the trial mean and the shaded region indicates the variance size. As expected by Theorem 5 ‣ V Policy Gradient Primal-dual Algorithm for the Sample-based Setting ‣ Global Convergence of Policy Gradient Primal-dual Methods for Risk-constrained LQRs Research of the first two authors was supported by National Natural Science Foundation of China under Grant no. 62033006. Research of the third author was supported by the ONR MURI Grant N00014-16-1-2710. F. Zhao and K. You are with the Department of Automation and BNRist, Tsinghua University, Beijing 100084, China. e-mail: zhaofr18@mails.tsinghua.edu.cn, youky@tsinghua.edu.cn. Tamer Başar is with the Coordinated Science Laboratory, University of Illinois at Urbana-Champaign, Urbana, IL 61801 USA. e-mail: basar1@illinois.edu."), Algorithm 2 ‣ V Policy Gradient Primal-dual Algorithm for the Sample-based Setting ‣ Global Convergence of Policy Gradient Primal-dual Methods for Risk-constrained LQRs Research of the first two authors was supported by National Natural Science Foundation of China under Grant no. 62033006. Research of the third author was supported by the ONR MURI Grant N00014-16-1-2710. F. Zhao and K. You are with the Department of Automation and BNRist, Tsinghua University, Beijing 100084, China. e-mail: zhaofr18@mails.tsinghua.edu.cn, youky@tsinghua.edu.cn. Tamer Başar is with the Coordinated Science Laboratory, University of Illinois at Urbana-Champaign, Urbana, IL 61801 USA. e-mail: basar1@illinois.edu.") converges to a small relative error of $3\%$ with a small variance.
+
+Then, we verify the convergence result of our sample-based primal-dual method in Theorem 6 by performing Algorithm 3 ‣ V Policy Gradient Primal-dual Algorithm for the Sample-based Setting ‣ Global Convergence of Policy Gradient Primal-dual Methods for Risk-constrained LQRs Research of the first two authors was supported by National Natural Science Foundation of China under Grant no. 62033006. Research of the third author was supported by the ONR MURI Grant N00014-16-1-2710. F. Zhao and K. You are with the Department of Automation and BNRist, Tsinghua University, Beijing 100084, China. e-mail: zhaofr18@mails.tsinghua.edu.cn, youky@tsinghua.edu.cn. Tamer Başar is with the Coordinated Science Laboratory, University of Illinois at Urbana-Champaign, Urbana, IL 61801 USA. e-mail: basar1@illinois.edu."). Let the initial multiplier be $\mu^{1} = 0$ and the diminishing stepsize be $\zeta^{k} = {1/{({15\sqrt{k}})}}$. Fig. 5 illustrates that both the relative optimality gap and the constraint violation eventually are close to zero.
+
+## Concluding Remarks
+
+In this paper, we have proposed a policy gradient primal-dual framework with global convergence guarantees to solve the RC-LQR problem with a variance-like constraint. Specifically, we have shown here strong duality, to establish the global convergence, which in fact can be extended to the case of multiple constraints. Such a framework can also be utilized to study linear quadratic tracking.

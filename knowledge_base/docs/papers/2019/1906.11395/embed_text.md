@@ -1,0 +1,365 @@
+## Introduction
+
+A key feature in modern reinforcement learning is the ability to provide high-probability guarantees on the finite-data/time behavior of an algorithm acting on a system. The enabling technical tools used in providing such guarantees are concentration of measure results, which should be interpreted as quantitative versions of the strong law of large numbers. This paper provides a brief introduction to such tools, as motivated by the identification of linear-time-invariant (LTI) systems.
+
+In particular, we focus on the identifying the parameters $(A,B)$ of the LTI system
+
+assuming *perfect* state measurements. This is in some sense the simplest possible system identification problem, making it the perfect case study for such a tutorial. Our companion paper shows how the results derived in this paper can then be integrated into self-tuning and adaptive control policies with finite-data guarantees. We also refer the reader to Section II of for an in-depth and comprehensive literature review of classical and contemporary results in system identification. Finally, we note that most of the results we present below are not the sharpest available in the literature, but are rather chosen for the pedagogical value.
+
+The paper is structured as follows: in Section II, we study the simplified setting when system is defined for a scalar state $x$, and data is drawn from independent experiments. Section III extends these ideas to the vector valued settings. In Section IV we study the performance of an estimator using all data from a single trajectory -- this is significantly more challenging as all covariates are strongly correlated. Finally, in Section V, we provide data-dependent bounds that can be used in practical algorithms.
+
+## Scalar Random Variables
+
+Consider the scalar dynamical system
+
+for $w_{t}\overset{\ \text{i.i.d.}}{\sim}{\mathcal{N}{(0,\sigma_{w}^{2})}}$, and $a \in {\mathbb{R}}$ an unknown parameter. Our goal is to estimate $a$, and to do so we inject excitatory Gaussian noise via $u_{t}\overset{\ \text{i.i.d.}}{\sim}{\mathcal{N}{(0,\sigma_{u}^{2})}}$. We run $N$ experiments over a horizon of $T + 1$ time-steps, and then solve for our estimate $\hat{a}$ via the least-squares problem
+
+Notice that we are using only the last two data-points from each trial -- this simplifies the analysis of the error term $e_{N}$ greatly as each of the summands in the numerator and denominator are now i.i.d. random variables. Our goal is to provide high-probability bounds on this error term, and return to the single trajectory estimator later in the paper.
+
+### II-1 Bounded Random Variables
+
+To build some intuition we begin by studying the behavior of almost surely (a.s.) bounded random variables. In particular, let ${\{ X_{i}\}}_{i = 1}^{N}$ be drawn i.i.d. from a distribution $p$, and let $X_{i} \in {\lbrack a,b\rbrack}$ a.s. for all $i$. Our goal is to quantify, with high-probability, the gap between the empirical and true means, i.e., to find a bound on
+
+that holds with high-probability.
+
+When working with bounded random variables *McDiarmid's inequality* is a very powerful tool for establishing concentration of measure.
+
+### Theorem II.1
+
+McDiarmid's Inequality Let $X_{i} \in \mathcal{X}$ for $i = {1,\ldots,N}$ be drawn independently, and let $F:{\mathcal{X}^{n}\rightarrow{\mathbb{R}}}$ satisfies. If, for all $i = {1,\ldots,N}$, and all ${x_{1},\ldots,x_{N},x_{i}^{\prime}} \in \mathcal{X}$ it holds that
+
+then we have that
+
+From Theorem 6, one can easily derive the *Hoeffding's inequality for bounded random variables*.
+
+### Corollary II.2 (Hoeffding's inequality for bounded random variables)
+
+Let ${\{ X_{i}\}}_{i = 1}^{N}\overset{\ \text{i.i.d.}}{\sim}p^{N}$ be such that $X_{i} \in {\lbrack a,b\rbrack}$ a.s.. Then
+
+Proof. Set ${F{(x_{1},\ldots,x_{N})}} = {\frac{1}{N}{\sum_{i = 1}^{N}x_{i}}}$ and notice that it satisfies the boundedness condition with $c_{i} \equiv {{({b - a})}/N}$ for all $i$.
+
+### Example 1 (Probability Estimation)
+
+Let ${\{ X_{i}\}}_{i = 1}^{N}\overset{\ \text{i.i.d.}}{\sim}p^{N}$ be random vectors in $\mathcal{X}$, and let $\Omega \subseteq \mathcal{X}$ be some set. Let
+
+and notice that ${{\mathbb{E}}{\hat{P}}_{N}} = {{\mathbb{P}}\left\lbrack {x \in \Omega} \right\rbrack}$. As $\mathbb{1}_{{\mathbb{x}} \in \mathbb{\Omega}} \in {\{\mathbb{0},\mathbb{1}\}}$ for all $x$, it follows by equation (7. ‣ II-1 Bounded Random Variables ‣ II Scalar Random Variables ‣ A Tutorial on Concentration Bounds for System Identification")) that
+
+We can obtain a similar bound on the probability of the event $\left\{ {{{\hat{P}}_{N} - {{\mathbb{P}}\left\lbrack {x \in \Omega} \right\rbrack}} \leq {- t}} \right\}$ occurring: it then follows by union bounding over these two events that
+
+Thus we have seen that in the case of a.s. bounded random variables, concentration of measure does indeed occur. We will now see that similar concentration occurs for random variables drawn from distributions with sufficiently rapidly decaying tails.
+
+### II-2 Sub-Gaussian Random Variables
+
+We begin by recalling the Chernoff bound, which states that for a random variable $X$ with mean ${\mathbb{E}}X$, and moment generating function (MGF) ${\mathbb{E}}\left\lbrack e^{\lambda{({X - {{\mathbb{E}}X}})}} \right\rbrack$ defined for all ${|\lambda|} \leq b$, it holds that
+
+We now turn our attention to Gaussian random variables, and recall that for $X \sim {\mathcal{N}{(\mu,\sigma^{2})}}$, we have that ${{\mathbb{E}}\left\lbrack e^{\lambda{({X - \mu})}} \right\rbrack} = {\exp\left( \frac{\sigma^{2}\lambda^{2}}{2} \right)}$ for all $\lambda \in {\mathbb{R}}$. Substituting this into the Chernoff bound and solving for $\lambda^{\star} = {t/\sigma^{2}}$, we immediately obtain
+
+Recalling that if $X_{1} \sim {\mathcal{N}{(\mu_{1},\sigma_{1}^{2})}}$ and $X_{2} \sim {\mathcal{N}{(\mu_{2},\sigma_{2}^{2})}}$ then ${{aX_{1}} + {bX_{2}}} \sim {\mathcal{N}{({{a\mu_{1}} + {b\mu_{2}}},{{a^{2}\sigma_{1}^{2}} + {b^{2}\sigma_{2}^{2}}})}}$, it follows immediately that for $X_{i}\overset{\ \text{i.i.d.}}{\sim}{\mathcal{N}{(\mu,\sigma^{2})}}$, it holds that
+
+Once again, a similar bound can be obtained on the probability of event $\left\{ {{{\frac{1}{N}{\sum_{i = 1}^{N}X_{i}}} - \mu} \leq {- t}} \right\}$ occurring: it then follows by union bounding over these two events that
+
+We now generalize these results to random variables with MGFs dominated by that of a Gaussian random variable.
+
+### Definition 1 (Sub-Gaussian Random Variable)
+
+A random variable $X$ with mean ${\mathbb{E}}X$ is sub-Gaussian if there exists a positive number $\sigma^{2}$ such that
+
+An example of random variables that are sub-Gaussian but not Gaussian are bounded random variables -- it can be shown that a random variable $X$ taking values in $\lbrack a,b\rbrack$ almost surely satisfies equation (13. ‣ II-2 Sub-Gaussian Random Variables ‣ II Scalar Random Variables ‣ A Tutorial on Concentration Bounds for System Identification")) with parameter $\sigma^{2} = {{({b - a})}^{2}/4}$.
+
+Further, from this definition, it follows immediately that from the Chernoff bound that all sub-Gaussian random variables satisfy the concentration bound. One can also check that if $X_{1}$ and $X_{2}$ are sub-Gaussian with parameters $\sigma_{1}^{2}$ and $\sigma_{2}^{2}$, then $X_{1} + X_{2}$ is sub-Gaussian with parameter $\sigma_{1}^{2} + \sigma_{2}^{2}$, from which we immediately obtain Hoeffding's Inequality.
+
+### Theorem II.3 (Hoeffding's Inequality)
+
+Let ${\{ X_{i}\}}_{i = 1}^{N}$ be iid sub-Gaussian random variables with parameter $\sigma^{2}$. Then
+
+### An aside on probability inversion and two sided bounds
+
+Rather than statements about the probability of large deviations, as in bound (14. ‣ II-2 Sub-Gaussian Random Variables ‣ II Scalar Random Variables ‣ A Tutorial on Concentration Bounds for System Identification")), we are often interested in the probability that a random variable concentrates near its mean. To do so, we employ probability inversion: if we are willing to tolerate a large deviation occurring with probability at most $\delta$, one may invert bound (14. ‣ II-2 Sub-Gaussian Random Variables ‣ II Scalar Random Variables ‣ A Tutorial on Concentration Bounds for System Identification")) by setting $\delta =$ RHS of (14. ‣ II-2 Sub-Gaussian Random Variables ‣ II Scalar Random Variables ‣ A Tutorial on Concentration Bounds for System Identification")) and solving for $t$. This allows us to certify that with probability at least $1 - \delta$ that
+
+Applying the same reasoning to the event $\{{{X - {{\mathbb{E}}X}} \leq {- t}}\}$ yields a similar bound, from which it follows, by the union bound, that with probability at least $1 - {2\delta}$ that
+
+### II-3 Sub-Exponential Random Variables
+
+Revisiting the error term defined in, we see that we still do not have the requisite tools to perform the desired analysis.
+
+### Example 2 (Products of Gaussians are not Sub-Gaussian)
+
+Motivated by the error term in, we compute the MGFs for $X^{2}$ and $XW$, where ${X,W}\overset{\ \text{i.i.d.}}{\sim}{\mathcal{N}{}}$. Direct computation of the resulting integrals show that
+
+These random variables are clearly not sub-Gaussian, as their MGFs do not exist for all $\lambda \in {\mathbb{R}}$. However, notice that they can be bounded by the MGF of a Gaussian random variable in a neighborhood of the origin. In particular we have that
+
+The first inequality follows from some calculus, and the second by leveraging that ${- {\log{({1 - x})}}} \leq {x{({1 - x})}^{- 1}}$ for $0 \leq x < 1$.
+
+We now show that MGFs exhibiting behavior as above also concentrate.
+
+### Definition 2
+
+A random variable $X$ with mean ${\mathbb{E}}X$ is sub-exponential with parameters $(\nu^{2},\alpha)$ if
+
+Example 2. ‣ II-3 Sub-Exponential Random Variables ‣ II Scalar Random Variables ‣ A Tutorial on Concentration Bounds for System Identification") therefore demonstrated that for ${X,W}\overset{\ \text{i.i.d.}}{\sim}{\mathcal{N}{}}$, $X^{2}$ is sub-exponential with parameters $$, and $XW$ is sub-exponential with parameters $(2,\sqrt{2})$.
+
+We now state without proof the tail bound enjoyed by sub-exponential random variables, which follows from a more involved Chernoff type argument (see Ch. 2 of ). Specifically, if $X$ is sub-exponential with parameters $(\nu^{2},\alpha)$, then
+
+Thus we see that for sufficiently small deviations $0 \leq t \leq {\nu^{2}/\alpha}$, sub-exponential random variables exhibit sub-Gaussian concentration -- indeed, informally, one may view sub-Gaussian random variables as the limit of a sub-exponential random variable with $\alpha\rightarrow 0$. Finally, we note that we can show that for $X_{1}$ and $X_{2}$ sub-exponential random variables with parameters $(\nu_{i}^{2},\alpha_{i}^{2})$, we have that $X_{1} + X_{2}$ is a sub-exponential random variable with parameters $({\nu_{1}^{2} + \nu_{2}^{2}},{\max{\{\alpha_{1},\alpha_{2}\}}})$.
+
+We now return to our motivating example and analyze the error term. First, we observe that
+
+In what follows, we let $\sigma_{x}^{2}:={{({\sigma_{w}^{2} + \sigma_{u}^{2}})}{\sum_{t = 0}^{T}a^{2t}}}$, which we recognize as the (variance weighted) finite-time controllability Gramian of the scalar system.
+
+### Theorem II.4
+
+Consider the least squares estimator. Fix a failure probability $\delta \in {(0,1\rbrack}$, and assume that $N \geq {32{\log{({2/\delta})}}}$. Then with probability at least $1 - \delta$, we have that
+
+This theorem follows immediately by invoking the next two propositions with failure probability $\delta/2$ and union bounding.
+
+### Proposition II.5
+
+Fix $\delta \in {(0,1\rbrack}$, and let $N \geq {32{\log{({1/\delta})}}}$. Then with probability at least $1 - \delta$
+
+Proof. From, we have that ${x_{T}/\sigma_{x}} \sim {\mathcal{N}{}}$. Thus from Example 2. ‣ II-3 Sub-Exponential Random Variables ‣ II Scalar Random Variables ‣ A Tutorial on Concentration Bounds for System Identification"), $x_{T}^{2}/\sigma_{x}^{2}$ is sub-exponential with parameters $$, and $\sum_{i = 1}^{N}\left( {x_{T}^{(i)}/\sigma_{x}} \right)^{2}$ is sub-exponential with parameters $({4N},4)$. From the tail bound, we see that
+
+for all $t \leq {N\sigma_{x}^{2}}$. Inverting this bound to solve for a failure probability of $\delta$, we see that $t = {\sigma_{x}^{2}\sqrt{8N{\log{({1/\delta})}}}} \leq {N\sigma_{x}^{2}}$, where the inequality follows from out assumed lower bound on $N$. We therefore have, with probability at least $1 - \delta$, that
+
+where the final inequality follows from the assumed lower bound on $N$.
+
+### Proposition II.6
+
+Fix $\delta \in {(0,1\rbrack}$, and let $N \geq {\frac{1}{2}{\log{({2/\delta})}}}$. Then with probability at least $1 - \delta$
+
+Proof. By a similar argument as the previous proof, we have that $\sum_{i = 1}^{N}{{x_{T}^{(i)}w_{T}^{(i)}}/{\sigma_{x}\sigma_{w}}}$ is sub-exponential with parameters $({4N},\sqrt{2})$, from which it follows that
+
+if $t \leq {2\sqrt{2}N\sigma_{x}\sigma_{w}}$. Inverting with probability failure $\delta$, we obtain $t = {2\sigma_{x}\sigma_{w}\sqrt{N{\log{({2/\delta})}}}} \leq {2\sqrt{2}N\sigma_{x}\sigma_{w}}$, where the final inequality holds by the assumed lower bound on $N$. Thus, with probability at least $1 - \delta$, holds.
+
+## Vector Valued Random Variables
+
+Consider a linear dynamical system described by
+
+where ${x_{t},w_{t}} \in {\mathbb{R}}^{n_{x}}$, $u_{t} \in {\mathbb{R}}^{n_{u}}$, and $w_{t}\overset{\ \text{i.i.d.}}{\sim}{\mathcal{N}{(0,{\sigma_{w}^{2}I})}}$. Our goal is to identify the matrices $(A,B)$, and to do so we inject excitatory Gaussian noise via $u_{t}\overset{\ \text{i.i.d.}}{\sim}{\mathcal{N}{(0,{\sigma_{u}^{2}I})}}$. As before, we run $N$ experiments over a horizon of $T + 1$ time-steps. Letting
+
+we then solve for our estimates $(\hat{A},\hat{B})$ via the least-squares problem:
+
+where one can easily verify that
+
+the $T$-time-step controllability Gramian of $(A,B)$. To lighten notation we let $\Sigma_{x}$ denote the $$ block of the above covariance, i.e.,
+
+Our objective is to derive high-probability bounds on the spectral norm of the error terms
+
+Define $Q_{A} = \begin{bmatrix}
+\end{bmatrix}$. Then ${({\hat{A} - A})}^{\top} = {Q_{A}E_{N}}$, and
+
+where $Y_{N}:={\lbrack y_{i}^{\top}\rbrack}_{i = 1}^{N}$, with $y_{i}\overset{\ \text{i.i.d.}}{\sim}{\mathcal{N}{(0,I_{n_{x} + n_{u}})}}$. A similar argument shows that
+
+reducing our task to finding (i) an upper bound on the norm of the cross term $\sum_{i}{y_{i}w_{i}^{\top}}$, and (ii) a lower bound on the minimum eigenvalue of the empirical Gramian matrix $\sum_{i}{y_{i}y_{i}^{\top}}$. These can be obtained using tail bounds for sub-gaussian and sub-exponential random variables, as formalized in the following propositions.
+
+Now, recall that for a matrix $M = {\sum_{i = 1}^{N}{x_{i}w_{i}^{\top}}}$
+
+We begin our analysis by fixing a ${(u,v)} \in {\mathcal{S}^{n - 1} \times \mathcal{S}^{m - 1}}$, and notice that each $({u^{\top}x_{i}})$ and $({w_{i}^{\top}v})$ are sub-Gaussian random variables with parameter $\sigma^{2} = 1$ if the components $x_{i,j}$, $j = {1,\ldots,n}$, and $w_{i,k}$, $k = {1,\ldots,m}$, are themselves sub-Gaussian random variables with parameters $\sigma^{2} = 1$. From Example 2. ‣ II-3 Sub-Exponential Random Variables ‣ II Scalar Random Variables ‣ A Tutorial on Concentration Bounds for System Identification"), we conclude that ${({u^{\top}x_{i}})}{({w_{i}^{\top}v})}$ is a zero-mean sub-exponential random variabled with parameters $(2,\sqrt{2})$. It then follows immediately from a one-sided version of Proposition 23, that for a fixed ${(u,v)} \in {\mathcal{S}^{n - 1} \times \mathcal{S}^{m - 1}}$, if $N \geq {\frac{1}{2}{\log{({1/\delta})}}}$, then with probability at least $1 - \delta$, that
+
+We now use this observation in conjunction with a *covering argument* to bound ${\parallel M\parallel}_{2}$.
+
+### Proposition III.1
+
+Let $x_{i} \in {\mathbb{R}}^{n}$ and $w_{i} \in {\mathbb{R}}^{m}$ be such that $x_{i}\overset{\ \text{i.i.d.}}{\sim}{\mathcal{N}{(0,\Sigma_{x})}}$ and $w_{i}\overset{\ \text{i.i.d.}}{\sim}{\mathcal{N}{(0,\Sigma_{w})}}$, and let $M = {\sum_{i = 1}^{N}{x_{i}w_{i}^{\top}}}$. Fix a failure probability $\delta \in {(0,1\rbrack}$, and let $N \geq {\frac{1}{2}{({n + m})}{\log{({9/\delta})}}}$. Then, it holds with probability at least $1 - \delta$ that
+
+Proof. First notice that
+
+for $y_{i}\overset{\ \text{i.i.d.}}{\sim}{\mathcal{N}{(0,I_{n})}}$ and $z_{i}\overset{\ \text{i.i.d.}}{\sim}{\mathcal{N}{(0,I_{m})}}$. We therefore have that
+
+thus it suffices to control the term
+
+We approximate this supremum with an $\epsilon$-net. In particular, let ${\{ u_{k}\}}_{k = 1}^{M_{\epsilon}}$ and ${\{ v_{\ell}\}}_{\ell = 1}^{N_{\epsilon}}$, be $\epsilon$-coverings of the $\mathcal{S}^{n - 1}$ and $\mathcal{S}^{m - 1}$, respectively. Then for every ${(u,v)} \in {\mathcal{S}^{n - 1} \times \mathcal{S}^{m - 1}}$, let $(u_{k},v_{\ell})$ denote the elements of their respective nets such that ${\parallel{u - u_{k}}\parallel}_{2} \leq \epsilon$ and ${\parallel{v - v_{\ell}}\parallel}_{2} \leq \epsilon$. Then, for an arbitrary matrix $M \in {\mathbb{R}}^{n \times m}$, we have that
+
+Taking the supremum over $(u,v)$ then shows that
+
+Choosing $\epsilon = {1/4}$, a standard volume comparison shows that $M_{\epsilon} \leq 9^{n}$ and $N_{\epsilon} \leq 9^{m}$ is sufficient, thus
+
+However, from equation, we have that for each pair $(u_{k},v_{\ell})$, if $N \geq {\frac{1}{2}{({n + m})}{\log{({9/\delta})}}}$, it holds with probability at least $1 - {\delta/9^{n + m}}$ that
+
+Union bounding over the $9^{n + m}$ pairs $(u_{k},v_{\ell})$ proves the claim.
+
+We now use Proposition 35 and a similar argument to lower bound the minimum singular value of a positive definite covariance like matrix. We note that more sophisticated arguments lead to tighter bounds (e.g., as in ).
+
+### Proposition III.2
+
+Let $x_{i} \in {\mathbb{R}}^{n}$ be drawn i.i.d. from $\mathcal{N}{(0,\Sigma_{x})}$, and set ${M = {\sum_{i = 1}^{N}{x_{i}x_{i}^{\top}}}}.$ Fix a failure probability $\delta \in {(0,1\rbrack}$, and let $N \geq {24n{\log{({9/\delta})}}}$. Then with probability at least $1 - {2\delta}$, we have that ${{\lambda_{\min}{(M)}} \geq {{\lambda_{\min}{(\Sigma_{x})}N}/2}}.$
+
+Proof. First notice that ${\lambda_{\min}{(M)}} \geq {\lambda_{\min}{(\Sigma_{x})}\lambda_{\min}{(Z)}}$, for $Z = {\sum_{i = 1}^{N}{z_{i}z_{i}^{\top}}}$, $z_{i}\overset{\ \text{i.i.d.}}{\sim}{\mathcal{N}{(0,I_{n})}}$, and thus it suffices to lower bound the minimum eigenvalue of $Z$.
+
+Let $\{ u_{k}\}$ be a $1/4$-net of $\mathcal{S}^{n - 1}$ with cardinality at most $9^{n}$ (note that by symmetry of $Z$, we only require the one $\epsilon$-net). A similar argument as in the previous proof reveals that
+
+Since $N \geq {\frac{1}{2}n{\log{({9/\delta})}}}$, we have ${\parallel Z\parallel}_{2} \leq {4\sqrt{Nn{\log{({9/\delta})}}}}$ with probability at least $1 - \delta$ by Proposition 35.
+
+Also, we can leverage Proposition 22 to show that, for a fixed $u_{k} \in \mathcal{S}^{n - 1}$, it holds with probability at least $1 - {\delta/9^{n}}$ that ${{u_{k}^{\top}Zu_{k}} \geq {({N - \sqrt{8Nn{\log{({9/\delta})}}}})}}.$
+
+Thus, union bounding over all of the above events, we have with probability at least $1 - {2\delta}$ that
+
+The result then follows from the assumed lower bound on $N$.
+
+Remarkably, we see that the tools developed for the scalar case, suitably augmented with some covering arguments, are all that we needed to derive the aforementioned bounds. We now show how these two propositions can be used to provide high-probability bounds on ${\parallel E_{A}\parallel}_{2}$ and ${\parallel E_{B}\parallel}_{2}$.
+
+### Theorem III.3
+
+Consider the least-squares estimator defined by. Fix a failure probability $\delta \in {(0,1\rbrack}$, and assume that $N \geq {24{({n_{x} + n_{u}})}{\log{({54/\delta})}}}$. Then, it holds with probability at least $1 - \delta$, that
+
+Proof. Recalling the expression for ${\parallel E_{A}\parallel}_{2}$, we have by Proposition 35, probability at least $1 - {\delta/6}$ that
+
+and by Proposition III.2, we have with probability at least $1 - {{2\delta}/6}$ that ${\lambda_{\min}{({Y_{N}^{\top}Y_{N}})}} \geq {N/2}$. Union bounding over these events, we therefore have that bound holds with probability at least $1 - {\delta/2}$. A similar argument applied to shows that bound holds with probability at least $1 - {\delta/2}$. Union bounding over these two events yields the claim.
+
+## Single Trajectory Results
+
+The previous sections made a very strong simplifying assumption: that all of the covariates used in the system-identification step were independent. To satisfy this assumption, we needed several independent trajectories, from which we only used two-data points. This is both impractical and data-inefficient -- however, analyzing single trajectory estimators is much more challenging, and is a current active area of research. This section aims to provide the reader with a survey of some of the tools being used to extend the ideas discussed above to the single-trajectory setting.
+
+### IV-1 Linear Response
+
+In this section we study single trajectory results for LTI systems. We will frame the problem in a more general setting from and specialize the results to LTI systems. Suppose that ${\{ z_{t}\}} \subseteq {\mathbb{R}}^{n}$ is a stochastic process. Suppose we observe $\{ z_{t}\}$ and the following linear responses ${\{ y_{t}\}} \subseteq {\mathbb{R}}^{\ell}$, defined as:
+
+where $\Theta_{\star} \in {\mathbb{R}}^{\ell \times n}$ is an unknown parameter that we wish to identify and we assume that $\left. w_{t} \middle| \mathcal{F}_{t - 1} \right.$ is a zero-mean $\sigma_{w}$-sub-Gaussian random vector, where $\mathcal{F}_{t} = {\sigma{(w_{0},\ldots,w_{t},z_{1},\ldots,z_{t})}}$. We are interested in the quality of the estimate:
+
+Notice that covers the case of an autonomous LTI system $x_{t + 1} = {{Ax_{t}} + w_{t}}$ where we want to learn the parameter $A$ by setting $y_{t} = x_{t + 1}$. It also covers the case of a controlled LTI system $x_{t + 1} = {{Ax_{t}} + {Bu_{t}} + w_{t}}$ where we want to learn $\Theta = \begin{bmatrix}
+\end{bmatrix}$. Now, under the necessary invertibility assumptions, the error $\hat{\Theta} - \Theta_{\star}$ is given by the expression:
+
+We analyze the error by bounding $\parallel{\hat{\Theta} - \Theta_{\star}}\parallel$ by the following decomposition:
+
+The term appearing in the numerator of is a *self-normalized martingale* (see e.g. ). On the other hand, the term appearing in the denominator of is the minimum eigenvalue of the empirical covariance matrix. The analysis of proceeds by upper bounding the martingale term and lower bounding the minimum eigenvalue. We note that the martingale term can be handled with the self-normalized inequality from Theorem 1 of Abbasi-Yadkori et al. (see Theorem V.3. ‣ Single trajectory bounds ‣ V Data-Dependent Bounds and the Bootstrap ‣ A Tutorial on Concentration Bounds for System Identification") below). We will focus on controlling the minimum eigenvalue.
+
+Before we present (a simplified version of) the technique used in Simchowitz et al., we discuss a first attempt at controlling the minimum eigenvalue. One could in principle leverage the results of the previous subsection by appealing to mixing time arguments (see e.g. ) which allow us to treat the process $\{ z_{t}\}$ as nearly independent across time by arguing that long term dependencies do not matter. However, such arguments yield bounds that degrade as the system mixes slower. For the LTI case, this leads to bounds that degrade as the spectral radius of $A$ approaches one (and is not applicable to unstable $A$). Instead, we will present the small-ball style of argument used in Simchowitz et al..
+
+### Definition 3
+
+Suppose that $\{\phi_{t}\}$ is a real-valued stochastic process adapted to the filtration $\{\mathcal{F}_{t}\}$. We say the process $\{\phi_{t}\}$ satisfies the $(k,\nu,p)$ block martingale small-ball (BMSB) condition if:
+
+We utilize Definition 3 in the following manner. Recall that we can write the minimum eigenvalue of the covariance matrix as the following empirical process:
+
+For a fixed unit vector $v$, we use Definition 3 applied to the process $\phi_{t} = {\langle z_{t},v\rangle}$ to lower bound the quantity $\sum_{t = 1}^{T}{\langle z_{t},v\rangle}^{2}$. We then appeal to a simple covering argument to pass to the infimum. The following proposition allows us to obtain a pointwise bound for $\sum_{t = 1}^{T}{\langle z_{t},v\rangle}^{2}$.
+
+### Proposition IV.1
+
+Suppose the process $\{\phi_{t}\}$ satisfies the $(k,\nu,p)$ block martingale small-ball condition. Then,
+
+The remaining covering argument is conceptually simple. We start by defining the matrix $Z \in {\mathbb{R}}^{T \times n}$ where the $t$-th row of $Z$ is $z_{t}$. Next we fix $(m,M)$ satisfying $0 < m \leq M$ and we set $\varepsilon = {m/{({4M})}}$. We let $\mathcal{N}{(\varepsilon)}$ be a $\varepsilon$-net of the sphere $\mathcal{S}^{n - 1}$, and consider the two events $\mathcal{E}_{\min},\mathcal{E}_{\max}$ defined as:
+
+Note that we can upper bound ${|{\mathcal{N}{(\varepsilon)}}|} \leq {({1 + {2/\varepsilon}})}^{n} \leq {({9\frac{M}{m}})}^{n}$.
+
+Proposition IV.1 combined with a union bound allows us to choose an $m$ such that ${{\mathbb{P}}{(\mathcal{E}_{\max}^{c})}} \leq {\delta/2}$. In particular, suppose that for every $v \in \mathcal{S}^{n - 1}$ we have that $\phi_{t} = {\langle z_{t},v\rangle}$ satisfies $(k,\nu,p)$ BMSB. Then Proposition IV.1 tells us that if we set $m = {\frac{\nu^{2}p^{2}}{8}k{\lfloor{T/k}\rfloor}}$ and if
+
+then ${{\mathbb{P}}{(\mathcal{E}_{\min}^{c})}} \leq {\delta/2}$. On the other hand, we can use Markov's inequality to choose an $M$ such that ${{\mathbb{P}}{(\mathcal{E}_{\max}^{c})}} \leq {\delta/2}$. In particular:
+
+Therefore we can set $M = {2{\sum_{t = 1}^{T}{{{\mathbb{E}}{\lbrack{\parallel z_{t}\parallel}_{2}^{2}\rbrack}}/\delta}}}$. Combining these calculations, we see that with probability at least $1 - \delta$, as long as $T$ satisfies:
+
+then we have ${\lambda_{\min}{({Z^{\top}Z})}} \geq {\frac{\nu^{2}p^{2}}{16}k{\lfloor{T/k}\rfloor}}$. As we will see shortly, the quantity $\frac{1}{\nu^{2}{({T - k})}}{\sum_{t = 1}^{T}{{\mathbb{E}}{\lbrack{\parallel z_{t}\parallel}_{2}^{2}\rbrack}}}$ behaves like a condition number for this problem. Fortunately, its contribution is in the logarithm of the bound, which is a feature of the particular decomposition in.
+
+Combining this technique with bounds on the self-normalized martingale term, one can show the following result for estimation in the linear response model.
+
+### Theorem IV.2
+
+Fix $\Gamma_{\min},\Gamma_{\max}$ such that $0 \prec \Gamma_{\min} \preceq \Gamma_{\max}$. Put $\overline{\Gamma} = {\Gamma_{\max}\Gamma_{\min}^{- 1}}$. Suppose for every fixed $v \in \mathcal{S}^{n - 1}$, we have that (i) $\phi_{t} = {\langle z_{t},v\rangle}$ satisfies the $(k,\sqrt{v^{\top}\Gamma_{\min}v},p)$ block martingale small-ball condition, and also suppose (ii) that ${{\mathbb{P}}{({{\sum_{t = 1}^{T}{z_{t}z_{t}^{\top}}} \npreceq {T \cdot \Gamma_{\max}}})}} \leq \delta$. Then as long as $T$ satisfies:
+
+we have with probability at least $1 - {3\delta}$,
+
+We now show how to use Theorem IV.2 to study the estimation of LTI systems. We consider the simple autonomous case of $x_{t + 1} = {{Ax_{t}} + w_{t}}$ where $w_{t}\overset{\ \text{i.i.d.}}{\sim}{\mathcal{N}{(0,{\sigma_{w}^{2}I})}}$. Here, we will assume that $A$ is stable (i.e. ${\rho{(A)}} \leq 1$). For the autonomous LTI system, we have that $z_{t} = x_{t}$, so the $(k,\nu,p)$ BMSB condition is equivalent to:
+
+We first observe that for $i \geq 1$, $\left. x_{t + i} \middle| \mathcal{F}_{t} \right.\overset{\ \text{dist}}{=}{\mathcal{N}{({A^{i}x_{t}},\Gamma_{i})}}$, where $\Gamma_{i}:={\sigma_{w}^{2}{\sum_{k = 0}^{i - 1}{A^{k}{(A^{k})}^{\top}}}}$. Therefore by a Paley-Zygmund type inequality, we have ${{\mathbb{P}}{({{|{\langle x_{t + i},v\rangle}|} \geq \sqrt{v^{\top}\Gamma_{i}v}})}} \geq {3/10}$. Now fix any $k \geq 1$ and let $1 \leq i_{0} \leq k$. Observe that:
+
+Now we select $i_{0} = {\lceil{k/2}\rceil}$. This shows that $\langle x_{t},v\rangle$ satisfies the $(k,\sqrt{v^{\top}\Gamma_{\lceil{k/2}\rceil}v},{3/20})$ BMSB condition.
+
+We now check condition (ii) of the hypothesis of Theorem IV.2. First, we observe that ${{\mathbb{E}}{\lbrack{\sum_{t = 1}^{T}{x_{t}x_{t}^{\top}}}\rbrack}} = {\sum_{t = 1}^{T}\Gamma_{t}} \preceq {T \cdot \Gamma_{T}}$. Markov's inequality implies that ${{\mathbb{P}}{({{\sum_{t = 1}^{T}{x_{t}x_{t}^{\top}}} \npreceq {\frac{nT}{\delta} \cdot \Gamma_{T}}})}} \leq \delta$. Hence we can set $\Gamma_{\max} = {\frac{n}{\delta} \cdot \Gamma_{T}}$. Theorem IV.2 tells us that if ${T \gtrsim {k{({{n{\log{({n/\delta})}}} + {\log{\det{({\Gamma_{T}\Gamma_{\lceil{k/2}\rceil}^{- 1}})}}}})}}},$ then with probability at least $1 - \delta$,
+
+We now discuss how to choose the free parameter $k$, which depends on whether or not the system $A$ is strictly stable ${\rho{(A)}} < 1$ or only marginally stable ${\rho{(A)}} = 1$.
+
+### Case $A$ is strictly stable
+
+When $A$ is strictly stable, we have that $\Gamma_{\infty} = {\lim_{t\rightarrow\infty}\Gamma_{t}}$ exists and furthermore, there exists a $\tau \geq 1$ and $\rho \in {}$ such that ${\parallel A^{k}\parallel} \leq {\tau\rho^{k}}$ for all $k = {0,1,\ldots}$. We can furthermore bound ${\parallel{\Gamma_{\infty} - \Gamma_{t}}\parallel} \leq {\frac{\sigma_{w}^{2}\tau^{2}}{1 - \rho^{2}}\rho^{2t}}$. This means that if we choose $k = {\frac{1}{1 - \rho}{\log\left( \frac{2\sigma_{w}^{2}\tau^{2}}{1 - \rho^{2}} \right)}}$, then we have ${\lambda_{\min}{(\Gamma_{\lceil{k/2}\rceil})}} \geq {{\lambda_{\min}{(\Gamma_{\infty})}}/2}$ and also ${\log{\det{({\Gamma_{\infty}\Gamma_{\lceil{k/2}\rceil}^{- 1}})}}} \leq n$. Therefore, Theorem IV.2 implies that if $T \gtrsim {\frac{n{\log{({n/\delta})}}}{1 - \rho}{\log\left( \frac{2\sigma_{w}^{2}\tau^{2}}{1 - \rho^{2}} \right)}}$, then with probability at least $1 - \delta$ we have ${\parallel{\hat{A} - A}\parallel} \lesssim {\sigma_{w}\sqrt{\frac{n{\log{({n/\delta})}}}{T\lambda_{\min}{(\Gamma_{\infty})}}}}$.
+
+### Case $A$ is marginally stable
+
+This case is more delicate. It is possible to give a general rate that depends on various properties of the Jordan blocks of $A$, as is done in Corollary A.2 of. Here, we present a special case when $A$ is an orthogonal matrix In this case, $\Gamma_{t} = {{\sigma_{w}^{2}t} \cdot I}$. Hence if we set $k = T/{(n\log{(n/\delta)}}$, then if $T \gtrsim {n{\log{({n/\delta})}}}$, we have that ${\parallel{\hat{A} - A}\parallel} \lesssim \frac{n{\log{({n/\delta})}}}{T}$. Observe that the rate in this case is actually the faster $O{({1/T})}$ rate instead of $O{({1/\sqrt{T}})}$ when $A$ is strictly stable.
+
+## Data-Dependent Bounds and the Bootstrap
+
+The previous results characterize upper bounds on the rates of convergence of ordinary least-squares based estimates of system parameters. Although informative from a theoretical perspective, they cannot be used to implement control algorithms as they depend on properties of the true underlying system. In this section, we present two data-dependent approaches to computing error estimates.
+
+We begin with the multiple-trajectory independent data setting. The following proposition from provides refined confidence sets on the estimates $(\hat{A},\hat{B})$.
+
+### Proposition V.1 (Proposition 2.4, \[8\])
+
+Assume we have $N$ independent samples $(y^{(\ell)},x^{(\ell)},u^{(\ell)})$ such that
+
+where $w^{(\ell)}\overset{\ \text{i.i.d.}}{\sim}{\mathcal{N}{(0,{\sigma_{w}^{2}I_{n_{x}}})}}$ and are independent from $x^{(\ell)}$ and $u^{(\ell)}$. Also, assume that $N \geq {n_{x} + n_{u}}$. Then, with probability $1 - \delta$, we have
+
+where $C_{n_{x},n_{u},\delta}^{2} = {\sigma_{w}^{2}{({\sqrt{n_{x} + n_{u}} + \sqrt{n_{x}} + \sqrt{2{\log{({1/\delta})}}}})}^{2}}$. If the matrix on the right hand side has zero as an eigenvalue, we define the inverse of that eigenvalue to be infinity.
+
+Proof. We rely on the the following standard result in high-dimensional statistics: for $W \in {\mathbb{R}}^{N \times n_{x}}$ a matrix with each entry i.i.d. $\mathcal{N}{(0,\sigma_{w}^{2})}$, it holds with probability at least $1 - \delta$ that ${{\| W\|}_{2} \leq {\sigma_{w}{({\sqrt{N} + \sqrt{n_{x}} + \sqrt{2{\log{({1/\delta})}}}})}}}.$
+
+As before we use $Z$ to denote the $N \times {({n_{x} + n_{u}})}$ matrix with rows equal to $z_{\ell}^{\top} = \begin{bmatrix}
+{(x^{(\ell)})}^{\top} & {(u^{(\ell)})}^{\top}
+\end{bmatrix}$. Also, we denote by $W$ the $N \times n_{x}$ matrix with columns equal to $w^{(\ell)}$. Therefore, as before, the error matrix for the ordinary least squares estimator satisfies $E = {{({Z^{\top}Z})}^{- 1}Z^{\top}W}$ when the matrix $Z$ has rank $n_{x} + n_{u}$. Under the assumption that $N \geq {n_{x} + n_{u}}$ we consider the singular value decomposition $Z = {U\LambdaV^{\top}}$, where ${V,\Lambda} \in {\mathbb{R}}^{{({n_{x} + n_{u}})} \times {({n_{x} + n_{u}})}}$ and $U \in {\mathbb{R}}^{N \times {({n_{x} + n_{u}})}}$. Therefore, when $\Lambda$ is invertible, ${E = {V{({\Lambda^{\top}\Lambda})}^{- 1}\Lambda^{\top}U^{\top}W} = {V\Lambda^{- 1}U^{\top}W}}.$
+
+This implies that
+
+As the columns of $U$ are orthonormal, the entries of $U^{\top}W$ are i.i.d. $\mathcal{N}{(0,\sigma_{w}^{2})}$, from which the result follows.
+
+The following corollary is then immediate.
+
+### Corollary V.2
+
+Let the conditions of Proposition V.1. ‣ V Data-Dependent Bounds and the Bootstrap ‣ A Tutorial on Concentration Bounds for System Identification") hold. Then with probability at least $1 - \delta$
+
+### Single trajectory bounds
+
+To derive similar data-dependent bounds for the single-trajectory setting, we exploit the decomposition and find a data-dependent bound to the self-normalized martingale term
+
+where for convenience, we use the transpose of the previously defined expressions. To do so, we need the following result.
+
+### Theorem V.3 (Theorem 1, \[6\])
+
+Let ${\{\mathcal{F}_{t}\}}_{t \geq 0}$ be a filtration, and ${\{\eta_{t}\}}_{t \geq 0}$ be a real valued stochastic process such that $\eta_{t}$ is $\mathcal{F}_{t}$-measurable, and $\eta_{t}$ is conditionally sub-Gaussian with parameter $R^{2}$, i.e.,
+
+Let ${\{ X_{t}\}}_{t \geq 0}$ be an ${\mathbb{R}}^{n}$-valued stochastic process such that $X_{t}$ is $\mathcal{F}_{t - 1}$-measurable. Assume that $V$ is a $n \times n$ dimensional positive definite matrix. For any $t \geq 0$, define
+
+Then, for any $\delta > 0$, with probability at least $1 - \delta$ and for all $t \geq 0$,
+
+This theorem now allows us to provide a purely data-dependent bound to the term. We let $V_{T}:={\sum_{t = 1}^{T}{z_{t}z_{t}^{\top}}}$.
+
+### Proposition V.4
+
+Fix $\alpha > 0$, and let
+
+Then, if $V_{T} \succeq {\alphaV}$, it holds with probability at least $1 - \delta$,
+
+Proof. By assumption $V_{T} \succeq {\alphaV} \succ 0$. Now define
+
+In terms of these matrices, our goal is now to bound ${\parallel{V_{T}^{- {1/2}}S_{T}}\parallel}_{2}$. We first observe that $V_{T} \succeq {\alphaV}$, and consequently ${\overline{V}}_{T} \preceq {{({1 + \alpha})}V_{T}}$, from which it follows that ${\parallel{V_{T}^{- {1/2}}S_{T}}\parallel}_{2} \leq {\sqrt{1 + \alpha}{\parallel{{\overline{V_{T}}}^{- {1/2}}S_{T}}\parallel}_{2}}$. Now fix an arbitrary $v \in \mathcal{S}^{n_{x} - 1}$, and notice that ${S_{T}v} = {\sum_{t = 1}^{T}{z_{t}{({w_{t}^{\top}v})}}}$, where ${({w_{t}^{\top}v})}\overset{\ \text{i.i.d.}}{\sim}{\mathcal{N}{(0,\sigma_{w}^{2})}}$. We can therefore apply Theorem V.3. ‣ Single trajectory bounds ‣ V Data-Dependent Bounds and the Bootstrap ‣ A Tutorial on Concentration Bounds for System Identification") to see that with probability at least $1 - \delta$,
+
+Now taking a $1/4$-net of $\mathcal{S}^{n_{x} - 1}$ and union bounding over the at most $9^{n_{x}}$ events $()$ with failure probabilities $\delta/9^{n_{x}}$, we have that with probability at least $1 - \delta$
+
+Recalling that ${\parallel{V_{T}^{- {1/2}}S_{T}}\parallel}_{2} \leq {\sqrt{1 + \alpha}{\parallel{{\overline{V_{T}}}^{- {1/2}}S_{T}}\parallel}}$, we have, with probability at least $1 - \delta$, that
+
+Combining this bound with expression, then yields.
+
+### The Bootstrap
+
+The Bootstrap is a technique used to estimate population statistics (such as confidence intervals) by sampling from synthetic data generated from empirical estimates of the underlying distribution. Algorithm 1,^11^1We assume that $\sigma_{u}$ and $\sigma_{w}$ are known. Otherwise they can be estimated from data., as suggested in, can be used to estimate the error bounds $\epsilon_{A}:={\parallel{\hat{A} - A}\parallel}_{2}$ and $\epsilon_{B}:={\parallel{\hat{B} - B}\parallel}_{2}$.
+
+1:Input: confidence parameter δ, number of trials M, data $\left\{ \left( x_{t}^{(i)},u_{t}^{(i)} \right) \right\}_{\begin{matrix}
+\end{matrix}}$, and (Â,B̂) a minimizer of ${\sum_{\ell = 1}^{N}{\sum_{t = 0}^{T - 1}{\frac{1}{2}{\parallel{{{Ax_{t}^{(\ell)}} + {Bu_{t}^{(\ell)}}} - x_{t + 1}^{(\ell)}}\parallel}_{2}^{2}}}}.$
+6: x̂t + 1(ℓ) = Â x̂t(ℓ) + B̂ ût(ℓ) + ŵt(ℓ) with ${\hat{w}}_{t}^{(\ell)}\overset{\ \text{i.i.d.}}{\sim}{\mathcal{N}\left( 0,{\sigma_{w}^{2}I_{n_{x}}} \right)}$ and ${\hat{u}}_{t}^{(\ell)}\overset{\ \text{i.i.d.}}{\sim}{\mathcal{N}\left( 0,{\sigma_{u}^{2}I_{n_{u}}} \right)}$.
+9: $\left( \overset{\sim}{A},\overset{\sim}{B} \right) \in {{\arg\min_{(A,B)}}{\sum_{\ell = 1}^{N}{\sum_{t = 0}^{T - 1}{\frac{1}{2}\left\| {{{A{\hat{x}}_{t}^{(\ell)}} + {B{\hat{u}}_{t}^{(\ell)}}} - {\hat{x}}_{t + 1}^{(\ell)}} \right\|_{2}^{2}}}}}$.
+10: record ${\overset{\sim}{\epsilon}}_{A} = \left\| {\hat{A} - \overset{\sim}{A}} \right\|_{2}$ and ${\overset{\sim}{\epsilon}}_{B} = \left\| {\hat{B} - \overset{\sim}{B}} \right\|_{2}$.
+12:Output: ϵA and ϵB, the 100 (1−δ)th percentiles of the ${\overset{\sim}{\epsilon}}_{A}$’s and the ${\overset{\sim}{\epsilon}}_{B}$’s.
+Algorithm 1 Bootstrap estimation of ϵA and ϵB
+
+For $\epsilon_{A}$ and $\epsilon_{B}$ estimated by Algorithm 1 we intuitively have
+
+Although we do not do so here, these results can be formalized: for more details see texts by Van Der Vaart and Wellner, Shao and Tu, and Hall.
+
+### Example 3 (Data-driven bounds)
+
+Consider the discrete-time double integrator system
+
+driven by noise process $w_{t}\overset{\ \text{i.i.d.}}{\sim}{\mathcal{N}{(0,{\sigma_{w}^{2}I_{2}})}}$ and exploratory input $u_{t}\overset{\ \text{i.i.d.}}{\sim}{\mathcal{N}{(0,\sigma_{u}^{2})}}$, with $\sigma_{w} = 0.1$ and $\sigma_{u} = 1$. Figure 1. ‣ The Bootstrap ‣ V Data-Dependent Bounds and the Bootstrap ‣ A Tutorial on Concentration Bounds for System Identification") illustrates the resulting error and bound trajectories.
+
+Figure 1: Data-dependent and bootstrapped bounds of estimates – shown are median, first and third quartiles over 10 independent runs. The left figure shows the error bound for a single trajectory estimate, whereas the two rightmost figures show the bounds from and bootstrap estimates. For the bootstrap algorithm, we run M = 200 loops, and set the horizon N to T.
+
+## conclusion
+
+In this paper, we provided a brief introduction to tools useful for the finite-time analysis of system identification algorithms. We studied the full information setting, and showed how concentration of measure of sub-Gaussian and sub-exponential random variables are sufficient to analyze the independent trajectory estimator. We further showed that the analysis becomes much more challenging in the single-trajectory setting, but that tools from self-normalized martingale theory and small-ball probability are useful in this context. Finally, we provided computable data-dependent bounds that can be used in practical algorithms. In our companion paper, we show how these tools can be used to design and analyze self-tuning and adaptive control methods with finite-data guarantees. Although we focused on the full information setting, we note that many of the techniques described extend naturally to the partially observed setting.

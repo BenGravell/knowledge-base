@@ -1,0 +1,425 @@
+## Introduction
+
+Reinforcement learning-based control has recently achieved impressive successes in games and simulators. But these successes are significantly more challenging to translate to complex physical systems with continuous state and action spaces, safety constraints, and non-negligible operation and failure costs that demand data efficiency. An intense and growing research effort is creating a large array of models, algorithms, and heuristics for approaching the myriad of challenges arising from these systems. To complement a dominant trend of more computationally focused work, the canonical linear quadratic regulator (LQR) problem in control theory has reemerged as an important theoretical benchmark for learning-based control. Despite its long history, there remain fundamental open questions for LQR with unknown models, and a foundational understanding of learning in LQR problems can give insight into more challenging problems.
+
+Almost all recent work on learning in LQR problems has utilized either deterministic or additive noise models, but here we consider *multiplicative noise models*. In control theory, multiplicative noise models have been studied almost as long as their deterministic and additive noise counterparts, although this area is somewhat less developed and far less widely known. We believe the study of learning in LQR problems with multiplicative noise is important for three reasons. First, this class of models is much richer than deterministic or additive noise while still allowing exact solutions when models are known, which makes it a compelling additional benchmark. Second, they explicitly incorporate model uncertainty and inherent stochasticity, thereby improving robustness properties of the controller. Robustness is a critical and poorly understood issue in reinforcement learning; existing methods which do not account for uncertainty can converge to fragile policies or fail to converge at all. Additionally, intentional injection of multiplicative noise into learning algorithms is known to enhance robustness of policies from ad hoc work on domain randomization. Third, in emerging difficult-to-model complex systems where learning-based control approaches are perhaps most promising, multiplicative noise models are increasingly relevant; examples include networked systems with noisy communication channels, modern power networks with large penetration of intermittent renewables, turbulent fluid flow, and neuronal brain networks.
+
+### Related literature
+
+Multiplicative noise LQR problems have been studied in control theory since the 1960s. Since then a line of research parallel to deterministic and additive noise has developed, including basic stability and stabilizability results, semidefinite programming formulations, robustness properties, and numerical algorithms. This line of research is less widely known perhaps because much of it studies continuous time systems, where the heavy machinery required to formalize stochastic differential equations is a barrier to entry for a broad audience. Multiplicative noise models are well-poised to offer data-driven model uncertainty representations and enhanced robustness in learning-based control algorithms and complex dynamical systems and processes. A related line of research which has seen recent activity is on learning optimal control of Markovian jump linear systems with unknown dynamics and noise distributions, which under certain assumptions form a special case of the multiplicative noise system we analyze in this work.
+
+In contrast to classical work on system identification and adaptive control, which has a strong focus on asymptotic results, more recent work has focused on non-asymptotic analysis using newly developed mathematical tools from statistics and machine learning. There remain fundamental open problems for learning in LQR problems, with several addressed only recently, including non-asymptotic sample complexity, regret bounds, and algorithmic convergence. Alternatives to reinforcement learning include other data-driven model-free optimal control schemes and those leveraging the behavioral framework. Subspace identification methods offer a model-based generalization to the output feedback setting.
+
+### Our contributions
+
+In §2 we establish the multiplicative noise LQR problem and motivate its study via a connection to robust stability. We then give several fundamental results for policy gradient algorithms on linear quadratic problems with multiplicative noise. Our main contributions are as follows, which can be viewed as a generalization of the recent results of Fazel et al. for deterministic LQR to multiplicative noise LQR:
+
+In §3 we show that although the multiplicative noise LQR cost is generally non-convex, it has a special property called *gradient domination*, which facilitates its optimization (Lemmas 3.1. ‣ 3.1. Multiplicative Noise LQR Cost is Gradient Dominated ‣ 3. Gradient Domination and Other Properties of the Multiplicative Noise LQR Cost ‣ Learning Robust Controllers for Linear Quadratic Systems with Multiplicative Noise via Policy Gradient") and 3.3. ‣ 3.1. Multiplicative Noise LQR Cost is Gradient Dominated ‣ 3. Gradient Domination and Other Properties of the Multiplicative Noise LQR Cost ‣ Learning Robust Controllers for Linear Quadratic Systems with Multiplicative Noise via Policy Gradient")).
+
+In particular, in §4 the gradient domination property is exploited to prove global convergence of three policy gradient algorithm variants (namely, exact gradient descent, "natural" gradient descent, and Gauss-Newton/policy iteration) to the globally optimum control policy with a rate that depends polynomially on problem parameters (Theorems 4.1. ‣ 4.2. Gauss-Newton Descent ‣ 4. Global Convergence of Policy Gradient in the Model-Based Setting ‣ Learning Robust Controllers for Linear Quadratic Systems with Multiplicative Noise via Policy Gradient"), 4.2. ‣ 4.3. Natural Policy Gradient Descent ‣ 4. Global Convergence of Policy Gradient in the Model-Based Setting ‣ Learning Robust Controllers for Linear Quadratic Systems with Multiplicative Noise via Policy Gradient"), and 4.3. ‣ 4.4. Policy Gradient Descent ‣ 4. Global Convergence of Policy Gradient in the Model-Based Setting ‣ Learning Robust Controllers for Linear Quadratic Systems with Multiplicative Noise via Policy Gradient")).
+
+Furthermore, in §5 we show that a model-free policy gradient algorithm, where the gradient is estimated from trajectory data ("rollouts") rather than computed from model parameters, also converges globally (with high probability) with an appropriate exploration scheme and sufficiently many samples (polynomial in problem data) (Theorem 5.1. ‣ 5. Global Convergence of Policy Gradient in the Model-Free Setting ‣ Learning Robust Controllers for Linear Quadratic Systems with Multiplicative Noise via Policy Gradient")).
+
+In comparison with the deterministic dynamics studied by, we make the following novel technical contributions:
+
+We quantify the increase in computational burden of policy gradient methods due to the presence of multiplicative noise, which is evident from the bounds developed in Appendices B and C. The noise acts to reduce the step size and thus convergence rate, and increases the required number of samples and rollout length in the model-free setting.
+
+A covariance dynamics operator $\mathcal{F}_{K}$ is established for multiplicative noise systems with a more complicated form than the deterministic case. This necessitated a more careful treatment and novel proof by induction and term matching argument in the proof of Lemma B.4. ‣ Appendix B Model-based policy gradient descent ‣ Learning Robust Controllers for Linear Quadratic Systems with Multiplicative Noise via Policy Gradient").
+
+Several restrictions on the algorithmic parameters (step size, number of rollouts, rollout length, exploration radius) which are necessary for convergence are established and treated.
+
+An important restriction on the support of the multiplicative noise distribution, which is naturally absent in, is established in the model-free setting.
+
+A matrix Bernstein concentration inequality is stated explicitly and used to give explicit bounds on the algorithmic parameters in the model-free setting in terms of problem data.
+
+Discussion and numerical results on the use of backtracking line search is included.
+
+When the multiplicative variances $\alpha_{i}$, $\beta_{j}$ are all zero, the assertions of Theorems 4.1. ‣ 4.2. Gauss-Newton Descent ‣ 4. Global Convergence of Policy Gradient in the Model-Based Setting ‣ Learning Robust Controllers for Linear Quadratic Systems with Multiplicative Noise via Policy Gradient"), 4.2. ‣ 4.3. Natural Policy Gradient Descent ‣ 4. Global Convergence of Policy Gradient in the Model-Based Setting ‣ Learning Robust Controllers for Linear Quadratic Systems with Multiplicative Noise via Policy Gradient"), 4.3. ‣ 4.4. Policy Gradient Descent ‣ 4. Global Convergence of Policy Gradient in the Model-Based Setting ‣ Learning Robust Controllers for Linear Quadratic Systems with Multiplicative Noise via Policy Gradient"), 5.1. ‣ 5. Global Convergence of Policy Gradient in the Model-Free Setting ‣ Learning Robust Controllers for Linear Quadratic Systems with Multiplicative Noise via Policy Gradient") recover the same step sizes and convergence rates of the deterministic setting reported by.
+
+Thus, policy gradient algorithms for the multiplicative noise LQR problem enjoy the same global convergence properties as deterministic LQR, while significantly enhancing the resulting controller's robustness to variations and inherent stochasticity in the system dynamics, as demonstrated by our numerical experiments in §6.
+
+To our best knowledge, the present paper is the first work to consider and obtain global convergence results using reinforcement learning algorithms for the multiplicative noise LQR problem. Our approach allows the explicit incorporation of a model uncertainty representation that significantly improves the robustness of the controller compared to deterministic and additive noise approaches.
+
+## Optimal Control of Linear Systems with Multiplicative Noise and Quadratic Costs
+
+We consider the infinite-horizon linear quadratic regulator problem with multiplicative noise (LQRm)
+
+where $x_{t} \in {\mathbb{R}}^{n}$ is the system state, $u_{t} \in {\mathbb{R}}^{m}$ is the control input, the initial state $x_{0}$ is distributed according to $\mathcal{P}_{0}$ with covariance $\Sigma_{0} ≔ {{\mathbb{E}}_{x_{0}}{\lbrack{x_{0}x_{0}^{\intercal}}\rbrack}}$, $\Sigma_{0} \succ 0$, and $Q \succ 0$ and $R \succ 0$. The dynamics are described by a dynamics matrix $A \in {\mathbb{R}}^{n \times n}$ and input matrix $B \in R^{n \times m}$ and incorporate multiplicative noise terms modeled by the i.i.d. (across time), zero-mean, mutually independent scalar random variables $\delta_{ti}$ and $\gamma_{tj}$, which have variances $\alpha_{i}$ and $\beta_{j}$, respectively. The matrices $A_{i} \in {\mathbb{R}}^{n \times n}$ and $B_{i} \in {\mathbb{R}}^{n \times m}$ specify how each scalar noise term affects the system dynamics and input matrices. Alternatively, suppose ${bar}A$ and ${bar}B$ are zero-mean random matrices with a joint covariance structure^11^1We assume ${bar}A$ and ${bar}B$ are independent for simplicity, but it is straightforward to include correlations between the entries of ${bar}A$ and ${bar}B$ into the model. over their entries governed by the covariance matrices $\Sigma_{A} ≔ {{\mathbb{E}}{\lbrack{{\mathbf{v}\mathbf{e}\mathbf{c}}{({{bar}A})}{\mathbf{v}\mathbf{e}\mathbf{c}}{({{bar}A})}^{\intercal}}\rbrack}} \in {\mathbb{R}}^{n^{2} \times n^{2}}$ and $\Sigma_{B} ≔ {{\mathbb{E}}{\lbrack{{\mathbf{v}\mathbf{e}\mathbf{c}}{({{bar}B})}{\mathbf{v}\mathbf{e}\mathbf{c}}{({{bar}B})}^{\intercal}}\rbrack}} \in {\mathbb{R}}^{{{nm} \times n}m}$. Then it suffices to take the variances $\alpha_{i}$ and $\beta_{j}$ and matrices $A_{i}$ and $B_{j}$ as the eigenvalues and (reshaped) eigenvectors of $\Sigma_{A}$ and $\Sigma_{B}$, respectively, after a projection onto a set of orthogonal real-valued vectors. The goal is to determine a closed-loop state feedback policy $\pi^{\ast}$ with $u_{t} = {\pi^{\ast}{(x_{t})}}$ from a set $\Pi$ of admissible policies which solves the optimization in.
+
+We assume that the problem data $A$, $B$, $\alpha_{i}$, $A_{i}$, $\beta_{j}$, and $B_{j}$ permit existence and finiteness of the optimal value of the problem, in which case the system is called *mean-square stabilizable* and requires *mean-square stability* of the closed-loop system. The system in is called *mean-square stable* if ${\lim_{t\rightarrow\infty}{{\mathbb{E}}_{x_{0},\delta,\gamma}{\lbrack{x_{t}x_{t}^{\intercal}}\rbrack}}} = 0$ for any given initial covariance $\Sigma_{0}$, where for brevity we notate expectation with respect to the noises ${\mathbb{E}}_{{\{\delta_{ti}\}},{\{\gamma_{tj}\}}}$ as ${\mathbb{E}}_{\delta,\gamma}$. Mean-square stability is a form of robust stability, implying stability of the mean (i.e. ${\lim_{t\rightarrow\infty}{{\mathbb{E}}x_{t}}} = {0{\forall x_{0}}}$) as well as almost-sure stability (i.e. ${\lim_{t\rightarrow\infty}x_{t}} = 0$ almost surely). Mean-square stability requires stricter and more complicated conditions than stabilizability of the nominal system $(A,B)$, which are discussed in the sequel. This essentially can limit the size of the multiplicative noise covariance, which can be viewed as a representation of uncertainty in the nominal system model or as inherent variation in the system dynamics.
+
+### Control Design with Known Models: Value Iteration
+
+Dynamic programming can be used to show that the optimal policy $\pi^{\ast}$ is linear state feedback $u_{t} = {\pi^{\ast}{(x_{t})}} = {K^{\ast}x_{t}}$, where $K^{\ast} \in {\mathbb{R}}^{m \times n}$ denotes the optimal gain matrix. When the control policy is linear state feedback $u_{t} = {\pi{(x_{t})}} = {Kx_{t}}$, with a very slight abuse of notation the cost becomes
+
+Dynamic programming further shows that the resulting optimal cost is quadratic in the initial state, i.e. ${C{(K^{\ast})}} = {{\mathbb{E}}_{x_{0}}x_{0}^{\intercal}Px_{0}} = {{Tr}{({P\Sigma_{0}})}}$, where $P \in {\mathbb{R}}^{n \times n}$ is a symmetric positive definite matrix. Note that the optimal controller does not need to directly observe the noise variables $\delta_{ti}$, $\gamma_{tj}$. When the model parameters are known, there are several ways to compute the optimal feedback gains and corresponding optimal cost. The optimal cost is given by the solution of the *generalized* algebraic Riccati equation (GARE)
+
+This is a special case of the GARE for optimal static output feedback given in and can be solved via the value iteration
+
+with $P_{0} = Q$, or via semidefinite programming formulations, or via more exotic iterations based on the Smith method and Krylov subspaces. The associated optimal gain matrix is
+
+It was verified in that existence of a positive definite solution to the GARE is equivalent to mean-square stabilizability of the system, which depends on the problem data $A$, $B$, $\alpha_{i}$, $A_{i}$, $\beta_{j}$, and $B_{j}$; in particular, mean-square stability generally imposes upper bounds on the variances $\alpha_{i}$ and $\beta_{j}$, but may be infinite depending on the structure of $A$, $B$, $A_{i}$, and $B_{j}$. At a minimum, uniqueness and existence of a solution to the GARE requires the standard conditions for uniqueness and existence of a solution to the standard ARE, namely of $(A,B)$ stabilizable and $(A,Q^{1/2})$ detectable.
+
+Although (approximate) value iteration can be implemented using sample trajectory data, policy gradient methods have been shown to be more effective for approximately optimal control of high-dimensional stochastic nonlinear systems e.g. those arising in robotics. This motivates our following analysis of the simpler case of stochastic linear systems wherein we show that policy gradient indeed facilitates a data-driven approach for learning optimal and robust policies.
+
+### Control Design with Known Models: Policy Gradient
+
+Consider a fixed linear state feedback policy $u_{t} = {Kx_{t}}$. Defining the stochastic system matrices
+
+the deterministic nominal and stochastic closed-loop system matrices
+
+and the closed-loop state-cost matrix
+
+the closed-loop dynamics become
+
+A gain $K$ is mean-square stabilizing if the closed-loop system is mean-square stable. Denote the set of mean-square stabilizing $K$ as $\mathcal{K}$. If $K \in \mathcal{K}$, then the cost can be written as
+
+where $P_{K}$ is the unique positive semidefinite solution to the *generalized* Lyapunov equation
+
+We define the state covariance matrices and the infinite-horizon aggregate state covariance matrix as
+
+If $K \in \mathcal{K}$ then $\Sigma_{K}$ also satisfies a *dual* generalized Lyapunov equation
+
+Vectorization and Kronecker products can be used to convert and into systems of linear equations. Alternatively, iterative methods have been suggested for their solution. The state covariance dynamics are captured by two closed-loop finite-dimensional linear operators which operate on a symmetric matrix $X$:
+
+Thus $\mathcal{F}_{K}$ (without an argument) is a linear operator whose matrix representation is
+
+The $\Sigma_{t}$ evolve according to the dynamics
+
+We define the $t$-stage of $\mathcal{F}_{K}{(X)}$ as
+
+which gives the natural characterization
+
+We then have the following lemma:
+
+### Lemma 2.1 (Mean-square stability)
+
+A gain $K$ is mean-square stabilizing if and only if the spectral radius ${\rho{(\mathcal{F}_{K})}} < 1$.
+
+### Proof
+
+Mean-square stability implies ${\underset{t\rightarrow\infty}{lim}{\mathbb{E}}{\lbrack{x_{t}x_{t}^{\intercal}}\rbrack}} = 0$, which for linear systems occurs only when $\Sigma_{K}$ is finite, which by is equivalent to ${\rho{(\mathcal{F}_{K})}} < 1$. ∎
+
+Recalling the definition of $C{(K)}$ and, along with the basic observation that $K \notin \mathcal{K}$ induces infinite cost, gives the following characterization of the cost:
+
+The evident fact that $C{(K)}$ is expressed as a closed-form function, up to a Lyapunov equation, of $K$ leads to the idea of performing gradient descent on $C{(K)}$ (i.e., policy gradient) via the update $K\leftarrow{K - {\eta{\nabla C}{(K)}}}$ to find the optimal gain matrix. However, two properties of the LQR cost function $C{(K)}$ complicate a convergence analysis of gradient descent. First, $C{(K)}$ is extended valued since not all gain matrices provide closed-loop mean-square stability, so it does not have (global) Lipschitz gradients. Second, and even more concerning, $C{(K)}$ is generally non-convex in $K$ (even for deterministic LQR problems, as observed by Fazel et al. ), so it is unclear if and when gradient descent converges to the global optimum, or if it even converges at all. Fortunately, as in the deterministic case, we show that the multiplicative LQR cost possesses further key properties that enable proof of global convergence despite the lack of Lipschitz gradients and non-convexity.
+
+### From Stochastic to Robust Stability
+
+Additional motivation for designing controllers which stabilize a stochastic system in mean-square is to ensure robustness of stability of a nominal deterministic system to model parameter perturbations. Here we state a condition which guarantees robust deterministic stability for a perturbed deterministic system given mean-square stability of a stochastic single-state system with multiplicative noise where the noise variance and parameter perturbation size are related.
+
+### Example 2.2 (Robust stability)
+
+Suppose the stochastic closed-loop system
+
+where $a,x_{t},\delta_{t}$ are scalars with ${{\mathbb{E}}{\lbrack\delta_{t}^{2}\rbrack}} = \alpha$ is mean-square stable. Then, the perturbed deterministic system
+
+is stable for any constant perturbation ${|\phi|} \leq {\sqrt{a^{2} + \alpha} - {|a|}}$.
+
+### Proof
+
+By the bound on $\phi$ and triangle inequality we have ${{\rho{({a + \phi})}} = {|{a + \phi}|} \leq {{|a|} + {|\phi|}} \leq \sqrt{a^{2} + \alpha}}.$ From Lemma 2.1. ‣ 2.2. Control Design with Known Models: Policy Gradient ‣ 2. Optimal Control of Linear Systems with Multiplicative Noise and Quadratic Costs ‣ Learning Robust Controllers for Linear Quadratic Systems with Multiplicative Noise via Policy Gradient"), mean-square stability of (18. ‣ 2.3. From Stochastic to Robust Stability ‣ 2. Optimal Control of Linear Systems with Multiplicative Noise and Quadratic Costs ‣ Learning Robust Controllers for Linear Quadratic Systems with Multiplicative Noise via Policy Gradient")) implies $\sqrt{\rho{(\mathcal{F})}} = \sqrt{a^{2} + \alpha} < 1$ and thus ${\rho{({a + \phi})}} < 1$, proving stability of (19. ‣ 2.3. From Stochastic to Robust Stability ‣ 2. Optimal Control of Linear Systems with Multiplicative Noise and Quadratic Costs ‣ Learning Robust Controllers for Linear Quadratic Systems with Multiplicative Noise via Policy Gradient")). ∎
+
+Although this is a simple example, it demonstrates that the robustness margin increases monotonically with the multiplicative noise variance. We also see that when $\alpha = 0$ the bound collapses so that no robustness is guaranteed, i.e., when ${|a|}\rightarrow 1$. This result can be extended to multiple states, inputs, and noise directions, but the resulting conditions become considerably more complex. We now proceed with developing methods for optimal control.
+
+## Gradient Domination and Other Properties of the Multiplicative Noise LQR Cost
+
+In this section, we demonstrate that the multiplicative noise LQR cost function is *gradient dominated*, which facilitates optimization by gradient descent. Gradient dominated functions have been studied for many years in the optimization literature and have recently been discovered in deterministic LQR problems by.
+
+### Multiplicative Noise LQR Cost is Gradient Dominated
+
+First, we give the expression for the policy gradient of the multiplicative noise LQR cost.^22^2We include a factor of 2 on the gradient expression that was erroneously dropped in. This affects the step size restrictions by a corresponding factor of 2. Define
+
+### Lemma 3.1 (Policy Gradient Expression)
+
+The policy gradient is given by
+
+### Proof
+
+Substituting the RHS of the generalized Lyapunov equation into the cost ${C{(K)}} = {{Tr}{({P_{K}\Sigma_{0}})}}$ yields
+
+Taking the gradient with respect to $K$ and using the product rule and rules for matrix derivatives we obtain
+
+where the tilde on $\overset{\sim}{K}$ and overbar on $\overline{K}$ are used to denote the terms being differentiated. Applying this gradient formula recursively to the last term in the last line (namely ${\nabla_{{bar}K}{Tr}}{({P_{{bar}K}\Sigma_{1}})}$), and recalling the definition of $\Sigma_{K}$ we obtain
+
+which completes the proof. ∎
+
+For brevity the gradient is implied to be with respect to the gains $K$ in the rest of this work, i.e., $\nabla_{K}$ denoted by $\nabla$. Now we must develop some auxiliary results before demonstrating gradient domination. Throughout $\| Z\|$ and ${\| Z\|}_{F}$ are the spectral and Frobenius norms respectively of a matrix $Z$, and $\underset{¯}{\sigma}{(Z)}$ and $\overline{\sigma}{(Z)}$ are the minimum and maximum singular values of a matrix $Z$. The value function of $V_{K}{(x)}$ for $x = x_{0}$ is defined as
+
+which relates to the cost as ${C{(K)}} = {{\mathbb{E}}_{x_{0}}V_{K}{(x_{0})}}$. The advantage function is defined as
+
+where the expectation is with respect to $\overset{\sim}{A}$ and $\overset{\sim}{B}$ *inside* the parentheses of $V_{K}{({{\overset{\sim}{A}x} + {\overset{\sim}{B}u}})}$. The advantage function can be thought of as the difference in cost ("advantage") when starting in state $x$ of taking an action $u$ for one step instead of the action generated by policy $K$. We also define the state, input, and cost sequences
+
+Throughout the proofs we will consider pairs of gains $K$ and $K^{\prime}$ and their difference $\Delta ≔ K{}_{}^{}K$.
+
+### Lemma 3.2 (Value difference)
+
+Suppose $K$ and $K^{\prime}$ generate the (stochastic) state, action, and cost sequences ${\{ x_{t}\}}_{K,x},{\{ u_{t}\}}_{K,x},{\{ c_{t}\}}_{K,x}$ and ${\{ x_{t}\}}_{K{}_{}^{}x},{\{ u_{t}\}}_{K{}_{}^{}x},{\{ c_{t}\}}_{K{}_{}^{}x}$. Then the value difference and advantage satisfy
+
+### Proof
+
+The proof follows the "cost-difference" lemma in exactly substituting versions of value and cost functions, etc. which take expectation over the multiplicative noise. By definition we have
+
+so we can write the value difference as
+
+We expand the following value function difference as
+
+where the last equality is valid by noting that the first term in sequence ${\{ x_{t}\}}_{K{}_{}^{}x}$ is $x$. Continuing the value difference expression we have
+
+For the second part of the proof regarding the advantage expression, we expand and substitute in definitions:
+
+Now note that
+
+where the third equality follows from all of the $\delta_{ti}$ and $\gamma_{tj}$ being zero-mean and mutually independent. Substituting and continuing,
+
+We also have the following expression from the recursive relationship for $P_{K}$
+
+Substituting, we cancel the $V_{K}{(x)}$ term which leads to the result after rearrangement:
+
+which completes the proof. ∎
+
+Next, we see that the multiplicative noise LQR cost is gradient dominated.
+
+### Lemma 3.3 (Gradient domination)
+
+The LQR-with-multiplicative-noise cost $C{(K)}$ satisfies the gradient domination condition
+
+### Proof
+
+We start with the advantage expression
+
+Next we rearrange and complete the square:
+
+Since $R_{K} \succ 0$, we have
+
+with equality only when $\Delta = {- {R_{K}^{- 1}E_{K}}}$.
+
+Let the state and control sequences associated with the optimal gain $K^{\ast}$ be ${\{ x_{t}\}}_{K^{\ast},x}$ and ${\{ u_{t}\}}_{K^{\ast},x}$ respectively. We now obtain an upper bound for the cost difference by writing the cost difference in terms of the value function as
+
+Using the first part of the value-difference Lemma 3.2. ‣ 3.1. Multiplicative Noise LQR Cost is Gradient Dominated ‣ 3. Gradient Domination and Other Properties of the Multiplicative Noise LQR Cost ‣ Learning Robust Controllers for Linear Quadratic Systems with Multiplicative Noise via Policy Gradient") and negating we obtain
+
+where the second step used the advantage inequality in. Now using ${|{{Tr}{({YZ})}}|} \leq {{\| Y\|}{|{{Tr}{(Z)}}|}}$ we obtain
+
+where the first and second inequalities will be used later in the Gauss-Newton and gradient descent convergence proofs respectively. Combining ${\| R_{K}\|} \geq {\| R\|} = {\overline{\sigma}{(R)}} \geq {\underset{¯}{\sigma}{(R)}}$ with ${\| Z^{- 1}\|} \geq {\| Z\|}^{- 1}$ we obtain
+
+which will be used later in the natural policy gradient descent convergence proof. Now we rearrange and substitute in the policy gradient expression ${\frac{1}{2}{\nabla C}{(K)}{(\Sigma_{K})}^{- 1}} = E_{K}$
+
+where the last step used the definition and submultiplicativity of spectral norm. Using
+
+completes the proof. ∎
+
+The gradient domination property gives the following stationary point characterization.
+
+### Corollary 3.4
+
+If ${{\nabla C}{(K)}} = 0$ then either $K = K^{\ast}$ or ${\text{rank~}{(\Sigma_{K})}} < n$.
+
+In other words, so long as $\Sigma_{K}$ is full rank, stationarity is both necessary and sufficient for global optimality, as for convex functions. Note that it is not sufficient to just have multiplicative noise in the dynamics with a deterministic initial state $x_{0}$ to ensure that $\Sigma_{K}$ is full rank. To see this, observe that if $x_{0} = 0$ and $\Sigma_{0} = 0$ then $\Sigma_{K} = 0$, which is clearly rank deficient. By contrast, additive noise is sufficient to ensure that $\Sigma_{K}$ is full rank with a deterministic initial state $x_{0}$, although we will not consider this setting. Using a random initial state with $\Sigma_{0} \succ 0$ ensures rank${(\Sigma_{K})} = n$ and thus ${{\nabla C}{(K)}} = 0$ implies $K = K^{\ast}$.
+
+Although the gradient of the multiplicative noise LQR cost is not globally Lipschitz continuous, it is locally Lipschitz continuous over any subset of its domain (i.e., over any set of mean-square stabilizing gain matrices). The gradient domination is then sufficient to show that policy gradient descent will converge to the optimal gains at a linear rate (a short proof of this fact for globally Lipschitz functions is given in ). We prove this convergence of policy gradient to the optimum feedback gain by bounding the local Lipschitz constant in terms of the problem data, which bounds the maximum step size and the convergence rate.
+
+### Additional Setup Lemmas
+
+Following we refer to Lipschitz continuity of the gradient as ($\mathcal{C}^{1}$-)smoothness, and so this section deals with showing that the LQR cost satisfies an expression that is almost of the exact form of a Lipschitz continuous gradient.
+
+### Lemma 3.5 (Almost-smoothness)
+
+The LQR-with-multiplicative-noise cost $C{(K)}$ satisfies the almost-smoothness expression
+
+### Proof
+
+As in the gradient domination proof, we express the cost difference in terms of the advantage by taking expectation over the initial states to obtain
+
+From the value difference lemma for the advantage we have
+
+Noting that ${\{ u_{t}\}}_{K^{\prime},x} = {K^{\prime}x}$ we substitute to obtain
+
+Using the definition of $\Sigma_{K^{\prime}}$ completes the proof. ∎
+
+### Remark 3.6
+
+For small deviations $K^{\prime} - K$ the equation in the almost-smoothness lemma exactly describes a Lipschitz continuous gradient. The naming should not be taken to imply that the LQRm cost is not smooth, but rather that the equation as stated does not immediately yield a Lipschitz constant; indeed the Lipschitz constant is what much of the later proofs go towards bounding (implicitly) i.e. by bounding higher-order terms which must be accounted for when $K^{\prime} \neq K$.
+
+To be specific, a Lipschitz continuous gradient to $C{(K)}$ implies there exists a Lipschitz constant $L$ such that
+
+for all $K^{\prime}$, $K$. This is the quadratic upper bound which is used e.g. in Thm. 1 of to prove convergence of gradient descent on a gradient dominated objective function. The "almost"-smoothness condition is that
+
+For $K^{\prime} \approx K$ we have $\Sigma_{K^{\prime}} \approx \Sigma_{K}$ so using ${{\nabla C}{(K)}} = {2E_{K}\Sigma_{K}}$ we have
+
+which is exactly of the form of the Lipschitz gradient condition with Lipschitz constant $2{\|\Sigma_{K}\|}{\| R_{K}\|}$. Note this is not a global Lipschitz condition since $2{\|\Sigma_{K}\|}{\| R_{K}\|}$ becomes unbounded as $K$ becomes mean-square destabilizing, but rather a local Lipschitz condition since $2{\|\Sigma_{K}\|}{\| R_{K}\|}$ is bounded on any sublevel set of $C{(K)}$.
+
+### Lemma 3.7 (Cost bounds)
+
+### Proof
+
+The proof follows that in exactly. The cost is lower bounded as
+
+which gives the first inequality. The cost is also lower bounded as
+
+which gives the second inequality. ∎
+
+## Global Convergence of Policy Gradient in the Model-Based Setting
+
+In this section we show that the policy gradient algorithm and two important variants for multiplicative noise LQR converge globally to the optimal policy. In contrast with, the policies we obtain are robust to uncertainties and inherent stochastic variations in the system dynamics. We analyze three policy gradient algorithm variants:
+
+25mm $K_{s + 1} = {K_{s} - {\eta{\nabla C}{(K_{s})}\Sigma_{K_{s}}^{- 1}}}$
+
+The more elaborate natural gradient and Gauss-Newton variants provide superior convergence rates and simpler proofs. A development of the natural policy gradient is given in building on ideas from. The Gauss-Newton step with step size $\frac{1}{2}$ is in fact identical to the policy improvement step in policy iteration (a short derivation is given shortly) and was first studied for deterministic LQR in. This was extended to a model-free setting using policy iteration and Q-learning in, proving asymptotic convergence of the gain matrix to the optimal gain matrix. For multiplicative noise LQR, we have the following results.
+
+### Derivation of the Gauss-Newton step from policy iteration
+
+We start with the policy improvement expression for the LQR problem:
+
+Stationary points occur when the gradient is zero, so differentiating with respect to $u$ we obtain
+
+Setting to zero and solving for $u$ gives
+
+Differentiating with respect to $u$ we obtain
+
+confirming that the stationary point is indeed a global minimum.
+
+Thus the policy iteration gain matrix update is
+
+This can be re-written in terms of the gradient as so:
+
+Parameterizing with a step size gives the Gauss-Newton step
+
+### Gauss-Newton Descent
+
+### Theorem 4.1 (Gauss-Newton convergence)
+
+Using the Gauss-Newton step
+
+with step size $0 < \eta \leq \frac{1}{2}$ gives global convergence to the optimal gain matrix $K^{\ast}$ at a linear rate described by
+
+### Proof
+
+The next-step gain matrix difference is
+
+Using the almost-smoothness Lemma 3.5. ‣ 3.2. Additional Setup Lemmas ‣ 3. Gradient Domination and Other Properties of the Multiplicative Noise LQR Cost ‣ Learning Robust Controllers for Linear Quadratic Systems with Multiplicative Noise via Policy Gradient") and substituting in the next-step gain matrix difference we obtain
+
+By hypothesis we require $0 \leq \eta \leq \frac{1}{2}$ so we have
+
+Recalling and substituting in we obtain
+
+Adding ${C{(K_{s})}} - {C{(K^{\ast})}}$ to both sides and rearranging completes the proof. ∎
+
+### Natural Policy Gradient Descent
+
+### Theorem 4.2 (Natural policy gradient convergence)
+
+Using the natural policy gradient step
+
+with step size $0 < \eta \leq c_{npg}$ where
+
+gives global convergence to the optimal gain matrix $K^{\ast}$ at a linear rate described by
+
+### Proof
+
+First we bound the one-step progress, where the step size depends explicitly on the current gain $K_{s}$. Using the update (109. ‣ 4.3. Natural Policy Gradient Descent ‣ 4. Global Convergence of Policy Gradient in the Model-Based Setting ‣ Learning Robust Controllers for Linear Quadratic Systems with Multiplicative Noise via Policy Gradient")), the next-step gain matrix difference is
+
+Using Lemma 3.5. ‣ 3.2. Additional Setup Lemmas ‣ 3. Gradient Domination and Other Properties of the Multiplicative Noise LQR Cost ‣ Learning Robust Controllers for Linear Quadratic Systems with Multiplicative Noise via Policy Gradient") and substituting we obtain
+
+If we choose step size $0 < \eta \leq \frac{1}{2{\| R_{K_{s}}\|}}$, then
+
+Recalling and substituting we obtain
+
+Adding ${C{(K_{s})}} - {C{(K^{\ast})}}$ to both sides and rearranging gives the one step progress bound
+
+Next, using the cost bound in Lemma 3.7. ‣ 3.2. Additional Setup Lemmas ‣ 3. Gradient Domination and Other Properties of the Multiplicative Noise LQR Cost ‣ Learning Robust Controllers for Linear Quadratic Systems with Multiplicative Noise via Policy Gradient"), the triangle inequality, and submultiplicativity of spectral norm we have
+
+Accordingly, choosing the step size as $0 < \eta \leq c_{npg}$ ensures holds at the first step. This ensures that ${C{(K_{1})}} \leq {C{(K_{0})}}$ which in turn ensures
+
+which allows to be applied at the next step as well. Proceeding inductively by applying at each successive step completes the proof. ∎
+
+### Policy Gradient Descent
+
+### Theorem 4.3 (Policy gradient convergence)
+
+Using the policy gradient step
+
+with step size $0 < \eta \leq c_{pg}$ gives global convergence to the optimal gain matrix $K^{\ast}$ at a linear rate described by
+
+where $c_{\text{pg}}$ is a polynomial in the problem data $A$, $B$, $\alpha_{i}$, $\beta_{j}$, $A_{i}$, $B_{j}$, $Q$, $R$, $\Sigma_{0}$, $K_{0}$ given in the proof in Appendix B.
+
+### Proof
+
+The proof is developed in Appendix B. ∎
+
+The proofs for these results explicitly incorporate the effects of the multiplicative noise terms $\delta_{ti}$ and $\gamma_{tj}$ in the dynamics. For the policy gradient and natural policy gradient algorithms, we show explicitly how the maximum allowable step size depends on problem data and in particular on the multiplicative noise terms. Compared to deterministic LQR, the multiplicative noise terms decrease the allowable step size and thereby decrease the convergence rate; specifically, the state-multiplicative noise increases the initial cost $C{(K_{0})}$ and the norms of the covariance $\Sigma_{K^{\ast}}$ and cost $P_{K}$, and the input-multiplicative noise also increases the denominator term ${\| B\|}^{2} + {\sum_{j = 1}^{q}{\beta_{j}{\| B_{j}\|}^{2}}}$. This means that the algorithm parameters for deterministic LQR in may cause failure to converge on problems with multiplicative noise. Moreover, even the optimal policies for deterministic LQR may actually *destabilize* systems in the presence of small amounts of multiplicative noise uncertainty, indicating the possibility for a catastrophic lack of robustness; observe the results of the example in Section 6.1. The results and proofs also differ from that of because the more complicated mean-square stability must be accounted for, and because *generalized* Lyapunov equations must be solved to compute the gradient steps, which requires specialized solvers.
+
+## Global Convergence of Policy Gradient in the Model-Free Setting
+
+The results in the previous section are model-based; the policy gradient steps are computed exactly based on knowledge of the model parameters. In the model-free setting, the policy gradient is estimated to arbitrary accuracy from sample trajectories with a sufficient number of sample trajectories $n_{\text{sample}}$ of sufficiently long horizon length $\ell$ using gain matrices randomly selected from a Frobenius-norm ball around the current gain of sufficiently small exploration radius $r$. We show for multiplicative noise LQR that with a finite number of samples polynomial in the problem data, the model-free policy gradient algorithm still converges to the globally optimal policy, despite small perturbations on the gradient.
+
+In the model-free setting, the policy gradient method proceeds as before except that at each iteration Algorithm 1 is called to generate an estimate of the gradient via the zeroth-order optimization procedure described by Fazel et al..
+
+0: Gain matrix K, number of samples nsample, rollout length ℓ, exploration radius r
+2: Generate a sample gain matrix K̂i = K + Ui, where Ui is drawn uniformly at random over matrices with Frobenius norm r
+3: Generate a sample initial state x0(i) ∼ 𝒫0
+4: Simulate the closed-loop system for ℓ steps according to the stochastic dynamics in starting from x0(i) with ut(i) = K̂i xt(i), yielding the state sequence {xt(i)}t = 0t = ℓ
+5: Collect the empirical finite-horizon cost estimate ${\hat{C}}_{i} ≔ {\sum_{t = 0}^{\ell}{{}_{}^{(i)}{({Q + {{\hat{K}}_{i}^{\intercal}R{\hat{K}}_{i}}})}x_{t}^{(i)}}}$
+6: Gradient estimate ${\hat{\nabla}C{(K)}} ≔ {\frac{1}{n_{\text{sample}}}{\sum_{i = 1}^{n_{\text{sample}}}{\frac{mn}{r^{2}}{\hat{C}}_{i}U_{i}}}}$
+Algorithm 1 Model-Free policy gradient estimation
+
+### Theorem 5.1 (Model-free policy gradient convergence)
+
+Let $\epsilon$ and $\mu$ be a given small tolerance and probability respectively and $N$ be the number of gradient descent steps taken. Suppose that the distribution of the initial states is bounded such that $x_{0} \sim \mathcal{P}_{0}$ implies ${\| x_{0}^{i}\|} \leq L_{0}$ almost surely for any given realization $x_{0}^{i}$ of $x_{0}$. Suppose additionally that the distribution of the multiplicative noises is bounded such that the following inequality is satisfied almost surely for any given realized sequence $x_{t}^{i}$ of $x_{t}$ with a positive scalar $z \geq 1$:
+
+under the closed-loop dynamics with any gain such that ${C{(K)}} \leq {2C{(K_{0})}}$. Suppose the step size $\eta$ is chosen according to the restriction in Theorem 4.3. ‣ 4.4. Policy Gradient Descent ‣ 4. Global Convergence of Policy Gradient in the Model-Based Setting ‣ Learning Robust Controllers for Linear Quadratic Systems with Multiplicative Noise via Policy Gradient") and at every iteration the gradient is estimated according to the finite-horizon procedure in Algorithm 1 where the number of samples $n_{\text{sample}}$, rollout length $\ell$, and exploration radius $r$ are chosen according to the fixed polynomials of the problem data $A$, $B$, $\alpha_{i}$, $\beta_{j}$, $A_{i}$, $B_{j}$, $Q$, $R$, $\Sigma_{0}$, $K_{0}$, $L_{0}$ and $z$ which are all defined in the proofs in Appendix C. Then, with high probability of at least $1 - \mu$, performing gradient descent results in convergence to the global optimum over all $N$ steps: at each step, either progress is made at the linear rate
+
+or convergence has been attained with ${{C{(K_{s})}} - {C{(K^{\ast})}}} \leq \epsilon$.
+
+### Proof
+
+The proof is developed in Appendix C. ∎
+
+From a sample complexity standpoint, it is notable that the number of samples $n_{\text{sample}}$, rollout length $\ell$, and exploration radius $r$ in Theorem 5.1. ‣ 5. Global Convergence of Policy Gradient in the Model-Free Setting ‣ Learning Robust Controllers for Linear Quadratic Systems with Multiplicative Noise via Policy Gradient") are polynomial in the problem data $A$, $B$, $\alpha_{i}$, $\beta_{j}$, $A_{i}$, $B_{j}$, $Q$, $R$, $\Sigma_{0}$, $C{(K_{0})}$. The constant $z$ imposes a bound on the multiplicative noise, which is naturally absent in. Note that $z \geq 1$ since any upper bound of a scalar distribution with finite support must be equal to or greater than the mean. In general, this implicitly requires the noises to have bounded support. Such an assumption is qualitatively the same as the condition imposed on the initial states. These assumptions are reasonable; in a practical setting with a physical system the initial state and noise distributions will have finite support. There is no restriction on how large the support is, only that it not be unbounded. Also note that the rate is halved compared with the model-based case of Theorem 4.3. ‣ 4.4. Policy Gradient Descent ‣ 4. Global Convergence of Policy Gradient in the Model-Based Setting ‣ Learning Robust Controllers for Linear Quadratic Systems with Multiplicative Noise via Policy Gradient"); this is because the "other half" is consumed by the error between the estimated and true gradient.
+
+## Numerical Experiments
+
+In this section we present results for three systems:
+
+Shows that "optimal" control that ignores actual multiplicative noise can lead to loss of mean-square stability,
+
+Shows the efficacy of the policy gradient algorithms on a networked system,
+
+Shows the increased difficulty of estimating the gradient from sample data in the presence of multiplicative noise.
+
+All systems considered permitted a solution to the GARE. The bounds on the step size, number of rollouts, and rollout length given by the theoretical analysis can be rather conservative. For practicality, we selected the constant step size, number of rollouts, rollout length, and exploration radius according to a grid search over reasonable values. Additionally, we investigated the use of backtracking line search to adaptively select the step size; see e.g.. Throughout the simulations, we computed the baseline optimal cost $C{(K^{\ast})}$ by solving the GARE to high precision via value iteration. Python code which implements the algorithms and generates the figures reported in this work can be found in the GitHub repository at [https://github.com/TSummersLab/polgrad-multinoise/](https://github.com/TSummersLab/polgrad-multinoise/). The code was run on a desktop PC with a quad-core Intel i7 6700K 4.0GHz CPU, 16GB RAM; no GPU computing was utilized.
+
+### Importance of Accounting for Multiplicative Noise
+
+We first considered an open-loop mean-square unstable system with four states and one input representing an active two-mass suspension converted from continuous to discrete time using a standard bilinear transformation, with parameters:
+
+We performed model-based policy gradient descent; at each iteration gradients were calculated by solving generalized Lyapunov equations and using the problem data. The gains $K_{m}$ and $K_{\ell}$ represent iterates during optimization of ("training" on) the LQRm and LQR cost (with the multiplicative noise variances set to zero), respectively. We performed the optimization starting from the same feasible initial gain, which was generated by perturbing the exact solution of the generalized algebraic Riccati equation such that the LQRm cost under the initial control was approximately 10 times that of the optimal control. The step size was chosen via backtracking line search. The optimization stopped once the Frobenius norm of the gradient fell below a small threshold. The plot in Fig. 1 shows the "testing" cost of the gains at each iteration evaluated on the LQRm cost (with multiplicative noise). From this figure, it is clear that $K_{m}$ minimized the LQRm as desired. When there was high multiplicative noise, the noise-ignorant controller $K_{\ell}$ actually destabilized the system in the mean-square sense; this can be seen as the LQRm cost exploded upwards to infinity after iteration 10. In this sense, the multiplicative noise-aware optimization is generally safer and more robust than noise-ignorant optimization, and in examples like this is actually necessary for mean-square stabilization.
+
+Figure 1. Relative cost error $\frac{{C{(K)}} - {C{(K^{\ast})}}}{C{(K^{\ast})}}$ vs. iteration during policy gradient descent on the 4-state, 1-input suspension example system.
+
+### Policy Gradient Methods Applied to a Network
+
+Many practical networked systems can be approximated by diffusion dynamics with losses and stochastic diffusion constants (edge weights) between nodes; examples include heat flow through uninsulated pipes, hydraulic flow through leaky pipes, information flow between processors with packet loss, electrical power flow between generators with resistant electrical power lines, etc. A derivation of the discrete-time dynamics of this system is given in. We considered a particular 4-state, 4-input system and open-loop mean-square stable with the following parameters:
+
+This system is open-loop mean-square stable, so we initialized the gains to all zeros for each trial. We performed policy optimization using the model-free gradient, and the model-based gradient, model-based natural gradient, and model-based Gauss-Newton step directions on 20 unique problem instances using two step size schemes:\
+Backtracking line search: Step sizes $\eta$ were chosen adaptively at each iteration by backtracking line search with parameters $\alpha = 0.01$, $\beta = 0.5$ (see for a description), except for Gauss-Newton which used the optimal constant step-size of $1/2$. Model-free gradients and costs were estimated with 100,000 rollouts per iteration. We ran a fixed number, 20, of iterations chosen such that the final cost using model-free gradient descent was no more than $5\%$ worse than optimal.\
+Constant step size: Step sizes were set to constants chosen as large as possible without observing infeasibility or divergence, which on this problem instance was $\eta = {5 \times 10^{- 5}}$ for gradient, $\eta = {2 \times 10^{- 4}}$ for natural gradient, and $\eta = {1/2}$ for Gauss-Newton step directions. Model-free gradients were estimated with 1,000 rollouts per iteration. We ran a fixed number, 20,000, of iterations chosen such that convergence was achieved with all step directions.
+
+In both cases sample gains were chosen for model-free gradient estimation with exploration radius $r = 0.1$ and the rollout length was set to $\ell = 20$. The plots in Fig. 2 show the relative cost over the iterations; for the model-free gradient descent, the bold centerline is the mean of all trials and the shaded region is between the 10^th^ and 90^th^ percentile of all trials. Using backtracking line search, it is evident that in terms of convergence the Gauss-Newton step was extremely fast, and both the natural gradient and model-based gradient were slightly slower, but still quite fast. The model-free policy gradient converged to a reasonable neighborhood of the minimum cost quickly, but stagnated with further iterations; this is a consequence of the inherent gradient and cost estimation errors that arise due to random sampling and the multiplicative noise. Using constant stepsizes, we were forced to take small steps due to the steepness of the cost function near the initial gains, slowing overall convergence using the gradient and natural gradient methods. Here we observed that Gauss-Newton again converged most quickly, followed by natural gradient and lastly the gradient methods. The smaller step size also allowed us to use far fewer samples in the model-free setting, where we observed somewhat faster initial cost decrease with eventual stagnation around $10^{- 2}$, or 1%, relative error, which represents excellent control performance. All algorithms exhibited convergence to the optimum, confirming the asserted theoretical claims.
+
+(a) Backtracking line search.
+
+(b) Constant step sizes.
+
+Figure 2. Relative cost error $\frac{{C{(K)}} - {C{(K^{\ast})}}}{C{(K^{\ast})}}$ vs. iteration during policy gradient methods on a 4-state, 4-input lossy diffusion network with multiplicative noise using a) backtracking line search and b) constant step sizes.
+
+### Gradient Estimation
+
+Multiplicative noise can significantly increase the variance and sample complexity of cost gradient estimates relative to the noiseless case, which is novelly reflected in the theoretical analysis for the number of rollouts and rollout length. To demonstrate this empirically, we evaluated the relative gradient estimation error vs. number of rollouts for the system
+
+with ${{K = 0},{Q = \Sigma_{0} = I_{2}}},{R = 1}$, $\delta_{t} \sim {\mathcal{N}{(0,0.1)}}$, rollout length $l = 40$, exploration radius $r = 0.2$, averaged over 10 gradient estimates. The results are plotted in Figure 3. To achieve the same gradient estimate error of $10\%$, the system with multiplicative noise required $200 \times$ the number of rollout samples ($10^{8}$) as when there was no noise ($5 \times 10^{5}$).
+
+Figure 3. Relative gradient estimation error vs. number of rollouts for.
+
+## Conclusions
+
+We have shown that policy gradient methods in both model-based and model-free settings give global convergence to the globally optimal policy for LQR systems with multiplicative noise. These techniques are directly applicable for the design of robust controllers of uncertain systems and serve as a benchmark for data-driven control design. Our ongoing work is exploring ways of mitigating the relative sample inefficiency of model-free policy gradient methods by leveraging the special structure of LQR models and Nesterov-type acceleration, and exploring alternative system identification and adaptive control approaches. We are also investigating other methods of building robustness through $\mathcal{H}_{\infty}$ and dynamic game approaches. Another extension relevant to networked control systems is enforcing sparse structure constraints on the gain matrix via projected policy gradient as suggested in.

@@ -1,0 +1,402 @@
+## Introduction
+
+The last decade has seen immense advances in learning-based methods for policy optimization and trajectory optimization in robotics, e.g., for dexterous manipulation \[(https://arxiv.org/html/2203.00806v5#bib.bib1), (https://arxiv.org/html/2203.00806v5#bib.bib2)\], quadrupedal locomotion \[(https://arxiv.org/html/2203.00806v5#bib.bib3), (https://arxiv.org/html/2203.00806v5#bib.bib4)\], and pixels-to-torques control \[(https://arxiv.org/html/2203.00806v5#bib.bib5)\]. These advances have largely hinged on innovations in learning architectures, large scale optimization algorithms, and large datasets. In contrast, there has been comparatively little work on the lowest level of the robotics reinforcement learning stack: the physics engine. We argue that core improvements in physics engines can enable future advancements in robotics, and we present Dojo as a physics engine that embodies several such advances.
+
+Physics engines that simulate rigid-body dynamics with contact are utilized for trajectory optimization, reinforcement learning, system identification, and dataset generation for domains ranging from locomotion to manipulation. To overcome the sim-to-real gap \[(https://arxiv.org/html/2203.00806v5#bib.bib6)\] and to be of practical value in real-world applications, an engine should provide stable simulation, accurately reproduce a robot's dynamics, and ideally, be differentiable to enable the use of efficient gradient-based optimization methods.
+
+Figure 1: Atlas drop simulation. Dojo simulates this system with 403 maximal-coordinates states, 30 joint constraints, 36 inputs, and 8 contact points in real-time at 65 Hz. Dojo respects floor-feet penetration constraints to machine precision. Other simulators struggle to maintain the floor contact constraint, especially at low simulation rates.
+
+In recent years, a number of physics engines \[(https://arxiv.org/html/2203.00806v5#bib.bib7), (https://arxiv.org/html/2203.00806v5#bib.bib8), (https://arxiv.org/html/2203.00806v5#bib.bib9), (https://arxiv.org/html/2203.00806v5#bib.bib10), (https://arxiv.org/html/2203.00806v5#bib.bib11), (https://arxiv.org/html/2203.00806v5#bib.bib12), (https://arxiv.org/html/2203.00806v5#bib.bib13), (https://arxiv.org/html/2203.00806v5#bib.bib14)\] have been developed and utilized for robotics. These works have advanced the state of the art in robot simulation, particularly offering differentiability \[(https://arxiv.org/html/2203.00806v5#bib.bib8), (https://arxiv.org/html/2203.00806v5#bib.bib11), (https://arxiv.org/html/2203.00806v5#bib.bib9), (https://arxiv.org/html/2203.00806v5#bib.bib10)\], multi-physics simulation \[(https://arxiv.org/html/2203.00806v5#bib.bib13), (https://arxiv.org/html/2203.00806v5#bib.bib14), (https://arxiv.org/html/2203.00806v5#bib.bib11), (https://arxiv.org/html/2203.00806v5#bib.bib15)\], and the incorporation of learnable dynamics residuals \[(https://arxiv.org/html/2203.00806v5#bib.bib12)\]. Recent work is also moving towards a convergence of fully learning based world models and traditional physics-based simulators \[(https://arxiv.org/html/2203.00806v5#bib.bib16), (https://arxiv.org/html/2203.00806v5#bib.bib17)\], representing an exciting new frontier in robot simulation.
+
+In this work, we propose to further advance the state of the art by focusing on the underlying numerics of the physics engine, introducing features that can be adopted throughout the existing simulation ecosystem to improve performance in a variety of ways. We package these numerical improvements in a new simulation engine, Dojo, to highlight their favorable properties over exiting numerical techniques commonly used in physics simulators.
+
+Specifically, we introduce two new contributions specific to Dojo: (i) We propose a custom primal-dual interior point solver for stably solving the complementary problem for forward simulation. This solver allows for low sample rates while maintaining stable and accurate contact simulation, thereby alleviating the *vanishing/exploding* gradient problem that appears when differentiating through high sample rate rollouts common in other differentiable simulators. (ii) We obtain tunable gradient information through implicit differentiation of the interior point solver, obtaining user-defined smoothness of the gradients through contact events by tuning the central path parameter. This gives informative gradients through contact events for policy and trajectory optimization (with a high central path parameter), while also enabling sharp, physically accurate simulation rollouts (with a low central path parameter). This is in contrast to existing methods that either deliver non-smooth gradients that are not informative for trajectory or policy optimization, or expensive sampling-based gradient approximations that require a large number of calls to the engine, leading to slow computation.
+
+Additionally, we also incorporate the following features that have been presented in previous works, but are not typically implemented in existing physics engines: (a) We use a variational integration scheme for strong energy and momentum conservation in non-contact regimes. (b) We use full nonlinear complementarity constraints with nonlinear friction cones to avoid numerical artifacts like interpenetration of rigid bodies (e.g., a robot foot sinking through the floor) and creep (e.g., objects that should be at rest incorrectly sliding) commonly seen in robotics simulators \[(https://arxiv.org/html/2203.00806v5#bib.bib18)\]. (c) We use maximal coordinates, explicitly representing the 6 degree of freedom pose of each rigid link, and the internal constraint forces that bind them together.
+
+Contact Model/Solver
+
+TABLE I: Comparison of physics engines used for robotics. Several simulators like MuJoCo and Drake have a selection of integrators that users can choose. We demonstrate their default/most-widely-used integrators.
+
+The Dojo physics engine is designed around these core numerical innovations with the goal of advancing robot simulation for trajectory optimization and motion planning, control, reinforcement learning, system identification, and for generating high-quality datasets for learning and validation.
+
+To demonstrate the advantages of this combination of numerical features, we benchmark Dojo against MuJoCo \[(https://arxiv.org/html/2203.00806v5#bib.bib19)\], Drake \[(https://arxiv.org/html/2203.00806v5#bib.bib7)\], and Brax \[(https://arxiv.org/html/2203.00806v5#bib.bib8)\] for computational speed in simulations with four different robot platforms, showing Dojo delivers a comparable performance as other differentiable simulators. We demonstrate Dojo's numerical stability and accuracy over sample rates down to 20Hz, allowing for lower sample rates than other simulators, leading to fewer rollout steps, and therefore less severe vanishing/exploding gradients. We also compare Dojo's primal-dual solver versus a more common primal only interior point solver, showing improved convergence speed and constraint satisfaction. We demonstrate Dojo's differentiability in trajectory optimization, policy optimization, and system identification examples in comparison with sampling-based gradient approximations. Finally, we show Dojo's low sim-to-real gap in hardware experiments with a UFactory xArm 6.
+
+In summary, the key contributions of this paper as integrated into the Dojo simulator include:
+
+a custom primal-dual interior-point method for giving stable, accurate simulation over sample rates as low as 20Hz,
+
+analytic gradients through contact efficiently computed via implicit differentiation of the interior-point solver with a user-defined smoothness approximation set by the central path parameter,
+
+incorporation of variational integration and a nonlinear complementarity problem (NCP) model for accurate contact dynamics (previously introduced in literature, but not yet integrated in a simulator).
+
+In the remainder of this paper, we first provide an overview of related state-of-the-art physics engines in Section [II](https://arxiv.org/html/2203.00806v5#S2 "II Related Work ‣ Dojo: A Differentiable Physics Engine for Robotics"). We then summarize important technical background in Section [III](https://arxiv.org/html/2203.00806v5#S3 "III Background ‣ Dojo: A Differentiable Physics Engine for Robotics"). Next, we present Dojo, and its key features in Section [IV](https://arxiv.org/html/2203.00806v5#S4 "IV Method ‣ Dojo: A Differentiable Physics Engine for Robotics"). Simulation, planning, policy optimization, and system identification examples, and hardware sim-to-real gap evaluation are presented in Section [V](https://arxiv.org/html/2203.00806v5#S5 "V Results ‣ Dojo: A Differentiable Physics Engine for Robotics"). Finally, we conclude with a discussion of limitations and future work in Section [VI](https://arxiv.org/html/2203.00806v5#S6 "VI Conclusion ‣ Dojo: A Differentiable Physics Engine for Robotics").
+
+## Related Work
+
+In this section, we provide an overview of several popular physics engines, focusing on their physical fidelity, underlying optimization algorithms, and capability to compute gradients.
+
+### II-A Mainstream Physics Engines
+
+### II-A1 MuJoCo
+
+In the learning community, *MuJoCo* \[(https://arxiv.org/html/2203.00806v5#bib.bib19)\] has become a standard for benchmarking reinforcement learning algorithms using the OpenAI Gym environments \[(https://arxiv.org/html/2203.00806v5#bib.bib20)\]. MuJoCo utilizes minimal-coordinates representations, and employs both semi-implicit Euler and explicit fourth-order Runge-Kutta integrators to simulate multi-body systems. These integrators often require small time steps, particularly for systems experiencing contact, and typically sample rates of hundreds to thousands of Hertz are required for stable simulation, which a mature and efficient implementation is able to achieve at much faster than real-time rates. However, these high rates can prove a challenge for control tasks, such as reinforcement learning settings where vanishing or exploding gradients are exacerbated over long horizons with many time steps \[(https://arxiv.org/html/2203.00806v5#bib.bib21), (https://arxiv.org/html/2203.00806v5#bib.bib22), (https://arxiv.org/html/2203.00806v5#bib.bib23)\].
+
+Impact and friction are modeled using a smooth, convex contact model \[(https://arxiv.org/html/2203.00806v5#bib.bib24)\]. While this approach reliably computes contact forces, it introduces unphysical artifacts, and contact forces at a distance (i.e., while not in contact) \[(https://arxiv.org/html/2203.00806v5#bib.bib25)\], and the default friction model introduces creep and velocity drift during sliding. Additionally, achieving good simulation behavior often requires system-specific tuning of multiple solver parameters. Further, the "soft" contact model is computed using a primal optimization method, meaning that as parameters are set to produce "hard" or more realistic contact, the underlying optimization problem becomes increasingly ill-conditioned and difficult to solve. For RL methods, where obtaining a large volume of rollouts quickly is more important than preserving physical fidelity of each rollout, these compromises have been effective. However, for control and planning with real robot hardware they can be problematic. For example, it is often not possible to eliminate unphysical artifacts from the simulation to produce realistic results. The lack of smooth gradients is also a major challenge in deep learning \[(https://arxiv.org/html/2203.00806v5#bib.bib18)\], where contact dynamics must often be smoothened unrealistically in order to make learning progress. Analytical gradients are not provided by the engine, and instead require finite-difference schemes \[(https://arxiv.org/html/2203.00806v5#bib.bib26)\] that are computationally expensive. This approach requires multiple calls to the engine, which can be expensive if not performed in parallel.
+
+### II-A2 Drake
+
+*Drake* \[(https://arxiv.org/html/2203.00806v5#bib.bib7)\], designed for robotics applications, prioritizes physical accuracy and flexibility in simulation. Its contact modeling primarily employs a penalty method, where contact forces are approximated using stiff springs, based on the Hunt-Crossley model \[(https://arxiv.org/html/2203.00806v5#bib.bib27)\]. This approach provides a compliant contact model but requires small time steps to ensure stability, as the stiffness can lead to numerical challenges such as instability and gradient explosion \[(https://arxiv.org/html/2203.00806v5#bib.bib21)\]. Recently, Drake has introduced the soft articulated-body dynamics with compliant contact (SAP) method \[(https://arxiv.org/html/2203.00806v5#bib.bib28)\], which formulates contact as a time-stepping optimization problem. SAP introduces compliance to relax the contact model, making it robust for simulating articulated systems, similar in spirit to methods used in MuJoCo \[(https://arxiv.org/html/2203.00806v5#bib.bib19)\]. Drake offers flexibility in integrator choices, including advanced error-controlled methods, ensuring stable and accurate simulation for various dynamics. Gradients in Drake are currently computed using Eigen's autodiff framework through the penalty method, but this approach is less ideal for stiff systems. While SAP could theoretically utilize the implicit function theorem for gradient computation, this feature has not been implemented yet. Additionally, methods like randomized smoothing for returning gradients \[(https://arxiv.org/html/2203.00806v5#bib.bib29)\] provide alternative strategies for handling contact-rich dynamics outside of Drake's native capabilities.
+
+### II-A3 Other Engines
+
+The popular robotics simulator *Gazebo* \[(https://arxiv.org/html/2203.00806v5#bib.bib30)\] can utilize several different physics engines to simulate multi-body contact dynamics, Bullet \[(https://arxiv.org/html/2203.00806v5#bib.bib31)\] and DART \[(https://arxiv.org/html/2203.00806v5#bib.bib32)\] are common choices. These engines model hard contact dynamics with an LCP formulation. Automatic differentiation tools have been utilized to compute gradients \[(https://arxiv.org/html/2203.00806v5#bib.bib12)\], \[(https://arxiv.org/html/2203.00806v5#bib.bib33)\], \[(https://arxiv.org/html/2203.00806v5#bib.bib34)\]. However, because of the discontinuous nature of contact dynamics, this approach will return discontinuous gradients at contact events, which are less useful for gradient based trajectory or policy optimization. Heuristics have been proposed to enumerate contact modes in order to select informative gradients \[(https://arxiv.org/html/2203.00806v5#bib.bib9)\]. However, this approach scales poorly with the number of contact mode switches.
+
+Engines designed for hardware accelerators (e.g., GPUs), including *Brax* \[(https://arxiv.org/html/2203.00806v5#bib.bib8)\] and *PhysX* \[(https://arxiv.org/html/2203.00806v5#bib.bib35)\], typically utilize simplified contact dynamics. Additionally, these engines usually require system-specific tuning and their simulation results typically prioritize speed over physical fidelity, so a large number of rollouts can be obtained quickly to train learning based policies.
+
+### II-B Differentiable Physics Engines
+
+In contrast to traditional physics engines, differentiable physics engines present promising opportunities for robotics by incorporating physical models into auto-differentiation frameworks \[(https://arxiv.org/html/2203.00806v5#bib.bib36)\]. Prior research has explored differentiation across various domains, such as contact and friction models \[(https://arxiv.org/html/2203.00806v5#bib.bib37), (https://arxiv.org/html/2203.00806v5#bib.bib38), (https://arxiv.org/html/2203.00806v5#bib.bib39), (https://arxiv.org/html/2203.00806v5#bib.bib40), (https://arxiv.org/html/2203.00806v5#bib.bib41), (https://arxiv.org/html/2203.00806v5#bib.bib42)\], latent state models \[(https://arxiv.org/html/2203.00806v5#bib.bib43), (https://arxiv.org/html/2203.00806v5#bib.bib44), (https://arxiv.org/html/2203.00806v5#bib.bib45), (https://arxiv.org/html/2203.00806v5#bib.bib46)\], volumetric soft bodies \[(https://arxiv.org/html/2203.00806v5#bib.bib47), (https://arxiv.org/html/2203.00806v5#bib.bib48), (https://arxiv.org/html/2203.00806v5#bib.bib11)\], and particle dynamics \[(https://arxiv.org/html/2203.00806v5#bib.bib44), (https://arxiv.org/html/2203.00806v5#bib.bib49)\]. Additionally, system identification using parameterized physics models \[(https://arxiv.org/html/2203.00806v5#bib.bib50), (https://arxiv.org/html/2203.00806v5#bib.bib51), (https://arxiv.org/html/2203.00806v5#bib.bib52), (https://arxiv.org/html/2203.00806v5#bib.bib53), (https://arxiv.org/html/2203.00806v5#bib.bib54), (https://arxiv.org/html/2203.00806v5#bib.bib55), (https://arxiv.org/html/2203.00806v5#bib.bib56), (https://arxiv.org/html/2203.00806v5#bib.bib57), (https://arxiv.org/html/2203.00806v5#bib.bib58), (https://arxiv.org/html/2203.00806v5#bib.bib59)\] and inverse simulation techniques \[(https://arxiv.org/html/2203.00806v5#bib.bib60)\] have also been explored. Furthermore, there has been considerable research on smooth gradient computation \[(https://arxiv.org/html/2203.00806v5#bib.bib61)\], which aids in reducing noise in gradient-based model explanations and ensures stable gradient calculations. Examples of such systems include Warp \[(https://arxiv.org/html/2203.00806v5#bib.bib62)\] and Brax \[(https://arxiv.org/html/2203.00806v5#bib.bib8)\], both of which utilize the XPBD \[(https://arxiv.org/html/2203.00806v5#bib.bib63)\] model for contact simulation. The GradSim framework \[(https://arxiv.org/html/2203.00806v5#bib.bib64)\] combines a physics simulator with a differentiable rendering pipeline. Key components of these simulators include gradient calculation, dynamics models, contact models, and integrators. These simulators are capable of leveraging gradient-based optimization techniques to enhance real-to-sim transfer capabilities.
+
+Gradients of rigid body dynamics can be useful in robotics for various purposes. Applications include system identification \[(https://arxiv.org/html/2203.00806v5#bib.bib65)\], controller design \[(https://arxiv.org/html/2203.00806v5#bib.bib66)\], controller tuning \[(https://arxiv.org/html/2203.00806v5#bib.bib67)\], trajectory optimization \[(https://arxiv.org/html/2203.00806v5#bib.bib68)\], and policy optimization \[(https://arxiv.org/html/2203.00806v5#bib.bib69)\]. However, gradients are typically computed through autodifferentiating through a simulation rollout by expressing the rollout as a computation graph, making use of mature auto-diff capabilities, e.g. in PyTorch. Unfortunately, this approach often leads to numerical instability as a long chain of differentiation tends toward infinity or zero as determined by the eigenvalues of the Jacobians in the computation graph: the so called vanishing/exploding gradients problem.
+
+Dojo uses an optimization solver to propagate a trajectory in time, making it impossible to apply back propagation to compute gradients. Instead, we use implicit differentiation, which has been explored recently to obtain gradients of the solution to optimization problems with respect to problem parameters \[(https://arxiv.org/html/2203.00806v5#bib.bib38), (https://arxiv.org/html/2203.00806v5#bib.bib70)\]. Implicit gradients are computed using the implicit function theorem, rather than directly auto-diffing through through a simulation rollout, in hopes of producing more stable gradient computations.
+
+The properties and characteristics of several of these existing engines are summarized in Table [I](https://arxiv.org/html/2203.00806v5#S1.T1 "TABLE I ‣ I Introduction ‣ Dojo: A Differentiable Physics Engine for Robotics"). We find that none of the existing engines prioritize two of the most important attributes of robotics: physical accuracy and useful differentiability. This motivates our development of Dojo as a physics engine for robotics applications.
+
+Building on prior work \[(https://arxiv.org/html/2203.00806v5#bib.bib71)\], Dojo utilizes the open-source maximal-coordinates dynamics library ConstrainedDynamics.jl and efficient graph-based linear-system solver GraphBasedSystems.jl. However, unlike this previous work, Dojo has an improved contact model, specifically with regard to friction; and utilizes a more efficient, reliable, and versatile interior-point solver for the NCP.
+
+## Background
+
+Here we review existing methods of complementarity-based contact models, implicit differentiation, maximal coordinates, and variational integrators that are used in Dojo.
+
+### III-A Complementarity-Based Contact Models
+
+Impacts and friction can be modeled through constraints on the system's configuration and the applied contact impulses.
+
+*Impact:* For a system with $P$ contact points, we define a signed-distance function, $\phi:{\mathbf{Z}\rightarrow\mathbf{R}^{P}}$, subject to the following element-wise constraint
+
+Where $z$ represents the system configuration (i.e., the pose of robot and other objects in the simulation environment). Impact forces with magnitude $\gamma \in \mathbf{R}^{P}$ are applied to the bodies' contact points in the direction of their surface normals in order to enforce ((https://arxiv.org/html/2203.00806v5#S3.E1 "In III-A Complementarity-Based Contact Models ‣ III Background ‣ Dojo: A Differentiable Physics Engine for Robotics")) and prevent interpenetration. Collision points^11^1Collision geometries are currently limited to simple shape primitives (e.g., four points on the foot of a humanoid instead of using a full mesh). While this is a limitation of the current implementation, it is common in other simulators to manually edit contact geometries for critical parts of the robot, such as the feet of a humanoid or quadruped. are checked for constraint satisfaction at each iteration of our primal-dual interior-point solver that will be introduced in [IV-B](https://arxiv.org/html/2203.00806v5#S4.SS2 "IV-B Primal-Dual Interior-Point Solver ‣ IV Method ‣ Dojo: A Differentiable Physics Engine for Robotics"). A non-negative constraint
+
+enforces physical behavior that impulses are repulsive (e.g., the floor does not attract bodies), and the complementarity condition
+
+where $\circ$ is an element-wise product operator, enforces zero force if the body is not in contact and allows non-zero force during contact.
+
+*Friction:* Coulomb friction instantaneously maximizes the dissipation of kinetic energy between two objects in contact. For a single contact point, this physical phenomenon can be modeled by the following optimization problem:
+
+where $v \in \mathbf{R}^{2}$ is the tangential velocity at the contact point, $b \in \mathbf{R}^{2}$ is the friction force, and $c_{f} \in \mathbf{R}_{+}$ is the coefficient of friction between the two objects \[(https://arxiv.org/html/2203.00806v5#bib.bib72)\].
+
+Figure 2: Friction-cone comparison. Linearized double-parameterized (left) and nonlinear second-order (right) cones.
+
+This problem is naturally a convex second-order cone program, and can be efficiently and reliably solved \[(https://arxiv.org/html/2203.00806v5#bib.bib73)\]. Classically, other works solve an approximate version of ((https://arxiv.org/html/2203.00806v5#S3.E4 "In III-A Complementarity-Based Contact Models ‣ III Background ‣ Dojo: A Differentiable Physics Engine for Robotics")),
+
+which satisfies the LCP formulation. Here, the friction cone is linearized (Fig. (https://arxiv.org/html/2203.00806v5#S3.F2 "Figure 2 ‣ III-A Complementarity-Based Contact Models ‣ III Background ‣ Dojo: A Differentiable Physics Engine for Robotics")) and the friction vector, $\beta \in \mathbf{R}^{4}$, is correspondingly overparameterized and subject to additional positivity constraints \[(https://arxiv.org/html/2203.00806v5#bib.bib74)\].
+
+The optimality conditions of ((https://arxiv.org/html/2203.00806v5#S3.E5 "In III-A Complementarity-Based Contact Models ‣ III Background ‣ Dojo: A Differentiable Physics Engine for Robotics")) and constraints used in the LCP are
+
+where $\psi \in \mathbf{R}$ and $\eta \in \mathbf{R}^{4}$ are the dual variables associated with the friction cone and positivity constraints, respectively. In practice, $\psi$ acts as a flag to judge if the object has relative movement to the ground, while $\eta$ is used to enforce the constraint that friction forces align with the vertices of the linearized friction cone approximation, and 1 is a vector of ones.
+
+The primary drawback of this formulation is that the optimized friction force will naturally align with the vertices of the cone approximation, which may not align with the velocity vector of the contact point. Thus, the friction force does not perfectly oppose the movement of the system at the contact point. Unless the pyramidal approximation is improved with a finer discretization, incurring increased computational cost, unphysical velocity drift will occur. Additionally, the LCP contact model requires a linearized form of the dynamics ((https://arxiv.org/html/2203.00806v5#S3.E12 "In III-C Maximal-Coordinates State Representation ‣ III Background ‣ Dojo: A Differentiable Physics Engine for Robotics")) and a linear approximation of the signed-distance functions ((https://arxiv.org/html/2203.00806v5#S3.E1 "In III-A Complementarity-Based Contact Models ‣ III Background ‣ Dojo: A Differentiable Physics Engine for Robotics")-(https://arxiv.org/html/2203.00806v5#S3.E3 "In III-A Complementarity-Based Contact Models ‣ III Background ‣ Dojo: A Differentiable Physics Engine for Robotics")), both of which negatively impact physical accuracy. To avoid these problems, in Dojo we solve the full NCP with nonlinear friction cone, and develop a new primal-dual interior point method to reliably solve this more difficult optimization problem.
+
+### III-B Implicit Differentiation
+
+An implicit function, $r:{{\mathbf{R}^{n_{w}} \times \mathbf{R}^{n_{\theta}}}\rightarrow\mathbf{R}^{n_{w}}}$, is defined as ${r{(w^{\ast};\theta)}} = 0$ for solution $w^{\ast} \in \mathbf{R}^{n_{w}}$ and problem data $\theta \in \mathbf{R}^{n_{\theta}}$. At a solution point, the sensitivities of the solution with respect to the problem data, i.e., $\partial{w^{\ast}/{\partial\theta}}$, can be computed using the implicit function theorem \[(https://arxiv.org/html/2203.00806v5#bib.bib75)\]
+
+Newton's method is typically employed to find solutions $w^{\ast}$. When the method succeeds, the sensitivity ((https://arxiv.org/html/2203.00806v5#S3.E11 "In III-B Implicit Differentiation ‣ III Background ‣ Dojo: A Differentiable Physics Engine for Robotics")) can be computed and the factorization of $\partial{r/{\partial w}}$ used to find the solution is reused to efficiently compute sensitivities at very low computational cost, using only back-substitution. Additionally, each element of the sensitivity can be computed in parallel. Dojo uses implicit method to obtain gradients for simulation rollouts with respect to control inputs, dynamics parameters, or initial conditions.
+
+### III-C Maximal-Coordinates State Representation
+
+Most multi-body physics engines utilize minimal- or joint-coordinate representations for dynamics because of the small number of states and convenience of implementation. This results in small, but dense, systems of equations. In contrast, maximal-coordinates explicitly represent the position, orientation, and velocities of each body in a multi-body system. This produces large, sparse systems of equations that can be efficiently solved, including in the contact setting. We provide an overview, largely based on prior work \[(https://arxiv.org/html/2203.00806v5#bib.bib76)\], of this representation.
+
+A single rigid body is defined by its mass and inertia, and has a configuration, $x = {(p,q)} \in \mathbf{X} = {\mathbf{R}^{3} \times \mathbf{H}}$, comprising a position $p$ and unit quaternion $q$, where $\mathbf{H}$ is the space of four-dimensional unit quaternions. We define the implicit discrete-time dynamics $F:{{\mathbf{X} \times \mathbf{X} \times \mathbf{X}}\rightarrow\mathbf{R}^{6}}$ as
+
+where we indicate the previous and next time steps with minus ($-$) and plus ($+$) subscripts, respectively, and the current time step without decoration. We employ a variational integrator that has desirable energy and momentum conservation properties \[(https://arxiv.org/html/2203.00806v5#bib.bib77)\]. Linear and angular velocities are handled implicitly via finite-difference approximations.
+
+For a two-body system with bodies $a$ and $b$ connected via a joint---common types include revolute, prismatic, and spherical---we introduce a constraint, $k:{{\mathbf{X} \times \mathbf{X}}\rightarrow\mathbf{R}^{l}}$, that couples the two bodies
+
+An impulse, $j \in \mathbf{R}^{l}$, where $l$ is equal to the six degrees-of-freedom of an unconstrained body minus the joint's number of degrees-of-freedom, acts on both bodies to satisfy the constraint. The implicit integrator for the two-body system has the form
+
+where $K:{{\mathbf{X} \times \mathbf{X}}\rightarrow\mathbf{R}^{l \times 6}}$ is a mapping from the joint to the maximal-coordinates space and is related to the Jacobian of the joint constraint.
+
+We can generalize ((https://arxiv.org/html/2203.00806v5#S3.E14 "In III-C Maximal-Coordinates State Representation ‣ III Background ‣ Dojo: A Differentiable Physics Engine for Robotics")) to include additional bodies and joints. For a multi-body system with $N$ bodies and $M$ joints we define a maximal-coordinates configuration $z = {(x^{},\ldots,x^{(N)})} \in \mathbf{Z}$ and joint impulse $j = {(j^{},\ldots,j^{(M)})} \in \mathbf{J}$. We define the implicit discrete-time dynamics of the maximal-coordinates system as
+
+where $F:{{\mathbf{Z} \times \mathbf{Z} \times \mathbf{Z} \times \mathbf{J}}\rightarrow\mathbf{R}^{6N}}$. In order to simulate the system we find $z_{+}$ and $j$ that satisfy ((https://arxiv.org/html/2203.00806v5#S3.E15 "In III-C Maximal-Coordinates State Representation ‣ III Background ‣ Dojo: A Differentiable Physics Engine for Robotics")) for a provided $z_{-}$ and $z$ using Newton's method.
+
+Figure 3: Graph structure for maximal-coordinates system with 4 bodies, 3 joints, and 3 points of contact.
+
+By exploiting the mechanism's structure, we can efficiently perform root finding on ((https://arxiv.org/html/2203.00806v5#S3.E15 "In III-C Maximal-Coordinates State Representation ‣ III Background ‣ Dojo: A Differentiable Physics Engine for Robotics")) (see \[(https://arxiv.org/html/2203.00806v5#bib.bib76)\] for additional details). This structure is manifested as a graph of the mechanism, where each body and joint is considered a node, and joints have edges connecting bodies (Fig. (https://arxiv.org/html/2203.00806v5#S3.F3 "Figure 3 ‣ III-C Maximal-Coordinates State Representation ‣ III Background ‣ Dojo: A Differentiable Physics Engine for Robotics")). Because the mechanism structure is known a priori, a permutation matrix can be precomputed and used to perform efficient sparse linear algebra during simulation. For instance, in the case where the joint constraints form a system without loops, the resulting sparse system can be solved in linear time with respect to the number of links.
+
+### III-D Variational Integrator
+
+We use a specialized implicit integrator that natively handles quaternions and alleviates spurious artifacts that commonly arise from contact interactions. The dynamics are derived by approximating Hamilton's Principle of Least-Action using a simple midpoint scheme \[(https://arxiv.org/html/2203.00806v5#bib.bib77), (https://arxiv.org/html/2203.00806v5#bib.bib78)\]. This approach produces *variational* integrators.
+
+Each body has a linear
+
+dynamics specified by mass $m \in \mathbf{R}_{+ +}$, inertia $J \in \mathbf{S}_{+ +}^{3}$, gravity $g \in \mathbf{R}^{3}$, and time step $h \in \mathbf{R}_{+ +}$. Equations ((https://arxiv.org/html/2203.00806v5#S3.E16 "In III-D Variational Integrator ‣ III Background ‣ Dojo: A Differentiable Physics Engine for Robotics"), (https://arxiv.org/html/2203.00806v5#S3.E17 "In III-D Variational Integrator ‣ III Background ‣ Dojo: A Differentiable Physics Engine for Robotics")) are essentially second-order centered-finite-difference approximations of Newton's second law and Euler's equation for the rotational dynamics, respectively, where
+
+is recovered from a three-parameter representation $\psi \in \mathbf{R}^{3}$ \[(https://arxiv.org/html/2203.00806v5#bib.bib79)\]. We refer to Appendix [A](https://arxiv.org/html/2203.00806v5#A1 "Appendix A Quaternion Algebra ‣ Dojo: A Differentiable Physics Engine for Robotics") for quaternion conventions and algebra. Joint impulses $j \in \mathbf{J}$ have linear $A:{\mathbf{R}^{3}\rightarrow\mathbf{R}^{{\text{dim}{(\mathbf{J})}} \times 3}}$ and rotational $B:{\mathbf{H}\rightarrow\mathbf{R}^{{\text{dim}{(\mathbf{J})}} \times 3}}$ mappings into the dynamics. The configuration of a body $x^{(i)} = {(p^{(i)},q^{(i)})} \in {\mathbf{R}^{3} \times \mathbf{H}}$ comprises a position and orientation represented as a quaternion. Forces and torques ${f,\tau} \in \mathbf{R}^{3}$ can be applied to the bodies.
+
+1:procedure Search(w, Δ, τort, τsoc)
+4: $\alpha_{y}^{\text{soc}}\leftarrow{\underset{i\in{\{ 2,\ldots,n\}}}{\text{min}}\alpha{(y^{(i)},{\tau^{\text{soc}}\Delta^{y^{(i)}}})}}$ ⊳ 46
+5: $\alpha_{z}^{\text{soc}}\leftarrow{\underset{i\in{\{ 2,\ldots,n\}}}{\text{min}}\alpha{(z^{(i)},{\tau^{\text{soc}}\Delta^{z^{(i)}}})}}$ ⊳ 46
+6: Return min (αyort,αzort,αysoc,αzsoc)
+Algorithm 1 Analytical Line Search For Cones
+
+## Method
+
+We now introduce Dojo's contact model and custom primal-dual interior-point solver, as well as the implicit differentiation method for obtaining gradients through the solver.
+
+### IV-A Contact Dynamics Model
+
+Impact and friction behaviors are modeled, along with the system's dynamics, as an NCP. This model simulates hard contact without requiring system-specific solver tuning. Additionally, contacts between a system and the environment are treated as a single graph node connected to a rigid body (Fig (https://arxiv.org/html/2203.00806v5#S3.F3 "Figure 3 ‣ III-C Maximal-Coordinates State Representation ‣ III Background ‣ Dojo: A Differentiable Physics Engine for Robotics")). As a result, the engine retains efficient linear-time complexity for open-chain mechanical systems.
+
+Dojo uses the rigid impact model ((https://arxiv.org/html/2203.00806v5#S3.E1 "In III-A Complementarity-Based Contact Models ‣ III Background ‣ Dojo: A Differentiable Physics Engine for Robotics")-(https://arxiv.org/html/2203.00806v5#S3.E3 "In III-A Complementarity-Based Contact Models ‣ III Background ‣ Dojo: A Differentiable Physics Engine for Robotics")) and in the following section we present its Coulomb friction model that utilizes an exact nonlinear friction cone.
+
+*Nonlinear friction cone:* In contrast to the LCP approach, we utilize the optimality conditions of ((https://arxiv.org/html/2203.00806v5#S3.E4 "In III-A Complementarity-Based Contact Models ‣ III Background ‣ Dojo: A Differentiable Physics Engine for Robotics")) in a form amenable to a primal-dual interior-point solver. The associated cone program is
+
+where $\xi$ is an auxiliary vector under the nonlinear friction cone model, with elements 2 and 3 representing the friction force components, and subscripts indicate vector indices. The relaxed optimality conditions for ((https://arxiv.org/html/2203.00806v5#S4.E19 "In IV-A Contact Dynamics Model ‣ IV Method ‣ Dojo: A Differentiable Physics Engine for Robotics")) in interior-point form are
+
+with dual variable $\eta \in \mathbf{R}^{3}$ associated with the second-order-cone constraints, and central-path parameter, $\kappa \in \mathbf{R}_{+}$. The second-order-cone product is
+
+is its corresponding identity element \[(https://arxiv.org/html/2203.00806v5#bib.bib80)\]. Friction is recovered from the solution: $b = \xi_{({2:3})}^{\ast}$. The benefits of this model are increased physical fidelity and fewer optimization variables, without substantial increase in computational cost.
+
+*Nonlinear complementarity problem:* Systems comprising $N$ bodies and a single contact point are simulated using a time-stepping scheme that solves the feasibility problem
+
+The system's smooth dynamics $F:{{\mathbf{Z} \times \mathbf{Z} \times \mathbf{Z} \times \mathbf{J} \times \mathbf{R}_{+} \times \mathbf{R}^{2} \times \mathbf{U}}\rightarrow\mathbf{R}^{6N}}$ comprise linear and rotational dynamics ((https://arxiv.org/html/2203.00806v5#S3.E16 "In III-D Variational Integrator ‣ III Background ‣ Dojo: A Differentiable Physics Engine for Robotics")-(https://arxiv.org/html/2203.00806v5#S3.E17 "In III-D Variational Integrator ‣ III Background ‣ Dojo: A Differentiable Physics Engine for Robotics")) for each body which are subject to inputs $u = {(f^{},\tau^{},\ldots,f^{(N)},\tau^{(N)})} \in \mathbf{U}$. The contact-point tangential velocity $v:{{\text{Z} \times \text{Z}}\rightarrow\mathbf{R}^{2}}$ is a function of the current and next configurations (i.e., a finite-difference velocity). The central-path parameter $\kappa \in \mathbf{R}_{+}$ and target $\mathbf{e}$ \[(https://arxiv.org/html/2203.00806v5#bib.bib80)\] are utilized by the interior-point solver in the following section. This formulation extends to multiple contacts.
+
+2: Parameters: τmaxsoc = 0.99, τmin = 0.95
+5: rvio, κvio ← Violation (w) ⊳
+6: Until rvio &lt; rtol and κvio &lt; κtol do
+7: $\Delta^{\text{aff}}\leftarrow{- {{\overline{R}}^{- 1}{(w;\theta)}r{(w;\theta,0)}}}$
+8: αaff ← ConeSearch (w,Δaff,1,1)
+9: μ, σ ← Center (b,c,αaff,Δaff) ⊳ (51-54)
+11: $\Delta\leftarrow{- {{\overline{R}}^{- 1}{(w;\theta)}r{(w;\theta,\kappa)}}}$
+12: τort ← max (τmin,1 − max (rvio,κvio)2)
+13: τsoc ← min (τmaxsoc,τort)
+14: α ← ConeSearch (w,Δ,τort,τsoc)
+15: cvio*, κvio* ← rvio, κvio
+17: rvio, κvio ← Violation (ŵ) ⊳
+18: Until rvio ≤ cvio* or κvio ≤ κvio* do
+21: rvio, κvio ← Violation (ŵ) ⊳
+25: ${\partial{w^{\ast}/{\partial\theta}}}\leftarrow{- {{\overline{R}}^{- 1}{(w^{\ast};\theta)}\overline{D}{(w^{\ast};\theta)}}}$ ⊳
+Algorithm 2 Primal-Dual Interior-Point Solver
+
+Solving the NCP finds a maximal-coordinates state representation. In many applications it is desirable to utilize a minimial-coordinates representation (e.g., direct trajectory optimization where algorithm complexity scales with the state dimension). Dojo includes functionality to analytically convert between representations, as well as formulate and apply the appropriate chain rule in order to differentiate through a representation transformation.
+
+To simulate a system forward in time one step, given a control input and state comprising the previous and current configurations, solutions to a sequence of barrier problems ((https://arxiv.org/html/2203.00806v5#S4.E26 "In IV-A Contact Dynamics Model ‣ IV Method ‣ Dojo: A Differentiable Physics Engine for Robotics")) are found with $\kappa\rightarrow 0$. The central-path parameter has a physical interpretation as being the softness of the contact model. A value $\kappa = 0$ corresponds to exact "hard" or inelastic contact, whereas a relaxed value produces soft contact where contact forces can occur at a distance. The primal-dual interior-point solver described in the next section adaptively decreases this parameter in order to efficiently and reliably converge to hard contact solutions. In practice, the engine is set to converge to small values (i.e. $\kappa\rightarrow 0$) for simulation in order to simulate accurate physics. Intermediate solutions (i.e., $\kappa > 0$) are cached and later utilized to compute smooth gradients in order to provide useful information through contact events.
+
+Figure 4: Gradient and dynamics comparison between point-wise gradients (black), randomized-smoothing gradients (orange, blue) and Dojo’s analytic gradients (magenta). The dynamics for a box in the X Y plane that is resting on a flat surface and displaced an amount Δ by a force f (top left). Randomized smoothing gradients (right column) are computed using 500 samples with varying covariances Σ. Dojo’s gradients (middle column) are computed for different values of central-path parameter κ. Compared to Dojo, the randomized smoothing method produces noisy derivatives that are many times more expensive to compute. Simulated dynamics comparisons were conducted using Dojo’s results under varying values of the central-path parameter, κ. The dynamics involve a box of 1 kg mass resting on a flat surface in the X Y plane, displaced by a force Δ (top left). The applied force was gradually increased from 0 N to 20 N. Throughout the simulation process, considering two separate cases—one involving impact and the other involving friction—the maximum Δ x and Δ y differences between κ = 1 × 10−4 and κ = 1 × 10−8 were 1.52 × 10−3 m and 2.56 × 10−3 m, respectively.
+
+### IV-B Primal-Dual Interior-Point Solver
+
+To efficiently and reliably satisfy ((https://arxiv.org/html/2203.00806v5#S4.E26 "In IV-A Contact Dynamics Model ‣ IV Method ‣ Dojo: A Differentiable Physics Engine for Robotics")), we developed a custom primal-dual interior-point solver for NCPs with support for cone constraints and quaternions. The algorithm is largely based upon Mehrotra's predictor-corrector algorithm \[(https://arxiv.org/html/2203.00806v5#bib.bib81), (https://arxiv.org/html/2203.00806v5#bib.bib82)\], while implementing non-Euclidean optimization techniques to handle quaternions \[(https://arxiv.org/html/2203.00806v5#bib.bib83)\] and borrowing features from CVXOPT \[(https://arxiv.org/html/2203.00806v5#bib.bib80)\] to handle cones.
+
+The primary advantages of this algorithm are the correction to the classic Newton step, which can greatly reduce the iterations required by the solver (often halving the total number of iterations), and feedback on the problem's central-path parameter that helps avoid premature ill-conditioning and adaptively drives the complementarity violation to zero in order to reliably simulate hard contact.
+
+The solver functions as a systematic procedure that iteratively refines the solution while maintaining feasibility within the prescribed cone constraints. The primal-dual framework provides a structured pathway to the solution, and the interplay between the affine (predictor) and corrector steps ensures steady progress towards eliminating both constraint and complementarity violations. The analytical line search offers a principled means of selecting step sizes that keep the iterates strictly within the cone, while the specialized handling of non-Euclidean variables ensures stable and accurate updates. By continuously monitoring violations and adjusting parameters accordingly, the approach reliably converges to a solution that meets predefined tolerances. As a result, this solver is capable of addressing a broad range of problems---from those with simple linear conditions to complex, nonlinear scenarios---while providing accurate solutions and informative gradients.
+
+### IV-B1 Problem formulation
+
+The solver aims to satisfy instantiations of the following problem
+
+with decision variables $a \in \mathbf{R}^{n_{a}}$ and ${b,c} \in \mathbf{R}^{n_{\mathcal{K}}}$, equality-constraint set $E:{{\mathbf{R}^{n_{a}} \times \mathbf{R}^{n_{\mathcal{K}}} \times \mathbf{R}^{n_{\mathcal{K}}} \times \mathbf{R}^{n_{\theta}}}\rightarrow\mathbf{R}^{n_{a} + n_{\mathcal{K}}}}$, problem data $\theta \in \mathbf{R}^{n_{\theta}}$; and where $\mathcal{K}$ is the Cartesian product of positive-orthant and second-order cones \[(https://arxiv.org/html/2203.00806v5#bib.bib84)\].
+
+Interior-point methods aim to satisfy a sequence of relaxed problems with $\kappa > 0$ and $\kappa\rightarrow 0$ in order to reliably converge to a solution of the original problem (i.e., $\kappa = 0$). This continuation approach, though it makes our interior point solver hard to warm-start, helps avoid premature ill-conditioning and is the basis for numerous convex and nonconvex interior-point solvers \[(https://arxiv.org/html/2203.00806v5#bib.bib82)\].
+
+TABLE II: Contact violation for Atlas drop (Fig. 1). Comparison between Dojo and MuJoCo for foot contact penetration (millimeters) with the floor for different time steps (seconds). Dojo strictly enforces no penetration. When Atlas lands, its feet remains above the ground by an infinitesimal amount. In contrast, MuJoCo exhibits significant penetration through the floor (i.e., negative values).
+
+The LCP formulation is a special-case instantiation of ((https://arxiv.org/html/2203.00806v5#S4.E27 "In IV-B1 Problem formulation ‣ IV-B Primal-Dual Interior-Point Solver ‣ IV Method ‣ Dojo: A Differentiable Physics Engine for Robotics")) where the constraint set is affine in the decision variables and the cone is the positive orthant. Most general-purpose solvers for LCP problems rely on active-set methods that strictly enforce $\kappa = 0$ at each iteration. Consequently, these solvers generate non-informative gradient information (see Section [IV-C](https://arxiv.org/html/2203.00806v5#S4.SS3 "IV-C Gradients ‣ IV Method ‣ Dojo: A Differentiable Physics Engine for Robotics")). In contrast our interior point solver can give informative gradients with a smoothing effect related to the size of $\kappa$.
+
+### IV-B2 Residual and Jacobians
+
+The interior-point solver aims to find a fixed point for the residual
+
+while respecting the cone constraints. The Jacobian of this residual with respect to the decision variables
+
+is used to compute a search direction. For convenience, we denote $w = {(a,b,c)}$. After a solution $w^{\ast}{(\theta,\kappa)}$ is found, the Jacobian of the residual with respect to the problem data
+
+is used to compute the sensitivity of the solution. These Jacobians are not explicitly dependent on the central-path parameter.
+
+The non-Euclidean properties of quaternion variables are handled with modifications to these Jacobians ((https://arxiv.org/html/2203.00806v5#S4.E29 "In IV-B2 Residual and Jacobians ‣ IV-B Primal-Dual Interior-Point Solver ‣ IV Method ‣ Dojo: A Differentiable Physics Engine for Robotics")) and ((https://arxiv.org/html/2203.00806v5#S4.E30 "In IV-B2 Residual and Jacobians ‣ IV-B Primal-Dual Interior-Point Solver ‣ IV Method ‣ Dojo: A Differentiable Physics Engine for Robotics")) by right multiplying each with a matrix $H$ containing attitude Jacobians \[(https://arxiv.org/html/2203.00806v5#bib.bib83)\] corresponding to the quaternions in $x$ and $\theta$, respectively
+
+Euclidean variables have corresponding identity blocks. This modification accounts for the implicit unit-norm constraint on each quaternion variable and improves the convergence behaviour of the solver.
+
+### IV-B3 Cones
+
+The generalized inequality, cone-product operator, and target for the $n$-dimensional positive orthant are
+
+For the second-order cone they are
+
+The solver utilizes the Cartesian product
+
+of the $n$-dimensional positive orthant and $j$ second-order cones, each of dimension $l_{i}$.
+
+### IV-B4 Analytical line search for cones
+
+To ensure the cone variables strictly satisfy their constraints, a cone line search is performed for a candidate search direction. For the update
+
+with step size $\alpha$ and search direction $\Delta$, the solver finds the largest $\alpha \in {\lbrack 0,1\rbrack}$ such that ${y + {\alpha\Delta}} \in \mathcal{K}$. The step-size is computed analytically for the positive orthant
+
+and second-order cone
+
+The line search over all individual cones is summarized in Algorithm (https://arxiv.org/html/2203.00806v5#alg1 "Algorithm 1 ‣ III-D Variational Integrator ‣ III Background ‣ Dojo: A Differentiable Physics Engine for Robotics").
+
+Figure 5: Velocity drift resulting from friction-cone approximation. Comparison between a box sliding with approximate cones having four vertices implemented in MuJoCo (magenta) and Dojo (orange) versus MuJoCo’s (black) and Dojo’s (blue) and PyBullet’s (green) nonlinear friction cones. Dojo’s nonlinear friction cone gives the physically correct straight line motion, while linear friction-cone approximations lead to lateral drift. MuJoCo’s nonlinear friction cone exhibits a minor rotational drift. PyBullet’s nonlinear friction cone delivers correct straight line motion, but exerts greater friction force on the box leading to a shorter trajectory than Dojo and MuJoCo.
+
+### IV-B5 Candidate update
+
+The variables are partitioned: $a = {(a^{},\ldots,a^{(p)})}$, where $i = 1$ are Euclidean variables and $i = {2,\ldots,p}$ are each quaternion variables; and $b = {(b^{},\ldots,b^{(n)})}$, $c = {(c^{},\ldots,c^{(n)})}$, where $j = 1$ is the positive-orthant and the remaining $j = {2,\ldots,n}$ are second-order cones. For a given search direction, updates for Euclidean and quaternion variables are performed. The Euclidean variables in $a$ use a standard update
+
+For each quaternion variable, the search direction exists in the space tangent to the unit-quaternion hypersphere and is 3-dimensional. The corresponding update for $i = {2,\ldots,p}$ is
+
+where $L:{\mathbf{H}\rightarrow\mathbf{R}^{4 \times 4}}$ is a matrix representing a left-quaternion matrix multiplication, and $\varphi:{\mathbf{R}^{3}\rightarrow\mathbf{H}}$ is a mapping to a unit quaternion. The standard update ((https://arxiv.org/html/2203.00806v5#S4.E47 "In IV-B5 Candidate update ‣ IV-B Primal-Dual Interior-Point Solver ‣ IV Method ‣ Dojo: A Differentiable Physics Engine for Robotics")) is used for the remaining decision variables $b$ and $c$.
+
+### IV-B6 Violation metrics
+
+Two metrics are used to measure progress: (i) the constraint violation
+
+and (ii) complementarity violation
+
+The problem ((https://arxiv.org/html/2203.00806v5#S4.E27 "In IV-B1 Problem formulation ‣ IV-B Primal-Dual Interior-Point Solver ‣ IV Method ‣ Dojo: A Differentiable Physics Engine for Robotics")) is considered solved when $r_{\text{vio}} < r_{\text{tol}}$ and $\kappa_{\text{vio}} < \kappa_{\text{tol}}$.
+
+### IV-B7 Centering
+
+The solver adaptively relaxes ((https://arxiv.org/html/2203.00806v5#S4.E27 "In IV-B1 Problem formulation ‣ IV-B Primal-Dual Interior-Point Solver ‣ IV Method ‣ Dojo: A Differentiable Physics Engine for Robotics")) by computing the centering parameters $\mu$ and $\sigma$. These values provide an estimate of the cone-constraint violation and determine the value of the central-path parameter that a correction step will aim to satisfy. These values rely on the degree of the cone \[(https://arxiv.org/html/2203.00806v5#bib.bib80)\],
+
+the complementarity violations,
+
+and affine complementarity violations,
+
+as well as their ratio,
+
+As the algorithm makes progress, it aims to reduce these violations.
+
+### IV-B8 Algorithm
+
+The interior-point algorithm used to solve ((https://arxiv.org/html/2203.00806v5#S4.E27 "In IV-B1 Problem formulation ‣ IV-B Primal-Dual Interior-Point Solver ‣ IV Method ‣ Dojo: A Differentiable Physics Engine for Robotics")) is summarized in Algorithm (https://arxiv.org/html/2203.00806v5#alg2 "Algorithm 2 ‣ IV-A Contact Dynamics Model ‣ IV Method ‣ Dojo: A Differentiable Physics Engine for Robotics"). Additional tolerances $\tau \in {\lbrack 0.9,1\rbrack}$ are used to improve numerical reliability of the solver. The algorithm parameters include $\tau_{\text{max}}^{\text{soc}}$ to prevent the iterates from reaching the boundaries of the cones too rapidly during the solve, $\tau_{\text{min}}$ to ensure we are aiming at sufficiently large steps, and $\beta$ is the decay rate of the step size $\alpha$ during the line search. In practice, $r_{\text{tol}}$ and $\kappa_{\text{tol}}$ are the only parameters the user might want to tune.
+
+Finally, the algorithm outputs a solution $w^{\ast}{(\theta,\kappa)}$ that satisfies the solver tolerance levels and, optionally, the implicit gradients of the solution with respect to the problem parameters $\theta$.
+
+For an instance of problem ((https://arxiv.org/html/2203.00806v5#S4.E27 "In IV-B1 Problem formulation ‣ IV-B Primal-Dual Interior-Point Solver ‣ IV Method ‣ Dojo: A Differentiable Physics Engine for Robotics")), the algorithm is provided problem data and an initial point, which is projected to ensure that the cone variables are initially feasible with some margin. Next, an affine search direction (i.e., predictor) is computed that aims for zero complementarity violation. Using this direction, a cone line search is performed followed by a centering step that computes a target relaxation for the computation of the corrector search direction. A second cone line search is then performed for this new search direction. A subsequent line search is performed until either the constraint or complementarity violation is reduced. The current point is then updated, a new affine search direction is computed, and the procedure repeats until the violations satisfy the solver tolerances.
+
+### IV-C Gradients
+
+Dojo simulates a user-tuneable smoothed approximation of hard contact dynamics. This approach allows us to compute gradients that are more informative in the presence of contacts by enabling a force-from-a-distance mechanism, as discussed in references \[(https://arxiv.org/html/2203.00806v5#bib.bib85)\] and \[(https://arxiv.org/html/2203.00806v5#bib.bib29)\]. As previously discussed, interior-point methods optimize a sequence of smooth barrier sub-problems, where the degree of smoothing is parameterized by the central-path parameter $\kappa$. Differentiating at a large value of $\kappa$ gives more contact smoothing, with more informative gradients but less accurate solutions, while differentiating at small $\kappa$ values gives less smoothing, less informative gradients, but better physical fidelity. The chosen intermediate solution, $w^{\ast}{({{\theta,\kappa} > 0})}$, is differentiated using the implicit function theorem ((https://arxiv.org/html/2203.00806v5#S3.E11 "In III-B Implicit Differentiation ‣ III Background ‣ Dojo: A Differentiable Physics Engine for Robotics")) to compute smooth implicit gradients. In practice, we find that these gradients greatly improve the performance of gradient-based optimization methods, consistent with the long history of interior-point methods. Dojo's gradients are compared with point-wise gradients and randomized smoothing in Fig. (https://arxiv.org/html/2203.00806v5#S4.F4 "Figure 4 ‣ IV-A Contact Dynamics Model ‣ IV Method ‣ Dojo: A Differentiable Physics Engine for Robotics"). Since $\kappa$ represents a tradeoff between simulation accuracy and gradient smoothness, we evaluate the effect of $\kappa$ on simulation accuracy. We compare the simulation results of different $\kappa$ values in Fig. (https://arxiv.org/html/2203.00806v5#S4.F4 "Figure 4 ‣ IV-A Contact Dynamics Model ‣ IV Method ‣ Dojo: A Differentiable Physics Engine for Robotics").
+
+The problem data for each simulation step includes: the previous and current configurations, control input, and additional terms like the time step, friction coefficients, and parameters of each body.
+
+### IV-D Implementation
+
+An open-source implementation, Dojo.jl, written in Julia, is available and a Python interface, dojopy, is also included. These tools, and the experiments, are available at,
+
+[https://www.github.com/dojo-sim/Dojo.jl](https://www.github.com/dojo-sim/Dojo.jl).
+
+## Results
+
+Dojo's capabilites are highlighted through a collection of examples, including: simulating physical phenomena, gradient-based planning with trajectory optimization, policy optimization, system identification, and sim-to-real gap evaluation with robot hardware. The current implementation supports point, sphere, and capsule collisions with flat surfaces with a pre-existing collision detection module (which is outside the scope of this work). All of the experiments were performed on a computer with an Intel Core i9-10885H processor and 32GB of memory.
+
+### V-A Simulation
+
+Figure 6: Locomotion plan for quadruped generated using trajectory optimization. Time progresses top to bottom.
+
+The simulation accuracy of Dojo and MuJoCo is compared in a number of illustrative scenarios.
+
+*Impact constraints comparison:* The Atlas humanoid is simulated dropping onto a flat surface (Fig. (https://arxiv.org/html/2203.00806v5#S1.F1 "Figure 1 ‣ I Introduction ‣ Dojo: A Differentiable Physics Engine for Robotics")). The system comprises 31 bodies, resulting in 403 maximal-coordinates states, and has 36 actuated degrees-of-freedom. Each foot has four contact points. A comparison with MuJoCo is performed measuring penetration violations with the floor for different simulation rates (Table [II](https://arxiv.org/html/2203.00806v5#S4.T2 "TABLE II ‣ IV-B1 Problem formulation ‣ IV-B Primal-Dual Interior-Point Solver ‣ IV Method ‣ Dojo: A Differentiable Physics Engine for Robotics")). The current implementation of Dojo simulates this system in real time at 65 Hz.
+
+*Friction-cone comparison:* The effect of friction-cone approximation is demonstrated by simulating a box that is initialized with lateral velocity before impacting and sliding along a flat surface. The complementarity problem with $P$ contact points requires $2P{({1 + {2d}})}$ decision variables for contact and a corresponding number of constraints, where $d$ is the degree of parameterization (e.g., double parameterization: $d = 2$). For a pyramidal approximation, in the probable scenario where its vertices are not aligned with the direction of motion, velocity drift occurs for a linearized cone implemented in Dojo and MuJoCo. Meanwhile, though MuJoCo and PyBullet also can use nonlinear friction cones, compared to Dojo, MuJoCo's nonlinear friction cone exhibits a minor rotational drift and PyBullet's nonlinear friction cone exerts greater friction force on box that leads to a shorter trajectory (Fig. (https://arxiv.org/html/2203.00806v5#S4.F5 "Figure 5 ‣ IV-B4 Analytical line search for cones ‣ IV-B Primal-Dual Interior-Point Solver ‣ IV Method ‣ Dojo: A Differentiable Physics Engine for Robotics")). While it is possible to reduce such artifacts by increasing the number of vertices in the approximation of the second-order cone, this increases the computational complexity. Such approximation is unnecessary in Dojo as we handle the exact nonlinear cone constraint efficiently and reliably with optimization tools from cone programming; the result is accurate sliding.
+
+TABLE III: Planning results. Comparison of final cost value, goal constraint violation, and total number of iterations for a collection of systems optimized with iterative LQR using Dojo (D) with implicit gradients or MuJoCo (M) with finite-difference gradients.
+
+*Simulation Stability at Low Frequencies* To validate the stability of the primal-dual interior point solver under different simulation frequencies, we conduct Atlas drop (Fig. (https://arxiv.org/html/2203.00806v5#S1.F1 "Figure 1 ‣ I Introduction ‣ Dojo: A Differentiable Physics Engine for Robotics")) and similar quadrupedal drop experiments under different simulation frequencies. During the simulations, we recorded the robots' torso heights over time. The simulation results can be found in Fig. (https://arxiv.org/html/2203.00806v5#S5.F7 "Figure 7 ‣ V-A Simulation ‣ V Results ‣ Dojo: A Differentiable Physics Engine for Robotics"). Under a large span of simulation frequency from 20-500 Hz, both Atlas drop and quadrupedal drop deliver similar simulation results with small reasonable deviations. The test results demonstrate that Dojo preserves simulation fidelity at low frequency, even through contact events.
+
+Figure 7: Torso height over time under different simulation frequency for Atlas (top) drop and A1 (bottom) drop experiments.
+
+*Computation time:* One of the primary challenges with differentiable simulators is their computation speed. Table [V](https://arxiv.org/html/2203.00806v5#S5.T5 "TABLE V ‣ V-A Simulation ‣ V Results ‣ Dojo: A Differentiable Physics Engine for Robotics") presents a benchmark comparing the computation time for forward simulation and gradient calculation across four simulators on four different robot types. Each test involved simulating 1000 steps with a time step of 0.01s, using randomly generated actions. MuJoCo's gradients are calculated with built-in finite differentiation function, Drake utilizes its randomized smoothing gradients calculation function, while Brax calculates gradients through auto-differentiation.
+
+Among all four simulators, MuJoCo exhibited a clear advantage in computation speed. However, Dojo significantly outperforms another differentiable simulator, Brax, and delivers a comparable performance as Drake. This advantage stems from (i) the maximal-coordinate dynamics model, which is highly effective in handling complex systems with multiple links and joints, as discussed in Section [III-C](https://arxiv.org/html/2203.00806v5#S3.SS3 "III-C Maximal-Coordinates State Representation ‣ III Background ‣ Dojo: A Differentiable Physics Engine for Robotics"), and (ii) Dojo's implicit differentiation method, which avoids the $\text{O}{(n^{2})}$ complexity of finite difference techniques in the action and observation spaces.
+
+*Sim-to-Real gap evaluation:* To assess the sim-to-real transfer capabilities and fidelity of Dojo, we conducted a series of box pushing experiments using a 6-axis xArm manipulator and a 0.5 kg rectangular box (11 cm by 13 cm by 21 cm) positioned at initial x-axis distances of 30, 35, 40, 45, and 50 cm from the manipulator's base, the simulation and real experimental scenario can be seen in Fig. (https://arxiv.org/html/2203.00806v5#S5.F8 "Figure 8 ‣ V-A Simulation ‣ V Results ‣ Dojo: A Differentiable Physics Engine for Robotics"). In both the simulated and real-world trials, identical proportional-derivative (PD) gains and joint-space commands were applied. We record the box's final location and flipping status of each experiment (real world) or simulation (Dojo), the results can be found in Table [IV](https://arxiv.org/html/2203.00806v5#S5.T4 "TABLE IV ‣ V-A Simulation ‣ V Results ‣ Dojo: A Differentiable Physics Engine for Robotics"). After the pushing action, the positional discrepancy in the box's final location between simulation and reality averaged approximately 0.5 cm (1.25%). Apart from positional accuracy, we also examined the flipping behavior of the box, which is sensitive to the precise point of contact and influenced by complex frictional and contact forces. Dojo's predictions of flipping outcomes closely matched those observed in the physical experiments, indicating that the simulator can capture the subtle and intricate dynamics involved in frictional contact scenarios. Taken together, these results give evidence of Dojo's ability to reproduce physical phenomena, thereby supporting robust sim-to-real transfer in robotic manipulation tasks.
+
+Figure 8: Simulation and real robot comparison under physical contacts and frictions. Robot arm pushing box experiment scenarios.
+
+Sim-to-Real Distance Gap (cm)
+
+TABLE IV: Robot arm pushing box experiment results for Sim-to-Real gap evaluation. Box was placed at different locations on the table with different initial x-direction distances to robot arm’s base. Both simulation and real robot are controlled by the same PD controller to track the same joint space at 100 Hz.
+
+Simulation Time of Different Robots [s]
+
+TABLE V: Computation time benchmark results. Comparison of computation time of forward simulation plus gradient calculation for different simulators on different types of robots. Simulation time step is 0.01 s, each test was simulated for 1000 steps, with randomly generated actions. MuJoCo’s gradients are calculated with built-in finite differentiation function, Drake utilizes its randomized smoothing gradients calculation function, while Brax calculates gradients through auto-differentiation.
+
+*Convergence study:* Dojo's solver reduces the constraint violation $r_{vio}$ and complementarity violation $\kappa_{vio}$ until both residual values are smaller than prescribed tolerances. As the problem is nonconvex, it is important to analyze Dojo's convergence performance across different robots under different conditions. We simulate three robots in Dojo and record their $\kappa_{vio}$ and $r_{vio}$ as well as the solver's condition numbers over iterations under different tolerance settings. Meanwhile, to further substantiate Dojo's ability to avoid ill-conditioning, we also compare Dojo with a primal-only interior point solver \[(https://arxiv.org/html/2203.00806v5#bib.bib28)\] on condition numbers over iterations under different tolerance settings. The convergence study results are shown in Fig. (https://arxiv.org/html/2203.00806v5#S5.F9 "Figure 9 ‣ V-A Simulation ‣ V Results ‣ Dojo: A Differentiable Physics Engine for Robotics") and (https://arxiv.org/html/2203.00806v5#S5.F10 "Figure 10 ‣ V-A Simulation ‣ V Results ‣ Dojo: A Differentiable Physics Engine for Robotics").
+
+When testing with different $\kappa_{tol}$, we fix $r_{tol}$ at $1 \times 10^{- 8}$, while as $\kappa_{vio}$ is the main bottleneck of the solver, we relax $\kappa_{tol}$ to 0.1 when testing with different $r_{tol}$. We do the same for both residual values and condition number experiments. The experiment results demonstrate that Dojo's primal-dual interior-point solver can converge within 15 iterations for all three robots. The residual decreases reliably for different tolerance settings, showing that Dojo's solver has strong numerical stability. For condition number experiments, the general trend is that condition number increases with the iteration for both methods, as expected. Specifically, for Dojo, under relaxed $\kappa_{tol}$ (0.1), the condition number stays low (smaller than $1 \times 10^{- 4}$) with iterations for all three robots. Meanwhile, under rigorous $\kappa_{tol}$ ($1 \times 10^{- 8}$), the condition number was higher than that under relaxed $\kappa_{tol}$, but still lies at a reasonable level for a nonconvex optimization problem (smaller than $1 \times 10^{9}$). Moreover, the primal-only solver's condition number is much higher than the proposed method. Under different tolerance settings, at the last iteration of each experiment, the primal method's condition number is 2 to $1 \times 10^{4}$ times of Dojo's condition number, showing that Dojo's primal-dual interior-point solver has an advantage in avoiding numerical ill-conditioning.
+
+Figure 9: Plots of residual values κv i o and rv i o versus iteration under different tolerance for three different robots.
+
+Figure 10: Plots of condition numbers versus iteration under different κ and r tolerance for three different robots.
+
+### V-B Planning
+
+We utilize iterative LQR by providing implicit gradients from Dojo \[(https://arxiv.org/html/2203.00806v5#bib.bib87)\] to perform trajectory optimization on three systems: planar box, hopper, and quadruped. A comparison is performed with MuJoCo and finite-difference gradients. The results are visualized for the quadruped in Fig. (https://arxiv.org/html/2203.00806v5#S5.F6 "Figure 6 ‣ V-A Simulation ‣ V Results ‣ Dojo: A Differentiable Physics Engine for Robotics") and summarized for all of the systems in Table [III](https://arxiv.org/html/2203.00806v5#S5.T3 "TABLE III ‣ V-A Simulation ‣ V Results ‣ Dojo: A Differentiable Physics Engine for Robotics").
+
+*Box:* Inputs are optimized to move a stationary rigid body that is resting on a flat surface (Fig. (https://arxiv.org/html/2203.00806v5#S4.F4 "Figure 4 ‣ IV-A Contact Dynamics Model ‣ IV Method ‣ Dojo: A Differentiable Physics Engine for Robotics")) to a goal location that is either to the right or up in the air $1$ meter. The planning horizon is $1$ second and the controls are initialized with zeros. Dojo uses a time step $h = 0.1$, whereas MuJoCo uses $h = 0.01$ to prevent significant contact violations with the floor. MuJoCo fails in the scenario with the goal in the air, while Dojo succeeds at both tasks.
+
+*Hopper:* The hopping robot \[(https://arxiv.org/html/2203.00806v5#bib.bib88)\] with $m = 3$ controls and $n = 14$ degrees-of-freedom is tasked with moving to a target pose over $1$ second. Similar, although not identical, models and costs are used. Dojo uses a time step $h = 0.05$ whereas MuJoCo uses $h = 0.01$. The hopper is initialized with controls that maintain its standing configuration. Quadratic costs are used to penalize control effort and perform cost shaping on an intermediate state in the air and the goal pose. The optimizer typically finds a single-hop motion.
+
+*Quadruped:* The Unitree A1 with $m = 12$ controls and $n = 36$ degrees-of-freedom is tasked with moving to a goal location over a planning horizon $T = 41$ with time step $h = 0.05$. Controls are initialized to compensate for gravity and there are costs on tracking a target kinematic gait and control inputs. The optimizer finds a dynamically feasible motion that closely tracks the kinematic plan (Fig. (https://arxiv.org/html/2203.00806v5#S5.F6 "Figure 6 ‣ V-A Simulation ‣ V Results ‣ Dojo: A Differentiable Physics Engine for Robotics")).
+
+Overall, we find that final results from both engines are similar. However, importantly, MuJoCo is enforcing soft contact whereas Dojo simulates hard contact. Dojo's gradients are computed with $\kappa = {{3e} - 4}$. Further, for systems with contact, MuJoCo requires a time step $h = 0.01$ for successful optimization, whereas Dojo succeeds with $h = 0.05$.
+
+Figure 11: Learned policy rollouts for half-cheetah (top) and ant (bottom). Time progresses left to right.
+
+### V-C Policy Optimization
+
+Gym-like environments \[(https://arxiv.org/html/2203.00806v5#bib.bib20), (https://arxiv.org/html/2203.00806v5#bib.bib89)\]: ant and half-cheetah are implemented in Dojo and we train static linear policies for locomotion. As a baseline, we employ Augmented Random Search (ARS) \[(https://arxiv.org/html/2203.00806v5#bib.bib90)\], a gradient-free approach coupling random search with a number of simple heuristics. For comparison, we train the same policies using augmented gradient search (AGS) which replaces the stochastic-gradient estimation of ARS with Dojo's implicit gradients. Policy rollouts are visualized in Fig. (https://arxiv.org/html/2203.00806v5#S5.F11 "Figure 11 ‣ V-B Planning ‣ V Results ‣ Dojo: A Differentiable Physics Engine for Robotics") and results are summarized in Table [VI](https://arxiv.org/html/2203.00806v5#S5.T6 "TABLE VI ‣ V-D System Identification ‣ V Results ‣ Dojo: A Differentiable Physics Engine for Robotics").
+
+*Half-cheetah:* This planar system with $m = 6$ controls and $n = 18$ degrees-of-freedom is rewarded for forward velocity and penalized for control effort over a horizon $T = 80$ with time step $h = 0.05$.
+
+*Ant:* The system has $m = 8$ controls and $n = 28$ degrees-of-freedom and is rewarded for forward motion and maintaining a certain altitude and is penalized for control effort and contact over a horizon $T = 150$ with time step $h = 0.05$.
+
+First, we are able to successfully train policies using this simple learning algorithm in Dojo's hard contact environments. Second, MuJoCo requires smaller $h = 0.01$ time steps for stable simulation, whereas Dojo is stable with $h = 0.05$. Third, our initial results indicate that it is possible to train comparable polices in Dojo with 5 to 10 times less samples by utilizing implicit gradients compared to the gradient-free method.
+
+### V-D System Identification
+
+TABLE VI: Policy optimization results. Comparison of total reward, number of simulation-step and gradient evaluations for a collection of policies trained with Augmented Random Search (ARS) and Augmented Gradient Search (AGS). For AGS, we test with both implicit gradients and randomized gradients. The results are averaged over the best 3 out of 5 runs with different random seeds. Optimizing with implicit gradients from Dojo reaches similar performance levels while being 5 to 10 times more sample efficient, while optimizing with randomized finite difference gradients is 3 to 5 times more sample efficient.
+
+System identification is performed on an existing real-world dataset of trajectories collected by throwing a box on a table with different initial conditions \[(https://arxiv.org/html/2203.00806v5#bib.bib91)\]. We learn a set of parameters $\theta = {(c_{f},p^{},\ldots,p^{})}$ that include the friction coefficient $c_{f}$, and 3-dimensional vectors $p^{(i)}$ that represent the position of vertex $i$ of the box with respect to its center of mass.
+
+Each trajectory is decomposed into $T - 2$ triplets of consecutive configurations: $Z = {(z_{-},z,z_{+})}$, where $T$ is the number of time steps in the trajectory. Using the initial conditions $z_{-},z$ from a tuple, and an estimate of the system's parameters $\theta$, Dojo performs one-step simulation to predict the next state, ${\hat{z}}_{+}$. Implicit gradients are utilized by a Gauss-Newton method to perform gradient-based learning of the system parameters.
+
+The parameters are learned by minimizing the following loss:
+
+where $|| \cdot ||_{W}$ is a weighted norm, which aims to minimize the difference between the ground-truth trajectories and physics-engine predictions. We use gradients
+
+and approximate Hessians
+
+Gradients are computed with $\kappa = {{3e} - 4}$.
+
+After training, the learned parameters are within $5\%$ of the true geometry and friction coefficient for the box from the dataset. We complete the real-to-sim transfer and simulate the learned system in Dojo, comparing it to the ground-truth dataset trajectories. Results are visualized in Fig. (https://arxiv.org/html/2203.00806v5#S6.F12 "Figure 12 ‣ VI-B Limitations ‣ VI Conclusion ‣ Dojo: A Differentiable Physics Engine for Robotics").
+
+## Conclusion
+
+Dojo is designed from physics- and optimization-first principles to enable better gradient-based optimization for planning, control, policy optimization, and system identification.
+
+### VI-A Contributions
+
+The engine makes several advancements over previous state-of-the-art engines for robotics: First, the variational integrator enables stable simulation at low sample rates. Second, the contact model includes an improved friction model that eliminates artifacts like creep, particularly for sliding, and hard contact for impact is achieved to machine precision. This enables sim-to-real transfer for implementation on real robot hardware. The underlying primal-dual interior point solver, developed specifically for solving NCPs, is numerically robust and minimizes user hyperparameter tuning, while offering good performance across numerous systems, and handling cone and quaternion variables. Third, the engine efficiently returns implicit gradients whose smoothness through contact are tuned by the user to trade off gradient smoothness with simulation accuracy, providing useful information through contact events. Fourth, in addition to building and providing Dojo as an open-source tool, the physics and optimization algorithms presented can be ported into existing simulation engines.
+
+### VI-B Limitations
+
+In terms of features, reliability, and wall-clock time, MuJoCo--the product of a decade of excellent software engineering--is impressive. As development of Dojo continues, we expect to make significant progress in all of these areas. However, fundamentally, Dojo's approach of solving an NCP with a primal-dual interior point method requires more computation per time step compared to existing simulators that use a soft-contact model (e.g. MuJoCo and Drake), but allows for accurate simulation with a lower sample rate, making wall-clock comparisons between the two simulators difficult. This is the fundamental trade-off Dojo makes for robotics applications: greater computational cost per time step for accurate physics and smooth gradients over fewer total time steps.
+
+Additionally, it should be acknowledged that Dojo's interior point solver is solving a nonconvex optimization problem at each simulation time step, which may have a danger of reaching poor local minima or not converging within the allotted time window. Although in practice, we do not find this to be a problem, but for time- or safety-critical applications this should be a consideration. Moreover, the same is true in using Dojo's gradients for trajectory optimization, policy optimization, or system identification. These require solving inherently nonconvex optimization problems, which may converge to poor local solutions, or fail to converge, regardless of the smoothness or quality of Dojo's gradient information. Although smoother gradients may facilitate optimization for these problems, they do not fully resolve the complexities introduced by nonconvex optimization landscapes.
+
+Figure 12: System identification. Top right: Learning box geometry and friction cone to less than 5% error. Bottom: Simulated trajectory of the box using the learned properties (blue) compared to ground truth (orange).
+
+### VI-C Future Work
+
+A number of future improvements to Dojo are planned. First, Dojo currently implements simple collision detection (e.g., sphere-halfspace, sphere-sphere). Natural extensions include support for convex primitives and curved surfaces and triangular meshes. Another improvement is adaptive time stepping. Similar to advanced numerical integrators for stiff systems, Dojo should take large time steps when possible and adaptively modify the time step in cases of numerical difficulties or physical inaccuracies. Finally, hardware-accelerator support for Dojo would potentially enable faster simulation and optimization.
+
+Perhaps the most important remaining question is whether the physics and optimization improvements from this work translate into better transfer of simulation results to successes on real-world robotic hardware. In this thrust, future work will explore the transfer of control policies trained in Dojo to hardware and deployment of the engine in model predictive control frameworks.
+
+In conclusion, we have presented a new physics engine, Dojo, specifically designed for robotics. This tool is the culmination of a number of improvements to the contact dynamics model and underlying optimization routines, aiming to advance state-of-the-art physics engines for robotics by improving physical accuracy and differentiability.

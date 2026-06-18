@@ -1,0 +1,242 @@
+## Introduction
+
+Consider the following safety-critical scenarios: a self-driving car navigating through traffic, two unmanned aerial vehicles (UAVs) avoiding collision, and a robotic manipulator in a laboratory setting that must avoid injuring researchers. Although vastly different in terms of their environments, safety-specifications, and underlying dynamics, they share several key properties: (i) their dynamics are well understood and modeled, and can be accurately identified, (ii) their dynamics are inherently *nonlinear*, and (iii) *expert demonstrations* of safe and desirable behavior are readily available or can be easily collected. Motivated by these unifying properties, this paper proposes the design of safe controllers for known nonlinear dynamical systems based on *control barrier functions* learned from expert demonstrations.
+
+Barrier functions, which are also referred to as barrier certificates, were first proposed in as a means of certifying the safety of dynamical systems with respect to semi-algebraic safe sets. In that work, a sum-of-squares (SOS) programming approach for synthesizing polynomial barrier functions for given polynomial systems was also described. The notion of control barrier functions (CBFs) for dynamical control systems was first introduced in to guarantee the existence of a control law that renders a desired safe set forward invariant. The notion of CBFs was refined by introducing reciprocal and zeroing CBFs, which do not require that sub-level sets of the CBF be invariant within the safe set. In particular, zeroing CBFs can be used to compute a minimally invasive "correction" to a nominal control law. Importantly, this correction maintains safety by computing the solution to a quadratic program (QP).
+
+One open problem that has not been fully addressed in prior work is how such CBFs can be synthesized for general classes of systems. This challenge is similar to that which arises when addressing stability using control Lyapunov functions (CLFs) as the analog to Lyapunov functions. Notably, control Lyapunov functions are a subset of control barrier functions (see and ). Analytic and SOS based approaches to synthesizing CBFs and CLFs are summarized in and have appeared in. These approaches, however, are known to be limited in scope and scalability.
+
+### Related work on learning and CBFs
+
+Methods using barrier and control barrier functions to ensure safety and guide exploration during episodic supervised learning of uncertain linear dynamics include. These approaches typically assume that a valid (control) barrier function is provided, and should be viewed as complementary to our results. In, an imitation learning based approach is used to to train a deep neural network (DNN) to replicate a CBF based controller. While the authors of present empirical validation of their results, no theoretical guarantees of correctness are provided. The authors of jointly learn a control Lyapunov function, a CBF, and a policy function for which their validity is then verified post-hoc using Lipschitz arguments. The authors of jointly learn a control Lyapunov function, a CBF, and a policy function, and then verify their validity post-hoc using Lipschitz arguments. In, tools from statistical learning theory, are used to learn Lyapunov functions from data for systems with unknown dynamics. Most similar in spirit to our paper are the results in and. In, the authors parameterize a CBF by a support vector machine, and use a supervised learning approach to characterize regions of the state-space as safe or unsafe based on collected data. While conceptually appealing, we note that their training procedure does not ensure *a priori* that there exist control actions such that the learned safe set can be made forward invariant,^11^1In particular, they do not ensure that the derivative condition ${{\langle{{\nabla h}{(x)}},{f{(x,u)}}\rangle} + {\alpha{({h{(x)}})}}} \geq 0$, holds for the learned CBF $h{(x)}$ at the observed data points, with $f{(x,u)}$ the system dynamics, and $\alpha$ an extended class $\mathcal{K}$ function -- see Section 2 for more details. and hence cannot guarantee safe execution of the system. In, a method is proposed which incrementally learns a *linear* CBF by clustering expert demonstrations into linear subspaces and fitting low dimensional representations. While both papers empirically validate their methods, neither provide proofs of correctness of the learned CBF.
+
+Contributions. In this paper, we propose and analyze an optimization based approach to learning a zeroing CBF (henceforth referred to simply as a CBF) from expert trajectories for known control affine nonlinear systems. In particular, we provide precise and verifiable conditions on the expert trajectories, an additional auxiliary data-set, and the hyperparameters of the optimization problem so as to ensure that the learned CBF guarantees safe execution of the system. We further show how the underlying optimization problem can be efficiently solved when it is cast over different function spaces. In particular, we show that the problem can be solved via convex optimization when the function space lies within a (possibly infinite-dimensional) reproducing kernel Hilbert space (RKHS); alternatively, when we consider the function space of deep neural networks (DNNs), the problem can be solved via first-order stochastic methods such as Adam or SGD. To the best of our knowledge, these are the first such results that learn a CBF from expert demonstrations with provable safety guarantees.
+
+Paper structure. The rest of this paper is structured as follows. In Section 2, we introduce notation and formulate the general problem of learning a CBF from expert demonstrations. In Section 3, we derive a set of sufficient conditions on the learned CBF and data-set that guarantee safety of the resulting closed-loop system, and we subsequently use these conditions to formulate an optimization problem for computing a function satisfying these conditions. We show in Section 3.4 that this optimization problem can be efficiently solved for CBFs embedded in RKHS and DNN function classes, and in Section 3.5, we provide further details on the expert trajectory collection process. We present three numerical studies in Section 4: (i) a two-dimensional planar problem for which we explicitly compute and verify all of the conditions of our main theorem, showing that the conditions are indeed satisfied in practice, (ii) a two UAV collision-avoidance example where expert trajectories are generated by the closed form CBF from, and (iii) the same two UAV collision avoidance example, where now expert trajectories are generated by human players of a video game interface. We end with conclusions and discussions of directions for future work in Section 5.
+
+## Preliminaries and problem formulation
+
+Let $\mathbb{R}$ and ${\mathbb{R}}_{\geq 0}$ be the set of real and non-negative real numbers, respectively, and ${\mathbb{R}}^{n}$ the set of $n$-dimensional real vectors. For $\epsilon > 0$ and $p \geq 1$, we let ${\mathcal{B}_{\epsilon,p}{(\overline{x})}}:=\left. \{{x \in {\mathbb{R}}^{n}} \middle| {{\|{x - \overline{x}}\|}_{p} \leq \epsilon}\} \right.$ denote the closed $p$-norm ball around $\overline{x} \in {\mathbb{R}}^{n}$. For a given set $\mathcal{C}$, we denote by $\operatorname{bd}{(\mathcal{C})}$, $\operatorname{int}{(\mathcal{C})}$, and $\mathcal{C}^{c}$ the boundary, interior, and complement of $\mathcal{C}$, respectively. For two sets $\mathcal{C}_{1}$ and $\mathcal{C}_{2}$, we denote their Minkowski sum by ${\mathcal{C}_{1} \oplus \mathcal{C}_{2}}:=\left. \{{{x_{1} + x_{2}} \in {\mathbb{R}}^{n}} \middle| {{x_{1} \in \mathcal{C}_{1}},{x_{2} \in \mathcal{C}_{2}}}\} \right.$. A continuous function $\alpha:{{\mathbb{R}}\rightarrow{\mathbb{R}}}$ is an extended class $\mathcal{K}$ function if it is strictly increasing with ${\alpha{}} = 0$. The inner-product between two vectors ${x,y} \in {\mathbb{R}}^{n}$ is denoted by $\langle x,y\rangle$.
+
+### Valid control barrier functions
+
+At time $t \in {\mathbb{R}}_{\geq 0}$, let ${x{(t)}} \in {\mathbb{R}}^{n}$ and ${u{(t)}} \in {\mathbb{R}}^{m}$ be the state and input, respectively, of the dynamical control system described by the initial value problem
+
+where $f:{{\mathbb{R}}^{n}\rightarrow{\mathbb{R}}^{n}}$ and $g:{{\mathbb{R}}^{n}\rightarrow{\mathbb{R}}^{m}}$ are locally Lipschitz continuous functions. Let the unique solution to (2.1) under a locally Lipschitz continuous control law $u:{{\mathbb{R}}^{n}\rightarrow{\mathbb{R}}^{m}}$ be $x:{\mathcal{I}\rightarrow{\mathbb{R}}^{n}}$ where $\mathcal{I} \subseteq {\mathbb{R}}_{\geq 0}$ is the maximum definition interval of $x$. Note that we do not explicitly assume forward completeness of (2.1) under $u$ here, i.e., $\mathcal{I}$ may be bounded.
+
+Consider next a twice continuously differentiable function $h:{{\mathbb{R}}^{n}\rightarrow{\mathbb{R}}}$, and define the set
+
+as the set that we wish to certify as safe, i.e., the set $\mathcal{C}$ satisfies prescribed safety specifications and can be made forward invariant through an appropriate choice of control action. We further assume that $\mathcal{C}$ has non-empty interior, and let $\mathcal{D}$ be an open set such that $\mathcal{D} \supset \mathcal{C}$. The function $h{(x)}$ is said to be a *valid control barrier function* on $\mathcal{D}$ if there exists a locally Lipschitz continuous extended class $\mathcal{K}$ function $\alpha:{{\mathbb{R}}\rightarrow{\mathbb{R}}}$ such that
+
+holds for all $x \in \mathcal{D}$, where $\mathcal{U} \subset {\mathbb{R}}^{m}$ defines constraints on the control input $u$. Consequently, we define the set of *CBF consistent inputs* induced by a valid CBF $h{(x)}$ to be
+
+The next result follows from.
+
+### Lemma 2.1
+
+Assume that $h{(x)}$ is a valid control barrier function on $\mathcal{D}$ and that $u:{\mathcal{D}\rightarrow\mathcal{U}}$ with ${u{(x)}} \in {K_{\text{CBF}}{(x)}}$ is locally Lipschitz continuous. Then it holds that ${x{}} \in \mathcal{C}$ implies ${x{(t)}} \in \mathcal{C}$ for all $t \in \mathcal{I}$. If the set $\mathcal{C}$ is compact, it additionally follows that $\mathcal{C}$ is: 1) forward invariant, i.e., $\mathcal{I} = {\lbrack 0,\infty)}$, and 2) asymptotically stable, which implies that $x{(t)}$ approaches $\mathcal{C}$ as $t\rightarrow\infty$ when ${x{}} \in {\mathcal{C}^{c} \cap \mathcal{D}}$.
+
+Note that ${h{(x)}} \neq 0$ when $x \in {\operatorname{bd}{(\mathcal{C})}}$ (see \[8, Remark 5\]) is not required when using the Comparison Lemma instead of Nagumo's theorem to prove the above result. While the previous result provides strong guarantees of safety given a valid control barrier function, one is still left with the potentially daunting task of finding a twice continuously differentiable function $h$ such that (i) the set $\mathcal{C}$ defined in equation (2.2) captures a sufficiently large volume of "safe" states needed for the task at hand, and (ii) that it satisfies the derivative constraint (2.3) on an open set $\mathcal{D} \supseteq \mathcal{C}$. While safety constraints are often naturally specified on a subset of the configuration space of a system (e.g., to avoid collision, vehicles must maintain a minimum separating distance), ensuring that a CBF specified using such geometric intuition also satisfies constraint (2.3) can involve verifying complex relationships between the vector field of the system, the candidate control barrier function, and its gradient.
+
+As described in the introduction, this challenge motivates the approach taken in this paper, wherein we propose an optimization based approach to learning a CBF from expert demonstrations for a system with known dynamics.
+
+### Problem formulation
+
+To formalize the previous discussion, we explicitly distinguish between geometric safety specifications, i.e., those that can be directly specified on (a subset) of the state-space of the system $x \in {\mathbb{R}}^{n}$, and the set $\mathcal{C}$ defined in equation (2.2) that is certified as safe by the CBF. To that end, let $\mathcal{S} \subseteq {\mathbb{R}}^{n}$ define the aforementioned geometric safe set.
+
+Toward the goal of learning a valid CBF, we assume that we are given a set of *expert trajectories*^22^2We refer to the collection of data points $Z_{dyn}$ as expert trajectories to emphasize that this is a natural way of collecting the $\{{(x_{i},u_{i})}\}$ pairs from the system (2.1). We note however that our method simply requires a collection of state-action pairs $\{{(x_{i},u_{i})}\}$ demonstrating safe behavior, and that they need not arise from sequential sampling of expert trajectories. consisting of $N_{1}$ discretized data-points $Z_{dyn}:={\{{(x_{i},u_{i})}\}}_{i = 1}^{N_{1}}$ such that $x_{i} \in {\operatorname{int}{(\mathcal{S})}}$. This is illustrated in Figure 1(a). For $\epsilon > 0$, we define the sets
+
+where $\mathcal{D}$ needs to be such that $\mathcal{D} \subseteq \mathcal{S}$ to later ensure correctness of the learned CBF. This can be easily achieved even when data-points $x_{i}$ are close to $\text{bd}{(\mathcal{S})}$ by adjusting $\epsilon$ or by omitting $x_{i}$. Several comments are in order. First, note that we define $\mathcal{D}$ based on expert trajectories for which control inputs $u_{i}$ are available so that the derivative constraint (2.3) can be enforced during learning. Second, by construction, the $x$ component of $Z_{dyn}$ defines an $\epsilon$-net over $\mathcal{D}$, i.e., for all $x \in \mathcal{D}$, (slightly abusing notation) there exists $x_{i} \in Z_{dyn}$ such that ${\|{x_{i} - x}\|}_{p} \leq \epsilon$. Finally, conditions on $\epsilon$ will be specified later to ensure the validity of the learned CBF.
+
+### Remark 1
+
+We note that a conceptually similar approach, defined in terms of taking a point-wise union over previously seen safe trajectories, is used to define a safe terminal set in the Learning Model Predictive Control method of.
+
+We next define the set $\mathcal{N}$, for $\sigma > 0$, as
+
+which should be thought of as a "layer" of width $\sigma$ surrounding the set $\mathcal{D}$; see Figure 1(b) for a graphical depiction. As will be made clear in the sequel, by enforcing that the value of the learned CBF $h{(x)}$ is negative on the set $\mathcal{N}$, which can be accomplished through appropriate sampling, we ensure that the zero level set $\left. \{{x \in {\mathbb{R}}^{n}} \middle| {{h{(x)}} = 0}\} \right.$ is contained within the set $\mathcal{D}$, which is a necessary condition for $h{(x)}$ to be valid.
+
+While the above definition of a CBF is specified over all of ${\mathbb{R}}^{n}$, e.g., the definition of the set $\mathcal{C}$ in equation (2.2) considers all $x \in {\mathbb{R}}^{n}$ such that ${h{(x)}} \geq 0$, we make a minor modification to this definition in order to restrict the domain of interest to the set $\mathcal{N} \cup \mathcal{D}$, i.e., we will certify that $h{(x)}$ is a valid *local* CBF over the set $\mathcal{D}$ with respect to the set
+
+This restriction is natural, as we are learning a CBF $h{(x)}$ from data sampled only over the domain $\mathcal{N} \cup \mathcal{D}$, and we will show that the inclusion $\mathcal{C} \subset \mathcal{D} \subseteq \mathcal{S}$ holds. It then follows that if $h{(x)}$ is shown to satisfy the derivative constraint (2.3) for all $x \in \mathcal{D}$, then both the set $\mathcal{C}$, as defined in (2.5), and the set $\mathcal{D}$ can be made forward invariant by some $u \in {K_{\text{CBF}}{(x)}}$, i.e., by some control action $u \in \mathcal{U}$ satisfying the derivative condition (2.3) with respect to the learned CBF $h{(x)}$.
+
+(c) Control barrier filter.
+
+Figure 1: In (a), the safe set 𝒮 (red box) and the set of expert trajectories (black lines). Next, in (b), the set 𝒟 (orange ring) is the union of ϵ balls around the expert trajectories. The set 𝒩 (black striped rings), defined around 𝒟, ensures that the learned safe set 𝒞 (green ring), which is defined via the learned valid control barrier function h (x), is such that 𝒞 ⊂ 𝒟 ⊆ 𝒮. Finally, in (c), “artiticial” unsafe samples are no longer introduced in the center of the safe set (denoted by the blue set ℱ).
+
+## An optimization based approach
+
+In this section, we define and analyze an optimization based approach to synthesizing valid local control barrier functions from expert demonstrations. To this end, let $\mathcal{H}$ be a normed function space of twice continuously differentiable functions $h:{{\mathbb{R}}^{n}\rightarrow{\mathbb{R}}}$ for which local Lipschitz bounds
+
+can be efficiently estimated. Commonly used examples of such spaces include infinite dimensional reproducing kernel Hilbert spaces (RKHS) such as those defined by random Fourier (RF) features, and more recently deep neural networks (DNNs). We defer a discussion of results specific to these two classes of CBFs to the end of this section, and focus now on a general method applicable to these, and other, spaces $\mathcal{H}$.
+
+Recall the definition of $Z_{dyn}$ and define the set $X_{safe} = {\{ x_{i}:{{(x_{i},u_{i})} \in Z_{dyn}}\}}$. We also assume that points $X_{\mathcal{N}} = {\{ x_{i}\}}_{i = 1}^{N_{2}}$ are sampled from the set $\mathcal{N}$ such that $X_{\mathcal{N}}$ forms an $\overline{\epsilon}$-net of $\mathcal{N}$ -- conditions on $\overline{\epsilon}$ will be specified in the sequel. We emphasize that no associated inputs $u_{i}$ are needed for the samples $X_{\mathcal{N}} \subset \mathcal{N}$, as these points are not generated by the expert, and can instead be obtained by simple computational methods such as gridding or uniform sampling.
+
+We begin by deriving a set of sufficient conditions in terms of constraints on the learned CBF $h{(x)}$, as well as conditions on the data-sets $X_{safe}$ and $X_{\mathcal{N}}$, that ensure that $h{(x)}$ is a valid local CBF on $\mathcal{D}$. We then use these constraints to formulate an optimization problem that can be efficiently solved for the aforementioned function classes $\mathcal{H}$.
+
+### Guaranteeing $\mathcal{C} \subset \mathcal{D} \subseteq \mathcal{S}$
+
+We begin with the simple and intuitive requirement that the learned CBF $h{(x)}$ satisfy
+
+for a yet to be specified parameter $\gamma_{safe} > 0$. This in particular ensures that the set $\mathcal{C}$ over which ${h{(x)}} \geq 0$, as defined in equation (2.5), has non-empty interior.
+
+We now derive conditions under which the learned CBF satisfies ${h{(x)}} < 0$ for all $x \in \mathcal{N}$, which in turn ensures that $\mathcal{C} \subset \mathcal{D} \subseteq \mathcal{S}$ due to constraint (3.1).
+
+### Proposition 3.1
+
+Let $h{(x)}$ be Lipschitz continuous with local Lipschitz constant $L_{h}{(x)}$. Let $\gamma_{unsafe} > 0$ and $X_{\mathcal{N}}$ be an $\overline{\epsilon}$-net of $\mathcal{N}$ with $\overline{\epsilon} < {{\gamma_{unsafe}/L_{h}}{(x_{i})}}$ for all $x_{i} \in X_{\mathcal{N}}$. Then, if
+
+it holds that ${h{(x)}} < 0$ for all $x \in \mathcal{N}$.
+
+### Proof
+
+By equation (3.2), we have that ${h{(x_{i})}} \leq {- \gamma_{unsafe}}$ for each $x_{i} \in X_{\mathcal{N}}$. We then have, for any $x \in \mathcal{N}$, that there exists a point $x_{i} \in X_{\mathcal{N}}$ satisfying ${\|{x - x_{i}}\|}_{p} \leq \overline{\epsilon} < {{\gamma_{unsafe}/L}{(x_{i})}}$, from which the following chain of inequalities follows immediately
+
+where the first inequality follows from the assumption that ${h{(x_{i})}} \leq {- \gamma_{unsafe}}$ for all $x_{i} \in X_{\mathcal{N}}$, the second by the local Lipschitz assumption on $h{(x)}$, the third by the assumption that $X_{\mathcal{N}}$ forms an $\overline{\epsilon}$-net of $\mathcal{N}$, and the final inequality by the condition on $\overline{\epsilon}$ of the proposition. ∎
+
+We note that as stated, the constraints (3.1) and (3.2), as well as the condition $\overline{\epsilon} < {{\gamma_{unsafe}/L_{h}}{(x_{i})}}$ of Proposition 3.1 may be incompatible, leading to infeasibility of an optimization problem built around them. This incompatibility arises from the fact that we are simultaneously asking for the value of $h{(x)}$ to vary from $\gamma_{safe}$ to $\gamma_{unsafe}$ over a short distance $\overline{\epsilon}$ while having a low Lipschitz constant. In particular, as posed, the constraints require that ${|{{h{(x_{s})}} - {h{(x_{u})}}}|} \geq {\gamma_{safe} + \gamma_{unsafe}}$ for $x_{s} \in X_{safe}$ and $x_{u} \in X_{\mathcal{N}}$ safe and unsafe samples, respectively, but the sampling requirements imply that ${\|{x_{s} - x_{u}}\|}_{2} \leq {\overline{\epsilon} + \epsilon}$ for at least some pair $(x_{s},x_{u})$, which in turn implies that
+
+Thus, if $\gamma_{safe}$ and $\gamma_{unsafe}$ are chosen to be too large, we may exceed the required bound of $\gamma_{unsafe}/\overline{\epsilon}$, and set over which ${h{(x)}} \geq 0$ may be undesirably small (i.e., the volume of $\mathcal{C}$ would be too small).
+
+We address this issue as follows: for fixed $\gamma_{safe}$, $\gamma_{unsafe}$, and $L_{h}:={\sup_{x_{i} \in X_{\mathcal{N}}}{L_{h}{(x_{i})}}}$, constraint (3.1) is relaxed to
+
+corresponds to an inner subset of expert trajectory samples. Intuitively, this introduces a buffer region across which $h{(x)}$ can vary in value from $\gamma_{safe}$ to $- \gamma_{unsafe}$ without having an excessively large Lipschitz constant. A near identical argument as that used to prove Proposition 3.1 can now be used to guarantee that the set $\mathcal{C}$ defined in equation (2.5) contains the set
+
+defined as the union of $\epsilon$-balls around the points in ${\overline{X}}_{safe}$, and thus, $\overline{\mathcal{D}} \subseteq \mathcal{C}$ can be seen as a "minimum-volume" guarantee on the set $\mathcal{C}$.
+
+### Corollary 3.2
+
+Let $h{(x)}$ be Lipschitz continuous with local constant $L_{h}{(x)}$. Let $\gamma_{safe} > 0$, and $X_{safe}$ be an $\epsilon$-net of $\mathcal{D}$ with $\epsilon \leq {{\gamma_{safe}/L_{h}}{(x_{i})}}$ for all $x_{i} \in {\overline{X}}_{safe}$. Then, if constraint (3.3) is satisfied, it holds that ${h{(x)}} \geq 0$ for all $x \in \overline{\mathcal{D}}$.
+
+### Guaranteeing valid local control barrier functions
+
+The conditions in the previous subsection guarantee that the level-sets of the learned CBF satisfy the desired properties. We now derive conditions that ensure that the derivative constraint (2.3) is also satisfied by the learned CBF.
+
+Because we assume that the CBF functions $h{(x)}$ are twice continuously differentiable over a compact domain $\mathcal{N} \cup \mathcal{D}$, we immediately have that ${\nabla h}{(x)}$ is Lipschitz continuous with local Lipschitz constant $L_{\nabla}{(x)}$. Note that to verify that a CBF $h{(x)}$ satisfying the constraints of the previous section is valid, it suffices to show that there exists a single control input $u \in \mathcal{U}$ such that the derivative constraint (2.3) holds. Our approach is to use the control inputs $\{ u_{i}:{{(x_{i},u_{i})} \in Z_{dyn}}\}$ provided by the expert demonstrations. We discuss the consequences of this choice further in Section 3.5.
+
+To that end, note that for a fixed $u_{i}$, the function ${q{(x)}}:={{\langle{{\nabla h}{(x)}},{{f{(x)}} + {g{(x)}u_{i}}}\rangle} + {\alpha{({h{(x)}})}}}$ is Lipschitz continuous, with Lipschitz constant denoted by $L_{q}{(x)}$, as $\nabla h$, $f$ and $g$ are all assumed to be Lipschitz continuous. Following a similar argument as in the previous subsection, we then have the following result guaranteeing that the learned CBF satisfies the derivative constraint (2.3) for all $x \in \mathcal{D}$.
+
+### Proposition 3.3
+
+Suppose $q{(x)}$ is Lipschitz continuous with constant $L_{q}{(x)}$. Let $\gamma_{dyn} > 0$, and $X_{safe}$ be an $\epsilon$-net of $\mathcal{D}$ with $\epsilon \leq {{\gamma_{dyn}/L_{q}}{(x_{i})}}$ for all $x_{i} \in X_{safe}$. Then if
+
+for all ${x_{i} \in X_{safe}},$ it holds that ${q{(x)}} \geq 0$ for all $x \in \mathcal{D}$.
+
+### Proof
+
+Following a similar argument as the proof of Proposition 3.1, we note that by equation (3.5), we have that ${q{(x_{i})}} \geq \gamma_{dyn}$ for each $x_{i} \in X_{safe}$. We then have, for any $x \in \mathcal{D}$, that there exists a point $x_{i} \in X_{safe}$ satisfying ${\|{x - x_{i}}\|}_{p} \leq \epsilon \leq {{\gamma_{dyn}/L_{q}}{(x_{i})}}$, from which the following chain of inequalities follows immediately
+
+where the first inequality follows from the assumption that ${q{(x_{i})}} \geq \gamma_{dyn}$ for all $x_{i} \in X_{safe}$, the second by the Lipschitz assumption on $q{(x)}$, the third by the assumption that $X_{safe}$ forms an $\epsilon$-net of $X_{safe}$, and the final inequality by the condition on $\epsilon$ of the proposition. ∎
+
+The following theorem, which follows immediately from the previous results, states a set of sufficient conditions guaranteeing that a learned CBF is locally valid on the domain $\mathcal{N} \cup \mathcal{D}$. We next use these conditions to formulate an optimization based approach to learning a CBF from expert demonstrations.
+
+### Theorem 3.4
+
+Let a twice continously differentiable function $h{(x)}$ be a candidate CBF, and let the sets $\mathcal{S}$, $\mathcal{N}$, $\mathcal{D}$, $\mathcal{C}$, and $\overline{\mathcal{D}}$, and the data-sets $X_{\mathcal{N}}$, $X_{safe}$, and ${\overline{X}}_{safe}$ be defined as above. Suppose that $X_{\mathcal{N}}$ forms a $\overline{\epsilon}$-net of $\mathcal{N}$ satisfying the conditions of Proposition 3.1, and that $X_{safe}$ forms an $\epsilon$-net of $\mathcal{D}$ satisfying the conditions of Corollary 3.2 & Proposition 3.3. Then if $h{(x)}$ satisfies constraints (3.2), (3.3), and (3.5), it holds that the set $\mathcal{C}$ is non-empty, $\overline{\mathcal{D}} \subseteq \mathcal{C} \subset \mathcal{D} \subseteq \mathcal{S}$, and the function $h{(x)}$ is a valid local control barrier function on $\mathcal{D}$ with domain $\mathcal{N} \cup \mathcal{D}$.
+
+### Control barrier filters
+
+We introduce a simple and natural extension to the notion of a local CBF. Consider the same scenario as above, together with an additional set $\mathcal{F} \subseteq {\mathcal{S} \smallsetminus \mathcal{C}}$ that satisfies the following condition: for each $\zeta_{0} \in \mathcal{F}$ there exists no continuous signal $\zeta:{{\mathbb{R}}_{\geq 0}\rightarrow{\mathbb{R}}^{n}}$ with ${\zeta{}}:=\zeta_{0}$ and with ${\zeta{(t^{\prime})}} \notin \mathcal{S}$ for some $t^{\prime} > 0$ and ${\zeta{(t^{\operatorname{\prime\prime}})}} \notin \mathcal{C}$ for all $t^{\operatorname{\prime\prime}} > 0$. This means that the set $\mathcal{C}$ filters all trajectories starting from $\mathcal{F}$, i.e., each trajectory starting from $\mathcal{F}$ has to pass through $\mathcal{C}$ to escape $\mathcal{S}$ and thereby renders $\mathcal{F}$ safe (see Figure 1(c)). This follows in the spirit of set invariance. As illustrated in Figure 1(c), this allows us to remove the perhaps counter-intuitive requirement of having to introduce "artificial" unsafe samples in a region that is clearly safe, further reducing the conservatism of the resulting controller.
+
+### Computing a Control Barrier Function
+
+Using the results of the previous subsection, we propose solving the following optimization problem to learn a CBF from expert trajectories:
+
+$\underset{h \in \mathcal{H}}{{minimize}\quad}$ $\| h\|$
+${subject}{to}\quad$ ${{h{(x_{i})}} \geq \gamma_{safe}},{{\forall x_{i}} \in {{\overline{X}}_{safe}{(L_{h})}}}$
+${h{(x_{i})}} \leq {- \gamma_{unsafe}}$
+${{{Lip}{({h{(x_{i})}},\overline{\epsilon})}} \leq L_{h}}\mspace{21mu}{{\forall x_{i}} \in X_{\mathcal{N}}}$ (3.6a)
+${q{(x_{i},u_{i})}}:={{\langle{{\nabla h}{(x_{i})}},{f{(x_{i},u_{i})}}\rangle} + {\alpha{({h{(x_{i})}})}}} \geq \gamma_{dyn}$
+${{{Lip}{({q{(x_{i},u_{i})}},\epsilon)}} \leq L_{q}}\mspace{21mu}{{\forall{(x_{i},u_{i})}} \in Z_{dyn}}$ (3.6b)
+
+The positive constants $\gamma_{safe}$, $\gamma_{unsafe}$, $\gamma_{dyn}$, $L_{h}$ and $L_{q}$ are hyperparameters that are set according to the conditions of Theorem 3.4 given data-sets $X_{safe}$ and $X_{\mathcal{N}}$ defining corresponding $\epsilon$ and $\overline{\epsilon}$-nets. Here the constraints defined in equations (3.6a) and (3.6b) assume that there exists a function ${Lip}{( \cdot,\epsilon)}$ that returns an upper bound on the Lipschitz constant of its argument in an $\epsilon$-neighborhood. We note that it may be difficult to enforce these bounds while solving the optimization problem, in which case we must resort to bootstrapping the values of $L_{h}$ and $L_{q}$ by iteratively solving optimization problem (3.6), computing the values $L_{h}$ and $L_{q}$ for the learned CBF $h{(x)}$, verifying if the conditions of Theorem 3.4 hold, and readjusting the hyperparameters accordingly if not. This is a standard approach to hyperparameter tuning, and we show in Section 4 that it can indeed be successfully applied to verifying the conditions of Theorem 3.4.
+
+### Convexity
+
+We first note that optimization problem (3.6) is convex in $h$ if the function $\alpha$ is linear in its argument, and if we exclude the bounds (3.6a) and (3.6b), and instead verify them via the bootstrapping method described above. Therefore, if $\mathcal{H}$ is parameterized as $\mathcal{H} = {\{{{h_{\theta}{( \cdot )}} = {\langle{\phi{( \cdot )}},\theta\rangle}}:{\theta \in \Theta}\}}$ with $\Theta$ a convex set and $\phi{( \cdot )}$ a known but possibly nonlinear transformation, then problem (3.6) is convex, and can be solved efficiently using standard solvers. Note that very rich function classes such as infinite dimensional RKHS from statistical learning theory can be approximated to arbitrary accuracy as such a $\mathcal{H}$.
+
+In the more general case when $\mathcal{H} = {\{{h_{\theta}{( \cdot )}}:{\theta \in \Theta}\}}$, such as when $h$ is a DNN or when $\alpha$ is a general nonlinear function of its argument, optimization problem (3.6) is non-convex. Due to the computational complexity of general nonlinear constrained programming, we propose an unconstrained relaxation of problem (3.6) which can be solved efficiently in practice by first order gradient based methods. Let ${\lbrack x\rbrack}_{+} = {\max{\{ x,0\}}}$ for $x \in {\mathbb{R}}$. Our unconstrained relaxation results in the following optimization problem:
+
+The positive parameters $\lambda_{s},\lambda_{u},\lambda_{d}$ allow us to trade off the relative importance of each of the terms in the optimization. While equation (3.7) is in general a non-convex optimization problem, it can be solved efficiently in practice with stochastic first-order gradient methods such as Adam or SGD.
+
+### Lipschitz continuity of $\mathcal{H}$
+
+As described earlier, because we assume that functions in $\mathcal{H}$ are twice continuously differentiable and we restrict ourselves to a compact domain $\mathcal{N} \cup \mathcal{D}$, we immediately have that $h$ and $\nabla h$ are both uniformly Lipschitz over $\mathcal{N} \cup \mathcal{D}$. We show here two examples of $\mathcal{H}$ where it is computationally efficient to estimate an upper bound on the Lipschitz constants of functions $h \in \mathcal{H}$.
+
+In the case of random Fourier features with $\ell$ random features, where ${h{(x)}} = {\langle{\phi{(x)}},\theta\rangle}$ and ${\phi{(x)}} \in {\mathbb{R}}^{\ell}$ is
+
+then we can analytically compute upper bounds as follows. First, we have by the Cauchy-Schwarz inequality ${|{{h{(x_{1})}} - {h{(x_{2})}}}|} \leq {{\|{{\phi{(x_{1})}} - {\phi{(x_{2})}}}\|}_{2}{\|\theta\|}_{2}}$. To bound ${\|{{\phi{(x_{1})}} - {\phi{(x_{2})}}}\|}_{2}$, we bound the spectral norm of the Jacobian $D\phi{(x)}$, which is a matrix where the $i$-th row is $- {\sqrt{2/\ell}{\sin{({{\langle x,w_{i}\rangle} + b_{i}})}}w_{i}^{\mathsf{T}}}$. Let $s_{i}:={\sin{({{\langle x,w_{i}\rangle} + b_{i}})}}$ and observe that
+
+where $W$ is a matrix with the $i$-th row equal to $w_{i}$. While the bound $\sqrt{2/\ell}{\| W\|}$ can be used in computations, we can further understand order-wise scaling of the bound as follows. For random Fourier features corresponding to the popular Gaussian radial basis function kernel, $w_{i}\overset{iid}{\sim}{\mathsf{N}{(0,{\sigma^{2}I})}}$ where $\sigma^{2}$ is the (inverse) bandwidth of the Gaussian kernel. Therefore, by standard results in non-asymptotic random matrix theory, we have that
+
+w.p. at least $1 - \delta$. Combining these calculations, we have that the Lipschitz constant of $h$ can be bounded by $\sqrt{2\sigma^{2}}{({1 + \sqrt{n/\ell} + \sqrt{{({2/\ell})}{\log{({1/\delta})}}}})}{\|\theta\|}_{2}$ w.p. at least $1 - \delta$.
+
+We now bound the Lipschitz constant of the gradient ${{\nabla h}{(x)}} = {D\phi{(x)}^{\mathsf{T}}\theta}$. We do this by bounding the spectral norm of the Hessian ${{\nabla^{2}h}{(x)}} = {- {\sqrt{2/\ell}{\sum_{i = 1}^{\ell}{c_{i}\theta_{i}w_{i}w_{i}^{\mathsf{T}}}}}}$, with $c_{i} = {\cos{({{\langle x,w_{i}\rangle} + b_{i}})}}$. A simple bound is
+
+where the last inequality holds w.p. at least $1 - \delta$.
+
+When $h{(x)}$ is a DNN, accurately estimating the Lipschitz constant is more involved. In general, the problem of exactly computing the Lipschitz constant of $h$ is known to be NP-hard. Notably, because most commonly-used activation functions $\phi$ are known to be 1-Lipschitz (e.g. ReLU, tanh, sigmoid), a naive upper bound on the Lipschitz constant of $h$ is given by the product of the norms of the weight matrices; that is, $L_{h} \leq {\prod_{k}{\| W^{k}\|}}$. However, this bound is known to be quite loose. Recently, the authors of proposed a semidefinite-programming based approach to efficiently compute an accurate upper bound on $L_{h}$. In particular, this approach relies on incremental quadratic constraints to represent the couplings between pairs of neurons in the neural network $h$. On the other hand, there are relatively few results that provide accurate upper bounds for the Lipschitz constant of the gradient of $h$ when $h$ is a neural network. While ongoing work looks to extend the results from to compute upper bounds on ${Lip}{({\nabla h})}$, to the best of our knowledge, the only general method for computing an upper bound on ${Lip}{({\nabla h})}$ is through post-hoc sampling.
+
+### Data Collection
+
+We briefly comment on how data should be collected to ensure that the conditions of Theorem 3.4 are satisfied.
+
+### What should the experts do?
+
+At a high level, our results state that if a smooth CBF can be found that satisfies the constraints (3.1), (3.2), and (3.5) over a sufficiently fine sampling of the state-space, then the resulting function is a valid CBF. We focus here on the derivative constraint (3.5), which must be verified to hold for *some* $u \in \mathcal{U}$, by using the expert example data $(x_{i},u_{i})$. In particular, the more transverse the vector field $f{(x_{i},u_{i})}$ is to the level sets of the learned CBF $h{(x_{i})}$ (i.e., the more parallel it is to the inward pointing normal ${\nabla h}{(x_{i})}$), the larger the inner-product term in constraint (3.5) is *without* increasing the Lipschitz constant of $h{(x)}$. In words, this says that the expert demonstrations *should demonstrate how to move away from the unsafe set.* This also highlights the role of actuation authority in the ability to learn smooth CBFs: systems with larger actuation authority are more easily able to align the closed loop vector field $f{(x_{i},u_{i})}$ away from the unsafe set.
+
+### Constructing $\epsilon$-nets
+
+In order to construct an $\epsilon$-net of a set $\mathcal{S}$, a simple randomized algorithm which repeatedly uniformly samples from $\mathcal{S}$ works with high probability (see, for example, ). Hence, as long as we can efficiently sample from $\mathcal{S}$ (e.g. when $\mathcal{S}$ is a basic primitive set or has an efficient set-membership oracle), uniform sampling is a viable strategy. Alternatively, a gridding approach can be taken. We note that in either case, for a set of diameter $r$ on the order of $O{(\left( \frac{r}{\epsilon} \right)^{d})}$ samples are required. While this exponential dependence is undesirable, we observe that in practice, the expert demonstrations allow us to focus on a subset of the state-space associated with desirable behavior, significantly reducing the diameters of the sets to be sampled.
+
+## Numerical Experiments
+
+All code is publicly available at [https://github.com/unstable-zeros/learning-cbfs](https://github.com/unstable-zeros/learning-cbfs).
+
+### Planar Example
+
+Our first experiment is the following two dimensional planar system adapted from:
+
+where $\delta > 0$ is a fixed parameter guaranteeing that the system is globally feedback linearizable. We set $\delta = 1$ in our experiments. The desired safe set is $\mathcal{S} = {\{ x:{{x_{1} \leq 1},{x_{2} \leq 1}}\}}$. We generate expert data for this system as follows. Because the system is feedback linearizable, given a desired trajectory $x_{d}{(t)}$, we can easily design a nominal controller which tracks $x_{d}{(t)}$. We can then construct a safe controller (w.r.t. $\mathcal{S}$) by solving the CBF-QP problem with the CBF ${h{(x)}} = {\min{\{{1 - x_{1}},{1 - x_{2}}\}}}$.
+
+We design two sets of desired trajectories. Let the unit vector ${v{(\theta)}} = {\lbrack{- {{\cos\theta}{\sin\theta}}}\rbrack}^{\mathsf{T}}$. The first set is defined for a fixed $r > 0$ as ${x_{d}{(t)}} = {rv{(t)}}$ from $t \in {\lbrack 0,{2\pi}\rbrack}$. We do this for $r \in {\{ 0.2666,0.3,0.3333\}}$, sampling $80$ time equi-spaced points along each curve. The second set of desired trajectories are for a fixed $\theta \in {\lbrack 0,{2\pi}\rbrack}$, where we consider a trajectory that starts at ${x{}} = {0.4666v{(\theta)}}$ and ends up at ${x{(t_{f})}} = {0.3666v{(\theta)}}$, and one where ${x{}} = {0.1333v{(\theta)}}$ and ${x{(t_{f})}} = {0.2333v{(\theta)}}$. We grid across both $\theta \in {\lbrack 0,{2\pi}\rbrack}$ and $t \in {\lbrack 0,t_{f}\rbrack}$ to ensure a densely sampled set of points. All sample points $Z_{dyn}$ are shown in Figure 2(left). We consider the $x_{i}$ corresponding to the circular trajectories (green in Fig. 2) as defining ${\overline{X}}_{safe}$. We then set $X_{unsafe}$ to be points sampled (red in Fig. 2) along the circle at $r = {- 0.5}$ and $r = {- 0.1}$. Our samples are specifically chosen to form a net over $\mathcal{D}$ and $\mathcal{N}$, with $\epsilon = 0.01666$ and $\overline{\epsilon} = 0.0333$, respectively.
+
+Figure 2: Left: Plot of the expert trajectories (green), dynamic samples (black) and unsafe samples (red) used for training. Center: Surface plot of the learned CBF. Right: Level set plot of the learned CBF for the two dimensional planar example. The dotted black line represents the boundary of the safe set 𝒮.
+
+We parameterize $\mathcal{H}$ using $\ell = 200$ random Fourier features corresponding to the Gaussian kernel with $\sigma = 1.2$. We set ${\alpha{(x)}} = x$ and then solve the optimization problem with $\gamma_{safe} = 0.1$, $\gamma_{unsafe} = 0.3$, $\gamma_{dyn} = 0.01$ using cvxpy with the MOSEK backend. Next, we verify that our specific choices of $\gamma_{safe},\gamma_{unsafe},\gamma_{dyn}$ satisfied the necessary conditions, computing $\|{{\nabla h}{(x_{i})}}\|$ and $\|{{\nabla_{x}q}{(x_{i},u_{i})}}\|$ to obtain $L_{h}{(x_{i})}$ and $L_{q}{(x_{i})}$, respectively. This verification is shown in Fig. 4. The resulting CBF $h{(x)}$ is plotted in Fig. 2 (center), and its level sets are shown in Fig. 2(right), from which it can be seen that the zero level sets are well within the safe set (demarcated by the black dotted line). As can be observed, the set $\mathcal{C}$ is an annulus with approximate inner radius of $.2333$ and and approximate outer radius of $.4$, and we note that the corresponding set $\mathcal{D}$ over which the CBF is valid is an annulus with inner radius of approximate radius $.1333$ of approximate radius $.4666$. Finally, in Fig. 3, we show the evolution of a system governed by the CBF-QP controller defined by the learned CBF $h{(x)}$ for circular reference trajectories of varying radii $r$, beginning at initial conditions of $x_{0} = {({- r},0)}$. First observe that for the trajectory of radius $r = 0.3$, which lies within the CBF safe set $\mathcal{C}$, we replicate the expert behavior (dashed orange line). Next, notice that all other trajectories are seen to converge to the learned safe set $\mathcal{C}$ -- perhaps surprisingly, even those trajectories beginning well outside of the set $\mathcal{D}$ over which the learned CBF is provably valid exhibit this favorable behavior, suggesting that the smoothness conditions imposed during training allow for generalization well beyond previously seen expert behavior.
+
+Figure 3: System trajectories for the planar example under the CBF-QP controller defined by the learned CBF h shown in Fig. 2. For initial conditions beginning outside of 𝒞 = {x|h (x) ≥ 0}, note that the trajectory converges to 𝒞, illustrating the robustness benefits of the set 𝒟 ⊃ 𝒞.
+
+Figure 4: Safe, derivative, and unsafe slacks which verify the sufficient conditions given in Theorem 3.4. (Left) The safe slack plot, for each constraint, shows the value h (xi) − Lh (xi) ϵ, which needs to be positive. (Middle) The derivative slack plot, for each constraint, shows the value of q (xi,ui) − Lq (xi) ϵ, which also needs to be positive. (Right) The unsafe slack plot, for each constraint, shows the value of ${h{(x_{i})}} + {L_{h}{(x_{i})}\overline{\varepsilon}}$, which needs to be negative.
+
+### Aircraft Collision Avoidance
+
+In this subsection, we apply the control barrier filter technique (Section 3.2) to the aircraft collision avoidance problem in. The joint state vector of the two aircraft, indexed with $a$ and $b$, is $x = {\lbrack{p_{x,a}p_{y,b}\theta_{a}p_{x,b}p_{y,b}\theta_{b}}\rbrack}^{\mathsf{T}} \in {\mathbb{R}}^{6}$, denoting positions in the $(x,y)$-plane and orientations. The controls $u = {\lbrack{v_{a}\omega_{a}v_{b}\omega_{b}}\rbrack}^{\mathsf{T}} \in {\mathbb{R}}^{4}$ are the translational and angular velocities with constraints $0.1 \leq v_{a} \leq 1.0$ and ${- 1.0} \leq \omega_{a} \leq 1.0$. The control goal is to reach the target states $x_{g} = {\lbrack{- {5\ 0\pi5\ 0\ 0}}\rbrack}^{\mathsf{T}}$ if ${p_{x,a}{}} \geq 0$, ${p_{x,b}{}} \leq 0$ or $x_{g} = {\lbrack{5\ 0\ 0 - {5\ 0\pi}}\rbrack}^{\mathsf{T}}$ if ${p_{x,a}{}} \leq 0$, ${p_{x,b}{}} \geq 0$. The safety specification is that the two airplanes should maintain a minimal distance $D_{s} = 0.5$ to avoid collisions. To this end, we define the geometric safe set as,
+
+where ${p_{i,r} = {p_{i,a} - p_{i,b}}},{i \in {\{ x,y\}}}$ is the relative position.
+
+### Generating training data
+
+We consider two ways of generating expert demonstrations. First, we used a standard tracking model predictive contoller (MPC) as the nominal controller equipped with the closed form constructive CBF in for collision avoidance (which we refer to as CBF-MPC). To generate the expert trajectories, we started the system from 400 randomly generated initial conditions inside the set $\mathcal{S}$. Each run terminated when the airplanes were sufficiently far away from each other. Furthermore, we obtained safe and unsafe samples by uniformly sampling from the sets $\mathcal{F} = \left\{ {x \in {\mathbb{R}}^{6}} \middle| {{({3D_{s}})}^{2} \leq {p_{x,r}^{2} + p_{y,r}^{2}} \leq {({5D_{s}})}^{2}} \right\}$ and $\mathcal{N} = \left\{ {x \in {\mathbb{R}}^{6}} \middle| {{p_{x,r}^{2} + p_{y,r}^{2}} \leq {({1.1D_{s}})}^{2}} \right\}$, respectively; these state samples, as well as the expert trajectories, are shown in Figure 5 in relative coordinates.
+
+Secondly, we built a web-based simulator that allows a user to control two simulated aerial vehicles. As before, the goal of the simulation is to control the two aerial vehicles such that they do not collide. We emphasize that these trajectories were solely by human guidance; no nominal controller was used. The data is plotted in Figure 5.
+
+Figure 5: Left: Plot of the expert trajectories Zdyn generated by CBF-MPC (green), safe samples X𝒮 (blue) and unsafe samples X𝒩 (red). Right: Plot of the expert trajectories obtained from human demonstrations with the safe and unsafe samples.
+
+### Training procedure
+
+We parametrized the CBF candidate $h{(x)}$ with a two-hidden-layer fully-connected neural network with 64 neurons in each layer and tanh activation functions. The training procedure was implemented using JAX and the Adam algorithm with a cosine decay learning rate. We trained the neural network for $10^{5}$ epochs using the loss in (3.7) with $\lambda_{s} = 2.0$, $\lambda_{u} = 2.0$, $\lambda_{d} = 15.0$, $\gamma_{\text{safe}} = 3.0$, $\gamma_{\text{unsafe}} = 0.5$ and $\gamma_{\text{dyn}} = 0.05$. Each of these hyperparameters was chosen via grid-search. The learned CBFs and the closed form CBF evaluated at the training points are plotted in Figure 6 in relative coordinates.
+
+Figure 6: Left: The CBF learned from CBF-MPC (blue) and the closed form CBF in (red) evaluated at the states in training data-set. Right: The CBF learned from human demonstrations.
+
+### Closed-loop control with learned CBF
+
+To demonstrate the efficacy of the CBF learned from expert demonstrations, we used it in the aircraft collision avoidance problem with the same control goal and safety specification as in (4.2). The two airplanes were initialized at various symmetric initial positions on the circle ${p_{x}^{2} + p_{y}^{2}} = 1$ such that they were facing each other. In this way, if both airplanes used the nominal MPC controller, they would collide.
+
+The closed-loop state trajectories using our learned CBF are shown in Figure 7. The CBFs learned on both data-sets successfully steer the airplanes away from each other for all initial states, which experimentally validates the forward invariance of $\mathcal{S}$. As a comparison, we also plotted the state trajectories produced by the CBF from under the same settings in Figure 7. Since this CBF is derived analytically, it appears to render more aggressive control actions which manage to separate the airplanes at a closer distance.
+
+Figure 7: Closed-loop control of the two airplanes starting from multiple initial conditions using closed form CBF from (top left), the CBF learned from CBF-MPC (top right), and the CBF learned from human demonstrations (bottom). Trajectories of the same run are marked with an identical color. The initial states of agent a are marked with diamonds, and those of agent b with circles.
+
+## Conclusion
+
+We proposed and analyzed an optimization based approach to learning CBFs from expert demonstrations for known nonlinear control affine dynamical systems. We showed that under suitable assumptions of smoothness on the underlying dynamics and the learned CBF (which can be guaranteed using classic and recent results for RKHS and DNNs), and under sufficiently fine sampling, the learned CBF is provably valid, guaranteeing safety. This work provides a firm theoretical foundation for future exploration that will look to leverage tools from statistical learning theory to reduce the sample complexity burden of the proposed method by focusing on guaranteeing safety for "typical" behaviors, as opposed to uniform coverage of the state-space.

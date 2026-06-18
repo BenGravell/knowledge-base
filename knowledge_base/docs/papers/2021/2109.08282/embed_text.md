@@ -1,0 +1,187 @@
+## Introduction
+
+Gradient-based methods are widely used in optimizing neural networks. One crucial component in gradient methods is the learning rate (a.k.a. step size) hyper-parameter, which determines the convergence speed of the optimization procedure. An optimal learning rate can speed up the convergence but only up to a certain threshold value; once it exceeds this threshold value, the optimization algorithm may no longer converge. This is by now well-understood for convex problems; excellent works on this topic include Nesterov, Haykin et al., Bubeck et al., and the recent review for large-scale stochastic optimization to Bottou et al..
+
+While determining the optimal step size is theoretically important for identifying the optimal convergence rate, the optimal learning rate often depends on certain unknown parameters of the problem. For example, for a convex and $L$-smooth objective function, the optimal learning rate is $O{({1/L})}$ where $L$ is often unknown to practitioners. To solve this problem, adaptive methods Duchi et al.; McMahan and Streeter are proposed since they can change the learning rate on-the-fly according to gradient information received along the way. Though these methods often introduce additional hyper-parameters compared to gradient descent (GD) methods with well-tuned stepsizes, the adaptive methods are provably robust to their hyper-parameters in the sense that they still converge at suboptimal parameter specifications, but modulo (slightly) slower convergence rate Levy; Ward et al.. Hence, adaptive gradient methods are widely used by practitioners to save a large amount of human effort and computer power in manually tuning the hyper-parameters.
+
+Among many variants of adaptive gradient methods, one that requires a minimal amount of hyper-parameter tuning is *AdaGrad-Norm* Ward et al., which has the following update
+
+above, $\mathbf{w}_{j}$ is the target solution to the problem of minimizing the finite-sum objective function ${F{(\mathbf{w})}}:={\sum_{i = 1}^{n}{f_{i}{(\mathbf{w})}}}$, and ${\nabla f_{\xi}}{(\mathbf{w}_{j})}$ is the stochastic (sub)-gradient that depends on the random index $\xi \sim {\text{Unif}{\{ 1,2,\ldots\}}}$ satisfying the conditional equality ${{\mathbb{E}}_{\xi}{\lbrack\left. {{\nabla f_{\xi}}{(\mathbf{w}_{j})}} \middle| \mathbf{w}_{j} \right.\rbrack}} = {{\nabla F}{(\mathbf{w}_{j})}}$. However, computing the norm of the (sub)-gradient ${{\nabla f_{\xi}}{(\mathbf{w}_{j})}} \in {\mathbb{R}}^{d}$ in high dimensional space, particularly in settings which arise in training deep neural networks, is not at all practical. Inspired by a Lipschitz relationship between the objective function $F$ and its gradient for a certain class of objective functions (see details in Section 2), we propose the following scheme for $b_{k}$ which is significantly more computationally tractable compared to computing the norm of the gradient:
+
+where $\alpha > 0$ and $c$ are the tuning parameters. With this update, we theoretically show that AdaLoss converges with an upper bound that is tighter than AdaGrad-Norm under certain conditions.
+
+Theoretical investigations into adaptive gradient methods for optimizing neural networks are scarce. Existing analyses only deal with general (non)-convex and smooth functions, and thus, only concern convergence to first-order stationary points Li and Orabona; Chen et al.. However, it is sensible to instead target global convergence guarantees for adaptive gradient methods in this setting in light of a series of recent breakthrough papers showing that (stochastic) GD can converge to the global minima of over-parameterized neural networks Du et al.; Li and Liang; Allen-Zhu et al.; Zou et al.. By adapting their analysis, we are able to answer the following open question:
+
+*What is the iteration complexity of adaptive gradient methods in over-parameterized networks?*
+
+In addition, we note that these papers require the step size to be sufficiently small to guarantee global convergence. In practice, these optimization algorithms can use a much larger learning rate while still converging to the global minimum. Thus, we make an effort to answer
+
+*What is the optimal stepsize in optimizing neural networks?*
+
+### Contributions
+
+First, we study AdaGrad-Norm (Ward et al. ) in the linear regression setting and significantly improve the constants in the convergence bounds -- $\mathcal{O}\left( {L^{2}/\epsilon} \right)$ (Ward et al.,Xie et al. )^11^1The rate is for Case of Theorem 3 in Xie et al. and of Theorem 2.2 in Ward et al.. $L$ is ${\overline{\lambda}}_{1}$ in Theorem 3.1. in the deterministic gradient descent setting-- to a near-constant dependence $\mathcal{O}\left( {\log{({L/\epsilon})}} \right)$ (Theorem 3.1).
+
+Second, we develop an adaptive gradient method called *AdaLoss* that can be viewed as a variant of the "norm\" version of AdaGrad but with better computational efficiency and easier implementation. We provide theoretical evidence that AdaLoss converges at the same rate as AdaGrad-Norm *but with a better convergence constant* in the setting of linear regression (Corollary 3.1).
+
+Third, for an overparameterized two-layer neural network, we show the learning rate of GD can be improved to the rate of $\mathcal{O}{({1/{\|\mathbf{H}^{\infty}\|}})}$ (Theorem 4.1) where $\mathbf{H}^{\infty}$ is a Gram matrix which only depends on the data.^22^2Note that this upper bound is independent of the number of parameters. As a result, using this stepsize, we show GD enjoys a faster convergence rate. This choice of stepsize directly leads to an improved convergence rate compared to Du et al.. We further prove AdaLoss converges to the global minimum in polynomial time and does so robustly, in the sense that *for any choice of hyper-parameters* used, our method is guaranteed to converge to the global minimum in polynomial time (Theorem 4.2). The choice of hyper-parameters only affects the rate but not the convergence. In particular, we provide explicit expressions for the polynomial dependencies in the parameters required to achieve global convergence.^33^3Note that this section has greatly subsumes Wu et al.. However, Theorem 4.2 is a much improved version compared to Theorem 4.1 in Wu et al.. This is due to our new inspiration from Theorem 3.1.
+
+We numerically verify our theorems in both linear regression and a two-layer neural network (Figure 3, 3 and 3). To demonstrate the easy implementation and extension of our algorithm for practical purposes, we perform experiments in a text classification example using LSTM models, as well as for a control problem using policy gradient methods (Section 5).
+
+### Related Work
+
+Closely related work to ours can be divided into two categories as follows.
+
+Adaptive Gradient Methods. Adaptive Gradient (AdaGrad) Methods, introduced independently by and, are now widely used in practice for online learning due in part to their robustness to the choice of stepsize. The first convergence guarantees proved in were for the setting of online convex optimization where the loss function may change from iteration to iteration. Later convergence results for variants of AdaGrad were proved in and for offline convex and strongly convex settings. In the non-convex and smooth setting, and prove that the "norm\" version of AdaGrad converges to a stationary point at rate $O\left( {1/\varepsilon^{2}} \right)$ for stochastic GD and at rate $O\left( {1/\varepsilon} \right)$ for batch GD. Many modifications to AdaGrad have been proposed, namely, RMSprop, AdaDelta, Adam, AdaFTRL, SGD-BB, AcceleGrad, Yogi, Padam, to name a few. More recently, accelerated adaptive gradient methods have also been proven to converge to stationary points.
+
+Global Convergence for Neural Networks. A series of papers showed that gradient-based methods provably reduce to zero training error for over-parameterized neural networks Du et al.; Li and Liang; Allen-Zhu et al.; Zou et al.. In this paper, we study the setting considered in Du et al. which showed that for learning rate $\eta = {O{({{\lambda_{\min}{(\mathbf{H}^{\infty})}}/n^{2}})}}$, GD finds an $\varepsilon$-suboptimal global minimum in ${O\left( {\log{({1/\epsilon})}} \right)}/{({\eta\lambda_{\min}{(\mathbf{H}^{\infty})}})}$ iterations for the two-layer over-parameterized ReLU-activated neural network. As a by-product of the analysis in this paper, we show that the learning rate can be improved to $\eta = {O{({1/{\|\mathbf{H}^{\infty}\|}})}}$ which results in faster convergence. We believe that the proof techniques developed in this paper can be extended to deep neural networks, following the recent works.
+
+### Notation
+
+Throughout, $\parallel \cdot \parallel$ denotes the Euclidean norm if it applies to a vector and the maximum eigenvalue if it applies to a matrix. We use $N{(\mathbf{0},\mathbf{I})}$ to denote a standard Gaussian distribution where $\mathbf{I}$ denotes the identity matrix and $U{(S)}$ denotes the uniform distribution over a set $S$. We use ${\lbrack n\rbrack}:={\{ 0,1,\ldots,n\}}$, and we write ${\lbrack\mathbf{x}\rbrack}_{i}$ to denote the entry of the $i$-th dimension of the vector $\mathbf{x}$.
+
+## AdaLoss Stepsize
+
+Let $\{ Z_{1},\ldots,Z_{n}\}$ be empirical samples drawn uniformly from an unknown underlying distribution $\mathcal{S}$. Define ${{f_{i}{(\mathbf{w})}} = {f{(\mathbf{w},Z_{i})}}}:{{{\mathbb{R}}^{d}\rightarrow{\mathbb{R}}},{i = {1,2,\ldots,n}}}$. Consider minimizing the empirical risk defined as finite sum of $f_{i}{(\mathbf{w})}$ over $i \in {\lbrack n\rbrack}$. The standard algorithm is stochastic gradient descent (SGD) with an appropriate step-size Bottou et al.. Stepsize tuning for optimization problems, including training neural networks, is generally challenging because the convergence of the algorithm is very sensitive to the stepsize: too small values of the stepsize mean slow progress while too large values lead to the divergence of the algorithm.
+
+To find a suitable learning rate schedule, one could use the information on past and present gradient norms as described in equation, and the convergence rate for SGD is $\mathcal{O}\left( {1/\varepsilon^{2}} \right)$, the same order as for well-tuned stepsize Levy; Li and Orabona; Ward et al.. However, in high dimensional statistics, particularly in the widespread application of deep neural networks, computing the norm of the (sub)-gradient ${{\nabla f_{i}}{(\mathbf{w}_{j})}} \in {\mathbb{R}}^{d}$ for $i \in {\lbrack n\rbrack}$ at every iteration $j$ is impractical. To tackle the problem, we recall the popular setting of linear regression and two-layer network regression Du et al. where assuming at optimal ${\nabla f_{i}^{\ast}} = 0$,
+
+The norm of the gradient is bounded by the difference between $f_{i}{(\mathbf{w}_{j})}$ and $f_{i}^{\ast}$. The optimal value $f_{i}^{\ast}$ is a fixed number, which could possibly be known as prior or estimated under some conditions. For instance, for an over-determined linear regression problem or over-parameterized neural networks, we know that $f_{i}^{\ast} = 0$. For the sake of the generality of our proposed algorithm, we replace $f^{\ast}$ with a constant $c$. Based on the above observation, we propose the update in Algorithm 1.
+
+Our focus is $b_{k + 1}$, a parameter that is changing at every iteration according to the loss value of previous computational outputs. There are four positive hyper-parameters, $b_{0},\eta,\alpha,c$, in the algorithm. $\eta$ is for ensuring homogeneity and that the units match. $b_{0}$ is the initialization of a monotonically increasing sequence ${\{ b_{k}\}}_{k = 1}^{\infty}$. The parameter $\alpha$ is to control the rate of updating ${\{ b_{k}\}}_{k = 1}^{\infty}$ and the constant $c$ is a surrogate for the ground truth value $f^{\ast}$ ($c = 0$ if $f^{\ast} = 0$).
+
+1: Input: Initialize w0 ∈ ℝd, b0 &gt; 0, c &gt; 0, j ← 0, and the total iterations T.
+3: Generate a random index ξj
+5: $\mathbf{w}_{j + 1}\leftarrow{\mathbf{w}_{j} - {\frac{\eta}{b_{j + 1}}{\nabla f_{\xi_{j}}}{(\mathbf{w}_{j})}}}$
+Algorithm 1 AdaLoss Algorithm
+
+The algorithm makes a significant improvement in *computational efficiency* by using the direct feedback of the (stochastic) loss. For the above algorithm, $\xi_{j} \sim {\text{Unif}{\{ 1,2,\ldots,n\}}}$ satisfies the conditional equality ${{\mathbb{E}}_{\xi_{j}}{\lbrack\left. {{\nabla f_{\xi_{j}}}{(\mathbf{w}_{j})}} \middle| \mathbf{w}_{j} \right.\rbrack}} = {{\nabla F}{(\mathbf{w}_{j})}}$. As a nod to the use of the information of the stochastic loss for the stepsize schedule, we call this method adaptive loss (AdaLoss). In the following sections, we present our analysis of this algorithm on linear regression and two-layer over-parameterized neural networks.
+
+## AdaLoss in Linear Regression
+
+Consider the linear regression:
+
+Suppose the data matrix $\mathbf{X}^{\top}\mathbf{X}$ a positive definite matrix with the smallest singular value ${\overline{\lambda}}_{0} > 0$ and the largest singular value ${\overline{\lambda}}_{1} > 0$. Denote $\mathbf{V}$ the unitary matrix from the singular value decomposition of ${\mathbf{X}^{\top}\mathbf{X}} = {\mathbf{V}\Sigma\mathbf{V}^{T}}$. Suppose we have the optimal solution ${\mathbf{X}\mathbf{w}}^{\ast} = \mathbf{y}$. The recent work of Xie et al. implies that the convergence rate using the adaptive stepsize update in enjoys linear convergence. However, the linear convergence is under the condition that the effective learning rate ${2\eta}/b_{0}$ is less than the critical threshold $1/{\overline{\lambda}}_{1}$ (i.e.,$b_{0} \geq {{\overline{\eta\lambda}}_{1}/2}$). If we initialize the effective learning rate larger than the threshold, the algorithm falls back to a sub-linear convergence rate with an order $\mathcal{O}\left( {{\overline{\lambda}}_{1}/\varepsilon} \right)$. Suspecting that this might be due to an artifact of the proof, we here tighten the bound that admits the linear convergence $\mathcal{O}\left( {\log\left( {1/\varepsilon} \right)} \right)$ for any $b_{0}$ (Theorem 3.1).
+
+### Theorem 3.1
+
+(Improved AdaGrad-Norm Convergence) Consider the problem and
+
+We have ${\|{\mathbf{w}_{T} - \mathbf{w}^{\ast}}\|}^{2} \leq \epsilon$ for ^44^4 $\overset{\sim}{\mathcal{O}}$ hide logarithmic terms.
+
+where $s_{0}:={\lbrack{{\mathbf{V}^{\top}\mathbf{w}_{0}} - {\mathbf{V}^{\top}\mathbf{w}^{\ast}}}\rbrack}_{1}$. Here ${\lbrack \cdot \rbrack}_{1}$ corresponds to the dimension scaled by the largest singular value of $\mathbf{X}^{\top}\mathbf{X}$ (see in appendix), i.e. ${\overline{\lambda}}_{1}$.
+
+We state the explicit complexity $T$ in Theorem A.1 and the proof is in Section A. Our theorem significantly improves the sub-linear convergence rate when $b_{0} \leq {{\overline{\eta\lambda}}_{1}/2}$ compared to Xie et al. and Ward et al.. The bottleneck in their theorems for small $b_{0}$ is that they assume the dynamics $b_{t}$ updated by the gradient ${\|{\mathbf{X}^{T}\left( {{\mathbf{X}\mathbf{w}}_{t} - y} \right)}\|}^{2} \approx \varepsilon$ for all ${j = {0,1,\ldots}},$ which results in taking as many iterations as $N \approx {{({{({\eta{\overline{\lambda}}_{1}})}^{2} - {4b_{0}^{2}}})}/\epsilon}$ in order to get $b_{N} \geq {{\overline{\eta\lambda}}_{1}/2}$. Instead, we explicitly characterize ${\{ b_{t}\}}_{t \geq 0}$. That is, for each dimension $i \in {\lbrack d\rbrack}$,
+
+If $b_{0} \leq {{\eta{\overline{\lambda}}_{i}}/2}$, each $i$-th sequence ${\{ s_{t}^{(i)}\}}_{t = 0}^{k}$ is monotone increasing up to $b_{k} \leq \frac{\eta{\overline{\lambda}}_{i}}{2}$, thereby taking significantly fewer iterations, *independent of the prescribed accuracy $\varepsilon$*, for $b_{t}$ to reach the critical value ${\eta{\overline{\lambda}}_{1}}/2$ as describe in the following lemma.
+
+### Lemma 3.1
+
+(Exponential Increase for ${2b_{0}} < {\eta{\overline{\lambda}}_{1}}$)\
+Suppose we start with small initialization: $0 < b_{0} < {{\overline{\lambda}}_{1}/2}$. Then there exists the first index $N$ such that $b_{N + 1} \geq {{\overline{\lambda}}_{1}/2}$ and $b_{N} < {{\overline{\lambda}}_{1}/2}$, and $N$ satisfies
+
+Suppose ${\overline{\lambda}}_{1} > 1$. For AdaLoss, we see that when the initialization ${2b_{0}} \leq {\eta{\overline{\lambda}}_{1}}$, $b_{t}$ updated by AdaLoss is more likely to take more iterations than AdaGrad-Norm to reach a value greater than $\eta{\overline{\lambda}}_{1}$ (see the red part in Lemma 3.1). Furthermore, a more interesting finding is that AdaLoss's upper bound is smaller than AdaGrad-Norm's if ${\|{\mathbf{X}\left( {\mathbf{w}_{t} - \mathbf{w}^{\ast}} \right)}\|}^{2} \geq {\|{\mathbf{w}_{t} - \mathbf{w}^{\ast}}\|}^{2}$ (see Lemma A.1). Thus, the upper bound of AdaLoss could be potentially tighter than AdaGrad-Norm when ${2b_{0}} \geq {\eta{\overline{\lambda}}_{1}}$, but possibly looser than AdaGrad-Norm when ${2b_{0}} \leq {\eta{\overline{\lambda}}_{1}}$. To see this, we follow the same process and have the convergence of AdaLoss stated in Corollary 3.1.
+
+### Corollary 3.1
+
+(AdaLoss Convergence) Consider the same setting as Theorem 3.1 but with the $b_{t}$ updated by: $b_{t + 1}^{2} = {b_{t}^{2} + {\|{{\mathbf{X}\mathbf{w}}_{t} - \mathbf{y}}\|}^{2}}$. We have ${\|{\mathbf{w}_{T} - \mathbf{w}^{\ast}}\|}^{2} \leq \epsilon$ for
+
+For the explicit form of $T$, see Corollary A.1 in the appendix. Suppose the first term in the bounds of and takes the lead and $\lambda_{1} > 1$, AdaLoss has a tighter upper bound than AdaGrad-Norm, unless ${\overline{\lambda}}_{1} \leq 1$. Hence, our proposed computationally-efficient method AdaLoss is a preferable choice in practice since ${\overline{\lambda}}_{1}$ is usually not available.^55^5Although one cannot argue that an algorithm is better than another by comparing their worse-case upper bounds, it might give some implication of the overall performance of the two algorithms considering the derivation of their upper bounds is the same.
+
+Figure 2: Linear regression in the stochastic setting. The top (bottom) 3 figures plot the average of loss (effective stepsize 1/bt) w.r.t. b0, for iterations t in, and respectively.
+
+Figure 3: Synthetic data (Gaussian) – stochastic setting for two-layer neural network. The top (bottom) 3 figures plot the average of loss (effective stepsize 1/bt) w.r.t. b0 for iterations t in, and.
+
+Figure 1: The left three plots are linear regression in the deterministic setting, and the right three plots in the stochastic setting. The x-axis is the number of iterations, and y-axis is the error ∥wt − w*∥2 in log scale. Each curve is an independent experiment for algorithms: AdaLoss (red), AdaGrad-Norm (black), (stochastic) GD with constant stepsize (blue) and SGD with square-root decaying stepsize (green).
+
+For general functions, stochastic GD (SGD) is often limited to a sub-linear convergence rate. However, when there is no noise at the solution (${{\nabla f_{i}}{(x^{\ast})}} = 0$ for all $i$), we prove that the limit of $b_{t}$ is bounded, ${\lim_{t\rightarrow\infty}b_{t}} < \infty$, which ensures the linear convergence. Let us first state the update:
+
+Here, $R_{t}$ is defined for AdaGrad-Norm and AdaLoss respectively as
+
+We show the linear convergence for AdaGrad-Norm by replacing general strongly convex functions with linear regression (Theorem A.4. ‣ A.2 Proof for Stochastic Linear Regression ‣ Appendix A Linear Regression ‣ AdaLoss: A computationally-efficient and provably convergent adaptive gradient method")). For AdaLoss, we follow the same process of their proof and derive the convergence in Theorem A.5. Due to page limit, we put them in the appendix. The main discovery in this process is the crucial step -- inequality -- that improves the bound using AdaLoss. The intuition is that the add-on value of AdaLoss, ${({{\mathbf{x}_{\xi_{t}}^{\top}\mathbf{w}_{t}} - y_{\xi_{t}}})}^{2}$, is smaller than that of AdaGrad-Norm (${\|{\mathbf{x}_{\xi_{t}}{({{\mathbf{x}_{\xi_{t}}^{\top}\mathbf{w}_{t}} - y_{\xi_{t}}})}}\|}^{2}$).
+
+In Proposition 3.1, we compare the upper bounds of Theorem A.4. ‣ A.2 Proof for Stochastic Linear Regression ‣ Appendix A Linear Regression ‣ AdaLoss: A computationally-efficient and provably convergent adaptive gradient method") and Theorem A.5. The proposition shows that using AdaLoss in the stochastic setting achieves a tighter convergence bound than AdaGrad-Norm when ${2b_{0}} \geq {\eta{\overline{\lambda}}_{1}}$.
+
+### Proposition 3.1
+
+(Stochastic AdaLoss v.s. Stochastic AdaGrad-Norm) Consider the problem where ${\overline{\lambda}}_{1} > 1$ and the stochastic gradient method in with ${2b_{0}} \geq {\eta{\sup_{i}{\|\mathbf{x}_{i}\|}}}$. AdaLoss improves the constant in the convergence rate of AdaGrad-Norm up to an additive factor: ${({{\overline{\lambda}}_{1} - 1})}{\|{\mathbf{w}_{0} - \mathbf{w}^{\ast}}\|}^{2}$.
+
+### Numerical Experiments
+
+To verify the convergence results in linear regression, we compare four algorithms: (a) AdaLoss with $1/b_{t}$, (b) AdaGrad-Norm with $1/b_{t}$ (c) SGD-Constant with $1/b_{0}$, (d) SGD-DecaySqrt with $1/{({b_{0} + {c_{s}\sqrt{t}}})}$ ($c_{s}$ is a constant). See Appendix D for experimental details. Figure 3 implies that AdaGrad-Norm and AdaLoss behave similarly in the deterministic setting, while AdaLoss performs much better in the stochastic setting, particularly when $b_{0} \leq L =:\sup_{i} \parallel \mathbf{x}_{i} \parallel$. Figure 3 implies that stochastic AdaLoss and AdaGrad-Norm are robust to a wide range of initialization of $b_{0}$. Comparing AdaLoss with AdaGrad-Norm, we find that when $b_{0} \leq 1$, AdaLoss is not better than AdaGrad-Norm at the beginning (at least before 1000 iterations, see the first two figures at the top row), albeit the effective learning rate is much larger than AdaGrad-Norm. However, after 5000 iterations (3rd figure, 1st row), AdaLoss outperforms AdaGrad-Norm in general.
+
+## AdaLoss in Two-Layer Networks
+
+We consider the same setup as in Du et al. where they assume that the data points, ${\{\mathbf{x}_{i},y_{i}\}}_{i = 1}^{n}$, satisfy
+
+### Assumption 4.1
+
+For $i \in {\lbrack n\rbrack}$, ${\|\mathbf{x}_{i}\|} = 1$ and $\left| y_{i} \right| = {O{}}$.
+
+The assumption on the input is only for the ease of presentation and analysis. The second assumption on labels is satisfied in most real-world datasets. We predict labels using a two-layer neural network
+
+where $\mathbf{x} \in {\mathbb{R}}^{d}$ is the input, for any $r \in {\lbrack m\rbrack}$, $\mathbf{w}_{r} \in {\mathbb{R}}^{d}$ is the weight vector of the first layer, $a_{r} \in {\mathbb{R}}$ is the output weight, and $\sigma{( \cdot )}$ is ReLU activation function. For $r \in {\lbrack m\rbrack}$, we initialize the first layer vector with ${\mathbf{w}_{r}{}} \sim {N{(\mathbf{0},\mathbf{I})}}$ and output weight with $a_{r} \sim {U{(\left\{ {- 1},{+ 1} \right\})}}$. We fix the second layer and train the first layer with the quadratic loss. Define $u_{i} = {f{(\mathbf{W},\mathbf{a},\mathbf{x}_{i})}}$ as the prediction of the $i$-th example and $\mathbf{u} = {\lbrack u_{1},\ldots,u_{n}\rbrack}^{\top} \in {\mathbb{R}}^{n}$. Let $\mathbf{y} = {\lbrack y_{1},\ldots,y_{n}\rbrack}^{\top} \in {\mathbb{R}}^{n}$, we define
+
+We use $k$ for indexing since $\mathbf{u}{(k)}$ is induced by $\mathbf{W}{(k)}$. According to, the matrix below determines the convergence rate of GD.
+
+### Definition 4.1
+
+The matrix $\mathbf{H}^{\infty} \in {\mathbb{R}}^{n \times n}$ is defined as follows. For ${(i,j)} \in {{\lbrack n\rbrack} \times {\lbrack n\rbrack}}$.
+
+This matrix represents the kernel matrix induced by Gaussian initialization and ReLU activation function. We make the following assumption on $\mathbf{H}^{\infty}$.
+
+### Assumption 4.2
+
+The matrix $\mathbf{H}^{\infty} \in {\mathbb{R}}^{n \times n}$ in Definition 4.1 satisfies ${\lambda_{\min}{(\mathbf{H}^{\infty})}} \triangleq \lambda_{0} > 0$.
+
+showed that this condition holds as long as the training data is not degenerate. We also define the following empirical version of this Gram matrix, which is used in our analysis. For ${(i,j)} \in {{\lbrack n\rbrack} \times {\lbrack n\rbrack}}$: ${\mathbf{H}_{ij} = {\frac{1}{m}{\sum_{r = 1}^{m}{\mathbf{x}_{i}^{\top}\mathbf{x}_{j}{\mathbb{I}}\left\{ {{{\mathbf{w}_{r}^{\top}\mathbf{x}_{i}} \geq 0},{{\mathbf{w}_{r}^{\top}\mathbf{x}_{j}} \geq 0}} \right\}}}}}.$
+
+We first consider GD with a constant learning rate ($\eta$) ${{\mathbf{W}{({k + 1})}} = {{\mathbf{W}{(k)}} - {\eta\frac{\partial{L{({\mathbf{W}{(k)}})}}}{\partial\mathbf{W}}}}}.$ showed gradient descent achieves zero training loss with learning rate $\eta = {O{({\lambda_{0}/n^{2}})}}$. Based on the approach of eigenvalue decomposition in Arora et al. (c.f. Lemma B.7), we show that the maximum allowable learning rate can be improved from $O{({\lambda_{0}/n^{2}})}$ to $O{({1/{\|\mathbf{H}^{\infty}\|}})}$.
+
+### Theorem 4.1
+
+(Gradient Descent with Improved Learning Rate) Under Assumptions 4.1 and 4.2, if the number of hidden nodes $m = {\Omega\left( \frac{n^{8}}{\lambda_{0}^{4}\delta^{3}} \right)}$ and we set the stepsize ${\eta = {\Theta\left( \frac{1}{\|\mathbf{H}^{\infty}\|} \right)}},$ then with probability at least $1 - \delta$ with respect to the random initialization, we have ${L{({\mathbf{W}{(T)}})}} \leq \varepsilon$ for ^66^6 $\overset{\sim}{O}$ and $\overset{\sim}{\Omega}$ hide ${\log{(n)}},{\log{({1/\lambda_{0}})}},{\log{({1/\delta})}}$ terms.
+
+Note that since ${\|\mathbf{H}^{\infty}\|} \leq n$, Theorem 4.1 gives an $O{({\lambda_{0}/n})}$ improvement. The improved learning rate also gives a tighter iteration complexity bound $O\left( {{({{\|\mathbf{H}^{\infty}\|}/\lambda_{0}})}{\log\left( {n/\varepsilon} \right)}} \right)$, compared to the $O\left( {{({n^{2}/\lambda_{0}^{2}})}{\log\left( {n/\varepsilon} \right)}} \right)$ bound in Du et al.. Empirically, we find that if the data matrix is approximately orthogonal, then ${\|\mathbf{H}^{\infty}\|} = {O}$ (see Figure 6 in Appendix C). Therefore, we show that the iteration complexity of gradient descent is nearly independent of $n$.
+
+We surprisingly found that there is a strong connection between over-parameterized neutral networks and linear regression. We observe that $\mathbf{H}^{\infty}$ in the over-parameterized setup and $\mathbf{X}^{\top}\mathbf{X}$ in linear regression share a strikingly similar role in the convergence. Based on this observation, we combine the induction proof of Theorem 4.1 with the convergence analysis of Theorem 3.1. An important observation is that one needs the overparameterization level $m$ to be sufficiently large so that the adaptive learning rate can still have enough "burn in" time to reach the critical value for small initialization $b_{0}$, while ensuring that the iterates ${\|{{\mathbf{W}{(t)}} - {\mathbf{W}{}}}\|}_{F}$ remain sufficiently small and the positiveness of the Gram matrix. Theorem 4.2 characterizes the convergence rate of AdaLoss.
+
+### Theorem 4.2
+
+(AdaLoss Convergence for Two-layer Networks) Consider Assumptions 4.1 and 4.2, and suppose the width satisfies ${m = {\Omega\left( {\frac{n^{8}}{\lambda_{0}^{4}\delta^{3}} + {\frac{\eta^{2}n^{6}}{\lambda_{0}^{2}\delta^{2}\alpha^{2}}\left( {\frac{\lambda_{0}}{\alpha^{2}\sqrt{n}\varepsilon} + \frac{1}{\alpha^{2}\varepsilon}} \right)\mathbb{1}_{b_{0} < {{\eta{({C{({\lambda_{0} + {\|\mathbf{H}^{\infty}\|}})}})}}/2}}}} \right)}}.$ Then, the update using $b_{k + 1}^{2}\leftarrow{b_{k}^{2} + {\alpha^{2}\sqrt{n}{\|{\mathbf{y} - {\mathbf{u}{(k)}}}\|}^{2}}}$ admits the following convergence results.\
+(a) If $b_{0} \geq {{\etaC{({\lambda_{0} + {\|\mathbf{H}^{\infty}\|}})}}/2}$, then with probability $1 - \delta$ with respect to the random initialization, we have ${\min_{t \in {\lbrack T\rbrack}}{\|{\mathbf{y} - {\mathbf{u}{(t)}}}\|}^{2}} \leq \varepsilon$ after
+
+\(b\) If $0 < b_{0} \leq {{\etaC{({\lambda_{0} + {\|\mathbf{H}^{\infty}\|}})}}/2}$, then with probability $1 - \delta$ with respect to the random initialization, we have ${\min_{t \in {\lbrack T\rbrack}}{\|{\mathbf{y} - {\mathbf{u}{(t)}}}\|}^{2}} \leq \varepsilon$ after
+
+To our knowledge, this is the first global convergence guarantee of any adaptive gradient method for neural networks robust to initialization of $b_{0}$. It improves the results in, where AdaGrad-Norm is shown only to converge to a stationary point. Besides the robustness to the hyper-parameter, two key implications in Thm 4.2: Adaptive gradient methods can converge linearly in certain two-layer networks using our new technique developed for linear regression (Theorem 3.1); But that linear convergence and robustness comes with a cost: the width of the hidden layer has to be much wider than $n^{8}$. That is, when the initialization $b_{0}$ satisfying Case (b), the leading rate for $m$ is its second term, i.e. ($\eta^{2}n^{6})/(\alpha^{4}\epsilon)$, which is larger than $n^{8}$ if $\epsilon$ is sufficiently small.
+
+We remark that Theorem 4.2 is different from Theorem 3 in Xie et al. which achieves convergence by assuming a PL inequality for the loss function. This condition -- PL inequality -- is not guaranteed in general. The PL inequality is satisfied in our two-layer network problem when the Gram matrix $\mathbf{H}^{\infty}$ is strictly positive (see Proposition C.1). That is, in order to satisfy PL-inequality, we use induction to show that the model has to be sufficiently overparameterized, i.e., $m = O\left( \left. (poly{(n^{8},\alpha,\eta,\lambda_{0},\delta,\varepsilon)} \right) \right.$.
+
+Figure 4: Text Classification - LSTM model. On the left, the top four plots are the training loss w.r.t. epoch; the middle ones are test accuracy w.r.t. epoch; the bottom ones stepsize η w.r.t. epoch. On the right, the top (bottom) plot is the stepsize ηt (the stochastic loss) w.r.t. to iterations in the 1st epoch.
+Figure 5: Inverted Pendulum Swingup with Actor-critic Algorithm. On the left, the 4 plots are the rewards (scores) w.r.t. number of frames 10000 with roll-out length 2048. On the right, the top (bottom) figure is the stepsize ηt (the stochastic loss) w.r.t. to total episode.
+
+Theorem 4.2 applies to two cases. In the first case, the effective learning rate at the beginning ($\eta/b_{0}$) is smaller than the threshold $2/{({C{({\lambda_{0} + {\|\mathbf{H}^{\infty}\|}})}})}$ that guarantees the global convergence of gradient descent (c.f. Theorem 4.1). In this case, the convergence has two terms, and the first term $\frac{b_{0}}{\eta\lambda_{0}}{\log\left( \frac{1}{\epsilon} \right)}$ is the standard gradient descent rate if we use $\eta/b_{0}$ as the learning rate. Note this term is the same as Theorem 4.1 if ${\eta/b_{0}} = {\Theta{({1/{\|\mathbf{H}^{\infty}\|}})}}$. The second term comes from the upper bound of $b_{T}$ in the effective learning rate $\eta/b_{T}$ (c.f. Lemma B.8). This case shows if $\alpha$ is sufficiently small that the second term is smaller than the first term, then we have the same rate as gradient descent.
+
+In the second case, the initial effective learning rate, $\eta/b_{0}$, is greater than the threshold that guarantees the convergence of gradient descent. Our algorithm guarantees either of the followings happens after $T$ iterations: The loss is already small, so we can stop training. This corresponds to the first term ${({\lambda_{0} + \sqrt{n}})}/{({\alpha^{2}\sqrt{n\varepsilon}})}$. The loss is still large, which makes the effective stepsize, $\eta/b_{k}$, decrease with a good rate, i.e., if keeps happening, the stepsize will decrease till ${\eta/b_{k}} \leq {2/{({C{({\lambda_{0} + {\|\mathbf{H}^{\infty}\|}})}})}}$, and then it comes to the first case. Note that the second term here is the same as the second term of the first case, but the third term, $\left( {{\|\mathbf{H}^{\infty}\|}/\lambda_{0}} \right)^{2}{\log\left( {1/\epsilon} \right)}$ is slightly worse than the rate in the gradient descent. The reason is that the loss may increase due to the large learning rate at the beginning (c.f. Lemma B.9).
+
+When comparing AdaGrad-Norm, one could get the same convergence rate as AdaLoss. The comparison between AdaGrad-Norm and AdaLoss are almost the same as in linear regression. The bounds of AdaGrad-Norm and AdaLoss are similar, since our analysis for both algorithms is the worst-case analysis. However, numerically, AdaLoss can behave better than AdaGrad-Norm: Figure 3 shows that AdaLoss performs almost the same as or even better than AdaGrad-Norm with SGD. As for extending Theorem 4.2 to the stochastic setting, we leave this for future work. We devote the rest of the space to real data experiments.
+
+## Apply AdaLoss to Adam
+
+In this section, we consider the application of AdaLoss in the practical domain. Adam Kingma and Ba has been successfully applied to many machine learning problems. However, it still requires fine-tuning the stepsize $\eta$ in Algorithm 2. Although the default value is $\eta = 0.001$, one might wonder if this is the optimal value. Therefore, we apply AdaLoss to make the value $\eta$ robust to any initialization (see the blue part in Algorithm 2) and name it AdamLoss. We take two tasks to test the robustness of AdamLoss and compare it with the default Adam as well as AdamSqrt, where we literally let $\eta = {1/\sqrt{b_{0} + t}}$. Note that for simplicity, we set $\alpha = 1$. More experiments are provided in the appendix for different $\alpha$.
+
+1: Input: x1, β1 = 0.9, β2 = 0.99, and positive value η α0 and b0. Set m0 = v0 = v̂0 = 0
+4: $\eta_{t} = \left. 1/\sqrt{b_{t}} \right.$
+5: gt = ∇ft (xt) (Get the gradient)
+10: (Adam) $x_{t + 1} = {x_{t} - \left. {\eta{\hat{m}}_{t}}/\sqrt{{\hat{v}}_{t} + \epsilon} \right.}$
+11: (AdamLoss) xt + 1 = xt− ηt $\left. {\hat{m}}_{t}/\sqrt{{\hat{v}}_{t} + \epsilon} \right.$
+
+The first task is two-class (Fake/True News) text classification using one-layer LSTM (see Section D for details). The left plot in Figure 5 implies that the training loss is very robust to any initialization of the AdamLoss algorithm and subsequently achieves relatively better test accuracy. The right plot in Figure 5 captures the dynamics of $1/b_{t}$ for the first 200 iterations at the beginning of the training. We see that when $b_{0} = 0.1$ (red) or $b_{0} = 1$ (blue), the stochastic loss (bottom right) is very high such that after $25$ iterations, it reaches ${1/b_{t}} \approx 0.01$ and then stabilizes. When $b_{0} = 400$, the stochastic loss shows a decreasing trend at the beginning, which means it is around the critical threshold.
+
+The second task is to solve the classical control problem: inverted pendulum swing-up. One popular algorithm is the actor-critic algorithm Konda and Tsitsiklis, where the actor algorithm is optimized by proximal policy gradient methods Zoph et al., and the critic algorithm is optimized by function approximation methods Fujimoto et al.. The actor-network and critic-network are fully connected layers with different depths. We use Adam and AdamLoss to optimize the actor-critic algorithm independently for four times and average the rewards. The code source is provided in the supplementary material. The left plot of Figure 5 implies that AdaLoss is very robust to different initialization, while the standard Adam is extremely sensitive to $\eta = \frac{1}{b_{0}}$. Interestingly, AdamLoss does better when starting with $\eta_{0} = \frac{1}{200}$. We plot the corresponding $1/b_{t}$ on the right-hand side in Figure 5. We see that regardless of the initialization of $b_{0}$, the final value ${1/b_{t}} \approx 0.01$ reaches a value between $0.002$ and $0.001$.
+
+Overall, AdamLoss is shown numerically robust to any initialization $b_{0}$ for the two-class text classification and the inverted pendulum swing-up problems. See appendix for more experiments.
+
+## Broader Impact
+
+Our theoretical results make a step forward in explaining the linear convergence rate and zero training error using adaptive gradient methods as observed in neural network training in practice. Our new technique for developing a linear convergence proof (Theorem 3.1 and Theorem 4.2) might be used to improve the recent sub-linear convergence results of Adam-type methods. Based on a theoretical understanding of the complexity bound of adaptive gradient methods and the relationship between loss and gradient, we proposed a provably convergent adaptive gradient method (Adaloss). It is computationally-efficient and could potentially be a useful optimization method for large-scale data training. In particular, it can be applied in natural language processing and reinforcement learning domains where tuning hyper-parameters is very expensive, and thus making a potentially positive impact on society.

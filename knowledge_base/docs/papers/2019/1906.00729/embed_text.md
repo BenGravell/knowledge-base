@@ -1,0 +1,526 @@
+## Introduction
+
+Reinforcement learning (RL) has achieved sensational progress recently in several prominent decision-making problems, e.g., playing the game of Go and playing real-time strategy games. Interestingly, all of these problems can be formulated as zero-sum Markov games involving two opposing players or teams. Moreover, their algorithmic frameworks are all based upon *policy optimization* (PO) methods such as actor-critic and proximal policy optimization (PPO), where the policies are parametrized and iteratively updated. Such popularity of PO methods are mainly attributed to the facts that: (i) they are easy to implement and can handle high-dimensional and continuous action spaces; (ii) they can readily incorporate advanced optimization results to facilitate the algorithm design. Moreover, empirically, some observations have shown that PO methods usually converge faster than value-based ones.
+
+In contrast to the tremendous empirical success, theoretical understanding of policy optimization methods for the multi-agent RL settings, especially the zero-sum Markov game setting, lags behind. Although the convergence of policy optimization algorithms to *locally optimal* policies has been established in the classical RL setting with a *single-agent/player*, extending those theoretical guarantees to *Nash equilibrium* (NE) policies, a common solution concept in game theory also known as the saddle-point equilibrium (SPE) in the zero-sum setting, suffers from the following two caveats.
+
+First, since the players simultaneously determine their actions in the games, the decision-making problem faced by each player becomes non-stationary. As a result, single-agent algorithms fail to work due to lack of Markov property. Second, with parametrized policies, the policy optimization for finding NE in a function space is reduced to solving for NE in the policy parameter space, where the underlying game is in general nonconvex-nonconcave. Since nonconvex optimization problems are NP-hard in the worst case, so is finding NE in nonconvex-nonconcave saddle-point problems. In fact, it has been showcased recently that vanilla gradient-based algorithms might have cyclic behaviors and fail to converge to any NE in both zero-sum and general-sum games.
+
+As an initial attempt in merging the gap between theory and practice, we study the performance of PO methods on a simple but quintessential example of zero-sum Markov games, namely, zero-sum linear quadratic (LQ) games. In LQ games, the system evolves following linear dynamics controlled by both players, while the cost function is quadratically dependent on the states and joint control actions. Zero-sum LQ games find broad applications in $\mathcal{H}_{\infty}$-control for robust control synthesis, and risk-sensitive control. In fact, such an LQ setting can be used for studying general continuous control problems with adversarial disturbances/opponents, by linearizing the system of interest around the operational point. Therefore, developing theory for the LQ setting may provide some insights into the *local* property of the general control settings. Our study is pertinent to the recent efforts on policy optimization for linear quadratic regulator (LQR) problems, a single-player counterpart of LQ games. As to be shown later, LQ games are more challenging to solve using PO methods, since they are not only nonconvex in the policy space for one player (as LQR), but also nonconcave for the other. Compared to PO for LQR, such nonconvexity-nonconcavity has caused technical difficulties in showing the stabilizing properties along the iterations, an essential requirement for the iterative PO algorithms to be feasible. Additionally, in contrast to the recent non-asymptotic analyses on gradient methods for nonconvex-nonconcave saddle-point problems, the objective function lacks smoothness in LQ games, as the main challenge identified in for LQR.
+
+To address these technical challenges, we first investigate the optimization landscape of LQ games, showing that the stationary point of the objective function constitutes the NE of the game, despite its nonconvexity and nonconcavity. We then propose three projected *nested-gradient* methods, which separate the updates into two loops with both gradient-based iterations. Such a nested-loop update mitigates the inherent non-stationarity of learning in games. The projection ensures the stabilizing property of the control along the iterations. The algorithms are guaranteed to converge to the NE, with provably globally sublinear and locally linear rates.
+
+Related Work. There is a huge body of literature on applying *value-based* methods to solve zero-sum Markov games; see, e.g, and the references therein. Specially, for the linear quadratic setting, Al-Tamimi et al. proposed a Q-learning approximate dynamic programming approach. In contrast, the study of PO methods for zero-sum Markov games is limited, which are either empirical without any theoretical guarantees, or developed only for the tabular setting. Within the LQ setting, our work is related to the recent work on the global convergence of policy gradient (PG) methods for LQR. However, our setting is more challenging since it concerns a saddle-point problem with not only nonconvexity on the minimizer, but also nonconcavity on the maximizer.
+
+Our work also falls into the realm of solving *nonconvex-(non)concave saddle-point* problems, which has recently drawn great attention due to the popularity of training generative adversarial networks (GANs). However, most of the existing results are either for the nonconvex but concave minimax setting, or only have *asymptotic* convergence results. Two recent pieces of results on non-asymptotic analyses for solving this problem have been established under strong assumptions that the objective function is either weakly-convex and weakly-concave, or smooth. However, LQ games satisfy neither of these assumptions. In addition, even asymptotically, basic gradient-based approaches may not converge to (local) Nash equilibria, not even to stationary points, due to the oscillatory behaviors. In contrast to Mazumdar et al.; Jin et al., our results show the *global convergence* to *actual NE* (instead of any surrogate as *local minimax* in Jin et al. ) of the game.
+
+Contribution. Our contribution is two-fold: i) we investigate the optimization landscape of zero-sum LQ games in the parametrized feedback control policy space, showing its desired property that stationary points constitute the Nash equilibria; ii) we develop projected nested-gradient methods that are proved to converge to the NE with globally sublinear and locally linear rates. We also provide several interesting simulation findings on solving this problem with PO methods. To the best of our knowledge, for the first time, policy-based methods are shown to converge to the *global Nash equilibria* in a class of zero-sum Markov games, and also with convergence rate guarantees.
+
+Notation. For any vector $x \in R^{n}$ and matrix $Y \in R^{m \times n}$, we use $\| x\|$, $\| Y\|$, and ${\| Y\|}_{F}$ to denote the Euclidean norm of $x$, the induced $2$-norm, and the Frobenius norm of $Y$, respectively. We use ${\text{vec}{(Y)}} \in R^{mn}$ to denote the vectorization of the matrix $Y$. For any symmetric matrix $M \in R^{n \times n}$, we use $M \geq 0$ and $M > 0$ to denote the nonnegative-definiteness and positive definiteness of $M$, respectively. For any set $\mathcal{S}$, we use $\mathcal{S}^{c}$ to denote the complement set of $\mathcal{S}$. For any square matrix $A$, we use $\rho{(A)}$ to denote its spectral radius, i.e., the largest absolute value of its eigenvalues, of matrix $A$. For any matrix $M \in R^{m \times n}$, we use $\sigma_{\min}{(M)}$ and $\sigma_{\max}{(M)}$ to denote its smallest and largest singular values, respectively. For any real symmetric matrix $M \in R^{n \times n}$, we use $\lambda_{\min}{(M)}$ and $\lambda_{\max}{(M)}$ to denote its smallest and largest eigenvalues, respectively. We use $\otimes$ to denote the Kronecker product. For any positive integer $m$, we use $\lbrack m\rbrack$ to denote the set of integers $\{ 1,\cdots,m\}$. We use $I$ to denote the identity matrix with proper dimensions.
+
+## Background
+
+Consider a zero-sum LQ game, where the system dynamics are characterized by a linear dynamical system
+
+where the system state is $x_{t} \in R^{d}$, the control inputs of players $1$ and $2$ are $u_{t} \in R^{m_{1}}$ and $v_{t} \in R^{m_{2}}$, respectively. The matrices satisfy $A \in R^{d \times d}$, $B \in R^{d \times m_{1}}$, and $C \in R^{d \times m_{2}}$. The objective of player $1$ (player $2$) is to minimize (maximize) the infinite-horizon value function,
+
+where $x_{0} \sim \mathcal{D}$ is the initial state drawn from a distribution $\mathcal{D}$, the matrices $Q \in R^{d \times d}$, $R^{u} \in R^{m_{1} \times m_{1}}$, and $R^{v} \in R^{m_{2} \times m_{2}}$ are all positive definite. If the solution to (2.1) exists and the infimum and supremum in (2.1) can be interchanged, we refer to the solution value in (2.1) as the *value* of the game.
+
+To investigate the property of the solution to (2.1), we first introduce the generalized algebraic Riccati equation (GARE) as follows
+
+where $P^{\ast}$ denotes the minimal non-negative definite solution to (2.2). Under some standard assumptions to be specified shortly, the value exists and can be characterized by a matrix $P^{\ast} \in R^{d \times d}$ satisfying
+
+Moreover, there exists a pair of linear feedback stabilizing polices that attain the equality in (2.3), i.e., the optimal actions ${\{ u_{t}^{\ast}\}}_{t \geq 0}$ and ${\{ v_{t}^{\ast}\}}_{t \geq 0}$ in (2.1) can be written as
+
+where $K^{\ast} \in R^{m_{1} \times d}$ and $L^{\ast} \in R^{m_{2} \times d}$ are called the control gain matrices for the minimizer and the maximizer, respectively. The values of $K^{\ast}$ and $L^{\ast}$ can be given by
+
+Since the controller pair $(K^{\ast},L^{\ast})$ achieves the value (2.3) for any $x_{0}$, the value of the game is thus $E_{x_{0} \sim \mathcal{D}}\left( {x_{0}^{\top}P^{\ast}x_{0}} \right)$. Now we introduce the following assumption that guarantees the arguments above to hold.
+
+### Assumption 2.1
+
+The following conditions hold: i) there exists a minimal positive definite solution $P^{\ast}$ to the GARE (2.2) that satisfies ${R^{v} - {C^{\top}P^{\ast}C}} > 0$; ii) $L^{\ast}$ satisfies ${Q - {{(L^{\ast})}^{\top}R^{v}L^{\ast}}} > 0$.
+
+The condition i) in Assumption 2.1 is a standard sufficient condition that ensures the existence of the value of the game. In addition, condition ii) leads to the saddle-point property of the control pair $(K^{\ast},L^{\ast})$, i.e., the controller sequence $({\{ u_{t}^{\ast}\}}_{t \geq 0},{\{ v_{t}^{\ast}\}}_{t \geq 0})$ generated by (2.4) constitutes the NE of the game (2.1), which is also unique. We formally state the arguments regarding (2.2)-(2.6) in the following lemma, whose proof is deferred to §B.1.
+
+### Lemma 2.2
+
+Under Assumption 2.1 i), for any $x_{0} \in R^{d}$, the value of the minimax game
+
+exists, i.e., (2.3) holds, and $(K^{\ast},L^{\ast})$ is stabilizing. Furthermore, under Assumption 2.1 ii), the controller sequence $({\{ u_{t}^{\ast}\}}_{t \geq 0},{\{ v_{t}^{\ast}\}}_{t \geq 0})$ generated from (2.4) constitutes the saddle-point of (2.7), i.e., the NE of the game, and it is unique.
+
+Lemma 2.2 implies that the solution to (2.1) can be found by searching for $(K^{\ast},L^{\ast})$ in the matrix space $R^{m_{1} \times d} \times R^{m_{2} \times d}$, given by (2.5)-(2.6) for some $P^{\ast} > 0$ satisfying (2.2). Next, we aim to develop policy optimization methods that provably converge to the NE $(K^{\ast},L^{\ast})$.
+
+## Policy Gradient and Landscape
+
+By Lemma 2.2, we focus on finding the state feedback policies of players parameterized by $u_{t} = {- {Kx_{t}}}$, and ${v_{t} = {- {Lx_{t}}}},$ such that ${\rho{({A - {BK} - {CL}})}} < 1$. Accordingly, we denote the corresponding expected cost in (2.1) as
+
+Also, define $P_{K,L}$ as the unique solution to the Lyapunov equation
+
+Then for any *stablilizing* control pair $(K,L)$, it follows that ${{\mathcal{C}{(K,L)}} = {E_{x_{0} \sim \mathcal{D}}\left( {x_{0}^{\top}P_{K,L}x_{0}} \right)}}.$ Also, we define ~K,L~ as the state correlation matrix, i.e., ${}_{K,L}^{}E_{x_{0} \sim \mathcal{D}}\sum_{t = 0}^{\infty}x_{t}x_{t}^{\top}$. Our goal is to find the NE $(K^{\ast},L^{\ast})$ using policy optimization methods that solve the following minimax problem
+
+such that for any $K \in R^{m_{1} \times d}$ and $L \in R^{m_{2} \times d}$, ${\mathcal{C}{(K^{\ast},L)}} \leq {\mathcal{C}{(K^{\ast},L^{\ast})}} \leq {\mathcal{C}{(K,L^{\ast})}}$.
+
+As has been recognized in Fazel et al. that the LQR problem is nonconvex with respect to (w.r.t.) the control gain $K$, we note that in general, for some given $L$ (or $K$), the minimization (or maximization) problem is not convex (or concave). This has in fact caused the main challenge for the design of equilibrium-seeking algorithms for zero-sum LQ games. We formally state this in the following lemma, which is proved in §B.2.
+
+### Lemma 3.1 (Nonconvexity-Nonconcavity of $\mathcal{C}\hspace{0pt}{(K,L)}$)
+
+Define a subset $\underset{¯}{} \subset R^{m_{2} \times d}$ as
+
+Then there exists $L \in \underset{¯}{}$ such that ${\min_{K}\mathcal{C}}{(K,L)}$ is a nonconvex minimization problem; there exists $K$ such that ${\max_{L \in \underset{¯}{}}\mathcal{C}}{(K,L)}$ is a nonconcave maximization problem.
+
+To facilitate the algorithm design, we establish the explicit expression of the policy gradient w.r.t. the parameters $K$ and $L$ in the following lemma, with a proof provided in §B.3.
+
+### Lemma 3.2 (Policy Gradient Expression)
+
+The policy gradients of $\mathcal{C}{(K,L)}$ have the form
+
+To study the landscape of this nonconvex-nonconcave problem, we first examine the property of the stationary points of $\mathcal{C}{(K,L)}$, which are the points that gradient-based methods converge to.
+
+### Lemma 3.3 (Stationary Point Property)
+
+For a stabilizing control pair $(K,L)$, i.e., ${\rho{({A - {BK} - {CL}})}} < 1$, suppose ~K,L~ is full-rank and $({{- R^{v}} + {C^{\top}P_{K,L}C}})$ is invertible. If ${{\nabla_{K}\mathcal{C}}{(K,L)}} = {{\nabla_{L}\mathcal{C}}{(K,L)}} = 0$ and the induced matrix $P_{K,L}$ defined in (3.1) is positive definite, then $(K,L)$ constitutes the control gain pair at the Nash equilibrium.
+
+Lemma 3.3. ‣ 3 Policy Gradient and Landscape ‣ Policy Optimization Provably Converges to Nash Equilibria in Zero-Sum Linear Quadratic Games"), proved in §B.4, shows that the stationary point of $\mathcal{C}{(K,L)}$ suffices to characterize the NE of the game under certain conditions. In fact, for ~K,L~ to be full-rank, it suffices to let $E_{x_{0} \sim \mathcal{D}}x_{0}x_{0}^{\top}$ be full-rank, i.e., to use a random initial state $x_{0}$ whose covariance matrix is non-degenerate. This can be easily satisfied in practice.
+
+## Policy Optimization Algorithms
+
+In this section, we propose three PO methods, based on policy gradients, to find the global NE of the LQ game. In particular, we develop *nested-gradient* (NG) methods, which first solve the inner optimization by policy-gradient methods, and then use the stationary-point solution to perform gradient-update for the outer optimization. One way to solve for the NE is to directly address the minimax problem (2.1). Success of this procedure, as pointed out in Fazel et al. for LQR, requires the stability guarantee of the system along the outer policy-gradient updates. However, unlike LQR, it is not clear so far if there exists a stepsize and/or condition on $K$ that ensures such stability of the system along the outer-loop policy-gradient update. Instead, if we solve the maximin problem, which has the same value as (2.1) (see Lemma 2.2), then a simple projection step on the iterate $L$, as to be shown later, can guarantee the stability of the updates. Therefore, we aim to solve ${\max_{L}{\min_{K}\mathcal{C}}}{(K,L)}$.
+
+For some given $L$, the inner minimization problem becomes an LQR problem with equivalent cost matrix ${\overset{\sim}{Q}}_{L} = {Q - {L^{\top}R^{v}L}}$, and state transition matrix ${\overset{\sim}{A}}_{L} = {A - {CL}}$. Motivated by Fazel et al., we propose to find the stationary point of the inner problem, since the stationary point suffices to be the global optimum under certain conditions (see Corollary $4$ in Fazel et al. ). Let the stationary-point solution be $K{(L)}$. By setting ${{\nabla_{K}\mathcal{C}}{(K,L)}} = 0$ and by Lemma 3.2. ‣ 3 Policy Gradient and Landscape ‣ Policy Optimization Provably Converges to Nash Equilibria in Zero-Sum Linear Quadratic Games"), we have
+
+We then substitute (4.1) into (3.1) to obtain the Riccati equation for the inner problem:
+
+Note that as in Fazel et al., $K{(L)}$ can be obtained using gradient-based algorithms. For example, one can use the basic policy gradient update in the inner-loop, i.e.,
+
+where $\alpha > 0$ denotes the stepsize, $P_{K,L}$ denotes the solution to (3.1) for given $(K,L)$, and ${\nabla_{K}\mathcal{C}}{(K,L)}$ denotes the partial gradient w.r.t. $K$ given in (3.4. ‣ 3 Policy Gradient and Landscape ‣ Policy Optimization Provably Converges to Nash Equilibria in Zero-Sum Linear Quadratic Games")). Alternatively, one can also use the approximate second-order information to accelerate the update, which yields the *natural* policy gradient update
+
+that utilizes the Fisher's information, and the *Gauss-Newton* update
+
+Suppose $K{(L)}$ in (4.1) can be obtained, regardless of the algorithms used. Then, we substitute $K{(L)}$ back to the gradient of ${\overset{\sim}{\mathcal{C}}{(L)}}:={\mathcal{C}{({K{(L)}},L)}}$ to obtain the *nested-gradient*:
+
+where ${\nabla_{L}\overset{\sim}{\mathcal{C}}}{(L)}$ denotes the nested-gradient for the outer-loop. Note that the stationary-point condition of the outer-loop that ${{\nabla_{L}\overset{\sim}{\mathcal{C}}}{(L)}} = 0$ is identical to that of ${{\nabla_{L}\mathcal{C}}{({K{(L)}},L)}} = 0$, since
+
+where ${{\nabla_{K}\mathcal{C}}{({K{(L)}},L)}} = 0$ by definition of $K{(L)}$. Thus, the convergent point $({K{(L)}},L)$ that makes ${{\nabla_{L}\overset{\sim}{\mathcal{C}}}{(L)}} = 0$ satisfy both conditions ${{\nabla_{K}\mathcal{C}}{({K{(L)}},L)}} = 0$ and ${{\nabla_{L}\mathcal{C}}{({K{(L)}},L)}} = 0$, which implies from Lemma 3.3. ‣ 3 Policy Gradient and Landscape ‣ Policy Optimization Provably Converges to Nash Equilibria in Zero-Sum Linear Quadratic Games") that the convergent control pair $({K{(L)}},L)$ constitutes the Nash equilibrium.
+
+Thus, we propose the following projected nested-gradient update in the outer-loop to find the pair $({K{(L)}},L)$:
+
+where is some convex set in $R^{m_{2} \times d}$, and $P^{GD}{\lbrack \cdot \rbrack}$ is the projection operator onto that is defined as
+
+i.e., the minimizer of the distance between $\overset{\sim}{L}$ and $L$ in Frobenius norm. It is assumed that the set is large enough such that it contains the Nash equilibrium $(K^{\ast},L^{\ast})$. Under Assumption 2.1, there exists a constant $\zeta$ with $0 < \zeta < {\sigma_{\min}{({\overset{\sim}{Q}}_{L^{\ast}})}}$, with one example of that serves the purpose is
+
+which contains $L^{\ast}$ at the NE. Thus, the projection does not exclude the convergence to the NE. The following lemma, proved in §B.5, shows that is indeed convex and compact.
+
+### Lemma 4.1
+
+The subset $\subset R^{m_{2} \times d}$ defined in (4.8) is a convex and compact set.
+
+The projection is mainly for the purpose of theoretical analysis, and is not necessarily used in the implementation of the algorithm in practice. In fact, the simulation results in §7 show that the algorithms converge without this projection in many cases. Such a projection is also implementable, since the set to project on is convex, and the constraint is directly imposed on the policy parameter iterate $L$ (not on some derivative quantities, e.g., $P_{{K{(L)}},L}$). Similarly, we develop the following projected natural nested-gradient update:
+
+where the projection operator $P^{NG}{\lbrack \cdot \rbrack}$ for natural nested-gradient is defined as
+
+Here a weight matrix ~K(L),L~ is added for the convenience of subsequent theoretical analysis. We note that the weight matrix ~K(L),L~ depends on the current iterate $L$ in (4.9).
+
+Moreover, we can develop the projected nested-gradient algorithm with preconditioning matrices. For example, if we assume that $R^{v} - {C^{\top}P_{{K{(L)}},L}C}$ is positive definite, and define
+
+we obtain the projected *Gauss-Newton nested-gradient* update
+
+where the projection operator $P^{GN}{\lbrack \cdot \rbrack}$ is defined as
+
+The weight matrices ~K(L),L~ and $W_{L}$ both depend on the current iterate $L$ in (4.12).
+
+Based on the updates above, it is straightforward to develop model-free versions of NG algorithms using sampled data. In particular, we propose to first use zeroth-order optimization algorithms to find the stationary point of the inner LQR problem after a finite number of iterations. Since the Gauss-Newton update cannot be estimated via sampling, only the PG and natural PG updates are converted to model-free versions. The approximate stationary point is then substituted into the outer-loop to perform the projected (natural) NG updates. Details of our model-free version updates are provided in §A. Building upon our theory next, high-probability convergence guarantees for these model-free counterparts can be established as in the LQR setting in Fazel et al..
+
+## Convergence Results
+
+We start by showing the convergence results for the inner optimization problem as follows, which establishes the *globally linear* convergence rates of the inner-loop policy gradient updates in (4.3)-.
+
+### Proposition 5.1 (Global Convergence Rate of Inner-Loop Update)
+
+Suppose ${E_{x_{0} \sim \mathcal{D}}x_{0}x_{0}^{\top}} > 0$ and Assumption 2.1 holds. For any $L \in \underset{¯}{}$, where $\underset{¯}{}$ is defined in (3.3). ‣ 3 Policy Gradient and Landscape ‣ Policy Optimization Provably Converges to Nash Equilibria in Zero-Sum Linear Quadratic Games")), it follows that: i) the inner-loop LQR problem always admits a solution, with a positive definite $P_{{K{(L)}},L}$ and a stabilizing control pair $({K{(L)}},L)$; ii) there exists a constant stepsize $\alpha > 0$ for each of the updates (4.3)- such that the generated control pair sequences ${\{{(K_{\tau},L)}\}}_{\tau \geq 0}$ are always stabilizing; iii) the updates (4.3)- enables the convergence of the cost value sequence ${\{{\mathcal{C}{(K_{\tau},L)}}\}}_{\tau \geq 0}$ to the optimum $\mathcal{C}{({K{(L)}},L)}$ with linear rate.
+
+Proof of Proposition 5.1. ‣ 5 Convergence Results ‣ Policy Optimization Provably Converges to Nash Equilibria in Zero-Sum Linear Quadratic Games"), deferred to §6.2, primarily follows that for Theorem $7$ in Fazel et al.. However, we provide additional stability arguments for the control pair $(K_{\tau},L)$ as the inner loop update proceeds.
+
+We then establish the global convergence of the projected NG updates (4.6), (4.9), and (4.12). Before we state the results, we define the *gradient mapping* for all three projection operators ${P^{GN},P^{NG}},$ and $P^{GD}$ at any $L \in$ as follows
+
+Note that gradient mappings have been commonly adopted in the analysis of projected gradient descent methods in constrained optimization.
+
+### Theorem 5.2 (Global Convergence Rate of Outer-Loop Update)
+
+Suppose ${E_{x_{0} \sim \mathcal{D}}x_{0}x_{0}^{\top}} > 0$, Assumption 2.1 holds, and the initial maximizer control $L_{0} \in$, where is defined in (4.8). Then it follows that: i) at iteration $t$ of the projected NG updates (4.6), (4.9), and (4.12), the inner-loop updates (4.3)- converge to $K{(L_{t})}$ with linear rate; ii) the control pair sequences ${\{{({K{(L_{t})}},L_{t})}\}}_{t \geq 0}$ generated from (4.6), (4.9), and (4.12) are always stabilizing (regardless of the stepsize choice $\eta$); iii) with proper choices of the stepsize $\eta$, the updates (4.6), (4.9), and (4.12) all converge to the Nash equilibrium $(K^{\ast},L^{\ast})$ of the zero-sum LQ game (3.2) with $\mathcal{O}{({1/t})}$ rate, in the sense that the sequences $\left\{ {t^{- 1}{\sum_{\tau = 0}^{t - 1}\left\| {\hat{G}}_{L_{\tau}}^{\ast} \right\|^{2}}} \right\}_{t \geq 1}$, $\left\{ {t^{- 1}{\sum_{\tau = 0}^{t - 1}\left\| {\overset{\sim}{G}}_{L_{\tau}}^{\ast} \right\|^{2}}} \right\}_{t \geq 1}$, and $\left\{ {t^{- 1}{\sum_{\tau = 0}^{t - 1}\left\| {\check{G}}_{L_{\tau}}^{\ast} \right\|^{2}}} \right\}_{t \geq 1}$ all converge to zero with $\mathcal{O}{({1/t})}$ rate.
+
+Since $\subset \underset{¯}{}$, the first two arguments follow directly from Proposition 5.1. ‣ 5 Convergence Results ‣ Policy Optimization Provably Converges to Nash Equilibria in Zero-Sum Linear Quadratic Games"). The last argument shows that the iterate $({K{(L_{t})}},L_{t})$ generated from the projected NG updates converges with a sublinear rate. Detailed proof of Theorem 5.2. ‣ 5 Convergence Results ‣ Policy Optimization Provably Converges to Nash Equilibria in Zero-Sum Linear Quadratic Games") is provided in §6.3.
+
+Due to the nonconvexity-nonconcavity of the problem (see Lemma 3.1). ‣ 3 Policy Gradient and Landscape ‣ Policy Optimization Provably Converges to Nash Equilibria in Zero-Sum Linear Quadratic Games")), our result is pertinent to the recent work on finding a first-order stationary point for nonconvex-nonconcave minimax games under the Polyak-Łojasiewicz (PŁ)-condition for one of the players. Interestingly, the LQ games considered here also satisfy the one-sided PŁ-condition in Sanjabi et al., since for a given $L \in \underset{¯}{}$, the inner problem is an LQR, which enables the use of Lemma $11$ in Fazel et al. to show this. However, as recognized by Fazel et al. for LQR problems, the main challenge of the LQ games here in contrast to the minimax game setting in Sanjabi et al. is coping with the lack of smoothness in the objective function.
+
+This $O{({1/t})}$ rate matches the sublinear convergence rate to first-order stationary points, instead of (local) Nash equilibrium, in Sanjabi et al.; Nouiehed et al.. In contrast, by the landscape of zero-sum LQ games shown in Lemma 3.3. ‣ 3 Policy Gradient and Landscape ‣ Policy Optimization Provably Converges to Nash Equilibria in Zero-Sum Linear Quadratic Games"), our convergence is to the *global NE* of the game, if the projection is not effective at the accumulation point. In fact, in this case, the convergence rate can be improved to be linear, as to be introduced next in Theorem 5.3. ‣ 5 Convergence Results ‣ Policy Optimization Provably Converges to Nash Equilibria in Zero-Sum Linear Quadratic Games"). In addition, our rate also matches the (worst-case) *global* convergence rate of gradient descent and second-order algorithms for nonconvex optimization, either under the smoothness assumption of the objective, or for a certain class of non-smooth objectives.
+
+Compared to Fazel et al., the nested-gradient algorithms cannot be shown to have *globally linear* convergence rates so far, owing to the additional nonconcavity on $L$ added to the standard LQR problems. Nonetheless, the PŁ property of the LQ games still enables linear convergence rate near the Nash equilibrium. We formally establish the local convergence results in the following theorem, whose proof is provided in §6.4.
+
+### Theorem 5.3 (Local Convergence Rate of Outer-Loop Update)
+
+Under the conditions of Theorem 5.2. ‣ 5 Convergence Results ‣ Policy Optimization Provably Converges to Nash Equilibria in Zero-Sum Linear Quadratic Games"), the projected NG updates (4.6), (4.9), and (4.12) all have locally linear convergence rates around the Nash equilibrium $(K^{\ast},L^{\ast})$ of the LQ game (3.2), in the sense that the cost value sequence ${\{{\mathcal{C}{({K{(L_{t})}},L_{t})}}\}}_{t \geq 0}$ converges to $\mathcal{C}{(K^{\ast},L^{\ast})}$, and the nested gradient norm square sequence ${\{{\|{{\nabla_{L}\overset{\sim}{\mathcal{C}}}{(L_{t})}}\|}^{2}\}}_{t \geq 0}$ converges to zero, both with linear rates.
+
+Theorem 5.3. ‣ 5 Convergence Results ‣ Policy Optimization Provably Converges to Nash Equilibria in Zero-Sum Linear Quadratic Games") shows that when the proposed NG updates (4.6), (4.9), and (4.12) get closer to the NE $(K^{\ast},L^{\ast})$, the local convergence rates can be improved from sublinear (see Theorem 5.2. ‣ 5 Convergence Results ‣ Policy Optimization Provably Converges to Nash Equilibria in Zero-Sum Linear Quadratic Games")) to linear. This resembles the convergence property of (Quasi)-Newton methods for nonconvex optimization, with globally sublinear and locally linear convergence rates. To the best of our knowledge, this appears to be the first such result on equilibrium-seeking for nonconvex-nonconcave minimax games, even with the smoothness assumption as in Sanjabi et al..
+
+We note that for the class of zero-sum LQ games that Assumption 2.1 ii) fails to hold, there may not exists a set of the form (4.8) that contains the NE $(K^{\ast},L^{\ast})$. Even then, our global convergence results in Proposition 5.1. ‣ 5 Convergence Results ‣ Policy Optimization Provably Converges to Nash Equilibria in Zero-Sum Linear Quadratic Games") and Theorem 5.2. ‣ 5 Convergence Results ‣ Policy Optimization Provably Converges to Nash Equilibria in Zero-Sum Linear Quadratic Games") still hold. This is because the convergence is established in the sense of gradient mappings. However, this may invalidate the statements on local convergence in Theorem 5.3. ‣ 5 Convergence Results ‣ Policy Optimization Provably Converges to Nash Equilibria in Zero-Sum Linear Quadratic Games"), as the proof relies on the ineffectiveness of the projection operator.
+
+## Proofs of Main Results
+
+In this section, we provide proofs for the main results on the convergence of the nested-gradient algorithms stated in §5.
+
+For notational convenience, we (re-)define the following functions
+
+where we recall the definitions of $P_{K,L}$ and $W_{L}$ in (3.1) and (4.11), respectively. To simplify the notation, we denote $\zeta_{{K{(L)}},L}$ by $\zeta_{L}^{\ast}$, for any notation $\zeta_{K,L}$, for example, $V_{K,L}$, $Q_{K,L}$, $A_{K,L}$, $P_{K,L}$, etc.
+
+### Auxiliary Lemmas
+
+To proceed with the analysis, we first establish several lemmas that are useful in the ensuing analysis. The first lemma links the value function $V_{K,L}$ and the advantage function $A_{K,L}$, when varying $K$ and $L$, which plays a similar role as Lemma $7$ in Fazel et al..
+
+### Lemma 6.1 (Cost Difference Lemma)
+
+Suppose both $(K,L)$ and $(K^{\prime},L^{\prime})$ are stabilizing. Let ${\{ x_{t}^{\prime}\}}_{t \geq 0}$ and ${\{{(u_{t}^{\prime},v_{t}^{\prime})}\}}_{t \geq 0}$ be the sequences of state and action pairs generated by $(K^{\prime},L^{\prime})$, i.e., starting from $x_{0}^{\prime} = x$ and satisfying ${u_{t}^{\prime} = {- {K^{\prime}x_{t}^{\prime}}}},{v_{t}^{\prime} = {- {L^{\prime}x_{t}^{\prime}}}}$. Then, it follows that
+
+### Proof
+
+Let the sequence of costs generated under $(K^{\prime},L^{\prime})$ be denoted by $c_{t}^{\prime}$. Then
+
+Thus, we establish the first argument.
+
+Moreover, for the second claim, let $u = {- {K^{\prime}x}}$ and $v = {- {L^{\prime}x}}$. Then
+
+which completes the proof. ∎
+
+For any $L \in \underset{¯}{}$, recall that $P_{L}^{\ast}$ is the solution to the inner-loop Riccati equation (4.2), and $K{(L)}$ is the stationary point solution defined in (4.1). We have the following properties of $P_{L}^{\ast}$ and $K{(L)}$.
+
+### Lemma 6.2 (Optimality of $K\hspace{0pt}{(L)}$ and Boundedness of $P_{L}^{\ast}$)
+
+Suppose ~K,L~ is full-rank for any $K$ and $L$. Recall the definition of $\underset{¯}{}$ in (3.3). ‣ 3 Policy Gradient and Landscape ‣ Policy Optimization Provably Converges to Nash Equilibria in Zero-Sum Linear Quadratic Games")). Then under Assumption 2.1, for any $L \in \underset{¯}{}$, the inner-loop Riccati equation (4.2) always admits a solution $P_{L}^{\ast} > 0$, and the control pair $({K{(L)}},L)$ is stabilizing. Moreover, for any $x \in R^{d}$, ${V_{L}^{\ast}{(x)}} \leq {V_{\overset{\sim}{K},L}{(x)}}$ for any $\overset{\sim}{K} \in R^{m_{1} \times d}$. Taking expectation on both sides further yields that ${\mathcal{C}{({K{(L)}},L)}} \leq {\mathcal{C}{(\overset{\sim}{K},L)}}$. In addition, $P_{L}^{\ast}$ is bounded and satisfies ${Q - {L^{\top}R^{v}L}} \leq P_{L}^{\ast} \leq P^{\ast}$, which implies that ${\mathcal{C}{({K{(L)}},L)}} \leq {\mathcal{C}{(K^{\ast},L^{\ast})}}$.
+
+### Proof
+
+Since ${\overset{\sim}{Q}}_{L} = {Q - {L^{\top}R^{v}L}} > 0$, it follows that $({\overset{\sim}{A}}_{L},{\overset{\sim}{Q}}_{L})$ is observable. Moreover, Lemma 2.2 shows the existence of the saddle-point $(K^{\ast},L^{\ast})$, which implies that for any $L \in \underset{¯}{}$ and any $x_{0} \in R^{d}$
+
+which further implies that $0 \leq P_{K^{\ast},L} \leq P_{K^{\ast},L^{\ast}}$. Thus, for the inner LQR problem with any $L \in \underset{¯}{}$, there always exists a stabilizing control $K^{\ast}$, i.e., $({\overset{\sim}{A}}_{L},B)$ is always stabilizable. Hence, by Proposition $4.4.1$ in Bertsekas, we know that the inner-loop Riccati equation (4.2) always admits a solution $P_{L}^{\ast} > 0$, and the control pair $({K{(L)}},L)$ is stabilizing. Moreover, $K{(L)}$ yields the optimal cost, i.e.,
+
+for any $K$. Taking expectation over (6.7) on $x_{0} \sim \mathcal{D}$ yields ${\mathcal{C}{({K{(L)}},L)}} \leq {\mathcal{C}{(\overset{\sim}{K},L)}}$.
+
+Furthermore, combining (6.6) and (6.7) yields
+
+for any $x_{0}$. As a result, we have $P_{L}^{\ast} \leq P^{\ast}$. Taking expectation over (6.8) further gives ${\mathcal{C}{({K{(L)}},L)}} \leq {\mathcal{C}{(K^{\ast},L^{\ast})}}$. Also, since $P_{L}^{\ast}$ is a solution to Lyapunov equation
+
+it holds that $P_{L}^{\ast} \geq Q_{L}$, which completes the proof. ∎
+
+Moreover, we also need the following lemma that characterizes the property of the projection operator in the projected NG updates (4.6), (4.9), and (4.12). The proof of the lemma is provided in §B.6.
+
+### Lemma 6.3
+
+For any ${L_{1},L_{2}} \in R^{m_{2} \times d}$, the projection operators defined in (4.7), (4.10), and (4.13) at iterate $L$ have the following properties:
+
+Another important result used later is the continuity of $P_{L}^{\ast}$ w.r.t. $L$, for any $L \in \underset{¯}{}$, whose proof is deferred to §B.7.
+
+### Lemma 6.4
+
+For any $L \in \underset{¯}{}$, let $P_{L}^{\ast} > 0$ be the solution to the inner-loop Riccati equation (4.2). Then $P_{L}^{\ast}$ is a continuous function w.r.t $L$.
+
+Similarly, we also establish the following lemma on the continuity of the correlation matrix ~K,L~ and $P_{K,L}$ w.r.t. $K$ and $L$, respectively.
+
+### Lemma 6.5
+
+For any stabilizing control pair $(K,L)$, the correlation matrix ~K,L~, and the solution $P_{K,L}$ to Lyapunov equation (3.1) are both continuous w.r.t. $K$ and $L$.
+
+### Proof
+
+For stabilizing $(K,L)$, ~K,L~ is the unique solution to the Lyapunov equation
+
+where we denote ${E_{x_{0} \sim \mathcal{D}}x_{0}x_{0}^{\top}} > 0$ by ~0~. By vectorizing both sides, we can rewrite (6.9) as
+
+where the operator $:{{R^{d^{2}} \times R^{m_{1} \times d} \times R^{m_{2} \times d}}\rightarrow R^{d^{2}}}$ is defined as
+
+which is invertible for stabilizing $(K,L)$, since the eigenvalues of $\left\lbrack {{({A - {BK} - {CL}})} \otimes {({A - {BK} - {CL}})}} \right\rbrack$ have absolute values smaller than one. Hence, by the implicit function theorem, $\text{vec}{({}_{K,L}^{}}$ is continuously differentiable, and also continuous, w.r.t. $K$ and $L$, which completes the proof. The proof for $P_{K,L}$ is almost identical, which is omitted here for brevity. ∎
+
+In addition, recalling the definition of in (4.8), we have $\subset \underset{¯}{}$. Hence, by Lemma 6.2 and Boundedness of 𝑃_𝐿^∗). ‣ 6.1 Auxiliary Lemmas ‣ 6 Proofs of Main Results ‣ Policy Optimization Provably Converges to Nash Equilibria in Zero-Sum Linear Quadratic Games"), for any $L \in$, $P_{L}^{\ast}$ exists and $({K{(L)}},L)$ is stabilizing. Hence, ${}_{}^{}{}$ also exists. We can then bound the spectral norm of $P_{L}^{\ast}$ and ${}_{}^{}{}$. Also, since $P_{L}^{\ast} \leq P^{\ast}$, we can also bound $W_{L}$ (see definition in (4.11)) as follows.
+
+### Lemma 6.6 (Bounds for $\parallel P_{K,L} \parallel , \parallel {}_{K,L}^{}$, and $W_{L}$)
+
+Recalling the definition of in (4.8) as
+
+it follows that for any $L \in$ and any $K$ that makes $(K,L)$ stabilizing
+
+### Proof
+
+Since $(K,L)$ is stabilizing, $\mathcal{C}{(K,L)}$ can be bounded as
+
+since $P_{K,L} \geq P_{L}^{\ast} > 0$ is positive definite by Lemma 6.2 and Boundedness of 𝑃_𝐿^∗). ‣ 6.1 Auxiliary Lemmas ‣ 6 Proofs of Main Results ‣ Policy Optimization Provably Converges to Nash Equilibria in Zero-Sum Linear Quadratic Games"). Moreover, $\mathcal{C}{(K,L)}$ can also be bounded as
+
+where the first inequality uses the fact that $Q - {L^{\top}R^{v}L}$ is positive definite, and the last inequality is due to the definition of the set.
+
+In addition, by matrix inversion lemma, $W_{L}$ can be written as
+
+Since Lemma 6.2 and Boundedness of 𝑃_𝐿^∗). ‣ 6.1 Auxiliary Lemmas ‣ 6 Proofs of Main Results ‣ Policy Optimization Provably Converges to Nash Equilibria in Zero-Sum Linear Quadratic Games") shows that ${\xi \cdot I} \leq P_{L}^{\ast} \leq P^{\ast}$, we know that
+
+which completes the proof. ∎
+
+Next, we provide proofs for the convergence of the proposed algorithms.
+
+### Proof of Proposition 5.1. ‣ 5 Convergence Results ‣ Policy Optimization Provably Converges to Nash Equilibria in Zero-Sum Linear Quadratic Games")
+
+We first prove the global convergence of the inner-loop updates in (4.3)- for given $L \in \underset{¯}{}$. Note that the proof roughly follows that of Theorem $7$ in Fazel et al., but requires additional arguments on the stability of the control pair $(K_{\tau},L)$, where ${\{ K_{\tau}\}}_{\tau \geq 0}$ is generated by the updates in (4.3)-^11^1Note that the stability argument has been supplemented in the latest version of Fazel et al., during the time of preparation of this paper. But still, we provide a different approach to show the stability for the Gauss-Newton and natural nested-gradient updates, which may be of independent interest.. From Lemma 6.2 and Boundedness of 𝑃_𝐿^∗). ‣ 6.1 Auxiliary Lemmas ‣ 6 Proofs of Main Results ‣ Policy Optimization Provably Converges to Nash Equilibria in Zero-Sum Linear Quadratic Games"), we know that under Assumption 2.1, for any $L \in \underset{¯}{}$, the inner LQR problem always has a solution, and $K{(L)}$ is such an optimal solution. Thus, there always exists some $K$ such that $(K,L)$ is stabilizing, namely, $({K{(L)}},L)$, which proves the first argument of Proposition 5.1. ‣ 5 Convergence Results ‣ Policy Optimization Provably Converges to Nash Equilibria in Zero-Sum Linear Quadratic Games").
+
+Suppose the updates in (4.3)- all start with such a stabilizing $K$. Thus we have
+
+By Lemma 6.2 and Boundedness of 𝑃_𝐿^∗). ‣ 6.1 Auxiliary Lemmas ‣ 6 Proofs of Main Results ‣ Policy Optimization Provably Converges to Nash Equilibria in Zero-Sum Linear Quadratic Games"), $P_{K,L} \geq P_{L}^{\ast} > 0$. Hence, $P_{K,L}$ is invertible, and (6.10) can be rewritten as
+
+which gives that
+
+where the equation is due to that $P_{K,L}^{- \frac{1}{2}}{({{\overset{\sim}{A}}_{L} - {BK}})}^{\top}P_{K,L}^{\frac{1}{2}}$ has identical spectrum as ${\overset{\sim}{A}}_{L} - {BK}$, the last inequality is due to that ${\overset{\sim}{Q}}_{L} > 0$. Also noticing that
+
+we can thus assert that, if $P_{K^{\prime},L} \leq P_{K,L}$, we have
+
+Note that for all the inner updates in (4.3)-, as long as $KK{(L)}$, it holds that ${\|{{\nabla_{K}\mathcal{C}}{(K,L)}}\|} > 0$, i.e., there exists a constant $\epsilon_{K} > 0$ such that ${\|{{\nabla_{K}\mathcal{C}}{(K,L)}}\|} \geq \epsilon_{K}$. Moreover, the gradient norm $\|{{\nabla_{K}\mathcal{C}}{(K,L)}}\|$ must also be upper bounded, since $K$ is stabilizing, and thus both $\| K\|$ and $\| P_{K}\|$ are bounded. Also note that both matrices ${({R^{u} + {B^{\top}P_{K,L}B}})}^{- 1}$ and ${}_{}^{- 1}{}$ have upper and lower-bounds, since ${R^{u} + {B^{\top}P_{K,L}B}} \geq R^{u} > 0$ and ${}_{K,L}^{}E_{x_{0} \sim \mathcal{D}}x_{0}x_{0}^{\top} > 0$, and $P_{K,L}$ is bounded. Therefore, at each $KK{(L)}$, there exist constants ${\text{Upper}_{K},\text{Lower}_{K}} > 0$ such that
+
+where $K^{\prime}$ is obtained from the one-step updates in of any of (4.3)-. We thus define a set ${}_{}^{}{}$, which depends on $K$, as
+
+which is compact. On the other hand, define ${}_{}^{}{}$, the lower-level set of $K^{\prime}$ as
+
+which is closed by the continuity and lower-boundedness of $\rho{({{\overset{\sim}{A}}_{L} - {BK}})}$ w.r.t. $K$. Hence, the intersection ${}_{}^{}{}_{}^{}_{K}^{2}$ is compact. Note that ${}_{}^{}{}$, since it at least contains $K$. Also, the upper-level set that ensures ${\rho{({{\overset{\sim}{A}}_{L} - {BK^{\prime}}})}} \geq 1$ is closed. Thus, by Lemma B.6, there exists a positive distance between the two disjoint sets. Denote this distance by $\delta_{K}$. Then any $K^{\prime}$ such that ${\|{K^{\prime} - K}\|} \leq \delta_{K}$ is stabilizing.
+
+Now we take the analysis for Gauss-Newton update as an example. If ${\alpha \cdot \text{Upper}_{K}} \leq \delta_{K}$ for any $\alpha \in {\lbrack 0,{1/2}\rbrack}$, i.e., the range of $\alpha$ in Lemma $14$ of Fazel et al. that ensures the contraction of the cost, then both $K^{\prime}$ and $K$ are stabilizing. By further applying Lemma $10$ in Fazel et al. and the form of, we have that for any $\alpha \in {\lbrack 0,{1/2}\rbrack}$
+
+where ${\{ x_{t}^{\prime}\}}_{t \geq 0}$ is the sequence of states generated by $(K^{\prime},L)$ with $x_{0}^{\prime} = x$ for any $x \in R^{d}$. Hence, we show the monotonicity of $P_{K^{\prime},L}$, i.e., $P_{K^{\prime},L} \leq P_{K,L}$, after one-step update of.
+
+If ${\alpha \cdot \text{Upper}_{K}} > \delta_{K}$ for some $\alpha \in {\lbrack 0,{1/2}\rbrack}$, the one-step update may go beyond the stabilizing region with radius $\delta_{K}$. However, we can show as follows that for all the $\alpha$ changing from $0$ to $1/2$, the updated $K^{\prime}$ remains to be stabilizing. First, there must exist some stepsize $\beta \in {(0,{1/2})}$ such that ${\beta \cdot \text{Upper}_{K}} \leq \delta_{K}$. Let the arrived control gain be $K_{\beta}^{\prime}$. Then by the argument in the previous paragraph, we know that $P_{K_{\beta}^{\prime},L} \leq P_{K,L}$. Thus, any $K^{\prime}$ such that ${\|{K^{\prime} - K_{\beta}^{\prime}}\|} \leq \delta_{K}$ is also stabilizing, including the control gain $K{}_{}^{}$ updated from $K$ using stepsize $2\beta$. If ${2\beta} \geq {1/2}$, then simply choosing $\alpha \in {\lbrack 0,{1/2}\rbrack}$ ensures the stability of $K^{\prime}$; if ${2\beta} < {1/2}$, then $K{}_{}^{}$ can also be shown to lead to that $P_{K{}_{}^{}L} \leq P_{K,L}$ using the argument in (6.2), which further implies that any $K^{\prime}$ such that $\parallel K^{\prime} - K{}_{}^{} \leq \delta_{K}$ is also stabilizing. This enables the choice of stepsize $3\beta$ starting from $K$. Repeating the argument concludes that any choice of $\alpha \in {\lbrack 0,{1/2}\rbrack}$ guarantees the stability of the update. Thus, the linear convergence rate of Gauss-Newton update can be obtained by the proof of Theorem $7$ in Fazel et al.. In particular, along the iteration $\tau \geq 0$, the sequence ${\{ P_{K_{\tau},L}\}}_{\tau \geq 0}$ satisfies $P_{K_{\tau},L} \geq P_{K_{\tau + 1},L} \geq P_{{K{(L)}},L}$.
+
+The proof for natural PG update is similar, except that the upper bound for the stepsize choice is changed from $1/2$ to $1/{\|{R^{u} + {B^{\top}P_{K,L}B}}\|}$ (see Lemma $15$ in Fazel et al. ), which can also be covered by finite times of some $\beta > 0$.
+
+For the stability proof of the gradient update, such an idea of using (6.11) and the monotonicity of $P_{K,L}$ to upper bound the spectral radius $\rho{({{\overset{\sim}{A}}_{L} - {BK}})}$ does not apply, since only the monotonicity of $\mathcal{C}{(K,L)}$ instead of $P_{K,L}$ can be shown. Hence, we follow the stability argument in Fazel et al. for the gradient update; see Appendix §C.4 therein.
+
+With the stability arguments verified as above, the last two arguments of the proposition on the algorithm convergence then follow from Theorem $7$ in Fazel et al., which completes the proof. ∎
+
+### Proof of Theorem 5.2. ‣ 5 Convergence Results ‣ Policy Optimization Provably Converges to Nash Equilibria in Zero-Sum Linear Quadratic Games")
+
+We now prove the global convergence of the nested-gradient algorithms. First, since the projection set $\subseteq \underset{¯}{}$, we have from Lemma 6.2 and Boundedness of 𝑃_𝐿^∗). ‣ 6.1 Auxiliary Lemmas ‣ 6 Proofs of Main Results ‣ Policy Optimization Provably Converges to Nash Equilibria in Zero-Sum Linear Quadratic Games") that the control pair sequence ${\{{K{(L_{t})}},L_{t}\}}_{t \geq 0}$ generated by the projected updates are always stabilizing, namely, the stability argument holds regardless of the choice of the stepsize $\eta$. Moreover, since $\subseteq \underset{¯}{}$, the inner-loop updates in (4.3)- converge to $K{(L_{t})}$ with linear rate by Proposition 5.1. ‣ 5 Convergence Results ‣ Policy Optimization Provably Converges to Nash Equilibria in Zero-Sum Linear Quadratic Games").
+
+To establish the global convergence result, we first need the following lemma that characterizes the difference in value functions for any two pairs of control gains $({K{(L)}},L)$ and $({K{(L^{\prime})}},L^{\prime})$ when ${L,L^{\prime}} \in$.
+
+### Lemma 6.7 (Value Difference Between $({K\hspace{0pt}{(L)}},L)$ and $({K\hspace{0pt}{(L^{\prime})}},L^{\prime})$)
+
+For any matrices ${L,L^{\prime}} \in$, recalling the definition of $W_{L}$ in (4.11), it follows that
+
+where ${\{ x_{t}^{\prime \ast}\}}_{t \geq 0}$ is the sequence of states generated by the control pairs $({K{(L^{\prime})}},L^{\prime})$ with $x_{0}^{\prime \ast} = x$. Also, letting ${\overset{\sim}{K}{(L,L^{\prime})}} = {{K{(L)}} - {{({R^{u} + {B^{\top}P_{L}^{\ast}B}})}^{- 1}B^{\top}P_{L}^{\ast}C{({L^{\prime} - L})}}}$, we have that for any $x$
+
+where ${\{{\overset{\sim}{x}}_{t}^{\prime}\}}_{t \geq 0}$ is the sequence of states generated by the control pairs $({\overset{\sim}{K}{(L,L^{\prime})}},L^{\prime})$, with ${\overset{\sim}{x}}_{0}^{\prime} = x$.
+
+### Proof
+
+First by Lemma 6.2 and Boundedness of 𝑃_𝐿^∗). ‣ 6.1 Auxiliary Lemmas ‣ 6 Proofs of Main Results ‣ Policy Optimization Provably Converges to Nash Equilibria in Zero-Sum Linear Quadratic Games"), both $P_{L}^{\ast} > 0$ and $P_{L^{\prime}}^{\ast} > 0$, $({K{(L)}},L)$ and $({K{(L^{\prime})}},L^{\prime})$ are stabilizing. Also, from Lemma 6.1. ‣ 6.1 Auxiliary Lemmas ‣ 6 Proofs of Main Results ‣ Policy Optimization Provably Converges to Nash Equilibria in Zero-Sum Linear Quadratic Games"), we have that for any stabilizing control pair $(K^{\prime},L^{\prime})$ and any $x \in R^{d}$
+
+with $x_{0}^{\prime} = x$, $u_{t}^{\prime} = {- {K^{\prime}x_{t}^{\prime}}}$, and $v_{t}^{\prime} = {- {L^{\prime}x_{t}^{\prime}}}$. Moreover, by definitions of $E_{K,L}$ in (6.2) and $K{(L)}$ in (4.1), we have $E_{L}^{\ast} = 0$, which combined with (6.1. ‣ 6.1 Auxiliary Lemmas ‣ 6 Proofs of Main Results ‣ Policy Optimization Provably Converges to Nash Equilibria in Zero-Sum Linear Quadratic Games")) further gives that
+
+Completing the squares w.r.t. $K^{\prime}$ in (6.14) yields
+
+where $W_{L}$ is as defined in (4.11), and the last inequality follows from the fact that ${R^{u} + {B^{\top}P_{L}^{\ast}B}} \geq 0$ (since $P_{L}^{\ast} > 0$). Thus, replacing $K^{\prime}$ in (6.3) with $K{(L^{\prime})}$ yields
+
+where $x_{0}^{\prime \ast} = x$ and $x_{t + 1}^{\prime \ast} = {{\lbrack{A - {BK{(L^{\prime})}} - {CL^{\prime}}}\rbrack} \cdot x_{t}^{\prime \ast}}$ follows the trajectory generated by the control $({K{(L^{\prime})}},L^{\prime})$. This completes the proof of the lower bound.
+
+On the other hand, by defining ${\overset{\sim}{K}{(L,L^{\prime})}} = {{K{(L)}} - {{({R^{u} + {B^{\top}P_{L}^{\ast}B}})}^{- 1}B^{\top}P_{L}^{\ast}C{({L^{\prime} - L})}}}$, and letting $K^{\prime} = {\overset{\sim}{K}{(L,L^{\prime})}}$ in (6.3), we obtain that
+
+where ${\overset{\sim}{x}}_{0}^{\prime} = x$, ${\overset{\sim}{x}}_{t + 1}^{\prime} = {{\lbrack{A - {B\overset{\sim}{K}{(L,L^{\prime})}} - {CL^{\prime}}}\rbrack} \cdot {\overset{\sim}{x}}_{t}^{\prime}}$ follows the trajectory generated by the control $({\overset{\sim}{K}{(L,L^{\prime})}},L^{\prime})$. Moreover, since $P_{L^{\prime}}^{\ast} > 0$ and the optimality of $K{(L^{\prime})}$ from Lemma 6.2 and Boundedness of 𝑃_𝐿^∗). ‣ 6.1 Auxiliary Lemmas ‣ 6 Proofs of Main Results ‣ Policy Optimization Provably Converges to Nash Equilibria in Zero-Sum Linear Quadratic Games"), we have ${V_{{K{(L^{\prime})}},L^{\prime}}{(x)}} \leq {V_{{\overset{\sim}{K}{(L,L^{\prime})}},L^{\prime}}{(x)}}$. Therefore, (6.16) further gives
+
+which proves the upper bound in the lemma, and thus completes the proof. ∎
+
+Moreover, we establish the following important lemma on the perturbation of the covariance matrix ${}_{}^{}{}$, whose proof is a little involved and deferred to §B.8.
+
+### Lemma 6.8 (Perturbation of ${}_{}^{}{}$)
+
+Under Assumption 2.1, for any ${L,L^{\prime}} \in$, there exist some constants ${\mathcal{B}^{L},\mathcal{B}^{P},\mathcal{B}^{K}} > 0$, such that if
+
+In addition, we can also bound the norm of the nested-gradient $\|{{\nabla_{L}\overset{\sim}{\mathcal{C}}}{(L)}}\|$, and the norms of the gradient-mappings, as follows.
+
+### Lemma 6.9
+
+For any $L \in$, recall the gradient mappings ${\hat{G}}_{L}^{\ast},{\overset{\sim}{G}}_{L}^{\ast},{\check{G}}_{L}^{\ast}$ defined in (5.1), then
+
+### Proof
+
+Recall that by definition $\nabla_{L}\overset{\sim}{\mathcal{C}}{(L)} = 2F_{L}^{\ast}_{L}^{\ast}$. Hence, by Lemma 6.6. ‣ 6.1 Auxiliary Lemmas ‣ 6 Proofs of Main Results ‣ Policy Optimization Provably Converges to Nash Equilibria in Zero-Sum Linear Quadratic Games"),
+
+On the other hand, by plugging-in $L^{\prime} = {L + {W_{L}^{- 1}F_{L}^{\ast}}}$, we have
+
+where the first inequality is due to ${\mathcal{C}{(K^{\ast},L^{\ast})}} \geq {\mathcal{C}{({K{(L^{\prime})}},L^{\prime})}}$ for any $L^{\prime}$, the second inequality follows by taking expectation on both sides of the lower bound in Lemma 6.7,𝐿) and (𝐾⁢(𝐿'),𝐿')). ‣ 6.3 Proof of Theorem 5.2 ‣ 6 Proofs of Main Results ‣ Policy Optimization Provably Converges to Nash Equilibria in Zero-Sum Linear Quadratic Games"), and the last inequality is due to ${}_{L\prime}^{}\mu \cdot I$ and ${\sigma_{\min}{(W_{L}^{- 1})}} = {1/{\| W_{L}\|}}$. Combining (6.3) and (6.3) yields the upper bound on $\|{{\nabla_{L}\overset{\sim}{\mathcal{C}}}{(L)}}\|$.
+
+Moreover, by definitions of ${\hat{G}}_{L}^{\ast},{\overset{\sim}{G}}_{L}^{\ast},{\check{G}}_{L}^{\ast}$, we have
+
+where for all (6.20)-(6.22), the first inequality is due to Lemma 6.3, and the second one follows from Cauchy-Schwartz inequality. Note that
+
+which uses the fact that ${\sigma_{\min}{(W_{L})}} \geq {\sigma_{\min}{(W_{L^{\ast}})}} = \nu$ from Lemma 6.6. ‣ 6.1 Auxiliary Lemmas ‣ 6 Proofs of Main Results ‣ Policy Optimization Provably Converges to Nash Equilibria in Zero-Sum Linear Quadratic Games"). This together with (6.20)-(6.22) gives that
+
+where the second inequality uses the fact that $\parallel F_{L}^{\ast}{{}_{}^{}{}_{}^{}} = \parallel \nabla_{L}\overset{\sim}{\mathcal{C}}{(L)} \parallel_{F}^{2}/4$ and ${\| X\|}_{F} \leq {\sqrt{r}{\| X\|}} \leq {\sqrt{\min{\{ m,n\}}} \cdot {\| X\|}}$ for matrix $X \in R^{m \times n}$ of rank $r$. Dividing both sides by $\sqrt{q}/2$, and using the fact that ${\| X\|}_{F} \geq {\| X\|}$, we obtain the first inequality in the lemma. ∎
+
+Now we are ready to establish the global convergence of the three proposed algorithms.
+
+Projected Gauss-Newton Nested-Gradient:
+
+First note that the projected Gauss-Newton nested-gradient update in (4.12) can be written as
+
+where we recall that $P^{GN}$ is the projection operator defined in (4.10) and the gradient mapping ${\hat{G}}_{L}^{\ast}$ is defined in (5.1). Since both $L_{t}$ and $L_{t + 1}$ lie in, by the lower bound in Lemma 6.7,𝐿) and (𝐾⁢(𝐿'),𝐿')). ‣ 6.3 Proof of Theorem 5.2 ‣ 6 Proofs of Main Results ‣ Policy Optimization Provably Converges to Nash Equilibria in Zero-Sum Linear Quadratic Games") and (6.24), we can bound the difference between $V_{L_{t + 1}}^{\ast}$ and $V_{L_{t}}^{\ast}$ as
+
+where ${\{ x_{\tau}^{\ast}\}}_{\tau \geq 0}$ is the state sequence generated by the control $({K{(L_{t + 1})}},L_{t + 1})$ with $x_{0}^{\ast} = x$. Taking expectation over $x_{0} \sim \mathcal{D}$, we have
+
+In the following, we bound the two terms on the right-hand side of (6.3) separately. For the first term, since $L_{t} \in$, applying the property of $P^{GN}$ in Lemma 6.3 with $L_{1} = {L_{t} + {{{2\eta} \cdot W_{L_{t}}^{- 1}}F_{L_{t}}^{\ast}}}$ and $L_{2} = L_{t}$ yields
+
+which implies that
+
+The first inequality uses triangle inequality. The last inequality uses the following facts: i) since $\sigma_{\min}{({}_{Lt}^{}} \geq \sigma_{\min}{(E_{x_{0} \sim \mathcal{D}}x_{0}x_{0}^{\top})} = \mu$ and ${\sigma_{\min}{(W_{L_{t}})}} \geq {\sigma_{\min}{(W_{L^{\ast}})}} = \nu$ (see Lemma 6.6. ‣ 6.1 Auxiliary Lemmas ‣ 6 Proofs of Main Results ‣ Policy Optimization Provably Converges to Nash Equilibria in Zero-Sum Linear Quadratic Games")), it follows that
+
+ii\) from Lemma 6.8. ‣ 6.3 Proof of Theorem 5.2 ‣ 6 Proofs of Main Results ‣ Policy Optimization Provably Converges to Nash Equilibria in Zero-Sum Linear Quadratic Games"), if
+
+is the infimum for the required upper-bound on $\|{L^{\prime} - L}\|$ in Lemma 6.8. ‣ 6.3 Proof of Theorem 5.2 ‣ 6 Proofs of Main Results ‣ Policy Optimization Provably Converges to Nash Equilibria in Zero-Sum Linear Quadratic Games"), i.e., (6.17. ‣ 6.3 Proof of Theorem 5.2 ‣ 6 Proofs of Main Results ‣ Policy Optimization Provably Converges to Nash Equilibria in Zero-Sum Linear Quadratic Games")), then the perturbation $\parallel {}_{L{t + 1}}^{}{}_{Lt}^{}$ can be bounded as
+
+iii\) Cauchy-Schwartz inequality yields
+
+Note that by definition (6.27), $\mathcal{K}^{L} > 0$ since it is the infimum of a strictly positive function of $L$ that is continuous over a compact set. Combined with the bound on $\|{\hat{G}}_{L_{t}}^{\ast}\|$ from Lemma 6.9, we further obtain the requirement for the stepsize $\eta$:
+
+Moreover, notice that
+
+where the first inequality is due to Cauchy-Schwartz inequality, and the second one follows from Lemma 6.6. ‣ 6.1 Auxiliary Lemmas ‣ 6 Proofs of Main Results ‣ Policy Optimization Provably Converges to Nash Equilibria in Zero-Sum Linear Quadratic Games") and the fact that ${\| X\|}_{F} \leq {\sqrt{r}{\| X\|}}$ for any matrix $X$ with rank $r$. Substituting (6.3) and (6.29) into (6.3) yields
+
+which gives us another requirement for the stepsize $\eta$:
+
+By requiring both (6.28) and (6.31), we can further bound (6.30) as
+
+Note that both the upper bounds in (6.28) and (6.31) are lower bounded above from zero, since the numerators of both bounds are constants, and the denominators are upper bounded for $L \in$, due to the boundedness of $P_{L}^{\ast}$, $\mathcal{C}{({K{(L)}},L)}$, and $L$. Summing up both sides of (6.32) from $0$ to $t \geq 1$ yields
+
+which shows that $({K{(L_{t})}},L_{t})$ converges to the NE with sublinear rate, namely, the sequence of the average of the gradient mapping norm square ${\left\{ {t^{- 1}\sum_{\tau = 0}^{t - 1}} \right\|\left. {{\hat{G}}_{L_{\tau}}^{\ast}\parallel}_{F}^{2} \right\}}_{t \geq 1}$ converges to zero with $\mathcal{O}{({1/t})}$ rate, so does the sequence $\left\{ {t^{- 1}{\sum_{\tau = 0}^{t - 1}\left\| {\hat{G}}_{L_{\tau}}^{\ast} \right\|^{2}}} \right\}_{t \geq 1}$.
+
+Projected Natural Nested-Gradient:
+
+The proof for the projected natural NG update (4.9) is similar. We will only cover the argument that is different from above. Note that (4.9) can be written as
+
+where $P^{NG}$ is defined in (4.10) with weight matrix ${}_{}^{}{}$ and ${\overset{\sim}{G}}_{L}^{\ast}$ is defined in (5.1). Then by Lemma 6.7,𝐿) and (𝐾⁢(𝐿'),𝐿')). ‣ 6.3 Proof of Theorem 5.2 ‣ 6 Proofs of Main Results ‣ Policy Optimization Provably Converges to Nash Equilibria in Zero-Sum Linear Quadratic Games") and taking expectation $x_{0} \sim \mathcal{D}$, we also have (6.3) but with ${\hat{G}}_{L}^{\ast}$ replaced by ${\overset{\sim}{G}}_{L}^{\ast}$. Then, by the property of $P^{NG}$ and letting $L_{1} = {L_{t} + {{2\eta} \cdot F_{L_{t}}^{\ast}}}$ and $L_{2} = L_{t}$ in Lemma 6.3 gives
+
+where the last inequality uses Lemma 6.8. ‣ 6.3 Proof of Theorem 5.2 ‣ 6 Proofs of Main Results ‣ Policy Optimization Provably Converges to Nash Equilibria in Zero-Sum Linear Quadratic Games"), which requires that ${\|{L_{t + 1} - L_{t}}\|} = {2\eta{\|{\overset{\sim}{G}}_{L_{t}}^{\ast}\|}} \leq \mathcal{K}^{L}$ (see $\mathcal{K}^{L}$ as defined in (6.27)). This further results in the following bound on the stepsize $\eta$, due to the bound on $\|{\overset{\sim}{G}}_{L_{t}}^{\ast}\|$ from Lemma 6.9:
+
+Moreover, we can have another requirement for $\eta$, similar to (6.31), as
+
+Thus, if $\eta$ satisfies (6.34) and (6.35), we have
+
+Summing up both sides of (6.36) from $0$ to $t \geq 1$ yields
+
+which completes the proof of $\mathcal{O}{({1/t})}$ convergence rate for the sequence $\left\{ {t^{- 1}{\sum_{\tau = 0}^{t - 1}\left\| {\overset{\sim}{G}}_{L_{\tau}}^{\ast} \right\|^{2}}} \right\}_{t \geq 1}$.
+
+The projected nested-gradient update (4.6) can be written as
+
+where $P^{GD}$ is defined in (4.7) and ${\check{G}}_{L}^{\ast}$ is defined in (5.1). By the property of $P^{GD}$ and Lemma 6.3, we have
+
+which implies that
+
+if, by Lemma 6.8. ‣ 6.3 Proof of Theorem 5.2 ‣ 6 Proofs of Main Results ‣ Policy Optimization Provably Converges to Nash Equilibria in Zero-Sum Linear Quadratic Games"), ${\|{L_{t + 1} - L_{t}}\|} = {2\eta{\|{\check{G}}_{L_{t}}^{\ast}\|}} \leq \mathcal{K}^{L}$ holds. By the bound on $\|{\check{G}}_{L_{t}}^{\ast}\|$ from Lemma 6.9, we further require
+
+Also, similar to (6.31), we also require
+
+Thus, if $\eta$ satisfies (6.37) and (6.38), we have
+
+Summing up both sides of (6.39) from $0$ to $t \geq 1$ yields the desired $\mathcal{O}{({1/t})}$ convergence rate for the sequence $\left\{ {t^{- 1}{\sum_{\tau = 0}^{t - 1}\left\| {\check{G}}_{L_{\tau}}^{\ast} \right\|^{2}}} \right\}_{t \geq 1}$, which thus completes the proof. ∎
+
+### Proof of Theorem 5.3. ‣ 5 Convergence Results ‣ Policy Optimization Provably Converges to Nash Equilibria in Zero-Sum Linear Quadratic Games")
+
+Now we analyze the *locally linear* convergence rates of the proposed algorithms.
+
+Projected Gauss-Newton Nested-Gradient:
+
+First, by Assumption 2.1 and the definition of in (4.8), $L^{\ast}$ is an interior point of. Letting $L^{\prime} = L^{\ast}$ and $L = L_{t}$ in the upper bound of Lemma 6.7,𝐿) and (𝐾⁢(𝐿'),𝐿')). ‣ 6.3 Proof of Theorem 5.2 ‣ 6 Proofs of Main Results ‣ Policy Optimization Provably Converges to Nash Equilibria in Zero-Sum Linear Quadratic Games"), we have
+
+where ${\overset{\sim}{K}}_{t}$ is defined as follows
+
+and the second inequality follows by completing squares. Note that the correlation matrix $_{{\overset{\sim}{K}}_{t},L^{\ast}}$ may be unbounded, since the control pair $({\overset{\sim}{K}}_{t},L^{\ast})$, where ${\overset{\sim}{K}}_{t}$ is generated by $L_{t}$, may not be stabilizing, unless $L_{t}$ is close to $L^{\ast}$, since we know by Assumption 2.1 that $(K^{\ast},L^{\ast})$ is stabilizing. In fact, by the continuity of $P_{L}^{\ast}$ w.r.t. $L$ from Lemma 6.4, and the continuity of $\rho{({A - {BK} - {CL^{\ast}}})}$ w.r.t. $K$, there exists a ball centered at $L^{\ast}$ with radius $\omega_{1} > 0$, denoted by $\mathcal{B}{(L^{\ast},\omega_{1})}$, such that ${\mathcal{B}{(L^{\ast},\omega_{1})}} \subseteq$, and for any $L_{t} \in {\mathcal{B}{(L^{\ast},\omega_{1})}}$, ${\rho{({A - {B{\overset{\sim}{K}}_{t}} - {CL^{\ast}}})}} < 1$, i.e., $({\overset{\sim}{K}}_{t},L^{\ast})$ is stabilizing. Thus by Lemma 6.6. ‣ 6.1 Auxiliary Lemmas ‣ 6 Proofs of Main Results ‣ Policy Optimization Provably Converges to Nash Equilibria in Zero-Sum Linear Quadratic Games"), (6.4) can be bounded as
+
+for some constant $\vartheta \geq 0$, where the last inequality is due to the continuity of $P_{K,L}$, and thus ${\mathcal{C}{(K,L)}} = {\operatorname{Tr}{({{}_{}^{}{}_{K,L}^{}})}}$ where ${}_{}^{}Ex_{0}x_{0}^{\top}$, w.r.t. $K$, for given $L$, from Lemma 6.5.
+
+On the other hand, due to the continuity of $P_{L}^{\ast}$ from Lemma 6.4, ${\mathcal{C}{({K{(L)}},L)}} = {\operatorname{Tr}{({{}_{}^{}{}_{}^{}})}}$ is continuous w.r.t. $L$ for any $L \in$. Let $\overline{\mathcal{C}} = {\sup_{L \in \partial}{\mathcal{C}{({K{(L)}},L)}}}$, where $\partial$ denotes the boundary of the set. Then by continuity and the uniqueness of the maximizer $L^{\ast}$, there exists some $L_{t} \in {\mathcal{B}{(L^{\ast},\omega_{1})}}$ around $L^{\ast}$ such that $\overline{\mathcal{C}} < {\mathcal{C}{({K{(L_{t})}},L_{t})}} < {\mathcal{C}{(K^{\ast},L^{\ast})}}$, and the upper-level set $\mathcal{A}^{L_{t}}:=\left. \{ L \middle| {{\mathcal{C}{({K{(L)}},L)}} \geq {\mathcal{C}{({K{(L_{t})}},L_{t})}}}\} \right.$ lies in $\mathcal{B}{(L^{\ast},\omega_{1})}$ (thus also lies in ). Since $\mathcal{C}{(K^{\ast},L^{\ast})}$ is the upper bound of $\mathcal{C}{({K{(L)}},L)}$, the upper-level set $\mathcal{A}^{L_{t}}$ is compact. Also, letting ${}_{}^{}R^{m_{2} \times d}/{\{/\partial\}}$, then we know that ${}_{}^{}{\{ L|\lambda_{\max}{(L^{\top}R^{v}L - Q + \zeta \cdot I)} \geq 0\}}$, which is closed since $\lambda_{\max}{( \cdot )}$ is a continuous function. Thus, by Lemma B.6, there exists a distance $\omega_{2} > 0$ between the disjoint sets $\mathcal{A}^{L_{t}}$ and ^c^. Thus, for any $L_{t + 1}$ such that ${\|{L_{t + 1} - L_{t}}\|} \leq \omega_{2}$, $L_{t + 1}$ belongs to, namely, the projection is ineffective, i.e., ${P^{GN}{(L_{t + 1})}} = L_{t + 1}$. Letting $L_{t + 1} = {L_{t} + {2\etaW_{L_{t}}^{- 1}F_{L_{t}}^{\ast}}}$. In addition, we have
+
+where the second inequality follows from (6.23) in the proof of Lemma 6.9, and the fact that $\parallel {}_{}^{\ast {- 1}} = \sigma_{\min}^{- 1}\left( {}_{}^{} \right.$. By Lemma 6.9, we further have
+
+Also, notice that
+
+Thus, by (6.42) and (6.43), to ensure ${\|{L_{t + 1} - L_{t}}\|} \leq \omega_{2}$ we require
+
+which can be satisfied by the following sufficient condition
+
+where ${\| W_{L}\|} \leq {\| R^{v}\|}$ by Lemma 6.6. ‣ 6.1 Auxiliary Lemmas ‣ 6 Proofs of Main Results ‣ Policy Optimization Provably Converges to Nash Equilibria in Zero-Sum Linear Quadratic Games"). Note that the bound in (6.44) is independent of $L$.
+
+In sum, as long as $\eta$ satisfies (6.44), we know that $L_{t + 1} = {L_{t} + {2\etaW_{L}^{- 1}F_{L}^{\ast}}}$ still lies in. Hence, by the lower bound in Lemma 6.7,𝐿) and (𝐾⁢(𝐿'),𝐿')). ‣ 6.3 Proof of Theorem 5.2 ‣ 6 Proofs of Main Results ‣ Policy Optimization Provably Converges to Nash Equilibria in Zero-Sum Linear Quadratic Games"), we have
+
+provided that the stepsize $\eta \leq {1/2}$.
+
+Combining (6.41) and (6.4) yields
+
+which further leads to
+
+That is, the sequence ${\{{\mathcal{C}\left( {K{(L_{t})}},L_{t} \right)}\}}_{t \geq 0}$ converges to $\mathcal{C}{(K^{\ast},L^{\ast})}$ with linear rate, provided that
+
+where we use that ${\mathcal{C}{({K{(L_{t})}},L_{t})}} \leq {\mathcal{C}{(K^{\ast},L^{\ast})}}$ and $W_{L_{t}} \leq R^{v}$. Thus, (6.46) also implies the locally linear convergence rate of ${\{{\|{{\nabla_{L}\overset{\sim}{\mathcal{C}}}{(L_{t})}}\|}^{2}\}}_{t \geq 0}$, which completes the proof.
+
+Projected Natural Nested-Gradient:
+
+The proof for projected natural nested-gradient is similar to the one above. (6.41) and (6.42) still hold. Now since the update becomes $L_{t + 1} = {L_{t} + {2\etaF_{L_{t}}^{\ast}}}$, to ensure ${\|{L_{t + 1} - L_{t}}\|} \leq \omega_{2}$ we require
+
+which can be satisfied by
+
+Then, by the lower bound in Lemma 6.7,𝐿) and (𝐾⁢(𝐿'),𝐿')). ‣ 6.3 Proof of Theorem 5.2 ‣ 6 Proofs of Main Results ‣ Policy Optimization Provably Converges to Nash Equilibria in Zero-Sum Linear Quadratic Games"), it follows that
+
+where the second inequality is due to ${\| W_{L_{t}}\|} \leq {\| R^{v}\|}$ from Lemma 6.6. ‣ 6.1 Auxiliary Lemmas ‣ 6 Proofs of Main Results ‣ Policy Optimization Provably Converges to Nash Equilibria in Zero-Sum Linear Quadratic Games"), and the last inequality holds if $\eta \leq {1/{({2{\| R^{v}\|}})}}$. Note that (6.41) further gives
+
+which combined with (6.4) yields
+
+Therefore, the linear convergence rate follows as
+
+provided that the stepsize $\eta$ satisfies
+
+Note that (6.50) also implies the locally linear rate of ${\{{\|{{\nabla_{L}\overset{\sim}{\mathcal{C}}}{(L_{t})}}\|}^{2}\}}_{t \geq 0}$, completing the proof.
+
+By (6.22) and Lemma 6.9, we have
+
+Since the update becomes $L_{t + 1} = L_{t} + 2\eta F_{L_{t}}^{\ast}_{L_{t}}^{\ast}$, to ensure ${\|{L_{t + 1} - L_{t}}\|} \leq \omega_{2}$, we require
+
+Then, applying Lemma 6.7,𝐿) and (𝐾⁢(𝐿'),𝐿')). ‣ 6.3 Proof of Theorem 5.2 ‣ 6 Proofs of Main Results ‣ Policy Optimization Provably Converges to Nash Equilibria in Zero-Sum Linear Quadratic Games") we have
+
+By recalling Lemma 6.8. ‣ 6.3 Proof of Theorem 5.2 ‣ 6 Proofs of Main Results ‣ Policy Optimization Provably Converges to Nash Equilibria in Zero-Sum Linear Quadratic Games") and the definition of $\mathcal{K}^{L}$ in (6.27), if $\eta$ makes $\parallel L_{t + 1} - L_{t} \parallel = 2\eta \parallel F_{L_{t}}^{\ast}{}_{Lt}^{} \leq \mathcal{K}^{L}$, i.e.,
+
+then it follows that
+
+then $\parallel {}_{L{t + 1}}^{}{}_{Lt}^{}/\mu \leq 1/4$, which also implies that
+
+Thus, we can bound $\parallel {}_{L{t + 1}}^{} \leq 4\mathcal{C}{(K{(L_{t})},L_{t})}/{(3\zeta)}$. Then if $\eta$ further satisfies
+
+we have $1 - \eta \parallel R^{v} \parallel \cdot \parallel {}_{L{t + 1}}^{} - \parallel {}_{L{t + 1}}^{}{}_{Lt}^{}/\mu \geq 1 - 1/4 - 1/4 = 1/2,$ which establishes the bound in (6.4) as
+
+On the other hand, by (6.49), we also have
+
+Combining (6.57) and (6.58) yields
+
+which gives the locally linear convergence rate if
+
+In sum, there exists some $\eta$ that satisfies (6.52), (6.54), (6.55), (6.56), and (6.59), to guarantee the locally linear convergence rates of both ${\{{\mathcal{C}\left( {K{(L_{t})}},L_{t} \right)}\}}_{t \geq 0}$ and ${\{{\|{{\nabla_{L}\overset{\sim}{\mathcal{C}}}{(L_{t})}}\|}^{2}\}}_{t \geq 0}$, which concludes the proof. ∎
+
+## Simulation Results
+
+In this section, we provide some numerical results to show the superior convergence property of several PO methods. We consider two settings referred to as Case $1$ and Case $2$, which are created based on the simulations in Al-Tamimi et al., with
+
+and $R^{u} = R^{v} = I$, ${}_{}^{}0.03 \cdot I.$ We choose $Q = I$ and $C = \lbrack 0.00951892,0.0038373,0.001\rbrack^{\top}$ for Case $1$; while $Q = {0.01 \cdot I}$ and $C = \lbrack 0.00951892,0.0038373,0.2\rbrack^{\top}$ for Case $2$. By direct calculation, we have that
+
+Thus, one can easily check that ${R^{v} - {C^{\top}P^{\ast}C}} > 0$ is satisfied for both Case $1$ and Case $2$, i.e., Assumption 2.1 i) holds. However, for Case $1$, ${\lambda_{\min}{({Q - {{(L^{\ast})}^{\top}R^{v}L^{\ast}}})}} = 0.8739 > 0$ satisfies Assumption 2.1 ii); for Case $2$, ${\lambda_{\min}{({Q - {{(L^{\ast})}^{\top}R^{v}L^{\ast}}})}} = {- 0.0011} < 0$ fails to satisfy it.
+
+In both settings, we evaluate the convergence performance of not only our nested-gradient methods, but also two types of their variants, alternating-gradient (AG) and gradient-descent-ascent (GDA) methods. AG methods are based on the nested-gradient methods, but at each outer-loop iteration, the inner-loop gradient-based updates only perform a finite number of iterations, instead of converging to the exact solution $K{(L_{t})}$ as nested-gradient methods, which follows the idea in. The GDA methods perform policy gradient descent for the minimizer and ascent for the maximizer simultaneously. Detailed updates of these two types of methods are deferred to §C.
+
+(b) Grad. Mapp. Norm Square
+(c) $\lambda_{\min}{({\overset{\sim}{Q}}_{L})}$
+
+Figure 1: Performance of the three projected NG methods for Case 1 where Assumption 2.1 ii) is satisfied. (a) shows the monotone convergence of the expected cost 𝒞 (K (L),L) to the NE cost 𝒞 (K*,L*); (b) shows the convergence of the gradient mapping norm square; (c) shows the change of the smallest eigenvalue of ${\overset{\sim}{Q}}_{L} = {Q - {L^{\top}R^{v}L}}$.
+
+Figure 2: Convergence of the cost for Case 2 where Assumption 2.1 ii) is not satisfied. (a), (b), and (c) show convergence of the NG, AG, and GDA methods, respectively.
+
+Figure 1 shows that for Case $1$, our nested-gradient methods indeed enjoy the global convergence to the NE. The cost $\mathcal{C}{({K{(L)}},L)}$ monotonically increases to that at the NE, and the convergence rate of natural NG sits between that of the other two NG methods. Also, we note that the convergence rates of gradient mapping square in (b) are linear, which are due to (c) that $\lambda{({\overset{\sim}{Q}}_{L})}$ is always positive along the iteration, i.e., the projection is not effective. This way, our convergence results follow from the local convergence rates in Theorem 5.3. ‣ 5 Convergence Results ‣ Policy Optimization Provably Converges to Nash Equilibria in Zero-Sum Linear Quadratic Games"), although the initialization is random (global). We have also shown in Figure 2 that even without Assumption 2.1 ii), i.e., in Case $2$, all the PO methods mentioned successfully converge to the NE, although the cost sequences do not converge monotonically. This motivates us to provide theory for other policy optimization methods, also for more general settings of LQ games. We note that no projection was imposed when implementing these algorithms in all our experiments, which justifies that the projection here is just for the purpose of theoretical analysis. In fact, we have not found an instance of LQ games that makes the projections effective as the algorithms proceed. This motivates the theoretical study of *projection-free* algorithms in our future work. More simulation results can be found in §C.
+
+## Concluding Remarks
+
+This paper has developed policy optimization methods, specifically, projected nested-gradient methods, to solve for the Nash equilibria of zero-sum LQ games. In spite of the nonconvexity-nonconcavity of the problem, the gradient-based algorithms have been shown to converge to the NE with globally sublinear and locally linear rates. This work appears to be the first one showing that policy optimization methods can converge to the NE of a class of zero-sum Markov games, with finite-iteration analyses. Interesting simulation results have demonstrated the superior convergence property of our algorithms, even without the projection operator, and that of the gradient-descent-ascent algorithms with simultaneous updates of both players, even when Assumption 2.1 ii) is relaxed. Based on both the theory and simulation, future directions include convergence analysis for the setting under a relaxed version of Assumption 2.1, and that for the projection-free versions of the algorithms, which we believe can be done by the techniques in our recent work Zhang et al.. Besides, developing policy optimization methods for general-sum LQ games is another interesting yet challenging future direction.

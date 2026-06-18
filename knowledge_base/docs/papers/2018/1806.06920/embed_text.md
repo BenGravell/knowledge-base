@@ -1,0 +1,163 @@
+## Introduction
+
+Model free reinforcement learning algorithms can acquire sophisticated behaviours by interacting with the environment while receiving simple rewards. Recent experiments successfully combined these algorithms with powerful deep neural-network approximators while benefiting from the increase of compute capacity.
+
+Unfortunately, the generality and flexibility of these algorithms comes at a price: They can require a large number of samples and -- especially in continuous action spaces -- suffer from high gradient variance. Taken together these issues can lead to unstable learning and/or slow convergence. Nonetheless, recent years have seen significant progress, with improvements to different aspects of learning algorithms including stability, data-efficiency and speed, enabling notable results on a variety of domains, including locomotion, multi-agent behaviour and classical control.
+
+Two types of algorithms currently dominate scalable learning for continuous control problems: First, Trust-Region Policy Optimisation and the derivative family of Proximal Policy Optimisation algorithms. These policy-gradient algorithms are on-policy by design, reducing gradient variance through large batches and limiting the allowed change in parameters. They are robust, applicable to high-dimensional problems, and require moderate parameter tuning, making them a popular first choice. However, as on-policy algorithms, they suffer from poor sample efficiency.
+
+In contrast, off-policy value-gradient algorithms such as the Deep Deterministic Policy Gradient, Stochastic Value Gradient, and the related Normalized Advantage Function formulation rely on experience replay and learned (action-)value functions. These algorithms exhibit much better data efficiency, approaching the regime where experiments with real robots are possible. While also popular, these algorithms can be difficult to tune, especially for high-dimensional domains like general robot manipulation tasks.
+
+In this paper we propose a novel off-policy algorithm that benefits from the best properties of both classes. It exhibits the scalability, robustness and hyperparameter insensitivity of on-policy algorithms, while offering the data-efficiency of off-policy, value-based methods.
+
+To derive our algorithm, we take advantage of the duality between control and estimation by using Expectation Maximisation (EM), a powerful tool from the probabilistic estimation toolbox, in order to solve control problems. This duality can be understood as replacing the question "what are the actions which maximise future rewards?" with the question "assuming future success in maximising rewards, what are the actions most likely to have been taken?". By using this estimation objective we have more control over the policy change in both E and M steps, yielding robust learning. We show below that several algorithms, including TRPO, can be directly related to this perspective. We leverage the fast convergence properties of EM-style coordinate ascent by alternating a non-parametric data-based E-step which re-weights state-action samples, with a supervised, parametric M-step using deep neural networks.
+
+In contrast to typical off-policy value-gradient algorithms, the new algorithm does not require gradient of the Q-function to update the policy. Instead it uses samples from the Q-function to compare different actions in a given state. And subsequently it updates the policy such that better actions in that state will have better probabilities to be chosen.
+
+We evaluate our algorithm on a broad spectrum of continuous control problems including a 56 DoF humanoid body. All experiments used the same optimisation hyperparameters ^11^1With the exception of the number of samples collected between updates.. Our algorithm shows remarkable data efficiency often solving the tasks we consider an order of magnitude faster than the state-of-the-art. A video of some resulting behaviours can be found here [youtu.be/he_BPw32PwU](https://youtu.be/he_BPw32PwU).
+
+## Background and Notation
+
+### Related Work
+
+Casting Reinforcement Learning (RL) as an inference problem has a long history dating back at least two decades. The framework presented here is inspired by a variational inference perspective on RL that has previously been utilised in multiple studies; c.f. Dayan & Hinton; Neumann; Deisenroth et al.; Rawlik et al.; Levine & Koltun; Florensa et al..
+
+Particular attention has been paid to obtaining maximum entropy policies as the solution to an inference problem. The penalisation of determinism can be seen encouraging both robustness and simplicity. Among these are methods that perform trajectory optimisation using either linearised dynamics or general dynamics as in path integral control. In contrast to these algorithms, here we do not assume the availability of a transition model and avoid on-policy optimisation. A number of other authors have considered the same perspective but in a model-free RL setting or inverse RL problems. These algorithms are more directly related to our work and can be cast in the same (EM-like) alternating optimisation scheme on which we base our algorithm. However, they typically lack the maximisation (M)-step -- with the prominent exception of REPS, AC-REPS, PI^2^-GPS and MDGPS to which our algorithm is closely related as outlined below. An interesting recent addition to these approaches is an EM-perspective on the PoWER algorithm which uses the same iterative policy improvement employed here, but commits to parametric inference distributions and avoids an exponential reward transformation, resulting in a harder to optimise lower bound.
+
+As an alternative to these policy gradient inspired algorithms, the class of recent algorithms for soft Q-learning (e.g. Rawlik et al.; Haarnoja et al.; Fox et al. parameterise and estimate a so called "soft" Q-function directly, implicitly inducing a maximum entropy policy. A perspective that can also be extended to hierarchical policies, and has recently been used to establish connections between Q-learning and policy gradient methods. In contrast, we here rely on a parametric policy, our bound and derivation is however closely related to the definition of the soft (entropy regularised) Q-function.
+
+A line of work, that is directly related to the "RL as inference" perspective, has focused on using information theoretic regularisers such as the entropy of the policy or the Kullback-Leibler divergence (KL) between policies to stabilise standard RL objectives. In fact, most state-of-the-art policy gradient algorithms fall into this category. For example see the entropy regularization terms used in Mnih et al. or the KL constraints employed by work on trust-region based methods. The latter methods introduce a trust region constraint, defined by the KL divergence between the new policy and the old policy, so that the expected KL divergence over state space is bounded. From the perspective of this paper these trust-region based methods can be seen as optimising a parametric E-step, as in our algorithm, but are "missing" an explicit M-step.
+
+Finally, the connection between RL and inference has been invoked to motivate work on exploration. The most prominent examples for this are formed by work on Boltzmann exploration such as Kaelbling et al.; Perkins & Precup; Sutton; O'Donoghue et al., which can be connected back to soft Q-learning (and thus to our approach) as shown in Haarnoja et al..
+
+### Markov decision Processes
+
+We consider the problem of finding an optimal policy $\pi$ for a discounted reinforcement learning (RL) problem; formally characterized by a Markov decision process (MDP). The MDP consists of: continuous states $s$, actions $a$, transition probabilities $p{(\left. s_{t + 1} \middle| {s_{t},a_{t}} \right.)}$ -- specifying the probability of transitioning from state $s_{t}$ to $s_{t + 1}$ under action $a_{t}$ --, a reward function ${r{(s,a)}} \in {\mathbb{R}}$ as well as the discounting factor $\gamma \in {\lbrack 0,1)}$. The policy $\pi{(\left. a \middle| {s,{\mathbf{θ}}} \right.)}$ (with parameters $\mathbf{θ}$) is assumed to specify a probability distribution over action choices given any state and -- together with the transition probabilities -- gives rise to the stationary distribution $\mu_{\pi}{(s)}$.
+
+Using these basic quantities we can now define the notion of a Markov sequence or trajectory $\tau_{\pi} = {\{{{(s_{0},a_{0})}\ldots{(s_{T},a_{T})}}\}}$ sampled by following the policy $\pi$; i.e. $\tau_{\pi} \sim {p_{\pi}{(\tau)}}$ with ${p_{\pi}{(\tau)}} = {p{(s_{0})}{\prod_{t>=0}{p{(\left. s_{t + 1} \middle| {s_{t},a_{t}} \right.)}\pi{(\left. a_{t} \middle| s_{t} \right.)}}}}$; and the expected return ${\mathbb{E}}_{\tau_{\pi}}{\lbrack{\sum_{t = 0}^{\infty}{\gamma^{t}r{(s_{t},s_{t})}}}\rbrack}$. We will use the shorthand $r_{t} = {r{(s_{t},a_{t})}}$.
+
+## Maximum a Posteriori Policy Optimisation
+
+Our approach is motivated by the well established connection between RL and probabilistic inference. This connection casts the reinforcement learning problem as that of inference in a particular probabilistic model. Conventional formulations of RL aim to find a trajectory that maximizes expected reward. In contrast, inference formulations start from a prior distribution over trajectories, condition a desired outcome such as achieving a goal state, and then estimate the posterior distribution over trajectories consistent with this outcome.
+
+A finite-horizon undiscounted reward formulation can be cast as inference problem by constructing a suitable probabilistic model via a likelihood function ${p{({O = \left. 1 \middle| \tau \right.})}} \propto {\exp{({\left. \sum{}_{t}r_{t} \right./\alpha})}}$, where $\alpha$ is a temperature parameter. Intuitively, $O$ can be interpreted as the event of obtaining maximum reward by choosing an action; or the event of succeeding at the RL task. With this definition we can define the following lower bound on the likelihood of optimality for the policy $\pi$:
+
+where $p_{\pi}$ is the trajectory distribution induced by policy $\pi{(\left. a \middle| s \right.)}$ as described in section 2.2 and $q{(\tau)}$ is an auxiliary distribution over trajectories that will discussed in more detail below. The lower bound $\mathcal{J}$ is the evidence lower bound (ELBO) which plays an important role in the probabilistic modeling literature. It is worth already noting here that optimizing with respect to $q$ can be seen as a KL regularized RL problem.
+
+An important motivation for transforming a RL problem into an inference problem is that this allows us draw from the rich toolbox of inference methods: For instance, $\mathcal{J}$ can be optimized with the familiy of expectation maximization (EM) algorithms which alternate between improving $\mathcal{J}$ with respect to $q$ and $\pi$. In this paper we follow classical and more recent works and cast policy search as a particular instance of this family. Our algorithm then combines properties of existing approaches in this family with properties of recent off-policy algorithms for neural networks.
+
+The algorithm alternates between two phases which we refer to as E and M step in reference to an EM-algorithm. The E-step improves $\mathcal{J}$ with respect to $q$. Existing EM policy search approaches perform this step typically by reweighting trajectories with sample returns or via local trajectory optimization. We show how off-policy deep RL techniques and value-function approximation can be used to make this step both scalable as well as data efficient. The M-step then updates the parametric policy in a supervised learning step using the reweighted state-action samples from the E-step as targets.
+
+These choices lead to the following desirable properties: (a) low-variance estimates of the expected return via function approximation; (b) low-sample complexity of value function estimate via robust off-policy learning; (c) minimal parametric assumption about the form of the trajectory distribution in the E-step; (d) policy updates via supervised learning in the M step; (e) robust updates via hard trust-region constraints in both the E and the M step.
+
+### Policy Improvement
+
+The derivation of our algorithm then starts from the infinite-horizon analogue of the KL-regularized expected reward objective from Equation. In particular, we consider variational distributions $q{(\tau)}$ that factor in the same way as $p_{\pi}$, i.e. ${q{(\tau)}} = {p{(s_{0})}{\prod_{t > 0}{p{(\left. s_{t + 1} \middle| {s_{t},a_{t}} \right.)}q{(\left. a_{t} \middle| s_{t} \right.)}}}}$ which yields:
+
+Note that due to the assumption about the structure of $q{(\tau)}$ the KL over trajectories decomposes into a KL over the individual state-conditional action distributions. This objective has also been considered e.g. by Haarnoja et al.; Schulman et al.. The additional ${\log p}{({\mathbf{θ}})}$ term is a prior over policy parameters and can be motivated by a maximum a-posteriori estimation problem (see appendix for more details).
+
+We also define the regularized Q-value function associated with as
+
+with $\left. \text{KL}\left( q_{t}||\pi_{t} \right) = \text{KL}\left( q{(a|s_{t})} \right) \parallel \pi{(a|s_{t},{\mathbf{θ}})} \right)$. Note that $\text{KL}\left( q_{0}||\pi_{0} \right)$ and $p{(\theta)}$ are not part of the Q-function as they are not a function of the action.
+
+We observe that optimizing $\mathcal{J}$ with respect to $q$ is equivalent to solving an expected reward RL problem with augmented reward ${\overset{\sim}{r}}_{t} = {r_{t} - {\alpha{\log\frac{q{(\left. a_{t} \middle| s_{t} \right.)}}{\pi{(\left. a_{t} \middle| {s_{t},{\mathbf{θ}}} \right.)}}}}}$. In this view $\pi$ represents a default policy towards which $q$ is regularized -- i.e. the current best policy. The MPO algorithm treats $\pi$ as the primary object of interest. In this case $q$ serves as an auxiliary distribution that allows optimizing $\mathcal{J}$ via alternate coordinate ascent in $q$ and $\pi_{\mathbf{θ}}$, analogous to the expectation-maximization algorithm in the probabilistic modelling literature. In our case, the E-step optimizes $\mathcal{J}$ with respect to $q$ while the M-step optimizes $\mathcal{J}$ with respect to $\pi$. Different optimizations in the E-step and M-step lead to different algorithms. In particular, we note that for the case where $p{({\mathbf{θ}})}$ is an uninformative prior a variant of our algorithm has a monotonic improvement guarantee as show in the Appendix A.
+
+### E-Step
+
+In the E-step of iteration $i$ we perform a partial maximization of $\mathcal{J}{(q,{\mathbf{θ}})}$ with respect to $q$ given $\theta = \theta_{i}$. We start by setting $q = \pi_{{\mathbf{θ}}_{i}}$ and estimate the unregularized action-value function:
+
+since ${KL}{(q||\pi_{i})} = 0$. In practice we estimate $Q_{{\mathbf{θ}}_{i}}$ from off-policy data (we refer to Section 4 for details about the policy evaluation step). This greatly increases the data efficiency of our algorithm. Given $Q_{{\mathbf{θ}}_{i}}$ we improve the lower bound $\mathcal{J}$ w.r.t. $q$ by first expanding $Q_{{\mathbf{θ}}_{i}}{(s,a)}$ via the regularized Bellman operator $T^{\pi,q} = {{\mathbb{E}}_{q{({a|s})}}\left\lbrack {{{r{(s,a)}} - {\alpha\text{KL}{({q \parallel \pi_{i}})}}} + {\gamma{\mathbb{E}}_{p{({s^{\prime}|{s,a}})}}{\lbrack{V_{{\mathbf{θ}}_{i}}{(s^{\prime})}}\rbrack}}}\rbrack \right.}$, and optimize the "one-step" KL regularised objective
+
+since ${V_{{\mathbf{θ}}_{i}}{(s)}} = {{\mathbb{E}}_{q{({a|s})}}{\lbrack{Q_{{\mathbf{θ}}_{i}}{(s,a)}}\rbrack}}$ and thus ${Q_{{\mathbf{θ}}_{i}}{(s,a)}} = {{r{(s,a)}} + {\gammaV_{{\mathbf{θ}}_{i}}{(s)}}}$.
+
+Maximizing Equation, thus obtaining $q_{i} = {{\arg{\max\overline{\mathcal{J}}}}{(q,\theta_{i})}}$, does not fully optimize $\mathcal{J}$ since we treat $Q_{\theta_{i}}$ as constant with respect to $q$. An intuitive interpretation $q_{i}$ is that it chooses the soft-optimal action for one step and then resorts to executing policy $\pi$. In the language of the EM algorithm this optimization implements a partial E-step. In practice we also choose $\mu_{q}$ to be the stationary distribution as given through samples from the replay buffer.
+
+### Constrained E-step
+
+The reward and the KL terms are on an arbitray relative scale. This can make it difficult to choose $\alpha$. We therefore replace the soft KL regularization with a hard constraint with parameter $\epsilon$, i.e,
+
+If we choose to explicitly parameterize $q{(\left. a \middle| s \right.)}$ -- option 1 below -- the resulting optimisation is similar to that performed by the recent TRPO algorithm for continuous control; only in an off-policy setting. Analogously, the unconstrained objective is similar to the objective used by PPO. We note, however, that the KL is reversed when compared to the KL used by TRPO and PPO.
+
+To implement we need to choose a form for the variational policy $q{(\left. a \middle| s \right.)}$. Two options arise:
+
+We can use a parametric variational distribution $q{(\left. a \middle| {s,{\mathbf{θ}}^{q}} \right.)}$, with parameters ${\mathbf{θ}}^{q}$, and optimise Equation via the likelihood ratio or action-value gradients. This leads to an algorithm similar to TRPO/PPO and an explicit M-step becomes unnecessary (see. Alg. 3).
+
+We can choose a non-parametric representation of $q{(\left. a \middle| s \right.)}$ given by sample based distribution over actions for a state $s$. To achieve generalization in state space we then fit a parametric policy in the M-step. This is possible since in our framework the optimisation of Equation is only the first step of an EM procedure and we thus do not have to commit to a parametric distribution that generalises across the state space at this point.
+
+Fitting a parametric policy in the M-step is a supervised learning problem, allowing us to employ various regularization techniques at that point. It also makes it easier to enforce the hard KL constraint.
+
+### Non parametric variational distribution
+
+In the non-parametric case we can obtain the optimal sample based $q$ distribution over actions for each state -- the solution to Equation -- in closed form (see the appendix for a full derivation), as,
+
+where we can obtain $\eta^{\ast}$ by minimising the following convex dual function,
+
+after the optimisation of which we can evaluate $q_{i}{(\left. a \middle| s \right.)}$ on given samples.
+
+This optimization problem is similar to the one solved by relative entropy policy search (REPS) with the difference that we optimise only for the conditional variational distribution $q{(\left. a \middle| s \right.)}$ instead of a joint distribution $q{(a,s)}$ -- effectively fixing $\mu_{q}{(s)}$ to the stationary distribution given by previously collected experience -- and we use the Q function of the old policy to evaluate the integral over $a$. While this might seem unimportant it *is crucial* as it allows us to estimate the integral over actions with multiple samples without additional environment interaction. This greatly reduces the variance of the estimate and allows for fully off-policy learning at the cost of performing only a partial optimization of $\mathcal{J}$ as described above.
+
+### M-step
+
+Given $q_{i}$ from the E-step we can optimize the lower bound $\mathcal{J}$ with respect to $\mathbf{θ}$ to obtain an updated policy ${\mathbf{θ}}_{i + 1} = {{\arg{\max_{\mathbf{θ}}\mathcal{J}}}{(q_{i},{\mathbf{θ}})}}$. Dropping terms independent of $\mathbf{θ}$ this entails solving for the solution of
+
+which corresponds to a weighted maximum a-posteriroi estimation (MAP) problem where samples are weighted by the variational distribution from the E-step. Since this is essentially a supervised learning step we can choose any policy representation in combination with any prior for regularisation. In this paper we set $p{({\mathbf{θ}})}$ to a Gaussian prior around the current policy, i.e, ${{p{({\mathbf{θ}})}} \approx {\mathcal{N}\left( {{\mu = {\mathbf{θ}}_{i}},{\Sigma = \frac{F_{{\mathbf{θ}}_{i}}}{\lambda}}} \right)}},$ where ${\mathbf{θ}}_{i}$ are the parameters of the current policy distribution, $F_{{\mathbf{θ}}_{i}}$ is the empirical Fisher information matrix and $\lambda$ is a positive scalar.
+
+As shown in the appendix this suggests the following generalized M-step:
+
+which can be re-written as the hard constrained version:
+
+This additional constraint minimises the risk of overfitting the samples, i.e. it helps us to obtain a policy that generalises beyond the state-action samples used for the optimisation. In practice we have found the KL constraint in the M step to greatly increase stability of the algorithm. We also note that in the E-step we are using the reverse, mode-seeking, KL while in the M-step we are using the forward, moment-matching, KL which reduces the tendency of the entropy of the parametric policy to collapse. This is in contrast to other RL algorithms that use M-projection without KL constraint to fit a parametric policy. Using KL constraint in M-step has also been shown effective for stochastic search algorithms.
+
+## Policy Evaluation
+
+Our method is directly applicable in an off-policy setting. For this, we have to rely on a stable policy evaluation operator to obtain a parametric representation of the Q-function $Q_{\theta}{(s,a)}$. We make use of the policy evaluation operator from the Retrace algorithm Munos et al., which we found to yield stable policy evaluation in practice^22^2We note that, despite this empirical finding, Retrace may not be guaranteed to be stable with function approximation.. Concretely, we fit the Q-function $Q_{\theta_{i}}{(s,a,\phi)}$ as represented by a neural network, with parameters $\phi$, by minimising the squared loss:
+
+where $Q_{\phi^{\prime}}{(s,a)}$ denotes the output of a target Q-network, with parameters $\phi^{\prime}$, that we copy from the current parameters $\phi$ after each M-step. We truncate the infinite sum after $N$ steps by bootstrapping with $Q_{\phi^{\prime}}$ (rather than considering a $\lambda$ return). Additionally, $b{(\left. a \middle| s \right.)}$ denotes the probabilities of an arbitrary behaviour policy. In our case we use an experience replay buffer and hence $b$ is given by the action probabilities stored in the buffer; which correspond to the action probabilities at the time of action selection.
+
+## Experiments
+
+For our experiments we evaluate our MPO algorithm across a wide range of tasks. Specifically, we start by looking at the continuous control tasks of the DeepMind Control Suite (Tassa et al., see Figure 1), and then consider the challenging parkour environments recently published in Heess et al.. In both cases we use a Gaussian distribution for the policy whose mean and covariance are parameterized by a neural network (see appendix for details). In addition, we present initial experiments for discrete control using ATARI environments using a categorical policy distribution (whose logits are again parameterized by a neural network) in the appendix.
+
+### Evaluation on control suite
+
+Figure 1: Control Suite domains used for benchmarking. Top: Acrobot, Ball-in-cup, Cart-pole, Cheetah, Finger, Fish, Hopper. Bottom: Humanoid, Manipulator, Pendulum, Point-mass, Reacher, Swimmers (6 and 15 links), Walker.
+
+The suite of continuous control tasks that we are evaluating against contains 18 tasks, comprising a wide range of domains including well known tasks from the literature. For example, the classical cart-pole and acrobot dynamical systems, 2D and Humanoid walking as well as simple low-dimensional planar reaching and manipulation tasks. This suite of tasks was built in python on top of mujoco and will also be open sourced to the public by the time of publication.
+
+While we include plots depicting the performance of our algorithm on all tasks below; comparing it against the state-of-the-art algorithms in terms of data-efficiency. We want to start by directing the attention of the reader to a more detailed evaluation on three of the harder tasks from the suite.
+
+### Detailed Analysis on Walker-2D, Acrobot, Hopper
+
+We start by looking at the results for the classical Acrobot task (two degrees of freedom, one continuous action dimension) as well as the 2D walker (which has 12 degrees of freedom and thus a 12 dimensional action space and a 21 dimensional state space) and the hopper standing task. The reward in the Acrobot task is the distance of the robots end-effector to an upright position of the underactuated system. For the walker task it is given by the forward velocity, whereas in the hopper the requirement is to stand still.
+
+Figure 2 shows the results for this task obtained by applying our algorithm MPO as well as several ablations -- in which different parts were removed from the MPO optimization -- and two baselines: our implementation of Proximal Policy Optimization (PPO) and DDPG. The hyperparameters for MPO were kept fixed for all experiments in the paper (see the appendix for hyperparameter settings).
+
+As a first observation, we can see that MPO gives stable learning on all tasks and, thanks to its fully off-policy implementation, is significantly more sample efficient than the on-policy PPO baseline. Furthermore, we can observe that changing from the non-parametric variational distribution to a parametric distribution^33^3We note that we use a value function baseline ${\mathbb{E}}_{\pi}{\lbrack{Q{(s, \cdot )}}\rbrack}$ in this setup. See appendix for details. (which, as described above, can be related to PPO) results in only a minor asymptotic performance loss but slowed down optimisation and thus hampered sample efficiency; which can be attributed to the fact that the parametric $q$ distribution required a stricter KL constraint. Removing the automatically tuned KL constraint and replacing it with a manually set entropy regulariser then yields an off-policy actor-critic method with Retrace. This policy gradient method still uses the idea of estimating the integral over actions -- and thus, for a gradient based optimiser, its likelihood ratio derivative -- via multiple action samples (as judged by a Q-Retrace critic). This idea has previously been coined as using the expected policy gradient (EPG) and we hence denote the corresponding algorithm with EPG + Retrace, which no-longer follows the intuitions of the MPO perspective. EPG + Retrace performed well when the correct entropy regularisation scale is used. This, however, required task specific tuning (c.f. Figure 4 where this hyperparameter was set to the one that performed best in average across tasks). Finally using only a single sample to estimate the integral (and hence the likelihood ratio gradient) results in an actor-critic variant with Retrace that is the least performant off-policy algorithm in our comparison.
+
+Figure 2: Ablation study of the MPO algorithm and comparison to common baselines from the literature on three domains from the control suite. We plot the median performance over 10 experiments with different random seeds.
+
+### Complete results on the control suite
+
+The results for MPO (non-parameteric) -- and a comparison to an implementation of state-of-the-art algorithms from the literature in our framework -- on all the environments from the control suite that we tested on are shown in Figure 4. All tasks have rewards that are scaled to be between 0 and 1000. We note that in order to ensure a fair comparison all algorithms ran with exactly the same network configuration, used a single learner (no distributed computation), used the same optimizer and were tuned w.r.t. their hyperparameters for best performance across all tasks. We refer to the appendix for a complete description of the hyperparameters. Our comparison is made in terms of data-efficiency.
+
+From the plot a few trends are readily apparent: i) We can clearly observe the advantage in terms of data-efficiency that methods relying on a Q-critic obtain over the PPO baseline. This difference is so extreme that in several instances the PPO baseline converges an order of magnitude slower than the off-policy algorithms and we thus indicate the asymptotic performance of each algorithm of PPO and DDPG (which also improved significantly later during training in some instances) with a colored star in the plot; ii) the difference between the MPO results and the (expected) policy gradient (EPG) with entropy regularisation confirm our suspicion from Section 5.1.1: finding a good setting for the entropy regulariser that transfers across environments without additional constraints on the policy distribution is very difficult, leading to instabilities in the learning curves. In contrast to this the MPO results appear to be stable across all environments; iii) Finally, in terms of data-efficiency the methods utilising Retrace obtain a clear advantage over DDPG. The single learner vanilla DDPG implementation learns the lower dimensional environments quickly but suffers in terms of learning speed in environments with sparse rewards (finger, acrobot) and higher dimensional action spaces. Overall, MPO is able to solve all environments using surprisingly moderate amounts of data. On average less than 1000 trajectories (or $10^{6}$ samples) are needed to reach the best performance.
+
+### High-dimensional continuous control
+
+Next we turn to evaluating our algorithm on two higher-dimensional continuous control problems; humanoid and walker. To make computation time bearable in these more complicated domains we utilize a parallel variant of our algorithm: in this implementation K learners are all independently collecting data from an instance of the environment. Updates are performed at the end of each collected trajectory using distributed synchronous gradient descent on a shared set of policy and Q-function parameters (we refer to the appendix for an algorithm description). The results of this experiment are depicted in Figure 3.
+
+For the Humanoid running domain we can observe a similar trend to the experiments from the previous section: MPO quickly finds a stable running policy, outperforming all other algorithms in terms of sample efficiency also in this high-dimensional control problem.
+
+The case for the Walker-2D parkour domain (where we compare against a PPO baseline) is even more striking: where standard PPO requires approximately *1M trajectories* to find a good policy MPO finds a solution that is asymptotically no worse than the PPO solution in in about 70k trajectories (or 60M samples), resulting in an order of magnitude improvement. In addition to the walker experiment we have also evaluated MPO on the Parkour domain using a humanoid body (with 22 degrees of freedom) which was learned successfully (not shown in the plot, please see the supplementary video).
+
+Figure 3: MPO on high-dimensional control problems (Parkour Walker2D and Humanoid walking from control suite).
+
+### Discrete control
+
+As a proof of concept -- showcasing the robustness of our algorithm and its hyperparameters -- we performed an experiment on a subset of the games contained contained in the \"Arcade Learning Environment\" (ALE) where we used *the same hyperparameter* settings for the KL constraints as for the continuous control experiments. The results of this experiment can be found in the Appendix.
+
+## Conclusion
+
+We have presented a new off-policy reinforcement learning algorithm called Maximum a-posteriori Policy Optimisation (MPO). The algorithm is motivated by the connection between RL and inference and it consists of an alternating optimisation scheme that has a direct relation to several existing algorithms from the literature. Overall, we arrive at a novel, off-policy algorithm that is highly data efficient, robust to hyperparameter choices and applicable to complex control problems. We demonstrated the effectiveness of MPO on a large set of continuous control problems.
+
+Figure 4: Complete comparison of results for the control suite. We plot the median performance over 10 random seeds together with 5 and 95 % quantiles (shaded area). Note that for DDPG we only plot the median to avoid clutter in the plots. For DDPG and PPO final performance is marked by a star).

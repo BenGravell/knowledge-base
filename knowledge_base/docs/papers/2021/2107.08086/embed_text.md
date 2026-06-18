@@ -1,0 +1,232 @@
+## Introduction
+
+The optimal stochastic control of a nonlinear dynamical system is computationally intractable for complex high-order systems due to the 'curse of dimensionality' associated with solving dynamic programming. The problem becomes more challenging when the model of the system is unknown and even more formidable when only some of the states are available for measurement, i.e., under partial state observation. However, in practice, most problems tend to be partially observed and subject to noise. In this work, we propose a data-based approach for learning to optimally control complex partially observed stochastic nonlinear dynamical systems. The primary idea is to generate Autoregressive--Moving-Average (ARMA) models along a nominal trajectory using input-output perturbation data and then defining a suitable linear time-varying system using the resulting information state which is comprised of past several measurements and controls.
+
+Figure 1: Note the high dimensional, complex, and partially observed nature of the robotic control problems considered in this paper.
+
+The proposed approach then generalizes the iLQR algorithm to partially observed problems by iteratively generating linear time-varying state-space models, represented in the information state, to obtain the optimized nominal information space trajectory. This optimized nominal information state trajectory is utilized to design a local Linear Quadratic Gaussian (LQG) controller. The resulting method, which we term Partially Observed Decoupled Data-based Control (POD2C), results in a composite perturbation feedback design in the information state that can then be used to control the system online in the presence of partial state observation, process and sensor noise.
+
+Related Work: The iLQR is a "local" trajectory-based method, similar to Differential Dynamic Programming (DDP), but only uses first-order dynamics information as opposed to second-order derivatives of the system dynamics needed in DDP. Previous work such as employed finite differencing in computing the Jacobians using complete state information as opposed to this work which utilizes ARMA models to compute linear models using only output information, and thus, this work suitably generalizes the iLQR method to partially observed systems in a systematic fashion. Another work on motion planning under motion and sensing uncertainty uses a belief space variant of iterative LQG (iLQG) to find a locally optimal solution. Our work is related to this paper, in the sense, that we generate the nominal trajectory using a generalized information state version of the iLQR method, but is $O{(n_{x})}$ in its complexity versus $O{({n_{x} + n_{x}^{2}})}$ in the case of the above reference, where $n_{x}$ is the state space dimension.
+
+The control of unknown dynamical systems with noisy partial state observation have been extensively studied as a belief space planning problem, where the belief state is defined as the probability distribution over the states and provides a basis for acting under uncertainty. However, challenges such as a suitable parametrization of the probability distribution over the state, the under-actuated nature of the belief space problem, and stochasticity due to future observations still persist. To overcome these issues, the so-called Gaussian belief space planning approaches assume a Gaussian belief that can be compactly parametrized in terms of the mean and covariance of the distribution. Platt et. al. assumed maximum likelihood observations to approximate the problem and showed that a simple LQR controller in belief state (B-LQR) is equivalent to the LQG controller for linear dynamics and observation models with Gaussian noise. Another method called "Trajectory-optimized LQG" (T-LQG) uses a coupled design of trajectory and estimator to find the optimal underlying trajectory and then uses the separation principle to design an LQR controller around the optimal trajectory. However, this class of techniques still require a state representation that is $O{({n_{x} + n_{x}^{2}})}$, where $n_{x}$ is the dimension of the underlying state space, and thus, are intractable for the higher dimensional and complex robotic problems considered in this paper. In a related development, it was shown that local optimal plans can be computed more efficiently by optimizing over control and mean states only (partial collocation) without including the state covariance in the trajectory optimization. In this paper, we optimize the trajectory of a partially observed system utilizing the "nominal information state" which is defined as $q$ past most likely (zero noise) observations (of dimension $n_{z}$), with ${q \times n_{z}} \leq n_{x}$, and is estimated from system output data using the ARMA framework. This allows us to solve a large class of complex and high dimensional partially observed robotic control problems in a highly efficient fashion since the complexity is $O{(n_{x})}$ rather than $O{({n_{x} + n_{x}^{2}})}$ for typical Gaussian belief space planning problems. In this regard, we distinguish belief space planning problems into two classes: 1) ones that seek to control the robotic system from start to goal under noisy partial state observations, and 2) others that seek the dual "information-seeking" behavior of control. In the context of Gaussian belief space planning, most methods mentioned above fall under the second category while our POD2C approach and the reference belong to the first category. In Gaussian belief space planning, system linearization is assumed to be valid along a nominal trajectory, which requires that the covariance along the trajectory be small, and hence, the cost due to the covariance in the total planning cost is negligible, given that the belief space cost function is induced by an underlying state space cost, i.e., ${c{(b,u)}} = {\int{c{(x,u)}b{(x)}{dx}}}$, where $b{(.)}$ denotes the belief state. In Section III, we provide a detailed justification for the above observation, and hence, the sufficiency of planning on the nominal information state (dimension of $O{(n_{x})}$) in such problems.
+
+The approach proposed here, POD2C, is a generalization of the so-called decoupled data-based control (D2C) approach for designing a feedback controller, that designs an open-loop optimal trajectory followed by a local feedback controller in a data-based manner but is limited to fully observed systems, to partially observed systems. The D2C approach was used for partially observed systems where the open-loop optimization problem is solved using a general nonlinear programming solver, in contrast, this paper uses the highly efficient ARMA based information-state iLQR, and further generates a local closed-loop feedback design by generating a suitable LTV system in the information state rather than the time-varying eigensystem realization algorithm used in.
+
+The rest of the paper is organized as follows: Section II provides the optimal control problem formulation for the stochastic nonlinear system. Section III provides the ARMA based methodology for open-loop trajectory design using partially-observed model-free iLQR. Section IV gives the details of the POD2C closed-loop feedback control design and the complete POD2C algorithm is given in Section V. Finally, empirical results are shown for the partially observed control of complex robotic systems, including challenging cases of hard-to-model soft contact constraints and dynamic fluid-structure interactions, in the presence of process and sensor noise.
+
+## Problem Formulation
+
+Let us start by writing the non-linear dynamics in discrete time, noise perturbed state space form as follows:
+
+where $x_{t}$ is the state, $u_{t}$ is the control, $w_{t}$ is a white noise perturbation to the system, and $\epsilon$ is a small parameter that modulates the noise in the system. Let us assume the observation model to be of form: ${z_{t} = {h{(x_{t},v_{t})}}},$ where $v_{t}$ is the measurement noise. Let us now define a finite horizon objective function as:
+
+where $c{(x,u)}$ denotes a running incremental cost, $\phi{(x)}$ denotes a terminal cost function and $E{\lbrack \cdot \rbrack}$ is an expectation operator taken over the sample paths of the system. For the case of partially observed states, the above problem turns into a planning problem on the belief state, $b_{t}{(x)}$, which is the filtered density of the state given the past observations and controls: $\mathcal{Z}_{t} = {\{ z_{0},u_{0},z_{1},{u_{1}\cdotsu_{t - 1}},z_{t}\}}$ till the time $t$. The objective is to design a feedback policy $\pi_{t}{(b_{t})}$ that minimizes the following cost function:
+
+where the costs ${\overline{c}{(b,u)}} = {\int{c{(x,u)}b{(x)}{dx}}}$, and ${\Phi{(b)}} = {\int{\phi{(x)}b{(x)}{dx}}}$ either flow from the underlying costs in the state space, or alternatively, can also be defined directly on the belief state.
+
+### II-A Most Likely Belief Space Trajectory
+
+The above belief space planning problem is intractable due to the infinite dimensional nature of the belief state, which compounds Bellman's "Curse of Dimensionality" with the "Curse of History" inherent in the infinite dimensional nature of the belief state. The reference introduced the concept of the most likely observation sequence, and the associated most likely belief state evolution. The most likely observation given a belief state $b{( \cdot )}$ is simply: ${z^{\ast} = {{\max_{z}p}{({z/b})}}},$ where ${p{({z/b})}} = {\int{p{({z/x})}b{(x)}}}$. It can then be seen that the evolution of the most likely belief state, we shall also call it the nominal belief state, is deterministic. Thus, give an initial belief state $b_{0}$, one can now pose the deterministic belief space trajectory optimization problem:
+
+where, note that there is no expectation in the cost above since we consider the nominal belief state ${\overline{b}}_{t}$, and the optimization is now over the control sequence $\{ u_{t}\}$, rather than over the sequence of feedback policies $\{{\pi_{t}{( \cdot )}}\}$ in eq. 3 for Complex Robotic Systems"). This makes the "open-loop" problem above far easier to solve than the "closed-loop" problem in eq. 3 for Complex Robotic Systems"). Nonetheless, we note that this is a heuristic, and we do not consider the question of the closeness of the solution of eq. 4 for Complex Robotic Systems") to that of eq. 3 for Complex Robotic Systems").\
+The rest of the paper is devoted to proposing a highly efficient way to solve the open-loop belief space planning problem above for complex nonlinear robotic systems, which can then either be: 1) repeatedly solved in an MPC fashion, or as we do in this paper, 2) allied with a local feedback controller around the planned nominal path, to yield a feedback solution.
+
+## Open-Loop Belief Space Trajectory Design using Partially Observed Model-free iLQR (POM-iLQR)
+
+This section details the algorithm for open-loop trajectory design using POM-iLQR. The advantage of iLQR is that the equations involved in it are explicit in system dynamics and their gradients. Hence, to make it a model-free algorithm, it is sufficient if we could explicitly write the linearized model (the estimates of Jacobians) around the iterated nominals. Since iLQR/DDP is a well-established framework, we skip the details and instead present the essential equations in Algorithm 1 for Complex Robotic Systems"), Algorithm 2 for Complex Robotic Systems") and Algorithm 3 for Complex Robotic Systems"), where we also reflect the choice of our regularization scheme.
+
+### III-A Information State Problem
+
+We first present the key insight to the efficiency of our solution. The proposed algorithm solves the following open-loop problem on the "nominal" information state $Z_{t} = {\{ z_{{t - q} + 1},{u_{{t - q} + 1}\cdotsu_{t - 1}},z_{t}\}}$:
+
+where the underlying dynamics model is used as a blackbox, and only output measurements are used to identify linear time-varying system. The information state is "nominal" in that we use the most likely observation sequence by zeroing out the process and measurement noise above. As we shall show below, the number of past values $q$ that we require to form the information state is small, in fact, ${q \times n_{z}} \leq n_{x}$, where $n_{x}$ and $n_{z}$ are the dimensions of the state and output spaces respectively.
+
+We note that the Information Space problem above is an approximation of the open loop belief space problem eq. 4 for Complex Robotic Systems"). In general, the belief state $b_{t}$ is the filtered density of the state given the complete information state ${\mathcal{Z}_{t} = {\{ z_{0},u_{0},z_{1},{u_{1}\cdotsu_{t - 1}},z_{t}\}}},$ and thus, may be written as $b_{t} = {\tau{(b_{0},\mathcal{Z}_{t})}}$. Therefore, in general, ${\overline{c}{(b_{t},u_{t})}} = {c^{\mathcal{Z}}{(\mathcal{Z}_{t},u_{t})}} = {{\overline{c}}^{Z}{(Z_{t},Z_{t - 1},{\cdotsZ_{0}},u)}}$, in terms of the nominal information state $Z_{t}$ defined above, for suitably defined functions ${{\overline{c}}^{\mathcal{Z}}{( \cdot )}},{{\overline{c}}^{Z}{( \cdot )}}$. Thus, the cost used in eq. 5 ‣ Partially-Observed Decoupled Data-based Control (POD2C) for Complex Robotic Systems"), which is only a function of the current information state $Z_{t}$ with only $q$ of the past values is an approximation. Nonetheless, this is a good approximation if considering a Gaussian belief, and a cost function ${\overline{c}{(b,u)}} = {\int{c{(x,u)}b{(x)}{dx}}}$ that arises from an underlying state space cost. The Gaussian belief space representation requires system linearization to be valid, this may be modeled by assuming that the initial condition, the process and measurement noise covariances are modulated by a suitably small parameter $\epsilon < 1$, i.e., ${P_{0} = {\epsilon^{2}{\overline{P}}_{0}}},{{Q = {\epsilon^{2}\overline{Q}}},{R = {\epsilon^{2}\overline{R}}}}$, where $P_{0}$, $Q$ and $R$ are the initial state, process and measurement noise covariances respectively. Then, the random variable representing the hidden state may be represented as: ${x_{t} = {{\overline{x}}_{t} + {\epsilon{\overset{\sim}{x}}_{t}}}},$ where ${\overline{x}}_{t}$ is the mean of the nominal belief, ${\overset{\sim}{x}}_{t}$ is the deviation from the mean. Now, if the underlying cost is written in state-space, for example, say quadratic in $x_{t}$, then
+
+and therefore, given a small $\epsilon$, the cost corresponding to the covariance is insignificant, and thus need not be, and in fact, cannot be, considered in the information space planning problem. We shall see below that this approximation helps us solve a very large class of complex partially observed robotic control problems. Therefore, we distinguish this paper from the class of problems where measurement noise is state-dependent and the planning requires that the dual "information-seeking" effect of the control be considered. In fact, as we have shown above, such information seeking behavior is infeasible to obtain for Gaussian beliefs if the cost is induced by an underlying state space cost, and a suitable belief space cost has to be defined instead.
+
+The following subsections give the main idea of the proposed research which allows for writing the linearized time-varying system in the nominal information state $Z_{t}$ as:
+
+The linearized model given in eq. 7 ‣ Partially-Observed Decoupled Data-based Control (POD2C) for Complex Robotic Systems") is represented in a much smaller dimension (system-order $O{(n)}$) as compared to belief state dimension $O{({n + n^{2}})}$ even after assuming Gaussian belief space). This allows us to do the motion planning much more efficiently and forms the basis for using POM-iLQR.
+
+### III-B Linear Time-Varying System Identification using ARMA
+
+The standard least square method is used to estimate the linear parameters from input-output experiment data. We start from the perturbed linear system about the nominal trajectory and estimate the system parameters $\alpha_{t - i}$ and $\beta_{t - i}$ for $i = {1,\cdots,q}$ from: ${{\deltaz_{t}^{(j)}} = {{\alpha_{t - 1}\deltaz_{t - 1}^{(j)}} + \cdots + {\alpha_{t - q}\deltaz_{t - q}^{(j)}} + {\beta_{t - 1}\deltau_{t - 1}^{(j)}} + \cdots + {\beta_{t - q}\deltau_{t - q}^{(j)}}}},$ where $\deltaz_{t}^{(j)}$ is the observed output with the control input perturbation vector $\deltau_{t}^{(j)}$ that we feed to the system at step $t$ for the $j$^th^ simulation, where $j = {1,\cdots,N}$ for a total of $N$ simulations. All the perturbations are zero-mean, i.i.d, Gaussian noise with covariance matrix $\sigmaI$. The covariance $\sigma$ is a $o{(u)}$ small value selected by the user. After running $N$ simulations for each step and collecting the data, we can write the linear mapping between input-output perturbation as:
+
+and solve for the estimated linearized system parameters as:
+
+where the blank part of the matrix is filled so that the complete matrix is symmetric. $H_{i}$ and $R_{i}$ are input-output correlation parameters and output-output correlation parameters defined for sufficiently large number $N$ as:
+
+and $U = {E{\lbrack{\deltau_{k}\deltau_{k}^{\mathsf{T}}}\rbrack}}$ is the input perturbation covariance at any time $k$. Notice that this is a computationally efficient way of estimating the parameters but the standard least square method can also be used for parameter estimation.
+
+### III-C Condition for ARMA Model
+
+This subsection provides the condition on the order ($q = p$) of the ARMA model to exactly match a linear system. The output observation $z_{t}$ is to be modeled using the past few observations and past few excitation inputs $u_{t}$, where excitation input is modeled as independent identically distributed random variables (i.i.d.) with zero means.
+
+### Proposition III.1
+
+A linear system model given as: ${\deltax_{t}} = {{A\deltax_{t - 1}} + {B\deltau_{t - 1}}}$ with output given as: ${\deltaz_{t}} = {C\deltax_{t}}$, exactly fits the ARMA model of the order $q$ given by:
+
+if matrix $\mathcal{O}_{q} \triangleq \begin{bmatrix}
+\end{bmatrix}^{T}$ is full column rank. The exact parameters that matches the linear system can then be written as:
+
+### Proof III.1
+
+Let us start by writing the output equation for past $q$ time-steps as:
+
+which can also be written as: ${{\mathcal{O}_{q}\deltax_{t - q}} = {{\delta\mathcal{Z}_{q}} - {\mathcal{H}_{q}\delta\mathcal{U}_{q}}}}.$ A unique solution for $\deltax_{t - q}$ exist if the matrix $\mathcal{O}_{q}$ is full column rank matrix and then the solution can be written as: ${{\deltax_{t - q}} = {\mathcal{O}_{q}^{+}{({{\delta\mathcal{Z}_{q}} - {\mathcal{H}_{q}\delta\mathcal{U}_{q}}})}}}.$
+
+Now, the solution for output at time $t$ can be written as:
+
+where the unique solution for $\deltax_{t - q}$ is substituted to get:
+
+Finally, substituting for $\delta\mathcal{Z}_{q}$ and $\delta\mathcal{U}_{q}$ gives the exact analytical solution for the ARMA parameters in terms of linear system matrices $A,B$ and $C$. $\blacksquare$
+
+Notice that if there exists a number $q$ for which the matrix $\mathcal{O}_{q}$ is full column rank and then there always exists an exact fit for the ARMA model with sufficiently large enough $q$. This allows us to write linearized dynamics models at each step along the nominal trajectory in terms of ARMA parameters.
+
+### Corollary III.1
+
+The Linear Time-Varying System - The linear time-varying case: ${{\deltax_{t}} = {{A_{t - 1}\deltax_{t - 1}} + {B_{t - 1}\deltau_{t - 1}}}},{{\deltaz_{t}} = {C_{t}\deltax_{t}}}$, follows directly with the condition of $\mathcal{O}_{q} = \begin{bmatrix}
+\end{bmatrix}^{T}$ to be full column rank.
+
+### Remark III.1
+
+For the examples we have tried, we observed that the $q$ value does not change at each time-step and most likely would not change for physical/mechanical systems.
+
+### Corollary III.2
+
+For the case of mechanical systems with all the position/DOFs as the output feedback, the minimum value for $q$ would be $q = 2$, which would allow for the exact fit for the ARMA model to be with only 2 past observations.
+
+### III-D System Dynamics in Information State
+
+$\underset{\deltaZ_{t}}{\underbrace{\begin{bmatrix}
+\end{bmatrix}}} = {{\underset{A_{t - 1}}{\underbrace{\begin{bmatrix}
+\alpha_{t-1} &amp; \alpha_{t-2} &amp; \cdots &amp; \alpha_{{t-q}+1} &amp; \alpha_{t-q} &amp; &amp; \beta_{t-2} &amp; \beta_{t-3} &amp; \cdots &amp; \beta_{{t-q}+1} &amp; \beta_{t-q} \\
+1 &amp; 0 &amp; \cdots &amp; 0 &amp; 0 &amp; &amp; 0 &amp; 0 &amp; \cdots &amp; 0 &amp; 0 \\
+0 &amp; 1 &amp; \cdots &amp; 0 &amp; 0 &amp; &amp; 0 &amp; 0 &amp; \cdots &amp; 0 &amp; 0 \\
+\vdots &amp; &amp; \ddots &amp; &amp; \vdots &amp; &amp; \vdots &amp; &amp; \ddots &amp; \vdots &amp; 0 \\
+0 &amp; 0 &amp; \cdots &amp; 1 &amp; 0 &amp; &amp; 0 &amp; 0 &amp; \cdots &amp; 0 &amp; 0 \\
+&amp; &amp; &amp; &amp; &amp; &amp; &amp; &amp; &amp; &amp; \\
+0 &amp; 0 &amp; \cdots &amp; 0 &amp; 0 &amp; &amp; 0 &amp; 0 &amp; \cdots &amp; 0 &amp; 0 \\
+0 &amp; 0 &amp; \cdots &amp; 0 &amp; 0 &amp; &amp; 1 &amp; 0 &amp; \cdots &amp; 0 &amp; 0 \\
+0 &amp; 0 &amp; \cdots &amp; 0 &amp; 0 &amp; &amp; 0 &amp; 1 &amp; \cdots &amp; 0 &amp; 0 \\
+\vdots &amp; &amp; \ddots &amp; &amp; \vdots &amp; &amp; \vdots &amp; &amp; \ddots &amp; &amp; \vdots \\
+0 &amp; 0 &amp; \cdots &amp; 0 &amp; 0 &amp; &amp; 0 &amp; 0 &amp; \cdots &amp; 1 &amp; 0
+\end{bmatrix}}}\underset{\deltaZ_{t - 1}}{\underbrace{\begin{bmatrix}
+\end{bmatrix}}}} + {\underset{B_{t - 1}}{\underbrace{\begin{bmatrix}
+\end{bmatrix}}}\deltau_{t - 1}} + {\underset{D_{t - 1}}{\underbrace{\begin{bmatrix}
+
+After identifying the system parameters $\alpha_{t - 1},\cdots,\alpha_{t - q}$ and $\beta_{t - 1},\cdots,\beta_{t - q}$ for all $t = {\{{0\cdotsT}\}}$, now, we write the linear perturbation system in the information state as given in Eq. (15 ‣ Partially-Observed Decoupled Data-based Control (POD2C) for Complex Robotic Systems")), where $\gamma_{t - 1}$ is given as: ${\gamma_{t - 1} = {\beta_{t - 1} + \beta_{t - 2} + \cdots + \beta_{t - q}}},$ as the random noise sequence $\{ w_{t - 1},w_{t - 2},\cdots,w_{t - q}\}$ is independent and assuming the noise to enter the same channel as the control input. This is based on the idea that if the output $z_{t}$ depends on last $q$ control inputs, then it would also depend on last $q$ disturbance terms. Now, we can use the identified $A_{t - 1}$, $B_{t - 1}$ to find the optimal nominal using iLQR, and in the next section, design an LQG controller for the information state, i.e., ${\deltau_{t}} = {K_{t}\deltaZ_{t}}$, where note that the current control input depends on the past observations as well as the control inputs.
+
+## Partially-Observed Decoupled Data-based Control (POD2C) Algorithm
+
+In this section, we propose an extension to the so-called decoupled data-based control (D2C) algorithm. The D2C algorithm is a highly data-efficient Reinforcement Learning (RL) method that has shown to be much superior to the state-of-the-art RL algorithms such as the Deep Deterministic Policy Gradient (DDPG) in terms of data efficiency and training stability while retaining similar or better performance. In the following, we detail the extension that allows for the generation of the closed-loop output feedback policy, i.e., the feedback as a function of the past few observations. The main observation for the extension is that the partially observed case might be treated similarly to the fully observed case by noting that the information state in the problem comprises of past few observations and past few control inputs.
+
+Let us form a notion of nominal information state evolution by assuming ${w_{t},v_{t}} = 0$ for all $t$, say ${\overline{Z}}_{t} = {({\overline{z}}_{t},{\overline{z}}_{t - 1},\cdots,{\overline{z}}_{{t - q} + 1},{\overline{u}}_{t - 1},\cdots,{\overline{u}}_{{t - q} + 1})}$, and the deviations from the nominal belief state, say ${\deltaZ_{t}} = {({\deltaz_{t}},{\deltaz_{t - 1}},\cdots,{\deltaz_{{t - q} + 1}},{\deltau_{t - 1}},\cdots,{\deltau_{{t - q} + 1}})}$, where ${\deltaz_{t}} = {z_{t} - {\overline{z}}_{t}}$ and ${\deltau_{t}} = {u_{t} - {\overline{u}}_{t}}$ are the deviation from the nominal observation at time $t$. Again, assuming sufficient smoothness, any feedback law for such a problem can be represented as ${\pi_{t}{(Z_{t})}} = {{\overline{u}}_{t} + {K_{t}\deltaZ_{t}} + {S_{t}{({\deltaZ_{t}})}}}$, where ${\overline{u}}_{t}$ is the nominal control sequence arising from $\pi_{t}{( \cdot )}$, $K_{t}$ is the linear feedback term and $S_{t}{( \cdot )}$ are the higher order terms in the feedback law.
+
+The D2C algorithm then proposes a 3 step procedure to approximate the solution to the above problem. First, a noiseless open-loop optimization problem is solved to find an optimal control sequence, ${\overline{u}}_{t}^{\ast}$. Second, from rollouts, we estimate a linear perturbation model for the information state ${\deltaZ_{t}} = {{A_{t - 1}\deltaZ_{t - 1}} + {B_{t - 1}\deltau_{t - 1}}}$ around the nominal to obtain Linear-Time Varying (LTV) system. Third, an LQG controller for the above time varying linear system is designed whose time varying gain is given by $K_{t}$. Finally, the control applied to the system is given by $u_{t} = {{\overline{u}}_{t}^{\ast} - {K_{t}\deltaZ_{t}}}$. The details for the first two-steps are already presented in Section III. The following subsection provides the details for the closed-loop control law design with a specific-LQG method.
+
+### IV-A Closed Loop Control Design with specific LQG method
+
+Given the estimated perturbed linear system, we design a finite horizon, discrete time LQG along the trajectory for each time step to minimize the cost function:
+
+subject to ${{{\deltaZ_{t}} = {{A_{t - 1}\deltaZ_{t - 1}} + {B_{t - 1}\deltau_{t - 1}} + {D_{t - 1}w_{t - 1}}}},{{\deltaY_{t}} = {{\deltaZ_{t}} + v_{t}}}},$ where $\deltaY$ is the noisy measurement. Notice that this is a specific version of LQG where state is estimated in the presence of process and measurement noise only as opposed to estimating the states from smaller number of noisy measurements, i.e. ($C = I$): ${L_{t} = {P_{t}{({P_{t} + V_{t}})}^{- 1}}},$ where $P_{t}$ is solved in a forward propagation fashion from the Riccati equation: ${P_{t + 1} = {{A_{t}{\lbrack{P_{t} - {P_{t}{({P_{t} + V_{t}})}^{- 1}P_{t}}}\rbrack}A_{t}^{T}} + {D_{t}W_{t}D_{t}^{T}}}},$ with the initial condition $P_{0} = {E{\lbrack{\overset{\sim}{x}{\overset{\sim}{x}}^{T}}\rbrack}}$. The feedback gain for the above problem are calculated as:
+
+where $S_{t}$ is solved in a back propagation fashion from the Riccati equation:
+
+with final condition as $S_{T} = Q_{T}$. Finally, the closed-loop control policy is $u_{t} = {{\overline{u}}_{t}^{\ast} - {K_{t}\delta{\hat{Z}}_{t}}}$, where ${\delta{\hat{Z}}_{t}} = {{A_{t - 1}\delta{\hat{Z}}_{t - 1}} + {B_{t - 1}\deltau_{t - 1}} + {L_{t}{({{\deltaY_{t}} - {A_{t - 1}\delta{\hat{Z}}_{t - 1}} - {B_{t - 1}\deltau_{t - 1}}})}}}$.
+
+### IV-A1 Simplified LQR design
+
+For the case of noiseless measurements, a simplified LQR design can be used for the closed-loop feedback control with $u_{t} = {{\overline{u}}_{t}^{\ast} - {K_{t}\deltaZ_{t}}}$ where $K_{t}$ is calculated using eqs. 16 Algorithm ‣ Partially-Observed Decoupled Data-based Control (POD2C) for Complex Robotic Systems") and 17 Algorithm ‣ Partially-Observed Decoupled Data-based Control (POD2C) for Complex Robotic Systems") only.
+
+## The Complete Algorithm
+
+The complete POD2C algorithm: to determine the optimal nominal trajectory in a model-free fashion and closed-loop feedback law is summarized together in Algorithm 1 for Complex Robotic Systems"), Algorithm 2 for Complex Robotic Systems") and Algorithm 3 for Complex Robotic Systems"). As shown in, we use regularization parameter $\mu$ to keep the optimization from divergence, and line search parameter $\alpha$ to find a good step size for a policy update.
+
+⇒ Open-loop trajectory design via POM-iLQR
+Initialization: Set state x = x0, initial trajectory 𝕋0, line search parameter α = 0.3, regularization μ = 10−6, iteration counter k = 0, convergence coefficient ϵ = 0.001.
+while costk/costk − 1) &lt; 1 + ϵ do
+while cost reduction not acceptable do
+
+⇒ The closed-loop feedback design
+2. Calculate observer and feedback gains L0: N − 1 and K0: N − 1 from sections IV-A, IV-A, 16 and 17.
+3. Full closed-loop control policy:
+$u_{t} = {{\overline{u}}_{t}^{\ast} - {K_{t}\delta{\hat{Z}}_{t}}}$,
+Algorithm 1 Complete Partially-observed Decoupled Data-based Control (POD2C) Algorithm
+
+Input: Previous iteration nominal trajectory - 𝕋k, iLQR gains - {k0: N − 1, K0: N − 1}.
+Get observation, state and control trajectory - ${\{{\overline{z}}_{t}^{prev},{\overline{u}}_{t}^{prev}\}}\leftarrow{\mathbb{T}}_{k}$, 0 ≤ t ≤ N − 1.
+Start from t = 0, c o s t = 0, ${\overline{x}}_{0} = x_{0}$.
+
+{\overline{z}}_{t} &amp; {{= {C_{t}{\overline{x}}_{t}}},} \\
+{\overline{u}}_{t} &amp; {{= {{\overline{u}}_{t}^{prev} + {\alphak_{t}} + {K_{t}{({{\overline{z}}_{t} - {\overline{z}}_{t}^{prev}})}}}},} \\
+{\overline{x}}_{t + 1} &amp; {{= {simulate\_one\_step{({\overline{x}}_{t},{\overline{u}}_{t})}}},} \\
+{cost} &amp; {= {{cost} + {incremental\_cost{({\overline{x}}_{t},{\overline{u}}_{t})}}}}
+
+${cost} = {{cost} + {terminal\_cost{({\overline{x}}_{N})}}}$
+Algorithm 2 Forward Pass
+
+/* start from the terminal time */
+Compute JxN and JxN xN using boundary conditions.
+/* obtain the augmented Jacobians using ARMA model from eq. 15 */
+/* obtain the partials of the Q function as follows */
+
+Q_{\mathbf{z}_{\mathbf{t}}} &amp; {{= {c_{\mathbf{z}_{\mathbf{t}}} + {A_{t}^{T}J_{\mathbf{z}_{\mathbf{t} + \mathbf{1}}}^{\prime}}}},} \\
+Q_{\mathbf{u}_{\mathbf{t}}} &amp; {{= {c_{\mathbf{u}_{\mathbf{t}}} + {B_{t}^{T}J_{\mathbf{z}_{\mathbf{t} + \mathbf{1}}}^{\prime}}}},} \\
+Q_{\mathbf{z}_{\mathbf{t}}\mathbf{z}_{\mathbf{t}}} &amp; {{= {c_{\mathbf{z}_{\mathbf{t}}\mathbf{z}_{\mathbf{t}}} + {A_{t}^{T}J_{\mathbf{z}_{\mathbf{t} + \mathbf{1}}\mathbf{z}_{\mathbf{t} + \mathbf{1}}}^{\prime}A_{t}}}},} \\
+Q_{\mathbf{u}_{\mathbf{t}}\mathbf{z}_{\mathbf{t}}} &amp; {{= {c_{\mathbf{u}_{\mathbf{t}}\mathbf{z}_{\mathbf{t}}} + {B_{t}^{T}{({J_{\mathbf{z}_{\mathbf{t} + \mathbf{1}}\mathbf{z}_{\mathbf{t} + \mathbf{1}}}^{\prime} + {\muI_{n_{x} \times n_{x}}}})}A_{t}}}},} \\
+Q_{\mathbf{u}_{\mathbf{t}}\mathbf{u}_{\mathbf{t}}} &amp; {{= {c_{\mathbf{u}_{\mathbf{t}}\mathbf{u}_{\mathbf{t}}} + {B_{t}^{T}{({J_{\mathbf{z}_{\mathbf{t} + \mathbf{1}}\mathbf{z}_{\mathbf{t} + \mathbf{1}}}^{\prime} + {\muI_{n_{x} \times n_{x}}}})}B_{t}}}}.}
+
+if Qut ut is positive-definite then
+kt = −Qut ut−1 Qut, Kt = −Qut ut−1 Qut zt. Decrease μ.
+
+Restart backward pass for current time-step.
+/* obtain the partials of the value function Jt as follows */
+
+J_{\mathbf{z}_{\mathbf{t}}} &amp; {{= {Q_{\mathbf{z}_{\mathbf{t}}} + {K_{t}^{T}Q_{\mathbf{u}_{\mathbf{t}}\mathbf{u}_{\mathbf{t}}}k_{t}} + {K_{t}^{T}Q_{\mathbf{u}_{\mathbf{t}}}} + {Q_{\mathbf{u}_{\mathbf{t}}\mathbf{z}_{\mathbf{t}}}^{T}k_{t}}}},} \\
+J_{\mathbf{z}_{\mathbf{t}}\mathbf{z}_{\mathbf{t}}} &amp; {{= {Q_{\mathbf{z}_{\mathbf{t}}\mathbf{z}_{\mathbf{t}}} + {K_{t}^{T}Q_{\mathbf{u}_{\mathbf{t}}\mathbf{u}_{\mathbf{t}}}K_{t}} + {K_{t}^{T}Q_{\mathbf{u}_{\mathbf{t}}\mathbf{z}_{\mathbf{t}}}} + {Q_{\mathbf{u}_{\mathbf{t}}\mathbf{z}_{\mathbf{t}}}^{T}K_{t}}}}.}
+
+Algorithm 3 Backward Pass
+
+## Empirical Results
+
+We use MuJoCo, a physics engine, as a black-box to provide the data to design the nominal trajectory and closed-loop feedback gain. First, we list the details of the MuJoCo models used in our simulations.
+
+Cart-Pole: The state of a four-dimension under-actuated cart-pole comprises the angle of the pole, cart's horizontal position, and their rates. Within a given horizon, the task is to swing-up the pole and balance it in the middle of the rail by applying a horizontal force on the cart. Figure 2 for Complex Robotic Systems")(a) shows the initial position of the cart-pole system.\
+15-link Swimmer: The 15-link swimmer model has 17 degrees of freedom and together with their rates, the system is described by 34 state variables. Controls can only be applied in the form of torques to the 14 joints with the initial configuration given in Figure 2 for Complex Robotic Systems")(b).
+
+Figure 2: Models simulated in MuJoCo in their initial states.
+
+Figure 3: Models simulated in MuJoCo in their initial states.
+
+Fish: The torso of the fish is a rigid body with 6 DOF and the system is described by 27 dimensions of states (including a set of quaternions) and 6 control channels. Controls are applied in the form of torques to the joints that connect the fins and tails with the torso. Figure 3 for Complex Robotic Systems")(a) shows the initial configuration of the fish.\
+T2D1 Robotic Arm: The $T_{2}D_{1}$ tensegrity model is a 3D robotic arm consisting of 33 bars (orange) and 46 strings (grey). The bars are connected by ball joints and the initial configuration is given in Fig. 3 for Complex Robotic Systems")(b). Controls are applied in the form of tension in the strings and the feedback is based on the coordinates of some of the nodes.
+
+Figure 4: Models simulated in MuJoCo in their terminal states.
+
+TABLE I: Simulation Results
+
+Figure 5: Convergence of episodic cost during training
+
+Figure 6: Averaged episodic reward vs measurement noise level for fixed 10% process noise with LQG as closed-loop feedback
+
+Figure 7: Averaged episodic reward vs process noise level for fixed 10% measurement noise with LQG as closed-loop feedback
+
+The final configuration of all the four models is given in Figs. 1 for Complex Robotic Systems") and 4 for Complex Robotic Systems"). The final configurations are obtained at the end of the horizon with the partially-observed D2C algorithm. The videos for the simulation are given as supplementary files. The output number values in Table I for Complex Robotic Systems") represent the minimum number of state measurements needed to obtain a good fit of the ARMA model from the output data with $q$ values representing the order of the ARMA model. Notice that a relatively smaller number of measurements are needed to control the structure with increasing complexity (higher number of states) of the model. The cart-pole is a classic underactuated robotics example where the cart's horizontal position and angle of the pole are needed as feedback. The 15-link swimmer and fish present the performance of our method when applied to high-dimensional multi-body robots in a fluid environment. The 15-link swimmer needs only angular positions of the 1st, 3rd, 5th, 7th, 9th, 11th, 13th, and 15th joints. The fish needs only the angular positions of the fins and tails. The $T_{2}D_{1}$ robotic arm case shows the application to high-dimensional soft-body models. Here only the positions of 8 evenly chosen nodes are needed out of the total 25 nodes. Notice that velocity or rate feedback is not needed in the control design as the value of the state for rates can always be calculated from the past 2 observations of positions (refer to Corollary III.2 ‣ Partially-Observed Decoupled Data-based Control (POD2C) for Complex Robotic Systems")). The rule of thumb for measurement selection is that we only measure the positions that contain the most information and avoid redundant information.
+
+Open-loop training with POM-iLQR: As described in Sec. IV Algorithm ‣ Partially-Observed Decoupled Data-based Control (POD2C) for Complex Robotic Systems"), we obtain the nominal trajectory from POM-iLQR training. The 15-link swimmer and the fish take more iterations to converge as they have higher non-linearity brought by the fluid-structure interaction in the swimming motion. However, the training is much more time-efficient compared with the first-order gradient descend method as well as the DDPG RL method. The T2D1 arm system also takes smaller time and iterations to converge despite the high dimensionality of the model and limited outputs. The time taken and iteration numbers during POD2C algorithm execution for the above cases are shown in Fig. 5 for Complex Robotic Systems") and Table I for Complex Robotic Systems"). Notice that the POM-iLQR can converge smoothly and efficiently with partial observations, even for systems with high non-linearity and high dimensionality. The results are obtained using MatLab code and MuJoCo as the physics simulator on a Ryzen 3700 personal PC. The most time-consuming procedure is running simulations to collect data for fitting the ARMA model, which is run in serial for now. However, these rollouts are independent of each other, thus can be easily distributed to parallel simulations, which we believe could further improve the time efficiency and have the potential for real-time operation.
+
+Robustness to measurement noise: Figure 6 for Complex Robotic Systems") shows the plots for the episodic cost of the four examples with the variation in the measurement noise. The figure compares the open-loop control policy and the closed-loop control policy under different measurement noise levels, while the process noise standard deviation is set to 10% of the maximal nominal control. The measurement noise level on the x-axis is the percentage of the measurement noise standard deviation w.r.t. the maximal measurement noise. Note that both the measurement and process noise is added as zero-mean Gaussian i.i.d. noise to all measurement and control channels at each step.
+
+As the measurement noise does not influence the open-loop, the open-loop cost curves are shown to be almost flat with invariant variance. The closed-loop cost has a significantly smaller mean and variance than the open-loop cost, which proves the robustness to measurement noise of the closed-loop policy. Note that although the figure is plotted for a large measurement noise level, the closed-loop policy can successfully finish the task with smaller noise levels than what is indicated by the black threshold lines in the figure. Also, the variance of the open-loop policy, as well as the variance of the closed-loop policy at zero measurement noise, come from the fixed 10% process noise. The spikes in the open-loop curves are due to numerical error from the Monte-Carlo simulations.
+
+Robustness to process noise: Figure 7 for Complex Robotic Systems") shows similar plots as shown in Fig. 6 for Complex Robotic Systems") except we vary the process noise level along the x-axis with fixed 10% measurement noise. Under the open-loop policy, the process noise drives the model off the nominal trajectory and results in high episodic cost, while the closed-loop feedback can help the system stay close to the nominal trajectory and reach the target position. This can be seen from the figure as the episodic cost mean and variance of the closed-loop policy is much smaller than the open-loop policy on the entire tested noise range, although both policies fail the task when the process noise becomes larger than what the black threshold line indicates. The above analysis regarding the performance of control policy under noise proves that the LQG closed-loop feedback wrapped around the nominal trajectory makes the full closed-loop policy robust to both measurement and process noise.
+
+Figure 8: DDPG trained with the same information state as POD2C.
+
+Comparison with a Direct RL Method: In a direct RL method such as DDPG, deep neural networks are used to represent the complete closed-loop control policy. Direct RL methods require full state observation and it is not clear how to generalize them to partially observed problems. Thus, we run the DDPG method on the fish example with the same information states as used by POD2C. After training for 20 hours, the fish still cannot swim to the target as shown in Fig. 8 for Complex Robotic Systems").
+
+## Conclusions
+
+The paper presented a decoupled data-based approach to control complex robotic systems with partial state observations. The paper shows that the exact linear state-space model can be matched by the $q$^th^-order ARMA model generated using the input-output data. The ARMA model then can be used to write an LTV system in the information state which allows designing the optimal nominal trajectory using iLQR and also allows for designing the closed-loop feedback law using only the partially-observed states. Empirical results are also shown for complex robotic systems under motion as well as sensing uncertainty. In our opinion, the POD2C approach is a highly efficient method for RL in partially observed problems, however, questions regarding optimality remain and shall be explored in future work. Future work will explore fully and partially observed non-smooth motion planning scenarios such as those in legged robots. Another direction would be problems that require information seeking behavior which will require considering the dual effect of control. We conjecture that a hybrid of our POD2C approach and dual effect Gaussian belief space planning might be useful in this regard.

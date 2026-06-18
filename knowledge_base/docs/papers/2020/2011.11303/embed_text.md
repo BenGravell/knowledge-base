@@ -1,0 +1,150 @@
+## Introduction
+
+Safety is the number one requirement for any system that operates under physical constraints. For decades, this has been a major concern when control systems incorporate forms of adaptation or learning. A considerable body of literature exists establishing stability and performance guarantees in scenarios of parametric plant-model mismatch (see Lorenzen et al.; Tanaskovic et al.; Bujarbaruah and Vallon for some recent works in this direction). Depending on the final application however, assuming that the exact model structure is available might be unrealistic due to the complex physics behind the system at hand, or to the time-monetary costs associated with the modeling process.
+
+A compelling alternative to the paradigm described above is the use of non-parametric models. These form a flexible class of surrogate functions whose number of parameters grows with the cardinality of the dataset. Relevant examples for the control community include the Nonlinear Set Memebership (NSM) and the Kinky Inference (KI) techniques. Due to the ease of incorporating prior expert knowledge and the inherent uncertainty quantification associated with them, Gaussian processes (GPs) have recently become a popular modeling tool for dynamical systems Capone et al.; Matschek and Findeisen; Arcari et al.; Umlauft and Hirche; Shukla et al.; Yingzhao and Jones. Such function approximators are typically paired with appropriate Model Predictive Control (MPC) schemes that not only take into account the latent function estimate, but also the model variance to act with care in highly uncertain regions of the space (see Koller et al.; Hewing et al. for two examples, and Beckers et al. for an exception to this trend).
+
+As opposed to Gaussian processes, kernel ridge regression (KRR) and support vector regression (SVR) are deterministic non-parametric tools. These models have the same form of a GP predictive mean: a weighted sum of kernel basis functions. Moreover, with an appropriate choice of regularization constant, a KRR model matches exactly a GP posterior. Connections between the stochastic and the deterministic frameworks are profound and have been long known. Uncertainty can be quantified in the KRR and SVR cases by considering all maps belonging to their underlying reproducing kernel Hilbert space (RKHS) of functions. The RKHSs associated to various kernels, including the widely used squared-exponential, are dense in the space of continuous functions with compact domains.
+
+Our contribution: We propose in this paper a predictive control strategy based on non-parametric kernel regression that incorporates deterministic guarantees of safety. Samples from the unknown ground-truth dynamics are used to construct one-step and multi-step ahead models, with an appropriate state-dependent uncertainty quantification obtained from recently derived error-bounds. The available dataset can be contaminated by noise, which is only assumed to be bounded, but otherwise drawn from any distribution. An efficient robust optimization formulation is derived to enforce state-constraint satisfaction. We then present a relaxation strategy that exploits on-line information to alleviate the problem constraints while preserving safety. Two numerical examples are provided and we discuss scalability issues to large datasets.
+
+## Problem Definition
+
+We consider a discrete-time nonlinear system of the form
+
+with time $t \in {\mathbb{N}}$, states $x_{t} \in {\mathbb{R}}^{n_{x}}$, inputs $u_{t} \in {\mathbb{R}}^{n_{u}}$, and unknown^11^1If a partial model for the latent function is available, the learning task is simply performed on the error dynamics. transition map $f:{{{\mathbb{R}}^{n_{x}} \times {\mathbb{R}}^{n_{u}}}\rightarrow{\mathbb{R}}^{n_{x}}}$. Hard constraints $x_{t} \in {\mathbb{X}} = \left. \{ x \middle| {{{g_{i}{(x)}} \leq 0},{i = {1,\ldots,n_{\mathbb{X}}}}}\} \right.$ and $u_{t} \in {\mathbb{U}} = \left. \{ u \middle| {{{s_{i}{(u)}} \leq 0},{i = {1,\ldots,n_{\mathbb{U}}}}}\} \right.$ are imposed for all $t \in {\mathbb{N}}$, where $\mathbb{X}$ and $\mathbb{U}$ are polyhedra. More general compact sets could also be considered herein, but the geometric assumptions posed on $\mathbb{X}$ and $\mathbb{U}$ will later allow for an efficient robust reformulation as detailed in Section 4. Given a safe subset of the state space
+
+our goal is to drive the dynamical system from a specified initial condition $x_{0}$ to the set ${\mathbb{X}}_{\text{safe}}$ while satisfying all constraints. Similarly to Koller et al., we also assume that a local policy $\pi_{\text{safe}}:{{\mathbb{X}}_{\text{safe}}\rightarrow{\mathbb{U}}}$ is available, making ${\mathbb{X}}_{\text{safe}}$ forward invariant, i.e., ${{\forall x_{t}} \in {\mathbb{X}}_{\text{safe}}}:{{{f{(x_{t},{\pi_{\text{safe}}{(x_{t})}})}} \in {\mathbb{X}}_{\text{safe}}},{{\pi_{\text{safe}}{(x_{t})}} \in {\mathbb{U}}}}$. A frequent instance of this problem is the regulation to a specific fixed point, in which ${\mathbb{X}}_{\text{safe}} = {\{ x_{\text{eq}}\}}$ and ${\pi{(x_{eq})}} = u_{eq}$ is the equilibrium control constant. In order to accomplish our task, we make use of noise-corrupted measurements of our unknown ground-truth and the formalism of non-parametric kernel learning are described next.
+
+## Non-Parametric Kernel Learning
+
+In this section only, we consider $n_{x} = 1$ simply to avoid using a cumbersome notation; for $n_{x} > 1$, each output component of $f$ has to be considered separately. Moreover, the shorthand notation ${f{(x,u)}} = {f{(z)}}$ is used. Suppose the map $f$ is unknown, but a collection of $D$ measurement pairs is available to reconstruct it
+
+We make the following two assumptions on our dataset and on the observational model.
+
+### Assumption 1
+
+The data locations $z_{1},\ldots,z_{D}$ are pairwise distinct.
+
+### Assumption 2
+
+The noise affecting all data-points $\delta = \left( {\delta_{1}\ldots\delta_{D}} \right)$ is bounded in module by a known quantity $\overline{\delta} \geq {|\delta|}$, $\overline{\delta} \in {\mathbb{R}}_{\geq 0}^{D}$.
+
+The approach of kernel machines is employed to learn the unknown dynamics from the available dataset. Next, we recall the basics of such theory, see Schölkopf et al. for a more complete coverage of the topic. A kernel is any real-valued symmetric positive-semidefinite function $k:{{\mathcal{Z} \times \mathcal{Z}}\rightarrow{\mathbb{R}}}$. Each kernel defines a reproducing kernel Hilbert space $\mathcal{H} \subset {\mathbb{R}}^{\mathcal{Z}}$, where ${\forall z} \in \mathcal{Z}$ we have that ${k{(z, \cdot )}} \in \mathcal{H}$. Computing the inner-product between a map $h \in \mathcal{H}$ and a partially evaluated kernel $k{(z, \cdot )}$ is equivalent to assessing the value of $h$ at $z$, i.e., ${\langle h,{k{(z, \cdot )}}\rangle}_{\mathcal{H}} = {h{(z)}}$, which is known as the reproducing property. Members $f$ of $\mathcal{H}$ can be seen as linear combinations of partially evaluated kernel functions since $\mathcal{H}$ is the closure of ${{\text{span}{({k{(z, \cdot )}})}},{\forall z}} \in \mathcal{Z}$ with respect to the induced metric. The norm in the $\mathcal{H}$ space is defined as ${\| h\|}_{\mathcal{H}} = \sqrt{{\langle h,h\rangle}_{\mathcal{H}}}$.
+
+For convenience, we define $Z$ as the collection of all dataset inputs $z_{d}$, and $y$ as the collection of all targets $y_{d}$. Also, let $K \in {\mathbb{R}}^{D \times D}$ be the constant matrix of kernel evaluations at $Z$, i.e., $k{(z_{i},z_{j})}$ at its i-th row and j-th column, and let $K_{Zz}:{\mathcal{Z}\rightarrow{\mathbb{R}}^{D}}$ denote the column vector function $z\mapsto\left( {k{(z_{1},z)}},\ldots,{k{(z_{D},z)}} \right)^{\top}$ and $K_{zZ}$ simply represents its transpose. Finally, the so-called power function is a non-negative map $P:{\mathcal{Z}\rightarrow{\mathbb{R}}_{\geq 0}}$ defined as
+
+and evaluates to zero for all $z_{d}$ in the dataset. Note the similarity between the power function $P{(z)}$ and the posterior variance of a Gaussian process.
+
+The estimate $\hat{f}$ is built by minimizing a combination of the mean-squared error and a regularization term to penalize complexity, i.e., the kernel ridge regression (KRR) cost
+
+According to the well-known representer theorem, out of all possible maps $h \in \mathcal{H}$, a minimizer exists and is given by a weighted sum of kernels centered at the input locations $Z$. The problem above is therefore equivalent to a finite-dimensional quadratic program whose closed-form solution, our nominal model, is given by
+
+### Remark 1
+
+Note that the map described by has the same form as a Gaussian process posterior distribution conditioned on the data, that is, its predictive mean. Indeed, if $\sigma$ is the noise variance in the GP scenario and $\lambda$ is selected as $\sigma^{2}/D$, the two models are exactly the same. The reader is referred to for a discussion on the existing connections.
+
+### Assumption 3
+
+The chosen kernel $k{( \cdot, \cdot )}$ is a strictly positive-definite function.
+
+### Assumption 4
+
+The unknown dynamics $f$ are contained in the RKHS of the chosen kernel $k{( \cdot, \cdot )}$, and an upper bound for its norm is available $\Gamma \geq {\| f\|}_{\mathcal{H}}$.
+
+The two conditions above are central to the development of the control strategy safety guarantees. Assumption 3 can be satisfied by selecting an appropriate kernel function such as the squared-exponential or the inverse multiquadrics. Assumption 4 encapsulates our knowledge about the complexity of the unknown ground-truth: intuitively, the more kernel basis functions are needed to describe it, the larger the associated norm. The same piece of information is required in the works Koller et al.; Hashimoto et al. as well as in various other recent papers. In Maddalena et al., an example is provided on how $\Gamma$ could be estimated from noiseless samples of the latent function, and how this estimation process is affected by the presence of bounded noise. As shown in the latter work, finite-sample deterministic error bounds exist for KRR models.
+
+### Theorem 3.1 (Maddalena et al. (2020))
+
+Let $K$ be the kernel matrix, $D$ be the number of data-points, $\overline{\delta} \in {\mathbb{R}}_{\geq 0}^{D}$ the noise bound, and $\lambda > 0$ be the regularization constant. Under Assumptions 1 to 4, the KRR model $\hat{f}$ admits the following prediction error bound for any $z \in \mathcal{Z}$
+
+where $f$ is the unknown ground-truth and $\Delta = \max{\{ - \delta^{\top}K^{- 1}\delta}$ $+ 2y^{\top}K^{- 1}\delta\}$ subject to ${|\delta|} \leq \overline{\delta}$.
+
+Notice that the bound above can be easily evaluated, and the only term that is not given in closed-form is the constant $\Delta$--- which requires solving a box-constrained quadratic program over $D$ variables. This quantity is independent of the query point $z$ and compensates for a possible underestimation of the model complexity caused by the noise. If one wishes not to solve such an optimization problem, then the entire square-root term could be replaced by $\Gamma$ at the expense of increasing the bound conservativeness. The term ${\overline{\delta}}^{\top}{|{K^{- 1}K_{Zz}}|}$ accounts for the potentially adversarial nature of $\delta$ and, finally, the last term penalizes the use of high regularization constants $\lambda$. For a stable numerical evaluation of. ‣ 3 Non-Parametric Kernel Learning ‣ KPC: Learning-Based Model Predictive Control with Deterministic Guarantees")), a small diagonal jitter has to be added to the Gram matrix as customary in the field of Gaussian processes.
+
+### Remark 2
+
+When compared to the GP bounds presented in Srinivas et al., the result given in Theorem 3.1). ‣ 3 Non-Parametric Kernel Learning ‣ KPC: Learning-Based Model Predictive Control with Deterministic Guarantees") does not involve information-theoretic measures such as the maximal information gain. The need of estimating such constant hampers the applicability of the former bounds in practical scenarios (see the discussion in Lederer et al. ). When compared to the results in, the inequality. ‣ 3 Non-Parametric Kernel Learning ‣ KPC: Learning-Based Model Predictive Control with Deterministic Guarantees")) tends to give rise to tighter bounds as shown in Maddalena et al.; nevertheless, the latter are more unstable at the extremes of the input space. In order to avoid this effect, data have to ideally fill the ground-truth domain while still being well-separated. In the approximation theory community, this interplay between precision and stability is known as the uncertainty principle.
+
+## Kernel Predictive Control
+
+One possible approach to tackling our problem is to build a single-step surrogate model for the latent function and employ uncertainty propagation techniques to perform multi-step ahead predictions. Propagating sets through general non-linear maps is challenging and usually involves several overbouding steps. Therefore, we opt for learning various condensed models, one for each of the $N$ prediction steps. Let $F_{1}:{{{\mathbb{X}} \times {\mathbb{U}}}\rightarrow{\mathbb{X}}}$ be the one-step ahead predictor in which each dimension in learned separately by KRR models ${\hat{f}}_{1},\ldots,{\hat{f}}_{n_{x}}$
+
+Define $F_{2}$ as ${(x_{0},u_{0},u_{1})}\mapsto{F_{2}{(x_{0},u_{0},u_{1})}} = \left( {{\hat{f}}_{1}{(x_{0},u_{0},u_{1})}},\ldots,{{\hat{f}}_{n_{x}}{(x_{0},u_{0},u_{1})}} \right)$, the two-step ahead model, and $F_{3},\ldots,F_{N}$ analogously. Robust confidence sets are then built around our nominal predictions. Let $\mathcal{X}_{1}:{\mathbb{X}} \times {\mathbb{U}}:\rightarrow 2^{\mathbb{X}}$ be a set-valued function defined as the hyper-rectangle
+
+where $\beta{(x,u)}$ denotes the right-hand side of the inequality. ‣ 3 Non-Parametric Kernel Learning ‣ KPC: Learning-Based Model Predictive Control with Deterministic Guarantees")), and $a \pm b$ refers to the set $\left. \{ c \middle| {{a - b} \leq c \leq {a + b}}\} \right.$. Similarly, define also the maps $\mathcal{X}_{2},{\ldots\mathcal{X}_{N}}$, which share the same domain respectively with $F_{2},\ldots,F_{N}$. As a direct consequence of Theorem 3.1). ‣ 3 Non-Parametric Kernel Learning ‣ KPC: Learning-Based Model Predictive Control with Deterministic Guarantees"), we have that
+
+Figure 1: A schematic representation of the outcome of each model. Nominal predictions Ft (—), confidence sets 𝒳t (- -), and the unknown ground-truth f (\textcolorkindagray—). All functions also depend on the chosen control sequence, which is omitted for clarity.
+
+### Remark 3
+
+Training the associated kernel models requires various $N$-step experiments to be performed rather than simply having one-step ones. For instance, the model $F_{N}$ requires multiple tuples $(x_{0},u_{0},\ldots,u_{N - 1})$ as features and (possibly noisy) measurements of the resulting states $x_{N}$ as targets. We highlight that long sequences of linked states, i.e., long experiments, are preferred over various short ones even in classical parametric system identification.
+
+Let $x_{0}$ be a given initial condition for the true dynamical system. Our Kernel Predictive Control formulation is expressed as the finite-horizon optimal control problem
+
+$\text{KPC}:\min\limits_{X,U}$ ${\sum\limits_{t = 0}^{N - 1}{\ell{(x_{t},u_{t})}}} + {\ell_{f}{(x_{N})}}$ (11a)
+${{\mathcal{X}_{t}{(x_{0},u_{0},\ldots,u_{t - 1})}} \subseteq {{\mathbb{X}},{\forall t}}}\mspace{102mu}$ (11c)
+${\mathcal{X}_{N}{(x_{0},u_{0},\ldots,u_{N - 1})}} \subseteq {\mathbb{X}}_{\text{safe}}$ (11d)
+
+where $X = {(x_{1},\ldots,x_{N})}$, $U = {(u_{0},\ldots,u_{N - 1})}$ are the decision variables, and $\ell{(x,u)}$ and $\ell_{f}{(x)}$ are appropriately designed stage and final costs. In a receding-horizon implementation, KPC is solved recursively and only the first optimal control inputs are applied to the system.
+
+### Proposition 1
+
+Let the *KPC* problem be feasible and $(X^{\star},U^{\star})$ be any of its feasible solutions. The sequence of inputs $U^{\star} = {(u_{0}^{\star},\ldots,u_{N - 1}^{\star})}$ drives the true system from $x_{0}$ to the safe set ${\mathbb{X}}_{\text{safe}}$ while satisfying the constraints at all times, i.e., ${{f{(x_{0},u_{0}^{\star})}},{f{({f{(x_{0},u_{0}^{\star})}},u_{1}^{\star})}},\ldots} \in {\mathbb{X}}$, and ${f{({\ldotsf{({f{(x_{0},u_{0}^{\star})}},u_{1}^{\star})}},\ldots,u_{N - 1}^{\star})}} \in {\mathbb{X}}_{\text{safe}}$.
+
+Proof: Follows from the definition of the sets, the validity of the deterministic bounds. ‣ 3 Non-Parametric Kernel Learning ‣ KPC: Learning-Based Model Predictive Control with Deterministic Guarantees")), and the imposed constraints (11c) and (11d).
+
+The KPC constraints (11c) and (11d) are set inclusions that need to be reformulated to allow for numerical computations. In what follows, we employ a coordinate transformation and exploit the closed-form solution of the obtained hyper-cube support function. Let $H_{i}$ and $h_{i}$ be the parameters of the $i$th half-space of $\mathbb{X}$ and consider the condition $\mathcal{X}_{t} \subseteq {\mathbb{X}}$, where the arguments of $\mathcal{X}_{t}$ are omitted to ease notation. This constraint is satisfied if for each one of the half-spaces ${g_{i}{(x)}} \leq 0$ that describe the polyhedron $\mathbb{X}$ it holds that
+
+where $F_{t}$ and $\mathcal{B}_{t} = {(\beta_{1},\ldots,\beta_{n_{x}})}^{\top} \in {\mathbb{R}}^{n_{x}}$ are the parameters of the confidence set $\mathcal{X}_{t}$ (see ), and $B_{t} = {\text{diag}\left( \beta_{1},\ldots,\beta_{n_{x}} \right)} \in {\mathbb{R}}^{n_{x} \times n_{x}}$. Lastly, the one-norm can be eliminated from by introducing new auxiliary variables and inequality constraints, a standard linear programming procedure.
+
+### Remark 4
+
+The maximization in could also be directly converted into its dual form without the reformulation. Although this would not introduce any conservatism, additional decision variables would be created along with nonlinear equality constraints, thus significantly increasing the KPC formulation complexity. The approach adopted above is both economic and exact.
+
+After converting the set constraints (11c) and (11d) into the form, one obtains
+
+$\min\limits_{X,U}$ ${\sum\limits_{t = 0}^{N - 1}{\ell{(x_{t},u_{t})}}} + {\ell_{f}{(x_{N})}}$ (17a)
+
+in which ${H_{i},Q_{i}} \in {\mathbb{R}}^{n_{x}}$, ${h_{i},q_{i}} \in {\mathbb{R}}$ for all $i$, $S \in {\mathbb{R}}^{n_{\mathbb{U}} \times n_{u}}$ and $s \in {\mathbb{R}}^{n_{\mathbb{U}}}$. Finally, if a solution to is found, the true system can be steered to ${\mathbb{X}}_{\text{safe}}$ in open-loop; however, this feasibility does not guarantee that future iterations of the same problem will also be feasible.
+
+### Safe Relaxation Strategy
+
+Next we propose a safe relaxation strategy (SRS) that can be used to weaken the optimization problem constraints (17c)-(17d) whenever data from previous KPC iterations are available.
+
+### Proposition 2
+
+Assume that the $N - 1$ previous consecutive *KPC* iterations were feasible. Denote by $(u_{{- N} + 1},\ldots,u_{- 1})$ and $(x_{{- N} + 1},\ldots,x_{- 1})$ the closed-loop sequences of past controls and states, and by $x_{0}$ the current state. Let *KPC*^+^ be the *KPC* optimization problem with set constraints ${\mathcal{X}_{1}{(x_{0},u_{0})}} \subseteq {\mathbb{X}}$, ${\mathcal{X}_{2}{(x_{0},u_{0},u_{1})}} \subseteq {\mathbb{X}}$, $\ldots$, ${\mathcal{X}_{N - 1}{(x_{0},u_{0},\ldots,u_{N - 2})}} \subseteq {\mathbb{X}}$ relaxed to
+
+Let *KPC*^+^ be feasible and $(X^{\star},U^{\star})$ be any of its feasible solutions. Then, $U^{\star} = {(u_{0}^{\star},\ldots,u_{N - 1}^{\star})}$ drives the true system from $x_{0}$ to the safe set ${\mathbb{X}}_{\text{safe}}$ while satisfying the constraints at all times, i.e., ${{f{(x_{0},u_{0}^{\star})}},{f{({f{(x_{0},u_{0}^{\star})}},u_{1}^{\star})}},\ldots} \in {\mathbb{X}}$, and ${f{({\ldotsf{({f{(x_{0},u_{0}^{\star})}},u_{1}^{\star})}},\ldots,u_{N - 1}^{\star})}} \in {\mathbb{X}}_{\text{safe}}$.
+
+Proof: From construction, we know that ${\mathcal{X}_{t}{(x_{0},u_{0}^{\star},\ldots,u_{t - 1}^{\star})}} \ni {f{({\ldotsf{({f{(x_{0},u_{0}^{\star})}},\ldots)}},u_{t - 1}^{\star})}}$ for any $t$. If the previous KPC iteration was feasible, then also $\mathcal{X}_{t + 1}{(x_{- 1},u_{- 1},u_{0}^{\star},\ldots,u_{t - 1}^{\star})}$ contains the same point, where $x_{- 1}$ and $u_{- 1}$ are past closed-loop data. Considering a total of $N - 1$ previous consecutive feasible KPC iterations yields a total of $N$ set conditions for $f{(x_{0},u_{0}^{\star})}$, $N - 1$ set conditions for $f{(x_{0},u_{0}^{\star},u_{1}^{\star})}$, $\ldots$, and $1$ set condition for $f{({\ldotsf{({f{(x_{0},u_{0}^{\star})}},u_{1}^{\star})}},\ldots,u_{N - 1}^{\star})}$. At any time $t = {1,\ldots,N}$, the true system state is therefore contained in the intersection of the associated sets and, hence, enforcing the relaxed constraints suffices to enforce constraint satisfaction.
+
+The KPC formulation does not guarantee recursive feasibility due to the use of several distinct models. Nevertheless, previous successful iterations can contribute to the feasibility of future KPC problems through the stated SRS. More specifically, the closed-loop data of up to $N - 1$ past steps^22^2If only $M < {N - 1}$ previous iterations were feasible, can be adapted to have less set intersections. can be used to reduce the uncertainty regarding the location of true next states without updating the KRR nominal models. We highlight that the last constraint $x_{N} \in {\mathbb{X}}_{\text{safe}}$ is not relaxed by Proposition 2, but remains unchanged.
+
+## Experiments
+
+We illustrate the use of KPC, implemented in a receding-horizon fashion, in two different scenarios. The optimization problems were formulated with the aid of CasADi, the Multi-Parametric Toolbox, and solved with IPOPT ^33^3Additional details about the simulations are available at https://github.com/emilioMaddalena/KPC..
+
+Example 1: Consider a continuous stirred-tank reactor (CSTR) whose continuous-time dynamics are given by the differential equations
+
+where $c_{A}$ and $c_{B}$ denote respectively the concentrations of cyclopentadiene and cyclopentenol, and $u$ represents the feed inflow of cyclopentadiene. We assume that the reactor temperature is constant and simulate the dynamics with the parameter values: ${\rho_{1} = \rho_{2} = {{4.1 \times 10^{- 3}}\text{~h}^{- 1}}},{{\rho_{3} = {{6.3 \times 10^{- 4}}\text{~h}^{- 1}}},{c_{A0} = {5.1\text{~mol/l}}}}$. The constraint sets are ${\mathbb{X}} = \left. \{{x \in {\mathbb{R}}^{2}} \middle| {\begin{pmatrix}
+\end{pmatrix}^{\top} \leq x \leq \begin{pmatrix}
+\end{pmatrix}^{\top}}\} \right.$, ${\mathbb{U}} = \left. \{{u \in {\mathbb{R}}} \middle| {\, 3 \leq u \leq 35}\} \right.$, and the safe set is the singleton ${{\mathbb{X}}_{\text{safe}} = {\{ x_{\text{eq}}\}}},{x_{\text{eq}} = \begin{pmatrix}
+\end{pmatrix}^{\top}}$ with $u_{\text{eq}} = 14.19$. The sampling period is $30$ seconds and the prediction horizon was chosen to be $N = 3$. Three distinct random datasets were collected with $300$, $400$ and $500$ points respectively for the one-step, two-step and three-step ahead predictors. The noise affecting our samples was drawn randomly with uniform bound $1 \times 10^{- 3}$. Squared-exponential kernels were chosen and their hyperparameters were adjusted until good fits were obtained; specifically, the lengthscales were set to larger values when dealing with higher-dimensional feature spaces. The exact regressor norms were calculated and an augmentation factor of $150\%$ was used to obtain estimates $\Gamma$. This latter step accounts for the ground-truth complexity in unexplored regions of the space. Finally, standard quadratic stage and terminal costs were employed with positive definite weight matrices.
+
+As is customary in practical non-linear optimal control, the terminal constraint was dropped and only a terminal penalty was employed. The system evolution starting from various initial conditions is shown in Figure 2. The closed-loop trajectories (shown on the left) converged to a neighborhood of $x_{S}$, while all predictions and confidence sets (shown on the right) remained inside the feasible set $\mathbb{X}$ at all time-instants. It is also possible to note how predicting further into the future is more challenging as the lengths of the boxes tended to be larger at the end of the prediction horizon.
+
+Figure 2: Left: Closed-loop system trajectories starting from different initial conditions. Right: KPC open-loop nominal predictions and uncertainty sets during all time-instants and starting from different initial conditions.
+
+Figure 3: Left: Nominal kernel-MPC predictions (\textcolorbordeaux- -) and closed-loop trajectory (\textcolorbordeaux—). Center: KPC predictions (\textcolorripeOrange- -) and closed-loop trajectory (\textcolorripeOrange—). Right: KPC full open-loop predictions, confidence intervals (\textcolorazzurro—) as error bars, and initial points depicted as circular markers. The nominal kernel-MPC predictions satisfy the constraints, but the real system violates them. KPC leads to a safe operation without constraint violations.
+
+Example 2: The continuous-time angular dynamics of a pendulum with a rigid rod can be described by ${\overset{˙}{x}}_{1} = x_{2}$, ${\overset{˙}{x}}_{2} = {{{{({g/l})}{\sin{(x_{1})}}} - {{({\nu/{({ml^{2}})}})}x_{2}}} + {{({1/{({ml^{2}})}})}u}}$, where $x_{1}$ is its angular position, $x_{2}$ its angular velocity, and $u$ the torque applied to it. The parameters are: $m = 0.15$ the mass of the pendulum, $l = 0.5$ the length of the rod, $g = 9.81$ the gravitational constant, and $\nu = 0.1$ a constant for the friction model. Let the constraints be ${|x_{1}|} \leq 3$, ${|x_{2}|} \leq 1$, and the input be limited to ${|u|} \leq 1$. We selected a prediction horizon of $N = 4$ and collected $D = 100$ uniformly random data-points for each of the eight regression tasks. The noise was drawn randomly from a uniform distribution with bound $\overline{\delta} = {0.01\text{1}}$, where $\text{1} \in {\mathbb{R}}^{D}$ is a vector of ones. Similarly to the previous example, we used a squared-exponential kernel with increasing lengthscales and employed an augmentation factor of $300\%$ on the nominal predictor norms to estimate the $\Gamma$ constants. The sampling and control period was $0.2$ seconds. We compared KPC against nominal kernel-MPC, i.e., a certainty equivalence approach where the state-constraints were imposed directly on the nominal predictions (11b). In the latter case, uncertainty was not quantified and the confidence sets were not present. The cost used in both formulations was a positive definite function of the states and control inputs, and included a terminal penalty term.
+
+Predictions and the system angular velocity evolution from two different initial conditions are shown in Figure 3. As can be seen from the plots, imposing the state-constraints on the nominal model predictions was not sufficient to guarantee safety as the closed-loop system behavior violated the $x_{2} \geq {- 1}$ restriction. On the other hand, since KPC quantified and incorporated the associated uncertainty into the optimization problems, the constraints were satisfied. The error bars on the right plot show the all predictions and uncertainty values at each step in the form of error bars. Note that the safety constraints were active at multiple points in time.
+
+## Concluding Remarks
+
+KPC was proposed as a predictive control methodology based on non-parametric kernel models and their associated uncertainty estimates. Its key feature is deterministic constraint satisfaction when a solution to the optimization problem is found. From an approximation theory perspective, future works could study the advantages of employing SVR surrogate models over KRR ones, as well as refining the existing error-bounds, which we believe to be possible. Establishing conditions under which KPC would enjoy additional closed-loop properties such as convergence is deemed as interesting and could guide practical real-world applications of the proposed control scheme.
+
+This work received support from the Swiss National Science Foundation under the Risk Aware Data-Driven Demand Response project (grant number 200021 175627) and CSEM's Data Program.

@@ -1,0 +1,422 @@
+## Introduction
+
+Algebraic Riccati equations (AREs) arise in various models related to control theory, especially in linear-quadratic optimal control design. The deterministic/classical ones are considered for the deterministic linear time-invariant systems, including discrete-time algebraic Riccati equations (DAREs)
+
+and continuous-time algebraic Riccati equations (CAREs)
+
+During many years, people have developed rich theoretical results and numerical methods for the DAREs and CAREs. Readers are referred to to obtain an overview for both theories and algorithms. In comparison, the stochastic/rational ones are considered for the stochastic linear time-invariant systems, including stochastic discrete-time algebraic Riccati equations (SDAREs)
+
+and stochastic continuous-time algebraic Riccati equations (SCAREs)
+
+Here $r - 1$ is the number of stochastic processes involved in the stochastic systems dealt with, and it is easy to check that for the case $r = 1$ SDAREs and SCAREs degenerate to DAREs and CAREs respectively. Due to the complicated forms, one may recognize it would be much more difficult to analyze their properties and obtain their solutions. There are still literature, e.g. discussing the stochastic linear systems and the induced stochastic AREs.
+
+As we can see, the stochastic AREs are still algebraic, and it is quite natural to ask whether algebraic methods could be developed to solve them. However, limited by lack of clear algebraic structures, to the best of the authors' knowledge, nearly all of the existing algorithms are based on the differentiability or continuity of the equations, such as Newton's method, modified Newton's method, Lyapunov/Stein iterations, comparison theorem based method, LMI's (linear matrix inequality) method, and homotopy method.
+
+The key to the problem is the algebraic structures behind the equations. In this paper, we will build up a simple and clear algebraic interpretation of SDAREs and SCAREs with the help of the so-called left semi-tensor product. In the analysis we find out the Toeplitz structure and the symplectic structure appearing in the equations, and illustrate the fact that the fixed point iteration and the doubling iteration are also valid for them. The algebraic structures found here will shed light on the theoretical analysis and numerical algorithms design, and strongly imply that stochastic AREs are almost as easy as deterministic ones.
+
+The rest of the paper is organized as follows. First some notations and a brief description of the left semi-tensor product are given immediately. Section 2 and Section 3 are devoted to describe the algebraic structures in SDAREs and SCAREs respectively. At last some concluding remarks are given in Section 4.
+
+### Notations
+
+In this paper, $\mathbb{R}$ is the set of all real numbers. ${\mathbb{R}}^{n \times m}$ is the set of all $n \times m$ real matrices, ${\mathbb{R}}^{n} = {\mathbb{R}}^{n \times 1}$, and ${\mathbb{R}} = {\mathbb{R}}^{1}$. $I_{n}$ (or simply $I$ if its dimension is clear from the context) is the $n \times n$ identity matrix. Given a matrix $X$, $X^{T}$, $\| X\|$, and $\rho{(X)}$ are its transpose, induced norm, and spectral radius respectively. Given a linear operator $\mathcal{X}$, $\mathcal{X}^{\ast}$, $\|\mathcal{X}\|$, and $\rho{(\mathcal{X})}$ are its adjoint, norm, and spectral radius respectively. For a symmetric matrix $X$, $X \succ 0$ ($X \succeq 0$) indicates its positive (semi-)definiteness, and $X \prec 0$ ($X \preceq 0$) if ${- X} \succ 0$ (${- X} \succeq 0$).
+
+Some easy identities are given:
+
+Here is the Sherman-Morrison-Woodbury formula:
+
+The inverse sign in 1.3 and 1.4 indicates invertibility.
+
+### Left semi-tensor product
+
+The left semi-tensor product, first defined in 2001, has many applications in system and control theory, such as Boolean networks and electrical systems. Please seek more information in the monograph.
+
+By $A \otimes B$ denote the Kronecker product of the matrices $A$ and $B$. For ${A \in {\mathbb{R}}^{m \times n}},{B \in {\mathbb{R}}^{p \times q}}$, define the left semi-tensor product of $A$ and $B$:
+
+This product satisfies:
+
+${{({A \ltimes B})} \ltimes C} = {A \ltimes {({B \ltimes C})}}$ (so the parenthesis can be omitted);
+
+${{{({A + B})} \ltimes C} = {{A \ltimes C} + {B \ltimes C}}},{{A \ltimes {({B + C})}} = {{A \ltimes B} + {A \ltimes C}}}$;
+
+\end{bmatrix} \ltimes \begin{bmatrix}
+\end{bmatrix}} = \begin{bmatrix}
+
+The left semi-tensor product, which satisfies the same arithmetic laws as the classical matrix product, can be treated as the matrix product in the following sections. Briefly, we write $A^{\ltimes k} = \underset{k}{\underbrace{A\ltimes A\ltimes\cdots\ltimes A}}$.
+
+## SDARE
+
+Consider the SDARE 1.1 where ${A_{i},Q} \in {\mathbb{R}}^{n \times n}$, $B_{i} \in {\mathbb{R}}^{n \times m}$, $L \in {\mathbb{R}}^{n \times m}$ and $R \in {\mathbb{R}}^{m \times m}$ with $\begin{bmatrix}
+\end{bmatrix} \succeq 0$. It is easy to see that $X$ is a solution if and only if $X^{T}$ is a solution. In control theory, usually only symmetric solutions to 1.1 are needed. Hence in the paper, we only consider the symmetric solutions.
+
+The SDARE 1.1 arises from linear time-invariant stochastic discrete-time control systems:
+
+where $x_{t},u_{t},z_{t}$ are states, inputs, measurements, respectively, and $\{{w_{t} = \begin{bmatrix}
+\end{bmatrix}^{T}}\}$ is a sequence of independent random vectors satisfying ${{E\left\{ w_{t} \right\}} = 0},{{E\left\{ {w_{t}w_{t}^{T}} \right\}} = I_{r - 1}}$. Let $\left. \{{\sigma{(w_{0},w_{1},\ldots,w_{t})}} \middle| {{t} = {0,1,\ldots}}\} \right.$ be the related $\sigma$-algebra filtration. Write ${\mathbf{u}} = {\{ u_{k}\}}_{k \in {\mathbb{N}}}$. Considering the stochastic discrete-time control system 2.1, the goal is to minimize the cost functional with respect to $\mathbf{u}$ when $x_{0}$ is given:
+
+Assume the following conditions hold throughout this section:
+
+the pair $({\{ A_{i}\}}_{i = 0}^{r - 1},{\{ B_{i}\}}_{i = 0}^{r - 1})$ is stabilizable, namely there exists $F \in {\mathbb{R}}^{m \times n}$ such that the linear operator $\mathcal{S}_{F}:{{{\mathbb{R}}^{n \times n}\rightarrow{\mathbb{R}}^{n \times n}},{S\mapsto{\begin{bmatrix}
+\end{bmatrix}{({I_{r} \otimes S})}\begin{bmatrix}
+\end{bmatrix}^{T}}}}$ is exponentially stable, or equivalently,
+
+the pair $({\{ A_{i}\}}_{i = 0}^{r - 1},C)$ is detectable with $C \in {\mathbb{R}}^{l \times n}$ satisfying ${C^{T}C} = {Q - {LR^{- 1}L^{T}}}$, that is, $({\{ A_{i}^{T}\}}_{i = 0}^{r - 1},{\{ C_{i}^{T}\}}_{i = 0}^{r - 1})$ is stabilizable for $C_{0} = C$ and $C_{i} = 0$ for $i = {1,\cdots,{r - 1}}$.
+
+It is known that if the assumption above holds, then 1.1 has a unique positive semi-definite stabilizing solution $X_{\star}$, see, e.g., \[10, Theorem 5.14\]. Here, $X$ is called a stabilizing solution if $\mathcal{S}_{F_{X}}$ is exponentially stable with
+
+In fact, $X_{\star}$ is a stabilizing solution if and only if the zero equilibrium of the closed-loop system
+
+is strongly exponentially stable in the mean square \[10, Remark 5.11\], where $F_{\star} = F_{X_{\star}}$ is as in 2.3 with $X = X_{\star}$. Moreover, the cost functional 2.2 has an optimal control $u_{t} = {F_{\star}x_{t}}$.
+
+### Fixed point iteration and Toeplitz structure
+
+We first compute the equivalent form of 1.1. Define ${{\overset{\sim}{A} = \begin{bmatrix}
+\end{bmatrix}},{\overset{\sim}{B} = \begin{bmatrix}
+\end{bmatrix}}},$ then 1.1 is equivalent to
+
+Let $\Pi$ be the permutation satisfying ${\Pi^{T}{({X \otimes I_{r}})}\Pi} = {I_{r} \otimes X}$, and define ${A = {\Pi{({\overset{\sim}{A} - {\overset{\sim}{B}R^{- 1}L^{T}}})}}},{B = {\Pi\overset{\sim}{B}R^{- {1/2}}}}$. Noticing ${C^{T}C} = {Q - {LR^{- 1}L^{T}}}$, 1.1 is further equivalent to
+
+Also $F_{\star}$ is rewritten as
+
+By 1.4 the equivalent form 2.4 leads us to consider a standard form of SDARE:
+
+where ${A \in {\mathbb{R}}^{{rn} \times n}},{{B \in {\mathbb{R}}^{{rn} \times m}},{C \in {\mathbb{R}}^{l \times n}}}$ and $\mathcal{D}:{{\mathbb{R}}^{n \times n}\rightarrow{\mathbb{R}}^{n \times n}}$. It is clear to see that 2.6 is exactly the same as the classical DARE except that the matrix product is replaced by the left semi-tensor product, and it is reduced to the DARE if $r = 1$.
+
+Encouraging by the theory of DARE, one may solve the SDARE 2.6 by the fixed point iteration:
+
+Theorem 2.1. ‣ 2.1 Fixed point iteration and Toeplitz structure ‣ 2 SDARE ‣ Stochastic algebraic Riccati equations are almost as easy as deterministic ones theoretically") analyzes the convergence of the fixed point iteration 2.7.
+
+### Theorem 2.1 (Convergence of fixed point iteration for SDAREs)
+
+The operator $\mathcal{D}$ is monotonic on the set consisting of all positive semi-definite matrices with respect to the partial order "$\succeq$". In detail, if ${Z_{1} \succeq 0},{Z_{2} \succeq 0}$, then ${Z_{1} \succeq Z_{2}\Rightarrow{\mathcal{D}{(Z_{1})}} \succeq {\mathcal{D}{(Z_{2})}}}.$
+
+The sequence $\{ X_{t}\}$ generated by the fixed point iteration 2.7 is monotonically nondecreasing, and converges to the unique positive semi-definite stabilizing solution $X_{\star}$ of the SDARE 2.6. Moreover, the sequence is either finite or monotonically increasing (i.e., for any $t$, ${X_{t + 1} \succeq X_{t}},{X_{t + 1} \neq X_{t}}$).
+
+The sequence $\{ X_{t}\}$ generated by the fixed point iteration 2.7 converges R-linearly. In detail, there exists ${Y \in {\mathbb{R}}^{n \times n}},{Y \succ 0}$ such that
+
+which implies ${{\lim\limits_{t\rightarrow\infty}\left( \frac{\|{X_{t} - X_{\star}}\|}{\| X_{\star}\|} \right)^{1/t}} \leq {\rho{(\mathcal{S}_{F_{\star}})}} < 1}.$ Here ${(\mathcal{S}_{F_{\star}}^{\ast})}^{t}$ is the $t$ compositions of the adjoint of the operator $\mathcal{S}_{F_{\star}}$.
+
+### Proof
+
+First prove Item 1. ‣ 2.1 Fixed point iteration and Toeplitz structure ‣ 2 SDARE ‣ Stochastic algebraic Riccati equations are almost as easy as deterministic ones theoretically"). Suppose $Z_{2} \succ 0$ and thus $Z_{2}$ is nonsingular. Then
+
+If $Z_{2}$ is singular, then ${Z_{2} + {\varepsilonI}} \succ 0$ for any $\varepsilon > 0$. Thus, taking limits yields
+
+Then turn to Item 2. ‣ 2.1 Fixed point iteration and Toeplitz structure ‣ 2 SDARE ‣ Stochastic algebraic Riccati equations are almost as easy as deterministic ones theoretically"). Since $X_{1} = {C^{T}C} \succeq X_{0} = 0$, by Item 1. ‣ 2.1 Fixed point iteration and Toeplitz structure ‣ 2 SDARE ‣ Stochastic algebraic Riccati equations are almost as easy as deterministic ones theoretically") we have $X_{2} = {\mathcal{D}{(X_{1})}} \succeq {\mathcal{D}{(X_{0})}} = X_{1}$. Similarly $0 = X_{0} \preceq X_{1} \preceq X_{2} \preceq \cdots \preceq X_{t} \preceq \cdots$, namely the sequence $\{ X_{t}\}$ generated by 2.7 is monotonic. On the other hand, let $X_{\star} \succeq 0$ be the stabilizing solution of the SDARE 2.6. Then it follows from Item 1. ‣ 2.1 Fixed point iteration and Toeplitz structure ‣ 2 SDARE ‣ Stochastic algebraic Riccati equations are almost as easy as deterministic ones theoretically") that $X_{\star} = {\mathcal{D}{(X_{\star})}} \succeq {\mathcal{D}{(X_{0})}} = X_{1}$, and similarly $X_{\star} \succeq X_{t}$ for any $t$, implying that $X_{\star}$ is an upper bound of ${\{ X_{t}\}}_{t = 0}^{\infty}$. Hence $X_{t}$ converges. Since the limit of $X_{t}$ is a fixed point of 2.6, namely a positive semi-definite solution of SDARE, by the uniqueness of the positive semi-definite solution, $X_{t}\rightarrow X_{\star}$. On the other hand, if for some $t$, $X_{t} = X_{t + 1} = {\mathcal{D}{(X_{t})}}$, then $X_{t}$ is a fixed point, namely a positive semi-definite solution, which forces $X_{t} = X_{\star}$. In other words, the iteration terminates in finite steps.
+
+Finally show Item 3. ‣ 2.1 Fixed point iteration and Toeplitz structure ‣ 2 SDARE ‣ Stochastic algebraic Riccati equations are almost as easy as deterministic ones theoretically"). Write
+
+Note that $B_{\star} = {B{({I_{m} + {B^{T} \ltimes X_{\star} \ltimes B}})}^{- 1}B^{T}} \succeq 0$ by 1.3. Then the adjoint of $\mathcal{S}_{F_{\star}}$ is $\mathcal{S}_{F_{\star}}^{\ast}:{{{\mathbb{R}}^{n \times n}\rightarrow{\mathbb{R}}^{n \times n}},{S\mapsto{\sum_{i = 0}^{r - 1}{{({A_{i} + {B_{i}F_{\star}}})}^{T}S{({A_{i} + {B_{i}F_{\star}}})}}} = {A_{\star}^{T}{({S \otimes I_{r}})}A_{\star}} = {A_{\star}^{T} \ltimes S \ltimes A_{\star}}}}$, and ${\rho{(\mathcal{S}_{F_{\star}}^{\ast})}} = {\rho{(\mathcal{S}_{F_{\star}})}}$. For $Z \in {\mathbb{R}}^{{{r^{k}n} \times r^{k}}n}$, define a family of operators $\mathcal{S}_{\ltimes}:{{{\mathbb{R}}^{{{r^{k}n} \times r^{k}}n}\rightarrow{\mathbb{R}}^{{{r^{k + 1}n} \times r^{k + 1}}n}},{Z\mapsto{{B_{\star} \otimes I_{r^{k}}} + {A_{\star} \ltimes Z \ltimes A_{\star}^{T}}}}}$. It is easy to verify that ${\mathcal{S}_{\ltimes}{({Z \otimes I_{r}})}} = {{\mathcal{S}_{\ltimes}{(Z)}} \otimes I_{r}}$, and $Z_{1} \succeq Z_{2}\Rightarrow{\mathcal{S}_{\ltimes}{(Z_{1})}} \succeq {\mathcal{S}_{\ltimes}{(Z_{2})}}$, namely $\mathcal{S}_{\ltimes}$ is monotonically nondecreasing.
+
+For any $t$, write $\Delta_{t}:={X_{\star} - X_{t}}$, and then
+
+Then we may obtain the relation between $\Delta_{t}$ and $\Delta_{t - 2}$:
+
+Since ${{({B_{\star} \ltimes \Delta_{t - 2}})} \otimes I_{r}} = {{({B_{\star}{({\Delta_{t - 2} \otimes I_{r}})}})} \otimes I_{r}} = {{({B_{\star} \otimes I_{r}})}{({\Delta_{t - 2} \otimes I_{r^{2}}})}} = {{({B_{\star} \otimes I_{r}})} \ltimes \Delta_{t - 2}}$,
+
+Similarly, substituting $\Delta_{t - 2}$ with its expression of $\Delta_{t - 3}$, we also have
+
+where $\mathcal{S}_{\ltimes}^{2} = {\mathcal{S}_{\ltimes}\mathcal{S}_{\ltimes}}$ is the composition. By induction,
+
+for ${{X_{0} = 0_{n \times n}},{\Delta_{0} = {X_{\star} - X_{0}} = X_{\star}}},{{\mathcal{S}_{\ltimes}{(X_{0})}} = B_{\star}}$.
+
+We claim that the following holds, which will be proved soon later:
+
+Then by the properties of $\mathcal{S}_{\ltimes}$, from $X_{0} \prec Y$ we infer ${\mathcal{S}_{\ltimes}^{t}{(X_{0})}} \preceq {\mathcal{S}_{\ltimes}^{t}{(Y)}} \preceq {\mathcal{S}_{\ltimes}^{t - 1}{({Y \otimes I_{r}})}} = {{\mathcal{S}_{\ltimes}^{t - 1}{(Y)}} \otimes I_{r}} \preceq \cdots \preceq {Y \otimes I_{r^{t}}}$. Thus,
+
+namely 2.8. ‣ 2.1 Fixed point iteration and Toeplitz structure ‣ 2 SDARE ‣ Stochastic algebraic Riccati equations are almost as easy as deterministic ones theoretically"). Then by the Gel'fand Theorem,
+
+Afterwards consider the claim 2.9. Since $X_{\star}$ is the unique positive semi-definite stabilizing solution, the linear Lyapunov operator $\mathcal{S}_{F_{\star}}^{\ast}$ is exponentially stable, leading that the zero equilibrium of the system
+
+is strongly exponentially stable in the mean square \[10, Definition 3.1\]. Then by \[10, Corollary 4.2\], there exists $Z \succ 0 \in {\mathbb{R}}^{n \times n}$ satisfying
+
+Thus, considering the Schur complement gives
+
+and hence ${{Z^{- 1} \otimes I_{r}} - {A_{\star}Z^{- 1}A_{\star}^{T}}} \succ 0$. Since $B_{\star} \succeq 0$, there exists $\alpha > 0$ such that ${{Z^{- 1} \otimes I_{r}} - {A_{\star}Z^{- 1}A_{\star}^{T}}} \succeq {\alphaB_{\star}}$. Then $Y = {\frac{1}{\alpha}Z^{- 1}}$ guarantees the claim 2.9. ∎
+
+Moreover, the sequence $\{ X_{t}\}$ has a closed form, namely a non-iterative expression, as is shown in Theorem 2.2. ‣ 2.1 Fixed point iteration and Toeplitz structure ‣ 2 SDARE ‣ Stochastic algebraic Riccati equations are almost as easy as deterministic ones theoretically"). Just like what happens in DAREs, the key to the form is the Toeplitz structure, defined as follows.
+
+Given $A_{i} \in {\mathbb{R}}^{{r^{i}p_{1}} \times p_{2}}$ for $i = {0,1,\cdots,{m - 1}}$, write the ${{p_{1}\frac{r^{m} - 1}{r - 1}} \times p_{2}}\frac{r^{m} - 1}{r - 1}$ matrix
+
+For ease, ${\mathcal{L}_{r,p_{1},p_{2}}{(A)}} = {\mathcal{L}_{r,p_{1},p_{2}}\left( \begin{bmatrix}
+\end{bmatrix} \right)}$ if $A = \begin{bmatrix}
+\end{bmatrix}$, and this notation makes no confusion for the subscript $\cdot_{r,p_{1},p_{2}}$ demonstrates how the matrix is composed. Note that $\mathcal{L}_{r,p_{1},p_{2}}{(A)}$ degenerates to a block-Toeplitz matrix in the case $r = 1$. In this paper it is called a $\ltimes$-block-Toeplitz matrix.
+
+### Theorem 2.2 (Toeplitz structure in SDAREs)
+
+Then the terms of the sequence $\{ X_{t}\}$ generated by the fixed point iteration 2.7 are
+
+As a result of Item 2. ‣ 2.1 Fixed point iteration and Toeplitz structure ‣ 2 SDARE ‣ Stochastic algebraic Riccati equations are almost as easy as deterministic ones theoretically") of Theorem 2.1. ‣ 2.1 Fixed point iteration and Toeplitz structure ‣ 2 SDARE ‣ Stochastic algebraic Riccati equations are almost as easy as deterministic ones theoretically") and 2.11. ‣ 2.1 Fixed point iteration and Toeplitz structure ‣ 2 SDARE ‣ Stochastic algebraic Riccati equations are almost as easy as deterministic ones theoretically"), the unique stabilizing solution $X_{\star}$ has an operator expression
+
+### Proof
+
+Clearly $X_{1} = {C^{T}C}$. Assuming 2.11. ‣ 2.1 Fixed point iteration and Toeplitz structure ‣ 2 SDARE ‣ Stochastic algebraic Riccati equations are almost as easy as deterministic ones theoretically") is correct for $t$, we are going to prove it is also correct for $t + 1$. By the fixed point iteration 2.7,
+
+Once 2.11. ‣ 2.1 Fixed point iteration and Toeplitz structure ‣ 2 SDARE ‣ Stochastic algebraic Riccati equations are almost as easy as deterministic ones theoretically") is obtained, the validity of the operator expression is essentially the same as that of the DARE, see. ∎
+
+Note that $T_{t}$ in 2.10. ‣ 2.1 Fixed point iteration and Toeplitz structure ‣ 2 SDARE ‣ Stochastic algebraic Riccati equations are almost as easy as deterministic ones theoretically") is a $\ltimes$-block-Toeplitz matrix. In particular, for the case $r = 1$, the structure in 2.11. ‣ 2.1 Fixed point iteration and Toeplitz structure ‣ 2 SDARE ‣ Stochastic algebraic Riccati equations are almost as easy as deterministic ones theoretically") coincides with that of the DARE.
+
+Based on the iterative formula 2.7 (or, the equivalently non-iterative form 2.11. ‣ 2.1 Fixed point iteration and Toeplitz structure ‣ 2 SDARE ‣ Stochastic algebraic Riccati equations are almost as easy as deterministic ones theoretically")) and the convergence result in Item 3. ‣ 2.1 Fixed point iteration and Toeplitz structure ‣ 2 SDARE ‣ Stochastic algebraic Riccati equations are almost as easy as deterministic ones theoretically") of Theorem 2.1. ‣ 2.1 Fixed point iteration and Toeplitz structure ‣ 2 SDARE ‣ Stochastic algebraic Riccati equations are almost as easy as deterministic ones theoretically"), one can solve the SDARE 2.6 directly by fixed point iteration method, or an analogous FTA method as that for DAREs.
+
+### Symplectic structure and doubling iteration
+
+The fixed point iteration $\{ X_{t}\}$ from 2.7, or equivalently 2.11. ‣ 2.1 Fixed point iteration and Toeplitz structure ‣ 2 SDARE ‣ Stochastic algebraic Riccati equations are almost as easy as deterministic ones theoretically"), converges to the unique positive semi-definite stabilizing solution $X_{\star}$ linearly. As the doubling iteration is an acceleration of the fixed point iteration for DAREs and CAREs in the sense that the doubling iteration only computes the terms $X_{1},X_{2},X_{4},\ldots,X_{2^{k}},\ldots$ generated by the fixed point iteration, we will show the same acceleration is also valid for SDAREs 2.6.
+
+As the symplectic structure plays a fundamental role in the theory of doubling iteration for DAREs, the symplectic-like structure is also necessary for SDAREs, of which the related concepts are defined in the beginning.
+
+### Definition 2.1
+
+The matrix pair $(M,L)$ with ${M \in {\mathbb{R}}^{{{rn} \times 2}p_{1}n}},{L \in {\mathbb{R}}^{{{rn} \times 2}p_{2}n}}$ is called a symplectic pair with respect to the left semi-tensor product, or a *$\ltimes$-symplectic pair* for short, if ${M \ltimes J \ltimes M^{T}} = {L \ltimes J \ltimes L^{T}}$, where $J = \begin{bmatrix}
+
+For ${M \in {\mathbb{R}}^{{{{({r + 1})}n} \times 2}n}},{L \in {\mathbb{R}}^{{{{({r + 1})}n} \times 2}rn}}$, the $\ltimes$-symplectic pair $(M,L)$ is called in a first standard symplectic form with respect to the left semi-tensor product under the dimension partition $(1,r)$, or a *$\ltimes$-SSF1 pair* for short, if $M = \begin{bmatrix}
+\end{bmatrix}_{{{{({r + 1})}n} \times 2}n}$ and $L = \begin{bmatrix}
+\end{bmatrix}_{{{{({r + 1})}n} \times 2}rn}$, with $G,H$ symmetric.
+
+For ${M \in {\mathbb{R}}^{{{{({r + 1})}n} \times 2}n}},{L \in {\mathbb{R}}^{{{{({r + 1})}n} \times 2}rn}}$, assuming
+
+the action ${(M,L)}\rightarrow{({M^{\prime} \ltimes M},{L^{\prime} \ltimes L})}$ is called a doubling transformation of $(M,L)$ with respect to the left semi-tensor product, or *$\ltimes$-doubling transformation* for short, for some ${(M^{\prime},L^{\prime})} \in {\mathcal{N}{(M,L)}}$.
+
+Clearly, in the case $r = 1$ the $\ltimes$-symplecticity and the $\ltimes$-doubling transformation degenerate to the classical symplecticity and the doubling transformation respectively.
+
+Now we are ready to state the parallels for SDAREs.
+
+Following 2.6, it is easy to see
+
+and then ${\Theta \ltimes J \ltimes \Theta^{T}} = \begin{bmatrix}
+\end{bmatrix} = {\Phi \ltimes J \ltimes \Phi^{T}}$, namely $(\Theta,\Phi)$ is a $\ltimes$-SSF1 pair. Let
+
+then $\begin{bmatrix}
+\Theta^{\prime} & \Phi^{\prime}
+\end{bmatrix}$ has full row rank, and ${\Theta^{\prime} \ltimes \Phi} = {\Phi^{\prime} \ltimes \Theta}$, which implies ${(\Theta^{\prime},\Phi^{\prime})} \in {\mathcal{N}{(\Theta,\Phi)}}$, and ${(\Theta,\Phi)}\rightarrow{(\hat{\Theta},\hat{\Phi})} = {({\Theta^{\prime} \ltimes \Theta},{\Phi^{\prime} \ltimes \Phi})}$ is a $\ltimes$-doubling transformation. Simple computations give
+
+Clearly, $\hat{\Theta}$ and $\hat{\Phi}$ possess the same structures as $\Theta$ and $\Phi$, respectively. Without surprising, $(\hat{\Theta},\hat{\Phi})$ is also a $\ltimes$-SSF1 pair. Hence one can pursue another $\ltimes$-doubling transformation on $(\hat{\Theta},\hat{\Phi})$, and obtain some new $\ltimes$-SSF1 pair. Finally a series of $\ltimes$-doubling transformations can be defined to obtain a sequence of $\ltimes$-SSF1 pairs.
+
+Since those $\ltimes$-symplectic pairs are composed of the triples $(A,G,H)$s, only the iterative recursions of $(A,G,H)$ are necessary in practical computations rather than the $\ltimes$-symplectic pairs $(\Theta,\Phi)$, whose details are given in Lemma 2.1.
+
+### Lemma 2.1
+
+Consider the following iterative recursions:
+
+$H_{k + 1}$ $= {H_{k} + {A_{k}^{T} \ltimes H_{k} \ltimes {({I_{r^{2^{k}}n} + {G_{k} \ltimes H_{k}}})}^{- 1} \ltimes A_{k}}}$ ${\in {\mathbb{R}}^{n \times n}},$ (2.15c)
+
+initially with ${A_{0} = A},{G_{0} = {BB^{T}}}$ and $H_{0} = {C^{T}C}$. Let $\Theta_{k} = \begin{bmatrix}
+\end{bmatrix}_{{{{({r^{2^{k}} + 1})}n} \times 2}n}$ and $\Phi_{k} = \begin{bmatrix}
+\end{bmatrix}_{{{{({r^{2^{k}} + 1})}n} \times 2}r^{2^{k}}n}$. Then the following statements hold:
+
+$(\Theta_{k},\Phi_{k})$ is a $\ltimes$-SSF1 pair;
+
+${(\Theta_{k},\Phi_{k})}\rightarrow{(\Theta_{k + 1},\Phi_{k + 1})} = {({\Theta_{k}^{\prime} \ltimes \Theta_{k}},{\Phi_{k}^{\prime} \ltimes \Phi_{k}})}$ is a $\ltimes$-doubling transformation, where
+
+it holds for $k = {0,1,2,\ldots}$ that
+
+### Proof
+
+Items 1 and 2 holds by the same discussion as 2.13 and 2.14. Now we prove Item 3 by induction. The case $k = 0$ holds by 2.12 and 2.13. Suppose it holds for $k$ and consider $k + 1$. By ${{\Theta_{k}^{\prime} \ltimes \Phi_{k}} = {\Phi_{k}^{\prime} \ltimes \Theta_{k}}},{{\Theta_{k + 1} = {\Theta_{k}^{\prime} \ltimes \Theta_{k}}},{\Phi_{k + 1} = {\Phi_{k}^{\prime} \ltimes \Phi_{k}}}}$, writing $A_{X} = {{({I_{rn} + {{BB^{T}} \ltimes X}})}^{- 1}A}$, we have
+
+that is, the result holds for $k + 1$. Then Item 3 is a direct consequence. ∎
+
+For the case that $r = 1$, Lemma 2.1 degenerates into the doubling method for DAREs (see, e.g., ), where $(\Theta_{k},\Phi_{k})$ are symplectic pairs in the first standard form.
+
+Then we prove that $H_{0},H_{1},H_{2},\ldots$ is the subsequence $X_{1},X_{2},X_{4},\ldots$ of the sequence generated by the fixed point iteration 2.7.
+
+### Lemma 2.2
+
+For $k = {0,1,2,\ldots}$, let
+
+and $V_{2^{k}},T_{2^{k}}$ as in 2.10. ‣ 2.1 Fixed point iteration and Toeplitz structure ‣ 2 SDARE ‣ Stochastic algebraic Riccati equations are almost as easy as deterministic ones theoretically"). Then it holds that
+
+and so $H_{k} = X_{2^{k}}$ as in 2.11. ‣ 2.1 Fixed point iteration and Toeplitz structure ‣ 2 SDARE ‣ Stochastic algebraic Riccati equations are almost as easy as deterministic ones theoretically").
+
+### Proof
+
+Induction will be used to obtain 2.17. The case $k = 0$ is obvious. Now assume that 2.17 holds for $k$ and observe the case $k + 1$. For ease, we omit the subscript $\cdot_{2^{k}}$ for $U,V,T$. Write $W = {V \ltimes U}$, and then
+
+Note that ${\begin{bmatrix}
+\end{bmatrix}V_{2^{k + 1}}} = \begin{bmatrix}
+\end{bmatrix} = \begin{bmatrix}
+\end{bmatrix}$. Then
+
+which implies 2.17c holds for $k + 1$. On the other hand, similarly, we have
+
+which implies 2.17b holds for $k + 1$. Similarly,
+
+which implies 2.17a holds for $k + 1$. ∎
+
+For the case $r = 1$, 2.16 coincides with the decoupled formulae of the dSDA for DAREs introduced in. Theorem 2.3. ‣ 2.2 Symplectic structure and doubling iteration ‣ 2 SDARE ‣ Stochastic algebraic Riccati equations are almost as easy as deterministic ones theoretically") is a direct consequence of Theorems 2.1. ‣ 2.1 Fixed point iteration and Toeplitz structure ‣ 2 SDARE ‣ Stochastic algebraic Riccati equations are almost as easy as deterministic ones theoretically") and 2.2.
+
+### Theorem 2.3 (Convergence of doubling iteration for SDAREs)
+
+The sequence $\{ H_{k}\}$ generated by the doubling iteration 2.15 with ${A_{0} = A},{{G_{0} = {BB^{T}}},{H_{0} = {C^{T}C}}}$ is either finite or monotonically increasing, and converges to the unique positive semi-definite stabilizing solution $X_{\star}$ of the SDARE 2.6 R-quadratically, namely
+
+where $Y$ and ${(\mathcal{S}_{F_{\star}}^{\ast})}^{2^{k}}$ are as in 2.8. ‣ 2.1 Fixed point iteration and Toeplitz structure ‣ 2 SDARE ‣ Stochastic algebraic Riccati equations are almost as easy as deterministic ones theoretically"), which implies ${{\lim\limits_{t\rightarrow\infty}\left( \frac{\|{H_{k} - X_{\star}}\|}{\| X_{\star}\|} \right)^{1/2^{k}}} \leq {\rho{(\mathcal{S}_{F_{\star}})}} < 1}.$
+
+Based on the doubling iteration 2.15, one can solve the SDARE 2.6 directly by doubling iteration method, or equivalently an analogous SDA method as that for DAREs.
+
+## SCARE
+
+Consider the SCARE 1.2 where ${A_{i},Q} \in {\mathbb{R}}^{n \times n}$, $B_{i} \in {\mathbb{R}}^{n \times m}$, $L \in {\mathbb{R}}^{n \times m}$ and $R \in {\mathbb{R}}^{m \times m}$ with $\begin{bmatrix}
+\end{bmatrix} \succeq 0$. It is easy to see that $X$ is a solution if and only if $X^{T}$ is a solution. In control theory, usually only symmetric solutions to 1.2 are needed. Hence in the paper, we only consider the symmetric solutions.
+
+The SCARE 1.2 arises from the stochastic time-invariant control system in continue-time subject to multiplicative white noise, whose dynamics is described as below:
+
+in which ${x{(t)}},{u{(t)}}$ and $z{(t)}$ are state, input, measurement, respectively, and ${w{(t)}} = \begin{bmatrix}
+\end{bmatrix}^{T}$ is a standard Wiener process satisfying that each $w_{i}{(t)}$ is a standard Brownian motion and the $\sigma$-algebras ${{{\sigma\left( {{{w_{i}{(t)}},t} \in {\lbrack t_{0},\infty)}} \right)},i} = 1},{\ldots,{r - 1}}$ are independent. Considering the cost functional with respect to the control $u{(t)}$ with the given initial $x_{0}$:
+
+where $x_{t_{0},x_{0};u}{(t)}$ is the solution of the system 3.1 corresponding to the input $u{(t)}$ and having the initial ${x_{t_{0},x_{0};u}{(t_{0})}} = x_{0}$, one goal in stochastic control is to minimize the cost functional 3.2 and compute an optimal control. Such an optimization problem is also called the first linear-quadratic optimization problem \[11, Section 6.2\].
+
+Assume the following conditions hold throughout this section:
+
+the pair $({\{ A_{i}\}}_{i = 0}^{r - 1},{\{ B_{i}\}}_{i = 0}^{r - 1})$ is stabilizable, i.e., there exists $F \in {\mathbb{R}}^{m \times n}$ such that the linear differential equation
+
+is exponentially stable, or equivalently, the evolution operator $e^{\mathcal{L}_{F}{({t - t_{0}})}}$ is exponentially stable with $e^{\mathcal{L}_{F}t} = {\sum_{k = 0}^{\infty}\frac{\mathcal{L}_{F}^{k}t^{k}}{k!}}$; and
+
+the pair $({\{ A_{i}\}}_{i = 0}^{r - 1},C)$ is detectable with ${C^{T}C} = {Q - {LR^{- 1}L^{T}}}$, or equivalently, $({\{ A_{i}^{T}\}}_{i = 0}^{r - 1},{\{ C_{i}^{T}\}}_{i = 0}^{r - 1})$ is stabilizable with $C_{0} = C$ and $C_{i} = 0$ for $i = {1,\cdots,{r - 1}}$.
+
+It is known that if the assumption above holds, then 1.2 has a unique positive semi-definite stabilizing solution $X_{\star}$, see, e.g., \[11, Theorem 5.6.15\]. Here, $X$ is a stabilizing solution if the system $({A_{0} + {B_{0}F_{X}}},{A_{1} + {B_{1}F_{X}}},\cdots,{A_{r - 1} + {B_{r - 1}F_{X}}})$ is stable with
+
+or equivalently, $\mathcal{L}_{F_{\star}}$ is exponentially stable with the associated $F_{\star} = F_{X_{\star}}$ taking the feedback control specified in 3.3 with $X = X_{\star}$. In fact, $X_{\star}$ is a stabilizing solution if and only if the zero equilibrium of the closed-loop system
+
+is strongly exponentially stable in the mean square \[11, Chapter 5\]. Furthermore, the cost functional 3.2 has an optimal control ${u{(t)}} = {F_{\star}x_{t_{0},x_{0}}{(t)}}$ where $x_{t_{0},x_{0}}{(t)}$ is the solution to the corresponding closed-loop system 3.4.
+
+### Standard form and symplectic structure
+
+As we have done for SDAREs, first we make an equivalent reformulation for 1.2 for the sake of simplicity.
+
+Write ${\overset{\sim}{A} = \begin{bmatrix}
+\end{bmatrix}},{\overset{\sim}{B} = \begin{bmatrix}
+\end{bmatrix}}$, and then 1.2 will be rewritten as
+
+Let $\Pi$ be the permutation satisfying ${\Pi^{T}{({X \otimes I_{r - 1}})}\Pi} = {I_{r - 1} \otimes X}$, and write ${\hat{A} = {\Pi{({\overset{\sim}{A} - {\overset{\sim}{B}R^{- 1}L^{T}}})}}},{\hat{B} = {\Pi\overset{\sim}{B}R^{- {1/2}}}}$. Also write ${A = {A_{0} - {B_{0}R^{- 1}L^{T}}}},{B = {B_{0}R^{- {1/2}}}}$. Noticing ${C^{T}C} = {Q - {LR^{- 1}L^{T}}}$, after some calculations 1.2 is reformulated in the standard form of SCARE
+
+where $A \in {\mathbb{R}}^{n \times n}$, $B \in {\mathbb{R}}^{n \times m}$, $\hat{A} \in {\mathbb{R}}^{{{({r - 1})}n} \times n}$, $\hat{B} \in {\mathbb{R}}^{{{({r - 1})}n} \times m}$. Also the feedback control $F_{X}$ and the closed-loop matrix are reformulated as
+
+where ${\hat{F}}_{X} = {- {{({{{\hat{B}}^{T} \ltimes X \ltimes \hat{B}} + I})}^{- 1}{({{XB} + {{\hat{A}}^{T} \ltimes X \ltimes \hat{B}}})}^{T}}}$ is the feedback control of the standard form 3.5. Then 3.5 can be rewritten as
+
+Let $\overset{\sim}{\Pi}$ be the permutation satisfying $\begin{bmatrix}
+\end{bmatrix} = {{\overset{\sim}{\Pi}}^{T}{({X \otimes I_{r}})}\overset{\sim}{\Pi}}$, and write ${A_{F} = {A + {B{\hat{F}}_{X}}}},{{\hat{A}}_{F} = {\hat{A} + {\hat{B}{\hat{F}}_{X}}}}$. Then 3.5 becomes
+
+Note that 1.2 is equivalent to 3.6 and
+
+We can somehow treat 3.6 as an invariant subspace form, which urges us to transform 3.7 into that kind.
+
+By left-multiplying the nonsingular matrix
+
+on both sides, 3.7 is equivalent to
+
+Combining 3.6 and 3.8, now 1.2 is equivalent to
+
+which shows that the solution to the SCARE is equivalent to an invariant subspace $\mathcal{R}\left( \begin{bmatrix}
+\end{bmatrix} \right)$ of the pair $(\mathcal{A},\mathcal{B})$ with respect to the left semi-tensor product.
+
+As continuous-time algebraic Riccati equations can be transformed to discrete-time ones by Möbius transformation and then symplectic systems are attained, stochastic continuous-time algebraic Riccati equations can also be transformed to stochastic discrete-time ones, which is clarified in the following.
+
+For the Möbius transformation, it seems that we need to consider the transformation ${(\mathcal{A},\mathcal{B})}\mapsto{({\mathcal{A} + {\gamma\mathcal{B}}},{\mathcal{A} - {\gamma\mathcal{B}}})}$. However, $\mathcal{A},\mathcal{B}$ are not of the same size so they cannot be added directly. Hence instead we check its equivalent effect on the invariant subspace $\mathcal{R}\left( \begin{bmatrix}
+\end{bmatrix} \right)$. On the other hand, since in the system the part related to $\hat{A},\hat{B}$ is somehow of the discrete-time style, the shifts in the Möbius transformation are merely needed in the part related to $A,B$. Regarding both, the transformation ${(\mathcal{A},\mathcal{B})}\mapsto{({\mathcal{A} + {{\gamma\mathcal{B}}|}_{\mathcal{A}}},{{\mathcal{A}|}_{\mathcal{B}} - {\gamma\mathcal{B}}})}$ is considered, where
+
+where $Q:={\overset{\sim}{\Pi}\begin{bmatrix}
+& {\sqrt{\frac{2}{\gamma}}I_{{({r - 1})}n}}
+\end{bmatrix}{\overset{\sim}{\Pi}}^{T}}$ is nonsingular and $Q^{- 1} = {\overset{\sim}{\Pi}\begin{bmatrix}
+& {\sqrt{\frac{\gamma}{2}}I_{{({r - 1})}n}}
+\end{bmatrix}{\overset{\sim}{\Pi}}^{T}}$. Writing
+
+it can be seen that $(M,L)$ is a $\ltimes$-symplectic pair, because ${M \ltimes J \ltimes M^{T}} = {L \ltimes J \ltimes L^{T}}$.
+
+To apply the doubling transformation to the $\ltimes$-symplectic pair $(M,L)$, it is necessary to simplify it to a simpler form, say, $\ltimes$-SSF1 pair, whose existence is guaranteed by Lemma 3.1.
+
+### Lemma 3.1
+
+Given $\gamma \geq 0$ such that $A_{\gamma}:={A - {\gammaI_{n}}}$ are nonsingular. Then $(M,L)$ is equivalent to a $\ltimes$-SSF1 pair $(\Theta_{\gamma},\Phi_{\gamma})$, namely there exists a nonsingular matrix $T$ such that
+
+$E_{\gamma}$ $= {\overset{\sim}{\Pi}\begin{bmatrix} ${\in {\mathbb{R}}^{{rn} \times n}},$ (3.11a)
+{A_{\gamma} + {2\gammaI_{n}} + {BZ_{\gamma}^{T}C}} \\
+{\sqrt{2\gamma}{({\hat{A} + {\hat{B}Z_{\gamma}^{T}C}})}}
+\end{bmatrix}{({I_{n} + {A_{\gamma}^{- 1}BZ_{\gamma}^{T}C}})}^{- 1}A_{\gamma}^{- 1}}$
+$H_{\gamma}$ $= {2\gammaA_{\gamma}^{- T}C^{T}{({I_{l} + {Z_{\gamma}Z_{\gamma}^{T}}})}^{- 1}CA_{\gamma}^{- 1}} \succeq 0$ ${\in {\mathbb{R}}^{n \times n}},$ (3.11b)
+$G_{\gamma}$ $= {\overset{\sim}{\Pi}\begin{bmatrix} ${\in {\mathbb{R}}^{{{rn} \times r}n}}.$ (3.11c)
+{\sqrt{2\gamma}A_{\gamma}^{- 1}B} \\
+{{\hat{A}A_{\gamma}^{- 1}B} - \hat{B}}
+\end{bmatrix}{({I_{m} + {Z_{\gamma}^{T}Z_{\gamma}}})}^{- 1}\begin{bmatrix}
+{\sqrt{2\gamma}A_{\gamma}^{- 1}B} \\
+{{\hat{A}A_{\gamma}^{- 1}B} - \hat{B}}
+\end{bmatrix}^{T}{\overset{\sim}{\Pi}}^{T}} \succeq 0$
+
+Here $Z_{\gamma} = {CA_{\gamma}^{- 1}B}$.
+
+### Proof
+
+Directly use block elementary row transformations to obtain 3.10. In fact, construct
+
+where $W_{\gamma} = {{- A_{\gamma}^{T}} - {C^{T}CA_{\gamma}^{- 1}BB^{T}}} = {- {{({I_{n} + {C^{T}Z_{\gamma}B^{T}A_{\gamma}^{- T}}})}A_{\gamma}^{T}}}$, and $K_{\gamma} = {{\hat{A}A_{\gamma}^{- 1}B} - \hat{B}}$. Note that ${({I_{n} + {C^{T}Z_{\gamma}B^{T}A_{\gamma}^{- T}}})}^{- 1}\overset{}{=}{I_{n} - {C^{T}{({I_{l} + {Z_{\gamma}Z_{\gamma}^{T}}})}^{- 1}Z_{\gamma}B^{T}A_{\gamma}^{- T}}}$ implies $W_{\gamma}$ is nonsingular. Some calculation gives
+
+Then we show 3.12 is actually 3.10. For $H_{\gamma}$,
+
+Note that 3.9 and 3.10 give
+
+Comparing 3.13 with 2.12, similar $\ltimes$-symplectic (or detailedly $\ltimes$-SSF1) structures appear in both SCAREs and SDAREs, as CAREs and DAREs share similar symplectic structures.
+
+### Theorem 3.1
+
+The SCARE 3.5 is equivalent to the following SDARE:
+
+where $E_{\gamma},G_{\gamma},H_{\gamma}$ are as in Lemma 3.1 for proper $\gamma > 0$. (Here that $\gamma > 0$ is proper means ${A - {\gammaI_{n}}},{A_{F} - {\gammaI_{n}}},{I_{rn} + {G_{\gamma} \ltimes X}}$ are all nonsingular.)
+
+Moreover, the SDARE 3.14 satisfies 1--3, so it has a unique positive semi-definite stabilizing solution, which is also the unique stabilizing solution of the SCARE 3.5.
+
+### Proof
+
+It follows from 3.13 and 3.10 that
+
+yielding that ${X - H_{\gamma}} = {{({E_{\gamma}^{T} \ltimes X})}{({I_{rn} + {G_{\gamma} \ltimes X}})}^{- 1}E_{\gamma}}$, which is equivalent to 3.14.
+
+Here an issue is whether $I_{rn} + {G_{\gamma} \ltimes X}$ is nonsingular. Note that for the solution $X$ to the SCARE, $\det{({I_{rn} + {G_{\gamma} \ltimes X}})}$ is a nonzero rational function and hence the number of $\gamma$'s to make $I_{rn} + {G_{\gamma} \ltimes X}$ singular is finite. Thus there must be at least one $\gamma$ (in fact almost every real number) to meet the requirement.
+
+The thing left to prove is the SDARE 3.14 has a unique positive semi-definite stabilizing solution. The three matrices $E_{\gamma},G_{\gamma},H_{\gamma}$ play the role of $A,{BB^{T}},{C^{T}C}$ in the SDARE 2.6. Note that 1 holds naturally; 2 is guaranteed by ${\|{{({I_{rn} + {G_{\gamma} \ltimes X_{\star}}})}^{- 1} \ltimes E_{\gamma}}\|} < 1$ for some induced norm $\parallel \cdot \parallel$ by 2.5; 3 is similar to 2. Therefore, we will only show
+
+for some induced norm $\parallel \cdot \parallel$.
+
+Recall the assumption 2. Note that the adjoint of the Lyapunov operator $\mathcal{L}_{{\hat{F}}_{X}}$ for the standard form 3.5 is rewritten as
+
+\[9, Theorem 1.5.3\] tells the fact that 2 is equivalent to the spectra of the Lyapunov operator $\mathcal{L}_{F}^{\ast}$ being in the interior of the left half plane, i.e., ${\rho{(\mathcal{L}_{F}^{\ast})}} \in {\mathbb{C}}_{-}$, and then for $\mathcal{L}_{{\hat{F}}_{X}}^{\ast}$ in 3.16 there exists $S \succ 0$ such that ${\mathcal{L}_{{\hat{F}}_{X}}^{\ast}S} \prec 0$. For $\gamma > 0$ to make $A_{F} - {\gammaI}$ nonsingular, substituting
+
+into the Lyapunov operator $\mathcal{L}_{{\hat{F}}_{X}}^{\ast}$ in 3.16 gives
+
+By a congruent transformation, it is equivalent to
+
+Then for $S \succ 0$,
+
+is exponentially stable \[10, Theorem 2.12\], that is, ${\rho{(\overset{\sim}{\mathcal{S}})}} < 1$ or 3.15 holds. ∎
+
+Following Theorem 3.1 one can solve SCARE 3.5 by any method solving the equivalent SDARE 3.14. One is the fixed point iteration:
+
+Another is the doubling iteration:
+
+initially with ${E_{0} = E_{\gamma}},{{G_{0} = G_{\gamma}},{H_{0} = H_{\gamma}}}$ in 3.11.
+
+Since the whole story from here on will be nearly the same as that for SDAREs, we will only briefly state the results in the following. Besides, the properties of the fixed point iteration will also omitted, for it has been accelerated by the doubling iteration.
+
+### Lemma 3.2
+
+Let $\Theta_{k} = \begin{bmatrix}
+\end{bmatrix}_{{{{({r^{2^{k}} + 1})}n} \times 2}n}$ and $\Phi_{k} = \begin{bmatrix}
+\end{bmatrix}_{{{{({r^{2^{k}} + 1})}n} \times 2}r^{2^{k}}n}$. Then for the doubling iteration 3.17 with ${E_{0} = E_{\gamma}},{{G_{0} = G_{\gamma}},{H_{0} = H_{\gamma}}}$ in 3.11, the following statements hold:
+
+$(\Theta_{k},\Phi_{k})$ is a $\ltimes$-SSF1 pair;
+
+${(\Theta_{k},\Phi_{k})}\rightarrow{(\Theta_{k + 1},\Phi_{k + 1})} = {({\Theta_{k}^{\prime} \ltimes \Theta_{k}},{\Phi_{k}^{\prime} \ltimes \Phi_{k}})}$ is a $\ltimes$-doubling transformation, where
+
+it holds for $k = {0,1,2,\ldots}$ that
+
+For the case that $r = 0$, Lemma 3.2 degenerates into the doubling method for CAREs (see, e.g., ).
+
+### Theorem 3.2 (Convergence of doubling iteration for SCAREs)
+
+The sequence $\{ H_{k}\}$ generated by the doubling iteration 3.17 is either finite or monotonically increasing, and converges to the unique positive semi-definite stabilizing solution $X_{\star}$ of the SCARE 3.5 R-quadratically, namely
+
+where $\rho_{F_{\star}}:={\rho\left( {{\left\lbrack {{{({A_{0} + {B_{0}F} + {\gammaI_{n}}})} \otimes {({A_{0} + {B_{0}F} + {\gammaI_{n}}})}} + {2\gamma{\sum\limits_{i = 1}^{r - 1}{{({A_{i} + {B_{i}F}})} \otimes {({A_{i} + {B_{i}F}})}}}}} \right\rbrack{({{A_{0} + {B_{0}F}} - {\gammaI_{n}}})}^{- 1}} \otimes {({{A_{0} + {B_{0}F}} - {\gammaI_{n}}})}^{- 1}} \right)}$.
+
+## Concluding Remarks
+
+In this paper we demonstrate that the stochastic AREs are essentially the deterministic AREs in the sense that all the matrix products are understood as the left semi-tensor products. As a by-product, the fixed point iteration and the doubling iteration would play a role in acquiring the approximations to the solutions.
+
+However, the two iterations could not be straightforwardly used as mature numerical methods to solve the equations, because the left semi-tensor products make the size of involving matrices grow twice-exponentially ($r^{2^{k}}n$ in fact), which makes the storage an impossible task. Take the doubling iteration 2.15 or 3.17 as an example: if ${n = 1},{r = 2}$, then the numbers of rows of first several terms $A_{k}$ or $E_{k}$ (also the number of rows/columns of $G_{k}$) are $2,4,16,256,65536$. Hence more work needs to be done on developing practical algorithms, though the algebraic structure is revealed as clearly as the deterministic AREs.
+
+Anyway, as we can see, many parallel theoretical results and numerical methods for DAREs and CAREs can probably be generalized to SDAREs and SCAREs. Plenty of results are ready to be examined, and of course a lot of gaps are still needed to be filled. We believe that there must be efficient algorithms proposed under the philosophy of this paper, and we leave it for future work.

@@ -1,0 +1,229 @@
+## Introduction
+
+Neural networks trained by first order methods have achieved a remarkable impact on many applications, but their theoretical properties are still mysteries. One of the empirical observation is even though the optimization objective function is non-convex and non-smooth, randomly initialized first order methods like stochastic gradient descent can still find a global minimum. Surprisingly, this property is not correlated with labels. In Zhang et al., authors replaced the true labels with randomly generated labels, but still found randomly initialized first order methods can always achieve zero training loss.
+
+A widely believed explanation on why a neural network can fit all training labels is that the neural network is over-parameterized. For example, Wide ResNet (Zagoruyko and Komodakis, ) uses 100x parameters than the number of training data. Thus there must exist one such neural network of this architecture that can fit all training data. However, the existence does not imply why the network found by a randomly initialized first order method can fit all the data. The objective function is neither smooth nor convex, which makes traditional analysis technique from convex optimization not useful in this setting. To our knowledge, only the convergence to a stationary point is known.
+
+In this paper we demystify this surprising phenomenon on two-layer neural networks with rectified linear unit (ReLU) activation. Formally, we consider a neural network of the following form.
+
+where $\mathbf{x} \in {\mathbb{R}}^{d}$ is the input, $\mathbf{w}_{r} \in {\mathbb{R}}^{d}$ is the weight vector of the first layer, $a_{r} \in {\mathbb{R}}$ is the output weight and $\sigma( \cdot )$ is the ReLU activation function: ${\sigma(z)} = z$ if $z \geq 0$ and ${\sigma(z)} = 0$ if $z < 0$.
+
+We focus on the empirical risk minimization problem with a quadratic loss. Given a training data set $\left\{ {(\mathbf{x}_{i},y_{i})} \right\}_{i = 1}^{n}$, we want to minimize
+
+Our main focus of this paper is to analyze the following procedure. We fix the second layer and apply gradient descent (GD) to optimize the first layer^11^1In Section 3.2, we also extend our technique to analyze the setting where we train both layers jointly.
+
+where $\eta > 0$ is the step size. Here the gradient formula for each weight vector is ^22^2 Note ReLU is not continuously differentiable. One can view $\frac{\partial{L{(\mathbf{W})}}}{\partial\mathbf{w}_{r}}$ as a convenient notation for the right hand side of and this is the update rule used in practice.
+
+Though this is only a shallow fully connected neural network, the objective function is still non-smooth and non-convex due to the use of ReLU activation function. ^33^3We remark that if one fixes the first layer and only optimizes the output layer, then the problem becomes a convex and smooth one. If $m$ is large enough, one can show the global minimum has zero training loss. Though for both cases (fixing the first layer and fixing the output layer), gradient descent achieves zero training loss, the learned prediction functions are different. Even for this simple function, why randomly initialized first order method can achieve zero training error is not known. Many previous works have tried to answer this question or similar ones. Attempts include landscape analysis, partial differential equations (Mei et al., ), analysis of the dynamics of the algorithm, optimal transport theory, to name a few. These results often make strong assumptions on the labels and input distributions or do not imply why randomly initialized first order method can achieve zero training loss. See Section 2 for detailed comparisons between our result and previous ones.
+
+In this paper, we rigorously prove that as long as no two inputs are parallel and $m$ is large enough, with randomly initialized $\mathbf{a}$ and $\mathbf{W}{}$, gradient descent achieves zero training loss at a linear convergence rate, i.e., it finds a solution $\mathbf{W}{(K)}$ with ${L{({\mathbf{W}{(K)}})}} \leq \epsilon$ in $K = {O{({\log\left( {1/\epsilon} \right)})}}$ iterations.^44^4Here we omit the polynomial dependency on $n$ and other data-dependent quantities. Thus, our theoretical result not only shows the global convergence but also gives a quantitative convergence rate in terms of the desired accuracy.
+
+### Analysis Technique Overview
+
+Our proof relies on the following insights. First we directly analyze the dynamics of each individual prediction $f{(\mathbf{W},\mathbf{a},\mathbf{x}_{i})}$ for $i = {1,\ldots,n}$. This is different from many previous work which tried to analyze the dynamics of the parameter ($\mathbf{W}$) we are optimizing. Note because the objective function is non-smooth and non-convex, analysis of the parameter space dynamics is very difficult. In contrast, we find the dynamics of prediction space is governed by the spectral property of a Gram matrix (which can vary in each iteration, c.f. Equation ) and as long as this Gram matrix's least eigenvalue is lower bounded, gradient descent enjoys a linear rate. It is easy to show as long as no two inputs are parallel, in the initialization phase, this Gram matrix has a lower bounded least eigenvalue. (c.f. Theorem 3.1). Thus the problem reduces to showing the Gram matrix at later iterations is close to that in the initialization phase. Our second observation is this Gram matrix is only related to the activation patterns (${\mathbb{I}}\left\{ {{\mathbf{w}_{r}^{\top}\mathbf{x}_{i}} \geq 0} \right\}$) and we can use matrix perturbation analysis to show if most of the patterns do not change, then this Gram matrix is close to its initialization. Our third observation is we find over-parameterization, random initialization, and the linear convergence jointly restrict every weight vector $\mathbf{w}_{r}$ to be close to its initialization. Then we can use this property to show most of the patterns do not change. Combining these insights we prove the first global quantitative convergence result of gradient descent on ReLU activated neural networks for the empirical risk minimization problem. Notably, our proof only uses linear algebra and standard probability bounds so we believe it can be easily generalized to analyze deep neural networks.
+
+### Notations
+
+We let ${\lbrack n\rbrack} = {\{ 1,2,\ldots,n\}}$. Given a set $S$, we use ${unif}\left\{ S \right\}$ to denote the uniform distribution over $S$. Given an event $E$, we use ${\mathbb{I}}\left\{ A \right\}$ to be the indicator on whether this event happens. We use $N{(\mathbf{0},\mathbf{I})}$ to denote the standard Gaussian distribution. For a matrix $\mathbf{A}$, we use $\mathbf{A}_{ij}$ to denote its $(i,j)$-th entry. We use $\left. \parallel \cdot \parallel{}_{2} \right.$ to denote the Euclidean norm of a vector, and use $\left. \parallel \cdot \parallel{}_{F} \right.$ to denote the Frobenius norm of a matrix. If a matrix $\mathbf{A}$ is positive semi-definite, we use $\lambda_{\min}{(\mathbf{A})}$ to denote its smallest eigenvalue. We use $\langle \cdot, \cdot \rangle$ to denote the standard Euclidean inner product between two vectors.
+
+## Comparison with Previous Results
+
+In this section, we survey an incomplete list of previous attempts in analyzing why first order methods can find a global minimum.
+
+### Landscape Analysis
+
+A popular way to analyze non-convex optimization problems is to identify whether the optimization landscape has some good geometric properties. Recently, researchers found if the objective function is smooth and satisfies all local minima are global and for every saddle point, there exists a negative curvature, then the noise-injected (stochastic) gradient descent can find a global minimum in polynomial time. This algorithmic finding encouraged researchers to study whether the deep neural networks also admit these properties.
+
+For the objective function defined in Equation, some partial results were obtained. Soudry and Carmon showed if ${md} \geq n$, then at every differentiable local minimum, the training error is zero. However, since the objective is non-smooth, it is hard to show gradient descent convergences to a differentiable local minimum. Xie et al. studied the same problem and related the loss to the gradient norm through the least singular value of the "extended feature matrix" $\mathbf{D}$ at the stationary points. However, they did not prove the convergence rate of the gradient norm. Interestingly, our analysis relies on the Gram matrix which is ${\mathbf{D}\mathbf{D}}^{\top}$.
+
+Landscape analyses of ReLU activated neural networks for other settings have also been studied in many previous works. These works establish favorable landscape properties but none of them implies that gradient descent converges to a global minimizer of the empirical risk. More recently, some negative results have also been discovered and new procedures have been proposed to test local optimality and escape strict saddle points at non-differentiable points. However, the new procedures cannot find global minima as well. For other activation functions, some previous works showed the landscape does have the desired geometric properties. However, it is unclear how to extend their analyses to our setting.
+
+### Analysis of Algorithm Dynamics
+
+Another way to prove convergence result is to analyze the dynamics of first order methods directly. Our paper also belongs to this category. Many previous works assumed the input distribution is Gaussian and the label is generated according to a planted neural network. Based on these two (unrealistic) conditions, it can be shown that randomly initialized (stochastic) gradient descent can learn a ReLU, a single convolutional filter, a convolutional neural network with one filter and one output layer and residual network with small spectral norm weight matrix.^55^5Since these work assume the label is realizable, converging to global minimum is equivalent to recovering the underlying model. Beyond Gaussian input distribution, Du et al. showed for learning a convolutional filter, the Gaussian input distribution assumption can be relaxed but they still required the label is generated from an underlying true filter. Comparing with these work, our paper does not try to recover the underlying true neural network. Instead, we focus on providing theoretical justification on why randomly initialized gradient descent can achieve zero training loss, which is what we can observe and verify in practice.
+
+Jacot et al. established an asymptotic result showing for the multilayer fully-connected neural network with a smooth activation function, if every layer's weight matrix is infinitely wide, then for finite training time, the convergence of gradient descent can be characterized by a kernel. Our proof technique relies on a Gram matrix which is the kernel matrix in their paper. Our paper focuses on the two-layer neural network with ReLU activation function (non-smooth) and we are able to prove the Gram matrix is stable for infinite training time.
+
+The most related paper is by Li and Liang who observed that when training a two-layer full connected neural network, most of the patterns (${\mathbb{I}}\left\{ {{\mathbf{w}_{r}^{\top}\mathbf{x}_{i}} \geq 0} \right\}$) do not change over iterations, which we also use to show the stability of the Gram matrix. They used this observation to obtain the convergence rate of GD on a two-layer over-parameterized neural network for the cross-entropy loss. They need the number of hidden nodes $m$ scales with ${poly}{({1/\epsilon})}$ where $\epsilon$ is the desired accuracy. Thus unless the number of hidden nodes $m\rightarrow\infty$, their result does not imply GD can achieve zero training loss. We improve by allowing the amount of over-parameterization to be independent of the desired accuracy and show GD can achieve zero training loss. Furthermore, our proof is much simpler and more transparent so we believe it can be easily generalized to analyze other neural network architectures.
+
+### Other Analysis Approaches
+
+Chizat and Bach used optimal transport theory to analyze continuous time gradient descent on over-parameterized models. They required the second layer to be infinitely wide and their results on ReLU activated neural network is only at the formal level. Mei et al. analyzed SGD for optimizing the population loss and showed the dynamics can be captured by a partial differential equation in the suitable scaling limit. They listed some specific examples on input distributions including mixture of Gaussians. However, it is still unclear whether this framework can explain why first order methods can minimize the empirical risk. Daniely built connection between neural networks with kernel methods and showed stochastic gradient descent can learn a function that is competitive with the best function in the conjugate kernel space of the network. Again this work does not imply why first order methods can achieve zero training loss.
+
+## Continuous Time Analysis
+
+In this section, we present our result for gradient flow, i.e., gradient descent with infinitesimal step size. The analysis of gradient flow is a stepping stone towards understanding discrete algorithms and this is the main topic of recent work. In the next section, we will modify the proof and give a quantitative bound for gradient descent with positive step size. Formally, we consider the ordinary differential equation^66^6Strictly speaking, this should be differential inclusion defined by:
+
+for $r \in {\lbrack m\rbrack}$. We denote ${u_{i}{(t)}} = {f{({\mathbf{W}{(t)}},\mathbf{a},\mathbf{x}_{i})}}$ the prediction on input $\mathbf{x}_{i}$ at time $t$ and we let ${\mathbf{u}{(t)}} = \left( {u_{1}{(t)}},\ldots,{u_{n}{(t)}} \right) \in {\mathbb{R}}^{n}$ be the prediction vector at time $t$. We state our main assumption.
+
+### Assumption 3.1
+
+Define matrix $\mathbf{H}^{\infty} \in {\mathbb{R}}^{n \times n}$ with $\mathbf{H}_{ij}^{\infty} = {{\mathbb{E}}_{\mathbf{w} \sim {N{(\mathbf{0},\mathbf{I})}}}\left\lbrack {\mathbf{x}_{i}^{\top}\mathbf{x}_{j}{\mathbb{I}}\left\{ {{{\mathbf{w}^{\top}\mathbf{x}_{i}} \geq 0},{{\mathbf{w}^{\top}\mathbf{x}_{j}} \geq 0}} \right\}} \right\rbrack}$. We assume $\lambda_{0} \triangleq {\lambda_{\min}\left( \mathbf{H}^{\infty} \right)} > 0$.
+
+$\mathbf{H}^{\infty}$ is the Gram matrix induced by the ReLU activation function and the random initialization. Later we will show that during the training, though the Gram matrix may change (c.f. Equation ), it is still close to $\mathbf{H}^{\infty}$. Furthermore, as will be apparent in the proof (c.f. Equation ), $\mathbf{H}^{\infty}$ is the fundamental quantity that determines the convergence rate. Interestingly, various properties of this $\mathbf{H}^{\infty}$ matrix has been studied in previous works. Now to justify this assumption, the following theorem shows if no two inputs are parallel the least eigenvalue is strictly positive.
+
+### Theorem 3.1
+
+If for any $i \neq j$, $\mathbf{x}_{i}\operatorname{\parallel\not{}}\mathbf{x}_{j}$, then $\lambda_{0} > 0$.
+
+Note for most real world datasets, no two inputs are parallel, so our assumption holds in general. Now we are ready to state our main theorem in this section.
+
+### Theorem 3.2 (Convergence Rate of Gradient Flow)
+
+Suppose Assumption 3.1 holds and for all $i \in {\lbrack n\rbrack}$, $\left\| \mathbf{x}_{i} \right\|_{2} = 1$ and $\left| y_{i} \right| \leq C$ for some constant $C$. Then if we set the number of hidden nodes $m = {\Omega\left( \frac{n^{6}}{\lambda_{0}^{4}\delta^{3}} \right)}$ and we i.i.d. initialize $\mathbf{w}_{r} \sim {N{(\mathbf{0},\mathbf{I})}}$, $a_{r} \sim {{unif}\left\lbrack \left\{ {- 1},1 \right\} \right\rbrack}$ for $r \in {\lbrack m\rbrack}$, then with probability at least $1 - \delta$ over the initialization, we have
+
+This theorem establishes that if $m$ is large enough, the training error converges to $0$ at a linear rate. Here we assume $\left\| \mathbf{x}_{i} \right\|_{2} = 1$ only for simplicity and it is not hard to relax this condition.^77^7 More precisely, if $0 < c_{low} \leq \left\| \mathbf{x}_{i} \right\|_{2} \leq c_{high}$ for all $i \in {\lbrack n\rbrack}$, we only need to change Lemma 3.1-3.3 to make them depend on $c_{low}$ and $c_{high}$ and the amount of over-parameterization $m$ will depend on $\frac{c_{high}}{c_{low}}$. We assume $\left\| \mathbf{x}_{i} \right\|_{2} = 1$ so we can present the cleanest proof and focus on our main analysis technique. The bounded label condition also holds for most real world data set. The number of hidden nodes $m$ required is $\Omega\left( \frac{n^{6}}{\lambda_{0}^{4}\delta^{3}} \right)$, which depends on the number of samples $n$, $\lambda_{0}$, and the failure probability $\delta$. Over-parameterization, i.e., the fact $m = {{poly}{(n,{1/\lambda_{0}},{1/\delta})}}$, plays a crucial role in guaranteeing gradient descent to find the global minimum. In this paper, we only use the simplest concentration inequalities (Hoeffding's and Markov's) in order to have the cleanest proof. We believe using a more advanced concentration analysis we can further improve the dependency. Lastly, we note the specific convergence rate depends on $\lambda_{0}$ but independent of the number of hidden nodes $m$.
+
+### Proof of Theorem 3.2. ‣ 3 Continuous Time Analysis ‣ Gradient Descent Provably Optimizes Over-parameterized Neural Networks")
+
+Our first step is to calculate the dynamics of each prediction.
+
+where $\mathbf{H}{(t)}$ is an $n \times n$ matrix with $(i,j)$-th entry
+
+With this $\mathbf{H}{(t)}$ matrix, we can write the dynamics of predictions in a compact way:
+
+### Remark 3.1
+
+Note Equation completely describes the dynamics of the predictions. In the rest of this section, we will show at initialization $\left\| {{\mathbf{H}{}} - \mathbf{H}^{\infty}} \right\|_{2}$ is $O{(\sqrt{1/m})}$ and for all $t > 0$, $\left\| {{\mathbf{H}{(t)}} - {\mathbf{H}{}}} \right\|_{2}$ is $O{(\sqrt{1/m})}$. Therefore, according to Equation, as $m\rightarrow\infty$, the dynamics of the predictions are characterized by $\mathbf{H}^{\infty}$. This is the main reason we believe $\mathbf{H}^{\infty}$ is the fundamental quantity that describes this optimization process.
+
+$\mathbf{H}{(t)}$ is a time-dependent symmetric matrix. We first analyze its property when $t = 0$. The following lemma shows if $m$ is large then $\mathbf{H}{}$ has a lower bounded least eigenvalue with high probability. The proof is by the standard concentration bound so we defer it to the appendix.
+
+### Lemma 3.1
+
+If $m = {\Omega\left( {\frac{n^{2}}{\lambda_{0}^{2}}{\log\left( \frac{n}{\delta} \right)}} \right)}$, we have with probability at least $1 - \delta$, $\left\| {{\mathbf{H}{}} - \mathbf{H}^{\infty}} \right\|_{2} \leq \frac{\lambda_{0}}{4}$ and ${\lambda_{\min}{({\mathbf{H}{}})}} \geq {\frac{3}{4}\lambda_{0}}$.
+
+Our second step is to show $\mathbf{H}{(t)}$ is stable in terms of $\mathbf{W}{(t)}$. Formally, the following lemma shows for any $\mathbf{W}$ close to $\mathbf{W}{}$, the induced Gram matrix $\mathbf{H}$ is close to $\mathbf{H}{}$ and has a lower bounded least eigenvalue.
+
+### Lemma 3.2
+
+If $\mathbf{w}_{1},\ldots,\mathbf{w}_{m}$ are i.i.d. generated from $N{(\mathbf{0},\mathbf{I})}$, then with probability at least $1 - \delta$, the following holds. For any set of weight vectors ${\mathbf{w}_{1},\ldots,\mathbf{w}_{m}} \in {\mathbb{R}}^{d}$ that satisfy for any $r \in {\lbrack m\rbrack}$, $\left\| {{\mathbf{w}_{r}{}} - \mathbf{w}_{r}} \right\|_{2} \leq \frac{c\delta\lambda_{0}}{n^{2}} \triangleq R$ for some small positive constant $c$, then the matrix $\mathbf{H} \in {\mathbb{R}}^{n \times n}$ defined by
+
+satisfies $\left\| {\mathbf{H} - {\mathbf{H}{}}} \right\|_{2} < \frac{\lambda_{0}}{4}$ and ${\lambda_{\min}(\mathbf{H})} > \frac{\lambda_{0}}{2}$.
+
+This lemma plays a crucial role in our analysis so we give the proof below.
+
+*Proof of Lemma 3.2* We define the event
+
+Note this event happens if and only if $\left| {\mathbf{w}_{r}{}^{\top}\mathbf{x}_{i}} \right| < R$. Recall ${\mathbf{w}_{r}{}} \sim {N{(\mathbf{0},\mathbf{I})}}$. By anti-concentration inequality of Gaussian, we have ${{P{(A_{ir})}} = {P_{z \sim {N{}}}\left( {|z| < R} \right)} \leq \frac{2R}{\sqrt{2\pi}}}.$ Therefore, for any set of weight vectors $\mathbf{w}_{1},\ldots,\mathbf{w}_{m}$ that satisfy the assumption in the lemma, we can bound the entry-wise deviation on their induced matrix $\mathbf{H}$: for any ${(i,j)} \in {{\lbrack n\rbrack} \times {\lbrack n\rbrack}}$
+
+where the expectation is taken over the random initialization of ${\mathbf{w}_{1}{}},\ldots,{\mathbf{w}_{m}{}}$. Summing over $(i,j)$, we have ${{{\mathbb{E}}\left\lbrack {\sum_{{(i,j)} = {}}^{(n,n)}\left| {\mathbf{H}_{ij} - {\mathbf{H}_{ij}{}}} \right|} \right\rbrack} \leq \frac{4n^{2}R}{\sqrt{2\pi}}}.$ Thus by Markov's inequality, with probability $1 - \delta$, we have ${\sum_{{(i,j)} = {}}^{(n,n)}\left| {\mathbf{H}_{ij} - {\mathbf{H}_{ij}{}}} \right|} \leq \frac{4n^{2}R}{\sqrt{2\pi}\delta}$. Next, we use matrix perturbation theory to bound the deviation from the initialization
+
+Lastly, we lower bound the smallest eigenvalue by plugging in $R$
+
+The next lemma shows two facts if the least eigenvalue of $\mathbf{H}{(t)}$ is lower bounded. First, the loss converges to $0$ at a linear convergence rate. Second, $\mathbf{w}_{r}{(t)}$ is close to the initialization for every $r \in {\lbrack m\rbrack}$. This lemma clearly demonstrates the power of over-parameterization.
+
+### Lemma 3.3
+
+Suppose for $0 \leq s \leq t$, ${\lambda_{\min}\left( {\mathbf{H}{(s)}} \right)} \geq \frac{\lambda_{0}}{2}$. Then we have $\left\| {\mathbf{y} - {\mathbf{u}{(t)}}} \right\|_{2}^{2} \leq {{\exp{({- {\lambda_{0}t}})}}\left\| {\mathbf{y} - {\mathbf{u}{}}} \right\|_{2}^{2}}$ and for any $r \in {\lbrack m\rbrack}$, ${\left\| {{\mathbf{w}_{r}{(t)}} - {\mathbf{w}_{r}{}}} \right\|_{2} \leq \frac{\sqrt{n}\left\| {\mathbf{y} - {\mathbf{u}{}}} \right\|_{2}}{\sqrt{m}\lambda_{0}} \triangleq R^{\prime}}.$
+
+*Proof of Lemma 3.3* Recall we can write the dynamics of predictions as ${{\frac{d}{dt}\mathbf{u}{(t)}} = {\mathbf{H}{({\mathbf{y} - {\mathbf{u}{(t)}}})}}}.$ We can calculate the loss function dynamics
+
+Thus we have ${\frac{d}{dt}\left( {{\exp{({\lambda_{0}t})}}\left\| {\mathbf{y} - {\mathbf{u}{(t)}}} \right\|_{2}^{2}} \right)} \leq 0$ and ${\exp{({\lambda_{0}t})}}\left\| {\mathbf{y} - {\mathbf{u}{(t)}}} \right\|_{2}^{2}$ is a decreasing function with respect to $t$. Using this fact we can bound the loss
+
+Therefore, ${\mathbf{u}{(t)}}\rightarrow\mathbf{y}$ exponentially fast. Now we bound the gradient norm. Recall for $0 \leq s \leq t$,
+
+Integrating the gradient, we can bound the distance from the initialization
+
+The next lemma shows if $R^{\prime} < R$, the conditions in Lemma 3.2 and 3.3 hold for all $t \geq 0$. The proof is by contradiction and we defer it to appendix.
+
+### Lemma 3.4
+
+If $R^{\prime} < R$, we have for all $t \geq 0$, ${\lambda_{\min}{({\mathbf{H}{(t)}})}} \geq {\frac{1}{2}\lambda_{0}}$, for all $r \in {\lbrack m\rbrack}$, $\left\| {{\mathbf{w}_{r}{(t)}} - {\mathbf{w}_{r}{}}} \right\|_{2} \leq R^{\prime}$ and $\left\| {\mathbf{y} - {\mathbf{u}{(t)}}} \right\|_{2}^{2} \leq {{\exp{({- {\lambda_{0}t}})}}\left\| {\mathbf{y} - {\mathbf{u}{}}} \right\|_{2}^{2}}$.
+
+Thus it is sufficient to show $R^{\prime} < R$ which is equivalent to ${m = {\Omega\left( \frac{n^{5}\left\| {\mathbf{y} - {\mathbf{u}{}}} \right\|_{2}^{2}}{\lambda_{0}^{4}\delta^{2}} \right)}}.$ We bound
+
+Thus by Markov's inequality, we have with probability at least $1 - \delta$, $\left\| {\mathbf{y} - {\mathbf{u}{}}} \right\|_{2}^{2} = {O{(\frac{n}{\delta})}}$. Plugging in this bound we prove the theorem. ∎
+
+### Jointly Training Both Layers
+
+In this subsection, we showcase our proof technique can be applied to analyze the convergence of gradient flow for jointly training both layers. Formally, we consider the ordinary differential equation defined by:
+
+for $r = {1,\ldots,m}$. The following theorem shows using gradient flow to jointly train both layers, we can still enjoy linear convergence rate towards zero loss.
+
+### Theorem 3.3 (Convergence Rate of Gradient Flow for Training Both Layers)
+
+Under the same assumptions as in Theorem 3.2. ‣ 3 Continuous Time Analysis ‣ Gradient Descent Provably Optimizes Over-parameterized Neural Networks"), if we set the number of hidden nodes $m = {\Omega\left( \frac{n^{6}{\log{({m/\delta})}}}{\lambda_{0}^{4}\delta^{3}} \right)}$ and we i.i.d. initialize $\mathbf{w}_{r} \sim {N{(\mathbf{0},\mathbf{I})}}$, $a_{r} \sim {{unif}\left\lbrack \left\{ {- 1},1 \right\} \right\rbrack}$ for $r \in {\lbrack m\rbrack}$, with probability at least $1 - \delta$ over the initialization we have
+
+Theorem 3.3. ‣ 3.2 Jointly Training Both Layers ‣ 3 Continuous Time Analysis ‣ Gradient Descent Provably Optimizes Over-parameterized Neural Networks") shows under the same assumptions as in Theorem 3.2. ‣ 3 Continuous Time Analysis ‣ Gradient Descent Provably Optimizes Over-parameterized Neural Networks"), we can achieve the same convergence rate as that of only training the first layer. The proof of Theorem 3.3. ‣ 3.2 Jointly Training Both Layers ‣ 3 Continuous Time Analysis ‣ Gradient Descent Provably Optimizes Over-parameterized Neural Networks") relies on the same arguments as the proof of Theorem 3.2. ‣ 3 Continuous Time Analysis ‣ Gradient Descent Provably Optimizes Over-parameterized Neural Networks"). Again we consider the dynamics of the predictions and this dynamics is characterized by a Gram matrix. We can show for all $t > 0$, this Gram matrix is close to the Gram matrix at the initialization phase. We refer readers to appendix for the full proof.
+
+## Discrete Time Analysis
+
+In this section, we show randomly initialized gradient descent with a constant positive step size converges to the global minimum at a linear rate. We first present our main theorem.
+
+### Theorem 4.1 (Convergence Rate of Gradient Descent)
+
+Under the same assumptions as in Theorem 3.2. ‣ 3 Continuous Time Analysis ‣ Gradient Descent Provably Optimizes Over-parameterized Neural Networks"), if we set the number of hidden nodes $m = {\Omega\left( \frac{n^{6}}{\lambda_{0}^{4}\delta^{3}} \right)}$, we i.i.d. initialize $\mathbf{w}_{r} \sim {N{(\mathbf{0},\mathbf{I})}}$, $a_{r} \sim {{unif}\left\lbrack \left\{ {- 1},1 \right\} \right\rbrack}$ for $r \in {\lbrack m\rbrack}$, and we set the step size $\eta = {O\left( \frac{\lambda_{0}}{n^{2}} \right)}$ then with probability at least $1 - \delta$ over the random initialization we have for $k = {0,1,2,\ldots}$
+
+Theorem 4.1. ‣ 4 Discrete Time Analysis ‣ Gradient Descent Provably Optimizes Over-parameterized Neural Networks") shows even though the objective function is non-smooth and non-convex, gradient descent with a constant step size still enjoys a linear convergence rate. Our assumptions on the least eigenvalue and the number of hidden nodes are exactly the same as the theorem for gradient flow.
+
+### Proof of Theorem 4.1. ‣ 4 Discrete Time Analysis ‣ Gradient Descent Provably Optimizes Over-parameterized Neural Networks")
+
+We prove Theorem 4.1. ‣ 4 Discrete Time Analysis ‣ Gradient Descent Provably Optimizes Over-parameterized Neural Networks") by induction. Our induction hypothesis is just the following convergence rate of the empirical loss.
+
+### Condition 4.1
+
+At the $k$-th iteration, we have ${\left\| {\mathbf{y} - {\mathbf{u}{(k)}}} \right\|_{2}^{2} \leq {{({1 - \frac{\eta\lambda_{0}}{2}})}^{k}\left\| {\mathbf{y} - {\mathbf{u}{}}} \right\|_{2}^{2}}}.$
+
+A directly corollary of this condition is the following bound of deviation from the initialization. The proof is similar to that of Lemma 3.3 so we defer it to appendix.
+
+### Corollary 4.1
+
+If Condition 4.1 holds for $k^{\prime} = {0,\ldots,k}$, then we have for every $r \in {\lbrack m\rbrack}$
+
+Now we show Condition 4.1 holds for every $k = {0,1,\ldots}$. For the base case $k = 0$, by definition Condition 4.1 holds. Suppose for $k^{\prime} = {0,\ldots,k}$, Condition 4.1 holds and we want to show Condition 4.1 holds for $k^{\prime} = {k + 1}$.
+
+Our strategy is similar to the proof of Theorem 3.2. ‣ 3 Continuous Time Analysis ‣ Gradient Descent Provably Optimizes Over-parameterized Neural Networks"). We define the event
+
+where $R = \frac{c\lambda_{0}}{n^{2}}$ for some small positive constant $c$. Different from gradient flow, for gradient descent we need a more refined analysis. We let $S_{i} = \left\{ {r \in {\lbrack m\rbrack}}:{{{\mathbb{I}}{\{ A_{ir}\}}} = 0} \right\}$ and $S_{i}^{\perp} = {{\lbrack m\rbrack} \smallsetminus S_{i}}$. The following lemma bounds the sum of sizes of $S_{i}^{\perp}$. The proof is similar to the analysis used in Lemma 3.2. See Section A for the whole proof.
+
+### Lemma 4.1
+
+With probability at least $1 - \delta$ over the initialization, we have ${\sum_{i = 1}^{n}\left| S_{i}^{\perp} \right|} \leq \frac{CmnR}{\delta}$ for some positive constant $C > 0$.
+
+Next, we calculate the difference of predictions between two consecutive iterations, analogue to $\frac{du_{i}{(t)}}{dt}$ term in Section 3.
+
+Here we divide the right hand side into two parts. $I_{1}^{i}$ accounts for terms that the pattern does not change and $I_{2}^{i}$ accounts for terms that pattern may change.
+
+We view $I_{2}^{i}$ as a perturbation and bound its magnitude. Because ReLU is a $1$-Lipschitz function and $\left| a_{r} \right| = 1$, we have
+
+To analyze $I_{1}^{i}$, by Corollary 4.1, we know $\left\| {{\mathbf{w}_{r}{(k)}} - {\mathbf{w}_{r}{}}} \right\| \leq R^{\prime}$ and $\left\| {{\mathbf{w}_{r}{(k)}} - {\mathbf{w}_{r}{}}} \right\| \leq R^{\prime}$ for all $r \in {\lbrack m\rbrack}$. Furthermore, because $R^{\prime} < R$, we know ${{\mathbb{I}}\left\{ {{\mathbf{w}_{r}{({k + 1})}^{\top}\mathbf{x}_{i}} \geq 0} \right\}} = {{\mathbb{I}}\left\{ {{\mathbf{w}_{r}{(k)}^{\top}\mathbf{x}_{i}} \geq 0} \right\}}$ for ${r \in S_{i}}.$ Thus we can find a more convenient expression of $I_{1}^{i}$ for analysis
+
+where ${\mathbf{H}_{ij}{(k)}} = {\frac{1}{m}{\sum_{r = 1}^{m}{\mathbf{x}_{i}^{\top}\mathbf{x}_{j}{\mathbb{I}}\left\{ {{{\mathbf{w}_{r}{(k)}^{\top}\mathbf{x}_{i}} \geq 0},{{\mathbf{w}_{r}{(k)}^{\top}\mathbf{x}_{j}} \geq 0}} \right\}}}}$ is just the $(i,j)$-th entry of a discrete version of Gram matrix defined in Section 3 and ${\mathbf{H}_{ij}^{\perp}{(k)}} = {\frac{1}{m}{\sum_{r \in S_{i}^{\perp}}{\mathbf{x}_{i}^{\top}\mathbf{x}_{j}{\mathbb{I}}\left\{ {{{\mathbf{w}_{r}{(k)}^{\top}\mathbf{x}_{i}} \geq 0},{{\mathbf{w}_{r}{(k)}^{\top}\mathbf{x}_{j}} \geq 0}} \right\}}}}$ is a perturbation matrix. Let $\mathbf{H}^{\perp}{(k)}$ be the $n \times n$ matrix with $(i,j)$-th entry being $\mathbf{H}_{ij}^{\perp}{(k)}$. Using Lemma 4.1, we obtain an upper bound of the operator norm
+
+Similar to the classical analysis of gradient descent, we also need bound the quadratic term.
+
+With these estimates at hand, we are ready to prove the induction hypothesis.
+
+The third equality we used the decomposition of ${\mathbf{u}{({k + 1})}} - {\mathbf{u}{(k)}}$. The first inequality we used the Lemma 3.2, the bound on the step size, the bound on $\mathbf{I}_{2}$, the bound on $\left\| {\mathbf{H}{(k)}^{\perp}} \right\|_{2}$ and the bound on $\left\| {{\mathbf{u}{({k + 1})}} - {\mathbf{u}{(k)}}} \right\|_{2}^{2}$. The last inequality we used the bound of the step size and the bound of $R$. Therefore Condition 4.1 holds for $k^{\prime} = {k + 1}$. Now by induction, we prove Theorem 4.1. ‣ 4 Discrete Time Analysis ‣ Gradient Descent Provably Optimizes Over-parameterized Neural Networks"). ∎
+
+## Experiments
+
+In this section, we use synthetic data to corroborate our theoretical findings. We use the initialization and training procedure described in Section 1. For all experiments, we run $100$ epochs of gradient descent and use a fixed step size. We uniformly generate $n = 1000$ data points from a $d = 1000$ dimensional unit sphere and generate labels from a one-dimensional standard Gaussian distribution.
+
+We test three metrics with different widths ($m$). First, we test how the amount of over-parameterization affects the convergence rates. Second, we test the relation between the amount of over-parameterization and the number of pattern changes. Formally, at a given iteration $k$, we check $\frac{\sum_{i = 1}^{m}{\sum_{r = 1}^{m}{{\mathbb{I}}\left\{ {{\text{sign}\left( {\mathbf{w}_{r}{}^{\top}\mathbf{x}_{i}} \right)} \neq {\text{sign}\left( {\mathbf{w}_{r}{(k)}^{\top}\mathbf{x}_{i}} \right)}} \right\}}}}{mn}$ (there are $mn$ patterns). This aims to verify Lemma 3.2. Last, we test the relation between the amount of over-parameterization and the maximum of the distances between weight vectors and their initializations. Formally, at a given iteration $k$, we check $\max_{r \in {\lbrack m\rbrack}}\left\| {{\mathbf{w}_{r}{(k)}} - {\mathbf{w}_{r}{}}} \right\|_{2}$. This aims to verify Lemma 3.3 and Corollary 4.1.
+
+Figure 1(a) shows as $m$ becomes larger, we have better convergence rate. We believe the reason is as $m$ becomes larger, $\mathbf{H}{(t)}$ matrix becomes more stable, and thus has larger least eigenvalue. Figure 1(b) and Figure 1(c) show as $m$ becomes larger, the percentiles of pattern changes and the maximum distance from the initialization become smaller. These empirical findings are consistent with our theoretical results.
+
+(b) Percentiles of pattern changes.
+
+(c) Maximum distances from initialization.
+
+Figure 1: Results on synthetic data.
+
+## Conclusion and Discussion
+
+In this paper we show with over-parameterization, gradient descent provable converges to the global minimum of the empirical loss at a linear convergence rate. The key proof idea is to show the over-parameterization makes Gram matrix remain positive definite for all iterations, which in turn guarantees the linear convergence. Here we list some future directions.
+
+First, we believe our approach can be generalized to deep neural networks. We elaborate the main idea here for gradient flow. Consider a deep neural network of the form
+
+where $\mathbf{x} \in {\mathbb{R}}^{d}$ is the input, $\mathbf{W}^{} \in {\mathbb{R}}^{m \times d}$ is the first layer, $\mathbf{W}^{(h)} \in {\mathbb{R}}^{m \times m}$ for $h = {2,\ldots,H}$ are the middle layers and $\mathbf{a} \in {\mathbb{R}}^{m}$ is the output layer. Recall $u_{i}$ is the $i$-th prediction. If we use the quadratic loss, we can compute
+
+Similar to Equation, we can calculate
+
+where ${\mathbf{G}^{(h)}{(t)}} \in {\mathbb{R}}^{n \times n}$ with ${\mathbf{G}_{ij}^{(h)}{(t)}} = {\langle\frac{\partial{u_{i}{(t)}}}{\mathbf{W}^{(h)}{(t)}},\frac{\partial{u_{j}{(t)}}}{\mathbf{W}^{(h)}{(t)}}\rangle}$. Therefore, similar to Equation, we can write
+
+Note for every $h \in {\lbrack H\rbrack}$, $\mathbf{G}^{(h)}$ is a Gram matrix and thus it is positive semidefinite. If $\sum_{h = 1}^{H}{\mathbf{G}^{(h)}{(t)}}$ has a lower bounded least eigenvalue for all $t$, then similar to Section 3, gradient flow converges to zero training loss at a linear convergence rate. Based on our observations in Remark 3.1, we conjecture that if $m$ is large enough, $\sum_{h = 1}^{H}{\mathbf{G}^{(h)}{}}$ is close to a fixed matrix $\sum_{h = 1}^{H}\mathbf{G}_{\infty}^{(h)}$ and $\sum_{h = 1}^{H}{\mathbf{G}^{(h)}{(t)}}$ is close its initialization $\sum_{h = 1}^{H}{\mathbf{G}^{(h)}{}}$ for all $t > 0$. Therefore, using the same arguments as we used in Section 3, as long as $\sum_{h = 1}^{H}\mathbf{G}_{\infty}^{(h)}$ has a lower bounded least eigenvalue, gradient flow converges to zero training loss at a linear convergence rate.
+
+Second, we believe the number of hidden nodes $m$ required can be reduced. For example, previous work showed $m \geq \frac{n}{d}$ is enough to make all differentiable local minima global. In our setting, using advanced tools from probability and matrix perturbation theory to analyze $\mathbf{H}{(t)}$, we may be able to tighten the bound.
+
+Lastly, in our paper, we used the empirical loss as a potential function to measure the progress. If we use another potential function, we may be able to prove the convergence rates of accelerated methods. This technique has been exploited in Wilson et al. for analyzing convex optimization. It would be interesting to bring their idea to analyze other first order methods for optimizing neural networks.

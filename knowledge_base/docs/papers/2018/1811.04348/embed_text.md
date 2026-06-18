@@ -1,0 +1,133 @@
+## INTRODUCTION
+
+Autonomous vehicles often decompose the selection of steering, throttle, and braking control signals into a planning process which generates a feasible motion through the perceived scene. This is followed by a control process which executes a local trajectory tracking control policy robust to process noise and load disturbances. Motion planning algorithms for autonomous driving usually simplify the planning task by first planning a geometric path followed by planning a longitudinal velocity profile along the geometric path. Since all motion planning algorithms with approximate completeness guarantees have exponential complexity with respect to state dimension, this decomposition affords significant reduction in computational requirements and planning latency. The decomposition is inherited by the control system which generally has separate lateral and longitudinal control policies. The subtleties of designing controllers in this case have been well studied.
+
+The downside to this decomposition is that it implicitly discards effective options available to the planner. For example, if a dynamic obstacle suddenly crosses the vehicle's path, a geometric planner will not reason about the motion of that object and will have to assume a fixed location, or neglect the dynamic obstacle completely; the subsequent longitudinal planner must find a safe option restricted to the selected geometric path. This motivates spatio-temporal motion planning that accounts for predicted states of dynamic obstacles. However, the prohibitive complexity of motion planning for high fidelity models forces motion planning modules to use simplified dynamic models with low dimensional continuous state spaces, sometimes further approximated by finite state models. This places a greater burden on the control process which must execute a trajectory tracking control policy that not only compensates for load disturbances and accounts for sensor noise, but has to account for model difference between the planner and the vehicle's dynamics.
+
+To address such issue, one approach attracting increasing attention is Model Predictive Control (MPC) which incorporates a sophisticated dynamic model to recursively optimize tracking errors over the reference trajectory. MPC approaches for trajectory tracking have been widely investigated for both autonomous driving and semi-autonomous driving cases. Furthermore, if the cost function can be proved as a Lyapunov function, stability of the nominal closed-loop system is guaranteed. However, the cost function for trajectory tracking of autonomous vehicles typically need to account for riding performance such as small yaw rate and smooth change of acceleration, which makes proof of the cost function as a Lyapunov function very difficult, even intractable.
+
+This paper discusses a particular control system design for trajectory tracking which utilizes a feedforward MPC to optimize the reference trajectory with respect to a cost function that does not need to be a Lyapunov function of the closed-loop error dynamic. The proposed feedforward MPC, discussed in Section III, is formulated as a strictly convex optimization problem (SCOP), which results in unique solutions.
+
+Figure 1: Diagram of trajectory optimization and the feedback-feedforward scheme. When a reference trajectory from the motion planner is available, the trajectory optimization generates the feedforward input by solving a strictly convex optimization problem that smooths the reference trajectory. The control input to the vehicle is consist of a feedforward term from the trajectory optimization and a feedback term from the state feedback controller.
+
+Then, a feedback-feedforward controller is proposed based on a time-varying Linear Quadratic Regulator (TVLQR), where the feedforward element and the nominal trajectory are obtained from the feedforward MPC. The reduced computational requirements to run a TVLQR allows the feedback loop to be run at higher frequency than the feedforward path. Moreover, stability of the error dynamic of the nominal system is ensured by carefully choosing coefficients of the cost function in the TVLQR.
+
+Simulations results in Section IV suggest the approach produces satisfactory tracking results in realistic driving scenarios, and with computation times well within the sample rate of the controller. We conclude in Section V that this control system design is a promising approach worth further study including in our research teams repertoire of control systems to be tested on or experimental autonomous driving platform.
+
+## PROBLEM FORMULATION
+
+### II-A Trajectory Optimization
+
+A reference trajectory, denoted as ${\hat{\mathcal{T}}}_{t}:={\{{\hat{\mu}}_{0},{\hat{\mu}}_{1},\ldots,{\hat{\mu}}_{N}\}}$ with $t \in {\mathbb{N}}$, published by the planner at instant $t$ is consists of $N + 1$ reference states to be reached at uniformly spaced time intervals of duration $\Deltat$. The trajectory optimization process is to generate a sequence of control-state pairs satisfying the dynamic model of the vehicle. We refer to the state sequence and the control sequence as the nominal trajectory and the feedforward term if the trajectory optimization problem is feasible. Given the initial state, the vehicle is expected to track the nominal trajectory without error using the feedforward control if no disturbances and model uncertainty appear. Fig. 1 shows the connections of the trajectory optimization to the motion planner and the feedback controller. Instead of the reference trajectory, the optimized nominal trajectory is used by the feedback controller to calculate tracking state-error and to generate the feedback term. The feedforward control together with the feedback term formulates the control input that actuates the vehicle. The state of the vehicle and feedforward control are denoted $x$ and $u_{ff}$ respectively. When comparing states in $\hat{\mathcal{T}}$ and $\mathring{\tau}$ is required, we augment $\hat{\mu}$ to ${\mathbb{R}}^{\dim{(x)}}$ with the values of the augmented states set to the equilibrium point, and denote the augmented state as $\hat{x}$. Let $\hat{\tau} \triangleq {\lbrack{\hat{x}{(t)}^{T}},\ldots,{\hat{x}{({t + N})}^{T}}\rbrack}^{T}$ be the augmented vector of states from the reference trajectory. The trajectory optimization problem is defined,
+
+$\underset{U_{ff} \in {\mathcal{U} \times \cdots \times \mathcal{U}}}{\arg\min}$ $J{(\hat{\tau},\mathring{\tau},U_{ff})}$ (1a)
+$U_{ff} = {\lbrack{u_{ff}{(t)}^{T}},\ldots,{u_{ff}{({{t + N} - 1})}^{T}}\rbrack}^{T}$ (1e)
+$\mathring{\tau} = {\lbrack{x{(t)}^{T}},\ldots,{x{({t + N})}^{T}}\rbrack}^{T}$ (1f)
+
+where $f_{ff}{( \cdot, \cdot )}$ is the feedforward model of the vehicle, $U_{ff}$ is the vector of all feedforward terms over the samples from $t$ to $t + N$. $\mathcal{X}$ and $\mathcal{U}$ are the state constraint set and the feedforward input constraint set, respectively.
+
+While tracking performance requirements can imposed with an inequality constraint on error $\|{\hat{\tau} - \mathring{\tau}}\|$, this can make the optimization infeasible. Thus, we focus on formulating tracking performance in the cost function as a soft constraint. Detailed construction of the cost function (1a) and constraints (1b-d) to a strictly convex quadratic program will be discussed in the following two subsections.
+
+### II-B Vehicle Dynamics
+
+The trajectory optimization problem formulated in II-A relies on the equality constraint (1b) to predict future states and satisfying the differential constraints of the vehicle. The trajectory optimization estimates (1b) from the same dynamic model used in the feedback controller, which is defined as follows
+
+$\overset{˙}{s}$ $= {v{\cos\theta}}$ (2a)
+$\overset{˙}{y}$ $= {v{\sin\theta}}$ (2b)
+$\overset{˙}{\theta}$ $= {\frac{v}{L}{\tan\delta}}$ (2c)
+$\overset{˙}{\delta}$ $= {{- {\lambda_{1}\delta}} + {\lambda_{1}\delta_{in}}}$ (2d)
+$\overset{˙}{\alpha}$ $= {{- {\lambda_{2}\alpha}} + {\lambda_{2}\alpha_{in}}}$ (2f)
+
+where $s$, $y$, $\theta$ are the pose at the center point of the rear axle of the vehicle in an inertial coordinate system. $\delta$, $v$, $\alpha$, $L$ are the steering-wheel angle, the longitudinal speed, the longitudinal acceleration, and the wheel base of the vehicle, respectively. $\delta_{in}$ and $\alpha_{in}$ are the control input of steering angle and the control input of acceleration/deceleration, respectively. A first order inertial response is added to both steering control and acceleration/deceleration control to formulate the system lag, where $\lambda_{1} > 0$ and $\lambda_{2} > 0$ are response coefficients.
+
+Direct implementation of the nonlinear model in the optimization results in a non-convex problem making real-time trajectory optimization intractable. It can be easily verified that even the one-step quadratic cost ${x^{T}Qx} + {u_{ff}^{T}Ru_{ff}}$ with is non-convex in $u_{ff}$ with both $Q$ and $R$ positive definite. In order to obtain a convex cost in $U_{ff}$, an LTV model is used to approximate. The linearized discrete-time LTV equation of with $x \triangleq {\lbrack s,y,\theta,\delta,v,\alpha\rbrack}^{T}$ is given as follows.
+
+where $\beta \in {\lbrack 0,1\rbrack}$ is a weighting coefficient. The input matrix $B$ is time-invariant. Values of states in $A{(t)}$ are assigned using the corresponding states in $\hat{\tau}{(t)}$. Fig. 2 shows numerical forward simulation of the LTV model compared to.
+
+Figure 2: Verification of the linearized model. Initial condition is set as T with αin and δin sampled from sinusoid $2{\cos{({\frac{t}{5}\pi})}}$ and $0.2{\cos{({\frac{2t}{5}\pi})}}$ respectively, 0 ≤ t ≤ 5, Δ t = 0.1 s, β = 0.5. The red line shows the baseline generated using the ODE solver LSODA. The blue line and the green line denote the Euler forward approximation results of and, respectively.
+
+### II-C Convexity of Quadratic Functions
+
+In the interest of formulating as a SCOP, we focus on the quadratic programming formulations with strictly convex cost functions admitting unique solutions. Uniqueness of the optimal solution ensures that the optimized nominal trajectory is reproducible and solver-invariant^11^1within the resolution tolerance set by the numerical solver.. Quadratic programs are well understood and various numerical solvers are available. While the focus is on quadratic programs, the synthesis approach proposed in this paper is applicable to SCOPs with cost functions of different categories. For instance, a SCOP with self-concordant barrier functions available on the constraints can be solved by a generic interior point method.
+
+The following is a brief review of some useful facts and also introduces some of the notation that will be used in subsequent sections. Throughout this work, let $\mathcal{S}_{+}^{n}$ (respectively, $\mathcal{S}_{+ +}^{n}$) be the set of positive semi-definite (respectively, positive definite) symmetric matrices in ${\mathbb{R}}^{n \times n}$.
+
+### Definition 1 (strict convexity)
+
+Let $\mathcal{X}$ be a convex set in ${\mathbb{R}}^{n}$, the objective function $J:{\mathcal{X}\rightarrow{\mathbb{R}}}$ is called strictly convex if ${{\forall x_{1}},x_{2}} \in \mathcal{X}$, ${\forall\lambda} \in {}$, ${J{({{\lambdax_{1}} + {{({1 - \lambda})}x_{2}}})}} < {{\lambdaJ{(x_{1})}} + {{({1 - \lambda})}J{(x_{2})}}}$.
+
+### Definition 2 (quadratic program)
+
+A quadratic program over the decision variable $x \in {\mathbb{R}}^{n}$ is of the following form:
+
+where $H \in \mathcal{S}_{+}^{n}$ is the Hessian matrix. $G_{I} \in {\mathbb{R}}^{m \times n}$, $G_{E} \in {\mathbb{R}}^{p \times n}$ are the element-wise inequality matrix and the element-wise equality matrix, respectively.
+
+If $H \in \mathcal{S}_{+ +}^{n}$ and the feasible set is convex, then the cost function is strictly convex and (4 ‣ II-C Convexity of Quadratic Functions ‣ II PROBLEM FORMULATION ‣ Model Predictive Trajectory Optimization and Tracking for On-Road Autonomous Vehicles")) is a strictly convex quadratic program so that the optimal solution $x^{\ast}$ exists and is unique. The notation ${\| x\|}_{R}^{2}$ indicates the quadratic form of $x$ where $R \in \mathcal{S}_{+}^{n}$.
+
+## MAIN RESULTS
+
+### III-A Cost Function Construction
+
+The dynamics of the LTV system over an $N$-step planning horizon is written compactly as
+
+The idea of trajectory optimization is to construct a cost function to meet objectives leveraged by the motion planner and the feedback control system (refer to the connections in Fig. 1). For instance, the motion planner could have riding comfort as an objective and the feedback controller prefers slow changes over the nominal trajectory. It is observed that derivatives of control input are required in the objectives of optimization in addition to control input itself. Therefore, we focus on constructing the cost function of (4 ‣ II-C Convexity of Quadratic Functions ‣ II PROBLEM FORMULATION ‣ Model Predictive Trajectory Optimization and Tracking for On-Road Autonomous Vehicles")) that extends a generic MPC cost function with penalties on differentiation of control input in trajectory optimization. The difference matrix $E \in {\mathbb{R}}^{{{2N} \times 2}N}$ over the feedforward sequence $U_{ff}$ is as follows
+
+then the change of the control sequence is represented as
+
+where $\Delta^{i}U_{ff}$ is the $i$-th order difference of $U_{ff}$ with ${\Delta^{0}U_{ff}} = U_{ff}$. $V_{i}$ is the estimation of the initial state that is stored at the previous step. For example, $V_{0} = {\lbrack{- {u_{ff}{({t - 1})}^{T}}},0,\ldots,0\rbrack}^{T}$ at sample $t$.
+
+Here we focus on various differences of control input since the changes of the state are encoded in the equations for the system dynamics. Given $R_{i} \in \mathcal{S}_{+ +}^{2N}$, we have
+
+The cost function comprising system state and control input is constructed as follows
+
+where $M \geq 0$ is the difference order of interest. $Q \in \mathcal{S}_{+ +}^{6{({N + 1})}}$ is the weight coefficient of trajectory tracking deviation. ${{R_{i} \in \mathcal{S}_{+ +}^{2N}},{0 \leq i \leq M}},$ is the weight coefficient of the $i$-th order control input. If $M$ is set to $0$, is equivalent to the cost function of an MPC scheme for tracking. In particular, we have the quadratic program of trajectory optimization as minimizing subject to dynamic constraints, (1c), and (1d). Furthermore, we assume that the constraint sets $\mathcal{U}$ and $\mathcal{X}$ are polyhedra formulated by half planes generated by linear inequalities.
+
+With the cost function designed in the form of, we have the following result on uniqueness.
+
+### Proposition 1
+
+Given the trajectory optimization problem in the form of minimizing subject to constraints, (1c), and (1d), if the polyhedral constraint set is non-empty, then the problem admits a unique optimal solution.
+
+Justification of this observation can be found in Appendix A.
+
+### III-B Feedback and Feedforward Control
+
+When a new reference trajectory $\hat{\mathcal{T}}$ is available from the motion planner, the trajectory optimization takes the reference trajectory to set up the SCOP with and (1c-d). The solution to the SCOP, $U_{ff}^{\ast}$, and the corresponding nominal trajectory together with a feedback controller form the feedback-feedforward control scheme. State update of the closed-loop system implementing the feedback-feedforward scheme is given as follows
+
+where $u_{ff}^{\ast} \triangleq {\lbrack{U_{ff}^{\ast}{}},{U_{ff}^{\ast}{}}\rbrack}^{T}$, $\overset{\sim}{x} = {x - \hat{x}}$ is the state tracking error, $u_{fb}$ is the corresponding feedback input. ${A_{fb}{(t)}} = {\frac{\partial{f{(x,u)}}}{\partial x}|}_{x = {\hat{x}{(t)}}}$.
+
+The state feedback controller follows the scheme of TVLQR. First, the system is augmented to include the integral of tracking error.
+
+where $\overset{\sim}{z} = {\lbrack{\overset{\sim}{x}}^{T},{\overset{\sim}{v}}^{T}\rbrack}^{T}$ is the augmented state with $\overset{\sim}{v}$ be the integrator state. The TVLQR problem is defined as follows
+
+where ${U_{fb}{(t)}} = {\lbrack{u_{fb}^{T}{(t)}},\ldots,{u_{fb}^{T}{({{t + N} - 1})}}\rbrack}^{T}$. $\overline{Q} \in \mathcal{S}_{+}^{12}$, $\overline{R} \in \mathcal{S}_{+ +}^{2}$, $\overline{P} \in \mathcal{S}_{+ +}^{12}$. Closed-loop stability and disturbance rejection properties of the feedback system can be found in. The trajectory optimization is called when a new trajectory from the motion planner is available. In general, the controller updates at a higher rate than the motion planner. Multiple samples in $U_{ff}$ are used in the feedback-feedforward scheme, which is different from solving a quadratic program per control step implemented in an MPC scheme. The TVLQR is responsible for disturbance rejection of the closed-loop system, which requires less computation resource.
+
+## SIMULATION RESULTS AND DISCUSSION
+
+### IV-A Trajectory Optimization Results
+
+A sample trajectory is used to test the trajectory optimization. The trajectory consists of states ${\lbrack s,y,\theta,v\rbrack}^{T}$ over a 5-second horizon. The update interval of the trajectory optimization is set to $0.1s$ with the optimization horizon set to $5s$. The cost function is designed to minimize a weighted norm of the tracking error, the feedforward input, and the rate of change of feedforward input. In particular, $Q = {\text{diag}{}}$, $R_{0} = {\text{diag}{(0.1,0.1)}}$, $R_{1} = {\text{diag}{}}$. The constraint set $\mathcal{U}$ is set as ${- 4.0} \leq \alpha_{in} \leq 2.5$, and ${- 0.1} \leq \delta_{in} \leq 0.1$. Using the state model with a 50 time-step horizon, the resulting quadratic program has 100 decision variables and 200 inequality constraints. The optimization problem is solved in MATLAB using $\mathbf{q}\mathbf{u}\mathbf{a}\mathbf{d}\mathbf{p}\mathbf{r}\mathbf{o}\mathbf{g}$ on a Windows laptop with an Intel Core i5 CPU at 2.50GHz in 43.65 milliseconds averaged over 150 tests.
+
+The reference trajectory from the planner is piecewise constant in steering angle and velocity consisting of 5 piecewise constant segments. The reference velocity and steering angle over each sub-segment are constant and only change at the starting point of each sub-segment, denoted as blue dots in Fig. 3. Fig. 3 shows the optimized trajectory in the $s - y - v$ space, depicted as the green curve. It is observed that the velocity over the optimized trajectory is adjusted in order to track the s-y position in the reference trajectory.
+
+Figure 3: Optimization of a 5-second reference trajectory. The blue curve shows the coarse trajectory from the motion planner in the pose-velocity space, the green curve shows the optimized trajectory.
+
+Figure 4: Screenshots of the simulation scenario. The grey sedan, the blue van, and the yellow sedan are the host vehicle, the pulled-over vehicle, and the cruising vehicle in the target lane, respectively.
+
+Figure 5: Control inputs during the evasion maneuver. Grey dash line: input derived from the reference trajectory; blue line: the feedforward input from the trajectory optimization; green dash-dot line: input of the closed-loop system.
+
+### IV-B Feedback-feedforward Performance
+
+In order to test the effectiveness of the proposed feedforward-feedback approach for motion trajectory tracking, a test scenario is designed considering an evasion maneuver. The host vehicle in the scenario needs to change lane to avoid a pulled-over vehicle while keeping safe inter-vehicle distance to the car in the target lane. The relative position of vehicles in the simulation is sequentially depicted in Fig. 4.
+
+The reference trajectory is obtained from the motion planner that minimizes deviations to a desired velocity profile calculated using time-headway and speed limits with forward kinematic simulation. The first 15-second of the planned trajectory is saved and is used as the reference trajectory. The dashed grey line in Fig. 5 shows the estimated feedforward input derived from the reference trajectory using without the first order lag. Steep changes of steering angle and acceleration are observed during $t = 7$ and $t = 10$ where the host vehicle needs to adjust longitudinal velocity while changing to the adjacent lane. Parameters of the trajectory optimization are set as the same to IV-A. Parameters of the TVLQR feedback controller is set as $\overline{Q} = {{diag}{(10,5,10,1,10,{{1e} - 4},{{1e} - 4},0,0,0,0)}}$, $\overline{R} = {{diag}{}}$. The sampling interval of the TVLQR is set to $0.02s$ with the horizon set equal to the trajectory optimization horizon. The feedback-feedforward scheme is then tested on a nonlinear vehicle model that takes into account acceleration saturation of the powertrain, aero dynamics, and noises on steering and acceleration measurements.
+
+Fig. 3 shows the tracking result of the feedback-feedforward scheme in $s - y$ plane. The corresponding input generated for the closed-loop system is shown in Fig. 5 together with the feedforward term from the trajectory optimization. The feedforward term has been smoothed out during the evasion maneuver as the trajectory optimization takes into account i) change rates of the feedforward term, and ii) a vehicle model sharing the same state space as the feedback controller. Fig. 7 shows the tracking error over longitudinal position, lateral position, vehicle heading, and longitudinal velocity.
+
+Figure 6: The tracking profile of the feedback-feedforward scheme in s − y plane.
+
+Figure 7: Trajectory tracking error of the feedback-feedforward scheme over the evasion maneuver.
+
+## CONCLUSIONS
+
+This paper proposes a trajectory tracking control approach for autonomous vehicles based on a model predictive trajectory optimization to generate a feedforward control and a time varying linear quadratic regulator for feedback. Optimization of a reference trajectory is formulated as a strictly convex quadratic program by leveraging a linearization about the reference trajectory, polyhedral constraints, and a family of strictly convex quadratic cost functions. Additionally, the quadratic cost function is developed taking into account the rate of change of the feedforward input. A feedback-feedforward control scheme is proposed to actuate the vehicle by combining the optimized feedforward input and the feedback input generated by a TVLQR. The trajectory optimization and tracking scheme has been tested in simulation with an evasive maneuver. The proposed approach shows satisfactory tracking results in realistic driving scenarios, and with computation times well within the sample rate of the controller.

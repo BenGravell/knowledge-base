@@ -1,0 +1,766 @@
+## Introduction
+
+Policy gradient methods have a long history in the reinforcement learning (RL) literature and are an attractive class of algorithms as they are applicable to any differentiable policy parameterization; admit easy extensions to function approximation; easily incorporate structured state and action spaces; are easy to implement in a simulation based, model-free manner. Owing to their flexibility and generality, there has also been a flurry of improvements and refinements to make these ideas work robustly with deep neural network based approaches (see e.g. Schulman et al. ).
+
+Despite the large body of empirical work around these methods, their convergence properties are only established at a relatively coarse level; in particular, the folklore guarantee is that these methods converge to a stationary point of the objective, assuming adequate smoothness properties hold and assuming either exact or unbiased estimates of a gradient can be obtained (with appropriate regularity conditions on the variance). However, this local convergence viewpoint does not address some of the most basic theoretical convergence questions, including: 1) if and how fast they converge to a globally optimal solution (say with a sufficiently rich policy class); 2) how they cope with approximation error due to using a restricted class of parametric policies; or 3) their finite sample behavior. These questions are the focus of this work.
+
+Overall, the results of this work place policy gradient methods under a solid theoretical footing, analogous to the global convergence guarantees of iterative value function based algorithms.
+
+### Our Contributions
+
+This work focuses on first-order and quasi second-order policy gradient methods which directly work in the space of some parameterized policy class (rather than value-based approaches). We characterize the computational, approximation, and sample size properties of these methods in the context of a discounted Markov Decision Process (MDP). We focus on: 1) *tabular policy parameterizations*, where there is one parameter per state-action pair so the policy class is complete in that it contains the optimal policy, and 2) *function approximation*, where we have a restricted class or parametric policies which may not contain the globally optimal policy. Note that policy gradient methods for discrete action MDPs work in the space of stochastic policies, which permits the policy class to be differentiable. We now discuss our contributions in the both of these contexts.
+
+Projected Gradient Ascent on Simplex (Thm 4.1)
+$O\left( \frac{D_{\infty}^{2}{|\mathcal{S}|}{|\mathcal{A}|}}{{({1 - \gamma})}^{6}\epsilon^{2}} \right)$
+
+Policy Gradient, softmax parameterization (Thm 5.1)
+
+Policy Gradient + log barrier regularization, softmax parameterization (Cor 5.1)
+$O\left( \frac{D_{\infty}^{2}{|\mathcal{S}|}^{2}{|\mathcal{A}|}^{2}}{{({1 - \gamma})}^{6}\epsilon^{2}} \right)$
+
+Natural Policy Gradient (NPG), softmax parameterization (Thm 5.3)
+$\frac{2}{{({1 - \gamma})}^{2}\epsilon}$
+
+Table 1: Iteration Complexities with Exact Gradients for the Tabular Case: A summary of the number of iterations required by different algorithms to find a policy π such that V⋆ (s0) − Vπ (s0) ≤ ϵ for some fixed s0, assuming access to exact policy gradients. The first three algorithms optimize the objective 𝔼s ∼ μ [Vπ (s)], where μ is the starting state distribution for the algorithms. The MDP has |𝒮| states, |𝒜| actions, and discount factor 0 ≤ γ &lt; 1. The quantity $D_{\infty}:={\max_{s}\left( \frac{d_{s_{0}}^{\pi^{\star}}{(s)}}{\mu{(s)}} \right)}$ is termed the distribution mismatch coefficient, where, roughly speaking, ds0π⋆ (s) is the fraction of time spent in state s when executing an optimal policy π⋆, starting from the state s0 (see ). The NPG algorithm directly optimizes Vπ (s0) for any state s0. In contrast to the complexities of the previous three algorithms, NPG has no dependence on the coefficient D∞, nor does it depend on the choice of s0. Both the MDP Experts Algorithm and MD-MPI algorithm (see Corollary 3 of their paper) also yield guarantees for the same update rule as NPG for the softmax parameterization, though at a worse rate. See Section 2 for further discussion.
+
+### Tabular case
+
+We consider three algorithms: two of which are first order methods, projected gradient ascent (on the simplex) and gradient ascent (with a softmax policy parameterization); and the third algorithm, natural policy gradient ascent, can be viewed as a quasi second-order method (or preconditioned first-order method). Table 1 summarizes our main results in this case: upper bounds on the number of iterations taken by these algorithms to find an $\epsilon$-optimal policy, when we have access to exact policy gradients.
+
+Arguably, the most natural starting point for an analysis of policy gradient methods is to consider directly doing gradient ascent on the policy simplex itself and then to project back onto the simplex if the constraint is violated after a gradient update; we refer to this algorithm as projected gradient ascent on the simplex. Using a notion of gradient domination, our results provably show that any first-order stationary point of the value function results in an approximately optimal policy, under certain regularity assumptions; this allows for a global convergence analysis by directly appealing to standard results in the non-convex optimization literature.
+
+A more practical and commonly used parameterization is the softmax parameterization, where the simplex constraint is explicitly enforced by the exponential parameterization, thus avoiding projections. This work provides the first global convergence guarantees using only first-order gradient information for the widely-used softmax parameterization. Our first result for this parameterization establishes the asymptotic convergence of the policy gradient algorithm; the analysis challenge here is that the optimal policy (which is deterministic) is attained by sending the softmax parameters to infinity.
+
+In order to establish a finite time, convergence rate to optimality for the softmax parameterization, we then consider a *log barrier* regularizer and provide an iteration complexity bound that is polynomial in all relevant quantities. The use of our log barrier regularizer is critical to avoiding the issue of gradients becomingly vanishingly small at suboptimal near-deterministic policies, an issue of significant practical relevance. The log barrier regularizer can also be viewed as using a *relative* entropy regularizer; here, we note the general approach of entropy based regularization is common in practice (e.g. see ). One notable distinction, which we discuss later, is that our analysis is for the log barrier regularization rather than the entropy regularization.
+
+For these aforementioned algorithms, our convergence rates depend on the optimization measure having coverage over the state space, as measured by the *distribution mismatch coefficient* $D_{\infty}$ (see Table 1 caption). In particular, for the convergence rates shown in Table 1 (for the aforementioned algorithms), we assume that the optimization objective is the expected (discounted) cumulative value where the initial state is sampled under some distribution, and $D_{\infty}$ is a measure of the coverage of this initial distribution. Furthermore, we provide a lower bound that shows such a dependence is unavoidable for first-order methods, even when exact gradients are available.
+
+We then consider the Natural Policy Gradient (NPG) algorithm (also see Bagnell and Schneider; Peters and Schaal ), which can be considered a quasi second-order method due to the use of its particular preconditioner, and provide an iteration complexity to achieve an $\epsilon$-optimal policy that is at most $\frac{2}{{({1 - \gamma})}^{2}\epsilon}$ iterations, improving upon the previous related results of (see Section 2). Note the convergence rate has *no* dependence on the number of states or the number of actions, nor does it depend on the distribution mismatch coefficient $D_{\infty}$. We provide a simple and concise proof for the convergence rate analysis by extending the approach developed in, which uses a mirror descent style of analysis and also handles the non-concavity of the policy optimization problem.
+
+This fast and dimension free convergence rate shows how the variable preconditioner in the natural gradient method improves over the standard gradient ascent algorithm. The dimension free aspect of this convergence rate is worth reflecting on, especially given the widespread use of the natural policy gradient algorithm along with variants such as the Trust Region Policy Optimization (TRPO) algorithm; our results may help to provide analysis of a more general family of entropy based algorithms (see for example Neu et al. ).
+
+Suboptimality after T Iterations
+
+Approx. Value/Policy Iteration
+$\frac{\epsilon_{\infty}}{{({1 - \gamma})}^{2}} + \frac{\gamma^{T}}{{({1 - \gamma})}^{2}}$
+
+Approx. Policy Iteration, with concentrability
+$\frac{C_{\infty}\epsilon_{1}}{{({1 - \gamma})}^{2}} + \frac{\gamma^{T}}{{({1 - \gamma})}^{2}}$
+
+Conservative Policy Iteration Related: PSDP, MD-MPI Geist et al.
+$\frac{D_{\infty}\epsilon_{1}}{{({1 - \gamma})}^{2}} + \frac{1}{{({1 - \gamma})}\sqrt{T}}$
+
+Natural Policy Gradient (Cor. 6.1 and Thm. 6.2)
+$\sqrt{\frac{{\kappa\epsilon_{stat}} + {D_{\infty}\epsilon_{approx}}}{{({1 - \gamma})}^{3}}} + \frac{1}{{({1 - \gamma})}\sqrt{T}}$
+
+Table 2: Overview of Approximate Methods: The suboptimality, V⋆ (s0) − Vπ (s0), after T iterations for various approximate algorithms, which use different notions of approximation error (sample complexities are not directly considered but instead may be thought of as part of ϵ1 and ϵstat. See Section 2 for further discussion). Order notation is used to drop constants, and we assume |𝒜| = 2 for ease of exposition. For approximate dynamic programming methods, the relevant error is the worst case, ℓ∞-error in approximating a value function, e.g. ϵ∞ = maxs, a|Qπ (s,a)−Q̂π (s,a)|, where Q̂π is what an estimation oracle returns during the course of the algorithm. The second row (see Lemma 12 in Antos et al. ) is a refinement of this approach, where ϵ1 is an ℓ1-average error in fitting the value functions under the fitting (state) distribution μ, and, roughly, C∞ is a worst case density ratio between the state visitation distribution of any non-stationary policy and the fitting distribution μ. For Conservative Policy Iteration, ϵ1 is a related ℓ1-average case fitting error with respect to a fitting distribution μ, and D∞ is as defined as before, in the caption of Table 1 (see also ); here, D∞ ≤ C∞ (e.g. see Scherrer ). For NPG, ϵstat and ϵapprox measure the excess risk (the regret) and approximation errors in fitting the values. Roughly speaking, ϵstat is the excess squared loss relative to the best fit (among an appropriately defined parametric class) under our fitting distribution (defined with respect to the state distribution μ). Here, ϵapprox is the approximation error: the minimal possible error (in our parametric class) under our fitting distribution. The condition number κ is a relative eigenvalue condition between appropriately defined feature covariances with respect to the state visitation distribution of an optimal policy, ds0π⋆, and the state fitting distribution μ. See text for further discussion, and Section 6 for precise statements as well as a more general result not explicitly dependent on D∞.
+
+### Function Approximation
+
+We now summarize our results with regards to policy gradient methods in the setting where we work with a restricted policy class, which may not contain the optimal policy. In this sense, these methods can be viewed as approximate methods. Table 2 provides a summary along with the comparisons to some relevant approximate dynamic programming methods.
+
+A long line of work in the function approximation setting focuses on mitigating the worst-case "$\ell_{\infty}$" guarantees that are inherent to approximate dynamic programming methods (see the first row in Table 2). The reason to focus on average case guarantees is that it supports the applicability of *supervised machine learning* methods to solve the underlying approximation problem. This is because supervised learning methods, like classification and regression, typically have bounds on the expected error under a distribution, as opposed to worst-case guarantees over all possible inputs.
+
+The existing literature largely consists of two lines of provable guarantees that attempt to mitigate the explicit $\ell_{\infty}$ error conditions of approximate dynamic programming: those methods which utilize a problem dependent parameter (the concentrability coefficient ) to provide more refined dynamic programming guarantees (e.g. see Munos; Szepesvári and Munos; Antos et al.; Farahmand et al. ) and those which work with a restricted policy class, making incremental updates, such as Conservative Policy Iteration (CPI), Policy Search by Dynamic Programming (PSDP), and MD-MPI Geist et al.. Both styles of approaches give guarantees based on worst-case density ratios, i.e. they depend on a maximum ratio between two different densities over the state space. As discussed in, the assumptions in the latter class of algorithms are substantially weaker, in that the worst-case density ratio only depends on the state visitation distribution of an optimal policy (also see Table 2 caption and Section 2).
+
+With regards to function approximation, our main contribution is in providing performance bounds that, in some cases, have milder dependence on these density ratios. We precisely quantify an *approximation/estimation* error decomposition relevant for the analysis of the natural gradient method; this decomposition is stated in terms of the *compatible function approximation error* as introduced in Sutton et al.. More generally, we quantify our function approximation results in terms of a precisely quantified transfer error notion, based on approximation error under *distribution shift*. Table 2 shows a special case of our convergence rates of NPG, which is governed by four quantities: $\epsilon_{stat}$, $\epsilon_{approx}$, $\kappa$, and $D_{\infty}$.
+
+Let us discuss the important special case of log-linear policies (i.e. policies that take the softmax of linear functions in a given feature space) where the relevant quantities are as follows: $\epsilon_{stat}$ is a bound on the excess risk (the estimation error) in fitting linearly parameterized value functions, which can be driven to $0$ with more samples (at the usual statistical rate of $O{({1/\sqrt{N}})}$ where $N$ is the number of samples); $\epsilon_{approx}$ is the usual notion of average squared approximation error where the target function may not be perfectly representable by a linear function; $\kappa$ can be upper bounded with an inverse dependence on the minimal eigenvalue of the feature covariance matrix of the fitting measure (as such it can be viewed as a dimension dependent quantity but not necessarily state dependent); and $D_{\infty}$ is as before.
+
+For the realizable case, where all policies have values which are linear in the given features (such as in linear MDP models of ), we have that the approximation error $\epsilon_{approx}$ is $0$. Here, our guarantees yield a fully polynomial and sample efficient convergence guarantee, provided the condition number $\kappa$ is bounded. Importantly, there always exists a good (universal) initial measure that ensures $\kappa$ is bounded by a quantity that is only polynomial in the dimension of the features, $d$, as opposed to an explicit dependence on the size of the (infinite) state space (see Remark 6.3). Such a guarantee would not be implied by algorithms which depend on the coefficients $C_{\infty}$ or $D_{\infty}$.^11^1Bounding $C_{\infty}$ would require a restriction on the dynamics of the MDP (see Chen and Jiang and Section 2). Bounding $D_{\infty}$ would require an initial state distribution that is constructed using knowledge of $\pi^{\star}$, through $d^{\pi^{\star}}$. In contrast, $\kappa$ can be made $O{(d)}$, with an initial state distribution that only depends on the geometry of the features (and does not depend on any other properties of the MDP). See Remark 6.3.
+
+Our results are also suggestive that a broader class of incremental algorithms --- such as CPI, PSDP, and MD-MPI Geist et al. which make small changes to the policy from one iteration to the next --- may also permit a sharper analysis, where the dependence of worst-case density ratios can be avoided through an appropriate approximation/estimation decomposition; this is an interesting direction for future work (a point which we return to in Section 7). One significant advantage of NPG is that the explicit parametric policy representation in NPG (and other policy gradient methods) leads to a succinct policy representation in comparison to CPI, PSDP, or related boosting-style methods, where the representation complexity of the policy of the latter class of methods grows linearly in the number of iterations (since these methods add one policy to the ensemble per iteration). This representation complexity is likely why the latter class of algorithms are less widely used in practice.
+
+## Related Work
+
+We now discuss related work, roughly in the order which reflects our presentation of results in the previous section.
+
+For the direct policy parameterization in the tabular case, we make use of a gradient domination-like property, namely any first-order stationary point of the policy value is approximately optimal up to a distribution mismatch coefficient. A variant of this result also appears in Theorem 2 of Scherrer and Geist, which itself can be viewed as a generalization of the approach in Kakade and Langford. In contrast to CPI and the more general boosting-based approach in Scherrer and Geist, we phrase this approach as a Polyak-like gradient domination property in order to directly allow for the transfer of any advances in non-convex optimization to policy optimization in RL. More broadly, it is worth noting the global convergence of policy gradients for Linear Quadratic Regulators also goes through a similar proof approach of gradient domination.
+
+Empirically, the recent work of Ahmed et al. studies entropy based regularization and shows the value of regularization in policy optimization, even with exact gradients. This is related to our use of the log barrier regularization.
+
+For our convergence results of the natural policy gradient algorithm in the tabular setting, there are close connections between our results and the works of Even-Dar et al.; Geist et al.. Even-Dar et al. provides provable online regret guarantees in changing MDPs utilizing experts algorithms (also see Neu et al.; Abbasi-Yadkori et al. ); as a special case, their MDP Experts Algorithm is equivalent to the natural policy gradient algorithm with the softmax policy parameterization. While the convergence result due to Even-Dar et al. was not specifically designed for this setting, it is instructive to see what it implies due to the close connections between optimization and regret. The Mirror Descent-Modified Policy Iteration (MD-MPI) algorithm with negative entropy as the Bregman divergence results is an identical algorithm as NPG for softmax parameterization in the tabular case; Corollary 3 applies to our updates, leading to a bound worse by a $1/{({1 - \gamma})}$ factor and also has logarithmic dependence on $|\mathcal{A}|$. Our proof for this case is concise and may be of independent interest. Also worth noting is the Dynamic Policy Programming of Azar et al., which is an actor-critic algorithm with a softmax parameterization; this algorithm, even though not identical, comes with similar guarantees in terms of its rate (it is weaker in terms of an additional $1/{({1 - \gamma})}$ factor) than the NPG algorithm.
+
+We now turn to function approximation, starting with a discussion of iterative algorithms which make incremental updates in which the next policy is effectively constrained to be close to the previous policy, such as in CPI and PSDP. Here, the work in Scherrer and Geist show how CPI is part of broader family of boosting-style methods. Also, with regards to PSDP, the work in Scherrer shows how PSDP actually enjoys an improved iteration complexity over CPI, namely $O{({\log{1/\epsilon_{\text{opt}}}})}$ vs. $O{({1/\epsilon_{\text{opt}}^{2}})}$. It is worthwhile to note that both NPG and projected gradient ascent are also both incremental algorithms.
+
+We now discuss the approximate dynamic programming results characterized in terms of the concentrability coefficient. Broadly we use the term approximate dynamic programming to refer to fitted value iteration, fitted policy iteration and more generally generalized policy iteration schemes such as classification-based policy iteration as well, in addition to the classical approximate value/policy iteration works. While the approximate dynamic programming results typically require $\ell_{\infty}$ bounded errors, which is quite stringent, the notion of concentrability (originally due to ) permits sharper bounds in terms of average case function approximation error, provided that the concentrability coefficient is bounded (e.g. see Munos; Szepesvári and Munos; Antos et al.; Lazaric et al. ). Chen and Jiang provide a more detailed discussion on this quantity. Based on this problem dependent constant being bounded, Munos; Szepesvári and Munos, Antos et al. and Lazaric et al. provide meaningful sample size and error bounds for approximate dynamic programming methods, where there is a data collection policy (under which value-function fitting occurs) that induces a concentrability coefficient. In terms of the concentrability coefficient $C_{\infty}$ and the "distribution mismatch coefficient" $D_{\infty}$ in Table 2, we have that $D_{\infty} \leq C_{\infty}$, as discussed in (also see the table caption). Also, as discussed in Chen and Jiang, a finite concentrability coefficient is a restriction on the MDP dynamics itself, while a bounded $D_{\infty}$ does not require any restrictions on the MDP dynamics. The more refined quantities defined by Farahmand et al. (for the approximate policy iteration result) partially alleviate some of these concerns, but their assumptions still implicitly constrain the MDP dynamics, like the finiteness of the concentrability coefficient.
+
+Assuming bounded concentrability coefficient, there are a notable set of provable average case guarantees for the MD-MPI algorithm (see also ), which are stated in terms of various norms of function approximation error. MD-MPI is a class of algorithms for approximate planning under regularized notions of optimality in MDPs. Specifically, Geist et al. analyze a family of actor-critic style algorithms, where there are both approximate value functions updates and approximate policy updates. As a consequence of utilizing approximate value function updates for the critic, the guarantees of Geist et al. are stated with dependencies on concentrability coefficients.
+
+When dealing with function approximation, computational and statistical complexities are relevant because they determine the effectiveness of approximate updates with finite samples. With regards to sample complexity, the work in Szepesvári and Munos; Antos et al. provide finite sample rates (as discussed above), further generalized to actor-critic methods in Azar et al.; Scherrer et al.. In our policy optimization approach, the analysis of both computational and statistical complexities are straightforward, since we can leverage known statistical and computational results from the stochastic approximation literature; in particular, we use the stochastic projected gradient ascent to obtain a simple, linear time method for the critic estimation step in the natural policy gradient algorithm.
+
+In terms of the algorithmic updates for the function approximation setting, our development of NPG bears similarity to the natural actor-critic algorithm Peters and Schaal, for which some asymptotic guarantees under finite concentrability coefficients are obtained in Bhatnagar et al.. While both updates seek to minimize the compatible function approximation error, we perform streaming updates based on stochastic optimization using Monte Carlo estimates for values. In contrast Peters and Schaal utilize Least Squares Temporal Difference methods to minimize the loss. As a consequence, their updates additionally make linear approximations to the value functions in order to estimate the advantages; our approach is flexible in allowing for wide family of smoothly differentiable policy classes (including neural policies).
+
+Finally, we remark on some concurrent works. The work of Bhandari and Russo provides gradient domination-like conditions under which there is (asymptotic) global convergence to the optimal policy. Their results are applicable to the projected gradient ascent algorithm; they are not applicable to gradient ascent with the softmax parameterization (see the discussion in Section 5 herein for the analysis challenges). Bhandari and Russo also provide global convergence results beyond MDPs. Also, Liu et al. provide an analysis of the TRPO algorithm with neural network parameterizations, which bears resemblance to our natural policy gradient analysis. In particular, Liu et al. utilize ideas from both Even-Dar et al. (with a mirror descent style of analysis) along with Cai et al. (to handle approximation with neural networks) to provide conditions under which TRPO returns a near optimal policy. Liu et al. do not explicitly consider the case where the policy class is not complete (i.e when there is approximation). Another related work of Shani et al. considers the TRPO algorithm and provides theoretical guarantees in the tabular case; their convergence rates with exact updates are $O{({1/\sqrt{T}})}$ for the (unregularized) objective function of interest; they also provide faster rates on a modified (regularized) objective function. They do not consider the case of infinite state spaces and function approximation. The closely related recent papers also consider closely related algorithms to the Natural Policy Gradient approach studied here, in an infinite horizon, average reward setting. Specifically, the EE-Politex algorithm is closely related to the Q-NPG algorithm which we study in Section 6.2, though our approach is in the discounted setting. We adopt the name Q-NPG to capture its close relationship with the NPG algorithm, with the main difference being the use of function approximation for the $Q$-function instead of advantages. We refer the reader to Section 6.2 (and Remark 6.5) for more discussion of the technical differences between the two works.
+
+## Setting
+
+A (finite) Markov Decision Process (MDP) $M = {(\mathcal{S},\mathcal{A},P,r,\gamma,\rho)}$ is specified by: a finite state space $\mathcal{S}$; a finite action space $\mathcal{A}$; a transition model $P$ where $P{(\left. s^{\prime} \middle| {s,a} \right.)}$ is the probability of transitioning into state $s^{\prime}$ upon taking action $a$ in state $s$; a reward function $r:{{\mathcal{S} \times \mathcal{A}}\rightarrow{\lbrack 0,1\rbrack}}$ where $r{(s,a)}$ is the immediate reward associated with taking action $a$ in state $s$; a discount factor $\gamma \in {\lbrack 0,1)}$; a starting state distribution $\rho$ over $\mathcal{S}$.
+
+A deterministic, stationary policy $\pi:{\mathcal{S}\rightarrow\mathcal{A}}$ specifies a decision-making strategy in which the agent chooses actions adaptively based on the current state, i.e., $a_{t} = {\pi{(s_{t})}}$. The agent may also choose actions according to a stochastic policy $\pi:{\mathcal{S}\rightarrow{\Delta{(\mathcal{A})}}}$ (where $\Delta{(\mathcal{A})}$ is the probability simplex over $\mathcal{A}$), and, overloading notation, we write $a_{t} \sim \pi{( \cdot |s_{t})}$.
+
+A policy induces a distribution over trajectories $\tau = {(s_{t},a_{t},r_{t})}_{t = 0}^{\infty}$, where $s_{0}$ is drawn from the starting state distribution $\rho$, and, for all subsequent timesteps $t$, $a_{t} \sim \pi{( \cdot |s_{t})}$ and $s_{t + 1} \sim P{( \cdot |s_{t},a_{t})}$. The value function $V^{\pi}:{\mathcal{S}\rightarrow{\mathbb{R}}}$ is defined as the discounted sum of future rewards starting at state $s$ and executing $\pi$, i.e.
+
+where the expectation is with respect to the randomness of the trajectory $\tau$ induced by $\pi$ in $M$. Since we assume that ${r{(s,a)}} \in {\lbrack 0,1\rbrack}$, we have $0 \leq {V^{\pi}{(s)}} \leq \frac{1}{1 - \gamma}$. We overload notation and define $V^{\pi}{(\rho)}$ as the expected value under the initial state distribution $\rho$, i.e.
+
+The action-value (or Q-value) function $Q^{\pi}:{{\mathcal{S} \times \mathcal{A}}\rightarrow{\mathbb{R}}}$ and the *advantage* function $A^{\pi}:{{\mathcal{S} \times \mathcal{A}}\rightarrow{\mathbb{R}}}$ are defined as:
+
+The goal of the agent is to find a policy $\pi$ that maximizes the expected value from the initial state, i.e. the optimization problem the agent seeks to solve is:
+
+where the $\max$ is over all policies. The famous theorem of Bellman and Dreyfus shows there exists a policy $\pi^{\star}$ which simultaneously maximizes $V^{\pi}{(s_{0})}$, for all states $s_{0} \in \mathcal{S}$.
+
+### Policy Parameterizations
+
+This work studies ascent methods for the optimization problem:
+
+where $\left. \{\pi_{\theta} \middle| {\theta \in \Theta}\} \right.$ is some class of parametric (stochastic) policies. We consider a number of different policy classes. The first two are *complete* in the sense that any stochastic policy can be represented in the class. The final class may be restrictive. These classes are as follows:
+
+*Direct parameterization:* The policies are parameterized by
+
+where $\theta \in {\Delta{(\mathcal{A})}^{|\mathcal{S}|}}$, i.e. $\theta$ is subject to $\theta_{s,a} \geq 0$ and ${\sum_{a \in \mathcal{A}}\theta_{s,a}} = 1$ for all $s \in \mathcal{S}$ and $a \in \mathcal{A}$.
+
+*Softmax parameterization:* For unconstrained $\theta \in {\mathbb{R}}^{{|\mathcal{S}|}{|\mathcal{A}|}}$,
+
+The softmax parameterization is also complete.
+
+*Restricted parameterizations:* We also study parametric classes $\left. \{\pi_{\theta} \middle| {\theta \in \Theta}\} \right.$ that may not contain all stochastic policies. In particular, we pay close attention to both log-linear policy classes and neural policy classes (see Section 6). Here, the best we may hope for is an agnostic result where we do as well as the best policy in this class.
+
+While the softmax parameterization is the more natural parametrization among the two complete policy classes, it is also informative to consider the direct parameterization.
+
+It is worth explicitly noting that $V^{\pi_{\theta}}{(s)}$ is non-concave in $\theta$ for both the direct and the softmax parameterizations, so the standard tools of convex optimization are not applicable. For completeness, we formalize this as follows (with a proof in Appendix A, along with an example in Figure 2):
+
+### Lemma 3.1
+
+There is an MDP $M$ (described in Figure 2) such that the optimization problem $V^{\pi_{\theta}}{(s)}$ is not concave for both the direct and softmax parameterizations.
+
+Figure 1: (Non-concavity example) A deterministic MDP corresponding to Lemma 3.1 where Vπθ (s) is not concave. Numbers on arrows represent the rewards for each action.
+
+Figure 2: (Vanishing gradient example) A deterministic, chain MDP of length H + 2. We consider a policy where π (a|si) = θsi, a for i = 1, 2, …, H. Rewards are 0 everywhere other than r (sH + 1,a1) = 1. See Proposition 4.1.
+
+### Policy gradients
+
+In order to introduce these methods, it is useful to define the discounted state visitation distribution $d_{s_{0}}^{\pi}$ of a policy $\pi$ as:
+
+where $\Pr^{\pi}{({s_{t} = \left. s \middle| s_{0} \right.})}$ is the state visitation probability that $s_{t} = s$, after we execute $\pi$ starting at state $s_{0}$. Again, we overload notation and write:
+
+where $d_{\rho}^{\pi}$ is the discounted state visitation distribution under initial distribution $\rho$.
+
+The policy gradient functional form (see e.g. Williams; Sutton et al. ) is then:
+
+Furthermore, if we are working with a differentiable parameterization of $\pi_{\theta}{( \cdot |s)}$ that explicitly constrains $\pi_{\theta}{( \cdot |s)}$ to be in the simplex, i.e. $\pi_{\theta} \in {\Delta{(\mathcal{A})}^{|\mathcal{S}|}}$ for all $\theta$, then we also have:
+
+Note the above gradient expression (Equation 6) does not hold for the direct parameterization, while Equation 5 is valid. ^22^2This is due to ${\sum_{a}{{\nabla_{\theta}\pi_{\theta}}{(\left. a \middle| s \right.)}}} = 0$ not explicitly being maintained by the direct parameterization.
+
+### The performance difference lemma
+
+The following lemma is helpful throughout:
+
+### Lemma 3.2
+
+(The performance difference lemma ) For all policies $\pi,\pi^{\prime}$ and states $s_{0}$,
+
+For completeness, we provide a proof in Appendix A.
+
+### The distribution mismatch coefficient
+
+We often characterize the difficulty of the exploration problem faced by our policy optimization algorithms when maximizing the objective $V^{\pi}{(\mu)}$ through the following notion of *distribution mismatch coefficient*.
+
+### Definition 3.1 (Distribution mismatch coefficient)
+
+Given a policy $\pi$ and measures ${\rho,\mu} \in {\Delta{(\mathcal{S})}}$, we refer to ${\parallel\frac{d_{\rho}^{\pi}}{\mu}\parallel}_{\infty}$ as the *distribution mismatch coefficient* of $\pi$ relative to $\mu$. Here, $\frac{d_{\rho}^{\pi}}{\mu}$ denotes componentwise division.
+
+We often instantiate this coefficient with $\mu$ as the initial state distribution used in a policy optimization algorithm, $\rho$ as the distribution to measure the sub-optimality of our policy (this is the start state distribution of interest), and where $\pi$ above is often chosen to be $\pi^{\star} \in {{{argmax}_{\pi \in \Pi}V^{\pi}}{(\rho)}}$, given a policy class $\Pi$.
+
+### Notation
+
+Following convention, we use $V^{\star}$ and $Q^{\star}$ to denote $V^{\pi^{\star}}$ and $Q^{\pi^{\star}}$ respectively. For iterative algorithms which obtain policy parameters $\theta^{(t)}$ at iteration $t$, we let $\pi^{(t)}$, $V^{(t)}$ and $A^{(t)}$ denote the corresponding quantities parameterized by $\theta^{(t)}$, i.e. $\pi_{\theta^{(t)}}$, $V^{\theta^{(t)}}$ and $A^{\theta^{(t)}}$, respectively. For vectors $u$ and $v$, we use $\frac{u}{v}$ to denote the componentwise ratio; $u \geq v$ denotes a componentwise inequality; we use the standard convention where ${\| v\|}_{2} = \sqrt{\sum_{i}v_{i}^{2}}$, ${\| v\|}_{1} = {\sum_{i}{|v_{i}|}}$, and ${\| v\|}_{\infty} = {\max_{i}{|v_{i}|}}$.
+
+## Warmup: Constrained Tabular Parameterization
+
+Our starting point is, arguably, the simplest first-order method: we directly take gradient ascent updates on the policy simplex itself and then project back onto the simplex if the constraints are violated after a gradient update. This algorithm is projected gradient ascent on the direct policy parametrization of the MDP, where the parameters are the state-action probabilities, i.e. $\theta_{s,a} = {\pi_{\theta}{(\left. a \middle| s \right.)}}$ (see ). As noted in Lemma 3.1, $V^{\pi_{\theta}}{(s)}$ is non-concave in the parameters $\pi_{\theta}$. Here, we first prove that $V^{\pi_{\theta}}{(\mu)}$ satisfies a Polyak-like gradient domination condition, and this tool helps in providing convergence rates. The basic approach was also used in the analysis of CPI; related gradient domination-like lemmas also appeared in Scherrer and Geist.
+
+It is instructive to consider this special case due to the connections it makes to the non-convex optimization literature. We also provide a lower bound that rules out algorithms whose runtime appeals to the curvature of saddle points (e.g. ).
+
+For the direct policy parametrization where $\theta_{s,a} = {\pi_{\theta}{(\left. a \middle| s \right.)}}$, the gradient is:
+
+using. In particular, for this parameterization, we may write ${\nabla_{\pi}V^{\pi}}{(\mu)}$ instead of ${\nabla_{\theta}V^{\pi_{\theta}}}{(\mu)}$.
+
+### Gradient Domination
+
+Informally, we say a function $f{(\theta)}$ satisfies a gradient domination property if for all $\theta \in \Theta$,
+
+where $\theta^{\star} \in {{{argmax}_{\theta^{\prime} \in \Theta}f}{(\theta^{\prime})}}$ and where $G{(\theta)}$ is some suitable scalar notion of first-order stationarity, which can be considered a measure of how large the gradient is (see ). Thus if one can find a $\theta$ that is (approximately) a first-order stationary point, then the parameter $\theta$ will be near optimal (in terms of function value). Such conditions are a standard device to establishing global convergence in non-convex optimization, as they effectively rule out the presence of bad critical points. In other words, given such a condition, quantifying the convergence rate for a specific algorithm, like say projected gradient ascent, will require quantifying the rate of its convergence to a first-order stationary point, for which one can invoke standard results from the optimization literature.
+
+The following lemma shows that the direct policy parameterization satisfies a notion of gradient domination. This is the basic approach used in the analysis of CPI; a variant of this lemma also appears in Scherrer and Geist. We give a proof for completeness.
+
+Even though we are interested in the value $V^{\pi}{(\rho)}$, it is helpful to consider the gradient with respect to another state distribution $\mu \in {\Delta{(\mathcal{S})}}$.
+
+### Lemma 4.1 (Gradient domination)
+
+For the direct policy parameterization (as in ), for all state distributions ${\mu,\rho} \in {\Delta{(\mathcal{S})}}$, we have
+
+where the max is over the set of all policies, i.e. $\overline{\pi} \in {\Delta{(\mathcal{A})}^{|\mathcal{S}|}}$.
+
+Before we provide the proof, a few comments are in order with regards to the performance measure $\rho$ and the optimization measure $\mu$. Subtly, note that although the gradient is with respect to $V^{\pi}{(\mu)}$, the final guarantee applies to *all* distributions $\rho$. The significance is that even though we may be interested in our performance under $\rho$, it may be helpful to optimize under the distribution $\mu$. To see this, note the lemma shows that a sufficiently small gradient magnitude in the feasible directions implies the policy is nearly optimal in terms of its value, but only if the state distribution of $\pi$, i.e. $d_{\mu}^{\pi}$, adequately covers the state distribution of some optimal policy $\pi^{\star}$. Here, it is also worth recalling the theorem of Bellman and Dreyfus which shows there exists a single policy $\pi^{\star}$ that is simultaneously optimal for all starting states $s_{0}$. Note that the hardness of the exploration problem is captured through the distribution mismatch coefficient (Definition 3.1. ‣ The distribution mismatch coefficient. ‣ 3 Setting ‣ On the Theory of Policy Gradient Methods: Optimality, Approximation, and Distribution Shift")).
+
+Proof:\of Lemma [4.1. ‣ 4.1 Gradient Domination ‣ 4 Warmup: Constrained Tabular Parameterization ‣ On the Theory of Policy Gradient Methods: Optimality, Approximation, and Distribution Shift")\] By the performance difference lemma (Lemma 3.2),
+
+where the last inequality follows since ${{\max_{\overline{a}}A^{\pi}}{(s,\overline{a})}} \geq 0$ for all states $s$ and policies $\pi$. We wish to upper bound. We then have:
+
+where the first step follows since $\max_{\overline{\pi}}$ is attained at an action which maximizes $A^{\pi}{(s, \cdot )}$ (per state); the second step follows as ${\sum_{a}{\pi{(\left. a \middle| s \right.)}A^{\pi}{(s,a)}}} = 0$; the third step uses ${\sum_{a}{{({{\overline{\pi}{(\left. a \middle| s \right.)}} - {\pi{(\left. a \middle| s \right.)}}})}V^{\pi}{(s)}}} = 0$ for all $s$; and the final step follows from the gradient expression (see ). Using this in,
+
+where the last step follows due to $\max_{\overline{\pi} \in {\Delta{(\mathcal{A})}^{|\mathcal{S}|}}}{(\overline{\pi} - \pi)}^{\top}\nabla_{\pi}V^{\pi}{(\mu)} \geq 0$ for any policy $\pi$ and ${d_{\mu}^{\pi}{(s)}} \geq {{({1 - \gamma})}\mu{(s)}}$ (see ).
+
+In a sense, the use of an appropriate $\mu$ circumvents the issues of strategic exploration. It is natural to ask whether this additional term is necessary, a question which we return to. First, we provide a convergence rate for the projected gradient ascent algorithm.
+
+### Convergence Rates for Projected Gradient Ascent
+
+Using this notion of gradient domination, we now give an iteration complexity bound for projected gradient ascent over the space of stochastic policies, i.e. over $\Delta{(\mathcal{A})}^{|\mathcal{S}|}$. The projected gradient ascent algorithm updates
+
+where $P_{\Delta{(\mathcal{A})}^{|\mathcal{S}|}}$ is the projection onto $\Delta{(\mathcal{A})}^{|\mathcal{S}|}$ in the Euclidean norm.
+
+### Theorem 4.1
+
+The projected gradient ascent algorithm on $V^{\pi}{(\mu)}$ with stepsize $\eta = \frac{{({1 - \gamma})}^{3}}{2\gamma{|\mathcal{A}|}}$ satisfies for all distributions $\rho \in {\Delta{(\mathcal{S})}}$,
+
+A proof is provided in Appendix B.1. The proof first invokes a standard iteration complexity result of projected gradient ascent to show that the gradient magnitude with respect to all feasible directions is small. More concretely, we show the policy is $\epsilon$-stationary^33^3See Appendix B.1 for discussion on this definition., that is, for all ${\pi_{\theta} + \delta} \in {\Delta{(\mathcal{A})}^{|\mathcal{S}|}}$ and ${\|\delta\|}_{2} \leq 1$, ${\delta^{\top}{\nabla_{\pi}V^{\pi_{\theta}}}{(\mu)}} \leq \epsilon$. We then use Lemma 4.1. ‣ 4.1 Gradient Domination ‣ 4 Warmup: Constrained Tabular Parameterization ‣ On the Theory of Policy Gradient Methods: Optimality, Approximation, and Distribution Shift") to complete the proof.
+
+Note that the guarantee we provide is for the best policy found over the $T$ rounds, which we obtain from a bound on the average norm of the gradients. This type of a guarantee is standard in the non-convex optimization literature, where an average regret bound cannot be used to extract a single good solution, e.g. by averaging. In the context of policy optimization, this is not a serious limitation as we collect on-policy trajectories for each policy in doing sample-based gradient estimation, and these samples can be also used to estimate the policy's value. Note that the evaluation step is not required for every policy, and can also happen on a schedule, though we still need to evaluate $O{(T)}$ policies to obtain the convergence rates described here.
+
+### Lower Bound: Vanishing Gradients and Saddle Points
+
+To understand the necessity of the distribution mismatch coefficient in Lemma 4.1. ‣ 4.1 Gradient Domination ‣ 4 Warmup: Constrained Tabular Parameterization ‣ On the Theory of Policy Gradient Methods: Optimality, Approximation, and Distribution Shift") and Theorem 4.1, let us first give an informal argument that some condition on the state distribution of $\pi$, or equivalently $\mu$, is necessary for stationarity to imply optimality. For example, in a sparse-reward MDP (where the agent is only rewarded upon visiting some small set of states), a policy that does not visit *any* rewarding states will have zero gradient, even though it is arbitrarily suboptimal in terms of values. Below, we give a more quantitative version of this intuition, which demonstrates that even if $\pi$ chooses all actions with reasonable probabilities (and hence the agent will visit all states if the MDP is connected), then there is an MDP where a large fraction of the policies $\pi$ have vanishingly small gradients, and yet these policies are highly suboptimal in terms of their value.
+
+Concretely, consider the chain MDP of length $H + 2$ shown in Figure 2. The starting state of interest is state $s_{0}$ and the discount factor $\gamma = {H/{({H + 1})}}$. Suppose we work with the direct parameterization, where ${\pi_{\theta}{(\left. a \middle| s \right.)}} = \theta_{s,a}$ for $a = {a_{1},a_{2},a_{3}}$ and ${\pi_{\theta}{(\left. a_{4} \middle| s \right.)}} = {1 - \theta_{s,a_{1}} - \theta_{s,a_{2}} - \theta_{s,a_{3}}}$. Note we do not over-parameterize the policy. For this MDP and policy structure, if we were to initialize the probabilities over actions, say deterministically, then there is an MDP (obtained by permuting the actions) where all the probabilities for $a_{1}$ will be less than $1/4$.
+
+The following result not only shows that the gradient is exponentially small in $H$, it also shows that many higher order derivatives, up to $O{({H/{\log H}})}$, are also exponentially small in $H$.
+
+### Proposition 4.1 (Vanishing gradients at suboptimal parameters)
+
+Consider the chain MDP of Figure 2, with $H + 2$ states, $\gamma = {H/{({H + 1})}}$, and with the direct policy parameterization (with $3{|\mathcal{S}|}$ parameters, as described in the text above). Suppose $\theta$ is such that $0 < \theta < 1$ (componentwise) and $\theta_{s,a_{1}} < {1/4}$ (for all states $s$). For all $k \leq {\frac{H}{40{\log{({2H})}}} - 1}$, we have ${\parallel{{\nabla_{\theta}^{k}V^{\pi_{\theta}}}{(s_{0})}}\parallel} \leq {({1/3})}^{H/4}$, where ${\nabla_{\theta}^{k}V^{\pi_{\theta}}}{(s_{0})}$ is a tensor of the $k_{th}$ order derivatives of $V^{\pi_{\theta}}{(s_{0})}$ and the norm is the operator norm of the tensor.^44^4The operator norm of a $k_{th}$-order tensor $J \in {\mathbb{R}}^{d^{\otimes k}}$ is defined as $\sup_{{{u_{1},\ldots,u_{k}} \in {\mathbb{R}}^{d}}:{{\| u_{i}\|}_{2} = 1}}{\langle J,{u_{1} \otimes \ldots \otimes u_{d}}\rangle}$. Furthermore, ${{V^{\star}{(s_{0})}} - {V^{\pi_{\theta}}{(s_{0})}}} \geq {{{({H + 1})}/8} - {{({H + 1})}^{2}/3^{H}}}$.
+
+This lemma also suggests that results in the non-convex optimization literature, on escaping from saddle points, e.g., do not directly imply global convergence due to that the higher order derivatives are small.
+
+### Remark 4.1
+
+(Exact vs. Approximate Gradients) The chain MDP of Figure 2, is a common example where *sample* based estimates of gradients will be $0$ under random exploration strategies; there is an exponentially small in $H$ chance of hitting the goal state under a random exploration strategy. Note that this lemma is with regards to *exact* gradients. This suggests that even with exact computations (along with using exact higher order derivatives) we might expect numerical instabilities.
+
+### Remark 4.2
+
+(Comparison with the upper bound) The lower bound does not contradict the upper bound of Theorem 4.1. ‣ 4.1 Gradient Domination ‣ 4 Warmup: Constrained Tabular Parameterization ‣ On the Theory of Policy Gradient Methods: Optimality, Approximation, and Distribution Shift") (where a small gradient is turned into a small policy suboptimality bound), as the distribution mismatch coefficient, as defined in Definition 3.1. ‣ The distribution mismatch coefficient. ‣ 3 Setting ‣ On the Theory of Policy Gradient Methods: Optimality, Approximation, and Distribution Shift"), could be infinite in the chain MDP of Figure 2, since the start-state distribution is concentrated on one state only. More generally, for any policy with $\theta_{s,a_{1}} < {1/4}$ in all states $s$, $\left\| \frac{d_{\rho}^{\pi^{\star}}}{d_{\rho}^{\pi_{\theta}}} \right\|_{\infty} = {\Omega{(4^{H})}}$.
+
+### Remark 4.3
+
+(Comparison with information-theoretic lower bounds) The lower bound here is *not information theoretic*, in that it does not present a hard problem instance for all algorithms. Indeed, exploration algorithms for tabular MDPs starting from $E^{3}$, RMAX and several subsequent works yield polynomial sample complexities for the chain MDP. Proposition 4.1. ‣ 4.3 A Lower Bound: Vanishing Gradients and Saddle Points ‣ 4 Warmup: Constrained Tabular Parameterization ‣ On the Theory of Policy Gradient Methods: Optimality, Approximation, and Distribution Shift") should be interpreted as a hardness result for the specific class of policy gradient like approaches that search for a policy with a small policy gradient, as these methods will find the initial parameters to be valid in terms of the size of (several orders of) gradients. In particular, it precludes any meaningful claims on global optimality, based just on the size of the policy gradients, without additional assumptions as discussed in the previous remark.
+
+The proof is provided in Appendix B.2. The lemma illustrates that lack of good exploration can indeed be detrimental in policy gradient algorithms, since the gradient can be small either due to $\pi$ being near-optimal, or, simply because $\pi$ does not visit advantageous states often enough. In this sense, it also demonstrates the necessity of the distribution mismatch coefficient in Lemma 4.1. ‣ 4.1 Gradient Domination ‣ 4 Warmup: Constrained Tabular Parameterization ‣ On the Theory of Policy Gradient Methods: Optimality, Approximation, and Distribution Shift").
+
+## The Softmax Tabular Parameterization
+
+We now consider the softmax policy parameterization. Here, we still have a non-concave optimization problem in general, as shown in Lemma 3.1, though we do show that global optimality can be reached under certain regularity conditions. From a practical perspective, the softmax parameterization of policies is preferable to the direct parameterization, since the parameters $\theta$ are unconstrained and standard unconstrained optimization algorithms can be employed. However, optimization over this policy class creates other challenges as we study in this section, as the optimal policy (which is deterministic) is attained by sending the parameters to infinity.
+
+We study three algorithms for this problem. The first performs direct policy gradient ascent on the objective without modification, while the second adds a log barrier regularizer to keep the parameters from becoming too large, as a means to ensure adequate exploration. Finally, we study the natural policy gradient algorithm and establish a global optimality result with no dependence on the distribution mismatch coefficient or dimension-dependent factors.
+
+For the softmax parameterization, the gradient takes the form:
+
+(see Lemma C.1 for a proof).
+
+### Asymptotic Convergence, without Regularization
+
+Due to the exponential scaling with the parameters $\theta$ in the softmax parameterization, *any* policy that is nearly deterministic will have gradients close to $0$. In spite of this difficulty, we provide a positive result that gradient ascent asymptotically converges to the global optimum for the softmax parameterization.
+
+The update rule for gradient ascent is:
+
+### Theorem 5.1 (Global convergence for softmax parameterization)
+
+Assume we follow the gradient ascent update rule as specified in Equation and that the distribution $\mu$ is strictly positive i.e. ${\mu{(s)}} > 0$ for all states $s$. Suppose $\eta \leq \frac{{({1 - \gamma})}^{3}}{8}$, then we have that for all states $s$, ${V^{(t)}{(s)}}\rightarrow{V^{\star}{(s)}}$ as $t\rightarrow\infty$.
+
+### Remark 5.1
+
+(Strict positivity of $\mu$ and exploration) Theorem 5.1. ‣ 5.1 Asymptotic Convergence, without Regularization ‣ 5 The Softmax Tabular Parameterization ‣ On the Theory of Policy Gradient Methods: Optimality, Approximation, and Distribution Shift") assumed that optimization distribution $\mu$ was *strictly* positive, i.e. ${\mu{(s)}} > 0$ for all states $s$. We leave it is an open question of whether or not gradient ascent will globally converge if this condition is not met. The concern is that if this condition is not met, then gradient ascent may not globally converge due to that $d_{\mu}^{\pi_{\theta}}{(s)}$ effectively scales down the learning rate for the parameters associated with state $s$ (see ).
+
+The complete proof is provided in the Appendix C.1. We now discuss the subtleties in the proof and show why the softmax parameterization precludes a direct application of the gradient domination lemma. In order to utilize the gradient domination property (in Lemma 4.1. ‣ 4.1 Gradient Domination ‣ 4 Warmup: Constrained Tabular Parameterization ‣ On the Theory of Policy Gradient Methods: Optimality, Approximation, and Distribution Shift")), we would desire to show that: ${{\nabla_{\pi}V^{\pi}}{(\mu)}}\rightarrow 0$. However, using the functional form of the softmax parameterization (see Lemma C.1) and, we have that:
+
+Hence, we see that even if ${{\nabla_{\theta}V^{\pi_{\theta}}}{(\mu)}}\rightarrow 0$, we are not guaranteed that ${{\nabla_{\pi}V^{\pi_{\theta}}}{(\mu)}}\rightarrow 0$.
+
+We now briefly discuss the main technical challenges in the proof. The proof first shows that the sequence $V^{(t)}{(s)}$ is monotone increasing pointwise, i.e. for *every* state $s$, ${V^{({t + 1})}{(s)}} \geq {V^{(t)}{(s)}}$ (Lemma C.2⁢(𝑠)). ‣ C.1 Proofs for Section 5.1 ‣ Appendix C Proofs for Section 5 ‣ On the Theory of Policy Gradient Methods: Optimality, Approximation, and Distribution Shift")). This implies the existence of a limit $V^{(\infty)}{(s)}$ by the monotone convergence theorem (Lemma C.3). Based on the limiting quantities $V^{(\infty)}{(s)}$ and $Q^{(\infty)}{(s,a)}$, which we show exist, define the following limiting sets for each state $s$:
+
+The challenge is to then show that, for all states $s$, the set $I_{+}^{s}$ is the empty set, which would immediately imply ${V^{(\infty)}{(s)}} = {V^{\star}{(s)}}$. The proof proceeds by contradiction, assuming that $I_{+}^{s}$ is non-empty. Using that $I_{+}^{s}$ is non-empty and that the gradient tends to zero in the limit, i.e. ${{\nabla_{\theta}V^{\pi_{\theta}}}{(\mu)}}\rightarrow 0$, we have that for all $a \in I_{+}^{s}$, ${\pi^{(t)}{(\left. a \middle| s \right.)}}\rightarrow 0$ (see ). This, along with the functional form of the softmax parameterization, implies that there must be divergence (in magnitude) among the set of parameters associated with *some* action $a$ at state $s$, i.e. that ${\max_{a \in \mathcal{A}}{|\theta_{s,a}^{(t)}|}}\rightarrow\infty$. The primary technical challenge in the proof is to then use this divergence, along with the dynamics of gradient ascent, to show that $I_{+}^{s}$ is empty via a contradiction.
+
+We leave it as a question for future work as to characterizing the convergence rate, which we conjecture is exponentially slow in some of the relevant quantities, such as in terms of the size of state space. Here, we turn to a regularization based approach to ensure convergence at a polynomial rate in all relevant quantities.
+
+### Polynomial Convergence with Log Barrier Regularization
+
+Due to the exponential scaling with the parameters $\theta$, policies can rapidly become near deterministic, when optimizing under the softmax parameterization, which can result in slow convergence. Indeed a key challenge in the asymptotic analysis in the previous section was to handle the growth of the absolute values of parameters as they tend to infinity. A common practical remedy for this is to use entropy-based regularization to keep the probabilities from getting too small, and we study gradient ascent on a similarly regularized objective in this section. Recall that the relative-entropy for distributions $p$ and $q$ is defined as: ${\text{KL}{(p,q)}}:={{\mathbb{E}}_{x \sim p}{\lbrack{- {{{{\log q}{(x)}}/p}{(x)}}}\rbrack}}$. Denote the uniform distribution over a set $\mathcal{X}$ by $\text{Unif}_{\mathcal{X}}$, and define the following log barrier regularized objective as:
+
+where $\lambda$ is a regularization parameter. The constant (i.e. the last term) is not relevant with regards to optimization. This regularizer is different from the more commonly utilized entropy regularizer as in Mnih et al., a point which we return to in Remark 5.2.
+
+The policy gradient ascent updates for $L_{\lambda}{(\theta)}$ are given by:
+
+Our next theorem shows that approximate first-order stationary points of the entropy-regularized objective are approximately globally optimal, provided the regularization is sufficiently small.
+
+### Theorem 5.2
+
+(Log barrier regularization) Suppose $\theta$ is such that:
+
+and $\epsilon_{\text{opt}} \leq {\lambda/{({2{|\mathcal{S}|}{|\mathcal{A}|}})}}$. Then we have that for all starting state distributions $\rho$:
+
+Proof: The proof consists of showing that ${{\max_{a}A^{\pi_{\theta}}}{(s,a)}} \leq {{2\lambda}/{({\mu{(s)}{|\mathcal{S}|}})}}$ for all states. To see that this is sufficient, observe that by the performance difference lemma (Lemma 3.2),
+
+which would then complete the proof.
+
+We now proceed to show that ${{\max_{a}A^{\pi_{\theta}}}{(s,a)}} \leq {{2\lambda}/{({\mu{(s)}{|\mathcal{S}|}})}}$. For this, it suffices to bound $A^{\pi_{\theta}}{(s,a)}$ for any state-action pair $s,a$ where ${A^{\pi_{\theta}}{(s,a)}} \geq 0$ else the claim is trivially true. Consider an $(s,a)$ pair such that ${A^{\pi_{\theta}}{(s,a)}} > 0$. Using the policy gradient expression for the softmax parameterization (see Lemma C.1),
+
+The gradient norm assumption ${\|{{\nabla_{\theta}L_{\lambda}}{(\theta)}}\|}_{2} \leq \epsilon_{\text{opt}}$ implies that:
+
+where we have used ${A^{\pi_{\theta}}{(s,a)}} \geq 0$. Rearranging and using our assumption $\epsilon_{\text{opt}} \leq {\lambda/{({2{|\mathcal{S}|}{|\mathcal{A}|}})}}$,
+
+Solving for $A^{\pi_{\theta}}{(s,a)}$ in, we have:
+
+where the penultimate step uses $\epsilon_{\text{opt}} \leq {\lambda/{({2{|\mathcal{S}|}{|\mathcal{A}|}})}}$ and the final step uses ${d_{\mu}^{\pi_{\theta}}{(s)}} \geq {{({1 - \gamma})}\mu{(s)}}$. This completes the proof.
+
+By combining the above theorem with standard results on the convergence of gradient ascent (to first order stationary points), we obtain the following corollary.
+
+### Corollary 5.1
+
+(Iteration complexity with log barrier regularization) Let $\beta_{\lambda}:={\frac{8\gamma}{{({1 - \gamma})}^{3}} + \frac{2\lambda}{|\mathcal{S}|}}$. Starting from any initial $\theta^{}$, consider the updates with $\lambda = \frac{\epsilon{({1 - \gamma})}}{2\left. \parallel\frac{d_{\rho}^{\pi^{\star}}}{\mu}\parallel \right._{\infty}}$ and $\eta = {1/\beta_{\lambda}}$. Then for all starting state distributions $\rho$, we have
+
+See Appendix C.2 for the proof. The corollary shows the importance of balancing how the regularization parameter $\lambda$ is set relative to the desired accuracy $\epsilon$, as well as the importance of the initial distribution $\mu$ to obtain global optimality.
+
+### Remark 5.2
+
+(Entropy vs. log barrier regularization) The more commonly considered regularizer is the entropy (also see Ahmed et al. for a more detailed empirical investigation), where the regularizer would be:
+
+Note the entropy is far less aggressive in penalizing small probabilities, in comparison to the log barrier, which is equivalent to the relative entropy. In particular, the entropy regularizer is always bounded between $0$ and $\log{|\mathcal{A}|}$, while the relative entropy (against the uniform distribution over actions), is bounded between $0$ and infinity, where it tends to infinity as probabilities tend to $0$. We leave it is an open question if a polynomial convergence rate ^55^5Here, ideally we would like to be poly in $|\mathcal{S}|$, $|\mathcal{A}|$, $1/{({1 - \gamma})}$, $1/\epsilon$, and the distribution mismatch coefficient, which we conjecture may not be possible. is achievable with the more common entropy regularizer; our polynomial convergence rate using the KL regularizer crucially relies on the aggressive nature in which the relative entropy prevents small probabilities (the proof shows that any action, with a positive advantage, has a significant probability for any near-stationary policy of the regularized objective).
+
+### Dimension-free Convergence of Natural Policy Gradient Ascent
+
+We now show the Natural Policy Gradient algorithm, with the softmax parameterization, obtains an improved iteration complexity. The NPG algorithm defines a Fisher information matrix (induced by $\pi$), and performs gradient updates in the geometry induced by this matrix as follows:
+
+where $M^{\dagger}$ denotes the Moore-Penrose pseudoinverse of the matrix $M$. Throughout this section, we restrict to using the initial state distribution $\rho \in {\Delta{(\mathcal{S})}}$ in our update rule in (5.3) (so our optimization measure $\mu$ and the performance measure $\rho$ are identical). Also, we restrict attention to states $s \in \mathcal{S}$ reachable from $\rho$, since, without loss of generality, we can exclude states that are not reachable under this start state distribution^66^6Specifically, we restrict the MDP to the set of states $\{{s \in \mathcal{S}}:{{{\exists\pi}\quad\text{such that}\quad{d_{\rho}^{\pi}{(s)}}} > 0}\}$..
+
+We leverage a particularly convenient form the update takes for the softmax parameterization (see Kakade ). For completeness, we provide a proof in Appendix C.3.
+
+### Lemma 5.1
+
+(NPG as soft policy iteration) For the softmax parameterization, the NPG updates (5.3) take the form:
+
+where ${Z_{t}{(s)}} = {\sum_{a \in \mathcal{A}}{\pi^{(t)}{(\left. a \middle| s \right.)}{\exp{({{\etaA^{(t)}{(s,a)}}/{({1 - \gamma})}})}}}}$.
+
+The updates take a strikingly simple form in this special case; they are identical to the classical multiplicative weights updates for online linear optimization over the probability simplex, where the linear functions are specified by the advantage function of the current policy at each iteration. Notably, there is no dependence on the state distribution $d_{\rho}^{(t)}$, since the pseudoinverse of the Fisher information cancels out the effect of the state distribution in NPG. We now provide a dimension free convergence rate of this algorithm.
+
+### Theorem 5.3 (Global convergence for NPG)
+
+Suppose we run the NPG updates (5.3) using $\rho \in {\Delta{(\mathcal{S})}}$ and with $\theta^{} = 0$. Fix $\eta > 0$. For all $T > 0$, we have:
+
+In particular, setting $\eta \geq {{({1 - \gamma})}^{2}{\log{|\mathcal{A}|}}}$, we see that NPG finds an $\epsilon$-optimal policy in a number of iterations that is at most:
+
+which has no dependence on the number of states or actions, despite the non-concavity of the underlying optimization problem.
+
+The proof strategy we take borrows ideas from the online regret framework in changing MDPs (in ); here, we provide a faster rate of convergence than the analysis implied by Even-Dar et al. or by Geist et al.. We also note that while this proof is obtained for the NPG updates, it is known in the literature that in the limit of small stepsizes, NPG and TRPO updates are closely related (e.g. see Schulman et al.; Neu et al.; Rajeswaran et al. ).
+
+First, the following improvement lemma is helpful:
+
+### Lemma 5.2 (Improvement lower bound for NPG)
+
+For the iterates $\pi^{(t)}$ generated by the NPG updates (5.3), we have for all starting state distributions $\mu$
+
+Proof: First, let us show that ${{\log Z_{t}}{(s)}} \geq 0$. To see this, observe:
+
+where the inequality follows by Jensen's inequality on the concave function $\log x$ and the final equality uses ${\sum_{a}{\pi^{(t)}{(\left. a \middle| s \right.)}A^{(t)}{(s,a)}}} = 0$. Using $d^{({t + 1})}$ as shorthand for $d_{\mu}^{({t + 1})}$, the performance difference lemma implies:
+
+where the last step uses that $d^{({t + 1})} = d_{\mu}^{({t + 1})} \geq {{({1 - \gamma})}\mu}$, componentwise (by ), and that ${{\log Z_{t}}{(s)}} \geq 0$.
+
+With this lemma, we now prove Theorem 5.3. ‣ 5.3 Dimension-free Convergence of Natural Policy Gradient Ascent ‣ 5 The Softmax Tabular Parameterization ‣ On the Theory of Policy Gradient Methods: Optimality, Approximation, and Distribution Shift").
+
+Proof:\of Theorem [5.3. ‣ 5.3 Dimension-free Convergence of Natural Policy Gradient Ascent ‣ 5 The Softmax Tabular Parameterization ‣ On the Theory of Policy Gradient Methods: Optimality, Approximation, and Distribution Shift")\] Since $\rho$ is fixed, we use $d^{\star}$ as shorthand for $d_{\rho}^{\pi^{\star}}$; we also use $\pi_{s}$ as shorthand for the vector of $\pi{( \cdot |s)}$. By the performance difference lemma (Lemma 3.2),
+
+where we have used the closed form of our updates from Lemma 5.1 in the second step.
+
+By applying Lemma 5.2. ‣ 5.3 Dimension-free Convergence of Natural Policy Gradient Ascent ‣ 5 The Softmax Tabular Parameterization ‣ On the Theory of Policy Gradient Methods: Optimality, Approximation, and Distribution Shift") with $d^{\star}$ as the starting state distribution, we have:
+
+which gives us a bound on ${\mathbb{E}}_{s \sim d^{\star}}{\log Z_{t}}{(s)}$.
+
+Using the above equation and that ${V^{({t + 1})}{(\rho)}} \geq {V^{(t)}{(\rho)}}$ (as ${V^{({t + 1})}{(s)}} \geq {V^{(t)}{(s)}}$ for all states $s$ by Lemma 5.2. ‣ 5.3 Dimension-free Convergence of Natural Policy Gradient Ascent ‣ 5 The Softmax Tabular Parameterization ‣ On the Theory of Policy Gradient Methods: Optimality, Approximation, and Distribution Shift")), we have:
+
+The proof is completed using that ${V^{(T)}{(\rho)}} \geq {V^{({T - 1})}{(\rho)}}$.
+
+## Function Approximation and Distribution Shift
+
+We now analyze the case of using parametric policy classes:
+
+where $\Pi$ may not contain all stochastic policies (and it may not even contain an optimal policy). In contrast with the tabular results in the previous sections, the policy classes that we are often interested in are not fully expressive, e.g. $d \ll {{|\mathcal{S}|}{|\mathcal{A}|}}$ (indeed $|\mathcal{S}|$ or $|\mathcal{A}|$ need not even be finite for the results in this section); in this sense, we are in the regime of function approximation.
+
+We focus on obtaining *agnostic* results, where we seek to do as well as the best policy in this class (or as well as some other comparator policy). While we are interested in a solution to the (unconstrained) policy optimization problem
+
+(for a given initial distribution $\rho$), we will see that optimization with respect to a different distribution will be helpful, just as in the tabular case,
+
+We will consider variants of the NPG update rule (5.3):
+
+Our analysis will leverage a close connection between the NPG update rule (5.3) with the notion of *compatible function approximation*, as formalized in Kakade. Specifically, it can be easily seen that:
+
+where $w^{\star}$ is a minimizer of the following regression problem:
+
+The above is a straightforward consequence of the first order optimality conditions (see ). The above regression problem can be viewed as "compatible" function approximation: we are approximating $A^{\pi_{\theta}}{(s,a)}$ using the $\nabla_{\theta}\log\pi_{\theta}{( \cdot |s)}$ as features. We also consider a variant of the above update rule, $Q$-NPG, where instead of using advantages in the above regression we use the $Q$-values.
+
+This viewpoint provides a methodology for approximate updates, where we can solve the relevant regression problems with samples. Our main results establish the effectiveness of NPG updates where there is error both due to statistical estimation (where we may not use exact gradients) and approximation (due to using a parameterized function class); in particular, we provide a novel estimation/approximation decomposition relevant for the NPG algorithm. For these algorithms, we will first consider log linear policies classes (as a special case) and then move on to more general policy classes (such as neural policy classes). Finally, it is worth remarking that the results herein provide one of the first provable approximation guarantees where the error conditions required do not have explicit worst case dependencies over the state space.
+
+### NPG and $Q$-NPG Examples
+
+In practice, the most common policy classes are of the form:
+
+where $f_{\theta}$ is a differentiable function. For example, the tabular softmax policy class is one where ${f_{\theta}{(s,a)}} = \theta_{s,a}$. Typically, $f_{\theta}$ is either a linear function or a neural network. Let us consider the NPG algorithm, and a variant $Q$-NPG, in each of these two cases.
+
+### Log-linear Policy Classes and Soft Policy Iteration
+
+For any state-action pair $(s,a)$, suppose we have a feature mapping $\phi_{s,a} \in {\mathbb{R}}^{d}$. Each policy in the log-linear policy class is of the form:
+
+with $\theta \in {\mathbb{R}}^{d}$. Here, we can take ${f_{\theta}{(s,a)}} = {\theta \cdot \phi_{s,a}}$.
+
+With regards to compatible function approximation for the log-linear policy class, we have:
+
+that is, ${\overline{\phi}}_{s,a}^{\theta}$ is the centered version of $\phi_{s,a}$. With some abuse of notation, we accordingly also define ${\overline{\phi}}^{\pi}$ for any policy $\pi$. Here, using, the NPG update rule is equivalent to:
+
+(We have rescaled the learning rate $\eta$ in comparison to ). Note that we recompute $w_{\star}$ for every update of $\theta$. Here, the compatible function approximation error measures the expressivity of our parameterization in how well linear functions of the parameterization can capture the policy's advantage function.
+
+We also consider a variant of the NPG update rule, termed *$Q$-NPG*, where:
+
+Note we do not center the features for $Q$-NPG; observe that $Q^{\pi}{(s,a)}$ is also not 0 in expectation under $\pi{( \cdot |s)}$, unlike the advantage function.
+
+### Remark 6.1
+
+(NPG/$Q$-NPG and Soft-Policy Iteration) We now see how we can view both NPG and $Q$-NPG as an incremental (soft) version of policy iteration, just as in Lemma 5.1 for the tabular case. Rather than writing the update rule in terms of the parameter $\theta$, we can write an equivalent update rule directly in terms of the (log-linear) policy $\pi$:\
+
+where $Z_{s}$ is normalization constant. While the policy update uses the original features $\phi$ instead of ${\overline{\phi}}^{\pi}$, whereas the quadratic error minimization is terms of the centered features ${\overline{\phi}}^{\pi}$, this distinction is not relevant due to that we may also instead use ${\overline{\phi}}^{\pi}$ (in the policy update) which would result in an equivalent update; the normalization makes the update invariant to (constant) translations of the features. Similarly, an equivalent update for $Q$-NPG, where we update $\pi$ directly rather than $\theta$, is:
+
+### Remark 6.2
+
+(On the equivalence of NPG and $Q$-NPG) If it is the case that the compatible function approximation error is $0$, then it straightforward to verify that the NPG and $Q$-NPG are equivalent algorithms, in that their corresponding policy updates will be equivalent to each other.
+
+### Neural Policy Classes
+
+Now suppose $f_{\theta}{(s,a)}$ is a neural network parameterized by $\theta \in {\mathbb{R}}^{d}$, where the policy class $\Pi$ is of form in. Observe:
+
+and, using, the NPG update rule is equivalent to:
+
+(Again, we have rescaled the learning rate $\eta$ in comparison to ).
+
+The $Q$-NPG variant of this update rule is:
+
+### $Q$-NPG: Performance Bounds for Log-Linear Policies
+
+For a state-action distribution $\upsilon$, define:
+
+The iterates of the $Q$-NPG algorithm can be viewed as minimizing this loss under some (changing) distribution $\upsilon$.
+
+We now specify an approximate version of $Q$-NPG. It is helpful to consider a slightly more general version of the algorithm in the previous section, where instead of optimizing under a starting state distribution $\rho$, we have a different starting *state-action* distribution $\nu$. Analogous to the definition of the state visitation measure, $d_{\mu}^{\pi}$, we can define a visitation measure over states *and* actions induced by following $\pi$ after ${s_{0},a_{0}} \sim \nu$. We overload notation using $d_{\nu}^{\pi}$ to also refer to the state-action visitation measure; precisely,
+
+where $\Pr^{\pi}{({s_{t} = s},{a_{t} = \left. a \middle| {s_{0},a_{0}} \right.})}$ is the probability that $s_{t} = s$ and $a_{t} = a$, after starting at state $s_{0}$, taking action $a_{0}$, and following $\pi$ thereafter. While we overload notation for visitation distributions ($d_{\mu}^{\pi}{(s)}$ and $d_{\nu}^{\pi}{(s,a)}$) for notational convenience, note that the state-action measure $d_{\nu}^{\pi}$ uses the subscript $\nu$, which is a state-action measure.
+
+$Q$-NPG will be defined with respect to the *on-policy* state action measure starting with ${s_{0},a_{0}} \sim \nu$. As per our convention, we define
+
+The approximate version of this algorithm is:
+
+where the above update rule also permits us to constrain the norm of the update direction $w^{(t)}$ (alternatively, we could use $\ell_{2}$ regularization as is also common in practice). The exact minimizer is denoted as:
+
+Note that $w_{\star}^{(t)}$ depends on the current parameter $\theta^{(t)}$.
+
+Our analysis will take into account both the *excess risk* (often also referred to as estimation error) and the *transfer error*. Here, the excess risk will be due to that $w^{(t)}$ may not be equal $w_{\star}^{(t)}$, and the approximation error will be due to that even the best linear fit using $w_{\star}^{(t)}$ may not perfectly match the $Q$-values, i.e. $L{(w_{\star}^{(t)};\theta^{(t)};d^{(t)})}$ is unlikely to be $0$ in practical applications.
+
+We now formalize these concepts in the following assumption:
+
+### Assumption 6.1 (Estimation/Transfer errors)
+
+Fix a state distribution $\rho$; a state-action distribution $\nu$; an arbitrary comparator policy $\pi^{\star}$ (not necessarily an optimal policy). With respect to $\pi^{\star}$, define the state-action measure $d^{\star}$ as
+
+i.e. $d^{\star}$ samples states from the comparators state visitation measure, $d_{\rho}^{\pi^{\star}}$ and actions from the uniform distribution. Let us permit the sequence of iterates $w^{},w^{},{\ldotsw^{({T - 1})}}$ used by the $Q$-NPG algorithm to be random, where the randomness could be due to sample-based, estimation error. Suppose the following holds for all $t < T$:
+
+(*Excess risk*) Assume that the estimation error is bounded as follows:
+
+Note that using a sample based approach we would expect $\epsilon_{stat} = {O{({1/\sqrt{N}})}}$ or better, where $N$ is the number of samples used to estimate. $w_{\star}^{(t)}$ We formalize this in Corollary 6.2.
+
+(*Transfer error*) Suppose that the best predictor $w_{\star}^{(t)}$ has an error bounded by $\epsilon_{bias}$, in expectation, with respect to the comparator's measure of $d^{\ast}$. Specifically, assume:
+
+We refer to $\epsilon_{bias}$ as the *transfer error* (or *transfer bias*); it is the error where relevant distribution is shifted to $d^{\star}$. For the softmax policy parameterization for tabular MDPs, $\epsilon_{bias} = 0$ (see remark 6.4 for another example).
+
+In both conditions, the expectations are with respect to the randomness in the sequence of iterates $w^{},w^{},{\ldotsw^{({T - 1})}}$, e.g. the approximate algorithm may be sample based.
+
+Shortly, we discuss how the transfer error relates to the more standard approximation-estimation decomposition. Importantly, with the transfer error, it is always defined with respect to a single, fixed measure, $d^{\star}$.
+
+### Assumption 6.2 (Relative condition number)
+
+Consider the same $\rho$, $\nu$, and $\pi^{\star}$ as in Assumption 6.1. ‣ 6.2 𝑄-NPG: Performance Bounds for Log-Linear Policies ‣ 6 Function Approximation and Distribution Shift ‣ On the Theory of Policy Gradient Methods: Optimality, Approximation, and Distribution Shift"). With respect to any state-action distribution $\upsilon$, define:
+
+Assume that $\kappa$ is finite.
+
+Remark 6.3 discusses why it is reasonable to expect that $\kappa$ is not a quantity related to the size of the state space.^77^7Technically, we only need the relative condition number $\sup_{w \in {\mathbb{R}}^{d}}\frac{w^{\top}\Sigma_{d^{\star}}w}{w^{\top}\Sigma_{\pi^{(t)}}w}$ to be bounded for all $t$. We state this as a sufficient condition based on the initial distribution $\nu$ due to: this is more interpretable, and, as per Remark 6.3, this quantity can be bounded in a manner that is independent of the sequence of iterates produced by the algorithm.
+
+Our main theorem below shows how the approximation error, the excess risk, and the conditioning, determine the final performance. Note that both the transfer error $\epsilon_{bias}$ and $\kappa$ are defined with respect to the comparator policy $\pi^{\star}$.
+
+### Theorem 6.1
+
+(Agnostic learning with $Q$-NPG) Fix a state distribution $\rho$; a state-action distribution $\nu$; an arbitrary comparator policy $\pi^{\star}$ (not necessarily an optimal policy). Suppose Assumption 6.2. ‣ 6.2 𝑄-NPG: Performance Bounds for Log-Linear Policies ‣ 6 Function Approximation and Distribution Shift ‣ On the Theory of Policy Gradient Methods: Optimality, Approximation, and Distribution Shift") holds and ${\|\phi_{s,a}\|}_{2} \leq B$ for all $s,a$. Suppose the $Q$-NPG update rule (in ) starts with $\theta^{} = 0$, $\eta = \sqrt{{2{\log{|\mathcal{A}|}}}/{({B^{2}W^{2}T})}}$, and the (random) sequence of iterates satisfies Assumption 6.1. ‣ 6.2 𝑄-NPG: Performance Bounds for Log-Linear Policies ‣ 6 Function Approximation and Distribution Shift ‣ On the Theory of Policy Gradient Methods: Optimality, Approximation, and Distribution Shift"). We have that
+
+The proof is provided in Section 6.4.
+
+Note when $\epsilon_{bias} = 0$, our convergence rate is $O{(\sqrt{1/T})}$ plus a term that depends on the excess risk; hence, provided we obtain enough samples, then $\epsilon_{stat}$ will also tend to $0$, and we will be competitive with the comparison policy $\pi^{\star}$. When $\epsilon_{bias} = 0$ and $\epsilon_{stat} = 0$, as in the tabular setting with exact gradients, the additional two terms become $0$, consistent with Theorem 5.3. ‣ 5.3 Dimension-free Convergence of Natural Policy Gradient Ascent ‣ 5 The Softmax Tabular Parameterization ‣ On the Theory of Policy Gradient Methods: Optimality, Approximation, and Distribution Shift") except that the convergence rate is $O{(\sqrt{1/T})}$ rather than the faster rate of $O{({1/T})}$. Obtaining a faster rate in the function approximation regime appears to require stronger conditions on how the approximation errors are controlled at each iteration.
+
+The usual approximation-estimation error decomposition is that we can write our error as:
+
+As we obtain more samples, we can drive the excess risk (the estimation error) to $0$ (see Corollary 6.2). The approximation error above is due to modeling error. Importantly, for our $Q$-NPG performance bound, it is not this standard approximation error notion which is relevant, but it is this error under a different measure $d^{\star}$, i.e. $L{(w_{\star}^{(t)};\theta^{(t)},d^{\star})}$. One appealing aspect about the transfer error is that this error is with respect to a fixed measure, namely $d^{\star}$. Furthermore, in practice, modern machine learning methods often performs favorably with regards to transfer learning, substantially better than worst case theory might suggest.
+
+The following corollary provides a performance bound in terms of the usual notion of approximation error, at the cost of also depending on the worst case distribution mismatch ratio. The corollary disentangles the estimation error from the approximation error.
+
+### Corollary 6.1
+
+(Estimation error/Approximation error bound for $Q$-NPG) Consider the same setting as in Theorem 6.1. Rather than assuming the transfer error is bounded (part 2. ‣ 6.2 𝑄-NPG: Performance Bounds for Log-Linear Policies ‣ 6 Function Approximation and Distribution Shift ‣ On the Theory of Policy Gradient Methods: Optimality, Approximation, and Distribution Shift") in Assumption 6.1. ‣ 6.2 𝑄-NPG: Performance Bounds for Log-Linear Policies ‣ 6 Function Approximation and Distribution Shift ‣ On the Theory of Policy Gradient Methods: Optimality, Approximation, and Distribution Shift")), suppose that, for all $t \leq T$,
+
+Proof: We have the following crude upper bound on the transfer error:
+
+where the last step uses the defintion of $d^{(t)}$ (see ). This implies $\epsilon_{bias} \leq {\frac{1}{1 - \gamma}{\parallel\frac{d^{\star}}{\nu}\parallel}_{\infty}\epsilon_{approx}}$, and the corollary follows.
+
+The above also shows the striking difference between the effects of estimation error and approximation error. The proof shows how the transfer error notion is weaker than previous conditions based on distribution mistmatch coefficients or concentrability coefficients. Also, as discussed in Scherrer, the (distribution mismatch) coefficient ${\parallel\frac{d^{\star}}{\nu}\parallel}_{\infty}$ is already weaker than the more standard concentrability coefficients.
+
+A few additional remarks are now in order. We now make a few observations with regards to $\kappa$.
+
+### Remark 6.3
+
+(Dimension dependence in $\kappa$ and the importance of $\nu$) It is reasonable to think about $\kappa$ as being dimension dependent (or worse), but it is not necessarily related to the size of the state space. For example, if ${\|\phi_{s,a}\|}_{2} \leq B$, then $\kappa \leq \frac{B^{2}}{\sigma_{\min}{({{\mathbb{E}}_{{s,a} \sim \nu}{\lbrack{\phi_{s,a}\phi_{s,a}^{\top}}\rbrack}})}}$ though this bound may be pessimistic. Here, we also see the importance of choice of $\nu$ in having a small (relative) condition number; in particular, this is the motivation for considering the generalization which allows for a starting state-action distribution $\nu$ vs. just a starting state distribution $\mu$ (as we did in the tabular case). Roughly speaking, we desire a $\nu$ which provides good coverage over the features. As the following lemma shows, there always exists a universal distribution $\nu$, which can be constructed only with knowledge of the feature set (without knowledge of $d^{\star}$), such that $\kappa \leq d$.
+
+### Lemma 6.1
+
+($\kappa \leq d$ is always possible) Let $\Phi = \left. \{{\phi{(s,a)}} \middle| {{(s,a)} \in {\mathcal{S} \times \mathcal{A}}}\} \right. \subset {\mathbb{R}}^{d}$ and suppose $\Phi$ is a compact set. There always exists a state-action distribution $\nu$, which is supported on at most $d^{2}$ state-action pairs and which can be constructed only with knowledge of $\Phi$ (without knowledge of the MDP or $d^{\star}$), such that:
+
+Proof: The distribution can be found through constructing the minimal volume ellipsoid containing $\Phi$, i.e. the Loẅner-John ellipsoid. In particular, this $\nu$ is supported on the contact points between this ellipsoid and $\Phi$; the lemma immediately follows from properties of this ellipsoid (e.g. see Ball; Bubeck et al. ).
+
+It is also worth considering a more general example (beyond tabular MDPs) in which $\epsilon_{bias} = 0$ for the log-linear policy class.
+
+### Remark 6.4
+
+($\epsilon_{bias} = 0$ for "linear" MDPs) In the recent linear MDP model of Jin et al.; Yang and Wang; Jiang et al., where the transition dynamics are low rank, we have that $\epsilon_{bias} = 0$ provided we use the features of the linear MDP. Our guarantees also permit model misspecification of linear MDPs, with non worst-case approximation error where $\epsilon_{bias} \neq 0$.
+
+### Remark 6.5
+
+(Comparison with Politex and EE-Politex) Compared with Politex, Assumption 6.2. ‣ 6.2 𝑄-NPG: Performance Bounds for Log-Linear Policies ‣ 6 Function Approximation and Distribution Shift ‣ On the Theory of Policy Gradient Methods: Optimality, Approximation, and Distribution Shift") is substantially milder, in that it just assumes a good relative condition number for one policy rather than all possible policies (which cannot hold in general even for tabular MDPs). Changing this assumption to an analog of Assumption 6.2. ‣ 6.2 𝑄-NPG: Performance Bounds for Log-Linear Policies ‣ 6 Function Approximation and Distribution Shift ‣ On the Theory of Policy Gradient Methods: Optimality, Approximation, and Distribution Shift") is the main improvement in the analysis of the EE-Politex algorithm. They provide a regret bound for the average reward setting, which is qualitatively different from the suboptimality bound in the discounted setting that we study. They provide a specialized result for linear function approximation, similar to Theorem 6.1.
+
+### $Q$-NPG Sample Complexity
+
+### Assumption 6.3 (Episodic Sampling Oracle)
+
+For a fixed state-action distribution $\nu$, we assume the ability to: start at ${s_{0},a_{0}} \sim \nu$; continue to act thereafter in the MDP according to any policy $\pi$; and terminate this "rollout" when desired. With this oracle, it is straightforward to obtain unbiased samples of $Q^{\pi}{(s,a)}$ (or $A^{\pi}{(s,a)}$) under ${s,a} \sim d_{\nu}^{\pi}$ for any $\pi$; see Algorithms 1 and 3.
+
+1:Starting state-action distribution ν.
+3:Sample s, a ∼ dνπ as follows: at every timestep h, with probability γ, act according to π; else, accept (sh,ah) as the sample and proceed to Step 5. See.
+4: From sh, ah, continue to execute π, and use a termination probability of 1 − γ. Upon termination, set $\hat{Q^{\pi}}{(s_{h},a_{h})}$ as the undiscounted sum of rewards from time h onwards.
+5:return (sh,ah) and $\hat{Q^{\pi}}{(s_{h},a_{h})}$.
+Algorithm 1 Sampler for: s, a ∼ dνπ and unbiased estimate of Qπ (s,a)
+
+Algorithm 2 provides a sample based version of the $Q$-NPG algorithm; it simply uses stochastic projected gradient ascent within each iteration. The following corollary shows this algorithm suffices to obtain an accurate sample based version of $Q$-NPG.
+
+### Corollary 6.2
+
+(Sample complexity of $Q$-NPG) Assume we are in the setting of Theorem 6.1 and that we have access to an episodic sampling oracle (i.e. Assumption 6.3. ‣ 6.2.1 𝑄-NPG Sample Complexity ‣ 6.2 𝑄-NPG: Performance Bounds for Log-Linear Policies ‣ 6 Function Approximation and Distribution Shift ‣ On the Theory of Policy Gradient Methods: Optimality, Approximation, and Distribution Shift")). Suppose that the Sample Based $Q$-NPG Algorithm (Algorithm 2) is run for $T$ iterations, with $N$ gradient steps per iteration, with an appropriate setting of the learning rates $\eta$ and $\alpha$. We have that:
+
+Furthermore, since each episode has expected length $2/{({1 - \gamma})}$, the expected number of total samples used by $Q$-NPG is ${2NT}/{({1 - \gamma})}$.
+
+Proof: Note that our sampled gradients are bounded by $G:={2B{({{BW} + \frac{1}{1 - \gamma}})}}$. Using $\alpha = \frac{W}{G\sqrt{N}}$, a standard analysis for stochastic projected gradient ascent (Theorem E.3. ‣ Appendix E Standard Optimization Results ‣ On the Theory of Policy Gradient Methods: Optimality, Approximation, and Distribution Shift")) shows that:
+
+The proof is completed via substitution.
+
+1:Learning rate η; SGD learning rate α; number of SGD iterations N
+6: Call Algorithm 1 to obtain s, a ∼ d(t) and an unbiased estimate Q̂ (s,a).
+
+10: Set ${\hat{w}}^{(t)} = {\frac{1}{N}{\sum_{n = 1}^{N}w_{n}}}$.
+Algorithm 2 Sample-based Q-NPG for Log-linear Policies
+
+### Remark 6.6
+
+(Improving the scaling with $N$) Our current rate of convergence is $1/N^{1/4}$ due to our use of stochastic projected gradient ascent. Instead, for the least squares estimator, $\epsilon_{stat}$ would be $O{({d/N})}$ provided certain further regularity assumptions hold (a bound on the minimal eigenvalue of $\Sigma_{\nu}$ would be sufficient but not necessary. See Hsu et al. for such conditions). With such further assumptions, our rate of convergence would be $O{({1/\sqrt{N}})}$.
+
+### NPG: Performance Bounds for Smooth Policy Classes
+
+We now return to the analyzing the standard NPG update rule, which uses advantages rather than $Q$-values (see Section 6.1). It is helpful to define
+
+where $\upsilon$ is state-action distribution, and the subscript of $A$ denotes the loss function uses advantages (rather than $Q$-values). The iterates of the NPG algorithm can be viewed as minimizing this loss under some appropriately chosen measure.
+
+We now consider an approximate version of the NPG update rule:
+
+where again we use the on-policy, fitting distribution $d^{(t)}$. As with $Q$-NPG, we also permit the use of a starting state-action distribution $\nu$ as opposed to just a starting state distribution (see Remark 6.3). Again, we let $w_{\star}^{(t)}$ denote the minimizer, i.e. $w_{\star}^{(t)} \in {{{argmin}_{{\| w\|}_{2} \leq W}L_{A}}{(w;\theta^{(t)},d^{(t)})}}$.
+
+For this section, our analysis will focus on more general policy classes, beyond log-linear policy classes. In particular, we make the following smoothness assumption on the policy class:
+
+### Assumption 6.4
+
+(Policy Smoothness) Assume for all $s \in \mathcal{S}$ and $a \in \mathcal{A}$ that ${\log\pi_{\theta}}{(\left. a \middle| s \right.)}$ is a $\beta$-smooth function of $\theta$ (to recall the definition of smoothness, see ).
+
+It is not to difficult to verify that the tabular softmax policy parameterization is a $1$-smooth policy class in the above sense. The more general class of log-linear policies is also smooth as we remark below.
+
+### Remark 6.7
+
+(Smoothness of the log-linear policy class) For the log-linear policy class (see Section 6.1.1), smoothness is implied if the features $\phi$ have bounded Euclidean norm. Precisely, if the feature mapping $\phi$ satisfies ${\|\phi_{s,a}\|}_{2} \leq B$, then it is not difficult to verify that ${\log\pi_{\theta}}{(\left. a \middle| s \right.)}$ is a $B^{2}$-smooth function.
+
+For any state-action distribution $\upsilon$, define:
+
+and, again, we use $\Sigma_{\upsilon}^{(t)}$ as shorthand for $\Sigma_{\upsilon}^{\theta^{(t)}}$.
+
+### Assumption 6.5
+
+(Estimation/Transfer/Conditioning) Fix a state distribution $\rho$; a state-action distribution $\nu$; an arbitrary comparator policy $\pi^{\star}$ (not necessarily an optimal policy). With respect to $\pi^{\star}$, define the state-action measure $d^{\star}$ as
+
+Note that, in comparison to Assumption 6.1. ‣ 6.2 𝑄-NPG: Performance Bounds for Log-Linear Policies ‣ 6 Function Approximation and Distribution Shift ‣ On the Theory of Policy Gradient Methods: Optimality, Approximation, and Distribution Shift"), $d^{\star}$ is the state-action visitation measure of the comparator policy. Let us permit the sequence of iterates $w^{},w^{},{\ldotsw^{({T - 1})}}$ used by the NPG algorithm to be random, where the randomness could be due to sample-based, estimation error. Suppose the following holds for all $t < T$:
+
+(Excess risk) Assume the estimation error is bounded as:
+
+i.e. the above conditional expectation is bounded (with probability one).^88^8The use of a conditional expectation here (vs. the unconditional one in Assumption 6.1. ‣ 6.2 𝑄-NPG: Performance Bounds for Log-Linear Policies ‣ 6 Function Approximation and Distribution Shift ‣ On the Theory of Policy Gradient Methods: Optimality, Approximation, and Distribution Shift")) permits the assumption to hold even in settings where we may reuse data in the sample-based approximation of $L_{A}$. Also, the expectation over the iterates allows a more natural assumption on the relative condition number, relevant for the more general case of smooth policies. As we see in Corollary 6.2, we can guarantee $\epsilon_{stat}$ to drop as $\sqrt{1/N}$.
+
+(Transfer error) Suppose that:
+
+(Relative condition number) For all iterations $t$, assume the average relative condition number is bounded as follows:
+
+Note that term inside the expectation is a random quantity as $\theta^{(t)}$ is random.
+
+In the above conditions, the expectation is with respect to the randomness in the sequence of iterates $w^{},w^{},{\ldotsw^{({T - 1})}}$.
+
+Analogous to our $Q$-NPG theorem, our main theorem for NPG shows how the transfer error is relevant in addition the statistical error $\epsilon_{stat}$.
+
+### Theorem 6.2
+
+(Agnostic learning with NPG) Fix a state distribution $\rho$; a state-action distribution $\nu$; an arbitrary comparator policy $\pi^{\star}$ (not necessarily an optimal policy). Suppose Assumption 6.4 holds. Suppose the NPG update rule (in ) starts with $\pi^{}$ being the uniform distribution (at each state), $\eta = \sqrt{{2{\log{|\mathcal{A}|}}}/{({\betaW^{2}T})}}$, and the (random) sequence of iterates satisfies Assumption 6.5. We have that
+
+The proof is provided in Section 6.4.
+
+### Remark 6.8
+
+(The $|\mathcal{A}|$ dependence: NPG vs. $Q$-NPG) Observe there is no polynomial dependence on $|\mathcal{A}|$ in the rate for NPG (in constrast to Theorem 6.1); also observe that here we define $d^{\star}$ as the state-action distribution of $\pi^{\star}$ in Assumption 6.5, as opposed to a uniform distribution over the actions, as in Assumption 6.1. ‣ 6.2 𝑄-NPG: Performance Bounds for Log-Linear Policies ‣ 6 Function Approximation and Distribution Shift ‣ On the Theory of Policy Gradient Methods: Optimality, Approximation, and Distribution Shift"). The main difference arises in the analysis in that, even for $Q$-NPG, we need to bound the error in fitting the advantage estimates; this leads to the dependence on $|\mathcal{A}|$ (which can be removed with a path dependent bound, i.e. a bound which depends on the sequence of iterates produced by the algorithm)^99^9 For $Q$-NPG, we have to bound two distribution shift terms to both $\pi^{\star}$ and $\pi^{(t)}$ at step $t$ of the algorithm.. For NPG, the direct fitting of the advantage function sidesteps this conversion step. Note that the relative condition number assumption in $Q$-NPG (Assumption 6.2. ‣ 6.2 𝑄-NPG: Performance Bounds for Log-Linear Policies ‣ 6 Function Approximation and Distribution Shift ‣ On the Theory of Policy Gradient Methods: Optimality, Approximation, and Distribution Shift")) is a weaker assumption, due to that it can be bounded independently of the path of the algorithm (see Remark 6.2. ‣ 6.2 𝑄-NPG: Performance Bounds for Log-Linear Policies ‣ 6 Function Approximation and Distribution Shift ‣ On the Theory of Policy Gradient Methods: Optimality, Approximation, and Distribution Shift")), while NPG's centering of the features makes the assumption on the relative condition number depend on the path of the algorithm.
+
+### Remark 6.9
+
+(Generalizing $Q$-NPG for smooth policies) A similar reasoning as the analysis here can be also used to establish a convergence result for the $Q$-NPG algorithm in this more general setting of smooth policy classes. Concretely, we can analyze the $Q$-NPG update described for neural policy classes in Section 6.1.2, assuming that the function $f_{\theta}$ is Lipschitz-continuous in $\theta$. Like for Theorem 6.2, the main modification is that Assumption 6.2. ‣ 6.2 𝑄-NPG: Performance Bounds for Log-Linear Policies ‣ 6 Function Approximation and Distribution Shift ‣ On the Theory of Policy Gradient Methods: Optimality, Approximation, and Distribution Shift") on relative condition numbers is now defined using the covariance matrix for the features $f_{\theta}{(s,a)}$, which depend on $\theta$, as opposed to some a feature map $\phi{(s,a)}$ in the log-linear case. The rest of the analysis follows with an appropriate adaptation of the results above.
+
+### NPG Sample Complexity
+
+Algorithm 4 provides a sample based version of the NPG algorithm, again using stochastic projected gradient ascent; it uses a slight modification of the $Q$-NPG algorithm to obtain unbiased gradient estimates. The following corollary shows that this algorithm provides an accurate sample based version of NPG.
+
+1:Starting state-action distribution ν.
+2:Set $\hat{Q^{\pi}} = 0$ and $\hat{V^{\pi}} = 0$.
+3:Start at state s0 ∼ ν. Sample a0 ∼ ν(⋅|s0) (though do not necessarily execute a0).
+4:(dνπ sampling) At every timestep h ≥ 0,
+
+With probability γ, execute ah, transition to sh + 1, and sample ah + 1 ∼ π(⋅|sh + 1).
+Else accept (sh,ah) as the sample and proceed to Step 5.
+
+5: (Aπ (s,a) sampling) Set SampleQ = True with probability 1/2.
+
+If SampleQ = True, execute ah at state sh and then continue executing π with a termination probability of 1 − γ. Upon termination, set $\hat{Q^{\pi}}$ as the undiscounted sum of rewards from time h onwards.
+Else sample ah′ ∼ π(⋅|sh). Then execute ah′ at state sh and then continue executing π with a termination probability of 1 − γ. Upon termination, set $\hat{V^{\pi}}$ as the undiscounted sum of rewards from time h onwards.
+
+6:return (sh,ah) and ${\hat{A^{\pi}}{(s_{h},a_{h})}} = {2{({\hat{Q^{\pi}} - \hat{V^{\pi}}})}}$.
+Algorithm 3 Sampler for: s, a ∼ dνπ and unbiased estimate of Aπ (s,a)
+
+### Corollary 6.3
+
+(Sample complexity of NPG) Assume we are in the setting of Theorem 6.2 and that we have access to an episodic sampling oracle (i.e. Assumption 6.3. ‣ 6.2.1 𝑄-NPG Sample Complexity ‣ 6.2 𝑄-NPG: Performance Bounds for Log-Linear Policies ‣ 6 Function Approximation and Distribution Shift ‣ On the Theory of Policy Gradient Methods: Optimality, Approximation, and Distribution Shift")). Suppose that the Sample Based NPG Algorithm (Algorithm 4) is run for $T$ iterations, with $N$ gradient steps per iteration. Also, suppose that $\parallel \nabla_{\theta}\log\pi^{(t)}{(a|s)} \parallel_{2} \leq B$ holds with probability one. There exists a setting of $\eta$ and $\alpha$ such that:
+
+Furthermore, since each episode has expected length $2/{({1 - \gamma})}$, the expected number of total samples used by NPG is ${2NT}/{({1 - \gamma})}$.
+
+Proof: Let us see that the update direction in Step 7 of Algorithm 4 uses an unbiased estimate of the true gradient of the loss function $L_{A}$:
+
+where the last step follows due to that sampling procedure in Algorithm 3 produces a conditionally unbiased estimate.
+
+Since $\parallel \nabla_{\theta}\log\pi^{(t)}{(a|s)} \parallel_{2} \leq B$ and since ${\hat{A}{(s,a)}} \leq {2/{({1 - \gamma})}}$, our sampled gradients are bounded by $G:={8B{({{BW} + \frac{1}{1 - \gamma}})}}$. The remainder of the proof follows that of Corollary 6.2
+
+1:Learning rate η; SGD learning rate α; number of SGD iterations N
+6: Call Algorithm 3 to obtain s, a ∼ d(t), and an unbiased estimate Â (s,a) of A(t) (s,a).
+
+wn + 1 = Proj𝒲 (wn−2 α (wn ⋅ ∇θlog π(t) (a|s)−Â (s,a)) ∇θlog π(t) (a|s)),
+
+10: Set ${\hat{w}}^{(t)} = {\frac{1}{N}{\sum_{n = 1}^{N}w_{n}}}$.
+Algorithm 4 Sample-based NPG
+
+### Analysis
+
+We first proceed by providing a general analysis of NPG, for arbitrary sequences. We then specialize it to complete the proof of our two main theorems in this section.
+
+### The NPG "Regret Lemma"
+
+It is helpful for us to consider NPG more abstractly, as an update rule of the form
+
+We will now provide a lemma where $w^{(t)}$ is an *arbitrary* (bounded) sequence, which will be helpful when specialized.
+
+Recall a function $f:{{\mathbb{R}}^{d}\rightarrow{\mathbb{R}}}$ is said to be $\beta$-smooth if for all ${x,x^{\prime}} \in {\mathbb{R}}^{d}$:
+
+and, due to Taylor's theorem, recall that this implies:
+
+The following analysis of NPG is based on the mirror-descent approach developed in, which motivates us to refer to it as a "regret lemma".
+
+### Lemma 6.2
+
+(NPG Regret Lemma) Fix a comparison policy $\overset{\sim}{\pi}$ and a state distribution $\rho$. Assume for all $s \in \mathcal{S}$ and $a \in \mathcal{A}$ that ${\log\pi_{\theta}}{(\left. a \middle| s \right.)}$ is a $\beta$-smooth function of $\theta$. Consider the update rule, where $\pi^{}$ is the uniform distribution (for all states) and where the sequence of weights $w^{},\ldots,w^{(T)}$, satisfies ${\| w^{(t)}\|}_{2} \leq W$ (but is otherwise arbitrary). Define:
+
+Proof: By smoothness (see ),
+
+We use $\overset{\sim}{d}$ as shorthand for $d_{\rho}^{\overset{\sim}{\pi}}$ (note $\rho$ and $\overset{\sim}{\pi}$ are fixed); for any policy $\pi$, we also use $\pi_{s}$ as shorthand for the vector $\pi{( \cdot |s)}$. Using the performance difference lemma (Lemma 3.2),
+
+which completes the proof.
+
+### Proofs of Theorem 6.1 and 6.2
+
+Proof: (of Theorem 6.1) Using the NPG regret lemma (Lemma 6.2) and the smoothness of the log-linear policy class (see Example 6.7),
+
+where we have used our setting of $\eta$.
+
+We make the following decomposition of ${err}_{t}$:
+
+For the first term, using that ${{{\nabla_{\theta}\log}\pi_{\theta}}{(\left. a \middle| s \right.)}} = {\phi_{s,a} - {{\mathbb{E}}_{a^{\prime} \sim \pi_{\theta}{( \cdot |s)}}{\lbrack\phi_{s,a^{\prime}}\rbrack}}}$ (see Section 6.1.1), we have:
+
+where we have used the definition of $d^{\star}$ and $L{(w_{\star}^{(t)};\theta^{(t)},d^{\star})}$ in the last step.
+
+For the second term, let us now show that:
+
+To see this, first observe that a similar argument to the above leads to:
+
+where we use the notation ${\| x\|}_{M}^{2}:={x^{\top}Mx}$ for a matrix $M$ and a vector $x$. From the definition of $\kappa$,
+
+using that ${{({1 - \gamma})}\nu} \leq d_{\nu}^{\pi^{(t)}}$ (see ). Due to that $w_{\star}^{(t)}$ minimizes $L{(w;\theta^{(t)},d^{(t)})}$ over the set $\mathcal{W}:={\{ w:{{\| w\|}_{2} \leq W}\}}$, for any $w \in \mathcal{W}$ the first-order optimality conditions for $w_{\star}^{(t)}$ imply that:
+
+Therefore, for any $w \in \mathcal{W}$,
+
+Noting that $w^{(t)} \in \mathcal{W}$ by construction in Algorithm 4 yields the claimed bound on the second term in.
+
+Using the bounds on the first and second terms in and, along with concavity of the square root function, we have that:
+
+The proof is completed by substitution and using our assumptions on $\epsilon_{stat}$ and $\epsilon_{bias}$.
+
+The following proof for the NPG algorithm follows along similar lines.
+
+Proof: (of Theorem 6.2) Using the NPG regret lemma and our setting of $\eta$,
+
+where the expectation is with respect to the sequence of iterates $w^{},w^{},{\ldotsw^{({T - 1})}}$.
+
+Again, we make the following decomposition of ${err}_{t}$:
+
+For the first term,
+
+where we have used the definition of $L_{A}{(w_{\star}^{(t)};\theta^{(t)},d^{\star})}$ in the last step.
+
+For the second term, a similar argument leads to:
+
+Define $\kappa^{(t)}:={\|{{(\Sigma_{\nu}^{(t)})}^{- {1/2}}\Sigma_{d^{\star}}{(\Sigma_{\nu}^{(t)})}^{- {1/2}}}\|}_{2}$, which is the relative condition number at iteration $t$. We have
+
+where the last step uses that $w_{\star}^{(t)}$ is a minimizer of $L_{A}$ over $\mathcal{W}$ and that $w^{(t)}$ is feasible as before (see the proof of Theorem 6.1). Now taking an expectation we have:
+
+where we have used our assumption on $\kappa$ and $\epsilon_{stat}$.
+
+The proof is completed by substitution and using the concavity of the square root function.
+
+## Discussion
+
+This work provides a systematic study of the convergence properties of policy optimization techniques, both in the tabular and the function approximation settings. At the core, our results imply that the non-convexity of the policy optimization problem is not the fundamental challenge for typical variants of the policy gradient approach. This is evidenced by the global convergence results which we establish and that demonstrate the relative niceness of the underlying optimization problem. At the same time, our results highlight that insufficient exploration can lead to the convergence to sub-optimal policies, as is also observed in practice; technically, we show how this is an issue of conditioning. Conversely, we can expect typical policy gradient algorithms to find the best policy from amongst those whose state-visitation distribution is adequately aligned with the policies we discover, provided a distribution-shifted notion of approximation error is small.
+
+In the tabular case, our results show that the nature and severity of the exploration/distribution mismatch term differs in different policy optimization approaches. For instance, we find that doing policy gradient in its standard form for both the direct and softmax parameterizations can be slow to converge, particularly in the face of distribution mismatch, even when policy gradients are computed exactly. Natural policy gradient, on the other hand, enjoys a fast dimension-free convergence when we are in tabular settings with exact gradients. On the other hand, for the function approximation setting, or when using finite samples, all algorithms suffer to some degree from the exploration issue captured through a conditioning effect.
+
+With regards to function approximation, the guarantees herein are the first provable results that permit average case approximation errors, where the guarantees do not have explicit worst case dependencies over the state space. These worst case dependencies are avoided by precisely characterizing an approximation/estimation error decomposition, where the relevant approximation error is under distribution shift to an optimal policies measure. Here, we see that successful function approximation relies on two key aspects: good conditioning (related to exploration) and low distribution-shifted, approximation error. In particular, these results identify the relevant measure of the expressivity of a policy class, for the natural policy gradient.
+
+With regards to sample size issues, we showed that simply using stochastic (projected) gradient ascent suffices for accurate policy optimization. However, in terms of improving sample efficiency and polynomial dependencies, there are number of important questions for future research, including variance reduction techniques along with data re-use.
+
+There are number of compelling directions for further study. The first is in understanding how to remove the density ratio guarantees among prior algorithms; our results are suggestive that the incremental policy optimization approaches, including CPI, PSDP, and MD-MPI Geist et al., may permit such an improved analysis. The question of understanding what representations are robust to distribution shift is well-motivated by the nature of our distribution-shifted, approximation error (the transfer error). Finally, we hope that policy optimization approaches can be combined with exploration approaches, so that, provably, these approaches can retain their robustness properties (in terms of their agnostic learning guarantees) while mitigating the need for a well conditioned initial starting distribution.

@@ -1,0 +1,536 @@
+## Introduction
+
+There has been a remarkable effort in the last years in the robotics community to formulate estimation problems properly. This is motivated by an increasing demand for precision, consistency and stability of the solutions. Indeed, proper modeling of the states and measurements, the functions relating them, and their uncertainties, is crucial to achieving these goals. This has led to designs involving what has been known as 'manifolds', which in this context are no less than the smooth topologic surfaces of the Lie groups where the state representations evolve. Relying on the Lie theory (LT) we are able to construct a rigorous calculus corpus to handle uncertainties, derivatives and integrals with precision and ease. Typically, these works have focused on the well-known manifolds of rotation SO and rigid motion SE.
+
+Figure 1: Representation of the relation between the Lie group and the Lie algebra. The Lie algebra Tℰ ℳ (red plane) is the tangent space to the Lie group’s manifold ℳ (here represented as a blue sphere) at the identity ℰ. Through the exponential map, each straight path v t through the origin on the Lie algebra produces a path exp (v t) around the manifold which runs along the respective geodesic. Conversely, each element of the group has an equivalent in the Lie algebra. This relation is so profound that (nearly) all operations in the group, which is curved and nonlinear, have an exact equivalent in the Lie algebra, which is a linear vector space. Though the sphere in ℝ3 is not a Lie group (we just use it as a representation that can be drawn on paper), that in ℝ4 is, and describes the group of unit quaternions —see Fig. 4 and Ex. II-D.
+
+When being introduced to Lie groups for the first time, it is important to try to regard them from different points of view. The topological viewpoint, see Fig. 1, involves the shape of the manifold and conveys powerful intuitions of its relation to the tangent space and the exponential map. The algebraic viewpoint involves the group operations and their concrete realization, allowing the exploitation of algebraic properties to develop closed-form formulas or to simplify them. The geometrical viewpoint, particularly useful in robotics, associates group elements to the position, velocity, orientation, and/or other modifications of bodies or reference frames. The origin frame may be identified with the group's identity, and any other point on the manifold represents a certain 'local' frame. By resorting to these analogies, many mathematical abstractions of the LT can be brought closer to intuitive notions in vector spaces, geometry, kinematics, and other more classical fields.
+
+Lie theory is by no means simple. To grasp a minimum idea of what LT can be, we may consider the following three references. First, Abbaspour's *"Basic Lie theory"* comprises more than 400 pages. With a similar title, Howe's *"Very basic Lie theory"* comprises 24 (dense) pages, and is sometimes considered a must-read introduction. Finally, the more modern and often celebrated Stillwell's *"Naive Lie theory"* comprises more than 200 pages. With such precedents labeled as 'basic', 'very basic' and 'naive', the aim of this paper at merely LABEL:LastPage pages is to simplify Lie theory even more (thus our adjective 'micro' in the title). This we do in two ways. First, we select a small subset of material from the LT. This subset is so small that it merely explores the potential of LT. However, it appears very useful for uncertainty management in the kind of estimation problems we deal with in robotics (*e.g.* inertial pre-integration, odometry and SLAM, visual servoing, and the like), thus enabling elegant and rigorous designs of optimal optimizers. Second, we explain it in a didactical way, with plenty of redundancy so as to reduce the entry gap to LT even more, which we believe is still needed. That is, we insist on the efforts in this direction of, to name a paradigmatic title, Stillwell's, and provide yet a more simplified version. The main text body is generic, though we try to keep the abstraction level to a minimum. Inserted examples serve as a grounding base for the general concepts when applied to known groups (rotation and motion matrices, quaternions, etc.). Also, plenty of figures with very verbose captions re-explain the same concepts once again. We put special attention to the computation of Jacobians (a topic that is not treated in ), which are essential for most optimal estimators and the source of much trouble when designing new algorithms. We provide a chapter with some applicative examples for robot localization and mapping, implementing EKF and nonlinear optimization algorithms based on LT. And finally, several appendices contain ample reference for the most relevant details of the most commonly used groups in robotics: unit complex numbers, quaternions, 2D and 3D rotation matrices, 2D and 3D rigid motion matrices, and the trivial translation groups.
+
+Yet our most important simplification to Lie theory is in terms of scope. The following passage from Howe may serve us to illustrate what we leave behind: "*The essential phenomenon of Lie theory is that one may associate in a natural way to a Lie group $\mathcal{G}$ its Lie algebra $\mathfrak{g}$. The Lie algebra $\mathfrak{g}$ is first of all a vector space and secondly is endowed with a bilinear nonassociative product called the Lie bracket \[...\]. Amazingly, the group $\mathcal{G}$ is almost completely determined by $\mathfrak{g}$ and its Lie bracket. Thus for many purposes one can replace $\mathcal{G}$ with $\mathfrak{g}$. Since $\mathcal{G}$ is a complicated nonlinear object and $\mathfrak{g}$ is just a vector space, it is usually vastly simpler to work with $\mathfrak{g}$. \[...\] This is one source of the power of Lie theory.*" In, Stillwell even speaks of "*the miracle of Lie theory*". In this work, we will effectively relegate the Lie algebra to a second plane in favor of its equivalent vector space ${\mathbb{R}}^{n}$, and will not introduce the Lie bracket at all. Therefore, the connection between the Lie group and its Lie algebra will not be made here as profound as it should. Our position is that, given the target application areas that we foresee, this material is often not necessary. Moreover, if included, then we would fail in the objective of being clear and useful, because the reader would have to go into mathematical concepts that, by their abstraction or subtleness, are unnecessarily complicated.
+
+Our effort is in line with other recent works on the subject, which have also identified this need of bringing the LT closer to the roboticist. Our approach aims at appearing familiar to the target audience of this paper: an audience that is skilled in state estimation (Kalman filtering, graph-based optimization, and the like), but not yet familiar with the theoretical corpus of the Lie theory. We have for this taken some initiatives concerning notation, especially in the definition of the derivative, bringing it close to the vectorial counterparts, thus making the chain rule clearly visible. As said, we opted to practically avoid the material proper to the Lie algebra, and prefer instead to work on its isomorphic tangent vector space ${\mathbb{R}}^{n}$, which is where we ultimately represent uncertainty or (small) state increments. All these steps are undertaken with absolutely no loss in precision or exactness, and we believe they make the understanding of the LT and the manipulation of its tools easier.
+
+This paper is accompanied by a new open-source C++ header-only library, called manif, which can be found at [https://github.com/artivis/manif](https://github.com/artivis/manif). manif implements the widely used groups $\text{SO}{}$, $\text{SO}{}$, $\text{SE}{}$ and $\text{SE}{}$, with support for the creation of analytic Jacobians. The library is designed for ease of use, flexibility, and performance.
+
+## A micro Lie Theory
+
+### II-A The Lie group
+
+Figure 2: A manifold ℳ and the vector space T𝒳 ℳ (in this case ≅ ℝ2) tangent at the point 𝒳, and a convenient side-cut. The velocity element, $\overset{˙}{\mathcal{X}} = {\partial{\mathcal{X}/{\partial t}}}$, does not belong to the manifold ℳ but to the tangent space T𝒳 ℳ.
+
+The Lie group encompasses the concepts of *group* and *smooth manifold* in a unique body: a Lie group $\mathcal{G}$ is a smooth manifold whose elements satisfy the group axioms. We briefly present these two concepts before joining them together.
+
+On one hand, a differentiable or *smooth manifold* is a topological space that locally resembles linear space. The reader should be able to visualize the idea of manifold (Fig. 2): it is like a curved, smooth (hyper)-surface, with no edges or spikes, embedded in a space of higher dimension. In robotics, we say that our state vector evolves on this surface, that is, the manifold describes or is defined by the constraints imposed on the state. For example, vectors with the unit norm constraint define a spherical manifold of radius one. The smoothness of the manifold implies the existence of a unique tangent space at each point. This space is a linear or vector space on which we are allowed to do calculus.
+
+On the other hand, a *group* $(\mathcal{G}, \circ )$ is a set, $\mathcal{G}$, with a composition operation, $\circ$, that, for elements ${\mathcal{X},\mathcal{Y},\mathcal{Z}} \in \mathcal{G}$, satisfies the following axioms,
+
+In a *Lie group*, the manifold looks the same at every point (like *e.g.* in the surface of a sphere, see Exs. II-A and II-A), and therefore all tangent spaces at any point are alike. The group structure imposes that the composition of elements of the manifold remains on the manifold and that each element has an inverse also in the manifold,. A special one of these elements is the identity and thus a special one of the tangent spaces is the tangent at the identity, which we call the Lie algebra of the Lie group. Lie groups join the local properties of smooth manifolds, allowing us to do calculus, with the global properties of groups, enabling the nonlinear composition of distant objects.
+
+Figure 3: The S1 manifold is a unit circle (blue) in the plane ℂ, where the unit complex numbers z* z = 1 live. The Lie algebra 𝔰1 = Tℰ S1 is the line of imaginary numbers i ℝ (red), and any tangent space T S1 is isomorphic to the line ℝ (red). Tangent vectors (red segment) wrap the manifold creating the arc of circle (blue arc). Mappings exp and log (arrows) map (wrap and unwrap) elements of i ℝ to/from elements of S1 (blue arc). Increments between unit complex numbers are expressed in the tangent space via composition and the exponential map (and we will define special operators ⊕,⊖ for this). See the text for explanations, and Fig. 4 for a similar group.
+
+[The unit complex numbers group S1]
+Our first example of Lie group, which is the easiest to visualize, is the group of unit complex numbers under complex multiplication (Fig. 3). Unit complex numbers take the form z = cos θ + i sin θ.
+– Action: Vectors x = x + i y rotate in the plane by an angle θ, through complex multiplication, x′ = z x.
+– Group facts: The product of unit complex numbers is a unit complex number, the identity is 1, and the inverse is the conjugate z*.
+– Manifold facts: The unit norm constraint defines the unit circle in the complex plane (which can be viewed as the 1-sphere, and hence the name S1). This is a 1-DoF curve in 2-dimensional space. Unit complex numbers evolve with time on this circle. The group (the circle) ressembles the linear space (the tangent line) locally, but not globally.
+
+Figure 4: The S3 manifold is a unit 3-sphere (blue) in the 4-space of quaternions ℍ, where the unit quaternions q* q = 1 live. The Lie algebra is the space of pure imaginary quaternions i x + j y + k z ∈ ℍp, isomorphic to the hyperplane ℝ3 (red grid), and any other tangent space T S3 is also isomorphic to ℝ3. Tangent vectors (red segment) wrap the manifold over the great arc or geodesic (dashed). The centre and right figures show a side-cut through this geodesic (notice how it resembles S1 in Fig. 3). Mappings exp and log (arrows) map (wrap and unwrap) elements of ℍp to/from elements of S3 (blue arc). Increments between quaternions are expressed in the tangent space via the operators ⊕,⊖ (see text).
+
+[The unit quaternions group S3] A second example of Lie group, which is also relatively easy to visualize, is the group of unit quaternions under quaternion multiplication (Fig. 4). Unit quaternions take the form q = cos (θ/2) + u sin (θ/2), with u = i ux + j uy + k uz a unitary axis and θ a rotation angle.
+– Action: Vectors x = i x + j y + k z rotate in 3D space by an angle θ around the unit axis u through the double quaternion product x′ = q x q*.
+– Group facts: The product of unit quaternions is a unit quaternion, the identity is 1, and the inverse is the conjugate q*.
+– Manifold facts: The unit norm constraint defines the 3-sphere S3, a spherical 3-dimensional surface or manifold in 4-dimensional space. Unit quaternions evolve with time on this surface. The group (the sphere) ressembles the linear space (the tangent hyperplane ℝ3 ⊂ ℝ4) locally, but not globally.
+
+### II-B The group actions
+
+Importantly, Lie groups come with the power to transform elements of other sets, producing *e.g.* rotations, translations, scalings, and combinations of them. These are extensively used in robotics, both in 2D and 3D.
+
+Given a Lie group $\mathcal{M}$ and a set $\mathcal{V}$, we note $\mathcal{X} \cdot v$ the *action* of $\mathcal{X} \in \mathcal{M}$ on $v \in \mathcal{V}$,
+
+For $\cdot$ to be a group action, it must satisfy the axioms,
+
+Common examples are the groups of rotation matrices $\text{SO}{(n)}$, the group of unit quaternions, and the groups of rigid motion $\text{SE}{(n)}$. Their respective actions on vectors satisfy
+
+See Table I for a more detailed exposition, and the appendices.
+
+$\mathbf{M} = \begin{bmatrix}
+\mathbf{R} &amp; \mathbf{t} \\
+\lbrack\theta\rbrack_{\times} &amp; {\mathbf{ρ}} \\
+\end{bmatrix} \in {{\mathfrak{s}}{\mathfrak{e}}{}}$
+\end{bmatrix} \in {\mathbb{R}}^{3}$
+$\exp\left( \begin{bmatrix}
+\lbrack\theta\rbrack_{\times} &amp; {\mathbf{ρ}} \\
+\end{bmatrix} \right)$
+
+$\mathbf{M} = \begin{bmatrix}
+\mathbf{R} &amp; \mathbf{t} \\
+\lbrack{\mathbf{θ}}\rbrack_{\times} &amp; {\mathbf{ρ}} \\
+\end{bmatrix} \in {{\mathfrak{s}}{\mathfrak{e}}{}}$
+\end{bmatrix} \in {\mathbb{R}}^{6}$
+$\exp\left( \begin{bmatrix}
+\lbrack{\mathbf{θ}}\rbrack_{\times} &amp; {\mathbf{ρ}} \\
+\end{bmatrix} \right)$
+
+Table I: Typical Lie groups used in 2D and 3D motion, including the trivial ℝn. See the appendices for full reference
+
+The group composition may be viewed as an action of the group on itself, $\circ:\mathcal{M} \times \mathcal{M}\rightarrow\mathcal{M}$. Another interesting action is the *adjoint action*, which we will see in Section II-F.
+
+### II-C The tangent spaces and the Lie algebra
+
+Given $\mathcal{X}{(t)}$ a point moving on a Lie group's manifold $\mathcal{M}$, its velocity $\overset{˙}{\mathcal{X}} = {\partial{\mathcal{X}/{\partial t}}}$ belongs to the space tangent to $\mathcal{M}$ at $\mathcal{X}$ (Fig. 2), which we note $T_{\mathcal{X}}\mathcal{M}$. The smoothness of the manifold, *i.e.*, the absence of edges or spikes, implies the existence of a unique tangent space at each point. The structure of such tangent spaces is the same everywhere.
+
+### II-C1 The Lie algebra $\mathfrak{m}$
+
+The tangent space at the identity, $T_{\mathcal{E}}\mathcal{M}$, is called the *Lie algebra* of $\mathcal{M}$, and noted $\mathfrak{m}$,
+
+Every Lie group has an associated Lie algebra. We relate the Lie group with its Lie algebra through the following facts (see Figs. 1 and 6):
+
+The Lie algebra $\mathfrak{m}$ is a vector space.^11^1In any Lie algebra, the vector space is endowed with a non-associative product called the Lie bracket. In this work, we will not make use of it. As such, its elements can be *identified* with vectors in ${\mathbb{R}}^{m}$, whose dimension $m$ is the number of degrees of freedom of $\mathcal{M}$.
+
+The *exponential map*, $\exp:{{\mathfrak{m}}\rightarrow\mathcal{M}}$, exactly converts elements of the Lie algebra into elements of the group. The log map is the inverse operation.
+
+Vectors of the tangent space at $\mathcal{X}$ can be transformed to the tangent space at the identity $\mathcal{E}$ through a linear transform. This transform is called the *adjoint*.
+
+Figure 5: Let a point z ∈ S1 move at constant rotation rate ω, z (t) = cos ω t + i sin ω t. Its velocities when passing through 1 and z are in the respective tangent spaces, T1 S1 and Tz S1. In the case of Tz S1, the velocity is $\overset{˙}{\mathbf{z}} = {\mathbf{z}i\omega} = {{- {\omega{\sin{\omegat}}}} + {i\omega{\cos{\omegat}}}}$ when expressed in the global coordinates, and = i ω when expressed locally. Their relation is given by ${{}_{}^{}{}_{}^{}} = {\mathbf{z}^{- 1}\overset{˙}{\mathbf{z}}} = {\mathbf{z}^{\ast}\overset{˙}{\mathbf{z}}}$. In the case of T1 S1, this relation is the identity ${{}_{}^{}{}_{}^{}} = \overset{˙}{\mathbf{z}} = {i\omega}$. Clearly, the structure of all tangent spaces is i ℝ, which is the Lie algebra. This is also the structure of $\overset{˙}{\mathbf{z}}$ at the identity, and this is why the Lie algebra is defined as the tangent space at the identity.
+
+Lie algebras can be defined locally to a tangent point $\mathcal{X}$, establishing local coordinates for $T_{\mathcal{X}}\mathcal{M}$ (Fig. 5). We shall denote elements of the Lie algebras with a 'hat' decorator, such as $\mathbf{v}^{\land}$ for velocities or ${\mathbf{τ}}^{\land} = {({\mathbf{v}t})}^{\land} = {\mathbf{v}^{\land}t}$ for general elements. A left superscript may also be added to specify the precise tangent space, *e.g.*, ${{}_{}^{}{}_{}^{}} \in {T_{\mathcal{X}}\mathcal{M}}$ and ${{}_{}^{}{}_{}^{}} \in {T_{\mathcal{E}}\mathcal{M}}$.
+
+The structure of the Lie algebra can be found (see Examples II-C2 and II-D) by time-differentiating the group constraint. For multiplicative groups this yields the new constraint ${{\mathcal{X}^{- 1}\overset{˙}{\mathcal{X}}} + {\overset{˙}{\mathcal{X}^{-1}}\mathcal{X}}} = 0$, which applies to the elements tangent at $\mathcal{X}$ (the term $\overset{˙}{\mathcal{X}^{-1}}$ is the derivative of the inverse). The elements of the Lie algebra are therefore of the form,^22^2For additive Lie groups the constraint ${\mathcal{X} - \mathcal{X}} = 0$ differentiates to $\overset{˙}{\mathcal{X}} = \overset{˙}{\mathcal{X}}$, that is, no constraint affects the tangent space. This means that the tangent space is the same as the group space. See App. E and 𝑇⁢(𝑛) ‣ A micro Lie theory for state estimation in robotics") for more details.
+
+### II-C2 The Cartesian vector space ${\mathbb{R}}^{m}$
+
+Figure 6: Mappings between the manifold ℳ and the representations of its tangent space at the origin Tℰ ℳ (Lie algebra 𝔪 and Cartesian ℝm). Maps hat (⋅)∧ and vee (⋅)∨ are the linear invertible maps or isomorphisms (10–11), exp (⋅) and log (⋅) map the Lie algebra to/from the manifold, and Exp (⋅) and Log (⋅) are shortcuts to map directly the vector space ℝm to/from ℳ.
+
+The elements ${\mathbf{τ}}^{\land}$ of the Lie algebra have non-trivial structures (skew-symmetric matrices, imaginary numbers, pure quaternions, see Table I) but the key aspect for us is that they can be expressed as linear combinations of some base elements $E_{i}$, where $E_{i}$ are called the *generators* of $\mathfrak{m}$ (they are the derivatives of $\mathcal{X}$ around the origin in the $i$-th direction). It is then handy to manipulate just the coordinates as vectors in ${\mathbb{R}}^{m}$, which we shall note simply $\mathbf{τ}$. We may pass from $\mathfrak{m}$ to ${\mathbb{R}}^{m}$ and vice versa through two mutually inverse linear maps or *isomorphisms*, commonly called *hat* and *vee* (see Fig. 6),
+
+with $\mathbf{e}_{i}$ the vectors of the base of ${\mathbb{R}}^{m}$ (we have $\mathbf{e}_{i}^{\land} = E_{i}$). This means that $\mathfrak{m}$ is isomorphic to the vector space ${\mathbb{R}}^{m}$ --- one writes ${\mathfrak{m}} \cong {\mathbb{R}}^{m}$, or ${\mathbf{τ}}^{\land} \cong {\mathbf{τ}}$. Vectors ${\mathbf{τ}} \in {\mathbb{R}}^{m}$ are handier for our purposes than their isomorphic ${\mathbf{τ}}^{\land} \in {\mathfrak{m}}$, since they can be stacked in larger state vectors, and more importantly, manipulated with linear algebra using matrix operators. In this work, we enforce this preference of ${\mathbb{R}}^{m}$ over $\mathfrak{m}$, to the point that most of the operators and objects that we define (specifically: the adjoint, the Jacobians, the perturbations and their covariances matrices, as we will see soon) are on ${\mathbb{R}}^{m}$.
+
+[The rotation group SO, its Lie algebra 𝔰 𝔬, and the vector space ℝ3] In the rotation group SO, of 3 × 3 rotation matrices R, we have the orthogonality condition R⊤ R = I. The tangent space may be found by taking the time derivative of this constraint, that is ${{\mathbf{R}^{\top}\overset{˙}{\mathbf{R}}} + {{\overset{˙}{\mathbf{R}}}^{\top}\mathbf{R}}} = 0$, which we rearrange as
+
+$${{\mathbf{R}^{\top}\overset{˙}{\mathbf{R}}} = {- {({\mathbf{R}^{\top}\overset{˙}{\mathbf{R}}})}^{\top}}}.$$
+
+This expression reveals that $\mathbf{R}^{\top}\overset{˙}{\mathbf{R}}$ is a skew-symmetric matrix (the negative of its transpose). Skew-symmetric matrices are often noted [ω]× and have the form
+
+$${\lbrack{\mathbf{ω}}\rbrack_{\times} = \begin{bmatrix}
+0 &amp; {- \omega_{z}} &amp; \omega_{y} \\
+\omega_{z} &amp; 0 &amp; {- \omega_{x}} \\
+{- \omega_{y}} &amp; \omega_{x} &amp; 0
+
+This gives ${\mathbf{R}^{\top}\overset{˙}{\mathbf{R}}} = \lbrack{\mathbf{ω}}\rbrack_{\times}$. When R = I we have
+
+$${\overset{˙}{\mathbf{R}} = \lbrack{\mathbf{ω}}\rbrack_{\times}},$$
+
+that is, [ω]× is in the Lie algebra of SO, which we name 𝔰 𝔬. Since [ω]× ∈ 𝔰 𝔬 has 3 DoF, the dimension of SO is m = 3. The Lie algebra is a vector space whose elements can be decomposed into
+
+with $\mathbf{E}_{x} = \begin{bmatrix}
+\end{bmatrix}$, $\mathbf{E}_{y} = \begin{bmatrix}
+\end{bmatrix}$, $\mathbf{E}_{z} = \begin{bmatrix}
+\end{bmatrix}$ the generators of 𝔰 𝔬, and where ω = (ωx,ωy,ωz) ∈ ℝ3 is the vector of angular velocities. The one-to-one linear relation above allows us to identify 𝔰 𝔬 with ℝ3 — we write 𝔰 𝔬 ≅ ℝ3. We pass from 𝔰 𝔬 to ℝ3 and viceversa using the linear operators hat and vee,
+
+### II-D The exponential map
+
+[The exponential map of SO ] We have seen in Ex. II-C2 that ${\overset{˙}{\mathbf{R}} = {\mathbf{R}\lbrack{\mathbf{ω}}\rbrack_{\times}} \in {T_{\mathbf{R}}\text{SO}{}}}.$ For ω constant, this is an ordinary differential equation (ODE), whose solution is R (t) = R0 exp ([ω]× t). At the origin R0 = I we have the exponential map,
+
+We now define the vector θ ≜ u θ ≜ ω t ∈ ℝ3 as the integrated rotation in angle-axis form, with angle θ and unit axis u. Thus [θ]× ∈ 𝔰 𝔬 is the total rotation expressed in the Lie algebra. We substitute it above. Then write the exponential as a power series,
+
+${= {\exp{(\lbrack{\mathbf{θ}}\rbrack_{\times})}} = {\sum\limits_{k}{\frac{\theta^{k}}{k!}{(\lbrack\mathbf{u}\rbrack_{\times})}^{k}}}}.$
+
+In order to find a closed-form expression, we write down a few powers of [u]×,
+
+and realize that all can be expressed as multiples of I, [u]× or [u]×2. We thus rewrite the series as,
+
+$+ {\lbrack\mathbf{u}\rbrack_{\times}\left( {{{\theta - {\frac{1}{3!}\theta^{3}}} + {\frac{1}{5!}\theta^{5}}} - \cdots} \right)}$
+
+${+ {\lbrack\mathbf{u}\rbrack_{\times}^{2}\left( {{{{\frac{1}{2}\theta^{2}} - {\frac{1}{4!}\theta^{4}}} + {\frac{1}{6!}\theta^{6}}} - \cdots} \right)}},$
+
+where we identify the series of sin θ and cos θ, yielding the closed form,
+
+This expression is the well known Rodrigues rotation formula. It can be used as the capitalized exponential just by doing R = Exp (u θ) = exp ([u θ]×).
+
+The exponential map $\exp{()}$ allows us to exactly transfer elements of the Lie algebra to the group (Fig. 1), an operation generically known as *retraction*. Intuitively, $\exp{()}$ wraps the tangent element around the manifold following the great arc or *geodesic* (as when wrapping a string around a ball, Figs. 1, 3 and 4). The inverse map is the $\log{()}$, *i.e.*, the unwrapping operation. The $\exp{()}$ map arises naturally by considering the time-derivatives of $\mathcal{X} \in \mathcal{M}$ over the manifold, as follows. From we have,
+
+For $\mathbf{v}$ constant, this is an ordinary differential equation (ODE) whose solution is
+
+Since $\mathcal{X}{(t)}$ and $\mathcal{X}{}$ are elements of the group, then ${\exp{({\mathbf{v}^{\land}t})}} = {\mathcal{X}{}^{- 1}\mathcal{X}{(t)}}$ must be in the group too, and so $\exp{({\mathbf{v}^{\land}t})}$ maps elements $\mathbf{v}^{\land}t$ of the Lie algebra to the group. This is known as the *exponential map*.
+
+In order to provide a more generic definition of the exponential map, let us define the tangent increment ${\mathbf{τ}} \triangleq {\mathbf{v}t} \in {\mathbb{R}}^{m}$ as velocity per time, so that we have ${\mathbf{τ}}^{\land} = {\mathbf{v}^{\land}t} \in {\mathfrak{m}}$ a point in the Lie algebra. The exponential map, and its inverse the logarithmic map, can be now written as,
+
+Closed forms of the exponential in multiplicative groups are obtained by writing the absolutely convergent Taylor series,
+
+and taking advantage of the algebraic properties of the powers of ${\mathbf{τ}}^{\land}$ (see Ex. II-D and II-D for developments of the exponential map in $\text{SO}{}$ and $S^{3}$). These are then inverted to find the logarithmic map. Key properties of the exponential map are
+
+where, a surprising and powerful statement, can be proved easily by expanding the Taylor series and simplifying the many terms $\mathcal{X}^{- 1}\mathcal{X}$.
+
+[The unit quaternions group S3 (cont.)] In the group S3 (recall Ex. II-A and see e.g. ), the time derivative of the unit norm condition q* q = 1 yields
+
+$${{\mathbf{q}^{\ast}\overset{˙}{\mathbf{q}}} = {- {({\mathbf{q}^{\ast}\overset{˙}{\mathbf{q}}})}^{\ast}}}.$$
+
+This reveals that $\mathbf{q}^{\ast}\overset{˙}{\mathbf{q}}$ is a pure quaternion (its real part is zero). Pure quaternions u v ∈ ℍp have the form
+
+where u ≜ i ux + j uy + k uz is pure and unitary, v is the norm, and i, j, k are the generators of the Lie algebra 𝔰3 = ℍp. Re-writing the condition above we have,
+
+$\overset{˙}{\mathbf{q}} = {\mathbf{q}\mathbf{u}v}$
+
+which integrates to q = q0 exp (u v t). Letting q0 = 1 and defining ϕ ≜ u ϕ ≜ u v t we get the exponential map,
+
+$\mathbf{q} = {\exp{({\mathbf{u}\phi})}} \triangleq {\sum{\frac{\phi^{k}}{k!}\mathbf{u}^{k}}}$
+
+The powers of u follow the pattern 1, u, −1, −u, 1, ⋯. Thus we group the terms in 1 and u and identify the series of cos ϕ and sin ϕ. We get the closed form,
+
+q = exp (u ϕ) = cos (ϕ) + u sin (ϕ),
+
+which is a beautiful extension of the Euler formula, exp (i ϕ) = cos ϕ + i sin ϕ. The elements of the Lie algebra ϕ = u ϕ ∈ 𝔰3 can be identified with the rotation vector θ ∈ ℝ3 trough the mappings hat and vee,
+
+where the factor 2 accounts for the double effect of the quaternion in the rotation action, x′ = q x q*. With this choice of Hat and Vee, the quaternion exponential
+
+q = Exp (u θ) = cos (θ/2) + u sin (θ/2)
+
+is equivalent to the rotation matrix R = Exp (u θ).
+
+### II-D1 The capitalized exponential map
+
+The capitalized Exp and Log maps are convenient shortcuts to map vector elements ${\mathbf{τ}} \in {{\mathbb{R}}^{m}\mspace{7mu}{({\cong {T_{\mathcal{E}}\mathcal{M}}})}}$ directly with elements $\mathcal{X} \in \mathcal{M}$. We have,
+
+Clearly from Fig. 6,
+
+See the Appendices for details on the implementation of these maps for different manifolds.
+
+### II-E Plus and minus operators
+
+Plus and minus allow us to introduce increments between elements of a (curved) manifold, and express them in its (flat) tangent vector space. Denoted by $\oplus$ and $\ominus$, they combine one Exp/Log operation with one composition. Because of the non-commutativity of the composition, they are defined in right- and left- versions depending on the order of the operands. The right operators are (see Fig. 4-*right*),
+
+Because in $\operatorname{Exp}{({}_{}^{})}$ appears at the right hand side of the composition, ${}_{}^{}{}$ belongs to the tangent space at $\mathcal{X}$ (see ): we say by convention^33^3The convention sticks to that of frame transformation, *e.g.* ${}_{}^{} = {\mathbf{R}^{L}\mathbf{x}}$, where the matrix $\mathbf{R} \in {\text{SO}{}}$ transforms local vectors into global. Notice that this convention is not shared by all authors, and for example uses the opposite, ${}_{}^{} = {\mathbf{R}^{G}\mathbf{x}}$. that ${}_{}^{}{}$ is expressed in the *local* frame at $\mathcal{X}$ --- we note reference frames with a left superscript.
+
+The left operators are,
+
+Now, in $\operatorname{Exp}{({}_{}^{})}$ is on the left and we have ${}_{}^{} \in {T_{\mathcal{E}}\mathcal{M}}$: we say that ${}_{}^{}{}$ is expressed in the *global* frame.
+
+Notice that while left- and right- $\oplus$ are distinguished by the operands order, the notation $\ominus$ in and is ambiguous. In this work, we express perturbations locally by default and therefore we use the right- forms of $\oplus$ and $\ominus$ by default.
+
+### II-F The adjoint, and the adjoint matrix
+
+Figure 7: Two paths, 𝒳 ∘ and ∘ 𝒳, join the origin ℰ with the point 𝒴. They both compose the element 𝒳 with increments or ‘deltas’ expressed either in the local frame or in the origin,. Due to non-commutativity, the elements and are not equal. Their associated tangent vectors = Log () and = Log () are therefore unequal too. They are related by the linear transform = Ad𝒳 where Ad𝒳 is the adjoint of ℳ at 𝒳.
+
+If we identify $\mathcal{Y}$ in, we arrive at ${{}_{}^{} \oplus \mathcal{X}} = {\mathcal{X} \oplus {}_{}^{}}$, which determines a relation between the local and global tangent elements (Fig. 7). We develop it with as
+
+### II-F1 The adjoint
+
+We thus define the *adjoint* of $\mathcal{M}$ at $\mathcal{X}$, noted ${Ad}_{\mathcal{X}}$, to be
+
+so that ${{}_{}^{}{}_{}^{}} = {{Ad}_{\mathcal{X}}{({{}_{}^{}{}_{}^{}})}}$. This defines the *adjoint action* of the group on its own Lie algebra. The adjoint has two interesting (and easy to prove) properties,
+
+### II-F2 The adjoint matrix
+
+Since ${Ad}_{\mathcal{X}}{()}$ is linear, we can find an equivalent matrix operator ${\mathbf{A}\mathbf{d}}_{\mathcal{X}}$ that maps the Cartesian tangent vectors ${}_{}^{} \cong {{}_{}^{}{}_{}^{}}$ and ${}_{}^{} \cong {{}_{}^{}{}_{}^{}}$,
+
+which we call the *adjoint matrix*. This can be computed by applying ^∨^ to, thus writing
+
+then developing the right hand side to identify the adjoint matrix (see Ex. II-F2 and the appendices). Additional properties of the adjoint matrix are,
+
+Notice in that the left parts of the equality are usually cheaper to compute than the right ones. We will use the adjoint matrix often as a way to linearly transform vectors of the tangent space at $\mathcal{X}$ onto vectors of the tangent space at the origin, with ${}_{}^{} = {{\mathbf{A}\mathbf{d}}_{\mathcal{X}}{}_{}^{}}$,. In this work, the adjoint matrix will be referred to as simply the adjoint.
+
+[The adjoint matrix of SE ] The SE group of rigid body motions (see App. D) has group, Lie algebra and vector elements,
+
+\mathbf{R} &amp; \mathbf{t} \\
+\lbrack{\mathbf{θ}}\rbrack_{\times} &amp; {\mathbf{ρ}} \\
+
+The adjoint matrix is identified by developing as
+
+$= \left( \begin{bmatrix}
+{\mathbf{R}\lbrack{\mathbf{θ}}\rbrack_{\times}\mathbf{R}^{\top}} &amp; {{- {\mathbf{R}\lbrack{\mathbf{θ}}\rbrack_{\times}\mathbf{R}^{\top}\mathbf{t}}} + {\mathbf{R}{\mathbf{ρ}}}} \\
+\mathbf{0} &amp; \mathbf{0}
+\end{bmatrix} \right)^{\vee}$
+
+$= \left( \begin{bmatrix}
+\left\lbrack {\mathbf{R}{\mathbf{θ}}} \right\rbrack_{\times} &amp; {{\lbrack\mathbf{t}\rbrack_{\times}\mathbf{R}{\mathbf{θ}}} + {\mathbf{R}{\mathbf{ρ}}}} \\
+\mathbf{0} &amp; \mathbf{0}
+\end{bmatrix} \right)^{\vee}$
+
+{{\lbrack\mathbf{t}\rbrack_{\times}\mathbf{R}{\mathbf{θ}}} + {\mathbf{R}{\mathbf{ρ}}}} \\
+\end{bmatrix} = {\begin{bmatrix}
+\mathbf{R} &amp; {\lbrack\mathbf{t}\rbrack_{\times}\mathbf{R}} \\
+\mathbf{0} &amp; \mathbf{R}
+\end{bmatrix}\begin{bmatrix}
+
+where we used [R θ]× = R [θ]× R⊤ and [a]× b = −[b]× a. So the adjoint matrix is
+
+${\mathbf{A}\mathbf{d}}_{\mathbf{M}} = \begin{bmatrix}
+\mathbf{R} &amp; {\lbrack\mathbf{t}\rbrack_{\times}\mathbf{R}} \\
+\mathbf{0} &amp; \mathbf{R}
+\end{bmatrix}\quad \in {\mathbb{R}}^{6 \times 6}.$
+
+### II-G Derivatives on Lie groups
+
+Among the different ways to define derivatives in the context of Lie groups, we concentrate on those in the form of Jacobian matrices mapping vector tangent spaces. This is sufficient here since in these spaces uncertainties and increments can be properly and easily defined. Using these Jacobians, the formulas for uncertainty management in Lie groups will largely resemble those in vector spaces.
+
+The Jacobians described hereafter fulfill the chain rule, so that we can easily compute any Jacobian from the partial Jacobian blocks of *inversion*, *composition*, *exponentiation* and *action*. See Section III-A for details and proofs.
+
+### II-G1 Reminder: Jacobians on vector spaces
+
+For a multivariate function $f:{{\mathbb{R}}^{m}\rightarrow{\mathbb{R}}^{n}}$, the Jacobian matrix is defined as the $n \times m$ matrix stacking all partial derivatives,
+
+It is handy to define this matrix in the following form. Let us partition $\mathbf{J} = {\lbrack{\mathbf{j}_{1}\cdots\mathbf{j}_{m}}\rbrack}$, and let $\mathbf{j}_{i} = {\lbrack{\frac{\partial f_{1}}{\partial x_{i}}\cdots\frac{\partial f_{n}}{\partial x_{i}}}\rbrack}^{\top}$ be its $i$-th column vector. This column vector responds to
+
+where $\mathbf{e}_{i}$ is the $i$-th vector of the natural basis of ${\mathbb{R}}^{m}$. Regarding the numerator, notice that the vector
+
+is the variation of $f{(\mathbf{x})}$ when $\mathbf{x}$ is perturbed in the direction of $\mathbf{e}_{i}$, and that the respective Jacobian column is just $\mathbf{j}_{i} = {{\partial{{\mathbf{v}_{i}{(h)}}/{\partial h}}}|}_{h = 0} = {\lim_{h\rightarrow 0}{{\mathbf{v}_{i}{(h)}}/h}}$. In this work, for the sake of convenience, we introduce the compact form,
+
+with $\mathbf{h} \in {\mathbb{R}}^{m}$, which aglutinates all columns to form the definition of. We remark that is just a notation convenience (just as is), since division by the vector $\mathbf{h}$ is undefined and proper computation requires. However, this form may be used to calculate Jacobians by developing the numerator into a form linear in $\mathbf{h}$, and identifying the left hand side as the Jacobian, that is,
+
+Notice finally that for small values of $\mathbf{h}$ we have the linear approximation,
+
+### II-G2 Right Jacobians on Lie goups
+
+Figure 8: Right Jacobian of a function f: ℳ → 𝒩. The perturbation vectors in the canonical directions, τi = h ei ∈ T𝒳 ℳ, are propagated to perturbation vectors σi ∈ Tf (𝒳) 𝒩 through the processes of plus, apply f (), and minus (green arrows), obtaining σi (h) = f (𝒳⊕h ei) ⊖ f (𝒳). For varying values of h, notice that in ℳ the perturbations τi (h) = h ei (thick red) produce paths in ℳ (blue) along the geodesic (recall Fig. 1). Notice also that in 𝒩, due to the non-linearity of f (⋅), the image paths (solid blue) are generally not in the geodesic (dashed blue). These image paths are lifted onto the tangent space Tf (𝒳) 𝒩, producing smooth curved paths (thin solid red). The column vectors ji of J (thick red) are the derivatives of the lifted paths evaluated at f (𝒳), i.e., ji = limh → 0σi (h)/h. Each h ei ∈ T𝒳 ℳ gives place to a ji ∈ Tf (𝒳) 𝒩, and thus the resulting Jacobian matrix J = [j1 ⋯ jm] ∈ ℝn × m linearly maps vectors from T𝒳 ℳ ≅ ℝm to Tf (𝒳) 𝒩 ≅ ℝn.
+
+Inspired by the standard derivative definition above, we can now use our $\oplus$ and $\ominus$ operators to define Jacobians of functions $f:{\mathcal{M}\rightarrow\mathcal{N}}$ acting on manifolds (see Fig. 8). Using the right- $\{ \oplus, \ominus \}$ in place of $\{ +, - \}$ we obtain a form akin to the standard derivative,^44^4The notation $\frac{D\mathcal{Y}}{D\mathcal{X}} = \frac{Df{(\mathcal{X})}}{D\mathcal{X}}$ is chosen in front of other alternatives in order to make the chain rule readable, *i.e.*, $\frac{D\mathcal{Z}}{D\mathcal{X}} = {\frac{D\mathcal{Z}}{D\mathcal{Y}}\frac{D\mathcal{Y}}{D\mathcal{X}}}$. We will later introduce the lighter notation $\mathbf{J}_{\mathcal{X}}^{\mathcal{Y}} \triangleq \frac{D\mathcal{Y}}{D\mathcal{X}}$.
+
+$\frac{{}_{}^{}f{(\mathcal{X})}}{D\mathcal{X}}$ $\triangleq \lim\limits_{{\mathbf{τ}}\rightarrow 0}\frac{{f{({\mathcal{X} \oplus {\mathbf{τ}}})}} \ominus {f{(\mathcal{X})}}}{\mathbf{τ}}\mspace{45mu} \in {\mathbb{R}}^{n \times m}$ (41a)
+$= {\lim\limits_{{\mathbf{τ}}\rightarrow 0}\frac{\operatorname{Log}\left( {{{f{(\mathcal{X})}^{- 1}} \circ f}{({\mathcal{X} \circ {\operatorname{Exp}{({\mathbf{τ}})}}})}} \right)}{\mathbf{τ}}}$ (41b)
+${= \left. \frac{\partial{\operatorname{Log}\left( {{{f{(\mathcal{X})}^{- 1}} \circ f}{({\mathcal{X} \circ {\operatorname{Exp}{({\mathbf{τ}})}}})}} \right)}}{\partial{\mathbf{τ}}} \right|_{{\mathbf{τ}} = 0}}.$ (41c)
+
+We call this Jacobian the *right Jacobian of $f$*. Notice that (41c) is just the standard derivative of the rather complicated function ${g{({\mathbf{τ}})}} = {\operatorname{Log}\left( {{{f{(\mathcal{X})}^{- 1}} \circ f}{({\mathcal{X} \circ {\operatorname{Exp}{({\mathbf{τ}})}}})}} \right)}$. Writing it as in (41a) conveys much more intuition: it is the derivative of $f{(\mathcal{X})}$ with respect to $\mathcal{X}$, only that we expressed the infinitesimal variations in the tangent spaces! Indeed, thanks to the way right- $\oplus$ and $\ominus$ operate, variations in $\mathcal{X}$ and $f{(\mathcal{X})}$ are now expressed as vectors in the local tangent spaces, *i.e.*, tangent respectively at $\mathcal{X} \in \mathcal{M}$ and ${f{(\mathcal{X})}} \in \mathcal{N}$. This derivative is then a proper Jacobian matrix ${\mathbb{R}}^{n \times m}$ linearly mapping the *local* tangent spaces ${T_{\mathcal{X}}\mathcal{M}}\rightarrow{T_{f{(\mathcal{X})}}\mathcal{N}}$ (and we mark the derivative with a local '$\mathcal{X}$' superscript). Just as in vector spaces, the columns of this matrix correspond to directional derivatives. That is, the vector
+
+(see Fig. 8 again, and compare ${\mathbf{σ}}_{i}$ in with $\mathbf{v}_{i}$ in ) is the variation of $f{(\mathcal{X})}$ when $\mathcal{X}$ varies in the direction of $\mathbf{e}_{i}$. Its respective Jacobian column is $\mathbf{j}_{i} = {{\partial{{{\mathbf{σ}}_{i}{(h)}}/{\partial h}}}|}_{h = 0}$.
+
+As before, we use (41a) to actually find Jacobians by resorting to the same mechanism. For example, for a 3D rotation $f:{{{\text{SO}{}}\rightarrow{\mathbb{R}}^{3}};{{f{(\mathbf{R})}} = {\mathbf{R}\mathbf{p}}}}$, we have $\mathcal{M} = {\text{SO}{}}$ and $\mathcal{N} = {\mathbb{R}}^{3}$ and so (see App. B-C5 ‣ A micro Lie theory for state estimation in robotics")),
+
+Many examples of this mechanism can be observed in Section III and the appendices. Remark that whenever the function $f$ passes from one manifold to another, the plus and minus operators in (41a) must be selected appropriately: $\oplus$ for the domain $\mathcal{M}$, and $\ominus$ for the codomain or image $\mathcal{N}$.
+
+For small values of $\mathbf{τ}$, the following approximation holds,
+
+### II-G3 Left Jacobians on Lie groups
+
+Derivatives can also be defined from the left- plus and minus operators, leading to,
+
+which we call the *left Jacobian of $f$*. Notice that now ${\mathbf{τ}} \in {T_{\mathcal{E}}\mathcal{M}}$, and the numerator belongs to $T_{\mathcal{E}}\mathcal{N}$, thus the left Jacobian is a $n \times m$ matrix mapping the *global* tangent spaces, ${T_{\mathcal{E}}\mathcal{M}}\rightarrow{T_{\mathcal{E}}\mathcal{N}}$, which are the Lie algebras of $\mathcal{M}$ and $\mathcal{N}$ (and we mark the derivative with a global or origin '$\mathcal{E}$' superscript). For small values of $\mathbf{τ}$ the following holds,
+
+Figure 9: Linear maps between all tangent spaces involved in a function 𝒴 = f (𝒳), from ℳ to 𝒩. The linear maps = Ad𝒳, = Ad𝒴, ${}_{}^{} = {\frac{{}_{}^{}\mathcal{Y}}{D\mathcal{X}}{}_{}^{}}$, and ${}_{}^{} = {\frac{{}_{}^{}\mathcal{Y}}{D\mathcal{X}}{}_{}^{}}$, form a loop (solid) that leads to. The crossed Jacobians (dashed) form more mapping loops leading to.
+
+We can show from (see Fig. 9) that left and right Jacobians are related by the adjoints of $\mathcal{M}$ and $\mathcal{N}$,
+
+### II-G4 Crossed right--left Jacobians
+
+One can also define Jacobians using right-plus but left-minus, or vice versa. Though improbable, these are sometimes useful, since they map local to global tangents or vice versa. To keep it short, we will just relate them to the other Jacobians through the adjoints,
+
+where $\mathcal{Y} = {f{(\mathcal{X})}}$. Now, the upper and lower super-scripts indicate the reference frames where the differentials are expressed. Respective small-tau approximations read,
+
+### II-H Uncertainty in manifolds, covariance propagation
+
+We define local perturbations $\mathbf{τ}$ around a point $\overline{\mathcal{X}} \in \mathcal{M}$ in the tangent vector space $T_{\overline{\mathcal{X}}}\mathcal{M}$, using right- $\oplus$ and $\ominus$,
+
+Covariances matrices can be properly defined on this tangent space at $\overline{\mathcal{X}}$ through the standard expectation operator ${\mathbb{E}}{\lbrack \cdot \rbrack}$,
+
+allowing us to define Gaussian variables on manifolds, $\mathcal{X} \sim {\mathcal{N}{(\overline{\mathcal{X}},\mathbf{\Sigma}_{\mathcal{X}})}}$, see Fig. 10. Notice that although we write $\mathbf{\Sigma}_{\mathcal{X}}$, the covariance is rather that of the tangent perturbation $\mathbf{τ}$. Since the dimension $m$ of $T\mathcal{M}$ matches the degrees of freedom of $\mathcal{M}$, these covariances are well defined.^55^5A naive definition $\mathbf{\Sigma}_{\mathcal{X}} \triangleq {{\mathbb{E}}{\lbrack{{({\mathcal{X} - \overline{\mathcal{X}}})}{({\mathcal{X} - \overline{\mathcal{X}}})}^{\top}}\rbrack}}$ is always ill-defined if ${{size}{(\mathcal{X})}} > {\dim{(\mathcal{M})}}$, which is the case for most non-trivial manifolds.
+
+Figure 10: Uncertainty around a point $\overline{\mathcal{X}} \in \mathcal{M}$ is properly expressed as a covariance on the vector space tangent at the point (red). Using ⊕, the probability ellipses in the tangent space are wrapped over the manifold (blue), thus illustrating the probability concentration region on the group.
+
+Perturbations can also be expressed in the global reference, that is, in the tangent space at the origin $T_{\mathcal{E}}\mathcal{M}$, using left- $\oplus$ and $\ominus$,
+
+This allows global specification of covariance matrices using left-minus in. For example, a 3D orientation that is known up to rotations in the horizontal plane can be associated to a covariance ${}_{}^{} = {\operatorname{diag}{(\sigma_{\phi}^{2},\sigma_{\theta}^{2},\infty)}}$. Since "horizontal" is a global specification, ${}_{}^{}{}$ must be specified in the global reference.
+
+Since global and local perturbations are related by the adjoint, their covariances can be transformed with
+
+Covariance propagation through a function $f:{{\mathcal{M}\rightarrow\mathcal{N}};{\mathcal{X}\mapsto\mathcal{Y} = {f{(\mathcal{X})}}}}$ just requires the linearization with Jacobian matrices (41a) to yield the familiar formula,
+
+### II-I Discrete integration on manifolds
+
+The exponential map ${\mathcal{X}{(t)}} = {\mathcal{X}_{0} \circ {\operatorname{Exp}{({\mathbf{v}t})}}}$ performs the continuous-time integral of constant velocities $\mathbf{v} \in {T_{\mathcal{X}_{0}}\mathcal{M}}$ onto the manifold. Non-constant velocities $\mathbf{v}{(t)}$ are typically handled by segmenting them into piecewise constant bits $\mathbf{v}_{k} \in {T_{\mathcal{X}_{k - 1}}\mathcal{M}}$, of (short) duration $\deltat_{k}$, and writing the discrete integral
+
+Equivalently (Fig. 11), we can define ${\mathbf{τ}}_{k} = {\mathbf{v}_{k}\deltat_{k}}$ and construct the integral as a "sum" of (small) discrete tangent steps ${\mathbf{τ}}_{k} \in {T_{\mathcal{X}_{k - 1}}\mathcal{M}}$, *i.e.*, ${\mathcal{X}_{k} \triangleq {\mathcal{X}_{0} \oplus {\mathbf{τ}}_{1} \oplus {\mathbf{τ}}_{2} \oplus \cdots \oplus {\mathbf{τ}}_{k}}}.$ We write all these variants in recursive form,
+
+Figure 11: Motion integration on a manifold. Each motion data produces a step τk ∈ T𝒳k − 1 ℳ, which is wrapped to a local motion increment or ‘delta’ δk = Exp (τk) ∈ ℳ, and then composed with 𝒳k − 1 to yield 𝒳k = 𝒳k − 1 ∘ δk = 𝒳k − 1 ∘ Exp (τk) = 𝒳k − 1 ⊕ τk ∈ ℳ.
+
+Common examples are the integration of 3D angular rates $\mathbf{ω}$ into the rotation matrix, $\mathbf{R}_{k} = {\mathbf{R}_{k - 1}{\operatorname{Exp}{({{\mathbf{ω}}_{k}\deltat})}}}$, or into the quaternion, $\mathbf{q}_{k} = {\mathbf{q}_{k - 1}{\operatorname{Exp}{({{\mathbf{ω}}_{k}\deltat})}}}$.
+
+## Differentiation rules on manifolds
+
+For all the typical manifolds $\mathcal{M}$ that we use, we can determine closed forms for the elementary Jacobians of *inversion*, *composition*, *exponentiation* and *action*. Moreover, some of these forms can be related to the adjoint ${\mathbf{A}\mathbf{d}}_{\mathcal{X}}$, which becomes a central block of the differentiation process. Other forms for $\operatorname{Log}$, $\oplus$ and $\ominus$ can be easily derived from them. Once these forms or 'blocks' are found, all other Jacobians follow by the chain rule. Except for the so-called *left Jacobian*, which we also present below, all Jacobians developed here are right-Jacobians, *i.e.*, defined by (41a). By following the hints here, the interested reader should find no particular difficulties in developing the left-Jacobians. For the reader not willing to do this effort, equation can be used to this end, since
+
+We use the notations $\mathbf{J}_{\mathcal{X}}^{f{(\mathcal{X})}} \triangleq \frac{Df{(\mathcal{X})}}{D\mathcal{X}}$ and $\mathbf{J}_{\mathcal{X}}^{\mathcal{Y}} \triangleq \frac{D\mathcal{Y}}{D\mathcal{X}}$. We notice also that ${}_{}^{}$ should rather be implemented by ${\mathbf{A}\mathbf{d}}_{\mathcal{X}^{- 1}}$ ---see and the comment below them.
+
+### III-A The chain rule
+
+For $\mathcal{Y} = {f{(\mathcal{X})}}$ and $\mathcal{Z} = {g{(\mathcal{Y})}}$ we have $\mathcal{Z} = {g{({f{(\mathcal{X})}})}}$. The chain rule simply states,
+
+We prove it here for the right Jacobian using thrice,
+
+with the arrows indicating limit as ${\mathbf{τ}}\rightarrow 0$, and so $\mathbf{J}_{\mathcal{X}}^{\mathcal{Z}} = {\mathbf{J}_{\mathcal{Y}}^{\mathcal{Z}}\mathbf{J}_{\mathcal{X}}^{\mathcal{Y}}}$. The proof for the left and crossed Jacobians is akin, using respectively. Notice that when mixing right, left and crossed Jacobians, we need to chain also the reference frames, as in *e.g.*
+
+where the first identity of is proven by writing,
+
+and identifying in the first and third rows.
+
+### III-B Elementary Jacobian blocks
+
+### III-B1 Inverse
+
+### III-B2 Composition
+
+and using as above and,
+
+### III-B3 Jacobians of $\mathcal{M}$
+
+We define the *right Jacobian of $\mathcal{M}$* as the right Jacobian of $\mathcal{X} = {\operatorname{Exp}{({\mathbf{τ}})}}$, *i.e.*, for ${\mathbf{τ}} \in {\mathbb{R}}^{m}$,
+
+which is defined with (41a). The right Jacobian maps variations of the argument $\mathbf{τ}$ into variations in the *local* tangent space at $\operatorname{Exp}{({\mathbf{τ}})}$. From (41a) it is easy to prove that, for small $\delta{\mathbf{τ}}$, the following approximations hold,
+
+Complementarily, the *left Jacobian of $\mathcal{M}$* is defined by,
+
+using the left Jacobian, leading to the approximations
+
+The left Jacobian maps variations of the argument $\mathbf{τ}$ into variations in the *global* tangent space or Lie algebra. From we can relate left- and right- Jacobians with the adjoint,
+
+Also, the chain rule allows us to relate $\mathbf{J}_{r}$ and $\mathbf{J}_{l}$,
+
+Closed forms of $\mathbf{J}_{r}$, ${}_{}^{}$, $\mathbf{J}_{l}$ and ${}_{}^{}$ exist for the typical manifolds in use. See the appendices for reference.
+
+### III-B4 Group action
+
+For $\mathcal{X} \in \mathcal{M}$ and $v \in \mathcal{V}$, we define with (41a)
+
+Since group actions depend on the set $\mathcal{V}$, these expressions cannot be generalized. See the appendices for reference.
+
+### III-C Useful, but deduced, Jacobian blocks
+
+### III-C1 $\operatorname{Log}$ map
+
+For ${\mathbf{τ}} = {\operatorname{Log}{(\mathcal{X})}}$, and from,
+
+### III-C2 Plus and minus
+
+and given $\mathcal{Z} = {\mathcal{X}^{- 1} \circ \mathcal{Y}}$ and ${\mathbf{τ}} = {\mathcal{Y} \ominus \mathcal{X}} = {\operatorname{Log}{(\mathcal{Z})}}$,
+
+where the former is proven here
+
+## Composite manifolds
+
+At the price of losing some consistency with the Lie theory, but at the benefit of obtaining some advantages in notation and manipulation, one can consider large and heterogeneous states as manifold composites (or bundles).
+
+We consider the space of translations t ∈ ℝn and rotations R ∈ SO (n). We have for this the well-known SE (n) manifold of rigid motions $\mathbf{M} = \begin{bmatrix}
+\mathbf{R} &amp; \mathbf{t} \\
+\end{bmatrix}$ (see Apps. C and D), which can also be constructed as T (n) × SO (n) (see Apps. A, B and E). These two are very similar, but have different tangent parametrizations: while SE (n) uses τ = (θ,ρ) with M = exp (τ∧), T (n) × SO (n) uses τ = (θ,p) with M = exp (p∧) exp (θ∧). They share the rotational part θ, but clearly ρ ≠ p (see [11, pag. 35] for further details). In short, SE (n) performs translation and rotation simultaneously as a continuum, while T (n) × SO (n) performs chained translation+rotation. In radical contrast, in the composite ⟨ℝn, SO (n)⟩ rotations and translations do not interact at all. By combining composition with Exp () we obtain the (right) plus operators,
+
+{\mathbf{R}{\operatorname{Exp}{({\mathbf{θ}})}}} &amp; {\mathbf{t} + {{\mathbf{R}\mathbf{V}}{({\mathbf{θ}})}{\mathbf{ρ}}}} \\
+
+{\mathbf{R}{\operatorname{Exp}{({\mathbf{θ}})}}} &amp; {\mathbf{t} + {\mathbf{R}\mathbf{p}}} \\
+
+{\mathbf{R}{\operatorname{Exp}{({\mathbf{θ}})}}}
+
+where either ⊕ may be used for the system dynamics, e.g. motion integration, but usually not * X, which might however be used to model perturbations. Their respective minus operators read,
+
+{\mathbf{V}_{1}^{- 1}\mathbf{R}_{1}^{\top}{({\mathbf{p}_{2} - \mathbf{p}_{1}})}} \\
+{\operatorname{Log}{({\mathbf{R}_{1}^{\top}\mathbf{R}_{2}})}}
+
+{\mathbf{R}_{1}^{\top}{({\mathbf{p}_{2} - \mathbf{p}_{1}})}} \\
+{\operatorname{Log}{({\mathbf{R}_{1}^{\top}\mathbf{R}_{2}})}}
+
+{\operatorname{Log}{({\mathbf{R}_{1}^{\top}\mathbf{R}_{2}})}}
+
+where now, interestingly, * X can be used to evaluate errors and uncertainty. This makes * X, * X valuable operators for computing derivatives and covariances.
+
+A *composite manifold* $\mathcal{M} = {\langle\mathcal{M}_{1},\cdots,\mathcal{M}_{M}\rangle}$ is no less than the concatenation of $M$ non-interacting manifolds. This stems from defining identity, inverse and composition acting on each block of the composite separately,
+
+thereby fulfilling the group axioms, as well as a non-interacting retraction map, which we will also note as "exponential map" for the sake of unifying notations (notice the angled brackets),
+
+thereby ensuring smoothness. These yield the composite's right- plus and minus (notice the diamond symbols),
+
+The key consequence of these considerations (see Ex. IV) is that new derivatives can be defined,^66^6We assume here right derivatives, but the same applies to left derivatives. using ${\ast}X{}$ and ${\ast}X{}$,
+
+With this derivative, Jacobians of functions $f:{\mathcal{M}\rightarrow\mathcal{N}}$ acting on composite manifolds can be determined in a per-block basis, which yields simple expressions requiring only knowledge on the manifold blocks of the composite,
+
+where $\frac{Df_{i}}{D\mathcal{X}_{j}}$ are each computed with (41a). For small values of $\mathbf{τ}$ the following holds,
+
+When using these derivatives, covariances and uncertainty propagation must follow the convention. In particular, the covariance matrix becomes
+
+for which the linearized propagation using applies.
+
+## Landmark-based localization and mapping
+
+We provide three applicative examples of the theory for robot localization and mapping. The first one is a Kalman filter for landmark-based localization. The second one is a graph-based smoothing method for simultaneous localization and mapping. The third one adds sensor self-calibration. They are based on a common setup, explained as follows.
+
+We consider a robot in the plane (see Section V-D for the 3D case) surrounded by a small number of punctual landmarks or *beacons*. The robot receives control actions in the form of axial and angular velocities and is able to measure the location of the beacons with respect to its own reference frame.
+
+The robot pose is in $\text{SE}{}$ (App. C ‣ A micro Lie theory for state estimation in robotics")) and the beacon positions in ${\mathbb{R}}^{2}$ (App. E and 𝑇⁢(𝑛) ‣ A micro Lie theory for state estimation in robotics")),
+
+The control signal $\mathbf{u}$ is a twist in ${\mathfrak{s}}{\mathfrak{e}}{}$ comprising longitudinal velocity $v$ and angular velocity $\omega$, with no lateral velocity component, integrated over the sampling time $\deltat$. The control is corrupted by additive Gaussian noise $\mathbf{w} \sim {\mathcal{N}{(\mathbf{0},\mathbf{W})}}$. This noise accounts for possible lateral wheel slippages $u_{s}$ through a value of $\sigma_{s} \neq 0$,
+
+At the arrival of a control $\mathbf{u}_{j}$ at time $j$, the robot pose is updated with,
+
+Landmark measurements are of the range and bearing type, though they are put in Cartesian form for simplicity. Their noise $\mathbf{n} \sim {\mathcal{N}{(\mathbf{0},\mathbf{N})}}$ is zero mean Gaussian,
+
+where we notice the rigid motion action $\mathcal{X}^{- 1} \cdot \mathbf{b}_{k}$ (see App. C ‣ A micro Lie theory for state estimation in robotics")).
+
+### V-A Localization with error-state Kalman filter on manifold
+
+We initially consider the beacons $\mathbf{b}_{k}$ situated at known positions. We define the pose to estimate as $\hat{\mathcal{X}} \in {\text{SE}{}}$. The estimation error $\delta\mathbf{x}$ and its covariance $\mathbf{P}$ are expressed in the tangent space at $\hat{\mathcal{X}}$ with,
+
+At each robot motion we apply ESKF prediction,
+
+with the Jacobians computed from the blocks in App. C ‣ A micro Lie theory for state estimation in robotics"),
+
+At each beacon measurement $\mathbf{y}_{k}$ we apply ESKF correction,
+
+with the Jacobian computed from the blocks in App. C ‣ A micro Lie theory for state estimation in robotics"),
+
+Notice that the only changes with respect to a regular EKF are in and, where regular $+$ are substituted by $\oplus$. The Jacobians on the contrary are all computed using the Lie theory (see App. C ‣ A micro Lie theory for state estimation in robotics")). Interstingly, their usage is the same as in standard EKF --- see *e.g.* the equation of the Kalman gain, which is the standard $\mathbf{K} = {{\mathbf{P}\mathbf{H}}^{\top}{({{\mathbf{H}\mathbf{P}\mathbf{H}}^{\top} + \mathbf{N}})}^{- 1}}$.
+
+### V-B Smooting and Mapping with graph-based optimization
+
+We consider now the problem of smoothing and mapping (SAM), where the variables to estimate are the beacons' locations and the robot's trajectory. The solver of choice is a graph-based iterative least-squares optimizer. For simplicity, we assume the trajectory comprised of three robot poses $\{{\mathcal{X}_{1}\cdots\mathcal{X}_{3}}\}$, and a world with three beacons $\{{\mathbf{b}_{4}\cdots\mathbf{b}_{6}}\}$. The problem state is the composite
+
+The resulting factor graph is shown in Fig. 12. Each prior or measurement contributes a factor in the graph. Motion measurements from pose $i$ to $j$ are derived from, while measurements of beacon $k$ from pose $i$ respond to,
+
+Figure 12: SAM factor graph with 3 poses and 3 beacons. Each measurement contributes a factor in the graph. There are 2 motion factors (black) and 5 beacon factors (gray). A prior factor on 𝒳1 provides global observability.
+
+Each factor comes with an information matrix, $\mathbf{\Omega}_{1} \triangleq \mathbf{W}_{1}^{- 1}$, $\mathbf{\Omega}_{ij} \triangleq \mathbf{W}_{ij}^{- 1}$ and $\mathbf{\Omega}_{ik} \triangleq \mathbf{N}_{ik}^{- 1}$. The expectation residuals are,
+
+The optimum update step $\delta\mathbf{x}$ stems from minimizing
+
+with $\mathcal{P} = {\{ 1,12,23,14,15,25,26,36\}}$ the set of node pairs of each measurement (see Fig. 12). The problem is solved iteratively as follows. Each residual in the sum is linearized to ${\mathbf{r}_{p}{({{{\mathcal{X}} \ast}X{}\delta\mathbf{x}})}} \approx {{{\mathbf{r}_{p}{(\mathcal{X})}} \ast}X{}\mathbf{J}_{\mathcal{X}}^{\mathbf{r}_{p}}\delta\mathbf{x}}$ following, where $\mathbf{J}_{\mathcal{X}}^{\mathbf{r}_{p}}$ are sparse Jacobians. The non-zero blocks of these Jacobians, that is $\mathbf{J}_{\mathcal{X}_{1}}^{\mathbf{r}_{1}}$, $\mathbf{J}_{\mathcal{X}_{i}}^{\mathbf{r}_{ij}}$, $\mathbf{J}_{\mathcal{X}_{j}}^{\mathbf{r}_{ij}}$, $\mathbf{J}_{\mathcal{X}_{i}}^{\mathbf{r}_{ik}}$ and $\mathbf{J}_{\mathbf{b}_{k}}^{\mathbf{r}_{ik}}$, can be easily computed following the methods in Section V-A, and noticing that by definition ${\mathbf{J}_{\delta\mathbf{x}}^{f{({\mathcal{X} \oplus {\delta\mathbf{x}}})}}|}_{{\delta\mathbf{x}} = 0} = {\mathbf{J}_{\mathcal{X}}^{f{({\mathcal{X} \oplus {\delta\mathbf{x}}})}}|}_{{\delta\mathbf{x}} = 0} = \mathbf{J}_{\mathcal{X}}^{f{(\mathcal{X})}}$. Building the total Jacobian matrix and residual vector,
+
+the linearized is now transformed to minimizing
+
+This is solved via least-squares using the pseudoinverse of $\mathbf{J}$ (for large problems, QR or Cholesky factorizations are required),
+
+The procedure is iterated until convergence.
+
+We highlight here the use of the composite notation in, which allows block-wise definitions of the Jacobian and the update. We also remark the use of the $\text{SE}{}$ manifold in the motion and measurement models, as we did in the ESKF case in Section V-A.
+
+### V-C Smoothing and mapping with self-calibration
+
+We consider the same problem as above but with a motion sensor affected by an unknown calibration bias $\mathbf{c} = {(c_{v},c_{\omega})}^{\top}$, so that the control is now $\overset{\sim}{\mathbf{u}} = {{({{v\deltat} + c_{v}},0,{{\omega\deltat} + c_{\omega}})}^{\top} + \mathbf{w}}$. We define the bias correction function $c{()}$,
+
+The state composite is augmented with the unknowns $\mathbf{c}$,
+
+and the motion residual becomes
+
+The procedure is as in Section V-B above, and just the total Jacobian is modified with an extra column on the left,
+
+where $\mathbf{J}_{\mathbf{c}}^{\mathbf{r}_{ij}} = {\mathbf{\Omega}_{ij}^{\top{/2}}\mathbf{J}_{\mathbf{c}}^{c{(\mathbf{u}_{ij},\mathbf{c})}}}$, with $\mathbf{J}_{\mathbf{c}}^{c{(\mathbf{u}_{ij},\mathbf{c})}}$ the $3 \times 2$ Jacobian of. The optimal solution is obtained with. The resulting optimal state $\mathcal{X}$ includes an optimal estimate of $\mathbf{c}$, that is, the self-calibration of the sensor bias.
+
+### V-D 3D implementations
+
+It is surprisingly easy to bring all the examples above to 3D. It suffices to define all variables in the correct spaces: $\mathcal{X} \in {\text{SE}{}}$ and $\mathbf{u} \in {\mathbb{R}}^{6} \cong {{\mathfrak{s}}{\mathfrak{e}}{}}$ (App. D ‣ A micro Lie theory for state estimation in robotics")), and ${\{\mathbf{b}_{k},\mathbf{y}\}} \in {\mathbb{R}}^{3}$ (App. E and 𝑇⁢(𝑛) ‣ A micro Lie theory for state estimation in robotics")). Jacobians and covariances matrices will follow with appropriate sizes. The interest here is in realizing that all the math in the algorithms, that is from onwards, is exactly the same for 2D and 3D: the abstraction level provided by the Lie theory has made this possible.
+
+## Conclusion
+
+We have presented the essential of Lie theory in a form that should be useful for an audience skilled in state estimation, with a focus on robotics applications. This we have done through several initiatives:
+
+First, a selection of materials that avoids abstract mathematical concepts as much as possible. This helps to focus Lie theory to make its tools easier to understand and to use.
+
+Second, we chose a didactical approach, with significant redundancy. The main text is generic and covers the abstract points of Lie theory. It is accompanied by boxed examples, which ground the abstract concepts to particular Lie groups, and plenty of figures with very verbose captions.
+
+Third, we have promoted the usage of handy operators, such as the capitalized $\operatorname{Exp}{()}$ and $\operatorname{Log}{()}$ maps, and the plus and minus operators $\oplus, \ominus,{{\ast}X{}},{{\ast}X{}}$. They allow us to work on the Cartesian representation of the tangent spaces, producing formulas for derivatives and covariance handling that greatly resemble their counterparts in standard vector spaces.
+
+Fourth, we have made special emphasis on the definition, geometrical interpretation, and computation of Jacobians. For this, we have introduced notations for the Jacobian matrices and covariances that allow a manipulation that is visually powerful. In particular, the chain rule is clearly visible with this notation. This helps to build intuition and reducing errors.
+
+Fifth, we present in the appendices that follow an extensive compendium of formulas for the most common groups in robotics. In 2D, we present the rotation groups of unit complex numbers $S^{1}$ and rotation matrices $\text{SO}{}$, and the rigid motion group $\text{SE}{}$. In 3D, we present the groups of unit quaternions $S^{3}$ and rotation matrices $\text{SO}{}$, both used for rotations, and the rigid motion group $\text{SE}{}$. We also present the translation groups for any dimension, which can be implemented by either the standard vector space ${\mathbb{R}}^{n}$ under addition, or by the matrix translation group $T{(n)}$ under multiplication.
+
+Sixth, we have presented some applicative examples to illustrate the capacity of Lie theory to solve robotics problems with elegance and precision. The somewhat naive concept of composite group helps to unify heterogeneous state vectors into a Lie-theoretic form.
+
+Finally, we accompany this text with the new C++ library manif implementing the tools described here. manif can be found at [https://github.com/artivis/manif](https://github.com/artivis/manif). The applications in Section V are demonstrated in manif as examples.
+
+Though we do not introduce any new theoretical material, we believe the form in which Lie theory is here exposed will help many researchers enter the field for their future developments. We also believe this alone represents a valuable contribution.

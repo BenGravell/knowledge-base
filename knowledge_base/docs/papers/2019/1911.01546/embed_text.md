@@ -1,0 +1,186 @@
+## Introduction
+
+A key goal in reinforcement learning (RL) is to quickly learn to make good decisions by interacting with an environment. In most cases the quality of the decision policy is evaluated with respect to its expected (discounted) sum of rewards. However, in many interesting cases, it is important to consider the full distributions over the potential sum of rewards, and the desired objective may be a risk-sensitive measure of this distribution. For example, a patient undergoing a surgery for a knee replacement will (hopefully) only experience that procedure once or twice, and may will be interested in the distribution of potential results for a single procedure, rather than what may happen on average if he or she were to undertake that procedure hundreds of time. Finance and (machine) control are other cases where interest in risk-sensitive outcomes are common.
+
+A popular risk-sensitive measure of a distribution of outcomes is the Conditional Value at Risk (CVaR) (?). Intuitively, CVaR is the expected reward in the worst $\alpha$-fraction of outcomes, and has seen extensive use in financial portfolio optimization (?), often under the name "expected shortfall". While there has been recent interest in the RL community in learning to converge or identify good CVaR decision policies in Markov decision processes (?; ?; ?; ?), interestingly we are unaware of prior work focused on how to quickly learn such CVaR MDP policies, even though sample efficient RL for maximizing expected outcomes is a deep and well studied theoretical (?; ?) and empirical (?) topic. Sample efficient exploration seems of equal or even more importance in the case when the goal is risk-averse outcomes.
+
+In this paper we work towards sample efficient reinforcement learning algorithms that can quickly identify a policy with an optimal CVaR. Our focus is in minimizing the amount of experience needed to find such a policy, similar in spirit to probably approximately correct RL methods for expected reward. Note that this is different than another important topic in risk-sensitive RL, which focuses on safe exploration: algorithms that focus on avoiding any potentially very poor outcomes during learning. These typically rely on local smoothness assumptions and do not typically focus on sample efficiency (?; ?); an interesting question for future work is whether one can do both safe and efficient learning of a CVaR policy. Our work is suitable for the many settings where some outcomes are undesirable but not catastrophic.
+
+Our approach is inspired by the popular and effective principle of optimism in the face of uncertainty (OFU) in sample efficient RL for maximizing expected outcomes (?; ?). Such work typically works by considering uncertainty over the MDP model parameters or state-action value function, and constructing an optimistic value function given that uncertainty that is then used to guide decision making. To take a similar idea for rapidly learning the optimal CVaR policy, we seek to consider the uncertainty in the distribution of outcomes possible and the resulting CVaR value. To do so, we use the Dvoretzky-Kiefer-Wolfowitz (DKW) inequality---while to our knowledge this has not been previously used in reinforcement learning settings, it is a very useful concentration inequality for our purposes as it provides bounds on the true cumulative distribution function (CDF) given a set of sampled outcomes. We leverage these bounds in order to compute optimistic estimates of the optimal CVaR.
+
+Our interest is in creating empirically efficient and scalable algorithms that have a theoretically sound grounding. To that end, we introduce a new algorithm for quickly learning a CVaR policy in MDPs and show that at least in the evaluation case in tabular MDPs, this algorithm indeed produces optimistic estimates of the CVaR. We also show that it does converge eventually. We accompany the theoretical evidence with an empirical evaluation. We provide encouraging empirical results on a machine replacement task (?), a classic MDP where risk sensitive policies are critical, as well as a well validated simulator for type 1 diabetes (?) and a simulated treatment optimization task for HIV (?). In all cases we find a substantial benefit over simpler exploration strategies. To our knowledge this is the first algorithm that performs strategic exploration to learn good CVaR MDP policies.
+
+## Background and Notation
+
+Let $X$ be a bounded random variable with cumulative distribution function ${F{(x)}} = {{\mathbb{P}}{\lbrack{X \leq x}\rbrack}}$. The *conditional value at risk (CVaR)* at level $\alpha \in {}$ of a random variable $X$ is then defined as (?):
+
+We define the inverse CDF as ${F^{- 1}{(u)}} = {\inf{\{ x:{{F{(x)}} \geq u}\}}}$. It is well known that when $X$ has a continuous distribution, ${{CVaR}_{\alpha}{(X)}} = {{\mathbb{E}}_{X \sim F}{\lbrack{\left. X \middle| X \right. \leq {F^{- 1}{(\alpha)}}}\rbrack}}$ (?). For ease of notation we sometimes write $CVaR$ as a function of the CDF $F$, ${CVaR}_{\alpha}{(F)}$.
+
+We are interested in the $CVaR$ of the discounted cumulative reward in a Markov Decision Process (MDP). An MDP is defined by a tuple $(\mathcal{S},\mathcal{A},R,P,\gamma)$, where $\mathcal{S}$ and $\mathcal{A}$ are finite state and action space, $r \sim {R{(s,a)}}$ is the reward distribution, $s^{\prime} \sim {P{(s,a)}}$ is the transition kernel and $\gamma \in {\lbrack 0,1)}$ is the discount factor. A stationary policy $\pi$ maps each state $s \in \mathcal{S}$ to a probability distribution over action space $\mathcal{A}$.
+
+Let $\mathcal{Z}$ denote the space of distributions over returns (discounted cumulative rewards) from such an MDP, and assume that these returns are in $\lbrack V_{\min},V_{\max}\rbrack$ almost surely, where $V_{\min} \geq 0$. We define ${Z_{\pi}{(s,a)}} \in \mathcal{Z}$ to be the distribution of the return of policy $\pi$ with CDF $F_{Z_{\pi}{(s,a)}}$ and initial state action pair ${(s,a)} \in {\mathcal{S} \times \mathcal{A}}$ as ${Z_{\pi}{(s,a)}}:={\text{Law}_{\pi}\left( {{\left. {\sum_{t = 0}^{\infty}{\gamma^{t}R_{t}}} \middle| S_{0} \right. = s},{A_{0} = a}} \right)}$. RL algorithms most commonly optimize policies for expected return and explicitly learn Q-values, ${Q^{\pi}{(s,a)}} = {{\mathbb{E}}{\lbrack{Z_{\pi}{(s,a)}}\rbrack}}$ by applying approximate versions of Bellman backups. Instead, we are interested in other properties of the return distribution and we will build on several recently proposed algorithms that aim to learn a parametric model of the entire return distribution instead of only its expectation. Such approaches are known as *distributional RL methods*.
+
+### Distributional Reinforcement Learning
+
+Distributional RL methods apply a sample-based approximation to distributional versions of the usual Bellman operators. For example, one can define a distributional Bellman operator (?) as $\mathcal{T}^{\pi}:{\mathcal{Z}\rightarrow\mathcal{Z}}$ as
+
+where $\overset{D}{=}$ denotes equality in distribution, and the transition operator is defined as ${P^{\pi}Z{(s,a)}}\overset{D}{:=}{Z{(s^{\prime},a^{\prime})}}$ with $s^{\prime} \sim P{( \cdot |s,a)}$, $a^{\prime} \sim {\pi{(s)}}$. The optimality version $\mathcal{T}$ is similarly any ${\mathcal{T}Z} = {\mathcal{T}^{\pi}Z}$ where $\pi$ is an optimal policy w.r.t. expected return. Note that this is not necessarily unique when there are multiple optimal policies. (?) showed that $\mathcal{T}^{\pi}$ is a $\sqrt{\gamma}$-contraction in the Cramér-metric, ${\overline{\ell}}_{2}$
+
+One of the canonical algorithms in distributional RL is CDRL or C51 (?) which represent the return distribution $Z^{\pi}$ as a discrete distribution with fixed support on $N$ atoms ${{\{{z_{i} = {V_{\min} + {i\Deltaz}}}:{0 \leq i < N}\}},{\Deltaz}}:=\frac{V_{\max} - V_{\min}}{N - 1}$ the discrete distribution is parameterized as $\theta:{{\mathcal{S} \times \mathcal{A}}\rightarrow{\mathbb{R}}^{N}}$:
+
+Essentially, C51 uses a sample transition $(s,a,r,s^{\prime})$ to perform an approximate Bellman backup $Z\leftarrow{\Pi_{\mathcal{C}}\hat{\mathcal{T}}Z}$, where $\hat{\mathcal{T}}$ is a sample-based Bellman operator and $\Pi_{\mathcal{C}}$ is a projection back onto the support of discrete distribution $\{ z_{0},\ldots,z_{N - 1}\}$.
+
+## Optimistic Distributional Operator
+
+In contrast to the typical RL setup where an agent tries to maximize its expected return, we seek to learn a stationary policy that maximizes the ${CVaR}_{\alpha}$ of the return at risk level $\alpha$.^11^1Note that the $CVaR$-optimal policy at any state can be non-stationary (?), as it depends on the sum of rewards achieved up to that state. For simplicity, as (?) we instead seek a stationary policy, which will generally can be suboptimal but typically still achieve high CVaR, as observed in our experiments. To find such policies quickly, we follow the optimism-in-the-face-of-uncertainty (OFU) principle and introduce optimism in our CVaR estimates to guide exploration. While adding a bonus to rewards is a popular approach for optimism in the standard expected return case (?), we here follow a different approach and introduce optimism into our return estimates by shifting the empirical CDFs. Formally, consider a return distribution ${Z{(s,a)}} \in \mathcal{Z}$ with CDF $F_{Z{(s,a)}}{(x)}$. We define the optimism operator $O_{c}:{\mathcal{Z}\rightarrow\mathcal{Z}}$ as
+
+where $c$ is a constant and ${( \cdot )}^{+}$ is short for $\max{\{ \cdot,0\}}$. In the definition above, $n{(s,a)}$ is the number of times the pair $(s,a)$ has been observed so far or an approximation such as pseudo-counts (?). By shifting the cumulative distribution function down, this operator essentially puts probability mass from the lower tail to the highest possible value $V_{\max}$. An illustration is provided in Figure 1.
+
+Figure 1: Top-left: Empirical CDF Top-right: The lower DKW confidence band (a shifted-down version of the empirical CDF). Bottom-left: Empirical PDF. Bottom-right: Optimistic PDF.
+
+This approach to optimism is motivated by an application of the DKW-inequality to the empirical CDF. As shown recently by (?), this can yield tighter upper confidence bounds on the CVaR.
+
+## Theoretical Analysis
+
+The optimistic operator introduced above operates on the entire return distribution and our algorithm introduced in the next section combines this optimistic operator to estimated return-to-go distributions. As such, it belongs to the family of distributional RL methods (?). These methods are a recent development and come with strong asymptotic convergence guarantees when used for *policy evaluation* in tabular MDPs (?). Yet, finite sample guarantees such as regret or PAC bounds still remain elusive for distributional RL policy optimization algorithms.
+
+A key technical challenge in proving performing bounds for distributionally robust policy optimization during RL is that convergence of the distributional Bellman optimality operator can generally not be guaranteed. Prior results have only showed that if the optimization process itself is to compute a policy which maximizes expected returns, such as Q-learning, then convergence of the distirbutional Bellman optimality operator is guaranteed to converge. (?, Theorem 2). Note however that if the goal is to leverage distributional information to compute a policy to maximize something other than expected outcomes, such as a risk sensitive policy like we consider here, no prior theoretical results are known in the reinforcement learning setting to our knowledge. However, it is promising that there is some empirical evidence that one can compute risk-sensitive policies using distributional Bellman operators (?) which suggests that more theoretical results may be possible.
+
+Here we take a first step towards this goal. Our primary aim in this work is to provide tools to introduce optimism into distributional return-to-go estimates to guide sample-efficient exploration for CVaR. Therefore, our theoretical analysis focuses on showing that this form of optimism does not harm convergence and is indeed a principled way to obtain optimistic CVaR estimates.
+
+First, we prove that the optimism operator is a non-expansion in the Cramér distance. This results shows that this operator can be used with other contraction operators without negatively impacting the convergence behaviour. Specifically we can guarantee convergence with distributional Bellman backup.
+
+### Proposition 1
+
+For any $c$, the $O_{c}$ operator is a non-expansion in the Cramér distance ${\overline{\ell}}_{2}$. This implies that optimistic distributional Bellman backups $O_{c}\mathcal{T}^{\pi}$ and the projected version $\Pi_{\mathcal{C}}O_{c}\mathcal{T}^{\pi}$ are $\sqrt{\gamma}$-contractions in ${\overline{\ell}}_{2}$ and iterates of these operators converge in ${\overline{\ell}}_{2}$ to a unique fixed-point.
+
+Next, we provide theoretical evidence that this operator indeed produces optimistic CVaR estimates. Consider here batch policy evaluation in MDPs $M$ with finite state- and action-spaces. Assume that we have collected a fixed number of samples $n{(s,a)}$ (which can vary across states and actions) and build an empirical model $\hat{M}$ of the MDP. For any policy $\pi$, let ${\hat{\mathcal{T}}}^{\pi}$ denote the distributional Bellman operator in this empirical MDP. Then we indeed achieve optimistic estimates by the following result:
+
+### Theorem 2
+
+Let the shift parameter in the optimistic operator be sufficiently large which is $c = {O\left( {\ln{({{{|\mathcal{S}|}{|\mathcal{A}|}}/\delta})}} \right)}$. Then with probability at least $1 - \delta$, the iterates ${CVaR}_{\alpha}{({{({O_{c}{\hat{\mathcal{T}}}^{\pi}})}^{m}Z_{0}})}$ converges for any risk level $\alpha$ and initial $Z_{0} \in \mathcal{Z}$ to an optimistic estimate of the policy's conditional value at risk. That is, with probability at least $1 - \delta$,
+
+This theorem uses the DKW inequality which to the best of our knowledge has not been used for MDPs. Note, that the statement guarantees optimism for all risk levels $\alpha \in {\lbrack 0,1\rbrack}$ without paying a penalty for it. Since we estimate the transitions and rewards for each state and action separately, one generally does not expect to be able to use a shift parameter smaller than $\Omega{({\ln{({{{|\mathcal{S}|}{|\mathcal{A}|}}/\delta})}})}$. Thus, Theorem 2 is unimprovable in that sense. Specifically, we avoid a polynomial dependency on the number of states $|\mathcal{S}|$ in the shift parameter $c$ by combining two techniques: concentration inequalities w.r.t. the optimal CVaR of the next state for a certain finite set of alphas and a covering argument to get optimism for all infinitely many $\alpha \in {\lbrack 0,1\rbrack}$. This is substantially more involved than the expected reward case.
+
+These results are a key step towards finite-sample analyses. In future work it would be very interesting to obtain a convergence analysis for distributional Bellman optimality operators in general, though this is outside the scope of this current paper. Such a result could lead to sample-complexity guarantees when combined with our existing analysis.
+
+## Algorithm
+
+In the policy evaluation case where we would like to compute optimistic estimates of the CVaR of a given observed policy $\pi$, our algorithm essentially performs an approximate version of the optimistic Bellman update $O_{c}\mathcal{T}^{\pi}$ where $\mathcal{T}^{\pi}$ is the distributional Bellman operator. For the control case where we would like to learn a policy that maximizes CVaR, we instead define a distributional Bellman optimality operator $\mathcal{T}_{\alpha}$. Analogous to prior work (?), $\mathcal{T}_{\alpha}$ is any operator that satisfies ${\mathcal{T}_{\alpha}Z} = {\mathcal{T}^{\pi}Z}$ for some policy $\pi$ that is greedy w.r.t. CVaR at level $\alpha$. Our algorithm then performs an approximate version of the optimistic Bellman backup $O_{c}\mathcal{T}_{\alpha}$, shown in Algorithm 1.
+
+The main structure of our algorithm resembles categorical distributional reinforcement learning (C51) (?). In a similar vein, our algorithm also maintains a return distribution estimate for each state-action pair, represented as a set of $N$ weights $p_{i}{(s,a)}$ for $i \in {\lbrack N\rbrack}$. These weights represent a discrete distribution with outcomes at $N$ equally spaced locations $z_{0} < z_{1} < \cdots < z_{N - 1}$, each ${\Deltaz} = \frac{V_{\max} - V_{\min}}{N - 1}$ apart. The current probability assigned to outcome $z_{i}$ in $(s,a)$ is denoted by $p_{i}{(s,a)}$, where the atom probabilities $p_{1:N}{(s,a)}$ are given by a differentiable model such as a neural network, similar to C51. Note that other parameterized representations of the weights (?) are straightforward to incorporate.
+
+The main differences between Algorithm 1 and existing distributional RL algorithms (e.g. C51) are highlighted in red. We first apply an optimism operator to our successor distribution $F_{Z{(s_{t + 1},a)}}$ (Lines 1--1) to form an optimistic CDF ${\overset{\sim}{F}}_{Z{(s_{t + 1},a)}}$ for all actions $a \in \mathcal{A}$. This operator should encourage exploring actions that might lead to higher CVaR policies for our input $\alpha$. These optimistic CDFs are also used to decide on the successor action in the control setting (Line 1). Then, similar to C51 we apply the Bellman operator $\hat{\mathcal{T}}z_{i}$ for $i \in {\lbrack N\rbrack}$ and distribute the probability of ${\overset{\sim}{p}}_{i}$ to the immediate neighbours of $\hat{\mathcal{T}}z_{i}$, where we calculate the probability mass ${\overset{\sim}{p}}_{i}$ with the optimistic CDF ${\overset{\sim}{F}}_{Z{(s_{t + 1},a^{\star})}}$ (Line 1).
+
+Input: Parameters: γ, risk level α ∈, c ≥ 0, density model ρ,
+/* emp. CDF of return for (st + 1,a′) */
+/* Pseudo-counts using density model */
+$\hat{n} = \frac{1}{{\exp{({\kappat^{- {1/2}}\alpha{({{{\nabla\log}\rho_{\theta}}{(s_{t + 1},a^{\prime})}})}^{2}})}} - 1}$ /* Optimistic CDF */
+5 ${{\overset{\sim}{F}}^{a^{\prime}}{(x)}}:=\left\lbrack {{{\hat{F}}^{a^{\prime}}{(x)}} - \frac{c\mathbf{1}{\{{x \in {\lbrack V_{\min},V_{\max})}}\}}}{\sqrt{\hat{n}}}} \right\rbrack^{+}$;
+8 $a^{\star}\leftarrow{\operatorname{argmax}_{a \in \mathcal{A}}{{CVaR}_{\alpha}{({\overset{\sim}{F}}^{a})}}}$
+/* optimistic PDF from opt. CDF */
+15 ${\overset{\sim}{p}}_{j}\leftarrow{{{\overset{\sim}{F}}^{a^{\star}}\left( {z_{j} + \frac{\Deltaz}{2}} \right)} - {{\overset{\sim}{F}}^{a^{\star}}\left( {z_{j} - \frac{\Deltaz}{2}} \right)}}$;
+16 ${\overset{\sim}{\mathcal{T}}z_{j}}\leftarrow{\lbrack{r_{t} + {\gammaz_{j}}}\rbrack}_{V_{\min}}^{V_{\max}}$;
+/* Distribute prob. of $\overset{\sim}{\mathcal{T}}{(z_{j})}$ */
+17 $b_{j}\leftarrow{{({{\overset{\sim}{\mathcal{T}}z_{j}} - V_{\min}})}/{({\Deltaz})}}$;
+20 $m_{l}\leftarrow{m_{l} + {{\overset{\sim}{p}}_{j}{({u - b_{j}})}}}$;
+21 $m_{u}\leftarrow{m_{u} + {{\overset{\sim}{p}}_{j}{({b_{j} - l})}}}$;
+23 Update return weights p1: N by optimization step on cross-entropy loss $- {\sum_{j = 0}^{N - 1}{m_{j}{\log p_{j}}{(s_{t},a_{t})}}}$;
+/* Take next action */
+25 Update density model for ρ with additional observation of (st + 1,at + 1);
+
+Following (?), we train this model using the cross-entropy loss, which for a particular state transition at time $t$ is
+
+where $m_{0:{N - 1}}$ are the weights of the target distribution computed in Lines 1--1 in Algorithm 1. In the tabular setting we can directly update the probability mass $p_{j}$ by
+
+where $\beta$ is the learning rate.
+
+In tabular settings, the counts n(s,a) can be directly stored and used; however, this is not the case in continuous settings. For this reason, we adopt the pseudo-count estimation method proposed by (?) and replace $n{(s,a)}$ by a pseudo-count ${\hat{N}}_{t}{(s,a)}$ in the optimistic distributional operator (Equation 4). Let $\rho$ be a density model and $\rho_{t}{(s,a)}$ the probability assigned to the state action pair $(s,a)$ by the model after $t$ training steps. The prediction gain $PG$ of $\rho$ is defined
+
+Where $\rho_{t}^{\prime}{(s,a)}$ is the probability assigned to $(s,a)$ if it were trained on that same $(s,a)$ one more time. Now we define the pseudo count of $(s,a)$ as
+
+where $\kappa$ is a constant hyper-parameter, and ${({PG{(s,a)}})}_{+}$ thresholds the value of the prediction gain at 0.
+
+Our setting differs from (?) in the sense that we have to compute the count before taking the action $a$. A naive way would be to try all actions and train the model to compute the counts but this method is slow and requires the environment to support an undo action. Instead, we can estimate $PG$ for all actions as follows. Consider the density model parametrized by $\theta$, $\rho{(s,a;\theta)}$. After observing $(s,a)$, the training step to maximize the log likelihood will update the parameters by $\theta^{\prime} = {\theta + {\alpha{{\nabla_{\theta}\log}\rho}{(s,a;\theta)}}}$, where $\alpha$ is the learning rate. So we can approximate the new log probability using a first-order Taylor expansion
+
+This calculation suggests that the prediction gain can be estimated just by computing the gradient of the log likelihood given a state-action pair, i.e., ${PG{(s,a)}} \approx {\alpha{({{{\nabla_{\theta}\log}\rho}{(s,a;\theta)}})}^{2}}$. As discussed in (?) this estimate of prediction gain is biased, but empirically we have found this method to perform well.
+
+## Experimental Evaluation
+
+We validate our algorithm empirically in three simulated environments against baseline approaches. Finance, health and operations are common areas where risk-sensitive strategies are important, and we focus on two health domains and one operations domain. Details, where omitted, are provided in the supplemental material.
+
+### Machine Replacement
+
+Machine repair and replacement is a classic example in the risk sensitive literature, though to our knowledge no prior work has considered how to quickly learn a good risk-sensitive policy for such domains. Here we consider a minor variant of a prior setting (?). Specifically, as shown in Figure 2, the environment consists of a chain of $n$ (25 in our experiments) states. There are two actions: *replace* and *don't replace* the machine. Choosing *replace* at any state terminates the episode, while choosing *don't replace* moves the agent to the next state in the chain. At the end of the chain, choosing *don't replace* terminates the episode with a high variance cost, and choosing *replace* terminates the episode with a higher cost but lower variance. This environment is especially a challenging exploration task due to the chain structure of the MDP, as well as the high variance of the reward distributions when taking actions in the last state. Additionally in this MDP it is feasible to exactly compute the ${CVaR}_{0.25}$-optimal policy, which allows us to compare the learned policy to the true optimal CVaR policy. Note here that the optimal policy for maximizing ${CVaR}_{0.25}$ is to *replace* on the final state in the chain to avoid the high variance alternative; in contrast, the optimal policy for expected return always chooses *don't replace*.
+
+Figure 2: Machine Replacement: This environment consists of a chain of n states, each affording two actions: replace and don’t replace.
+
+### HIV Treatment
+
+In order to test our algorithm on a larger continuous state space, we leverage an HIV Treatment simulator. The environment is based on the implementation by (?) of the physical model described in (?). The patient state is represented as a $6$-dimensional continuous vector and the reward is a function of number of free HIV viruses, immune response of the body to HIV, and side effects. There are four actions, each determining which drugs are administered for the next $20$ day period: Reverse Transcriptase Inhibitors (RTI), Protease Inhibitors (PI), neither, or both. There are $50$ time steps in total per episode, for a total of $1000$ days. We chose here a larger number of days per time step compared to the typical setup ($200$ steps of $5$ days each) to facilitate faster experimentation. This design choice also makes the exploration task harder, since taking one wrong action can drastically destabilize a patient's trajectory. The original proposed model was deterministic, which makes the CVaR policy identical to the policy optimizing the expected value. Such simulators are rarely a perfect proxy for real systems, and in our setting we add Gaussian noise $\sim {\mathcal{N}{(0,0.01)}}$ to the efficacy of each drug (RTI: $\epsilon_{1}$ and PI: $\epsilon_{2}$ in (?)). This change necessitates risk-sensitive policies in this environment.
+
+Figure 3: Machine Replacement: The thick grey dashed line is the CVaR0.25-optimal policy. The thin dashed lines labeled as the suboptimal policy is the optimal expectation-maximizing policy. The shaded area shows the 95% confidence intervals.
+
+Figure 4: Comparison of our approach against an ϵ-greedy and IQN baseline. All models were trained to optimize the CVaR0.25 of the return on a stochastic version of the HIV simulator (?). Top: Objective CVaR0.25; Bottom: Discounted expected return of the same policies as in top plot.
+
+Figure 5: Type 1 diabetes simulator: CVaR0.25 for three different adults. Plots are averaged over 10 runs with 95% CI.
+
+Figure 6: Type 1 Diabetes simulator, percent of episodes where patients experienced a severe medical condition (hypoglycemia or hyperglycemia), averaged across 10 runs
+
+### Diabetes 1 Treatment
+
+Patients with type 1 diabetes regulate their blood glucose level with insulin in order to avoid hypoglycemia or hyperglycemia (very low or very high blood glucose level, respectively). A simulator has been created (?) that is an open source version of a simulator that was approved by the FDA as a substitute for certain pre-clinical trials. The state is continuous-valued vector of the current blood glucose level and the amount of carbohydrate intake (through food). The action space is discretized into 6 levels of a bolus insulin injection. The reward function is defined similar to the prior work (?) as following:
+
+Where ${bg^{\prime}} = {{bg}/18.018018}$ which is the estimate of bg (blood glucose) in mmol/L.
+
+Additionally we inject two source of stochasticity into the taken action: First, we add Gaussian noise $\mathcal{N}{}$ to the action. Second, we delay the time of the injection by at most 5 steps, where the probability of injection at time $t$ is higher than time ${{t + i},i} \geq 1$ following the power law. Each simulation lasts for 200 steps, during which a patient eats five meals. The agent chooses an action after each meal, and after the 200 steps each patient resets to its initial state.
+
+This domain also readily offers a suite of related tasks, since the environment simulates 30 patients with slightly different dynamics. Tuning hyper-parameters on the same task can be misleading (?), as is the case in our two previous benchmarks. In this setting we tune baselines and our method on one patient, and test the performance on different patients.
+
+### Baselines and Experimental Setup
+
+The majority of prior risk-sensitive RL work has not focused on efficient exploration, and there has been very little deep distributional RL work focused on risk sensitivity. Our key contribution is to evaluate the impact of more strategic exploration on the efficiency with which a risk-sensitive policy can be learned. We compare to following approaches:
+
+$\epsilon$-greedy CVaR: In this benchmark we use the same algorithm, except we do not introduce an optimism operator, instead using an $\epsilon$-greedy approach for exploration. This benchmark can be viewed as analogous to the distributional RL methods of C51 (?) if the computed policy had optimized for CVaR instead of expected reward.
+
+IQN-$\epsilon$-greedy CVaR: In this benchmark we use implicit quantile network (IQN) that also uses $\epsilon$-greedy method for exploration (?). We adopted the dopamine implementation of IQN (?).
+
+CVaR-AC: An actor-critic method proposed by (?) that maximizes the expected return while satisfying an inequality constraint on the $CVaR$. This method relies on the stochasticity of the policy for exploration.
+
+Note that a comparison to an expectation maximizing algorithm is uninformative since such approaches are maximizing different (non-risk-sensitive) objectives.
+
+All of these algorithms use hyperparameters, and it is well recognized that $\epsilon$-greedy algorithms can often perform quite well if their hyperparameters are well-tuned. To provide a fair comparison, we evaluated across a number of schedules for reducing the $\epsilon$ parameter for both $\epsilon$-greedy and IQN, and a small set of parameters (4-7) for the optimism value $c$ for our method. We used the specification described in Appendix C of (?) for CVaR-AC.
+
+The system architectures used in continuous settings are identical for Baseline 1 ($\epsilon$-greedy) and our method. This consists of 2 hidden layers of size 32 with ReLU activation for Diabetes 1 Treatment, and 4 hidden layers of size 128 with ReLU activation for HIV Treatment, both followed by a softmax layer for each action. Similarly for IQN we used the same architecture, followed by a cosine embedding function and a fully connected layer of size 128 for HIV Treatment (32 for Diabetes 1 Treatment) with ReLU activation, followed by a softmax layer. The density model is a realNVP (?) with 3 hidden layers each of size 64.
+
+All results are averaged over 10 runs and we report 95% confidence intervals. We report the performance of $\epsilon$-greedy at evaluation time (setting $\epsilon$ = 0), which is the best performance of $\epsilon$-greedy.
+
+For the Diabetes Treatment domain, hyperparameters are optimized only on adult#001. We then report results of the methods using those hyperparameters on adult#003, adult#004 and adult#005.
+
+### Results and Discussion
+
+Results on machine replacement environment (Figure 3), HIV Treatment (Figure 4) and Diabetes 1 Treatment (Figure 5) all show our optimistic algorithm achieves better performance much faster than the baselines.
+
+In Machine Replacement (Figure 3) we see that our method quickly converges to the optimal CVaR performance. Unfortunately despite our best efforts, our implementation of CVaR-AC did not perform well even on the simplest environment, so we did not show the performance of this method on other environments. One challenge here is that CVaR-AC has a significant number of hyper-parameters, including 3 different learning rates schedule for the optimization process, initial Lagrange multipliers and the kernel functions.
+
+In the HIV Treatment we also see a clear and substantial benefit to our optimistic approach over the baseline $\epsilon$-greedy approach and IQN(Figure 4).
+
+Figure 5 is particularly encouraging, as it shows the results for the diabetes simulator across 3 patients, where the hyperparameters were fixed after optimizing for a separate patient. Since in real settings it would be commonly necessary to fix the hyperparameters in advance, this result provides a nice demonstration that the optimistic approach can consistently equal or significantly improve over an $\epsilon$-greedy policy in related settings, similar to the well known results in Atari in which hyperparameters are optimized for one game and then used for multiple others.
+
+### "Safer" Exploration
+
+Our primary contribution is a new algorithm to learn risk-sensitive policies quickly, with less data. However, an interesting side benefit of such a method might be that the number of extremely poor outcomes experienced over time may also be reduced, not due to explicitly prioritizing a form of safe exploration, but because our algorithm may enable a faster convergence to a safe policy. To evaluate this, we consider a risk measure proposed by (?), which quantifies the risk of a severe medical condition based on how close their glucose level is to hypoglycemia (blood glucose, $\leq$`<!-- -->`{=html}3.9 mmol/l) and hyperglycemia (blood glucose, $\geq$`<!-- -->`{=html}10 mmol/l).
+
+Table 6 shows the fraction of episodes in which each patient experienced a severely poor outcome for each algorithm while learning. Optimism-based exploration approximately halves the number of episodes with severely poor outcomes, highlighting a side benefit of our optimistic approach of more quickly learning a good safe policy.
+
+## Related Work
+
+Optimizing policies for risk sensitivity in MDPs has been long studied, with policy gradient (?; ?), actor critic (?) and TD methods (?; ?). While most of this work considers mean-variance trade objectives, (?) establish a connection between a optimizing CVaR and robustness to modeling errors, presenting a value iteration algorithm. In contrast, we do not assume access to transition and rewards models. (?) present a policy gradient and actor-critic algorithm for an expectation-maximizing objective with a CVaR constraint. None of these works considers systematic exploration but rely on heuristics such as $\epsilon$-greedy or on the stochasticity of the policy for exploration. Instead, we focus on how to explore systematically to find a good CVaR-policy.
+
+Our work builds upon recent advances on distributional RL (?; ?; ?) which are still concerned with optimizing expected return. Notably, (?) aims to train risk-averse and risk-seeking agents, but does not address the exploration problem or attempts to find optimal policies quickly.
+
+(?) uses risk-averse objectives to guide exploration for good performance w.r.t. expected return. (?) leverages the return distribution learned in distributional RL as a means for optimism in deterministic environments. (?) follow a similar pattern but can handle stochastic environments by disentangling intrinsic and parametric uncertainty. While they also evaluate the policy that picks the VaR-greedy action in one experiment, their algorithm still optimizes expected return during learning. In general, these approaches are fundamentally different from ours which learns CVaR policies in stochastic environments efficiently by introducing optimism *into* the learned return distribution.
+
+## Conclusion
+
+We present a new algorithm for quickly learning CVaR-optimal policies in Markov decision processes. This algorithm is the first to leverage optimism in combination with distributional reinforcement learning to learn risk-averse policies in a sample-efficient manner. Unlike existing work on expected return criteria which rely on reward bonuses for optimism, We introduce optimism by directly modifying the target return distribution and provide a theoretical justification that in the evaluation case for finite MDPs, this indeed yields optimistic estimates. We further empirically observe significantly faster learning of CVaR-optimal policies by our algorithm compared to existing baselines on several benchmark tasks. This includes simulated healthcare tasks where risk-averse policies are of particular interest: HIV medication treatment and insulin pump control for diabetes type 1 patients.

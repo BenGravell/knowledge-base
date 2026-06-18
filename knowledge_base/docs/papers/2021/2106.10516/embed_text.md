@@ -1,0 +1,141 @@
+## Introduction
+
+PID controllers are the most popular form of feedback control in industrial applications. In general, the PID gains need to be tuned to obtain good performance. In addition, potential actuator saturation must be taken into account, since saturation can induce integrator wind-up, resulting in unexpected transients during operation. To address the above issues, PID tuning can be performed using classical control based on a model of the plant devised either from prior knowledge or system identification. Model-free PID tuning has also been explored by performing selective experiments to tune the gains gradually. Notably, machine learning approaches such as tune the controller parameters without a system model. In practice, we usually have some prior knowledge of the system and can use it to obtain a coarse system model. The results in show that a coarse model can be useful in obtaining an initial robust controller. Indeed, given a coarse model for a linear system, we can apply several controller design techniques, both classical (PID, loop shaping) and modern (LQR, $H^{\infty}$). However, when non-linearities induced by actuator saturation are present, simple controller design techniques are not available. In this setting, the back-calculation method is the simplest anti-windup technique.
+
+We explore using the back-calculation method together with a non-convex optimization approach based on differentiating through the system model, actuator, and the feedback loop to tune the feedback gains. This approach is inspired by recent work on differentiable physics engines/models. In particular, we episodically tune the controller parameters by simulating with the current parameters, evaluating the cost, and performing gradient descent on the cost objective. By propagating the gradients over time for the entire simulation, we capture the controller parameters' long-term dependencies on the system's dynamics. The use of automatic differentiation tools, e.g., in TensorFlow, PyTorch, or as stand-alone code, enable us to easily compute required gradients on-the-fly without using analytical techniques. The computational cost scales with the simulation horizon. For reasonable time horizons, the method can be efficiently implemented on a modern CPU.
+
+The non-convex optimization problem of interest is posed as an output-feedback controller design with augmented state and marginally stabilizable, detectable dynamics. This framework is developed by treating the errors due to actuator saturation as an additional disturbance and predicting future disturbances using disturbance estimates at previous time-steps. Using this approach, we can show an equivalence between the back-calculation method and the class of disturbance feedback controllers introduced in. We leave the convergence analysis of gradient descent for this optimization problem to future work. Here we perform simulations on four different systems with saturation to show the efficacy of the approach.
+
+We discuss our work's relation to the existing literature in section II. Then in section III, we introduce a framework to analyze the optimization's convergence properties. We perform numerical experiments to illustrate our approach in section IV, and conclude in section V.
+
+## Related Work
+
+### Machine learning for PID tuning and anti-windup design
+
+PID tuning is a well-studied problem, see e.g.,. Much of the previous work has focused on black-box optimization, reinforcement learning, and model-free tuning. We briefly discuss these approaches below.
+
+Black-box PID tuning includes approaches such as genetic algorithms, particle swarm optimization, and model-free decision trees. These do not incorporate an explicit model of the system. A distinct approach to PID tuning uses reinforcement learning. Here, both model-based and model-free approaches are explored. For example, the authors of use a model-based reinforcement learning approach with a Gaussian Process model to tune the PID gains for a seven degree-of-freedom robot arm. However, their algorithm ignores actuator saturation. Reference tunes fuzzy PD and PI controllers using the Q-learning algorithm. Similarly, uses the model-free Q-learning algorithm to tune the PID gains for a cart-pole system. Also, uses an actor-critic RL algorithm with a neural Q-function to tune the PID parameters with back-calculation.
+
+In addition to tuning the PID parameters, we want to address actuator saturation. Anti-windup compensation has been tackled by both classical and modern control techniques. Among these approaches, the back-calculation method is a simple and effective scheme for compensating for integrator wind-up. It requires an actuator model with knowledge of the saturation limits. Even though the scheme lacks the formal stability and robustness guarantees of modern anti-windup design, its simplicity is appealing. Also relevant is the idea of treating the errors due to actuator saturation as a disturbance. We adopt this approach.
+
+### Differentiable models
+
+There is recent work in building physics engines that can be differentiated through to update model parameters or train controllers. Notably, in, the differentiable model approach is effective even in learning controllers from raw images. Our work is complementary in two aspects. First, before extending the differentiable physics approach to complex problems, it would be interesting to understand its performance on simple systems with purely saturation non-linearities. If this is effective, then second, it would be of interest to tune PID controllers (with saturation) using standard automatic differentiation tools.
+
+### Theoretical machine learning and control
+
+Recent growth at the intersection of machine learning theory and control theory has enabled better understanding of some long-standing problems. A class of disturbance feedback policies is introduced and optimized using a convex relaxation in. In, it has been shown that model-based control approaches are often sample-efficient compared to model-free reinforcement learning for linear systems control. References, show the convergence of gradient descent and policy optimization for non-convex state feedback LQR and $H_{2},$ $H_{\infty}$ controller design. However, the output feedback case is less studied. In our work, we seek a model-based approach applicable to systems with saturation. Actuator saturation is one of the most common forms of non-linearity in practical control systems. We explore a relationship between the back-calculation anti-windup method and disturbance feedback policies.
+
+## Disturbance feedback for anti-windup compensation
+
+Assume the system to be controlled has a stabilizable and detectable state space representation:
+
+Here $u_{t} \in {\mathbb{R}}^{m}$, ${x_{t} \in {\mathbb{R}}^{n}},$ and $y_{t} \in {\mathbb{R}}^{p}$ are the input, state, and output at time $t,$ respectively. To model actuator saturation, we modify to:
+
+### III-A Back-calculation method
+
+In the back-calculation method, the errors due to actuator saturation are integrated and fed back to prevent windup. Let $r_{t}$ denote the reference signal to be tracked, and $P_{t},$ $I_{t},$ and $D_{t}$ denote the proportional, integral, and derivative signal components of the PID controller, respectively. Then a standard back-calculation PID controller is given by:
+
+Here $\Delta$ is the difference operator, $\alpha$ is a filter parameter, $k_{p}$, $k_{i}$, $k_{d}$ and $b$ are the proportional, integral, derivative and back-calculation feedback gains. Finally, $u_{\text{low}}$ (resp. $u_{\text{high}}$) is the minimum (resp. maximum) actuator output. Here, $r_{t}$ is just a reference operating point and can be set to $0$ for analysis.
+
+### III-B Disturbance feedback policies and back-calculation
+
+We now connect the back-calculation technique to disturbance feedback policies. To do so, we formulate a controller design starting from the linear state-space system in.
+
+### PID controller design
+
+We first pose PID tuning as output-feedback controller design. Since we feedback integral and derivative terms, we append these terms to the state. Let
+
+Then, form the augmented state ${X_{t} = {\lbrack x_{t};x_{t - 1};i_{t}\rbrack}},$ and the augmented state-space equations:
+
+We write these equations more concisely as:
+
+with $w_{t}$ and $e_{t}$ defined appropriately. If the initial system is stabilizable and detectable, so is the augmented version. This is because the dynamics of the augmented states are not directly controllable. If the system in equation 1 is exponentially stable, then the augmented states cannot grow exponentially.
+
+All PID controllers (with $\alpha = 0$) can be expressed as $u_{t} = {- {KY_{t}}}$ for the system. If the state was measurable, i.e. $\overset{\sim}{C} = I$, the problem would reduce to LQR, and the optimal PID gains can be obtained by both gradient descent and policy optimization. However, the output-feedback controller optimization problem is still open. For $\alpha \neq 0$, it is straightforward to introduce a controller that stores the filtered derivative as its state. Such a controller would not be purely state/output feedback. Let $X_{t}^{c}$ be the controller state at time $t$. The controller with $\alpha \neq 0$ can be expressed as:
+
+We append $X_{t}^{c}$ to $X_{t}$ to augment the state-space further:
+
+Henceforth, we assume $\alpha = 0$ with the extension to $\alpha \neq 0$ possible with the above controller state.
+
+### III-B1 Actuator saturation as a disturbance
+
+Let $w_{t}^{a} \triangleq {B^{\prime}{({{\text{sat}{(u_{t})}} - u_{t}})}}$ denote the saturation error. We treat the saturation error as a disturbance and write
+
+The error $w_{t}^{a}$ is a non-linear function of the input. It can be modeled as adversarial (as in some online learning settings). To handle adversarial disturbances, introduces disturbance feedback policies of the form:
+
+If this approach is provided with a stabilizing controller $K$, the resulting online optimization is convex and provides tight regret bounds. To draw the connection between disturbance feedback policies and back-calculation, we observe that if $h$ is the length of the simulation horizon and $K_{d}^{\lbrack l\rbrack} = K_{d}$ for all $l$, this class of controllers reduces to the back-calculation method. In back-calculation we integrate the disturbances due to actuator saturation and feed it back to the input.
+
+### III-B2 Disturbance feedback policies in episodic learning
+
+Here, we focus on an episodic setting. We run an episode with the PID parameters and tune the parameters episodically. In this case, additional modeling assumptions are required for disturbance feedback controllers to be meaningful. We postulate that the disturbance has marginally stable dynamics that we want to learn. Hence, we introduce a predictor for $w_{t}^{a}$:
+
+We want the state to be sufficient for selecting the control action at any given time. Hence we augment the state to
+
+When the disturbance is purely stochastic (no internal dynamics), state/output feedback is optimal. Here we model disturbance dynamics and use the model to obtain a class of disturbance feedback policies. Using the augmented state $Z_{t}$, we can write the dynamics as:
+
+with $w_{t}^{r}$ the unmodeled disturbance. The dynamics of $w_{t}^{a}$ has to be at least marginally stable in order for a controller to stabilize the system, but it need not be asymptotically stable. The class of output-feedback controllers $u_{t} = {- {KY_{t}^{z}}}$ can be expressed as:
+
+This gives a general class of controllers that includes disturbance-feedback controllers and the back-calculation method. Further, for the specific scenario of anti-windup compensation, we can recover $w_{t}^{a}$ required in the policy using the assumed actuator model.
+
+### III-B3 Optimization for Parameter Tuning
+
+In order to tune $K_{c}$ and $K_{d}$, we perform gradient descent with the objective function
+
+Solving this optimization problem using gradient-descent does not require explicit learning of the disturbance dynamics since the controller parameters can be directly optimized. Note that the dynamics are only marginally stabilizable. However, the uncontrollable and marginally stable components of the state do not appear in the cost function. A theoretical understanding of gradient descent for marginally stabilizable systems with output feedback is beyond the scope of this work. We relegate this study to future work and for the present paper perform an empirical evaluation of this non-convex optimization problem.
+
+## Numerical Results
+
+We illustrate the proposed approach of tuning the controller parameters by differentiating through the model around the feedback loop using four different systems. The setup for the different experiments is summarized in Table I.
+
+Limits on the step reference
+Initial feedback gains
+
+TABLE I: Setup of the experiments
+
+In each of the experiments, we use a linear system with actuator saturation. Systems 1,3 are unstable, and systems 2,4 are stable. The systems are progressively higher order and complex. The only non-linearity in the system is actuator saturation. The saturation limits were chosen to induce windup in the absence of any anti-windup strategy. The simulation horizon is chosen to balance the steady-state cost with the transient costs to obtain a good step response. If the simulation horizon is too short, then the costs in the loss function due to the transients will dominate. The controllers have to ensure precise convergence to the step after the transients. We convert the continuous-time linear system into its discrete-time counterpart using zero-order hold (ZOH) and simulate the system in discrete time. We tune the feedback gains episodically by performing gradient descent on the squared-error cost function ${\sum_{t = 1}^{T}{({y_{t} - r_{t}})}^{2}}.$ We generate $30$ reference signals and segregate them into $20$ signals used for training and $10$ used for testing.
+
+For each system, we compare four distinct controllers: The initial PI/PID controller is tuned using classical control techniques to work well without actuator saturation. Integrator windup impacts performance when saturation is present; We initialize a back-calculation constant manually to decrease windup; The PID and back-calculation parameters are then optimized using gradient descent with the Adam optimizer to obtain a third controller; This controller has dynamically changing feedback gains modeled as a small neural network with tracking error and actuation error as inputs.
+
+Simulation 1 performs step-reference tracking on system 1. After optimization, the parameters converged to $k_{p}^{\ast} = 16.58$, $k_{i}^{\ast} = 11.07$ and $b^{\ast} = 0.87$. The cost on the training and testing reference signals of the four different controllers are summarized in Table II. Optimization of the feedback gains using gradient descent is effective in improving performance. Using a neural-network to change the feedback gains dynamically does not further improve performance. This suggests that simple controllers are sufficient to control linear systems with saturation. From Figure 1, we see that both the dynamic and static optimized PI controllers are effective in preventing windup and tracking the reference accurately. In Figure 2, we plot the variation of the dynamic PI controller's feedback gains with time. It is interesting that the feedback gains switch during the transition and return to the initial values. This indicates that switching between multiple controllers depending on the input is an effective strategy to improve performance. However, for the simple systems used here, the static controller is sufficient for good performance.
+
+Initial PI with backcalculation
+
+Dynamic PI+backcalculation optimized
+
+TABLE II: Squared error cost of the four controllers on system 1. See section IV for interpretation.
+
+Figure 1: Performance of the four controllers on a difficult test reference for system 1. Left: Output of the SISO system with the four controllers. Right: Input to the system with the four controllers. See section IV for interpretation.
+
+Figure 2: Variation of the tuning constants with time for the dynamic PI controller for system 1. The red shaded region indicates periods of saturation. The controller gains switch during saturation.
+
+Simulations 2 and 3 repeat the above procedure on the second-order systems 2 and 3. In simulation 2, the parameters converged to $k_{p}^{\ast} = 11.31$, $k_{i}^{\ast} = 1.71$, $k_{d}^{\ast} = 4.26$ and $b^{\ast} = 0.23$. In simulation 3, the parameters converged to $k_{p}^{\ast} = 7.72$, $k_{i}^{\ast} = 1.47$, $k_{d}^{\ast} = 3.01$ and $b^{\ast} = 0.66$. The performance of the controllers in terms of squared error cost is summarized in table III. Figures 5 and 5, indicate that optimization of the PID controllers is effective.
+
+System 2 Test cost
+System 3 Test cost
+
+Initial PID with backcalculation
+
+PID+backcalculation optimized
+
+Dynamic PID+backcalculation optimized
+
+TABLE III: Performance of the four controllers in terms of squared error for system 2 and system 3. See section IV for interpretation.
+
+(b) System 2 feedback gains
+
+(b) System 3 feedback gains
+
+(b) System 4 feedback gains
+
+Figure 3: (a) Output of the four controllers on a step input for system 2. We can see that optimizing the PID gains both in the static and dynamic case is effective in providing a good step response. (b) Variation of the feedback gains with time for the Dynamic PID controller. The gains switch during the transition and return to their initial values. The red shaded regions denote periods of saturation
+Figure 4: (a) Output of the four controllers on a step input for system 3. We can see that optimizing the PID gains both in the static and dynamic case is effective in providing a good step response. (b) Variation of the feedback gains with time for the Dynamic PID controller. The gains switch during the transition and return to their initial values. The red shaded regions denote periods of saturation
+Figure 5: (a) Output of the four controllers on a rapidly switching reference for system 4. We can see that optimizing the PID gains both in the static and dynamic case is effective to some extent to cope up with the hard saturation limit. (b) Variation of the feedback gains with time for the Dynamic PID controller. The gains switch during the transitions and return to their initial values. The red shaded regions denote periods of saturation
+
+Finally, in simulation 4, we track a rapidly switching reference using a PID controller with back-calculation. The saturation limits constrain the controller from switching the outputs rapidly to achieve accurate tracking. However, the optimization minimizes the squared error cost. Interestingly, for rapidly switching reference signals, the feedback gains converges to $k_{p}^{\ast} = 11.78$, $k_{i}^{\ast} = {- 0.47}$, $k_{d}^{\ast} = 3.46$ and $b^{\ast} = 0.22$. The integrator gain consistently converges to negative values. For a rapidly switching reference, the transient costs outweigh the cost due to lack of precise convergence and noise. Hence, it is better to choose feedback gains that reduce overshoot and windup. This observation gives rise to an interesting phenomenon. In figure 5, we plot the system's outputs with the four different controllers. Even though actuator saturation is too limiting to switch rapidly, the optimized controllers achieve lower squared error costs and perform better.
+
+## Conclusions and Future Work
+
+We outline a PID tuning approach for linear systems with input saturation. This approach differentiates through the model and around the feedback loop to tune the controller parameters. The numerical experiments demonstrate the efficacy of this approach. We also propose a theoretical framework to analyze the convergence properties for this optimization. However, a convergence proof is beyond the scope of this work. We noted that the framework shows the equivalence of the back-calculation method and disturbance feedback policies.
+
+Future work can extend this technique for generating robust controllers for MIMO systems using robust optimization. Further, the automatic differentiation technique could also be used for tuning PID controllers in robotic systems. Output feedback controller optimization also warrants further theoretical study.

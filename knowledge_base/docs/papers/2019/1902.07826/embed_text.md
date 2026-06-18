@@ -1,0 +1,327 @@
+## Introduction
+
+One of the most straightforward methods for controlling a dynamical system with unknown transitions is based on the *certainty equivalence principle*: a model of the system is fit by observing its time evolution, and a control policy is then designed by treating the fitted model as the truth. Despite the simplicity of this method, it is challenging to guarantee its efficiency because small modeling errors may propagate to large, undesirable behaviors on long time horizons. As a result, most work on controlling systems with unknown dynamics has explicitly incorporated robustness against model uncertainty.
+
+In this work, we show that for the standard baseline of controlling an unknown linear dynamical system with a quadratic objective function known as Linear Quadratic (LQ) control, certainty equivalent control synthesis achieves *better* cost than prior methods that account for model uncertainty. Our results hold for both the fully observed Linear Quadratic Regulator (LQR) and the partially observed Linear Quadratic Gaussian (LQG) setting. For offline control, where one collects some data and then designs a fixed control policy to be run on an infinite time horizon, we show that the gap between the performance of the certainty equivalent controller and the optimal control policy scales *quadratically* with the error in the model parameters for both LQR and LQG. To the best of our knowledge, we provide the first sub-optimality guarantee for LQG. Moreover, in the LQR setting our work improves upon the recent result of Dean et al., who present an algorithm that achieves a sub-optimality gap linear in the parameter error. In the case of online LQR control, where one adaptively improves the control policy as new data comes in, our offline result implies that a simple, polynomial time algorithm using $\varepsilon$-greedy exploration suffices for nearly optimal $\overset{\sim}{\mathcal{O}}{(\sqrt{T})}$ regret.
+
+This paper is structured as follows. In Section 2 we present backround concepts and discuss our main result for LQR; we compare it to prior guarantees and discuss its consequences. Our results rely on a study of the sensitivity to parameter perturbations of the Bellman equation of LQR, known as the discrete algebraic Riccati equation. In Section 2.3, we assume the existence of a sensitivity guarantee, and use the guarantee to prove a meta theorem which quantifies the performance of the certainty equivalent controller. Then, in Section 3 we extend our main result for LQR to the more general case of LQG. Section 4 contains two explicit and interpretable upper bounds on the sensitivity of the Riccati solution: one based on a proof strategy proposed by Konstantinov et al. and one based on a direct approach that is of independent interest. We conclude and discuss future directions in Section 6.
+
+## Main Results for the Linear Quadratic Regulator
+
+An instance of the linear quadratic regulator (LQR) is defined by four matrices: two matrices $A_{\star} \in {\mathbb{R}}^{n \times n}$ and $B_{\star} \in {\mathbb{R}}^{n \times d}$ that define the linear dynamics and two positive semidefinite matrices $Q \in {\mathbb{R}}^{n \times n}$ and $R \in {\mathbb{R}}^{d \times d}$ that define the cost function. Given these matrices, the goal of LQR is to solve the optimization problem
+
+where $\mathbf{x}_{t}$, $\mathbf{u}_{t}$ and $\mathbf{w}_{t}$ denote the state, input (or action), and noise at time $t$, respectively. The expectation is over the initial state $\mathbf{x}_{0} \sim {\mathcal{N}{(0,I_{n})}}$ and the i.i.d. noise $\mathbf{w}_{t} \sim {\mathcal{N}{(0,{\sigma_{w}^{2}I_{n}})}}$. When the problem parameters $(A_{\star},B_{\star},Q,R)$ are known the optimal policy is given by linear feedback, $\mathbf{u}_{t} = {K_{\star}\mathbf{x}_{t}}$, where $K_{\star} = {- {{({R + {B_{\star}^{\top}P_{\star}B_{\star}}})}^{- 1}B_{\star}^{\top}P_{\star}A_{\star}}}$ where $P_{\star}$ is the (positive definite) solution to the discrete Riccati equation
+
+and can be computed efficiently \[4, see e.g.\]. In the sequel we use the notation ${\mathsf{d}\mathsf{a}\mathsf{r}\mathsf{e}}{(A_{\star},B_{\star},Q,R)}$ to denote the unique positive semidefinite solution of. Problem considers an average cost over an infinite horizon. The optimal controller for the finite horizon variant is also static and linear, but time-varying. The LQR solution in this case can be computed efficiently via dynamic programming.
+
+In this work we are interested in the control of a linear dynamical system with unknown transition parameters $(A_{\star},B_{\star})$ based on estimates $(\hat{A},\hat{B})$. The cost matrices $Q$ and $R$ are assumed known. We analyze the *certainty equivalence approach*: use the estimates $(\hat{A},\hat{B})$ to solve the optimization problem while disregarding the modeling error, and use the resulting controller on the true system $(A_{\star},B_{\star})$. We interchangeably refer to the resulting policy as the *certainty equivalent controller* or, following Dean et al., the *nominal controller*. We denote by $\hat{P}$ the solution to the Riccati equation associated with the parameters $(\hat{A},\hat{B})$ and let $\hat{K}$ be the corresponding controller. We denote by $J{(A,B,K)}$ the cost obtained by using the actions $\mathbf{u}_{t} = {K\mathbf{x}_{t}}$ on the system $(A,B)$, and we use $\hat{J}$ and $J_{\star}$ to denote $J{(A_{\star},B_{\star},\hat{K})}$ and $J{(A_{\star},B_{\star},K_{\star})}$, respectively.
+
+Let $\varepsilon \geq 0$ such that ${\parallel{A_{\star} - \hat{A}}\parallel} \leq \varepsilon$ and ${\parallel{B_{\star} - \hat{B}}\parallel} \leq \varepsilon$. (Here and throughout this work we use $\parallel \cdot \parallel$ to denote the Euclidean norm for vectors as well as the spectral (operator) norm for matrices.) Dean et al. introduced a robust controller that achieves ${\hat{J} - J_{\star}} \leq {C_{1}{(A_{\star},B_{\star},Q,R)}\varepsilon}$ for some complexity term $C_{1}{(A_{\star},B_{\star},Q,R)}$ that depends on the problem parameters. We show that the nominal controller $\mathbf{u}_{t} = {\hat{K}\mathbf{x}_{t}}$ achieves ${\hat{J} - J_{\star}} \leq {C_{2}{(A_{\star},B_{\star},Q,R)}\varepsilon^{2}}$. Both results require $\varepsilon$ to be sufficiently small (as a function of the problem parameters) and it is important to note that $\varepsilon$ must be much smaller for the nominal controller to be guaranteed to stabilize the system than for the robust controller proposed by Dean et al.. However, our result shows that once the estimation error $\varepsilon$ is small enough, the nominal controller performs better: the sub-optimality gap scales as $\mathcal{O}{(\varepsilon^{2})}$ versus $\mathcal{O}{(\varepsilon)}$. Both the more stringent requirement on $\varepsilon$ and better performance of nominal control compared to robust control, when the estimation error is sufficiently small, were observed empirically by Dean et al..
+
+Before we can formally state our result we need to introduce a few more concepts and assumptions. It is common to assume that the cost matrices $Q$ and $R$ are positive definite. Under an additional observability assumption, this condition can be relaxed to $Q$ being positive semidefinite.
+
+### Assumption 1
+
+The cost matrices $Q$ and $R$ are positive definite. Since scaling both $Q$ and $R$ does not change the optimal controller $K_{\star}$, we can assume without loss of generality that ${\underset{¯}{\sigma}{(R)}} \geq 1$.
+
+A square matrix $M$ is *stable* if its spectral radius $\rho{(M)}$ is (strictly) smaller than one. Recall that the spectral radius is defined as ${\rho{(M)}} = {\max{\{{{|\lambda|}:{\lambda\text{~is an eigenvalue of~}M}}\}}}$. A linear dynamical system $(A,B)$ in feedback with $K$ is fully described by the *closed loop matrix* $A + {BK}$. More precisely, in this case $\mathbf{x}_{t + 1} = {{{({A + {BK}})}\mathbf{x}_{t}} + \mathbf{w}_{t}}$. For a static linear controller $\mathbf{u}_{t} = {K\mathbf{x}_{t}}$ to achieve finite LQR cost it is necessary and sufficient that the closed loop matrix is stable.
+
+In order to quantify the growth or decay of powers of a square matrix $M$, we define
+
+In other words, $\tau{(M,\rho)}$ is the smallest value such that ${\parallel M^{k}\parallel} \leq {\tau{(M,\rho)}\rho^{k}}$ for all $k \geq 0$. We note that $\tau{(M,\rho)}$ might be infinite, depending on the value of $\rho$, and it is always greater or equal than one. If $\rho$ is larger than $\rho{(M)}$, we are guaranteed to have a finite $\tau{(M,\rho)}$ (this is a consequence of Gelfand's formula). In particular, if $M$ is a stable matrix, we can choose $\rho < 1$ such that $\tau{(M,\rho)}$ is finite. Also, we note that $\tau{(M,\rho)}$ is a decreasing function of $\rho$; if $\rho \geq {\parallel M\parallel}$, we have ${\tau{(M,\rho)}} = 1$. At a high level, the quantity $\tau{(M,\rho)}$ measures the degree of transient response of the linear system $\mathbf{x}_{t + 1} = {{M\mathbf{x}_{t}} + \mathbf{w}_{t}}$. In particular, when $M$ is stable, $\tau{(M,\rho)}$ can be upper bounded by the $\mathcal{H}_{\infty}$-norm of the system defined by $M$, which is the $\ell_{2}$ to $\ell_{2}$ operator norm of the system and a fundamental quantity in robust control \see [38, for more details\].
+
+Throughout this work we use the quantities $\Gamma_{\star}:={1 + {\max{\{{\parallel A_{\star}\parallel},{\parallel B_{\star}\parallel},{\parallel P_{\star}\parallel},{\parallel K_{\star}\parallel}\}}}}$ and $L_{\star}:={A_{\star} + {B_{\star}K_{\star}}}$. We use $\Gamma_{\star}$ as a uniform upper bound on the spectral norms of the relevant matrices for the sake of algebraic simplicity. We are ready to state our meta theorem.
+
+### Theorem 1
+
+Suppose $d \leq n$. Let $\gamma > 0$ such that ${\rho{(L_{\star})}} \leq \gamma < 1$. Also, let $\varepsilon > 0$ such that ${\parallel{\hat{A} - A_{\star}}\parallel} \leq \varepsilon$ and ${\parallel{\hat{B} - B_{\star}}\parallel} \leq \varepsilon$ and assume ${\parallel{\hat{P} - P_{\star}}\parallel} \leq {f{(\varepsilon)}}$ for some function $f$ such that ${f{(\varepsilon)}} \geq \varepsilon$. Then, under Assumption 1 the certainty equivalent controller $\mathbf{u}_{t} = {\hat{K}\mathbf{x}_{t}}$ achieves
+
+as long as $f{(\varepsilon)}$ is small enough so that the right hand side is smaller than $\sigma_{w}^{2}$.
+
+In Section 4 we present two upper bounds $f{(\varepsilon)}$ on $\parallel{\hat{P} - P_{\star}}\parallel$: one based on a proof technique proposed by Konstantinov et al. and one based on our direct approach. Both of these upper bounds satisfy ${f{(\varepsilon)}} = {\mathcal{O}{(\varepsilon)}}$ for $\varepsilon$ sufficiently small. For simplicity, in this section we only specialize our meta-theorem (Theorem 1) using the perturbation result from our direct approach.
+
+To state a specialization of Theorem 1 we need a few more concepts. A linear system $(A,B)$ is called *controllable* when the *controllability matrix* $\begin{bmatrix}
+\end{bmatrix}$ has full row rank. Controllability is a fundamental concept in control theory; it states that there exists a sequence of inputs to the system $(A,B)$ that moves it from any starting state to any final state in at most $n$ steps. In this work we quantify how controllable a linear system is. We denote, for any integer $\ell \geq 1$, the matrix $\mathcal{C}_{\ell}:=\begin{bmatrix}
+\end{bmatrix}$ and call the system *$(\ell,\nu)$-controllable* if the $n$-th singular value of $\mathcal{C}_{\ell}$ is greater or equal than $\nu$, i.e. ${\underset{¯}{\sigma}{(\mathcal{C}_{\ell})}} = \sqrt{\lambda_{\min}\left( {\mathcal{C}_{\ell}\mathcal{C}_{\ell}^{\top}} \right)} \geq \nu$. Intuitively, the larger $\nu$ is, the less control effort is needed to move the system between two different states.
+
+### Assumption 2
+
+We assume the unknown system $(A_{\star},B_{\star})$ is $(\ell,\nu)$-controllable, with $\nu > 0$.
+
+Assumption 2 was used in a different context by Cohen et al.. For any controllable system and any $\ell \geq n$ there exists $\nu > 0$ such that the system is $(\ell,\nu)$-controllable. Therefore, $(\ell,\nu)$-controllability is really not much stronger of an assumption than controllability. As $\ell$ grows minimum singular value $\underset{¯}{\sigma}{(\mathcal{C}_{\ell})}$ also grows and therefore a larger $\nu$ can be chosen so that the system is still $(\ell,\nu)$ controllable.
+
+Note that controllability is not necessary for LQR to have a well-defined solution: the weaker requirement is that of *stabilizability*, in which there exists a feedback matrix $K$ so that $A_{\star} + {B_{\star}K}$ is stable. The result of Dean et al. only requires stabilizability. While our upper bound on $\parallel{\hat{P} - P_{\star}}\parallel$ requires controllability, the result of Konstantinov et al. only requires stabilizability. However, our upper bound on $\parallel{\hat{P} - P_{\star}}\parallel$ is sharper for some classes of systems (see Section 4). Together with Theorem 1, our perturbation result, presented in Section 4, yields the following guarantee.
+
+### Theorem 2
+
+Suppose that $d \leq n$. Let $\rho$ and $\gamma$ be two real values such that ${\rho{(A_{\star})}} \leq \rho$ and ${\rho{(L_{\star})}} \leq \gamma < 1$. Also, let $\varepsilon > 0$ such that ${\parallel{\hat{A} - A_{\star}}\parallel} \leq \varepsilon$ and ${\parallel{\hat{B} - B_{\star}}\parallel} \leq \varepsilon$ and define $\beta = {\max{\{ 1,{{\varepsilon\tau{(A_{\star},\rho)}} + \rho}\}}}$. Under Assumptions 1 and 2, the certainty equivalent controller $\mathbf{u}_{t} = {\hat{K}\mathbf{x}_{t}}$ satisfies the suboptimality gap
+
+as long as the right hand side is smaller than $\sigma_{w}^{2}$. Here, $\mathcal{O}{}$ denotes a universal constant.
+
+The exact form of Equation 5, such as the polynomial dependence on $\ell$, $\Gamma_{\star}$, etc, can be improved at the expense of conciseness of the expression. In our proof we optimized for the latter. The factor ${\max{\{{\parallel Q\parallel}^{2},{\parallel R\parallel}^{2}\}}}/{\min\left\{ {\underset{¯}{\sigma}{(Q)}^{2}},{\underset{¯}{\sigma}{(R)}^{2}} \right\}}$ is the squared condition number of the cost function, a natural quantity in the context of the optimization problem, which can be seen as an infinite dimensional quadratic program with a linear constraint. The term $\frac{\tau{(L_{\star},\gamma)}^{2}}{1 - \gamma^{2}}$ quantifies the rate at which the optimal controller drives the state towards zero. Generally speaking, the less stable the optimal closed loop system is, the larger this term becomes.
+
+An interesting trade-off arises between the factor $\ell^{5}\beta^{4{({\ell - 1})}}$ (which arises from upper bounding perturbations of powers of $A_{\star}$ on a time interval of length $\ell$) and the factor $\nu$ (the lower bound on $\underset{¯}{\sigma}{(\mathcal{C}_{\ell})}$), which is increasing in $\ell$. Hence, the parameter $\ell$ should be seen as a free-parameter that can be tuned to minimize the right hand side of. Now, we specialize Theorem 2 to a few cases.
+
+### Case: $A_{\star}$ is contractive, i.e. ${\parallel A_{\star}\parallel} < 1$
+
+In this case, we can choose $\rho = {\parallel A_{\star}\parallel}$ and $\varepsilon$ small enough so that $\varepsilon \leq {1 - {\parallel A_{\star}\parallel}}$. Then, simplifies to:
+
+### Case: $B_{\star}$ has rank $n$
+
+In this case, we can choose $\ell = 1$. Then, simplifies to:
+
+### Comparison to Theorem 4.1 of Dean et al. \[10\]
+
+Dean et al. show that when their robust synthesis procedure is run with estimates $(\hat{A},\hat{B})$ satisfying ${\max{\{{\parallel{\hat{A} - A_{\star}}\parallel},{\parallel{\hat{B} - B_{\star}}\parallel}\}}} \leq \varepsilon \leq \left\lbrack {5{({1 + {\parallel K_{\star}\parallel}})}\Psi_{\star}} \right\rbrack^{- 1}$, the resulting controller satisfies:
+
+Here, the quantity $\Psi_{\star}:={\sup_{z \in {\mathbb{T}}}{\parallel{({{zI_{n}} - L_{\star}})}^{- 1}\parallel}}$ is the $\mathcal{H}_{\infty}$-norm of the optimal closed loop system $L_{\star}$. In order to compare Equation 6 to Equation 5, we upper bound the quantity $\Psi_{\star}$ in terms of $\tau{(L_{\star},\gamma)}$ and $\gamma$. In particular, by a infinite series expansion of the inverse ${({{zI_{n}} - L_{\star}})}^{- 1}$ we can show $\Psi_{\star} \leq \frac{\tau{(L_{\star},\gamma)}}{1 - \gamma}$. Also, we have $J_{\star} = {\sigma_{w}^{2}{\operatorname{tr}{(P_{\star})}}} \leq {\sigma_{w}^{2}n\Gamma_{\star}}$. Therefore, Equation 6 gives us that:
+
+We see that the dependence on the parameters $\Gamma_{\star}$ and $\tau{(L_{\star},\gamma)}$ is significantly milder compared to Equation 5. Furthermore, this upper bound is valid for larger $\varepsilon$ than the upper bound given in Theorem 2. Comparing these upper bound suggests that there is a price to pay for obtaining a fast rate, and that in regimes of moderate uncertainty (moderate size of $\varepsilon$), being robust to model uncertainty is important. This observation is supported by the empirical results of Dean et al..
+
+A similar trade-off between slow and fast rates arises in the setting of first-order convex stochastic optimization. The convergence rate $\mathcal{O}{({1/\sqrt{T}})}$ of the stochastic gradient descent method can be improved to $\mathcal{O}{({1/T})}$ under a strong convexity assumption. However, the performance of stochastic gradient descent, which can achieve a $\mathcal{O}{({1/T})}$ rate, is sensitive to poorly estimated problem parameters. Similarly, in the case of LQR, the nominal controller achieves a fast rate, but it is much more sensitive to estimation error than the robust controller of Dean et al..
+
+### End-to-end guarantees
+
+Theorem 2 can be combined with finite sample learning guarantees (e.g. ) to obtain an end-to-end guarantee similar to Proposition 1.2 of Dean et al.. In general, estimating the transition parameters from $N$ samples yields an estimation error that scales as $\mathcal{O}{({1/\sqrt{N}})}$. Therefore, Theorem 2 implies that ${\hat{J} - J_{\star}} \leq {\mathcal{O}{({1/N})}}$ instead of the ${\hat{J} - J_{\star}} \leq {\mathcal{O}{({1/\sqrt{N}})}}$ rate from Proposition 1.2 of Dean et al.. This is similar to the case of linear regression, where $\mathcal{O}{({1/\sqrt{N}})}$ estimation error for the parameters translates to a $\mathcal{O}{({1/N})}$ *fast rate* for prediction error. Furthermore, Simchowitz et al. and Sarkar and Rakhlin showed that faster estimation rates are possible for some linear dynamical systems. Theorem 2 translates such rates into control suboptimality guarantees in a transparent way.
+
+Our result explains the behavior observed in Figure 4 of Dean et al.. The authors propose two procedures for synthesizing robust controllers for LQR with unknown transitions: one which guarantees robustness of the performance gap $\hat{J} - J_{\star}$, and one which only guarantees the stability of the closed loop system. Dean et al. observed that the latter performs better in the small estimation error regime, which happens because the robustness constraint of the synthesis procedure becomes inactive when the estimation error is small enough. Then, the second robust synthesis procedure effectively outputs the certainty equivalent controller, which we now know to achieve a fast rate.
+
+### Nearly optimal $\overset{\sim}{\mathcal{O}}\hspace{0pt}{(\sqrt{T})}$ regret in the adaptive setting
+
+The regret formulation of adaptive LQR was first proposed by Abbasi-Yadkori and Szepesvári. The task is to design an adaptive algorithm ${\{\mathbf{u}_{t}\}}_{t \geq 0}$ to minimize regret, as defined by ${{\mathsf{R}\mathsf{e}\mathsf{g}\mathsf{r}\mathsf{e}\mathsf{t}}{(T)}}:={{{\sum_{t = 1}^{T}{\mathbf{x}_{t}^{\top}Q\mathbf{x}_{t}}} + {\mathbf{u}_{t}^{\top}R\mathbf{u}_{t}}} - {TJ_{\star}}}$. Abbasi-Yadkori and Szepesvári study the performance of optimism in the face of uncertainty (OFU) and show that it has $\overset{\sim}{\mathcal{O}}{(\sqrt{T})}$ regret, which is nearly optimal for this problem formulation. However, the OFU algorithm requires repeated solutions to a non-convex optimization problem for which no known efficient algorithm exists.
+
+To deal with the computational issues of OFU, Dean et al. propose to analyze the behavior of $\varepsilon$-greedy exploration using the suboptimality gap results of Dean et al.. In the context of continuous control, $\varepsilon$-greedy exploration refers to the application of the control law $\mathbf{u}_{t} = {{\pi{(\mathbf{x}_{t},\mathbf{x}_{t - 1},\ldots,\mathbf{x}_{0})}} + \eta_{t}}$ with $\eta_{t} \sim {\mathcal{N}{(0,{\sigma_{\eta,t}^{2}I_{d}})}}$, where $\pi$ is the policy, updated in epochs, and $\sigma_{\eta,t}^{2}$ is the variance of the exploration noise. Dean et al. set the variance of the exploration noise as $\sigma_{\eta,t}^{2} \sim t^{- {1/3}}$, and show that their method achieves $\overset{\sim}{\mathcal{O}}{(T^{2/3})}$ regret. They use epochs of size $2^{i}$ and decompose the regret roughly as ${{\mathsf{R}\mathsf{e}\mathsf{g}\mathsf{r}\mathsf{e}\mathsf{t}}{(T)}} = {\mathcal{O}\left( {{T{({\hat{J} - J_{\star}})}} + {T\sigma_{\eta,T}^{2}}} \right)}$. Since the estimation error of the model parameters scales as $\mathcal{O}{({({\sigma_{\eta,T}\sqrt{T}})}^{- 1})}$, and since the suboptimality gap $\hat{J} - J_{\star}$ of the robust controller is linear in the estimation error, we have ${{\mathsf{R}\mathsf{e}\mathsf{g}\mathsf{r}\mathsf{e}\mathsf{t}}{(T)}} = {\mathcal{O}\left( {\frac{\sqrt{T}}{\sigma_{\eta,T}} + {T\sigma_{\eta,T}^{2}}} \right)}$. Then, setting $\sigma_{\eta,t}^{2} \sim t^{- {1/3}}$ balances these two terms and yields $\overset{\sim}{\mathcal{O}}{(T^{2/3})}$ regret. However, Theorem 2, which states that the gap $\hat{J} - J_{\star}$ for the nominal controller depends quadratically on the estimation rate, implies that online certainty equivalent control achieves ${{\mathsf{R}\mathsf{e}\mathsf{g}\mathsf{r}\mathsf{e}\mathsf{t}}{(T)}} = {\mathcal{O}\left( {\frac{1}{\sigma_{\eta,T}^{2}} + {T\sigma_{\eta,T}^{2}}} \right)}$. Here, the optimal variance of the exploration noise scales as $\sigma_{\eta,t}^{2} \sim t^{- {1/2}}$, yielding $\overset{\sim}{\mathcal{O}}{(\sqrt{T})}$ regret. We note that the observation that certainty equivalence coupled with $\varepsilon$-greedy exploration achieves $\overset{\sim}{\mathcal{O}}{(\sqrt{T})}$ regret was first made by Faradonbeh et al..
+
+### Corollary 1
+
+(Informal) $\varepsilon$-greedy exploration with exploration schedule $\sigma_{\eta,t}^{2} \sim t^{- {1/2}}$ combined with certainty equivalent control yields an adaptive LQR algorithm with regret bounded as $\overset{\sim}{\mathcal{O}}{(\sqrt{T})}$.
+
+### Proof of Theorem 1
+
+In this section we prove our meta theorem; we show how an upper bound ${\parallel{\hat{P} - P_{\star}}\parallel} \leq {f{(\varepsilon)}}$ can be used to quantify the mismatch between the performance of the the nominal controller and the optimal controller. First, we upper bound $\parallel{\hat{K} - K_{\star}}\parallel$ and offer a condition on this mismatch size so that $A_{\star} + {B_{\star}\hat{K}}$ is a stable matrix. The next two optimization results are helpful in proving $\parallel{\hat{K} - K_{\star}}\parallel$ is small.
+
+### Lemma 1
+
+Let $f_{1},f_{2}$ be two $\mu$-strongly convex twice differentiable functions. Let $\mathbf{x}_{1} = {{\arg{\min_{\mathbf{x}}f_{1}}}{(\mathbf{x})}}$ and $\mathbf{x}_{2} = {{\arg{\min_{\mathbf{x}}f_{2}}}{(\mathbf{x})}}$. Suppose ${\parallel{{\nabla f_{1}}{(\mathbf{x}_{2})}}\parallel} \leq \varepsilon$, then ${\parallel{\mathbf{x}_{1} - \mathbf{x}_{2}}\parallel} \leq \frac{\varepsilon}{\mu}$.
+
+### Proof
+
+Taylor expanding $\nabla f_{1}$, we have:
+
+for $\overset{\sim}{\mathbf{x}} = {{t\mathbf{x}_{1}} + {{({1 - t})}\mathbf{x}_{2}}}$ with some $t \in {\lbrack 0,1\rbrack}$. Therefore:
+
+### Lemma 2
+
+Define ${f_{i}{(\mathbf{u};\mathbf{x})}} = {{\frac{1}{2}\mathbf{u}^{\mathsf{T}}R\mathbf{u}} + {\frac{1}{2}{({{A_{i}\mathbf{x}} + {B_{i}\mathbf{u}}})}^{\mathsf{T}}P_{i}{({{A_{i}\mathbf{x}} + {B_{i}\mathbf{u}}})}}}$ for $i = {1,2}$, with $R$, $P_{1}$, and $P_{2}$ positive definite matrices. Let $K_{i}$ be the unique matrix such that $\mathbf{u}_{i}:={{\arg{\min_{\mathbf{u}}f_{i}}}{(\mathbf{u};\mathbf{x})}} = {K_{i}\mathbf{x}}$ for any vector $\mathbf{x}$. Also, denote $\Gamma:={1 + {\max{\{{\parallel A_{1}\parallel},{\parallel B_{1}\parallel},{\parallel P_{1}\parallel},{\parallel K_{1}\parallel}\}}}}$. Suppose there exists $\varepsilon$ such that $0 \leq \varepsilon < 1$ and ${\parallel{A_{1} - A_{2}}\parallel} \leq \varepsilon$, ${\parallel{B_{1} - B_{2}}\parallel} \leq \varepsilon$, and ${\parallel{P_{1} - P_{2}}\parallel} \leq \varepsilon$. Then, we have
+
+### Proof
+
+We first compute the gradient ${\nabla f_{i}}{(\mathbf{u};\mathbf{x})}$ with respect to $\mathbf{u}$:
+
+Now, we observe that:
+
+Hence, for any vector $\mathbf{x}$ with ${\parallel\mathbf{x}\parallel} \leq 1$, we have
+
+We can bound ${\parallel\mathbf{u}_{1}\parallel} \leq {{\parallel K_{1}\parallel}{\parallel\mathbf{x}\parallel}} \leq {\parallel K_{1}\parallel}$. Then, from Lemma 1 we obtain
+
+Recall that $\Gamma_{\star}:={1 + {\max{\{{\parallel A_{\star}\parallel},{\parallel B_{\star}\parallel},{\parallel P_{\star}\parallel},{\parallel K_{\star}\parallel}\}}}}$. Now, we upper bound $\parallel{\hat{K} - K_{\star}}\parallel$.
+
+### Proposition 1
+
+Let $\varepsilon > 0$ such that ${\parallel{\hat{A} - A_{\star}}\parallel} \leq \varepsilon$ and ${\parallel{\hat{B} - B_{\star}}\parallel} \leq \varepsilon$. Also, let ${\parallel{\hat{P} - P_{\star}}\parallel} \leq {f{(\varepsilon)}}$ for some function $f$ such that ${f{(\varepsilon)}} \geq \varepsilon$. Then, under Assumption 1 we have
+
+Let $\gamma$ be a real number such that ${\rho{(L_{\star})}} < \gamma < 1$. Then, if $f{(\varepsilon)}$ is small enough so that the right hand side of is smaller than $\frac{1 - \gamma}{2\tau{(L_{\star},\gamma)}}$, we have
+
+### Proof
+
+By our assumptions $\parallel{\hat{A} - A_{\star}}\parallel$, $\parallel{\hat{B} - B_{\star}}\parallel$, and $\parallel{\hat{P} - P_{\star}}\parallel$ are smaller than $f{(\varepsilon)}$, and ${\underset{¯}{\sigma}{(R)}} \geq 1$. Then, Lemma 2 ensures that
+
+Finally, when $\varepsilon$ is small enough so that the right hand side of is smaller or equal than $\frac{1 - \gamma}{2\tau{({A_{\star} + {B_{\star}K_{\star}}},\gamma)}}$, we can apply Lemma 5, presented in Section 4, to guarantee that ${\parallel{({A_{\star} + {B_{\star}\hat{K}}})}^{k}\parallel} \leq {\tau{({A_{\star} + {B_{\star}K_{\star}}},\gamma)}\left( \frac{1 + \gamma}{2} \right)^{k}}$ for all $k \geq 0$. ∎
+
+In order to finish the proof of Theorem 1 we need to quantify the suboptimality gap $\hat{J} - J_{\star}$ in terms of the controller mismatch $\hat{K} - K_{\star}$. For a stable matrix $L$ and a symmetric matrix $M$, we let ${\mathsf{d}\mathsf{l}\mathsf{y}\mathsf{a}\mathsf{p}}{(L,M)}$ denote the solution $X$ to the Lyapunov equation ${{{L^{\top}XL} - X} + M} = 0$. The following lemma offers a useful second order expansion of the average LQR cost.
+
+### Lemma 3 (Lemma 12 of Fazel et al. \[16\])
+
+Let $K$ be an arbitrary static linear controller that stabilizes $(A_{\star},B_{\star})$. Denote ${\Sigma{(K)}}:={{\mathsf{d}\mathsf{l}\mathsf{y}\mathsf{a}\mathsf{p}}{({({A_{\star} + {B_{\star}K}})}^{\mathsf{T}},{\sigma_{w}^{2}I_{n}})}}$ the covariance matrix of the stationary distribution of the closed loop system $A_{\star} + {B_{\star}K}$. We have that:
+
+Now, we have the necessary ingredients to complete the proof of Theorem 1. Equation 8. ‣ 2.3 Proof of Theorem 1 ‣ 2 Main Results for the Linear Quadratic Regulator ‣ Certainty Equivalence is Efficient for Linear Quadratic Control") implies:
+
+Proposition 1 states that $\hat{K}$ stabilizes the system $(A_{\star},B_{\star})$ when the estimation error is small enough. More precisely, under the assumptions of Theorem 1, we have ${\tau\left( {A_{\star} + {B_{\star}\hat{K}}},\frac{1 + \gamma}{2} \right)} \leq {\tau{(L_{\star},\gamma)}}$. When $\hat{L} = {A_{\star} + {B_{\star}\hat{K}}}$ is a stable matrix we know that ${\Sigma{(K)}} = {\sigma^{2}{\sum_{t \geq 0}{{(L^{\top})}^{t}L^{t}}}}$. Then, by the triangle inequality we can bound
+
+Recalling that $\Gamma_{\star}:={1 + {\max{\{{\parallel A_{\star}\parallel},{\parallel B_{\star}\parallel},{\parallel P_{\star}\parallel},{\parallel K_{\star}\parallel}\}}}}$, we have ${\parallel{R + {B_{\star}^{\mathsf{T}}P_{\star}B_{\star}}}\parallel} \leq \Gamma^{3}$. Then,
+
+where we used Proposition 1 and the assumption on $f{(\varepsilon)}$.
+
+## Main Results for the Linear Quadratic Gaussian Problem
+
+Now we consider partially observable systems. In this case the system dynamics have the form:
+
+$\mathbf{x}_{t + 1}$ ${{= {{A_{\star}\mathbf{x}_{t}} + {B_{\star}\mathbf{u}_{t}} + \mathbf{w}_{t}}},{\mathbf{w}_{t} \sim {\mathcal{N}{(0,{\sigma_{w}^{2}I})}}}},$ (9a)
+$\mathbf{y}_{t}$ ${{= {{C_{\star}\mathbf{x}_{t}} + \mathbf{v}_{t}}},{\mathbf{v}_{t} \sim {\mathcal{N}{(0,{\sigma_{v}^{2}I})}}}}.$ (9b)
+
+In, only the output process $\mathbf{y}_{t}$ is observed. The LQG problem is defined as^11^1Note that many texts define the LQG cost in terms of $\mathbf{x}_{t}^{\mathsf{T}}Q\mathbf{x}_{t}$ instead of $\mathbf{y}_{t}^{\mathsf{T}}Q\mathbf{y}_{t}$. We choose the latter because we do not want the cost to be tied to a particular (unknown) state representation.:
+
+Here, the input $\mathbf{u}_{t}$ is allowed to depend on the history^22^2The one step delay in $\mathbf{y}_{t}$ is a standard assumption in controls which slightly simplifies the Kalman filtering expressions. Our results generalize to the setting where the history also contains the current observation $\mathbf{y}_{t}$. $\mathcal{H}_{t}:={(\mathbf{u}_{0},\ldots,\mathbf{u}_{t - 1},\mathbf{y}_{0},\ldots,\mathbf{y}_{t - 1})}$. The optimal solution to is to set $\mathbf{u}_{t} = {K_{\star}{\hat{\mathbf{x}}}_{t}}$, with $K_{\star}$ the optimal LQR solution to $(A_{\star},B_{\star},{C_{\star}^{\mathsf{T}}QC_{\star}},R)$ and ${\hat{\mathbf{x}}}_{t}:={{\mathbb{E}}{\lbrack\left. \mathbf{x}_{t} \middle| \mathcal{H}_{t} \right.\rbrack}}$. The MSE estimate ${\hat{\mathbf{x}}}_{t}$ can be solved efficiently via Kalman filtering:
+
+${\hat{\mathbf{x}}}_{t + 1}$ ${= {{A_{\star}{\hat{\mathbf{x}}}_{t}} + {B_{\star}\mathbf{u}_{t}} + {L_{\star}{({\mathbf{y}_{t} - {C_{\star}{\hat{\mathbf{x}}}_{t}}})}}}},$ (11a)
+$L_{\star}$ ${= {- {A_{\star}\Sigma_{\star}C_{\star}^{\mathsf{T}}{({{C_{\star}\Sigma_{\star}C_{\star}^{\mathsf{T}}} + V})}^{- 1}}}},$ (11b)
+$\Sigma_{\star}$ ${= {{{A_{\star}\Sigma_{\star}A_{\star}^{\mathsf{T}}} + {\sigma_{w}^{2}I}} - {A_{\star}\Sigma_{\star}C_{\star}^{\mathsf{T}}{({{C_{\star}\Sigma_{\star}C_{\star}^{\mathsf{T}}} + {\sigma_{v}^{2}I}})}^{- 1}C_{\star}\Sigma_{\star}A_{\star}^{\mathsf{T}}}}}.$ (11c)
+
+There is an inherent ambiguity in the dynamics (9a)-(9b) which makes LQG more delicate than LQR. In particular, for any invertible $T$, the LQG problem with parameters $(A_{\star},B_{\star},C_{\star},Q,R)$ is equivalent to the LQG problem with parameters $({TA_{\star}T^{- 1}},{TB_{\star}},{C_{\star}T^{- 1}},Q,R)$ and appropriately rescaled noise processes. To deal with this ambiguity, we assume that we have estimates $(\hat{A},\hat{B},\hat{C},\hat{L})$ such that there exists an unitary $T$ such that:
+
+Recent work has shown how to obtain this style of estimates with guarantees from input/output data. As in Section 2, we assume that the cost matrices $(Q,R)$ are known. Then, we study the performance of the certainty equivalence controller defined by:
+
+Similarly to Theorem 1 for LQR, we state a meta theorem for LQG. Unlike Theorem 1, however, we need a stronger type of Riccati perturbation guarantee which also allows for perturbation of the $Q$ matrix. Specifically, we suppose there exists $\gamma_{0}$ such that for any $\gamma \leq \gamma_{0}$ and $(\hat{A},\hat{B},\hat{Q})$ with ${\max{\{{\parallel{\hat{A} - A}\parallel},{\parallel{\hat{B} - B}\parallel},{\parallel{\hat{Q} - Q}\parallel}\}}} \leq \gamma$ the solutions $P$ and $\hat{P}$ of the Riccati equations with parameters $(A,B,Q,R)$ and $(\hat{A},\hat{B},\hat{Q},R)$ satisfy
+
+for an increasing function $f$ with ${f{(\gamma)}} \geq \gamma$. The constant $\gamma_{0}$ and function $f$ are allowed to depend on the parameters $(A,B,Q,R)$. In Section 4, we present a perturbation bound (Proposition 2) that satisfies these properties. Similarly to Section 2, let $\Gamma_{\star}:={1 + {\max{\{{\parallel A_{\star}\parallel},{\parallel B_{\star}\parallel},{\parallel C_{\star}\parallel},{\parallel K_{\star}\parallel},{\parallel L_{\star}\parallel},{\parallel P_{\star}\parallel}\}}}}$. The following theorem is our main result for LQG.
+
+### Theorem 3
+
+Suppose that $(A_{\star},B_{\star})$ is stabilizable, $(C_{\star},A_{\star})$ is observable, and that Assumption 1 holds. Let $\varepsilon$ be an upper bound on $\parallel{\hat{A} - {TA_{\star}T^{- 1}}}\parallel$, $\parallel{\hat{B} - {TB_{\star}}}\parallel$, $\parallel{\hat{C} - {C_{\star}T^{- 1}}}\parallel$, and $\parallel{\hat{L} - {TL_{\star}}}\parallel$ for some unitary transformation $T$. Suppose that assumption holds with parameters $TA_{\star}T^{- 1}$, $TB_{\star}$, $T^{- \mathsf{T}}C_{\star}^{\mathsf{T}}QC_{\star}T^{- 1}$, and $R$ and that $\varepsilon$ is sufficiently small so that ${3{\parallel C_{\star}\parallel}_{+}{\parallel Q\parallel}_{+}\varepsilon} \leq \gamma_{0}$ and $\overline{\varepsilon} \leq 1$, where $\overline{\varepsilon}:={\frac{7\Gamma_{\star}^{3}}{\underset{¯}{\sigma}{(R)}}f{({3{\parallel C_{\star}\parallel}_{+}^{2}{\parallel Q\parallel}_{+}\varepsilon})}}$. Let $\hat{K}$ be defined as in, and define $N_{\star}$ as
+
+where the pair $(K_{\star},L_{\star})$ is optimal for the LQG problem defined by $(A_{\star},B_{\star},C_{\star},Q,R)$. Let $\gamma > 0$ be such that ${\rho{(N_{\star})}} < \gamma < 1$. Then as long as $\overline{\varepsilon} \leq \frac{1 - \gamma}{20\Gamma_{\star}\tau{(N_{\star},\gamma)}}$, the interconnection of with using $(\hat{A},\hat{B},\hat{C},\hat{K},\hat{L})$ is stable. Furthermore, the cost $J{(\hat{A},\hat{B},\hat{C},\hat{K},\hat{L})}$ satisfies:
+
+The proof of Theorem 3 appears in Appendix D. We note that such a $\gamma$ exists since ${\rho{(N_{\star})}} < 1$; by the stability and observability assumptions in Theorem 3, we have that both $A_{\star} + {B_{\star}K_{\star}}$ and $A_{\star} - {L_{\star}C_{\star}}$ are stable (c.f. Appendix E of Kailath et al. ). Combining Theorem 3 with Proposition 2, we have the following analogue of Theorem 2 for LQG.
+
+### Theorem 4
+
+Suppose that $(A_{\star},B_{\star})$ is stabilizable, $(C_{\star},A_{\star})$ is observable, and that Assumption 1 holds. Let $\varepsilon$ be an upper bound on $\parallel{\hat{A} - {TA_{\star}T^{- 1}}}\parallel$, $\parallel{\hat{B} - {TB_{\star}}}\parallel$, $\parallel{\hat{C} - {C_{\star}T^{- 1}}}\parallel$, and $\parallel{\hat{L} - {TL_{\star}}}\parallel$ for some unitary transformation $T$. Let $P_{\star} = {{\mathsf{d}\mathsf{a}\mathsf{r}\mathsf{e}}{(A_{\star},B_{\star},{C_{\star}^{\mathsf{T}}QC_{\star}},R)}}$ and suppose that ${\underset{¯}{\sigma}{(P_{\star})}} \geq 1$. Let $N_{\star}$ be as in and fix $\gamma$ such that ${\rho{(N_{\star})}} < \gamma < 1$. As long as $\varepsilon$ satisfies $\varepsilon \leq {\frac{{({1 - \gamma^{2}})}^{2}}{\tau^{4}{(N_{\star},\gamma)}}\frac{1}{\Gamma_{\star}^{11}{\parallel Q\parallel}}}$, we have the following sub-optimality bound:
+
+Several remarks are in order. First, the assumption that ${\underset{¯}{\sigma}{(P_{\star})}} \geq 1$ is without loss of generality, since we can always rescale $Q$ and $R$ without affecting the control solution. Next, we compare our results here to a classic result from Doyle, which states that there are no gain margins for LQG. We remark that the notion of a gain margin is a robustness property that holds uniformly over a class of perturbations of varying degree. Our results do not hold uniformly; we use quantities such as $\tau{(N_{\star},\gamma)}$ and $\Gamma_{\star}$ to quantify how much mismatch a given LQG instance can tolerate.
+
+## Riccati Perturbation Theory
+
+As discussed in Sections 2 and 3, a key piece of our analysis is bounding the solutions to discrete Riccati equations as we perturb the problem parameters. Specifically, we are interested in quantities $b,L$ such that ${\parallel{\hat{P} - P_{\star}}\parallel} \leq {L\varepsilon}$ if $\varepsilon < b$, where $\varepsilon$ represents a bound on the perturbation. We note that it is not possible to find universal values $b,L$. Consider the systems ${(A_{\star},B_{\star})} = {(1,\varepsilon)}$ and ${(\hat{A},\hat{B})} = {}$; the latter system is not stabilizable and hence $\hat{P}$ does not even exist. Therefore, $b$ and $L$ must depend on the system parameters.
+
+While there is a long line of work analyzing perturbations of Riccati equations, we are not aware of any result that offers explicit and easily interpretable $b$ and $L$ for a fixed $(A_{\star},B_{\star},Q,R)$; see Konstantinov et al. for an overview of this literature. In this section, we present two new results for Riccati perturbation which offer interpretable bounds. The first one expands upon the operator-theoretic proof of Konstantinov et al.; its proof can be found in Section 4.1. In this result we assume the cost matrix $Q$ can also be perturbed, which is needed for our LQG guarantee. In order to be consistent we denote the true cost matrix by $Q_{\star}$ and the estimated one by $\hat{Q}$.
+
+### Proposition 2
+
+Let $\gamma \geq {\rho{(L_{\star})}}$ and also let $\varepsilon$ such that $\parallel{\hat{A} - A_{\star}}\parallel$, $\parallel{\hat{B} - B_{\star}}\parallel$, and $\parallel{\hat{Q} - Q_{\star}}\parallel$ are at most $\varepsilon$. Let ${\parallel \cdot \parallel}_{+} = {{\parallel \cdot \parallel} + 1}$. We assume that $R \succ 0$, $(A_{\star},B_{\star})$ is stabilizable, $(Q^{1/2},A_{\star})$ observable, and ${\underset{¯}{\sigma}{(P_{\star})}} \geq 1$.
+
+We note that the assumption ${\underset{¯}{\sigma}{(P_{\star})}} \geq 1$ can be made without loss of generality when the other assumptions are satisfied. When $R \succ 0$ and $(Q^{1/2},A)$ observable, the value function matrix $P_{\star}$ is guaranteed to be positive definite. Then, by rescalling $Q$ and $R$ we can ensure that ${\underset{¯}{\sigma}{(P_{\star})}} \geq 1$.
+
+We now present our direct approach, which uses Assumption 2 to give a bound which is sharper for some systems $(A_{\star},B_{\star})$ then the one provided by Proposition 2. Recall that any controllable system is always $(\ell,\nu)$-controllable for some $\ell$ and $\nu$.
+
+### Proposition 3
+
+Let $\rho \geq {\rho{(A_{\star})}}$ and also let $\varepsilon \geq 0$ such that ${\|{\hat{A} - A_{\star}}\|} \leq \varepsilon$ and ${\|{\hat{B} - B_{\star}}\|} \leq \varepsilon$. Let $\beta:={\max{\{ 1,{{\varepsilon\tau{(A_{\star},\rho)}} + \rho}\}}}$. Under Assumptions 1 and 2 we have
+
+as long as $\varepsilon$ is small enough so that the right hand side is smaller or equal than one.
+
+The proof of this result is deferred to Section 4.2. We note that Proposition 3 can also be extended to handle perturbations in the cost matrix $Q$, as we describe in the proof. Proposition 3 requires an $(\ell,\nu)$-controllable system $(A_{\star},B_{\star})$, whereas Proposition 2 only requires a stabilizable system, which is a milder assumption. However, Proposition 3 can offer a sharper guarantee. For example, consider the linear system with two dimensional states ($n = 2$) given by $A_{\star} = {1.01 \cdot I_{2}}$ and $B_{\star} = \begin{bmatrix}
+\end{bmatrix}$. Both $Q$ and $R$ are chosen to be the identity matrix $I_{2}$. This system $(A_{\star},B_{\star})$ is readily checked to be $(1,\beta)$-controllable. It is also straightforward to verify that as $\beta$ tends to zero, Proposition 2 gives a bound of ${\parallel{\hat{P} - P_{\star}}\parallel} = {\mathcal{O}{({\varepsilon/\beta^{4}})}}$, whereas Proposition 3 gives a sharper bound of ${\parallel{\hat{P} - P_{\star}}\parallel} = {\mathcal{O}{({\varepsilon/\beta^{3}})}}$.
+
+### Proof of Proposition 2
+
+Given parameters $(A,B,Q)$ ($R$ is assumed fixed throughout; $Q$ is assumed positive semidefinite throughout) we denote by $F{(X,A,B,Q)}$ the matrix expression
+
+Then, solving the Riccati equation associated with $(A,B,Q)$ corresponds to finding the unique positive definite matrix $X$ such that ${F{(X,A,B,Q)}} = 0$. We denote by $P_{\star}$ the solution of the Riccati equation corresponding to the true system parameters $(A_{\star},B_{\star})$ and we denote by $\hat{P}$ the solution associated with $(\hat{A},\hat{B},\hat{Q})$. Our goal is to upper bound $\parallel{\hat{P} - P_{\star}}\parallel$ in terms of $\varepsilon$, where $\varepsilon > 0$ such that ${\parallel{\hat{A} - A_{\star}}\parallel} \leq \varepsilon$, ${\parallel{\hat{B} - B_{\star}}\parallel} \leq \varepsilon$, and ${\parallel{\hat{Q} - Q_{\star}}\parallel} \leq \varepsilon$.
+
+We denote $\Delta_{P} = {\hat{P} - P_{\star}}$. The proof strategy goes as follows. Given the identities ${F{(P_{\star},A_{\star},B_{\star},Q_{\star})}} = 0$ and ${F{(\hat{P},\hat{A},\hat{B},\hat{Q})}} = 0$ we construct an operator $\Phi$ such that $\Delta_{P}$ is its unique fixed point. Then, we show that the fixed point of $\Phi$ must have small norm when $\varepsilon$ is sufficiently small.
+
+We denote $S_{\star} = {B_{\star}R^{- 1}B_{\star}^{\top}}$ and $\hat{S} = {\hat{B}R^{- 1}{\hat{B}}^{\top}}$. Also, recall that $L_{\star} = {A_{\star} + {B_{\star}K_{\star}}}$. For any matrix $X$ such that $I + {S_{\star}{({P_{\star} + X})}}$ is invertible we have
+
+To check this identity one needs to add $F{(P_{\star},A_{\star},B_{\star},Q_{\star})}$, which is equal to zero, to the right hand side of and use the identity ${{({I + {B_{\star}R^{- 1}B_{\star}^{\top}P_{\star}}})}^{- 1}A_{\star}} = {A_{\star} + {B_{\star}K_{\star}}}$. This last identity can be checked by recalling $K_{\star} = {- {{({R + {B_{\star}^{\top}P_{\star}B_{\star}}})}^{- 1}B_{\star}^{\top}P_{\star}A_{\star}}}$ and using the matrix inversion formulat.
+
+To write more compactly we define the following two matrix operators
+
+Then, Equation 17 becomes ${F{({P_{\star} + X},A_{\star},B_{\star},Q_{\star})}} = {{\mathcal{T}{(X)}} + {\mathcal{H}{(X)}}}$. Since Equation 17 is satisfied by any matrix $X$ with $I + {S_{\star}{({P_{\star} + X})}}$ invertible, the matrix equation
+
+has a unique symmetric solution $X$ such that ${P_{\star} + X} \succeq 0$. That solution is $X = \Delta_{P}$ because any solution of must satisfy ${F{({P_{\star} + X},\hat{A},\hat{B},\hat{Q})}} = 0$.
+
+The linear map $\mathcal{T}:{X\mapsto{X - {L_{\star}^{\top}XL_{\star}}}}$ has eigenvalues equal to $1 - {\lambda_{i}\lambda_{j}}$, where $\lambda_{i}$ and $\lambda_{j}$ are eigenvalues of the closed loop matrix $L_{\star}$. Since $L_{\star}$ is a stable matrix, the linear map $\mathcal{T}$ must be invertible. Now, we define the operator
+
+Then, solving for $X$ in Equation 18 is equivalent to finding $X$ satisfying ${P_{\star} + X} \succeq 0$ such that $X = {\Phi{(X)}}$. Hence, $\Phi$ has a unique symmetric fixed point $X$ such that ${P_{\star} + X} \succeq 0$ and that is $X = \Delta_{P}$. Now, we consider the set
+
+and we show that for an appropriately chosen $\nu$ the operator $\Phi$ maps $\mathcal{S}_{\nu}$ into itself and is also a contraction over the set $\mathcal{S}_{\nu}$. If we show these two properties, $\Phi$ is guaranteed to have a fixed point in the set $\mathcal{S}_{\nu}$. However, since $\Delta_{P}$ is the only possible fixed point of $\Phi$ in a set $\mathcal{S}_{\nu}$ we find ${\parallel\Delta_{P}\parallel} \leq \nu$.
+
+We denote $\Delta_{A} = {\hat{A} - A_{\star}}$, $\Delta_{B} = {\hat{B} - B_{\star}}$, $\Delta_{Q} = {\hat{Q} - Q_{\star}}$, and $\Delta_{S} = {\hat{S} - S_{\star}}$. By assumption we have ${\parallel\Delta_{A}\parallel} \leq \varepsilon$, ${\parallel\Delta_{B}\parallel} \leq \varepsilon$, ${\parallel\Delta_{Q}\parallel} \leq \varepsilon$. Then, ${\parallel\Delta_{S}\parallel} \leq {3{\parallel B_{\star}\parallel}{\parallel R^{- 1}\parallel}\varepsilon}$ because $\varepsilon \leq {\parallel B_{\star}\parallel}$.
+
+### Lemma 4
+
+Suppose the matrices $X$, $X_{1}$, $X_{2}$ belong to $\mathcal{S}_{\nu}$, with $\nu \leq {\min{\{ 1,{\parallel S_{\star}\parallel}^{- 1}\}}}$. Furthermore, we assume that ${\parallel\Delta_{A}\parallel} \leq \varepsilon$, ${\parallel\Delta_{B}\parallel} \leq \varepsilon$, and ${\parallel\Delta_{Q}\parallel} \leq \varepsilon$ with $\varepsilon \leq {\min{\{ 1,{\parallel B_{\star}\parallel}\}}}$. Finally, let ${\underset{¯}{\sigma}{(P_{\star})}} \geq 1$. Then
+
+The proof of this lemma is defered to Appendix C. Now, we choose
+
+Since $\varepsilon$ is assumed to be small enough, we know
+
+Then, the operator $\Phi$ satisfies ${\parallel{{\Phi{(X_{1})}} - {\Phi{(X_{2})}}}\parallel} \leq {\frac{1}{2}{\parallel{X_{1} - X_{2}}\parallel}}$ for all $X_{1}$ and $X_{2}$ in $\mathcal{S}_{\nu}$. Moreover, we have ${\parallel{\Phi{(X)}}\parallel} \leq \nu$ for all $X \in \mathcal{S}_{\nu}$. Since $\nu \leq {\underset{¯}{\sigma}{(P_{\star})}}$, we know that ${P_{\star} + {\Phi{(X)}}} \succeq 0$
+
+Therefore, $\Phi$ maps $\mathcal{S}_{\nu}$ into itself and is a contraction over $\mathcal{S}_{\nu}$. Hence, $\Phi$ has a fixed point in $\mathcal{S}_{\nu}$ since $\mathcal{S}_{\nu}$ is a closed set. However, we already argued that the unique fixed point of $\Phi$ is $\Delta_{P}$. Therefore, $\Delta_{P} \in \mathcal{S}_{\nu}$ and ${\parallel\Delta_{P}\parallel} \leq \nu$. Proposition 2 is now proven.
+
+### Proof of Proposition 3
+
+Since both noisy and noiseless LQR have the same associated Riccati equation and the same optimal controller, we can focus on the noiseless case in this section. Namely, noiseless LQR takes the form
+
+for a given initial state $\mathbf{x}_{0}$. Then, we know that the cost achieved by the optimal controller when the system is initialized at $\mathbf{x}_{0}$ is equal to $\mathbf{x}_{0}^{\top}P_{\star}\mathbf{x}_{0}$.
+
+We denote by $J{(A,B,\mathbf{x}_{0},{\{\mathbf{u}_{t}\}}_{t \geq 0})}$ the cost achieved on a linear system $(A,B)$ initialized at $\mathbf{x}_{0}$ by the input sequence ${\{\mathbf{u}_{t}\}}_{t \geq 0}$. When the input sequence is given by a time invariant linear gain matrix $K$ we slightly abuse notation and denote the cost by $J{(A,B,\mathbf{x}_{0},K)}$. In this case, ${J{(A,B,\mathbf{x}_{0},K)}} = {\mathbf{x}_{0}^{\top}P\mathbf{x}_{0}}$, where $P$ is the solution to the associated Riccati equation.
+
+Now, let $\mathbf{x}_{0}$ be an arbitrary unit state vector in ${\mathbb{R}}^{n}$. Then,
+
+for any sequence of inputs ${\{{\hat{\mathbf{u}}}_{t}\}}_{t \geq 0}$. We denote by ${\hat{\mathbf{x}}}_{t}$ the states produced by ${\hat{\mathbf{u}}}_{t}$ on the system $(\hat{A},\hat{B})$ and by $\mathbf{x}_{t}$ and $\mathbf{u}_{t}$ the states and actions obtained on the system $(A_{\star},B_{\star})$ when the optimal controller $\mathbf{u}_{t} = {K_{\star}\mathbf{x}_{t}}$ is used. To prove Proposition 3 we choose a sequence of actions ${\{{\hat{\mathbf{u}}}_{t}\}}_{t \geq 0}$ such that ${J{(\hat{A},\hat{B},\mathbf{x}_{0},{\{{\hat{\mathbf{u}}}_{t}\}}_{t \geq 0})}} \approx {J{(A_{\star},B_{\star},\mathbf{x}_{0},K_{\star})}}$.
+
+For any sequence of inputs ${\{{\hat{\mathbf{u}}}_{t}\}}_{t \geq 0}$ such that the series defining the cost $J{(\hat{A},\hat{B},\mathbf{x}_{0},{\{{\hat{\mathbf{u}}}_{t}\}}_{t \geq 0})}$ is absolutely convergent, we can write
+
+Then, the key idea is to choose a sequence of inputs ${\{{\hat{\mathbf{u}}}_{t}\}}_{t \geq 0}$ such that the system $(\hat{A},\hat{B})$ tracks the system $(A_{\star},B_{\star},K_{\star})$, i.e., ${\hat{\mathbf{x}}}_{\ellj} = \mathbf{x}_{\ellj}$ for any $j \geq 0$ ( ${\hat{\mathbf{x}}}_{0} = \mathbf{x}_{0}$ because both systems are initialized at the same state). This can be done because $(\hat{A},\hat{B})$ is $(\ell,{\tau/2})$-controllable when $(A_{\star},B_{\star})$ is $(\ell,\tau)$-controllable and the estimation error is sufficiently small, as shown in Lemma 6. First, we present a result that quantifies the effect of matrix perturbations on powers of matrices.
+
+### Lemma 5
+
+Let $M$ be an arbitrary matrix in ${\mathbb{R}}^{n \times n}$ and let $\rho \geq {\rho{(M)}}$. Then, for all $k \geq 1$ and real matrices $\Delta$ of appropriate dimensions we have
+
+Recall that $\tau{(M,\rho)}$ is defined in Equation 3.
+
+The proof is deferred to Appendix A. Lemma 5 quantifies the effect of a perturbation $\Delta$, applied to a matrix $M$ on the spectral radius of $M + \Delta$. We are interested in quantifying the sizes of these perturbations for all $k = {1,2,\ldots,\ell}$. Depending on $\parallel\Delta\parallel$, $M$, and $\rho$ the sum ${\tau{(M,\rho)}{\parallel\Delta\parallel}} + \rho$ can either be greater than one or smaller than one. For notational simplicity, in the rest of the proof we denote $\beta = {\max{\{ 1,{{\varepsilon\tau{(A_{\star},\rho)}} + \rho}\}}}$. Then, we have ${\parallel{({A_{\star} + \Delta})}^{k}\parallel} \leq {\tau{(A_{\star},\rho)}\beta^{\ell - 1}}$ and ${\parallel{{({A_{\star} + \Delta})}^{k} - A_{\star}^{k}}\parallel} \leq {\ell\tau{(A_{\star},\rho)}^{2}\beta^{\ell - 1}\varepsilon}$ for all $k \leq {\ell - 1}$ and all real matrices $\Delta$ with ${\parallel\Delta\parallel} \leq \varepsilon$.
+
+We denote $C_{\ell} = \begin{bmatrix}
+B_{\star} & {A_{\star}B_{\star}} & \ldots & {A_{\star}^{\ell - 1}B_{\star}}
+\end{bmatrix}$ and ${\hat{\mathcal{C}}}_{\ell} = \begin{bmatrix}
+\hat{B} & {\hat{A}\hat{B}} & \ldots & {{\hat{A}}^{\ell - 1}\hat{B}}
+\end{bmatrix}$. Before presenting the next result we recall that for any block matrix $M$ with blocks $M_{i,j}$ we have ${\| M\|}^{2} \leq {\sum_{i,j}{\| M_{i,j}\|}^{2}}$. The next lemma gives us control over the smallest positive singular value of the controllability matrix ${\hat{\mathcal{C}}}_{\ell}$ in terms of the corresponding value for $\mathcal{C}_{\ell}$.
+
+### Lemma 6
+
+Suppose the linear $(A_{\star},B_{\star})$ is $(\ell,\nu)$-controllable and let $\rho$ be a real number such that $\rho \geq {\rho{(A_{\star})}}$. Then, if ${\|{\hat{A} - A_{\star}}\|} \leq \varepsilon$ and ${\|{\hat{B} - B_{\star}}\|} \leq \varepsilon$, we have
+
+The proof is deferred to Appendix B. Lemma 6 tells us that by the assumption made in Proposition 3 on $\varepsilon$, we have ${\underset{¯}{\sigma}{({\hat{\mathcal{C}}}_{\ell})}} \geq \frac{\tau_{\ell}}{2}$. Hence, we know that for any $\mathbf{x}_{0} \in {\mathbb{R}}^{n}$ and ${\mathbf{u}_{0},\mathbf{u}_{1},\ldots,\mathbf{u}_{\ell - 1}} \in {\mathbb{R}}^{d}$, there exist ${{\hat{\mathbf{u}}}_{0},{\hat{\mathbf{u}}}_{1},\ldots,{\hat{\mathbf{u}}}_{\ell - 1}} \in {\mathbb{R}}^{d}$ such that
+
+because the system $(\hat{A},\hat{B})$ is controllable. This equation implies that ${\hat{\mathbf{x}}}_{\ell} = \mathbf{x}_{\ell}$.
+
+We denote the concatenation of $\mathbf{u}_{i}$, for $i$ from $0$ to $\ell - 1$ by $\mathbf{u}^{(\ell)}$. We define ${\hat{\mathbf{u}}}^{(\ell)}$ analogously. Therefore, Equation can be rewritten as
+
+Recall that $\beta = {\max{\{ 1,{{\tau{(A_{\star},\rho)}{\parallel\Delta\parallel}} + \rho}\}}}$. Combining Lemma 5 and the upper bound on operator norms of block matrices we find ${\|{{\hat{\mathcal{C}}}_{\ell} - \mathcal{C}_{\ell}}\|} \leq {\varepsilon\ell^{\frac{3}{2}}\tau{(A_{\star},\rho)}^{2}\beta^{\ell - 1}\left( {{\| B_{\star}\|} + 1} \right)}$.
+
+We are free to choose ${\hat{\mathbf{u}}}^{(\ell)}$ anyway we wish as long as Equation is true. Therefore, we can choose ${\hat{\mathbf{u}}}^{(\ell)}$ such that ${\hat{\mathbf{u}}}^{(\ell)} - \mathbf{u}^{(\ell)}$ is perpendicular to the nullspace of ${\hat{\mathcal{C}}}_{\ell}$. Then,
+
+Let us consider the block Toeplitz matrix
+
+From Lemma 5 and the upper bound on operator norms of block matrices we have ${\|{\mathcal{T}_{\ell} - {\hat{\mathcal{T}}}_{\ell}}\|} \leq {\varepsilon\ell^{2}\tau{(A_{\star},\rho)}^{2}\beta^{\ell - 2}{({{\| B_{\star}\|} + 1})}}$. Let $\mathbf{x}^{(\ell)}$ be the concatenation of the vectors $\mathbf{x}_{0}$, $\mathbf{x}_{1}$,..., $\mathbf{x}_{\ell - 1}$. Then,
+
+In Equations and we proved that the inputs and states of the system $(\hat{A},\hat{B})$ are close to the inputs and states of the system $(A_{\star},B_{\star})$ from time $0$ to $\ell$. Since the inputs to the system $(\hat{A},\hat{B})$ satisfy Equation, we know that ${\hat{\mathbf{x}}}_{\ellj} = \mathbf{x}_{\ellj}$ for all $j$. We can repeat the same argument as above, with $\mathbf{x}_{\ellj}$ taking the place of $\mathbf{x}_{0}$, to show that the inputs and states of the two systems are close to each other from time $\ellj$ to $\ell{({j + 1})}$. Let us denote by $\mathbf{x}_{j}^{(\ell)}$ the concatenation of the vectors $\mathbf{x}_{\ellj}$, $\mathbf{x}_{{\ellj} + 1}$,..., $\mathbf{x}_{{{\ellj} + \ell} - 1}$ and let $\mathbf{u}_{j}^{(\ell)}$ be defined analogously. Then,
+
+Now, we note that
+
+Now, we use the upper bounds from. We always have $\eta \leq \mu$. Since Proposition 3 assumes $\varepsilon$ is small enough, we also have $\mu \leq 1$. Using these upper bounds, we find
+
+Then, we get ${\hat{J} - J_{\star}} \leq {{8\mu{\max{\{{\| Q\|},{\| R\|}\}}}{\sum_{j = 0}^{\infty}{\|\mathbf{x}_{j}^{(\ell)}\|}^{2}}} + {\|\mathbf{u}_{j}^{(\ell)}\|}^{2}}$ after using the inequalities ${({a + b})}^{2} \leq {2{({a^{2} + b^{2}})}}$ and ${2ab} \leq {a^{2} + b^{2}}$. Now, As long as ${\parallel\mathbf{x}_{0}\parallel} \leq 1$ we have
+
+Since the initial state is an arbitrary unit norm vector, our upper bound on $\mathbf{x}_{0}^{\top}{({\hat{P} - P_{\star}})}\mathbf{x}_{0}$ becomes
+
+Now, we can reverse the roles of $(\hat{A},\hat{B})$ and $(A_{\star},B_{\star})$ and repeat the same argument and obtain an upper bound on $\lambda_{\max}\left( {P_{\star} - \hat{P}} \right)$ analogous to Equation, but which has $\| P_{\star}\|$ replaced by $\|\hat{P}\|$ on the right hand side. However, implies that ${\|\hat{P}\|} \leq {{\| P_{\star}\|} + 1} \leq {2{\| P_{\star}\|}}$ because we assumed that $\varepsilon$ is small enough such that the right hand side of is less than one, and because $P_{\star} \succeq I_{n}$. The conclusion follows.
+
+We note that the proof can be extended to the case when the cost matrix $Q$ is also being perturbed. Moreover, the only essiential step in the argument where we used $Q \succ 0$ is. The goal of is to upper bound ${\sum_{j = 0}^{\infty}{\|\mathbf{x}_{j}^{(\ell)}\|}^{2}} + {\|\mathbf{u}_{j}^{(\ell)}\|}^{2}$. This quantity can be upper bounded even when $Q$ is not positive definite, but the system $(Q^{1/2},A)$ is observable; which is a necessary requirement for LQR on the parameters $(A,B,Q,R)$ to stabilize the system $(A,B)$.
+
+## Related Work
+
+For the offline LQR batch setting, Fiechter proved that the sub-optimality gap $\hat{J} - J_{\star}$ scales as $\mathcal{O}{(\varepsilon)}$ for certainty equivalent control. A crucial assumption of his analysis is that the nominal controller stabilizes the true unknown system. We give bounds on when this assumption is valid. Recently, Dean et al. proposed a robust controller synthesis procedure which takes model uncertainty into account and whose suboptimality gap scales as $\mathcal{O}{(\varepsilon)}$. Tu and Recht show that the gap $\hat{J} - J_{\star}$ of certainty equivalent control scales asymptotically as $\mathcal{O}{(\varepsilon^{2})}$; we provide a non-asymptotic analogue of this result. Fazel et al. and Malik et al. analyze a model-free approach to policy optimization for LQR, in which the controller is directly optimized from sampled rollouts. Malik et al. showed that, after collecting $N$ rollouts, a derivative free method achieves a discounted cost gap that scales as $\mathcal{O}{({1/\sqrt{N}})}$ or $\mathcal{O}{({1/N})}$, depending on the oracle model used.
+
+In the online LQR adaptive setting it is well understood that using the certainty equivalence principle without adequate exploration can result in a lack of parameter convergence \see e.g.. Abbasi-Yadkori and Szepesvári showed that optimism in the face of uncertainty (OFU), when applied to online LQR, yields $\overset{\sim}{\mathcal{O}}{(\sqrt{T})}$ regret. Faradonbeh et al. removed some un-necessary assumptions of the previous analysis. Ibrahimi et al. showed that when the underlying system is sparse, the dimension dependent constants in the regret bound can be improved. The main issue with OFU for LQR is that there are no known computationally tractable ways of implementing it. In order to deal with this, both Dean et al. and Abbasi-Yadkori et al. propose polynomial time algorithms for adaptive LQR based on $\varepsilon$-greedy exploration which achieve $\overset{\sim}{\mathcal{O}}{(T^{2/3})}$ regret. Only recently progress has been made on offering $\overset{\sim}{\mathcal{O}}{(\sqrt{T})}$ regret guarantees for computationally tractable algorithms. Abeille and Lazaric show that Thompson sampling achieves $\overset{\sim}{\mathcal{O}}{(\sqrt{T})}$ (frequentist) regret for the case when the state and inputs are both scalars. In a Bayesian setting Ouyang et al. showed that Thompson sampling achieves $\overset{\sim}{\mathcal{O}}{(\sqrt{T})}$ *expected* regret. Faradonbeh et al. argue that certainty equivalence control with an epsilon-greedy-like scheme achieves $\overset{\sim}{\mathcal{O}}{(\sqrt{T})}$ regret, though their work does not provide any explicit dependencies on instance parameters. Finally, Cohen et al. also give an efficient algorithm based on semidefinite programming that achieves $\overset{\sim}{\mathcal{O}}{(\sqrt{T})}$ regret.
+
+The literature for LQG is less complete, with most of the focus on the estimation side. Hardt et al. show that gradient descent can be used to learn a model with good predictive performance, under strong technical assumptions on the $A$ matrix. A line of work has focused on using spectral filtering techniques to learn a predictive model with low regret. Beyond predictive performance, several works show how to learn the system dynamics up to a similarity transform from input/output data. Finally, we remark that Boczar et al. give sub-optimality guarantees for output-feedback of a single-input-single-output (SISO) linear system with no process noise.
+
+A key part of our analysis involves bounding the perturbation of solutions to the discrete algebraic Riccati equation. While there is a rich line of work studying perturbations of Riccati equations, the results in the literature are either asymptotic in nature or difficult to use and interpret. We clarify the operator-theoretic result of Konstantinov et al. and provide an explicit upper bound on the perturbation based on their proof strategy. Also, we take a new direct approach and use an extended notion of controllability to give a constructive and simpler result. While the result of Konstantinov et al. applies more generally to systems that are stabilizable, we give examples of linear systems for which our new perturbation result is tighter.
+
+## Conclusion
+
+Though a naïve Taylor expansion suggests that the fast rates we derive here must be achievable, precisely computing such rates has been open since the 80s. All of the pieces we used here have existed in the literature for some time, and perhaps it has just required a bit of time to align contemporary rate-analyses in learning theory with earlier operator theoretic work in optimal control. There remain many possible extensions to this work. The robust control approach of Dean et al. applies to many different objective functions besides quadratic costs, such as $\mathcal{H}_{\infty}$ and $\mathcal{L}_{1}$ control. It would be interesting to know whether fast rates for control are possible for other objective functions. Finally, determining the optimal minimax rate for both LQR and LQG would allow us to understand the tradeoffs between nominal and robust control at a more fine grained level.

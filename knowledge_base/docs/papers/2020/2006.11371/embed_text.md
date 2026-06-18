@@ -1,0 +1,662 @@
+## Introduction
+
+Artificial Intelligence (AI) based algorithms, especially using deep neural networks, are transforming the way we approach real-world tasks done by humans. Recent years have seen a surge in the use of Machine Learning (ML) algorithms in automating various facets of science, business, and social workflow. The surge is partly due to the uptick of research in a field of ML, called Deep Learning (DL), where thousands (even billions) of neuronal parameters are trained to generalize on carrying out a particular task. Successful use of DL algorithms in healthcare, ophthalmology, developmental disorders, in autonomous robots and vehicles, in image processing classification and detection, in speech and audio processing, cyber-security, and many more indicate the reach of DL algorithms in our daily lives. Easier access to high-performance compute nodes using cloud computing ecosystems, high-throughput AI accelerators to enhance performance, and access to big-data scale datasets and storage enables deep learning providers to research, test, and operate ML algorithms at scale in small edge devices, smartphones, and AI-based web-services using Application Programming Interfaces (APIs) for wider exposure to any applications.
+
+The large number of parameters in Deep Neural Networks (DNNs) make them complex to understand and undeniably harder to interpret. Regardless of the cross-validation accuracy or other evaluation parameters which might indicate a good learning performance, deep learning (DL) models could inherently learn or fail to learn representations from the data which a human might consider important. Explaining the decisions made by DNNs require knowledge of the internal operations of DNNs, missing with non-AI-experts and end-users who are more focused on getting accurate solution. Hence, often the ability to interpret AI decisions are deemed secondary in the race to achieve state-of-the-art results or crossing human-level accuracy.
+
+Recent interest in XAI, even from governments especially with the European General Data Protection Regulation (GDPR) regulation, shows the important realization of the ethics, trust, bias of AI, as well as the impact of adversarial examples in fooling classifier decisions. In, Miller et al. describes that curiosity is one of the primary reason why people ask for explanations to specific decisions. Another reason might be to facilitate better learning - to reiterate model design and generate better results. Each explanation should be consistent across similar data points and generate stable or similar explanation on the same data point over time. Explanations should make the AI algorithm expressive to improve human understanding, confidence in decision making, and promote impartial and just decisions. Thus, in order to maintain transparency, trust, and fairness in the ML decision-making process, an explanation or an interpretable solution is required for ML systems.
+
+Figure 1: General categorization of the survey in terms of scope, methodology, and usage.
+
+An explanation is a way to verify the output decision made by an AI agent or algorithm. For a cancer detection model using microscopic images, an explanation might mean a map of input pixels which contribute to the model output. For a speech recognition model, an explanation might be the power spectrum information during a specific time which contributed more towards the current output decision. Explanations can be also based on the parameters or activations of the trained models explained either by using surrogates such as decision trees or by using gradients or other methods. In the context of reinforcement learning algorithms, an explanation might be given as to why an agent made a certain decision over another. However, the definitions of interpretable and explainable AI are often generic and might be misleading and should integrate some form of reasoning.
+
+A collection of AI models, such as decision-trees and rule-based models, is inherently interpretable. However, there are affected by the drawbacks of Interpretability-versus-Accuracy trade-off compared to the Deep Learning models. This paper discusses the different approaches and perspectives of researchers to address the problem of the explainability of deep learning algorithms. Methods can be used effectively if the model parameters and architecture are already known. However, modern API-based AI services produce more challenges because of the relative 'black-box' nature of the problem where the end-user has information only on the input provided to the deep learning model and not the model itself.
+
+In this survey, we present a comprehensive overview of explainable and interpretable algorithms with a timeline of important events and research publications into three well-defined taxonomies as illustrated in Figure 1: A Survey"). Unlike many other surveys which only categorize and summarize the published research in a high-level, we provide additional mathematical overviews and algorithms of seminal works in the field of XAI. The algorithms presented in the survey are clustered into three well-defined categories which are described in detail in the following sections. Various evaluation techniques for XAI presented in literature are also discussed along with discussion on the limitations and future directions of these methods.
+
+Our contributions can be summarized as the following:
+
+In order to systematically analyze explainable and interpretable algorithms in deep learning, we taxonomize XAI to three well-defined categories to improve clarity and accessibility of the approaches.
+
+We examine, summarize and classify the core mathematical model and algorithms of recent XAI research on the proposed taxonomy and discuss the timeline for seminal work.
+
+We generate and compare the explanation maps for eight different XAI algorithms, outline the limitations of this approach, and discuss potential future directions to improve trust, transparency, and bias and fairness using deep neural network explanations.
+
+Our survey is based on published research, from the year 2007 to 2020, from various search sources including Google Scholar, ACM Digital Library, IEEEXplore, ScienceDirect, Spinger, and preprints from arXiv. Keywords such as explainable artificial intelligence, XAI, explainable machine learning, explainable deep learning, interpretable machine learning were used as search parameters.
+
+## Taxonomies and Organization
+
+Prior published survey's on general explainability have classified XAI techniques based on scope and usage. Key differences of this survey are classification based on methodology behind the XAI algorithms for deep learning, focus on mathematical summaries of the seminal papers, and evaluation strategies for XAI algorithms. We also mention popular open-source software implementations of various algorithms described in this survey. We summarize the taxonomies discussed in the survey in this section based on the illustration provided in Figure 1: A Survey"):
+
+Scope: Scope of explanations can be either local or global. Some methods can be extended to both. Locally explainable methods are designed to express, in general, the individual feature attributions of a single instance of input data $\mathbf{x}$ from the data population $\mathbf{X}$. For example, given a text document and a model to understand the sentiment of text, a locally explainable model might generate attribution scores for individual words in the text. Globally explainable models provide insight into the decision of the model as a whole - leading to an understanding about attributions for an array of input data. Local and global scope of explanations are described in detail in Section IV: A Survey").
+
+Methodology: Core algorithmic concept behind the explainable model can generally be categorized based on the methodology of implementation. In general, both local and global explainable algorithms can be categorized as either backpropagation-based or perturbation-based methods. In backpropagation-based methods, the explainable algorithm does one or more forward pass through the neural network and generates attributions during the backpropagation stage utilizing partial derivatives of the activations. Examples include saliency maps, saliency relevance maps, and class activation maps.
+
+Perturbation-based explainable algorithms focus on perturbing the feature set of a given input instance by either using occlusion, partially substituting features using filling operations or generative algorithms, masking, conditional sampling, etc. Here, generally, only forward pass is enough to generate the attribution representations without the need for backpropagating gradients. These methodology differences are described in Section V: A Survey").
+
+Usage: A well developed explainable method with a specific scope and methodology can be either embedded to the neural network model itself or applied as an external algorithm for explanation. Any explainable algorithm which is dependent on the model architecture fall into the model-intrinsic category. Most model-intrinsic algorithms are model-specific such that any change in the architecture will need significant changes in the method itself or minor changes of hyperparameters of the explainable algorithm.
+
+Generally, significant research interest is seen in developing model-agnostic post-hoc explanations, where the predictions of an already existing well-performing neural network model can be explained using ad-hoc explainable methods. Post-hoc methods are also widely applied in variety of input modalities such as images, text, tabular data, etc. These differences in the 'usage' of explainability methods are described in Section VI: A Survey").
+
+In Section VII: A Survey"), we discuss some of the evaluation strategies used to qualitatively or quantitatively evaluate the performance of XAI algorithms discussed in this survey. We present a list of desirable constraints applicable to XAI algorithms to improve its real-world performance as well as expressiveness in terms of transparency, trust, and bias understanding. These desirable qualities can be used as a guide to generate novel XAI algorithms which is favorable as well as expressive. Our study suggests that the evaluation methods are still immature and have an enormous potential for further research. We also provide a list of popular software packages that are open-sourced in GitHub platform. We chose the packages with considerable user support and implemented algorithms. All software platforms supports explaining either Scikit-Learn, Tensorflow, or PyTorch machine learning models. After describing the evaluation methods and software packages, we conclude our survey in Section VIII: A Survey").
+
+In our survey, all mathematical equations and algorithms described are based on a set of notations as described in Table I: A Survey"). The mathematical equations described in the survey might be different from their respective research publications as we have used similar notations to describe the same mathematical idea throughout the survey. This is done to aid the readers and have a common repository of notations. Also, a timeline of seminal research in the field is illustrated in Figure 6: A Survey"). The timeline provides information such as the name of the XAI method, name of first author, and year of publication.
+
+Single instance of input data from a population X
+
+Set of all input features except ith feature
+
+Class label of input x from a population Y
+
+Predicted label for input x
+
+ith feature in input instance x
+
+Single instance from X at location i
+
+Single instance from Y at location i
+
+${\overline{\mathbf{y}}}^{({\mathbf{i}})}$
+Predicted label for input x(i)
+
+Neural network model
+
+Parameters of the neural network
+
+Activation output of node or layer j for feature i
+
+Activation output summary of node or layer j for all features
+
+Activation map of input x
+
+Binary activation map of input x
+
+Class score function
+
+Coalition vector for SHAP
+
+Maximum coalition size
+
+Feature attribution for feature j
+
+TABLE I: Table of notations
+
+## Definitions and Preliminaries
+
+Various prior publications debate the nuances in defining Explainability and Interpretability of neural networks. We support the general concept of explainable AI as a suite of techniques and algorithms designed to improve the trustworthiness and transparency of AI systems. Explanations are described as extra metadata information from the AI model that offers insight into a specific AI decision or the internal functionality of the AI model as a whole. Various Explainability approaches applied to Deep Neural Networks are presented in this literature survey. Figure 2: A Survey") illustrates one such deep learning model which takes one input and generates one output prediction. Goal of explainable algorithms applied to deep neural networks are towards explaining these predictions using various methods summarized in this survey.
+
+Figure 2: High-level illustration of deep learning model f. Generally, a single input instance x generates outputs $\overline{\mathbf{y}}$. No other metadata or explanations are generated other than the output classification. Most model inference scenarios involve this method where model f is considered as a blob of information which takes an input x and generates an output $\overline{\mathbf{y}}$
+
+Generally, for an input ${\mathbf{x}} \in {\mathbb{R}}^{\mathbf{d}}$, a deep learning model function ${\mathbf{f}}{({\mathbf{θ}})}$ describes ${\mathbf{f}}:{{\mathbb{R}}^{\mathbf{d}}\rightarrow{\mathbb{R}}^{\mathbf{C}}}$, where $\mathbf{C}$ is the number of output classes and $\mathbf{θ}$ the parameters of the model in a classification problem. Now, the model inference can be described as $\overline{\mathbf{y}} = {{\mathbf{f}}{({\mathbf{θ}},{\mathbf{x}})}}$ where $\overline{\mathbf{y}}$ is the output prediction. We now define the key concepts explored in the survey, namely explainability of deep learning models. Further sections of the survey explain these definitions in finer detail.
+
+Definition 1: Interpretability is a desirable quality or feature of an algorithm which provides enough expressive data to understand how the algorithm works.
+
+Here, interpretable domains could include images or text which are comprehensible by humans. Cambridge Dictionary defines: "If something is interpretable, it is possible to find its meaning or possible to find a particular meaning in it".
+
+Definition 2: Interpretation is a simplified representation of a complex domain, such as outputs generated by a machine learning model, to meaningful concepts which are human-understandable and reasonable.
+
+Output predictions of a simple rule-based model can be easily interpreted by traversing the rule-set. Similarly a small decision tree can be easily understood. Or the Deep Convolution Networks (CNN) model that can identify the parts of the input image that led to the decision.
+
+Definition 3: An explanation is additional meta information, generated by an external algorithm or by the machine learning model itself, to describe the feature importance or relevance of an input instance towards a particular output classification.
+
+For a deep learning model $\mathbf{f}$ with input $\mathbf{x}$ and output prediction of $\overline{\mathbf{y}}$ of class $\mathbf{c}$, an explanation $\mathbf{g}$ can be generated, generally as an explanation map $\mathbf{E}$, where ${\mathbf{E}}:{{\mathbb{R}}^{\mathbf{d}}\rightarrow{\mathbb{R}}^{\mathbf{d}}}$. Here, $\mathbf{g}$ is an object of same shape as the input which describes the feature importance or relevance of that particular dimension to the class output. For an image, the explanation map can be an equally sized pixel map whereas for text, it might be word-by-word influence scores.
+
+Definition 4: For a deep learning model $\mathbf{f}$, if the model parameters $\mathbf{θ}$ and the model architecture information are known, the model is considered a white-box.
+
+A white-box model improves model-debugging and promotes trust. However, knowing the model architecture and parameters alone won't make the model explainable.
+
+Definition 5: A deep learning model $\mathbf{f}$ is considered a black-box if the model parameters and network architectures are hidden from the end-user.
+
+Typically, deep learning models served on web-based services or restricted business platforms are exposed using APIs which takes an input form the user and provides the model result as text, visual, or auditory presentation respective to the expected model output $\overline{\mathbf{y}}$.
+
+### III-A Why Is Research on XAI Important?
+
+With the use of AI algorithms in healthcare, credit scoring, loan acceptance, and more, the need to explain an ML model result is important for ethical, judicial, as well as safety reasons. Even though there are different facets to why XAI is important, our study suggests that the most important concerns are three-fold: 1) trustability, 2) transparency, and 3) bias and fairness of AI algorithms. Current business models include interpretation as a step before serving the ML models on production systems, however are often limited to small tree-based models. With the use of highly non-linear deep learning algorithms with millions of parameters in ML pipelines, XAI techniques must improve all three concerns mentioned above.
+
+Figure 3: Illustration from showing an adversarial attack where an image class Panda is deliberately attacked to predict as a Gibbon with high confidence. Note that the attacked image is visually similar to the original image and humans are unable to understand any changes.
+
+Figure 4: Illustration from showing how text in images can fool classifiers into believing that the text is a feature for a particular task.
+
+Improves Transparency: XAI improves transparency and fairness by creating a human-understandable justification to the decisions and could find and deter adversarial examples if used properly.
+
+Definition 6: A deep learning model is considered transparent if it is expressive enough to be human-understandable. Here, transparency can be a part of the algorithm itself or using external means such as model decomposition or simulations.
+
+Transparency is important to assess the quality of output predictions and to ward off adversaries. An adversarial example could hinder accurate decision making capabilities of a classifier by fooling the classifier into believing that a fake image is infact real. Figure 3: A Survey") illustrates such an example where an image of a Panda is predicted as a Gibbon with high confidence after the original Panda image was tampered by adding some adversarial noise. Figure 4: A Survey") illustrates a classifier learning to classify based on text data such as source tags or watermarks in advertisements in images. As we rely more on autonomous algorithms to aid our daily lives, quality of AI algorithms to mitigate attacks and provide transparency in terms of model understanding, textual, or visual reports should be of prime importance.
+
+Improves Trust: As a social animal, our social lives, decisions, and judgements are primarily based on the knowledge and available explanations to situations and the trust we generate. A scientific explanation or logical reasoning for a sub-optimal decision is better than a highly confident decision without any explanations.
+
+Figure 5: Significant expected improvements when using XAI techniques to support decision making of end-users. We believe XAI is important due to improvements in trust, transparency, and in understanding bias and fairness.
+
+Figure 6: A timeline of seminal works towards explainable AI algorithms is illustrated. The grey highlights indicate scope (GL: global, LO: local, Both: GL and LO), methodology (BP: backprop, PER: perturbation, Other: neither BP or PER, and usage level (IN: intrinsic or PH: post-hoc) of the algorithms.
+
+Automatic Concept-based Explanations
+
+Application Programming Interface
+
+Benchmarking Attribution Methods
+
+Bayesian Rule List
+
+Causal Concept Effect
+
+Class Activation Mapping
+
+Concept Activation Vectors
+
+Convolutional Neural Network
+
+Deconvolution Neural Network
+
+Deep Neural Network
+
+Functional Magnetic Resonance Imaging
+
+Generalized Additive Models
+
+Interpretability Randomization Test
+
+Local Interpretable Model-Agnostic Explanations
+
+Layer-wise Relevance BackPropagation
+
+Neural Additive Models
+
+One-Shot Feature Test
+
+Rectified Linear Unit
+
+Randomized Input Sampling for Explanation
+
+Recurrent Neural Network
+
+System Causability Scale
+
+SHapley Additive exPlanations
+
+Sparse Penalized Discriminant Analysis
+
+Spectral Relevance Analysis
+
+Testing with Concept Activation Vectors
+
+t-Stochastic Neighbor Embedding
+
+Variational Auto Encoders
+
+Explainable Artificial Intelligence
+
+TABLE II: Table of Abbreviations
+
+Definition 7: Trustability of deep learning models is a measure of confidence, as humans, as end-users, in the intended working of a given model in dynamic real-world environments.
+
+Thus, 'Why a particular decision was made' is of prime importance to improve the trust of end-users including subject matter experts, developers, law-makers, and laypersons alike. Fundamental explanations to classifier prediction is ever so important to stake-holders and government agencies to build trustability as we transition to a connected AI-driven socio-economic environment.
+
+Improves Model Bias Understanding and Fairness: XAI promotes fairness and helps mitigate biases introduced to the AI decision either from input datasets or poor neural network architecture.
+
+Definition 8: Bias in deep learning algorithms indicate the disproportionate weight, prejudice, favor, or inclination of the learnt model towards subsets of data due to both inherent biases in human data collection and deficiencies in the learning algorithm.
+
+Learning the model behavior using XAI techniques for different input data distributions could improve our understanding of the skewness and biases in the input data. This could generate a robust AI model. Understanding the input space could help us invest in bias mitigation methods and promote fairer models.
+
+Definition 9: Fairness in deep learning is the quality of a learnt model in providing impartial and just decisions without favoring any populations in the input data distribution.
+
+XAI techniques could be used as a way to improve the expressiveness and generate meaningful explanations to feature correlations for many subspaces in the data distribution to understand fairness in AI. By tracing back the output prediction discriminations back to the input using XAI techniques, we can understand the subset of features correlated to particular class-wise decisions.
+
+As we discussed previously, the use of XAI could provide a software-engineering design on AI with a continuously evolving model based on prior parameters, explanations, issues, and improvements to overall design thereby reducing human bias. However, choosing the right methods for explanation should be done with care, while considering to bake-in interpretability to machine learning models. We now proceed with detailed discussions as per the taxonomies.
+
+## Scope of Explanation
+
+### IV-A Local Explanations
+
+Consider a scenario where a doctor has to make a decision based on the results of a classifier output. The doctor needs careful understanding of the model predictions and concrete answers to the 'Why this decision?' question which requires an explanation of the local data point under scrutiny. This level of explaining individual decisions made by a classifier is categorized under locally explainable algorithms. Generally, locally explainable methods focus on a single input data instance to generate explanations by utilizing the different data features. Here, we are interested in generating $\mathbf{g}$ for explaining the decisions made by $\mathbf{f}$ for a single input instance $\mathbf{x}$. A high-level diagram is illustrated in Figure 7: A Survey").
+
+Figure 7: High-level illustration of locally explainable models. Generally, a single input instance is used for explanations.
+
+Founding research in local explanations used heatmaps, rule-based methods, Bayesian techniques, and feature importance matrices to understand feature correlations and importance towards output predictions. The output explanations were always positive real-valued matrices or vectors. Newer research in local explainable models improves the old methods by attribution maps, graph-based, and game-theory based models in which we get a feature-wise score of positive and negative correlations towards an output classification. Here, a positive attribution value means that the particular feature improves output class probability and a negative value means the feature decreased the output class probability. Mathematical equations described in this section and the rest of the survey follows notations tabulated in Table I: A Survey").
+
+### IV-A1 Activation Maximization
+
+Interpreting a layer-wise feature importance of a Convolutional Neural Network (CNN) model is simpler in the first layer which generally learns the high-level textures and edges. However, as we move deeper into the CNN, importance of specific layers towards a particular prediction is hard to summarize and visualize since parameters of subsequent layers are influenced by that of the previous layers. Hence, preliminary research tried to understand the neuronal activations to input instances as well as individual filters of specific layers.
+
+In 2010, a locally explainable method called Activation Maximization was introduced by Erhan et al., with focus on input patterns which maximize a given hidden unit activation. Here, the authors set an optimization problem of maximizing the activation of a unit. If $\mathbf{θ}$ is the parameters of the model, ${\mathbf{z}}_{{\mathbf{i}},{\mathbf{j}}}{({\mathbf{θ}},{\mathbf{x}})}$ is the activation of a particular unit $\mathbf{i}$ from layer $\mathbf{j}$. By assuming fixed parameters $\mathbf{θ}$, an activation map can be found as:
+
+After the optimization converges, we could either find an average of all local minima's to find an explanation map $\mathbf{g}$ or pick the one which maximizes the activations. Here, the goal is to minimize the activation maximization loss by finding larger filter activations correlated to specific input patterns. Thus, we could understand a layer-wise feature importance to an input instance. It was one of the first published research to express feature importance of deep learning models and was later improved by many researchers.
+
+### IV-A2 Saliency Map Visualization
+
+Saliency map generation in deep neural networks were first introduced by Simonyan et al. as a way of computing the gradient of the output class category with respect to an input image. By visualizing the gradients, a fair summary of pixel importance can be achieved by studying the positive gradients which had more influence to the output. Authors introduced two techniques of visualization: 1) class model visualizations and 2) image-specific class visualizations as illustrated in Figure 8: A Survey").
+
+We discuss class model visualization under the global explainable methods in Section IV-B: A Survey"). Image-specific class saliency visualization technique tries to find an approximate class score function ${\mathbf{S}}_{\mathbf{c}}{({\mathbf{I}})}$, where $\mathbf{x}$ is the input image with a label class $\mathbf{c}$ using first-order Taylor expansion:
+
+where $\mathbf{w}$ is the derivative of the class score function ${\mathbf{S}}_{\mathbf{c}}$ with respect to the input image $\mathbf{x}$ at a specific point in the image ${\mathbf{x}}_{\mathbf{0}}$ such that:
+
+Here, with light image processing, we can visualize the saliency map with respect to the location of input pixels with positive gradients.
+
+Figure 8: Image-specific class saliency maps using gradient based attribution method is shown. Image courtesy.
+
+### IV-A3 Layer-wise Relevance BackPropagation (LRP)
+
+LRP technique introduced in 2015 by Bach et al. is used to find relevance scores for individual features in the input data by decomposing the output predictions of the DNN. The relevance score for each atomic input is calculated by backpropagating the class scores of an output class node towards the input layer. The propagation follows a strict conservation property whereby a equal redistribution of relevance received by a neuron must be enforced. In CNNs, LRP backpropagates information regarding relevance of output class back to input layer, layer-by-layer. In Recurrent Neural Networks (RNNs), relevance is propagated to hidden states and memory cell. Zero relevance is assigned to gates of the RNN. If we consider a simple neural network with input instance $\mathbf{x}$, a linear output $\mathbf{y}$, and activation output $\mathbf{z}$, the system can be described as:
+
+If we consider ${\mathbf{R}}{({\mathbf{z}}_{\mathbf{j}})}$ as the relevance of activation output, the goal is to get ${\mathbf{R}}_{{\mathbf{i}}\leftarrow{\mathbf{j}}}$, that is to distribute ${\mathbf{R}}{({\mathbf{z}}_{\mathbf{j}})}$ to the corresponding input $\mathbf{x}$:
+
+Final relevance score of individual input $\mathbf{x}$ is the summation of all relevance from ${\mathbf{z}}_{\mathbf{j}}$ for input ${\mathbf{x}}_{\mathbf{i}}$:
+
+The LRP method have been recently extended to learn the global explainability by using LRP explanation maps as an input to global attribution algorithms. We discuss some such models in section IV-B: A Survey"). Newer research has also shown the importance of using methods such as LRP for model specific operations such as network pruning. Here, authors prune the least important weights or filters of a model by understanding the feature attributions of individual layer. This reduces the computation and storage cost of the AI models without significant drop in the model accuracy. This shows another aspect of using AI in understanding the model behavior and utilizing the new knowledge to improve model performance.
+
+### IV-A4 Local Interpretable Model-Agnostic Explanations (LIME)
+
+In 2016, Ribeiro et al. introduced Local Interpretable Model-Agnostic Explanations (LIME). To derive a representation that is understandable by humans, LIME tries to find importance of contiguous superpixels (a patch of pixels) in a source image towards the output class. Hence, LIME finds a binary vector ${\mathbf{x}}^{^{\prime}} \in {\{\mathbf{0},\mathbf{1}\}}$ to represent the presence or absence of a continuous path or 'superpixel' that provides the highest representation towards class output. This works on a patch-level on a single data input. Hence, the method falls under local explanations. There is also a global explanation model based on LIME called SP-LIME described in the global explainable model sub section. Here, we focus on local explanations.
+
+1:Input: classifier f, input sample x, number of superpixels n, number of features to pick m
+2:Output: explainable coefficients from the linear model
+3:${\overline{\mathbf{y}}\leftarrow{\mathbf{f}}}.{\text{predict(}{\mathbf{x}}\text{)}}$
+5: pi ← Permute( x ) ⊳ Randomly pick superpixels
+7: ${{\mathbf{d}}{\mathbf{i}}{\mathbf{s}}{\mathbf{t}}_{\mathbf{i}}}\leftarrow\left| {\overline{\mathbf{y}} - {{\mathbf{o}}{\mathbf{b}}{\mathbf{s}}_{\mathbf{i}}}} \right|$
+Algorithm 1 LIME algorithm for local explanations
+
+Figure 9: Local explanations of an image classification prediction described using LIME. Here, top three classes are ”electric guitar” (p=0.32), ”acoustic guitar” (p=0.24) and ”labrador” (p=0.21). By selecting a group of ‘superpixels’ from the input image, the classifier provides visual explanations to the top predicted labels.
+
+Consider ${\mathbf{g}} \in {\mathbf{G}}$, the explanation as a model from a class of potentially interpretable models $\mathbf{G}$. Here, $\mathbf{g}$ can be decision trees, linear models, or other models of varying interpretability. Let explanation complexity be measured by $\mathbf{\Omega}{({\mathbf{g}})}$. If ${\mathbf{π}}_{\mathbf{x}}{({\mathbf{z}})}$ is a proximity measure between two instances $\mathbf{x}$ and $\mathbf{z}$ around $\mathbf{x}$, and ${\mathcal{L}}{({\mathbf{f}},{\mathbf{g}},{\mathbf{π}}_{\mathbf{x}})}$ represents faithfulness of $\mathbf{g}$ in approximating $\mathbf{f}$ in locality defined by ${\mathbf{π}}_{\mathbf{x}}$, then, explanation $\mathbf{ξ}$ for the input data sample $\mathbf{x}$ is given by the LIME equation:
+
+Now, in Equation 7 ‣ IV-A Local Explanations ‣ IV Scope of Explanation ‣ Opportunities and Challenges in Explainable Artificial Intelligence (XAI): A Survey"), the goal of LIME optimization is to minimize the locality-aware loss ${\mathcal{L}}{({\mathbf{f}},{\mathbf{g}},{\mathbf{π}}_{\mathbf{x}})}$ in a model agnostic way. Example visualization of LIME algorithm on a single instance is illustrated in Figure 9 ‣ IV-A Local Explanations ‣ IV Scope of Explanation ‣ Opportunities and Challenges in Explainable Artificial Intelligence (XAI): A Survey"). Algorithm 1 ‣ IV-A Local Explanations ‣ IV Scope of Explanation ‣ Opportunities and Challenges in Explainable Artificial Intelligence (XAI): A Survey") shows the steps to explain the model for a single input sample and the overall procedure of LIME. Here, for the input instance we permute data by finding a superpixel of information ('fake' data). Then, we calculate distance (similarity score) between permutations and original observations. Now, we know how different the class scores are for the original input and the new 'fake' data.
+
+We can then make predictions on new 'fake' data using the complex model $\mathbf{f}$. This depends on the amount of superpixels you choose from the original data. The most descriptive feature can be picked which improved prediction on the permuted data. If we fit a simple model, often times a locally weighted regression model, to the permuted data with $\mathbf{m}$ features and similarity scores as weights, we can use the feature weights, or coefficients, from the simple model to make explanations for the local behavior of the complex model. Recent years have seen many research improving and extending the LIME algorithm to a variety of new tasks. We summarize a few of them below:
+
+In, Mishra et al. extended LIME algorithm to music content analysis by temporal segmentation, and frequency and time-frequency segmentation of input mel-spectogram. Their approach was called Sound-LIME (SLIME) and was applied to explain the predictions of a deep vocal detector.
+
+In, Tomi Peltola described a Kullback--Leibler divergence based LIME called KL-LIME to explain Bayesian predictive models. Similar to LIME, the explanations are generated using an interpretable model, whose parameters are found by minimizing the KL-divergence from the predictive model. Thus, local interpretable explanations are generated by projecting information from the predictive distribution to a simpler interpretable probabilistic explanation model.
+
+In, Rehman et al. used agglomerative Hierarchical Clustering (HC) and K-Nearest Neighbor (KNN) algorithms to replace the random perturbation of the LIME algorithm. Here, authors use the HC method to group training data together as clusters and the KNN is used to find closest neighbors to a test instance. Once the KNN picks a cluster, that cluster is passed as the input data perturbation instead of a random perturbation as in LIME algorithm. Authors report that their approach generates model explanations which are more stable than traditional LIME algorithm.
+
+In, Bramhall et al. adjusted the linear relations of LIME to consider non-linear relationships using a quadratic approximation framework called Quadratic-LIME (QLIME). They achieve this by considering the linear approximations as tangentials steps within a complex function. Results on a global staffing company dataset suggests that the mean square loss (MSE) of LIME's linear relationship at local level improves while using QLIME.
+
+In, Shi et al. introduced a replacement method to pick superpixels of information for image data using Modified Perturbed Sampling operation for LIME (MPS-LIME). Authors converted the traditional superpixel picking operation into a clique set construction problem by converting the superpixels to an undirected graph. The clique operation improves the runtime due to a considerable reduction in the number of perturbed samples in the MPS-LIME method. Authors compared their method with LIME using Mean Absolute Error (MAE) and Coefficient of determination ${\mathbf{R}}^{\mathbf{2}}$ and reported better results in terms of understandability, fidelity, and efficiency.
+
+### IV-A5 SHapley Additive exPlanations (SHAP)
+
+A game theoretically optimal solution using Shapley values for model explainability was proposed by Lundberg et al.. SHAP explains predictions of an input $\mathbf{x}$ by computing individual feature contributions towards that output prediction. By formulating the data features as players in a coalition game, Shapley values can be computed to learn to distribute the payout fairly.
+
+In SHAP method, a data feature can be individual categories in tabular data or superpixel groups in images similar to LIME. SHAP then deduce the problem as a set of linear function of functions where the explanation is a linear function of features. If we consider $\mathbf{g}$ as the explanation model of an ML model $\mathbf{f}$, ${\mathbf{z}}^{\prime} \in {\{\mathbf{0},\mathbf{1}\}}^{\mathbf{M}}$ as the coalition vector, $\mathbf{M}$ the maximum coalition size, and $\mathbf{\phi}_{\mathbf{j}} \in {\mathbb{R}}$ the feature attribution for feature $\mathbf{j}$, ${\mathbf{g}}{({\mathbf{z}}^{\prime})}$ is the sum of bias and individual feature contributions such that:
+
+Lundberg et al. further describes several variations to the baseline SHAP method such as KernelSHAP which reduces evaluations required for large inputs on any ML model, LinearSHAP which estimates SHAP values from a linear model's weight coefficients given independent input features, Low-Order SHAP which is efficient for small maximum coalition size $\mathbf{M}$, and DeepSHAP which adapts DeepLIFT method to leverage the compositional nature of deep neural networks to improve attributions. Since KernelSHAP is applicable to all machine learning algorithms, we describe it in Algorithm 2 ‣ IV-A Local Explanations ‣ IV Scope of Explanation ‣ Opportunities and Challenges in Explainable Artificial Intelligence (XAI): A Survey"). The general idea of KernelSHAP is to carry out an additive feature attribution method by randomly sampling coalitions by removing features from the input data and linearizing the model influence using SHAP kernels.
+
+1:Input: classifier f, input sample x
+2:Output: explainable coefficients from the linear model
+4:zk ← hx (zk) ⊳ hx is a feature transformation to reshape to x
+8:Return LinearModel.coefficients()
+Algorithm 2 KernelSHAP Algorithm for Local Explanations
+
+SHAP was also explored widely by the research community, was applied directly, and improved in many aspects. Use of SHAP in the medical domain to explain clinical decision-making and some of the recent works which have significant merits are summarized here:
+
+In, Antwarg et al. extended SHAP method to explain autoencoders used to detect anomalies. Authors classify anomalies using the autoencoder by comparing the actual data instance with the reconstructed output. Since the final output is a reconstruction, authors suggests that the explanations should be based on the reconstruction error. SHAP values are found for top performing features and were divided into those contributing to and offsetting anomalies.
+
+In, Sundararajan et al. express various disadvantages of SHAP method such as generating counterintuitive explanations for cases where certain features are not important. This 'uniqueness' property of attribution method is improved using Baseline Shapley (BShap) method. Authors further extend the method using Integrated Gradients to the continuous domain.
+
+In, Aas et al. explored the dependence between SHAP values by extending KernelSHAP method to handle dependent features. Authors also presented a method to cluster Shapley values corresponding to dependent features. A thorough comparison of the KernelSHAP method was carried out with four proposed methods to replace the conditional distributions of KernelSHAP method using empirical approach and either the Gaussian or the Gaussian copula approaches.
+
+In, Lundberg et al. described an extension of SHAP method for trees under a framework called TreeExplainer to understand the global model structure using local explanations. Authors described an algorithm to compute local explanation for trees in polynomial time based on exact Shapley values.
+
+In, VegaGarcia et al. describe a SHAP-based method to explain the predictions of time-series signals involving Long Short-Term Memory (LSTM) networks. Authors used DeepSHAP algorithm to explain individual instances in a test set based on the most important features from the training set. However, no changes in the SHAP method was done, and explanations were generated for each time step of each input instances.
+
+### IV-B Global Explanations
+
+AI model behavior for a suite of input data points could provide insights on the input features, patterns, and their output correlations thereby promoting transparency of model behavior. Various globally explainable methods deduce the complex deep models to linear counterparts which are easier to interpret. Rule-based and tree-based models such as decision trees are inherently globally interpretable. Output decision of individual branches of a tree can be traced back to the source. Similarly, linear models are often fully explainable given model parameters.
+
+Generally, globally explainable methods work on an array of inputs to summarize the overall behavior of the blackbox model as illustrated in Figure 10: A Survey"). Here, the explanation ${\mathbf{g}}_{\mathbf{f}}$ describes the feature attributions of the model as a whole and not just for individual inputs. Thus, global explainability is important to understand the general behavior of the model $\mathbf{f}$ on large distributions of input and previously unseen data.
+
+Figure 10: High-level illustration of a globally explainable algorithm design.
+
+### IV-B1 Global Surrogate Models
+
+Global surrogate models could be used as a way to approximate the predictions of highly non-linear AI models with an interpretable linear model or a decision tree. Global explanations answers the 'How' in XAI, specifically "How generalized is my AI model?", "How do variations of my AI model perform?". A general use case of surrogate models in deep learning would be extraction of feature-rich layer embeddings for test inputs and training a linear classifier on the embeddings. The coefficients of the linear model could give insights to how the model behaves. In a high-level, SHAP and LIME can both be considered as surrogate models with different methodology to understand the local correlations than linear models. SpRAy technique we will see in Section IV-B5 ‣ IV-B Global Explanations ‣ IV Scope of Explanation ‣ Opportunities and Challenges in Explainable Artificial Intelligence (XAI): A Survey") also extract local features from a group of data to understand model behavior.
+
+### IV-B2 Class Model Visualization
+
+Activation maximization introduced in Section IV-A1: A Survey") can be also expanded as a global method using Class Model Visualization as described by Simonyan et al.. Here, a given a trained ConvNet $\mathbf{f}$ and a class of interest $\mathbf{c}$, the goal is to generate image visualizations ${\mathbf{I}}^{\prime}$ which is representative of $\mathbf{c}$. This is based on the scoring methods used to train $\mathbf{f}$ which maximizes the class probability score ${\mathbf{S}}_{\mathbf{c}}{({\mathbf{I}})}$ for $\mathbf{c}$, such that:
+
+Thus, the generated images provides insight to what the blackbox model had learnt for a particular class in the dataset. Images generated using this technique is often called 'deep dream' due to the colorful artefacts generated in the visualizations corresponding to the output class under consideration. Figure 11: A Survey") illustrates three numerically computed class appearance models learnt by a CNN model for goose, ostrich, and limousine classes respectively.
+
+Figure 11: Numerically computed images from which uses the class-model visualization method to generate images representing the target class mentioned in the illustration.
+
+### IV-B3 LIME Algorithm for Global Explanations
+
+LIME model was extended with a submodular pick algorithm (SP-LIME) to understand the global correlations of the model under study. This way, LIME provides a global understanding of the model from the individual data instances by providing a non redundant global decision boundary of the machine learning model. Generating global importance of individual features is done using a submodular pick algorithm (hence called SP-LIME). Algorithm 3: A Survey") describes the steps to generate a global explanation to the blackbox model $\mathbf{f}$ by learning individual feature importance of input samples ${\mathbf{x}}_{\mathbf{1}},\mathbf{\ldots},{\mathbf{x}}_{\mathbf{n}}$ $\in X$.
+
+1:Input: classifier f, input samples x1, …, xn ∈ X
+2:Output: explanation matrix after submodular pick
+3:Define instances X and budget B
+7:Select B features from fL I M E
+Algorithm 3 LIME Algorithm for Global Explanations
+
+If $\mathbf{B}$ is the number of explanations to inspect called Budget, $\mathbf{W}$, the explanation matrix, we start with explaining all instances ${\mathbf{x}} \in {\mathbf{X}}$ using LIME algorithm explained in Section IV-A4 ‣ IV-A Local Explanations ‣ IV Scope of Explanation ‣ Opportunities and Challenges in Explainable Artificial Intelligence (XAI): A Survey"). In the domain of images, $\mathbf{X}$ represents individual input images and $\mathbf{B}$ represent the number of superpixels selected for the LIME algorithm. Then, we select $\mathbf{B}$ features from $\mathbf{f}$ which represents the image better. The submodular pick algorithm starts by generating a matrix of size ${\mathbf{X}} \times {\mathbf{B}}$ and applying greedy optimization on the matrix such that it chooses minimum number of inputs ${\mathbf{m}}{\mathbf{i}}{\mathbf{n}}{({\mathbf{X}})}$ which covers the most number of features ${\mathbf{m}}{\mathbf{a}}{\mathbf{x}}{({\mathbf{F}})}$. Here, SP-LIME works similar to a surrogate model by first extracting the independent explainability vectors using LIME operation. Hence, computational overhead, accuracy, and complexity depends partly on the amount out data used to understand the model globally.
+
+### IV-B4 Concept Activation Vectors (CAVs)
+
+In, Kim et al. introduced Concept Activation Vectors (CAVs), a global explainability method to interpret the internal states of a neural network in human-friendly concept domain. Here, if we consider the machine learning model ${\mathbf{f}}{(.)}$ as a vector space ${\mathbf{E}}_{\mathbf{m}}$ spanned by basis vector ${\mathbf{e}}_{\mathbf{m}}$, we see that human understanding can be modelled as vector space ${\mathbf{E}}_{\mathbf{h}}$ and implicit vectors ${\mathbf{e}}_{\mathbf{h}}$ which correspond to human-understandable concepts $\mathbf{C}$. Hence, the explanation function of the model in a global sense, $\mathbf{g}$, becomes ${\mathbf{g}}:{{\mathbf{E}}_{\mathbf{m}}\rightarrow{\mathbf{E}}_{\mathbf{h}}}$.
+
+Now, human understandable concepts are generated from either input features of training data or user-provided data to simplify the lower-level features of the input domain. For example, a zebra can be deduced to positive concepts ${\mathbf{P}}_{\mathbf{C}}$ such as stripes as illustrated in Figure 12 ‣ IV-B Global Explanations ‣ IV Scope of Explanation ‣ Opportunities and Challenges in Explainable Artificial Intelligence (XAI): A Survey"). A negative set of concepts, $\mathbf{N}$, can be gathered, for example a set of random photos, to contrast the concepts for zebra. Layer activations for layer $\mathbf{j}$ of $\mathbf{f}$, ${\mathbf{z}}_{\mathbf{j}}$ is calculated for both positive and negative concepts. The set of activations are trained using a binary classifier to distinguish between: $\{{{\mathbf{f}}_{\mathbf{j}}{({\mathbf{x}})}}:{{\mathbf{x}} \in {\mathbf{P}}_{\mathbf{C}}}\}$ and $\{{{\mathbf{f}}_{\mathbf{j}}{({\mathbf{x}})}}:{{\mathbf{x}} \in {\mathbf{N}}}\}$.
+
+Figure 12: Figure illustrates the TCAV process where (a) describe random concepts and examples, (b) labelled examples from training data, (c) trained neural network, (d) linear model segregating the activations extracted from specific layers in the neural network for the concepts and random examples, and (e) finding conceptual sensitivity using directional derivatives.
+
+Authors proposed a new method, Testing with CAVs (TCAV), which uses directional derivatives similar to gradient based methods to evaluate the sensitivity of class predictions of $\mathbf{f}$ to the changes in given inputs towards the direction of the concept $\mathbf{C}$ for a specific layer $\mathbf{j}$. If ${\mathbf{h}}{({\mathbf{j}},{\mathbf{k}})}$ is the logit of layer $\mathbf{j}$ for class $\mathbf{k}$ for a particular input, conceptual sensitivity of a class $\mathbf{k}$ to $\mathbf{C}$ can be computed as directional derivative ${\mathbf{S}}_{{\mathbf{C}},{\mathbf{k}},{\mathbf{j}}}{({\mathbf{x}})}$ for a concept vector ${\mathbf{v}}_{\mathbf{C}}^{\mathbf{j}} \in {\mathbb{R}}^{\mathbf{m}}$:
+
+A TCAV score can be calculated to find the influence of inputs towards $\mathbf{C}$. If ${\mathbf{X}}_{\mathbf{k}}$ denotes all inputs with label $\mathbf{k}$, TCAV score is given by:
+
+TCAV unfortunately could generate meaningless CAVs if the input concepts are not picked properly. For example, input concepts generated randomly would inherently generate bad linear models for binary classification and thus TCAV score wouldn't be a good identifier for global explainability. Also, concepts with high correlations or shared objects in the data, such as cars and roads, could decrease the efficiency of TCAV method. Human bias in picking the concepts also is a considerable disadvantage of using concepts for explainability. The CAV method was further improved in numerous research papers which involved the primary author of CAV:
+
+In, Ghorbani et al. described a method called Automatic Concept-based Explanations (ACE) to globally explain a trained classifier without human supervision unlike TCAV method. Here, authors carry out a multi-resolution segmentation of instance to be explained. This generates multiple resolution segments from the same class. All segments are reshaped to similar input sizes and activations of each segment is found with respect to a specific chosen bottleneck layer. Clustering the activations and removing outliers reveals similarities within activations.
+
+TCAV scores of individual concepts provide an importance score of the same for particular classification. Authors carried out human subject experiments to evaluate their method and found inspiring results. One research question that arise is the importance of clusters in decision-making. Authors showed that, by stitching the clustered concepts together as an image, a trained InceptionV3 deep neural network was capable of classifying the stitched image as the correct class category. This tends to show that the extracted concepts are suitable for decision-making within the deep learning model.
+
+Work done by Goyal et al. improved TCAV method by proposing a Causal Concept Effect (CaCE) model which looks at the causal effect of presence or absence of high-level concepts towards deep learning model's prediction. Methods such as TCAVs can suffer from confounding of concepts which could happen if the training data instances have multiple classes in them, even with low correlation between the classes. Also, biases in dataset could influence concepts, as well as colors in the input data.
+
+CaCE can be computed exactly if we can change concepts of interest by intervening the counterfactual data generation. Authors call this Ground truth CaCE (GT-CaCE) and also elaborate a way to estimate CaCE using Variational Auto Encoders (VAEs) called VAE-CaCE. Experimental results on four datasets suggest improved clustering and performance of the CaCE method even when there are biases or correlations in the dataset.
+
+In, Yeh et al. introduced ConceptSHAP to define an importance or "completeness" score for each discovered concept. Similar to ACE method mentioned earlier, one of the aims of ConceptSHAP is to have concepts consistently clustered to certain coherent spatial regions. However, ConceptSHAP finds the importance of each individual concepts with high completeness score from a set of $\mathbf{m}$ concept vectors ${\mathbf{C}}_{\mathbf{s}} = {\{{\mathbf{c}}_{\mathbf{1}},{\mathbf{c}}_{\mathbf{2}},\mathbf{\ldots},{\mathbf{c}}_{\mathbf{m}}\}}$ by utilizing Shapley values for importance attribution.
+
+### IV-B5 Spectral Relevance Analysis (SpRAy)
+
+SpRAy technique by Lapuschkin et al. builds on top of the local instance based LRP explanations. In specific, authors described a spectral clustering algorithm on local explanations provided by LRP to understand the decision-making process of the model globally. By analyzing the spatial structure of frequently occurring attributions in LRP instances, SpRAy identifies normal and abnormal behavior of machine learning models.
+
+Algorithm 4 ‣ IV-B Global Explanations ‣ IV Scope of Explanation ‣ Opportunities and Challenges in Explainable Artificial Intelligence (XAI): A Survey") explains the SpRAy technique in detail. We start by finding local relevance map explanations to every individual data instances ${\mathbf{x}} \in {\mathbf{X}}$ using LRP method. The relevance maps are downsized to uniform shape and size to improve computation overhead and generate tractable solutions. Spectral cluster analysis (SC) is carried out on the LRP attribution relevance maps to cluster the local explanations in a high-dimensional space. An eigenmap analysis is carried out to find relevant clusters by finding the eigengap (difference in two eigenvalues) of successive clusters. After completion, important clusters are returned to users. The clusters can be optionally visualized using t-Stochastic Neighbor Embedding (t-SNE) visualizations.
+
+1:Input: classifier f, input samples x, …, x(n)
+2:Output: clustered input samples
+10:Optional: Visualize t-SNE(c l u s t e r s*)
+Algorithm 4 SpRAy Analysis Algorithm on LRP Attributions
+
+### IV-B6 Global Attribution Mapping
+
+When features have well defined semantics, we can treat attributions as weighted conjoined rankings with each feature as a rank vector $\mathbf{σ}$. After finding local attributions, global attribution mapping finds a pair-wise rank distance matrix and cluster the attribution by minimizing cost function of cluster distances. This way, global attribution mapping can identify differences in explanations among subpopulations within the clusters which can trace the explanations to individual samples with tunable subpopulation granularity.
+
+### IV-B7 Neural Additive Models (NAMs)
+
+In, Agarwal et al. introduced a novel method to train multiple deep neural networks in an additive fashion such that each neural network attend to a single input feature. Built as an extension to generalized additive models (GAM), NAM instead use deep learning based neural networks to learn non-linear patterns and feature jumping which traditional tree-based GAMs cannot learn. NAMs improved accurate GAMs introduced in and are scalable during training to several GPUs.
+
+Consider a general GAM of the form:
+
+where ${\mathbf{f}}_{\mathbf{i}}$ is a univariate shape function with ${{\mathbb{E}}{\lbrack{\mathbf{f}}_{\mathbf{i}}\rbrack}} = \mathbf{0}$, ${\mathbf{x}} \in {{\mathbf{x}}_{\mathbf{1}},{\mathbf{x}}_{\mathbf{2}},\mathbf{\ldots},{\mathbf{x}}_{\mathbf{K}}}$ is the input with K features, $\mathbf{y}$ is the target variable, and ${\mathbf{g}}{(.)}$ is a link function. NAMs can be generalized by parameterizing the functions ${\mathbf{f}}_{\mathbf{i}}$ with neural networks with several hidden layers and neurons in each layer. We can see individual neural networks applied to each features ${\mathbf{x}}_{\mathbf{i}}$. The outputs of each ${\mathbf{f}}_{\mathbf{i}}$ is combined together using a summing operation before applying an activation. A high-level diagram of NAM is provided in 13 ‣ IV-B Global Explanations ‣ IV Scope of Explanation ‣ Opportunities and Challenges in Explainable Artificial Intelligence (XAI): A Survey") taken from the source paper.
+
+Figure 13: A high-level diagram of the interpretable NAM architecture for binary classification is illustrated. Functions fi is used to learn from corresponding. individual features in xi.
+
+Authors proposed exp-centered (ExU) hidden units to overcome the failure of ReLU activated neural networks with standard initializations to fit jagged functions. NAMs should be able to learn jagged functions due to sharp changes in features in real-world datasets often encountered in GAMs. For ExU hidden units, the unit function can be calculated as ${{\mathbf{h}}{({\mathbf{x}})}} = {{\mathbf{f}}{({{\mathbf{e}}^{\mathbf{w}} \ast {({{\mathbf{x}} - {\mathbf{b}}})}})}}$, where $\mathbf{x}$, $\mathbf{w}$, and $\mathbf{b}$ are the inputs, weights, and biases parameters. Authors used a weight initialization of training from a normal distribution ${\mathcal{N}}{({\mathbf{x}},0.5)}$ with ${\mathbf{x}} \in {\lbrack\mathbf{3},\mathbf{4}\rbrack}$. This globally explainable model provides average score of shape functions of individual neural networks to provide interpretable contributions of each features as positive and negative values. Negative values reduce the class probability while positive values improve the same.
+
+NAM is an interesting architecture because we can generate exact explanations of each feature space with respect of an output prediction. Newer research could open up venues to expand the ideas to CNNs and for other domains such as text.
+
+## Differences in the Methodology
+
+Based on the core algorithmic approach followed in the XAI method, we can categorize XAI methods as the ones which focus on the changes or modifications input data and the ones which focus on the model architecture and parameters. These fundamental changes are categorized in our survey as perturbation-based and backpropagation-based respectively.
+
+### V-A Perturbation-Based
+
+Explanations generated by iteratively probing a trained machine learning model with different variations of the inputs generally fall under perturbation based XAI techniques. These perturbations can be on a feature level by replacing certain features by zero or random counterfactual instances, picking one or group of pixels (superpixels) for explanation, blurring, shifting, or masking operations, etc. As we discussed in the prior sections, LIME algorithm works on superpixels of information or features as illustrated in Figure 9 ‣ IV-A Local Explanations ‣ IV Scope of Explanation ‣ Opportunities and Challenges in Explainable Artificial Intelligence (XAI): A Survey"). By iteratively providing input patches, visual explanations of individual superpixels are generated. SHAP has a similar method of probing feature correlations by removing features in a game theoretic framework. Intuitively, we see that methods trying to understand neuronal activities and the impact of individual features to a corresponding class output by any input perturbations mentioned above can be categorized as a group of method, which we here call perturbation-based XAI method. The methods described in this section are further summarized in Table III: A Survey").
+
+Comments and Discussions
+
+DeConv Nets by Zeiler et al.
+Neural activation of individual layers by occluding input instance and visualizing using DeConv Nets
+Authors trained an AlexNet model on ImageNet dataset and layer-wise filter visualizations were carried out, studied feature generalization, and brought important insights in dataset bias and issues with small training samples.
+
+Iterative perturbation to input data instance by finding superpixels
+Authors generated locally faithful explanations using input perturbations around a point of interest. A human/user study was carried out to assess the impact of using LIME as an explanation and found that explanations can improve a untrustworthy classifier.
+
+Probing feature correlations by removing features in a game theoretic framework
+SHAP produced consistently better results than LIME. A user study indicated that SHAP explanations are consistent with human explanations. However, as we will see in the evaluation section, some recent studies argue that SHAP values, albeit good in generating explanations, does not improve final decision making.
+
+Prediction Difference Analysis by Zintgraf et al.
+By studying f removing individual features from x, find the positive and negative correlation of individual features towards the output.
+AlexNet, GoogLeNet, VGG
+One of the first works to look at positive and negative correlation of individual features towards the output by finding a relevance value to each input feature. Trained various models on ImageNet dataset to understand the support for the output classes from various layers of deep nets.
+
+Randomized Input Sampling for Explanation by Petsiuk et al.
+Study saliency maps by randomized masking of inputs
+
+Randomization and Feature Testing by Burns et al.
+Counterfactual replacements of features to study feature importance
+
+TABLE III: Summary of published research in perturbation-based methods
+
+### V-A1 DeConvolution nets for Convolution Visualizations
+
+Zeiler et al. visualized the neural activations of individual layers of a deep convolutional network by occluding different segments of the input image and generating visualizations using a deconvolution network (DeConvNet). DeConvNets are CNNs designed with filters and unpooling operations to render opposite results than a traditional CNN. Hence, instead of reducing the feature dimensions, a DeConvNet, as illustrated in Figure 14: A Survey"), is used to create an activation map which maps back to the input pixel space thereby creating a visualization of the neural (feature) activity. The individual activation maps could help understand what and how the internal layers of the deep model of interest is learning - allowing for a granular study of DNNs.
+
+Figure 14: Deconvolution operation is applied using a DeConv layer attached to the end of a ConvNet. Here the DeConvNet generates an approximate version of the convolution features thereby providing visual explanations. Figure from.
+
+### V-A2 Prediction Difference Analysis
+
+A conditional sampling based multi-variate approached was used by Zintgraf et al. to generate more targeted explanations on image classification CNNs. By assigning a relevance value to each input features with respect to the predicted class $\mathbf{c}$, the authors summarize the positive and negative correlation of individual data features to a particular model decision. Given an input feature $\mathbf{x}$, its feature relevance can be estimated by studying the changes in model output prediction for the inputs with different hidden features. Hence, if ${\mathbf{x}}_{\backslash{\mathbf{i}}}$ denotes the set of all input features except $\mathbf{x}$, the task is to find the difference between ${\mathbf{p}}{(\left. {\mathbf{c}} \middle| \mathbf{x} \right.)}$ and ${\mathbf{p}}{(\left. {\mathbf{c}} \middle| {\mathbf{x}}_{\backslash{\mathbf{i}}} \right.)}$.
+
+### V-A3 Randomized Input Sampling for Explanation (RISE)
+
+The RISE method introduced by Petsiuk et al. perturb an input image by multiplying it with randomized masks. The masked images are given as inputs and the saliency maps corresponding to individual images are captured. Weighted average of the masks according to the confident scores is used to find the final saliency map with a positive valued heatmap for individual predictions. Importance maps of the blackbox prediction is estimated using Monte Carlo sampling. A high-level architecture is illustrated in Figure 15: A Survey").
+
+### V-A4 Randomization and Feature Testing
+
+The Interpretability Randomization Test (IRT) and the One-Shot Feature Test (OSFT) introduced by Burns et al. focuses on discovering important features by replacing the features with uninformative counterfactuals. Modeling the feature replacement with a hypothesis testing framework, the authors illustrate an interesting way to examine contextual importance. Unfortunately, for deep learning algorithms, removing one or more features from the input isn't possible due to strict input dimensions for a pre-trained deep model. Zero-ing out values or filling in counterfactual values might lead to unsatisfactory performance due to correlation between features.
+
+Figure 15: The input image given to a deep learning model is perturbed using various randomized masks. A confidence score is found out for individual masked inputs. A final saliency map is generated using a weighting function.
+
+### V-B BackPropagation- or Gradient-Based
+
+Perturbation-based methods, as we saw in the previous section, focuses on variations in the input feature space to explain individual feature attributions of $\mathbf{f}$ towards the output class $\mathbf{c}$. Gradient-based explainability methods, in contrast, utilize the backward pass of information flow in a neural network to understand neuronal influence and relevance of the input $\mathbf{x}$ towards the output. As we will see in the following subsections, majority of gradient-based methods focuses on either visualization of activations of individual neurons with high influence or overall feature attributions reshaped to the input dimensions. A natural advantage of gradient-based XAI methods are the generation of human understandable visual explanations.
+
+### V-B1 Saliency Maps
+
+As mentioned in sub-section IV-A2: A Survey"), Simonyan et al. introduced a gradient based method to generate saliency maps for convolutional nets. DeConvNet work by Zeiler et al. mentioned previously as a perturbation method uses backpropagation for activation visualizations. DeConvNet work was impressive due to relative importance given to gradient value during backprop. With Rectified Linear Unit (ReLU) activation, a backprop on traditional CNNs would result in zero values for negative gradients. However, in DeConvNets, the gradient value is not clipped at zero. This allowed for accurate visualizations. Guided backpropagation methods are also another class of gradient based explanation which improved upon.
+
+### V-B2 Gradient class activation mapping (CAM)
+
+Most saliency methods use global average pooling layer for all pooling operations instead of maxpooling. Zhou et al. modified global average pooling function with class activation mapping (CAM) to localize class-specific image regions on an input image with a single forward-pass. Grad-CAM and Grad-CAM++ improved the CAM operation for deeper CNNs and better visualizations.
+
+GradCAM is a class-discriminative attribution technique for localizing the neuronal activity of a CNN network. It allows class-specific query of an input image and also counterfactual explanations which highlights regions in the image which negatively contribute to a particular model output. GradCAM is successfully applied to explain classifiers in image classification, image segmentation, visual question answering (VQA), etc. Figure 16 Maps ‣ V-B BackPropagation- or Gradient-Based ‣ V Differences in the Methodology ‣ Opportunities and Challenges in Explainable Artificial Intelligence (XAI): A Survey") illustrates a segmentation method utilizing GradCAM to improve the segmentation algorithm. Here, we see another example of using XAI explanations to improve performance of deep neural networks.
+
+### V-B3 Salient Relevance (SR) Maps
+
+Li et al. proposed Salient Relevance (SR) map which is a context aware salience map based on the LRP of input image. Hence, the first step is to find LRP relevance map for input image of interest with the same input dimensions. A context aware salience relevance map algorithm takes the LRP relevance maps and finds a saliency value for individual pixels. Here, a pixel is salient if a group of neighboring pixels are distinct and different from other pixel patches in the same and multiple scales. This is done to differentiate between background and foreground layers of the image.
+
+To aid visualization, a canny-edge based detector is superimposed with the SR map to provide context to the explanation. We place SR in gradient based methods due to the use of LRP. Other relevance propagation methods based on Taylor decomposition are also explored in literature, which are slightly different in the methodology but have the same global idea.
+
+Algorithm 5 Maps ‣ V-B BackPropagation- or Gradient-Based ‣ V Differences in the Methodology ‣ Opportunities and Challenges in Explainable Artificial Intelligence (XAI): A Survey") describes the SR map generation in detail. Similar to SpRAy technique, we start with the LRP of the input instance. In contrast, we only find LRP attribution relevance score for a single input of interest $\mathbf{x}$. Then a context aware saliency relevance (SR) map is generated by finding a dissimilarity measure based on the euclidean distance in color space and position. Multi-scale saliency at scales ${\mathbf{r}},\frac{\mathbf{r}}{\mathbf{2}},\frac{\mathbf{r}}{\mathbf{4}}$ are found out and the immediate context of image $\mathbf{x}$ based on an attention function is added to generate the SR map.
+
+Figure 16: Illustration from showing segmentation results by using Grad-CAM output as a seed.
+
+1:Input: classifier f, input sample x, scale factor r
+2:Output: relevance map
+5:${\mathbf{S}}\leftarrow{{\text{MultiScaleSaliency(}{\mathbf{r}}},\frac{\mathbf{r}}{\mathbf{2}},{\frac{\mathbf{r}}{\mathbf{4}}\text{)}}}$
+Algorithm 5 Salient Relevance (SR) Algorithm
+
+Comments and Discussions
+
+Visualizing gradients, neural activation of individual layers using DeConv nets, guided backpropagation, etc. as images.
+A group of techniques which kicked-off gradient-based XAI research. As we will see in the evaluation section, these methods have serious disadvantages which needs to be improved.
+
+Localize neuronal activity flowing to last convolutional layer of a CNN to allow class-specific query with counterfactual explanations describing negative influence of input features as well.
+AlexNet ResNet, and more.
+
+Takes the LRP relevance maps and finds a saliency value for individual pixels.
+
+Axiomatic Attribution Maps by Sundararajan et al.
+Feature importance based on distance from a baseline instance
+GoogLeNet, LSTM based NMT, and more.
+Introduced axioms or desirable qualities for gradient-based methods. Improved the saliency maps and gradient times input maps.
+
+PatternNet and PatternAttribution by Kindermans et al.
+LRP-based method with back-projection of estimated signals to input space. Cleaner attributions based using root point selection algorithm.
+
+TABLE IV: Summary of published research in gradient-based methods
+
+### V-B4 Attribution Maps
+
+In, Ancona et al. shows that the gradient method, where the gradient of output corresponding to input is multiplied by the input, is useful in generating an interpretable explanation to model outcomes. However, in, authors proposed Integrated Gradients (IG) and argue that most gradient based lack in certain 'axioms' which are desirable characteristics of any gradient based technique. Authors argue that methods such as DeepLift, Layer-wise relevance propagation (LRP), Deconvolutional networks (DeConvNets), and Guided back-propagation have specific back-propagation logic that violates some axioms.
+
+For each input data instance $\mathbf{x}$, if we consider a baseline instance ${\mathbf{x}}^{^{\prime}} \in {\mathbb{R}}^{\mathbf{n}}$, the attributions of $\mathbf{x}$ on model $\mathbf{f}$ can be summarized by computing the integral of gradients at all points of a straight-line path from baseline ${\mathbf{x}}^{^{\prime}}$ to $\mathbf{x}$. This method is called the Integrated Gradients such that:
+
+where $\mathbf{j}$ describes the dimension along which the gradient is calculated. During calculation in computers, the integral in equation 13: A Survey") is efficiently approximated using summation instead. In many cases, baseline instance ${\mathbf{x}}_{\mathbf{i}}^{^{\prime}}$ is chosen as a zero matrix or vector. For example, for image domain, the baseline image is chosen as a black image by default. For text classification, the baseline is a zero valued vector. However, choosing baselines arbitrarily could cause issues downstream. For example, a black baseline image could cause the attribution method to diminish the importance of black pixels in the source image.
+
+Attribution prior concept tries to regularize the feature attributions during model training to encode domain knowledge. A new method, Expected Gradients (EG) was also introduced in the paper as a substitute feature attribution method instead of Integrated Gradients. Together, the attribution prior and EG methods encodes prior knowledge from the domain to aid training process leading to better model interpretability. Equation 14: A Survey") shows how authors remove the influence of baseline images from integrated gradients by still following all the axioms of Integrated Gradient method. Here, $\mathbf{D}$ is the distribution of underlying data domain.
+
+Since an integration over the whole training distribution is intractable, authors proposed to reformulate the integral as expectations such that:
+
+### V-B5 Desiderata of Gradient-based Methods
+
+Gradient-based methods, as we saw, mainly use saliency maps, class activation maps, or other gradient maps for visualization of important features. Recent research have found numerous limitations in gradient-based methods. To improve gradient-based XAI techniques, Sundararajan et al. describes four desirable qualities (axioms) that a gradient based method needs to follow:
+
+Sensitivity: If for every input and baseline that differ in one feature but have different predictions then the differing feature should be given a non-zero attribution. For simple functions such as ${{\mathbf{f}}{({\mathbf{x}})}} = {\mathbf{1} - {{\mathbf{R}}{\mathbf{e}}{\mathbf{L}}{\mathbf{U}}{({\mathbf{1} - {\mathbf{x}}})}}}$, the function value saturates for $\mathbf{x}$ values greater than or equal to one. Hence, if we take simple gradients as an attribution method, sensitivity won't hold.
+
+Implementation invariance: Two networks are *functionally equivalent* if their outputs are equal for all inputs, despite having very different implementations. Attribution methods should satisfy *Implementation Invariance*, i.e., the attributions are always identical for two functionally equivalent networks. Methods such as DeepLift and LRP break implementation invariance because they use discrete gradients, and chain rule doesn't old for discrete gradients in general. Generally, if the model fails to provide implementation invariance, the attributions are potentially sensitive to unimportant features and aspects of the model definition.
+
+Completeness: Attributions should add up to the difference between output of model function $\mathbf{f}$ for the input image $\mathbf{x}$ and another baseline image ${\mathbf{x}}^{^{\prime}}$. ${\mathbf{\Sigma}_{{\mathbf{i}} = \mathbf{1}}^{\mathbf{n}}{\mathbf{G}}{\mathbf{r}}{\mathbf{a}}{\mathbf{d}}{\mathbf{i}}{\mathbf{e}}{\mathbf{n}}{\mathbf{t}}{\mathbf{s}}_{\mathbf{i}}{({\mathbf{x}})}} = {{{\mathbf{f}}{({\mathbf{x}})}} - {{\mathbf{f}}{({\mathbf{x}}^{^{\prime}})}}}$.
+
+Linearity: For a linearly composed neural network model ${\mathbf{f}}_{\mathbf{3}}$ which is a linear combination of two neural network models ${\mathbf{f}}_{\mathbf{1}}$ and ${\mathbf{f}}_{\mathbf{2}}$ such that ${\mathbf{f}}_{\mathbf{3}} = {{{\mathbf{a}} \times {\mathbf{f}}_{\mathbf{1}}} + {{\mathbf{b}} \times {\mathbf{f}}_{\mathbf{2}}}}$, then the attributions of the ${\mathbf{f}}_{\mathbf{3}}$ is expected to be a weighted sum of attributions for ${\mathbf{f}}_{\mathbf{1}}$ and ${\mathbf{f}}_{\mathbf{2}}$ with weights $\mathbf{a}$ and $\mathbf{b}$ respectively.
+
+Despite human understandable explanations, gradient-based explanation maps have practical disadvantages and raises various concerns in mission-critical applications. We explain some of these concerns in later sections.
+
+## Model Usage or Implementation Level
+
+Figure 17: High-level illustration of model intrinsic explainability algorithms. Here, the explainability is baked into f itself such that f is naturally explainable.
+
+### VI-A Model Intrinsic
+
+On a usage or implementation level, model intrinsic explainable methods have interpretable elements baked into them. These models are inherently interpretable either by following strict axioms, rule-based final decisions, granular explanations for decisions, etc. By definition, intrinsic methods of explanations are inherently model-specific. This means that the explainer depends on the model architecture and cannot be re-used for other classifier architectures without designing the explanation algorithm specifically for the new architecture as illustrated in Figure 17: A Survey").
+
+### VI-A1 Trees and Rule-based Models
+
+Shallow rule-based models such as decision trees and decision lists are inherently interpretable. Many explainable algorithms including LIME and SHAP uses linear or tree based models for their globally explainable extensions of the core algorithms. Letham et al. introduced Bayesian Rule Lists (BRL) which is a generative model that yields a posterior distribution over possible decision lists to improve interpretability while keeping accuracy.
+
+The rule list has an if, else, and elseif rules generalized as the IF-THEN rule antecedent and predictions. As we add more IF-THEN rules to the decision list, the model becomes more accurate and interpretable. However, support for explanations deteriorate with large number of conditions. One way to simplify the problem is to find the frequent rule patterns and learn a decision list from the distribution using Bayesian techniques.
+
+By picking a sample rule list from the priori distribution and iteratively adding and editing the rules, BRL tries to optimize the rules such that the new rule distribution follows the posteriori distribution. Once optimized, new rules can be sampled from the posteriori distribution. Recent research have improved the scalability of BRL by improving the theoretical bounds, computational reuse, and highly tuned language libraries.
+
+### VI-A2 Generalized additive models (GAMs)
+
+Caruana et al. introduced Generalized additive models (GAMs) with pairwise interactions (GA^2^Ms) to improve the accuracy while maintaining interpretability of GAMs. However, for certain models, GAMs require often millions of decision trees to provide accurate results using the additive algorithms. Also, depending on the model architecture, over-regularization reduces accuracy of GAM models which are fit using splines. Numerous methods have improved GAMs. Perhaps the most important work is the recent Neural Additive Models we discussed in subsection IV-B7 ‣ IV-B Global Explanations ‣ IV Scope of Explanation ‣ Opportunities and Challenges in Explainable Artificial Intelligence (XAI): A Survey").
+
+### VI-A3 Sparse LDA and Discriminant Analysis
+
+A Bayesian non-parametric model, Graph-Sparse LDA, was introduced in to find interpretable, predictive topic summaries to textual categories on datasets with hierarchical labeling. Grosenick et al. introduced a method called Sparse Penalized Discriminant Analysis (SPDA) to improve the spatio-temporal interpretability and classification accuracy of learning algorithms on Functional Magnetic Resonance Imaging (FMRI) data.
+
+As we see in published research, there are several restrictions to use model intrinsic architectures as it requires careful algorithm development and fine-tuning to the problem setting. The difficulty in using concepts from model intrinsic architectures and apply them in existing high-accuracy models to improve interpretability is a disadvantage of model-intrinsic methods. However, as long as a reasonable performance limit is set, model intrinsic architectures for XAI could help accelerate inherently interpretable models for future AI research.
+
+### VI-B Post-Hoc
+
+Explaining pre-trained classifier decisions require algorithms to look at AI models as black or white boxes. A black box means the XAI algorithm doesn't know the internal operations and model architectures. In white box XAI, algorithms have access to the model architecture and layer structures. Post-hoc explanation methodology is extremely useful as existing accurate models can benefit from added interpretability. Most post-hoc XAI algorithms are hence model-agnostic such that the XAI algorithm will work on any network architectures as illustrated in Figure 18: A Survey"). This is one of the main advantages of post-hoc explainable algorithms. For example, an already trained well established neural network decision can be explained without sacrificing the accuracy of the trained model.
+
+Figure 18: High-level illustration of post-hoc model explainability algorithms. Here, the explainability algorithm is applied on f such that f is made explainable externally.
+
+Deconvolution network could be used to generate post-hoc explanations of layer-wise activations. Saliency maps and most attribution based methods are applied considering the network as a white or black box. LRP technique discussed above is done after training the model completely. Shapley sampling methods are also post-hoc and model agnostic. Activation maximization technique is applicable to any network in which we can find gradients values to optimize activations.
+
+Bayesian averaging over decision trees
+
+Gradient-based Saliency Maps
+
+Bayesian Case Model (BCM)
+
+Bayes Rule Lists
+
+Prediction Difference Analysis (PDA)
+
+Deep Taylor Expansion
+
+Deep Attribution Maps
+
+PatternNet and PatternAttribution
+
+Concept Activation Vectors
+
+Randomization and Feature Testing
+
+Salient Relevance (SR) map
+
+Spectral Relevance Analysis
+
+Global Attribution Mapping
+
+Automatic Concept-based Explanations
+
+Neural Additive Models
+
+Global: GL, Local: LO, Others: OT, BackProp: BP, Perturbation: PER, Model-specific: MS, Model-agnostic: MA, Tabular: TAB, Image: IMG, Test: TXT, Any: Image, Text, or Tabular.
+
+TABLE V: Summary of published research in explainability and interpretability of deep learning algorithms. * indicates that a preprint version was published an year prior to the conference or journal version.
+
+## Evaluation Methodologies, Issues, and Future Directions
+
+So far, we focused on XAI algorithms and methods categorized under scope, methodology, and usage. The seminar works discussed in the survey is tabulated in Table V: A Survey"). A fundamental challenge in XAI research is to evaluate the several proposed algorithms on real-world settings. Our survey on evaluation techniques suggested that the field is still immature with primary focus on a human-in-the-loop evaluations. Quantitative general evaluation schemes are yet to be explored. However, we summarize here some of the methods which improve human understandability of explainability method results based on. In general, each explanation should follow the below constraints to be usable by humans in a real-world setting:
+
+Identity or Invariance: Identical data instances must produce identical attributions or explanations.
+
+Stability: Data instances belonging to the same class $\mathbf{c}$ must generate comparable explanations $\mathbf{g}$.
+
+Consistency: Data instances with change in all but one feature must generate explanations which magnifies the change.
+
+Separability: Data instances from different populations must have dissimilar explanations.
+
+Similarity: Data instances, regardless of class differences, closer to each other, should generate similar explanations.
+
+Implementation Constraints: Time and compute requirement of the explainable algorithm should be minimal.
+
+Bias Detection: Inherent bias in data instances should be detectable from the testing set. Similarity and separability measures help achieve this.
+
+### VII-A Evaluation Schemes
+
+Several evaluation schemes have been suggested by the research community in the recent years. We present here some of the evaluation techniques that are actively gaining traction from the research community:
+
+System Causability Scale (SCS): As the explainability methods are applied to human-facing AI systems which does automated analysis of data, evaluation of human-AI interfaces as a whole is also important. A System Causability Scale (SCS) was introduced in to understand the requirements for explanations of a user-facing human-AI machine-interface, which are often domain specific. Authors described a medical scenario where the SCS tool was applied to Framingham Risk Tool (FRT) to understand the influence and importance of specific characteristics of the human-AI interface.
+
+Benchmarking Attribution Methods (BAM): In a preprint publication, introduced a framework called Benchmarking Attribution Methods (BAM) to evaluate the correctness of feature attributions and their relative importance. A BAM dataset and several models were introduced. Here, the BAM dataset is generated by copying pixel groups, called Common Features (CF), representing object categories from MSCOCO dataset and pasting them to MiniPlaces dataset. The hypothesis is that, if we have the same pixel group of information in the same spatial location of all of $\mathbf{X}$, then the model should ignore it as a feature of relative importance. Hence, attribution methods focusing on pasted objects are simply not doing a good job at enhancing feature attributions of important features. Authors provided model contrast score (MCS) to compare relative feature importance between difference models, input dependence rate (IDR) to learn the dependence of CF on a single instance, and input independence rate (IIR) as a percentage score of images whose average feature attributions ${\mathbf{g}}_{\mathbf{r}} \in {\mathbb{R}}$ for region $\mathbf{r}$ with and without CF is less than a set threshold.
+
+Faithfulness and Monotonicity: In, authors described a metric, named Faithfullness, to evaluate the correlation between importance scores of features to the performance effect of each feature towards a correct prediction. By incrementally removing important features and predicting on the edited data instance, we measures the effect of feature importance and later compare it against the interpreter's own prediction of relevance. In, authors introduce monotonic attribute functions and thus the Monotonicity metric which measures the importance or effect of individual data features on the performance of the model by incrementally adding each feature in the increasing order of importance to find model performance. The model performance is expected to increase as more important features are added.
+
+Human-grounded Evaluation Benchmark: In, Moshseni et al. introduced a human-grounded evaluation benchmark to evaluate local explanations generated by an XAI algorithm. Authors created a subset of ImageNet dataset and asked human annotators to manually annotate the images for the particular classes. A weighted explanation map was generated which summarized an average human representation of explanations. By comparing the explanations generated by locally explainable algorithms, authors presented a method to understand the precision of XAI explanations compared to human generated explanations. One fundamental flaw of this method could be added human bias in the explanations. However, human labels of individual data points from a large population could nullify the effect of inherent bias.
+
+Figure 19: We evaluate different gradient-based and perturbation-based techniques in this figure. LIME and SHAP uses segmented superpixels to understand feature importance, while gradient based saliency maps, Integrated Gradients, LRP, DeepLIFT, and Grad-CAM use backpropagation based feature importance in a pixel level. Original prediction accuracies of a pre-trained InceptionV3 model on the images in each rows provided are as follows: (a) ‘koala’, 94.5%, (b) ‘sandbar’, 38.0%, (c) ‘arabian camel’, 17.4%, and (d) ‘leaf beetle’, 95.5%. Each column represents the attribution map generated by individual XAI methods. Scales to assess Grad-CAM and SHAP values are provided in the lower right section of the image. Gradient visualizations of this figure are created using DeepExplain package while visualizations for Grad-CAM, LIME, and SHAP are created by their own individual implementations. The experiments were carried out in Jetstream cloud. This image is better viewed in color.
+
+### VII-B Software Packages
+
+OpenSource packages have greatly improved reproducible research and has been a real boon to recent research in deep learning and XAI alike. We mention here some XAI software packages available in GitHub.
+
+Interpret by InterpretML can be used to explain blackbox models and currently supports explainable boosting, decision trees, decision rule list, linearlogistic regression, SHAP kernel explainer, SHAP tree explainer, LIME, morris sensitivity analysis, and partial dependence. Available at [https://github.com/interpretml/interpret](https://github.com/interpretml/interpret).
+
+IML package is maintained by Christoph Molnar, author of. The package covers feature importance, partial dependence plots, individual conditional expectation plots, accumulated local effects, tree surrogates, LIME, and SHAP. Available at [https://github.com/christophM/iml](https://github.com/christophM/iml).
+
+DeepExplain package is maintained by Marco Ancona, author of. The package supports various gradient-based techniques such as saliency maps, gradient⁢input, integrated gradients, DeepLIFT, LRP, etc. and perturbation-based methods such as occlusion, SHAP, etc. Available at [https://github.com/marcoancona/DeepExplain](https://github.com/marcoancona/DeepExplain).
+
+DrWhy by ModelOriented is a package with several model agnostic and model specific XAI techniques including feature importance, ceteris paribus, partial dependency plots, conditional dependency, etc. Available at [https://github.com/ModelOriented/DrWhy](https://github.com/ModelOriented/DrWhy)
+
+### VII-C A Case-study on Understanding Explanation Maps
+
+In Figure 19: A Survey"), we illustrate the explanation maps generated using various gradient- and perturbation-based XAI techniques for four images from ImageNet dataset to explain the decisions an InceptionV3 model pre-trained on ImageNet. Here, each row starts with an original image from ImageNet followed by explanation map generated by gradient algorithms such as 1) saliency maps, 2) gradient times input, 3) integrated gradients, 4) LRP, 5) DeepLIFT, and 6) GradCAM, and perturbation-based techniques such as 1) LIME and 2) SHAP.
+
+GradCAM generates a heatmap of values ranging from 0 to 1, where 0 means no influence and 1 means highest influence of individual pixels towards the model output decision. Similarly, SHAP method follows a scale for SHAP values. However, SHAP scale ranges from -0.3 to +0.3 indicating that negative values decrease output class probability and positive values increase the output class probability for the corresponding input. Here 0.3 is the largest SHAP value generated for the set of four images considered. Gradient visualizations of this figure are created using DeepExplain package while visualizations for Grad-CAM, LIME, and SHAP are created by their own individual implementations.
+
+Original image column of row (a) in Figure 19: A Survey") indicates a correct prediction of an image of a Koala with $94.5\%$ prediction accuracy, row (b) indicates a correct prediction of a sandbar image with $38.0\%$ accuracy, row (c) indicates an incorrect prediction of a horse as an arabian camel with $17.4\%$ accuracy, and row (d) indicates correct prediction of a leaf beetle with $95.5\%$ percentage accuracy. We then compare the explanation maps, in different columns, generated by various XAI techniques as discussed above.
+
+Figure 20: Illustration from showing adversarial attacks involving small perturbations to input layer of neural network. We see that small perturbations doesn’t affect the accuracy of predictions. However, feature importance maps are highly affected by the small changes. This illustrates the flaws in current gradient-based techniques.
+
+Focusing on saliency maps, gradient times input, and integrated gradients in Figure 19: A Survey"), we can visually verify the improvements achieved by integrated gradients over the prior gradient-based methods. This is apparent in the images with lower class probabilities. For example, in row (b), we can verify that the integrated gradients generated high attributions around the sandy beach, plastic chairs, and a little bit of the blue sky. As human evaluators, we can make sense of this output because human experience suggests that a sandbar involve a beach, hopefully on a sunny day with bright blue clouds. A stark difference is apparent in Grad-CAM visualizations where the class output generated a heatmap which is focused primarily on the plastic chair and sandy beach, without much emphasis on the clouds. Perturbation-based methods such as LIME and SHAP generated superpixels which maximized the class probability. Here, we see that LIME is focusing on primarily the chairs and the sky, whereas SHAP is focusing on the beach and the sky. We also note that SHAP values generated are very low, indicating lesser influence to the confidence score.
+
+### VII-D Limitations of XAI Visualizations and Future Directions
+
+The discussion above brings some important flaws of XAI visualizations and interpretability techniques - 1) the inability of human-attention to deduce XAI explanation maps for decision-making, and 2) unavailability of a quantitative measure of completeness and correctness of the explanation map. This suggests that the further use of visualization techniques for mission-critical applications must be reconsidered moving forward. Also, better ways of representing and presenting explanations should be considered. For example, in, Weerts et al. studied the impact of SHAP explanations in improving human performance for alert processing tasks. The authors presented a human-grounded study to evaluate whether certain decision-making scenarios can be improved by providing explanations to decisions. Results showed that additional SHAP explanations to class output probability did not improve the decision-making of individuals. Authors saw more interest in final class score for making decisions which could be catastrophic in mission-critical scenarios.
+
+Similarly, in, Mohseni et al. presented a human-grounded evaluation benchmark and evaluated performance of LIME algorithm by comparing the explanation map generated by LIME to that of weighted explanation map of 10 human annotations. Results suggested that LIME creates some attributions irrelevant to human explanations which causes low explanation precision compared to weighted explanation map generated by human annotators. This sheds light to the importance of understanding the mode of explanations as application-grounded, human-grounded, and functionally-grounded explanations to improve explanation maps by meta information generated by humans, adding more constraints to explanations, or introducing formal definitions of explanations to the optimization problem.
+
+Several other flaws of explanation map visualization are explained by researchers in recent publications. In, Ghorbani et al. showed that small perturbations on the input instance generate large changes in the output interpretations that popular XAI methods generate. These adversarial examples, thus threw off the interpretable saliency maps generated by popular methods such as DeepLIFT and Integrated Gradients. This is illustrated in Figure 20: A Survey"). Additionally, in, Wang et al. showed that bias term which is often ignored could have high correlations towards attributions.
+
+In, Kindermans et al. explained that explanations of networks are easily manipulable by simple transformations. Authors note that expressiveness of Integrated Gradients and Deep Taylor Decomposition highly depend on the reference point, for example a baseline image ${\mathbf{x}}^{^{\prime}}$, and suggest that the reference point should be a hyperparameter instead of being determined a priori. Authors mentioned that most gradient-based methods attribute incorrectly to constant vector transformations and that input invariances should be a prerequisite for reliable attributions.
+
+In, Adebayo et al. suggested that gradient-based methods are inherently dependent on the model and data generating process. Authors proposed two randomization tests for gradient methods namely model parameter randomization test and data randomization test. Model parameter randomization test compared the output of saliency method for a trained model versus the same model with random weights. Data randomization test applied the same saliency method for an input instance and the same instance with a set of invariances. Authors found that Gradients and GradCAM passed the sanity checks while Guided Backprop and Guided GradCAM methods failed the tests suggesting that these methods will generate some explanations even without proper training.
+
+Newer methods proposed in literature such as explaining with Concepts which we discussed in subsection IV-B4 ‣ IV-B Global Explanations ‣ IV Scope of Explanation ‣ Opportunities and Challenges in Explainable Artificial Intelligence (XAI): A Survey") could be viewed as a new class of meta-explanations which improve both perturbation- and gradient-based XAI methods. By exploring explanations as concepts, one could have additional meta information on the factors which contributed to individual class predictions along with traditional explanation by locally explainable algorithms.
+
+In, Zhou et al. introduced Interpretable Basis Decomposition as a way of decomposing individual explanation based on different objects or scenes in the input instance. By decomposing the decision to several individual concept explanations, IBD could help evaluate importance of each concepts towards a particular decision.
+
+In, Kindermans et al. suggested improvements to gradient-based methods and proposed PatternNet and PatternAttribution which can estimate the component of the data that caused network activations. Here, PatternNet is similar to finding gradients but is instead done using a layer-wise backprojection of the estimated signal (data feature) to the input space. PatternAttribution improves upon LRP to provide a neuron-wise attribution of input signal to the corresponding output class.
+
+## Conclusion
+
+Blindly trusting the results of a highly predictive classifier is, by today's standard, inadvisable, due to the strong influence of data bias, trustability, and adversarial examples in machine learning. In this survey, we explored why XAI is important, several facets of XAI, and categorized them in respect of their scope, methodology, usage, and nature towards explaining deep neural network algorithms. A summary of the seminal algorithms explained in the survey are tabulated in Table V: A Survey").
+
+Our findings showed that considerable research in XAI is focused in model-agnostic post-hoc explainability algorithms due to their easier integration and wider reach. Additionally, there is a large interest in additive and local surrogate models using superpixels of information to evaluate the input feature attributions. Researchers are uncovering limitations of explanation maps visualizations and we see a shift from local perturbation- and gradient-based models due to their shortcomings in adversarial attacks and input invariances. A new trend in using concepts as explanations are gaining traction. However, evaluating these methods are still a challenge and pose an open question in XAI research.
+
+Current research landscape in XAI evaluation illustrates that the field of XAI is still evolving and that XAI methods should be developed and chosen with care. User studies have shown that typical explanation maps alone might not aid in decision making. Human bias in interpreting visual explanations could hinder proper use of XAI in mission-critical applications. Recent developments in human-grounded evaluations shows promising improvements to the XAI evaluation landscape.

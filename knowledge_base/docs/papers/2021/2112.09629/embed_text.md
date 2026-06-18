@@ -1,0 +1,249 @@
+## Introduction
+
+Blue Noise Samples
+Blue Noise Mask
+
+Figure 2. The left two images show blue noise sample points in 2D and the magnitude of the discrete Fourier transform (DFT). These are in contrast to the two images to the right, which show a blue noise mask and the magnitude of the DFT. In this case, the mask is a 2D image where each pixel stores a single “random value” with blue noise properties. Both samples and masks show attenuated low frequencies but have different uses. Our work focuses on masks.
+
+Blue noise error distributions have long been recognized as an appealing alternative to purely random white noise distributions in computer graphics. In real-time and complex stochastic rendering scenarios, sample counts per frame are constrained. As a result, many modern visual effects depend on amortizing sampling expense over space and time to achieve higher quality images at an acceptable performance. If the rendered frames produce a white noise error distribution, the resulting images will contain difficult to filter low-frequency clusters. Alternatively, blue noise patterns contain only high-frequency noise that results in a perceptually uniform, cluster-free distribution. However, few attempts have been made to extend spatial blue noise patterns to produce easier to filter distributions along the temporal domain.
+
+In addition to filtering spatially, current real-time techniques often use temporal antialiasing (TAA) to filter these distributions over time. If samples over time were also made to follow a blue noise distribution, TAA could produce similar quality results with a lower alpha blend value, reducing temporal lag, or more accurate results at the same alpha value. Similarly, techniques may seek to integrate over multiple samples per pixel while still maintaining blue noise error properties spatially. Computer displays---and even human perception---can perform some amount of implicit integration over time, especially at high frame rates. These situations motivate the need for good sampling patterns over time in addition to space.
+
+There has been considerable effort to generate good blue noise patterns---made popular in rendering by Mitchell, but also in error diffusion, ordered dithering, and digital halftoning by both Ulichney and Mitsa and Parker. These methods can broadly be divided into two categories: those that generate a discrete set of blue noise distributed sample points, and those that generate continuous values in an image, commonly referred to as blue noise masks. See Fig. 2 for comparison. Blue noise masks differ from blue noise sample sets in that masks provide a scalar value for a given 2D pixel location, while sample sets return a 2D vector a given 1D index. In this paper, we focus on the former, generating spatiotemporal blue noise masks.
+
+Blue noise masks can be used by stochastic rendering algorithms as pseudorandom number generators in order to produce perceptually uniform noise in the resulting image. These high-frequency screen-space error patterns can then be relatively easily removed using one or more low-pass filters. Additionally, since a local neighborhood of pixels following a blue noise distribution contains a more diverse sampling of the underlying function, spatially filtered blue noise images more closely approximate the ground truth. Figures 1 and 3 show these effects visually. Our paper extends blue noise masks to account for the temporal domain as well.
+
+Previous works such as INSIDE and by Heitz and Belcour address the time axis by using a low discrepancy sequence to spatially offset a blue noise texture every frame. This causes the frequency spectrum to be approximately white noise over time due to subsequent texture samples being far apart and thus uncorrelated. Other works use an array of two-dimensional blue noise masks, sampling from different masks over time. However, this too produces white noise distributions along the temporal axis, since these blue noise textures were generated independently. Using a three-dimensional blue noise mask texture provides neither two-dimensional spatial blue noise in each time slice, nor blue noise properties along the time dimension. Another approach is to add the golden ratio to each pixel value in a 2D blue noise texture every frame to make each pixel value use the golden ratio additive recurrence low discrepancy sequence on the time axis. This improves sampling over time at the cost of damaging the frequency content of the spatial domain. The image quality and frequency spectra of these cases can be seen in Fig. 5.
+
+White Noise + Gaussian Blur
+Blue Noise + Gaussian Blur
+
+Figure 3. A comparison of white noise versus blue noise, and corresponding spatially filtered results. White noise results in visual clumps when filtered with a low-pass filter (blur) due to low frequencies present in the noise. Blue noise images do not contain these low frequencies, and thus do not contain clumps in the filtered output.
+
+What is really desired is a technique where each two-dimensional mask has blue noise properties, and where each pixel has good one-dimensional sampling properties over the time dimension. These masks could then be used by denoising algorithms like TAA and SVGF to produce higher quality, more temporally stable results. To the best of our knowledge, we present the first algorithm for spatiotemporal blue noise mask generation. Our contributions include:
+
+An algorithm that generates spatiotemporal blue noise masks by modifying the well known void and cluster algorithm in Section 4.1.
+
+Practical analysis of our algorithm's frequency spectrum and convergence speeds in Sections 4.2 and 4.3.
+
+Using spatiotemporal masks to generate spatiotemporal point sets in Section 4.4.
+
+Evaluations of our spatiotemporal masks when applied to a variety of techniques in Section 5.
+
+Theoretical frequency analysis in Appendix A.
+
+Extension to higher dimensions in Appendix B.
+
+## Previous Work
+
+The most prevalent method for generating blue noise masks is the *void and cluster* algorithm by Ulichney. This algorithm works by repeatedly inserting values into the largest voids between pixels in a sparse image until all pixels are filled in. Using this approach, the void and cluster algorithm is able to generate high-quality blue noise masks, works in any dimension, and allows tuning of a sigma parameter to control the frequencies present in the mask. Void and cluster also generates blue noise such that, when a threshold is applied, sparse pixels are arranged in a blue noise sampling pattern. This property can be useful for stippling applications, such as importance map-driven sparse sampling or stochastic alpha.
+
+Georgiev and Fajardo showed how these blue noise masks can be applied to Monte Carlo ray tracing, and demonstrated impressive results. These authors also introduced an algorithm to generate blue noise masks by starting with a white noise mask and swapping pixels to reduce an energy function. Where void and cluster only stores a scalar value per pixel entry, the blue noise masks by Georgiev and Fajardo store an entire vector value per pixel entry. However, the later vector valued blue noise masks lose the thresholding property of void and cluster if using the algorithm to generate single scalar masks. The algorithm also solves the problem less directly than void and cluster---doing random swaps to try to make the texture more like a blue noise mask, and using simulated anealing to try to avoid local minima.
+
+Despite the good spatial properties of these masks, if multiple such masks are used over time, values along the temporal dimension produce undesirable white noise. For the void and cluster masks, this white noise is caused by each generated mask being independent of the next. For the vector valued masks by Georgiev and Fajardo, this temporal white noise is caused by vectors only being swapped spatially, but not values within the per-pixel vectors. Additionally, Georgiev and Fajardo note that the overall Monte Carlo error when using these masks is the same as if using white noise, despite looking noticeably less noisy.
+
+Heitz and Belcour point out that the improvements of blue noise dithered sampling are quickly lost as sample counts and sample dimensionality increase. They propose an alternative a posteriori method that reorganizes nearby per-pixel random seeds such that the corresponding rendered image approximately follows a blue noise pattern. This process is done by sorting a small region of pixels from both a rendered image and a blue noise mask by respective luminance, then matching these sorted pixel sets together to permute the rendering seeds for the next frame. They also allow improvement frame over frame by using a precomputed permutation to move the seeds into the desired configutation of the next frame. The benefit of this a posteriori reformulation is that the rendering function is treated as a black box, where only the initial random seeds are modified. As a result, any state of the art rendering method can be used during rendering without modification while still achieving a spatial blue noise distribution. A downside of this algorithm is that pixel seeds are always sorted into a target noise pattern, which can deviate from the desired ground truth image pattern. This a posteriori algorithm is meant primarily for use with spatial denoising, but the authors do also consider the temporal dimension. Heitz and Belcour animate a single target blue noise mask over time by using the generalized golden ratio R2 sequence to offset the screen space position of the texture. This makes the noise be blue over space, but uncorrelated white noise over time, as shown in Fig. 15. Observing that this technique could instead target our spatiotemporal blue noise textures, we analyze it in more detail in Appendix A and show some results targeting our blue noise.
+
+More relevant to our work is that by Ahmed and Wonka, where the authors propose a method that uses a well-converging sampling sequence while simultaneously resulting in a screen-space blue noise error pattern. This is done by using a locality-preserving mapping of 2D pixel coordinates into a 1D pixel sequence, and then using 1D low discrepancy sequences across those pixels. In this work, the axis of time is considered in the form of progressive sampling, but ultimately this approach results in a trade-off between quality over space or time.
+
+The work by Heitz et al. also aims to use a faster converging sequence. Their proposed method uses a precomputed permutation table that attempts to preserving a spatial blue noise pattern while simultaneously using the Sobol sequence. This permutation table is made by starting with white noise seeds and swapping pixels to minimize an energy function. The technique provides multiple samples per pixel, which could be distributed over the time dimension, but ultimately this comes at the cost of spatial image quality as shown in Fig. 5. Also shown in Fig. 5, this Sobol sequence strobes over time. For offline rendering, this strobing only occurs during the convergence process, and therefore does not effect the final converged frame; however, for real time rendering this strobing results in undesirable temporal instability.
+
+A study of blue noise for real-time rendering is presented by Gjoel and Svendsen, which deals with a plethora of subjects including triangular distributed noise, animating blue noise, and using blue noise in various techniques. Similar to Heitz and Belcour's work, a low discrepancy sequence is used to offset where the texture is read every frame to animate the blue noise, which results in white noise over time.
+
+Another method for animating blue noise can be found in the post by Wolfe which adds the golden ratio to a blue noise mask every frame. This causes each pixel to use the golden ratio additive recurrence over time for improved convergence speeds, but damages blue noise frequencies spatially as shown in Fig 5 and shows a similar strobing pattern over time as Heitz and Belcour. Other rank 1 lattices could be used instead of the golden ratio additive recurrence, but these lattices also result in damaged blue noise frequencies. This damage is caused by different locations of the blue noise texture rolling over from high to low values at differing rates, which fundamentally alters the frequency the texture.
+
+Blue noise masks are tailored toward low sample counts, but are not the only way to achieve high quality results with low sample counts. For instance, high quality, low sample count ray traced direct lighting is achieved by Bitterli et al. without the use of blue noise.
+
+## Background: Void And Cluster Algorithm
+
+We base our algorithm on the void and cluster method, which we extend to handle the spatiotemporal domain in Section 4.1. There has not been much advancement in generating high quality blue noise masks since the void and cluster algorithm, apart from the work by Georgiev and Fajardo which adds vector values to the masks, but is inapropriate for scalar value use.
+
+Here, we review the basic void and cluster algorithm. To generate a blue noise mask $M$ of dimension $D$, the algorithm stores a boolean per pixel specifying whether the pixel is turned *on* (emits energy to the energy field) and an integer index per pixel specifying the order that this pixel was turned on in. This ordering index is used to compute the final output color for that pixel, where the first pixel to be turned on is black, and the last pixel to be turned on is white. Every pixel $\mathbf{p}$, which is turned on, gives energy to every point $\mathbf{q}$ in the energy field using:
+
+where $\mathbf{p}$ and $\mathbf{q}$ are the integer coordinates and distances are computed on wrapped boundaries, i.e., toroidal wrapping. The $\sigma$ is a tuneable parameter, which controls energy falloff over distance, and thus frequency content. Ulichney recommends $\sigma = 1.5$. This is a Gaussian blur, which is used to distribute the energy from activated pixels into the energy field over distance.
+
+The energy field $E$ is discretized onto a grid the same size as the mask $M$ and is defined as:
+
+### Initial Binary Pattern Generation
+
+The first step in the void and cluster algorithm is to generate an initial binary pattern where less than or equal to half of the pixels are turned on. This can be done using white noise or nearly any other pattern. These pixels need to be transformed into a blue noise distribution before proceeding to the next step. That transformation is done by repeatedly turning off the tightest cluster pixel - defined as $\sup_{\mathbf{p} \in M}{F{(\mathbf{p})}}$ - and turning on the largest void pixel - defined as $\inf_{\mathbf{p} \in M}{F{(\mathbf{p})}}$. This process is repeated until the same pixel is found for both operations. Once this condition is met, the algorithm will have converged, and the initial binary pattern will be blue noise distributed. Once these pixels have been assigned an on or an off state, they can be assigned an ordering, which will occur in the next step.
+
+### Phase I - Initial Pattern Ordering
+
+Ordering is done by iteratively turning off the current tightest cluster pixel, and assigning that pixel an *ordering*, which is found by counting how many pixels remain on after turning off the current tightest cluster pixel. This process is repeated until all pixels are turned off. Once all pixels are off, the initial binary pattern is turned back on. When paired with the ordering generated earlier, this initial binary pattern of pixels describes a sparse binary sequence that follows a spatial blue noise distribution.
+
+### Phase II - Order First Half of Pixels
+
+At the end of *Phase I*, a small subset of pixels are on and ordered. However, the remaining pixels are off and unordered. In *Phase II*, these remaining off pixels are turned on, one at a time, until half of the pixels are turned on. Similar to initialization, these pixels are turned on in order from largest void pixel to smallest void pixel. The ordering given to each pixel turned on is set to be the number of pixels that were on before this pixel was turned on. At the end of this operation, half of the pixels will be on and ordered to follow a blue noise sequence.
+
+### Phase III - Order Second Half of Pixels
+
+Once half of our pixels are ordered, in *Phase III* the state of all the pixels are reversed. Pixels that are on are turned off, and vice versa. Next, we follow a similar process to *Phase II*, and iteratively find the current largest valued cluster pixel that is on and turn that pixel off, assigning to that pixel an order found by counting the number of pixels that were off before this pixel was turned off. When all pixels are turned off, *Phase III* is finished and all pixels will have an ordering.
+
+### Texture Finalization
+
+After all pixels are ordered, this ordering is used to compute the final pixel values in the output image. For floating-point images, per-pixel values can be found by dividing the order of each pixel by the total number of pixels in the image. For $k$-bit images, these pixel values must be remapped to 0 to $2^{k} - 1$.
+
+## Spatiotemporal Blue Noise Masks
+
+As mentioned in Section 1, our work aims to extend purely spatial blue noise masks to also exhibit a blue noise distribution along an additional third temporal dimension. This can be used to amortize sampling expense over time and converge these samples progressively, improving final image quality in the process.
+
+In Section 4.1, we present a novel algorithm for generating spatiotemporal blue noise masks using a modified version of the void and cluster algorithm. Then, in Sections 4.2 and 4.3, we perform a thorough analysis of the resulting spatiotemporal blue noise masks. From our spatiotemporal blue noise masks, spatiotemporal point sets can be generated and are discussed in Section 4.4. Finally, extensions of spatiotemporal blue noise masks to higher dimensions are discussed in Appendix B.
+
+### Spatiotemporal Void and Cluster Algorithm
+
+Our ultimate goal with spatiotemporal blue noise is to have each pixel within the mask vary over time to enable temporal integration. At the same time, we must preserve the spatial blue noise patterns in our mask to still easily filter our signal spatially for any point in time. One approach would be to generate several independent 2D blue noise textures, one per frame. These masks would be easy to filter spatially; however, pixels would exhibit a white noise distribution over time that would be difficult to filter temporally. Instead, we aim to generate multiple two-dimensional blue noise masks where each pixel individually follows a one-dimensional blue noise distribution over time.
+
+To this end, we reformulate the void and cluster algorithm from Section 3 such that noise generation is driven by a novel energy function, in the spirit of Equation 1. Instead of only distributing energy in two dimensions, we distribute energy in three dimensions, and constrain this energy function to achieve our desired spatial and temporal blue noise properties. When evaluating this three-dimensional energy function, if the given pixel coordinates belong to the same two-dimensional layer, we return the same two-dimensional energy as in Equation 1. Otherwise, if the given pixel coordinates match spatially but belong to different two-dimensional layers, we distribute energy temporally. Finally, if the given pixel coordinates differ in all dimensions, we do not distribute energy (i.e., we return an energy of zero).
+
+Figure 4. An illustration of void-and-cluster energy evaluation, where we have compressed the spatial x y dimensions to a single horizontal dimension and time is on the vertical axis. 2D blue noise measures energy to all pixels in the same 2D layer, while 3D blue noise measures energy to all pixels in the entire 3D texture. Our spatiotemporal blue noise on the right measures distance in the 2D layer and along the time dimension for the current pixel.
+
+By ensuring the first spatial condition, we guarantee that the pattern generated by void and cluster will follow a blue noise distribution spatially for each layer of our mask, and by ensuring the second temporal condition, each pixel in our mask will exhibit blue noise properties over time. This energy function is illustrated in Figure 4.
+
+We can formulate this three-dimensional energy function as follows, where a pixel in the three-dimensional spatiotemporal blue noise texture is denoted as $\mathbf{p} = {(\mathbf{p}_{xy},p_{z})} = {(p_{x},p_{y},p_{z})}$. Our modified energy formulation is then
+
+When generating spatiotemporal blue noise, we had best results using an initial binary pattern density of 10% of the pixels, and we use $\sigma = 1.9$ for all axes. It is important to note that the distance used by Equation 3 is computed toroidally on all axes, so that individual texture slices tile well over space, and the temporal qualities also tile well over time.
+
+Figure 5. Analysis of various blue noise masks. Only our spatiotemporal blue noise (STBN) has blue noise over space and better than white noise over the z-axis (time). The DFTs are averaged to show expected frequency spectra, except for golden ratio (GR) animated blue noise and Heitz/Belcour (HB LDBN), which highlights ways they damage spatial frequencies at specific frame numbers.
+
+Figure 6. RMSE for sampling ramp, step, and sine functions with 64 samples, combined with Monte Carlo integration. Independent slices of 2D blue noise show that they are white noise over time. STBN shows how it is toroidally progressive when offsetting it by 1/3 of its index count shows no difference in convergence. Blue noise animated by the golden ratio and Heitz and Belcour (HB LDBN) low discrepancy blue noise often show good convergence but are erratic which causes per-pixel strobing when viewed in motion.
+
+### Spatiotemporal Blue Noise Analysis
+
+To analyze the results from our algorithm, we generated a spatiotemporal blue noise (STBN) mask of $64^{3}$ resolution using the algorithm in Section 4.1. In addition, we generated a $64^{3}$ 3D blue noise mask (3DBN) and 64 independent 2D blue noise masks (2DBN) of size $64^{2}$ using the void and cluster algorithm in Section 3. We also made a spatiotemporal mask by using a single 2D blue noise mask, then adding the golden ratio to the values of this mask each frame for 63 frames (GR), wrapping these values around 0 to 1. Finally, we generated a $64^{3}$ blue noise mask using the low discrepancy sampler by Heitz and Belcour. Comparative results demonstrating noise patterns and corresponding discrete Fourier transforms (DFT) are shown in Fig. 5.
+
+Our goal in this work is to obtain a noise pattern that exhibits blue noise properties in each spatial 2D slice, as well as a blue noise pattern along the time axis. These blue noise patterns can then be filtered spatially and temporally for use in low sample count real-time applications. As can be seen in Figure 5, only our method provides those two features simultaneously.
+
+As predicted, 2D blue noise exhibits the desired spatial blue noise properties, but generates white noise over time (as shown on the vertical axis of DFT(XZ)). Somewhat counterintuitively, 3D blue noise exhibits low quality blue noise properties both spatially and temporally. On further analysis, this result makes sense. 3D blue noise generates a dark sphere in a 3D DFT rather than a dark circle in a 2D DFT. As a result, $xy$ cross sections over $z$ contain dark circles of differing radii, and therefore generate differing blue noise qualities over time, from white noise to blue noise and back to white noise. A deeper analysis of 3D blue noise can be found from Peters.
+
+Both the golden ratio and the low discrepancy sequence by Heitz and Belcour exhibit damaged blue noise frequencies spatially, at the trade-off of better convergence over time. However, both of these low discrepancy noise patterns exhibit strobing patterns along the time dimension, which can be seen as distinct horizontal lines in DFT(XZ). See also Figure 7. For offline rendering, these strobing patterns only occur during convergence, and therefore do not affect the final frame. For real-time applications though, this temporal strobing will lead to a more challenging signal to filter temporally.
+
+Figure 7. A comparison of blue noise quality between golden radio (GR) blue noise and STBN (ours) over time. The blue noise qualities of GR are periodically damaged over time, resulting in a strobing pattern. STBN results in consistent blue noise qualities from one frame to the next.
+
+Figure 8. RMSE for sampling ramp, step, and sine functions with 64 samples, combined using exponential moving average with α = 0.1 to simulate TAA without reprojection, motion vectors, or history rejection. As in Fig. 6, independent slices of 2D blue noise show that they are white noise over time, STBN shows its toroidal progressiveness, and the low discrepancy samples show good but erratic convergence. The poor sampling of white noise over time causes EMA per pixel to diverge, causing increased variance (RMSE). STBN and the low discrepancy sampling converge, with STBN doing so much more smoothly.
+
+Real-time temporal filtering is commonly done through an exponential moving average (EMA), rather than the more traditional Monte Carlo integration used in offline rendering. Therefore, we consider both EMA as well as Monte Carlo integration when analyzing results here and in the rest of the paper.
+
+Our spatiotemporal blue noise exhibits a 1D blue noise distribution over time, which can be seen in the upper right image (DFT(XZ)) in Figure 5. While in theory 1D blue noise distributions are not an ideal 1D sequence for Monte Carlo integration, our results show that these 1D blue noise sequences perform competitively in terms of convergence to low discrepancy sequences (LDS), especially at low sample counts. As shown in Fig. 6, when integrating a variety of 1D functions, our 1D blue noise sequence converges much better than the white noise sequence produced by independent 2D blue noise texture sequences. When compared to the LDS optimized blue noise by Heitz and Belcour (HB LDBN) as well as to the golden ratio (GR) LDS, our 1D blue noise sequence converges competitively, although on average our results are further from the ground truth. However, our 1D blue noise sequence converges much more stably. The convergence instability exhibited by both HB LDBN and GR LDS is likely due to the strobing patterns present in these sequences over time (seen as horizontal lines in the DFT(XY) in Fig. 5).
+
+Under EMA, the results in Fig. 8 show that our spatiotemporal blue noise can converge closer to the ground truth than the golden ratio LDS in some cases, but not all. Compared to the Heitz and Belcour LDS, spatiotemporal blue noise is competitive, but from our initial tests a blue noise sequence incurs more error on average. However, our spatiotemporal blue noise is much more stable over time than either of these LDS, demonstrating improved temporal coherency.
+
+EMA can be seen as a random walk that loosely follows the values of the given samples. As a result, EMA is much more sensitive to clumps in the signal, which can cause low frequency strobing of pixels and increased variance. The even sampling nature of both 1D blue noise sequences and low discrepancy sequences results in a more representative sampling of the underlying function, and causes the resulting EMA to converge much closer to the correct value. Conversely, the uneven sampling of white noise causes the EMA to divergence away from the ground truth. This is shown in Fig. 8, where independent blue noise diverges away from the ground truth due the individual textures exhibiting a white noise frequency over time, while the other sequences converge to lower error values.
+
+### Special Qualities for Temporal Antialiasing
+
+Temporal antialiasing works by using an exponential moving average (EMA) for each pixel, where pixels are correlated from frame to frame to account for camera and object movement. If a pixel determines that its history is invalid due to events like disocclusions, it will restart the integration. This is a problem if using a global progressive sequence because pixels that restart will be using the sequence from the middle instead of the beginning, defeating the benefits of the progressive sampling. To counter this, sequences are restarted fairly often, limiting the number of effective samples a pixel can integrate, and thus limiting image quality. This is most commonly seen with the sequences used for sub pixel camera jitter.
+
+Storing the index that each pixel is on individually is impractical for the storage costs required and impossible in the case of sub pixel camera jitter. Furthermore, history rejection is not a discrete event, but is a softer restart where the history is clamped to a color cube of values seen in a small neighborhood for each pixel. A heuristic would be needed to decide when to actually reset an index.
+
+Spatiotemporal blue noise avoids this problem by being toroidally progressive on the time axis, which also means there is no discontinuity when reaching the end of the sequence and starting over. Hence, pixels can reject history on their own timelines and instantly start sampling with a good sequence, which opens the door to longer sampling sequences under TAA, allowing higher image quality to be achieved. The toroidal progressiveness can be seen in Fig. 6 and Fig. 8 where "STBN Offset 1/3" is the same sequence as "STBN" but is offset 1/3 of the way through its sequence (21 indices), and yet shows equivalent convergence behavior.
+
+Figure 9. Comparing 1024 BNOT samples with a slice of a 128 × 128 × 10 spatiotemporal blue noise mask (ours) thresholded to different levels. BNOT is much higher quality over space, but has a fixed density and gives no treatment to the time axis, necessitating independent sample sets to be white noise over time.
+
+Figure 10. 2D projections of our 64 × 64 × 64 spatiotemporal blue noise (STBN) masks thresholded to point sets, which keep their desired spectra. DFTs are averaged over 64 slices.
+
+Figure 11. To the left, we show an importance map, which was used to generate the next three images. These were generated by simulating adaptive sampling using the importance map to guide where the samples should be over five frames. The images were generated in such a way that the more pixels that are lit, the more unique pixels have been sampled. STBN provides the best results here, since it has substantially more lit pixels. Right: a diagram showing the percentage of unique pixels sampled over time as a function of frame number. White noise can have redundant sampled pixels each frame, and over time, 2D blue noise reduces redundant pixels over space, and STBN (ours) reduces them over time as well.
+
+### Spatiotemporal Point Sets
+
+Since our spatiotemporal blue noise masks are created using the void and cluster algorithm, they have the property that if you threshold the mask values to some percentage, the same percentage of the pixels will survive. Thresholding a blue noise mask produces a sample point set. Our thresholded masks produce blue noise sample patterns over both space and time. While there are better algorithms for generating blue noise sample patterns, such as blue noise through optimal transport (BNOT), they do not handle the time axis. To the best of our knowledge, our algorithm is the first method for making spatiotemporal blue noise sample patterns.
+
+Figure 9 shows how thresholded masks are not as high quality spatially as BNOT, but they are able to make point sets of any density. Figure 10 shows how the thresholded point sets keep their desired frequency spectra over axis groups.
+
+An example usage case is doing sparse ray tracing, using an importance map to decide which regions should have more samples. For each pixel $\mathbf{p}$, we shoot a ray if and only if the importance map value ${f{(\mathbf{p})}} \in {\lbrack 0,1\rbrack}$ is greater than the mask value ${g{(\mathbf{p})}} \in {\lbrack 0,1\rbrack}$. Using white noise over space and time, the spatial pattern will have redundant samples and large holes, while also having duplicated samples over time. Using spatial blue noise makes the sampling more even over space, but still has the problems of white noise over time. Using spatiotemporal blue noise means that samples are evenly distributed over both space and time. This is shown in Fig. 11.
+
+Two fundamental direct usage cases of blue noise masks, generated by the void and cluster algorithm, are stippling and dithering. Whenever you are stochastically turning a continuous probability into a discrete 0 or a 1, you are using the stippling property. We will cover these two direct usage cases in the next section, where stochastic transparency, which is a type of stippling, is presented in Section 5.1 and spatiotemporal dithering in Section 5.2.
+
+## Applications and Results
+
+In this section, we demonstrate using our spatiotemporal blue noise masks in a range of techniques and the results of using them. While there are other ways to implement the techniques shown, our niche is low sample count and low overhead real-time rendering applications. We compare in the context of both Monte Carlo integration, which is used when multiple samples are taken per frame, and in the context of temporal antialiasing (TAA), or EMA when there is no depth buffer or motion vectors.
+
+We start with stochastic transparency because it requires only one random value per pixel, then move to dithering, which requires three random values per pixel. We then show an example with volumetric rendering, and finally show ray traced ambient occlusion (AO), which needs a 2D vector per pixel. These techniques are shown to demonstrate concepts of using spatiotemporal blue noise, which can be carried over to other modern rendering techniques.
+
+### Stochastic Transparency
+
+Stochastic transparency is the process of stochastically choosing whether to ignore a sample based on a material's transparency level. This is useful in situations such as deferred lighting where you are storing information about how to shade a pixel, instead of the shaded result itself, and it is impractical to store multiple layers to later calculate proper transparency.
+
+Sophisticated algorithms have been developed by Enderton et al., Wyman and McGuire, and are also discussed by Wyman, but the core idea of stochastically accepting or rejecting a pixel remains the same. Our algorithm described here is aimed at low computational costs (a single texture read and comparison), giving blue noise distributed error in screen space as 2D blue noise does, but also converging faster. We show renderings of stochastic alpha using various types of spatiotemporal noise under both Monte Carlo integration and EMA in Fig. 12.
+
+STBN (Ours) 1 Frame
+
+Figure 12. Stochastic transparency with α = 0.9 using various noise types and integration schemes. At 4 frames of Monte Carlo integration, our STBN provides better quality than 2D blue noise, and is competitive with golden ratio (GR) animated blue noise. Under 64 frames of exponential moving average (EMA), our STBN provides better quality than golden ratio noise. Columns 2 and 4 are averaged DFTs to show expected spectra.
+
+STBN (Ours) 1 Frame
+
+Figure 13. Dithering to 1 bit per color channel using various noise types and integration schemes. Golden ratio animated blue noise and our spatiotemporal blue noise generate images with better quality than the other types of noise, and look comparable under Monte Carlo integration. Our STBN generates better image quality than golden ratio under 64 frames of TAA, however.
+
+Monte Carlo Integration
+
+Figure 14. Convergence rates in stochastic transparency of various types of noise. Golden ratio (GR) animated blue noise converges marginally faster than our spatiotemporal blue noise (STBN), but damages frequencies spatially, and has an error spike under EMA when the sequence needs to restart to avoid numerical issues.
+
+Figure 15. For this diagram, we computed the autocorrelation of 64 blue noise textures of resolution 64 × 64, which resulted in a circularly symmetric image. We show a radial plot of the average of those. In blue noise textures, neighbors have very different values, which causes a rippling of correlation and anti-correlation for small values of the radius, but rapidly decays to zero, i.e., to decorrelated values.
+
+When looking at frame 13 in isolation, independent 2D blue noise and spatiotemporal blue noise have the same quality which is correct and shows that our noise is as good for each slice in time. Under 4 frames of Monte Carlo or 64 frames of EMA, our spatiotemporal blue noise shows much better convergence than independent blue noise. Our method is competitive with golden ratio animated blue noise for 4 frames of Monte Carlo, but is superior at 64 frames of EMA where the golden ratio sequence restarts. Under motion, the golden ratio shows high-frequency strobing as shown in the supplemental material. Convergence graphs are shown in Fig. 14, which reveal the same story as what is seen visually.
+
+### Dithering
+
+Dithering is the process of adding a small random value before quantization to turn quantization artifacts (banding) into noise instead. This allows less memory to be used while preserving image quality. Dithering rounds the quantized value up or down randomly, with probability to round down being higher as the value gets closer to the lower boundary of quantization. White noise is not often prefered in dithering, but Bayer and the less real-time friendly techniques, such as Floyd-Steinberg error diffusion, do not consider the time axis. For a more in depth read about dithering, consult Christou's thesis.
+
+The rendered results in Fig. 13 reveal that our noise deliver approximately the same quality as golden ratio animated noise and much better than the other types of noise. Our noise again provides better image quality at 64 frames of EMA though. As before, the golden ratio noise has high-frequency strobing as can be seen in the supplemental material. Convergence graphs are nearly identical to Fig. 14, and so are omitted.
+
+STBN (Ours) 1 Frame
+
+Figure 16. Single scattering volume rendering using various noise types and integration schemes. Our spatiotemporal noise and golden ratio animated blue noise are comparable, but we have slightly better convergence and are more temporally stable under EMA as can be seen in the supplemental materials. The ground truth is shown in the inset in the left image (lower right corner).
+
+Dithering an RGB image requires three random values per pixel, but our spatiotemporal blue noise masks only provide a single value per pixel. One could use three independent spatiotemporal blue noise masks, but that could be undesirable due to increased memory usage. Autocorrelation can be used to find repeating patterns within a signal and Fig. 15 shows that correlation only exists over short distances in blue noise textures. We exploit this to our advantage and use the R2 low discrepancy sequence to get three nearly maximally spaced offsets to read the texture at to get three fairly independent spatiotemporal blue noise values per pixel. This method can be generalized to give $N$ fairly independent spatiotemporal blue noise values when needed.
+
+### Single Scattering Media
+
+Next, we present an algorithm for rendering single scattering heterogeneous participating media with very low sample counts, similar to the airlight model by Sun et al. (but computed numerically for heterogenous volumes). This is a different type of algorithm than stochastic transparency or dithering because it shows how blue noise masks can be applied to a more general rendering problem. While there are much more sophisticated algorithms for rendering participating media, our method is simple, efficient, gives good results at very low sample counts and works with either rasterization or ray tracing pipelines.
+
+First, a camera ray $\mathbf{o} + {t{\overset{\rightarrow}{\omega}}_{o}}$ is cast through the bounds of a heterogeneous volume, where an enter distance $t_{\min}$ and exit distance $t_{\max}$ through those bounds are recorded. From here, we use stochastic ray marching to march through the volume at $n$ evenly spaced locations, where the space between each sample is $\frac{d}{n}$ units and $d = {t_{\max} - t_{\min}}$. The location $\mathbf{p}_{s}$ of a sample $s \in {\mathbf{Z}{\lbrack 0,{n - 1}\rbrack}}$ is then calculated as
+
+At each sample point $\mathbf{p}_{s}$, a volumetric density field $F$ is sampled to get a density $f_{s}$. This density is assumed to represent the density for an entire step length of distance. We accumulate this density and proceed to the next sample point until the following criterion is met:
+
+where $\xi$ is a drawn random number. Once this condition is met, the point on the ray $\mathbf{p}_{s}$ will be approximately located at the sampled free-flight distance, or the distance at which the ray collides with a particle in the media. For more information, see the course by Novák et al..
+
+At this point, a second ray originating at this collision point is traced toward a directional light source. Again, we march the ray through the volume. This second ray composites volumetric samples from front to back until the ray exits the volume. This composited value is then used to represent transmittance along the ray. To shade our collision point, we multiply the light intensity by the transmittance of light, and multiply by the albedo of the volume at the sampled collision location.
+
+Monte Carlo Integration
+
+Figure 17. Convergence rate of single scattered volume rendering. Our spatiotemporal blue noise converges at essentially the same rate as the low discrepancy sequences but is much more stable, and does not have the seam at the sequence restart point seen in EMA.
+
+STBN (Ours) 1 Frame
+
+Figure 18. Ray traced ambient occlusion using various noise types and integration schemes. STBN uses independent spatiotemporal blue noise for the x and y axes. Golden ratio provides lower image quality here because it ends up being the same low discrepancy sequence for x and y. STBN looks the most converged under both 16 frames of Monte Carlo, as well as 64 frames of EMA. Columns 2 and 4 are averaged to show expected spectra. The ground truth is shown in the inset in the left image (lower right corner).
+
+Monte Carlo Integration
+
+Figure 19. Convergence rate of ray traced AO. Under both Monte Carlo integration and TAA, STBN converges much better than the other types of noise.
+
+As shown in Fig. 16, when using white noise to sample the free-flight collision distance, we see undesired low frequency clusters in the image. This error pattern is greatly improved when using 2D blue noise masks, and these low-frequency clusters are removed. However, over the course of several frames, the white noise exhibited by individual blue noise masks over time results in poor convergence. Convergence over time is greatly improved by using the golden ratio LDS, but at a compromise to the spatial blue noise frequency. Our spatiotemporal blue noise achieves competitive convergence to both the golden ratio LDS and the LDS by Heitz and Belcour, as shown in Fig. 17. However, note that our results do not damage the spatial blue noise properties of these prior techniques. Moreover, our method is more temporally stable with somewhat faster convergence under EMA, which can also be seen more clearly in the supplemental material.
+
+In Fig. 1, we also report image error metrics, namely RMSE, SSIM, and F LIP, against a single scattering ground truth image. Although 2D blue noise already shows a favorable image error, our spatiotemporal blue noise further reduces this error, by $1.4 \times$ for F LIP and $1.8 \times$ for SSIM.
+
+### Ray Traced Ambient Occlusion
+
+Ray traced ambient occlusion requires 2D vectors for each AO sample, but our blue noise masks only contain a scalar value per entry. As an imperfect solution to this, we use independent spatiotemporal blue noise values for each $x$ and $y$ value of each sample taken per frame. For example, four samples per pixel would require eight independent spatiotemporal blue noise sources. Just as we did for dithering in Section. 5.2, we will use the R2 low discrepancy sequence to generate a texture read offset for each independent value needed.
+
+While there are more sophisticated AO algorithms, the one described here is meant for giving high-quality results under low sample counts, such as 1--4 samples per pixel (SPP), or lower than 1 SPP if run at less than full resolution. The algorithm works by reading two independent spatiotemporal blue noise values per sample per pixel and uses them to calculate a normal oriented hemispherical direction to shoot an AO ray in. The ray is limited to a scene dependent maximum length value, and the AO shading amount is the percentage down the ray length that a hit occured. When taking multiple samples, they are averaged together for a final AO value for that pixel.
+
+Rendered results are shown in Fig. 18, where it can be seen that our spatiotemporal blue noise provides better image quality than 2D blue noise as in previous examples, but is also significantly better than the golden ratio. The golden ratio fails under this algorithm because for a specific pixel, the same location of the same blue noise texture is read every frame, and the golden ratio multiplied by the frame number is added to both $x$ and $y$ to get the sample. This makes for a very poor two-dimensional low discrepancy sequence---using the same irrational number for both axes. The convergence graphs shown in Fig. 19 convey the same story.
+
+## Conclusions and Future Work
+
+We have shown how simple modifications to the well known void and cluster algorithm can generate spatiotemporal blue noise masks. We have shown how these blue noise masks can be useful for a variety of low sample count rendering algorithms with the goal of getting desirable blue noise error patterns while also converging faster than other methods which use blue noise masks. Lastly, we showed how these blue noise masks can be thresholded to take these properties into the realm of blue noise sampling.
+
+The largest limitation is that these blue noise masks have scalar values per entry as opposed to vector values. Many rendering techniques require stochastic vector values to operate, and while streams of scalar values show benefit in simpler algorithms like ambient occlusion or sampling area lights, this can be more challenging for more complex algorithms such as path tracing. The problem can be alleviated by using our noise in techniques such as Heitz and Belcour (see Appendix A), but we are also interested in seeing if our generalized blue noise masks could be extended to include vectors, to get better results more directly, without the issues associated with approximately inverting pixel rendering. One way of doing this could be to apply the energy formulation we describe in this paper to the technique of Georgiev and Fajardo while extending that technique to three dimensions.
+
+Another limitation of these blue noise masks is that they are limited to blue noise. While it is true that 2D blue noise in screen space is a desirable property, it would be nice to be able to use other sequences on the time axis without sacrificing quality for better convergence. Different frequency characteristics may be desired for filtering reasons as well.
+
+Importance sampling is a topic which is largely at odds with using specific sample patterns, but blue noise itself happens to keep desirable properties better when put through warping functions as pointed out by Pharr. However, we would like to explore extending these blue noise masks to allow axis groups to have non uniform distributions. This would allow blue noise to be generated in *post-warp* space, meaning the blue noise would not be damaged in any way and could have importance sampling baked into it. While some PDFs may be very specific---such as a HDRI skybox image---other PDFs would get much more re-use, such as GGX for specular reflections.
+
+Generated spatiotemporal blue noise masks and the code to generate them can be found at:
+
+https://github.com/NVIDIAGameWorks/SpatiotemporalBlueNoiseSDK
+
+A zip of the supplemental material can be found at:
+
+https://drive.google.com/file/d/10FCzKR4qIKESz7AFh4-gKNlv1EjN5sDM

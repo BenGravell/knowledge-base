@@ -1,0 +1,232 @@
+## Introduction
+
+Linear system identification focuses on using input-output data samples for learning dynamical systems of form:
+
+where $x_{k}$ represents the state, $u_{k}$ represents the control signal, and $w_{k}$ is the process noise. The statistical analysis of system identification algorithms has a long history. Until recently, the main focus was providing guarantees for the convergence of system identification in the *asymptotic regime*, when the number of collected samples $N$ tends to infinity. Under sufficient persistency of excitation, system identification algorithms converge and the asymptotic bounds capture very well how the identification error decays with $N$ qualitatively.
+
+However, our standard asymptotic tools (e.g. the Central Limit Theorem), do not always capture all finite-sample phenomena \[6, Ch 2\]. Moreover, the identification error depends on various system theoretic constants, like the state space dimension $n$, which might be hidden under the big-$O$ notation in the asymptotic bounds. As a result, system identification limitations, like the curse of dimensionality, although known to practitioners, are not always reflected in the theoretical asymptotic bounds.
+
+With the advances in high-dimensional statistics, there has been a recent shift from asymptotic analysis with infinite data to statistical analysis of system identification with finite samples. Over the past two years there have been significant advances in understanding finite sample system identification for both fully-observed systems as well as partially-observed systems. A tutorial can be found in. The above approaches offer mainly *data-independent* bounds which reveal how the state dimension $n$ and other system theoretic parameters affect the sample complexity of system identification *qualitatively*. This is different from finite sample data-dependent bounds-see for example bootstrapping or, which might be more tight and more suitable for applications but do not necessarily reveal this dependence.
+
+Despite these advances, we still do not fully understand the fundamental limits of when identification is easy or hard. In this paper, we define as statistically easy, classes of systems whose finite-sample complexity is polynomial with the system dimension. Most prior research in the finite-sample analysis of fully observed systems falls in this category by assuming system is fully excited by the process noise $w_{k}$. We define as statistically hard, classes of linear systems whose worst-case sample complexity is at least exponential with the system dimension, regardless of the learning algorithm. Using recent tools from minimax theory, we show that classes of linear systems which are statistically hard to learn do indeed exist. Such system classes include, for example, under-actuated systems with weak state coupling. The fact that linear systems may contain exponentially hard classes has implications for broader classes of systems, such as nonlinear systems, as well as control algorithms, such as the linear quadratic regulator and reinforcement learning.
+
+By examining classes of linear systems that are statistically easy or hard, we quickly arrive at the conclusion that system theoretic properties, such as controllability, fundamentally affect the hardness of identification. In fact, as we show in the paper, structural properties like the controllability index can crucially affect learnability, determining whether a problem is hard or not. In summary, our contributions are the following:
+
+--Learnability of dynamical systems. We define two novel notions of learnability for classes of dynamical systems. A class of systems is easy to learn if it exhibits polynomial sample complexity with respect the state dimension $n$. It is hard to learn if for any possible learning algorithm it has exponential worst-case complexity.
+
+--Exponential sample complexity is possible. We identify classes of under-actuated linear systems whose worst-case sample complexity increases exponentially with the state dimension $n$ regardless of learning algorithm. These hardness results hold even for robustly controllable systems.
+
+--Controllability index affects sample complexity. We prove that under the least squares algorithm, the sample complexity is upper-bounded by an exponential function of the system's controllability index. This implies that if the controllability index is small $O{}$ (with respect to the dimension $n$), the sample complexity is guaranteed to be polynomial generalizing previous cases. If, however, the index grows linearly $\Omega{(n)}$, then there exist non-trivial linear systems which are exponentially hard to identify.
+
+--New controllability Gramian bound Our sample complexity upper bound is a consequence of a new result that is of independent, system theoretic interest. We prove that for robustly controllable systems, the least singular value of the controllability Gramian can grow at most exponentially with the controllability index. Although it has been observed empirically that the Gramian might be affected by the curse of dimensionality, to the best of our knowledge this theoretical bound is new and has implications beyond system identification.
+
+Notation: The transpose operation is denoted by ${( \cdot )}^{\prime}$ and the complex conjugate by $\ast$. By $e_{i} \in {\mathbb{R}}^{n}$ we denote the $i -$th canonical vector. By $\sigma_{\min}$ we denote the least singular value. $\succeq$ denotes comparison in the positive semidefinite cone. The identity matrix of dimension $n$ is denoted by $I_{n}$. The spectral norm of a matrix $A$ is denoted by ${\| A\|}_{2}$. The notion of controllability and other related concepts are reviewed in the Appendix.
+
+## Learnability of System Classes
+
+Consider system, where $x_{k} \in {\mathbb{R}}^{n}$ is the state and $u_{k} \in {\mathbb{R}}^{p}$ is the input. By $w_{k} \in {\mathbb{R}}^{r}$ we denote the process noise which is assumed to be Gaussian, i.i.d. with covariance $I_{r}$. Without loss of generality the initial state is assumed to be zero $x_{0} = 0$.
+
+### Assumption 1
+
+All state parameters are bounded: ${{\| A\|}_{2},{\| B\|}_{2},{\| H\|}_{2}} \leq M$, for some positive constant $M > 0$. The noise has unknown dimension $r$ and can be degenerate $r \leq n$. All parameters $A,B,H,r$ are considered unknown. Matrices $B,H$ have full column rank ${{rank}{(B)}} = p \leq n$, ${{rank}{(H)}} = r \leq n$. We also assume that the system is non-explosive ${\rho{(A)}} \leq 1$. Finally, we assume that the control inputs have bounded energy ${{\mathbb{E}}u_{t}^{\prime}u_{t}} \leq M$.
+
+This setting is rich enough to provide insights about the difficulty of the general learning problem. To simplify the setting we assume that the system is non-explosive. The analysis of unstable systems is left for future research.
+
+A system identification (SI) algorithm $\mathcal{A}$ receives a finite number $N$ of input-state data ${(x_{0},u_{0})},\ldots,{(x_{N},u_{N})}$ generated by system, and returns an estimate of the unknown system's parameters ${\hat{A}}_{N},{\hat{B}}_{N},{\hat{H}}_{N}$. We denote by $N$ the number of collected input-state samples, which are generated during a single roll-out of the system, that is a single trajectory of length $N$. For simplicity, we focus only on the estimation of matrix $A$ in this paper.
+
+Our goal is to study when the problem of system identification is fundamentally easy or hard. The difficulty is captured by the sample complexity, i.e. how many data $N$ do we need to achieve small identification error with high probability. Formally, let $\epsilon > 0$, $0 < \delta < 1$ be the accuracy and confidence parameters respectively. Then, the sample complexity is the smallest possible number of samples $N$ such that with probability at least $1 - \delta$ we can estimate $A$ with small error ${\|{A - {\hat{A}}_{N}}\|} \leq \epsilon$. Naturally, the sample complexity increases as the accuracy/confidence parameters $\epsilon,\delta$ decrease. The sample complexity also increases in general with the state-space dimension $n$ and the bound $M$ on the state space parameters.
+
+Ideally, the sample complexity should grow slowly with $n,M,\epsilon^{- 1},\delta^{- 1}$. Inspired by Provably Approximately Correct (PAC) learning, we classify an identification problem as easy when the sample complexity depends polynomially on $n,M,\epsilon^{- 1},\delta^{- 1}$. For brevity we will use the symbol $S$ to denote the tuple $S = {(A,B,H)}$. Let ${\mathbb{P}}_{S}$ denote the probability distribution of the input-state data when the true parameters of the system are equal to $S$ and we apply a control law $u_{t} \in \mathcal{F}_{t}$, where $\mathcal{F}_{t} \triangleq {\sigma{(x_{0},u_{0},\ldots,u_{t - 1},x_{t})}}$ is the sigma algebra generated by the previous outputs and inputs. By $\mathcal{C}_{n}$ we will denote a class of systems with dimension $n$.
+
+### Definition 1 ($poly$-learnable classes)
+
+Let $\mathcal{C}_{n}$ be a class of systems. Consider a trajectory of input-state data ${(x_{0},u_{0})},\ldots$,$(x_{N},u_{N})$, which are generated by a system $S$ in $\mathcal{C}_{n}$ under some control law $u_{t} \in \mathcal{F}_{t}$, $t \leq N$. We call the class $\mathcal{C}_{n}$ ${{poly}{(n)}} -$learnable if there exists an identification algorithm such that the sample complexity is polynomial: for any confidence $0 \leq \delta < 1$ and any tolerance $\epsilon > 0$:
+
+where ${poly}{( \cdot )}$ is some polynomial function.
+
+Definition 1. ‣ 2 Learnability of System Classes ‣ Linear Systems can be Hard to Learn") provides an intuitive definition for a class $\mathcal{C}_{n}$ of linear systems whose system identification problem is easy. To prove that a class of systems $\mathcal{C}_{n}$ is easy, it suffices to provide one algorithm that performs well for any system $S \in \mathcal{C}_{n}$ in the sense that it requires at most a polynomial number of samples. This means that we should obtain sample complexity upper bounds across all $S \in \mathcal{C}_{n}$ which is what the the supremum over $S \in \mathcal{C}_{n}$ achieves in (2. ‣ 2 Learnability of System Classes ‣ Linear Systems can be Hard to Learn")). Otherwise, we can construct trivial algorithms that perform well only on one system and fail to identify the other.
+
+Figure 1: The minimum number of samples N such that the (empirical) average error 𝔼 ∥A − ÂN∥2, for identifying, is less than ϵ. The sample complexity appears to be increasing exponentially with the dimension n under the least squares algorithm.
+
+In recent work, it was shown that under the least squares algorithm, the sample complexity of learning linear systems is polynomial. As we review in Section III, these results hold for classes of linear systems where the noise is isotropic and hence directly exciting all states.
+
+However, if we relax the last assumption it turns out that the sample complexity might degrade dramatically. To raise this issue, consider the following example. Let $J_{n}{}$ be a Jordan block of size $n$ with eigenvalue $1$ and let $e_{n}$ be the $n -$th canonical vector. We simulate the performance of least squares identification for the system
+
+Note that in system the process noise is no longer isotropic. Figure 1 shows the minimum number of samples $N$ required to achieve (empirical) average error ${{\mathbb{E}}{\|{A - {\hat{A}}_{N}}\|}} \leq \epsilon$ (the details of the simulation can be found in Section 6). It seems that the sample complexity increases exponentially rather than polynomially. Are the results in Figure 1 due to the choice of the algorithm or is there a fundamental limitation for all system identification algorithms? We pose the following fundamental problem.
+
+### Question 1
+
+Do there exist classes of linear systems which are hard to learn, meaning not $poly$-learnable by any system identification algorithm? Furthermore, can the sample complexity for a class of linear systems be exponential with state dimension $n$?
+
+A class of linear systems $\mathcal{C}_{n}$ that is not $poly$-learnable will be viewed as hard. By negating Definition 1. ‣ 2 Learnability of System Classes ‣ Linear Systems can be Hard to Learn"), this notion of hardness means that given any system identification algorithm, there exist instances $S \in \mathcal{C}_{n}$ that cannot have polynomial sample complexity. In other words, a system class $\mathcal{C}_{n}$ is classified as hard when its impossible to find any system identification algorithm that achieve polynomial sample complexity for all $S \in \mathcal{C}_{n}$. This can be viewed as a fundamental statistical limitation for the chosen class of systems $\mathcal{C}_{n}$.
+
+Motivated by Figure 1, we define an important subclass of hard problems, namely linear system classes that have worst-case sample complexity that grows exponentially with the dimension $n$ regardless of identification algorithm choice.
+
+### Definition 2 ($\exp$-hard classes)
+
+Let $\mathcal{C}_{n}$ be a class of systems of dimension $n$. Consider a trajectory of input-output data ${(x_{0},u_{0})},\ldots$,$(x_{N},u_{N})$, which are generated by a system $S$ in $\mathcal{C}_{n}$ under some control law $u_{t} \in \mathcal{F}_{t}$, $t \leq N$. We call a class $\mathcal{C}_{n}$ of systems $\exp{(n)}$-hard if the sample complexity is at least exponential with the dimension $n$: there exist confidence $0 \leq \delta < 1$ and tolerance $\epsilon$ parameters such that for any identification algorithm:
+
+where $\exp{(n)}$ denotes an exponential function of $n$.
+
+System classes $\mathcal{C}_{n}$ that are $\exp$-hard are an important subset of hard system classes as they are clearly not $poly$-learnable. However, not all classes that are not $poly$-learnable are $\exp$-hard.
+
+In order to show that a class of systems $\mathcal{C}_{n}$ is $\exp$-hard, one must show that for any system identification algorithm the worst-case sample complexity is at least exponential in state dimension $n$. Contrary to $poly$-learnable problems, for exponential hardness we should establish sample complexity lower bounds.
+
+In this paper, we first address Question 1 and show that $\exp$-hard classes of linear systems do indeed exist. While this can be viewed as a fundamental statistical limitation for all system identification algorithms, our results open a new direction of research that classifies when linear systems are easy to learn and when they are hard to learn. This leads to the following important question addressing in this paper:.
+
+### Question 2
+
+When is a class of linear systems $\mathcal{C}_{n}$ guaranteed to be $poly$-learnable?
+
+Based on prior work, we already have partial answers to Question 2 as we know that linear systems with isotropic noise are $poly$-learnable. In Section 5, we seek to broaden the classes of $poly$-learnable systems and discover their relation to fundamental system theoretic properties such as controllability.
+
+While Definitions 1. ‣ 2 Learnability of System Classes ‣ Linear Systems can be Hard to Learn"), 2. ‣ 2 Learnability of System Classes ‣ Linear Systems can be Hard to Learn") are inspired by PAC learning, they have a different flavor. One of the differences is that the guarantees in Definitions 1. ‣ 2 Learnability of System Classes ‣ Linear Systems can be Hard to Learn"), 2. ‣ 2 Learnability of System Classes ‣ Linear Systems can be Hard to Learn") are stated in terms of recovering the state-space parameters, while in PAC learning, they would be stated in terms of the prediction error of the learned model or informally $\sum_{k = 0}^{N - 1}{{\mathbb{E}}{\|{x_{k} - {\hat{A}x_{k - 1}} - {\hat{B}u_{k - 1}}}\|}^{2}}$.
+
+## Directly-excited systems are poly-learnable
+
+In this section, we revisit state-of-the-art results in finite-sample complexity for fully-observed linear systems and re-establish that they all lead to polynomial sample complexity. In prior work, the class of linear systems considered assumes that the stochastic process noise is isotropic, i.e. ${HH^{\prime}} = {\sigma_{w}^{2}I_{n}}$. Since all states are directly excited by the process noise, all modes of the system are captured sufficiently in the data. To obtain polynomial complexity, it suffices to use the least squares identification algorithm
+
+with white noise inputs $u_{t} \sim {\mathcal{N}{(0,{\sigma_{u}^{2}I})}}$. Based on the algorithm analysis from, let $k$ be a fixed time index which is much smaller than the horizon $N$ (see Theorem 2.1 in for details). Let $0 < \delta < 1$ and $\epsilon$ be the confidence and accuracy parameters respectively. Then, with probability at least $1 - \delta$, the error is ${\|{A - {\hat{A}}_{N}}\|}_{2} \leq \epsilon$ if:
+
+where $c$ is a universal constant, and $\Gamma_{k} = {{\sigma_{u}^{2}\Gamma_{k}{(A,B)}} + {\sigma_{w}^{2}\Gamma_{k}{(A,I_{n})}}}$ is the (combined) controllability Gramian. Uunder the isotropic noise assumption, the least singular value of the Gramian $\Gamma_{k}$ is bounded away from zero, ${\sigma_{\min}{(\Gamma_{k})}} \geq \sigma_{w}^{2}$.
+
+In a slight departure from, we can show that the determinant of the Gramian $\det{(\Gamma_{N})}$ can only increase at most polynomially with the number of samples $N$ and exponentially with state dimension $n$. This is a direct consequence of the following lemma, which is a new result.
+
+### Lemma 1
+
+Let $A \in {\mathbb{R}}^{n \times n}$ have all eigenvalues inside or on the unit circle, with $\left\| A \right\|_{2} \leq M$. Then, the powers of matrix $A$ are bounded by:
+
+Lemma 1 enables us to eliminate the dependence on the condition number of the Jordan form's similarity transformation, which exists in prior bounds and can be arbitrarily large. We avoid this dependence by using the Schur form of $A$. While this does not alter the already known sample complexity results, it allows us to have sample complexity bounds that are uniform across all systems that satisfy Assumption 1.
+
+As a result of Lemma 1, we obtain that the system identification problem for linear systems with isotropic noise has polynomial sample complexity. The result can be broadened to the more general case of direct excitation, where the covariance is lower bounded by ${{HH^{\prime}} + {BB^{\prime}}} \succeq {\sigma_{w}^{2}I_{n}}$, for some $\sigma_{w} > 0$, as the following theorem states.
+
+### Theorem 1 (Directly-excited)
+
+Consider the class $\mathcal{C}_{n}$ of directly-excited systems $S = {(A,B,H)} \in {\mathbb{R}}^{n \times {({n + p + r})}}$ such that Assumption 1 is satisfied with covariance ${{HH^{\prime}} + {BB^{\prime}}} \succeq {\sigma_{w}^{2}I_{n}}$, for some $\sigma_{w} > 0$. The class $\mathcal{C}_{n}$ is ${poly} -$learnable under the least squares system identification algorithm with white noise input signals $u_{k} \sim {\mathcal{N}{(0,I_{p})}}$.
+
+### Proof
+
+It follows as a special case of Theorem 4. ‣ 5 Controllability index affects learnability ‣ Linear Systems can be Hard to Learn") for controllability index $\kappa = 1$. ∎
+
+Directly excited systems includes fully-actuated systems (number of inputs equal to the number of states $p = n$), or systems with isotropic noise as special cases. However, having direct excitation might not always be the case. The combined noise and input matrices might be rank-deficient. For example, we might have actuation noise as in:
+
+In general, the noise might be ill-conditioned (zero across certain directions), while it might be physically impossible to actuate every state of the system. We call such systems underactuated or under-excited. It might still be possible to identify underactuated systems, e.g. if the pair $(A,\begin{bmatrix}
+\end{bmatrix})$ is controllable. However, as we prove in the next section, the identification difficulty might increase dramatically.
+
+## Exp-hard system classes
+
+In this section, we show that there exist common classes of linear systems which are impossible or hard to identify with a finite amount of samples. As we will see, this can happen when systems are under-actuated and under-excited. When only a limited number of system states is directly driven by inputs (or excited by noise) and the remaining states are only indirectly excited, then identification can be inhibited.
+
+### Controllable systems with infinite sample complexity
+
+For presentation simplicity, let us assume that there are no exogenous inputs $B = 0$. Similar results also hold when $B \neq 0$--see Remark 1. ‣ 4.2 Robustly controllable systems can be exp-hard ‣ 4 Exp-hard system classes ‣ Linear Systems can be Hard to Learn"). To fully identify the unknown matrix $A$, it is necessary that the pair $(A,H)$ is controllable. Furthermore, let's assume that the noise is meaningful, that is ${\sigma_{\min}{(H)}} \geq \sigma$ for some $\sigma > 0$. However, controllability of $(A,H)$ and ${\sigma_{\min}{(H)}} \geq \sigma$ are not sufficient to ensure system identification from a finite numer of samples. The following, perhaps unsurprising theorem, shows that for this class of linear systems, the worst-case sample complexity is infinite.
+
+### Theorem 2 (Controllability is not sufficient for finite sample complexity)
+
+Consider the class $\mathcal{C}_{n}$ of systems $S = {(A,H)} \in {\mathbb{R}}^{n \times {({n + r})}}$ such that Assumption 1 is satisfied with $(A,H)$ controllable, and ${\sigma_{\min}{(H)}} \geq \sigma$ for some $\sigma > 0$. For any system identification algorithm the sample complexity is infinite: there exist a failure probability $0 \leq \delta < 1$ and a tolerance $\epsilon > 0$ such that we cannot achieve
+
+with a finite number of samples $N$.
+
+Theorem 2. ‣ 4.1 Controllable systems with infinite sample complexity ‣ 4 Exp-hard system classes ‣ Linear Systems can be Hard to Learn") clearly shows that we may need stronger notions of controllability, as done in Section 4.2, in order to find classes of systems whose sample complexity is finite. The proof of Theorem 2. ‣ 4.1 Controllable systems with infinite sample complexity ‣ 4 Exp-hard system classes ‣ Linear Systems can be Hard to Learn") uses tools from minimax theory. Adapting these tools in our setting results in the following.
+
+### Lemma 2 (Minimax bounds)
+
+Let $\mathcal{C}_{n}$ be a class of systems. Consider a confidence $0 < \delta < 1$ and an accuracy parameter $\epsilon > 0$. Denote by ${S_{1},S_{2}} \in \mathcal{C}_{n}$ any pair of two systems with $A_{1},H_{1}$, $A_{2},H_{2}$ the respective unknown matrices, such that ${\|{A_{1} - A_{2}}\|} \geq {2\epsilon}$. Let ${KL}{({\mathbb{P}}_{S_{1}},{\mathbb{P}}_{S_{2}})}$ be the Kullback-Leibler divergence between the probability distributions of the data when generated under $S_{1},S_{2}$ respectively. Then for any identification algorithm
+
+for all such pairs ${S_{1},S_{2}} \in \mathcal{C}_{n}$.
+
+### Proof
+
+Let $S_{1},S_{2}$ be any pair satisfying the conditions. We trivially have that:
+
+The remaining proof is identical to \[13, Proposition 2\], where we replaced constant $2.4$ with $3$ for simplicity and we did not expand the expression for ${KL}{({\mathbb{P}}_{S_{1}},{\mathbb{P}}_{S_{2}})}$ explicitly (term ${\mathbb{E}}_{A}{(L_{t})}$ in ). ∎
+
+Intuitively, to find difficult learning instances we construct systems which are sufficiently separated ($2\epsilon$ away). Meanwhile, the systems should be similar enough to generate data with as indistinguishable distributions as possible (small KL divergence). If the system is hard to excite, then the distributions of the states will look similar under many different matrices $A$, leading to smaller KL-divergence. Unless we bound the pair $(A,H)$ away from uncontrollability, it might be impossible to satisfy (6. ‣ 4.1 Controllable systems with infinite sample complexity ‣ 4 Exp-hard system classes ‣ Linear Systems can be Hard to Learn")) for all pairs of systems with a finite number of samples. For example consider:
+
+It requires an arbitrarily large number of samples to learn $\alpha$ if the coupling $\beta$ between $x_{t,2}$ and $x_{t,3}$ is arbitrarily small. The distribution of $x_{t,1}$ remains virtually the same as we perturb $\alpha$, since the state $x_{t,2}$ is under-excited for small $\beta$.
+
+### Robustly controllable systems can be exp-hard
+
+Theorem 2. ‣ 4.1 Controllable systems with infinite sample complexity ‣ 4 Exp-hard system classes ‣ Linear Systems can be Hard to Learn") implies that we need to bound the system away from uncontrollability in order to obtain non-trivial sample complexity bounds. In order to formulate this, we review the notion of distance from uncontrollability, which is the norm of the smallest perturbation that makes $(A,H)$ uncontrollable.
+
+### Definition 3 (Distance from uncontrollability \[34\])
+
+Let ${(A,H)} \in {\mathbb{R}}^{n \times {({n + r})}}$ be controllable. Then, the distance from uncontrollability is given by:
+
+where perturbations ${({\DeltaA},{\DeltaH})} \in {\mathbb{C}}^{n \times {({n + r})}}$ are complex.
+
+Let us now consider linear systems that are robustly controllable. That is, classes of controllable linear systems whose distance from uncontrollability is lower bounded. The lower bound is allowed to degrade gracefully (polynomially) with the system dimension $n$.
+
+### Assumption 2 (Robust Controllability)
+
+Assume that system $(A,H)$ is robustly controllable, that is ${(A,H)} \in {\mathbb{R}}^{n \times {({n + m})}}$ is $\mu$-away from uncontrollability:
+
+for some positive $\mu \geq 0$, with $\mu^{- 1} \leq {{poly}{(n)}}$.
+
+Assumption 2. ‣ 4.2 Robustly controllable systems can be exp-hard ‣ 4 Exp-hard system classes ‣ Linear Systems can be Hard to Learn") is not restrictive as long as we allow the bound to degrade with the dimension. Common systems like the $n -$th order integrator have distance that degrades linearly with $n$--see Lemmas B.1, B.2 in the Appendix. However, even for system classes that satisfy Assumption 2. ‣ 4.2 Robustly controllable systems can be exp-hard ‣ 4 Exp-hard system classes ‣ Linear Systems can be Hard to Learn"), the next theorem shows that system identification can be $\exp$-hard.
+
+### Theorem 3 (Exp(n)-hard classes)
+
+Consider the set $\mathcal{C}_{n}$ of systems $S = {(A,H)}$ such that Assumptions 1, 2. ‣ 4.2 Robustly controllable systems can be exp-hard ‣ 4 Exp-hard system classes ‣ Linear Systems can be Hard to Learn") are satisfied with ${d{(A,H)}} \geq \mu = {8{({n + 1})}^{- 1}}$. Then, for any system identification algorithm $\mathcal{A}$ the sample complexity is exponential in the state dimension $n$. There exist a confidence $0 \leq \delta < 1$ and a tolerance $\epsilon > 0$ such that
+
+Theorem 3-hard classes). ‣ 4.2 Robustly controllable systems can be exp-hard ‣ 4 Exp-hard system classes ‣ Linear Systems can be Hard to Learn") shows that even for robustly controllable classes of linear systems satisfying Assumptions 1, 2. ‣ 4.2 Robustly controllable systems can be exp-hard ‣ 4 Exp-hard system classes ‣ Linear Systems can be Hard to Learn"), any system identification algorithm will have worst-case sample complexity that depends exponentially on the system dimension $n$. The proof of Theorem 3-hard classes). ‣ 4.2 Robustly controllable systems can be exp-hard ‣ 4 Exp-hard system classes ‣ Linear Systems can be Hard to Learn") is based once more on minimax theory used in Lemma 2. ‣ 4.1 Controllable systems with infinite sample complexity ‣ 4 Exp-hard system classes ‣ Linear Systems can be Hard to Learn").
+
+The reason for this learning difficulty is due to the need for indirect excitation. Consider, for example, chained systems, where every state indirectly excites the next one. If the states are weakly-coupled, then the exploratory signal (noise or input) attenuates exponentially fast along the chain. As a concrete example, consider the following system for $\rho < 0.5$:
+
+which satisfies Assumptions 1, 2. ‣ 4.2 Robustly controllable systems can be exp-hard ‣ 4 Exp-hard system classes ‣ Linear Systems can be Hard to Learn"). Matrix $A$ has a chained structure with weak coupling between the states. Noise can only excite states $x_{t,1},x_{t,n}$ directly. Until the exploratory noise signal reaches $x_{t,2}$ it decreases exponentially fast with the dimension $n$. As a result, it is difficult to learn $A_{12}$ due to lack of excitation. In terms of Lemma 2. ‣ 4.1 Controllable systems with infinite sample complexity ‣ 4 Exp-hard system classes ‣ Linear Systems can be Hard to Learn"), the distribution of $x_{t,1}$ will remain virtually the same if we perturb $A_{12}$ since $x_{t,2}$ is under-excited.
+
+### Remark 1 (Exogenous inputs)
+
+When $B \neq 0$ similar results hold but with an additional interpretation. Consider system but with $H = e_{1}$, $B = {\rhoe_{n}}$. Then, if we apply white-noise input signals we have two possibilities: i) the control inputs have bounded energy per Assumption 1 but we suffer from exponential sample complexity or ii) we obtain polynomial sample complexity but we allow the energy of the inputs to increase exponentially with the dimension. From this alternative viewpoint a system is hard to learn if it requires exponentially large control inputs.
+
+### Remark 2
+
+The constant $8$ in $8{({n + 1})}^{- 1}$ in the statement of Theorem 3-hard classes). ‣ 4.2 Robustly controllable systems can be exp-hard ‣ 4 Exp-hard system classes ‣ Linear Systems can be Hard to Learn") is not important in our analysis. We could modify Theorem 3-hard classes). ‣ 4.2 Robustly controllable systems can be exp-hard ‣ 4 Exp-hard system classes ‣ Linear Systems can be Hard to Learn") so that $8$ can be replaced by any smaller constant. In particular, we can decrease $8$ by considering systems with smaller chains, which still have exponential sample complexity. Instead of system, we can consider for example the following. Let $J_{\lfloor{n/m}\rfloor}{}$ be the Jordan block of size $\lfloor{n/m}\rfloor$, for some $m$, and eigenvalue 1 and define
+
+Notice that we reduced the size of the chain by $1/m$ and we added $n - {\lfloor{n/m}\rfloor}$ directly excited states. By increasing $m$, we can achieve a larger distance to uncontrollability (constant smaller than $8$). However, we will still have exponential sample complexity of the order of at least $\lfloor{n/m}\rfloor$, based on the length of the chain.
+
+## Controllability index affects learnability
+
+Structural system properties of an underactuated system, such as the chained structure in the dynamics, can be critical in making system identification easy or hard. This poses novel questions about understanding how system theoretic properties affect system learnability as defined in Definitions 1. ‣ 2 Learnability of System Classes ‣ Linear Systems can be Hard to Learn") and 2. ‣ 2 Learnability of System Classes ‣ Linear Systems can be Hard to Learn"). We begin a new line of inquiry by characterizing how the controllability index $\kappa$, a critical structural system property, affects the statistical properties of system identification. A brief review of the concept of controllability index can be found in the Appendix. It can be viewed as a structural measure of whether a system is directly actuated or underactuated resulting in long chains. The following theorem, is the first result connecting the controllability index with sample complexity bounds.
+
+### Theorem 4 (Controllability index-dependent upper bounds)
+
+Consider the set $\mathcal{C}_{n}$ of systems $S = {(A,B,H)}$ such that Assumption 1 is satisfied. Let Assumption 2. ‣ 4.2 Robustly controllable systems can be exp-hard ‣ 4 Exp-hard system classes ‣ Linear Systems can be Hard to Learn") be satisfied for the all pairs $(A,\begin{bmatrix}
+\end{bmatrix})$. Furthermore assume that the controllability index of all pairs $(A,\begin{bmatrix}
+\end{bmatrix})$ in the class is upper bounded by $\kappa$. Then, under the least squares system identification algorithm and white noise inputs $u_{k} \sim {\mathcal{N}{(0,I_{p})}}$, we obtain that
+
+Theorem 4. ‣ 5 Controllability index affects learnability ‣ Linear Systems can be Hard to Learn") formalizes our intuition since the controllability index is the length of the chain from input excitation towards the most distant state in the chain. Hence, systems with a large number of inputs (or noise) and small controllability index ($\kappa\operatorname{<<}n$) are easy to identify. The directly excited case with isotropic noise, presented in Theorem 1. ‣ 3 Directly-excited systems are poly-learnable ‣ Linear Systems can be Hard to Learn"), is a special case corresponding to a controllability index $\kappa = 1$, recovering prior polynomial bounds.
+
+The implications of Theorems 3-hard classes). ‣ 4.2 Robustly controllable systems can be exp-hard ‣ 4 Exp-hard system classes ‣ Linear Systems can be Hard to Learn"), 4. ‣ 5 Controllability index affects learnability ‣ Linear Systems can be Hard to Learn") illustrate the impact controllability properties have on system learnability--see Figure 4. Classes of systems with small controllability index $O{}$ have polynomial sample complexity. Classes where the index grows linearly $\Omega{(n)}$ can be exponentially hard in the worst case in general. There might still be subclasses of systems with large controllability indexes which nonetheless can be identified with a polynomial number of samples. However, we cannot provide any guarantees without further assumptions.
+
+The proof of Theorem 4. ‣ 5 Controllability index affects learnability ‣ Linear Systems can be Hard to Learn") crucially depends on the following system theoretic result that bounds the least singular value of the controllability Gramian (a quantitative measure of controllability) with the controllability index (a structural measure of controllability).
+
+### Theorem 5 (Controllability gramian bound)
+
+Consider a system $(A,H)$ that satisfies Assumptions 1, 2. ‣ 4.2 Robustly controllable systems can be exp-hard ‣ 4 Exp-hard system classes ‣ Linear Systems can be Hard to Learn"). Let $\kappa$ be its controllability index. Then, the least singular value of the gramian $\Gamma_{\kappa}$ is lower bounded by:
+
+The above theorem is of independent interest, since it states that the controllability index rather than the dimension $n$ controls how fast the controllability Gramian degrades. While the above bound may be loose in general, it gives us qualitative insights about how system structure affects the hardness of input excitation and system identification. Our proof exploits the so-called "staircase" (or Hessenberg) canonical representation (A.2. ‣ Appendix A Controllability-related concepts ‣ Linear Systems can be Hard to Learn")) of state space systems --see Appendix. The main idea is that if a system is robustly controllable then the coupling between the states is bounded away from zero. Hence, we can avoid the essentially uncontrollable systems of Theorem 2. ‣ 4.1 Controllable systems with infinite sample complexity ‣ 4 Exp-hard system classes ‣ Linear Systems can be Hard to Learn") which lead to infinite sample complexity.
+
+## Simulations
+
+We study three simulation scenarios to illustrate the qualitative implications of our results. In the first two cases, we verify that the sample complexity of the least squares algorithm can indeed grow exponentially with the dimension. In the third case, we investigate how the controllability index affects the sample complexity. In all cases, we perform Monte Carlo simulations to compute the empirical mean error ${\|{A - {\hat{A}}_{N}}\|}_{2}$ and we count the number of samples required to have error less than $\epsilon$, for some $\epsilon > 0$. For numerical stability in the least squares estimator we used a regularization term (ridge regression) with coefficient $0.001$.
+
+In the first example in Section 2, Figure 1, we used $1000$ Monte Carlo iterations to approximate the empirical average. We modeled the noise as gaussian with $w_{k} \sim {\mathcal{N}{(0,0.5)}}$ and used white noise inputs $u_{k} \sim {\mathcal{N}{}}$. The sample complexity of the least squares algorithm seems to be exponential with the dimension. In Section 4, we showed that such systems exhibit exponential sample complexity due to the weak coupling between the states.
+
+In the second example, we study the behavior of Jordan blocks actuated from the last state. Let $J_{n}{(\lambda)}$ be a Jordan block of dimension $n$ and eigenvalues all $\lambda$. We consider the system $A = {J_{n}{(\lambda)}}$, $H = {0.1e_{n}}$, $B = {5e_{n}}$, which means we excite directly only state $x_{t,n}$. We repeat the same experiment as before for $1000$ Monte Carlo simulations with ${w_{k},u_{k}} \sim {\mathcal{N}{}}$ and for $\epsilon = 0.005$. In Figure 2, it seems that the complexity of the least squares algorithm is also exponential when $0 < \lambda < 1$. In this case the coupling between the states is not weak. However, certain subspaces might still be hard to excite. As $\lambda$ approaches the unit circle eigenvalue $1$ the complexity improves. For $\lambda = 1$, after $n = 9$ Matlab returned inaccurate results as the condition number of the data becomes very large. Hence, we do not report any results beyond $n = 9$. However, based on simulations for small $n$ it might be possible that the system can be learned by only a polynomial number of samples. The intuition might be that in this case instability helps with excitation. It is an open problem to prove or disprove exponential lower bounds for the Jordan block when $0 < \lambda < 1$. Similarly, we leave it as an open problem to prove or disprove polynomial upper bounds for the Jordan block when $\lambda = 1$.
+
+Figure 2: Sample complexity of identifying the Jordan block of size n and eigenvalues all λ, actuated from the last state. The figure shows the minimum number of samples N such that the (empirical) average error 𝔼 ∥A − ÂN∥2 is less than 0.005. The sample complexity appears to be increasing exponentially with the dimension n for λ &lt; 1. For λ = 1, Matlab returns inaccurate results for n ≥ 10 since the condition number of the data is very large. However, in the regime 5 ≤ n ≤ 9, the complexity seems to be polynomial, increasing in 5 sample increments.
+
+In the third example, we consider the Jordan block $A = {J_{n}{(0.5)}}$ with noise $H = {0.1e_{n}}$. We start from $B = {5e_{n}}$ and we gradually add more exogenous inputs to decrease the controllability index: we try $B = {5\begin{bmatrix}
+\end{bmatrix}}$ and $B = {5\begin{bmatrix}
+\end{bmatrix}}$ which correspond to indices $\kappa = {\lceil{n/2}\rceil}$ and $\kappa = 2$ respectively. We repeat the same experiment as before for $1000$ Monte Carlo simulations with ${w_{k},u_{k}} \sim {\mathcal{N}{}}$ and for $\epsilon = 0.005$. In Figure 3, it seems that the sample complexity remains exponential when $\kappa = {\lceil{n/2}\rceil}$. However, when $\kappa = 2$ there is a phase transition and the sample complexity becomes polynomial with the dimension.
+
+Figure 3: Sample complexity of identifying the Jordan block Jn (0.5) of size n and eigenvalues all 0.5, for different values of the controllability index. The figure shows the minimum number of samples N such that the (empirical) average error 𝔼 ∥A − ÂN∥2 is less than 0.005. The sample complexity appears to be increasing exponentially with the dimension n for κ = Θ (n). For κ = 2, the sample complexity is much smaller and increases polynomially.
+
+## Conclusion
+
+The results of this paper paint a broader and more diverse landscape about the statistical complexity of learning linear systems, summarized in Figure 4 according to the controllability index $\kappa$ of the considered system class. While statistically easy cases that were previously known are captured by Theorem 1. ‣ 3 Directly-excited systems are poly-learnable ‣ Linear Systems can be Hard to Learn"), we also showed that hard system classes exist (Theorem 3-hard classes). ‣ 4.2 Robustly controllable systems can be exp-hard ‣ 4 Exp-hard system classes ‣ Linear Systems can be Hard to Learn")). By exploiting structural system theoretic properties, such as the controllability index, we broadened the class of easy to learn linear systems (Theorem 4. ‣ 5 Controllability index affects learnability ‣ Linear Systems can be Hard to Learn")).
+
+Figure 4: Sample complexity classes for linear systems. according to their controllability index.
+
+Our results pose numerous future questions for exploiting other system properties (e.g. observability) for efficiently learning classes of partially-observed linear systems or nonlinear systems. It remains an open problem to prove whether or not the $n -$th order integrator is poly-learnable as discussed in Section 6. Similarly, it is an open problem to prove whether or not the Jordan block of size $n$ and eigenvalues all $0 < \lambda < 1$ has exponential complexity. Finally, the results of this paper might have ramifications for control, for example learning the linear quadratic regulator, as well as reinforcement learning.

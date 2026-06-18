@@ -1,0 +1,559 @@
+## Introduction
+
+In recent years, deep learning has shown a tremondous growth to solve the challenging problems such as object detection, semantic segmentation, person re-identification, image retrieval, anomaly detection, skin disease diagnosis, and many more. Various types of neural networks have been defined in deep learning to learn abstract features from data, such as Multilayer Perceptron (MLP), Convolutional Neural Networks (CNN), Recurrent Neural Networks (RNN), and Generative Adversarial Networks (GAN). The important aspects of neural networks include weight initialization, loss functions, different layers, overfitting, and optimization.
+
+The activation functions (AFs) play a very crucial role in neural networks by learning the abstract features through non-linear transformations. Some common properties of the AFs are as follows: a) it should add the non-linear curvature in the optimization landscape to improve the training convergence of the network; b) it should not increase the computational complexity of the model extensively; c) it should not hamper the gradient flow during training; d) it should retain the distribution of data to facilitate the better training of the network. Several AFs have been explored in recent years for deep learning to achieve the above mentioned properties. This survey is dedicated to the developments in the area of AFs in neural networks. The insights of the different AFs are presented along with the reasoning to benefit the deep learning community. The major contributions of this survey are outlined as follows:
+
+This survey provides a detailed classification for a wide range of AFs. It also includes the AFs very comprehensively, including Logistic Sigmoid/Tanh, Rectified Unit, Exponential Unit, and Adaptive AFs.
+
+This survey enriches the reader with the state-of-the-art AFs with analysis from various perspectives. It specifically covers the progress in AFs for deep learning.
+
+This survey also summarizes the AFs with brief highlights and important discussions to depict its suitability for different types of data (Refer to Table 6).
+
+This survey is compared with the existing survey and performance analysis to show its importance (Refer to Table 7).
+
+This paper also presents the performance comparisons on 4 benchmark datasets of different modalities using 18 state-of-the-art AFs with different types of networks (Refer to Tables 8, 9 and 11).
+
+The evolution of AFs is illustrated in Section 2. The progress in Logistic Sigmoid and Tanh, rectified, exponential, adaptive and miscellaneous AFs are summarized in Section 3, 4, 5, 6, and 7, respectively. Some aspects of AFs are discussed in Section 8. A comprehensive performance analysis is conducted in Section 9. A summary with conclusions and recommendations is provided in Section 10.
+
+## Evolution of Activation Functions
+
+A linear function can be thought of as a simple AF which outputs $c \times x$ for input $x$ with $c$ as a constant. The linear AF is illustrated in Fig. 1 for $c = 1$, i.e., identity function. Note that the linear AF does not add non-linearity into the network. However, the non-linearity needs to be introduced in the neural networks. Otherwise, a neural network produces the output as a linear function of inputs inspite of having several layers. Moreover, in practice data is generally not linearly separable; hence, the non-linear layers help to project the data in non-linear fashion in feature space which can be used with different objective functions. This section provides an overview of the evolution of AFs for deep learning. A classification is presented in Fig. 2 in terms of the different properties and characteristic types.
+
+Figure 1: An illustration of Linear, Logistic Sigmoid and Tanh AFs.
+
+Logistic Sigmoid/Tanh Unit Based Activation Functions: In order to introduce the non-linearity into the neural networks, the Logistic Sigmoid and Tanh AFs have been used in the early days. The firing of bilogical neurons was the motivation of using the Logistic Sigmoid and Tanh AFs with artificial neurons. The Logistic Sigmoid AF is a very popular and traditional non-linear function. It is given as,
+
+This AF squashes the output between \[$0$, $1$\] as shown in Fig. 1. The output of the Logistic Sigmoid function is saturated for higher and lower inputs, which leads to vanishing gradient problem. The vanishing gradient problem depicts to a scenario where the gradient of objective function w.r.t. a parameter becomes very close to zero and leads to almost no update in the parameters during the training of the network using stochastic gradient descent technique. Hence, the training is almost killed under vanishing gradient scenario. Moreover, the output not following a zero-centric nature leads to poor convergence. The Tanh function has also been used as the AF in neural networks. It is similar to the Logistic Sigmoid function while exhibiting the zero centric property as depicted in Fig. 1. The Tanh function is written as,
+
+The Tanh function also squashes the inputs, but in $\lbrack{- 1},1\rbrack$. The drawbacks of Logistic Sigmoid function such as vanishing gradient and computational complexity also exist with Tanh function. The Logistic Sigmoid and Tanh AFs majorly suffer from vanishing gradient. Several improvements have been proposed based on the Logistic Sigmoid and Tanh AFs which are described in Section 3 in detail.
+
+Figure 2: Classification of activation functions.
+
+Rectified Linear Unit Based Activation Functions: The saturated output and increased complexity are the key limitations of above-mentioned Logistic Sigmoid and Tanh based AFs. The Rectified Linear Unit (ReLU) has become the state-of-the-art AF due to its simplicity and improved performance. The ReLU was also used in the AlexNet model. Various variants of ReLU have been investigated by tackling its drawbacks, such as non-utilization of negative values, limited non-linearity and unbounded output, as detailed in Section 4.
+
+Table 1: Advantage and disadvantage of primary AFs.
+
+Scaled Tanh (sTanh), 1998
+
+Rectified Hyperbolic Secant (ReSech), 2016
+
+Scaled Sigmoid (sSigmoid), 2016
+
+Penalized Tanh (pTanh), 2016
+
+Improved Sigmoid (ISigmoid), 2018
+
+Sigmoid-Weighted Linear Units (SiLU), 2018
+For negative inputs
+
+Linearly Scaled Hyperbolic Tangent (LiSHT), 2019
+
+Table 2: Summary of Logistic Sigmoid and Tanh based activation functions.
+
+Exponential Unit Based Activation Functions: The major problem faced by the Logistic Sigmoid and Tanh based AFs is with its saturated output for large positive and negative input. Similarly, the major problem with ReLU based AFs is with the under-utilization of negative values leading to vanishing gradient. In order to cope up with these limitations the exponential function based AFs have been used in the literature. The Exponential Linear Unit (ELU) based AF utilizes the negative values with the help of the exponential function. Several AFs have been introduced in the literature as the ELU variants which are presented in Section 5 in detail.
+
+Learning/Adaptive Activation Functions: Most of the Sigmoid, Tanh, ReLU, and ELU based AFs are designed manually which might not be able to exploit the data complexity. The learning based adaptive AFs are the recent trends. This class of AFs contains learnable parameters, e.g. Adaptive Piecewise Linear (APL) and Swish AFs contain two and one learnable parameters, respectively. Recently, several learning based AFs have been proposed as illustrated in Section 6.
+
+Miscellaneous Activation Functions: In recent years, many other AFs have also been investigated as presented in Section 7. These activations include Softplus units, probabilistic functions, polynomial functions, and kernel functions.
+
+Table 1 highlights the advantage and disadvantage of the primary AFs in terms of the diminishing gradients, limited non-linearity, optimization difficulty, computational inefficiency and lack of adaptibility. It can be noticed that the Tanh function is computationally inefficient because it involves the computation of exponential multiple times. However, in implementation it can be computed using single exponential with the help of Sigmoid function. These limitations in the existing AFs have been the driving factors for the development of recent AFs as surveyed in the further sections of this paper.
+
+## Logistic Sigmoid and Tanh Based AFs
+
+The traditional AFs such as Logistic Sigmoid and Tanh were used very extensively in the early days of neural networks. However, these AFs had shown the hurdle to train the deep networks due to their saturated output. Several attempts have also been made to improve these AFs for different networks. Table 2 presents the comparison of Logistic Sigmoid and Tanh based AFs in terms of their properties including parametric, monotonic, smooth and bounded.
+
+In order to tackle the limited output range and zero gradient problems of Tanh, a scaled Hyperbolic Tangent (sTanh) is used in which is defined as,
+
+with the output range in $\lbrack{- A},A\rbrack$. A Parametric Sigmoid Function (PSF) is proposed as a continuous, differentiable, and bounded function as,
+
+where $m$ is a hyperparameter. The gradient flow is improved for the higher value of $m$. The sum of shifted log-sigmoid is also explored as an AF which retains the symmetry in the generated features. The Rectified Hyperbolic Secant (ReSech) AF is differentiable, symmetric, and bounded which is given as,
+
+with the output range in $\lbrack{- 1},1\rbrack$. However, it exhibits the vanishing gradient problem due to saturating behavior for both large positive and large negative inputs. The training of deep networks become difficult due to the uniform slope of the Logistic Sigmoid and Tanh AFs near the origin. To minimize this limitation, the Scaled Sigmoid (sSigmoid) is defined as,
+
+with the output range in $\lbrack{- 2},2\rbrack$ and the Penalized Tanh (pTanh) is defined as,
+
+with the output range in $\lbrack{- a},1\rbrack$ where $a \in {}$. However, sSigmoid and pTanh AFs also suffer from the vanishing gradient problem. It is noticed that the pTanh AF performs better for Natural Language Processing (NLP) tasks.
+
+Rectified Linear Unit (ReLU), 2010
+For negative inputs
+
+Leaky ReLU (LReLU), 2013
+
+Parametric ReLU (PReLU), 2015
+
+Randomized ReLU (RReLU), 2015
+
+Concatenated ReLU (CReLU), 2016
+For negative inputs
+
+Bounded ReLU (BReLU), 2016
+
+Parametric Tanh Linear Unit (PTELU), 2017
+For negative inputs
+
+Flexible ReLU (FReLU), 2018
+For negative inputs
+
+Elastic ReLU (EReLU), 2018
+For negative inputs
+
+Randomly Translational ReLU (RTReLU), 2018
+For negative inputs
+
+Dual ReLU (DualReLU), 2018
+
+Paired ReLU (PairedReLU), 2018
+
+Average Biased ReLU (ABReLU), 2018
+For negative inputs
+
+For negative inputs
+
+Multi-bin Trainable Linear Units (MTLU), 2019
+
+Lipschitz ReLU (L-ReLU), 2020
+Depends upon ϕ and η
+Depends upon ϕ and η
+Depends upon ϕ and η
+
+Table 3: Summary of Rectified Linear Unit based activation functions.
+
+A noisy AF is defined to overcome the vanishing gradient problem. Due to the added noise the gradients may flow easily even in the saturating regime. The vanishing gradient problem is minimized by the Hexpo function which is similar to Tanh with a scaled gradient. It is given as,
+
+in the output range of $\lbrack{- c},a\rbrack$. The output of the sigmoid function is multiplied with its input in sigmoid-weighted linear unit (SiLU) AF as
+
+in the output range of $({- 0.5},\infty)$. At the same time an improved logistic Sigmoid (ISigmoid) AF is proposed to solve the vanishing gradient problem of Sigmoid with the help of a piecewise combination of sigmoidal and linear functions. It is defined as,
+
+in the output range of $({- \infty},\infty)$. The Linearly scaled hyperbolic tangent (LiSHT) AF scales the Tanh in a linear fashion to overcome the vanishing gradient issue. The LiSHT can be defined as,
+
+in the output range of $\lbrack 0,\infty)$. The LiSHT function is symmetric, but is has the shortcoming of including unbounded and non-negative outputs only. The Elliott AF is similar to Sigmoid function in terms of the characteristics diagram and defined as,
+
+in the output range of $\lbrack 0,1\rbrack$. The Soft-Root-Sign (SRS) AF is defined as,
+
+in the output range of $\lbrack\frac{\alpha \times \beta}{\beta - {\alpha \times e}},\alpha\rbrack$ where $\alpha$ and $\beta$ are the learnable parameters. The use of additional parameters increases the complexity of the SRS function. Most of the variants of Sigmoid/Tanh AFs have tried to overcome the vanishing gradient issue. However, this issue is still present in most of these AFs.
+
+## Rectified Activation Functions
+
+A summary of rectified AFs is illustrated in Table 3. Rectified Linear Unit (ReLU) is a simple function which is the identity function for positive input and zero for negative input and given as,
+
+Hence, the range of ReLU is $\lbrack 0,\infty)$. The gradient for positive and negative inputs is one and zero, respectively. The ReLU function solves the problem of computational complexity of the Logistic Sigmoid and Tanh functions. The downside of ReLU is with the vanishing gradient problem for the negative inputs. In spite of having the vanishing gradient problem, the ReLU AF has been used very extensively with the deep learning models. The advancements in ReLU based AFs are discussed in the rest of this section.
+
+### On the Non-utilization of Negative Values of ReLU
+
+Vanishing gradient is the main problem with ReLU AF which is caused due to the non-utilization of negative values. A Leaky Rectified Linear Unit (LReLU) is the extension of ReLU by utilizing the negative values. The LReLU is defined as,
+
+in the output range of $({- \infty},\infty)$. The LReLU has been used in many applications with promising performance. One major problem associated with LReLU is the finding of the right slope in linear function for negative inputs. Different slopes might be suited for different problems and different networks. Thus, it is extended to Parametric ReLU (PReLU) by considering the slope for negative input as a trainable parameter. The PReLU is given as,
+
+in the output range of $({- \infty},\infty)$ where $p$ is the trainable parameter. However, it can lead to overfitting easily which is the downside of PReLU. The Maxout layer, which computes the maximum of several linear units, is also used as AF. Both ReLU and Leaky ReLU can be seen as the special cases of Maxout. The randomized ReLU (RReLU) considers the slope of LReLU randomly during training sampled from an uniform distribution $U{(l,u)}$. The RReLU is defined as,
+
+in the output range of $({- \infty},\infty)$ where $R \sim {U{(l,u)}}$, $l < u$ and ${l,u} \in {\lbrack 0,1)}$. It uses a deterministic value $x/\left( \frac{l + u}{2} \right)$ during test time.
+
+The ReLU is not able to utilize the potential useful information from the negative values. In most of the networks, the feature map given as the input to AF is dense near zero. Thus, a small jitter in the rectification point can lead to difficulty in training. Concatenated ReLU (CReLU) concatenates the ReLU's output over original input and negated input. The CReLU can be given as,
+
+in the output range of $\lbrack 0,\infty)$. The CReLU is derived from the fact that the lower layer kernels in CNN models form pairs with opposite phases. The shifting of the feature map with multiple biases is also performed before the ReLU layer. However, it increases the model complexity as more ReLUs are required. A Parametric Tan Hyperbolic Linear Unit (P-TELU) is also used as an AF. The P-TELU is defined as,
+
+in the output range of $\lbrack{- \alpha},\infty)$ where ${\{\alpha,\beta\}} \geq 0$ are the learnable parameters.
+
+Exponential Linear Unit (ELU), 2016
+For negative inputs
+
+Scaled ELU (SELU), 2017
+For negative inputs
+
+Continuously Differentiable ELU (CELU), 2017
+For negative inputs
+
+Parametric ELU (PELU), 2017
+For negative inputs
+
+Multiple PELU (MPELU), 2018
+For negative inputs
+
+Fast ELU (FELU), 2019
+For negative inputs
+
+Parametric Rectified Exponential Unit (PREU), 2019
+For negative inputs
+
+Elastic ELU (EELU), 2020
+For negative inputs
+
+Parametric Deformable ELU (PDELU), 2020
+For negative inputs
+
+Table 4: Summary of Exponential Linear Unit based activation functions.
+
+The Flexible ReLU (FReLU) captures the negative values with a rectified point which is considered as trainable in the Shifted ReLU. The FReLU is given as,
+
+in the output range of $\lbrack b,\infty)$. A similar arrangement is also followed by Random Translation ReLU (RTReLU) by utilizing an offset, sampled from a Gaussian distribution, given as,
+
+in the output range of $\lbrack 0,\infty)$ where $a$ is a random number. At test time, the offset is set to zero. A data dependent Average Biased ReLU (AB-ReLU) is also investigated to tackle the negative values by a horizontal shifting based on the average of features. The ABReLU can be written as,
+
+having the output range in $\lbrack 0,\infty)$ where $\beta$ is computed as the average of input activation map to the activation function. The batch dependent threshold for the ReLU is used by the Dynamic ReLU (D-ReLU). The Dual ReLU (DualReLU) is a two dimensional AF for recurrent neural networks. The DualReLU is given as,
+
+in the output range of $({- \infty},\infty)$ where $a$ and $b$ are the inputs in different dimensions. Similar to the CReLU, the PairedReLU AF is used for image super-resolution. The PairedReLU is given as,
+
+in the output range of $({- \infty},\infty)$. However, the computational complexity of PairedReLU is increased as compared to CReLU. In another attempt, V-shaped ReLU (vReLU) AF is defined as,
+
+having the output range in $\lbrack 0,\infty\rbrack$. The vReLU activation function suffers from the non-symmetric output. The SignReLU AF utilizes the negative values using the Softsign function. The positive part of SignReLU is the same as the ReLU.
+
+A Displaced ReLU (DisReLU) is designed as a generalization of Shifted ReLU. The DisReLU displaces the rectification point to consider the negative values, given as,
+
+having the output range in $\lbrack{- \delta},\infty\rbrack$. A Bendable Linear Unit (BLU) AF is investigated as,
+
+where ${- 1} \leq \beta \leq 1$ is a learnable parameter to adapt the shape between the identity function and a rectifier function. A Lipschitz ReLU (L-ReLU) AF uses the piecewise linear functions to model the degree of presence and the degree of absence of features. The L-ReLU is defined as,
+
+where $\phi$ and $\eta$ are non-linear functions. Moreover, the range of L-ReLU also depends upon the values of $\phi$ and $\eta$ functions.
+
+### On the Limited Non-linearity of ReLU
+
+S-shaped ReLU (SReLU) increases the non-linearity in ReLU by combining three linear functions with four learnable parameters. On a similar line, Multi-bin Trainable Linear Unit (MTLU) considers multiple bins to increase the non-linear capacity. The MTLU can be written as,
+
+having the output range in $({- \infty},\infty)$. The number of bins and the range of bins are the hyperparameters, whereas the linear function of a bin is trainable (i.e., $a_{0},\ldots,a_{K}$ $b_{0},\ldots,b_{K}$ are the learnable parameters). The non-differentiable nature at multiple points is the drawback of the MTLU. An Elastic ReLU (EReLU) considers a slope randomly drawn from a uniform distribution during the training for the positive inputs to control the amount of non-linearity. The EReLU is defined as,
+
+in the output range of $\lbrack 0,\infty)$ where $R$ is a random number. At the test time, the EReLU becomes the identity function for positive inputs. The Linearized Sigmoidal Activation (LiSHA) function considers three linear functions to increase the non-linearity characteristics. It is also extended to adaptive linear sigmoidal AF by learning the slope of upper and lower linear functions. The ReLU is combined with Tanh as Rectified Linear Tanh (ReLTanh) to increase the non-linearity of ReLU and to overcome the vanishing gradient problem of Tanh. However, the ReLTanh is unbounded in both the positive and negative directions. Natural-Logarithm ReLU (NLReLU) modifies the ReLU's output for positive inputs using the logarithm function to increase the degree of nonlinearity. The NLReLU is defined as,
+
+having the output range in $\lbrack 0,\infty)$ where $\beta$ is a constant. The NLReLU does not affect the negative regime, thus suffers from vanishing gradient. The concept of Leaky ReLU (LReLU) is further improved to Dynamic ReLU by considering a mean square error (MSE) based additional hyperparameter. Thus, it can control the slope of the Dynamic ReLU in every epoch based on the convergence. A Piecewise Linear Unit (PLU) is defined as,
+
+having the output range in $\lbrack{- \infty},{+ \infty}\rbrack$, where $\alpha$ and $c$ are the constants. Basically, the PLU activation function consists of three linear functions in pieces, but continuous. Hence, it avoids the saturation and leads to a good amount of gradient flow through the activation function during backpropagation in order to resolve the vanishing gradient problems of ReLU and Tanh. However, the PLU activation is unbounded in both positive and negative directions.
+
+### On the Unbounded Output of ReLU
+
+The unbounded outputs of ReLU and many of its variants may lead to training instability. Moreover, the bounded AF is needed for the dedicated hardware based embedded system applications. ReLU is extended to Bounded ReLU (BReLU) defined as,
+
+having the output range in ${\lbrack 0,A\rbrack})$. The training stability is improved in BReLU due to two rectifications (i.e., at $0$ and $A$). ReLU is a common choice in practice in deep learning. ReLU based AFs are generally efficient. The major drawbacks of ReLU, such as gradient diminishing for negative inputs, limited non-linearity and unboundedness, are improved in the different AFs. However, the ReLU variants are not able to resolve all the issues of ReLU.
+
+## Exponential Activation Functions
+
+The exponential AFs tackle the gradient diminishing problem of ReLU. Table 4 lists the properties of the exponential AFs. The Exponential Linear Unit (ELU) is given as,
+
+having the output range in $\lbrack{- 1},\infty)$ where $\alpha$ is a learnable parameter. The ELU function exhibits all the benefits of the ReLU function. The ELU is differentiable, saturates for large negative inputs and reduces the bias shift. The negative saturation regime of ELU adds some robustness to noise as compared to the Leaky ReLU and Parametric ReLU. The ELU is extended to Scaled ELU (SELU) by using a scaling hyperparameter to make the slope larger than one for positive inputs. The SELU can be defined as,
+
+having the output range in $\lbrack{- \lambda},\infty)$ where $\alpha$ is a hyperparameter. Basically, the SELU induces self-normalization to automatically converge towards zero mean and unit variance. The Parametric ELU (PELU) changes the saturation point and exponential decay and also regulates the slope of the linear function for the positive inputs for differentiability. The PELU AF can be written as,
+
+having $\lbrack{- a},\infty)$ output range, where $a$ and $b$ are the trainable parameters. The parametric ELU is also explored in Continuously differentiable ELU (CELU) for the negative inputs. The CELU is given as,
+
+having the output range in $\lbrack{- \alpha},\infty)$ where $\alpha$ is a learnable parameter. The PELU is also extended to multiple PELU (MPELU) by using two learnable parameters to represent MPELU as either rectified, exponential or combined. The MPELU can be expressed as,
+
+having the output range in $\lbrack{- \alpha_{c}},\infty)$, where $\alpha_{c}$ and $\beta_{c}$ are the trainable parameters.
+
+A soft exponential AF interpolates between the exponential, linear and logarithmic functions using the trainable parameter. A Shifted ELU (ShELU) AF is also explored as a locally optimal function. A Parametric Rectified Exponential Unit (PREU) is designed as,
+
+having the output range in $\lbrack{- 1},\infty)$, where $\alpha$ and $\beta$ are the trainable parameters. The PREU utilizes the negative information near to zero effectively. The efficiency of ELU is improved in Fast ELU (FELU) AF with the help of the simple displacement bits and integer algebra operations. The FELU is defined as,
+
+having the output range in $\lbrack{- \alpha},\infty)$ with $\alpha$ as a learnable parameter. Recently, the properties of ELU and RELU have been utilized to design an Elastic ELU (EELU) AF. The EELU is defined as,
+
+having the output range in $\lbrack{- \alpha},\infty)$ where $\alpha$ and $\beta$ are the trainable parameters. The EELU preserves a small non-zero gradient for the negative input and exhibits an elastic slope for the positive input. A Parametric Deformable ELU (PDELU) AF tries to shift the mean value of output closer to zero using the flexible map shape. The PDELU is defined as,
+
+having the output range in $\lbrack{- 1},\infty)$ where $\alpha$ is a learnable parameter. A ReLU-Memristor-like AF (RMAF) uses two hyperparameters to have ReLU like shape for positive input and to give more importance to the negative values near to zero. An Exponential Linear Sigmoid SquasHing (ELiSH) is defined in as,
+
+Moreover, it is also extended to HardELiSH which is a multiplication of HardSigmoid and Linear in the positive part and HardSigmoid and ELU in the negative part. Here, HardSigmoid is defined as,
+
+The ELU based AFs exploit the negative inputs without compromising with the non-linearity. Some ELU variants also modify the function for positive inputs to make it bounded.
+
+Adaptive Piecewise Linear Unit (APL), 2015
+
+Bi-Modal Derivative Adaptive Activation (BDAA), 2017
+
+Mexican ReLU (MeLU), 2019
+
+Table 5: Summary of adaptive and learning based activation functions.
+
+## Learning/Adaptive Activation Functions
+
+Most of the aforementioned AFs are not adaptive and might not be able to adjust based on the dataset complexity. This problem is tackled using learning/adaptive AFs as summarized in Table 5. Some of the earlier mentioned AFs are also adaptive, such as PReLU, SReLU, PTELU, MTLU, PELU, MPELU, PREU, EELU, PDELU, SRS, etc.
+
+The Adaptive Piecewise Linear (APL) is defined as a sum of hinge-shape functions. It is given as,
+
+where $a$ and $b$ are the trainable parameters and $S$ is a hyperparameter representing the number of hinges. The output range of APL is $\lbrack 0,\infty)$. Due to the trainable parameters, different neurons can learn different AFs.
+
+Ramachandran et al. have performed an automatic search, which resulted in a Swish AF. It is defined as,
+
+where $\beta$ is a learnable parameter. The output range of Swish is $({- \infty},\infty)$. Based on the learnt value of $\beta$ the shape of the Swish AF is adjusted between the linear and ReLU functions. The smaller and higher values of $\beta$ lead towards the linear and ReLU functions, respectively. Thus, it can control the amount of non-linearity based on the dataset and network complexity. Swish is also extended to E-Swish by multiplying the Swish with a learnable parameter to control the slope in the positive direction. The E-Swish is defined as,
+
+having the output the range in $({- \infty},\infty)$ and $\beta$ is trainable parameter. A flatten-T Swish considers zero function for negative inputs similar to the ReLU. The Adaptive Richard's Curve weighted Activation (ARiA) is also motivated from Swish and replaces the sigmoidal function with Richard's Curve. The ARiA AF uses five hyper-parameters to control the shape of the non-linearity.
+
+The basic AFs are combined with learnable weights in adaptive AFs. The Adaptive AF (AAF) designed over PReLU and PELU is given as,
+
+having the output range in $\lbrack 0,1\rbrack$, where $\sigma$ is the sigmoidal function and $w$ is a learnable parameter. In practice, AAF is costly as multiple AFs are involved. In, the AF for each neuron is selected from a library of AFs. In, different combinations of the identity function, ReLU, and Tanh are learnt automatically. In another attempt, an Adaptive Blending Unit (ABU) is defined to allow the networks to learn its preferred AFs. The ABU combines a set of AFs with trainable weights. A Lookup Table Unit (LuTU) function uses a single period cosine mask based smoothing and linear interpolation using a set of anchor points. Activation ensembles are used at each layer in with the contribution of each AF controlled by the trainable weights. Similarly, the Self-Learnable AF (SLAF) computes the sum of the different functions in an ensemble with the learnt coefficients. The SLAF can be expressed as,
+
+in the output range of $({- \infty},\infty)$, where $a_{i}$ is the trainable parameter. A Mexican ReLU (MeLU) AF is proposed in by using a "Mexican hat type" function and given as,
+
+in the output range of $({- \infty},\infty)$, where $c_{j}$ is the trainable parameter and $\lambda_{j}$ & $a_{j}$ are the real numbers.
+
+A cubic spline interpolation is also used to learn the AF from data which is given as,
+
+having the output range in $({- \infty},\infty)$ where $\Phi{(.)}$ is parameterized by a vector q cubic in nature. Fourier series basis expansion is used for nonparametrically learning AFs (NPF). Hyperactivations utilize a hypernetwork on top of an activation network, which are used to explore the AFs search space. A shallow neural network is used in the activation network to produce the output for each input, whereas a neural network is used in the hypernetwork to produce weights for another network. A bi-modal derivative adaptive activation (BDAA) function uses twin maxima derivative sigmoidal function by controlling the maxima's position with an adaptive parameter. The BDAA is given as,
+
+in the output range of $\lbrack 0,1\rbrack$ where $a$ is a learnable parameter. The authors have exploited the Bi-modal derivatives on four AFs. Linear regression is used in to train AF for each neuron which results in different AFs for the different neurons. The TAF is defined as,
+
+in the output range of $\lbrack b,\infty)$, where $a$ and $b$ are the trainable parameters. Recently, a trainable parameter was used in different non-adaptive AFs such as Sigmoid, Tanh, and ReLU to make it adaptive.
+
+The adaptive and trainable AFs are the recent trend to adjust the non-linearity based on the data and network complexity. However, the minimal burden is increased in terms of the increased number of parameters. Though the complexity of tunable AFs is relatively increased w.r.t. non-tunable AFs, it is negligible w.r.t. all parameters of the entire network in practice. The same is also observed experimentally as reported in Table 10 in terms of the training time.
+
+## Miscellaneous Activation Functions
+
+This section covers other attempts in AFs such as Softplus, Probabilistic, Polynomial, Subnetwork and Kernel.
+
+### Softplus Activation Functions
+
+The softplus function was proposed in 2001 as $\log{({e^{x} + 1})}$ and mostly used in statistical applications. After the breakthrough of deep learning the softmax function is used as the AF. Softmax function produces the categorical probability distribution equivalent output. Softplus unit based AF is also used in deep neural networks. The smooth nature of the Softplus facilitates the differentiability. The noisy softplus AF is suitable for the spiking neural networks (SNNs). A Softplus Linear Unit (SLU) is also proposed by considering softplus with rectified unit. The SLU AF is defined as,
+
+where $\alpha$, $\beta$ and $\gamma$ are the trainable parameters with $\alpha$ controlling the slope in the positive direction, $\beta$ controlling the saturation points in the negative direction and $\gamma$ controlling the offset in the negative direction w.r.t. the horizontal axis. The Rectified Softplus (ReSP) AF introduces the rectification for positive input in Softplus activation. In order to make the softplus function to follow the zero mean, a shifting and scaling of the outputs is performed in. A Rand Softplus (RSP) AF models the stochasticity-adaptability of biological neurons as,
+
+where $\rho$ is a stochastic hyperparameter. It improves the capability of the network towards the noise. The softplus function is also used with Tanh function in Mish activation function, which is given as,
+
+The Mish is a non-monotonic and smooth AF. It has recently been used by the YOLOv4 model for object detection. However, the increased complexity in Mish due to the multiple functions can be a limitation for the deep networks.
+
+### Probabilistic Activation Functions
+
+So far, stochastic AFs have not been much explored due to expensive sampling processes. Few AFs exist in this category such as Randomized ReLU (RReLU), Elastic ReLU (EReLU), Randomly Translational ReLU (RTReLU) and Gaussian Error Linear Unit (GELU). GELU considers nonlinearity as the stochastic regularization driven transformation and defined as,
+
+where $P$ is the probability. The complexity of GELU increases due to use of probabilistic nature. The GELU is also extended to the Symmetrical Gaussian Error Linear Unit (SGELU) to enhance its ability of bidirectional convergence. Doubly truncated Gaussian distributions is a family of nonlinearities which can generate different AFs such as Sigmoid, Tanh and ReLU by setting the appropriate truncation points. Probabilistic AF (ProbAct) introduces the adaptable and trainable variance in the ReLU's output. It leads to the generalization of the models. However, all other drawbacks of ReLU exist with ProbAct also.
+
+### Polynomial Activation Functions
+
+Smooth Adaptive AF (SAAF) is defined as the piecewise polynomial function. Two power functions symmetric to the linear part of ReLU are combined in to improve the performance of ReLU. A piecewise polynomial approximation based AF is also learnt from the data. This activation leads to the light-weight models suitable for the FPGAs and microcontrollers. The AF is also treated as the cumulative distribution function. The ReLU is also extended to a Rectified Power Unit (RePU) for positive inputs as,
+
+where $s$ is a hyperparameter. The RePU is suitable for smoother gradients near zero. However, vanishing gradient, unbounded and asymmetric nature are the downsides of RePU. The rational function of polynomials is better suited as compared to the polynomial functions in order to approximate the ReLU. Recently, a Padé approximation is used to develop a non-smooth Padé Activation Unit (PAU) as,
+
+where $P{(x)}$ and $Q{(x)}$ are two polynomials of order $m$ and $n$, respectively. The PAUs can approximate the commonly used hand-designed AFs. Moreover, it can also learn the new AFs with compact representations. Recently, a Rational AF (RAF) was proposed to tackle the problem of non-smooth nature of the PAU function.
+
+### Activations as a Subnetwork
+
+A Variable AF (VAF) is used as a subnetwork of ReLUs. It uses the ensemble of ReLUs in a subnetwork using learnable parameters. In a very similar approach, the maximum of multiple linear functions is used in the Dynamic ReLU (DY-ReLU). In Wide Hidden Expansion (WHE), each WHE intermediate channel is followed by one AF before connecting to the output channel to increase the non-linearity of the network. An AF Unit (AFU) uses a small neural network to model the activation. All neurons in the original network share the weights in AFU. The advantage of the AFU is that different AFs can be learnt by different layers.
+
+### Kernel Activation Functions
+
+A Kernel-based non-parametric AF (KAF) uses an inexpensive kernel expansion to make the activation flexible. The KAF is further extended to multikernel AFs (multi-KAF). Several AFs are also introduced for complex valued neural networks.
+
+Insights and Remarks
+
+Wide Hidden Expansion (WHE) - 2020
+ResNet, SENet, and MobileNet
+CIFAR100 and ImageNet classification, Pascal VOC 2007 and COCO detection
+Upto 2% higher Top-1 accuracy than baseline models of recognition and detection
+
+VGG and MobileNet
+and CIFAR100 classification
+The SRS is better with MobileNet over both datasets and with VGG over CIFAR100. The LReLU is better with VGG over.
+
+ResNet, AlexNet, SqueezeNet, and DenseNet
+, CIFAR100, MNIST and ImageNet classification
+The RMAF performs better than the ReLU, ELU, SELU, PReLU, Tanh and Swish.
+
+Parametric Deformable ELU (PDELU) - 2020
+NIN and ResNet
+and CIFAR100 classification
+The PDELU performs better than the ReLU, ELU and FReLU.
+
+Pade Activation Unit (PAU) - 2020
+VGG8, MobileNetV2, ResNet and DenseNet
+MNIST, Fashion-MNIST, and ImageNet classification
+The PAU encode AFs as rational functions and performs better than many existing AFs.
+
+Elastic Exponential Linear Unit (EELU) - 2020
+A simple CNN model and
+, CIFAR100, ImageNet, and Tiny ImageNet classification
+The EELU shows better results than the ReLU, ELU, EPReLU and Swish.
+
+Dynamic ReLU (DY-ReLU) - 2020
+ImageNet classification and COCO detection
+The DY-ReLU is suitable for light-weight networks.
+
+Shallow CNN models
+MNIST, Fashion MNIST and classification
+The VAF shows promising performance.
+
+Multi-bin Trainable Linear Unit (MTLU) - 2019
+FDnet and FSRnet
+Image denoising and Super-resolution
+The MTLU is significantly faster having comparable results with the state-of-the-arts.
+
+MobileNet, ResNet, WRN and DenseNet
+, CIFAR100 and ImageNet classification
+The learnable parameter in Swish leads to improved performance than Softplus.
+
+On Time Series Datasets
+
+Multi-Layered Neural Network
+Regression tasks (Kinematics, Energy Cooling, Yatch, etc.)
+Better performance over Kinematics, Energy Cooling and Yatch datasets.
+
+Self-Learnable AFs (SLAF) - 2019
+Multi-Layered Neural Network
+Boston Housing and Learning Sparse Polynomial regression
+The newer parameter space makes the optimization easier.
+
+A 6 layer transformer network
+IWSLT 2016 German-English translation
+The SRS is better over tst2011 and tst2012 test sets, whereas the SELU and LReLU are better over tst2013 and tst2014 test sets, respectively.
+
+A 12 layer transformer network
+WMT 2014 English-German dataset
+The performance of Swish is comparable to state-of-the-arts.
+
+MLP, CNN and RNN
+Sentence classification, Document classification and Sentence tagging
+The PenalizedTanh exhibits the stability across the different tasks in contrast to the Swish function.
+
+Rectified Linear Tanh (ReLTanh) - 2019
+Stacked autoencoder (SAE) based DNN
+Vibration signals for rotating machinery fault diagnosis
+The ReLTanh leads to larger gradients for faster learning and reduces the vanishing gradient.
+
+Sigmoid-weighted Linear Unit (SiLU) - 2018
+Deep reinforcement learning algorithm
+SZ-Tetris, 10 × 10 Tetris, and Atari 2600 games
+The SiLU AF outperforms the ReLU function for reinforcement learning.
+
+Table 6: Summary of the existing state-of-the-art activation functions.
+
+## Aspects of Activation Functions
+
+This section summarizes the effect of weight initialization, understanding of AFs and suitability with different types of data. The learning of the network speeds up drastically by using the orthogonal weight initialization based on the dynamical isometry. A set of conditions in parameter initialization also boosts the performance of networks with sigmoidal activations. The symmetric probability distribution based weights and biases initialization leads the network to suffer with the dying ReLU problem. However, the asymmetric initialization resolves the dying ReLU problem. The over-parameterization during initialization also benefits in the training. The data-dependent weight initialization using a subset of data minimizes the issues of the ReLU, whereas an initial parameter sharing based initialization guarantees the dynamical isometry for the ReLU.
+
+Several researchers have tried to understand the working and impact of AFs through different strategies. The lower and upper bounds are established for network complexity to realize that the ReLU in deep networks approximates the smooth functions more efficiently as compared to shallow networks. A ReLU network with only one hidden layer is trained to reach the global optimum in polynomial time even with exponentially growing input dimension. The ReLU type AF based neural networks produce the overconfident predictions far away from the training data. However, this can be resolved by employing adversarial confidence enhanced training. A Gaussian margin driven time and accuracy tradeoff analysis is also done on the ReLU's learning. The singular values for ReLU layers are analyzed to understand the interaction of ReLU with the linear components. The approximation of Gaussian posterior distribution over the ReLU network weight's fixes the overconfidence problem.
+
+Despite most of the AFs are tested over image data, there are few research papers dealing with the AFs over other types of data. Table 6 summarizes the insights and remarks of state-of-the-art AFs for various networks and datasets.
+
+## Performance Comparison and Analysis
+
+This survey is compared with the existing survey/performance analysis and the experimental performance analysis of selected AFs is performed over Image, Text and Speech data.
+
+### Comparison with Existing Survey/Performance Analysis
+
+A performance analysis of AFs was conducted using multilayer perceptron network in. Among compared AFs, the Tanh has shown better performance. A comparative performance analysis of different AFs suggests an Elliott function as better suited for classification using LSTM networks. The ELU outperforms the ReLU, LReLU, and SELU AFs over MNIST classification task using Deep Neural Networks. As per, the ELU is reported in to outperform the ReLU, LReLU, PReLU and PELU over sufficiently large datasets for speech recognition. However, for smaller datasets, the ReLU is preferred. A similar trend is also reported in with a note that the ELU and SELU AFs exhibit faster convergence as compared to the ReLU and LReLU AFs. In, 21 AFs are listed without experimental results comparison. In contrast to, this paper presents a comprehensive survey of AFs. The ReLU based deep networks perform superior or mildly worse than the spline methods. A review of adaptive functions is conducted in by considering 9 functions, including Sigmoid, Tanh, PReLU, and adaptTanh. In, the comparison between ReLU and LReLU is performed using CNN on MNIST dataset. An empirical study is also done for the variations of ReLU activation by generalizing it with the help of parameters. The comparison of AFs is also performed for generalized learning vector quantization. The ReLU activation has performed better for object, face, and text datasets. However, the SELU and Maxout have performed better for medical and sound datasets, respectively. The piecewise AF is better suited for facial expression recognition in. A survey of adaptive AFs is conducted in without experimental comparison. The evaluation of seven AFs is conducted in using a simple network over dataset, whereas in our survey we cover different AFs and also perform the experimental comparison.
+
+Karlik and Olgac
+Multilayer Perceptron (MLP)
+5 AFs, including Bi-polar sigmoid, Uni-polar sigmoid, Tanh, etc.
+The Tanh performs better compared to other traditional AFs.
+
+Vydana and Vuppala
+Hidden Markov Model-Deep Neural Network (HMM-DNN)
+5 AFs, including ReLU, LReLU, PReLU, ELU, and PELU
+TIMIT and WSJ speech recognition
+The ELU is better over sufficiently larger size datasets. However, the ReLU is preferred for smaller datasets.
+
+A neural network with 2 hidden layers having 100 neurons/layer
+4 AFs, including ReLU, LReLU, ELU, and SELU
+The ELU AF outperforms others.
+
+A neural network with 2 hidden layers having 100 neurons/layer
+5 AFs, including Sigmoid, ReLU, LReLU, ELU, and SELU
+The ELU and SELU AFs exhibit the faster convergence as compared to the ReLU and LReLU AFs.
+
+Lau and Lim
+Deep Neural Network (DNN)
+ReLU and Adaptive ReLU
+The adaptive AFs improve the generalization of the network.
+
+Long Short Term Memory (LSTM)
+23 AFs, including Elliott, Gaussian, Logarithmic, Loglog, etc.
+IMDB, Movie Review, MNIST classification
+Elliott function is better suited to the LSTM network.
+
+Dubey and Jain
+Simple Convolutional Neural Network (CNN)
+2 AFs, including ReLU and Leaky ReLU
+The ReLU performed better than Leaky ReLU (LReLU).
+
+Convolutional Neural Network (CNN)
+Network learns the parameters for different ReLU variations.
+
+Generalized learning vector quantization (GLVQ)
+12 AFs, including Sigmoid, Swish, ReLU, Softplus, etc.
+Tecator, Indian Pine and Wisconsin-Breast-Cancer classification
+The Sigmoid, Swish and Softplus AFs are better suited with GLVQ.
+
+6 different models for different applications
+3 AFs, including ReLU, SELU and Maxout
+Object, Face, Text, Medical and Sound datasets
+The ReLU is better for object, face and text datasets, whereas SELU and Maxout are better for medical and sound datasets, respectively.
+
+6 AFs, including Sigmoid, Tanh, ReLu, etc.
+JAFFE and FER2013 facial expression recognition
+The combination of log, softdesign and ReLU AFs provides improved performance.
+
+7 AFs, including Sigmoid, Tanh, ReLU, LReLU, Swish, etc.
+The LReLU performs better. The ReLU is efficient.
+
+Our survey and performance analysis
+MobileNet, VGG, GoogLeNet, ResNet, SENet, DenseNet, etc.
+Exhaustive list of AFs, including performance analysis over 18 state-of-the-art activations
+classification, Language translation, Speech recognition
+A classification to categorize and analyze the AFs and a performance comparison of the state-of-the-art activations.
+
+Table 7: Comparison of this survey with the existing surveys and performance evaluations.
+
+A summary of the comparison with existing surveys and performance analysis of AF is shown in Table 7. Following are the observations:
+
+This survey presents a detailed classification to cover the wide range of AFs as compared to the existing surveys and performance analysis.
+
+This survey covers exhaustive state-of-the-art AFs to date, whereas the existing survey/performance analysis covers either a limited number of AFs or only basic AFs.
+
+The performance analysis conducted in this paper considers a wide range of neural networks over different types of data for eighteen AFs, whereas the existing analysis is limited to a single type of data and network.
+
+This survey highlights the trends to help the researchers to further explore the better AFs and practitioners to choose based on the data and network types.
+
+Table 8: Experimental results comparison over dataset.
+
+Table 9: Experimental results comparison over CIFAR100 dataset.
+
+Figure 3: Convergence plots over CIFAR100 dataset.
+
+### Experimental Performance Analysis
+
+In order to compare the AFs, three experiments are conducted in this paper, including image classification, language translation and speech recognition. Eighteen state-of-the-art AFs are considered for analysis, including Logistic Sigmoid, Tanh, Elliott, ReLU, LReLU PReLU, ELU, SELU, GELU, CELU, Softplus, Swish, ABReLU, LiSHT, Soft-Root-Sign (SRS), Mish, PAU and PDELU. Note that Swish, ABReLU, LiSHT, SRS, Mish, PAU and PDELU are the most recent functions. Google Colab based computational resource is used in most of the experiments. Few experiments are also performed over a desktop system consisting of 8 GB GPU. The PyTorch framework is used in all the experiments.
+
+The and CIFAR100 datasets^11^1[https://www.cs.toronto.edu/\~kriz/cifar.html](https://www.cs.toronto.edu/~kriz/cifar.html) are used for the image classification experiment in this paper. The dataset contains $50,000$ training images and $10,000$ test images from $10$ object categories. The CIFAR100 dataset contains $50,000$ training images and $10,000$ test images from $100$ object categories. We also utilize the language translation and speech recognition datasets for the experiments. For the experiments over CIFAR-10 and CIFAR-100 datasets, training is performed for 100 Epochs. The batch size is 128 for CIFAR-10 and 64 for CIFAR-100. The learning rate is 0.001 for first 80 Epochs and 0.0001 for last 20 Epochs. Random crop and random horizontal flip are the data augmentation used during training. Data normalization is performed both during train and test times. Adam optimizer is used for the training with cross entropy loss. All existing activation functions except softmax are replaced with the corresponding activation function in different networks.
+
+The test accuracy is reported in Tables 8 and 9 on and CIFAR100 datasets, respectively. In these Tables, the mean and standard deviation of image classification accuracy over 5 trials are reported for each AF. Moreover, the better results are highlighted. Different types of CNN models are used in this experiment, such as plain models (i.e., MobileNet and ), inception model (i.e., GoogLeNet ) and skip/residual connection based models (i.e. and DenseNet121 ). The MobileNet, GoogLeNet and are light models, whereas the, and DenseNet121 are heavy models in terms of the number of trainable parameters. Overall, it is observed that the Softplus, ELU and CELU are better suited with MobileNet. The ReLU, Mish and PDELU exhibit good performance with, GoogleNet and DenseNet. The ReLU, LReLU, ELU, GELU, CELU, ABReLU, and PDELU activation functions are better for the networks having residual connections, such as, and DenseNet121. In order to demonstrate the convergence of different AFs, the training loss vs epochs is plotted in Fig. 3 on CIFAR100 dataset using different models. The PAU has emerged as a promising AF with fastest convergence in most of the cases. The PReLU, GELU and PDELU AFs are also consistent with good convergence. Note that the training diverges with SRS for the model. Sigmoid and Elliott AFs showed the poorest convergence. The time taken for the training is also computed for different AFs using different CNN models on CIFAR100 dataset and reported in Table 10. These results are computed using a desktop computer system having 32 GB RAM and 8 GB Nvidia GPU Card for 100 epochs of training. The time is represented in hh:mm:ss format. It is clear that PDELU AF is very inefficient. Moreover, SRS and Elliott also take more time for training. The activations such as ReLU, ELU, CELU, and Softplus depict a good tradeoff between the accuracy and training time.
+
+Table 10: Training time (hh:mm:ss) comparison over CIFAR100 dataset.
+
+Table 11: Experimental results for German to English language translation and speech recognition tasks.
+
+The results for language translation and speech recognition for different AFs are illustrated in Table 11. The German to English translation is used to test the performance of the AFs over text data. Benchmark Seq2Seq model consisting of a Long Short Term Memory (LSTM) based autoencoder network is used for the experiment. The model and dataset are downloaded from Kaggle^22^2https://www.kaggle.com/parthplc/pytorch-seq2seq-machine-translation/notebook. The AF is applied to the feature embedding before the dropout layer. For the language translation experiments, the number of Epochs is set to 50 with 0.001 learning rate and 256 batch size. The embedding size of encoder and decoder is 300. The dropout factor is 0.5 for both encoder and decoder. Adam optimizer is used for the training with cross entropy loss. The Bleu score with $4$-gram is reported in Table 11 in $2^{nd}$ column for different AFs. The mean and standard deviation of Bleu score over 5 trials are reported for each AF. It is noticed that the Tanh and SELU AFs are better suitable for language translation. The PReLU, LiSHT, SRS and PAU AFs also perform better for language translation.
+
+The speech recognition experiment is also performed to show the performance of the different AFs for time-series signal data. The end-to-end speech recognition based Deep Speech 2 framework available from assemblyai^33^3https://www.assemblyai.com/blog/end-to-end-speech-recognition-pytorch is used. The model consists of $2$ layers of residual convolution layers to learn the relevant audio features, and $2$ layers of bidirectional gated recurrent units (GRUs) to use the learned residual convolutional audio features. The $100$ hours of transcribed audio English data from LibriSpeech dataset is used for the experiment. For the speech recognition experiments, torchaudio 0.4.0 and torch 1.4.0 are used. The model consists of 2 CNN layers and 2 RNN layers. The dimension of a RNN layer is 512. Number of classes is 29 in the dataset. Dropout factor is 0.5. The learning rate is 0.0005, batch size is 10 and the number of Epochs is 10. The mean and standard deviation over 5 trials of character error rate (CER) and word error rate (WER) are reported in Table 11 for speech recognition. The recent AFs such as PReLU, GELU, Swish, Mish and PAU AFs are found as the most suitable for speech recognition in this experiment.
+
+## Conclusion and Recommendations
+
+An extensive and up to date survey of activation functions is conducted in this paper. Different types of AFs are considered, including Logistic Sigmoid and Tanh based, ReLU based, ELU based, and Learning based. However, the main focus is given to the recent developments in AFs in view of the deep learning applications of neural networks. The overview of AFs presented in this paper focuses on the aspects including the detailed coverage of AFs, classification and performance comparison over image, text and speech data.
+
+Following are the concluding remarks of the survey and performance analysis conducted through this paper:
+
+Most of the improvements in Logistic Sigmoid and Tanh targets to tackle the non zero-mean and zero-gradient problems. However, these improvements carry forward the drawback of increased complexity.
+
+The ReLU variants try to tackle the three major problems of ReLU, namely under-utilization of negative values, limited nonlinearity and unbounded output. These activations perform well for some applications, e.g. LReLU and ABReLU works better with residual networks. However, most of these activations fail to perform better than ReLU, e.g. LReLU, PReLU and ABReLU do not improve for MobileNet, VGG and GoogleNet models. Note that, the ReLU, Leaky ReLU and PReLU AFs are the most common choice among researchers due to its simplicity. Moreover, many networks consider the ReLU as a default choice for the AF.
+
+The exponential based AFs also focus over the better utilization of the negative values and to avoid the saturation for important features. However, most of the exponential activations suffer due to the non-smooth functions.
+
+The learning based adaptive AFs try to find the best parameters to represent the non-linearity needed for the given dataset. This category of AF has gained more popularity in recent years. However, the major problem associated with such AF is to find the better base function and number of trainable parameters. Some AFs diverge during the training if not initialized properly.
+
+In contrast to existing surveys, this survey covers an exhaustive list different types of AFs. Moreover, a performance analysis on different types of data using several AFs provides new insights for future research.
+
+Following are the recommendations curated from this survey and performance analysis:
+
+In order to speed up the training, both negative & positive values should be used to ensure the near zero mean.
+
+The most important aspect in deep learning is to find the network having matching complexity as the dataset complexity. If the complexity of the model is high then it may lead to overfitting and if the complexity of the model is low then it may lead to under convergence. Thus, the AF should bridge this gap based on the model and dataset complexity during training automatically.
+
+The Logistic Sigmoid and Tanh AFs should be avoided for Convolutional Neural Networks as it leads to poor convergence. However, this type of AF is commonly used as gates in recurrent neural networks.
+
+Despite the ReLU being a popular choice, recently proposed AFs such as Swish, Mish, and PAU are also worth trying for different problems.
+
+The ReLU, Mish and PDELU activation functions have shown a good performance with and GoogleNet. The ReLU, LReLU, ELU, GELU, CELU, and PDELU functions are better for the networks having residual connections for image classification.
+
+In general, the parametric AFs show better convergence as it can adapt the data faster by learning the parameter from the data. Specially, PAU, PReLU and PDELU have shown better convergence.
+
+Some AFs lead to increased training time complexity. PDELU and SRS are such examples. However, AFs such as ReLU, SELU, GELU, and Softplus depict a promising tradeoff between the accuracy and training time.
+
+The exponential AFs generally lead to the increased non-linearity due to utilization of the negative values.
+
+The Tanh and SELU AFs are found better for language translation along with PReLU, LiSHT, SRS and PAU.
+
+It is suggested to use the PReLU, GELU, Swish, Mish and PAU AFs for speech recognition.

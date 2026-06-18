@@ -1,0 +1,175 @@
+## Introduction
+
+In a recent paper, we presented a unitary approach to model identification and robust Model Predictive Control (MPC) design for linear, asymptotically stable, discrete time systems subject to process and measurement disturbances. A Set Membership (SM) identification approach was used to obtain multi-step prediction models used in the cost function definition, while state and control constraints were tightened by propagating the uncertainty bound of a simulation model, tuned using the knowledge of the multi-step models and the associated error intervals. Being the multi-step predictors linear in their parameters, it was possible to derive tight uncertainty bounds in a tractable way. However, these bounds were not directly exploited to deal robustly with constraints, with a consequent limited advantage in terms of conservativeness reduction in the constraint tightening procedure.\
+In the present paper, we develop this line of research with two main contributions: first, we prove that the prediction error bounds obtained with the SM approach proposed in are smaller than those of *any* linear simulation model iterated $p$ times. This further motivates the use of such predictors both in the cost function and for constraint tightening. We do so in our second contribution, since we propose a new robust MPC scheme that explicitly relies on the optimal SM multi-step models, thus dramatically reducing conservativeness. To deal with the particular structure of the multi-step predictors, which prevents the use of a standard robust MPC approach, we adopt a novel multi-rate receding horizon strategy, for which we prove guaranteed constraint satisfaction and convergence properties. Many multirate schemes have been proposed in the literature for predictive control design, see for example, and the references therein, usually to cope with different sampling rates in outputs sampling, state update, and control implementation. On the contrary, here the multirate implementation stems from the particular form of the predictors.\
+In the last section of the paper, the new approach is compared with that of in a simulation example. The proofs of the main results are reported in Appendix.\
+Notation: $I_{n}$ is the identity matrix of dimension $n$, ${\overline{I}}_{n}$ is the matrix with zero entries except for those on the anti-diagonal, which are equal to 1, $0_{m,n}$ is the null matrix of dimensions $m$ and $n$. The Cartesian product between $n$ sets $\text{T}_{1},\ldots,\text{T}_{n}$ is $\prod\limits_{i = 1}^{n}\text{T}_{i}$. For a generic vector $x$, ${\| x\|}^{2} \doteq {x^{T}x}$ and ${\| x\|}_{Q}^{2} \doteq {x^{T}Qx}$ with $Q$ being a given square matrix of suitable dimension. For a matrix $A$, ${\| A\|} = {\sup_{x \neq 0}\frac{\|{Ax}\|}{\| x\|}}$ is its induced 2-norm and $\rho{(M)}$ its spectral radius, i.e. the maximum absolute value of its eigenvalues. Given sets ${\text{A},\text{B}} \subset {\mathbb{R}}^{n}$, ${\text{A} \oplus \text{B}} = {\{{a + b}:{{a \in \text{A}},{b \in \text{B}}}\}}$ and ${\text{A} \ominus \text{B}} = {\{{a \in \text{A}}:{{{\forall b} \in \text{B}},{{a + b} \in \text{A}}}\}}$.
+
+## Problem statement, identification algorithm, and error bounds
+
+Consider a linear and time-invariant (LTI) discrete-time system of order $n$ with input ${u{(k)}} \in {\mathbb{R}}$, output ${z{(k)}} \in {\mathbb{R}}$, measured output ${y{(k)}} \in {\mathbb{R}}$, process disturbance ${v{(k)}} \in {\mathbb{R}}$, and measurement disturbance ${d{(k)}} \in {\mathbb{R}}$, where $k \in {\mathbb{N}}$ is the discrete time variable. We define ${\varphi_{z}^{(p)}{(k)}} \in {\mathbb{R}}^{{{2n} + p} - 1}$ as:
+
+with $p \in {\mathbb{N}}$. The system can be expressed in ARX (autoregressive-exogenous) form as
+
+where ${\overline{\theta}}^{} \in {\mathbb{R}}^{2n}$ is the vector of unknown parameters.
+
+### Assumption 1
+
+(Disturbance boundedness). ${{|{v{(k)}}|} \leq \overline{v}},{{|{d{(k)}}|} \leq \overline{d}}$, ${\forall k} \in {\mathbb{N}}$ with $\overline{d}$ known. $\square$
+
+The value of $\overline{d}$ is assumed to be available from prior knowledge, and/or it can also be estimated from data, see e.g., whereas $\overline{v}$ is not necessarily known.\
+Using the SM method presented in, the following predictors of order $o$ can be obtained for all $p$ values up to a finite horizon $\overline{p}$:
+
+where ${\hat{\theta}}^{{(p)} \ast} = {\lbrack{\hat{\theta}}_{AR}^{{(p)} \ast^{T}}\quad{\hat{\theta}}_{U}^{{(p)} \ast^{T}}\quad{\hat{\theta}}_{\overline{U}}^{{(p)} \ast^{T}}\rbrack}^{T}$ and ${\hat{\theta}}_{AR}^{{(p)} \ast^{T}} \in {\mathbb{R}}^{o}$, ${{\hat{\theta}}_{U}^{{(p)} \ast^{T}} \in {\mathbb{R}}^{o - 1}},{{\hat{\theta}}_{\overline{U}}^{{(p)} \ast^{T}} \in {\mathbb{R}}^{p}}$ are vectors of known parameters resulting from the identification phase. We refer to these predictors as *multi-step* in the remainder. The derivation of ${\hat{\theta}}^{{(p)} \ast}$ for a given value of $p$ is recalled later on in this section. Moreover, in
+
+### Assumption 2
+
+(Model order) The order of the models is $o \geq n$ $\square$
+
+An algorithm to estimate $o$ is described in. The SM learning phase also returns an estimate of the bound on the worst-case prediction error:
+
+In fact, for each step $p \leq \overline{p}$ one can derive a guaranteed upper bound ${\hat{\tau}}_{p}$ of the difference between the nominal output and its prediction obtained with a generic predictor
+
+For the identification of ${\hat{\theta}}^{{(p)} \ast}$ and ${\hat{\tau}}_{p}$ a finite number $N$ of measured data is available, composed of pairs ${{{({\varphi_{y}^{(p)}{(k)}},{y{({k + p})}})},k} = 1},{\ldots,N}$. We first estimate an error bound ${\hat{\overline{\epsilon}}}_{p} = {\alpha{\underset{¯}{\lambda}}_{p}}$, ${\forall p} = {1,\ldots,\overline{p}}$, through
+
+The latter value is inflated by a scalar $\alpha > 1$ to account for the fact that the available dataset is finite. The Feasible Parameter Sets (FPSs) are then defined as
+
+For each $p$, $\Theta^{(p)}$ is a convex set and, if the data are informative enough, it is also compact. This property can be checked easily by linear programming; if the set $\Theta^{(p)}$ is not bounded then this is a sign that more informative data should be collected. In the remainder, we consider that $\Theta^{(p)}$ is compact for any $p$. Let us further denote with $\Phi^{(p)} \subseteq {\mathbb{R}}^{{{2o} - 1} + p}$ a compact set containing all possible values of $\varphi_{y}^{(p)}{(k)}$. In practice, this means that we restrict our analysis and results to a set of system trajectories of interest, which contains the available data points. This is a reasonable assumption in practice. Since ${\overline{\theta}}^{(p)}$ in belongs to $\Theta^{(p)}$, the smallest bound on the error $|{{z{({k + p})}} - {\hat{z}{({k + p})}}}|$ (see ) ${\forall p} = {1,\ldots,\overline{p}}$ is:
+
+The bound is global, since it holds for any regressor value inside $\Phi^{(p)}$ and for any model compatible with the data, i.e. contained in the set $\Theta^{(p)}$. However it cannot be computed in practice since the set $\Phi^{(p)}$ is not available. On the other hand, an approximation ${{\hat{\tau}}_{p}{({\hat{\theta}}^{(p)})}} \approx {\tau_{p}{({\hat{\theta}}^{(p)})}}$ can be easily computed as ${{\hat{\tau}}_{p}{({\hat{\theta}}^{(p)})}} = {\gamma{\underset{¯}{\tau}}_{p}{({\hat{\theta}}^{(p)})}}$ with
+
+i.e. by computing the worst-case prediction error with respect to the available data. This approximation includes a second scaling factor $\gamma \geq 1$, again to account for the finite available dataset. The nominal predictor, for each step $p$, is chosen as the minimizer of this worst case error ${\underset{¯}{\tau}}_{p}{({\hat{\theta}}^{(p)})}$, i.e.
+
+The following theorem is concerned with the optimality (in terms of size of the uncertainty bound) of the multistep prediction models.
+
+### Theorem 1
+
+Consider any 1-step-ahead LTI system model (i.e. of the form with $p = 1$) with coefficient vector ${\hat{\theta}}^{} \in {\mathbb{R}}^{2o}$. Let ${\hat{\theta}}^{{(p)},1} \in {\mathbb{R}}^{{{2o} - 1} + p}$ be the corresponding vector of multi-step predictor coefficients, obtained by iterating $p$ times such a 1-step-ahead model. Then, for all $p = {1,\ldots,\overline{p}}$ it holds:
+
+### Proof
+
+See the Appendix. ∎
+
+Theorem 1 justifies the use of multi-step models for robust MPC design, since in general they yield smaller error bounds.
+
+## MPC design and properties
+
+The multi-step models previously introduced can not be directly used in existing robust MPC schemes. Therefore we propose a new multirate MPC approach where the predicted behavior of the system is optimized by considering a prediction/control horizon of $N_{p}$ "long" steps, with index ${j \in {\mathbb{N}}},$ each one consisting of $\overline{p}$ "short" sampling times with index $k$. Note that the "short" sampling interval is the one assumed for the true system. The optimal control problem is thus solved at every long step $j$ (i.e. every $\overline{p}$ short steps) and the solution provides the values of the control input to be applied at each step $k$ in the interval $\{{j\overline{p}},\ldots,{{{({j + 1})}\overline{p}} - 1}\}$ according to a standard receding horizon formulation. For clarity, we represent the long and short sampling times on a common time-scale in Figure 1. Also, in the remainder we will use the upper-case letters to denote variables defined at a long sampling time.
+
+Figure 1: Sketch of the time-scales involved in the simulation, with “long” and “short” sampling times.
+
+Assume $\overline{p} > o$ for simplicity, although it is not necessary, and define the system state, the input, and the disturbance at time $j$ as ${X{(j)}} = {\lbrack{y{({j\overline{p}})}},{\ldotsy{({{{j\overline{p}} - o} + 1})}},{u{({{j\overline{p}} - 1})}},\ldots,{u{({{{j\overline{p}} - o} + 1})}}\rbrack}^{T}$, ${U{(j)}} = {\lbrack{u{({j\overline{p}})}},\ldots,{u{({{{j\overline{p}} + \overline{p}} - 1})}}\rbrack}^{T}$, ${{W{(j)}} = {\lbrack{w_{1}{({j\overline{p}})}},\ldots,{w_{\overline{p}}{({j\overline{p}})}}\rbrack}^{T}},$ respectively. Denote with ${\overline{w}}_{p}$ a value such that ${|{w_{p}{({j\overline{p}})}}|} \leq {\overline{w}}_{p}$, for all $p = {1,\ldots,\overline{p}}$, which accounts for the error stemming from the identification procedure, the process noise, and the measurement disturbance. Given the bound, since the state $X{(j)}$ comprises samples of the measured output $y$ affected by measurement noise $d$, it is possible to obtain ${\overline{w}}_{p}$ as
+
+thus directly exploiting the multi-step error bounds previously obtained. The state transition equation, that maps the current state $X{(j)}$ into the $\overline{p}$ steps ahead state $X{({j + 1})}$, is:
+
+The following assumption is introduced.
+
+### Assumption 3
+
+The pair $(\overline{A},\overline{B})$ is stabilizable. $\square$
+
+Since the model is obtained from input-output data, Assumption 3 is usually satisfied in practice and is thus not restrictive. We rewrite models as system output equations:
+
+where $C_{p} = \begin{bmatrix}
+{\hat{\theta}}_{AR}^{{(p)} \ast^{T}} & {\hat{\theta}}_{U}^{{(p)} \ast^{T}}
+\end{bmatrix}$, $D_{p} = \begin{bmatrix}
+{\hat{\theta}}_{\overline{U}}^{{(p)} \ast^{T}} & 0_{1,{\overline{p} - p}}
+Consistently with, we can write
+
+For notational convenience let us stack matrices $C_{p}$ and $D_{p}$, for all $p = {1,{\ldots\overline{p}}}$, as
+
+so that we can define the predictions of outputs in the long sampling time, but at a short sampling period basis, as ${\hat{Z}{(j)}} = \begin{bmatrix}
+{\hat{z}{({{j\overline{p}} + 1})}} & \ldots & {\hat{z}{({{j\overline{p}} + \overline{p}})}}
+\end{bmatrix}^{T}$. Thanks to the predictors in, we write
+
+In the control design phase a tube-based robust control approach is used and the input $U{(j)}$ is defined as
+
+The input $\overline{U}{(j)}$ will be computed by MPC, while the term $K{({{X{(j)}} - {\overline{X}{(j)}}})}$ aims to reduce the error between the state $\overline{X}{(j)}$ of a suitably defined nominal dynamic system and the actual value of $X{(j)}$, available at time $k = {j\overline{p}}$. The gain $K$ is chosen such that $\overline{F} = {\overline{A} + {\overline{B}K}}$ is Schur stable, which is possible thanks to Assumption 3.\
+The nominal dynamic system is defined based on:
+
+The $p$ steps ahead nominal output predictor corresponding to is computed as:
+
+The difference between the real available data vector $X{(j)}$ and the state of the nominal system is defined as ${E{(j)}} = {{X{(j)}} - {\overline{X}{(j)}}}$. From and, it evolves according to:
+
+Let $\mathbb{E}$ be a robust positively invariant (RPI) set for the system. Similarly to, the constraints and the optimization problem will be defined with reference to the nominal model. This will require to define suitable tightened state and input constraints, that allow one to account for the difference between $\overline{X}{(j)}$ and $X{(j)}$.
+
+### Remark 1
+
+In only the last $o$ components of $W{(j)}$ are involved in the computation of $\mathbb{E}$, and they depend on the estimates ${\hat{\tau}}_{p}{({\hat{\theta}}^{{(p)} \ast})}$ of the bounds proved to be optimal in Theorem 1, see. Moreover, since $\overline{A} + {\overline{B}K}$ is Schur stable and evolves over a (possibly long) $\overline{p}$-steps-ahead period, it is prone to have a smaller spectral radius and norm with respect to the one corresponding to a 1-step state space model, e.g. the one considered in. Thus, this results in a smaller set $\mathbb{E}$ and less conservative constraint tightening, as also illustrated in the example of Section IV. $\square$
+
+The MPC controller must guarantee the fulfillment of input and output constraints for all $k \geq 0$:
+
+where $\mathbb{U}$ and $\mathbb{Z}$ are suitable convex sets containing the origin in their interior. For ease of notation, let us introduce the higher-dimensional convex sets $\text{U} = {\mathbb{U}}^{\overline{p}}$ and $\text{Z} = {\mathbb{Z}}^{\overline{p}}$. Similarly to, it is first necessary to constrain $\overline{X}{(j)}$ at time $j\overline{p}$ to lie in the neighborhood of $X{(j)}$, i.e
+
+Regarding the input variable, to guarantee that holds from time $j\overline{p}$ to ${({{j + N_{p}} - 1})}\overline{p}$, it is enough to enforce the following tightened constraints, for all $i = {0,\ldots,{N_{p} - 1}}$.
+
+${\overline{U}{({j + i})}} \in {\text{U} \ominus {K{\mathbb{E}}}}$ (23b)
+As for the output, to guarantee that holds at time ${{j\overline{p}} + 1},\ldots,{{({j + N_{p}})}\overline{p}}$, we define ${\forall p} = {1,\ldots,\overline{p}}$
+$${\mathbb{T}}_{p} = {\{{t \in {\mathbb{R}}}:{{|t|} \leq {{\hat{\tau}}_{p}{({\hat{\theta}}^{{(p)} \ast})}}}\}}$$
+and the tightened set $\hat{\mathbf{Z}}$ as
+$$\hat{\mathbf{Z}} = {\mathbf{Z} \ominus {\prod\limits_{p = 1}^{\overline{p}}{\mathbb{T}}_{p}}}$$ (23c)
+This set is such that, by construction, if ${\hat{Z}{({j + i})}} \in \hat{\mathbf{Z}}$, then ${{Z{({j + i})}} \in \mathbf{Z}},{i = {0,\ldots,{N_{p} - 1}}}$. We thus enforce the following tightened constraint, again related to the nominal system, for all $i = {0,\ldots,{N_{p} - 1}}$.
+
+${\hat{\overline{Z}}{({j + i})}} \in {\hat{\mathbf{Z}} \ominus {{({\overline{C} + {\overline{D}K}})}{\mathbb{E}}}}$ (23d)
+
+Finally, to guarantee recursive feasibility, we also need to enforce a terminal constraint of the type
+
+where ${\mathbb{X}}_{F}$ is defined as a positively invariant set for the system ${\hat{X}{({j + 1})}} = {{({\overline{A} + {\overline{B}K}})}\hat{X}{(j)}}$ that verifies
+
+${{({\overline{C} + {\overline{D}K}})}{\mathbb{X}}_{F}} \subseteq {\hat{\mathbf{Z}} \ominus {{({\overline{C} + {\overline{D}K}})}{\mathbb{E}}}}$
+
+${K{\mathbb{X}}_{F}} \subseteq {\mathbf{U} \ominus {K{\mathbb{E}}}}$
+
+For consistency, the following assumption is required.
+
+### Assumption 4
+
+There exists a ball $\mathcal{B}$ in space ${\mathbb{R}}^{\overline{p}}$, centered at the origin and with radius $\varepsilon$, such that
+
+${{({\overline{C} + {\overline{D}K}})}{\mathbb{E}}} \oplus \mathcal{B}$ $\subseteq \hat{\mathbf{Z}}$ (24a)
+${K{\mathbb{E}}} \oplus \mathcal{B}$ $\subseteq \mathbf{U}$ (24b)
+
+The cost function to be minimized at time step $k$ is
+
+where $Q = {\text{diag}{(q_{1},\ldots,q_{\overline{p}})}} > 0$, $R = {\text{diag}{(r_{0},\ldots,r_{\overline{p} - 1})}} > 0$, $N_{p}$ is the prediction horizon, and $P$ is the unique positive definite solution to the Riccati equation (see Assumption 3)
+
+where $\overline{G} = {({\overline{C} + {\overline{D}K}})}$. Note that $Q$ and $R$ can be chosen freely while in they were selected according to the solution to an LMI problem, so limiting the possible trade-offs between bandwidth and control activity of the closed-loop system.\
+Now, denoting the vector of decision variables with
+
+the optimization problem to be solved at each "long" sampling time $j \geq 0$, reads
+
+If problem is feasible, its solution is denoted with ${{{\overline{X}}^{\ast}{(j)}},{{\overline{\mathbf{U}}}^{\ast}{(j)}}} = {\lbrack{{\overline{U}}^{\ast}{(j)}^{T}},\ldots,{{\overline{U}}^{\ast}{({{j + N_{p}} - 1})}^{T}}\rbrack}^{T}$, and the input sequence ${U^{\ast}{(j)}} = {{{\overline{U}}^{\ast}{(j)}} + {K{({{X{(j)}} - {{\overline{X}}^{\ast}{(j)}}})}}}$ in is applied to the system according to the Receding Horizon principle. Also, we denote with ${\overline{X}}^{\ast}{({j + i})}$ the future nominal state predictions generated using with input ${\overline{\mathbf{U}}}^{\ast}{(j)}$, as well as all the other derived quantities, such as ${\hat{\overline{Z}}}^{\ast}{(j)}$ (see ).
+
+### Theorem 2
+
+If is feasible at time step $j = 0$ then it is feasible at all time steps $j > 0$ and, for all $j \geq 0$, the constraints are satisfied. Moreover, ${{\hat{\overline{Z}}}^{\ast}{(j)}}\rightarrow 0$ as $j\rightarrow\infty$. Finally, ${\delta{({Z{(j)}},{{({\overline{C} + {\overline{D}K}})}{\mathbb{E}}})}}\rightarrow 0$ as $j\rightarrow\infty$, where $\delta{(\alpha,\beta)}$ denotes the distance between point $\alpha$ and set $\beta$ $\square$.
+
+### Proof
+
+See the Appendix. ∎
+
+## Simulation example
+
+Consider the system employed in, obtained by discretizing, with sampling time $T_{s} = 0.1$, the continuous-time transfer function
+
+A dataset of 1000 pairs $(u,y)$ has been collected by exciting the system with a signal $u$ taking value in $\{{- 1},0,1\}$ randomly each $5$ units of time, and adding the disturbance $v{(k)}$ and $d{(k)}$, with $\overline{v} = 0.01$ and $\overline{d} = 0.1$, respectively, consistently with. The multi-step bounds estimates ${\hat{\tau}}_{p}{({\hat{\theta}}^{{(p)} \ast})}$ have been computed according to the algorithm described in, with $\overline{p} = 10$ (resulting in a "long" sampling time equal to ${T_{s}\overline{p}} = {1s}$) and model order $o = 4$. In Figure 2 they are plotted and compared with the bounds computed by simply iterating the simulation model (i.e., the $1$-step ahead predictor) and propagating its uncertainty bound accordingly.
+
+In the control design phase, the matrix $K$ has been computed with Linear Quadratic (LQ) control, while the prediction horizon for the MPC controller is $N_{p} = 3$. The weighting matrices are defined as $Q = {100I_{\overline{p}}}$ and $R = {1I_{\overline{p}}}$, while matrix $P$ is obtained thanks to. Both the input $u$ and the output $z$ have been enforced to belong to the set $\lbrack{- 10},10\rbrack$ for each time instant.
+
+The input and output trajectories, comparing the closed-loop with the open-loop response of the system, are plotted in Figures 3 and 4 together with the relevant bounds. The controller, based on the identified model, is able to regulate the real system to zero with a much faster time constant and sensibly damping the oscillations. In Table I we also report, for the same tuning of the LQ problem, the spectral radius and norm of the state transition matrix of the nominal system subject to the auxiliary law $K$, see also Remark 1. Note that the norm of such matrix directly affects the computation of the invariant set $\mathbb{E}$. Moreover, by comparing the effect on the constraint tightening, we note that, while in the tightened output constraints correspond to the interval $\lbrack{- 7.7},7.7\rbrack$ for each prediction step and the input constraints to the interval $\lbrack{- 9.05},9.05\rbrack$, with the new algorithm proposed. here we obtain the following box-inequalities, to be intended entry-wise, $i = {0,\ldots,{N_{p} - 1}}$: Specifically, define
+
+and the constraints\
+
+which confirm a conservativeness reduction.
+
+${\rho\left( {\overline{A} + {\overline{B}K}} \right)} = 0.2974$
+
+$\left\| {\overline{A} + {\overline{B}K}} \right\| = 0.455$
+
+Table I: Table of comparison of radius and spectral norm of state transition matrix
+
+Figure 2: Computed bounds. Dashed line: bound obtained by iterating $\overline{w_{1}}$ with the one-step model, solid line: bounds ${{{\overline{w}}_{p},p} = 1},{\ldots,\overline{p}}$
+
+Figure 3: Input variable. Dash-dotted line: $\overline{U}{(k)}$, solid line: U (k), dashed lines: tightened constraints (23b), dotted lines: absolute constraints.
+
+Figure 4: Output variable. Solid line: z (k), dashed line: $\hat{\overline{Z}}{(j)}$, line with circles: open loop response.

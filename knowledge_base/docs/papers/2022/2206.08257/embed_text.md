@@ -1,0 +1,222 @@
+## Introduction
+
+First order optimization methods such as Gradient Descent (GD) and its variants have become the cornerstone of training modern machine learning models. Hence, reducing the running times of first order methods has been an important problem in the optimization literature, cf.. The running times of GD methods is known to grow linearly with the dimension of the model parameters, which can be very large, e.g., in deep neural networks. However, it has recently been observed that many empirical risk minimization problems have objective functions (i.e., real-valued losses) with *low-rank structure* in their gradients. In what follows, we will refer to such objects as low-rank functions.
+
+Roughly speaking, a low-rank function is a differentiable real-valued function whose gradients live *close* to a low-dimensional subspace. Such low-rank structure has been exploited to theoretically improve the running times of federated optimization algorithms in. Yet, canonical GD methods do not exploit this additional structure. Hence, the goal of this work is to address the following question:
+
+We consider solving the optimization problem ${\min_{\theta \in {\mathbb{R}}^{p}}f}{(\theta)}$, with objective function $f:{{\mathbb{R}}^{p}\rightarrow{\mathbb{R}}}$, using gradient-based methods. In particular, we characterize the computational cost of an iterative routine to solve this minimization problem, namely *oracle complexity*, as the number of evaluations of *directional derivatives* of $f$ to achieve a certain accuracy level $\epsilon > 0$. Under this definition, the vanilla GD algorithm requires an oracle complexity of $\mathcal{O}{({p{\log{({1/\epsilon})}}})}$ to find an $\epsilon$-minimizer of a strongly convex objective $f$, which grows linearly with parameter dimension $p$. Note that each iteration of GD costs $p$ directional derivatives as it requires a full gradient computation.
+
+To ameliorate the oracle complexity of such methods, we propose to leverage the existing low-rank structure in the objective. As briefly pointed out above, low-rank functions demonstrate significant variation in only a few directions of the parameter space, e.g., in $r$ directions where $r \ll p$. As a result, its gradient vectors live entirely (or approximately) in a low-dimensional subspace. To minimize such low-rank objective functions, we restrict the function to the low-rank subspace defined by the significant directions -- the *active subspace* -- and perform descent iterations only along these directions. This is the main idea behind our proposed method *Low-Rank Gradient Descent* (LRGD). More precisely, LRGD first identifies a fairly accurate proxy for the active subspace. Then, in each descent iteration, it approximates the true gradient vector on the current iterate by computing only $r$ directional derivatives of the objective along the active subspace. This approximate gradient is then used to update the model parameters. Note that each iteration of LRGD costs only $r$ directional derivative computations. Intuitively, this is far less than canonical methods such as GD, which has iteration cost growing linearly with $p$, as noted earlier.
+
+Low-rank structures have been observed in several contexts which further highlights the potential utility of the proposed LRGD method. We briefly describe some such motivating examples below.
+
+Motivation 1: Low-rank Hessians. Low-rank structures have been found in large-scale deep learning scenarios irrespective of the architecture, training methods, and tasks, where the Hessians exhibit a sharp decay in their eigenvalues. For instance, in classification tasks with $k$ classes, during the course of training a deep neural network model, the gradient lives in the subspace spanned by the $k$ eigenvectors of the Hessian matrix with largest eigenvalues. As another example, empirically demonstrates that some layers of a deep neural network model (VGG-19) trained on the CIFAR-10 dataset shows *exponential* decay in the eigenvalues of the gradient covariance matrix. These practical scenarios further suggest that the LRGD method may be able to leverage such low-rank structures to mitigate training computation cost. This connection is further detailed in Appendix F. Furthermore, a simple simulation based on the the MNIST database that illustrates low-rank structure in gradients of neural networks is provided in Appendix G.
+
+Motivation 2: Relation to line search. Line search is an iterative strategy to find the optimum stepsize in GD-type methods. More precisely, given a current position $\theta$, the line search algorithm minimizes the objective $f$ restricted to the rank-$1$ subspace (i.e., a line) passing through $\theta$ in the direction of ${\nabla f}{(\theta)}$, that is, $\theta\leftarrow{{\underset{\theta^{\prime} \in {\{{\theta + {\alpha{\nabla f}{(\theta)}}}:{\alpha \in {\mathbb{R}}}\}}}{\arg\min}f}{(\theta^{\prime})}}$. Now consider a similar search problem where the objective $f$ is to be minimized restricted to a rank-$r$ subspace rather than a line. We refer to this subspace search method as *iterated LRGD* (see Algorithm 2). The proposed LRGD method can be viewed as solving the intermediate minimization problems in such subspace search.
+
+Motivation 3: Ridge functions. Ridge functions are generally defined as functions that only vary on a given low-dimensional subspace of the ambient space. There are many standard examples of ridge function losses in machine learning, e.g., least-squares regression, logistic regression, one hidden layer neural networks, etc.. Moreover, they have been exploited in the development of projection pursuit methods in statistics, cf. and the references therein. In the next section we will show that the LRGD method is particularly well-suited for optimization of such functions.
+
+Motivation 4: Constrained optimization. The general idea of solving an optimization problem on a smaller dimensional subspace is connected to *constrained optimization*. In fact, one of the primary steps of LRGD can be perceived as *learning* (through sampling) "hidden" linear constraints under which it is efficient to solve an a priori unconstrained optimization problem. Classically, when such constraints are known, e.g., when optimizing $f{(\theta)}$ under a constraint of the form ${A\theta} = b$, a change-of-variables allows us to reduce the dimension of the optimization problem.
+
+Main contributions. We next list our main contributions:
+
+Table 1: Oracle complexities for both exactly and approximately low-rank settings. (The difference between these settings is in constants that are hidden by the 𝒪 notation.)
+
+We identify the class of low-rank functions and propose LRGD in Algorithm 1 to mitigate gradient computation cost of GD-type methods to minimize such objectives.
+
+We provide theoretical guarantees for the proposed LRGD method and characterize its oracle complexity in optimizing both exactly and approximately low-rank strongly convex and non-convex functions in Theorems 3.1. ‣ 3.2 Oracle complexity analysis for strongly convex setting ‣ 3 Algorithms and theoretical guarantees ‣ Gradient Descent for Low-Rank Functions"), 3.2. ‣ 3.2 Oracle complexity analysis for strongly convex setting ‣ 3 Algorithms and theoretical guarantees ‣ Gradient Descent for Low-Rank Functions"), 3.3. ‣ 3.3 Oracle complexity analysis for non-convex setting ‣ 3 Algorithms and theoretical guarantees ‣ Gradient Descent for Low-Rank Functions"), and 3.4. ‣ 3.3 Oracle complexity analysis for non-convex setting ‣ 3 Algorithms and theoretical guarantees ‣ Gradient Descent for Low-Rank Functions"). As demonstrated in Table 1, for low-rank objectives (with sufficient approximation accuracy), LRGD is able to reduce the dependency of the dominant term in GD from $p$ to $r$. In particular, compared to GD, LRGD slashes the oracle complexity of finding an $\epsilon$-minimizer from $\mathcal{O}{({p{\log{({1/\epsilon})}}})}$ to $\mathcal{O}{({{r{\log{({1/\epsilon})}}} + {rp}})}$ and from $\mathcal{O}{({p/\epsilon^{2}})}$ to $\mathcal{O}{({{r/\epsilon^{2}} + {rp}})}$, respectively, for strongly convex and non-convex objectives.
+
+We derive several auxiliary results characterizing exactly and approximately low-rank functions, e.g., Propositions 2.1. ‣ 2.2 Exactly low-rank functions ‣ 2 Formal setup and low-rank structure ‣ Gradient Descent for Low-Rank Functions"), 2.3. ‣ 2.3 Approximately low-rank functions ‣ 2 Formal setup and low-rank structure ‣ Gradient Descent for Low-Rank Functions"), and C.1. ‣ C.1 Algebra of low-rank functions ‣ Appendix C Calculus of low-rank functions ‣ Gradient Descent for Low-Rank Functions").
+
+We propose several algorithms that can optimize general (possibly high-rank) functions using LRGD as a building block, e.g., *iterated LRGD* (Algorithm 2) and *adaptive LRGD* (Algorithm 3). While LRGD is provably efficient on (approximately) low-rank functions, its variants are *applicable to broader classes of functions that may not possess low-rank structure* on the full space.
+
+We evaluate the performance of LRGD on different objectives and demonstrate its usefulness in restricted but insightful setups.
+
+Related work. Low-rank structures have been exploited extensively in various disciplines. For example, in machine learning, matrix estimation (or completion) methods typically rely on low-rank assumptions to recover missing entries. In classical statistics, projection pursuit methods rely on approximating functions using ridge functions, which are precisely low-rank functions (see Proposition 2.1. ‣ 2.2 Exactly low-rank functions ‣ 2 Formal setup and low-rank structure ‣ Gradient Descent for Low-Rank Functions")). In a similar vein, in scientific computing, approximation methods have been developed to identify influential input directions of a function for uncertainty quantification.
+
+In contrast to these settings, we seek to exploit low-rank structure in optimization algorithms. Recently, the authors of developed a local polynomial interpolation based GD algorithm for empirical risk minimization that learns gradients at every iteration using smoothness of loss functions in data. The work in extended these developments to a federated learning context (cf., and the references therein), where low-rank matrix estimation ideas were used to exploit such smoothness of loss functions. Following this line of reasoning, this paper utilizes the structure of low-rank objective functions to improve iterative gradient-based algorithms in the canonical optimization setting. (In a very different direction, low-rank structure has also been used to solve semidefinite programs in.)
+
+Several works have recently highlighted different forms of low-rank structure in large-scale training problems. For example, deep neural networks seem to have loss functions with low-rank Hessians, which partly motivates our work here (also see Appendix G). Moreover, deep neural networks have been shown to exhibit low-rank weight matrices and neural collapse, and low-rank approximations of gradient weight matrices have been used for their training.
+
+Our work falls within the broader effort of speeding up first order optimization algorithms, which has been widely studied in the literature. In this literature, the running time is measured using first order oracle complexity (i.e., the number of full gradient evaluations until convergence). The first order oracle complexity of GD for, e.g., strongly convex functions, is analyzed in the standard text. Similar analyses for stochastic versions of GD that are popular in large-scale empirical risk minimization problems, such as (mini-batch) stochastic GD, can be found in. There are several standard approaches to theoretically or practically improving the running times of these basic algorithms, e.g., momentum, acceleration, variance reduction, and adaptive learning rates. More related to our problem, random coordinate descent-type methods such as stochastic subspace descent have been studied. In addition, various other results pertaining to GD with inexact oracles (see and the references therein), fundamental lower bounds on oracle complexity, etc. have also been established in the literature. We refer readers to the surveys in for details and related references.
+
+The contributions in this paper are complementary to the aforementioned approaches to speed up first order optimization methods, which do not use low-rank structure in objective functions. Indeed, ideas like acceleration, variance reduction, and adaptive learning rates could potentially be used in conjunction with our proposed LRGD algorithm, although we leave such developments for future work. Furthermore, we only consider GD-like methods rather than more prevalent stochastic GD methods in this work, because our current focus is to show simple theoretical improvements in running time by exploiting low-rank structure. Hence, we also leave the development of stochastic optimization algorithms that exploit low-rank structure for future work.
+
+Outline. We briefly outline the remainder of the paper. We state our assumptions, the computational model, and definitions of low-rank functions in Section 2. We describe the LRGD algorithm and its theoretical guarantees in Section 3. Finally, illustrative simulations are given in Section 4.
+
+## Formal setup and low-rank structure
+
+Notation. We refer readers to Appendix A for a list of notation used in this paper.
+
+### Preliminaries
+
+We consider a real-valued differentiable function $f:{\Theta\rightarrow{\mathbb{R}}}$, where $\Theta = {\mathbb{R}}^{p}$ for some positive integer $p$, and denote its gradient ${\nabla f}:{\Theta\rightarrow{\mathbb{R}}^{p}}$. We assume that $f$ is $L$-smooth, i.e, that its gradient is $L$-Lipschitz continuous.
+
+### Assumption 2.1 ($L$-smoothness)
+
+The function $f$ is $L$-smooth for a given parameter $L > 0$ if for any ${\theta,\theta^{\prime}} \in \Theta$, ${f{(\theta^{\prime})}} \leq {{f{(\theta)}} + {\langle{{\nabla f}{(\theta)}},{\theta^{\prime} - \theta}\rangle} + {\frac{L}{2}{\|{\theta^{\prime} - \theta}\|}^{2}}}$.
+
+Non-convex setting. Under no further assumption on the function $f$, the general goal we will pursue is to find an $\epsilon$-stationary point, that is, for a given accuracy $\epsilon$, we aim to find $\theta \in \Theta$ such that,
+
+Note that a solution to exists as soon as $f$ is lower-bounded by some $f^{\ast} = {\inf_{\theta \in \Theta}{f{(\theta)}}} \in {\mathbb{R}}$ which is assumed throughout this paper.
+
+Strongly convex setting. We also study a similar problem under the additional assumption that $f$ is strongly convex.
+
+### Assumption 2.2 (Strong convexity)
+
+The function $f$ is $\mu$-strongly convex for a given parameter $\mu > 0$ if for any ${\theta,\theta^{\prime}} \in \Theta$, ${f{(\theta^{\prime})}} \geq {{f{(\theta)}} + {\langle{{\nabla f}{(\theta)}},{\theta^{\prime} - \theta}\rangle} + {\frac{\mu}{2}{\|{\theta^{\prime} - \theta}\|}^{2}}}$.
+
+Under this particular setting, a solution of can be interpreted as an approximate minimizer of $f$ through the *Polyak-Łojasiewicz inequality* (see, e.g., ): ${{f{(\theta)}} - f^{\ast}} \leq {\frac{1}{2\mu}{\|{{\nabla f}{(\theta)}}\|}^{2}}$. The goal we will pursue will be to find an $\epsilon$-minimizer for $f$, which is defined as $\theta \in \Theta$ satisfying
+
+where $\epsilon > 0$ is the predefined accuracy. Note that it suffices to find an $\epsilon^{\prime}$-stationary point of $f$ with $\epsilon^{\prime} = \sqrt{2\mu\epsilon}$ to get an $\epsilon$-minimizer of $f$, which explains the relation between both settings.
+
+In this paper, we focus on gradient descent methods and zoom-in on their computational complexity which we concretely measure through the following computation model.
+
+Computation model. To characterize the running time of a GD-type algorithm for solving the problem and, we employ a variant of the well-established notion of *oracle complexity*. In particular, we tailor this notion to count the number of calls to *directional* derivatives of the objective where the directional derivative of $f$ along a unit-norm vector $u \in {\mathbb{R}}^{p}$ is a scalar defined as,
+
+This computation model -- which differs from most of the literature on first order methods that typically assumes the existence of a full-gradient oracle ${\nabla f}{(\theta)}$ -- will allow us to showcase the utility of a low-rank optimization method.
+
+### Definition 2.1 (Oracle complexity)
+
+Given an algorithm ALG, for a predefined accuracy $\epsilon > 0$ and function class $\mathcal{F}$, we denote by $\mathcal{C}_{\text{ALG}}$ the maximum number of oracle calls to directional derivatives required by ALG to reach an $\epsilon$-solution to or for any function in $\mathcal{F}$.
+
+Note that computing a full-length gradient vector of dimension $p$ requires $p$ calls to the directional gradient oracle. As a consequence, for the class of smooth and strongly convex functions, the oracle complexity of vanilla Gradient Descent algorithm to find an $\epsilon$-minimizer of $f$ is $\mathcal{C}_{\text{GD}} = {\mathcal{O}{({p{\log{({1/\epsilon})}}})}}$.
+
+In this paper, we target the (directional) oracle complexity of gradient-based algorithms such as GD and propose a computation-efficient algorithm, namely *Low-Rank Gradient Descent* (LRGD). The main idea of LRGD is to leverage the potential low-rank structure of the objective in order to slash the oracle complexity during the training. To do so, LRGD first identifies a low-rank subspace $H$ that (approximately) contains the gradients of the objective $f$ (also known as *active subspace*). Let $\{ u_{1},\cdots,u_{r}\}$ denote a basis for $H$. In each iteration with current parameter model $\theta$, LRGD computes $r$ directional derivatives of $f$, i.e. ${\partial{f_{u_{1}}{(\theta)}}},\cdots,{\partial{f_{u_{r}}{(\theta)}}}$, and uses
+
+as an approximation to the true gradient ${\nabla f}{(\theta)}$ and updates $\theta\leftarrow{\theta - {\alpha\hat{\nabla}f{(\theta)}}}$ with a proper stepsize $\alpha$. We provide the description of LRGD and its guarantees for different function classes in Section 3.
+
+### Exactly low-rank functions
+
+In this paragraph, we formally define the notion of low-rank function (Definition 2.2. ‣ 2.2 Exactly low-rank functions ‣ 2 Formal setup and low-rank structure ‣ Gradient Descent for Low-Rank Functions")). We then immediately observe that such functions have already widely been studied in the literature under different equivalent forms (Proposition 2.1. ‣ 2.2 Exactly low-rank functions ‣ 2 Formal setup and low-rank structure ‣ Gradient Descent for Low-Rank Functions")). We make the simple observation that the class of such functions is fairly restricted, e.g., it contains no strongly convex function, thereby requiring the more general notion of approximately low-rank functions that will come later.
+
+### Definition 2.2 (Rank of function)
+
+The function $f$ has rank $r$ if the minimal subspace $H \subseteq {\mathbb{R}}^{p}$ satisfying ${{\nabla f}{(\theta)}} \in H$ for any $\theta \in \Theta$ has dimension $r$.
+
+### Proposition 2.1 (Characterizations of low-rank functions)
+
+The following are equivalent:
+
+There exists a subspace $H$ of dimension $r$ such that ${{\nabla f}{(\theta)}} \in H$ for all $\theta \in \Theta$.
+
+There exists a subspace $H$ of dimension $r$ such that ${f{(\theta)}} = {f{({\theta + \theta^{\prime}})}}$ for all $\theta \in \Theta$ and $\theta^{\prime} \in H^{\perp}$.
+
+There exists a matrix $A \in {\mathbb{R}}^{r \times p}$ and a map $\sigma:{{\mathbb{R}}^{r}\rightarrow{\mathbb{R}}}$ such that ${f{(\theta)}} = {\sigma{({A\theta})}}$ for all $\theta \in \Theta$.
+
+We defer the proof to Appendix D.1. The proposition above relates our notion of low-rank functions 1) to other equivalent forms. The property 2) is ordinarily referred to as $H^{\perp} -$invariance (see, e.g. ) whereas property 3) is typically used to define the notion of ridge functions or multi-ridge functions. In what follows, we will equivalently use the terminology of (exactly) low-rank function and ridge function.
+
+Note that for our purposes, the class of ridge functions has some limitations. In particular, any $\mu -$strongly convex function is of (full) rank $p$ because it satisfies:
+
+which together with 2) in Proposition 2.1. ‣ 2.2 Exactly low-rank functions ‣ 2 Formal setup and low-rank structure ‣ Gradient Descent for Low-Rank Functions") yields that $H$ is of full dimension $r = p$. On the other hand, we expand on some properties of low-rank functions in Appendix C.1. Furthermore, we illustrate via an example in Appendix C.2 that optimization of a high-rank function can sometimes be equivalently represented as optimization of a low-rank function using an appropriately chosen non-linear transformation.
+
+### Approximately low-rank functions
+
+The discussion above calls for a relaxation of the notion of low rank functions. In this section, we provide a definition for *approximately low-rank* functions where we no longer require that the gradients all belong to a given low-dimensional subspace $H$ but instead are inside a cone supported by this subspace, this is made explicit in Definition 2.3. ‣ 2.3 Approximately low-rank functions ‣ 2 Formal setup and low-rank structure ‣ Gradient Descent for Low-Rank Functions"). In the rest of this section, more precisely through Proposition 2.2. ‣ 2.3 Approximately low-rank functions ‣ 2 Formal setup and low-rank structure ‣ Gradient Descent for Low-Rank Functions") and Proposition 2.3. ‣ 2.3 Approximately low-rank functions ‣ 2 Formal setup and low-rank structure ‣ Gradient Descent for Low-Rank Functions") we give more details about the desired properties of the approximation.
+
+### Definition 2.3 (Approximate rank of function)
+
+The function $f$ is $(\eta,\epsilon)$-approximately rank-$r$, if there exist $\eta \in {\lbrack 0,1)}$, $\epsilon > 0$ and subspace $H \subseteq {\mathbb{R}}^{p}$ of dimension $r \leq p$, such that for any $\theta \in \Theta$,
+
+where $\Pi_{H}$ denotes the orthogonal projection operator onto $H$.
+
+Note that this condition has two error terms represented by two constants $\epsilon$ (additive) and $\eta$ (multiplicative). It therefore considerably relaxes the exact low rank assumption that would require ${{\forall\theta} \in {\mathbb{R}}^{p}}:{{\|{{{\nabla f}{(\theta)}} - {\Pi_{H}{({{\nabla f}{(\theta)}})}}}\|} = 0}$. Both of these constants are required for the generality of the definition of the approximately low-rank condition. In particular, the role of the additive term is emphasized in the following Proposition 2.2. ‣ 2.3 Approximately low-rank functions ‣ 2 Formal setup and low-rank structure ‣ Gradient Descent for Low-Rank Functions") whereas the role of the multiplicative term is emphasized in Proposition 2.3. ‣ 2.3 Approximately low-rank functions ‣ 2 Formal setup and low-rank structure ‣ Gradient Descent for Low-Rank Functions") for the particular case of strongly convex functions.
+
+### Proposition 2.2 (Non-singular Hessian and approximate low-rankness)
+
+If $f$ attains its minimum at $\theta^{\ast} \in \Theta$ where ${\nabla^{2}f}{(\theta^{\ast})}$ is invertible and $f$ is approximately low-rank with parameters $(\eta,\epsilon)$ where $\eta < 1$ then necessarily $\epsilon > 0$.
+
+The proof in Appendix D.2 is a direct application of the inverse function theorem to $\nabla f$ at $\theta^{\ast}$. This result shows that in most settings the approximate rank requires an affine approximation error (i.e., $\epsilon > 0$ is necessary). Note that this does not produce a uniform bound on $\epsilon$ that would hold for any function $f$; such a bound would only come under additional assumptions on the third derivatives of $f$.
+
+### Proposition 2.3 (Strong convexity and approximate low-rankness)
+
+If $f$ is $\mu$-strongly convex, for any vector $u$ of unit norm, and any $\Delta > 0$ there exists some $\theta \in {\mathbb{R}}^{p}$ such that,
+
+As a consequence, if $f$ is $(\eta,\epsilon)$-approximate rank $r < p$ on the ball of radius $\Delta$ around $\theta^{\ast}$, i.e., $\mathcal{B}{(\theta^{\ast},\Delta)}$, then $\epsilon > {\mu\Delta{({1 - \eta})}}$ or alternatively $\eta > {1 - \frac{\epsilon}{\mu\Delta}}$.
+
+The proof in Appendix D.3 shows that the gradient of strongly convex functions typically span all directions. As a consequence, this result shows that there is a trade-off between the strong convexity constant $\mu$ and the approximately low-rank constants $(\eta,\epsilon)$. For a given strongly convex function $f$ it is however still very reasonable to assume that it is approximately low-rank not on the full space $\Theta = {\mathbb{R}}^{p}$ but on bounded portions of the optimization space of the form $\mathcal{B}{(\theta^{\ast},\Delta)}$ with limited $\Delta$. This will turn out to be sufficient in most practical cases.
+
+## Algorithms and theoretical guarantees
+
+In this section, we state the precise description of the proposed LRGD algorithm, we provide its computational complexity guarantees and conclude with a discussion on practical considerations.
+
+### LRGD algorithm
+
+The proposed algorithm, LRGD, is an iterative gradient-based method. It starts by identifying a subspace $H$ of rank $r \leq p$ that is a good candidate to match our definition of approximately low-rank function for the objective $f$, i.e., Definition 2.3. ‣ 2.3 Approximately low-rank functions ‣ 2 Formal setup and low-rank structure ‣ Gradient Descent for Low-Rank Functions"). More precisely, we pick $r$ random models $\theta^{1},\cdots,\theta^{r}$ and construct the matrix $G = {\lbrack{g_{1}/{\| g_{1}\|}},\cdots,{g_{r}/{\| g_{r}\|}}\rbrack}$ where we denote $g_{j} ≔ {{\nabla f}{(\theta^{j})}}$ for $j \in {\lbrack r\rbrack}$. Then, assuming that $G$ is full-rank, the active subspace $H$ will be the space induced by the $r$ dominant left singular vectors of $G$. In other words, if we denote $G = {U\SigmaV^{\top}}$ the singular value decomposition (SVD) for $G$, we pick $H = {{span}{(U)}} = {{span}{(u_{1},\cdots,u_{r})}}$. Having set the active subspace $H$, LRGD updates the model parameters $\theta_{t}$ in each iteration $t$ by $\theta_{t + 1} = {\theta_{t} - {\alpha\hat{\nabla}f{(\theta_{t})}}}$ for a proper stepsize $\alpha$. Note that $\hat{\nabla}f{(\theta_{t})}$ here denotes the projection of the true gradient ${\nabla f}{(\theta_{t})}$ on the active subspace $H$ which LRGD uses as a low-rank proxy to ${\nabla f}{(\theta_{t})}$. Computing each approximate gradient $\hat{\nabla}f$ requires only $r$ (and not $p$) calls to the directional gradient oracle as we have ${\hat{\nabla}f{(\theta_{t})}} = {\sum_{j = 1}^{r}{\partial_{u_{j}}{f{(\theta_{t})}u_{j}}}}$. Algorithm 1 provides the details of LRGD.
+
+1 Require: rank r ≤ p, stepsize α
+2pick r points θ1, ⋯, θr and evaluate gradients gj = ∇f (θj) for j ∈ [r]
+4compute SVD for G: G = U Σ V⊤ with U = [u1, ⋯, ur] (Gram-Schmidt or QR is also possible)
+9 compute gradient approximation ${\hat{\nabla}f{(\theta_{t})}} = {\Pi_{H}{({{\nabla f}{(\theta_{t})}})}} = {\sum_{j = 1}^{r}{\partial_{u_{j}}{f{(\theta_{t})}u_{j}}}}$
+10 update $\theta_{t + 1} = {\theta_{t} - {\alpha\hat{\nabla}f{(\theta_{t})}}}$
+Algorithm 1 Low-Rank Gradient Descent (LRGD)
+
+### Oracle complexity analysis for strongly convex setting
+
+Next, we characterize the oracle complexity of the proposed LRGD method for strongly convex objectives and discuss its improvement over other benchmarks. Let us start from a fairly simple case. As elaborated in Section 2 and in Proposition 2.1. ‣ 2.2 Exactly low-rank functions ‣ 2 Formal setup and low-rank structure ‣ Gradient Descent for Low-Rank Functions"), strongly convex functions cannot be exactly low-rank. However, an exactly low-rank function may be strongly convex when restricted to its active subspace. Next theorem characterizes the oracle complexity for LRGD in such scenario.
+
+### Theorem 3.1 (Oracle complexity in exactly low-rank and strongly convex case)
+
+Let the objective function $f$ be $L$-smooth (Assumption 2.1. ‣ 2.1 Preliminaries ‣ 2 Formal setup and low-rank structure ‣ Gradient Descent for Low-Rank Functions")) and exactly rank-$r$ according to Definition 2.2. ‣ 2.2 Exactly low-rank functions ‣ 2 Formal setup and low-rank structure ‣ Gradient Descent for Low-Rank Functions") where ${{\nabla f}{(\theta)}} \in H$, $\forall\theta$. Moreover, assume that $f$ restricted to $H$ is $\mu$-strongly convex (Assumption 2.1. ‣ 2.1 Preliminaries ‣ 2 Formal setup and low-rank structure ‣ Gradient Descent for Low-Rank Functions")) with condition number $\kappa ≔ {L/\mu}$. Then, the proposed LRGD method in Algorithm 1 reaches an $\epsilon$-minimizer of $f$ with oracle complexity
+
+where $\Delta_{0} = {{f{(\theta_{0})}} - f^{\ast}}$ is the suboptimality of the initialization $\theta_{0}$.
+
+We defer the proof to Appendix E.1.1. Next, we provide oracle complexity guarantees for approximately low-rank and strongly convex functions and discuss the benefit of LRGD to other benchmarks.
+
+### Theorem 3.2 (Oracle complexity in approximately low-rank and strongly convex case)
+
+Let the objective function $f$ be $L$-smooth and $\mu$-strongly convex with condition number $\kappa ≔ {L/\mu}$, i.e., Assumptions 2.1. ‣ 2.1 Preliminaries ‣ 2 Formal setup and low-rank structure ‣ Gradient Descent for Low-Rank Functions") and 2.2. ‣ 2.1 Preliminaries ‣ 2 Formal setup and low-rank structure ‣ Gradient Descent for Low-Rank Functions") hold. We also assume that $f$ is $(\eta,\sqrt{{\mu\epsilon}/5})$-approximately rank-$r$ according to Definition 2.3. ‣ 2.3 Approximately low-rank functions ‣ 2 Formal setup and low-rank structure ‣ Gradient Descent for Low-Rank Functions") and the following condition holds
+
+where $\sigma_{r}$ is the smallest singular value of the matrix $G = {\lbrack{g_{1}/{\| g_{1}\|}},\cdots,{g_{r}/{\| g_{r}\|}}\rbrack}$ with $g_{j} ≔ {{\nabla f}{(\theta^{j})}}$ and ${\| g_{j}\|} > \epsilon^{\prime}$ for all $j \in {\lbrack r\rbrack}$. Then, the proposed LRGD method in Algorithm 1 reaches an $\epsilon$-minimizer of $f$ with oracle complexity
+
+We defer the proof to Appendix E.1.2. Theorems 3.1. ‣ 3.2 Oracle complexity analysis for strongly convex setting ‣ 3 Algorithms and theoretical guarantees ‣ Gradient Descent for Low-Rank Functions") and 3.2. ‣ 3.2 Oracle complexity analysis for strongly convex setting ‣ 3 Algorithms and theoretical guarantees ‣ Gradient Descent for Low-Rank Functions") suggest that in the strongly convex setting and for approximately low-rank functions with sufficiently small parameters, LRGD is able to reduce the oracle complexity of GD which is $\mathcal{C}_{\text{GD}} = {\mathcal{O}{({\kappap{\log{({1/\epsilon})}}})}}$ to $\mathcal{C}_{\text{LRGD}} = {\mathcal{O}{({{\kappar{\log{({1/\epsilon})}}} + {pr}})}}$. This gain is particularly significant as the term depending on the accuracy $\epsilon$ does not scale with the model parameters dimension $p$, rather scales with the rank $r$ which may be much smaller than $p$.
+
+### Oracle complexity analysis for non-convex setting
+
+Next, we turn our focus to non-convex and smooth objectives and discuss the benefits of LRGD on the overall coracle complexity for such functions. Let us begin with exactly low-rank objectives.
+
+### Theorem 3.3 (Oracle complexity in exactly low-rank and non-convex case)
+
+Let the objective function $f$ be $L$-smooth, i.e., Assumption 2.1. ‣ 2.1 Preliminaries ‣ 2 Formal setup and low-rank structure ‣ Gradient Descent for Low-Rank Functions") holds. Moreover, assume that the gradient of $f$ is exactly rank-$r$ according to Definition 2.2. ‣ 2.2 Exactly low-rank functions ‣ 2 Formal setup and low-rank structure ‣ Gradient Descent for Low-Rank Functions"). Then, the proposed LRGD method in Algorithm 1 reaches an $\epsilon$-stationary point of $f$ with oracle complexity
+
+We defer the proof to Appendix E.2.1. Next, we state the oracle complexity result for approximately low-rank objectives.
+
+### Theorem 3.4 (Oracle complexity in approximately low-rank and non-convex case)
+
+Let the objective function $f$ be $L$-smooth, i.e., Assumption 2.1. ‣ 2.1 Preliminaries ‣ 2 Formal setup and low-rank structure ‣ Gradient Descent for Low-Rank Functions") holds. Moreover, assume that $f$ is $(\eta,{\epsilon/3})$-approximately rank-$r$ according to Definition 2.3. ‣ 2.3 Approximately low-rank functions ‣ 2 Formal setup and low-rank structure ‣ Gradient Descent for Low-Rank Functions"). Moreover, we assume that the following condition holds
+
+where $\sigma_{r}$ is the smallest singular value of the matrix $G = {\lbrack{g_{1}/{\| g_{1}\|}},\cdots,{g_{r}/{\| g_{r}\|}}\rbrack}$ with $g_{j} ≔ {{\nabla f}{(\theta^{j})}}$ and ${\| g_{j}\|} > \epsilon^{\prime}$ for all $j \in {\lbrack r\rbrack}$. Then, for stepsize $\alpha = \frac{1}{8L}$, LRGD in Algorithm 1 reaches an $\epsilon$-stationary point with oracle complexity
+
+We defer the proof to Appendix E.2.2. Theorems 3.3. ‣ 3.3 Oracle complexity analysis for non-convex setting ‣ 3 Algorithms and theoretical guarantees ‣ Gradient Descent for Low-Rank Functions") and 3.4. ‣ 3.3 Oracle complexity analysis for non-convex setting ‣ 3 Algorithms and theoretical guarantees ‣ Gradient Descent for Low-Rank Functions") further highlight the advantage of LRGD in the non-convex scenario. More precisely, it is well-understood that GD is able to find an $\epsilon$-stationary point of a smooth and non-convex function in $\mathcal{O}{({1/\epsilon^{2}})}$ iterations. Since each iteration costs $p$ directional derivatives, the total oracle complexity scales as $\mathcal{O}{({p/\epsilon^{2}})}$ where $p$ denotes the dimension of model parameters. This can be costly specifically for deep neural network models with up to millions of parameters. On the other hand, for approximately rank-$r$ objectives with sufficiently small parameters (see Definition 2.3. ‣ 2.3 Approximately low-rank functions ‣ 2 Formal setup and low-rank structure ‣ Gradient Descent for Low-Rank Functions")), LRGD is able to slash the oracle complexity to $\mathcal{O}{({{r/\epsilon^{2}} + {pr}})}$. This is particularly significant for low-rank functions with rank $r \ll p$.
+
+Let us point out that although LRGD's guarantees stated in the previous theorems require the objective to be sufficiently low-rank on the entire model parameters space, the proposed low-rank approach works with less restrictive assumptions on the objective. This is our motivation to build up on LRGD and propose other variants in th following.
+
+### Variants of LRGD
+
+Algorithm 1 (LRGD) can be extended to broader settings, especially in order to make it less sensitive to assumptions on the function $f$, since such assumptions are rarely known a priori before the optimization task is defined. In this section, we present two such extensions:
+
+Algorithm 2 (in Appendix B) provides a variant of LRGD where the active subspace is updated as soon as the low-rank descent converges. Note that this guarantees the termination of the optimization algorithm on any function -- and not just on functions satisfying the assumptions of the theoretical results. This algorithm is particularly adapted to situations where the function is *locally* approximately rank $r$ as the active subspace is updated through a local sampling (that is also used to accelerate the descent with $r$ iterations of GD). This algorithm still takes the parameter $r$ as an input. It is used for empirical tests in Section 4.
+
+Algorithm 3 (in Appendix B) provides a variant of LRGD that is adapted to situations where the rank $r$ is unknown. In this algorithm, the active subspace is made larger as when the algorithm reaches convergence on the corresponding subspace. As a result the rank $r$ goes from $1$ to $p$. If the function is rank $r^{\ast}$ all iterations where the rank $r$ goes from $r^{\ast}$ to $p$ will be cost-less. Note that in some circumstances, the arithmetic progression of the rank ${{update}{(r)}} = {r + 1}$ can be can be advantageously replaced by a geometric progression ${{update}{(r)}} = {2r}$. The empirical evaluation of this variant is left for future work.
+
+## Numerical simulations
+
+In this section we attempt to demonstrate the utility of the LRGD method (specifically, the iterative version in Algorithm 2 in Appendix B) through numerical simulations. We start in Figure 1 by a simple two-dimensional example ($p = 2$ and $r = 1$) to help building intuition about the method. In this experiment we observe that even when the LRGD method makes a more important number of iterations than the vanilla GD methods (left), it may be as efficient in terms of oracle calls (right). We then argue with Tables 2, 3, 4 (Tables 3, 4 are in Appendix H) that the LRGD method significantly outperforms the vanilla GD method in ill-conditioned setups.
+
+Figure 1: Iterations of GD (crosses) and LRGD (dots) on a quadratic function f (θ) = θ⊤ H θ with H = and θ0 = (1.5 1.5). Though LRGD makes more iterations (21 versus 13), it uses slightly less oracle calls (25 versus 26). Experiments ran with α = 1/15 and ϵ = 0.02.
+
+A close observation of Figure 1 and of the subsequent tables allows to make the following observations about situations where the LRGD method outperforms GD.
+
+Even for functions that are not approximately low-rank -- as in the example from Figure 1 -- using LRGD instead of GD does not seem to hurt in terms of number of oracle calls.
+
+In the results of Table 2, LRGD outperforms GD by a factor at most ${p/r} = 2$ that this factor is nearly attained in some cases (bottom-right of the table). This is in coherence with the theoretical results from Section 3 and the motivation from the introduction stating that the benefits of the LRGD method are indeed particularly visible when the ratio $p/r$ is higher.
+
+As observed in Figure 1, the LRGD method converges after a series of phases that end with the convergence of the descent on a given subspace. We can distinctly see two phases (iteration 1 to 7 and iteration 7 to 17) and can roughly guess two others (iteration 17 to 19 and iteration 19 to 21). These phases traduce in a series of waterfalls (Figure 1, right) that each tend to be sharper than the single waterfall of GD.
+
+The LRGD method is particularly efficient when consecutive gradient evaluations are very correlated. This typically because when the step-size $\alpha$ is too small with respect to the local variations of the function. The step-size is determined to satisfy $\alpha < {1/L}$. It is therefore smaller for ill-conditioned functions -- i.e., examples on the right of Table 2.
+
+Table 2: Number of oracle calls before convergence (with ϵ = 0.1) of GD and (LRGD) with r = 1 on quadratic functions, f (θ) = θ⊤ H θ, for different Hessians H with varying condition numbers and different initialization θ0 on the unit circle. Step size α is set to optimal for GD, i.e., 1/(2 L) where L ∈ {1, 10, 100, 1000}.
+
+Conclusion. This work proposes an optimization approach that leverages low-rank structure to reduce the number of directional derivative queries. We believe that other optimization methods could benefit from incorporating such an approach.
+
+## Appendices

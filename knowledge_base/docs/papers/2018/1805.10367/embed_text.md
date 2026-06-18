@@ -1,0 +1,183 @@
+## Introduction
+
+Zeroth-order (gradient-free) optimization is increasingly embraced for solving machine learning problems where explicit expressions of the gradients are difficult or infeasible to obtain. Recent examples have shown zeroth-order (ZO) based generation of prediction-evasive, black-box adversarial attacks on deep neural networks (DNNs) as effective as state-of-the-art white-box attacks, despite leveraging only the inputs and outputs of the targeted DNN. Additional classes of applications include network control and management with time-varying constraints and limited computation capacity, and parameter inference of black-box systems. ZO algorithms achieve gradient-free optimization by approximating the full gradient via gradient estimators based on only the function values.
+
+Although many ZO algorithms have recently been developed and analyzed, they often suffer from the high variances of ZO gradient estimates, and in turn, hampered convergence rates. In addition, these algorithms are mainly designed for convex settings, which limits their applicability in a wide range of (non-convex) machine learning problems.
+
+In this paper, we study the problem of design and analysis of variance reduced and faster converging nonconvex ZO optimization methods. To reduce the variance of ZO gradient estimates, one can draw motivations from similar ideas in the first-order regime. The stochastic variance reduced gradient (SVRG) is a commonly-used, effective first-order approach to reduce the variance. Due to the variance reduction, it improves the convergence rate of stochastic gradient descent (SGD) from $O{({1/\sqrt{T}})}$^11^1In the big $O$ notation, the constant numbers are ignored, and the dominant factors are kept. to $O{({1/T})}$, where $T$ is the total number of iterations.
+
+Although SVRG has shown a great promise, applying similar ideas to ZO optimization is not a trivial task. The main challenge arises due to the fact that SVRG relies upon the assumption that a stochastic gradient is an unbiased estimate of the true batch/full gradient, which unfortunately does not hold in the ZO case. Therefore, it is an open question whether the ZO stochastic variance reduced gradient could enable faster convergence of ZO algorithms. In this paper, we attempt to fill the gap between ZO optimization and SVRG.
+
+Contributions We propose and evaluate a novel ZO algorithm for nonconvex stochastic optimization, ZO-SVRG, which integrates SVRG with ZO gradient estimators. We show that compared to SVRG, ZO-SVRG achieves a similar convergence rate that decays linearly with $O{({1/T})}$ but up to an additional error correction term of order $1/b$, where $b$ is the mini-batch size. Without a careful treatment, this correction term (e.g., when $b$ is small) could be a critical factor affecting the optimization performance. To mitigate this error term, we propose two accelerated ZO-SVRG variants, utilizing reduced variance gradient estimators. These yield a faster convergence rate towards $O{({d/T})}$, the best known iteration complexity bound for ZO stochastic optimization.
+
+Our work offers a comprehensive study on how ZO gradient estimators affect SVRG on both iteration complexity (i.e., convergence rate) and function query complexity. Compared to the existing ZO algorithms, our methods can strike a balance between iteration complexity and function query complexity. To demonstrate the flexibility of our approach in managing this trade-off, we conduct an empirical evaluation of our proposed algorithms and other state-of-the-art algorithms on two diverse applications: black-box chemical material classification and generation of universal adversarial perturbations from black-box deep neural network models. Extensive experimental results and theoretical analysis validate the effectiveness of our approaches.
+
+## Related work
+
+In ZO algorithms, a full gradient is typically approximated using either a one-point or a two-point gradient estimator, where the former acquires a gradient estimate $\hat{\nabla}f{(\mathbf{x})}$ by querying $f{( \cdot )}$ at a single random location close to $\mathbf{x}$, and the latter computes a finite difference using two random function queries. In this paper, we focus on the two-point gradient estimator since it has a lower variance and thus improves the complexity bounds of ZO algorithms.
+
+Despite the meteoric rise of two-point based ZO algorithms, most of the work is restricted to convex problems. For example, a ZO mirror descent algorithm proposed by has an exact rate $O{({\sqrt{d}/\sqrt{T}})}$, where $d$ is the number of optimization variables. The same rate is obtained by bandit convex optimization and ZO online alternating direction method of multipliers. Current studies suggested that ZO algorithms typically agree with the iteration complexity of first-order algorithms up to a small-degree polynomial of the problem size $d$.
+
+In contrast to the convex setting, non-convex ZO algorithms are comparatively under-studied except a few recent attempts. Different from convex optimization, the stationary condition is used to measure the convergence of nonconvex methods. In, the ZO gradient descent (ZO-GD) algorithm was proposed for deterministic nonconvex programming, which yields $O{({d/T})}$ convergence rate. A stochastic version of ZO-GD (namely, ZO-SGD) studied in achieves the rate of $O{({\sqrt{d}/\sqrt{T}})}$. In, a ZO distributed algorithm was developed for multi-agent optimization, leading to $O{({{1/T} + {d/q}})}$ convergence rate. Here $q$ is the number of random directions used to construct a gradient estimate. In, an asynchronous ZO stochastic coordinate descent (ZO-SCD) was derived for parallel optimization and achieved the rate of $O{({\sqrt{d}/\sqrt{T}})}$. In, a variant of ZO-SCD, known as ZO stochastic variance reduced coordinate (ZO-SVRC) descent, improved the convergence rate from $O{({\sqrt{d}/\sqrt{T}})}$ to $O{({d/T})}$ under the same parameter setting for the gradient estimation. Although the authors in considered the stochastic variance reduced technique, only a coordinate descent algorithm using a coordinate-wise (deterministic) gradient estimator was studied. This motivates our study on a more general framework ZO-SVRG under different gradient estimators.
+
+## Preliminaries
+
+Consider a nonconvex finite-sum problem of the form
+
+where ${\{{f_{i}{(\mathbf{x})}}\}}_{i = 1}^{n}$ are $n$ individual nonconvex cost functions. The generic form encompasses many machine learning problems, ranging from generalized linear models to neural networks. We next elaborate on assumptions of problem, and provide a background on ZO gradient estimators.
+
+### Assumptions
+
+A1: Functions $\{ f_{i}\}$ have $L$-Lipschitz continuous gradients ($L$-smooth), i.e., ${\|{{{\nabla f_{i}}{(\mathbf{x})}} - {{\nabla f_{i}}{(\mathbf{y})}}}\|}_{2} \leq {L{\|{\mathbf{x} - \mathbf{y}}\|}_{2}}$ for any $\mathbf{x}$ and $\mathbf{y}$, $i \in {\lbrack n\rbrack}$, and some $L < \infty$. Here $\parallel \cdot \parallel_{2}$ denotes the Euclidean norm, and for ease of notation $\lbrack n\rbrack$ represents the integer set $\{ 1,2,\ldots,n\}$.
+
+A2: The variance of stochastic gradients is bounded as ${\frac{1}{n}{\sum_{i = 1}^{n}{\|{{{\nabla f_{i}}{(\mathbf{x})}} - {{\nabla f}{(\mathbf{x})}}}\|}_{2}^{2}}} \leq \sigma^{2}$. Here ${\nabla f_{i}}{(\mathbf{x})}$ can be viewed as a stochastic gradient of ${\nabla f}{(\mathbf{x})}$ by randomly picking an index $i \in {\lbrack n\rbrack}$.
+
+Both A1 and A2 are the standard assumptions used in nonconvex optimization literature. Note that A2 is milder than the assumption of bounded gradients. For example, if ${\|{{\nabla f_{i}}{(\mathbf{x})}}\|}_{2} \leq \overset{\sim}{\sigma}$, then A2 is satisfied with $\sigma = {2\overset{\sim}{\sigma}}$.
+
+### ZO gradient estimation
+
+Given an individual cost function $f_{i}$ (or an arbitrary function under A1 and A2), a two-point random gradient estimator $\hat{\nabla}f_{i}{(\mathbf{x})}$ is defined by
+
+where recall that $d$ is the number of optimization variables, $\mu > 0$ is a smoothing parameter^22^2The parameter $\mu$ can be generalized to $\mu_{i}$ for $i \in {\lbrack n\rbrack}$. Here we assume $\mu_{i} = \mu$ for ease of representation., and $\{\mathbf{u}_{i}\}$ are i.i.d. random directions drawn from a uniform distribution over a unit sphere. In general, RandGradEst is a biased approximation to the true gradient ${\nabla f_{i}}{(\mathbf{x})}$, and its bias reduces as $\mu$ approaches zero. However, in a practical system, if $\mu$ is too small, then the function difference could be dominated by the system noise and fails to represent the function differential.
+
+### Remark 1
+
+Instead of using a single sample $\mathbf{u}_{i}$ in RandGradEst, the average of $q$ i.i.d. samples ${\{\mathbf{u}_{i,j}\}}_{j = 1}^{q}$ can also be used for gradient estimation,
+
+which we call an average random gradient estimator.
+
+In addition to RandGradEst and Avg-RandGradEst, the work considered a coordinate-wise gradient estimator. Here every partial derivative is estimated via the two-point querying scheme under fixed direction vectors,
+
+where $\mu_{\ell} > 0$ is a coordinate-wise smoothing parameter, and $\mathbf{e}_{\ell} \in {\mathbb{R}}^{d}$ is a standard basis vector with $1$ at its $\ell$th coordinate, and $0$s elsewhere. Compared to RandGradEst, CoordGradEst is deterministic and requires $d$ times more function queries. However, as will be evident later, it yields an improved iteration complexity (i.e., convergence rate). More details on ZO gradient estimation can be found in Appendix A.1 gradient estimators ‣ Appendix A Supplementary material ‣ Zeroth-Order Stochastic Variance Reduction for Nonconvex Optimization").
+
+## ZO stochastic variance reduced gradient (ZO-SVRG)
+
+### SVRG: from first-order to zeroth-order
+
+It has been shown in that the first-order SVRG achieves the convergence rate $O{({1/T})}$, yielding $O{(\sqrt{T})}$ less iterations than the ordinary SGD for solving finite sum problems. The key step of SVRG^33^3Different from the standard SVRG, we consider its mini-batch variant in. (Algorithm 1) is to generate an auxiliary sequence $\hat{\mathbf{x}}$ at which the full gradient is used as a reference in building a modified stochastic gradient estimate
+
+where $\hat{\mathbf{g}}$ denotes the gradient estimate at $\mathbf{x}$, $\mathcal{I} \subseteq {\lbrack n\rbrack}$ is a mini-batch of size $b$ (chosen uniformly randomly^44^4For mini-batch $\mathcal{I}$, SVRG assumes i.i.d. samples with replacement, while a variant of SVRG (called SCSG) assumes samples without replacement. This paper considers both sampling strategies.), and ${{\nabla f}{(\mathbf{x})}} = {{\nabla f_{\lbrack n\rbrack}}{(\mathbf{x})}}$. The key property of (2 ‣ Zeroth-Order Stochastic Variance Reduction for Nonconvex Optimization")) is that $\hat{\mathbf{g}}$ is an unbiased gradient estimate of ${\nabla f}{(\mathbf{x})}$. The gradient blending (2 ‣ Zeroth-Order Stochastic Variance Reduction for Nonconvex Optimization")) is also motivated by a variance reduced technique known as control variate. The link between SVRG and control variate is discussed in Appendix A.2.
+
+In the ZO setting, the gradient blending (2 ‣ Zeroth-Order Stochastic Variance Reduction for Nonconvex Optimization")) is approximated using only function values,
+
+where ${\hat{\nabla}f{(\mathbf{x})}} = {\hat{\nabla}f_{\lbrack n\rbrack}{(\mathbf{x})}}$, and $\hat{\nabla}f_{i}$ is a ZO gradient estimate specified by RandGradEst, Avg-RandGradEst or CoordGradEst. Replacing (2 ‣ Zeroth-Order Stochastic Variance Reduction for Nonconvex Optimization")) with (3 ‣ Zeroth-Order Stochastic Variance Reduction for Nonconvex Optimization")) in SVRG (Algorithm 1) leads to a new ZO algorithm, which we call ZO-SVRG (Algorithm 2). We highlight that although ZO-SVRG is similar to SVRG except the use of ZO gradient estimators to estimate batch, mini-batch, as well as blended gradients, this seemingly minor difference yields an essential difficulty in the analysis of ZO-SVRG. That is, the unbiased assumption on gradient estimates used in SVRG no longer holds. Thus, a careful analysis of ZO-SVRG is much needed.
+
+### ZO-SVRG and convergence analysis
+
+In what follows, we focus on the analysis of ZO-SVRG using RandGradEst. Later, we will study ZO-SVRG with Avg-RandGradEst and CoordGradEst. We start by investigating the second-order moment of the blended ZO gradient estimate ${\hat{\mathbf{v}}}_{k}^{s}$ in the form of (3 ‣ Zeroth-Order Stochastic Variance Reduction for Nonconvex Optimization")); see Proposition 1 ‣ Zeroth-Order Stochastic Variance Reduction for Nonconvex Optimization").
+
+1:Input: total number of iterations T, epoch length m, number of epochs S = ⌈T/m⌉, step sizes {ηk}k = 0m − 1, mini-batch b, and ${\overset{\sim}{\mathbf{x}}}_{0}$.
+3: set $\mathbf{g}_{s} = {{\nabla f}{({\overset{\sim}{\mathbf{x}}}_{s - 1})}}$, $\mathbf{x}_{0}^{s} = {\overset{\sim}{\mathbf{x}}}_{s - 1}$,
+5: choose mini-batch ℐk of size b,
+6: compute gradient blending via: vks = ∇fℐk (xks) − ∇fℐk (x0s) + gs,
+7: update xk + 1s = xks − ηk vks,
+9: set ${\overset{\sim}{\mathbf{x}}}_{s} = \mathbf{x}_{m}^{s}$,
+11:return $\overline{\mathbf{x}}$ chosen uniformly random from {{xks}k = 0m − 1}s = 1S.
+Algorithm 1: $\text{SVRG}{(T,m,{\{\eta_{k}\}},b,{\overset{\sim}{\mathbf{x}}}_{0})}$
+
+1:Input: In addition to parameters in SVRG, set smoothing parameter μ &gt; 0.
+3: compute ZO estimate ${\hat{\mathbf{g}}}_{s} = {\hat{\nabla}f{({\overset{\sim}{\mathbf{x}}}_{s - 1})}}$,
+4: set $\mathbf{x}_{0}^{s} = {\overset{\sim}{\mathbf{x}}}_{s - 1}$,
+6: choose mini-batch ℐk of size b,
+7: compute ZO gradient blending: ${\hat{\mathbf{v}}}_{k}^{s} = {{{\hat{\nabla}f_{\mathcal{I}_{k}}{(\mathbf{x}_{k}^{s})}} - {\hat{\nabla}f_{\mathcal{I}_{k}}{(\mathbf{x}_{0}^{s})}}} + {\hat{\mathbf{g}}}_{s}}$,
+8: update $\mathbf{x}_{k + 1}^{s} = {\mathbf{x}_{k}^{s} - {\eta_{k}{\hat{\mathbf{v}}}_{k}^{s}}}$,
+10: set ${\overset{\sim}{\mathbf{x}}}_{s} = \mathbf{x}_{m}^{s}$,
+12:return $\overline{\mathbf{x}}$ chosen uniformly random from {{xks}k = 0m − 1}s = 1S.
+Algorithm 2: $\text{ZO-SVRG}{(T,m,{\{\eta_{k}\}},b,{\overset{\sim}{\mathbf{x}}}_{0},\mu)}$
+
+### Proposition 1
+
+Suppose A2 holds and RandGradEst is used in Algorithm 2. The blended ZO gradient estimate ${\hat{\mathbf{v}}}_{k}^{s}$ in Step 7 of Algorithm 2 satisfies
+
+where $\delta_{n} = 1$ if the mini-batch contains i.i.d. samples from $\lbrack n\rbrack$ with replacement, and $\delta_{n} = {I{({b < n})}}$ if samples are randomly selected without replacement. Here $I{({b < n})}$ is $1$ if $b < n$, and $0$ if $b = n$.
+
+Proof: See Appendix A.3. $\square$
+
+Compared to SVRG and its variants, the error bound (4 ‣ Zeroth-Order Stochastic Variance Reduction for Nonconvex Optimization")) involves a new error term $O{({{d\sigma^{2}}/b})}$ for $b < n$, which is induced by the second-order moment of RandGradEst (Appendix A.1 gradient estimators ‣ Appendix A Supplementary material ‣ Zeroth-Order Stochastic Variance Reduction for Nonconvex Optimization")). With the aid of Proposition 1 ‣ Zeroth-Order Stochastic Variance Reduction for Nonconvex Optimization"), Theorem 1 ‣ Zeroth-Order Stochastic Variance Reduction for Nonconvex Optimization") provides the convergence rate of ZO-SVRG in terms of an upper bound on ${\mathbb{E}}{\lbrack{\|{{\nabla f}{(\overline{\mathbf{x}})}}\|}^{2}\rbrack}$ at the solution $\overline{\mathbf{x}}$.
+
+### Theorem 1
+
+Suppose A1 and A2 hold, and the random gradient estimator (RandGradEst) is used. The output $\overline{\mathbf{x}}$ of Algorithm 2 satisfies
+
+where $T = {Sm}$, $f^{\ast} = {{\min_{\mathbf{x}}f}{(\mathbf{x})}}$, $\overline{\gamma} = {\min_{k \in {\lbrack m\rbrack}}\gamma_{k}}$, $\chi_{m} = {\sum_{k = 0}^{m - 1}\chi_{k}}$, and
+
+In (7 ‣ Zeroth-Order Stochastic Variance Reduction for Nonconvex Optimization"))-(9 ‣ Zeroth-Order Stochastic Variance Reduction for Nonconvex Optimization")), $\beta_{k}$ is a positive parameter ensuring $\gamma_{k} > 0$, and the coefficients $\{ c_{k}\}$ are given by
+
+Proof: See Appendix A.4. $\square$
+
+Compared to the convergence rate of SVRG as given in \[20, Theorem 2\], Theorem 1 ‣ Zeroth-Order Stochastic Variance Reduction for Nonconvex Optimization") exhibits two additional errors $({{L\mu^{2}}/{({T\overline{\gamma}})}})$ and $({{S\chi_{m}}/{({T\overline{\gamma}})}})$ due to the use of ZO gradient estimates. Roughly speaking, if we choose the smoothing parameter $\mu$ reasonably small, then the error $({{L\mu^{2}}/{({T\overline{\gamma}})}})$ would reduce, leading to non-dominant effect on the convergence rate of ZO-SVRG. For the term $({{S\chi_{m}}/{({T\overline{\gamma}})}})$, the quantity $\chi_{m}$ is more involved, relying on the epoch length $m$, the step size $\eta_{k}$, the smoothing parameter $\mu$, the mini-batch size $b$, and the number of optimization variables $d$. In order to acquire explicit dependence on these parameters and to explore deeper insights of convergence, we simplify (5 ‣ Zeroth-Order Stochastic Variance Reduction for Nonconvex Optimization")) for a specific parameter setting, as formalized below.
+
+### Corollary 1
+
+$\beta_{k} = \beta = L$, and $m = {\lceil\frac{d}{31\rho}\rceil}$, where $0 < \rho \leq 1$ is a universal constant that is independent of $b$, $d$, $L$, and $T$. Then Theorem 1 ‣ Zeroth-Order Stochastic Variance Reduction for Nonconvex Optimization") implies $\frac{{f{({\overset{\sim}{\mathbf{x}}}_{0})}} - f^{\ast}}{T\overline{\gamma}} \leq {O\left( \frac{d}{T} \right)}$, $\frac{L\mu^{2}}{T\overline{\gamma}} \leq {O\left( \frac{1}{T^{2}} \right)}$, and $\frac{S\chi_{m}}{T\overline{\gamma}} \leq {O\left( {\frac{d}{T} + \frac{\delta_{n}}{b}} \right)}$, which yields
+
+Proof: See Appendix A.5. $\square$
+
+It is worth mentioning that the condition on the value of smoothing parameter $\mu$ in Corollary 1 ‣ Zeroth-Order Stochastic Variance Reduction for Nonconvex Optimization") is less restrictive than several ZO algorithms^55^5One exception is ZO-SCD (and its variant ZO-SVRC ), where $\mu \leq {O{({1/\sqrt{T}})}}$.. For example, ZO-SGD in required $\mu \leq {O{({d^{- 1}T^{- {1/2}}})}}$, and ZO-ADMM and ZO-mirror descent considered $\mu_{t} = {O{({d^{- 1.5}t^{- 1}})}}$. Moreover similar to, we set the step size $\eta$ linearly scaled with $1/d$. Compared to the aforementioned ZO algorithms, the convergence performance of ZO-SVRG in (12 ‣ Zeroth-Order Stochastic Variance Reduction for Nonconvex Optimization")) has an improved (linear rather than sub-linear) dependence on $1/T$. However, it suffers an additional error of order $O{({\delta_{n}/b})}$ inherited from $({{S\chi_{m}}/{({T\overline{\gamma}})}})$ in (5 ‣ Zeroth-Order Stochastic Variance Reduction for Nonconvex Optimization")), which is also a consequence of the last error term in (4 ‣ Zeroth-Order Stochastic Variance Reduction for Nonconvex Optimization")). We recall from the definition of $\delta_{n}$ in Proposition 1 ‣ Zeroth-Order Stochastic Variance Reduction for Nonconvex Optimization") that if $b < n$ or samples in the mini-batch are chosen independently from $\lbrack n\rbrack$, then $\delta_{n} = 1$. The error term is eliminated only when $\mathcal{I}_{k} = {\lbrack n\rbrack}$ for any $k$ (i.e., $\delta_{n} = 0$). In this case, ZO-SVRG (Algorithm 2) reduces to ZO-GD in since Step 7 of Algorithm 2 becomes ${\hat{\mathbf{v}}}_{k}^{s} = {\hat{\nabla}f{(\mathbf{x}_{k}^{s})}}$. A recent work \[25, Theorem 1\] also identified the possible side effect $O{({1/b})}$ for $b < n$ in the context of ZO nonconvex multi-agent optimization using a method of multipliers. Therefore, a naive combination of RandGradEst and SVRG could make the algorithm converging to a neighborhood of a stationary point, where the size of neighborhood is controlled by the mini-batch size $b$. Our work and reference show that a large mini-batch indeed reduces the variance of RandGradEst and improves the convergence of ZO optimization methods. Although the tightness of the error bound (12 ‣ Zeroth-Order Stochastic Variance Reduction for Nonconvex Optimization")) is not proven, we conjecture that the dependence on $T$ and $b$ could be optimal, since the form is consistent with SVRG, and the latter does not rely on the selected parameters in (11 ‣ Zeroth-Order Stochastic Variance Reduction for Nonconvex Optimization")).
+
+## Acceleration of ZO-SVRG
+
+In this section, we improve the iteration complexity of ZO-SVRG (Algorithm 2) by using Avg-RandGradEst and CoordGradEst, respectively. We start by comparing the squared errors of different gradient estimates to the true gradient $\nabla f$, as formalized in Proposition 2.
+
+### Proposition 2
+
+Consider a gradient estimator ${\hat{\nabla}f{(\mathbf{x})}} = {{{\nabla f}{(\mathbf{x})}} + {\mathbf{ω}}}$, then the squared error ${\mathbb{E}}{\lbrack{\|{\mathbf{ω}}\|}_{2}^{2}\rbrack}$
+
+Proof: See Appendix A.6. $\square$
+
+Proposition 2 shows that compared to CoordGradEst, RandGradEst and Avg-RandGradEst involve an additional error term within a factor $O{(d)}$ and $O{({{({q + d})}/q})}$ of ${\|{{\nabla f}{(\mathbf{x})}}\|}_{2}^{2}$, respectively. Such an error is introduced by the second-order moment of gradient estimators using random direction samples, and it decreases as the number of direction samples $q$ increases. On the other hand, all gradient estimators have a common error bounded by $O{({\mu^{2}L^{2}d^{2}})}$, where let $\mu_{\ell} = \mu$ for $\ell \in {\lbrack d\rbrack}$ in CoordGradEst. If $\mu$ is specified as in (11 ‣ Zeroth-Order Stochastic Variance Reduction for Nonconvex Optimization")), then we obtain the error term $O{({d/T})}$, consistent with the convergence rate of ZO-SVRG in Corollary 1 ‣ Zeroth-Order Stochastic Variance Reduction for Nonconvex Optimization").
+
+In Theorem 2, we show the effect of Avg-RandGradEst on the convergence rate of ZO-SVRG.
+
+### Theorem 2
+
+Suppose A1 and A2 hold, and Avg-RandGradEst is used in Algorithm 2. Then ${\mathbb{E}}\left\lbrack {\|{{\nabla f}{(\overline{\mathbf{x}})}}\|}_{2}^{2} \right\rbrack$ is bounded same as given in (5 ‣ Zeroth-Order Stochastic Variance Reduction for Nonconvex Optimization")), where the parameters $\gamma_{k}$, $\chi_{k}$ and $c_{k}$ for $k \in {\lbrack m\rbrack}$ are modified by $\gamma_{k} = {{\frac{1}{2}\left( {1 - \frac{c_{k + 1}}{\beta_{k}}} \right)\eta_{k}} - {\left( {\frac{L}{2} + c_{k + 1}} \right)\frac{{({{72\delta_{n}} + {4b}})}{({q + d})}}{bq}\eta_{k}^{2}}}$, $\chi_{k} = {{\left( {1 - \frac{c_{k + 1}}{\beta_{k}}} \right)\frac{\mu^{2}d^{2}L^{2}}{4}\eta_{k}} + {\left( {\frac{L}{2} + c_{k + 1}} \right)\frac{{{({{6\delta_{n}} + b})}{({q + 1})}L^{2}d^{2}\mu^{2}} + {72{({q + d})}\sigma^{2}\delta_{n}}}{bq}\eta_{k}^{2}}}$, $c_{k} = {{\left\lbrack {1 + {\beta_{k}\eta_{k}} + {\frac{6{({{4d} + {5q}})}L^{2}\delta_{n}}{bq}\eta_{k}^{2}}} \right\rbrackc_{k + 1}} + {\frac{3{({{4d} + {5q}})}L^{3}\delta_{n}}{bq}\eta_{k}^{2}}}$ with $c_{m} = 0$. Given the setting in Corollary 1 ‣ Zeroth-Order Stochastic Variance Reduction for Nonconvex Optimization") and $m = {\lceil\frac{d}{55\rho}\rceil}$, the convergence rate simplifies to
+
+Proof: See Appendix A.7 $\square$
+
+By contrast with Corollary 1 ‣ Zeroth-Order Stochastic Variance Reduction for Nonconvex Optimization"), it can be seen from that the use of Avg-RandGradEst reduces the error $O{({\delta_{n}/b})}$ in (12 ‣ Zeroth-Order Stochastic Variance Reduction for Nonconvex Optimization")) through multiple ($q$) direction samples. And the convergence rate ceases to be significantly improved as $q \geq d$. Our empirical results show that a moderate choice of $q$ can significantly speed up the convergence of ZO-SVRG.
+
+We next study the effect of the coordinate-wise gradient estimator (CoordGradEst) on the convergence rate of ZO-SVRG, as formalized in Theorem 3.
+
+### Theorem 3
+
+Suppose A1 and A2 hold, and CoordGradEst with $\mu_{\ell} = \mu$ is used in Algorithm 2. Then
+
+where $T$, $f^{\ast}$, $\overline{\gamma}$ and $\chi_{m}$ have been defined in (5 ‣ Zeroth-Order Stochastic Variance Reduction for Nonconvex Optimization")), the parameters $\gamma_{k}$, $\chi_{k}$ and $c_{k}$ for $k \in {\lbrack m\rbrack}$ are given by $\gamma_{k} = {{\frac{1}{2}\left( {1 - \frac{c_{k + 1}}{\beta_{k}}} \right)\eta_{k}} - {4\left( {\frac{L}{2} + c_{k + 1}} \right)\eta_{k}^{2}}}$, $\chi_{k} = {{\left( {\frac{1}{4} + \frac{c_{k + 1}}{\beta_{k}}} \right)\frac{L^{2}\mu^{2}d^{2}}{2}\eta_{k}} + {\left( {\frac{L}{2} + c_{k + 1}} \right)\mu^{2}L^{2}d^{2}\eta_{k}^{2}}}$, $c_{k} = {{\left( {1 + {\beta_{k}\eta_{k}} + \frac{2dL^{2}\delta_{n}\eta_{k}^{2}}{b}} \right)c_{k + 1}} + \frac{dL^{3}\delta_{n}\eta_{k}^{2}}{b}}$ with $c_{m} = 0$, and $\beta_{k}$ is a positive parameter ensuring $\gamma_{k} > 0$. Given the specific setting in Corollary 1 ‣ Zeroth-Order Stochastic Variance Reduction for Nonconvex Optimization") and $m = {\lceil\frac{d}{3\rho}\rceil}$, the convergence rate simplifies to
+
+Proof: See Appendix A.8. $\square$
+
+Theorem 3 shows that the use of CoordGradEst improves the iteration complexity, where the error of order $O{({1/b})}$ in Corollary 1 ‣ Zeroth-Order Stochastic Variance Reduction for Nonconvex Optimization") or $O{({1/{({b{\min{\{ d,q\}}}})}})}$ in Theorem 2 has been eliminated in. This improvement is benefited from the low variance of CoordGradEst shown by Proposition 2. We can also see this benefit by comparing $\chi_{k}$ in Theorem 3 with (9 ‣ Zeroth-Order Stochastic Variance Reduction for Nonconvex Optimization")): the former avoids the term $({{d\sigma^{2}}/b})$. The disadvantage of CoordGradEst is the need of $d$ times more function queries than RandGradEst in gradient estimation.
+
+Recall that RandGradEst, Avg-RandGradEst and CoordGradEst require $O{}$, $O{(q)}$ and $O{(d)}$ function queries, respectively. In ZO-SVRG (Algorithm 2), the total number of gradient evaluations is given by ${nS} + {bT}$, where $T = {mS}$. Therefore, by fixing the number of iterations $T$, the function query complexity of ZO-SVRG using the studied estimators is then given by $O{({{nS} + {bT}})}$, $O{({q{({{nS} + {bT}})}})}$ and $O{({d{({{nS} + {bT}})}})}$, respectively. In Table 1, we summarize the convergence rates and the function query complexities of ZO-SVRG and its two variants, which we call ZO-SVRG-Ave and ZO-SVRG-Coord, respectively. For comparison, we also present the results of ZO-SGD and ZO-SVRC, where the later updates $J$ coordinates per iteration within an epoch. Table 1 shows that ZO-SGD has the lowest query complexity but has the worst convergence rate. ZO-SVRG-coord yields the best convergence rate in the cost of high query complexity. By contrast, ZO-SVRG (with an appropriate mini-batch size) and ZO-SVRG-Ave could achieve better trade-offs between the convergence rate and the query complexity.
+
+Method Grad. estimator Stepsize Convergence rate (worst case as b &lt; n) Query complexity ZO-SVRG (RandGradEst) $O\left( \frac{1}{d} \right)$ $O\left( {\frac{d}{T} + \frac{1}{b}} \right)$ O (n S+b T) ZO-SVRG-Ave (Avg-RandGradEst) $O{(\frac{1}{d})}$ $O\left( {\frac{d}{T} + \frac{1}{b{\min{\{ d,q\}}}}} \right)$ O (q n S+q b T) ZO-SVRG-Coord (CoordGradEst) $O{(\frac{1}{d})}$ $O{(\frac{d}{T})}$ O (d n S+d b T) ZO-SGD (RandGradEst) $O\left( {\min{\{\frac{1}{d},\frac{1}{\sqrt{dT}}\}}} \right)$ $O\left( \frac{\sqrt{d}}{\sqrt{T}} \right)$ O (b T) ZO-SVRC (CoordGradEst) $O\left( \frac{1}{n^{\alpha}} \right)$, α ∈ $O\left( \frac{d}{T} \right)$ O (d n S+J b T)
+Table 1: Summary of convergence rate and function query complexity of our proposals given T iterations.
+
+## Applications and experiments
+
+We evaluate the performance of our proposed algorithms on two applications: black-box classification and generating adversarial examples from black-box DNNs. The first application is motivated by a real-world material science problem, where a material is classified to either be a conductor or an insulator from a density function theory (DFT) based black-box simulator. The second application arises in testing the robustness of a deployed DNN via iterative model queries.
+
+### Black-box binary classification
+
+We consider a non-linear least square problem \[32, Sec. 3.2\], i.e., problem with ${f_{i}{(\mathbf{x})}} = \left( {y_{i} - {\phi{(\mathbf{x};\mathbf{a}_{i})}}} \right)^{2}$ for $i \in {\lbrack n\rbrack}$. Here $(\mathbf{a}_{i},y_{i})$ is the $i$th data sample containing feature vector $\mathbf{a}_{i} \in {\mathbb{R}}^{d}$ and label $y_{i} \in {\{ 0,1\}}$, and $\phi{(\mathbf{x};\mathbf{a}_{i})}$ is a black-box function that only returns the function value given an input. The used dataset consists of $N = 1000$ crystalline materials/compounds extracted from Open Quantum Materials Database. Each compound has $d = 145$ chemical features, and its label ($0$ is conductor and $1$ is insulator) is determined by a DFT simulator. Due to the black-box nature of DFT, the true $\phi$ is unknown^66^6 One can mimic DFT simulator using a logistic function once the parameter $\mathbf{x}$ is learned from ZO algorithms.. We split the dataset into two equal parts, leading to $n = 500$ training samples and $({N - n})$ testing samples. We refer readers to Appendix A.10 for more details on our dataset and the setting of experiments.
+
+(a) Training loss versus iterations (b) Training loss versus function queries
+Figure 2: Comparison of different ZO algorithms for the task of chemical material classification.
+
+Method ZO-SGD ZO-SVRC ZO-SVRG ZO-SVRG-Coord ZO-SVRG-Ave # of epochs 14600 100 2920 50 365 Error (%) 12.56% 23.70% 11.18% 20.67% 15.26%
+Table 2: Testing error for chemical material classification using 7.3 × 106 function queries.
+
+In Fig. 2, we present the training loss against the number of epochs (i.e., iterations divided by the epoch length $m = 50$) and function queries. We compare our proposed algorithms ZO-SVRG, ZO-SVRG-Coord and ZO-SVRG-Ave with ZO-SGD and ZO-SVRC. Fig. 2-(a) presents the convergence trajectories of ZO algorithms as functions of the number of epochs, where ZO-SVRG is evaluated under different mini-batch sizes $b \in {\{ 1,10,40\}}$. We observe that the convergence error of ZO-SVRG decreases as $b$ increases, and for a small mini-batch size $b \leq 10$, ZO-SVRG likely converges to a neighborhood of a critical point as shown by Corollary 1 ‣ Zeroth-Order Stochastic Variance Reduction for Nonconvex Optimization"). We also note that our proposed algorithms ZO-SVRG ($b = 40$), ZO-SVRG-Coord and ZO-SVRG-Ave have faster convergence speeds (i.e., less iteration complexity) than the existing algorithms ZO-SGD and ZO-SVRC. Particularly, the use of multiple random direction samples in Avg-RandGradEst significantly accelerates ZO-SVRG since the error of order $O{({1/b})}$ is reduced to $O{({1/{({bq})}})}$ (see Table 1), leading to a non-dominant factor versus $O{({d/T})}$ in the convergence rate of ZO-SVRG-Ave. Fig. 2-(b) presents the training loss against the number of function queries. For the same experiment, Table 2 shows the number of iterations and the testing error of algorithms studied in Fig. 2-(b) using $7.3 \times 10^{6}$ function queries. We observe that the performance of CoordGradEst based algorithms (i.e., ZO-SVRC and ZO-SVRG-Coord) degrade due to the need of large number of function queries to construct coordinate-wise gradient estimates. By contrast, algorithms based on random gradient estimators (i.e., ZO-SGD, ZO-SVRG and ZO-SVRG-Ave) yield better both training and testing results, while ZO-SGD consumes an extremely large number of iterations ($14600$ epochs). As a result, ZO-SVRG ($b = 40$) and ZO-SVRG-Ave achieve better tradeoffs between the iteration and the function query complexity.
+
+### Generation of adversarial examples from black-box DNNs
+
+In image classification, adversarial examples refer to carefully crafted perturbations such that, when added to the natural images, are visually imperceptible but will lead the target model to misclassify. In the setting of 'zeroth order' attacks, the model parameters are hidden and acquiring its gradient is inadmissible. Only the model evaluations are accessible. We can then regard the task of generating a universal adversarial perturbation (to $n$ natural images) as an ZO optimization problem of the form. We elaborate on the problem formulation for generating adversarial examples in Appendix A.11.
+
+We use a well-trained DNN^77^7[https://github.com/carlini/nn_robust_attacks](https://github.com/carlini/nn_robust_attacks) on the MNIST handwritten digit classification task as the target black-box model, which achieves 99.4% test accuracy on natural examples. Two ZO optimization methods, ZO-SGD and ZO-SVRG-Ave, are performed in our experiment. Note that ZO-SVRG-Ave reduces to ZO-SVRG when $q = 1$. We choose $n = 10$ images from the same class, and set the same parameters $b = 5$ and constant step size $30/d$ for both ZO methods, where $d = {28 \times 28}$ is the image dimension. For ZO-SVRG-Ave, we set $m = 10$ and vary the number of random direction samples $q \in {\{ 10,20,30\}}$. In Fig. 3, we show the black-box attack loss (against the number of epochs) as well as the least $\ell_{2}$ distortion of the successful (universal) adversarial perturbations. To reach the same attack loss (e.g., $7$ in our example), ZO-SVRG-Ave requires roughly $30 \times$ ($q = 10$), $77 \times$ ($q = 20$) and $380 \times$ ($q = 30$) more function evaluations than ZO-SGD. The sharp drop of attack loss in each method could be caused by the hinge-like loss as part of the total loss function, which turns to $0$ only if the attack becomes successful. Compared to ZO-SGD, ZO-SVRG-Ave offers a faster convergence to a more accurate solution, and its convergence trajectory is more stable as $q$ becomes larger (due to the reduced variance of Avg-RandGradEst). In addition, ZO-SVRG-Ave improves the $\ell_{2}$ distortion of adversarial examples compared to ZO-SGD (e.g., $30\%$ improvement when $q = 30$). We present the corresponding adversarial examples in Appendix A.11.
+
+Figure 3: Comparison of ZO-SGD and ZO-SVRG-Ave for generation of universal adversarial perturbations from a black-box DNN. Left: Attack loss versus iterations. Right: ℓ2 distortion and improvement (%) with respect to ZO-SGD.
+
+## Conclusion
+
+In this paper, we studied ZO-SVRG, a new ZO nonconvex optimization method. We presented new convergence results beyond the existing work on ZO nonconvex optimization. We show that ZO-SVRG improves the convergence rate of ZO-SGD from $O{({1/\sqrt{T}})}$ to $O{({1/T})}$ but suffers a new correction term of order $O{({1/b})}$. The is the side effect of combining a two-point random gradient estimators with SVRG. We then propose two accelerated variants of ZO-SVRG based on improved gradient estimators of reduced variances. We show an illuminating trade-off between the iteration and the function query complexity. Experimental results and theoretical analysis validate the effectiveness of our approaches compared to other state-of-the-art algorithms.

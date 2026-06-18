@@ -1,0 +1,317 @@
+### Introduction
+
+In reinforcement learning (RL), an autonomous agent sequentially interacts with its environment and observes rewards incrementally across time. This framework has gained attention in recent years for its successes in continuous control, web services, personalized medicine, among other contexts. Mathematically, it may be described by a Markov Decision Process (MDP), in which an agent seeks to select actions so as to maximize the long-term accumulation of rewards, known as the value. The key distinguishing point of RL from classical optimal control is its ability to discern control policies without a system dynamics model.
+
+Algorithms for RL either operate by Monte Carlo tree search, approximately solve Bellman's equations, or conduct direct policy search. While the first two approaches may have lower variance and converge faster, they typically require representing a tree or $Q$-function for every state-action pair, which is intractable in continuous space. For this reason, we focus on PG.
+
+Policy search hinges upon the Policy Gradient Theorem, which expresses the gradient of the value function with respect to policy parameters as the expected value of the product of the score function of the policy and its associated $Q$ function. Its performance has historically been understood only asymptotically via tools from dynamical systems. More recently, the non-asymptotic behavior of policy search has come to the fore. In continuous space, its finite-time performance has been linked to stochastic search over non-convex objectives, whose $\mathcal{O}{({1/\sqrt{k}})}$ convergence rate to stationarity is now clear. However, it is challenging to discern the quality of a given limit point under this paradigm.
+
+By contrast, for tabular MDPs, i.e., those with state and action spaces defined by finite discrete sets, stronger results have appeared: linear convergence to *global* optimality for tabular or softmax parameterizations. A critical enabler of these recent innovations in finite MDPs is a persistent exploration condition: the initial distribution over the states is uniformly lower bounded away from null, under which the current policy may be shown to assign strictly positive likelihood to the optimal action over the entire state space \[Lemma 9\]. This concept of exploration is categorically different from notions common to bandits, i.e., optimism in the face of uncertainty, and instead echoes persistence of excitation in systems identification. Under this condition, then, a version of gradient dominance (known also as Polyak-Łojasiewicz inequality ) holds, as derived in. This result enables such global improvement bounds. Unfortunately, translating this condition to continuous space is elusive, as many common distributions in continuous space may fail to be integrable if their likelihood is lower bounded away from null over the entire (not necessarily compact) state space. Thus, the following question is our focus:
+
+*Can one nearly satisfy persistent exploration in MDPs over continuous spaces through appropriate policy parameterizations, and in doing so, mitigate the pathologies of non-convexity?*
+
+In this work, we step towards an answer by studying policy parameterizations defined by heavy-tailed distributions, which includes the family of Lévy Processes common to fractal geometry, finance, pattern formation in nature, and networked systems. By employing a heavy-tailed policy, the induced transition dynamics will be heavy-tailed, and hence at increased likelihood of jumping to non-adjacent states. That policies or stochastic policy gradient estimates associated with heavy-tailed distributions exhibit improved coverage of continuous space is well-documented experimentally. Here we seek a more rigorous understanding of in what sense this impacts performance may be formalized through *metastability*, the study of how a stochastic process transitions between its equilibria. This marks a step towards persistent exploration in continuous space, but satisfying it precisely remains beyond our grasp.
+
+Historically, heavy-tailed distributions have been recently employed in non-convex optimization to perturb stochastic gradient updates by $\alpha$-stable Lévy noise, inspired by earlier approaches where instead Gaussian noise perturbations are used. Doing so has notably been shown to yield improved stability to perturbations in parameter space since SGD perturbed by heavy-tailed noise can converge to local extrema with more volume, which in supervised learning is experimentally associated with improved generalization, and has given rise to a nascent generalization theory based on the tail index of the parameter estimate's limiting distribution. Rather than perturbing stochastic gradient updates, we directly parameterize policies as heavy-tailed distributions, which induces heavy-tailed gradient noise. Doing so invalidates several aspects of existing analyses of PG in continuous spaces. Thus, our main results are:
+
+We present a few heavy-tailed policy parameterizations that may be used in lieu of a Gaussian policy for continuous space, which can prioritize selecting actions far from the distribution's center (Sec. 3), and discuss how policy search manifests for this setting (Sec. 4);
+
+We establish the attenuation rate of the expected gradient norm of the value function when the score function is Hölder continuous, and may be unbounded but whose moment is integrable with respect to the policy (Theorem 5.2). This statement generalizes previous results that break for non-compact spaces, and further requires introducing an exploration tolerance parameter (Definition 5.1) to quantify the subset of the action space where the score function is absolutely bounded;
+
+In sec. 5.2, by rewriting the PG under a heavy-tailed policy as a discretization of a Lévy Process, we establish that the time required to exit a (possibly spurious) local extrema decreases polynomially with heavier tails (smaller $\alpha$), and the width of a peak's neighborhood (Theorem 5.5). Further, the proportion of time required to transition from one local extrema to another depends polynomially on its width, which decreases for smaller tail index (Theorem 5.6). By contrast, lighter-tailed policies exhibit transition times depending exponentially on the volume of an extrema's neighborhood;
+
+Experimentally, we observe that policies associated with heavy-tailed distributions converge more quickly in problems that are afflicted with multiple spurious stationary points, which are especially common when myopic and farsighted incentives are in conflict with one another (Sec. 6).
+
+### Additional Context and Related Work
+
+Efforts to circumvent the necessity of persistent exploration and obtain rates to global optimality have been considered in both finite and continuous space. In tabular settings, one may incorporate proximal-style updates in order to leverage a performance-difference lemma, which has given rise to recent analyses of natural policy gradient. Translating these results to the continuum remains an open problem.
+
+Alternatively, in continuous space, one may hypothesize the policy parameterization is a neural network whose size grows unbounded with the number of samples processed. Doing so belies the fact that typically a parameterization has fixed dimension during training. Alternatively, one may impose a "transferred compatible function approximation error" condition that mandates the ability to sample from the occupancy measure of the optimal policy to ensure sufficient state space coverage, which is difficult to perform in practice.
+
+Two additional lines of effort are pertinent to the objective of this work. The first is state aggregation, in which one hypothesizes a large but finite space admits a representation in terms of low-dimensional features, such as tile coding or interpolators. A long history of works seeks to discern such state aggregations adaptively.
+
+Such representations can be used in, e.g., policy search or value iteration to obtain refined convergence behavior that depends only on the properties of the representation rather than the underlying state or action spaces. Finding this representation is itself not necessarily easier than solving the original MDP, however. See, for instance where a variety of structural assumptions and representations are discussed. In this work, we assume such a feature map is fixed at the outset of training as part of one's specification of a policy parameterization.
+
+The other research thrust broadly related to this work is information-theoretic exploration that seeks comprehensive state-space coverage. The simplest way to achieve this goal is to simply replace the cumulative return with an objective that prioritizes state-space coverage, such as the entropy of the occupancy measure induced by a policy. This goal does not necessarily result in good performance with respect to the cumulative return, however. Alternatively, exploration bonuses in the form of upper-confidence bound, Thompson sampling, information-directed sampling, among other strategies (see for a thorough review), have percolated into RL in various forms.
+
+For instance, incorporating randomized perturbations/exploration bonuses into value iteration, Q-learning, or augmenting a policy's variance hyper-parameters in policy search in a manner reminiscent of line-search for step-size selection. Alternative approaches based on Thompson sampling and various Bayesian models of the value function have been considered, as well as approaches which subsume exploration goals into the choice of the aforementioned state aggregator. Our approach contrasts with approaches that inject suitably scaled randomness into an RL update, by searching over a policy class that is itself more inherently random.
+
+Notations: All the norms $\parallel \cdot \parallel$ are Euclidean norm unless otherwise stated.
+
+### Markov Decision Problems
+
+In RL, an agent evolves through states $s \in \mathcal{S}$ selecting actions $a \in \mathcal{A}$, which causes transitions to another state $s^{\prime}$ to occur according to a Markov transition density ${\mathbb{P}}{(\left. s^{\prime} \middle| {s,a} \right.)}$ and a reward $r{(s,a)}$ is revealed by the environment to inform its merit. Formally, an MDP consists of the tuple $(\mathcal{S},\mathcal{A},{\mathbb{P}},r,\gamma)$, where continuous state $\mathcal{S} \subseteq {\mathbb{R}}^{q}$ and action spaces may be unbounded, i.e., Euclidean space in the appropriate dimension. We hypothesize that actions $a_{t} \sim \pi{( \cdot |s_{t})}$ are selected according to a time-invariant distribution ${\pi{(\left. a \middle| s \right.)}}:={{\mathbb{P}}{({a_{t} = \left. a \middle| s_{t} \right. = s})}}$ called a policy determining the probability of action $a$ when in state $s$. Define the value as the average long-term accumulation of reward:
+
+Moreover, $\gamma$ is a discount factor that trades off the future relative to the present, $s_{0}$ denotes the initial state along trajectory ${\{ s_{u},a_{u},r_{u}\}}_{u = 0}^{\infty}$, and we abbreviate the instantaneous reward as $r_{t} = {r{(s_{t},a_{t})}}$. In (3.1), the expectation is with respect to randomized policy $a_{t} \sim \pi{( \cdot |s_{t})}$ and state transition dynamics $s_{t + 1} \sim {\mathbb{P}}{(.|s_{t},a_{t})}$ over times $t \geq 0$. We further define the action-value (known also as $Q$) function $Q^{\pi}{(s,a)}$ as the value conditioning on an initially selected action: ${Q^{\pi}{(s,a)}} = {{\mathbb{E}}\left\lbrack {{{{\sum_{t = 0}^{\infty}{\gamma^{t}r_{t}}} \mid s_{0}} = s},{a_{0} = {a,\pi}}} \right\rbrack}$. We focus on policy search over policies $\pi_{\mathbf{θ}}{( \cdot |s_{t})}$ parameterized by a vector ${\mathbf{θ}} \in {\mathbb{R}}^{d}$, which we estimate via maximizing the expected cumulative returns:
+
+One difficulty in RL is that (3.2) is non-convex in parameters $\mathbf{θ}$. Thus, finding a global optimizer is challenging even if the problem were deterministic. However, in the present context, the search procedure also interacts with the transition dynamics ${\mathbb{P}}{(\left. s^{\prime} \middle| {s,a} \right.)}$. Before delving into how one may iteratively and approximately solve (3.2), we present a few representative policy parameterizations.
+
+### Example 3.1 (Gaussian policy)
+
+The Gaussian policy is written as ${\pi_{\mathbf{θ}}{(\left. a \middle| s \right.)}} = {\mathcal{N}{(\left. a \middle| {{\phi{(s)}^{\top}\mathbf{x}},e^{y}} \right.)}}$, where the parameters ${\mathbf{θ}} = {\lbrack\mathbf{x},y\rbrack}$ determine the mean (centering) of a Gaussian distribution at $\phi{(s)}^{\top}\mathbf{x}$, and $e^{y} \geq \delta_{0}$ is the variance parametrized by $y$ for some $\delta_{0} > 0$. Here, $\phi{(s)}$ represents a feature map with ${\|{\phi{(s)}}\|} \leq S < \infty$ which maps continuous state $s$ to a higher-dimension, i.e., $\phi:{\mathcal{S}\rightarrow{\mathbb{R}}^{d}}$.
+
+### Example 3.2 (Moderate-tailed policy)
+
+A distribution whose tail decays at a slower rate than the Gaussian may better explore environment, which we define as ${\pi_{\mathbf{θ}}{(\left. a \middle| s \right.)}} = {\frac{1}{\sigmaA_{\alpha}}{\exp\left( {- {{|{a - {\phi{(s)}^{T}{\mathbf{θ}}}}|}^{\alpha}/\sigma^{\alpha}}} \right)}}$ with normalizing constant $A_{\alpha}:={\int{{\exp\left( {- {|x|}^{\alpha}} \right)}{dx}}} < \infty$, tail index $\alpha \in {\lbrack 1,2\rbrack}$ determining the likelihood of tail events, and scale parameter $\sigma > 0$.
+
+We next introduce heavy-tailed policies, specifically, Lévy processes called $\alpha$-stable distributions, which are historically associated with fractal geometry, finance, and network science.
+
+### Example 3.3 (Lévy Process Policy)
+
+Symmetric $\alpha$ stable, $\mathcal{S}\alpha\mathcal{S}$ distributions generalize Gaussians with $\alpha \in {(0,2\rbrack}$ as the tail index determining the decay rate of the distribution's tail. Denote random variable $\text{X} \sim {\mathcal{S}\alpha\mathcal{S}{(\sigma)}}$ with associated characteristic function ${{\mathbb{E}}\left\lbrack e^{i\omega\text{X}} \right\rbrack} = e^{- {\sigma{|\omega|}^{\alpha}}}$ and scale parameter $\sigma \in {(0,\infty)}$. For non-integer (fractional) value of $\alpha$, there is no closed form expression but the density decays at a rate $1/{|a|}^{1 + \alpha}$, and is referred to as fractal. In finance, $\mathcal{S}\alpha\mathcal{S}$ distributions have been associated with "black swan" events. For $\alpha = 2$, it reduces to a Gaussian, and for $\alpha = 1$ it is a Cauchy whose parametric form is: ${\pi_{\mathbf{θ}}{(\left. a \middle| s \right.)}} = \frac{1}{e^{y}\pi{({1 + {({{({a - {\phi{(s)}^{\top}\mathbf{x}}})}/e^{y}})}^{2}})}}$, where, ${\mathbf{θ}} = {\lbrack\mathbf{x},y\rbrack}$, $\phi{(s)}^{\top}\mathbf{x}$ is the mode of the distribution and $e^{y}$ is the scaling parameter.
+
+With a few policy choices of detailed, we delve into their relative merits and drawbacks. Intuitively, policies that select actions far from a learned mean parameter over actions may better explore the space, which exhibits outsize importance when near and long-term incentives of the MDP are misaligned. More formally, persistent exploration has been identified in *tabular* MDPs as key to the ability to converge to the optimal policy using first-order methods and avoid spurious behavior. Persistent exploration formally ensures that under any initial distribution over $s_{0}$ in (3.1), the current policy assigns strictly positive likelihood to the optimal action over the entire state space \[Lemma 9\], under which a version of gradient dominance (akin to strong convexity) holds (Lemma 8). Interestingly, these results echo classical persistence of excitation in systems identification. The stumbling block in translating these conditions from finite to continuous spaces is that many common distributions over unbounded continuous space may fail to be integrable if their likelihood is lower bounded away from null. As a step towards satisfying this condition, we seek to ensure that the induced transition dynamics under a policy are heavy-tailed, which increases the likelihood of jumping to cover more of the state space. Doing so may be accomplished by specifying a heavy-tailed policy (Example 3.2. ‣ 3 Markov Decision Problems ‣ On the Sample Complexity and Metastability of Heavy-tailed Policy Search in Continuous Control") - 3.3. ‣ 3 Markov Decision Problems ‣ On the Sample Complexity and Metastability of Heavy-tailed Policy Search in Continuous Control")), whose likelihood approaches null slowly while still defining a valid distribution. That continuous space necessitates exploration to eventuate in suitable behavior may be illuminated through the Pathological Mountain Car (PMC) (cf. Fig. 1) introduced next, where a car is between two mountains.
+
+Pathological Mountain Car. The environment consists of two goal posts, a less-rewarding goal at $s = 2.667$ with a reward of $10$ and a bonanza at $s = {- 4.0}$ of $500$ units of reward.
+
+Figure 1: A continuous pathological Mountain Car environment with a low reward state and a bonanza atop a higher hill. Policies that do not incentivize exploration get stuck at the misleading goal.
+
+In Fig. 1, it is possible to get stuck at the lower peak and never reach the jackpot without sufficient exploration. Its potential pitfalls are illuminated experimentally in Sec. 6.
+
+With the motivation clarified, we shift to illuminating that heavy-tailed policies, while encouraging actions far from the mean, may cause policy search directions to possibly be unbounded and non-smooth. These issues are the focus of Section 4.
+
+### Policy Gradient Methods
+
+Policy gradient (PG) is an RL algorithm in which policy parameters in ${\mathbb{R}}^{d}$ are iteratively updated as approximate gradient ascent with respect to the value function (3.1). Its starting point is the Policy Gradient Theorem, which expresses search directions in parameter space:
+
+where ${\rho_{\mathbf{θ}}{(s,a)}} = {{{\rho_{\pi_{\mathbf{θ}}}{(s)}} \cdot \pi_{\mathbf{θ}}}{(\left. a \middle| s \right.)}}$ is a distribution called the *discounted state-action occupancy measure* defined as the product of the discounted state occupancy measure ${\rho_{\pi_{\mathbf{θ}}}{(s)}} = {{({1 - \gamma})}{\sum_{t = 0}^{\infty}{\gamma^{t}p{({s_{k} = \left. s \middle| {s_{0},\pi_{\mathbf{θ}}} \right.})}}}}$ and policy $\pi_{\mathbf{θ}}{(\left. a \middle| s \right.)}$. In, both $\rho_{\pi_{\mathbf{θ}}}{(s)}$ and $\rho_{\mathbf{θ}}{(s,a)}$ are established as valid distributions. Despite this fact, the integral in (4.1) may not exist due to the heavy-tailed nature of policy $\pi_{\mathbf{θ}}{(\left. a \middle| s \right.)}$. Therefore, we first present some preliminaries regarding (4.1)
+
+### Assumption 1
+
+The absolute value of the reward is uniformly bounded, ${\sup_{{(s,a)} \in {\mathcal{S} \times \mathcal{A}}}{|{R{(s,a)}}|}} \leq U_{R} < \infty$.
+
+### Assumption 2
+
+For any $s$, $\mathbf{θ}$, $\int_{\mathcal{A}} \parallel \nabla_{\mathbf{θ}}\log\pi_{\mathbf{θ}}{(a|s)} \parallel^{2} \cdot \pi_{\mathbf{θ}}{(a|s)}da \leq B < \infty$, where $B$ is a finite constant.
+
+Assumption 2 is weaker than the standard almost-sure boundedness of the score function assumed in prior work, which is restrictive, and not valid even for Gaussians (Example 3.1. ‣ 3 Markov Decision Problems ‣ On the Sample Complexity and Metastability of Heavy-tailed Policy Search in Continuous Control")). To see this, write the norm of its score function as ${\|{{{\nabla_{\mathbf{θ}}\log}\pi_{\mathbf{θ}}}{(s,a)}}\|} \leq {\mathcal{O}\left( {{\| a\|} + {\| a\|}^{2}} \right)}$, which grows unbounded when the support of the action space is infinite. The score function also is unbounded in Example 3.2. ‣ 3 Markov Decision Problems ‣ On the Sample Complexity and Metastability of Heavy-tailed Policy Search in Continuous Control"). These subtleties motivate the relaxed condition in Assumption 2 which is valid regardless of a policy's tail index (Examples 3.1. ‣ 3 Markov Decision Problems ‣ On the Sample Complexity and Metastability of Heavy-tailed Policy Search in Continuous Control") - 3.3. ‣ 3 Markov Decision Problems ‣ On the Sample Complexity and Metastability of Heavy-tailed Policy Search in Continuous Control")).
+
+Next, we shift towards detailing PG. Under Assumptions 1 - 2, we establish that the integral in (4.1) is finite (Lemma 4 ‣ A Technical Details of Policy Search ‣ Part I Appendix ‣ On the Sample Complexity and Metastability of Heavy-tailed Policy Search in Continuous Control") in Appendix A.1 ‣ A Technical Details of Policy Search ‣ Part I Appendix ‣ On the Sample Complexity and Metastability of Heavy-tailed Policy Search in Continuous Control")). Thus, we employ it to compute search directions, which requires unbiased estimates of (4.1). To realize this estimate, conduct a Monte Carlo rollout of length $T_{k} \sim {\text{Geom}{({1 - \gamma^{1/2}})}}$, collect trajectory data $\tau_{k} = {(s_{0},a_{0},s_{1},a_{1},\ldots,s_{T_{k}},a_{T_{k}})}$, and form the PG estimate (akin to, except with a randomized horizon):
+
+where the parameter update for ${\mathbf{θ}}_{k}$ is defined according to stochastic gradient ascent with step-size $\eta > 0$. The procedure for policy search along a trajectory is summarized as Algorithm 1, where in the pseudo-code, we permit mini-batching with batch-size $B_{k}$, but subsequently assume $B_{k} = 1$.
+
+1: Initialize: policy parameters θ0, discount γ, step-size η, gradient g0 = 0, starting point (s0,a0) Repeat for k = 1, …
+2: Starting from (s0,a0), generate Bk trajectories τk, i = (s0,a0,s1,a1,… sTk, i,aTk, i) of length Tk, i ∼ Geom (1−γ1/2) with actions au ∼ πθk(.|su)
+3: Compute policy gradient estimate gk and update parameters θk:
+
+$${\mathbf{g}_{k}\leftarrow{\frac{1}{B_{k}}{\sum\limits_{i = 0}^{B_{k}}\left\lbrack {\sum\limits_{t = 0}^{T_{k,i}}{{{\gamma^{t/2} \cdot R}\left( s_{t},a_{t} \right)} \cdot \left( {\sum\limits_{\tau = 0}^{t}{{{\nabla\log}\pi_{{\mathbf{θ}}_{k}}}\left( a_{\tau} \middle| s_{\tau} \right)}} \right)}} \right\rbrack}}},{{\mathbf{θ}}_{k + 1}\leftarrow{{\mathbf{θ}}_{k} + {\eta\mathbf{g}_{k}}}}$$
+
+Algorithm 1 Heavy-tailed Policy Gradient (HPG)
+
+Next, we establish that the stochastic gradient ${\hat{\nabla}}_{\mathbf{θ}}J{({\mathbf{θ}})}$ is an unbiased estimate of the true gradient ${\nabla_{\mathbf{θ}}J}{({\mathbf{θ}})}$ for a given $\mathbf{θ}$. As previously mentioned, almost sure boundedness of the score function ${{\nabla_{\mathbf{θ}}\log}\pi_{\mathbf{θ}}}{(\left. a \middle| s \right.)}$ does not even hold for the Gaussian (Example 3.1. ‣ 3 Markov Decision Problems ‣ On the Sample Complexity and Metastability of Heavy-tailed Policy Search in Continuous Control")), which motivates the moment condition in Assumption 2. This alternate condition is employed to establish unbiasedness of (4.2) formalized next (see Appendix A.2 for proof).
+
+### Lemma 1
+
+Under the Assumptions 1-2, it holds that ${{\mathbb{E}}{\lbrack\left. {{\hat{\nabla}}_{\mathbf{θ}}J{({\mathbf{θ}})}} \middle| {\mathbf{θ}} \right.\rbrack}} = {{\nabla_{\mathbf{θ}}J}{({\mathbf{θ}})}}$.
+
+An additional condition which is called into question of existing analyses of policy search is Lipschitz continuity of the score function. In particular, heavy-tailed policies such as Examples 3.3. ‣ 3 Markov Decision Problems ‣ On the Sample Complexity and Metastability of Heavy-tailed Policy Search in Continuous Control") - 3.2. ‣ 3 Markov Decision Problems ‣ On the Sample Complexity and Metastability of Heavy-tailed Policy Search in Continuous Control") necessitate generalizing smoothness conditions to Hölder-continuity, as formalized next.
+
+### Assumption 3
+
+The score function function ${{\nabla\log}\pi_{\mathbf{θ}}}{( \cdot )}$ is Hölder continuous with constants $M > 0$ and $0 < \beta \leq 1$, which implies that ${\|{{{{\nabla\log}\pi_{{\mathbf{θ}}_{1}}}{( \cdot )}} - {{{\nabla\log}\pi_{{\mathbf{θ}}_{2}}}{( \cdot )}}}\|} \leq {M{\|{{\mathbf{θ}}_{1} - {\mathbf{θ}}_{2}}\|}^{\beta}}$ for all ${{\mathbf{θ}}_{1},{\mathbf{θ}}_{2}} \in {\mathbb{R}}^{d}$.
+
+Observe that the policy parameterization in Example 3.2. ‣ 3 Markov Decision Problems ‣ On the Sample Complexity and Metastability of Heavy-tailed Policy Search in Continuous Control") is not Lipschitz but Hölder continuous. In the next section, we formalize the convergence of (4.2), discerning the convergence rate to stationarity and metastability characteristics: the proportion of time the algorithm's limit points spent at wider versus narrower local extrema as a function of the tail index.
+
+### Convergence Analysis
+
+We analyze the ability of PG \cf. ([4.2)\] to maximize the value function (3.2). As $J{({\mathbf{θ}})}$ is non-convex in the policy parameter $\mathbf{θ}$, the best pathwise result one may hope for is convergence to stationarity unless additional structure is present. Thus, we first study sample complexity in terms of the rate of decrease of the expected gradient norm ${\mathbb{E}}{\lbrack{\|{{\nabla J}{({\mathbf{θ}}_{k})}}\|}\rbrack}$, which we pursue under Assumptions 2-3 regarding the integrability of the norm of the score function with respect to the policy and Hölder continuity. This generality is necessitated by heavy-tailed policy parameterizations as previously mentioned, and has not been considered in prior works such as.
+
+Assumptions 2-3 present unique confounders to the RL setting that do not manifest in vanilla stochastic programming under relaxed smoothness conditions. Specifically, they cause integrability and smoothness complications with respect to the occupancy measure $\rho_{\mathbf{θ}}{(s,a)}$ induced by the MDP, which upends conditions on the objective and policy gradient in existing analyses. These complications are overcome in Lemmas 2 - 3, which first require partitioning the action space into sets where the score function is and is not almost surely bounded according to an exploration tolerance parameter (Definition 5.1), which is unique to this work. Next, we make precise this discussion, establishing the convergence rate to stationarity of (4.2). Later in this section, we formalize that iterates escape narrow extrema, and tend to jump towards wider peaks.
+
+### Attenuation Rate of the Expected Gradient Norm
+
+We first focus on convergence rates to stationarity. To do so, we begin by establishing that Assumption 3 regarding the Hölder continuity of the score function implies approximate Hölder continuity on the overall policy gradient. First, we partition the action space according to when the score function is almost surely bounded and where it is integrable according via a constant $\lambda > 0$ defined next.
+
+### Definition 5.1
+
+(Exploration Tolerance) Define as $\mathcal{A}{(\lambda)}$ the set of subsets of action space such that
+
+Then, $\lambda$ is the exploration tolerance parameter of a policy in an MDP with unbounded score function. Intuitively, $\mathcal{A}{(\lambda)}$ is the collection of all region of action space $\mathcal{C} \subseteq \mathcal{A}$, such that the expectation of score function under policy $\pi_{\mathbf{θ}}{(\left. a \middle| s \right.)}$ over region $\mathcal{A}\backslash\mathcal{C}$ is upper bounded by $\lambda$. And for the region in $\mathcal{A}{(\lambda)}$ associated with $\lambda$, we define an upper bound for the score function as
+
+Definition 5.1 induces a tradeoff between the restriction on the range of values an action may take by a subset $\mathcal{C} \subset \mathcal{A}$ with the scale of $B{(\lambda)}$. Observe that for the Cauchy (Example 3.3. ‣ 3 Markov Decision Problems ‣ On the Sample Complexity and Metastability of Heavy-tailed Policy Search in Continuous Control")), constant $B{}$ exists and is finite. A broader characterization of $\lambda$ as a function of the policy is given in Appendix E.
+
+### Lemma 2
+
+Under Assumptions 1 - 3, with $\lambda$ as in Definition 5.1, the policy gradient (4.2) satisfies
+
+for all ${{\mathbf{θ}}_{1},{\mathbf{θ}}_{2}} \in {\mathbb{R}}^{d}$ with
+
+and $0 < \beta \leq 1$. Here, $U_{R}$ denotes the reward upper bound from Assumption 1, $M_{\rho} = \frac{\sqrt{B}}{1 - \gamma}$, and $M_{Q} = \frac{\gammaU_{R}M_{\rho}}{1 - \gamma}$.
+
+See Appendix B for proof. Lemma 2 generalizes a comparable statement regarding the Lipschitz continuity of the score function typically imposed to establish a Lipschitz property of the policy gradient. Next, we provide an intermediate Lemma 3 (see Appendix C for proof) crucial to establishing the main convergence rates to stationarity of Algorithm 1.
+
+### Lemma 3
+
+Under Assumptions 1 - 3, value function $J{({\mathbf{θ}})}$ satisfies the smoothness condition
+
+for all ${{\mathbf{θ}}_{1},{\mathbf{θ}}_{2}} \in {\mathbb{R}}^{d}$ and $M_{J}$ is as defined in Lemma with exploration tolerance $\lambda$ as in (5.1).
+
+Now, we formalize the convergence rate for Algorithm 1 as Theorem 5.2.
+
+### Theorem 5.2
+
+Under Assumptions 1-3, with objective $J$ bounded above by $J^{\ast}$, and Hölder continuity parameter $\beta$ bounded by the tail-index $\alpha$ as $\beta \in {(0,{\alpha - 1}\rbrack}$, under constant step-size selection $\eta = {1/K^{\frac{\beta}{\beta + 1}}}$, the policy gradient updates of ${\mathbf{θ}}_{k}$ in Algorithm 1 \cf. ([4.2)\] converges to stationarity:
+
+with problem-dependent constant $L_{J}$ defined in (D.7), and exploration tolerance $\lambda$ as in Def. 5.1.
+
+Theorem 5.2 (proof in Appendix D) establishes that the iteration complexity of Algorithm 1 is $\mathcal{O}\left( {1/\zeta^{1 + {({1/\beta})}}} \right)$ when $\lambda = {\mathcal{O}{(\zeta)}}$, where $\zeta$ is the accuracy parameter. This result contrasts the standard rate of $\mathcal{O}\left( {1/\zeta^{2}} \right)$ for non-convex optimization, which restricts the policy parameterization to be Gaussian, i.e., $\alpha = 2$. This means that heavy-tailed parameterizations result in slower convergence; however, we note that the rate of decrease of the expected gradient norm may not comprehensively encapsulate the non-convex landscape of value function. An additional subtlety is the effect of continuous action spaces, which are partitioned into sets where the score function is and is not bounded in accordance with the exploration tolerance parameter $\lambda$ (Def. 5.1). In existing analyses of literature, the effect of $\lambda$ is assumed null ($\lambda = 0$), which overlooks the effect of action space coverage during policy search. Next, we establish that this perceived slower rate of heavy-tailed policies is overruled by their tendency towards local extrema with wider peaks, under a hypothesis that they admit a representation as a discretization of a Lévy Process.
+
+### Metastability and Convergence to Wide Peaks
+
+In the previous subsection, we established that the attenuation rate of the expected gradient norm for heavy-tailed policies is actually *slower* than the rate associated smoother policies. This fact seemingly contradicts prior experimental results which demonstrate that they tend towards policies that achieve higher reward more quickly. The nature of this confounder has to do with the fact that expected gradient norm may only characterize how close a policy is to stationarity, but not how quickly a policy moves from one stationary point to another.
+
+To make sense of this quandary, we turn to characterizing (i) the time that Algorithm 1 takes to escape a (possibly spurious) local extremum, and (ii) how the proportion of time spent at a local maxima depends on its width and the policy's tail index. These results hinge upon introducing into RL for the first time of *metastability* of dynamical systems under the influence of weak random perturbations. Similar results have been employed for SGD in the context of training neural networks in supervised learning; however, it is unclear how one neural parameterization induces gradient noise whose distribution has a heavier from another. By contrast, here, this aspect is directly determined by the policy parameterization's tail index, which *we choose* in Algorithm 1. Moreover, in the aforementioned works, the analysis is only for the scalar-dimensional case, whereas here we consider dimension $d > 1$.
+
+We begin then by rewriting (4.2) in terms of the true policy gradient and the stochastic error ${\hat{\nabla}J{({\mathbf{θ}}_{k})}} - {{\nabla J}{({\mathbf{θ}}_{k})}}$, with the noise process hypothesized as an $\alpha$-tailed distribution, given by
+
+where, $S_{k} \in {\mathbb{R}}^{d}$ is $\mathcal{S}\alpha\mathcal{S}$ distributed random vector. Subsequently, we impose that the score function \cf. ([4.1)\] is dissipative (Assumption 6).
+
+Hereafter, we rewrite discrete-time process ${\mathbf{θ}}_{k}$ as ${\mathbf{θ}}^{k}$ with superscript to disambiguate between continuous and discrete time. (5.6) holds under a hypothesis that the stochastic errors associated with policy gradient steps are heavy-tailed, which is observed experimentally in. In Sec. 6, we experimentally corroborate that policies induce gradient noise with a proportionate tail index (Fig. 2).
+
+Exit time (Def. 5.3)
+Trans. time (Def. 5.4)
+
+$\mathcal{O}\left( e^{{2{({{J{({\overline{\mathbf{θ}}}_{i})}} - {J{({\overline{\mathbf{θ}}}_{i})}}})}}/\epsilon^{2}} \right)$
+
+$\mathcal{O}\left( {1/\zeta^{1 + \frac{1}{\beta}}} \right)$
+$\mathcal{O}\left( {\frac{\alpha}{2}\frac{a^{\alpha}}{\epsilon^{\alpha}}} \right)$
+
+Table 1: Summary of iteration complexity, exit time, and transition time results for vanilla PG and heavy-tailed PG, with ϵ as the jump process coefficient, and ζ as accuracy parameter for 𝔼 [∥∇J (θk)∥] ≤ ζ. Employing a policy with a faster tail probability decay rate such as a Gaussian (larger α) may take exponential time to escape a spurious local extrema, whereas a heavy-tailed policy escapes in polynomial time, as a function of the width a of the set containing a local maxima (5.8) and its escape direction (5.10).
+
+The continuous-time analogue of (5.6), i.e., ${({{\mathbf{θ}}_{k + 1} - {\mathbf{θ}}_{k}})}/\eta$ as $\eta\rightarrow 0$, defines Stochastic Differential Equation (SDE) driven by an $\alpha -$stable Lévy process as
+
+where, $\epsilon:=\eta^{\frac{\alpha - 1}{\alpha}}$ is a coefficient of the jump process (similar to diffusion coefficient in Brownian motion), and $\mathbf{L}_{t}^{\alpha}$ denotes the multi-dimensional $\alpha$-stable Lévy motion in ${\mathbb{R}}^{d}$. With these details in place, we impose some additional structure (Assumption 4) on the non-convex landscape of the objective $J{({\mathbf{θ}})}$ in (3.1), namely, within the region of the objective's assumed finitely many local maxima, each one is separated by only a local minimum and no saddle points. With the operating hypothesis that there are finitely many extrema of the objective, denote as $\mathcal{G}_{i} \subset {\mathbb{R}}^{d}$ the neighborhood of the $i$-th local (arbitrary) maximizer ${\overline{\mathbf{θ}}}_{i}$:
+
+where, ${a,\xi} > 0$ are scalar radius parameters, and $\partial\mathcal{G}_{i}$ denotes the boundary of this neighborhood.
+
+Exit Time and Transition Time. We next define the metastability quantities of exit and transition time in both continuous and discrete-time, assuming that (5.7) and (5.6) are initialized at ${\mathbf{θ}}_{0} \in \mathcal{G}_{i}$.
+
+### Definition 5.3
+
+(Exit time from $\mathcal{G}_{i}$) The time required for the continuous-time process (5.7) and discrete-time process (5.6), respectively, to exit $\mathcal{G}_{i}$ along standard basis vector $\mathbf{r} \in {\mathbb{R}}^{d}$ is defined by
+
+Here, $a$ and $\xi$ denote scalar radius parameters (cf. (5.8)). For all $({{\mathbf{θ}} - {\overline{\mathbf{θ}}}_{i}})$ at a distance $\overline{\delta}$ from $\partial\mathcal{G}_{i}$, we define its distance to $\partial\mathcal{G}_{i}$ along standard basis vector $\mathbf{r} \in {\mathbb{R}}^{d}$, where $\mathbf{r}$ is as in (5.7) with $\mathbf{L}_{t}^{\alpha} = {\mathbf{r}L_{t}}$ in terms of the lines in ${\mathbb{R}}^{d}$ as ${g_{i_{\mathbf{θ}}}{(t)}} = {{{\mathbf{θ}} - {\overline{\mathbf{θ}}}_{i}} + {t \cdot \mathbf{r}}}$ for $t \in {\mathbb{R}}$. Then, for all ${{\|{{\mathbf{θ}} - {\overline{\mathbf{θ}}}_{i}}\|} < \overline{\delta}},{\overline{\delta} \in {(0,{a + \xi})}}$, the distance function to the boundary along $\mathbf{r}$ is defined as
+
+where (5.10) define distance between any point of interest and the boundary of domain along the unit vector, $\mathbf{r}$, we have ${g_{i_{\mathbf{θ}}}{(t)}} \notin \mathcal{G}_{i}$ for $t \notin {({d^{-}{({\mathbf{θ}})}},{d^{+}{({\mathbf{θ}})}})}$ for all $i$. We say the point exits the domain $\mathcal{G}_{i}$ in the direction $\mathbf{r}$ when it enters the $\overline{\delta}$-tubes outside $\mathcal{G}_{i}$ defined by
+
+We underscore that $\overline{\tau}{( \cdot )}$ represents the exit time of discrete-time process ${\mathbf{θ}}^{k}$, whereas $\hat{\tau}{( \cdot )}$ denotes that of continuous-time stochastic process ${\mathbf{θ}}_{t}^{\epsilon}$.
+
+### Definition 5.4
+
+(Transition time from $\mathcal{G}_{i}$ to $\mathcal{G}_{j}$) Under the existence of a unit vector $\mathbf{r}$ along the direction connecting the domains $\mathcal{G}_{i}$ and $\mathcal{G}_{i + 1}$ between two distinct local maxima, we define the transition time from a neighborhood of one local maxima to another, i.e., from $\mathcal{G}_{i}$ to ${\mathcal{G}_{j},i} \neq j$ in respective continuous-time \cf. ([5.7)\] and discrete-time (5.6)
+
+We begin by stating a technical assumptions which are required for the theorems presented in Section 5.2. The first is regarding the non-convex landscape of $J$ and the later is regarding the Lévy jump process in (5.7).
+
+### Assumption 4
+
+Following statements holds for function, $J$:
+
+The set of local maxima of the value function $J$ consists of $r$ distinct points ${\{ m_{i}\}} = {\{{J{({\overline{\mathbf{θ}}}_{i})}}\}}$ separated by $r - 1$ local minima $\{ s_{i}\}$.
+
+The function $J$ possesses the strict-saddle property, i.e., all its local maxima satisfy ${{\nabla^{2}J}{({\mathbf{θ}})}} \prec 0$ and all its other stationary points satisfy ${\lambda_{\min}{({{\nabla^{2}J}{({\mathbf{θ}})}})}} > 0$.
+
+The value function $J{({\mathbf{θ}})}$ satisfies the growth condition; ${J^{\prime}{({\mathbf{θ}})}} > {|{\mathbf{θ}}|}^{1 + c}$ for $c > 0$ and $|{\mathbf{θ}}|$ sufficiently large, i.e. the function increases to infinity with infinite $\mathbf{θ}$.
+
+### Assumption 5
+
+$L_{0}^{\alpha}$ = 0 almost surely.
+
+For $t_{0} < t_{1} < \ldots < t_{N}$, the increments ($L_{t_{i}}^{\alpha}$ ) are independent ($i = {1,\ldots,N}$).
+
+The difference ($L_{t}^{\alpha} - L_{s}^{\alpha}$) and $L_{t - s}^{\alpha}$ have the same distribution: $\mathcal{S}\alpha\mathcal{S}{({t - s})}^{1/\alpha}$ for $s < t$.
+
+$L_{t}^{\alpha}$ is continuous in probability: for all $\delta > 0$ and $s \geq 0$, ${\mathcal{P}{({{|{L_{t}^{\alpha} - L_{s}^{\alpha}}|} > \delta})}}\rightarrow{0\text{as}t}\rightarrow s$.
+
+We also first present an additional condition we require on the score function.
+
+### Assumption 6
+
+For some $m > 0$ and $b \geq 0$, ${{\nabla_{\mathbf{θ}}\log}\pi_{\mathbf{θ}}}{( \cdot )}$ is $(m,b,c)$-dissipative, which implies that ${c_{\alpha}\left\langle {\mathbf{θ}},{{{\nabla_{\mathbf{θ}}\log}\pi_{\mathbf{θ}}}{( \cdot )}} \right\rangle} \geq {{m{\|{\mathbf{θ}}\|}^{1 + c}} - b}$, for all ${\mathbf{θ}} \in {\mathbb{R}}^{d}$.
+
+We impose the following structural assumption on $\mathcal{G}_{i}$ \cf. ([5.8)\] such that desired properties for a domain perturbed by a Lévy noise in multi-dimensional space holds Imkeller et al..
+
+### Assumption 7
+
+The following assumptions hold for $\mathcal{G}_{i}$:
+
+We denote by $\Omega_{i}:={\{{{\mathbf{θ}} \in {\mathbb{R}}^{d}}:{{\mathbf{θ}} = {{t \cdot \mathbf{r}_{i}}\text{for a}t} \in {\mathbb{R}}}\}}$ the straight line in the direction of $\mathbf{r}_{i}$. Let ${{\nabla J}{( \cdot )}}:{\overline{\mathcal{G}}\rightarrow{\mathbb{R}}^{d}}$ and the set $\overline{\mathcal{G}} \cap \Omega$ is connected. There exists numbers ${a,b} > 0$ and a closed interval $I:={\lbrack{- b},a\rbrack}$ such that for all $t \in {({- b},a)}$ we have: ${t \cdot \mathbf{r}} \in \mathcal{G}_{i}$. Since ${\overline{\mathbf{θ}}}_{i} \in \mathcal{G}$, $\mathcal{G}_{i}$ is open, and ${\mathcal{G}_{i} \cap \Omega} \neq \varnothing$.
+
+The boundary of $\mathcal{G}_{i}$ defined by $\partial\mathcal{G}_{i}$ is a $\mathcal{C}^{1}$-manifold so that the vector field $n$ of the outer normals on the boundary exists. We assume $\left\langle {{\nabla J}{({\mathbf{θ}})}},{n{({\mathbf{θ}})}} \right\rangle \leq {- \frac{1}{C}}$, for all ${\mathbf{θ}} \in \mathcal{G}_{i}$. This means that ${\nabla J}{( \cdot )}$ points into $\mathcal{G}_{i}$.
+
+Local extrema, ${\overline{\mathbf{θ}}}_{i}$ is an attractor of the domain, i.e. for every starting value ${\mathbf{θ}} \in \mathcal{G}_{i}$, the deterministic solution vanishes asymptotically.
+
+There exists atleast one set of domains, $\mathcal{G}_{i - 1}$, $\mathcal{G}_{i}$ and $\mathcal{G}_{i + 1}$ such that $\mathcal{G}_{i - 1}$, $\mathcal{G}_{i}$ and $\mathcal{G}_{i + 1}$ are connected, ${{{\partial\mathcal{G}_{i}} \cap {\partial\mathcal{G}_{j}}} \neq \varnothing},$ $j \in {\{ i,{i - 1}\}}$. We assume existence of a local minima at the intersection of $\partial\mathcal{G}_{i}$ and $\partial\mathcal{G}_{j}$.
+
+There exists a discrete instant $K$ such that exit time ${\hat{\tau}}_{\xi,a}$ \c.f. ([5.9)\] greater than ${{K\eta},K} > 0$ and ${\mathbf{θ}}_{\hat{\tau}}^{\epsilon} \in \Omega^{+}$ for ${{\hat{\tau}}_{\xi,a}{(\epsilon)}} \geq {K\eta}$.
+
+Assumption 4 is regarding the level sets of the value function within the vicinity of stationary points versus local extrema. Assumption 4.1 ensures that there is positive volume separating distinct extrema, which imposes that the value function, and hence reward, cannot be extremely similar for policies whose relative merits are different. Observe that the strict saddle property (Assumption 4.2) has been studied before in the context of policy gradient method, as it is a sufficient condition for the correlated negative curvature condition Zhang et al., which holds whenever the policy parameterization is associated with a positive definite Fischer information matrix, and the reward function is strictly positive or strictly negative. Assumption 4.3 is easy to satisfy for any policy that does not threshold large values of the derivative, such as the Gaussian or Cauchy -- direct calculation reveals that it holds for these cases, but it does not hold for a *truncated* Gaussian.
+
+Assumption 5 imposes conditions on the Lévy processes that drive the heavy-tailed noise. Theoretically they are difficult to verify, but we note that they are strictly more general than standard assumptions in the ODE analysis of stochastic approximation that underlies the stability analysis of reinforcement learning -- see Borkar and Meyn. Moreover, we empirically verify that the noise satisfies the conditions required to be jump process with index $\alpha$ in Figure 2, due to the fact that if the gradient is heavy tailed, then the noise associated with the stochastic errors is heavy-tailed.
+
+Assumption 6 holds for any policy parameterization which is an increasing function of the norm. Observe that it holds for the policy in Example 3.2. ‣ 3 Markov Decision Problems ‣ On the Sample Complexity and Metastability of Heavy-tailed Policy Search in Continuous Control") directly when the policy parameter $\theta$ lies in compact space. Assumption 7 imposes structure on the landscape of the value function. Assumption 7.2 imposes that the gradient is negatively correlated with the normal vector pointing away from a neighborhood of a stationary point, which usually holds. Assumption 7.3 ensures that the gradient is null near a local extrema, i.e., the policy gradient becomes null at a local extrema. Assumption 7.4 imposes that there is some intersection between the neighborhoods of extrema, which means that one locally optimal policy may have similar cumulative return to another of comparable quality. Assumption 7.5 imposes that the transition time between the neighborhoods of local extrema is governed by choice of learning rate up to a constant factor, which typically holds in practice.
+
+The following theorems present the first exit time and transition time probabilities of the proposed heavy-tailed policy gradient setting, (4.2) when initialized within $\mathcal{G}_{i} \subset {\mathbb{R}}^{d}$ such that (5.8) holds.
+
+### Theorem 5.5
+
+(Exit Time Dependence on Tail Index) Suppose Assumptions 1- 7 hold, the value function $J$ is initialized near local maxima ${\overline{\mathbf{θ}}}_{i}$, and the policy gradient update in (4.2) is run under a heavy-tailed policy parameterization that induces tail index $\alpha$ in its stochastic error (5.6). Then, the likelihood of its exit time from neighborhood $\mathcal{G}_{i}$ \cf. ([5.8)\] of ${\overline{\mathbf{θ}}}_{i}$ larger than $K$ is upper bounded as
+
+with initialization ${\mathbf{θ}}_{0}$, $d^{+}$ \cf. ([5.10)\] denotes distance between ${\mathbf{θ}}_{0}$ and the boundary of $\mathcal{G}_{i}$, $\rho \in {}$ is a positive constant and ${\mathbf{θ}} \in {\mathbb{R}}^{d}$. Moreover, the Hölder continuity constant satisfies $\beta \in {(0,{\alpha - 1})}$, $\delta > 0$, $\xi > 0$, $\eta$ is the step-size, $k_{1}:={1/\eta^{\alpha - 1}}$, and $\epsilon$ \cf. ([5.7)\] is the jump process coefficient.
+
+See proof in Appendix G. Observe that as $\epsilon\rightarrow 0$ in (5.5), the right hand side of (5.5) depends on the distance of ${\mathbf{θ}}_{0}$ from the boundary $\partial\mathcal{G}$ and tail-index $\alpha$. Further, the dependence on $d^{+}$ (cf. (5.10)) implicitly hinges upon the width $a$ of the neighborhood of the extrema (5.8), which noticeably decreases with heavier tails (smaller $\alpha$), meaning that heavier-tailed policies increase the likelihood of escape and tend towards wider maxima. The intricacy of the expression precludes easy interpretation. Thus, consider the average exit time for the single dimensional case in Table 1, in which there exists only a single direction of exit, which coincides with. In contrast to proposed heavy-tailed setting wherein exit time is a function of width of the neighborhood, exit time for PG under, e.g., a Gaussian parameterization, depends exponentially on the value at the extrema. Next, we discuss the transition time from one extrema to another.
+
+### Theorem 5.6
+
+(Transition Time Dependence on Tail Index) Suppose Assumptions 1- 7 hold and the value function $J$ is initialized near a local maxima ${\overline{\mathbf{θ}}}_{i}$. Then in the limit $\epsilon\rightarrow 0$, the policy gradient update in (4.2) under a heavy-tailed parameterization with tail index $\alpha$ associated with its induced stochastic error (5.6), transitions from $\mathcal{G}_{i}$ to the boundary of $({i + 1})$-th local maxima with probability, $\mathcal{P}^{{\mathbf{θ}}_{0}}{({{\mathbf{θ}}^{k} \in {{\Omega_{i}^{+}{(\overline{\delta})}} \cap {\partial\mathcal{G}_{i + 1}}}})}$ lower bounded as a function of tail index $\alpha$:
+
+where $\delta > 0$, escape distance from extrema are defined as ${d_{ij}^{+}{({\mathbf{θ}})}}:={\inf{\{{t > 0}:{{g_{i_{\mathbf{θ}}}{(t)}} \in {{\Omega_{i}^{+}{(\overline{\delta})}} \cap {\partial\mathcal{G}_{i + 1}}}}\}}}$ and ${d_{ij}^{-}{({\mathbf{θ}})}}:={\sup{\{{t < 0}:{{g_{i_{\mathbf{θ}}}{(t)}} \in {{\Omega_{i}^{-}{(\overline{\delta})}} \cap {\partial\mathcal{G}_{i - 1}}}}\}}}$, and $\Omega_{i}^{+}{(\overline{\delta})}$ is defined before Def. 5.4.
+
+Similar to exit time, the transition time probability \cf. ([5.14)\] (proof in Appendix H) depends on the width of boundary and the tail index, which noticeably also decreases for heavier tails (smaller $\alpha$), and depends on the width of the neighborhood containing a local maxima. For ease of interpretation, the single-dimensional case for both vanilla PG and HPG are given in Table 1. Transition times are asymptotically exponentially distributed in the limit of small noise and scale with $1/\epsilon^{\alpha}$ for HPG, whereas transition time for Brownian is exponentially distributed with $\epsilon^{\alpha}$ replaced by *exponential dependence* $e^{{2J{( \cdot )}}/\epsilon^{2}}$ for a Gaussian policy.
+
+Figure 2: (a) Tail index estimation of HPG updates for a 1D Mario. (b) Tail index estimation for Pathological Mountain car. In both, estimates are averaged over latest 50 episodes. Observe that a Cauchy policy induces a tail index lower than the Gaussian policy, and the volatility of the blue sample path stems from training being uncompleted during estimation.
+
+Thus, in the small noise limit, Brownian-motion driven PG needs exponential time to transition from one peak to another, whereas the Lévy-driven process requires polynomial time, illuminating that heavy-tailed policies quickly jump away from spurious extrema.
+
+### Experiments
+
+In this section, we evaluate the proposed HPG (Algorithm 1) as compared to some common approaches for policy search. Before doing so, we demonstrate experimentally evidence that the heavy-tailed policies results in heavy tailed policy gradients. Then, we provide experiments for the Pathological Mountain Car (PMC) (Sec. 3) and 1D Mario environment Matheron et al.. For PMC, we consider an incentive structure in which the amount of energy expenditure, i.e., the action squared, at each time-step is negatively penalized and the reward structure is given by
+
+Here, $s$ denotes the state space, and the action $a_{t}$ is a one-dimensional scalar representing the speed of the vehicle ${\overset{˙}{s}}_{t}$.
+
+Figure 3: 1D Mario environment Matheron et al..
+
+In 1D Mario environments, state $s \in {\lbrack{- 4.0},\, 3.709\rbrack}$ and the actions are confined to $\lbrack{- 20},\, 20\rbrack$. On the other hand, as the name suggests, the 1D Mario environment is one-dimensional with continuous state and action spaces with incentive structure and state transition defined as ${r{(s_{t},a_{t})}} = \mathbb{1}_{\{{{s_{t} + a_{t}} < 0}\}}$, and $s_{t + 1} = {\min{\{ 1,{\max{\{ 0,{s_{t} + a_{t}}\}}}\}}}$ where, state, $s \in {\lbrack 0,1\rbrack}$ and action $a \in {\lbrack{- 0.1},0.1\rbrack}$. Each episodes are initialized at $s_{0} = 0$.
+
+Before presenting the experiments, first in Fig. 2, we depict the estimation of tail index $\alpha$ (using method in Mohammadi et al. ) for gradient estimates \cf. ([4.2)\] with a Cauchy and Gaussian policy. The lower the value of $\alpha$ the heavier the tail is of the policy gradient. In Fig. 2(a), we observe that the average estimate for the Gaussian policy settles to a value of one, while the corresponding value for Cauchy values settles around $0.2$ for 1D Mario environment. A similar plot for PMC is in Fig. 2(b): note that the tail-index estimate of Cauchy settles around unity and the corresponding value for Gaussian exhibits volatility since the policy has yet to converge. For the tail index estimation, we utilized the logic presented in Mohammadi et al. for the $\alpha$ estimation reiterated here in the form of Theorem 6.1 for quick reference.
+
+### Theorem 6.1
+
+Mohammadi et al. Let ${\{\mathbf{X}_{i}\}}_{i = 1}^{K}$ be the collection of random variables with $\mathbf{X}_{i} \sim {\mathcal{S}\alpha\mathcal{S}{(\sigma)}}$ and $K = {K_{1} \times K_{2}}$. Define $Y_{i} \triangleq {\sum_{i = 1}^{K_{1}}\mathbf{X}_{j + {{({i - 1})}K_{1}}}}$ for ${i \in {\lbrack 1,K_{2}\rbrack}}.$ Then the estimator
+
+converges to $\frac{1}{\alpha}$ almost surely as $K_{2}\rightarrow\infty$.
+
+(a) Constant scale σ PMC
+
+(b) Tuned scale σ PMC.
+
+(c) Tuned scale σ Mario.
+
+Figure 4: (a) We plot the average cumulative returns for PMC environment over latest 100 episodes for Gaussian and Cauchy policies with constant σ. The importance of searching over a heavy-tailed (Cauchy) distribution is clear, as the Gaussian policy converges to spurious behavior. (b) We plot average cumulative returns for PMC environment with variable σ over latest 100 episodes. (c) Average commutative return for 1D Mario with variable sigma. For TRPO, TRPO-1, 2, and 3, are respectively for trust region parameters 10−10, 10−6, and 10−5.
+
+Note that $\{\mathbf{X}_{i}\}$ corresponds to the samples from policy gradient estimates. The aforementioned approach has been employed recently for estimating the tail-index of stochastic gradients Garg et al.; Simsekli et al.. Next, we present the main experiments results corroborating the findings in the main paper. Additional experiments with continuous control environments are provided in Appendix I.1.
+
+Fig 4 compares the average commutative reward performance of HPG (for a Cauchy policy) to GPOMDP Baxter and Bartlett with a Gaussian policy with fixed and tuned variance parameters Papini et al. (which we abbreviate as PG), as well as Proximal Policy Optimization (PPO) Schulman et al., Trust Region Policy Optimization Schulman et al., and Stochastic Variance Reduced PG (SVRPG) Papini et al., for constant variance as well as variable variance. In order to evaluate the Meta stable characteristics of the algorithms, we initialize each episodes at $s = 2.26$, in the neighborhood of the local minima, $s = 2.67$. Firstly in Fig. 4(a), we evaluate the performance on PMC environment when the scale of the HPG is a constant $\sigma = 3.0$ and the variance of Gaussian policy is also fixed $\sigma = 3.0$. Secondly, we present the results with variable scale $\sigma$ for PMC and 1D Mario environments in Fig. 4(b)-4(c). All the experiments use a discounted factor of $\gamma = 0.97$ and we use a diminishing step-size ranging from 0.005 to $5 \times 10^{- 9}$. All the simulations are performed for $1000$ episodes using a batch size of $B_{k} = 5$ and with cumulative returns averaged over $100$ episodes. For the comparison with PPO, the policy ratio for PPO is allowed to vary in the interval $\lbrack{1 - \epsilon_{1}},{1 + \epsilon_{1}}\rbrack$ with $\epsilon_{1} = 0.2$. Note that a fined tuned value of $\epsilon_{1}$ can result in a better performance as shown in Fig. 4(b). However, note that the best performance feasible for PPO is same as that of PG. The trust region parameters for TRPO, aka. maximum KL- divergence allowed is set to $0.001$. In addition, here we also evaluate performance of the HPG against Stochastic Variance-Reduced Policy Gradient (SVRPG) (Papini et al. ). The number of epochs for SVRPG is fixed to $1000$ and epoch size, $m = 10$. Further for PMC environment, we have included the comparisons with HPG-M which denotes the moderate tailed policy gradient with $\alpha = 1.3$. In Fig. 4(a), HPG-M1, HPG-M2 denotes the different instance of moderate tailed policy gradient with $\sigma = {5,3}$, respectively. For the experiments in Fig 4, we use a simple network without hidden layers.
+
+From meta stability results of Section 5.2, it is the nature of jumps initiated by heavy tailed policies which results in better meta stable characteristics and results in faster escape from spurious local extrema. In order to establish this fact, we plot the single test episode state visitation frequency (aka single episode occupancy measures) of HPG and PG once the training is done. The test episode is initialized at $s = 2.26$ (neighborhood of local extrema) and states of the environment $s \in {\lbrack{- 4},3.709\rbrack}$ are discretized into $100$ states and the heatmap of the state visitation frequency is shown in Fig. 5.
+
+(a) PMC: Occupancy measure, HPG
+
+(b) PMC: Occupancy measure, PG
+
+Figure 5: Single episode occupancy measure for PMC when initialized in the neighborhood of spurious local extrema. We plot it for a test episode after network is trained for 1000 episodes with HPG policy and PG policy. States from [−4.0, 3.709] are discretized into 100 states to calculate the state visitation frequency. Desired extrema of s = −4.0 corresponds to and the initial state s = 2.26 is. Dark color in the map corresponds to region not visited during the test episode. (a) Single episode occupancy measure for PMC with HPG. The importance of searching over a heavy-tailed (Cauchy) distribution is clear, as the policy takes heavier jumps and reach to desired goal faster. (b) Single episode occupancy measure for for PMC with PG. Overall, we may observe that a Gaussian policy results in an occupancy measure which exhibits diffuse probability across the state space, failing to concentrate around actions associated with higher reward, whereas the heavy-tailed distribution results in an occupancy measure that assigns high likelihood to a small number of extreme actions in a manner reminiscent of the “black swan” phenomenon Taleb.
+
+### Conclusion
+
+We focused on PG method in infinite-horizon RL problems. Inspired by persistent exploration that mitigates the tendency of policies to become mired at spurious behavior, we sought to nearly satisfy it in continuous settings through heavy-tailed policies. Doing so invalidated several aspects of existing analyses, which motivated studying the sample complexity of policy search when the score function is Hölder continuous and its norm is integrable with respect to the policy, and introducing an exploration tolerance parameter to quantify the degree to which the score function may be unbounded.
+
+Moreover, we established that heavy-tailed policies induce heavy-tailed transition dynamics, which jump away from local extrema as formally quantified by the metastability characteristics of its Lévy process representation. We discerned that policies a heavier tail induce transitions away from a local extrema more quickly than one with a lighter tail, and tend towards extrema with more volume, which we empirically associated with more stable policies for a few RL problems in practice. The characterization of jumps defined by metastability provides a lens through which approximate persistent exploration may be satisfied in continuous space.

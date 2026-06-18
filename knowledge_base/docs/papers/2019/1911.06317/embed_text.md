@@ -1,0 +1,183 @@
+## Introduction
+
+We consider the problem of zeroth-order optimization (also known as gradient-free optimization, or bandit optimization), where our goal is to minimize an objective function $f:{{\mathbb{R}}^{n}\rightarrow{\mathbb{R}}}$ with as few evaluations of $f{(x)}$ as possible. For many practical and interesting objective functions, gradients are difficult to compute and there is still a need for zeroth-order optimization in applications such as reinforcement learning \[, SHC^+^17, CRS^+^18\], attacking neural networks \[CZS^+^17, PMG^+^17\], hyperparameter tuning of deep networks \[\], and network control \[\].\
+The standard approach to zeroth-order optimization is, ironically, to estimate the gradients from function values and apply a first-order optimization algorithm \[\]. \[\] analyze this class of algorithms as gradient descent on a Gaussian smoothing of the objective and gives an accelerated $O{({n\sqrt{Q}{\log{({{({{LR^{2}} + F})}/\epsilon})}}})}$ iteration complexity for an $L$-Lipschitz convex function with condition number $Q$ and $R = {\|{x_{0} - x^{\ast}}\|}$ and $F = {{f{(x_{0})}} - {f{(x^{\ast})}}}$. They propose a two-point evaluation scheme that constructs gradient estimates from the difference between function values at two points that are close to each other. This scheme was extended by \[\] for stochastic settings, by \[\] for nonconvex settings, and by \[\] for non-smooth and non-Euclidean norm settings. Since then, first-order techniques such as variance reduction \[LKC^+^18\], conditional gradients \[\], and diagonal preconditioning \[\] have been successfully adopted in this setting. This class of algorithms are also known as stochastic search, random search, or (natural) evolutionary strategies and have been augmented with a variety of heuristics, such as the popular CMA-ES \[\].\
+These algorithms, however, suffer from high variance due to non-robust local minima or highly non-smooth objectives, which are common in the fields of deep learning and reinforcement learning. \[\] notes that gradient variance increases as training progresses due to higher variance in the objective functions, since often parameters must be tuned precisely to achieve reasonable models. Therefore, some attention has shifted into direct search algorithms that usually finds a descent direction $u$ and moves to $x + {\deltau}$, where the step size is not scaled by the function difference.\
+The first approaches for direct search were based on deterministic approaches with a positive spanning set and date back to the 1950s \[\]. Only recently have theoretical bounds surfaced, with \[\] giving an iteration complexity that is a large polynomial of $n$ and \[\] giving an improved $O{({{n^{2}L^{2}}/\epsilon})}$. Stochastic approaches tend to have better complexities: \[\] uses line search to give a $O{({nQ{\log{({F/\epsilon})}}})}$ iteration complexity for convex functions with condition number $Q$ and most recently, \[GBS^+^19\] uses importance sampling to give a $O{({n\overline{Q}{\log{({F/\epsilon})}}})}$ complexity for convex functions with average condition number $\overline{Q}$, assuming access to sampling probabilities. \[\] notes that direct search algorithms are invariant under monotone transforms of the objective, a property that might explain their robustness in high-variance settings.\
+In general, zeroth order optimization suffers an at least linear dependence on input dimension $n$ and recent works have tried to address this limitation when $n$ is large but $f{(x)}$ admits a low-dimensional structure. Some papers assume that $f{(x)}$ depends only on $k$ coordinates and \[\] applies Lasso to find the important set of coordinates, whereas \[\] simply change the step size to achieve an $O{({k{({{\log{(n)}}/\epsilon})}^{2}})}$ iteration complexity. Other papers assume more generally that ${f{(x)}} = {g{({\mathbf{P}_{\mathbf{A}}x})}}$ only depends on a $k$-dimensional subspace given by the range of $\mathbf{P}_{\mathbf{A}}$ and \[\] apply low-rank approximation to find the low-dimensional subspace while \[WZH^+^13\] use random embeddings. \[\] assume that $f{(x)}$ is a sparse collection of $k$-degree monomials on the Boolean hypercube and apply sparse recovery to achieve a $O{(n^{k})}$ runtime bound. We will show that under the case that ${f{(x)}} = {g{({\mathbf{P}_{\mathbf{A}}x})}}$, our algorithm will inherently pick up any low-dimensional structure in $f{(x)}$ and achieve a convergence rate that depends on $k{\log{(n)}}$. This initial convergence rate survives, even if we perturb ${f{(x)}} = {{g{({\mathbf{P}_{\mathbf{A}}x})}} + {h{(x)}}}$, so long as $h{(x)}$ is sufficiently small.\
+We will not cover the whole variety of black-box optimization methods, such as Bayesian optimization or genetic algorithms. In general, these methods attempt to solve a broader problem (e.g. multiple optima), have weaker theoretical guarantees and may require substantial computation at each step: e.g. Bayesian optimization generally has theoretical iteration complexities that grow exponentially in dimension, and CMA-ES lacks provable complexity bounds beyond convex quadratic functions. In addition to the slow runtime and weaker guarantees, Bayesian optimization assumes the success of an inner optimization loop of the acquisition function. This inner optimization is often implemented with many iterations of a simpler zeroth-order methods, justifying the need to understand gradient-less descent algorithms within its own context.
+
+### Our contributions
+
+In this paper, we present GradientLess Descent (GLD), a class of truly gradient-free algorithms (also known as direct search algorithms) that are parameter free and provably fast. Our algorithms are based on a simple intuition: for well-conditioned functions, if we start from a point and take a small step in a randomly chosen direction, there is a significant probability that we will reduce the objective function value. We present a novel analysis that relies on facts in high dimensional geometry and can thus be viewed as a geometric analysis of gradient-free algorithms, recovering the standard convergence rates and step sizes. Specifically, we show that if the step size is on the order of $O{(\frac{1}{\sqrt{n}})}$, we can guarantee an expected decrease of $1 - {\Omega{(\frac{1}{n})}}$ in the optimality gap, based on geometric properties of the sublevel sets of a smooth and strongly convex function.\
+Our results are invariant under monotone transformations of the objective function, thus our convergence results also hold for a large class of non-convex functions that are a subclass of quasi-convex functions. Specifically, note that monotone transformations of convex functions are not necessarily convex. However, a monotone transformation of a convex function is always *quasi-convex*. The maximization of *quasi-concave* utility functions, which is equivalent to the minimization of quasi-convex functions, is an important topic of study in economics (e.g. \[\]).\
+Intuition suggests that the step-size dependence on dimensionality can be improved when $f{(x)}$ admits a low-dimensional structure. With a careful choice of sampling distribution we can show that if ${f{(x)}} = {g{({\mathbf{P}_{\mathbf{A}}x})}}$, where $\mathbf{P}_{\mathbf{A}}$ is a rank $k$ matrix, then our step size can be on the order of $O{(\frac{1}{\sqrt{k}})}$ as our optimization behavior is preserved under projections. We call this property affine-invariance and show that the number of function evaluations needed for convergence depends logarithmically on $n$. Unlike most previous algorithms in the high-dimensional setting, no expensive sparse recovery or subspace finding methods are needed. Furthermore, by novel perturbation arguments, we show that our fast convergence rates are robust and holds even under the more realistic assumption when ${f{(x)}} = {{g{({\mathbf{P}_{\mathbf{A}}x})}} + {h{(x)}}}$ with $h{(x)}$ being sufficiently small.
+
+### Theorem 1 (Convergence of GLD: Informal Restatement of Theorem 7 and Theorem 14)
+
+Let $f{(x)}$ be any monotone transform of a convex function with condition number $Q$ and $R = {\|{x_{0} - x^{\ast}}\|}$. Let $y$ be a sample from an appropriate distribution centered at $x$. Then, with constant probability,
+
+Therefore, we can find $x_{T}$ such that ${\|{x_{T} - x^{\ast}}\|} \leq \epsilon$ after $T = {\overset{\sim}{O}{({nQ{\log{({R/\epsilon})}}})}}$ function evaluations. Furthermore, for functions ${f{(x)}} = {{g{({\mathbf{P}_{\mathbf{A}}x})}} + {h{(x)}}}$ with rank $k$ matrix $\mathbf{P}_{\mathbf{A}}$ and sufficiently small $h{(x)}$, we only require $\overset{\sim}{O}{({kQ{\log{(n)}}{\log{({R/\epsilon})}}})}$ evaluations.
+
+Another advantage of our non-standard geometric analysis is that it allows us to deduce that our rates are optimal with a matching lower bound (up to logarithmic factors), presenting theoretical evidence that gradient-free inherently requires $\Omega{({nQ})}$ function evaluations to converge. While gradient-estimation algorithms can achieve a better theoretical iteration complexity of $O{({n\sqrt{Q}})}$, they lack the monotone and affine invariance properties. Empirically, we see that invariance properties are important to successful optimization, as validated by experiments on synthetic BBOB and MuJoCo benchmarks that show the competitiveness of GLD against standard optimization procedures.
+
+This paper (GLD)
+
+Table 1: Comparison of zeroth order optimization for well-conditioned convex functions where R = ∥x0 − x*∥ and F = f (x0) − f (x*). ‘Monotone’ column indicates the invariance under monotone transformations (Definition 4). ‘k-Sparse’ and ‘k-Affine’ columns indicate that iteration complexity is poly(k, log (n)) when f (x) depends only on a k-sparse subset of coordinates or on a rank-k affine subspace.
+
+## Preliminaries
+
+We first define a few notations for the rest of the paper. Let $\mathcal{X}$ be a compact subset of ${\mathbb{R}}^{n}$ and let $\parallel \cdot \parallel$ denote the Euclidean norm. The diameter of $\mathcal{X}$, denoted $\left\| \mathcal{X} \right\| = {\max_{{x,x^{\prime}} \in \mathcal{X}}{\|{x - x^{\prime}}\|}}$, is the maximum distance between elements in $\mathcal{X}$. Let $f:{\mathcal{X}\rightarrow{\mathbb{R}}}$ be a real-valued function which attains its minimum at $x^{\ast}$. We use ${f{(\mathcal{X})}} = {\{{f{(x)}}:{x \in \mathcal{X}}\}}$ to denote the image of $f$ on a subset $\mathcal{X}$ of ${\mathbb{R}}^{n}$, and ${\mathcal{B}{(c,r)}} = {\{{x \in {\mathbb{R}}^{n}}:{{\|{c - x}\|} \leq r}\}}$ to denote the ball of radius $r$ centered at $c$.
+
+### Definition 2
+
+The level set of $f$ at point $x \in \mathcal{X}$ is ${\mathcal{L}_{c}{(f)}} = {\{{y \in \mathcal{X}}:{{f{(y)}} = {f{(x)}}}\}}$. The sub-level set of $f$ at point $x \in \mathcal{X}$ is ${\mathcal{L}_{c}^{\downarrow}{(f)}} = {\{{y \in \mathcal{X}}:{{f{(y)}} \leq {f{(x)}}}\}}$. When the function $f$ is clear from the context, we omit it.
+
+### Definition 3
+
+We say that $f$ is $\alpha$-strongly convex for $\alpha > 0$ if ${f{(y)}} \geq {{f{(x)}} + {\langle{{\nabla f}{(x)}},{y - x}\rangle} + {\frac{\alpha}{2}{\|{y - x}\|}^{2}}}$ for all ${x,y} \in \mathcal{X}$ and $\beta$-smooth for $\beta > 0$ if ${f{(y)}} \leq {{f{(x)}} + {\langle{{\nabla f}{(x)}},{y - x}\rangle} + {\frac{\beta}{2}{\|{y - x}\|}^{2}}}$ for all ${x,y} \in \mathcal{X}$.
+
+### Definition 4
+
+We say that $g \circ f$ is a *monotone transformation* of $f$ if $g:{{f{(\mathcal{X})}}\rightarrow{\mathbb{R}}}$ is a monotonically (and strictly) increasing function.
+
+Monotone transformations preserve the level sets of a function in the sense that ${\mathcal{L}_{x}{(f)}} = {\mathcal{L}_{x}{({g \circ f})}}$. Because our algorithms depend only on the level set properties, our results generalize to any monotone transformation of a strongly convex and strongly smooth function. This leads to our extended notion of condition number.
+
+### Definition 5
+
+A function $f$ has condition number $Q \geq 1$ if it is the minimum ratio $\beta/\alpha$ over all functions $g$ such that $f$ is a monotone transformation of $g$ and $g$ is $\alpha$-strongly convex and $\beta$ smooth.
+
+When we work with low rank extensions of $f$, we only care about the condition number of $f$ within a rank $k$ subspace. Indeed, if $f$ only varies along a rank $k$ subspace, then it has a strong convexity value of $0$, making its condition number undefined. If $f$ is $\alpha$-strongly convex and $\beta$-smooth, then its Hessian matrix always has eigenvalues bounded between $\alpha$ and $\beta$. Therefore, we need a notion of a projected condition number. Let $\mathbf{A} \in {\mathbb{R}}^{d \times k}$ be some orthonormal matrix and let $\mathbf{P}_{\mathbf{A}} = {\mathbf{A}\mathbf{A}}^{\top}$ be the projection matrix onto the column space of $\mathbf{A}$.
+
+### Definition 6
+
+For some orthonormal $\mathbf{A} \in {\mathbb{R}}^{d \times k}$ with $d > k$, a function $f$ has condition number restricted to $\mathbf{A}$, ${Q{(\mathbf{A})}} \geq 1$, if it is the minimum ratio $\beta/\alpha$ over all functions $g$ such that $f$ is a monotone transformation of $g$ and ${h{(y)}} = {g{({\mathbf{A}y})}}$ is $\alpha$-strongly convex and $\beta$ smooth.
+
+## Analysis of Descent Steps
+
+The GLD template can be summarized as follows: given a sampling distribution $\mathcal{D}$, we start at $x_{0}$ and in iteration $t$, we choose a scalar radii $r_{t}$ and we sample $y_{t}$ from a distribution $r_{t}\mathcal{D}$ centered around $x_{t}$, where $r_{t}$ provides the scaling of $\mathcal{D}$. Then, if ${f{(x_{t + 1})}} < x_{t}$, we update $x_{t + 1} = y_{t}$; otherwise, we set $x_{t + 1} = x_{t}$. The analysis of GLD follows from the main observation that the sub-level set of a monotone transformation of a strongly convex and strongly smooth function contains a ball of sufficiently large radius tangent to the level set (Lemma 15). In this section, we show that this property, combined with facts of high-dimensional geometry, implies that moving in a random direction from any point has a good chance of significantly improving the objective.\
+As we mentioned before, the key to fast convergence is the careful choice of step sizes, which we describe in Theorem 7. The intuition here is that we would like to take as large steps as possible while keeping the probability of improving the objective function reasonably high, so by insights in high-dimensional geometry, we choose a step size of $\Theta{({1/\sqrt{n}})}$. Also, we show that if $f{(x)}$ admits a latent rank-$k$ structure, then this step size can be increased to $\Theta{({1/\sqrt{k}})}$ and is therefore only dependent on the latent dimensionality of $f{(x)}$, allowing for fast high-dimensional optimization. Lastly, our geometric understanding allows us to show that our convergence rates are optimal with a matching lower bound. Without loss of generality, this section assumes that $f{(x)}$ is strongly convex and smooth with condition number $Q$.
+
+### Step Size
+
+### Theorem 7
+
+For any $x$ such that ${\frac{3}{5Q}\left. \parallel{x - x^{\ast}}\parallel \right.} \in {\lbrack C_{1},C_{2}\rbrack}$, we can find integers ${0 \leq k_{1}},{k_{2} < {\log\frac{C_{2}}{C_{1}}}}$ such that if $r = {2^{k_{1}}C_{1}}$ or $r = {2^{- k_{2}}C_{2}}$, then a random sample $y$ from uniform distribution over $B_{x} = {\mathcal{B}{(x,\frac{r}{\sqrt{n}})}}$ satisfies
+
+with probability at least $\frac{1}{4}$.
+
+Proving the above theorem requires the following lemma about the intersection of balls in high dimensions and it is proved in the appendix.
+
+### Lemma 8
+
+Let $B_{1}$ and $B_{2}$ be two balls in ${\mathbb{R}}^{n}$ of radii $r_{1}$ and $r_{2}$ respectively. Let $\ell$ be the distance between the centers. If $r_{1} \in {\lbrack\frac{\ell}{2\sqrt{n}},\frac{\ell}{\sqrt{n}}\rbrack}$ and $r_{2} \geq {\ell - \frac{\ell}{4n}}$, then
+
+where $c_{n}$ is a dimension-dependent constant that is lower bounded by $\frac{1}{4}$ at $n = 1$.
+
+### Gaussian Sampling and Low Rank Structure
+
+A direct application of Lemma 8 seems to imply that uniform sampling of a high-dimensional ball is necessary. Upon further inspection, this can be easily replaced with a much simpler Gaussian sampling procedure that concentrates the mass close to the surface to the ball. This procedure lends itself to better analysis when $f{(x)}$ admits a latent low-dimensional structure since any affine projection of a Gaussian is still Gaussian.
+
+### Lemma 9
+
+Let $B_{1}$ and $B_{2}$ be two balls in ${\mathbb{R}}^{n}$ of radii $r_{1}$ and $r_{2}$ respectively. Let $\ell$ be the distance between the centers. If $r_{1} \in {\lbrack\frac{\ell}{2\sqrt{n}},\frac{\ell}{\sqrt{n}}\rbrack}$ and $r_{2} \geq {\ell - \frac{\ell}{n}}$ and $X = {(X_{1},\ldots,X_{n})}$ are independent Gaussians with mean centered at the center of $B_{1}$ and variance $\frac{r_{1}^{2}}{n}$, then
+
+where $c$ is a dimension-independent constant.
+
+Assume that there exists some rank $k$ projection matrix $\mathbf{P}_{\mathbf{A}}$ such that ${f{(x)}} = {g{({\mathbf{P}_{\mathbf{A}}x})}}$, where $k$ is much smaller than $n$. Because Gaussians projected on a $k$-dimensional subspace are still Gaussians, we show that our algorithm has a dimension dependence on $k$. We let $Q_{g}{(\mathbf{A})}$ be the condition number of $g$ restricted to the subspace $\mathbf{A}$ that drives the dominant changes in $f{(x)}$.
+
+### Theorem 10
+
+Let ${f{(x)}} = {g{({\mathbf{P}_{\mathbf{A}}x})}}$ for some unknown rank $k$ matrix $\mathbf{P}_{\mathbf{A}}$ with $k < n$ and suppose ${\frac{3}{5Q}{\|{\mathbf{P}_{\mathbf{A}}{({x - x^{\ast}})}}\|}} \in {\lbrack C_{1},C_{2}\rbrack}$ for some numbers ${C_{1},C_{2}} \in {\mathbb{R}}^{+}$. Then, there exist integers ${0 \leq k_{1}},{k_{2} < {\log\frac{C_{2}}{C_{1}}}}$ such that if $r = {2^{k_{1}}C_{1}}$ or $r = {2^{- k_{2}}C_{2}}$, then a random sample $y$ from a Gaussian distribution $\mathcal{N}{(x,{\frac{r^{2}}{k}\mathbf{I}})}$ satisfies
+
+with constant probability.
+
+Note that the speed-up in progress is due to the fact that we can now tolerate the larger sampling radius of $\Omega{({1/\sqrt{k}})}$, while maintaining a high probability of making progress. If $k$ is unknown, we can simply use binary search to find the correct radius with an extra factor of $\log{(n)}$ in our runtime.\
+The low-rank assumption is too restrictive to be realistic; however, our fast rates still hold, at least for the early stages of the optimization, even if we assume that ${f{(x)}} = {{g{({\mathbf{P}_{\mathbf{A}}x})}} + {h{(x)}}}$ and ${|{h{(x)}}|} \leq \delta$ is a full-rank function that is bounded by $\delta$. In this setting, we can show that convergence remains fast, at least until the optimality gap approaches $\delta$.
+
+### Theorem 11
+
+Let ${f{(x)}} = {{g{({\mathbf{P}_{\mathbf{A}}x})}} + {h{(x)}}}$ for some unknown rank $k$ matrix $\mathbf{P}_{\mathbf{A}}$ with $k < n$ where $g,h$ are convex and ${|h|} \leq \delta$. Suppose ${\frac{3}{5Q}{\|{{\mathbf{P}_{\mathbf{A}}x} - z^{\ast}}\|}} \in {\lbrack C_{1},C_{2}\rbrack}$ for some numbers ${C_{1},C_{2}} \in {\mathbb{R}}^{+}$ where $z^{\ast}$ minimizes $g{(z)}$. Then, there exist integers ${0 \leq k_{1}},{k_{2} < {\log\frac{C_{2}}{C_{1}}}}$ such that if $r = {2^{k_{1}}C_{1}}$ or $r = {2^{- k_{2}}C_{2}}$, then a random sample $y$ from a Gaussian distribution $\mathcal{N}{(x,{\frac{r^{2}}{k}\mathbf{I}})}$ satisfies
+
+with constant probability whenever ${{f{(x)}} - {f{(x^{\ast})}}} \geq {60\deltakQ_{g}{(\mathbf{A})}}$.
+
+### Lower Bounds
+
+We show that our upper bounds given in the previous section are tight up to logarithmic factors for any symmetric sampling distribution $\mathcal{D}$. These lower bounds are easily derived from our geometric perspective as we show that a sampling distribution with a large radius gives an extremely low probability of intersection with the desired sub-level set. Therefore, while gradient-approximation algorithms can be accelerated to achieve a runtime that depends on the square-root of the condition number $Q$, gradient-less methods that rely on random sampling are likely unable to be accelerated according to our lower bound. However, we emphasize that monotone invariance allows these results to apply to a broader class of objective functions, beyond smooth and convex, so the results can be useful in practice despite the seemingly worse theoretical bounds.
+
+### Theorem 12
+
+Let $y = {x + v}$, where $v$ is a random sample from $r\mathcal{D}$ for some radius $r > 0$ and $\mathcal{D}$ is standard Gaussian or any rotationally symmetric distribution. Then, there exist a region $X$ with positive measure such that for any $x \in X$,
+
+with probability at least $1 - \frac{1}{\text{poly}{({nQ})}}$.
+
+## Gradientless Algorithms
+
+In this section, we present two algorithms that follow the same Gradientless Descent (GLD) template: GLD-Search and GLD-Fast, with the latter being an optimized version of the former when an upper bound on the condition number of a function is known. For both algorithms, since they are monotone-invariant, we appeal to the previous section to derive fast convergence rates for any monotone transform of convex $f{(x)}$ with good condition number. We show the efficacy of both algorithms experimentally in the Experiments section.
+
+### Gradientless Descent with Binary Search
+
+Although the sampling distribution $\mathcal{D}$ is fixed, we have a choice of radii for each iteration of the algorithm. We can apply a binary search procedure to ensure progress. The most straightforward version of our algorithm is thus with a naive binary sweep across an interval in $\lbrack r,R\rbrack$ that is unchanged throughout the algorithm. This allows us to give convergence guarantees without previous knowledge of the condition number at a cost of an extra factor of $\log{({n/\epsilon})}$.
+
+Input: function: f: ℝn → ℝ, T ∈ ℤ+: number of iterations, x0: starting point,
+𝒟: sampling distribution, R: maximum search radius, r: minimum search radius
+3 Ball Sampling Trial:
+9 Update: $x_{t + 1} = {{\arg\min\limits_{k}}\left\{ {f{(y)}} \middle| {{y = x_{t}},{y = {x_{t} + v_{k}}}} \right\}}$
+Algorithm 1 Gradientless Descent with Binary Search (GLD-Search)
+
+### Theorem 13
+
+Let $x_{0}$ be any starting point and $f$ a blackbox function with condition number $Q$. Running Algorithm 1 with ${r = \frac{\epsilon}{\sqrt{n}}},{R = {\|\mathcal{X}\|}}$ and $\mathcal{D} = {\mathcal{N}{(0,\mathbf{I})}}$ as a standard Gaussian returns a point $x_{T}$ such that ${\|{x_{T} - x^{\ast}}\|} \leq {2Q^{3/2}\epsilon}$ after $O{(nQ\log{(n \parallel \mathcal{X} \parallel /\epsilon)}^{2})}$ function evaluations with high probability.
+
+Furthermore, if ${f{(x)}} = {g{({\mathbf{P}_{\mathbf{A}}x})}}$ admits a low-rank structure with $\mathbf{P}_{\mathbf{A}}$ a rank $k$ matrix, then we only require $O{(kQ_{g}{(\mathbf{A})}\log{(n \parallel \mathcal{X} \parallel /\epsilon)}^{2})}$ function evaluations to guarantee ${\|{\mathbf{P}_{\mathbf{A}}{({x_{T} - x^{\ast}})}}\|} \leq \epsilon$. This holds analogously even if ${f{(x)}} = {{g{({\mathbf{P}_{\mathbf{A}}x})}} + {h{(x)}}}$ is almost low-rank where ${|h|} \leq \delta$ and $\epsilon > {60\deltakQ_{g}{(\mathbf{A})}}$.
+
+### Gradientless Descent with Fast Binary Search
+
+GLD-Search (Algorithm 1) uses a naive lower and upper bound for the search radius $\|{x_{t} - x^{\ast}}\|$, which incurs an extra factor of $\log{({1/\epsilon})}$ in the runtime bound. In GLD-Fast, we remove this extra factor dependence on $\log{({1/\epsilon})}$ by drastically reducing the range of the binary search. This is done by exploiting the assumption that $f$ has a good condition number upper bound $\hat{Q}$ and by slowly halfing the diameter of the search space every few iterations since we expect $x_{t}\rightarrow x^{\ast}$ as $t\rightarrow\infty$.
+
+Input: function f: ℝn → ℝ, T ∈ ℤ+: number of iterations, x0: starting point,
+𝒟: sampling distribution, R: diameter of search space, Q: condition number bound
+1 Set $K = {\log{({4\sqrt{Q}})}}$, H = n Q log (Q)
+3 Set R = R/2 when t ≡ 0mod H (every H iterations).
+4 Ball Sampling Trial:
+10 Update: $x_{t + 1} = {{\arg\min\limits_{k}}\left\{ {f{(y)}} \middle| {{y = x_{t}},{y = {x_{t} + v_{k}}}} \right\}}$
+Algorithm 2 Gradientless Descent with Fast Binary Search (GLD-Fast)
+
+### Theorem 14
+
+Let $x_{0}$ be any starting point and $f$ a blackbox function with condition number upper bounded by $Q$. Running Algorithm 2 with suitable parameters returns a point $x_{T}$ such that ${{f{(x_{T})}} - {f{(x^{\ast})}}} \leq \epsilon$ after $O{({nQ{\log^{2}{(Q)}}{\log{({{\|\mathcal{X}\|}/\epsilon})}}})}$ function evaluations with high probability.
+
+Furthermore, if ${f{(x)}} = {g{({\mathbf{P}_{\mathbf{A}}x})}}$ admits a low-rank structure with $\mathbf{P}_{\mathbf{A}}$ a rank $k$ matrix, then we only require $O{({kQ_{g}{(\mathbf{A})}{\log{(n)}}{\log^{2}{({Q_{g}{(\mathbf{A})}})}}{\log{({{\|\mathcal{X}\|}/\epsilon})}}})}$ function evaluations to guarantee ${\|{\mathbf{P}_{\mathbf{A}}{({x_{T} - x^{\ast}})}}\|} \leq \epsilon$. This holds analogously even if ${f{(x)}} = {{g{({\mathbf{P}_{\mathbf{A}}x})}} + {h{(x)}}}$ is almost low-rank where ${|h|} \leq \delta$ and $\epsilon > {60\deltakQ_{g}{(\mathbf{A})}}$.
+
+## Experiments
+
+We tested GLD algorithms on a simple class of objective functions and compare it to Accelerated Random Search (ARS) by \[\], which has linear convergence guarantees on strongly convex and strongly smooth functions. To our knowledge, ARS makes the weakest assumption among the zeroth-order algorithms that have linear convergence guarantees and perform only a constant order of operations per iteration. Our main conclusion is that GLD-Fast is comparable to ARS and tends to achieve a reasonably low error much faster than ARS in high dimensions ($\geq 50$). In low dimensions, GLD-Search is competitive with GLD-Fast and ARS though it requires no information about the function.\
+We let $H_{\alpha,\beta,n} \in {\mathbb{R}}^{n \times n}$ be a diagonal matrix with its $i$-th diagonal equal to $\alpha + {{({\beta - \alpha})}\frac{i - 1}{n - 1}}$. In simple words, its diagonal elements form an evenly space sequence of numbers from $\alpha$ to $\beta$. Our objective function is then $f_{\alpha,\beta,n}:{{\mathbb{R}}^{n}\rightarrow{\mathbb{R}}}$ as ${f_{\alpha,\beta,n}{(x)}} = {\frac{1}{2}x^{\top}H_{\alpha,\beta,n}x}$, which is $\alpha$-strongly convex and $\beta$-strongly smooth. We always use the same starting point $x = {\frac{1}{\sqrt{n}}{(1,\ldots,1)}}$, which requires $\left\| X \right\| = \sqrt{Q}$ for our algorithms. We plot the optimality gap ${f{(b_{t})}} - {f{(x^{\ast})}}$ against the number of function evaluations, where $b_{t}$ is the best point observed so far after $t$ evaluations. Although all tested algorithms are stochastic, they have a low variance on the objective functions that we use; hence we average the results over 10 runs and omit the error bars in the plots.\
+We ran experiments on $f_{1,8,n}$ with imperfect curvature information $\hat{\alpha}$ and $\hat{\beta}$ (see Figure 3 in appendix). GLD-Search is independent of the condition number. GLD-Fast takes only one parameter, which is the upper bound on the condition number; if approximation factor is $z$, then we pass $8z$ as the upper bound. ARS requires both strong convexity and smoothness parameters. We test three different distributions of the approximation error; when the approximation factor is $z$, then ARS-alpha gets $({\alpha/z},\beta)$, ARS-beta gets ($\alpha,{z\beta}$), and ARS-even gets $({\alpha/\sqrt{z}},{\sqrt{z}\beta})$ as input. GLD-Fast is more robust and faster than ARS when the condition number is over-approximated. When the condition number is underestimated, GLD-Fast still steadily converges.
+
+### Monotone Transformations
+
+Figure 1: The average optimality gap on a quadratic objective function that is strongly convex and smooth objective (top); and its monotone transformation (bottom). Further experiments on non-convex BBOB functions show similar behavior and are in the appendix.
+
+In Figure 1, we ran experiments on $f_{1,8,n}$ for different settings of dimensionality $n$, and its monotone transformation with ${g{(y)}} = {- {\exp{({- \sqrt{y}})}}}$. For this experiment, we assume a perfect oracle for the strong convexity and smoothness parameters of $f$. The convergence of GLD is totally unaffected by the monotone transformation. For the low-dimension cases of a transformed function (bottom half of the figure), we note that there are inflection points in the convergence curve of ARS. This means that ARS initially struggles to gain momentum and then struggles to stop the momentum when it gets close to the optimum. Another observation is that unlike ARS that needs to build up momentum, GLD-Fast starts from a large radius and therefore achieves a reasonably low error much faster than ARS, especially in higher dimensions.
+
+### BBOB Benchmarks
+
+To show that practicality of GLD on practical and non-convex settings, we also test GLD algorithms on a variety of BlackBox Optimization Benchmarking (BBOB) functions \[\]. For each function, the optima is known and we use the log optimality gap as a measure of competance. Because each function can exhibit varying forms of non-smoothness and convexity, all algorithms are ran with a smoothness constant of 10 and a strong convexity constant of 0.1. All other setup details are same as before, such as using a fixed starting point.\
+The plots, given in Appendix C, underscore the superior performance of GLD algorithms on various BBOB functions, demonstrating that GLD can successfully optimize a diverse set of functions even without explicit knowledge of condition number. We note that BBOB functions are far from convex and smooth, many exhibiting high conditioning, multi-modal valleys, and weak global structure. Due to our radius search produce, our algorithm appears more robust to non-ideal settings with non-convexity and ill conditioning. As expected, we note that GLD-Fast tend to outperform GLD-Search, especially as the dimension increases, matching our theoretical understanding of GLD.
+
+### Mujoco Control Benchmarks and Affine Transformations
+
+We also ran experiments on the Mujoco benchmarks with varying architectures, both linear and nonlinear. This demonstrates the viability of our approach even in the non-convex, high dimensional setting. We note that however, unlike e.g. ES which uses all queries to form a gradient direction, our algorithm removes queries which produce less reward than using the current arg-max, which can be an information handicap. Nevertheless, we see that our algorithm still achieves competitive performance on the maximum reward. We used a horizon of $1000$ for all experiments.
+
+Rew. at (104, 105, Max) Queries
+
+Table 2: Final rewards by GLD with linear (L) and deep (H41) policies on Mujoco Benchmarks show that GLD is competitive. We apply an affine projection on HalfCheetah to test affine invariance. We use the reward threshold found from [] with Reacher’s threshold [SWD+17] for a reasonable baseline.
+
+We further tested the affine invariance of GLD on the policy parameters from using Gaussian ball sampling, under the HalfCheetah benchmark by projecting the state $s$ of the MDP with linear policy to a higher dimensional state $Ws$, using a matrix multiplication with an orthonormal $W$. Specifically, in this setting, for a linear policy parametrized by matrix $K$, the objective function is thus $J{({KW})}$ where ${\pi_{K}{({Ws})}} = {KWs}$. Note that when projecting into a high dimension, there is a slowdown factor of $\log\frac{d_{new}}{d_{old}}$ where $d_{new},d_{old}$ are the new high dimension and previous base dimension, respectively, due to the binary search in our algorithm on a higher dimensional space. For our HalfCheetah case, we projected the 17 base dimension to a 200-length dimension, which suggests that the slowdown factor is a factor ${\log\frac{200}{17}} \approx 3.5$. This can be shown in our plots in the appendix (Figure 15).
+
+## Conclusion
+
+We introduced GLD, a robust zeroth-order optimization algorithm that is simple, efficient, and we show strong theoretical convergence bounds via our novel geometric analysis. As demonstrated by our experiments on BBOB and MuJoCo benchmarks, GLD performs very robustly even in the non-convex setting and its monotone and affine invariance properties give theoretical insight on its practical efficiency.\
+GLD is very flexible and allows easy modifications. For example, it could use momentum terms to keep moving in the same direction that improved the objective, or sample from adaptively chosen ellipsoids similarly to adaptive gradient methods. \[, \]. Just as one may decay or adaptively vary learning rates for gradient descent, one might use a similar change the distribution from which the ball-sampling radii are chosen, perhaps shrinking the minimum radius as the algorithm progresses, or concentrating more probability mass on smaller radii.\
+Likewise, GLD could be combined with random restarts or other restart policies developed for gradient descent. Analogously to adaptive per--coordinate learning rates \[, \], one could adaptively change the shape of the balls being sampled into ellipsoids with various length-scale factors. Arbitrary combinations of the above variants are also possible.

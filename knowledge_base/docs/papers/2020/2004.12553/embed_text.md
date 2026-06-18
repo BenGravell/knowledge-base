@@ -1,0 +1,405 @@
+## Introduction
+
+### Log-log convex programs
+
+A log-log convex program (LLCP) is a mathematical optimization problem in which the variables are positive, the objective and inequality constraint functions are *log-log convex*, and the equality constraint functions are *log-log affine*. A function $f:{D \subseteq \text{R}_{+ +}^{n}\rightarrow\text{R}_{+ +}}$ ($\text{R}_{+ +}$ denotes the positive reals) is log-log convex if for all $x$, $y \in D$ and $\theta \in {\lbrack 0,1\rbrack}$,
+
+and $f$ is log-log affine if the inequality holds with equality (the powers are meant elementwise and $\circ$ denotes the elementwise product). Similarly, $f$ is log-log concave if the inequality holds when its direction is reversed. A LLCP has the standard form
+
+where $x \in \text{R}_{+ +}^{n}$ is the variable, the functions $f_{i}$ are log-log convex, and $g_{i}$ are log-log affine \[\]. A value of the variable is a *solution* of the problem if it minimizes the objective function, among all values satisfying the constraints.
+
+The problem is not convex, but it can be readily transformed to a convex optimization problem. We make the change of variables $u = {\log x}$, replace each function $f$ appearing in the LLCP with its log-log transformation, defined by ${F{(u)}} = {{\log f}{(e^{u})}}$, and replace the right-hand sides of the constraints with $0$. Because the log-log transformation of a log-log convex function is convex, we obtain an equivalent convex optimization problem. This means that LLCPs can be solved efficiently and globally, using standard algorithms for convex optimization \[\].
+
+The class of log-log convex programs is large, including many interesting problems as special cases. Geometric programs (GPs) form a well-studied subclass of LLCPs; these are LLCPs in which the equality constraint functions are *monomials*, of the form $x\mapsto{cx_{1}^{a_{1}}x_{2}^{a_{2}}\cdotsx_{n}^{a_{n}}}$, with ${a_{1},{\ldotsa_{n}}} \in \text{R}$ and $c \in \text{R}_{+ +}$, and the objective and inequality constraint functions are sums of monomials, called *posynomials* \[, Boy+07\]. GPs have found application in digital and analog circuit design \[Boy+05 Li+04, \], aircraft design \[ \], epidemiology \[Pre+14, \], chemical engineering \[\], communication systems \[ Chi+07\], control \[\], project management \[Ogu+19\], and data fitting \[, \]; for more, see \[, §1.1\] and \[Boy+07, §10.3\]
+
+In this paper we consider LLCPs in which the objective and constraint functions are parametrized, and we are interested in computing how a solution to an LLCP changes with small perturbations to the parameters. For example, in a GP, the parameters are the coefficients and exponents appearing in monomials and posynomials. While sensitivity analysis of GPs is well-studied \[ \], sensitivity analysis of LLCPs has not, to our knowledge, previously appeared in the literature. Our emphasis in this paper is on practical computation, instead of a theoretical characterization of the differentiability of the solution map.
+
+### Solution maps and sensitivity analysis
+
+An optimization problem can be viewed as a multivalued function mapping parameters to the set of solutions; this set might contain zero, one, or many elements. In neighborhoods where this *solution map* is single-valued, it is an implicit function of the parameters \[\]. In these neighborhoods it is meaningful to discuss how perturbations in the parameters affect the solution. The point of this paper is to efficiently calculate the sensitivity of the solution of an LLCP to these perturbations, by implicitly differentiating the solution map; this calculation also lets us compute the gradient of a scalar-valued function of the solution, with respect to the parameters.
+
+There is a large body of work on the sensitivity analysis of optimization problems, going back multiple decades. Early papers include \[\] and \[\], which apply the implicit function theorem to the first-order KKT conditions of a nonlinear program with twice-differentiable objective and constraint functions. A similar method was applied to GPs in \[, \]. Much of the work on sensitivity analysis of GPs focuses on the special structure of the dual program (e.g., \[, \]). Various results on sensitivity analyses of optimization problems, including nonlinear programs, semidefinite programs, and semi-infinite programs, are collected in \[\].
+
+Recently, a series of papers developed methods to calculate the derivative of convex optimization problems, in which the objective and constraint functions may be nonsmooth. The paper \[\] phrased a convex cone program as the problem of finding a zero of a certain residual map, and the papers \[Agr+19b, \] showed how to differentiate through cone programs (when certain regularity conditions are satisfied) by a straightforward application of the implicit function theorem to this residual map. In \[Agr+19a\], a method was developed to differentiate through high-level descriptions of convex optimization problems, specified in a domain-specific language for convex optimization. The method from \[Agr+19a\] reduces convex optimization problems to cone programs in an efficient and differentiable way. The present paper can be understood as an analogue of \[Agr+19a\] for LLCPs.
+
+### Domain-specific languages for optimization
+
+Log-log convex functions satisfy an important composition rule, analogous to the composition rule for convex functions. Suppose $h:{D \subseteq \text{R}_{+ +}^{m}\rightarrow{\text{R}_{+ +} \cup {\{{+ \infty}\}}}}$ is log-log convex, and let $\lbrack I_{1},I_{2},I_{3}\rbrack$ be a partition of $\{ 1,2,\ldots,m\}$ such that $f$ is nondecreasing in the arguments index by $I_{1}$ and nonincreasing in the arguments indexed by $I_{2}$. If $g$ maps a subset of $\text{R}_{+ +}^{n}$ into $\text{R}_{+ +}^{m}$ such that its components $g_{i}$ are log-log convex for $i \in I_{1}$, log-log concave for $i \in I_{2}$, and log-log affine for $i \in I_{3}$, then the composition
+
+is log-log convex. An analogous rule holds for log-log concave functions.
+
+When combined with a set of atomic functions with known log-log curvature and per-argument monotonicities, this composition rule defines a *grammar* for log-log convex functions, i.e., a rule for combining atomic functions to create other functions with verifiable log-log curvature. This is the basis of disciplined geometric programming (DGP), a grammar for LLCPs \[\]. In addition to compositions of atomic functions, DGP also includes LLCPs as valid expressions, permitting the minimization of a log-log convex function (or maximization of a log-log concave function), subject to inequality constraints ${f{(x)}} \leq {g{(x)}}$, where $f$ is log-log convex and $g$ is log-log concave, and equality constraints ${f{(x)}} = {g{(x)}}$, where $f$ and $g$ are log-log affine. In §2.2, we extend DGP to include parametrized LLCPs.
+
+The class of DGP problems is a subclass of LLCPs. Depending on the choice of atomic functions, or *atoms*, this class can be made quite large. For example, taking powers, products, and sums as the atoms yields GP; adding the maximum operator yields generalized geometric programming (GGP). Several other atoms can be added, such as the exponential function, the logarithm, and functions of elementwise positive matrices, yielding a subclass of LLCPs strictly larger than GGP (see \[, §3\] for examples). In this paper we restrict our attention to LLCPs generated by DGP; this is not a limitation in practice, since the atom library is extensible.
+
+DGP can be used as the grammar for a domain-specific language (DSL) for log-log convex optimization. A DSL for log-log convex optimization parses LLCPs written in a human readable form, rewrites them into canonical forms, and compiles the canonical forms into numerical data for low-level numerical solvers. Because valid problems are guaranteed to be LLCPs, the DSL can guarantee that the compilation and the numerical solve are correct (i.e., valid problems can be solved globally). By abstracting away the numerical solver, DSLs make optimization accessible, vastly decreasing the time between formulating a problem and solving it with a computer. Examples of DSLs for LLCPs include CVXPY \[, Agr+18\] and CVXR \[\]; additionally, CVX \[\], GPKit \[\], and Yalmip \[Löf04\] support GPs.
+
+Finally, we mention that modern DSLs for convex optimization are based on disciplined convex programming (DCP) \[\], which is analogous to DGP. CVXPY, CVXR, CVX, and Convex.jl \[Ude+14\] support convex optimization using DCP as the grammar. In \[Agr+19a\], a method for differentiating through parametrized DCP problems was developed; this method was implemented in CVXPY, and PyTorch \[Pas+19\] and TensorFlow \[Aba+16, Agr+19d\] wrappers for differentiable CVXPY problems were implemented in a Python package called CVXPY Layers.
+
+### This paper
+
+In this paper we describe how to efficiently compute the derivative of a LLCP, when it exists, specifically considering LLCPs generated by DGP. In particular, we show how to evaluate the derivative (and its adjoint) of the solution map of an LLCP at a vector. To do this, we first extend the DGP ruleset to include parameters as atoms, in §2. Then, in §3, we represent a parametrized DGP problem by the composition of a smooth transformation of parameters, a parametrized DCP problem, and an exponential transformation of the DCP problem's solution. We differentiate through this composition using recently developed methods from \[, Agr+19b, Agr+19a\] to differentiate through the DCP problem. Unlike prior work on sensitivity analysis of GPs, in which the objective and constraint functions are smooth, our method extends to problems with nonsmooth objective and constraints.
+
+We implement the derivative of LLCPs as an abstract linear operator in CVXPY. In just a few lines of code, users can conduct first-order sensitivity analyses to examine how the values of variables would change given small perturbations of the parameters. Using the adjoint of the derivative operator, users can compute the gradient of a function of the solution to a DGP problem, with respect to the parameters. For convenience, we implement PyTorch and TensorFlow wrappers of the adjoint derivative in CVXPY Layers, making it easy to use log-log convex optimization problems as tunable layers in differentiable programs or neural networks. For our implementation, the overhead in differentiating through the DSL (which rewrites the high-level description of a problem into low-level numerical data for a solver, and retrieves a solution for the original problem from a solution from the solver) is small compared to the time spent in the numerical solver. In particular, the mapping from the transformed parameters to the numerical solver data is affine and can be represented compactly by a sparse matrix, and so can be evaluated quickly. Our implementation is described and illustrated with usage examples in §4.
+
+In §5, we present two simple examples, in which we apply a sensitivity analysis to the design of an $M/M/N$ queuing system, and fit a structured prediction model.
+
+### Related work
+
+### Automatic differentiation
+
+Automatic differentiation (AD) is a family of methods that use the chain rule to algorithmically compute exact derivatives of compositions of differentiable functions, dating back to the 1950s \[Bed+59\]. There are two main types of AD. Reverse-mode AD computes the gradient of a scalar-valued composition of differentiable functions by applying the adjoint of the intermediate derivatives to the sensitivities of their outputs, while forward-mode AD computes applies the derivative of the composition to a vector of perturbations in the inputs \[\]. In AD, derivatives are typically implemented as *abstract linear maps*, i.e., methods for applying the derivative and its adjoint at a vector; the derivative matrices of the intermediate functions are not materialized, i.e., formed or stored as arrays.
+
+Recently, many high-quality open-source implementations of AD were made available. Examples include PyTorch \[Pas+19\], TensorFlow \[Aba+16, Agr+19d\], JAX \[\], and Zygote \[\]. These AD tools are used widely, especially to train machine learning models such as neural networks.
+
+### Optimization layers
+
+Implementing the derivative and its adjoint of an optimization problem makes it possible to implement the problem as a differentiable function in AD software. These differentiable solution maps are sometimes called *optimization layers* in the machine learning community. Many specific optimization layers have been implemented, including QP layers \[\], convex optimization layers \[Agr+19a\], and nonlinear program layers \[\]. Optimization layers have found several applications in, e.g., computer graphics \[\], control \[Agr+19c, de ̵+18, Amo+18, \], data fitting and classification \[\], game playing \[\], and combinatorial tasks \[Ber+20\].
+
+While some optimization layers are implemented by differentiating through each step of an iterative algorithm (known as *unrolling*), we emphasize that in this paper, we differentiate through LLCPs *analytically*, without unrolling an optimization algorithm, and without tracing each step of the DSL.
+
+### Numerical solvers
+
+A numerical solver is an implementation of an optimization algorithm, specialized to a specific subclass of optimization problems. DSLs like CVXPY rewrite high-level descriptions of optimization problems to the rigid low-level formats required by solvers. While some solvers have been implemented specifically for GPs \[Boy+07, §10.2\], LLCPs (and GPs) can just as well be solved by generic solvers for convex cone programs that support the exponential cone. Our implementation reduces LLCPs to cone programs and solves them using SCS \[O'D+16\], an ADMM-based solver for cone programs. In principle, our method is compatible with other conic solvers as well, such as ECOS \[\] and MOSEK \[\].
+
+## Disciplined geometric programming
+
+The DGP ruleset for unparametrized LLCPs was given in §1.3. Here, we remark on the types of atoms under consideration, and we extend DGP to include parameters as atoms. We then give several examples of parametrized, DGP-compliant expressions.
+
+### Atom library
+
+The class of LLCPs producible using DGP depends on the atom library. We make a few standard assumptions on this library, limiting our attention to atoms that can be implemented in a DSL for convex optimization. In particular, we assume that the log-log transformation of each DGP atom (or its epigraph) can be represented in a DCP-compliant fashion, using DCP atoms. For example, this means that if the product is a DGP atom, then we require that the sum (which is its log-log transformation) to be a DCP atom. In turn, we assume that the epigraph of each DCP atom can be represented using the standard convex cones (i.e., the zero cone, the nonnegative orthant, the second-order cone, the exponential cone, and the semidefinite cone).
+
+For simplicity, the reader may assume that the atoms under consideration are the ones listed in the DGP tutorial at
+
+https://www.cvxpy.org.
+
+The subclass of LLCPs generated by these atoms is a superset of GGPs, because it includes the product, sum, power, and maximum as atoms. It also includes other basic functions, such as the ratio, difference, exponential, logarithm, and entropy, and functions of elementwise positive matrices, such as the spectral radius and resolvent.
+
+### Parameters
+
+We extend the DGP ruleset to include parameters as atoms by defining the curvature of parameters, and defining the curvature of a parametrized power atom. Like unparametrized expressions, a parametrized expression is log-log convex under DGP if can be generated by the composition rule.
+
+### Curvature
+
+The curvature of a positive parameter is log-log affine. Parameters that are not positive have unknown log-log curvature.
+
+### The power atom
+
+The power atom ${f{(x;a)}} = x^{a}$ is log-log affine if the exponent $a$ is a fixed numerical constant, or if $a$ is parameter and the argument $x$ is not parametrized. If $a$ is a parameter, it need not be positive. The exponent $a$ is not an argument of the power atom, i.e., DGP does not allow for the exponent to be a composition of atoms.\
+
+These rules ensure that a parametrized DGP problem can be reduced to a parametrized DCP problem, as explained in §3.1. (This, in turn, will simplify the calculation of the derivative of the solution map.) These rules are similar to the rules for parameters from \[Agr+19a\], in which a method for differentiating through parametrized DCP problems was developed. They are are not too restrictive; e.g., they permit taking the coefficients and exponents in a GP as parameters. We now give several examples of the kinds of parametrized expressions that can be constructed using DGP.
+
+### Examples
+
+### Example 1
+
+Consider a parametrized monomial
+
+where $x \in \text{R}_{+ +}^{n}$ is the variable and $c \in \text{R}_{+ +}$, ${a_{1},\ldots,a_{n}} \in \text{R}$ are parameters. This expression is DGP-compliant. To see this, notice that each power expression $x_{i}^{a_{i}}$ is log-log affine, since $a_{i}$ is a parameter and $x_{i}$ is not parametrized. Next, note that the product of the powers is log-log affine, since the product of log-log affine expressions is log-log affine. Finally, the parameter $c$ is log-log affine because it is positive, so by the same reasoning the product of $c$ and $x_{1}^{a_{1}}\cdotsx_{n}^{a_{n}}$ is log-log affine as well.
+
+On the other hand, if $a_{n + 1} \in \text{R}$ is an additional parameter, then
+
+is not DGP-compliant, since $cx_{1}^{a_{1}}x_{2}^{a_{2}}\cdotsx_{n}^{a_{n}}$ and $a_{n + 1}$ are both parametrized.
+
+### Example 2
+
+Consider a parametrized posynomial, i.e., a sum of monomials,
+
+where $x \in \text{R}_{+ +}^{n}$ is the variable, and $c \in \text{R}_{+ +}^{m}$, $a_{ij} \in \text{R}$ ($i = {1,\ldots,m}$, $j = {1,\ldots,n}$) are parameters. This expression is also DGP-compliant, since each term in the sum is a parametrized monomial, which is log-log affine, and the sum of log-log affine expressions is log-log convex.
+
+### Example 3
+
+The maximum of posynomials, parametrized as in the previous examples, is log-log convex, since the maximum is a log-log convex function that is increasing in each of its arguments.
+
+### Example 4
+
+We can also give examples of parametrized expressions that do not involve monomials or posynomials. In this example and the next one, a vector or matrix expression is log-log convex (or log-log affine, or log-log concave) if every entry is log-log convex (or log-log affine, or log-log concave).
+
+The expression $\exp{({c \circ x})}$, where $x \in \text{R}_{+ +}^{n}$ is the variable and $c \in \text{R}_{+ +}^{n}$ is the parameter (and $\circ$ is the elementwise product), is log-log convex, since $c \circ x$ is log-log affine and $\exp$ is log-log convex; likewise, $\exp{({c^{T}x})}$ is log-log convex, since $c^{T}x$ is log-log convex and $\exp$ is increasing.
+
+The expression $\log{({c \circ x})}$, where $x \in \text{R}_{+ +}^{n}$ is the variable and $c \in \text{R}_{+ +}^{n}$ is the parameter is log-log concave, since $c \circ x$ is log-log affine and $\log$ is log-log concave. However, $\log{({c^{T}x})}$ does not have log-log curvature, since the $\log$ atom is increasing and log-log concave but $c^{T}x$ is log-log convex.
+
+### Example 5
+
+Finally, we give two examples involving functions of matrices with positive entries.
+
+The spectral radius $\rho{(X)}$ of a matrix $X \in \text{R}_{+ +}^{n \times n}$ with positive entries is a log-log convex function, increasing in each entry of $X$. If $C \in \text{R}_{+ +}^{n \times n}$ is a parameter, then $\rho{({C \circ X})}$ and $\rho{({CX})}$ are both log-log convex and DGP-compliant ($C \circ X$ is log-log affine, and $CX$ is log-log convex).
+
+The atom ${f{(X)}} = {({I - X})}^{- 1}$ is log-log convex (and increasing) in matrices $X \in \text{R}_{+ +}^{n \times n}$ with ${\rho{(X)}} < 1$. Therefore, if $X$ is a variable and $C \in \text{R}_{+ +}^{n \times n}$ is a parameter, the expressions ${({I - {C \circ X}})}^{- 1}$ and ${({I - {CX}})}^{- 1}$ are log-log convex and DGP-compliant.
+
+We refer readers interested in these functions to \[, §2.4\].
+
+## The solution map and its derivative
+
+We consider a DGP-compliant LLCP, with variable $x \in \text{R}_{+ +}^{n}$ and parameter $\alpha \in \text{R}^{k}$. We assume throughout that the solution map of the LLCP is single-valued, and we denote it by $\mathcal{S}:{\text{R}^{k}\rightarrow\text{R}_{+ +}^{n}}$. There are several pathological cases in which the solution map may not be differentiable; we simply limit our attention to non-pathological cases, without explicitly characterizing what those cases are. We leave a characterization of the pathologies to future work. In this section we describe the form of the implicit function $\mathcal{S}$, and we explain how to compute the derivative operator $\mathsf{D}\mathcal{S}$ and its adjoint $\mathsf{D}^{T}\mathcal{S}$.
+
+Because a DGP problem can be reduced to a DCP problem via the log-log transformation, we can represent its solution map by the composition of a map $\mathcal{C}:{\text{R}^{k}\rightarrow\text{R}^{p}}$, which maps the parameters in the LLCP to parameters in the DCP problem, the solution map $\phi:{\text{R}^{p}\rightarrow\text{R}^{m}}$ of the DCP problem, and a map $\mathcal{R}:{\text{R}^{m}\rightarrow\text{R}_{+ +}^{n}}$ which recovers the solution to the LLCP from a solution to the convex program. That is, we represent $\mathcal{S}$ as
+
+In §3.1, we describe the canonicalization map $\mathcal{C}$ and its derivative. When the conditions on parameters from §2.2 are satisfied, the canonicalized parameters $\mathcal{C}{(\alpha)}$ (i.e., the parameters in the DCP program) satisfy the rules introduced in \[Agr+19a\]. This lets us use the method from \[Agr+19a\] to efficiently differentiate through the log-log transformation of the LLCP, as we describe in §3.2. In §3.3, we describe the recovery map $\mathcal{R}$ and its derivative.
+
+Before proceeding, we make a few basic remarks on the derivative.
+
+### The derivative
+
+We calculate the derivative of $\mathcal{S}$ by calculating the derivatives of these three functions, and applying the chain rule. Let $\beta = {\mathcal{C}{(\alpha)}}$ and ${\overset{\sim}{x}}^{\star} = {\phi{(\beta)}}$. The derivative at $\alpha$ is just
+
+and the adjoint of the derivative is
+
+The derivative at $\alpha$, $\mathsf{D}\mathcal{S}{(\alpha)}$, is a matrix in $\text{R}^{n \times k}$, and its adjoint is its transpose.
+
+### Sensitivity analysis
+
+Suppose the parameter $\alpha$ is perturbed by a vector ${\mathsf{d}\alpha} \in \text{R}^{k}$ of small magnitude. Using the derivative of the solution map, we can compute a first-order approximation of the solution of the perturbed problem, i.e.,
+
+is an approximation of the change in the solution, due to the perturbation.
+
+### Gradient
+
+Consider a function $f:{\text{R}^{n}\rightarrow\text{R}}$, and suppose we wish to compute the gradient of the composition $f \circ \mathcal{S}$ at $\alpha$. By the chain rule, the gradient is simply
+
+where ${\mathsf{d}x} \in \text{R}^{n}$ is the gradient of $f$, evaluated at $\mathcal{S}{(\alpha)}$. Notice that evaluating the adjoint of the derivative at a vector corresponds to computing the gradient of a function of the solution. (In the machine learning community, this computation is known as backpropagation.)
+
+### Canonicalization
+
+A DGP problem parametrized by $\alpha \in \text{R}^{k}$ can be *canonicalized*, or reduced, to an equivalent DCP problem parametrized by $\beta \in \text{R}^{p}$. The canonicalization map $\mathcal{C}:{\text{R}^{k}\rightarrow\text{R}^{p}}$ relates the parameters $\alpha$ in the DGP problem to the parameters $\beta$ in the DCP problem by ${\mathcal{C}{(\alpha)}} = \beta$. In this section, we describe the form of $\mathcal{C}$, and explain why the problem produced by canonicalization is DCP-compliant (with respect to the parametrized DCP ruleset introduced in \[Agr+19a\]).
+
+The canonicalization of a parametrized DGP problem is the same as the canonicalization of an unparametrized DGP problem in which the parameters have been replaced by constants. A DGP expression can be thought of an expression tree, in which the leaves are variables, constants, or parameters, and the root and inner nodes are atomic functions. The children of a node are its arguments. Canonicalization recursively replaces each expression with its log-log transformation, or the log-log transformation of its epigraph \[, §4.1\]. For example, positive variables are replaced with unconstrained variables and products are replaced with sums.
+
+Parameters appearing as arguments to an atom are replaced with their logs. Parameters appearing as exponents in power atoms, however, enter the DCP problem unchanged; the expression $x^{a}$ is canonicalized to $aF{(u)}$, where $F{(u)}$ is the log-log transformation of the expression $x$. In particular, for $\beta = {\mathcal{C}{(\alpha)}}$, for each $i = {1,\ldots,p}$, there exists $j \in {\{ 1,\ldots,k\}}$ such that either $\beta_{i} = {\log{(\alpha_{j})}}$ or $\beta_{i} = \alpha_{j}$. The derivative ${\mathsf{D}\mathcal{C}{(\alpha)}} \in \text{R}^{p \times k}$ is therefore easy to compute. Its entries are given by
+
+for $i = {1,\ldots,p}$ and $j = {1,\ldots,k}$.
+
+### DCP compliance
+
+When the DGP problem is not parametrized, the convex optimization problem emitted by canonicalization is DCP-compliant \[\]. When the DGP problem is parametrized, it turns out that the emitted convex optimization problem satisfies the DCP ruleset for parametrized problems, given in \[Agr+19a, §4.1\]. In DCP, parameters are affine (just as parameters are log-log affine in DGP); additionally, the product $xy$ is affine if either $x$ or $y$ is a numerical constant, $x$ is a parameter and $y$ is not parametrized, or $y$ is a parameter and $x$ is not parametrized. The restriction on the power atom in DGP ensures that all products appearing in the emitted convex optimization problem are affine under DCP. DCP-compliance of the remaining expressions follows from the assumptions on the atom library, which guarantee that the log-log transformation of a DGP expression is DCP-compliant. Therefore, the parametrized convex optimization problem is DCP-compliant. (In the terminology of \[Agr+19a\], the problem is a *disciplined parametrized program*.)
+
+### The convex optimization problem
+
+The convex optimization problem emitted by canonicalization has the variable $\overset{\sim}{x} \in \text{R}^{m}$, with $m \geq n$. The solution map $\phi$ of the DCP problem maps the parameter $\beta \in \text{R}^{p}$ to the solution ${\overset{\sim}{x}}^{\star} \in \text{R}^{m}$. Because the problem is DCP-compliant, to compute its derivative $\mathsf{D}\phi{(\beta)}$, we can simply use the method from \[Agr+19a\].
+
+In particular, $\phi$ can be represented in *affine-solver-affine* form: it is the composition of an affine map from parameters in the DCP problem to the problem data of a convex cone program; the solution map of a convex cone program; and an affine map from the solution of the convex cone program to the solution of the DCP problem. The affine maps and their derivatives can be evaluated efficiently, since they can be represented as sparse matrices \[Agr+19a, §4.2, 4.4\]. The cone program can be solved using standard algorithms for conic optimization, and its derivative can be computed using the method from \[Agr+19b\]; the latter involves computing certain projections onto cones, their derivatives, and solving a least-squares problem.
+
+### Solution recovery
+
+Let $\overset{\sim}{x} \in \text{R}^{m}$ be the variable in the DCP problem, and partition $\overset{\sim}{x}$ as ${(\hat{x},s)} \in \text{R}^{n \times {({m - n})}}$. Here, $\hat{x}$ is the elementwise log of the variable $x$ in the DGP problem and $s$ is a slack variable involved in graph implementations of DGP atoms. If $({\hat{x}}^{\star},s^{\star})$ is optimal for the DCP problem, then $\exp{({\hat{x}}^{\star})}$ is optimal for the DGP problem (the exponentiation is meant elementwise) \[, §4.2\]. Therefore, the recovery map $\mathcal{R}:{\text{R}^{m}\rightarrow\text{R}^{n}}$ is given by
+
+The entries of its derivative are simply given by
+
+for $i = {1,\ldots,n}$, $j = {1,\ldots,m}$.
+
+## Implementation
+
+We have implemented the derivative and adjoint derivative of LLCPs as abstract linear operators in CVXPY, a Python-embedded modeling language for convex optimization and log-log convex optimization \[, Agr+18, \]. With our software, users can differentiate through any parametrized LLCP produced via the DGP ruleset, using the atoms listed at
+
+https://www.cvxpy.org.
+
+Additionally, we provide differentiable PyTorch and TensorFlow layers for LLCPs in CVXPY Layers, available at
+
+https://www.github.com/cvxgrp/cvxpylayers.
+
+We now remark on a few aspects of our implementation, before presenting usage examples in §4.1.
+
+### Caching
+
+In our implementation, the first time a parametrized DGP problem is solved, we compute and cache the canonicalization map $\mathcal{C}$, the parametrized DCP problem, and the recovery map $\mathcal{R}$. On subsequent solves, instead of re-canonicalizing the DGP problem, we simply evaluate $\mathcal{C}$ at the parameter values and update the parameters in the DCP problem in-place. The affine maps involved in the canonicalization and solution recovery of the DCP problem are also cached after the first solve, as in \[Agr+19a\]. This means after an initial "compilation", the overhead of the DSL is negligible compared to the time spent in the numerical solver.
+
+### Derivative computation
+
+CVXPY (and CVXPY Layers) represent the derivative and its adjoint abstractly, letting users evaluate them at vectors. If $\alpha \in \text{R}^{k}$ is the parameter, and ${\mathsf{d}\alpha} \in \text{R}^{k}$, ${\mathsf{d}x} \in \text{R}^{n}$ are perturbations, users may compute $\mathsf{D}\mathcal{S}{(\alpha)}{({\mathsf{d}\alpha})}$ and $\mathsf{D}^{T}\mathcal{S}{(\alpha)}{({\mathsf{d}x})}$. In particular, we do not materialize the derivative matrices. Because the action of the DSL is cached after the first compilation, we can compute these operations efficiently, without tracing each instruction executed by the DSL.
+
+### Hello world
+
+Here, we present a basic example of how to use CVXPY to specify a parametrized and solve DGP problem, and how to evaluate its derivative and adjoint. This example is only meant to illustrate the usage of our software; a more interesting example is presented in §5.
+
+Consider the following code:
+
+[⬇](data:text/plain;base64,aW1wb3J0IGN2eHB5IGFzIGNwCgp4ID0gY3AuVmFyaWFibGUocG9zPVRydWUpCnkgPSBjcC5WYXJpYWJsZShwb3M9VHJ1ZSkKeiA9IGNwLlZhcmlhYmxlKHBvcz1UcnVlKQoKYSA9IGNwLlBhcmFtZXRlcihwb3M9VHJ1ZSkKYiA9IGNwLlBhcmFtZXRlcihwb3M9VHJ1ZSkKYyA9IGNwLlBhcmFtZXRlcigpCgpvYmplY3RpdmVfZm4gPSAxLyh4KnkqeikKb2JqZWN0aXZlID0gY3AuTWluaW1pemUob2JqZWN0aXZlX2ZuKQpjb25zdHJhaW50cyA9IFthKih4KnkgKyB4KnogKyB5KnopIDw9IGIsIHggPj0geSoqY10KcHJvYmxlbSA9IGNwLlByb2JsZW0ob2JqZWN0aXZlLCBjb25zdHJhaW50cykKCnByaW50KHByb2JsZW0uaXNfZGdwKGRwcD1UcnVlKSk=){download=""}
+
+x = cp.Variable(pos=True)
+
+y = cp.Variable(pos=True)
+
+z = cp.Variable(pos=True)
+
+a = cp.Parameter(pos=True)
+
+b = cp.Parameter(pos=True)
+
+objective = cp.Minimize(objective_fn)
+
+problem = cp.Problem(objective, constraints)
+
+print(problem.is_dgp(dpp=True))
+
+This code block constructs an LLCP problem, with three scalar variables, ${x,y,z} \in \text{R}_{+}$. Notice that the variables are declared as positive, with pos=True. The objective is to minimize the reciprocal of the product of the variables, which is log-log affine. There are three parameters, a, b, and c, two of which are declared as positive. The variables are constrained so that x is at least y\*\*c (i.e., y raised to the power c); notice that this constraint is DGP-compliant, since the power atom is log-log affine and x is log-log affine. Additionally, the posynomial a\*(x\*y + x\*z + y\*z) is constrained to be no larger than the parameter b; the posynomial is log-log convex and DGP-compliant, since the parameters are positive. The penultimate line constructs the problem, and the last line checks whether the problem is DGP; the keyword argument dpp=True tells CVXPY that it should use the rules involving parameters introduced in §2.2. As expected, the output of this program is the string True.
+
+### Solving the problem
+
+The problem constructed above can be solved in one line, after setting the values of the parameters, as below.
+
+[⬇](data:text/plain;base64,YS52YWx1ZSA9IDIuMApiLnZhbHVlID0gMS4wCmMudmFsdWUgPSAwLjUKcHJvYmxlbS5zb2x2ZShncD1UcnVlLCByZXF1aXJlc19ncmFkPVRydWUp){download=""}
+
+problem.solve(gp=True, requires_grad=True)
+
+The keyword argument gp=True tells CVXPY to parse the problem using DGP, and the keyword argument requires_grad=True will let us subsequently evaluate the derivative and its adjoint. After calling problem.solve, the optimal values of the variables are stored in the value attribute, that is,
+
+[⬇](data:text/plain;base64,cHJpbnQoeC52YWx1ZSkKcHJpbnQoeS52YWx1ZSkKcHJpbnQoei52YWx1ZSk=){download=""}
+
+[⬇](data:text/plain;base64,MC41NjEyMTQ3MzUzODg5Mzg2CjAuMzE0OTYyMDAzNzMzNTk0NTYKMC4zNjg5MjA1NTg1OTk5MTQ0Ng==){download=""}
+
+(and the optimal value of the problem is stored in problem.value).
+
+### Sensitivity analysis
+
+Suppose we perturb the parameter vector $\alpha$ by a vector $\mathsf{d}\alpha$ of small magnitude. We can approximate the change $\Delta$ in the solution due to the perturbation using the derivative of the solution map, as
+
+We can compute this quantity in CVXPY. For our running example, partition the perturbation as
+
+To approximate the change in the optimal values for the variables $x$, $y$, and $z$, we set the delta attributes on the parameters and then call the derivative method.
+
+[⬇](data:text/plain;base64,YS5kZWx0YSA9IGRhCmIuZGVsdGEgPSBkYgpjLmRlbHRhID0gZGMKcHJvYmxlbS5kZXJpdmF0aXZlKCk=){download=""}
+
+The derivative method populates the delta attributes of the variables in the problem as a side-effect. Say we set da, db, and dc to 1e-2. Let $\hat{x}$, $\hat{y}$, and $\hat{z}$ be the first-order approximations of the solution to the perturbed problem; we can compare these to the actual solution, as follows.
+
+[⬇](data:text/plain;base64,eF9oYXQgPSB4LnZhbHVlICsgeC5kZWx0YQp5X2hhdCA9IHkudmFsdWUgKyB5LmRlbHRhCnpfaGF0ID0gei52YWx1ZSArIHouZGVsdGEKCmEudmFsdWUgKz0gZGEKYi52YWx1ZSArPSBkYgpjLnZhbHVlICs9IGRjCnByb2JsZW0uc29sdmUoZ3A9VHJ1ZSkKCnByaW50KCd4OiBwcmVkaWN0ZWQgezA6LjVmfSBhY3R1YWwgezE6LjVmfScuZm9ybWF0KHhfaGF0LCB4LnZhbHVlKSkKcHJpbnQoJ3k6IHByZWRpY3RlZCB7MDouNWZ9IGFjdHVhbCB7MTouNWZ9Jy5mb3JtYXQoeV9oYXQsIHkudmFsdWUpKQpwcmludCgnejogcHJlZGljdGVkIHswOi41Zn0gYWN0dWFsIHsxOi41Zn0nLmZvcm1hdCh6X2hhdCwgei52YWx1ZSkp){download=""}
+
+x_hat = x.value + x.delta
+
+y_hat = y.value + y.delta
+
+z_hat = z.value + z.delta
+
+problem.solve(gp=True)
+
+print(\'x: predicted {0:.5f} actual {1:.5f}\'.format(x_hat, x.value))
+
+print(\'y: predicted {0:.5f} actual {1:.5f}\'.format(y_hat, y.value))
+
+print(\'z: predicted {0:.5f} actual {1:.5f}\'.format(z_hat, z.value))
+
+[⬇](data:text/plain;base64,eDogcHJlZGljdGVkIDAuNTU3MjkgYWN0dWFsIDAuNTU3MzIKeTogcHJlZGljdGVkIDAuMzE3ODMgYWN0dWFsIDAuMzE3ODEKejogcHJlZGljdGVkIDAuMzcxNzkgYWN0dWFsIDAuMzcxNzg=){download=""}
+
+### Gradient
+
+We can compute the gradient of a function of the solution with respect to the parameters, using the adjoint of the derivative of the solution map. Let $\alpha = {(a,b,c)}$ be the parameters in our problem, and let $x{(\alpha)}$, $y{(\alpha)}$, and $z{(\alpha)}$ denote the optimal variable values for our problem, so that
+
+where $\mathcal{S}$ is the solution map of our optimization problem. Let $f:{\text{R}^{3}\rightarrow\text{R}}$, and suppose we wish to compute the gradient of the composition $f \circ \mathcal{S}$ at $\alpha$. By the chain rule,
+
+where ${\mathsf{d}x},{\mathsf{d}y},{\mathsf{d}z}$ are the partial derivatives of $f$ with respect to its arguments.
+
+We can compute the gradient in CVXPY. Below, dx, dy, and dz are numerical constants, corresponding to ${\mathsf{d}x},{\mathsf{d}y}$, and $\mathsf{d}z$.
+
+[⬇](data:text/plain;base64,eC5ncmFkaWVudCA9IGR4CnkuZ3JhZGllbnQgPSBkeQp6LmdyYWRpZW50ID0gZHoKcHJvYmxlbS5iYWNrd2FyZCgp){download=""}
+
+The backward method populates the gradient attributes on the parameters. If left uninitialized, the gradient attributes on the variables default to $1$, corresponding to taking $f$ to be the sum function. The gradient of a scalar-valued function $f$ with respect to the solution (the values ${\mathsf{d}x},{\mathsf{d}y},{\mathsf{d}z}$) may be computed manually, or using software for automatic differentiation.
+
+As an example, suppose $f$ is the function
+
+so that ${\mathsf{d}x} = x$, ${\mathsf{d}y} = y$, and ${\mathsf{d}z} = z$. Let ${\mathsf{d}\alpha} = {{\nabla f}{({\mathcal{S}{(\alpha)}})}}$, and say we subtract $\eta\mathsf{d}\alpha$ from the parameter, where $\eta$ is a small positive number, such as $0.5$. Using the following code, we can compare $f{({\mathcal{S}{({\alpha - {\mathsf{d}\alpha}})}})}$ with the value predicted by the gradient, i.e.
+
+[⬇](data:text/plain;base64,ZGVmIGYoeCwgeSwgeik6CiAgICByZXR1cm4gMS8yKih4KioyICsgeSoqMiArIHoqKjIpCgpvcmlnaW5hbCA9IGYoeCwgeSwgeikudmFsdWUKCnguZ3JhZGllbnQgPSB4LnZhbHVlCnkuZ3JhZGllbnQgPSB5LnZhbHVlCnouZ3JhZGllbnQgPSB6LnZhbHVlCnByb2JsZW0uYmFja3dhcmQoKQoKZXRhID0gMC41CmRhbHBoYSA9IGNwLnZzdGFjayhbYS5ncmFkaWVudCwgYi5ncmFkaWVudCwgYy5ncmFkaWVudF0pCnByZWRpY3RlZCA9IGZsb2F0KChvcmlnaW5hbCAtIGV0YSpkYWxwaGEuVCBAIGRhbHBoYSkudmFsdWUpCgphLnZhbHVlIC09IGV0YSphLmdyYWRpZW50CmIudmFsdWUgLT0gZXRhKmIuZ3JhZGllbnQKYy52YWx1ZSAtPSBldGEqYy5ncmFkaWVudApwcm9ibGVtLnNvbHZlKGdwPVRydWUpCmFjdHVhbCA9IGYoeCwgeSwgeikudmFsdWUKCnByaW50KCdvcmlnaW5hbCB7MDouNWZ9IHByZWRpY3RlZCB7MTouNWZ9IGFjdHVhbCB7MjouNWZ9Jy5mb3JtYXQoCiAgICAgICBvcmlnaW5hbCwgcHJlZGljdGVkLCBhY3R1YWwpKQ==){download=""}
+
+dalpha = cp.vstack(\[a.gradient, b.gradient, c.gradient\])
+
+predicted = float((original - eta\*dalpha.T @ dalpha).value)
+
+a.value -= eta\*a.gradient
+
+b.value -= eta\*b.gradient
+
+c.value -= eta\*c.gradient
+
+problem.solve(gp=True)
+
+print(\'original {0:.5f} predicted {1:.5f} actual {2:.5f}\'.format(
+
+original, predicted, actual))
+
+[⬇](data:text/plain;base64,b3JpZ2luYWwgMC4yNzUxMyBwcmVkaWN0ZWQgMC4yMjcwOSBhY3R1YWwgMC4yMjk0Mg==){download=""}
+
+original 0.27513 predicted 0.22709 actual 0.22942
+
+### CVXPY Layers
+
+We have implemented support for solving and differentiating through LLCPs specified with CVXPY in CVXPY Layers, which provides PyTorch and TensorFlow wrappers for our software. This makes it easy to use automatic differentiation to compute the gradient of a function of the solution. For example, the above gradient calculation can be done in PyTorch, with the following code. [⬇](data:text/plain;base64,ZnJvbSBjdnhweWxheWVycy50b3JjaCBpbXBvcnQgQ3Z4cHlMYXllcgppbXBvcnQgdG9yY2gKCmxheWVyID0gQ3Z4cHlMYXllcihwcm9ibGVtLCBwYXJhbWV0ZXJzPVthLCBiLCBjXSwKICAgICAgICAgICAgICAgICAgIHZhcmlhYmxlcz1beCwgeSwgel0sIGdwPVRydWUpCmFfdGNoID0gdG9yY2gudGVuc29yKDIuMCwgcmVxdWlyZXNfZ3JhZD1UcnVlKQpiX3RjaCA9IHRvcmNoLnRlbnNvcigxLjAsIHJlcXVpcmVzX2dyYWQ9VHJ1ZSkKY190Y2ggPSB0b3JjaC50ZW5zb3IoMC41LCByZXF1aXJlc19ncmFkPVRydWUpCgp4X3N0YXIsIHlfc3Rhciwgel9zdGFyID0gbGF5ZXIoYV90Y2gsIGJfdGNoX2NfdGNoKQpzdW1fb2Zfc29sdXRpb24gPSB4X3N0YXIgKyB5X3N0YXIgKyB6X3N0YXIKc3VtX29mX3NvbHV0aW9uLmJhY2t3YXJkKCk=){download=""} from cvxpylayers.torch import CvxpyLayer import torch layer = CvxpyLayer(problem, parameters=\[a, b, c\], variables=\[x, y, z\], gp=True) a_tch = torch.tensor(2.0, requires_grad=True) b_tch = torch.tensor(1.0, requires_grad=True) c_tch = torch.tensor(0.5, requires_grad=True) x_star, y_star, z_star = layer(a_tch, b_tch_c_tch) sum_of_solution = x_star + y_star + z_star sum_of_solution.backward() The PyTorch method backward computes the gradient of the sum of the solution, and populates the grad attribute on the PyTorch tensors which were declared with requires_grad=True. Of course, we could just as well replace the sum operation on the solution with another scalar-valued operation.
+
+### Performance
+
+Here, we report the time it takes our software to parse, solve, and differentiate through a DGP problem of modest size. The problem under consideration is a GP,
+
+with variable $x \in \text{R}_{+ +}^{n}$ and parameters $A \in \text{R}^{m \times n}$, $c \in \text{R}_{+ +}^{m}$, $l \in \text{R}_{+ +}^{n}$, and $u \in \text{R}_{+ +}^{n}$.
+
+We solve a specific numerical instance, with $n = 5000$ and $m = 3$, corresponding a problem with $5000$ variables and $25003$ parameters. We solve the problem using SCS \[O'D+16, O'D+17\], and use diffcp to compute the derivatives \[Agr+19b, Agr+19\]. In table 1, we report the mean $\mu$ and standard deviation $\sigma$ of the wall-clock times for the solve, derivative, and backward methods, over 10 runs (after performing a warm-up iteration). These experiments were conducted on a standard laptop, with 16 GB of RAM and a 2.7 GHz Intel Core i7 processor. We break down the report into the time spent in CVXPY and the time spent in the numerical solver; the total wall-clock time is the sum of these two quantities.
+
+Table 1: Timings for problem 2, in ms.
+
+Because our implementation caches compact representations of the canonicalization map and recovery map, instead of tracing the entire execution of the DSL, the overhead of CVXPY is negligible compared to the time spent in the numerical solver. For the solve method, the time spent in CVXPY --- which maps the parameters in the LLCP to the parameters in a convex cone program, and retrieves a solution of the LLCP from a solution of the cone program --- is roughly two orders of magnitude less than the time spent in the numerical solver, accounting for just 0.45% of the total wall-clock time. Similarly, computing the derivative (and its adjoint) is also about two orders of magnitude faster than solving the problem.
+
+## Examples
+
+In this section, we present two illustrative examples. The first example uses the derivative of an LLCP to analyze the design of a queuing system. The second example uses the adjoint of the derivative, training an LLCP as an optimization layer for a synthetic structured regression task.
+
+The code for our examples are available online, at
+
+https://www.cvxpy.org/examples/index.html.
+
+### Queuing system
+
+We consider the optimization of a (Markovian) *queuing system*, with $N$ queues. A queuing system is a collection of queues, in which queued items wait to be served; the queued items might be threads in an operating system, or packets in an input or output buffer of a networking system. A natural goal to minimize the service load of the system, given constraints on various properties of the queuing system, such as limits on the maximum delay or latency. In this example, we formulate this design problem as an LLCP, and compute the sensitivity of the design variables with respect to the parameters. The queuing system under consideration here is known as an $M/M/N$ queue, in Kendall's notation \[\]. Our formulation follows \[\].
+
+We assume that items arriving at the $i$th queue are generated by a Poisson process with rate $\lambda_{i}$, and that the service times for the $i$th queue follow an exponential distribution with parameter $\mu_{i}$, for $i = {1,\ldots,N}$. The *service load* of the queuing system is a function $\ell:{{\text{R}_{+ +}^{N} \times \text{R}_{+ +}^{N}}\rightarrow\text{R}_{+ +}^{N}}$ of the arrival rate vector $\lambda$ and the service rate vector $\mu$, with components
+
+(This is the reciprocal of the traffic load, which is usually denoted by $\rho$.) Similarly, the queue occupancy, the average delay, and the total delay of the system are (respectively) functions $q$, $w$, and $d$ of $\lambda$ and $\mu$, with components
+
+These functions have domain $\{{{(\lambda,\mu)} \in {\text{R}_{+ +}^{N} \times \text{R}_{+ +}^{N}}}\mid{\lambda < \mu}\}$, where the inequality is meant elementwise. The queuing system has limits on the queue occupancy, average queuing delay, and total delay, which must satisfy
+
+where $q_{\max}$, $w_{\max}$, and $d_{\max} \in \text{R}_{+ +}^{N}$ are parameters and the inequalities are meant elementwise. Additionally, the arrival rate vector $\lambda$ must be at least $\lambda_{\min} \in \text{R}_{+ +}^{N}$, and the sum of the service rates must be no greater than $\mu_{\max} \in \text{R}_{+ +}$.
+
+Our design problem is to choose the arrival rates and service times to minimize a weighted sum of the service loads, $\gamma^{T}\ell{(\lambda,\mu)}$, where $\gamma \in \text{R}_{+ +}^{N}$ is the weight vector, while satisfying the constraints. The problem is
+
+Here, ${\lambda,\mu} \in \text{R}_{+ +}^{N}$ are the variables and ${\gamma,q_{\max},w_{\max},d_{\max},\lambda_{\min}} \in \text{R}_{+ +}^{N}$ and $\mu_{\max} \in \text{R}_{+ +}$ are the parameters. This problem is an LLCP. The objective function is a posynomial, as is the constraint function $w$. The functions $d$ and $q$ are not posynomials, but they are log-log convex; log-log convexity of $d$ follows from the composition rule, since the function ${(x,y)}\mapsto{y - x}$ is log-log concave (for $0 < x < y$), and the ratio ${(x,y)}\mapsto{x/y}$ is log-log affine and decreasing in $y$. By a similar argument, $q$ is also log-log convex.
+
+### Numerical example
+
+We specify a specific numerical instance of this problem in CVXPY using DGP, with $N = 2$ queues and parameter values
+
+We first solve the problem using SCS \[O'D+16, O'D+17\], obtaining the optimal values
+
+Next, we perform a basic sensitivity analysis by perturbing the parameters by one percent of their values, and computing the percent change in the optimal variable values predicted by a first-order approximation; we use CVXPY and the diffcp package \[Agr+19b\] to differentiate through the LLCP. We then compare the predicted change with the true change by re-solving the problem at the perturbed values. The predicted and true changes are
+
+Table 2: Derivatives of λ⋆, μ⋆, and ℓ with respect to dmax, μmax, and γ.
+
+To examine the sensitivity of the solution to the individual parameters, we compute the derivative of the variables with respect to the parameters. The derivatives with respect to $w_{\max}$, $q_{\max}$, and $\lambda_{\min}$ are essentially $0$ (on the order of 1e-10), meaning that these parameters can be changed slightly without affecting the solution. The derivatives of the solution with respect to $d_{\max}$, $\mu_{\max}$, and $\gamma$ are given in table 2. While the solution is insensitive to small changes to the limits on the queue occupancy, average queuing delay, and arrival rate, it is highly sensitive to the limits on the total delay and service rate, and to the weighting vector $\gamma$.
+
+Finally, table 2 also lists the derivative of the service load $\ell{(\lambda^{\star},\mu^{\star})}$ with respect to the parameters $d_{\max},\mu_{\max}$, and $\gamma$. The table suggests that increasing the limits on the total delay $d_{\max}$ and service rate $\mu_{\max}$ would decrease the service loads on both queues, especially the first queue.
+
+### Structured prediction
+
+In this example, we fit a regression model to structured data, using an LLCP. The training dataset $\mathcal{D}$ contains $N$ input-output pairs $(x,y)$, where $x \in \text{R}_{+ +}^{n}$ is an input and $y \in \text{R}_{+ +}^{m}$ is an outputs. The entries of each output $y$ are sorted in ascending order, meaning $y_{1} \leq y_{2} \leq {\cdotsy_{m}}$.
+
+Our regression model $\phi:{\text{R}_{+ +}^{n}\rightarrow\text{R}_{+ +}^{m}}$ takes as input a vector $x \in \text{R}_{+ +}^{n}$, and solves an LLCP to produce a prediction $\hat{y} \in \text{R}_{+ +}^{m}$. In particular, the solution of the LLCP is the model's prediction. The model is of the form
+
+Here, the minimization is over $y \in \text{R}_{+ +}^{m}$ and an auxiliary variable $z \in \text{R}_{+ +}^{m}$, $\phi{(x)}$ is the optimal value of $y$, and the parameters are $c \in \text{R}_{+ +}^{m}$ and $A \in \text{R}^{m \times n}$. The ratios in the objective are meant elementwise, as is the inequality $y \leq z$, and $\mathbf{1}$ denotes the vector of all ones. Given a vector $x$, this model finds a sorted vector $\hat{y}$ whose entries are close to monomial functions of $x$ (which are the entries of $z$), as measured by the fractional error.
+
+The training loss $\mathcal{L}{(\phi)}$ of the model on the training set is the mean squared loss
+
+We emphasize that $\mathcal{L}{(\phi)}$ depends on $c$ and $A$. In this example, we fit the parameters $c$ and $A$ in the LLCP to minimize the training loss $\mathcal{L}{(\phi)}$.
+
+### Fitting
+
+We fit the parameters by an iterative projected gradient descent method on $\mathcal{L}{(\phi)}$. In each iteration, we first compute predictions $\phi{(x)}$ for each input in the training set; this requires solving $N$ LLCPs. Next, we evaluate the training loss $\mathcal{L}{(\phi)}$. To update the parameters, we compute the gradient ${\nabla\mathcal{L}}{(\phi)}$ of the training loss with respect to the parameters $c$ and $A$. This requires differentiating through the solution map of the LLCP. We can compute this gradient efficiently, using the adjoint of the solution map's derivative, as described in §3. Finally, we subtract a small multiple of the gradient from the parameters. Care must be taken to ensure that $c$ is strictly positive; this can be done by clamping the entries of $c$ at some small threshold slightly above zero. We run this method for a fixed number of iterations.
+
+Figure 1: Sample predictions and true output.
+
+### Numerical example
+
+We consider a specific numerical example, with $N = 100$ training pairs, $n = 20$, and $m = 10$. The inputs were chosen according to
+
+We generated true parameter values $A^{\star} \in \text{R}^{m \times n}$ (with entries sampled from a normal distribution with zero mean and standard deviation $0.1$) and $c^{\star} \in \text{R}_{+ +}^{m}$ (with entries set to the absolute value of samples from a standard normal). The outputs were generated by
+
+We generated a held-out validation set of $50$ pairs, using the same true parameters.
+
+We implemented the LLCP in CVXPY, and used PyTorch and CVXPY Layers to train it using our gradient method. To initialize the parameters $A$ and $c$, we computed a least-squares monomial fit to the training data to obtain $A^{lstsq}$ and $c^{lstsq}$, via the method described in \[Boy+07, §8.3\]. From this initialization, we ran 10 iterations of our gradient method. Each iteration, which requires solving and differentiating through 150 LLCPs (100 for the training data, and 50 for logging the validation error), took roughly 10 seconds on a 2012 MacBook Pro with 16 GB of RAM and a 2.7 GHz Intel Core i7 processor.
+
+The least-squares fit has a validation error of 0.014. The LLCP, with parameters $A = A^{lstsq}$ and $c = c^{lstsq}$, has a validation error of 0.0081, which is reduced to to 0.0077 after training. Figure 1 plots sample predictions of the LLCP and the least-squares fit on a validation input, as well as the true output. The LLCP's prediction is monotonic, while the least squares prediction is not.

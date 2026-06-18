@@ -1,0 +1,363 @@
+## Introduction
+
+The idea of combining identification and control for efficient and reliable control systems design, starting from data collected on the plant, has a long standing history, see the survey paper. Indirect approaches are characterized by an initial phase aimed at estimating the model of the plant, while a following one concerns the model-based control synthesis. In this framework different solutions have been proposed, as thoroughly discussed in. Specifically, in *dual* algorithms, parameter estimation and control design are posed as a combined problem, in *optimal experiment design* methods, identification procedures suitably tailored for the adopted control synthesis algorithm are developed, while in *robust* algorithms the model is estimated together with uncertainty bounds, to be properly used in the control synthesis. With the cheap availability of large data-sets and the advent of more and more powerful identification and learning techniques, recent years have seen a renaissance of research activity in this area, and in particular on robust methods. From the learning side, new and powerful Set Membership (SM) identification methods, see, have been developed to identify a model for the system with guaranteed prediction error bounds, suitable for robust control design. From the control side, MPC algorithms, robust with respect to model disturbances, have been studied from several standpoints, and considering different characterizations of the model and its associated uncertainty, see e.g.. Among the most recent contributions in learning-based control, we recall the dual MPC algorithm described in for systems characterized by probabilistic parametric uncertainty and process noise, and the MPC method developed in guaranteeing both robustness and performance by considering different models of the system. Another recent contribution is reported in, where an MPC guaranteeing stability has been developed for nonlinear models estimated with the learning method proposed in.\
+In this paper we present a unitary approach to learning-based robust MPC, where we take a joint perspective on the learning and the control design phases. The system generating the data is linear and time-invariant, with unknown order, subject to process disturbance and measurement noise. In the learning phase, we identify with SM different models, together with their uncertainty bounds. Specifically, we compute from data $p$-steps-ahead independent prediction models, $p \in {\lbrack 0,\overline{p}\rbrack}$, used to compute the future evolution of the system outputs over the prediction horizon $\overline{p}$ considered in the MPC cost function. The use of different models, as previously suggested in, allows one to achieve good prediction accuracy at different steps ahead and to have non-conservative bounds on the process disturbance. In addition to the independent $\overline{p}$ models, we also estimate a perturbed state-space model, together with its disturbance bounds, subsequently used in the MPC design for enforcing state, input and output constraints, as well as the robust stability property according to the well known tube-based approach, see. The robust MPC controller is designed, following the approach proposed in, for tracking piece-wise constant reference signals, with guaranteed recursive feasibility and convergence properties. A numerical example is finally reported. Preliminary results on the learning and control synthesis algorithms developed in this paper have been reported in, and. In this paper, we propose a novel offline method to learn the uncertainty model to be used in the control design phase, together with a new MPC design to deal with the tracking of (possibly infeasible) piecewise constant reference signals, we derive the full proofs of all the theoretical results concerning learning and control design, and we merge our preliminary work into a unitary and holistic vision of the interplay between learning and control for MPC.\
+The paper is organized as follows: in Section 2 the problem is stated and the proposed approach is described. In Section 3 the SM identification algorithm is presented, Section 4 describes the robust MPC control scheme design, followed by a numerical example in Section 5 and a concluding discussion in Section 6.
+
+## Notation
+
+$k$ is the discrete time index and $\mathbb{Z}$ is the set of non negative integers. The transpose of matrix $M$ is $M^{T}$. We denote with $\mathbf{1}_{x}$ a column vector with all its elements equal to one and of dimension $x$, and with $0_{x,y}$ a matrix of zeros with $x$ rows and $y$ columns, wheras $I_{x}$ denotes the identity matrix of dimension $x$. Finally, ${{|a|},a} \in {\mathbb{R}}$, denotes the absolute value of real number $a$, ${\| v\|} = \sqrt{v^{T}v}$ denotes the 2-norm of vector $v$, ${\| v\|}_{A} = \sqrt{v^{T}Av}$ denotes the 2-norm of vector $v$ weighted by matrix $A$, and the infinity norm of a generic matrix $N \in {\mathbb{R}}^{\overline{r} \times \overline{c}}$, with element $n_{rc}$ in position $(r,c)$, is indicated by ${\| N\|}_{\infty} = {\max\limits_{r \in {\lbrack{1\ldots\overline{r}}\rbrack}}{\sum_{c = 1}^{\overline{c}}{|n_{rc}|}}}$.
+
+## Problem formulation: a unitary approach to learning-based MPC
+
+We consider a discrete-time, linear time-invariant (LTI), single-input/single-output (SISO) system of order $n$ described by the following autoregressive exogenous (ARX) structure ($\cdot^{T}$ is the matrix transpose operator):
+
+where $z$ is the output, $v$ an additive process disturbance, $y$ the output measure, and $d$ an additive measurement noise. For a given integer $p \geq 1$, the regressor ${\varphi_{z}^{(p)}{(k)}} \in {\mathbb{R}}^{{{2n} + p} - 1}$ is defined as:
+
+here $u$ is the system input. In, ${\overline{\theta}}^{} \in {\mathbb{R}}^{{{2n} + p} - 1}$ is a vector of unknown system parameters. The value of $n$ is not known a priori as well.
+
+### Assumption 1
+
+(System and signals)\
+- The system is asymptotically stable;\
+- The static gain from $u$ to $z$ is not zero;\
+- ${{u{(k)}} \in {\mathbb{U}} \subset {\mathbb{R}}},{{\forall k} \in {\mathbb{Z}}}$, $\mathbb{U}$ compact and convex;\
+- ${{|{d{(k)}}|} \leq \overline{d}},{{{\forall k} \in {\mathbb{Z}}},{\overline{d} > 0}}$ known;\
+- ${{|{v{(k)}}|} \leq \overline{v}},{{{\forall k} \in {\mathbb{Z}}},{\overline{v} > 0}}$ possibly not known. $\square$
+
+### Remark 1
+
+a) The problem is formulated in the SISO setting for the sake of clarity and notational simplicity.\
+b) Our working assumptions are rather common in theoretical contributions concerned with system identification, when an unknown-but-bounded assumption is considered for process and measurement disturbances. They are valid in many practical applications as well: a characterization of the available sensors can be used to compute the worst-case measurement error bound $\overline{d}$, while for process disturbances we just assume boundedness, without necessarily knowing the worst-case value $\overline{v}$. Indeed, the worst-case effect of the signal $v{(k)}$ on the system output will be estimated as part of the uncertainty model in our approach.
+
+In this paper we adopt an indirect approach to learning-based control synthesis, i.e., based on a sequence of model learning and model-based design phases.\
+The learning phase (Section 3) has a twofold role:
+
+Identifying optimal (in the sense specified below) independent $p$-steps ahead prediction models of the type
+
+where $\hat{z}{({k + p})}$ is the predicted output at time $k + p$, and the model regressor $\varphi_{y}^{(p)}{(k)}$ is defined as
+
+with $o$ being the order of the prediction model. Models are also defined "multi-step" since they directly provide the output prediction $p$ steps ahead, without integrating an underlying simulation model. These models, for all $p \in {\lbrack 1,\overline{p}\rbrack}$, will be used in the MPC cost definition, thanks to their optimal predictive properties, tailored on specific prediction lengths.
+
+Identifying a state-space model of the type
+
+where $X$ is the system state, $w$ is the process disturbance, and $A,B_{1},M_{1},C$ are the system matrices. One of the contributions of this paper consists also of a novel approach for obtaining a non-conservative bound $\overline{w}$ on the amplitude of the process disturbance $w{(t)}$ from experimental data. This is fundamental, in a constrained robust design context, to limit the conservativeness of the resulting control approach.
+
+In the control phase (Section 4), we propose a scheme, to be applied to the real system, that asymptotically steers the variable $z{(k)}$ towards the goal $z_{goal}$ and that guarantees the fulfillment of the following input and output constraints, for all $k \geq 0$.
+
+where $\mathbb{Z}$ is assumed convex. As already remarked, to this purpose (i) the multi-step prediction models are used for the definition of the cost function and (ii) the perturbed state-space model, with bounds $\overline{d}$ and $\overline{w}$ on $d{(t)}$ and $w{(t)}$, respectively, are used for constraint satisfaction.
+
+## Learning linear prediction models for robust MPC - a Set Membership approach
+
+### Model structure and preliminary considerations
+
+In MPC with horizon $\overline{p}$, at each step $k$ the predictions of variables $z{({k + p})}$, $p = {1,\ldots,\overline{p}}$ are needed. Many contributions on robust MPC in the literature assume that a model of the system in the form is available. A common, but quite conservative, setup is to consider ${d{(k)}} = {0,{\forall k}}$, and $C = I$, i.e. perfectly measurable state, and finally to assume a known bound $\overline{w}$ on the worst-case additive process disturbance, such that ${\|{w{(k)}}\|} \leq {\overline{w},{\forall k}}$. Such a model is then integrated forward in time to predict the state and output values at each future step $k + p$.\
+However to learn, from experimental data, a model of the form with *good prediction accuracy* at different steps ahead and with *non-conservative bounds* on the process disturbance is a complex task. The parameter identification problem is convex only when a 1-step prediction error method is used, which may return models with poor prediction accuracy over multiple future steps (i.e. poor simulation performance), see e.g.. On the other hand, the use of a cost function that penalizes the multi-step prediction error, or simulation error, yields a nonlinear program (NLP) in the parameters of the 1-step-ahead model, which, besides the possible trapping in local minima, makes it difficult to derive guaranteed disturbance bounds. Additionally, in practical applications the state might not be fully measured, the system order is not known, and measurement noise and process disturbances are present. These features make the identification problem even more challenging.
+
+To deal with these problems, the approach taken in this paper consists of learning a different (linear-in-the-parameters) multi-step prediction model for each value of $p \in {\lbrack 1,\overline{p}\rbrack}$. Besides, as discussed, directly using models in the MPC cost function, we will employ their corresponding worst-case error bounds to optimally compute the bound $\overline{w}$ in a state-space realization, employed to robustly guarantee stability and constraint satisfaction.
+
+The choice of a model structure of type is motivated by the fact that, integrating over time a model of type, the future system outputs are indeed affine in the regressor $\varphi_{y}^{(p)}{(k)}$, containing noise-corrupted output measurements:
+
+where ${\mathcal{V}^{(p)}{(k)}} = {\lbrack{v{(k)}},\ldots,{v{({{k + p} - 1})}}\rbrack}$ and ${\mathcal{D}^{(p)}{(k)}} = {\lbrack{d{(k)}},\ldots,{d{({{k + p} - 1})}}\rbrack}$ are the sequences of output disturbance and measurement noise, respectively, values from $k$ to ${k + p} - 1$. The parameter vectors ${\overline{\theta}}^{(p)}$, ${\overline{\theta}}_{v}^{(p)}$ and ${\overline{\theta}}_{d}^{(p)}$ are polynomial functions of the true system parameters ${\overline{\theta}}^{}$ (possibly padded with zeros if the model order $o$ is strictly larger than the true system order $n$), readily obtained by recursion of. In our approach, we will consider instead a distinct parameter vector for each $p$, i.e. ${\hat{\theta}}^{(p)}$ in. A first advantage in doing so is the possibility to efficiently compute not only a nominal multi-step prediction model for each $p$, but also a *model set* which is tight (i.e. the smallest one compatibly with the available prior information and data), through a Set Membership (SM) identification approach. From such a model set, we can thus estimate a tight worst-case prediction error bound $\tau_{p}{({\hat{\theta}}^{(p)})}$ for any given multi-step predictor, i.e.:
+
+We term the bound $\tau_{p}{({\hat{\theta}}^{(p)})}$ *global*, since it holds for any regressor value $\varphi_{y}^{(p)}$ within a suitable compact set $\Phi^{(p)}$, introduced in the remainder. A second advantage in using the multi-step models is the possibility to rigorously define, and then efficiently compute, a model optimality criterion and related optimal models, which minimize the worst-case guaranteed prediction error.
+
+We describe next the considered data-set, followed by the learning approach. An important assumption throughout the paper is the following.
+
+### Assumption 2
+
+Assumption 2 can be easily satisfied in practice, on the basis of physical considerations on the system at hand and/or by estimating the system order from data.
+
+### Available data-set
+
+For a given prediction step $p$, we denote with $\Phi^{(p)}$ the compact set containing all the possible regressor vectors $\varphi_{y}^{(p)}$, i.e., such that for each $p \in {\lbrack 1,\overline{p}\rbrack}$
+
+The set $\Phi^{(p)}$ is not known explicitly in general, as it is a complicated set that depends on the system input and disturbance trajectories and initial conditions of interest. Its compactness is due to the fact that the system is asymptotically stable and its input belongs to a compact set (Assumption 1). For any fixed regressor instance ${\varphi_{y}^{(p)}{(i)}} \in \Phi^{(p)}$, considering all possible disturbance sequences $\mathcal{V}^{(p)}{(i)}$ and all possible noise realizations $\mathcal{D}^{(p)}{(i)}$, there is a set ${{\mathbf{Y}}_{p}{(\varphi_{y}^{(p)})}} \subset R$ containing all the compatible $p$-step ahead output measurements ${y_{p}{(i)}} \doteq {{z{({i + p})}} + {d{({i + p})}}}$. In view of Assumptions 1 and 2 and of the compactness of $\Phi^{(p)}$, also ${\mathbf{Y}}_{p}{(\varphi_{y}^{(p)})}$ is compact. Let us then define the set
+
+Now assume that a finite number $N_{p}$ of data ${\lbrack{{\overset{\sim}{\varphi}}_{y}^{(p)}{(i)}^{T}},{{\overset{\sim}{y}}_{p}{(i)}}\rbrack}^{T}$ is available, where ${\overset{\sim}{\varphi}}_{y}^{(p)}{(i)}$ are the available measured instances of the regressor ${\varphi_{y}^{(p)}{(i)}} \in \Phi^{(p)}$, and ${{\overset{\sim}{y}}_{p}{(i)}} = {{z{({i + p})}} + {d{({i + p})}}}$ the corresponding measured values of noise-corrupted outputs. We can express our data-set as:
+
+The set ${\overset{\sim}{\mathcal{T}}}_{p}^{N_{p}}$ is countable and contained in its continuous counterpart $\mathcal{T}_{p}$. The following assumption is introduced:
+
+### Assumption 3
+
+(Data-set) For any $\beta > 0$, there exists a value of $N_{p} < \infty$ such that ${d_{2}\left( \mathcal{T}_{p},{\overset{\sim}{\mathcal{T}}}_{p}^{N_{p}} \right)} \leq \beta$, where ${d_{2}\left( \mathcal{T}_{p},{\overset{\sim}{\mathcal{T}}}_{p}^{N_{p}} \right)} \doteq {\max\limits_{\tau \in \mathcal{T}_{p}}{\min\limits_{\kappa \in {\overset{\sim}{\mathcal{T}}}_{p}^{N_{p}}}{\|{\tau - \kappa}\|}_{2}}}$ is the Haussdorff distance between the sets $\mathcal{T}_{p}$ and ${\overset{\sim}{\mathcal{T}}}_{p}^{N_{p}}$. $\square$
+
+Assumption 3 implies that ${\lim\limits_{N_{p}\rightarrow\infty}{d_{2}\left( \mathcal{T}_{p},{\overset{\sim}{\mathcal{T}}}_{p}^{N_{p}} \right)}} = 0$, i.e. if more points are added to the data-set, the underlying set of all trajectories of interest will be densely covered. This is essentially an assumption on the persistence of excitation of the inputs used for the preliminary experiments, together with an assumption of bound-exploring property of the additive disturbances $d$ and $v$, such that the bounds $\overline{d}$ and $\overline{v}$ in Assumption 1 are actually tight.
+
+### Learning procedure
+
+The proposed estimation procedure consists of the following steps:
+
+Define an optimality criterion to evaluate the model estimates and the corresponding optimal (i.e. minimal) error bound.
+
+Derive a procedure to estimate the optimal error bound.
+
+Based on the available data and the error bound estimate, build the set of all admissible model parameters (Feasible Parameter Set, FPS).
+
+Using the information summarized in the FPS, for any given model of the form compute the related guaranteed error bound $\tau_{p}$, see.
+
+Select a nominal model with minimal guaranteed error bound.
+
+### Optimal parameter set and optimal error bound
+
+For any $p \in {\lbrack 1,\overline{p}\rbrack}$, consider a given value of ${\hat{\theta}}^{(p)}$. From and, the error between the true system output and the predicted one is, for all $k \in {\mathbb{Z}}$:
+
+Thus, from and we have:
+
+The quantity $\epsilon_{p}{( \cdot, \cdot, \cdot, \cdot )}$ accounts for the quality of the estimate ${\hat{\theta}}^{(p)}$, for possible model order mismatch, and for the disturbances $v$ and $d$. In view of Assumption 1, $\epsilon_{p}$ is bounded. Moreover, from:
+
+where ${\overline{\epsilon}}_{p}{({\hat{\theta}}^{(p)})}$ is the global error bound with respect to all possible regressors of interest and all feasible disturbance sequences in the compact set $\Phi^{(p)}$:
+
+We can now define the optimal parameter values (i.e. optimal models) as those that minimize the bound ${\overline{\epsilon}}_{p}{({\hat{\theta}}^{(p)})}$. As a technical assumption, we consider parameters within a compact set $\Omega^{(p)} \subset {\mathbb{R}}^{{{2o} + p} - 1}$. $\Omega^{(p)}$ can take into account application-specific prior information on the model parameters or, if no such information is available, it can be chosen as a large-enough set (e.g. by considering box constraints of $\pm 10^{15}$ on each element of the parameter vector). This technical assumption allows us to use maximum and minimum operators instead of supremum and infimum. The set ${\overline{\Theta}}^{(p)}$ of optimal parameter values is:
+
+and we denote with ${\overline{\epsilon}}_{p}^{\ast}$ the corresponding optimal error bound:
+
+Considering - we can alternatively write:
+
+### Estimating the optimal error bound
+
+The optimal models and optimal error bound cannot be computed in practice, since the solution to would imply the availability of an infinite number of data and the solution to an infinite-dimensional optimization program. However, we can compute an estimate ${\underset{¯}{\lambda}}_{p} \approx {\overline{\epsilon}}_{p}^{\ast}$ from the available experimental data, by solving the following linear program (LP):
+
+The following result shows that, under the considered working assumptions, the value of ${\underset{¯}{\lambda}}_{p}$ converges to the optimal one, ${\overline{\epsilon}}_{p}^{\ast}$.
+
+### Theorem 1
+
+Let Assumptions 1-3 hold. Then:
+
+${\underset{¯}{\lambda}}_{p} \leq {\overline{\epsilon}}_{p}^{\ast}$;
+
+${{\forall\rho} \in {{(0,{\overline{\epsilon}}_{p}^{\ast}\rbrack}{\exists N_{p}}} < \infty}:{{\underset{¯}{\lambda}}_{p} \geq {{\overline{\epsilon}}_{p}^{\ast} - \rho}}$ $\square$
+
+### Proof 1
+
+See the Appendix. $\blacksquare$
+
+Theorem 1 implies that ${\lim\limits_{N_{p}\rightarrow\infty}{({{\overline{\epsilon}}_{p}^{\ast} - {\underset{¯}{\lambda}}_{p}})}} = 0^{+}$, i.e. that the solution of converges to the optimum from below. This is a consequence of the considered problem settings, where a finite data-set is available. In practice, one can increase the number $N_{p}$ of experimental data and observe the behavior of ${\underset{¯}{\lambda}}_{p}$, which converges to a limit provided that the data are informative enough. Then, a practical approach to compensate for the uncertainty caused by the use of a finite number of measurements is to inflate the value ${\underset{¯}{\lambda}}_{p}$:
+
+With sufficiently large number of and exciting data points, a coefficient $\alpha \simeq 1$ can be chosen. We show an example of such a procedure in Section 5, and consider the following assumption in the remainder:
+
+### Assumption 4
+
+(Optimal error bound)\
+The chosen value of $\alpha$ is such that ${\hat{\overline{\epsilon}}}_{p} \geq {\overline{\epsilon}}_{p}^{\ast}$. $\square$
+
+### Feasible Parameter Set
+
+We exploit the estimated optimal error bound to construct the tightest set of parameter values consistent with all the prior information, i.e. the FPS $\Theta^{(p)}$:
+
+The set $\Theta^{(p)}$ is non-empty by construction, since under Assumption 4 we have (see and ) that ${\overline{\Theta}}^{(p)} \subseteq \Theta^{(p)}$. If the FPS is bounded, it results in a polytope with at most $N_{p}$ faces. If it is unbounded, then this indicates that the available measured data are not informative enough to derive a bound on the worst-case model error, and that $N_{p}$ must be increased until a bounded FPS is obtained. This situation usually occurs when very few data points are used (e.g. $N_{p} < {{{2o} + p} - 1}$) or the preliminary experiments are not informative enough.
+
+### Error bound computation for a given model
+
+Consider now a given parameter vector ${\hat{\theta}}^{(p)}$ and any ${\varphi_{y}^{(p)}{(k)}} \in \Phi^{(p)}$. From and it follows that
+
+In view of Assumption 4, the global worst-case prediction error bound for model ${\hat{\theta}}^{(p)}$ is then:
+
+This bound cannot be computed exactly with finite data under the considered assumptions, and its computation would be intractable also if the set $\Phi^{(p)}$ were known precisely. The complexity may be reduced only if additional assumptions are made, e.g. that $\Phi^{(p)}$ is a polytope, which however may result in a high conservativeness. However, we can approximate $\tau_{p}$ by computing the outer maximization in over the finite data-set ${\overset{\sim}{\mathcal{T}}}_{p}^{N_{p}}$:
+
+The following result shows convergence from below of ${\underset{¯}{\tau}}_{p}{({\hat{\theta}}^{(p)})}$ to $\tau_{p}{({\hat{\theta}}^{(p)})}$.
+
+### Lemma 1
+
+Let Assumptions 1-3 hold. Then, for any ${\hat{\theta}}^{(p)} \in \Omega^{(p)}$:
+
+${{\underset{¯}{\tau}}_{p}{({\hat{\theta}}^{(p)})}} \leq {\tau_{p}{({\hat{\theta}}^{(p)})}}$;
+
+${{\forall\rho} \in {{(0,{\tau_{p}{({\hat{\theta}}^{(p)})}}\rbrack}{\exists N_{p}}} < \infty}:{{{\underset{¯}{\tau}}_{p}{({\hat{\theta}}^{(p)})}} \geq {{\tau_{p}{({\hat{\theta}}^{(p)})}} - \rho}}$
+
+### Proof 2
+
+See the Appendix. $\blacksquare$
+
+Considerations similar to those reported after Theorem 1 for ${\underset{¯}{\lambda}}_{p}$ hold also for the bound ${\underset{¯}{\tau}}_{p}{({\hat{\theta}}^{(p)})}$, i.e. it is possible to monitor its behavior for increasing values of $N_{p}$ in order to evaluate convergence. As done in, we inflate this bound to account for the uncertainty deriving from our finite data-set:
+
+and we assume that the resulting estimate is larger than the true bound:
+
+### Assumption 5
+
+(Error bound for a given ${\hat{\theta}}^{(p)}$)\
+The chosen value of $\gamma$ is such that ${{\hat{\tau}}_{p}{({\hat{\theta}}^{(p)})}} \geq {\tau_{p}{({\hat{\theta}}^{(p)})}}$. $\square$
+
+### Selection of nominal multi-step models
+
+The last step in the proposed estimation algorithm is to select a nominal multi-step model for each prediction step $p$. The most common approach is probably based on least-squares estimation: in this case the results of Section 3.3.4 can be applied to obtain an estimate of the resulting global error bound. Since our final goals are to employ the multi-step models in a robust MPC algorithm and estimate bound $\overline{w}$ for the perturbed model in a non-conservative manner, we rather seek the model that minimizes the worst-case error bound for each $p$ value. Specifically, considering that the tightest set that contains the optimal parameter values (i.e. with minimum error, see Section 3.3.1) is the FPS $\Theta^{(p)}$, we search within this set for a parameter value that minimizes the resulting bound ${\hat{\tau}}_{p}{({\hat{\theta}}^{(p)})}$:
+
+The resulting nominal model reads
+
+and the associated error bound estimate is ${\hat{\tau}}_{p}{({\hat{\theta}}^{{(p)} \ast})}$. Note that term ${\hat{\overline{\epsilon}}}_{p}$, see, does not depend on ${\hat{\theta}}^{{(p)} \ast}$ and it converges to the optimal error bound ${\overline{\epsilon}}_{p}^{\ast}$ as $N_{p}$ increases (Theorem 1).
+
+### Remark 2
+
+${\hat{\theta}}^{{(p)} \ast}$ in reads
+
+This problem can be solved by reformulating it as ${2N_{p}} + 1$ LPs,.
+
+### Derivation of the state-space model realization and estimation of the corresponding process disturbance bound
+
+In this section we describe the derivation of the state-space model and of of the bound $\overline{w}$ of the corresponding disturbance $w{(k)}$.\
+First of all, we define the equations of the state-space model based on the nominal $1$-step ahead predictor, i.e., with $p = 1$. To do so, recalling the structure of $\varphi_{y}^{(p)}$, note that we can partition the parameter vector ${\hat{\theta}}^{(p)}$ of a prediction model as follows:
+
+where ${\hat{\theta}}_{AR}^{(p)} \in {\mathbb{R}}^{o}$, ${\hat{\theta}}_{U}^{(p)} \in {\mathbb{R}}^{o - 1}$ and ${\hat{\theta}}_{\overline{U}}^{(p)} \in {\mathbb{R}}^{p}$ are the parameters pertaining to the past $o$ output values, the past $o - 1$ input values, and the current and future inputs, respectively, up to $p - 1$ steps ahead. We define the state vector of the model as
+
+Denoting the process disturbance as ${w{(k)}} \in {\mathbb{R}}$ (accounting for both the disturbance $v$ and prediction error stemming from the learning phase), the state $X{(k)}$ evolves according to with the following matrices:
+
+### Remark 3
+
+The model of order ${2o} - 1$ is considered to be in minimal form
+
+Secondly, we need to define the bound $\overline{w}$ on the amplitude of $w{(k)}$. As anticipated, to this aim we will use the computed FPSs $\Theta^{(p)}$. More specifically, the following approach is proposed.\
+Starting from a noise-corrupted initial state at step $k$ and by iteration of the state-space model (discarding process disturbance), we can compute a $p$-steps ahead prediction ${\hat{z}}^{}{({k + p})}$ of the variable $z{({k + p})}$ as follows:
+
+We can write equivalently as
+
+This is a multi-step prediction model whose parameter vector ${\hat{\theta}}^{{(p)},1}$, in view of, is composed of polynomial combinations of the entries of the $1$-step ahead prediction model parameter vector ${\hat{\theta}}^{{} \ast}$. Clearly, ${\hat{\theta}}^{{(p)},1}$ is in general different from ${\hat{\theta}}^{{(p)} \ast}$ used in, and therefore ${\hat{z}{({k + p})}} \neq {{\hat{z}}^{}{({k + p})}}$. At this point, we can use the FPSs derived in Section 3.3.3 to estimate the associated worst-case prediction error bounds, ${\hat{\tau}}_{p}{({\hat{\theta}}^{{(p)},1})}$:
+
+On the other hand, by initializing the state-space model with the true (i.e. without measurement noise) initial state, and including the presence of process disturbance $w$, we can also write:
+
+Then, taking the difference between and, we obtain:
+
+which highlights the prediction error due to the process disturbance $w$, and the one due to the measurement noise on the initial condition, ${X_{y}{(k)}} - {X{(k)}}$. Note that the latter is equal to zero for all state components pertaining to the past input values, and it is at most equal to $\overline{d}$ for all components pertaining to the past output values. Thus, recalling that ${|{w{(k)}}|} \leq \overline{w}$, we have:
+
+where $E = \left\lbrack {I_{o}\;0_{{({o - 1})},o}} \right\rbrack^{T}$. The idea proposed here is to compute $\overline{w}$ as the minimum value such that the bounds do not violate the (tight) bounds for all $p \in {\lbrack 1,\overline{p}\rbrack}$:
+
+Note that problem always admits a finite feasible solution thanks to the boundedness of ${{{\hat{\tau}}_{p}{({\hat{\theta}}^{{(p)},1})}},{\forall p}} \in {\lbrack 1,\overline{p}\rbrack}$
+
+## MPC for tracking with learned models
+
+As anticipated in Section 2, the MPC controller devised in this paper uses, in the cost function optimized at each time instant $k$, the optimal $p$-steps ahead models to predict in the best possible way the future evolution of the output variable, while the perturbed state-space model is used to rigorously define the constraints and ensure recursive feasibility. For notational convenience, we rewrite the predictions as outputs of model (where matrices $A,B_{1},C$ are defined in ), as follows:
+
+where ${U{(k)}} = \begin{bmatrix}
+\end{bmatrix}$ $C_{p} = \begin{bmatrix}
+{\hat{\theta}}_{AR}^{{(p)} \ast^{T}} & {\hat{\theta}}_{U}^{{(p)} \ast^{T}}
+\end{bmatrix}$, $D_{p} = \begin{bmatrix}
+{\hat{\theta}}_{\overline{U}}^{{(p)} \ast^{T}} & 0_{1,{{\overline{p} + 1} - p}}
+\end{bmatrix}$ and we denote ${z_{p}{(k)}} = {\hat{z}{({k + p})}}$ for brevity. For later use we also define $C_{0} = C$ and $D_{0} = 0_{1,{\overline{p} + 1}}$ such that we can write ${z{(k)}} = {z_{0}{(k)}} = {{C_{0}X{(k)}} + {D_{0}U{(k)}}}$.
+
+### State observer and tube-based control approach
+
+Since $z{(k)}$ is measured with some noise, the state $X{(k)}$ of the system cannot be perfectly reconstructed as a suitable collection of the past available outputs and inputs. For this reason, a Luenberger state observer is employed. To design the observer on the basis of the model, it is beneficial to introduce an estimate $\hat{w}{(k)}$ of the disturbance $w$. The term $\hat{w}{(k)}$ will result from a suitable optimization problem introduced later on, in Section 4.2. The observer takes then the following form:
+
+where $\hat{X}{(k)}$ is the estimated state and the matrix $L$ is chosen such that the closed-loop matrix $({A - {LC}})$ is Schur stable.\
+Furthermore, for application of a tube-based robust control method inspired by, we define the nominal dynamic system related to, where again the disturbance estimate $\hat{w}{(k)}$ is included, i.e.
+
+The input $u{(k)}$, to be applied to system at time instant $k$, is defined as the sum of two components as follows.
+
+The second component (i.e., $K{({{\hat{X}{(k)}} - {\overline{X}{(k)}}})}$) is given by a suitable proportional control law, aiming to reduce the displacement of the state $\overline{X}{(k)}$ of with respect to the state estimate $\hat{X}{(k)}$, available at time $k$. The gain $K$ is defined in such a way that the closed-loop transition matrix $A + {B_{1}K}$ is Schur stable, e.g. by pole-placement or LQR design. The corresponding nominal outputs are, for all $p \in {\lbrack 0,\overline{p}\rbrack}$
+
+where ${\overline{U}{(k)}} = \begin{bmatrix}
+{\overline{u}{(k)}} & \ldots & {\overline{u}{({k + \overline{p}})}}
+\end{bmatrix}^{T}$. We finally define ${\overline{z}{(k)}} = {C_{0}\overline{X}{(k)}} = {{\overline{z}}_{0}{(k)}}$.
+
+### Definition of the cost function
+
+The goal is to steer variable $z{(k)}$ in order to track the (possibly piece-wise) constant goal $z_{goal}$. However, tracking this value could lead to infeasibility problems: to avoid them, inspired by, we introduce an output reference $z_{ref}$ to be used as a further degree of freedom in the optimization problem.\
+Assuming that a reliable estimate $\hat{\mu}$ of the system gain is available (see the following Remark 4), we can now compute $\hat{w}$ as a function of a generic $z_{ref}{(k)}$ as follows. We first compute the constant input and state values $u_{ref}$ and $X_{ref}$, corresponding to the reference output $z_{ref}$:
+
+where $N = \begin{bmatrix}
+\end{bmatrix}$. The value of $\hat{w}$ can now be defined in such a way that
+
+i.e., as a linear function of $z_{ref}$. In short we write
+
+where $\eta_{zw} = {M_{1}^{T}\left\lbrack {{{({I_{{2o} - 1} - A})}N} - {B_{1}{(\hat{\mu})}^{- 1}}} \right\rbrack}$. Moreover, for consistency, the term $\hat{w}{(k)}$ is forced to be bounded, so that ${|{\hat{w}{(k)}}|} \leq \overline{w}$.
+
+### Remark 4
+
+Since the long-term prediction capabilities are commonly more accurate with model with the longest possible prediction horizon, i.e., $p = \overline{p}$, one suitable option for the gain estimate $\hat{\mu}$ is to choose $\hat{\mu} = \mu^{\overline{p}}$, where
+
+is the gain of the optimal $\overline{p}$-steps-ahead model.
+
+Last we can define, ${\forall p} \in {\lbrack 1,\overline{p}\rbrack}$, the reference for the $p$-steps ahead model, i.e.,
+
+The cost function to be minimized at each (sampling) time $k$ is therefore
+
+where $\overline{X}{({k + \overline{p} + 1})}$ is obtained by iterating the unperturbed state equation $\overline{p} + 1$ times, i.e.,
+
+with ${\Gamma = \begin{bmatrix}
+\end{bmatrix}},{\Gamma_{w} = \begin{bmatrix}
+\end{bmatrix}}$. To compute the weights $Q_{p}$, $R_{p}$, and $P$ in order to guarantee closed-loop stability, we must first define $B = \begin{bmatrix}
+\end{bmatrix}$ and
+
+Also, we write $\mathcal{Q} =$diag$(Q_{0},\ldots,Q_{\overline{p}})$, and $\overline{\mathcal{Q}} =$diag$(Q_{1},\ldots,Q_{\overline{p}},T_{N},\mathcal{R})$, where $T_{N}$ is a positive definite matrix to be used as a further tuning knob and $\mathcal{R} =$diag$({R_{0}/2},{R_{1} - R_{0}},\ldots,{R_{\overline{p}} - R_{\overline{p} - 1}})$. Then, the weighting matrices are computed such that the following constraints are satisfied:
+
+${\Psi^{T}\mathcal{Q}\Psi} \leq {{\overline{\Psi}}^{T}\overline{\mathcal{Q}}\overline{\Psi}}$ (49b)
+
+Finally, the scalar $\sigma > 0$ must be chosen sufficiently large to provide converge properties, its quantitative evaluation is discussed in the Appendix.
+
+### Definition of the tightened constraints
+
+As common in tube-based control, see e.g. we enforce the input and output constraints with suitable tightened bounds on the nominal input and output $\overline{u}{(k)}$ and ${\overline{z}{(k)}} = {C\overline{X}{(k)}}$ respectively. For their definition, we first have to define the state estimation error ${\hat{e}{(k)}} = {{X{(k)}} - {\hat{X}{(k)}}}$. We obtain, from and, that
+
+Denote now with $\hat{\mathbb{E}}$ a robust positively invariant (RPI) set (minimal, if possible) for the system containing ${\hat{e}{}} = {{X{}} - {\hat{X}{}}}$, where ${|{{w{(k)}} - {\hat{w}{(k)}}}|} \leq {2\overline{w}}$. This guarantees that, for all $k \geq 0$, ${\hat{e}{(k)}} \in \hat{\mathbb{E}}$.\
+We also define the displacement between the estimated state and the nominal one as ${\overline{e}{(k)}} = {{\hat{X}{(k)}} - {\overline{X}{(k)}}}$. From and we derive
+
+Since the equivalent disturbance ${LC\hat{e}{(k)}} + {Ld{(k)}}$ is bounded for all $k \geq 0$, we can define as $\overline{\mathbb{E}}$ the (minimal, if possible) RPI set for.\
+Then, the input and output constraints can be defined with reference to the model in a tightened fashion:
+
+where ${\mathbb{W}} = {\{{w \in {\mathbb{R}}}:{{|w|} \leq \overline{w}}\}}$ and the sets $\overline{\mathbb{U}}$ and $\overline{\mathbb{Z}}$ are closed and satisfy:
+
+$\overline{\mathbb{U}}$ $\subseteq {{\mathbb{U}} \ominus {K\overline{\mathbb{E}}}}$ (53a)
+$\overline{\mathbb{Z}}$ $\subseteq {{\mathbb{Z}} \ominus {C{({\overline{\mathbb{E}} \oplus \hat{\mathbb{E}}})}}}$ (53b)
+
+Finally, to define the terminal constraint set we consider the following auxiliary control law
+
+To compute an invariant set where $({\overline{X}{(k)}},z_{ref})$ must lie in order to guarantee that constraints are verified for all $k$, we need to define the Maximal Output Admissible Set (MOAS, see ) $\mathbb{O}$ for the system
+
+that is subject to the auxiliary control law, where $M_{2} = {{\hat{\mu}}^{- 1} - {KN}}$. The triplet $({\overline{u}{(k)}},{\overline{z}{(k)}},{\hat{w}{(k)}})$ is computed as
+
+An invariant, polytopic inner approximation ${\mathbb{O}}_{\epsilon}$ to the MOAS can be computed in a finite number of steps as shown in. Specifically, ${\mathbb{O}}_{\epsilon}$ is defined as follows
+
+where ${\overline{\mathbb{X}}}_{{\mathbb{Z}}{\mathbb{U}}{\mathbb{W}}}{(\epsilon)}$ is a close and compact set satisfying ${{{\overline{\mathbb{X}}}_{{\mathbb{Z}}{\mathbb{U}}{\mathbb{W}}}{(\epsilon)}} \oplus {\mathcal{B}_{\epsilon}^{3}{}}} \subseteq {\overline{\mathbb{X}}}_{{\mathbb{Z}}{\mathbb{U}}{\mathbb{W}}}$, with $\mathcal{B}_{\epsilon}^{3}{}$ a ball in ${\mathbb{R}}^{3}$ containing the origin and with radius $\epsilon$ arbitrarily small. Note that, see again, ${\mathbb{O}}_{\epsilon} \subset {\mathbb{O}}$ and if $(\mathcal{F},\mathcal{C})$ is observable, then $\mathbb{O}$ is bounded.\
+
+### The optimization problem and main result
+
+The optimization problem, to be solved at each time instant $k \geq 0$, reads
+
+${J{(\left. k \middle| k \right.)}} = {{\min\limits_{{\overline{X}{(k)}},{\overline{U}{(k)}},{z_{ref}{(k)}}}J}{(k)}}$ (58a)
+subject to the dynamical system and
+
+${{\hat{X}{(k)}} - {\overline{X}{(k)}}} \in \overline{\mathbb{E}}$ (58b)
+Also, ${\forall p} \in {\lbrack 0,\overline{p}\rbrack}$
+$${{\overline{u}{({k + p})}} \in \overline{\mathbb{U}}},{{{\overline{z}{({k + p})}} \in \overline{\mathbb{Z}}},{{\hat{w}{(k)}} \in {\mathbb{W}}}}$$ (58c)
+Finally, as a terminal constraint, the following must be fulfilled
+
+\end{bmatrix} \in {\mathbb{O}}_{\epsilon}$
+
+If available, the solution to the optimization problem is denoted ${{{\overline{X}{(\left. k \middle| k \right.)}},{\overline{U}{(\left. k \middle| k \right.)}}} = {({\overline{u}{(\left. k \middle| k \right.)}},\ldots,{\overline{u}{({k + \left. \overline{p} \middle| k \right.})}})}},{z_{ref}{(\left. k \middle| k \right.)}}$, and $u{(k)}$ in is applied to the system according to the receding horizon principle. Also, we denote with $\overline{X}{({k + \left. p \middle| k \right.})}$ the future nominal state predictions generated using with input $\overline{U}{(\left. k \middle| k \right.)}$. The following result holds.
+
+### Theorem 2
+
+If the optimization problem is feasible at time step $k = 0$ then it is feasible at all time steps $k > 0$ and, for all $k \geq 0$, the constraints are satisfied. Also, if $\sigma$ is sufficiently large, the resulting MPC control law asymptotically steers the nominal system output $\overline{z}{(k)}$ to the admissible set-point $z_{goal}^{FEASIBLE}$, where
+
+Finally, ${\text{dist}{({z{(k)}},{z_{goal}^{FEASIBLE} \oplus {C{({\overline{\mathbb{E}} \oplus \hat{\mathbb{E}}})}}})}}\rightarrow 0$ as $k\rightarrow\infty$, where $\text{dist}{(\alpha,\beta)}$ denotes the distance from point $\alpha$ to set $\beta$. $\square$
+
+### Proof 3
+
+See the Appendix. $\blacksquare$
+
+## Simulation example
+
+The proposed approach for learning-based predictive control has been tested on a simulation example. The considered system is of third order, and it corresponds to the discretization of the system with continuous time transfer function
+
+characterized by dominant complex poles with natural frequency $\omega_{n} = 4$ and damping factor $\xi = 0.2$, and with unitary gain. Figure 1 shows the open loop step response of the system under analysis. The input and output samples are collected with sampling time $T_{s} = 0.1$, the output $z{(k)}$ is corrupted by an additive disturbance $v{(k)}$ such that ${|{v{(k)}}|} \leq \overline{v} = 0.01$, while the bound on the measurement noise is $\overline{d} = 0.1$. The multistep models and bounds are computed up to $\overline{p} = 20$ steps ahead, while the chosen model order is $o = 4$. The collected dataset is composed overall of 1000 input-output data samples, where the input is a step-wise sequence taking a random value in $\{{- 1},0,1\}$ every $5$ time units.
+
+Figure 1: Open loop response of the system to a unitary step at time 10. Solid line: nominal z (v (k)=d (k)=0), dashed line: output z, dotted line: output measure y
+
+Following the approach of Section 3.3.2, we compute ${\underset{¯}{\lambda}}_{p}$ and monitor its trend against the percentage of dataset used to compute it. This procedure enables one to assess the convergence rate of ${\underset{¯}{\lambda}}_{p}$ to a limit value, presumably equal to ${\overline{\epsilon}}_{p}^{\ast}$ according to Theorem 1. Figure 2 shows this trend.
+
+Figure 2: Trend of ${\underset{¯}{\lambda}}_{p}$ against the employed percentage of the dataset. Dotted line: p=3, solid line: p=10, line with circles: $p = \overline{p} =$20
+
+Parameters ${{\hat{\overline{\epsilon}}}_{p},p} \in {\lbrack 1,\overline{p}\rbrack}$ are then computed with a conservative factor $\alpha = 1.1$ to account for the finite dataset employed, see, and the FPSs are then built independently for each step as in. The parameters of the nominal one-step predictor ${\hat{\theta}}^{{} \ast}$ are computed by solving. In order to learn the uncertainty bound $\overline{w}$, the given predictor ${\hat{\theta}}^{{} \ast}$ is iterated and rewritten in form and the estimated value ${\hat{\tau}}_{p}{({\hat{\theta}}^{{(p)},1})}$ is computed exploiting the FPSs previously introduced. Finally the optimization program is solved leading to the minimizer $\overline{w}$.
+
+Figure 3: Trend of bounds against step p. Solid line: bounds learned as in after optimizing $\overline{w}$, dashed line: multistep bounds associated to the iterated 1 step model τ̂p (θ̂(p), 1)
+Figure 4: Trend of bounds against step p. Dotted line: bounds with the previous approach we adopted (see ) line with circles: current bounds for the additive disturbance $\sum_{i = 0}^{p - 1}{{|{CA^{i}M_{1}}|}\overline{w}}$
+Figure 5: Controlled system trajectories. Solid dark line: z (k), dashed line: reference value zgoal, solid light line: ${\overline{z}}_{0}{(\left. k \middle| k \right.)}$, dashed dot line: constraints and tightened constraints
+
+The multi-step guaranteed bounds ${\hat{\tau}}_{p}{({\hat{\theta}}^{{(p)},1})}$ are compared with the bounds, pertaining to the state-space model with matrices in Figure 5. The multi-step bounds are smaller, as expected, however they are decoupled in time, and therefore not directly usable to guarantee recursive feasibility within the proposed robust MPC law.
+
+To clarify the advantage of our approach, in Figure 5 we compare the guaranteed bounds computed by iterating the obtained state-space model as described in this paper with those achieved by considering the uncertainty bound $\overline{w} = {{{\hat{\tau}}_{1}{({\hat{\theta}}^{{} \ast})}} + \overline{d}}$, i.e. the one-step-ahead guaranteed prediction error bound, iterating it over time with the same model matrices, and eventually adding $\overline{d}$. This alternative bound has been proposed in out previous works and. It can be noted that the proposed approach achieves a guaranteed bound on the prediction error that is half the one obtained from the integration of ${{\hat{\tau}}_{1}{({\hat{\theta}}^{{} \ast})}} + \overline{d}$, thus reducing conservativeness significantly.
+
+In the control design phase, the constraint sets ${\mathbb{U}} = {\mathbb{Z}} = {\lbrack{- 10},10\rbrack}$ are considered, while the prediction and control horizon is $\overline{p} = 10$. The Luenberger observer and the auxiliary control law are chosen thanks to optimal control theory and the weighting matrices are tuned according to. The reference to be tracked is piece-wise constant and takes value $\{ 0,5,12\}$, thus including an unfeasible setpoint as well. The trajectories of the closed-loop system are reported in Figure 5, where it is shown that ${{\overline{z}}_{0}{(\left. k \middle| k \right.)}}\rightarrow z_{goal}$ or to its nearest feasible point. As visible from the simulations, the infeasibile reference is handled successfully by the controller as well as the transients with respect to the open loop response of the system.
+
+## Conclusions
+
+The proposed unitary approach to learning-based MPC for linear systems allows one to design a control law based on a dataset collected from the working plant. The obtained data-driven controller is able to effectively deal with constraints and track desired output references. The method relies on two phases: model learning and model-based control design, that are conceived to limit conservativeness while still robustly guaranteeing constraint satisfaction. To achieve this result, multi-step predictors and the related uncertainty bounds are derived and exploited to compute the state-space model employed in the MPC design. Future directions are concerned with the extension to classes of nonlinear systems, the online (adaptive) computation of the prediction models and disturbance bounds, and the direct use of multi-step predictors also in the constraint tightening scheme.

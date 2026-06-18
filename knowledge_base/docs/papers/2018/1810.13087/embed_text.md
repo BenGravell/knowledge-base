@@ -1,0 +1,454 @@
+## Introduction
+
+inline\]It would be a good idea to write about how solution times are sensitive to encoding methods in the introduction, to motivate why so many variants are introduced. Would also be good to add some intuitive explanations around the encodings, for a part there are just new encoding equations without too much explanation.
+
+Multirobot systems can serve modern societies in a variety of ways, ranging from pure entertainment to critical search and rescue missions, from construction automation to micromanipulation. The number of robots required to achieve a common goal increases each day to improve the effectiveness and efficiency in such applications. Therefore, there is a need for scalable tools to coordinate the collective behavior of large numbers of robots. In this paper, we introduce *counting temporal logics* for specifying desired collective behavior of multirobot systems in a concise manner, and provide an optimization-based algorithm to synthesize trajectories that ensure the satisfaction of specifications given in this formalism. We show that counting temporal logics can capture meaningful and interesting multirobot tasks, and that the solution method proposed in this paper scales better with the number of robots than the existing methods. In fact, we show that our method scales to hundreds of robots under certain conditions. Moreover, we do not require robots to be synchronized perfectly or communicate during runtime.
+
+Traditional algorithms for multirobot coordination tend to focus on relatively simple tasks such as reaching a goal state while avoiding unsafe regions and collisions, or reaching a consensus. Temporal logics, such as Linear Temporal Logic (LTL), provide a powerful framework for defining more complex specifications, for example: *Always avoid collision with obstacles, do not cross into region A before visiting region B, and eventually visit regions A and C repeatedly*. Given requirements in a formal language, existing methods such as can generate correct-by-construction trajectories for single-agent systems. The use of LTL specifications has also been considered for multirobot systems. However, generalizations to multirobot systems suffer from the curse of dimensionality and cannot handle large numbers of robots. Furthermore, LTL does not provide a natural way to define group tasks, hence using LTL in multirobot settings results in long formulas, which are not desired as the complexity of the algorithms depend on the length of the formula.
+
+Existing methods that use temporal logic to define multirobot specifications, such as, require that each robot be assigned an independent task, a tedious and error-prone process when the number of robots is large. In many applications, completion of a task depends not on identities of robots, but on the number of robots satisfying a property. Take for example an emergency response scenario where hundreds of autonomous vehicles are deployed to locate and help the victims. In such a scenario, it is reasonable to assume that most of the vehicles would have identical capabilities and that the identity of the vehicle is not important to the rescuers, as long as the given tasks are accomplished. On the other hand, tasks might depend on the number of agents satisfying a property. For instance, one might require sufficiently many robots to surveil a particular area to look for victims. Or, one might need to limit the number of rescuers in certain regions to avoid unsafe areas or congestion. We call this type of specification *temporal counting constraints* and propose a novel logic called *counting linear temporal logic plus (cLTL+)* to specify them. This logic is two-layered similar to. The inner logic defines tasks that can be satisfied by a single robot, for instance *surveiling an area* in the previous emergency response scenario. The outer logic requires *sufficiently many* (or *not too many*) robots to satisfy tasks given as inner logic formulas. For example, one might express a task that "*at least $2$ and not more than $5$ robots* to surveil an area" using cLTL+.
+
+After introducing the logic, we propose an optimization-based method to generate individual trajectories that collectively satisfy specifications given in cLTL+. The method proposed in this paper uses an integer linear programming (ILP) formulation of temporal specifications with the assumption that robots are perfectly synchronized. We later relax this assumption and show how to generate solutions robust to bounded synchronization errors.
+
+We also discuss several variants of the cLTL+ syntax. Firstly, we introduce a fragment of cLTL+, namely *counting linear temporal logic (cLTL)*. We show that an alternative solution method could scale to systems with hundreds of robots when specifications are given in cLTL and robots have identical dynamics. The logic cLTL and associated synthesis algorithms can be seen as an extension of a special class of counting problems that deal with invariant specifications, first proposed in. Secondly, we present an extension to the syntax of cLTL+ to define tasks that could be carried out only by a certain group of robots. For example, one might require a surveillance task to be conducted by robots that are equipped with suitable cameras. This extension allows us to assign tasks to specific group of robots. Finally, we show that continuous state dynamics can be handled directly within our framework.
+
+As another contribution of this paper, we discuss how to relax the synchronous execution assumption and generate trajectories that can be executed asynchronously. Robustness against noise and parameter uncertainty has been extensively studied for single robot systems, and also extended to consensus problems. However, additional factors need to be addressed when dealing with multirobot systems. Unlike single robot systems, multirobot systems might tolerate the failure of individual agents without sacrificing task fulfillment. Such a notion of robustness against failing robots is examined in. Another consideration in multirobot coordination problems is the robustness against synchronization errors. Perfect synchronization of robots might not be practical in real-life applications. The authors of characterized a class of LTL formulas that are robust to asynchrony and provided bounds on the deviation from optimality in the presence of asynchrony. However, for general LTL specifications, correctness cannot be guaranteed using this approach. A method that is based on prioritizing robots and planning individual trajectories sequentially was recently proposed in. Trajectories generated with this approach, however, depend highly on how the robots are prioritized---feasible solutions can be missed if priorities are not correctly assigned. In this paper we propose a new definition of robust satisfaction of temporal logic formulas, similar in spirit to. We then provide small modifications to our method to generate trajectories that satisfy this notion of robustness, and show that the method is sound and partially complete.
+
+Preliminary versions of this paper appeared in and. This paper provides a more comprehensive treatment of counting temporal logics and corresponding synthesis problems, including partially complete robust encodings, full proofs and several extensions. Moreover, experimental results implementing the synthesized trajectories in Robotarium are provided. The rest of the paper is organized as follows. Background information is provided in Section II. Section III introduces the syntax and semantics for cLTL+ and cLTL. Section IV formally defines the synchronous coordination problem and proposes a solution. An alternative solution, which can solve a special set of problems more efficiently, is also provided in the same section. Section V introduces a time-robustness concept and presents necessary modifications to the method in order to generate robust solutions. Section VI presents two extensions. We demonstrate the efficacy of the methods presented in this paper via numerical and experimental results in Section VII before concluding the paper in Section VIII.
+
+## System and behavior descriptions
+
+This section introduces the notation used in the rest of the paper and provides system and behavior definitions required to formally state the problem we seek to solve.
+
+The set of nonnegative integers is denoted by $\mathbb{N}$ and the set of positive integers up to $N$ is denoted by ${\lbrack N\rbrack} = {\{ 1,2,\ldots,N\}}$. We use $\mathbf{1}$ to denote the vector of all $1$'s. We define a set membership indicator function such that given a set A, ${\mathbb{1}_{A}{(a)}} = 1$ if $a \in A$ and ${\mathbb{1}_{A}{(a)}} = 0$ otherwise. The cardinality of a set $A$ is denoted by $|A|$. We next define transition systems that are used to model the robot dynamics.
+
+### Definition 1
+
+A transition system is a tuple $T = {(S,\rightarrow,{AP},L)}$ where $S$ is a finite set of states, $\rightarrow \subseteq S \times S$ is a transition relation, $AP$ is a finite set of atomic propositions, and $L:{S\rightarrow 2^{AP}}$ is a labeling function.
+
+We say that *$s$ satisfies $a$* or *$a$ holds at $s$* if $a \in {L{(s)}}$ for $s \in S$ and $a \in {AP}$. A transition system is said to be *action deterministic* if all transitions are controllable. In this work, we assume that robot dynamics are modeled by action deterministic transition systems. This implies that, if the transition relation includes $(s,s^{\prime})$, then there exists a controller that can steer a robot from state $s \in S$ to state $s^{\prime} \in S$. Action deterministic transition systems could capture the behavior of many complex systems and could be obtained using abstraction methods or motion primitives. Such abstract graph-based representations are commonly used for describing the behavior of robotic teams.
+
+### Definition 2
+
+Given a transition system $T = {(S,\rightarrow,{AP},L)}$, an infinite sequence $\pi:{{\pi{}\pi{}\pi{}\ldots} \in S^{\omega}}$ of states such that ${({\pi{(k)}},{\pi{({k + 1})}})} \in \rightarrow$ is called a trajectory. For a given trajectory $\pi$, the corresponding trace is defined as ${\sigma{(\pi)}} = {L{({\pi{}})}L{({\pi{}})}L{({\pi{}})}\ldots} \in {(2^{AP})}^{\omega}$.
+
+The transition system and the trajectories associated with robot $\mathcal{R}_{n}$ are denoted by $T_{n} = {(S_{n},\rightarrow_{n},{AP},L_{n})}$ and $\pi_{n}$, respectively. As indicated by this notation, we allow the dynamics of robots to differ but require that they share the same atomic propositions. Note that this requirement could be achieved without loss of generality, as one can define a global atomic proposition set simply by taking the union of all atomic propositions. For a collection ${\{ T_{n}\}}_{n \in {\lbrack N\rbrack}}$ of transition systems (or a collection ${\{\pi_{n}\}}_{n \in {\lbrack N\rbrack}}$ trajectories), we drop $n \in {\lbrack N\rbrack}$ and write $\{ T_{n}\}$ (or $\{\pi_{n}\}$) when the range of $n$ is clear from the context.
+
+The collective behavior of a multirobot system depends not only on the individual trajectories but also on how they are interleaved. If robots are not synchronized, there are infinitely many ways a collection of trajectories could be executed. Depending on how the asynchrony plays out, a given property might or might not be satisfied by a given collection of trajectories. Since it is difficult to synchronize a large number of robots perfectly in practice, we allow robots to move asynchronously. To reason about asynchronous executions, we define *local counters*:
+
+### Definition 3
+
+A mapping $k:{{\mathbb{N}}\rightarrow{\mathbb{N}}}$ is called a local counter if it satisfies the following:
+
+The set of all local counters is denoted by $\mathcal{K}$.
+
+A local counter is used to keep track of how far a robot has moved along its trajectory. If $\pi_{n}$ denotes the trajectory and $k_{n}$ denotes the local counter of robot $\mathcal{R}_{n}$, the position of $\mathcal{R}_{n}$ at time $t$ is given by $\pi_{n}{({k_{n}{(t)}})}$. Equation guarantees that initial conditions are respected, the order of states in a trajectory is preserved, and that robots eventually make progress.
+
+Given a collection of trajectories, a particular execution is uniquely identified by local counters:
+
+### Definition 4
+
+An $N$-dimensional collective execution $K:{{\mathbb{N}}\rightarrow{\mathbb{N}}^{N}}$ is a mapping from global time to local counters, i.e., $K \doteq {\lbrack{k_{1}\ldotsk_{N}}\rbrack}$ where $k_{n} \in \mathcal{K}$ for all $n \in {\lbrack N\rbrack}$. The set of all $N$-dimensional collective executions is denoted by $\mathcal{K}_{N}$.
+
+For a collection $\Pi = {\{\pi_{1},\ldots,\pi_{N}\}}$ of trajectories and a collective execution $K$, we use $(\Pi,K)$ to denote the unique execution of the trajectories corresponding to $K$. To illustrate the concept of collective execution, we present the following example:
+
+Figure 1: Frames (a) to (e) correspond to snapshots of a possible asynchronous execution taken at times t = 0 to t = 5. Robots are enumerated in the order of red, green, blue and local times of robots at each time step are shown below the corresponding frame. Anchoring robots are highlighted with a black circle and the anchor time is shown in bold.
+
+### Example 1
+
+Let the following three trajectories
+
+denote the trajectories of a red, green, and a blue robot, respectively. An arbitrary collective execution is illustrated in Figure 1. Local counters are initially set as ${K{}} = {\lbrack 0\;0\;0\rbrack}$ at time $t = 0$; that is, each robot $\mathcal{R}_{n}$ is initially positioned at $\pi_{n}{}$. Every robot completes a transition by time $t = 1$, so local counters are updated as ${K{}} = {\lbrack 1\;1\;1\rbrack}$. The red and the blue robots move slower than expected and fail to complete two transitions by time $t = 2$. The green robot, on the other hand, successfully completes two transitions by time $t = 2$. Thus, local counters are updated as ${K{}} = {\lbrack 1\;2\;1\rbrack}$. Similarly, the values of the local counters up to $t = 5$ can be seen from Figure 1.
+
+As stated before, when robots are allowed to move asynchronously, there are infinitely many collective executions given a collection of trajectories. Without a bound on asynchrony, it might be impossible to achieve meaningful tasks. For this reason, we introduce the following definition.
+
+### Definition 5
+
+A collective execution $K = {\lbrack{k_{1}\ldotsk_{N}}\rbrack}$ is called $\mathbf{τ}$-bounded if
+
+The set of all $\tau$-bounded $N$-dimensional collective executions is denoted by $\mathcal{K}_{N}{(\tau)}$.
+
+A collective execution $K \in {\mathcal{K}_{N}{}}$ is called a *synchronous* execution. In a synchronous execution, all robots start and complete their transitions simultaneously. The synchronous execution $K^{\ast} = {\lbrack{k_{1}^{\ast}\ldotsk_{N}^{\ast}}\rbrack}$ where ${k_{n}^{\ast}{(t)}} = t$ for all $n$ and $t$ is called *globally synchronous*.
+
+## Counting logics: syntax and semantics
+
+This section provides the syntax and semantics of *counting linear temporal logic plus* (cLTL+), as well as the smaller fragment *counting linear temporal logic* (cLTL) which allows for more efficient solutions under certain conditions.
+
+### III-A cLTL+
+
+The logic cLTL+ is a two-layer logic similar to censusSTL. The *inner logic* is identical to LTL and is used to describe tasks that can be satisfied by a single robot. For example, tasks such as *"avoid collisions with obstacles at all times"* or *"eventually visit region $A$"* can be described by the inner logic. The outer layer then specifies the evolution of the number of robots required to satisfy an inner logic formula. Using the earlier examples, we can specify tasks such as *"All robots* must avoid collisions with obstacles" or *"At least five robots* should eventually visit region $A$" using cLTL+.
+
+An inner logic formula over a set $AP$ of atomic propositions is defined recursively as follows:
+
+where ${ap} \in {AP}$ is an atomic proposition and $\phi,\phi_{1}$ and $\phi_{2}$ are inner logic formulas. The symbols $\neg, \land, ○$ and $\mathcal{U}$ correspond to the logical operators *negation* and *conjunction*, and the temporal operators *next* and *until*, respectively. Other commonly used operators can be derived from these operators, such as *disjunction* $\left( {{\phi_{1} \vee \phi_{2}} \doteq {\neg{({{\neg\phi_{1}} \land {\neg\phi_{2}}})}}} \right)$, *release* $\left( {{\phi_{1}\mathcal{R}\phi_{2}} \doteq {\neg\left( {\neg{\phi_{1}\mathcal{U}{\neg\phi_{2}}}} \right)}} \right)$, *eventually* $\left( {{◆\phi} \doteq {True\mathcal{U}\phi}} \right)$, *always* $\left( {{\square\phi} \doteq {\neg{({◆{\neg\phi}})}}} \right)$, etc. We use $\Phi$ to denote the set of all inner logic formulas defined according to. Although the inner logic is identical to LTL, we present the semantics here for the sake of completeness.
+
+Let $\sigma \in {(2^{AP})}^{\omega}$ be a trace and let $\phi$ be an inner logic formula. Satisfaction of $\phi$ by $\sigma$ at step $t$ is denoted by ${\sigma,t} \models \phi$ and is defined as follows:
+
+${\sigma,t} \models {True}$,
+
+for any atomic proposition $a \in {AP}$, ${\sigma,t} \models a$ if and only if $a \in {\sigma{(t)}}$,
+
+${\sigma,t} \models {\varphi_{1} \land \varphi_{2}}$ if and only if ${\sigma,t} \models \varphi_{1}$ and ${\sigma,t} \models \varphi_{2}$,
+
+${\sigma,t} \models {\neg\varphi}$ if and only if ${\sigma,t}\operatorname{\models\not{}}\varphi$,
+
+$\sigma,t \models ○ \varphi$ if and only if ${\sigma,{t + 1}} \models \varphi$, and
+
+${\sigma,t} \models {\varphi_{1}\mathcal{U}\varphi_{2}}$ if and only if there exists $l \geq 0$ such that ${\sigma,{t + l}} \models \varphi_{2}$ and ${\sigma,{t + l^{\prime}}} \models \varphi_{1}$ for all $0 \leq l^{\prime} < l$.
+
+If ${\sigma,0} \models \varphi$, then we say that $\sigma$ *satisfies* $\varphi$ and write $\sigma \models \varphi$ for short. We say that a trajectory $\pi$ satisfies $\varphi$ if ${\sigma{(\pi)}} \models \varphi$, and write $\pi \models \varphi$.
+
+After defining the inner logic, we now present the syntax for cLTL+ which is based on a new proposition type: a *temporal counting proposition* ($tcp$) is an inner logic formula paired with a nonnegative integer, i.e., ${tcp} = {\lbrack\phi,m\rbrack} \in {\Phi \times {\mathbb{N}}}$. The inner logic formula $\phi$ defines a task and $m$ specifies the number of robots needed to satisfy it. For example, ${tcp} = {\lbrack{◆a},5\rbrack}$ is a temporal counting proposition that evaluates to $True$ if the task "$◆a$" is satisfied by at least five robots.
+
+The following grammar can now be used to recursively define cLTL+ formulas:
+
+where ${tcp} \in {\Phi \times {\mathbb{N}}}$ is a temporal counting proposition and $\mu,\mu_{1}$ and $\mu_{2}$ are cLTL+ formulas. Identical to inner logic, other commonly used operators can be derived from.
+
+Let $\Pi = {\{\pi_{1},\ldots,\pi_{N}\}}$ be a collection of trajectories and $K = {\lbrack{k_{1}\ldotsk_{N}}\rbrack}$ be a collective execution. Semantics of the outer logic is similar to the semantics of the inner logic, but they are defined for executions of collections of trajectories. Satisfaction of a cLTL+ formula $\mu$ by the pair $(\Pi,K)$ at time $t$, denoted as ${{(\Pi,K)},t} \models \mu$, is defined as follows:
+
+for any temporal counting proposition ${tcp} = {\lbrack\phi,m\rbrack} \in {\Phi \times {\mathbb{N}}}$, we say ${{(\Pi,K)},t} \models {tcp}$ if and only if ${|{\{ n\mid{{{\sigma{(\pi_{n})}},{k_{n}{(t)}}} \models \phi}\}}|} \geq m$,
+
+${{(\Pi,K)},t} \models {\mu_{1} \land \mu_{2}}$ if and only if ${{(\Pi,K)},t} \models \mu_{1}$ and ${{(\Pi,K)},t} \models \mu_{2}$,
+
+${{(\Pi,K)},t} \models {\neg\mu}$ if and only if ${{(\Pi,K)},t}\operatorname{\models\not{}}\mu$,
+
+${(\Pi,K)},t \models ○ \mu$ if and only if ${{(\Pi,K)},{t + 1}} \models \mu$, and
+
+${{(\Pi,K)},t} \models {\mu_{1}\mathcal{U}\mu_{2}}$ if and only if there exists $l \geq 0$ such that ${{(\Pi,K)},{t + l}} \models \mu_{2}$ and ${{(\Pi,K)},{t + l^{\prime}}} \models \mu_{1}$ for all $0 \leq l^{\prime} < l$.
+
+If ${{(\Pi,K)},0} \models \mu$, then we say that the pair $(\Pi,K)$ *satisfies* $\mu$ and write ${(\Pi,K)} \models \mu$ for short.
+
+### III-B cLTL
+
+Having defined the cLTL+, we now introduce *counting linear temporal logic* (cLTL), which corresponds to the fragment of cLTL+ where the inner logic is constrained to the grammar $\phi::=a$. Temporal counting propositions in cLTL have the special form ${tcp_{cLTL}} = {\lbrack a,m\rbrack}$ where the inner logic is restricted to atomic propositions instead of an LTL formula, i.e., $a \in {AP}$. As a result of this restriction, cLTL enforces robots to "synchronize". The following example depicts the differences between cLTL and cLTL+ formulas:
+
+### Example 2
+
+Consider the following cLTL+ formulas: $\mu_{1} \doteq {\square◆{\lbrack a,m\rbrack}}$, $\mu_{2} \doteq {\lbrack{\square◆a},m\rbrack}$, and $\mu_{3} \doteq {\square{\lbrack{◆a},m\rbrack}}$ for $a \in {AP}$.
+
+Here the inner formula of $\mu_{1}$, "$a$", is an atomic proposition. Hence, $\mu_{1}$ is also a cLTL formula where the task "$a$" can be satisfied by any robot, simply by visiting a state where $a$ holds. The temporal counting proposition "$\lbrack a,m\rbrack$" is satisfied at time $t$ if at least $m$ robots to satisfy $a$ at time $t$. Moreover, the temporal operators "$\square◆$" in the outer layer necessitate that the temporal counting proposition is satisfied infinitely many times. Thus, there should be an infinite number of instances where $a$ is *simultaneously* satisfied by more than $m$ robots in order for $\mu_{1}$ to be satisfied.
+
+On the other hand, neither $\mu_{2}$ nor $\mu_{3}$ can be specified in cLTL. In both formulas, the inner formula contains temporal operators which are not allowed in the cLTL syntax. The difference between $\mu_{1}$ and $\mu_{2}$ is that the latter relaxes the simultaneity requirement. The inner formula $\square◆a$ can be satisfied by any robot if the robot satisfies $a$ infinitely many times. The integer $m$ is the smallest number of robots that needs to satisfy the inner formula. Hence, the cLTL+ formula $\mu_{2}$ requires at least $m$ robots to satisfy $a$ infinitely many times, but as opposed to $\mu_{1}$ they need not do so simultaneously. For any given time the number of robots that satisfy $a$ might never exceed $m$, or even $1$. Note that any collective trajectory that satisfies $\mu_{1}$ also satisfies $\mu_{2}$, but the converse is not true.
+
+The difference between $\mu_{2}$ and $\mu_{3}$ is more subtle. Any collective trajectory that satisfies $\mu_{2}$ would also satisfy $\mu_{3}$. The converse is also true if the number of robots is finite. However, in the hypothetical scenario where there are infinitely many robots, $\mu_{3}$ can be satisfied even if no robot satisfies $a$ more than once. $\blacksquare$
+
+## Synchronous coordination problem and its solution
+
+This section provides the formal definition of the synchronous multirobot coordination problem and provides an optimization-based solution for cLTL+ specifications. Subsequently, an alternative solution is proposed for the special case where the specifications are given in cLTL and the robots have identical dynamics. The alternative solution is shown to scale much better with the number of robots. In fact, the number of robots has almost no effect on the solution time and problems with hundreds of robots can be solved with the alternative method as demonstrated in Section VII.
+
+### Problem 1
+
+Given $N$ robots with dynamics $\{{T_{n} = {(S_{n},\rightarrow_{n},{AP},L_{n})}}\}$, initial conditions $\{{\pi_{n}{}}\}$, and a cLTL+ formula $\mu$ over $AP$, synthesize a collection $\Pi = {\{\pi_{1},\ldots,\pi_{N}\}}$ such that the globally synchronous execution of $\Pi$ satisfies $\mu$, i.e., ${(\Pi,K^{\ast})} \models \mu$.
+
+In order to solve Problem 1, we generate individual trajectories in a centralized fashion. Robots then follow these trajectories in a distributed fashion, using local controllers without runtime communication. To generate trajectories we encode the robot dynamics and the cLTL+ constraints using integer linear constraints and pose the synthesis problem as an integer linear program (ILP). This approach is inspired by the bounded model-checking literature. In particular, we focus the search on individual trajectories on prefix-suffix form. That is, for a given integer $h$, we aim to construct individual trajectories of the form $\pi_{n} = {\pi_{n}{}\pi_{n}{}\ldots\pi_{n}{(h)}\ldots}$ and find an integer $l \in {\{ 0,\ldots,{h - 1}\}}$ such that for all $k \geq h$, ${\pi_{n}{(k)}} = {\pi_{n}{({{k + l} - h})}}$. In the following, we present ILP encodings of dynamic and temporal constraints.
+
+### IV-A Globally synchronous robot dynamics
+
+Given the transition system $T_{n} = {(S_{n},\rightarrow_{n},{AP},L_{n})}$ that represents the dynamics of robot $\mathcal{R}_{n}$, consider the adjacency matrix $A_{n}$ corresponding to the transition relation $\rightarrow_{n}$. We use a Boolean vector ${w_{n}{(t)}} \in {\{ 0,1\}}^{|S_{n}|}$ with a single nonzero component to denote the state of robot $\mathcal{R}_{n}$ at time $t$. For example, assume $S_{n} = {\{ v^{1},v^{2},v^{3}\}}$ and that robot $\mathcal{R}_{n}$ is at $v^{2}$ at time $t$. Then, ${w_{n}{(t)}} = \begin{bmatrix}
+\end{bmatrix}^{T}$. With a slight abuse of notation, we equivalently write ${w_{n}{(t)}} = v^{2}$.
+
+Given adjacency matrices $\{ A_{n}\}$ corresponding to $\{ T_{n}\}$ and a set of inital conditions $\{{\pi_{n}{}}\}$, the dynamics of robot $\mathcal{R}_{n}$ are captured as follows:
+
+for all $n \in {\lbrack N\rbrack}$ and for all $t \in {\{ 0,\ldots,{h - 1}\}}$. The trajectory $\pi_{n}$ corresponding to the sequence $\mathbf{w}_{n} = {w_{n}{}w_{n}{}\ldots}$ can then be extracted by locating the nonzero component in each $w_{n}{(t)}$.
+
+### IV-B Loop constraints
+
+To ensure that the generated trajectories are in prefix-suffix form, we introduce $h$ binary variables $\mathbf{z}_{\mathbf{l}\mathbf{o}\mathbf{o}\mathbf{p}} = {\{{z_{loop}{}},{\ldotsz_{loop}{({h - 1})}}\}}$ and the following constraints:
+
+$\sum\limits_{t = 0}^{h - 1}{z_{loop}{(t)}}$ $= 1$ (5c)
+
+for all $n \in {\lbrack N\rbrack}$ and for all $t \in {\{ 0,\ldots,{h - 1}\}}$. These constraints guarantee that there exists a unique $t$ such that ${z_{loop}{(t)}} = 1$ and ${w_{n}{(h)}} = {w_{n}{(t)}}$. For all other time instances, the first two inequalities are trivially satisfied.
+
+### IV-C Inner logic constraints
+
+We next recursively describe how counting temporal logic constraints can be translated into integer constraints. Let $\phi \in \Phi$ be an inner logic formula given according to and $h$ be the horizon length. For each robot $n$, we introduce $h$ binary decision variables ${z_{n}^{\phi}{(t)}} \in {\{ 0,1\}}$ for $t \in {\{ 0,1,\ldots,{h - 1}\}}$ and ILP constraints such that ${z_{n}^{\phi}{(t)}} = 1$ if and only if ${\pi_{n},t} \models \phi$. Hence, satisfaction of an inner formula $\phi$ by the robot $\mathcal{R}_{n}$ is equivalent to ${z_{n}^{\phi}{}} = 1$. We use the following encodings to recursively create the corresponding ILP constraints:
+
+*ap (atomic proposition):* Let $\phi = a \in {AP}$ be an atomic proposition and let the states of $T_{n}$ be given by the set $S_{n} = {\{ v_{n}^{1},v_{n}^{2},\ldots,v_{n}^{|S_{n}|}\}}$. We define the vector $\mathbf{v}_{n}^{\phi} \in {\{ 0,1\}}^{|S_{n}|}$ such that the $i^{th}$ entry of $\mathbf{v}_{n}^{\phi}$ is $1$ if and only if $a \in {L{(v_{n}^{i})}}$. That is, $\mathbf{v}_{n}^{\phi}$ encodes the labeling function $L_{n}$. Then we introduce the following constraints for all $n \in {\lbrack N\rbrack}$:
+
+*$\neg$ (negation):* Let $\phi = {\neg\varphi}$. Then for all $n \in {\lbrack N\rbrack}$,
+
+*$\land$ (conjunction):* Let $\phi = {\bigwedge_{i = 1}^{I}\varphi_{i}}$. Then for all $t = {0,\ldots,{h - 1}}$ and for all $n \in {\lbrack N\rbrack}$,
+
+*$\vee$ (disjunction):* Let $\phi = {\bigvee_{i = 1}^{I}\varphi_{i}}$. Then for all $t = {0,\ldots,{h - 1}}$ and for all $n \in {\lbrack N\rbrack}$,
+
+With a slight abuse of notation, we also use Boolean operators on these optimization variables. For example, for $\phi = {\bigvee_{i = 1}^{I}\varphi_{i}}$, we write ${z_{n}^{\phi}{(t)}} = {\bigvee_{i = 1}^{I}{z_{n}^{\varphi_{i}}{(t)}}}$ instead of stating the inequalities in. Encoding of the temporal operators is then as follows:
+
+*$○$ (next):* Let $\phi = ○ \varphi$, then for all $n \in {\lbrack N\rbrack}$
+
+*$\mathcal{U}$(until):* if $\phi = {\varphi_{1}\mathcal{U}\varphi_{2}}$, then for all $n \in {\lbrack N\rbrack}$
+
+where ${\overset{\sim}{z}}_{n}^{\phi}{(t)}$ are auxiliary binary variables. As shown in, not introducing auxiliary variables results in trivial satisfaction of the *until* operator.
+
+### IV-D Outer logic constraints
+
+Similar to the inner logic, we proceed by transforming a cLTL+ formula into ILP constraints. Given a cLTL+ formula $\mu$ and a time horizon $h$, we create $h$ binary decision variables $\mathbf{y}^{{\mathbf{c}\mathbf{L}\mathbf{T}\mathbf{L}} +} = {\{{y^{\mu}{(t)}}\}}$, where $t \in {\{ 0,1,\ldots,{h - 1}\}}$ and ILP constraints $ILP{(\mu)}$. While doing so, we ensure that ${y^{\mu}{(t)}} = 1$ if and only if ${{(\Pi,K^{\ast})},t} \models \mu$ where $K^{\ast}$ is the globally synchronous collective execution. We remind the reader that since ILP constraints are created recursively, creating the constraints for formula $\mu$ will create the constraints for all the inner logic formulas appearing in $\mu$. We denote by $ILP{(\mu)}$ the set of all resulting constraints that encode the satisfaction of $\mu$, and by ${(\mathbf{z},\mathbf{y})}^{{\mathbf{c}\mathbf{L}\mathbf{T}\mathbf{L}} +}$, the set of all variables created in this process.
+
+We provide encodings only for counting propositions since the rest of the semantics are identical. Let $\mu = {\lbrack\phi,m\rbrack} \in {{AP} \times {\mathbb{N}}}$ be a temporal counting proposition. Then
+
+where $M$ is a sufficiently large positive number, in particular, $M \geq {N + 1}$. Note that when ${y^{\mu}{(t)}} = 1$, the inequality on the right reduces to ${\sum_{n = 1}^{N}{z_{n}^{\phi}{(t)}}} \geq m$. Moreover, the inequality on the left is trivially satisfied since $M \geq {N + 1}$. Conversely, when ${y^{\mu}{(t)}} = 0$, the inequality on the right is trivially satisfied and the inequality on the left reduces to ${\sum_{n = 1}^{N}{z_{n}^{\phi}{(t)}}} < m$. Therefore, ${y^{\mu}{(t)}} = 1$ if and only if the number of robots that satisfy $\phi$ at time $t$ is greater than or equal to $m$. Conversely, (${y^{\mu}{(t)}} = 0$) if and only if the number of robots that satisfy $\phi$ at time $t$ is less than $m$. Therefore, the ILP constraints in are correct and consistent with the semantics of cLTL+.
+
+### IV-E Overall optimization problem and its analysis
+
+The following optimization problem is formed to generate a solution to an instance of Problem 1 given a horizon length $h$:
+
+Next we analyze this solution approach. The following theorem shows that the solutions generated by are sound.
+
+### Theorem 1
+
+If the optimization problem in is feasible for a cLTL+ formula $\mu$, then a collection $\Pi = {\{\pi_{n}\}}_{n \in {\lbrack N\rbrack}}$ of trajectories can be extracted from $\{\mathbf{w}_{n}\}$ such that ${(\Pi,K^{\ast})} \models \mu$.
+
+### Proof
+
+Constraint guarantees that the collection $\Pi$ of trajectories generated from $\{\mathbf{w}_{n}\}$ are feasible, consistent with the initial conditions and with the system dynamics. Furthermore, ensures that these solutions can be extended to infinite trajectories of the form $\pi_{n} = {\pi_{n}{}\ldots\pi_{n}{({l - 1})}\left( {\pi_{n}{(l)}\ldots\pi_{n}{({h - 1})}} \right)^{\omega}}$. The ILP encodings - of LTL formulas are sound, and the same encodings are also used for cLTL+ formulas by replacing $z_{n}^{\phi}{(t)}$ with $y^{\mu}{(t)}$, where $\mu$ is any cLTL+ formula. The only exception is that is replaced with, which we showed to be correct. Therefore, the constraint ${y^{\mu}{}} = 1$ together with $ILP{(\mu)}$ guarantees that ${(\Pi,K^{\ast})} \models \mu$. Thus, if is feasible, then the globally synchronous execution of $\Pi$ solves Problem 1. ∎
+
+As a corollary, it is easy to show that stutter invariance of formulas (see Theorem 7.92 from ) allows the generalization of the soundness result from globally synchronous executions to all synchronous executions:
+
+### Corollary 1
+
+If $\mu$ does not contain any next operator $○$, neither in the inner nor in the outer logic, then ${(\Pi,K)} \models \mu$ for all synchronous executions $K \in {\mathcal{K}_{N}{}}$.
+
+The following theorem shows that encodings presented in - are complete:
+
+### Theorem 2
+
+If there is a solution to Problem 1, then there exists a finite $h$ such that is feasible.
+
+### Proof
+
+In order to show that prefix-suffix form solutions are complete, we reduce Problem 1 to a regular LTL control synthesis problem, for which prefix-suffix solutions have been shown to be complete.
+
+Let $\Phi$ be the set of all inner logic formulas defined according to over $AP$. Given any cLTL+ formula $\mu$, one can define an equivalent LTL formula over a new set of atomic propositions ${AP^{\prime}} = {\bigcup_{a \in {AP}}{\{ a_{1},a_{2},{\ldotsa_{N}}\}}}$. For each temporal counting proposition ${tcp} = {\lbrack\phi,m\rbrack}$ in $\mu$, we define a new set $\{\phi_{1},\phi_{2},{\ldots\phi_{N}}\}$ of LTL formulas over $AP^{\prime}$, where $\phi_{n}$ is obtained by replacing every atomic proposition $a \in {AP}$ with the corresponding $a_{n} \in {AP^{\prime}}$. We then define ${tcp^{\prime}} \doteq {\bigvee_{i = 1}^{I}{({\bigwedge_{j \in J_{i}}\phi_{j}})}}$, where $J = {\{ J_{1},\ldots,J_{I}\}}$ is the set of all $m$-element subsets of $\lbrack N\rbrack$, hence $I = \binom{N}{m}$. Note that, $tcp^{\prime}$ is equivalent to $tcp$, meaning that any collective execution that satisfy one will also satisfy the other. Even though this method increases the number of atomic propositions linearly and the length of the formula combinatorially with the number of robots, it will transform a cLTL+ formula into a regular LTL formula over a finite set of atomic propositions.
+
+Next we create a product transition system $T^{\prime} \doteq {\Pi_{n}T_{n}}$ with the set $AP^{\prime}$ as its atomic propositions. Now Problem 1 is reduced to a standard LTL synthesis problem and it can be solved using a model-checker to generate a prefix-suffix solution or to declare the non-existence of solutions (see e.g., ). ∎
+
+### Remark 1
+
+The proof of Theorem 2 highlights the advantages of using cLTL+ in scenarios where robot identity is not critical for accomplishing the collective task. Although the problem can be reduced to a standard LTL synthesis problem as the proof suggests, the reduction results in a synthesis problem on a product transition system with size exponential in the number of robots, and with an LTL formula that is combinatorially longer than the cLTL+ formula. Indeed, without a convenient logic, just writing down that LTL formula would be a tedious and error-prone task.
+
+A few remarks on the complexity are in order. An instance of has $\mathcal{O}{({hN{({{|S_{n}|} + {|\mu|}})}})}$ decision variables and constraints where $h$ is the solution horizon, $N$ is the number of robots, $|S_{n}|$ is the number of states of the largest transition system and $|\mu|$ is the length of the cLTL+ formula $\mu$. Enforcing collision avoidance introduces $\mathcal{O}{({hN^{2}{|S_{n}|}})}$ additional constraints.
+
+### IV-F cLTL encodings
+
+Given an instance of Problem 1, if the specification $\mu$ can be expressed in cLTL and all robots have identical dynamics, more efficient encodings could be defined. In the following, we first define the problem where cLTL encodings could be used and then provide the corresponding encodings:
+
+### Problem 2
+
+Given $N$ robots with identical dynamics $T = {(S,\rightarrow,{AP},L)}$, initial conditions $\{{\pi_{n}{}}\}$, and a cLTL formula $\mu$ over $AP$, synthesize a collection $\Pi = {\{\pi_{1},\ldots,\pi_{N}\}}$ of trajectories such that the globally synchronous collective execution of $\Pi$ satisfies $\mu$, i.e., ${(\Pi,K^{\ast})} \models \mu$.
+
+Let the set $S$ of states be enumerated such that $S = {\{ v^{1},v^{2},\ldots,v^{|S|}\}}$. Instead of individually encoding the dynamics of each robot, we define an *aggregate state* vector $\mathbf{w} = {\lbrack w^{1},w^{2},{\ldotsw^{|S|}}\rbrack}^{T}$ where the $i^{th}$ row of $\mathbf{w}$ denotes the number of robots at state $v^{i}$. Similarly, the *aggregate input* is defined as a vector $\mathbf{u} = {\lbrack u_{1}^{1},u_{1}^{2},\ldots,u_{1}^{|S|},u_{2}^{1},{\ldotsu_{2}^{|S|}},{\ldotsu_{|S|}^{|S|}}\rbrack}^{T}$ where $u_{i}^{j}$ denotes the number of robots that transition from state $v^{i}$ to $v^{j}$. Note that the aggregate input is state-dependent since the total number of robots sent from a particular state to others cannot be greater than the number of robots in that state. Furthermore, the number of robots sent from a state can only be a non-negative integer. An input satisfying these conditions is called *admissible* and $\Upsilon{(\mathbf{w})}$ denotes the set of all admissible inputs for a given state $\mathbf{w}$. The set $\Upsilon{(\mathbf{w})}$ can be captured by the following set of equalities:
+
+The evolution of aggregate state can be captured by the following linear equalities:
+
+where $B$ is defined as $B \doteq {I_{|S|} \otimes \mathbf{1}_{|S|}^{T}}$ where $I_{|S|}$ is the identity matrix of size $|S|$ and $\otimes$ is the Kronecker product.
+
+Loop constraints for aggregate states can be written as:
+
+Inner logic constraints are no longer needed since the cLTL inner logic is constrained to the grammar $\phi::=a$ where $a \in {AP}$. In the outer logic, only the encoding of temporal counting propositions in needs modification. Let $\mu = {\lbrack a,m\rbrack}$ be a $tcp_{cLTL}$ and $S = {\{ v^{1},\ldots,v^{|S|}\}}$ be the set of states. We define the vector $\mathbf{v}^{a} \in {\{ 0,1\}}^{|S|}$ similar to, that is, the $i^{th}$ entry of $\mathbf{v}^{a}$ is $1$ if and only if $a \in {L{(v^{i})}}$. Then, for all $t = {0,\ldots,h}$, the constraints
+
+ensure that ${y^{\mu}{(t)}} = 1$ if and only if the number of robots that satisfy $a$ is greater than or equal to $m$. The rest of the outer logic encodings are not modified and used as before.
+
+Given a time horizon $h$, the following optimization problem is formed to generate solutions to an instance of Problem 2:
+
+We now show how a solution of can be mapped to a collection $\{\pi_{n}\}$ of individual trajectories. Given initial conditions $\pi_{n}{}$, and $\mathbf{u}{}$, randomly choose $u_{i}^{j}$ robots from state $v^{i}$ and assign their next state as $v^{j}$. This is always possible since $\mathbf{w}{}$ is well defined and ${\mathbf{u}{}} \in {\Upsilon{({\mathbf{w}{}})}}$. Continuing in this manner, we can generate the collection $\{\pi_{n}\}$ whose globally synchronous collective execution satisfies the specification $\mu$. Details of a similar constructions of individual trajectories can be found in.
+
+Before proceeding to the asynchronous problem, we remind the reader of two important things: (i) the ILP constraints in are consistent with cLTL+ semantics, therefore soundness and completeness guarantees follow from Theorems 1 and 2. (ii) An instance of has $\mathcal{O}{(h{(|\rightarrow| + |\mu|)})}$ decision variables and constraints where $|\rightarrow|$ is the number of transitions and $|\mu|$ is the length of the formula. Crucially, the number of decision variables and constraints does not depend on the number of robots. Therefore, it easily scales to very large number of robots as demonstrated in Section VII.
+
+## Robustness to asynchrony
+
+Incorporating a concept of time-robustness into our algorithm is useful since it is difficult to perfectly synchronize the motion of robots in real-life applications. This section presents small modifications to the original algorithm that allow one to synthesize trajectories that are robust to bounded synchronization errors.
+
+Synchronous execution assumes that multiple robots can transition from one discrete state to another at the same time. However, this is not always possible in reality where robots may move slower or faster than intended, leading to asynchronous switching times as illustrated in Figure 1. To exemplify, consider a task that requires multiple robots to satisfy a certain proposition at the same time. Let $\mu = {◆{\lbrack\phi,m\rbrack}}$ be a $tcp$, $\Pi$ be a collection of trajectories and $K$ be a synchronous collective execution. Assume that $\lbrack\phi,m\rbrack$ holds for a single time step $t$ and fails to hold for all others, i.e., ${{(\Pi,K)},t} \models {\lbrack\phi,m\rbrack}$ for some $t$ and ${{(\Pi,K)},t^{\prime}}\operatorname{\models\not{}}{\lbrack\phi,m\rbrack}$ for all $t^{\prime} \neq t$. While such a $\Pi$ satisfies $\mu$ for the synchronous execution it is not always a desirable collection, because if $K$ becomes asynchronous due to one of the robots moving slower than intended, correctness guarantees would no longer be valid and $\mu$ would not be satisfied. This fact motivates us to generate solutions that are robust to such asynchrony.
+
+For most non-trivial specifications however, finding a collection of trajectories that is robust to unbounded asynchrony would be challenging if not impossible. If, however, an upper bound on the asynchrony is known, one can generate robust solutions such that satisfaction of the task is guaranteed even under the worst-case scenario.
+
+To reason about asynchronicity we define the concept of *anchor time* for collective executions.
+
+### Definition 6
+
+For a given collective execution $K = {\lbrack{k_{1}\ldotsk_{N}}\rbrack}$, the anchor time mapping $b_{K}$ maps the time index $t$ to the smallest local counter value $k_{n}{(t)}$, i.e., ${b_{K}{(t)}} = {{\min_{n}k_{n}}{(t)}}$.
+
+For a $\tau$-bounded collective execution $K \in {\mathcal{K}_{N}{(\tau)}}$ and a given time step $t$, at least one local counter has the value $b_{K}{(t)}$ and all other local counters are limited to an interval: ${k_{n}{(t)}} \in {\lbrack{b_{K}{(t)}},{{b_{K}{(t)}} + \tau}\rbrack}$ for all $n$. For the globally synchronous collective execution $K^{\ast}$, the anchor time mapping is the identity mapping on $\mathbb{N}$. In Figure 1, "anchoring robots" at each time step are highlighted with a black circle and anchor times are written in bold.
+
+Having defined the "anchor time", we now formally define the concept of robust satisfaction for a collection of trajectories.
+
+### Definition 7
+
+A collection of trajectories $\Pi = {\{\pi_{1},\ldots,\pi_{N}\}}$ $\mathbf{τ}$-robustly satisfies $\mu$ at time $t$, denoted
+
+if and only if for all $K \in {\mathcal{K}_{N}{(\tau)}}$ and for all $T \in {b_{K}^{- 1}{(t)}}$,
+
+In other words, a specification $\mu$ is $\tau$-robustly satisfied at time $t$ by $\Pi$ if every $\tau$-bounded collective execution $K$ of $\Pi$ satisfies $\mu$ at all time instances $T$ for which the anchor time is $t$. Consider the set of trajectories $\Pi = {\{\pi_{1},\pi_{2},\pi_{3}\}}$ and an asynchronous collective execution $K$ given in Example 1. For ${\Pi,1} \models_{\tau}\mu$ to hold; we must have ${{(\Pi,K)},T} \models \mu$, for all $T \in {\{ 1,2,3\}}$ since ${b_{K}^{- 1}{}} = {\{ 1,2,3\}}$. Additionally, the same argument must hold for every possible $K^{\prime} \in {\mathcal{K}_{N}{(\tau)}}$. If ${\Pi,0} \models_{\tau}\mu$, we say that the collection $\Pi$ satisfies cLTL+ formula $\mu$ and write $\Pi \models_{\tau}\mu$ for short.
+
+Before presenting modified encodings that incorporate robustness to asynchrony, we remind the reader that the robots are allowed to stutter as indicated by Definition 3. Any inner logic formula containing '$○$' can always be violated by a single robot when robots are allowed to stutter. Hence, we restrict attention to the case where inner logic formulas are in LTL~∖○~. We further assume that a cLTL+ formula is given in positive normal form (PNF) according to the following syntax:
+
+### Remark 2
+
+The negation operator can be omitted without loss of generality for two reasons. First, any LTL formula can be transformed into positive normal form (PNF), where the negation operator appears only before atomic propositions. Since the syntax of cLTL+ is identical to LTL, hence any cLTL+ formula can also be written in PNF where negation only appears before $tcp$'s. Second, given an arbitrary temporal counting proposition $\mu = {\lbrack\phi,m\rbrack}$, the statement $\neg\mu$ can be replaced by $\mu^{\prime} = {\lbrack{\neg\phi},{{N + 1} - m}\rbrack}$. Clearly, if there are at least ${N + 1} - m$ robots satisfying $\neg\phi$, then $\phi$ is satisfied by less than $m$ robots; hence, $\mu \equiv \mu^{\prime}$. Thus, the omission of the negation operator is without loss of generality.
+
+Finally, we formally define the robust version of Problem 1 as follows:
+
+### Problem 3
+
+Given $N$ robots with dynamics $\{{T_{n} = {(S_{n},\rightarrow_{n},{AP},L_{n})}}\}$, initial conditions $\{{\pi_{n}{}}\}$, a cLTL+ formula $\mu$ given in PNF over LTL~∖○~, and an upper bound on the asynchrony $\tau$, synthesize a collection $\Pi = {\{\pi_{1},\ldots,\pi_{N}\}}$ of trajectories $\pi_{n}$ that $\tau$-robustly satisfies $\mu$, i.e., $\Pi \models_{\tau}\mu$.
+
+We propose slight modifications to the encodings presented in Section IV to generate a collection of trajectories that are $\tau$-robust. Firstly, we define $\tau$ new Boolean vectors ${w_{n}{({h + 1})}},{w_{n}{({h + 2})}\ldotsw_{n}{({h + \tau})}}$ to represent the state of robot $n$ "after the loop" such that ${w_{n}{({h + k})}} = {w_{n}{({l + k})}}$ for some $l < h$ and $k = {0,1,\ldots,\tau}$. Secondly, given temporal counting proposition $\mu = {\lbrack\phi,m\rbrack}$, we introduce a new decision variable $r_{n}^{\phi}{(t)}$ for each $z_{n}^{\phi}{(t)}$:
+
+Note that, $z_{n}^{\phi}{(t)}$ is defined for all $t \leq {h + \tau}$ due to newly defined additional state vectors. These new variables $r_{n}^{\phi}{(t)}$ can be seen as the robust versions of $z_{n}^{\phi}{(t)}$. In order for ${r_{n}^{\phi}{(t)}} = 1$ to hold, robot $n$ needs to satisfy the inner logic formula $\phi$ not only at time step $t$, but also for the next $\tau$ steps. Since at anchor time $t$, the local times are bounded as $t \leq {k_{n}{(t)}} < {t + \tau}$, this robustification ensures that robot $\mathcal{R}_{n}$ satisfies $\phi$ at anchor time $t$, regardless of the asynchrony.
+
+We now define the modified outer logic constraints. As before, these constraints are constructed recursively. Let $\mu = {\lbrack\phi,m\rbrack}$ be a $tcp$ such that $m > 1$. Then is modified as
+
+For the special case where $\mu = {\lbrack\phi,1\rbrack}$, we use
+
+In the synchronous setting, satisfying a temporal counting proposition $\mu$ only for an instant would be enough. However, this is not desirable since robots might not be perfectly synchronized. Equations and ensures that all $\tau$-bounded executions satisfy $\mu$ at all time instances with anchor time $t$, by replacing each $z_{n}^{\phi}{(t)}$ with its robust counterpart $r_{n}^{\phi}{(t)}$. As a result, even in the worst case of asynchrony, there would be an instant where $\mu$ is satisfied.
+
+Encodings of some of the outer level operators are also modified slightly. For conjunction and next operators, no modification is needed: if $\mu = {\mu_{1} \land \mu_{2}}$ and $\eta = ○ \mu$ where each $\mu_{i}$ is a cLTL+ formula in PNF form, then ${y^{\mu}{(t)}} = {{y^{\mu_{1}}{(t)}} \land {y^{\mu_{2}}{(t)}}}$ and ${y^{\eta}{(t)}} = {y^{\mu}{({t + 1})}}$.
+
+Disjunction is encoded in two different ways: If all operands are temporal counting propositions, i.e, $\mu = {\bigvee_{i}\mu_{i}}$ where $\mu_{i} = {\lbrack\phi_{i},m_{i}\rbrack}$, then
+
+is used. Note that $r_{n}^{({\bigvee_{i}\phi_{i}})}{(t)}$ is only defined if all $\mu_{i}$ are $tcp$. In all other cases, we use the standard encoding:
+
+If the disjunction contains both $tcp$s and other formulas, then it can be re-written to leverage the less conservative encodings in. The motivation behind is that, a collection $\{\pi_{n}\}$ might not $\tau$-robustly satisfy neither $\mu_{1}$ or $\mu_{2}$ but can still $\tau$-robustly satisfy $\mu_{1} \vee \mu_{2}$ as demonstrated by the following example:
+
+### Example 3
+
+Let $\mu = {\mu_{1} \vee \mu_{2}} = {{\lbrack\phi_{1},2\rbrack} \vee {\lbrack\phi_{2},2\rbrack}}$ be a cLTL+ formula and let a collection $\Pi = {\{\pi_{1},\pi_{2},\pi_{3}\}}$ be given with the following traces:
+
+If $\tau = 1$, the collection $\Pi$ does not robustly satisfy neither $\mu_{1}$ nor $\mu_{2}$ at anchor time $0$. On the other hand, for all time steps with anchor time $t$, any arbitrary $\tau$-bounded asynchronous execution satisfies either $\mu_{1}$ or $\mu_{2}$. This implies that ${\Pi \models_{\tau}\mu}.$
+
+Equation limits the number of robots who neither satisfy $\phi_{1}$ nor $\phi_{2}$ at anchor time $t$. By doing so, it ensures that either $\mu_{1}$ or $\mu_{2}$ is satisfied by the collection. Observe that reduces to standard encodings for $\tau = 0$.
+
+Due to changes in the outer disjunction encodings, the outer "until" operator needs to be modified as well. Let $\eta = {\mu_{1}\mathcal{U}\mu_{2}}$ where $\mu_{i}$ is a cLTL+ formula for $i = {1,2}$. Then
+
+If $\mu_{2}$ is $\tau$-robustly satisfied at time $t$, then $\eta$ is $\tau$-robustly satisfied at time $t$, by definition of 'until'. In this case both ${y^{\mu_{2}}{(t)}} = 1$ and ${y^{\mu_{1} \vee \mu_{2}}{(t)}} = 1$ would hold, hence $y^{\eta}{(t)}$ would evaluate to $1$, as expected. If $\mu_{2}$ is *not* $\tau$-robustly satisfied at time $t$, enforces $\eta$ and $\mu_{1} \vee \mu_{2}$ (instead of $\mu_{1}$ as in ) to be $\tau$-robustly satisfied at anchor times $t + 1$ and $t$, respectively. This again guarantees that $\eta$ is $\tau$-robustly satisfied at anchor time $t$. Auxiliary variables are used again to ensure $\mu_{2}$ is satisfied at some point. As before, reduces to the standard until encodings when $\tau = 0$.
+
+Furthermore, we provide the encodings for the "release" operator, which is identical to the standard encodings used in the literature: if $\eta = {\mu_{1}\mathcal{R}\mu_{2}}$, then
+
+Release encodings guarantees that if $\mu_{1}$ is $\tau$-robustly satisfied for all anchor times $t$, then $\mu_{2}$ is $\tau$-robustly satisfied for all times up to and including $t$. The key difference from the until operator is that $\mu_{1}$ does not have to be satisfied at all if $\mu_{2}$ is satisfied for all times.
+
+Given an instance of Problem 3 and a horizon length $h$, let $ILP_{\tau}{(\mu)}$ be the set of ILP constraints and ${(\mathbf{z},\mathbf{r},\mathbf{y})}^{{\mathbf{c}\mathbf{L}\mathbf{T}\mathbf{L}} +}$ the decision variables created by using the robust encodings -. We obtain the robust solution by solving the following optimization problem:
+
+The following theorems show that the solution method proposed for the asynchronous case is sound, and also complete under certain conditions. The proofs are provided in the Appendix.
+
+### Theorem 3
+
+If the optimization problem in is feasible for a cLTL+ formula $\mu$ given in PNF over LTL~∖○~, then a collection $\Pi = {\{\pi_{1},\ldots,\pi_{N}\}}$ of trajectories can be extracted such that $\Pi \models_{\tau}\mu$. That is, the modified encodings in - are sound.
+
+As shown in Example 3, the disjunction operator introduces some conservatism. Furthermore, the disjunction operation is used in the encodings of "until" and "release". Therefore, completeness results from Section IV are no longer valid in the asynchronous setting. The next result clarifies the conditions when the robust encodings are complete:
+
+### Theorem 4
+
+Given a cLTL+ formula $\mu$ given in PNF over LTL~∖○~, if all of the following hold, then there exists a finite $h$ such that has a solution (i.e., the modified encodings are complete).
+
+there exists a collection $\Pi = {\{\pi_{1},\ldots,\pi_{N}\}}$ of trajectories in prefix-suffix form that $\tau$-robustly satisfies $\mu$, i.e., $\Pi \models_{\tau}\mu$,
+
+$AP$ is a set of mutually exclusive atomic propositions, i.e., for all ${\phi_{1},\phi_{2}} \in {AP}$; ${\phi_{1} \land \phi_{2}} = {False}$,
+
+the specification $\mu$ over $AP$ is on the form
+
+where ${{tcp},{tcp_{1}},{tcp_{2}}} \in {{AP} \times \Phi}$ and $\mu,\mu_{1},\mu_{2}$ are obtained according to.
+
+The commonly used "$◆{({eventually})}$" operator can also be defined without losing completeness: ${◆{\lbrack\phi,m\rbrack}} \doteq {{\lbrack{\neg\phi},{{N - m} + 1}\rbrack}\mathcal{U}{\lbrack\phi,m\rbrack}}$. In most real world applications, several tasks are required to be completed in conjunction, which can be expressed as in. Furthermore, many interesting specifications including safety $(\square)$, liveness ($\square◆$), etc., can be captured in the form of for a given time horizon $h$. For example, safety specifications can be encoded as $\square{\lbrack\phi,m\rbrack} = {\lbrack\phi,m\rbrack} \land ○ {\lbrack\phi,m\rbrack} \land \cdots \land ○^{h - 1}{\lbrack\phi,m\rbrack}$^11^1The notation $○^{h - 1}$ corresponds to $({h - 1})$ concatenated $○$ operators.
+
+### Remark 3
+
+The alternative solution method proposed in Section IV-F uses more efficient encodings when the specifications are given in $cLTL$. However, these encodings use aggregate dynamics, therefore it is not possible to keep track of identities of the robots during synthesis. Hence, robust solutions cannot be generated with this alternative method.
+
+Robustifying the trajectories increases the complexity as a function of $\tau$. In particular, an instance of has $\mathcal{O}{({\tauN{({{|S_{n}|} + {h{|\mu|}}})}})}$ additional decision variables and $\mathcal{O}{({\tauN^{2}h{|S_{n}|}})}$ additional constraints compared to. The effect of these additional variables and constraints on solution time is shown in Section VII.
+
+## Extensions and Discussion
+
+In this section, we discuss two possible extensions of cLTL+. Firstly, we show how to handle continuous-state dynamics directly instead of transition systems. Secondly, we provide an extension of cLTL+ syntax that allows tasks to be assigned to specific robots or robot groups.
+
+### VI-A Extension to Continuous-State Dynamics
+
+Up to now, we assumed that robot dynamics are modeled by transition systems. Given continuous dynamics, discrete abstraction techniques could be used to obtain transition systems. However, abstraction computations are costly and do not scale well with the number of dimensions. This section provides slight modifications to the earlier encodings such that continuous-state discrete-time dynamics can be handled directly.
+
+Assume that the robot dynamics are given as
+
+where ${w_{n}{(t)}} \in {\mathbb{R}}^{d_{w}}$ and ${u_{n}{(t)}} \in {\mathbb{R}}^{d_{u}}$ denote the state and input of robot $n$ at time $t$, respectively.
+
+The first modification is to replace the constraints in with for all $n \in {\lbrack N\rbrack}$ and for all $t$. The loop constraints in are then modified as follows:
+
+where $M$ is a sufficiently large number. Equation enforces a loop by constraining $w_{n}{(h)}$ to be equal to $w_{n}{(t)}$ for some $t$.
+
+Next, we modify to accommodate continuous states. We assume that each atomic proposition $a \in {AP}$ corresponds to a convex polytope $\{{w \in {\mathbb{R}}^{d_{w}}}\mid{{H^{a}w} \leq h^{a}}\}$, where $H^{a} \in {\mathbb{R}}^{d_{a} \times d_{w}}$ and $h^{a} \in {\mathbb{R}}^{d_{a}}$. Then for each atomic proposition and for all $t$ and $n \in {\lbrack N\rbrack}$, we replace the inequality constraints in with the following:
+
+where $\epsilon$ is an infinitesimally small and $M$ is a sufficiently large number, and $e_{n}^{a}$ is a binary vector of size $d_{a}$. The $i^{th}$ row of $e_{n}^{a}$ is denoted by $e_{n}^{a,{(i)}}{(t)}$ and is used to check the satisfaction of the $i^{th}$ linear constraint. In equations (33a) and (33b), the $i^{th}$ linear constraint is satisfied if and only if ${e_{n}^{a,{(i)}}{(t)}} = 1$. Furthermore, with equations (33c) and (33d), we ensure that ${w_{n}{(t)}} \in {\{{w \in {\mathbb{R}}^{d_{w}}}\mid{{H^{a}w} \leq h^{a}}\}}$ if and only if ${z_{n}^{a}{(t)}} = 1$. This result is identical to; thus, no other modifications are needed to use $z_{n}^{a}{(t)}$ in -.
+
+Finally, we modify the optimization problem to account for auxiliary variables. Let $\mathbf{e}^{{cLTL} +}$ denote the set of all auxiliary variables created by. We form the following optimization problem to find solutions:
+
+### Remark 4
+
+Given initial condition $w_{0}^{n}$ and inputs $\{{u_{n}{}\ldotsu_{n}{({h - 1})}}\}$, state $w_{n}{(t)}$ can be found by. Hence, no decision variables are needed for the states.
+
+inline\]Maybe cite Vasus paper here too, or write more about continuous-state part in introduction
+
+### Remark 5
+
+The resulting feasibility problem is a *mixed integer linear program (MILP)* if linear continuous-state dynamics are used.
+
+As it is stated before, obtaining discrete abstractions from continuous dynamics is computationally expensive: the size of the transition system typically grows exponentially with the dimensionality of robot states. Since each discrete state in the transition system introduces a binary decision variable in the discrete-space formulation, the size of the optimization problem in can grow quickly. On the other hand, in, each continuous state is represented with a single continuous decision variable. While the number of auxiliary binary decision variables introduced by depends on the specific problem instance, the continuous approach can be favorable when compared to an abstraction approach.
+
+### VI-B Extension of cLTL+ Syntax
+
+This section provides a straightforward extension of the cLTL+ syntax inspired by censusSTL proposed in. Up to now, the logic is oblivious as to which robot satisfies what atomic proposition, or task. In most multirobot systems, robots have heterogeneous capabilities and certain tasks can only be performed by a specific subset of robots. For example, imagine a collection of drones and a reconnaissance mission that includes, among other things, taking aerial photos of a region. If not all of the drones have cameras, one might want to identify those that can take photos and require subtasks that involve photography to be completed by this subset. Similarly, in a collective of robots where one robot is designated to be the leader it may be desirable to specify that the other robots periodically have to report to the leader.
+
+To be able to specify such tasks, the temporal counting propositions ($tcp$) can be modified to contain the subset of robots that are designated with satisfying the inner logic formula. Redefine $tcp$ as a tuple consisting of an atomic proposition, a non-empty set of robots and a non-negative integer, i.e., $\mu = {\lbrack\phi,\mathcal{S},m\rbrack} \in {\Phi \times 2^{\lbrack N\rbrack} \times {\mathbb{N}}}$. Here satisfaction of $\mu$ at time $t$ requires at least $m$ robots from the subset $\mathcal{S} \in 2^{\lbrack N\rbrack}$ to satisfy $\phi$ at time $t$. By modifying $tcp$'s in this manner we can assign individual tasks to a specific subset of robots. To exemplify, given a collective $\mathcal{S}$ of drones, let $\mathcal{S}_{c} \in \mathcal{S}$ denote those with camera. Then the temporal counting proposition ${tcp} = {\lbrack a,\mathcal{S}_{c},m\rbrack}$ would be satisfied if at least $m$ drones from $\mathcal{S}_{c}$ visit regions marked by $a \in {AP}$ to take aerial photos.
+
+Let $\mu = {\lbrack\phi,\mathcal{S},m\rbrack}$. We modify as follows to account for the change in $tcp$ definition:
+
+Similarly, for the robustness case, we modify as follows:
+
+It is straightforward to see that and preserve all of the soundness and completeness guarantees for this extension.
+
+## Results
+
+This section demonstrates the proposed method on an emergency response and presents scalability results. All experiments are run on a laptop with 2.5 GHz Intel Core i7 and 16 GB RAM and Gurobi is used as the underlying ILP solver. Our implementation can be accessed from https://github.com/sahiny/cLTL-synth.
+
+### VII-A Emergency response example
+
+Assume $N = 10$ robots are deployed in a workspace, which can be seen from Figure 2. The workspace is discretized into $10 \times 10$ cells and each robot is modeled with a transition system with $100$ states, each corresponding to a single cell. At each step, robots can either choose to stay put or travel to any of the four neighboring cells without leaving the workspace. We remark that a monolithic LTL solution for this problem would have required constructing a transition system with $100^{10}$ states.
+
+Figure 2: Workspace: A, C, and E represent different neighborhoods, B represents a fragile bridge, F represents charging stations and D represents inaccessible zones.
+
+The specification is of the form $\mu = {\bigwedge_{i = 1}^{8}\mu_{i}}$, including:
+
+collision with obstacles, which are marked with $D$, should be avoided ($\mu_{1} = {\square{\neg{\lbrack D,1\rbrack}}}$).
+
+the bridge, marked by $B$, must not be occupied by more than $2$ robots ($\mu_{2} = {\square{\neg{\lbrack B,3\rbrack}}}$).
+
+each robot should visit charging stations, marked by $F$, infinitely many times ($\mu_{3} = {\lbrack{\square◆F},N\rbrack}$).
+
+region $A$ and $C$ must be populated with at least half of the robots and should be left empty, infinitely many times ($\mu_{4} = {\square◆{\lbrack A,{N/2}\rbrack}}$, $\mu_{5} = {\square◆{\lbrack C,{N/2}\rbrack}}$, $\mu_{6} = {\square◆{({\neg{\lbrack A,1\rbrack}})}}$ and $\mu_{7} = \square ◆{(\neg{\lbrack C,1\rbrack}}$)).
+
+bridge should be empty until it is inspected from both sides ($\mu_{8} = {{({\neg{\lbrack B,1\rbrack}})}\mathcal{U}\left( {{\lbrack B_{1},1\rbrack} \land {\lbrack B_{2},1\rbrack}} \right)}$).
+
+In addition to these specifications, we require that robots avoid collisions with each other. We posit a time horizon $h = 35$ and solve the optimization problem for the synchronous case $\tau = 0$.
+
+Important frames obtained from the $\tau = 0$ solution are shown in Fig. 3. Even though all specifications are met by this solution for a synchronous execution, it could easily break with the introduction of asynchrony. For instance, note that region $A$ is emptied (resp. region $C$ is populated with more than $5$ robots) only for a single time step at $t = 16$ (resp. $t = 18$). Hence, a single-step delay of a single robot could result in violation of $\mu_{6}$ (resp. $\mu_{5}$). Similarly, a robot enters the bridge for the first time at $t = 11$, which is the exact same time step when the bridge is inspected from both sides. If one of the robots inspecting the bridge moves slower than intended, $\mu_{8}$ would be violated.
+
+To prevent such violations, we set $\tau = 2$ and solve the resulting optimization problem. As it is shown in Fig. 4, this time the number of robots in $A$ (resp. in $C$) is greater than or equal to $5$, starting from $t = 1$ until $t = 3$ (resp. from $t = 20$ until $t = 22$). Furthermore, when the number of robots in region $A$ is greater than or equal to $5$, there are no robots in region $C$, and vice versa. Therefore, even in the worst case of bounded asynchrony, there will be at least one time instance where $A$ is populated with $5$ robots and another time instance where $A$ is empty. The same arguments hold for region $C$, as well. Additionally, the robots are more careful when crossing and the bridge: the bridge is first inspected at $t = 11$ and no robots enter the bridge until $t = 13$. Thus, the specification $\mu$ is satisfied even in the worst case of asynchrony.
+
+We have implemented the trajectories extracted from the robust solution on real ground robots in Robotarium. In this experiment, robots track their respective trajectories using feedback from a top-mounted camera, and do not communicate with each other during runtime. The asynchrony is limited to $2$ discrete transitions. The video of the experiment can be viewed from https://youtu.be/u8G-ewEEO6E. As can be seen in the video, robots satisfy their tasks and avoid collisions despite the asynchrony.
+
+Figure 3: Important frames from the synthesized non-robust trajectories, where arrows indicate direction of movement. The loop starts at frame t = 4, thus the state at t = 4 is identical to the state at t = 36. Time t = 16 and t = 18 are the only time steps where region A and C are emptied and populated with more than 5 robots, respectively. The bridge is empty until two robots inspect it from different sides at t = 11. Every robot visits the charging station and avoids collisions.
+
+Figure 4: Important frames from the synthesized robust trajectories, where arrows indicate direction of movement. The loop starts at frame t = 1, which is identical to frame t = 36. The number of robots in region A (C) is 5 between t = 1 and t = 3 and 0 between t = 20 and t = 22, which implies that μ4 to μ7 are robustly satisfied at anchor time t = 1. No robots use the narrow passage until it has been examined by both sides between t = 11 and t = 13, and the number of robots on the bridge never exceeds 2; hence μ2 and μ8 are robustly satisfied. Every robot visits the charging station and avoids collisions.
+
+### VII-B Numerical examples
+
+To examine the scalability of the proposed approach, we use the emergency response example explained in the previous section as a base example with the following parameters: the number of robots $N = 10$, solution horizon $h = 35$ and robustness parameter $\tau = 0$. We then vary one of these parameters at a time and report the average solution times over $5$ runs in Table I.
+
+We report results for three different implementations in Table I. The first implementation uses the encodings proposed in this paper. The second implementation is a special encoding that can only be used for $4$-connected grid environments. That is, robots move in a two dimensional gridded environment only horizontally or vertically. In this implementation, the number of Boolean variables needed to denote the state of the robot on a $x \times y$ gridded environment is $x + y$ as opposed to $xy$ for a general implementation. A smaller number of decision variables decreases the solution times significantly. We also implement the continuous-state extension proposed in Section VI-A. As can be seen in Table I, solution times can be reduced significantly if the encodings that are most appropriate for the problem at hand are used.
+
+Additionally, we examine the solution times for different encodings when specifications are given in cLTL and the robots have identical dynamics. Assume that the transition system $T = {(S,\rightarrow,{AP},L)}$, where $\rightarrow$ is generated from an Erdös-Rényi graph with edge probability 0.25, represents the dynamics of $N$ robots. The set $S$ of states is partitioned into two sets of same size and labeled with $s_{1} \in {AP}$ and $s_{2} \in {AP}$, Each robot is assigned an initial state that is randomly selected from those labeled with $s_{1}$. Three goal regions are created such that each has $\frac{|S|}{10}$ randomly selected states and are labeled with $g_{i} \in {AP}$ for $i = {1,2,3}$. The specification is given by the cLTL formula $\mu$:
+
+The specification $\mu$ requires at least half of the robots to reach states marked by $s_{2}$ and stay there indefinitely. Also, each goal region must be populated by at least $N/3$ robots, infinitely often over time. The results in Table II are obtained by varying either the number of robots $N = 10$ or the time horizon $h = 20$ while keeping all the other parameters intact. Solution times in the first and second column are obtained by alternative cLTL encodings proposed in Section IV-F and regular cLTL+ encodings, respectively. Regular cLTL+ encodings could not find solutions for $N = 500$ within the timeout threshold of $60$ minutes. On the other hand, cLTL encodings scale much better with the number of robots and easily handle hundreds of robots in a matter of seconds. In fact, solution times are almost unaffected by the number of robots.
+
+TABLE I: Numerical results
+
+TABLE II: Numerical results
+
+## Conclusions
+
+In this paper we presented counting temporal logics (cLTL and cLTL+) that are convenient for specifying desired behaviors for multirobot systems. We also proposed an optimization-based trajectory generation method to synthesize collective behaviors that satisfy specifications given in these formalisms. Furthermore, we showed how to generate trajectories that are robust to bounded asynchrony. We then discussed how to handle continuous-state systems and extended the cLTL+ syntax so that tasks can be assigned to a subset of robots. As numerical results suggest, solution times depend greatly on the specific method for encoding specifications. One possible direction for future research is to discover relevant applications and develop encodings tailored specifically to them. Finally, while the proposed techniques are shown to scale well with the number of robots, scalability with respect to the size of the transition system of the individual robots and with respect to the robustness parameter $\tau$ remains a challenge, which we are working on addressing via hierarchical approaches.

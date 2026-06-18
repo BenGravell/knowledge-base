@@ -1,0 +1,314 @@
+## Introduction
+
+A wide range of modern artificial intelligence challenges can be cast as Reinforcement Learning (RL) problems under *partial observability*, in which agents learn to make a sequence of decisions despite lacking complete information about the underlying state of system. For example, in robotics the agent has to cope with noisy sensors, occlusions, and unknown dynamics, while in imperfect information games the player makes only local observations. Further applications of partially observable RL include autonomous driving, resource allocation, medical diagnostic systems, recommendation, business management, etc. As such, learning and acting under partial observability has been an important topic in operation research, control, and machine learning.
+
+Because of the non-Markovian nature of the observations, learning and planning in partially observable environments requires an agent to maintain *memory* and possibly reason about *beliefs* over the states, all while exploring to collect information about the environment. As such, partial observability can significantly complicate learning and planning under uncertainty. While practical RL systems have succeeded in a set of partially observable problems including Poker, Starcraft and certain robotic tasks, the theoretical understanding of learning to act in partially observable systems remains limited. Most existing results in RL theory focus on fully observable systems or, more generally, learning when the features of states are accessible and can faithfully represent value functions. As such, algorithms developed for this case need not to reason about what the latent state may be and in particular do not need to resort to using the observation histories. Thus, the resulting algorithms can be fundamentally limited and may not work beyond the narrow settings that they are designed for. Owning to the ubiquity of partially observable problems, addressing the theoretical challenges of partial observability is vital to closing the gap between the typical applications and the scope of available theoretical works.
+
+This paper considers Partially Observable Markov Decision Process (POMDPs)---the standard model in reinforcement learning that captures the partial-information structure. Despite the existence of many efficient algorithms for learning MDPs in the fully observable settings, learning POMDPs is notoriously difficult in theory---well-known complexity-theoretic results show that learning and planning in partially observable environments is indeed statistically and computationally *intractable* in general, even if in the favorable setting with a small number of states, actions, and observations. However, these complexity barriers are of a worst case nature, and they do not preclude efficient algorithms for learning rich sub-classes of POMDPs which could potentially cover interesting practical applications. This leaves an important question:
+
+Can we identify a rich sub-class of POMDPs that empowers sample-efficient RL?
+
+Prior efforts on sample-efficient learning of POMDPs focus either on special cases of POMDPs such as latent MDPs, or on general POMDPs but with restrictive assumptions. In particular, Azizzadenesheli et al.; Guo et al. do not address strategic exploration---a core challenge in RL; Jin et al. considers the exploration setting but only addresses undercomplete POMDPs, where the number of states must be no larger than the number of observations.
+
+This paper answers the highlighted question above affirmatively. We identify a rich family of tractable POMDPs---*weakly revealing* POMDPs (see Section 3), which rule out the pathological instances whose observations contain no information to distinguish latent states. *Weakly revealing* POMDPs are very rich---it contains a majority of existing POMDPs classes which are known to be tractable; it also handles overcomplete POMDPs where the number of latent states can be larger than the number of observations.
+
+We further propose a new simple algorithm for learning POMDPs---*Optimistic Maximum Likelihood Estimation* (OMLE). As its name suggests, OMLE (read, Oh-Em-El-Eeh) combines optimism with classical maximum likelihood estimation. In contrast to the algorithm of Jin et al. which heavily exploit the undercomplete structure, our algorithm is generic, does not explicitly rely on any special structure, and can be used for any POMDPs. We prove that OMLE learns a near-optimal policy for any weakly revealing POMDP within a polynomial number of samples (Theorem 4. ‣ Theoretical guarantees ‣ 4.1 Undercomplete setting ‣ 4 Main Results ‣ When Is Partially Observable Reinforcement Learning Not Scary?") and 7. ‣ Theoretical guarantees ‣ 4.2 Overcomplete setting ‣ 4 Main Results ‣ When Is Partially Observable Reinforcement Learning Not Scary?")). To the best of our knowledge, this is the first provably sample-efficient result for learning overcomplete POMDPs in settings where exploration is necessary. Our result also reasserts that optimism is a powerful tool to address exploration needs, regardless of whether states are observable. We complement our positive results with lower bounds showing that certain polynomial dependency on the problem parameters in our sample complexity is necessary.
+
+Finally, we remark that our algorithm, as well as all existing algorithms for learning large classes of POMDPs, remains *computationally* inefficient. This is due to the inherent computational hardness of learning POMDPs: planning (i.e., computing the optimal policy *given* model parameters) alone is already PSPACE-complete, not mentioning the additional computation required for model estimation and exploration. We leave the challenge of computationally efficient learning for future work.
+
+### Overview of techniques
+
+The major technical challenge of this paper is to establish the sample efficiency guarantee of OMLE for learning any weakly revealing POMDPs despite the simplicity of the algorithm. Our results rely on the following three key ideas. To the best of our knowledge, the second and the third ideas are novel in the context of learning POMDPs, while the first technique was used by Jin et al..
+
+Observable Operator Model (OOM): OOM provides an alternative parameterization of the POMDP model, by representing the probability of a trajectory over observations and actions as the product of a series of linear operators, which is known as *observable operators*. For more details, see Section 5.1. Such linear structure facilitates us to use existing tools from matrix analysis to analyze POMDPs. Although OMLE algorithm does not explicitly utilize the OOM representation, the observable operators serve as important intermediate quantities in our analysis. They help us to bound the suboptimality of the learned policy as a function of the size of our confidence set.
+
+MLE-based Confidence Set: In contrast to the current mainstream approaches of learning POMDPs which use *spectral methods* to directly estimate either the model parameters or the observable operators, we use the *maximum likelihood estimation* (MLE) approach, which provides implicit guarantees on learning observable operators. We achieve this by adapting the classic techniques for analyzing MLE. An appealing feature of the MLE approach is its generality and that the confidence set construction does not need to rely on the specific structure of the problem. The strength of this unified approach is that it allows OMLE to be used with almost no changes in both undercomplete and overcomplete POMDPs. In constrast, spectral-based algorithms require more careful designs that are adjusted to specific problems (such as undercomplete vs. overcomplete settings). These adjustments, if not done optimally, easily lead to requirement of unnecessary, artificial assumptions.
+
+$\ell_{1}$-norm eluder Dimension: To prove the sample efficiency of optimistic algorithms, one needs to argue that, after a sufficient number of iterations, the size of the maintained confidence set is small enough to guarantee near-optimality of the learned policy. In the tabular setting, this is typically achieved by resorting to the pigeon-hole principle, while in the linear setting, one typically uses the so-called elliptical potential lemma. To generalize these argument, Russo and Van Roy introduced the notion of eluder dimension for sets of real-valued functions with a common domain. The use of MLE-based confidence set requires us to develop a new result which is stronger than the standard elliptical potential arguments: While we have linear structures, the $\ell_{2}$-norms typically used are not suitable for our purposes. As such, the standard eluder dimension (which is tied to the $\ell_{2}$-norm) is also unsuitable. To address these challenges, we introduce a variation of the eluder dimension, which is called $\ell_{1}$-norm eluder dimension, and which might be of independent interest.
+
+### Related works
+
+Reinforcement learning has been extensively studied in the fully observable setting. For the purpose of this paper, we focus our attention on reviewing the theoretical results for partially observable reinforcement learning.
+
+### Hardness of learning POMDPs
+
+There is a line of well-known computational hardness results for planning and learning in POMDPs. Firstly, even when the parameters of a POMDP are known, computing the optimal policy (i.e., planning) is PSPACE-complete. Moreover, even if one only wants to find the optimal memoryless policy, the problem is still NP-hard. In addition, the model estimation of POMDPs is also computationally hard---Mossel and Roch proved an average-case computational result showing that estimating the model parameters for a subclass of Hidden Markov Models (HMMs) is at least as hard as learning parity with noise^22^2Learning parity with noise is conjectured to be NP-hard in the theory of computational complexity.. Since HMMs can be viewed as special cases of POMDPs without action control, their result directly implies estimating the model parameters of POMDPs is hard.
+
+Learning POMDPs is also known to be statistically hard: Krishnamurthy et al. proved that finding a near-optimal policy of a POMDP in the worst case requires a number of samples that is exponential in the episode length. The hard instances are those pathological POMDPs where the observations contain no useful information for identifying the system dynamics.
+
+### Positive results for learning POMDPs
+
+Despite the worst-case hardness results, there is a long history of learning sub-classes of POMDPs. Even-Dar et al. studied POMDPs without resets, where the proposed algorithm has sample complexity scaling exponentially with a certain horizon time. Poupart and Vlassis; Ross et al. developed Bayesian methods to learn POMDPs, while Azizzadenesheli et al. considered learning the optimal memoryless policies with policy gradient methods. PAC or regret bounds are not known for these approaches.
+
+In the category of polynomial sample results, a sequence of recent works applied spectral methods to learning POMDPs and obtained polynomial sample complexity results. Among them, Guo et al.; Azizzadenesheli et al.; Xiong et al. made strong reachability assumptions and did not address the exploration problem. Furthermore, these results assume that both the transition and emission matrices are full rank, which are stronger than the weakly revealing conditions considered in this paper. Jafarnia-Jahromi et al. proposed a posterior sampling-based algorithm, and provided sample-efficient guarantees *assuming* either sufficient separability between different models, or the success of belief state and transition kernel estimation. These assumptions significantly reduce the difficulty of estimating model dynamics---a core challenge in learning POMDPs, and thus reduce the generality of the results.
+
+The most related work to us is Jin et al., which addressed the exploration problem in learning undercomplete POMDPs, where the number of latent states must be no greater than the number of observations. Their algorithm is specially designed to exploit the undercomplete structure of POMDPs. It remains unclear if their techniques can be extended to the overcomplete setting. In contrast, this paper presents a new generic algorithm based on MLE, which enjoys provable sample-efficiency in the exploration settings of both undercomplete and overcomplete POMDPs.
+
+Very recently, Golowich et al. developed the first quasi-polynomial time planning algorithm for a subclass of POMDPs. Their result holds under the $\gamma$-observability condition, which is very similar to the weakly-revealing condition presented in this paper.^33^3$\gamma$-observability condition requires that ${\min_{h}{\|{{\mathbb{O}}_{h}{({b - b^{\prime}})}}\|}_{1}} \geq {\gamma{\|{b - b^{\prime}}\|}_{1}}$ for any ${b,b} \in \Delta_{S}$, while $\alpha$-weakly-revealing condition (Assumption 1. ‣ 3.2 Weakly revealing condition in the undercomplete setting ‣ 3 Weakly Revealing POMDPs ‣ When Is Partially Observable Reinforcement Learning Not Scary?")) assumes ${\min_{h}{\|{{\mathbb{O}}_{h}x}\|}_{2}} \geq {\alpha{\| x\|}_{2}}$ for any $x \in {\mathbb{R}}^{O}$. In Lemma 35 and the weakly revealing conditions ‣ Appendix H Proofs for Weakly Revealing Conditions ‣ When Is Partially Observable Reinforcement Learning Not Scary?"), we prove that $\frac{\alpha}{\sqrt{S}} \leq \gamma \leq {4\sqrt{O}\alpha}$. As a result, these two conditions are "equivalent" up to a factor of at most $\mathcal{O}{(\sqrt{O})}$. Compared to this paper, the result in Golowich et al. purely focuses on the computational efficiency. It is restricted to the undercomplete setting, and addresses only planning but not estimation or exploration, all of which are important components for learning POMDPs.
+
+### Latent MDPs
+
+Latent MDPs ---where an MDP is randomly drawn from a set of $M$ possible MDPs at the beginning of the interaction---can be considered as a special class of overcomplete POMDPs. Kwon et al. proved that learning latent MDPs remains statistically hard in the worst case. They also provided several positive results for learning latent MDPs with additional assumptions, such as revealing the latent contexts at the end of each episode. Kwon et al. provided positive results for latent MDPs without these additional assumptions, but the results only apply to the setting of $M = 2$ with a shared transition. Latent MDPs and weakly revealing POMDPs do not contain each other.
+
+### Decodable POMDPs
+
+Block MDPs are POMDPs whose current latent state can be uniquely determined by the current observation. By simple algebra, one can verify that block MPDs are special cases of single-step weakly revealing POMDPs that satisfy Assumption 1. ‣ 3.2 Weakly revealing condition in the undercomplete setting ‣ 3 Weakly Revealing POMDPs ‣ When Is Partially Observable Reinforcement Learning Not Scary?") with $\alpha \geq {1/\sqrt{O}}$. The recently proposed $m$-step decodable POMDPs are generalizations of block MDPs, in which the latent state can be uniquely decoded from the most recent history (of observations and actions) of a short length $m$. This multistep decodability assumption can also be viewed as a special case of general "weakly revealing"-type of conditions. However, Efroni et al. assume that $m$-step history decodes (weakly reveals) the current state, while this paper assumes that $m$-step future weakly reveals the current state. Finally, we remark that most existing results for block MDPs or $m$-step decodable POMDPs further involve decoder class or value function approximation, which is beyond the scope of this paper.
+
+### RL with function approximation
+
+There is a recent line of research on reinforcement learning with general function approximation. This line of results proposed certain complexity measure for sequential decision making problems, and developed generic algorithms which have sample-efficient guarantees as long as the complexity measure of RL problems is small. These frameworks are known to cover a special subclass of POMDPs---reactive POMDPs, where the optimal value only depends on the current-step observation-action pair. It remains highly unclear whether weakly revealing POMDPs identified in this paper can be covered by those general frameworks. We remark that investigating this problem requires us to compute those complexity measures for POMDPs, which is highly non-trivial and may require techniques developed in this paper.
+
+### MLE approaches in bandit and RL
+
+The idea of using the MLE principle in the confidence set construction can be traced back to Lai, which considers the problem of Bernoulli bandits. MLE-based approaches are also used in the framework of reward-biased MLE, which balances the reward with the likelihood value, for learning tabular MDPs. Recently, the MLE-based approaches are also used in the setting of representation learning in RL.
+
+## Preliminaries
+
+For a positive integer $n$, we let ${\lbrack n\rbrack} = {\{ 1,\ldots,n\}}$. We consider episodic, tabular, partially observable Markov decision processes (POMDP). These processes generalize the standard Markov decision processes by making agents observe a "noisy function" of the state of a controlled Markov process. We consider time inhomogeneous, fixed horizon version of POMDPs. Formally, such a POMDP is specified by a tuple $(\mathcal{S},\mathcal{A},\mathcal{O};H,\mu_{1},{\mathbb{T}},{\mathbb{O}};r)$. Here $\mathcal{S},\mathcal{A}$ and $\mathcal{O}$ denote the space of state, action and observation respectively, with respective cardinalities ${|\mathcal{S}|} = S$, ${|\mathcal{A}|} = A$ and ${|\mathcal{O}|} = O$; $H$ denotes the length of each episode; $\mu_{1} \in \Delta_{S}$ denotes the distribution of the initial state where $\Delta_{S}$ is the $({S - 1})$-dimensional probability simplex which we identify with the set of distributions over the states $\mathcal{S}$; ${\mathbb{T}} = {\{{\mathbb{T}}_{h,a}\}}_{{(h,a)} \in {{\lbrack{H - 1}\rbrack} \times \mathcal{A}}}$ denotes the collection of transition matrices where ${\mathbb{T}}_{h,a}$ is the $S \times S$ *transition matrix* of action $a$ at step $h$ such that ${\mathbb{T}}_{h,a}{( \cdot \mid s)}$ gives the distribution of the next state if the agent takes action $a$ at state $s$ and step $h$; ${\mathbb{O}} = {\{{\mathbb{O}}_{h}\}}_{h \in {\lbrack H\rbrack}}$ denotes the collection of *emission matrices* of size $O \times S$ so that ${\mathbb{O}}_{h}{( \cdot \mid s)}$ gives the distribution over observations at step $h$ conditioned on the current hidden state being $s$; and and $r = {\{ r_{h}\}}_{h \in {\lbrack H\rbrack}}$ are the known reward functions from $\mathcal{O}$ to $\lbrack 0,1\rbrack$ such that the agent will receive reward $r_{h}{(o)}$ when she observes $o \in \mathcal{O}$ at step $h$. ^44^4This is equivalent to assuming that reward information is contained in the observation. We consider this setup to avoid the leakage of information about the latent states through rewards beyond observations. We remark that all results in this paper immediately extend to the more general setting where reward $r{(\tau_{H})}$ can be a function of the entire observation-action trajectory $\tau_{H}$, and is only received at the end of each episode.
+
+In a POMDP, the states are generally hidden from the agent: in every step a controlling agent can only see the observations and her own actions. At the beginning of each episode, the environment samples an initial state $s_{1}$ from $\mu_{1}$. At each step $h \in {\lbrack H\rbrack}$, the agent first observes $o_{h}$ that is sampled from ${\mathbb{O}}_{h}{( \cdot \mid s_{h})}$, the observation distribution of hidden state $s_{h}$ at step $h$. Then the agent receives reward $r_{h}{(o_{h})}$ that is computed from $o_{h}$, and takes action $a_{h}$. After this, the environment transitions to $s_{h + 1}$, whose distribution follows ${\mathbb{T}}_{h,a_{h}}{( \cdot \mid s_{h})}$. The current episode terminates immediately after $a_{H}$ is taken. We use $\tau_{h} = {(o_{1},a_{1},\ldots,o_{h},a_{h})}$ to denote a trajectory from step $1$ to step $h$.
+
+A policy $\pi = {\{\pi_{h}:{\mathcal{T}_{h}\rightarrow\Delta_{A}}\}}_{h = 1}^{H}$ is a collection of $H$ functions where $\mathcal{T}_{h} = {{({\mathcal{O} \times \mathcal{A}})}^{h - 1} \times \mathcal{O}}$ denotes the set of all length-$h$ histories. Given a policy $\pi$, we use $V^{\pi}$ to denote its value, which is defined as the expected total reward received under policy $\pi$:
+
+where the expectation is with respect to the randomness of the transitions, observations and the policy. Since the state, action, observation spaces and the horizon are all finite, there always exists an optimal policy $\pi^{\star}$ that achieves the optimal value $V^{\star}:={\sup_{\pi}V^{\pi}}$. Different from MDPs, the optimal policies in POMDPs are in general history-dependent instead of only depending on the current observation, which makes not only learning, but already computing a near-optimal policy in known POMDPs more challenging than doing the same in MDPs.
+
+### Learning objective
+
+Our goal is to learn an $\varepsilon$-optimal policy $\pi$ in the sense that $V^{\pi} \geq {V^{\star} - \varepsilon}$, using a number of samples polynomial in all relevant parameters. We also consider the problem of learning with low regret. Suppose the agent interacts with POMDPs for $K$ episodes, and plays a policy $\pi_{k}$ in the $k^{\text{th}}$ iteration for any $k \in {\lbrack K\rbrack}$. The total (expected) regret is then defined as:
+
+The question then is whether a learner can keep the regret small.
+
+### Notation
+
+We use bold upper-case letters $\mathbf{B}$ to denote matrices and bold lower-case letters $\mathbf{b}$ to denote vectors. Given a matrix $\mathbf{B} \in {\mathbb{R}}^{m \times n}$, we use $\mathbf{B}_{ij}$ to denote its ${(i,j)}^{th}$ entry, $\sigma_{k}{(\mathbf{B})}$ to denote its $k^{\text{th}}$ largest singular value, and $\mathbf{B}^{\dagger}$ to denote its Moore-Penrose inverse. For a vector $\mathbf{b} \in {\mathbb{R}}^{m}$, we use ${diag}{(\mathbf{b})}$ to denote a diagonal matrix with ${\lbrack{{diag}{(\mathbf{b})}}\rbrack}_{ii} = \mathbf{b}_{i}$.
+
+## Weakly Revealing POMDPs
+
+The purpose of this section is to define the class of weakly revealing POMDPs. We first motivate our definition by revisiting the pathological instances which prevent sample-efficient learning of POMDPs in general. We then introduce the formal definition of weakly revealing POMDPs in the *undercomplete* setting when $S \leq O$ and finally extend it to the *overcomplete* setting when $S > O$. All the proofs for this section are deferred to Appendix H.
+
+### Hard instances of POMDPs
+
+Here we revisit the hardness results and the pathological instances constructed by Krishnamurthy et al. and Jin et al.. As it turns out, learning POMDPs is statistically hard in the worst-case due to the existence of POMDPs with uninformative observations.
+
+### Proposition 1 (Krishnamurthy et al. (2016); Jin et al. (2020a))
+
+There exists a class of $2$-states $H$-horizon POMDPs whose observations reveal no information about the underlying states up to the end, such that any algorithm requires at least $A^{\Omega{(H)}}$ samples to learn an $\mathcal{O}{}$-optimal policy with a probability of $1/2$ or higher.
+
+The hard instance is a combinatorial lock with unobserved states. Consider POMDPs with states $s_{\text{h,good}}$ and $s_{\text{h,bad}}$, $h = {1,\ldots,H}$. The emission probability ${\mathbb{O}}_{h}{( \cdot |s_{\text{h,good}})}$ is precisely the same as ${\mathbb{O}}_{h}{( \cdot |s_{\text{h,bad}})}$ for the all steps except the last one, so that the agent has absolutely no information about the latent state during the first $H - 1$ steps. Let the initial state be $s_{\text{1,good}}$. Consider a special action sequence ${\{ a_{h}^{\star}\}}_{h = 1}^{H - 1}$, and construct the transition dynamics such that at each step $1 \leq h \leq {H - 1}$, the next state is $s_{\text{h+1,good}}$ only if the previous state is $s_{\text{h,good}}$ and the action taken is $a_{h}^{\star}$. In all other cases, the environment transitions to $s_{\text{h+1,bad}}$. Finally, the agent will receive a reward of one only if she is in $s_{\text{H,good}}$ at step $H$; the agent receives zero reward otherwise.
+
+It is not hard to see the optimal policy will take action $a_{h}^{\star}$ at step $h$, which will give a total reward of $1$. However, since the agent effectively has no observation in the first $H - 1$ steps, she has no option but to try out all possible action sequences, which requires $A^{\Omega{(H)}}$ episodes to find the correct action sequence with constant probability.
+
+### Weakly revealing condition in the undercomplete setting
+
+Based on the hard instances constructed above, we conclude that if the observations do not contain information to distinguish two different latent states, then learning these POMDPs is statistically hard. For POMDPs with more than two states, the hardness result above can be easily extended to the case where there exist two mixtures of latent states with disjoint support such that the observations do not contain any information to distinguish these two mixtures. Concretely, by a mild abuse of language, a mixture of states is identified by a probability vector $\nu \in \Delta_{S}$; $\nu_{1}$ and $\nu_{2}$ are said to have disjoint support if ${{\text{supp}{(\nu_{1})}} \cap {\text{supp}{(\nu_{2})}}} = \varnothing$.
+
+A direct approach to rule out the above-described pathological instances is to just assume that any two latent state mixtures $\nu_{1},\nu_{2}$ that have disjoint support induce distinct distributions over observations, that is, ${{\mathbb{O}}_{h}\nu_{1}} \neq {{\mathbb{O}}_{h}\nu_{2}}$ for all $h \in {\lbrack H\rbrack}$ where ${\mathbb{O}}_{h}$ is the $O \times S$ emission matrix at step $h$. A linear algebraic argument then shows that this condition is equivalent to that the rank of the emission matrix ${\mathbb{O}}_{h}$ is $S$.
+
+### Proposition 2
+
+The emission matrix ${\mathbb{O}}_{h}$ is rank $S$ if and only if the induced distributions over observations are distinct for any two mixtures of latent states with disjoint support.
+
+The weakly revealing condition is simply a robust version of the condition that the rank of the emission matrices is $S$---it assumes the $S^{\text{th}}$ singular value of emission matrix ${\mathbb{O}}_{h}$ is lower bounded. This condition in the undercomplete setting was first identified by Jin et al. as a technical condition to ensure the sample efficiency of their algorithms.
+
+### Assumption 1 ($\alpha$-weakly revealing condition)
+
+There exists $\alpha > 0$, such that ${{\min_{h}\sigma_{S}}{({\mathbb{O}}_{h})}} \geq \alpha$.
+
+This condition ensures that the observations contain enough information to distinguish any two mixtures of states given a sufficiently large number of samples.
+
+We call Assumption 1. ‣ 3.2 Weakly revealing condition in the undercomplete setting ‣ 3 Weakly Revealing POMDPs ‣ When Is Partially Observable Reinforcement Learning Not Scary?") the "*weakly*" revealing condition to distinguish it from the setup known as rich observation or block MDP in the literature. The latter setup considers the problem where the latent state can be directly recovered from any single observation and the stage $h$ in the episode. That is, the latent state is completely revealed by the observation. Therefore, technically speaking, block MDPs are fully observable, which is in a way "diagonally opposite" to the setting we consider.
+
+Finally, we note that since ${\mathbb{O}}_{h}$ is a matrix of size $O \times S$, Assumption 1. ‣ 3.2 Weakly revealing condition in the undercomplete setting ‣ 3 Weakly Revealing POMDPs ‣ When Is Partially Observable Reinforcement Learning Not Scary?") implicitly requires $S \leq O$. That is, it only holds in the undercomplete setting.
+
+### Weakly revealing condition in the overcomplete setting
+
+In the overcomplete setting, we have $S > O$. It is information-theoretically impossible to distinguish any two mixtures of latent states by inspecting observations only in a single step. The key observation here is that we should instead inspect the distribution of observations for *$m$ consecutive steps*. We note that the number of all possible observable sequence $(o_{1},a_{1},\ldots,a_{m - 1},o_{m})$ of length $m$ is $O^{m}A^{m - 1}$, which is larger than $S$ when $m \geq {\Omega{({\log S})}}$.
+
+To state our assumption, we define the $m$-step emission-action matrices
+
+as follows: For an observation sequence $\mathbf{o}$ of length $m$, initial state $s$ and action sequence $\mathbf{a}$ of length $m - 1$, we let ${\lbrack{\mathbb{M}}_{h}\rbrack}_{{(\mathbf{a},\mathbf{o})},s}$ be the probability of receiving $\mathbf{o}$ provided that the action sequence $\mathbf{a}$ is used from state $s$ and step $h$:
+
+Similar to the undercomplete case, the weakly revealing condition in the overcomplete setting assumes that the $S^{\text{th}}$ singular value of the $m$-step emission matrix ${\mathbb{M}}_{h}$ is lower bounded.
+
+### Assumption 2 ($m$-step $\alpha$-weakly revealing condition)
+
+There exists $m \in {\mathbb{N}}$, $\alpha > 0$ such that ${{\min_{h \in {\lbrack{{H - m} + 1}\rbrack}}\sigma_{S}}{({\mathbb{M}}_{h})}} \geq \alpha$ where ${\mathbb{M}}_{h}$ is the $m$-step emission matrix defined in.
+
+Assumption 2. ‣ 3.3 Weakly revealing condition in the overcomplete setting ‣ 3 Weakly Revealing POMDPs ‣ When Is Partially Observable Reinforcement Learning Not Scary?") ensures that the observable sequence in the next $m$ consecutive steps contain enough information to distinguish any two mixtures of states given a sufficiently large number of observations. Assumption 1. ‣ 3.2 Weakly revealing condition in the undercomplete setting ‣ 3 Weakly Revealing POMDPs ‣ When Is Partially Observable Reinforcement Learning Not Scary?") is a special case of Assumption 2. ‣ 3.3 Weakly revealing condition in the overcomplete setting ‣ 3 Weakly Revealing POMDPs ‣ When Is Partially Observable Reinforcement Learning Not Scary?") with $m = 1$.
+
+Finally, we remark that in case that $O^{m} \geq S$, a sufficient condition to make Assumption 2. ‣ 3.3 Weakly revealing condition in the overcomplete setting ‣ 3 Weakly Revealing POMDPs ‣ When Is Partially Observable Reinforcement Learning Not Scary?") hold is that: for any stage $h$, there exists a $({m - 1})$-step action sequence such that the $m$-step observation sequences under this action sequence is $\alpha$-weakly revealing the hidden state. Formally, for any $h \in {\lbrack H\rbrack}$ and $\mathbf{a} \in \mathcal{A}^{m - 1}$ let ${\mathbb{M}}_{h,\mathbf{a}}$ stands for the $O^{m} \times S$ matrix obtained from ${\mathbb{M}}_{h}$ by selecting the rows of ${\mathbb{M}}_{h}$ where the row-index corresponds to $\mathbf{a}$. That is, ${({\mathbb{M}}_{h,\mathbf{a}})}_{\mathbf{o},s} = {\lbrack{\mathbb{M}}_{h}\rbrack}_{{(\mathbf{a},\mathbf{o})},s}$.
+
+### Proposition 3
+
+Assume that $O^{m} \geq S$, then Assumption 2. ‣ 3.3 Weakly revealing condition in the overcomplete setting ‣ 3 Weakly Revealing POMDPs ‣ When Is Partially Observable Reinforcement Learning Not Scary?") holds if ${{\max_{a \in \mathcal{A}^{m - 1}}\sigma_{S}}{({\mathbb{M}}_{h,\mathbf{a}})}} \geq \alpha$ for all $h \in {\lbrack{{H - m} + 1}\rbrack}$.
+
+## Main Results
+
+In this section, we present our algorithm---*Optimistic Maximum Likelihood Estimation* (OMLE) and its theoretical guarantees for learning weakly revealing POMDPs in both the undercomplete and the overcomplete settings.
+
+### Undercomplete setting
+
+For clarity, we first present the algorithm and results for learning undercomplete POMDPs under Assumption 1. ‣ 3.2 Weakly revealing condition in the undercomplete setting ‣ 3 Weakly Revealing POMDPs ‣ When Is Partially Observable Reinforcement Learning Not Scary?"). As we will see in the later section, with a minor modification this algorithm also generalizes to learning overcomplete POMDPs under Assumption 2. ‣ 3.3 Weakly revealing condition in the overcomplete setting ‣ 3 Weakly Revealing POMDPs ‣ When Is Partially Observable Reinforcement Learning Not Scary?").
+
+### Algorithm description
+
+To condense notations, we use $\theta = {({\mathbb{T}},{\mathbb{O}},\mu_{1})}$ to denote the model parameters of a POMDP and use $\Theta$ to denote the collections of all possible model parameters $\theta$ that correspond to POMDPs with $S$ states, $A$ actions, and $O$ observations. To make the dependence on $\theta$ explicit, we will use $V^{\pi}{(\theta)}$ to denote the value of a policy $\pi$, while we use ${\mathbb{P}}_{\theta}^{\pi}{(\tau)}$ to denote the probability of observing a trajectory $\tau$ under policy $\pi$, when the underlying POMDP is given by $\theta$. We also use ${\mathbb{O}}_{h}{(\theta)}$ (${\mathbb{M}}_{h}{(\theta)}$) to denote the emission matrix of $\theta$ (respectively, the multistep emission matrix of $\theta$).
+
+Algorithm 1 gives the pseudocode of OMLE. As can be seen from this pseudocode, in each episode $k$ there are two main steps:
+
+Optimistic planning (Lines 3-4): find the POMDP model $\theta^{k}$ with the highest optimal value in the confidence set $\mathcal{B}^{k}$ and follow the associated optimal policy $\pi^{k}$ in the episode to collect a trajectory $\tau^{k}$. ^55^5Our algorithm, as well as all existing algorithms for learning large classes of POMDPs, is computationally inefficient. In particular, a naive implementation of optimistic planning (Line 3) is to enumerate all POMDP models in an $\varepsilon$-cover of the confidence set and compute their optimal policies, which requires $e^{\Omega{({{HS^{2}A} + {HSO}})}}$ time in the worst case.
+
+Confidence set update (Line 3): add the newly collected policy-trajectory pair into the dataset, and then update the confidence set to include those models that assign a total log-likelihood to the data that is "close" to the maximum possible such total log-likelihood. In particular, the form of the confidence set is
+
+where $\mathcal{B}^{1}$ is the initial confidence set that contains all $\alpha$-weakly revealing models of a given size.
+
+Compared to the standard maximum likelihood estimation (MLE) approach, all $\alpha$-weakly revealing models with a sufficiently high likelihood are allowed and the size of this set is controlled by $\beta \geq 0$. In particular, if $\beta = 0$, the confidence set collapses to the solutions of MLE.
+
+In our algorithm, the choice of $\beta$ is governed by the magnitude of the "statistical noise" introduced by various random events. By analyzing this noise, one can choose the value of $\beta$ to guarantee that the true POMDP model is always contained in the resulting confidence set with a prescribed probability (see Proposition 13 for a rigorous statement).
+
+We emphasize that the algorithm design of MLE is considerably simpler than that of prior provably sample-efficient algorithms for learning POMDPs, which rely on spectral methods.
+
+4: execute policy πk to collect a trajectory τk:= (o1k,a1k,…,ohk,ahk)
+5: add (πk,τk) into 𝒟 and update
+
+$$\mathcal{B}^{k + 1} = {\left\{ {\hat{\theta} \in \Theta}:{{\sum\limits_{{(\pi,\tau)} \in \mathcal{D}}{{\log{\mathbb{P}}_{\hat{\theta}}^{\pi}}{(\tau)}}} \geq {{\max\limits_{\theta^{\prime} \in \Theta}{\sum\limits_{{(\pi,\tau)} \in \mathcal{D}}{{\log{\mathbb{P}}_{\theta^{\prime}}^{\pi}}{(\tau)}}}} - \beta}} \right\}{\bigcap\mathcal{B}^{1}}}$$
+
+Algorithm 1 Optimistic Maximum Likelihood Estimation (OMLE)
+
+### Theoretical guarantees
+
+Our main result, which shows that OMLE will achieve small regret in any *weakly revealing POMDPs* (Assumption 1. ‣ 3.2 Weakly revealing condition in the undercomplete setting ‣ 3 Weakly Revealing POMDPs ‣ When Is Partially Observable Reinforcement Learning Not Scary?")), is as follows:
+
+### Theorem 4 (Regret of OMLE)
+
+There exists an absolute constant $c > 0$ such that for any $\delta \in {(0,1\rbrack}$ and ${S,A,O,H,K} \in {\mathbb{N}}$, if we choose $\beta = {c\left( {{H{({{S^{2}A} + {SO}})}{\log{({SAOHK})}}} + {\log{({K/\delta})}}} \right)}$ in Algorithm 1, then, for any POMDP with $S$ states, $A$ actions, $O$ observations and horizon $H$ and satisfying Assumption 1. ‣ 3.2 Weakly revealing condition in the undercomplete setting ‣ 3 Weakly Revealing POMDPs ‣ When Is Partially Observable Reinforcement Learning Not Scary?"), with probability at least $1 - \delta$,
+
+The proof, as well as the specific polynomial dependency, is presented in Appendix E. Note that the growth rate of regret as a function $k$ is optimal.
+
+Moreover, by the standard online-to-batch conversion, the regret bound immediately implies the following sample complexity result:
+
+### Corollary 5 (Sample Complexity of OMLE)
+
+Under the same setting as Theorem 4. ‣ Theoretical guarantees ‣ 4.1 Undercomplete setting ‣ 4 Main Results ‣ When Is Partially Observable Reinforcement Learning Not Scary?"), when $K \geq {{{poly}{(S,A,O,H,\alpha^{- 1},{\log{({\varepsilon^{- 1}\delta^{- 1}})}})}} \cdot \varepsilon^{- 2}}$, with probability at least $1 - \delta$, the uniform mixture of the policies produced by OMLE is $\varepsilon$-optimal. I.e., ${{({1/K})} \cdot {\sum_{k = 1}^{K}V^{\pi^{k}}}} \geq {V^{\star} - \varepsilon}$.
+
+Here, the $\overset{\sim}{O}{(\varepsilon^{- 2})}$ dependence is also optimal up to log factors. Previous work by Jin et al. also provides polynomial sample-complexity guarantee for learning *$\alpha$-weakly revealing* POMDPs under Assumption 1. ‣ 3.2 Weakly revealing condition in the undercomplete setting ‣ 3 Weakly Revealing POMDPs ‣ When Is Partially Observable Reinforcement Learning Not Scary?"). The present result improves over the results of Jin et al. in the following aspects:
+
+While the OOM-UCB algorithm of Jin et al. heavily exploited the special structure of undercomplete POMDPs, OMLE appears in a much simpler form and the algorithm design arguably does not use this special structure. As a result, OMLE can be easily extended to learning *multi-step weakly revealing* POMDPs, while to the best of our knowledge OOM-UCB cannot.
+
+In terms of theoretical guarantees, OMLE enjoys a near-optimal $\sqrt{k}$-regret while OOM-UCB was only shown to achieve a regret of size $O{(k^{2/3})}$. The higher regret of OOM-UCB is due to the limitation of its exploration mechanism.^66^6OOM-UCB itself is not a no-regret algorithm. However, combining its $\overset{\sim}{\mathcal{O}}{({{{poly}{( \cdot )}}/\varepsilon^{2}})}$ sample complexity guarantee with the explore-then-commit strategy implies a $\overset{\sim}{\mathcal{O}}{({{{poly}{( \cdot )}} \times k^{2/3}})}$-regret.
+
+Finally, observe that the upper bound in Theorem 4. ‣ Theoretical guarantees ‣ 4.1 Undercomplete setting ‣ 4 Main Results ‣ When Is Partially Observable Reinforcement Learning Not Scary?") depends polynomially on the inverse of $\alpha$---an upper bound on the $\ell_{1}$-norm of the pseudoinverse of the emission matrices in Assumption 1. ‣ 3.2 Weakly revealing condition in the undercomplete setting ‣ 3 Weakly Revealing POMDPs ‣ When Is Partially Observable Reinforcement Learning Not Scary?"). This polynomial dependence turns out to be unavoidable as is shown by the following lower bound.
+
+### Theorem 6 (Necessity of ${poly}\hspace{0pt}{(\alpha^{- 1})}$ dependency)
+
+For any $\alpha \in \left( 0,{1/2} \right)$ and ${H,A} \in {\mathbb{N}}^{+}$, there exists an undercomplete $\alpha$-weakly revealing POMDP with ${S,O} = {\mathcal{O}{}}$ so that any algorithm requires at least $\Omega{({\min{\{\frac{1}{\alphaH},A^{H - 1}\}}})}$ samples to learn a $({1/2})$-optimal policy with probability $1/6$ or higher.
+
+Theorem 6 dependency). ‣ Theoretical guarantees ‣ 4.1 Undercomplete setting ‣ 4 Main Results ‣ When Is Partially Observable Reinforcement Learning Not Scary?") implies that a polynomial dependence on $1/\alpha$ is in general unavoidable in the sense that any algorithm either needs to suffer a regret exponential in the horizon $H$, or its regret needs to be polynomially dependent on $1/\alpha$. The proof of Theorem 6 dependency). ‣ Theoretical guarantees ‣ 4.1 Undercomplete setting ‣ 4 Main Results ‣ When Is Partially Observable Reinforcement Learning Not Scary?") is provided in Appendix G.
+
+### Overcomplete setting
+
+We now turn to the more challenging setting of learning in overcomplete POMDPs, where the number of hidden states can be larger than the number of observations. We show that a simple variant of OMLE is able to learn weakly-revealing overcomplete POMDPs in a polynomial number of samples. As we shall see, we pay a nontrivial price for the increased generality: while we can still achieve rate-optimal PAC-results, we compromise on the regret of the algorithm.
+
+### Algorithm description
+
+Algorithm 2 shows the pseudo-code of OMLE suitable for $m$-step $\alpha$-weakly revealing overcomplete POMDPs. While the basic structure of the method is the same as before, the general OMLE, which we call *multi-step OMLE*, differs from the basic version in two important aspects:
+
+Instead of merely following the optimistic policy, Algorithm 2 adopts a more active strategy for exploration. Specifically, for each optimistic policy $\pi^{k}$, the learner will one by one experiments with $({{H - m} + 1})$ policies that are obtained by picking a within-episode time index $h \in {\{ 0,\ldots,{H - m}\}}$ and then following policy $\pi^{k}$ for the first $h$ steps, and then picking actions uniformly at random in the remaining steps of the episode. We denote the resulting policy by ${\pi_{1:h}^{k} \circ \text{uniform}}{(\mathcal{A})}$, which abuses notation, but should improve readability.
+
+When constructing the confidence set, Algorithm 2 requires the minimum singular value of the $m$-step emission-action matrix (defined in equation ) to be lower bounded by $\alpha$, which enforces the multi-step *$\alpha$-weakly revealing* condition in Assumption 2. ‣ 3.3 Weakly revealing condition in the overcomplete setting ‣ 3 Weakly Revealing POMDPs ‣ When Is Partially Observable Reinforcement Learning Not Scary?").
+
+By trying random action sequences after executing $\pi^{k}$ for the initial $h$ steps, the learner can gather more information about the hidden states reachable by $\pi^{k}$ at step $h$ and therefore can better learn the system dynamics under $\pi^{k}$. The price of trying random actions is that the algorithm as described here will in general have linear regret. Nevertheless, with an online-to-batch conversion, Algorithm 2 serves as a suitable approach to learning a good policy with low sample complexity.
+
+5: execute policy π1: hk ∘ uniform (𝒜) to collect a trajectory τk, h then add (π1: hk ∘ uniform (𝒜),τk, h) into 𝒟
+
+$$\mathcal{B}^{k + 1} = {\left\{ {\hat{\theta} \in \Theta}:{{\sum\limits_{{(\pi,\tau)} \in \mathcal{D}}{{\log{\mathbb{P}}_{\hat{\theta}}^{\pi}}{(\tau)}}} \geq {{\max\limits_{\theta^{\prime} \in \Theta}{\sum\limits_{{(\pi,\tau)} \in \mathcal{D}}{{\log{\mathbb{P}}_{\theta^{\prime}}^{\pi}}{(\tau)}}}} - \beta}} \right\}{\bigcap\mathcal{B}^{1}}}$$
+
+Algorithm 2 Multi-step Optimistic Maximum Likelihood Estimation
+
+### Theoretical guarantees
+
+Our main result in this section bounds the total suboptimality of the policies $\pi^{1},\ldots,\pi^{k}$ chosen by OMLE. Note that since OMLE is not following these policies, the regret of OMLE is different (in general, higher) than the total suboptimality.
+
+### Theorem 7 (Total suboptimality of multi-step OMLE)
+
+There exists an absolute constant $c > 0$ such that for any $\delta \in {(0,1\rbrack}$ and ${S,A,O,K,H} \in {\mathbb{N}}$, if we choose parameter $\beta$ in Algorithm 2 as $\beta = {c\left( {{H{({{S^{2}A} + {SO}})}{\log{({SAOH})}}} + {\log{({{KH}/\delta})}}} \right)}$, then, for any POMDP with $S$ states, $A$ actions, $O$ observations and horizon $H$ and satisfying Assumption 2. ‣ 3.3 Weakly revealing condition in the overcomplete setting ‣ 3 Weakly Revealing POMDPs ‣ When Is Partially Observable Reinforcement Learning Not Scary?"), with probability at least $1 - \delta$,
+
+The specific polynomial dependency is presented in Appendix F. This form of the result is preferred as it makes a comparison to Theorem 4. ‣ Theoretical guarantees ‣ 4.1 Undercomplete setting ‣ 4 Main Results ‣ When Is Partially Observable Reinforcement Learning Not Scary?") more direct and it also reveals a bit of the proof strategy. The significance of this result is that, using the standard online-to-batch conversion, we get the following sample complexity results.
+
+### Corollary 8 (Sample Complexity of multi-step OMLE)
+
+Under the same setting as Theorem 7. ‣ Theoretical guarantees ‣ 4.2 Overcomplete setting ‣ 4 Main Results ‣ When Is Partially Observable Reinforcement Learning Not Scary?"), when $K \geq {{{poly}{(S,A^{m},O,H,\alpha^{- 1},{\log{({\varepsilon^{- 1}\delta^{- 1}})}})}} \cdot \varepsilon^{- 2}}$, with probability at least $1 - \delta$, the uniform mixture of the policies produced by multi-step OMLE is $\varepsilon$-optimal. I.e., ${{({1/K})} \cdot {\sum_{k = 1}^{K}V^{\pi^{k}}}} \geq {V^{\star} - \varepsilon}$.
+
+Up to polylogarithmic factors, the dependence on $\varepsilon$ in this result is unimprovable. Using an explore-then-exploit strategy, this latter result gives rise to a method that enjoys $\overset{\sim}{\mathcal{O}}{(K^{2/3})}$ regret, where the constants hidden are still polynomial in the relevant quantities. To our knowledge, for small fixed $m$, this is the first sample-efficient result for learning overcomplete POMDPs in the *exploration* setting where the algorithm needs to reason about how to collect information efficiently.
+
+A natural question here is whether the exponential dependence on $m$ in Theorem 7. ‣ Theoretical guarantees ‣ 4.2 Overcomplete setting ‣ 4 Main Results ‣ When Is Partially Observable Reinforcement Learning Not Scary?") is necessary. We answer this question by providing the following lower bound, which rules out the possibility of an upper bound polynomial in $m$.
+
+### Theorem 9 (Necessity of $A^{\Omega\hspace{0pt}{(m)}}$ dependency)
+
+For any ${m,A} \in {\mathbb{N}}^{+}$, there exists a POMDP with ${S,H,O} = {\mathcal{O}{(m)}}$ and satisfying Assumption 2. ‣ 3.3 Weakly revealing condition in the overcomplete setting ‣ 3 Weakly Revealing POMDPs ‣ When Is Partially Observable Reinforcement Learning Not Scary?") with $\alpha \geq 1$ so that any algorithm requires at least $\Omega{(A^{m - 1})}$ samples to learn a $({1/2})$-optimal policy with probability at least $1/2$.
+
+## Proof Overview
+
+We provide a proof overview of Theorem 4. ‣ Theoretical guarantees ‣ 4.1 Undercomplete setting ‣ 4 Main Results ‣ When Is Partially Observable Reinforcement Learning Not Scary?") for learning undercomplete *weakly revealing* POMDPs (Assumption 1. ‣ 3.2 Weakly revealing condition in the undercomplete setting ‣ 3 Weakly Revealing POMDPs ‣ When Is Partially Observable Reinforcement Learning Not Scary?")). We defer the full proof to Appendix E. The proof for learning overcomplete POMDPs (Theorem 7. ‣ Theoretical guarantees ‣ 4.2 Overcomplete setting ‣ 4 Main Results ‣ When Is Partially Observable Reinforcement Learning Not Scary?")) follows a similar strategy, which is described in Appendix F.
+
+### Observable operator models
+
+To begin with, we introduce the observable operators that provide an alternate parameterization of POMDPs. These operators will serve as intermediate quantities in our analysis: They will allow us to bound the suboptimality of the learned policies as a function of the "width" of the MLE confidence set. Given the transition matrices ${\{{\mathbb{T}}_{h,a}\}}_{{(h,a)} \in {{\lbrack H\rbrack} \times \mathcal{A}}}$, the observation matrices ${\{{\mathbb{O}}_{h}\}}_{h \in {\lbrack H\rbrack}}$, and the initial distribution $\mu_{1}$, the observable operators ${\{{\mathbf{B}_{h}{(o,a)}}\}}_{{(h,o,a)} \in {{\lbrack{H - 1}\rbrack} \times \mathcal{O} \times \mathcal{A}}}$ and the initial $\mathbf{b}_{0}$ observation distribution are given by
+
+where ${{\mathbb{O}}_{h}{({o \mid \cdot})}} \in {\mathbb{R}}^{S}$ denotes the $o^{th}$ row of ${\mathbb{O}}_{h}$. It is known that the these operators give an equivalent parameterization of the POMDPs: For any policy, the distribution induced by a POMDP over the possible trajectories of observation-action pairs can be described solely using these operators. In particular, the probability of observing trajectory $\tau_{h} = {(o_{1},a_{1},\ldots,o_{h},a_{h})}$ under policy $\pi$ in POMDP model $\theta$ is given by
+
+where ${\pi{(\tau_{h})}}:={\prod_{h^{\prime} = 1}^{h}{\pi{({a_{h} \mid {o_{h},\tau_{h - 1}}})}}}$ represents the part of the probability of $\tau_{h}$ that can be attributed to the randomness of the policy and we used $\mathbf{B}_{j}{( \cdot;\theta)}$ to denote the observable operators underlying $\theta$. One important advantage of adopting this operator representation of POMDPs is that the linear structure facilitates us to use existing tools from matrix analysis to analyze the error of operator estimates.
+
+### Step 1: bound the regret by the error of operator estimates
+
+By analyzing the relaxed MLE condition, one can prove that the groundtruth POMDP model $\theta^{\star}$ is contained in confidence set $\mathcal{B}^{k}$ for all $k \in {\lbrack K\rbrack}$ with high probability (see Proposition 13 in Appendix A). Therefore, from now on assume that $\theta^{\star} \in {\cap_{k \in {\lbrack K\rbrack}}\mathcal{B}^{k}}$ holds. Now, recall that we choose the model estimate and the behavior policy optimistically in Algorithm 1, i.e., ${(\theta^{k},\pi^{k})} = {\operatorname{argmax}_{\hat{\theta} \in {\mathcal{B}^{k},\pi}}V_{\hat{\theta}}^{\pi}}$. As a result, we have $V^{\star} = {\max_{\pi}V_{\theta^{\star}}^{\pi}} \leq {\max_{\hat{\theta} \in {\mathcal{B}^{k},\pi}}V_{\hat{\theta}}^{\pi}} = V_{\theta^{k}}^{\pi^{k}}$ for all $k \in {\lbrack K\rbrack}$. From this, we get
+
+where $\tau_{H} = {(o_{1},a_{1},\ldots,o_{H},a_{H})}$ denotes a whole trajectory and the second inequality uses the fact that the cumulative reward of each trajectory is bounded by $H$. Therefore, to prove Theorem 1, it suffices to bound the total cumulated error in estimating the probability of the individual trajectories, cf. the RHS of.
+
+By using the OOM representations in, it turns out that we can bound the RHS of by the error in estimating each observable operator. To simplify notation, we abbreviate $\mathbf{B}_{h}{(o,a;\theta^{\star})}$, $\mathbf{b}_{0}{(\theta^{\star})}$ as $\mathbf{B}_{h}{(o,a)}$, $\mathbf{b}_{0}$, and denote ${\mathbf{B}_{h}^{t}{(o,a)}}:={\mathbf{B}_{h}{(o,a;\theta^{t})}}$, $\mathbf{b}_{0}^{t}:={\mathbf{b}_{0}{(\theta^{t})}}$. With this notation, we have the following result:
+
+### Lemma 10
+
+For any $k \in {\mathbb{N}}$, the RHS of is upper bounded by
+
+where $\mathbf{b}{(\tau_{h})}: = \left( \prod_{h^{\prime} = 1}^{h}\mathbf{B}_{h^{\prime}}{(o_{h^{\prime}},a_{h^{\prime}})} \right)\mathbf{b}_{0}$ is the "belief vector" associated with trajectory $\tau_{h} = {(o_{1},a_{1},\ldots,o_{h},a_{h})}$.
+
+In Equation we abused notation in a few ways: In the innermost sum over the observation-action trajectories $\tau_{h}$ of length $h$, $\tau_{h - 1}$ refers to the prefix of $\tau_{h}$ where the last observation-action is dropped. Also, in this sum, $o_{h},a_{h}$ refer to the last observation-action pair of $\tau_{h}$.
+
+Lemma 10 is obtained from Lemma 27, which states the same result for an arbitrary sequence of observable operators. As a result, in order to control the regret, it suffices to control the estimation error of each operator. Importantly, here we do not need to recover the operators accurately at all entries, which, in general, is also impossible when there are hard-to-reach latent states. Instead, we only care about the projections of the errors onto the belief vectors, which are further reweighted by the probability of the behavior policies. Therefore, it suffices to learn the operators accurately only in those directions that are adequately covered by the reweighted belief vectors.
+
+### Step 2: derive constraints for the operator estimates from OMLE
+
+Now let us make a detour to see what guarantees OMLE can provide for our operator estimates. As a result of the classic MLE analysis, we can show under the same choice of $\beta$ as Theorem 4. ‣ Theoretical guarantees ‣ 4.1 Undercomplete setting ‣ 4 Main Results ‣ When Is Partially Observable Reinforcement Learning Not Scary?"), with high probability
+
+(Proposition 14 in Appendix A gives the precise result.) In brief, this means the model estimate in the $k^{th}$ iteration, that is $\theta^{k}$, can be used to predict the behavior of the policies followed *before* the $k^{th}$ iteration to a certain accuracy. To proceed, we represent the probabilities in equation by products of operators using equation and perform further algebraic transformations, which eventually leads to the following lemma for our operator estimates. The proof of this lemma is given in Appendix E.2.
+
+### Lemma 11
+
+Suppose the relation in equation holds, then for all ${(k,h)} \in {{\lbrack K\rbrack} \times {\lbrack H\rbrack}}$
+
+Intuitively, the constraints above imply the operator estimates in the $k^{th}$ iteration are close to the true operators when being projected onto the belief vectors that are reweighted by the historical policies. However, a careful examination shows that cannot be directly used to control because involves the operator error of $\theta^{t}$ reweighted by $\pi^{t}$ that is the behavior policy in the *same* iteration. This is very different from. We deal with this problem in Step 3.
+
+### Step 3: bridge Step $1$ and $2$ via $\ell_{1}$-norm eluder dimension
+
+To prove the sample efficiency of optimistic algorithms, one needs to argue that, after a sufficient number of iterations, the size of the maintained confidence set is small enough to guarantee near-optimality of the learned policy. This is typically achieved by resorting to the pigeon-hole principle in the tabular setting, or to the elliptical potential lemma in the linear setting.
+
+In the context of this paper, by further algebraic transformations, we reduce the problem of bounding by to proving the following algebraic inequality, which plays a similar role as the elliptical potential lemma. The full inequality is more involved (see Proposition 22 in Appendix C); here we present a simplified version for the sake of simplicity.
+
+### Proposition 12
+
+Suppose sequences ${\{ w_{k,j}\}}_{{(k,j)} \in {{\lbrack K\rbrack} \times {\lbrack m\rbrack}}}$ and ${\{ x_{k,i}\}}_{{(k,i)} \in {{\lbrack K\rbrack} \times {\lbrack n\rbrack}}}$ satisfy that ${w_{k,j},x_{k,i}} \in {\mathbb{R}}^{d}$ for all ${(k,i,j)} \in {{\lbrack K\rbrack} \times {\lbrack n\rbrack} \times {\lbrack m\rbrack}}$. Suppose that we further have
+
+Then we have ${\sum_{t = 1}^{k}{\sum_{j = 1}^{m}{\sum_{i = 1}^{n}{|{w_{t,j}^{\top}x_{t,i}}|}}}} = {\overset{\sim}{\mathcal{O}}{(\sqrt{\zetak})}}$ for all $k \in {\lbrack K\rbrack}$, where $\zeta$ is a parameter that depends on $d$ only.
+
+At a high level, the precondition and the target in Proposition 12 correspond to equation and, respectively (see Appendix E.3 for details). In the special case of $m = n = 1$, Proposition 12 reduces to
+
+We compare this with the standard elliptical potential lemma in linear bandit literature, which is typically of the form:
+
+We remark that the precondition in directly implies the precondition in by the Cauchy-Swartz inequality. That is, Proposition 12 is stronger than the standard elliptical potential lemma, and we need to develop new techniques to prove Proposition 12.
+
+Noting the close relation between the elliptical potential lemma and the framework of eluder dimension (in its original $\ell_{2}$-norm form), we develop a new framework based on the $\ell_{1}$-norm counterpart of eluder dimension, and adapt corresponding techniques to prove that in and Proposition 12 we can allow the choice of $\zeta = d^{2}$ which is one $d$ factor worse than the standard elliptical potential lemma. We defer the details of this framework to Appendix C.
+
+## Conclusion
+
+In this paper, we identified a new rich class of POMDPs, which we call *weakly revealing* POMDPs. *Weakly revealing* POMDPs subsume a majority of existing POMDPs that are known to be sample-efficiently learnable, and include both undercomplete and overcomplete POMDPs. We further propose a new simple algorithm, OMLE, which combines optimism with maximum likelihood estimation. We prove that OMLE can learn a near-optimal policy for any weakly revealing POMDP using polynomial samples. We complement our positive results with two lower bounds to justify the necessity of the appearance of certain problem-dependent quantities in our upper bounds. Finally, while our work shows that sample-efficient learning is possible in large classes of POMDPs, computationally efficient learning of POMDPs remains challenging, which we leave for future work.

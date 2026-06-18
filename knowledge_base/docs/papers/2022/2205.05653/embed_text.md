@@ -1,0 +1,208 @@
+### Introduction
+
+In this paper, we revisit the smooth and strongly-convex-strongly-concave minimax optimization problem of the form
+
+where ${F{(x,y)}}:{{{\mathbb{R}}^{d_{x}} \times {\mathbb{R}}^{d_{y}}}\rightarrow{\mathbb{R}}}$ is a continuously differentiable function, ${r{(x)}}:{{\mathbb{R}}^{d_{x}}\rightarrow{{\mathbb{R}} \cup {\{{+ \infty}\}}}}$ and ${g{(y)}}:{{\mathbb{R}}^{d_{y}}\rightarrow{{\mathbb{R}} \cup {\{{+ \infty}\}}}}$ are proper lower semi-continuous convex functions. Problem has been actively studied in economics, game theory, statistics and computer science. Recently, many applications of this problem appeared in machine learning, including adversarial training, prediction and regression problems, reinforcement learning and generative adversarial networks Arjovsky et al. Goodfellow et al.,.
+
+In our paper, we focus on the case when function $f{(x,y)}$ is strongly convex in $x$ and strongly concave in $y$. There are several reasons to consider this function class. First, this setting is fundamental and studied by most existing works on minimax optimization.^11^1Most existing works on minimax optimization study the convex-concave case. However, this setting can be easily reduced to the strongly-convex-strongly-concave case via the regularization technique. Second, efficient algorithms initially developed for convex optimization often show state-of-the-art performance in non-convex applications. Finally, we will further see that this fundamental setting is utterly understudied and lacks answers to even the most basic questions such as "What is the best possible algorithm for solving a problem in this setting?"^22^2In contrast to smooth convex-concave minimax optimization, the answer to this question for smooth convex minimization was given by Nesterov, several decades ago.
+
+### Related Work
+
+Until recently, the best-known gradient evaluation complexity of solving problem was $\mathcal{O}\left( {{\max\left\{ \kappa_{x},\kappa_{y} \right\}}{\log\frac{1}{\epsilon}}} \right)$, where $\kappa_{x}$ and $\kappa_{y}$ denote the condition numbers of functions $f{( \cdot,y)}$ and $f{(x, \cdot )}$, respectively. The first attempt to provide an algorithm with an "accelerated" convergence rate was the work of Alkousa et al.,. They provided an algorithm with $\mathcal{O}\left( {{\min\left\{ {\kappa_{x}\sqrt{\kappa_{y}}},{\kappa_{y}\sqrt{\kappa_{x}}} \right\}}{\log^{2}\frac{1}{\epsilon}}} \right)$ gradient evaluation complexity. This result was subsequently improved up to $\mathcal{O}\left( {\sqrt{\kappa_{x}\kappa_{y}}{\log^{3}\frac{1}{\epsilon}}} \right)$ by Lin et al., and $\mathcal{O}\left( {\sqrt{\kappa_{x}\kappa_{y}}{\log^{3}{({\kappa_{x}\kappa_{y}})}}{\log\frac{1}{\epsilon}}} \right)$ by Wang and Li,. However, these results do not match the lower complexity bound $\Omega\left( {\sqrt{\kappa_{x}\kappa_{y}}{\log\frac{1}{\epsilon}}} \right)$ established by Zhang et al. Ibrahim et al.,. Hence, we have the following fundamental open problem:
+
+Can we design an algorithm that achieves the lower gradient evaluation complexity bound in smooth and strongly-convex-strongly-concave minimax optimization?
+
+It is worth mentioning that this open question was answered positively in the work of Kovalev et al., in the case of minimax problems with bilinear coupling, i.e., when ${F{(x,y)}} = {{{p{(x)}} + {x^{\top}\mathbf{A}y}} - {q{(y)}}}$, where $p{(x)}$ and $q{(y)}$ are smooth and strongly convex functions, and $\mathbf{A}$ is a $d_{x} \times d_{y}$ matrix. However, the algorithm provided in this work does not apply to the general minimax problem.
+
+|c|c|[code-before = 8] Reference Gradient Complexity
+Tseng, \Block3-1$\mathcal{O}\left( {{\max\left\{ \kappa_{x},\kappa_{y} \right\}}{\log\frac{1}{\epsilon}}} \right)$
+Nesterov and Scrimali,
+Alkousa et al., $\mathcal{O}\left( {{\min\left\{ {\kappa_{x}\sqrt{\kappa_{y}}},{\kappa_{y}\sqrt{\kappa_{x}}} \right\}}{\log^{2}\frac{1}{\epsilon}}} \right)$
+Lin et al., $\mathcal{O}\left( {\sqrt{\kappa_{x}\kappa_{y}}{\log^{3}\frac{1}{\epsilon}}} \right)$
+Wang and Li, $\mathcal{O}\left( {\sqrt{\kappa_{x}\kappa_{y}}{\log^{3}{({\kappa_{x}\kappa_{y}})}}{\log\frac{1}{\epsilon}}} \right)$
+Algorithm 4 (This paper)$\mathcal{O}\left( {\sqrt{\kappa_{x}\kappa_{y}}{\log\frac{1}{\epsilon}}} \right)$
+Lower Bound $\Omega\left( {\sqrt{\kappa_{x}\kappa_{y}}{\log\frac{1}{\epsilon}}} \right)$
+
+We develop the first optimal algorithm for solving problem in the smooth and strongly-convex-strongly-concave regime, which is the main contribution of this work. We split the algorithm development in three steps:
+
+In Section 3, we reformulate problem as a particular minimization problem.
+In Section 4, we develop a specific variant of the accelerated proximal point algorithm (Algorithm 2) which will be used as a baseline for the optimal algorithm construction.
+In Section 5, we develop an optimal algorithm for operator norm reduction in monotone inclusion problems, which will be used for the proximal operator computation in Algorithm 2.
+
+In the final Section 6, we summarize these three steps by describing the optimal algorithm construction and showing that the complexity of the proposed algorithm matches the lower bound.
+As mentioned before, in Section 5, we develop an optimal algorithm for operator norm reduction in composite monotone inclusion problems of the form, which is the second main contribution of this work. To the best of our knowledge, there is only one optimal algorithm of Yoon and Ryu which works for Lipschitz-continuous operators only, i.e., when B (u) ≡ 0 in problem. In contrast to this, our algorithm works in the composite case with general maximally monotone operator B (u).
+The following assumptions formalize the smoothness, strong convexity, and strong concavity properties of function f (x,y).
+Function F (x,y) is μx-strongly convex in x, where μx &gt; 0. That is, the following inequality holds for all x1, x2 ∈ ℝdx, y ∈ ℝdy:
+
+Function F (x,y) is μy-strongly concave in y, where μy &gt; 0. That is, the following inequality holds for all x ∈ ℝdx, y1, y2 ∈ ℝdy:
+
+Function F (x,y) is L-smooth. That is, the following inequality holds for all x1, x2 ∈ ℝdx, y1, y2 ∈ ℝdy:
+
+Under these assumptions, by $\kappa_{x} = \frac{L}{\mu_{x}}$ and $\kappa_{y} = \frac{L}{\mu_{x}}$, we denote the condition numbers of functions F (⋅,y) and F (x,⋅), respectively. The following assumption formalizes the properties of regularizers r (x) and g (y).
+Functions r (x) and g (y) are convex, lower semi-continuous and proper, i.e., there exist ${\overline{x} \in {\mathbb{R}}^{d_{x}}},{\overline{y} \in {\mathbb{R}}^{d_{y}}}$ such that ${{r{(\overline{x})}},{g{(\overline{y})}}} &lt; {+ \infty}$.
+By (x*,y*) ∈ ℝdx × ℝdy, we denote the solution of problem, which is characterized via the first-order optimality conditions
+
+$$\left\{ \begin{array}{lc}
+{- {{\nabla_{x}F}{(x^{\ast},y^{\ast})}}} &amp; {{\in {\partial{r{(x^{\ast})}}}},} \\
+{{\nabla_{y}F}{(x^{\ast},y^{\ast})}} &amp; {{\in {\partial{g{(y^{\ast})}}}}.}
+\end{aligned} &amp;
+\end{array} \right.$$
+
+Note that there exists a unique solution to the problem due to the strong convexity and strong concavity assumptions (Assumptions 1 and 2). Hence, for any point (x,y) ∈ Rdx × ℝdy, we can use squared distance to the solution ∥x − x*∥2 + ∥y − y*∥2 as an optimality criterion. We formalize it through the following definition.
+We call a pair of vectors (x,y) ∈ ℝdx × ℝdy an ϵ-accurate solution of problem for a given accuracy ϵ &gt; 0 if it satisfies
+
+3 Step I: Reformulation via Pointwise Conjugate Function
+In this section, we reformulate problem as a particular convex minimization problem. This reformulation will be beneficial because minimization problems are typically easier to solve than minimax optimization problems.
+3.1 Pointwise Conjugate Function
+We start by introducing the pointwise conjugate function which will be the main component of our problem reformulation. Let function F̂ (x,y): ℝdx × ℝdy → ℝ be defined as
+
+One can observe that function F̂ (x,y) is smooth, convex in x, and concave in y due to Assumptions 1, 2 and 3. Now, the pointwise conjugate function G (z,y): ℝdx × ℝdy → ℝ is defined as follows:
+
+$${{G{(z,y)}} = {\sup\limits_{x \in {\mathbb{R}}^{d_{x}}}\left\lbrack {{{\langle x,z\rangle} - {r{(x)}} - {\hat{F}{(x,y)}}} + {g{(y)}}} \right\rbrack}}.$$
+
+One can observe that for fixed y ∈ ℝdy, function G (⋅,y) is nothing else but the Fenchel conjugate333Recall that for a convex function h (x), Fenchel conjugate is defined as h* (z) = supx[⟨z, x⟩ − h (x)]. of function r (⋅) + F̂ (⋅,y) − g (y). Moreover, function G (z,y) is defined as a pointwise supremum of a family of convex and lower semi-continuous functions {φx (z,y) = ⟨x, z⟩ − r (x) − F (x,y) + g (y)∣x ∈ ℝdx}. Hence, G (z,y) is also convex and lower semi-continuous function. The following lemma provides a characterization of the subdifferential of the pointwise conjugate function.
+Let z, x ∈ ℝdx and y, w ∈ ℝdy be arbitrary vectors that satisfy
+
+3.2 Reformulation of the Minimax Optimization Problem
+Now, we introduce the following minimization problem:
+
+$$\min\limits_{{z \in {\mathbb{R}}^{d_{x}}},{y \in {\mathbb{R}}^{d_{y}}}}\left\lbrack {{P{(z,y)}} = {{\frac{\mu_{x}^{- 1}}{2}{\| z\|}^{2}} + {\frac{\mu_{y}}{2}{\| y\|}^{2}} + {G{(z,y)}}}} \right\rbrack$$
+
+It turns out that this minimization problem can be seen as a reformulation of problem. This is justified by the following lemma.
+Problem has a unique solution (z*,y*) ∈ ℝdx × ℝdy, where
+
+and (x*,y*) is the unique solution of problem.
+Lemma 2 implies that if we find an approximate solution (z,y) ∈ ℝdx × ℝdy to problem, a pair of vectors (−μx−1 z,y) ∈ ℝdx × ℝdy will be an approximate solution to the original minimax problem.
+The idea of reformulating the minimax optimization problem as a minimization problem is not new and has been used in the state-of-the-art works of Lin et al. Wang and Li Alkousa et al.,. However, their reformulation is different from ours and has several disadvantages. In particular, it does not allow for building the optimal algorithm for solving problem. We provide a detailed discussion of this in the Appendix.
+4 Step II: Accelerated Proximal Point Method
+
+4: (zgk,ygk) = α (zk,yk) + (1−α) (zfk,yfk)
+5: zfk + 1 = zgk − θz ∇zP (zgk,ygk)
+6: yfk + 1 = ygk − θy ∇yP (zgk,ygk)
+7: zk + 1 = zk + ηz μz (zgk−zk) + ηz θz−1 (zfk + 1−zgk)
+8: yk + 1 = yk + ηy μy (ygk−yk) + ηy θy−1 (yfk + 1−ygk)
+Algorithm 1 Accelerated Gradient Method
+
+4: (zgk,ygk) = α (zk,yk) + (1−α) (zfk,yfk)
+5: Find (xfk + 1,yfk + 1,zfk + 1,wfk + 1) ∈ ℝdx × ℝdy × ℝdx × ℝdy that satisfy
+6: zk + 1 = zk + ηz μx−1 (zfk + 1−zk) − ηz (xfk + 1+μx−1 zfk + 1)
+7: yk + 1 = yk + ηy μy (yfk + 1−yk) − ηy (wfk + 1+μy yfk + 1)
+Algorithm 2 Accelerated Proximal Point Algorithm
+
+In this section, we develop the main algorithmic framework for solving problem, which is formalized as Algorithm 2. We give the intuition behind the development of Algorithm 2 and provide its theoretical analysis. Further, in Section 6, we will use this algorithmic framework to develop the first optimal algorithm for solving main problem.
+It is well-known that Accelerated Gradient Method of Nesterov, is the optimal algorithm for solving smooth (strongly-)convex minimization problems. Therefore, we could try to apply this method to solving problem, which is formalized as Algorithm 1. Note that we used the notation μz = μx−1 in Algorithm 1, which is the strong convexity parameter of P (z,y) in z. Unfortunately, function P (z,y) can be non-smooth, and the gradient ∇P (zgk,ygk) can be undefined. It means that Algorithm 1 cannot be applied to problem.
+In order to avoid the issues caused by the non-smoothness of function P (z,y), we use the Moreau-Yosida regularization. Consider a function Pθz, θy (z,y) defined in the following way:
+
+where θz, θy &gt; 0. Function Pθz, θy (z,y) is called the Moreau envelope of function P (z,y). The Moreau envelope has two crucial properties. First, it is a smooth function. Second, it has the same minimizers as function P (z,y):
+
+$${{(z^{\ast},y^{\ast})} = {{\underset{{z \in {\mathbb{R}}^{d_{x}}},{y \in {\mathbb{R}}^{d_{y}}}}{\arg\min}P^{\theta_{z},\theta_{y}}}{(z,y)}}}.$$
+
+The latter means that we could apply Accelerated Gradient Method to problem, which would give us an efficient algorithm for solving problem. Further, we are going to construct such an algorithm.
+4.3 Construction of the Algorithm
+We start the construction of our algorithm by computing the gradient ∇Pθz, θy (zgk,ygk). The theory of the Moreau-Yosida regularization suggests that the gradient of the Moreau envelope can be computed in the following way:
+
+$${{{\nabla P^{\theta_{z},\theta_{y}}}{(z_{g}^{k},y_{g}^{k})}} = \begin{bmatrix}
+
+where (zfk + 1,yfk + 1) ∈ ℝdx × ℝdy is computed via the following auxiliary minimization problem:
+
+Further, we choose parameter θz = μz−1 = μx and write the first-order optimality conditions for this problem using the definition of function P (z,y):
+
+\end{bmatrix} \in {- {\partial{G{(z_{f}^{k + 1},y_{f}^{k + 1})}}}}}.$$
+
+The latter condition involves the subdifferential ∂G (z,y). Hence, we can rewrite this condition using Lemma 1, which provides the characterization of ∂G (z,y)444To be precise, Lemma 1 implies the relation ⇒ rather than the equivalence ⇔. However, this is not an issue because we provide the intuition behind the algorithm development in this section. The rigorous proofs are postponed to the Appendix.:
+
+zfk + 1 − ∇xF̂ (xfk + 1,yfk + 1)
+xfk + 1 + μx−1 (zfk + 1−zgk) + μx−1 zfk + 1
+
+wfk + 1 + ∇yF̂ (xfk + 1,yfk + 1)
+wfk + 1 + θy−1 (yfk + 1−ygk) + μy yfk + 1
+
+where xfk + 1 ∈ ℝdx and wfk + 1 ∈ ℝdy are auxiliary vectors. From we get
+
+which we plug into 7 and 8 of Algorithm 1.
+Finally, we replace the computation of (zfk + 1,yfk + 1) on 5 and 6 of Algorithm 1 using condition. It turns out that we can use the following relaxed version of condition without hurting the convergence properties of the resulting algorithm:
+
+$$\left\{ \begin{array}{lc}
+\end{array} &amp;
+\end{array} \right.$$
+
+where Δxk and Δyk are defined as follows:
+
+$$\left\{ \begin{array}{lc}
+\end{aligned} &amp;
+\end{array} \right.$$
+
+4.4 Convergence of the Algorithm
+After applying all the modifications mentioned above to Algorithm 1, we obtain Algorithm 2. Theorem 1 provides the iteration complexity of Algorithm 2. The proof of Theorem 1 can be found in the Appendix.
+
+Then, to find an ϵ-accurate solution of problem, Algorithm 2 requires the following number of iterations:
+
+$${K = {\mathcal{O}\left( {{\max\left\{ \frac{1}{\alpha},\frac{\alpha}{\theta_{y}\mu_{y}} \right\}}{\log\frac{1}{\epsilon}}} \right)}}.$$
+
+In this case, the ϵ-accurate solution will be given as (−μx−1 zK,yK), where (zK,yK) is the output of Algorithm 2.
+Unfortunately, Algorithm 2 cannot be applied to solving problem in its current form because it requires finding vectors (xfk + 1,yfk + 1,zfk + 1,wfk + 1) that satisfy condition on 5 at each iteration. Further, we will show that finding these vectors can be seen as finding an approximate solution to a particular monotone inclusion problem. In Section 5, we will provide an optimal algorithm for solving such monotone inclusions. In Section 6, we will show how to combine this algorithm with Algorithm 2 and obtain the first optimal algorithm for solving main problem.
+5 Step III: Operator Norm Reduction in Monotone Inclusions
+
+Algorithm 3 Extra Anchored Gradient for Monotone Inclusions
+
+In this section, we consider the following monotone inclusion problem:
+
+find u* ∈ ℝd such that 0 ∈ A (u*) + B (u*),
+
+where A (u), B (u): ℝd ⇉ ℝd are maximally monotone mappings. We are interested in the case when A (u) is single-valued and Lipschitz continuous. The properties of operators A (u) and B (u) are formalized through the following assumptions.
+Mapping A (u): ℝd → ℝd is single-valued, M-Lipschitz and monotone. That is, for all u1, u2 ∈ ℝd, ⟨A (u1) − A (u2), u1 − u2⟩ ≥ 0 and ∥A (u1) − A (u2)∥ ≤ M ∥u1 − u2∥.
+Mapping B (u): ℝd ⇉ ℝd is maximally monotone and possibly multivalued. That is, mapping B (u) satisfies the following conditions:
+
+B (u) is monotone, i.e., for all u1, u2 ∈ domB, b1 ∈ B (u1), b2 ∈ B (u2) the following inequality holds: ⟨u1 − u2, b1 − b2⟩ ≥ 0, where domB = {u ∈ ℝd ∣ B (u) ≠ ⌀}.
+The graph gph B = {(u,b) ∈ ℝd × ℝd ∣ b ∈ B (u)} is not properly contained in the graph of any other monotone mapping on ℝd.
+
+Note that mapping A (u) is also maximally monotone because it is monotone and continuous. Further, we will use an operator Jλ B (u): ℝd ⇉ ℝd which is defined as
+
+where λ &gt; 0. This mapping is called the resolvent of mapping B (u). The maximal monotonicity of B (u) implies that the resolvent Jλ B (u) is single-valued for all u ∈ ℝd.
+Now, we are ready to present Algorithm 3 for solving monotone inclusion problem. The design of our algorithm is based on the Extra Anchored Gradient Algorithm of Yoon and Ryu,. The critical difference between the algorithm of Yoon and Ryu, and Algorithm 3 is that the algorithm of Yoon and Ryu, can be applied to problem in the case B (u) ≡ {0} only. Therefore, our Algorithm 3 can be seen as an extension of the algorithm of Yoon and Ryu, for general monotone inclusion problems of the form.
+The following theorem provides the convergence guarantees for Algorithm 3. The proof of the theorem can be found in the Appendix.
+Assume that there exists at least a single solution u* to problem. Let βt be defined as follows
+
+Then, the following inequality holds
+
+6 Final Step: The First Optimal Algorithm for Minimax Optimization
+In this section, we construct the first optimal algorithm for solving main problem. In order to do this, we use Algorithm 3 to compute vectors (xfk + 1,yfk + 1,zfk + 1,wfk + 1) on 5 of Algorithm 2. Further, we describe the construction of our algorithm in detail.
+
+4: (zgk,ygk) = α (zk,yk) + (1−α) (zfk,yfk)
+11: while condition is not satisfied do
+23: zk + 1 = zk + ηz μx−1 (zfk + 1−zk) − ηz (xfk + 1+μx−1 zfk + 1)
+24: yk + 1 = yk + ηy μy (yfk + 1−yk) − ηy (wfk + 1+μy yfk + 1)
+Algorithm 4 FOAM: The First Optimal Algorithm for Minimax Optimization
+
+6.1 Construction of the Algorithm
+As mentioned in Section 4, Algorithm 2 cannot be applied to solving problem in its current form because it requires finding the vectors satisfying condition on 5 at each iteration. Further, we will show how to do this using Algorithm 3. Let ℝd = ℝdx × ℝdy. For each k ∈ {0, 1, 2, …} consider operators Ak (u): ℝd → ℝd and B (u): ℝd ⇉ ℝd defined as follows:
+
+\end{bmatrix}},{{B{(u)}} = \left\{ \begin{bmatrix}
+\end{bmatrix} \middle| {{b_{x} \in {\partial{r{(x)}}}},{b_{y} \in {\partial{g{(y)}}}}} \right\}}},}
+
+where γx, γy &gt; 0 are parameters, variable u ∈ ℝd is defined as
+
+and operators axk (x,y): ℝd → ℝdx and ayk (x,y): ℝd → ℝdy are defined as
+
+One can observe that operators Ak (u) and B (u) satisfy Assumptions 5 and 6. This is justified by the following lemma.
+Operator Ak (u), defined by, is monotone and M-Lipschitz, where M is given as
+
+Operator B (u), defined by, is maximally monotone.
+Now, we are ready to construct the first optimal algorithm for solving main problem which is formalized as Algorithm 4. In order to do this, we use Algorithm 3 to perform the computations on 5 of Algorithm 2. Consider the k-th iteration of Algorithm 2 and replace 5 of Algorithm 2 with the lines of Algorithm 3 using the notation ut = (γx−1/2 xk, t,γy−1/2 yk, t) for t ∈ {−1, 0, 1, 2, …}.
+In addition, we replace the for-loop of Algorithm 3 with the while-loop that iterates until the following condition is satisfied (see 11 of Algorithm 4):
+
+We also set the initial iterates to xk, −1 = −μx−1 zgk and yk, −1 = ygk on 5 of Algorithm 4, and use the output of the inner while-loop to compute vectors (xfk + 1,yfk + 1,zfk + 1,wfk + 1) on 21 and 22 of Algorithm 4. Now, if we define parameters γx, γy in the following way:
+
+then condition on 11 of Algorithm 4 becomes equivalent to condition on 5 of Algorithm 2. Hence, vectors (xfk + 1,yfk + 1,zfk + 1,wfk + 1) computed on 21 and 22 of Algorithm 4 satisfy condition, which implies that Algorithm 4 is a special case of Algorithm 2.
+6.2 Complexity of the Algorithm
+It remains to establish the gradient evaluation complexity of Algorithm 4. First, we need to estimate the number of iterations performed by the inner while-loop of Algorithm 4, which is equal to tk defined on 20 of Algorithm 4. Recall that the inner while-loop was constructed out of the lines of Algorithm 3. Hence, we can use Theorem 2 to provide an upper bound on tk. This is done by the following lemma.
+Assume the following choice of the parameters of Algorithm 4: stepsize λ is defined by, parameter M is defined by, sequence {βt}t = 0∞ is defined by, parameters γx and γy are defined by. Then, tk ≤ T, where T is given as
+
+Now, we are ready to provide the final gradient complexity of Algorithm 4. It is done by the following theorem.
+Let parameters of Algorithm 4 be defined as follows: $\alpha = {\min\left\{ 1,\sqrt{\theta_{y}\mu_{y}} \right\}}$, θy = 8 μx−1, $\lambda = \left( {2\sqrt{5}{({1 + {{8L}/\mu_{x}}})}} \right)^{- 1}$, stepsizes ηz and ηy are defined by, parameters γx and γy are defined by, parameters {βt}t = 0∞ are defined by. Then, to find an ϵ-accurate solution of problem, Algorithm 4 requires the following number of gradient evaluations:
+
+$${\mathcal{O}\left( {{\max\left\{ \frac{L}{\mu_{x}},\frac{L}{\sqrt{\mu_{x}\mu_{y}}} \right\}}{\log\frac{1}{\epsilon}}} \right)}.$$
+
+Without loss of generality we can assume μx ≥ μy, otherwise we just swap variables x and y in problem. Hence, Algorithm 4 has the following gradient evaluation complexity:
+
+$${\mathcal{O}\left( {\frac{L}{\sqrt{\mu_{x}\mu_{y}}}{\log\frac{1}{\epsilon}}} \right)}.$$

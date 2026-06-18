@@ -1,0 +1,151 @@
+## Introduction
+
+Self-driving is one of today's most impactful technological challenges, one that promises to bring safe and affordable transportation everywhere. Tremendous improvements have been made in self-driving perception systems, thanks to the success of deep learning. This has enabled accurate detection and localization of obstacles, providing a holistic understanding of the surrounding world, which is then sent to the motion planner to decide subsequent driving actions.
+
+Despite the eminent success of these perception systems, their detection objective is mis-aligned with the self-driving vehicle's overall goal---to drive safely to the destination. We typically train the perception systems to detect all objects in the sensor range, assigning each object an equal weight even if some objects are not important as they will never interact with the self-driving vehicle. For example, they could be far away or parked on the other side of the road as in Figure 1. As a result, a vast amount of computation and model capacity is wasted in recognizing very difficult instances that matter only for common metrics such as average precision (AP), but not so much for driving. This is in striking contrast with how humans drive: we focus our visual attention in areas that directly impact safe planning. Inspired by the use of visual attention in our brain, we aim to introduce attention to self-driving systems to efficiently and selectively process complex scenes.
+
+Numerous studies in the past have explored adding sparse attention in deep neural networks to improve computation efficiency in classification and object detection. In order to perform well on the metrics employed in common benchmarks, the attention mask in still needs to cover all actors in the scene, slowing the network when the scene has many vehicles.
+
+In this paper, our aim is to address these inconsistencies such that the amount of computation is optimized towards the end goal of motion planning. Specifically our contributions are as follows:
+
+We learn an attention mask directly towards the motion planning objective for safe self-driving.
+
+We use the attention mask to reweight object detection and motion forecasting losses in our joint end-to-end training, focusing the model capacity on objects that matter most. Different from manually prioritizing instances, here the weighting is entirely data-driven.
+
+Our attention-based model significantly reduced the collision rate and improved planning performance while at a much lower computation cost.
+
+Attention mask visualization improves interpretability of end-to-end deep learning models in self-driving.
+
+Figure 1: Left: a toy example. Right: our learned spatial attention in red with ego vehicle in blue and others in green. Not all actors impact our safe driving and so we should prioritize accordingly.
+
+## Related Work
+
+Attention mechanism in deep learning: Human and other primate visual perception systems feature visual attention to reduce the complexity of the scene and speed-up inference. Earlier studies in visual saliency aimed to predict human gaze with no particular task in mind. Attention mechanisms nowadays are built in as part of end-to-end models to optimize towards specific tasks. The attention modules are typically implemented as multiplicative gates to select features. This schema has shown to improve performance and interpretability on downstream tasks such as object recognition, instance segmentation, image captioning, question answering, as well as other natural language processing applications. The visualization of the end-to-end learned attention suggests that deep attention-based models have an intelligent understanding of the inputs by focusing on the most informative parts of the input.
+
+Sparse activation in neural networks: Sparse coding models use an overcomplete dictionary to achieve sparse activation in the feature space. In modern convolutional neural networks (CNNs), sparsity is typically brought by the widespread use of ReLU activation functions, but these are rather unstructured, and speed-up has only been shown on specially designed hardware. Structured spatial sparsity, on the other hand, can be made efficient by using a sparse convolution operator, which in turn allows the network to shift its focus on more difficult parts of the inputs. In self-driving, proposed a ranking function to prioritize computations that would have the most impact on motion planning. Weight pruning is another popular way to achieve sparsity in the parameter space, which is an orthogonal direction to our method.
+
+Attention and loss weighting in multi-task learning: Our end-to-end self-driving network is an instance of multi-task learning as all three tasks---perception, prediction and motion planning---are simultaneously solved by individual output branches with shared features. It is common to use a summation of all the loss functions, but sometimes there are conflicting objectives among the tasks. Prior literature in multi-task learning has studied dynamic weighting towards different loss components, by using training signals such as uncertainty, gradient norm, difficulty level, or entirely data-driven objectives. In, task and example weights are learned by optimizing the performance of the main task. The attention mechanism has also been used in multi-task learning: in, a network applies task-specific attention masks on shared features to encourage the outputs to be more selective. Similar to dynamic loss weighting models, we exploit the learned attention towards weighting instance detection losses. Instead of using multiple attentions, as was done in, we use one single attention mask to optimize our main task: driving.
+
+Safety-driven learnable motion planning: One of the primary motivations of introducing attention into an end-to-end motion planning network is to improve safety. Traditionally, safety for self-driving models was done in terms of formal model checking and validation. More recently, with the widely available driving data, imitation learning has been introduced in self-driving to learn from cautious human driving. Safety has also been considered in terms of explicitly learning a risk-sensitive measure from human demonstration. In our work, although safety is not explicitly encoded in our loss function, we have experimentally verified that the sparse attention models are significantly better at avoiding collisions.
+
+Figure 2: The full neural motion planner (NMP) with backbone network and header networks.
+
+## Perceive, Attend and Drive
+
+In this section, we present our framework for using learned, motion-planning aware attention. We first describe the end-to-end neural motion planner that serves as the starting point of our work, and then introduce our proposed attention module and attention-driven loss function, which enable us to focus the computation in areas that matter for the end task of driving.
+
+Figure 3: Our sparse attention neural motion planner (SA-NMP), which takes in LiDAR and HDMaps data, and outputs perception, prediction, and planning. Attention is generated from a U-Net and applied on the input branches of residual blocks. Our attention is learned towards the planning task, which is a direct model output.
+
+### III-A A review on Neural Motion Planner (NMP)
+
+Our proposed model extends upon the neural motion planner (NMP), which jointly solves the perception, prediction and planning problems for self-driving. In this section we briefly review NMP depicted in Figure 2, and refer the reader to for more details.
+
+Input and backbone: NMP voxelizes LiDAR point clouds to a birds-eye-view (BEV) feature map and fuses them with $M$ channels of rasterized HDMap features to produce an input representation of size ${({{ZT^{\prime}} + M})} \times H \times W$, where $Z,H,W$ are the height and spatial dimensions and $T^{\prime} = 10$ is the number of input LiDAR sweeps. The backbone consists of 5 blocks, with the first 4 producing multi-scale features that are concatenated and fed to the final block. Overall the backbone downsamples the spatial dimension by 4.
+
+Multi-task headers: Given the features computed by the backbone, $X \in {\mathbb{R}}^{128 \times \frac{H}{4} \times \frac{W}{4}}$, NMP uses two separate headers for perception & prediction, and motion planning. The perception & prediction header consists of separate branches for classification and regression. The classification branch outputs a score for each anchor box at each spatial location over the feature map $X$, while the regression branch outputs regression targets for each anchor box, including targets for localization offset, size, and heading angle. The planning header consists of convolution and deconvolution layers to produce a cost volume $C \in {\mathbb{R}}^{T \times H \times W}$ representing the cost for the self-driving vehicle to be at each location and time, with $T$ the fixed future planning horizon.
+
+Planning inference: At inference time, NMP samples $N$ trajectories that are physically realizable, and chooses the lowest cost trajectory for the ego-car:
+
+where the cost of a trajectory $\tau = {(x_{t},y_{t})}_{t = 1}^{T}$ is the sum of all waypoints in the cost volume:
+
+We sample trajectories using a mixture of Clothoid, circle, and straight curves. We refer the readers to for more details on the sampling procedure.
+
+### III-B Sparse Attention Neural Motion Planner (SA-NMP)
+
+In this section, we propose our sparse spatial attention module for self-driving, shown in Fig. 3, which learns to save computation while performing well on the end task of driving safely to the goal.
+
+Input and backbone: We exploit the same input representation as NMP and use the same perception, prediction, and planning headers. The NMP backbone is replaced with the state-of-the-art backbone network of PnPNet, which uses cross-scale blocks throughout to fuse BEV sensory input. Each cross-scale block consists of three parallel branches at different resolutions that downsample the feature map, perform bulk computations, and then upsample back to the backbone resolution, before finally fusing cross-scale features across all branches. There is an additional residual connection across each cross-scale block. The final output feature from the backbone consists of 128 channels at 4$\times$ downsampled resolution, which is forwarded to the planning and detection headers. In addition to the improved performance, PnPNet can be easily scaled for different computational budgets by varying the depth and width of the cross-scale blocks.
+
+Existing attention-driven approaches tackle only the perception task and use either a road mask obtained from map information or a vehicle mask produced by a different perception module. As a consequence, they waste computation on areas that will not affect the self-driving car. We instead propose a novel approach that is end-to-end trainable and performs computation selectively for planning a safe maneuver. As shown in Fig. 3, the learned attention mask then gates the backbone network, limiting computation to areas where attention is active. By using binary attention, we can leverage sparse convolution to improve the computational efficiency.
+
+Generating binary attention: Computational efficiency has been shown to be one of the most prominent advantages of using the attention mechanism. For soft attention masks the computation is still dense across the entire activation map, and therefore no computation savings can be achieved. SBNet showed that a sparse convolution operator can achieve significant speed-ups with a given discrete binary attention mask. Here, we would also like to exploit the computational benefit of sparse convolution by using discrete attention outputs.
+
+We utilize a network to predict a scalar score for each spatial location, and binarize the score to represent our sparse attention map. For efficiency and simplicity, we use a small U-Net with skip connections and two downsample/upsample stages. We would like to apply the generated attention back to the BEV features in the model backbone so as to sparsify the spatial information, allowing computation to be focused on the important regions only. We choose to do so in a residual manner to avoid deteriorating the features throughout the backbone. Let $x + {F{(x)}}$ denote the normal residual block. Our attention mask is multiplied with the input to the residual block as follows:
+
+where $\odot$ denotes elementwise multiplication. See Fig. 3 for an illustration of our architecture.
+
+Learning binary attention with Gumbel softmax: In order to learn the attention generator and backpropagate through the binary attention map, we make use of the Gumbel softmax technique since the step function is not differentiable, and using the standard sigmoid function suffers from a more severe bias-variance trade-off. Let $i,j$ denote spatial coordinates, and $z_{i,j}$ the scalar output from the attention U-Net. We first add the Gumbel noise on the logits as follows:
+
+where $g_{i,j} = {- {\log{({- {\log u}})}}}$, and $u$ is sampled from $\text{Uniform}{\lbrack 0,1\rbrack}$. At inference time, hard attention $A_{i,j}$ can be obtained by comparing the logits,
+
+During training, however, we would like to approximate the gradient by using the straight-through estimator. Hence, in the backward pass, the step function is replaced with a softmax function with a temperature constant $K$ (where $\overset{\sim}{A}$ is the underlying soft attention):
+
+### III-C Multi-Task Learning
+
+We train our sparse neural motion planner (including the attention) end-to-end with a multi-task learning objective that combines planning ($L_{\text{plan}}$) with perception & motion forecasting ($L_{\text{cls}}$, $L_{\text{reg}}$):
+
+where $L_{A}$ is an $\ell_{1}$ loss, defined in Equation 17, that controls the sparsity of the attention mask, and ${\parallel w\parallel}_{2}^{2}$ is the standard weight decay term. Following, we fix ${\lambda_{\text{plan}} = 0.001},{{\lambda_{\text{cls}} = 1.0},{\lambda_{\text{reg}} = 0.5}}$.
+
+Motion planning loss: The motion planning loss utilitizes the max-margin objective, where the ground-truth driving trajectory (performed by a human) should be of lower cost than other trajectories sampled by the model. Let $(x_{t},y_{t})$ be the groundtruth trajectory and let $c_{t}$ be the cost volume output by the model for timestamp $t$. We randomly sample $N$ trajectories serving as negative samples: ${\{ x_{t}^{(i)},y_{t}^{(i)}\}}_{i = 1}^{N}$, and penalize the maximum margin violation between groundtruth and negative samples:
+
+where $\Delta_{t}^{(i)}$ is the task loss capturing spatial differences, and traffic violations denoted by $v$. $v_{t}^{(i)}$ is non-zero when negative trajectory $i$ violates a traffic rule at time $t$:
+
+Perception & prediction (PnP) loss: This loss follows the standard classification and regression objectives for object detection. The classification part uses binary cross-entropy:
+
+where $y$ is the predicted classification score between 0 and 1, and $\hat{y}$ is the binary ground truth. For each detected instance, the model outputs a bounding box, and a pair of coordinates and angles for each future step. We reparameterize the shift of a bounding box $(x,y,w,h,\theta)$ from an anchor bounding box $(x_{a},y_{a},w_{a},h_{a},\theta_{a})$ in a 6-dimensional vector $\delta$:
+
+A regression loss is then applied for the trajectory of the instance up to time $T$. For each spatial coordinate $(i,j)$, we sum up the losses of all bounding boxes $b$ where the ground truth belongs to this location:
+
+with $\hat{\delta}$ the predicted shifts and $\delta$ the ground truth shifts.
+
+Auxiliary loss masking: Our overall objective is to achieve good performance in motion planning, so PnP is an auxiliary task. Since the majority of our computation happens within the attended area, intuitively the model should not be penalized as severely for mis-detecting objects not in the attended area. We, therefore, propose to use our spatial attention mask $A$ to re-weight the PnP losses as follows:
+
+where $\gamma_{1}$ weights attended instances, and $\gamma_{0}$ weights all instances. We fix $\gamma_{0} = 0.1$ and $\gamma_{1} = 0.9$.
+
+Attention sparsity loss: To encourage focused attention and high sparsity, we use an $\ell_{1}$ regularizer on the attention mask as follows. We control sparsity with $\lambda_{A}$ in Equation 9.
+
+Figure 4: Planning performance of our learned sparse attention model compared to other baselines at varying computation budgets (lower is better on both metrics). Left: Drive4D; Right: nuScenes. Note that all models except for NMP use the same SA-NMP backbone, which can be scaled by changing the depth and width, allowing the computation of Dense SA-NMP and SA-NMP+Learned Attention to be varied.
+
+## Experimental Evaluation
+
+We evaluated on a real-world driving dataset (Drive4D), training on over 1 million frames from 5,000 scenarios and validating on 5,000 frames from 500 scenarios, using both LiDAR and HD-maps. We also evaluated on nuScenes v1.0, a large-scale public dataset, with a training set of over 200,000 frames and a test set of 5,000 frames. Due to the inaccurate localization they provide, we omitted HDMaps and only used LiDAR.
+
+### IV-A Implementation Details and Metrics
+
+Training: To jointly train SA-NMP with attention, we use pretrained weights for the backbone and headers from training a SA-NMP without attention (dense) for two epochs. We train all our models with batch size 5 across 16 GPUs in parallel using the Adam optimizer. We use an initial learning rate of $1 \times 10^{- 4}$, and decay of 0.1 at 1.0 and 1.6 epoch(s), for a total of 2.0 epochs.
+
+Evaluation: To evaluate driving and safety performance, we focus on the following planning metrics which are accumulated over all 6 future timesteps (3s): Planning L2 is the L2 distance between waypoints of the predicted future ego trajectory and those of the ground-truth trajectory (characterized by human driving). Collision rate is the frequency of collisions between the planned ego trajectory and the ground truth trajectories of other actors in the scene. Lane violation rate measures the number of lane boundary violations by the planned ego trajectory. We do not evaluate this on nuScenes due to the inaccurate localization they provide,
+
+Baselines: We compare our learned attention to baselines that are end-to-end trained using static attention masks obtained from priors. Road Mask covers the entire road as provided from the map data. Vehicle Mask strictly covers all detections in the input space, obtained from a PSPNet trained for segmentation. Proximity Mask is a circular radius around the ego vehicle. Dense is not using sparse attention.
+
+SA-NMP+Vehicle Mask
+
+SA-NMP+Proximity Mask
+
+SA-NMP+Road Mask
+
+SA-NMP+Learned Attn (Ours)
+
+SA-NMP+Vehicle Mask
+
+SA-NMP+Proximity Mask
+
+SA-NMP+Learned Attn (Ours)
+
+TABLE I: Performance and efficiency of our learned attention model vs. dense and simple attention baselines.
+
+### IV-B Results
+
+Quantitative results: With a sparse attention mask learned towards motion planning, we can leverage the sparsity in the network backbone to greatly reduce computational costs, while not only maintaining but improving model performance. In our experimental results, we use theoretical FLOPs to show the efficiency of our network, but this also translates to realtime gains as SBNet has been shown to leverage sparsity to achieve real speed-ups. The increase in efficiency from leveraging sparsity is shown in Table I, where our learned attention model uses $\sim {80\%}$ fewer FLOPs than Dense SA-NMP thanks to its 95% sparse attention mask. Also, even with an identical SA-NMP backbone as the baselines (except NMP), our model with learned attention performs better in all motion planning metrics, which indicates that focused backbone computation is greatly advantageous to the overall goal of safe planning. NMP+Road performs slightly better in Lane Violation due to the road mask attention focusing on all road/lane markings. However, this baseline uses more than double the FLOPs since its attention mask looks at the entire road surface at only 68.9% sparsity. From Fig. 4, our learned attention model clearly outperforms other baselines in collision rate and planning L2, across all computational budgets, by varying the depth and width of the backbone network.
+
+Figure 5: Visualization of the attention masks and planned trajectory comparing dense, road mask, vehicle mask, proximity mask, and our learned attention. Col A: baselines turn too fast and collide with vehicle ahead. B: baselines collide with the future position of a left-turning vehicle. C: a tight left-turn where all models collide with or nearly miss parked vehicles. D: a rear-end collision for all models.
+
+Qualitative results: In Figure 5, we show examples of our learned attention compared to baselines. As expected, our model focuses on the road and vehicles directly ahead; however, it also diverts some amount of attention to distant vehicles and road markings. This ability to dynamically distribute attention is likely why our model outperforms the baselines, which attend either indiscriminately (Dense and Road) or too selectively (Vehicle and Proximity). From the visualizations, we can better understand our model's improved collision avoidance. Since the attention is dynamic, our model is more effective at anticipating other vehicles resulting in more cautious planning. This is illustrated by Columns A, B in Fig. 5, where our planned trajectory avoids future collisions with others. The failure cases mostly arise from rear-end collisions, one of which is Column D where all models are hit by the trailing vehicle. Note that this arises as we evaluate in open-loop. Our model focuses on surrounding vehicles and not enough on the open road to its right, which would give the option of making a right turn.
+
+Sparsity of learned attention: Table II shows the result of varying $\lambda_{A}$ from Eq. 9, which weights the $\ell_{1}$ regularization term from Eq. 17, with other settings held constant. We found that overall motion planning performance improves with increased sparsity, or essentially more focused computation, and peaks at 95% sparsity.
+
+TABLE II: Varying learned attention sparsity with λA.
+
+TABLE III: Influence of loss reweighting ratio γ1.
+
+Perception and prediction (PnP) loss reweighting: Table III shows results with varying $\gamma_{1}$ and $\gamma_{0} = {1 - \gamma_{1}}$ from Eq. 16 which control the weighting of the PnP loss computed on actors inside vs. outside the attention mask. All other variables are fixed, including sparsity at 95%. As $\gamma_{1}$ increases, the learned attention is less restricted by detection performance on all actors, and is able to focus on only the most important actors and parts of the road, distributing attention towards improving motion planning performance. Note that $\gamma_{1} = 1.0$ is an extreme case where PnP loss is computed only on actors within attention mask: the model learns to cheat by generating attention that avoids all actors resulting in no PnP learning signal, hence the poor performance. For our main experiments, we fix $\gamma_{1} = 0.9$.
+
+Detection performance: Since the overall goal is improved motion-planning with lighter computation, focusing on accurately detecting all actors indiscriminately would contradict the purpose of our learned sparse attention. We should not care as much about far away or irrelevant actors that have no effect on safe planning, and should instead focus our computation on important input regions. Table IV compares detection performance between our learned attention and the baseline dense model evaluated on different subsets of actors in the scene. Full includes all actors in the input, while Attended Region is the subset of actors that lie within the attention mask. For evaluating the dense model, we use the attention mask generated by our learned model to get the Attended Region, ensuring that both models are evaluated on the same actor subsets in both settings. The results show that our 95% sparse, learned attention model is better than the dense model at detecting actors within the attention mask, meaning that its performance is better focused on actors that it believes are important. This may explain the overall improved planning performance of our attention-driven models as demonstrated in the main quantitative and qualitative results.
+
+mAP on Attended Region
+
+TABLE IV: Detection performance on different input regions.
+
+## Conclusion
+
+In this work, we propose an end-to-end learned, sparse visual attention mechanism for self-driving, where the sparse attention mask gates the feature backbone computation. As opposed to existing methods that focus on using attention for perception only, our attention masks are directly optimized for motion planning, which enables our network to output better planned trajectories while achieving more efficiency with higher sparsity. In future work, the attention module can be extended to have recurrent feedbacks from the output layers to better leverage temporal information.

@@ -1,0 +1,156 @@
+## Introduction
+
+This paper addresses the classic stochastic optimization problem, in which we are given a function $F:{{\mathbb{R}}^{d}\rightarrow{\mathbb{R}}}$, and wish to find ${\mathbf{x}} \in {\mathbb{R}}^{d}$ such that $F{({\mathbf{x}})}$ is as small as possible. Unfortunately, our access to $F$ is limited to a stochastic function oracle: we can obtain sample functions $f{( \cdot,\xi)}$ where $\xi$ represents some sample variable (e.g. a minibatch index) such that ${{\mathbb{E}}{\lbrack{f{( \cdot,\xi)}}\rbrack}} = {F{( \cdot )}}$. Stochastic optimization problems are found throughout machine learning. For example, in supervised learning, $\mathbf{x}$ represents the parameters of a model (say the weights of a neural network), $\xi$ represents an example, $f{({\mathbf{x}},\xi)}$ represents the loss on an example, and $F$ represents the training loss of the model.
+
+We do not assume convexity, so in general the problem of finding a true minimum of $F$ may be NP-hard. Hence, we relax the problem to finding a critical point of $F$ -- that is a point such that ${{\nabla F}{({\mathbf{x}})}} = 0$. Also, we assume access only to stochastic gradients evaluated on arbitrary points, rather than Hessians or other information. In this setting, the standard algorithm is stochastic gradient descent (SGD). SGD produces a sequence of iterates ${\mathbf{x}}_{1},\ldots,{\mathbf{x}}_{T}$ using the recursion
+
+where ${\mathbf{g}}_{t} = {{\nabla f}{({\mathbf{x}}_{t},\xi_{t})}}$, ${f{( \cdot,\xi_{1})}},\ldots,{f{( \cdot,\xi_{T})}}$ are i.i.d. samples from a distribution $D$, and ${\eta_{1},{\ldots\eta_{T}}} \in {\mathbb{R}}$ are a sequence of learning rates that must be carefully tuned to ensure good performance. Assuming the $\eta_{t}$ are selected properly, SGD guarantees that a randomly selected iterate ${\mathbf{x}}_{t}$ satisfies ${{\mathbb{E}}{\lbrack{\|{{\nabla F}{({\mathbf{x}}_{t})}}\|}\rbrack}} \leq {O{({1/T^{1/4}})}}$.
+
+Recently, *variance reduction* has emerged as an improved technique for finding critical points in non-convex optimization problems. Stochastic variance-reduced gradient (SVRG) algorithms also produce iterates $x_{1},\ldots,x_{T}$ according to the update formula, but now ${\mathbf{g}}_{t}$ is a *variance reduced* estimate of ${\nabla F}{({\mathbf{x}}_{t})}$. Over the last few years, SVRG algorithms have improved the convergence rate to critical points of non-convex SGD from $O{({1/T^{1/4}})}$ to $O{({1/T^{3/10}})}$ to $O{({1/T^{1/3}})}$. Despite this improvement, SVRG has not seen as much success in practice in non-convex machine learning problems. Many reasons may contribute to this phenomenon, but two potential issues we address here are SVRG's use of *non-adaptive learning rates* and reliance on *giant batch sizes* to construct variance reduced gradients through the use of low-noise gradients calculated at a "checkpoint". In particular, for non-convex losses SVRG analyses typically involve carefully selecting learning rates, the number of samples to construct the gradient on the checkpoint points, and the frequency of update of the checkpoint points. The optimal settings balance various unknown problem parameters exactly in order to obtain improved performance, making it especially important, and especially difficult, to tune them.
+
+In this paper, we address both of these issues. We present a new algorithm called STOchastic Recursive Momentum (Storm) that achieves variance reduction through the use of a variant of the momentum term, similar to the popular RMSProp or Adam momentum heuristics. Hence, our algorithm does not require a gigantic batch to compute checkpoint gradients -- in fact, our algorithm does not require any batches at all because it *never needs to compute a checkpoint gradient*. Storm achieves the *optimal convergence rate* of $O{({1/T^{1/3}})}$, and it uses an *adaptive learning rate* schedule that will automatically adjust to the variance values of ${\nabla f}{({\mathbf{x}}_{t},\xi_{t})}$. Overall, we consider our algorithm a significant qualitative departure from the usual paradigm for variance reduction, and we hope our analysis may provide insight into the value of momentum in non-convex optimization.
+
+The rest of the paper is organized as follows. The next section discusses the related work on variance reduction and adaptive learning rates in non-convex SGD. Section 3 formally introduces our notation and assumptions. We present our basic update rule and its connection to SGD with momentum in Section 4, and our algorithm in Section 5. Finally, we present some empirical results in Section 6 and concludes with a discussion in Section 7.
+
+## Related Work
+
+Variance-reduction methods were proposed independently by three groups at the same conference: Johnson and Zhang, Zhang et al., Mahdavi et al., and Wang et al.. The first application of variance-reduction method to non-convex SGD is due to Allen-Zhu and Hazan. Using variance reduction methods, Fang et al., Zhou et al. have obtained much better convergence rates for critical points in non-convex SGD. These methods are very different from our approach because they require the calculation of gradients at checkpoints. In fact, in order to compute the variance reduced gradient estimates ${\mathbf{g}}_{t}$, the algorithm must periodically stop producing iterates ${\mathbf{x}}_{t}$ and instead generate a very large "mega-batch" of samples $\xi_{1},\ldots,\xi_{N}$ which is used to compute a checkpoint gradient $\frac{1}{N}{\sum_{i = 1}^{N}{{\nabla f}{({\mathbf{v}},\xi_{i})}}}$ for an appropriate checkpoint point $\mathbf{v}$. Depending on the algorithm, $N$ may be as large as $O{(T)}$, and typically no smaller than $O{(T^{2/3})}$. The only exceptions we are aware of are SARAH and iSARAH. However, their guarantees do not improve over the ones of plain SGD, and they still require at least one checkpoint gradient. Independently and simultaneously with this work, have proposed a new algorithm that does improve over SGD to match our same convergence rate, although it does still require one checkpoint gradient. Interestingly, their update formula is very similar to ours, although the analysis is rather different. We are not aware of prior works for non-convex optimization with reduced variance methods that completely avoid using giant batches.
+
+On the other hand, *adaptive learning-rate* schemes, that choose the values $\eta_{t}$ in some data-dependent way so as to reduce the need for tuning the values of $\eta_{t}$ manually, have been introduced by Duchi et al. and popularized by the heuristic methods like RMSProp and Adam. In the non-convex setting, adaptive learning rates can be shown to improve the convergence rate of SGD to $O{({{1/\sqrt{T}} + {({\sigma^{2}/T})}^{1/4}})}$, where $\sigma^{2}$ is a bound on the variance of ${\nabla f}{({\mathbf{x}}_{t})}$. Hence, these adaptive algorithms obtain much better convergence guarantees when the problem is "easy", and have become extremely popular in practice. In contrast, the only variance-reduced algorithm we are aware of that uses adaptive learning rates is, but their techniques apply only to convex losses.
+
+## Notation and Assumptions
+
+In the following, we will write vectors with bold letters and we will denote the inner product between vectors $\mathbf{a}$ and $\mathbf{b}$ by ${\mathbf{a}} \cdot {\mathbf{b}}$.
+
+Throughout the paper we will make the following assumptions. We assume access to a stream of independent random variables ${\xi_{1},\ldots,\xi_{T}} \in \Xi$ and a function $f$ such that for all $t$ and for all $x$, ${{\mathbb{E}}{\lbrack\left. {f{({\mathbf{x}},\xi_{t})}} \middle| {\mathbf{x}} \right.\rbrack}} = {F{({\mathbf{x}})}}$. Note that we access two gradients on the same $\xi_{t}$ on two different points in each update, like in standard variance-reduced methods. In practice, $\xi_{t}$ may denote an i.i.d. training example, or an index into a training set while $f{({\mathbf{x}},\xi_{t})}$ indicates the loss on the training example using the model parameter $\mathbf{x}$. We assume there is some $\sigma^{2}$ that upper bounds the noise on gradients: ${{\mathbb{E}}{\lbrack{\|{{{\nabla f}{({\mathbf{x}},\xi_{t})}} - {{\nabla F}{({\mathbf{x}})}}}\|}^{2}\rbrack}} \leq \sigma^{2}$.
+
+We define $F^{\star} = {\inf_{\mathbf{x}}{F{({\mathbf{x}})}}}$ and we will assume that $F^{\star} > {- \infty}$. We will also need some assumptions on the functions $f{({\mathbf{x}},\xi_{t})}$. Define a differentiable function $f:{{\mathbb{R}}^{d}\rightarrow{\mathbb{R}}}$ to be $G$-Lipschitz iff ${\|{{\nabla f}{({\mathbf{x}})}}\|} \leq G$ for all $x$, and $f$ to be $L$-smooth iff ${\|{{{\nabla f}{({\mathbf{x}})}} - {{\nabla f}{({\mathbf{y}})}}}\|} \leq {L{\|{{\mathbf{x}} - {\mathbf{y}}}\|}}$ for all $x$ and $y$. We assume that $f{({\mathbf{x}},\xi_{t})}$ is differentiable, and $L$-smooth as a function of $\mathbf{x}$ with probability 1. We will also assume that $f{({\mathbf{x}},\xi_{t})}$ is $G$-Lipschitz for our adaptive analysis. We show in appendix B that this assumption can be lifted at the expense of adaptivity to $\sigma$.
+
+## Momentum and Variance Reduction
+
+Before describing our algorithm in details, we briefly explore the connection between SGD with momentum and variance reduction.
+
+The stochastic gradient descent with momentum algorithm is typically implemented as
+
+where $a$ is small, i.e. $a = 0.1$. In words, instead of using the current gradient ${\nabla F}{({\mathbf{x}}_{t})}$ in the update of ${\mathbf{x}}_{t}$, we use an exponential average of the past observed gradients.
+
+While SGD with momentum and its variants have been successfully used in many machine learning applications, it is well known that the presence of noise in the stochastic gradients can nullify the theoretical gain of the momentum term \e.g.. As a result, it is unclear how and why using momentum can be better than plain SGD. Although recent works have proved that a variant of SGD with momentum improves the non-dominant terms in the convergence rate on convex stochastic least square problems, it is still unclear if the actual convergence rate can be improved.
+
+Here, we take a different route. Instead of showing that momentum in SGD works in the same way as in the noiseless case, i.e. giving accelerated rates, we show that *a variant of momentum can provably reduce the variance of the gradients*. In its simplest form, the variant we propose is:
+
+The only difference is the that we add the term ${({1 - a})}{({{{\nabla f}{({\mathbf{x}}_{t},\xi_{t})}} - {{\nabla f}{({\mathbf{x}}_{t - 1},\xi_{t})}}})}$ to the update. As in standard variance-reduced methods, we use two gradients in each step. However, we do not need to use the gradient calculated at any checkpoint points. Note that if ${\mathbf{x}}_{t} \approx {\mathbf{x}}_{t - 1}$, then our update becomes approximately the momentum one. These two terms will be similar as long as the algorithm is actually converging to some point, and so we can expect the algorithm to behave exactly like the classic momentum SGD towards the end of the optimization process.
+
+To understand why the above updates delivers a variance reduction, consider the "error in ${\mathbf{d}}_{t}$" which we denote as $\mathbf{\epsilon}_{t}$:
+
+This term measures the error we incur by using ${\mathbf{d}}_{t}$ as update direction instead of the correct but unknown direction, ${\nabla F}{({\mathbf{x}}_{t})}$. The equivalent term in SGD would be ${{\mathbb{E}}{\lbrack{\|{{{\nabla f}{({\mathbf{x}}_{t},\xi_{t})}} - {{\nabla F}{({\mathbf{x}}_{t})}}}\|}^{2}\rbrack}} \leq \sigma^{2}$. So, if ${\mathbb{E}}{\lbrack{\|\mathbf{\epsilon}_{t}\|}^{2}\rbrack}$ decreases over time, we have realized a variance reduction effect. Our technical result that we use to show this decrease is provided in Lemma 2, but let us take a moment here to appreciate why this should be expected intuitively. Considering the update written in, we can obtain a recursive expression for $\mathbf{\epsilon}_{t}$ by subtracting ${\nabla F}{({\mathbf{x}}_{t})}$ from both sides:
+
+Now, notice that there is good reason to expect the second and third terms of the RHS above to be small: we can control $a{({{{\nabla f}{({\mathbf{x}}_{t},\xi_{t})}} - {{\nabla F}{({\mathbf{x}}_{t})}}})}$ simply by choosing small enough values $a$, and from smoothness we expect $(\nabla f{({\mathbf{x}}_{t},\xi_{t})} - \nabla f{({\mathbf{x}}_{t - 1},\xi_{t})} - {(\nabla F{({\mathbf{x}}_{t})} - \nabla F{({\mathbf{x}}_{t - 1})})}$ to be of the order of ${O{({\|{{\mathbf{x}}_{t} - {\mathbf{x}}_{t - 1}}\|})}} = {O{({\eta{\mathbf{d}}_{t - 1}})}}$. Therefore, by choosing small enough $\eta$ and $a$, we obtain ${\|\mathbf{\epsilon}_{t}\|} = {{{({1 - a})}{\|\mathbf{\epsilon}_{t - 1}\|}} + Z}$ where $Z$ is some small value. Thus, intuitively $\|\mathbf{\epsilon}_{t}\|$ will decrease until it reaches $Z/a$. This highlights a trade-off in setting $\eta$ and $a$ in order to decrease the numerator of $Z/a$ while keeping the denominator sufficiently large. Our central challenge is showing that it is possible to achieve a favorable trade-off in which $Z/a$ is very small, resulting in small error $\mathbf{\epsilon}_{t}$.
+
+## Storm: STOchastic Recursive Momentum
+
+1: Input: Parameters k, w, c, initial point x1
+5: $\eta_{0}\leftarrow\frac{k}{w^{1/3}}$
+7: $\eta_{t}\leftarrow\frac{k}{{({w + {\sum_{i = 1}^{t}G_{t}^{2}}})}^{1/3}}$
+14: Choose $\hat{\mathbf{x}}$ uniformly at random from x1, …, xT. (In practice, set $\hat{\mathbf{x}} = {\mathbf{x}}_{T}$).
+15: return $\hat{\mathbf{x}}$
+Algorithm 1 Storm: STOchastic Recursive Momentum
+
+We now describe our stochastic optimization algorithm, which we call STOchastic Recursive Momentum (Storm). The pseudocode is in Algorithm 1. As described in the previous section, its basic update is of the form of and. However, in order to achieve adaptivity to the noise in the gradients, both the stepsize and the momentum term will depend on the past gradients, à la AdaGrad.
+
+The convergence guarantee of Storm is presented in Theorem 1 below.
+
+### Theorem 1
+
+Under the assumptions in Section 3, for any $b > 0$, we write $k = \frac{bG^{\frac{2}{3}}}{L}$. Set $c = {{28L^{2}} + {G^{2}/{({7Lk^{3}})}}} = {L^{2}{({28 + {1/{({7b^{3}})}}})}}$ and $w = {\max\left( {({4Lk})}^{3},{2G^{2}},\left( \frac{ck}{4L} \right)^{3} \right)} = {G^{2}{\max\left( {({4b})}^{3},2,{{({{28b} + \frac{1}{7b^{2}}})}^{3}/64} \right)}}$. Then, Storm satisfies
+
+In words, Theorem 1 guarantees that Storm will make the norm of the gradients converge to 0 at a rate of $O{(\frac{\ln T}{\sqrt{T}})}$ if there is no noise, and in expectation at a rate of $\frac{2\sigma^{1/3}}{T^{1/3}}$ in the stochastic case. We remark that we achieve both rates automatically, without the need to know the noise level nor the need to tune stepsizes. Note that the rate when $\sigma \neq 0$ matches the optimal rate, which was previously only obtained by SVRG-based algorithms that require a "mega-batch".
+
+The dependence on $G$ in this bound deserves some discussion - at first blush it appears that if $G\rightarrow 0$, the bound will go to infinity because the denominator in $M$ goes to zero. Fortunately, this is not so: the resolution is to observe that ${{F{({\mathbf{x}}_{1})}} - F^{\star}} = {O{(G)}}$ and $\sigma = {O{(G)}}$, so that the numerators of $M$ actually go to zero at least as fast as the denominator. The dependence on $L$ may be similarly non-intuitive: as $L\rightarrow 0$, $M\rightarrow\infty$. In this case this is actually to be expected: if $L = 0$, then there are no critical points (because the gradients are all the same!) and so we cannot actually find one. In general, $M$ should be regarded as an $O{({\log{(T)}})}$ term where the constant indicates some inherent hardness level in the problem.
+
+Finally, note that here we assumed that each $f{(x,\xi)}$ is $G$-Lipschitz in $x$. Prior variance reduction results (e.g. ) do not make use of this assumption. However, we we show in Appendix B that simply replacing all instances of $G$ or $G_{t}$ in the parameters of Storm with an oracle-tuned value of $\sigma$ allows us to dispense with this assumption while still avoiding all checkpoint gradients.
+
+Also note that, as in similar work on stochastic minimization of non-convex functions, Theorem 1 only bounds the gradient of a randomly selected iterate. However, in practical implementations we expect the last iterate to perform equally well.
+
+Our analysis formalizes the intuition developed in the previous section through a Lyapunov potential function. Our Lyapunov function is somewhat non-standard: for smooth non-convex functions, the Lyapunov function is typically of the form $\Phi_{t} = {F{({\mathbf{x}}_{t})}}$, but we propose to use the function $\Phi_{t} = {{F{({\mathbf{x}}_{t})}} + {z_{t}{\|\mathbf{\epsilon}_{t}\|}^{2}}}$ for a time-varying $z_{t} \propto \eta_{t - 1}^{- 1}$, where $\mathbf{\epsilon}_{t}$ is the error in the update introduced in the previous section. The use of time-varying $z_{t}$ appears to be critical for us to avoid using any checkpoints: with constant $z_{t}$ it seems that one always needs at least one checkpoint gradient. Potential functions of this form have been used to analyze momentum algorithms in order to prove asymptotic guarantees, see, e.g., Ruszczynski and Syski. However, as far as we know, this use of a potential is somewhat different than most variance reduction analyses, and so may provide avenues for further development. We now proceed to the proof of Theorem 1.
+
+### Proof of Theorem 1
+
+First, we consider a generic SGD-style analysis. Most SGD analyses assume that the gradient estimates used by the algorithm are unbiased of ${\nabla F}{({\mathbf{x}}_{t})}$, but unfortunately ${\mathbf{d}}_{t}$ biased. As a result, we need the following slightly different analysis. For lack of space, the proof of this Lemma and the next one are in the Appendix.
+
+### Lemma 1
+
+Suppose $\eta_{t} \leq \frac{1}{4L}$ for all $t$. Then
+
+The following technical observation is key to our analysis of Storm: it provides a recurrence that enables us to bound the variance of the estimates ${\mathbf{d}}_{t}$.
+
+### Lemma 2
+
+With the notation in Algorithm 1, we have
+
+Lemma 2 exhibits a somewhat involved algebraic identity, so let us try to build some intuition for what it means and how it can help us. First, multiply both sides by $\eta_{t - 1}$. Technically the expectations make this a forbidden operation, but we ignore this detail for now. Next, observe that $\sum_{t = 1}^{T}G_{t}^{2}$ is roughly $\Theta{(T)}$ (since the the variance prevents ${\| g_{t}\|}^{2}$ from going to zero even when $\|{{\nabla F}{({\mathbf{x}}_{t})}}\|$ does). Therefore $\eta_{t}$ is roughly $O{({1/t^{1/3}})}$, and $a_{t}$ is roughly $O{({1/t^{2/3}})}$. Discarding all constants, and observing that ${({1 - a_{t}})}^{2} \leq {({1 - a_{t}})}$, the above Lemma is then saying that
+
+We can use this recurrence to compute a kind of "equilibrium value" for ${\mathbb{E}}{\lbrack{\|\mathbf{\epsilon}_{t}\|}^{2}\rbrack}$: set ${{\mathbb{E}}{\lbrack{\|\mathbf{\epsilon}_{t}\|}^{2}\rbrack}} = {{\mathbb{E}}{\lbrack{\|\mathbf{\epsilon}_{t - 1}\|}^{2}\rbrack}}$ and solve to obtain ${\|\mathbf{\epsilon}_{t}\|}^{2}$ is $O{({{1/t^{2/3}} + {\|{{\nabla F}{({\mathbf{x}}_{t})}}\|}^{2}})}$. This in turn suggests that, whenever ${\|{{\nabla F}{({\mathbf{x}}_{t})}}\|}^{2}$ is greater than $1/t^{2/3}$, the gradient estimate ${\mathbf{d}}_{t} = {{{\nabla F}{({\mathbf{x}}_{t})}} + \mathbf{\epsilon}_{t}}$ will be a very good approximation of ${\nabla F}{({\mathbf{x}}_{t})}$ so that gradient descent should make very fast progress. Therefore, we expect the "equilibrium value" for ${\|{{\nabla F}{({\mathbf{x}}_{t})}}\|}^{2}$ to be $O{({1/T^{2/3}})}$, since this is the point at which the estimate ${\mathbf{d}}_{t}$ becomes dominated by the error.
+
+We formalize this intuition using a Lyapunov function of the form $\Phi_{t} = {{F{({\mathbf{x}}_{t})}} + {z_{t}{\|\mathbf{\epsilon}_{t}\|}^{2}}}$ in the proof of Theorem 1 below.
+
+### Proof of Theorem 1
+
+Consider the potential $\Phi_{t} = {{F{({\mathbf{x}}_{t})}} + {\frac{1}{32L^{2}\eta_{t - 1}}{\|\mathbf{\epsilon}_{t}\|}^{2}}}$. We will upper bound $\Phi_{t + 1} - \Phi_{t}$ for each $t$, which will allow us to bound $\Phi_{T}$ in terms of $\Phi_{1}$ by summing over $t$. First, observe that since $w \geq {({4Lk})}^{3}$, we have $\eta_{t} \leq \frac{1}{4L}$. Further, since $a_{t + 1} = {c\eta_{t}^{2}}$, we have $a_{t + 1} \leq \frac{ck}{4Lw^{1/3}} \leq 1$ for all $t$. Then, we first consider ${\eta_{t}^{- 1}{\|\mathbf{\epsilon}_{t + 1}\|}^{2}} - {\eta_{t - 1}^{- 1}{\|\mathbf{\epsilon}_{t}\|}^{2}}$. Using Lemma 2, we obtain
+
+Let us focus on the terms of this expression individually. For the first term, $A_{t}$, observe that $w \geq {2G^{2}} \geq {G^{2} + G_{t + 1}^{2}}$ to obtain:
+
+where in the second to last inequality we used Lemma 4 in the Appendix.
+
+For the second term $B_{t}$, we have
+
+Let us focus on $\frac{1}{\eta_{t}} - \frac{1}{\eta_{t - 1}}$ for a minute. Using the concavity of $x^{1/3}$, we have ${({x + y})}^{1/3} \leq {x^{1/3} + {{yx^{- {2/3}}}/3}}$. Therefore:
+
+where we have used that that $w \geq {({4Lk})}^{3}$ to have $\eta_{t} \leq \frac{1}{4L}$.
+
+Further, since $c = {{28L^{2}} + {G^{2}/{({7Lk^{3}})}}}$, we have
+
+Thus, we obtain $B_{t} \leq {- {24L^{2}\eta_{t}{\|\mathbf{\epsilon}_{t}\|}^{2}}}$. Putting all this together yields:
+
+Now, we are ready to analyze the potential $\Phi_{t}$. Since $\eta_{t} \leq \frac{1}{4L}$, we can use Lemma 1 to obtain
+
+Summing over $t$ and using, we obtain
+
+Reordering the terms, we have
+
+where the last inequality is given by the definition of ${\mathbf{d}}_{1}$ and $\eta_{0}$ in the algorithm.
+
+Now, we relate ${\mathbb{E}}\left\lbrack {\sum_{t = 1}^{T}{\eta_{t}{\|{{\nabla F}{({\mathbf{x}}_{t})}}\|}^{2}}} \right\rbrack$ to ${\mathbb{E}}\left\lbrack {\sum_{t = 1}^{T}{\|{{\nabla F}{({\mathbf{x}}_{t})}}\|}^{2}} \right\rbrack$. First, since $\eta_{t}$ is decreasing,
+
+Now, from Cauchy-Schwarz inequality, for any random variables $A$ and $B$ we have ${{\mathbb{E}}{\lbrack A^{2}\rbrack}{\mathbb{E}}{\lbrack B^{2}\rbrack}} \geq {{\mathbb{E}}{\lbrack{AB}\rbrack}^{2}}$. Hence, setting $A = \sqrt{\eta_{T}{\sum_{t = 1}^{T - 1}{\|{{\nabla F}{({\mathbf{x}}_{t})}}\|}^{2}}}$ and $B = \sqrt{1/\eta_{T}}$, we obtain
+
+Therefore, if we set $M = {\frac{1}{k}\left\lbrack {{8{({{F{({\mathbf{x}}_{1})}} - F^{\star}})}} + \frac{w^{1/3}\sigma^{2}}{4L^{2}k} + {\frac{k^{3}c^{2}}{2L^{2}}{\ln{({T + 2})}}}} \right\rbrack}$, to get
+
+Define $\zeta_{t} = {{{\nabla f}{({\mathbf{x}}_{t},\xi_{t})}} - {{\nabla F}{({\mathbf{x}}_{t})}}}$, so that ${{\mathbb{E}}{\lbrack{\|\zeta_{t}\|}^{2}\rbrack}} \leq \sigma^{2}$. Then, we have $G_{t}^{2} = {\|{{{\nabla F}{({\mathbf{x}}_{t})}} + \zeta_{t}}\|}^{2} \leq {{2{\|{{\nabla F}{({\mathbf{x}}_{t})}}\|}^{2}} + {2{\|\zeta_{t}\|}^{2}}}$. Plugging this in and using ${({a + b})}^{1/3} \leq {a^{1/3} + b^{1/3}}$ we obtain:
+
+where we have used the concavity of $x\mapsto x^{a}$ for all $a \leq 1$ to move expectations inside the exponents. Now, define $X = \sqrt{\sum_{t = 1}^{T}{\|{{\nabla F}{({\mathbf{x}}_{t})}}\|}^{2}}$. Then the above can be rewritten as:
+
+Note that this implies that either ${({{\mathbb{E}}{\lbrack X\rbrack}})}^{2} \leq {2M{({w + {T\sigma^{2}}})}^{1/3}}$, or ${({{\mathbb{E}}{\lbrack X\rbrack}})}^{2} \leq {{2 \cdot 2^{1/3}}M{({{\mathbb{E}}{\lbrack X\rbrack}})}^{2/3}}$. Solving for ${\mathbb{E}}{\lbrack X\rbrack}$ in these two cases, we obtain
+
+Finally, observe that by Cauchy-Schwarz we have ${\sum_{t = 1}^{T}{{\|{{\nabla F}{({\mathbf{x}}_{t})}}\|}/T}} \leq {X/\sqrt{T}}$ so that
+
+where we used ${({a + b})}^{1/3} \leq {a^{1/3} + b^{1/3}}$ in the last inequality. ∎
+
+## Empirical Validation
+
+(a) Train Loss vs Iterations
+
+(b) Train Accuracy vs Iterations
+
+(c) Test Accuracy vs Iterations
+
+Figure 1: Experiments on CIFAR-10 with ResNet-32 Network.
+
+In order to confirm that our advances do indeed yield an algorithm that performs well and requires little tuning, we implemented Storm in TensorFlow and tested its performance on the CIFAR-10 image recognition benchmark using a ResNet model, as implemented by the Tensor2Tensor package ^11^1[https://github.com/google-research/google-research/tree/master/storm_optimizer](https://github.com/google-research/google-research/tree/master/storm_optimizer). We compare Storm to AdaGrad and Adam, which are both very popular and successful optimization algorithms. The learning rates for AdaGrad and Adam were swept over a logarithmically spaced grid. For Storm, we set $w = k = 0.1$ as a default^22^2We picked these defaults by tuning over a logarithmic grid on the much-simpler MNIST dataset. $w$ and $k$ were not tuned on. and swept $c$ over a logarithmically spaced grid, so that all algorithms involved only one parameter to tune. No regularization was employed. We record train loss (cross-entropy), and accuracy on both the train and test sets (see Figure 1).
+
+These results show that, while Storm is only marginally better than AdaGrad on test accuracy, on both training loss and accuracy Storm appears to be somewhat faster in terms of number of iterations. We note that the convergence proof we provide actually only applies to the training loss (since we are making multiple passes over the dataset). We leave for the future whether appropriate regularization can trade-off Storm's better training loss performance to obtain better test performance.
+
+## Conclusion
+
+We have introduced a new variance-reduction-based algorithm, Storm, that finds critical points in stochastic, smooth, non-convex problems. Our algorithm improves upon prior algorithms by virtue of removing the need for checkpoint gradients, and incorporating adaptive learning rates. These improvements mean that Storm is substantially easier to tune: it does not require choosing the size of the checkpoints, nor how often to compute the checkpoints (because there are no checkpoints), and by using adaptive learning rates the algorithm enjoys the same robustness to learning rate tuning as popular algorithms like AdaGrad or Adam. Storm obtains the optimal convergence guarantee, adapting to the level of noise in the problem without knowledge of this parameter. We verified that on CIFAR-10 with a ResNet architecture, Storm indeed seems to be optimizing the objective in fewer iterations than baseline algorithms.
+
+Additionally, we point out that Storm's update formula is strikingly similar to the standard SGD with momentum heuristic employed in practice. To our knowledge, no theoretical result actually establishes an advantage of adding momentum to SGD in stochastic problems, creating an intriguing mystery. While our algorithm is not precisely the same as the SGD with momentum, we feel that it provides strong intuitive evidence that momentum is performing some kind of variance reduction. We therefore hope that some of the analysis techniques used in this paper may provide a path towards explaining the advantages of momentum.

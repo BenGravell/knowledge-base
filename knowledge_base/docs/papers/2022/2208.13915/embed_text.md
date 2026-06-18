@@ -1,0 +1,205 @@
+## Introduction
+
+Bilinear systems constitute an important class of nonlinear systems used in modeling systems in a variety of domains from engineering to biology. They also provide global approximators for more general nonlinear systems, and have recently been invoked in the study of Koopman operators for systems with control inputs. Due to the ubiquity of bilinear models, identification of such models from input-output data has also received interest in the literature both in continuous-time and discrete-time. However, a theoretical understanding of learning a bilinear model from a finite noisy trajectory, and in particular, how the accuracy of the learned model depends on the trajectory length is lacking. In this paper, we aim to answer this question for discrete-time bilinear models, learned from a single state-input trajectory using least squares.
+
+There is a growing body of literature on non-asymptotic properties and sample complexity of learning dynamical systems. For linear systems, the recent results include that establish that accuracy of the learned models improve at a rate ${\mathcal{O}{({1/\sqrt{T}})}},$ where $T$ is the trajectory length. These results are extended to certain classes of switched () and nonlinear systems (), where, with the exception of, mixing-time arguments are used to ease the statistical analysis. One shortcoming of such arguments is that while, in general, as the contraction rate or "stability" of the system decreases, the signal to noise ratio increases and identification gets better due to stronger excitation, mixing-time based arguments capture the opposite dependence. By adapting the martingale small-ball condition as in, we show this shortcoming can also be avoided for bilinear system identification.
+
+To summarize, we make the following contributions towards bilinear system identification: (i) For a bilinear system with state dimension $n$ and input dimension $m$, the system dynamics involve $m + 1$ matrices of size $n \times n$. We estimate these dynamics with an error rate $\mathcal{O}{(\sqrt{{n{({m + 1})}}/T})}$. Our error rate is optimal in terms of the trajectory length $T$ and the dimension of the unknown matrices. (ii) Recently, asked an important question, *"Is learning without mixing possible in situations beyond generalized linear models?"* We provide a positive answer to this by extending martingale small-ball argument to bilinear systems. (iii) We correctly capture the dependence of random input and noise on the identification of marginally mean-square stable bilinear systems. Finally, we perform numerical experiments to support our theoretical results.
+
+## Preliminaries and Problem Setup
+
+*Notations:* We use boldface uppercase (lowercase) letters to denote matrices (vectors). For a matrix $\mathbf{A}$, $\|\mathbf{A}\|$, ${\|\mathbf{A}\|}_{F}$, $\rho{(\mathbf{A})}$ denote its spectral norm, Frobenius norm and spectral radius, respectively. For a vector $\mathbf{v}$, ${\|\mathbf{v}\|}_{\ell_{1}}$, ${\|\mathbf{v}\|}_{\ell_{2}}$ denote its $\ell_{1}$ norm and Euclidean norm, respectively. ${{vec}{(\mathbf{X})}} \in {\mathbb{R}}^{mn}$ denotes the vectorization of a matrix $\mathbf{X} \in {\mathbb{R}}^{m \times n}$, and ${mtx}{( \cdot )}$ denotes its inverse, that is, ${{mtx}\left( {{vec}{(\mathbf{X})}} \right)} = \mathbf{X}$. We use $\gtrsim$ and $\lesssim$ for inequalities that hold up to a constant factor. $\mathcal{S}^{n - 1}$ denotes the unit sphere in ${\mathbb{R}}^{n}$. Finally, $\otimes$ denotes the Kronecker product.
+
+### II-A Bilinear Dynamical Systems
+
+In this paper, we consider the identification of bilinear dynamical systems which are governed by the following state equation,
+
+Here $\mathbf{x}_{t} \in {\mathbb{R}}^{n}$ is the state, $\mathbf{u}_{t} \in {\mathbb{R}}^{m}$ is the input, and $\mathbf{w}_{t} \in {\mathbb{R}}^{n}$ is the process noise at time $t$. ${\{\mathbf{A}_{k}\}}_{k = 0}^{m} \in {\mathbb{R}}^{n \times n}$ are the state matrices which govern the dynamics of the system. Throughout, we assume that the input signal and noise are normally distributed.
+
+### Assumption A1
+
+We have ${\{\mathbf{u}_{t}\}}_{t = 0}^{\infty}\overset{\text{i.i.d.}}{\sim}\mathcal{N}{(0,{\sigma_{\mathbf{u}}^{2}\mathbf{I}_{m}})}$ and ${\{\mathbf{w}_{t}\}}_{t = 1}^{\infty}\overset{\text{i.i.d.}}{\sim}\mathcal{N}{(0,{\sigma_{\mathbf{w}}^{2}\mathbf{I}_{n}})}$, where ${\sigma_{\mathbf{u}},\sigma_{\mathbf{w}}} > 0$.
+
+Our primary goal in this paper is to estimate the unknown state matrices ${\{\mathbf{A}_{k}\}}_{k = 0}^{m}$ from finite samples obtained from a single trajectory of. For this purpose, we introduce the following concatenated matrix/vector notation,
+
+where $\mathbf{A}_{\star} \in {\mathbb{R}}^{{n \times n}{({m + 1})}}$, ${\overset{\sim}{\mathbf{x}}}_{t} \in {\mathbb{R}}^{n{({m + 1})}}$ and we define ${\overset{\sim}{\mathbf{u}}}_{t}:={\lbrack{1\sigma_{\mathbf{u}}^{- 1}\mathbf{u}_{t}^{\intercal}}\rbrack}^{\intercal}$. With these definitions, the state update equation can alternately be written as,
+
+Suppose we have access to a single finite trajectory ${\{{(\mathbf{u}_{t},\mathbf{x}_{t},\mathbf{x}_{t + 1})}\}}_{t = 0}^{T}$ of the bilinear dynamical system. Then, to carry out finite sample identification of $\mathbf{A}_{\star}$ using the method of linear least squares, we define the following concatenated matrices,
+
+To estimate the dynamics, we solve the following least-squares problem,
+
+When the problem is over-determined, the solution to the least-squares problem is given by ${\hat{\mathbf{A}}}^{\intercal} = {{({{\overset{\sim}{\mathbf{X}}}_{T}^{\intercal}{\overset{\sim}{\mathbf{X}}}_{T}})}^{- 1}{\overset{\sim}{\mathbf{X}}}_{T}^{\intercal}\mathbf{Y}_{T}}$ and the associated estimation error is given by, ${{\hat{\mathbf{A}}}^{\intercal} - \mathbf{A}_{\star}^{\intercal}} = {{({{\overset{\sim}{\mathbf{X}}}_{T}^{\intercal}{\overset{\sim}{\mathbf{X}}}_{T}})}^{- 1}{\overset{\sim}{\mathbf{X}}}_{T}^{\intercal}\mathbf{W}_{T}}$. This implies that the estimation error can be upper-bounded as follows,
+
+To make the problem well-conditioned, we also need a stability guarantee on the bilinear system. This will make sure that the design matrix ${\overset{\sim}{\mathbf{X}}}_{T}$ has smaller condition number to help better estimation. However, because of the randomness in $\mathbf{u}_{t}$, the dynamical behavior of the bilinear system is also random. Therefore, it is common to define the stability of bilinear dynamical systems in the mean-square sense, which is the topic of our next subsection.
+
+Input: Trajectory {(ut,xt,xt + 1)}t = 1T of bilinear dynamical system.
+Construct ${\{{\overset{\sim}{\mathbf{x}}}_{t}\}}_{t = 1}^{T}$ according to
+Construct ${\overset{\sim}{\mathbf{X}}}_{T},\mathbf{Y}_{T}$ according to
+Find the least-squares estimator $\hat{\mathbf{A}} = \left( {{({{\overset{\sim}{\mathbf{X}}}_{T}^{\intercal}{\overset{\sim}{\mathbf{X}}}_{T}})}^{- 1}{\overset{\sim}{\mathbf{X}}}_{T}^{\intercal}\mathbf{Y}_{T}} \right)^{\intercal}$
+We have ${\hat{\mathbf{A}}}_{0} = \hat{\mathbf{A}}{\lbrack:,1:n\rbrack}$, and ${\hat{\mathbf{A}}}_{k} = \sigma_{\mathbf{u}}^{- 1}\hat{\mathbf{A}}{\lbrack:,kn + 1:{(k + 1)}n\rbrack}$ for k = 1, …, m
+Output: ${\{{\hat{\mathbf{A}}}_{k}\}}_{k = 0}^{m}$
+Algorithm 1 Bilinear System Identification
+
+### II-B Mean-square stability of bilinear systems
+
+### Definition 1 (\[32\])
+
+The bilinear system in is mean-square stable (MSS) if there exists $\mathbf{x}_{\infty} \in {\mathbb{R}}^{n}$ and $\mathbf{\Sigma}_{\infty} \in {\mathbb{R}}_{+}^{n \times n}$, such that for any initial state $\mathbf{x}_{0}$, as $t\rightarrow\infty$, we have
+
+Here the expectation is over the input sequence ${\{\mathbf{u}_{t}\}}_{t = 0}^{\infty}$, the noise process ${\{\mathbf{w}_{t}\}}_{t = 1}^{\infty}$ and the initial state $\mathbf{x}_{0}$. In the noise free case $({\mathbf{w}_{t} = 0})$, we have $\mathbf{x}_{\infty} = 0$ and $\mathbf{\Sigma}_{\infty} = 0$.
+
+The mean square stability of the bilinear system in is related to the spectral radius of the following augmented state matrix,
+
+Moreover, under Assumption A1, this further simplifies to,
+
+From Proposition 3 in, $\overset{\sim}{\mathbf{A}}$ can be viewed as a mapping from ${\mathbb{E}}{\lbrack{\mathbf{x}_{t}\mathbf{x}_{t}^{\intercal}}\rbrack}$ to ${\mathbb{E}}{\lbrack{\mathbf{x}_{t + 1}\mathbf{x}_{t + 1}^{\intercal}}\rbrack}$. Specifically, in the noise-free case, we have ${{vec}{({{\mathbb{E}}{\lbrack{\mathbf{x}_{t + 1}\mathbf{x}_{t + 1}^{\intercal}}\rbrack}})}} = {\overset{\sim}{\mathbf{A}}{vec}{({{\mathbb{E}}{\lbrack{\mathbf{x}_{t}\mathbf{x}_{t}^{\intercal}}\rbrack}})}}$. Therefore, the bilinear system in is MSS if and only if ${\rho{(\overset{\sim}{\mathbf{A}})}} < 1$. This leads to our second assumption, which is stated as follows.
+
+### Assumption A2
+
+The bilinear system in is marginally mean-square stable, i.e., ${\rho{(\overset{\sim}{\mathbf{A}})}} \leq 1$.
+
+Using marginal mean-square stability, we can show that the second moment properties of the states ${\{\mathbf{x}_{t}\}}_{t = 0}^{\infty}$ can be bounded as follows.
+
+### Lemma 1
+
+Consider the bilinear system in. Suppose Assumption A1 holds and let $\overset{\sim}{\mathbf{A}}$ be as in. Then, for all $t \geq 0$, we have
+
+Lemma 1 shows that if ${\{\mathbf{w}_{t}\}}_{t \geq 1} = 0$ and ${\rho{(\overset{\sim}{\mathbf{A}})}} < 1$, then starting from any initial state $\mathbf{x}_{0}$ with finite ${\mathbb{E}}{\lbrack{\|\mathbf{x}_{0}\|}_{\ell_{2}}^{2}\rbrack}$, the state $\mathbf{x}_{t}$ exponentially converges to $0$. This implies, when ${\rho{(\overset{\sim}{\mathbf{A}})}} < 1$, the process noise can assist learning by providing excitation and not allowing the trajectory to converge to $0$.
+
+## Bilinear System Identification
+
+At the core of our analysis is showing that the random process ${\{{{\overset{\sim}{\mathbf{x}}}_{t} = {{\overset{\sim}{\mathbf{u}}}_{t} \otimes \mathbf{x}_{t}}}\}}_{t \geq 1}$ satisfies the martingale small-ball condition which is defined as follows.
+
+### Definition 2 (Martingale small-ball \[12\])
+
+Let ${\{\mathcal{F}_{t}\}}_{t \geq 1}$ denotes a filtration and ${\{ Z_{t}\}}_{t \geq 1}$ be an ${\{\mathcal{F}_{t}\}}_{t \geq 1}$-adapted random process taking values in $\mathbb{R}$. We say ${\{ Z_{t}\}}_{t \geq 1}$ satisfies the $(k,\nu,p)$-block martingale small-ball (BMSB) condition if, for any $j \geq 0$, one has ${\frac{1}{k}{\sum_{i = 1}^{k}{{\mathbb{P}}\left( {{|Z_{j + i}|} \geq \left. \nu \middle| \mathcal{F}_{j} \right.} \right)}}} \geq p$ almost surely. Given a process ${\{\mathbf{x}_{t}\}}_{t \geq 1}$ taking values in ${\mathbb{R}}^{d}$, we say it satisfies the $(k,\mathbf{\Gamma}_{sb},p)$-BMSB condition for $\mathbf{\Gamma}_{sb} \succ 0$ if, for any fixed $\mathbf{v} \in \mathcal{S}^{d - 1}$, the process $Z_{t} = \left\langle \mathbf{v},\mathbf{x}_{t} \right\rangle$ satisfies $(k,\sqrt{\mathbf{v}^{\intercal}\mathbf{\Gamma}_{sb}\mathbf{v}},p)$-BMSB.
+
+To show that ${\{{\overset{\sim}{\mathbf{x}}}_{t}\}}_{t \geq 1}$ satisfies the BMSB condition, let $\mathcal{F}_{t}:={\sigma{(\mathbf{x}_{0},\ldots,\mathbf{x}_{t},\mathbf{u}_{0},\ldots,\mathbf{u}_{t},\mathbf{w}_{1},\ldots,\mathbf{w}_{t})}}$ denotes the filtration generated by the states, the input and the noise processes when $t \geq 1$. Furthermore, let $\mathcal{F}_{0}:={\sigma{(\mathbf{x}_{0},\mathbf{u}_{0})}}$. Then, $\mathbf{x}_{t},\mathbf{u}_{t}$ and $\mathbf{w}_{t}$ become $\mathcal{F}_{t}$-measurable and, recalling, ${\overset{\sim}{\mathbf{x}}}_{t}$ is also $\mathcal{F}_{t}$-measurable.
+
+### Theorem 1 (BMSB condition for ${\{{\overset{\sim}{\mathbf{x}}}_{t}\}}_{t \geq 1}$)
+
+Consider the bilinear dynamical system in. Suppose Assumption A1 holds and let ${\overset{\sim}{\mathbf{x}}}_{t}$ be as in. Then, the process ${\{{\overset{\sim}{\mathbf{x}}}_{t}\}}_{t \geq 1}$ satisfies the $(k,{c^{2}\sigma_{\mathbf{w}}^{2}\mathbf{I}_{n{({m + 1})}}},p)$-martingale small-ball condition, with the constants ${k = 1},{c = {1/2}}$ and $p = {9/320}$.
+
+The theorem above uses martingale small-ball with $k = 1$. We remark that using $k > 1$ is expected to help capture the role of additional excitation terms in the BMSB lower bound, specifically, the dependence on $\overset{\sim}{\mathbf{A}}$. However, this requires bounding higher order moments that involve cross-products of the input signal and noise terms and is left as future research.
+
+We are now ready to state our main result to estimate the dynamics ${\{\mathbf{A}_{k}\}}_{k = 0}^{m}$ from a single finite trajectory ${\{{(\mathbf{u}_{t},\mathbf{x}_{t},\mathbf{x}_{t + 1})}\}}_{t = 0}^{T}$ of the bilinear dynamical system.
+
+### Theorem 2 (Bilinear system identification)
+
+Fix $\delta \in {}$ and suppose we are given a single trajectory ${\{{(\mathbf{u}_{t},\mathbf{x}_{t},\mathbf{x}_{t + 1})}\}}_{t = 0}^{T}$ of the bilinear dynamical system in. Suppose Assumptions A1 and A2 hold, and the trajectory length $T$ satisfies $T \gtrsim T_{\delta}$ where,
+
+Then, with probability at least $1 - \delta$, Algorithm 1 ensures
+
+In words, (11. ‣ III Bilinear System Identification ‣ Finite Sample Identification of Bilinear Dynamical Systems")) ensures the estimation of all state matrices as soon as the sample size exceeds the effective degrees of freedom $n{({m + 1})}$. The estimation of ${\{\mathbf{A}_{k}\}}_{k = 1}^{m}$ naturally depends on the input strength, as $\mathbf{u}_{t}{\lbrack k\rbrack}$ is a multiplier of $\mathbf{A}_{k}$ in. Please note that Theorem 2. ‣ III Bilinear System Identification ‣ Finite Sample Identification of Bilinear Dynamical Systems") only holds under the condition that ${\rho{(\overset{\sim}{\mathbf{A}})}} \leq 1$. This implies that we cannot increase $\sigma_{\mathbf{u}}$ arbitrarily to obtain better estimation. This is because, under Assumption A1, we have $\overset{\sim}{\mathbf{A}} = {{\mathbf{A}_{0} \otimes \mathbf{A}_{0}} + {\sigma_{\mathbf{u}}^{2}{\sum_{k = 1}^{m}{\mathbf{A}_{k} \otimes \mathbf{A}_{k}}}}}$. Therefore, the largest possible $\sigma_{\mathbf{u}}$ is given by $\sigma_{\mathbf{u},\max}:={\max{\{{{\sigma_{\mathbf{u}} > 0}:{{\rho{({{\mathbf{A}_{0} \otimes \mathbf{A}_{0}} + {\sigma_{\mathbf{u}}^{2}{\sum_{k = 1}^{m}{\mathbf{A}_{k} \otimes \mathbf{A}_{k}}}}})}} \leq 1}}\}}}$.
+
+Our estimation error is independent of the noise variance $\sigma_{\mathbf{w}}^{2}$. This is because the size of the noise variance $\sigma_{\mathbf{w}}^{2}$ directly influences the size of the states leading to a cancellation in the signal-to-noise ratio. On the other hand the size of the input variance $\sigma_{\mathbf{u}}^{2}$ indirectly influences the size of the states by influencing the spectral radius of $\overset{\sim}{\mathbf{A}}$. As a result, increasing $\sigma_{\mathbf{u}}^{2}$ helps learning. These observations are further strengthened by numerical experiments in Section IV.
+
+Unlike the existing results on finite time identification of nonlinear dynamical systems, the error bounds in Theorem 2. ‣ III Bilinear System Identification ‣ Finite Sample Identification of Bilinear Dynamical Systems") do not degrade with increasing instability. We emphasize that, our result guarantees identification even in the case of non-mixing bilinear systems (i.e., ${\rho{(\overset{\sim}{\mathbf{A}})}} = 1$). This shows that learning without mixing is possible beyond generalized linear models.
+
+### III-A Proof of Theorem 1. ‣ III Bilinear System Identification ‣ Finite Sample Identification of Bilinear Dynamical Systems")
+
+### Proof
+
+In this subsection, we will show that the process ${\{{\overset{\sim}{\mathbf{x}}}_{t}\}}_{t \geq 1}$ satisfies $(1,{c^{2}\sigma_{\mathbf{w}}^{2}\mathbf{I}_{n{({m + 1})}}},p)$-BMSB condition, for some constants ${c,p} > 0$. For this purpose, we need to show that, for any fixed $\mathbf{v} \in \mathcal{S}^{{n{({m + 1})}} - 1}$, the random process ${\{ Z_{t}\}}_{t \geq 1}:={\{\left\langle \mathbf{v},{\overset{\sim}{\mathbf{x}}}_{t} \right\rangle\}}_{t \geq 1}$ satisfies $(1,{c\sigma_{\mathbf{w}}{\|\mathbf{v}\|}_{\ell_{2}}},p)$-BMSB condition, that is, for any $j \geq 0$, we need to show that ${{\mathbb{P}}{({{|Z_{j + 1}|} \geq \left. {c\sigma_{\mathbf{w}}{\|\mathbf{v}\|}_{\ell_{2}}} \middle| \mathcal{F}_{j} \right.})}} \geq p$ almost surely. To proceed, for any $j \geq 0$, consider the concatenated state vector,
+
+where we set ${\overline{\mathbf{u}}}_{t} = {\sigma_{\mathbf{u}}^{- 1}\mathbf{u}_{t}}$, so that ${\{{\overline{\mathbf{u}}}_{t}\}}_{t = 0}^{\infty}\overset{\text{i.i.d.}}{\sim}\mathcal{N}{(0,\mathbf{I}_{m})}$. To proceed, using, we have that
+
+where we set $\mathbf{v} = {\lbrack{\mathbf{v}_{0}^{\intercal}\mathbf{v}_{1}^{\intercal}\cdots\mathbf{v}_{m}^{\intercal}}\rbrack}^{\intercal}$ such that $\mathbf{v}_{i}:=\mathbf{v}{\lbrack ni + 1:n{(i + 1)}\rbrack}$. Next, we concatenate $\mathbf{v}_{i}$'s to form the matrix,
+
+Combining this with, we have that $Z_{j + 1} = \left\langle {\mathbf{v}_{0} + {\mathbf{V}{\overline{\mathbf{u}}}_{j + 1}}},{{\mathbf{A}_{\star}{\overset{\sim}{\mathbf{x}}}_{j}} + \mathbf{w}_{j + 1}} \right\rangle$. Therefore, we are interested in lower bounding the following probability,
+
+To lower bound the probability in, we define the following three events,
+
+Note that, ${\mathcal{E}_{w} \cap \mathcal{E}_{u}} \subset \mathcal{E}_{z}$. This implies that, we have, ${{\mathbb{P}}{(\mathcal{E}_{z})}} \geq {{\mathbb{P}}{({\mathcal{E}_{w} \cap \mathcal{E}_{u}})}} = {{{\mathbb{P}}{(\left. \mathcal{E}_{w} \middle| \mathcal{E}_{u} \right.)}}{{\mathbb{P}}{(\mathcal{E}_{u})}}}$. Therefore, to lower bound the probability of the event $\mathcal{E}_{z}$, it suffices to lower bound the probability of these two events: $\left. \mathcal{E}_{w} \middle| \mathcal{E}_{u} \right.$ and $\mathcal{E}_{u}$.
+
+*(a) ${\mathbb{P}}{(\left. \mathcal{E}_{w} \middle| \mathcal{E}_{u} \right.)}$:* Given $\mathbf{w}_{j + 1} \sim {\mathcal{N}{(0,{\sigma_{\mathbf{w}}^{2}\mathbf{I}_{n}})}}$, for any fixed vector $\mathbf{q} \in {\mathbb{R}}^{n}$, $\left. \left\langle \mathbf{q},{{\mathbf{A}_{\star}{\overset{\sim}{\mathbf{x}}}_{j}} + \mathbf{w}_{j + 1}} \right\rangle \middle| \mathcal{F}_{j} \right. \sim {\mathcal{N}\left( \left\langle \mathbf{q},{\mathbf{A}_{\star}{\overset{\sim}{\mathbf{x}}}_{j}} \right\rangle,{\sigma_{\mathbf{w}}^{2}{\|\mathbf{q}\|}_{\ell_{2}}^{2}} \right)}$. Therefore, integrating the probability density function of a standard Gaussian random variable, it can be shown that,
+
+We obtain the above result by integrating the probability density function of a Gaussian random variable as follows,
+
+To proceed, setting $\mathbf{q} = {\mathbf{v}_{0} + {\mathbf{V}{\overline{\mathbf{u}}}_{j + 1}}}$ and $\mathbf{p} = {{\mathbf{A}_{\star}{\overset{\sim}{\mathbf{x}}}_{j}} + \mathbf{w}_{j + 1}}$, let $f_{\mathbf{Q}}{(\mathbf{q})}$, $f_{\mathbf{P}}{(\mathbf{p})}$ denote the probability density functions of the random vectors $\left. \mathbf{q} \middle| \mathcal{F}_{j} \right.$ and $\left. \mathbf{p} \middle| \mathcal{F}_{j} \right.$, respectively, under the event $\mathcal{E}_{u}$. Observe that $\left. \mathbf{q} \middle| \mathcal{F}_{j} \right.$ and $\left. \mathbf{p} \middle| \mathcal{F}_{j} \right.$ are independent under $\mathcal{E}_{u}$. Therefore, we have
+
+where $\mathbf{1}_{\{ \cdot \}}$ denotes the indicator function, and we obtain (i) from. Hence, we showed that ${{\mathbb{P}}{(\left. \mathcal{E}_{w} \middle| \mathcal{E}_{u} \right.)}} \geq {3/10}$.
+
+*(b) ${\mathbb{P}}{(\mathcal{E}_{u})}$:* Next, to lower bound the probability of the event $\mathcal{E}_{u}$, we consider the following,
+
+Let $\mathcal{E}_{\Xi} = {\{{{{\|\mathbf{v}_{0}\|}_{\ell_{2}}^{2} + {\|{\mathbf{V}{\overline{\mathbf{u}}}_{j + 1}}\|}_{\ell_{2}}^{2}} \geq \Xi}\}}$ and $\mathcal{E}_{+} = {\{{\left\langle {\mathbf{V}^{\intercal}\mathbf{v}_{0}},{\overline{\mathbf{u}}}_{j + 1} \right\rangle \geq 0}\}}$. Since ${\overline{\mathbf{u}}}_{j + 1}$ is rotationally invariant and $\mathbf{V}^{\intercal}\mathbf{v}_{0}$ is a fixed vector ${{\mathbb{P}}{(\mathcal{E}_{+})}} = {1/2}$. More generally, $\mathcal{E}_{\Xi}$ and $\mathcal{E}_{+}$ are independent again due to rotational invariance (sign and magnitude of ${\overline{\mathbf{u}}}_{j + 1}$ are independent). Combining this with, for any $\Xi$, we have
+
+Therefore, to lower bound the probability of event $\mathcal{E}_{u}$, it suffices to lower bound the probability of the event $\{{{\|{\mathbf{V}{\overline{\mathbf{u}}}_{j + 1}}\|}_{\ell_{2}}^{2} \geq {c{\|\mathbf{V}\|}_{F}^{2}}}\}$, for some constant $c > 0$. Let $\mathbf{V}$ have singular value decomposition $\mathbf{V} = {\mathbf{Q}\mathbf{\Sigma}\mathbf{R}^{\intercal}}$ with ${\|\mathbf{V}\|}_{F}^{2} = {\|\mathbf{\Sigma}\|}_{F}^{2} = {\sum_{i = 1}^{m}\sigma_{i}^{2}}$. Furthermore, since ${\overline{\mathbf{u}}}_{j + 1} \sim {\mathcal{N}{(0,\mathbf{I}_{m})}}$ and $\mathbf{Q},\mathbf{R}$ are orthogonal matrices, we have $\mathbf{g}:={\mathbf{R}^{\intercal}{\overline{\mathbf{u}}}_{j + 1}} \sim {\mathcal{N}{(0,\mathbf{I}_{m})}}$. Therefore, we have
+
+This further implies,
+
+Similarly, we also have,
+
+where we get (i) from ${{\mathbb{E}}{\lbrack{\mathbf{g}{\lbrack i\rbrack}^{4}}\rbrack}} = 3$ and the independence of $\mathbf{g}{\lbrack i\rbrack}$ and $\mathbf{g}{\lbrack j\rbrack}$ for all $i \neq j$. Combining and with the Paley-Zygmund inequality, for a fixed $\gamma \in {}$, we have
+
+where we obtain the last line by setting $\gamma = {1/4}$. Finally, combining and, we have
+
+Combining this with ${\|\mathbf{v}\|}_{\ell_{2}}^{2} = {\sum_{i = 0}^{m}{\|\mathbf{v}_{i}\|}_{\ell_{2}}^{2}}$, we obtain
+
+Hence, setting $c = {1/2}$, we found that ${{\mathbb{P}}{(\mathcal{E}_{u})}} \geq {3/32}$. Putting all together, we have ${{\mathbb{P}}{(\mathcal{E}_{z})}} \geq {{{\mathbb{P}}{(\left. \mathcal{E}_{w} \middle| \mathcal{E}_{u} \right.)}}{{\mathbb{P}}{(\mathcal{E}_{u})}}} \geq {9/320}$. This verifies our claim that the process ${\{{\overset{\sim}{\mathbf{x}}}_{t}\}}_{t \geq 1}$ satisfies $(1,{c^{2}\sigma_{\mathbf{w}}^{2}\mathbf{I}_{n{({m + 1})}}},p)$-BMSB condition, with the constants $c = {1/2}$ and $p = {9/320}$. ∎
+
+### III-B Proof of Theorem 2. ‣ III Bilinear System Identification ‣ Finite Sample Identification of Bilinear Dynamical Systems")
+
+### Proof
+
+For the sake of completeness, before we present the proof of Theorem 2. ‣ III Bilinear System Identification ‣ Finite Sample Identification of Bilinear Dynamical Systems"), we present a meta result from which will be used to prove Theorem 2. ‣ III Bilinear System Identification ‣ Finite Sample Identification of Bilinear Dynamical Systems").
+
+### Theorem 3 (Meta-theorem \[12\])
+
+Fix $\delta \in {}$, $T \in {\mathbb{N}}$ and $0 \prec \mathbf{\Gamma}_{sb} \prec \overline{\Gamma}$. Then if ${(\mathbf{x}_{t},\mathbf{y}_{t})}_{t = 1}^{T} \in {({{\mathbb{R}}^{d} \times {\mathbb{R}}^{n}})}^{T}$ is a random sequence such that (a) $\mathbf{y}_{t} = {{\mathbf{A}_{\star}\mathbf{x}_{t}} + \mathbf{w}_{t}}$, where $\left. \mathbf{w}_{t} \middle| \mathcal{F}_{t - 1} \right.$ is $\sigma_{\mathbf{w}}^{2}$-subgaussian and mean zero, (b) $\mathbf{x}_{1},\ldots,\mathbf{x}_{T}$ satisfy the $(k,\mathbf{\Gamma}_{sb},p)$-small ball condition, and (c) such that ${{\mathbb{P}}\left( {{\sum_{t = 1}^{T}{\mathbf{x}_{t}\mathbf{x}_{t}^{\intercal}}} \npreceq {T\overline{\mathbf{\Gamma}}}} \right)} \leq \delta$. Then if
+
+Our proof strategy is to verify that the conditions (a), (b), and (c) of Theorem 3. ‣ Proof. ‣ III-B Proof of Theorem 2 ‣ III Bilinear System Identification ‣ Finite Sample Identification of Bilinear Dynamical Systems") hold for the bilinear dynamical system in and then apply Theorem 3. ‣ Proof. ‣ III-B Proof of Theorem 2 ‣ III Bilinear System Identification ‣ Finite Sample Identification of Bilinear Dynamical Systems") to estimate $\mathbf{A}_{\star}$.
+
+*(a) Sub-gaussian noise:* Following the re-parameterization in, we have $\mathbf{x}_{t + 1} = {{\mathbf{A}_{\star}{\overset{\sim}{\mathbf{x}}}_{t}} + \mathbf{w}_{t + 1}}$. Moreover, under Assumption A1, the process noise $\left. \mathbf{w}_{t} \middle| \mathcal{F}_{t - 1} \right.$ is $\sigma_{\mathbf{w}}^{2}$-subgaussian and mean zero.
+
+*(b) BMSB condition:* Theorem 1. ‣ III Bilinear System Identification ‣ Finite Sample Identification of Bilinear Dynamical Systems") proves that the process ${\{{\overset{\sim}{\mathbf{x}}}_{t}\}}_{t \geq 1}$ satisfies $(1,{c^{2}\sigma_{\mathbf{w}}^{2}\mathbf{I}_{n{({m + 1})}}},p)$-BMSB condition, with the constants $c = {1/2}$ and $p = {9/320}$.
+
+*(c) State correlation bound:* Recall the definition of ${\overset{\sim}{\mathbf{u}}}_{t}$, ${\overset{\sim}{\mathbf{x}}}_{t}$ from and ${\overset{\sim}{\mathbf{X}}}_{T}$ from. We have
+
+where we obtain (i) from the triangle inequality and the fact that ${\|{\mathbf{C} \otimes \mathbf{D}}\|} \leq {{\|\mathbf{C}\|}{\|\mathbf{D}\|}}$. This further implies,
+
+where we obtain (ii) from the independence of $\mathbf{u}_{t}$ and $\mathbf{x}_{t}$. Moreover, we have ${{\mathbb{E}}{\lbrack{\|{\overset{\sim}{\mathbf{u}}}_{t}\|}_{\ell_{2}}^{2}\rbrack}} = {1 + {\sigma_{\mathbf{u}}^{- 2}{{\mathbb{E}}{\lbrack{\|\mathbf{u}_{t}\|}_{\ell_{2}}^{2}\rbrack}}}} = {1 + m}$, and we use Lemma 1 along with Assumption A2 to bound ${\mathbb{E}}{\lbrack{\|\mathbf{x}_{t}\|}_{\ell_{2}}^{2}\rbrack}$. Hence, setting
+
+we have, ${{\mathbb{E}}{\lbrack{\|{\sum_{t = 1}^{T}{{\overset{\sim}{\mathbf{x}}}_{t}{\overset{\sim}{\mathbf{x}}}_{t}^{\intercal}}}\|}\rbrack}} = {{\mathbb{E}}{\lbrack{\|{{\overset{\sim}{\mathbf{X}}}_{T}^{\intercal}{\overset{\sim}{\mathbf{X}}}_{T}}\|}\rbrack}} \leq {T\overline{\Gamma}}$. Next, we use Markov inequality to show that
+
+We are now ready to use Theorem 3. ‣ Proof. ‣ III-B Proof of Theorem 2 ‣ III Bilinear System Identification ‣ Finite Sample Identification of Bilinear Dynamical Systems") from to obtain our final result.
+
+*(d) Finalizing the proof:* In Theorem 3. ‣ Proof. ‣ III-B Proof of Theorem 2 ‣ III Bilinear System Identification ‣ Finite Sample Identification of Bilinear Dynamical Systems"), we set $\overline{\mathbf{\Gamma}} = {{({1/\delta})}C_{\overset{\sim}{\mathbf{A}}}{({{\sqrt{n}{{\mathbb{E}}{\lbrack{\|\mathbf{x}_{0}\|}_{\ell_{2}}^{2}\rbrack}}} + {\sigma_{\mathbf{w}}^{2}nT}})}{({m + 1})}\mathbf{I}_{n{({m + 1})}}}$, $\mathbf{\Gamma}_{sb} = {{({1/4})}\sigma_{\mathbf{w}}^{2}\mathbf{I}_{n{({m + 1})}}}$, $k = 1$, $p = {9/320}$, and $d = {n{({m + 1})}}$. This gives,
+
+Using this in Theorem 3. ‣ Proof. ‣ III-B Proof of Theorem 2 ‣ III Bilinear System Identification ‣ Finite Sample Identification of Bilinear Dynamical Systems"), and replacing $\delta$ with $\delta/3$, when the trajectory length $T$ satisfies,
+
+Finally, using the fact that the spectral norm of a sub-matrix is upper bounded by that of the original matrix establishes the statement of the theorem. This completes the proof. ∎
+
+### III-C Proof of Lemma 1
+
+### Proof
+
+To begin, consider the following
+
+where we get (i) from the independence of $\mathbf{u}_{t}$ and $\mathbf{x}_{t}$, (ii) from the linearity of ${vec}{( \cdot )}$ operator, and (iii) from Assumption A1. Here we use the definition of $\overset{\sim}{\mathbf{A}}$ from. Repeating the recursion in till $t = 0$, we have
+
+Next, using, we bound the expected squared Euclidean norm of the states ${\{\mathbf{x}_{t}\}}_{t = 0}^{\infty}$ as follows,
+
+where $\lambda_{j}{({{\mathbb{E}}{\lbrack{\mathbf{x}_{t}\mathbf{x}_{t}^{\intercal}}\rbrack}})}$ denotes the $j$-th eigenvalue of ${\mathbb{E}}{\lbrack{\mathbf{x}_{t}\mathbf{x}_{t}^{\intercal}}\rbrack}$, for $j = {1,\ldots,n}$. This completes the proof. ∎
+
+## Experiments
+
+For our experiments, we choose a bilinear dynamical system with state dimension $n = 8$ and input dimension $m = 4$. $\mathbf{A}_{0}$ is generated with $\mathcal{N}{}$ entries and scaled to have its largest eigenvalues equal to $0.6$. Similarly, ${\{\mathbf{A}_{k}\}}_{k = 1}^{m}$ are generated with $\mathcal{N}{}$ entries and scaled to have their largest eigenvalue equal to $1/m$. Using $\mathbf{x}_{0}\overset{\text{i.i.d.}}{\sim}\mathcal{N}{(0,\mathbf{I}_{n})}$, ${\{\mathbf{u}_{t}\}}_{t = 0}^{\infty}\overset{\text{i.i.d.}}{\sim}\mathcal{N}{(0,{\sigma_{\mathbf{u}}^{2}\mathbf{I}_{m}})}$ and ${\{\mathbf{w}_{t}\}}_{t = 1}^{\infty}\overset{\text{i.i.d.}}{\sim}\mathcal{N}{(0,{\sigma_{\mathbf{w}}^{2}\mathbf{I}_{n}})}$, we generate a single finite trajectory ${\{{(\mathbf{u}_{t},\mathbf{x}_{t},\mathbf{x}_{t + 1})}\}}_{t = 0}^{T}$ of the bilinear dynamical system, which is given as an input to Algorithm 1.
+
+We plot, (i) the normalized estimation error of $\mathbf{A}_{0}$ given by ${\|{{\hat{\mathbf{A}}}_{0} - \mathbf{A}_{0}}\|}/{\|\mathbf{A}_{0}\|}$, and (ii) the average normalized estimation error of ${\{\mathbf{A}_{k}\}}_{k = 1}^{m}$ given by ${({1/m})}{\sum_{k = 1}^{m}{{\|{{\hat{\mathbf{A}}}_{k} - \mathbf{A}_{k}}\|}/{\|\mathbf{A}_{k}\|}}}$. Each experiment is repeated $20$ times and we plot the mean and one standard deviation. We also plot, (iii) the Euclidean norm of the states ${\{{\|\mathbf{x}_{t}\|}_{\ell_{2}}\}}_{t = 0}^{T}$, and (iv) the condition number of the design matrix ${\overset{\sim}{\mathbf{X}}}_{T}$. To verify our theoretical results from Section III, We perform the following two different types of experiments.
+
+*Input strength:* In this experiment, we run Algorithm 1 with different values of $\sigma_{\mathbf{u}}$ and $T$, while setting the values of $n,m,{\rho{(\mathbf{A})}}$ and $\rho{(\mathbf{A}_{k})}$ as described above. We also set $\sigma_{\mathbf{w}} = 0.3$. The results of this experiment are plotted in Figure 1. As predicted by our theory, the estimation errors of ${\{\mathbf{A}_{k}\}}_{k = 0}^{m}$ converge to $0$ with the increasing trajectory length. Another important observation is that the estimation errors also decrease with increasing $\sigma_{\mathbf{u}}$. This is more prominent in the case of ${\{\mathbf{A}_{k}\}}_{k = 1}^{m}$, which is consistent with the message of Theorem 2. ‣ III Bilinear System Identification ‣ Finite Sample Identification of Bilinear Dynamical Systems"). Furthermore, Table I shows that increasing $\sigma_{\mathbf{u}}$ results in an increase in the spectral radius of the augmented state matrix $\overset{\sim}{\mathbf{A}}$. This also implies that we cannot increase $\sigma_{\mathbf{u}}$ above a certain threshold. Otherwise, the bilinear system might become unstable and we might not be able to learn the dynamics ${\{\mathbf{A}_{k}\}}_{k = 0}^{m}$.
+
+*Noise level:* In this experiment, we run Algorithm 1 with different values of $\sigma_{\mathbf{w}}$ and $T$, while setting the values of $n,m,{\rho{(\mathbf{A})}}$ and $\rho{(\mathbf{A}_{k})}$ as described above. We also set $\sigma_{\mathbf{u}} = 1.5$. The results of this experiment are plotted in Figure 2. Larger trajectory length helps here as well. Interestingly, the estimation errors are independent of the noise strength $\sigma_{\mathbf{w}}$. This is as predicted by Theorem 2. ‣ III Bilinear System Identification ‣ Finite Sample Identification of Bilinear Dynamical Systems"). From Figure 2, we also see that, when the trajectory length is sufficiently large, the condition number of ${\overset{\sim}{\mathbf{X}}}_{T}$ is similar for different noise levels. When the trajectory length and the noise level are very small, ${\overset{\sim}{\mathbf{X}}}_{T}$ has larger condition number because of the random initialization of $\mathbf{x}_{0}$ and the decrease in Euclidean norm of $\mathbf{x}_{t}$ with time (see Figure 2 bottom left). If the noise is $0$ and the unknown bilinear system has ${\rho{(\overset{\sim}{\mathbf{A}})}} < 1$, then as shown in Lemma 1, the states will converge to $0$ exponentially fast. Therefore, most of the samples in the collected trajectory ${\{{(\mathbf{u}_{t},\mathbf{x}_{t},\mathbf{x}_{t + 1})}\}}_{t = 0}^{T}$ will be zero.
+
+TABLE I: $\rho\left( \overset{\sim}{\mathbf{A}} \right)$ increases with increasing σu
+
+Figure 1: Identification with varying input variance σu2
+
+Figure 2: Identification with varying noise variance σw2
+
+## Conclusions
+
+In this paper, we provide finite sample analysis for learning discrete-time bilinear systems. We find that: (i) we can estimate the bilinear systems of the form with an error rate $\mathcal{O}{(\sqrt{{n{({m + 1})}}/T})}$, which is optimal in terms of trajectory length $T$ and the dimension of the unknown matrices, and (ii) the estimation gets better with increasing input variance $\sigma_{\mathbf{u}}^{2}$, whereas, it is independent of the noise variance $\sigma_{\mathbf{w}}^{2}$.
+
+Our analysis can be extended to estimate a more general bilinear system with the state equation $\mathbf{x}_{t + 1} = {{\mathbf{A}_{0}\mathbf{x}_{t}} + {\sum_{k = 1}^{m}{\mathbf{u}_{t}{\lbrack k\rbrack}\mathbf{A}_{k}\mathbf{x}_{t}}} + {\mathbf{B}\mathbf{u}}_{t} + \mathbf{w}_{t + 1}}$. In this case, because of the additional ${\mathbf{B}\mathbf{u}}_{t}$ term, the estimation should improve with increasing input variance $\sigma_{\mathbf{u}}^{2}$ or decreasing the noise variance $\sigma_{\mathbf{w}}^{2}$. As future direction, it would be of interest to apply these results to learn more general nonlinear systems using bilinearization and Koopman operator techniques. This presents new challenges such as the need for jointly learning a proper lifting and the bilinear dynamics in the lifted space.
