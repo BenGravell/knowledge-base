@@ -1,0 +1,499 @@
+## Introduction
+
+The field of nonasymptotic random matrix theory has traditionally focused on the problem of bounding the extreme eigenvalues of a random matrix. In some circumstances, however, we may also be interested in studying the behavior of the interior eigenvalues. In this case, classical tools do not readily apply. Indeed, the interior eigenvalues are determined by the min-max of a random process, which is very challenging to control.
+
+This paper demonstrates that it is possible to combine the matrix Laplace transform method detailed in \[\] with the Courant--Fischer characterization of eigenvalues to obtain nontrivial bounds on the interior eigenvalues of a sum of random self-adjoint matrices. This approach expands the scope of the matrix probability inequalities from \[\] so that they provide interesting information about the bulk spectrum.
+
+As one application of our approach, we investigate estimates for the covariance matrix of a centered stationary random process. We show that the eigenvalues of the sample covariance matrix provide relative-error approximations to the eigenvalues of the covariance matrix. We focus on Gaussian processes, but our arguments can be extended to other distributions. The following theorem distills the results in section 7.
+
+### Theorem 1.1
+
+Let $\mathbf{C} \in {\mathbb{R}}^{p \times p}$ be positive semidefinite. Fix an integer $\ell \leq p$ and assume the tail ${\{{\lambda_{i}{(\mathbf{C})}}\}}_{i > \ell}$ of the spectrum of $\mathbf{C}$ decays sufficiently fast that
+
+Let ${\{{\mathbf{η}}_{j}\}}_{j = 1}^{n} \subset {\mathbb{R}}^{p}$ be i.i.d. samples drawn from a $\mathcal{N}{(\mathbf{0},\mathbf{C})}$ distribution. Define the sample covariance matrix
+
+Let $\kappa_{\ell}$ be the condition number associated with a dominant $\ell$-dimensional invariant subspace of $\mathbf{C},$
+
+If ${n = {\Omega{({\varepsilon^{- 2}\kappa_{\ell}^{2}\ell{\log p}})}}},$ then with high probability
+
+Thus, assuming sufficiently fast decay of the residual eigenvalues, $n = {\Omega{({\varepsilon^{- 2}\kappa_{\ell}^{2}\ell{\log p}})}}$ samples ensure that the top $\ell$ eigenvalues of $\mathbf{C}$ are captured to relative precision. Spectral decay of this sort is encountered when, e.g., the residual eigenvalues of $\mathbf{C}$ decay like $k^{- {({1 + \delta})}}$ for some $\delta > 0$ or when they arise from measurements corrupted by low-power white noise.
+
+We contrast Theorem 1.1 with established spectral norm error bounds for covariance estimation, which do not exploit spectral decay and require that $n = {\Omega{({\varepsilon^{- 2}\kappa_{\ell}^{2}p})}}$ samples be taken to capture the top $\ell$ eigenvalues to relative precision (see section 7). The estimate in Theorem 1.1 can be sharpened using information about the spectrum of $\mathbf{C}$ and the desired failure probability or modified to account for different types of spectral decay. The same tools used in the proof of the theorem can be used to estimate ${\lambda_{k}{({{\hat{\mathbf{C}}}_{n} - {\mathbf{C}}})}}.$
+
+### Related Work
+
+We believe that this paper contains the first general-purpose tools for studying the full spectrum of a finite-dimensional random matrix. The literature on random matrix theory (RMT) contains some complementary results, but they do not seem to apply with the same generality. Methods from RMT fall into two rough categories: asymptotic methods and nonasymptotic methods. We discuss the relevant results from each in turn.
+
+The modern asymptotic theory began in the 1950s when physicists observed that, on certain scales, the behavior of a quantum system is described by the spectrum of a random matrix \[\]. They further observed the phenomenon of *universality*: as the dimension increases, the spectral statistics become independent of the distribution of the random matrix; instead, they are determined by the symmetries of the distribution \[\]. Since these initial observations, physicists, statisticians, engineers, and mathematicians have found manifold applications of the asymptotic theory in high-dimensional statistics \[ El 08\], physics \[, \], wireless communication \[, \], and pure mathematics \[, \], to mention only a few areas.
+
+Asymptotic random matrix theory has developed primarily through the examination of specific classes of random matrices. We mention two well-studied classes. Sample covariance matrices take the form $n^{- 1}{\mathbf{B}}_{n}{\mathbf{B}}_{n}^{\ast}$, where the columns of ${\mathbf{B}}_{n}$ comprise $n$ independent observations. Wigner matrices are Hermitian matrices whose superdiagonal entries are independent, zero-mean, and have unit variance and whose diagonal entries are i.i.d., real, and have finite variance.
+
+The fundamental object of study in asymptotic random matrix theory is the empirical spectral distribution function (ESD). Given a random Hermitian matrix $\mathbf{A}$ of order $n$, its ESD
+
+is a random distribution function which encodes the statistics of the spectrum of ${\mathbf{A}}.$ Wigner's theorem \[\], the seminal result of the asymptotic theory, establishes that if $\{{\mathbf{A}}_{n}\}$ is a sequence of independent, symmetric $n \times n$ matrices with i.i.d. $\mathcal{N}{}$ entries on and above the diagonal, then the expected ESD of $n^{- {1/2}}{\mathbf{A}}_{n}$ converges weakly in probability, as $n$ approaches infinity, to the semicircular law given by
+
+Thus, at least in the limiting sense, the spectra of these random matrices are well characterized. Development of the classical asymptotic theory has been driven by the natural question raised by Wigner's result: to what extent is the semicircular law, and more generally, the existence of a limiting spectral distribution (LSD) universal?
+
+The literature on the existence and universality of LSDs is massive; we mention only the highlights. It is now known that the semicircular law is universal for Wigner matrices. Suppose that $\{{\mathbf{A}}_{n}\}$ is a sequence of independent $n \times n$ Wigner matrices. Grenander established that if all the moments are finite, then the ESD of $n^{- {1/2}}{\mathbf{A}}_{n}$ converges weakly to the semicircular law in probability \[\]. Arnold showed that, assuming a finite fourth moment, the ESD almost surely converges weakly to the semicircular law \[\]. Around the same time, Marc̆enko and Pastur determined the form of the limiting spectral distribution of sample covariance matrices \[\].
+
+More recently, Tao and Vu confirmed the long-conjectured circular law hypothesis. Let $\{{\mathbf{C}}_{n}\}$ be a sequence of independent $n \times n$ matrices whose entries are i.i.d. and have unit variance. Then the ESD of $n^{- {1/2}}{\mathbf{C}}_{n}$ converges weakly to the uniform measure on the unit disk, both in probability and almost surely \[\].
+
+Although the convergence rate of the ESD has considerable practical interest, it was not until 1993 that theoretical results became available when Bai showed that for Wigner matrices \[\] and sample covariance matrices \[\] the expected ESDs of $n^{- {1/2}}{\mathbf{A}}_{n}$ and ${n^{- 1}{\mathbf{B}}_{n}{\mathbf{B}}_{n}^{\ast}},$ respectively, both converge pointwise at a rate of O($n^{- {1/4}}$). Later, Bai and coauthors established the pointwise convergence in probability of the ESD of the normalized Wigner matrix $n^{- {1/2}}{\mathbf{A}}_{n}$ \[\] and greatly improved the convergence rates \[ \]. The strongest result to date is due to Bai et al., who have shown that, if the entries of the Wigner matrix possess finite sixth moments, then pointwise convergence in probability of the ESD of $n^{- {1/2}}{\mathbf{A}}_{n}$ occurs at the rate of O($n^{- {1/2}}$) \[\].
+
+Classically, individual eigenvalues have been studied through the limiting behavior of the extremal eigenvalues and the asymptotic joint distribution of several eigenvalues. Much is known about the limiting distribution of the largest eigenvalues of Wigner and covariance matrices. Geman showed that if the columns of ${\mathbf{B}}_{n}$ are drawn from a sufficiently regular distribution, then the largest eigenvalue of the sample covariance matrix $n^{- 1}{\mathbf{B}}_{n}{\mathbf{B}}_{n}^{\ast}$ converges almost surely to a limit \[\]. Bai, Yin, and coauthors showed that the existence of a fourth moment is both necessary and sufficient for the existence of such a limit \[, \]. They also identified necessary and sufficient conditions for the existence of limits for the smallest and largest eigenvalues of a normalized Wigner matrix $n^{- {1/2}}{\mathbf{A}}_{n}$ \[\]. El Karoui has recently described the limiting behavior of the leading eigenvalues of a large class of sample covariance matrices \[El 07\].
+
+Less is known about the rate of convergence of the eigenvalues, but some results are available. Write the eigenvalues of a self-adjoint matrix $\mathbf{A}$ in nonincreasing order ${\lambda_{1} \geq \ldots \geq \lambda_{n}}.$ For ${1 \leq j \leq n},$ the classical location $\gamma_{j}$ of the $j$th eigenvalue of the normalized Wigner matrix $n^{- {1/2}}{\mathbf{A}}_{n}$ is defined via the relation
+
+where $\rho_{sc}$ is the density associated with the semicircular law. Intuitively, the facts that $F^{\frac{1}{\sqrt{n}}{\mathbf{A}}_{n}}\rightarrow F^{sc}$ and ${F^{\frac{1}{\sqrt{n}}{\mathbf{A}}_{n}}{(\lambda_{j})}} = {j/n}$ suggest that ${{\frac{1}{\sqrt{n}}\lambda_{j}}\rightarrow\gamma_{j}}.$ Indeed, it follows from \[, \] that
+
+asymptotically almost surely. Under the assumption that the entries exhibit uniform subgaussian decay, Erdös, Yau, and Yin have strengthened this result by showing that, up to log factors, the eigenvalues of $n^{- {1/2}}{\mathbf{A}}_{n}$ are within O($n^{- {2/3}}$) of their classical position with high probability \[\]. More generally, Tao and Vu have established the universality of a result due to Gustavsson \[\] in the complex Gaussian Wigner case: ${({\log n})}^{- {1/2}}{({{\sqrt{n}\lambda_{j}} - {n\gamma_{j}}})}$ is asymptotically normally distributed \[\]. Further, they have shown that eigenvalues in the bulk of the spectrum ($j = {\Omega{(n)}}$) of a Wigner matrix satisfy
+
+for some universal constant $c > 0$ \[\].
+
+In contrast to the asymptotic theory, which remains to a large extent driven by the study of particular classes of random matrices, the nonasymptotic theory has developed as a collection of techniques for addressing the behavior of a broad range of random matrices. The nonasymptotic theory has its roots in geometric functional analysis in the 1970s, where random matrices were used to investigate the local properties of Banach spaces \[ \]. Since then, the nonasymptotic theory has found applications in areas including theoretical computer science \[ \], machine learning \[\], optimization \[, \], and numerical linear algebra \[ \].
+
+As is the case in the asymptotic theory, the sharpest and most comprehensive results available in the nonasymptotic theory concern the behavior of Gaussian matrices. The amenability of the Gaussian distribution makes it possible to obtain results such as Szarek's nonasymptotic analog of the Wigner semicircle theorem for Gaussian matrices \[\] and Chen and Dongarra's bounds on the condition number of Gaussian matrices \[\]. The properties of less well-behaved random matrices can sometimes be related back to those of Gaussian matrices using probabilistic tools, such as symmetrization; see, e.g., the derivation of Latała's bound on the norms of zero-mean random matrices \[\].
+
+More generally, bounds on extremal eigenvalues can be obtained from knowledge of the moments of the entries. For example, the smallest singular value of a square matrix with i.i.d. zero-mean subgaussian entries with unit variance is O($n^{- {1/2}}$) with high probability \[\]. Concentration of measure results, such as Talagrand's concentration inequality for product spaces \[\], have also contributed greatly to the nonasymptotic theory. We mention in particular the work of Achlioptas and McSherry on randomized sparsification of matrices \[, \], that of Meckes on the norms of random matrices \[\], and that of Alon, Krivelevich and Vu \[\] on the concentration of the largest eigenvalues of random symmetric matrices, all of which are applications of Talagrand's inequality. In cases where geometric information on the distribution of the random matrices is available, the tools of empirical process theory---such as the generic chaining, also due to Talagrand \[\]---can be used to convert this geometric information into information on the spectra. One natural example of such a case consists of matrices whose rows are independently drawn from a log-concave distribution \[, \].
+
+The noncommutative Khintchine inequality (NCKI), which bounds the moments of the norm of a sum of fixed matrices modulated by random signs \[, \], is a widely used tool in the nonasymptotic theory. Despite its power, the NCKI is unwieldy. To use it, one must reduce the problem to a suitable form by applying symmetrization and decoupling arguments and exploiting the equivalence between moments and tail bounds. It is often more convenient to apply the NCKI in the guise of a lemma, due to Rudelson \[\], that provides an analog of the law of large numbers for sums of rank-one matrices. This result has found many applications, including column-subset selection \[\] and the fast approximate solution of least-squares problems \[\]. The NCKI and its corollaries do not always yield sharp results because parasitic logarithmic factors arise in many settings.
+
+The current paper is ultimately based on the influential work of Ahlswede and Winter \[\]. This line of research leads to explicit tail bounds for the maximum eigenvalue of a sum of random matrices. These probability inequalities parallel the classical scalar tail bounds due to Bernstein and others. Matrix probability inequalities allow us to obtain valuable information about the maximum eigenvalue of a random matrix with very little effort. Furthermore, they apply to a wide variety of random matrices. We note, however, that matrix probability inequalities can lead to parasitic logarithmic factors similar to those that emerge from the NCKI.
+
+Major contributions to the literature on matrix probability inequalities include the papers \[ \]. We emphasize two works of Oliveira \[, \] that go well beyond earlier research. The sharpest current results appear in the works of Tropp \[ \]. Recently, Hsu, Kakade, and Zhang \[\] have modified Tropp's approach to establish matrix probability inequalities that depend on an intrinsic dimension parameter, rather than the ambient dimension.
+
+### Outline
+
+In section 2, we introduce the notation used in this paper and state a convenient version of the Courant--Fischer theorem. In section 3, we use the Courant--Fischer theorem to extend the Laplace transform technique from \[\] to apply to all the eigenvalues of self-adjoint matrices, thereby obtaining the minimax Laplace transform. We apply this technique in sections 4 and 5 to develop eigenvalue analogs of the classical Chernoff and Bernstein bounds. The final two sections illustrate, using two familiar problems, that the minimax Laplace technique gives us significantly more information on the spectra of random matrices than current approaches. In section 6, we use the Chernoff bounds to quantify the effects of column sparsification on all the singular values of matrices with orthogonal rows. In section 7, we consider the question of how fast, in relative error, the eigenvalues of empirical covariance matrices converge.
+
+## Background and Notation
+
+We establish the notation used in the sequel and state a convenient version of the Courant--Fischer theorem.
+
+Unless otherwise stated, we work over the complex field. The $k$th column of the matrix $\mathbf{A}$ is denoted by ${\mathbf{a}}_{k},$ and the entries are denoted $a_{jk}$ or ${({\mathbf{A}})}_{jk}.$ We define ${\mathbb{M}}_{sa}^{n}$ to be the set of self-adjoint matrices with dimension $n.$ The eigenvalues of a matrix $\mathbf{A}$ in ${\mathbb{M}}_{sa}^{n}$ are arranged in weakly decreasing order: ${{\lambda_{\max}({\mathbf{A}})} = {\lambda_{1}{({\mathbf{A}})}} \geq {\lambda_{2}{({\mathbf{A}})}} \geq \cdots \geq {\lambda_{n}{({\mathbf{A}})}} = {\lambda_{\min}({\mathbf{A}})}}.$ Likewise, singular values of a rectangular matrix $\mathbf{B}$ with rank $r$ are ordered ${{s_{1}{({\mathbf{B}})}} \geq {s_{2}{({\mathbf{B}})}} \geq \cdots \geq {s_{r}{({\mathbf{B}})}}}.$ The spectral norm of a matrix $\mathbf{B}$ is expressed as ${\|{\mathbf{B}}\|}.$ We often compare self-adjoint matrices using the semidefinite ordering. In this ordering, $\mathbf{A}$ is greater than or equal to $\mathbf{B}$, written ${\mathbf{A}} \succeq {\mathbf{B}}$ or ${{\mathbf{B}} \preceq {\mathbf{A}}},$ when ${\mathbf{A}} - {\mathbf{B}}$ is positive semidefinite.
+
+The expectation of a random variable is denoted by ${{\mathbb{E}}X}.$ We write $X \sim {\text{Bern}{(p)}}$ to indicate that $X$ has a Bernoulli distribution with mean $p.$
+
+One of our central tools is the variational characterization of the eigenvalues of a self-adjoint matrix given by the Courant--Fischer theorem. For integers $d$ and $n$ satisfying $1 \leq d \leq n$, the complex Stiefel manifold
+
+is the collection of orthonormal bases for the $d$-dimensional subspaces of ${\mathbb{C}}^{n},$ or, equivalently, the collection of all isometric embeddings of ${\mathbb{C}}^{d}$ into ${\mathbb{C}}^{n}.$ Let $\mathbf{A}$ be a self-adjoint matrix with dimension $n,$ and let ${\mathbf{V}} \in {\mathbb{V}}_{d}^{n}$ be an orthonormal basis for a subspace of ${\mathbb{C}}^{n}.$ Then the matrix ${\mathbf{V}}^{\ast}{\mathbf{A}}{\mathbf{V}}$ can be interpreted as the compression of $\mathbf{A}$ to the space spanned by ${\mathbf{V}}.$
+
+### Proposition 2.1 (Courant--Fischer)
+
+Let $\mathbf{A}$ be a self-adjoint matrix with dimension $n$. Then
+
+A matrix $\mathbf{V}_{-} \in {\mathbb{V}}_{k}^{n}$ achieves equality in (2.2. ‣ 2. Background and Notation ‣ Tail Bounds for All Eigenvalues of A Sum of Random Matrices")) if and only if its columns span a dominant $k$-dimensional invariant subspace of $\mathbf{A}.$ Likewise, a matrix $\mathbf{V}_{+} \in {\mathbb{V}}_{{n - k} + 1}^{n}$ achieves equality in (2.1. ‣ 2. Background and Notation ‣ Tail Bounds for All Eigenvalues of A Sum of Random Matrices")) if and only if its columns span a bottom $({{n - k} + 1})$-dimensional invariant subspace of $\mathbf{A}$.
+
+The $\pm$ subscripts in Proposition 2.1. ‣ 2. Background and Notation ‣ Tail Bounds for All Eigenvalues of A Sum of Random Matrices") are chosen to reflect the fact that $\lambda_{k}{({\mathbf{A}})}$ is the *minimum* eigenvalue of ${\mathbf{V}}_{-}^{\ast}{\mathbf{A}}{\mathbf{V}}_{-}$ and the *maximum* eigenvalue of ${{\mathbf{V}}_{+}^{\ast}{\mathbf{A}}{\mathbf{V}}_{+}}.$ As a consequence of Proposition 2.1. ‣ 2. Background and Notation ‣ Tail Bounds for All Eigenvalues of A Sum of Random Matrices"), when $\mathbf{A}$ is self-adjoint, ${{\lambda_{k}{({- {\mathbf{A}}})}} = {- {\lambda_{{n - k} + 1}{({\mathbf{A}})}}}}.$ This fact allows us to use the same techniques we develop for bounding the eigenvalues from above to bound them from below.
+
+## Tail Bounds For Interior Eigenvalues
+
+In this section we develop a generic bound on the tail probabilities of eigenvalues of sums of independent, random, self-adjoint matrices. We establish this bound by supplementing the matrix Laplace transform methodology of \[\] with Proposition 2.1. ‣ 2. Background and Notation ‣ Tail Bounds for All Eigenvalues of A Sum of Random Matrices") and a new result, due to Lieb and Seiringer \[\], on the concavity of a certain trace function on the cone of positive-definite matrices.
+
+First we observe that the Courant--Fischer theorem allows us relate the behavior of the $k$th eigenvalue of a matrix to the behavior of the largest eigenvalue of an appropriate compression of the matrix.
+
+### Theorem 3.1
+
+Let $\mathbf{X}$ be a random self-adjoint matrix with dimension $n,$ and let $k \leq n$ be an integer. Then, for all ${t \in {\mathbb{R}}},$
+
+### Proof
+
+Let $\theta$ be a fixed positive number. Then
+
+The first identity follows from the positive homogeneity of eigenvalue maps and the second from the monotonicity of the scalar exponential function. The final two relations are Markov's inequality and (2.1. ‣ 2. Background and Notation ‣ Tail Bounds for All Eigenvalues of A Sum of Random Matrices")).
+
+To continue, we need to bound the expectation. Interchange the order of the exponential and the minimum; then apply the spectral mapping theorem to see that
+
+The first inequality is Jensen's. The second inequality follows because the exponential of a self-adjoint matrix is positive definite, so its largest eigenvalue is smaller than its trace.
+
+Combine these observations and take the infimum over all positive $\theta$ to complete the argument. ∎
+
+We are interested in the case where the matrix $\mathbf{X}$ in Theorem 3.1 can be expressed as a sum of independent random matrices. In this case, we use the following result to develop the right-hand side of the Laplace transform bound (3.1).
+
+### Theorem 3.2
+
+Consider a finite sequence $\{\mathbf{X}_{j}\}$ of independent, random, self-adjoint matrices with dimension $n$ and a sequence $\{\mathbf{A}_{j}\}$ of fixed self-adjoint matrices with dimension $n$ that satisfy the relations
+
+Let $\mathbf{V} \in {\mathbb{V}}_{k}^{n}$ be an isometric embedding of ${\mathbb{C}}^{k}$ into ${\mathbb{C}}^{n}$ for some ${k \leq n}.$ Then
+
+Theorem 3.2 is an extension of Lemma 3.4 of \[\], which establishes the special case (3.4). The proof depends upon a recent result due to Lieb and Seiringer \[, Thm. 3\] that extends Lieb's earlier result \[, Thm. 6\].
+
+### Proposition 3.1 (Lieb--Seiringer 2005)
+
+Let $\mathbf{H}$ be a self-adjoint matrix with dimension $k.$ Let $\mathbf{V} \in {\mathbb{V}}_{k}^{n}$ be an isometric embedding of ${\mathbb{C}}^{k}$ into ${\mathbb{C}}^{n}$ for some ${k \leq n}.$ Then the function
+
+is concave on the cone of positive-definite matrices in ${\mathbb{M}}_{sa}^{n}$.
+
+### Proof of Theorem 3.2
+
+First, note that (3.2) and the operator monotonicity of the matrix logarithm yield the following inequality for each $k$:
+
+Let ${\mathbb{E}}_{k}$ denote expectation conditioned on the first $k$ summands, ${\mathbf{X}}_{1}$ through ${\mathbf{X}}_{k}.$ Then
+
+The first inequality follows from Proposition 3.1. ‣ 3. Tail Bounds For Interior Eigenvalues ‣ Tail Bounds for All Eigenvalues of A Sum of Random Matrices") and Jensen's inequality, and the second depends on (3.5) and the monotonicity of the trace exponential. Iterate this argument to complete the proof. ∎
+
+Our main result follows from combining Theorem 3.1 and Theorem 3.2.
+
+### Theorem 3.3 (Minimax Laplace Transform)
+
+Consider a finite sequence $\{\mathbf{X}_{j}\}$ of independent, random, self-adjoint matrices with dimension $n$, and let $k \leq n$ be an integer.
+
+Let $\{{\mathbf{A}}_{j}\}$ be a sequence of self-adjoint matrices that satisfy the semidefinite relations
+
+where ${g:{{(0,\infty)}\rightarrow{\lbrack 0,\infty)}}}.$ Then, for all ${t \in {\mathbb{R}}},$
+
+Let $\{{\mathbf{A}}_{j}:{{\mathbb{V}}_{{n - k} + 1}^{n}\rightarrow{\mathbb{M}}_{sa}^{n}}\}$ be a sequence of functions that satisfy the semidefinite relations
+
+for all ${{\mathbf{V}} \in {\mathbb{V}}_{{n - k} + 1}^{n}},$ where ${g:{{(0,\infty)}\rightarrow{\lbrack 0,\infty)}}}.$ Then, for all ${t \in {\mathbb{R}}},$
+
+The first bound in Theorem 3.3. ‣ 3. Tail Bounds For Interior Eigenvalues ‣ Tail Bounds for All Eigenvalues of A Sum of Random Matrices") requires less detailed information on how compression affects the summands but correspondingly does not give as sharp results as the second.
+
+In the following two sections, we use the minimax Laplace transform method to derive Chernoff and Bernstein inequalities for the interior eigenvalues of a sum of independent random matrices. Tail bounds for the eigenvalues of matrix Rademacher and Gaussian series, eigenvalue Hoeffding, and matrix martingale eigenvalue tail bounds can all be derived in a similar manner; see \[\] for relevant details.
+
+## Chernoff bounds
+
+Classical Chernoff bounds establish that the tails of a sum of independent nonnegative random variables decay subexponentially. \[\] develops Chernoff bounds for the maximum and minimum eigenvalues of a sum of independent positive-semidefinite matrices. We extend this analysis to study the interior eigenvalues.
+
+Intuitively, the eigenvalue tail bounds should depend on how concentrated the summands are; e.g., the maximum eigenvalue of a sum of operators whose ranges are aligned is likely to vary more than that of a sum of operators whose ranges are orthogonal. To measure how much a finite sequence of random summands $\{{\mathbf{X}}_{j}\}$ concentrates in a given subspace, we define a function $\Psi:{{\bigcup_{1 \leq k \leq n}{\mathbb{V}}_{k}^{n}}\rightarrow{\mathbb{R}}}$ that satisfies
+
+The sequence $\{{\mathbf{X}}_{j}\}$ associated with $\Psi$ will always be clear from context. We have the following result.
+
+### Theorem 4.1 (Eigenvalue Chernoff Bounds)
+
+Consider a finite sequence $\{\mathbf{X}_{j}\}$ of independent, random, positive-semidefinite matrices with dimension $n.$ Given an integer $k \leq n$, define
+
+and let $\mathbf{V}_{+} \in {\mathbb{V}}_{{n - k} + 1}^{n}$ and $\mathbf{V}_{-} \in {\mathbb{V}}_{k}^{n}$ be isometric embeddings that satisfy
+
+where $\Psi$ is a function that satisfies (4.1).
+
+Theorem 4.1. ‣ 4. Chernoff bounds ‣ Tail Bounds for All Eigenvalues of A Sum of Random Matrices") tells us how the tails of the $k$th eigenvalue are controlled by the variation of the random summands in the top and bottom invariant subspaces of ${\sum_{j}{{\mathbb{E}}{\mathbf{X}}_{j}}}.$ Up to the dimensional factors $k$ and ${n - k} + 1$, the eigenvalues exhibit binomial-type tails. When $k = 1$ (respectively, $k = n$) Theorem 4.1. ‣ 4. Chernoff bounds ‣ Tail Bounds for All Eigenvalues of A Sum of Random Matrices") controls the probability that the largest eigenvalue of the sum is small (respectively, the probability that the smallest eigenvalue of the sum is large), thereby complementing the one-sided Chernoff bounds of \[\].
+
+### Remark 4.1
+
+If it is difficult to estimate $\Psi{({\mathbf{V}}_{+})}$ or ${\Psi{({\mathbf{V}}_{-})}},$ one can resort to the weaker estimates
+
+Theorem 4.1. ‣ 4. Chernoff bounds ‣ Tail Bounds for All Eigenvalues of A Sum of Random Matrices") follows from Theorem 3.3. ‣ 3. Tail Bounds For Interior Eigenvalues ‣ Tail Bounds for All Eigenvalues of A Sum of Random Matrices") using an appropriate bound on the matrix moment generating functions. The following lemma is due to Ahlswede and Winter \[\]; see also \[, Lem. 5.8\].
+
+### Lemma 4.2
+
+Suppose that $\mathbf{X}$ is a random positive-semidefinite matrix that satisfies ${{\lambda_{\max}(\mathbf{X})} \leq 1}.$ Then
+
+### Proof of Theorem 4.1. ‣ 4. Chernoff bounds ‣ Tail Bounds for All Eigenvalues of A Sum of Random Matrices"), upper bound
+
+We consider the case where ${{\Psi{({\mathbf{V}}_{+})}} = 1};$ the general case follows by homogeneity. Define
+
+Theorem 3.3. ‣ 3. Tail Bounds For Interior Eigenvalues ‣ Tail Bounds for All Eigenvalues of A Sum of Random Matrices")(ii. ‣ 3. Tail Bounds For Interior Eigenvalues ‣ Tail Bounds for All Eigenvalues of A Sum of Random Matrices")) and Lemma 4.2 imply that
+
+Bound the trace by the maximum eigenvalue, taking into account the reduced dimension of the summands:
+
+The equality follows from the spectral mapping theorem. Identify the quantity $\mu_{k}$; then combine the last two inequalities to obtain
+
+The right-hand side is minimized when ${\theta = {\log{({1 + \delta})}}},$ which gives the desired upper tail bound. ∎
+
+### Proof of Theorem 4.1. ‣ 4. Chernoff bounds ‣ Tail Bounds for All Eigenvalues of A Sum of Random Matrices"), lower bound
+
+As before, we consider the case where ${{\Psi{({\mathbf{V}}_{-})}} = 1}.$ Clearly,
+
+Apply Lemma 4.2 to see that, for ${\theta > 0},$
+
+where ${{g{(\theta)}} = {1 - e^{- \theta}}}.$ Theorem 3.3. ‣ 3. Tail Bounds For Interior Eigenvalues ‣ Tail Bounds for All Eigenvalues of A Sum of Random Matrices")(ii. ‣ 3. Tail Bounds For Interior Eigenvalues ‣ Tail Bounds for All Eigenvalues of A Sum of Random Matrices")) thus implies that the latter probability in (4.2) is bounded by
+
+Using reasoning analogous to that in the proof of the upper bound, we justify the first of the following inequalities:
+
+The remaining equalities follow from the fact that ${- {g{(\theta)}}} < 0$ and the definition of $\mu_{k}.$
+
+This argument establishes the bound
+
+The right-hand side is minimized when ${\theta = {- {\log{({1 - \delta})}}}},$ which gives the desired lower tail bound. ∎
+
+## Bennett and Bernstein inequalities
+
+The classical Bennett and Bernstein inequalities use the variance or knowledge of the moments of the summands to control the probability that a sum of independent random variables deviates from its mean. In \[\], matrix Bennett and Bernstein inequalities are developed for the extreme eigenvalues of self-adjoint random matrix sums. We establish that the interior eigenvalues satisfy analogous inequalities.
+
+As in the derivation of the Chernoff inequalities of section 4, we need a measure of how concentrated the random summands are in a given subspace. Recall that the function $\Psi:{{\bigcup_{1 \leq k \leq n}{\mathbb{V}}_{k}^{n}}\rightarrow{\mathbb{R}}}$ satisfies
+
+The sequence $\{{\mathbf{X}}_{j}\}$ associated with $\Psi$ will always be clear from context.
+
+### Theorem 5.1 (Eigenvalue Bennett Inequality)
+
+Consider a finite sequence $\{\mathbf{X}_{j}\}$ of independent, random, self-adjoint matrices with dimension $n$, all of which have zero mean. Given an integer $k \leq n$, define
+
+Choose $\mathbf{V}_{+} \in {\mathbb{V}}_{{n - k} + 1}^{n}$ to satisfy
+
+Then, for all ${t \geq 0},$
+
+where the function ${h{(u)}} = {{{({1 + u})}{\log{({1 + u})}}} - u}$ for ${u \geq 0}.$ The function $\Psi$ satisfies (5.1) above.
+
+Results (i. ‣ 5. Bennett and Bernstein inequalities ‣ Tail Bounds for All Eigenvalues of A Sum of Random Matrices")) and (ii. ‣ 5. Bennett and Bernstein inequalities ‣ Tail Bounds for All Eigenvalues of A Sum of Random Matrices")) are, respectively, matrix analogs of the classical Bennett and Bernstein inequalities. As in the scalar case, the Bennett inequality reflects a Poisson-type decay in the tails of the eigenvalues. The Bernstein inequality states that small deviations from the eigenvalues of the expected matrix are roughly normally distributed while larger deviations are subexponential. The split Bernstein inequalities (iii. ‣ 5. Bennett and Bernstein inequalities ‣ Tail Bounds for All Eigenvalues of A Sum of Random Matrices")) make explicit the division between these two regimes.
+
+As stated, Theorem 5.1. ‣ 5. Bennett and Bernstein inequalities ‣ Tail Bounds for All Eigenvalues of A Sum of Random Matrices") estimates the probability that the eigenvalues of a sum are large. Using the identity
+
+Theorem 5.1. ‣ 5. Bennett and Bernstein inequalities ‣ Tail Bounds for All Eigenvalues of A Sum of Random Matrices") can be applied to estimate the probability that eigenvalues of a sum are small.
+
+To prove Theorem 5.1. ‣ 5. Bennett and Bernstein inequalities ‣ Tail Bounds for All Eigenvalues of A Sum of Random Matrices"), we use the following lemma (Lemma 6.7 in \[\]) to control the moment generating function of a random matrix with bounded maximum eigenvalue.
+
+### Lemma 5.2
+
+Let $\mathbf{X}$ be a random self-adjoint matrix satisfying ${{\mathbb{E}}\mathbf{X}} = \mathbf{0}$ and ${\lambda_{\max}(\mathbf{X})} \leq 1$ almost surely. Then
+
+### Proof of Theorem 5.1. ‣ 5. Bennett and Bernstein inequalities ‣ Tail Bounds for All Eigenvalues of A Sum of Random Matrices")
+
+Using homogeneity, we assume without loss that ${{\Psi{({\mathbf{V}}_{+})}} = 1}.$ This implies that ${\lambda_{\max}\left( {\mathbf{X}}_{j} \right)} \leq 1$ almost surely for all the summands. By Lemma 5.2,
+
+with ${{g{(\theta)}} = {e^{\theta} - \theta - 1}}.$
+
+Theorem 3.3. ‣ 3. Tail Bounds For Interior Eigenvalues ‣ Tail Bounds for All Eigenvalues of A Sum of Random Matrices")(i. ‣ 3. Tail Bounds For Interior Eigenvalues ‣ Tail Bounds for All Eigenvalues of A Sum of Random Matrices")) then implies
+
+The maximum eigenvalue in this expression equals $\sigma_{k}^{2}$, thus
+
+The Bennett inequality (i. ‣ 5. Bennett and Bernstein inequalities ‣ Tail Bounds for All Eigenvalues of A Sum of Random Matrices")) follows by substituting $\theta = {\log{({1 + {t/\sigma_{k}^{2}}})}}$ into the right-hand side and simplifying.
+
+The Bernstein inequality (ii. ‣ 5. Bennett and Bernstein inequalities ‣ Tail Bounds for All Eigenvalues of A Sum of Random Matrices")) is a consequence of (i. ‣ 5. Bennett and Bernstein inequalities ‣ Tail Bounds for All Eigenvalues of A Sum of Random Matrices")) and the fact that
+
+which can be established by comparing derivatives.
+
+The subgaussian and subexponential portions of the split Bernstein inequalities (iii. ‣ 5. Bennett and Bernstein inequalities ‣ Tail Bounds for All Eigenvalues of A Sum of Random Matrices")) are verified through algebraic comparisons on the relevant intervals. ∎
+
+Occasionally, as in the application in section 7 to the problem of covariance matrix estimation, one desires a Bernstein-type tail bound that applies to summands that do not have bounded maximum eigenvalues. In this case, if the moments of the summands satisfy sufficiently strong growth restrictions, one can extend classical scalar arguments to obtain results such as the following Bernstein bound for subexponential matrices.
+
+### Theorem 5.3 (Eigenvalue Bernstein Inequality for Subexponential Matrices)
+
+Consider a finite sequence $\{\mathbf{X}_{j}\}$ of independent, random, self-adjoint matrices with dimension $n$, all of which satisfy the subexponential moment growth condition
+
+where $B$ is a positive constant and $\mathbf{\Sigma}_{j}^{2}$ are positive-semidefinite matrices. Given an integer $k \leq n$, set
+
+Choose $\mathbf{V}_{+} \in {\mathbb{V}}_{{n - k} + 1}^{n}$ that satisfies
+
+Then, for any ${t \geq 0},$
+
+This result is an extension of \[, Theorem 6.2\], which, in turn, generalizes a classical scalar argument \[\].
+
+As with the other matrix inequalities, Theorem 5.3. ‣ 5. Bennett and Bernstein inequalities ‣ Tail Bounds for All Eigenvalues of A Sum of Random Matrices") follows from an application of Theorem 3.3. ‣ 3. Tail Bounds For Interior Eigenvalues ‣ Tail Bounds for All Eigenvalues of A Sum of Random Matrices") and appropriate semidefinite bounds on the moment generating functions of the summands. Thus, the key to the proof lies in exploiting the moment growth conditions of the summands to majorize their moment generating functions. The following lemma, a trivial extension of Lemma 6.8 in \[\], provides what we need.
+
+### Lemma 5.4
+
+Let $\mathbf{X}$ be a random self-adjoint matrix satisfying the subexponential moment growth conditions
+
+Then, for any $\theta$ in ${\lbrack 0,1)},$
+
+### Proof of Theorem 5.3. ‣ 5. Bennett and Bernstein inequalities ‣ Tail Bounds for All Eigenvalues of A Sum of Random Matrices")
+
+We note that ${\mathbf{X}}_{j}$ satisfies the growth condition
+
+if and only if the scaled matrix ${\mathbf{X}}_{j}/B$ satisfies
+
+Thus, by rescaling, it suffices to consider the case ${B = 1}.$ We now do so.
+
+By Lemma 5.4, the moment generating functions of the summands satisfy
+
+where ${{g{(\theta)}} = {\theta^{2}/{({2 - {2\theta}})}}}.$ Now we apply Theorem 3.3. ‣ 3. Tail Bounds For Interior Eigenvalues ‣ Tail Bounds for All Eigenvalues of A Sum of Random Matrices")(i. ‣ 3. Tail Bounds For Interior Eigenvalues ‣ Tail Bounds for All Eigenvalues of A Sum of Random Matrices")):
+
+To achieve the final simplification, we identified $\mu_{k}$ and $\sigma_{k}^{2}.$ Now, select ${\theta = {t/{({t + \sigma_{k}^{2}})}}}.$ Then simplication gives the Bernstein inequality (i. ‣ 5. Bennett and Bernstein inequalities ‣ Tail Bounds for All Eigenvalues of A Sum of Random Matrices")).
+
+Algebraic comparisons on the relevant intervals yield the split Bernstein inequalities (ii. ‣ 5. Bennett and Bernstein inequalities ‣ Tail Bounds for All Eigenvalues of A Sum of Random Matrices")). ∎
+
+## An application to column subsampling
+
+As an application of our Chernoff bounds, we examine how sampling columns from a matrix with orthonormal rows affects the spectrum. This question has applications in numerical linear algebra and compressed sensing. The special cases of the maximum and minimum eigenvalues have been studied in the literature \[, \]. The limiting spectral distributions of matrices formed by sampling columns from similarly structured matrices have also been studied: the results of \[\] apply to matrices formed by sampling columns from any fixed orthogonal matrix, and \[\] studies matrices formed by sampling columns and rows from the discrete Fourier transform matrix. We mention in particular \[\], the main result of which provides a uniform bound on the tails of all singular values of the sampled matrix. The theorem proven in this section provides bounds which reflect the differences in the tails of the individual singular values, and thus can be viewed as an elaboration of the result in \[\].
+
+Let $\mathbf{U}$ be an $n \times r$ matrix with orthonormal rows. We model the sampling operation using a random diagonal matrix $\mathbf{D}$ whose entries are independent $\text{Bern}{(p)}$ random variables. Then the random matrix
+
+can be interpreted as a random column submatrix of $\mathbf{U}$ with an average of $pr$ nonzero columns. Our goal is to study the behavior of the spectrum of $\hat{\mathbf{U}}.$
+
+Recall that the $j$th column of $\mathbf{U}$ is written ${\mathbf{u}}_{j}.$ Consider the following coherence-like quantity associated with ${\mathbf{U}}:$
+
+There does not seem to be a simple expression for $\tau_{k}.$ However, by choosing ${\mathbf{V}}^{\ast}$ to be the restriction to an appropriate $k$-dimensional coordinate subspace, we see that $\tau_{k}$ always satisfies
+
+The following theorem shows that the behavior of ${s_{k}{(\hat{\mathbf{U}})}},$ the $k$th singular value of $\hat{\mathbf{U}},$ can be explained in terms of $\tau_{k}.$
+
+### Theorem 6.1 (Column Subsampling of Matrices with Orthonormal Rows)
+
+Let $\mathbf{U}$ be an $n \times r$ matrix with orthonormal rows, and let $p$ be a sampling probability. Define the sampled matrix $\hat{\mathbf{U}}$ according to (6.1), and the numbers $\{\tau_{k}\}$ according to (6.2). Then, for each ${k = {1,\ldots,n}},$
+
+### Proof
+
+Observe, using (6.1), that
+
+where ${\mathbf{u}}_{j}$ is the $j$th column of $\mathbf{U}$ and ${d_{j} \sim {\text{Bern}{(p)}}}.$ Compute
+
+It follows that, for *any* ${{\mathbf{V}} \in {\mathbb{V}}_{{n - k} + 1}^{n}},$
+
+so the choice of ${\mathbf{V}}_{+} \in {\mathbb{V}}_{{n - k} + 1}^{n}$ is arbitrary. Similarly, the choice of ${\mathbf{V}}_{-} \in {\mathbb{V}}_{k}^{n}$ is arbitrary. We select ${\mathbf{V}}_{+}$ to be an isometric embedding that achieves $\tau_{{n - k} + 1}$ and ${\mathbf{V}}_{-}$ to be an isometric embedding that achieves $\tau_{k}$. Accordingly,
+
+Theorem 4.1. ‣ 4. Chernoff bounds ‣ Tail Bounds for All Eigenvalues of A Sum of Random Matrices") delivers the upper bound
+
+for ${\delta \in {\lbrack 0,1)}}.$ ∎
+
+Figure 1. [Spectrum of a random submatrix] The matrix U is a 102 × 104 submatrix of the unitary DFT matrix with dimension 104, and the sampling probability p = 10−4 log. The kth vertical bar, calculated using Theorem 6.1, describes an interval containing the median value of the kth singular value of the sampled matrix $\hat{\mathbf{U}}$. The black circles denote the empirical medians of the singular values of $\hat{\mathbf{U}}$, calculated from 500 trials. The gray circles represent the singular values of ${{\mathbb{E}}\hat{\mathbf{U}}}.$
+
+To illustrate the discriminatory power of these bounds, let $\mathbf{U}$ be an $n \times n^{2}$ matrix consisting of $n$ rows of the $n^{2} \times n^{2}$ Fourier matrix and choose $p = {{({\log n})}/n}$ so that, on average, sampling reduces the aspect ratio from $n$ to ${\log n}.$ For ${n = 100},$ we determine upper and lower bounds for the median value of $s_{k}{(\hat{\mathbf{U}})}$ by numerically finding the value of $\delta$ where the probability bounds in Theorem 6.1. ‣ 6. An application to column subsampling ‣ Tail Bounds for All Eigenvalues of A Sum of Random Matrices") equal ${1/2}.$ Figure 1 plots the empirical median value along with the computed interval. We see that these ranges reflect the behavior of the singular values more faithfully than the simple estimates ${{s_{k}{({{\mathbb{E}}\hat{\mathbf{U}}})}} = p}.$
+
+## Covariance Estimation
+
+We conclude with an extended example that illustrates how this circle of ideas allows one to answer interesting statistical questions. Specifically, we investigate the convergence of the individual eigenvalues of sample covariance matrices, with errors measured in *relative* precision.
+
+Covariance estimation is a basic and ubiquitious problem that arises in signal processing, graphical modeling, machine learning, and genomics, among other areas. Let ${\{{\mathbf{η}}_{j}\}}_{j = 1}^{n} \subset {\mathbb{R}}^{p}$ be i.i.d. samples drawn from some distribution with zero mean and covariance matrix ${\mathbf{C}}.$ Define the sample covariance matrix
+
+An important challenge is to determine how many samples are needed to ensure that the empirical covariance estimator has a fixed relative accuracy in the spectral norm. That is, given a fixed $\varepsilon,$ how large must $n$ be so that
+
+This estimation problem has been studied extensively. It is now known that for distributions with a finite second moment, $\Omega{({p{\log p}})}$ samples suffice \[\], and for log-concave distributions, $\Omega{(p)}$ samples suffice \[\]. More broadly, Vershynin \[\] conjectures that, for distributions with finite fourth moment, $\Omega{(p)}$ samples suffice; he establishes this result to within iterated log factors. In \[\], Srivastava and Vershynin establish that $\Omega{(p)}$ samples suffice for distributions which have finite $2 + \varepsilon$ moments, for some ${\varepsilon > 0},$ and satisfy an additional regularity condition.
+
+Inequality (7.1) ensures that the difference between the $k$th eigenvalues of ${\hat{\mathbf{C}}}_{n}$ and $\mathbf{C}$ is small, but it requires $O{(p)}$ measurements to obtain estimates of even a few of the eigenvalues. Specifically, letting ${\kappa_{\ell} = {{{\lambda_{1}{({\mathbf{C}})}}/\lambda_{\ell}}{({\mathbf{C}})}}},$ we see that $O{({\varepsilon^{- 2}\kappa_{\ell}^{2}p})}$ measurements are required to obtain relative-error estimates of the dominant $\ell$ eigenvalues of $\mathbf{C}$ using the results of \[ \]. However, it is reasonable to expect that when the spectrum of $\mathbf{C}$ exhibits decay and ${\ell \ll p},$ much fewer than $O{(p)}$ measurements should suffice for relative-error recovery of the dominant $\ell$ eigenvalues.
+
+In this section, we derive a relative approximation bound for each eigenvalue of $\mathbf{C}$ that allows us to confirm this intuition. For simplicity we assume the samples are drawn from a $\mathcal{N}{(\mathbf{0},{\mathbf{C}})}$ distribution where $\mathbf{C}$ is full-rank, but the arguments can be extended to cover other distributions.
+
+### Theorem 7.1
+
+Assume that $\mathbf{C} \in {\mathbb{M}}_{sa}^{p}$ is positive definite. Let ${\{{\mathbf{η}}_{j}\}}_{j = 1}^{n} \subset {\mathbb{R}}^{p}$ be i.i.d. samples drawn from a $\mathcal{N}{(\mathbf{0},\mathbf{C})}$ distribution. Define
+
+Write $\lambda_{k}$ for the $k$th eigenvalue of $\mathbf{C}$, and write ${\hat{\lambda}}_{k}$ for the $k$th eigenvalue of ${\hat{\mathbf{C}}}_{n}.$ Then for ${k = {1,\ldots,p}},$
+
+where the constant $c$ is at least ${1/32}.$
+
+The following corollary provides an answer to our question about relative error estimates.
+
+### Corollary 7.2
+
+Let $\lambda_{k}$ and ${\hat{\lambda}}_{k}$ be as in Theorem 7.1. Then
+
+where the constant $c$ is at least ${1/32}.$
+
+The first bound in Corollary 7.2 tells us how many samples are needed to ensure that ${\hat{\lambda}}_{k}$ does not overestimate $\lambda_{k}.$ Likewise, the second bound tells us how many samples ensure that ${\hat{\lambda}}_{k}$ does not underestimate $\lambda_{k}.$
+
+Corollary 7.2 suggests that the relationship of ${\hat{\lambda}}_{k}$ to $\lambda_{k}$ is determined by the spectrum of $\mathbf{C}$ in the following manner. When the eigenvalues below $\lambda_{k}$ are small compared with $\lambda_{k}$, the quantity
+
+is small, and so ${\hat{\lambda}}_{k}$ is not likely to overestimate $\lambda_{k}$. Similarly, when the eigenvalues above $\lambda_{k}$ are comparable with $\lambda_{k}$, the quantity
+
+is small, and so ${\hat{\lambda}}_{k}$ is not likely to underestimate $\lambda_{k}$.
+
+We now have everything needed to establish Theorem 1.1.
+
+### Proof of Theorem 1.1 from Corollary 7.2
+
+From Corollary 7.2, we see that
+
+Recall that ${\kappa_{k} = {{{\lambda_{1}{({\mathbf{C}})}}/\lambda_{k}}{({\mathbf{C}})}}}.$ Clearly, taking $n = {\Omega{({\varepsilon^{- 2}\kappa_{\ell}^{2}\ell{\log p}})}}$ samples ensures that, with high probability, each of the top $\ell$ eigenvalues of the sample covariance matrix satisfies ${{\hat{\lambda}}_{k} > {{({1 - \varepsilon})}\lambda_{k}}}.$
+
+Assuming the stated decay condition, that
+
+we see that taking $n = {\Omega{({\varepsilon^{- 2}{({\ell + \kappa_{\ell}})}{\log p}})}}$ samples ensures that, with high probability, each of the top $\ell$ eigenvalues of the sample covariance matrix satisfies ${{\hat{\lambda}}_{k} < {{({1 + \varepsilon})}\lambda_{k}}}.$
+
+Combining these two results, we conclude that $n = {\Omega{({\varepsilon^{- 2}\kappa_{\ell}^{2}\ell{\log p}})}}$ ensures that the top $\ell$ eigenvalues of $\mathbf{C}$ are estimated to within relative precision ${1 \pm \varepsilon}.$ ∎
+
+### Remark 7.1
+
+The results in Theorem 7.1 and Corollary 7.2 also apply when $\mathbf{C}$ is rank-deficient: simply replace each occurence of the dimension $p$ in the bounds with ${{rank}{({\mathbf{C}})}}.$
+
+### Proof of Theorem 7.1
+
+We now prove Theorem 7.1. This result requires supporting lemmas; we defer their proofs until after a discussion of extensions to Theorem 7.1.
+
+We study the error ${|{{\lambda_{k}{({\hat{\mathbf{C}}}_{n})}} - {\lambda_{k}{({\mathbf{C}})}}}|}.$ To apply the methods developed in this paper, we pass to a question about the eigenvalues of a difference of two matrices. The first lemma accomplishes this goal by compressing both the population covariance matrix and the sample covariance matrix to a fixed invariant subspace of the population covariance matrix.
+
+### Lemma 7.3
+
+Let $\mathbf{X}$ be a random self-adjoint matrix with dimension $p,$ and let $\mathbf{A}$ be a fixed self-adjoint matrix with dimension $p$. Choose $\mathbf{W}_{+} \in {\mathbb{V}}_{{p - k} + 1}^{p}$ and $\mathbf{W}_{-} \in {\mathbb{V}}_{k}^{p}$ for which
+
+Then, for all ${t > 0},$
+
+We apply this result with ${\mathbf{A}} = {\mathbf{C}}$ and ${{\mathbf{X}} = {\hat{\mathbf{C}}}_{n}}.$ Because ${\hat{\mathbf{C}}}_{n}$ is unbounded, we apply Theorem 5.3. ‣ 5. Bennett and Bernstein inequalities ‣ Tail Bounds for All Eigenvalues of A Sum of Random Matrices") to handle the estimates in (7.2) and (7.3). To use this theorem, we need the following moment growth estimate for rank-one Wishart matrices.
+
+### Lemma 7.4
+
+Let ${{\mathbf{ξ}} \sim {\mathcal{N}{(\mathbf{0},\mathbf{G})}}}.$ Then for any integer ${m \geq 2},$
+
+With these preliminaries addressed, we prove Theorem 7.1.
+
+### Proof of upper estimate
+
+First we consider the probability that ${\hat{\lambda}}_{k}$ overestimates $\lambda_{k}$. Let ${\mathbf{W}}_{+} \in {\mathbb{V}}_{{p - k} + 1}^{p}$ satisfy
+
+Then Lemma 7.3 implies
+
+The factor $n$ comes from the normalization of the sample covariance matrix.
+
+The covariance matrix of ${\mathbf{η}}_{j}$ is ${\mathbf{C}},$ so that of ${\mathbf{W}}_{+}^{\ast}{\mathbf{η}}_{j}$ is ${{\mathbf{W}}_{+}^{\ast}{\mathbf{C}}{\mathbf{W}}_{+}}.$ Apply Lemma 7.4 to verify that ${\mathbf{W}}_{+}^{\ast}{\mathbf{η}}_{j}{\mathbf{η}}_{j}{\mathbf{W}}_{+}$ satisfies the subexponential moment growth bound required by Theorem 5.3. ‣ 5. Bennett and Bernstein inequalities ‣ Tail Bounds for All Eigenvalues of A Sum of Random Matrices") with
+
+In fact, ${\mathbf{W}}_{+}^{\ast}{\mathbf{C}}{\mathbf{W}}_{+}$ is the compression of $\mathbf{C}$ to the invariant subspace corresponding with its bottom ${p - k} + 1$ eigenvalues, so
+
+We are concerned with the maximum eigenvalue of the sum in (7.4), so we take ${\mathbf{V}}_{+} = \mathbf{I}$ in the statement of Theorem 5.3. ‣ 5. Bennett and Bernstein inequalities ‣ Tail Bounds for All Eigenvalues of A Sum of Random Matrices") to find that
+
+It follows from the subgaussian branch of the split Bernstein inequality of Theorem 5.3. ‣ 5. Bennett and Bernstein inequalities ‣ Tail Bounds for All Eigenvalues of A Sum of Random Matrices") that
+
+when ${t \leq {4n\lambda_{k}{({\mathbf{C}})}}}.$ This provides the desired bound on the probability that $\lambda_{k}{({\hat{\mathbf{C}}}_{n})}$ overestimates ${\lambda_{k}{({\mathbf{C}})}}.$ ∎
+
+### Proof of lower estimate
+
+Now we consider the probability that ${\hat{\lambda}}_{k}$ underestimates $\lambda_{k}.$ The proof proceeds similarly to the proof of the upper estimate. Let ${\mathbf{W}}_{-} \in {\mathbb{V}}_{k}^{p}$ satisfy
+
+Then Lemma 7.3 implies
+
+The factor $n$ comes from the normalization of the sample covariance matrix.
+
+The covariance matrix of ${\mathbf{η}}_{j}$ is ${\mathbf{C}},$ so that of ${\mathbf{W}}_{-}^{\ast}{\mathbf{η}}_{j}$ is ${{\mathbf{W}}_{-}^{\ast}{\mathbf{C}}{\mathbf{W}}_{-}}.$ Apply Lemma 7.4 to verify that for any integer ${m \geq 2},$
+
+Thus, ${\mathbf{W}}_{-}^{\ast}{({- {{\mathbf{η}}_{j}{\mathbf{η}}_{j}^{\ast}}})}{\mathbf{W}}_{-}$ satisfies the subexponential moment growth bound required by Theorem 5.3. ‣ 5. Bennett and Bernstein inequalities ‣ Tail Bounds for All Eigenvalues of A Sum of Random Matrices") with
+
+In fact, ${\mathbf{W}}_{-}^{\ast}{\mathbf{C}}{\mathbf{W}}_{-}$ is the compression of $\mathbf{C}$ to the invariant subspace corresponding with its top $k$ eigenvalues, so
+
+We are concerned with the maximum eigenvalue of the sum in (7.5), so we take ${\mathbf{V}}_{+} = \mathbf{I}$ in the statement of Theorem 5.3. ‣ 5. Bennett and Bernstein inequalities ‣ Tail Bounds for All Eigenvalues of A Sum of Random Matrices") to find that
+
+It follows from the subgaussian branch of the split Bernstein inequality of Theorem 5.3. ‣ 5. Bennett and Bernstein inequalities ‣ Tail Bounds for All Eigenvalues of A Sum of Random Matrices") that
+
+when ${t \leq {4n\lambda_{1}{({\mathbf{C}})}}}.$ This provides the desired bound on the probability that $\lambda_{k}{({\hat{\mathbf{C}}}_{n})}$ underestimates ${\lambda_{k}{({\mathbf{C}})}}.$ ∎
+
+### Extensions of Theorem 7.1
+
+Results analogous to Theorem 7.1 can be established for other distributions. If the distribution is bounded, the possibility that ${\hat{\lambda}}_{k}$ deviates above or below $\lambda_{k}$ can be controlled using the Bernstein inequality of Theorem 5.1. ‣ 5. Bennett and Bernstein inequalities ‣ Tail Bounds for All Eigenvalues of A Sum of Random Matrices"). If the distribution is unbounded but has matrix moments that satisfy a sufficiently nice growth condition, the probability that ${\hat{\lambda}}_{k}$ deviates below $\lambda_{k}$ as well as the probability that it deviates above $\lambda_{k}$ can be bounded using a Bernstein inequality analogous to that in Theorem 5.3. ‣ 5. Bennett and Bernstein inequalities ‣ Tail Bounds for All Eigenvalues of A Sum of Random Matrices").
+
+Theorem 7.1 controls the error in the $k$th sample eigenvalue in terms of all the eigenvalues of the covariance matrix, so it is most useful when the eigenvalues of the covariance matrix satisfy decay conditions such as those given in the statement of Theorem 1.1. If such conditions are not satisfied, the results of \[\] on the convergence of empirical covariance matrices of isotropic log-concave random vectors lead to tighter bounds on the probabilities that ${\hat{\lambda}}_{k}$ overestimates or underestimates $\lambda_{k}.$
+
+To see the relevance of the results in \[\], first observe the following consequence of the subadditivity of the maximum eigenvalue mapping:
+
+In conjunction with (7.2), this gives us the following control on the probability that $\lambda_{k}{({\mathbf{X}})}$ overestimates ${\lambda_{k}{({\mathbf{A}})}}:$
+
+In our application, $\mathbf{X}$ is the empirical covariance matrix and $\mathbf{A}$ is the actual covariance matrix. The spectral norm dominates the maximum eigenvalue, so
+
+where $\mathbf{S}$ is the square root of ${{\mathbf{W}}_{+}^{\ast}{\mathbf{C}}{\mathbf{W}}_{+}}.$ Now factor out ${\mathbf{S}}^{2}$ and identify ${\lambda_{k}{({\mathbf{C}})}} = {\|{\mathbf{S}}^{2}\|}$ to obtain
+
+Note that if $\mathbf{η}$ is drawn from a $\mathcal{N}{(\mathbf{0},{\mathbf{C}})}$ distribution, then the covariance matrix of the transformed sample ${\mathbf{S}}^{- 1}{\mathbf{W}}_{+}^{\ast}{\mathbf{η}}$ is the identity:
+
+Thus ${\mathbf{S}}^{- 1}{\mathbf{W}}_{+}^{\ast}{\hat{\mathbf{C}}}_{n}{\mathbf{W}}_{+}{\mathbf{S}}^{- 1}$ is the empirical covariance matrix of a standard Gaussian vector in ${\mathbb{R}}^{{p - k} + 1}.$ By Theorem 1 of \[\], it follows that ${\hat{\lambda}}_{k}$ is unlikely to overestimate $\lambda_{k}$ in relative error when the number $n$ of samples is ${\Omega{({{p - k} + 1})}}.$ A similar argument shows that ${\hat{\lambda}}_{k}$ is unlikely to underestimate $\lambda_{k}$ in relative error when ${n = {\Omega{({\kappa_{p}^{2}k})}}}.$
+
+Similarly, for more general distributions, the bounds on the probability of ${\hat{\lambda}}_{k}$ overestimating or underestimating $\lambda_{k}$ can be tightened beyond those suggested in Theorem 7.1 by using the results in \[\] or \[\]. Note, however, that one cannot use knowledge of spectral decay to sharpen the results obtained from \[\] and \[\] into estimates like those given in Theorem 1.1.
+
+Finally, we note that the techniques developed in the proof of Theorem 7.1 can be used to investigate the spectrum of the error matrices ${{\hat{\mathbf{C}}}_{n} - {\mathbf{C}}}.$
+
+### Proofs of the supporting lemmas
+
+We now establish the lemmas used in the proof of Theorem 7.1.
+
+### Proof of Lemma 7.3
+
+The probability that $\lambda_{k}{({\mathbf{X}})}$ overestimates $\lambda_{k}{({\mathbf{A}})}$ is controlled with the sequence of inequalities
+
+We use a related approach to study the probability that $\lambda_{k}{({\mathbf{X}})}$ underestimates ${\lambda_{k}{({\mathbf{A}})}}.$ Our choice of ${\mathbf{W}}_{-}$ implies that
+
+This establishes the bounds on the probabilities of $\lambda_{k}{({\mathbf{X}})}$ deviating above or below ${\lambda_{k}{({\mathbf{A}})}}.$ ∎
+
+### Proof of Lemma 7.4
+
+Factor the covariance matrix of $\mathbf{ξ}$ as ${\mathbf{G}} = {{\mathbf{U}}\mathbf{\Lambda}{\mathbf{U}}^{\ast}}$ where $\mathbf{U}$ is orthogonal and $\mathbf{\Lambda} = {\text{diag}{(\lambda_{1},\ldots,\lambda_{p})}}$ is the matrix of eigenvalues of $\mathbf{G}$. Let $\mathbf{γ}$ be a $\mathcal{N}{(\mathbf{0},\mathbf{I}_{p})}$ random variable. Then $\mathbf{ξ}$ and ${\mathbf{U}}\mathbf{\Lambda}^{1/2}{\mathbf{γ}}$ are identically distributed, so
+
+Consider the $(i,j)$ entry of the bracketed matrix in (7.6):
+
+From this expression, and the independence of the Gaussian variables ${\{\gamma_{i}\}},$ we see that this matrix is diagonal.
+
+To bound the diagonal entries, use a multinomial expansion to further develop the sum in (7.7) for the $(i,i)$ entry:
+
+Denote the $L_{r}$ norm of a random variable $X$ by
+
+Since $\ell_{1},\ldots,\ell_{p}$ are nonnegative integers summing to $m - 1$, the generalized AM-GM inequality justifies the first of the following inequalities:
+
+The second inequality is the triangle inequality for $L_{r}$ norms. Now we reverse the multinomial expansion to see that the diagonal terms satisfy the inequality
+
+Estimate ${\mathbb{E}}{(g^{2m})}$ using the fact that $\Gamma{(x)}$ is increasing for ${x \geq 1}:$
+
+Combine this result with (7.8) to see that
+
+Complete the proof by using this estimate in (7.6).

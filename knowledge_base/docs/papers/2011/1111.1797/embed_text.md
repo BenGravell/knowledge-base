@@ -1,0 +1,216 @@
+## Introduction
+
+Multi-armed bandit (MAB) problem models the exploration/exploitation trade-off inherent in sequential decision problems. Many versions and generalizations of the multi-armed bandit problem have been studied in the literature; in this paper we will consider a basic and well-studied version of this problem: the stochastic multi-armed bandit problem. Among many algorithms available for the stochastic bandit problem, some popular ones include Upper Confidence Bound (UCB) family of algorithms, (e.g. and more recently ), which have good theoretical guarantees, and the algorithm by, which gives optimal strategy under Bayesian setting with known priors and geometric time-discounted rewards. In one of the earliest works on stochastic bandit problems, proposed a natural randomized Bayesian algorithm to minimize regret. The basic idea is to assume a simple prior distribution on the parameters of the reward distribution of every arm, and at any time step, play an arm according to its posterior probability of being the best arm. This algorithm is known as *Thompson Sampling* (TS), and it is a member of the family of *randomized probability matching* algorithms. We emphasize that although TS algorithm is a Bayesian approach, the description of the algorithm and our analysis apply to the prior-free stochastic multi-armed bandit model where parameters of the reward distribution of every arm are fixed, though unknown (refer to Section 1.1). One could think of the "assumed" Bayesian priors as a tool employed by the TS algorithm to encode the current knowledge about the arms. Thus, our regret bounds for Thompson Sampling are directly comparable to the regret bounds for UCB family of algorithms which are a frequentist approach to the same problem.
+
+Recently, TS has attracted considerable attention. Several studies (e.g., ) have empirically demonstrated the efficacy of Thompson Sampling: provides a detailed discussion of probability matching techniques in many general settings along with favorable empirical comparisons with other techniques. demonstrate that empirically TS achieves regret comparable to the lower bound of; and in applications like display advertising and news article recommendation, it is competitive to or better than popular methods such as UCB. In their experiments, TS is also more robust to delayed or batched feedback (delayed feedback means that the result of a play of an arm may become available only after some time delay, but we are required to make immediate decisions for which arm to play next) than the other methods. A possible explanation may be that TS is a randomized algorithm and so it is unlikely to get trapped in an early bad decision during the delay. Microsoft's adPredictor () for CTR prediction of search ads on Bing uses the idea of Thompson Sampling.
+
+It has been suggested () that despite being easy to implement and being competitive to the state of the art methods, the reason TS is not very popular in literature could be its lack of strong theoretical analysis. Existing theoretical analyses in provide weak guarantees, namely, a bound of $o{(T)}$ on expected regret in time $T$. In this paper, for the first time, we provide a logarithmic bound on expected regret of TS algorithm in time $T$ that is close to the lower bound of. Before stating our results, we describe the MAB problem and the TS algorithm formally.
+
+### The multi-armed bandit problem
+
+We consider the stochastic multi-armed bandit (MAB) problem: We are given a slot machine with $N$ arms; at each time step $t = {1,2,3,\ldots}$, one of the $N$ arms must be chosen to be played. Each arm $i$, when played, yields a random real-valued reward according to some fixed (unknown) distribution with support in $\lbrack 0,1\rbrack$. The random reward obtained from playing an arm repeatedly are i.i.d. and independent of the plays of the other arms. The reward is observed immediately after playing the arm.
+
+An algorithm for the MAB problem must decide which arm to play at each time step $t$, based on the outcomes of the previous $t - 1$ plays. Let $\mu_{i}$ denote the (unknown) expected reward for arm $i$. A popular goal is to maximize the expected total reward in time $T$, i.e., ${\mathbb{E}}{\lbrack{\sum_{t = 1}^{T}\mu_{i{(t)}}}\rbrack}$, where $i{(t)}$ is the arm played in step $t$, and the expectation is over the random choices of $i{(t)}$ made by the algorithm. It is more convenient to work with the equivalent measure of expected total *regret*: the amount we lose because of not playing optimal arm in each step. To formally define regret, let us introduce some notation. Let $\mu^{\ast}:={\max_{i}\mu_{i}}$, and $\Delta_{i}:={\mu^{\ast} - \mu_{i}}$. Also, let $k_{i}{(t)}$ denote the number of times arm $i$ has been played up to step $t - 1$. Then the expected total regret in time $T$ is given by
+
+Other performance measures include PAC-style guarantees; we do not consider those measures here.
+
+### Thompson Sampling
+
+For simplicity of discussion, we first provide the details of Thompson Sampling algorithm for the Bernoulli bandit problem, i.e. when the rewards are either $0$ or $1$, and for arm $i$ the probability of success (reward =$1$) is $\mu_{i}$. This description of Thompson Sampling follows closely that of. Next, we propose a simple new extension of this algorithm to general reward distributions with support $\lbrack 0,1\rbrack$, which will allow us to seamlessly extend our analysis for Bernoulli bandits to general stochastic bandit problem.
+
+The algorithm for Bernoulli bandits maintains Bayesian priors on the Bernoulli means $\mu_{i}$'s. Beta distribution turns out to be a very convenient choice of priors for Bernoulli rewards. Let us briefly recall that beta distributions form a family of continuous probability distributions on the interval $$. The pdf of $\text{Beta}{(\alpha,\beta)}$, the beta distribution with parameters $\alpha > 0$, $\beta > 0$, is given by ${f{(x;\alpha,\beta)}} = {\frac{\Gamma{({\alpha + \beta})}}{\Gamma{(\alpha)}\Gamma{(\beta)}}x^{\alpha - 1}{({1 - x})}^{\beta - 1}}$. The mean of $\text{Beta}{(\alpha,\beta)}$ is $\alpha/{({\alpha + \beta})}$; and as is apparent from the pdf, higher the $\alpha,\beta$, tighter is the concentration of $\text{Beta}{(\alpha,\beta)}$ around the mean. Beta distribution is useful for Bernoulli rewards because if the prior is a $\text{Beta}{(\alpha,\beta)}$ distribution, then after observing a Bernoulli trial, the posterior distribution is simply $\text{Beta}{({\alpha + 1},\beta)}$ or $\text{Beta}{(\alpha,{\beta + 1})}$, depending on whether the trial resulted in a success or failure, respectively.
+
+The Thompson Sampling algorithm initially assumes arm $i$ to have prior $\text{Beta}{}$ on $\mu_{i}$, which is natural because $\text{Beta}{}$ is the uniform distribution on $$. At time $t$, having observed $S_{i}{(t)}$ successes (reward = $1$) and $F_{i}{(t)}$ failures (reward = $0$) in ${k_{i}{(t)}} = {{S_{i}{(t)}} + {F_{i}{(t)}}}$ plays of arm $i$, the algorithm updates the distribution on $\mu_{i}$ as $\text{Beta}{({{S_{i}{(t)}} + 1},{{F_{i}{(t)}} + 1})}$. The algorithm then samples from these posterior distributions of the $\mu_{i}$'s, and plays an arm according to the probability of its mean being the largest. We summarize the Thompson Sampling algorithm below.
+
+For each arm i = 1, …, N, sample θi (t) from the Beta (Si + 1,Fi + 1) distribution.
+Play arm i (t):= arg maxiθi (t) and observe reward rt.
+Algorithm 1 Thompson Sampling for Bernoulli bandits
+
+We adapt the Bernoulli Thompson sampling algorithm to the general stochastic bandits case, i.e. when the rewards for arm $i$ are generated from an arbitrary unknown distribution with support $\lbrack 0,1\rbrack$ and mean $\mu_{i}$, in a way that allows us to reuse our analysis of the Bernoulli case. To our knowledge, this adaptation is new. We modify TS so that after observing the reward ${\overset{\sim}{r}}_{t} \in {\lbrack 0,1\rbrack}$ at time $t$, it performs a Bernoulli trial with success probability $\overset{\sim}{r_{t}}$. Let random variable $r_{t}$ denote the outcome of this Bernoulli trial, and let $\{{S_{i}{(t)}},{F_{i}{(t)}}\}$ denote the number of successes and failures in the Bernoulli trials until time $t$. The remaining algorithm is the same as for Bernoulli bandits. Algorithm 2 gives the precise description of this algorithm.
+
+We observe that the probability of observing a success (i.e., $r_{t} = 1$) in the Bernoulli trial after playing an arm $i$ in the new generalized algorithm is equal to the mean reward $\mu_{i}$. Let $f_{i}$ denote the (unknown) pdf of reward distribution for arm $i$. Then, on playing arm $i$,
+
+Thus, the probability of observing $r_{t} = 1$ is same and ${S_{i}{(t)}},{F_{i}{(t)}}$ evolve exactly in the same way as in the case of Bernoulli bandits with mean $\mu_{i}$. Therefore, the analysis of TS for Bernoulli setting is applicable to this modified TS for the general setting. This allows us to replace, for the purpose of analysis, the problem with general stochastic bandits with Bernoulli bandits with the same means. We use this observation to confine the proofs in this paper to the case of Bernoulli bandits only.
+
+For each arm i = 1, …, N, sample θi (t) from the Beta (Si + 1,Fi + 1) distribution.
+Play arm i (t):= arg maxiθi (t) and observe reward ${\overset{\sim}{r}}_{t}$.
+Perform a Bernoulli trial with success probability ${\overset{\sim}{r}}_{t}$ and observe output rt.
+Algorithm 2 Thompson Sampling for general stochastic bandits
+
+### Our results
+
+In this article, we bound the *finite time* expected regret of Thompson Sampling. From now on we will assume that the first arm is the unique optimal arm, i.e., $\mu^{\ast} = \mu_{1} > {\arg{\max_{i \neq 1}\mu_{i}}}$. Assuming that the first arm is an optimal arm is a matter of convenience for stating the results and for the analysis. The assumption of *unique* optimal arm is also without loss of generality, since adding more arms with $\mu_{i} = \mu^{\ast}$ can only decrease the expected regret; details of this argument are provided in Appendix A.
+
+### Theorem 1
+
+For the two-armed stochastic bandit problem ($N = 2$), Thompson Sampling algorithm has expected regret
+
+in time $T$, where $\Delta = {\mu_{1} - \mu_{2}}$.
+
+### Theorem 2
+
+For the $N$-armed stochastic bandit problem, Thompson Sampling algorithm has expected regret
+
+in time $T$, where $\Delta_{i} = {\mu_{1} - \mu_{i}}$.
+
+### Remark 1
+
+For the $N$-armed bandit problem, we can obtain an alternate bound of
+
+by slight modification to the proof. The above bound has a better dependence on $N$ than in Theorem 2, but worse dependence on $\Delta_{i}s$. Here $\Delta_{min} = {\min_{i \neq 1}\Delta_{i}}$,$\Delta_{max} = {\max_{i \neq 1}\Delta_{i}}$.
+
+In interest of readability, we used big-Oh notation ^11^1For any two functions ${f{(n)}},{g{(n)}}$, ${f{(n)}} = {O{({g{(n)}})}}$ if there exist two constants $n_{0}$ and $c$ such that for all $n \geq n_{0}$, ${f{(n)}} \leq {cg{(n)}}$. to state our results. The exact constants are provided in the proofs of the above theorems. Let us contrast our bounds with the previous work. proved the following lower bound on regret of any bandit algorithm:
+
+where $D$ denotes the KL divergence. They also gave algorithms asymptotically achieving this guarantee, though unfortunately their algorithms are not efficient. gave the UCB1 algorithm, which is efficient and achieves the following bound:
+
+For many settings of the parameters, the bound of Auer et al. is not far from the lower bound of Lai and Robbins. Our bounds are optimal in terms of dependence on $T$, but inferior in terms of the constant factors and dependence on $\Delta$. We note that for the two-armed case our bound closely matches the bound of. For the $N$-armed setting, the exponent of $\Delta$'s in our bound is basically $4$ compared to the exponent $1$ for UCB1.
+
+More recently, gave Bayes-UCB algorithm which achieves regret bounds close to the lower bound of for Bernoulli rewards. Bayes-UCB is a UCB like algorithm, where the upper confidence bounds are based on the quantiles of Beta posterior distributions. Interestingly, these upper confidence bounds turn out to be similar to those used by algorithms in and. Bayes-UCB can be seen as an hybrid of TS and UCB. However, the general structure of the arguments used in is similar to; for the analysis of Thompson Sampling we need to deal with additional difficulties, as discussed in the next section.
+
+## Proof Techniques
+
+In this section, we give an informal description of the techniques involved in our analysis. We hope that this will aid in reading the proofs, though this section is not essential for the sequel. We assume that all arms are Bernoulli arms, and that the first arm is the unique optimal arm. As explained in the previous sections, these assumptions are without loss of generality.
+
+### Main technical difficulties
+
+Thompson Sampling is a randomized algorithm which achieves exploration by choosing to play the arm with best sampled mean, among those generated from beta distributions around the respective empirical means. The beta distribution becomes more and more concentrated around the empirical mean as the number of plays of an arm increases. This randomized setting is unlike the algorithms in UCB family, which achieve exploration by adding a *deterministic, non-negative* bias inversely proportional to the number of plays, to the observed empirical means. Analysis of TS poses difficulties that seem to require new ideas.
+
+For example, following general line of reasoning is used to analyze regret of UCB like algorithms in two-arms setting (for example, in ): once the second arm has been played sufficient number of times, its empirical mean is tightly concentrated around its actual mean. If the first arm has been played sufficiently large number of times by then, it will have an empirical mean close to its actual mean and larger than that of the second arm. Otherwise, if it has been played small number of times, its non-negative bias term will be large. Consequently, once the second arm has been played sufficient number of times, it will be played with very small probability (inverse polynomial of time) *regardless of the number of times the first arm has been played so far*.
+
+However, for Thompson Sampling, if the number of previous plays of the first arm is small, then the probability of playing the second arm could be as large as a constant even if it has already been played large number of times. For instance, if the first arm has not been played at all, then $\theta_{1}{(t)}$ is a uniform random variable, and thus ${\theta_{1}{(t)}} < {\theta_{2}{(t)}}$ with probability ${\theta_{2}{(t)}} \approx \mu_{2}$. As a result, in our analysis we need to carefully consider the distribution of the number of previous plays of the first arm, in order to bound the probability of playing the second arm.
+
+The observation just mentioned also points to a challenge in extending the analysis of TS for two-armed bandit to the general $N$-armed bandit setting. One might consider analyzing the regret in the $N$-armed case by considering only two arms at a time---the first arm and one of the suboptimal arms. We could use the observation that the probability of playing a suboptimal arm is bounded by the probability of it exceeding the first arm. However, this probability also depends on the number of previous plays of the two arms, which in turn depend on the plays of the other arms. Again in their analysis of UCB algorithm, overcome this difficulty by bounding this probability for *all possible numbers of previous plays* of the first arm, and large enough plays of the suboptimal arm. For Thompson Sampling, due to the observation made earlier, the (distribution of the) number of previous plays of the first arm needs to be carefully accounted for, which in turn requires considering all the arms at the same time, thereby leading to a more involved analysis.
+
+### Proof outline for two arms setting
+
+Let us first consider the special case of two arms which is simpler than the general $N$ arms case. Firstly, we note that it is sufficient to bound the regret incurred during the time steps *after* the second arm has been played $L = {{24{({\ln T})}}/\Delta^{2}}$ times. The expected regret before this event is bounded by ${24{({\ln T})}}/\Delta$ because only the plays of the second arm produce an expected regret of $\Delta$; regret is $0$ when the first arm is played. Next, we observe that after the second arm has been played $L$ times, the following happens with high probability: the empirical average reward of the second arm from each play is very close to its actual expected reward $\mu_{2}$, and its beta distribution is tightly concentrated around $\mu_{2}$. This means that, thereafter, the first arm would be played at time $t$ if $\theta_{1}{(t)}$ turns out to be greater than (roughly) $\mu_{2}$. This observation allows us to model the number of steps between two consecutive plays of the first arm as a geometric random variable with parameter close to $\Pr{\lbrack{{\theta_{1}{(t)}} > \mu_{2}}\rbrack}$. To be more precise, given that there have been $j$ plays of the first arm with $s{(j)}$ successes and ${f{(j)}} = {j - {s{(j)}}}$ failures, we want to estimate the expected number of steps before the first arm is played again (not including the steps in which the first arm is played). This is modeled by a geometric random variable $X{(j,{s{(j)}},\mu_{2})}$ with parameter $\Pr{\lbrack{\theta_{1} > \mu_{2}}\rbrack}$, where $\theta_{1}$ has distribution $\text{Beta}{({{s{(j)}} + 1},{{j - {s{(j)}}} + 1})}$, and thus ${{\mathbb{E}}\left\lbrack {X{(j,{s{(j)}},\mu_{2})}}\quad{s{(j)}} \right\rbrack} = {{1/{\Pr{\lbrack{\theta_{1} > \mu_{2}}\rbrack}}} - 1}$. To bound the overall expected number of steps between the $j^{th}$ and ${({j + 1})}^{th}$ play of the first arm, we need to take into account the distribution of the number of successes $s{(j)}$. For large $j$, we use Chernoff--Hoeffding bounds to say that ${{s{(j)}}/j} \approx \mu_{1}$ with high probability, and moreover $\theta_{1}$ is concentrated around its mean, and thus we get a good estimate of ${\mathbb{E}}\left\lbrack {{\mathbb{E}}\left\lbrack {X{(j,{s{(j)}},\mu_{2})}}\quad{s{(j)}} \right\rbrack} \right\rbrack$. However, for small $j$ we do not have such concentration, and it requires a delicate computation to get a bound on ${\mathbb{E}}\left\lbrack {{\mathbb{E}}\left\lbrack {X{(j,{s{(j)}},\mu_{2})}}\quad{s{(j)}} \right\rbrack} \right\rbrack$. The resulting bound on the expected number of steps between consecutive plays of the first arm bounds the expected number of plays of the second arm, to yield a good bound on the regret for the two-arms setting.
+
+### Proof outline for $N$ arms setting
+
+At any step $t$, we divide the set of suboptimal arms into two subsets: *saturated* and *unsaturated*. The set $C{(t)}$ of saturated arms at time $t$ consists of arms $a$ that have already been played a sufficient number ($L_{a} = {{24{({\ln T})}}/\Delta_{a}^{2}}$) of times, so that with high probability, $\theta_{a}{(t)}$ is tightly concentrated around $\mu_{a}$. As earlier, we try to estimate the number of steps between two consecutive plays of the first arm. After $j^{th}$ play, the ${({j + 1})}^{th}$ play of first arm will occur at the earliest time $t$ such that ${{\theta_{1}{(t)}} > {\theta_{i}{(t)}}},{{\forall i} \neq 1}$. The number of steps before $\theta_{1}{(t)}$ is greater than $\theta_{a}{(t)}$ of all saturated arms $a \in {C{(t)}}$ can be closely approximated using a geometric random variable with parameter close to $\Pr{({\theta_{1} \geq {\max_{a \in {C{(t)}}}\mu_{a}}})}$, as before. However, even if $\theta_{1}{(t)}$ is greater than the $\theta_{a}{(t)}$ of all saturated arms $a \in {C{(t)}}$, it may not get played due to play of an unsaturated arm $u$ with a greater $\theta_{u}{(t)}$. Call this event an "interruption" by unsaturated arms. We show that if there have been $j$ plays of first arm with $s{(j)}$ successes, the expected number of steps until the ${({j + 1})}^{th}$ play can be upper bounded by the product of the expected value of a geometric random variable similar to $X{(j,{s{(j)}},{\max_{a}\mu_{a}})}$ defined earlier, and the number of interruptions by the unsaturated arms. Now, the total number of interruptions by unsaturated arms is bounded by $\sum_{u = 2}^{N}L_{u}$ (since an arm $u$ becomes saturated after $L_{u}$ plays). The actual number of interruptions is hard to analyze due to the high variability in the parameters of the unsaturated arms. We derive our bound assuming the worst case allocation of these $\sum_{u}L_{u}$ interruptions. This step in the analysis is the main source of the high exponent of $\Delta$ in our regret bound for the $N$-armed case compared to the two-armed case.
+
+## Regret bound for the two-armed bandit problem
+
+In this section, we present a proof of Theorem 1, our result for the two-armed bandit problem. Recall our assumption that all arms have Bernoulli distribution on rewards, and that the first arm is the unique optimal arm.
+
+Let random variable $j_{0}$ denote the number of plays of the first arm until $L = {{24{({\ln T})}}/\Delta^{2}}$ plays of the second arm. Let random variable $t_{j}$ denote the time step at which the $j^{th}$ play of the first arm happens (we define $t_{0} = 0$). Also, let random variable $Y_{j} = {t_{j + 1} - t_{j} - 1}$ measure the number of time steps between the $j^{th}$ and ${({j + 1})}^{th}$ plays of the first arm (not counting the steps in which the $j^{th}$ and ${({j + 1})}^{th}$ plays happened), and let $s{(j)}$ denote the number of successes in the first $j$ plays of the first arm. Then the expected number of plays of the second arm in time $T$ is bounded by
+
+${{{\mathbb{E}}{\lbrack{k_{2}{(T)}}\rbrack}} \leq {L + {{\mathbb{E}}\left\lbrack {\sum_{j = j_{0}}^{T - 1}Y_{j}} \right\rbrack}}}.$
+
+To understand the expectation of $Y_{j}$, it will be useful to define another random variable $X{(j,s,y)}$ as follows. We perform the following experiment until it succeeds: check if a $\text{Beta}{({s + 1},{{j - s} + 1})}$ distributed random variable exceeds a threshold $y$. For each experiment, we generate the beta-distributed r.v. independently of the previous ones. Now define $X{(j,s,y)}$ to be the number of trials *before* the experiment succeeds. Thus, $X{(j,s,y)}$ takes non-negative integer values, and is a geometric random variable with parameter (success probability) $1 - {F_{{s + 1},{{j - s} + 1}}^{beta}{(y)}}$. Here $F_{\alpha,\beta}^{beta}$ denotes the cdf of the beta distribution with parameters $\alpha,\beta$. Also, let $F_{n,p}^{B}$ denote the cdf of the *binomial* distribution with parameters $(n,p)$.
+
+We will relate $Y$ and $X$ shortly. The following lemma provides a handle on the expectation of $X$.
+
+### Lemma 1
+
+For all non-negative integers ${j,s} \leq j$, and for all $y \in {\lbrack 0,1\rbrack}$,
+
+where $F_{n,p}^{B}$ denotes the cdf of the binomial distribution with parameters $(n,p)$.
+
+### Proof
+
+By the well-known formula for the expectation of a geometric random variable and the definition of $X$ we have, ${{\mathbb{E}}\left\lbrack {X{(j,s,y)}} \right\rbrack} = {\frac{1}{1 - {F_{{s + 1},{{j - s} + 1}}^{beta}{(y)}}} - 1}$ (The additive $- 1$ is there because we do not count the final step where the Beta r.v. is greater than $y$.) The lemma then follows from Fact 1 in Appendix B. ∎
+
+Recall that $Y_{j}$ was defined as the number of steps before ${\theta_{1}{(t)}} > {\theta_{2}{(t)}}$ happens for the first time after the $j^{th}$ play of the first arm. Now, consider the number of steps before ${\theta_{1}{(t)}} > {\mu_{2} + \frac{\Delta}{2}}$ happens for the first time after the $j^{th}$ play of the first arm. Given $s{(j)}$, this has the same distribution as $X{(j,{s{(j)}},{\mu_{2} + \frac{\Delta}{2}})}$. However, $Y_{j}$ can be larger than this number if (and only if) at some time step $t$ between $t_{j}$ and $t_{j + 1}$, ${\theta_{2}{(t)}} > {\mu_{2} + \frac{\Delta}{2}}$. In that case we use the fact that $Y_{j}$ is always bounded by $T$. Thus, for any $j \geq j_{0}$, we can bound ${\mathbb{E}}{\lbrack Y_{j}\rbrack}$ as,
+
+Here notation $I{(E)}$ is the indicator for event $E$, i.e., its value is $1$ if event $E$ happens and $0$ otherwise. In the first term of RHS, the expectation is over distribution of $s{(j)}$ as well as over the distribution of the geometric variable $X{(j,{s{(j)}},{\mu_{2} + \frac{\Delta}{2}})}$. Since we are interested only in $j \geq j_{0}$, we will instead use the similarly obtained bound on ${\mathbb{E}}{\lbrack{{Y_{j} \cdot I}{({j \geq j_{0}})}}\rbrack}$,
+
+The last inequality holds because for any ${t \in {\lbrack{t_{j} + 1},{t_{j + 1} - 1}\rbrack}},{j \geq j_{0}}$, by definition ${k_{2}{(t)}} \geq L$. We denote the event $\{{{\theta_{2}{(t)}} \leq {\mu_{2} + {\frac{\Delta}{2}\text{~or~}k_{2}{(t)}}} < L}\}$ by $E_{2}{(t)}$. In words, this is the event that if sufficient number of plays of second arm have happened until time $t$, then $\theta_{2}{(t)}$ is not much larger than $\mu_{2}$; intuitively, we expect this event to be a high probability event as we will show. $\overline{E_{2}{(t)}}$ is the event $\{{{\theta_{2}{(t)}} > {\mu_{2} + {\frac{\Delta}{2}\text{~and~}k_{2}{(t)}}} \geq L}\}$ used in the above equation. Next, we bound $\Pr{({E_{2}{(t)}})}$ and ${\mathbb{E}}{\lbrack{\min{\{{X{(j,{s{(j)}},{\mu_{2} + \frac{\Delta}{2}})}},T\}}}\rbrack}$.
+
+### Lemma 2
+
+### Proof
+
+### Lemma 3
+
+Consider any positive $y < \mu_{1}$, and let $\Delta^{\prime} = {\mu_{1} - y}$. Also, let $R = \frac{\mu_{1}{({1 - y})}}{y{({1 - \mu_{1}})}} > 1$, and let $D$ denote the KL-divergence between $\mu_{1}$ and $y$, i.e. ${D = {{y{\ln\frac{y}{\mu_{1}}}} + {{({1 - y})}{\ln\frac{1 - y}{1 - \mu_{1}}}}}}.$
+
+where the outer expectation is taken over $s{(j)}$ distributed as $\text{Binomial}{(j,\mu_{1})}$.
+
+### Proof
+
+The complete proof of this lemma is included in Appendix C.2; here we provide some high level ideas.
+
+Using Lemma 1, the expected value of $X{(j,{s{(j)}},y)}$ for any given $s{(j)}$,
+
+${{{\mathbb{E}}\left\lbrack {X{(j,{s{(j)}},y)}}\quad{s{(j)}} \right\rbrack} = {\frac{1}{F_{{j + 1},y}^{B}{({s{(j)}})}} - 1}}.$
+
+For large $j$, i.e., $j \geq {{4{({\ln T})}}/\Delta^{\prime 2}}$, we use Chernoff--Hoeffding bounds to argue that with probability at least ($1 - \frac{8}{T^{2}}$), $s{(j)}$ will be greater than ${\mu_{1}j} - {{\Delta^{\prime}j}/2}$. And, for ${s{(j)}} \geq {{\mu_{1}j} - {{\Delta^{\prime}j}/2}} = {{yj} + {{\Delta^{\prime}j}/2}}$, we can show that the probability $F_{{j + 1},y}^{B}{({s{(j)}})}$ will be at least $1 - \frac{8}{T^{2}}$, again using Chernoff--Hoeffding bounds. These observations allow us to derive that ${{\mathbb{E}}\left\lbrack {{\mathbb{E}}\left\lbrack {\min{\{{X{(j,{s{(j)}},y)}},T\}}} \right\rbrack} \right\rbrack} \leq \frac{16}{T}$, for $j \geq {{4{({\ln T})}}/\Delta^{\prime 2}}$.
+
+For small $j$, the argument is more delicate. In this case, $s{(j)}$ could be small with a significant probability. More precisely, $s{(j)}$ could take a value $s$ smaller than $yj$ with binomial probability $f_{j,\mu_{1}}^{B}{(s)}$. For such $s$, we use the lower bound ${F_{{j + 1},y}^{B}{(s)}} \geq {{{({1 - y})}F_{j,y}^{B}{(s)}} + {yF_{j,y}^{B}{({s - 1})}}} \geq {{({1 - y})}F_{j,y}^{B}{(s)}} \geq {{({1 - y})}f_{j,y}^{B}{(s)}}$, and then bound the ratio ${{f_{j,\mu_{1}}^{B}{(s)}}/f_{j,y}^{B}}{(s)}$ in terms of $\Delta^{\prime}$, $R$ and KL-divergence $D$. For ${s{(j)}} = s \geq {\lceil{yj}\rceil}$, we use the observation that since $\lceil{yj}\rceil$ is greater than or equal to the median of $\text{Binomial}{(j,y)}$ (see ), we have ${F_{j,y}^{B}{(s)}} \geq {1/2}$. After some algebraic manipulations, we get the result of the lemma. ∎
+
+Using Lemma 2, and Lemma 3 for $y = {\mu_{2} + {\Delta/2}}$, and $\Delta^{\prime} = {\Delta/2}$, we can bound the expected number of plays of the second arm as:
+
+where the last inequality is obtained after some algebraic manipulations; details are provided in Appendix C.3 ‣ Appendix C Proofs of Lemmas ‣ Analysis of Thompson Sampling for the multi-armed bandit problem").
+
+This gives a regret bound of
+
+## Regret bound for the $N$-armed bandit problem
+
+In this section, we prove Theorem 2, our result for the $N$-armed bandit problem. Again, we assume that all arms have Bernoulli distribution on rewards, and that the first arm is the unique optimal arm.
+
+At every time step $t$, we divide the set of suboptimal arms into saturated and unsaturated arms. We say that an arm $i \neq 1$ is in the saturated set $C{(t)}$ at time $t$, if it has been played at least $L_{i}:=\frac{24{\ln T}}{\Delta_{i}^{2}}$ times before time $t$. We bound the regret due to playing unsaturated and saturated suboptimal arms separately. The former is easily bounded as we will see; most of the work is in bounding the latter. For this, we bound the number of plays of saturated arms between two consecutive plays of the first arm.
+
+In the following, by an interval of time we mean a set of contiguous time steps. Let r.v. $I_{j}$ denote the interval between (and excluding) the $j^{th}$ and ${({j + 1})}^{th}$ plays of the first arm. We say that event $M{(t)}$ holds at time $t$, if $\theta_{1}{(t)}$ exceeds $\mu_{i} + \frac{\Delta_{i}}{2}$ of all the saturated arms, i.e.,
+
+For $t$ such that $C{(t)}$ is empty, we define $M{(t)}$ to hold trivially.
+
+Let r.v. $\gamma_{j}$ denote the number of occurrences of event $M{(t)}$ in interval $I_{j}$:
+
+Events $M{(t)}$ divide $I_{j}$ into sub-intervals in a natural way: For $\ell = 2$ to $\gamma_{j}$, let r.v. $I_{j}{(\ell)}$ denote the sub-interval of $I_{j}$ between the ${({\ell - 1})}^{th}$ and $\ell^{th}$ occurrences of event $M{(t)}$ in $I_{j}$ (excluding the time steps in which event $M{(t)}$ occurs). We also define $I_{j}{}$ and $I_{j}{({\gamma_{j} + 1})}$: If $\gamma_{j} > 0$ then $I_{j}{}$ denotes the sub-interval in $I_{j}$ before the first occurrence of event $M{(t)}$ in $I_{j}$; and $I_{j}{({\gamma_{j} + 1})}$ denotes the sub-interval in $I_{j}$ after the last occurrence of event $M{(t)}$ in $I_{j}$. For $\gamma_{j} = 0$ we have ${I_{j}{}} = I_{j}$.
+
+Figure 1 shows an example of interval $I_{j}$ along with sub-intervals $I_{j}{(\ell)}$; in this figure $\gamma_{j} = 4$.
+
+Observe that since a saturated arm $i$ can be played at step $t$ only if $\theta_{i}{(t)}$ is greater than $\theta_{1}{(t)}$, saturated arm $i$ can be played at a time step $t \notin {{I_{j}{(\ell)}},{\forall\ell},j}$ (i.e., at a time step $t$ where $M{(t)}$ holds) only if ${\theta_{i}{(t)}} > {\mu_{i} + {\Delta_{i}/2}}$. Let us define event $E{(t)}$ as
+
+Then, the number of plays of saturated arms in interval $I_{j}$ is at most
+
+In words, $E{(t)}$ denotes the event that all saturated arms have $\theta_{i}{(t)}$ tightly concentrated around their means. Intuitively, from the definition of saturated arms, $E{(t)}$ should hold with high probability; we prove this in Lemma 4.
+
+We are interested in bounding regret due to playing saturated arms, which depends not only on the number of plays, but also on *which* saturated arm is played at each time step. Let $V_{j}^{\ell,a}$ denote the number of steps in $I_{j}{(\ell)}$, for which $a$ is the best saturated arm, i.e.
+
+(resolve the ties for best saturated arm using an arbitrary, but fixed, ordering on arms). In Figure 1, we illustrate this notation by showing steps $\{ V_{j}^{4,a}\}$ for interval $I_{j}{}$. In the example shown, we assume that $\mu_{1} > \mu_{2} > \cdots > \mu_{6}$, and that the suboptimal arms got added to the saturated set $C{(t)}$ in order $5,3,4,2,6$, so that initially $5$ is the best saturated arm, then $3$ is the best saturated arm, and finally $2$ is the best saturated arm.
+
+Recall that $M{(t)}$ holds trivially for all $t$ such that $C{(t)}$ is empty. Therefore, there is at least one saturated arm at all $t \in {I_{j}{(\ell)}}$, and hence ${{V_{j}^{\ell,a},a} = 2},{\ldots,N}$ are well defined and cover the interval $I_{j}{(\ell)}$,
+
+Next, we will show that the regret due to playing a saturated arm at a time step $t$ in one of the $V_{j}^{\ell,a}$ steps is at most ${3\Delta_{a}} + {I{(\overline{E{(t)}})}}$. The idea is that if all saturated arms have their $\theta_{i}{(t)}$ tightly concentrated around their means $\mu_{i}$, then either the arm with the highest mean (i.e., the best saturated arm $a$) or an arm with mean very close to $\mu_{a}$ will be chosen to be played during these $V_{j}^{\ell,a}$ steps. That is, if a saturated arm $i$ is played at a time $t$ among one of the $V_{j}^{\ell,a}$ steps, then, either $E{(t)}$ is violated, i.e. $\theta_{i^{\prime}}{(t)}$ for some saturated arm $i^{\prime}$ is not close to its mean, or
+
+which implies that
+
+Therefore, regret due to play of a saturated arm at a time $t$ in one of the $V_{j}^{\ell,a}$ steps is at most ${3\Delta_{a}} + {I{(\overline{E{(t)}})}}$. With slight abuse of notation let us use $t \in V_{j}^{\ell,a}$ to indicate that $t$ is one of the $V_{j}^{\ell,a}$ steps in $I_{j}{(\ell)}$. Then, the expected regret *due to playing saturated arms* in interval $I_{j}$ is bounded as
+
+The following lemma will be useful for bounding the second term on the right hand side in the above equation (as shown in the complete proof in Appendix D).
+
+### Lemma 4
+
+Also, for all $t,j$, and $s \leq j$,
+
+### Proof
+
+The stronger bound given by the second statement of lemma above will be useful later in bounding the first term on the rhs of. For bounding that term, we establish the following lemma.
+
+### Lemma 5
+
+### Proof
+
+The key observation used in proving this lemma is that given a fixed value of ${s{(j)}} = s$, the random variable $V_{j}^{\ell,a}$ is stochastically dominated by random variable $X{(j,s,{\mu_{a} + \frac{\Delta_{a}}{2}})}$ (defined earlier as a geometric variable denoting the number of trials before an independent sample from $\text{Beta}{({s + 1},{{j - s} + 1})}$ distribution exceeds $\mu_{a} + \frac{\Delta_{a}}{2}$). A technical difficulty in deriving the inequality above is that the random variables $\gamma_{j}$ and $V_{j}^{\ell,a}$ are not independent in general (both depend on the values taken by $\{{\theta_{i}{(t)}}\}$ over the interval). This issue is handled through careful conditioning of the random variables on history. The details of the proof are provided in Appendix C.5. ∎
+
+Now using the above lemma the first term in can be bounded by
+
+We next show how to bound the first term in this equation; the second term will be dealt with in the complete proof in Appendix D.
+
+Recall that $\gamma_{j}$ denotes the number of occurrences of event $M{(t)}$ in interval $I_{j}$, i.e. the number of times in interval $I_{j}$, $\theta_{1}{(t)}$ was greater than $\mu_{i} + \frac{\Delta_{i}}{2}$ of all saturated arms $i \in {C{(t)}}$, and yet the first arm was not played. The only reasons the first arm would not be played at a time $t$ despite of ${\theta_{1}{(t)}} > {{\max_{i \in {C{(t)}}}\mu_{i}} + \frac{\Delta_{i}}{2}}$ are that either $E{(t)}$ was violated, i.e. some saturated arm whose $\theta_{i}{(t)}$ was not close to its mean was played instead; or some unsaturated arm $u$ with highest $\theta_{u}{(t)}$ was played. Therefore, the random variables $\gamma_{j}$ satisfy
+
+Using Lemma 4, and the fact that an unsaturated arm $u$ can be played at most $L_{u}$ times before it becomes saturated, we obtain that
+
+Note that $\sum_{j = 0}^{T - 1}{{\mathbb{E}}{\lbrack\left. \gamma_{j} \middle| {s{(j)}} \right.\rbrack}}$ is a r.v. (because of random $s{(j)}$), and the above bound applies for all instantiations of this r.v.
+
+Let $y_{a} = {\mu_{a} + \frac{\Delta_{a}}{2}}$. Then,
+
+Note that $j_{a}^{\ast}$ is a random variable, which is completely determined by the instantiation of random sequence ${s{}},{s{}},\ldots$. Now, for the first term in above,
+
+where $\Delta_{a}^{\prime} = {\mu_{1} - y_{a}} = {\Delta_{a}/2}$, $D_{a}$ is the KL-divergence between Bernoulli distributions with parameters $\mu_{1}$ and $y_{a}$. The penultimate inequality follows using in the proof of Lemma 3 in Appendix C.2, with $\Delta^{\prime} = \Delta_{a}^{\prime}$, and $D = D_{a}$. The resulting bound on the first term in is ${O{({{({\sum_{u}L_{u}})}{\sum_{a}\frac{\Delta_{a}}{\Delta_{a}^{3}}}})}} = {O{({\left( {\sum_{a}\frac{1}{\Delta_{a}^{2}}} \right)^{2}{\ln T}})}}$, which forms the dominating term in our regret bound. The bounds on the remaining terms and further details of the proof for regret due to saturated arms are provided in Appendix D. Since an unsaturated arm $u$ becomes saturated after $L_{u}$ plays, regret due to unsaturated arms is at most ${\sum_{u = 2}^{N}{L_{u}\Delta_{u}}} = {24{({\ln T})}\left( {\sum_{u = 2}^{N}\frac{1}{\Delta_{u}}} \right)}$. Summing the regret due to saturated and unsaturated arms, we obtain the result of Theorem 2.
+
+### Conclusion
+
+In this paper, we showed theoretical guarantees for Thompson Sampling close to other state of the art methods, like UCB. Our result is a first step in theoretical understanding of TS and there are several avenues to explore for the future work: There is a gap between our upper bounds and the lower bound of. While it may be easy to improve the constant factors in our upper bounds by making the analysis more careful (but more complicated), it seems harder to improve the dependence on the $\Delta$'s. With further work, we hope that our techniques in this paper will be useful in providing several extensions, including analysis of TS for delayed and batched feedbacks, contextual bandits, prior mismatch and posterior reshaping discussed in. As mentioned before, empirically TS has been shown to have superior performance than other methods, especially for handling delayed feedback. A theoretical justification of this observation would require a tighter analysis of TS than what we have achieved here, and in addition, it would require lower bound on the regret of the other algorithms. TS has also been used for problems such as regularized logistic regression (see ). These multi-parameter settings lack theoretical analysis.

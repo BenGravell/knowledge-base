@@ -1,0 +1,231 @@
+## Introduction
+
+Motion planning problems are crucial for the realization of truly autonomous vehicles and robots. Many approaches have been proposed in the literature (see for example, the excellent books by LaValle and Choset et al ). A bottleneck in most motion planning problems, especially those involving systems with high state dimensionality, is the computational overhead associated with discretizing (i.e., gridding) the state space. Hence, deterministic searches are impractical for high dimensional state spaces. Probabilistic roadmap methods, \[1, Ch. 7\], as well as methods that use rapidly exploring random trees (RRTs), are among the most popular. They can address the vehicle's kinematic and dynamic constraints during motion planning in high dimensional state spaces. In these methods, random samples of the obstacle-free space are connected to each other by feasible trajectories, and the resulting graph is searched for a sequence of connected samples from the initial state to the goal state. Sampling-based algorithms require efficient low-level collision detection and trajectory planning algorithms to find collision-free trajectories between different samples.
+
+Incremental sampling-based algorithms were first proposed by Kavraki during the late 1990s. The so-called Probabilistic Road Map ($PRM$) was successfully implemented to solve multi-query motion planning problems and gained a lot of attention, both in industry and academia. In $PRM$ a graph of the environment is constructed by taking random samples from the configuration space of the robot and testing them to determine whether they belong to the free space. The $PRM$ algorithm uses a local planner that attempts to find a feasible path between the sampled points. Once a reasonable graph is constructed, the initial and the goal states are added to the graph, and the optimal path is computed using a graph search algorithm.
+
+Another important class of incremental sampled-based motion planning algorithm is the Rapidly-exploring Random Tree ($RRT$) and its numerous variants. RRTs have achieved great success in solving single-query motion planning problems in many real-time applications. However, the quality of RRT-based algorithms is often poor (i.e., highly suboptimal). As a result, a lot of effort has been devoted to the development of heuristic techniques in order to refine the quality of the solution obtained from RRTs. However, it has been recently shown that the best path returned by RRTs when the algorithm converges is almost always (i.e., with probability one) far from optimal. This has renewed the interest to develop incremental sampled-based algorithms for motion-planning problems with optimality guarantees. In the authors proposed the Rapidly-exploring Random Graphs ($RRG$) algorithm, which has asymptotic optimality properties, that is, it ensures that the optimal path will be found as the number of samples tends to infinity. Based on $RRG$, the same authors later proposed a new algorithm, namely ${RRT}^{\ast}$ that extracts a tree from the graph constructed by $RRG$.
+
+In this paper we present a new incremental sampling-based motion planning algorithm based on $RRG$, denoted ${RRT}^{\#}$(RRT "sharp"), which also guarantees asymptotic optimality but, in addition, it also ensures that, at each step, the constructed spanning tree of the graph is consistent. Vertex consistency (see Section 2) implies that the accumulated cost-to-come of each vertex equals to the optimal cost-to-come. This allows us classify the vertices according to their potential of being part of the optimal path, and thus to quickly identify the region where the optimal solution is more likely to be found. This information can be subsequently used to improve the speed of convergence of the standard ${RRT}^{\ast}$ algorithm, as well as in order to more efficiently explore the obstacle-free space. Three variants of the baseline ${RRT}^{\#}$ algorithm are proposed that take advantage of this vertex classification to speed up convergence.
+
+The organization of the paper is as follows: The problem formulation is given in the next section. In Section 3, an overview of the ${RRT}^{\#}$ algorithm is introduced. The fundamental concepts and primitive functions used in the ${RRT}^{\#}$ algorithm are explained. In Section 4, each step of the proposed approach is explained in detail, along with the pseudo-code of the algorithm and the main procedures used in the main algorithm. In Sections 5, simulation results are used to compare the solutions of the proposed approach with the well-known ${RRT}^{\ast}$ algorithm. In Section 6, several variants of the baseline algorithm are presented by using simple vertex rejection techniques and improvements are demonstrated by doing extensive simulations in the subsequent section. We conclude the paper with some possible extensions for future work.
+
+## Problem Formulation
+
+### Notation and Definitions
+
+Let $\mathcal{X}$ denote the state space, which is assumed to be an open subset of ${\mathbb{R}}^{d}$, where $d \in {\mathbb{N}}$ with $d \geq 2$. Let the *obstacle region* and the *goal region* be denoted by $\mathcal{X}_{obs}$ and $\mathcal{X}_{goal}$, respectively. The obstacle-free space is defined by $\mathcal{X}_{free} = {\mathcal{X} \smallsetminus \mathcal{X}_{obs}}$. Let the *initial state* be denoted by $x_{init} \in \mathcal{X}_{free}$. The neighborhood of a state $x \in \mathcal{X}$ is defined as the open ball of radius $r \in {\mathbb{R}}_{+}$ centered at $x$, that is, ${B_{r}{(x)}} = {\{{x^{\prime} \in \mathcal{X}}:{{\|{x - x^{\prime}}\|} < r}\}}$. Let $\mathcal{G} = {(V,E)}$ denote a graph, where $V$ and $E \subseteq {V \times V}$ are finite sets of vertices and edges, respectively. In the sequel, we will use graphs to represent the connections between a (finite) set of points selected randomly from $\mathcal{X}_{free}$. With a slight abuse of notation, we will use $x$ to denote both the point in the space $\mathcal{X}$ and the corresponding vertex in the graph.
+
+*Geometric r-disc graph*: Let $V \subset {\mathbb{R}}^{d}$ be a finite set, and $r \geq 0$. A geometric $r$-disc graph ${\mathcal{G}{(V;r)}} = {(V,E)}$ in $d$ dimensions is an undirected graph with vertex set $V$ and edge set $E = {\{{(u,v)}:{{u,v} \in {\mathcal{V}\text{~and~}{\|{u - v}\|}} < r}\}}$.
+
+*Successor vertices*: Given a vertex $v \in V$, the set-valued function ${\mathtt{s}\mathtt{u}\mathtt{c}\mathtt{c}}:{{(\mathcal{G},v)}\mapsto V^{\prime} \subseteq V}$ returns the vertices in $V$ that can be reached from vertex $v$,
+
+*Predecessor vertices*: Given a vertex $v \in V$ in a directed graph $\mathcal{G} = {(V,E)}$, the function ${\mathtt{p}\mathtt{r}\mathtt{e}\mathtt{d}}:{{(\mathcal{G},v)}\mapsto V^{\prime} \subseteq V}$ returns the vertices in $V$ that are the tails of the edges going into $v$,
+
+*Parent vertex*: Given a vertex $v \in V$, the function ${\mathtt{p}\mathtt{a}\mathtt{r}\mathtt{e}\mathtt{n}\mathtt{t}}:{v\mapsto u}$ returns the unique vertex $u \in V$ such that ${(u,v)} \in E$ and $u \in {{\mathtt{p}\mathtt{r}\mathtt{e}\mathtt{d}}{(\mathcal{G},v)}}$.
+
+*Spanning tree*: Given the graph $\mathcal{G} = {(V,E)}$, a spanning tree of $\mathcal{G}$ can be defined such that $\mathcal{T} = {(V_{s},E_{s})}$, where $V_{s} = V$ and $E_{s} = {\{{(u,v)}:{{{u,v} \in V},{{(u,v)} \in {E{and}{\mathtt{p}\mathtt{a}\mathtt{r}\mathtt{e}\mathtt{n}\mathtt{t}}{(v)}} = u}}\}}$.
+
+*Edge cost value*: Given an edge $e = {(u,v)} \in E$, the function $\mathtt{c}:{e\mapsto r}$ returns a non-negative real number. Then $\mathtt{c}{(u,v)}$ where $v \in {{\mathtt{s}\mathtt{u}\mathtt{c}\mathtt{c}}{(\mathcal{G},u)}}$ is the cost incurred by moving from $u$ to $v$. *Cost-to-come value*: Given a vertex $v \in V$, the function $\mathtt{g}:{v\mapsto r}$ returns a non-negative real number $r$, which is the cost of the path to $v$ from a given initial state $x_{init} \in \mathcal{X}_{free}$. Let $\mathtt{g}^{\ast}{(v)}$ be the optimal cost-to-come value of the vertex $v$. The optimal cost-to-come satisfies the following relationship:
+
+Each vertex $v$ is associated with two estimates of the optimal cost-to-come value $\mathtt{g}^{\ast}{(v)}$, namely, $\mathtt{g}{(v)}$ (g-value) and ${\mathtt{l}\mathtt{m}\mathtt{c}}{(v)}$ (locally minimum cost-to-come estimate, or lmc-value). The ${\mathtt{l}\mathtt{m}\mathtt{c}}{(v)}$ is the best estimate of the cost-to-come of the vertex $v$, computed based on the g-value of the vertices in the predecessor set ${\mathtt{p}\mathtt{r}\mathtt{e}\mathtt{d}}{(v)}$. The lmc-value (also called rhs-value in ) is a one-step ahead lookahead value based on the g-value and is thus potentially better informed than the g-value of the vetrex. The lmc-value satisfies the following relationship
+
+*Heuristic value*: Given a vertex $v \in V$, and a goal region $\mathcal{X}_{goal}$, the function $\mathtt{h}:{{(v,\mathcal{X}_{goal})}\mapsto r \in {\mathbb{R}}}$ returns an estimate of the optimal cost from $v$ to $\mathcal{X}_{goal}$; it is 0 if $v \in \mathcal{X}_{goal}$. It is an admissible heuristic if it never overestimates the actual cost of reaching $\mathcal{X}_{goal}$. In this paper, we always assume an admissible heuristic. It is well known that inadmissible heuristics can be used to speed-up the algorithm, but they lead to suboptimal paths.
+
+*Relevant region*: Let $x_{goal}^{\ast} \in \mathcal{X}_{goal}$ be the point in the goal region that has the lowest optimal cost-to-come value in $\mathcal{X}_{goal}$, i.e., $x_{goal}^{\ast} = {{argmin}_{x \in \mathcal{X}_{goal}}\mathtt{g}^{\ast}{(x)}}$. The *relevant region* of $\mathcal{X}_{free}$ is the set of points $x$ for which the optimal cost-to-come value of $x$, plus the estimate of the optimal cost moving from $x$ to $\mathcal{X}_{goal}$ is less than the optimal cost-to-come value of $x_{goal}^{\ast}$, that is,
+
+Points that lie in the $\mathcal{X}_{rel}$ have the potential to be part of the optimal path starting at $x_{init}$ and reaching $\mathcal{X}_{goal}$.
+
+*Key value*: Given a vertex $v \in V$, the function ${\mathtt{K}\mathtt{e}\mathtt{y}}:{v\mapsto k}$ returns a real vector $k \in {\mathbb{R}}^{2}$, whose components are ${k_{1}{(v)}} = {{\min{({\mathtt{g}{(v)}},{{\mathtt{l}\mathtt{m}\mathtt{c}}{(v)}})}} + {\mathtt{h}{(v)}}}$ and ${k_{2}{(v)}} = {\min{({\mathtt{g}{(v)}},{{\mathtt{l}\mathtt{m}\mathtt{c}}{(v)}})}}$, respectively. Components of the keys correspond to the f-values and g-values in the $A^{\ast}$ algorithm, respectively.
+
+*Promising vertices*: Let $v_{goal}^{\ast} \in V$ be the vertex that has the lowest key value, i.e., $v_{goal}^{\ast} = {{argmin}_{v \in {V \cap \mathcal{X}_{goal}}}{\mathtt{K}\mathtt{e}\mathtt{y}}{(v)}}$. The *promising vertices* $V_{prom} \subseteq V$ is the set of vertices that have better key value than $v_{goal}^{\ast}$, that is,
+
+*Priority of vertices*: The priority of vertices in the queue is the same as the priority of their associated keys, and the precedence relation between keys is determined according to lexicographical ordering. Given two keys ${k,k^{\prime}} \in {\mathbb{R}}^{2}$, the Boolean function $\preccurlyeq:{(k,k^{\prime})}\mapsto{\{{\mathtt{F}\mathtt{a}\mathtt{l}\mathtt{s}\mathtt{e}},{\mathtt{T}\mathtt{r}\mathtt{u}\mathtt{e}}\}}$ returns $\mathtt{T}\mathtt{r}\mathtt{u}\mathtt{e}$ if and only if either $k_{1} < k_{1}^{\prime}$ or $\left( {k_{1} = {k_{1}^{\prime}{and}k_{2}} \leq k_{2}^{\prime}} \right)$, and $\mathtt{F}\mathtt{a}\mathtt{l}\mathtt{s}\mathtt{e}$ otherwise.
+
+*Consistency*: A vertex $v \in V$ is called *locally consistent* if and only if its g-value equals its lmc-value. Otherwise, it is an *inconsistent* vertex. The notion of *consistency* is very important because it allows one to update cost-to-come values of all vertices by propagating the effects of the changes in the topology of the graph. This way, an incremental search can reuse information from the previous searches, thus speeding up the whole algorithm. The lmc-value always keeps the best up-to-date estimate of the cost-to-come value based on the current topology of the graph, whereas the g-value keeps an estimate of the cost-to-come value computed from a previous topology of the graph. Equality of the g- and lmc-values of a vertex implies that the changes in the topology of the graph will not effect the cost-to-come value of that vertex, that is, the topology of the graph is consistent with its previous configuration in the locality of the vertex.
+
+A tree $\mathcal{T} = {(V_{s},E_{s})}$ is called a *consistent tree* if and only if all of its promising vertices are consistent.
+
+The g-value of all vertices equals to their respective optimal cost-to-come value if and only if all vertices are locally consistent. The g-values have the following form when all vertices are locally consistent
+
+Then, the shortest path from $x_{init} \in \mathcal{X}_{free}$ to any vertex $v \in V$ can be found by starting at $v$ and traversing iteratively from the current vertex $u \in V$ to any of its predecessor $u^{\prime} \in {{\mathtt{p}\mathtt{r}\mathtt{e}\mathtt{d}}{(\mathcal{G},u)}}$ that minimizes ${\mathtt{g}{(u^{\prime})}} + {\mathtt{c}{(u^{\prime},u)}}$ (ties can be broken arbitrarily), until $x_{init}$ is reached.
+
+### Problem Definition
+
+The proposed ${RRT}^{\#}$ algorithm solves the following motion planning problem: Given a bounded and connected open set $\mathcal{X} \subset {\mathbb{R}}^{d}$, and the sets $\mathcal{X}_{free}$ and $\mathcal{X}_{obs} = {\mathcal{X}\backslash\mathcal{X}_{free}}$, and given an initial point $x_{init} \in \mathcal{X}_{free}$ and a goal region $\mathcal{X}_{goal} \subset \mathcal{X}_{free}$, find the minimum-cost path connecting $x_{init}$ to the goal region $\mathcal{X}_{goal}$. If no such path exists, then report that no solution is possible.
+
+## The ${RRT}^{\#}$ Algorithm - Overview
+
+A brief description of each function used in the ${RRT}^{\#}$ algorithm is given below.
+
+*Sampling*: ${\mathtt{S}\mathtt{a}\mathtt{m}\mathtt{p}\mathtt{l}\mathtt{e}}:{{\mathbb{N}}\rightarrow\mathcal{X}_{free}}$ is a function that returns independent, identically distributed (i.i.d) samples from $\mathcal{X}_{free}$.
+
+*Nearest neighbor*: $\mathtt{N}\mathtt{e}\mathtt{a}\mathtt{r}\mathtt{e}\mathtt{s}\mathtt{t}$ is a function that returns a point from a given finite set $V$, which is the closest to a given point $x$ in terms of a given distance function.
+
+*Near vertices*: $\mathtt{N}\mathtt{e}\mathtt{a}\mathtt{r}$ is a function that returns $n$ number of points from a given finite set $V$, which is the closest to a given point $x$ in terms of a given distance function.
+
+*Steering*: $\mathtt{S}\mathtt{t}\mathtt{e}\mathtt{e}\mathtt{r}$ is a function that returns the closest point in a ball centered around a given state $x$ to another given point $x_{new}$.
+
+*Collision checking*: Given two points, the Boolean function $\mathtt{O}\mathtt{b}\mathtt{s}\mathtt{t}\mathtt{a}\mathtt{c}\mathtt{l}\mathtt{e}\mathtt{F}\mathtt{r}\mathtt{e}\mathtt{e}$ checks whether the minimum distance path connecting these two points belongs to $\mathcal{X}_{free}$. It returns $\mathtt{T}\mathtt{r}\mathtt{u}\mathtt{e}$ if the line segment is a subset of the $\mathcal{X}_{free}$.
+
+*Tree extension*: $\mathtt{E}\mathtt{x}\mathtt{t}\mathtt{e}\mathtt{n}\mathtt{d}$ is a function that extends the nearest vertex of the tree $\mathcal{T}$ towards the randomly sampled point $x_{rand}$.
+
+*Reducing inconsistency*: Given a graph $\mathcal{G} = {(V,E)}$, a corresponding spanning tree $\mathcal{T} = {(V_{s},E_{s})}$, where $V_{s} = V$ and $E_{s} \subset {V \times V}$ and a goal region $\mathcal{X}_{goal} \subset \mathcal{X}_{free}$, the function ${\mathtt{R}\mathtt{e}\mathtt{d}\mathtt{u}\mathtt{c}\mathtt{e}\mathtt{I}\mathtt{n}\mathtt{c}\mathtt{o}\mathtt{n}\mathtt{s}\mathtt{i}\mathtt{s}\mathtt{t}\mathtt{e}\mathtt{n}\mathtt{c}\mathtt{y}}:{{(\mathcal{G},\mathcal{T},\mathcal{X}_{goal})}\mapsto{(\mathcal{G},\mathcal{T}^{\prime})}}$ operates on the inconsistent vertices of the tree $\mathcal{T}$ iteratively, and continues until the tree becomes consistent, that is, all vertices of the tree that are promising (see Section 4) are consistent. The $\mathtt{R}\mathtt{e}\mathtt{d}\mathtt{u}\mathtt{c}\mathtt{e}\mathtt{I}\mathtt{n}\mathtt{c}\mathtt{o}\mathtt{n}\mathtt{s}\mathtt{i}\mathtt{s}\mathtt{t}\mathtt{e}\mathtt{n}\mathtt{c}\mathtt{y}$ function is used to propagate the effects of the topological changes in the graph $\mathcal{G}$ as new vertices are added with each iteration.
+
+A priority queue is used to sort all of the inconsistent vertices of the tree $\mathcal{T}$ based on their respective key values. The following functions are defined to manage the priority queue.
+
+*Update queue*: Given a vertex $v \in V$, the function $\mathtt{U}\mathtt{p}\mathtt{d}\mathtt{a}\mathtt{t}\mathtt{e}\mathtt{Q}\mathtt{u}\mathtt{e}\mathtt{u}\mathtt{e}$ changes the content of the queue based on the g- and lmc-values of the vertex $v$. If the vertex $v$ is inconsistent, then it is either inserted into the queue or its priority in the queue is updated based on its up-to-date key value if it is already inside the queue. Otherwise, the vertex is removed from the queue if it is a consistent vertex.
+
+*Find minimum*: The function $findmin{()}$ returns the vertex with the highest priority of all vertices in the queue, i.e., the vertex of minimum key value.
+
+*Remove a vertex*: Given a vertex $v \in V$, the function $remove{()}$ deletes the vertex $v$ from content of the queue.
+
+*Update priority*: Given a vertex $v \in V$, and a key value $k$, the function $update{()}$ changes the priority of the vertex $v$ in priority queue $q$, i.e., it reassigns the key value of the vertex $v$ with the new given key value $k$.
+
+*Inserting a vertex*: Given a vertex $v \in V$, and a key $k$, the function $insert{()}$ adds the vertex $v$ with the key value $k$ into queue.
+
+## The ${RRT}^{\#}$ Algorithm - Details
+
+The body of the ${RRT}^{\#}$ algorithm is given in Algorithm 1 and it is similar to the other RRT-variants ($RRT$, $RRG$, ${RRT}^{\ast}$, etc) with the notable exception that it keeps track of vertex consistency using the key values of all current vertices in the graph. One of the important difference between the ${RRT}^{\ast}$ and ${RRT}^{\#}$ algorithms is that all vertices in the tree computed by the ${RRT}^{\ast}$ algorithm have a uniform type based on their finite cost-to-come value, whereas in the ${RRT}^{\#}$ algorithm the vertices have different types based on their pair of estimates of the cost-to-come value. In the ${RRT}^{\#}$ algorithm, each vertex $v$ can be classified in one of the following four categories based on the values of its $({\mathtt{g}{(v)}},{{\mathtt{l}\mathtt{m}\mathtt{c}}{(v)}})$ pair.
+
+Consistent with finite key value: ${{\mathtt{g}{(v)}} < \infty},{{{\mathtt{l}\mathtt{m}\mathtt{c}}{(v)}} < {\infty{and}\mathtt{g}{(v)}} = {{\mathtt{l}\mathtt{m}\mathtt{c}}{(v)}}}$
+
+Consistent with infinite key value: ${{\mathtt{g}{(v)}} = \infty},{{{\mathtt{l}\mathtt{m}\mathtt{c}}{(v)}} = \infty}$
+
+Inconsistent with finite key value: ${{\mathtt{g}{(v)}} < \infty},{{{\mathtt{l}\mathtt{m}\mathtt{c}}{(v)}} < {\infty{and}\mathtt{g}{(v)}} \neq {{\mathtt{l}\mathtt{m}\mathtt{c}}{(v)}}}$
+
+Inconsistent with infinite g-value and finite lmc-value: ${{\mathtt{g}{(v)}} = \infty},{{{\mathtt{l}\mathtt{m}\mathtt{c}}{(v)}} < \infty}$
+
+Vertices in the second category are always non-promising, whereas vertices in the rest of categories can be either promising or non-promising. The promising vertices can be used to approximate the region $\mathcal{X}_{rel} \subseteq \mathcal{X}_{free}$ of the free space that may contain the optimal path.
+
+4 RRT#(xinit, 𝒳goal, 𝒳)
+Algorithm 1 Body of the RRT# Algorithm
+
+The algorithm starts by adding the initial point $x_{init}$ into the vertex set of the underlying graph. Then, it incrementally grows the graph in $\mathcal{X}_{free}$ by sampling a random point $x_{rand}$ from $\mathcal{X}_{free}$ and extending some parts of the graph towards $x_{rand}$. Later, the $\mathtt{R}\mathtt{e}\mathtt{d}\mathtt{u}\mathtt{c}\mathtt{e}\mathtt{I}\mathtt{n}\mathtt{c}\mathtt{o}\mathtt{n}\mathtt{s}\mathtt{i}\mathtt{s}\mathtt{t}\mathtt{e}\mathtt{n}\mathtt{c}\mathtt{y}$ procedure, which is provided in Algorithm 3, propagates the new information due to the extension across the whole graph in order to improve the estimate of the cost-to-come value of the promising vertices in the graph. All computations due to the sampling and extension steps, followed by information propagation (Lines 1-1 of Algorithm 1), form a single *iteration* of the algorithm. The process is repeated for a given fixed number of iterations, and the consistent spanning tree of the final graph is returned at the end.
+
+The key difference between the ${RRT}^{\#}$ algorithm and other RRT-variants is that a unique consistent spanning tree of the graph is maintained at the end of the each iteration of the algorithm. Since this tree is consistent, it contains information of the lowest-cost path, which can be achieved on the current graph, for each promising vertex of the graph. In addition, the g-value of the promising vertices equals to their respective optimal cost-to-come value that can be achieved through the edges of the tree. Therefore, each new vertex is initialized with the minimum possible estimate of its respective optimal cost-to-come value during extension (since all of its promising neighbor vertices have the lowest g-value), and this estimate keeps improving to the best possible value whenever new information becomes available on any part of the graph. Hence, the g-value of each promising vertex of the graph converges to its optimal cost-to-come value very quickly.
+
+9 xnew ← Steer (xnearest,x);
+10 if (xnearest,xnew) then
+12 lmc (xnew) = g (xnearest) + c (xnearest,xnew);
+13 parent (xnew) = xnearest;
+14 𝒳near ← Near (𝒢,xnew,|V|);
+15 foreach xnear ∈ 𝒳near do
+16 if (xnear,xnew) then
+17 if (xnew) &gt; (xnear) + (xnear,xnew) then
+18 lmc (xnew) = g (xnear) + c (xnear,xnew);
+19 parent (xnew) = xnear;
+21 E′ ← E′ ∪ {(xnear,xnew),(xnew,xnear)};
+Algorithm 2 Extend Procedure for RRT# Algorithm
+
+The $\mathtt{E}\mathtt{x}\mathtt{t}\mathtt{e}\mathtt{n}\mathtt{d}$ procedure for the ${RRT}^{\#}$ algorithm is given in Algorithm 2. During each iteration, the $\mathtt{E}\mathtt{x}\mathtt{t}\mathtt{e}\mathtt{n}\mathtt{d}$ procedure tries to extend the graph towards the randomly sampled point $x_{rand} \in \mathcal{X}_{free}$. First, the closest vertex in the graph $x_{nearest}$ is found in Line 3, then $x_{nearest}$ is steered towards the randomly sampled point $x_{rand}$ in the next line. If the line segment connecting the steered point $x_{new}$ and $x_{nearest}$ is feasible, then the new point $x_{new}$ is prepared for inclusion to the vertex set of the graph. First, its cost-to-come estimate, i.e., the g-value and lmc-values, and the parent vertex are initialized by using information of the nearest vertex $x_{nearest}$. Then, a local search is performed in some neighborhood of $x_{new}$, i.e., the set of vertices returned by the $\mathtt{N}\mathtt{e}\mathtt{a}\mathtt{r}$ procedure, in order to find the local minimum cost-to-come estimate value in Lines 10-15 and the corresponding parent vertex. The new vertex $x_{new}$ and all extensions resulting in feasible trajectories are added to the vertex and edge set of the graph in Lines 16-17, respectively. In the end, the new vertex is decided to be inserted in the priority queue or not based on its consistency in the $\mathtt{U}\mathtt{p}\mathtt{d}\mathtt{a}\mathtt{t}\mathtt{e}\mathtt{Q}\mathtt{u}\mathtt{e}\mathtt{u}\mathtt{e}$ procedure.
+
+Algorithm 3 ReduceInconsistency Procedure
+
+13 else if (x) ≠ (x) and x ∉ q then
+15 else if (x) = (x) and x ∈ q then
+22 gmin = min (g (x),lmc (x));
+Algorithm 4 Auxiliary Procedures
+
+Inclusion of each new vertex may result in an inconsistent vertex in the graph if a finite lmc-value is achieved. Therefore, consistency of the spanning tree needs to be checked, and appropriate operations must be performed in order to make it consistent, if necessary. The $\mathtt{R}\mathtt{e}\mathtt{d}\mathtt{u}\mathtt{c}\mathtt{e}\mathtt{I}\mathtt{n}\mathtt{c}\mathtt{o}\mathtt{n}\mathtt{s}\mathtt{i}\mathtt{s}\mathtt{t}\mathtt{e}\mathtt{n}\mathtt{c}\mathtt{y}$ procedure, which is provided in Algorithm 3, is called to make the spanning tree consistent by operating on the inconsistent and promising vertices of the graph, iteratively. It simply pops the most promising inconsistent vertex from the priority queue, if there are any, and this inconsistent vertex is made consistent by assigning its lmc-value to its g-value. Then, its new g-value information is propagated among its neighbors in order to improve their lmc-values in Lines 7-11. However, this information propagation may also cause some vertices to be inconsistent; therefore, all resulting inconsistent vertices are inserted in the priority queue as well. This process continues until a consistent spanning tree is computed, that is, there is no inconsistent promising vertex left in the priority queue.
+
+## Numerical Simulations 1
+
+The ${RRT}^{\#}$ algorithm was developed in C++ and run on a computer with a 2.40 GHz processor and 12GB RAM running the Ubuntu 11.10 Linux operating system. A Fibonacci heap was implemented as priority queue to store inconsistent vertices during the search. Extensive simulations were run to compare the performance of the ${RRT}^{\#}$ algorithm with the ${RRT}^{\ast}$ algorithm, whose C implementation is available to download from the ${RRT}^{\ast}$ authors' website ([http://sertac.scripts.mit.edu/rrtstar/](http://sertac.scripts.mit.edu/rrtstar/)).
+
+Both ${RRT}^{\#}$ and ${RRT}^{\ast}$ algorithms were run on three different problem types with the same sample sequence in order to demonstrate the difference in their behavior while growing the tree. All problems tested require finding an optimal path in a square environment minimizing the Euclidean path length. The heuristic value of a vertex is the Euclidean distance from the vertex to the goal. In the first problem type, there are no obstacles in the environment, whereas there are some box-like obstacles in the second and third problem types. In the third problem type, the environment is more cluttered than the one in the second problem type, containing many widely distributed small obstacles.
+
+For the first problem type, the trees computed by both algorithms at different stages are shown in Figure 1. The initial state is plotted as a yellow square and the goal region is shown in blue with magenta border (upper right). The minimal-length path is shown in red. As shown in Figure 1, the best path computed by the ${RRT}^{\#}$ algorithm converges to the optimal path. As mentioned earlier, one of the important differences between the ${RRT}^{\ast}$ and ${RRT}^{\#}$ algorithms is that the latter classifies the vertices in one of the following four categories based on the values of its $({\mathtt{g}{(v)}},{{\mathtt{l}\mathtt{m}\mathtt{c}}{(v)}})$ pair: Consistent with finite key value (shown in green), consistent with infinite key value (shown in black), inconsistent with finite key value (shown in blue), and inconsistent with infinite g-value and finite lmc-value (shown in red).
+
+Since only the points in the relevant region $\mathcal{X}_{rel}$ have the potential to be part of the optimal path, the ${RRT}^{\#}$ algorithm tries to approximate $\mathcal{X}_{rel}$ with the set of promising vertices $V_{prom}$ and tends to stop rewiring the parts of the tree which lie outside of the $\mathcal{X}_{rel}$ as iterations go to infinity. As seen in Figure 1, for this particular scenario, $\mathcal{X}_{rel}$ is an elliptic region, which is much smaller than the whole $\mathcal{X}_{free}$. Therefore, uniform random sampling on $\mathcal{X}_{free}$ results in too many vertices of different types (green, black, red, and blue vertices) outside of the relevant region during the search. The estimate of $\mathcal{X}_{rel}$ can be used to implement more intelligent sampling strategies, if needed, although this possibility was not pursued in this paper, where all sampling was uniform.
+
+Figure 1: The evolution of the tree computed by RRT* and RRT# algorithms is shown in 1-1 and 1-1, respectively. The configuration of the trees 1, 1 is at 250 iterations, 1, 1 is at 500 iterations, 1, 1 is at 2500 iterations, and 1, 1 is at 25000 iterations.
+
+Figure 2: The change in the cost of the best paths computed by RRT* and RRT# algorithms, and the variance in the trials are shown in 2 and 2, respectively.
+
+In the second problem type, the same experiment was carried out and both algorithms were run in an environment with several obstacles. The configuration of the trees for both the ${RRT}^{\ast}$ and ${RRT}^{\#}$ algorithms at different stages are shown in Figure 3.
+
+Figure 3: The evolution of the tree computed by RRT* and RRT# algorithms is shown in 3-3 and 3-3, respectively. The configuration of the trees 3, 3 is at 250 iterations, 3, 3 is at 500 iterations, 3, 3 is at 2500 iterations, and 3, 3 is at 25000 iterations.
+
+Figure 4: The change in the cost of the best paths computed by RRT* and RRT# algorithms and the variance in the trials are shown in 4 and 4, respectively.
+
+In the third problem type, both algorithms were run in a more cluttered environment, where there are many different homotopy classes containing the local minimum solution for the problem. As shown in Figure 5, both algorithms switch between paths which have locally best cost, eventually converging to the optimal solution.
+
+Figure 5: The evolution of the tree computed by RRT* and RRT# algorithms is shown in 5-5 and 5-5, respectively. The configuration of the trees 5, 5 is at 250 iterations, 5, 5 is at 500 iterations, 5, 5 is at 2500 iterations, and 5, 5 is at 25000 iterations.
+
+Figure 6: The change in the cost of the best paths computed by RRT* and RRT# algorithms and the variance in the trials are shown in 6 and 6, respectively.
+
+Finally, in the fourth problem type, both algorithms were run in a obstacle-free environment where there are different cost zones. The cost coefficient of each zone from top to bottom is 1.5, 0.75, 2.5, 0.75, and 1.5, respectively and 1 elsewhere. As seen in Figure 7, both algorithms compute the optimal path which has longer segments in low-cost zones.
+
+Figure 7: The evolution of the tree computed by RRT* and RRT# algorithms is shown in 7-7 and 7-7, respectively. The configuration of the trees 7, 7 is at 250 iterations, 7, 7 is at 500 iterations, 7, 7 is at 2500 iterations, and 7, 7 is at 25000 iterations.
+
+Figure 8: The change in the cost of the best paths computed by RRT* and RRT# algorithms, and the variance in the trials are shown in 8 and 8, respectively.
+
+## Variants of the ${RRT}^{\#}$ Algorithm
+
+Too many non-promising vertices are included in the tree computed by the ${RRT}^{\#}$ algorithm as observed in the previous simulations. This is owing to the fact that the ${RRT}^{\#}$ algorithm includes all new vertices in the graph regardless of their type. A simple vertex selection criterion can be used in the $\mathtt{E}\mathtt{x}\mathtt{t}\mathtt{e}\mathtt{n}\mathtt{d}$ procedure in order to prevent the algorithm from growing the tree towards the region outside $\mathcal{X}_{rel}$. However, being over-selective on vertex inclusion may degrade the performance of the algorithm -- and thus lead to a suboptimal solution -- since the cost-to-come value of all vertices, which is used to decide if a new vertex is promising or not, is an estimate of the optimal one. In this section, we propose three variants of the baseline ${RRT}^{\#}$ algorithm.
+
+:: In the first variant, which is given in Algorithm 5, if a new vertex happens to be consistent with infinite key value (black vertex), it is not included in the graph. This situation can happen if all of the neighbor vertices of the new vertex happen to be inconsistent with infinite g-value and finite lmc-value (red vertices). First, the estimates of the cost-to-come-value of the new vertex $x_{new}$ are initialized with infinite cost, and its parent vertex is set to 'null' in Line 6. Then, a better value for the lmc-value of the new vertex is searched among its neighbor vertices. During this search, the parent of the new vertex remains unassigned only if there are no any neighboring vertices with finite g-value.
+
+:: In the second variant, the algorithm becomes more selective on vertices to be added to the graph and the "${{\mathtt{p}\mathtt{a}\mathtt{r}\mathtt{e}\mathtt{n}\mathtt{t}}{(x_{new})}} \neq {\varnothing \land {{\mathtt{K}\mathtt{e}\mathtt{y}}{({{\mathtt{p}\mathtt{a}\mathtt{r}\mathtt{e}\mathtt{n}\mathtt{t}}{(x_{new})}})}}} \prec {{\mathtt{K}\mathtt{e}\mathtt{y}}{(x_{goal}^{\ast})}}$" condition is checked in Line 5. Simply, a new vertex is included to the graph only if its parent is a promising vertex.
+
+:: Lastly, the third variant is most selective on vertex for inclusion and ${{\mathtt{K}\mathtt{e}\mathtt{y}}{(x_{new})}} \prec {{\mathtt{K}\mathtt{e}\mathtt{y}}{(x_{goal}^{\ast})}}$ condition is checked, that is, only promising new vertices are included in the graph.
+
+9 xnew ← Steer (xnearest,x);
+10 if (xnearest,xnew) then
+12 𝒳near ← Near (𝒢,xnew,|V|);
+13 foreach xnear ∈ 𝒳near do
+14 if (xnear,xnew) then
+15 if (xnew) &gt; (xnear) + (xnear,xnew) then
+16 lmc (xnew) = g (xnear) + c (xnear,xnew);
+17 parent (xnew) = xnear;
+19 E′ ← E′ ∪ {(xnear,xnew),(xnew,xnear)};
+Algorithm 5 Extend Procedure for RRTV 1#Algorithm
+
+## Numerical Simulations 2
+
+The same experiments as before were carried out for the three variants of the ${RRT}^{\#}$ algorithm. As seen in the figures below, all variants successfully prevent the inclusion of vertices which lie in the unfavorable regions of the search space. As seen in Figures 9, 12, 15, and 18, the ${RRT}_{V1}^{\#}$ algorithm does not include any black vertices in the tree (these are the vertices that are consistent with infinite key value, hence non-promising), but still computes a solution to the problem, which is as good as the one computed by the ${RRT}^{\ast}$ and ${RRT}^{\#}$ algorithms. However, there are still many red (i.e., non-promising and inconsistent with infinite g-value and finite lmc-value) vertices included in the tree. This is owing to the fact that they are never made consistent until the last iteration, since they mostly lie outside of $\mathcal{X}_{rel}$. Therefore, they remain in the priority queue and need to be sorted during each iteration. This makes the $\mathtt{R}\mathtt{e}\mathtt{d}\mathtt{u}\mathtt{c}\mathtt{e}\mathtt{I}\mathtt{n}\mathtt{c}\mathtt{o}\mathtt{n}\mathtt{s}\mathtt{i}\mathtt{s}\mathtt{t}\mathtt{e}\mathtt{n}\mathtt{c}\mathtt{y}$ procedure slower. In the ${RRT}_{V2}^{\#}$ algorithm, the number of red vertices included into the tree is reduced by simply enforcing to have a promising parent vertex for the new vertex that is considered for extension. Red vertices are mostly included into the branches of the tree that are formed outside of the $\mathcal{X}_{rel}$ during exploration phase. As seen in Figures 9, 12, 15, and 18, the ${RRT}_{V2}^{\#}$ algorithm tends not to include vertices into the branches of the tree which are very far away from the optimal solution. Lastly, the ${RRT}_{V3}^{\#}$ algorithm includes a new vertex into the tree only if it is a promising one. Therefore, all vertices in the tree, other than the goal vertices, are either green or blue, which are located around the boundary of $\mathcal{X}_{rel}$.
+
+The convergence rate and variance in the computation of the best path for all algorithms are shown in Figures 11, 14, 17, and 20. Since this is a two-dimensional problem, the optimal path for each problem type can be computed visually and the cost of the paths for each algorithm is normalized with respect to the cost of the optimal solution. The ratio of the cost of the best path over the optimal cost for the ${RRT}^{\ast}$, ${RRT}^{\#}$, ${RRT}_{V1}^{\#}$, ${RRT}_{V2}^{\#}$, and ${RRT}_{V3}^{\#}$ algorithms is shown in red, blue, green, magenta, and black colors, respectively.
+
+Figure 9: The evolution of the tree computed by RRTV 1# and RRTV 2# algorithms is shown in 9-9 and 9-9, respectively. The configuration of the trees 9, 9 is at 250 iterations, 9, 9 is at 500 iterations, 9, 9 is at 2500 iterations, 9, 9 is at 10000 iterations, and 9, 9 is at 25000 iterations.
+
+Figure 10: The evolution of the tree computed by RRTV 3# algorithm is shown in 10-10. The configuration of the trees in 10 is at 250 iterations, in 10 is at 500 iterations, in 10 is at 2500 iterations, in 10 is at 5000 iterations, in 10 is at 10000 iterations, and in 10 is at 25000 iterations.
+
+Figure 11: The change in the cost of the best paths computed by RRT*, RRT#, and its variant algorithms and the variance in the trials are shown in 11 and 11, respectively.
+
+Figure 12: The evolution of the tree computed by RRTV 1# and RRTV 2# algorithms is shown in 12-12 and 12-12, respectively. The configuration of the trees 12, 12 is at 250 iterations, 12, 12 is at 500 iterations, 12, 12 is at 2500 iterations, 12, 12 is at 10000 iterations, and 12, 12 is at 25000 iterations.
+
+Figure 13: The evolution of the tree computed by RRTV 3# algorithm is shown in 13-13. The configuration of the trees in 13 is at 250 iterations, in 13 is at 500 iterations, in 13 is at 2500 iterations, in 13 is at 5000 iterations, in 13 is at 10000 iterations, and in 13 is at 25000 iterations.
+
+Figure 14: The change in the cost of the best paths computed by RRT*, RRT#, and its variant algorithms and the variance in the trials are shown in 14 and 14, respectively.
+
+Figure 15: The evolution of the tree computed by RRTV 1# and RRTV 2# algorithms is shown in 15-15 and 15-15, respectively. The configuration of the trees 15, 15 is at 250 iterations, 15, 15 is at 500 iterations, 15, 15 is at 2500 iterations, 15, 15 is at 10000 iterations, and 15, 15 is at 25000 iterations.
+
+Figure 16: The evolution of the tree computed by RRTV 3# algorithm is shown in 16-16. The configuration of the trees in 16 is at 250 iterations, in 16 is at 500 iterations, in 16 is at 2500 iterations, in 16 is at 5000 iterations, in 16 is at 10000 iterations, and in 16 is at 25000 iterations.
+
+Figure 17: The change in the cost of the best paths computed by RRT*, RRT#, and its variant algorithms and the variance in the trials are shown in 17 and 17, respectively.
+
+Figure 18: The evolution of the tree computed by RRTV 1# and RRTV 2# algorithms is shown in 18-18 and 18-18, respectively. The configuration of the trees 18, 18 is at 250 iterations, 18, 18 is at 500 iterations, 18, 18 is at 2500 iterations, 18, 18 is at 10000 iterations, and 18, 18 is at 25000 iterations.
+
+Figure 19: The evolution of the tree computed by RRTV 3# algorithm is shown in 19-19. The configuration of the trees in 19 is at 250 iterations, in 19 is at 500 iterations, in 19 is at 2500 iterations, in 19 is at 5000 iterations, in 19 is at 10000 iterations, and in 19 is at 25000 iterations.
+
+Figure 20: The change in the cost of the best paths computed by RRT*, RRT#, and its variant algorithms and the variance in the trials are shown in 20 and 20, respectively.
+
+A Monte-Carlo study was performed in order to compare the convergence rate and variance in the trials of all algorithms in a high dimensional search space. All algorithms were run up until 4 million iterations 100 times in a 5-dimensional search space for Problem types 1 and 2. In the second problem type, several 5-dimensional hypercubes of different size were randomly placed in the environment in order to represent obstacles. As shown in Figures 21 and 22, the ${RRT}_{V2}^{\#}$ and ${RRT}_{V3}^{\#}$ algorithms find the solution in a similar amount of time, and they are faster than the other algorithms. In addition, they compute solutions of lower cost than the other algorithms with smaller variance in the trials.
+
+Figure 21: The change in the cost of the best paths computed by RRT*, RRT#, and its variant algorithms and the variance of the trials is shown in 21 and 21, respectively (problem type 1, 5D search space).
+
+Figure 22: The change in the cost of the best paths computed by RRT*, RRT#, and its variant algorithms and the variance of the trials are shown in 22 and 22, respectively (problem type 2, 5D search space).
+
+The execution times of all algorithms were also compared. Results of the ${RRT}^{\#}$, ${RRT}_{V1}^{\#}$, ${RRT}_{V2}^{\#}$, and ${RRT}_{V3}^{\#}$ are plotted in blue, green, magenta, and black, respectively. All algorithms were run in a 2D and a 5D environment with no obstacles for up to 750,000 and 4,000,000 iterations, respectively. The execution time of the ${RRT}^{\#}$ and its variant algorithms is normalized over that of the ${RRT}^{\ast}$algorithm and is plotted versus the number of iterations averaged over 50 trials for the 2D search space in Figure 23. A similar plot is also created for 100 trials in the 5D search space and shown in Figure 23.
+
+Figure 23: Comparison of execution time of all algorithms (Problem type 1)
+
+## Conclusion
+
+In this paper, a new incremental sampling-based algorithm, denoted by ${RRT}^{\#}$ is presented, which offers asymptotically optimal solutions for solving motion planning problems. The ${RRT}^{\#}$ algorithm relies heavily on the random geometric graph data structure and the $RRG$ algorithm, which is also known to have asymptotic optimality properties. A bottleneck of optimal sampling-based algorithms is the slow convergence to the optimal solution, although sampling-based algorithms are capable of finding a feasible solution, often almost in real-time. By incorporating consistency information of all current vertices in the tree (essentially by comparing the current cost-to-come values of the vertices with the cost-to-come values via one of the neighboring vertices) we can have more informed estimates of the optimal values of the potential paths, thus speeding up convergence. Furthermore, once a feasible path has been found, vertex consistency can be used to estimate the region where the optimal solution should be found. This results in an initial convergence rate that is better than the one of the ${RRT}^{\ast}$ algorithm.
+
+We have also introduced three variants to improve the convergence rate of the baseline ${RRT}^{\#}$ algorithm by implementing two key features: preventing the expansion of the tree towards unfavorable regions in search space, and propagating new information throughout the tree in an efficient way. The first feature allows us to limit the number of vertices in the tree, thus resulting to the algorithm running faster. The second feature allows us to compute solutions with a less number of vertices in the tree since any new information is exploited to the highest degree. As a result, the convergence rate of the baseline ${RRT}^{\#}$ can be improved significantly. Extensive numerical results have verified these observations in several simulation scenarios.
+
+The work in this paper can be extended in several directions. First, a thorough theoretical analysis is warranted in order to provide strict bounds on the convergence rate of ${RRT}^{\#}$. Second, since ${RRT}^{\#}$ decomposes the vertex set into "promising" and "non-promising" ones, smarter sampling strategies can be developed to exploit this information. It is also crucial for the algorithm to reach the target set as early as possible in order to converge to the optimal solution faster. In that respect, a bi-directional version of the ${RRT}^{\#}$ (like the RRT-connect in ) can be developed in order to shorten the first time-to-connect to the goal set. Also, a parallel version of the algorithm could be implemented by running the $\mathtt{E}\mathtt{x}\mathtt{t}\mathtt{e}\mathtt{n}\mathtt{d}$ and $\mathtt{R}\mathtt{e}\mathtt{d}\mathtt{u}\mathtt{c}\mathtt{e}\mathtt{I}\mathtt{n}\mathtt{c}\mathtt{o}\mathtt{n}\mathtt{s}\mathtt{i}\mathtt{s}\mathtt{t}\mathtt{e}\mathtt{n}\mathtt{c}\mathtt{y}$ procedures as separate threads. A possible implementation would be to have multiple threads implementing the $\mathtt{E}\mathtt{x}\mathtt{t}\mathtt{e}\mathtt{n}\mathtt{d}$ procedure and single thread implementing the $\mathtt{R}\mathtt{e}\mathtt{d}\mathtt{u}\mathtt{c}\mathtt{e}\mathtt{I}\mathtt{n}\mathtt{c}\mathtt{o}\mathtt{n}\mathtt{s}\mathtt{i}\mathtt{s}\mathtt{t}\mathtt{e}\mathtt{n}\mathtt{c}\mathtt{y}$. Finally, the algorithm can be modified to solve motion planning problems for vehicles with complex dynamics (ground vehicles, aircraft, helicopters etc) by implementing specific local steering functions.

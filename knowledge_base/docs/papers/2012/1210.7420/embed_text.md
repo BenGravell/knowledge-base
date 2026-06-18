@@ -1,0 +1,210 @@
+## Introduction
+
+Polynomial and trigonometric differential equations appear ubiquitously in a variety of application domains including robotics, economics, mathematical biology, and chemical engineering, among others. The equations of motion for most robotic systems for example can be described by the familiar *manipulator equations* which give rise to systems of differential equations that are a mixture of polynomial and trigonometric terms in the state variables. In mathematical biology and economics, polynomial differential equations such as the Lotka-Volterra model and its variants are used to model population dynamics and competition among entities in an economy. The dynamics of many chemical processes are also naturally modeled by polynomial differential equations. Aside from these specific examples, differential equations in numerous application domains are commonly *approximated* as polynomials.
+
+While mature computational tools exist for the numerical solution of such differential equations, in most of the application domains described above, one is *not* typically interested in *particular* solutions of the system. Rather, *qualitative properties* of the differential equations are of central importance. For example, one may be interested in the safety of a robot performing a certain dynamic task, or in determining if the population of certain species diminishes below a critical threshold. The former example is related to the *stability* of the control system employed by the robot while the latter can be addressed by defining an "acceptable" set of population numbers and asking whether this set is *invariant* (i.e. if the populations start off in this set, will they always remain within the set?). In a similar vein, one can ask if trajectories in a model of epidemic spread remain *bounded*.
+
+The study of such qualitative properties of differential equations has an extensive literature and numerous algorithms have been proposed for addressing these questions computationally. However, for all but the simplest cases (e.g. the case of linear systems), the problems still lack satisfactory (i.e. exact and efficient) algorithms. This observation motivates the study of the fundamental computational complexity of these problems in order to establish theoretical bounds on the efficiency of algorithms that attempt to answer these questions. Such complexity results may play an important role in shaping the search for practical algorithms for these problems by limiting the kinds of algorithms one can possibly hope to obtain. Further, by understanding exactly where the complexity of these problems stems from, we can hope to find *approximations* and *relaxations* that are more amenable to efficient solutions while still maintaining practical relevance.
+
+Questions of complexity related to qualitative properties of differential equations have long been of theoretical interest. A natural question one can ask is if the stability of a system of polynomial differential equations can be decided by a Turing machine in finite time. In, Arnold made a well-known conjecture that the contrary is true; i.e. the question is undecidable. To the authors' knowledge, even though some variants of the question have been studied and answered, the question in its original form is so far unresolved. Although the results in this paper do not resolve Arnold's question, they provide lower bounds on the computational complexity of deciding local asymptotic stability and several similar and related problems.
+
+The primary challenge in establishing such complexity results lies in relating the properties of the *continuous* solutions of polynomial and trigonometric differential equations to the *combinatorial* problems for which complexity results have been previously established. Explicitly mapping trajectories of a system (which typically one does not have access to exactly) to objects in combinatorial problems seems to be a hopeless approach. The main idea that allows us to by-pass this apparent challenge is to relate the combinatorial problem to properties of *Lyapunov functions* that prove stability/invariance of differential equations. All the results in this paper exploit this idea in one way or another.
+
+The organization of the paper is as follows. After stating some preliminaries in Section II, we show in Section III that deciding local asymptotic stability for trigonometric polynomials of degree four is strongly NP-hard. While this result is an extension of the results presented in (which proves the corresponding result for cubic polynomial vector fields), the decision problem is of independent interest, particularly in the field of robotics. This is due to the fact that most mechanical systems can be modeled by the *manipulator equations*, which result in vector fields whose degrees are dominated by trigonometric terms. In Section IV, we prove that the following decision problems are strongly NP-hard for polynomial vector fields of degree $d$:
+
+Invariance of a basic semialgebraic set defined by a quartic polynomial ($d = 1$),
+
+Inclusion of the unit ball in the region of attraction of an equilibrium point ($d = 3$),
+
+Local attractivity of an equilibrium point ($d = 3$),
+
+Stability of an equilibrium point in the sense of Lyapunov ($d = 4$),
+
+Existence of a quadratic Lyapunov function ($d = 3$),
+
+Local collision avoidance ($d = 4$),
+
+Existence of a stabilizing controller ($d = 3$).
+
+These notions are all formally defined in Section IV. The input to these problems is an ordered list of coefficients (expressed as rational numbers) defining the polynomial or trigonometric vector field. Establishing NP-hardness of these problems implies that unless P=NP, it is not possible to provide an algorithm that can have a running time bounded by a polynomial in the number of bits required to represent the input. Further, all the NP-hardness results in this paper are in the *strong* sense (as opposed to weakly NP-hard problems like KNAPSACK or SUBSET SUM). This implies that the problems remain NP-hard even when the bit length of the coefficients (i.e. the input) is $O{({log{(n)}})}$ (here, $n$ is the dimension of the state space). Unless P=NP, even pseudo-polynomial time algorithms cannot exist for strongly NP-hard problems; see for more details and definitions. In particular, our results suggest that none of the numerous recent techniques for systems analysis based on convex optimization (e.g. in terms of linear programs, linear matrix inequalities, or sum of squares programs) can be exact, unless the size of the formulated optimization problems are exponential in the input.
+
+We refer the reader interested in computational complexity in systems and control to the outstanding survey papers and references therein.
+
+## A few preliminaries on forms
+
+Many of the results in this paper will make use of *homogeneous* polynomials. A multivariate polynomial $p:{{\mathbb{R}}^{n}\rightarrow{\mathbb{R}}}$ is homogeneous (of degree $d$) if it satisfies ${p{({\lambdax})}} = {\lambda^{d}p{(x)}}$ for all $x \in {\mathbb{R}}^{n}$ and all $\lambda \in {\mathbb{R}}$. This condition is equivalent to all monomials of $p$ having the same degree. A homogeneous polynomial is also called a *form*. Observe that products of forms are again forms, and that the components of the gradient of a form are forms of one fewer degree. We will make frequent references to the following useful identity for homogeneous functions due to Euler:
+
+Here, $p$ is a homogeneous function of degree $d$ and $\nabla p$ denotes its gradient vector. The identity is easily derived by differentiating both sides of the above equation with respect to $\lambda$ and setting $\lambda = 1$.
+
+The degree of a polynomial vector field $\overset{˙}{x} = {f{(x)}}$, with $f:{{\mathbb{R}}^{n}\rightarrow{\mathbb{R}}^{n}}$, is defined to be the largest degree of the components of $f$. We say that the vector field $f$ is homogeneous if all components of $f$ are forms of the same degree. Finally, a form $p:{{\mathbb{R}}^{n}\rightarrow{\mathbb{R}}}$ is said to be *positive definite* if ${p{(x)}} > 0$ for all nonzero $x$ in ${\mathbb{R}}^{n}$.
+
+## Complexity of deciding local asymptotic stability of trigonometric vector fields
+
+In this section, we prove that deciding local asymptotic stability of trigonometric vector fields of degree four is strongly NP-hard.
+
+### Definition 1
+
+The zero equilibrium point of a dynamical system $\overset{˙}{x} = {f{(x)}}$ is *stable in the sense of Lyapunov* if ${\forall\epsilon} > 0$, ${\exists\delta} > 0$ such that ${{{\|{x{}}\|} < \delta\Longrightarrow{\|{x{(t)}}\|} < \epsilon},{{\forall t} > 0}}.$ We say that the equlibrium point is *locally asymptotically stable* if it is stable in the sense of Lyapunov and there exists $\epsilon > 0$ such that ${\|{x{}}\|} < \epsilon\Longrightarrow{\lim_{t\rightarrow\infty}{x{(t)}}} = 0$.
+
+### Theorem III.1
+
+Given a trigonometric vector field of degree four, it is strongly NP-hard to decide if it is locally asymptotically stable.
+
+The proof will be via a reduction from ONE-IN-THREE 3SAT, which is known to be NP-complete. An instance of ONE-IN-THREE 3SAT consists of an expression made of conjunctions of clauses. Each clause is the logical OR of three literals, and each literal is either a variable or its negation. The problem is to decide if there is a boolean assignment^11^1An assignment to a variable will denote an element from $\{ 0,1\}$ with $0$ corresponding to false and $1$ corresponding to true. of the variables that results in the expression being true and each clause having *exactly one* true literal.
+
+Given an instance of ONE-IN-THREE 3SAT in the variables $b_{1},\ldots,b_{n}$, we first construct a degree 4 trigonometric polynomial. To avoid introducing unnecessary notation, we present this construction on a single instance of ONE-IN-THREE 3SAT. This example should elucidate how the procedure works in the general case. Given an instance of ONE-IN-THREE 3SAT such as:
+
+we construct the following quartic trigonometric polynomial:
+
+The first term in $t{(x)}$ is not specific to the particular instance under consideration and will always appear in our construction. The following terms are constructed by taking each clause appearing in the boolean formula and replacing a variable $b_{i}$ with $\sin{(x_{i})}$ and substituting $+$ in place of $\vee$. If the negation of a variable appears in the clause, we replace it by $1 - {\sin{(x_{i})}}$. Each resulting expression (corresponding to an individual clause) is subtracted by $1$ and then squared.
+
+We then introduce a single new variable $y$ and define $z:={\lbrack x,y\rbrack}^{T}$. We construct a new trigonometric polynomial:
+
+Here, we first replaced $\sin{(x_{i})}$ with $\frac{\sin{(x_{i})}}{\sin{(y)}}$ and then multiplied the entire resulting expression by $\sin^{4}{(y)}$. Observe that by doing so, $t_{h}$ becomes a homogeneous function of $\sin{(z)}$.
+
+### Definition 2
+
+A function $g{(z)}$ is *locally positive definite* if there exists $\epsilon > 0$ such that ${{\| z\|} < \epsilon},{z \neq 0\Longrightarrow{g{(z)}} > 0}$.
+
+### Lemma III.2
+
+The trigonometric polynomial $t_{h}{(z)}$ is locally positive definite if and only if the ONE-IN-THREE 3SAT instance it was derived from is unsatisfiable.
+
+### Proof
+
+To see this, first note that by construction $t{(x)}$ and $t_{h}{(z)}$ are sums of squares and hence nonnegative. Also, by construction, the only zeros of $t{(x)}$ occur when ${\sin{(x_{i})}} \in {\{ 0,1\}}$. Now, suppose that the ONE-IN-THREE 3SAT instance has a satisfying assignment of variables $b^{\star}$. Then, we observe that $t{(x)}$ must have a zero if we substitute $x_{i} = {\sin^{- 1}{(b_{i}^{\star})}}$. Thus, by construction, $t_{h}{(z)}$ has a zero when
+
+Further, since $t_{h}$ is homogeneous in $\sin{(z)}$, for all $\alpha \geq 0$, we have ${t_{h}{({x{(\alpha)}},{y{(\alpha)}})}} = 0$, where
+
+Note that as $\alpha\rightarrow 0$, $({x{(\alpha)}},{y{(\alpha)}})$ gets arbitrarily close to the origin. Hence $t_{h}{(z)}$ is not locally positive.
+
+Now, to prove the converse, suppose the ONE-IN-THREE 3SAT instance is unsatisfiable. We know that at least one of the clauses in the ONE-IN-THREE 3SAT instance must have either no true literals or more than one true literal for all possible assignments to the variables. Thus, at least one of the terms of $t{(x)}$ must always be positive. If $t{(x)}$ does not have a zero, by construction, $t_{h}{(z)}$ can only have a zero when ${\sin{(y)}} = 0$. However, substituting ${\sin{(y)}} = 0$ in $t_{h}{(z)}$ results in the expression $\Sigma_{i}^{n}{\sin^{4}{(x_{i})}}$. Thus, $t_{h}{(z)}$ has a zero only when ${\sin{(x_{i})}} = 0$ and ${\sin{(y)}} = 0$. Hence, in some neighborhood around the origin (${- \pi} < x_{i} < \pi$ and ${- \pi} < y < \pi$), these equations cannot be satisfied and thus $t_{h}{(z)}$ is locally positive. ∎
+
+### Corollary III.1
+
+Checking local positivity of quartic trigonometric functions is strongly NP-hard.^22^2Our reduction from ONE-IN-THREE 3SAT to checking local positivity is clearly polynomial in length.
+
+### Lemma III.3
+
+If the ONE-IN-THREE 3SAT instance is unsatisfiable, there exists a neighborhood around the origin in which ${\nabla t_{h}}{(z)}$ does not vanish (except at the origin).
+
+### Proof
+
+Let $s:={\lbrack{\sin{(x_{1})}},{\sin{(x_{2})}},{\ldots{\sin{(y)}}}\rbrack}^{T}$ and denote the function $t_{s}{(s)}$ to be the function $t_{h}{(z)}$ viewed as a function of $s$. Note that $t_{s}$ is a quartic form in $s$. The expression for the gradient of $t_{h}{(z)}$ with respect to $z$ can be written as
+
+where $\text{diag}{({\cos{(z_{i})}})}$ is a diagonal matrix with its diagonal elements set to $\cos{(z_{i})}$. Using Euler's identity for homogeneous functions, we have ${t_{s}{(s)}} = {\frac{1}{4}s^{T}{\nabla_{s}t_{s}}{(s)}}$. Thus, we see that when $t_{s}{(s)}$ is nonzero, ${\nabla_{s}t_{s}}{(s)}$ cannot vanish at that point. Since for a small enough neighborhood around the origin (${- \frac{\pi}{2}} < x_{i} < \frac{\pi}{2}$ and ${- \frac{\pi}{2}} < y < \frac{\pi}{2}$) we know that $t_{s}{(s)}$ is positive *and* $\cos{(z_{i})}$ is nonzero for all $i$, we have that ${\nabla t_{h}}{(z)}$ also does not vanish in this neighborhood (except at the origin). ∎
+
+### Corollary III.2
+
+Given a quartic trigonometric polynomial, it is NP-hard to decide if there exists a neighborhood around the origin where the function is positive and its gradient does not vanish (except at the origin).
+
+We now present a polynomial time reduction from the decision problem stated in Corollary III.2 to the problem of checking local asymptotic stability of quartic trigonometric vector fields. This completes the proof of Theorem III.1.
+
+### Proof
+
+Given a quartic trigonometric form $t_{h}{(z)}$, we construct the following continuous time dynamical system:
+
+Observe that this a quartic trigonometric vector field. We claim that this system is locally asymptotically stable if and only if there is a neighborhood around the origin such that $t_{h}{(z)}$ is positive definite and ${\nabla t_{h}}{(z)}$ does not vanish except at the origin. To prove the claim, we start by noting that by construction ${\overset{˙}{t}}_{h}{(z)}$ is always negative semidefinite:
+
+Suppose first that there is a neighborhood in which $t_{h}{(z)}$ is positive definite and ${\nabla t_{h}}{(z)}$ does not vanish except at the origin. The condition on the gradient implies from the equation above that ${\overset{˙}{t}}_{h}{(z)}$ is locally negative definite. This, together with local positivity of $t_{h}$, implies that $t_{h}$ is a locally valid Lyapunov function for the system. Hence, local asymptotic stability follows from Lyapunov's stability theorem (see e.g. \[18, p. 124\]).
+
+To see the converse, suppose that the vector field is locally asymptotically stable. There is therefore an open neighborhood $B_{\delta}$ around the origin, where the trajectories converge to the origin. We first observe that ${\nabla t_{h}}{(z)}$ does not vanish in this neighborhood since if it did, $\overset{˙}{z}$ would equal zero at that point. This would contradict local asymptotic stability (since this point would be an equilibrium point and would not asymptotically converge to the origin).
+
+Next, we prove that $t_{h}{(z)}$ is positive definite in $B_{\delta}$. Suppose first that there exists a point $z_{0}$ in $B_{\delta}$ such that ${t_{h}{(z_{0})}} < 0$. Consider the trajectory that starts off at $z_{0}$. Since ${{\overset{˙}{t}}_{h}{(z)}} = {- {\|{{\nabla t_{h}}{(z)}}\|}^{2}}$ is non-increasing everywhere, we see that at all points in time, the value of $t_{h}{(z)}$ remains negative and thus the trajectory cannot go to the origin (since ${t_{h}{}} = 0$). This contradicts local asymptotic stability. To prove that $t_{h}{(z)}$ is in fact *strictly* positive in $B_{\delta}$, suppose for the sake of contradiction that there is a point $z^{\star} \in B_{\delta}$ such that ${t_{h}{(z^{\star})}} = 0$. Since $t_{h}{(z)}$ was just shown to be nonnegative in $B_{\delta}$ and $B_{\delta}$ is an open set, $z^{\star}$ is a local minimum. Thus, ${{\nabla t_{h}}{(z^{\star})}} = 0$ and $z^{\star}$ is a fixed point. This again contradicts local asymptotic stability. ∎
+
+## Complexity of several qualitative properties of polynomial vector fields
+
+As we remarked earlier, NP-hardness of testing local and global asymptotic stability of polynomial vector fields of degree 3 has already been established in our earlier work,\[1, Chap. 4\]. In this section, we prove that deciding several other important properties of polynomial vector fields is also NP-hard. For many of these properties, our proof of NP-hardness builds on the proof in. Whenever a property has to do with an equilibrium point, we take this equilibrium point to be at the origin. In what follows, the norm $||.||$ is always the Euclidean norm, and the notation $B_{r}$ denotes the ball of radius $r$; i.e., $B_{r}: = {\{ x|||x|| \leq r\}}$.
+
+### Theorem IV.1
+
+For polynomial differential equations of degree $d$ (with $d$ specified below), the following properties are NP-hard to decide:\
+(a) $d = 3$, *Invariance of a ball*: $\forall{x{}}$ with ${\|{x{}}\|} \leq 1$,
+
+\(b\) $d = 1$, *Invariance of a basic semialgebraic set defined by a quartic polynomial*: ${\forall{x{}}} \in \mathcal{S}$,
+
+where $\mathcal{S}: = {\{ x|p{(x)} \leq 1\}}$ and $p$ is a given form of degree four.\
+(c) $d = 3$, *Inclusion of a ball in the region of attraction of an equilibrium point*: $\forall{x{}}$ with ${{\|{x{}}\|} \leq 1},$
+
+\(d\) $d = 3$, *Local attractivity of an equilibrium point*: ${\exists\delta} > 0$ such that ${{\forall{x{}}} \in B_{\delta}},$
+
+\(e\) $d = 4$, *Stability of an equilibriym point in the sense of Lyapunov*: ${\forall\epsilon} > 0$, ${\exists\delta} = {\delta{(\epsilon)}}$ such that
+
+\(f\) $d = 3$, *Boundedness of trajectories*: $\forall{x{}}$, ${\exists r} = {r{({x{}})}}$ such that
+
+\(g\) $d = 3$, *Existence of a local quadratic Lyapunov function*: ${\exists\delta} > 0$ and a quadratic Lyapunov function ${V{(x)}} = {x^{T}Px}$ such that ${V{(x)}} > 0$ for all ${x \in B_{\delta}},{x \neq 0}$ (or equivalently $P \succ 0$), and
+
+\(h\) $d = 4$, *Local collision avoidance*: ${\exists\delta} > 0$ such that ${\forall{x{}}} \in B_{\delta}$,
+
+where $\mathcal{S}$ is a given polytope.\
+(i) $d = 3$, *Existence of a stabilizing controller*: There exists a particular (e.g. smooth, or polynomial of fixed degree) control law $u{(x)}$ that makes the origin of
+
+locally asymptotically stable, where $f$ and $g \neq 0$ here have degrees $3$.
+
+### Proof
+
+\(a\) The proofs of parts (a) and (b) of the theorem are based on a reduction from the polynomial nonnegativity problem: given a (homogeneous) polynomial $p:{{\mathbb{R}}^{n}\rightarrow{\mathbb{R}}}$, decide whether ${{p{(x)}} \geq 0},{{\forall x} \in {\mathbb{R}}^{n}}$? If the degree of $p$ is even and larger or equal than $4$, the problem is well-known to be NP-hard. This follows e.g. as an immediate consequence of NP-hardness testing matrix copositivity. (The original proof of NP-hardness of checking matrix copositivity in is via a reduction from the subset sum problem and only establishes weak NP-hardness. However, reductions from the stable set problem to matrix copositivity are also known and they result in NP-hardness in the strong sense.)
+
+We now proceed with the proof of (a). Given a quartic form $p$, we construct the vector field
+
+Note that the vector field has degree $3$ and is homogeneous. We claim that the unit ball $B_{1}$ is invariant under the trajectories of this system if and only if $p$ is nonnegative. This of course establishes the desired NP-hardness result. To prove the claim, consider the function $V{(x)}: = ||x||^{2}.$ Clearly, $B_{1}$ is invariant under the trajectories of $\overset{˙}{x} = {- {{\nabla p}{(x)}}}$ if and only if ${\overset{˙}{V}{(x)}} \leq 0$ for all $x$ with ${{\| x\|} = 1}.$ Since $\overset{˙}{V}$ is a homogeneous polynomial, this condition is equivalent to having $\overset{˙}{V}$ nonpositive for all $x \in {\mathbb{R}}^{n}$. However, from Euler's identity we have
+
+\(b\) Once again, we provide a reduction from the problem of checking nonnegativity of quartic forms. Given a quartic form $p$, we let the set $\mathcal{S}$ be defined as $\mathcal{S} = \left. \{ x \middle| {{p{(x)}} \leq 1}\} \right.$. Let us consider the linear dynamical system
+
+We claim that $\mathcal{S}$ is invariant under the trajectories of this linear system if and only if $p$ is nonnegative. To see this, consider the derivative $\overset{˙}{p}$ of $p$ along the trajectories of $\overset{˙}{x} = {- x}$ and note its homogeneity. With the same reasoning as in the proof of part (a), ${\overset{˙}{p}{(x)}} \leq 0$ for all $x \in {\mathbb{R}}^{n}$ if and only if the set $\mathcal{S}$ is invariant. From Euler's identity, we have
+
+Note that the role of the dynamics and the gradient of the "Lyapunov function" are swapped in the proofs of (a) and (b).
+
+A precursor to the proofs of (c)-(h). The proofs of (c)-(h) are all via reductions from the problem of testing local asymptotic stability (las) of cubic vector fields. This problem has been shown to be NP-hard in. All of the reductions that follow are rather simple but subtly rely on the specific construction in. For this reason, we need to first recall some elements of that construction.
+
+In a manner similar to that of the proof of Theorem III.1, the reduction in takes an instance of ONE-IN-THREE 3SAT and constructs a homogeneous polynomial $V:{{\mathbb{R}}^{n}\rightarrow{\mathbb{R}}}$ of degree $4$ that is positive definite if and only if the ONE-IN-THREE 3SAT instance is not satisfiable. Then, a cubic vector field is constructed as follows:
+
+We recall the following facts from about this vector field:
+
+The vector field in is homogeneous and therefore it is locally asymptotically stable if and only if it is globally asymptotically stable.
+
+The vector field is (locally or globally) asymptotically stable if and only if $V$ is positive definite. Hence, the system, if asymptotically stable, by construction always admits a quartic Lyapunov function.
+
+If the vector field is *not* asymptotically stable, then there always exists a nonzero point $\overline{x} \in {\{ 0,1\}}^{n}$ such that ${f{(\overline{x})}} = 0$; i.e., $\overline{x}$ is a nonzero equilibrium point.
+
+We now proceed with the proofs of (c)-(h). In what follows, $f{(x)}$ will always refer to the vector field in.
+
+\(c\) The claim is an obvious implication of the homogeneity of $f$. Since ${f{({\lambdax})}} = {\lambda^{3}f{(x)}}$, for all $\lambda \in {\mathbb{R}}$ and all $x \in {\mathbb{R}}^{n}$, the origin is las if and only if for any $r$, all trajectories in $B_{r}$ converge to the origin.^33^3For a general cubic vector field, validity of property (c) for a particular value of $r$ is of course not necessary for local asymptotic stability. The reader should keep in mind that the class of homogeneous cubic vector fields is a subset of the class of all cubic vector fields, and hence any hardness result for this class immediately implies the same hardness result for all cubic vector fields.
+
+\(d\) If $f$ is las, then of course it is by definition locally attractive. On the other hand, if $f$ is not las, then ${f{(\overline{x})}} = 0$ for some nonzero $\overline{x} \in {\{ 0,1\}}^{n}$. By homogeneity of $f$, this implies that ${{{f{({\alpha\overline{x}})}} = 0},{{\forall\alpha} \geq 0}}.$ Therefore, arbitrarily close to the origin we have stationary points and hence the origin cannot be locally attractive.
+
+\(e\) Let ${x^{4} = {(x_{1}^{4},\ldots,x_{n}^{4})}^{T}}.$ Consider the vector field
+
+We claim that the origin of is stable in the sense of Lyapunov if and only if the origin of is las. Suppose first that is not las. Then we must have ${f{({\alpha\overline{x}})}} = 0$ for some nonzero $\overline{x} \in {\{ 0,1\}}^{n}$ and ${\forall\alpha} \geq 0$. Therefore for the system, trajectories starting from *any* nonzero point on the line connecting the origin to $\overline{x}$ shoot out to infinity while staying on the line. (This is because on this line, the dynamics are simply ${\overset{˙}{x} = x^{4}}.$) As a result, stability in the sense of Lyapunov does not hold as there exists an $\epsilon > 0$ (in fact for any $\epsilon > 0$), for which ${\nexists\delta} > 0$ such that trajectories starting in $B_{\delta}$ stay in $B_{\epsilon}$. Indeed, as we argued, arbitrarily close to the origin we have points that shoot out to infinity.
+
+Let us now show the converse. If is las, then $V$ is indeed a strict Lyapunov function for it; i.e. it is positive definite and has a negative definite derivative $- {\|{{\nabla V}{(x)}}\|}^{2}$. Using the same Lyapunov function for the system in, we have
+
+Note that the first term in this expression is a homogeneous polynomial of degree $6$ while the second term is a homogeneous polynomial of degree $7$. Negative definiteness of the lower order term implies that there exists a positive real number $\delta$ such that ${\overset{˙}{V}{(x)}} < 0$ for all nonzero $x \in B_{\delta}$. This together with positive definiteness of $V$ implies via Lyapunov's theorem that is las and hence stable in the sense of Lypunov.
+
+\(f\) Consider the vector field
+
+We claim that the trajectories of are bounded if and only if the origin of is las. Suppose is not las. Then, as in the previous proof, there exists a line connecting the origin to a point $\overline{x} \in {\{ 0,1\}}^{n}$ such that trajectories on this line escape to infinity. (In this case, the dynamics on this line is governed by $\overset{˙}{x} = x$.) Hence, not all trajectories can be bounded. For the converse, suppose that is las. Then $V$ (resp. $- {\|{{\nabla V}{(x)}}\|}^{2}$) must be positive (resp. negative) definite. Now if we consider system, the derivative of $V$ along its trajectories is given by
+
+Since the first term in this expression has degree $6$ and the second term degree $4$, there exists an $r$ such that $\overset{˙}{V} < 0$ for all $x \notin B_{r}$. This condition however implies boundedness of trajectories; see e.g..
+
+\(g\) If $f$ is not las, then there cannot be any local Lyapunov functions, in particular not a quadratic one. If $f$ is las, then we claim the quadratic function ${W{(x)}} = {\| x\|}^{2}$ is a valid (and in fact global) Lyapunov function for it. This can be seen from Euler's identity
+
+and by noting that $V$ must be positive definite.
+
+\(h\) We define our dynamics to be the one in, and the polytope $\mathcal{S}$ to be
+
+Suppose first that $f$ is not las. Then by the argument given in (e), the system in has trajectories that start out arbitrarily close to the origin (at points of the type $\alpha\overline{x}$ for some $\overline{x} \in {\{ 0,1\}}^{n}$ and for arbitrarily small $\alpha$), which exit on a straight line to infinity. Note that by doing so, such trajectories must cross $\mathcal{S}$; i.e. there exists a positive real number $\overline{\alpha}$ such that ${1 \leq {\sum_{i = 1}^{n}{\overline{\alpha}{\overline{x}}_{i}}} \leq 2}.$ Hence, there is no neighborhood around the origin whose trajectories avoid $\mathcal{S}$.
+
+For the converse, suppose $f$ is las. Then, we have shown while proving (e) that must also be las and hence stable in the sense of Lyapunov. Therefore, there exists $\delta > 0$ such that trajectories starting from $B_{\delta}$ do not leave $B_{\frac{1}{2}}$---a ball that is disjoint from $\mathcal{S}$.
+
+\(i\) Let $f$ be as in and ${g{(x)}} = {{({{x_{1}x_{2}^{2}} - {x_{1}^{2}x_{2}}})}\mathbf{1}\mathbf{1}^{T}}$, where $\mathbf{1}$ denotes the vector of all ones. The following simple argument establishes the desired NP-hardness result irrespective of the type of control law we may seek (e.g. linear control law, cubic control law, smooth control law, or anything else). If $f$ is las, then of course there exists a stabilizing controller, namely $u = 0$. If $f$ is not las, then it must have an equilibrium point at a nonzero point $\overline{x} \in {\{ 0,1\}}^{n}$. Note that by construction, $g$ vanishes at all such points. Since $g$ is homogeneous, it also vanishes at all points $\alpha\overline{x}$ for any scalar $\alpha$. Therefore, arbitrarily close to the origin, there are equilibrium points that the control law $u{(x)}$ cannot possibly remove. Hence there is no controller that can make the origin las. ∎
+
+### Remark IV.1
+
+Arguments similar to the one presented in the proof of (i) above can be given to show NP-hardness of deciding existence of a controller that establishes several other properties, e.g., invariance of the unit ball, inclusion of the unit ball in the region of attraction, etc. In the statement of (h), the fact that the set $\mathcal{S}$ is a polytope is clearly arbitrary. This choice is only made because "obstacles" are most commonly modeled in the literature as polytopes. We also note that a related problem of interest here is that of deciding, given two polytopes, whether all trajectories starting in one avoid the other. This question is the complement of the usual reachability question, for which claims of undecidability have already appeared; see also.
+
+## Conclusions and Open problems
+
+Under the assumption P$\neq$NP, we have shown the impossibility of polynomial time (or even pseudo-polynomial time) algorithms for ten decision problems that ubiquitously arise in control theory and the study of continuous time dynamical systems. Although our hardness results are valid even for very restricted classes of systems (e.g. gradient systems), it is of course still possible that these decision problems admit polynomial time algorithms for other special (and possibly important) *subclasses* of polynomial or trigonometric vector fields.
+
+Aside from extending the results of Theorem IV.1 to other classes of vector fields (such as trigonometric ones), the obvious class of questions that our work leaves open is to investigate the *decidability* of the decision problems studied in Theorem IV.1, or their NP-hardness for polynomial vector fields of degree one or two. Although for linear systems some of these questions become easy, we expect that our hardness results can be strengthened to the case when the degree is $2$. Quadratic vector fields already demonstrate very complex behaviour; for example, their stability does not imply existence of a polynomial Lyapunov function of any degree. In general, one can reduce the degree of any vector field to two by introducing polynomially many new variables (see ). However, this operation may or may not preserve the property of the vector field which is of interest.
