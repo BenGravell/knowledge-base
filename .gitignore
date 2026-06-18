@@ -18,6 +18,7 @@ knowledge_base/.tools/
 # Interrupted atomic writes from generated-data tooling.
 knowledge_base/map/.*.tmp
 knowledge_base/semantic_search/.*.tmp
+knowledge_base/semantic_search/embedding_cache.vectors.npy
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
