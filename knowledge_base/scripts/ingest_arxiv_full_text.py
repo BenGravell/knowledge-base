@@ -34,6 +34,10 @@ LOCAL_MARKDOWN_LINK_RE = re.compile(r"\[([^]]*)]\((?:#[^)]+|/[^)]*)\)")
 EMPTY_MARKDOWN_LINK_RE = re.compile(r"\[]\([^)]+\)")
 HTML_TAG_RE = re.compile(r"</?[A-Za-z][A-Za-z0-9:-]*(?:\s[^>]*)?>")
 BLANK_LINES_RE = re.compile(r"\n{3,}")
+UNUSABLE_HTML_MARKERS = (
+    "Conversion to HTML had a Fatal error",
+    "Conversion to HTML failed",
+)
 
 HTML_HEADERS = {
     **ARXIV_HEADERS,
@@ -77,9 +81,16 @@ def fetch_html(sources: list[HtmlSource], timeout: int) -> tuple[HtmlSource, str
             errors.append(f"{source.label}: {exc}")
             continue
         if response.status_code == 200 and "<html" in response.text[:2048].casefold():
+            if not usable_html(response.text):
+                errors.append(f"{source.label}: unusable HTML")
+                continue
             return source, response.text
         errors.append(f"{source.label}: HTTP {response.status_code}")
     return None, "; ".join(errors)
+
+
+def usable_html(html: str) -> bool:
+    return not any(marker in html for marker in UNUSABLE_HTML_MARKERS)
 
 
 def remove_rich_content_from_html(html: str) -> str:
@@ -203,6 +214,7 @@ def process_entry(entry: Entry, args: argparse.Namespace) -> str:
 def self_test() -> None:
     assert remove_rich_content_from_html("<figure><img src='x'><figcaption>Figure 1</figcaption></figure>")
     assert "img" not in remove_rich_content_from_markdown("before ![x](http://example.test/x.png) after")
+    assert not usable_html("<html>Conversion to HTML had a Fatal error</html>")
     assert "{.ltx_ref}" not in remove_rich_content_from_markdown("[1](#bib){.ltx_ref}")
     assert remove_rich_content_from_markdown("[1](#bib) [home](/)") == "1 home"
     assert remove_rich_content_from_markdown("<figcaption>Caption</figcaption>") == "Caption"

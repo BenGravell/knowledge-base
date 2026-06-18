@@ -26,7 +26,7 @@ LEGACY_FULL_TEXT_SIDECAR = "full_text.md"
 # Loose storage safety valve; embedding backends may need chunking below this.
 EMBED_TEXT_MAX_CHARS = 5_000_000
 
-HEADING_RE = re.compile(r"^#{1,6}\s+(.*?)\s*$")
+HEADING_RE = re.compile(r"^(#{1,6})\s+(.*?)\s*$")
 TAIL_HEADING_RE = re.compile(
     r"^(references|bibliography|acknowledg(?:e)?ments?|funding|appendix|supplementary)\b",
     re.IGNORECASE,
@@ -520,7 +520,8 @@ def strip_sidecar_header(markdown: str) -> str:
     lines = markdown.replace("\r\n", "\n").splitlines()
     while lines and not lines[0].strip():
         lines.pop(0)
-    if lines and lines[0].startswith("# "):
+    match = HEADING_RE.match(lines[0].strip()) if lines else None
+    if match and match.group(1) == "#":
         lines.pop(0)
     while lines and (
         not lines[0].strip()
@@ -549,7 +550,7 @@ def content_start_index(lines: list[str]) -> int:
         match = HEADING_RE.match(line.strip())
         if not match:
             continue
-        heading = embedding_heading_key(match.group(1))
+        heading = embedding_heading_key(match.group(2))
         if re.match(r"^introduction\b", heading, re.IGNORECASE):
             return index
         if fallback == 0 and re.match(r"^abstract\b", heading, re.IGNORECASE):
@@ -560,7 +561,7 @@ def content_start_index(lines: list[str]) -> int:
 def content_end_index(lines: list[str], start: int) -> int:
     for index, line in enumerate(lines[start + 1 :], start + 1):
         match = HEADING_RE.match(line.strip())
-        if match and TAIL_HEADING_RE.match(embedding_heading_key(match.group(1))):
+        if match and TAIL_HEADING_RE.match(embedding_heading_key(match.group(2))):
             return index
         if plain_tail_marker(line):
             return index
@@ -588,7 +589,7 @@ def normalized_embedding_heading(line: str) -> str:
     match = HEADING_RE.match(line)
     if not match:
         return ""
-    marker, heading = line.split(" ", 1)
+    marker, heading = match.groups()
     heading = re.sub(r"\s+", " ", embedding_heading_key(heading)).strip(": ")
     if not heading:
         return ""
@@ -640,6 +641,8 @@ def table_separator_line(line: str) -> bool:
 def keep_embedding_line(line: str) -> bool:
     if not line:
         return True
+    if line.startswith("#") and not line.lstrip("#").strip():
+        return False
     if line.startswith("#"):
         return True
     words = re.findall(r"[A-Za-z][A-Za-z-]{2,}", line)

@@ -8,6 +8,7 @@ from knowledge_base.catalog import (
     Catalog,
     CatalogLoadError,
     build_embedding_text,
+    clean_embedding_sidecar_text,
     identifier_terms,
     paper_label,
     year_as_int,
@@ -122,6 +123,43 @@ class CatalogHelperTests(unittest.TestCase):
             build_embedding_text(title="", tags=(), summary="", abstract="Only abstract."),
             "Abstract: Only abstract.",
         )
+
+    def test_embedding_sidecar_heading_whitespace_does_not_crash(self) -> None:
+        cleaned = clean_embedding_sidecar_text("##\tIntroduction\n\nUseful paragraph with enough words.")
+
+        self.assertEqual(cleaned, "## Introduction\n\nUseful paragraph with enough words.")
+
+    def test_embedding_sidecar_strips_tabbed_h1_title(self) -> None:
+        cleaned = clean_embedding_sidecar_text("#\tPaper Title\n\n##\tIntroduction\n\nUseful paragraph with enough words.")
+
+        self.assertEqual(cleaned, "## Introduction\n\nUseful paragraph with enough words.")
+
+    def test_embedding_sidecar_normalizes_adjacent_heading_forms(self) -> None:
+        cases = {
+            "##   1. Introduction": "## Introduction",
+            "###\tTabbed Section Title": "### Tabbed Section Title",
+            "#### Abstract": "## Abstract",
+            "### A) Model Details": "### Model Details",
+            "### A Model Details": "### Model Details",
+            "### a Equilibrium traffic": "### Equilibrium traffic",
+        }
+
+        for raw_heading, expected_heading in cases.items():
+            with self.subTest(raw_heading=raw_heading):
+                cleaned = clean_embedding_sidecar_text(f"{raw_heading}\n\nUseful paragraph with enough words.")
+                self.assertEqual(cleaned, f"{expected_heading}\n\nUseful paragraph with enough words.")
+
+    def test_embedding_sidecar_ignores_empty_hash_lines(self) -> None:
+        cleaned = clean_embedding_sidecar_text("##\n#\n\nUseful paragraph with enough words.")
+
+        self.assertEqual(cleaned, "## Paper Body\n\nUseful paragraph with enough words.")
+
+    def test_embedding_sidecar_still_stops_before_appendix(self) -> None:
+        cleaned = clean_embedding_sidecar_text(
+            "## Introduction\n\nUseful paragraph with enough words.\n\n## Appendix A\n\nExtra proof text should not stay."
+        )
+
+        self.assertEqual(cleaned, "## Introduction\n\nUseful paragraph with enough words.")
 
 
 if __name__ == "__main__":
