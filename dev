@@ -3,33 +3,31 @@ set -eu
 
 repo_dir=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
 tools_dir="${repo_dir}/.tools"
-uv_dir="${tools_dir}/uv"
-uv_bin="${uv_dir}/uv"
-installer_url="${UV_INSTALLER_URL:-https://astral.sh/uv/install.sh}"
+pixi_home="${tools_dir}/pixi"
+pixi_bin="${pixi_home}/bin/pixi"
+installer_url="${PIXI_INSTALLER_URL:-https://pixi.sh/install.sh}"
 
-if [ -x "$uv_bin" ]; then
+if [ -x "$pixi_bin" ]; then
     :
-elif command -v uv >/dev/null 2>&1; then
-    uv_bin=$(command -v uv)
+elif command -v pixi >/dev/null 2>&1; then
+    pixi_bin=$(command -v pixi)
 else
-    mkdir -p "$uv_dir"
-    installer="${TMPDIR:-/tmp}/uv-install.$$"
+    mkdir -p "$pixi_home/bin"
+    installer="${TMPDIR:-/tmp}/pixi-install.$$"
     trap 'rm -f "$installer"' EXIT HUP INT TERM
     if command -v curl >/dev/null 2>&1; then
         curl -LsSf "$installer_url" -o "$installer"
     elif command -v wget >/dev/null 2>&1; then
         wget -qO "$installer" "$installer_url"
     else
-        echo "Install curl or wget so this script can bootstrap uv." >&2
+        echo "Install curl or wget so this script can bootstrap Pixi." >&2
         exit 1
     fi
-    env UV_UNMANAGED_INSTALL="$uv_dir" UV_NO_MODIFY_PATH=1 sh "$installer"
+    env PIXI_HOME="$pixi_home" PIXI_BIN_DIR="${pixi_home}/bin" PIXI_NO_PATH_UPDATE=1 sh "$installer"
 fi
 
-export UV_CACHE_DIR="${UV_CACHE_DIR:-${tools_dir}/uv-cache}"
-export UV_PYTHON_INSTALL_DIR="${UV_PYTHON_INSTALL_DIR:-${tools_dir}/python}"
-export UV_TOOL_DIR="${UV_TOOL_DIR:-${tools_dir}/uv-tools}"
-export POETRY_VIRTUALENVS_IN_PROJECT="${POETRY_VIRTUALENVS_IN_PROJECT:-true}"
+export PIXI_HOME="${PIXI_HOME:-$pixi_home}"
+export PIXI_CACHE_DIR="${PIXI_CACHE_DIR:-${tools_dir}/pixi-cache}"
 
 cd "$repo_dir"
-exec "$uv_bin" tool run --from poetry poetry "$@"
+exec "$pixi_bin" "$@"

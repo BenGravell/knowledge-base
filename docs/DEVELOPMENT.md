@@ -5,27 +5,27 @@ from the repository root unless a section says otherwise.
 
 ## Fresh checkout
 
-Needs `git` plus `curl` or `wget`; no Python or Poetry install is required.
-The `./dev` wrapper installs local tooling on first use, then keeps using the
-checked-in Poetry lock.
+Needs `git` plus `curl` or `wget`; no Python or global Pixi install is required.
+The `./dev` wrapper installs Pixi locally on first use, then uses the checked-in
+`pixi.lock`.
 
 ```bash
 git clone https://github.com/BenGravell/knowledge-base.git
 cd knowledge-base
 ./dev install
-./dev run mkdocs serve -f knowledge_base/mkdocs.yml
+./dev run serve
 ```
 
 Build the site from the repository root:
 
 ```bash
-./dev run mkdocs build -f knowledge_base/mkdocs.yml
+./dev run build
 ```
 
 Deploy to GitHub Pages from the repository root:
 
 ```bash
-./dev run mkdocs gh-deploy -f knowledge_base/mkdocs.yml
+./dev run deploy
 ```
 
 ## Development checks
@@ -33,15 +33,15 @@ Deploy to GitHub Pages from the repository root:
 Lint and type-check Python code from the repository root:
 
 ```bash
-./dev run ruff check knowledge_base tests
-./dev run ruff format --check knowledge_base tests
-./dev run pyrefly check
+./dev run lint
+./dev run format-check
+./dev run typecheck
 ```
 
 Run unit tests from the repository root:
 
 ```bash
-./dev run python -m unittest discover -s tests -p 'test_*.py'
+./dev run test
 ```
 
 Install the pre-commit hooks once:
@@ -62,7 +62,7 @@ Refresh local generated data and validate that the site is self-consistent from
 the repository root:
 
 ```bash
-./dev run python knowledge_base/scripts/refresh_offline_data.py
+./dev run refresh
 ```
 
 Use `--force` to recompute cached embeddings, or `--strict` to also fail on

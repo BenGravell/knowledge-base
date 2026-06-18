@@ -26,15 +26,15 @@ The public site is published at
 
 ## Spin up from scratch
 
-Needs `git` plus `curl` or `wget`; no Python or Poetry install is required.
-The `./dev` wrapper installs local tooling on first use, then keeps using the
-checked-in Poetry lock.
+Needs `git` plus `curl` or `wget`.
+No Python or global Pixi install is required.
+The `./dev` wrapper installs Pixi locally on first use, then uses the checked-in `pixi.lock`.
 
 ```bash
 git clone https://github.com/BenGravell/knowledge-base.git
 cd knowledge-base
 ./dev install
-./dev run mkdocs serve -f knowledge_base/mkdocs.yml
+./dev run serve
 ```
 
 Open the URL printed by MkDocs, usually <http://127.0.0.1:8000/>.
@@ -46,7 +46,7 @@ Open the URL printed by MkDocs, usually <http://127.0.0.1:8000/>.
 From the repo root, run
 
 ```bash
-./dev run mkdocs serve -f knowledge_base/mkdocs.yml
+./dev run serve
 ```
 
 ### Add papers
@@ -68,7 +68,7 @@ Put URLs in `todo/PAPERS_FUNNEL.md`, route them, prefill metadata, audit it, the
 # Find unplaced papers, edit knowledge_base/tree.yml, then verify.
 ./dev run python knowledge_base/scripts/list_unplaced_papers.py --neighbors 3
 ./dev run python knowledge_base/scripts/list_unplaced_papers.py --neighbors 0 --fail-on-missing
-./dev run mkdocs build -f knowledge_base/mkdocs.yml
+./dev run build
 ```
 
 Use the source names printed by the prefill help, such as `ieee`, `mlr`, or `taylor_francis`; replace the example source commands with whichever `todo/papers/*.md` files the funnel populated.
@@ -99,7 +99,7 @@ For a script-only change, run a syntax/import check on the edited file:
 Replace the path with the file you changed. If the change affects MkDocs rendering, navigation, or plugins, run:
 
 ```bash
-./dev run mkdocs build -f knowledge_base/mkdocs.yml
+./dev run build
 ```
 
 ### Refresh offline data
@@ -107,9 +107,9 @@ Replace the path with the file you changed. If the change affects MkDocs renderi
 If local generated data is stale, refresh it from the repo root:
 
 ```bash
-./dev run python knowledge_base/scripts/refresh_offline_data.py
+./dev run refresh
 ```
 
 ### Deploy
 
-Run `./dev run mkdocs gh-deploy -f knowledge_base/mkdocs.yml` from the repo root.
+Run `./dev run deploy` from the repo root.

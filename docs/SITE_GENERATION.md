@@ -7,19 +7,19 @@ Commands in this file run from the repository root.
 Serve the site locally:
 
 ```bash
-./dev run mkdocs serve -f knowledge_base/mkdocs.yml
+./dev run serve
 ```
 
 Build the static site:
 
 ```bash
-./dev run mkdocs build -f knowledge_base/mkdocs.yml
+./dev run build
 ```
 
 Deploy to GitHub Pages:
 
 ```bash
-./dev run mkdocs gh-deploy -f knowledge_base/mkdocs.yml
+./dev run deploy
 ```
 
 During `mkdocs serve` and `mkdocs build`, MkDocs runs these gen-files scripts
@@ -71,7 +71,7 @@ Smoke-test the served MkDocs Map page in headless Chrome:
 Measure the Tree page default-load plus top-level branch-click timing:
 
 ```bash
-./dev run mkdocs build -f knowledge_base/mkdocs.yml
+./dev run build
 ./dev run python knowledge_base/scripts/measure_tree_view.py
 ./dev run python knowledge_base/scripts/measure_tree_view.py --runs 7 --viewport 1366x900
 ./dev run python knowledge_base/scripts/measure_tree_view.py --reduced-motion

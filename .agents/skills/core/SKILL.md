@@ -39,9 +39,9 @@ Install dependencies:
 Run MkDocs commands from the repo root:
 
 ```bash
-./dev run mkdocs serve -f knowledge_base/mkdocs.yml
-./dev run mkdocs build -f knowledge_base/mkdocs.yml
-./dev run mkdocs gh-deploy -f knowledge_base/mkdocs.yml
+./dev run serve
+./dev run build
+./dev run deploy
 ```
 
 Map utilities:
@@ -60,7 +60,7 @@ Human-oriented dev tools:
 
 ## Conventions
 
-- Python is `>=3.11, <3.14`; use `./dev` so uv can bootstrap Python and Poetry locally.
+- Python is `>=3.11, <3.14`; use `./dev` so Pixi can bootstrap the local environment.
 - New knowledge entries go under `knowledge_base/docs/` following the structure of existing files.
 - Paper URL lists live under `todo/papers/<SOURCE>.md`.
 - Source-specific prefill scripts live under `knowledge_base/scripts/prefill/<source>.py`.
@@ -68,7 +68,7 @@ Human-oriented dev tools:
 - Do not promote `audit_status` to `reviewed`. Agents may set it to `partial` after meaningful manual review or correction.
 - There is no general test suite.
 - Do not run programmatic tests except when a task skill explicitly requires a verification command or UX controls changed.
-- When UX controls changed, verify with `./dev run mkdocs build -f knowledge_base/mkdocs.yml` from the repo root and check for warnings.
+- When UX controls changed, verify with `./dev run build` from the repo root and check for warnings.
 
 ## Sub-Agent Delegation
 
