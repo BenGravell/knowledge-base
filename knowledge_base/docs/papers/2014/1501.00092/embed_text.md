@@ -1,0 +1,249 @@
+## Introduction
+
+Single image super-resolution (SR), which aims at recovering a high-resolution image from a single low-resolution image, is a classical problem in computer vision. This problem is inherently ill-posed since a multiplicity of solutions exist for any given low-resolution pixel. In other words, it is an underdetermined inverse problem, of which solution is not unique. Such a problem is typically mitigated by constraining the solution space by strong prior information. To learn the prior, recent state-of-the-art methods mostly adopt the example-based strategy. These methods either exploit internal similarities of the same image, or learn mapping functions from external low- and high-resolution exemplar pairs. The external example-based methods can be formulated for generic image super-resolution, or can be designed to suit domain specific tasks, *i.e.,* face hallucination, according to the training samples provided.
+
+The sparse-coding-based method is one of the representative external example-based SR methods. This method involves several steps in its solution pipeline. First, overlapping patches are densely cropped from the input image and pre-processed (*e.g.,*subtracting mean and normalization). These patches are then encoded by a low-resolution dictionary. The sparse coefficients are passed into a high-resolution dictionary for reconstructing high-resolution patches. The overlapping reconstructed patches are aggregated (*e.g.,* by weighted averaging) to produce the final output. This pipeline is shared by most external example-based methods, which pay particular attention to learning and optimizing the dictionaries or building efficient mapping functions. However, the rest of the steps in the pipeline have been rarely optimized or considered in an unified optimization framework.
+
+Figure 1: The proposed Super-Resolution Convolutional Neural Network (SRCNN) surpasses the bicubic baseline with just a few training iterations, and outperforms the sparse-coding-based method (SC) with moderate training. The performance may be further improved with more training iterations. More details are provided in Section 4.4.1 (the Set5 dataset with an upscaling factor 3). The proposed method provides visually appealing reconstructed image.
+
+In this paper, we show that the aforementioned pipeline is equivalent to a deep convolutional neural network (more details in Section 3.2). Motivated by this fact, we consider a convolutional neural network that directly learns an end-to-end mapping between low- and high-resolution images. Our method differs fundamentally from existing external example-based approaches, in that ours does not explicitly learn the dictionaries or manifolds for modeling the patch space. These are implicitly achieved via hidden layers. Furthermore, the patch extraction and aggregation are also formulated as convolutional layers, so are involved in the optimization. In our method, the entire SR pipeline is fully obtained through learning, with little pre/post-processing.
+
+We name the proposed model Super-Resolution Convolutional Neural Network (SRCNN)^11^1The implementation is available at http://mmlab.ie.cuhk.edu.hk/projects/SRCNN.html.. The proposed SRCNN has several appealing properties. First, its structure is intentionally designed with simplicity in mind, and yet provides superior accuracy^22^2Numerical evaluations by using different metrics such as the Peak Signal-to-Noise Ratio (PSNR), structure similarity index (SSIM), multi-scale SSIM, information fidelity criterion, when the ground truth images are available. compared with state-of-the-art example-based methods. Figure 1 shows a comparison on an example. Second, with moderate numbers of filters and layers, our method achieves fast speed for practical on-line usage even on a CPU. Our method is faster than a number of example-based methods, because it is fully feed-forward and does not need to solve any optimization problem on usage. Third, experiments show that the restoration quality of the network can be further improved when (i) larger and more diverse datasets are available, and/or (ii) a larger and deeper model is used. On the contrary, larger datasets/models can present challenges for existing example-based methods. Furthermore, the proposed network can cope with three channels of color images simultaneously to achieve improved super-resolution performance.
+
+Overall, the contributions of this study are mainly in three aspects:
+
+We present a fully convolutional neural network for image super-resolution. The network directly learns an end-to-end mapping between low- and high-resolution images, with little pre/post-processing beyond the optimization.
+
+We establish a relationship between our deep-learning-based SR method and the traditional sparse-coding-based SR methods. This relationship provides a guidance for the design of the network structure.
+
+We demonstrate that deep learning is useful in the classical computer vision problem of super-resolution, and can achieve good quality and speed.
+
+A preliminary version of this work was presented earlier. The present work adds to the initial version in significant ways. Firstly, we improve the SRCNN by introducing larger filter size in the non-linear mapping layer, and explore deeper structures by adding non-linear mapping layers. Secondly, we extend the SRCNN to process three color channels (either in YCbCr or RGB color space) simultaneously. Experimentally, we demonstrate that performance can be improved in comparison to the single-channel network. Thirdly, considerable new analyses and intuitive explanations are added to the initial results. We also extend the original experiments from Set5 and test images to BSD200 (200 test images). In addition, we compare with a number of recently published methods and confirm that our model still outperforms existing approaches using different evaluation metrics.
+
+## Related Work
+
+### Image Super-Resolution
+
+According to the image priors, single-image super resolution algorithms can be categorized into four types -- prediction models, edge based methods, image statistical methods and patch based (or example-based) methods. These methods have been thoroughly investigated and evaluated in Yang *et al.*'s work. Among them, the example-based methods achieve the state-of-the-art performance.
+
+The internal example-based methods exploit the self-similarity property and generate exemplar patches from the input image. It is first proposed in Glasner's work, and several improved variants are proposed to accelerate the implementation. The external example-based methods learn a mapping between low/high-resolution patches from external datasets. These studies vary on how to learn a compact dictionary or manifold space to relate low/high-resolution patches, and on how representation schemes can be conducted in such spaces. In the pioneer work of Freeman *et al.*, the dictionaries are directly presented as low/high-resolution patch pairs, and the nearest neighbour (NN) of the input patch is found in the low-resolution space, with its corresponding high-resolution patch used for reconstruction. Chang *et al.* introduce a manifold embedding technique as an alternative to the NN strategy. In Yang *et al.*'s work, the above NN correspondence advances to a more sophisticated sparse coding formulation. Other mapping functions such as kernel regression, simple function, random forest and anchored neighborhood regression are proposed to further improve the mapping accuracy and speed. The sparse-coding-based method and its several improvements are among the state-of-the-art SR methods nowadays. In these methods, the patches are the focus of the optimization; the patch extraction and aggregation steps are considered as pre/post-processing and handled separately.
+
+The majority of SR algorithms focus on gray-scale or single-channel image super-resolution. For color images, the aforementioned methods first transform the problem to a different color space (YCbCr or YUV), and SR is applied only on the luminance channel. There are also works attempting to super-resolve all channels simultaneously. For example, Kim and Kwon and Dai *et al.* apply their model to each RGB channel and combined them to produce the final results. However, none of them has analyzed the SR performance of different channels, and the necessity of recovering all three channels.
+
+### Convolutional Neural Networks
+
+Convolutional neural networks (CNN) date back decades and deep CNNs have recently shown an explosive popularity partially due to its success in image classification. They have also been successfully applied to other computer vision fields, such as object detection, face recognition, and pedestrian detection. Several factors are of central importance in this progress: (i) the efficient training implementation on modern powerful GPUs, (ii) the proposal of the Rectified Linear Unit (ReLU) which makes convergence much faster while still presents good quality, and (iii) the easy access to an abundance of data (like ImageNet ) for training larger models. Our method also benefits from these progresses.
+
+### Deep Learning for Image Restoration
+
+There have been a few studies of using deep learning techniques for image restoration. The multi-layer perceptron (MLP), whose all layers are fully-connected (in contrast to convolutional), is applied for natural image denoising and post-deblurring denoising. More closely related to our work, the convolutional neural network is applied for natural image denoising and removing noisy patterns (dirt/rain). These restoration problems are more or less denoising-driven. Cui *et al.* propose to embed auto-encoder networks in their super-resolution pipeline under the notion internal example-based approach. The deep model is not specifically designed to be an end-to-end solution, since each layer of the cascade requires independent optimization of the self-similarity search process and the auto-encoder. On the contrary, the proposed SRCNN optimizes an end-to-end mapping. Further, the SRCNN is faster at speed. It is not only a quantitatively superior method, but also a practically useful one.
+
+## Convolutional Neural Networks for Super-Resolution
+
+### Formulation
+
+Figure 2: Given a low-resolution image Y, the first convolutional layer of the SRCNN extracts a set of feature maps. The second layer maps these feature maps nonlinearly to high-resolution patch representations. The last layer combines the predictions within a spatial neighbourhood to produce the final high-resolution image F (Y).
+
+Consider a single low-resolution image, we first upscale it to the desired size using bicubic interpolation, which is the only pre-processing we perform^33^3Bicubic interpolation is also a convolutional operation, so it can be formulated as a convolutional layer. However, the output size of this layer is larger than the input size, so there is a fractional stride. To take advantage of the popular well-optimized implementations such as *cuda-convnet*, we exclude this "layer" from learning.. Let us denote the interpolated image as $\mathbf{Y}$. Our goal is to recover from $\mathbf{Y}$ an image $F{(\mathbf{Y})}$ that is as similar as possible to the ground truth high-resolution image $\mathbf{X}$. For the ease of presentation, we still call $\mathbf{Y}$ a "low-resolution" image, although it has the same size as $\mathbf{X}$. We wish to learn a mapping $F$, which conceptually consists of three operations:
+
+Patch extraction and representation: this operation extracts (overlapping) patches from the low-resolution image $\mathbf{Y}$ and represents each patch as a high-dimensional vector. These vectors comprise a set of feature maps, of which the number equals to the dimensionality of the vectors.
+
+Non-linear mapping: this operation nonlinearly maps each high-dimensional vector onto another high-dimensional vector. Each mapped vector is conceptually the representation of a high-resolution patch. These vectors comprise another set of feature maps.
+
+Reconstruction: this operation aggregates the above high-resolution patch-wise representations to generate the final high-resolution image. This image is expected to be similar to the ground truth $\mathbf{X}$.
+
+We will show that all these operations form a convolutional neural network. An overview of the network is depicted in Figure 2. Next we detail our definition of each operation.
+
+### Patch extraction and representation
+
+A popular strategy in image restoration (*e.g.,* ) is to densely extract patches and then represent them by a set of pre-trained bases such as PCA, DCT, Haar, etc. This is equivalent to convolving the image by a set of filters, each of which is a basis. In our formulation, we involve the optimization of these bases into the optimization of the network. Formally, our first layer is expressed as an operation $F_{1}$:
+
+where $W_{1}$ and $B_{1}$ represent the filters and biases respectively, and '$\ast$' denotes the convolution operation. Here, $W_{1}$ corresponds to $n_{1}$ filters of support $c \times f_{1} \times f_{1}$, where $c$ is the number of channels in the input image, $f_{1}$ is the spatial size of a filter. Intuitively, $W_{1}$ applies $n_{1}$ convolutions on the image, and each convolution has a kernel size $c \times f_{1} \times f_{1}$. The output is composed of $n_{1}$ feature maps. $B_{1}$ is an $n_{1}$-dimensional vector, whose each element is associated with a filter. We apply the Rectified Linear Unit (ReLU, $\max{(0,x)}$) on the filter responses^44^4The ReLU can be equivalently considered as a part of the second operation (Non-linear mapping), and the first operation (Patch extraction and representation) becomes purely linear convolution..
+
+### Non-linear mapping
+
+The first layer extracts an $n_{1}$-dimensional feature for each patch. In the second operation, we map each of these $n_{1}$-dimensional vectors into an $n_{2}$-dimensional one. This is equivalent to applying $n_{2}$ filters which have a trivial spatial support $1 \times 1$. This interpretation is only valid for $1 \times 1$ filters. But it is easy to generalize to larger filters like $3 \times 3$ or $5 \times 5$. In that case, the non-linear mapping is not on a patch of the input image; instead, it is on a $3 \times 3$ or $5 \times 5$ "patch" of the feature map. The operation of the second layer is:
+
+Here $W_{2}$ contains $n_{2}$ filters of size $n_{1} \times f_{2} \times f_{2}$, and $B_{2}$ is $n_{2}$-dimensional. Each of the output $n_{2}$-dimensional vectors is conceptually a representation of a high-resolution patch that will be used for reconstruction.
+
+It is possible to add more convolutional layers to increase the non-linearity. But this can increase the complexity of the model ($n_{2} \times f_{2} \times f_{2} \times n_{2}$ parameters for one layer), and thus demands more training time. We will explore deeper structures by introducing additional non-linear mapping layers in Section 4.3.3.
+
+### Reconstruction
+
+In the traditional methods, the predicted overlapping high-resolution patches are often averaged to produce the final full image. The averaging can be considered as a pre-defined filter on a set of feature maps (where each position is the "flattened" vector form of a high-resolution patch). Motivated by this, we define a convolutional layer to produce the final high-resolution image:
+
+Here $W_{3}$ corresponds to $c$ filters of a size $n_{2} \times f_{3} \times f_{3}$, and $B_{3}$ is a $c$-dimensional vector.
+
+Figure 3: An illustration of sparse-coding-based methods in the view of a convolutional neural network.
+
+If the representations of the high-resolution patches are in the image domain (*i.e.,*we can simply reshape each representation to form the patch), we expect that the filters act like an averaging filter; if the representations of the high-resolution patches are in some other domains (*e.g.,*coefficients in terms of some bases), we expect that $W_{3}$ behaves like first projecting the coefficients onto the image domain and then averaging. In either way, $W_{3}$ is a set of linear filters.
+
+Interestingly, although the above three operations are motivated by different intuitions, they all lead to the same form as a convolutional layer. We put all three operations together and form a convolutional neural network (Figure 2). In this model, all the filtering weights and biases are to be optimized. Despite the succinctness of the overall structure, our SRCNN model is carefully developed by drawing extensive experience resulted from significant progresses in super-resolution. We detail the relationship in the next section.
+
+### Relationship to Sparse-Coding-Based Methods
+
+We show that the sparse-coding-based SR methods can be viewed as a convolutional neural network. Figure 3 shows an illustration.
+
+In the sparse-coding-based methods, let us consider that an $f_{1} \times f_{1}$ low-resolution patch is extracted from the input image. Then the sparse coding solver, like Feature-Sign, will first project the patch onto a (low-resolution) dictionary. If the dictionary size is $n_{1}$, this is equivalent to applying $n_{1}$ linear filters ($f_{1} \times f_{1}$) on the input image (the mean subtraction is also a linear operation so can be absorbed). This is illustrated as the left part of Figure 3.
+
+The sparse coding solver will then iteratively process the $n_{1}$ coefficients. The outputs of this solver are $n_{2}$ coefficients, and usually $n_{2} = n_{1}$ in the case of sparse coding. These $n_{2}$ coefficients are the representation of the high-resolution patch. In this sense, the sparse coding solver behaves as a special case of a non-linear mapping operator, whose spatial support is $1 \times 1$. See the middle part of Figure 3. However, the sparse coding solver is not feed-forward, *i.e.,*it is an iterative algorithm. On the contrary, our non-linear operator is fully feed-forward and can be computed efficiently. If we set $f_{2} = 1$, then our non-linear operator can be considered as a pixel-wise fully-connected layer. It is worth noting that "the sparse coding solver" in SRCNN refers to the first two layers, but not just the second layer or the activation function (ReLU). Thus the nonlinear operation in SRCNN is also well optimized through the learning process.
+
+The above $n_{2}$ coefficients (after sparse coding) are then projected onto another (high-resolution) dictionary to produce a high-resolution patch. The overlapping high-resolution patches are then averaged. As discussed above, this is equivalent to linear convolutions on the $n_{2}$ feature maps. If the high-resolution patches used for reconstruction are of size $f_{3} \times f_{3}$, then the linear filters have an equivalent spatial support of size $f_{3} \times f_{3}$. See the right part of Figure 3.
+
+The above discussion shows that the sparse-coding-based SR method can be viewed as a kind of convolutional neural network (with a different non-linear mapping). But not all operations have been considered in the optimization in the sparse-coding-based SR methods. On the contrary, in our convolutional neural network, the low-resolution dictionary, high-resolution dictionary, non-linear mapping, together with mean subtraction and averaging, are all involved in the filters to be optimized. So our method optimizes an end-to-end mapping that consists of all operations.
+
+The above analogy can also help us to design hyper-parameters. For example, we can set the filter size of the last layer to be smaller than that of the first layer, and thus we rely more on the central part of the high-resolution patch (to the extreme, if $f_{3} = 1$, we are using the center pixel with no averaging). We can also set $n_{2} < n_{1}$ because it is expected to be sparser. A typical and basic setting is $f_{1} = 9$, $f_{2} = 1$, $f_{3} = 5$, $n_{1} = 64$, and $n_{2} = 32$ (we evaluate more settings in the experiment section). On the whole, the estimation of a high resolution pixel utilizes the information of ${({{9 + 5} - 1})}^{2} = 169$ pixels. Clearly, the information exploited for reconstruction is comparatively larger than that used in existing external example-based approaches, *e.g.,* using ${({{5 + 5} - 1})}^{2} = 81$ pixels^55^5The patches are overlapped with 4 pixels at each direction.. This is one of the reasons why the SRCNN gives superior performance.
+
+### Training
+
+Learning the end-to-end mapping function $F$ requires the estimation of network parameters $\Theta = {\{ W_{1},W_{2},W_{3},B_{1},B_{2},B_{3}\}}$. This is achieved through minimizing the loss between the reconstructed images $F{(\mathbf{Y};\Theta)}$ and the corresponding ground truth high-resolution images $\mathbf{X}$. Given a set of high-resolution images $\left\{ \mathbf{X}_{i} \right\}$ and their corresponding low-resolution images $\left\{ \mathbf{Y}_{i} \right\}$, we use Mean Squared Error (MSE) as the loss function:
+
+where $n$ is the number of training samples. Using MSE as the loss function favors a high PSNR. The PSNR is a widely-used metric for quantitatively evaluating image restoration quality, and is at least partially related to the perceptual quality. It is worth noticing that the convolutional neural networks do not preclude the usage of other kinds of loss functions, if only the loss functions are derivable. If a better perceptually motivated metric is given during training, it is flexible for the network to adapt to that metric. On the contrary, such a flexibility is in general difficult to achieve for traditional "hand-crafted" methods. Despite that the proposed model is trained favoring a high PSNR, we still observe satisfactory performance when the model is evaluated using alternative evaluation metrics, *e.g.,* SSIM, MSSIM (see Section 4.4.1).
+
+The loss is minimized using stochastic gradient descent with the standard backpropagation. In particular, the weight matrices are updated as
+
+where $\ell \in {\{ 1,2,3\}}$ and $i$ are the indices of layers and iterations, $\eta$ is the learning rate, and $\frac{\partial L}{\partial W_{i}^{\ell}}$ is the derivative. The filter weights of each layer are initialized by drawing randomly from a Gaussian distribution with zero mean and standard deviation 0.001 (and 0 for biases). The learning rate is $10^{- 4}$ for the first two layers, and $10^{- 5}$ for the last layer. We empirically find that a smaller learning rate in the last layer is important for the network to converge (similar to the denoising case ).
+
+In the training phase, the ground truth images $\{\mathbf{X}_{i}\}$ are prepared as $f_{sub} \times f_{sub} \times c$-pixel sub-images randomly cropped from the training images. By "sub-images" we mean these samples are treated as small "images" rather than "patches", in the sense that "patches" are overlapping and require some averaging as post-processing but "sub-images" need not. To synthesize the low-resolution samples $\{\mathbf{Y}_{i}\}$, we blur a sub-image by a Gaussian kernel, sub-sample it by the upscaling factor, and upscale it by the same factor via bicubic interpolation.
+
+To avoid border effects during training, all the convolutional layers have no padding, and the network produces a smaller output (${({{f_{sub} - f_{1} - f_{2} - f_{3}} + 3})}^{2} \times c$). The MSE loss function is evaluated only by the difference between the central pixels of $\mathbf{X}_{i}$ and the network output. Although we use a fixed image size in training, the convolutional neural network can be applied on images of arbitrary sizes during testing.
+
+We implement our model using the *cuda-convnet* package. We have also tried the Caffe package and observed similar performance.
+
+## Experiments
+
+We first investigate the impact of using different datasets on the model performance. Next, we examine the filters learned by our approach. We then explore different architecture designs of the network, and study the relations between super-resolution performance and factors like depth, number of filters, and filter sizes. Subsequently, we compare our method with recent state-of-the-arts both quantitatively and qualitatively. Following, super-resolution is only applied on the luminance channel (Y channel in YCbCr color space) in Sections 4.1-4.4, so $c = 1$ in the first/last layer, and performance (*e.g.,* PSNR and SSIM) is evaluated on the Y channel. At last, we extend the network to cope with color images and evaluate the performance on different channels.
+
+### Training Data
+
+Figure 4: Training with the much larger ImageNet dataset improves the performance over the use of 91 images.
+
+As shown in the literature, deep learning generally benefits from big data training. For comparison, we use a relatively small training set that consists of 91 images, and a large training set that consists of 395,909 images from the ILSVRC 2013 ImageNet detection training partition. The size of training sub-images is $f_{sub} = 33$. Thus the 91-image dataset can be decomposed into 24,800 sub-images, which are extracted from original images with a stride of 14. Whereas the ImageNet provides over 5 million sub-images even using a stride of 33. We use the basic network settings, *i.e.,* $f_{1} = 9$, $f_{2} = 1$, $f_{3} = 5$, $n_{1} = 64$, and $n_{2} = 32$. We use the Set5 as the validation set. We observe a similar trend even if we use the larger set. The upscaling factor is 3. We use the sparse-coding-based method as our baseline, which achieves an average PSNR value of 31.42 dB.
+
+The test convergence curves of using different training sets are shown in Figure 4. The training time on ImageNet is about the same as on the 91-image dataset since the number of backpropagations is the same. As can be observed, with the same number of backpropagations (*i.e.,*$8 \times 10^{8}$), the SRCNN$+$ImageNet achieves 32.52 dB, higher than 32.39 dB yielded by that trained on 91 images. The results positively indicate that SRCNN performance may be further boosted using a larger training set, but the effect of big data is not as impressive as that shown in high-level vision problems. This is mainly because that the 91 images have already captured sufficient variability of natural images. On the other hand, our SRCNN is a relatively small network (8,032 parameters), which could not overfit the 91 images (24,800 samples). Nevertheless, we adopt the ImageNet, which contains more diverse data, as the default training set in the following experiments.
+
+### Learned Filters for Super-Resolution
+
+Figure 5: The figure shows the first-layer filters trained on ImageNet with an upscaling factor 3. The filters are organized based on their respective variances.
+
+Figure 6: Example feature maps of different layers.
+
+Figure 5 shows examples of learned first-layer filters trained on the ImageNet by an upscaling factor 3. Please refer to our published implementation for upscaling factors 2 and 4. Interestingly, each learned filter has its specific functionality. For instance, the filters $g$ and $h$ are like Laplacian/Gaussian filters, the filters $a$ - $e$ are like edge detectors at different directions, and the filter $f$ is like a texture extractor. Example feature maps of different layers are shown in figure 6. Obviously, feature maps of the first layer contain different structures (*e.g.,* edges at different directions), while that of the second layer are mainly different on intensities.
+
+### Model and Performance Trade-offs
+
+Based on the basic network settings (*i.e.,* $f_{1} = 9$, $f_{2} = 1$, $f_{3} = 5$, $n_{1} = 64$, and $n_{2} = 32$), we will progressively modify some of these parameters to investigate the best trade-off between performance and speed, and study the relations between performance and parameters.
+
+### Filter number
+
+In general, the performance would improve if we increase the network width^66^6We use 'width' to term the number of filters in a layer, following. The term 'width' may have other meanings in the literature., *i.e.,* adding more filters, at the cost of running time. Specifically, based on our network default settings of $n_{1} = 64$ and $n_{2} = 32$, we conduct two experiments: (i) one is with a larger network with $n_{1} = 128$ and $n_{2} = 64$, and (ii) the other is with a smaller network with $n_{1} = 32$ and $n_{2} = 16$. Similar to Section 4.1, we also train the two models on ImageNet and test on Set5 with an upscaling factor 3. The results observed at $8 \times 10^{8}$ backpropagations are shown in Table I. It is clear that superior performance could be achieved by increasing the width. However, if a fast restoration speed is desired, a small network width is preferred, which could still achieve better performance than the sparse-coding-based method (31.42 dB).
+
+TABLE I: The results of using different filter numbers in SRCNN. Training is performed on ImageNet whilst the evaluation is conducted on the Set5 dataset.
+
+### Filter size
+
+Figure 7: A larger filter size leads to better results.
+
+In this section, we examine the network sensitivity to different filter sizes. In previous experiments, we set filter size $f_{1} = 9$, $f_{2} = 1$ and $f_{3} = 5$, and the network could be denoted as 9-1-5. First, to be consistent with sparse-coding-based methods, we fix the filter size of the second layer to be $f_{2} = 1$, and enlarge the filter size of other layers to $f_{1} = 11$ and $f_{3} = 7$ (11-1-7). All the other settings remain the same with Section 4.1. The results with an upscaling factor 3 on Set5 are 32.57 dB, which is slightly higher than the 32.52 dB reported in Section 4.1. This indicates that a reasonably larger filter size could grasp richer structural information, which in turn lead to better results.
+
+Then we further examine networks with a larger filter size of the second layer. Specifically, we fix the filter size $f_{1} = 9$, $f_{3} = 5$, and enlarge the filter size of the second layer to be (i) $f_{2} = 3$ (9-3-5) and (ii) $f_{2} = 5$ (9-5-5). Convergence curves in Figure 7 show that using a larger filter size could significantly improve the performance. Specifically, the average PSNR values achieved by 9-3-5 and 9-5-5 on Set5 with $8 \times 10^{8}$ backpropagations are 32.66 dB and 32.75 dB, respectively. The results suggest that utilizing neighborhood information in the mapping stage is beneficial.
+
+However, the deployment speed will also decrease with a larger filter size. For example, the number of parameters of 9-1-5, 9-3-5, and 9-5-5 is 8,032, 24,416, and 57,184 respectively. The complexity of 9-5-5 is almost twice of 9-3-5, but the performance improvement is marginal. Therefore, the choice of the network scale should always be a trade-off between performance and speed.
+
+### Number of layers
+
+Figure 8: Comparisons between three-layer and four-layer networks.
+
+Recent study by He and Sun suggests that CNN could benefit from increasing the depth of network moderately. Here, we try deeper structures by adding another non-linear mapping layer, which has $n_{22} = 16$ filters with size $f_{22} = 1$. We conduct three controlled experiments, *i.e.,* 9-1-1-5, 9-3-1-5, 9-5-1-5, which add an additional layer on 9-1-5, 9-3-5, and 9-5-5, respectively. The initialization scheme and learning rate of the additional layer are the same as the second layer. From Figures 13(a), 13(b) and 8(c), we can observe that the four-layer networks converge slower than the three-layer network. Nevertheless, given enough training time, the deeper networks will finally catch up and converge to the three-layer ones.
+
+The effectiveness of deeper structures for super resolution is found not as apparent as that shown in image classification. Furthermore, we find that deeper networks do not always result in better performance. Specifically, if we add an additional layer with $n_{22} = 32$ filters on 9-1-5 network, then the performance degrades and fails to surpass the three-layer network (see Figure 9(a)). If we go deeper by adding two non-linear mapping layers with $n_{22} = 32$ and $n_{23} = 16$ filters on 9-1-5, then we have to set a smaller learning rate to ensure convergence, but we still do not observe superior performance after a week of training (see Figure 9(a)). We also tried to enlarge the filter size of the additional layer to $f_{22} = 3$, and explore two deep structures -- 9-3-3-5 and 9-3-3-3. However, from the convergence curves shown in Figure 9(b), these two networks do not show better results than the 9-3-1-5 network.
+
+All these experiments indicate that it is not "the deeper the better" in this deep model for super-resolution. It may be caused by the difficulty of training. Our CNN network contains no pooling layer or full-connected layer, thus it is sensitive to the initialization parameters and learning rate. When we go deeper (*e.g.,* 4 or 5 layers), we find it hard to set appropriate learning rates that guarantee convergence. Even it converges, the network may fall into a bad local minimum, and the learned filters are of less diversity even given enough training time. This phenomenon is also observed in, where improper increase of depth leads to accuracy saturation or degradation for image classification. Why "deeper is not better" is still an open question, which requires investigations to better understand gradients and training dynamics in deep architectures. Therefore, we still adopt three-layer networks in the following experiments.
+
+Figure 9: Deeper structure does not always lead to better results.
+
+### Comparisons to State-of-the-Arts
+
+In this section, we show the quantitative and qualitative results of our method in comparison to state-of-the-art methods. We adopt the model with good performance-speed trade-off: a three-layer network with $f_{1} = 9$, $f_{2} = 5$, $f_{3} = 5$, $n_{1} = 64$, and $n_{2} = 32$ trained on the ImageNet. For each upscaling factor $\in \left\{ 2,3,4 \right\}$, we train a specific network for that factor^77^7In the area of denoising, for each noise level a specific network is trained..
+
+Comparisons. We compare our SRCNN with the state-of-the-art SR methods:
+
+SC - sparse coding-based method of Yang *et al.*
+
+NE+LLE - neighbour embedding + locally linear embedding method
+
+ANR - Anchored Neighbourhood Regression method
+
+A+ - Adjusted Anchored Neighbourhood Regression method, and
+
+KK - the method described in, which achieves the best performance among external example-based methods, according to the comprehensive evaluation conducted in Yang *et al.*'s work
+
+The implementations are all from the publicly available codes provided by the authors, and all images are down-sampled using the same bicubic kernel.
+
+Test set. The Set5 (5 images), (14 images) and BSD200 (200 images)^88^8We use the same 200 images as in. are used to evaluate the performance of upscaling factors 2, 3, and 4.
+
+Evaluation metrics. Apart from the widely used PSNR and SSIM indices, we also adopt another four evaluation matrices, namely information fidelity criterion (IFC), noise quality measure (NQM), weighted peak signal-to-noise ratio (WPSNR) and multi-scale structure similarity index (MSSSIM), which obtain high correlation with the human perceptual scores as reported in.
+
+### Quantitative and qualitative evaluation
+
+As shown in Tables II, III and IV, the proposed SRCNN yields the highest scores in most evaluation matrices in all experiments^99^9The PSNR value of each image can be found in the supplementary file.. Note that our SRCNN results are based on the checkpoint of $8 \times 10^{8}$ backpropagations. Specifically, for the upscaling factor 3, the average gains on PSNR achieved by SRCNN are 0.15 dB, 0.17 dB, and 0.13 dB, higher than the next best approach, A+, on the three datasets. When we take a look at other evaluation metrics, we observe that SC, to our surprise, gets even lower scores than the bicubic interpolation on IFC and NQM. It is clear that the results of SC are more visually pleasing than that of bicubic interpolation. This indicates that these two metrics may not truthfully reveal the image quality. Thus, regardless of these two metrics, SRCNN achieves the best performance among all methods and scaling factors.
+
+It is worth pointing out that SRCNN surpasses the bicubic baseline at the very beginning of the learning stage (see Figure 1), and with moderate training, SRCNN outperforms existing state-of-the-art methods (see Figure 4). Yet, the performance is far from converge. We conjecture that better results can be obtained given longer training time (see Figure 10).
+
+Figures 14, 15 and 16 show the super-resolution results of different approaches by an upscaling factor 3. As can be observed, the SRCNN produces much sharper edges than other approaches without any obvious artifacts across the image.
+
+In addition, we report to another recent deep learning method for image super-resolution (DNC) of Cui *et al.*. As they employ a different blur kernel (a Gaussian filter with a standard deviation of 0.55), we train a specific network (9-5-5) using the same blur kernel as DNC for fair quantitative comparison. The upscaling factor is 3 and the training set is the 91-image dataset. From the convergence curve shown in Figure 11, we observe that our SRCNN surpasses DNC with just $2.7 \times 10^{7}$ backprops, and a larger margin can be obtained given longer training time. This also demonstrates that the end-to-end learning is superior to DNC, even if that model is already "deep".
+
+Figure 10: The test convergence curve of SRCNN and results of other methods on the Set5 dataset.
+
+Figure 11: The test convergence curve of SRCNN and the result of DNC on the Set5 dataset.
+
+TABLE II: The average results of PSNR (dB), SSIM, IFC, NQM, WPSNR (dB) and MSSIM on the Set5 dataset.
+
+TABLE III: The average results of PSNR (dB), SSIM, IFC, NQM, WPSNR (dB) and MSSIM on the dataset.
+
+TABLE IV: The average results of PSNR (dB), SSIM, IFC, NQM, WPSNR (dB) and MSSIM on the BSD200 dataset.
+
+### Running time
+
+Figure 12 shows the running time comparisons of several state-of-the-art methods, along with their restoration performance on. All baseline methods are obtained from the corresponding authors' MATLAB+MEX implementation, whereas ours are in pure C++. We profile the running time of all the algorithms using the same machine (Intel CPU 3.10 GHz and 16 GB memory). Note that the processing time of our approach is highly linear to the test image resolution, since all images go through the same number of convolutions. Our method is always a trade-off between performance and speed. To show this, we train three networks for comparison, which are 9-1-5, 9-3-5, and 9-5-5. It is clear that the 9-1-5 network is the fastest, while it still achieves better performance than the next state-of-the-art A+. Other methods are several times or even orders of magnitude slower in comparison to 9-1-5 network. Note the speed gap is not mainly caused by the different MATLAB/C++ implementations; rather, the other methods need to solve complex optimization problems on usage (e.g., sparse coding or embedding), whereas our method is completely feed-forward. The 9-5-5 network achieves the best performance but at the cost of the running time. The test-time speed of our CNN can be further accelerated in many ways, *e.g.,* approximating or simplifying the trained networks, with possible slight degradation in performance.
+
+Figure 12: The proposed SRCNN achieves the state-of-the-art super-resolution quality, whilst maintains high and competitive speed in comparison to existing external example-based methods. The chart is based on results summarized in Table III. The implementation of all three SRCNN networks are available on our project page.
+
+### Experiments on Color Channels
+
+In previous experiments, we follow the conventional approach to super-resolve color images. Specifically, we first transform the color images into the YCbCr space. The SR algorithms are only applied on the Y channel, while the Cb, Cr channels are upscaled by bicubic interpolation. It is interesting to find out if super-resolution performance can be improved if we jointly consider all three channels in the process.
+
+Our method is flexible to accept more channels without altering the learning mechanism and network design. In particular, it can readily deal with three channels simultaneously by setting the input channels to $c = 3$. In the following experiments, we explore different training strategies for color image super-resolution, and subsequently evaluate their performance on different channels.
+
+PSNR of different channel(s)
+
+RGB color image
+
+TABLE V: Average PSNR (dB) of different channels and training strategies on the Set5 dataset.
+
+Implementation details. Training is performed on the 91-image dataset, and testing is conducted on the Set5. The network settings are: $c = 3$, $f_{1} = 9$, $f_{2} = 1$, $f_{3} = 5$, $n_{1} = 64$, and $n_{2} = 32$. As we have proved the effectiveness of SRCNN on different scales, here we only evaluate the performance of upscaling factor 3.
+
+Comparisons. We compare our method with the state-of-art color SR method -- KK. We also try different learning strategies for comparison:
+
+Y only: this is our baseline method, which is a single-channel ($c = 1$) network trained only on the luminance channel. The Cb, Cr channels are upscaled using bicubic interpolation.
+
+YCbCr: training is performed on the three channels of the YCbCr space.
+
+Y pre-train: first, to guarantee the performance on the Y channel, we only use the MSE of the Y channel as the loss to pre-train the network. Then we employ the MSE of all channels to fine-tune the parameters.
+
+CbCr pre-train: we use the MSE of the Cb, Cr channels as the loss to pre-train the network, then fine-tune the parameters on all channels.
+
+RGB: training is performed on the three channels of the RGB space.
+
+(a) First-layer filters – Cb channel
+
+(b) First-layer filters – Cr channel
+
+Figure 13: Chrominance channels of the first-layer filters using the “Y pre-train” strategy.
+
+The results are shown in Table V, where we have the following observations. (i) If we directly train on the YCbCr channels, the results are even worse than that of bicubic interpolation. The training falls into a bad local minimum, due to the inherently different characteristics of the Y and Cb, Cr channels. (ii) If we pre-train on the Y or Cb, Cr channels, the performance finally improves, but is still not better than "Y only" on the color image (see the last column of Table V, where PSNR is computed in RGB color space). This suggests that the Cb, Cr channels could decrease the performance of the Y channel when training is performed in a unified network. (iii) We observe that the Cb, Cr channels have higher PSNR values for "Y pre-train" than for "CbCr pre-train". The reason lies on the differences between the Cb, Cr channels and the Y channel. Visually, the Cb, Cr channels are more blurry than the Y channel, thus are less affected by the downsampling process. When we pre-train on the Cb, Cr channels, there are only a few filters being activated. Then the training will soon fall into a bad local minimum during fine-tuning. On the other hand, if we pre-train on the Y channel, more filters will be activated, and the performance on Cb, Cr channels will be pushed much higher. Figure 13 shows the Cb, Cr channels of the first-layer filters with "Y pre-train", of which the patterns largely differ from that shown in Figure 5. (iv) Training on the RGB channels achieves the best result on the color image. Different from the YCbCr channels, the RGB channels exhibit high cross-correlation among each other. The proposed SRCNN is capable of leveraging such natural correspondences between the channels for reconstruction. Therefore, the model achieves comparable result on the Y channel as "Y only", and better results on Cb, Cr channels than bicubic interpolation. (v) In KK, super-resolution is applied on each RGB channel separately. When we transform its results to YCbCr space, the PSNR value of Y channel is similar as "Y only", but that of Cb, Cr channels are poorer than bicubic interpolation. The result suggests that the algorithm is biased to the Y channel. On the whole, our method trained on RGB channels achieves better performance than KK and the single-channel network ("Y only"). It is also worth noting that the improvement compared with the single-channel network is not that significant (*i.e.,* 0.07 dB). This indicates that the Cb, Cr channels barely help in improving the performance.
+
+## Conclusion
+
+We have presented a novel deep learning approach for single image super-resolution (SR). We show that conventional sparse-coding-based SR methods can be reformulated into a deep convolutional neural network. The proposed approach, SRCNN, learns an end-to-end mapping between low- and high-resolution images, with little extra pre/post-processing beyond the optimization. With a lightweight structure, the SRCNN has achieved superior performance than the state-of-the-art methods. We conjecture that additional performance can be further gained by exploring more filters and different training strategies. Besides, the proposed structure, with its advantages of simplicity and robustness, could be applied to other low-level vision problems, such as image deblurring or simultaneous SR+denoising. One could also investigate a network to cope with different upscaling factors.

@@ -1,0 +1,158 @@
+## Introduction
+
+Currently the most popular activation function for neural networks is the rectified linear unit (ReLU), which was first proposed for restricted Boltzmann machines and then successfully used for neural networks. The ReLU activation function is the identity for positive arguments and zero otherwise. Besides producing sparse codes, the main advantage of ReLUs is that they alleviate the vanishing gradient problem since the derivative of 1 for positive values is not contractive. However ReLUs are non-negative and, therefore, have a mean activation larger than zero.
+
+Units that have a non-zero mean activation act as bias for the next layer. If such units do not cancel each other out, learning causes a bias shift for units in next layer. The more the units are correlated, the higher their bias shift. We will see that Fisher optimal learning, i.e., the natural gradient, would correct for the bias shift by adjusting the weight updates. Thus, less bias shift brings the standard gradient closer to the natural gradient and speeds up learning. We aim at activation functions that push activation means closer to zero to decrease the bias shift effect.
+
+Centering the activations at zero has been proposed in order to keep the off-diagonal entries of the Fisher information matrix small. For neural network it is known that centering the activations speeds up learning. "Batch normalization" also centers activations with the goal to counter the internal covariate shift. Also the Projected Natural Gradient Descent algorithm (PRONG) centers the activations by implicitly whitening them.
+
+An alternative to centering is to push the mean activation toward zero by an appropriate activation function. Therefore $tanh$ has been preferred over logistic functions. Recently "Leaky ReLUs" (LReLUs) that replace the negative part of the ReLU with a linear function have been shown to be superior to ReLUs. Parametric Rectified Linear Units (PReLUs) generalize LReLUs by learning the slope of the negative part which yielded improved learning behavior on large image benchmark data sets. Another variant are Randomized Leaky Rectified Linear Units (RReLUs) which randomly sample the slope of the negative part which raised the performance on image benchmark datasets and convolutional networks.
+
+In contrast to ReLUs, activation functions like LReLUs, PReLUs, and RReLUs do not ensure a noise-robust deactivation state. We propose an activation function that has negative values to allow for mean activations close to zero, but which saturates to a negative value with smaller arguments. The saturation decreases the variation of the units if deactivated, so the precise deactivation argument is less relevant. Such an activation function can code the degree of presence of particular phenomena in the input, but does not quantitatively model the degree of their absence. Therefore, such an activation function is more robust to noise. Consequently, dependencies between coding units are much easier to model and much easier to interpret since only activated code units carry much information. Furthermore, distinct concepts are much less likely to interfere with such activation functions since the deactivation state is non-informative, i.e. variance decreasing.
+
+## Bias Shift Correction Speeds Up Learning
+
+To derive and analyze the bias shift effect mentioned in the introduction, we utilize the natural gradient. The natural gradient corrects the gradient direction with the inverse Fisher information matrix and, thereby, enables Fisher optimal learning, which ensures the steepest descent in the Riemannian parameter manifold and Fisher efficiency for online learning. The recently introduced Hessian-Free Optimization technique and the Krylov Subspace Descent methods use an extended Gauss-Newton approximation of the Hessian, therefore they can be interpreted as versions of natural gradient descent.
+
+Since for neural networks the Fisher information matrix is typically too expensive to compute, different approximations of the natural gradient have been proposed. Topmoumoute Online natural Gradient Algorithm (TONGA) uses a low-rank approximation of natural gradient descent. FActorized Natural Gradient (FANG) estimates the natural gradient via an approximation of the Fisher information matrix by a Gaussian graphical model. The Fisher information matrix can be approximated by a block-diagonal matrix, where unit or quasi-diagonal natural gradients are used. Unit natural gradients or "Unitwise Fisher's scoring" are based on natural gradients for perceptrons. We will base our analysis on the unit natural gradient.
+
+We assume a parameterized probabilistic model $p{({\mathbf{x}};{\mathbf{w}})}$ with parameter vector $\mathbf{w}$ and data $\mathbf{x}$. The training data are ${\mathbf{X}} = {({\mathbf{x}}_{1},\ldots,{\mathbf{x}}_{N})} \in {\mathbb{R}}^{{({d + 1})} \times N}$ with ${\mathbf{x}}_{n} = {({\mathbf{z}}_{n}^{T},y_{n})}^{T} \in {\mathbb{R}}^{d + 1}$, where ${\mathbf{z}}_{n}$ is the input for example $n$ and $y_{n}$ is its label. $L{(p{(.;{\mathbf{w}})},{\mathbf{x}})}$ is the loss of example ${\mathbf{x}} = {({\mathbf{z}}^{T},y)}^{T}$ using model $p{(.;{\mathbf{w}})}$. The average loss on the training data $\mathbf{X}$ is the empirical risk $R_{emp}{(p{(.;{\mathbf{w}})},{\mathbf{X}})}$. Gradient descent updates the weight vector $\mathbf{w}$ by ${\mathbf{w}}^{new} = {{\mathbf{w}}^{old} - {\eta{\nabla_{\mathbf{w}}R_{emp}}}}$ where $\eta$ is the learning rate. The natural gradient is the inverse Fisher information matrix ${\overset{\sim}{\mathbf{F}}}^{- 1}$ multiplied by the gradient of the empirical risk: ${\nabla_{\mathbf{w}}^{nat}R_{emp}} = {{\overset{\sim}{\mathbf{F}}}^{- 1}{\nabla_{\mathbf{w}}R_{emp}}}$. For a multi-layer perceptron $\mathbf{a}$ is the unit activation vector and $a_{0} = 1$ is the bias unit activation. We consider the ingoing weights to unit $i$, therefore we drop the index $i$: $w_{j} = w_{ij}$ for the weight from unit $j$ to unit $i$, $a = a_{i}$ for the activation, and $w_{0}$ for the bias weight of unit $i$. The activation function $f$ maps the net input ${net} = {\sum_{j}{w_{j}a_{j}}}$ of unit $i$ to its activation $a = {f{({net})}}$. For computing the Fisher information matrix, the derivative of the log-output probability $\frac{\partial}{\partial w_{j}}{\ln p}{({\mathbf{z}};{\mathbf{w}})}$ is required. Therefore we define the $\delta$ at unit $i$ as $\delta = {\frac{\partial}{\partial{net}}{\ln p}{({\mathbf{z}};{\mathbf{w}})}}$, which can be computed via backpropagation, but using the log-output probability instead of the conventional loss function. The derivative is ${\frac{\partial}{\partial w_{j}}{\ln p}{({\mathbf{z}};{\mathbf{w}})}} = {\deltaa_{j}}$.
+
+We restrict the Fisher information matrix to weights leading to unit $i$ which is the unit Fisher information matrix $\mathbf{F}$. $\mathbf{F}$ captures only the interactions of weights to unit $i$. Consequently, the unit natural gradient only corrects the interactions of weights to unit $i$, i.e. considers the Riemannian parameter manifold only in a subspace. The unit Fisher information matrix is
+
+Weighting the activations by $\delta^{2}$ is equivalent to adjusting the probability of drawing inputs $\mathbf{z}$. Inputs $\mathbf{z}$ with large $\delta^{2}$ are drawn with higher probability. Since $0 \leq \delta^{2} = {\delta^{2}{({\mathbf{z}})}}$, we can define a distribution $q{({\mathbf{z}})}$:
+
+Using $q{({\mathbf{z}})}$, the entries of $\mathbf{F}$ can be expressed as second moments:
+
+If the bias unit is $a_{0} = 1$ with weight $w_{0}$ then the weight vector can be divided into a bias part $w_{0}$ and the rest $\mathbf{w}$: ${({\mathbf{w}}^{T},w_{0})}^{T}$. For the row ${\mathbf{b}} = \left\lbrack {{\mathbf{F}}{({\mathbf{w}})}} \right\rbrack_{0}$ that corresponds to the bias weight, we have:
+
+The next Theorem 1") gives the correction of the standard gradient by the unit natural gradient where the bias weight is treated separately (see also Yang & Amari ).
+
+### Theorem 1
+
+The unit natural gradient corrects the weight update ${({\Delta\mathbf{w}^{T}},{\Deltaw_{0}})}^{T}$ to a unit $i$ by following affine transformation of the gradient ${\nabla_{{(\mathbf{w}^{T},w_{0})}^{T}}R_{emp}} = {(\mathbf{g}^{T},g_{0})}^{T}$:
+
+where $\mathbf{A} = \left\lbrack {\mathbf{F}{(\mathbf{w})}} \right\rbrack_{{\neg 0},{\neg 0}} = {E_{p{(\mathbf{z})}}{(\delta^{2})}E_{q{(\mathbf{z})}}{({\mathbf{a}\mathbf{a}^{T}})}}$ is the unit Fisher information matrix without row 0 and column 0 corresponding to the bias weight. The vector $\mathbf{b} = \left\lbrack {\mathbf{F}{(\mathbf{w})}} \right\rbrack_{0}$ is the zeroth column of $\mathbf{F}$ corresponding to the bias weight, and the positive scalar $s$ is
+
+where $\mathbf{a}$ is the vector of activations of units with weights to unit $i$ and ${q{(\mathbf{z})}} = {\delta^{2}{(\mathbf{z})}p{(\mathbf{z})}E_{p{(\mathbf{z})}}^{- 1}{(\delta^{2})}}$.
+
+### Proof
+
+Multiplying the inverse Fisher matrix ${\mathbf{F}}^{- 1}$ with the separated gradient ${{\nabla_{{({\mathbf{w}}^{T},w_{0})}^{T}}R_{emp}}{({({\mathbf{w}}^{T},w_{0})}^{T},{\mathbf{X}})}} = {({\mathbf{g}}^{T},g_{0})}^{T}$ gives the weight update ${({\Delta{\mathbf{w}}^{T}},{\Deltaw_{0}})}^{T}$:
+
+The previous formula is derived in Lemma 1") in the appendix. Using $\Deltaw_{0}$ in the update gives
+
+The right hand side is obtained by inserting ${\mathbf{u}} = {- {s{\mathbf{A}}^{- 1}{\mathbf{b}}}}$ in the left hand side update. Since $c = F_{00} = {E_{p{({\mathbf{z}})}}{(\delta^{2})}}$, ${\mathbf{b}} = {E_{p{({\mathbf{z}})}}{(\delta^{2})}E_{q{({\mathbf{z}})}}{({\mathbf{a}})}}$, and ${\mathbf{A}} = {E_{p{({\mathbf{z}})}}{(\delta^{2})}E_{q{({\mathbf{z}})}}{({{\mathbf{a}}{\mathbf{a}}^{T}})}}$, we obtain
+
+Applying Lemma 2") in the appendix gives the formula for $s$. ∎
+
+The bias shift (mean shift) of unit $i$ is the change of unit $i$'s mean value due to the weight update. Bias shifts of unit $i$ lead to oscillations and impede learning. See Section 4.4 in LeCun et al. for demonstrating this effect at the inputs and in LeCun et al. for explaining this effect using the input covariance matrix. Such bias shifts are mitigated or even prevented by the unit natural gradient. The bias shift correction of the unit natural gradient is the effect on the bias shift due to $\mathbf{b}$ which captures the interaction between the bias unit and the incoming units. Without bias shift correction, i.e., ${\mathbf{b}} = \mathbf{0}$ and $s = c^{- 1}$, the weight updates are ${\Delta{\mathbf{w}}} = {{\mathbf{A}}^{- 1}{\mathbf{g}}}$ and ${\Deltaw_{0}} = {c^{- 1}g_{0}}$. As only the activations depend on the input, the bias shift can be computed by multiplying the weight update by the mean of the activation vector $\mathbf{a}$. Thus we obtain the bias shift ${{({E_{p{({\mathbf{z}})}}{({\mathbf{a}})}^{T}},1)}{({\Delta{\mathbf{w}}^{T}},{\Deltaw_{0}})}^{T}} = {{E_{p{({\mathbf{z}})}}^{T}{({\mathbf{a}})}{\mathbf{A}}^{- 1}{\mathbf{g}}} + {c^{- 1}g_{0}}}$. The bias shift strongly depends on the correlation of the incoming units which is captured by ${\mathbf{A}}^{- 1}$.
+
+Next, Theorem 2") states that the bias shift correction by the unit natural gradient can be considered to correct the incoming mean $E_{p{({\mathbf{z}})}}{({\mathbf{a}})}$ proportional to $E_{q{({\mathbf{z}})}}{({\mathbf{a}})}$ toward zero.
+
+### Theorem 2
+
+The bias shift correction by the unit natural gradient is equivalent to an additive correction of the incoming mean by $- {kE_{q{(\mathbf{z})}}{(\mathbf{a})}}$ and a multiplicative correction of the bias unit by $k$, where
+
+### Proof
+
+Using ${\Deltaw_{0}} = {{- {s{\mathbf{b}}^{T}{\mathbf{A}}^{- 1}{\mathbf{g}}}} + {sg_{0}}}$, the bias shift is:
+
+The mean correction term, indicated by an underbrace in previous formula, is
+
+The expression Eq. (11")) for $k$ follows from Lemma 2") in the appendix. The bias unit correction term is ${s\left( {1 - {E_{p{({\mathbf{z}})}}^{T}{({\mathbf{a}})}{\mathbf{A}}^{- 1}{\mathbf{b}}}} \right)g_{0}} = {kc^{- 1}g_{0}}$. ∎
+
+In Theorem 2") we can reformulate $k = {1 + {E_{p{({\mathbf{z}})}}^{- 1}{(\delta^{2})}{Cov}_{p{({\mathbf{z}})}}^{T}{(\delta^{2},{\mathbf{a}})}{Var}_{q{({\mathbf{z}})}}^{- 1}{({\mathbf{a}})}E_{q{({\mathbf{z}})}}{({\mathbf{a}})}}}$. Therefore $k$ increases with the length of $E_{q{({\mathbf{z}})}}{({\mathbf{a}})}$ for given variances and covariances. Consequently the bias shift correction through the unit natural gradient is governed by the length of $E_{q{({\mathbf{z}})}}{({\mathbf{a}})}$. The bias shift correction is zero for ${E_{q{({\mathbf{z}})}}{({\mathbf{a}})}} = \mathbf{0}$ since $k = 1$ does not correct the bias unit multiplicatively. Using Eq. (4")), $E_{q{({\mathbf{z}})}}{({\mathbf{a}})}$ is split into an offset and an information containing term:
+
+In general, smaller positive $E_{p{(\mathbf{z})}}{(\mathbf{a})}$ lead to smaller positive $E_{q{(\mathbf{z})}}{(\mathbf{a})}$, therefore to smaller corrections. The reason is that in general the largest absolute components of ${Cov}_{p{({\mathbf{z}})}}{(\delta^{2},{\mathbf{a}})}$ are positive, since activated inputs will activate the unit $i$ which in turn will have large impact on the output.
+
+To summarize, the unit natural gradient corrects the bias shift of unit $i$ via the interactions of incoming units with the bias unit to ensure efficient learning. This correction is equivalent to shifting the mean activations of the incoming units toward zero and scaling up the bias unit. To reduce the undesired bias shift effect without the natural gradient, either the (i) activation of incoming units can be centered at zero or (ii) activation functions with negative values can be used. We introduce a new activation function with negative values while keeping the identity for positive arguments where it is not contradicting.
+
+## Exponential Linear Units (ELUs)
+
+The exponential linear unit (ELU) with $0 < \alpha$ is
+
+The ELU hyperparameter $\alpha$ controls the value to which an ELU saturates for negative net inputs (see Fig. 1 ‣ Fast and Accurate Deep Network Learning by Exponential Linear Units (ELUs)")). ELUs diminish the vanishing gradient effect as rectified linear units (ReLUs) and leaky ReLUs (LReLUs) do. The vanishing gradient problem is alleviated because the positive part of these functions is the identity, therefore their derivative is one and not contractive. In contrast, $\tanh$ and sigmoid activation functions are contractive almost everywhere.
+
+Figure 1: The rectified linear unit (ReLU), the leaky ReLU (LReLU, α = 0.1), the shifted ReLUs (SReLUs), and the exponential linear unit (ELU, α = 1.0).
+
+In contrast to ReLUs, ELUs have negative values which pushes the mean of the activations closer to zero. Mean activations that are closer to zero enable faster learning as they bring the gradient closer to the natural gradient (see Theorem 2") and text thereafter). ELUs saturate to a negative value when the argument gets smaller. Saturation means a small derivative which decreases the variation and the information that is propagated to the next layer. Therefore the representation is both noise-robust and low-complex. ELUs code the degree of presence of input concepts, while they neither quantify the degree of their absence nor distinguish the causes of their absence. This property of non-informative deactivation states is also present at ReLUs and allowed to detect biclusters corresponding to biological modules in gene expression datasets and to identify toxicophores in toxicity prediction. The enabling features for these interpretations is that activation can be clearly distinguished from deactivation and that only active units carry relevant information and can crosstalk.
+
+## Experiments Using ELUs
+
+(a) Average unit activation
+
+(b) Cross entropy loss
+
+Figure 2: ELU networks evaluated at MNIST. Lines are the average over five runs with different random initializations, error bars show standard deviation. Panel (a): median of the average unit activation for different activation functions. Panel (b): Training set (straight line) and validation set (dotted line) cross entropy loss. All lines stay flat after epoch 25.
+
+In this section, we assess the performance of exponential linear units (ELUs) if used for unsupervised and supervised learning of deep autoencoders and deep convolutional networks. ELUs with $\alpha = 1.0$ are compared to (i) Rectified Linear Units (ReLUs) with activation ${f{(x)}} = {\max{(0,x)}}$, (ii) Leaky ReLUs (LReLUs) with activation ${f{(x)}} = {\max{({\alphax},x)}}$ ($0 < \alpha < 1$), and (iii) Shifted ReLUs (SReLUs) with activation ${f{(x)}} = {\max{({- 1},x)}}$. Comparisons are done with and without batch normalization. The following benchmark datasets are used: (i) MNIST (gray images in 10 classes, 60k train and 10k test), (ii) CIFAR-10 (color images in 10 classes, 50k train and 10k test), (iii) CIFAR-100 (color images in 100 classes, 50k train and 10k test), and (iv) ImageNet (color images in 1,000 classes, 1.3M train and 100k tests).
+
+### MNIST
+
+### Learning Behavior
+
+We first want to verify that ELUs keep the mean activations closer to zero than other units. Fully connected deep neural networks with ELUs ($\alpha = 1.0$), ReLUs, and LReLUs ($\alpha = 0.1$) were trained on the MNIST digit classification dataset while each hidden unit's activation was tracked. Each network had eight hidden layers of 128 units each, and was trained for 300 epochs by stochastic gradient descent with learning rate $0.01$ and mini-batches of size 64. The weights have been initialized according to. After each epoch we calculated the units' average activations on a fixed subset of the training data. Fig. 2") shows the median over all units along learning. ELUs stay have smaller median throughout the training process. The training error of ELU networks decreases much more rapidly than for the other networks.
+
+Section C") in the appendix compares the variance of median activation in ReLU and ELU networks. The median varies much more in ReLU networks. This indicates that ReLU networks continuously try to correct the bias shift introduced by previous weight updates while this effect is much less prominent in ELU networks.
+
+### Autoencoder Learning
+
+Figure 3: Autoencoder training on MNIST: Reconstruction error for the test and training data set over epochs, using different activation functions and learning rates. The results are medians over several runs with different random initializations.
+
+To evaluate ELU networks at unsupervised settings, we followed Martens and Desjardins et al. and trained a deep autoencoder on the MNIST dataset. The encoder part consisted of four fully connected hidden layers with sizes 1000, 500, 250 and 30, respectively. The decoder part was symmetrical to the encoder. For learning we applied stochastic gradient descent with mini-batches of 64 samples for 500 epochs using the fixed learning rates ($10^{- 2},10^{- 3},10^{- 4},10^{- 5}$). Fig. 3") shows, that ELUs outperform the competing activation functions in terms of training / test set reconstruction error for all learning rates. As already noted by Desjardins et al., higher learning rates seem to perform better.
+
+### Comparison of Activation Functions
+
+In this subsection we show that ELUs indeed possess a superior learning behavior compared to other activation functions as postulated in Section 3 ‣ Fast and Accurate Deep Network Learning by Exponential Linear Units (ELUs)"). Furthermore we show that ELU networks perform better than ReLU networks with batch normalization. We use as benchmark dataset CIFAR-100 and use a relatively simple convolutional neural network (CNN) architecture to keep the computational complexity reasonable for comparisons.
+
+(b) Training loss (start)
+
+(c) Training loss (end)
+
+(e) Test error (start)
+
+(f) Test error (end)
+
+Figure 4: Comparison of ReLUs, LReLUs, and SReLUs on CIFAR-100. Panels (a-c) show the training loss, panels (d-f) the test classification error. The ribbon band show the mean and standard deviation for 10 runs along the curve. ELU networks achieved lowest test error and training loss.
+
+(d) ELU - ReLU (end)
+
+(e) ELU - SReLU (end)
+
+(f) ELU - LReLU (end)
+
+Figure 5: Pairwise comparisons of ELUs with ReLUs, SReLUs, and LReLUs with and without batch normalization (BN) on CIFAR-100. Panels are described as in Fig. 4. ELU networks outperform ReLU networks with batch normalization.
+
+The CNN for these CIFAR-100 experiments consists of 11 convolutional layers arranged in stacks of (${\lbrack{1 \times 192 \times 5}\rbrack},{\lbrack{1 \times 192 \times 1},{1 \times 240 \times 3}\rbrack},{\lbrack{1 \times 240 \times 1},{1 \times 260 \times 2}\rbrack},{\lbrack{1 \times 260 \times 1},{1 \times 280 \times 2}\rbrack},{\lbrack{1 \times 280 \times 1},{1 \times 300 \times 2}\rbrack},{\lbrack{1 \times 300 \times 1}\rbrack},{\lbrack{1 \times 100 \times 1}\rbrack}$) layers $\times$ units $\times$ receptive fields. 2$\times$`<!-- -->`{=html}2 max-pooling with a stride of 2 was applied after each stack. For network regularization we used the following drop-out rate for the last layer of each stack ($0.0,0.1,0.2,0.3,0.4,0.5,0.0$). The $L2$-weight decay regularization term was set to $0.0005$. The following learning rate schedule was applied (${0 - {35k{\lbrack 0.01\rbrack}}},{{35k} - {85k{\lbrack 0.005\rbrack}}},{{85k} - {135k{\lbrack 0.0005\rbrack}}},{{135k} - {165k{\lbrack 0.00005\rbrack}}}$) (iterations \[learning rate\]). For fair comparisons, we used this learning rate schedule for all networks. During previous experiments, this schedule was optimized for ReLU networks, however as ELUs converge faster they would benefit from an adjusted schedule. The momentum term learning rate was fixed to 0.9. The dataset was preprocessed as described in Goodfellow et al. with global contrast normalization and ZCA whitening. Additionally, the images were padded with four zero pixels at all borders. The model was trained on $32 \times 32$ random crops with random horizontal flipping. Besides that, we no further augmented the dataset during training. Each network was run 10 times with different weight initialization. Across networks with different activation functions the same run number had the same initial weights.
+
+Mean test error results of networks with different activation functions are compared in Fig. 4"), which also shows the standard deviation. ELUs yield on average a test error of 28.75($\pm$`<!-- -->`{=html}0.24)%, while SReLUs, ReLUs and LReLUs yield 29.35($\pm$`<!-- -->`{=html}0.29)%, 31.56($\pm$`<!-- -->`{=html}0.37)% and 30.59($\pm$`<!-- -->`{=html}0.29)%, respectively. ELUs achieve both lower training loss and lower test error than ReLUs, LReLUs, and SReLUs. Both the ELU training and test performance is significantly better than for other activation functions (Wilcoxon signed-rank test with $p$-value$<$`<!-- -->`{=html}0.001). Batch normalization improved ReLU and LReLU networks, but did not improve ELU and SReLU networks (see Fig. 5")). ELU networks significantly outperform ReLU networks with batch normalization (Wilcoxon signed-rank test with $p$-value$<$`<!-- -->`{=html}0.001).
+
+### Classification Performance on CIFAR-100 and CIFAR-10
+
+The following experiments should highlight the generalization capabilities of ELU networks. The CNN architecture is more sophisticated than in the previous subsection and consists of 18 convolutional layers arranged in stacks of (${\lbrack{1 \times 384 \times 3}\rbrack},{\lbrack{1 \times 384 \times 1},{1 \times 384 \times 2},{2 \times 640 \times 2}\rbrack},{\lbrack{1 \times 640 \times 1},{3 \times 768 \times 2}\rbrack},{\lbrack{1 \times 768 \times 1},{2 \times 896 \times 2}\rbrack},{\lbrack{1 \times 896 \times 3},{2 \times 1024 \times 2}\rbrack},{\lbrack{1 \times 1024 \times 1},{1 \times 1152 \times 2}\rbrack},{\lbrack{1 \times 1152 \times 1}\rbrack},{\lbrack{1 \times 100 \times 1}\rbrack}$). Initial drop-out rate, Max-pooling after each stack, $L2$-weight decay, momentum term, data preprocessing, padding, and cropping were as in previous section. The initial learning rate was set to 0.01 and decreased by a factor of 10 after 35k iterations. The mini-batch size was 100. For the final 50k iterations fine-tuning we increased the drop-out rate for all layers in a stack to ($0.0,0.1,0.2,0.3,0.4,0.5,0.0$), thereafter increased the drop-out rate by a factor of 1.5 for 40k additional iterations.
+
+CIFAR-10 (test error %)
+CIFAR-100 (test error %)
+
+Table 1: Comparison of ELU networks and other CNNs on CIFAR-10 and CIFAR-100. Reported is the test error in percent misclassification for ELU networks and recent convolutional architectures like AlexNet, DSN, NiN, Maxout, All-CNN, Highway Network, and Fractional Max-Pooling. Best results are in bold. ELU networks are second best for CIFAR-10 and best for CIFAR-100.
+
+ELU networks are compared to following recent successful CNN architectures: AlexNet, DSN, NiN, Maxout, All-CNN, Highway Network and Fractional Max-Pooling. The test error in percent misclassification are given in Tab. 1"). ELU-networks are the second best on CIFAR-10 with a test error of 6.55% but still they are among the top 10 best results reported for CIFAR-10. ELU networks performed best on CIFAR-100 with a test error of 24.28%. This is the best published result on CIFAR-100, without even resorting to multi-view evaluation or model averaging.
+
+### ImageNet Challenge Dataset
+
+Finally, we evaluated ELU-networks on the 1000-class ImageNet dataset. It contains about 1.3M training color images as well as additional 50k images and 100k images for validation and testing, respectively. For this task, we designed a 15 layer CNN, which was arranged in stacks of (${1 \times 96 \times 6},{3 \times 512 \times 3},{5 \times 768 \times 3},{3 \times 1024 \times 3},{{2 \times 4096 \times F}C},{{1 \times 1000 \times F}C}$) layers $\times$ units $\times$ receptive fields or fully-connected (FC). 2$\times$`<!-- -->`{=html}2 max-pooling with a stride of 2 was applied after each stack and spatial pyramid pooling (SPP) with 3 levels before the first FC layer. For network regularization we set the $L2$-weight decay term to $0.0005$ and used 50% drop-out in the two penultimate FC layers. Images were re-sized to 256$\times$`<!-- -->`{=html}256 pixels and per-pixel mean subtracted. Trained was on $224 \times 224$ random crops with random horizontal flipping. Besides that, we did not augment the dataset during training.
+
+(b) Top-5 test error
+
+(c) Top-1 test error
+
+Figure 6: ELU networks applied to ImageNet. The x-axis gives the number of iterations and the y-axis the (a) training loss, (b) top-5 error, and (c) the top-1 error of 5,000 random validation samples, evaluated on the center crop. Both activation functions ELU (blue) and ReLU (purple) lead for convergence, but ELUs start reducing the error earlier and reach the 20% top-5 error after 160k iterations, while ReLUs need 200k iterations to reach the same error rate.
+
+Fig. 6") shows the learning behavior of ELU vs. ReLU networks. Panel (b) shows that ELUs start reducing the error earlier. The ELU-network already reaches the 20% top-5 error after 160k iterations, while the ReLU network needs 200k iterations to reach the same error rate. The single-model performance was evaluated on the single center crop with no further augmentation and yielded a top-5 validation error below 10%.
+
+Currently ELU nets are 5% slower on ImageNet than ReLU nets. The difference is small because activation functions generally have only minor influence on the overall training time. In terms of wall clock time, ELUs require 12.15h vs. ReLUs with 11.48h for 10k iterations. We expect that ELU implementations can be improved, e.g. by faster exponential functions.
+
+## Conclusion
+
+We have introduced the exponential linear units (ELUs) for faster and more precise learning in deep neural networks. ELUs have negative values, which allows the network to push the mean activations closer to zero. Therefore ELUs decrease the gap between the normal gradient and the unit natural gradient and, thereby speed up learning. We believe that this property is also the reason for the success of activation functions like LReLUs and PReLUs and of batch normalization. In contrast to LReLUs and PReLUs, ELUs have a clear saturation plateau in its negative regime, allowing them to learn a more robust and stable representation. Experimental results show that ELUs significantly outperform other activation functions on different vision datasets. Further ELU networks perform significantly better than ReLU networks trained with batch normalization. ELU networks achieved one of the top 10 best reported results on CIFAR-10 and set a new state of the art in CIFAR-100 without the need for multi-view test evaluation or model averaging. Furthermore, ELU networks produced competitive results on the ImageNet in much fewer epochs than a corresponding ReLU network. Given their outstanding performance, we expect ELU networks to become a real time saver in convolutional networks, which are notably time-intensive to train from scratch otherwise.

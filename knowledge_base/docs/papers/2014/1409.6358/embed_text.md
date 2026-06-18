@@ -1,0 +1,210 @@
+## Introduction
+
+We introduce the method of Dynamic Mode Decomposition with control (DMDc) to analyze observational data arising from complex, high-dimensional systems that exhibit dynamics and require control. By utilizing both measurements of the system and the applied external control, the underlying, unforced dynamics can be extracted and specified in an equation-free manner, i.e. the underlying equations of motion do not have to be known. In addition, a description of how the control inputs affect the system are also discovered and characterized. With a quantitative understanding of the input-output characteristics, a reduced-order-model can be generated for both prediction and design of controllers for high-dimensional, complex systems.
+
+Controlling high-dimensional systems remains an extremely challenging task as many control strategies do not scale well with the dimension of the system. In particular, controllers developed on a full system may be computationally prohibitive to implement, introducing unacceptably large latencies. Moreover, many control laws are determined by solving a large Riccati equation ($\mathcal{H}_{2}$) or through an iterative procedure ($\mathcal{H}_{\infty}$), constituting an enormous up-front cost. Thus, practical engineering control strategies for dealing with high-dimensional observational data revolves around dimensionality-reduction techniques. Such methods, often based upon the singular value decomposition of the data, allow one to construct low-dimensional subspaces where computationally tractable controllers can be designed and implemented. Balanced truncation is a classic method developed to specifically take advantage of underlying low-dimensional observable and controllable subspaces to create a balanced, reduced-order model. Generalizations of this scheme which combine balanced truncation with the SVD on empirical data, such as the balanced proper orthogonal decomposition, have already been shown to overcome some of the computational difficulties associated with the high-dimension of complex systems, but still requires a pernicious linear adjoint calculation. Further innovations around system identification methods, such as the Eigensystem Realization Algorithm (ERA) and the Observer Kalman Filter Identification (OKID), were developed to aid in the discovery of input-output models for systems with control. The dimension of the measurements, though, were assumed to be low and the system linear.
+
+DMDc has a number of advantages for high-dimensional, complex systems. First, it is based upon the DMD algorithm which is a data-driven, equation-free architecture that reconstructs the underlying dynamics of the system from snapshot measurements alone. Substantial success has been achieved in the application of DMD to fields such as fluid dynamics which have been historically difficult to analyze and construct controllers due to the enormous number of spatial states required for simulation. Second, DMD has acquired popularity as a method for systems with nonlinear dynamics, due to a strong connection between DMD and Koopman operator theory. Finally, DMD can be modified to take advantage of sparse, or limited, measurements of the complex system. Sparse measurements have recently been leveraged in a variety of complex systems, some for control. Such a scenario arises in many physical, biological and engineering systems due to limited numbers of sensors. Such advantages, in combination with the control architecture advocated here, warrant serious consideration of the DMDc as an equation-free control strategy in complex systems.
+
+As a motivating example, DMDc can be applied to the field of computational epidemiology focusing on the eradication of diseases. The advent of new monitoring tools and a substantial focus on the quantitative assessment of resource allocation is beginning to generate large sets of data describing the spread of infectious disease. A substantial literature exists focused on mathematically modeling the spread of infectious disease and the effect of external control (e.g. vaccinations for Polio and bed nets for Malaria). A common challenge in computational epidemiology is deciding how to model the spread of disease leading to an enormous number of phenomenological models. Equation free techniques such as DMD and DMDc provide a complementary modeling tool for analyzing the spatial-temporal spread of infectious disease. Focusing on only the historical data containing state information (i.e. number of infections in a spatial location in a given time) and whether control interventions have been applied (i.e. number of vaccinations in a spatial location in given time), DMDc discovers the dynamical properties of the complex systems.
+
+The outline of the paper is as follows: § II describes the background on the method DMD. § III describes the new method Dynamic Mode Decomposition with control. The following section § IV presents a number of numerical examples including an artificial application based on an epidemiological problem. § V discusses a number of similarities and differences from system identification methods.
+
+## Background: Dynamic Mode Decomposition
+
+Dynamic Mode Decomposition (DMD) is a powerful data-driven method for analyzing complex systems. Using measurement data from numerical simulations or laboratory experiments, DMD attempts to extract important dynamic characteristics such as unstable growth modes, resonance, and spectral properties. This section provides the mathematical mathematical background of DMD.
+
+### II-A Dynamical systems and data
+
+The fundamental assumption that connects the state of a linear dynamical system $\mathbf{x}_{\mathbf{k}}$ to the next $\mathbf{x}_{\mathbf{k} + \mathbf{1}}$ is
+
+where $\mathbf{x} \in {\mathbb{R}}^{n}$ and $\mathbf{A} \in {\mathbb{R}}^{n \times n}$. The process under observation is often continuous (whether from a numerical model or experiment), and measurements of the continuous state $\mathbf{x}{(t)}$ can be collected at regular time intervals $\Deltat$ denoted by $\mathbf{x}_{k} = {\mathbf{x}{({k\Deltat})}}$. Each measurement in time $\mathbf{x}_{k}$ will be referred to as snapshots within this manuscript. We denote the sequence of snapshots collected by the following description:
+
+where $m$ is total number of snapshots and $\mathbf{X}^{\prime}$ is the time-shifted snapshot matrix of $\mathbf{X}$, i.e. $\mathbf{X}^{\prime} = {\mathbf{A}\mathbf{X}}$. For DMD, data is often collected at regular time intervals $\Deltat$. The number of snapshots required for DMD varies with the application, but is intimately related to the linearity properties of the Koopman Operator. The solution will converge by decreasing the recording interval ${\Deltat}\rightarrow 0$, thus indicating the number of snapshots required (for an illuminating numerical example see ). New directions for DMD have focused on novel paradigms for collecting data in time and across the state of the system. Each are utilizing the concepts of sparsity and compressed sensing techniques.
+
+The dynamical system Eq. and data snapshots Eq. can be described more compactly in the following form:
+
+Solving for an approximation of the process matrix $\mathbf{A}$ given the data matrices $\mathbf{X}$ and $\mathbf{X}^{\prime}$ is the primary objective of DMD.
+
+### II-B Dynamic Mode Decomposition
+
+The following section describes how to find the dynamic modes and eigenvalues of the underlying system $\mathbf{A}$ described in Eq.. We can find $\mathbf{A}$ by using the following definition:
+
+where ^†^ is the Moore-Penrose pseudoinverse. A computationally efficient and accurate method for finding the pseudo inverse is via the singular value decomposition (SVD). The SVD of $\mathbf{X}$ results in the well-known decomposition:
+
+where $\mathbf{U} \in {\mathbb{R}}^{n \times n}$, $\mathbf{\Sigma} \in {\mathbb{R}}^{{n \times m} - 1}$, ${\overset{\sim}{\mathbf{V}}}^{\ast} \in {\mathbb{R}}^{m - {1 \times m} - 1}$, $\overset{\sim}{\mathbf{U}} \in {\mathbb{R}}^{n \times r}$, $\overset{\sim}{\mathbf{\Sigma}} \in {\mathbb{R}}^{r \times r}$, ${\overset{\sim}{\mathbf{V}}}^{\ast} \in {\mathbb{R}}^{{r \times m} - 1}$, $_{\text{rem}}$ indicates the remaining $m - 1 - r$ singular values, and ^∗^ denotes the complex conjugate transpose. Eq. demonstrates how to reduce the dimension of the data matrix $\mathbf{X}$ by appropriately choosing a truncation value $r$ of the singular values thus eliminating the remainder (rem) terms and allowing for the psuedo-inverse to be accomplished since $\overset{\sim}{\mathbf{\Sigma}}$ is square. Choosing the appropriate truncation value $r$ has a rich scientific history; notably, the Eckart-Young theorem provides a rigorous and popular method for choosing $r$. In addition, there are recent theoretical developments attempting to identify the correct $r$ when $\mathbf{X}$ may have additive noise.
+
+Using the SVD of the snapshot matrix $\mathbf{X}$ in Eq., the following approximation of the matrix $\mathbf{A}$ can be computed:
+
+where $\overline{\mathbf{A}}$ is an approximation of the operator $\mathbf{A}$ from Eq.. A dynamic model of the process can be constructed given by the following:
+
+where $\mathbf{x}$ and $\overline{\mathbf{A}}$ have the same dimension as the matrices described earlier in Eq.. An eigenvalue analysis of the matrix $\overline{\mathbf{A}}$ would produce the dynamic modes and eigenvalues of the system. The computation, though, can be prohibitively expensive if $n \gg 1$.
+
+If $r \ll n$, a more compact and computationally efficient model can be found by projecting $\mathbf{x}_{k}$ on to a linear subspace of dimension $r$. This basis transformation takes the form ${\mathbf{P}\mathbf{x}} = \overset{\sim}{\mathbf{x}}$. As previously shown by DMD, a convenient transformation has already been computed via the SVD of $\mathbf{X}$, given by $\mathbf{P} = \overset{\sim}{\mathbf{U}}$. The reduced-order model can be derived as follows:
+
+The reduced-order-model is given by the following:
+
+The eigendecomposition of $\overset{\sim}{\mathbf{A}}$ defined by ${\overset{\sim}{\mathbf{A}}\mathbf{W}} = {\mathbf{W}\Lambda}$ yields eigenvalues and eigenvectors that can be investigated for fundamental properties of the underlying system such as growth modes and resonance frequencies. In addition, the computation is efficient since $\overset{\sim}{\mathbf{A}} \in {\mathbb{R}}^{r \times r}$ and $r \ll n$.\
+Remark Computing the eigendecomposition of $\overset{\sim}{\mathbf{A}}$ versus $\overline{\mathbf{A}}$ can be a computationally crucial step for efficiency. For example, the domain discretization of a fluids or epidemiological problem can have an arbitrarily large set of dimensions $n$. The direct solution of the $n \times n$ eigenvalue problem might not be feasible, thus solving the $r \times r$ is substantially more attractive. The observation is reminiscent of the Method of Snapshots by Sirovich.\
+For DMD, the eigenvalues of $\overset{\sim}{\mathbf{A}}$ and $\overline{\mathbf{A}}$ are equivalent and the eigenvectors are related via a linear transformation. The eigenvectors of $\overline{\mathbf{A}}$ are called dynamic modes. Note, there is a difference between computing the dynamic modes with the Exact DMD method from Tu et.al. and Schmid. Here we describe the Exact DMD method giving the following relationship between the eigenvectors of $\overset{\sim}{\mathbf{A}}$ and the dynamic modes $\phi$ of $\overline{\mathbf{A}}$:
+
+If $\lambda \neq 0$, then this is the DMD mode for $\lambda$. If the eigenvalue is $0$, then the dynamic mode is computed using $\phi = {\overset{\sim}{\mathbf{U}}\mathbf{w}}$. The Exact DMD algorithm has a number of advantages over the original procedure; for a detailed discussion, see.
+
+## Dynamic Mode Decomposition with Control
+
+This section presents the mathematical description of Dynamic Mode Decomposition with control (DMDc). Understanding the dynamic characteristics of complex systems that have both internal dynamics and applied external control is fundamental to controller design and sensor placement. The DMDc method helps discover the underlying dynamics without the confounding effect of external control. In addition, the method also quantifies the effect of control inputs on the state of the system. Fig. 1 illustrates the data collection, the algorithm, and applications of DMDc.
+
+The underlying dynamical system and measured data matrices are redefined to include systems with control inputs in § III-A. The subsequent section § III-B describes how to solve for the dynamic modes if the effect of the inputs on the state is already well-known or well-estimated. The last section § III-C shows how to solve for both the dynamic modes and the input matrix.
+
+### III-A Dynamical system with control
+
+The new method modifies the basic assumption of DMD. The linear dynamical system connecting the future state $\mathbf{x}_{k + 1}$ now relies on information from both the current state $\mathbf{x}_{k}$ and the current control $\mathbf{u}_{k}$ given by the following:
+
+where $\mathbf{x}_{j} \in {\mathbb{R}}^{n}$, $\mathbf{u}_{j} \in {\mathbb{R}}^{l}$, $\mathbf{A} \in {\mathbb{R}}^{n \times n}$, and $\mathbf{B} \in {\mathbb{R}}^{n \times l}$. Data matrices can be constructed with temporal snapshots of the state and control input over time. The state snapshots $\mathbf{X}$ and $\mathbf{X}^{\prime}$ are collected in the same manner as Eq.. We denote a new sequence of control input snapshots collected by the following description:
+
+Eq. can be rewritten to include the new data matrices:
+
+Utilizing the three data matrices, approximations of the linear mappings $\mathbf{A}$ and $\mathbf{B}$ can be found. In the following two sections, we describe how to find the dynamic modes of $\mathbf{A}$ given the inclusion of control snapshots. The first section outlines the analysis and algorithm if the matrix $\mathbf{B}$ is known or well estimated. If unknown, the second section describes how to discover both $\mathbf{A}$ and $\mathbf{B}$ from the observation matrices.
+
+### III-B The map $\mathbf{B}$ is known
+
+The following section describes how to find the dynamic modes and eigenvalues of the underlying system $\mathbf{A}$ when the matrix $\mathbf{B}$ is known. The assumption that $\mathbf{B}$ is known or well-estimated is an idealistic view of most complex systems, but it helps provide one of the major motivations for this work. Finding the underlying dynamics $\mathbf{A}$ in a complex system where control has been applied is essential for designing controllers and placement of sensors. If external control has been applied to the system, standard DMD would produce incorrect dynamic information. The more general case where $\mathbf{B}$ is unknown will be described in the following section.
+
+Eq. can be re-arranged by pairing the time-shifted state snapshot matrix with the control snapshot matrix and the known matrix $\mathbf{B}$.
+
+The mapping $\mathbf{A}$ can be solved for similar to Eq.. Again, the truncated singular value decomposition of $\mathbf{X}$ gives the matrix factorization $\overset{\sim}{\mathbf{U}}\overset{\sim}{\mathbf{\Sigma}}{\overset{\sim}{\mathbf{V}}}^{\ast}$. Thus, the approximation of $\mathbf{A}$ is given by the following description:
+
+Note, if the control snapshots are ${\mathbf{u}_{j} = \mathbf{0}},{{\forall j} \in {\lbrack 1,m\rbrack}}$, then the derivation is equivalent to DMD. A dynamic model of both the computed process and the given input matrix can be constructed described by the following:
+
+where $\mathbf{x}$, $\overline{\mathbf{A}}$, and $\mathbf{B}$ are the same dimensions of the matrices described earlier in Eq.. If $r \ll n$ though, a more compact and computationally efficient model can be found using the same basis transformation ${\mathbf{P}\mathbf{x}} = \overset{\sim}{\mathbf{x}}$ as described earlier for DMD. Again, a convenient transformation has already been computed via the SVD of $\mathbf{X}$, given by $\mathbf{P} = \overset{\sim}{\mathbf{U}}$. The reduced-order model can be derived as follows:
+
+The reduced-order approximation of $\mathbf{A}$ is given by the following:
+
+The eigendecomposition of $\overset{\sim}{\mathbf{A}}$ defined by ${\overset{\sim}{\mathbf{A}}\mathbf{W}} = {\mathbf{W}\mathbf{\Lambda}}$ yields eigenvectors that can be used to find the dynamic modes. Similar to Exact DMD, the dynamic modes can be found with the following description:
+
+If $\lambda \neq 0$, then this is the DMD mode for $\lambda$. If the eigenvalue is $0$, then the dynamic mode is computed using $\phi = {\overset{\sim}{\mathbf{U}}\mathbf{w}}$.
+
+Figure 1: The illustration outlines the three major components of applying DMDc. The top panel describes the collection of data from either a numerical, laboratory, or historical data and the curation of the data in to matrices for the methods. Note, the figure in the historical plot is the data representing pre-vaccination Measles cases in the UK normalized similar to that found in. The middle panel outlines the procedure for DMD and DMDc for comparison. The bottom panel illustrates two practical applications of DMDc.
+
+### III-C The map B is unknown
+
+The assumption that $\mathbf{B}$ is known indicates a significant amount of knowledge about how control affects the system. This section relaxes that assumption and notably demonstrates that approximations of the matrices $\mathbf{A}$ and $\mathbf{B}$ can both be found from state and control snapshots. To the experimentalist or analyst, this is by far more interesting since only the snapshots of the control and state are required to find the properties of the underlying process $\mathbf{A}$ and how that process is affected by control $\mathbf{B}$.
+
+The dynamical system from Eq. can be manipulated giving the following representation:
+
+where $\mathbf{\Omega}$ contains both the state and control snapshot information. Here, we again seek a best-fit solution of the operator $\mathbf{G}$ which now contains the process dynamics $\mathbf{A}$ and input matrix $\mathbf{B}$. A SVD is performed on the augmented data matrix giving $\mathbf{\Omega} = {\mathbf{U}\mathbf{\Sigma}\mathbf{V}^{\ast}} \approx {\overset{\sim}{\mathbf{U}}\overset{\sim}{\mathbf{\Sigma}}{\overset{\sim}{\mathbf{V}}}^{\ast}}$. The truncation value of the SVD for $\mathbf{\Omega}$ will be defined as $p$. Note, the truncation value of $\mathbf{\Omega}$ should be larger than of $\mathbf{X}$. The following computation provides an approximation of $\mathbf{G}$:
+
+where $\mathbf{G} \in {\mathbb{R}}^{n \times {({n + l})}}$. We can now find approximations of the matrices $\mathbf{A}$ and $\mathbf{B}$ by breaking the linear operator $\overset{\sim}{\mathbf{U}}$ in to two separate components given by the following:
+
+where ${\overset{\sim}{\mathbf{U}}}_{1} \in {\mathbb{R}}^{n \times p}$, ${\overset{\sim}{\mathbf{U}}}_{2} \in {\mathbb{R}}^{l \times p}$, and $\overset{\sim}{\mathbf{U}} = {\lbrack{{\overset{\sim}{\mathbf{U}}}_{1}^{\ast}{\overset{\sim}{\mathbf{U}}}_{2}^{\ast}}\rbrack}^{T}$. Similar to Eq., a dynamic model using the matrices $\overline{\mathbf{A}}$ and $\overline{\mathbf{B}}$, but for a large dimensional system where $n \gg 1$, this is computationally prohibitive. Here, we again seek a reduced order model of rank $r \ll n$ where a transformation is required such that $\mathbf{x} = {\mathbf{P}\overset{\sim}{\mathbf{x}}}$ and $\overset{\sim}{\mathbf{x}} \in {\mathbb{R}}^{r}$.
+
+Unlike DMD, the truncated left singular vectors $\overset{\sim}{\mathbf{U}}$ can not be used to define the subspace on which the state evolves. For Eq., the truncated left singular vectors of $\mathbf{\Omega}$ define the input space. To find a linear transformation $\mathbf{P}$ for the state $\mathbf{x}$, we utilize a reduced-order subspace of the output subspace. This fundamental observation allows for DMDc to discover a reduced-order representation of the dynamics $\mathbf{A}$ and input matrix $\mathbf{B}$.
+
+To find the reduced-order subspace of the output space, a second singular value decomposition is required. The data matrix of the output space $\mathbf{X}^{\prime}$ can be approximated by the familiar SVD: $\hat{\mathbf{U}}\hat{\mathbf{\Sigma}}{\hat{\mathbf{V}}}^{\ast}$ where the truncation value is $r$ and $\hat{\mathbf{U}} \in {\mathbb{R}}^{n \times r}$, $\hat{\mathbf{\Sigma}} \in {\mathbb{R}}^{r \times r}$, and ${\hat{\mathbf{V}}}^{\ast} \in {\mathbb{R}}^{{r \times m} - 1}$. Note, the two SVDs will likely have different truncation values of the input and output matrices $p$ and $r$ and $p > r$. Using the transformation $\mathbf{x} = {\hat{\mathbf{U}}\overset{\sim}{\mathbf{x}}}$, the following reduced-order approximations of $\mathbf{A}$ and $\mathbf{B}$ can be computed:
+
+where $\overset{\sim}{\mathbf{A}} \in {\mathbb{R}}^{r \times r}$ and $\overset{\sim}{\mathbf{B}} \in {\mathbb{R}}^{r \times l}$. We can then form the reduced order equation as Eq. given by the following
+
+Similar to DMD, the dynamic modes of $\mathbf{A}$ can be found by first solving the eigenvalue decomposition ${\overset{\sim}{\mathbf{A}}\mathbf{W}} = {\mathbf{W}\mathbf{\Lambda}}$. The transformation from eigenvectors to dynamic modes of $\mathbf{A}$ is slightly modified and is given by the following:
+
+where the relationship between $\phi$ and $\mathbf{w}$ is similar to Exact DMD.
+
+### III-D The algorithm
+
+The following section outlines the algorithm.
+
+Collect and construct the snapshot matrices:\
+Collect the state and control snapshots and form the matrices $\mathbf{X}$, $\mathbf{X}^{\prime}$, and $\mathbf{\Upsilon}$ as described in Eq. and Eq.. Stack the data matrices $\mathbf{X}$ and $\mathbf{\Upsilon}$ to construct the matrix $\mathbf{\Omega}$.
+
+Compute the SVD of the input space $\mathbf{\Omega}$.\
+Compute the singular value decomposition of $\mathbf{\Omega}$ as described in Eq. thereby obtaining the decomposition $\mathbf{\Omega} \approx {\overset{\sim}{\mathbf{U}}\overset{\sim}{\mathbf{\Sigma}}{\overset{\sim}{\mathbf{V}}}^{\ast}}$ with truncation value $p$.
+
+Compute the SVD of the output space $\mathbf{X}^{\prime}$.\
+Compute the singular value decomposition of $\mathbf{X}^{\prime}$ as described in Eq. thereby obtaining the decomposition $\mathbf{X}^{\prime} \approx {\hat{\mathbf{U}}\hat{\mathbf{\Sigma}}{\hat{\mathbf{V}}}^{\ast}}$ with truncation value $r$.
+
+Compute the approximation of the operators $\mathbf{G} = {\lbrack{\mathbf{A}\mathbf{B}}\rbrack}$\
+Compute the following:
+
+Perform the eigenvalue decomposition of $\overset{\sim}{\mathbf{A}}$\
+Perform the eigenvalue decomposition given by the following:
+
+Compute the dynamic Modes of the operator A\
+
+## Applications
+
+The following section describes a number of numerical examples for the application of this method. The examples increase in complexity as the section progresses. The emphasis for each of these examples is the benefit of including control snapshot information to the analysis.
+
+### IV-A Example 1 -- Unstable linear system with proportional controller
+
+DMDc can help discover the underlying dynamics of a system through measurements of both the state and external inputs. Here, we demonstrate the idea on a simple two-dimensional unstable linear system with a stabilizing controller. Despite the simplicity of the mathematical problem, the example is illustrative for the general concept of DMDc. Consider the following dynamical system:
+
+where $u_{k} = {K{\lbrack x_{1}\rbrack}_{k}}$ and $K = {- 1}$. The proportional controller clearly stabilizes the system by moving the unstable eigenvalue within the unit circle. If we have access to the input data and the $\mathbf{B}$ matrix as described in §III-C, we can collect state and control snapshots to perform the DMDc computation. For an initial condition ${\lbrack{47}\rbrack}^{T}$, the following are the data matrices constructed from computing the first five temporal snapshots of Eq.:
+
+Following the description in §III-B, we compute the singular value decomposition of $\mathbf{X}$. Here, we use MATLAB's economy sized singular value decomposition algorithm to give the following matrix factorization of $\mathbf{X}$.
+
+Now, we can compute Eq. using the data matrices in Eq., the SVD matrices in Eq., and the matrix $\mathbf{B}$ in Eq. giving the following approximation to $\mathbf{A}$:
+
+where we recover the unstable linear dynamics from data of the state and control snapshots. This example demonstrates the utility of DMDc with recovering unstable dynamics from a system that would otherwise appear to be stable.
+
+### IV-B Example 2 -- Large-scale, stable Linear Systems
+
+In this section, we investigate stable linear systems where the number of measurements are significantly greater than the dimensionality of the underlying system. The previous example demonstrated the utility of the method on a low-dimensional unstable model. Here, the method is applied to large-scale dynamical systems that have an underlying low-dimensional attractor.
+
+To construct these large-scale systems, a low-dimensional stable model is generated and subsequently embedded in to a higher dimensional subspace. There are three steps for generating the model and data matrices to compare the output of DMDc and the generated model:\
+
+Generate a low-dimensional stable state-space model, $\mathbf{A}$ and $\mathbf{B}$\
+Generate discrete random state-space systems using MATLAB's command Discrete Random State Space Method. These stable-discrete state-space models can be used as numerical experiments for DMDc. Here, we have chosen a 5 dimensional model, 2 input variables, and 100 measurement variables. The output is a state space model $\overset{\sim}{\mathbf{A}}$, $\overset{\sim}{\mathbf{B}}$, and $\mathbf{C}$.
+
+Generate random input data $\mathbf{\Upsilon}$\
+Using MATLAB's randn command, generate a matrix of random inputs, $\mathbf{\Upsilon} \in {\mathbb{R}}^{{2 \times m} - 1}$.
+
+Use the model and input vector to generate the data matrices $\mathbf{X}$ and $\mathbf{X}^{\prime}$\
+Using the model and the input matrix, generate output data for the snapshot matrix.
+
+Using the data matrices $\mathbf{X}$, $\mathbf{X}^{\prime}$ and $\mathbf{\Upsilon}$, the DMDc computation can be performed to find an approximation of $\overset{\sim}{\mathbf{A}}$ and $\overset{\sim}{\mathbf{B}}$. To compare the generated model and the model produced by DMDc, we assign $\overset{\sim}{\mathbf{C}} = \hat{\mathbf{U}}$. The assignment allows for the comparison of state-space models.
+
+The singular values of the frequency response, a multi-input multi-output (MIMO) generalization of a BODE plot, is used to compare the two models. The MATLAB command sigma will generate the frequency response for both systems. Fig. 2 illustrates one such comparison arising from a single numerical realization from the ensemble. Note, there is no distinction between the generated model (in red) and the model from DMDc (in blue) for both control inputs (both lines).
+
+Figure 2: The singular values of the frequency response for a large scale, stable linear systems. The blue line is from the model from DMDc and the red is from the real model. Note, an equivalent frequency response can not be constructed from DMD alone since it does not consider input-output systems.
+
+### IV-C Example 3 -- A sparse linear system in the Fourier domain
+
+The final example for DMDc is a large-scale dynamical system on a spatial grid. The system consists of high-dimensional full-state measurements, although the dynamics are governed by a low-dimensional dynamical system in the Fourier domain. The motivation for this example comes from epidemiology and infectious disease spread where the measurements can be high-dimensional in both space and time. For example, consider the number possible states of a dynamical system to represent flu infections across the world over a decade, including both spatial discretization and disease heterogeneity factors. In this example, the underlying attractor could be quite low dimensional. To complicate this picture, actuation in the form of a spatial delivery of vaccinations is also occurring each year, which can directly affect the dynamics of an infectious disease.
+
+Here, we construct a sparse dynamical system in a two-dimensional Fourier domain as an abstraction of the problem described above. Only 5 modes are allowed to be non-zero. The dynamical system on these spatial modes is constructed in the following way: for each mode, a temporal oscillation frequency is chosen randomly and a small, stable damping rate is similarly chosen. The boundary conditions are periodic, thus restricting the dynamics to a torus. This system was previously constructed in to demonstrate compressive DMD. Here though, the example is extended to allow for actuation in the spatial domain. The spatial actuation is then Fourier transformed in order to compute the effect on the underlying dynamical system. The spatial grid used is $128 \times 128$.
+
+Similar to the previous examples, the underlying dynamics of the system can be discovered soley from state and control snapshots in the spatial domain using DMDc. The top left plot of Fig. 3 shows the evolution of one such unforced system in space. The right plot shows the effect of actuation on the same system. The actuation is a localized negative control input applied in the spatial domain, shown in the lower left plot. The eigenvalue plot shows that DMDc discovers the underlying eigenvalues more accurately than DMD. In addition, the zero-valued Fourier modes can be contaminated with Gaussian noise without a qualitatively change in the behavior of DMDc.
+
+Figure 3: The top left panel illustrates one realization of Example 3 without actuation over time. The right panel illustrates the same dynamical system, but with actuation. The bottom left panel illustrates the actuation applied in the spatial domain. The bottom middle panel shows a comparison between the actual eigenvalues and the eigenvalues found from DMD and DMDc. On the right the first four dynamic modes of DMD and DMDc are compared to the actual underlying spatial modes.
+
+## Connections to system identification methods
+
+This section explores the connection of DMDc to two system identification methods: the Eigensystem Realization Algorithm (ERA) and the Observer Kalman Filter Identification (OKID). These system identification methods were developed to derive a state-space model for control in aerospace applications involving flexible structures. The identification process involves applying control and observing system behavior. DMDc and other modal decomposition methods can be used similarly, but may also be applied to historical data records from many other fields such as epidemiological modeling. Here, we briefly describe the similarities and differences between the methods.
+
+System identification methods such as ERA/OKID were developed for input-output systems which typically have a higher rank/dimensionality than the number of observables $r > n$. To contrast, modal decomposition methods such as DMD, DMDc, Proper Orthogonal Decomposition (POD), and Balanced Proper Orthogonal Decomposition (BPOD) are typically applied to complex systems where the number of measurements are significantly larger than the rank of the underlying attractor $n \gg r$, e.g. fluid dynamics problems. Fig. 4 illustrates the regime of applications where each of these methods are typically applied. In addition, DMD and POD have been previously established as analysis methods for nonlinear complex systems
+
+Previous work by Tu et al. has established a number of connections between DMD and ERA. The similarities and differences between DMDc and ERA listed in this section, though, are more readily compared since both algorithms assume input-output systems. The following list offers a brief comparison between how DMDc and ERA differ for the construction of a typical input-output model:
+
+Figure 4: An illustration depicting the different regimes, with respect to the rank of the system and the number of measurements, of the modal decomposition methods and the system identification methods.
+
+The data matrix construction:\
+The data from the ERA procedure is fundamentally impulse-response data, whereas DMDc can have arbitrary input histories. The input histories are fundamental to the DMDc procedure. Despite this difference, the construction of the state data matrices are similar between DMDc and ERA. Both the matrix $\mathbf{X}$ from DMDc and the Hankel matrix $\mathbf{H}$ of ERA assume snapshots of the state at regular intervals. The data matrix $\mathbf{H}$ is also vertically stacked with time shifted versions of the snapshot. DMDc does not require shift-stacking the matrix since there is little risk of column-rank deficiency due to the typically large number of observables. The two state matrices are equivalent on the condition that the $\mathbf{H}$ is not vertically stacked with state snapshots.
+
+The $\mathbf{A}$ matrix:\
+It was previously shown that if the data matrices described in the first bullet are the same, the matrices $\mathbf{A}$ produced by DMD and ERA are equivalent up to a similarity transformation. The $\mathbf{A}$ matrix constructed by DMDc is different from DMD and ERA since the input space and thus the subspace $\overset{\sim}{\mathbf{U}_{1}^{\ast}}$ contains added information from the control snapshots.
+
+The $\mathbf{B}$ matrix\
+To compute the matrix $\mathbf{B}$ using ERA, only the first data snapshot after the impulse is utilized, which translates to the following discrete dynamical system relationship $\mathbf{x}_{\mathbf{1}} = {\mathbf{C}\mathbf{B}\mathbf{u}}_{\mathbf{0}}$ where $\mathbf{u}_{\mathbf{0}}$ is an impulse and $\mathbf{C}$ is the standard linear map for the observable equation. Note, ERA also requires a projection of the single data snapshot on to the left singular vectors of the data matrix $\mathbf{H}$ and the same similarity transform $\mathbf{\Sigma}^{1/2}$ described for the matrix $\mathbf{A}$. The ERA formulation can be contrasted with DMDc through the illustration of the difference in the data matrix construction for DMDc given by the following:
+
+The computation to find the matrix $\mathbf{B}$ is quite different for DMDc. Arbitrary control histories can be included in $\mathbf{\Omega}$ to compute $\mathbf{B}$ whereas ERA is primarily impulse response focused. Further, finding the matrix $\mathbf{B}$ with ERA will not be as robust to noise compared with using DMDc and a longer input history.
+
+The $\mathbf{C}$ matrix For DMDc, ERA, and DMD, a linear transformation matrix maps the model state to the observables. Each of these methods utilize the left singular vectors of their data matrices for the mapping. There is an important distinction between the role of the left singular vectors for DMDc and ERA. The mapping for DMDc projects a high-dimensional set of observables on to a lower-dimensional subspace. In ERA, the left singular vectors often lifts the dimension of the observables, see Fig. 4 for an illustration of the rank of the model versus dimension of the observables.
+
+The observer/Kalman filter identification method allows minimal realization algorithms such as ERA to be generalized from impulse response data to data that is driven by rich input signals. The calculation of the above matrices $\mathbf{A}$, $\mathbf{B}$, and $\mathbf{C}$ is typically considered more robust when combining OKID with ERA. An often cited computational challenge confronting ERA is the analysis of lightly damped systems. The magnitude of data (number of snapshots) may be prohibitively large for lightly damped systems, and factoring the Hankel matrix using the SVD is computationally prohibitive. A major similarity between OKID and DMDc is the construction of the data matrix; OKID constructs an augmented data matrix that also stacks the control with the state. Similar to DMD and ERA, in the limit of only evaluating the first row of the augmented Hankel matrix, the data matrices between DMDc and OKID are equivalent.
+
+## Discussion
+
+Complex, high-dimensional data has become ubiquitous in traditional scientific and engineering applications as well as modern data-rich fields such as internet traffic, distribution systems, and transportation networks. Machine-learning and statistical methods have been successfully applied to characterize many of these so-called big-data problems. Similarly, scientific and engineering fields, exemplified by control theoretic community, have focused on the development of quantitative and automatic dimensionality reduction methods to both characterize and control complex systems. In order to construct effective controllers, the underlying system needs to be well-understood. Accurately describing the underlying system is a challenge when the system is complex, high-dimensional, and without well-characterized governing equations.
+
+Dynamic Mode Decomposition (DMD) is a data-driven, equation-free method that helps meet a number of these modern-day challenges. The method has strong connection to nonlinear operator theory and discovers spatial-temporal coherent modes from data. DMD, though, does not produce accurate reduced-order-models from complex systems with exogenous forcing. Dynamic mode decomposition with control (DMDc) inherits the advantages of DMD, but also provides accurate input-output models for complex systems with actuation. The method can be applied to data from a variety of sources including historical, experimental, and black-box simulations.
+
+Methods such as DMDc will play an increasing role in the analysis of large-scale datasets from complex systems. DMD has already been applied to a significant number of applications in the fluid dynamics community and is expanding to a variety of other applications like background subtraction in video processing. We believe DMDc is poised to similarly excel as a tool for a diverse set of engineering applied science applications where control of the complex system is important. Further, the DMDc method is well-suited to couple with innovative sparsity-promoting sampling and control strategies. This connection has already been demonstrated for DMD both in time and space. DMDc is therefore positioned to have a dramatic effect on the analysis and control of large-scale complex systems.

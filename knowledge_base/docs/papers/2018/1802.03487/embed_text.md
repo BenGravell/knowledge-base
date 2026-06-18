@@ -1,0 +1,214 @@
+## Introduction
+
+Neural network training reduces to solving nonconvex empirical risk minimization problems, a task that is in general intractable. But success stories of deep learning suggest that local minima of the empirical risk could be close to global minima. Choromanska et al. use spherical spin-glass models from statistical physics to justify how the size of neural networks may result in local minima that are close to global. However, due to the complexities introduced by nonlinearity, a rigorous understanding of optimality in deep neural networks remains elusive.
+
+Initial steps towards understanding optimality have focused on *deep linear* networks. This area has seen substantial recent progress. In deep linear networks there is no nonlinear activation; the output is simply a multilinear function of the input. Baldi & Hornik prove that some shallow networks have no spurious local minima, and Kawaguchi extends this result to squared error deep linear networks, showing that they only have global minima and saddle points. Several other works on linear nets have also appeared.
+
+The theory of nonlinear neural networks (which is the actual setting of interest), however, is still in its infancy. There have been attempts to extend the "local minima are global" property from linear to nonlinear networks, but recent results suggest that this property does not usually hold. Although not unexpected, rigorously proving such results turns out to be non-trivial, forcing several authors (e.g., Safran & Shamir; Du et al.; Wu et al. ) to make somewhat unrealistic assumptions (realizability and Gaussianity) on data.
+
+In contrast, we prove existence of spurious local minima under the least restrictive (to our knowledge) assumptions. Since seemingly subtle changes to assumptions can greatly influence the analysis as well as the applicability of known results, let us first summarize what is known; this will also help provide a better intuitive perspective on our results (as the technical details are somewhat involved).
+
+### What is known so far?
+
+There is a large and rapidly expanding literature of optimization of neural networks. Some works focus on the loss surface, while others study the convergence of gradient-based methods for optimizing this loss. In particular, our focus is on the loss surface itself, independent of any algorithmic concerns; this is reflected in the works summarized below.
+
+For ReLU networks, the works provide counterexample datasets that lead to spurious local minima, dashing hopes of "local implies global" properties. However, these works fail to provide statements about generic datasets, and one can argue that their setups are limited to isolated pathological examples. In comparison, our Theorem 1 shows existence of spurious local minima for *almost all* datasets, a much more general result. Zhou & Liang also give characterization of critical points of shallow ReLU networks, but with more than one hidden node the characterization provided is limited to certain regions.
+
+There are also results that study population risk of shallow ReLU networks under an assumption that input data is i.i.d. Gaussian distributed. Moreover, these works also assume *realizability*, i.e., the output data is generated from a neural network with the same architecture as the model one trains, with unknown true parameters. These assumptions enable one to compute the population risk in a closed form, and ensure that one can always achieve zero loss at global minima. The authors of Safran & Shamir; Wu et al. study the population risk function of the form ${\mathbb{E}}_{x}{\lbrack{({{\sum_{i = 1}^{k}{\text{ReLU}{({w_{i}^{T}x})}}} - {\text{ReLU}{({v_{i}^{T}x})}}})}^{2}\rbrack}$, where the true parameters $v_{i}$'s are orthogonal unit vectors. Through extensive experiments and computer-assisted local minimality checks, Safran & Shamir show existence of local minima for $k \geq 6$. However, this result is empirical and does not have constructive proofs. Wu et al. show that with $k = 2$, there is no bad local minima on the manifold $\left\| w_{1} \right\|_{2} = \left\| w_{2} \right\|_{2} = 1$. Du et al. study population risk of one-hidden-layer CNN. They show that there can be a spurious local minimum, but gradient descent converges to the global minimum with probability at least 1/4.
+
+Our paper focuses on empirical risk instead of population risk, and *does not* assume either Gaussianity or realizability. Theorem 1 1's assumption on the dataset is that it is *not linearly fittable*^11^1That is, given input data matrices $X$ and $Y$, there is no matrix $R$ such that $Y = {RX}$., which is vastly more general and realistic than assuming that input data is Gaussian or that the output is generated from an unknown neural network. Our results also show that Wu et al. fails to extend to empirical risk and non-unit parameter vectors (see the discussion after Theorem 2).
+
+Liang et al. showed that under assumptions on the loss function, data distribution, network structure, and activation function, all local minima of the empirical loss have zero classification error in binary classification tasks. The result relies on stringent assumptions, and it is not directly comparable to ours because both "the local minimum has nonzero classification error" and "the local minima is spurious" do not imply one another. Liang et al. proved that adding a parallel network with one exponential hidden node can eliminate all bad local minima. The result relies on the special parallel structure, whereas we analyze standard fully connected network architecture.
+
+Laurent & Brecht studies one-hidden-layer networks with hinge loss for classification. Under linear separability, the authors prove that Leaky-ReLU networks don't have bad local minima, while ReLU networks do. Our focus is on regression, and we only make mild assumptions on data.
+
+For deep linear networks, the most relevant result to ours is Laurent & Brecht. When all hidden layers are wider than the input or output layers, Laurent & Brecht prove that any local minimum of a deep linear network under differentiable convex loss is global.^22^2Although their result overlaps with a subset of Theorem 4, our theorem was obtained independently. They prove this by showing a statement about relationship between linear vs. multilinear parametrization. Our result in Theorem 4 is *strictly* more general that their results, and presents a comprehensive characterization.
+
+A different body of literature considers sufficient conditions for global optimality in nonlinear networks. These results make certain architectural assumptions (and some technical restrictions) that may not usually apply to realistic networks. There are also other works on global optimality conditions for specially designed architectures.
+
+### Contributions and Summary of Results
+
+We summarize our key contributions more precisely below. Our work encompasses results for both nonlinear and linear neural networks. First, we study whether the "local minima are global" property holds for nonlinear networks. Unfortunately, our results here are negative. Specifically, we prove
+
+For piecewise linear and nonnegative homogeneous activation functions (e.g., ReLU), we prove in Theorem 1 that if linear models cannot perfectly fit the data, one can *construct* infinitely many local minima that are not global. In practice, most datasets are not linearly fittable, hence this result gives a constructive proof of spurious local minima for generic datasets. In contrast, several existing results either provide only one counterexample, or make restrictive assumptions of realizability or linear separability. This result is presented in Section 2.
+
+In Theorem 2 we tackle more general nonlinear activation functions, and provide a simple architecture (with squared loss) and dataset, for which there exists a local minimum inferior to the global minimum for a realizable dataset. Our analysis applies to a wide range of activations, including sigmoid, tanh, arctan, ELU, SELU, and ReLU. Considering that realizability of data simplifies the analysis and ensures zero loss at global optima, our counterexample that is realizable and yet has a spurious local minimum is surprising, suggesting that the situation is likely worse for non-realizable data. See Section 3 for details.
+
+We complement our negative results by presenting the following positive result on linear networks:
+
+Assume that the hidden layers are as wide as either the input or the output, and that the empirical risk $\ell{({(W_{j})}_{j = 1}^{H + 1})}$ equals $\ell_{0}{({W_{H + 1}W_{H}\cdotsW_{1}})}$, where $\ell_{0}$ is a differentiable loss function and $W_{i}$ is the weight matrix for layer $i$. Theorem 4 shows if ${({\hat{W}}_{j})}_{j = 1}^{H + 1}$ is a critical point of $\ell$, then its type of stationarity (local min/max, or saddle) is closely related to the behavior of $\ell_{0}$ evaluated at the product ${\hat{W}}_{H + 1}\cdots{\hat{W}}_{1}$. If we additionally assume that any critical point of $\ell_{0}$ is a global minimum, Corollary 5 shows that the empirical risk $\ell$ only has global minima and saddles, and provides a simple condition to distinguish between them. To the best of our knowledge, this is the most general result on deep linear networks and it subsumes several previous results, e.g.,. This result is in Section 4.
+
+### Notation
+
+For an integer $a \geq 1$, $\lbrack a\rbrack$ denotes the set of integers from $1$ to $a$ (inclusive). For a vector $v$, we use ${\lbrack v\rbrack}_{i}$ to denote its $i$-th component, while ${\lbrack v\rbrack}_{\lbrack i\rbrack}$ denotes a vector comprised of the first $i$ components of $v$. Let $\mathbf{1}_{( \cdot )}$ ($\mathbf{0}_{( \cdot )}$) be the all ones (zeros) column vector or matrix with size $( \cdot )$.
+
+## "ReLU-like" networks: bad local minima exist for most data
+
+We study below whether nonlinear neural networks provably have spurious local minima. We show in §2 and §3 that even for extremely simple nonlinear networks, one encounters spurious local minima. We first consider ReLU and ReLU-like networks. Here, we prove that as long as linear models cannot perfectly fit the data, there exists a local minimum strictly inferior to the global one. Using nonnegative homogeneity, we can scale the parameters to get infinitely many local minima.
+
+Consider a training dataset that consists of $m$ data points. The inputs and the outputs are of dimension $d_{x}$ and $d_{y}$, respectively. We aggregate these items, and write $X \in {\mathbb{R}}^{d_{x} \times m}$ as the data matrix and $Y \in {\mathbb{R}}^{d_{y} \times m}$ as the label matrix. Consider the 1-hidden-layer neural network $\hat{Y} = {{W_{2}h{({{W_{1}X} + {b_{1}\mathbf{1}_{m}^{T}}})}} + {b_{2}\mathbf{1}_{m}^{T}}}$, where $h$ is a nonlinear activation function, $W_{2} \in {\mathbb{R}}^{d_{y} \times d_{1}}$, $b_{2} \in {\mathbb{R}}^{d_{y}}$, $W_{1} \in {\mathbb{R}}^{d_{1} \times d_{x}}$, and $b_{1} \in {\mathbb{R}}^{d_{1}}$. We analyze the empirical risk with squared loss
+
+Next, define a class of piecewise linear nonnegative homogeneous functions
+
+where ${s_{+} > 0},{s_{-} \geq 0}$ and $s_{+} \neq s_{-}$. Note that ReLU and Leaky-ReLU are members of this class.
+
+### Main results and discussion
+
+We use the shorthand $\overset{\sim}{X}:=\begin{bmatrix}
+\end{bmatrix}^{T} \in {\mathbb{R}}^{{({d_{x} + 1})} \times m}$. The main result of this section, Theorem 1, considers the case where linear models cannot fit $Y$, i.e., $Y \neq {R\overset{\sim}{X}}$ for all matrix $R$. With ReLU-like activation and a few mild assumptions, Theorem 1 shows that there exist spurious local minima.
+
+### Theorem 1
+
+Suppose that the following conditions hold:
+
+Output dimension is $d_{y} = 1$, and linear models $R\overset{\sim}{X}$ cannot perfectly fit $Y$.
+
+All the data points $x_{i}$'s are distinct.
+
+The activation function $h$ is ${\overline{h}}_{s_{+},s_{-}}$.
+
+The hidden layer has at least width 2: $d_{1} \geq 2$.
+
+Then, there is a spurious local minimum whose risk is the same as linear least squares model. Moreover, due to nonnegative homogeneity of ${\overline{h}}_{s_{+},s_{-}}$, there are infinitely many such local minima.
+
+Noticing that most real world datasets cannot be perfectly fit with linear models, Theorem 1 shows that when we use the activation ${\overline{h}}_{s_{+},s_{-}}$, the empirical risk has bad local minima for *almost all* datasets that one may encounter in practice. Although it is not very surprising that neural networks have spurious local minima, proving this rigorously is non-trivial. We provide a constructive and deterministic proof for this problem that holds for general datasets, which is in contrast to experimental results of Safran & Shamir. We emphasize that Theorem 1 also holds even for "slightest" nonlinearities, e.g., when $s_{+} = {1 + \epsilon}$ and $s_{-} = 1$ where $\epsilon > 0$ is small. This suggests that the "local min is global" property is limited to the simplified setting of *linear* neural networks.
+
+Existing results on squared error loss either provide one counterexample, or assume realizability and Gaussian input. Realizability is an assumption that the output is generated by a network with unknown parameters. In real datasets, neither input is Gaussian nor output is generated by neural networks; in contrast, our result holds for most realistic situations, and hence delivers useful insight.
+
+There are several results proving sufficient conditions for global optimality of nonlinear neural networks. But they rely on assumptions that the network width scales with the number of data points. For instance, applying Theorem 3.4 of Nguyen & Hein to our network proves that if $\overset{\sim}{X}$ has linearly independent columns and other assumptions hold, then any critical point with $W_{2} \neq 0$ is a global minimum. However, linearly independent columns already imply ${\operatorname{row}{(\overset{\sim}{X})}} = {\mathbb{R}}^{m}$, so even linear models $R\overset{\sim}{X}$ can fit any $Y$; i.e., there is less merit in using a complex model to fit $Y$. Theorem 1 does not make any structural assumption other than $d_{1} \geq 2$, and addresses the case where it is *impossible* to fit $Y$ with linear models, which is much more realistic.
+
+It is worth comparing our result with Laurent & Brecht, who use hinge loss based classification and assume linear separability to prove "no spurious local minima" for Leaky-ReLU networks. Their result does not contradict our theorem because the losses are different and we do not assume linear separability.
+
+One might wonder if our theorem holds even with $d_{1} \geq m$. Venturi et al. showed that one-hidden-layer neural networks with $d_{1} \geq m$ doesn't have spurious valleys, hence there is no *strict* spurious local minima; however, due to nonnegative homogeneity of ${\overline{h}}_{s_{+},s_{-}}$ we only have non-strict local minima. Based on Bengio et al., one might claim that with wide enough hidden layer and random $W_{1}$ and $b_{1}$, one can fit any $Y$; however, this is not the case, by our assumption that linear models $R\overset{\sim}{X}$ cannot fit $Y$. Note that for any $d_{1}$, there is a non-trivial region (measure $> 0$) in the parameter space where ${{W_{1}X} + {b_{1}\mathbf{1}_{m}^{T}}} > \mathbf{0}$ (entry-wise). In this region, the output of neural network $\hat{Y}$ is still a linear combination of rows of $\overset{\sim}{X}$, so $\hat{Y}$ cannot fit $Y$; in fact, it can only do as well as linear models. We will see in the Step 1 of Section 2.2 that the bad local minimum that we construct "kills" $d_{1} - 1$ neurons; however, killing many neurons is not a necessity, and it is just to simply the exposition. In fact, any local minimum in the region ${{W_{1}X} + {b_{1}\mathbf{1}_{m}^{T}}} > \mathbf{0}$ is a spurious local minimum.
+
+### Analysis of Theorem 1
+
+The proof of the theorem is split into two steps. First, we prove that there exist local minima ${({\hat{W}}_{j},{\hat{b}}_{j})}_{j = 1}^{2}$ whose risk value is the same as the linear least squares solution, and that there are infinitely many such minima. Second, we will construct a tuple of parameters ${({\overset{\sim}{W}}_{j},{\overset{\sim}{b}}_{j})}_{j = 1}^{2}$ that has strictly smaller empirical risk than ${({\hat{W}}_{j},{\hat{b}}_{j})}_{j = 1}^{2}$.
+
+Step 1: A local minimum as good as the linear solution. The main idea here is to exploit the weights from the linear least squares solution, and to tune the parameters so that all inputs to hidden nodes become positive. Doing so makes the hidden nodes "locally linear," so that the constructed ${({\hat{W}}_{j},{\hat{b}}_{j})}_{j = 1}^{2}$ that produce linear least squares estimates at the output become locally optimal.
+
+Recall that $\overset{\sim}{X} = \begin{bmatrix}
+\end{bmatrix}^{T} \in {\mathbb{R}}^{{({d_{x} + 1})} \times m}$, and define a linear least squares loss ${\ell_{0}{(R)}}:={\frac{1}{2}{\|{{R\overset{\sim}{X}} - Y}\|}_{F}^{2}}$ that is minimized at $\overline{W}$, so that ${{\nabla\ell_{0}}{(\overline{W})}} = {{({{\overline{W}\overset{\sim}{X}} - Y})}{\overset{\sim}{X}}^{T}} = 0$. Since $d_{y} = 1$, the solution $\overline{W} \in {\mathbb{R}}^{d_{y} \times {({d_{x} + 1})}}$ is a row vector. For all $i \in {\lbrack m\rbrack}$, let ${\overline{y}}_{i} = {\overline{W}\begin{bmatrix}
+\end{bmatrix}^{T}}$ be the output of the linear least squares model, and similarly $\overline{Y} = {\overline{W}\overset{\sim}{X}}$.
+
+Let $\eta:={\min\left\{ {- 1},{2{\min_{i}{\overline{y}}_{i}}} \right\}}$, a negative constant making ${{\overline{y}}_{i} - \eta} > 0$ for all $i$. Define parameters
+
+where $\alpha > 0$ is any arbitrary fixed positive constant, ${\lbrack\overline{W}\rbrack}_{\lbrack d_{x}\rbrack}$ gives the first $d_{x}$ components of $\overline{W}$, and ${\lbrack\overline{W}\rbrack}_{d_{x} + 1}$ the last component. Since ${\overline{y}}_{i} = {{{\lbrack\overline{W}\rbrack}_{\lbrack d_{x}\rbrack}x_{i}} + {\lbrack\overline{W}\rbrack}_{d_{x} + 1}}$, for any $i$, ${{{\hat{W}}_{1}x_{i}} + {\hat{b}}_{1}} > \mathbf{0}_{d_{1}}$ (component-wise), given our choice of $\eta$. Thus, all hidden node inputs are positive. Moreover, $\hat{Y} = {{\frac{1}{\alphas_{+}}s_{+}{({{\alpha\overline{Y}} - {\alpha\eta\mathbf{1}_{m}^{T}}})}} + {\eta\mathbf{1}_{m}^{T}}} = \overline{Y}$, so that the loss ${\ell{({({\hat{W}}_{j},{\hat{b}}_{j})}_{j = 1}^{2})}} = {\frac{1}{2}{\|{\overline{Y} - Y}\|}_{F}^{2}} = {\ell_{0}{(\overline{W})}}$.
+
+So far, we checked that ${({\hat{W}}_{j},{\hat{b}}_{j})}_{j = 1}^{2}$ has the same empirical risk as a linear least squares solution. It now remains to show that this point is indeed a local minimum of $\ell$. To that end, we consider the perturbed parameters ${({{\hat{W}}_{j} + \Delta_{j}},{{\hat{b}}_{j} + \delta_{j}})}_{j = 1}^{2}$, and check their risk is always larger. A useful point is that since $\overline{W}$ is a minimum of ${\ell_{0}{(R)}} = {\frac{1}{2}{\|{{R\overset{\sim}{X}} - Y}\|}_{F}^{2}}$, we have
+
+so ${{({\overline{Y} - Y})}X^{T}} = 0$ and ${{({\overline{Y} - Y})}\mathbf{1}_{m}} = 0$. For small enough perturbations, ${{{({{\hat{W}}_{1} + \Delta_{1}})}x_{i}} + {({{\hat{b}}_{1} + \delta_{1}})}} > 0$ still holds for all $i$. So, we can observe that
+
+where $\overset{\sim}{\Delta}$ and $\overset{\sim}{\delta}$ are $\overset{\sim}{\Delta}:={s_{+}{({{{\hat{W}}_{2}\Delta_{1}} + {\Delta_{2}{\hat{W}}_{1}} + {\Delta_{2}\Delta_{1}}})}}$ and $\overset{\sim}{\delta}:={{s_{+}{({{{\hat{W}}_{2}\delta_{1}} + {\Delta_{2}{\hat{b}}_{1}} + {\Delta_{2}\delta_{1}}})}} + \delta_{2}}$; they are aggregated perturbation terms. We used to obtain the last equality of. Thus, ${\ell{({({{\hat{W}}_{j} + \Delta_{j}},{{\hat{b}}_{j} + \delta_{j}})}_{j = 1}^{2})}} \geq {\ell{({({\hat{W}}_{j},{\hat{b}}_{j})}_{j = 1}^{2})}}$ for small perturbations, proving ${({\hat{W}}_{j},{\hat{b}}_{j})}_{j = 1}^{2}$ is indeed a local minimum of $\ell$. Since this is true for arbitrary $\alpha > 0$, there are infinitely many such local minima. We can also construct similar local minima by permuting hidden nodes, etc.
+
+### Step 2: A point strictly better than the local minimum
+
+The proof of this step is more involved. In the previous step, we "pushed" all the input to the hidden nodes to positive side, and took advantage of "local linearity" of the hidden nodes near ${({\hat{W}}_{j},{\hat{b}}_{j})}_{j = 1}^{2}$. But to construct parameters ${({\overset{\sim}{W}}_{j},{\overset{\sim}{b}}_{j})}_{j = 1}^{2}$ that have strictly smaller risk than ${({\hat{W}}_{j},{\hat{b}}_{j})}_{j = 1}^{2}$ (to prove that ${({\hat{W}}_{j},{\hat{b}}_{j})}_{j = 1}^{2}$ is a spurious local minimum), we make the sign of inputs to the hidden nodes different depending on data.
+
+To this end, we sort the indices of data points in increasing order of ${\overline{y}}_{i}$; i.e., ${\overline{y}}_{1} \leq {\overline{y}}_{2} \leq \cdots \leq {\overline{y}}_{m}$. Define the set $\mathcal{J}:={\{{j \in {\lbrack{m - 1}\rbrack}}\mid{{{\sum_{i \leq j}{({{\overline{y}}_{i} - y_{i}})}} \neq 0},{{\overline{y}}_{j} < {\overline{y}}_{j + 1}}}\}}$. The remaining construction is divided into two cases: $\mathcal{J} \neq \varnothing$ and $\mathcal{J} = \varnothing$, whose main ideas are essentially the same. We present the proof for $\mathcal{J} \neq \varnothing$, and defer the other case to Appendix A2 as it is rarer, and its proof, while instructive for its perturbation argument, is technically too involved.
+
+Case 1: $\mathcal{J} \neq \varnothing$. Pick any $j_{0} \in \mathcal{J}$. We can observe that ${\sum_{i \leq j_{0}}{({{\overline{y}}_{i} - y_{i}})}} = {- {\sum_{i > j_{0}}{({{\overline{y}}_{i} - y_{i}})}}}$, because of. Define $\beta = \frac{{\overline{y}}_{j_{0}} + {\overline{y}}_{j_{0} + 1}}{2}$, so that ${{\overline{y}}_{i} - \beta} < 0$ for all $i \leq j_{0}$ and ${{\overline{y}}_{i} - \beta} > 0$ for all $i > j_{0}$. Then, let $\gamma$ be a constant satisfying $0 < {|\gamma|} \leq \frac{{\overline{y}}_{j_{0} + 1} - {\overline{y}}_{j_{0}}}{4}$, whose value will be specified later. Since $|\gamma|$ is small enough, ${\operatorname{sign}{({{\overline{y}}_{i} - \beta})}} = {\operatorname{sign}{({{{\overline{y}}_{i} - \beta} + \gamma})}} = {\operatorname{sign}{({{\overline{y}}_{i} - \beta - \gamma})}}$. Now select parameters
+
+Recall again that ${{{\lbrack\overline{W}\rbrack}_{\lbrack d_{x}\rbrack}x_{i}} + {\lbrack\overline{W}\rbrack}_{d_{x} + 1}} = {\overline{y}}_{i}$. For $i \leq j_{0}$, ${{{\overline{y}}_{i} - \beta} + \gamma} < 0$ and ${{- {\overline{y}}_{i}} + \beta + \gamma} > 0$, so
+
+Similarly, for $i > j_{0}$, ${{{\overline{y}}_{i} - \beta} + \gamma} > 0$ and ${{- {\overline{y}}_{i}} + \beta + \gamma} < 0$ results in ${\hat{y}}_{i} = {{\overline{y}}_{i} + {\frac{s_{+} - s_{-}}{s_{+} + s_{-}}\gamma}}$. Here, we push the outputs ${\hat{y}}_{i}$ of the network by $\frac{s_{+} - s_{-}}{s_{+} + s_{-}}\gamma$ from ${\overline{y}}_{i}$, and the direction of the "push" varies depending on whether $i \leq j_{0}$ or $i > j_{0}$.
+
+The empirical risk for this choice of parameters is
+
+Since ${\sum_{i \leq j_{0}}{({{\overline{y}}_{i} - y_{i}})}} \neq 0$ and $s_{+} \neq s_{-}$, we can choose ${\operatorname{sign}{(\gamma)}} = {\operatorname{sign}{({{\lbrack{\sum_{i \leq j_{0}}{({{\overline{y}}_{i} - y_{i}})}}\rbrack}{({s_{+} - s_{-}})}})}}$, and choose small $|\gamma|$ so that ${\ell{({({\overset{\sim}{W}}_{j},{\overset{\sim}{b}}_{j})}_{j = 1}^{2})}} < {\ell_{0}{(\overline{W})}} = {\ell{({({\hat{W}}_{j},{\hat{b}}_{j})}_{j = 1}^{2})}}$, proving that ${({\hat{W}}_{j},{\hat{b}}_{j})}_{j = 1}^{2}$ is a spurious local minimum.
+
+## Counterexample: bad local minima for many activations
+
+The proof of Theorem 1 crucially exploits the piecewise linearity of the activation functions. Thus, one may wonder whether the spurious local minima seen there are an artifact of the specific nonlinearity. We show below that this is *not* the case. We provide a counterexample nonlinear network and a dataset for which a wide range of nonlinear activations result in a local minimum that is strictly inferior to the global minimum with exactly zero empirical risk. Examples of such activation functions include popular activation functions such as sigmoid, tanh, arctan, ELU, SELU, and ReLU.
+
+We consider again the squared error empirical risk of a one-hidden-layer nonlinear neural network:
+
+where we fix $d_{x} = d_{1} = 2$ and $d_{y} = 1$. Also, let $h^{(k)}{(x)}$ be the $k$-th derivative of $h:{{\mathbb{R}}\mapsto{\mathbb{R}}}$, whenever it exists at $x$. For short, let $h^{\prime}$ and $h^{\operatorname{\prime\prime}}$ denote the first and second derivatives.
+
+### Main results and discussion
+
+### Theorem 2
+
+Let the loss $\ell{({(W_{j},b_{j})}_{j = 1}^{2})}$ and network be as defined above. Consider the dataset
+
+For this network and dataset the following results hold:
+
+If there exist real numbers ${v_{1},v_{2},v_{3},v_{4}} \in {\mathbb{R}}$ such that
+
+${h{(v_{1})}h\left( \frac{v_{3} + v_{4}}{2} \right)} \neq {h{(v_{3})}h\left( \frac{v_{1} + v_{2}}{2} \right)}$,
+
+then there is a tuple ${({\overset{\sim}{W}}_{j},{\overset{\sim}{b}}_{j})}_{j = 1}^{2}$ at which $\ell$ equals $0$.
+
+If there exist real numbers ${v_{1},v_{2},u_{1},u_{2}} \in {\mathbb{R}}$ such that the following conditions hold:
+
+$h$ is infinitely differentiable at $v_{1}$ and $v_{2}$,
+
+there exists a constant $c > 0$ such that ${|{h^{(n)}{(v_{1})}}|} \leq {c^{n}{n!}}$ and ${|{h^{(n)}{(v_{2})}}|} \leq {c^{n}{n!}}$.
+
+${{({u_{1}h^{\prime}{(v_{1})}})}^{2} + \frac{u_{1}h^{\operatorname{\prime\prime}}{(v_{1})}}{3}} > 0$,
+
+then there exists a tuple ${({\hat{W}}_{j},{\hat{b}}_{j})}_{j = 1}^{2}$ such that the output of the network is the same as the linear least squares model, the risk ${\ell{({({\hat{W}}_{j},{\hat{b}}_{j})}_{j = 1}^{2})}} = \frac{1}{3}$, and ${({\hat{W}}_{j},{\hat{b}}_{j})}_{j = 1}^{2}$ is a local minimum of $\ell$.
+
+Theorem 2 shows that for this architecture and dataset, activations that satisfy (C2.1)--(C2.7) introduce at least one spurious local minimum. Notice that the empirical risk is zero at the global minimum. This means that the data $X$ and $Y$ can actually be "generated" by the network, which satisfies the realizability assumption that others use. Notice that our counterexample is "easy to fit," and yet, there exists a local minimum that is not global. This leads us to conjecture that with harder datasets, the problems with spurious local minima could be worse. The proof of Theorem 2 can be found in Appendix A3.
+
+Discussion. Note that the conditions (C2.1)--(C2.7) only require *existence* of certain real numbers rather than some *global* properties of activation $h$, hence are not as restrictive as they look. Conditions (C2.1)--(C2.2) come from a choice of tuple ${({\overset{\sim}{W}}_{j},{\overset{\sim}{b}}_{j})}_{j = 1}^{2}$ that perfectly fits the data. Condition (C2.3) is necessary for constructing ${({\hat{W}}_{j},{\hat{b}}_{j})}_{j = 1}^{2}$ with the same output as the linear least squares model, and Conditions (C2.4)--(C2.7) are needed for showing local minimality of ${({\hat{W}}_{j},{\hat{b}}_{j})}_{j = 1}^{2}$ via Taylor expansions. The class of functions that satisfy conditions (C2.1)--(C2.7) is quite large, and includes the nonlinear activation functions used in practice. The next corollary highlights this observation (for a proof with explicit choices of the involved real numbers, please see Appendix A5).
+
+### Corollary 3
+
+For the counterexample in Theorem 2, the set of activation functions satisfying conditions (C2.1)--(C2.7) include sigmoid, tanh, arctan, quadratic, ELU, and SELU.
+
+Admittedly, Theorem 2 and Corollary 3 give one counterexample instead of stating a claim about generic datasets. Nevertheless, this example shows that for many practical nonlinear activations, the desirable "local minimum is global" property cannot hold even for realizable datasets, suggesting that the situation could be worse for non-realizable ones.
+
+Remark: "ReLU-like" activation functions. Recall the piecewise linear nonnegative homogeneous activation function ${\overline{h}}_{s_{+},s_{-}}$. They do not satisfy condition (C2.7), so Theorem 2 cannot be directly applied. Also, if $s_{-} = 0$ (i.e., ReLU), conditions (C2.1)--(C2.2) are also violated. However, the statements of Theorem 2 hold even for ${\overline{h}}_{s_{+},s_{-}}$, which is shown in Appendix A6. Recalling again $s_{+} = {1 + \epsilon}$ and $s_{-} = 1$, this means that even with the "slightest" nonlinearity in activation function, the network has a global minimum with risk zero while there exists a bad local minimum that performs just as linear least squares models. In other words, "local minima are global" property is rather brittle and can only hold for linear neural networks. Another thing to note is that in Appendix A6, the bias parameters are all zero, for both ${({\overset{\sim}{W}}_{j},{\overset{\sim}{b}}_{j})}_{j = 1}^{2}$ and ${({\hat{W}}_{j},{\hat{b}}_{j})}_{j = 1}^{2}$. For models without bias parameters, ${({\hat{W}}_{j})}_{j = 1}^{2}$ is still a spurious local minimum, thus showing that Wu et al. fails to extend to empirical risks and non-unit weight vectors.
+
+## Global optimality in linear networks
+
+In this section we present our results on deep linear neural networks. Assuming that the hidden layers are at least as wide as either the input or output, we show that critical points of the loss with a multilinear parameterization inherit the type of critical points of the loss with a linear parameterization. As a corollary, we show that for differentiable losses whose critical points are globally optimal, deep linear networks have *only global minima or saddle points*. Furthermore, we provide an efficiently checkable condition for global minimality.
+
+Suppose the network has $H$ hidden layers having widths $d_{1},\ldots,d_{H}$. To ease notation, we set $d_{0} = d_{x}$ and $d_{H + 1} = d_{y}$. The weights between adjacent layers are kept in matrices $W_{j} \in {\mathbb{R}}^{d_{j} \times d_{j - 1}}$ ($j \in {\lbrack{H + 1}\rbrack}$), and the output $\hat{Y}$ of the network is given by the product of weight matrices with the data matrix: $\hat{Y} = {W_{H + 1}W_{H}\cdotsW_{1}X}$. Let ${(W_{j})}_{j = 1}^{H + 1}$ be the tuple of all weight matrices, and $W_{i:j}$ denote the product $W_{i}W_{i - 1}\cdotsW_{j + 1}W_{j}$ for $i \geq j$, and the identity for $i = {j - 1}$. We consider the empirical risk $\ell{({(W_{j})}_{j = 1}^{H + 1})}$, which, for linear networks assumes the form
+
+where $\ell_{0}$ is a suitable differentiable loss. For example, when ${\ell_{0}{(R)}} = {\frac{1}{2}{\|{{RX} - Y}\|}_{F}^{2}}$, ${\ell{({(W_{j})}_{j = 1}^{H + 1})}} = {\frac{1}{2}{\|{{W_{{H + 1}:1}X} - Y}\|}_{F}^{2}} = {\ell_{0}{(W_{{H + 1}:1})}}$. Lastly, we write ${{\nabla\ell_{0}}{(M)}} \equiv {{{\nabla_{R}\ell_{0}}{(R)}}|}_{R = M}$.
+
+Remark: bias terms. We omit the bias terms $b_{1},\ldots,b_{H + 1}$ here. This choice is for simplicity; models with bias can be handled by the usual trick of augmenting data and weight matrices.
+
+### Main results and discussion
+
+We are now ready to state our first main theorem, whose proof is deferred to Appendix A7.
+
+### Theorem 4
+
+Suppose that for all $j$, $d_{j} \geq {\min{\{ d_{x},d_{y}\}}}$, and that the loss $\ell$ is given by, where $\ell_{0}$ is differentiable on ${\mathbb{R}}^{d_{y} \times d_{x}}$. For any critical point ${({\hat{W}}_{j})}_{j = 1}^{H + 1}$ of the loss $\ell$, the following claims hold:
+
+If ${{\nabla\ell_{0}}{({\hat{W}}_{{H + 1}:1})}} \neq 0$, then ${({\hat{W}}_{j})}_{j = 1}^{H + 1}$ is a saddle of $\ell$.
+
+If ${{\nabla\ell_{0}}{({\hat{W}}_{{H + 1}:1})}} = 0$, then
+
+${({\hat{W}}_{j})}_{j = 1}^{H + 1}$ is a local min (max) of $\ell$ if ${\hat{W}}_{{H + 1}:1}$ is a local min (max) of $\ell_{0}$; moreover,
+
+${({\hat{W}}_{j})}_{j = 1}^{H + 1}$ is a global min (max) of $\ell$ if and only if ${\hat{W}}_{{H + 1}:1}$ is a global min (max) of $\ell_{0}$.
+
+If there exists $j^{\ast} \in {\lbrack{H + 1}\rbrack}$ such that ${\hat{W}}_{{H + 1}:{j^{\ast} + 1}}$ has full row rank and ${\hat{W}}_{{j^{\ast} - 1}:1}$ has full column rank, then ${{\nabla\ell_{0}}{({\hat{W}}_{{H + 1}:1})}} = 0$, so 2(a) and 2(b) hold. Also,
+
+${\hat{W}}_{{H + 1}:1}$ is a local min (max) of $\ell_{0}$ if ${({\hat{W}}_{j})}_{j = 1}^{H + 1}$ is a local min (max) of $\ell$.
+
+Let us paraphrase Theorem 4 in words. In particular, it states that if the hidden layers are "wide enough" so that the product $W_{{H + 1}:1}$ can attain full rank and if the loss $\ell$ assumes the form for a differentiable loss $\ell_{0}$, then the type (optimal or saddle point) of a critical point ${({\hat{W}}_{j})}_{j = 1}^{H + 1}$ of $\ell$ is governed by the behavior of $\ell_{0}$ at the product ${\hat{W}}_{{H + 1}:1}$.
+
+Note that for any critical point ${({\hat{W}}_{j})}_{j = 1}^{H + 1}$ of the loss $\ell$, either ${{\nabla\ell_{0}}{({\hat{W}}_{{H + 1}:1})}} \neq 0$ or ${{\nabla\ell_{0}}{({\hat{W}}_{{H + 1}:1})}} = 0$. Parts 1 and 2 handle these two cases. Also observe that the condition in Part 3 implies ${\nabla\ell_{0}} = 0$, so Part 3 is a refinement of Part 2. A notable fact is that a sufficient condition for Part 3 is ${\hat{W}}_{{H + 1}:1}$ having full rank. For example, if $d_{x} \geq d_{y}$, full-rank ${\hat{W}}_{{H + 1}:1}$ implies ${\operatorname{rank}{({\hat{W}}_{{H + 1}:2})}} = d_{y}$, whereby the condition in Part 3 holds with $j^{\ast} = 1$.
+
+If ${\hat{W}}_{{H + 1}:1}$ is not critical for $\ell_{0}$, then ${({\hat{W}}_{j})}_{j = 1}^{H + 1}$ must be a saddle point of $\ell$. If ${\hat{W}}_{{H + 1}:1}$ is a local min/max of $\ell_{0}$, ${({\hat{W}}_{j})}_{j = 1}^{H + 1}$ is also a local min/max of $\ell$. Notice, however, that Part 2(a) does not address the case of saddle points; when ${\hat{W}}_{{H + 1}:1}$ is a saddle point of $\ell_{0}$, the tuple ${({\hat{W}}_{j})}_{j = 1}^{H + 1}$ can behave arbitrarily. However, with the condition in Part 3, statements 2(a) and 3(a) hold at the same time, so that ${\hat{W}}_{{H + 1}:1}$ is a local min/max of $\ell_{0}$ *if and only if* ${({\hat{W}}_{j})}_{j = 1}^{H + 1}$ is a local min/max of $\ell$. Observe that the same "if and only if" statement holds for saddle points due to their definition; in summary, the types (min/max/saddle) of the critical points ${({\hat{W}}_{j})}_{j = 1}^{H + 1}$ and ${\hat{W}}_{{H + 1}:1}$ match exactly.
+
+Although Theorem 4 itself is of interest, the following corollary highlights its key implication for deep linear networks.
+
+### Corollary 5
+
+In addition to the assumptions in Theorem 4, assume that any critical point of $\ell_{0}$ is a global min (max). For any critical point ${({\hat{W}}_{j})}_{j = 1}^{H + 1}$ of $\ell$, if ${{\nabla\ell_{0}}{({\hat{W}}_{{H + 1}:1})}} \neq 0$, then ${({\hat{W}}_{j})}_{j = 1}^{H + 1}$ is a saddle of $\ell$, while if ${{\nabla\ell_{0}}{({\hat{W}}_{{H + 1}:1})}} = 0$, then ${({\hat{W}}_{j})}_{j = 1}^{H + 1}$ is a global min (max) of $\ell$.
+
+Proof If ${{\nabla\ell_{0}}{({\hat{W}}_{{H + 1}:1})}} \neq 0$, then ${\hat{W}}_{{H + 1}:1}$ is a saddle point by Theorem 4.1. If ${{\nabla\ell_{0}}{({\hat{W}}_{{H + 1}:1})}} = 0$, then ${\hat{W}}_{{H + 1}:1}$ is a global min (max) of $\ell_{0}$ by assumption. By Theorem 4.2(b), ${({\hat{W}}_{j})}_{j = 1}^{H + 1}$ must be a global min (max) of $\ell$. ∎
+
+Corollary 5 shows that for any differentiable loss function $\ell_{0}$ whose critical points are global minima, the loss $\ell$ has only global minima and saddle points, therefore satisfying the "local minima are global" property. In other words, for such an $\ell_{0}$, the multilinear re-parametrization introduced by deep linear networks *does not introduce any spurious local minima/maxima*; it only introduces saddle points. Importantly, Corollary 5 also provides a checkable condition that distinguishes global minima from saddle points. Since $\ell$ is nonconvex, it is remarkable that such a simple necessary and sufficient condition for global optimality is available.
+
+Our result generalizes previous works on linear networks such as Kawaguchi; Yun et al.; Zhou & Liang, because it provides conditions for global optimality for a broader range of loss functions without assumptions on datasets. Laurent & Brecht proved that if ${({\hat{W}}_{j})}_{j = 1}^{H + 1}$ is a local min of $\ell$, then ${\hat{W}}_{{H + 1}:1}$ is a critical point of $\ell_{0}$. First, observe that this result is implied by Theorem 4.1. So our result, which was proved in parallel and independently, is strictly more general. With additional assumption that critical points of $\ell_{0}$ are global minima, Laurent & Brecht showed that "local min is global" property holds for linear neural networks; our Corollay 5 gives a simple and efficient test condition as well as proving there are only global minima and saddles, which is clearly stronger.
+
+## Discussion and future work
+
+We investigated the loss surface of deep linear and nonlinear neural networks. We proved two theorems showing existence of spurious local minima on nonlinear networks, which apply to almost all datasets (Theorem 1) and a wide class of activations (Theorem 2). We concluded by Theorem 4, showing a general result studying the behavior of critical points in multilinearly parametrized functions, which unifies other existing results on linear neural networks. Given that spurious local minima are common in neural networks, a valuable future research direction will be investigating how far local minima are from global minima in general, and how the size of the network affects this gap. Another thing to note is that even though we showed the existence of spurious local minima in the *whole* parameter space, things can be different in restricted sets of parameter space (e.g., by adding regularizers). Understanding the loss surface in such sets would be valuable. Additionally, one can try to show algorithmic/trajectory results of (stochastic) gradient descent. We hope that our paper will be a stepping stone to such future research.

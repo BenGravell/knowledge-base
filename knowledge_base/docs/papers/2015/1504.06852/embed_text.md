@@ -1,0 +1,173 @@
+## Introduction
+
+Convolutional neural networks have become the method of choice in many fields of computer vision. They are classically applied to classification, but recently presented architectures also allow for per-pixel predictions like semantic segmentation or depth estimation from single images. In this paper, we propose training CNNs end-to-end to learn predicting the optical flow field from a pair of images.
+
+While optical flow estimation needs precise per-pixel localization, it also requires finding correspondences between two input images. This involves not only learning image feature representations, but also learning to match them at different locations in the two images. In this respect, optical flow estimation fundamentally differs from previous applications of CNNs.
+
+Figure 1: We present neural networks which learn to estimate optical flow, being trained end-to-end. The information is first spatially compressed in a contractive part of the network and then refined in an expanding part.
+
+Since it was not clear whether this task could be solved with a standard CNN architecture, we additionally developed an architecture with a correlation layer that explicitly provides matching capabilities. This architecture is trained end-to-end. The idea is to exploit the ability of convolutional networks to learn strong features at multiple levels of scale and abstraction and to help it with finding the actual correspondences based on these features. The layers on top of the correlation layer learn how to predict flow from these matches. Surprisingly, helping the network this way is not necessary and even the raw network can learn to predict optical flow with competitive accuracy.
+
+Training such a network to predict generic optical flow requires a sufficiently large training set. Although data augmentation does help, the existing optical flow datasets are still too small to train a network on par with state of the art. Getting optical flow ground truth for realistic video material is known to be extremely difficult. Trading in realism for quantity, we generate a synthetic Flying Chairs dataset which consists of random background images from Flickr on which we overlay segmented images of chairs from. These data have little in common with the real world, but we can generate arbitrary amounts of samples with custom properties. CNNs trained on just these data generalize surprisingly well to realistic datasets, even without fine-tuning.
+
+Leveraging an efficient GPU implementation of CNNs, our method is faster than most competitors. Our networks predict optical flow at up to $10$ image pairs per second on the full resolution of the Sintel dataset, achieving state-of-the-art accuracy among real-time methods.
+
+## Related Work
+
+### Optical Flow
+
+Variational approaches have dominated optical flow estimation since the work of Horn and Schunck. Many improvements have been introduced. The recent focus was on large displacements, and combinatorial matching has been integrated into the variational approach. The work of termed DeepMatching and DeepFlow is related to our work in that feature information is aggregated from fine to coarse using sparse convolutions and max-pooling. However, it does not perform any learning and all parameters are set manually. The successive work of termed EpicFlow has put even more emphasis on the quality of sparse matching as the matches from are merely interpolated to dense flow fields while respecting image boundaries. We only use a variational approach for optional refinement of the flow field predicted by the convolutional net and do not require any handcrafted methods for aggregation, matching and interpolation.
+
+Several authors have applied machine learning techniques to optical flow before. Sun *et al*. study statistics of optical flow and learn regularizers using Gaussian scale mixtures; Rosenbaum *et al*. model local statistics of optical flow with Gaussian mixture models. Black *et al*. compute principal components of a training set of flow fields. To predict optical flow they then estimate coefficients of a linear combination of these 'basis flows'. Other methods train classifiers to select among different inertial estimates or to obtain occlusion probabilities.
+
+There has been work on unsupervised learning of disparity or motion between frames of videos using neural network models. These methods typically use multiplicative interactions to model relations between a pair of images. Disparities and optical flow can then be inferred from the latent variables. Taylor *et al*. approach the task with factored gated restricted Boltzmann machines. Konda and Memisevic use a special autoencoder called 'synchrony autoencoder'. While these approaches work well in a controlled setup and learn features useful for activity recognition in videos, they are not competitive with classical methods on realistic videos.
+
+## Network Architectures
+
+Figure 2: The two network architectures: FlowNetSimple (top) and FlowNetCorr (bottom).
+
+### Convolutional Networks
+
+Convolutional neural networks trained with backpropagation have recently been shown to perform well on large-scale image classification by Krizhevsky *et al*.. This gave the beginning to a surge of works on applying CNNs to various computer vision tasks.
+
+While there has been no work on estimating optical flow with CNNs, there has been research on matching with neural networks. Fischer *et al*. extract feature representations from CNNs trained in supervised or unsupervised manner and match these features based on Euclidean distance. Zbontar and LeCun train a CNN with a Siamese architecture to predict similarity of image patches. A drastic difference of these methods to our approach is that they are patch based and leave the spatial aggregation to post-processing, whereas the networks in this paper directly predict complete flow fields.
+
+Recent applications of CNNs include semantic segmentation, depth prediction, keypoint prediction and edge detection. These tasks are similar to optical flow estimation in that they involve per-pixel predictions. Since our architectures are largely inspired by the recent progress in these per-pixel prediction tasks, we briefly review different approaches.
+
+The simplest solution is to apply a conventional CNN in a 'sliding window' fashion, hence computing a single prediction (e.g. class label) for each input image patch. This works well in many situations, but has drawbacks: high computational costs (even with optimized implementations involving re-usage of intermediate feature maps) and per-patch nature, disallowing to account for global output properties, for example sharp edges. Another simple approach is to upsample all feature maps to the desired full resolution and stack them together, resulting in a concatenated per-pixel feature vector that can be used to predict the value of interest.
+
+Eigen *et al*. refine a coarse depth map by training an additional network which gets as inputs the coarse prediction and the input image. Long *et al*. and Dosovitskiy *et al*. iteratively refine the coarse feature maps with the use of 'upconvolutional' layers ^11^1These layers are often named 'deconvolutional', although the operation they perform is technically convolution, not deconvolution. Our approach integrates ideas from both works. Unlike Long *et al*., we 'upconvolve' not just the coarse prediction, but the whole coarse feature maps, allowing to transfer more high-level information to the fine prediction. Unlike Dosovitskiy *et al*., we concatenate the 'upconvolution' results with the features from the 'contractive' part of the network.
+
+Convolutional neural networks are known to be very good at learning input--output relations given enough labeled data. We therefore take an end-to-end learning approach to predicting optical flow: given a dataset consisting of image pairs and ground truth flows, we train a network to predict the $x$--$y$ flow fields directly from the images. But what is a good architecture for this purpose?
+
+A simple choice is to stack both input images together and feed them through a rather generic network, allowing the network to decide itself how to process the image pair to extract the motion information. This is illustrated in Fig. 2 (top). We call this architecture consisting only of convolutional layers 'FlowNetSimple'.
+
+In principle, if this network is large enough, it could learn to predict optical flow. However, we can never be sure that a local gradient optimization like stochastic gradient descent can get the network to this point. Therefore, it could be beneficial to hand-design an architecture which is less generic, but may perform better with the given data and optimization techniques.
+
+A straightforward step is to create two separate, yet identical processing streams for the two images and to combine them at a later stage as shown in Fig. 2 (bottom). With this architecture the network is constrained to first produce meaningful representations of the two images separately and then combine them on a higher level. This roughly resembles the standard matching approach when one first extracts features from patches of both images and then compares those feature vectors. However, given feature representations of two images, how would the network find correspondences?
+
+To aid the network in this matching process, we introduce a 'correlation layer' that performs multiplicative patch comparisons between two feature maps. An illustration of the network architecture 'FlowNetCorr' containing this layer is shown in Fig. 2 (bottom). Given two multi-channel feature maps ${\mathbf{f}_{1},\mathbf{f}_{2}}:{{\mathbb{R}}^{2}\rightarrow{\mathbb{R}}^{c}}$, with $w$, $h$, and $c$ being their width, height and number of channels, our correlation layer lets the network compare each patch from $\mathbf{f}_{1}$ with each path from $\mathbf{f}_{2}$.
+
+For now we consider only a single comparison of two patches. The 'correlation' of two patches centered at $\mathbf{x}_{1}$ in the first map and $\mathbf{x}_{2}$ in the second map is then defined as
+
+for a square patch of size $K:={{2k} + 1}$. Note that Eq. 1 is identical to one step of a convolution in neural networks, but instead of convolving data with a filter, it convolves data with other data. For this reason, it has no trainable weights.
+
+Computing $c{(\mathbf{x}_{1},\mathbf{x}_{2})}$ involves $c \cdot K^{2}$ multiplications. Comparing all patch combinations involves $w^{2} \cdot h^{2}$ such computations, yields a large result and makes efficient forward and backward passes intractable. Thus, for computational reasons we limit the maximum displacement for comparisons and also introduce striding in both feature maps.
+
+Given a maximum displacement $d$, for each location $\mathbf{x}_{1}$ we compute correlations $c{(\mathbf{x}_{1},\mathbf{x}_{2})}$ only in a neighborhood of size $D:={{2d} + 1}$, by limiting the range of $\mathbf{x}_{2}$. We use strides $s_{1}$ and $s_{2}$, to quantize $\mathbf{x}_{1}$ globally and to quantize $\mathbf{x}_{2}$ within the neighborhood centered around $\mathbf{x}_{1}$.
+
+In theory, the result produced by the correlation is four-dimensional: for every combination of two 2D positions we obtain a correlation value, i.e. the scalar product of the two vectors which contain the values of the cropped patches respectively. In practice we organize the relative displacements in channels. This means we obtain an output of size $({w \times h \times D^{2}})$. For the backward pass we implemented the derivatives with respect to each bottom blob accordingly.
+
+Figure 3: Refinement of the coarse feature maps to the high resolution prediction.
+
+### Refinement
+
+CNNs are good at extracting high-level abstract features of images, by interleaving convolutional layers and pooling, i.e. spatially shrinking the feature maps. Pooling is necessary to make network training computationally feasible and, more fundamentally, to allow aggregation of information over large areas of the input images. However, pooling results in reduced resolution, so in order to provide dense per-pixel predictions we need a way to refine the coarse pooled representation.
+
+Our approach to this refinement is depicted in Figure 3. The main ingredient are 'upconvolutional' layers, consisting of unpooling (extending the feature maps, as opposed to pooling) and a convolution. Such layers have been used previously. To perform the refinement, we apply the 'upconvolution' to feature maps, and concatenate it with corresponding feature maps from the 'contractive' part of the network and an upsampled coarser flow prediction (if available). This way we preserve both the high-level information passed from coarser feature maps and fine local information provided in lower layer feature maps. Each step increases the resolution twice. We repeat this $4$ times, resulting in a predicted flow for which the resolution is still $4$ times smaller than the input.
+
+We discover that further refinement from this resolution does not significantly improve the results, compared to a computationally less expensive bilinear upsampling to full image resolution. The result of this bilinear upsampling is the final flow predicted by the network.
+
+In an alternative scheme, instead of bilinear upsampling we use the variational approach from without the matching term: we start at the $4$ times downsampled resolution and then use the coarse to fine scheme with $20$ iterations to bring the flow field to the full resolution. Finally, we run $5$ more iterations at the full image resolution. We additionally compute image boundaries with the approach from and respect the detected boundaries by replacing the smoothness coefficient by $\alpha = \exp{( - \lambda b{(x,y)}^{\kappa}}$), where $b{(x,y)}$ denotes the thin boundary strength resampled at the respective scale and between pixels. This upscaling method is more computationally expensive than simple bilinear upsampling, but adds the benefits of variational methods to obtain smooth and subpixel-accurate flow fields. In the following, we denote the results obtained by this variational refinement with a '+v' suffix. An example of variational refinement can be seen in Fig. 4.
+
+density per frame
+
+Table 1: Size of already available datasets and the proposed Flying Chairs dataset.
+
+Figure 4: The effect of variational refinement. In case of small motions (first row) the predicted flow is changed dramatically. For larger motions (second row), big errors are not corrected, but the flow field is smoothed, resulting in lower EPE.
+
+## Training Data
+
+Unlike traditional approaches, neural networks require data with ground truth not only for optimizing several parameters, but to learn to perform the task from scratch. In general, obtaining such ground truth is hard, because true pixel correspondences for real world scenes cannot easily be determined. An overview of the available datasets is given in Table 1.
+
+### Existing Datasets
+
+The Middlebury dataset contains only 8 image pairs for training, with ground truth flows generated using four different techniques. Displacements are very small, typically below $10$ pixels.
+
+The KITTI dataset is larger (194 training image pairs) and includes large displacements, but contains only a very special motion type. The ground truth is obtained from real world scenes by simultaneously recording the scenes with a camera and a 3D laser scanner. This assumes that the scene is rigid and that the motion stems from a moving observer. Moreover, motion of distant objects, such as the sky, cannot be captured, resulting in sparse optical flow ground truth.
+
+The MPI Sintel dataset obtains ground truth from rendered artificial scenes with special attention to realistic image properties. Two versions are provided: the Final version contains motion blur and atmospheric effects, such as fog, while the Clean version does not include these effects. Sintel is the largest dataset available (1,041 training image pairs for each version) and provides dense ground truth for small and large displacement magnitudes.
+
+Figure 5: Two examples from the Flying Chairs dataset. Generated image pair and color coded flow field (first three columns), augmented image pair and corresponding color coded flow field respectively (last three columns).
+
+### Flying Chairs
+
+The Sintel dataset is still too small to train large CNNs. To provide enough training data, we create a simple synthetic dataset, which we name Flying Chairs, by applying affine transformations to images collected from Flickr and a publicly available rendered set of 3D chair models. We retrieve $964$ images from Flickr^22^2Non-commercial public license. We use the code framework by Hays and Efros with a resolution of $1,{024 \times 768}$ from the categories 'city' ($321$), 'landscape' ($129$) and 'mountain' ($514$). We cut the images into 4 quadrants and use the resulting $512 \times 384$ image crops as background. As foreground objects we add images of multiple chairs from to the background. From the original dataset we remove very similar chairs, resulting in $809$ chair types and $62$ views per chair available. Examples are shown in Figure 5.
+
+To generate motion, we randomly sample affine transformation parameters for the background and the chairs. The chairs' transformations are relative to the background transformation, which can be interpreted as both the camera and the objects moving. Using the transformation parameters we render the second image, the optical flow and occlusion regions.
+
+All parameters for each image pair (number, types, sizes and initial positions of the chairs; transformation parameters) are randomly sampled. We adjust the random distributions of these parameters in such a way that the resulting displacement histogram is similar to the one from Sintel (details can be found in the supplementary material). Using this procedure, we generate a dataset with 22,872 image pairs and flow fields (we re-use each background image multiple times). Note that this size is chosen arbitrarily and could be larger in principle.
+
+### Data Augmentation
+
+A widely used strategy to improve generalization of neural networks is data augmentation. Even though the Flying Chairs dataset is fairly large, we find that using augmentations is crucial to avoid overfitting. We perform augmentation online during network training. The augmentations we use include geometric transformations: *translation*, *rotation* and *scaling*, as well as additive *Gaussian noise* and changes in *brightness*, *contrast*, *gamma*, and *color*. To be reasonably quick, all these operations are processed on the GPU. Some examples of augmentation are given in Fig. 5.
+
+As we want to increase not only the variety of images but also the variety of flow fields, we apply the same strong geometric transformation to both images of a pair, but additionally a smaller relative transformation between the two images. We adapt the flow field accordingly by applying the per-image augmentations to the flow field from either side.
+
+Specifically we sample *translation* from a the range $\lbrack{- {20\%}},{\, 20\%}\rbrack$ of the image width for $x$ and $y$; *rotation* from $\lbrack{- {17{^\circ}}},{\, 17{^\circ}}\rbrack$; *scaling* from $\lbrack 0.9,\, 2.0\rbrack$. The Gaussian *noise* has a sigma uniformly sampled from $\lbrack 0,\, 0.04\rbrack$; *contrast* is sampled within $\lbrack{- 0.8},\, 0.4\rbrack$; multiplicative color changes to the RGB channels per image from $\lbrack 0.5,\, 2\rbrack$; gamma values from $\lbrack 0.7,\, 1.5\rbrack$ and additive brightness changes using Gaussian with a sigma of $0.2$.
+
+## Experiments
+
+We report the results of our networks on the Sintel, KITTI and Middlebury datasets, as well as on our synthetic Flying Chairs dataset. We also experiment with fine-tuning of the networks on Sintel data and variational refinement of the predicted flow fields. Additionally, we report runtimes of our networks, in comparison to other methods.
+
+### Network and Training Details
+
+The exact architectures of the networks we train are shown in Fig. 2. Overall, we try to keep the architectures of different networks consistent: they have nine convolutional layers with stride of $2$ (the simplest form of pooling) in six of them and a ReLU nonlinearity after each layer. We do not have any fully connected layers, which allows the networks to take images of arbitrary size as input. Convolutional filter sizes decrease towards deeper layers of networks: $7 \times 7$ for the first layer, $5 \times 5$ for the following two layers and $3 \times 3$ starting from the fourth layer. The number of feature maps increases in the deeper layers, roughly doubling after each layer with a stride of $2$. For the correlation layer in FlowNetC we chose the parameters $k = 0$, $d = 20$, $s_{1} = 1$, $s_{2} = 2$. As training loss we use the endpoint error (EPE), which is the standard error measure for optical flow estimation. It is the Euclidean distance between the predicted flow vector and the ground truth, averaged over all pixels.
+
+For training CNNs we use a modified version of the caffe framework. We choose Adam as optimization method because for our task it shows faster convergence than standard stochastic gradient descent with momentum. We fix the parameters of Adam as recommended in: $\beta_{1} = 0.9$ and $\beta_{2} = 0.999$. Since, in a sense, every pixel is a training sample, we use fairly small mini-batches of $8$ image pairs. We start with learning rate $\lambda = {{1e} - 4}$ and then divide it by $2$ every $100$k iterations after the first $300$k. With FlowNetCorr we observe exploding gradients with $\lambda = {{1e} - 4}$. To tackle this problem, we start by training with a very low learning rate $\lambda = {{1e} - 6}$, slowly increase it to reach $\lambda = {{1e} - 4}$ after $10$k iterations and then follow the schedule just described.
+
+To monitor overfitting during training and fine-tuning, we split the Flying Chairs dataset into $22,232$ training and $640$ test samples and split the Sintel training set into $908$ training and $133$ validation pairs.
+
+We found that upscaling the input images during testing may improve the performance. Although the optimal scale depends on the specific dataset, we fixed the scale once for each network for all tasks. For FlowNetS we do not upscale, for FlowNetC we chose a factor of $1.25$.
+
+### Fine-tuning
+
+The used datasets are very different in terms of object types and motions they include. A standard solution is to fine-tune the networks on the target datasets. The KITTI dataset is small and only has sparse flow ground truth. Therefore, we choose to fine-tune on the Sintel training set. We use images from the Clean and Final versions of Sintel together and fine-tune using a low learning rate $\lambda = {{1e} - 6}$ for several thousand iterations. For best performance, after defining the optimal number of iterations using a validation set, we then fine-tune on the whole training set for the same number of iterations. In tables we denote fine-tuned networks with a '+ft' suffix.
+
+### Results
+
+Table 2 shows the endpoint error (EPE) of our networks and several well-performing methods on public datasets (Sintel, KITTI, Middlebury), as well as on our Flying Chairs dataset. Additionally we show runtimes of different methods on Sintel.
+
+The networks trained just on the non-realistic Flying Chairs perform very well on real optical flow datasets, beating for example the well-known LDOF method. After fine-tuning on Sintel our networks can outperform the competing real-time method EPPM on Sintel Final and KITTI while being twice as fast.
+
+Table 2: Average endpoint errors (in pixels) of our networks compared to several well-performing methods on different datasets. The numbers in parentheses are the results of the networks on data they were trained on, and hence are not directly comparable to other results.
+
+### Sintel
+
+From Table 2 one can see that FlowNetC is better than FlowNetS on Sintel Clean, while on Sintel Final the situation changes. On this difficult dataset, FlowNetS+ft+v is even on par with DeepFlow. Since the average endpoint error often favors over-smoothed solutions, it is interesting to see qualitative results of our method. Figure 7 shows examples of the raw optical flow predicted by the two FlowNets (without fine-tuning), compared to ground truth and EpicFlow. The figure shows how the nets often produce visually appealing results, but are still worse in terms of endpoint error. Taking a closer look reveals that one reason for this may be the noisy non-smooth output of the nets especially in large smooth background regions. This we can partially compensate with variational refinement.
+
+### KITTI
+
+The KITTI dataset contains strong projective transformations which are very different from what the networks encountered during training on Flying Chairs. Still, the raw network output is already fairly good, and additional fine-tuning and variational refinement give a further boost. Interestingly, fine-tuning on Sintel improves the results on KITTI, probably because the images and motions in Sintel are more natural than in Flying Chairs. The FlowNetS outperforms FlowNetC on this dataset.
+
+### Flying Chairs
+
+Our networks are trained on the Flying Chairs, and hence are expected to perform best on those. When training, we leave aside a test set consisting of $640$ images. Table 2 shows the results of various methods on this test set, some example predictions are shown in Fig. 6. One can see that FlowNetC outperforms FlowNetS and that the nets outperform all state-of-the-art methods. Another interesting finding is that this is the only dataset where the variational refinement does not improve performance but makes things worse. Apparently the networks can do better than variational refinement already. This indicates that with a more realistic training set, the networks might also perform even better on other data.
+
+Figure 6: Examples of optical flow prediction on the Flying Chairs dataset. The images include fine details and small objects with large displacements which EpicFlow often fails to find. The networks are much more successful.
+
+Figure 7: Examples of optical flow prediction on the Sintel dataset. In each row left to right: overlaid image pair, ground truth flow and 3 predictions: EpicFlow, FlowNetS and FlowNetC. Endpoint error is shown for every frame. Note that even though the EPE of FlowNets is usually worse than that of EpicFlow, the networks often better preserve fine details.
+
+### Timings
+
+In Table 2 we show the per-frame runtimes of different methods in seconds. Unfortunately, many methods only provide the runtime on a single CPU, whereas our FlowNet uses layers only implemented on GPU. While the error rates of the networks are below the state of the art, they are the best among real-time methods. For both training and testing of the networks we use an *NVIDIA GTX Titan* GPU. The CPU timings of DeepFlow and EpicFlow are taken from, while the timing of LDOF was computed on a single 2.66GHz core.
+
+### Analysis
+
+### Training data
+
+To check if we benefit from using the Flying Chairs dataset instead of Sintel, we trained a network just on Sintel, leaving aside a validation set to control the performance. Thanks to aggressive data augmentation, even Sintel alone is enough to learn optical flow fairly well. When testing on Sintel, the network trained exclusively on Sintel has EPE roughly $1$ pixel higher than the net trained on Flying Chairs and fine-tuned on Sintel.
+
+The Flying Chairs dataset is fairly large, so is data augmentation still necessary? The answer is positive: training a network without data augmentation on the Flying Chairs results in an EPE increase of roughly $2$ pixels when testing on Sintel.
+
+### Comparing the architectures
+
+The results in Table 2 allow to draw conclusions about strengths and weaknesses of the two architectures we tested.
+
+First, FlowNetS generalizes to Sintel Final better than FlowNetC. On the other hand, FlowNetC outperforms FlowNetS on Flying chairs and Sintel Clean. Note that Flying Chairs do not include motion blur or fog, as in Sintel Final. These results together suggest that even though the number of parameters of the two networks is virtually the same, the FlowNetC slightly more overfits to the training data. This does not mean the network remembers the training samples by heart, but it adapts to the kind of data it is presented during training. Though in our current setup this can be seen as a weakness, if better training data were available it could become an advantage.
+
+Second, FlowNetC seems to have more problems with large displacements. This can be seen from the results on KITTI discussed above, and also from detailed performance analysis on Sintel Final (not shown in the tables). FlowNetS+ft achieves an s40+ error (EPE on pixels with displacements of at least 40 pixels) of $43.3$px, and for FlowNetC+ft this value is $48$px. One explanation is that the maximum displacement of the correlation does not allow to predict very large motions. This range can be increased at the cost of computational efficiency.
+
+## Conclusion
+
+Building on recent progress in design of convolutional network architectures, we have shown that it is possible to train a network to directly predict optical flow from two input images. Intriguingly, the training data need not be realistic. The artificial Flying Chairs dataset including just affine motions of synthetic rigid objects is sufficient to predict optical flow in natural scenes with competitive accuracy. This proves the generalization capabilities of the presented networks. On the test set of the Flying Chairs the CNNs even outperform state-of-the-art methods like DeepFlow and EpicFlow. It will be interesting to see how future networks perform as more realistic training data becomes available.

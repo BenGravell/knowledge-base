@@ -1,0 +1,360 @@
+## Introduction
+
+Consider a function $f:{{\mathbb{R}}^{n}\rightarrow{\mathbb{R}}}$ that is $\beta$-smooth and $\alpha$-strongly convex. Thus each point $x$ yields a quadratic upper estimator and a quadratic lower estimator of the function. Namely, inequalities ${q{(y;x)}} \leq {f{(y)}} \leq {Q{(y;x)}}$ hold for all ${x,y} \in {\mathbb{R}}^{n}$, where we set
+
+Classically, one step of the steepest descent algorithm decreases the squared distance of the iterate to the minimizer of $f$ by the fraction $1 - {\alpha/\beta}$. This linear convergence rate is suboptimal from a computational complexity viewpoint. Optimal first-order methods, originating in Nesterov's work achieve the superior (and the best possible) linear rate $1 - \sqrt{\alpha/\beta}$; see also the discussion in \[10, Section 2.2\]. Such accelerated schemes, on the other hand, are notoriously difficult to analyze. Numerous recent papers (e.g. ) have aimed to shed new light on optimal algorithms.
+
+This manuscript is motivated by the novel geometric descent algorithm of Bubeck, Lee, and Singh. Their scheme is highly geometric, sharing some aspects with the ellipsoid method, and it achieves the optimal linear rate of convergence. Moreover, the geometric descent algorithm often has much better practical performance than accelerated gradient methods; see the discussion in. Motivated by their work, in this paper we propose an intuitive method that maintains a quadratic lower model of the objective function, whose minimal value converges to the true minimum at an optimal linear rate. We will show that the two methods are indeed equivalent in the sense that they produce the same iterate sequence. The quadratic averaging viewpoint, however, has important advantages. First, it immediately yields a comparison with the original accelerated gradient method and cutting plane techniques. Secondly, quadratic averaging motivates a simple strategy for significantly accelerating the method in practice by utilizing accumulated information -- a limited memory version of the scheme.
+
+The outline of the paper is as follows. In Section 2, we describe the optimal quadratic averaging framework (Algorithm 1) -- the focal point of the manuscript. In Section 3, we propose a limited memory version of Algorithm 1, based on iteratively solving small dimensional quadratic programs. In Section 4, we show that our Algorithm 1 and the geometric descent method of produce the same iterate sequence. Section 5 is devoted to numerical illustrations, in particular showing that the optimal quadratic averaging algorithm with memory can be competitive with L-BFGS. We finish the paper with Section 6, where we discuss the challenges that must be overcome in order to derive proximal extensions. In the final stages of revising this paper, a new manuscript appeared explaining how to overcome exactly these challenges.
+
+### Notation
+
+We follow the notation of. Given a point $x \in {\mathbb{R}}^{n}$, we define a *short step*
+
+and a *long step*
+
+Setting $y = x^{+}$ in the quadratic bound ${f{(y)}} \leq {Q{(y;x)}}$ yields the standard inequality
+
+We denote the unique minimizer of $f$ by $x^{\ast}$, its minimal value by $f^{\ast}$, and its condition number by $\kappa:={\beta/\alpha}$. Throughout, the symbol $B{(x,R^{2})}$ stands for the Euclidean ball of radius $R$ around $x$. For any points ${x,y} \in {\mathbb{R}}^{n}$, we let $\text{line\_search}(x,y)$ be the minimizer of $f$ on the line between $x$ and $y$.
+
+## Optimal quadratic averaging
+
+The starting point for our development is the elementary observation that every point $\overline{x}$ provides a quadratic under-estimator of the objective function, having a canonical form. Indeed, completing the square in the strong convexity inequality ${f{(x)}} \geq {q{(x;\overline{x})}}$ yields
+
+Suppose we have now available two quadratic lower-estimators:
+
+Clearly, the minimal values of $Q_{A}$ and of $Q_{B}$ lower-bound the minimal value of $f$. For any $\lambda \in {\lbrack 0,1\rbrack}$, the average $Q_{\lambda}:={{\lambdaQ_{A}} + {{({1 - \lambda})}Q_{B}}}$ is again a quadratic lower-estimator of $f$. Thus we are led to the question:
+
+What choice of $\lambda$ yields the tightest lower-bound on the minimal value of $f$?
+
+To answer this question, observe the equality
+
+In particular, the average $Q_{\lambda}$ has the same canonical form as $Q_{A}$ and $Q_{B}$. A quick computation now shows that $v_{\lambda}$ (the minimum of $Q_{\lambda}$) is maximized by setting
+
+With this choice of $\lambda$, we call the quadratic function $\overline{Q} = \overline{v} + \frac{\alpha}{2} \parallel \cdot - \overline{c} \parallel^{2}$ the optimal averaging of $Q_{A}$ and $Q_{B}$. See Figure 1 for an illustration.
+
+Figure 1: The optimal averaging of QA (x) = 1 + 0.5 (x+2)2 and QB (x) = 3 + 0.5 (x−4)2.
+
+An algorithmic idea emerges. Given a current iterate $x_{k}$, form the quadratic lower-model $Q{( \cdot )}$ in with $\overline{x} = x_{k}$. Then let $Q_{k}$ be the optimal averaging of $Q$ and the quadratic lower model $Q_{k - 1}$ from the previous step. Finally define $x_{k + 1}$ to be the minimizer of $Q_{k}$, and repeat. Though attractive, the scheme does not converge at an optimal rate. Indeed, this algorithm is closely related to the suboptimal method in; see Section 4.1 for a discussion. The main idea behind acceleration, natural in retrospect, is a separation of roles: one must maintain two sequences of points $x_{k}$ and $c_{k}$. The points $x_{k}$ will generate quadratic lower models as above, while $c_{k}$ will be the minimizers of the quadratics. We summarize the proposed method in Algorithm 1. The rule for determining the iterate $x_{k}$ by a line search is entirely motivated by the geometric descent method in.
+
+Input: Starting point x0 and strong convexity constant α &gt; 0.
+Output: Final quadratic ${Q_{K}{(x)}} = {v_{K} + {\frac{\alpha}{2}\left\| {x - c_{K}} \right\|^{2}}}$ and xK+.
+Set xk = line_search (ck − 1,xk − 1+);
+Set ${Q{(x)}} = {\left( {{f{(x_{k})}} - \frac{\left\| {{\nabla f}{(x_{k})}} \right\|^{2}}{2\alpha}} \right) + {\frac{\alpha}{2}\left\| {x - x_{k}^{+ +}} \right\|^{2}}}$;
+Let ${Q_{k}{(x)}} = {v_{k} + {\frac{\alpha}{2}{\|{x - c_{k}}\|}^{2}}}$ be the optimal averaging of Q and Qk − 1;
+
+Algorithm 1 Optimal Quadratic Averaging
+
+### Remark 2.1
+
+When implementing Algorithm 1, we set $x_{k}^{+} = {\text{line\_search}\left( x_{k},{x_{k} - {{\nabla f}{(x_{k})}}} \right)}$. This does not impact the analysis as $x_{k}^{+}$ still satisfies the key inequality. With this modification, the algorithm does not require $\beta$ as part of the input, and we have observed that the algorithm performs better numerically.
+
+To aid in the analysis of the scheme, we record the following easy observation.
+
+### Lemma 2.2
+
+Suppose that $\overline{Q} = \overline{v} + \frac{\alpha}{2} \parallel \cdot - \overline{c} \parallel^{2}$ is the optimal averaging of the quadratics $Q_{A} = v_{A} + \frac{\alpha}{2} \parallel \cdot - x_{A} \parallel^{2}$ and $Q_{B} = v_{B} + \frac{\alpha}{2} \parallel \cdot - x_{B} \parallel^{2}$. Then the quantity $\overline{v}$ is nondecreasing in both $v_{A}$ and $v_{B}$. Moreover, whenever the inequality ${|{v_{A} - v_{B}}|} \leq {\frac{\alpha}{2}{\|{x_{A} - x_{B}}\|}^{2}}$ holds, we have
+
+### Proof
+
+Define $\hat{\lambda}:={\frac{1}{2} + \frac{v_{A} - v_{B}}{\alpha\left\| {x_{A} - x_{B}} \right\|^{2}}}$. Notice that we have
+
+If $\hat{\lambda}$ lies in $\lbrack 0,1\rbrack$, equality $\overline{\lambda} = \hat{\lambda}$ holds, and then from we deduce
+
+If $\hat{\lambda}$ does not lie in $\lbrack 0,1\rbrack$, then an easy argument shows that $\overline{v}$ is linear in $v_{A}$ either with slope one or zero. If $\hat{\lambda}$ lies in $$, then we compute
+
+which is nonnegative because $\frac{|{v_{A} - v_{B}}|}{\alpha\left\| {x_{A} - x_{B}} \right\|^{2}} \leq \frac{1}{2}$. Since $\overline{v}$ is clearly continuous, it follows that $\overline{v}$ is nondecreasing in $v_{A}$, and by symmetry also in $v_{B}$. ∎
+
+We now show that Algorithm 1 achieves the optimal linear rate of convergence.
+
+### Theorem 2.3 (Convergence of optimal quadratic averaging)
+
+In Algorithm 1, for every index $k \geq 0$, the inequalities $v_{k} \leq f^{\ast} \leq {f{(x_{k}^{+})}}$ hold and we have
+
+### Proof
+
+Since in each iteration, the algorithm only averages quadratic minorants of $f$, the inequalities $v_{k} \leq f^{\ast} \leq {f{(x_{k}^{+})}}$ hold for every index $k$. Set $r_{0} = {\frac{2}{\alpha}{({{f{(x_{0}^{+})}} - v_{0}})}}$ and define the quantities $r_{k}:={\left( {1 - \frac{1}{\sqrt{\kappa}}} \right)^{k}r_{0}}$. We will show by induction that the inequality $v_{k} \geq {{f{(x_{k}^{+})}} - {\frac{\alpha}{2}r_{k}}}$ holds for all $k \geq 0$. The base case $k = 0$ is immediate, and so assume we have
+
+for some index $k - 1$. Next set $v_{A}:={{f{(x_{k})}} - \frac{\left\| {{\nabla f}{(x_{k})}} \right\|^{2}}{2\alpha}}$ and $v_{B}:=v_{k - 1}$. Then the function
+
+is the optimal averaging of ${Q_{A}{(x)}} = {v_{A} + {\frac{\alpha}{2}\left\| {x - x_{k}^{+ +}} \right\|^{2}}}$ and ${Q_{B}{(x)}} = {v_{B} + {\frac{\alpha}{2}\left\| {x - c_{k - 1}} \right\|^{2}}}$. An application of yields the lower bound ${\hat{v}}_{A}$ on $v_{A}$:
+
+The induction hypothesis and the choice of $x_{k}$ yield a lower bound ${\hat{v}}_{B}$ on $v_{B}$:
+
+Define the quantities $d:=\left\| {x_{k}^{+ +} - c_{k - 1}} \right\|$ and $h:=\frac{\left\| {{\nabla f}{(x_{k})}} \right\|}{\alpha}$. We now split the proof into two cases. First assume $h^{2} \leq \frac{r_{k - 1}}{2}$. Then we deduce
+
+where the third line follows since ${2/\sqrt{\kappa}} \leq {1 + {1/\kappa}}$ holds. Hence in this case, the proof is complete.
+
+Next suppose $h^{2} > \frac{r_{k - 1}}{2}$ and let $v + \frac{\alpha}{2} \parallel \cdot - c \parallel^{2}$ be the optimal average of the two quadratics ${\hat{v}}_{A} + \frac{\alpha}{2} \parallel \cdot - x_{k}^{+ +} \parallel^{2}$ and ${\hat{v}}_{B} + \frac{\alpha}{2} \parallel \cdot - c_{k - 1} \parallel^{2}$. By Lemma 2.2, the inequality $v_{k} \geq v$ holds. We claim that equality
+
+This follows immediately from Lemma 2.2, once we show $\frac{1}{2} \geq \frac{|{{\hat{v}}_{A} - {\hat{v}}_{B}}|}{\alphad^{2}}$. To this end, note first the equality $\frac{|{{\hat{v}}_{A} - {\hat{v}}_{B}}|}{\alphad^{2}} = \frac{|{r_{k - 1} - h^{2}}|}{2d^{2}}$. The choice $x_{k} = {\text{line\_search}\left( c_{k - 1},x_{k - 1}^{+} \right)}$ ensures:
+
+Thus we have ${h^{2} - r_{k - 1}} < h^{2} \leq d^{2}$. Finally, the assumption $h^{2} > \frac{r_{k - 1}}{2}$ implies
+
+Hence we can be sure that holds. Plugging in ${\hat{v}}_{A}$ and ${\hat{v}}_{B}$ yields
+
+Hence the proof is complete once we show the inequality
+
+After rearranging, our task simplifies to showing the inequality
+
+Taking derivatives and using inequality, one can readily verify that the right-hand-side is nondecreasing in $d^{2}$ on the interval $d^{2} \in {\lbrack h^{2},{+ \infty})}$. Thus plugging in the endpoint $d^{2} = h^{2}$ we deduce
+
+Minimizing the right-hand-side over all $h$ satisfying $h^{2} \geq \frac{r_{k - 1}}{2}$ yields the inequality
+
+The proof is complete. ∎
+
+It is instructive to compare optimal averaging (Algorithm 1) with Nesterov's optimal methods in. For convenience, we record the optimal gradient method following, in Algorithm 2.
+
+Input: Starting points x0 and c0, strong convexity constant α &gt; 0, smoothness parameter β &gt; 0, and initial quadratic curvature γ0 ≥ α.
+Output: Final quadratic ${Q_{K}{(x)}} = {v_{K} + {\frac{\gamma_{K}}{2}\left\| {x - c_{K}} \right\|^{2}}}$.
+Compute averaging parameter λk ∈ from β λk2 = (1−λk) γk − 1 + λk α;
+Set xk = (1−θk) ck − 1 + θk xk − 1+ where $\theta_{k} = \frac{\gamma_{k}}{\gamma_{k - 1} + {\lambda_{k}\alpha}}$;
+Set ${Q{(x)}} = {\left( {{f{(x_{k})}} - \frac{\left\| {{\nabla f}{(x_{k})}} \right\|^{2}}{2\alpha}} \right) + {\frac{\alpha}{2}\left\| {x - x_{k}^{+ +}} \right\|^{2}}}$;
+Let ck be the minimizer of the quadratic Qk (x) = (1−λk) Qk − 1 (x) + λk Q (x);
+/* If we set γ0 = α, then we have γk = α, $\lambda_{k} = \frac{1}{\sqrt{\kappa}}$, and $\theta_{k} = \frac{\sqrt{\kappa}}{1 + \sqrt{\kappa}}$. */
+Algorithm 2 General scheme of an optimal method [Nesterov]
+
+Comparing Algorithms 1 and 2, we see that
+
+$x_{k}$ is some point on the line between $c_{k - 1}$ and $x_{k - 1}^{+}$, and
+
+$Q_{k}$ is an average of the previous quadratic $Q_{k - 1}$ and the strong convexity quadratic lower bound $Q$ based at $x_{k}$.
+
+As we discuss in Appendix A, we can modify Nesterov's method so that like in optimal quadratic averaging, we set $x_{k} = {\text{line\_search}\left( c_{k - 1},x_{k - 1}^{+} \right)}$ in each iteration. After this change, only two differences remain between the schemes:
+
+the initial quadratic $Q_{0}$ is different, and
+
+the averaging parameter is computed differently.
+
+These differences, however, are fundamental. In Algorithm 1, the quadratic $Q_{0}$ lower bounds $f$ and therefore optimal averaging makes sense; in the accelerated gradient method, $Q_{0}$ does not lower bound $f$, and the idea of optimal averaging does not apply.
+
+## Optimal quadratic averaging with memory
+
+Each iteration of Algorithm 1 forms an optimal average of the current lower quadratic model with the one from the previous iteration; that is, as stated the scheme has a memory size of one. We next show how the scheme easily adapts to maintaining limited memory, i.e. by averaging multiple quadratics in each iteration. We mention in passing that the authors of left open the question of efficiently speeding up their geometric descent algorithm in practice. One approach of this flavor has recently appeared in \[4, Section 4\]. The optimal averaging viewpoint, developed here, provides a direct and satisfying alternative. Indeed, computing the optimal average of several quadratics is easy, and amounts to solving a small dimensional quadratic optimization problem.
+
+To see this, fix $t$ quadratics ${Q_{i}{(x)}}:={v_{i} + {\frac{\alpha}{2}\left\| {x - c_{i}} \right\|^{2}}}$, with $i \in {\{ 1,\ldots,t\}}$, and a weight vector $\lambda$ in the $t$-dimensional simplex $\Delta_{t}:=\left\{ {x \in {\mathbb{R}}^{t}}:{{{\sum_{i = 1}^{t}x_{i}} = 1},{x \geq 0}} \right\}$. The average quadratic
+
+maintains the same canonical form as each $Q_{i}$.
+
+### Proposition 3.1
+
+Define the matrix $C = \begin{bmatrix}
+\end{bmatrix}$ and vector $v = \begin{bmatrix}
+\end{bmatrix}^{T}$. Then we have
+
+### Proof
+
+The Hessian of $Q_{\lambda}$ is simply $\frac{\alpha}{2}I$, and therefore the quadratic $Q_{\lambda}{(x)}$ has the form
+
+for some $v_{\lambda}$ and $c_{\lambda}$. Notice that $c_{\lambda}$ is the minimizer of $Q_{\lambda}$, and by differentiating, we determine that $c_{\lambda} = {\sum_{i = 1}^{t}{\lambda_{i}c_{i}}} = {C\lambda}$. We then compute
+
+The proof is complete. ∎
+
+Naturally, we define the *optimal averaging* of the quadratics $Q_{i}$, with $i \in {\{ 1,2,\ldots,t\}}$, to be $Q_{\overline{\lambda}}$, where $\overline{\lambda}$ is the maximizer of the concave quadratic over the simplex:
+
+There is no closed form expression for $\overline{\lambda}$, but one can quickly find it by solving a quadratic program in $t$ variables, for example by an active set method. Moreover, some thought shows that the matrix $C^{T}C$ can be efficiently updated if one of the centers changes; we omit the details.
+
+We propose an optimal averaging scheme with memory in Algorithm 3. As we see in Section 5, the method performs well numerically. Moreover, the scheme enjoys the same convergence guarantees as Algorithm 1; that is, Theorem 2.3. ‣ 2 Optimal quadratic averaging ‣ An optimal first order method based on optimal quadratic averaging") applies to Algorithm 3, with nearly the same proof (which we omit).
+
+Input: Starting point x0, strong convexity constant α &gt; 0, and memory size t ≥ 1.
+Output: Final quadratic ${Q_{K}{(x)}} = {v_{K} + {\frac{\alpha}{2}\left\| {x - c_{K}} \right\|^{2}}}$ and xK+.
+Set xk = line_search (ck − 1,xk − 1+);
+Set ${M_{k}{(x)}} = {{{f{(x_{k})}} - \frac{\left\| {{\nabla f}{(x_{k})}} \right\|^{2}}{2\alpha}} + {\frac{\alpha}{2}\left\| {x - x_{k}^{+ +}} \right\|^{2}}}$;
+Let ${Q_{k}{(x)}}:={v_{k} + {\frac{\alpha}{2}\left\| {x - c_{k}} \right\|^{2}}}$ be the optimal averaging of the
+
+Algorithm 3 Optimal Quadratic Averaging with Memory
+
+The reader may notice that Algorithm 3 shows some similarity to the classical Kelley's method for minimizing nonsmooth convex functions. In the simplest case of minimizing a smooth convex function $f$ on ${\mathbb{R}}^{n}$, Kelley's method iterates the following steps
+
+for the functions
+
+In other words, the scheme iteratively minimizes the (piecewise linear) lower-models $f_{k}$ of $f$. Coming back to the optimal averaging viewpoint, suppose that $Q_{\overline{\lambda}}$ is an optimal average of the lower-bounding quadratics $Q_{i}$, for $i = {1,\ldots,k}$. Then we may write
+
+Thus $v_{\overline{\lambda}}$ is the minimal value of the now different lower-model, $\max_{i = {1,\ldots,k}}Q_{i}$, of $f$. Kelley's method is known to have poor numerical performance and convergence guarantees (e.g. \[10, Section 3.3.2\]), while Algorithm 3 achieves the optimal linear convergence rate. This disparity is of course based on the two key distinctions: using quadratic lower-models coming from strong convexity instead of linear functions, and maintaining two separate sequences $c_{k}$ (centers) and $x_{k}$ (sources of lower model updates).
+
+## Equivalence to geometric descent
+
+Algorithm 1 is largely motivated by the geometric descent method introduced by Bubeck, Lee, and Singh. In this section, we show the two methods (Algorithm 1 and Algorithm 4) indeed generate an identical iterate sequence.
+
+### Suboptimal geometric descent method
+
+The basic idea of geometric descent is that for each point $x \in {\mathbb{R}}^{n}$, the strong convexity lower bound $f^{\ast} \geq {q{(x^{\ast};x)}}$ defines a ball containing $x^{\ast}$:
+
+In turn, taking into account yields the guarantee
+
+A crude upper estimate of the radius above is obtained simply by ignoring the nonnegative term $\frac{2}{\alpha}\left( {{f{(x^{+})}} - f^{\ast}} \right)$. The suboptimal geometric descent method proceeds as follows. Suppose we have available some ball $B\left( c_{0},R_{0}^{2} \right)$ containing $x^{\ast}$. As discussed, the quadratic lower bound at the center $c_{0}$, namely $f^{\ast} \geq {q{(x^{\ast},c_{0})}}$, yields another ball $B\left( c_{0}^{+ +},{\left( {1 - \frac{1}{\kappa}} \right)\frac{\left\| {{\nabla f}{(c_{0})}} \right\|^{2}}{\alpha^{2}}} \right)$ containing $x^{\ast}$. Geometrically it is clear that the intersection of these two balls must be significantly smaller than either of the individual balls. The following lemma from makes this observation precise; see Figure 2 for an illustration.
+
+### Lemma 4.1 (Minimal enclosing ball of the intersection)
+
+Fix a center $x \in {\mathbb{R}}^{n}$, square radius $R^{2} > 0$, step $h \in {\mathbb{R}}^{n}$, and $\epsilon \in {}$. Then there exists a new center $c \in {\mathbb{R}}^{n}$ with
+
+An application of Lemma 4.1. ‣ 4.1 Suboptimal geometric descent method ‣ 4 Equivalence to geometric descent ‣ An optimal first order method based on optimal quadratic averaging") yields a new center $c_{1}$ with
+
+Repeating the procedure with the new ball $B\left( c_{1},{\left( {1 - \frac{1}{\kappa}} \right)R_{0}^{2}} \right)$ yields a sequence of centers $c_{k}$ satisfying
+
+We note that the centers $c_{k}$ and $R_{0}^{2}$ of the minimal enclosing balls in Lemma 4.1. ‣ 4.1 Suboptimal geometric descent method ‣ 4 Equivalence to geometric descent ‣ An optimal first order method based on optimal quadratic averaging") are easy to compute; see Algorithm 1 in.
+
+Figure 2: Minimal enclosing ball of the intersection.
+
+There is a very close connection between finding the minimal enclosing ball of the intersection of two balls and of optimally averaging quadratics. To see this, consider again two quadratics
+
+Let $\overline{Q}$ be the optimal average of $Q_{A}$ and $Q_{B}$. Notice that since $Q_{A}$, $Q_{B}$, and $\overline{Q}$ lower bound $f$, the minimizer $x^{\ast}$ of $f$ is guaranteed to lie in the three balls:
+
+where $\hat{f}$ is any upper bound on $f^{\ast}$. We observe the following elementary fact.
+
+### Proposition 4.2 (Minimal enclosing ball and optimal averaging)
+
+The ball $B\left( \overline{c},R^{2} \right)$ is precisely the minimal enclosing ball of the intersection ${B\left( x_{A},R_{A}^{2} \right)} \cap {B\left( x_{B},R_{B}^{2} \right)}$.
+
+### Proof
+
+Define the quantity $\hat{\lambda} = {\frac{1}{2} + \frac{v_{A} - v_{B}}{\alpha\left\| {x_{A} - x_{B}} \right\|^{2}}}$. If $\hat{\lambda}$ lies in the unit interval $\lbrack 0,1\rbrack$, then a quick computation using Lemma 2.2 shows the expressions
+
+Comparing with the recipe \[5, Algorithm 1\] for computing the minimal enclosing ball, we see that $B\left( \overline{c},R^{2} \right)$ is the minimal enclosing ball of the intersection ${B\left( x_{A},R_{A}^{2} \right)} \cap {B\left( x_{B},R_{B}^{2} \right)}$. ∎
+
+### Optimal geometric descent method
+
+To obtain an optimal method, the authors of observe that the term $\frac{2}{\alpha}\left( {{f{(x^{+})}} - f^{\ast}} \right)$ in the inclusion cannot be ignored. Exploiting this term will require maintaining two sequences $c_{k}$ (the centers of the balls) and $x_{k}$ (points for generating new balls). Suppose in iteration $k$, we know that $x^{\ast}$ lies in the ball
+
+Consider now an arbitrary point, denoted suggestively by $x_{k + 1}$. Then implies the inclusion
+
+If we choose $x_{k + 1}$ to satisfy ${f{(x_{k + 1})}} \leq {f{(x_{k}^{+})}}$ and apply inequality with $x = x_{k + 1}$, we can get a new upper estimate of the initial ball,
+
+It seems clear that if the centers $c_{k}$ and $x_{k + 1}^{+ +}$ of the two balls in and are "sufficiently far apart", then their intersection is contained in an even smaller ball. This is the content of following lemma from.
+
+### Lemma 4.3 (Two balls shrinking)
+
+Fix centers ${x_{A},x_{B}} \in {\mathbb{R}}^{n}$ and square radii ${r_{A}^{2},r_{B}^{2}} > 0$. Also fix $\epsilon \in {}$ and suppose $\left\| {x_{A} - x_{B}} \right\|^{2} \geq r_{B}^{2}$. Then there exists a new center $c \in {\mathbb{R}}^{n}$ such that for any $\delta > 0$, we have
+
+A quick application of this result shows that provided
+
+holds, there exists a new center $c_{k + 1}$ with
+
+One way to ensure that $x_{k + 1}$ satisfies the two key conditions, ${f{(x_{k + 1})}} \leq {f{(x_{k}^{+})}}$ and inequality, is to simply let $x_{k + 1}$ be the minimizer of $f$ along the line between $c_{k}$ and $x_{k}^{+}$. Trivially this guarantees the inequality ${f{(x_{k + 1})}} \leq {f{(x_{k}^{+})}}$, while the univariate optimality condition ${{\nabla f}{(x_{k + 1})}} \perp {({c_{k} - x_{k + 1}})}$ means the triangle with vertices $x_{k + 1}$, $x_{k + 1}^{+ +}$, and $c_{k}$ is a right triangle and inequality becomes "the hypotenuse is longer than a leg." This is exactly the motivation for the line-search procedure in Algorithm 1. Repeating the process yields iterates $c_{k}$ that satisfy the optimal linear rate of convergence
+
+The precise method is described in Algorithm 4.
+
+### Remark 4.4
+
+When applying an iterative method to compute $x_{k + 1} = {\text{line\_search}\left( c_{k},x_{k}^{+} \right)}$, one can use the following termination criterion. Check if $c_{k}$ satisfies ${f{(c_{k})}} \leq {f{(x_{k}^{+})}}$, then stop and set $x_{k + 1}:=c_{k}$. Notice holds trivially with this choice of $x_{k + 1}$. Else stop with a trial point $z$ on the line joining $c_{k}$ and $x_{k}^{+}$ satisfying ${f{(z)}} \leq {f{(x_{k}^{+})}}$ and
+
+We claim that the line search will terminate in finite time, unless $\text{line\_search}\left( c_{k},x_{k}^{+} \right)$ is the true minimizer of $f$. Indeed, since $c_{k} \neq {\text{line\_search}\left( c_{k},x_{k}^{+} \right)}$ (otherwise we would have terminated in the if clause), one can easily check that $z = {\text{line\_search}\left( c_{k},x_{k}^{+} \right)}$ satisfies the above inequality strictly.
+
+Input: Starting point x0, strong convexity constant α &gt; 0.
+Set xk = line_search (xk − 1+,ck − 1);
+Set xA = xk − α−1 ∇f (xk) and $R_{A}^{2} = {\frac{\left\| {{\nabla f}{(x_{k})}} \right\|^{2}}{\alpha^{2}} - {\frac{2}{\alpha}\left( {{f{(x_{k})}} - {f{(x_{k}^{+})}}} \right)}}$;
+Let B (ck,Rk2) be the smallest enclosing ball of B (xA,RA2) ∩ B (xB,RB2);
+Algorithm 4 Geometric Descent Method [Bubeck, Lee, Singh]
+
+The following theorem shows that Algorithm 1 and Algorithm 4 indeed produce the same iterate sequence.
+
+### Theorem 4.5
+
+Given the same initial point $x_{0}$, Algorithm 1 and Algorithm 4 produce the same iterates $x_{k}$ and $c_{k}$. Moreover, we have $v_{k} = {{f{(x_{k}^{+})}} - {\frac{\alpha}{2}R_{k}^{2}}}$, where $v_{k}$ is the minimum value of the quadratic $Q_{k}$ in Algorithm 1 and $R_{k}$ is the radius of the ball in Algorithm 4.
+
+### Proof
+
+Let $x_{k}$ and $c_{k}$ denote the iterates in Algorithm 1, and let ${\hat{x}}_{k}$ and ${\hat{c}}_{k}$ be the iterates in Algorithm 4. We proceed by induction on $k$. It follows immediately from the definition of the algorithms that $x_{0} = {\hat{x}}_{0}$, $c_{0} = {\hat{c}}_{0}$, and $v_{0} = {{f{(x_{0}^{+})}} - {\frac{\alpha}{2}R_{0}^{2}}}$. Now suppose, as an inductive assumption, $x_{k - 1} = {\hat{x}}_{k - 1}$, $c_{k - 1} = {\hat{c}}_{k - 1}$, and $v_{k - 1} = {{f{(x_{k - 1}^{+})}} - {\frac{\alpha}{2}R_{k - 1}^{2}}}$. To see the equality $x_{k} = {\hat{x}}_{k}$, observe
+
+Let $x_{A} = x_{k}^{+ +}$, $x_{B} = c_{k - 1}$, $d = \left\| {x_{A} - x_{B}} \right\|$, and define the quantities
+
+Notice that ${Q_{k}{(x)}} = {v_{k} + {\frac{\alpha}{2}\left\| {x - c_{k}} \right\|^{2}}}$ is the optimal averaging of ${Q_{A}{(x)}}:={v_{A} + {\frac{\alpha}{2}\left\| {x - x_{A}} \right\|^{2}}}$ and ${Q_{B}{(x)}}:={v_{B} + {\frac{\alpha}{2}\left\| {x - x_{B}} \right\|^{2}}}$, and that $B{({\hat{c}}_{k},R_{k}^{2})}$ is the minimum enclosing ball of the intersection of $B{(x_{A},R_{A}^{2})}$ and $B{(x_{B},R_{B}^{2})}$. Simple algebra shows the relation
+
+and from the inductive assumption $v_{k - 1} = {{f{(x_{k - 1}^{+})}} - {\frac{\alpha}{2}R_{k - 1}^{2}}}$, we also have
+
+Thus, by Proposition 4.2. ‣ 4.1 Suboptimal geometric descent method ‣ 4 Equivalence to geometric descent ‣ An optimal first order method based on optimal quadratic averaging") and the discussion preceding it, we have $c_{k} = {\hat{c}}_{k}$ and $v_{k} = {{f{(x_{k}^{+})}} - {\frac{\alpha}{2}R_{k}^{2}}}$. This completes the induction. ∎
+
+As we saw in Section 3, computing the optimal averaging of several quadratic functions is simple. On the other hand, it is far from clear how to find the minimum radius ball that encloses the intersection of more than two balls. Indeed, instead the authors of Algorithm 4 in the follow-up work considered a "relaxation" that involves minimizing a self-concordant barrier for the intersection. While revising the current manuscript, we became aware that Beck in \[3, Theorem 3.2\] proved that the minimum enclosing ball of the intersection of finitely many balls can be computed by solving a convex quadratic program (QP). Namely, Beck showed that the squared radius of the minimal ball enclosing the intersection $\bigcap_{i = 1}^{t}{B{(c_{i},r_{i}^{2})}}$ is exactly equal to
+
+provided $t \leq {n - 1}$ and the intersection of the balls has nonempty interior. This QP is exactly the one we derived in Section 3 for the optimal quadratic averaging method with memory. Note that our derivation of the QP in Section 3 was completely elementary; the proof of \[3, Theorem 3.2\], on the other hand, is much more sophisticated relying on an S-lemma-type result.
+
+### Proposition 4.6 (Optimal quadratic averaging & minimal enclosing ball)
+
+Let ${Q{(x)}} = {v + {\frac{\alpha}{2}\left\| {x - c} \right\|^{2}}}$ be the optimal averaging of quadratics ${Q_{i}{(x)}} = {v_{i} + {\frac{\alpha}{2}\left\| {x - c_{i}} \right\|^{2}}}$ for $i = {1,\ldots,t}$ with $t < n$. Fix a real number $s \geq v_{i}$ for all $i = {{1\ldots},t}$ and define the balls $B_{i}:={\{{Q_{i} \leq s}\}}$. Then provided that the intersection $\bigcap_{i = 1}^{t}B_{i}$ has a nonempty interior, the ball $B:={\{{Q \leq s}\}}$ is the minimal enclosing ball of the intersection $\bigcap_{i = 1}^{t}B_{i}$.
+
+### Proof
+
+Let $R^{2}$ be the square radius of $B$ and let $R_{i}^{2}$ be the square radius of $B_{i}$, for $i = {1,\ldots,t}$. Using Proposition 3.1, we deduce
+
+The center of $B$ is $c = {\sum_{i = 1}^{t}{\lambda_{i}c_{i}}}$ where $\lambda$ is the minimizer of the expression above. Comparing with \[3, Theorem 3.2\], we see that $B$ is exactly the minimum radius ball enclosing the intersection $\bigcap_{i = 1}^{t}B_{i}$. ∎
+
+## Numerical examples
+
+In this section, we numerically illustrate optimality gap convergence in Algorithm 1, and explore how Algorithm 3, the variant of Algorithm 1 with memory, aids performance. To this end, we focus on minimizing two functions: the regularized logistic loss function
+
+where $x_{i} \in {\mathbb{R}}^{n}$ and $y_{i} \in {\{{\pm 1}\}}$ are labeled training data, and the "world's worst" function for first-order methods:
+
+(see \[10, Section 2.1.2 and Section 2.1.4\]). For the logistic regression examples, we use the LIBSVM data sets a1a ($N = 1605$, $n = 123$) and colon-cancer.
+
+### Optimality gap convergence
+
+From inequality, we get the well-known optimality gap estimate for strongly convex functions
+
+How does this estimate compare with the gaps $g_{k}:={{f{(x_{k}^{+})}} - v_{k}}$ generated by Algorithm 1? Obviously the answer depends on the point where we evaluate the gap estimate in. Nonetheless, we can say that the gaps $g_{k}$ are tighter than the gaps $G_{k}:=\frac{\left\| {{\nabla f}{(x_{k})}} \right\|^{2}}{2\alpha}$. Indeed, by the definition of $v_{k}$, we trivially have $v_{k} \geq {{f{(x_{k})}} - G_{k}}$ and thus
+
+On a relative scale, the difference between $g_{k}$ and $G_{k}$ is striking; see Figure 3. Notice that $G_{k}$ is an optimality gap estimate before averaging, and $g_{k}$ is an optimality gap estimate after averaging; the plots in Figure 3 show that optimal quadratic averaging makes great relative progress per iteration.
+
+Figure 3: Relative differences in gaps $\frac{G_{k} - g_{k}}{G_{k}}$ on the “world’s worst” function (B = 106, n = 200), and on the logistic loss on the colon-cancer data set with regularization α = 0.0001.
+
+In Figure 4, we plot $g_{k}$, the true gaps ${f{(x_{k}^{+})}} - f^{\ast}$, and the gap estimate in at $x_{k}$, $x_{k}^{+}$, and $c_{k}$ for the "world's worst" function and the logistic loss function. The true gaps are the tightest, albeit unknown at runtime. Surprisingly, the gaps $\frac{\left\| {{\nabla f}{(c_{k})}} \right\|^{2}}{2\alpha}$ are quite bad: several orders of magnitude larger than $g_{k}$. So even though the centers $c_{k}$ may appear to be the focal points of the algorithm, the points $x_{k}^{+}$ are the ones to monitor in practice. Finally we note that the gaps $g_{k}$ and $\frac{\left\| {{\nabla f}{(x_{k}^{+})}} \right\|^{2}}{2\alpha}$ are comparable, even though $g_{k}$ does not rely on gradient information at $x_{k}^{+}$.
+
+Figure 4: Comparison of various optimality gaps on the “world’s worst” function (B = 106, n = 200), and on the logistic loss on the a1a data set with regularization α = 0.0001.
+
+### Optimal quadratic averaging with memory
+
+To demonstrate the effectiveness of optimal quadratic averaging with memory, we use it to minimize the logistic loss (see Figure 5). The speedup over the memoryless method is significant, even when taking into account the extra work per iteration needed to solve the small dimensional quadratic subproblems. In Figure 6, we compare Algorithm 3 with L-BFGS. The two schemes are on par with each other, and neither is better than the other in all cases.
+
+Figure 5: Algorithm 3 with various memory sizes t. The case t = 1 corresponds to the memoryless optimal averaging method in Algorithm 1. The task is logistic regression, with regularization α = 0.0001, on data sets a1a and colon-cancer.
+
+Figure 6: Algorithm 3 with memory size t versus L-BFGS with memory size m. The task is logistic regression, with regularization α = 0.0001, on data sets a1a and colon-cancer.
+
+It is perhaps fairer to compare L-BFGS with memory size $m$ to Algorithm 3 with memory size $t = {2m}$ (see Figure 7). Indeed, L-BFGS with memory size $m$ actually stores $m$ *pairs* of vectors, whereas Algorithm 3 with memory size $t$ only stores $t$ vectors. Moreover, the most expensive operation per iteration in L-BFGS requires $4mn$ multiplications (see \[12, Algorithm 7.4\]); in contrast, computing a new center in Algorithm 3 requires $2n{({t + 1})}$ multiplications plus the cost of solving a small quadratic program. (Updating the matrix $C^{T}C$ takes $t + 1$ inner products in ${\mathbb{R}}^{n}$, finding $\lambda$ amounts to solving a small quadratic program, and computing $C\lambda$ takes $n$ inner products in ${\mathbb{R}}^{t + 1}$.) In Figure 8, we again compare L-BFGS and Algorithm 3 on logisitic regression, but with less regularization.
+
+Figure 7: A fairer (equal memory) comparison of Algorithm 3 and L-BFGS. The task is still logistic regression, with regularization α = 0.0001, on data sets a1a and colon-cancer. We focus on lower accuracy than we did in Figure 6.
+
+Figure 8: Algorithm 3 with memory size t versus L-BFGS with memory size m. The task is logistic regression on data sets a1a and colon-cancer, with α = 10−6 (top row) and α = 10−8 (bottom row).
+
+We noticed that the small dimensional quadratic program in Algorithm 3 must be solved to high accuracy, especially on poorly conditioned problems; an active-set method works well. Accuracy in the line search is less important. Minimizing the one-dimensional function $r\mapsto{f{({x + {rd}})}}$, with $\left\| d \right\| = 1$, to within $10^{- 4}$ accuracy in $r$ works well in general. In Figure 9, we show how line search accuracy affects Algorithm 1.
+
+Figure 9: A comparison of how the line search tolerance in Algorithm 1 affects convergence. In the top row, we do the comparison with logistic regression on the a1a and colon-cancer data sets with regularization α = 10−4. In the bottom row, we use regularization 10−8.
+
+## Comments on proximal extensions
+
+It is natural to try to extend geometric descent and optimal quadratic averaging to a proximal setting. For the sake of concreteness, let us focus on geometric descent. We can easily extend the suboptimal version of the algorithm to the proximal setting, but some difficulties arise when accelerating the method. Suppose we are interested in solving the problem
+
+where $g:{{\mathbb{R}}^{n}\rightarrow{\mathbb{R}}}$ is $\beta$-smooth and $\alpha$-strongly convex, and $h:{{\mathbb{R}}^{n}\rightarrow{{\mathbb{R}} \cup {\{{+ \infty}\}}}}$ is closed, convex, and is such that the proximal mapping
+
+is easily computable. In the analysis of first-order methods for such problems, the *gradient mapping* ${G_{t}{(x)}}:={\frac{1}{t}\left( {x - {\text{prox}_{th}{({x - {t{\nabla g}{(x)}}})}}} \right)}$ plays the role of the usual gradient. The following is a standard estimate; see for example \[10, Section 2.2.3\]. We provide a proof for completeness.
+
+### Lemma 6.1
+
+Fix a step length $t > 0$ and define a proximal gradient step $x^{+}:={x - {tG_{t}{(x)}}}$. Then for every $y \in {\mathbb{R}}^{n}$ the inequality holds:
+
+### Proof
+
+Appealing to $\beta$-smoothness of $g$, we deduce
+
+Furthermore, strong convexity of $g$ implies
+
+Finally, using the observation that ${G_{t}{(x)}} - {{\nabla g}{(x)}}$ belongs to $\partial{h{(x^{+})}}$, we have
+
+Rearrangement completes the proof. ∎
+
+If we let $y = x^{\ast}$ in Lemma 6.1 and rearrange we get
+
+How should we choose the step length $t$? A simple approach is to choose $t$ to minimize the quantity ${\frac{1}{\alpha^{2}} - {\frac{2}{\alpha}t}} + {\frac{\beta}{\alpha}t^{2}}$, i.e., set $t = \frac{1}{\beta}$. With this choice of $t$, we deduce the inclusion
+
+where $x^{+ +} = {x - {\frac{1}{\alpha}G_{1/\beta}{(x)}}}$ is a *long step* and $x^{+} = {x - {\frac{1}{\beta}G_{1/\beta}{(x)}}}$ is a *short step*. A proximal version of the suboptimal geometric descent follows easily from Lemma 4.1. ‣ 4.1 Suboptimal geometric descent method ‣ 4 Equivalence to geometric descent ‣ An optimal first order method based on optimal quadratic averaging").
+
+To accelerate the proximal geometric descent algorithm we assume in iteration $k$ that $x^{\ast}$ lies in some ball
+
+We then consider a second minimizer enclosing ball derived from information at some point $x_{k + 1}$:
+
+Following the same pattern as in Section 4.2, if we choose $x_{k + 1}$ to satisfy ${f{(x_{k + 1})}} \leq {f{(y_{k})}}$ and appeal to the smoothness inequality ${f{(x_{k + 1}^{+})}} \leq {{f{(x_{k + 1})}} - {\frac{1}{2\beta}\left\| {G_{1/\beta}{(x_{k + 1})}} \right\|^{2}}}$, we deduce the inclusion
+
+By Lemma 4.3. ‣ 4.2 Optimal geometric descent method ‣ 4 Equivalence to geometric descent ‣ An optimal first order method based on optimal quadratic averaging") there is a new center $c_{k + 1}$ with
+
+provided the old centers $x_{k + 1}^{+ +}$ and $c_{k}$ are far apart; specifically, we must be sure that the inequality
+
+How do we choose $x_{k + 1}$ to satisfy both ${f{(x_{k + 1})}} \leq {f{(y_{k})}}$ and $\left\| {x_{k + 1}^{+ +} - c_{k}} \right\|^{2} \geq \frac{\left\| {G_{1/\beta}{(x_{k + 1})}} \right\|^{2}}{\alpha^{2}}$? The desired $x_{k + 1}$ does exist; for example, $x_{k + 1} = x^{\ast}$ is such a point. In the proximal setting, it is not clear how to choose $x_{k + 1}$ to ensure these two inequalities (even for specific problem classes). This is an interesting topic for future research.

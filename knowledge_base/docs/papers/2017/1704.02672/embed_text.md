@@ -1,0 +1,214 @@
+## Introduction
+
+Many applications in computer vision and robotics require measurements of the rotation and translation (i.e., pose) changes of an object as it moves through an environment. In photogrammetry, for example, by knowing the pose changes of the camera, 3D model of a scene can be constructed from a set of 2D images. In robotics, pose estimated from images can be used for navigation, or fused with other sensor measurements (e.g., IMU and GPS) to increase the reliability and accuracy. Camera pose estimation has further applications in simultaneous localization and mapping (SLAM), autonomous vehicles, and augmented reality.
+
+Camera pose estimation techniques are often based on image features (e.g., edges, corners, etc., in an image) that can be detected and matched in two or more images. Figure 1 shows an example where feature points are detected and matched as indicated by yellow lines in two images. Many existing methods use the coordinates of feature points on the image to construct the essential/fundamental matrix or the Euclidean homography matrix, from which relative rotation and translation of the camera can be recovered. Although these approach are fast and easy to implement, they are subject to drawbacks: the essential matrix based algorithms fail when feature points are on critical surfaces (e.g., coplanar points), while homography based algorithms only work when points are coplanar.
+
+Figure 1: Pairs of matched feature points across two images shown side by side (image courtesy of MathWorks).
+
+In this work, we present a novel formulation of the camera pose estimation problem using quaternions and present a solution to estimate the pose under this formulation. Our approach, which we refer to as the Quaternion Estimation (QuEst) algorithm, does not use the homography or essential matrices, and decouples the estimation of rotation and translation. Consequently, common problems such as degeneracy for special 3D point configurations are avoided. We present two methods to recover the rotation from seven and six matched feature points. We then show how the unique correct solution can be detected from among the set of recovered solutions. The performance of QuEst is compared with algorithms that are based on the homography or essential matrix in the presence of noise in image point coordinates. The performance is further vetted by using real world image datasets that come with the ground truth camera pose information.
+
+The main contributions and benefits of the proposed algorithm can be summarized as follows.
+
+As illustrated in Table I, unlike the homography or essential matrix based algorithms, QuEst provides an accurate pose estimate for both general point configurations and points that are on critical surfaces, e.g., coplanar points. To initialize the bundle adjustment in SLAM applications, often heuristic methods are used to detect the coplanarity of the points and select the appropriate algorithm correspondingly. QuEst can be used to initialize the bundle adjustment regardless of the feature point configuration in the space.
+
+By recovering the translation, QuEst simultaneously recovers depths of the feature points. Therefore, a 3D model of the scene can be reconstructed. The recovered translation and depths share a common scale factor, hence, the magnitude of the recovered translation vector goes to zero as the camera translation between two views approaches zero. The translation recovered from the essential matrix always has unit norm, which is not desirable in applications such as visual servoing.
+
+Tests performed using both simulated and real world images show that the pose recovered from QuEst is more accurate and robust to noise and outliers compared to the existing algorithms.
+
+TABLE I: QuEst compared with homography and essential matrix based algorithms.
+
+The rest of the paper is organized as follows. We briefly review related approaches in Section II, before we formulate the pose estimation problem using quaternions in Section III. We present the QuEst algorithm in Section IV and evaluate its performance under noise in Section V. In Section IV, we further vet the performance of QuEst using the real world image datasets.
+
+## Related Work
+
+Pose estimation using images can be traced back to at least 1913, when Kruppa proved that two camera views of five 3D points could be used to estimate the translation and rotation separating two camera views. However, the lack of sufficient computational resources limited further development until the landmark introduction of the 8-point algorithm. The 8-point algorithm used the epipolar constraint, embodied in the essential matrix, to solve a set of linear equations that are generated from a set of 8 or more feature points.
+
+It has been shown that to ensure a finite number of solutions for the pose estimation problem, a minimum of five feature points are required. However, in general this is not sufficient to recover the pose uniquely. Philip showed that when 6 or more general points are available, the pose estimation problem is linear and produces a unique solution.
+
+What previous work have in common is the use of the essential matrix in the problem formulation and the assumption that points are in general positions. In the special case where feature points are coplanar, methods based on the homography matrix should be used instead to estimate the pose. However, for a general point configuration that does not contain at least four coplanar points, homography does not return the correct solution.
+
+We previously used quaternion formulation to solve the pose estimation via an optimization-based method. The drawback of this initial work was its reliance on an accurate initial estimate for the pose. The method proposed here is based on formulating an eigenvalue problem, which does not require an initial guess for the solution.
+
+## Camera Pose Estimation
+
+We introduce the notation and assumptions, followed by formulating the pose estimation problem in quaternions.
+
+### III-A Notation and Assumptions
+
+Throughout the paper, we assume that the camera calibration matrix is known; this matrix can be easily found through the existing camera calibration routines.
+
+Scalars are represented by lower case (e.g., $s$), vectors by lowercase and bold (e.g., $\mathbf{v}$), and matrices by upper case and bold letters (e.g., $\mathbf{M}$). All vectors are column vectors. The Moore-Penrose pseudo inverse of matrix $\mathbf{M}$ is shown by $\mathbf{M}^{\dagger}$. Binomial coefficients are denoted by $\binom{n}{k}:=\frac{n!}{{k!}{{({n - k})}!}}$. By norm of a vector, we imply the $l^{2}$-norm. Degree 4 monomials in variables $w,x,y,z$ are single term polynomials $w^{a}x^{b}y^{c}z^{d}$, such that ${a + b + c + d} = 4$, for ${a,b,c,d} \in {\{ 0,1,2,3,4\}}$.
+
+### III-B Problem Formulation
+
+Consider images of a scene taken by a camera at two views (e.g., Fig. 1). Let $\mathbf{R} \in {\text{SO}{}}$ and $\mathbf{t} \in {\mathbb{R}}^{3}$ respectively represent the relative rotation and translation of the camera frame between the views. Assume that feature points are detected and matched, and their $x$-$y$ coordinates are read from the images. (In practice, the coordinates are in pixels, and should be mapped via the camera calibration matrix to Cartesian coordinates on the image plane.)
+
+For each matched feature point the rigid motion constraint
+
+must hold, in which ${\mathbf{m},\mathbf{n}} \in {\mathbb{R}}^{3}$ are homogeneous coordinates (i.e., a 1 is appended to the $x$-$y$ coordinates) of the feature point in two images. Scalars $u$ and $v$ represent depths of the 3D point at each view, and as shown in Fig. 2, are the projections of the point onto the $z$-axis of the camera coordinate frame. Point coordinates $\mathbf{m}$ and $\mathbf{n}$ are known from the images, and the unknowns in are $u$, $v$, $\mathbf{R}$, and $\mathbf{t}$, which need to be recovered.
+
+Figure 2: Projection of a 3D point onto the image plane at two views.
+
+We need to point out that in the pose estimation problem, translation and depths of the points can only be recovered up to a scale factor. This can be seen from, where any constant multiplied into both hand sides can be absorbed by unknown variables $u,v$, and $\mathbf{t}$.
+
+### Example 1
+
+Consider pictures shown in Fig. 1, where feature points are matched and their coordinates on the image are determined. For the matched feature point with coordinates $({- 0.1},{- 1.5})$ in the left image and $(0.2,{- 1.2})$ in the right image, from we get
+
+where scalar $u_{1}$ and $v_{1}$ are the depths of the 3D point at each view. Similarly, for two other matched pairs we can write
+
+where subscripts are used to distinguish the depths of the points (scalars $u$ and $v$). Notice that rotation matrix $\mathbf{R}$ and translation vector $\mathbf{t}$ are the same in all equations.
+
+Equation uses the matrix representation of rotation, in which $\mathbf{R}$ is a $3 \times 3$ orthonormal matrix. That is, $\mathbf{R}^{\top} = \mathbf{R}^{- 1}$, and ${\det{(\mathbf{R})}} = 1$. Representing the rotation in the matrix form with orthonormality constraints makes the problem very nonlinear and challenging to solve. Instead, we use quaternions, which represent a rotation by four elements ${w,x,y,z} \in {\mathbb{R}}$ such that ${w^{2} + x^{2} + y^{2} + z^{2}} = 1$. Although can be formulated directly in quaternions, for simplicity and to avoid introducing the quaternion algebra we only mention what is essential to solve the problem here: if ${w,x,y,z} \in {\mathbb{R}}$ are elements of a rotation quaternion, the associated rotation matrix is given by
+
+Quaternions provide a singularity free representation of rotation, and by restricting the first element to nonnegative numbers (i.e., $w \geq 0$), there is a one to one and onto correspondence between rotation matrices and quaternions.
+
+To recover the pose, we first eliminate the unknowns $u,v$ and $\mathbf{t}$, and derive a system of equations in terms of the quaternion elements. From solving this system all rotation solution candidates are found. Subsequently, the translation and depths of the points are recovered. By taking for two different feature points and subtracting the equations, $\mathbf{t}$ can be eliminated. Subsequently, $u$ and $v$ can be eliminated from the resulting equations by noting that they form a null vector for the matrix consisting of the point coordinates and their rotations. The following example illustrates this procedure.
+
+### Example 2
+
+Consider Example 1. By subtracting and from, respectively, and bringing terms to the left hand side we get
+
+in which the unknown translation $\mathbf{t}$ has been eliminated. We can represent and in the matrix-vector form
+
+which implies that matrix $\mathbf{M} \in {\mathbb{R}}^{6 \times 6}$ has a null vector. Therefore, its determinant must be zero. Calculating determinant of $\mathbf{M}$ with $\mathbf{R}$ given in the parametric form gives
+
+Equation consists of all degree 4 monomials in $w,x,y,z$ (i.e., terms such as $w^{4},{w^{3}x},{w^{2}x^{2}},\ldots$), with coefficients that depend on the feature point coordinates. Note that since $\mathbf{M}$ is a $6 \times 6$ matrix, one may expect its determinant to have degree six monomials, however, due to special structure of $\mathbf{M}$, it is always possible to factor out $w^{2} + x^{2} + y^{2} + z^{2}$ from the determinant expression. Since ${w^{2} + x^{2} + y^{2} + z^{2}} = 1$, the degree four polynomial equation follows.
+
+What we showed in Example 2 was that three matched feature points generate a polynomial equation of the form. This equation is in terms of degree four monomials in $w,x,y,z$. Note that there are 35 such monomials, and their coefficients are in terms of the feature point coordinates. In practice, we do not need to calculate the determinant of $\mathbf{M}$ to find these coefficients. By replacing the feature point coordinates with symbolic expressions the determinant can be computed symbolically, and explicit formulas for the coefficients can be derived. By substituting the numerical values of point coordinates in these formulas the coefficients are calculated directly. Due to the space limitation we do not give the explicit formulas here.
+
+Since any three feature points give a polynomial equation of the form, from $n$ points $\binom{n}{3}$ equations can be generated. These equations can be stacked into a matrix-vector form, where the vector consists of the unknown monomial terms. The following example illustrates this point.
+
+### Example 3
+
+Consider $\binom{6}{3} = 20$ polynomial equations of the form, generated from 6 feature points. These polynomial equations can be represented in the matrix-vector form
+
+where the coefficient matrix $\mathbf{A} \in {\mathbb{R}}^{20 \times 35}$ depends on the feature point coordinates, and vector $\mathbf{x} \in {\mathbb{R}}^{35}$ consists of all degree 4 monomials. Our goal is to find all $w,x,y,z$, for which is satisfied.
+
+The problem of recovering the rotation is henceforth equivalent to solving a system of equations of the form, where the goal is to find all $\mathbf{x}$ for which
+
+is satisfied. In, the coefficient matrix $\mathbf{A}$ is known from the feature point coordinates, and vector $\mathbf{x}$ is unknown with entries in degree four monomials of $w,x,y,z$.
+
+## The QuEst Algorithm
+
+In what follows we first show how rotation solution candidates can be recovered from 7 and 6 matched feature points. Given a rotation solution candidate, it is then shown how the associated translation vector and depths are recovered. Lastly, we show how the unique solution can be distinguished by discarding the physically infeasible solution candidates. The Matlab implementation of QuEst is accessible at [https://goo.gl/QH5qhw](https://goo.gl/QH5qhw).
+
+We will not discuss why the pose estimation problem has always more than one mathematically feasible solution (e.g., 2 for general points and 4 for coplanar points) since these results are well-known. Interested readers are referred to for further discussion and mathematical proofs on the number of solutions.
+
+### IV-A Recovering Rotation From 7 Points
+
+Consider the system of equations for 7 matched feature points. Since 7 points generate $\binom{7}{3} = 35$ equations, in this case $\mathbf{A}$ is a $35 \times 35$ matrix. Due to the mathematical multiplicity of solutions however, $\mathbf{A}$ cannot be full rank (otherwise, only one solution exists, which is a contradiction).
+
+Let us arrange the entries of $\mathbf{x} \in {\mathbb{R}}^{35}$ in such that $\mathbf{x} = \begin{bmatrix}
+\end{bmatrix}$, where $\mathbf{x}_{1} \in {\mathbb{R}}^{4}$ and $\mathbf{x}_{2} \in {\mathbb{R}}^{31}$ are defined as
+
+Let $\mathbf{A} = {\lbrack{\mathbf{A}_{1}\mathbf{A}_{2}}\rbrack}$, where $\mathbf{A}_{1} \in {\mathbb{R}}^{35 \times 4}$ is the first 4 columns of $\mathbf{A}$, and $\mathbf{A}_{2} \in {\mathbb{R}}^{35 \times 31}$ is the remaining part. Equation is equivalent to
+
+from which, by multiplying the pseudo inverse of $\mathbf{A}_{2}$ from the left, we obtain^22^2For a general point configuration $\mathbf{A}_{2}$ has rank 31, and thus ${\mathbf{A}_{2}^{\dagger}\mathbf{A}_{2}} = \mathbf{I}$, where $\mathbf{I}$ is the identity matrix.
+
+Let $\overline{\mathbf{B}}:={- {\mathbf{A}_{2}^{\dagger}\mathbf{A}_{1}}} \in {\mathbb{R}}^{31 \times 4}$. The first 4 rows of imply
+
+where $\mathbf{B} \in {\mathbb{R}}^{4 \times 4}$ is the matrix consisting of the first 4 rows of $\overline{\mathbf{B}}$. By factoring $x^{3}$ from the left hand side vector and $w^{3}$ from the right hand side vector of we get
+
+which is an eigenvalue problem of the form ${\lambda\mathbf{v}} = {\mathbf{B}\mathbf{v}}$, with $\lambda = \frac{x^{3}}{w^{3}}$ and $\mathbf{v} = {\lbrack{wxyz}\rbrack}^{\top}$. Hence, 4 solution candidates are found by calculating the (unit norm) eigenvectors of $\mathbf{B}$.
+
+We should mention that the choice of $\mathbf{x}_{1}$ and $\mathbf{x}_{2}$ are somewhat arbitrary. For example, we could have chosen $\mathbf{x}_{2}$ as $\mathbf{x}_{2}:=\begin{bmatrix}
+\end{bmatrix}^{\top}$, and derive a similar eigenvalue problem with $\lambda = \frac{y^{3}}{w^{3}}$. We will later use this fact to distinguish the unique solution.
+
+### IV-B Recovering Rotation From 6 Points
+
+Consider equation for 6 feature points. Since 6 feature points generate $\binom{6}{3} = 20$ equations, in this case $\mathbf{A}$ is a $20 \times 35$ full rank matrix.
+
+We split $\mathbf{x} \in {\mathbb{R}}^{35}$ into two vectors $\mathbf{x}_{1} \in {\mathbb{R}}^{20}$ and $\mathbf{x}_{2} \in {\mathbb{R}}^{15}$, where $\mathbf{x} = \begin{bmatrix}
+\end{bmatrix}$, $\mathbf{x}_{1}$ is the vector of all monomials that contain a power of $w$ (e.g., $w^{4},{w^{3}x},{w^{3}y},\ldots,{wy^{3}},{wz^{3}}$), and $\mathbf{x}_{2}$ consists of the rest of the monomials (e.g., $x^{4},{x^{3}y},{x^{2}y^{2}},\ldots,{yz^{3}},z^{4}$). Let $\mathbf{A} = {\lbrack{\mathbf{A}_{1}\mathbf{A}_{2}}\rbrack}$, where $\mathbf{A}_{1} \in {\mathbb{R}}^{20 \times 20}$ consists of the first 20 columns of $\mathbf{A}$, and $\mathbf{A}_{2} \in {\mathbb{R}}^{20 \times 15}$ is the remaining part. Equation is equivalent to
+
+from which, by multiplying the pseudo inverse of $\mathbf{A}_{2}$, we obtain
+
+Since $\mathbf{x}_{1}$ consists of monomials that have at least one power of $w$, we can factor out $w$ and represent the remaining vector by $\mathbf{v} \in {\mathbb{R}}^{20}$, i.e., $\mathbf{v} = {\frac{1}{w}\mathbf{x}_{1}}$. Thus, can be written as
+
+where $\overline{\mathbf{B}}:={- {\mathbf{A}_{2}^{\dagger}\mathbf{A}_{1}}} \in {\mathbb{R}}^{15 \times 20}$.
+
+Equation allows us to construct an eigenvalue problem of the form ${\lambda\mathbf{v}} = {\mathbf{B}\mathbf{v}}$, with $\mathbf{B} \in {\mathbb{R}}^{20 \times 20}$. Indeed, let us choose $\lambda = \frac{x}{w}$, and consider the eigenvalue problem
+
+The entries of vector $x\mathbf{v}$ either belong to $\mathbf{x}_{2}$ or $\mathbf{x}_{1}$. For entries that belong to $\mathbf{x}_{2}$, the associated rows of $\mathbf{B}$ are chosen from the corresponding rows of $\overline{\mathbf{B}}$ in. For entries that belong to $\mathbf{x}_{1}$, rows of $\mathbf{B}$ are chosen as $\lbrack{0\ldots\, 010\ldots\, 0}\rbrack$. The following example illustrates this procedure.
+
+### Example 4
+
+Suppose entries of $\mathbf{x}_{1}$ and $\mathbf{x}_{2}$ are arranged as
+
+and assume that from the feature point coordinates we have derived as
+
+From we can construct the eigenvalue problem as
+
+where the first two entries of $x\mathbf{v}$ belong to $\mathbf{x}_{1} = {w\mathbf{v}}$, and hence their associated rows in $\mathbf{B}$ consist of zeros except for a single one entry. The third and last entries of $x\mathbf{v}$ belong to $\mathbf{x}_{2}$, and their associated rows come from $\overline{\mathbf{B}}$ in.
+
+Once the eigenvalue problem is constructed, 20 solution candidates for $\mathbf{v}$ are derived by computing the eigenvectors of $\mathbf{B}$. For each solution candidate, $w,x,y,z$ are found by calculating the third root of the $w^{3},x^{3},y^{3},z^{3}$ entries in $\mathbf{v}$. The recovered solution can be normalized to meet the unit norm constraint ${w^{2} + x^{2} + y^{2} + z^{2}} = 1$. Notice that by choosing $\mathbf{x}_{1}$ or $\lambda$ differently (e.g., $\lambda = \frac{y}{w}$) it is possible to derive different eigenvalue problems of the form.
+
+### IV-C Recovering Translation and Depths
+
+Once quaternion elements $w,x,y,z$ are recovered, the corresponding rotation matrix $\mathbf{R}$ is given by. Having $\mathbf{R}$, the rigid motion constraint ${{u\mathbf{R}\mathbf{m}} + \mathbf{t}} = {v\mathbf{n}}$ can now be written for all matched feature points, and stacked into the matrix-vector form
+
+where $\mathbf{I} \in {\mathbb{R}}^{3 \times 3}$ is the identity matrix, $k$ is the number feature points, $\mathbf{C} \in {\mathbb{R}}^{{{{3k} \times \, 2}k} + 3}$, and $\mathbf{y} \in {\mathbb{R}}^{{2k} + 3}$. Equation implies that $\mathbf{y}$ is in the null space of $\mathbf{C}$. Thus, $\mathbf{y}$ can be found by calculating the rightmost singular vector of $\mathbf{C}$ (i.e., eigenvector of $\mathbf{C}^{\top}\mathbf{C}$ corresponding to the zero eigenvalue). Notice that $\mathbf{y}$ consists of the translation vector and feature point depths. Therefore, these parameters are recovered simultaneously and with a common scale factor.
+
+### IV-D The Unique Solution
+
+Before we proceed with finding the unique solution, we need to briefly talk about the critical surfaces. Critical surfaces are special configurations of 3D points in the space for which one cannot distinguish a unique solution. (In this case the problem always has more than one physically realizable solution.) Perhaps the most important and practical example of such surfaces is when all 3D points lie on a plane, i.e., coplanar points. Coplanar points are abundant in aerial images (due to large distance of points from the camera) or images of the man-made environments (due to points lying on walls, floor, etc.). In what follows we will discuss the case of general and coplanar points separately.
+
+Since feature points that are reflected with respect to the origin of the camera frame produce the same image, to detect the physically infeasible solutions one should check the chirality. Solution with the wrong chirality correspond to points that are behind the camera, and therefore have negative depths. Hence, physically infeasible solution candidates can be detected and discarded after recovering the depths.
+
+### IV-D1 General points
+
+As discussed at the end of Sections IV-A and IV-B, by choosing other values for $\lambda$ (e.g. $\lambda = {\frac{y}{w},\frac{z}{w}}$) similar eigenvalue problems of the form and can be derived. Since the correct solution must satisfy the eigenvalue problem regardless of the chosen $\lambda$, solution candidates that do not satisfy ${\lambdav} = {\mathbf{B}v}$ for all values of $\lambda$ can be discarded. In this case, two mathematically feasible solutions remain, from which the unique solution is determined by checking the chirality.
+
+### IV-D2 Coplanar points
+
+When points are coplanar (or more generally lie on critical surfaces), four mathematically feasible solutions remain after checking ${\lambdav} = {\mathbf{B}v}$ for different values of $\lambda$. Two of these solutions can be discarded by checking the chirality. To determine the solution uniquely further information is required (e.g., a third view or the normal vector to the plane).
+
+Although in theory the methods discussed above can eliminate infeasible solution candidates, in practice pixelization noise and matching imperfections may result in choosing the wrong solution. For instance, in applications where parallax is small (i.e., translation between the views is much smaller than the average distance of the 3D points to the camera), recovering the depths becomes an ill-conditioned problem. Thus, checking the chirality may result in the wrong conclusion. Furthermore, with noise, coplanar points may appear as if they are at general positions and instead of two only one solution is returned. It is therefore recommended to always keep the best four solution candidates, and use the Random Sample Consensus (RANSAC) algorithm to find the unique solution.
+
+## Noise and Time Benchmarks
+
+We benchmark our proposed algorithm against some of the most well-known algorithms such as the essential matrix 8-point, 7-point, and 6-point algorithms, and the Euclidean homography algorithm. For the first three algorithms the Stewenius's implementation, and for the latter Hartley's implementation in Matlab are used. We refer to the algorithms presented in this paper for 6 and 7 points respectively as QuEst 6 and QuEst 7.
+
+Each Monte Carlo simulation consists of eight randomly generated 3D points with uniform distribution inside a rectangular parallelepiped in front of the camera at the initial location. The camera is moved to a second location by a random translation and rotation quaternion, with uniform distribution within a bounded box of ${\mathbb{R}}^{3}$ and on the 3-sphere, respectively. Coordinates of the feature points on the image plane are computed by projecting the 3D points on the image planes. Each algorithm is provided with the minimum number of points it requires to compute the pose.
+
+### V-A Noise Benchmarks
+
+To evaluate the performance under noise, Gaussian noise with zero mean and standard deviation ranging from 0 to 10 pixels is added to all image coordinates. The noise standard deviation is increased by 0.1 pixel increments, and for each noise increment 100 simulations are generated. As mentioned in Section IV-D, the chirality condition is sensitive to noise, so to avoid choosing the wrong solution, the solution candidate that is closest to the ground truth is chosen as the best pose estimate for each algorithm. The estimation error for rotation is defined by
+
+where $\mathbf{q} = {\lbrack{wxyz}\rbrack}^{\top}$ is the rotation estimated from the noisy images, and $\mathbf{q}^{\ast}$ is the ground truth rotation in quaternions. Note that defines a metric on the rotation quaternion space. Similarly, the estimation error for translation is defined by
+
+where $\mathbf{t}_{\mathbf{n}}$ and $\mathbf{t}_{\mathbf{n}}^{\ast}$ are the estimated translation vector and the ground truth, respectively, normalized to have unit norm (because the magnitude of the recovered translation vector can vary depending on the algorithm).
+
+Figure 3 shows the mean rotation and translation estimation errors at different noise standard deviations for all algorithms. Since the feature points are randomly generated and are generally non-coplanar, the homography algorithm, which only works for coplanar points, fails to correctly estimate the pose. Essential matrix based algorithms however are not affected. QuESt 6 and 7-point algorithms have the best performance for rotation, while QuESt 6 and QuESt 7 have the best performance for translation estimates. Unlike the 7-point algorithm, translation estimated by QuESt 7 benefits from the extra points and is comparable to QuEst 6. We should mention that for large noise standard deviations (e.g., 10 pixels) the results can be interpreted as how robust an algorithm is to incorrectly matched feature points.
+
+Figure 3: Comparison under Gaussian noise on feature point coordinates when points are in general 3D configuration.
+
+To analyze the performance when points are on critical surfaces, the previous analysis is repeated for coplanar points, where the points are chosen randomly on a bounded plane with uniform distribution. The mean of the rotation and translation estimation errors for noise standard deviation varying from 0 to 2 is shown in Fig. 4. As can be seen from the figure, homography shows the best noise resilience when the standard deviation is small (approximately 1 to 1.5 pixels). This is because the homography algorithm is specifically designed to recover the pose when points are coplanar. QuEst 6 has the next best estimation accuracy. When points are on critical surfaces matrix $\mathbf{A}_{2}$ in loses rank and becomes rank 27. Hence, multiplication by $\mathbf{A}_{2}^{\dagger}$ will not result in, and QuEst 7 fails to recover the pose. On the other hand, $\mathbf{A}_{2}$ used for QuEst 6 in remains full rank due to having smaller dimensions. Lastly, none of the algorithms that are based on the essential matrix can recover the pose in this case, regardless of the number of points used in the algorithm or the magnitude of noise (see for further explanation).
+
+Figure 4: Comparison under Gaussian noise on feature point coordinates when points are in coplanar configuration.
+
+In conclusion, QuEst 6 shows the best performance since the pose is estimated correctly regardless of the 3D point configuration, and the estimation is robust to noise and outliers.
+
+### V-B Time Benchmarks
+
+Table II lists the average execution time of all algorithms in milliseconds, where 1000 Monte Carlo simulations with both coplanar and general points and various noise magnitudes are used to generate the results. All algorithms are implemented as Mex files in Matlab, and tested on the same platform with Intel's 4th Gen i-7 CPU. Algorithms that use homography or essential matrix have smaller execution time since fewer operations are needed to estimate these matrices. QuEst has a larger execution time since the rotation and translation are recovered independently. We should emphasize that although QuEst is not at fast as other algorithms, it is fast enough to be used with RANSAC in real-time applications. Furthermore, since QuEst recovers the pose regardless of the 3D point configuration, no prior effort is required to detect the coplanarity and choose the appropriate algorithm correspondingly.
+
+TABLE II: Average execution time of essential matrix based algorithms, homography algorithm, and QuEst algorithms.
+
+## Real World Performance
+
+To further assess the accuracy and robustness of QuEst, images from four real world datasets are used to estimate the pose and compare the results with the ground truth that is provided by the dataset. Datasets used for the comparison are ICL, KITTI, NAIST, and TUM, where SURF image feature points are extracted and matched between two consecutive keyframes. Each algorithm is provided with the minimum number of points it requires to estimate the pose, where points with the highest matching score are chosen. To test the robustness of the algorithms, RANSAC is not used, and the provided set of matched points can occasionally have outliers.
+
+Figure 5: Rotation and translation estimation error associated to six algorithms tested on image datasets ICL, KITTI, NAIST, and TUM.
+
+The ICL-NUIM dataset consists of computer-generated renderings of 3D scenes. These artificial images are accompanied by exact ground truth information, and their main purpose is to benchmark 3D reconstruction algorithms. The KITTI and TUM datasets were created to evaluate SLAM algorithms. The KITTI dataset consists of outdoor stereo image sequences taken from a moving vehicle. The images are accompanied by LIDAR, IMU and GPS measurements, so full pose information is provided in the left camera frame. The TUM dataset is comprised of indoor images as well as point depth information from a RGB-D camera. The RGB-D camera poses were recorded by using an optical tracking system, with millimeter-level accuracy. The NAIST campus sequences are part of an Augmented Reality benchmark called TrakMark. The ground truth files for these sequences were created by solving a PnP problem from known 3D world point coordinates, acquired using high precision surveying equipment. The images come from a handheld camera, with the operator walking while capturing some sequences and running for others.
+
+Figure 5 shows the rotation and translation estimation errors associated to each algorithm for all datasets. As shown in the figure, most algorithms perform well on the ICL benchmark, due to its lack of image noise. The translation error for all algorithms is the lowest for the KITTI sequences. This can be explained by the camera motion, since most of the time the camera is moving forward, in the direction of its z-axis. The sequences labeled as NAIST were challenging for every algorithm, since the camera motion is erratic at times and changes quickly. The TUM sequences, while generated by a handheld sensor, do not contain motions as abrupt as those in NAIST. The performance of all algorithms on the TUM sequences is better than for the NAIST sequences, but below their performance on the ICL image sets.
+
+Since the chosen feature points may not be coplanar, the homography algorithm does not return the correct solution in general. The pose estimated by the 6-point and 7-point algorithms has smaller median error compared to the 8-point algorithm. The translation estimated by QuEst 7 has the smallest median error due to the additional point. The rotation estimated by Quest 6 shows the best performance due to having smaller median errors, 0.25 and 0.75 quartiles, and outliers for all datasets.
+
+## Conclusion and Future Work
+
+By using quaternion representation of rotation, we formulated the camera pose estimation problem and presented the QuEst algorithm to recover the relative pose between two camera views. Unlike the existing homography or essential matrix based methods, QuEst decouples the rotation and translation estimation, and recovers the pose correctly for both cases of general and coplanar points. QuEst can be used to initialize the bundle adjustment algorithm in applications such as SLAM without needing to resort to heuristic methods to detect the coplanarity of the points. Using both simulated and real world images, we demonstrated the estimation accuracy and robustness of QuEst in comparison to the commonly used algorithms. We have made the Matlab implementation of QuEst available online and free. Future work includes the online release of the C++ implementation of QuEst with RANSAC.

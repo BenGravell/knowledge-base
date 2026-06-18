@@ -1,0 +1,293 @@
+## Introduction
+
+Given a function $f:{{\mathbb{R}}^{d}\rightarrow{\mathbb{R}}}$, gradient descent aims to minimize the function via the following iteration:
+
+where $\eta > 0$ is a step size. Gradient descent and its variants (e.g., stochastic gradient) are widely used in machine learning applications due to their favorable computational properties. This is notably true in the deep learning setting, where gradients can be computed efficiently via back-propagation.
+
+Gradient descent is especially useful in high-dimensional settings because the number of iterations required to reach a point with small gradient is independent of the dimension ("dimension-free"). More precisely, for a function that is $\ell$-gradient Lipschitz (see Definition 1), it is well known that gradient descent finds an $\epsilon$-first-order stationary point (i.e., a point $\mathbf{x}$ with ${\|{{\nabla f}{(\mathbf{x})}}\|} \leq \epsilon$) within ${\ell{({{f{(\mathbf{x}_{0})}} - f^{\star}})}}/\epsilon^{2}$ iterations, where $\mathbf{x}_{0}$ is the initial point and $f^{\star}$ is the optimal value of $f$. This bound does not depend on the dimension of $\mathbf{x}$. In convex optimization, finding an $\epsilon$-first-order stationary point is equivalent to finding an approximate global optimum.
+
+In non-convex settings, however, convergence to first-order stationary points is not satisfactory. For non-convex functions, first-order stationary points can be global minima, local minima, saddle points or even local maxima. Finding a global minimum can be hard, but fortunately, for many non-convex problems, it is sufficient to find a local minimum. Indeed, a line of recent results show that, in many problems of interest, either all local minima are global minima (e.g., in tensor decomposition, dictionary learning, phase retrieval, matrix sensing, matrix completion, and certain classes of deep neural networks ). Moreover, there are suggestions that in more general deep newtorks most of the local minima are as good as global minima.
+
+On the other hand, saddle points (and local maxima) can correspond to highly suboptimal solutions in many problems. Furthermore, Dauphin et al. argue that saddle points are ubiquitous in high-dimensional, non-convex optimization problems, and are thus the main bottleneck in training neural networks. Standard analysis of gradient descent cannot distinguish between saddle points and local minima, leaving open the possibility that gradient descent may get stuck at saddle points, either asymptotically or for a sufficiently long time so as to make training times for arriving at a local minimum infeasible. Ge et al. showed that by adding noise at each step, gradient descent can escape all saddle points in a polynomial number of iterations, provided that the objective function satisfies the strict saddle property (see Assumption A2). Lee et al. proved that under similar conditions, gradient descent with random initialization avoids saddle points even without adding noise. However, this result does not bound the number of steps needed to reach a local minimum.
+
+Though these results establish that gradient descent can find local minima in a polynomial number of iterations, they are still far from being efficient. For instance, the number of iterations required in Ge et al. is at least $\Omega{(d^{4})}$, where $d$ is the underlying dimension. This is significantly suboptimal compared to rates of convergence to first-order stationary points, where the iteration complexity is dimension-free. This motivates the following question: Can gradient descent escape saddle points and converge to local minima in a number of iterations that is (almost) dimension-free?
+
+In order to answer this question formally, this paper investigates the complexity of finding $\epsilon$-second-order stationary points. For $\rho$-Hessian Lipschitz functions (see Definition 5), these points are defined as:
+
+Under the assumption that all saddle points are strict (i.e., for any saddle point $\mathbf{x}_{s}$, ${\lambda_{\min}{({{\nabla^{2}f}{(\mathbf{x}_{s})}})}} < 0$), all second-order stationary points ($\epsilon = 0$) are local minima. Therefore, convergence to second-order stationary points is equivalent to convergence to local minima.
+
+if perturbation condition holds then
+Algorithm 1 Perturbed Gradient Descent (Meta-algorithm)
+
+This paper studies gradient descent with phasic perturbations (see Algorithm 1). For $\ell$-smooth functions that are also Hessian Lipschitz, we show that perturbed gradient descent will converge to an $\epsilon$-second-order stationary point in $\overset{\sim}{O}{({{\ell{({{f{(\mathbf{x}_{0})}} - f^{\star}})}}/\epsilon^{2}})}$, where $\overset{\sim}{O}{( \cdot )}$ hides polylog factors. This guarantee is almost dimension free (up to $\text{polylog}{(d)}$ factors), answering the above highlighted question affirmatively. Note that this rate is exactly the same as the well-known convergence rate of gradient descent to first-order stationary points, up to log factors. Furthermore, our analysis admits a maximal step size of up to $\Omega{({1/\ell})}$, which is the same as that in analyses for first-order stationary points.
+
+As many real learning problems present strong *local* geometric properties, similar to strong convexity in the global setting, it is important to note that our analysis naturally takes advantage of such local structure. We show that when local strong convexity is present, the $\epsilon$-dependence goes from a polynomial rate, $1/\epsilon^{2}$, to linear convergence, $\log{({1/\epsilon})}$. As an example, we show that sharp global convergence rates can be obtained for matrix factorization as a direct consequence of our analysis.
+
+### Our Contributions
+
+This paper presents the first sharp analysis that shows that (perturbed) gradient descent finds an approximate second-order stationary point in at most $polylog{(d)}$ iterations, thus escaping all saddle points efficiently. Our main technical contributions are as follows:
+
+For $\ell$-gradient Lipschitz, $\rho$-Hessian Lipschitz functions (possibly non-convex), gradient descent with appropriate perturbations finds an $\epsilon$-second-order stationary point in $\overset{\sim}{O}{({{\ell{({{f{(\mathbf{x}_{0})}} - f^{\star}})}}/\epsilon^{2}})}$ iterations. This rate matches the well-known convergence rate of gradient descent to first-order stationary points up to log factors.
+
+Under a strict-saddle condition (see Assumption A2), this convergence result directly applies for finding local minima. This means that gradient descent can escape all saddle points with only logarithmic overhead in runtime.
+
+When the function has local structure, such as local strong convexity (see Assumption A3.a), the above results can be further improved to linear convergence. We give sharp rates that are comparable to previous problem-specific local analysis of gradient descent with smart initialization (see Section 1.2).
+
+All the above results rely on a new characterization of the geometry around saddle points: points from where gradient descent gets stuck at a saddle point constitute a thin "band." We develop novel techniques to bound the volume of this band. As a result, we can show that after a random perturbation the current point is very unlikely to be in the "band"; hence, efficient escape from the saddle point is possible (see Section 5).
+
+### Related Work
+
+Over the past few years, there have been many problem-specific convergence results for non-convex optimization. One line of work requires a smart initialization algorithm to provide a coarse estimate lying inside a local neighborhood, from which popular local search algorithms enjoy fast local convergence. While there are not many results that show global convergence for non-convex problems, Jain et al. show that gradient descent yields global convergence rates for matrix square-root problems. Although these results give strong guarantees, the analyses are heavily tailored to specific problems, and it is unclear how to generalize them to a wider class of non-convex functions.
+
+Carmon and Duchi
+
+Nesterov and Polyak
+
+Table 1: Oracle model and iteration complexity to second-order stationary point
+
+For general non-convex optimization, there are a few previous results on finding second-order stationary points. These results can be divided into the following three categories, where, for simplicity of presentation, we only highlight dependence on dimension $d$ and $\epsilon$, assuming that all other problem parameters are constant from the point of view of iteration complexity:
+
+Hessian-based: Traditionally, only second-order optimization methods were known to converge to second-order stationary points. These algorithms rely on computing the Hessian to distinguish between first- and second-order stationary points. Nesterov and Polyak designed a cubic regularization algorithm which converges to an $\epsilon$-second-order stationary point in $O{({1/\epsilon^{1.5}})}$ iterations. Trust region algorithms can also achieve the same performance if the parameters are chosen carefully. These algorithms typically require the computation of the inverse of the full Hessian per iteration, which can be very expensive.
+
+Hessian-vector-product-based: A number of recent papers have explored the possibility of using only Hessian-vector products instead of full Hessian information in order to find second-order stationary points. These algorithms require a Hessian-vector product oracle: given a function $f$, a point $\mathbf{x}$ and a direction $\mathbf{u}$, the oracle returns ${{\nabla^{2}f}{(\mathbf{x})}} \cdot \mathbf{u}$. Agarwal et al. and Carmon et al. presented accelerated algorithms that can find an $\epsilon$-second-order stationary point in $O{({\log{d/\epsilon^{7/4}}})}$ steps. Also, Carmon and Duchi showed by running gradient descent as a subroutine to solve the subproblem of cubic regularization (which requires Hessian-vector product oracle), it is possible to find an $\epsilon$-second-order stationary pointin $O{({\log{d/\epsilon^{2}}})}$ iterations. In many applications such an oracle can be implemented efficiently, in roughly the same complexity as the gradient oracle. Also, when the function has a Hessian Lipschitz property such an oracle can be approximated by differentiating the gradients at two very close points (although this may suffer from numerical issues, thus is seldom used in practice).
+
+Gradient-based: Another recent line of work shows that it is possible to converge to a second-order stationary point without any use of the Hessian. These methods feature simple computation per iteration (only involving gradient operations), and are closest to the algorithms used in practice. Ge et al. showed that stochastic gradient descent could converge to a second-order stationary point in $\text{poly}{({d/\epsilon})}$ iterations, with polynomial of order at least four. This was improved in Levy to $O{({{d^{3} \cdot \text{poly}}{({1/\epsilon})}})}$ using normalized gradient descent. The current paper improves on both results by showing that perturbed gradient descent can actually find an $\epsilon$-second-order stationary point in $O{({{\text{polylog}{(d)}}/\epsilon^{2}})}$ steps, which matches the guarantee for converging to first-order stationary points up to polylog factors.
+
+## Preliminaries
+
+In this section, we will first introduce our notation, and then present some definitions and existing results in optimization which will be used later.
+
+### Notation
+
+We use bold upper-case letters $\mathbf{A},\mathbf{B}$ to denote matrices and bold lower-case letters $\mathbf{x},\mathbf{y}$ to denote vectors. $\mathbf{A}_{ij}$ means the ${(i,j)}^{\text{th}}$ entry of matrix $\mathbf{A}$. For vectors we use $\parallel \cdot \parallel$ to denote the $\ell_{2}$-norm, and for matrices we use $\parallel \cdot \parallel$ and $\parallel \cdot \parallel_{\text{F}}$ to denote spectral norm and Frobenius norm respectively. We use ${\sigma_{\max}{( \cdot )}},{\sigma_{\min}{( \cdot )}},{\sigma_{i}{( \cdot )}}$ to denote the largest, the smallest and the $i$-th largest singular values respectively, and ${\lambda_{\max}{( \cdot )}},{\lambda_{\min}{( \cdot )}},{\lambda_{i}{( \cdot )}}$ for corresponding eigenvalues.
+
+For a function $f:{{\mathbb{R}}^{d}\rightarrow{\mathbb{R}}}$, we use ${\nabla f}{( \cdot )}$ and ${\nabla^{2}f}{( \cdot )}$ to denote its gradient and Hessian, and $f^{\star}$ to denote the global minimum of $f{( \cdot )}$. We use notation $O{( \cdot )}$ to hide only absolute constants which do not depend on any problem parameter, and notation $\overset{\sim}{O}{( \cdot )}$ to hide only absolute constants and log factors. We let ${\mathbb{B}}_{\mathbf{x}}^{(d)}{(r)}$ denote the d-dimensional ball centered at $\mathbf{x}$ with radius $r$; when it is clear from context, we simply denote it as ${\mathbb{B}}_{\mathbf{x}}{(r)}$. We use $\mathcal{P}_{\mathcal{X}}{( \cdot )}$ to denote projection onto the set $\mathcal{X}$. Distance and projection are always defined in a Euclidean sense.
+
+### Gradient Descent
+
+The theory of gradient descent often takes its point of departure to be the study of convex minimization where the function is both $\ell$-smooth and $\alpha$-strongly convex:
+
+### Definition 1
+
+A differentiable function $f{( \cdot )}$ is $\ell$-smooth (or $\ell$-gradient Lipschitz) if:
+
+### Definition 2
+
+A twice-differentiable function $f{( \cdot )}$ is $\alpha$-strongly convex if ${{\forall\mathbf{x}},{\lambda_{\min}{({{\nabla^{2}f}{(\mathbf{x})}})}}} \geq \alpha$
+
+Such smoothness guarantees imply that the gradient can not change too rapidly, and strong convexity ensures that there is a unique stationary point (and hence a global minimum). Standard analysis using these two properties shows that gradient descent converges linearly to a global optimum $\mathbf{x}^{\star}$ (see e.g. ).
+
+### Theorem 1
+
+Assume $f{( \cdot )}$ is $\ell$-smooth and $\alpha$-strongly convex. For any $\epsilon > 0$, if we run gradient descent with step size $\eta = \frac{1}{\ell}$, iterate $\mathbf{x}_{t}$ will be $\epsilon$-close to $\mathbf{x}^{\star}$ in iterations:
+
+In a more general setting, we no longer have convexity, let alone strong convexity. Though global optima are difficult to achieve in such a setting, it is possible to analyze convergence to first-order stationary points.
+
+### Definition 3
+
+For a differentiable function $f{( \cdot )}$, we say that $\mathbf{x}$ is a first-order stationary point if ${\|{{\nabla f}{(\mathbf{x})}}\|} = 0$; we also say $\mathbf{x}$ is an $\epsilon$-first-order stationary point if ${\|{{\nabla f}{(\mathbf{x})}}\|} \leq \epsilon$.
+
+Under an $\ell$-smoothness assumption, it is well known that by choosing the step size $\eta = \frac{1}{\ell}$, gradient descent converges to first-order stationary points.
+
+### Theorem 2 ((Nesterov, 1998))
+
+Assume that the function $f{( \cdot )}$ is $\ell$-smooth. Then, for any $\epsilon > 0$, if we run gradient descent with step size $\eta = \frac{1}{\ell}$ and termination condition ${\|{{\nabla f}{(\mathbf{x})}}\|} \leq \epsilon$, the output will be $\epsilon$-first-order stationary point, and the algorithm will terminate within the following number of iterations:
+
+Note that the iteration complexity does not depend explicitly on intrinsic dimension; in the literature this is referred to as "dimension-free optimization."
+
+A first-order stationary point can be either a local minimum or a saddle point or a local maximum. For minimization problems, saddle points and local maxima are undesirable, and we abuse nomenclature to call both of them "saddle points" in this paper. The formal definition is as follows:
+
+### Definition 4
+
+For a differentiable function $f{( \cdot )}$, we say that $\mathbf{x}$ is a local minimum if $\mathbf{x}$ is a first-order stationary point, and there exists $\epsilon > 0$ so that for any $\mathbf{y}$ in the $\epsilon$-neighborhood of $\mathbf{x}$, we have ${f{(\mathbf{x})}} \leq {f{(\mathbf{y})}}$; we also say $\mathbf{x}$ is a saddle point if $\mathbf{x}$ is a first-order stationary point but not a local minimum. For a twice-differentiable function $f{( \cdot )}$, we further say a saddle point $\mathbf{x}$ is strict (or non-degenerate) if ${\lambda_{\min}{({{\nabla^{2}f}{(\mathbf{x})}})}} < 0$.
+
+For a twice-differentiable function $f{( \cdot )}$, we know a saddle point $\mathbf{x}$ must satify ${\lambda_{\min}{({{\nabla^{2}f}{(\mathbf{x})}})}} \leq 0$. Intuitively, for saddle point $\mathbf{x}$ to be strict, we simply rule out the undetermined case ${\lambda_{\min}{({{\nabla^{2}f}{(\mathbf{x})}})}} = 0$, where Hessian information alone is not enough to check whether $\mathbf{x}$ is a local minimum or saddle point. In most non-convex problems, saddle points are undesirable.
+
+To escape from saddle points and find local minima in a general setting, we move both the assumptions and guarantees in Theorem 2). ‣ 2.2 Gradient Descent ‣ 2 Preliminaries ‣ How to Escape Saddle Points Efficiently") one order higher. In particular, we require the Hessian to be Lipschitz:
+
+### Definition 5
+
+A twice-differentiable function $f{( \cdot )}$ is $\rho$-Hessian Lipschitz if:
+
+That is, Hessian can not change dramatically in terms of spectral norm. We also generalize the definition of first-order stationary point to higher order:
+
+### Definition 6
+
+For a $\rho$-Hessian Lipschitz function $f{( \cdot )}$, we say that $\mathbf{x}$ is a second-order stationary point if ${\|{{\nabla f}{(\mathbf{x})}}\|} = 0$ and ${\lambda_{\min}{({{\nabla^{2}f}{(\mathbf{x})}})}} \geq 0$; we also say $\mathbf{x}$ is $\epsilon$-second-order stationary point if:
+
+Second-order stationary points are very important in non-convex optimization because when all saddle points are strict, all second-order stationary points are exactly local minima.
+
+Note that the literature sometime defines $\epsilon$-second-order stationary point by two independent error terms; i.e., letting ${\|{{\nabla f}{(\mathbf{x})}}\|} \leq \epsilon_{g}$ and ${\lambda_{\min}{({{\nabla^{2}f}{(\mathbf{x})}})}} \geq {- \epsilon_{H}}$. We instead follow the convention of Nesterov and Polyak by choosing $\epsilon_{H} = \sqrt{\rho\epsilon_{g}}$ to reflect the natural relations between the gradient and the Hessian. This definition of $\epsilon$-second-order stationary point can also differ by reparametrization (and scaling), e.g. Nesterov and Polyak use $\epsilon^{\prime} = \sqrt{\epsilon/\rho}$. We choose our parametrization so that the first requirement of $\epsilon$-second-order stationary point coincides with the requirement of $\epsilon$-first-order stationary point, for a fair comparison of our result with Theorem 2). ‣ 2.2 Gradient Descent ‣ 2 Preliminaries ‣ How to Escape Saddle Points Efficiently").
+
+## Main Result
+
+In this section we show that it possible to modify gradient descent in a simple way so that the resulting algorithm will provably converge quickly to a second-order stationary point.
+
+The algorithm that we analyze is a perturbed form of gradient descent (see Algorithm 2). The algorithm is based on gradient descent with step size $\eta$. When the norm of the current gradient is small ($\leq g_{\text{thres}}$) (which indicates that the current iterate ${\overset{\sim}{\mathbf{x}}}_{t}$ is potentially near a saddle point), the algorithm adds a small random perturbation to the gradient. The perturbation is added at most only once every $t_{\text{thres}}$ iterations.
+
+To simplify the analysis we choose the perturbation $\xi_{t}$ to be uniformly sampled from a $d$-dimensional ball^66^6Note that uniform sampling from a $d$-dimensional ball can be done efficiently by sampling $U^{\frac{1}{d}} \times \frac{\mathbf{Y}}{\|\mathbf{Y}\|}$ where $U \sim {\text{Uniform}{({\lbrack 0,1\rbrack})}}$ and $\mathbf{Y} \sim {\mathcal{N}{(0,\mathbf{I}_{d})}}$.. The use of the threshold $t_{\text{thres}}$ ensures that the dynamics are mostly those of gradient descent. If the function value does not decrease enough (by $f_{\text{thres}}$) after $t_{\text{thres}}$ iterations, the algorithm outputs ${\overset{\sim}{\mathbf{x}}}_{t_{\text{noise}}}$. The analysis in this section shows that under this protocol, the output ${\overset{\sim}{\mathbf{x}}}_{t_{\text{noise}}}$ is necessarily "close" to a second-order stationary point.
+
+${\chi\leftarrow{3{\max{\{{\log{(\frac{d\ell\Delta_{f}}{c\epsilon^{2}\delta})}},4\}}}}},{{\eta\leftarrow\frac{c}{\ell}},{{r\leftarrow{\frac{\sqrt{c}}{\chi^{2}} \cdot \frac{\epsilon}{\ell}}},{{g_{\text{thres}}\leftarrow{\frac{\sqrt{c}}{\chi^{2}} \cdot \epsilon}},{{f_{\text{thres}}\leftarrow{\frac{c}{\chi^{3}} \cdot \sqrt{\frac{\epsilon^{3}}{\rho}}}},{t_{\text{thres}}\leftarrow{\frac{\chi}{c^{2}} \cdot \frac{\ell}{\sqrt{\rho\epsilon}}}}}}}}$
+if ∥∇f (xt)∥ ≤ gthres and t − tnoise &gt; tthres then
+${{\overset{\sim}{\mathbf{x}}}_{t}\leftarrow\mathbf{x}_{t}},{t_{\text{noise}}\leftarrow t}$
+${\mathbf{x}_{t}\leftarrow{{\overset{\sim}{\mathbf{x}}}_{t} + \xi_{t}}},{{\xi_{t}\text{~uniformly~}} \sim {{\mathbb{B}}_{0}{(r)}}}$
+if t − tnoise = tthres and ${{f{(\mathbf{x}_{t})}} - {f{({\overset{\sim}{\mathbf{x}}}_{t_{\text{noise}}})}}} &gt; {- f_{\text{thres}}}$ then
+return ${\overset{\sim}{\mathbf{x}}}_{t_{\text{noise}}}$
+Algorithm 2 Perturbed Gradient Descent: PGD (x0,ℓ,ρ,ϵ,c,δ,Δf)
+
+We first state the assumptions that we require.
+
+### Assumption A1
+
+Function $f{( \cdot )}$ is both $\ell$-smooth and $\rho$-Hessian Lipschitz.
+
+The Hessian Lipschitz condition ensures that the function is well-behaved near a saddle point, and the small perturbation we add will suffice to allow the subsequent gradient updates to escape from the saddle point. More formally, we have:
+
+### Theorem 3
+
+Assume that $f{( \cdot )}$ satisfies A1. Then there exists an absolute constant $c_{\max}$ such that, for any ${\delta > 0},{\epsilon \leq \frac{\ell^{2}}{\rho}}$, $\Delta_{f} \geq {{f{(\mathbf{x}_{0})}} - f^{\star}}$, and constant $c \leq c_{\max}$, $\text{PGD}{(\mathbf{x}_{0},\ell,\rho,\epsilon,c,\delta,\Delta_{f})}$ will output an $\epsilon$-second-order stationary point, with probability $1 - \delta$, and terminate in the following number of iterations:
+
+Strikingly, Theorem 3 shows that perturbed gradient descent finds a second-order stationary point in almost the same amount of time that gradient descent takes to find first-order stationary point. The step size $\eta$ is chosen as $O{({1/\ell})}$ which is in accord with classical analyses of convergence to first-order stationary points. Though we state the theorem with a certain choice of parameters for simplicity of presentation, our result holds even if we vary the parameters up to constant factors.
+
+Without loss of generality, we can focus on the case $\epsilon \leq {\ell^{2}/\rho}$, as in Theorem 3. This is because in the case $\epsilon > {\ell^{2}/\rho}$, standard gradient descent without perturbation---Theorem 2). ‣ 2.2 Gradient Descent ‣ 2 Preliminaries ‣ How to Escape Saddle Points Efficiently")---easily solves the problem (since by A1, we always have ${\lambda_{\min}{({{\nabla^{2}f}{(\mathbf{x})}})}} \geq {- \ell} \geq {- \sqrt{\rho\epsilon}}$, which means that all $\epsilon$-second-order stationary points are $\epsilon$-first order stationary points).
+
+We believe that the dependence on at least one $\log d$ factor in the iteration complexity is unavoidable in the non-convex setting, as our result can be directly applied to the principal component analysis problem, for which the best known runtimes (for the power method or Lanczos method) incur a $\log d$ factor. Establishing this formally is still an open question however.
+
+To provide some intuition for Theorem 3, consider an iterate $\mathbf{x}_{t}$ which is not yet an $\epsilon$-second-order stationary point. By definition, either the gradient ${\nabla f}{(\mathbf{x}_{t})}$ is large, or the Hessian ${\nabla^{2}f}{(\mathbf{x}_{t})}$ has a significant negative eigenvalue. Traditional analysis works in the first case. The crucial step in the proof of Theorem 3 involves handling the second case: when the gradient is small ${\|{{\nabla f}{(\mathbf{x}_{t})}}\|} \leq g_{\text{thres}}$ and the Hessian has a significant negative eigenvalue ${\lambda_{\min}{({{\nabla^{2}f}{({\overset{\sim}{\mathbf{x}}}_{t})}})}} \leq {- \sqrt{\rho\epsilon}}$, then adding a perturbation, followed by standard gradient descent for $t_{\text{thres}}$ steps, decreases the function value by at least $f_{\text{thres}}$, with high probability. The proof of this fact relies on a novel characterization of geometry around saddle points (see Section 5)
+
+If we are able to make stronger assumptions on the objective function we are able to strengthen our main result. This further analysis is presented in the next section.
+
+### Functions with Strict Saddle Property
+
+In many real applications, objective functions further admit the property that all saddle points are strict. In this case, all second-order stationary points are local minima and hence convergence to second-order stationary points (Theorem 3) is equivalent to convergence to local minima.
+
+To state this result formally, we introduce a robust version of the strict saddle property:
+
+### Assumption A2
+
+Function $f{( \cdot )}$ is $(\theta,\gamma,\zeta)$-strict saddle. That is, for any $\mathbf{x}$, at least one of following holds:
+
+${\|{{\nabla f}{(\mathbf{x})}}\|} \geq \theta$.
+
+${\lambda_{\min}{({{\nabla^{2}f}{(\mathbf{x})}})}} \leq {- \gamma}$.
+
+$\mathbf{x}$ is $\zeta$-close to $\mathcal{X}^{\star}$ --- the set of local minima.
+
+Intuitively, the strict saddle assumption states that the ${\mathbb{R}}^{d}$ space can be divided into three regions: 1) a region where the gradient is large; 2) a region where the Hessian has a significant negative eigenvalue (around saddle point); and 3) the region close to a local minimum. With this assumption, we immediately have the following corollary:
+
+### Corollary 4
+
+Let $f{( \cdot )}$ satisfy A1 and A2. Then, there exists an absolute constant $c_{\max}$ such that, for any ${\delta > 0},{\Delta_{f} \geq {{f{(\mathbf{x}_{0})}} - f^{\star}}}$, constant $c \leq c_{\max}$, and letting $\overset{\sim}{\epsilon} = {\min{(\theta,{\gamma^{2}/\rho})}}$, $\text{PGD}{(\mathbf{x}_{0},\ell,\rho,\overset{\sim}{\epsilon},c,\delta,\Delta_{f})}$ will output a point $\zeta$-close to $\mathcal{X}^{\star}$, with probability $1 - \delta$, and terminate in the following number of iterations:
+
+Corollary 4 shows that by substituting $\epsilon$ in Theorem 3 using $\overset{\sim}{\epsilon} = {\min{(\theta,{\gamma^{2}/\rho})}}$, the output of perturbed gradient descent will be in the $\zeta$-neighborhood of some local minimum.
+
+Note although Corollary 4 only explicitly asserts that the output will lie within some fixed radius $\zeta$ from a local minimum. In many real applications, we can further write $\zeta$ as a function $\zeta{( \cdot )}$ of gradient threshold $\theta$, so that when $\theta$ decreases, $\zeta{(\theta)}$ decreases linearly or polynomially depending on $\theta$. Meanwhile, parameter $\gamma$ is always nondecreasing when $\theta$ decreases due to the nature of this strict saddle definition. Therefore, in these cases, the above corollary further gives a convergence rate to a local minimum.
+
+### Functions with Strong Local Structure
+
+The convergence rate in Theorem 3 is polynomial in $\epsilon$, which is similar to that of Theorem 2). ‣ 2.2 Gradient Descent ‣ 2 Preliminaries ‣ How to Escape Saddle Points Efficiently"), but is worse than the rate of Theorem 1 because of the lack of strong convexity. Although global strong convexity does not hold in the non-convex setting that is our focus, in many machine learning problems the objective function may have a favorable local structure in the neighborhood of local minima. Exploiting this property can lead to much faster convergence (linear convergence) to local minima. One such property that ensures such convergence is a local form of smoothness and strong convexity:
+
+### Assumption A3.a
+
+In a $\zeta$-neighborhood of the set of local minima $\mathcal{X}^{\star}$, the function $f{( \cdot )}$ is $\alpha$-strongly convex, and $\beta$-smooth.
+
+Here we use different letter $\beta$ to denote the local smoothness parameter (in contrast to the global smoothness parameter $\ell$). Note that we always have $\beta \leq \ell$. However, often even local $\alpha$-strong convexity does not hold. We thus introduce the following relaxation:
+
+### Assumption A3.b
+
+In a $\zeta$-neighborhood of the set of local minima $\mathcal{X}^{\star}$, the function $f{( \cdot )}$ satisfies a $(\alpha,\beta)$-regularity condition if for any $\mathbf{x}$ in this neighborhood:
+
+Here $\mathcal{P}_{\mathcal{X}^{\star}}{( \cdot )}$ is the projection on to the set $\mathcal{X}^{\star}$. Note $(\alpha,\beta)$-regularity condition is more general and is directly implied by standard $\beta$-smooth and $\alpha$-strongly convex conditions. This regularity condition commonly appears in low-rank problems such as matrix sensing and matrix completion, and has been used in Bhojanapalli et al.; Zheng and Lafferty, where local minima form a connected set, and where the Hessian is strictly positive only with respect to directions pointing outside the set of local minima.
+
+$\mathbf{x}_{t + 1}\leftarrow{\mathbf{x}_{t} - {\frac{1}{\beta}{\nabla f}{(\mathbf{x}_{t})}}}$
+Algorithm 3 Perturbed Gradient Descent with Local Improvement: PGDli (x0,ℓ,ρ,ϵ,c,δ,Δf,β)
+
+Gradient descent naturally exploits local structure very well. In Algorithm 3, we first run Algorithm 2 to output a point within the neighborhood of a local minimum, and then perform standard gradient descent with step size $\frac{1}{\beta}$. We can then prove the following theorem:
+
+### Theorem 5
+
+Let $f{( \cdot )}$ satisfy A1, A2, and A3.a (or A3.b). Then there exists an absolute constant $c_{\max}$ such that, for any ${\delta > 0},{{\epsilon > 0},{\Delta_{f} \geq {{f{(\mathbf{x}_{0})}} - f^{\star}}}}$, constant $c \leq c_{\max}$, and letting $\overset{\sim}{\epsilon} = {\min{(\theta,{\gamma^{2}/\rho})}}$, $\text{PGDli}{(\mathbf{x}_{0},\ell,\rho,\overset{\sim}{\epsilon},c,\delta,\Delta_{f},\beta)}$ will output a point that is $\epsilon$-close to $\mathcal{X}^{\star}$, with probability $1 - \delta$, in the following number of iterations:
+
+Theorem 5 says that if strong local structure is present, the convergence rate can be boosted to linear convergence ($\log\frac{1}{\epsilon}$). In this theorem we see that sequence of iterations can be decomposed into two phases. In the first phase, perturbed gradient descent finds a $\zeta$-neighborhood by Corollary 4. In the second phase, standard gradient descent takes us from $\zeta$ to $\epsilon$-close to a local minimum. Standard gradient descent and Assumption A3.a (or A3.b) make sure that the iterate never steps out of a $\zeta$-neighborhood in this second phase, giving a result similar to Theorem 1 with linear convergence.
+
+Finally, we note our choice of local conditions (Assumption A3.a and A3.b) are not special. The interested reader can refer to Karimi et al. for other relaxed and alternative notions of convexity, which can also be potentially combined with Assumptions $and$ to yield convergence results of a similar flavor as that of Theorem 5.
+
+## Example --- Matrix Factorization
+
+As a simple example to illustrate how to apply our general theorems to specific non-convex optimization problems, we consider a symmetric low-rank matrix factorization problem, based on the following objective function:
+
+where $\mathbf{M}^{\star} \in {\mathbb{R}}^{d \times d}$. For simplicity, we assume ${\text{rank}{(\mathbf{M}^{\star})}} = r$, and denote $\sigma_{1}^{\star}: = \sigma_{1}{(\mathbf{M}^{\star})}$, $\sigma_{r}^{\star}: = \sigma_{r}{(\mathbf{M}^{\star})}$. Clearly, in this case the global minimum of function value is zero, which is achieved at $\mathbf{V}^{\star} = {\mathbf{T}\mathbf{D}}^{1/2}$ where ${\mathbf{T}\mathbf{D}\mathbf{T}}^{\top}$ is the SVD of the symmetric real matrix $\mathbf{M}^{\star}$.
+
+The following two lemmas show that the objective function in Eq. satisfies the geometric assumptions A1, A2,and A3.b. Moreover, all local minima are global minima.
+
+### Lemma 6
+
+For any $\Gamma \geq \sigma_{1}^{\star}$, the function $f{(\mathbf{U})}$ defined in Eq. is $8\Gamma$-smooth and $12\Gamma^{1/2}$-Hessian Lipschitz, inside the region $\left. \{\mathbf{U} \middle| {{\|\mathbf{U}\|}^{2} < \Gamma}\} \right.$.
+
+### Lemma 7
+
+For function $f{(\mathbf{U})}$ defined in Eq., all local minima are global minima. The set of global minima is $\mathcal{X}^{\star} = \left. \{{\mathbf{V}^{\star}\mathbf{R}} \middle| {{\mathbf{R}\mathbf{R}}^{\top} = {\mathbf{R}^{\top}\mathbf{R}} = \mathbf{I}}\} \right.$. Furthermore, $f{(\mathbf{U})}$ satisfies:
+
+$({\frac{1}{24}{(\sigma_{r}^{\star})}^{3/2}},{\frac{1}{3}\sigma_{r}^{\star}},{\frac{1}{3}{(\sigma_{r}^{\star})}^{1/2}})$-strict saddle property.
+
+$({\frac{2}{3}\sigma_{r}^{\star}},{10\sigma_{1}^{\star}})$-regularity condition in $\frac{1}{3}{(\sigma_{r}^{\star})}^{1/2}$ neighborhood of $\mathcal{X}^{\star}$.
+
+One caveat is that since the objective function is actually a fourth-order polynomial with respect to $\mathbf{U}$, the smoothness and Hessian Lipschitz parameters from Lemma 6 naturally depend on $\|\mathbf{U}\|$. Fortunately, we can further show that gradient descent (even with perturbation) does not increase $\|\mathbf{U}\|$ beyond $O{({\max{\{{\|\mathbf{U}_{0}\|},{(\sigma_{1}^{\star})}^{1/2}\}}})}$. Then, applying Theorem 5 gives:
+
+### Theorem 8
+
+There exists an absolute constant $c_{\max}$ such that the following holds. For the objective function in Eq., for any $\delta > 0$ and constant $c \leq c_{\max}$, and for $\Gamma^{1/2}: = 2\max{\{ \parallel \mathbf{U}_{0} \parallel,3{(\sigma_{1}^{\star})}^{1/2}\}}$, the output of $\text{PGDli}{(\mathbf{U}_{0},{8\Gamma},{12\Gamma^{1/2}},\frac{{(\sigma_{r}^{\star})}^{2}}{108\Gamma^{1/2}},c,\delta,\frac{r\Gamma^{2}}{2},{10\sigma_{1}^{\star}})}$, will be $\epsilon$-close to the global minimum set $\mathcal{X}^{\star}$, with probability $1 - \delta$, after the following number of iterations:
+
+Theorem 8 establishes global convergence of perturbed gradient descent from an arbitrary initial point $\mathbf{U}_{0}$, including exact saddle points. Suppose we initialize at $\mathbf{U}_{0} = 0$, then our iteration complexity becomes:
+
+where $\kappa^{\star} = {\sigma_{1}^{\star}/\sigma_{r}^{\star}}$ is the condition number of the matrix $\mathbf{M}^{\star}$. We see that in the second phase, when convergence occurs inside the local region, we require $O{({\kappa^{\star}{\log{({\sigma_{r}^{\star}/\epsilon})}}})}$ iterations which is the standard local linear rate for gradient descent. In the first phase, to find a neighborhood of the solution, our method requires a number of iterations scaling as $\overset{\sim}{O}{({r{(\kappa^{\star})}^{4}})}$. We suspect that this strong dependence on condition number arises from our generic assumption that the Hessian Lipschitz is uniformly upper bounded; it may well be the case that this dependence can be reduced in the special case of matrix factorization via a finer analysis of the geometric structure of the problem.
+
+## Proof Sketch for Theorem 3
+
+In this section we will present the key ideas underlying the main result of this paper (Theorem 3). We will first argue the correctness of Theorem 3 given two important intermediate lemmas. Then we turn to the main lemma, which establishes that gradient descent can escape from saddle points quickly. We present full proofs of all these results in Appendix A. Throughout this section, we use $\eta,r,g_{\text{thres}},f_{\text{thres}}$ and $t_{\text{thres}}$ as defined in Algorithm 2.
+
+### Exploiting Large Gradient or Negative Curvature
+
+Recall that an $\epsilon$-second-order stationary point is a point with a small gradient, and where the Hessian does not have a significant negative eigenvalue. Suppose we are currently at an iterate $\mathbf{x}_{t}$ that is not an $\epsilon$-second-order stationary point; i.e., it does not satisfy the above properties. There are two possibilities:
+
+Gradient is large: ${\|{{\nabla f}{(\mathbf{x}_{t})}}\|} \geq g_{\text{thres}}$, or
+
+Around saddle point: ${\|{{\nabla f}{(\mathbf{x}_{t})}}\|} \leq g_{\text{thres}}$ and ${\lambda_{\min}{({{\nabla^{2}f}{(\mathbf{x}_{t})}})}} \leq {- \sqrt{\rho\epsilon}}$.
+
+The following two lemmas address these two cases respectively. They guarantee that perturbed gradient descent will decrease the function value in both scenarios.
+
+### Lemma 9 (Gradient)
+
+Assume that $f{( \cdot )}$ satisfies A1. Then for gradient descent with stepsize $\eta < \frac{1}{\ell}$, we have ${f{(\mathbf{x}_{t + 1})}} \leq {{f{(\mathbf{x}_{t})}} - {\frac{\eta}{2}{\|{{\nabla f}{(\mathbf{x}_{t})}}\|}^{2}}}$.
+
+### Lemma 10 (Saddle)
+
+(informal) Assume that $f{( \cdot )}$ satisfies A1, If $\mathbf{x}_{t}$ satisfies ${\|{{\nabla f}{(\mathbf{x}_{t})}}\|} \leq g_{\text{thres}}$ and ${\lambda_{\min}{({{\nabla^{2}f}{(\mathbf{x}_{t})}})}} \leq {- \sqrt{\rho\epsilon}}$, then adding one perturbation step followed by $t_{\text{thres}}$ steps of gradient descent, we have ${{f{(\mathbf{x}_{t + t_{\text{thres}}})}} - {f{(\mathbf{x}_{t})}}} \leq {- f_{\text{thres}}}$ with high probability.
+
+We see that Algorithm 2 is designed so that Lemma 10. ‣ 5.1 Exploiting Large Gradient or Negative Curvature ‣ 5 Proof Sketch for Theorem 3 ‣ How to Escape Saddle Points Efficiently") can be directly applied. According to these two lemmas, perturbed gradient descent will decrease the function value either in the case of a large gradient, or around strict saddle points. Computing the average decrease per step in function value yields the total iteration complexity. Since Algorithm 2 only terminate when the function value decreases too slowly, this guarantees that the output must be $\epsilon$-second-order stationary point (see Appendix A for formal proofs).
+
+### Main Lemma: Escaping from Saddle Points Quickly
+
+The proof of Lemma 9. ‣ 5.1 Exploiting Large Gradient or Negative Curvature ‣ 5 Proof Sketch for Theorem 3 ‣ How to Escape Saddle Points Efficiently") is straightforward and follows from traditional analysis. The key technical contribution of this paper is the proof of Lemma 10. ‣ 5.1 Exploiting Large Gradient or Negative Curvature ‣ 5 Proof Sketch for Theorem 3 ‣ How to Escape Saddle Points Efficiently"), which gives a new characterization of the geometry around saddle points.
+
+Consider a point $\overset{\sim}{\mathbf{x}}$ that satisfies the the preconditions of Lemma 10. ‣ 5.1 Exploiting Large Gradient or Negative Curvature ‣ 5 Proof Sketch for Theorem 3 ‣ How to Escape Saddle Points Efficiently") (${\|{{\nabla f}{(\overset{\sim}{\mathbf{x}})}}\|} \leq g_{\text{thres}}$ and ${\lambda_{\min}{({{\nabla^{2}f}{(\overset{\sim}{\mathbf{x}})}})}} \leq {- \sqrt{\rho\epsilon}}$). After adding the perturbation ($\mathbf{x}_{0} = {\overset{\sim}{\mathbf{x}} + \xi}$), we can view $\mathbf{x}_{0}$ as coming from a uniform distribution over ${\mathbb{B}}_{\overset{\sim}{\mathbf{x}}}{(r)}$, which we call the perturbation ball. We can divide this perturbation ball ${\mathbb{B}}_{\overset{\sim}{\mathbf{x}}}{(r)}$ into two disjoint regions: an escaping region $\mathcal{X}_{\text{escape}}$ which consists of all the points $\mathbf{x} \in {{\mathbb{B}}_{\overset{\sim}{\mathbf{x}}}{(r)}}$ whose function value decreases by at least $f_{\text{thres}}$ after $t_{\text{thres}}$ steps; a stuck region $\mathcal{X}_{\text{stuck}} = {{{\mathbb{B}}_{\overset{\sim}{\mathbf{x}}}{(r)}} - \mathcal{X}_{\text{escape}}}$. Our general proof strategy is to show that $\mathcal{X}_{\text{stuck}}$ consists of a very small proportion of the volume of perturbation ball. After adding a perturbation to $\overset{\sim}{\mathbf{x}}$, point $\mathbf{x}_{0}$ has a very small chance of falling in $\mathcal{X}_{\text{stuck}}$, and hence will escape from the saddle point efficiently.
+
+Figure 1: Pertubation ball in 3D and “thin pancake” shape stuck region
+
+Figure 2: Pertubation ball in 2D and “narrow band” stuck region under gradient flow
+
+Let us consider the nature of $\mathcal{X}_{\text{stuck}}$. For simplicity, let us imagine that $\overset{\sim}{\mathbf{x}}$ is an exact saddle point whose Hessian has only one negative eigenvalue, and $d - 1$ positive eigenvalues. Let us denote the minimum eigenvalue direction as $\mathbf{e}_{1}$. In this case, if the Hessian remains constant (and we have a quadratic function), the stuck region $\mathcal{X}_{\text{stuck}}$ consists of points $\mathbf{x}$ such that $\mathbf{x} - \overset{\sim}{\mathbf{x}}$ has a small $\mathbf{e}_{1}$ component. This is a straight band in two dimensions and a flat disk in high dimensions. However, when the Hessian is not constant, the shape of the stuck region is distorted. In two dimensions, it forms a "narrow band" as plotted in Figure 2 on top of the gradient flow. In three dimensions, it forms a "thin pancake" as shown in Figure 1.
+
+The major challenge here is to bound the volume of this high-dimensional non-flat "pancake" shaped region $\mathcal{X}_{\text{stuck}}$. A crude approximation of this "pancake" by a flat "disk" loses polynomial factors in the dimensionalilty, which gives a suboptimal rate. Our proof relies on the following crucial observation: Although we do not know the explicit form of the stuck region, we know it must be very "thin," therefore it cannot have a large volume. The informal statement of the lemma is as follows:
+
+### Lemma 11
+
+(informal) Suppose $\overset{\sim}{\mathbf{x}}$ satisfies the precondition of Lemma 10. ‣ 5.1 Exploiting Large Gradient or Negative Curvature ‣ 5 Proof Sketch for Theorem 3 ‣ How to Escape Saddle Points Efficiently"), and let $\mathbf{e}_{1}$ be the smallest eigendirection of ${\nabla^{2}f}{(\overset{\sim}{\mathbf{x}})}$. For any $\delta \in {(0,{1/3}\rbrack}$ and any two points ${\mathbf{w},\mathbf{u}} \in {{\mathbb{B}}_{\overset{\sim}{\mathbf{x}}}{(r)}}$, if ${\mathbf{w} - \mathbf{u}} = {\mur\mathbf{e}_{1}}$ and $\mu \geq {\delta/{({2\sqrt{d}})}}$, then at least one of $\mathbf{w},\mathbf{u}$ is not in the stuck region $\mathcal{X}_{\text{stuck}}$.
+
+Using this lemma it is not hard to bound the volume of the stuck region: we can draw a straight line along the $\mathbf{e}_{1}$ direction which intersects the perturbation ball (shown as purple line segment in Figure 2). For any two points on this line segment that are at least ${\deltar}/{({2\sqrt{d}})}$ away from each other (shown as red points $\mathbf{w},\mathbf{u}$ in Figure 2), by Lemma 11, we know at least one of them must not be in $\mathcal{X}_{\text{stuck}}$. This implies if there is one point $\overset{\sim}{\mathbf{u}} \in \mathcal{X}_{\text{stuck}}$ on this line segment, then $\mathcal{X}_{\text{stuck}}$ on this line can be at most an interval of length ${\deltar}/\sqrt{d}$ around $\overset{\sim}{\mathbf{u}}$. This establishes the "thickness" of $\mathcal{X}_{\text{stuck}}$ in the $\mathbf{e}_{1}$ direction, which is turned into an upper bound on the volume of the stuck region $\mathcal{X}_{\text{stuck}}$ by standard calculus.
+
+## Conclusion
+
+This paper presents the first (nearly) dimension-free result for gradient descent in a general non-convex setting. We present a general convergence result and show how it can be further strengthened when combined with further structure such as strict saddle conditions and/or local regularity/convexity.
+
+There are still many related open problems. First, in the presence of constraints, it is worthwhile to study whether gradient descent still admits similar sharp convergence results. Another important question is whether similar techniques can be applied to accelerated gradient descent. We hope that this result could serve as a first step towards a more general theory with strong, almost dimension free guarantees for non-convex optimization.

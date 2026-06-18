@@ -1,0 +1,252 @@
+## Introduction
+
+Model predictive control (MPC) refers to a class of feedback controllers, which proceed by solving, at each time step, an optimal control problem predicting the future behavior of a dynamic system on a finite, receding time-horizon, using the current state estimate as initial condition. The predicted optimal control trajectory is applied to the actual system until the next measurement becomes available, and the process is then repeated. The implementation of such controllers is based on a certainty-equivalence principle, whereby the future of the system is optimized as if neither external disturbances nor model mismatch were present, despite the fact that such disturbances and mismatch are the reason why feedback is needed in the first place.
+
+The main advantage of certainty-equivalence in MPC is that the resulting optimization problems can often be solved efficiently, in real time. This approach works well in many practical applications, and it often exhibits a certain robustness due to its inherent ability to reject disturbances. However, the constraints may become violated when large disturbances occur, since uncertainty is not taken into account in optimizing the predicted state trajectories. In such cases, robust MPC schemes can be used to mitigate these optimistic, certainty-equivalence-based predictions. Nonetheless, a rigorous formulation of robust MPC calls for the solution, at each sampling time, of an optimization problem whose decision variables are the future control policies, that is, functions mapping the state measurements onto the control actions. Such optimization problems are hard to solve in general, and brute-force approximations, e.g. based on scenario trees, can currently only be used for very short time-horizons. Because scenario-tree approaches scale exponentially with the length of the time-horizon, they may even be worse than robust dynamic programming approaches, which scale linearly with the length of the prediction horizon, yet exponentially with the state dimension.
+
+Convex formulations of robust MPC have been derived for certain classes of problems, for instance when the dynamic system is jointly affine in the state, control and uncertainty and the feedback control law is itself affine in the disturbance. There, the number of the (matrix-valued) optimization variables scales quadratically with the length of the prediction horizon. The conservatism introduced by an affine parameterization of the control law is discussed in. In this context, we also refer to, where real-time variants of robust MPC based on certain affine feedback laws are analyzed. Other convex formulations can be obtained by reformulating the semi-infinite constraints arising in robust MPC as linear matrix inequalities (LMIs). One such LMI reformulation for bounding the worst-case performance of linear systems under additive bounded uncertainty using constant state-feedback control laws was derived in. Another approach was presented in, where the future model variations are bounded by a family of polytopes expressed as LMI constraints.
+
+Other state-of-the-art approaches in robust MPC adopt a set-theoretic perspective. These methods find their origins in viability theory or, more specifically, in set-theoretic methods for control. Robust MPC schemes based on these parametric set-propagation methods are also known collectively under the name tube-based MPC. There, the predicted trajectory is replaced by a robust forward invariant tube (RFIT) in the state-space, namely a tube that encloses all possible state trajectories under a given feedback control law, which is independent of the uncertainty realization. Tube-based approaches are typically analyzed under the assumption that exact state measurements are available, or that the equations of a parameterized state estimator, e.g. a linear filter, can be added to the system dynamics so that standard tube-based methods transfer readily.
+
+A parameterized tube-based MPC formulation for linear discrete-time systems with affine uncertainty has been proposed in. This formulation allows for the simultaneous optimization of tubes and control laws that are nonlinear in the state measurements, resulting in a computationally tractable, linear programming (LP) formulation, whose decision variables and constraints scale quadratically with the prediction horizon. A generalization handling more general cost functions is considered in, and a way of reducing the online complexity of this approach to linear complexity via offline computations is further presented in. Tube-based methods have also been developed for linear systems with multiplicative uncertainty, for example by using polytopic tubes with quadratic cost, which leads to a quadratic programming (QP) formulation. Regarding nonlinear dynamics, a possible tube-based approach involves linearizing the system around a feasible, but suboptimal, trajectory and computing the tube by regarding the linearization errors as additional uncertainty. This idea was used in with polytopic tubes and affine feedback laws. A similar approach was developed by in the case of quadratic cost terms and ellipsoidal tubes. A tube-based approach for nonlinear continuous-time systems was proposed in, where the feedback control laws are affinely parameterized and computed offline.
+
+This paper presents a novel numerical approach for addressing tube-based MPC problems. In contrast to existing methods which parameterize the control law, our approach introduces a min-max differential inequality exploiting the properties on the boundary of RFITs. These min-max differential inequalities yield a non-trivial generalization of differential inequalities and provide sufficient conditions for a time-varying convex-set-valued function to be a RFIT for a class of continuous-time nonlinear control systems. We show that these (on the first view) rather abstract concepts can be used to derive practical implementations of tube-based MPC, which i) scale linearly with the length of the prediction horizon, and ii) do not rely on a particular parameterization of the control law. In principle, this approach can achieve arbitrary precision, insofar as the tubes are represented with sufficient accuracy.
+
+The rest of the paper is organized as follows. The problem formulation is described in Sect. 2. The main theoretical framework for characterizing RFITs for nonlinear input-affine systems is developed in Sect. 3 and its application to RFITs with ellipsoidal cross-sections is presented in Sect. 4. A practical implementation of tube-based MPC based on these results is discussed in Sect. 5 and illustrated with a numerical case study in Sect. 6. Finally, Sect. 7 concludes the paper.
+
+### Notation and preliminaries
+
+The sets of real and positive real numbers are denoted by $\mathbb{R}$ and ${\mathbb{R}}_{+ +}$. The sets of compact and compact convex subsets of ${\mathbb{R}}^{n}$ are denoted by ${\mathbb{K}}^{n}$ and ${\mathbb{K}}_{C}^{n}$, respectively. The support function ${V{\lbrack Z\rbrack}}:{{\mathbb{R}}^{n}\rightarrow{\mathbb{R}}}$ of a set $Z \in {\mathbb{K}}_{C}^{n}$ is defined as
+
+Moreover, ${bd}Z$ denotes the boundary of $Z$ and $\Pi{(Z)}$ its power set. The Hausdorff distance between ${W,Z} \in {\mathbb{K}}_{C}^{n}$ is given by
+
+A set $Z \in {\mathbb{K}}_{C}^{n}$ is said to be strictly convex if each of its supporting hyperplanes meets ${bd}Z$ at exactly one point $z \in {{bd}Z}$, and it is called a smooth set if ${bd}Z$ is itself a smooth submanifold of ${\mathbb{R}}^{n}$. Moreover, there exists a $C^{\infty}$-smooth convex function $g:{{\mathbb{R}}^{n}\rightarrow{\mathbb{R}}}$ such that
+
+Let $\mathcal{S}^{n - 1}$ denote the unit sphere in ${\mathbb{R}}^{n}$. Given a smooth set $Z \in {\mathbb{K}}_{C}^{n}$, the Gauss map $\mathcal{G}_{Z}:{{{bd}Z}\rightarrow\mathcal{S}^{n - 1}}$ is a continuous function assigning to every boundary point $z \in {{bd}Z}$ its unique outward normal. It is defined as
+
+for any continuously-differentiable and convex function $g$ satisfying. The differential $\partial{\mathcal{G}_{Z}/{\partial{\zeta{(\zeta)}}}}$ defines a linear operator from $T_{\zeta}Z$, the tangent space of ${bd}Z$ at $\zeta$, onto itself. The set $Z$ is said to have positive curvature at $\zeta \in {{bd}Z}$ if
+
+In particular, any smooth set $Z$ with positive curvature everywhere is also strictly convex. Moreover, if $Z$ is both smooth and strictly convex, then $\mathcal{G}_{Z}$ has a continuous inverse $\mathcal{G}_{Z}^{- 1}$, called the inverse Gauss map. In other words, ${bd}Z$ is homeomorphic to $\mathcal{S}^{n - 1}$ through $\mathcal{G}_{Z}$.
+
+The set of $n$-dimensional Lebesgue-integrable functions on the interval $I \subseteq {\mathbb{R}}$ is denoted by ${\mathbb{L}}{(I)}^{n}$, or simply ${\mathbb{L}}^{n}$ if $I = {\mathbb{R}}$. Unless otherwise stated, Lebesgue integration is understood with respect to the time variable. The abbreviation $a.e.$ is used to indicate that a property holds almost everywhere.
+
+The sets of $n \times n$ symmetric positive semi-definite and symmetric positive definite matrices are denoted by ${\mathbb{S}}_{+}^{n}$ and ${\mathbb{S}}_{+ +}^{n}$, respectively. Ellipsoids in ${\mathbb{R}}^{n}$ with center $q \in {\mathbb{R}}^{n}$ and positive semi-definite shape matrix $Q \in {\mathbb{S}}_{+}^{n}$ are defined as
+
+with $Q^{\frac{1}{2}}$ being the symmetric square-root of $Q$. By a small abuse of notation, $\mathcal{E}{(Q)}$ denotes the ellipsoid with shape matrix $Q$ and centered at zero. The (Moore-Penrose) pseudoinverse of a matrix $A \in {\mathbb{R}}^{m \times n}$ is denoted by $A^{\dagger}$, and its Frobenius norm by ${\| A\|}_{F}:=\sqrt{{Tr}{({A^{\mathsf{T}}A})}}$.
+
+## Problem Formulation
+
+Consider a nonlinear control system in the form:
+
+where $f:{{{\mathbb{R}}^{n_{x}} \times {\mathbb{R}}^{n_{w}}}\rightarrow{\mathbb{R}}^{n_{x}}}$, $G:{{\mathbb{R}}^{n_{x}}\rightarrow{\mathbb{R}}^{n_{x} \times n_{u}}}$ and $g:{{{\mathbb{R}}^{n_{x}} \times {\mathbb{R}}^{n_{u}} \times {\mathbb{R}}^{n_{w}}}\rightarrow{\mathbb{R}}^{n_{x}}}$ are potentially nonlinear functions, for which regularity assumptions will be stated later on, as necessary; the state trajectory is denoted by $x \in {\mathbb{L}}^{n_{x}}$; $u \in {\mathbb{U}}:=\left\{ {u \in {\mathbb{L}}^{n_{u}}}\mid{{{\forall t} \in {\mathbb{R}}},{{u{(t)}} \in U \subseteq {\mathbb{R}}^{n_{u}}}} \right\}$ denotes the control; and $w \in {\mathbb{W}}:={\{{w \in {\mathbb{L}}^{n_{w}}}\mid{{{\forall t} \in {\mathbb{R}}},{{w{(t)}} \in W \subseteq {\mathbb{R}}^{n_{w}}}}\}}$ denotes the exogenous disturbance.
+
+The class of nonlinear control systems is affine in the control function $u$. Although the reasons for this assumption will become apparent later on, it is important to note that it is not as restrictive as it may seem. In engineering practice, many physical systems possess such an affine control structure. Moreover, any nonlinear controlled system may be reformulated into the desired form under a stronger assumption on $u$; for instance, under the assumption that $u$ is at least locally Lipschitz continuous, an integrable control $v$ can be introduced such that $u$ is now regarded as a auxiliary state satisfying the differential equation ${\overset{˙}{u}{(t)}} = {v{(t)}}$.
+
+### Assumption 1
+
+The sets $U \subseteq {\mathbb{R}}^{n_{u}}$ and $W \subseteq {\mathbb{R}}^{n_{w}}$ are compact and convex, i.e. $U \in {\mathbb{K}}_{C}^{n_{u}}$ and $W \in {\mathbb{K}}_{C}^{n_{w}}$. Furthermore, $U$ has a non-empty interior.
+
+### Definition 1
+
+The set-valued function $Y:{{\lbrack t_{1},t_{2}\rbrack}\rightarrow{\Pi{({\mathbb{R}}^{n_{x}})}}}$ is called a RFIT for on $\lbrack t_{1},t_{2}\rbrack$, if there exists an integrable feedback control law $\mu:{{{\lbrack t_{1},t_{2}\rbrack} \times {\mathbb{R}}^{n_{x}}}\rightarrow U}$ such that any solution of the controlled system
+
+with ${x{(t)}} \in {Y{(t)}}$, satisfies ${x{(t^{\prime})}} \in {Y{(t^{\prime})}}$ for all ${t,t^{\prime}} \in {\lbrack t_{1},t_{2}\rbrack}$ with $t^{\prime} \geq t$ and all $w \in {\mathbb{W}}$.
+
+Our focus throughout the paper is on a tube-based robust MPC approach, whereby the following optimization problems are solved in a receding horizon manner:
+
+where $\mathcal{Y}$ denotes the set of all RFITs for on $\lbrack t,{t + T}\rbrack$; $\ell:{{\Pi{({\mathbb{R}}^{n_{x}})}}\rightarrow{\mathbb{R}}}$ is the objective of the MPC controller; the feasibility set $F_{x}$ is a subset of ${\mathbb{R}}^{n_{x}}$; and ${\hat{x}}_{t}$ is the state measurement at $t$, assumed to be noise free.
+
+Observe that optimizing over the tube $Y$ in problem is equivalent to optimizing over a feedback control policy $\mu$, since every $Y$ is generated by at least one $\mu$ according to Definition 1. This also makes the link with standard MPC formulations, where the optimization is over the (open-loop) control trajectory.
+
+The following analysis aims to develop a tractable computational approach to addressing the tube-based robust MPC problem. For simplicity, computational delays are not taken into account in this analysis. Specifically, given any feedback control policy $\mu{(t,x)}$ keeping the response $x$ in an optimal RFIT $Y^{\ast}$---e.g., as found from the repeated solution of in a receding horizon manner---we assume that the control ${u{(t)}} = {\mu{(t,{\hat{x}}_{t})}}$ is fed back into the system instantaneously.
+
+## Characterization of Robust Forward Invariant Tubes
+
+This section presents sufficient conditions for a convex tube to be a RFIT for the nonlinear input-affine control system, under the following generic assumption:
+
+### Assumption 2
+
+The function $f$ is jointly continuous in $x,w$ and locally Lipschitz-continuous in $x$. Moreover, the function $G$ is continuously differentiable.
+
+The derivation builds upon a recent result for computing enclosures of the reachable set of uncertain ODEs. For a given control $u \in {\mathbb{U}}$ and a given set of initial states $X_{1} \in {\mathbb{K}}_{C}^{n_{x}}$ at $t_{1}$, we denote the reachable set of at $t_{2} > t_{1}$ as:
+
+For notational convenience, we also define the set-valued function $\Gamma_{g}:{{{\mathbb{R}}^{n_{u}} \times {\mathbb{R}}^{n_{x}} \times {\mathbb{K}}_{C}^{n_{x}}}\rightarrow{\mathbb{K}}^{n_{x}}}$ associated with the right-hand-side function $g$ in as:
+
+The following theorem is adapted from \[40, Theorem 3 & Remark 2\] for the class of controlled dynamic systems of interest.
+
+### Theorem 1
+
+Consider the uncertain dynamic system with initial condition ${x{(t_{1})}} \in X_{1}$, with $X_{1} \in {\mathbb{K}}_{C}^{n_{x}}$, and a given control $u \in {\mathbb{U}}$, and let Assumptions 1 and 2 hold. Let $Y:{{\lbrack t_{1},t_{2}\rbrack}\rightarrow{\mathbb{K}}_{C}^{n_{x}}}$ be a set-valued function such that
+
+the function $V{\lbrack{Y{( \cdot )}}\rbrack}{(c)}$ is, for all $c \in {\mathbb{R}}^{n_{x}}$, Lipschitz-continuous on $\lbrack t_{1},t_{2}\rbrack$, and
+
+the set-valued function $Y$ satisfies, for all $c \in {\mathbb{R}}^{n_{x}}$, the differential inequality
+
+Then, $Y$ is an enclosure of the reachable tube of, i.e. ${Y{(t)}} \supseteq {X{(t)}}$ for all $t \in {\lbrack t_{1},t_{2}\rbrack}$.
+
+The following theorem sets the basis for the tube-based MPC methods that are proposed in the paper. Unlike Theorem 1, the control policy $u$ is not given, but chosen in the set $\mathbb{U}$ of admissible controllers in order to reduce the cross-section of the tube, while accounting for every possible realization of the exogenous disturbance $w \in {\mathbb{W}}$. These sufficient conditions come in the form of a min-max differential inequality (DI), which describes the convex cross-sections of a RFIT in terms of their support functions.
+
+### Theorem 2
+
+Consider the uncertain dynamic system, and let Assumptions 1 and 2 hold. Let $Y:{{\lbrack t_{1},t_{2}\rbrack}\rightarrow{\mathbb{K}}_{C}^{n_{x}}}$ be a set-valued function such that
+
+the function $V{\lbrack{Y{( \cdot )}}\rbrack}{(c)}$ is, for all $c \in {\mathbb{R}}^{n_{x}}$, Lipschitz-continuous on $\lbrack t_{1},t_{2}\rbrack$, and
+
+the set-valued function $Y$ satisfies, for all $c \in {\mathbb{R}}^{n_{x}}$, the differential inequality
+
+Then, $Y$ is a RFIT for all $t \in {\lbrack t_{1},t_{2}\rbrack}$.
+
+### Proof
+
+The following corollary is a direct side-product of the proof of Theorem 2.
+
+### Corollary 3
+
+Let the set-valued function $Y:{{\lbrack t_{1},t_{2}\rbrack}\rightarrow{\mathbb{K}}_{C}^{n_{x}}}$ satisfy the conditions of Theorem 2. Under the additional regularity conditions that the set of admissible controls $U$ and the tube cross-sections $Y{(t)}$, for all $t \in {\lbrack t_{1},t_{2}\rbrack}$, are smooth and their boundaries have positive curvature everywhere, an explicit feedback control law keeping the uncertain system trajectories within the RFIT is
+
+$\mu{(t,\xi)}$ ${= {\mu_{t}^{\ast}\left( {\mathcal{G}_{Y{(t)}}{(\xi)}} \right)}},$ (6a)
+${\text{with}\quad{\mu_{t}^{\ast}{(c)}}}:$ ${= {{\underset{\nu \in U}{\arg\min}{c^{\mathsf{T}}G}}\left( {\mathcal{G}_{Y{(t)}}^{- 1}{(c)}} \right)\nu}},$ (6b)
+
+and the inverse Gauss map $\mathcal{G}_{Y{(t)}}^{- 1}$ of $Y{(t)}$ is given by
+
+### Remark 1
+
+The feedback control law given by Eqs. is not necessarily unique.
+
+### Remark 2
+
+It is clear from Eq. in Appendix A, that the construction of the feedback control law relies heavily on the assumption of a control-affine structure for $g$ as well as the absence of uncertain inputs $w$ in the matrix-valued function $G$.
+
+Although heavily inspired by set-theoretic methods for the synthesis of model predictive controllers (see for an introduction), Theorem 2 also provides a constructive approach for nonlinear feedback control laws by exploiting properties at the boundaries of RFITs. This approach has not been exploited so far in the robust MPC literature.
+
+Checking the sufficient conditions provided by Theorem 2 for an arbitrary convex set-valued function may prove computationally challenging in general. Nevertheless, the min-max differential inequality can be checked constructively for certain parameterizations of the tube cross-sections, as shown for ellipsoidal tubes next.
+
+## Ellipsoidal Robust Forward Invariant Tubes
+
+This section derives computationally tractable conditions for checking whether a particular set-valued function $Y$ is a RFIT for the dynamic system. The focus is on tubes with ellipsoidal cross-sections, given by
+
+where ${q_{x}{(t)}} \in {\mathbb{R}}^{n_{x}}$ and ${Q_{x}{(t)}} \in {\mathbb{S}}_{+}^{n_{x}}$ denote the center and shape matrix of the tube, pointwise in time. Moreover, we make the following additional assumptions:
+
+### Assumption 3
+
+There exist pairs ${(q_{w},Q_{w})} \in {{\mathbb{R}}^{n_{w}} \times {\mathbb{S}}_{+}^{n_{w}}}$ and ${(q_{u},Q_{u})} \in {{\mathbb{R}}^{n_{u}} \times {\mathbb{S}}_{+}^{n_{u}}}$ such that ${\mathcal{E}{(q_{w},Q_{w})}} \supseteq W$ and ${\mathcal{E}{(q_{u},Q_{u})}} \subseteq U$.
+
+### Assumption 4
+
+The functions $f$ and $G$ are twice continuously differentiable in all of their arguments.
+
+The following construction of ellipsoidal tubes is based on Theorem 2 and uses the same ideas as the construction of ellipsoidal bounds for uncertain ODEs based on Theorem 1; see, e.g.,. The control $u$, disturbance $w$ and state $x$ are decomposed into their nominal and perturbed components as
+
+where $q_{x}$ satisfies the ODE
+
+for a reference control ${u_{x}{(t)}} \in {\mathcal{E}{(q_{u},Q_{u})}}$. It follows that the perturbed state component $\delta_{x}$ satisfies the ODE
+
+Here, the function $n:{{{\mathbb{R}} \times {\mathbb{R}}^{n_{x}} \times {\mathbb{R}}^{n_{w}} \times {\mathbb{R}}^{n_{u}}}\rightarrow{\mathbb{R}}^{n_{x}}}$ is defined in such a way that is equivalent to and
+
+A number of remarks are in order. Since the central path $q_{x}$ corresponds to the nominal state, $u_{x}$ can be understood as the control input that would be applied if no uncertainty were affecting the system. Moreover, the decomposition of the right-hand side per is valid with any integrable functions $A$ and $B$ of suitable dimensions, as long as $n$ is chosen in an appropriate manner. For instance, if $A$ and $B$ are constructed through a first-order Taylor expansion, $n$ is given by the remainder function per Taylor's theorem.
+
+The present tube construction relies on the existence of an inner approximation of $\mathcal{E}{(q_{u},Q_{u})}$ centered at $u_{x}{(t)}$, as given by the following lemma.
+
+### Lemma 4
+
+For any reference control ${u_{x}{(t)}} \in {\mathcal{E}{(q_{u},Q_{u})}}$, any function $\gamma:{{\mathbb{R}}\rightarrow{(0,1\rbrack}}$, and any matrix-valued function $R_{u}:{{\mathbb{R}}\rightarrow{\mathbb{S}}_{+}^{n_{u}}}$ such that ${R_{u}{(t)}} \succeq 0$ and
+
+we have ${\mathcal{E}{({u_{x}{(t)}},{R_{u}{(t)}})}} \subseteq {\mathcal{E}{(q_{u},Q_{u})}}$ for all $t \in {\mathbb{R}}$.
+
+### Proof
+
+We also introduce the following technical assumptions regarding the control constraint set and the nonlinearities in the functions $G$ and $n$.
+
+### Assumption 5
+
+There exists a nonlinearity bounder $\Omega_{n}:{{{\mathbb{R}}^{n_{x}} \times {\mathbb{S}}_{+}^{n_{x}}}\rightarrow{\mathbb{S}}_{+}^{n_{x}}}$ for the function $n$ such that
+
+for all $t \in {\lbrack t_{1},t_{2}\rbrack}$, all $\xi \in {\mathcal{E}{({Q_{x}{(t)}})}}$, all $\omega \in {\mathcal{E}{(Q_{w})}}$, and all $\nu \in {\mathcal{E}{(Q_{u})}}$.
+
+### Assumption 6
+
+There exists a nonlinearity bounder $\Omega_{G}:{{{\mathbb{R}}^{n_{x}} \times {\mathbb{S}}_{+}^{n_{x}} \times {\mathbb{S}}_{+}^{n_{u}} \times {\mathbb{R}}^{n_{x} \times n_{u}}}\rightarrow{\mathbb{S}}_{+}^{n_{x}}}$ such that
+
+for all $t \in {\lbrack t_{1},t_{2}\rbrack}$, all $\xi \in {\mathcal{E}{({q_{x}{(t)}},{Q_{x}{(t)}})}}$ and all $S_{0} \in {\mathbb{R}}^{n_{x} \times n_{u}}$ with ${S_{0}S_{0}^{\mathsf{T}}} \preceq I$, where $R_{u}$ is constructed as in Lemma 4 such that ${\mathcal{E}{({u_{x}{(t)}},{R_{u}{(t)}})}} \subseteq {\mathcal{E}{(q_{u},Q_{u})}}$.
+
+Sufficient conditions for a tube with ellipsoidal cross-section to be a RFIT for system are stated in the following theorem. For notational convenience, we introduce the matrix-valued function $\Phi_{g}:{{{\mathbb{R}}^{n_{x}} \times {\mathbb{S}}_{+}^{n_{x}} \times {\mathbb{R}}^{n_{x} \times n_{u}} \times {\mathbb{S}}_{+}^{n_{u}} \times {\mathbb{R}}_{+ +} \times {\mathbb{R}}_{+ +}}\rightarrow{\mathbb{S}}_{+}^{n_{x}}}$ associated with the right-hand-side function $g$ in as:
+
+### Theorem 5
+
+Consider the uncertain dynamic system, and let Assumptions 3-6 hold for a given reference control $u_{x} \in {\mathbb{U}}$ and let $R_{u}$ be constructed as in Lemma 4. If the functions $Q_{x}:{{\lbrack t_{1},t_{2}\rbrack}\rightarrow{\mathbb{S}}_{+}^{n_{x}}}$ and $q_{x}:{{\lbrack t_{1},t_{2}\rbrack}\rightarrow{\mathbb{R}}^{n_{x}}}$ satisfy
+
+for some functions ${\lambda,\kappa}:{{\lbrack t_{1},t_{2}\rbrack}\rightarrow{\mathbb{R}}_{+ +}}$ and $S:{{\lbrack t_{1},t_{2}\rbrack}\rightarrow{\mathbb{R}}^{n_{x} \times n_{u}}}$ with ${S{(t)}S{(t)}^{\mathsf{T}}} \preceq I$, then ${Y{(t)}}:={\mathcal{E}{({q_{x}{(t)}},{Q_{x}{(t)}})}}$ describes a RFIT for on $\lbrack t_{1},t_{2}\rbrack$.
+
+### Proof
+
+The following corollary is an immediate consequence of the proofs of Theorem 2 (Step S1) and Theorem 5.
+
+### Corollary 6
+
+Let the set-valued function $Y:{{\lbrack t_{1},t_{2}\rbrack}\rightarrow{\mathbb{K}}_{C}^{n_{x}}}$ with ${Y{(t)}}:={\mathcal{E}{({q_{x}{(t)}},{Q_{x}{(t)}})}}$ satisfy the conditions of Theorem 5. Then, an explicit feedback law associated with this RFIT is given by
+
+where $\mathcal{G}_{Y{(t)}}$ and $\mathcal{G}_{Y{(t)}}^{- 1}$ denote the Gauss map of $\mathcal{E}{({q_{x}{(t)}},{Q_{x}{(t)}})}$ and its inverse respectively, i.e.
+
+and $\mu_{t}^{\ast}$ is given by
+
+### Remark 3
+
+Another feedback law can be obtained by extending the the domain of the Gauss map of an ellipsoid from ${{bd}\mathcal{E}}{(q,Q)}$ to ${\mathcal{E}{(q,Q)}} \smallsetminus {\{ q\}}$, and replacing the condition $\xi \in {{{bd}Y}{(t)}}$ with $\xi \neq q_{x}$ in the feedback law.
+
+Depending on the problem at hand, the required nonlinear bounders in Assumptions 5 and 6 may be constructed either symbolically, as proposed in, or numerically, e.g. using tools from interval analysis. A difficulty with the latter approach, however, is that operations performed using usual interval arithmetic are Lipschitz continuous, yet typically nonsmooth. This would impair the use of gradient-based methods for solving the optimization problems. Instead of applying interval analysis directly, Lemma 7 in Appendix D presents a way of constructing a smooth nonlinearity bounder for any twice continuously-differentiable function.
+
+## Robust Tube-Based MPC Based on Min-Max Differential Inequalities
+
+This section discusses how the developments in Sect. 3 and Sect. 4 can be used in the context of robust MPC. Using Theorem 2, any solution to the following optimization problem turns out to also be a feasible solution to the tube-based MPC problem, in the case of RFITs with convex cross-sections:
+
+Notice that is not a standard optimal control problem, as it embeds semi-infinite differential inequality constraints. However, discretizing this problem leads to a band-structured optimization problem whose complexity scales linearly with respect to the length of the time horizon.
+
+With the results from Theorem 5, Problem can be further specialized to the case of tubes with ellipsoidal cross-sections as:
+
+Observe that now yields a standard optimal control problem with linear matrix inequality (LMI) constraints. A solution to this problem provides a RFIT in the form ${Y{(\tau)}} = {\mathcal{E}{({q_{x}{(\tau)}},{Q_{x}{(\tau)}})}}$, from which an explicit feedback control law can be derived by applying Corollary 6.
+
+A practical implementation of this tube-based MPC scheme calls for the specification of the performance criterion $\ell$ and the feasibility set $F_{x}$. In the case of tracking control, we may use the so-called generalized rotational inertia of the set $Y{(t)}$ with respect to a given reference $x_{ref}$, defined by:
+
+where $D \in {\mathbb{S}}_{+ +}^{n_{x}}$ is any weighting matrix. In the ellipsoidal case, ${Y{(t)}}:={\mathcal{E}{({q_{x}{(t)}},{Q_{x}{(t)}})}}$, we have \[39, Appendix C\]
+
+Regarding the feasible set, we may consider linear state constraints of the form
+
+with $h_{i} \in {\mathbb{R}}^{n_{x}}$ and $\eta_{i} \in {\mathbb{R}}$. In the ellipsoidal case, the feasibility constraint ${\mathcal{E}{({q_{x}{(\tau)}},{Q_{x}{(\tau)}})}} \subseteq F_{x}$ can be rewritten as:
+
+One of the main issues in robust MPC is ensuring recursive feasibility, namely the ability to find, for every possible initial state, a feasible state at every time along the closed-loop trajectory. This requirement can be addressed by adding the following constraint to the optimization problem:
+
+where $Y_{ref} \subseteq F_{x}$ is a robust forward invariant set, i.e. a time-invariant RFIT. If $Y_{ref}$ satisfies Definition 1 on any time interval, then the sets $\left. \{{\mu{({t + T},{x{({t + T})}})}} \middle| {{x{({t + T})}} \in {Y{({t + T})}}}\} \right. \in U$ will remain non-empty by construction, and the MPC procedure discussed previously is indeed recursively feasible. This recursive feasibility condition is satisfied, if
+
+for some scalar ${\lambda_{ref},\kappa_{ref}} \in {\mathbb{R}}_{+ +}$ and some matrix $S_{ref} \in {\mathbb{R}}^{n_{x} \times n_{u}}$ with ${S_{ref}S_{ref}^{\mathsf{T}}} \preceq I$. For instance, one such matrix $Q_{ref}$ can be found by solving the following optimization problem:
+
+The following section presents an application of the ellipsoidal approach of tube-based MPC on a numerical case-study.
+
+## Numerical Case Study
+
+We consider a spring-mass-damper system given by
+
+where $x_{1}$ and $x_{2}$ denote the displacement of the cart with respect to the equilibrium position $\lbrack m\rbrack$ and its velocity $\lbrack{m/s}\rbrack$, respectively; $M$ is the mass of the cart; ${k{(x)}}:={k_{0}{\exp{({- x_{1}})}}}$, the stiffness of the spring; and $h_{d}$, the damping factor. The values of the parameters are $M = {1{kg}}$, $k_{0} = {{0.33N}/m}$ and $h_{d} = {{1.1{Ns}}/m}$.
+
+Bounds for the disturbance and the control sets are given by the ellipsoids ${\mathcal{E}{(Q_{w})}} \in {\mathbb{K}}_{C}^{2}$ and ${\mathcal{E}{(Q_{u})}} \in {\mathbb{K}}_{C}$, with $Q_{w} = {{diag}{({{10^{- 2}m^{2}}/s^{2}},{\;0.25N^{2}})}}$ and $Q_{u} = {36N^{2}}$. The length of the prediction horizon is set to $T = {10s}$, and the initial state of the system is $x_{start} = \left( {0.7m},{{0.7m}/s} \right)^{\mathsf{T}}$.
+
+Figure 1: Comparison of the robust (ellipsoidal) tube-based controller with a certainty-equivalent model predictive controller. The plot shows the optimal ellipsoidal RFIT (grey area) for x̂t = xstart as well as a nominal trajectory (red line) and a disturbed closed-loop trajectory (green line) for the certainty-equivalent controller.
+
+The optimization problem in the tube-based MPC controller is based on and involves minimizing the functional
+
+This cost corresponds to the generalized rotational inertia, except for the term $u_{x}{(t)}^{2}$ which can be interpreted as a control regularization. Moreover, a state constraint is enforced, so that ${\mathcal{E}{({q_{x}{(\tau)}},{Q_{x}{(\tau)}})}} \subseteq F_{x}:={\{ x\mid{x_{1} \leq 0.85}\}}$.
+
+Problem is solved numerically using the optimal control sofware ACADO,^11^1Since ACADO Toolkit does not support LMI constraints, our implementation substitutes the LMI constraints in with equivalent standard (nonlinear) state constraints using Schur complement techniques. using a piecewise constant control discretization on $40$ equidistant intervals. All the nonlinearity bounders are constructed using the technique in Appendix D.
+
+Fig. 1 compares the optimal ellipsoidal RFIT (grey area) with closed-loop trajectories for the nominal system (red line) and a system subject to a random disturbance taking values in $\mathcal{E}{(Q_{w})}$ (green line) for a certainty-equivalent MPC controller. The latter minimizes the tracking objective
+
+and is implemented in ACADO using the same parameter values and state constraint as the robust tube-based MPC controller above. Notice that in the case where no uncertainty is present, the certainty-equivalent MPC controller performs as expected---although it touches the state constraint, it is able to steer the state to a neighbourhood of the origin without violating it. In contrast, when the system is subject to disturbances this controller fails in about $50\%$ of the uncertainty scenarios, after causing a constraint violation.
+
+The results of the tube-based MPC controller are shown in Fig. 2. As expected, the controller steers the nominal state (center of the RFIT) close to the origin at $t = 10$. In order to prevent violation of the path constraint against all the possible uncertainty scenarios, the controller rotates the ellipsoidal cross-sections of the RFIT quite drastically initially. Moreover, solving a conservative approximation of the min-max differential inequality appears to have a small adverse effect on the controller's performance in this simple case study.
+
+Figure 2: The optimal ellipsoidal RFIT for x̂t = xstart (grey area). The red line shows the state constraint 𝔽x = {x ∣ x1 ≤ 0.85}. Left: Selected ellipsoidal cross-sections for t ∈ {1/4, 3/4, 5/4, 7/4, 9/4, 10}. Right: Selected trajectories for three uncertainty realizations in dotted lines.
+
+## Conclusions
+
+A novel approach to tube-based robust MPC has been proposed for control-affine nonlinear systems, which relies on a min-max differential inequality formulation in order to provide sufficient conditions for a time-varying convex set-valued function to be a RFIT. Unlike other robust MPC approaches, the procedure based on this differential inequality does not call for any particular parameterization of the feedback control law, while benefiting from having linear complexity with respect to the time horizon. Another benefit of the proposed approach is that a semi-explicit representation of a feedback control law may be obtained as a side-product of the RFIT propagation under mild conditions, namely when the RFIT cross-sections and the control sets are smooth with positive curvature. This property has been exploited to devise a practical implementation involving tubes with ellipsoidal cross-sections. This ellipsoidal tube-based MPC approach was tested for a spring-mass-damper system. In contrast to the certainty-equivalent model predictive controller it guarantees feasibility for all uncertainty scenarios.
+
+This paper is based upon work supported by the Engineering and Physical Sciences Research Council (EPSRC) under Grant EP/J006572/1. Financial support from Marie Curie Career Integration Grant -GA-2011-293953 and from the Centre of Process Systems Engineering (CPSE) of Imperial College is gratefully acknowledged. M.E.V. thanks CONACYT for doctoral scholarship. This research was supported by the EU via ERC-HIGHWIND (259 166), FP7-ITN-TEMPO (607 957), and H2020-ITN-AWESCO (642 682). Rien Quirynen holds a research fellowship by the FWO. Support by Freiburg University in form of a guest professorship of the last author at the Freiburg Institute for Advanced Studies (FRIAS) in 2014 is gratefully acknowledged.

@@ -1,0 +1,169 @@
+## Introduction
+
+While reinforcement learning (RL) provides a powerful framework for automating decision making and control, significant engineering of elements such as features and reward functions has typically been required for good practical performance. In recent years, deep reinforcement learning has alleviated the need for feature engineering for policies and value functions, and has shown promising results on a range of complex tasks, from vision-based robotic control to video games such as Atari and Minecraft. However, reward engineering remains a significant barrier to applying reinforcement learning in practice. In some domains, this may be difficult to specify (for example, encouraging "socially acceptable" behavior), and in others, a naïvely specified reward function can produce unintended behavior. Moreover, deep RL algorithms are often sensitive to factors such as reward sparsity and magnitude, making well performing reward functions particularly difficult to engineer.
+
+Inverse reinforcement learning (IRL) refers to the problem of inferring an expert's reward function from demonstrations, which is a potential method for solving the problem of reward engineering. However, inverse reinforcement learning methods have generally been less efficient than direct methods for learning from demonstration such as imitation learning, and methods using powerful function approximators such as neural networks have required tricks such as domain-specific regularization and operate inefficiently over whole trajectories. There are many scenarios where IRL may be preferred over direct imitation learning, such as re-optimizing a reward in novel environments or to infer an agent's intentions, but IRL methods have not been shown to scale to the same complexity of tasks as direct imitation learning. However, adversarial IRL methods hold promise for tackling difficult tasks due to the ability to adapt training samples to improve learning efficiency.
+
+Part of the challenge is that IRL is an ill-defined problem, since there are many optimal policies that can explain a set of demonstrations, and many rewards that can explain an optimal policy. The maximum entropy (MaxEnt) IRL framework introduced by Ziebart et al. handles the former ambiguity, but the latter ambiguity means that IRL algorithms have difficulty distinguishing the true reward functions from those shaped by the environment dynamics. While shaped rewards can increase learning speed in the original training environment, when the reward is deployed at test-time on environments with varying dynamics, it may no longer produce optimal behavior, as we discuss in Sec. 5. To address this issue, we discuss how to modify IRL algorithms to learn rewards that are invariant to changing dynamics, which we refer to as disentangled rewards.
+
+In this paper, we propose adversarial inverse reinforcement learning (AIRL), an inverse reinforcement learning algorithm based on adversarial learning. Our algorithm provides for simultaneous learning of the reward function and value function, which enables us to both make use of the efficient adversarial formulation and recover a generalizable and portable reward function, in contrast to prior works that either do not recover a reward functions, or operates at the level of entire trajectories, making it difficult to apply to more complex problem settings. Our experimental evaluation demonstrates that AIRL outperforms prior IRL methods on continuous, high-dimensional tasks with unknown dynamics by a wide margin. When compared to GAIL, which does not attempt to directly recover rewards, our method achieves comparable results on tasks that do not require transfer. However, on tasks where there is considerable variability in the environment from the demonstration setting, GAIL and other IRL methods fail to generalize. In these settings, our approach, which can effectively disentangle the goals of the expert from the dynamics of the environment, achieves superior results.
+
+## Related Work
+
+Inverse reinforcement learning (IRL) is a form of imitation learning and learning from demonstration. Imitation learning methods seek to learn policies from expert demonstrations, and IRL methods accomplish this by first inferring the expert's reward function. Previous IRL approaches have included maximum margin approaches, and probabilistic approaches such as Ziebart et al.; Boularias et al.. In this work, we work under the maximum causal IRL framework of Ziebart. Some advantages of this framework are that it removes ambiguity between demonstrations and the expert policy, and allows us to cast the reward learning problem as a maximum likelihood problem, connecting IRL to generative model training.
+
+Our proposed method most closely resembles the algorithms proposed by Uchibe; Ho & Ermon; Finn et al.. Generative adversarial imitation learning (GAIL) differs from our work in that it is not an IRL algorithm that seeks to recover reward functions. The critic or discriminator of GAIL is unsuitable as a reward since, at optimality, it outputs 0.5 uniformly across all states and actions. Instead, GAIL aims only to recover the expert's policy, which is a less portable representation for transfer. Uchibe does not interleave policy optimization with reward learning within an adversarial framework. Improving a policy within an adversarial framework corresponds to training an amortized sampler for an energy-based model, and prior work has shown this is crucial for performance. Wulfmeier et al. also consider learning cost functions with neural networks, but only evaluate on simple domains where analytically solving the problem with value iteration is tractable. Previous methods which aim to learn nonlinear cost functions have used boosting and Gaussian processes, but still suffer from the feature engineering problem.
+
+Our IRL algorithm builds on the adversarial IRL framework proposed by Finn et al., with the discriminator corresponding to an odds ratio between the policy and exponentiated reward distribution. The discussion in Finn et al. is theoretical, and to our knowledge no prior work has reported a practical implementation of this method. Our experiments show that direct implementation of the proposed algorithm is ineffective, due to high variance from operating over entire trajectories. While it is straightforward to extend the algorithm to single state-action pairs, as we discuss in Section 4 ‣ Learning Robust Rewards with Adversarial Inverse Reinforcement Learning"), a simple unrestricted form of the discriminator is susceptible to the reward ambiguity described in, making learning the portable reward functions difficult. As illustrated in our experiments, this greatly limits the generalization capability of the method: the learned reward functions are not robust to environment changes, and it is difficult to use the algorithm for the purpose of inferring the intentions of agents. We discuss how to overcome this issue in Section 5.
+
+Amin et al. consider learning reward functions which generalize to new tasks given multiple training tasks. Our work instead focuses on how to achieve generalization within the standard IRL formulation.
+
+## Background
+
+Our inverse reinforcement learning method builds on the maximum causal entropy IRL framework, which considers an entropy-regularized Markov decision process (MDP), defined by the tuple $(\mathcal{S},\mathcal{A},\mathcal{T},r,\gamma,\rho_{0})$. $\mathcal{S},\mathcal{A}$ are the state and action spaces, respectively, $\gamma \in {}$ is the discount factor. The dynamics or transition distribution $\mathcal{T}{(\left. s^{\prime} \middle| {a,s} \right.)}$, the initial state distribution $\rho_{0}{(s)}$, and the reward function $r{(s,a)}$ are unknown in the standard reinforcement learning setup and can only be queried through interaction with the MDP.
+
+The goal of (forward) reinforcement learning is to find the optimal policy $\pi^{\ast}$ that maximizes the expected entropy-regularized discounted reward, under $\pi$, $\mathcal{T}$, and $\rho_{0}$:
+
+where $\tau = {(s_{0},a_{0},{\ldotss_{T}},a_{T})}$ denotes a sequence of states and actions induced by the policy and dynamics. It can be shown that the trajectory distribution induced by the optimal policy $\pi^{\ast}{(\left. a \middle| s \right.)}$ takes the form ${\pi^{\ast}{(\left. a \middle| s \right.)}} \propto {\exp{\{{Q_{\text{soft}}^{\ast}{(s_{t},a_{t})}}\}}}$, where $Q_{\text{soft}}^{\ast}{(s_{t},a_{t})} = r_{t}{(s,a)} + E_{{(s_{t + 1},\ldots)} \sim \pi}{\lbrack\sum_{t^{\prime} = t}^{T}\gamma^{t^{\prime}}{(r{(s_{t^{\prime}},a_{t^{\prime}})} + H{(\pi{( \cdot |s_{t^{\prime}})})}\rbrack}}$ denotes the soft Q-function.
+
+Inverse reinforcement learning instead seeks infer the reward function $r{(s,a)}$ given a set of demonstrations $\mathcal{D} = {\{\tau_{1},\ldots,\tau_{N}\}}$. In IRL, we assume the demonstrations are drawn from an optimal policy $\pi^{\ast}{(\left. a \middle| s \right.)}$. We can interpret the IRL problem as solving the maximum likelihood problem:
+
+Where ${p_{\theta}{(\tau)}} \propto {p{(s_{0})}{\prod_{t = 0}^{T}{p{(\left. s_{t + 1} \middle| {s_{t},a_{t}} \right.)}e^{\gamma^{t}r_{\theta}{(s_{t},a_{t})}}}}}$ parametrizes the reward function $r_{\theta}{(s,a)}$ but fixes the dynamics and initial state distribution to that of the MDP. Note that under deterministic dynamics, this simplifies to an energy-based model where for feasible trajectories, ${p_{\theta}{(\tau)}} \propto e^{\sum_{t = 0}^{T}{\gamma^{t}r_{\theta}{(s_{t},a_{t})}}}$.
+
+Finn et al. propose to cast optimization of Eqn. 1 as a GAN optimization problem. They operate in a trajectory-centric formulation, where the discriminator takes on a particular form ($f_{\theta}{(\tau)}$ is a learned function; $\pi{(\tau)}$ is precomputed and its value "filled in"):
+
+and the policy $\pi$ is trained to maximize ${R{(\tau)}} = {{\log{({1 - {D{(\tau)}}})}} - {{\log D}{(\tau)}}}$. Updating the discriminator can be viewed as updating the reward function, and updating the policy can be viewed as improving the sampling distribution used to estimate the partition function. If trained to optimality, it can be shown that an optimal reward function can be extracted from the optimal discriminator as ${f^{\ast}{(\tau)}} = {{R^{\ast}{(\tau)}} + \text{const}}$, and $\pi$ recovers the optimal policy. We refer to this formulation as generative adversarial network guided cost learning (GAN-GCL) to discriminate it from guided cost learning (GCL). This formulation shares similarities with GAIL, but GAIL does not place special structure on the discriminator, so the reward cannot be recovered.
+
+## Adversarial Inverse Reinforcement Learning (AIRL)
+
+In practice, using full trajectories as proposed by GAN-GCL can result in high variance estimates as compared to using single state, action pairs, and our experimental results show that this results in very poor learning. We could instead propose a straightforward conversion of Eqn. 2 into the single state and action case, where:
+
+As in the trajectory-centric case, we can show that, at optimality, ${f^{\ast}{(s,a)}} = {{\log\pi^{\ast}}{(\left. a \middle| s \right.)}} = {A^{\ast}{(s,a)}}$, the advantage function of the optimal policy. We justify this, as well as a proof that this algorithm solves the IRL problem in Appendix A.
+
+This change results in an efficient algorithm for imitation learning. However, it is less desirable for the purpose of reward learning. While the advantage is a valid optimal reward function, it is a heavily entangled reward, as it supervises each action based on the action of the optimal policy for the training MDP. Based on the analysis in the following Sec. 5, we cannot guarantee that this reward will be robust to changes in environment dynamics. In our experiments we demonstrate several cases where this reward simply encourages mimicking the expert policy $\pi^{\ast}$, and fails to produce desirable behavior even when changes to the environment are made.
+
+## The Reward Ambiguity Problem
+
+We now discuss why IRL methods can fail to learn robust reward functions. First, we review the concept of reward shaping. Ng et al. describe a class of reward transformations that preserve the optimal policy. Their main theoretical result is that under the following reward transformation,
+
+the optimal policy remains unchanged, for any function $\Phi:{\mathcal{S}\rightarrow{\mathbb{R}}}$. Moreover, without prior knowledge of the dynamics, this is the only class of reward transformations that exhibits policy invariance. Because IRL methods only infer rewards from demonstrations given from an optimal agent, they cannot in general disambiguate between reward functions within this class of transformations, unless the class of learnable reward functions is restricted.
+
+We argue that shaped reward functions may not be robust to changes in dynamics. We formalize this notion by studying policy invariance in two MDPs $M,M^{\prime}$ which share the same reward and differ only in the dynamics, denoted as $T$ and $T^{\prime}$, respectively.
+
+Suppose an IRL algorithm recovers a shaped, policy invariant reward $\hat{r}{(s,a,s^{\prime})}$ under MDP $M$ where $\Phi \neq 0$. Then, there exists MDP pairs $M,M^{\prime}$ where changing the transition model from $T$ to $T^{\prime}$ breaks policy invariance on MDP $M^{\prime}$. As a simple example, consider deterministic dynamics ${T{(s,a)}}\rightarrow s^{\prime}$ and state-action rewards ${\hat{r}{(s,a)}} = {{{r{(s,a)}} + {\gamma\Phi{({T{(s,a)}})}}} - {\Phi{(s)}}}$. It is easy to see that changing the dynamics $T$ to $T^{\prime}$ such that ${T^{\prime}{(s,a)}} \neq {T{(s,a)}}$ means that $\hat{r}{(s,a)}$ no longer lies in the equivalence class of Eqn. 3 for $M^{\prime}$.
+
+### Disentangling Rewards from Dynamics
+
+First, let the notation $Q_{r,T}^{\ast}{(s,a)}$ denote the optimal Q-function with respect to a reward function $r$ and dynamics $T$, and $\pi_{r,T}^{\ast}{(\left. a \middle| s \right.)}$ denote the same for policies. We first define our notion of a "disentangled" reward.
+
+### Definition 5.1 (Disentangled Rewards)
+
+A reward function $r^{\prime}{(s,a,s^{\prime})}$ is (perfectly) disentangled with respect to a ground-truth reward $r{(s,a,s^{\prime})}$ and a set of dynamics $\mathcal{T}$ such that under all dynamics $T \in \mathcal{T}$, the optimal policy is the same: ${\pi_{r^{\prime},T}^{\ast}{(\left. a \middle| s \right.)}} = {\pi_{r,T}^{\ast}{(\left. a \middle| s \right.)}}$
+
+We could also expand this definition to include a notion of suboptimality. However, we leave this direction to future work.
+
+Under maximum causal entropy RL, the following condition is equivalent to two optimal policies being equal, since Q-functions and policies are equivalent representations (up to arbitrary functions of state $f{(s)}$):
+
+To remove unwanted reward shaping with arbitrary reward function classes, the learned reward function can only depend on the current state $s$. We require that the dynamics satisfy a decomposability condition where functions over current states $f{(s)}$ and next states $g{(s^{\prime})}$ can be isolated from their sum ${f{(s)}} + {g{(s^{\prime})}}$. This can be satisfied for example by adding self transitions at each state to an ergodic MDP, or any of the environments used in our experiments. The exact definition of the condition, as well as proof of the following statements are included in Appendix B.
+
+### Theorem 5.1
+
+Let $r{(s)}$ be a ground-truth reward, and $T$ be a dynamics model satisfying the decomposability condition. Suppose IRL recovers a state-only reward $r^{\prime}{(s)}$ such that it produces an optimal policy in $T$:
+
+Then, $r^{\prime}{(s)}$ is disentangled with respect to all dynamics.
+
+### Theorem 5.2
+
+If a reward function $r^{\prime}{(s,a,s^{\prime})}$ is disentangled for all dynamics functions, then it must be state-only. i.e. If for all dynamics $T$,
+
+Then $r^{\prime}$ is only a function of state.
+
+In the traditional IRL setup, where we learn the reward in a single MDP, our analysis motivates learning reward functions that are solely functions of state. If the ground truth reward is also only a function of state, this allows us to recover the true reward up to a constant.
+
+## Learning Disentangled Rewards with AIRL
+
+In the method presented in Section 4 ‣ Learning Robust Rewards with Adversarial Inverse Reinforcement Learning"), we cannot learn a state-only reward function, $r_{\theta}{(s)}$, meaning that we cannot guarantee that learned rewards will not be shaped. In order to decouple the reward function from the advantage, we propose to modify the discriminator of Sec. 4 ‣ Learning Robust Rewards with Adversarial Inverse Reinforcement Learning") with the form:
+
+where $f_{\theta,\phi}$ is restricted to a reward approximator $g_{\theta}$ and a shaping term $h_{\phi}$ as
+
+The additional shaping term helps mitigate the effects of unwanted shaping on our reward approximator $g_{\theta}$ (and as we will show, in some cases it can account for all shaping effects). The entire training procedure is detailed in Algorithm 1. Our algorithm resembles GAIL and GAN-GCL, where we alternate between training a discriminator to classify expert data from policy samples, and update the policy to confuse the discriminator.
+
+1: Obtain expert trajectories τiE
+2: Initialize policy π and discriminator Dθ, ϕ.
+4: Collect trajectories τi = (s0,a0,…,sT,aT) by executing π.
+5: Train Dθ, ϕ via binary logistic regression to classify expert data τiE from samples τi.
+6: Update reward rθ, ϕ (s,a,s′) ← log Dθ, ϕ (s,a,s′) − log (1−Dθ, ϕ (s,a,s′))
+7: Update π with respect to rθ, ϕ using any policy optimization method.
+Algorithm 1 Adversarial inverse reinforcement learning
+
+The advantage of this approach is that we can now parametrize $g_{\theta}{(s)}$ as solely a function of the state, allowing us to extract rewards that are disentangled from the dynamics of the environment in which they were trained. In fact, under this restricted case, we can show the following under deterministic environments with a state-only ground truth reward (proof in Appendix C):
+
+where $r^{\ast}$ is the true reward function. Since $f^{\ast}$ must recover to the advantage as shown in Sec. 4 ‣ Learning Robust Rewards with Adversarial Inverse Reinforcement Learning"), $h$ recovers the optimal value function $V^{\ast}$, which serves as the reward shaping term.
+
+To be consistent with Sec. 4 ‣ Learning Robust Rewards with Adversarial Inverse Reinforcement Learning"), an alternative way to interpret the form of Eqn. 4 is to view $f_{\theta,\phi}$ as the advantage under deterministic dynamics
+
+In stochastic environments, we can instead view $f{(s,a,s^{\prime})}$ as a single-sample estimate of $A^{\ast}{(s,a)}$.
+
+## Experiments
+
+In our experiments, we aim to answer two questions:
+
+Can AIRL learn disentangled rewards that are robust to changes in environment dynamics?
+
+Is AIRL efficient and scalable to high-dimensional continuous control tasks?
+
+To answer 1, we evaluate AIRL in transfer learning scenarios, where a reward is learned in a training environment, and optimized in a test environment with significantly different dynamics. We show that rewards learned with our algorithm under the constraint presented in Section 5 still produce optimal or near-optimal behavior, while naïve methods that do not consider reward shaping fail. We also show that in small MDPs, we can recover the exact ground truth reward function.
+
+To answer 2, we compare AIRL as an imitation learning algorithm against GAIL and the GAN-based GCL algorithm proposed by Finn et al., which we refer to as GAN-GCL, on standard benchmark tasks that do not evaluate transfer. Note that Finn et al. does not implement or evaluate GAN-GCL and, to our knowledge, we present the first empirical evaluation of this algorithm. We find that AIRL performs on par with GAIL in a traditional imitation learning setup while vastly outperforming it in transfer learning setups, and outperforms GAN-GCL in both settings. It is worth noting that, except for, our method is the only IRL algorithm that we are aware of that scales to high dimensional tasks with unknown dynamics, and although GAIL resembles an IRL algorithm in structure, it does not recover disentangled reward functions, making it unable to re-optimize the learned reward under changes in the environment, as we illustrate below.
+
+For our continuous control tasks, we use trust region policy optimization as our policy optimization algorithm across all evaluated methods, and in the tabular MDP task, we use soft value iteration. We obtain expert demonstrations by training an expert policy on the ground truth reward, but hide the ground truth reward from the IRL algorithm. In this way, we simulate a scenario where we wish to use RL to solve a task but wish to refrain from manual reward engineering and instead seek to learn a reward function from demonstrations. Our code and additional supplementary material including videos will be available at [https://sites.google.com/view/adversarial-irl](https://sites.google.com/view/adversarial-irl), and hyper-parameter and architecture choices are detailed in Appendix D.
+
+### Recovering true rewards in tabular MDPs
+
+We first consider MaxEnt IRL in a toy task with randomly generated MDPs. The MDPs have 16 states, 4 actions, randomly drawn transition matrices, and a reward function that always gives a reward of $1.0$ when taking an action from state 0. The initial state is always state 1.
+
+The optimal reward, learned reward with a state-only reward function, and learned reward using a state-action reward function are shown in Fig. 2. We subtract a constant offset from all reward functions so that they share the same mean for visualization - this does not influence the optimal policy. AIRL with a state-only reward function is able to recover the ground truth reward, but AIRL with a state-action reward instead recovers a shaped advantage function.
+
+We also show that in the transfer learning setup, under a new transition matrix $T^{\prime}$, the optimal policy under the state-only reward achieves optimal performance (it is identical to the ground truth reward) whereas the state-action reward only improves marginally over uniform random policy. The learning curve for this experiment is shown in Fig 2.
+
+Figure 1: Ground truth (a) and learned rewards (b, c) on the random MDP task. Dark blue corresponds to a reward of 1, and white corresponds to 0. Note that AIRL with a state-only reward recovers the ground truth, whereas the state-action reward is shaped.
+
+Figure 2: Learning curve for the transfer learning experiment on tabular MDPs. Value iteration steps are plotted on the x-axis, against returns for the policy on the y-axis.
+
+### Disentangling Rewards in Continuous Control Tasks
+
+To evaluate whether our method can learn disentangled rewards in higher dimensional environments, we perform transfer learning experiments on continuous control tasks. In each task, a reward is learned via IRL on the training environment, and the reward is used to reoptimize a new policy on a test environment. We train two IRL algorithms, AIRL and GAN-GCL, with state-only and state-action rewards. We also include results for directly transferring the policy learned with GAIL, and an oracle result that involves optimizing the ground truth reward function with TRPO. Numerical results for these environment transfer experiments are given in Table 1.
+
+The first task involves a 2D point mass navigating to a goal position in a small maze when the position of the walls are changed between train and test time. At test time, the agent cannot simply mimic the actions learned during training, and instead must successfully infer that the goal in the maze is to reach the target. The task is shown in Fig. 4. Only AIRL trained with state-only rewards is able to consistently navigate to the goal when the maze is modified. Direct policy transfer and state-action IRL methods learn rewards which encourage the agent to take the same path taken in the training environment, which is blocked in the test environment. We plot the learned reward in Fig. 4.
+
+In our second task, we modify the agent itself. We train a quadrupedal "ant" agent to run forwards, and at test time we disable and shrink two of the front legs of the ant such that it must significantly change its gait.We find that AIRL is able to learn reward functions that encourage the ant to move forwards, acquiring a modified gait that involves orienting itself to face the forward direction and crawling with its two hind legs. Alternative methods, including transferring a policy learned by GAIL (which achieves near-optimal performance with the unmodified agent), fail to move forward at all. We show the qualitative difference in behavior in Fig. 5.
+
+We have demonstrated that AIRL can learn disentangled rewards that can accommodate significant domain shift even in high-dimensional environments where it is difficult to exactly extract the true reward. GAN-GCL can presumably learn disentangled rewards, but we find that the trajectory-centric formulation does not perform well even in learning rewards in the original task, let alone transferring to a new domain. GAIL learns successfully in the training domain, but does not acquire a representation that is suitable for transfer to test domains.
+
+GAIL, policy transfer
+
+\hdashlineTRPO, ground truth
+
+Table 1: Results on transfer learning tasks. Mean scores (higher is better) are reported over 5 runs. We also include results for TRPO optimizing the ground truth reward, and the performance of a policy learned via GAIL on the training environment.
+
+Figure 3: Illustration of the shifting maze task, where the agent (blue) must reach the goal (green). During training the agent must go around the wall on the left side, but during test time it must go around on the right.
+
+Figure 4: Reward learned on the point mass shifting maze task. The goal is located at the green star and the agent starts at the white circle. Note that there is little reward shaping, which enables the reward to transfer well.
+
+Figure 5: Top row: An ant running forwards (right in the picture) in the training environment. Bottom row: Behavior acquired by optimizing a state-only reward learned with AIRL on the disabled ant environment. Note that the ant must orient itself before crawling forward, which is a qualitatively different behavior from the optimal policy in the original environment, which runs sideways.
+
+### Benchmark Tasks for Imitation Learning
+
+Finally, we evaluate AIRL as an imitation learning algorithm against the GAN-GCL and the state-of-the-art GAIL on several benchmark tasks. Each algorithm is presented with 50 expert demonstrations, collected from a policy trained with TRPO on the ground truth reward function. For AIRL, we use an unrestricted state-action reward function as we are not concerned with reward transfer. Numerical results are presented in Table 2.These experiments do not test transfer, and in a sense can be regarded as "testing on the training set," but they match the settings reported in prior work.
+
+We find that the performance difference between AIRL and GAIL is negligible, even though AIRL is a true IRL algorithm that recovers reward functions, while GAIL does not. Both methods achieve close to the best possible result on each task, and there is little room for improvement. This result goes against the belief that IRL algorithms are indirect, and less efficient that direct imitation learning algorithms. The GAN-GCL method is ineffective on all but the simplest Pendulum task when trained with the same number of samples as AIRL and GAIL. We find that a discriminator trained over trajectories easily overfits and provides poor learning signal for the policy.
+
+Our results illustrate that AIRL achieves the same performance as GAIL on benchmark imitation tasks that do not require any generalization. On tasks that require transfer and generalization, illustrated in the previous section, AIRL outperforms GAIL by a wide margin, since our method is able to recover disentangled rewards that transfer effectively in the presence of domain shift.
+
+\hdashlineAIRL State Only (ours)
+
+Table 2: Results on imitation learning benchmark tasks. Mean scores (higher is better) are reported across 5 runs.
+
+## Conclusion
+
+We presented AIRL, a practical and scalable IRL algorithm that can learn disentangled rewards and greatly outperforms both prior imitation learning and IRL algorithms. We show that rewards learned with AIRL transfer effectively under variation in the underlying domain, in contrast to unmodified IRL methods which tend to recover brittle rewards that do not generalize well and GAIL, which does not recover reward functions at all. In small MDPs where the optimal policy and reward are unambiguous, we also show that we can exactly recover the ground-truth rewards up to a constant.

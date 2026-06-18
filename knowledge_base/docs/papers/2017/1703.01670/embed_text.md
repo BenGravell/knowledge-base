@@ -1,0 +1,183 @@
+## Introduction
+
+First-order iterative optimization methods have been widely applied in data science and machine learning. These methods only require access to first-order derivative information, and iterate on the data until satisfactory convergence is achieved. For example, the gradient method is
+
+Such simple methods are often favored over higher order methods such as Newton's method when the dimension of the underlying space is large and computing Hessians is prohibitively expensive.
+
+There has been significant recent interest in finding ways to accelerate the convergence of the gradient method while maintaining low iteration costs. For example, the *Heavy-ball* method includes an additional momentum term
+
+This slight modification can yield a dramatic improvement in worst-case convergence rate if $f$ is quadratic. A similar acceleration scheme, *Nesterov's accelerated method*, can improve the convergence rate for strongly convex $f$ with smooth gradients. These convergence results are derived on a case-by-case basis, and the intuition behind the acceleration is still not fully understood.
+
+Recent efforts have adopted a dynamical system (or differential equation) perspective in analyzing acceleration for convex objectives, though a more general understanding of acceleration is still lacking (non-convex objectives, inexact computations, etc). This paper aims to bring new insights on how to accelerate first-order optimization methods for objective functions which are not convex in general. Our main contributions are as follows:
+
+We pose the iterative optimization paradigm as an output regulation problem, which lends itself to a loop-shaping interpretation. In particular, we show that several popular optimization algorithms may be viewed as controllers which are composed of basic PID or lag compensation elements. We also demonstrate that existing parameter tuning guidelines for these optimization methods are consistent with the loop-shaping design guidelines in control theory.
+
+Using the small gain theorem, we draw a connection between the convergence rate analysis of optimization methods (under sector-bounded assumptions) and the input-output gain computation for a particular complimentary sensitivity function. It follows that the *design* of optimization algorithms for sector-bounded functions can be interpreted as $\mathcal{H}_{\infty}$ state feedback synthesis. This explains why acceleration typically requires stronger function assumptions (not necessarily convexity) beyond just sector-bounded gradients.
+
+A related line of research has emerged in the distributed optimization literature. In, a continuous-time differential equation was used to describe the dynamics of distributed optimization, leading to a natural iterative algorithm which may be interpreted as a PI controller. In, event-triggered control methods were tailored for distributed optimization over networks. In contrast with the work on distributed optimization, the present work is concerned with control-theoretic properties and interpretations of a big class of first-order optimization methods.
+
+A second related line of research is the unified integral quadratic constraint framework in, which provides a numerical tool based on semidefinite programming for use in analyzing optimization algorithms. In contrast with this work, the present work uses a small gain approach with a simple interpretation that interfaces with existing results on complementary sensitivity integrals.
+
+The paper is organized as follows. Section 2 explains notation and problem formulation, Section 3 describes our loop-shaping interpretation for first-order methods, and Section 4 presents our main results involving the small gain theorem and connections to complementary sensitivity.
+
+## Preliminaries
+
+### Spaces and operators
+
+Let $\ell_{2e}^{p}$ denote the sequences $x{: =}{(x^{0},x^{1},\ldots)} \subseteq {\mathbb{R}}^{p}$, and let $\ell_{2}^{p} \subseteq \ell_{2e}^{p}$ be the set of square-summable sequences, so if $x \in \ell_{2}^{p}$, then ${\sum_{k = 0}^{\infty}{\| x^{k}\|}^{2}} < \infty$ where ${\| x^{k}\|}^{2}{: =}{{(x^{k})}^{\mathsf{T}}x^{k}}$ denotes the standard Euclidean norm. We will omit the superscript $p$ when it is implied by context. The gain of a causal operator $K:{\ell_{2e}\rightarrow\ell_{2e}}$ is defined as
+
+In addition, $K$ is said to be bounded if it has a finite gain. Notice this gain is induced by $\ell_{2}$ signals while the operator $K$ itself is defined on $\ell_{2e}$. This definition makes sense since any bounded operator on $\ell_{2}$ to itself has a natural causal extension to the operator from $\ell_{2e}$ to $\ell_{2e}$. Clearly, every bounded operator must map zero inputs to zero outputs.
+
+### Various objective functions in optimization
+
+Consider the unconstrained optimization problem
+
+where it is assumed that there exists a unique $x^{\star} \in {\mathbb{R}}^{p}$ satisfying ${{\nabla f}{(x^{\star})}} = 0$. How to solve and find $x^{\star}$ heavily depends on the assumptions about $f$. A simple assumption is that $f$ is quadratic. Two other common assumptions are $L$-*smoothness* and *strong convexity*. A continuously differentiable function $f:{{\mathbb{R}}^{p}\rightarrow{\mathbb{R}}}$ is $L$-smooth if the following inequality holds for all ${x,y} \in {\mathbb{R}}^{p}$
+
+We define $\mathcal{L}{(L)}$ to be the set of $L$-smooth functions. The continuously differentiable function $f$ is $m$-strongly convex if the following inequality holds for all ${x,y} \in {\mathbb{R}}^{p}$
+
+Note that we recover ordinary convexity in if $m = 0$. We define $\mathcal{F}{(m,L)}$ to be the set of functions that are both $L$-smooth and $m$-strongly convex. The class $\mathcal{F}$ covers a large family of objective functions in machine learning, including $\ell_{2}$-regularized logistic regression, smooth support vector machines, etc. Clearly, ${\mathcal{F}{(m,L)}} \subset {\mathcal{L}{(L)}}$. For all $f \in {\mathcal{F}{(m,L)}}$, the following inequality holds for all $x \in {\mathbb{R}}^{p}$
+
+where $I_{p}$ denotes the $p \times p$ identity matrix \[10, Lemma 6\]. On the other hand, a function satisfying the above inequality may not belong to $\mathcal{F}{(m,L)}$, and may not even be convex. The set of continuously differentiable functions satisfying is denoted as $\mathcal{S}{(m,L)}$. This class of functions has sector-bounded gradients, and includes $\mathcal{F}{(m,L)}$ as a subset.
+
+### Review of first-order optimization methods
+
+A classical way to solve is the gradient descent method, which uses the iteration to gradually converge to $x^{\star}$. The intuition behind gradient descent method is as follows. At each step $k$, we find a quadratic approximation of $f$ about $x^{k}$, which hopefully captures the local structure of $f$, and we solve the quadratic minimization problem
+
+When $f \in {\mathcal{S}{(m,L)}}$, if $\alpha$ is chosen well, then there exists a constant $\rho \in {}$ and a constant $c \geq 1$ such that
+
+Thus the iterates $\{ x^{k}\}$ converge exponentially to $x^{\star}$. By convention, this is known as *linear convergence* in the optimization literature. For example, we can choose $\alpha = \frac{2}{L + m}$ and obtain $\rho = \frac{L - m}{L + m}$ and $c = 1$. Another popular choice is $\alpha = \frac{1}{L}$, which leads to $\rho = {1 - \frac{m}{L}}$ and $c = 1$. These results are formally documented in \[10, Section 4.4\]. It is emphasized that the proofs of these results only require.
+
+When $f \in {\mathcal{F}{(m,L)}}$, one can achieve a better convergence rate $\rho = \sqrt{1 - \sqrt{\frac{m}{L}}}$ using Nesterov's accelerated method:
+
+where $\alpha = \frac{1}{L}$ and $\beta = \frac{\sqrt{L} - \sqrt{m}}{\sqrt{L} + \sqrt{m}}$. When $L/m$ is large, Nesterov's accelerated method guarantees a much faster convergence rate compared to the gradient descent method. This fact was stated in \[13, Theorem 2.2.3\].
+
+When $f$ is a quadratic function, one can accelerate the gradient descent method by incorporating a momentum term into the iteration, such as the Heavy-ball method. Although the Heavy-ball method works extremely well for quadratic objective functions, it can fail to converge for other functions in $\mathcal{F}{(m,L)}$; see \[10, Section 4.6\].
+
+The intuitions behind Nesterov's accelerated method and the Heavy-ball method are still not fully understood. Hence, there is no intuitive way to modify these methods to accelerate the convergence when optimizing more general functions, i.e. $f \in {\mathcal{S}{(m,L)}}$ or $f \in {{\mathcal{S}{(m,L)}} \cap {\mathcal{L}{(L)}}}$. Gaining intuition for these methods can be beneficial for designing accelerated schemes for more general classes of objective functions.
+
+Finally, it is worth mentioning that every optimization method mentioned in this section can be cast as the feedback interconnection $F_{u}{(P,K)}$ as shown in Fig 1. Here, $P{: =}{\nabla f}$ is a static nonlinearity and $K$ is a linear time-invariant (LTI) system (the algorithm).
+
+Figure 1: Feedback representation for the optimization method Fu (∇f,K).
+
+Feedback representations for optimization methods are discussed in \[10, Section 2\]. In, $P$ is a static nonlinear operator that maps $u$ to $v = {Pu}$ as $v^{k} = {{\nabla f}{(u^{k})}}$. However, this is not a bounded operator since it does not map zero inputs to zero outputs. For the convenience of our discussion, we will choose $P$ to be the operator which maps $u$ to $v = {Pu}$ as $v^{k} = {{\nabla f}{({u^{k} + x^{\star}})}}$ where $x^{\star}$ is the unique point satisfying ${{\nabla f}{(x^{\star})}} = 0$. Then this choice of $P$ leads to a bounded operator. One can perform a state shifting argument to the feedback representations in and cast all the mentioned optimization methods as
+
+where $(A,B,C)$ are the state matrices of $K$. For example, to rewrite the gradient descent method, one can set $\xi^{k} = u^{k} = {x^{k} - x^{\star}}$ and $v^{k} = {{\nabla f}{(x^{k})}} = {{\nabla f}{({u^{k} + x^{\star}})}}$. Then can be cast as with ${(A,B,C)} = {(I_{p},{- {\alphaI_{p}}},I_{p})}$. Notice here $\xi^{k} = {x^{k} - x^{\star}}$ and hence the convergence rate of the optimization algorithm is equivalent to the rate at which $\xi^{k}$ goes to $0$. The optimization method converges to the optimum $x^{\star}$ at a rate $\rho$ if and only if the model drives $\xi^{k}$ to $0$ from any initial conditions at the same rate $\rho$. Using similar arguments, Nesterov's accelerated method and the Heavy-ball method can be written as. In these two cases, the associated state matrices for $K$ are the same as (2.5) and (2.7) in, although the states have been shifted by $x^{\star}$. When $f \in {\mathcal{S}{(m,L)}}$, the inequality imposes a sector bound on the input/output pair of $P$. Let $v = {Pu}$. Then the following inequality holds for all $k$
+
+The above inequality is important for further analysis of optimization methods.
+
+### Input-output stability and small gain theorem
+
+The key analysis tool in this paper is the small gain theorem, which is now briefly reviewed. Suppose two causal operators $P:{\ell_{2e}\rightarrow\ell_{2e}}$ and $K:{\ell_{2e}\rightarrow\ell_{2e}}$ both map zero input to zero output. Let $\lbrack P,K\rbrack$ denote the feedback interconnection of $P$ and $K$ illustrated in Fig. 2:
+
+Figure 2: Feedback interconnection with exogenous inputs
+
+The interconnection $\lbrack P,K\rbrack$ is said to be *well-posed* if the map ${(u,v)}\mapsto{(r,e)}$ defined by has a causal inverse on $\ell_{2e}$. It is (input-output) *stable* if it is well-posed and this inverse causal map from $(r,e)$ to $(u,v)$ is bounded. Clearly, ${u,v} \in \ell_{2}$ for all ${r,e} \in \ell_{2}$ if $\lbrack P,\Delta\rbrack$ is stable. Well-posedness holds only if the solutions to have no finite escape time. The small gain theorem states the following.
+
+### Theorem 1 (small gain theorem)
+
+Suppose $P$ and $K$ are bounded causal operators and $\lbrack P,K\rbrack$ is well-posed. If ${{\| P\|}{\| K\|}} < 1$, then $\lbrack P,K\rbrack$ is input-output stable.
+
+The small gain theorem can be used to check the input-output stability of $\lbrack P,K\rbrack$ when the gains of $P$ and $K$ are both known. Note that there are exogenous signals $r$, $e$ in the setup of $\lbrack P,K\rbrack$ and zero initial conditions on $K$ to ensure that $K$ maps the zero input to a zero output. In contrast, $F_{u}{(P,K)}$ allows any initial condition for $K$, so the optimization method $F_{u}{(P,K)}$ can be initialized at any initial condition $\xi^{0} \in {\mathbb{R}}^{n}$. For any optimization method $F_{u}{(P,K)}$ described by, one can form an associated interconnection $\lbrack P,K\rbrack$ by adding the signals $(r,e)$ and fixing the initial condition of $K$ to be zero, since the nonlinear static map $P$ is set up in a way to map zero inputs to zero outputs. An important connection between the internal stability of $F_{u}{(P,K)}$ and the input-output stability of $\lbrack P,K\rbrack$ has been stated in \[2, Proposition 5\]. Consequently, one may apply the small gain theorem for the convergence rate analysis of optimization methods.
+
+## Loop-shaping interpretations for optimization methods
+
+This section presents basic control interpretations for the gradient descent method, Nesterov's accelerated method, and the Heavy-ball method with the hope of shedding light on the general principles underlying the design of first-order methods. The goal of the optimization method is to find $x^{\star}$ satisfying ${{\nabla f}{(x^{\star})}} = 0$. Hence the optimization method may be viewed as a controller that regulates the plant "$\nabla f$" to zero. When viewing $\nabla f$ as the plant one wants to control, the unconstrained optimization problem is an output regulation problem, and the LTI part $K$ in the first-order optimization method can be viewed as a controller. The key issue for this output regulation problem is that the equilibrium point $x^{\star}$ is unknown.
+
+Transfer functions for the controller $K$ are listed in Table 1. We use the symbol $\otimes$ to denote the Kronecker product. These products appear because the controllers corresponding to our algorithms of interest are repetitions of a single-input-single-output (SISO) system.
+
+$I_{p} \otimes \frac{- \alpha}{z - 1}$
+
+$I_{p} \otimes \frac{- {\alphaz}}{{z^{2} - {{({1 + \beta})}z}} + \beta}$
+
+$I_{p} \otimes \frac{{- {\alpha{({1 + \beta})}z}} + {\alpha\beta}}{{z^{2} - {{({1 + \beta})}z}} + \beta}$
+
+Table 1: Transfer function K (z) for first-order methods
+
+For the gradient descent method, $K$ is a pure integrator. Hence, the gradient descent regulates the nonlinear plant $P$ via pure integral control. Integral action is necessary since the algorithm must converge to $x^{\star}$, which amounts to having zero steady-state error when $K$ tracks a step input.
+
+The Heavy-ball method differs from gradient descent in the inclusion of an additional momentum term. This momentum term may be viewed as a lag compensator. The Heavy-ball method corresponds to the following controller:
+
+The first term provides integral action to ensure zero steady-state error as with the gradient method, while the second term is a discrete-time lag compensator. The lag compensation has the net effect of 1) boosting low-frequency response by a factor of roughly $\frac{1}{1 - \beta}$, which improves the tracking speed of the controller and hence the convergence of the algorithm and 2) attenuating high-frequency response by a factor of roughly $\frac{1}{1 + \beta}$. It intuitively makes sense that the Heavy-ball method can accelerate convergence for quadratic objectives, since the plant $P$ becomes a linear operator in this case. However, the lag compensator increases the slope of the loop gain near the crossover frequency, which may have a detrimental effect on the robustness of the closed loop. This qualitative observation is confirmed by the fact that the Heavy-ball method may fail to converge at all if the objective function is relaxed to include more general strongly convex functions.
+
+Unlike the Heavy-ball method, Nesterov's accelerated method performs well when applied to strongly-convex objective functions. A control interpretation is that Nesterov's accelerated method includes derivative control to decrease the slope of the loop gain near the crossover frequency, which significantly improves the robustness of the algorithm for certain classes of nonlinearities. To see the derivative controller in Nesterov's accelerated method, rewrite as
+
+The last term is a difference of the plant output $\nabla f$, and can be viewed as a derivative control.
+
+Nesterov's method may also be interpreted as lag compensation together with integral action, as in the Heavy-ball case. The corresponding controller is
+
+which has a zero at $z = \frac{\beta}{1 + \beta}$, and this helps increase the slope of the Bode plot near the crossover frequency. The control interpretations for different optimization methods are summarized in Table 2.
+
+Lag + Integral Control
+
+Lag + PID Control
+
+Table 2: Control interpretations for first-order methods
+
+We now demonstrate that the design of state-of-the-art optimization methods is actually consistent with general loop-shaping principles from control theory. The loop-shaping principle states that the low-frequency loop gain should be sufficiently large to ensure good tracking performance while the high-frequency loop gain should be small enough for the purpose of noise rejection. In addition, the slope of the loop gain near the crossover frequency should be flat (typically around $- 20$ dB/decade) to assure a proper phase margin and good robustness. A thorough discussion on loop-shaping can be found in standard references.
+
+Given a function $f \in {\mathcal{F}{(m,L)}}$, the standard gradient descent stepsize is $\alpha = \frac{1}{L}$, and the standard parameter choice for Nesterov's accelerated method is $\alpha = \frac{1}{L}$ and $\beta = \frac{\sqrt{L} - \sqrt{m}}{\sqrt{L} + \sqrt{m}}$. Other parameter choices, when $f$ is quadratic for example, are documented in \[10, Proposition 1\]. Fig. 3 shows the Bode plots of the resultant controllers $K$ (only the SISO part) for all these parameter choices under the assumption that $m = 0.01$ and $L = 1$.
+
+The Bode plots are consistent with the properties of these optimization methods when a loop-shaping intuition is adopted. First, the gradient descent method with the standard stepsize $\alpha = \frac{1}{L}$ is known to be slower than other first-order methods when $f$ is quadratic. This is reflected in the Bode plot, which shows that the gradient method has a relatively low gain particularly in the low-frequency region. Using the optimal tuning of $\alpha = \frac{2}{L + m}$ improves the gain slightly.
+
+Second, the optimal quadratic tuning for all three methods leads to controllers whose crossover frequencies are roughly at $0.5$ Hz. Intuitively, such tuning places excessive weight on tracking performance and is very fragile to noise at the output of the plant $P$. This is consistent with the known robustness properties of these methods as well. For example, the gradient method with $\alpha = \frac{1}{L}$ is known to be very robust to the noise in the gradient computation while the gradient method with $\alpha = \frac{2}{m + L}$ is known to be fragile to such noise \[10, Section 5.2\]. Comparing the high frequency responses of these two cases immediately leads to the same conclusion. Finally, the slope of Bode plot at the crossover frequency supports the fact that Nesterov's method works for a larger class of functions than the Heavy-ball method.
+
+Figure 3: Bode plots of K for various first-order methods with commonly-used parameter tunings.
+
+In summary, the intuition brought by the traditional loop-shaping theory is consistent with the known properties of the existing first-order methods. This suggests that loop-shaping intuition may be used as a general high-level guideline in the design of optimization methods. The control interpretations above also indicate that classical PID tuning can be used for optimization algorithm design. For example, one could drop the lag compensation and simply use the PID controller:
+
+It remains an open question as to how to choose an appropriate $K{(z)}$ subject to different assumptions on the objective function. Since acceleration schemes for the optimization of quadratic functions or functions in $\mathcal{F}{(m,L)}$ already exist, we will focus on the case $f \in {\mathcal{S}{(m,L)}}$. We will derive one connection between such an optimization design problem and classical control synthesis theory.
+
+## Analysis and design of optimization methods using the small gain theorem
+
+In this section, it is assumed that $f \in {\mathcal{S}{(m,L)}}$ and $x^{\star}$ is the unique point satisfying ${{\nabla f}{(x^{\star})}} = 0$.
+
+### New feedback representations for first-order methods
+
+The feedback representation for first-order methods involves a nonlinear operator $P$ which belongs to the sector $(m,L)$. This does not coincide perfectly with a gain bound since upper and lower bounds don't match. We will therefore, use a loop-shifted $F_{u}{(P^{\prime},K^{\prime})}$ that ensures the small gain condition on $P^{\prime}$ captures the full sector. Choose $P^{\prime}$ to map $u$ to $v = {Pu}$ as $v^{k} = {u^{k} - {\frac{2}{m + L}{\nabla f}{({u^{k} + x^{\star}})}}}$. Then, substitute $\xi^{k} = u^{k} = {x^{k} - x^{\star}}$ into the gradient descent method to get an alternative feedback interconnection
+
+Direct manipulation of shows that $P^{\prime}$ is in a sector $({- \frac{L - m}{L + m}},\frac{L - m}{L + m})$, which leads to gain bound ${\| P^{\prime}\|} \leq \frac{L - m}{L + m}$.
+
+Suppose $K = {I_{p} \otimes \overline{K}}$ where $\overline{K}$ is a SISO LTI system. In general, a loop transformation argument can be used to show that any optimization method $F_{u}{(P,K)}$ can also be represented as $F_{u}{(P^{\prime},K^{\prime})}$ where $K^{\prime} = {I_{p} \otimes {\overline{K}}^{\prime}}$ and ${\overline{K}}^{\prime} = {\overline{K}/{({\overline{K} - \frac{2}{m + L}})}}$. Consequently, the feedback interconnection provides another way to model first-order methods.
+
+### Main theorem
+
+Our main approach is inspired by the loop transformation used in. For any $\rho \in {}$, the operators $\rho^{+}$ and $\rho^{-}$ are defined as the time-domain, time-dependent multipliers $\rho^{k}$, $\rho^{- k}$, respectively. Here, superscripts indicate $k$-th power. Define $K_{\rho}^{\prime}{: =}{\rho^{-} \circ K^{\prime} \circ \rho^{+}}$, and $P_{\rho}^{\prime}{: =}{\rho^{-} \circ P^{\prime} \circ \rho^{+}}$. From \[2, Section 3\], one can conclude $F_{u}{(P^{\prime},K^{\prime})}$ converges at rate $\rho$ if $\lbrack P_{\rho}^{\prime},K_{\rho}^{\prime}\rbrack$ is input-output stable and ${K_{\rho}^{\prime}{(z)}} = {K^{\prime}{({\rhoz})}}$. Similarly, define ${\overline{K}}_{\rho}^{\prime}{: =}{\rho^{-} \circ {\overline{K}}^{\prime} \circ \rho^{+}}$, and one has ${{\overline{K}}_{\rho}^{\prime}{(z)}} = {{\overline{K}}^{\prime}{({\rhoz})}}$. The main result of this paper is stated below.
+
+### Theorem 2
+
+Let ${\overline{K}}^{\prime} = {\overline{K}/{({\overline{K} - \frac{2}{m + L}})}}$, and $K^{\prime} = {I_{p} \otimes {\overline{K}}^{\prime}}$. If ${\|{\overline{K}}_{\rho}^{\prime}\|} < \frac{L + m}{L - m}$, then the optimization method $F_{u}{(P^{\prime},K^{\prime})}$ has a linear convergence rate $\rho$.
+
+Proof. Notice $P^{\prime}$ is a pointwise nonlinearity, and hence one can use the small gain condition on $P^{\prime}$ to show ${\| P_{\rho}^{\prime}\|} \leq \frac{L - m}{L + m}$ (see Section 5.1 in or Section IV.C in for detailed arguments). In addition, ${\| K_{\rho}^{\prime}\|} = {\|{I_{p} \otimes {\overline{K}}_{\rho}^{\prime}}\|} = {\|{\overline{K}}_{\rho}^{\prime}\|} < \frac{L + m}{L - m}$, and ${{\| K_{\rho}^{\prime}\|}{\| P_{\rho}^{\prime}\|}} < 1$. By the small gain theorem, $\lbrack P_{\rho}^{\prime},K_{\rho}^{\prime}\rbrack$ is input-output stable. By \[2, Proposition 5\], $F_{u}{(P^{\prime},K^{\prime})}$ converges at rate $\rho$.
+
+The power of Theorem 2 is that it connects the convergence rate analysis of the optimization method to an input-output gain computation on a SISO system ${\overline{K}}_{\rho}^{\prime}$. Note that the $\ell_{2}$-induced norm of a stable LTI system is equal to its $\mathcal{H}_{\infty}$-norm. In addition, we have ${{\overline{K}}_{\rho}^{\prime}{(z)}} = {{\overline{K}}^{\prime}{({\rhoz})}}$. Hence we only need to verify that ${\overline{K}}^{\prime}{({\rhoz})}$ is stable and then compare the $\mathcal{H}_{\infty}$-norm of ${\overline{K}}^{\prime}{({\rhoz})}$ to $\frac{L + m}{L - m}$.
+
+### Recovery of rate results for gradient descent
+
+As a sanity check, we apply Theorem 2 to recover convergence rate results for the gradient descent method applied to functions in $\mathcal{S}{(m,L)}$. Since ${\overline{K}{(z)}} = \frac{- \alpha}{z - 1}$, we have
+
+If $\alpha = \frac{2}{m + L}$, it is straightforward to obtain
+
+Clearly, ${\overline{K}}^{\prime}{({\rhoz})}$ is stable for any $\rho > 0$. Moreover, ${\|{{\overline{K}}^{\prime}{({\rhoz})}}\|} = \rho^{- 1}$. By Theorem 2, the gradient descent method converges for any $\rho > \frac{L - m}{L + m}$. This recovers the existing rate result for the gradient method with $\alpha = \frac{2}{L + m}$. Another popular choice for $\alpha = \frac{1}{L}$. In this case, the shifted controller is given by
+
+where $\kappa{: =}\frac{L}{m}$ is the condition number. Hence, one has
+
+When $\rho > {\frac{1}{2}{({1 - \frac{1}{\kappa}})}}$, ${\overline{K}}^{\prime}{({\rhoz})}$ is stable. In addition, one can substitute $z = 1$ into to obtain the peak frequency response (the $\mathcal{H}_{\infty}$ norm) of ${\overline{K}}^{\prime}{({\rhoz})}$. To ensure this norm is smaller than $\frac{L + m}{L - m}$, one has the condition
+
+Upon simplifying together with $\rho > {\frac{1}{2}{({1 - \frac{1}{\kappa}})}}$, we finally obtain $\rho > {1 - \frac{1}{\kappa}}$, which is the linear convergence rate for the gradient descent method when $\alpha = \frac{1}{L}$.
+
+### Remark 1
+
+A small technical issue in the above analysis is that the rate result proved by the small gain theorem is a strict inequality. This is due to the fact that for LTI systems, input-output stability is slightly stronger than the global uniform stability. See \[5, Remark 1\] for a detailed explanation. This issue is negligible from a practical standpoint.
+
+### Connections to complementary sensitivity
+
+Since we have ${{\overline{K}}^{\prime}{({\rhoz})}} = {{\overline{K}{({\rhoz})}}/{({{\overline{K}{({\rhoz})}} - \frac{2}{m + L}})}}$, ${\overline{K}}^{\prime}{({\rhoz})}$ is the complementary sensitivity function of the closed-loop system $F_{u}{({\overline{K}{({\rhoz})}},{- \frac{m + L}{2}})}$. Accelerating optimization for $f \in {\mathcal{S}{(m,L)}}$ requires finding the smallest $\rho$ such that there exists $\overline{K}{({\rhoz})}$ that stabilizes ${\overline{K}}^{\prime}{({\rhoz})}$ while ensuring that ${\|{{\overline{K}}^{\prime}{({\rhoz})}}\|} < \frac{L + m}{L - m}$. One possible method would be to perform a bisection search on $\rho$. For each $\rho$, we can try to design $\overline{K}$ to stabilize ${\overline{K}}^{\prime}{({\rhoz})}$ and minimize the $\mathcal{H}_{\infty}$-norm of ${\overline{K}}^{\prime}{({\rhoz})}$ at the same time. This subproblem may be reformulated as an $\mathcal{H}_{\infty}$ state feedback synthesis problem since $\overline{K}$ always contains a pure integrator and the state of the scaled dynamics $\frac{1}{{\rhoz} - 1}$ is accessible at every timestep. Consequently, the only design variable is the state feedback gain, which happens to be the stepsize of the gradient method. This explains why acceleration in this case is difficult even given memory of past iterates. It is worth noting that $\overline{K}{({\rhoz})}$ always has an unstable pole at $z = \rho^{- 1}$. There is a large body of discrete-time complementary sensitivity integral results which could potentially be used in studying the design limits of $\overline{K}$ under the analytic constraints posed by the unstable pole at $\rho^{- 1}$.
+
+From the above connection, we can see that acceleration typically requires some function properties which can be decoded as constraints involving dynamics. The condition is a static constraint, and it is hard to design accelerated schemes with this single constraint. However, it is still possible to accelerate non-convex optimization when other function properties are available, e.g. $f \in {\mathcal{L}{(L)}}$.
+
+## Conclusion
+
+This paper discussed connections between the analysis of optimization algorithms and classical control-theoretic concepts. Specifically, the gradient method, the Heavy-ball method, and Nesterov's accelerated method were interpreted as combinations of PID and lag compensators. A loop-shaping interpretation was also used to explain several well-known robustness properties of these algorithms.
+
+We invoked the small gain theorem to show that finding worst-case convergence rates for algorithms amounts to computing the gain of a complementary sensitivity function. In addition, we demonstrated a connection between $\mathcal{H}_{\infty}$ state feedback synthesis and stepsize selections of the gradient method. These observations are an encouraging first step toward leveraging tools from control theory for the analysis and eventual synthesis of robust optimization algorithms.

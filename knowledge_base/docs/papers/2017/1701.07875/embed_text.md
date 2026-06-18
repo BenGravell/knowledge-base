@@ -1,0 +1,240 @@
+## Introduction
+
+The problem this paper is concerned with is that of unsupervised learning. Mainly, what does it mean to learn a probability distribution? The classical answer to this is to learn a probability density. This is often done by defining a parametric family of densities ${(P_{\theta})}_{\theta \in {\mathbb{R}}^{d}}$ and finding the one that maximized the likelihood on our data: if we have real data examples ${\{ x^{(i)}\}}_{i = 1}^{m}$, we would solve the problem
+
+If the real data distribution ${\mathbb{P}}_{r}$ admits a density and ${\mathbb{P}}_{\theta}$ is the distribution of the parametrized density $P_{\theta}$, then, asymptotically, this amounts to minimizing the Kullback-Leibler divergence $KL{({{\mathbb{P}}_{r} \parallel {\mathbb{P}}_{\theta}})}$.
+
+For this to make sense, we need the model density $P_{\theta}$ to exist. This is not the case in the rather common situation where we are dealing with distributions supported by low dimensional manifolds. It is then unlikely that the model manifold and the true distribution's support have a non-negligible intersection (see ), and this means that the KL distance is not defined (or simply infinite).
+
+The typical remedy is to add a noise term to the model distribution. This is why virtually all generative models described in the classical machine learning literature include a noise component. In the simplest case, one assumes a Gaussian noise with relatively high bandwidth in order to cover all the examples. It is well known, for instance, that in the case of image generation models, this noise degrades the quality of the samples and makes them blurry. For example, we can see in the recent paper that the optimal standard deviation of the noise added to the model when maximizing likelihood is around 0.1 to each pixel in a generated image, when the pixels were already normalized to be in the range $\lbrack 0,1\rbrack$. This is a very high amount of noise, so much that when papers report the samples of their models, they don't add the noise term on which they report likelihood numbers. In other words, the added noise term is clearly incorrect for the problem, but is needed to make the maximum likelihood approach work.
+
+Rather than estimating the density of ${\mathbb{P}}_{r}$ which may not exist, we can define a random variable $Z$ with a fixed distribution $p{(z)}$ and pass it through a parametric function $g_{\theta}:{\mathcal{Z}\rightarrow\mathcal{X}}$ (typically a neural network of some kind) that directly generates samples following a certain distribution ${\mathbb{P}}_{\theta}$. By varying $\theta$, we can change this distribution and make it close to the real data distribution ${\mathbb{P}}_{r}$. This is useful in two ways. First of all, unlike densities, this approach can represent distributions confined to a low dimensional manifold. Second, the ability to easily generate samples is often more useful than knowing the numerical value of the density (for example in image superresolution or semantic segmentation when considering the conditional distribution of the output image given the input image). In general, it is computationally difficult to generate samples given an arbitrary high dimensional density.
+
+Variational Auto-Encoders (VAEs) and Generative Adversarial Networks (GANs) are well known examples of this approach. Because VAEs focus on the approximate likelihood of the examples, they share the limitation of the standard models and need to fiddle with additional noise terms. GANs offer much more flexibility in the definition of the objective function, including Jensen-Shannon, and all $f$-divergences as well as some exotic combinations. On the other hand, training GANs is well known for being delicate and unstable, for reasons theoretically investigated in.
+
+In this paper, we direct our attention on the various ways to measure how close the model distribution and the real distribution are, or equivalently, on the various ways to define a distance or divergence $\rho{({\mathbb{P}}_{\theta},{\mathbb{P}}_{r})}$. The most fundamental difference between such distances is their impact on the convergence of sequences of probability distributions. A sequence of distributions ${({\mathbb{P}}_{t})}_{t \in {\mathbb{N}}}$ converges if and only if there is a distribution ${\mathbb{P}}_{\infty}$ such that $\rho{({\mathbb{P}}_{t},{\mathbb{P}}_{\infty})}$ tends to zero, something that depends on how exactly the distance $\rho$ is defined. Informally, a distance $\rho$ induces a weaker topology when it makes it easier for a sequence of distribution to converge.^11^1More exactly, the topology induced by $\rho$ is weaker than that induced by $\rho^{\prime}$ when the set of convergent sequences under $\rho$ is a superset of that under $\rho^{\prime}$. Section 2 clarifies how popular probability distances differ in that respect.
+
+In order to optimize the parameter $\theta$, it is of course desirable to define our model distribution ${\mathbb{P}}_{\theta}$ in a manner that makes the mapping $\theta\mapsto{\mathbb{P}}_{\theta}$ continuous. Continuity means that when a sequence of parameters $\theta_{t}$ converges to $\theta$, the distributions ${\mathbb{P}}_{\theta_{t}}$ also converge to ${\mathbb{P}}_{\theta}$. However, it is essential to remember that the notion of the convergence of the distributions ${\mathbb{P}}_{\theta_{t}}$ depends on the way we compute the distance between distributions. The weaker this distance, the easier it is to define a continuous mapping from $\theta$-space to ${\mathbb{P}}_{\theta}$-space, since it's easier for the distributions to converge. The main reason we care about the mapping $\theta\mapsto{\mathbb{P}}_{\theta}$ to be continuous is as follows. If $\rho$ is our notion of distance between two distributions, we would like to have a loss function $\theta\mapsto{\rho{({\mathbb{P}}_{\theta},{\mathbb{P}}_{r})}}$ that is continuous, and this is equivalent to having the mapping $\theta\mapsto{\mathbb{P}}_{\theta}$ be continuous when using the distance between distributions $\rho$.
+
+The contributions of this paper are:
+
+In Section 2, we provide a comprehensive theoretical analysis of how the Earth Mover (EM) distance behaves in comparison to popular probability distances and divergences used in the context of learning distributions.
+
+In Section 3, we define a form of GAN called Wasserstein-GAN that minimizes a reasonable and efficient approximation of the EM distance, and we theoretically show that the corresponding optimization problem is sound.
+
+In Section 4, we empirically show that WGANs cure the main training problems of GANs. In particular, training WGANs does not require maintaining a careful balance in training of the discriminator and the generator, and does not require a careful design of the network architecture either. The mode dropping phenomenon that is typical in GANs is also drastically reduced. One of the most compelling practical benefits of WGANs is the ability to continuously estimate the EM distance by training the discriminator to optimality. Plotting these learning curves is not only useful for debugging and hyperparameter searches, but also correlate remarkably well with the observed sample quality.
+
+## Different Distances
+
+We now introduce our notation. Let $\mathcal{X}$ be a compact metric set (such as the space of images ${\lbrack 0,1\rbrack}^{d}$) and let $\Sigma$ denote the set of all the Borel subsets of $\mathcal{X}$. Let $\text{Prob}{(\mathcal{X})}$ denote the space of probability measures defined on $\mathcal{X}$. We can now define elementary distances and divergences between two distributions ${{\mathbb{P}}_{r},{\mathbb{P}}_{g}} \in {\text{Prob}{(\mathcal{X})}}$:
+
+The *Total Variation* (TV) distance
+
+The *Kullback-Leibler* (KL) divergence
+
+where both ${\mathbb{P}}_{r}$ and ${\mathbb{P}}_{g}$ are assumed to be absolutely continuous, and therefore admit densities, with respect to a same measure $\mu$ defined on $\mathcal{X}$.^22^2Recall that a probability distribution ${\mathbb{P}}_{r} \in {\text{Prob}{(\mathcal{X})}}$ admits a density $p_{r}{(x)}$ with respect to $\mu$, that is, ${\forall A} \in \Sigma$, ${{\mathbb{P}}_{r}{(A)}} = {\int_{A}{P_{r}{(x)}{d\mu}{(x)}}}$, if and only it is absolutely continuous with respect to $\mu$, that is, ${\forall A} \in \Sigma$, ${\mu{(A)}} = 0\Rightarrow{{\mathbb{P}}_{r}{(A)}} = 0$. The KL divergence is famously assymetric and possibly infinite when there are points such that ${P_{g}{(x)}} = 0$ and ${P_{r}{(x)}} > 0$.
+
+The *Jensen-Shannon* (JS) divergence
+
+where ${\mathbb{P}}_{m}$ is the mixture ${({{\mathbb{P}}_{r} + {\mathbb{P}}_{g}})}/2$. This divergence is symmetrical and always defined because we can choose $\mu = {\mathbb{P}}_{m}$.
+
+The *Earth-Mover* (EM) distance or Wasserstein-1
+
+where $\Pi{({\mathbb{P}}_{r},{\mathbb{P}}_{g})}$ denotes the set of all joint distributions $\gamma{(x,y)}$ whose marginals are respectively ${\mathbb{P}}_{r}$ and ${\mathbb{P}}_{g}$. Intuitively, $\gamma{(x,y)}$ indicates how much "mass" must be transported from $x$ to $y$ in order to transform the distributions ${\mathbb{P}}_{r}$ into the distribution ${\mathbb{P}}_{g}$. The EM distance then is the "cost" of the optimal transport plan.
+
+The following example illustrates how apparently simple sequences of probability distributions converge under the EM distance but do not converge under the other distances and divergences defined above.
+
+### Example 1 (Learning parallel lines)
+
+Let $Z \sim {U{\lbrack 0,1\rbrack}}$ the uniform distribution on the unit interval. Let ${\mathbb{P}}_{0}$ be the distribution of ${(0,Z)} \in {\mathbb{R}}^{2}$ (a 0 on the x-axis and the random variable $Z$ on the y-axis), uniform on a straight vertical line passing through the origin. Now let ${g_{\theta}{(z)}} = {(\theta,z)}$ with $\theta$ a single real parameter. It is easy to see that in this case,
+
+${W{({\mathbb{P}}_{0},{\mathbb{P}}_{\theta})}} = {|\theta|}$,
+
+${JS{({\mathbb{P}}_{0},{\mathbb{P}}_{\theta})}} = \begin{cases}
+{\log 2} & {{{\text{if~}\theta} \neq 0},} \\
+
+${KL{({{\mathbb{P}}_{\theta} \parallel {\mathbb{P}}_{0}})}} = {KL{({{\mathbb{P}}_{0} \parallel {\mathbb{P}}_{\theta}})}} = \begin{cases}
+{+ \infty} & {{{\text{if~}\theta} \neq 0},} \\
+
+and ${\delta{({\mathbb{P}}_{0},{\mathbb{P}}_{\theta})}} = \begin{cases}
+1 & {{{\text{if~}\theta} \neq 0},} \\
+
+When $\theta_{t}\rightarrow 0$, the sequence ${({\mathbb{P}}_{\theta_{t}})}_{t \in {\mathbb{N}}}$ converges to ${\mathbb{P}}_{0}$ under the EM distance, but does not converge at all under either the JS, KL, reverse KL, or TV divergences. Figure 1. ‣ 2 Different Distances ‣ Wasserstein GAN") illustrates this for the case of the EM and JS distances.
+
+Figure 1: These plots show ρ (ℙθ,ℙ0) as a function of θ when ρ is the EM distance (left plot) or the JS divergence (right plot). The EM plot is continuous and provides a usable gradient everywhere. The JS plot is not continuous and does not provide a usable gradient.
+
+Example 1. ‣ 2 Different Distances ‣ Wasserstein GAN") gives us a case where we can learn a probability distribution over a low dimensional manifold by doing gradient descent on the EM distance. This cannot be done with the other distances and divergences because the resulting loss function is not even continuous. Although this simple example features distributions with disjoint supports, the same conclusion holds when the supports have a non empty intersection contained in a set of measure zero. This happens to be the case when two low dimensional manifolds intersect in general position.
+
+Since the Wasserstein distance is much weaker than the JS distance^33^3 The argument for *why* this happens, and indeed how we arrived to the idea that Wasserstein is what we should really be optimizing is displayed in Appendix Appendix A. We strongly encourage the interested reader who is not afraid of the mathematics to go through it., we can now ask whether $W{({\mathbb{P}}_{r},{\mathbb{P}}_{\theta})}$ is a continuous loss function on $\theta$ under mild assumptions. This, and more, is true, as we now state and prove.
+
+### Theorem 1
+
+Let ${\mathbb{P}}_{r}$ be a fixed distribution over $\mathcal{X}$. Let $Z$ be a random variable (e.g Gaussian) over another space $\mathcal{Z}$. Let $g:{{\mathcal{Z} \times {\mathbb{R}}^{d}}\rightarrow\mathcal{X}}$ be a function, that will be denoted $g_{\theta}{(z)}$ with $z$ the first coordinate and $\theta$ the second. Let ${\mathbb{P}}_{\theta}$ denote the distribution of $g_{\theta}{(Z)}$. Then,
+
+If $g$ is continuous in $\theta$, so is $W{({\mathbb{P}}_{r},{\mathbb{P}}_{\theta})}$.
+
+If $g$ is locally Lipschitz and satisfies regularity assumption 1, then $W{({\mathbb{P}}_{r},{\mathbb{P}}_{\theta})}$ is continuous everywhere, and differentiable almost everywhere.
+
+Statements 1-2 are false for the Jensen-Shannon divergence $JS{({\mathbb{P}}_{r},{\mathbb{P}}_{\theta})}$ and all the KLs.
+
+### Proof
+
+The following corollary tells us that learning by minimizing the EM distance makes sense (at least in theory) with neural networks.
+
+### Corollary 1
+
+Let $g_{\theta}$ be any feedforward neural network^44^4By a feedforward neural network we mean a function composed by affine transformations and pointwise nonlinearities which are smooth Lipschitz functions (such as the sigmoid, tanh, elu, softplus, etc). Note: the statement is also true for rectifier nonlinearities but the proof is more technical (even though very similar) so we omit it. parameterized by $\theta$, and $p{(z)}$ a prior over $z$ such that ${{\mathbb{E}}_{z \sim {p{(z)}}}{\lbrack{\| z\|}\rbrack}} < \infty$ (e.g. Gaussian, uniform, etc.). Then assumption 1 is satisfied and therefore $W{({\mathbb{P}}_{r},{\mathbb{P}}_{\theta})}$ is continuous everywhere and differentiable almost everywhere.
+
+### Proof
+
+All this shows that EM is a much more sensible cost function for our problem than at least the Jensen-Shannon divergence. The following theorem describes the relative strength of the topologies induced by these distances and divergences, with KL the strongest, followed by JS and TV, and EM the weakest.
+
+### Theorem 2
+
+Let $\mathbb{P}$ be a distribution on a compact space $\mathcal{X}$ and ${({\mathbb{P}}_{n})}_{n \in {\mathbb{N}}}$ be a sequence of distributions on $\mathcal{X}$. Then, considering all limits as $n\rightarrow\infty$,
+
+The following statements are equivalent
+
+${\delta{({\mathbb{P}}_{n},{\mathbb{P}})}}\rightarrow 0$ with $\delta$ the total variation distance.
+
+${JS{({\mathbb{P}}_{n},{\mathbb{P}})}}\rightarrow 0$ with $JS$ the Jensen-Shannon divergence.
+
+The following statements are equivalent
+
+${W{({\mathbb{P}}_{n},{\mathbb{P}})}}\rightarrow 0$.
+
+${\mathbb{P}}_{n}\overset{\mathcal{D}}{\rightarrow}{\mathbb{P}}$ where $\overset{\mathcal{D}}{\rightarrow}$ represents convergence in distribution for random variables.
+
+${KL{({{\mathbb{P}}_{n} \parallel {\mathbb{P}}})}}\rightarrow 0$ or ${KL{({{\mathbb{P}} \parallel {\mathbb{P}}_{n}})}}\rightarrow 0$ imply the statements in.
+
+The statements in imply the statements in.
+
+### Proof
+
+This highlights the fact that the KL, JS, and TV distances are not sensible cost functions when learning distributions supported by low dimensional manifolds. However the EM distance is sensible in that setup. This obviously leads us to the next section where we introduce a practical approximation of optimizing the EM distance.
+
+## Wasserstein GAN
+
+Again, Theorem 2 points to the fact that $W{({\mathbb{P}}_{r},{\mathbb{P}}_{\theta})}$ might have nicer properties when optimized than $JS{({\mathbb{P}}_{r},{\mathbb{P}}_{\theta})}$. However, the infimum in is highly intractable. On the other hand, the Kantorovich-Rubinstein duality tells us that
+
+where the supremum is over all the 1-Lipschitz functions $f:{\mathcal{X}\rightarrow{\mathbb{R}}}$. Note that if we replace ${\| f\|}_{L} \leq 1$ for ${\| f\|}_{L} \leq K$ (consider $K$-Lipschitz for some constant $K$), then we end up with ${K \cdot W}{({\mathbb{P}}_{r},{\mathbb{P}}_{g})}$. Therefore, if we have a parameterized family of functions ${\{ f_{w}\}}_{w \in \mathcal{W}}$ that are all $K$-Lipschitz for some $K$, we could consider solving the problem
+
+and if the supremum in is attained for some $w \in \mathcal{W}$ (a pretty strong assumption akin to what's assumed when proving consistency of an estimator), this process would yield a calculation of $W{({\mathbb{P}}_{r},{\mathbb{P}}_{\theta})}$ up to a multiplicative constant. Furthermore, we could consider differentiating $W{({\mathbb{P}}_{r},{\mathbb{P}}_{\theta})}$ (again, up to a constant) by back-proping through equation via estimating ${\mathbb{E}}_{z \sim {p{(z)}}}{\lbrack{{\nabla_{\theta}f_{w}}{({g_{\theta}{(z)}})}}\rbrack}$. While this is all intuition, we now prove that this process is principled under the optimality assumption.
+
+### Theorem 3
+
+Let ${\mathbb{P}}_{r}$ be any distribution. Let ${\mathbb{P}}_{\theta}$ be the distribution of $g_{\theta}{(Z)}$ with $Z$ a random variable with density $p$ and $g_{\theta}$ a function satisfying assumption 1. Then, there is a solution $f:{\mathcal{X}\rightarrow{\mathbb{R}}}$ to the problem
+
+when both terms are well-defined.
+
+### Proof
+
+See Appendix Appendix C ∎
+
+Now comes the question of finding the function $f$ that solves the maximization problem in equation. To roughly approximate this, something that we can do is train a neural network parameterized with weights $w$ lying in a compact space $\mathcal{W}$ and then backprop through ${\mathbb{E}}_{z \sim {p{(z)}}}{\lbrack{{\nabla_{\theta}f_{w}}{({g_{\theta}{(z)}})}}\rbrack}$, as we would do with a typical GAN. Note that the fact that $\mathcal{W}$ is compact implies that all the functions $f_{w}$ will be $K$-Lipschitz for some $K$ that only depends on $\mathcal{W}$ and not the individual weights, therefore approximating up to an irrelevant scaling factor and the capacity of the 'critic' $f_{w}$. In order to have parameters $w$ lie in a compact space, something simple we can do is clamp the weights to a fixed box (say $\mathcal{W} = {\lbrack{- 0.01},0.01\rbrack}^{l}$) after each gradient update. The Wasserstein Generative Adversarial Network (WGAN) procedure is described in Algorithm 1.
+
+Weight clipping is a clearly terrible way to enforce a Lipschitz constraint. If the clipping parameter is large, then it can take a long time for any weights to reach their limit, thereby making it harder to train the critic till optimality. If the clipping is small, this can easily lead to vanishing gradients when the number of layers is big, or batch normalization is not used (such as in RNNs). We experimented with simple variants (such as projecting the weights to a sphere) with little difference, and we stuck with weight clipping due to its simplicity and already good performance. However, we do leave the topic of enforcing Lipschitz constraints in a neural network setting for further investigation, and we actively encourage interested researchers to improve on this method.
+
+1:: α, the learning rate. c, the clipping parameter. m, the batch size. ncritic, the number of iterations of the critic per generator iteration.
+2:: w0, initial critic parameters. θ0, initial generator’s parameters.
+3:while θ has not converged do
+5: Sample {x(i)}i = 1m ∼ ℙr a batch from the real data.
+6: Sample {z(i)}i = 1m ∼ p (z) a batch of prior samples.
+7: $g_{w}\leftarrow{\nabla_{w}\left\lbrack {{\frac{1}{m}{\sum_{i = 1}^{m}{f_{w}{(x^{(i)})}}}} - {\frac{1}{m}{\sum_{i = 1}^{m}{f_{w}{({g_{\theta}{(z^{(i)})}})}}}}} \right\rbrack}$
+11: Sample {z(i)}i = 1m ∼ p (z) a batch of prior samples.
+12: $g_{\theta}\leftarrow{- {{\nabla_{\theta}\frac{1}{m}}{\sum_{i = 1}^{m}{f_{w}{({g_{\theta}{(z^{(i)})}})}}}}}$
+Algorithm 1 WGAN, our proposed algorithm. All experiments in the paper used the default values α = 0.00005, c = 0.01, m = 64, ncritic = 5.
+
+The fact that the EM distance is continuous and differentiable a.e. means that we can (and should) train the critic till optimality. The argument is simple, the more we train the critic, the more reliable gradient of the Wasserstein we get, which is actually useful by the fact that Wasserstein is differentiable almost everywhere. For the JS, as the discriminator gets better the gradients get more reliable but the true gradient is 0 since the JS is locally saturated and we get vanishing gradients, as can be seen in Figure 1. ‣ 2 Different Distances ‣ Wasserstein GAN") of this paper and Theorem 2.4 of. In Figure 2 we show a proof of concept of this, where we train a GAN discriminator and a WGAN critic till optimality. The discriminator learns very quickly to distinguish between fake and real, and as expected provides no reliable gradient information. The critic, however, can't saturate, and converges to a linear function that gives remarkably clean gradients everywhere. The fact that we constrain the weights limits the possible growth of the function to be at most linear in different parts of the space, forcing the optimal critic to have this behaviour.
+
+Figure 2: Optimal discriminator and critic when learning to differentiate two Gaussians. As we can see, the discriminator of a minimax GAN saturates and results in vanishing gradients. Our WGAN critic provides very clean gradients on all parts of the space.
+
+Perhaps more importantly, the fact that we can train the critic till optimality makes it impossible to collapse modes when we do. This is due to the fact that mode collapse comes from the fact that the optimal generator for a *fixed* discriminator is a sum of deltas on the points the discriminator assigns the highest values, as observed by and highlighted in.
+
+In the following section we display the practical benefits of our new algorithm, and we provide an in-depth comparison of its behaviour and that of traditional GANs.
+
+## Empirical Results
+
+We run experiments on image generation using our Wasserstein-GAN algorithm and show that there are significant practical benefits to using it over the formulation used in standard GANs.
+
+We claim two main benefits:
+
+a meaningful loss metric that correlates with the generator's convergence and sample quality
+
+improved stability of the optimization process
+
+### Experimental Procedure
+
+We run experiments on image generation. The target distribution to learn is the LSUN-Bedrooms dataset -- a collection of natural images of indoor bedrooms. Our baseline comparison is DCGAN, a GAN with a convolutional architecture trained with the standard GAN procedure using the $- {\log D}$ trick. The generated samples are 3-channel images of 64x64 pixels in size. We use the hyper-parameters specified in Algorithm 1 for all of our experiments.
+
+### Meaningful loss metric
+
+Because the WGAN algorithm attempts to train the critic $f$ (lines 2--8 in Algorithm 1) relatively well before each generator update (line 10 in Algorithm 1), the loss function at this point is an estimate of the EM distance, up to constant factors related to the way we constrain the Lipschitz constant of $f$.
+
+Our first experiment illustrates how this estimate correlates well with the quality of the generated samples. Besides the convolutional DCGAN architecture, we also ran experiments where we replace the generator or both the generator and the critic by 4-layer ReLU-MLP with 512 hidden units.
+
+Figure 3: Training curves and samples at different stages of training. We can see a clear correlation between lower error and better sample quality. Upper left: the generator is an MLP with 4 hidden layers and 512 units at each layer. The loss decreases constistently as training progresses and sample quality increases. Upper right: the generator is a standard DCGAN. The loss decreases quickly and sample quality increases as well. In both upper plots the critic is a DCGAN without the sigmoid so losses can be subjected to comparison. Lower half: both the generator and the discriminator are MLPs with substantially high learning rates (so training failed). Loss is constant and samples are constant as well. The training curves were passed through a median filter for visualization purposes.
+
+Figure 4: J S estimates for an MLP generator (upper left) and a DCGAN generator (upper right) trained with the standard GAN procedure. Both had a DCGAN discriminator. Both curves have increasing error. Samples get better for the DCGAN but the JS estimate increases or stays constant, pointing towards no significant correlation between sample quality and loss. Bottom: M L P with both generator and discriminator. The curve goes up and down regardless of sample quality. All training curves were passed through the same median filter as in Figure 3.
+
+Figure 3 plots the evolution of the WGAN estimate of the EM distance during WGAN training for all three architectures. The plots clearly show that these curves correlate well with the visual quality of the generated samples.
+
+To our knowledge, this is the first time in GAN literature that such a property is shown, where the loss of the GAN shows properties of convergence. This property is extremely useful when doing research in adversarial networks as one does not need to stare at the generated samples to figure out failure modes and to gain information on which models are doing better over others.
+
+However, we do not claim that this is a new method to quantitatively evaluate generative models yet. The constant scaling factor that depends on the critic's architecture means it's hard to compare models with different critics. Even more, in practice the fact that the critic doesn't have infinite capacity makes it hard to know just how close to the EM distance our estimate really is. This being said, we have succesfully used the loss metric to validate our experiments repeatedly and without failure, and we see this as a huge improvement in training GANs which previously had no such facility.
+
+In contrast, Figure 4 plots the evolution of the GAN estimate of the JS distance during GAN training. More precisely, during GAN training, the discriminator is trained to maximize
+
+which is is a lower bound of ${2JS{({\mathbb{P}}_{r},{\mathbb{P}}_{\theta})}} - {2{\log 2}}$. In the figure, we plot the quantity ${\frac{1}{2}L{(D,g_{\theta})}} + {\log 2}$, which is a lower bound of the JS distance.
+
+This quantity clearly correlates poorly the sample quality. Note also that the JS estimate usually stays constant or goes up instead of going down. In fact it often remains very close to ${\log 2} \approx 0.69$ which is the highest value taken by the JS distance. In other words, the JS distance saturates, the discriminator has zero loss, and the generated samples are in some cases meaningful (DCGAN generator, top right plot) and in other cases collapse to a single nonsensical image. This last phenomenon has been theoretically explained in and highlighted in.
+
+When using the $- {\log D}$ trick, the discriminator loss and the generator loss are different. Figure 8 in Appendix E reports the same plots for GAN training, but using the generator loss instead of the discriminator loss. This does not change the conclusions.
+
+Finally, as a negative result, we report that WGAN training becomes unstable at times when one uses a momentum based optimizer such as Adam (with $\beta_{1} > 0$) on the critic, or when one uses high learning rates. Since the loss for the critic is nonstationary, momentum based methods seemed to perform worse. We identified momentum as a potential cause because, as the loss blew up and samples got worse, the cosine between the Adam step and the gradient usually turned negative. The only places where this cosine was negative was in these situations of instability. We therefore switched to RMSProp which is known to perform well even on very nonstationary problems.
+
+### Improved stability
+
+One of the benefits of WGAN is that it allows us to train the critic till optimality. When the critic is trained to completion, it simply provides a loss to the generator that we can train as any other neural network. This tells us that we no longer need to balance generator and discriminator's capacity properly. The better the critic, the higher quality the gradients we use to train the generator.
+
+We observe that WGANs are much more robust than GANs when one varies the architectural choices for the generator. We illustrate this by running experiments on three generator architectures: a convolutional DCGAN generator, a convolutional DCGAN generator without batch normalization and with a constant number of filters, and a 4-layer ReLU-MLP with 512 hidden units. The last two are known to perform very poorly with GANs. We keep the convolutional DCGAN architecture for the WGAN critic or the GAN discriminator.
+
+Figure 5: Algorithms trained with a DCGAN generator. Left: WGAN algorithm. Right: standard GAN formulation. Both algorithms produce high quality samples.
+Figure 6: Algorithms trained with a generator without batch normalization and constant number of filters at every layer (as opposed to duplicating them every time as in ). Aside from taking out batch normalization, the number of parameters is therefore reduced by a bit more than an order of magnitude. Left: WGAN algorithm. Right: standard GAN formulation. As we can see the standard GAN failed to learn while the WGAN still was able to produce samples.
+Figure 7: Algorithms trained with an MLP generator with 4 layers and 512 units with ReLU nonlinearities. The number of parameters is similar to that of a DCGAN, but it lacks a strong inductive bias for image generation. Left: WGAN algorithm. Right: standard GAN formulation. The WGAN method still was able to produce samples, lower quality than the DCGAN, and of higher quality than the MLP of the standard GAN. Note the significant degree of mode collapse in the GAN MLP.
+
+Figures 7, 7, and 7 show samples generated for these three architectures using both the WGAN and GAN algorithms. We refer the reader to Appendix Appendix F for full sheets of generated samples. Samples were not cherry-picked.
+
+In no experiment did we see evidence of mode collapse for the WGAN algorithm.
+
+## Related Work
+
+There's been a number of works on the so called Integral Probability Metrics (IPMs). Given $\mathcal{F}$ a set of functions from $\mathcal{X}$ to $\mathbb{R}$, we can define
+
+as an integral probability metric associated with the function class $\mathcal{F}$. It is easily verified that if for every $f \in \mathcal{F}$ we have ${- f} \in \mathcal{F}$ (such as all examples we'll consider), then $d_{\mathcal{F}}$ is nonnegative, satisfies the triangular inequality, and is symmetric. Thus, $d_{\mathcal{F}}$ is a pseudometric over $\text{Prob}{(\mathcal{X})}$.
+
+While IPMs might seem to share a similar formula, as we will see different classes of functions can yeald to radically different metrics.
+
+By the Kantorovich-Rubinstein duality, we know that ${W{({\mathbb{P}}_{r},{\mathbb{P}}_{\theta})}} = {d_{\mathcal{F}}{({\mathbb{P}}_{r},{\mathbb{P}}_{\theta})}}$ when $\mathcal{F}$ is the set of 1-Lipschitz functions. Furthermore, if $\mathcal{F}$ is the set of $K$-Lipschitz functions, we get ${{K \cdot W}{({\mathbb{P}}_{r},{\mathbb{P}}_{\theta})}} = {d_{\mathcal{F}}{({\mathbb{P}}_{r},{\mathbb{P}}_{\theta})}}$.
+
+When $\mathcal{F}$ is the set of all measurable functions bounded between -1 and 1 (or all continuous functions between -1 and 1), we retrieve ${d_{\mathcal{F}}{({\mathbb{P}}_{r},{\mathbb{P}}_{\theta})}} = {\delta{({\mathbb{P}}_{r},{\mathbb{P}}_{\theta})}}$ the total variation distance. This already tells us that going from 1-Lipschitz to 1-Bounded functions drastically changes the topology of the space, and the regularity of $d_{\mathcal{F}}{({\mathbb{P}}_{r},{\mathbb{P}}_{\theta})}$ as a loss function (as by Theorems 1 and 2).
+
+Energy-based GANs (EBGANs) can be thought of as the generative approach to the total variation distance. This connection is stated and proven in depth in Appendix Appendix D. At the core of the connection is that the discriminator will play the role of $f$ maximizing equation while its only restriction is being between $0$ and $m$ for some constant $m$. This will yeald the same behaviour as being restricted to be between $- 1$ and $1$ up to a constant scaling factor irrelevant to optimization. Thus, when the discriminator approaches optimality the cost for the generator will aproximate the total variation distance $\delta{({\mathbb{P}}_{r},{\mathbb{P}}_{\theta})}$.
+
+Since the total variation distance displays the same regularity as the JS, it can be seen that EBGANs will suffer from the same problems of classical GANs regarding not being able to train the discriminator till optimality and thus limiting itself to very imperfect gradients.
+
+Maximum Mean Discrepancy (MMD) is a specific case of integral probability metrics when $\mathcal{F} = {\{{f \in \mathcal{H}}:{{\| f\|}_{\infty} \leq 1}\}}$ for $\mathcal{H}$ some Reproducing Kernel Hilbert Space (RKHS) associated with a given kernel $k:{{\mathcal{X} \times \mathcal{X}}\rightarrow{\mathbb{R}}}$. As proved on we know that MMD is a proper metric and not only a pseudometric when the kernel is universal. In the specific case where $\mathcal{H} = {L^{2}{(\mathcal{X},m)}}$ for $m$ the normalized Lebesgue measure on $\mathcal{X}$, we know that $\{{{f \in {C_{b}{(\mathcal{X})}}},{{\| f\|}_{\infty} \leq 1}}\}$ will be contained in $\mathcal{F}$, and therefore ${d_{\mathcal{F}}{({\mathbb{P}}_{r},{\mathbb{P}}_{\theta})}} \leq {\delta{({\mathbb{P}}_{r},{\mathbb{P}}_{\theta})}}$ so the regularity of the MMD distance as a loss function will be at least as bad as the one of the total variation. Nevertheless this is a very extreme case, since we would need a very powerful kernel to approximate the whole $L^{2}$. However, even Gaussian kernels are able to detect tiny noise patterns as recently evidenced by. This points to the fact that especially with low bandwidth kernels, the distance might be close to a saturating regime similar as with total variation or the JS. This obviously doesn't need to be the case for every kernel, and figuring out how and which different MMDs are closer to Wasserstein or total variation distances is an interesting topic of research.
+
+The great aspect of MMD is that via the kernel trick there is no need to train a separate network to maximize equation for the ball of a RKHS. However, this has the disadvantage that evaluating the MMD distance has computational cost that grows quadratically with the amount of samples used to estimate the expectations in. This last point makes MMD have limited scalability, and is sometimes inapplicable to many real life applications because of it. There are estimates with linear computational cost for the MMD which in a lot of cases makes MMD very useful, but they also have worse sample complexity.
+
+Generative Moment Matching Networks (GMMNs) are the generative counterpart of MMD. By backproping through the kernelized formula for equation, they directly optimize $d_{MMD}{({\mathbb{P}}_{r},{\mathbb{P}}_{\theta})}$ (the IPM when $\mathcal{F}$ is as in the previous item). As mentioned, this has the advantage of not requiring a separate network to approximately maximize equation. However, GMMNs have enjoyed limited applicability. Partial explanations for their unsuccess are the quadratic cost as a function of the number of samples and vanishing gradients for low-bandwidth kernels. Furthermore, it may be possible that some kernels used in practice are unsuitable for capturing very complex distances in high dimensional sample spaces such as natural images. This is properly justified by the fact that shows that for the typical Gaussian MMD test to be reliable (as in it's power as a statistical test approaching 1), we need the number of samples to grow linearly with the number of dimensions. Since the MMD computational cost grows quadratically with the number of samples in the batch used to estimate equation, this makes the cost of having a reliable estimator grow quadratically with the number of dimensions, which makes it very inapplicable for high dimensional problems. Indeed, for something as standard as $64$x$64$ images, we would need minibatches of size at least $4096$ (without taking into account the constants in the bounds of which would make this number substantially larger) and a total cost per iteration of $4096^{2}$, over 5 orders of magnitude more than a GAN iteration when using the standard batch size of 64.
+
+That being said, these numbers can be a bit unfair to the MMD, in the sense that we are comparing empirical sample complexity of GANs with the theoretical sample complexity of MMDs, which tends to be worse. However, in the original GMMN paper they indeed used a minibatch of size 1000, much larger than the standard 32 or 64 (even when this incurred in quadratic computational cost). While estimates that have linear computational cost as a function of the number of samples exist, they have worse sample complexity, and to the best of our knowledge they haven't been yet applied in a generative context such as in GMMNs.
+
+On another great line of research, the recent work of has explored the use of Wasserstein distances in the context of learning for Restricted Boltzmann Machines for discrete spaces. The motivations at a first glance might seem quite different, since the manifold setting is restricted to continuous spaces and in finite discrete spaces the weak and strong topologies (the ones of W and JS respectively) coincide. However, in the end there is more in commmon than not about our motivations. We both want to compare distributions in a way that leverages the geometry of the underlying space, and Wasserstein allows us to do exactly that.
+
+Finally, the work of shows new algorithms for calculating Wasserstein distances between different distributions. We believe this direction is quite important, and perhaps could lead to new ways of evaluating generative models.
+
+## Conclusion
+
+We introduced an algorithm that we deemed WGAN, an alternative to traditional GAN training. In this new model, we showed that we can improve the stability of learning, get rid of problems like mode collapse, and provide meaningful learning curves useful for debugging and hyperparameter searches. Furthermore, we showed that the corresponding optimization problem is sound, and provided extensive theoretical work highlighting the deep connections to other distances between distributions.

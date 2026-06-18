@@ -1,0 +1,179 @@
+## Introduction
+
+Consider the unconstrained optimization problem
+
+where $f:{{\mathbb{R}}^{n}\rightarrow{\mathbb{R}}}$ is $L$-smooth and $m$-strongly convex. The strong convexity of $f$ guarantees that there exists a unique minimizer $x_{\star}$ satisfying ${{\nabla f}{(x_{\star})}} = 0$. First-order methods are widely used for solving when the Hessian is prohibitively expensive to compute, e.g., when the problem dimension is large. A simple first-order algorithm for solving is the Gradient Method (GM),
+
+For smooth and strongly convex $f$, the GM with a well-chosen stepsize converges linearly to the optimizer. That is, for some $c \geq 0$ and $\rho \in {\lbrack 0,1)}$, we have
+
+For example, the standard choice $\alpha = {1/L}$ leads to a linear rate $\rho = {1 - \frac{m}{L}}$, while the choice $\alpha = \frac{2}{L + m}$ results in the improved linear rate $\rho = \frac{L - m}{L + m}$.
+
+The issue with the Gradient Method, however, is that the convergence rate is slow, especially for ill-conditioned problems where the ratio $\frac{L}{m}$ is large. A common method of accelerating convergence is to use *momentum*. A well-established momentum algorithm for smooth and strongly convex $f$ is Nesterov's Fast Gradient Method^11^1Also called Neterov's accelerated gradient method., (FGM) described by the iteration
+
+The FGM tuned with $\alpha = \frac{1}{L}$ and $\beta = \frac{\sqrt{L} - \sqrt{m}}{\sqrt{L} + \sqrt{m}}$ converges with rate $\rho^{2} < {1 - \sqrt{m/L}}$, which is faster than the GM rate^22^2A numerical study in revealed that the standard rate bound for FGM derived in is conservative. Nevertheless, the bound has a simple algebraic form and is asymptotically tight.. The rate can be improved to $\rho = {1 - \sqrt{m/L}}$ using an accelerated algorithm called the Triple Momentum Method. This is the fastest known worst-case convergence rate for this class of problems.
+
+Robustness issues arise naturally in many optimization problems. For example, achieving the above rates associated with each first-order method requires knowledge of $L$ and $m$, which may not be accurately accessible in practice. In addition, the gradient evaluation can be inexact for certain applications. These issues motivate the need for accelerated first-order methods that are robust to underlying design assumptions.
+
+As observed in \[3, §5.2\], optimization algorithm design involves a tradeoff between performance and robustness. For example, consider stepsize tuning for the GM. Using $\alpha = \frac{2}{L + m}$ optimizes the convergence rate, but makes the algorithm fragile to gradient noise. The more conservative choice $\alpha = \frac{1}{L}$ results in slower convergence, but more robustness to noise. This is consistent with the intuition that a smaller stepsize can improve the algorithm's robustness at the price of degrading its performance. For momentum methods, exploiting the tradeoff between performance and robustness is less straightforward, since one has to tune multiple algorithm parameters in a coupled manner to achieve acceleration. This tradeoff is exploited in for first-order methods applied to smooth convex problems. In this work, we design a first-order method that exploits the tradeoff between robustness and performance for smooth strongly convex problems.
+
+### Notation
+
+The set of functions that are $m$-strongly convex and $L$-smooth is denoted $\mathcal{F}{(m,L)}$. In particular, $f \in {\mathcal{F}{(m,L)}}$ if for all ${x,y} \in {\mathbb{R}}^{n}$,
+
+The condition ratio is defined as $\kappa{: =}{L/m}$.
+
+## Main result
+
+### Robust Momentum Method
+
+Our proposed algorithm is parameterized by a scalar $\rho$ that represents the worst-case convergence rate of the algorithm in the noise-free case. Specifically, the iteration is governed by the following recursion with arbitrary initialization ${x_{0},x_{- 1}} \in {\mathbb{R}}^{n}$
+
+where $\alpha$, $\beta$, and $\gamma$ depend directly on the parameter $\rho$ as
+
+We now state the key convergence property of the Robust Momentum Method in the noise-free case.
+
+### Theorem 1
+
+Suppose $f \in {\mathcal{F}{(m,L)}}$ with $0 < m \leq L$ and let $x_{\star}$ be the unique minimizer of $f$. Given the parameter $\rho \in {\lbrack{1 - {1/\sqrt{\kappa}}},{\, 1 - {1/\kappa}}\rbrack}$, the Robust Momentum Method with parameter tuning satisfies the bound
+
+where $c > 0$ is a constant that does not depend on $k$.
+
+The proof of Theorem 1 is provided in Section 2.2. Theorem 1 states that $\rho$ directly controls the worst-case convergence rate of the Robust Momentum Method. We will see in Section 3 that although increasing $\rho$ makes the algorithm slower, it also makes it more robust to gradient noise. In particular,
+
+The minimum value is $\rho = {1 - {1/\sqrt{\kappa}}}$. This is the fastest achievable convergence rate and also leads to the most fragile algorithm. This choice recovers the Triple Momentum Method.
+
+The maximum value is $\rho = {1 - {1/\kappa}}$. This is the slowest achievable convergence rate and also leads to the most robust algorithm. This choice recovers the Gradient Method with stepsize $\alpha = {1/L}$.
+
+To see why this last case reduces to the Gradient Method, substitute $\rho = {1 - {1/\kappa}}$ into and. Then, (2a) reduces to $y_{k + 1} = {y_{k} - {\frac{1}{L}{\nabla f}{(y_{k})}}}$.
+
+### Convergence rate proof
+
+In this section, we derive a proof for Theorem 1. The approach that follows is similar to the one used in, with one important difference. In addition to proving a rate bound as in, we also derive a Lyapunov function that yields intuition for the algorithm's behavior and robustness properties.
+
+### Proposition 2 (Co-coercivity)
+
+Suppose $f:{{\mathbb{R}}^{n}\rightarrow{\mathbb{R}}}$ is convex and differentiable. Further suppose $f$ is $L$-smooth. Then for all ${x,y} \in {\mathbb{R}}^{n}$,
+
+The following lemma proves a key property of strongly convex functions. Parts of this result appear in and we repeat them here for completeness.
+
+### Lemma 3
+
+Suppose $f \in {\mathcal{F}{(m,L)}}$. Let $x_{\star}$ be the unique minimizer of $f$ (i.e., ${{\nabla f}{(x_{\star})}} = 0$). Define the function ${g{(x)}}{: =}{{f{(x)}} - {f{(x_{\star})}} - {\frac{m}{2}{\parallel{x - x_{\star}}\parallel}^{2}}}$. Given any sequence of points ${\{ y_{k}\}} \subseteq {\mathbb{R}}^{n}$,
+
+If we define $q_{k}{: =}{{{({L - m})}g{(y_{k})}} - {\frac{1}{2}{\parallel{{\nabla g}{(y_{k})}}\parallel}^{2}}}$, then
+
+If we define $u_{k}{: =}{{\nabla f}{(y_{k})}}$ and ${\overset{\sim}{y}}_{k}{: =}{y_{k} - x_{\star}}$, then
+
+Using the same definitions as above, the following inequality holds for any $0 \leq \rho \leq 1$,
+
+Proof. By the definition of strong convexity, $g$ is convex and $({L - m})$-smooth. Moreover, ${g{(y)}} \geq {g{(x_{\star})}} = 0$ for all $y \in {\mathbb{R}}^{n}$. Item 1 follows from applying Proposition 2. ‣ 2.2 Convergence rate proof ‣ 2 Main result ‣ A Robust Accelerated Optimization Algorithm for Strongly Convex Functions") with ${(f,x,y)}\mapsto{(g,x_{\star},y_{k})}$. For Item 2, note that $u_{k} = {{\nabla f}{(y_{k})}} = {{{\nabla g}{(y_{k})}} + {m{\overset{\sim}{y}}_{k}}}$. We have
+
+where the inequality follows from applying Proposition 2. ‣ 2.2 Convergence rate proof ‣ 2 Main result ‣ A Robust Accelerated Optimization Algorithm for Strongly Convex Functions") with ${(f,x,y)}\mapsto{(g,y_{k},x_{\star})}$. To prove Item 3, begin with the case $\rho = 1$. Using a similar argument to the one used to prove Item 2,
+
+where the inequality follows from applying Proposition 2. ‣ 2.2 Convergence rate proof ‣ 2 Main result ‣ A Robust Accelerated Optimization Algorithm for Strongly Convex Functions") with ${(f,x,y)}\mapsto{(g,y_{k},y_{k - 1})}$. By combining the two previous results, we have
+
+and this completes the proof of Item 3.
+
+Our next lemma provides a key algebraic property of the Robust Momentum Method. This result makes no assumptions about $f$.
+
+### Lemma 4
+
+Suppose $\{ u_{k},x_{k},y_{k}\}$ is any sequence of vectors satisfying the constraints
+
+where $(\alpha,\beta,\gamma)$ are given by, and thus depend on the parameters $0 < m \leq L$, $\kappa{: =}{L/m}$, and $\rho \in {}$. Define $z_{k}{: =}{{({1 - \rho^{2}})}^{- 1}\left( {x_{k} - {\rho^{2}x_{k - 1}}} \right)}$ for $k \geq 0$. Then the following algebraic identity holds for $k \geq 1$,
+
+where the constants $\lambda$ and $\nu$ are defined as
+
+Proof. The algebraic identity may be verified by direct substitution of and into. Specifically, the constraints allow us to express $z_{k + 1}$, $z_{k}$, $y_{k}$, $y_{k - 1}$, $u_{k}$, and $u_{k - 1}$ as linear functions of $x_{k}$, $x_{k - 1}$, $x_{k - 2}$, and $u_{k}$. Upon doing so, the resulting expression becomes identically zero. To express $u_{k - 1}$ as required, rearrange the first equation of to obtain the expression $u_{k - 1} = {\alpha^{- 1}{({{{({1 + \beta})}x_{k - 1}} - {\betax_{k - 2}} - x_{k}})}}$.
+
+The algebraic identity has three main terms. We will see how each serves a role in explaining the convergence and robustness properties of our algorithm. We are now ready to prove Theorem 1.
+
+### Proof of Theorem 1
+
+Choose $x_{0}$ and $x_{- 1}$ arbitrarily and consider the sequence $\{ u_{k},x_{k},y_{k},z_{k}\}$ defined by setting $u_{k}{: =}{{\nabla f}{(y_{k})}}$ and propagating for all $k \geq 0$ using. This sequence is precisely a trajectory of our algorithm. Let $x_{\star}$ be the unique minimizer of $f$. Define the shifted sequences ${\overset{\sim}{x}}_{k}{: =}{x_{k} - x_{\star}}$, ${\overset{\sim}{y}}_{k}{: =}{y_{k} - x_{\star}}$, and ${\overset{\sim}{z}}_{k}{: =}{z_{k} - x_{\star}}$ where $z_{k}$ is defined in Lemma 4. Note that the constraints still hold when we use the shifted sequence $\{ u_{k},{\overset{\sim}{x}}_{k},{\overset{\sim}{y}}_{k},{\overset{\sim}{z}}_{k}\}$. Applying Lemma 4 with Item 3 of Lemma 3, we conclude that for $k \geq 1$,
+
+where $\lambda$ and $\nu$ are defined in --. When ${1 - {1/\sqrt{\kappa}}} \leq \rho \leq {1 - {1/\kappa}}$, we have ${mL} \geq \lambda \geq {\frac{1}{2}mL}$ and $0 \leq \nu \leq {1 - \frac{1}{2\kappa}}$. As we increase $\rho$, the parameter $\lambda$ decreases monotonically while $\nu$ increases monotonically. Define the sequence $\{ V_{k}\}$ by $V_{k}{: =}{{\lambda{\parallel{\overset{\sim}{z}}_{k}\parallel}^{2}} + q_{k - 1}}$. If we choose $\rho$ in the interval specified above, then $\nu \geq 0$ and $\lambda > 0$. Since $q_{k} \geq 0$, $V_{k}$ can serve as a Lyapunov function. In particular, it follows from that
+
+Iterating this relationship, we find that $V_{k + 1} \leq {\rho^{2k}V_{1}}$. The reason we do not iterate down to zero is because $V_{k}$ is not defined at $k = 0$. Substituting the definitions and simplifying, we obtain the bound
+
+The bound therefore captures two effects. As we increase $\rho$, the linear rate $\rho^{k}$ becomes slower and the constant factor in the rate bound also grows.
+
+Next, we show that $\{{\overset{\sim}{x}}_{k}\}$ goes to zero at the same rate $\rho^{k}$, but with different constant factors. Note that because ${\overset{\sim}{z}}_{k} = {{({1 - \rho^{2}})}^{- 1}\left( {{\overset{\sim}{x}}_{k} - {\rho^{2}{\overset{\sim}{x}}_{k - 1}}} \right)}$, we can form the telescoping sum
+
+Taking the norm of both sides of, applying the triangle inequality, and substituting, we obtain a geometric series. Upon simplification, we find that $\parallel{\overset{\sim}{x}}_{k}\parallel$ is bounded above by a constant times $\rho^{k}$, as required.
+
+## Control design interpretations
+
+In this section, we cast the problem of algorithm analysis as a robust control problem. Specifically, we can view the problem of algorithm analysis as being equivalent to solving a Lur'e problem. The Lur'e setup is illustrated in Figure 1, where a linear dynamical system $G$ is in feedback with a static nonlinearity $\phi$.
+
+Figure 1: Feedback interconnection of a linear system G with a troublesome (nonlinear or uncertain) component ϕ. We use the positive feedback convention in this block diagram.
+
+The Robust Momentum Method (as well as the Fast Gradient Method and ordinary Gradient Method) can be written in this way by setting $\phi = {\nabla f}$ and choosing $A$, $B$, and $C$ appropriately. For example, the Robust Momentum Method is given by
+
+Here, we shifted all signals so they are measured relative to the steady-state value $x_{\star}$ and therefore assumed that ${{\nabla f}{}} = 0$. We also assumed without loss of generality that $u_{k}$ and $y_{k}$ are scalars. This interpretation was used in to provide a unified analysis framework.
+
+Traditionally, Lur'e systems were analyzed in the frequency domain rather than the time domain. For the case of the Robust Momentum Method, the (discrete-time) transfer function of the linear block is given by
+
+It was observed in Section 2.1 that the Robust Momentum Method becomes the Gradient Method if $\rho = {1 - {1/\kappa}}$. This fact can be directly verified using the transfer function. Substituting this $\rho$ and the parameter values into, there is a pole-zero cancellation and we obtain ${G{(z)}} = \frac{- 1}{L{({z - 1})}}$, which is the transfer function for the Gradient Method with stepsize $\alpha = \frac{1}{L}$.
+
+### Frequency-domain condition
+
+Continuing with the frequency-domain interpretation, Lur'e systems can be analyzed using the formalism of Integral Quadratic Constraints (IQCs). To this end, the nonlinearity is characterized by a quadratic inequality that holds between its input and output
+
+where $\hat{y}$ and $\hat{u}$ are the $z$-transforms of $\{ y_{k}\}$ and $\{ u_{k}\}$, respectively, and $\Pi{(z)}$ is a para-Hermitian matrix. For convenience, we use a loop-shifting transformation to move the nonlinearity $\phi = {\nabla f}$ from the sector $(m,L)$ to the sector $(0,{\kappa - 1})$. We also scale the frequency variable $z$ by a factor of $\rho$ so that we can reduce the problem of certifying exponential stability (finding a linear rate) to that of certifying BIBO stability. This procedure is described in.
+
+The nonlinearity of interest is sector-bounded and slope-restricted because it is the gradient of a function $g \in {\mathcal{F}{(0,{\kappa - 1})}}$. We may therefore represent the nonlinearity with a Zames--Falb IQC as in, leading to
+
+The transformed transfer function is
+
+To certify stability of the feedback interconnection, we must have $\overset{\sim}{G}{({\rhoz})}$ stable and for all ${|z|} = 1$,
+
+Equation has a graphical interpretation; that the Nyquist plot of ${F{(z)}}{: =}{{({1 - {\rhoz^{- 1}}})}\left( {{{({\kappa - 1})}\overset{\sim}{G}{({\rhoz})}} - 1} \right)}$ should lie entirely in the left half-plane.
+
+### Graphical design for robustness
+
+The frequency-domain condition can provide useful intuition for the design of robust accelerated optimization methods. We can visualize different algorithms by choosing the parameters $\alpha,\beta,\gamma$ appropriately in.
+
+In Figure 2 (left panel), we show the Nyquist plot for the Gradient Method using the sector IQC. To this effect, we set $\beta = \gamma = 0$ and use either $\alpha = \frac{2}{L + m}$ or $\alpha = \frac{1}{L}$. As we increase $\rho$, the Nyquist plots become ellipses in the left half-plane. At the fastest certifiable rate (smallest $\rho$), the plots become vertical lines. When $\alpha = \frac{2}{L + m}$, the vertical line coincides with the imaginary axis, whereas when $\alpha = \frac{1}{L}$, the vertical line is shifted left. This result confirms our intuition that since the imaginary axis is the stability boundary, robust stability is achieved as the Nyquist contour moves further left, away from the boundary.
+
+The Robust Momentum Method was designed such that the Nyquist diagram forms a vertical line passing through the point $({- \nu},0)$. In other words, we solved for $(\alpha,\beta,\gamma)$ such that holds with the right-hand side replaced by $- \nu$. Constraining the Nyquist plot as such directly leads to the choice with $\nu$ related to $\rho$ via. In Figure 2 (right panel), we show the Nyquist plot for the Robust Momentum Method using the Zames--Falb IQC (for $\nu = 0$ and $\nu = \frac{1}{2}$). We also show Nyquist plots that certify a convergence rate of $\rho$ that is larger than the corresponding algorithm parameter. This leads to ellipses as with the Gradient Method. Note that although the RMM and GM plots look similar, the RMM $\rho$-values are generally smaller due to acceleration. In contrast, the FGM (center panel) does not produce a vertical line in the Nyquist plot but still touches the stability boundary at the optimal $\rho$.
+
+(b) Fast Gradient Method
+
+(c) Robust Momentum Method
+
+Figure 2: Frequency-domain plots of various algorithms for κ = 10 and different values of the convergence rate ρ. The system is stable if the entire curve lies in the left half-plane. (a) Gradient Method for α = 1/L (solid) and α = 2/(L+m) (dashed). The latter is right on the stability boundary while the former is shifted left (more robust). (b) Fast Gradient Method. (c) Robust Momentum Method for ν = 1/2 (solid) and ν = 0 (dashed). Again, the latter is right on the stability boundary while the former is shifted left (more robust).
+
+### Further robustness interpretations
+
+The parameter $\nu$ can be interpreted as the input feed-forward passivity index (IFP), which is a measure of the shortage or excess of passivity of the system $F{(z)}$ defined above. In the frequency domain, the discrete-time definition of the IFP index is given by^33^3Most sources use a negative feedback convention. The definition we give in uses the positive feedback convention.
+
+where $\lambda_{\text{max}}{( \cdot )}$ denotes the largest eigenvalue and $F^{\ast}$ is the conjugate transpose of $F$. For the SISO case, reduces to $\nu = {- {{\max_{{|z|} = 1}{Re}}{({F{(z)}})}}}$, which is the shortest distance between each curve and the imaginary axis in Figure 2.
+
+We can also interpret $\nu$ as a robustness margin in the time domain using the Lyapunov function defined in. In the proof of Theorem 1, when we substitute the definition for $V_{k}$ into, we obtain
+
+Proving the desired rate bound only requires to hold, so the term $\nu{\parallel{{\nabla g}{(y_{k})}}\parallel}^{2}$ can be interpreted as an additional margin that ensures the inequality $V_{k + 1} \leq {\rho^{2}V_{k}}$ will hold even if underlying assumptions such as exactness in gradient evaluations or accurate knowledge of $L$ and $m$ are violated. As we increase $\rho$, the linear rate becomes slower, but $\nu$ also increases via, which serves to increase the robustness margin in the inequality.
+
+## Robustness to gradient noise
+
+The Robust Momentum Method has a single parameter, which can be used to tune the performance. In this section, we provide both simulations and numerical rate analyses to verify the performance of the algorithm when the gradient is subject to relative deterministic noise. Specifically, we will suppose that instead of measuring the gradient ${\nabla f}{(y_{k})}$, we measure $u_{k} = {{{\nabla f}{(y_{k})}} + r_{k}}$ where $r_{k} \in {\mathbb{R}}^{n}$ satisfies ${\parallel r_{k}\parallel} \leq {\delta{\parallel{{\nabla f}{(y_{k})}}\parallel}}$. For a given fixed $\delta \geq 0$, we will bound the worst-case performance of the algorithm over all $f \in {\mathcal{F}{(m,L)}}$ and feasible $\{ r_{k}\}$.
+
+### Numerical rate analysis
+
+To find the worst-case performance, we adopt the methodology from \[3, Eq. 5.1\]. There, the authors formulate a linear matrix inequality parameterized by $\hat{\rho}$ and $\delta$ whose feasibility provides a sufficient condition for convergence with linear rate $\hat{\rho}$.
+
+In Figure 3, we plot the computed convergence rate as a function of noise strength $\delta$ for the Gradient Method, Fast Gradient Method, and Robust Momentum Method. Note that the worst-case rate in closed form for the Gradient Method is given in.
+
+Figure 3: Upper bound on the worst-case linear convergence rate as a function of the noise level δ for κ = 10 (the figure looks similar for other choices of κ). We used a relative noise model, where the measured gradient uk satisfies ∥ uk − ∇f (yk)∥ ≤ δ ∥ ∇f (yk)∥ for the Gradient Method (GM), Fast Gradient Method (FGM), and Robust Momentum Method (RMM). By tuning the parameter ν, the RMM trades off robustness to gradient noise with convergence rate.
+
+Figure 4: Simulation of the Robust Momentum Method (RMM) and the Fast Gradient Method (FGM) with relative gradient noise of strength δ and condition ratio κ = 10. The objective function is the two-dimensional quadratic with gradient. The measured gradient at each iteration is uk = (1−δ) ∇f (yk). (a) With no noise, all methods are stable and the RMM with ν = 0 is the fastest. (b) With more noise, the RMM with ν = 0, the most fragile possible tuning, is unstable. (c) With high noise, only the RMM with ν = 0.55 remains stable. Even FGM is unstable with this much noise.
+
+First, consider the Robust Momentum Method. When $\nu = 0$ and there is no gradient noise ($\delta = 0$), the method achieves the fast convergence rate $1 - {1/\sqrt{\kappa}}$. Increasing the noise level above $\delta > 0.13$, however, leads to a loss of convergence guarantee. As we increase $\nu$, the convergence rate becomes slower but the method is capable of tolerating larger noise levels. In the limiting case as $\nu = {1 - \frac{1}{2\kappa}}$ the Robust Momentum Method becomes the Gradient Method with $\alpha = \frac{1}{L}$ (dashed black line).
+
+It is interesting to note that the Fast Gradient Method has a faster convergence bound than the Robust Momentum Method for noise levels $0.26 < \delta < 0.41$. However, the Fast Gradient Method is also unstable for $\delta > 0.5$ while the Robust Momentum Method can be tuned so that it converges with noise levels up to $\delta\rightarrow 1$.
+
+### Numerical simulations
+
+To illustrate the noise robustness properties of different tunings of the Robust Momentum Method, we compared it to the Fast Gradient Method when applied to a simple two-dimensional quadratic function. We used the gradient
+
+where the gradient noise is $r_{k} = {- {\delta{\nabla f}{(y_{k})}}}$. See Figure 4. The RMM with $\nu = 0$ has the fastest convergence rate in the noiseless case ($\delta = 0$), but quickly diverges when noise is present. The FGM is more robust to noise, but also diverges when the noise magnitude $\delta$ is too large. The RMM with $\nu = 0.55$ remains stable for large amounts of noise, although in the absence of noise the convergence rate is slower than both other methods.
