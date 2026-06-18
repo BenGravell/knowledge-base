@@ -47,6 +47,26 @@ Run `poetry run mkdocs serve -f knowledge_base/mkdocs.yml` from the repo root.
 
 Put URLs in `todo/PAPERS_FUNNEL.md`, route them, prefill metadata, audit it, then place entries in `knowledge_base/tree.yml`.
 
+```bash
+# Route URLs into todo/papers/<SOURCE>.md or todo/PAPERS_MISC.md.
+poetry run python knowledge_base/scripts/funnel_papers.py
+
+# List prefill sources, then run the populated ones.
+poetry run python -m knowledge_base.scripts.prefill --help
+poetry run python -m knowledge_base.scripts.prefill arxiv
+poetry run python -m knowledge_base.scripts.prefill openreview
+
+# Audit raw metadata after prefill and fix reported files.
+poetry run python knowledge_base/scripts/audit_metadata.py knowledge_base --audit-status raw
+
+# Find unplaced papers, edit knowledge_base/tree.yml, then verify.
+poetry run python knowledge_base/scripts/list_unplaced_papers.py --neighbors 3
+poetry run python knowledge_base/scripts/list_unplaced_papers.py --neighbors 0 --fail-on-missing
+poetry run mkdocs build -f knowledge_base/mkdocs.yml
+```
+
+Use the source names printed by the prefill help, such as `ieee`, `mlr`, or `taylor_francis`; replace the example source commands with whichever `todo/papers/*.md` files the funnel populated.
+
 ### Ingest arXiv embed text
 
 Some paper entries can have an optional `embed_text.md` sidecar next to `metadata.yml`.
