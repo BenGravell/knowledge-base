@@ -18,7 +18,7 @@
   --kb-app-border: color-mix(in srgb, var(--md-default-fg-color) 15%, transparent);
   --kb-app-panel: color-mix(in srgb, var(--md-code-bg-color) 70%, var(--md-default-bg-color));
   --kb-app-header-bg: color-mix(in srgb, var(--md-code-bg-color) 82%, var(--kb-app-panel));
-  --kb-site-header-bg: var(--md-primary-fg-color);
+  --kb-site-header-bg: #02a6f2;
   --kb-site-header-ink: #ffffff;
   --kb-site-header-search-bg: #ffffff;
   --kb-site-header-search-fg: #1f2937;
@@ -801,6 +801,15 @@ body {
   align-items: center;
 }
 
+.md-sidebar--primary .md-nav__link--active,
+.md-sidebar--primary .md-nav__item--active > .md-nav__link,
+.md-sidebar--primary .md-nav__item--active > .md-nav__container > .md-nav__link {
+  border-radius: 6px;
+  background: color-mix(in srgb, var(--md-typeset-a-color) 13%, transparent);
+  color: var(--md-typeset-a-color);
+  font-weight: 700;
+}
+
 .md-sidebar--primary .kb-nav-label {
   flex: 1 1 auto;
   min-width: 0;
@@ -1370,7 +1379,7 @@ body:has(.kb-home-bento) .md-content {
 }
 
 .md-typeset .kb-home-expander {
-  --kb-home-expander-header-block-size: 4.1rem;
+  --kb-home-expander-header-block-size: 3.2rem;
   --kb-home-expander-header-bg: color-mix(
     in srgb,
     var(--kb-home-expander-accent) var(--kb-home-expander-hover-bg-strength),
@@ -1386,6 +1395,7 @@ body:has(.kb-home-bento) .md-content {
     0 1px 0 color-mix(in srgb, #ffffff 28%, transparent) inset,
     0 10px 28px color-mix(in srgb, #000000 5%, transparent);
   transition:
+    background-color 0.16s ease,
     border-color 0.16s ease,
     box-shadow 0.16s ease;
 }
@@ -1402,7 +1412,7 @@ body:has(.kb-home-bento) .md-content {
   inline-size: 100%;
   min-height: var(--kb-home-expander-header-block-size);
   margin: 0;
-  padding: 0.78rem 1rem;
+  padding: 0.62rem 1rem;
   padding-inline-end: 1.35rem;
   border: 0;
   background-color: transparent !important;
@@ -1464,12 +1474,14 @@ body:has(.kb-home-bento) .md-content {
   );
 }
 
-.md-typeset .kb-home-expander:not([open]):hover {
+.md-typeset .kb-home-expander:hover,
+.md-typeset .kb-home-expander:has(> summary:focus-visible) {
   border-color: color-mix(
     in srgb,
     var(--kb-home-expander-accent) var(--kb-home-expander-hover-border-strength),
     var(--kb-home-expander-border)
   );
+  background-color: var(--kb-home-expander-header-bg);
   box-shadow:
     0 1px 0 color-mix(in srgb, #ffffff 36%, transparent) inset,
     0 14px 34px color-mix(
