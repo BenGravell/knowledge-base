@@ -55,6 +55,36 @@ class CatalogTests(unittest.TestCase):
         self.assertEqual(entry.url("map", ""), "map/#paper=cond_mat_0112110")
         self.assertIn("arXiv:cond-mat/0112110", entry.identifiers)
 
+    def test_catalog_compacts_sidecar_text_for_embedding(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            metadata_root = Path(tmp) / "docs" / "papers"
+            metadata_path = metadata_root / "2024" / "2501.00001" / "metadata.yml"
+            metadata_path.parent.mkdir(parents=True)
+            metadata_path.write_text(VALID_METADATA, encoding="utf-8")
+            metadata_path.with_name("embed_text.md").write_text(
+                "## Introduction\n\n"
+                "Opening contribution paragraph explains policy optimization and reusable reinforcement learning ideas.\n\n"
+                "1234567890 2345678901 3456789012 4567890123 table row 9999999999 8888888888\n\n"
+                + "\n\n".join(
+                    f"Body paragraph {index} discusses compact semantic excerpts for robust embedding search "
+                    f"without letting one full paper overwhelm the model input window."
+                    for index in range(40)
+                )
+                + "\n\nClosing implication paragraph connects the method to map search and paper discovery.\n\n"
+                "## References\n\n"
+                "[1] Ada Example. Reference noise that should not enter embeddings. 2024.",
+                encoding="utf-8",
+            )
+
+            entry = Catalog.from_metadata_root(metadata_root).entries[0]
+
+        self.assertIn("Content: ## Introduction", entry.embedding_text)
+        self.assertIn("Opening contribution paragraph", entry.embedding_text)
+        self.assertIn("Closing implication paragraph", entry.embedding_text)
+        self.assertNotIn("1234567890", entry.embedding_text)
+        self.assertNotIn("Reference noise", entry.embedding_text)
+        self.assertLess(len(entry.embedding_text), 6_000)
+
     def test_catalog_reports_validation_errors_with_metadata_path(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             metadata_root = Path(tmp) / "docs" / "papers"
