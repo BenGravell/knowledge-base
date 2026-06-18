@@ -1,5 +1,11 @@
 # TODO
 
+## ingest
+
+Need to find a way to represent and ingest all the numerous items in
+
+todo/papers_misc
+
 ## embed
 
 1. use latex/pdf -> markdown as a fallback for arxiv papers without HTML/ar5iv
