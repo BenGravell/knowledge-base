@@ -86,8 +86,6 @@ Define the schema in a single source of truth doc.
 - human-readable
 
 - revise the metadata schema:
-  - notes: handwritten note from myself
-  - algorithms: list instead of single entry
   - links: single list instead of primary + alt. maybe also include a specifier to indicate if the link leads to an open-able pdf or not
 
 clarify distinction between year of first publication (typically arxiv preprint) and year of official publication
@@ -96,31 +94,11 @@ add other URIs besides DOI since not all papers have DOI e.g. dissertations, arx
 
 ## Quality of life
 
-### Create a one-click site regen script
-
-Should call:
-
-- audit metadata
-- embedding regen
-- mkdocs build
-
-Take an argument -g or --github to use gh-deploy mkdocs
-
 ### Create a one-click site ingest script
 
-Set up an automation orchestration script to ingest from paper funnel, run prefill, ask ai for preliminary metadata fixup using audit script, generate map data, place papers in tree
+Set up an automation orchestration script+skill to ingest from paper funnel, run prefill, ask ai for preliminary metadata fixup using audit script, generate map data, place papers in tree
 
 ## Paper Detail Pages
-
-### Chat with paper
-
-Add LLM ideation using a slim local model or call to external API, chat with the paper c.f. DeepWiki
-
-### Creative Idea: procedurally generated visual image anchor/thumbnail
-
-Use the LLM sentence embedding and map it into a vision-language model embedding space and generate a relevant thumbnail image for the paper. Then we can show the thumbnail in the hover tooltip in map, in tree, etc. everywhere the title string or other unique ID is used we can have the synthetic thumbnail too.
-
-I am a visual learner, I use my eyes for cognition, so this would help me a lot.
 
 ### Related papers
 
