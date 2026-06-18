@@ -8,14 +8,12 @@ Gradient-based planners are widely used for quadrotor local planning, in which a
 
 In recent years, the emergence of quadrotor online planning methods has greatly pushed the boundary of aerial autonomy, making drones fly out of laboratories and appear in numerous real-world applications. Among these methods, gradient-based ones, which smooth a trajectory and utilize the gradient information to improve its clearance, have shown great potential and gain more and more popularity.
 
-Traditionally, gradient-based planners rely on a pre-built ESDF map to evaluate the gradient magnitude and direction, and use numerical optimization to generate a local optimal solution. Although the optimization programs enjoy fast convergence, they suffer a lot from constructing the required ESDF beforehand. As the statistics (TABLE II from EWOK) states, the ESDF computation takes up to about 70% of total processing time for conducting local planning. Therefore, we can safely claim that, building ESDF has become the bottleneck of gradient-based planners, preventing the method from being applied to resource-limited platforms.
+In this paper, we design an ESDF-free Gradient-based lOcal planning framework called EGO, and we incorporate careful engineering considerations to make it lightweight and robust. The proposed algorithm is composed of a gradient-based spline optimizer and a post-refinement procedure. Firstly, we optimize the trajectory with smoothness, collision, and dynamical feasibility terms. Unlike traditional approaches that query pre-computed ESDF, we model the collision cost by comparing the trajectory inside obstacles with a guiding collision-free path.
+
+To the best knowledge of us, this method is the first to achieve gradient-based local planning without an ESDF. Compared to existing state-of-the-art works, the proposed method generates safe trajectories with comparable smoothness and aggressiveness, but lower computation time of over an order of magnitude by omitting the ESDF maintenance. We perform comprehensive tests in simulation and real-world to validate our method.
+
+## Conclusion and Future Work
 
 In this paper, we investigate the necessity of ESDF for gradient-based trajectory planning and propose an ESDF-free local planner. It achieves comparable performance to some state-of-the-art ESDF-based planners but reduces computation time for over an order of magnitude. Benchmark comparisons and real-world experiments validate that it is robust and highly efficient.
 
 The proposed method still has some flaws, which are the local minimum introduced by A\* search and the conservative trajectories introduced by unified time re-allocation. Therefore, we will work on performing topological planning to escape the local minimum and re-formulating the problem to generate near-optimal trajectories. The planner is designed for static environments and can tackle slowly moving obstacles (below 0.5m/s) without any modification. We will work on dynamic environment navigation by moving object detection and topological planning in the future.
-
-### IV-B Numerical Optimization
-
-We follow the work of to plan the control points $\mathbf{Q} \in {\mathbb{R}}^{3}$ in a reduced space of differentially flat outputs. The optimization problem is then formulated as follows:
-
-The fitting penalty function $J_{f}$ is formulated as the integral of anisotropic displacements from points $\mathbf{\Phi}_{f}{({\alphaT^{\prime}})}$ to the corresponding...

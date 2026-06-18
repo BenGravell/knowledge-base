@@ -1,0 +1,550 @@
+## Introduction
+
+Reinforcement learning (RL) has had a profound impact across a wide range of applications. A central component of RL is policy optimization, in which a parameterized policy is directly optimized with respect to a prescribed performance objective. Among various policy optimization framework, this work focuses on policy gradient (PG) methods. Understanding the behavior of PG methods, particularly their convergence to the optimal policy in the presence of uncertainty and stochastic disturbances, remains an active and important research direction, and is essential for their reliable deployment in real-world applications.
+
+The linear quadratic regulator (LQR) problem has emerged as a canonical benchmark for studying RL in continuous state and action spaces due to its analytical tractability and practical relevance. PG methods have attracted substantial interest in this setting. A seminal result in established global convergence of PG methods for deterministic LQR, which stimulated extensive follow-up works, such as. These studies typically assume exact knowledge of the system dynamics and access to exact gradients. To relax this assumption, more recent works such as analyze gradient-based methods under inexact gradients, providing valuable robustness insights. However, in these works, the gradient uncertainty is introduced through stylized perturbation models rather than arising naturally from data-driven estimation.
+
+To address gradient uncertainty arising from concrete estimation procedures rather than artificial perturbations, a prominent data-driven approach is the indirect method, which follows a two-step procedure: system dynamics are first estimated from data, and PG methods are then applied using the estimated model. Representative examples include, which combine least-squares identification with gradient-based updates under bounded noise assumptions. In contrast, direct data-driven methods bypass explicit model identification. One class of such methods estimates the quantities required for PG updates directly from data, with stochastic-setting examples given . Another line of work studies direct PG methods based on data-driven policy parameterizations, such as DeePC-based approaches, which typically operate under bounded-noise assumptions. While related, these direct data-driven approaches are not the primary focus of this work.
+
+Another class of methods, closely related to the present study, employs zeroth-order techniques in which gradients are approximated using noisy function evaluations. This line of research originates from in the deterministic LQR setting and has been extended to stochastic environments in and, which consider infinite- and finite-horizon problems, respectively. These approaches rely on ergodic data collection and exploit the inherent robustness of PG methods, namely, that sufficiently accurate gradient estimates ensure cost contraction at each iteration. However, existing analyses are often conservative in two key respects: they typically require a large number of samples per iteration to control gradient estimation error, leading to high sample complexity, and they rely on uniform concentration guarantees enforced via union bounds, resulting in confidence levels that deteriorate exponentially with the number of iterations.
+
+To reduce the conservativeness of prior analyses of zeroth-order methods, we propose here to incorporate stochastic gradient descent (SGD) into the analysis of PG methods. In SGD-based analyses, gradients are accessed through stochastic oracles, and convergence is characterized using tools from stochastic approximation. SGD has been shown to be effective in both convex and non-convex settings, including using zeroth-order optimization technique. While analyses assume unbiased gradient estimates, recent works extend the application of SGD theory with biased gradient oracles, providing a less restrictive modeling framework. For direct data-driven LQR, first adopted an SGD-style analysis under relatively strong assumptions on gradient estimation using zeroth-order methods. Subsequent works relaxed these assumptions by employing alternative gradient estimation schemes, leading to improved sample efficiency and robustness. In, only a single gradient estimation scheme (zeroth-order method) is considered, and the analysis provides convergence guarantees only to a suboptimal solution.
+
+In this work, we leverage the SGD framework to design data-driven policy gradient methods for solving the LQR problem in the presence of stochastic noise. We employ two frameworks to estimate the gradient from noisy trajectory data:
+
+Indirect method: Recursive least squares is used to estimate the system matrices, which are then used to compute a model-based gradient.
+
+Direct method: A zeroth-order approach is employed to estimate the gradient directly from empirical cost evaluations.
+
+Our main contributions are the following:
+
+For both methods, we formalize the gradient estimates computed using stochastic trajectory data as gradient oracles with analytical characterizations of their first and second moments.
+
+Due to the nonlinear structure of the gradient, these oracles are inherently biased. Leveraging the *gradient-dominated* and *quasi-smooth* properties of the LQR cost function, we derive conditions on the step size and bias under which an SGD algorithm equipped with a general biased gradient oracle converges asymptotically to the optimal policy. Unlike classical SGD analyses on gradient-dominated functions, which assume $L$-smoothness, our results extend these guarantees to quasi-smooth functions.
+
+Using the conditions derived above, we design the parameters of both the indirect and direct gradient estimation schemes so that the resulting gradient oracles satisfy the required bias conditions. This, in turn, ensures that the corresponding data-driven policy gradient descent algorithms converge asymptotically to the optimal policy. To the best of the authors' knowledge, this is the first work to demonstrate last iterate convergence to the optimal policy across *all data-driven policy gradient methods*, whereas previous results typically guarantee convergence only to suboptimal solutions. Using the derived conditions for convergence, we analyze and compare the advantages and limitations of the indirect and direct approaches.
+
+The paper is organized as follows. Section 2 introduces the problem setting and the necessary preliminaries. Section 3 describes the indirect and direct data-driven policy gradient estimation frameworks and formalizes them as gradient oracles. Section 4 investigates the convergence of SGD with biased gradient oracles for gradient-dominated and quasi-smooth cost functions. Section 5 analyzes and compares the indirect and direct data-driven policy gradient methods based on the conditions derived in the previous section. Section 6 demonstrates the effectiveness of the proposed data-driven policy gradient methods and shows numerical simulations. Finally, Section 7 concludes the paper. Unless referenced otherwise, all the theoretical results are new. For readability, proofs can be found in the Appendix.
+
+### Notations
+
+We denote by $A \succeq 0$ and $A \succ 0$ a positive semidefinite and positive definite matrix $A$, respectively. ${\mathbb{Z}}_{+}$ and ${\mathbb{Z}}_{+ +}$ are the sets of non-negative integers and positive integers. For matrices, ${\parallel \cdot \parallel}_{F}$ and $\parallel \cdot \parallel$ denote respectively their Frobenius norm and induced $2$-norm. A square matrix $A$ is Schur stable if ${\rho{(A)}} < 1$, where $\rho{(A)}$ denotes its spectral radius. The symbols $\lambda_{i}{(A)}$ denote the smallest $i$-th eigenvalue of the square matrix $A$. $I_{n}$ and $O_{n}$ are the identity matrix and zero matrix with $n$ row/columns, respectively. The symbols $\lfloor x\rfloor$ and $\lceil x\rceil$ denote the floor function, which returns the greatest integer smaller or equal than $x \in {\mathbb{R}}$ and ceil function, which returns the smallest integer greater or equal than $x \in {\mathbb{R}}$, respectively. The indicator function is defined as $\mathbf{1}_{\mathcal{A}}$, for a measurable set $\mathcal{A}$, defined as ${\mathbf{1}_{\mathcal{A}}{(w)}} = 1$ if $w \in \mathcal{A}$ and ${\mathbf{1}_{\mathcal{A}}{(w)}} = 0$ if $w \notin \mathcal{A}$. We define the set ${\mathcal{B}_{r}{(K)}}:=\left. \{{X \in {\mathbb{R}}^{n_{x} \times n_{u}}} \middle| {{\|{K - X}\|}_{F} < r}\} \right.$. A sequence is a map ${\mathbb{Z}}_{+}\rightarrow{\mathbb{R}}^{n \times m}$ and is denoted by $\{ Y_{t}\}$, and its finite-horizon truncation up to index $N$ is denoted by ${\{ Y_{t}\}}_{t = 0}^{N}$. For $\{ Y_{t}\}$, if the limit exists, we denote it by $Y_{\infty}$, i.e., $Y_{t}\rightarrow Y_{\infty}$ as $t\rightarrow\infty$. For two positive scaler sequences $\{ a_{t}\}$ and $\{ g_{t}\}$ mapping $Z_{+}\rightarrow R_{\geq 0}$, we denote $a_{t} = {O{(g_{t})}}$ if there exist constants $C > 0$ and $t_{0}$ such that $a_{t} \leq {C{({g{(t)}})}}$ for all $t \geq t_{0}$ and $a_{t} = {o{(g_{t})}}$ if ${{\lim_{t\rightarrow{+ \infty}}\frac{a_{t}}{g_{t}}} = 0}.$
+
+## Problem setting and Preliminaries
+
+In this work, we consider the following averaged infinite-horizon optimal control problem, where the plant is subject to additive stochastic noise:
+
+$\min\limits_{\pi \in \Pi}$ ${\lim\limits_{T\rightarrow{+ \infty}}{\frac{1}{T}{\underset{x_{0},w_{t}}{\mathbb{E}}{\sum\limits_{t = 0}^{T - 1}\left( {{x_{t}^{\top}Qx_{t}} + {u_{t}^{\top}Ru_{t}}} \right)}}}},$ (1a)
+${{x_{0} \sim {\mathcal{N}{(0,\Sigma_{0})}}},{w_{t} \sim {\mathcal{N}{(0,\Sigma_{w})}}}},$ (1c)
+
+where $A \in {\mathbb{R}}^{n_{x} \times n_{x}}$, $B \in {\mathbb{R}}^{n_{x} \times n_{u}}$, $(A,B)$ is stabilizable but unknown; covariance matrices ${\Sigma_{0},\Sigma_{x}} \succ 0$; ${Q,R} \succ 0$ are the weight matrices. We define the set of stabilizing feedback gains as:
+
+where $A_{K}:={A + {BK}}$. The infinite-horizon average cost under a linear policy $u_{t} = {Kx_{t}}$ with $K \in \mathcal{S}$ is given :
+
+with $Q_{K}:={Q + {K^{\top}RK}}$. For any stabilizing policy $K \in \mathcal{S}$, the gradient of the cost function $C{(K)}$ is given :
+
+where $E_{K}:={{\left( {R + {B^{\top}P_{K}B}} \right)K} + {B^{\top}P_{K}A}}$, $P_{K}$ is the solution to the Lyapunov equation $P_{K} = {{A_{K}^{\top}P_{K}A_{K}} + Q_{K}}$, and $\Sigma_{K}$ is the average covariance matrix associated with $K \in \mathcal{S}$ defined as
+
+It is a well-known fact that the optimal $K^{\ast}$ minimizing $C$ satisfies
+
+$P_{K^{\ast}}$ $= {Q + {A^{\top}P_{K^{\ast}}A}}$
+
+Finally, define the level set $S{(J)}$ with $J \geq {C{(K^{\ast})}}$ as:
+
+We recall the boundedness of $\parallel{{\nabla C}{(K)}}\parallel$ and $\parallel K\parallel$ and local Lipschitz continuity properties of $\Sigma_{K},C$ and $\nabla C$ over the level set, which are used in the subsequent analysis.
+
+### Lemma 1 (Boundedness of ${\parallel{{\nabla C}{(K)}}\parallel},{\parallel K\parallel}$)
+
+\[7, 20, Proof of Lemmas 3/4\] Given any $J_{0} \geq {C{(K^{\ast})}}$, for all $K \in {\mathcal{S}{(J_{0})}}$, we have
+
+${\parallel{{\nabla C}{(K)}}\parallel}_{F}$ ${\leq {b_{\nabla}{(J_{0})}}},$ (8a)
+$\parallel K\parallel$ ${\leq {b_{K}{(J_{0})}}},$ (8b)
+
+where the expressions for $b_{\nabla}$ and $b_{K}$ are given in and in Appendix 11, respectively.
+
+### Lemma 2 (Lipschitz continuity of $\Sigma_{K},C,{\nabla C}$)
+
+\[7, 20, Lemmas 3/4/5\] Suppose ${K^{\prime},K} \in \mathcal{S}$ are such that:
+
+with ${h{({C{(K)}})}}:=\frac{\lambda_{1}{(\Sigma_{w})}\lambda_{1}{(Q)}}{4C{(K)}{\parallel B\parallel}{({{\parallel A\parallel} + {{\parallel B\parallel}b_{K}{({C{(K)}})}} + 1})}}$, it holds that:
+
+with ${h_{\Sigma}{({C{(K)}})}}:=\frac{C{(K)}}{\lambda_{1}{(Q)}h{({C{(K)}})}}$. If ${\parallel{K - K^{\prime}}\parallel} \leq {\min{\{{h{({C{(K)}})}},{\parallel K^{\ast}\parallel}\}}}$, it holds that:
+
+${{\parallel{{C{(K)}} - {C{(K^{\prime})}}}\parallel} \leq {h_{C}{({C{(K)}})}{\parallel{K - K^{\prime}}\parallel}}},$ (11a)
+${{\parallel{{{\nabla C}{(K)}} - {{\nabla C}{(K^{\prime})}}}\parallel} \leq {h_{\nabla}{({C{(K)}})}{\parallel{K - K^{\prime}}\parallel}}}.$ (11b)
+
+where $h_{C},h_{\nabla}$ are defined in and in Appendix 11, respectively.
+
+The cost function $C$ is non-convex but satisfies a beneficial property known as *gradient domination*.
+
+### Lemma 3 (Gradient Domination)
+
+\[7, 20, Lemma 1\] The function $C$ on the set $\mathcal{S}$ is gradient dominated. That is, for any $K \in \mathcal{S}$, the following inequality holds:
+
+with $\mu:={\frac{1}{4}{\parallel\Sigma_{K^{\ast}}\parallel}{\parallel\Sigma_{w}^{- 2}\parallel}{\parallel R^{- 1}\parallel}}$.
+
+In addition to gradient domination, the function $C$ also satisfies a *quasi-smoothness* property.
+
+### Lemma 4 (Quasi-smoothness)
+
+\[7, 20, Lemmas 2/3\] For any $K \in \mathcal{S}$ and perturbation $K^{\prime}$ satisfying ${\|{K^{\prime} - K}\|}_{F} \leq {r{({C{(K)}})}}$, the cost function satisfies the following quasi-smoothness property:
+
+${{L{({C{(K)}})}}:={\frac{64C{(K)}}{\lambda_{1}{(Q)}\lambda_{1}{(\Sigma_{w})}}\left( {{{\parallel B\parallel}C{(K)}} + {\lambda_{1}{(\Sigma_{w})}{\parallel R\parallel}}} \right)}};$ (14a)
+${{r{({C{(K)}})}}:=\frac{\lambda_{1}{(Q)}^{2}\lambda_{1}{(\Sigma_{w})}^{2}}{32{\parallel B\parallel}C{(K)}^{2}{({1 + {\parallel A\parallel} + {{\parallel B\parallel}b_{K}{({C{(K)}})}}})}}}.$ (14b)
+
+## Gradient Estimation and Gradient Oracles
+
+In this section, we study two data-driven approaches for estimating the policy gradient when the system's model is unknown. The first is an indirect method that identifies the system matrices via recursive least squares, as described in Section 3.1. The second is a zeroth-order method that approximates the gradient directly by using empirical cost evaluations, discussed in Section 3.2. In both cases, the gradient estimates, denoted in the following as $\hat{\nabla}C{( \cdot )}$ are constructed from trajectory data generated by the stochastic system (1b), and thus inherit randomness from the data. Accordingly, these estimates can be viewed as stochastic gradients. Our objective is to study their properties and formalize them as gradient oracles, which are characterizations of the gradient estimates through their first and second moments. Concretely, for $K \in \mathcal{S}$, we seek to provide for the indirect and direct estimators the following relationships:
+
+${\mathbb{E}}{\lbrack{\hat{\nabla}C{(K)}}\rbrack}$ ${= {{{\nabla C}{(K)}} + {\Delta_{b}{(K)}}}},$ (15a)
+${\mathbb{E}}\left\lbrack {\parallel{\hat{\nabla}C{(K)}}\parallel}_{F}^{2} \right\rbrack$ ${\leq c},$ (15b)
+
+where $\Delta_{b}$ is the bias term introduced by the estimation schemes; $c$ is a uniform upper bound on the second moment of the gradient estimator. The existing literature typically assumes that ${\Delta_{b}{(K)}} = 0$, an assumption that cannot be satisfied when gradients are estimated from data.
+
+### Indirect Gradient Oracle
+
+In this subsection, we characterize the gradient oracle constructed from system matrix estimates obtained via the recursive least squares (RLS) algorithm. Let ${\hat{\theta}}_{j}:={\lbrack{{\hat{A}}_{j}{\hat{B}}_{j}}\rbrack}$ where ${\hat{A}}_{j}$ and ${\hat{B}}_{j}$ denote the RLS estimates at iteration $j$, and define the regressor data $d_{j}:={\lbrack x_{j}^{\top},u_{j}^{\top}\rbrack}^{\top}$ obtained from trajectory. Given an initial estimate ${\hat{\theta}}_{0}$ and a matrix $H_{0} \succ 0$, for all $j \in {\mathbb{Z}}_{+}$, the RLS updates are given :
+
+The selection of ${\hat{\theta}}_{0}$ and $H_{0}$ will be specified later. The gradient at iteration $j$ is computed using the online system estimates ${\hat{\theta}}_{j}$ (i.e. ${\hat{A}}_{j}$ and ${\hat{B}}_{j}$). Recall from Section 2 that for any $K \in \mathcal{S}$, the exact policy gradient is given . Accordingly, the gradient constructed from the estimated model is given by
+
+where ${\hat{E}}_{K}:={{\left( {R + {{\hat{B}}_{j}^{\top}{\hat{P}}_{K}{\hat{B}}_{j}}} \right)K} + {{\hat{B}}_{j}^{\top}{\hat{P}}_{K}{\hat{A}}_{j}}}$; ${\hat{P}}_{K}$ is the solution to the Lyapunov equation ${\hat{P}}_{K} = {{{({{\hat{A}}_{j} + {{\hat{B}}_{j}K}})}^{\top}{\hat{P}}_{K}{({{\hat{A}}_{j} + {{\hat{B}}_{j}K}})}} + Q_{K}}$; ${\hat{\Sigma}}_{K}$ is the solution to the Lyapunov equation ${\hat{\Sigma}}_{K} = {{{({{\hat{A}}_{j} + {{\hat{B}}_{j}K}})}{\hat{\Sigma}}_{K}{({{\hat{A}}_{j} + {{\hat{B}}_{j}K}})}^{\top}} + \Sigma_{w}}$.
+
+It is crucial to quantify how the estimation errors propagate into the gradient computation. To this end, we consider generic estimates $\hat{A}$ and $\hat{B}$ (with a slight abuse of notation, suppressing the iteration index for clarity) and analyze the discrepancy between the true gradient and its estimated counterpart. We now introduce the following lemma to quantify the error in the estimated gradient induced by the model estimation error ${\Delta\theta}:={\lbrack{\hat{A} - A},{\hat{B} - B}\rbrack}$.
+
+### Lemma 5 (Estimation Error of Gradient)
+
+Given $K \in \mathcal{S}$, if ${\parallel{\Delta\theta}\parallel} \leq p_{\theta}$, we have
+
+where $p_{\theta}$ and $p$ are defined in the proof (see and respectively).
+
+The resulting indirect gradient estimation scheme based on RLS is summarized in Algorithm 1. The initialization of ${\hat{\theta}}_{0}$ and $H_{0}$ is specified in the first stage of the algorithm, while the selection of the initial data length $t_{0}$ is discussed later. The excitation gain $K_{j}$ from sequence $\{ K_{j}\}$ used for data generation in Algorithm 1 does not need to coincide with the gain $K$ at which the gradient is evaluated. When ${K_{j} = K},{{\forall j} \in {\mathbb{Z}}_{+}}$, this is an *on-policy* estimation scheme; otherwise, it is an *off-policy* scheme.
+
+K ∈ 𝒮 (gain at which the gradient is evaluated); excitation gain {Kj}; ej ∈ 𝒩 (0,Σe); number of iteration n ∈ ℤ+.
+Apply control input ut = K0 xt + et
+Set $H_{0} = {\sum_{t = 1}^{t_{0}}{\lbrack{d_{t}d_{t}^{\top}}\rbrack}}$ and ${\hat{\theta}}_{0} = {\sum_{t = 1}^{t_{0}}{{\lbrack{x_{t + 1}d_{t}^{\top}}\rbrack}H_{0}^{- 1}}}$
+for j = 1, …, n do (iteration counter)
+Apply control input: uj + t0 = Kj xj + t0 + ej + t0
+Update (θ̂j,Hj) using the RLS recursion
+Extract system estimates Ân, B̂n ← θ̂n
+Compute gradient estimate ${\hat{\nabla}}_{I}C{(K,{\hat{A}}_{n},{\hat{B}}_{n})}$ using
+Algorithm 1 Indirect Data-driven Gradient Estimation.
+
+At each iteration, the gradient is evaluated using the current system matrix estimates constructed from all previously collected data. As the iteration number $n$ increases, the estimator and consequently the gradient leverage an expanding dataset, leading to progressively improved accuracy. The estimated system matrices from Algorithm 1 can be expressed as:
+
+Then, the corresponding estimation error ${\Delta\theta_{n}}:={\lbrack{{\hat{A}}_{n} - {A{\hat{B}}_{n}} - B}\rbrack}$ is given :
+
+Quantifying the estimation error of the RLS procedure is crucial to later characterize the gradient estimates as suitable gradient oracles. A key factor governing the accuracy of the estimates is the informativity of the data, which is commonly formalized through the notion of *persistency of excitation*. We next recall the definition of *local persistency*.
+
+### Definition 1 (Local Persistency)
+
+\[42, Definition 2\] A finite horizon sequence ${\{ d_{j}\}}_{j = 0}^{n}$ is locally persistent with respect to $N,M,\alpha$, if $n \geq {\max{\{ M,N\}}}$ and there exist ${N \geq 1},{M \geq 1}$ and $\alpha > 0$, such that for all $j = {{Mq} + 1}$ where $q \in {\lbrack 0,\ldots,{{\lfloor\frac{n}{\max{\{ N,M\}}}\rfloor} - 1}\rbrack}$,
+
+Beyond the informativity of the data, the analysis of the estimation error also necessitates establishing the boundedness of the data sequence. We present the following lemma, which establishes the *mean-square boundedness* of the stochastic system under a convergent stabilizing gain sequence $\{ K_{j}\}$.
+
+### Lemma 6 (Mean-square Boundedness)
+
+Suppose that the excitation gain sequence $\{ K_{j}\}$ converges to $K_{\infty}$, where the limiting closed-loop matrix $A_{K_{\infty}}$ is Schur stable. Then, for any $n \in {\mathbb{Z}}_{+}$, the state sequence ${\{ x_{j}\}}_{j = 1}^{n + t_{0}}$ generated by Algorithm 1 is mean-square bounded; namely, there exists a constant $\overline{x} > 0$, independent of $n$, such that
+
+We are now ready to present a theorem that analyzes the estimation error of RLS in the presence of stochastic noise.
+
+Theorem 1. Assume that the data sequence ${\{ d_{j}\}}_{j = 1}^{n + t_{0}}$ generated by Algorithm 1 is locally persistent with parameters $N_{0},M_{0},\alpha_{0}$. Suppose further that $t_{0} \geq {\max{\{ N_{0},M_{0}\}}}$ and that the control gain sequence $\{ K_{j}\}$ converges to $K_{\infty}$, where the limiting closed-loop matrix $A_{K_{\infty}}$ is Schur stable. Define $\overline{K}:={\sup_{j \in {\mathbb{N}}}{\parallel K_{j}\parallel}}$. Then, for any $n \in {\mathbb{Z}}_{+}$, the estimation error of system matrices from Algorithm 1 satisfies:
+
+and $\overline{x}$ is introduced in (23 ‣ 3.1 Indirect Gradient Oracle ‣ 3 Gradient Estimation and Gradient Oracles ‣ A Stochastic Gradient Descent Approach to Design Policy Gradient Methods for LQR")). Moreover, for any prescribed bound $\beta > 0$, if the initial data length $t_{0}$ satisfies $t_{0} \geq {\max\left\{ \frac{c_{x}\max{\{ N_{0},M_{0}\}}^{2}}{\alpha_{0}^{2}\beta^{2}},N_{0},M_{0} \right\}}$, then ${\forall n} \in {\mathbb{Z}}_{+}$
+
+Theorem 6 ‣ 3.1 Indirect Gradient Oracle ‣ 3 Gradient Estimation and Gradient Oracles ‣ A Stochastic Gradient Descent Approach to Design Policy Gradient Methods for LQR") implies that, provided sufficiently informative data are collected, which can be ensured by an appropriate choice of the dithering input sequence $\{ e_{j}\}$, the expected estimation error can be made arbitrarily small with probability. Having characterized the estimation error of the system matrices (Theorem 6 ‣ 3.1 Indirect Gradient Oracle ‣ 3 Gradient Estimation and Gradient Oracles ‣ A Stochastic Gradient Descent Approach to Design Policy Gradient Methods for LQR")) and the corresponding gradient error (Lemma 5 ‣ 3.1 Indirect Gradient Oracle ‣ 3 Gradient Estimation and Gradient Oracles ‣ A Stochastic Gradient Descent Approach to Design Policy Gradient Methods for LQR")), we are now ready to formalize the gradient oracle for the indirect method from Algorithm 1.
+
+### Lemma 7 (Gradient Oracle from Indirect Method)
+
+Consider the gradient estimates by Algorithm 1. Assume that the data sequence ${\{ d_{j}\}}_{j = 1}^{n + t_{0}}$ generated in Algorithm 1 is locally persistent with parameters $N_{0},M_{0},\alpha_{0}$, and that the excitation gain sequence $\{ K_{j}\}$ converges to $K_{\infty}$, where the limiting closed-loop matrix $A_{K_{\infty}}$ is Schur stable. Define $\overline{K}:={\sup_{j \in {\mathbb{N}}}{\parallel K_{j}\parallel}}$.
+
+For $t_{0} \geq {\max\left\{ \frac{c_{x}\max{\{ N_{0},M_{0}\}}^{2}}{\alpha_{0}^{2}p_{\theta}^{2}},N_{0},M_{0} \right\}}$ and all $n \in {\mathbb{Z}}_{+}$, with probability at least $1 - \sqrt{\frac{c_{x}\max{\{ N_{0},M_{0}\}}^{2}}{p_{\theta}^{2}\alpha_{0}^{2}t_{0}}}$, we have ${\parallel{\Delta\theta_{n}}\parallel} \leq p_{\theta}$, where $c_{x}$ is defined . Then for any $K \in \mathcal{S}$ and $n \in {\mathbb{Z}}_{+}$, the gradient estimator satisfies the following properties:
+
+${{{\mathbb{E}}\left\lbrack {{\hat{\nabla}}_{I}C{(K,{\hat{A}}_{n},{\hat{B}}_{n})}} \right\rbrack} = {{{\nabla C}{(K)}} + {\Delta_{I}{(K,{{\mathbb{E}}{\lbrack{\Delta\theta_{n}}\rbrack}})}}}},$ (27a)
+${{{\mathbb{E}}\left\lbrack {\parallel{{\hat{\nabla}}_{I}C{(K,{\hat{A}}_{n},{\hat{B}}_{n})}}\parallel}_{F}^{2} \right\rbrack} \leq {V_{I}{({C{(K)}},{p{({C{(K)}},p_{\theta})}})}}},$ (27b)
+
+where ${\Delta_{I}{(K,{{\mathbb{E}}{\lbrack{\Delta\theta_{n}}\rbrack}})}}:={{\mathbb{E}}{\lbrack{{{\hat{\nabla}}_{I}C{(K,{\hat{A}}_{n},{\hat{B}}_{n})}} - \left. {{\nabla C}{(K)}} \middle| K \right.}\rbrack}}$;
+
+and ${{\overline{\Delta}}_{I}{({C{(K)}},{{\mathbb{E}}{\lbrack{\parallel{\Delta\theta_{n}}\parallel}\rbrack}})}}:={p{({C{(K)}},p_{\theta})}{\mathbb{E}}{\lbrack{\parallel{\Delta\theta_{n}}\parallel}\rbrack}}$; $V_{I}$ is defined .
+
+Lemma 7 ‣ 3.1 Indirect Gradient Oracle ‣ 3 Gradient Estimation and Gradient Oracles ‣ A Stochastic Gradient Descent Approach to Design Policy Gradient Methods for LQR") shows that the gradient estimates produced by Algorithm 1 are generally biased (27a ‣ 3.1 Indirect Gradient Oracle ‣ 3 Gradient Estimation and Gradient Oracles ‣ A Stochastic Gradient Descent Approach to Design Policy Gradient Methods for LQR")), and that their second moment (27b ‣ 3.1 Indirect Gradient Oracle ‣ 3 Gradient Estimation and Gradient Oracles ‣ A Stochastic Gradient Descent Approach to Design Policy Gradient Methods for LQR")) bound also depends on the estimation error. Recalling the definition of the gradient oracle, Lemma 7 ‣ 3.1 Indirect Gradient Oracle ‣ 3 Gradient Estimation and Gradient Oracles ‣ A Stochastic Gradient Descent Approach to Design Policy Gradient Methods for LQR"), provides an explicit characterization of the gradient estimates arising from the indirect method as a biased oracle. Combining Theorem 6 ‣ 3.1 Indirect Gradient Oracle ‣ 3 Gradient Estimation and Gradient Oracles ‣ A Stochastic Gradient Descent Approach to Design Policy Gradient Methods for LQR") with Lemma 7 ‣ 3.1 Indirect Gradient Oracle ‣ 3 Gradient Estimation and Gradient Oracles ‣ A Stochastic Gradient Descent Approach to Design Policy Gradient Methods for LQR"), we observe that the norm of the bias term decays at a rate of $O{(n^{- {1/2}})}$.
+
+### Direct Gradient Oracle
+
+In this subsection, we investigate the gradient oracle obtained from the direct method, which we refer to as the zeroth-order method (Z.O.M). For this, we introduce a smoothing function defined as:
+
+where ${\mathbb{B}}_{v}$ denotes the uniform distribution over all matrices of size $n_{u} \times n_{x}$ with Frobenius norm less than the smoothing radius $v$. It is shown in that the gradient of the smoothed function satisfies:
+
+where ${\mathbb{S}}_{v}$ denotes the uniform distribution over the boundary of the Frobenius norm ball with radius $v$. The algorithm used to estimate the gradient is presented in Algorithm 2.
+
+Gain matrix K ∈ 𝒮, number of rollouts n, rollout length ℓ, exploration radius v;
+1. Generate a sample gain matrix ${\overline{K}}_{k} = {K + U_{k}}$, where Uk is drawn uniformly at random over matrices of compatible dimensions with radius v;
+2. Generate an initial state x0(k) with x0(k) ∼ (0,Σ0);
+3. Excite the closed-loop system : $$u_{t}^{(k)} = {{\overline{K}}_{k}x_{t}^{(k)}}$$ for ℓ-steps starting from x0(k), yielding the state sequence {xt(k)}t = 0ℓ − 1 originating ;
+4. Collect the empirical cost estimate ${\hat{C}}_{{\overline{K}}_{k}}:={\frac{1}{\ell}{\sum_{t = 0}^{\ell - 1}{x_{t}^{{(k)}\top}{({Q + {{\overline{K}}_{k}^{\top}R{\overline{K}}_{k}}})}x_{t}^{(k)}}}}$;
+Gradient estimate ${{\hat{\nabla}}_{D}C{(K,v,\ell,n)}}:={\frac{1}{n}{\sum_{k = 1}^{n}{\frac{n_{x}n_{u}}{v^{2}}{\hat{C}}_{{\overline{K}}_{k}}U_{k}}}}$.
+Algorithm 2 Direct Data-driven Gradient Estimation
+
+The empirical gradient estimator in Algorithm 2 is given :
+
+We now characterize the gradient oracle associated .
+
+### Lemma 8 (Gradient Oracle from Direct Method)
+
+Given $K \in \mathcal{S}$, if the exploration radius $v$ satisfies the following condition:
+
+where $h{( \cdot )}$ is defined in Lemma 2 ‣ 2 Problem setting and Preliminaries ‣ A Stochastic Gradient Descent Approach to Design Policy Gradient Methods for LQR"), then the gradient estimates from Algorithm 2 satisfy the following properties:
+
+${\mathbb{E}}{\lbrack{{\hat{\nabla}}_{D}C{(K,v,\ell,n)}}\rbrack}$ ${= {{{\nabla C}{(K)}} + {\Delta_{D}{(K,v,\ell)}}}},$ (34a)
+${\mathbb{E}}\left\lbrack {\parallel{{\hat{\nabla}}_{D}C{(K,v,\ell,n)}}\parallel}_{F}^{2} \right\rbrack$ ${\leq {V_{D}{({C{(K)}},v,\ell,n)}}},$ (34b)
+
+where ${\Delta_{D}{(K,v,\ell)}}:={{\mathbb{E}}{\lbrack{{{\hat{\nabla}}_{D}C{(K,v,\ell,n)}} - \left. {{\nabla C}{(K)}} \middle| K \right.}\rbrack}}$ and
+
+${\overline{\Delta}}_{D}$ and $V_{D}$ are defined in and and satisfy:
+
+${\overline{\Delta}}_{D}{({C{(K)}},v,\ell)}$ ${= {O\left( {\frac{1}{v\ell} + v} \right)}},$ (36a)
+
+Lemma 8 ‣ 3.2 Direct Gradient Oracle ‣ 3 Gradient Estimation and Gradient Oracles ‣ A Stochastic Gradient Descent Approach to Design Policy Gradient Methods for LQR") characterizes the gradient oracle for the direct method by establishing its first and second moments. Similar to, the gradient estimation error depends on three key parameters: $\ell$, $v$, and $n$. The choice of $(\ell,v)$ is critical for controlling both the bias and variance of the gradient estimates. The number of samples, $n$, only influences the variance of the estimator; specifically, a larger $n$ leads to a smaller second moment.
+
+## Convergence Analysis of SGD with Biased Gradient
+
+In the previous section, we showed that the gradients generated by the two considered estimators can be modeled as gradient oracles. Inspection of their expressions reveals that the gradient estimators are biased. In this section, we analyze the convergence of stochastic gradient descent applied to *gradient-dominated* and *quasi-smooth* functions in the presence of biased gradient oracles. We perform the stochastic gradient descent update:
+
+where $\hat{\nabla}C{(K_{i})}$ is a stochastic gradient obtained from a suitable estimator, specifically one of the two concrete algorithms introduced in Section 3. From Lemmas 7 ‣ 3.1 Indirect Gradient Oracle ‣ 3 Gradient Estimation and Gradient Oracles ‣ A Stochastic Gradient Descent Approach to Design Policy Gradient Methods for LQR") and 8 ‣ 3.2 Direct Gradient Oracle ‣ 3 Gradient Estimation and Gradient Oracles ‣ A Stochastic Gradient Descent Approach to Design Policy Gradient Methods for LQR"), ${\forall i} \in {\mathbb{Z}}_{+}$, given an iterate $K_{i}$ , both indirect and direct oracles satisfy the following properties almost surely (a.s.):
+
+${\mathbb{E}}{\lbrack\left. {\hat{\nabla}C{(K_{i})}} \middle| K_{i} \right.\rbrack}$ ${= {{{\nabla C}{(K_{i})}} + {\Delta{(K_{i},i)}}}},$ (38a)
+${\mathbb{E}}\left\lbrack \left. {\parallel{\hat{\nabla}C{(K_{i})}}\parallel}_{F}^{2} \middle| K_{i} \right.\rbrack \right.$ ${\leq c},$ (38b)
+
+where the bias term satisfies:
+
+and the function $\overline{\Delta}{({C{(K)}})}$ decreases monotonically as the cost $C{(K)}$ decreases.
+
+We provide the following explanations for the bias term as well as for the boundedness of the second moment.
+
+the term $\Delta{(K_{i},i)}$ denotes the iteration-dependent bias introduced either by the model estimates ${\hat{A}}_{i},{\hat{B}}_{i}$ at $i$-th iteration (as discussed in Section 3.1) or by the exploration radius $v_{i}$, and the finite rollout length $\ell_{i}$ (as discussed in Section 3.2). This bias may vary across iterations. In the indirect setting, it evolves together with the model-learning process, whereas in the zeroth-order method it may arise from the iteration-varying choices of $v_{i}$ and $\ell_{i}$. Because quantifying the bias term $\Delta{(K_{i},i)}$ is challenging, our analysis focuses on bounding its norm ${\parallel{\Delta{(K_{i},i)}}\parallel}_{F}$ (as in Lemma 7 ‣ 3.1 Indirect Gradient Oracle ‣ 3 Gradient Estimation and Gradient Oracles ‣ A Stochastic Gradient Descent Approach to Design Policy Gradient Methods for LQR") and Lemma 8 ‣ 3.2 Direct Gradient Oracle ‣ 3 Gradient Estimation and Gradient Oracles ‣ A Stochastic Gradient Descent Approach to Design Policy Gradient Methods for LQR")).
+
+In the SGD literature, the second moment is often assumed to satisfy the following ABC condition: ${\mathbb{E}}\left\lbrack {\parallel\hat{\nabla}C{(K)}\parallel}_{F}^{2} \middle| K \leq a{(C{(K)} - C{(K^{\ast})})} + b{\parallel\nabla C{(K)}\parallel}^{2} + c \right.$. We assume a uniform second-moment bound, i.e., $a = b = 0$, instead of the more general ABC condition, because in the subsequent analysis, we show that such a bound can indeed be established for the proposed gradient estimators over a local level set.
+
+The following assumption plays a crucial role for studying the convergence of to the optimal solution.
+
+### Assumption 1
+
+The bias term ${\|{\Delta{(K_{i},i)}}\|}_{F}$ decays at least as $O{(\frac{1}{i^{\beta}})}$ for some $\beta \geq \frac{1}{2}$.
+
+This assumption can be satisfied by appropriately choosing the parameters in the gradient estimation process for both methods. A detailed discussion is provided in Section 5. Before proceeding with the convergence analysis, we first introduce the following two lemmas.
+
+### Lemma 9
+
+Consider a sequence $\{ K_{i}\}$ generated by the update rule , initialized at $K_{0} \in \mathcal{S}$ with step size sequence $\{\eta_{i}\}$. Take $J_{0} > 0$ satisfying ${C{(K_{0})}} \leq J_{0}$. Define the event $C$ as:
+
+where $r{( \cdot )}$ is defined in (14b ‣ 2 Problem setting and Preliminaries ‣ A Stochastic Gradient Descent Approach to Design Policy Gradient Methods for LQR")). Given $\delta \in {}$, and the step sizes $\{\eta_{i}\}$ satisfy the following condition:
+
+Then the event $C$ occurs with probability at least $1 - \delta$.
+
+### Lemma 10
+
+Consider a sequence $\{ K_{i}\}$ generated , initialized at $K_{0} \in \mathcal{S}$ with step size sequence $\{\eta_{i}\}$. Take $J_{0} > 0$ satisfying $J_{0} > {C{(K_{0})}}$, and choose $\delta_{1},\delta_{2}$, and $\delta_{3} \in {}$ such that $\delta = {1 - {{({1 - \delta_{1} - \delta_{2}})}{({1 - \delta_{3}})}}} \in {}$. Define $\epsilon:={(\frac{\sqrt{1 + {4\epsilon^{\prime 2}}} - 1}{2})}^{2}$ with $\epsilon^{\prime}:={J_{0} - {C{(K_{0})}}} > 0$ and the event:
+
+where $\mathcal{S}{( \cdot )}$ is defined . Suppose Assumption 1 and the following conditions on the step sizes hold:
+
+The step size sequence $\{\eta_{i}\}$ satisfies
+
+where $\mu$ is defined in (12 ‣ 2 Problem setting and Preliminaries ‣ A Stochastic Gradient Descent Approach to Design Policy Gradient Methods for LQR")).
+
+The step sizes are chosen as $\eta_{i} = {O\left( \frac{1}{i^{\kappa}} \right)}$ for some $\kappa \in \left( \frac{1}{2},1 \right)$ and sufficiently small so that
+
+where $\alpha_{1}$ is polynomial function defined as:
+
+with $\overline{\Delta}$ and $b_{\nabla}$ as defined in and Lemma 1∥,∥𝐾∥) ‣ 2 Problem setting and Preliminaries ‣ A Stochastic Gradient Descent Approach to Design Policy Gradient Methods for LQR").
+
+The step sizes further satisfy:
+
+The step sizes condition in Lemma 9 with $\delta = \delta_{3}$ holds:
+
+Then, the event
+
+occurs with probability at least $1 - \delta$.
+
+After establishing Lemma 10, we can leverage the quasi-smoothness property in Lemma 4 ‣ 2 Problem setting and Preliminaries ‣ A Stochastic Gradient Descent Approach to Design Policy Gradient Methods for LQR") to conclude that $C$ is $L{(J_{0})}$-smooth over the level set $\mathcal{S}{(J_{0})}$. On the event $C$, Lemma 4 ‣ 2 Problem setting and Preliminaries ‣ A Stochastic Gradient Descent Approach to Design Policy Gradient Methods for LQR") can be applied to analyze convergence in the stochastic setting. Now, we can leverage the Robbins--Siegmund theorem to analyze the convergence of the SGD algorithm for the gradient-dominated and quasi-smooth LQR cost function $C$ in the presence of a biased gradient oracle.
+
+Theorem 2. Consider a sequence $\{ K_{i}\}$ generated , initialized at $K_{0} \in \mathcal{S}$ with step size sequence $\{\eta_{i}\}$. Using the same definitions of $J_{0}$, $\epsilon$, $\epsilon^{\prime}$, $\delta$, $\delta_{1}$, $\delta_{2}$, and $\delta_{3}$ as in Lemma 10, that is, let $J_{0} > 0$ satisfy $J_{0} > {C{(K_{0})}}$ and choose $\delta_{1},\delta_{2}$, and $\delta_{3} \in {}$ such that $\delta = {1 - {{({1 - \delta_{1} - \delta_{2}})}{({1 - \delta_{3}})}}} \in {}$. Define $\epsilon:={(\frac{\sqrt{1 + {4\epsilon^{\prime 2}}} - 1}{2})}^{2}$ with $\epsilon^{\prime}:={J_{0} - {C{(K_{0})}}} > 0$.
+
+Suppose that Assumption 1 holds and step sizes $\eta_{i} = {O\left( \frac{1}{i^{\kappa}} \right)}$ for some $\kappa \in \left( \frac{1}{2},1 \right)$. Further assume that $\{\eta_{i}\}$ is chosen sufficiently small such that the following conditions hold:
+
+$\eta_{i}$ ${{< \mu},{{\forall i} \in {\mathbb{Z}}_{+}}};$ (48a)
+$\sum\limits_{i = 1}^{\infty}\eta_{i}^{2}$ ${\leq {\min\left\{ \frac{\delta_{1}\epsilon}{{\alpha_{1}{(J_{0},{\overline{\Delta}{(J_{0})}})}} + c},\frac{r^{2}{(J_{0})}\delta_{3}}{c} \right\}}};$ (48b)
+$\sum\limits_{i = 0}^{\infty}\eta_{i}$ ${{\|{\Delta{(K_{i},i)}}\|}_{F} \leq \sqrt{\frac{\delta_{2}\epsilon}{n_{u}^{3}b_{\nabla}{(J_{0})}^{2}}}},$ (48c)
+
+where $\mu$ is defined in (12 ‣ 2 Problem setting and Preliminaries ‣ A Stochastic Gradient Descent Approach to Design Policy Gradient Methods for LQR")), $r{( \cdot )}$ is the local radius from (14b ‣ 2 Problem setting and Preliminaries ‣ A Stochastic Gradient Descent Approach to Design Policy Gradient Methods for LQR")), and $\alpha_{1}$ is the polynomial function defined .
+
+Then, the event $F$ has probability at least $1 - \delta$. Moreover, for any $\lambda \in {({2 - {2\kappa}},1)}$, the following holds:
+
+${{({{C{(K_{i})}} - {C{(K^{\ast})}}})}\mathbf{1}_{F}} = {o\left( \frac{1}{i^{1 - \lambda}} \right)}$, a.s.;
+
+${{\mathbb{E}}{\lbrack{{({{C{(K_{i})}} - {C{(K^{\ast})}}})}\mathbf{1}_{F}}\rbrack}} = {o\left( \frac{1}{i^{1 - \lambda}} \right)}$.
+
+The following observations are in order:
+
+Theorem 6 ‣ 3.1 Indirect Gradient Oracle ‣ 3 Gradient Estimation and Gradient Oracles ‣ A Stochastic Gradient Descent Approach to Design Policy Gradient Methods for LQR") establishes that, under appropriate conditions on the step size and the magnitude of the bias term, the sequence $\{{C{(K_{i})}}\}$ converges asymptotically to the optimal function value $C{(K^{\ast})}$ both in expectation and for almost all sequence realizations (almost surely), when the event $F$ happens.
+
+Under Assumption 1 and with the step-size sequence $\eta_{i} = {O{(i^{- \kappa})}}$, the bias-related term $\sum_{i = 0}^{\infty}{\eta_{i}{\parallel{\Delta{(K_{i},i)}}\parallel}_{F}}$ is absolutely summable. The step size magnitude is chosen based on (48c) to ensure the desired confidence level $\delta_{2}$ and $\epsilon$.
+
+## Closing the loop between SGD and gradient estimators
+
+In the previous section, we analyzed the convergence of SGD applied to the LQR policy gradient problem with the generic gradient oracle. The analysis helped us identify sufficient conditions on stepsize choices and gradient accuracy under which SGD converges to the optimal cost. We now show how tuning parameters of the two gradient estimators presented in Section 3 can be chosen to satisfy these conditions. The block diagram corresponding to the two data-driven policy gradient algorithms is illustrated in Figure 1.
+
+Figure 1: Data-driven policy gradient descent framework
+
+### Indirect Methods
+
+The method is built upon Algorithm 1. At each iteration $i$, the system estimates ${\hat{\theta}}_{i}$, produced by Algorithm 1, are used to construct the gradient associated with the current policy $K_{i}$, followed by a policy gradient descent step. After applying the control input, new data are collected and subsequently leveraged to update the estimates of the system matrices ${\hat{\theta}}_{i + 1}$. We emphasize that, within the indirect framework, the excitation gain in does not need to be *on-policy*, as illustrated in Figure 1. In particular, the system can be operated using a fixed stabilizing gain $K$, corresponding to an *off-policy* setting. A detailed discussion on the distinction between off-policy and on-policy schemes is provided in Remark 1.
+
+The following theorem establishes convergence guarantees to the optimal solution using the indirect data-driven policy gradient algorithm based on Algorithm 1.
+
+Theorem 3. Consider the indirect data-driven policy gradient algorithm based on Algorithm 1, generating a sequence $\{ K_{i}\}$ via, initialized at $K_{0} \in \mathcal{S}$ with step-size sequence $\{\eta_{i}\}$. Using the same definitions of $J_{0}$, $\epsilon$, $\epsilon^{\prime}$, $\delta$, $\delta_{1}$, $\delta_{2}$, and $\delta_{3}$ as in Theorem 10, that is, let $J_{0} > 0$ satisfy $J_{0} > {C{(K_{0})}}$ and choose $\delta_{1},\delta_{2}$, and $\delta_{3} \in {}$ such that $\delta = {1 - {{({1 - \delta_{1} - \delta_{2}})}{({1 - \delta_{3}})}}} \in {}$. Define $\epsilon:={(\frac{\sqrt{1 + {4\epsilon^{\prime 2}}} - 1}{2})}^{2}$ with $\epsilon^{\prime}:={J_{0} - {C{(K_{0})}}} > 0$.
+
+Assume that the data sequence $\{ d_{i}\}$ is locally persistent with parameters $N_{0},M_{0},\alpha_{0}$. Given a $t_{0}$ introduced in Algorithm 1 satisfying:
+
+where $p_{\theta}^{\prime}$ and $c_{x}$ are defined in and, respectively. Then with probability at least $1 - \sqrt{\frac{c_{x}\max{\{ N_{0},M_{0}\}}^{2}}{p_{\theta}^{\prime}{(J_{0})}^{2}\alpha_{0}^{2}t_{0}}}$, the bias term of the gradient oracle satisfies:
+
+where $c_{d}:={{\max{\{ n_{x},n_{u}\}}}p{(J_{0},{p_{\theta}^{\prime}{(J_{0})}})}}$ and $p$ was defined .
+
+Additionally, consider the step sizes of the form $\eta_{i} = {O{(\frac{1}{i^{\kappa}})}}$ for some $\kappa \in \left( \frac{1}{2},1 \right)$. Further, suppose the step sizes satisfy:
+
+$\eta_{i}$ ${{< \mu},{{\forall i} \in {\mathbb{Z}}_{+}}};$ (51a)
+$\sum\limits_{i = 1}^{\infty}\eta_{i}^{2}$ ${\leq {\max\left\{ \frac{\delta_{1}\epsilon}{{\alpha_{1}{(J_{0},{\overline{\Delta}{(J_{0})}})}} + c},\frac{r^{2}{(J_{0})}\delta_{3}}{V_{I}{(J_{0},{p{(J_{0},{p_{\theta}^{\prime}{(J_{0})}})}})}} \right\}}};$ (51b)
+$\sum\limits_{i = 0}^{\infty}\eta_{i}$ ${{c_{d}\sqrt{\frac{c_{x}\max{\{ N_{0},M_{0}\}}^{2}}{\alpha_{0}^{2}{({i + t_{0}})}}}} \leq \sqrt{\frac{\delta_{2}\epsilon}{n_{u}^{3}b_{\nabla}{(J_{0})}^{2}}}}.$ (51c)
+
+Then, the event $F$ occurs with probability at least ${({1 - \delta})}\left( {1 - \sqrt{\frac{c_{x}\max{\{ N_{0},M_{0}\}}^{2}}{p_{\theta}^{\prime}{(J_{0})}^{2}\alpha_{0}^{2}t_{0}}}} \right)$. Moreover, for any $\lambda \in {({2 - {2\kappa}},1)}$, the following holds:
+
+${{\mathbb{E}}\left\lbrack {{({{C{(K_{i})}} - {C{(K^{\ast})}}})}\mathbf{1}_{F}} \right\rbrack} = {o\left( i^{- {({1 - \lambda})}} \right)}$.
+
+The proof combines the main results of Theorem 10 and Lemma 7 ‣ 3.1 Indirect Gradient Oracle ‣ 3 Gradient Estimation and Gradient Oracles ‣ A Stochastic Gradient Descent Approach to Design Policy Gradient Methods for LQR"). The key step is to verify that the bias term appearing in the gradient oracle decays at an appropriate rate. Under the local persistence assumption, the expected estimation error in the indirect method decreases at the rate $O{(i^{- {1/2}})}$, which matches the requirement for convergence of SGD with a biased gradient oracle. Moreover, a uniform upper bound on the second-moment term can always be established as $V_{I}{({b_{K}{(J_{0})}},{p{({b_{K}{(J_{0})}},{p_{\theta}^{\prime}{(J_{0})}})}})}$. Consequently, with a properly chosen step size, the indirect method converges asymptotically to the optimal policy without requiring any modification to the underlying indirect gradient estimation algorithm based on recursive least-squares.
+
+### Remark 1
+
+From Theorem 5.1, the parameter $c_{x}$ (defined in ), which depends on $\overline{x}$ introduced in (23 ‣ 3.1 Indirect Gradient Oracle ‣ 3 Gradient Estimation and Gradient Oracles ‣ A Stochastic Gradient Descent Approach to Design Policy Gradient Methods for LQR")), plays a critical role in the convergence analysis. In the *on-policy* setting, where the system is excited using the policies generated by the policy gradient updates, we can only guarantee the existence of such a bound. This is because, with high probability, each gain $\{ K_{i}\}$, $i \in {\mathbb{Z}}_{+}$, stabilizes the system and the sequence $\{ K_{i}\}$ converges asymptotically to $K^{\ast}$. However, the value of $c_{x}$ depends on the stochastic policy sequence $\{ K_{i}\}$, and a closed-form expression is generally unavailable. In contrast, in the *off-policy* setting, where the system is excited using a fixed stabilizing gain $K$ rather than the iterates $\{ K_{i}\}$ generated by the SGD algorithm, an explicit bound on $c_{x}$ can be computed directly. This enables a more precise characterization of $c_{x}$ and, in turn, leads to sharper bounds on the bias and convergence behavior under off-policy data collection.
+
+### Direct Methods
+
+The direct data-driven policy gradient method proceeds as follows. At each iteration, Algorithm 2 is used to estimate the gradient. We let the parameters $v_{i},\ell_{i}$, and $n_{i}$ in Algorithm 2 vary across the iterations to control the bias and variance. The estimated gradient is then applied in a policy gradient descent step. In the direct method, only an on-policy scheme can be employed.The following theorem establishes convergence guarantees to the optimal solution using the direct data-driven policy gradient Algorithm.
+
+Theorem 4. Consider the direct data-driven policy gradient algorithm based on Algorithm 2, generating a sequence $\{ K_{i}\}$ via, initialized at $K_{0} \in {\mathbb{Z}}_{+}$ with step-size sequence $\{\eta_{i}\}$. Using the same definitions of $J_{0}$, $\epsilon$, $\epsilon^{\prime}$, $\delta$, $\delta_{1}$, $\delta_{2}$, and $\delta_{3}$ as in Theorem 10, that is, let $J_{0} > 0$ satisfy $J_{0} > {C{(K_{0})}}$ and choose $\delta_{1},\delta_{2}$, and $\delta_{3} \in {}$ such that $\delta = {1 - {{({1 - \delta_{1} - \delta_{2}})}{({1 - \delta_{3}})}}} \in {}$. Define $\epsilon:={(\frac{\sqrt{1 + {4\epsilon^{\prime 2}}} - 1}{2})}^{2}$ with $\epsilon^{\prime}:={J_{0} - {C{(K_{0})}}} > 0$.
+
+Assume that the parameters of the Algorithm 2 satisfy:
+
+$v_{i}$ $\leq \min{\{ h{(J_{0})},{|K^{\ast}\parallel}\}},\forall i \in {\mathbb{Z}}_{+},$ (52a)
+
+Then, the bias term of the gradient oracle and the second moment satisfy:
+
+${\overline{\Delta}}_{D}{({C{(K_{i})}},v_{i},\ell_{i})}$ ${\leq {{\overline{\Delta}}_{D}{(J_{0},v_{i},\ell_{i})}} = {O{(\frac{1}{i^{1/2}})}}},$ (53a)
+$V_{D}{({C{(K)}},v_{i},\ell_{i},n_{i})}$ $\leq \sup\limits_{i}V_{D}{(J_{0},v_{i},\ell_{i},n_{i})} =:{\overline{V}}_{D}.$ (53b)
+
+Additionally, consider the step sizes of the form $\eta_{i} = {O{(\frac{1}{i^{\kappa}})}}$ for some $\kappa \in \left( \frac{1}{2},1 \right)$. Further, suppose the step sizes satisfy:
+
+$\eta_{i}$ ${{< \mu},{{\forall i} \in {\mathbb{Z}}_{+}}};$ (54a)
+$\sum\limits_{i = 1}^{\infty}\eta_{i}^{2}$ ${\leq {\min\left\{ \frac{\delta_{1}\epsilon}{\alpha_{1}{(J_{0},\overline{\Delta}{(J_{0})})} + c,},\frac{r^{2}{(J_{0})}\delta_{3}}{{\overline{V}}_{D}} \right\}}};$ (54b)
+$\sum\limits_{i = 0}^{\infty}\eta_{i}$ ${{{\overline{\Delta}}_{D}{(J_{0},v_{i},\ell_{i})}} \leq \sqrt{\frac{\delta_{2}\epsilon}{n_{u}^{3}b_{\nabla}{(J_{0})}^{2}}}}.$ (54c)
+
+Then, the event $F$ occurs with probability at least $({1 - \delta})$. Moreover, for any $\lambda \in {({2 - {2\kappa}},1)}$, the following holds:
+
+${{\mathbb{E}}\left\lbrack {{({{C{(K_{i})}} - {C{(K^{\ast})}}})}\mathbf{1}_{F}} \right\rbrack} = {o\left( i^{- {({1 - \lambda})}} \right)}$.
+
+The proof of Theorem 5.2 follows from Theorem 6 ‣ 3.1 Indirect Gradient Oracle ‣ 3 Gradient Estimation and Gradient Oracles ‣ A Stochastic Gradient Descent Approach to Design Policy Gradient Methods for LQR") and Lemma 8 ‣ 3.2 Direct Gradient Oracle ‣ 3 Gradient Estimation and Gradient Oracles ‣ A Stochastic Gradient Descent Approach to Design Policy Gradient Methods for LQR") by designing the parameters $r_{i},n_{i}$, and $\ell_{i}$ such that the resulting gradient oracle satisfies the required bias decay and bounded-variance conditions. To guarantee convergence to the optimal policy, the exploration radius $v_{i}$ must decrease and the rollout length $\ell_{i}$ must increase so that the bias term vanishes at the required rate. Nevertheless, a smaller $v_{i}$ leads to an inflation of the variance, which necessitates increasing the number of rollouts $n_{i}$ to maintain a bounded second moment.
+
+### Comparison between the two gradient estimators
+
+To guarantee convergence to the optimal policy, the indirect and direct policy gradient methods differ in the following aspects, as characterized in Theorems 5.1 and 5.2:
+
+*Sample Complexity:* the indirect and direct policy gradient methods impose fundamentally different sample requirements. The indirect method updates the system estimates using all previously collected data and requires only $O{}$ new samples per iteration to achieve the desired bias decay. In contrast, the direct method relies solely on empirical cost evaluations at the current iterate and cannot reuse past data, resulting in a per-iteration sample complexity of $O{(i^{2})}$. This disparity reflects the inherent bias and variance trade-off in zeroth-order gradient estimation, implying that direct methods require substantially more data than indirect methods to achieve convergence to the optimal policy.
+
+*Excitation Policy:* For the indirect method, convergence to the optimal policy requires the data sequence $\{ d_{i}\}$ to satisfy the local persistency condition defined in Definition 1 ‣ 3.1 Indirect Gradient Oracle ‣ 3 Gradient Estimation and Gradient Oracles ‣ A Stochastic Gradient Descent Approach to Design Policy Gradient Methods for LQR"). To this end, the dithering signal $\{ e_{i}\}$ is introduced . The excitation gain in the indirect framework may be either off-policy or on-policy, as discussed in Remark 1. In contrast, for the direct method, the gradient is approximated via the smoothing function, where a random perturbation matrix $U$ is introduced in the gain, leading to the control input format . In this case, only an on-policy implementation is possible.
+
+*Data Collection:* In the indirect method, online data are continuously used to update the system estimates, and the gradient is computed based on the updated estimates. For the direct method, data are collected via independent finite-horizon rollouts; that is, the state is re-initialized at $x_{0}^{(k)}$ for each trajectory, as specified in Algorithm 2.
+
+*Initial Data Collection Phase:* A limitation of the indirect method is that its convergence guarantees rely on an initial data collection phase to ensure that the system matrix estimates are sufficiently close to the true dynamics. In contrast, the direct method does not require such an initialization phase.
+
+## Numerics
+
+In this section, we present numerical simulation results^11^1The MATLAB codes used to generate these results are available at to illustrate and validate the theoretical findings developed in the previous sections.
+
+### Gradient Oracle Analysis
+
+In this subsection, we investigate how different factors affect the behavior of the gradient oracle, as discussed in Section 3. We consider the following benchmark linear system, which has been widely used in prior studies. The system dynamics are given by
+
+The weight matrices $Q$ and $R$ are chosen as $0.001I_{3}$ and $I_{3}$. The initial covariance matrix $\Sigma_{0} = {10^{- 1}I_{3}}$. The gain $K$, for which we want to evaluate the gradient, is fixed at the optimal solution to $(A,B,{50Q},R)$. In this subsection, we plot the norm of bias (left $y$-axis) and variance (right $y$-axis) of the gradient estimates produced by Algorithms 1 and 2. All results are obtained from Monte Carlo simulations using $500$ independent data samples.
+
+### Indirect Method (Algorithm 1)
+
+We set $t_{0} = 50$ and $\Sigma_{\eta} = I_{3}$. Figure 2 ‣ 6.1 Gradient Oracle Analysis ‣ 6 Numerics ‣ A Stochastic Gradient Descent Approach to Design Policy Gradient Methods for LQR") shows the evolution of the estimation error and variance with respect to the iteration index, where increasing amounts of data lead to different gradient estimates at different iterations.
+
+Figure 2: Indirect Gradient Estimation
+
+We observe that both the estimation error (cyan solid line) and the variance (red dashed line) decrease as the number of samples increases. We also plot a reference line (black dashed line) given by ${{8.2 \times 10^{- 4}}i^{- {1/2}}} = {O{(i^{- {1/2}})}}$. The norm of the bias term closely follows this reference line and vanishes at the same rate, which is consistent with the behavior predicted by the gradient oracle in Lemma 7 ‣ 3.1 Indirect Gradient Oracle ‣ 3 Gradient Estimation and Gradient Oracles ‣ A Stochastic Gradient Descent Approach to Design Policy Gradient Methods for LQR"). Furthermore, a larger noise level, $\Sigma_{w} = 10^{- 3}$, results in both higher error and increased variance.
+
+### Direct Method (Algorithm 2)
+
+We illustrate separately the effects of the exploration radius $v$. In the following figure, the number of rollout is fixed to $n = 1$ and the length of rollout is fixed at $\ell = 800$. Figure 3 ‣ 6.1 Gradient Oracle Analysis ‣ 6 Numerics ‣ A Stochastic Gradient Descent Approach to Design Policy Gradient Methods for LQR") shows the bias and variance of the gradient estimates for different choices of $v$.
+
+Figure 3: Direct Gradient Estimation with Different v
+
+From the figure, we observe that, given a fixed rollout length and number of rollout, the estimation error (black solid line) and variance (red dashed line) are not monotonically increasing or decreasing with respect to $v$. When $v$ is either very small or very large, both the error and variance are relatively high. Focusing on the error, from (36a ‣ 3.2 Direct Gradient Oracle ‣ 3 Gradient Estimation and Gradient Oracles ‣ A Stochastic Gradient Descent Approach to Design Policy Gradient Methods for LQR")) we see that for small $v$, the term $\frac{1}{v}$ dominates the increase, whereas for large $v$ the term proportional to $v$ dominates. A similar phenomenon explains the behavior of the variance, as indicated by (36b ‣ 3.2 Direct Gradient Oracle ‣ 3 Gradient Estimation and Gradient Oracles ‣ A Stochastic Gradient Descent Approach to Design Policy Gradient Methods for LQR")). Additionally, a larger noise level increases both the error and variance, as can be seen when comparing the two groups of lines.
+
+### Convergence Analysis of SGD Algorithm
+
+In this subsection, we consider the control of the longitudinal dynamics of a Boeing 747 aircraft. The linearized dynamics are given :
+
+The initial state and process noise are sampled as ${x_{0} \sim {\mathcal{N}{(0,{10^{- 6}I_{5}})}}},$ and $w_{t} \sim {\mathcal{N}{(0,{10^{- 3}I_{5}})}}$. The weight matrices $Q$ and $R$ are set to identity matrices. The initial control gain $K_{0}$ is chosen as the optimal solution to the LQR problem with cost matrices $(A,B,{40Q},R)$.
+
+### Convergence Analysis of SGD with Biased Gradient
+
+Here we illustrate the importance of a vanishing step size and a vanishing bias term using the system described above. The SGD algorithm is implemented according to, where the biased stochastic gradient is given by
+
+with $\Delta_{i}$ being an artificial random matrix whose entries have variance $0.001$. The norm of its mean is bounded by either $0.05$ or $0.05i^{- {1/2}}$, as shown in the legend of Figure 4. This construction results in a biased stochastic gradient. The step size is chosen empirically in accordance with Theorem 6 ‣ 3.1 Indirect Gradient Oracle ‣ 3 Gradient Estimation and Gradient Oracles ‣ A Stochastic Gradient Descent Approach to Design Policy Gradient Methods for LQR"), using $0.05/{\lceil\frac{i^{51/100}}{100}\rceil}$, and is compared against a constant step size $0.05$. Figure 4 presents the evolution of the LQR cost under different combinations of step sizes and bias magnitudes. The results are obtained via a Monte Carlo simulation with $100$ independent runs. For each run, if the $K_{i}$ becomes destabilizing, all subsequent data from that run are discarded.
+
+Figure 4: SGD with Different Step Sizes and Bias Terms
+
+For the magenta dot-dashed curve, where both the step size and the bias term are fixed, the cost diverges. When the bias term does not vanish but the step size decreases, the cost still diverges. In contrast, when the bias term vanishes but the step size remains constant, the algorithm does not converge to the optimal solution: the cost decreases initially but eventually diverges. Only when both the bias term vanishes and the step size decreases do we observe convergence to the optimal cost. These observations are fully consistent with Theorem 6 ‣ 3.1 Indirect Gradient Oracle ‣ 3 Gradient Estimation and Gradient Oracles ‣ A Stochastic Gradient Descent Approach to Design Policy Gradient Methods for LQR") and highlight the critical interplay between the bias magnitude and the step size in ensuring convergence of SGD with biased gradient oracles.
+
+### Indirect Method
+
+The exploration noise is $e_{t} \sim {\mathcal{N}{(0,I_{5})}}$, and the initial data collection length is set to $t_{0} = 50$. Figure 5 illustrates the convergence behavior of the indirect data-driven policy gradient method under different step-size selections. The results are obtained from Monte Carlo simulations using $10$ independent data samples.
+
+Figure 5: Indirect Data-driven Policy Gradient Descent
+
+We consider two different step-size sequences. For the black solid line, the step size is chosen according to Theorem 5.1, with the denominator selected to ensure the step size vanishes sufficiently slowly; this sequence is not $\ell_{1}$- and but $\ell_{2}$-summable, as required in Theorem 5.1. Using this step size, the algorithm converges asymptotically to the optimal solution. In contrast, when the step size (red dashed line) is kept constant (without decreasing), the cost initially decreases, but eventually diverges due to the large step size. These results illustrate that a decreasing step-size schedule is critical for ensuring convergence to the optimal policy.
+
+### Direct Method
+
+In this subsection, we compare our results with the previous zeroth-order framework proposed , where constant algorithm parameters are used. Specifically, the parameters are configured as ${n = 300},{{\ell = 20},{{v = 0.01},{\eta = 0.002}}}$. In contrast, our method uses time-varying parameters defined as $n_{i} = {n{\lceil\frac{i}{40000}\rceil}}$, $\ell_{i} = {\ell{\lceil\frac{i}{40000}\rceil}}$, ${v_{i} = {v/{\lceil\frac{i^{1/2}}{250}\rceil}}},{\eta_{i} = {\eta/{\lceil\frac{i^{{1/2} + {1/100}}}{250}\rceil}}}$. Figure 6 illustrates the convergence behavior of the two direct data-driven policy gradient methods. The results are obtained from Monte Carlo simulations using $3$ independent data samples.
+
+Figure 6: Direct Data-driven Policy Gradient Descent
+
+We observe that when fixed algorithm parameters are used, the method converges only to a suboptimal solution, and the cost cannot decrease further beyond a certain threshold due to the persistent gradient estimation error. In contrast, our method improves performance by gradually decreasing the step size $\eta_{i}$ and the smoothing parameter $v_{i}$, while increasing the number of samples $n_{i}$ and rollout length $\ell_{i}$. This adaptive strategy reduces the gradient estimation error over time and leads to improved convergence behavior compared . However, we also note that for the direct method, reaching the true optimum is practically infeasible, since doing so would require an unbounded increase in the number of samples.
+
+## Conclusion
+
+In this work, we developed a stochastic gradient descent (SGD)--based framework for designing policy gradient algorithms for the Linear Quadratic Regulator (LQR) problem under stochastic disturbances. The gradients obtained from both indirect (identification-based) and direct (zeroth-order) data-driven methods were characterized as biased gradient oracles due to the nonlinear structure of the LQR cost. We established explicit conditions under which an SGD-type algorithm equipped with such biased gradient oracles converges to the optimal policy, under the gradient-dominance and quasi-smoothness properties of the LQR objective. Building on these results, we further analyzed how the indirect and direct data-driven methods satisfy the required oracle conditions, and accordingly designed the corresponding estimation schemes.
+
+Several directions for future research remain. One important extension is to analyze the interaction between the algorithmic dynamics and the closed-loop system dynamics, and to establish joint stability guarantees. Another promising direction is to investigate data-driven policy gradient methods for constrained LQR problems under stochastic dynamics. \\appendices
+
+## Proofs in Section 3
+
+### Proof of Lemma 5 ‣ 3.1 Indirect Gradient Oracle ‣ 3 Gradient Estimation and Gradient Oracles ‣ A Stochastic Gradient Descent Approach to Design Policy Gradient Methods for LQR")
+
+Proof. Before the proof, we introduce the following lemma to quantify the error in solving the Lyapunov function using estimates:
+
+### Lemma 11
+
+Let $X \in {\mathbb{R}}^{n_{x} \times n_{x}}$ be stable and $P$ be the unique positive definite solution to ${P{(X)}} = {{XP{(X)}X^{\top}} + Y}$ with $Y \succ 0$. If ${\parallel{X^{\prime} - X}\parallel} \leq \frac{1}{4{\parallel{P{(X)}}\parallel}{({1 + {\parallel X\parallel}})}}$, then $A^{\prime}$ is stable and ${\parallel{{P{(X^{\prime})}} - {P{(X)}}}\parallel} \leq {4{\parallel{P{(X)}}\parallel}^{2}{({1 + {\parallel X\parallel}})}{\parallel{X^{\prime} - X}\parallel}}$.
+
+The proof follows the same line of reasoning as in \[7, Lemma 16\]. Using Lemma 11, we simplify the following equation ${{{\hat{\nabla}}_{I}C{(K,\hat{A},\hat{B})}} = {{{\nabla C}{(K)}} + {\lbrack{{2E_{K}{({{\hat{\Sigma}}_{K} - \Sigma_{K}})}} + {2{({{\hat{E}}_{K} - E_{K}})}{\hat{\Sigma}}_{K}}}\rbrack}}}.$ From \[7, Lemma 11\], we know:
+
+Additionally, ${{\parallel{{A + {BK}} - {({\hat{A} + {\hat{B}K}})}}\parallel} \leq {{({1 + {\parallel K\parallel}})}{\parallel{\Delta\theta}\parallel}}}.$ When ${\parallel{\Delta\theta}\parallel} \leq \frac{1}{4{\parallel\Sigma_{K}\parallel}{({1 + {\parallel{A + {BK}}\parallel}})}{({1 + {\parallel K\parallel}})}}$, i.e. $\parallel{\Delta\theta}\parallel$ is sufficiently small, we can apply Lemma 11 to bound $({{\hat{\Sigma}}_{K} - \Sigma_{K}})$:
+
+with $p_{1}:={8\sqrt{\left( {{\parallel R\parallel} + {\frac{{\parallel B\parallel}^{2}C{(K)}}{\lambda_{1}{(Q)}}{({{C{(K)}} - {C{(K^{\ast})}}})}}} \right)}{({1 + {\parallel A\parallel} + {{\parallel B\parallel}{\parallel K\parallel}}})}{({1 + {\parallel K\parallel}})}{(\frac{C{(K)}}{\lambda_{1}{(\Sigma_{w})}})}^{2}}$. For the second term $2{({{\hat{E}}_{K} - E_{K}})}{\hat{\Sigma}}_{K}$, we consider ${{\parallel{E_{K} - {\hat{E}}_{K}}\parallel} \leq {{\parallel{B^{\top}P_{K}{({{A + {BK}} - {({\hat{A} + {\hat{B}K}})}})}}\parallel} + {\parallel{{({{B^{\top}P_{K}} - {{\hat{B}}^{\top}{\hat{P}}_{K}}})}{({\hat{A} + {\hat{B}K}})}}\parallel}}}.$ Using the identity: ${{B^{\top}P_{K}} - {{\hat{B}}^{\top}{\hat{P}}_{K}}} = {{{\hat{B}}^{\top}{({P_{K} - {\hat{P}}_{K}})}} + {{({B - \hat{B}})}^{\top}P_{K}}}$ and applying Lemma 11 again when ${\parallel{\Delta\theta}\parallel} \leq \frac{1}{4{\parallel P_{K}\parallel}{({1 + {\parallel{A + {BK}}\parallel}})}{({1 + {\parallel K\parallel}})}}$, we get: ${{\parallel{{\hat{P}}_{K} - P_{K}}\parallel} \leq {4{(\frac{C{(K)}}{\lambda_{1}{(Q)}})}^{2}{({1 + {\parallel A\parallel} + {{\parallel B\parallel}{\parallel K\parallel}}})}{({1 + {\parallel K\parallel}})}{\parallel{\Delta\theta}\parallel}}},$ and then we have
+
+with $p_{2}:={{\lbrack{{(\frac{C{(K)}}{\lambda_{1}{(Q)}})} + {{({{\parallel B\parallel} + p_{\theta}})}{({4{(\frac{C{(K)}}{\lambda_{1}{(Q)}})}^{2}{({1 + {\parallel A\parallel} + {{\parallel B\parallel}{\parallel K\parallel}}})}{({1 + {\parallel K\parallel}})}})}}}\rbrack}\left( {{\parallel A\parallel} + {{\parallel B\parallel}{\parallel K\parallel}} + {{({1 + {\parallel K\parallel}})}p_{\theta}}} \right)}$, and also
+
+with $p_{3}:={{\parallel B\parallel}{\parallel P_{K}\parallel}{({1 + {\parallel K\parallel}})}}$. From, we also have:
+
+with $p_{4}:={{(\frac{C{(K)}}{\lambda_{1}{(\Sigma_{w})}})} + {4{(\frac{C{(K)}}{\lambda_{1}{(\Sigma_{w})}})}^{2}{({1 + {\parallel A\parallel} + {{\parallel B\parallel}{\parallel K\parallel}}})}{({1 + {\parallel K\parallel}})}p_{\theta}}}$. Combining we obtain the final bound:
+
+where ${p{({C{(K)}},p_{\theta})}}:={p_{1}{({b_{K}{({C{(K)}})}},{\parallel K\parallel},p_{\theta})}} \geq {p_{1}{({\parallel K\parallel},{C{(K)}},p_{\theta})}}:={p_{1} + {2p_{4}{({p_{2} + p_{3}})}}}$, for all ${\parallel{\Delta\theta}\parallel} \leq p_{\theta}$ with
+
+### Proof of Lemma 6 ‣ 3.1 Indirect Gradient Oracle ‣ 3 Gradient Estimation and Gradient Oracles ‣ A Stochastic Gradient Descent Approach to Design Policy Gradient Methods for LQR")
+
+Proof. Since ${\rho{(A_{K_{\infty}})}} < 1$, there exist symmetric matrices $\overline{P} \succ 0$ and $\overline{Q} \succ 0$ satisfying the Lyapunov equation ${{A_{K_{\infty}}^{\top}\overline{P}A_{K_{\infty}}} - \overline{P}} = {- \overline{Q}}$. Define the Lyapunov function ${V{(x)}}:={x^{\top}\overline{P}x}$. Write ${A + {BK_{j}}} = {A_{K_{\infty}} + \Delta_{j}}$ with $\Delta_{j}:={B{({K_{j} - K_{\infty}})}}$. Since $K_{j}\rightarrow K_{\infty}$, it follows that ${\parallel\Delta_{j}\parallel}\rightarrow 0$ as $j\rightarrow{+ \infty}$. We compute ${{{\mathbb{E}}{\lbrack\left. {V{(x_{j + 1})}} \middle| x_{t} \right.\rbrack}} = {{x_{j}^{\top}A_{K_{\infty}}^{\top}\overline{P}A_{K_{\infty}}x_{j}} + {x_{j}^{\top}W_{j}x_{j}} + {{\mathbb{E}}{\lbrack{{w_{j}^{\top}\overline{P}w_{j}} + {e_{j}^{\top}B^{\top}\overline{P}Be_{j}}}\rbrack}}}},$ where $W_{j}$ collects all cross and quadratic terms involving $\Delta_{j}$ and satisfies ${\parallel W_{j}\parallel} \leq {{c_{1}{\parallel\Delta_{j}\parallel}} + {c_{2}{\parallel\Delta_{j}\parallel}^{2}}}$, for some constants ${c_{1},c_{2}} > 0$. Using the Lyapunov equation, we obtain ${{x_{j}^{\top}A_{K_{\infty}}^{\top}\overline{P}A_{K_{\infty}}x_{j}} - {x_{j}^{\top}\overline{P}x_{i}}} = {- {x_{j}^{\top}\overline{Q}x_{j}}}$. Since ${\parallel\Delta_{j}\parallel}\rightarrow 0$, there exists $\overline{j} > 0$ such that for all $j \geq \overline{j}$, $Q_{j} \leq \alpha:=\frac{\lambda_{1}{(\overline{Q})}}{2\lambda_{n_{x}}{(\overline{P})}}$. It follows that, for all $j \geq \overline{j}$, ${{{\mathbb{E}}{\lbrack\left. {V{(x_{j + 1})}} \middle| x_{j} \right.\rbrack}} \leq {{{({1 - \alpha})}V{(x_{j})}} + {{Tr}{({\overline{P}{({\Sigma_{w} + {B^{\top}\Sigma_{e}B}})}})}}}}.$ Taking the total expectation and iterating the above inequality, we have ${{\mathbb{E}}{\lbrack{\parallel x_{j}\parallel}^{2}\rbrack}} \leq {\overline{x}}^{\prime}$ for some ${\overline{x}}^{\prime} > 0$ and $j \geq \overline{j}$. Then we conclude ${\mathbb{E}}{\lbrack{\parallel x_{j}\parallel}^{2}\rbrack} \leq \max{\{{\overline{x}}^{\prime},\max_{j \in {\lbrack 1,\overline{j}\rbrack}}{\mathbb{E}}{\lbrack{\parallel x_{j}{\parallel^{2}\rbrack}\}},\forall j \in {\mathbb{Z}}_{+}.}}$
+
+### Proof of Theorem 6 ‣ 3.1 Indirect Gradient Oracle ‣ 3 Gradient Estimation and Gradient Oracles ‣ A Stochastic Gradient Descent Approach to Design Policy Gradient Methods for LQR")
+
+Proof. We define $R_{n}:={\sum_{k = 1}^{n + t_{0}}{w_{k}d_{k}^{\top}}}$ and $H_{n}:={\sum_{k = 1}^{n + t_{0}}{d_{k}d_{k}^{\top}}}$. Then ${\parallel{\Delta\theta_{n}}\parallel} = {\parallel{R_{n}H_{n}^{- 1}}\parallel} \leq {{\parallel R_{n}\parallel}{\parallel H_{n}^{- 1}\parallel}}$. As a result, ${\parallel{\Delta\theta_{n}}\parallel}^{2} \leq {{\parallel R_{n}\parallel}^{2}{\parallel H_{n}^{- 1}\parallel}^{2}}$. Because of the assumption of the local persistence and $t_{0} \geq {\max{\{ N_{0},M_{0}\}}}$, we know ${H_{n} \geq {\alpha\frac{n + t_{0}}{\max{\{ N_{0},M_{0}\}}}I_{n_{x} + n_{u}}}},{{\forall n} \in {\mathbb{Z}}_{+}}$. For the term $R_{n}$:
+
+The cross term inside consists of the cases: if the indices are not the same $i \neq j$, using the independence of the noise ${{\mathbb{E}}{\lbrack{w_{i}d_{i}^{\top}d_{j}w_{j}^{\top}}\rbrack}} = 0$, if $i = j$, the term is not equal to zero. Then we can simplify as ${{{\mathbb{E}}{\lbrack{\parallel R_{n}\parallel}^{2}\rbrack}} \leq {\sum_{k = 1}^{n + t_{0}}{{\mathbb{E}}{\lbrack{\parallel{w_{k}d_{k}}\parallel}^{2}\rbrack}}} \leq {\sum_{k = 1}^{n + t_{0}}{{\mathbb{E}}{\lbrack{{\parallel w_{k}\parallel}^{2}{\parallel d_{k}\parallel}^{2}}\rbrack}}}}.$ Because at each given $k$, $w_{k}$ and $d_{k}$ are independent, then ${{\mathbb{E}}{\lbrack{\parallel R_{n}\parallel}^{2}\rbrack}} \leq {\sum_{k = 1}^{n + t_{0}}{{Tr}{(\Sigma_{w})}{\mathbb{E}}{\lbrack{\parallel d_{k}\parallel}^{2}\rbrack}}}$. Now we focus on ${\mathbb{E}}{\lbrack{\parallel d_{k}\parallel}^{2}\rbrack}$, for all $k \in {\mathbb{Z}}_{+ +}$, ${{{\mathbb{E}}{\lbrack{\parallel d_{k}\parallel}^{2}\rbrack}} = {{\mathbb{E}}{\lbrack{d_{k}^{\top}d_{k}}\rbrack}} = {{\mathbb{E}}{\lbrack{{x_{k}^{\top}{({I + {K_{k}^{\top}K_{k}}})}x_{k}} + {e_{k}^{\top}e_{k}}}\rbrack}}}.$ Then we have ${{{\mathbb{E}}{\lbrack{\parallel d_{k}\parallel}^{2}\rbrack}} \leq {{{({1 + {\parallel\overline{K}\parallel}^{2}})}{\mathbb{E}}{\lbrack{x_{k}^{\top}x_{k}}\rbrack}} + {{Tr}{(\Sigma_{e})}}}}.$ Now we consider the term ${\mathbb{E}}{\lbrack{x_{k}^{\top}x_{k}}\rbrack}$, using Lemma 6 ‣ 3.1 Indirect Gradient Oracle ‣ 3 Gradient Estimation and Gradient Oracles ‣ A Stochastic Gradient Descent Approach to Design Policy Gradient Methods for LQR"), we know ${{\mathbb{E}}{\lbrack{x_{k}^{\top}x_{k}}\rbrack}} \leq \overline{x}$. Summarize all the term mentioned before, we have: ${{\mathbb{E}}{\lbrack{\parallel R_{n}\parallel}^{2}\rbrack}} \leq {c_{x}{({n + t_{0}})}}$ with $c_{x}:={{Tr}{(\Sigma_{w})}{\lbrack{{{({1 + {\parallel\overline{K}\parallel}^{2}})}\overline{x}} + {{Tr}{(\Sigma_{e})}}}\rbrack}}$. Then we have
+
+Then, using the Jensen inequality, we can prove that
+
+We introduce the estimation error upper bound ${\overline{\Delta}\theta_{n}}:={{\parallel R_{n}\parallel}{\parallel H_{n}^{- 1}\parallel}}$. From, we know that ${\lim_{n\rightarrow\infty}{\overline{\Delta}\theta_{n}}} = 0$ and $\{{\overline{\Delta}\theta_{n}}\}$ is a supermatingale sequence, because ${{\mathbb{E}}{\lbrack\left. {\overline{\Delta}\theta_{n + 1}} \middle| n \right.\rbrack}} \leq {{\mathbb{E}}{\lbrack{\overline{\Delta}\theta_{n}}\rbrack}}$. For any $\beta > 0$, we can choose $t_{0} \geq {\max\left\{ \frac{c_{x}N_{0}}{\alpha_{0}^{2}\beta^{2}},N_{0},M_{0} \right\}}$ such that ${{\mathbb{E}}{\lbrack{\overline{\Delta}\theta_{n}}\rbrack}} \leq \beta$. Using the Ville's inequality, ${{{\mathbb{P}}\left\lbrack {{\sup_{n \geq o}{\overline{\Delta}\theta_{n}}} \leq \beta} \right\rbrack} \geq {1 - \frac{{\mathbb{E}}{\lbrack{\overline{\Delta}\theta_{0}}\rbrack}}{\beta}}}.$ Because ${{\overline{\Delta}\theta_{n}} \geq {\parallel{\Delta\theta_{n}}\parallel}},{{\forall n} \in {\mathbb{Z}}_{+}}$, then we have ${{{\mathbb{P}}\left\lbrack {{\sup_{n \geq 0}{\parallel{\Delta\theta_{n}}\parallel}} \leq \beta} \right\rbrack} \geq {1 - \frac{{\mathbb{E}}{\lbrack{\overline{\Delta}\theta_{0}}\rbrack}}{\beta}}}.$ This concludes the proof.
+
+### Proof of Lemma 7 ‣ 3.1 Indirect Gradient Oracle ‣ 3 Gradient Estimation and Gradient Oracles ‣ A Stochastic Gradient Descent Approach to Design Policy Gradient Methods for LQR")
+
+Proof. Combining Lemma 5 ‣ 3.1 Indirect Gradient Oracle ‣ 3 Gradient Estimation and Gradient Oracles ‣ A Stochastic Gradient Descent Approach to Design Policy Gradient Methods for LQR") and Theorem 6 ‣ 3.1 Indirect Gradient Oracle ‣ 3 Gradient Estimation and Gradient Oracles ‣ A Stochastic Gradient Descent Approach to Design Policy Gradient Methods for LQR"), we can derive the probability statements. When ${\parallel\theta\parallel} \leq p_{\theta}$, we have ${{\mathbb{E}}{\lbrack\left. {{\hat{\nabla}}_{I}C{(K,{\hat{A}}_{i},{\hat{B}}_{i})}} \middle| K_{i} \right.\rbrack}} = {{{\nabla C}{(K)}} + {\Delta{(K,{{\mathbb{E}}{\lbrack{\Delta\theta_{i}}\rbrack}})}}}$, with $\Delta_{I}{(K,{\mathbb{E}}{\lbrack\Delta\theta_{i})}:={\mathbb{E}}{\lbrack{\hat{\nabla}}_{I}C{(K,{\hat{A}}_{i},{\hat{B}}_{i})} - \nabla C{(K)}|K\rbrack}}$. We know that $\parallel\Delta_{I}{(K,{\mathbb{E}}{\lbrack\Delta\theta_{i})}\parallel} \leq {\parallel{\mathbb{E}}{\lbrack{\hat{\nabla}}_{I}C{(K,{\hat{A}}_{i},{\hat{B}}_{i})} - \nabla C{(K)}|K\rbrack}\parallel} \leq {\mathbb{E}}{\lbrack{\parallel{\hat{\nabla}}_{I}C{(K,{\hat{A}}_{i},{\hat{B}}_{i})} - \nabla C{(K)}\parallel}|K\rbrack} \leq p{(C{(K)},p_{\theta})}{\mathbb{E}}{\lbrack{\parallel\Delta\theta_{i}\parallel}\rbrack}$. For the upper bound of the second moment:
+
+This concludes the proof.
+
+### Proof of Lemma 8 ‣ 3.2 Direct Gradient Oracle ‣ 3 Gradient Estimation and Gradient Oracles ‣ A Stochastic Gradient Descent Approach to Design Policy Gradient Methods for LQR")
+
+Proof. To prove Lemma 8 ‣ 3.2 Direct Gradient Oracle ‣ 3 Gradient Estimation and Gradient Oracles ‣ A Stochastic Gradient Descent Approach to Design Policy Gradient Methods for LQR"), we have to quantify the error introduced by $\ell$ and $v$.
+
+Using the Lipschitz continuity, we can bound the first term using. We define the finite-horizon cost ${C^{(l)}{(K)}}:={\mathbb{E}}_{x_{0},w_{t}}$$\left\lbrack {\frac{1}{\ell}{\sum_{t = 0}^{\ell - 1}{x_{t}^{\top}{({Q + {K^{\top}RK}})}x_{t}}}} \right\rbrack$. From the analysis in \[20, Lemma C.1\], we have:
+
+with ${{\epsilon^{\prime}{({C{(K)}})}}:={\frac{2C{(K)}}{\lambda_{1}{(\Sigma_{w})}}\left( {\frac{\parallel\Sigma_{0}\parallel}{\lambda_{1}{(Q)}\lambda_{1}{(\Sigma_{w})}} + \frac{C{(K)}}{\lambda_{1}{(Q)}\lambda_{1}^{2}{(\Sigma_{w})}} + \frac{1}{\lambda_{1}{(Q)}}} \right)}}.$ We can bound the error introduced by the finite length of rollout. Then we have: ${\parallel{\Delta_{D}{(K)}}\parallel}_{F} \leq {{\overline{\Delta}}_{D}{({C{(K)}},v,\ell)}}$, where
+
+where $h_{C}$ and $h_{\nabla}$ are the Lipschitz constants of $C$ and $\nabla C$ respectively (both of which are polynomial functions of $C{(K)}$), as defined in Lemma 2 ‣ 2 Problem setting and Preliminaries ‣ A Stochastic Gradient Descent Approach to Design Policy Gradient Methods for LQR"). For the term ${\mathbb{E}}{\lbrack{\parallel{{\hat{\nabla}}_{D}C{(K,v,\ell)}}\parallel}_{F}^{2}\rbrack}$, based on the expression of ${\hat{\nabla}}_{D}C{(K,v,\ell)}$ :
+
+where ${\phi{({C{(K)}},v,\ell)}}:={{b_{\nabla}{({C{(K)}})}^{2}} + {{\overline{\Delta}}_{D}{({C{(K)}},v,\ell)}^{2}} + {b_{\nabla}{({C{(K)}})}{\overline{\Delta}}_{D}{({C{(K)}},v,\ell)}}}$ denotes an upper bound on the squared norm of the mean of ${\hat{\nabla}}_{D}C{(K,v,\ell)}$, which is bounded by the true gradient plus a bias term. Then, we can further rewrite inequality above as ${{{\mathbb{E}}{\lbrack{\parallel{{\hat{\nabla}}_{D}C{(K,v,\ell,n)}}\parallel}_{F}^{2}\rbrack}} \leq {\frac{n_{x}^{2}n_{u}^{2}}{nv^{2}}{\mathbb{E}}_{U}\left\lbrack {\lbrack{{{C^{(\ell)}{({K + U})}} - {C{({K + U})}}} + {C{({K + U})}}}\rbrack}^{2} \right\rbrack}}.$ Together with the upper bound on ${C{({K + U})}} \leq {{C{(K)}} + {vh_{C}{({C{(K)}})}}}$, we obtain:
+
+## Proofs in Section 4
+
+### Proof of Lemma 9
+
+Proof. To bound the probability of event $C$, we proceed as follows using Markov's inequality:
+
+where the equality $(i)$ and inequality $({ii})$ follow Markov inequality and the step-size constraint.
+
+### Proof of Lemma 10
+
+Proof. From the quasi-smoothness condition in (13 ‣ 2 Problem setting and Preliminaries ‣ A Stochastic Gradient Descent Approach to Design Policy Gradient Methods for LQR")), if ${\parallel{K_{i + 1} - K_{i}}\parallel}_{F} \leq {r{(K_{i})}}$ and $K_{i} \in {\mathcal{S}{(J_{0})}}$, we have
+
+Define the suboptimality gap as $D_{i}:={{C{(K_{i})}} - {C{(K^{\ast})}}}$, $\xi_{i}:={- {{Tr}\left( {\left( {{\hat{\nabla}C{(K_{i})}} - {{\nabla C}{(K_{i})}}} \right)^{\top}{\nabla C}{(K_{i})}} \right)}}$. Using the definition of $D_{i}$ and $\xi_{i}$, we rewrite the recursion:
+
+where in the last inequality we used the gradient domination property $D_{i} \leq {\mu{\parallel{{\nabla C}{(K_{i})}}\parallel}_{F}^{2}}$. We define the event ${F_{i} = {\Omega_{i} \cap C_{i}}},{{\forall i} \in {\mathbb{N}}_{0}}$ with $\Omega_{i}:={\{{{K_{k} \in {\mathcal{S}{(J_{0})}}},{{\forall k} \in {\lbrack 0,\ldots,i\rbrack}}}\}}$ and ${C_{i}:=\left\{ {{K_{k} \in {\mathcal{B}_{r{(J_{0})}}{(K_{k - 1})}}},{{\forall k} \in {\lbrack 0,\ldots,i\rbrack}}} \right\}}.$ Noting that ${F_{i + 1} \subseteq F_{i}},{{\forall i} \in {\mathbb{N}}_{0}}$, we apply the recursive inequality from the previous step under the indicator of $F_{i}$:
+
+In the inequality above, we used the fact that ${C{(K_{k})}} \leq J_{0}$ holds on the event $F_{i}$ for all $k \in {\lbrack 0,\ldots,i\rbrack}$. Define the following auxiliary terms: ${M_{i}:={\sum_{k = 1}^{i}{\left( {\prod_{j = k}^{i}\left( {1 - \frac{\eta_{j}}{\mu}} \right)} \right)\eta_{k}\mathbf{1}_{F_{k}}\xi_{k}}}},$ $S_{i}:={\frac{L{(J_{0})}}{2}{\sum_{k = 1}^{i}{\left( {\prod_{j = k}^{i}\left( {1 - \frac{\eta_{j}}{\mu}} \right)} \right)\eta_{k}^{2}\mathbf{1}_{F_{k}}\left\| {\hat{\nabla}C{(K_{k})}} \right\|_{F}^{2}}}}$, ${R_{i}:={M_{i}^{2} + S_{i}}}.$ Let $\epsilon > 0$ be a fixed threshold, and define the event $E_{i}:=\left\{ {{R_{k} \leq \epsilon},{{\forall k} \in {\lbrack 0,\ldots,i\rbrack}}} \right\}$ i.e., the event that the perturbation terms remain uniformly bounded up to time $i$. Then, define ${{\overset{\sim}{E}}_{i}:={E_{i - 1} \smallsetminus E_{i}} = {E_{i - 1} \cap \left\{ {R_{i} > \epsilon} \right\}}},$ which captures the event where the error bound is violated for the first time at iteration $i$. Define the term ${\overset{\sim}{R}}_{i}:={R_{i}\mathbf{1}_{E_{i - 1}}}$. Then we have
+
+We now analyze the increment $R_{i} - R_{i - 1}$. Recalling the definition of $R_{i} = {M_{i}^{2} + S_{i}}$, we have:
+
+Let ${\{ K_{i}\}}_{i \in {\mathbb{N}}}$ be a sequence of random matrices on an underlying probability space as $(\Omega,\mathcal{F},{\mathbb{P}})$ with its natural filtration $\mathcal{F}_{i}$. We bound the expected value of each term individually. For the term $\xi_{i}^{2}\mathbf{1}_{F_{i}}$:
+
+Using assumptions on the variance and bias of the stochastic gradient estimator, we obtain:
+
+where the inequality uses the fact that ${C{(K_{i})}} \leq J_{0}$ and ${\parallel{\Delta{(K_{i},i)}}\parallel}_{F} \leq {\overline{\Delta}{(J_{0})}}$ on the event $F_{i}$. For the term ${\parallel{\hat{\nabla}C{(K_{i})}}\parallel}_{F}^{2}\mathbf{1}_{F_{i}}$: ${{{\mathbb{E}}\left\lbrack {{\parallel{\hat{\nabla}C{(K_{i})}}\parallel}_{F}^{2}\mathbf{1}_{F_{i}}} \middle| \mathcal{F}_{i} \right\rbrack} \leq c}.$ We now analyze the middle term ${\mathbb{E}}{\lbrack{\xi_{i}\mathbf{1}_{F_{i}}M_{i - 1}}\rbrack}$ by first bounding $M_{i}$. Recall:
+
+Using the assumption $\eta_{i} < \mu$ for all $i$ and applying the standard sum bound:
+
+Then the mixed expectation term becomes:
+
+with $\alpha_{2}:={n_{u}^{3}b_{\nabla}{(J_{0})}^{2}}$ For the term $R_{i - 1}\mathbf{1}_{{\overset{\sim}{E}}_{i - 1}}$, we have: ${{{\mathbb{E}}{\lbrack{R_{i - 1}\mathbf{1}_{{\overset{\sim}{E}}_{i - 1}}}\rbrack}} \geq {\epsilon{\mathbb{P}}{({\overset{\sim}{E}}_{i - 1})}}}.$ Combining the bounds derived for each term in the recurrence of ${\overset{\sim}{R}}_{i}$, we obtain:
+
+We are now ready to establish the final result. From the definition of the bad event ${\overset{\sim}{E}}_{i - 1} = {E_{i - 1} \smallsetminus E_{i}} = {E_{i - 1} \cap {\{{R_{i} \geq \epsilon}\}}}$, we have:
+
+Applying the recursive bound from (9.2), we obtain:
+
+Rearranging this inequality yields:
+
+Now, choosing the step size to ensure: ${\sum_{k = 1}^{i}\eta_{k}^{2}} \leq \frac{\delta_{1}\epsilon}{{\alpha_{1}{(J_{0},{\overline{\Delta}{(J_{0})}})}} + c}$ and since the events ${\overset{\sim}{E}}_{k}$ are disjoint, we have ${{\mathbb{P}}{({\cup_{k = 0}^{i}{\overset{\sim}{E}}_{i}})}} = {\sum_{k = 0}^{i}{{\mathbb{P}}{({\overset{\sim}{E}}_{i})}}} \leq \delta_{1}$. Then we conclude the proof ${{\mathbb{P}}{(E_{i})}} = {{\mathbb{P}}{({\cap_{k = 0}^{i}{\overset{\sim}{E}}_{i}^{c}})}} \geq {1 - \delta_{1} - \delta_{2}}$. When the event $E_{i}$ happens, , we have:
+
+Then we conclude the invariant property under the condition on event $F$. Together with Lemma 9, we conclude this proof.
+
+### Proof of Theorem 10
+
+Proof. Using Lemma 10 and 9, we directly prove item 1. We define $Y_{i}:={{({{C{(K_{i})}} - {C{(K^{\ast})}}})}\mathbf{1}_{F_{i}}}$ and prove that $Y_{i} \in {O{(\frac{1}{i^{1 - \eta}})}}$, then the claim follows since $\mathbf{1}_{F_{0}} \leq \mathbf{1}_{F_{i}}$ almost surely. Taking conditional expectations on both sides of the quasi-smoothness inequality, plugging in the gradient oracle and gradient domination property, we obtain:
+
+By the choice of step size $\eta_{i}$, there exists constant $\overset{\sim}{c} \leq \frac{1}{\mu}$ such that $\frac{\eta_{i}}{\mu} \geq {\overset{\sim}{c}\eta_{i}}$ for all $i \in {\mathbb{Z}}_{+}$. Thus, ${{{{\mathbb{E}}{\lbrack\left. Y_{i + 1} \middle| Y_{i} \right.\rbrack}} \leq {{\left( {1 - {\overset{\sim}{c}\eta_{i}}} \right)Y_{i}} + {\frac{cL{(J_{0})}}{2}\eta_{i}^{2}} + {n_{u}b_{\nabla}{(J_{0})}\eta_{i}{\parallel{\Delta{(K_{i},i)}}\parallel}_{F}}}},{{\forall i} \geq i_{1}}}.$ Multiplying both sides by ${({i + 1})}^{1 - \lambda}$ gives:
+
+As $i\rightarrow{+ \infty}$, the leading term in $\left( {{{1 - {\overset{\sim}{c}\eta_{i}}} + \frac{1 - \lambda}{i}} - \frac{\overset{\sim}{c}{({1 - \lambda})}\eta_{i}}{i}} \right)$ is ${\overset{\sim}{c}}_{n}$. Hence, there exists a constant $c^{\prime}$ and an index $i_{2}$ such that ${{{\overset{\sim}{c}\eta_{i}} - \frac{1 - \lambda}{i}} + \frac{\overset{\sim}{c}{({1 - \lambda})}\eta_{i}}{i}} \geq {c^{\prime}\eta_{i}}$ for all $i \geq i_{2}$.
+
+with ${\hat{Y}}_{i}:={i^{1 - \lambda}Y_{i}}$, $X_{i}:={c^{\prime}\eta_{i}i^{1 - \lambda}Y_{i}}$ and $Z_{i}:={{\frac{cL{(J_{0})}}{2}{({i + 1})}^{1 - \lambda}\eta_{i}^{2}} + {n_{u}b_{\nabla}{(J_{0})}{({i + 1})}^{1 - \lambda}\eta_{i}{\parallel{\Delta{(K_{i},i)}}\parallel}_{F}}}$. By the assumptions on the decay of ${\parallel{\Delta{(K_{i},i)}}\parallel}_{F}$ and the step size $\eta_{i}$, it follows that ${\sum_{k = 0}^{\infty}Z_{k}} < {+ \infty}$. Then, applying \[24, Lemma 1\] implies that ${\hat{Y}}_{i}\rightarrow 0$ which proves the almost sure convergence rate in statement of Theorem 10. Furthermore, applying \[31, Lemma A.3\], which ensures convergence in expectation under similar conditions, we conclude statement.
+
+## Proofs in Section 5
+
+### Proof of Theorem 5.1
+
+Proof. From Theorem 10, we know that, with high probability, the sequence $\{ K_{i}\}$ stabilizes the system for all $i \in {\mathbb{Z}}_{+}$ and remains within the invariant level set $J_{0}$. By Lemma 7 ‣ 3.1 Indirect Gradient Oracle ‣ 3 Gradient Estimation and Gradient Oracles ‣ A Stochastic Gradient Descent Approach to Design Policy Gradient Methods for LQR"), the quantity $p_{\theta}$ can therefore be upper bounded as
+
+with ${p^{\operatorname{\prime\prime}}{(J_{0})}}:={{({1 + {\parallel A\parallel} + {{\parallel B\parallel}b_{K}{(J_{0})}}})}\left( {1 + {b_{K}{(J_{0})}}} \right)}$This ensures that the gradient oracle exists for all $K$ within this level set. Substituting the expression in and applying the upper bound on $\parallel K\parallel$, we obtain. Using the invariant property, we can also upper-bound the second moment condition. Finally, using the conditions in Theorem 10 and applying a union bound over the events guaranteeing the existence of the gradient oracle. This concludes the proof
+
+### Proof of Theorem 5.2
+
+Proof. From the expression of ${\overline{\Delta}}_{D}$ defined , and using the invariance property of the level set $\mathcal{S}{(J_{0})}$, the parameters $v_{i}$ and $\ell_{i}$ must be chosen such that ${{\overline{\Delta}}_{D}{(J_{0},v_{i},\ell_{i})}} = {O{(\frac{1}{i^{1/2}})}}$. According to the bound in (36a ‣ 3.2 Direct Gradient Oracle ‣ 3 Gradient Estimation and Gradient Oracles ‣ A Stochastic Gradient Descent Approach to Design Policy Gradient Methods for LQR")), this requirement leads to the following choice ${{v_{i} = {O{(i^{- {1/2}})}}},{\ell_{i} = {O{(i)}}}}.$ It remains necessary to verify whether the second moment of the gradient estimates is uniformly bounded. From (36b ‣ 3.2 Direct Gradient Oracle ‣ 3 Gradient Estimation and Gradient Oracles ‣ A Stochastic Gradient Descent Approach to Design Policy Gradient Methods for LQR")), we observe that decreasing $r_{i}$ leads to an explosion of the variance. The final term, $\frac{1}{n_{i}{(v_{i})}^{2}}$, can be controlled by an appropriate choice of $n_{i}$, by setting $n_{i} = {O{(i)}}$. Under these parameter choices, the resulting gradient oracle admits a vanishing bias term while maintaining a uniformly bounded second moment. Substituting the expressions in Lemma 8 ‣ 3.2 Direct Gradient Oracle ‣ 3 Gradient Estimation and Gradient Oracles ‣ A Stochastic Gradient Descent Approach to Design Policy Gradient Methods for LQR") into Theorem 6 ‣ 3.1 Indirect Gradient Oracle ‣ 3 Gradient Estimation and Gradient Oracles ‣ A Stochastic Gradient Descent Approach to Design Policy Gradient Methods for LQR") completes the proof.
+
+## Full expression for quantities introduced throughout the paper

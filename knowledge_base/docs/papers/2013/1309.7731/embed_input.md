@@ -8,22 +8,21 @@ We consider the problem of synthesizing optimal linear feedback policies subject
 
 ## INTRODUCTION
 
-Linear feedback control synthesis is a classical topic in control theory and has been extensively studied in the literature. From the perspective of stochastic optimal control theory, the classical result is the existence of an optimal linear feedback controller for systems with linear dynamics, quadratic costs and gaussian noise (LQG systems) that can be computed via dynamic programming. However, if one imposes additional constraints on the feedback matrix (such as a sparse structure arising from the need to implement control in a decentralized fashion), the dynamic programming approach is no longer applicable....
+Linear feedback control synthesis is a classical topic in control theory and has been extensively studied in the literature. From the perspective of stochastic optimal control theory, the classical result is the existence of an optimal linear feedback controller for systems with linear dynamics, quadratic costs and gaussian noise (LQG systems) that can be computed via dynamic programming. However, if one imposes additional constraints on the feedback matrix (such as a sparse structure arising from the need to implement control in a decentralized fashion), the dynamic programming approach is no longer applicable.
 
 ## PROBLEM FORMULATION
 
-## CONCLUSION
+Consider
 
-We have argued that the framework developed seems promising and overcomes limitations of previous works on computationally tractable approaches to structured controller synthesis. Although the control objective used is non-standard, we have argued why it is a sensible objective, and we also presented numerical examples showing that it produces controllers outperforming other nonconvex approaches. Further, we proved suboptimality bounds that give guidance on when our solution is good even with respect to the original ($\mathcal{H}_{2}/\mathcal{H}_{\infty}$) metrics....
+Here $t = {0,1,2,\ldots,N}$ is the discrete time index, $x_{t} \in \mathbf{R}^{n}$ is the plant state, $w_{t} \in \mathbf{R}^{n}$ is an exogenous disturbance and $u_{t} \in \mathbf{R}^{n_{u}}$ is the control input.
 
-### Theorem III.3
+Let
 
-### III-A PROOF OF CONVEXITY
+## Discussion and Related Work
 
-The log-barrier for the semidefinite constraint can be rewritten as $\log\left( {\det\left( {t^{2} - {F(\mathbf{K})_{}^{- 1}F(\mathbf{K})^{- 1}}} \right)} \right)$ using Schur complements. The matrix $\left( {F(\mathbf{K})} \right)_{}^{- 1}\left( {F(\mathbf{K})} \right)^{- 1}$ is a symmetric positive definite block-tridiagonal matrix, which is a special case of a chordal sparsity pattern. This means that computing the gradient and Newton step for the log-barrier is efficient, with complexity growing as $O{(N)}$. Thus, at least for the case where the objective is the spectral norm, we can develop efficient interior point methods.
+There have been three major classes of prior work in synthesizing structured controllers: Frequency domain approaches, dynamic programming and nonconvex optimization approaches. We compare the relative merits of the different approaches in this section.
 
-Consider a finite-horizon discrete-time linear system in state-space form:
+In
 
-Here $t = {0,1,2,\ldots,N}$ is the discrete time index, $x_{t} \in \mathbf{R}^{n}$ is the plant state, $w_{t} \in \mathbf{R}^{n}$ is an exogenous disturbance and $u_{t} \in \mathbf{R}^{n_{u}}$ is the control input. We employ static state feedback:
-
-Let $\lambda_{\max}(M)$ denote the maximum eigenvalue of an $l \times l$ symmetric matrix $M$, $\lambda_{\min}(M)$ the minimum...
+where $\parallel \cdot \parallel$ is typically the $\mathcal{H}_{2}$ or $\mathcal{H}_{\infty}$ norm. In general, these are solved by reparameterizing the problem in terms of a Youla parameter (via a nonlinear transformation), and imposing special conditions on $\mathcal{C}$ (like quadratic invariance) that guarantee that the constraints $\mathcal{C}$ can be translated into convex constraints on the Youla parameter. There are multiple limitations of these approaches:\
+Only specific kinds of constraints can be imposed on the controller.

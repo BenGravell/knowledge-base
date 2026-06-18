@@ -10,12 +10,12 @@ With the increased interest in deep learning in recent years, there has been an 
 
 Prior work has recognized the value of dynamic eager execution for deep learning, and some recent frameworks implement this define-by-run approach, but do so either at the cost of performance (Chainer ) or using a less expressive, faster language (Torch, DyNet ), which limits their applicability.
 
+However, with careful implementation and design choices, dynamic eager execution can be achieved largely without sacrificing performance. This paper introduces PyTorch, a Python library that performs immediate execution of dynamic tensor computations with automatic differentiation and GPU acceleration, and does so while maintaining performance comparable to the fastest current libraries for deep learning. This combination has turned out to be very popular in the research community , for instance, 296 ICLR 2019 submissions mentioning PyTorch.
+
+## Design principles
+
+PyTorch's success stems from weaving previous ideas into a design that balances speed and ease of use.
+
 ## Conclusion and future work
 
-PyTorch has become a popular tool in the deep learning research community by combining a focus on usability with careful performance considerations. In addition to continuing to support the latest trends and advances in deep learning, in the future we plan to continue to improve the speed and scalability of PyTorch. Most notably, we are working on the PyTorch JIT: a suite of tools that allow PyTorch programs to be executed outside of the Python interpreter where they can be further optimized....
-
-Despite being closely integrated in the Python ecosystem, most of PyTorch is written in C++ to achieve high performance. This core libtorch library implements the tensor data structure, the GPU and CPU operators, and basic parallel primitives. It also provides the automatic differentiation system, including the gradient formulas for most built-in functions. This ensures that the computation of the derivatives of functions composed of core PyTorch operators is executed entirely in a multithreaded evaluator which does not require holding the Python global interpreter lock. Python bindings are generated using YAML meta-data files....
-
-Simplified training of a generative adversarial networks.
-
-Due to the global interpreter lock (GIL) Python's default implementation does not allow concurrent threads to execute in parallel....
+PyTorch has become a popular tool in the deep learning research community by combining a focus on usability with careful performance considerations. In addition to continuing to support the latest trends and advances in deep learning, in the future we plan to continue to improve the speed and scalability of PyTorch. Most notably, we are working on the PyTorch JIT: a suite of tools that allow PyTorch programs to be executed outside of the Python interpreter where they can be further optimized.

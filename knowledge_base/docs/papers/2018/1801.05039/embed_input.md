@@ -8,18 +8,10 @@ Direct policy gradient methods for reinforcement learning and continuous control
 
 Recent years have seen major advances in the control of uncertain dynamical systems using reinforcement learning and data-driven approaches; examples range from allowing robots to perform more sophisticated controls tasks such as robotic hand manipulation, to sequential decision making in game domains, e.g., AlphaGo and Atari game playing. Deep reinforcement learning (DeepRL) is becoming increasingly popular for tackling such challenging sequential decision making problems.
 
-Many of these successes have relied on sampling based reinforcement learning algorithms such as policy gradient methods, including the DeepRL approaches. For these approaches, there is little theoretical understanding of their efficiency, either from a statistical or a computational perspective. In contrast, control theory (optimal and adaptive control) has a rich body of tools, with provable guarantees, for related sequential decision making problems, particularly those that involve continuous control....
-
-A sample based Gauss-Newton approach: This work showed how the Gauss-Newton algorithm improves over even the natural policy gradient method, in the exact case. A practically relevant question for the Gauss-Newton method would be how to both: a) construct a sample based estimator b) extend this scheme to deal with (non-linear) parametric policies.
-
-Robust control: In model based approaches, optimal control theory provides efficient procedures to deal with (bounded) model mis-specification. An important question is how to provably understand robustness in a model free setting.
-
-The concept of gradient domination is important in the non-convex optimization literature. A function $f:{{\mathbb{R}}^{d}\rightarrow{\mathbb{R}}}$ is said to be gradient dominated if there exists some constant $\lambda$, such that for all $x$,
-
-REINFORCE. Let $\pi_{\theta}{(\left. u \middle| x \right.)}$ be a parametric stochastic policy, where $u \sim \pi_{\theta}{( \cdot |x)}$. The policy gradient of the cost, $C{(\theta)}$, is:
-
-(Global Convergence of Gradient Methods) Suppose $C{(K_{0})}$ is finite and $\mu > 0$.
+Many of these successes have relied on sampling based reinforcement learning algorithms such as policy gradient methods, including the DeepRL approaches. For these approaches, there is little theoretical understanding of their efficiency, either from a statistical or a computational perspective. In contrast, control theory (optimal and adaptive control) has a rich body of tools, with provable guarantees, for related sequential decision making problems, particularly those that involve continuous control.
 
 This work builds bridges between these two lines of work, namely, between optimal control theory and sample based reinforcement learning methods, using ideas from mathematical optimization.
 
-### The optimal control problem
+## The optimal control problem
+
+In the standard optimal control problem, a dynamical system is described as

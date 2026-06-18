@@ -8,18 +8,8 @@ We describe an approximate dynamic programming method for stochastic control pro
 
 ## Introduction
 
-Many problems in engineering and finance can be modeled as stochastic control problems on infinite state and input spaces, in which a control policy is sought to optimize the behavior of a stochastic dynamical system over a finite or infinite time horizon. While such models are quite general and expressive, the resulting optimization problems are extremely difficult because the decision variable (the control policy) is a *function*, which is generally infinite-dimensional and thus not amenable to computation or even storage on a computer....
+Many problems in engineering and finance can be modeled as stochastic control problems on infinite state and input spaces, in which a control policy is sought to optimize the behavior of a stochastic dynamical system over a finite or infinite time horizon. While such models are quite general and expressive, the resulting optimization problems are extremely difficult because the decision variable (the control policy) is a *function*, which is generally infinite-dimensional and thus not amenable to computation or even storage on a computer.
 
 Approximate dynamic programming (ADP) is a collection of heuristic methods for solving stochastic control problems for cases that are intractable with standard dynamic programming methods \[2, Ch. 6\],. The methods can be classified into three broad categories, all of which involve some kind of function approximation: lookahead/rollout/receding horizon/model predictive control policies, direct policy function approximation, policies based on value function approximation. Here, we will focus on an approach in the last category in which the value function is approximated by a linear combination of pre-specified basis functions.
 
-## Concluding Remarks
-
-We have described an approximate dynamic programming method on infinite state and control spaces. We showed how sum of squares techniques can be used to compute polynomial value function approximations offline via semidefinite programming. The policy is computed online by solving a polynomial optimization problem, which can be made convex in certain cases. Future work will include exploring various application domains, focusing in particular on what can be gained by using higher-order polynomial approximations....
-
-and forms a cone in $\mathbf{R}{\lbrack x\rbrack}$.
-
-One method to obtain a value function approximation is to relax the Bellman equation into an inequality. The set of functions that satisfy the Bellman inequality are underestimators of the optimal value function. To see this, suppose a function $\hat{V}$ satisfies $\hat{V} \leq {T\hat{V}}$. Then by monotonicity of $T$ and value iteration convergence we have
-
-### III-C Numerical Example
-
-A method recently introduced by Wang and Boyd in involves computing an approximate value function by relaxing the Bellman equation to an inequality....
+In this paper, we approximate the value function with more general polynomial basis functions. Polynomial approximations are not new; in fact, Bellman himself studied such approximations in the early 1960s. However, the study of polynomial approximations is now particularly interesting in light of recent developments in sum of squares programming and efficient numerical solvers for semidefinite programming. In particular, it was shown in that positivity of a polynomial can be ensured by testing for a sum of squares decomposition, which can then be expressed as a semidefinite program.

@@ -8,10 +8,10 @@ Theano is a Python library that allows to define, optimize, and evaluate mathema
 
 The present article is structured as follows. Section I provides an overview of the Theano software and its community. Section II presents the principal features of Theano and how to use them, and compares them with other similar projects. Section III focuses on recently-introduced functionalities and improvements. Section IV compares the performance of Theano against Torch7 Collobert *et al.* and TensorFlow Abadi *et al.* on several machine learning models. Section V discusses current limitations of Theano and potential ways of improving it.
 
-Continuous improvements have been made to Theano's functionality, usability, and performance, for instance wrapping libraries like cuDNN, and integrating ideas that have been successfully explored and implemented by other frameworks, like data parallelism and model parallelism for distributed computation. Computation performance is on par with other major research software, like Torch and TensorFlow.
+## Limitations and challenges
 
-There are ways to improve Theano (and other frameworks as well) by taking inspiration from other machine learning software (sometimes more experimental). Longer-term improvements could be the result of collaborations with other fields, for instance CAS, and language and compiler design, in order to build a next generation of mathematical computation software.
+Despite the progress made in recent years and our best efforts, there remain some limitations or shortcomings in Theano. Some of these issues have been addressed by competing frameworks mentioned in Section II.5, and by other projects like CGT (Computation Graph Toolkit).^1818^18
 
-Several new features that help performance are present, but not obvious. One of these is that all computations are transparently asynchronous, which allows the CPU part of the Ops to execute in parallel with the GPU part. There is a mechanism keeping track of the dependencies between operations to ensure that the right data is always used. Data transfers are automatically done on a separate stream, so they can overlap with the computation.
+## Limitations from Python
 
-### II.4 Extending Theano
+Since Theano uses Python as its core language, and uses NumPy arrays and other Python objects to store values, it is affected by Python's limitations. The main one is the Python GIL, that limits concurrent execution of threads. We have seen that it is possible to make single-threaded execution fast by compiling binary modules that are then loaded in Python (Sections II.2.3 and II.3), and it would also be possible to release the GIL during the execution of these functions. However, the GIL has to be acquired again each time references to Python objects are added or removed, when using the C API of Python and NumPy.

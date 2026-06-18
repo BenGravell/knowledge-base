@@ -4,17 +4,12 @@ Two of the leading approaches for model-free reinforcement learning are policy g
 
 ## Introduction
 
-Policy gradient methods (PG) and $Q$-learning (QL) methods perform updates that are qualitatively similar. In both cases, if the return following an action $a_{t}$ is high, then that action is reinforced: in policy gradient methods, the probability $\pi{(\left. a_{t} \middle| s_{t} \right.)}$ is increased; whereas in $Q$-learning methods, the $Q$-value $Q{(s_{t},a_{t})}$ is increased. The connection becomes closer when we add entropy regularization to these algorithms. With an entropy cost added to the returns, the optimal policy has the form ${\pi{(\left....
+Policy gradient methods (PG) and $Q$-learning (QL) methods perform updates that are qualitatively similar. In both cases, if the return following an action $a_{t}$ is high, then that action is reinforced: in policy gradient methods, the probability $\pi{(\left. a_{t} \middle| s_{t} \right.)}$ is increased; whereas in $Q$-learning methods, the $Q$-value $Q{(s_{t},a_{t})}$ is increased. The connection becomes closer when we add entropy regularization to these algorithms. With an entropy cost added to the returns, the optimal policy has the form ${\pi{(\left.
 
 Section 2 uses the bandit setting to provide the reader with a simplified version of our main calculation. (The main calculation applies to the MDP setting.) Section 3 discusses the entropy-regularized formulation of RL, which is not original to this work, but is included for the reader's convenience. Section 4 shows that the soft $Q$-learning loss gradient can be interpreted as a policy gradient term plus a baseline-error-gradient term, corresponding to policy gradient instantiations such as A3C. Section 5 draws a connection between QL methods that use batch updates or replay-buffers, and natural policy gradient methods.
 
+Some previous work on entropy regularized reinforcement learning (e.g., O'Donoghue et al.; Nachum et al. ) uses entropy bonuses, whereas we use a penalty on Kullback-Leibler (KL) divergence, which is a bit more general. However, in the text, we often refer to "entropy" terms; this refers to "relative entropy", i.e., the KL divergence.
+
 ## Conclusion
 
-We study the connection between two of the leading families of RL algorithms used with deep neural networks. In a framework of entropy-regularized RL we show that soft $Q$-learning is equivalent to a policy gradient method (with value function fitting) in terms of expected gradients (first-order view). In addition, we also analyze how a damped $Q$-learning method can be interpreted as implementing natural policy gradient (second-order view)....
-
-To compute proper gradient estimators, we need to include the entropy terms in the return. We will define the discounted policy gradient in the following two equivalent ways---first, in terms of the empirical return; second, in terms of the value functions $V_{\pi}$ and $Q_{\pi}$:
-
-where the second equation is analogous to Equation 2 from the bandit setting.
-
-where the second line used the formula for the KL-divergence (Equation 21) and the identity that\
-${{\mathbb{E}}_{a_{t} \sim \pi_{\theta}}\left\lbrack {{{{\nabla_{\theta}\log}\pi_{\theta}}{(\left....
+We study the connection between two of the leading families of RL algorithms used with deep neural networks. In a framework of entropy-regularized RL we show that soft $Q$-learning is equivalent to a policy gradient method (with value function fitting) in terms of expected gradients (first-order view). In addition, we also analyze how a damped $Q$-learning method can be interpreted as implementing natural policy gradient (second-order view).

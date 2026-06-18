@@ -6,16 +6,12 @@ We propose a combinatorial method for computing explicit solutions to multi-para
 
 In Model Predictive Control (MPC), a control action is determined at each time step by solving an optimization problem. When the dynamics of the system to be controlled is linear, the optimization problems in question can be cast as instances of a multi-parametric quadratic program (mpQP) of the form
 
-where the decision variable $x \in {\mathbb{R}}^{n}$ is related to the control action, and the parameter $\theta \in \Theta_{0} \subseteq {\mathbb{R}}^{p}$ is related to setpoints and the system state. The parameter set $\Theta_{0}$ is assumed to be a polyhedron. For a given linear (and time-invariant) MPC application, the Hessian $H \succ 0$ and the constraint matrix $A \in {\mathbb{R}}^{m \times n}$ are constant. Moreover, both the linear cost $f:{{\mathbb{R}}^{p}\rightarrow{\mathbb{R}}^{n}}$ and the constraint offset $b:{{\mathbb{R}}^{p}\rightarrow{\mathbb{R}}^{m}}$ are affine functions of $\theta$....
+The main contribution of this paper is a combinatorial method that efficiently computes the explicit solution of (LABEL:eq:rmpc-mpqp). The method is based on exploring a connected graph, similar to and, to tame the combinatorial nature of computing the explicit solution. In contrast to, the method does not rely on any geometrical operations such as computing the facets of polytopes, which makes the resulting method more efficient and reliable. In contrast to, the proposed method handles degeneracies in a more straightforward manner; the proposed method does not, for example, need to explicitly check if constraints are weakly active/inactive.
+
+The rest of the paper is organized as follows: In Section II we describe how a multi-parametric least-distance problem (mpLDP) can be consider instead of the mpQP in (LABEL:eq:rmpc-mpqp). We then derive the explicit solution to this mpLDP and formalize a combinatorial problem for computing it. The section ends with a brief review of existing methods for computing the explicit solution. In Section III we introduce the concept of geometrical and combinatorial adjacency of active sets, and show that any pair of optimal active sets are connected by a sequence combinatorially adjacent acitve sets.
+
+## Conclusion
 
 We have proposed a combinatorial method for computing explicit solutions to multi-parametric quadratic programs. The method builds on optimal active sets being "combinatorially connected", which makes the explicit solution form a combinatorially connected graph. We show that an implementation of the proposed method can yield a speedup of two orders of magnitude compared to state-of-the-art software packages such as MPT and POP.
 
 Future work include presenting details of how to implement Algorithm 1 efficiently, and to develop a parallelized version of it.
-
-## A combinatorial connected-graph algorithm
-
-To form an explicit solution to, we are interested in parameters for which a given active set $\mathcal{A}$ leads to a solvable system. The set of all such parameters for a given active set is known as a critical region:
-
-Note that two active sets being geometrically adjacent does not generally imply that they are combinatorially adjacent, but it does imply that they are combinatorially connected. An illustrative example of this distinction is given in Example 1 in. Geometrical adjacency does, however, imply combinatorial adjacency when no degeneracies occur, which follows directly from Theorem 2 in.
-
-Albeit straightforward to theoretically derive the explicit solution, it is not as straightforward to compute the corresponding polyhedral regions efficiently and reliably....

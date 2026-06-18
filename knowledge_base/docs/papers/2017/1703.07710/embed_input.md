@@ -10,8 +10,10 @@ The recent empirical successes of deep reinforcement learning (RL) are tremendou
 
 We propose a new framework for measuring the performance of reinforcement learning algorithms called Uniform-PAC. Briefly, an algorithm is Uniform-PAC if with high probability it simultaneously for all $\varepsilon > 0$ selects an $\varepsilon$-optimal policy on all episodes except for a number that scales polynomially with $1/\varepsilon$. Algorithms that are Uniform-PAC converge to an optimal policy with high probability and immediately yield both PAC and high probability regret bounds, which makes them superior to algorithms that come with only PAC or regret guarantees. Indeed,
 
-The Uniform-PAC framework strengthens and unifies the PAC and high-probability regret performance criteria for reinforcement learning in episodic MDPs. The newly proposed algorithm is Uniform-PAC, which as a side-effect means it is the first algorithm that is both PAC and has sub-linear (and nearly optimal) regret. Besides this, the use of law-of-the-iterated-logarithm confidence bounds in RL algorithms for MDPs provides a practical and theoretical boost at no cost in terms of computation or implementation complexity.
+Neither PAC nor regret guarantees imply convergence to optimal policies with high probability;
 
-This work opens up several immediate research questions for future work. The definition of Uniform-PAC and the relations to other PAC and regret notions directly apply to multi-armed bandits and contextual bandits as special cases of episodic RL, but not to infinite horizon reinforcement learning. An extension to these non-episodic RL settings is highly desirable. Similarly, a version of the UBEV algorithm for infinite-horizon RL with linear state-space sample complexity would be of interest....
+$(\varepsilon,\delta)$-PAC algorithms may be $\varepsilon/2$-suboptimal in every episode;
 
-For any $F_{\text{UHPR}}{(T,\delta)}$ there is an algorithm that satisfies that uniform high-probability regret bound on some MDP but suffers expected regret ${{\mathbb{E}}R{(T)}} = {\Omega{(T)}}$ on that MDP.
+## Limitations of regret
+
+Since regret guarantees only bound the integral of $\Delta_{k}$ over $k$, it does not distinguish between making a few severe mistakes and many small mistakes. In fact, since regret bounds provably grow with the number of episodes $T$, an algorithm that achieves optimal regret may still make infinitely many mistakes (of arbitrary quality, see proof of Theorem 2 below). This is highly undesirable in high-stakes scenarios. For example in drug treatment optimization in healthcare, we would like to distinguish between infrequent severe complications (few large $\Delta_{k}$) and frequent minor side effects (many small $\Delta_{k}$).

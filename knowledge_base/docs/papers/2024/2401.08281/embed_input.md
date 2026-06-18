@@ -6,16 +6,14 @@ Vector databases typically manage large collections of embedding vectors. Curren
 
 ## Introduction
 
-The emergence of deep learning has induced a shift in how complex data is stored and searched, noticeably by the development of *embeddings*. Embeddings are vector representations, typically produced by a neural network, that map (embed) the input media item into a vector space, where the locality encodes the semantics of the input. Embeddings are extracted from various forms of media: words, text, images, users and items for recommendation \[\]. They can even encode object relations, for instance multi-modal text-image or text-audio relations.
+The emergence of deep learning has induced a shift in how complex data is stored and searched, noticeably by the development of *embeddings*. Embeddings are vector representations, typically produced by a neural network, that map (embed) the input media item into a vector space, where the locality encodes the semantics of the input. Embeddings are extracted from various forms of media: words, text, images, users and items for recommendation. They can even encode object relations, for instance multi-modal text-image or text-audio relations.
 
-Embeddings are employed as an intermediate representation for further processing, e.g. self-supervised image embeddings are input to shallow supervised image classifiers. They are also leveraged as a pretext task for self-supervision \[\]. In fact, embeddings are a compact intermediate representation that can be re-used for several purposes.
+Embeddings are employed as an intermediate representation for further processing, e.g. self-supervised image embeddings are input to shallow supervised image classifiers. They are also leveraged as a pretext task for self-supervision. In fact, embeddings are a compact intermediate representation that can be re-used for several purposes.
+
+In this paper, we consider embeddings used directly to compare media items. The embedding extractor is designed so that the distance between embeddings reflects the similarity between their corresponding media. As a result, conducting neighborhood search in this vector space offers a direct implementation of similarity search between media items.
+
+The basic structure of Faiss is an *index* that can have multiple implementations described in this paper. An index can store a number of *database vectors* that are progressively added to it. At search time, a *query vector* is submitted to the index. The index returns the database vector that is closest to the query vector w.r.t. the Euclidean distance.
 
 ## Conclusion
 
-Throughout the years, Faiss continuously expanded its focus to include the most relevant vector indexing techniques from research. We continue doing this to include novel quantization techniques \[\], better hardware support for some indexes \[\] and new indexing forms, such as associative vector memories for transformer architectures.
-
-### The local search quantizer (LSQ)
-
-Faiss supports various vector codecs: these are methods to compress vectors so that they take up less memory. A compression method $C:{{\mathbb{R}}^{d}\rightarrow{\{ 1,\ldots,K\}}}$, a.k.a. a quantizer, converts a continuous multi-dimensional vector to an integer. This integer is equivalent to a bit string of code size $\lceil{\log_{2}K}\rceil$. The decoder $D:{{\{ 1,\ldots,K\}}\rightarrow{\mathbb{R}}^{d}}$ reconstructs an approximation of the vector from the integer. The decoder can only reconstruct a finite number, $K$, of distinct vectors.
-
-Figure shows that encoding residuals is beneficial for shorter codes. For larger codes, the contribution of the residual is less important. Indeed, as the original data is 96-dimensional, it can be compressed to 64 bytes relatively accurately. Note that using higher $K_{IVF}$ also improves the accuracy of the quantizer with residual encoding....
+Throughout the years, Faiss continuously expanded its focus to include the most relevant vector indexing techniques from research. We continue doing this to include novel quantization techniques, better hardware support for some indexes and new indexing forms, such as associative vector memories for transformer architectures.

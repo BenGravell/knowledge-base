@@ -6,20 +6,18 @@ Suppose that two vector fields on a smooth manifold render some equilibrium poin
 
 ## Introduction
 
-In the context of what we call today Conley index theory (see Section A), Conley posed the following "converse question" in the 1970s: "To what extent does the homotopy index *\[Conley index\]* itself determine the equivalence class of isolated invariant sets which are related by continuation?" \[ref:conley1978isolated, p. 83\]....
+In the context of what we call today Conley index theory (see Section A), Conley posed the following "converse question" in the 1970s: "To what extent does the homotopy index *\[Conley index\]* itself determine the equivalence class of isolated invariant sets which are related by continuation?" \[ref:conley1978isolated, p. 83\].
 
-This result provides a partial solution to Conley's converse question as it turns out that the asymptotically stable systems under consideration can be continuously transformed into the same exponentially stable system and hence, by transitivity, into each other. Concurrently, we discuss extensions to discontinuous vector fields throughout, plus we illustrate how to go about extensions to ISS. We also discuss intimate connections with optimization and optimal transport (e.g., see Example 3.4. ‣ 3 Stability preserving homotopies ‣ Asymptotic stability equals exponential stability—while you twist your eyes") and 5.1....
+This result provides a partial solution to Conley's converse question as it turns out that the asymptotically stable systems under consideration can be continuously transformed into the same exponentially stable system and hence, by transitivity, into each other. Concurrently, we discuss extensions to discontinuous vector fields throughout, plus we illustrate how to go about extensions to ISS. We also discuss intimate connections with optimization and optimal transport (e.g., see Example 3.4. ‣ 3 Stability preserving homotopies ‣ Asymptotic stability equals exponential stability—while you twist your eyes") and 5.1.
 
-Open problem 4: elucidate what OT can tell us about the existence of stability preserving homotopies on the level of vector fields, and vice versa.
+## Example 1.1 (Trivial convex combinations can fail)
 
-Our work also benefits from more explicit results, e.g., see \[ref:bramburger2021deep\].
+Consider a linear differential equation $\overset{˙}{x} = {A{(s)}x}$ on ${\mathbb{R}}^{2}$ parametrized by the matrices
 
-Then, as in Step (i), construct a homotopy through non-vanishing vector fields on ${\mathbb{R}}^{n} \smallsetminus {\{ 0\}}$, in this case from $\overset{\sim}{F}$ to ${- {\nabla V_{q}}} = {- \partial_{x}}$, with $V_{q}$ being a Lyapunov function asserting stability of $0$ throughout. Then, we show there is homotopy from $\varphi^{t}{( \cdot;\overset{\sim}{F})}$ to $\varphi^{t}{( \cdot;{- \partial_{x}})}$ along semiflows, such that $0$ is GAS.
+Both $A{}$ and $A{}$ correspond to global asymptotically stable systems, yet, for $s = \frac{1}{2}$, the system $\overset{˙}{x} = {A{(s)}x}$ is unstable. Hence, we cannot simply construct straight-line homotopies between stable vector fields and expect that stability is preserved. Instead, we know from \[ref:JongeneelSchwan2024TAC\] that for vector fields with convex Lyapunov functions we should homotope via the canonical ODE $\overset{˙}{x} = {- x}$. Explicitly, consider the following path of vector fields defined by
 
-### Example 2.1 (Stability-preserving homotopies for $n = 1$)
+## Conclusion and future work
 
-Figure 3.2: Example 3.7: on the left, some flow lines under (ΠN−1)* X; and on the right, some flow lines under (ΠN−1)* Y. In between, two steps of the homotopy that connects (ΠN−1)* X to (ΠN−1)* Y, through vector fields that render S GAS on 𝕊2 ∖ {N}.
+We have provided a step towards better understanding Conley's converse question in some generality, yet, many open problems remain. Although directly working with flows has benefits, e.g., see \[ref:aguiar2023universal\], the main open problem is the extension to vector fields and generic attractors. Several other questions are as follows.
 
-### Related work
-
-It can be argued that questions of the form as above, emerged from studies aimed at classifying manifolds, maps and so forth. A successful, yet coarse, resolution has been found in the study of these objects up to homotopy, e.g., motivated early on by the fundamental group being homotopy invariant, Hopf's degree theorem, CW complexes, intractability of topological equivalence and more at the...
+Open problem 1: characterize stability of (2.1) throughout the homotopy.

@@ -8,18 +8,12 @@ Trajectory optimization for motion planning requires good initial guesses to obt
 
 Motion planning for robots with high Degree-of-Freedoms (DoFs) presents many challenges, especially in the presence of constraints such as obstacle avoidance, joint limits, etc. To handle the high-dimensionality and the various constraints, many works focus on *trajectory optimization* methods that attempt to find a locally optimal solution. In this approach, the motion planning problem is formulated as an optimization problem
 
-As an example, consider the planning problem depicted in Fig. 1, where the PR2 robot has to move its base around an object or to perform a dual-arm motion to pick items from the shelves. If the task ${\mathbf{x}} = {({\mathbf{q}}_{\text{init}}^{\top},{\mathbf{q}}_{\text{goal}}^{\top})}^{\top}$ is to move from an initial configuration ${\mathbf{q}}_{\text{init}}$ to a goal configuration ${\mathbf{q}}_{\text{goal}}$ while minimizing the total joint velocity, the optimization problem can be written as
+Other constraints can also be added, e.g. to avoid collisions, to comply with joint limits, etc.
+
+To overcome this problem, our approach builds a *memory of motion* that learns how to provide good initializations (i.e., a *warm-start*) to the solver based on previously solved problems. Functionally, the memory of motion is expected to learn the mapping ${\mathbf{f}}:{{\mathbf{x}}\rightarrow{\mathbf{y}}}$ that maps each task $\mathbf{x}$ to the robot path $\mathbf{y}$. Such mapping can be highly nonlinear and *multimodal* (i.e., one task $\mathbf{x}$ can be associated to several robot paths $\mathbf{y}$), and the dimension of $\mathbf{y}$ is typically very high.
+
+The contribution of this paper is the following. First, we propose the use of function approximation methods to learn the mapping ${\mathbf{f}}{({\mathbf{x}})}$. We consider three methods: $k$-Nearest Neighbor ($k$-NN), Gaussian Process Regressor (GPR) and Bayesian Gaussian Mixture Regression (BGMR), and discuss their different characteristics on various planning problems. We show in particular that BGMR handles multimodal output very well. Furthermore, we show that the memory of motion can be also be used as a metric for choosing optimally between several possible goals.
 
 ## Conclusion
 
-We have presented an approach to build a memory of motion to warm-start trajectory optimization solver, and demonstrate through experiments with PR2 and Atlas robots that the warm-start can improve the solver's performance. Function approximators and dimensionality reduction are used to learn the mapping between the task descriptor and the corresponding robot path. Three function approximators are considered: $k$-NN as baseline, GPR, and BGMR, and their different characteristics have been discussed. The use of PCA also improves the solution, although not very significantly, while reducing the memory storage....
-
-## Experiments
-
-where $\pi_{k}$, ${\mathbf{μ}}_{k}$, and $\mathbf{\Sigma}_{k}$ are the $k$-th component's mixing coefficient, mean, and covariance, respectively. Given a query ${\mathbf{x}}^{\ast}$, the conditional probability of the output ${\mathbf{y}}^{\ast}$ is also a mixture of Gaussians.
-
-### IV-B Planning from a fixed initial configuration to a random goal configuration
-
-Other constraints can also be added, e.g. to avoid collisions, to comply with joint limits, etc.
-
-Such optimization problems are in general non-convex, especially due to the collision constraints, which makes finding the global optimum very difficult. Trajectory optimization methods such as TrajOpt, CHOMP, or STOMP solve the non-convex problem by iteratively optimizing around the current solution....
+We have presented an approach to build a memory of motion to warm-start trajectory optimization solver, and demonstrate through experiments with PR2 and Atlas robots that the warm-start can improve the solver's performance. Function approximators and dimensionality reduction are used to learn the mapping between the task descriptor and the corresponding robot path. Three function approximators are considered: $k$-NN as baseline, GPR, and BGMR, and their different characteristics have been discussed. The use of PCA also improves the solution, although not very significantly, while reducing the memory storage.

@@ -6,18 +6,14 @@ Provides theoretical grounding for why locally linear models learned from data c
 
 A common pipeline in learning-based control is to iteratively estimate a model of system dynamics, and apply a trajectory optimization algorithm - e.g. iLQR - on the learned model to minimize a target cost. This paper conducts a rigorous analysis of a simplified variant of this strategy for general nonlinear systems. We analyze an algorithm which iterates between estimating local linear models of nonlinear system dynamics and performing iLQR-like policy updates. We demonstrate that this algorithm attains sample complexity polynomial in relevant problem parameters, and, by synthesizing locally stabilizing gains, overcomes exponential dependence in problem horizon. Experimental results validate the performance of our algorithm, and compare to natural deep-learning baselines.
 
-### Introduction
+## Introduction
 
 Machine learning methods such as model-based reinforcement learning have lead to a number of breakthroughs in key applications across robotics and control. A popular technique in these domains is learning-based model-predictive control (MPC), wherein a model learned from data is used to repeatedly solve online planning problems to control the real system. It has long been understood that solving MPC *exactly*--both with perfectly accurate dynamics and minimization to globally optimality for each planning problem--enjoys numerous beneficial control-theoretic properties.
 
-Unfortunately, the above situation is not reflective of practice. For one, most systems of practical interest are *nonlinear*, and therefore exact global recovery of system dynamics suffers from a curse of dimensionality. And second, the nonlinear dynamics render any natural trajectory planning problem nonconvex, making global optimality elusive. In this work, we focus on learning-based trajectory optimization, the "inner-loop" in MPC. We ask *when can we obtain rigorous guarantees about the solutions to nonlinear trajectory optimization under unknown dynamics?*
+Contributions. We propose and analyze an alternative to the aforementioned approach of first learning a deep neural model of dynamics, and then performing AutoDiff to conduct the $\mathtt{i}\mathtt{L}\mathtt{Q}\mathtt{R}$ update. We consider a simplified setting with fixed initial starting condition.
 
-Figure 1: Cost suboptimality (𝒥Talg−𝒥T⋆)/𝒥T⋆ versus number of trajectories available to both Algorithm 1 and iLQR baselines. For visualization, the suboptimality is clipped to (10−4,∞).
+For our analysis, we treat the underlying system dynamics as continuous and policy as discrete; this reflects real physical systems, is representative of discrete-time simulated environments which update on smaller timescales than learned policies, and renders explicit the effect of discretization size on sample complexity. We consider an interaction model where we query an oracle for trajectories corrupted with measurement (but not process) noise. Our approach enjoys the following theoretical properties.
 
-Though we find that our method outperforms deep-learning baselines (excluding OPT+JacReg) on the simpler inverted pendulum environment, the learning+$\mathtt{i}\mathtt{L}\mathtt{Q}\mathtt{R}$ approaches fare better on the quadrotor. We suspect that this is attributable to data-reuse, as Algorithm 1 estimates an entirely new model of system dynamics at each iteration. We believe that finding a way to combine the advantages of directly estimating linearized dynamics (observed in Algorithm 1, as well as OPT+JacReg) with the advantages of data-reuse.
+## Discussion
 
-### Definition 4.2 (Open-Loop Linearized Dynamics)
-
-### Definition 2.5 (Oracle Dynamics)
-
-What we shall show is that our algorithm (a) finds a policy $\pi$ such that ${\|{{\nabla\mathcal{J}_{T}^{disc}}{(\pi)}}\|}_{\ell_{2}} \leq \epsilon$ is small, (b) by discretization, ${\|{{\nabla\mathcal{J}_{T}^{\pi}}{(\mathbf{u}^{\pi})}}\|}_{\mathcal{L}_{2}{(\mathcal{U})}} \leq {\epsilon + {\mathcal{O}(\tau)}}$ is small (i.e....
+We observe that Algorithm 1 with feedback-gains consistently outperforms Algorithm 1 without gains, validating the important of locally-stabilized dynamics. Second, we see that the performance of the $\mathtt{i}\mathtt{L}\mathtt{Q}\mathtt{R}$ baselines does not significantly improve as more trajectory data is collected. We find that our learned models achieve very low train and test error, over the sampling distribution (i.e., Opt or Rand) used for learning. For Rand, we postulate that the distribution shift incurred by performing RHC via trajectory optimization on the learned model limits the closed-loop performance of our baseline.

@@ -6,16 +6,10 @@ We address the problem of real-time 3D object detection from point clouds in the
 
 Over the last few years we have seen a plethora of methods that exploit Convolutional Neural Networks to produce accurate 2D object detections, typically from a single image. However, in robotics applications such as autonomous driving we are interested in detecting objects in 3D space. This is fundamental for motion planning in order to plan a safe route.
 
-Recent approaches to 3D object detection exploit different data sources. Camera based approaches utilize either monocular or stereo images. However, accurate 3D estimation from 2D images is difficult, particularly in long ranges. With the popularity of inexpensive RGB-D sensors such as Microsoft Kinect, Intel RealSense and Apple PrimeSense, several approaches that utilize depth information and fuse them with RGB images have been developed. They have been shown to achieve significant performance gains over monocular methods....
+In this paper, we propose an accurate real-time 3D object detector, which we call PIXOR (ORiented 3D object detection from PIXel-wise neural network predictions), that operates on 3D point clouds. PIXOR is a single-stage, proposal-free dense object detector that exploits the 2D Bird's Eye View (BEV) representation in an efficient way. We choose the BEV representation as it is computationally more friendly compared with 3D voxel grids, and also preserves the metric space which allows our model to explore priors about the size and shape of the object categories.
+
+We demonstrate the effectiveness of our approach in two datasets, the public KITTI benchmark and a large-scale 3D vehicle detection dataset TOR4D. Specifically, PIXOR achieves the highest Average Precision (AP) on KITTI bird's eye view object detection benchmark among all previously published methods, while also runs the fastest among them (over 28 FPS). We also provide in-depth ablation studies on KITTI to investigate how much performance gain each module contributes, and prove the scalability and generalization ability of PIXOR by applying it to the large-scale TOR4D dataset.
 
 ## Conclusion
 
 In this paper we propose a real-time 3D object detector called PIXOR that operates on LIDAR point clouds. PIXOR is a single-stage, proposal-free, dense object detector that achieve extreme simplicity in the context of 3D object localization for autonomous driving. PIXOR takes bird's eye view representation as input for efficiency in computation. We evaluate PIXOR on the challenging KITTI benchmark as well as a large-scale vehicle detection dataset TOR4D, and show that it outperforms the other methods by a large margin in terms of Average Precision (AP), while still runs at $> 28$ FPS.
-
-### Implementation Details
-
-One direct solution is to use fewer pooling layers. However, this will decrease the size of the receptive field of each pixel in the final feature map, which limits the representation capacity. Another solution is to use dilated convolutions. However, this would lead to checkerboard artifacts in high-level feature maps. Our solution is simple, we use $16 \times$ downsampling factor, but make two modifications. First, we add more layers with a smaller channel number in lower levels to extract more fine-detail information....
-
-Figure 5: Three versions of header network architectures.
-
-Different forms of point cloud representation have been explored in the context of 3D object detection. The main idea is to form a structured representation where standard convolution operation can be applied....

@@ -4,17 +4,16 @@ We consider the problem of learning a one-hidden-layer neural network: we assume
 
 ## Introduction
 
-Scalable optimization has been playing crucial roles in the success of deep learning, which has immense applications in artificial intelligence. Remarkably, optimization issues are often addressed through designing new models that make the resulting training objective functions easier to be optimized. For example, over-parameterization \[\], batch-normalization \[\], and residual networks are often considered as ways to improve the optimization landscape of the resulting objective functions.
+Scalable optimization has been playing crucial roles in the success of deep learning, which has immense applications in artificial intelligence. Remarkably, optimization issues are often addressed through designing new models that make the resulting training objective functions easier to be optimized. For example, over-parameterization, batch-normalization, and residual networks are often considered as ways to improve the optimization landscape of the resulting objective functions.
 
 How do we design models and objective functions that allow efficient optimization with guarantees? Towards understanding this question in a principled way, this paper studies learning neural networks with one hidden layer. Roughly speaking, we will show that when the input is from Gaussian distribution and under certain simplifying assumptions on the weights, we can design an objective function $G{( \cdot )}$, such that\
 
-We conjecture that the objective ${\alphaf_{2}} + {\betaf_{4}}$ has no spurious local minimum when $\alpha,\beta$ are reasonable constants and the ground-truth parameters are in general position^1313^13See equation (2.4) for the definition of $f_{k}$ and Theorem 2.2 for how to access ${\alphaf_{2}} + {\betaf_{4}}$ in the setting of one-hidden-layer neural nets.. We provided empirical evidence to support the conjecture.
+\[a\] all local minima of $G{( \cdot )}$ are global minima\
 
-Our results assume that the input distribution is Gaussian. Extending them to other input distributions is a very interesting open problem.
+\[b\] all the global minima are the desired solutions, namely, the ground-truth parameters (up to permutation and some fixed transformation).
 
-### Analytic Formula for population risk $f$ and $f^{\prime}$
+## Conclusion
 
-Here ${\hat{\sigma}}_{k}$ and ${\hat{\gamma}}_{k}$ are the $k$-th Hermite coefficient of the function $\sigma$ and $\gamma$. That is, letting $h_{k}$ the $k$-th normalized probabilists' Hermite polynomials \[\] and $\langle \cdot, \cdot \rangle$ be the standard inner product between functions, we have ${\hat{\sigma}}_{k} = {\langle h_{k},\sigma\rangle}$.
+In this paper we first give an analytic formula for the population risk of the standard $\ell_{2}$ loss, which empirically may converge to a spurious local minimum. We then design a novel population loss that is guaranteed to have no spurious local minimum.
 
-Note that our variable $B$ is a matrix of dimension $d \times d$ and we use $b_{i}$ to denote the rows of $B$, that is, $B = \begin{bmatrix}
-\end{bmatrix}$. Naturally, towards analyzing the properties of a local minimum $B$, the first step is that we pick a row $b_{s}$ of $B$ and treat only $b_{s}$ as variables and others rows as fixed....
+Designing objective functions with well-behaved landscape is an intriguing and fruitful direction. We hope that our techniques can be useful for characterizing and designing the optimization landscape for other settings.

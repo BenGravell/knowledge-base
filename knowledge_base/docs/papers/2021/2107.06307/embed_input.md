@@ -12,14 +12,10 @@ High-definition (HD) semantic maps are an essential module for autonomous drivin
 
 As an alternative, we investigate scalable and affordable autonomous driving solutions, e.g. minimizing human efforts in annotating and maintaining HD maps. To that end, we introduce a novel semantic map learning framework that makes use of on-board sensors and computation to estimate vectorized local semantic maps. Of note, our framework does not aim to replace global HD map reconstruction, instead to provide a simple way to predict local semantic maps for real-time motion prediction and planning.
 
+We propose a semantic map learning method named HDMapNet, which produces vectorized map elements from images of the surrounding cameras and/or from point clouds like LiDARs. We study how to effectively transform perspective image features to bird's-eye view features when depth is missing. We put forward a novel view transformer that consists of both neural feature transformation and geometric projection. Moreover, we investigate whether point clouds and camera images complement each other in this task. We find different map elements are not equally recognizable in a single modality.
+
+Finally, we propose comprehensive ways to evaluate the performance of map learning. These metrics include both semantic level and instance level evaluations as map elements are typically represented as object instances in HD maps. On the public NuScenes dataset, HDMapNet improves over existing methods by 12.1 IoU on semantic segmentation and 13.1 mAP on instance detection.
+
 ## Conclusion
 
 HDMapNet predicts HD semantic maps directly from camera images and/or LiDAR point clouds. The local semantic map learning framework could be a more scalable approach than the global map construction and annotation pipeline that requires a significant amount of human efforts. Even though our baseline method of semantic map learning does not produce map elements as accurate, it gives system developers another possible choice of the trade-off between scalability and accuracy.
-
-In this section, we propose evaluation protocols for semantic map learning, including semantic metrics and instance metrics.
-
-Our point cloud encoder $\phi_{P}$ is a variant of PointPillar with dynamic voxelization, which divide the 3d space into multiple pillars and learn feature maps from pillar-wise features of pillar-wise point clouds. The input is $N$ lidar points in the point cloud. For each point $p$, it has three-dimensional coordinates and additional $K$-dimensional features represented as $f_{p} \subseteq {\mathbb{R}}^{K + 3}$.
-
-Tasks & Metrics. We evaluate our approach on the NuScenes dataset. We focus on two sub-tasks: semantic map segmentation and instance detection. Due to the limited types of map elements in the nuScenes dataset, we consider three static map elements: lane boundary, lane divider, and pedestrian crossing.
-
-Figure 1: In contrast to pre-annotating global semantic maps, we introduce a novel local map learning framework that makes...

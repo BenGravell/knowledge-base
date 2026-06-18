@@ -6,20 +6,18 @@ Generates C++ code that solves explicit MPC problems. Super fast runtime for mod
 
 We consider a family of convex quadratic programs in which the coefficients of the linear objective term and the righthand side of the constraints are affine functions of a parameter. It is well known that the solution of such a parametrized quadratic program is a piecewise affine function of the parameter. The number of (polyhedral) regions in the solution map can grow exponentially in problem size, but when the number of regions is moderate, a so-called explicit solver is practical. Such a solver computes the coefficients of the affine functions and the linear inequalities defining the polyhedral regions offline; to solve a problem instance online it simply evaluates this explicit solution map. Potential advantages of an explicit solver over a more general purpose iterative solver can include transparency, interpretability, reliability, and speed. In this paper we describe how code generation can be used to automatically generate an explicit solver from a high level description of a parametrized quadratic program. Our method has been implemented in the open-source software CVXPYgen, which is part of CVXPY, a domain specific language for general convex optimization.
 
-## Introduction
-
-### Parametric convex optimization
+## Parametric convex optimization
 
 A parametric convex optimization problem can be written as
 
-## Conclusions
+where $x \in \text{R}^{n}$ is the variable and $\theta \in \Theta \subseteq \text{R}^{p}$ is the parameter, i.e., data that is given and known whenever is solved. The objective function $f_{0}$ and the inequality constraint functions $f_{i}$, $i = {1,\ldots,m}$, are convex in $x$ and the equality constraint functions $h_{i}$, $i = {1,\ldots,q}$, are affine in $x$, for any given value of $\theta \in \Theta$. We refer to a solution of as $x^{\star}{(\theta)}$ to emphasize its dependence on the parameter $\theta$.
 
-We have added new functionality to the code generator CVXPYgen that generates an explicit solver (in C) for a parametrized convex optimization problem, when that is tractable. The user can prototype a problem in CVXPY, with code close to the math and convenient names for multiple variables and parameters, using a generic iterative solver; a change of one option in code generation will generate an explicit solver for the parametrized problem....
+Convex optimization is used in various domains, including control systems \[, RMD^+^17 \], signal and image processing \[ \], and quantitative finance \[, BJK^+^24, BBD^+^17 \], just to name a few that are particularly relevant for this work.
 
-We extend the open-source code generator CVXPYgen \[SBD^+^22\] to generate code for explicitly solving QPs. The QP is modeled with CVXPY before CVXPYgen generates library-, allocation-, and division-free code for translating between the user-defined problem and a canonical form (that of PDAQP in this case) for explicitly solving QPs. Open source code and full documentation for CVXPYgen and its explicit solve feature is available at
+## Explicit solvers for multiparametric programming
 
-Since compositions of affine functions are affine, it follows that the primal and dual solutions of the QP are (locally) affine functions of $\theta$. Since the inverse image of a polyhedron under an affine mapping is a polyhedron, the values of $\theta$ over which this affine function gives the solution is also a polyhedron. Thus the solution map is a piecewise affine function of $\theta$, with the polyhedral regions determined by the active set. By the uniqueness of the solution, it is not difficult to prove that such a map is also continuous across region boundaries \[\]....
+Traditionally, $x^{\star}{(\theta)}$ is evaluated using an iterative numerical method that takes a given parameter value and computes an (almost) optimal point $x^{\star}{(\theta)}$ \[, SBG^+^20 \]. We focus here on a very special case when $x^{\star}{(\theta)}$ can be expressed in closed form, as an explicit function that maps a given value of $\theta$ directly to a solution $x^{\star}{(\theta)}$. Such explicit solvers are practical for only some problems, and generally only smaller instances, but when they are practical they can offer a number of advantages over generic iterative solvers.
 
-Figure shows the comparison, demonstrating how the explicit solver can be used via its auto-generated CVXPY interface. Starting in line 15, we show that the primal and dual solutions and the objective values are all close, respectively.
+## Limitations
 
-where $x \in \text{R}^{n}$ is the variable and $\theta \in \Theta \subseteq \text{R}^{p}$ is the parameter, i.e., data that is given and known whenever is solved. The objective function $f_{0}$ and the inequality constraint functions $f_{i}$, $i = {1,\ldots,m}$, are convex in $x$ and the equality constraint functions $h_{i}$, $i = {1,\ldots,q}$, are affine in $x$, for any given value of $\theta \in \Theta$ \[\]. We refer to a solution of as $x^{\star}{(\theta)}$ to emphasize its dependence on the parameter $\theta$....
+In PDAQP the number of inequality constraints $m$ is limited to 1024 so the regions can be efficiently represented as a bit string. If $K$, or the size of the data in the explicit solver, exceed a given limit, the offline phase is terminated with a warning.

@@ -6,18 +6,16 @@ We study the problem of preconditioning in sequential prediction. From the theor
 
 ## Introduction
 
-In sequence prediction the goal of the learner is to predict the next token accurately according to a specified loss function, such as the mean square error or cross-entropy. This fundamental problem in machine learning has gained increased importance with the rise of large language models, which perform sequence prediction on tokens using cross entropy. The focus of this paper is preconditioning, i.e. modifying the target sequence to make it easier to learn....
+In sequence prediction the goal of the learner is to predict the next token accurately according to a specified loss function, such as the mean square error or cross-entropy. This fundamental problem in machine learning has gained increased importance with the rise of large language models, which perform sequence prediction on tokens using cross entropy. The focus of this paper is preconditioning, i.e. modifying the target sequence to make it easier to learn.
 
 It is widely acknowledged that learning this sequence can be "easier\" than learning the original sequence for a large number of modalities. In this work we seek a more general framework for sequence preconditioning that captures the same intuition behind differencing and extends it to a broader class of transformations. The question we ask is
 
-There are many settings in machine learning where universal, rather than learned, rules have proven very efficient. For example, physical laws of motion can be learned directly from observation data. However, Newton's laws of motion succinctly crystallize very general phenomenon, and have proven very useful for large scale physics simulation engines. Similarly, in the theory of mathematical optimization, adaptive gradient methods have revolutionized deep learning....
+What is the general form of sequence preconditioning that enables provably accurate learning?
+
+From an information-theoretic perspective, approaches of this kind seem futile---predicting $\mathbf{y}_{t}$ or $\sum_{i}{c_{i}\mathbf{y}_{t - i}}$ seems equally hard in an adversarial setting. Yet we show that when the data arises from a linear dynamical system (LDS), there exists a *universal* form of preconditioning that provably improves learnability, independent of the specific system. In the LDS setting, we show that preconditioning significantly strengthens existing prediction methods, leading to new regret bounds.
+
+## Discussion
+
+There are many settings in machine learning where universal, rather than learned, rules have proven very efficient. For example, physical laws of motion can be learned directly from observation data. However, Newton's laws of motion succinctly crystallize very general phenomenon, and have proven very useful for large scale physics simulation engines. Similarly, in the theory of mathematical optimization, adaptive gradient methods have revolutionized deep learning.
 
 By analogy, our thesis in this paper is that universal preconditioning based on the solid theory of dynamical systems can be applicable to many domains or, at the very least, an initialization for other learning methods.
-
-Then the predictions ${\hat{\mathbf{y}}}_{1},\ldots,{\hat{\mathbf{y}}}_{T}$ from Algorithm where the preconditioning coefficients $\mathbf{c}_{0:n}$ are chosen to be the coefficients of the $n$-th monic Chebyshev polynomial satisfy
-
-Finally, spectral filtering combines the advantages of all methods above. It is an efficient method, its complexity does not depend on the hidden dimension, and works for marginally stable systems. However, spectral filtering requires $\mathbf{A}$ to be symmetric, or diagonalizable under the real numbers.
-
-The proof of Lemma 3.2 is in Appendix G. Together, these two lemmas are the fundamental building block for universal sequence preconditioning and for obtaining our new regret bounds.
-
-What is the general form of sequence preconditioning that enables provably accurate learning?

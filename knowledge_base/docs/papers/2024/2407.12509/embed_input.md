@@ -8,18 +8,14 @@ This paper is concerned with the following problem: given an upper bound of the 
 
 ## Introduction
 
-*Background*: In the context of system identification, *experiment design* is concerned with the selection of inputs of a dynamical system in such a way that the resulting input-output data contain sufficient information about the system dynamics \[\]. Experiment design is a classical topic that has been investigated from different angles throughout the years.
+*Background*: In the context of system identification, *experiment design* is concerned with the selection of inputs of a dynamical system in such a way that the resulting input-output data contain sufficient information about the system dynamics. Experiment design is a classical topic that has been investigated from different angles throughout the years.
 
-An experiment design result that has recently been popularized is the so-called *fundamental lemma* by Willems and his coauthors \[\]. Roughly speaking, the result says that the dynamics of a linear time-invariant system can be uniquely identified from input-output data if the input data are chosen to be sufficiently persistently exciting. The fundamental lemma also provides a parameterization of all finite trajectories of the system, in terms of a data Hankel matrix....
+An experiment design result that has recently been popularized is the so-called *fundamental lemma* by Willems and his coauthors. Roughly speaking, the result says that the dynamics of a linear time-invariant system can be uniquely identified from input-output data if the input data are chosen to be sufficiently persistently exciting. The fundamental lemma also provides a parameterization of all finite trajectories of the system, in terms of a data Hankel matrix.
 
-## Conclusions
+The recent interest in data-driven control has also led to extensions of the fundamental lemma itself. Its original proof was presented in the language of behavioral theory; an alternative proof for state space systems was provided. Generalizations to uncontrollable systems are presented in and extensions to continuous-time systems . Robust/quantitative versions are explored in while frequency domain formulations have been considered . Furthermore, the fundamental lemma has been generalized to various other model classes such as descriptor systems, flat nonlinear systems, linear parameter-varying systems, and stochastic ones.
 
-In this paper we have proposed an experiment design method that leads to input-output data that are informative for system identification. The key features of the approach are i) it is *online*, meaning that the design of the inputs is guided by data collected at previous time steps, and ii) it *adapts the depth* of the input-output Hankel matrix during the operation of the algorithm. We have shown that this approach leads to informative sequences of input-output samples of the shortest possible length....
+In this paper, we will build on the framework of. However, unlike that focused on analyzing informativity of given data sets, the purpose of this paper is to *design* experiments that are informative for system identification.
 
-## Formal problem statement
+We propose the experiment design method OnlineExperiment$(L,N)$. This procedure designs the inputs *online*, i.e., on the basis of past input-output samples. In Theorem we prove that this method leads to informative experiments of length $T$.
 
-In this section we recap the definition and characterization of informativity for system identification from \[\]. Without making any a priori assumption on the input, let $(u_{\lbrack 0,{t - 1}\rbrack},y_{\lbrack 0,{t - 1}\rbrack})$ be data obtained from. This means that there exists $x_{\lbrack 0,t\rbrack} \in {\mathbb{R}}^{n_{true} \times {({t + 1})}}$ such that
-
-By \[, Lemma 23\] and the fact that $(A_{true},B_{true})$ is controllable,
-
-The recent interest in data-driven control has also led to extensions of the fundamental lemma itself. Its original proof was presented in the language of behavioral theory; an alternative proof for state space systems was provided in \[\]. Generalizations to uncontrollable systems are presented in and extensions to continuous-time systems in. Robust/quantitative versions are explored in while frequency domain formulations have been considered in....
+A remarkable outcome of this paper is the fact that experiments can be designed of length *precisely equal to the lower bound $T$*. Interestingly, this number of samples $T$ depends on the unknown system and is thus not given a priori. It is revealed after the experiment design algorithm terminates.

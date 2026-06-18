@@ -8,14 +8,16 @@ We present a midpoint policy iteration algorithm to solve linear quadratic optim
 
 ## Introduction
 
-With the recent confluence of reinforcement learning and data-driven optimal control, there is renewed interest in fully understanding convergence, sample complexity, and robustness in both "model-based" and "model-free" algorithms. Linear quadratic problems in continuous spaces provide benchmarks where strong theoretical statements can be made. In practice, it is often difficult or impossible to develop a model of a system from first-principles....
+With the recent confluence of reinforcement learning and data-driven optimal control, there is renewed interest in fully understanding convergence, sample complexity, and robustness in both "model-based" and "model-free" algorithms. Linear quadratic problems in continuous spaces provide benchmarks where strong theoretical statements can be made. In practice, it is often difficult or impossible to develop a model of a system from first-principles.
 
-As an alternative, so-called "model-free" methods may also be used, which do not attempt to learn a model of the dynamics. The category of policy optimization methods which directly attempt to optimize the control policy, including policy gradient, has received significant attention recently for standard LQR \[Fazel et al.Fazel, Ge, Kakade, and Mesbahi, Bu et al.Bu, Mesbahi, and Mesbahi\], multiplicative-noise LQR \[Gravell et al.Gravell, Esfahani, and Summers\], Markov jump LQR \[Jansch-Porto et al.Jansch-Porto, Hu, and Dullerud\], and LQ games related to $\mathcal{H}_{\infty}$ robust control \[Zhang et al.Zhang, Yang, and Basar, Bu et...
+As an alternative, so-called "model-free" methods may also be used, which do not attempt to learn a model of the dynamics.
 
-This algorithm is perhaps most useful in the regime of practical problems in the online setting where it is relatively expensive to collect data and relatively cheap to perform the computations required to execute the updates. In such scenarios, the goal is to converge in as few iterations as possible, and MPI shows a clear advantage. Both the exact and approximate midpoint PI incur a computation cost *double* that of their standard PI counterparts. Theoretically, the faster *cubic* convergence rate of MPI over the *quadratic* convergence rate of PI should dominate this order constant (2$\times$) cost with sufficiently many iterations....
+Between the fully model-based system identification approaches and the fully model-free policy optimization approaches lies another category of methods, which we denote as value function approximation methods. These methods attempt to estimate value functions then compute policies which are optimal with respect to these value functions. This class of methods includes approximate dynamic programming, exemplified by approximate value iteration, which estimates state-value functions, and approximate policy iteration, which estimates state-action value functions.
 
-The current methodology is certainty-equivalent in the sense that we treat the estimated value functions as correct. Future work will explore ways to estimate and account for uncertainty in the value function estimate explicitly to minimize regret risk in the initial transient stage of learning when the amount of information is low and uncertainty is high.
+We present a midpoint policy iteration algorithm to solve linear quadratic optimal control problems when the dynamics are both known (Algorithm 1) and unknown (Algorithm 4).
 
-Using the expression, this can be rewritten as
+We demonstrate that the method converges, and does so at a faster *cubic* rate than standard policy iteration or policy gradient, which converge at quadratic and linear rates, respectively.
 
-The midpoint Newton method, due originally to \[Traub\], begins with an initial guess $x_{0}$ then proceeds with iterations
+We show that approximate midpoint policy iteration converges faster in the model-free setting even with the same available sample budget as the approximate standard policy iteration.
+
+We present numerical experiments that illustrate and demonstrate the effectiveness of the algorithms and provide an open-source implementation to facilitate their wider use.

@@ -10,14 +10,8 @@ Reinforcement Learning (RL) is a dynamic learning approach that interacts with t
 
 Generally, there are two aspects of methods of solving a model-free RL problem: value-based methods such as Q-Learning, SARSA, etc., as well as policy-based methods such as Policy Gradient (PG) algorithm. PG algorithm models the state-to-action transition probabilities as a parameterized family, and the cumulative rewards can be regarded as a function of the parameters. Thus, policy gradient based problem shares a formulation that is analogous to the traditional stochastic optimization problem.
 
-## Final Remarks
+One critical challenge of reinforcement learning algorithms compared to traditional gradient based algorithms lies on the issue of distribution shift, that is, the data sample distribution encounters distributional changes throughout the learning dynamics.
 
-In this paper, we propose a new STORM-PG algorithm that adopts a recently proposed variance-reduced gradient method called STORM. STORM-PG enjoys advantage both theoretically and experimentally. From the final experimental results, our STORM-PG algorithm is significantly better than all other baseline methods, both in aspects of training stability and parameter tuning (the user time of tuning STORM-PG is much shorter)....
+The problem of high sample complexity arises frequently in policy gradient based methods due to a combined effect of high variance incurred during the training phase and distribution shift, limiting the ability of model-free deep reinforcement learning algorithms. Such a combined effect signals the potential need of adopting variance-reduced gradient estimators to accelerate off-policy algorithms. Recently proposed variance-reduced policy gradient methods include SVRPG and SRVRPG theoretically improve the sample efficiency over PG.
 
-### Lemma 6 (Lemma A.1 in )
-
-When $\alpha = 1$, the STORM-PG estimator reduces to the vanilla stochastic gradient estimator and when $\alpha = 0$, the STORM-PG esimator reduces to the SARAH estimator. As our $\alpha$ is chosen between $$, the estimator is a combination of an variance reduced biased estimator and an unbiased estimator. In addition, can be rewritten as
-
-The detailed analysis of the convergence rate is shown in the next section. Corollary 12 is a direct result after Theorem 11. By controlling the estimated gradient to be in the $\epsilon$-neighborhood of 0, and minimizing $S_{0}$, we get the IFO complexity bound of STORM-PG algorithm:
-
-One critical challenge of reinforcement learning algorithms compared to traditional gradient based algorithms lies on the issue of distribution shift, that is, the data sample distribution encounters distributional changes throughout the learning dynamics....
+Nevertheless compared to the vanilla PG method, one major drawback of the aforementioned variance-reduced policy gradient methods is their alternations between large and small batches of trajectory samples, spelled as the restarting mechanism, so the variance can be effectively controlled. In this paper, we circumvent such a restarting mechanism by introducing a new algorithm named STOchastic Recursive Momentum Policy Gradient (STORM-PG), which utilizes the idea of a recently proposed variance-reduced gradient method STORM and blends with policy gradient methods.

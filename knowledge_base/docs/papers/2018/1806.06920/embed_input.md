@@ -8,10 +8,10 @@ Model free reinforcement learning algorithms can acquire sophisticated behaviour
 
 Unfortunately, the generality and flexibility of these algorithms comes at a price: They can require a large number of samples and -- especially in continuous action spaces -- suffer from high gradient variance. Taken together these issues can lead to unstable learning and/or slow convergence. Nonetheless, recent years have seen significant progress, with improvements to different aspects of learning algorithms including stability, data-efficiency and speed, enabling notable results on a variety of domains, including locomotion, multi-agent behaviour and classical control.
 
+In this paper we propose a novel off-policy algorithm that benefits from the best properties of both classes. It exhibits the scalability, robustness and hyperparameter insensitivity of on-policy algorithms, while offering the data-efficiency of off-policy, value-based methods.
+
+To derive our algorithm, we take advantage of the duality between control and estimation by using Expectation Maximisation (EM), a powerful tool from the probabilistic estimation toolbox, in order to solve control problems. This duality can be understood as replacing the question "what are the actions which maximise future rewards?" with the question "assuming future success in maximising rewards, what are the actions most likely to have been taken?". By using this estimation objective we have more control over the policy change in both E and M steps, yielding robust learning.
+
+## Conclusion
+
 We have presented a new off-policy reinforcement learning algorithm called Maximum a-posteriori Policy Optimisation (MPO). The algorithm is motivated by the connection between RL and inference and it consists of an alternating optimisation scheme that has a direct relation to several existing algorithms from the literature. Overall, we arrive at a novel, off-policy algorithm that is highly data efficient, robust to hyperparameter choices and applicable to complex control problems. We demonstrated the effectiveness of MPO on a large set of continuous control problems.
-
-Figure 4: Complete comparison of results for the control suite. We plot the median performance over 10 random seeds together with 5 and 95 % quantiles (shaded area). Note that for DDPG we only plot the median to avoid clutter in the plots. For DDPG and PPO final performance is marked by a star).
-
-Fitting a parametric policy in the M-step is a supervised learning problem, allowing us to employ various regularization techniques at that point. It also makes it easier to enforce the hard KL constraint.
-
-The derivation of our algorithm then starts from the infinite-horizon analogue of the KL-regularized expected reward objective from Equation. In particular, we consider variational distributions $q{(\tau)}$ that factor in the same way as $p_{\pi}$, i.e. ${q{(\tau)}} = {p{(s_{0})}{\prod_{t > 0}{p{(\left. s_{t + 1} \middle| {s_{t},a_{t}} \right.)}q{(\left. a_{t} \middle| s_{t} \right.)}}}}$ which yields:

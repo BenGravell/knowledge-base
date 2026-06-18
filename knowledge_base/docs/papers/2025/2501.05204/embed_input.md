@@ -8,16 +8,12 @@ Legged robots have achieved impressive feats in dynamic locomotion in challengin
 
 ## Introduction
 
-Figure 1: Three instances of our robotic character performing an unscripted show. Apart from their theming, they are identical. Each robot is remote-controlled by a separate operator.
+Legged robotic platforms have gained widespread accessibility and are often envisioned as versatile mobile platforms suitable for navigating challenging and unstructured environments. Consequently, most robotic systems are engineered and controlled with utility and efficiency as the primary objectives. This has led to remarkable achievements in dynamic legged systems that can now hike up mountains and conquer obstacle courses.
 
-Legged robotic platforms have gained widespread accessibility and are often envisioned as versatile mobile platforms suitable for navigating challenging and unstructured environments. Consequently, most robotic systems are engineered and controlled with utility and efficiency as the primary objectives \[\]. This has led to remarkable achievements in dynamic legged systems that can now hike up mountains \[\] and conquer obstacle courses \[\].
+In this work, we aim to bring expressive and dynamic motions onto a bipedal robotic character, and explore the intersection of legged robot design, control, and character animation. We present a new robot character, shown in Fig, with a mechanical design that is primarily driven by creative intent and simplicity rather than functional requirements. Additionally, we present a complete pipeline centered around reinforcement learning to bring animations onto the physical system.
+
+## Conclusion
+
+In this work we propose a robot design and control workflow that targets the intricate challenges associated with legged robots for entertainment applications. We present a new bipedal robotic character and demonstrate the integration of expressive, artist-directed motions with robust dynamic mobility. Multiple RL policies, trained to imitate artistic motions, and conditioned on low-dimensional input signals, provide a robust foundation on which we build in the animation engine. Together, they allow for real-time show performances through an intuitive operator interface.
 
 Our work has also demonstrated that it is possible to build dynamic legged robots where the kinematics and the mechanical design are driven by a creative target rather than by functional requirements. Taken together with the general formulation of the presented pipeline, our work enables the creation of expressive robot characters outside the typical anthropomorphic or zoomorphic morphologies, paving the way towards more general and fantastical robotic characters.
-
-While the separation into multiple policies has provided us with precise control over the behavior of the robot, it results in training overhead especially when scaling up the amount of episodic motions. Here, we are eager to explore if a single policy can learn several skills with the same level of accuracy as the specialized policies. Finally, there is a natural limit to how many buttons a puppeteer can use effectively. To further expand the expressive capabilities of the character, we see an opportunity for embedding autonomy in the animation engine.
-
-The reward function combines a motion-imitation rewards with additional regularization and survival rewards,
-
-To bring structure into the broad range of possible character performances, we use differences in their temporal properties to define three motion types:
-
-where the configuration interpolation is linear for position and joint angles, and uses slerp for body orientation. $\beta$ and $\alpha$ are blend ratios that vary as a function of playback time. Both ratios ramp linearly from 0 to 1 for a given duration at the beginning of an animation and back to 0 over the same duration prior to the end of the animation....

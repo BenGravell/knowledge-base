@@ -12,16 +12,8 @@ We consider the following generic optimization problem associated with regulariz
 
 Let $w^{\ast}$ be the optimum of. We say that a solution $w$ is $\epsilon_{P}$-sub-optimal if ${{P{(w)}} - {P{(w^{\ast})}}} \leq \epsilon_{P}$. We analyze the runtime of optimization procedures as a function of the time required to find an $\epsilon_{P}$-sub-optimal solution.
 
-In Figure 8 we compare the zero-one test error of SDCA, when working with the smooth hinge-loss ($\gamma = 1$) to the zero-one test error of SGD, when working with the non-smooth hinge-loss. As can be seen, SDCA with the smooth hinge-loss achieves the smallest zero-one test error faster than SGD.
-
-Figure 8: Comparing the test error of SDCA with the smoothed hinge-loss (γ = 1) to the test error of SGD with the non-smoothed hinge-loss. In all plots the vertical axis is the zero-one error on the test set and the horizontal axis is the number of iterations divided by training set size (corresponding to the number of epochs through the data). We terminated SDCA when the duality gap was smaller than 10−5.
-
-For the smoothed hinge loss, step (\*) in Procedure SDCA-Perm has a closed form solution as
-
-### Remark 8
-
-Similar argument holds for $\alpha < {- L}$. \
-
 A simple approach for solving SVM is stochastic gradient descent (SGD). SGD finds an $\epsilon_{P}$-sub-optimal solution in time $\overset{\sim}{O}{({1/{({\lambda\epsilon_{P}})}})}$. This runtime does not depend on $n$ and therefore is favorable when $n$ is very large. However, the SGD approach has several disadvantages. It does not have a clear stopping criterion; it tends to be too aggressive at the beginning of the optimization process, especially when $\lambda$ is very small; while SGD reaches a moderate accuracy quite fast, its convergence becomes rather slow when we are interested in more accurate solutions.
 
-The dual objective in has a different dual variable associated with each example in the training set....
+The dual objective in has a different dual variable associated with each example in the training set. At each iteration of DCA, the dual objective is optimized with respect to a single dual variable, while the rest of the dual variables are kept in tact.
+
+We focus on a *stochastic* version of DCA, abbreviated by SDCA, in which at each round we choose which dual coordinate to optimize uniformly at random. The purpose of this paper is to develop theoretical understanding of the convergence of the duality gap for SDCA.

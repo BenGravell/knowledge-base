@@ -8,18 +8,14 @@ We propose a two-phase risk-averse architecture for controlling stochastic nonli
 
 ## Introduction
 
-Safe deployment of mobile robots in uncertain dynamic environments, such as urban streets and crowded airspaces, requires a systematic accounting of various risks, both within and across layers in an autonomy stack. These autonomy stacks are naturally partitioned into a hierarchy of i) a high-level planner which generates a reference trajectory (often) offline before system operation, and ii) a low-level controller whose purpose is to track the reference trajectory in an online fashion and incorporate feedback to mitigate the effect of disturbances....
+Safe deployment of mobile robots in uncertain dynamic environments, such as urban streets and crowded airspaces, requires a systematic accounting of various risks, both within and across layers in an autonomy stack. These autonomy stacks are naturally partitioned into a hierarchy of i) a high-level planner which generates a reference trajectory (often) offline before system operation, and ii) a low-level controller whose purpose is to track the reference trajectory in an online fashion and incorporate feedback to mitigate the effect of disturbances.
 
-Many motion planning algorithms have been developed under deterministic settings and assume linear robot dynamics in order to simplify their analysis and design. However, in practice, robotic systems are inherently both nonlinear and stochastic in nature due to external disturbances and noisy onboard sensors. In the presence of model uncertainty or process noise, the resulting trajectory is only a nominal reference and there are no guarantees of its safety. To account for the stochastic components and to provide probabilistic guarantees, motion planning under uncertainty has been considered in several lines of recent research....
+Many motion planning algorithms have been developed under deterministic settings and assume linear robot dynamics in order to simplify their analysis and design. However, in practice, robotic systems are inherently both nonlinear and stochastic in nature due to external disturbances and noisy onboard sensors. In the presence of model uncertainty or process noise, the resulting trajectory is only a nominal reference and there are no guarantees of its safety. To account for the stochastic components and to provide probabilistic guarantees, motion planning under uncertainty has been considered in several lines of recent research.
+
+We present RANS-RRT\*, a new sampling-based motion planner for nonlinear robotic systems which constructs dynamically feasible trajectories that satisfy distributionally robust state constraints to promote safety.
+
+We demonstrate our proposed approach on unicycle dynamics under heavy-tailed Laplace process noise in a cluttered environment. We provide a comparative study of the collision-avoidance rate, state deviation and control costs, and computational expense of three low-level reference tracking controllers i) LQR, ii) LQRm and iii) NMPC, across a range of disturbance strengths, through Monte Carlo simulations.
 
 ## Conclusion and Future Work
 
-We proposed a risk-averse control architecture tailored for safely controlling stochastic nonlinear robotic systems, which combines a novel nonlinear steering-based variant of RRT\* called RANS-RRT\* that accounts for risk by performing DR collision checks with low-level reference tracking controllers. We performed thorough numerical experiments using unicycle dynamics, compared three controllers, and observed better performance from NMPC than LQR variants....
-
-with linear dynamics and quadratic stage costs
-
-Consider a mean state and covariance pair in the RANS-RRT\* trajectories $({\hat{x}{\lbrack k\rbrack}},{\hat{\Sigma}{\lbrack k\rbrack}})$. The risk constraint associate with this time step has the form
-
-At runtime, the solution from Algorithm 2 is used to generate control inputs at each time $k$ according to
-
-A chance-constrained version of RRT and RRT\* respectively were proposed in, where chance constraints were used to encode the risk of constraint violation to provide probabilistic feasibility guarantees for robots with linear dynamics under additive uncertainties....
+We proposed a risk-averse control architecture tailored for safely controlling stochastic nonlinear robotic systems, which combines a novel nonlinear steering-based variant of RRT\* called RANS-RRT\* that accounts for risk by performing DR collision checks with low-level reference tracking controllers. We performed thorough numerical experiments using unicycle dynamics, compared three controllers, and observed better performance from NMPC than LQR variants.

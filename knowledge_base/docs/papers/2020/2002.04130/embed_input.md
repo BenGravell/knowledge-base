@@ -6,14 +6,14 @@ We provide the first non-asymptotic analysis for finding stationary points of no
 
 Gradient based optimization underlies most of machine learning and it has attracted tremendous research attention over the years. While non-asymptotic complexity analysis of gradient based methods is well-established for convex and *smooth* nonconvex problems, little is known for nonsmooth nonconvex problems. We summarize the known rates (black) in Table 1 based on the references.
 
-Table 1: When the problem is nonconvex and nonsmooth, finding a ϵ-stationary point is intractable, see Theorem 11. Thus we introduce a refined notion, (δ,ϵ)-stationarity, and provide non-asymptotic convergence rates for finding (δ,ϵ)-stationary point.
+Within the nonsmooth nonconvex setting, recent research results have focused on asymptotic convergence analysis. Despite their advances, these results fail to address finite-time, non-asymptotic convergence rates. Given the widespread use of nonsmooth nonconvex problems in machine learning, a canonical example being deep ReLU neural networks, obtaining a *non-asymptotic* convergence analysis is an important open problem of fundamental interest.
 
-Our results provide the first non-asymptotic analysis of nonconvex optimization algorithms in the general Lipschitz continuous setting. Yet, they also open further questions. The first question is whether the current dependence on $\epsilon$ in our complexity bound is optimal. A future research direction is to try to find provably faster algorithms or construct adversarial examples that close the gap between upper and lower bounds on $\epsilon$. Second, the rate we obtain in the deterministic case requires function evaluations and is randomized, leading to high probability bounds....
+We tackle this problem for nonsmooth functions that are Lipschitz and directionally differentiable. This class is rich enough to cover common machine learning problems, including ReLU neural networks. Surprisingly, even for this seemingly restricted class, finding an $\epsilon$-stationary point, i.e., a point $\overline{x}$ for which ${d{(0,{\partial{f{(\overline{x})}}})}} \leq \epsilon$, is intractable. In other words, no algorithm can guarantee to find an $\epsilon$-stationary point within a *finite* number of iterations.
 
-In addition to the open problems listed above, our work uncovers another very interesting observation. In the standard stochastic, nonconvex, and smooth setting, stochastic gradient descent is known to be theoretically optimal, while widely used practical techniques such as momentum-based and adaptive step size methods usually lead to worse theoretical convergence rates. In our proposed setting, momentum and adaptivity naturally show up in algorithm design, and become necessary for the convergence analysis....
+This intractability suggests that, to obtain meaningful non-asymptotic results, we need to refine the notion of stationarity.
 
-Consequently, the two notions of stationarity are equivalent for differentiable functions. It is then natural to ask: *does $(\delta,\epsilon)$-stationarity permit a finite time analysis?*
+We show that a traditional $\epsilon$-stationary point cannot be obtained in finite time (Theorem 5).
 
-### Lemma 4
+We propose a normalized "gradient descent" style algorithm that achieves $\overset{\sim}{\mathcal{O}}{({\epsilon^{- 3}\delta^{- 1}})}$ complexity in finding a $(\delta,\epsilon)$-stationary point in the deterministic setting.
 
-To update the descent direction, we incorporate a randomized strategy. We randomly sample an interpolation point $y_{t,{k + 1}}$ on the segment $\lbrack x_{t},x_{t,k}\rbrack$ and evaluate the generalized gradient $g_{t,{k + 1}}$ at this random point $y_{t,{k + 1}}$. Then, we update the descent direction as a convex combination of $g_{t,{k + 1}}$ and the previous direction $m_{t,k}$....
+We propose a momentum based algorithm that achieves $\overset{\sim}{\mathcal{O}}{({\epsilon^{- 4}\delta^{- 1}})}$ complexity in finding a $(\delta,\epsilon)$-stationary point in the stochastic finite variance setting.

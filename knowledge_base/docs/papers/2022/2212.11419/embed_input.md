@@ -8,18 +8,10 @@ Imitation learning (IL) is a simple and powerful way to use high-quality human d
 
 ## INTRODUCTION
 
-Building an autonomous driving system that is deployable at scale presents many difficulties. First and foremost is the challenge of handling the numerous rare and challenging edge cases that occur in real-world driving. To this end, imitative learning based approaches have been proposed that allow the performance of the method to scale with the amount of data available....
+Building an autonomous driving system that is deployable at scale presents many difficulties. First and foremost is the challenge of handling the numerous rare and challenging edge cases that occur in real-world driving. To this end, imitative learning based approaches have been proposed that allow the performance of the method to scale with the amount of data available.
 
 Reinforcement Learning (RL) has the potential to resolve this by leveraging explicit reward functions that tell the policy what constitutes safe or unsafe outcomes (e.g., collisions). Furthermore, because RL methods train in closed-loop, RL policies can establish causal relationships between observations, actions, and outcomes. This yields policies that are less vulnerable to covariate shifts and spurious correlations commonly seen in open loop IL, and aware of safety considerations encoded in their reward function, but which are only implicit in the demonstrations.
 
-## CONCLUSIONS
+However, relying on RL alone, e.g. is also problematic because it heavily depends on reward design, which is an open challenge in autonomous driving. Without accounting for imitation fidelity, driving policies trained with RL may be technically safe but unnatural, and may have a hard time making forward progress in situations that demand human-like driving behavior to coordinate with other agents and follow driving conventions.
 
-We presented a method for robust autonomous driving in challenging driving scenarios, that combines imitation learning with RL (BC-SAC), paired with a simple safety reward, and trained on large datasets of real-world driving. Overall, the method significantly improves safety and reliability in challenging scenarios, resulting in more than 38% reduction in safety events of the most difficult scenarios compared to IL-only and RL-only baselines. Our extensive experiments examined the roles of training datasets, reward shaping and IL / RL objective terms....
-
-### IV-C Forward and Inverse Vehicle Dynamics Models
-
-In this work, we use an actor-critic method for training continuous control policies. Typical actor-critic methods alternate between training a critic $Q$ to minimize the Bellman error and an actor $\pi$ to maximize the value function. We use the entropy-regularized updates of Soft Actor-Critic (SAC):
-
-Baselines. We compare our method to both open-loop (*BC* ) and closed-loop (*MGAIL* ) imitative methods. The latter takes advantage of closed loop training and the differentiability of the simulator dynamics. For completeness, we also include a SAC baseline to represent an RL-only approach.
-
-However, relying on RL alone, e.g. is also problematic because it heavily depends on reward design, which is an open challenge in autonomous driving....
+In this paper we focus on the driving scenarios that are most likely to exhibit safety and reliability concerns, leveraging the difficulty estimation . Our proposed method, BC-SAC, combines IL and RL with a *simple* reward function, and trains on difficult driving scenarios. Difficulty is estimated via a classifier that estimates the likelihood of a collision or near-miss when re-simulated with a pre-trained planning policy. Our proposed reward function enforces safety of the agent, while natural driving behaviors are implicitly learned with IL.

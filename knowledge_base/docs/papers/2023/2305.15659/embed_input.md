@@ -8,10 +8,6 @@ In modern machine learning applications, the training loss function $f:{{\mathbb
 
 Recently, there has been a resurgence of interest in flat minima due to various advances in both empirical and theoretical domains. Motivated by the extensive research on flat minima, this work undertakes a formal study that
 
-Another important direction is to further investigate the effectiveness of the flatness. As we discussed in. ‣ 2.1 Measure of Flatness ‣ 2 Formulating Flat Minima ‣ How to Escape Sharp Minima with Random Perturbations"), recent results have shown that other notions of flatness are not always a good indicator of model efficacy (Andriushchenko et al. Wen et al., ). It would be interesting to understand the precise role of flatness, given that we have a lot of evidence of its success. Moreover, studying other notions of flatness, such as the "effective size of basin" as considered in (Kleinberg et al....
+delineates a clear definition for flat minima, and
 
-Based on our analysis, we suspect that replacing the full-batch gradients with the stochastic gradients in our proposed algorithms also leads to an efficient algorithm, with a more careful stochastic analysis. Moreover, we suspect that our results have sub-optimal dependence on the error probability $\delta$, and a more advanced analysis will likely leads to a better dependence. Lastly, based on our experiments, it seems that a smaller batch size has the same effect as using a larger perturbation radius $\rho$. Whether one can capture this effect theoretically would be also an intriguing direction....
-
-### Theorem 1
-
-The intuition behind such a definition is the following. Since we are focusing on the first-order optimization algorithms that has access to gradients of $f$, the natural notion of optimality is the local optimality....
+studies the upper complexity bounds of finding them.

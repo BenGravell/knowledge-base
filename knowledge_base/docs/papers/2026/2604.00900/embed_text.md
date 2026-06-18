@@ -1,0 +1,215 @@
+## Introduction
+
+Direct data-driven predictive control methods have recently gained significant attention in the control community. These formulations are fundamentally rooted in behavioral systems theory, which takes a representation-free perspective and treats dynamical systems simply as sets of trajectories. For linear time-invariant (LTI) systems, this means that the system behavior can be described as a linear subspace containing all possible trajectories. This viewpoint enables one to use raw data directly to represent the underlying system. This approach is often referred to as direct to emphasize the contrast with traditional indirect approaches, which require the intermediate step of first identifying a parametric model before performing controller design based on that estimate. To ensure that these direct control formulations remain robust to measurement noise and nonlinearities, regularization is typically added to the optimization problem. As demonstrated by numerous empirical case studies, regularized data-driven control methods often perform remarkably well in practical application domains.
+
+Initially, regularization was introduced into direct data-driven control formulations heuristically, lacking clear theoretical interpretability. Subsequent research has largely focused on addressing this gap to develop more interpretable formulations. While some of these studies successfully explain the implicit effects of regularization within existing frameworks, they do not propose novel control algorithms. Conversely, other approaches have modified the seminal formulation to derive new, theoretically grounded regularization terms. Beyond interpretability, a second major challenge is the efficient integration of online data updates into these control schemes, as highlighted in the surveys. Although recent methods allow for the online adaptation of behavioral subspace models, they rely on explicitly estimating the underlying subspace. This explicit approach has notable drawbacks: representing the behavior as a low-dimensional subspace generally yields inferior performance compared to regularized schemes, and the accuracy of these estimates is highly sensitive to system order selection.
+
+To address current challenges, we take a ground-up perspective rather than adapting the seminal formulation. Based on behavioral systems theory, we view predictive control for linear systems as a projection onto the behavior. Inspired by the principle behind the direct approach to data-driven control, we learn the solution map directly instead of explicitly learning the system model or its subspace representation. More specifically, we introduce the use of soft projections to approximate the true projector from noisy data, which is conceptually similarly to regularization in existing methods. Crucially, we provide rigorous bounds on the approximation error of these soft projections. The derived error bound reveals a clear trade-off between bias and variance, which can be tuned via a parameter similar to a regularization weight. Furthermore, this bound is completely independent of the true system order, thereby avoiding the sensitivity issues that come with explicit subspace estimates. The proposed perspective leads to conceptually novel control formulations, offering a new alternative to approaches that focus on designing interpretable regularization terms. Specifically, we propose two novel formulations: the first is a generalization of regularized data-enabled predictive control (DeePC), while the second is a more interpretable formulation that exhibits superior robust performance in a case study. Finally, we provide efficient rank-one update formulas for soft projectors, allowing the control methods to seamlessly adapt new data online.
+
+The remainder of the paper is organized as follows. Section II contains preliminaries on behavioral systems theory, orthogonal projections, and direct data-driven control. Soft projectors are analyzed in detail in Section III. We provide novel data-driven control formulations in Section IV, and describe the online updates of soft projectors in Section V. Finally, Section VI contains a case study.
+
+## Preliminaries
+
+### II-A Behavioral systems theory
+
+Behavioral systems theory defines a system as a set of trajectories, called the behavior. In this work, we focus on finite length system trajectories constructed as $w_{t,{{t + L} - 1}} = \begin{bmatrix}
+\end{bmatrix}^{\top} \in {\mathbb{R}}^{qL}$, where $u_{t} \in {\mathbb{R}}^{m}$ and $y_{t} \in {\mathbb{R}}^{({q - m})}$ are the inputs and outputs of the system, respectively. For LTI systems, the restricted behavior, $\mathcal{B}_{L}$ is defined as
+
+and it is a shift-invariant subspace of the set of all possible trajectories. Let $n$ be the order of a minimal system realization. Then, for LTI systems and for large enough $L$, the restricted behavior $\mathcal{B}_{L} \subseteq {\mathbb{R}}^{qL}$ is a subspace of dimension $d = {{mL} + n}$. A basis for $\mathcal{B}_{L}$ can be constructed from a state-space representation or directly from sufficiently rich and noise free data for LTI behaviors. The restricted behavior fully specifies the behavior in case $L$ is larger than the lag of the system. We focus on the restricted behavior $\mathcal{B}_{L}$ and refer to it simply as the behavior in the remainder of the manuscript.
+
+### II-B Orthogonal projections
+
+Let $U \in {\mathbb{R}}^{{qL} \times d}$ be a matrix with full column rank. The orthogonal projector to the column space ${col}{(U)}$ is
+
+The projector to the orthogonal complement of ${col}{(U)}$ is $I - P_{U}$. Furthermore, $P_{U} = P_{U}^{\top}$ and $P_{U}^{2} = P_{U}$ hold. For two subspaces ${col}{(U_{1})}$ and ${col}{(U_{2})}$, the gap metric is defined as
+
+and it measures the largest principal angle between the subspaces. With other words, the gap metric quantifies the worst case error between the projection of a unit vector onto ${col}{(U_{1})}$ and ${col}{(U_{2})}$. If the dimensions of ${col}{(U_{1})}$ and ${col}{(U_{1})}$ are different, then ${\|{P_{U_{1}} - P_{U_{2}}}\|}_{2} = 1$. Note that the projector does not depend on the representation of the subspace, i.e., if ${{col}{(U_{1})}} = {{col}{(U_{2})}}$, then $P_{U_{1}} = P_{U_{2}}$.
+
+### II-C Behavioral predictive control
+
+We can use the behavioral framework to formulate a predictive control scheme as follows. At time $t$, consider $T_{ini}$ greater than the lag and define $w_{ini} = w_{{t - T_{ini} - 1},{t - 1}}$. We are interested in finding a finite input sequence, such that the future trajectory $w_{f} = w_{t,{{t + T_{f}} - 1}}$ minimizes the control cost
+
+where $Q$ and $R$ are symmetric positive definite matrices, and $\parallel \cdot \parallel_{Q}$ denotes the 2-norm weighted by $Q$. The overall trajectory $w = \begin{bmatrix}
+w_{ini}^{\top} & w_{f}^{\top}
+\end{bmatrix}^{\top} \in {\mathbb{R}}^{qL}$ with $L = {T_{ini} + T_{f}}$ has to be consistent with the system behavior, which we write as $w \in \mathcal{B}_{L}$, with a slight abuse of notation. In practice, measurements are often corrupted by noise, and therefore, only a noisy estimate ${\hat{w}}_{ini}$ of $w_{ini}$ is available. To mitigate this, one can add $w_{ini}$ to the problem as an optimization variable that has to be close (but not necessarily equal) to the measurement ${\hat{w}}_{ini}$. Moreover, the trajectory must be in some convex set of constraints $\mathcal{C}$. Formalizing these requirements leads to the predictive control problem
+
+The controller is applied in receding horizon, i.e., once the problem is solved, we apply the first input $u_{t}$, and restart the process.
+
+To highlight the connection between problem and projections, we substitute the constraint in the cost yielding
+
+where $w_{ref}$ is the reference for $w_{f}$ constructed from $u_{ref}$ and $y_{ref}$, and $W$ is a block diagonal symmetric positive definite weighting matrix with blocks built from $\lambda_{\sigma}I$, $Q$, and $R$. Problem is equivalent to the (weighted) projection of $\begin{bmatrix}
+{\hat{w}}_{ini}^{\top} & w_{ref}^{\top}
+\end{bmatrix}^{\top}$ onto the set $\mathcal{B}_{L} \cap \mathcal{C}$. In case there are no constraints, i.e., $\mathcal{C} = {\mathbb{R}}^{qL}$, the solution can be simply expressed as
+
+where $B$ is a basis for the subspace $\mathcal{B}_{L}$, and $P_{B}^{W}:={B{({B^{\top}WB})}^{- 1}B^{\top}}$ is the projector onto $\mathcal{B}_{L}$ weighted by $W$.
+
+### II-D Data-driven predictive control
+
+The control formulation requires the exact knowledge of the system behavior $\mathcal{B}_{L}$, which is often not available. In the remainder of the paper, we assume that the behavior is unknown, but $D \gg {qL}$ noisy trajectories $w^{d}$ from $\mathcal{B}_{L}$ are available. We can arrange the measurements in a data matrix as
+
+The data matrix $H$ is a concatenation of two Hankel matrices, one for the inputs, and one for the outputs. With a slight abuse of notation, we permute the rows of $H$ in the subsequent control problems, so that the first $qT_{ini}$ rows correspond to $w_{ini}$, and the rest corresponds to $w_{f}$.
+
+Given the noisy data $H$, the data-driven control problem, termed DeePC, is formulated as
+
+If the measurements are noise free and the data is persistently exciting, then ${{col}{(H)}} = \mathcal{B}_{L}$ by the fundamental lemma. Thus, the constraint ${Hg} = w$ enforces $w \in \mathcal{B}_{L}$. However, $H$ becomes full rank in general when the data is noisy, rendering the constraint ${Hg} = w$ meaningless. To address this issue, the regularization term ${\| g\|}_{2}^{2}$ with weighting $\lambda_{g}$ is often added to the cost. Another commonly used regularizer, called the projected 2-norm regularizer, is defined as ${\|{{({I - \Pi})}g}\|}_{2}^{2}$ with $\Pi:={{({\lbrack{Z_{p}^{\top}U_{f}^{\top}}\rbrack}^{\top})}^{\dagger}{\lbrack{Z_{p}^{\top}U_{f}^{\top}}\rbrack}^{\top}}$, where $Z_{p}$ and $U_{f}$ denote the rows of $H$ corresponding to $w_{ini}$ and the inputs in $w_{f}$, respectively.
+
+In the absence of constraints, the solution to can be expressed in closed form as a "softened" projection onto ${col}{(H)}$, as shown below.
+
+### Lemma 1
+
+If $\mathcal{C} = {\mathbb{R}}^{qL}$ and $\lambda_{g} > 0$, the solution to is
+
+### Proof
+
+Substituting the constraint in the cost in gives min_g∈R\^D∥Hg - \[\^winiwref\]∥\_W\^2 + λ_g∥g∥\_2\^2. The statement follows using the fact that this is a regularized least-squares problem \[25, Section 15.1\]. ∎
+
+Lemma 1 reveals the connection between problem and. Namely, the true projector $P_{B}^{W}$ in is approximated by $H{({{H^{\top}WH} + {\lambda_{g}I}})}^{- 1}H^{\top}$ in DeePC, which can be interpreted as a weighted soft projector onto the column space of $H$. Since noise in the data makes $H$ full rank in general, the true projection to ${col}{(H)}$ becomes identity. Therefore, the projector in the data-driven setting is "softened" by the regularizer $\lambda_{g}$.
+
+Even though DeePC has been observed to achieve great performance in various case studies, the formulation has the following limitations. 1) Regularization on the $g$ vector is difficult to interpret, as it is not connected to the behavior directly. The interpretation through weighted soft projections above only holds in the absence of constraints, as DeePC attains an explicit solution in this case. 2) The (data-driven or non-parametric) system model only appears implicitly through the regularizer . As a consequence, it is not straightforward how new data can be incorporated in the formulation for online adaptation. In the remainder of the paper, we show how we can overcome these limitations by formulating the behavioral control problem with soft projections.
+
+Motivated by these observations, we further analyze the soft projector and show that it is a good approximation of the true projection onto the behavior in the next section. We also show that formulating data-driven predictive control problems using soft projectors explicitly resolves the above mentioned limitations of DeePC, and gives rise to novel control schemes.
+
+## Soft projections
+
+Let us analyze the soft projector with $\delta > 0$, defined as
+
+The unweighted soft projector with $W = I$ was introduced , and it is closely related to diagonal loading, which is a widely used technique in the signal processing literature. We denote the unweighted soft projector by ${\overset{\sim}{P}}_{H}:={\overset{\sim}{P}}_{H}^{I}$ throughout the paper. We derive the results for ${\overset{\sim}{P}}_{H}^{W}$ for completeness, but often focus on ${\overset{\sim}{P}}_{H}$ to build intuition.
+
+Computing ${\overset{\sim}{P}}_{H}^{W}$ as in involves inverting a $D$-by-$D$ matrix, which can be computationally restrictive. Using the matrix inversion lemma, ${\overset{\sim}{P}}_{H}^{W}$ can also be expressed as (cf. )
+
+This formulation only requires inverting an $qL$-by-$qL$ matrix, and thus, the computation does not scale with the data size.
+
+As the constant $\delta\rightarrow 0$, the soft projector ${\overset{\sim}{P}}_{H}$ reduces to the orthogonal projector onto ${col}{(H)}$, i.e., ${\overset{\sim}{P}}_{H}\rightarrow{HH^{\dagger}} = P_{H}$, where $\dagger$ denotes the Moore-Penrose inverse. In the noise-free case ($E = 0$) we have that ${{col}{(H)}} = {{col}{(B)}}$, and thus, the soft projector recovers the true projection $P_{B}$ as $\delta\rightarrow 0$. Recall that the eigenvalues of an orthogonal projector are either 1 or 0. For $\delta > 0$, however, the soft projector ${\overset{\sim}{P}}_{H}$ scales the singular values of $H$, denoted by $\sigma_{i}$. The eigenvalues of ${\overset{\sim}{P}}_{H}$ are $0 \leq \frac{\sigma_{i}^{2}}{\sigma_{i}^{2} + \delta} < 1$, while the eigenvectors are the same as those of $HH^{\top}$. As $\delta$ increases, the larger $\sigma_{i}$ start to dominate in ${\overset{\sim}{P}}_{H}$, and the smaller $\sigma_{i}$ are suppressed. Thus, the soft projector "denoises" the data matrix $H$. Since all eigenvalues of ${\overset{\sim}{P}}_{H}$ are less than one, the soft projections are biased towards zero compared to the true projection $P_{B}$.
+
+### Remark 1
+
+Introducing the soft projector ${\overset{\sim}{P}}_{H}$ was motivated by the solution to the DeePC problem with 2-norm regularization in Section II-D. In fact, the solution to DeePC in Lemma 1 can be expressed as $w_{DeePC}^{\star} = {{\overset{\sim}{P}}_{H}^{W}W\begin{bmatrix}
+{\hat{w}}_{ini}^{\top} & w_{ref}^{\top}
+\end{bmatrix}^{\top}}$ with $\delta = \lambda_{g}$. In case the projected 2-norm regularizer is used , the soft projector becomes
+
+where the inverse exists, since ${{col}{({\lbrack{Z_{p}^{\top}U_{f}^{\top}}\rbrack}^{\top})}} \subseteq {{col}{(H^{\top})}}$. The projector ${\hat{P}}_{H}$ does not shrink vectors in the subspace ${col}{({\lbrack{Z_{p}^{\top}U_{f}^{\top}}\rbrack})}$, only in its orthogonal complement. In the following, we focus on the soft projector ${\overset{\sim}{P}}_{H}$, but similar arguments hold for ${\hat{P}}_{H}$. ∎
+
+### III-A Approximation error bounds
+
+We now analyze the estimation error of the weighted soft projector. Motivated by the gap metric, we quantify the approximation error of the weighted soft projection by providing an upper bound on ${\|{{\overset{\sim}{P}}_{H}^{W} - P_{B}^{W}}\|}_{2}$ below. For the analysis, let us decompose the data matrix as $H = {{BS} + E}$, where $B \in {\mathbb{R}}^{{qL} \times d}$, ${BB^{\top}} = I$ is an orthonormal basis for the subspace $\mathcal{B}_{L}$. We interpret the term $BS$ as the nominal part of the data that is in the behavior, and $E$ is noise.
+
+### Theorem 1
+
+Assume that $\delta > 0$ and $W,S$ have full rank. Then, ${\|{{\overset{\sim}{P}}_{H}^{W} - P_{B}^{W}}\|}_{2} \leq {\gamma{(\delta)}}$, with
+
+where $\sigma_{\min}{( \cdot )}$ ($\sigma_{\max}{( \cdot )}$) denotes the smallest (largest) singular value of a matrix, and ${\kappa{(W)}} = {{{\sigma_{\max}{(W)}}/\sigma_{\min}}{(W)}}$ is the condition number of $W$.
+
+The proof can be found in the Appendix. The first term in $\gamma{(\delta)}$ quantifies the effect of the noise $E$. The second term is the bias that is introduced through $\delta$. The term $\sigma_{\min}{({B^{\top}WBSS^{\top}})}$ is related to the minimal signal content of the data, and it reduces the bias term in $\gamma{(\delta)}$. Since the projectors are weighted by the matrix $W$, the approximation error also depends on the conditioning of $W$.
+
+Theorem 1 enables us to provide a bound on the error introduced in DeePC in the unconstrained case due to using noisy data to approximate problem.
+
+### Corollary 1
+
+Let $w_{DeePC}^{\star}$ and $w_{\mathcal{B}}^{\star}$ be the solutions to and, respectively, with $\mathcal{C} = {\mathbb{R}}^{qL}$. Then,
+
+### Remark 2
+
+For unweighted soft projectors, the bound in Theorem 1 simplifies to
+
+Clearly, soft projectors are consistent in the sense that ${\|{{\overset{\sim}{P}}_{H} - P_{B}}\|}_{2}\rightarrow 0$ as ${\| E\|}_{2}\rightarrow 0$ and $\delta\rightarrow 0$, and the error bound changes smoothly with $\delta$. Importantly, the approximation error does not depend on the true dimension of $\mathcal{B}_{L}$.
+
+This is in contrast with the approach to data-driven control in the behavioral setting that explicitly estimates $\mathcal{B}_{L}$ as a low-dimensional subspace from data. If the estimated subspace and $\mathcal{B}_{L}$ and are of different dimensions, the gap metric is 1, meaning that the estimate can be arbitrarily bad. Hence, this approach is sensitive to order selection, which is a major limitation. ∎
+
+## Data-driven control using soft projections
+
+The solution of can only be interpreted through a soft projection in the unconstrained case, i.e., when $\mathcal{C} = {\mathbb{R}}^{qL}$. In this section, we propose a novel approach to approximately enforce the constraint $w \in \mathcal{B}_{L}$ in the behavioral control problem. If a basis $B$ for the behavior is known, the constraint $w \in \mathcal{B}_{L}$ can be written as ${{({I - P_{B}})}w} = 0$. However, this constraint for the soft projector only holds if $w = 0$ in general. To address this issue in the data-driven case, we lift the approximated constraint into the cost, leading to the following convex problem
+
+In the above formulation, $\alpha$ is a tuning parameter that controls how strong the approximation of the constraint $w \in \mathcal{B}_{L}$ is enforced. Furthermore, $\delta$ in ${\overset{\sim}{P}}_{H}$ controls how much the data is "denoised" by softening the projection. Note that if the data is noise-free and persistently exciting, ${\overset{\sim}{P}}_{H}\rightarrow P_{B}$ as $\delta\rightarrow 0$, and thus, reduces to as $\alpha\rightarrow\infty$.
+
+For orthogonal projectors, it holds that ${({I - P_{B}})}^{2} = {I - P_{B}}$, leading to ${\|{{({I - P_{B}})}w}\|}^{2} = {w^{\top}{({I - P_{B}})}w}$. However, this is not true for the soft projector ${\overset{\sim}{P}}_{H}$. Thus, approximating the constraint $w \in \mathcal{B}_{L}$ by penalizing $w^{\top}{({I - {\overset{\sim}{P}}_{H}})}w$ gives rise to the alternative control problem
+
+We scaled the tuning parameter $\hat{\alpha}$ by $\delta$ to highlight the connection between problem and DeePC in the unconstrained case, as formalized below.
+
+### Theorem 2
+
+Let $w_{DeePC}^{\star}$ and $w_{\text{(}\text{)}}^{\star}$ be the solutions to and, respectively, with $\mathcal{C} = {\mathbb{R}}^{qL}$. Assume that $H$ is full row rank and ${\lambda_{g},\delta} > 0$. If $\hat{\alpha} = \lambda_{g}$, then $w_{\text{(}\text{)}}^{\star}\rightarrow w_{DeePC}^{\star}$ as $\delta\rightarrow 0$.
+
+### Proof
+
+We first reformulate the solution $w_{DeePC}^{\star}$ from Lemma 1. Using the identity ${{({I + {AB}})}^{- 1}A} = {A{({I + {BA}})}^{- 1}}$ with $A = H^{\top}$ and $B = {\lambda_{g}^{- 1}WH}$ leads to
+
+Thus, ${w_{DeePC}^{\star} = {\left( {W + {\lambda_{g}{({HH^{\top}})}^{- 1}}} \right)^{- 1}W\begin{bmatrix}
+{\hat{w}}_{ini}^{\top} & w_{ref}^{\top}
+\end{bmatrix}^{\top}}}.$ Furthermore, without constraints is a regularized least-squares problem, whose solution is
+
+Note that the inverses exist for any $\delta > 0$, since $W$ is positive definite, $\hat{\alpha} > 0$, and $H$ is full row rank. Therefore, if $\hat{\alpha} = \lambda_{g}$, then $w_{\text{(}\text{)}}^{\star}\rightarrow w_{DeePC}^{\star}$ as $\delta\rightarrow 0$. ∎
+
+Theorem 2 shows that is a generalization of the DeePC formulation. In fact, the data matrix $H$ in DeePC is not actually "denoised", but the tuning parameter $\lambda_{g}$ only trades-off the control cost and the fit to the data $HH^{\top}$. More importantly, the formulations and are interpretable through the approximate data-driven projection onto the behavior $\mathcal{B}_{L}$. Even though we showed in Section II-D that DeePC performs a weighted soft projection in the unconstrained case, this interpretation is lost when constraints $\mathcal{C}$ are considered. On the other hand, the interpretation of and remain valid even in the constrained case. Finally, the soft projector ${\overset{\sim}{P}}_{H}$ can be seen as a data-driven model of the system, which appears explicitly in problems and. Therefore, online model updates can be readily incorporated in the algorithm (even in the constrained case) as shown in Section V.
+
+### IV-A Comparison of the proposed control formulations
+
+Recall that the solution to in the unconstrained case is $w_{\mathcal{B}}^{\star} = {P_{B}^{W}W\begin{bmatrix}
+{\hat{w}}_{ini}^{\top} & w_{ref}^{\top}
+\end{bmatrix}^{\top}}$. The matrix $P_{B}^{W}W$ mapping the desired trajectory to the solution is low rank, reflecting that any feasible trajectory lies in the low-dimensional subspace $\mathcal{B}_{L}$. When the solution is estimated from noisy data through soft projections, the low rank structure is destroyed. Yet, the separation of the eigenvalues is desired to approximate the solution to well. As we established in Section III, the eigenvalues of the soft projector can be filtered by tuning the parameter $\delta$. Intuitively speaking, the term ${({I - {\overset{\sim}{P}}_{H}})}^{2}$ in acts as a higher order filter that can separate the signal from noise in $H$ better than $({I - {\overset{\sim}{P}}_{H}})$.
+
+We illustrate this difference by analyzing the simple case when $\mathcal{C} = {\mathbb{R}}^{qL}$ and $W = I$. The proposed formulations and boil down to regularized least-squares problems, whose solution can be expressed in closed-from as $M_{\text{(}\text{)}}\begin{bmatrix}
+{\hat{w}}_{ini}^{\top} & w_{ref}^{\top}
+\end{bmatrix}^{\top}$ and $M_{\text{(}\text{)}}\begin{bmatrix}
+{\hat{w}}_{ini}^{\top} & w_{ref}^{\top}
+\end{bmatrix}^{\top}$, respectively, where
+
+The eigenvalues of the maps are
+
+where $\sigma_{i}$ are the singular values of $H$. Figure 1 displays the eigenvalues for $\sigma_{i} = {\{ 1000,100,50,30,20\}}$ and $\alpha = {\hat{\alpha}/\delta} = 10^{6}$ as a function of $\delta$. Interpreting ${({I - {\overset{\sim}{P}}_{H}})}^{2}$ as a second order filter, we see that the eigenvalues of $M_{\text{(}\text{)}}$ are separated more clearly. This provides the intuition that formulation is more robust to noise than formulation. In Section VI, we present a case study empirically confirming that this is indeed the case. A comprehensive analysis of the differences between and is subject of future work.
+
+Figure 1: Eigenvalues of the closed-form solution mapping for (top) and (bottom) in the unconstrained case with W = I and α = α̂/δ = 106. The singular values of the data matrix H are 1000, 100, 50, 30, and 20.
+
+## Online data-driven control
+
+A major benefit of using soft projections is the ease of incorporating online (new) data into data-driven control methods that are usually formulated with offline data. The continuous adaptation of these methods is essential in many application domains, as real-world dynamical systems often change over time. Furthermore, adapting the estimated projection onto the linear behavior $\mathcal{B}_{L}$ is particularly important because nonlinear systems can be effectively over-approximated as linear time-varying systems.
+
+Consider the scenario where the data matrix in includes all trajectories observed up to the current time $t$, denoted as
+
+While this time-varying matrix can be directly incorporated into the data-driven control problems or, such a naive implementation presents two primary challenges. First, it is computationally inefficient because the problem size in scales with the number of columns in $H_{t}$, or the soft projector ${\overset{\sim}{P}}_{H_{t}}^{W}$ in formulations and would need to be recomputed at every time step. Second, the appropriate selection of parameters $\lambda_{g}$ or $\delta$ depends directly on the current data matrix $H_{t}$ to achieve a favorable bias-variance trade-off (cf. Theorem 1). Since $H_{t}$ evolves as new data is collected, it is necessary to re-tune the parameter to maintain good performance.
+
+To address these challenges, we develop efficient update formulas for both the soft projector ${\overset{\sim}{P}}_{H_{t}}^{W}$ and the tuning parameter $\delta_{t}$. This enables direct tracking of the unconstrained DeePC solution and allows the novel formulations from Section IV to be adapted online. Inspired , we present an efficient rank-one update for the weighted soft projector below.
+
+### Proposition 1
+
+Given the most recent data trajectory $w_{{t - L},t}^{d}$, the weighted soft projector at time $t$ is
+
+Proposition 1 can be derived following the same steps as , and for the unweighted case ($W = I$), the update rule naturally reduces to the formula proposed therein. This recursive formulation offers an intuitive geometric interpretation. At time $t - 1$, the soft projector ${\overset{\sim}{P}}_{H_{t - 1}}^{W}$ serves as an estimate of the true projector $P_{\mathcal{B}_{L}}^{W}$. When new data $w_{{t - L},t}^{d}$ becomes available, it reveals additional information about the behavior $\mathcal{B}_{L}$. The vector ${\overset{\sim}{w}}_{t}$ captures the discrepancy between this newly observed trajectory and the current estimate, effectively acting as a weighted soft projection of $w_{{t - L},t}^{d}$ onto the orthogonal complement of ${col}{(H_{t - 1})}$. Consequently, the soft projector is updated in by incorporating the rank-one term ${\overset{\sim}{w}}_{t}{\overset{\sim}{w}}_{t}^{\top}$, which injects this new information into the estimate, appropriately normalized by the scalar $1/{({\gamma_{t}\delta_{t - 1}})}$. Furthermore, as argued , setting $\delta_{t} = {{\epsilon \cdot {tr}}{({H_{t}H_{t}^{\top}})}}$ for a small, possibly time-varying scalar $\epsilon$ ensures that ${\overset{\sim}{P}}_{H_{t}}^{W}$ remains a good approximation of the true projector. Finally, if the underlying system behavior is time-varying, the update rule can be readily modified to include a forgetting factor that discounts older data.
+
+The recursive update formulas presented in Proposition 1 enable the efficient online implementation of the proposed data-driven control methods. Given an initial time $t_{0} \geq d$, we first compute the initial soft projector ${\overset{\sim}{P}}_{H_{t_{0}}}^{W}$ according to, initializing the tuning parameter as $\delta_{0} = {{\epsilon \cdot {tr}}{({H_{t_{0}}H_{t_{0}}^{\top}})}}$. Then, at each subsequent time step $t > t_{0}$, we proceed as follows:
+
+Set ${\hat{w}}_{ini} = w_{{t - T_{ini} - 1},{t - 1}}$ for the controller.
+
+Determine the optimal trajectory. This is achieved either by evaluating the unconstrained DeePC solution directly as $w_{DeePC}^{\star} = {{\overset{\sim}{P}}_{H_{t - 1}}^{W}W\begin{bmatrix}
+{\hat{w}}_{ini}^{\top} & w_{ref}^{\top}
+\end{bmatrix}^{\top}}$ (cf. Remark 1), or by solving the constrained formulations or utilizing the most recent estimate ${\overset{\sim}{P}}_{H_{t - 1}}^{W}$.
+
+Extract the current control input $u_{t}$ from the optimal trajectory, apply it to the system, and measure the corresponding output $y_{t}$.
+
+Update the most recent data trajectory $w_{{t - L},t}^{d} = \begin{bmatrix}
+\end{bmatrix}^{\top}$,
+
+Update the soft projector ${\overset{\sim}{P}}_{H_{t}}^{W}$ and the parameter $\delta_{t}$ using the recursive formulas in Proposition 1.
+
+The adaptation scheme outlined above provides a computationally efficient alternative to the naive implementation by relying on rank-one updates. Specifically, the adaptation of new data in step 5 is highly efficient, as its most expensive operation (calculating the vector ${\overset{\sim}{w}}_{t}$ in Proposition 1) requires only $\mathcal{O}{({({qL})}^{2})}$ operations. Furthermore, the scheme systematically manages the time-varying tuning of the regularizer $\delta_{t}$. Nevertheless, one should exercise caution when using closed-loop data to continuously update the soft projector, as it can lead to the loss of persistence of excitation and the degradation of the data-driven system model. This is reflected in our theoretical analysis in Section III and in Remark 2 in particular. The loss of excitation causes the signal content (captured by $\sigma_{\min}{(S)}$ in ) to shrink, which leads to a growing estimation error for the soft projector.
+
+## Case study
+
+We consider the double spring-mass-damper system from consisting of two rotating discs. The MATLAB code reproducing the results is available online^11^1 The angle and angular velocity of the two disks are the states, and the outputs are the two angles. The input is the torque on the first disk. Disturbance acts on the system in the form of torques on both disks, which are modeled as zero mean white noise. The length of the initial and future trajectories are chosen as $T_{ini} = 2$ and $T_{f} = 12$. The objective is to track the reference at $\begin{bmatrix}
+\end{bmatrix}^{\top}$, starting from zero initial state. The constraints are $\begin{bmatrix}
+\end{bmatrix}^{\top} \leq y_{k} \leq \begin{bmatrix}
+\end{bmatrix}^{\top}$ and ${- 2} \leq u_{k} \leq 2$ for all $k = {t,\ldots,{{t + T_{f}} - 1}}$. We build the data matrix $H$ by simulating the system for $1000$ steps starting from zero initial state and applying zero mean white noise as input. The weights in the cost are ${Q = I},{{R = {0.01 \cdot I}},{\lambda_{\sigma} = 10^{6}}}$, and $\alpha = 10^{6}$.
+
+We compare the open-loop predictions obtained by solving DeePC and. The performance of problem was similar to that of DeePC, and therefore, we do not include it here. The parameters $\lambda_{g}$ and $\delta$ are tuned through validation from the intervals $\lbrack 10,10^{7}\rbrack$ and $\lbrack 10^{- 3},10^{3}\rbrack$, respectively. The open-loop prediction error and realized cost during validation are plotted in Figure 2 as the function of $\lambda_{g}$ (or $\delta$ for ). We choose $\lambda_{g} = 54.29$ and $\delta = 0.091$, as these values achieve the lowest open-loop cost on the validation set. With the validated parameter values, the predicted trajectories are tested for both methods. Both the validation and the testing was performed under a 100 noise realizations. The whole experiment was repeated for signal-to-noise ratios (SNR) 10, 5, and 3. Table I shows the mean realized open-loop cost and the prediction error statistics for different SNR levels.
+
+It can be seen in Figure 2 that the parameter $\lambda_{g}$ trades off prediction accuracy versus realized cost for DeePC. On the other hand, both the prediction error and the realized cost are minimized roughly on the same interval around $\lbrack 10^{- 2},1\rbrack$ for the proposed method . Both the validation curves in Figure 2 and the results in Table I show that the proposed method achieves superior performance compared to DeePC. As the signal-to-noise ratio shrinks, the difference between the mean realized costs grows, suggesting that overperforms DeePC due to its increased robustness.
+
+mean pred. err.
+pred. err. variance
+
+TABLE I: Realized open-loop cost and prediction error statistics for DeePC and the proposed method.
+
+Figure 2: Prediction error and realized cost for DeePC (red) and the proposed method (blue) during validation under SNR = 10. The cross denotes the chosen values.
+
+## Conclusion
+
+We introduced the use of soft projectors to approximate the true behavioral projector directly from noisy data, providing an alternative to regularization in direct data-driven predictive control. We established a rigorous bound on the approximation error that highlights a clear bias-variance trade-off and, importantly, remains independent of the underlying system order. Building upon these theoretical insights, we developed intuitive generalizations of regularized DeePC schemes that demonstrated superior performance in our simulated case study. Finally, we derived efficient update formulas for the soft projectors, providing a computationally practical approach for adapting these control methods online with streaming data. Future work includes investigating further approaches to approximate the behavioral projection and their interpretation in the stochastic setting.

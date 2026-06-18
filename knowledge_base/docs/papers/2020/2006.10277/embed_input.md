@@ -6,14 +6,16 @@ While the identification of nonlinear dynamical systems is a fundamental buildin
 
 The estimation of nonlinear dynamical systems with continuous states and inputs is generally based on data collection procedures inspired by the study of optimal input design for linear dynamical systems. Unfortunately, these data collection methods are not guaranteed to enable the estimation of nonlinear systems. To resolve this issue, studies of system identification either assume the available data is informative enough for estimation or consider systems for which i.i.d. random inputs produce informative data. However, as we will see, there are many nonlinear dynamical systems that cannot be estimated without a judicious choice of inputs.
 
-Inspired by experimental design and active learning, we present a data collection scheme that is guaranteed to enable system identification in finite time. Our method applies to dynamical systems whose transitions depend linearly on a known feature embedding of state-input pairs. This class of models can capture many types of systems and is used widely in system identification. For example, Ng et al. used such a model to estimate the dynamics of a helicopter and Brunton et al....
+Inspired by experimental design and active learning, we present a data collection scheme that is guaranteed to enable system identification in finite time. Our method applies to dynamical systems whose transitions depend linearly on a known feature embedding of state-input pairs. This class of models can capture many types of systems and is used widely in system identification.
 
-Assumption 2 allows only systems whose feature vectors can align with any direction. What if the feature vectors can align only with vectors in a subspace? In this case, it is not possible to recover $A_{\star}$ fully. However, in this case, it would not be necessary to know $A_{\star}$ fully in order to predict or control. Is it possible to estimate $A_{\star}$ only in the relevant directions?
+Therefore, the estimation of requires a judicious choice of inputs. To address this challenge we propose a method based on trajectory planning.
 
-What if we consider infinite dimensional feature maps $\phi$? Can we develop a statistical theory of learning RKHS models of dynamical systems?
+Given past observations and an estimate $\hat{A}$, our method plans a reference trajectory from the current state of the system to a high uncertainty region of the feature space.
 
-The last reference state-action pair $(\mathbf{x}_{r}^{R},\mathbf{u}_{r}^{R})$ is either well aligned with $v$, the minimum eigenvector of $\Phi^{\top}\Phi$, or its feature vector is in a high uncertainty region of the state space. More precisely, $(\mathbf{x}_{r}^{R},\mathbf{u}_{r}^{R})$ must satisfy one of the following two inequalities:
+Then, our method attempts to track the reference trajectory using $\hat{A}$.
 
-Example 3. Simple Pendulum We know that the dynamics of a simple pendulum in continuous time are described by the equation
+## Discussion and Open Problems
 
-First let us observe that when $b_{w} = 0$ the result is trivial. Because we assume access to an initial trajectory $\mathcal{D}$ which satisfies Assumption 2 we are guaranteed $\hat{A} = A_{\star}$ when $b_{w} = 0$....
+System identification led to the development of controllers for many applications and promises to help us tackle many others in the future. In this work we proposed and analyzed a method that estimates a class of nonlinear dynamical systems in finite time by adaptively collecting data that is informative enough. While this results takes us closer to understanding the fundamental limits of data driven control, there are many limitations to our model and approach.
+
+To solve trajectory planning problems we assumed access to a computational oracle. Is it possible to develop a method that has good statistical guarantees and is also computationally tractable? In practice, successful nonlinear control is often based on linearizations of the dynamics. Is it possible to quantify the sample complexity of system identification when trajectory planning is implemented using linearizations?

@@ -10,8 +10,10 @@ The ability to grasp previously unseen objects is a fundamental trait for robots
 
 The need for large and diverse datasets for training robust deep learning algorithms that generalise well to unknown conditions is widely recognised. However, many current visual grasp detection algorithms are trained on either very small, manually collected datasets, or datasets of objects adapted from other domains with a small number of semantic classes, which may not be representative of the type of challenges faced in robotic grasping.
 
+Furthermore, there currently exists very little standardisation between the physical objects used for evaluating robotic grasping algorithms. While some physical object datasets do exist, they have not been widely adopted by the robotic grasping community. Instead, researchers tend to test their algorithms using sets of random "household" objects, relying largely on the author's intuition as to the diversity and complexity of the test set, making effective comparison difficult.
+
+## Conclusion
+
 We presented EGAD, a dataset of over 2000 evolved 3D objects for training and evaluating robotic grasping and manipulation. The objects uniformly fill a space of shape complexity and grasp difficulty, compared to other similar datasets which are limited in both size and diversity. This provides the necessary diversity for training robust visual grasp detection algorithms. Additionally, we specify a diverse evaluation set of 49 objects which are 3D-printable to allow for reproducible testing of grasping algorithms over a wide range of complexity and difficulty.
 
 Using the EGAD evaluation set, we were able to identify a number of limitations of a state-of-the-art grasping algorithm GG-CNN, which has previously not been possible on simpler sets of "household" objects. In future work we propose to use these insights to improve on the baseline results, and to investigate the effect of diverse training data on the robustness of visual grasp detection algorithms.
-
-Our implementation of MAP-Elites begins with a population of randomly initialised CPPNs, which are queried and placed into their respective cells of the search space. At each subsequent iteration, a population is randomly sampled from the search space to undergo evolution and produce a new population of objects, which are subsequently evaluated and assigned to cells in the search space....

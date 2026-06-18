@@ -4,18 +4,14 @@ This article extends the optimal covariance steering (CS) problem for discrete t
 
 ## Introduction
 
-Intelligent and adaptive systems of the "smart world" that work under operational constraints seek to solve some instance of a constrained optimal control problem for optimizing their performance. Such constrained optimal control problems can now be increasingly solved efficiently using several numerical optimization techniques. For instance, robot path planning in uncertain environments has gained the attention of researchers worldwide as robots are being increasingly deployed to solve many real-world problems....
+Intelligent and adaptive systems of the "smart world" that work under operational constraints seek to solve some instance of a constrained optimal control problem for optimizing their performance. Such constrained optimal control problems can now be increasingly solved efficiently using several numerical optimization techniques. For instance, robot path planning in uncertain environments has gained the attention of researchers worldwide as robots are being increasingly deployed to solve many real-world problems.
 
-Control of stochastic systems can be best formulated as a problem of controlling the distribution of trajectories over time subject to constraints. Recently, the finite horizon covariance steering (CS) problem, namely, the problem of steering an initial distribution to a final distribution at a specific final time step subject to linear time varying dynamics has been explored. Specifically, the control problem in the CS problem setting involves steering the mean and the covariance to the desired terminal values....
+Control of stochastic systems can be best formulated as a problem of controlling the distribution of trajectories over time subject to constraints. Recently, the finite horizon covariance steering (CS) problem, namely, the problem of steering an initial distribution to a final distribution at a specific final time step subject to linear time varying dynamics has been explored. Specifically, the control problem in the CS problem setting involves steering the mean and the covariance to the desired terminal values.
+
+*Contributions:* Since authors in solved the CS problem for the Gaussian case, this article extends it with arbitrary distributions using the theory of distributional robustness (DR). To the best of our knowledge, this article is the first one to extend the CS problem using distributionally robust optimization techniques for both polytopic and convex conic state constraint sets.
+
+We demonstrate our approach using simulation examples and show the effectiveness of the proposed generalization for covariance steering problems between arbitrary distributions in moment-based ambiguity sets.
 
 ## Conclusion and Future Directions
 
-In this article we have incorporated an DR-IRA strategy to optimize the worst case probability of violating the state constraints at every time step within the CS problem of a linear stochastic system subject to distributionally robust risk constraints. The use of DR-IRA in the context of CS with distributionally robust risk constraints results in optimal solutions that have a true risk much closer to the intended design requirements, compared to the use of a uniform risk allocation. We also extended the approach to quadratic chance constraints in the form of convex cones....
-
-### III-C2 Distributionally Robust Iterative Risk Allocation (DR-IRA) Algorithm
-
-### III-B Distributionally Robust Polytopic Joint Risk Constraints
-
-The proof uses the same arguments as in and hence is omitted. ∎
-
-Control of stochastic systems often involves optimizing the system's objective subject to chance constraints, where one assumes that the system uncertainties follow a known distribution and enforces that the system constraints hold with high probability as a function of the decision variables. The number of constraint violations, called the total risk budget, is usually a user-defined a priori specification and is a natural metric to assess risk....
+In this article we have incorporated an DR-IRA strategy to optimize the worst case probability of violating the state constraints at every time step within the CS problem of a linear stochastic system subject to distributionally robust risk constraints. The use of DR-IRA in the context of CS with distributionally robust risk constraints results in optimal solutions that have a true risk much closer to the intended design requirements, compared to the use of a uniform risk allocation. We also extended the approach to quadratic chance constraints in the form of convex cones.

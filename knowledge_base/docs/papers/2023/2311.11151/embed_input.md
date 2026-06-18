@@ -12,16 +12,8 @@ Learning-based control plays an increasingly important role in many application 
 
 Understanding the fundamental limits or the corner cases of learning-to-stabilize algorithms can inform future algorithm design and is crucial for applications of these algorithms in safety-critical domains. Therefore, it is important to understand how the system properties affect the performance of the learning-to-stabilize algorithms. In particular, we are interested in the number of samples required to learn a stabilizing controller with a given probability as a performance measure. We say a class of systems is hard to learn to stabilize if this number grows exponentially with the system dimension, independent of the algorithm choice.
 
-Therefore, we can apply Lemma 5. ‣ -C Proof of Theorem 1 ‣ V Conclusion and Future Work ‣ On the Hardness of Learning to Stabilize Linear Systems") to obtain
+## Conclusion and Future Work
 
-Combining and, we have that holds only if
+In this work, we identified an extended class of LTI systems that are hard to learn to stabilize with static state feedback. The main idea in constructing such examples is to find pairs of systems whose parameters become exponentially close to each other as the dimension increases, yet they are not co-stabilizable. One interesting observation is that the entries of stabilizing gains for these pairs are also growing exponentially (see, Eq. ). In the future, we want to investigate the ramifications of this observation in gradient-based learning algorithms used for control as .
 
-### IV-A Certainty Equivalent LQR
-
-### Remark 2
-
-Consider the following order $n$ single-input controllable system $(\mathbf{A},\mathbf{B})$ with state feedback $\mathbf{K} \in {\mathbb{R}}^{1 \times n}$:
-
-We focus on fully observed linear time-invariant systems and consider the task of learning a static stabilizing linear state-feedback controller from a single trajectory. In this setting, Tsiamis et al. show that when the process noise is degenerate, i.e. the noise covariance matrix being singular, there are some classes of systems that are hard to learn to stabilize, by transferring the hardness of learning-to-stabilize into the hardness of system identification. The system classes constructed in their work are based on a (marginally) stable hard-to-stabilize pair....
-
-Notation: We use lower case, lower case boldface, and upper case boldface letters to denote scalars, vectors, and matrices respectively....
+*Acknowledgments:* The authors would like to thank Prof. Peter Seiler of University of Michigan for some early discussions that motivated this work.

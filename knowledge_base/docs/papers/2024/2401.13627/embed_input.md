@@ -8,26 +8,12 @@ We introduce SUPIR (Scaling-UP Image Restoration), a groundbreaking image restor
 
 ## Introduction
 
-The development of image restoration (IR) has greatly elevated expectations for both the perceptual effects and the intelligence of IR results. IR methods based on generative priors leverage powerful pre-trained generative models to introduce high-quality generation and prior knowledge into IR, bringing significant progress in these aspects. Continuously improving the capabilities of the generative prior is key to achieving better IR results, with model scaling being a crucial and effective approach. There are many tasks that have obtained astonishing improvements from scaling, such as SAM \[\] and large language models (LLMs)....
+The development of image restoration (IR) has greatly elevated expectations for both the perceptual effects and the intelligence of IR results. IR methods based on generative priors leverage powerful pre-trained generative models to introduce high-quality generation and prior knowledge into IR, bringing significant progress in these aspects. Continuously improving the capabilities of the generative prior is key to achieving better IR results, with model scaling being a crucial and effective approach. There are many tasks that have obtained astonishing improvements from scaling, such as SAM and large language models (LLMs).
 
-In this work, we introduce SUPIR (Scaling-UP IR), the largest-ever IR method, aimed at exploring greater potential in restoration visual effects and intelligence. Specifically, SUPIR employs StableDiffusion-XL (SDXL) \[\] as a powerful generative prior, which contains 2.6 billion parameters. To effectively deploy this model in IR, we design and train a large-scale adaptor that incorporates a novel component named the ZeroSFT connector. To maximize the benefits of model scaling, we collect a dataset of over 20 million high-quality, high-resolution images, each accompanied by detailed descriptive text....
+In this work, we introduce SUPIR (Scaling-UP IR), the largest-ever IR method, aimed at exploring greater potential in restoration visual effects and intelligence. Specifically, SUPIR employs StableDiffusion-XL (SDXL) as a powerful generative prior, which contains 2.6 billion parameters. To effectively deploy this model in IR, we design and train a large-scale adaptor that incorporates a novel component named the ZeroSFT connector. To maximize the benefits of model scaling, we collect a dataset of over 20 million high-quality, high-resolution images, each accompanied by detailed descriptive text.
+
+Our work goes far beyond simply scaling. While pursuing an increase in model scale, we face a series of complex challenges. First, existing adaptor designs either too simple to meet the complex requirements of IR or are too large to train together with SDXL. To solve this problem, we trim the ControlNet and designed a new connector called ZeroSFT to work with the pre-trained SDXL, aiming to efficiently implement the IR task while reducing computing costs.
 
 ## Conclusion
 
 We propose SUPIR as a pioneering IR method, empowered by model scaling, dataset enrichment, and advanced design features, expanding the horizons of IR with enhanced perceptual quality and controlled textual prompts.
-
-SUPIR (ours) Low-Quality Input Real-ESRGAN+ StableSR DiffBIR PASD SUPIR (ours)
-
-### Scaling Up Training Data
-
-### Synthetic Data
-
-Our work goes far beyond simply scaling. While pursuing an increase in model scale, we face a series of complex challenges. First, existing adaptor designs either too simple to meet the complex requirements of IR \[\] or are too large to train together with SDXL \[\]. To solve this problem, we trim the ControlNet and designed a new connector called ZeroSFT to work with the pre-trained SDXL, aiming to efficiently implement the IR task while reducing computing costs....
-
-## Related Work
-
-Figure 2: This figure briefly shows the workflow of the proposed SUPIR model.
-
-### Image Restoration
-
-The goal of IR is to convert degraded images into high-quality degradation-free images. In the early stage, researchers independently explored different types of image...

@@ -8,16 +8,8 @@ We prove a Bernstein inequality for vector-valued self-normalized martingales. W
 
 ## Tail Bounds for Self-Normalized Martingales
 
-We now change measure using the variational characterization of the relative relative entropy functional, which reads:
+Deviation inequalities for self-normalized martingales play a key role in obtaining guarantees for linear regression in interactive and sequential decision-making tasks, such as learning an autoregression or regret minimization in linear bandits. The most prevalent version of such an inequality currently in use is due to Abbasi-Yadkori et al. and rests on the method of pseudo-maximization popularized by Peña et al., dating back to Robbins and Siegmund. Comparing their result to the central limit theorem, their bound is nearly optimal but depends on the sub-Gaussian variance proxy instead of the actual variance.
 
-where the supremum spans over all probability measures $\rho$ over $\Lambda$. Hence
+Their approach rests on an elegant application of the pseudo-maximization technique developed by Peña et al., dating back to Robbins and Siegmund. While elegant, the result of Abbasi-Yadkori et al. has one shortcoming as compared to classical asymptotics: the linear dependence on the conditional variance proxy $\sigma_{subG}^{2}$ as opposed to the conditional variance, $\sigma_{var}^{2} \triangleq {\sup{\{{\left. {\mathbf{E}{\lbrack\left. W_{k}^{2} \middle| \mathcal{F}_{k - 1} \right.\rbrack}} \middle| {\text{~a.s.,~}k} \right. \in T}\}}}$.
 
-By making use of the identity (2.2), it is easy to see that the right hand side of (2.3) satisfies the exponential inequality required for Lemma 1. ‣ 2 PAC-Bayesian Bounds ‣ A Vector Bernstein Inequality for Self-Normalized Martingales"). Namely, the tower rule and the conditional sub-Gaussianity of $\{{{W_{k},k} \geq 1}\}$ implies that ${\mathbf{E}{\exp\left( {{\langle\lambda,S_{T}\rangle} - {\frac{1}{2}{\|\lambda\|}_{V_{T}}^{2}}} \right)}} \leq 1$ for all $\lambda \in {\mathbb{R}}^{d}$ and $T \in {\mathbb{N}}$. Hence, we may pick $\rho = {\mathsf{N}\left( {{({V_{T} + \Gamma})}^{- 1}S_{T}},\Sigma_{\rho} \right)}$ in Lemma 1....
-
-## PAC-Bayesian Bounds
-
-In other words, combined with ${\| S_{\tau}\|}_{{({V_{\tau} + \Gamma})}^{- 1}\Gamma{({V_{\tau} + \Gamma})}^{- 1}} \geq 0$, the PAC-Bayesian bound in Lemma 1. ‣ 2 PAC-Bayesian Bounds ‣ A Vector Bernstein Inequality for Self-Normalized Martingales"), justified by the exponential inequality in Lemma 2, yields that with probability $1 - e^{- u}$:
-
-Deviation inequalities for self-normalized martingales play a key role in obtaining guarantees for linear regression in interactive and sequential decision-making tasks, such as learning an autoregression or regret minimization in linear bandits. The most prevalent version of such an inequality currently in use is due to Abbasi-Yadkori et al. and rests on the method of pseudo-maximization popularized by Peña et al., dating back to Robbins and Siegmund. Comparing their result to the central limit theorem, their bound is nearly optimal but depends on the sub-Gaussian variance proxy instead of the actual variance....
-
-Their approach rests on an elegant application of the pseudo-maximization technique developed by Peña et al., dating back to Robbins and...
+In this note, we provide an alternative perspective on the proof of (1.2), where, instead of computing the exponential integral directly, we invoke the variational characterization of Kullback-Liebler divergence via the PAC-Bayesian lemma to relegate this difficulty to the calculation of said divergence. Beyond Gaussian priors, this turns out to be significantly simpler than the evaluation of an exponential integral.

@@ -4,20 +4,16 @@ We present a framework to train a structured prediction model by performing smoo
 
 ## Introduction
 
-Consider the optimization problem arising when training maximum margin structured prediction models:
+Consider
 
 where each $f^{(i)}$ is the structural hinge loss. Max-margin structured prediction was designed to forecast discrete data structures such as sequences and trees.
 
-We introduced a general notion of smooth inference oracles in the context of black-box first-order optimization. This allows us to set the scene to extend the scope of fast incremental optimization algorithms to structured prediction problems owing to a careful blend of a smoothing strategy and an acceleration scheme. We illustrated the potential of our framework by proposing a new incremental optimization algorithm to train structural support vector machines both enjoying worst-case complexity bounds and demonstrating competitive performance on two real-world problems....
-
-There are several potential venues for future work. When there is no discrete structure that admits efficient inference algorithms, it could be beneficial to not treat inference as a black-box numerical procedure. Instance-level improved algorithms along the lines of Hazan et al. could also be interesting to explore.
-
-Eq. follows from plugging in in for $k \geq 1$, while for $k = 0$, it is true by definition. Eq. follows from plugging in. Eq. follows from and. Lastly, to show, we shall show instead that is equivalent to the update for ${\mathbf{z}}_{k}$. We have,
-
-The max-marginal of $\psi$ relative to a variable $y_{v}$ is defined, for $j \in \mathcal{Y}_{v}$ as
-
-### Convergence Guarantee
-
 Batch non-smooth optimization algorithms such as cutting plane methods are appropriate for problems with small or moderate sample sizes. Stochastic non-smooth optimization algorithms such as stochastic subgradient methods can tackle problems with large sample sizes. However, both families of methods achieve the typical worst-case complexity bounds of non-smooth optimization algorithms and cannot easily leverage a possible hidden smoothness of the objective.
 
-Furthermore, as significant progress is being made on incremental smooth optimization algorithms for training unstructured prediction models, we would like to transfer such advances and design faster optimization algorithms to train structured prediction models....
+We introduce a general framework that allows us to bring the power of accelerated incremental optimization algorithms to the realm of structured prediction problems. To illustrate our framework, we focus on the problem of training a structural support vector machine (SSVM), and extend the developed algorithms to deep structured prediction models with nonlinear mappings.
+
+We seek primal optimization algorithms, as opposed to saddle-point or primal-dual optimization algorithms, in order to be able to tackle structured prediction models with affine mappings such as SSVM as well as deep structured prediction models with nonlinear mappings. We show how to shade off the inherent non-smoothness of the objective while still being able to rely on efficient inference algorithms.
+
+: We introduce a notion of smooth inference oracles that gracefully fits the framework of black-box first-order optimization. While the exp inference oracle reveals the relationship between max-margin and probabilistic structured prediction models, the top-$K$ inference oracle can be efficiently computed using simple modifications of efficient inference algorithms in many cases of interest.
+
+: We present a new algorithm built on top of SVRG, blending an extrapolation scheme for acceleration and an adaptive smoothing scheme. We establish the worst-case complexity bounds of the proposed algorithm and extend it to the case of non-linear mappings. Finally, we demonstrate its effectiveness compared to competing algorithms on two tasks, namely named entity recognition and visual object localization.

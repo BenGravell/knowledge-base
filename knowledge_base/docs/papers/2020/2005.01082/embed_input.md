@@ -8,19 +8,16 @@ This paper considers the Linear Quadratic Regulator problem for linear systems w
 
 ## Introduction
 
-Control theory is witnessing an increasing renewed interest towards *data-driven* (*data-based*) control. This terminology refers to all those cases where the dynamics of the system are unknown and the control law must be designed using data alone. This can be done either by identifying a model of the system from data and then use the model for control design, or by directly designing the control law bypassing the system identification (ID) step....
+Control theory is witnessing an increasing renewed interest towards *data-driven* (*data-based*) control. This terminology refers to all those cases where the dynamics of the system are unknown and the control law must be designed using data alone. This can be done either by identifying a model of the system from data and then use the model for control design, or by directly designing the control law bypassing the system identification (ID) step.
 
 *The Linear Quadratic Regulator problem*
 
-## Concluding remarks
+This paper considers the *infinite horizon* Linear Quadratic Regulator (LQR) problem for linear time-invariant systems, which is one of the problems more studied in the control literature. Besides its practical relevance, this problem is a prime example of the challenges encountered in data-driven control. Specifically, we consider the problem of computing the solution to the LQR problem from a finite set of (noisy) data collected from the system.\
+Early data-driven methods for LQR can be traced back to the theory of adaptive control systems, and include the popular *self-tuning regulators* and *policy iteration* schemes.
 
-The design of (optimal) controllers from noisy data is a very challenging and largely unsolved problem. In this paper we took some steps in this direction for the LQR problem. By resorting to a convex SDP formulation of the LQR problem, we proposed two novel methods that explicitly account for noise through an augmented cost function which favours noise-robust solutions. Both method provides finite sample stability guarantees, and do not require specific noise models such as the noise being white.\
-A great leap forward would come from extending the ideas of this paper to incorporate state and input *safety* constraints....
+Our contribution is a new approach to design LQ controllers from noisy data with guaranteed performance.
 
-Suppose that is feasible. Let $(\overline{\gamma},\overline{Q},\overline{P},\overline{L},\overline{V})$ be any optimal solution and let $\overline{K} = U_{0}\overline{Q}\overline{P}^{- 1}$. Let $\eta_{1} \geq 1$ be a constant. If condition is satisfied then $\overline{K}$ stabilises system and
+*Stability and performance guarantees*. As long as the noise satisfies suitable inequalities our method returns a stabilizing controller with quantitative *relative error* (gap between the computed solution and the unknown optimal controller) and the error nicely scales with the noise magnitude.
 
-### Stability and performance analysis
-
-*Proof*. Similarly to the proof of Lemma 4, the idea is to let ${(\hat{\gamma},\hat{Q},\hat{P},\hat{L})}:={\eta_{1}{(\overline{\gamma},\overline{Q},\overline{P},\overline{L})}}$ and show that it satisfies the first constraint in. In fact, by multiplying the first constraint in by the vector $x^{\top}\left\lbrack {ID_{0}} \right\rbrack$ on the left and its transpose on the right, it is straightforward to see that implies
-
-This paper considers the *infinite horizon* Linear Quadratic Regulator (LQR) problem for linear time-invariant systems, which is one of the problems more studied in the control literature. Besides its practical relevance, this problem is a prime example of the challenges encountered in data-driven control....
+As , we focus on non-iterative methods which do not require an initial stabilizing controller, as instead typically assumed in iterative methods. The main difference with respect to is that our method is direct and assumes no noise model.\
+The advantage of not relying on noise statistics is twofold. Although the solution to LQR can be interpreted as the one minimizing the variance of the system's output in response to white noise, experimental data need not comply with such setting, and show correlation and dependence (dependence breaks the *i.i.d.* assumption used in ).

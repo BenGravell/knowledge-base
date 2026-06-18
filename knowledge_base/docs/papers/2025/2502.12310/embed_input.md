@@ -6,16 +6,14 @@ We study the sample efficiency of domain randomization and robust control for th
 
 ## Introduction
 
-Figure 1: Illustration of the sample efficinecy of various synthesis methods.
+The use of learned world models to synthesize controllers via policy optimization is becoming increasingly prevalent in reinforcement learning (Wu et al. Matsuo et al., ). The performance of the resulting controller depends heavily upon the synthesis procedure. Simple approaches that do not account for uncertainty, known as certainty equivalence, can overfit to errors in the learned model. Robust control approaches can tolerate some error in the learned model, but may be overly conservative and computationally demanding.
 
-The use of learned world models to synthesize controllers via policy optimization is becoming increasingly prevalent in reinforcement learning (Wu et al. Matsuo et al., ). The performance of the resulting controller depends heavily upon the synthesis procedure. Simple approaches that do not account for uncertainty, known as certainty equivalence, can overfit to errors in the learned model. Robust control approaches can tolerate some error in the learned model, but may be overly conservative and computationally demanding....
+We seek to address these issues by restricting attention to the benchmark problem of learning the linear quadratic regulator (LQR). This problem consists of collecting experimental interaction data from a linear dynamical system, and using this data to synthesize a controller that optimizes a control objective. The linear dynamical system is described by
 
-By analyzing the sample efficiency of learning the linear quadratic regulator via domain randomization and robust control, our work provides insights into the tradeoffs present for approaches to incorporate uncertainty quantification into learning-enabled control. Our analysis demonstrates that if one is strategic about the design of the sampling distribution, then the benefits of domain randomization over robust control may extend beyond computational considerations, and to the sample efficiency. This is particularly exciting due to the prominence of domain randomization in practice for robot learning....
+for a sampling distribution $\mathcal{D}$ determined using the dataset of experiments collected .
+
+## Conclusion
+
+By analyzing the sample efficiency of learning the linear quadratic regulator via domain randomization and robust control, our work provides insights into the tradeoffs present for approaches to incorporate uncertainty quantification into learning-enabled control. Our analysis demonstrates that if one is strategic about the design of the sampling distribution, then the benefits of domain randomization over robust control may extend beyond computational considerations, and to the sample efficiency. This is particularly exciting due to the prominence of domain randomization in practice for robot learning.
 
 We thank Manfred Morari, Anastasios Tsiamis, Ingvar Ziemann, and Thomas Zhang for several instructive conversations. TF is supported by JASSO Exchange Support program and UTokyo-TOYOTA Study Abroad Scholarship. TF and GP are supported in part by NSF Award SLES 2331880 and NSF TRIPODS EnCORE 2217033. BL and NM are supported by NSF Award SLES-2331880, NSF CAREER award ECCS-2045834 and AFOSR Award FA9550-24-1-0102.
-
-A bound on least squares using this quantity is shown in Appendix C. Proofs for the remainder of the results in this section may be found in Appendix G.
-
-We consider three approaches to control synthesis using the estimates $\hat{\theta}$ and $\hat{\mathsf{F}\mathsf{I}}$:
-
-To illustrate the impact on control performance, suppose we have an estimate $\hat{a} = 1.01$. The certainty-equivalent controller derived from this estimate is $k = {- 0.0424}$, which fails to stabilize the true system. In contrast, if we apply robust control over any uncertainty set within the interval $\lbrack 0.3,1.8\rbrack$ that includes $a^{\star}$, we synthesize a controller that stabilizes the system....

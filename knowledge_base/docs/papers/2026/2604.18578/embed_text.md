@@ -1,0 +1,245 @@
+## Introduction
+
+Deep reinforcement learning (DRL) has achieved breakthroughs across diverse domains silver2017mastering; lee2020learning; ouyang2022training; radosavovic2024real. Among DRL methods, Proximal Policy Optimization (PPO) schulman2017proximal remains one of the most widely adopted algorithms. The core design of PPO is motivated by Trust Region Policy Optimization (TRPO, schulman2015trust ), which constrains policy updates within a "trust region" to ensure stable iterations. By utilizing a first-order approximation of the TRPO objective, PPO achieves the scalability necessary for training modern large-scale models. As a result, PPO and its variant GRPO are now widely applied to tasks ranging from robotics to large language model (LLM) fine-tuning miki2022learning; andrychowicz2020learning; shao2024deepseekmath.
+
+Despite its empirical success, PPO remains largely heuristic: its clipped objective is not directly derived from the trust-region formulation it was intended to approximate. Instead, the design of the PPO objective was primarily driven by experimentation schulman2017proximal; engstrom2020implementation. Furthermore, most existing theoretical analyses of PPO's performance improvement rely on the original TRPO or policy gradient formulation schulman2015trust; liu2019neural; doering2026approximate, none of which fully capture the nuances of the first-order loss used in practice.
+
+Numerous variants have been recently proposed to improve PPO. Some works focus primarily on algorithm design and report empirical performance gains without formal theoretical contributions cobbe2021phasic; ye2020mastering; tan2024beyond; fakoor2020p3o; kobayashi2021proximal. Other works extend PPO to specific domains (e.g., safe RL, non-stationary RL) without modifying the core PPO loss function akgul2025overcoming; milosevic2025central. There are also PPO variants aiming at improving the PPO loss from a theoretical lens xie2024simple; wang2020truly; wang2019trust; qi2026rethinking. However, similar to PPO, they also utilize TRPO theory without introducing novel theoretical frameworks or establishing superior performance guarantees. Consequently, there remains a substantial gap between the theoretical foundations and the practical policy optimization algorithms.
+
+To address this gap, we introduce the bounded ratio reinforcement learning (BRRL) framework. Instead of constraining policy updates through KL divergence kullback1951information bounds as in TRPO, BRRL imposes bounded ratio constraints on the policy likelihood ratios. This formulation admits an analytic optimal policy, which reveals a simple structure for policy updates. We establish the following contributions using the BRRL framework:
+
+We derive the optimal solution of BRRL and prove its monotonic performance improvement guarantees. We also demonstrate that optimizing the PPO loss approximately pushes the policy towards this analytic optimal solution.
+
+We establish a connection between BRRL and the Cross-Entropy Method (CEM).
+
+We propose Bounded Policy Optimization (BPO), which optimizes an advantage-weighted divergence from the BRRL solution. We also extend BPO to Group-Relative BPO (GBPO), mirroring the extension from PPO to GRPO.
+
+We provide a performance improvement guarantee for the policy attained by BPO in terms of the loss that BPO optimizes.
+
+We demonstrate strong empirical performance of BPO on MuJoCo, Atari, IsaacLab locomotion tasks, and of GBPO for LLM fine-tuning.
+
+Overall, BRRL provides a principled perspective on PPO-style algorithms, suggesting that their empirical success arises from approximating an analytically optimal bounded-ratio update. By more directly approximating this analytically optimal bounded-ratio update, BPO achieves improved empirical performance (Figure˜1).
+
+## Notation
+
+Markov Decision Process (MDP): We consider an infinite-horizon MDP defined by the tuple $(\mathcal{S},\mathcal{A},\mathcal{P},r,d,\gamma)$, where $\mathcal{S}$ is the state space, $\mathcal{A}$ is the action space, $\mathcal{P}:{{\mathcal{S} \times \mathcal{A} \times \mathcal{S}}\rightarrow{\mathbb{R}}}$ is the transition model, $r:{{\mathcal{S} \times \mathcal{A} \times \mathcal{S}}\rightarrow{\mathbb{R}}}$ is the reward function, $d_{0}:{\mathcal{S}\rightarrow{\mathbb{R}}}$ is the initial state distribution, and $\gamma \in {}$ is the discount factor. Let $\pi:{{\mathcal{S} \times \mathcal{A}}\rightarrow{\mathbb{R}}}$ denote the stochastic policy. We denote $r_{t}:={r{(s_{t},a_{t},s_{t + 1})}}$. The goal of the MDP is to solve the optimization problem
+
+which maximizes the expected discounted return under policy $\pi$ within the policy class $\Pi$. Let us denote ${d_{\pi}{(s)}}:={\sum_{t = 0}^{\infty}{\gamma^{t}P{({s_{t} = s})}}}$ as an unnormalized state visitation distribution schulman2015trust. Then the objective in can be rewritten as ${\eta{(\pi)}} = {{\mathbb{E}}_{s \sim d_{\pi},a \sim \pi{( \cdot |s)},s^{\prime} \sim P{( \cdot |s,a)}}{\lbrack{r{(s,a,s^{\prime})}}\rbrack}}$.
+
+Value function and advantage: We define the value function of a state $s$ given policy $\pi$ as ${V_{\pi}{(s)}}:={{\mathbb{E}}_{{s_{0},a_{0},{\ldots|s_{0}}} = s}{\lbrack{\sum_{t = 0}^{\infty}{\gamma^{t}r_{t}}}\rbrack}}$, and the Q-function ${Q_{\pi}{(s,a)}}:={{\mathbb{E}}_{{{s_{0},a_{0},{\ldots|s_{0}}} = s},{a_{0} = a}}{\lbrack{\sum_{t = 0}^{\infty}{\gamma^{t}r_{t}}}\rbrack}}$, where the actions (excluding the conditioned $a_{0}$ in the Q-function) are sampled from the policy $\pi$. The advantage function is defined as the difference between them ${A_{\pi}{(s,a)}}:={{Q_{\pi}{(s,a)}} - {V_{\pi}{(s)}}}$. As shown in schulman2015trust, the expected return of the new policy $\pi$ in with regard to an old policy $\pi_{0}$ can be derived as
+
+where the advantage is evaluated under $\pi_{0}$, and the expectation is taken over $d_{\pi}$ and $\pi$.
+
+Surrogate objectives: We denote the surrogate objective optimized by TRPO schulman2015trust as
+
+where $\rho = {\rho{(\left. a \middle| s \right.)}}:={{{\pi{(\left. a \middle| s \right.)}}/\pi_{0}}{(\left. a \middle| s \right.)}}$ are the importance weights. In contrast to, $L_{\pi_{0}}{(\pi)}$ takes the expectation over $d_{\pi_{0}}$ instead of $d_{\pi}$. In TRPO, $\pi$ is updated to optimize $L_{\pi_{0}}{(\pi)}$ with constrained KL-divergence from $\pi_{0}$.
+
+## Overview of Contributions
+
+Figure 2: Illustration of Bounded Ratio RL (BRRL). (Left) Old policy π0 within the parameterized policy class Π. (Middle Left) Construction of a trust region (light green) defined by bounded ratio constraints from Problem or. (Middle Right) Estimation of the analytic optimal policy within the trust region (dark green, can be outside Π) using (soft-)median-advantages ${\overset{\sim}{A}}_{\pi_{0}}$ (Theorem 4.1). In general, actions with positive (resp. negative) advantages ${\overset{\sim}{A}}_{\pi_{0}} &gt; 0$ (resp. ${\overset{\sim}{A}}_{\pi_{0}} &lt; 0$) yield optimal ratios greater (resp. smaller) than 1. (Right) The updated policy within Π (yellow) is obtained by minimizing a divergence from the estimated optimal policy.
+
+In this section, we present an overview of the contributions within this work, as shown in Figure 2.
+
+Bounded ratio RL framework: We consider a policy optimization problem with bounded ratio trust region constraints from an old policy $\pi_{0}$, instead of the KL-divergence constraint of TRPO, as shown in Figure 2 (Middle Left). Specifically, with $L_{\pi_{0}}{(\pi)}$ defined , the problem is expressed as
+
+which also has an implicit normalization constraint ${\sum_{a}{\pi{(\left. a \middle| s \right.)}}} = {1,{\forall s}}$. Notably, this problem has an *analytical* optimal solution $\pi^{\ast}$, which in many cases (as detailed in Remark 4.3). ‣ 4.1 Bounded Ratio RL Framework ‣ 4 Method ‣ Bounded Ratio Reinforcement Learning")) can be derived as
+
+where ${\overset{\sim}{A}}_{\pi_{0}}:={{Q_{\pi_{0}}{(s,a)}} - {\mu_{\pi_{0}}{(s)}}}$ is the median advantage. In particular, $\mu_{\pi_{0}}{(s)}$ denotes the median of $Q_{\pi_{0}}{(s,a)}$ over $\pi_{0}$, such that for any $s \in \mathcal{S}$, ${\overset{\sim}{A}}_{\pi_{0}}$ satisfies ${{\mathbb{E}}_{a \sim \pi_{0}{( \cdot |s)}}{\lbrack{\text{sign}{({\overset{\sim}{A}}_{\pi_{0}})}}\rbrack}} = 0$. As shown in Figure 2 (Middle Right) and Figure 3 (c), this optimal solution can be explained as: if $Q_{\pi_{0}}{(s,a)}$ is higher than the threshold $\mu_{\pi_{0}}{(s)}$, then take the highest probability within the constraint ${\pi^{\ast}{(\left. a \middle| s \right.)}} = {{({1 + \epsilon})}\pi_{0}{(\left. a \middle| s \right.)}}$; otherwise, let ${\pi^{\ast}{(\left. a \middle| s \right.)}} = {{({1 - \epsilon})}\pi_{0}{(\left. a \middle| s \right.)}}$. Threshold $\mu_{\pi_{0}}{(s)}$ is selected as the median, s.t. $\pi^{\ast}$ is a normalized probability distribution (${\sum_{a}{\pi^{\ast}{(\left. a \middle| s \right.)}}} = 1$). A formal theorem on the optimal solution for general cases is provided in Theorem 4.1. ‣ 4.1 Bounded Ratio RL Framework ‣ 4 Method ‣ Bounded Ratio Reinforcement Learning"). Note that Theorem 4.1. ‣ 4.1 Bounded Ratio RL Framework ‣ 4 Method ‣ Bounded Ratio Reinforcement Learning") can also be extended to problems with asymmetric bounded ratio constraints ($c_{l} \leq {{{\pi{(\left. a \middle| s \right.)}}/\pi_{0}}{(\left. a \middle| s \right.)}} \leq c_{h}$). This asymmetric solution is used to draw a connection to the cross-entropy method (CEM, rubinstein1999cross ) in Section 4.6.
+
+Figure 3: Loss functions of PPO and bounded-ratio RL. Curves for ${\overset{\sim}{A}}_{\pi_{0}} &gt; 0$ and ${\overset{\sim}{A}}_{\pi_{0}} &lt; 0$ are shown in yellow and blue, respectively. (a) Original PPO loss function. (b) Equivalent loss function of PPO as introduced in Equation. (c) Optimal ratios for the optimization problem with bounded ratio constraints . (d) Advantage-weighted TV loss function in BPO, defined .
+
+Monotonic performance guarantee: For the cases where optimal policy $\pi^{\ast}$ from is realizable, it can be shown to have improved performance over $\pi_{0}$
+
+where the second term is non-negative and is positive whenever $\pi_{0}$ induces non-zero median advantage. For a fixed $\pi_{0}$, we denote this constant improvement term as $\epsilonB$. A performance bound for general cases is provided in Theorem 4.2. ‣ 4.1 Bounded Ratio RL Framework ‣ 4 Method ‣ Bounded Ratio Reinforcement Learning"). Though $\pi^{\ast}$ is simple to express and provides improvement guarantees, it may not lie in the admissible policy class $\Pi$ (Figure 2 Middle right). This motivates the design of policy optimization algorithms to minimize divergence between the policy $\pi \in \Pi$ and $\pi^{\ast}$.
+
+Revisiting the PPO loss function: We observe that the PPO loss function approximately drives the policy towards $\pi^{\ast}$ . Specifically, as shown in Figure 3 (a-b), optimizing the PPO objective schulman2017proximal is equivalent to minimizing the expectation of the following loss function evaluated at $\rho = {{{\pi{(\left. a \middle| s \right.)}}/\pi_{0}}{(\left. a \middle| s \right.)}}$
+
+A formal theorem on this equivalence with step-by-step proof is detailed in Section 4.4 and Appendix A.6. At the beginning of the iteration, the ratio always starts from 1, and the PPO loss minimizes an *advantage-weighted absolute error* between the ratio $\rho$ and the target $1 + {\epsilon\text{sign}{(A_{\pi_{0}})}}$, then it applies zero-gradient after reaching the target. Note that this target ratio closely matches the solution , except that PPO uses the mean advantage $A_{\pi_{0}}$, and the BRRL solution is expressed in terms of the median advantage ${\overset{\sim}{A}}_{\pi_{0}}$.
+
+Bounded Policy Optimization (BPO): Building on the solution , we introduce a natural PPO variant with the loss function $l^{BPO}$ to directly minimize the *advantage weighted total variation* from the optimal solution. For the solution , the loss $l^{BPO}$ evaluated under $\rho = {{{\pi{(\left. a \middle| s \right.)}}/\pi_{0}}{(\left. a \middle| s \right.)}}$ is
+
+The loss is illustrated in Figure 3 (d). Compared with the PPO loss , this loss function $l^{BPO}$ only differs in two ways: a symmetric slope also for ${{\lbrack{\rho - {({1 + {{\epsilon \cdot \text{sign}}{(A_{\pi_{0}})}}})}}\rbrack} \cdot A_{\pi_{0}}} > 0$ and using ${\overset{\sim}{A}}_{\pi_{0}}$ instead of $A_{\pi_{0}}$. In practice, this also requires learning an additional median value function alongside the mean value function, though the median can be approximated by the mean to reduce computational overhead. Notably, with this refined loss function, BPO has both *theoretical performance guarantees* (discussed below) and strong empirical performance, as demonstrated in Section 5. The same loss function can also be adapted for LLM fine-tuning, analogous to how PPO was adapted to GRPO (Section 4.5).
+
+BPO performance guarantees: Assuming the optimal solution in is valid, we can express the stepwise improvement in terms of the achieved loss. Specifically, we show that
+
+where $B$ is defined . Here, $\delta{(\pi,\pi^{\ast})}$ is an error term that is related to $l^{BPO}{(\frac{\pi{(\left. a \middle| s \right.)}}{\pi_{0}{(\left. a \middle| s \right.)}})}$ and reduces to $0$ if we have perfect policy approximation $\pi = \pi^{\ast}$. This theoretical result directly implies that, if our loss function $l^{BPO}$ is sufficiently minimized over states and actions sampled from $\pi_{0}$, and if the policy approximation error is small, we can obtain monotonic performance improvement. The formal result is detailed in Corollary 4.5. ‣ 4.2 Alternative Perspective: Minimizing Divergence from Optimal Policy ‣ 4 Method ‣ Bounded Ratio Reinforcement Learning").
+
+## Method
+
+We now proceed to present the aforementioned framework of BRRL and its extensions.
+
+### Bounded Ratio RL Framework
+
+Intuitively, for an MDP with finite state and action spaces, Problem is a linear programming problem. Specifically, for a fixed state $s$, the optimization variable $\pi{(\left. a \middle| s \right.)}$ is a finite-dimensional vector. Consequently, the objective function and constraints in Problem are linear in $\pi{(\left. a \middle| s \right.)}$. However, for general state and action spaces, the optimal solution of this linear programming problem is difficult to specify analytically. Nevertheless, an additional *regularizer* allows for the derivation of the general analytical solution. Namely, we consider the following regularized constrained optimization problem:
+
+Here the regularizer ${H{(\rho)}} \in {\lbrack{2\epsilon{\log\epsilon}},{2\epsilon{\log{({2\epsilon})}}}\rbrack}$ decreases as $\rho\rightarrow 1$ and increases as $\rho\rightarrow{1 \pm \epsilon}$. Moreover, its gradient becomes unbounded near the boundaries $1 \pm \epsilon$, so $H$ provides log barriers for the original bounded ratio constraints ${1 - \epsilon} < \frac{\pi{(\left. a \middle| s \right.)}}{\pi_{0}{(\left. a \middle| s \right.)}} < {1 + \epsilon}$. The regularizer is weighted by $\lambda$. According to Fermi-Dirac statistics landau1980statistical, Problem has a closed-form solution, detailed in the following theorem.
+
+### Theorem 4.1 (Optimal solution)
+
+The optimal policy $\pi^{\ast}$ of the problem described in satisfies:
+
+where $\mu_{\pi_{0}}{(s)}$ is called the soft-median of $Q_{\pi_{0}}{(s,a)}$ that satisfies
+
+where $g:{{{\mathbb{R}}\rightarrow{\mathbb{R}}_{\geq 0}},{{g{(x)}} = {\ln{({e^{- \frac{x}{2}} + e^{\frac{x}{2}}})}}}}$ is a soft absolute function.
+
+The detailed proof of Theorem 4.1. ‣ 4.1 Bounded Ratio RL Framework ‣ 4 Method ‣ Bounded Ratio Reinforcement Learning") is provided in Appendix A.2. Intuitively, the optimal solution assigns a higher ratio to actions with a higher advantage while keeping the ratio between $\lbrack{1 - \epsilon},{1 + \epsilon}\rbrack$.
+
+We can obtain a monotonic performance guarantee for the optimal solution.
+
+### Theorem 4.2 (Monotonic performance guarantee)
+
+The optimal policy in Theorem 4.1. ‣ 4.1 Bounded Ratio RL Framework ‣ 4 Method ‣ Bounded Ratio Reinforcement Learning") satisfies
+
+where ${\overset{\sim}{A}}_{\pi_{0}}$ abbreviates ${\overset{\sim}{A}}_{\pi_{0}}{(s,a)}$, $B$ is a non-negative constant given fixed $\pi_{0}$.
+
+The proof of Theorem 4.2. ‣ 4.1 Bounded Ratio RL Framework ‣ 4 Method ‣ Bounded Ratio Reinforcement Learning") is detailed in Appendix A.3. Note that the term ${\tanh{(\frac{{\overset{\sim}{A}}_{\pi_{0}}}{2\lambda})}}{\overset{\sim}{A}}_{\pi_{0}}$ is always non-negative since the signs of $\tanh{(\frac{{\overset{\sim}{A}}_{\pi_{0}}}{2\lambda})}$ and ${\overset{\sim}{A}}_{\pi_{0}}$ are always the same. Therefore, our optimal policy $\pi^{\ast}$ guarantees monotonic improvement with an analytical improvement bound, in contrast to the guarantee for TRPO in Theorem 1 of schulman2015trust. However, the policy $\pi^{\ast}$ may not be a member of the class of parameterized policies $\Pi$. Consequently, in Section 4.2 and 4.3, we further develop the policy optimization loss algorithm by minimizing a certain divergence from $\pi$ to $\pi^{\ast}$.
+
+### Remark 4.3 (Optimal solution to unregularized Problem )
+
+Note that by taking $\lambda\rightarrow 0$ in Theorem 4.1. ‣ 4.1 Bounded Ratio RL Framework ‣ 4 Method ‣ Bounded Ratio Reinforcement Learning") and Theorem 4.2. ‣ 4.1 Bounded Ratio RL Framework ‣ 4 Method ‣ Bounded Ratio Reinforcement Learning"), one can obtain the optimal ratio and monotonic guarantees for the unregularized Problem. In many cases, one can simplify the resulting optimal policy as ${\pi^{\ast}{(\left. a \middle| s \right.)}} = {{\lbrack{1 + {\epsilon\text{sign}{({\overset{\sim}{A}}_{\pi_{0}})}}}\rbrack}\pi_{0}{(\left. a \middle| s \right.)}}$ , where $\mu_{\pi_{0}}{(s)}$ is the median of $Q_{\pi_{0}}{(s,a)}$ over $\pi_{0}{( \cdot |s)}$. Such simplification holds if ${\forall s},{\exists{\mu{(s)}}}$, such that
+
+Otherwise, the simplified $\pi^{\ast}$ can never be normalized. One valid case is a uniform density $\pi_{0}{( \cdot |s)}$ with continuous $\mathcal{A}$ and a $Q$-function $Q_{\pi_{0}}{(s,a)}$ which is smooth over $a$. However, there are also counterexamples. Consider, for instance, an MDP with a single state and a discrete action space ${\mathcal{A} = {\{ a_{1},a_{2}\}}}.$ Assume that ${Q_{\pi_{0}}{(a_{2})}} > {Q_{\pi_{0}}{(a_{1})}}$, and ${{\pi_{0}{(a_{1})}} = \frac{1}{4}},{{\pi_{0}{(a_{2})}} = \frac{3}{4}}$. Then for any $\mu \in {\mathbb{R}}$, condition. ‣ 4.1 Bounded Ratio RL Framework ‣ 4 Method ‣ Bounded Ratio Reinforcement Learning")) does not hold. While the simplified interpretation of $\pi^{\ast}$ is only valid in special cases, the result of Theorem˜4.1. ‣ 4.1 Bounded Ratio RL Framework ‣ 4 Method ‣ Bounded Ratio Reinforcement Learning") still holds for arbitrarily small $\lambda > 0$ and general spaces (see Appendix A.2).
+
+### Alternative Perspective: Minimizing Divergence from Optimal Policy
+
+In this section, we consider the policy optimization problem as minimizing the divergence to the optimal solution, instead of directly applying policy gradient methods. Specifically, given the optimal policy obtained from Theorem˜4.1. ‣ 4.1 Bounded Ratio RL Framework ‣ 4 Method ‣ Bounded Ratio Reinforcement Learning"), we can formulate policy optimization as
+
+where $\pi_{\theta}$ is the parameterized policy, $D$ is a divergence function such as the KL-divergence, total variation (TV), etc. Specifically, the TV (without $\frac{1}{2}$ multiplier) for each state can be expressed as
+
+We also consider an advantage-weighted TV (ATV) loss function defined as
+
+Notably, this divergence is directly correlated with the performance improvement of the parameterized policy $\pi_{\theta}$, as detailed in the following Corollary.
+
+### Corollary 4.4 (Performance improvement guarantee with policy approximation error)
+
+Consider $D_{\theta}^{ATV}$ defined in with $\pi^{\ast}$ given from Theorem 4.1. ‣ 4.1 Bounded Ratio RL Framework ‣ 4 Method ‣ Bounded Ratio Reinforcement Learning"). Then it holds that
+
+where ${\overset{\sim}{A}}_{\pi_{0}}$ abbreviates ${\overset{\sim}{A}}_{\pi_{0}}{(s,a)}$.
+
+The proof of Corollary 4.4. ‣ 4.2 Alternative Perspective: Minimizing Divergence from Optimal Policy ‣ 4 Method ‣ Bounded Ratio Reinforcement Learning") is provided in A.4. Corollary 4.4. ‣ 4.2 Alternative Perspective: Minimizing Divergence from Optimal Policy ‣ 4 Method ‣ Bounded Ratio Reinforcement Learning") shows that by minimizing the loss $D_{\theta}^{ATV}$ over the state distribution $d_{\pi_{\theta}}$, we can improve performance w.r.t. policy $\pi_{\theta}$ as long as the parameterized policy class is sufficiently expressive. However, minimizing ${\mathbb{E}}_{s \sim d_{\pi_{\theta}}}$ over the policy parameters $\theta$ is non-trivial due to the dependence of the state distribution on $\pi_{\theta}$. Consequently, in practice we only optimize the expectation of the divergence over the old policy, leading to the objectives
+
+The following Corollary 4.5. ‣ 4.2 Alternative Perspective: Minimizing Divergence from Optimal Policy ‣ 4 Method ‣ Bounded Ratio Reinforcement Learning") expresses a lower bound on the performance of the policy $\pi_{\theta}$ in terms of these quantities.
+
+### Corollary 4.5 (Performance improvement guarantee with loss functions)
+
+With $B$ defined in Theorem 4.2. ‣ 4.1 Bounded Ratio RL Framework ‣ 4 Method ‣ Bounded Ratio Reinforcement Learning"), and $\overset{\sim}{\delta}:={{\max_{s}{\mathbb{E}}_{a \sim \pi_{0}{( \cdot |s)}}}\left\lbrack {{\tanh\left( \frac{{\overset{\sim}{A}}_{\pi_{0}}}{2\lambda} \right)}{\overset{\sim}{A}}_{\pi_{0}}} \right\rbrack}$, it holds that
+
+where $D_{\max}^{ATV}:={{\max_{s}D_{\theta}^{ATV}}{(s)}}$ and $D_{\max}^{TV}:={{\max_{s}D_{\theta}^{TV}}{(s)}}$.
+
+The proof of Corollary 4.5. ‣ 4.2 Alternative Perspective: Minimizing Divergence from Optimal Policy ‣ 4 Method ‣ Bounded Ratio Reinforcement Learning") is detailed in Appendix A.5. Corollary 4.5. ‣ 4.2 Alternative Perspective: Minimizing Divergence from Optimal Policy ‣ 4 Method ‣ Bounded Ratio Reinforcement Learning") decomposes the performance lower bound into a non-negative term, $\epsilonB$, and several negative terms which depend on the gap between the optimized policy $\pi_{\theta}$ and the policy $\pi^{\ast}$. The first two of these gap terms depend on $J^{ATV}{(\theta)}$ and $J^{TV}{(\theta)}$. Both of these quantities can be estimated from trajectories collected under $\pi_{0}$ and minimized by optimizing $\theta$, motivating a loss defined as a weighted combination of these terms. The other two gap terms are characterized by the worst case divergence of $\pi_{\theta}$ from $\pi^{\ast}$ over the state space through the quantities $D_{\max}^{ATV}$ and $D_{\max}^{TV}$. Though these quantities are generally not computable, they can be related to the expected losses over the distribution $d_{\pi_{0}}$ under additional assumptions (e.g., adequate state coverage under $d_{\pi_{0}}$). Notably, with perfect policy approximation ($\pi_{\theta} = \pi^{\ast})$, it holds that ${{J^{ATV}{(\theta)}} = {J^{TV}{(\theta)}} = D_{\max}^{ATV} = D_{\max}^{TV} = 0},$ recovering the original monotonic performance guarantee of Theorem 4.2. ‣ 4.1 Bounded Ratio RL Framework ‣ 4 Method ‣ Bounded Ratio Reinforcement Learning").
+
+In contrast, the bound from TRPO in Theorem 1 of schulman2015trust does not contain a positive term. Besides, it penalizes the worst-case divergence between the updated policy and the current policy $\pi_{0}$ through $D_{TV}^{\max}{(\pi,\pi_{0})}$, rather than the approximation error to an ideal solution $\pi^{\ast}$. Consequently, this negative term reflects the *magnitude of the update* away from $\pi_{0}$. It vanishes only in the degenerate case $\pi = \pi_{0}$ (i.e., no policy change), and is generally nonzero whenever a nontrivial policy update occurs.
+
+Corollary 4.5. ‣ 4.2 Alternative Perspective: Minimizing Divergence from Optimal Policy ‣ 4 Method ‣ Bounded Ratio Reinforcement Learning") also motivates choosing a small $\epsilon$. For small $\epsilon > 0$, $\pi^{\ast}$ remains close to $\pi_{0}$ by construction, so matching $\pi^{\ast}$ typically requires only a small deviation from a realizable policy in the class (namely $\pi_{0}$), making the approximation error terms easier to control. Since $\pi_{0}$ is realizable in the policy class, the optimal values of $J^{ATV}{(\theta)}$ and $J^{TV}{(\theta)}$ approach zero as $\epsilon\rightarrow 0$. Therefore, under such regularity conditions, it holds that ${\frac{\gammaD_{\max}^{ATV}}{{({1 - \gamma})}^{2}} + \frac{\gamma\overset{\sim}{\delta}D_{\max}^{TV}}{{({1 - \gamma})}^{2}}} \ll B$ for $\epsilon$ sufficiently small, therefore guaranteeing improvement.
+
+### Bounded Policy Optimization
+
+In this section, we present the practical implementation of our algorithm. As in PPO, we use a value network $V_{\phi}$ to estimate $A_{\pi_{0}}$. Specifically, we estimate the return value $R_{\phi}{(s,a)}$ using generalized advantage estimation schulman2015high, and use it to update the value function by minimizing
+
+where $sg$ denotes stop gradient. In addition, following Theorem 4.1. ‣ 4.1 Bounded Ratio RL Framework ‣ 4 Method ‣ Bounded Ratio Reinforcement Learning"), we further train a network $\mu_{\psi}$ to minimize the normalization loss
+
+with $g$ defined in Theorem 4.1. ‣ 4.1 Bounded Ratio RL Framework ‣ 4 Method ‣ Bounded Ratio Reinforcement Learning"). For numerical stability, we use the equivalent representation ${g{(x)}} = {{- \frac{x}{2}} + {\text{softplus}{(x)}}}$. The practical loss function for $\theta$ uses the estimated advantage function to approximate ${J^{P}{(\theta)}}:={{J^{ATV}{(\theta)}} + {\alpha_{1}J^{TV}{(\theta)}}}$ with $\alpha_{1}$ as a tunable weight:
+
+where ${\hat{A}}_{\pi_{0}}:={sg{({{R_{\phi}{(s,a)}} - {\mu_{\psi}{(s)}}})}}$. Note that ${\hat{J}}^{P}{(\theta)}$ is not exactly $J^{P}$, but the gap can be controlled by minimizing the estimation error of $V_{\phi}$ and $\mu_{\psi}$. Our final bounded policy optimization algorithm follows a PPO-style training procedure, summarized in Algorithm 1.
+
+1: Initialize πθ, Vϕ, μψ, choose a sufficiently small λ
+4: Run π0 for N steps, and collect the dataset 𝒟:= {sj, aj, Rj, π0 (aj|sj)}j = 1N.
+
+where ĴP, JV F, JM F are defined in and evaluated from 𝒟.
+Algorithm 1 Bounded policy optimization (BPO)
+
+### Revisiting the PPO Objective
+
+In this section, we connect our theory and algorithmic framework to PPO schulman2017proximal. In PPO, the following surrogate objective function is introduced
+
+where $\rho:=\frac{\pi_{\theta}{(\left. a \middle| s \right.)}}{\pi_{0}{(\left. a \middle| s \right.)}}$ is the ratio between the new and old policies, and $A_{\pi_{0}}$ denotes $A_{\pi_{0}}{(s,a)}$.
+
+We observe a strong correlation between the BPO loss function and the PPO loss function. To show this correlation, we first introduce an equivalent form of the PPO loss in the following proposition.
+
+### Proposition 4.6
+
+Optimizing the loss function $J_{PPO}{(\theta)}$ in is equivalent to minimizing the following function
+
+Intuitively, this equivalence follows from the fact that adding or subtracting a constant from the objective function does not change the optimal solution. This is illustrated in Fig. 3 (a vs b). A proof is provided in Appendix A.6.
+
+On the other hand, as $\lambda\rightarrow 0$, the loss $J^{ATV}$ in can, in many cases (Remark 4.3). ‣ 4.1 Bounded Ratio RL Framework ‣ 4 Method ‣ Bounded Ratio Reinforcement Learning")), be expressed as
+
+Thus, the loss $l^{BPO}$ resembles the PPO loss $l^{\prime}$ in Proposition 4.6 when ${{\lbrack{\rho - {({1 + {{\epsilon \cdot \text{sign}}{(A_{\pi_{0}})}}})}}\rbrack} \cdot A_{\pi_{0}}} \leq 0$, as detailed in Section 2. For ${{\lbrack{\rho - {({1 + {{\epsilon \cdot \text{sign}}{(A_{\pi_{0}})}}})}}\rbrack} \cdot A_{\pi_{0}}} > 0$, BPO penalizes the policy for deviating from the original policy, which encourages satisfaction of the bounded-ratio constraints. This is also partially addressed by the zero gradient of PPO and the target KL divergence mechanism (serrano2023skrl, ), which slows down the update of the new policy if it deviates too far from the original policy (i.e., if the KL divergence between the two surpasses the target KL divergence). Recent PPO variants also utilize similar ideas by introducing negative gradients when ${{\lbrack{\rho - {({1 + {{\epsilon \cdot \text{sign}}{(A_{\pi_{0}})}}})}}\rbrack} \cdot A_{\pi_{0}}} > 0$ wang2020truly; xie2024simple, which can be theoretically justified by our framework. Although the exact optimization dynamics of BPO and PPO differ, both follow a common principle: drive the policy ratio from $1$ toward the (approximate) analytical optimum of BRRL and then stop. This offers a key insight into the underlying success of PPO-based methods.
+
+### Extension to LLM Fine-Tuning
+
+In the context of LLM fine-tuning, training an additional critic can be computationally expensive. This challenge motivates the design of Group Relative Policy Optimization (GRPO) shao2024deepseekmath, which estimates advantages relative to a group of concurrent samples rather than utilizing an auxiliary value network. Building on this idea, we introduce Group-relative Bounded Policy Optimization (GBPO), an extension of BPO derived from Theorem 4.1. ‣ 4.1 Bounded Ratio RL Framework ‣ 4 Method ‣ Bounded Ratio Reinforcement Learning"). Specifically, for a given prompt $q$, the model generates a group of sampled outcomes $\{ o_{1},o_{2},\ldots,o_{G}\}$. A reward model then assigns a score to each output, denoted by $\mathbf{R} = {\{ r_{1},r_{2},\ldots,r_{G}\}}$. As in standard GRPO, we estimate advantages using z-scores $A_{i}:=\frac{r_{i} - {\text{mean}{(\mathbf{R})}}}{\text{std}{(\mathbf{R})}}$. As noted in Remark 4.3). ‣ 4.1 Bounded Ratio RL Framework ‣ 4 Method ‣ Bounded Ratio Reinforcement Learning"), when the regularization parameter $\lambda$ is small, the implicit baseline $\mu_{\pi_{0}}{(q)}$ converges to the median of the Q-values. We therefore also estimate the median-advantage as ${\overset{\sim}{A}}_{i}:=\frac{r_{i} - {\text{median}{(\mathbf{R})}}}{\text{std}{(\mathbf{R})}}$. The GBPO objective function is then defined as:
+
+where $t$ denotes the token index, and $\mathcal{Q}$ is the question set. In scenarios where a reward is only provided at the end of the sequence, the step-dependent advantages $A_{i,t}$ and ${\overset{\sim}{A}}_{i,t}$ are equal to the sequence-level $A_{i}$ and ${\overset{\sim}{A}}_{i}$, respectively. If per-step scores are available, these advantages can be estimated token-wise following the approach in shao2024deepseekmath.
+
+### Asymmetric Ratio Constraints and Cross Entropy Method
+
+In this section, we generalize Theorem 4.1. ‣ 4.1 Bounded Ratio RL Framework ‣ 4 Method ‣ Bounded Ratio Reinforcement Learning") to asymmetric ratio constraints. Similar to, we consider the regularized problem with general ratio boundaries ${{\forall s},a,c_{l}} \leq \frac{\pi{(\left. a \middle| s \right.)}}{\pi_{0}{(\left. a \middle| s \right.)}} \leq c_{h}$, with $c_{l} < 1 < c_{h}$
+
+Here, the regularizer $H^{\prime}$ still takes its minimum at $\rho = 1$, and provides log barriers for the asymmetric constraints $c_{l} \leq \rho \leq c_{h}$. The optimal solution is detailed in the following Corollary.
+
+### Corollary 4.7
+
+(Asymmetric optimal policy) The optimal policy $\pi^{\ast}$ of the problem satisfies
+
+where $\mu_{\pi_{0}}^{\prime}{(s)}$ is called the soft-$\frac{c_{h} - 1}{c_{h} - c_{l}}$-quantile satisfying
+
+where $g^{\prime}:{{{\mathbb{R}}\rightarrow{\mathbb{R}}_{\geq 0}},{{g^{\prime}{(x)}} = {\ln\left( {e^{\frac{c_{h} - 1}{c_{h} - c_{l}}x} + {\frac{c_{h} - 1}{1 - c_{l}}e^{- {\frac{1 - c_{l}}{c_{h} - c_{l}}x}}}} \right)}}}$.
+
+Similar to Theorem 4.1. ‣ 4.1 Bounded Ratio RL Framework ‣ 4 Method ‣ Bounded Ratio Reinforcement Learning"), these results are closely related to policy optimization with asymmetric clip ratios wang2025aspo; xi2025bapo. A monotonic performance guarantee similar to Theorem 4.2. ‣ 4.1 Bounded Ratio RL Framework ‣ 4 Method ‣ Bounded Ratio Reinforcement Learning") is provided in Appendix A.8. Moreover, when $\lambda\rightarrow 0$, we also have $\mu_{\pi_{0}}^{\prime}{(s)}$ the exact $\frac{c_{h} - 1}{c_{h} - c_{l}}$-quantile in many cases, similar to Remark 4.3). ‣ 4.1 Bounded Ratio RL Framework ‣ 4 Method ‣ Bounded Ratio Reinforcement Learning"). Notably, when $c_{l} = 0$, $\lambda\rightarrow 0$, and the $\frac{c_{h} - 1}{c_{h} - c_{l}}$-quantile exists for $Q_{\pi_{0}}{(s,a)}$, we have ${\pi^{\ast}{(\left. a \middle| s \right.)}} = {c_{h}\pi_{0}{(\left. a \middle| s \right.)}}$ for ${Q_{\pi_{0}}{(s,a)}} > {\mu_{\pi_{0}}^{\prime}{(s)}}$ and $0$ otherwise. This recovers a cross-entropy method (CEM) when $\pi_{0}$ is uniform, where the optimal solution at each iteration assigns non-zero probability to the top fraction of $\frac{1 - c_{l}}{c_{h} - c_{l}}$ samples.
+
+## Experiments
+
+In this section, we present extensive experiments to validate the proposed BPO algorithm. We first benchmark its performance against PPO across standard MuJoCo and Atari environments (Section 5.1). To assess scalability, we evaluate BPO within NVIDIA IsaacLab mittal2025isaac, a high-throughput simulation platform capable of simulating *thousands of* parallel environments for real-world robotic policy training. Furthermore, we apply our GBPO variant to LLM fine-tuning tasks, and compare it directly against GRPO (Section 5.3). Then, we dive deeper into the analysis of the ratio statistics during training, connecting it to the performance gap between BPO and PPO. Finally, we conduct an ablation study to analyze the sensitivity of training performance to key components, including the loss function, the $\lambda$ parameter, and various loss coefficients. All hyperparameters are detailed in Appendix A.9
+
+### Benchmarking with Classical Environments
+
+We compare the performance of BPO and PPO in classical environments. For these experiments, BPO was implemented within the Stable Baselines3 framework, with hyperparameters for all baseline algorithms sourced from RL-Zoo rl-zoo3. As shown in Figure 4, BPO performs competitively with or superior to PPO across a range of classical benchmarks. Specifically, in MuJoCo tasks, BPO achieves clear performance gains in the Ant-v4, Hopper-v4, and Humanoid-v4 environments. Training on Humanoid-v4 exhibits high variance for BPO, characterized by significant performance divergence across random seeds. Both PPO and BPO struggle to achieve peak performance in this environment, primarily due to limited sample efficiency. However, as demonstrated in Section 5.2, both methods successfully solve more complex humanoid tasks when provided with sufficient samples. In Atari benchmarks, BPO generally matches PPO's performance, notably outperforming it in the Asterix environment.
+
+We report our benchmarking results against off-policy baselines in MuJoCo and Atari environments in Table 1. While SAC haarnoja2018soft outperforms both PPO and BPO in the Ant-v4 and Humanoid-v4 tasks, it fails to achieve competitive results in Swimmer-v4. In contrast, BPO consistently outperforms PPO in the Ant-v4, Humanoid-v4, and Hopper-v4 environments while remaining competitive in Swimmer-v4. Both BPO and PPO consistently outperform DQN mnih2013playing in Atari benchmarks.
+
+Figure 4: BPO versus PPO on MuJoCo and Atari environments. Shaded regions represent the standard deviation across 10 random seeds. In most environments, BPO matches or outperforms PPO.
+
+Table 1: Comparison of converged total rewards between BPO, PPO, and off-policy algorithms. Bolded and underlined numbers indicate the highest and second-highest results across all tested algorithms. For AsterixNoFrameskip-v4, the algorithms are evaluated after the same wall-clock time (12h). Rewards in other environments are evaluated after convergence.
+
+### Benchmarking with IsaacLab Environments
+
+In this section, we evaluate the scalability and performance of BPO relative to PPO within the IsaacLab simulation platform. We focus on four challenging locomotion tasks on rough terrain: Go1-rough, Anymal-C-rough, G1-rough, and H1-rough, which require the agents (quadrupeds like Unitree Go1 and Anymal-C or humanoids like Unitree G1 and H1) to maintain stable gaits while tracking target velocities across rough surfaces. Both BPO and PPO were implemented using the RSL-RL framework, utilizing a large-scale parallelization of 4,096 environments per task.
+
+Figure 5: BPO versus PPO on IsaacLab environments. Shaded regions represent standard deviation across 5 random seeds. BPO substantially outperforms the baseline on challenging humanoid locomotion tasks while exhibiting more stable training dynamics.
+
+The results in Figure 5 demonstrate that BPO is highly effective in complex robotic locomotion tasks. In particular, on G1-rough, BPO significantly outperforms the baseline to reach a higher performance ceiling. For the Go1-rough and H1-rough environment, BPO also slightly exceeds the final performance of PPO. Notably, across all four benchmarks, BPO exhibits enhanced training stability and smoother dynamics compared to the PPO baseline.
+
+Figure 6: Performance of GRPO (green) and GBPO (blue) for fine-tuning Qwen2.5-Math-1.5B on AIME-TTT and AMC-TTT benchmarks. In the legend, the first and second numbers denote the clip ratio and the number of epochs, respectively.
+
+### LLM Fine-Tuning with GBPO
+
+We further evaluate GBPO against GRPO for large language model fine-tuning (Section 4.5). Specifically, we conduct experiments in the Test-Time Reinforcement Learning (TTRL, zuo2025ttrl ) framework, fine-tuning the Qwen2.5-Math-1.5B model with GBPO and GRPO on the AIME-TTT and AMC-TTT benchmarks, and then compare their reasoning performance. The empirical results, illustrated in Figure 6, reveal that GBPO can maintain performance gains as the number of training epochs and clip ratio increase. Conversely, GRPO exhibits instability under these conditions. These findings highlight GBPO's potential as a more robust and stable alternative for the fine-tuning of large-scale models.
+
+### Ratio Statistics Analysis
+
+Figure 7: Analysis of ratio statistics. During the training process, we draw statistics of ratios (π (a|s)/π0 (a|s)) above and below 1.0 separately, corresponding to BPO/PPO_high and BPO/PPO_low. Solid lines and shaded regions represent the mean and standard deviations across 5 random seeds. Dashed black lines highlight 1.0 and clipped ranges for PPO; dashed gray lines show clipped ranges for BPO.
+
+We analyze the statistics of importance weights (ratio ${{\pi{(\left. a \middle| s \right.)}}/\pi_{0}}{(\left. a \middle| s \right.)}$) during the training process. In MuJoCo environments (using the stable-baselines3 implementation), BPO maintains more stable ratio distributions than PPO, as illustrated in Figure 7. This difference in stability is more obvious in environments where BPO outperforms PPO (e.g., Hopper and Asterix).
+
+Figure 8: Adapted learning rates to match the target KL divergence in RSL-RL implementation.
+
+In IsaacLab environments (utilizing RSL-RL), learning rates are dynamically adjusted to maintain a target KL divergence. As shown in Figure 8, the adapted learning rates for PPO are often lower than those for BPO, suggesting more aggressive ratio updates that surpass the target KL divergence more frequently. The scales of the learning rates differ more in tasks where BPO shows a clear performance improvement (e.g., G1-rough). These findings suggest a strong correlation between the stability of ratio distributions and overall algorithmic performance. By effectively enforcing this stability, BPO allows for more stable performance improvement.
+
+### Ablation Study
+
+This section presents an ablation study of the impact of the value function, loss function, $\lambda$, and the coefficient of TV loss on the performance of the policy, within the G1-rough environment.
+
+Figure 9: Ablation study of BPO components in G1-rough environment. Shaded regions represent standard deviation across 10 random seeds. From left to right: ablation of mean vs median value functions, loss functions, regularization weight λ and total variation (TV) weight α1. The mean-value variant achieves performance comparable to the median-value version (BPO_value). The advantage-weighted total variation (ATV) loss provides better performance compared to TV and reverse KL divergence (RKL). In general, smaller λ values lead to better performance. In practice, including the TV loss does not improve results.
+
+Mean vs median value function. We evaluate the performance of the algorithm by substituting median advantages ${\overset{\sim}{A}}_{\pi_{0}}$ with the mean advantage $A_{\pi_{0}}$. As illustrated in the left panel of Figure 9, this simplification achieves performance comparable to the original BPO. This robustness likely stems from the low practical differences between median and mean values, caused by the specific return distribution and inherent value estimation errors. These results also suggest that this median-to-mean value simplification offers a compelling alternative when the computational overhead of learning the median value is high.
+
+Divergence function ablation. As illustrated in the middle-left panel of Figure 9, the ATV loss yields superior performance in the G1-rough environment. While the standard TV loss facilitates some learning, it fails to match the asymptotic performance of ATV. Conversely, KL divergence proves ineffective and fails to achieve successful policy convergence.
+
+Sensitivity to $\lambda$. We conduct a hyperparameter sweep for $\lambda$ in the G1-rough environment. As shown in the middle-right panel of Figure 9, smaller values of $\lambda$ generally lead to strong performance. Specifically, increasing $\lambda$ from $10^{- 3}$ to $10^{- 2}$ may slightly improve asymptotic performance, but at the cost of a reduced convergence rate. Conversely, excessively large values of $\lambda$ prevent the learning process entirely.
+
+Impact of TV loss regularization. We study the effect of the TV loss coefficient by incrementally increasing its weight relative to the ATV loss in the G1-rough environment. Although Corollary 4.5. ‣ 4.2 Alternative Perspective: Minimizing Divergence from Optimal Policy ‣ 4 Method ‣ Bounded Ratio Reinforcement Learning") suggests that both terms contribute to performance gains, the results in the right panel of Figure 9 indicate that explicitly adding a TV loss component does not improve performance in practice.
+
+## Conclusion
+
+We introduced Bounded Ratio Reinforcement Learning (BRRL), a framework for policy optimization under bounded ratio constraints. We showed that the underlying optimization problem admits an analytic solution. Our main finding is that this optimal solution allows interpreting the PPO loss from a new perspective, connects to the cross-entropy method (CEM), and motivates a *theoretically grounded* variant, Bounded Policy Optimization (BPO). Empirically, BPO is consistently effective across a broad range of tasks, including robotic control and large-model fine-tuning. Despite the extensive evaluation with standard RL benchmarks, extending the experiments towards a broader range of LLM fine-tuning tasks remains a compelling future direction. Other future research directions include enhancing sample efficiency via advanced exploration, extending the framework to constrained MDPs, and adapting the algorithm for fine-tuning generative policies.

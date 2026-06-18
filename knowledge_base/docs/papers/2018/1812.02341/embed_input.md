@@ -6,12 +6,18 @@ In this paper, we investigate the problem of overfitting in deep reinforcement l
 
 Generalizing between tasks remains difficult for state of the art deep reinforcement learning (RL) algorithms. Although trained agents can solve complex tasks, they struggle to transfer their experience to new environments. Agents that have mastered ten levels in a video game often fail catastrophically when first encountering the eleventh. Humans can seamlessly generalize across such similar tasks, but this ability is largely absent in RL agents. In short, agents become overly specialized to the environments encountered during training.
 
-That RL agents are prone to overfitting is widely appreciated, yet the most common RL benchmarks still encourage training and evaluating on the same set of environments. We believe there is a need for more metrics that evaluate generalization by explicitly separating training and test environments. In the same spirit as the Sonic Benchmark, we seek to better quantify an agent's ability to generalize.
+To begin, we train agents on CoinRun, a procedurally generated environment of our own design, and we report the surprising extent to which overfitting occurs. Using this environment, we investigate how several key algorithmic and architectural decisions impact the generalization performance of trained agents.
+
+The
+
+We show that the number of training environments required for good generalization is much larger than the number used by prior work on transfer in RL.
+
+We propose a generalization metric using the CoinRun environment, and we show how this metric provides a useful signal upon which to iterate.
+
+## Discussion
+
+In both CoinRun-Platforms and RandomMazes, agents must learn to leverage recurrence and memory to optimally navigate the environment. The need to memorize and recall past experience presents challenges to generalization unlike those seen in CoinRun. It is unclear how well suited LSTMs are to this task. We empirically observe that given sufficient data and training time, agents using LSTMs eventually converge to a near optimal policy. However, the relatively poor generalization performance raises the question of whether different recurrent architectures might be better suited for generalization in these environments.
 
 ## Conclusion
 
 Our results provide insight into the challenges underlying generalization in RL. We have observed the surprising extent to which agents can overfit to a fixed training set. Using the procedurally generated CoinRun environment, we can precisely quantify such overfitting. With this metric, we can better evaluate key architectural and algorithmic decisions. We believe that the lessons learned from this environment will apply in more complex settings, and we hope to use this benchmark, and others like it, to iterate towards more generalizable agents.
-
-It is likely that further architectural tuning could yield even greater generalization performance. As is common in supervised learning, we expect much larger networks to have a higher capacity for generalization. In our experiments, however, we noticed diminishing returns increasing the network size beyond IMPALA-Large, particularly as wall clock training time can dramatically increase. In any case, we leave further architectural investigation to future work.
-
-Using the CoinRun environment, we can measure how successfully agents generalize from a given set of training levels to an unseen set of test levels. Train and test levels are drawn from the same distribution, so the gap between train and test performance determines the extent of overfitting....

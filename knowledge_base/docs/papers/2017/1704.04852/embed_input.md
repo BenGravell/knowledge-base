@@ -10,14 +10,8 @@ Trajectory planning is a fundamental problem in multi-robot systems. Given a set
 
 A large body of work has addressed this problem with varied discrete and continuous formulations. However, no existing solution simultaneously satisfies the goals of completeness, physical plausibility, optimality in time or energy usage, and good computational performance. In this work, we present a method that attempts to balance these goals.
 
-Our approach can compute safe and arbitrarily smooth trajectories for hundreds of quadrotors in dense environments with obstacles in a few minutes. The trajectory plan outputs have been tested and executed safely in numerous trials on a team of 32 quadrotors.
+Our method uses a graph-based planner to compute a solution for a discretized version of the problem, and then refines this solution into smooth trajectories in a separate, decoupled optimization stage. We directly take the downwash effect of quadrotors into account, preserving safety during dense formation flights. Furthermore, our method is complete with respect to the resolution of the discretization, and locally optimal with respect to an energy-minimizing integral-squared-derivative objective function. We also present an anytime iterative refinement scheme that improves the trajectories within a given computational budget.
 
-In future work, we plan to generalize our method to support arbitrary environments and start and goal locations that are not limited to an underlying grid, by exploring different discrete planning algorithms. We also plan to investigate performance improvements in both discrete and continuous stages.
+## CONCLUSION
 
-where $E = {\operatorname{\mathbf{d}\mathbf{i}\mathbf{a}\mathbf{g}}{(r_{x},r_{y},r_{z})}}$ is the ellipsoid matrix. Robot-obstacle separating hyperplanes are computed similarly, except we use a different ellipsoid $E_{obs}$ for obstacles to model the fact that downwash is only important for robot-robot interactions, and we shift the hyperplanes such that they touch the obstacles.
-
-We require that the discrete planner supplies a plan that satisfies the ellipsoid collision-avoidance constraint for all possible identical velocity profiles. We also require all robots to share the same sequence of waypoint times $t_{0}\ldotst_{K}$.
-
-TABLE I: Runtime for different examples and safety distances, see Section VI-B. All times are given in seconds.
-
-Our method uses a graph-based planner to compute a solution for a discretized version of the problem, and then refines this solution into smooth...
+We presented a trajectory planning method for large quadrotor teams. Our approach is downwash-aware and thus creates plans where robots can safely fly in close proximity to each other. We plan trajectories using two independent stages, a discrete stage and a continuous stage. The presented discrete planner finds a goal assignment for each robot and a path such that the makespan is minimized while avoiding collisions and respecting downwash constraints. The continuous stage decouples each robot's trajectory planning, allowing easy parallelization and improving performance for large teams.

@@ -8,16 +8,10 @@ A rising challenge in NLP is long-form question-answering (LFQA), in which a par
 
 In this work we leverage existing solutions to these components: we outsource document retrieval to the Microsoft Bing Web Search API,^11^1 and utilize unsupervised pre-training to achieve high-quality synthesis by fine-tuning GPT-3. Instead of trying to improve these ingredients, we focus on combining them using more faithful training objectives. Following Stiennon et al., we use human feedback to directly optimize answer quality, allowing us to achieve performance competitive with humans.
 
-Why did we decide that certain words were ”bad” and shouldn’t be used in social settings?
-
-We have all been taught that there are certain words that should not be used in public, at least not without good reason. But why do some words fall into this category while others do not? It turns out that there is not a single answer to this question, as each word has a different history and carries different meanings in different cultures and families. However, there are some general categories that ”bad” words tend to fall into. ”Bad” words generally relate to parts of life that we don’t like talking about in public, like bathroom functions, or negative ways of talking about people’s religion, skin color, ability, or gender....
-
-In Section 6, we discuss the implications of our findings for training models to answer questions truthfully, and broader impacts.
-
-(b) Corresponding text given to the model.
-
-Scroll to the top of the page
-
-We create a text-based web-browsing environment that a fine-tuned language model can interact with. This allows us to improve both retrieval and synthesis in an end-to-end fashion using general methods such as imitation learning and reinforcement learning.
+We create a text-based web-browsing environment that a fine-tuned language model can interact . This allows us to improve both retrieval and synthesis in an end-to-end fashion using general methods such as imitation learning and reinforcement learning.
 
 We generate answers with references: passages extracted by the model from web pages while browsing. This is crucial for allowing labelers to judge the factual accuracy of answers, without engaging in a difficult and subjective process of independent research.
+
+We evaluate our best model in three different ways. First, we compare our model's answers to answers written by our human demonstrators on a held-out set of questions. Our model's answers are preferred 56% of the time, demonstrating human-level usage of the text-based browser. Second, we compare our model's answers (with references stripped, for fairness) to the highest-voted answer provided by the ELI5 dataset. Our model's answers are preferred 69% of the time. Third, we evaluate our model on TruthfulQA, an adversarial dataset of short-form questions.
+
+In Section 4, we evaluate our best-performing models (for different inference-time compute budgets) on ELI5 and TruthfulQA.

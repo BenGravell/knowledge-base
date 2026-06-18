@@ -6,14 +6,12 @@ We explore whether surgical manipulation tasks can be learned on the da Vinci ro
 
 ## Introduction
 
-Recently, large-scale imitation learning has shown great promise in creating generalist systems for manipulation tasks \[\]. Prior research in this area has mostly focused on learning day-to-day household activities. However, an under-explored area with high potential is the surgical domain, particularly with the use of Intuitive Surgical's da Vinci robot. These robots are deployed globally and possess immense scaling potential: as of 2021, over 10 million surgeries have been performed using 6,500 da Vinci systems in 67 countries, with 55,000 surgeons trained on the system \[\]....
+Recently, large-scale imitation learning has shown great promise in creating generalist systems for manipulation tasks. Prior research in this area has mostly focused on learning day-to-day household activities. However, an under-explored area with high potential is the surgical domain, particularly with the use of Intuitive Surgical's da Vinci robot. These robots are deployed globally and possess immense scaling potential: as of 2021, over 10 million surgeries have been performed using 6,500 da Vinci systems in 67 countries, with 55,000 surgeons trained on the system.
 
-However, robot learning on the da Vinci presents unique challenges. The hardware suffers from inaccurate forward kinematics due to potentiometer-based joint measurements, hysteresis, and overall flexibility and slack in its mechanism \[\]. These limitations result in the robot's failure to perform simple visual-servoing tasks \[\]. As we discover in this work, naively training a policy using such approximate kinematics data almost always leads to task failure....
+However, robot learning on the da Vinci presents unique challenges. The hardware suffers from inaccurate forward kinematics due to potentiometer-based joint measurements, hysteresis, and overall flexibility and slack in its mechanism. These limitations result in the robot's failure to perform simple visual-servoing tasks. As we discover in this work, naively training a policy using such approximate kinematics data almost always leads to task failure.
+
+Towards this end, we present an approach for robot learning on the da Vinci using its approximate kinematics data. Intuitively, our approach is based on the observation that the relative motion of the robot is much more consistent than its absolute forward kinematics. We thus model policy actions as differential motion and further explore its variants to design the most effective action representation for the da Vinci. We find that training an imitation learning algorithm using such relative formulation shows robustness to various configuration changes to the robot, even those known to significantly disrupt the robot's forward kinematics.
+
+## Limitations and Conclusion
 
 In this work, we opt for using off-the-shelf large wrist cameras which are not clinically relevant. However, the cameras may be replaced with much smaller ones (1-2mm diameter) and its mount can be further optimized by integrating quick-release mechanisms for swift transfer between surgical tools. Also, our model is limited as it can only act based on current observations and does not have the ability to modulate different behavior based on human instruction. We hope to address these issues in future work to further advance the autonomy of surgical robots.
-
-In summary, we demonstrated an approach for imitation learning on the dVRK using its approximate kinematics data, without providing further post-processing corrections. The key idea of our approach was to rely on the more consistent relative motion of the robot, achieved by modeling policy actions as relative motion such as tool-centric and hybrid-relative actions. As mentioned in the introduction, we believe that our work is a step towards leveraging the large repository of approximate surgical data for robot learning at scale, without providing further kinematics corrections....
-
-Where the subtraction operation $\ominus$ defined as:
-
-## Technical Approach

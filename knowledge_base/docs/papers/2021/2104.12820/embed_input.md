@@ -8,10 +8,12 @@ When faced with sequential decision-making problems, it is often useful to be ab
 
 Problems requiring sequential decision-making are ubiquitous. When online experimentation is costly or dangerous, it is essential to conduct off-policy evaluation before deploying a new policy; that is, one must leverage existing data collected using some policy $\beta$ (called a behavior policy) to evaluate a performance metric of another policy $\pi$ (called the evaluation policy). For problems with high stakes, such as in terms of health or financial assets, it is also crucial to provide high-confidence bounds on the desired performance metric to ensure reliability and safety.
 
-Perhaps the most widely studied performance metric in the off-policy setting is the expected return. However, this metric can be limiting for many problems of interest. Safety-critical applications, such as automated healthcare, require minimizing the chances of risk-prone outcomes, and so performance metrics such as value at risk (VaR) or conditional value at risk (CVaR) are more appropriate. By contrast, applications like online recommendations are subject to noisy data and call for robust metrics like the median and other quantiles....
+This raises the main question of interest: How do we develop a universal off-policy method---one that can estimate any desired performance metrics and can also provide finite-sample confidence bounds that hold simultaneously with high probability for those metrics?
+
+A. For any distributional parameter (mean, variance, quantiles, entropy, CVaR, CDF, etc.), we provide an off-policy method to obtain (A.1) model-free estimators; (A.2) high-confidence bounds that have guaranteed coverage simultaneously for all parameters and that, perhaps surprisingly, often nearly match or outperform prior bounds specifically designed for the mean and the variance; and (A.3) approximate bounds using statistical bootstrapping that can often be significantly tighter.
+
+Our method uses importance sampling and thus Requires knowledge of action probabilities under the behavior policy $\beta$, Any outcome under the evaluation policy should have a sufficient probability of occurring under $\beta$, and Variance of our estimators scales exponentially with the horizon length, which may be unavoidable in non-Markovian domains.
+
+## Conclusion
 
 We have taken the first steps towards developing a *universal off-policy estimator* (UnO), closing the open question of whether it is possible to estimate and provide finite-sample bounds (that hold with high probability) for any parameter of the return distribution in the off-policy setting, with minimal assumptions on the domain. Now, without being restricted to the most common and basic parameters, researchers and practitioners can fully characterize the (potentially dangerous or costly) behavior of a policy without having to deploy it.
-
-There are many new questions regarding how UnO can be improved for policy evaluation by further reducing data requirements or weakening assumptions. Using UnO for policy improvement also remains an interesting future direction. Subsequent to this work, Huang et al. showed how models can be used to obtain UnO-style doubly robust estimators along with its convergence rates in the contextual bandit setting. This allows their method to also provide finite-sample uniform CDF bounds for a broad class of Lipschitz risk functionals.
-
-Before constructing a confidence band $\mathcal{F}$, let us first focus on obtaining bounds for a single point, $F_{\pi}{(\kappa)}$....

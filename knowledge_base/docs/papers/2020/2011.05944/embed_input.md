@@ -8,8 +8,8 @@ The stochastic linear bandit problem is an iterative game between a learner and 
 
 where $\pi$ is the policy mapping sequences of action/reward pairs to distributions over actions in $\mathcal{X}$ and the expectation is over the randomness in the policy and the rewards. Unlike in the multi-armed bandit setting, the linear structure allows the learner to estimate the reward of an action without directly observing it. In particular, the learner might play an action that it knows to be suboptimal in order to most efficiently identify the optimal action.
 
+## Conclusion
+
+We introduced a simple and efficient algorithm for linear bandits that is (nearly) worst-case optimal and matches the asymptotic lower bound exactly. Note that the algorithm is essentially hyper-parameter free with the usual boundedness assumptions. Nonetheless, the confidence parameter $\beta_{s,{1/\delta}}$ and the learning rate $\eta_{s}$ used in the definition of $I_{s}$ provide some tuning knobs to improve performance in practice.
+
 Our theoretical results still rely on some restrictive assumptions, such as the boundedness requirement for the parameter set, uniqueness of $x^{\ast}$ and $\left\| x^{\ast} \right\| > 0$ for the asymptotic regret, and the need to discard data in exploitation rounds. Also, the dependence on $d$ and $k$ is sub-optimal in some regimes, in particular for the worst-case regret bound and small $k$. On the upside, our analysis is relatively simple, and raises the hope that there exists a *really* simple proof. Finding an information gain which preserves the guarantees and telescopes more easily could be a first step towards this end.
-
-Finally, it appears likely that our framework generalizes in several directions. The contextual case is already covered in previous work on asymptotic algorithms. We point out that IDS can be defined to optimize the marginals of the joint distribution between context and action. Decoupling the reward from the observation features leads to the linear partial monitoring framework, where IDS is known to achieve the optimal worst-case rate in all possible games. The structured bandit setting and information gain functions for a non-Gaussian likelihood are yet other promising directions.
-
-### Proof 2.5

@@ -6,18 +6,12 @@ We provide a simple proof of convergence covering both the Adam and Adagrad adap
 
 ## Introduction
 
-First-order methods with adaptive step sizes have proved useful in many fields of machine learning, be it for sparse optimization, tensor factorization or deep learning. Duchi et al. introduced Adagrad, which rescales each coordinate by a sum of squared past gradient values. While Adagrad proved effective for sparse optimization, experiments showed that it under-performed when applied to deep learning. RMSProp proposed an exponential moving average instead of a cumulative sum to solve this....
+First-order methods with adaptive step sizes have proved useful in many fields of machine learning, be it for sparse optimization, tensor factorization or deep learning. Duchi et al. introduced Adagrad, which rescales each coordinate by a sum of squared past gradient values. While Adagrad proved effective for sparse optimization, experiments showed that it under-performed when applied to deep learning. RMSProp proposed an exponential moving average instead of a cumulative sum to solve this.
 
-In the online convex optimization setting, Duchi et al. showed that Adagrad achieves optimal regret for online convex optimization. Kingma & Ba provided a similar proof for Adam when using a decreasing overall step size, although this proof was later shown to be incorrect by Reddi et al., who introduced AMSGrad as a convergent alternative. Ward et al. proved that Adagrad also converges to a critical point for non convex objectives with a rate $O{({{\ln{(N)}}/\sqrt{N}})}$ when using a scalar adaptive step-size, instead of diagonal. Zou et al. extended this proof to the vector case, while Zou et al....
+In the online convex optimization setting, Duchi et al. showed that Adagrad achieves optimal regret for online convex optimization. Kingma & Ba provided a similar proof for Adam when using a decreasing overall step size, although this proof was later shown to be incorrect by Reddi et al., who introduced AMSGrad as a convergent alternative. Ward et al. proved that Adagrad also converges to a critical point for non convex objectives with a rate $O{({{\ln{(N)}}/\sqrt{N}})}$ when using a scalar adaptive step-size, instead of diagonal.
 
-### Broader Impact Statement
+In this paper, we present a simplified and unified proof of convergence to a critical point for Adagrad and Adam for stochastic non-convex smooth optimization. We assume that the objective function is lower bounded, smooth and the stochastic gradients are almost surely bounded. We recover the standard $O{({{\ln{(N)}}/\sqrt{N}})}$ convergence rate for Adagrad for all step sizes, and the same rate with Adam with an appropriate choice of the step sizes and decay parameters, in particular, Adam can converge without using the AMSGrad variant.
 
-The present theoretical results on the optimization of non convex losses in a stochastic settings impact our understanding of the training of deep neural network. It might allow a deeper understanding of neural network training dynamics and thus reinforce any existing deep learning applications. There would be however no direct possible negative impact to society.
+## Conclusion
 
-which differ from (10. ‣ No heavy-ball momentum ‣ 4.1 Convergence bounds ‣ 4 Main results ‣ A Simple Convergence Proof of Adam and Adagrad")) only by a $+ {N/{({N - 1})}}$ next to the log term.
-
-### Theorem 2 (Convergence of Adam without momentum)
-
-Injecting (28 ‣ A Simple Convergence Proof of Adam and Adagrad")) and (21 ‣ A Simple Convergence Proof of Adam and Adagrad")) into (20 ‣ A Simple Convergence Proof of Adam and Adagrad")) finishes the proof. ∎
-
-In this paper, we present a simplified and unified proof of convergence to a critical point for Adagrad and Adam for stochastic non-convex smooth optimization. We assume that the objective function is lower bounded, smooth and the stochastic gradients are almost surely bounded....
+We provide a simple proof on the convergence of Adam and Adagrad without heavy-ball style momentum. Our analysis highlights a link between the two algorithms: with right the hyper-parameters, Adam converges like Adagrad. The extension to heavy-ball momentum is more complex, but we significantly improve the dependence on the momentum parameter for Adam, Adagrad, as well as SGD. We exhibit a toy problem where the dependency on $\alpha$ and $\beta_{2}$ experimentally matches our prediction. However, we do not predict the practical interest of momentum, so that improvements to the proof are needed for future work.

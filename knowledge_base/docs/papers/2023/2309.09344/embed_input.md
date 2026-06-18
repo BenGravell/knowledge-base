@@ -12,12 +12,8 @@ In the challenging realm of robotic motion planning, uncertainty presents a crit
 
 The trajectory optimization paradigm, extensively studied in works like and, transforms planning challenges into optimal control problems. This transformation necessitates the resolution of the Hamilton--Jacobi--Bellman equation through dynamic programming techniques. However, while this method promises precision, it faces significant scalability issues, often at the cost of local solutions or even infeasibility.
 
+Building upon these advances, our research introduces a nuanced covariance steering approach for graph-based motion planning. We tackle the BRM's existing challenges by proficiently crafting probabilistic graph edges. Incorporating state estimation further aligns our methodology with the broader belief space planning framework, drawing parallels to chance-constrained strategies like CC-RRT\*. Empirical evidence, as we will present, accentuates the advantages of our approach over existing methods, showcasing both its effectiveness and efficiency in managing uncertainties.
+
 ## Conclusion and future work
 
-This work presents an efficient belief space roadmap (PGCS-BRM) for planning under uncertainty. The proposed method models the belief as state distributions and leverages nonlinear covariance steering with safety constraints for edge construction. We also include an entropy cost in the edge costs to account for robustness under uncertainty. Experiments show that the proposed method effectively constructs BRMs in different dimensions and outperforms state-of-the-art sampling-based belief space planning methods....
-
-To initialize the state prediction for each sampled state, we set ${{\hat{x}}_{k}{(t_{0})}} = {{\mathbb{E}}{\lbrack{x_{k}{(t_{0})}}\rbrack}}$ and $P_{k}{(t_{0})}$ is sampled from a proper space. At each iteration, the continuous-time EKF propagates state error covariance $P_{k}{(t)}$ based on the linearized system dynamics model ${A_{k}{(t)}},{a_{k}{(t)}}$ and updates the near-optimal Kalman gain. These steps are coupled in continuous time and governed by the following Riccati equations
-
-## belief space collision-avoiding covariance steering
-
-We utilize BRM to divide the original problem into several easier state connection subproblems. To leverage the PGCS state connection Algorithm 1, it is important to provide a meaningful covariance to represent the uncertainty for each sample state....
+This work presents an efficient belief space roadmap (PGCS-BRM) for planning under uncertainty. The proposed method models the belief as state distributions and leverages nonlinear covariance steering with safety constraints for edge construction. We also include an entropy cost in the edge costs to account for robustness under uncertainty. Experiments show that the proposed method effectively constructs BRMs in different dimensions and outperforms state-of-the-art sampling-based belief space planning methods.

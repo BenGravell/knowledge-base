@@ -1,0 +1,152 @@
+## Introduction
+
+Figure 1: One label-efficient architecture, domain- and event-agnostic. (a) h-AUROC (↑; horizon-averaged AUROC) across 14 benchmarks in 11 domains. HEPA wins on 10 out of 14 at full labels; at 10% labels (open circles) it retains ≥92% of full-label performance on lifecycle datasets. (b) Predicted probability surfaces p (t,Δ t) for turbofan degradation (top) and cardiac arrhythmia (bottom).
+
+A turbine blade cracks after 12,000 flight hours. A bearing degrades over weeks of vibration data. A satellite sensor drifts silently for 48 hours before triggering a cascade. These events are rare in operational data, yet they follow partially predictable precursor dynamics: temperatures rise gradually before overheating, vibration amplitudes grow before mechanical failure, and sensor readings deviate systematically before spacecraft faults. A range of machine-learning methods attempt to predict such events from multivariate sensor streams. Remaining-useful-life (RUL) models estimate how long until a machine fails; anomaly detectors flag when sensor readings look abnormal. Although general-purpose architectures exist for both, the two communities develop separate benchmarks, metrics, and evaluation protocols: RUL models never see anomaly benchmarks; anomaly detectors never forecast time-to-failure. Yet all these tasks share the same structure: given observations up to time $t$, estimate the probability $P{({\text{event within~}\Deltat})}$ for each prediction horizon $\Deltat$.
+
+This structural uniformity suggests a separation of concerns. The *encoder* learns temporal dynamics from unlabeled data without knowing which event matters downstream. The *predictor*, finetuned with a small number of event labels, specialises the learned dynamics to whichever event is relevant. The key design choice is what the encoder should forecast during pretraining. Value-forecasting approaches, whether supervised or pretrained on large corpora, shape representations around all variation in the signal, including noise irrelevant to the downstream event. The Joint-Embedding Predictive Architecture (JEPA) offers an alternative: by forecasting future *representations* rather than future values, the encoder learns a latent space that retains what is predictable about the future and discards what is not.
+
+We apply this principle to time series as HEPA (Horizon-conditioned Event Predictive Architecture). A causal Transformer encodes observations up to time $t$; a horizon-conditioned predictor maps the encoding and a horizon $\Deltat$ to a predicted future representation, forcing the encoder to internalise dynamics at multiple timescales (fig.˜1). After self-supervised pretraining, the standard JEPA recipe discards the predictor and trains a linear probe on the frozen encoder. We instead retain the predictor: freeze the encoder but finetune the predictor alongside a lightweight event head that outputs a discrete-time survival CDF, ensuring that the predicted event probability never decreases as the horizon grows. This "predictor finetuning" recipe tunes only 198K parameters, roughly $11 \times$ fewer than end-to-end training, yet is more expressive than a linear probe because the predictor reshapes its horizon-conditioned outputs to align with the downstream event.
+
+Our contributions are:
+
+One architecture, any event, any domain. A single 2.16 M-parameter architecture with fixed hyperparameters, evaluated on 14 benchmarks across 11 domains via a unified probability surface $p{(t,{\Deltat})}$. HEPA wins on 10 out of 14 benchmarks while tuning $11 \times$ fewer parameters than PatchTST.
+
+Predictor finetuning as the downstream recipe. Freezing the encoder and finetuning only the predictor and event head tunes $11 \times$ fewer parameters than end-to-end training. On the C-MAPSS benchmark, where degradation unfolds over hundreds of cycles, HEPA retains 92% of full-label h-AUROC at just 2% of labels. An information-theoretic bound (proposition˜1. ‣ 3.3 Theoretical Analysis ‣ 3 Method ‣ HEPA: A Self-Supervised Horizon-Conditioned Event Predictive Architecture for Time Series")) formalises when and why this works, and the bound's key prediction, that lower pretraining loss implies stronger downstream performance, is consistent with the empirical trend across 14 datasets (fig.˜3).
+
+## Related Work
+
+### Self-supervised learning for time series
+
+Self-supervised learning (SSL) for time-series representation learning falls into three families. Contrastive methods, including TS2Vec, TNC, TimesURL, CPC, and CoST, learn representations by contrasting positive and negative pairs. Masked reconstruction approaches such as PatchTST, SimMTM, and TimesNet recover masked patches in input space. JEPA takes a different path: predicting future *representations* rather than reconstructing inputs, avoiding tying the latent space to value-level fidelity. For time series, TS-JEPA applies temporal masking for classification, and MTS-JEPA adds codebook regularisation for anomaly detection. All these methods discard their pretraining head at inference and probe only the encoder. HEPA instead retains the predictor and finetunes it toward the downstream event, treating the predictor as a learnable bridge between frozen representations and event probabilities. The collapse-prevention mechanism follows the LeJEPA / SIGReg line rather than the EMA schedule of I-JEPA.
+
+### Foundation models for time series
+
+Chronos-2, TFM-2.5, MOMENT, Moirai, and UniTS pretrain on large-scale corpora for generic value forecasting. Generative pretraining and LLM repurposing offer alternative transfer strategies. These approaches target future channel values; HEPA targets event probabilities. See also concurrent work on industrial pretraining corpora. The encoder is mid-scale and pretrained per-dataset; what transfers across domains is the *recipe* (architecture + predictor finetuning), not the weights. We benchmark HEPA against four of these foundation models, using identical downstream heads to isolate encoder quality (sections˜5, G and G).
+
+### Prognostics, anomaly prediction, and survival modelling
+
+C-MAPSS is the standard remaining-useful-life (RUL) benchmark, where the supervised state of the art is STAR (root mean square error, RMSE, 10.61). Self-supervised approaches to RUL prediction remain limited. Anomaly detection methods such as Anomaly Transformer, DCdetector, and TranAD report point-adjusted F1, a metric shown to inflate scores dramatically by crediting entire segments from a single detection. These domain-specific metrics are incomparable across tasks. HEPA's downstream parameterisation builds on discrete-time survival models, which decompose event probability into per-interval hazards composed into a survival CDF; we adapt this to a multi-horizon event prediction setting. We unify evaluation through h-AUROC, the mean of per-horizon AUROC values computed over the probability surface, which is threshold-free and robust to class imbalance (section˜4). Domain-specific metrics are reported as lossy projections of the same surface for comparability with published baselines.
+
+## Method
+
+### Architecture and Pretraining
+
+Figure 2: HEPA architecture. Both stages sweep over all (t,Δ t) pairs per episode. Stage 1: The causal encoder fθ maps x ≤ t to ht; the predictor gϕ (ht,Δ t) predicts future representations via a self-supervised JEPA objective. Stage 2: Encoder frozen; the predictor produces K horizon-specific hazard rates λΔ t composed into a survival CDF (cumulative distribution function) p (t,Δ t).
+
+HEPA consists of three components that interact across two phases (fig.˜2). The context encoder $f_{\theta}$ is a causal Transformer ($d = 256$, 2 layers, 4 heads) that maps observations $\mathbf{x}_{\leq t}$, tokenised into non-overlapping patches of size $P = 16$ (following PatchTST ) with per-context instance normalisation and sinusoidal positional encodings, to a summary embedding $\mathbf{h}_{t} = {f_{\theta}{(\mathbf{x}_{\leq t})}} \in {\mathbb{R}}^{d}$. The predictor $g_{\phi}$ is a 2-layer multilayer perceptron (MLP) that takes the encoder output $\mathbf{h}_{t}$ together with a prediction horizon $\Deltat$ and produces a predicted embedding of the future interval:
+
+During pretraining, $\Deltat$ is sampled from a log-uniform distribution over $\lbrack 1,{\Deltat_{\text{max}}}\rbrack$, forcing the encoder to internalise dynamics at multiple timescales. The same encoder $f_{\theta}$, applied bidirectionally to $\mathbf{x}_{(t,{t + {\Deltat}}\rbrack}$ with attention pooling, produces the target representation $\mathbf{h}_{(t,{t + {\Deltat}}\rbrack}^{\ast} \in {\mathbb{R}}^{d}$. Both encoders are trained jointly via the optimizer; a SIGReg (Sketched Isotropic Gaussian Regularisation) term $\mathcal{L}_{SIG}$ on the predictor output prevents representation collapse, replacing the exponential moving average (EMA) momentum schedule used in standard JEPA (section˜I.3). SIGReg constrains the predicted representations toward an isotropic Gaussian, which Balestriero and LeCun prove is the optimal embedding distribution for minimising downstream prediction risk in joint-embedding architectures; this eliminates collapse without ad-hoc heuristics. A single mixing weight $\alpha = 0.1$ controls its contribution to the total loss (section˜I.3).
+
+### Relation to canonical JEPA
+
+HEPA differs from BYOL/I-JEPA/V-JEPA-style joint-embedding predictive architectures in two ways: (a) the target encoder is a weight-shared copy of $f_{\theta}$ rather than an EMA copy or a stop-gradient branch, and (b) collapse is prevented by SIGReg (isotropic Gaussian constraint on the predictor output) rather than by the online/target asymmetry. Trivial collapse $\hat{H} = H^{\ast} =$const is prevented jointly by SIGReg *and* by the asymmetric inputs ($\mathbf{x}_{\leq t}$ for the online branch vs. $\mathbf{x}_{(t,{t + {\Deltat}}\rbrack}$ for the target branch): the predictor never sees the future window directly. This puts HEPA closer to LeJEPA / SIGReg variants than to the original I-JEPA recipe.
+
+The pretraining loss combines an L1 prediction objective (chosen over L2 because L1 distributes gradient magnitude equally across samples, avoiding domination by outlier predictions) with the SIGReg regulariser:
+
+where $\alpha$ balances the two terms. Because the target encoder shares weights with the online encoder, no stop-gradient is needed; both receive gradients through the optimizer. No labels are used. Pretraining takes under one minute per dataset on a single A10G GPU, with the full 14-dataset, 5-seed sweep completing in under two hours. Per-dataset preprocessing details are in appendix˜L.
+
+### Downstream: Predictor Finetuning
+
+After pretraining, we freeze the encoder $f_{\theta}$ and finetune only the predictor $g_{\phi}$ together with a lightweight linear event head. This "predictor finetuning" (pred-FT) recipe tunes 198K parameters, compared to 2.16M for end-to-end training and 513 for a frozen linear probe. Finetuning reshapes the predictor's per-horizon outputs to separate event-relevant from event-irrelevant dynamics, making it more expressive than a linear probe, while the frozen encoder supplies the pretrained dynamical knowledge that makes few labels sufficient. End-to-end finetuning achieves equivalent h-AUROC at full labels (table˜4); pred-FT's advantage is computational efficiency and robustness under label scarcity (section˜5.4).
+
+The predictor is run at each of $K$ discrete horizons ${\Deltat} = {1,\ldots,K}$ (unit steps; $K = 150$ for C-MAPSS/TEP, $K = 200$ otherwise). A shared linear head maps each predicted representation to a per-interval *conditional hazard*:
+
+where $\sigma$ is the sigmoid function and $\lambda_{\Deltat}{(t)}$ approximates $P{({{\text{event in~}{({{\Deltat} - 1},{\Deltat}\rbrack}{\mid T^{\ast}>}\Deltat} - 1},\mathbf{x}_{\leq t})}$, with $T^{\ast}$ denoting the time to the first event after $t$. The event probability surface is then parameterised as a discrete-time survival CDF:
+
+Because each factor ${({1 - \lambda_{j}})} \in {}$, the survival product is non-increasing in $\Deltat$, so $p{(t,{\Deltat})}$ increases monotonically with the prediction horizon by construction. No distributional assumptions are required: each $\lambda_{\Deltat}$ is a free function of $\mathbf{h}_{t}$ via the predictor network. The finetuning loss sums positive-weighted binary cross-entropy (BCE) over horizons:
+
+where ${y{(t,{\Deltat})}} = {\mathbb{1}{\lbrack{\text{event in~}{(t,{t + {\Deltat}}\rbrack}}\rbrack}}$ and $w^{+} = {N_{\text{neg}}/N_{\text{pos}}}$ compensates for class imbalance.^11^1We apply BCE to the cumulative event probability $p{(t,{\Deltat})}$ rather than to the per-step hazards $\lambda_{j}{(t)}$ against per-step indicators (the standard discrete-survival likelihood, e.g. nnet-survival ). This is a deliberate design choice: BCE on the cumulative surface acts as a smoothing regulariser across horizons (each hazard $\lambda_{j}$ contributes to BCE for every ${\Deltat} \geq j$), which empirically improves h-AUROC under our positive-weighted regime but distorts the probability scale (appendix O).
+
+### Theoretical Analysis
+
+Predictor finetuning rests on a premise: the pretrained encoder retains enough event-relevant information that a small downstream head can extract it. We formalise when this holds and connect the bound to experiments.
+
+Let $X_{\leq t}$ denote observations up to time $t$, and let $E_{t + {\Deltat}} \in {\{ 0,1\}}$ be a binary indicator that equals 1 if an event occurs in the interval $(t,{t + {\Deltat}}\rbrack$ and 0 otherwise. The encoder produces $H_{t} = {f_{\theta}{(X_{\leq t})}} \in {\mathbb{R}}^{d}$; the target encoder produces $H^{\ast} = {{\overline{f}}_{\theta}{(X_{(t,{t + {\Deltat}}\rbrack})}} \in {\mathbb{R}}^{d}$ from the future interval; and the predictor produces $\hat{H} = {g_{\phi}{(H_{t},{\Deltat})}}$. We define the event posterior ${\eta{(h)}} ≔ {P{({E_{t + {\Deltat}} = {1 \mid H^{\ast}} = h})}}$ and the marginal event rate $\pi_{e} ≔ {P{({E_{t + {\Deltat}} = 1})}}$, using $\pi_{e}$ to distinguish it from the probability surface $p{(t,{\Deltat})}$.
+
+### Proposition 1 (Event-Information Retention)
+
+Suppose (A1) the event $E_{t + {\Deltat}}$ is conditionally independent of $X_{\leq t}$ given $H^{\ast}$, (A2) the pretraining loss satisfies ${{\mathbb{E}}{\lbrack{\|{\hat{H} - H^{\ast}}\|}_{2}^{2}\rbrack}} \leq \varepsilon$, (A3) the event posterior $\eta{(h)}$ is $L$-Lipschitz, and (A4) the posterior is bounded: ${\eta{(H^{\ast})}} \in {\lbrack\underset{¯}{\eta},\overline{\eta}\rbrack} \subset {}$ a.s. Then
+
+where $C_{\eta} = {({2\underset{¯}{\eta}{({1 - \overline{\eta}})}})}^{- 1}$ and $I{( \cdot; \cdot )}$ denotes mutual information.
+
+The proof proceeds in three steps (full details in appendix˜A). First, because $\hat{H}$ is a deterministic function of $H_{t}$, the data processing inequality gives ${I{(H_{t};E)}} \geq {I{(\hat{H};E)}}$. Second, a Jensen-gap argument on the convex KL divergence, combined with the Lipschitz condition and prediction error bound, yields ${{I{(H^{\ast};E)}} - {I{(\hat{H};E)}}} \leq {C_{\eta}L^{2}\varepsilon}$. Combining these two inequalities produces the result.
+
+The bound makes a falsifiable prediction: as pretraining proceeds and $\varepsilon$ shrinks, downstream h-AUROC should rise. The bound's constants $L$ (Lipschitz of $\eta$), $C_{\eta}$ (posterior bound), and the target sufficiency $I{(H^{\star};E_{t + {\Deltat}})}$ are functions of the data-generating process: they vary across datasets but are held fixed within a dataset. The bound is therefore directly testable only *within* a dataset, by varying $\varepsilon$ alone. We do this on three contrasting domains, turbofan lifecycle (C-MAPSS-3), cardiac arrhythmia (MBA), and spacecraft telemetry anomalies (SMAP), by snapshotting the encoder during pretraining at epochs $\{ 1,3,8,25\}$ plus the converged best, and at each snapshot running the standard predictor finetuning recipe to obtain h-AUROC on the held-out test split (3 seeds per dataset). The bound's monotone prediction holds across all three: pooled Spearman ${\rho{(\varepsilon,\text{h-AUROC})}} = {- 0.67}$ ($p = 0.017$, $n = 12$) on C-MAPSS-3, $\rho = {- 0.64}$ ($p = 0.026$, $n = 12$) on MBA, and $\rho = {- 0.49}$ ($p = 0.13$, $n = 11$) on SMAP. SMAP shows the largest visible h-AUROC range (0.40 at $\varepsilon = 0.033$ rising to 0.65 at $\varepsilon = 0.026$). The converged-best snapshot regresses slightly relative to epoch 25 on all three datasets, consistent with mild over-pretraining at fixed labels. C-MAPSS-1 (the original lifecycle benchmark, $\rho = {- 0.87}$, $p < 0.001$) gives an even stronger signal and is reported in appendix˜A. Corollary˜2. ‣ 3.3 Theoretical Analysis ‣ 3 Method ‣ HEPA: A Self-Supervised Horizon-Conditioned Event Predictive Architecture for Time Series") predicts a fourth regime where the bound becomes vacuous: on short-window anomaly benchmarks like GECCO we observe a within-dataset $\rho = {+ 0.14}$ ($p = 0.67$) with finetuning instability across early snapshots, exactly as expected when extended precursors are weak (also in appendix˜A).
+
+Figure 3: Self-supervised pretraining learns task-relevant structure. (a) Pretraining loss ε vs. downstream h-AUROC (↑) at fixed checkpoints across three domains (C-MAPSS-3: ρ = −0.67; MBA: ρ = −0.64; SMAP: ρ = −0.49; 3 seeds, error bars ± 1 std). Within a dataset, L, Cη, and I (H⋆;Et + Δ t) are constant, so the bound’s monotone prediction is directly testable. ★ marks the converged-best snapshot; ε scales differ across datasets so curves cannot be compared horizontally. (b) Principal component analysis (PCA) of pretrained C-MAPSS-1 representations for four test engines. Open circles: first observation (healthy); stars: last observation (near failure). PC1 captures 61% of variance; the encoder organises representations into a smooth degradation manifold without any labels.
+
+A cross-dataset scatter, by contrast, does *not* validate the bound: pooling the converged $\varepsilon$ across the 14 Table 1 datasets gives Pearson $r = {- 0.05}$ ($p = 0.90$), because $L$, $C_{\eta}$, and the absolute scale of the target representation differ by dataset, dominating any signal from $\varepsilon$ alone; the same incommensurability fig.˜3 makes visible (C-MAPSS-3 clusters around $\varepsilon \sim 0.015$, SMAP around $0.027$, MBA around $0.06$). This does not contradict the bound; it shows that comparing $\varepsilon$ across datasets compares incommensurable quantities, motivating the within-dataset protocol above. Two further caveats remain. The constants $L$ and $C_{\eta}$ are not estimated directly; fig.˜3 validates only the monotonic relationship, not the full quantitative bound. And A1 (target sufficiency) may fail when event precursors span intervals longer than the target window; when A1 is violated, the bound becomes loose in a *favourable* direction (see appendix˜A for assumption-by-assumption failure modes).
+
+### Corollary 2 (Precursor necessity)
+
+The bound is non-vacuous if and only if the future interval contains event precursors that the target encoder captures (${I{(H^{\ast};E_{t + {\Deltat}})}} > 0$) and the predictor approximates the target well enough ($\varepsilon < {{I{(H^{\ast};E_{t + {\Deltat}})}}/{({C_{\eta}L^{2}})}}$).
+
+This corollary explains both HEPA's successes and its failures. On C-MAPSS, degradation unfolds over hundreds of cycles, so $I{(H^{\ast};E_{t + {\Deltat}})}$ is large and pretraining drives $\varepsilon$ small, yielding h-AUROC $\geq 0.81$. On datasets without extended precursors, the bound is vacuous regardless of pretraining quality.
+
+## Evaluation Framework
+
+The model outputs a probability surface $p{(t,{\Deltat})}$ (eq.˜4) for each observation time $t$ and prediction horizon $\Deltat$. This surface is the complete prediction; every metric is computed deterministically from it (fig.˜4), enabling direct comparison with published baselines without retraining.
+
+Figure 4: Evaluation framework. (a) The probability surface p (t,Δ t) on a representative C-MAPSS-1 engine (lifetime 174 cycles) unifies all event-prediction metrics as lossy projections. The colour scale matches Fig. 1b. RMSE requires converting the survival curve to a point estimate τ̂ = ∑Δ tΔ t ⋅ P (event at Δ t); this projection is sensitive to calibration (appendix˜J). PA-F1 thresholds p (t,1) at the smallest horizon and credits entire anomaly segments from a single detection (inflated ). F1 collapses to a single (t,Δ t) cell. h-AUROC averages AUROC over all horizons, using the full surface. (b) Per-horizon AUROC on GECCO (K = 200 for HEPA / PatchTST / Chronos-2; sparse K = 8 for iTransformer / MAE following the v34 protocol). Mean h-AUROC (↑) per method shown in the legend; dashed lines mark the per-method mean. HEPA holds AUROC ≥ 0.82 across the full horizon range while value-level baselines decay sharply.
+
+As a cross-domain metric, we use h-AUROC: the mean of per-horizon AUROC values pooled over $(t,{\Deltat})$ cells. Per-horizon prevalence varies wildly across datasets, and even within a single surface: on C-MAPSS-1, the event "failure within $\Deltat$ steps" has prevalence 0.5% at ${\Deltat} = 1$ and 96% at ${\Deltat} = 150$, a $\sim 200 \times$ range. Pooled area under the precision-recall curve (AUPRC) over all $(t,{\Deltat})$ cells inherits a 0.957 baseline on C-MAPSS-1, because a model predicting only per-horizon prevalence already scores there. h-AUROC solves this by decomposing the surface into independent per-horizon binary classification problems, each with a universal 0.5 baseline that does not depend on prevalence. The uniform average treats all horizons equally; in practice, specific horizons matter more (long-range for turbine maintenance, short-range for arrhythmia). We use the uniform average for cross-domain comparability; the full surface is always stored for application-specific weighting. Domain-specific metrics (RMSE for remaining-useful-life, PA-F1 for anomaly detection) are derived as projections of the same surface for comparability with published baselines (appendix˜J). All numbers are reported as mean $\pm$ std across 5 seeds (HEPA, PatchTST, iTransformer, MAE) or 3 seeds (Chronos-2).
+
+## Experiments
+
+### Setup
+
+We pretrain a separate HEPA encoder per dataset from unlabeled training data. Architecture and hyperparameters are identical across all domains; only the input projection (sensor count $S$) changes. All comparison methods share the same 198K-param downstream MLP head, positive-weighted BCE loss, and evaluation protocol; only the frozen encoder differs. Dense unit-step horizons are used throughout: $K = 150$ for C-MAPSS and TEP, $K = 200$ for all others. The dataset overview (14 datasets, 11 domains) is in table˜3.
+
+### Main Results
+
+Domain-specific SOTA metric
+
+C-MAPSS-1 [-1pt]turbine failure
+
+C-MAPSS-4 [-1pt]multi-cond.+fault
+
+SMAP [-1pt]sensor anomaly
+
+PSM [-1pt]server anomaly
+
+TEP [-1pt]process fault
+
+Weather [-1pt]heat spike
+
+VIX [-1pt]vol regime
+
+Matched downstream heads (HEPA 198K pred-FT; baselines 264K dt-MLP), positive-weighted BCE, identical protocol. K = 150 for C-MAPSS/TEP, K = 200 otherwise. Domain SOTAs are detection or RUL baselines; HEPA domain metrics projected from p (t,Δ t) at the matching horizon (Δ t = 1 for PA-F1/F1, 𝔼 [Δ t] for RMSE; appendix˜J). PA-F1 = point-adjusted F1. Pairwise Welch’s t-tests in appendix˜N. †Beijing-AQ PatchTST: 3 stations at 100%. Bottom block has no published domain SOTA. Additional baselines (MOMENT, TFM-2.5, Moirai, MTS-JEPA) in appendices˜G and H.
+Table 1: Main results (mean ± std; 5 seeds for HEPA, PatchTST, iTransformer, MAE; 3 seeds for Chronos-2). All methods use matched-capacity downstream heads on frozen encoders (appendix˜C). Each dataset has two rows: 100% labels and 10% labels (gray). Bold = best mean per row.
+
+Table˜1 compares HEPA against two classes of methods. The primary comparison is *architectural*: PatchTST, iTransformer, and a masked autoencoder (MAE) baseline use the same per-dataset regime with identical downstream heads, isolating the effect of JEPA pretraining versus alternative self-supervised and supervised objectives. The secondary comparison is against the *foundation model* Chronos-2, which pretrains on a large external corpus and operates in a fundamentally different regime. A full comparison against MTS-JEPA (matched protocol) is in appendix˜H; HEPA wins on 8 out of 9 datasets where MTS-JEPA could be reproduced (TEP excluded: the public MTS-JEPA release does not include a chemical-process benchmark).
+
+### HEPA vs. architectural baselines
+
+HEPA wins on 10 out of 14 benchmarks at 100% labels, including all four C-MAPSS variants and the newly added FD004 (the hardest subset: six fault modes, six operating conditions). HEPA's representation-level prediction captures temporal structure that supervised training (PatchTST) and reconstruction-based SSL (MAE) miss, particularly on datasets with extended precursor dynamics (C-MAPSS, GECCO, PSM, TEP). MAE is a strong second: it matches or exceeds HEPA on spacecraft telemetry (SMAP) and power systems (ETTm1), suggesting that reconstruction-based pretraining transfers well when the dominant failure mode is gradual drift. iTransformer's variate-attention mechanism excels on MBA (h-AUROC 0.84 vs. HEPA's 0.75), where arrhythmia patterns are localised across specific leads.
+
+### HEPA vs. Chronos-2
+
+HEPA matches or exceeds Chronos-2 on most benchmarks. Per-dataset JEPA excels when events have extended precursors that the local training data fully represents; large-corpus pretraining helps when event signatures resemble patterns seen at scale.
+
+### Honest losses
+
+HEPA is below the best baseline on four datasets at 100% labels. The pattern is interpretable: BATADAL and MBA have sensor-localised events where channel-fusion tokenisation dilutes the relevant subset, so per-variate attention (iTransformer) or channel-independent training (PatchTST) wins; MAE's reconstruction objective transfers well when the dominant failure mode is gradual drift (SMAP, ETTm1). Adopting a sensor-as-token strategy within the HEPA encoder is a natural way to close this gap.
+
+### What Does Pretraining Learn?
+
+Figure˜3 visualises encoder representations after self-supervised pretraining on C-MAPSS-1. Without any labels, the encoder organises representations into a smooth degradation manifold: PC1 alone captures 61% of variance and tracks time-to-failure monotonically within each engine (median per-engine Spearman $\rho = {+ 0.97}$, $84\%$ of engines $\rho > 0.9$). Engines starting from different healthy regions converge toward a shared failure region. This structure explains why so few labels suffice: the encoder has already separated healthy from degraded states.
+
+### Label Efficiency
+
+All methods in table˜1 freeze their encoder and train only a downstream head, so all benefit from pretraining under label scarcity. The question is whether HEPA's representations degrade more gracefully. Table˜2 shows that on C-MAPSS, where degradation unfolds over hundreds of cycles and the JEPA predictor achieves low pretraining loss, HEPA retains 92% of full-label h-AUROC with just 2 training engines out of 85. C-MAPSS-3 retains 97% at 10% labels. This is consistent with proposition˜1. ‣ 3.3 Theoretical Analysis ‣ 3 Method ‣ HEPA: A Self-Supervised Horizon-Conditioned Event Predictive Architecture for Time Series"): low $\varepsilon$ on lifecycle datasets means the encoder already separates healthy from degraded states, so the finetuned predictor needs only a few labelled examples to map them to event probabilities.
+
+The advantage is not universal. At 10% labels across all 14 datasets (table˜1, gray rows), HEPA wins on 6 out of 14, compared to 10 out of 14 at full labels. On anomaly datasets without extended precursors (SMAP, PSM, GECCO at 10%), the frozen-encoder setup limits how much any method can degrade, so margins compress. The label-efficiency story is strongest where HEPA's pretraining loss is lowest: extended-precursor lifecycle datasets.
+
+Table 2: Label efficiency on C-MAPSS lifecycle datasets (HEPA only, 3 seeds). h-AUROC (↑) and retention relative to full labels. C-MAPSS-1 retains 92% at 2% labels (2 of 85 training engines).
+
+## Conclusion & Future Work
+
+HEPA demonstrates that self-supervised JEPA pretraining combined with predictor finetuning provides a practical recipe for event prediction. The encoder learns temporal dynamics from unlabelled data; the predictor learns which dynamics signal the target event. One architecture handles degradation forecasting, anomaly prediction, and arrhythmia detection across 14 benchmarks in 11 domains, matching or exceeding PatchTST, iTransformer, MAE, and Chronos-2 on the majority of benchmarks while tuning an order of magnitude fewer parameters. On lifecycle datasets, the recipe is robust to extreme label scarcity: 92% of full-label performance with 2% of labels on C-MAPSS, consistent with the information-retention guarantee of proposition˜1. ‣ 3.3 Theoretical Analysis ‣ 3 Method ‣ HEPA: A Self-Supervised Horizon-Conditioned Event Predictive Architecture for Time Series"). Because the recipe is domain-agnostic, the same architecture that predicts turbine failure from flight-recorder data can flag arrhythmia risk from ECG streams or detect water contamination from sensor networks, each time requiring only a handful of event labels.
+
+Looking ahead, cross-domain pretraining on corpora such as FactoryNet is the natural next step toward industrial deployment, and sensor-as-token strategies could close the gap on systems where event-relevant information is concentrated in a few channels. On the theory side, deriving fully empirical versions of the information-retention bound that estimate $L$ and $C_{\eta}$ directly from data remains an interesting open problem. Wherever multivariate sensors record the precursors to rare but consequential events, HEPA offers a path from unlabelled streams to actionable predictions.

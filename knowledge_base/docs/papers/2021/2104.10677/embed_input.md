@@ -4,22 +4,16 @@ In this paper we present a review of the connections between classical algorithm
 
 ## Introduction
 
-Markov Decision Process (MDP) is a common framework modeling dynamic optimization problems, with applications ranging from reinforcement learning to healthcare and wireless sensor networks. Most of the algorithms for computing an optimal control policy are variants of two algorithms: Value Iteration (VI) and Policy Iteration (PI). Over the last 40 years, a number of works have highlighted the strong connections between these algorithms and methods from convex optimization, even though computing an optimal policy is a non-convex problem....
+Markov Decision Process (MDP) is a common framework modeling dynamic optimization problems, with applications ranging from reinforcement learning to healthcare and wireless sensor networks. Most of the algorithms for computing an optimal control policy are variants of two algorithms: Value Iteration (VI) and Policy Iteration (PI). Over the last 40 years, a number of works have highlighted the strong connections between these algorithms and methods from convex optimization, even though computing an optimal policy is a non-convex problem.
 
-### Outline
+## Outline
 
-tackle the potential singularity of the matrices $\left( {\mathbf{J}}_{t} \right)_{t \geq 0}$ (with restart checking),
+We introduce the MDP framework as well as the classical Value Iteration and Policy Iteration algorithms in Section 2 ‣ From Convex Optimization to MDPs: A Review of First-Order, Second-Order and Quasi-Newton Methods for MDPs"). We highlight the recent connections between Value Iteration and first-order methods (Gradient Descent) in Section 3. The relations between Policy Iteration and second-order methods (Newton's method) are presented in Section 4. We review Anderson Value Iteration, a quasi-Newton methods for MDPs, in Section 5.
 
-Zhang et al. present a stabilized version of the vanilla Anderson algorithm AndVI-I. This results in ${\lim_{t\rightarrow{+ \infty}}{\mathbf{v}}_{t}} = {\mathbf{v}}^{\ast}$, but the convergence rate is not known (Theorem 3.1 in Zhang et al. ), even though the algorithm enjoys good empirical performances, typically outperforming VI ‣ From Convex Optimization to MDPs: A Review of First-Order, Second-Order and Quasi-Newton Methods for MDPs"). Note that this is the first result on the convergence of Anderson Acceleration, without differentiability of the operator $T$ (and with fixed-memory, i.e., with $m$ fixed)....
+## Notations
 
-### Properties for non-affine operators
+In this paper, $n$ and $A$ denote integers in $\mathbb{N}$. The notation $\Delta{(A)}$ refers to the simplex of size $A$. We write $\lbrack n\rbrack$ for the set $\{ 1,\ldots,n\}$.
 
-Clearly, VI ‣ From Convex Optimization to MDPs: A Review of First-Order, Second-Order and Quasi-Newton Methods for MDPs") is a first-order method for MDP. However, Policy Iteration is not, since it relies on the update ${\mathbf{v}}_{t} = {\mathbf{v}}^{\pi_{t}}$ (Policy Evaluation step).
+## Setting and notations
 
-### Mirror Descent
-
-We introduce the MDP framework as well as the classical Value Iteration and Policy Iteration algorithms in Section 2 ‣ From Convex Optimization to MDPs: A Review of First-Order, Second-Order and Quasi-Newton Methods for MDPs"). We highlight the recent connections between Value Iteration and first-order methods (Gradient Descent) in Section 3. The relations between Policy Iteration and second-order methods (Newton's method) are presented in Section 4. We review Anderson Value Iteration, a quasi-Newton methods for MDPs, in Section 5....
-
-### Notations
-
-In this paper, $n$ and $A$ denote integers in $\mathbb{N}$. The notation $\Delta{(A)}$ refers to the simplex of size $A$....
+A (stationary) policy $\pi \in \left( {\Delta{(A)}} \right)^{n}$ maps each state to a probability distribution over the set of actions $\mathbb{A}$. For each policy $\pi$, the value vector ${\mathbf{v}}^{\pi} \in {\mathbb{R}}^{n}$ is defined as

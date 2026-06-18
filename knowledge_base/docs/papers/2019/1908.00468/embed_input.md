@@ -12,8 +12,14 @@ One of the main paradigms in the field of systems and control is that of *model-
 
 In contrast, *data-driven* control aims to bypass this two-step procedure by constructing controllers directly from data, without (explicitly) identifying a system model. This direct approach is not only attractive from a conceptual point of view but can also be useful in situations where system identification is difficult or even impossible because the data do not give sufficient information.
 
-A framework similar to ours could be employed in the presence of disturbances, which is a problem of practical interest. A study of data-driven control problems in this situation is particularly interesting, because system identification is less straightforward. We note that data-driven stabilization under measurement noise has been studied in and under unknown disturbances in. Additionally, the data-driven LQR problem is popular in the machine learning community, where it is typically assumed that the system is influenced by (Gaussian) process noise, see e.g..
+To address the above question, this paper introduces a general framework to study data informativity problems for data-driven analysis and control.
 
-In this paper, we have assumed that the data are given. Yet another problem of practical interest is that of experiment design, where inputs need to be chosen such that the resulting data are informative. In system identification, this problem led to the notion of persistence of excitation. For example, it is shown in that the rank condition can be imposed by injecting an input sequence that is persistently exciting of order $n + 1$. However, as we have shown, this rank condition is not necessary for some data-driven control problems, like stabilization by state feedback....
+Inspired by the concept of data informativity in system identification, we introduce a general notion of informativity for data-driven analysis and control.
 
-Consider the discrete-time linear system. Let $x_{x_{0},u}{( \cdot )}$ be the state sequence of resulting from the input $u{( \cdot )}$ and initial condition ${x{}} = x_{0}$....
+For each of the studied control problems, we develop methods to compute a controller from data, assuming that the informativity conditions are satisfied.
+
+## Future work
+
+Due to the generality of the introduced framework, many different problems can be studied in a similar fashion: one could consider different types of data, where more results based on only input and output data would be particularly interesting. Many other system-theoretic properties could be considered as well, for example, analyzing passivity or tackling robust control problems based on data.
+
+It would also be of interest to generalize the model class under consideration. One could, for instance, consider larger classes of systems like differential algebraic or polynomial systems. On the other hand, the class under consideration can also be made smaller by prior knowledge of the system. For example, the system might have an observed network structure, or could in general be parametrized.

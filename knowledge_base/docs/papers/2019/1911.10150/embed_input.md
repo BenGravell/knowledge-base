@@ -4,18 +4,12 @@ Camera and lidar are important sensor modalities for robotics in general and sel
 
 ## Introduction
 
-Figure 2: PointPainting overview. The PointPainting architecture consists of three main stages: image based semantics network, fusion (painting), and lidar based detector. In the first step, the images are passed through a semantic segmentation network obtaining pixelwise segmentation scores. In the second stage, the lidar points are projected into the segmentation mask and decorated with the scores obtained in the earlier step. Finally, a lidar based object detector can be used on this decorated (painted) point cloud to obtain 3D detections.
-
 Driven partially by the interest in self-driving vehicles, significant research effort has been devoted to 3D object detection. In this work we consider the problem of fusing a lidar point cloud with an RGB image. The point cloud provides a very accurate range view, but with low resolution and texture information. The image, on the other hand, has an inherent depth ambiguity but offers fine-grained texture and color information. This offers the compelling research opportunity of how to design a detector which utilizes the best of two worlds.
+
+Early work on KITTI such as MV3D and AVOD proposed multi-view fusion pipelines to exploit these synergies. However recent detectors such as PointPillars, VoxelNet and STD use only lidar and still significantly outperform these methods. Indeed, despite recent fusion research, the top methods on the popular KITTI leaderboard are lidar only. Does this mean lidar makes vision redundant for 3D object detection?
+
+The answer, surely, must be no. Consider the example in Fig. 3, where the pedestrian and signpost are clearly visible in the image, yet look more or less identical in the lidar modality. Surely vision based semantic information should be useful to improve detection of such objects. Also, by first principle, adding more information should at the minimum yield the *same* result, not *worse*. So why has it been so difficult? One reason is due to viewpoint misalignment.
 
 ## Conclusion
 
 In this paper, we present PointPainting, a novel sequential fusion method that paints lidar point clouds with image based semantics. PointPainting produces state of the art results on the KITTI and nuScenes challenges with multiple different lidar networks. The PointPainting framework is flexible and can combine the outputs of any segmentation network with any lidar network. The strength of these results and the general applicability demonstrate that PointPainting is the leading architecture when fusing image and lidar information for 3D object detection.
-
-### Semantics Network Details
-
-Table 2: Results on the KITTI test BEV detection benchmark. We see that Painted PointRCNN sets a new state of the art (69.86 mAP) in BEV detection performance. The modalities are lidar (L), images (I), and maps (M). The delta is the difference due to Painting, ie Painted PointRCNN minus PointRCNN. The corresponding 3D results are included in Table 8 in the Supplementary Material.
-
-### KITTI
-
-Early work on KITTI such as MV3D and AVOD proposed multi-view fusion pipelines to exploit these synergies. However recent detectors such as PointPillars, VoxelNet and STD use only lidar and still significantly outperform these methods....

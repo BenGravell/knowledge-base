@@ -8,8 +8,10 @@ In recent years, large language models have demonstrated impressive skills acros
 
 One significant challenge in mathematical reasoning is the high sensitivity to individual mistakes. When generating a solution, autoregressive models have no mechanism to correct their own errors. Solutions that veer off-course quickly become unrecoverable. If we rely purely on generative methods and extrapolate from current trends, we will require an exorbitant parameter count to achieve even moderate performance on distributions as challenging as the MATH dataset. This evidence strongly motivates the search for methods with more favorable scaling laws.
 
+We propose training verifiers to evaluate the correctness of model generated solutions, similar to concurrent work by Shen et al.. At test time, we sample a fixed number of candidate solutions and select the solution ranked highest by the verifier. Verifiers benefit both from their inherent optionality and from verification being a simpler task than generation in general.
+
+We present a curated dataset of 8.5K grade school math questions and natural language solutions, useful for probing the informal reasoning ability of large language models.
+
 ## Conclusion
 
 We have seen that verification provides a significant performance boost relative to a finetuning baseline. On the full dataset, 6B verification slightly outperforms a finetuned 175B model, thereby offering a boost approximately equivalent to a 30x model size increase. We have also seen that token-level verifiers are less prone to overfitting than solution-level verifiers, and that all methods benefit from regularization with residual dropout. We expect verification to scale well to problem distributions that require more complex mathematical reasoning, and we hope GSM8K supports the development of new methods that scale even better.
-
-We perform finetuning by updating model parameters to minimize the cross-entropy loss over all training tokens. Figure 2 shows test performance after finetuning on training sets of varying sizes for 20 epochs. We visualize the same data both as a function of training set size and as a function of model size. Test performance is determined by a single low temperature ($T = 0$) sample for each test problem. Unsurprisingly, we see that the 175B model significantly outperforms the smaller models....

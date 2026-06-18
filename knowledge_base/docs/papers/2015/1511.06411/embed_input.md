@@ -6,16 +6,10 @@ Supervised training of deep neural nets typically relies on minimizing cross-ent
 
 Standard supervised neural network training involves computing the gradient of the loss function with respect to the parameters of the model, and therefore requires the loss function to be differentiable. Many interesting loss functions are, however, non-differentiable with respect to the output of the network. Notable examples are functions based on discrete outputs, as is common in labeling and ranking problems. In many cases these losses are also non-decomposable, in that they cannot be expressed as simple sums over the output units of the network.
 
-In the context of structured prediction problems, in which the output is multi-dimensional, researchers have developed max-margin training methods that are capable of minimizing an upper bound on non-decomposable loss functions. Standard learning in this paradigm involves changing the parameters such that the model assigns a higher score to the groundtruth output than to any other output. This is typically encoded by a constraint, enforcing that the groundtruth score should be higher than that of a selected, contrastive output....
+In the context of structured prediction problems, in which the output is multi-dimensional, researchers have developed max-margin training methods that are capable of minimizing an upper bound on non-decomposable loss functions. Standard learning in this paradigm involves changing the parameters such that the model assigns a higher score to the groundtruth output than to any other output. This is typically encoded by a constraint, enforcing that the groundtruth score should be higher than that of a selected, contrastive output.
+
+The seminal work of McAllester et al. showed how to compute the gradient of complex non-differentiable loss functions when dealing with linear models. In this paper we extend their theorem to the non-linear case. This is important in practice as it provides us with a new learning algorithm to train deep neural networks end-to-end to minimize the application specific loss function. As shown in our experiments on action classification and object detection, this is very beneficial, particularly when dealing with noisy labels.
 
 ## Conclusion
 
-In this paper we have proposed a direct loss minimization approach to train deep neural networks. We have demonstrated the effectiveness of our approach in the context of maximizing average precision for ranking problems. This involves minimizing a non-smooth and non-decomposable loss. Towards this goal we have proposed a dynamic programming algorithm that can efficiently compute the weight updates. Our experiments showed that this is beneficial when compared to a large variety of baselines in the context of action classification and object detection, particularly in the presence of noisy labels....
-
-### Lemma 1
-
-Alternatives to optimizing average precision are methods such as RankNet, LambdaRank and LambdaMART. For an overview, we refer the reader to Burges and references therein. Our goal here is simply to show direct loss minimization of AP as an example of our general framework.
-
-Figure 3: Experiments on synthetic data: 3 Average Precision (AP) on the test set as a function of the number of iterations (best view in color). 3 The robustness of pos-AP compared to hinge-AP.
-
-An alternative approach, frequently used in deep neural networks, is to train with a surrogate loss that can be easily optimized, *e.g*., cross-entropy....
+In this paper we have proposed a direct loss minimization approach to train deep neural networks. We have demonstrated the effectiveness of our approach in the context of maximizing average precision for ranking problems. This involves minimizing a non-smooth and non-decomposable loss. Towards this goal we have proposed a dynamic programming algorithm that can efficiently compute the weight updates. Our experiments showed that this is beneficial when compared to a large variety of baselines in the context of action classification and object detection, particularly in the presence of noisy labels.

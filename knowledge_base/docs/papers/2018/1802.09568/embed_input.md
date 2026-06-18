@@ -6,18 +6,10 @@ Preconditioned gradient methods are among the most general and powerful tools in
 
 Over the last decade, stochastic first-order optimization methods have emerged as the canonical tools for training large-scale machine learning models. These methods are particularly appealing due to their wide applicability and their low runtime and memory costs.
 
-A potentially more powerful family of algorithms consists of *preconditioned* gradient methods. Preconditioning methods maintain a matrix, termed a preconditioner, which is used to transform (i.e., premultiply) the gradient vector before it is used to take a step. Classic algorithms in this family include Newton's method, which employs the local Hessian as a preconditioner, as well as a plethora of quasi-Newton methods (e.g., ) that can be used whenever second-order information is unavailable or too expensive to compute....
+A potentially more powerful family of algorithms consists of *preconditioned* gradient methods. Preconditioning methods maintain a matrix, termed a preconditioner, which is used to transform (i.e., premultiply) the gradient vector before it is used to take a step. Classic algorithms in this family include Newton's method, which employs the local Hessian as a preconditioner, as well as a plethora of quasi-Newton methods (e.g., ) that can be used whenever second-order information is unavailable or too expensive to compute.
 
-Our next experiment was on the LM1B benchmark for statistical language modeling. We used an Attention model with 9.8M trainable parameters from. This model has a succession of fully connected-layers, with corresponding tensors of order at most $2$, the largest of which is of dimension $$. In this experiment, we simply used the default learning rate of $\eta = 1.0$ for Shampoo. For the other algorithms we explored various different settings of the learning rate. The graph for the test perplexity is shown in Fig. 4.
+While preconditioned methods often lead to improved convergence properties, the dimensionality of typical problems in machine learning prohibits out-of-the-box use of full-matrix preconditioning. To mitigate this issue, specialized variants have been devised in which the full preconditioner is replaced with a diagonal approximation, a sketched version, or various estimations thereof.
 
-Figure 4: Test log-perplexity of an Attention model of Vaswani et al..
+In this paper, we take an alternative approach to preconditioning and describe an efficient and practical apparatus that exploits the structure of the parameter space. Our approach is motivated by the observation that in numerous machine learning applications, the parameter space entertains a more complex structure than a monolithic vector in Euclidean space. In multiclass problems the parameters form a matrix of size $m \times n$ where $m$ is the number of features and $n$ is the number of classes.
 
-which holds since given a vector $x$ we can write $\alpha_{i} = {x^{\mathsf{T}}w_{i}}$, and use the convexity of $\alpha\mapsto\alpha^{2}$ to obtain
-
-### Matrix inequalities
-
-The following definitions are used throughout the section.
-
-While preconditioned methods often lead to improved convergence properties, the dimensionality of typical problems in machine learning prohibits out-of-the-box use of full-matrix preconditioning. To mitigate this issue, specialized variants have been devised in which the full preconditioner is replaced with a diagonal approximation, a sketched version, or various estimations thereof....
-
-In this paper, we take an alternative approach to preconditioning and describe an efficient and practical apparatus that exploits the structure of the parameter space. Our approach is motivated by the observation that in numerous machine learning applications, the parameter space entertains a more complex structure than a monolithic vector in Euclidean space....
+Our algorithm, which we call Shampoo,^11^1We call it Shampoo because it has to do with preconditioning. retains the tensor structure of the gradient and maintains a separate preconditioner matrix for each of its dimensions. An illustration of Shampoo is provided in Figure 1. The set of preconditioners is updated by the algorithm in an online fashion with the second-order statistics of the accumulated gradients, similarly to AdaGrad. Importantly, however, each individual preconditioner is a full, yet moderately-sized, matrix that can be effectively manipulated in large scale learning problems.

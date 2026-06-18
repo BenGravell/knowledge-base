@@ -12,14 +12,10 @@ Nonnegative matrix factorization (NMF) is a popular approach for selecting featu
 
 The difficulty in developing rigorous methods for NMF stems from the fact that the problem is computationally challenging. Indeed, Vavasis has shown that NMF is NP-Hard; see for further worst-case hardness results. As a consequence, we must instate additional assumptions on the data if we hope to compute nonnegative matrix factorizations in practice.
 
+The present work presents a scalable, robust algorithm that can successfully solve the NMF problem under appropriate hypotheses. Our first contribution is a new formulation of the nonnegative feature selection problem that only requires the solution of a single linear program. Second, we provide a theoretical analysis of this algorithm. This argument shows that our method succeeds under the same modeling assumptions as the AGKM algorithm with an additional *margin constraint* that is common in machine learning.
+
+In addition to these theoretical contributions, our work also includes a major algorithmic and experimental component. Our formulation of NMF allows us to exploit methods from operations research and database systems to design solvers that scale to extremely large datasets. We develop an efficient stochastic gradient descent (SGD) algorithm that is (at least) two orders of magnitude faster than the approach of AGKM when both are implemented in Matlab. We describe a parallel implementation of our SGD algorithm that can robustly factor matrices with $10^{5}$ features and $10^{6}$ examples in a few minutes on a multicore workstation.
+
 ## Discussion
 
 This paper provides an algorithmic and theoretical framework for analyzing and deploying any factorization problem that can be posed as a linear (or convex) factorization localizing program. Future work should investigate the applicability of Hottopixx to other factorization localizing algorithms, such as subspace clustering, and should revisit earlier theoretical bounds on such prior art.
-
-### Theorem 3.2
-
-In particular, the AGKM algorithm computes the factorization exactly when $\epsilon = 0$. Although this method is guaranteed to run in polynomial time, it has many undesirable features. First, the algorithm requires a priori knowledge of the parameters $\alpha$ and $\epsilon$. It may be possible to calculate $\epsilon$, but we can only estimate $\alpha$ if we know which rows are hott. Second, the algorithm computes all $\ell_{1}$ distances between rows at a cost of $O{({f^{2}n})}$....
-
-Dual subgradient ascent solves this problem by alternating between minimizing the Lagrangian over the constraint set $\Phi_{0}$, and then taking a subgradient step with respect to the dual variables
-
-In this spirit, Arora, Ge, Kannan, and Moitra (AGKM) have exhibited a polynomial-time algorithm for NMF that is provably correct---provided that the data is drawn from an appropriate model, based on ideas from. The AGKM result describes one circumstance where we can be sure that NMF algorithms are capable of producing meaningful answers. This work has the potential to make an impact in machine learning because proper feature selection is an important preprocessing step for many other techniques....

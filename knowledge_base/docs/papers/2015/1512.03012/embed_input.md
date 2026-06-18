@@ -8,18 +8,8 @@ We present ShapeNet: a richly-annotated, large-scale repository of shapes repres
 
 Recent technological developments have led to an explosion in the amount of 3D data that we can generate and store. Repositories of 3D CAD models are expanding continuously, predominantly through aggregation of 3D content on the web. RGB-D sensors and other technology for scanning and reconstruction are providing increasingly higher fidelity geometric representations of objects and real environments that can eventually become CAD-quality models.
 
-At the same time, there are many open research problems due to fundamental challenges in using 3D content. Computing segmentations of 3D shapes, and establishing correspondences between them are two basic problems in geometric shape analysis. Recognition of shapes from partial scans is a research goal shared by computer graphics and vision. Scene understanding from 2D images is a grand challenge in vision that has recently benefited tremendously from 3D CAD models. Navigation of autonomous robots and planning of grasping manipulations are two large areas in robotics that benefit from an understanding of 3D shapes....
+At the same time, there are many open research problems due to fundamental challenges in using 3D content. Computing segmentations of 3D shapes, and establishing correspondences between them are two basic problems in geometric shape analysis. Recognition of shapes from partial scans is a research goal shared by computer graphics and vision. Scene understanding from 2D images is a grand challenge in vision that has recently benefited tremendously from 3D CAD models. Navigation of autonomous robots and planning of grasping manipulations are two large areas in robotics that benefit from an understanding of 3D shapes.
 
-### ShapeNetSem
+Recently, data-driven methods from the machine learning community have been exploited by researchers in vision and NLP (natural language processing). "Big data" in the visual and textual domains has led to tremendous progress towards associating semantics with content in both fields. Mirroring this pattern, recent work in computer graphics has also applied similar approaches to specific problems in the synthesis of new shape variations and new arrangements of shapes.
 
-ShapeNetSem is a smaller, more densely annotated subset consisting of 12,000 models spread over a broader set of 270 categories. In addition to manually verified category labels and consistent alignments, these models are annotated with real-world dimensions, estimates of their material composition at the category level, and estimates of their total volume and weight. The total numbers of models for the top 100 categories in this subset are given in Section 5.2.
-6 Discussion and Future Work
-The construction of ShapeNet is a continuous, ongoing effort....
-
-Many objects, especially man-made artifacts such as furniture and appliances, can be used by humans. Functional annotations describe these usage patterns. Such annotations are often highly correlated with specific regions of an object. In addition, it is often related with the specific type of human action. ShapeNet aims to store functional annotations at the global shape level and at the object part level.
-
-### Data Collection
-
-As described in Section 3.2, we assign each 3D model to one or more synsets in the WordNet taxonomy.
-
-Recently, data-driven methods from the machine learning community have been exploited by researchers in vision and NLP (natural language processing)....
+Motivated by the far-reaching impact of dataset efforts such as the Penn Treebank, WordNet and ImageNet, which collectively have tens of thousands of citations, we propose establishing *ShapeNet*: a large-scale 3D model dataset. Making a comprehensive, semantically enriched shape dataset available to the community can have immense impact, enabling many avenues of future research.

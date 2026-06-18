@@ -4,18 +4,18 @@ We present DiffTaichi, a new differentiable programming language tailored for bu
 
 ## Introduction
 
-Figure 1: Left: Our language allows us to seamlessly integrate a neural network (NN) controller and a physical simulation module, and update the weights of the controller or the initial state parameterization (blue). Our simulations typically have 512 ∼ 2048 time steps, and each time step has up to one thousand parallel operations. Right: 10 differentiable simulators built with DiffTaichi.
-
 Differentiable physical simulators are effective components in machine learning systems. For example, de Avila Belbute-Peres et al. and Hu et al. have shown that controller optimization with differentiable simulators converges one to four orders of magnitude faster than model-free reinforcement learning algorithms. The presence of differentiable physical simulators in the inner loop of these applications makes their performance vitally important. Unfortunately, using existing tools it is difficult to implement these simulators with high performance.
+
+We present DiffTaichi, a new differentiable programming language for high performance physical simulations on both CPU and GPU. It is based on the Taichi programming language.
+
+## Megakernels
+
+Our language uses a "megakernel" approach, allowing the programmer to naturally fuse multiple stages of computation into a single kernel, which is later differentiated using source code transformations and just-in-time compilation. Compared to the linear algebra operators in TensorFlow and PyTorch, DiffTaichi kernels have higher arithmetic intensity and are therefore more efficient for physical simulation tasks.
+
+## Imperative Parallel Programming
+
+In contrast to functional array programming languages that are popular in modern deep learning, most traditional physical simulation programs are written in imperative languages such as Fortran and C++. DiffTaichi likewise adopts an imperative approach. The language provides parallel loops and control flows (such as "if" statements), which are widely used constructs in physical simulations: they simplify common tasks such as handling collisions, evaluating boundary conditions, and building iterative solvers. Using an imperative style makes it easier to port existing physical simulation code to DiffTaichi.
 
 ## Conclusion
 
-We have presented DiffTaichi, a new differentiable programming language designed specifically for building high-performance differentiable physical simulators. Motivated by the need for supporting megakernels, imperative programming, and flexible indexing, we developed a tailored two-scale automatic differentiation system. We used DiffTaichi to build 10 simulators and integrated them into deep neural networks, which proved the performance and productivity of DiffTaichi over existing systems....
-
-### Eliminate Mutable Local Variables
-
-The main goal of DiffTaichi's automatic differentiation (AD) system is to generate gradient simulators automatically with minimal code changes to the traditional forward simulators.
-
-Sometimes the user may want to override the gradients provided by the compiler. For example, when differentiating a 3D singular value decomposition done with an iterative solver, it is better to use a manually engineered SVD derivative subroutine for better stability. We provide two more decorators ti.complex_kernel and ti.complex_kernel_grad to overwrite the default automatic differentiation, as detailed in Appendix C. Apart from custom gradients, complex kernels can also be used to implement checkpointing, as detailed in Appendix D.
-
-We present DiffTaichi, a new differentiable programming language for high performance physical simulations on both CPU and GPU....
+We have presented DiffTaichi, a new differentiable programming language designed specifically for building high-performance differentiable physical simulators. Motivated by the need for supporting megakernels, imperative programming, and flexible indexing, we developed a tailored two-scale automatic differentiation system. We used DiffTaichi to build 10 simulators and integrated them into deep neural networks, which proved the performance and productivity of DiffTaichi over existing systems.

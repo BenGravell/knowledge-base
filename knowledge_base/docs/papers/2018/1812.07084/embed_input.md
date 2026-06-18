@@ -8,14 +8,16 @@ We extend the learning from demonstration paradigm by providing a method for lea
 
 ## Introduction
 
-Inverse optimal control and inverse reinforcement learning (IOC/IRL) have proven to be powerful tools in enabling robots to perform complex goal-directed tasks. These methods learn a cost function that replicates the behavior of an expert demonstrator when optimized. However, planning for many robotics and automation tasks also requires knowing constraints, which define what states or trajectories are safe....
+Inverse optimal control and inverse reinforcement learning (IOC/IRL) have proven to be powerful tools in enabling robots to perform complex goal-directed tasks. These methods learn a cost function that replicates the behavior of an expert demonstrator when optimized. However, planning for many robotics and automation tasks also requires knowing constraints, which define what states or trajectories are safe.
 
-While constraints are important, it can be impractical for a user to exhaustively program into a robot all the possible constraints it should obey when performing its repertoire of tasks. To avoid this, we consider in this paper the problem of recovering the latent constraints within expert demonstrations that are shared across tasks in the environment. Our method is based on the key insight that each safe, optimal demonstration induces a set of lower-cost trajectories that must be unsafe due to violation of an unknown constraint....
+While constraints are important, it can be impractical for a user to exhaustively program into a robot all the possible constraints it should obey when performing its repertoire of tasks. To avoid this, we consider in this paper the problem of recovering the latent constraints within expert demonstrations that are shared across tasks in the environment. Our method is based on the key insight that each safe, optimal demonstration induces a set of lower-cost trajectories that must be unsafe due to violation of an unknown constraint.
+
+We pose the novel problem of learning a shared constraint across tasks.
+
+We propose an algorithm that, given known constraints and boundedly suboptimal demonstrations of state-control sequences, extracts unknown constraints defined in a wide range of constraint spaces (not limited to the trajectory or state spaces) shared across demonstrations of different tasks.
+
+We provide theoretical analysis on the limits of what subsets of a constraint can be learned, depending on the demonstrations, the system dynamics, and the trajectory discretization. We also show that our method can recover a guaranteed underapproximation of the constraint.
 
 ## Conclusion
 
-In this paper we propose an algorithm that learns constraints from demonstrations, which acts as a complementary method to IOC/IRL algorithms. We analyze the properties of our algorithm as well as the theoretical limits of what subset of an unsafe set can be learned from safe demonstrations. The method works well on a variety of system dynamics and can be adapted to work with suboptimal demonstrations. We further show that our method can also learn constraints in a feature space....
-
-After sampling, we can solve Problem 3.2. ‣ 3.2 Inverse constraint learning problem ‣ 3 Preliminaries and Problem Statement ‣ Learning Constraints from Demonstrations") to find an unsafe set consistent with the safe and unsafe trajectories. We now discuss the details of this process. Conservative estimate: One can obtain a conservative estimate of the unsafe set $\mathcal{A}$ from Problem 3.2....
-
-We sample from $\mathcal{T}_{\mathcal{A}}^{\xi_{xu}^{\ast}}$ to obtain lower-cost trajectories obeying the known constraints using hit-and-run sampling over the set $\mathcal{T}_{\mathcal{A}}^{\xi_{xu}^{\ast}}$, a method guaranteeing convergence to a uniform distribution of samples over $\mathcal{T}_{\mathcal{A}}^{\xi_{xu}^{\ast}}$ in the limit; the method is detailed in Algorithm 1 and an illustration is shown in Figure 2....
+In this paper we propose an algorithm that learns constraints from demonstrations, which acts as a complementary method to IOC/IRL algorithms. We analyze the properties of our algorithm as well as the theoretical limits of what subset of an unsafe set can be learned from safe demonstrations. The method works well on a variety of system dynamics and can be adapted to work with suboptimal demonstrations. We further show that our method can also learn constraints in a feature space.

@@ -6,16 +6,10 @@ We study a novel architecture and training procedure for locomotion tasks. A hig
 
 A newborn antelope attempts its first steps only minutes after birth and is capable of walking within half an hour. A human baby, when lifted so that its feet just graze the ground, will step in a cyclical walking motion. Nature provides clear examples of evolutionarily determined, innate behaviors of surprising complexity, and basic locomotor circuits are well-developed prior to any significant goal-directed experience. The innate structure simplifies the production of goal-directed behavior by confining exploration to stable and coherent, yet flexible dynamics.
 
-On the other hand, machine learning's recent success stories have emphasized rich models with weakly-defined prior structure, sculpted by large amounts of data. And indeed, several recent studies have shown that end-to-end reinforcement learning approaches are capable of generating high-quality motor control policies using generic neural networks. A key question is how to get the best of both worlds: to build modular, hierarchical components that support coherent exploration while retaining the richness and flexibility of data-driven learning.
+*Information hiding*: The low-level controller has direct access only to task-independent, proprioceptive information. For the control problems considered in this paper, this proprioceptive information contains, for instance, the joint angles and velocities of the body and haptic information. Notably, it does not include information about absolute position or orientation in space or task-specific information such as a goal location. The high-level controller has access to all necessary proprioceptive and exteroceptive information.
 
-We believe that the general idea of reusing learned behavioral primitives is important, and the design principles we have followed represent possible steps towards this goal. Our hierarchical design with information hiding has enabled the construction of low-level motor behaviors that are sheltered from task-specific information, enabling their reuse....
+These design decisions are intended to create an abstraction barrier between the low and high levels: Separating the high level from the physics and detailed demands of motor actuation and likewise, sheltering the low-level controller from specific task objectives so it can acquire domain-general functionality. Below we present results demonstrating that our architecture solves several non-trivial control problems. A more detailed analysis of the implications of the design decisions listed above is, however, left for future work.
 
-Our approach currently depends on the assumption that we can propose a set of low-level tasks that are simple to solve yet whose mastery in turn facilitates the solution of other high-level tasks. For motor behavior, we believe this assumption holds rather generally, as walking, for example, underpins a multitude of more complex tasks. By instilling a relatively small number of reusable skills into the low-level controllers, we expect that a large number of more complicated tasks involving composition of multiple behaviors should become solvable....
+## Conclusion
 
-### 6-link snake
-
-### Policy gradient with hierarchical noise
-
-Figure 5: Transfer tasks for the quadruped: illustration of the target-seeking (left) and soccer task (right).
-
-Here, we aim to create flexible motor primitives using a reinforcement learning method....
+We have provided a preliminary investigation of a hierarchical motor control architecture that can learn low-level motor behaviors and transfer them to new tasks. Our architecture contains two levels of abstraction that differ both in their access to sensory information and in the time scales at which they operate. Our design encourages the low-level controller to focus on the specifics of reactive motor control, while a high-level controller directs behavior towards the task goal by communicating a modulatory signal.

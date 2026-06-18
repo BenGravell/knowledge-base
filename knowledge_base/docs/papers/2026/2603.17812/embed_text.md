@@ -1,0 +1,167 @@
+## Introduction
+
+Recent methods in latent video diffusion are capable of generating high-resolution videos over long time horizons. Similar to latent image diffusion models, latent video diffusion models rely on pre-trained autoencoders to compress videos into latent embeddings and then learn over these embeddings. An enabling factor for recent video diffusion results is the use of temporal compression, where the autoencoder not only compresses video frames along spatial dimensions, but also along the temporal dimension.
+
+Figure 1: ChopGrad Method. ChopGrad unlocks pixel-wise losses for high resolution, long-duration video diffusion models. It leverages truncated backpropagation to eliminate recursive activation accumulation in video autoencoders with causal caching. Solid arrows indicate the flow of information in the decoder forward pass, dashed ones indicate the backward flow of gradients with ChopGrad. Adding ChopGrad to training procedures is easy and produces state of the art performance in a variety of applications that benefit from pixel-wise losses, such as video super-resolution, video inpainting, video enhancement of neural rendered scenes, and controlled driving video generation.
+
+Temporal compression groups multiple image frames into a single latent frame group. To incentivize temporal consistency between these frame groups causal caching has been introduced. This technique appends embeddings from previous frame group encodings onto the beginning of subsequent frame groups at each layer of the video encoder and decoder. Notably, this approach introduces a recurrent structure into the autoencoder, where the dependency graph of video latents requires gradients to be propagated through all previous frame embeddings.
+
+At the same time, most successful latent video diffusion models are trained within the latent space, meaning gradients are not propagated through the encoder or decoder during latent video diffusion training. As such, existing methods make *pixel-wise losses intractable* for long-duration videos as the gradients of these losses require the recurrent accumulation of activations through the decoder. These pixel-level perceptual losses are used extensively in finetuning image diffusion models and video models with *short-duration*, low-resolution videos in applications such as single-step model distillation, enhancement of neural rendered scenes, image translation, video super-resolution, and controlled driving video generation. In work such as, the decoder itself is finetuned, making support for pixel-wise losses a strict requirement for training these types of models.
+
+To enable pixel-wise losses for high-resolution, long duration video diffusion, this work introduces ChopGrad, a truncated backpropagation scheme for video decoding (Fig. 1). Truncated backpropagation prevents activation accumulation over the full unrolled network by limiting the number of previous frames the gradients can propagate through. To validate this, we define latent temporal locality to demonstrate that the effect of prior video frames in the gradient error drops off at an exponential rate. We show that the proposed method enables efficient training using pixel-wise losses, such as the LPIPS loss, across a variety of tasks and multiple video diffusion models. We evaluate our method on several applications, including video super-resolution, video inpainting, video enhancement of neural rendered scenes, and controlled driving video generation, outperforming existing latent video diffusion adaptation methods in terms of quantitative frame-wise and video performance metrics. These results are achieved with modest computational resources (training times of approximately 3 to 4 hours on 4 to 8 A100 GPUs). The contributions of this paper are:
+
+A mathematical derivation and error analysis of truncated backpropagation for causal video autoencoders,
+
+A memory-efficient, practical approach for implementing pixel-wise losses for fine-tuning latent video diffusion models that generalizes across multiple diffusion models,
+
+Validation of the method across several tasks requiring pixel-wise losses, including video super-resolution, video inpainting, video enhancement of neural-rendered scenes, and controlled driving video generation, comparing favorably to existing baselines in all experiments.
+
+Figure 2: ChopGrad Model Architecture. Given the processed video frame latents, the video decoder iteratively applies causal caching at each layer, producing pixel outputs. Caching is performed by taking a subset of the layer outputs and appending these to the beginning of the layer inputs for the next frame group. While substantially reducing memory use at inference time compared to full 3D convolution over all frame groups, during training this process introduces recursive activation accumulation in the decoder, making backpropagation prohibitively expensive for high-resolution or long videos when using pixel-wise losses. Using truncated backpropagation, we only allow gradients to accumulate through a fixed number (Dt r u n c) of previous frame groups.
+
+## Related Work
+
+Latent video diffusion has experienced rapid advancement in recent years thanks in part to novel video auto-encoding methods. In particular, temporal compression and causal caching have demonstrated significant improvements in video quality and temporal consistency.
+
+Latent video diffusion models extend latent image diffusion methods to model temporally coherent video sequences by operating in a compressed latent space rather than pixel space. Operating in a latent space reduces per-frame dimensionality and enables tractable scaling to longer and higher-resolution clips while preserving perceptual fidelity. Early video diffusion formulations applied standard image-based diffusion techniques directly to short clips, jointly denoising fixed-length frame blocks and introducing conditioning strategies to extend temporal length.
+
+One of the most prevalent architectural advancements powering latent video diffusion is the use of temporal compression and causal caching to preserve latent integrity and temporal consistency when processing long sequences. Causal caching has been used to maintain reconstruction fidelity and avoid temporal flicker while dramatically reducing memory and latency during encoding/decoding. Unfortunately, this causal caching mechanism for video encoding introduces a recurrent structure into the encoders and decoders used by latent video diffusion models, resulting in prohibitive memory consumption due to activation accumulation during training when pixel-wise losses are used.
+
+A similar problem was encountered in early natural language processing with recurrent neural networks, where truncated backpropagation through time was used to mitigate this issue. To the best of our knowledge, this paradigm has not been investigated or applied for image or video models.
+
+Diffusion models often require long inference times, as the model must be run many times to generate an output. Single and few-step distillation has been used to reduce the number of steps required. Single-step distillation has also been used to adapt diffusion models to image-to-image translation tasks like changing weather or generating images from sketches. In applications where input/output pairs are readily available (such as super-resolution or 3D gaussian splatting post-processing ), pretrained diffusion models or their one-step distilled counterparts have been finetuned for single-step inference on the given task. Many of these single-step distillation and finetuning approaches rely on pixel-wise perceptual losses, albeit at low resolution and video duration in the case of video models due to memory constraints. As such, these single-step diffusion applications can derive the most benefit from ChopGrad.
+
+### Preliminaries
+
+Latent video diffusion models work by first mapping from the high-dimensional pixel space to a lower-dimensional latent space, down-sampling both the spatial and temporal dimensions via a pre-trained 3D VAE video encoder. Once encoded, the video embeddings are then processed by the network backbone, often a transformer, which learns the temporal evolution of the video embeddings. Finally, the output embeddings are re-projected into pixel space via the pre-trained 3D VAE decoder.
+
+The structure of such 3D VAE networks groups a set of frames into a single latent embedding. To retain temporal consistency these networks use what is called causal logic padding or causal caching, where the trailing $N$ outputs from the previous frame group are concatenated to the beginning of the subsequent frame group at each layer of the encoder and decoder. This results in a recurrent structure, where the gradients of pixel-wise losses on later frames propagate through all previous frame groups.
+
+When training 3D VAEs, computational resources are dedicated solely to the VAE, and approaches such as sequence parallelism can be used to mitigate these issues, as described . In addition, 3D VAEs are also able to be trained at lower resolutions/durations with results generalizing to higher resolution/duration videos with no additional fine-tuning. However, when training or fine-tuning latent video diffusion model transformers or U-nets, the majority of the memory budget is consumed by these backbones, prohibiting the allocation of significant memory resources to decoder backpropagation. The backbones must also be trained at high resolution/duration if they are to perform well for high-resolution/duration inference, further compounding these memory requirements, especially as adding pixel-wise losses also requires the decoders to perform inference at high resolution/duration, even if their own parameters are frozen.
+
+## ChopGrad
+
+In order to enable training of video diffusion models on long, high-resolution videos with pixel-wise losses while maintaining modest memory requirements we present ChopGrad, a novel method for backpropagating through the video decoder. Sections 3.1 and 3.2 report that popular pre-trained video autoencoders with causal caching demonstrate temporal locality, where frame groups only affect other frame groups in close temporal proximity. Motivated by this insight, ChopGrad applies truncated backpropagation through time to the decoder cache to increase computational efficiency with minimal degradation in performance. With truncated backpropagation, gradients of each frame group are only able to accumulate to a portion of prior frame groups set by the truncation distance. This breaks the recursive loop present in popular video autoencoders and enables pixel-wise losses for long, high-resolution videos. In Section 3.3 we quantify temporal locality and truncation gradient error in the Wan2.1 decoder and transformer. Implementation details are provided in the Appendix.
+
+### Causal Caching in Temporal VAEs
+
+The temporal VAE architecture with causal masking is first formalized. Let $\mathbf{X} = {\{\mathbf{x}_{1},\mathbf{x}_{2},\ldots,\mathbf{x}_{T}\}}$ denote a video sequence of $T$ frames, where each frame $\mathbf{x}_{t} \in {\mathbb{R}}^{H \times W \times C}$ has height $H$, width $W$, and $C$ channels.
+
+The 3D VAE encoder groups consecutive frames into non-overlapping segments. For a frame group of size $G$, the $i$-th frame group contains frames $\mathbf{X}_{i} = {\{\mathbf{x}_{iG},\mathbf{x}_{{iG} + 1},\ldots,\mathbf{x}_{{{iG} + G} - 1}\}}$ for $i = {0,1,2,\ldots,{\lceil{T/G}\rceil}}$.
+
+Let $\mathbf{z}_{i,m} \in {\mathbb{R}}^{d_{m} \times T^{\prime} \times W^{\prime} \times H^{\prime}}$ be the video latent embedding of frame group $i$ at encoder layer $m$, where $H^{\prime},W^{\prime}$ are the down-sampled spatial dimensions, $T^{\prime}$ is the down-sampled temporal dimension, and $d_{m}$ is the latent dimension for layer $m$.
+
+The causal caching mechanism ensures that the decoder ($\mathcal{D}$) for frame group $i$ receives context from the previous group. Specifically, let $\mathbf{z}_{{i - 1},m}^{c}$ denote the causal cache of size $N$ of decoded features from group $i - 1$ for the decoder layer $m$. The decoder then reconstructs the frames and constructs the cache
+
+The causal structure creates a recurrent dependency where the pixel-wise loss $\mathcal{L}_{i}^{\text{pix}}$ for group $i$ depends on all previous groups through the concatenated context $\mathbf{z}_{i - 1}^{c}$ at each decoder layer.
+
+### Truncated Backpropagation and Locality
+
+Truncated backpropagation leverages temporal locality to enable efficient training while preserving the essential temporal dependencies. The following analysis focuses on causal caching within the decoder network.
+
+Let $\mathbf{z}_{i} \in {\mathbb{R}}^{d}$ denote the unrolled latent, where the layer indices $m$ are omitted for notational convenience. Let $D{(i,j)}$ be a distance metric such that ${D{(i,j)}} = 0$ if and only if $i$ and $j$ refer to latents belonging to the same frame group. This index-based distance formalism allows us to reason about temporal proximity and the influence of one latent on another.
+
+Let $J_{i,j} = {\partial{\mathbf{z}_{i}/{\partial\mathbf{z}_{j}}}} \in {\mathbb{R}}^{d \times d}$ denote the Jacobian of latent $i$ with respect to latent $j$. The scalar influence measure is then defined as
+
+for a chosen matrix norm. This quantity captures the effect of latent $j$ on latent $i$ and is a vector-norm on a vector space.
+
+Temporal locality is defined as the existence of constants ${C,\alpha} > 0$ such that the influence measure decays exponentially with distance
+
+Intuitively, this means that a latent only meaningfully affects nearby latents in time. Using the chain rule, the gradient of the overall loss $\mathcal{L}$ with respect to a latent $\mathbf{z}_{i}$ decomposes as
+
+Taking the norm of both sides and applying the triangle inequality,
+
+which shows that the loss gradient at $\mathbf{z}_{i}$ is dominated by contributions from latents in close temporal proximity assuming temporal locality holds. Our key insight is that the temporal locality enables effective truncated backpropagation in the 3D VAE decoder. When we truncate gradients to only flow through a limited number of previous frame groups, the exponential decay in the influence measure ensures that the approximation error is bounded.
+
+Specifically, for truncated backpropagation at temporal distance $D_{\text{trunc}}$, the error in gradient computation is bounded by
+
+where $\mathcal{L}_{\text{trunc}}$ denotes the loss computed with truncated backpropagation.
+
+A truncation distance $D_{\text{trunc}} \geq {\frac{1}{\alpha}{\log{(\frac{C}{\epsilon})}}}$ can therefore be chosen to satisfy a desired error tolerance $\epsilon$. In practice, the network still learns effectively with a small truncation distance as shown in Sections 3.3 and 4.
+
+The integration of causal caching with truncated backpropagation creates a hybrid approach: the network backbone can still attend to all video latent embeddings for global temporal understanding, while the 3D VAE decoder operates with limited temporal context, reducing computational complexity. This design preserves essential temporal dependencies while making large-scale video diffusion model training using pixel-wise losses computationally tractable.
+
+### Analysis
+
+Figure 3: Temporal Locality. Influence measure samples as a function of temporal distance between decoder inputs (i.e. latent embeddings) and outputs (i.e. pixels) alongside the mean and line of best fit. As temporal distance increases, the influence between embeddings decreases exponentially, resulting in minimal gradient contributions.
+
+Figure 4: Impact of Truncation Distance on Backbone Model Parameter Gradients. Normalized MAE and cosine distance (computed by flattening all model parameters) are shown. Though error is significant at small truncation distances, the cosine similarity remains high across all distances, implying that the errors are primarily of magnitude, not direction.
+
+### Temporal Locality
+
+We analyze the proposed method by first confirming that temporal locality holds in the popular WAN 2.1 video decoder. The locality measure is averaged across several videos, each with $97$ frames and down-sampled to a resolution of $64 \times 128$ to prevent prohibitive memory requirements. Fig. 3 reports the mean of the influence measure as a function of temporal distance, where a distance of $0$ indicates pixel $i$ is in the frame group of latent $j$. Notably, the locality measure decays at an exponential rate, meaning the influence of pixels on frame groups significantly decreases as the temporal distance increases. This property is demonstrated implicitly for other 3D VAEs by the results presented in Section 4.
+
+### Decoder Input Gradient Error
+
+We likewise present the gradient error between the full and truncated backpropagation algorithms as a function of truncation distance. Gradients are computed by backpropagating pixel-wise losses to each decoder input latent considering varying truncation distances. Reported results are the absolute and relative difference between the gradients for the truncated distance and the full backpropagation scheme. Differences are measured using the Frobenius matrix norm and these, along with relative differences, are presented in Fig. 5. From this plot we see that, even for low truncation distances, gradients approach those of full backpropagation, confirming that truncated backpropagation can be applied with minimal degradation in temporal consistency as the decoder network only considers small temporal neighborhoods.
+
+### Effect on Backbone Model Parameters
+
+Next, we evaluate the effect of gradient truncation on the backbone model parameters during training by computing the average gradient of the parameters of the public Wan 2.1 1.3B transformer checkpoint over the entire training set of the DL3DV-benchmark dataset (see Section 4.2), around 100 videos. We perform this computation over a range of truncation distances and compare to the gradients of the full backwards pass, with results presented in Fig. 4. Reported is the normalized mean absolute error (MAE) and cosine similarity, computed by flattening all model parameters into a single vector. The error is large for small truncation distances, indicating that the errors introduced by truncation are not averaged out over the dataset, and are propagated to model parameters. However, the high cosine similarity indicates that the error is primarily one of magnitude, not direction, and since gradient magnitudes are scaled by optimizers, the impact on training is negligible. This is confirmed by the results in Table 2, where increasing truncation distance only modestly improves performance.
+
+### Runtime and Memory
+
+Fig. 6 confirms that the proposed approach scales linearly with respect to truncation distance in terms of both computational time and memory. We reiterate that memory use is constant with respect to video length. To further save on memory, gradients are truncated spatially as well as temporally, such that gradients are computed over spatial chunks of the video separately. This spatial locality is illustrated in Fig. 7 and has been explored and leveraged by existing state-of-the-art video diffusion models.
+
+Figure 5: Truncation Induced Gradient Error. Mean gradient error between the truncated and full backpropagation algorithms as a function of truncation distance.
+
+Figure 6: Resource Utilization. Computational time and memory requirements as a function of truncation distance.
+
+Figure 7: Spatial Locality in 3D VAEs. The video frame on the left is decoded from the original latents, while on the right a section of latents is zeroed. The red line indicates the boundary between original and zeroed latents. The upper portion of the frame is entirely unaffected by the corruption of the bottom.
+
+## Applications
+
+We validate the efficacy of ChopGrad in four applications across multiple diffusion models: video super-resolution (Sec. 4.1), novel view synthesis (Sec. 4.2), video inpainting (Sec. 4.3), and controlled driving video generation (Sec. 4.4).
+
+### Video Super-Resolution
+
+Table 1: Quantitative Comparison for Video Super-Resolution. The first, second, and third best results are highlighted with dark green, light green, and yellow, respectively. ChopGrad outperforms all baselines in the majority of metrics and datasets, and achieves competitive performance otherwise.
+
+We first show that adding ChopGrad to a state-of-the-art video super-resolution method yields significant improvements in perceptual losses by finetuning DOVE using ChopGrad. DOVE finetunes CogVideoX, a DiT (Diffusion Transformer) model, for super-resolution. DOVE uses pixel-wise losses, including MSE and DISTS, but is forced to encode and decode each video frame separately during loss computation due to memory constraints, reducing inter-frame consistency and requiring the addition of a frame consistency loss to attempt to compensate for this. In contrast, for ChopGrad, we start with the publicly available DOVE checkpoint and perform full finetuning on the HQ-VSR dataset for 500 steps using video lengths of 24 frames, omitting interframe consistency losses. We use frame-wise DISTS loss with a weight of 0.1 and pixel-wise MSE with a weight of 1. All other settings are consistent with the original DOVE Stage-2 implementation, except that in DOVE 80% of the batches are images, not videos, while we train on videos only. For the DOVE baseline, the publicly available DOVE checkpoint is used. As we found additional fine-tuning using the original DOVE method to result in equivalent performance, the results for the original model are presented.
+
+Quantitative results for video super-resolution are presented in Table 1. The addition of the proposed truncated backpropagation scheme improves performance across the majority of datasets and metrics, and the improvements are more pronounced for perceptual metrics (LPIPS and DISTS). Selected frames from processed videos are shown in Fig. 8, where ChopGrad synthesizes fine-grained details such as fur, hair, and clouds better than the baseline approach.
+
+Figure 8: Video Super-Resolution Comparison. Shown from left to right: high-resolution, low-resolution input, DOVE, and the proposed approach, ChopGrad. ChopGrad synthesizes fine textures better and reduces motion blur, especially in regions with high-frequency details like fur, hair, cloth, and clouds. LPIPS scores for each frame are shown in the bottom right-hand corner, where a lower score indicates better perceptual quality. The associated videos can be found in the Appendix.
+
+### Artifact Removal in Novel View Synthesis
+
+Next, we use ChopGrad for refining renders from imperfect neural rendering models, which has recently become an established task. Renders of 3D Gaussian Splatting novel view synthesis methods often contain artifacts such as "floaters" that a set of recent diffusion models mitigate. Specifically, MVSplat-360 and Difix3D+ are designed for this task. MVSplat-360 is trained to refine video sequences of 14 frames rendered from 3DGS models while Difix is trained to refine individual frames. As a result, MVSplat-360 operates at a lower resolution ($448 \times 256$) with a small window of temporal consistency while Difix operates at a higher resolution ($960 \times 544$) but has no capacity to enforce temporal consistency. While MVSplat-360 and Difix both leverage pixel-wise losses, they are unable to scale to long and high-resolution videos.
+
+We generate a dataset using the DL3DV-Benchmark, a collection of 140 videos and camera trajectories. Gaussian splat models are generated using every $50$th frame of each video and rendered videos are constructed along entire camera trajectories. For ChopGrad, we initialize the video diffusion model from a pre-trained Wan 2.1 14B model and fine-tune the transformer backbone for 10 epochs. Difix is fine-tuned for 10000 steps on the same data. As MVSplat-360 is trained on the DL3DV dataset, no fine-tuning is applied. We found that using the MVSplat-360 refinement model on our rendered videos led to poor performance. Performance was significantly improved using the same number of sparse views for constructing the 3DGS model when using the views specified in the MVSplat-360 repository. As such, we opt to use these improved selections for computing MVSplat-360 metrics.
+
+Table 2: Neural Novel View Synthesis Results. Top section: ChopGrad out-performs all baselines across all metrics except temporal flickering, where it achieves competitive performance with MVSplat-360. Interestingly, while increasing the truncation distance noticeably increases training time memory, the metric differences are minimal. Bottom section: Ablation Results for ChopGrad. ChopGrad* uses the same 1-step diffusion network, but is only trained using latent mean-squared error. ChopGrad† likewise uses latent mean-squared error for training but is trained twice as long. As such, both ablations do not propagate gradients through the video decoder. The performance of ChopGrad using various truncation distances is also presented.
+
+Figure 9: ChopGrad vs Baselines for Neural Novel View Synthesis. Ground truth video frames and 3D Gaussian Splat renders are shown on the left. Results for MVSplat-360 and Difix are presented alongside ChopGrad.
+
+Figure 10: Ablation Experiments for Neural Novel View Synthesis. ChopGrad* and ChopGrad† are trained using only the MSE loss in the latent space. The Dt r u n c cases show ChopGrad results at various truncation distances.
+
+Fig. 9 depicts ChopGrad alongside the baseline methods for several scenes from the DL3DV-Benchmark test set and Table 2 presents quantitative results. ChopGrad out-performs the baselines across all metrics except temporal flickering where results are competitive with MVSplat-360. A user study, available in the Appendix, also found that *$95.6\%$ of users preferred the videos generated by ChopGrad* over those generated by MVSplat-360 or Difix. Notably, while MVSplat-360 requires 60K training iterations, ChopGrad requires a small number of fine-tuning iterations when starting with the WAN2.1 14B pre-trained model. This demonstrates that ChopGrad enables diffusion models to quickly generalize to unseen tasks by fine-tuning using pixel-space losses.
+
+To demonstrate that the performance gains are a result of pixel-wise losses enabled by ChopGrad and not simply a more powerful backbone, we report ablation experiments in Table 2 (bottom section) and a qualitative comparison in Fig. 10, where ChopGrad is trained using only MSE loss in the latent space and using various truncation distances. While training only on the video latents is faster, the perceptual quality is worse and blurring is prevalent, especially in regions with fine details. As discussed in Section 3.3, truncation distance has a minor impact on result quality. Videos of the DL3DV-Benchmark for ChopGrad and baselines can be found in the Appendix.
+
+### Video Inpainting
+
+We demonstrate that in video inpainting applications, ChopGrad allows for reducing inference time by $50 \times$ while remaining on-par in terms of quality. We evaluate ChopGrad for video inpainting on three datasets: DL3DV-Benchmark, Waymo Open Dataset, and ROVI. For DL3DV-Benchmark and Waymo, we mask a fixed central region covering half the height and width of each frame and use an uninformative prompt. With ROVI, we use the included object masks and text descriptions. For ChopGrad we finetune a Wan 2.1 14B model using latent MSE and pixel LPIPS losses for single-step inference using a truncation distance of 1. The baseline is VACE 14B, a control adapter for Wan 2.1 14B which is trained for a variety of tasks, including inpainting. VACE inference is performed using the default 50 steps from the VACE repository. For all datasets, we train both ChopGrad and VACE the same number of steps. More training details are available in the Appendix.
+
+Quantitative results are reported in Table 3, qualitative results in Fig. 11. ChopGrad outperforms VACE on reconstruction-based metrics and maintains similar video quality metrics (VBench overall quality score within $1\%$ across all datasets) while reducing inference time compute budget by $50 \times$. FVD (Fréchet Video Distance) is higher for ChopGrad on ROVI but lower for the other two datasets, likely stemming from the overall more extreme masking in D3LDV and ROVI. Qualitatively, we observe that the ChopGrad model adheres better to the scene and introduces fewer novel structures compared to VACE, occasionally at the cost of visual quality. In the more extreme masking regime of DL3DV and Waymo, VACE is penalized less for novel structures (relative to ChopGrad), as the unmasked region is less informative about the region inside the mask, resulting in smaller relative improvements in reconstruction-based losses.
+
+### Controlled Driving Video Generation
+
+Visually realistic controlled driving video generation is essential for autonomous vehicle safety as it enables validation of vehicle behavior in rarely encountered scenarios. 3DGS offers powerful scene reconstruction approaches, and recent neural driving simulators allow for manipulation of vehicles and reconstructed assets using scene graphs of reconstructed splats to enable this kind of simulation. However, large manipulation of vehicles and assets in these simulators leads to myriad visual artifacts (see Naive Insertion columns of Fig. 12 for examples). Post-processing videos rendered from such neural scenes with single-step diffusion is a promising approach for overcoming these issues, but existing methods such as suffer from resolution / duration limitations.
+
+Table 3: Video Inpainting Evaluation. ChopGrad results are output in a single step, a 50× compute time improvement over VACE. VBench components are provided in the Appendix. Dark green is best, light green is second best.
+
+Figure 11: Video Inpainting. We find that the recent VACE tends to hallucinate (e.g., top section, top panel), while ChopGrad stays closer to the input but can also produce implausible results. ChopGrad results are output in a single step, a 50× compute time improvement over VACE. Top:DL3DV, Middel: Waymo, Bottom: ROVI.
+
+Following we create a dataset based on Waymo Open Dataset where 3DGS models are constructed, then assets are extracted and reinserted, producing the desired artifacts and input/output pairs to train and test . Dataset construction details are presented in the Appendix.
+
+We demonstrate ChopGrad for controlled driving video generation on Mirage with our own Wan2.1-based implementation (details in the Appendix), as we were unable to acquire the original implementation even after contacting the authors. We train our implementation on 9-frame clips at a resolution of 480x832. After training Mirage we performed inference and evaluation at high resolution / duration (720x1280, 97 frames) as up-scaling training resolution outputs yielded poorer results. Subsequently, we finetuned Mirage's harmonization stage model using ChopGrad for 1000 steps at 720x1280 resolution, 49 frame duration, and performed inference on 49 frame segments. Results are reported in Table 4 and Fig. 12. Quantitative metrics are improved across all tests, while inspection of the qualitative results shows that finetuning Mirage with ChopGrad improves lighting fixing, artifact removal, and shadow insertion. Notably, the parameters of the decoder itself are finetuned in Mirage, confirming that ChopGrad can be used for decoder, as well as transformer, training.
+
+Table 4: Controlled Driving Video Generation Results. ChopGrad was produced by initializing with Mirage followed by further finetuning Mirage’s Harmonization stage for 1000 steps at high resolution (HR) / duration using ChopGrad. Dark green is best, light green is second best.
+
+Figure 12: Controlled Driving Video Generation. Training with ChopGrad improves lighting, removes more artifacts, and produces better shadows.
+
+## Conclusion
+
+We introduce ChopGrad, a truncated backpropagation approach that enables pixel-wise supervision at high resolutions and long durations in latent video diffusion models with causal caching. In architectures where the decoder is finetuned (e.g. ) this capability is required, while in others it leads to significantly improved results (bottom of Table 2). Applications of such models trained with pixel-wise losses are numerous, including single-step model distillation, enhancement of neural rendered scenes, image translation, video super-resolution, and controlled driving video generation.
+
+By analyzing latent temporal locality, we demonstrate that long-range gradient dependencies in causal video autoencoders decay exponentially, allowing gradients to be truncated without compromising performance. This insight enables efficient fine-tuning of high-resolution, long-duration video diffusion models using perceptual losses that were previously intractable due to recursive activation accumulation.

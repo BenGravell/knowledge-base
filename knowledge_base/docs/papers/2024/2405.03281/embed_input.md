@@ -8,18 +8,16 @@ In recent decades, global path planning of robot has seen significant advancemen
 
 ## Introduction
 
-Robot motion planning has undergone significant development in recent years, and played crucial roles in various fields, such as autonomous vehicles, robot arms and unmanned aerial vehicles. However, existing commonly used path planning methods, such as search-based algorithms A\* \[\], Dijkstra \[\], sampling-based algorithms Rapidly-exploring Random Trees (RRT), RRT\*, extended-RRT, RRT-Connect \[\] and swarm intelligence-based algorithms Ant Colony Optimization (ACO) \[\], all yield non-continuous, zigzag global paths....
+Robot motion planning has undergone significant development in recent years, and played crucial roles in various fields, such as autonomous vehicles, robot arms and unmanned aerial vehicles. However, existing commonly used path planning methods, such as search-based algorithms A\*, Dijkstra, sampling-based algorithms Rapidly-exploring Random Trees (RRT), RRT\*, extended-RRT, RRT-Connect and swarm intelligence-based algorithms Ant Colony Optimization (ACO), all yield non-continuous, zigzag global paths.
 
-Figure 1: Comparison of the planning results of the proposed FDSPC algorithm with other state-of-the-art path planning algorithms in simple maze (Up) and the experiment in 2.5-D terrain-based environment by a wheel-legged robot with four independent steering wheels (Bottom).
+In this letter, a fast and direct motion planning method based on continuous curvature integration (FDSPC) is proposed for mobile robot trajectory tracking on a given map, as shown in Fig.. The algorithm iteratively explores collision-free path segments satisfying $G^{2}$ smoothness (curvature continuity). If trapped in a local solution, it automatically backtracks to the previous optimal state to ensure feasibility. FDSPC demonstrates superior performances by comparing various indicators, including solution time, smoothness, in multiple scenarios. The contributions of this letter are as follows,
 
-In this letter, we introduced a novel motion planning algorithm FDSPC, based on continuous curvature integration. It explores feasible paths by continuous changes in curvature angles, offering high solution speed, efficient memory usage, shorter path lengths, and exceptional path smoothness. In five typical scenarios, FDSPC demonstrated superior performance, and successfully implemented in obstacle-crossing trajectories on our self-designed wheel-legged robot in a $2.5$-D terrain environment. However, FDSPC has some drawbacks: it's sensitive to parameter settings, may fail to find a path if parameters are unreasonable....
+A fast motion planning method based on continuous curvature integration is proposed, which can generate global paths that satisfies $G^{2}$ smoothness, avoiding the re-collision checking and smoothing.
+
+A variant of the direct positioning binary tree combined with an ordered dictionary is introduced to facilitate heuristic search of the path rapidly and ensuring both the feasibility and efficiency of the algorithm.
+
+## CONCLUSION
+
+In this letter, we introduced a novel motion planning algorithm FDSPC, based on continuous curvature integration. It explores feasible paths by continuous changes in curvature angles, offering high solution speed, efficient memory usage, shorter path lengths, and exceptional path smoothness. In five typical scenarios, FDSPC demonstrated superior performance, and successfully implemented in obstacle-crossing trajectories on our self-designed wheel-legged robot in a $2.5$-D terrain environment. However, FDSPC has some drawbacks: it's sensitive to parameter settings, may fail to find a path if parameters are unreasonable.
 
 In the future, we will improve the FDSPC, reduce adjustable parameters and enhance its completeness, and aim to explore its potential as an effective initial value for mobile robot trajectory optimization.
-
-### IV-B Smooth path planning on $2$-D plane
-
-### III-B Curvature planning in $2.5$-D terrain space
-
-Since the path obtained by FDSPC is of $G^{2}$ continuity, the corresponding velocity and acceleration functions can be generated based on the curvature $\kappa$ or $\rho_{z}$, which ultimately yields a smooth trajectory. The velocity planning function except for the beginning and ending part is as follows,
-
-In this letter, a fast and direct motion planning method based on continuous curvature integration (FDSPC) is proposed for mobile robot trajectory tracking on a given map, as shown in Fig.. The algorithm iteratively explores collision-free path segments satisfying $G^{2}$ smoothness \[\] (curvature continuity)....

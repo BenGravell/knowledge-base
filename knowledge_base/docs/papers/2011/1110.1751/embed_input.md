@@ -10,16 +10,10 @@ The paper deals with the convergence properties of the products of random (row-)
 
 Averaging dynamics or distributed averaging dynamics has played a fundamental role in the recent studies of various distributed systems and algorithms. Examples of such distributed problems and algorithms include distributed optimization, distributed control of robotic networks, and study of opinion dynamics in social networks.
 
-The study of averaging dynamics is closely related to the study of products of stochastic matrices. Such products have been studied from two perspectives: the theory of Markov chains and the distributed averaging settings. The notable works in the domain of the theory of Markov chain are the early studies of Hajnal and Wolfowitz in and, respectively, where sufficient conditions are derived for the convergence of the products of row-stochastic matrices to a rank one matrix. The exploration of this domain from the distributed averaging perspective was started by the work of and the seminal work of J. Tsitsiklis.
+In particular, in this paper, we derive a set of necessary and sufficient conditions for ergodicity and convergence of a product of independent random stochastic matrices. Specifically, we study a class of random stochastic matrices, which we refer to as balanced chains and show that this class contains many of the previously studied chains of random and deterministic stochastic matrices. This property was first introduced in our earlier work for discrete-time dynamics and in for continuous-time dynamics. Much research has been done on such a criterion since then (see e.g. ).
+
+After proving the existence of time-varying quadratic Lyapunov functions for averaging dynamics, we introduce a special class of stochastic chains, $\mathcal{P}^{\ast}$ chains, and we show that the products of matrices drawn from this sub-class converge almost surely. We then provide the definition of balanced-ness for random stochastic chains and we show that many previously studied classes of stochastic chains are examples of such balanced chains.
 
 ## Conclusion
 
-In this paper we studied the limiting behavior of the products of random stochastic matrices from the dynamic system point of view. We showed that any dynamics driven by such products admits time-varying Lyapunov functions. Then, we defined a class $\mathcal{P}^{\ast}$ of random chains which possess a well-behaved limits. We have introduced balanced chains and discussed how many of the previously well-studied random chains are examples of such chains....
-
-Let $i_{0}$ and $j_{0}$ be in the same connected component of $G^{\infty}$ and such that
-
-where the last inequality follows by the convexity of $g$ and Jensen's inequality. The result follows by using ${x{({k + 1})}} = {W{({k + 1})}x{(k)}}$ and the definition of absolute probability process. Q.E.D.
-
-In this section, we show that any independent random chain that is strongly aperiodic and balanced must be in the class $\mathcal{P}^{\ast}$. The road map to prove this result is as follows: we first show that this result holds for deterministic chains with uniformly bounded positive entries. Then, using this result and geometric properties of the set of strongly aperiodic balanced chains, we prove the statement for deterministic chains, which immediately implies the result for independent random chains....
-
-Products of random stochastic matrices have also attracted many mathematicians as such products are examples of convolutions of...
+In this paper we studied the limiting behavior of the products of random stochastic matrices from the dynamic system point of view. We showed that any dynamics driven by such products admits time-varying Lyapunov functions. Then, we defined a class $\mathcal{P}^{\ast}$ of random chains which possess a well-behaved limits. We have introduced balanced chains and discussed how many of the previously well-studied random chains are examples of such chains.

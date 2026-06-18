@@ -4,18 +4,12 @@ This paper addresses the optimal control problem known as the Linear Quadratic R
 
 ## Introduction
 
-Having surpassed human performance in video games and Go, there has been a renewed interest in applying machine learning techniques to planning and control. In particular, there has been a considerable amount of effort in developing new techniques for *continuous control* where an autonomous system interacts with a physical environment. A tremendous opportunity lies in deploying these data-driven systems in more demanding interactive tasks including self-driving vehicles, distributed sensor networks, and agile robotics....
+Having surpassed human performance in video games and Go, there has been a renewed interest in applying machine learning techniques to planning and control. In particular, there has been a considerable amount of effort in developing new techniques for *continuous control* where an autonomous system interacts with a physical environment. A tremendous opportunity lies in deploying these data-driven systems in more demanding interactive tasks including self-driving vehicles, distributed sensor networks, and agile robotics.
 
-Unfortunately, there are no clean baselines delineating the possible control performance achievable given a fixed amount of data collected from a system. Such baselines would enable comparisons of different techniques and would allow engineers to trade off between data collection and action in scenarios with high uncertainty. Typically, a key difficulty in establishing baselines is in proving *lower bounds* that state the minimum amount of knowledge needed to achieve a particular performance, regardless of method....
+Unfortunately, there are no clean baselines delineating the possible control performance achievable given a fixed amount of data collected from a system. Such baselines would enable comparisons of different techniques and would allow engineers to trade off between data collection and action in scenarios with high uncertainty. Typically, a key difficulty in establishing baselines is in proving *lower bounds* that state the minimum amount of knowledge needed to achieve a particular performance, regardless of method.
 
-There are two parallel problems here. First, it would be of interest to determine system identification algorithms that are tuned to particular control tasks. In the Coarse-ID control approach, the estimation and control are completely decoupled. However, it may be beneficial to inform the identification algorithm about the desired cost, resulting in improved sample complexity.
+In this paper, we attempt to build a foundation for a theoretical understanding of how machine learning interfaces with control by analyzing one of the most well-studied problems in classical optimal control, the *Linear Quadratic Regulator* (LQR). Here we assume that the system to be controlled obeys *linear* dynamics, and we wish to minimize some *quadratic* function of the system state and control action. This problem has been studied for decades in control: it has a simple, closed form solution on the infinite time horizon and an efficient, dynamic programming solution on finite time horizons.
 
-From a different perspective, Policy Gradient and Q-Learning methods applied to LQR could yield important insights about the pros and cons of such methods. There are classic papers on Q-Learning for LQR, but these use asymptotic analysis. Recently, the first such analysis for Policy Gradient has appeared, though the precise scaling with respect to system parameters is not yet understood. Providing clean nonasymptotic bounds here could help provide a rapprochement between machine learning and adaptive control, with optimization negotiating the truce.
+As an alternative, we propose a method that couples our uncertainty in estimation with the control design.
 
-### Corollary 3.3
-
-The last inequality uses (2.7) combined with the inequality ${({a + b})}^{2} \leq {2{({a^{2} + b^{2}})}}$. Furthermore, by Lemma 2.1 and (2.7), with probability at least $1 - {\delta/2}$,
-
-### Theorem 4.1
-
-In this paper, we attempt to build a foundation for a theoretical understanding of how machine learning interfaces with control by analyzing one of the most...
+We will show that for a sufficient number of observations of the system, this approach is guaranteed to return a control policy with small relative cost. In particular, it guarantees asymptotic stability of the closed-loop system. In the case of LQR, step 1 of coarse-ID control simply requires solving a linear least squares problem, step 2 uses a finite sample theoretical guarantee or a standard bootstrap technique, and step 3 requires solving a small semidefinite program.

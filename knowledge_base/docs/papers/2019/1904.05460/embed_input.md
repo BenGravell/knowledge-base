@@ -4,20 +4,14 @@ Least squares is by far the simplest and most commonly applied computational met
 
 ## Introduction
 
-Since its introduction over 200 years ago by Legendre and Gauss, the method of least squares has been one of the most widely employed computational techniques in many fields, including machine learning and statistics, signal processing, control, robotics, and finance \[\]. Its wide application primarily comes from the fact that it has a simple analytical solution, it is easy to understand, and very efficient and stable algorithms for computing its solution have been developed.
+Since its introduction over 200 years ago by Legendre and Gauss, the method of least squares has been one of the most widely employed computational techniques in many fields, including machine learning and statistics, signal processing, control, robotics, and finance. Its wide application primarily comes from the fact that it has a simple analytical solution, it is easy to understand, and very efficient and stable algorithms for computing its solution have been developed.
 
-In essentially all applications, the least squares objective is not the true objective; rather it is a surrogate for the real goal. For example, in least squares data fitting, the objective is not to solve a least squares problem involving the training data set, but rather to find a model or predictor that generalizes, i.e., achieves small error on new unseen data. In control, the least squares objective is only a surrogate for keeping the state near some target or desired value, while keeping the control or actuator input small.
+To account for the discrepancy between the least squares objective and the true objective, it is common practice to modify (or tune) the least squares problem that is solved to obtain a good solution in terms of the true objective. Typical tricks here include modifying the data, adding additional (regularization) terms to the cost function, or varying hyper-parameters or weights in the least squares problem to be solved.
+
+Our focus in this paper is on automating the process of least squares tuning, for a variety of data fitting applications. We parametrize the least squares problem to be solved by hyper-parameters, and then automatically adjust these hyper-parameters using a gradient-based optimization algorithm, to obtain the best (or at least better) true performance. This lets us automatically search the hyper-parameter design space, which can lead us to better designs than could be found manually, or help us find good values of the hyper-parameters more quickly than if the adjustments were done manually.
+
+One of our main contributions in this paper is the observation that least squares auto-tuning is very effective for a wide variety of data fitting problems that are usually handled using more complex and advanced methods, such as non-quadratic loss functions or regularizers in regression, or special loss functions for classification problems. In addition, it can simultaneously adjust hyper-parameters in the feature generation chain. Through several examples, we show that ordinary least squares, used for over 200 years, coupled with automated hyper-parameter tuning, can be very effective as a method for data fitting.
 
 ## Conclusion
 
 The authors are currently writing a second paper, *Least Squares Auto-Tuning Examples*, which will detail many more applications of the methods described in this paper to data fitting, control, and estimation.
-
-In a data fitting problem, we have *training data* consisting of *inputs* ${u_{1},\ldots,u_{N}} \in \mathcal{U}$ and *outputs* ${y_{1},\ldots,y_{N}} \in \text{R}^{m}$. In *least squares data fitting*, we fit the parameters of a predictor
-
-It can be shown (see Appendix A) that the gradients of $\psi$ with respect to $A$ and $B$ are given by
-
-The next hyper-parameter subvector that we consider is the regularization hyper-parameter $\omega^{reg}$. The regularization hyper-parameter affects the
-
-To account for the discrepancy between the least squares objective and the true objective, it is common practice to modify (or tune) the least squares problem that is solved to obtain a good solution in terms of the true objective. Typical tricks here include modifying the data, adding additional (regularization) terms to the cost function, or varying hyper-parameters or weights in the least squares problem to be solved.
-
-The art of using least squares in applications is generally in how to carry out these modifications or choose these additional terms, and how to choose the hyper-parameters....

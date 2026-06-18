@@ -6,18 +6,18 @@ We present a novel approach for generating motion primitives for kinodynamic mot
 
 ## Introduction
 
-Kinodynamic motion planning is a crucial part of robotics. It aims to find feasible motions that guide robots from a start state to a specified desired goal state while adhering to the robot's dynamic constraints, see Fig. 1. These trajectories can be composed from shorter subtrajectories, so-called motion primitives, which are short, pre-computed motions respecting the robot's dynamic constraints (see top left in Fig. 1). It simultaneously optimizes an objective, such as time or energy consumption....
-
-Figure 1: Examples for the 2nd order unicycle - Top left: Bugtrap with solution (red: start, green: goal), Top right: Ten sampled motion primitives (starting from origin) Bottom row: Two random instances with a solution found by our method (red: start, green: goal)
-
-In this paper, we present a new approach for generating sets of motion primitives for kinodynamic motion planning using diffusion models. These models incorporate problem-specific parameters to generate datasets adapted to each problem instance, improving both efficiency and solution quality. The results demonstrate that our approach reduces the planning computation time and solution cost compared to the baseline method....
-
-In future work, we aim to extend our work by additional dynamics, such as multirotors. The current conditioning on the environment is limited to statistical information and can be expanded to include a representation of the workspace.
-
-## Approach
-
-Kinodynamic Motion Planning with Discontinuity-Bounded A\* (kMP-db-A\*) is an iterative algorithm combining a search algorithm, discontinuity-bounded A\* (db-A\*), and trajectory optimization. The discrete planner db-A\* uses motion primitives as graph edges and allows a user-defined discontinuity at the graph vertices. These discontinuities in the trajectory are repaired with trajectory optimization. The pseudo-code of kMP-db-A\* is shown in Algorithm 1....
-
-### V-C Training
+Kinodynamic motion planning is a crucial part of robotics. It aims to find feasible motions that guide robots from a start state to a specified desired goal state while adhering to the robot's dynamic constraints, see Fig. 1. These trajectories can be composed from shorter subtrajectories, so-called motion primitives, which are short, pre-computed motions respecting the robot's dynamic constraints (see top left in Fig. 1). It simultaneously optimizes an objective, such as time or energy consumption.
 
 A vital component of these hybrid approaches is the use of a set of motion primitives. The selection of these motions to compose the set is a significant decision, which has shown to have a crucial impact on the computation time of the planning algorithm and the solution cost. Current methods for the selection of motion primitives are random and independent of the problem instance, which may not fully utilize the planner's potential.
+
+Diffusion models are a class of generative deep learning models that have achieved state-of-the-art performance in tasks like image and audio generation. In this paper, we introduce diffusion models to generate a set of efficient motion primitives for arbitrary problem instances. Furthermore, we condition the diffusion model on the characteristics of the problem instance to generate motion primitives specific to the problem.
+
+the trained diffusion model can generate sets of valid motion primitives conditioned on a specific problem,
+
+our approach can generate sets of effective motion primitives for several robot dynamics and on diverse and difficult problem instances,
+
+## Conclusion
+
+In this paper, we present a new approach for generating sets of motion primitives for kinodynamic motion planning using diffusion models. These models incorporate problem-specific parameters to generate datasets adapted to each problem instance, improving both efficiency and solution quality. The results demonstrate that our approach reduces the planning computation time and solution cost compared to the baseline method.
+
+In future work, we aim to extend our work by additional dynamics, such as multirotors. The current conditioning on the environment is limited to statistical information and can be expanded to include a representation of the workspace.

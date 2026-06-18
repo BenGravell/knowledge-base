@@ -12,12 +12,6 @@ Many systems of current interest to the scientific community can usefully be rep
 
 One network feature that has been emphasized in recent work is community structure, the gathering of vertices into groups such that there is a higher density of edges within groups than between them note. The problem of detecting such communities within networks has been well studied. Early approaches such as the Kernighan--Lin algorithm, spectral partitioning or hierarchical clustering work well for specific types of problems (particularly graph bisection or problems with well defined vertex similarity measures), but perform poorly in more general cases.
 
-## Conclusions
+To combat this problem a number of new algorithms have been proposed in recent years. Girvan and Newman; proposed a divisive algorithm that uses edge betweenness as a metric to identify the boundaries of communities. This algorithm has been applied successfully to a variety of networks, including networks of email messages, human and animal social networks, networks of collaborations between scientists and musicians, metabolic networks and gene networks.
 
-We have described a new algorithm for inferring community structure from network topology which works by greedily optimizing the modularity. Our algorithm runs in time $O{({md{\log n}})}$ for a network with $n$ vertices and $m$ edges where $d$ is the depth of the dendrogram. For networks that are hierarchical, in the sense that there are communities at many scales and the dendrogram is roughly balanced, we have $d \sim {\log n}$. If the network is also sparse, $m \sim n$, then the running time is essentially linear, $O{({n{\log^{2}n}})}$....
-
-Calculate the initial values of $\DeltaQ_{ij}$ and $a_{i}$ according to and, and populate the max-heap with the largest element of each row of the matrix $\DeltaQ$.
-
-The operation of the algorithm involves finding the changes in $Q$ that would result from the amalgamation of each pair of communities, choosing the largest of them, and performing the corresponding amalgamation. One way to envisage (and implement) this process is to think of network as a multigraph, in which a whole community is represented by a vertex, bundles of edges connect one vertex to another, and edges internal to communities are represented by self-edges....
-
-## Amazon.com purchasing network
+Here we propose a new algorithm that performs the same greedy optimization as the algorithm of and therefore gives identical results for the communities found. However, by exploiting some shortcuts in the optimization problem and using more sophisticated data structures, it runs far more quickly, in time $O{({md{\log n}})}$ where $d$ is the depth of the "dendrogram" describing the network's community structure. Many real-world networks are sparse, so that $m \sim n$; and moreover, for networks that have a hierarchical structure with communities at many scales, $d \sim {\log n}$.

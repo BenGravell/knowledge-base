@@ -10,16 +10,12 @@ In a paper by Willems and coauthors it was shown that persistently exciting data
 
 Learning from data is essential to every area of science. It is the core of statistics and artificial intelligence, and is becoming ever more prevalent also in the engineering domain. Control engineering is one of the domains where learning from data is now considered as a prime issue.
 
-Learning from data is actually not novel in control theory. System identification is one of the major developments of this paradigm, where modeling based on first principles is replaced by data-driven learning algorithms. Prediction error, maximum likelihood as well as subspace methods are all data-driven techniques which can be now regarded as standard for what concerns modeling. The learning-from-data paradigm has been widely pursued also for control design purposes. A main question is how to design control systems directly from process data with no intermediate system identification step....
+*Willems *et al.*'s fundamental lemma and paper contribution*
 
-Consider next the terms on the right hand side of and. By applying again with $\varepsilon = 0.5$, $X = X_{1,T}$, $F = I$ and $Y = {- W_{1,T}}$, we obtain
+In this paper, we first revisit Willems *et al.*'s fundamental lemma, originally cast in the behavioral framework, through classic state-space descriptions (Lemma 2). Next, we show that this result can be used to get a data-dependent representation of the open-loop and closed-loop dynamics under a feedback interconnection. The first result (Theorem 1) indicates that the parametrization that emerges from the fundamental lemma is in fact the solution to a classic least-squares problem, and has clear connections with the so-called Dynamic Mode Decomposition.
 
-This gives the claim. $\blacksquare$
+## Discussion and conclusions
 
-*(Feasibility of (V-A) under noise-free data)* In the noise-free case, that is when $Z_{0,T} = X_{0,T}$ and $Z_{1,T} = X_{1,T}$, the formulations and coincide. Suppose then that is feasible and let $\overline{Q}$ be a solution. Since positive definiteness is preserved under small perturbations, ${(Q,\alpha)} = {(\overline{Q},\overline{\beta})}$ will be a solution to the first of (V-A) for a sufficiently small $\overline{\beta} > 0$. Hence ${(Q,\alpha)} = {({\delta\overline{Q}},{\delta\overline{\beta}})}$ will remain feasible for the first of (V-A) for all $\delta > 0$....
+Persistently exciting data enable the construction of data-dependent matrices that can replace systems models. Adopting this paradigm proposed by we have shown the existence of a parametrization of feedback control systems that allows us to reduce the stabilization problem to an equivalent data-dependent linear matrix inequality. Since LMIs are ubiquitous in systems and control we expect that our approach could lead to data-driven solutions to many other control problems. As an example we have considered an LQR problem.
 
-### Remark 1
-
-Assumptions 4 and 5 parallel the assumptions considered for the case of noisy data. In particular, Assumptions 5 is the counterpart of Assumption 2 (or Assumption 3) and it amounts to requiring that the experiment is carried out sufficiently close to the system equilibrium so that the effect of the nonlinearities (namely the disturbance $d$) becomes small enough compared with $\deltax$ (*cf.* ).
-
-Contributions to data-driven control can be traced back to the pioneering work by Ziegler and Nichols, direct adaptive control and neural networks theories. Since then, many techniques have been developed under the heading *data-driven* and *model-free* control....
+Studying how our approach can be used to systematically address control problems via data-dependent LMIs could be very rewarding, and lead to a methodical inclusion of data to analyze and design control systems. A great leap forward will come from systematically extending the methods of this paper to systems where identification is challenging, such as switched and nonlinear systems. The results of this paper show that our approach is concretely promising for nonlinear systems, but we have only touched the surface of this research area.

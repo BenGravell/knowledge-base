@@ -6,16 +6,14 @@ An exponentially weighted moving model (EWMM) for a vector time series fits a ne
 
 We consider the problem of fitting a time-varying model to a vector time series, updating it each time period as new data is observed. Assuming that recent data is more relevant than data from many periods in the past, the model is fit giving more weight to recent past values and lower weight to values far in the past.
 
-### Rolling window model
+## Rolling window model
 
-When the loss is not quadratic, a simple recursion cannot be used. Instead we propose an approximate method that stores a fixed window of data and carries out computation that does not grow with time.
+One simple method to do this is to fit the model at time period $t$ using a rolling window of $R$ previous values of the time series. The choice of $R$ involves a trade-off. When it is small, we have fewer data to fit our model; when it is large, the model takes longer to adapt to changes in the underlying data. We can think of a rolling window model (RWM) with window length $R$ as one that puts weight one on the last $R$ data values, and weight zero on any values more than $R$ periods in the past. One advantage of such an RWM is that the optimization problem we solve to carry out the fitting has the same size in each time period.
 
-In this paper we do not suggest or recommend EWMMs for applications; we simply address the question of how to compute it, or an approximation of it, efficiently.
+## Exponentially weighted moving model
 
-### Probability mass estimator
+Another method for fitting a time-varying model uses all past data to create the model, but puts a time-varying weight on past values that decays smoothly as we move farther back in time. A natural choice for the weights is an exponential decay. We refer to such a model as an exponentially weighted moving model (EWMM). The parameter in EWMM analogous to $R$ in an RWM is the half-life, the number of periods in the past where the weight decays to one-half.
 
-We use loss ${\ell{(x,\theta)}} = {L{({y_{t} - {\hat{y}}_{t}})}}$, where $L$ is a convex loss function. With ${L{(u)}} = {\| u\|}_{2}^{2}$, we get the exponentially weighted ordinary least squares regression model. We can use other losses such as pinball or Huber. We can add any convex regularization. With regularizer ${r{(\theta)}} = {\lambda{\|\theta\|}_{2}^{2}}$, where $\lambda > 0$ is a hyper-parameter, we obtain exponentially weighted ridge regression \[golub2013matrix, page 564\] With ${r{(\theta)}} = {\lambda{\|\theta\|}_{1}}$, we obtain the exponentially weighted LASSO regression model \[tibshirani1996regression\]....
+## Exponentially weight moving average
 
-It remains to specify the quadratic approximation of $\ell{(x_{t - M - 1};\theta)}$. We seek a convex quadratic approximation that is accurate near ${\hat{\theta}}_{t - 1}$, the previously computed parameter estimate. When $\ell$ is twice differentiable with respect to $\theta$, an obvious approximation is its second-order Taylor expansion about the previous estimate,
-
-One simple method to do this is to fit the model at time period $t$ using a rolling window of $R$ previous values of the time series. The choice of $R$ involves a trade-off. When it is small, we have fewer data to fit our model; when it is large, the model takes longer to adapt to changes in the underlying data. We can think of a rolling window model (RWM) with window length $R$ as one that puts weight one on the last $R$ data values, and weight zero on any values more than $R$ periods in the past....
+EWMMs generalize the well known and widely used exponentially weighted moving average (EWMA). When we fit the data with a constant model using a square loss function, i.e., we attempt to estimate the mean, EWMM reduces to EWMA. But EWMM includes many other interesting data models beyond EWMA, such as exponentially weighted quantile estimation, exponentially weighted covariance estimation, and various exponentially weighted regression models, possibly with regularization.

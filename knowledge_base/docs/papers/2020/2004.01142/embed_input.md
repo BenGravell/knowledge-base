@@ -6,18 +6,12 @@ Autonomous robots that are capable of operating safely in the presence of imperf
 
 ## Introduction
 
-Motion planning algorithms generate optimal open-loop trajectories for robots to follow; however, any uncertainty in the system can potentially drive the robot far away from the desired path. For instance, quadrotors experience blade-flapping and induced drag forces that are dependent on the velocity, ground effects that are dependent on the altitude, and external wind effects that are often unaccounted for by the motion planner,. Accurate modeling of these uncertainty effects on system dynamics can be very expensive and time-consuming....
+Motion planning algorithms generate optimal open-loop trajectories for robots to follow; however, any uncertainty in the system can potentially drive the robot far away from the desired path. For instance, quadrotors experience blade-flapping and induced drag forces that are dependent on the velocity, ground effects that are dependent on the altitude, and external wind effects that are often unaccounted for by the motion planner,. Accurate modeling of these uncertainty effects on system dynamics can be very expensive and time-consuming.
 
-Robust trajectory tracking controllers using classical Lyapunov stability theory have been designed for helicopters, hovercraft, marine vehicles, and several other autonomous robots, which exhibit nonlinear behavior. These approaches rely on backstepping techniques, sliding-mode control, passivity-based control, or other robust nonlinear control design tools \[6, Chapter 14\]. However, the classical methods do not provide a 'one size fits all' procedure for the constructive design of tracking controllers for a large class of nonlinear systems....
+In this paper, we present an approach for safe feedback motion planning for control-affine nonlinear systems that relies on contraction theory-based solution for exponential stabilizability around trajectories and $\mathcal{L}_{1}$-adaptive control for handling uncertainties and providing guarantees for transient performance and robustness. In $\mathcal{L}_{1}$ control architecture, estimation is decoupled from control, thereby allowing for arbitrarily fast adaptation subject only to hardware limitations,.
 
-## Conclusion and Future Work
+## Discussion
 
-We present a control methodology to enable safe and guaranteed feedback motion planning. The presented work relies on differential geometric contraction theory and $\mathcal{L}_{1}$-adaptive control. The proposed controller enables the apriori computation of uniform and ultimate-bounds which act as safety-certificates. These safety certificates induce 'tubes' which can be taken into account by any planner of choice. In this way, the safety of the system/robot is always guaranteed in the presence of model and environmental uncertainties....
+A few critical comments are in order for the performance analysis. The main result in Theorem 5.1 provides uniform ultimate bounds. Let us first discuss the implication of the uniform bound $\rho$ in Eq. 37. As per the definition in Eq. 30, $\rho = {\rho_{r} + \rho_{a}}$. It is evident from the definition that $\rho$ is lower bounded by the initial condition difference $\left. \parallel{x_{0}^{\star} - x_{0}}\parallel \right.$ and the positive scalars $\underset{¯}{\alpha}$ and $\overline{\alpha}$ which are associated with the CCM $M{(x)}$ of the nominal dynamics.
 
-Figure 2: Architecture of CCM-based ℒ1-adaptive control
-
-### Definition 3.2
-
-Based on the definition of $\rho_{r}$ in Eq. 30 and the bounds on the Riemannian energy $\mathcal{E}{({x^{\star}{(t)}},{x{(t)}})}$ in Eq. 12, the inequality $\rho_{r}^{2} > {{\mathcal{E}{(x_{0}^{\star},x_{0})}}/\underset{¯}{\alpha}}$ holds. Furthermore, since $\zeta_{1}{(\omega)}$, $\zeta_{2}{(\omega)}$, and $\zeta_{3}{(\omega)}$, all converge to zero as $\omega$ increases, the bandwidth conditions in (32a)-(32b) can always be satisfied by choosing a large enough $\omega$.
-
-Advances in computational resources and optimization toolboxes available to autonomous robots have led to active developments in the field of...
+Theorem 5.1 also provides the (uniform) ultimate bound via $\delta{(\omega,T)}$ defined in Eq. 39. As already mentioned, $\rho_{a} \propto {1/\sqrt{\Gamma}}$. Furthermore, from the definition of $\zeta_{1}{(\omega)}$ in Eq. 31a, it is evident that by choosing a large enough $\omega$, there will always exist a known $0 < T < \infty$ such that ${\delta{(\omega,t)}} \leq \overline{\rho}$, for all $t \geq T$, for any chosen $\overline{\delta} > 0$. Therefore, we can always arbitrarily shrink the tube $\mathcal{O}{(\overline{\delta})}$ by choosing appropriate bandwidth $\omega$ and rate of adaptation $\Gamma$.

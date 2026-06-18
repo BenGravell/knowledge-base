@@ -6,18 +6,16 @@ Machine and reinforcement learning (RL) are increasingly being applied to plan a
 
 ## Introduction & Motivation
 
-With their recent successes in image classification, video game playing, sophisticated robotic simulations, and complex strategy games such as Go, machine and reinforcement learning (RL) are now being applied to plan and control the behavior of autonomous systems that interact with physical environments. Such systems, which include self-driving vehicles and agile robots, must interact with complex environments that are ever changing and difficult to model, strongly motivating the use of data-driven techniques....
+With their recent successes in image classification, video game playing, sophisticated robotic simulations, and complex strategy games such as Go, machine and reinforcement learning (RL) are now being applied to plan and control the behavior of autonomous systems that interact with physical environments. Such systems, which include self-driving vehicles and agile robots, must interact with complex environments that are ever changing and difficult to model, strongly motivating the use of data-driven techniques.
 
-To that end, it is important to recognize that while the applications areas and technical tools are new, the challenges faced -- uncertain and time varying systems and environments, unreliable sensing modalities, the need for robust stability and performance, etc. -- are not, and that many classical results from the system identification and adaptive control literature can be brought to bear on these problems....
+To that end, it is important to recognize that while the applications areas and technical tools are new, the challenges faced -- uncertain and time varying systems and environments, unreliable sensing modalities, the need for robust stability and performance, etc. -- are not, and that many classical results from the system identification and adaptive control literature can be brought to bear on these problems.
 
-## Conclusions
+In this tutorial paper and our companion paper, we highlight recent advances that provide non-asymptotic analysis of adaptive algorithms. Our aim is for these papers is for them to serve as a jumping off point for control theorists wanting to work in RL problems. In, we present an overview of tools and results on finite-data guarantees for system identification.
 
-This tutorial paper and our companion paper presented a broad overview of recent progress towards the finite-time analysis for reinforcement learning and self-tuning control methods. We have attempted to provide a summary of representative results in this space that establish connections between the self-tuning control literature and methods recently proposed in reinforcement learning. The former are typically model-based, and are well-studied from a theoretical perspective, although more effort is still needed to better understand their finite-time behavior....
+## Limitations of PAC-Bounds
 
-### IV-A3 Structured MDPs
+As an algorithm that is $(\epsilon,\delta)$-PAC is only penalized for suboptimal behavior exceeding the $\epsilon$ threshold, there is no guarantee of convergence to an optimal policy. In fact, as pointed out in and illustrated in the LQR example above, many PAC algorithms cease learning once they are able to produce an $\epsilon$-suboptimal strategy.
 
-The study of regret bounds for LQR was initiated in. Here we summarize a recent treatment of the problem, as provided in. There, the authors study the performance of CE control for LQR, and study a regret measure of the form
+## Limitations of Regret Bounds
 
-Let the controller $\mathbf{K}$ stabilize $(\hat{A},\hat{B})$ and $(\mathbf{\Phi}_{x},\mathbf{\Phi}_{u})$ be its corresponding system response (27 ‣ V Model-Based Methods for LQR ‣ From self-tuning regulators to reinforcement learning and back again")) on system $(\hat{A},\hat{B})$. Then if $\mathbf{K}$ stabilizes $(A,B)$, it achieves the following LQR cost $J{(A,B,\mathbf{K})}$ defined as
-
-Indeed, at a cursory glance, classical self-tuning regulators have the same objective as contemporary RL: an initial control policy and/or model is posited, data is collected, and a refined...
+As regret only tracks the integral of suboptimal behavior, it does not distinguish between a few severe mistakes and many small ones. In fact, shows that for Tabular MDP problems, an algorithm achieving optimal regret may still make infinitely many mistakes that are maximally suboptimal. Thus regret bounds cannot provide guarantees about transient worst-case deviations from the baseline cost $b_{T}$, which may have implications on guaranteeing the robustness or safety of an algorithm. We comment further on regret for discrete MDPs in the next section.

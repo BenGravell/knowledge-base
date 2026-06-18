@@ -12,24 +12,16 @@ There is a fundamental tension in decision making between choosing the action th
 
 In reinforcement learning, an approach to addressing the tension is the use of *softmax* operators for value-function optimization, and softmax policies for action selection. Examples include value-based methods such as SARSA or expected SARSA, and policy-search methods such as REINFORCE.
 
-An important future work is to expand the scope of our theoretical understanding to the more general function approximation setting, in which the state space or the action space is large and abstraction techniques are used. Note that the importance of non-expansion in the function approximation case is well-established.
-
-Finally, due to the convexity of mellowmax, it is compelling to use it in a gradient-based algorithm in the context of sequential decision making. IRL is a natural candidate given the popularity of softmax in this setting.
-
-### Averaging
-
-Although it has been known for a long time that the Boltzmann operator is not a non-expansion, we are not aware of a published example of an MDP for which two distinct fixed points exist. The MDP presented in Figure 1 is the first example where, as shown in Figure 4, GVI under $\text{boltz}_{\beta}$ has two distinct fixed points. We also show, in Figure 5, a vector field visualizing GVI updates under $\text{boltz}_{\beta = 16.55}$. The updates can move the current estimates farther from the fixed points. The behavior of SARSA (Figure 2) results from the algorithm stochastically bouncing back and forth between the two fixed points....
-
-## Experiments on MDPs
-
-An ideal softmax operator is a parameterized set of operators that:
+An
 
 has parameter settings that allow it to approximate maximization arbitrarily accurately to perform reward-seeking behavior;
 
-is a non-expansion for all parameter settings ensuring convergence to a unique fixed point;
-
 is differentiable to make it possible to improve via gradient-based optimization; and
 
-avoids the starvation of non-maximizing actions.
+In the following section, we provide a simple example illustrating why the non-expansion property is important, especially in the context of planning and on-policy learning. We then present a new softmax operator that is similar to the Boltzmann operator yet is a non-expansion. We prove several critical properties of this new operator, introduce a new softmax policy, and present empirical results.
 
-Let $\text{X} = {x_{1},\ldots,x_{n}}$ be a vector of values. We define the following operators:
+## Conclusion and Future Work
+
+We proposed the mellowmax operator as an alternative to the Boltzmann softmax operator. We showed that mellowmax has several desirable properties and that it works favorably in practice. Arguably, mellowmax could be used in place of Boltzmann throughout reinforcement-learning research.
+
+A future direction is to analyze the fixed point of planning, reinforcement-learning, and game-playing algorithms when using the mellowmax operators. In particular, an interesting analysis could be one that bounds the sub-optimality of the fixed points found by GVI.

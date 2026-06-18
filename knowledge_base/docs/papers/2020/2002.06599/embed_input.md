@@ -6,19 +6,14 @@ Informed sampling-based planning algorithms exploit problem knowledge for better
 
 Path planning is the problem of finding a continuous sequence of valid states between a start and goal specification. Sampling-based planners, such as Probabilistic Roadmaps (PRM), approximate the state space by sampling discrete states and connecting them with edges. The resulting structure can then be processed by graph-search algorithms to find a sequence of states that connects the start to the goal.
 
-Informed graph-search algorithms, such as A\*, use knowledge about a problem domain to increase their efficiency. This knowledge is often captured in the form of a *heuristic function*, $\hat{h}$, which estimates cost-to-go, i.e., the cost to go from any state in the state space to the goal.
+Improving the accuracy of a heuristic directly improves the performance of informed search algorithms, and the search becomes trivial when a perfect heuristic is available.
 
-This approach is promising for path planning problems with expensive edge evaluations, such as those posed by NASA/JPL-Caltech's Axel. AIT\* outperforms existing sampling-based algorithms on the tested abstract problems by finding an initial solution quickly and converging to the optimum in an anytime manner. These problems show the robustness of AIT\* with respect to expensive edge evaluations and encourage more thorough evaluations of states which could be used in more advanced optimization objectives.
+Lazy sampling-based planners, such as Lazy PRM, reduce this computational cost by avoiding the evaluation of every edge. These algorithms first perform an inexpensive search on a simplified approximation without collision detection. This allows them to only evaluate the edges that are believed to be on an optimal path, and reduce the number of evaluated edges. This improves performance, especially for problems with computationally expensive edge evaluations, such as those considered in this paper.
 
-Information on the OMPL implementation of AIT\* is available at
+This paper presents Adaptively Informed Trees (AIT\*), a lazy, almost-surely asymptotically optimal sampling-based planner that uses an asymmetric bidirectional search to simultaneously estimate and exploit an accurate, problem-specific heuristic. AIT\* estimates this heuristic by performing a lazy reverse search on the current sampling-based approximation. This heuristic is then used to order the forward search of this approximation while considering complete edge evaluations.
 
-### III-B Approximation
+## Discussion & Future Work
 
-Lazy Shortest Path (LazySP) is a class of algorithms that reduces the number of edges checked for collisions. It first finds a path from the start to the goal using an inexpensive estimate of the edge costs. Once a path is found, it uses an edge selector function which determines the order in which these edges are checked for collision. An example of a LazySP algorithm is Lazy Receding Horizon A\* (LRHA\*).
+AIT\* was designed for planning problems with expensive edge evaluations. These often occur when the search has to consider dynamic constraints (e.g., two-point boundary value problems) or complex robot and obstacle interactions (e.g., difficult collision detection) for each edge, as found on NASA/JPL-Caltech's Axel. In future work, Axel will consider tether-terrain interaction and physics-based stability checks based on the anchor history of the tether, which will further increase the edge evaluation cost.
 
-2 xp ← arg min xi ∈ neighbors (x){ĥexp [xi]+ĉ (xi,x)}
-6 $\mathcal{Q}_{R}\overset{+}{\leftarrow}\mathbf{x}$
-9 $\mathcal{Q}_{R}\overset{-}{\leftarrow}\mathbf{x}$
-Algorithm 6 update_state (x)
-
-The properties of this heuristic directly affect the performance of the search algorithms. An *admissible* heuristic never overestimates the actual cost-to-go. A *consistent* heuristic satisfies a triangle-inequality, such that for any two states, $\mathbf{x}_{i},\mathbf{x}_{j}$, it satisfies ${\hat{h}\left( \mathbf{x}_{i} \right)} \leq {{p{(\mathbf{x}_{i},\mathbf{x}_{j})}} + {\hat{h}\left( \mathbf{x}_{j} \right)}}$, where $p{(\mathbf{x}_{i},\mathbf{x}_{j})}$ is the...
+These expensive edge evaluations were simulated in the abstract problems by increasing the collision detection resolution, providing a simple way to increase the edge evaluation cost and evaluate AIT\* on illustrative obstacle configurations.

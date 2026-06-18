@@ -10,16 +10,8 @@ Classical model-based control enables simple but powerful control design by cons
 
 In this work, we focus on data-driven predictive control (DDPC), the data-driven counterpart to model predictive control (MPC). Similar to MPC, it solves a finite-horizon optimal control problem in a receding horizon fashion, but with nonparametric data-driven predictors instead of model-based predictors. Data-driven predictors for linear systems can be constructed by using the so-called Willems' fundamental lemma, which characterizes all possible system behaviors with finite data.
 
+While these predictors work well with deterministic data, showing equivalence to model-based design, they become ill-defined with stochastic data. Multiple works have stressed this issue by introducing an inner problem that finds the 'optimal' predictor under some statistical principle, e.g., Fiedler and Lucia; Yin et al.; Breschi et al.. This idea is known as indirect DDPC.
+
 ## Conclusion
 
 This work discusses several modifications in stochastic data-driven predictive control (DDPC) algorithms. They provide a tuning-free regularizer design in the control cost, improved initial condition estimation, and reliable constraint satisfaction. These are achieved by evaluating the expected cost, designing a Kalman filter, and formulating convex constraint tightening terms, respectively. These modifications pave the way for providing theoretical guarantees for DDPC algorithms under general unbounded stochasticity.
-
-### Lemma 6
-
-The stochastic predictor can be constructed based on the solution $g^{t}$ with the following lemma.
-
-### Chance Constraint Satisfaction
-
-While these predictors work well with deterministic data, showing equivalence to model-based design, they become ill-defined with stochastic data. Multiple works have stressed this issue by introducing an inner problem that finds the 'optimal' predictor under some statistical principle, e.g., Fiedler and Lucia; Yin et al.; Breschi et al.. This idea is known as indirect DDPC.
-
-These stochastic data-driven predictors can be applied to DDPC design similar to the noise-free case. However, they suffer from the following problems with this certainty-equivalent implementation: 1) the control cost does not account for the prediction error, 2) the initial condition...

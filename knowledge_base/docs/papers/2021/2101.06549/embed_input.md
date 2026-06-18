@@ -4,16 +4,12 @@ As self-driving systems become better, simulating scenarios where the autonomy s
 
 ## Introduction
 
-Self-driving vehicles (SDV) are safety critical applications in which the comprehensive testing is necessary before real-world deployment. As the performance of self-driving systems becomes better on natural and well-behaved scenarios, it becomes of key importance to find scenarios where the system is likely to fail. However, exhaustively searching over all possible scenarios to identify safety critical ones is computationally unfeasible, as there are exponentially many scenario variations due to the combinatorial number of possible lane topologies, actor configurations, trajectories, velocity profiles, appearance of actors and...
+Self-driving vehicles (SDV) are safety critical applications in which the comprehensive testing is necessary before real-world deployment. As the performance of self-driving systems becomes better on natural and well-behaved scenarios, it becomes of key importance to find scenarios where the system is likely to fail.
 
-Conventional practice in industry for comprehensive testing is a semi-autonomic process that relies on human expertise to create an initial scenario set, where each scenario contains at most 1 or 2 "actors of interest" (e.g., vehicles that interact with the SDV's planned path) with specified initial locations and trajectories. Scenario variations are then programmatically created by varying the actors' locations and velocity profiles....
+Conventional practice in industry for comprehensive testing is a semi-autonomic process that relies on human expertise to create an initial scenario set, where each scenario contains at most 1 or 2 "actors of interest" (e.g., vehicles that interact with the SDV's planned path) with specified initial locations and trajectories. Scenario variations are then programmatically created by varying the actors' locations and velocity profiles. While such scenarios are valuable, they only evaluate simple interactions with the SDV and do not test complex multi-actor interactions, such as lane-merging and unprotected left-turns in dense traffic scenes.
+
+In this paper, we leverage real world traffic scenarios available in standard self-driving datasets and optimize the actors' trajectories jointly to increase the risk of an autonomy system failure. As our perturbation modifies the actors' trajectories, we need to adjust the sensor data to accurately reflect the actors' new locations. We therefore adopt a high-fidelity LiDAR simulator that modifies the sensor data accordingly taking into account occlusions. After running the black-box autonomy system with modified sensor data as input, we obtain the planned trajectory and evaluate how adversarial the scenario was.
 
 ## Conclusion
 
 In this work we present a novel adversarial framework to generate worst-case scenarios for modern autonomy systems. Our approach identifies physically plausible failure cases that impose risks to full autonomy stack by simulating the sensor data based on the perturbed behaviors. We demonstrate that AdvSim can generate failure cases at scale for a wide range of systems. More importantly, we leverage these scenarios in training to further improve the robustness and safety of the autonomy system. We hope that leveraging this framework will allow for safer self-driving vehicles.
-
-Table 2: Evaluation of modern autonomy systems on original and AdvSim generated scenarios.
-
-We characterize the behavior of an adversary by the trajectory $\tau_{adv}$ it will take in the future. As the perturbed actor's trajectory $\tau_{adv}$ differs from its original behavior in the sensor data, the vehicle position and the occlusions it generates will change (see Fig. 3). Therefore, we must simulate the new LiDAR data given the adversary trajectory $\tau_{adv}$ and SDV trajectory $\tau_{sdv}$ to evaluate the system (Eq. 1). The generation of point clouds in the perturbed traffic scene is given as follows:
-
-### Experimental Setup

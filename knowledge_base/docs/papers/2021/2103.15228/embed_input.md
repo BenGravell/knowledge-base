@@ -8,18 +8,14 @@ State estimators are crucial components of anomaly detectors that are used to mo
 
 ## Introduction
 
-Cyber-Physical Systems (CPS) are physical processes that are tightly integrated with computation and communication systems for monitoring and control. Though advances in CPS design has equipped them with adaptability, resiliency, safety, and security features that exceed the simple embedded systems of the past, it often leaves open several points for attackers to strike. CPS security problems have attracted the attention of researchers worldwide recently; some state-of-the-art anomaly detection algorithms can be found in.
+Cyber-Physical Systems (CPS) are physical processes that are tightly integrated with computation and communication systems for monitoring and control. Though advances in CPS design has equipped them with adaptability, resiliency, safety, and security features that exceed the simple embedded systems of the past, it often leaves open several points for attackers to strike. CPS security problems have attracted the attention of researchers worldwide recently; some state-of-the-art anomaly detection algorithms can be found .
 
-A common practice is to model a CPS as either a deterministic system or a stochastic system with additive Gaussian uncertainties. Motivated by the recent developments in distributionally robust optimization (DRO) techniques, authors in have developed DRO anomaly detectors that remove assumptions on specific functional forms of the uncertainties in the stochastic CPS model. On the other hand, it is a common practice to assume that the true CPS dynamics are known exactly....
+A common practice is to model a CPS as either a deterministic system or a stochastic system with additive Gaussian uncertainties. Motivated by the recent developments in distributionally robust optimization (DRO) techniques, authors in have developed DRO anomaly detectors that remove assumptions on specific functional forms of the uncertainties in the stochastic CPS model. On the other hand, it is a common practice to assume that the true CPS dynamics are known exactly.
+
+*Contributions:* This paper is part of our ongoing work to leverage powerful results in control theory and distributionally robust optimization to design robust anomaly detectors. Specifically, the detector threshold corresponding to a desired false alarm rate in the setting considered in this paper was computed through the moment-based approaches explained. In prior work we addressed detectors robust to non-Gaussian additive noise. In this work,
+
+We design an anomaly detector for stochastic linear cyber-physical systems that is robust to modeling errors. To our knowledge, this is the first paper to consider tuning an anomaly detector for a system model that incorporates model uncertainty. We propose a multiplicative noise framework and integrate the MLQG compensator to compute the residual.
 
 ## Conclusion
 
-An extension of the state-of-the-art anomaly detection algorithms for CPS with modeling errors via the multiplicative noise framework was discussed in this paper. The multiplicative noise-driven LQG being a robust state estimator was used to hedge against the model risk to construct the state estimate. The proposed method was demonstrated using a numerical simulation....
-
-It is necessary to account for the multiplicative noise to achieve the minimum quadratic cost; furthermore, it is straightforward to find systems in and which are *mean-square unstable* when controlled by (multiplicative-noise-ignorant) LQG, meaning that it is necessary to account for multiplicative noise to achieve mean-square stability.
-
-The optimal state estimator at any time $k$ given and is an affine^22^2It is possible to design a nonlinear state estimator to outperform a given affine estimator in this setting. However, it is out of the scope of this paper. function of the output $y_{k}$.
-
-Finally, using the matrix reshaping operator $\text{mat}{( \cdot )}$, we retrieve the steady state $\Sigma_{r}$ as follows
-
-State estimation is a crucial component in any model-based anomaly detector design, which depends on a state-space model for the system dynamics....
+An extension of the state-of-the-art anomaly detection algorithms for CPS with modeling errors via the multiplicative noise framework was discussed in this paper. The multiplicative noise-driven LQG being a robust state estimator was used to hedge against the model risk to construct the state estimate. The proposed method was demonstrated using a numerical simulation.

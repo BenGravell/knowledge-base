@@ -8,14 +8,8 @@ Neural network training reduces to solving nonconvex empirical risk minimization
 
 Initial steps towards understanding optimality have focused on *deep linear* networks. This area has seen substantial recent progress. In deep linear networks there is no nonlinear activation; the output is simply a multilinear function of the input. Baldi & Hornik prove that some shallow networks have no spurious local minima, and Kawaguchi extends this result to squared error deep linear networks, showing that they only have global minima and saddle points. Several other works on linear nets have also appeared.
 
+In contrast, we prove existence of spurious local minima under the least restrictive (to our knowledge) assumptions. Since seemingly subtle changes to assumptions can greatly influence the analysis as well as the applicability of known results, let us first summarize what is known; this will also help provide a better intuitive perspective on our results (as the technical details are somewhat involved).
+
 ## Discussion and future work
 
-We investigated the loss surface of deep linear and nonlinear neural networks. We proved two theorems showing existence of spurious local minima on nonlinear networks, which apply to almost all datasets (Theorem 1) and a wide class of activations (Theorem 2). We concluded by Theorem 4, showing a general result studying the behavior of critical points in multilinearly parametrized functions, which unifies other existing results on linear neural networks....
-
-It is worth comparing our result with Laurent & Brecht, who use hinge loss based classification and assume linear separability to prove "no spurious local minima" for Leaky-ReLU networks. Their result does not contradict our theorem because the losses are different and we do not assume linear separability.
-
-where ${s_{+} > 0},{s_{-} \geq 0}$ and $s_{+} \neq s_{-}$. Note that ReLU and Leaky-ReLU are members of this class.
-
-### Theorem 2
-
-The theory of nonlinear neural networks (which is the actual setting of interest), however, is still in its infancy. There have been attempts to extend the "local minima are global" property from linear to nonlinear networks, but recent results suggest that this property does not usually hold....
+We investigated the loss surface of deep linear and nonlinear neural networks. We proved two theorems showing existence of spurious local minima on nonlinear networks, which apply to almost all datasets (Theorem 1) and a wide class of activations (Theorem 2). We concluded by Theorem 4, showing a general result studying the behavior of critical points in multilinearly parametrized functions, which unifies other existing results on linear neural networks.

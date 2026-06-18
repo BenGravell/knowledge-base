@@ -8,12 +8,8 @@ Self-driving has recently benefited from deep learning breakthroughs, which have
 
 Collecting data is a fairly easy process -- a single vehicle can generate several Tb of data a day. However, it is not feasible to label everything that has been collected. For instance, it could cost around \$150K^11^1scale.com to simply annotate the bounding-box of objects in one hour of camera data, assuming average density of 50 objects per image. Hence, it is of key importance to have a mechanism to identify "what to label" such that we can get the most relevant labeled dataset to achieve the highest autonomy performance given a labeling budget.
 
+In this paper we look at this task with a new lens and define specific criteria to quantize interestingness in order to identify a dataset of challenging and diverse scenarios for self-driving tasks. These criteria are not bound to a specific autonomy architecture or model and does not require multiple iterations of training and evaluation. More specifically, we propose a set of complexity measures to characterize self-driving scenarios.
+
 ## Conclusion
 
-In this paper we presented a dataset curation pipeline for self-driving to select unlabeled data for labeling. We described a set of intuitive complexity measures to characterize the traffic scene of the collected data wrt various aspects including the topology of the map, diversity and complexity of surrounding actors and their behaviors, and the executed maneuver of the SDV. We also presented a method to select interesting and challenging sections of the collected logs using the described measures together with adding diverse examples to the final selected set of scenarios....
-
-### Bike-lanes and crosswalks
-
-Limiting the data selection to only challenging scenarios will not necessarily lead to a diverse dataset, or to a complete set of scenarios that we might encounter in the real world. The goal of this additional selection step is to identify a set of snippets that ensures completeness and diversity. We quantize the dissimilarity between snippets as a function of their difference in the complexity measures, where in order to get geo-diversity we expand the complexity vectors with the latitude and longitude coordinates of the frames....
-
-where $\omega_{i}$ is a discreet speeds computed for the $i^{\text{th}}$ actor and $\Omega$ is the set of average speeds for all the actors.
+In this paper we presented a dataset curation pipeline for self-driving to select unlabeled data for labeling. We described a set of intuitive complexity measures to characterize the traffic scene of the collected data wrt various aspects including the topology of the map, diversity and complexity of surrounding actors and their behaviors, and the executed maneuver of the SDV. We also presented a method to select interesting and challenging sections of the collected logs using the described measures together with adding diverse examples to the final selected set of scenarios.

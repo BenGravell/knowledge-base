@@ -12,12 +12,8 @@ Optical flow is the task of estimating per-pixel motion between video frames. It
 
 Optical flow has traditionally been approached as a hand-crafted optimization problem over the space of dense displacement fields between a pair of images. Generally, the optimization objective defines a trade-off between a *data* term which encourages the alignment of visually similar image regions and a *regularization* term which imposes priors on the plausibility of motion. Such an approach has achieved considerable success, but further progress has appeared challenging, due to the difficulties in hand-designing an optimization objective that is robust to a variety of corner cases.
 
-## Conclusions
+Recently, deep learning has been shown as a promising alternative to traditional methods. Deep learning can side-step formulating an optimization problem and train a network to directly predict flow. Current deep learning methods have achieved performance comparable to the best traditional methods while being significantly faster at inference time. A key question for further research is designing effective architectures that perform better, train more easily and generalize well to novel scenes.
 
-We have proposed RAFT---Recurrent All-Pairs Field Transforms---a new end-to-end trainable model for optical flow. RAFT is unique in that it operates at a single resolution using a large number of lightweight, recurrent update operators. Our method achieves state-of-the-art accuracy across a diverse range of datasets, strong cross dataset generalization, and is efficient in terms of inference time, parameter count, and training iterations.
+We introduce Recurrent All-Pairs Field Transforms (RAFT), a new deep network architecture for optical flow.
 
-Initialization: By default, we initialize the flow field to 0 everywhere, but our iterative approach gives us the flexibility to experiment with alternatives. When applied to video, we test *warm-start* initialization, where optical flow from the previous pair of frames is forward projected to the next pair of frames with occlusion gaps filled in using nearest neighbor interpolation.
-
-We additionally use a context network. The context network extracts features only from the first input image $I_{1}$. The architecture of the context network, $h_{\theta}$ is identical to the feature extraction network. Together, the feature network $g_{\theta}$ and the context network $h_{\theta}$ form the first stage of our approach, which only need to be performed once.
-
-We train our model using the FlyingChairs$\rightarrow$FlyingThings schedule and then evaluate on the Sintel dataset using the *train* split for validation. Results are shown in Table 1 and Figure 3, and we split results based on the data used for training....
+We conduct experiments on Sintel and KITTI. Results show that RAFT achieves state-of-the-art performance on both datasets. In addition, we validate various design choices of RAFT through extensive ablation studies.

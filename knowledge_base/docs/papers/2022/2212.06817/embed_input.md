@@ -6,16 +6,12 @@ By transferring knowledge from large, diverse, task-agnostic datasets, modern ma
 
 ## Introduction
 
-End-to-end robotic learning, with either imitation or reinforcement, typically involves collecting task-specific data in either single-task or multi-task settings that are narrowly tailored to the tasks that the robot should perform. This workflow mirrors the classic approach to supervised learning in other domains, such as computer vision and NLP, where task-specific datasets would be collected, labeled, and deployed to solve individual tasks, with little interplay between the tasks themselves....
+End-to-end robotic learning, with either imitation or reinforcement, typically involves collecting task-specific data in either single-task or multi-task settings that are narrowly tailored to the tasks that the robot should perform. This workflow mirrors the classic approach to supervised learning in other domains, such as computer vision and NLP, where task-specific datasets would be collected, labeled, and deployed to solve individual tasks, with little interplay between the tasks themselves.
 
 Building such models in robotics is not easy. Although recent years have seen several large multi-task robot policies proposed in the literature, such models often have limited breadth of real-world tasks, as with Gato, or focus on training tasks rather than generalization to new tasks, as with recent instruction following methods, or attain comparatively lower performance on new tasks.
 
-As we explore future directions for this work, we hope to scale the number of robot skills faster by developing methods that allow non-experts to train the robot via directed data collection and model prompting. While the current version of RT-1 is fairly robust especially to distractor objects, its robustness to backgrounds and environments could be further improved by greatly increasing the environment diversity. We also hope to improve the reaction speeds and context retention of RT-1 through scalable attention and memory.
+(a) RT-1 takes images and natural language instructions and outputs discretized base and arm actions. Despite its size (35M parameters), it does this at 3 Hz, due to its efficient yet high-capacity architecture: a FiLM conditioned EfficientNet, a TokenLearner, and a Transformer.
 
-To allow the research community to build on top of this work, we have open-sourced the code for RT-1 ^44^4 which we hope will provide researchers with a valuable resource for future research for scaling up robot learning.
+(b) RT-1’s large-scale, real-world training (130k demonstrations) and evaluation (3000 real-world trials) show impressive generalization, robustness, and ability to learn from diverse data.
 
-## Experiments
-
-Loss. We use a standard categorical cross-entropy entropy objective and causal masking that was utilized in prior Transformer-based controllers.
-
-To answer our first question, we analyze the overall performance, generalization, and robustness capabilities of RT-1 compared to previously proposed models. Specifically, we compare to the model architectures used by Gato and BC-Z, as well as a larger version of BC-Z, which we refer to as BC-Z XL. Note, however, that all models are trained on the same data as RT-1, and the evaluation only compares the model architectures, not the task sets, datasets, or overall robotic systems....
+Our contribution is the RT-1 model and experiments with this model on a large and broad dataset of real-world robotic tasks. Our experiments not only demonstrate that RT-1 can exhibit significantly improved generalization and robustness compared to prior techniques, but also evaluate and ablate many design choices in both the model and in the composition of the training set. Our results show that RT-1 can perform over 700 training instructions at 97% success rate, and can generalize to new tasks, distractors, and backgrounds 25%, 36% and 18% better than the next best baseline, respectively.

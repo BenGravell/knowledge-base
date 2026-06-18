@@ -6,19 +6,9 @@ The limited memory BFGS (L-BFGS) method is one of the popular methods for solvin
 
 ## Introduction
 
-In this paper we consider the large-scale unconstrained optimization problem:
+In
 
 ---l--- x∈R\^nf(x), where $f:{{\mathbb{R}}^{n}\rightarrow{\mathbb{R}}}$ is a smooth function. For solving it, we focus on the quasi-Newton type method as
-
-In this paper we have proposed a combination of the L-BFGS and the regularization technique. We showed the global convergence under appropriate assumptions. We have also presented some efficient implementations. In numerical results, the overall comparison shows that the proposed method can solve more problems than the original L-BFGS. This result indicates that the proposed method is robust in terms of solving number of problems.
-
-For future work, we may consider proposing the stochastic version of the proposed method to solve empirical risk minimization problems.
-
-### Proof
-
-This completes the proof. $\square$
-
-The next iterate with line search is given as
 
 The standard solution methods to solve such as the steepest descent method, Newton's method and the BFGS method are not suitable for large-scale problems. This is because the steepest descent method generally converges slowly, while Newton's method needs to compute the Hessian matrix and solve linear equations at each iteration. Moreover, the BFGS method requires $O{(n^{2})}$ memory to store and calculate the approximate Hessian of $f$, which causes some difficulty for large-scale problem.
 
@@ -27,3 +17,9 @@ One of the popular quasi-Newton methods for solving large-scale problem is the l
 The usual L-BFGS adopts the Wolfe line search to guarantee its global convergence. The line search sometimes needs a large number of function evaluations. Thus, it is preferable to reduce the number of function evaluations as much as possible.
 
 The trust region method (TR-method) can guarantee the global convergence. It is known that the TR-method needs fewer function evaluations than the line search. The L-BFGS method combined with the TR-method produces good performance for many benchmark problems in terms of the number of function evaluations. However, the TR-method must solve the constrained subproblem
+
+## Conclusion
+
+In this paper we have proposed a combination of the L-BFGS and the regularization technique. We showed the global convergence under appropriate assumptions. We have also presented some efficient implementations. In numerical results, the overall comparison shows that the proposed method can solve more problems than the original L-BFGS. This result indicates that the proposed method is robust in terms of solving number of problems.
+
+For future work, we may consider proposing the stochastic version of the proposed method to solve empirical risk minimization problems.

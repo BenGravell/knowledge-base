@@ -1,0 +1,251 @@
+## Introduction
+
+Vision-language models (VLMs) (bai2025qwen2.5vl; chen2025eagle; wang2025internvl3; huang2026step3; yang2025kwai; deshmukh2025nvidia) are increasingly adopted as a general-purpose backbone for interactive and embodied systems due to their broader knowledge and stronger instruction-following capabilities than conventional specialized models (zhang2022dino; liu2023grounding; carion2020end; ren2016faster). To act in the world, VLMs (bai2025qwen2.5vl; fu2025llmdet; zhan2024griffon; wang2025internvl3; azzolini2025cosmos) must be tightly grounded in *perception* --- in particular, they *localize* task-relevant entities (\\eg, objects (zhang2024llava; jiang2025rexomni; yu2025perception; wang2023exploring), UI elements (liu2025scalecua; lin2024showui; feizi2025grounding; nayak2025ui), regions (ren2024pixellm; yuan2025pixelrefer; lai2024lisa; cheng2024spatialrgpt; ranzinger2024radio; heinrich2025radiov2)) from natural-language intents with high quality and low latency, which requires high vision-language grounding capabilities.
+
+Object detection and grounding in VLMs (zhan2024griffon; li2025lmmdet; yu2025perception; peng2023kosmos; zhang2024ferretv2; jiang2025rexomni; man2025locateanything3d) are often formulated as a *generative* problem. Under the next-token prediction (NTP) paradigm (chen2021pix2seq; jiang2025rexomni; peng2023kosmos), a VLM can answer open-ended queries by emitting spatial coordinates as a token sequence. As illustrated in the bottom panel of Fig. 1, existing methods (you2023ferret; peng2023kosmos; zhang2024ferretv2; jiang2025rexomni; qi2025cot4det) commonly represent coordinates as either Textual Digits (\\eg, "1024" as "1", "0", "2", "4") or Quantized Tokens (\\eg, $x_{1}\rightarrow y_{1}\rightarrow x_{2}\rightarrow y_{2}$). Despite their differences, these representations serialize a 2D geometric object into a 1D stream, forcing token-by-token generation at inference time. This token-level sequential decoding becomes a practical bottleneck (higher latency and lower throughput) and under-utilizes the strong structured correlation among coordinates $(x_{1},y_{1},x_{2},y_{2})$.
+
+Multi-Token Prediction (MTP) (li2025diffusionvl; liu2025sequential; nie2025large; ye2025dream) offers a natural approach to reducing decoding steps by predicting multiple tokens in parallel. In language modeling, MTP is usually implemented by randomly (i) choosing positions in the sequence and training the model to predict a following span in parallel (\\ie, next-block prediction) (liu2025sequential; cai2024medusa; li2025eagle; liu2024deepseek), or (ii) masking some tokens of the sequence and training the model to reconstruct the original text, such as masked diffusion modeling (li2022diffusion; arriola2025block; nie2025large; liu2025tidar). However, these formulations are largely *structure-agnostic*: they treat inputs as generic token streams and mainly capture correlations driven by co-occurrence. Inferring the missing tokens from random subsets requires the model to represent complex and irregular conditional distributions. For tightly coupled units such as bounding boxes, this supervision does not match well the training objective because it can learn to generate token combinations across bounding-box boundaries and even object categories, as demonstrated in Fig. 2. Consequently, the model must fit many unreliable patterns, inducing spurious correlations, sacrificing structured decoding, and amplifying error propagation, which together reduce accuracy, reliability, and decoding speed.
+
+To reconcile high-throughput decoding with reliable localization, we propose LocateAnything, a unified framework for VLM-based visual detection and grounding built upon Parallel Box Decoding (PBD). Our key idea is to align MTP blocks with structured units: during training, LocateAnything treats each bounding box (or point) as an *atomic unit* and learns to predict the full coordinate set $(x_{1},y_{1},x_{2},y_{2})$ in one parallel step. This *box-aligned* training target avoids arbitrary chunking of coordinate tokens. As a result, our strategy improves the localization performance of the model, while simultaneously unlocking the speed benefits of parallel decoding.
+
+Figure 2: Comparison of Token Decoding Methods. The NTP generates coordinate values one-by-one. The standard MTP method results in irregular distributions and non-coherent, unstructured patterns. Our proposed PBD generates a single atomic box (or point) unit in a parallel step, ensuring box-aligned and structured output.
+
+With the proposed PBD, we study various strategies for structured bounding-box decoding to balance throughput and accuracy. Our observations motivate a flexible inference design to meet different latency--robustness requirements by providing three on-demand modes. (i) Fast Mode (MTP) predicts full boxes in parallel for maximum throughput, which is suitable for latency- and compute-constrained settings, such as on-device robotics and embodied agents. (ii) Slow Mode (NTP) decodes coordinate tokens autoregressively for maximum stability, which is appropriate for high-precision labeling, final-pass dataset curation, and accuracy-oriented offline evaluation. (iii) Hybrid Mode uses Fast Mode by default and falls back to Slow Mode when the parallel output is unreliable, \\eg, due to format or consistency violations; this mode is intended for production pipelines that require both speed and accuracy. Overall, Hybrid Mode preserves most of the speed gains of parallel decoding while maintaining robust outputs.
+
+Our main contributions are summarized as follows:
+
+We introduce LocateAnything, an early exploration of applying multi-token prediction to VLM-based detection/grounding via Parallel Box Decoding, performing box-aligned decoding to improve throughput and accuracy.
+
+We present a Hybrid decoding policy that detects unreliable parallel blocks and performs localized NTP re-decoding only for the problematic block, reducing worst-case failures while retaining most speed gains.
+
+Extensive evaluations, including layout grounding, long-tail detection, and GUI grounding, show that LocateAnything advances the speed--accuracy frontier, outperforming the SOTA by a large margin. It achieves up to 2.5$\times$ higher decoding throughput while improving localization quality.
+
+## Related Work
+
+Visual Detection and Grounding in VLMs. Visual grounding/detection tasks traditionally rely on task-specific heads (carion2020end; liu2024grounding; ren2016faster; jiang2024far3d), but recent VLMs like Qwen-VL series (bai2025qwen2.5vl; bai2025qwen3vltechnicalreport), InternVL (chen2024internvl) and Shikra (chen2023shikra) formulate it as an autoregressive token generation problem. This generative paradigm, however, often suffers from structural hallucinations and high latency (li2023evaluating). To mitigate these issues, Rex-Omni (jiang2025rexomni) employs point-based prediction, while Patch-as-Decodable-Token (PaDT) (su2026patch) and Groma (ma2024groma) utilize visual reference tokens to point directly to image patches. Complementary innovations such as Pink (xuan2024pink), ViP-LLaVA (cai2024vipllava), Griffon (zhan2024griffon), DnU (lin2024draw) and PAM (lin2025perceive) focus on enhancing 2D referential comprehension through visual prompt engineering and multi-granularity feature scaling. LLMDet (fu2025llmdet) boosts detection recall by data distribution tuning. To bypass serial decoding bottlenecks, WeDetect (fu2025wedetect) treats detection as a parallel retrieval task. Advanced perception logic is further integrated via Chain-of-Thought (CoT) (qi2025cot4det), while post-training strategies such as Vision-R1 (zhan2025visionr1), UniVG-R1 (bai2025univg) and GW-VLM (jiang2026gwvlm) utilize reinforcement learning to align model outputs with visual feedback and reduce grounding errors (zhang2024ferretv2).
+
+Parallel Decoding via MTP and Diffusion LLMs. To mitigate autoregressive latency, parallel generation techniques such as MTP (gloeckle2024better; cai2024medusa; samragh2025your) predict multiple future tokens simultaneously, often coupled with speculative decoding to accelerate inference. Recent extensions such as Future Summary Prediction (mahajan2025beyond) capture long-term dependencies via auxiliary heads. Concurrently, Diffusion Language Models (DLMs) such as LLaDA (nie2025large), Dream (ye2025dream), and DiffuCoder (gong2025diffucoder) frame sequence generation as a discrete denoising process, enabling bidirectional context modeling and non-autoregressive decoding. Hybrid semi-autoregressive paradigms, including Block Diffusion (arriola2025block), SDLM (liu2025sequential) and Fast-dLLM v2 (wu2025fast), decode fixed-size token blocks in parallel while maintaining causal dependencies to preserve KV-caching compatibility. More advanced frameworks (wang2025diffusion; lu2025adablock) unlock inter-block parallelism and adaptive block scheduling. These paradigms have been extended to the multimodal domain via DiffusionVL (li2025diffusionvl), translating autoregressive LMMs into high-performance diffusion-based models.
+
+LocateAnything differs from existing works in two key aspects. First, instead of generating bounding boxes via slow NTP, we output the complete box in a single parallel step. Second, recent MTP paradigms group tokens into arbitrary chunks. Instead, our PBD treats the entire coordinate set as a single atomic block, resolving both the fragmentation of NTP and the arbitrary chunking of MTP, seamlessly unifying high throughput with structural coherence.
+
+Figure 3: Architecture and Block-Based Output Representation. LocateAnything formulates localization as generating a sequence of fixed-length, box-aligned atomic blocks. Four functional block types—Semantic, Box, Negative, and End blocks—are defined to jointly specify predicted entities or termination states.
+
+## Method
+
+This section presents LocateAnything, a fast and effective framework that integrates Parallel Box Decoding (PBD) into VLMs for visual detection and grounding. Section 3.1 introduces the model architecture and the block-based output formulation. Section 3.2 details the joint training strategy, which aligns NTP with block-level MTP. Section 3.3 describes the on-demand inference mechanism, featuring a hybrid mode that dynamically balances decoding throughput and robustness. Finally, Section 3.4 outlines the construction of our large-scale training dataset, LocateAnything-Data.
+
+### Model Architecture and Formulation
+
+Overview. As illustrated in Fig. 3, LocateAnything builds upon a native-resolution VLM pre-trained on large-scale image-text corpora. The architecture comprises a Moon-ViT (team2025kimi) vision encoder and a Qwen2.5 (qwen2.5) language decoder, bridged by a MLP projector. Given an input image $\mathcal{I}$, the vision encoder extracts visual tokens $Z = {\text{Encoder}{(\mathcal{I})}}$ at the native resolution, preserving the fine-grained spatial details crucial for high-precision localization. These tokens are subsequently fed into the language model, which directly converts them into a sequence of box-aligned block-level predictions.
+
+Block-Based Output Formulation. To facilitate PBD, we abandon standard NTP coordinate generation. Instead, continuous coordinates are normalized to $\lbrack 0,1000\rbrack$, discretized into tokens (jiang2025rexomni; chen2021pix2seq), and reorganized into a sequence of blocks $\mathbf{B} = {(b_{1},b_{2},\ldots,b_{N})}$. Conditioned on the visual features $Z$ and a text query $\mathcal{E}$, the joint probability is formulated as ${P{({\mathbf{B} \mid {\mathcal{Z},\mathcal{E}}})}} = {\prod_{i = 1}^{N}{P{({b_{i} \mid {b_{< i},Z,\mathcal{E}}})}}}$.
+
+Each block $b_{i}$ acts as an atomic unit of constant length $L = 6$, accommodating a bounding box and two structural tokens (\\eg, \<box\> and \</box\>). To guarantee uniform tensor shapes for parallel decoding, any unoccupied positions are padded with a \<null\> token. As depicted in Fig. 3, we define four functional block types. Semantic Block: Encodes the linguistic identity. If an expression exceeds the capacity of a single block, it is partitioned across multiple consecutive blocks. Box Block: Uses four quantized coordinates representing the bounding boxes. Negative Block: Explicitly indicates the absence of a queried object. End Block: Signals the termination of the generation process.
+
+### Training Design
+
+Our method treats bounding box coordinates as an indivisible atomic unit, enforcing structured supervision and unlocking the capability for parallel generation. However, parallelizing the output directly in the training phase risks disrupting the model's inherent causal reasoning process. To resolve this issue, we introduce a dual-formulation training strategy that jointly optimizes two aligned representations: the NTP sequence to preserve the causal reasoning ability, and the block-wise MTP formulation for box-aligned predictions. To implement this, a single concatenated input sequence is constructed: $x_{\text{all}} = {x_{\text{vis}} \oplus x_{\text{q}} \oplus x_{\text{ntp}} \oplus x_{\text{blk}}}$, where $\oplus$ denotes sequence concatenation. The terms $x_{\text{vis}}$ and $x_{\text{q}}$ serve as the shared context (visual and text query inputs), $x_{\text{ntp}}$ represents the standard NTP input sequence, and $x_{\text{blk}}$ is the block-wise MTP input sequence. Essentially, they represent the identical ground truth in two distinct formats: a token-level representation and a block-level representation.
+
+Specifically, inspired by (liu2025sequential; liu2025wedlm), $x_{\text{blk}}$ is constructed by traversing $x_{\text{ntp}}$ from left to right, splitting and padding the sequence according to our previously defined block rules. Within each block, we retain the first token to serve as the prediction context, while replacing all subsequent tokens with \[mask\] tokens. This structure prompts the model to simultaneously predict all masked tokens within the block in a single cohesive step. Notably, if the block size is set to 1, this MTP formulation naturally becomes equivalent to standard NTP.
+
+Figure 4: Attention Mask for Joint NTP–MTP Training. The shared context and NTP stream use causal attention, the MTP blocks follow a block-causal pattern across blocks, and tokens within the same block share bidirectional attention. The two streams are isolated to prevent leakage while jointly attending to the shared context.
+
+Attention Mask Design. The core challenge of this dual-sequence formulation is how to isolate the NTP and MTP streams while allowing both to leverage the shared context. This is achieved through a specialized attention mask (as shown in Fig. 4), which dictates information flow via three distinct behaviors:
+
+Causal Attention for NTP. To preserve the original language capabilities of the VLM, the shared context ($x_{\text{vis}}$ and $x_{\text{q}}$) and the NTP sequence ($x_{\text{ntp}}$) collectively employ a causal attention mask. Tokens within these segments can only attend to preceding tokens. Crucially, they are restricted from attending to $x_{\text{blk}}$ to prevent data leakage. This strict causal formulation perfectly aligns with the standard KV Cache usage during inference.
+
+Causal Flow Across Blocks. To align with the semi-autoregressive generation process, attention across different blocks in $x_{\text{blk}}$ is strictly causal. Tokens in the active block can attend to the shared context and all previously committed blocks, but cannot see future blocks. This historical visibility enables the model to learn dependencies between different box predictions, effectively mitigating duplicate or missing bounding boxes.
+
+Bidirectional Intra-Block Attention. Following the block-causal design widely adopted in recent generative modeling (arriola2025block; nie2025large; wang2025diffusion; wu2025fast; fu2025efficient; wu2025fastv1), tokens within the same block share bidirectional attention. This fully-connected intra-block interaction allows the model to capture complex internal relationships (\\eg, geometric dependencies among a set of coordinates) and resolve all internal tokens simultaneously within a single functional unit.
+
+Objective. Guided by this mask, we jointly minimize the cross-entropy losses for both sequences, \\ie, $\mathcal{L} = {\mathcal{L}_{ntp} + \mathcal{L}_{mtp}}$.
+
+Figure 5: Corrected NTP Re-decoding. When parallel decoding encounters Format Irregularity or Spatial Ambiguity, the model discards the erroneous block and reverts to standard NTP to ensure robust predictions.
+
+### On-Demand Inference Modes
+
+While our proposed PBD significantly accelerates inference, parallel decoding faces an inherent exploration-exploitation dilemma in highly complex scenes, as shown in Fig. 5. The first is Format Irregularity, which occurs in complex scenes containing multiple instances across categories. During parallel decoding, the model may struggle at category boundaries, hesitating between continuing to predict for the current class or transitioning to a new class. This uncertainty manifests as malformed syntax within a single predicted block, erroneously mixing structural and coordinate tokens (\\eg, \<box\>\<211\>\</ref\>\<911\>\<887\>\</box\>). The second is Spatial Ambiguity, which arises when objects are densely arranged in regular grids, such as rows or columns. The MTP approach can blur spatial boundaries and output an intermediate coordinate situated between two objects, consequently producing low IoU predictions.
+
+Both failure patterns can be effectively resolved using an NTP fallback mechanism. The NTP prediction can achieve higher precision when handling complex category transitions and dense spatial layouts. Therefore, during MTP inference, we continuously validate the syntactic integrity and monitor spatial confidence. Specifically, an ambiguity trigger is activated if two conditions are met simultaneously: the top-1 coordinate token's probability is below 0.7, and the max-min difference among the top-5 coordinate tokens exceeds 80 within the normalized space. Upon detection of a format violation or high spatial ambiguity, the compromised block is discarded, and the generation reverts to the last verified prefix. NTP is then employed to autoregressively generate the tokens for the specific problematic block. Once the block is completed, the model seamlessly switches back to MTP for subsequent predictions.
+
+Based on the above discussion, we propose three on-demand inference modes to balance throughput and spatial robustness. Slow Mode, which generates the output token-by-token using standard NTP. Fast Mode, which leverages MTP to predict box-aligned blocks. For each block, \<null\> padding tokens are discarded, and the remaining tokens are appended to the output; the committed tokens are stored in the key-value cache and serve as causal context for subsequent prediction steps. Hybrid Mode, which employs MTP by default but seamlessly switches to NTP when parallel outputs become unreliable.
+
+Inference-Time Attention Mask. During inference, the attention mask for each MTP decoding step mirrors the training-time block-causal pattern illustrated in Fig. 4. All previously committed tokens in the KV cache follow standard causal attention, while the $n_{\text{future}}$ tokens in the current MTP block attend to each other bidirectionally, enabling parallel token prediction. Meanwhile, the current block can attend to all preceding blocks but is prevented from accessing subsequent ones. After each MTP step, the KV cache is truncated to retain only committed tokens, evicting mask tokens and the duplicated anchor to ensure the cache stays consistent with the causal prefix seen during training.
+
+Figure 6: Overview of the LocateAnything-Data dataset. The pie charts illustrate the task distribution across natural language queries, bounding boxes, and unique images. The bottom panel provides a detailed breakdown specifically for the language queries, showing the absolute count and percentage for each task category.
+
+### LocateAnything-Data
+
+To train a highly capable model for general-purpose visual detection and grounding, we curate LocateAnything-Data, a large-scale, multi-domain dataset. The dataset construction details can be found in the supplementary.
+
+As illustrated in Fig. 6, the dataset contains 12M unique images and 138M natural language queries. Furthermore, the dataset includes 785M annotated bounding boxes, providing massive and dense supervisory signals to guide the spatial learning of the LocateAnything model. The training corpus is categorized into six distinct tasks. General object detection constitutes the foundation, representing 66.9% of the queries and providing the essential bounding box supervision (83.1%) to help the model achieve precise and dense coordinate alignments. Grounding user interface elements (16.5% of queries) enable the model to support embodied agents and graphical user interface navigation tasks. Natural language referring comprehension (7.3% of queries) enables the model to link complex linguistic intents to specific spatial regions. Text localization (3.6% of queries) ensures that the model can perceive and tightly ground textual information within images. Document and scene layout grounding (3.5% of queries) enriches the structural reasoning capabilities of the model. Point-based localization tasks (2.2% of queries) further refine the spatial precision of the model for fine-grained predictions.
+
+## Experiments
+
+### Training Details and Evaluation Setup
+
+Training Details. We first conduct an initial training on the base VLM with focus entirely on world-knowledge alignment, during which all detection and grounding data are excluded. We then apply a two-stage supervised fine-tuning to the base VLM to train our LocateAnything model. In Stage-1, we incorporate a massive mixture of 138M queries into the overall training data to equip the model with comprehensive grounding and detection capabilities. In Stage-2, we reduce the proportion of general training data to 20% while significantly increasing the proportion of data containing many objects per image (\\eg, MOT20Det (dendorfer2020motchallengebenchmarksinglecameramultiple), SKU110K (goldman2019precise)) to enhance the model's ability in dense detection. For model ablations, we train all models exclusively on the COCO dataset (lin2014microsoft) to strictly isolate PBD's architectural benefits from our massive 138M data. Detailed configurations for both the base VLM and the subsequent LocateAnything model training are provided in the supplementary materials.
+
+Open-set Specialized Detectors
+
+Grounding DINO-Swin-T (liu2023grounding)
+
+Closed-set Specialized Detectors
+
+Faster RCNN-R50 (ren2016faster)
+
+DETR-R50 (carion2020end)
+
+Deformable-DETR-R50 (zhu2021deformabledetrdeformabletransformers)
+
+DINO-R50 (zhang2022dino)
+
+DINO-Swin-L (zhang2022dino)
+
+DeepSeek-VL2-Small (wu2024deepseekvl2mixtureofexpertsvisionlanguagemodels)
+
+MiMo-VL-7B (coreteam2025mimovltechnicalreport)
+
+OVIS2.5-2B (lu2025ovis25technicalreport)
+
+Qwen3-VL-4B (bai2025qwen3vltechnicalreport)
+
+Qwen3-VL-8B (bai2025qwen3vltechnicalreport)
+
+SEED1.5-VL (guo2025seed15vltechnicalreport)
+
+Rex-Omni-3B (jiang2025rexomni)
+
+Table 1: Results on LVIS and COCO. Throughout all tables, “-” means that the information was not reported in the respective papers or the model does not support the corresponding task, bold and underline highlight the best and second-best, and BPS (Boxes Per Second) measures decoding throughput.
+
+Compared Methods. We compare LocateAnything against three categories of methods. Specialized detectors, including representative general detection models such as DETR (carion2020end) and Deformable-DETR (zhu2021deformabledetrdeformabletransformers), \\etc, open-set detectors such as Grounding DINO (liu2023grounding), leading document layout analysis model DocLayout-YOLO (zhao2024doclayout), and text detection model PaddleOCRv5 (cui2025paddleocr). General-purpose VLMs with grounding capabilities, including Qwen3-VL (bai2025qwen3vltechnicalreport), DeepSeek-VL2 (wu2024deepseekvl2mixtureofexpertsvisionlanguagemodels), OVIS2.5 (lu2025ovis25technicalreport), MiMo-VL (coreteam2025mimovltechnicalreport), and SEED1.5-VL (guo2025seed15vltechnicalreport), \\etc. These models adopt textual coordinate representations with standard next-token prediction, providing a direct comparison to our parallel box decoding paradigm. VLM-based detection and grounding specialists, including Rex-Omni (jiang2025rexomni), which is the most related work to ours targeting unified detection and grounding in a VLM framework. For GUI grounding, we also include several domain-specific expert models (liu_infigui-r1_2025; xie_scaling_2025; liu2025scalecua; yang_gta1_2025; ye_mobile-agent-v3_2025; zhou_mai-ui_2025; team_ui-venus-15_2026).
+
+Evaluation Setup. Following the evaluation framework established in Rex-Omni (jiang2025rexomni), we conduct a comprehensive assessment across multiple visual perception tasks. Object Detection is evaluated on COCO for common objects, LVIS (gupta2019lvis) for long-tailed distributions, and VisDrone (du2019visdrone) and Dense200 (jiang2025rexomni) for dense and tiny object scenarios. Language-aware Grounding tasks include Referring Expression Comprehension (REC) on RefCOCOg and HumanRef (jiang2025referring). Interactive tasks are evaluated through GUI Grounding on ScreenSpot-Pro (li2025screenspot). Additionally, Layout Grounding on DocLayNet (pfitzmann2022doclaynet) and M6Doc (cheng2023m6doc), along with OCR (text detection and recognition) on TotalText (ch2017total), are reported together under scene text and document understanding tasks.
+
+The metric for each task is summarized as follows. Box-based outputs: For detection, layout, and OCR tasks, a prediction is considered correct (\\ie, a true positive) if its Intersection over Union (IoU) with the ground truth exceeds a certain threshold. The F1-score is reported at ${IoU} = 0.5$, ${IoU} = 0.95$, and as a mean over thresholds ($mIoU$). Point-based outputs: For pointing tasks, a prediction is considered correct if the predicted point falls within the ground-truth segmentation mask or bounding box. We similarly report the F1-score for these point-based outputs based on this correctness criterion.
+
+Open-set Specialized Detectors
+
+Grounding DINO-Swin-T (liu2023grounding)
+
+DeepSeek-VL2-Small (wu2024deepseekvl2mixtureofexpertsvisionlanguagemodels)
+
+OVIS2.5-2B (lu2025ovis25technicalreport)
+
+MiMo-VL-7B (coreteam2025mimovltechnicalreport)
+
+Qwen3-VL-4B (bai2025qwen3vltechnicalreport)
+
+Qwen3-VL-8B (bai2025qwen3vltechnicalreport)
+
+SEED1.5-VL (guo2025seed15vltechnicalreport)
+
+Rex-Omni-SFT-3B (jiang2025rexomni)
+
+Rex-Omni-3B (jiang2025rexomni)
+
+Table 2: Results on dense object detection benchmark Dense200 and VisDrone.
+
+### Main Results
+
+In this section, we report the accuracy metrics and the throughput (measured in boxes per second, BPS on a single NVIDIA H100 GPU with a batch size of 1) of LocateAnything under the default Hybrid Mode. The results of Fast and Slow Mode are provided in the supplementary materials.
+
+InfiGUI-R1-3B (liu_infigui-r1_2025)
+
+JEDI-3B (xie_scaling_2025)
+
+Rex-Omni-3B (jiang2025rexomni)
+
+ScaleCUA-3B (liu2025scalecua)
+
+GTA1-7B (yang_gta1_2025)
+
+Qwen3-VL-30B-A3B* (bai2025qwen3vltechnicalreport)
+
+MAI-UI-2B (zhou_mai-ui_2025)
+
+UI-Venus-1.5-2B (team_ui-venus-15_2026)
+
+Table 3: Results for the GUI Grounding task. The * denotes our reproduced results.
+
+High-Quality Multi-Object Detection. Our model exhibits robust generalization in both common and complex dense object detection scenarios. On general detection benchmarks reported in Tab. 1, LocateAnything improves the mean F1 by +3.8% on LVIS and +1.8% on COCO compared to Rex-Omni, despite sharing an identical model size. Crucially, the model effectively learns the generalized spatial distribution, transferring its detection capabilities to unseen, heavily packed object types. This is evidenced by its performance on the dense detection benchmarks in Tab. 2, where it achieves 39.9 mean F1 on VisDrone, substantially outperforming Rex-Omni which scores 35.8. Similarly, it reaches a competitive 58.7 mean F1 on Dense200, demonstrating superior boundary delineation and instance separation in heavily overlapping environments.
+
+DocLayout-YOLO (zhao2024doclayout)
+
+PaddleOCRv5 (cui2025paddleocr)
+
+SEED1.5-VL (guo2025seed15vltechnicalreport)
+
+Qwen3-VL-4B (bai2025qwen3vltechnicalreport)
+
+Qwen3-VL-8B (bai2025qwen3vltechnicalreport)
+
+Rex-Omni-3B (jiang2025rexomni)
+
+Table 4: Performance comparison on document layout grounding and OCR tasks.
+
+Precise Open-World Localization Ability. LocateAnything demonstrates exceptional fine-grained localization capabilities across diverse open-world benchmarks, including user interface grounding, document layout parsing, and referring expression comprehension. As shown in Tab. 3, on the ScreenSpot-Pro (li2025screenspot), it achieves a SOTA mean F1 of 60.3, surpassing generalist VLMs like Qwen3-VL-30B-A3B and specialized models tailored for UI tasks such as GUI-Owl-32B. Furthermore, in document understanding tasks detailed in Tab. 4, LocateAnything establishes a new standard by reaching 76.8 and 70.1 mean F1 on DocLayNet and M6Doc, respectively, outperforming Rex-Omni by substantial margins. This precise spatial reasoning extends to complex referring tasks, as shown in Tab. 5, where the model seamlessly aligns nuanced human intents with visual regions, achieving 78.7 mean F1 on the HumanRef benchmark and remaining highly competitive on RefCOCOg against top-tier models.
+
+Superior Decoding Speed. A key advantage of our model is its drastically reduced decoding steps. As shown in Tab. 1, our model achieves 12.7 BPS under the default hybrid mode, over 10$\times$ faster than textual-based Qwen3-VL (1.1 BPS) and 2.5$\times$ faster than quantized-based Rex-Omni (5.0 BPS).
+
+Open-set Specialized Detector
+
+Grounding DINO-Swin-T (liu2023grounding)
+
+DeepSeek-VL2-Tiny (wu2024deepseekvl2mixtureofexpertsvisionlanguagemodels)
+
+OVIS2.5-2B (lu2025ovis25technicalreport)
+
+MiMo-VL-7B (coreteam2025mimovltechnicalreport)
+
+DeepSeek-VL2-Small (wu2024deepseekvl2mixtureofexpertsvisionlanguagemodels)
+
+Qwen3-VL-4B (bai2025qwen3vltechnicalreport)
+
+Qwen3-VL-8B (bai2025qwen3vltechnicalreport)
+
+SEED1.5-VL (guo2025seed15vltechnicalreport)
+
+Rex-Omni-3B (jiang2025rexomni)
+
+Table 5: Evaluation results on referring expression comprehension benchmarks.
+
+### Ablation Study
+
+We conduct ablation studies on the COCO dataset to validate our core designs. The results are shown in Tab. 6 and Fig. 7.
+
+Coordinate Representation. As Tab. 6(a) shows, under the NTP paradigm, Textual and Quantized representations yield sub-optimal performance (49.1 and 50.1 mean F1, respectively) due to forced token-by-token generation. Our PBD (Slow Mode) achieves the highest F1-score of 52.1, proving that a box-aligned formulation provides stronger supervision for spatial reasoning than 1D serialization, without sacrificing throughput.
+
+MTP Formulation. Tab. 6(b) compares our box-aligned MTP against existing structure-agnostic MTP formulations. Methods like SDLM and Block Diffusion force the model to learn spurious, unaligned cross-boundary patterns, suffering from lower accuracy and limited acceleration (\\eg, SDLM-B6 achieves 46.1 F1-score at 5.5 BPS). Furthermore, structure-agnostic methods (\\eg, SDLM-B4, B6, B8) exhibit a strict speed-accuracy trade-off, where increasing the block size yields only marginal throughput gains while consistently degrading the F1-score. In contrast, our PBD strictly aligns MTP blocks with structured bounding box units, dramatically outpacing existing methods in throughput (16.9 BPS) while improving the mean F1 to 49.6.
+
+Decoding Mode. Tab. 6(c) ablates the impact of our dual-formulation training ($\mathcal{L}_{ntp}$ and $\mathcal{L}_{blk}$). Training with isolated losses limits the model's potential; joint training successfully pushes the Slow Mode upper bound from 50.1 to 52.1 F1-score. During inference, Fast Mode (MTP) maximizes throughput (16.9 BPS) but induces accuracy drops in complex scenes. Hybrid Mode seamlessly resolves this trade-off, preserving most speed gains (13.2 BPS) while achieving robust, high-precision localization (51.6 F1-score).
+
+Box Output Order. We investigate four spatial sorting strategies in Fig. 7 (left): X-Y Corner Order (sorting by the x-coordinate of the left-top corner, then by the y-coordinate), Center Distance (the distance of the bounding box center point to the origin), Area (sorted from largest to smallest), and Random (shuffled randomly). Results show X-Y Corner Order yields the highest F1-score. We take this setting as default in dataset construction.
+
+SDLM-B4 (liu2025sequential)
+
+SDLM-B6 (liu2025sequential)
+
+SDLM-B8 (liu2025sequential)
+
+Block Diff-B6 (arriola2025block)
+
+(c) Decoding Modes &amp; Losses
+
+Table 6: Ablation Studies on the COCO dataset. We decouple the analysis into three aspects: (a) coordinate representation, (b) block-based MTP Formulation, and (c) effectiveness of our on-demand decoding modes and loss design. Throughput is measured in boxes per second. For brevity, we report the Average metric across IoU thresholds for Recall (R), Precision (P), and F1 Score. “B” indicates block size in MTP.
+
+Figure 7: Ablation Study on Box Ordering and Decoding Speed. Left: Effect of different box sorting strategies on the F1-score. Right: Comparison of Generation Time (bars) and Throughput (lines) across varying numbers of predicted boxes for Textual, Quantized, and Parallel box decoding.
+
+Throughput. We compare generation time and throughput with NTP methods in Fig. 7 (right). As target boxes increase from 20 to 300, NTP methods suffer from a severe latency bottleneck. In contrast, the Parallel method exhibits little increase in generation time, increasing throughput from 12 BPS to $\sim$`<!-- -->`{=html}25 BPS in dense scenes. These findings confirm that PBD effectively breaks the decoding bottleneck, achieving a $2 \times$ to $6 \times$ speedup.
+
+### Qualitative Results
+
+Fig. 8 visualizes representative grounding results of our model. Visual comparisons with other methods are provided in the supplementary materials. We observe three consistent behaviors. (i) Compositional grounding: our model handles attribute/part/spatial/reasoning-style queries well with consistent spatial alignment, supported by the diversity and coverage of our training data. (ii) Robustness to large instance counts: as targets grow from sparse to crowded settings, the predicted boxes remain structured and accurate, reflecting the precision of our box-level decoding. This robustness is further strengthened by our Stage-2 training that emphasizes many-object images, improving dense localization in practice. Moreover, our Hybrid Mode maintains most of the parallel decoding speed while improving output stability in multi-instance generation. (iii) Reliable localization in clutter: boxes stay compact and well-separated under occlusion, repetitive textures, and grid-like dense layouts. Our hybrid inference mode further stabilizes these hard cases by detecting unreliable parallel blocks and falling back to NTP re-decoding when needed.
+
+Figure 8: Qualitative results. Each row shows test cases with varying numbers of target objects and diverse box scales. Different colors indicate different query categories, including attribute, part, reasoning, and spatial queries. Our model consistently localizes targets across diverse scene domains, arbitrary image resolutions, free-form textual queries, and an arbitrary number of objects, demonstrating strong robustness.
+
+## Conclusion
+
+We presented LocateAnything, a unified framework that reformulates visual grounding and detection in VLMs via *Parallel Box Decoding*. By elevating geometric elements to atomic units rather than 1D streams, LocateAnything aligned the training supervision with the inherently coupled nature of spatial coordinates. With massive 138M text-image training queries and a flexible on-demand inference mechanism, LocateAnything not only delivered SOTA accuracy across diverse tasks, but also achieved up to a $2.5 \times$ speedup over competitive methods. Our method provided a practical and scalable route for real-time visual perception, opening the door to deploying general-purpose VLMs in latency-sensitive embodied robotics and interactive agents.
+
+Limitation. Currently, our model is primarily trained with supervised fine-tuning. Reinforcement learning is an important next step to further optimize the block-level decoding policy, reduce fallback frequency, and encourage effective exploration in hard dense/long-tail cases, which could improve both robustness and worst-case decoding speed. We leave it for future work.

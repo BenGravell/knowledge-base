@@ -6,14 +6,12 @@ We show that a variety of modern deep learning tasks exhibit a "double-descent" 
 
 ## Introduction
 
-Figure 1: Left: Train and test error as a function of model size, for of varying width on CIFAR-10 with 15% label noise. Right: Test error, shown for varying train epochs. All models trained using Adam for 4K epochs. The largest model (width 64) corresponds to standard.
-
 The *bias-variance trade-off* is a fundamental concept in classical statistical learning theory (e.g., Hastie et al. ). The idea is that models of higher complexity have lower bias but higher variance. According to this theory, once model complexity passes a certain threshold, models "overfit" with the variance term dominating the test error, and hence from this point onward, increasing model complexity will only *decrease* performance (i.e., increase test error). Hence conventional wisdom in classical statistics is that, once we pass a certain threshold, *"larger models are worse."*
 
-Other notions of model complexity which do not incorporate features and would not suffice to characterize the location of the double-descent peak. Rademacher complexity, for example, is determined by the ability of a model architecture to fit a randomly-labeled train set. But Rademacher complexity and VC dimension are both insufficient to determine the model-wise double descent peak location, since they do not depend on the distribution of labels--- and our experiments show that adding label noise shifts the location of the peak.
+In this paper, we present empirical evidence that both reconcile and challenge some of the above "conventional wisdoms." We show that many deep learning settings have two different regimes. In the *under-parameterized* regime, where the model complexity is small compared to the number of samples, the test error as a function of model complexity follows the U-like behavior predicted by the classical bias/variance tradeoff.
 
-Moreover, both Rademacher complexity and VC dimension depend only on the model family and data distribution, and not on the training procedure used to find models. Thus, they are not capable of capturing train-time double-descent effects, such as "epoch-wise" double descent, and the effect of data-augmentation on the peak location.
+## Discussion
 
-(b) CIFAR-10. There is a “plateau” in test error around the interpolation point with no label noise, which develops into a peak for added label noise.
+Fully understanding the mechanisms behind model-wise double descent in deep neural networks remains an important open question. However, an analog of model-wise double descent occurs even for linear models. A recent stream of theoretical works analyzes this setting (Bartlett et al.; Muthukumar et al.; Belkin et al.; Mei & Montanari; Hastie et al. ). We believe similar mechanisms may be at work in deep neural networks.
 
-We believe Hypothesis 1 ‣ 2 Our results ‣ Deep Double Descent: Where Bigger Models and More Data Hurt") sheds light on the interaction between optimization algorithms, model size, and test performance and helps reconcile some of the competing intuitions about them....
+Informally, our intuition is that for model-sizes at the interpolation threshold, there is effectively only one model that fits the train data and this interpolating model is very sensitive to noise in the train set and/or model mis-specification. That is, since the model is just barely able to fit the train data, forcing it to fit even slightly-noisy or mis-specified labels will destroy its global structure, and result in high test error. (See Figure 28 in the Appendix for an experiment demonstrating this noise sensitivity, by showing that ensembling helps significantly in the critically-parameterized regime).

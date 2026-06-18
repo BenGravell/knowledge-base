@@ -4,18 +4,12 @@ We present an approach to obtain convergence guarantees of optimization algorith
 
 ## Introduction
 
-Deep networks have achieved remarkable performance in several application domains such as computer vision, natural language processing and genomics. The input-output mapping implemented by a deep neural network is a chain of compositions of modules, where each module is typically a composition of a non-linear mapping, called an activation function, and an affine mapping. The last module in the chain is usually task-specific in that it relates to a performance accuracy for a specific task....
+Deep networks have achieved remarkable performance in several application domains such as computer vision, natural language processing and genomics. The input-output mapping implemented by a deep neural network is a chain of compositions of modules, where each module is typically a composition of a non-linear mapping, called an activation function, and an affine mapping. The last module in the chain is usually task-specific in that it relates to a performance accuracy for a specific task.
 
-The optimization problem arising when training a deep network is often framed as a non-convex optimization problem, dismissing the structure of the objective yet central to the software implementation. Indeed optimization algorithms used to train deep networks proceed by making calls to first-order (or second-order) oracles relying on dynamic programming such as gradient back-propagation. Gradient back-propagation is now part of modern machine learning software....
+The optimization problem arising when training a deep network is often framed as a non-convex optimization problem, dismissing the structure of the objective yet central to the software implementation. Indeed optimization algorithms used to train deep networks proceed by making calls to first-order (or second-order) oracles relying on dynamic programming such as gradient back-propagation. Gradient back-propagation is now part of modern machine learning software.
 
-We can also compare the smoothness properties of the smoothed network with the same network modified by adding the batch-normalization layer for $m$ inputs and $\epsilon$ normalization parameter at each convolutional layer. As shown in Appendix D, the batch-normalization satisfies
+In Sec. 2, we define the parameterized input-output map implemented by a deep network as a chain-composition of modules and write the corresponding optimization objective consisting in learning the parameters of this map. In Sec. 3, we detail the implementation of first-order and second-order oracles by dynamic programming; the classical gradient back-propagation algorithm is recovered as a canonical example. Gauss-Newton steps can also be simply stated in terms of calls to an automatic-differentiation oracle implemented in modern machine learning software libraries.
 
-Intuitively, the batch-norm bounds the output of each layer, mitigating the increase of $m_{t}$ in the computations of the estimates of the smoothness in lines 8 and 9 of Algo. 4. Yet, for a small $\epsilon$, this effect is balanced by the non-smoothness of the batch-norm layer (which for $\epsilon\rightarrow 0$ tends to have an infinite slope around 0).
+## Deep network architecture
 
-As explained in last subsection and shown in Appendix B, a gradient step can naturally be derived as a dynamic programming procedure applied to the subproblem. However, the implementation of the gradient step provides itself a different kind of oracle on the chain of computations as defined below.
-
-We consider implicit functions that take the form
-
-the Gauss-Newton oracle amounts to solving
-
-In Sec. 2, we define the parameterized input-output map implemented by a deep network as a chain-composition of modules and write the corresponding optimization objective consisting in learning the parameters of this map. In Sec....
+A feed-forward deep network of depth $\tau$ can be described as a transformation of an input $x$ into an output $x_{\tau}$ through the composition of $\tau$ blocks, called layers, illustrated in Fig. 1. Each layer is defined by a set of parameters. In general, (see Sec. 2.3 for a detailed decomposition), these parameters act on the input of the layer through an affine operation followed by a non-linear operation. Formally, the $t$^th^ layer can be described as a function of its parameters $u_{t}$ and a given input $x_{t - 1}$ that outputs $x_{t}$ as

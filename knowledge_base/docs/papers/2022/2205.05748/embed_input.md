@@ -8,14 +8,10 @@ Machine learning (ML) has become a pervasive technology, and as it spreads beyon
 
 An emerging application that stress-tests the challenges of designing ML for edge devices is *tiny robot learning*, the deployment of ML on resource-constrained low-cost autonomous robots. These robots are lightweight (e.g., less than a pound, or under $\sim 500$g) and can operate in small spaces, making them a promising solution for applications ranging from emergency search and rescue, to routine monitoring and maintenance of infrastructure and equipment.
 
+Tiny robot learning dials up the challenges of edge device ML, maximizing opportunities to refine edge ML system design by putting it through the crucible of the combined challenges of tiny (i.e., embedded) systems, robotics, and machine learning, all in one system deployment (Fig. 1). Tiny robot learning is subject to challenges from size, weight, area, power (SWAP) and cost constraints; sensor, actuator, and compute hardware limitations; end-to-end system tradeoffs; and a large diversity of possible deployment scenarios.
+
+To explore the implications of tiny robot learning, in this work we give a brief survey of the tiny robots space, elaborate on the challenges imposed by tiny robot learning as an application for ML system design, and propose opportunities revealed by these challenges to improve ML system design.
+
 ## Conclusion
 
 In this work, we examined tiny robot learning: the deployment of ML on resource-constrained low-cost autonomous robots. Lying at the intersection of embedded systems, robotics, and ML, tiny robot learning is subject to challenges from size, weight, area, and power constraints; sensor, actuator, and compute hardware limitations; end-to-end system tradeoffs; and a large diversity of possible deployment scenarios. As such, it reveals promising opportunities for future work developing holistic ML system design techniques and automated end-to-end design tools for agile development.
-
-### III-A SWAP-Constrained ML Compute for Robotics Applications
-
-While the same general challenges arise from ML design for a variety of different types of robots (e.g., quadrotor drones, satellites, quadrupeds, cars, submersibles), some design considerations differ between these platforms. For example, when comparing quadrotors to quadrupeds, weight is a more extreme constraint for quadrotors, while quadrupeds require more computationally expensive motion planning and control algorithms due to their increased degrees of freedom.
-
-### III-B Sensor and Actuator Limitations in Tiny Robot Platforms
-
-Tiny robot learning dials up the challenges of edge device ML, maximizing opportunities to refine edge ML system design by putting it through the crucible of the combined challenges of tiny (i.e., embedded) systems, robotics, and machine learning, all in one system deployment (Fig. 1)....

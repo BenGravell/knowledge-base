@@ -10,18 +10,14 @@ We consider the well-studied optimization problem
 
 where $f:{{\mathbb{R}}^{d}\rightarrow{\mathbb{R}}}$ is continuously differentiable. A popular approach to solving, particularly when the dimension $d$ is large, is to use iterative gradient-based methods, such as Gradient Descent (GD) and its accelerated variants.
 
-We apply Sturm's theorem \[, Thm. 2.62\] to $p{(\kappa,\rho)}$ as a polynomial in $\rho$. Define the Sturm sequence
+A central question in the study of iterative methods is that of *worst-case convergence rate* over a class of functions $\mathcal{F}$. In this letter, we consider the *root-convergence factor* (also known as geometric convergence rate), denoted $\rho \in {}$, a notion we make precise in Section 2.
 
-where $\text{rem}{}$ denotes the remainder after polynomial division (considered as polynomials in $\rho$), and the sequence terminates when $p_{i}$ is constant, which occurs for $i \leq 7$ since $p$ is degree $7$ in $\rho$. Evaluating the Sturm sequence at $\rho = 0$ and $\rho = 1$ yields 5 sign changes and 3 sign changes, respectively. Therefore, there are two real roots in the interval $$. Moreover, $p$ is positive when $\rho = \frac{\sqrt{\kappa} - 1}{\sqrt{\kappa} + 1}$, negative when $\rho = {1 - \sqrt{\frac{2}{\kappa}}}$, and positive when $\rho = 1$....
+## Lower bounds
 
-### Global Stability via Frequency-Domain Analysis
+$\rho$ is a *lower bound* for $\mathcal{F}$ if for any algorithm, there exists $f \in \mathcal{F}$ and an algorithm initialization such that the algorithm converges no faster than $\rho$.
 
-To describe our main result, we first define the root-convergence factor of an algorithm, which is a way to characterize its rate of convergence; see \[, §9.2\].
+## DISCUSSION
 
-The stability condition is equivalent to stability of $\overset{\sim}{G}$. It is straightforward to verify that the interconnection of $\overset{\sim}{G}$ and $\overset{\sim}{\Delta}$ is well-posed and that $\tau\overset{\sim}{\Delta}$ satisfies the IQC $\Pi = {\Pi_{{- 1},1} \otimes I_{d}}$ for all $\tau \in {\lbrack 0,1\rbrack}$. Therefore, the first two conditions in ‣ 3.1 Global Stability via Frequency-Domain Analysis ‣ 3 CONVERGENCE ANALYSIS ‣ The Fastest Known First-Order Method for Minimizing Twice Continuously Differentiable Smooth Strongly Convex Functions") hold for the transformed system $\overset{\sim}{G}$ and the IQC $\Pi$....
+The proposed C2M algorithm is the first method, to the best of the authors' knowledge, that is designed specifically for the function class $\mathcal{S}_{m,L}^{2}$. The minimax rate for this function class, however, is not known, in contrast to the function classes $\mathcal{S}_{m,L}^{1}$ and $\mathcal{Q}_{m,L}$. Finding this minimax rate or even lower bounds are interesting open problems.
 
-A central question in the study of iterative methods is that of *worst-case convergence rate* over a class of functions $\mathcal{F}$. In this letter, we consider the *root-convergence factor* (also known as geometric convergence rate), denoted $\rho \in {}$, a notion we make precise in Section 2. Associated with the root-convergence factor are two important concepts:
-
-### Lower bounds
-
-$\rho$ is a *lower bound* for $\mathcal{F}$ if for any algorithm, there exists $f \in \mathcal{F}$ and an algorithm...
+The parameters of C2M are related to two other algorithms from the literature. As we have already seen, C2M reduces to HB when $\rho = \frac{\sqrt{\kappa} - 1}{\sqrt{\kappa} + 1}$. Moreover, the general C2M parameters are identical (after appropriate transformations) to those of GAG \[, Cor. 1.1\]. This makes sense, since the work also considers the family of algorithms and is optimizing for local convergence. The two cases differ, however, in the choice of $\rho$, since GAG is optimized over the function class $\mathcal{F}_{m,L}$ defined in Section 1 rather than $\mathcal{S}_{m,L}^{2}$.

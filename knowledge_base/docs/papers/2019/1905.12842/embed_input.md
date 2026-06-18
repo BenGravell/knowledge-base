@@ -6,18 +6,16 @@ We study the sample complexity of approximate policy iteration (PI) for the Line
 
 ## Introduction
 
-With the recent successes of reinforcement learning (RL) on continuous control tasks, there has been a renewed interest in understanding the sample complexity of RL methods. A recent line of work has focused on the Linear Quadratic Regulator (LQR) as a testbed to understand the behavior and trade-offs of various RL algorithms in the continuous state and action space setting....
+With the recent successes of reinforcement learning (RL) on continuous control tasks, there has been a renewed interest in understanding the sample complexity of RL methods. A recent line of work has focused on the Linear Quadratic Regulator (LQR) as a testbed to understand the behavior and trade-offs of various RL algorithms in the continuous state and action space setting.
 
-In this paper, we extend our understanding of model-free algorithms for LQR by studying the performance of approximate PI on LQR, which is a classic approximate dynamic programming algorithm. Approximate PI is a model-free algorithm which iteratively uses trajectory data to estimate the state-value function associated to the current policy (via e.g. temporal difference learning), and then uses this estimate to greedily improve the policy. A key issue in analyzing approximate PI is to understand the trade-off between the number of policy improvement iterations, and the amount of data to collect for each policy evaluation phase....
+In this paper, we extend our understanding of model-free algorithms for LQR by studying the performance of approximate PI on LQR, which is a classic approximate dynamic programming algorithm. Approximate PI is a model-free algorithm which iteratively uses trajectory data to estimate the state-value function associated to the current policy (via e.g. temporal difference learning), and then uses this estimate to greedily improve the policy. A key issue in analyzing approximate PI is to understand the trade-off between the number of policy improvement iterations, and the amount of data to collect for each policy evaluation phase.
+
+We also extend our analysis of approximate PI to the online, adaptive LQR setting popularized by Abbasi-Yadkori and Szepesvári. By using a greedy exploration scheme similar to Dean et al. and Mania et al., we prove a $\overset{\sim}{O}{(T^{2/3})}$ regret bound for a simple adaptive policy improvement algorithm. While the $T^{2/3}$ rate is sub-optimal compared to the $T^{1/2}$ regret from model-based methods, our analysis improves the $\overset{\sim}{O}{(T^{{2/3} + \varepsilon})}$ regret (for $T \geq C^{1/\varepsilon}$) from the model-free Follow the Leader (FTL) algorithm of Abbasi-Yadkori et al..
+
+## Main Results
+
+In
 
 ## Conclusion
 
-We studied the sample complexity of approximate PI on LQR, showing that order ${({n + d})}^{3}\varepsilon^{- 2}{\log{({1/\varepsilon})}}$ samples are sufficient to estimate a controller that is within $\varepsilon$ of the optimal. We also show how to turn this offline method into an adaptive LQR method with $T^{2/3}$ regret. Several questions remain open with our work. The first is if policy iteration is able to achieve $T^{1/2}$ regret, which is possible with other model-based methods. The second is whether or not model-free methods provide advantages in situations of partial observability for LQ control....
-
-Once again as we did for $Q$-functions, we slightly abuse notation and let $V$ denote the value function and the matrix that parameterizes the value function. Our main result for Algorithm 2 ‣ 2 Main Results ‣ Finite-time Analysis of Approximate Policy Iteration for the Linear Quadratic Regulator") appears in the following theorem. For simplicity, we will assume that ${\parallel S\parallel} \geq 1$ and ${\parallel R\parallel} \geq 1$.
-
-Then we have with probability at least $1 - \delta$,
-
-### LSPI for Adaptive LQR
-
-We also extend our analysis of approximate PI to the online, adaptive LQR setting popularized by Abbasi-Yadkori and Szepesvári. By using a greedy exploration scheme similar to Dean et al....
+We studied the sample complexity of approximate PI on LQR, showing that order ${({n + d})}^{3}\varepsilon^{- 2}{\log{({1/\varepsilon})}}$ samples are sufficient to estimate a controller that is within $\varepsilon$ of the optimal. We also show how to turn this offline method into an adaptive LQR method with $T^{2/3}$ regret. Several questions remain open with our work. The first is if policy iteration is able to achieve $T^{1/2}$ regret, which is possible with other model-based methods. The second is whether or not model-free methods provide advantages in situations of partial observability for LQ control.

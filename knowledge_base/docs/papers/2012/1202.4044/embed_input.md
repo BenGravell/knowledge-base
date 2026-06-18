@@ -12,18 +12,8 @@ Low-dimensional linear models have applications in a huge array of data analysis
 
 : Images of a face---or any Lambertian object---viewed under different illumination conditions lie near a nine-dimensional subspace:5pm2; HYL+03:Clustering-Appearances;:Lambertian-Reflectance.
 
-Our analysis of reaper builds on the ideas first presented in:lp-Recovery;:Novel-M-Estimator, but it incorporates a number of refinements that simplify and improve the theoretical guarantees. In particular, the present results do not require an oracle condition like (:Novel-M-Estimator Eqs. ), and our stability statistic $\mathcal{S}{(L)}$ supersedes the earlier exact recovery and stability requirements (:Novel-M-Estimator Eqs. & ). The exact recovery guarantees under the Haystack Model are somewhat stronger for reaper than the analogous guarantees for (6.3) (:Novel-M-Estimator Sec. 2.6.1)....
-
-From a broad perspective, the idea of relaxing a difficult nonconvex program like (1.3) to obtain a convex problem is well established in the literature on combinatorial optimization. Research on linear programming relaxations is summarized in:Approximation-Algorithms. Some significant works on semidefinite relaxation include:Cones-Matrices;:Improved-Approximation.
-
-Fix a number $\beta > 0$, and assume that $1 \leq d \leq {{({D - 1})}/2}$. Let $L$ be an arbitrary $d$-dimensional subspace of ${\mathbb{R}}^{D}$, and draw the dataset $\mathcal{X}$ at random according to the Haystack Model on page 3.1. The stability statistic satisfies the bound
-
-Imagine that we knew in advance which points were inliers. Then we could pose the oracle $\ell_{1}$ orthogonal regression problem:
-
-Algorithm 4.2 IRLS algorithm for solving the reaper problem (1.4)
-
 : Feature points on a moving rigid body lie on an affine space of dimension three, assuming the affine camera model:Multibody-Factorization. More generally, estimating structure from motion involves estimating low-rank matrices (:Efficient-Computation Sec. 5.2).
 
 : We can describe a large corpus of documents that concern a small number of topics using a low-dimensional linear model DDL+88:Improving-Information.
 
-: Low-dimensional models of single nucleotide polymorphism (SNP) data have been used to show that the genotype of an individual is...
+This paper describes a new technique for fitting a low-dimensional linear model to data. Our formulation is based on convex optimization, but it has a different flavor from the earlier techniques. We use a new set of ideas to develop a rigorous analysis of the performance of our method. This theory demonstrates that the approach is robust against noise in the inliers, and it can cope with a large number of adversarial outliers. We describe an efficient numerical algorithm that is guaranteed to solve the optimization problem after a modest number of spectral calculations.

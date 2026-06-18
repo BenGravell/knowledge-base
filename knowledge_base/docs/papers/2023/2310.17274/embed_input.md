@@ -8,15 +8,13 @@ This paper explores the problem of collision-free motion generation for manipula
 
 ## Introduction
 
-Safe navigation is fundamental to robotics, requiring robots to have a robust global motion generation system to traverse any environment structure encountered at deployment. Motion generation for high-dimensional systems is extremely challenging as satisfying complex constraints and minimizing cost terms in a very large C-Space is computationally expensive. Manipulators, for instance, can have many articulations, complex link geometries, entire goal regions beyond a single configuration, task constraints, and nontrivial kinematic and torque limitations....
+Safe navigation is fundamental to robotics, requiring robots to have a robust global motion generation system to traverse any environment structure encountered at deployment. Motion generation for high-dimensional systems is extremely challenging as satisfying complex constraints and minimizing cost terms in a very large C-Space is computationally expensive. Manipulators, for instance, can have many articulations, complex link geometries, entire goal regions beyond a single configuration, task constraints, and nontrivial kinematic and torque limitations.
 
-The global optimization literature suggests that finding the true global minimum is usually impractical, but strategies for robustly finding high-performing local minima can be effective. Many strategies follow the simple pattern of selecting many seed candidates and performing a local optimization for each. This sample and optimize process can often realize substantial gains by leveraging distributed computation. However, most motion generation systems today remain sequential and slow, following a CPU-based design. State-of-the-art motion generation solutions take 0.5s to 10s depending on the task's complexity on modern CPUs....
+The global optimization literature suggests that finding the true global minimum is usually impractical, but strategies for robustly finding high-performing local minima can be effective. Many strategies follow the simple pattern of selecting many seed candidates and performing a local optimization for each. This sample and optimize process can often realize substantial gains by leveraging distributed computation. However, most motion generation systems today remain sequential and slow, following a CPU-based design. State-of-the-art motion generation solutions take 0.5s to 10s depending on the task's complexity on modern CPUs.
 
-### Limitations & Open Research Problems
+The insights used to improve the speed and quality of the solution for global optimization problems may apply well to the problem of global motion generation. In this work, we present a collection of techniques and implementations that leverage parallel processing to accelerate motion planning and optimization, and for running many optimization instances in parallel to robustly address these global optimization problems.
+
+## Limitations & Open Research Problems
 
 There are several open research problems in motion generation that our approach does not solve in it's current form. We hope that our results and framework can be leveraged to solve these problems. We list some key problems below,\
-Global Reactive Motion Generation Our approach is currently limited to planning full motions, where the robot starts from a static state....
-
-Figure 12: We compare the compute time for motion generation between cuRobo and Tesseract across three compute platforms. On all of the 2600 motion planning problems, we found cuRobo to take the least time, getting a 60× speedup on average on a desktop pc with NVIDIA RTX 4090 and AMD Ryzen 9 7950x, with a 83× speedup on the 98th percentile.
-
-Our geometric planner as shown in Alg. 5, first performs heuristic planning by checking if we can steer from start to goal configuration directly or through a predefined retract configuration $\theta_{r}$ (lines 1-7)....
+Global Reactive Motion Generation Our approach is currently limited to planning full motions, where the robot starts from a static state.

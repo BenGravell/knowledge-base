@@ -10,16 +10,10 @@ Real-world control applications often involve complex dynamics subject to abrupt
 
 The Linear Quadratic Regulator (LQR) is both theoretically well understood and commonly used in practice when the system dynamics are known. It also provides an interesting benchmark, when system dynamics are unknown, for reinforcement learning with continuous state and action spaces and for adaptive control.
 
-A natural generalization of linear dynamical systems is Markov jump linear systems (MJS) that allow the dynamics of the underlying system to switch between multiple linear systems according to an underlying finite Markov chain. Similarly, a natural generalization of LQR problem to MJS is to use mode-dependent cost matrices, which allows to have different control goals under different modes. While the optimal control for MJS-LQR is well understood when one has perfect knowledge of the system dynamics, in practice it may not be optimal due to the imperfect knowledge of the system dynamics and the transition matrix....
+A natural generalization of linear dynamical systems is Markov jump linear systems (MJS) that allow the dynamics of the underlying system to switch between multiple linear systems according to an underlying finite Markov chain. Similarly, a natural generalization of LQR problem to MJS is to use mode-dependent cost matrices, which allows to have different control goals under different modes. While the optimal control for MJS-LQR is well understood when one has perfect knowledge of the system dynamics, in practice it may not be optimal due to the imperfect knowledge of the system dynamics and the transition matrix.
 
-## Conclusions
+The solution of infinite horizon MJS-LQR involves coupled algebraic Riccati equations. Our goal is to understand how sensitive the solution of these equations and the corresponding optimal cost are to the perturbations in system model. To this aim, we first develop explicit $\mathcal{O}{({\epsilon + \eta})}$ perturbation bound for the solution to coupled algebraic Riccati equations that arise in the context of MJS-LQR. This in turn is used to establish explicit $\mathcal{O}{({({\epsilon + \eta})}^{2})}$ suboptimality bound. Finally, numerical experiments are provided to support our theoretical claims.
 
-In this work, we provide a perturbation analysis for cDARE, which arise in the solution of MJS-LQR, and an end-to-end suboptimality guarantee for certainty equivalence control for MJS-LQR. Our results show the robustness of the optimal policy to perturbations in system dynamics and establish the validity of the certainty equivalent control in a neighborhood of the original system. This work opens up multiple future directions. First, with proper system identification algorithms, we can analyze model-based online/adaptive algorithms where control policy is updated continuously over a single trajectory....
+## III-A Markov Jump Systems
 
-for all $i \in {\lbrack s\rbrack}$ and $\mathbf{X}_{i} \succeq 0$, where the operator $\hat{\varphi}$ is defined as
-
-Here, we consider the long-term average quadratic cost
-
-In the following, we will show that despite being coupled, cDARE for MJS-LQR satisfies nice properties. To be more precise, we show that if the approximate MJS is accurate enough, i.e., $\epsilon$ and $\eta$ are sufficiently small, we can guarantee that not only the positive definite solution ${\hat{\mathbf{P}}}_{1:s}$ to the perturbed cDARE uniquely exists, but also ${\hat{\mathbf{P}}}_{1:s}$ does not not deviate much from $\mathbf{P}_{1:s}^{\star}$.
-
-The solution of infinite horizon MJS-LQR involves coupled algebraic Riccati equations. Our goal is to understand how sensitive the solution of these equations and the corresponding...
+We consider the problem of optimally controlling MJS, which are governed by the state equation,

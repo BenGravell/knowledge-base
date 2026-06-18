@@ -10,18 +10,14 @@ Model predictive control (MPC) is pervasive in research and industry. However, d
 
 In recent years, optimization-based control algorithms have become increasingly popular in industry and academia, in part thanks to the ever-growing computational power of CPUs, and the availability of fast numerical implementations. Arguably, the biggest appeal of optimization-based control techniques is their ability to explicitly account for process constraints in their formulation, allowing for an optimal and safe selection of the control inputs.
 
-A well-known strategy, also commonly used in industry, is model predictive control (MPC). This technique enables feedback by repeatedly solving a numerical optimization problem at every time-step, each time taking into account the current (measured or estimated) state of the system.
+A second limitation of all the approaches mentioned before, is that they all utilize objective functions that concern a single time-step. In most cases, the objective is exclusively open-loop and does not take into account the interaction between the controller and the system dynamics. In this paper, on the other hand, we consider the problem of optimizing the closed-loop trajectory directly by employing a backpropagation-based scheme.
 
-We extended our framework to cases where the MPC problem becomes infeasible using nonsmooth penalty functions. We derived conditions under which the closed-loop is guaranteed to converge to a safe solution.
+The idea of using backpropagation to improve closed-loop performance of MPC first appeared in and. However, in these works, the authors focused on linear dynamics and simple MPC schemes with no state constraints, without providing formal convergence guarantees. In this paper, we greatly extend the backpropagation framework, primarily by considering nonlinear system dynamics, nonconvex closed-loop objectives, and by allowing the MPC scheme to contain elements that depend on the current state of the system and / or on the MPC solution computed in the previous time-step.
 
-Current work focuses on deploying our optimization scheme on more realistic real-life examples. Future work will focus on extending our scheme to scenarios where the system dynamics are only partially known and / or affected by stochastic noise.
+The contributions of this paper can be summarized as follows.
 
-In our case, the closed loop dynamics can be expressed as a recursive equation
+## Conclusion
 
-### Assumption 1
+In this paper, we proposed a backpropagation algorithm to optimally design an MPC scheme to maximize closed-loop performance. The cost and the constraints in the MPC can depend on the current state of the system, as well as on past solutions of previous MPC problems. This allows, for example, the utilization of the successive linearization strategy.
 
-Following the strategy above, we can choose each $A_{k|t}$, $B_{k|t}$, and $c_{k|t}$ to be the linearization of $f$ and the approximation error evaluated along the state input-trajectory $(x_{t - 1},u_{t - 1})$:
-
-Because of its effectiveness in practical applications, researchers have dedicated significant effort to the task of designing MPC controllers. For example, showed that the introduction of an appropriately selected terminal cost can ensure stability and feasibility of the closed-loop. More recently, proposed a design to ensures that the MPC behaves like a linear controller around a specified operating point, with the goal of inheriting the well-known stability and robustness properties of linear controllers. The objective function of an MPC can also be chosen to incentivise learning of an unknown model, as proposed in.
-
-MPC design can be viewed as a policy optimization problem. Policy optimization is a well-known problem in reinforcement learning, where the goal is to obtain a control policy that minimizes some performance objective....
+We employed conservative Jacobians to compute the sensitivity of the closed-loop trajectory with respect to variations of the design parameter. Leveraging a non-smooth version of the implicit function theorem, we derived sufficient conditions under which the gradient-based optimization procedure converges to a critical point of the problem.

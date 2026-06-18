@@ -8,18 +8,14 @@ Behaviour prediction function of an autonomous vehicle predicts the future state
 
 ## Introduction
 
-Adoption of autonomous vehicles in the near future is expected to reduce the number of road accidents and improve road safety. However, for safe and efficient operation on roads, an autonomous vehicle should not only understand the current state of the nearby road-users, but also proactively anticipate their future behaviour. One part of this general problem is to predict the behaviour of pedestrians (or generally speaking, the vulnerable road-users), which is well-studied in computer vision literature. There are also several review papers on pedestrian behaviour prediction such as....
+Adoption of autonomous vehicles in the near future is expected to reduce the number of road accidents and improve road safety. However, for safe and efficient operation on roads, an autonomous vehicle should not only understand the current state of the nearby road-users, but also proactively anticipate their future behaviour. One part of this general problem is to predict the behaviour of pedestrians (or generally speaking, the vulnerable road-users), which is well-studied in computer vision literature. There are also several review papers on pedestrian behaviour prediction such as.
 
-There are several published survey papers on vehicle behaviour analysis. For example, Shirazi and Morris provide a review of vehicle monitoring, behaviour and safety analysis at intersections. A review of unsupervised approaches for vehicle behaviour analysis with a focus on trajectory clustering and topic modelling methods is provided in. Anomaly detection techniques using visual surveillance are reviewed in. In a joint review is provided on tracking, prediction and decision making for autonomous driving. None of these studies specifically focus on vehicle behaviour prediction. In the most related paper to our work, Lefevre et al....
+There are several published survey papers on vehicle behaviour analysis. For example, Shirazi and Morris provide a review of vehicle monitoring, behaviour and safety analysis at intersections. A review of unsupervised approaches for vehicle behaviour analysis with a focus on trajectory clustering and topic modelling methods is provided . Anomaly detection techniques using visual surveillance are reviewed . In a joint review is provided on tracking, prediction and decision making for autonomous driving. None of these studies specifically focus on vehicle behaviour prediction.
+
+## Basics and Challenges of Vehicle Behaviour Prediction
+
+Object detection and behaviour prediction can be considered as two main functions of the perception system of an autonomous vehicle. While both of them rely on on- and off-board sensory data, the former aims to localize and classify the objects in the surrounding environment of the autonomous vehicle and the latter provides an understanding of the dynamics of surrounding objects and predicts their future behaviour. Behaviour prediction plays a pivotal role in autonomous driving applications as it supports efficient decision making and enables risk assessment.
 
 ## Conclusion
 
-Although deep learning-based behaviour prediction solutions have shown promising performance, especially in complex driving scenarios, by utilizing sophisticated input representation and output type, there are several open challenges that need to be addressed to enable their adoption in autonomous driving applications. Particularly, while most of existing solutions considered the interaction among vehicles, factors such as environment conditions and set of traffic rules are not directly inputted to the prediction model....
-
-### III-B4 Occupancy map
-
-Table I provides a summary of classification of existing studies based on input representation. It also summarizes the advantages and disadvantages of each class.
-
-A convolution network extracts spatial features from the input image. These features are fed to
-
-The rest of this paper is organised to a number of sections: Section II is an introduction to the basics and the challenges of vehicle behaviour prediction for autonomous vehicles. The definition of used terminologies and the generic problem formulation are also given in section II....
+Although deep learning-based behaviour prediction solutions have shown promising performance, especially in complex driving scenarios, by utilizing sophisticated input representation and output type, there are several open challenges that need to be addressed to enable their adoption in autonomous driving applications. Particularly, while most of existing solutions considered the interaction among vehicles, factors such as environment conditions and set of traffic rules are not directly inputted to the prediction model.

@@ -6,16 +6,16 @@ Multi-agent learning algorithms have been successful at generating superhuman pl
 
 ## Introduction
 
-Multi-agent learning has been impactful across a wide range of fully cooperative and zero-sum games (Cui et al. Wurman et al. Pérolat et al. Silver et al. Jaderberg et al. Bakhtin et al., ). However, its impact on multi-agent planning for settings that mix humans and robots has been muted. In contrast to the ubiquity of multi-agent learning-based agents in zero-sum games, multi-agent planners for most practical robotic systems are not derived from the output of game-theoretically sound learning algorithms....
+Multi-agent learning has been impactful across a wide range of fully cooperative and zero-sum games (Cui et al. Wurman et al. Pérolat et al. Silver et al. Jaderberg et al. Bakhtin et al., ). However, its impact on multi-agent planning for settings that mix humans and robots has been muted. In contrast to the ubiquity of multi-agent learning-based agents in zero-sum games, multi-agent planners for most practical robotic systems are not derived from the output of game-theoretically sound learning algorithms.
 
-Figure 1: Extremely fast multi-agent simulation with GPUDrive. Top: Bird’s-eye view of Waymo Open Motion Dataset scenarios in GPUDrive, with boxes marking controlled agents and circles denoting their goals. Bottom: Corresponding agent views, centered on one agent. Observations can be easily configured based on the user’s objectives. Here, agents are provided with a scene view through a relative coordinate frame. Shown are nearby road points within a configurable radius (set to 50 meters) and the relative positions of other agents in the scene.
+The divergence in preferred technique between these two domains is partially the outcome of two distinct, challenging components of real-world multi-agent planning. First, unlike zero-sum games, it is necessary to play a human-compatible strategy that is difficult to identify without data. Second, generating the billions of samples needed for multi-agent learning algorithms is difficult with existing simulators. The former challenge is difficult for multi-agent learning since there is not a clear equilibrium concept that algorithms should be pursuing.
 
-## Ethics Statement
+To address these challenges and unlock multi-agent learning as a tool for generating capable self-driving planners, we introduce GPUDrive. GPUDrive is a simulator intended to mix real-world driving data with simulation speeds that enable the application of sample-inefficient but effective RL algorithms to the design of autonomous planners. GPUDrive runs at over a million steps per second on both consumer-grade and datacenter-class GPUs and has a sufficiently light memory footprint to support hundreds to thousands of simultaneous worlds (environments) with hundreds of agents per world.
 
-This paper presents GPUDrive, a GPU-accelerated simulator for multi-agent learning in autonomous driving. We use publicly available datasets, such as the Waymo Open Motion Dataset, which are anonymized to protect privacy. GPUDrive is intended for research purposes and not for real-world deployment without further validation. We recognize the risks of autonomous systems and emphasize the importance of safety and fairness in their application. Although this work does not involve human participants directly, it leverages real-world data that may reflect human behavior, and we strive to avoid harm or discrimination....
+## Conclusion
 
-As GPUDrive is implemented in C++, we provide a Pythonic interface through nanobind. We create environments for both torch and jax that conform to the Gymnasium API so users can use the simulator entirely through Python if they prefer.
+In this work, we present GPUDrive, a GPU-accelerated, multi-agent, and data-driven simulator. GPUDrive is intended to help generate the billions of samples that are likely needed to achieve effective reinforcement learning for multi-agent driving planners. By building atop the Madrona Engine, we can scale GPUDrive to hundreds of worlds with potentially thousands of agents leading to throughput of millions of steps per second. This throughput occurs while synthesizing complex observations such as LiDAR.
 
-Figure 2: Example scenarios from the Waymo Open Motion Dataset rendered in GPUDrive. The blue boxes and circles indicate agents and their respective destinations.
+## Future work and simulator extensions
 
-where $A_{k}$ is the set of agents in the $k^{th}$ world, $S$ is the number of steps taken, and $\Delta T$ is the number of seconds elapsed....
+This paper represents an initial step toward scaling reinforcement learning for multi-agent planning in safety-critical, mixed human-autonomous settings.

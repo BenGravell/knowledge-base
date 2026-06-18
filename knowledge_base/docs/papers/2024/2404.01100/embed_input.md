@@ -6,16 +6,12 @@ We study non-parametric frequency-domain system identification from a finite-sam
 
 We consider the identification of *unknown* linear, discrete-time, time-invariant systems of the form
 
-Frequency domain identification has been extensively studied. The estimation error guarantees (on its distribution) are typically asymptotic, e.g. see Central Limit Theorem in \[, Ch. 16\], and, thus, are valid when the number of samples grows to infinity. Here, we adopt a finite-sample point of view, motivated by advances in modern statistics and statistical learning theory. Asymptotic methods are sharp asymptotically but are often heuristically applied for finite samples. Finite-sample bounds, on the other hand, are valid for any number of samples, but suffer from looser bounding constants....
+Frequency domain identification has been extensively studied. The estimation error guarantees (on its distribution) are typically asymptotic, e.g. see Central Limit Theorem in \[, Ch. 16\], and, thus, are valid when the number of samples grows to infinity. Here, we adopt a finite-sample point of view, motivated by advances in modern statistics and statistical learning theory. Asymptotic methods are sharp asymptotically but are often heuristically applied for finite samples. Finite-sample bounds, on the other hand, are valid for any number of samples, but suffer from looser bounding constants.
+
+Our
+
+Finite-sample guarantees for the ETFE. We provide finite sample guarantees for the well-established Empirical Transfer Function Estimate (ETFE), a non-parametric method for frequency domain identification, under open-loop periodic excitation. While the mean and variance of the ETFE have been characterized before, we provide guarantees on the distribution of the estimation error, the tail probabilities in particular. Under certain stability conditions, we prove that the estimation error decays with a rate of $\sqrt{M/N_{tot}}$, where $N_{tot}$ is the total number of samples.
 
 ## Conclusion and Future Work
 
-We provide finite-sample guarantees for the ETFE over a selected frequency grid, in the case of open-loop periodic excitation and under strict stability assumptions. By tuning the frequency resolution and exploiting Lipschitz continuity, we also obtain estimation guarantees in the $\mathcal{H}_{\infty}$ norm. An interesting direction for future work is studying finite-sample non-parametric least squares in the frequency domain. This approach could lead to interesting connections between function class complexity and experiment design. Moreover, adding more structure, beyond Lipschitz continuity, will lead to faster rates....
-
-### Theorem 1 (ETFE Finite-Sample)
-
-We can now state our objective, which is providing finite-sample guarantees for estimating the frequency responses. We focus on $\epsilon - \delta$ probabilistic guarantees, where $\epsilon$ controls the estimation accuracy and $\delta$ controls the confidence. {mdframed}\[roundcorner=3pt, backgroundcolor=blue!6,innertopmargin=-2pt\]
-
-Let Assumption. ‣ 2.2 Excitation Method ‣ 2 Problem formulation ‣ Finite Sample Frequency Domain Identification") be in effect. Then, for all $k = {N_{p}\ell}$, $\ell \in {\lbrack M\rbrack}$
-
-While finite-sample system identification has been studied before, most results are focused on time domain identification. Detailed related work and a tutorial on the subject can be found in. Frequency domain and time domain identification have many similarities--ignoring initial conditions, transients, or leakage effects, the two domains are equivalent from a prediction error framework perspective \[\]....
+We provide finite-sample guarantees for the ETFE over a selected frequency grid, in the case of open-loop periodic excitation and under strict stability assumptions. By tuning the frequency resolution and exploiting Lipschitz continuity, we also obtain estimation guarantees in the $\mathcal{H}_{\infty}$ norm. An interesting direction for future work is studying finite-sample non-parametric least squares in the frequency domain. This approach could lead to interesting connections between function class complexity and experiment design. Moreover, adding more structure, beyond Lipschitz continuity, will lead to faster rates.

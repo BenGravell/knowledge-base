@@ -10,14 +10,8 @@ Proposed by Kalman, inverse optimal control has found a multitude of application
 
 This paper is concerned with inverse optimal control for the discrete-time linear quadratic regulator (LQR) over finite-time horizons, i.e., finding the parameters in the quadratic objective funtion given the discrete-time linear system dynamics and (possibly noisy) observations of the optimal trajectory or control input.
 
+The contributions of this paper are three-fold. First, we justify the well-posedness of the inverse optimal control problem for LQR in Section 2. Second, in the noiseless case (in which observations of the optimal trajectory are exact) we provide sufficient conditions for consistent estimation of the cost function, i.e., exact recovery of the matrix $Q$, c.f., Section 3. Moreover, inspired by the formulation , we formulate the search for $Q$ as an optimization problem in the noisy case (in which observations of the optimal trajectory as well as the control input are corrupted by additive noise).
+
 ## Conclusion
 
-In this paper, we analyse the inverse optimal control problem for discrete-time LQR in finite-time horizons. We consider both the noiseless case (in which observations of the optimal trajectories are exact) and the noisy case (in which such observations are corrupted by additive noise). The well-posedness of the problem is first justified. In the noiseless case, we discuss identifiability of the problem, and provide sufficient conditions on the uniqueness of the solution. In the noisy case, we formulate the search for $Q$ as an optimization problem, and prove that such formulation is statistically consistent....
-
-are linearly independent, then matrix
-
-Though the problem is easy in the noiseless case, however, we would like to have a closer look at the identifiability of $Q$. Namely, given a set of noiseless optimal trajectories $x_{1:N}^{({1:M})}$, is there a unique positive semidefinite matrix that corresponds to the given optimal trajectories? Now we give two sufficient conditions on the given trajectories $x_{1:N}^{({1:M})}$ that can be used to determine the uniqueness of $Q$.
-
-Equipped with the stochastic set-up above and given that the initial value $x_{1}$ is actually a realization of the random vector $\overline{x}$, i.e., $x_{1} = {\overline{x}{(\omega)}}$, the LQR problem can actually be seen as
-
-Inverse optimal control for LQR, particularly in the continuous infinite time-horizon case, has been studied by a number of authors....
+In this paper, we analyse the inverse optimal control problem for discrete-time LQR in finite-time horizons. We consider both the noiseless case (in which observations of the optimal trajectories are exact) and the noisy case (in which such observations are corrupted by additive noise). The well-posedness of the problem is first justified. In the noiseless case, we discuss identifiability of the problem, and provide sufficient conditions on the uniqueness of the solution. In the noisy case, we formulate the search for $Q$ as an optimization problem, and prove that such formulation is statistically consistent.

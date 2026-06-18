@@ -8,18 +8,10 @@ Incorporating predictions of external inputs, which can otherwise be treated as 
 
 ## Introduction
 
-In a typical feedback control framework, the control input $u{(t)}$ is determined based on the current state $x{(t)}$, or more generally the initial state $x{}$ and the sequence of the past disturbances^11^1The concept of disturbance in this work can be quite general and it essentially captures any external input for which we might have predictions of future values. For instance, the reference signal in a tracking problem can be treated as "disturbance" if error dynamics are used to include the reference signal in system equations (see examples in ). $d{}$, $d{}$,..., $d{({t - 1})}$....
+In a typical feedback control framework, the control input $u{(t)}$ is determined based on the current state $x{(t)}$, or more generally the initial state $x{}$ and the sequence of the past disturbances^11^1The concept of disturbance in this work can be quite general and it essentially captures any external input for which we might have predictions of future values. For instance, the reference signal in a tracking problem can be treated as "disturbance" if error dynamics are used to include the reference signal in system equations (see examples in ). $d{}$, $d{}$,..., $d{({t - 1})}$.
 
-The above mentioned systems are all safety-critical, where controllers should be designed to ensure safety specifications. The safety specifications considered in this work are to have the system state avoid visiting a user-defined unsafe region, or equivalently have the state stay within a safe region indefinitely. A standard way to achieve safety in this sense is via robust controlled invariant sets. Then, a fundamental question to ask is how to measure the improvement due to preview in safety control and how the change of preview time affects the quality of safety control.
+In the remainder of this work, the preliminaries of controlled invariant sets and a formal definition of systems with preview are introduced in Section II. Then in Section III, we study analytical properties of the controlled invariant sets for general systems with preview and how those properties lead to strategies of selecting preview time. In Section IV, we develop the theory for systems in Brunovsky canonical form. After that, we illustrate the value of preview using two numerical examples in Section V and conclude the paper in Section VI. The proofs of the theorems and details of the examples can be found in Appendix.
 
 ## Conclusion
 
-In the first part of this work, we study general properties of controlled invariant sets for systems with preview and the implications of those properties, including a strategy to choose a preview time. In the second part, we study systems in Brunovsky canonical form with hyperbox safe sets, for which we derive the maximal controlled invariant set of the $p$-augmented system in closed form. The impact of preview on the controlled invariant sets can be directly analyzed using this closed-form expression, by help of which we prove the existence of a critical preview time for this class of systems....
-
-The dynamics of a system $\Sigma_{B}$ in Brunovsky canonical form is
-
-That is, the maximal admissible input set at each state grows as the preview time increases. An important question is then if there exists a critical $p_{0}$ such that the maximal admissible input set stops growing for $p > p_{0}$, that is for all $p > p_{0}$, for all states ${(x,d_{1:p})} \in S_{{xu},p}$,
-
-### Corollary 1
-
-The majority of literature on preview control focuses on incorporating preview information into optimal control formulation....
+In the first part of this work, we study general properties of controlled invariant sets for systems with preview and the implications of those properties, including a strategy to choose a preview time. In the second part, we study systems in Brunovsky canonical form with hyperbox safe sets, for which we derive the maximal controlled invariant set of the $p$-augmented system in closed form. The impact of preview on the controlled invariant sets can be directly analyzed using this closed-form expression, by help of which we prove the existence of a critical preview time for this class of systems.

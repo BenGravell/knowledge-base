@@ -6,20 +6,14 @@ Many clustering algorithms fail when clusters are of arbitrary shapes, of varyin
 
 ## Introduction
 
-Data clustering, which is the process of gathering similar data samples into groups/clusters, has been found useful in different fields such as medical imaging (to differentiate between different types of tissues medical_applications_2018 ), market research (to partition consumers into perceptual market segments customers_segmentation_2018 ), document retrieval (to find documents that are relevant to a user query in a collection of documents document_retrieval_2018 ), and fraud detection (to detect suspicious fraudulent patterns) fraud_detection_2019 ), as well as many others clustering_survey_2013....
+Data clustering, which is the process of gathering similar data samples into groups/clusters, has been found useful in different fields such as medical imaging (to differentiate between different types of tissues medical_applications_2018 ), market research (to partition consumers into perceptual market segments customers_segmentation_2018 ), document retrieval (to find documents that are relevant to a user query in a collection of documents document_retrieval_2018 ), and fraud detection (to detect suspicious fraudulent patterns) fraud_detection_2019 ), as well as many others clustering_survey_2013.
 
-### Partitioning-based Clustering Algorithms
-
-Figure 7: DenMune Results stability over changes in K, measured in NMI
-
-Although the motivations behind the algorithm are logical (the scheme adopted by the algorithm to partition points in a given data set into three types (seed, noise and potential noise points) and the MNN consistency principle that governs clusters growth), the conducted experiments on a variety of data sets, have shown its efficiency and robustness in detecting clusters of different sizes, shapes and densities in the presence of noise. In summary, DenMune is conceptually simple, logically sound, relies on a single parameter....
-
-Algorithm 1 describes the proposed algorithm, followed by a detailed discussion of its time complexity.
-
-### Proposed Algorithm: Overview
-
-The Euclidean distance has been adopted as a similarity metric for all datasets.
+## Partitioning-based Clustering Algorithms
 
 In this category, data objects are divided into non-overlapping subsets (clusters) such that each object lies in exactly one subset. The most well-known and commonly used algorithm in this class is K-means. K-means is heavily dependent on the initial cluster centers, which are badly affected by noise and outliers. A well known variant is K-medoid. K-medoid selects the most centrally located point in a cluster, namely its medoid, as its representative point. Another well-known variant of K-means is KMeans++. It chooses centers at random, but weighs them according to the square distance from the closest already chosen center.
 
-A recent algorithm in this area is RS algorithm rs_2018. It belongs to the class of swap-based clustering algorithms that aim at using a sequence of prototype swaps to deal with the inability of K-means in fine-tuning the cluster boundaries globally, although...
+## Conclusion and Future Work
+
+In this paper, a novel shared nearest neighbors clustering algorithm DenMune, is presented. It utilizes the MNN size to calculate the density of each point and chooses the high-density points as the seeds from which clusters may grow up. In contrast to recent similar algorithms, such as DPC and CMune, no cut-off parameter is needed from the user of DenMune. Guided by the principle of Mutual Nearest-Neighbors (MNN) consistency, DenMune prioritizes points according to a voting system and partitions them into seeds and non-seeds.
+
+Although the motivations behind the algorithm are logical (the scheme adopted by the algorithm to partition points in a given data set into three types (seed, noise and potential noise points) and the MNN consistency principle that governs clusters growth), the conducted experiments on a variety of data sets, have shown its efficiency and robustness in detecting clusters of different sizes, shapes and densities in the presence of noise. In summary, DenMune is conceptually simple, logically sound, relies on a single parameter.

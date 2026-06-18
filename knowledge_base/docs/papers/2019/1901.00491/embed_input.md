@@ -10,14 +10,10 @@ The double integrator is a mathematical model for a point mass, typically ideali
 
 Due to its simplicity, optimal control of the double integrator is studied virtually in every course of lectures on optimal control theory. In the teaching of optimal control theory and its applications, although the minimum-energy, minimum-effort and minimum-time control of the double integrator are widely studied, minimization of total variation is not even considered, presumably because a maximum principle for the control minimizing its total variation does not exist.
 
-It should be noted that the problem we have studied in the current paper fits into the above problem description (LQPTV) with $n = 2$, $m = 1$, $Q = 0$ and $R = 1$, and the appropriate constant system and control matrices $A$ and $B$.
+In this paper, we use a tutorial approach. First, in Section 2, we introduce the double integrator model as well as the problem of energy minimization as an optimal control problem. This is a standard problem in optimal control; so, we derive the optimal solution without going into details.
 
-The general linear quadratic problem is a convex problem, so the weighted-sum scalarization can still be used (see ) when it is combined with the minimization of total variation. However, for a generalization to nonconvex problems, a scalarization different from the weighted-sum scalarization needs to be considered. This requires specialized numerical techniques in obtaining a solution---see and the pertaining discussion therein for problems which also have constraints on the state and control variables.
+## Conclusion and Future Work
 
-### Multi-Objective Optimal Control
+We have derived the unique solution to the optimal control problem of simultaneous minimization of energy and total variation in control for the double integrator. We obtained analytic expressions for the construction of the Pareto front. We have shown that the unique asymptotic optimal control function, for the minimization of the total variation alone, is piecewise constant with one switching at the midpoint of the time horizon. We computed the two constant levels of the asymptotic control function analytically.
 
-where $\alpha > 0$ is referred to as the weight. We assume that $u$ is absolutely continuous on $\lbrack 0,1\rbrack$, in other words, $u \in {W^{1,1}{({\lbrack 0,1\rbrack})}}$. Then we define the new control variable ${v{(t)}}:={\overset{˙}{u}{(t)}}$ for a.e. $t \in {\lbrack 0,1\rbrack}$. Using, Problem (Ptv) can now be reformulated by incorporating the new variable as
-
-### Theorem 1 (Solution of Problem (Ptv))
-
-\psfrag{u}{u(t)}\psfrag{x10}{x1 = s0}\psfrag{x1}{x1(t):= y(t)}\psfrag{x2}{x2(t):=...
+The minimum-energy control problem which we have also considered is a special case of a general linear quadratic control problem. An approach similar to the one employed in the current paper can be employed for the more general linear quadratic control (or linear quadratic programming) problem where one is additionally concerned with the minimization of total variation, namely the problem

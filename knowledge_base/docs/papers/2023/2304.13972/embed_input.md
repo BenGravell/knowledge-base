@@ -8,16 +8,10 @@ In this paper, we study the non-convex unconstrained stochastic optimization pro
 
 The Adaptive Moment Estimation (Adam) algorithm has become one of the most popular optimizers for solving when $f$ is the loss for training deep neural networks. Owing to its efficiency and robustness to hyper-parameters, it is widely applied or even sometimes the default choice in many machine learning application domains such as natural language processing, generative adversarial networks, computer vision, and reinforcement learning. It is also well known that Adam significantly outperforms stochastic gradient descent (SGD) for certain models like transformer.
 
-### Understanding why Adam is better than SGD
+Despite its success in practice, theoretical analyses of Adam are still limited. The original proof of convergence in was later shown by Reddi et al. to contain gaps. The authors in also showed that for a range of momentum parameters chosen *independently with the problem instance*, Adam does not necessarily converge even for convex objectives. However, in deep learning practice, the hyper-parameters are in fact *problem-dependent* as they are usually tuned after given the problem and weight initialization.
 
-We want to note that our results can not explain why Adam is better than SGD for training transformers, because shows that non-adaptive SGD converges with the same $\mathcal{O}{(\epsilon^{- 4})}$ gradient complexity under even weaker conditions. It would be interesting and impactful if one can find a reasonable setting (function class, gradient oracle, etc) under which Adam or other adaptive methods provably outperform SGD.
+Another contribution of this paper is to show that the gradient complexity of Adam can be further improved with variance reduction methods. To this end, we propose a variance-reduced version of Adam by modifying its momentum update rule, inspired by the idea of the STORM algorithm. Under additional generalized smoothness assumption of the component function $f{( \cdot,\xi)}$ for each $\xi$, we show that this provably accelerates the convergence with a gradient complexity of $\mathcal{O}{(\epsilon^{- 3})}$.
 
-### Theorem 4.2
+## Conclusion and future works
 
-The standard smooth function class is very restrictive as it only contains functions that are upper and lower bounded by quadratic functions. The $(L_{0},L_{1})$ smooth function class is more general since it also contains, e.g., univariate polynomials and exponential functions. Assumption 2 is even more general and contains univariate rational functions, double exponential functions, etc. See Appendix B.1 smoothness ‣ Convergence of Adam Under Relaxed Assumptions") for the formal propositions and proofs....
-
-For any $t < \tau$, choosing $G \geq \lambda$ and a small enough $\eta$,
-
-Despite its success in practice, theoretical analyses of Adam are still limited. The original proof of convergence in was later shown by Reddi et al. to contain gaps. The authors in also showed that for a range of momentum parameters chosen *independently with the problem instance*, Adam does not necessarily converge even for convex objectives. However, in deep learning practice, the hyper-parameters are in fact *problem-dependent* as they are usually tuned after given the problem and weight initialization....
-
-To address the above-mentioned gap between theory and practice, we provide a new convergence analysis of Adam *without...
+In this paper, we proved the convergence of Adam and its variance-reduced version under less restrictive assumptions compared to those in the existing literature. We considered a generalized non-uniform smoothness condition, according to which the Hessian norm is bounded by a sub-quadratic function of the gradient norm almost everywhere. Instead of assuming the Lipschitzness of the objective function as in existing analyses of Adam, we use a new contradiction argument to prove that gradients are bounded by a constant along the optimization trajectory. There are several interesting future directions that one could pursue following this work.

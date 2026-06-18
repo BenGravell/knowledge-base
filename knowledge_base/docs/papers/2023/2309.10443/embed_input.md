@@ -8,20 +8,12 @@ In recent years, imitation-based driving planners have reported considerable suc
 
 ## Introduction
 
-Learning-based planners are considered a potentially scalable solution for autonomous driving, supplanting traditional rule-based planners. This has sparked significant research interest in recent years. In particular, imitation-based planners are reported to achieve notable success in simulations and real-world scenarios. Nevertheless, these planners are predominantly trained and evaluated in diverse custom conditions (*e.g*. varying datasets, metrics, and simulation setups) owing to the absence of a standardized benchmark....
+Learning-based planners are considered a potentially scalable solution for autonomous driving, supplanting traditional rule-based planners. This has sparked significant research interest in recent years. In particular, imitation-based planners are reported to achieve notable success in simulations and real-world scenarios. Nevertheless, these planners are predominantly trained and evaluated in diverse custom conditions (*e.g*. varying datasets, metrics, and simulation setups) owing to the absence of a standardized benchmark.
 
 Recently, the release of the large-scale nuPlan dataset, alongside a standardized simulation benchmark, has provided a new opportunity for advancing learned motion planners. Enabled by this fresh benchmark, we conduct in-depth investigations on several common and critical yet not fully studied design choices of the learning-based planner, aiming to provide constructive suggestions for future research. This paper concentrates on two overarching and fundamental facets of the imitation-based planner: the requisite ego features for planning and the efficacious techniques of data augmentation.
 
-Table VIII shows the ablation study on different dropout rate the of state6+SDE model.
+Imitation learning is also known to have compounding errors. Perturbation-based augmentations are a commonly employed strategy to instruct the planner on recovering from deviations. We conduct comprehensive experiments exploring various augmentation techniques, including history perturbation, state perturbation, and future correction. Additionally, we demonstrate the indispensability of proper normalization for the effectiveness of augmentation. Furthermore, we identify an ignored imitation gap within current learning frameworks and illustrate its potential impact.
 
-TABLE VIII: Ablation study on the state dropout rate of the SDE.
+## Conclusion
 
-TABLE II: Experimental results of the state dropout encoder (SDE) on -random and -hard benchmark. Models with SDE gain significant improvements on CLS while maintaining high performance on OLS.
-
-### Metrics
-
-### III-C The hidden imitation gap
-
-The majority of imitation-based planning models follow the success of prediction models and inherently incorporate the past trajectory of the autonomous vehicle (AV) as an input feature, though imitation learning (IL) has frequently been noted for its tendency to acquire shortcuts from historical observations. Our research reaffirms that the past motion of the AV leads to significant closed-loop performance degradation. The planner achieves enhanced performance by solely utilizing the AV's present state. Surprisingly, it attains better closed-loop performance purely using the AV's current pose (position and heading)....
-
-Imitation learning is also known to have compounding errors. Perturbation-based augmentations are a commonly employed strategy to instruct the planner on recovering from deviations....
+In this study, we systematically examine several crucial design aspects of imitation-based planners by utilizing the standardized nuPlan benchmark. Our findings reveal that catastrophic shortcut learning generally occurs for input features, such as historical motions and single-frame kinematic states. This leads to the unexpected outcome that planning solely based on the AV's current position results in superior closed-loop performance. To mitigate this issue, we introduce a straightforward attention-based state dropout encoder (SDE) that effectively addresses the shortcut learning problem.

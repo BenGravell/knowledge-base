@@ -6,21 +6,12 @@ Optimization of convex functions under stochastic zeroth-order feedback has been
 
 ## Introduction
 
-Stochastic optimization of an unknown function with access to only noisy function evaluations is a fundamental problem in operations research, optimization, simulation and bandit optimization research, commonly known as *zeroth-order optimization*, *derivative-free optimization* (Conn et al. Rios & Sahinidis, ) or *bandit optimization*. In this problem, an optimization algorithm interacts sequentially with an oracle and obtains noisy function evaluations at queried points every time....
+Stochastic optimization of an unknown function with access to only noisy function evaluations is a fundamental problem in operations research, optimization, simulation and bandit optimization research, commonly known as *zeroth-order optimization*, *derivative-free optimization* (Conn et al. Rios & Sahinidis, ) or *bandit optimization*. In this problem, an optimization algorithm interacts sequentially with an oracle and obtains noisy function evaluations at queried points every time.
 
-Existing works and results on stochastic zeroth-order optimization could be broadly categorized into two classes:
+Existing
 
-where f2 is the Taylor polynomial of f expanded at x up to the quadratic terms. Consequently, inequality (4.2) implies
+Convex functions. In the first thread of research, the unknown objective function to be optimized is assumed to be *concave* (for maximization problems) or *convex* (for minimization problems). For these problems, with minimal smoothness (e.g. objective function being Lipschitz continuous) it is possible to achieve a sample complexity of $\overset{\sim}{O}{(\varepsilon^{- 2})}$ for an expected optimization error or $\varepsilon$, which is also a polynomial function of domain dimension $d$; see for example the works of Agarwal et al.; Lattimore & Gyorgy; Bubeck et al.;
 
-where the expectations are taken of u ∼ Unif(Sd − 1), and the last equality is due to the well-known fact that ${{\mathbb{E}}\left\lbrack {{\mathbf{u}}{\mathbf{u}}^{\intercal}} \right\rbrack} = {\frac{1}{d}I_{d}}$.
-5 Conclusion and Future Work
-In this work, we achieve the first minimax simple regret for bandit optimization of second-order smooth and strongly convex functions. We derived the matching upper and lower bounds and proposed an algorithm that integrates a bootstrapping stage with a mirror-descent stage....
+Smooth functions. In the second thread of research, the unknown objective function to be optimized is assumed to be highly *smooth*, but not necessary concave/convex. Typical results assume the objective function is Hölder smooth of order $k \geq 1$, meaning that the $({k - 1})$-th derivative of the objective function is Lipschitz continuous. Without additional conditions, the optimal sample complexity with such smoothness assumptions is $\overset{\sim}{O}{(\varepsilon^{- {({2 + {d/k}})}})}$, which scales exponentially with the domain dimension $d$.
 
-We postpone the proof of the above theorems to Section 4.2 and Appendix C and proceed to describe how these results are used in the algorithm.
-For brevity, let $\epsilon \triangleq {\frac{\rho^{\frac{2}{3}}}{M}dT^{- \frac{2}{3}}}$ be the minimax regret we aim to achieve, and let xB denote the estimator x stored at the end of the first stage. The role of the final stage is to ensure that if f(xB) − f(x*) is sufficiently small with high probability, the final result of the proposed algorithm achieves the stated simple regret guarantees. Formally, we require that
-
-In the rest of this paper, we let ℱ(ρ,M,R) denote the set of all second-order differentiable functions that satisfy the above conditions, with corresponding constants given by ρ, M, and R. We aim to find algorithms to achieve asymptotically the following minimax simple regret, which measures the expected difference of the objective function on xT and the optimum.
-
-To prove inequality, we investigate the following function
-
-Convex functions. In the first thread of research, the unknown objective function to be optimized is assumed to be *concave* (for...
+In this paper, we study the optimal sample complexity of stochastic zeroth-order optimization when the objective function exhibits both (strong) convexity and a high degree of smoothness. As we have remarked in the first bullet point above, with convexity and Hölder smoothness of order $k = 1$ (equivalent to the objective function being Lipschitz continuous), the works of Agarwal et al.; Lattimore & Gyorgy; Bubeck et al. established an $\overset{\sim}{O}{(\varepsilon^{- 2})}$ upper bound.

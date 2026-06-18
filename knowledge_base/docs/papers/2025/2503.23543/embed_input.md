@@ -8,12 +8,6 @@ In stochastic optimization a common goal is to minimize an objective $\Psi$ over
 
 To avoid trivialities, we assume throughout that the feasible set $\Theta \subseteq {\mathbb{R}}^{m}$ and the support set $X \subseteq {\mathbb{R}}^{d}$ are non-empty and closed.
 
-## Conclusions and Outlook
+Problem is ubiquitous in the areas of machine learning, operation research, economics, and automatic control. Unfortunately, the practical deployment of is complicated by the fact that the precise form of the underlying distribution $P$ is often unknown and can only be inferred indirectly from past data in the form of a finite number of samples ${x_{1},\ldots,x_{n}} \in X$. In this case, one can employ statistical methods to infer an estimated (parametric or non-parametric) distribution $\hat{P}$ from the available data.
 
-In this paper, we focused on Wasserstein DRO formulations where the uncertain vector exhibits an i.i.d. structure. By exploiting this structure, we construct a structured ambiguity set that only contains product distributions. To solve the resulting non-convex program, we devise a sequence of convex relaxations that, under mild conditions on the loss function, converge to the optimal solution of the original non-convex problem. Our numerical results certify how structured ambiguity sets can capture uncertainty in a more effective manner than unstructured ambiguity sets, ultimately improving the overall decision-making....
-
-### Relaxation gap
-
-is a potentially tighter upper bound on $S{(\ell)}$ than $U{(\ell)}$. Similar arguments have been used in to obtain convex upper bounds on the structured singular value in the domain of control theory. To obtain such a class $\mathcal{F}$ for our problem, we make the following, crucial observation: If $\pi \in \mathcal{S}_{N}$ is a permutation, then the transformation $F_{\pi}:{\ell\mapsto\ell_{\pi}}$ with ${\ell_{\pi}{(x)}} = {\ell{({\pi{(x)}})}}$, where ${\pi{(x)}} = {(x_{\pi{}},\ldots,x_{\pi{(N)}})}$ for $x \in X^{N}$, satisfies
-
-shows that concavity of the objective function $F$ is sufficient for the absence of a relaxation gap. The following theorem gives a sufficient condition for the function ${F_{\ell}{(P)}} = {\int{\ell\text{d}P^{\otimes N}}}$ to be convex in the sense of the usual linear structure on $\mathcal{P}{(X)}$....
+In distributionally robust (stochastic) optimization (DRO), the decision-maker hedges against this mismatch by minimizing the worst-case expected loss $\Psi_{WC}$ with respect to all distributions in a neighborhood of $\hat{P}$; namely the (unstructured) DRO problem is formulated as

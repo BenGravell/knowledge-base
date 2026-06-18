@@ -6,16 +6,12 @@ We introduce a new language representation model called BERT, which stands for B
 
 Language model pre-training has been shown to be effective for improving many natural language processing tasks Dai and Le; Peters et al.; Radford et al.; Howard and Ruder. These include sentence-level tasks such as natural language inference Bowman et al.; Williams et al. and paraphrasing Dolan and Brockett, which aim to predict the relationships between sentences by analyzing them holistically, as well as token-level tasks such as named entity recognition and question answering, where models are required to produce fine-grained output at the token level Tjong Kim Sang and De Meulder; Rajpurkar et al..
 
-There are two existing strategies for applying pre-trained language representations to downstream tasks: feature-based and fine-tuning. The feature-based approach, such as ELMo Peters et al., uses task-specific architectures that include the pre-trained representations as additional features. The fine-tuning approach, such as the Generative Pre-trained Transformer (OpenAI GPT) Radford et al., introduces minimal task-specific parameters, and is trained on the downstream tasks by simply fine-tuning all pre-trained parameters....
+In this paper, we improve the fine-tuning based approaches by proposing BERT: Bidirectional Encoder Representations from Transformers. BERT alleviates the previously mentioned unidirectionality constraint by using a "masked language model" (MLM) pre-training objective, inspired by the Cloze task Taylor. The masked language model randomly masks some of the tokens from the input, and the objective is to predict the original vocabulary id of the masked word based only on its context.
+
+We demonstrate the importance of bidirectional pre-training for language representations. Unlike Radford et al., which uses unidirectional language models for pre-training, BERT uses masked language models to enable pre-trained deep bidirectional representations. This is also in contrast to Peters et al., which uses a shallow concatenation of independently trained left-to-right and right-to-left LMs.
+
+We show that pre-trained representations reduce the need for many heavily-engineered task-specific architectures. BERT is the first fine-tuning based representation model that achieves state-of-the-art performance on a large suite of sentence-level and token-level tasks, outperforming many task-specific architectures.
 
 ## Conclusion
 
 Recent empirical improvements due to transfer learning with language models have demonstrated that rich, unsupervised pre-training is an integral part of many language understanding systems. In particular, these results enable even low-resource tasks to benefit from deep unidirectional architectures. Our major contribution is further generalizing these findings to deep *bidirectional* architectures, allowing the same pre-trained model to successfully tackle a broad set of NLP tasks.
-
-The General Language Understanding Evaluation (GLUE) benchmark Wang et al. is a collection of diverse natural language understanding tasks. Detailed descriptions of GLUE datasets are included in Appendix B.1.
-
-### Pre-training BERT
-
-### SQuAD v2.0
-
-We argue that current techniques restrict the power of the pre-trained representations, especially for the fine-tuning approaches. The major limitation is that standard language models are unidirectional, and this limits the choice of architectures that can be used during pre-training. For example, in OpenAI GPT, the authors use a left-to-right architecture, where every token can only attend to previous tokens in the self-attention layers of the Transformer Vaswani et al.....

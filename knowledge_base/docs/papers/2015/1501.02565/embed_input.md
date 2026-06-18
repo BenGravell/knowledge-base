@@ -10,18 +10,12 @@ We propose a novel approach for optical flow estimation, targeted at large displ
 
 Accurate estimation of optical flow from real-world videos remains a challenging problem, despite the abundant literature on the topic. The main remaining challenges are occlusions, motion discontinuities and large displacements, all present in real-world videos.
 
-Effective approaches were previously proposed for handling the case of small displacements (*i.e*., less than a few pixels). These approaches cast the optical flow problem into an energy minimization framework, often solved using efficient coarse-to-fine algorithms. However, due to the complexity of the minimization, such methods get stuck in local minima and may fail to estimate large displacements, which often occur due to fast motion. This problem has recently received significant attention....
+Instead, we propose to simply interpolate a sparse set of matches in a dense manner to initiate the optical flow estimation. We then use this estimate to initialize a one-level energy minimization, and obtain the final optical flow estimation. This enables us to leverage recent advances in matching algorithms, which can now output quasi-dense correspondence fields. In the same spirit as, we perform a sparse-to-dense interpolation by fitting a local affine model at each pixel based on nearby matches. A major issue arises for the preservation of motion boundaries.
+
+The obtained interpolated field of correspondences is sufficiently accurate to be used as initialization of a one-level energy minimization. Our work suggests that there may be better initialization strategies than the well-established coarse-to-fine scheme, see Figure 2. In particular, our approach, *EpicFlow* (edge-preserving interpolation of correspondences) performs best on the challenging MPI-Sintel dataset and is competitive on Kitti and Middlebury. An overview of EpicFlow is given in Figure 3.
+
+This paper is organized as follows. In Section 2, we review related work on large displacement optical flow. We then present the sparse-to-dense interpolation in Section 3 and the energy minimization for optical flow computation in Section 4. Finally, Section 5 presents experimental results. Source code is available online at
 
 ## Conclusion
 
-This paper introduces EpicFlow, a novel state-of-the-art optical flow estimation method. EpicFlow computes a dense correspondence field by performing a sparse-to-dense interpolation from an initial sparse set of matches, leveraging contour cues using an edge-aware geodesic distance. The approach builds upon the assumption that contours often coincide with motion discontinuities. The resulting dense correspondence field is fed as an initial optical flow estimate to a one-level variational energy minimization. Experimental results show that EpicFlow outperforms current coarse-to-fine approaches....
-
-## Experiments
-
-### Fast approximation
-
-Matches and interpolators. Table 1 compares the result of our sparse-to-dense interpolation, *i.e*., before energy minimization, and EpicFlow for different matches (DM and KPM) and for the two interpolation schemes: Nadaraya-Watson (NW) and locally-weighted affine (LA). The approximated geodesic distance is used in the interpolation, see Section 3.4.
-
-Figure 1: Image edges detected with SED and ground-truth optical flow. Motion discontinuities appear most of the time at image edges.
-
-Instead, we propose to simply interpolate a sparse set of matches in a dense manner to initiate the optical flow estimation. We then use this estimate to initialize a one-level energy minimization, and obtain the final optical flow estimation. This enables us to leverage recent advances in matching algorithms, which can now output quasi-dense correspondence fields....
+This paper introduces EpicFlow, a novel state-of-the-art optical flow estimation method. EpicFlow computes a dense correspondence field by performing a sparse-to-dense interpolation from an initial sparse set of matches, leveraging contour cues using an edge-aware geodesic distance. The approach builds upon the assumption that contours often coincide with motion discontinuities. The resulting dense correspondence field is fed as an initial optical flow estimate to a one-level variational energy minimization. Experimental results show that EpicFlow outperforms current coarse-to-fine approaches.

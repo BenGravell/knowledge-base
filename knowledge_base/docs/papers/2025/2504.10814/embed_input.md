@@ -8,14 +8,8 @@ Many applications in finance and engineering require controlling the risk of ext
 
 Many practical applications, from portfolio optimization to quantile regression, can be formulated as quadratic programs with CVaR constraints. While these problems are convex and can be reformulated as standard quadratic programs, the number of variables and constraints grows linearly with the number of scenarios. For problems with many scenarios, general-purpose solvers become prohibitively slow or fail entirely. To address this challenge, we develop a fast and scalable method for solving quadratic programs with CVaR constraints.
 
-### Warm starting
+We present two main contributions. First, we develop an $O{({m{\log m}})}$ algorithm for projecting onto CVaR constraints, where $m$ is the number of scenarios. Building on this algorithm, our second contribution is an operator splitting method for solving large-scale CVaR-constrained quadratic programs. The method alternates between solving a linear system and performing parallel projections, onto CVaR constraints using our specialized algorithm and onto box constraints by simple clipping.
 
-Two effective strategies for choosing the initial point are solving with a reduced set of scenarios and using that solution to initialize the full problem, and using a quadratic approximation of the CVaR constraint to compute an initial point. Similarly, the sorting step in the CVaR projection can be warm-started using the sorted order from the previous ADMM iteration. Since the projection input changes only slightly between iterations, the sorted order is nearly preserved, and an adaptive sorting algorithm can exploit this to reduce the per-iteration cost in practice.
+## Conditional value-at-risk (CVaR)
 
-$\eta$: the decrease to the untied entries,
-
-We now present preliminaries that motivate our efficient algorithm for evaluating the projection operator $\Pi_{\mathcal{C}}$, i.e., for solving the problem
-
-At each step, $n_{u}$ either decreases by $1$, or remains the same. At each step, $n_{t}$ increases by $1$. If the algorithm hasn't terminated after $m$ steps, then there are $m$ tied entries, thus the subsequent decrease step will reduce the sum to the desired value, and the algorithm will terminate. Each step of the algorithm has constant complexity, and thus the algorithm (with sorted input) has complexity $O{(m)}$. Therefore, including the sorting and unsorting, the total complexity of the algorithm is $O{({m{\log m}})}$.
-
-We present two main contributions. First, we develop an $O{({m{\log m}})}$ algorithm for projecting onto CVaR constraints, where $m$ is the...
+The conditional value-at-risk (CVaR) at level $\beta$ is a risk measure that captures the expected value over the worst $({1 - \beta})$ fraction of outcomes of a real-valued random variable. For a random variable $X$ representing losses (where larger values are worse), we first define the value-at-risk (VaR) at level $\beta$ as

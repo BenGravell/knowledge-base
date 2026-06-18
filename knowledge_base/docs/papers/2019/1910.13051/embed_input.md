@@ -6,18 +6,16 @@ Most methods for time series classification that attain state-of-the-art accurac
 
 ## Introduction
 
-Figure 1: Mean rank of Rocket versus state-of-the-art classifiers on the 85 ‘bake off’ datasets.
-
 Most methods for time series classification that attain state-of-the-art accuracy have high computational complexity, requiring significant training time even for smaller datasets, and simply do not scale to large datasets. This has motivated the development of more scalable methods such as Proximity Forest, TS-CHIEF, and InceptionTime.
 
-Rocket makes key use of the proportion of positive values (or ppv) to summarise the output of feature maps, allowing a classifier to weight the prevalence of a pattern in a given time series. To our knowledge, ppv has not been used in this way before. We find that this is substantially more effective than a simple maximum as applied in a conventional max pooling operation. It is credible that ppv would also be effective for other data types such as images.
+We show that state-of-the-art classification accuracy can be achieved using a fraction of the time required by even these recent, more scalable methods, by transforming time series using random convolutional kernels, and using the transformed features to train a linear classifier. We call this method Rocket (for RandOm Convolutional KErnel Transform).
 
-In future work, we propose to explore feature selection for Rocket, the application of Rocket to multivariate timeseries, the application of Rocket beyond time series data, and the use of aspects of Rocket with learned kernels.
+Existing methods for time series classification typically focus on a single representation such as shape, frequency, or variance. Convolutional kernels constitute a single mechanism which can capture many of the features which have each previously required their own specialized techniques, and have been shown to be effective in convolutional neural networks for time series classification such as ResNet, and InceptionTime.
 
-Accordingly, for $k$ kernels and $n$ time series, each of length $l_{\text{input}}$, the complexity of the transform is $O{({k \cdot n \cdot l_{\text{input}}})}$. For datasets with time series of different lengths, this could be taken to represent average complexity for an average length of $l_{\text{input}}$, or worst-case complexity for a maximum length of $l_{\text{input}}$.
+In contrast to learned convolutional kernels as used in typical convolutional neural networks, we show that it is effective to generate a large number of random convolutional kernels which, in combination, capture features relevant for time series classification (even though, in isolation, a single random convolutional kernel may only very approximately capture a relevant feature in a given time series).
 
-Bias. Bias is sampled from a uniform distribution, $b \sim {\mathcal{U}{({- 1},1)}}$. Only positive values in the feature maps are used (see section 3.2). Bias therefore has the effect that two otherwise similar kernels, but with different biases, can 'highlight' different aspects of the resulting feature maps by shifting the values in a feature map above or below zero by a fixed amount.
+## Conclusion
 
-For this purpose, we integrate Rocket with logistic regression. The transform is performed in tranches, which are further divided into minibatches for training. Each time series is normalised to have a zero mean and unit standard deviation.
+Convolutional kernels are a single, powerful instrument which can capture many of the features used by existing methods for time series classification. We show that, rather than learning kernel weights, a large number of random kernels---while in isolation only approximating relevant patterns---in combination are extremely effective for capturing discriminative patterns in time series.
 
-We show that state-of-the-art classification accuracy can be achieved using a fraction of the time required by even these recent, more scalable methods, by transforming time series using random convolutional kernels, and using the...
+Further, random kernels have very low computational requirements, making learning and classification extremely fast. Our proposed method utilising random convolutional kernels for the purposes of transforming and classifying time series, Rocket, achieves state-of-the-art accuracy with a fraction of the computational expense of existing methods. Rocket also scales to millions of time series.

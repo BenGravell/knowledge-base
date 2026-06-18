@@ -8,8 +8,10 @@ The problem of building a programmable humanoid dates back centuries. In 1495, f
 
 From a contemporary perspective, optimal control and reinforcement learning methods are enabling the design of movement controllers that can cope with the high-dimensionality of humanoid bodies, and neural networks are able to store multiple patterns of movement that can be reused, refined, and flexibly sequenced. Working towards a robust procedure for constructing controllers with a range of humanlike movements suited for reuse and refinement when employed in new tasks is the goal of this paper.
 
+In this work, we present a pipeline for training low-level controllers to produce behaviors from motion capture using an extension of GAIL; and embedding the low-level controllers into larger control systems wherein a high-level controller learns by RL to modulate the low-level controller to solve new tasks (Figure 1). The acquisition of multiple behaviors from noisy motion capture data ("real-to-sim\") requires two extensions to the GAIL framework.
+
+## Discussion
+
+Looking beyond the scope of engineering skilled motor behaviors for humanoids, we think there is a broader issue to consider in the design of artificial agents. To communicate complex behaviors to agents, it is often most straightforward to demonstrate them. In contrast, it is extremely difficult to formalize different behaviors with simple reward functions.
+
 Therefore, a core motivation to use imitation learning is that we lack good objective functions to describe complex behaviors. This necessarily presents an obstacle when developing and assessing algorithms as well as when monitoring convergence (not dissimilar from the difficulty of assessing generated samples from GANs). At present, we must rely on human judgment of the quality of the behaviors we have produced.
-
-So far, we have only demonstrated learning on a somewhat restricted, albeit diverse, set of behaviors and have only demonstrated limited reuse. Accordingly, subsequent steps in this research program will include scaling to a much wider behavioral repertoire and leveraging the learned sub-skills for even more challenging tasks.
-
-The task consists of 4s episodes during which the target position changes every second. The reward at each timestep is proportional to squared distance between the end-effector and the target center minus a small control cost. We provide videos depicting performance of RL baselines on two-link and three-link arm tasks. See supplemental information for additional details. We again log demonstrations, this time from the RL-trained two-link arm, and we train imitator policies which control either the two- or three-link arms....

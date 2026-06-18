@@ -8,14 +8,8 @@ We are motivated by autonomous systems operating in dynamic, interactive, and un
 
 Trajectory prediction is inherently challenging due to a wide distribution of agent preferences (e.g., a cautious vs. aggressive) and intents (e.g., turn right vs. go straight). Useful predictions must represent multiple possibilities and their associated likelihoods. Furthermore, we expect that predicted trajectories are physically realizable.
 
+Multimodal regression models appear naturally suited for this task, but may degenerate during training into a single mode. Avoiding this "mode collapse" requires careful considerations. Additionaly, most state-of-the-art methods predict unconstrained positions, resulting in trajectories that may not be physically possible for execution ( is a recent exception). Our main insights leverage domain-specific knowledge to effectively structure the output representation and address these concerns.
+
 ## Conclusion
 
-We introduced CoverNet, a novel method for multimodal, probabilistic trajectory prediction in real-world, urban driving scenarios. By framing this problem as classification over a diverse set of trajectories, we were able to a) ensure a desired level of coverage of the state space, b) eliminate dynamically infeasible trajectories, and c) avoid the issue of mode collapse. We showed that the size of our trajectory sets remain manageable over realistic prediction horizons. Dynamically generating trajectory sets based on the agent's current state further improved performance....
-
-Physics oracle. We introduce a simple and interpretable model that extends classic physics-based models. We use the track's current velocity, acceleration, and yaw rate to compute the following predictions: i) constant velocity and yaw, ii) constant velocity and yaw rate, iii) constant acceleration and yaw, and iv) constant acceleration and yaw rate. The *oracle* is the minimum average point-wise Euclidean distance over the four models.
-
-Figure 2: Overview of trajectory set generation approaches.
-
-Our internal datasets have $F = {10\ Hz}$, while the publicly available nuScenes is sampled at $F = {2\ Hz}$. We include results on two different prediction horizon lengths, namely $H = 3$ seconds and $H = 6$ seconds.
-
-Multimodal regression models appear naturally suited for this task, but may degenerate during training into a single...
+We introduced CoverNet, a novel method for multimodal, probabilistic trajectory prediction in real-world, urban driving scenarios. By framing this problem as classification over a diverse set of trajectories, we were able to a) ensure a desired level of coverage of the state space, b) eliminate dynamically infeasible trajectories, and c) avoid the issue of mode collapse. We showed that the size of our trajectory sets remain manageable over realistic prediction horizons. Dynamically generating trajectory sets based on the agent's current state further improved performance.

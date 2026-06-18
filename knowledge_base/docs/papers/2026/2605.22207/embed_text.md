@@ -1,0 +1,175 @@
+## Introduction
+
+In recent years, many challenging problems in optimal policy synthesis, including solving Atari, Go, biped walking and Language Models (naveed24), have been solved using reinforcement learning (RL). This is attributed to RL's ability to maximize cumulative rewards through online exploration, without requiring a model of the underlying dynamics.
+
+For safety-critical, high-dimensional, control problems, an obstacle to deploying RL-based controllers is the possibility that a reward-maximizing controller may lead the system into unsafe states. Thus, a challenging research direction is to learn an optimal policy that is constrained by safety requirements. While there already exists a rich literature on this problem, existing solutions are still unsatisfactory: either because they do not provide certificates of correctness, or because they require data-intensive techniques, or because the learning process is subject to oscillations or high approximation errors.
+
+In this paper, we propose an online, kernel-based approach to learning safe control policies under unknown dynamics. Our algorithm, *kernel-based safe exploration (KBSE)*, learns an optimal policy and a barrier function simultaneously. The policy optimizes reward accumulation while being constrained by a barrier function. The barrier function (Prajna) provides a certificate that the system violates the safety specification with a bounded probability with high confidence (schon24). In particular, the exploration is constrained to use actions that do not violate the safety specification. Simultaneously, the exploration is used to update the barrier function to provide better safety guarantees over time.
+
+Intuitively, a barrier function maps states to reals such that the function (a) assigns a low value to initial states, (b) assigns a high value to unsafe states, and (c) reduces in expectation on each step of the dynamics---the existence of such a function implies an upper bound on the probability that an unsafe state may be reached. The technical challenge in learning barrier functions is the conditional expectation in requirement (c). The key to our technique is the representation of barrier functions using conditional mean embeddings (CMEs) (Song2009CondEmbed; Klebanov2020RigorousCME) in reproducing kernel Hilbert spaces (RKHS) (scholkopf2002learning; Berlinet2004RKHSProbStat; Steinwart2008SVM). An RKHS is a Hilbert space of functions characterized by the property that pointwise evaluation is a continuous linear functional. This property renders RKHS a powerful framework for studying and manipulating functions in high-dimensional spaces. A CME embeds conditional probability distributions into an RKHS, allowing for the computation of conditional expectations via simple inner products. In particular, using CMEs, we can synthesize barrier functions using a simple linear optimization problem.
+
+We evaluate KBSE on several challenging continuous control benchmarks available in the Gym (gym) classical control and Mujoco-based environments. For each of these benchmarks, we consider safety specifications with requirements more stringent than those used in Gym environments. Our approach generalizes the safety requirements by allowing the violation of safety constraints with a certain probability threshold. This enables us to study systems for which no policy exists to satisfy safety almost surely. We compare the performance of the control policy synthesized by KBSE against the most popular off-policy safe RL algorithms. Experimental results show that the KBSE algorithm is superior to the baseline algorithms in terms of reward accumulation and safety cost. In addition, KBSE also provides the safety probability for the learned control policies which is not possible in the case of baseline algorithms. We have relegated the proofs of statements and additional details to the supplementary material.
+
+## Related Work
+
+Constrained RL. Learning policies subject to constraints has been studied widely using a range of techniques including constrained policy optimization, Lagrangian multipliers (Ray2019; stooke20), and penalty-based methods. While these approaches are subject to inherent oscillations, initial value dependency, large approximation errors, or large computational costs, they are not able to encode safety probability thresholds in their policy learning. Our approach integrates directly the bounds on safety probabilities in the learning through the concept of barrier functions.
+
+Barrier functions in RL. Recent strategies in safe RL use various types of safety certificates to ensure constraint satisfaction during exploration. The work by li19; uses barrier and Lyapunov functions combined with RL. propose RL-CBF, providing safety guarantees with high probability assuming deterministic dynamics (known nominal dynamics and partially unknown dynamics). The approach by uses barrier functions for safe RL in stochastic dynamics using generative models. These approaches are subject to handling deterministic systems, being limited to low-dimensional systems, or requiring large amounts of data to learn parameters of deep neural networks (DNNs) representing the barrier certificates and shields. In contrast, our approach studies unknown stochastic systems using non-parametric kernel-based methods (hofmann08; ), which makes it applicable to large-dimensional systems.
+
+Kernel methods in RL. Kernel methods have been explored for policy synthesis. The work by uses kernel mean embedding in value iteration to find the optimal policy, thus being applicable to small-dimensional benchmarks. The work by provides a model-based algorithm and uses kernel smoothing to estimate rewards and transitions and obtains a regret bound for kernel-based RL.; use conditional distribution embeddings to represent a model-free controller synthesis problem as a linear program in RKHS. However, this approach does not take into account safety constraints, which we address here.
+
+Novelty of our formulation. Our problem formulation is distinct from the standard safe RL approaches in the literature. In safe RL with shielding (; reed24), the safety requirement is specified as the level set of a function, and it disables actions that lead the system to an unsafe state. This means that the designed policy must satisfy the safety constraint almost surely (with probability 1). In contrast, our approach generalizes the safety requirements by allowing the violation of safety constraints with a certain probability threshold. In our problem formulation, we intentionally permit a certain level of safety violation due to the constraints in the definition of the barrier function. Our aim is to learn a control policy that gives safety with a certain probability without degradation in performance.
+
+Our approach is also distinct from the available constrained RL techniques ( stooke20) as they consider constraints in the form of a bound on an additive or average objective. The probabilistic safety constraint in our formulation cannot be written in the form of additive or average objectives. Thus, these approaches are not applicable to our problem formulation.
+
+## Preliminaries
+
+Notation. The set of reals, non-negative reals, and non-negative integers are denoted respectively by $\mathbb{R}$, ${\mathbb{R}}_{\geq 0}$ and $\mathbb{N}$. Consider a Polish sample space $\mathbb{X}$ with underlying probability space $({\mathbb{X}},{\mathcal{B}{({\mathbb{X}})}},{\mathbb{P}})$ endowed with a Borel $\sigma$-algebra $\mathcal{B}{({\mathbb{X}})}$ and a probability measure $\mathbb{P}$. We denote a random variable by $X$ and the instantiations are denoted by $x$. For a random variable $X$, let $p_{X}$ be pushforward probability measure of $\mathbb{P}$ under $X$ such that $X \sim {p_{X}{( \cdot )}}$. For a function $f{(X)}$, the expected value on $\mathbb{X}$ is given by ${\mathbb{E}}_{p_{X}}{\lbrack{f{(X)}}\rbrack}$. For a measurable space $({\mathbb{X}},{\mathcal{B}{({\mathbb{X}})}})$, the set of all probability measures is denoted by $\mathcal{P}{({\mathbb{X}})}$. For two measurable spaces $({\mathbb{X}},{\mathcal{B}{({\mathbb{X}})}})$, $({\mathbb{Y}},{\mathcal{B}{({\mathbb{Y}})}})$, a probability kernel is defined as the mapping $p:{{{{\mathbb{X}} \times \mathcal{B}}{({\mathbb{Y}})}}\rightarrow{\lbrack 0,1\rbrack}}$ such that ${p{(x, \cdot )}}:{{\mathcal{B}{({\mathbb{Y}})}}\rightarrow{\lbrack 0,1\rbrack}}$ is a probability measure for all $x \in {\mathbb{X}}$ and ${p{( \cdot,B)}}:{{\mathbb{X}}\rightarrow{\lbrack 0,1\rbrack}}$ is measurable for all $B \in {\mathcal{B}{({\mathbb{Y}})}}$. For each $x \in {\mathbb{X}}$, the conditional probability measure $p{(x, \cdot )}$ is also denoted by $p{( \cdot |x)}$.
+
+Constrained Reinforcement Learning. We represent the environment $\mathcal{M}$ as a Markov Decision Process (MDP) $\mathcal{M} = {\langle S,A,\mathcal{T},R\rangle}$, where $S \subset {\mathbb{R}}^{p}$ denotes the set of continuous states of the system and $A \subset {\mathbb{R}}^{q}$ denotes the set of continuous control actions. The function $\mathcal{T}:{{{S \times A \times \mathcal{B}}{(S)}}\rightarrow{\lbrack 0,1\rbrack}}$ is a probability kernel, where $\mathcal{T}{(s,a, \cdot )}$ is the probability measure for transitioning to the next state from the current state $s \in S$ under action $a \in A$. The probability kernel $\mathcal{T}$ is assumed to be unknown. The function $R:{S\rightarrow{\mathbb{R}}}$ represents the reward function for $\mathcal{M}$. A transition (or sample) at time $t \in {\mathbb{N}}$ is denoted by $\langle s_{t},a_{t},r_{t},s_{t + 1}\rangle$, where $s_{t} \in S$ is a state, $a_{t} \in A$ is an action, $r_{t} \in {\mathbb{R}}$, such that $r_{t} = {R{(s_{t})}}$, is the reward obtained by the agent by performing action $a_{t}$ at state $s_{t}$, and $s_{t + 1} \in S$ is the next state selected randomly according to the probability measure $\mathcal{T}{( \cdot |s_{t},a_{t})}$.
+
+A Constrained Markov Decision Process (CMDP) is a tuple $\langle S,A,\mathcal{T},R,\varphi\rangle$, which is an MDP $\langle S,A,\mathcal{T},R\rangle$ augmented with a *safety specification* $\varphi = {\langle S_{u},T\rangle}$, in which $S_{u} \subset S$ is the set of unsafe states and $T \in {\mathbb{N}}$ is a time horizon.
+
+A parameterized *policy* is a probability kernel $\pi:{{{S \times \Theta \times \mathcal{B}}{(A)}}\rightarrow{\lbrack 0,1\rbrack}}$, where $\Theta$ is the set of parameters, and for each $\theta \in \Theta$, $\pi_{\theta}{( \cdot |s)} = \pi{(s,\theta, \cdot )}$ is a conditional probability measure for selecting the action $a$ at state $s$, given parameters $\theta$. A probability measure $\rho_{0}:{{\mathcal{B}{(S)}}\rightarrow{\lbrack 0,1\rbrack}}$ for the initial state $s_{0}$ and a policy $\pi_{\theta}$ together determines a probability measure $\chi$ over trajectories $\omega = {\langle s_{0},a_{0},s_{1},\ldots,s_{T}\rangle}$, given by ${\chi{(\rho_{0},\theta)}{(\omega)}} = {\rho_{0}{({ds_{0}})}{\prod_{t = 0}^{T}{{{\pi_{\theta}{(\left. {da_{t}} \middle| s_{t} \right.)}} \cdot \mathcal{T}}{(\left. {ds_{t + 1}} \middle| {s_{t},a_{t}} \right.)}}}}$.
+
+We denote the probability of event with respect to this measure by ${\mathbb{P}}_{\rho_{0}}^{\theta}{\lbrack \cdot \rbrack}$ and expectations of random variables by ${\mathbb{E}}_{\rho_{0}}^{\theta}{\lbrack \cdot \rbrack}$. When the initial state is fixed to a single state $s_{0}$, we replace $\rho_{0}$ with $s_{0}$.
+
+The safe reinforcement learning problem asks to compute an optimal policy $\pi_{\theta^{\ast}}$ that maximizes the expected discounted sum of rewards up to horizon $T$ while ensuring that the probability that the MDP reaches an unsafe state within the horizon is at most a given bound $\delta$. Formally,
+
+The use of probability threshold enables us to generalize the safety requirements by allowing the violation of safety constraints up to a threshold and improve the optimal objective. This also enables us to study systems for which no policy exists to satisfy safety almost surely. Solving Problem 1 ‣ 3 Preliminaries ‣ Kernel-Based Safe Exploration in Deep Reinforcement Learning") requires handling two challenges: (a) ensuring the probabilistic safety constraint, and (b) finding the policy under the unknown probability kernel $\mathcal{T}$. We utilize the concepts of barrier functions and Conditional Mean Embedding (CME) to tackle these challenges, as described below after giving a motivating example.
+
+A motivating example. We motivate our technique using the classical example of controlling an inverted pendulum (gym) to maintain its upright position.
+
+A pendulum freely hangs in the downward position, and the default goal is to balance it vertically upward. Normally, the control policy learns to balance upright by swinging the pendulum by one full round to gain sufficient momentum to bring it to the vertical position. However, if the starting configuration of the pendulum is in upward direction (above horizontal), a full swing might not be needed, and it can balance it upright with less effort. In this case, our safety specification requires that the pendulum should not go for a full swing. Given that the starting state of the pendulum is feasible (sufficiently above horizontal position), our goal is to learn a control policy that balances the pendulum in the vertical upward position without going for a full swing.
+
+Barrier functions. The notion of Barrier function provides a technique to define locally checkable conditions that guarantee satisfaction of the safety requirements in CMDPs. Fix a CMDP $\langle S,A,\mathcal{T},R,{\langle S_{u},T\rangle}\rangle$, a policy $\pi_{\theta}$, and an initial state $s_{0}$. A function $B:{S\rightarrow{\mathbb{R}}_{\geq 0}}$ is a *barrier function* w.r.t. the unsafe set $S_{u}$ if it satisfies the following conditions for some constants $\nu > \eta \geq 0$ and $c \geq 0$:
+
+\(i\) ${B{(s_{0})}} \leq \eta$; (ii) ${{\forall s} \in S_{u}}:{{B{(s)}} \geq \nu}$; and (iii) $\forall s \in S:\mspace{23mu}{\mathbb{E}}_{s}^{\theta}{\lbrack B{(s^{+})}|s\rbrack} - B{(s)} \leq c$;
+
+where $s^{+}$ is the next state of the CMDP from the current state $s$ for the policy $\pi_{\theta}$.
+
+### Theorem 1 (Kushner)
+
+If there is a non-negative barrier function $B:{S\rightarrow{\mathbb{R}}_{\geq 0}}$ for the CMDP $\langle S,A,\mathcal{T},R,{\langle S_{u},T\rangle}\rangle$, then ${{{\mathbb{P}}_{s_{0}}^{\theta}{\lbrack{\text{some state in~}\omega\text{~is in~}S_{u}}\rbrack}} \leq \frac{\eta + {cT}}{\nu}}.$
+
+Theorem 1 ‣ 3 Preliminaries ‣ Kernel-Based Safe Exploration in Deep Reinforcement Learning") gives a bound on safety using barrier certificates and assuming full knowledge of the model. Problem 1 ‣ 3 Preliminaries ‣ Kernel-Based Safe Exploration in Deep Reinforcement Learning") assumes the model of the system is unknown and requires solving a safety-constrained optimization. Our proposed approach fills the gap between Theorem 1 ‣ 3 Preliminaries ‣ Kernel-Based Safe Exploration in Deep Reinforcement Learning") and the solution to Problem 1 ‣ 3 Preliminaries ‣ Kernel-Based Safe Exploration in Deep Reinforcement Learning").
+
+Reproducing Kernel Hilbert Spaces (RKHS). Let $\mathcal{H}$ be a Hilbert space of functions $f:{S\rightarrow{\mathbb{R}}}$ with inner product ${\langle \cdot, \cdot \rangle}_{\mathcal{H}}$ and a kernel $k:{{S \times S}\rightarrow{\mathbb{R}}}$. Each RKHS is equipped with a dot product which satisfies the reproducing property:
+
+Intuitively, a function evaluation at any point $s \in S$ can be expressed as an inner product. The function $k$ is called the *reproducing kernel* since it reproduces the value of $f$ at $s$ via the inner product. For any set $Y$, we will use the notations $k_{Y}$ and $\mathcal{H}_{k_{Y}}$ to denote respectively the kernel and its RKHS on $Y$.
+
+### Definition 3.1 (Mean embedding (ME))
+
+Consider a kernel $k_{S}:{{S \times S}\rightarrow{\mathbb{R}}}$ and the RKHS $\mathcal{H}_{k_{S}}$ on $S$. The mean embedding (ME) of a probability measure $p:{{\mathcal{B}{(S)}}\rightarrow{\lbrack 0,1\rbrack}}$ is given via the mean map $\mu_{k_{S}}:{{\mathcal{P}{(S)}}\rightarrow\mathcal{H}_{k_{S}}}$:
+
+The reproducing property carries on to the ME, allowing to compute the expected value of a function $f \in \mathcal{H}_{k_{S}}$ via its inner product with the ME: ${{\mathbb{E}}_{s \sim p}{\lbrack{f{(s)}}\rbrack}} = {\langle f,{\mu_{k_{S}}{(p)}}\rangle}_{\mathcal{H}_{k_{S}}}$. Using ME, we define the maximum mean discrepancy (MMD) to be the distance between two probability measures $p,p^{\prime}$ in $\mathcal{H}_{k_{S}}$ as ${\|{{\mu_{p}{( \cdot )}} - {\mu_{p^{\prime}}{( \cdot )}}}\|}_{\mathcal{H}_{k_{S}}}$ (gretton12).
+
+### Definition 3.2 (Conditional mean embedding (CME))
+
+Given the RKHS $\mathcal{H}_{k_{SA}}$ on the space $S \times A$ with a kernel $k_{SA}$, and the RKHS $\mathcal{H}_{k_{S}}$ on the space $S$ with a kernel $k_{S}$, The CME of a conditional probability measure $p:{{{S \times A \times \mathcal{B}}{(S)}}\rightarrow{\lbrack 0,1\rbrack}}$ is an $S \times A$-measurable random variable taking values in $\mathcal{H}_{k_{S}}$ given by
+
+Analogous to the non-conditional case, we can compute the expected value of a function $f \in \mathcal{H}_{k_{S}}$ via its inner product with the CME: ${\underset{s^{+}\sim{p{(s,a,\cdot)}}}{\mathbb{E}}{\lbrack\left. {f{(s^{+})}} \middle| {s,a} \right.\rbrack}} = {\langle{f{( \cdot )}},{\mu{(p)}{( \cdot,s,a)}}\rangle}_{\mathcal{H}_{k_{S}}}$. To establish barrier functions, we start by reformulating the left-hand side of condition 3 of the barrier function definition as an inner product with the CME, i.e., we have
+
+### Remark 3.3
+
+For mathematical consistency, we restrict the unknown model of the system to a known function space. In particular, we assume that the CME of the probability kernel $\mathcal{T}$ lives in a vector-valued RKHS of functions from $S \times A$ to $\mathcal{H}_{k_{s}}$, denoted by $\mathcal{G}$.
+
+We utilize the above observation and empirical computation of the CME to provide a solution for Problem 1 ‣ 3 Preliminaries ‣ Kernel-Based Safe Exploration in Deep Reinforcement Learning"), as described in the next section.
+
+## Kernel-based Safe Exploration
+
+Our goal is to solve Problem 1 ‣ 3 Preliminaries ‣ Kernel-Based Safe Exploration in Deep Reinforcement Learning") by simultaneously learning an optimal policy and a barrier function using data from the unknown CMDP. However, learning the barrier function is a data-intensive process (kordabad2024control; salamati2024data; ) and estimating the conditional expectation in the condition (iii) of the barrier function is difficult. To tackle these challenges, we use RKHS and CME to learn a valid barrier function. We show in this section that the CME transforms the problem of finding a valid barrier function into a linear program which can be solved efficiently. We also show that the barrier function learned via the approximated CME converges to the true barrier function as the size of the dataset increases (cf. Theorem 3).
+
+The overall algorithm, called *kernel-based Safe Exploration* (KBSE), learns a controller online in a Deep-RL setting for the CMDP $\mathcal{M}$ with an unknown probability kernel $\mathcal{T}$. In the following subsections, we describe the main steps of the KBSE algorithm in detail, with the algorithm included in Appendix A.
+
+### Data collection
+
+We use data generated during exploration, denoted as $\mathcal{R} = {\{{\langle{\hat{s}}_{i},{\hat{a}}_{i},{\hat{r}}_{i},{\hat{s}}_{i}^{+}\rangle},i = 1,2,\ldots,N\}}$. We can also denote the dataset alternatively as $\mathcal{R} = {(\hat{S},\hat{A},\hat{R},{\hat{S}}^{+})}$, with
+
+where ${\hat{r}}_{i} = {R{({\hat{s}}_{i})}}$ and $s_{i}^{+} \sim {\mathcal{T}{({\hat{s}}_{i},{\hat{a}}_{i}, \cdot )}}$ for all $i$. As an off-policy RL method that stores all the transitions collected during training in a replay buffer, we randomly sample from this buffer to generate independent and identically distributed (iid) samples.
+
+For the CME and approximation of the expectation, we select the kernel $k_{S}$ to be a radial basis function (RBF) of the form ${{k_{S}{(s_{i},s_{j})}} = {\exp\left\lbrack \frac{- {\|{s_{i} - s_{j}}\|}^{2}}{2 \cdot \sigma^{2}} \right\rbrack}},$ for all ${s_{i},s_{j}} \in S$, and similarly for the kernel $k_{SA}$ of the product space $S \times A$. We define the corresponding *Gram matrices* $K_{\hat{S}}$ and $K_{+}$ as $K_{\hat{S}}:={{\lbrack{k_{S}{({\hat{s}}_{i},{\hat{s}}_{j})}}\rbrack}_{ij}\text{~and~}K_{+}}:={\lbrack{k_{S}{({\hat{s}}_{i}^{+},{\hat{s}}_{j}^{+})}}\rbrack}_{ij}$. We also define the vector-valued functions ${k_{\hat{S}}{(s)}}:={\lbrack{k_{S}{(s,{\hat{s}}_{i})}}\rbrack}_{i}$ and ${k_{+}{(s)}}:={\lbrack{k_{S}{(s,{\hat{s}}_{i}^{+})}}\rbrack}_{i}$. For the product space $S \times A$, the Gram matrix $K_{\hat{S}\hat{A}}$ and the function $k_{\hat{S}\hat{A}}{(s,a)}$ are defined similarly.
+
+The function ${\mathtt{s}\mathtt{a}\mathtt{m}\mathtt{p}\mathtt{l}\mathtt{e}}\_{\mathtt{d}\mathtt{a}\mathtt{t}\mathtt{a}}$ used in Algorithm A.1 in Appendix A implements the generation of iid samples from $\mathcal{R}$.
+
+### Generating a Valid Barrier Function
+
+To get a valid barrier function, we learn a barrier function from the data and perform a validity check iteratively until a valid barrier function is generated.
+
+Learning barrier function. We define the barrier $B$ as a linear combination of the RBF kernel functions, given as
+
+Using the safety specification $\varphi = {\langle S_{u},T\rangle}$, we classify each state ${\hat{s}}_{i} \in S$ using a binary safe/unsafe label $Y$. We use linear regression with regularization (montgomery12) to solve for $\alpha$ as
+
+We compute $\eta = {B{(s_{0})}}$ and $\nu = {{\min_{s \in S_{u}}B}{(s)}}$. The function in satisfies the conditions (i) and (ii) of being a barrier function if $\nu > \eta$.
+
+Barrier function validation. In order to compute the constant $c$ in the condition (iii) of the barrier function and validate the function , we compute a data-driven empirical CME $\hat{\mu}{( \cdot,s,a)}$ for the CME $\mu$ . ‣ 3 Preliminaries ‣ Kernel-Based Safe Exploration in Deep Reinforcement Learning")) applied to the probability kernel $\mathcal{T}$. Using data $\mathcal{R} = {(\hat{S},\hat{A},\hat{R},{\hat{S}}^{+})}$, the empirical CME is
+
+where $\lambda \geq 0$ is a regularization constant, ${\mathbb{I}}_{N}$ is the identity matrix with dimension $N$. Using the reproducing property, we have the following approximation for the conditional expectation :
+
+For simplicity, we denote
+
+The empirical CME $\hat{\mu}$ deviates from the true CME $\mu$ by at most $\epsilon$ in the $\mathcal{G}$-norm with probability $1 - \zeta$, where the approximation precision $\epsilon$ is an error bound to represent the Maximum Mean Discrepancy (MMD) radius of the RKHS ambiguity set centered at the empirical CME. We therefore need the barrier condition to hold robustly over all CMEs within this $\epsilon$-ball. We define an ambiguity set $\mathcal{C}_{\epsilon}$, with MMD $\epsilon$, centered at the empirical CME $\hat{\mu}{( \cdot,s,a)}$ such that the true CME $\mu{( \cdot,s,a)}$ lies within the ambiguity set with probability at least $({1 - \zeta})$, i.e.,
+
+### Theorem 2
+
+Consider the dataset $\mathcal{R} = {(\hat{S},\hat{A},\hat{R},{\hat{S}}^{+})}$ with the kernels $k_{S}$ and $k_{A}$ and the Gram matrices $K_{\hat{S}}$, $K_{\hat{A}}$ and $K_{+}$. Consider the ambiguity set $\mathcal{C}_{\epsilon}$ centered at the empirical CME $\hat{\mu}$ in with confidence $({1 - \zeta})$. If there exists a function $B:{S\rightarrow{\mathbb{R}}_{\geq 0}}$, $B \in \mathcal{H}_{k_{S}}$ with $\overline{B} \geq {\| B\|}_{\mathcal{H}_{k_{S}}}$, such that for all $s \in S$ there is an $a \in A$ satisfying
+
+for some $c \geq 0$ with $W{(s,a)}$ , then B satisfies the condition (iii) of the barrier function with constant $c$ and confidence $({1 - \zeta})$.
+
+### Proof 4.1
+
+To compute the constant $c$ for the barrier function $B$, we convert the constraint in into a min-max optimization problem, as follows:
+
+The function ${\mathtt{c}\mathtt{o}\mathtt{m}\mathtt{p}\mathtt{u}\mathtt{t}\mathtt{e}}\_{\mathtt{B}\mathtt{C}}$ in Algorithm A.1 in Appendix A generates a valid barrier function.
+
+### Finding the Safe Actions
+
+Once we compute a valid barrier function, we use the inequalities of the barrier function to identify and reduce the number of safety violations. To handle these safety violations and guide locally the reinforcement learning towards safe states, we need the local dynamics of the system. We learn a local linear dynamics of the CMDP, represented by matrices $P$ and $Q$, using state transition data $\langle{\hat{s}}_{t},{\hat{a}}_{t},{\hat{s}}_{t + 1}\rangle$. We use regression and solve the following optimization problem (montgomery12):
+
+where $H$ denotes the number of local transitions used to learn the matrices $P$ and $Q$.
+
+Assuming safety specification violation at the state $s_{t}$, we solve a quadratic optimization problem that modifies the current action $a_{t}$ to find the action $\overline{a}$ closest to $a_{t}$ leading to a safe state $s_{t + 1}$, given as
+
+The above optimization ensures that we find the safe action ${\overline{a}}_{t}$ close to the action $a_{t}$ generated by the control policy. This ensures that the learning of the control policy $\pi_{\theta}$ by the reinforcement learning algorithm remains stable.
+
+The function ${\mathtt{g}\mathtt{e}\mathtt{t}}\_{\mathtt{l}\mathtt{o}\mathtt{c}\mathtt{a}\mathtt{l}}\_{\mathtt{d}\mathtt{y}\mathtt{n}\mathtt{a}\mathtt{m}\mathtt{i}\mathtt{c}\mathtt{s}}$ in step A.1 of Algorithm A.1 in Appendix A solves the Equation. The function ${\mathtt{g}\mathtt{e}\mathtt{t}}\_{\mathtt{s}\mathtt{a}\mathtt{f}\mathtt{e}}\_{\mathtt{a}\mathtt{c}\mathtt{t}\mathtt{i}\mathtt{o}\mathtt{n}}$ in line A.1 of Algorithm A.1 in Appendix A solves the Equation.
+
+### Properties of KBSE
+
+With more exploration, the estimate of the conditional expectation in condition (iii) of the barrier function improves. In the following theorem, we provide a bound on the convergence of the approximation of the conditional expectation in the barrier function to the true expectation as the sample size increases.
+
+### Theorem 3
+
+For a given confidence parameter $\zeta$, the approximation precision $\epsilon$, representing the MMD radius, decreases as the number of samples increase with the upper bound $\sqrt{\frac{C}{N}}{({1 + \sqrt{{2 \cdot {\mathtt{l}\mathtt{o}\mathtt{g}}}{(\frac{1}{\zeta})}}})}$, where $C$ is a constant such that ${{\mathtt{s}\mathtt{u}\mathtt{p}}{({k_{S}{(s,s)}})}} \leq C \leq \infty$ and $N$ is the number of samples. This signifies the convergence of empirical CME $\hat{\mu}$ to the true CME $\mu$ with probability at least $({1 - \zeta})$. Moreover, for a fixed $\epsilon$, the confidence in the approximation improves with the increase in the sample size $N$ according to ${\zeta \leq {{\mathtt{e}\mathtt{x}\mathtt{p}}\left\lbrack {- {\frac{1}{2}\left( {\frac{\epsilon \cdot \sqrt{N}}{\sqrt{C}} - 1} \right)^{2}}} \right\rbrack}}.$
+
+### Proof 4.2
+
+## Safety
+
+Table 1: State dimensions (p), action dimensions (q), Safety specifications, computation time and number of safety violations for different environments (Env). For safety specifications p: position of the robot, z: height of the center of mass, a: pedal angle.
+
+Table 2: Comparing the average reward, cost, and length of the KBSE w.r.t baseline algorithms for all benchmarks.
+
+## Evaluation
+
+We now describe the setup and results for our experiments.
+
+Experimental setup. All experiments are carried out on an.04 machine with Intel(R) Xeon(R) Gold 6226R $@2.90$ GHz$\times 16$ CPU, NVIDIA RTX A4000 32GB Graphics card, and 48 GB RAM using the OMNISAFE (omnisafe) framework.
+
+Baseline for comparison. Since KBSE belongs to the class of off-policy safe RL algorithms, we consider the most popular off-policy safe RL algorithms as baseline for comparison, the Lagrangian and PID-Lagrangian approaches, i.e., DDPGLagrangian, SACLagrangian (Ray2019) and DDPGPID, SACPID (stooke20). We have not reported the comparison results with other safe RL algorithms such as CPO, PPO-Lag (Ray2019), or CUP as these are *on-policy* algorithms and are known to suffer from high variance and slow convergence compared to the off-policy methods (chung21a).
+
+Benchmarks. Our experiments include classical and Gym-Mujoco benchmarks (gym) involving safety constraints. See Table 1 with the details of the benchmarks described in the supplementary material and the hyper-parameters in Appendix E.
+
+### Results
+
+Training. The training time needed to learn the control policy and the number of safety violations encountered during training for the KBSE algorithm are presented in Table 1. The column ${90^{th}\%}ile$ provides the time-step by which $90\%$ of the total number of safety violations have occurred for the KBSE algorithm, as a percentage of the training horizon. This indicates that the number of safety violations decreases significantly in the later stages of training. Given that the baselines do not permit quantitative safety violations in their problem formulation, the metrics on safety violations (e.g., 90th percentile) are not applicable in these cases.
+
+We also observe that the training time for KBSE algorithm increases with increasing number of safety violations. This is most apparent in case of the SafetyAnt benchmark where the training time is twice than that of the baselines. The training time depends on the number of safety violations encountered during exploration (cf. Appendix D.3). This, in turn, depends on the shape of the barrier function - one with narrow "safe set" (i.e. stricter safety specifications) would cause more violations. The last column of Table 1 provides the lower bound on the safety probability guaranteed by the KBSE algorithm for each benchmark, a feature that is not integrated in the available safe RL algorithms.
+
+Testing. Table 2 compares the control policies learned by the KBSE algorithm w.r.t. the baselines. For testing policies, we use the metrics *Average Episodic Reward*, *Average Episodic Cost*, and *Average Episodic Length*. In general, the results demonstrate that the KBSE algorithm achieves higher reward and lower cost compared to the baselines. In benchmarks with high dimension, the KBSE algorithm shows superior performance that can be attributed to the larger exploration space for these high-dimensional benchmarks, providing a significant margin for improvement. On the other hand, in low-dimensional benchmarks such as SafetyPendulum and Safety-MountainCar, the performance of KBSE is similar to the baselines as the training occurs for a shorter duration and hence the margin of improvement is smaller.
+
+Further experimental results are available in the appendix, showing synthesized barrier functions (Appendix D.1), plots for $\epsilon$ and $\overline{B}$ (Appendix D.2), the relationship between training time and safety violations (Appendix D.3).
+
+## Conclusion
+
+We have proposed a novel safe exploration algorithm using online barrier functions constructed using kernel mean embeddings (CME). Our approach does not require knowledge of the system dynamics and uses barrier functions that involve chance constraints that allow the violation of the safety specification up to a given probability threshold. Future work includes enhancing the performance using sparse CME and considering temporal behaviors beyond safety.

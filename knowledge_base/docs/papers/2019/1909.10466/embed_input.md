@@ -12,12 +12,8 @@ The analysis of time-dependent phenomena is at the heart of investigation in a b
 
 DMD is a data-driven and model-free algorithm extracting spatio-temporal patterns in the form of so-called DMD modes and DMD eigenvalues. As an efficient tool in fluid mechanics, DMD has gained much attention. DMD has been investigated on both practical and theoretical grounds. Nonetheless, the focus of these analyses was mainly a practical one. For example, various types of flow were considered, such as airflow around an airfoil, fuel flow in a combustion chamber, or heat conduction in various cases. Completely different fields of application comprise financial trading, video processing, epidemiology, neuroscience, and control theory.
 
+In contrast, we focus on theoretical investigations. The paper is thus structured as follows: After discussing related work, we introduce the theoretical framework of DMD dealing with the background mechanisms. In this process, we define the so-called system matrix, which is pioneering for DMD and prove the following results: a characterization for the exactness and diagonalizability of the system matrix as well as the resulting reconstruction of data with its spectral components.
+
 ## Conclusion
 
-A comprehensive theoretical analysis of Dynamic Mode Decomposition has been developed that clarify the connection between different variants of DMD (CDMD, SDMD, and EXDMD) and demonstrates several features of them. One of these features is the reconstruction property, which was proven for all variants and the system matrix as well. To this end, different scaling factors were used and new ones introduced to ensure this property....
-
-Even though, the method of CDMD is mathematically correct, a practical implementation leads to an ill-conditioned algorithm. The reason for this is the external computation of the vector $c$ (which define companion matrix $C_{c}$) that leads to unsatisfied approximation properties of the system matrix $A$. This problem can be tackled by using the robust singular value decomposition (SVD), and will be discussed in the next section.
-
-In sum, the computation of $C_{c}$ is reduced to the calculation of the associated vector $c = {(c_{0},\ldots,c_{m - 1})}^{T}$. This vector minimizes the error $q = {x_{m} - {Xc}}$ and hence only need to solve the following minimization problem
-
-### Proposition 5.6
+A comprehensive theoretical analysis of Dynamic Mode Decomposition has been developed that clarify the connection between different variants of DMD (CDMD, SDMD, and EXDMD) and demonstrates several features of them. One of these features is the reconstruction property, which was proven for all variants and the system matrix as well. To this end, different scaling factors were used and new ones introduced to ensure this property.

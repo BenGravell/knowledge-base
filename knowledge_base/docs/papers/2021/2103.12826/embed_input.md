@@ -4,16 +4,16 @@ Robowflex is a software library for robot motion planning in industrial and rese
 
 ## Introduction
 
-A core component of any autonomous system is *motion planning*, which finds feasible motions that satisfy task requirements (e.g., reaching the goal, satisfying some motion constraint, etc.). There are many motion planning software system for general manipulators; a popular library for motion planning is MoveIt, which is built on top of the ubiquitous Robot Operating System (ros) framework....
+A core component of any autonomous system is *motion planning*, which finds feasible motions that satisfy task requirements (e.g., reaching the goal, satisfying some motion constraint, etc.). There are many motion planning software system for general manipulators; a popular library for motion planning is MoveIt, which is built on top of the ubiquitous Robot Operating System (ros) framework. MoveIt has four key advantages: it is widely adopted in industry and research, it is easy to setup for new robots and over 150 robots are already available, it is easy to integrate with a ros system, and it has a large and vibrant open source community.
 
-This paper introduces *Robowflex*, a software library designed to simplify the use of MoveIt for industrial and research applications of motion planning. *Robowflex* is a high-level api to easily manipulate robots, collision environments, planning requests, and motion planners. *Robowflex* "wraps" the underlying MoveIt library within a c++ interface that provides many utilities that simplify the use and evaluation of motion planners. Moreover, *Robowflex* provides direct access to the implementation (that is, not through ros messaging)....
+This paper introduces *Robowflex*, a software library designed to simplify the use of MoveIt for industrial and research applications of motion planning. *Robowflex* is a high-level api to easily manipulate robots, collision environments, planning requests, and motion planners. *Robowflex* "wraps" the underlying MoveIt library within a c++ interface that provides many utilities that simplify the use and evaluation of motion planners. Moreover, *Robowflex* provides direct access to the implementation (that is, not through ros messaging).
+
+## The *Robowflex* Library
+
+*Robowflex* is intended for use in research, education, and industry. *Robowflex* is informed by the following design goals.
+
+*Clarity of Interface*: Provide an easy to understand interface that meshes with intuitive understanding of the concepts involved in motion planning.
 
 ## Discussion
 
-We have presented *Robowflex*, a c++ library that enables the use of MoveIt in an easier, more flexible way for the creation of advanced robot software for industry, research, and education. The core advantage that *Robowflex* provides over the default distribution of MoveIt is the ability to easily access and modify core data structures within the program itself, rather than through ros messages to the provided MoveGroup program. This also enables the use of motion planning within more complex algorithms, such as task and motion planning approaches....
-
-Note that many scenes can be loaded simultaneously, can be copied and modified, and saved and loaded to and from disk.
-
-Many ros programs rely on the parameter server, a distributed key-value store available in ros. As a result, it is sometimes difficult to have multiple programs running simultaneously that require similar parameters, leading to issues with managing namespaces. By default, *Robowflex* uses an anonymous namespace so that many instances of *Robowflex* code can simultaneously run. Moreover, there is support to load yaml files onto the parameter server, which is typically only available through ros launch, making it easy to have scripts load their parameters.
-
-The *Robowflex* dart module provides an alternative to MoveIt, by modeling robots and scenes in the dart framework with bidirectional conversion to/from MoveIt constructs....
+We have presented *Robowflex*, a c++ library that enables the use of MoveIt in an easier, more flexible way for the creation of advanced robot software for industry, research, and education. The core advantage that *Robowflex* provides over the default distribution of MoveIt is the ability to easily access and modify core data structures within the program itself, rather than through ros messages to the provided MoveGroup program. This also enables the use of motion planning within more complex algorithms, such as task and motion planning approaches.

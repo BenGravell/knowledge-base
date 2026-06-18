@@ -10,30 +10,8 @@ The abstract paragraph should be indented 1/2 inch (3 picas) on both left and ri
 
 ## Submission of conference papers to ICLR 2021
 
-### Author Contributions
-
-If you'd like to, you may include a section for author contributions as is done in many journals. This is optional and at the discretion of the authors.
-
-Citations within the text should be based on the natbib package and include the authors' last names and year (with the "et al." construct for more than two authors). When the authors or the publication are included in the sentence, the citation should not be in parenthesis using `\citet{}` (as in "See for more information."). Otherwise, the citation should be in parenthesis using `\citep{}` (as in "Deep learning shows promise to make progress towards AI (Bengio+chapter2007).").
-
-## Headings: first level
-
-Place one line space before the table title, one line space after the table title, and one line space after the table. The table title must be lower case (except for first word and proper nouns); tables are numbered consecutively.
-
 ICLR requires electronic submissions, processed by See ICLR's website for more instructions.
 
 If your paper is ultimately accepted, the statement \\iclrfinalcopy should be inserted to adjust the format to the camera ready requirements.
 
 The format for the submissions is a variant of the NeurIPS format. Please read carefully the instructions below, and follow them faithfully.
-
-### Style
-
-Papers to be submitted to ICLR 2021 must be prepared according to the instructions presented here.
-
-Authors are required to use the ICLR LaTeX style files obtainable at the ICLR website. Please make sure you use the current files and not previous versions. Tweaking the style files may be grounds for rejection.
-
-### Retrieval of style files
-
-The style files for ICLR and other conference information are available online at:
-
-The file `iclr2021_conference.pdf` contains these instructions and illustrates the various formatting requirements your ICLR paper must satisfy....

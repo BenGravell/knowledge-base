@@ -12,14 +12,12 @@ A plethora of the optimization problems arising in practice involve computing a 
 
 where the $a_{i} \in {\mathbb{R}}^{p}$ and $b_{i} \in {\mathbb{R}}$ are the data samples associated with a regression problem. Another important example is logistic regression,
 
-Non-Uniform Sampling: We have given an argument that non-uniform sampling should benefit the SAG algorithm, and shown empirically that it can lead to a substantial improvement. However, we have not yet given a full analysis of this scheme. Subsequent works have shown that the type of dependency we conjecture here (e.g., dependence on the average Lispschitz constant) can be achieved with non-uniform sampling in the context of SDCA \Qu et al., [2014, Zhao and Zhang, 2014\], SVRG \Xiao and Zhang and SAGA \Schmidt et al.,
+where the $a_{i} \in {\mathbb{R}}^{p}$ and $b_{i} \in {\{{- 1},1\}}$ are the data samples associated with a binary classification problem. A key challenge arising in modern applications is that the number of data points $n$ (also known as *training examples*) can be extremely large, while there is often a large amount of redundancy between examples. The most wildly successful class of algorithms for taking advantage of the *sum* structure for problems where $n$ is very large are *stochastic gradient* (SG) methods \Robbins and Monro, [1951, Bottou and LeCun, 2003\].
 
-Step-size selection and termination criteria: The three major disadvantages of SG methods are: (i) the slow convergence rate, (ii) deciding when to terminate the algorithms, and (iii) choosing the step size while running the algorithm. This work shows that the SAG iterations achieve a much faster convergence rate, but the SAG iterations may also be advantageous in terms of termination criteria and choosing step sizes....
+In this work, we focus on such *finite data* problems where each $f_{i}$ is *smooth* and *convex*.
 
-### Comparison to FG and SG Methods
+That is, like the FG method, the step incorporates a gradient with respect to each function. But, like the SG method, each iteration only computes the gradient with respect to a single example and the cost of the iterations is independent of $n$. Despite the low cost of the SAG iterations, we show in this paper that with a constant step-size *the SAG iterations have an $O{({1/k})}$ convergence rate for convex objectives and a linear convergence rate for strongly-convex objectives*, like the FG method.
 
-This update allows SAG to be efficiently applied to sparse data sets where $n$ and $p$ are both in the millions or higher but the number of non-zeros is much less than $np$.
+## Discussion
 
-Figure 2: Comparison of optimization different FG and SG methods to coordinate optimization methods.The top row gives results on the quantum (left), protein (center) and covertype (right) datasets. The middle row gives results on the rcv1 (left), news (center) and spam (right) datasets. The bottom row gives results on the rcv1Full (left), sido (center), and alpha (right) datasets. This figure is best viewed in colour.
-
-where the $a_{i} \in {\mathbb{R}}^{p}$ and $b_{i} \in {\{{- 1},1\}}$ are the data samples associated with a binary classification problem. A key challenge arising in modern applications is that the number of data points $n$ (also known as *training examples*) can be extremely large, while there is often a large amount of redundancy between examples....
+Since the first version of this work was published \Le Roux et al. there has been an explosion of interest in stochastic methods with improved convergence rates. In this section we first review other algorithms that have been discovered to have this property, and then we discuss the many possible variants on these basic algorithms that have been explored. As this is a very quickly-evolving area there are likely to be many new developments in the near future, but we note that this literature review is up to date as of January, 2015.

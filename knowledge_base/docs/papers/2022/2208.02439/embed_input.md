@@ -10,18 +10,8 @@ This paper presents a hybrid trajectory optimization method designed to generate
 
 Path planning is a critical problem for autonomous vehicles and robots. Several considerations need to be addressed simultaneously in robot path planning and navigation, such as specifying mission goals, ensuring dynamic feasibility, avoiding collisions, and considering internal constraints.
 
-Optimization-based methods for path planning can explicitly handle these tasks. Two popular optimal path planning methods for autonomous robots are gradient-based and sampling-based methods. Gradient-based methods assume that the objective and constraint functions in the planning problem are differentiable, allowing for a fast, locally optimal smooth trajectory. These methods typically rely on nonlinear programming solvers such as IPOPT \[\] and SNOPT \[\]. On the other hand, sampling-based methods do not require function differentiability, making them more suitable for modeling obstacles of various shapes....
+Optimization-based methods for path planning can explicitly handle these tasks. Two popular optimal path planning methods for autonomous robots are gradient-based and sampling-based methods. Gradient-based methods assume that the objective and constraint functions in the planning problem are differentiable, allowing for a fast, locally optimal smooth trajectory. These methods typically rely on nonlinear programming solvers such as IPOPT and SNOPT. On the other hand, sampling-based methods do not require function differentiability, making them more suitable for modeling obstacles of various shapes.
 
-## Conclusions
+This paper proposes a hybrid trajectory optimization method that modularly incorporates sampling-based and gradient-based methods. Fig. illustrates the structure of the proposed collision-free smooth path planning approach. Our method generates a coarse trajectory and path corridors using sampling-based optimization via variational inference (VI). Subsequently, a smooth trajectory is obtained through gradient-based optimization via the differential dynamic programming (DDP) scheme. We assume that a collision checker is available to determine whether a collision has occurred.
 
-In this paper, we introduced MPPI-IPDDP, a new hybrid optimization-based local path planning method designed to generate collision-free, smooth, and optimal trajectories. Through two case studies, we demonstrated the effectiveness of the proposed MPPI-IPDDP in environments with complex obstacle layouts. However, there is still room for improvement. As discussed, incorporating Stein Variational Gradient Descent (SVGD) could enhance exploration capabilities. Additionally, addressing planning under uncertainty remains a key challenge....
-
-where the indicator function for a radial collision-free corridor is defined as
-
-with the intermediate parameters and vectors
-
-Table I: Parameters for trajectory optimization of a wheeled mobile robot in Section IV-A.
-
-The optimization-based trajectory generation architecture known as model predictive control (MPC) has been extensively applied to robotic trajectory generation and planning problems. Deep reinforcement learning-based trajectory generation for mobile robots is another popular approach \[\]. A comparison of the continuous optimal control and reinforcement learning frameworks for trajectory generation of autonomous drone racing is provided in \[\]. Combining MPC with learning schemes has drawn noticeable attention to the robotics and control community....
-
-This paper proposes a hybrid trajectory optimization method that modularly incorporates sampling-based and gradient-based...
+Variational inference (VI) refers to a class of optimization-based approaches for approximating posterior distributions, making Bayesian inference computationally efficient and scalable. The recently proposed model predictive path integral (MPPI) is a sampling-based planning method that uses the VI framework. In essence, MPPI samples random trajectories around a nominal trajectory, assigns weights based on cost, and updates the nominal trajectory using the weighted average. In this paper, MPPI is used to generate a coarse trajectory for exploration while avoiding collisions.

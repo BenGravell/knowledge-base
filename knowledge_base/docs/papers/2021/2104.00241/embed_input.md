@@ -10,15 +10,12 @@ In this paper, we provide a generalized framework for Variational Inference-Stoc
 
 Variational Inference (VI) is a powerful tool for approximating the posterior distribution of the unobserved random variables. VI recasts the approximation problem as an optimization problem. Instead of directly approximating the target distribution $p{(\left. z \middle| x \right.)}$ of the latent variable $z$, VI minimizes the Kullback-Leibler (KL) divergence between a tractable variational distribution $q{(z)}$ and the target distribution. Due to its faster convergence and comparable performance to Markov Chain Monte Carlo sampling methods, VI has received increasing attention in machine learning and robotics.
 
-VI has been applied to Stochastic Optimal Control (SOC) problems recently. In Okada and Taniguchi, the authors formulated the SOC problem as a VI problem by setting the desired policy distribution as the target distribution. The VI-SOC framework works directly in the space of policy distributions instead of specific policy parameterizations in most SOC and Reinforcement Learning (RL) frameworks. This gives rise to a unified derivation for a variety of parametric policy distributions, such as unimodal Gaussian and Gaussian mixture in Okada and Taniguchi. Lambert et al....
+In existing VI-SOC works, the KL divergence is used as the distributional distance metric due to its simplicity. On the other hand, recent advances in VI research involve extending the framework to other statistical divergences, such as the $\alpha$-divergence and $\chi$-divergence. In Wang et al., Regli and Silva, the authors proposed variants of the $\alpha$-divergence to improve the performance and robustness of the inference algorithm. Wan et al. further extended the VI framework to $f$-divergence, which is a broad statistical divergence family that recovers the KL, $\alpha$ and $\chi$-divergence as special cases.
+
+In this paper, we provide a generalized formulation of the VI-SOC framework using the Tsallis divergence and introduce a novel Model Predictive Control (MPC) algorithm.
+
+We propose the Tsallis VI-MPC algorithm, which allows for additional control of the shape of the cost transform compared to previous VI-MPC algorithms using KL divergence.
 
 ## Conclusion
 
-We present a generalized Variational Inference-Stochastic Optimal Control framework using Tsallis divergence, which allows for additional control of the cost/reward transform and results in lower cost/reward variance. We provide a unifying study of the connections between Tsallis VI-SOC, MPPI, CEM, and SS methods. The performance and variance reduction benefits of the proposed Tsallis VI-SOC framework is verified analytically and numerically. We further showcase advantages of the Tsallis VI-MPC algorithm against MPPI and CEM on 5 different systems with 3 different policy distributions....
-
-## Analysis
-
-Stein Variational Policy: The policy can also be a non-parametric distribution approximated by a set of particles $\Theta ≔ {\{\theta_{l}\}}_{l = 1}^{L}$ for some parametrized policy $\hat{\pi}{(U;\theta)}$. In, $\hat{\pi}$ is taken to be a unimodal Gaussian with fixed variance, where $\theta \in {\mathbb{R}}^{n_{x} \times {({T - 1})}}$ corresponds to the mean. The update law of each Stein particle for the $k + 1$th iteration has the form
-
-Cost (Std Dev)
-Mean Control Error
+We present a generalized Variational Inference-Stochastic Optimal Control framework using Tsallis divergence, which allows for additional control of the cost/reward transform and results in lower cost/reward variance. We provide a unifying study of the connections between Tsallis VI-SOC, MPPI, CEM, and SS methods. The performance and variance reduction benefits of the proposed Tsallis VI-SOC framework is verified analytically and numerically. We further showcase advantages of the Tsallis VI-MPC algorithm against MPPI and CEM on 5 different systems with 3 different policy distributions.

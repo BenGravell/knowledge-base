@@ -10,14 +10,14 @@ Compressive sampling offers a new paradigm for acquiring signals that are compre
 
 Most signals of interest contain scant information relative to their ambient dimension, but the classical approach to signal acquisition ignores this fact. We usually collect a complete representation of the target signal and process this representation to sieve out the actionable information. Then we discard the rest. Contemplating this ugly inefficiency, one might ask if it is possible instead to acquire *compressive samples*. In other words, is there some type of measurement that automatically winnows out the information from a signal? Incredibly, the answer is sometimes yes.
 
-*Compressive sampling* refers to the idea that, for certain types of signals, a small number of nonadaptive samples carries sufficient information to approximate the signal well. Research in this area has two major components:
+*Compressive sampling* refers to the idea that, for certain types of signals, a small number of nonadaptive samples carries sufficient information to approximate the signal well.
 
-The iteration invariant, Theorem 2.1. ‣ 2.3. Performance Guarantees ‣ 2. The CoSaMP Algorithm ‣ CoSaMP: Iterative Signal Recovery from Incomplete and Inaccurate Samples"), states that if the error is large then CoSaMP makes substantial progress. This approach to the overall analysis echoes the analysis of other greedy iterative algorithms, including the Fourier sampling method and HHS Pursuit.
+: How many samples are necessary to reconstruct signals to a specified precision? What type of samples? How can these sampling schemes be implemented in practice?
 
-Finally, mixed-norm error bounds, such as that in Theorem A. ‣ 1.2. Signal Recovery Algorithms ‣ 1. Introduction ‣ CoSaMP: Iterative Signal Recovery from Incomplete and Inaccurate Samples"), have become an important feature of the compressive sampling literature. This idea appears in the work of Candès--Romberg--Tao on convex relaxation; it is used in the analysis of HHS pursuit; it also plays a role in the theoretical treatment of Cohen--Dahmen--DeVore.
+: Given the compressive samples, what algorithms can efficiently construct a signal approximation?
 
-Suppose $\mathbf{\Phi}$ has restricted isometry constant $\delta_{r}$. Let $T$ be a set of indices, and let $\mathbf{x}$ be a vector. Provided that $r \geq \left| {T \cup {{supp}{(\mathbf{x})}}} \right|$,
+This paper presents and analyzes a novel signal reconstruction algorithm that achieves these desiderata. The algorithm is called CoSaMP, from the acrostic *Compressive Sampling Matching Pursuit*. As the name suggests, the new method is ultimately based on orthogonal matching pursuit (OMP), but it incorporates several other ideas from the literature to accelerate the algorithm and to provide strong guarantees that OMP cannot. Before we describe the algorithm, let us deliver an introduction to the theory of compressive sampling.
 
-CoSaMP was designed to be a practical method for signal recovery. An efficient implementation of the algorithm requires some ideas from numerical linear algebra, as well as some basic techniques from the theory of algorithms. This section discusses the key issues and develops an analysis of the running time for the two most common scenarios.
+## Discussion and Related Work
 
-Let $T$ be a set of at most $3s$ indices, and define the least-squares signal estimate $\mathbf{b}$ by the formulae
+CoSaMP draws on both algorithmic ideas and analytic techniques that have appeared before. This section describes the other major signal recovery algorithms, and it compares them with CoSaMP. It also attempts to trace the key ideas in the algorithm back to their sources.

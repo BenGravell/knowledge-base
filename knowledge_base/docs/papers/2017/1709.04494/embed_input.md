@@ -10,12 +10,8 @@ Mathematical optimization centers on the optimization problem. Every optimizatio
 
 Unfortunately, most optimization problems cannot be solved efficiently (Boyd \\BBA Vandenberghe, \\APACyear2004, §1.4). There are, however, classes of optimization problems that can be solved in polynomial time. An important such class contains convex optimization problems --- problems where the objective function is convex and where the constraints are described by a set of equality constraints with affine functions and inequality constraints with convex functions (Nesterov \\BBA Nemirovski, \\APACyear1994; Boyd \\BBA Vandenberghe, \\APACyear2004).
 
-All problem rewriting is facilitated by Reduction objects, and every reduction implements three methods: accepts, apply, and retrieve. The accepts method takes as input a problem and returns a boolean indicating whether or not the reduction can be applied to the problem, the apply method takes as input a problem and returns a new equivalent problem, and the retrieve method takes a solution for the problem returned by an invocation of apply and retrieves from it a solution for its problem of provenance....
+Modern convex optimization has its origin in linear programming, which traces back to the late 1940s, after the Second World War (Dantzig, \\APACyear1963, §2). Since then, convex optimization has been extended to include a much wider variety of problems, and has found application in machine learning (Hastie \\BOthers., \\APACyear2009), control (Boyd \\BOthers., \\APACyear1994), and computer science (Bertsekas, \\APACyear1991; Goemans \\BBA Williamson, \\APACyear1995; Parrilo, \\APACyear2003), to name just a few of the fields touched by it.
 
-Creating expressions and constraints in CVXPY invokes behind-the-scenes a front end that parses them into expression trees; this functionality is not new (see Diamond \\BBA Boyd, \\APACyear2016\\APACexlab\\BCnt1). What is new is the method by which solvers are chosen for problems and the methods by which problems are canonicalized to their standard forms. In CVXPY 1.0, invoking the solve method of a problem triggers an analyzer, phase two of our rewriting system....
+## Domain-specific languages
 
-In this section, we present some simple but useful reductions.\
-
-Every rewriting must yield an equivalent problem that is target-compatible.
-
-Eliminating fixed variables. Any variable that is constrained to be a constant is called a fixed variable; replacing every occurrence of it with the value of the constant yields an equivalent...
+A domain-specific language (DSL) is a language that is designed for a particular application domain (Mernik \\BOthers., \\APACyear2005); familiar examples include MATLAB and SQL. DSLs for convex optimization are languages designed for specifying convex optimization problems in natural, human-readable forms, and they obtain solutions to problems on their users' behalf by invoking numerical solvers; popular ones include Yalmip (Löfberg, \\APACyear2004), CVX (Grant \\BBA Boyd, \\APACyear2014), Convex.jl (Udell \\BOthers., \\APACyear2014), and CVXPY (Diamond \\BBA Boyd, \\APACyear2016\\APACexlab\\BCnt1).

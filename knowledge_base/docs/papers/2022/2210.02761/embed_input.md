@@ -6,20 +6,12 @@ Evaluating the safety of an autonomous vehicle (AV) depends on the behavior of s
 
 ## Introduction
 
-As autonomous vehicle (AV) operations grow, developing appropriate methods for evaluating AV safety becomes ever more imperative. The question of "is a vehicle in an unsafe state?" is relevant for AV system developers, policymakers, and the general public alike (see Figure 1). While *guaranteeing* safety may not be practical in the face of the myriad uncertainties and complexities that come with real-world driving, there is still a broad desire to codify, to some extent, collectively agreed-upon notions of safety....
+As autonomous vehicle (AV) operations grow, developing appropriate methods for evaluating AV safety becomes ever more imperative. The question of "is a vehicle in an unsafe state?" is relevant for AV system developers, policymakers, and the general public alike (see Figure 1). While *guaranteeing* safety may not be practical in the face of the myriad uncertainties and complexities that come with real-world driving, there is still a broad desire to codify, to some extent, collectively agreed-upon notions of safety.
 
-Towards this goal of building safe and trustworthy AVs, various stakeholders have advanced safety concepts consisting, in general, of two functions mapping world state (e.g., joint state of all agents and environmental context) to (i) a scalar measure of safety, and (ii) a set of allowable (safe) agent actions. Numerous uses of such safety concepts have been proposed throughout AV pipelines, e.g., a criterion to prune away unsafe plans, a safety monitor to determine when evasive action must be taken, a component in the planning objective, or for perception safety evaluation metrics....
+To address this challenge, we propose designing novel safety concepts by learning from data what are controls, specifically, control sets, that humans operate with when their safety is threatened, and then using these learned control sets to inform AVs of what are reasonable foreseeable behaviors of other agents in safety-critical scenarios. Equipped with such a learned "human behavior collision avoidance model," we perform safety concept synthesis by using robust control theory, specifically Hamilton-Jacobi reachability, as a powerful inductive bias for interpretability, verifiability, and tractability.
 
-### VIII-C Conclusions
+Structure and Contributions. We provide a literature review in Section II, give an overview on Hamilton-Jacobi (HJ) reachability in Section III, and formally state our safety concept learning problem in Section IV. Then we describe the details of our key contributions: (i) We propose a data-driven approach to learn humans' collision avoidance behaviors in the control space to capture "reasonable driving behaviors" (Section V). Specifically, we learn safe control sets from demonstrations via a high order control barrier function (HOCBF) framework.
 
-We have proposed a data-driven safety concept that is robust yet reflective of real-world driving interaction behaviors. We first learn control sets describing collision avoidance behaviors by leveraging high order control barrier functions, and then use them to constrain the HJ reachability computation used for safety concept synthesis....
+## Limitations, Future Work, and Conclusions
 
-### V-B3 HOCBF learning algorithm
-
-### Definition 4 (Relative degree)
-
-## Experiments and Discussion
-
-To address this challenge, we propose designing novel safety concepts by learning from data what are controls, specifically, control sets, that humans operate with when their safety is threatened, and then using these learned control sets to inform AVs of what are reasonable foreseeable behaviors of other agents in safety-critical scenarios. Equipped with such a learned "human behavior collision avoidance model," we perform safety concept synthesis by using robust control theory, specifically Hamilton-Jacobi reachability, as a powerful inductive bias for interpretability, verifiability, and tractability....
-
-Figure 1: Evaluating the safety of an autonomous vehicle (AV) depends on what constitutes as reasonable foreseeable behaviors of other road users....
+We conclude by highlighting some limitations of this work, laying out exciting future directions, and summarizing our key contributions.

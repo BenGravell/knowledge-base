@@ -1,0 +1,214 @@
+## Introduction
+
+Model predictive control (MPC) is nowadays a well-established advanced control technique, where the input is determined by solving a finite-horizon constrained optimal control problem. For the stability analysis, terminal conditions are often utilized, see and the references therein. Alternatively, stability can be established using a sufficiently long prediction horizon and some stabilizability condition related to the stage cost, see for an overview. These results rely on positive-definite stage cost penalizing the deviation from the desired set point. However, in practice, output weighting is often preferred since state measurements might not be available neccessitating the use of input/output models. Moreover, output weighting is closely related to closed-loop performance. Then, the resulting stage cost is only positive semi-definite in the system state, and the stability analysis requires more general tools, based on detectability conditions on the stage cost.
+
+MPC relies on a reliable and accurate model, which explains the recent research interest in data-driven approaches. To this end, a plethora of modeling techniques has been employed in MPC. For linear system, an effective method is based on the use of Willems' fundamental lemma, which allows to directly solve the optimization problem in MPC based on non-parametric models using input/output data only. For nonlinear systems, the explored approaches include Gaussian processes, Koopman operator theory, neural networks, and many more. Despite the availability of many different modeling techniques, data-driven models come with the presence of model-plant mismatch, which may impact the stability properties of the MPC scheme. To fill this gap, recent works have derived conditions, in which data-driven MPC preserves stability and closed-loop performance. Considering MPC without terminal conditions, shows that asymptotic stability can be obtained in presence of proportional bounds on the modeling error, and proposes a framework based on Koopman operator theory to generate data-driven models satisfying the required bounds. Similar results have been derived for MPC with terminal conditions , considering models with parametric uncertainty. Finally, exponential stability of Koopman MPC with terminal conditions has been studied , where the latter also introduces a constraint-tightening approach to guarantee robust constraint satisfaction despite model-plant mismatch.
+
+These existing stability results rely on state-space models and, thus, require state measurements. However, in many practical applications, only the system outputs are measurable, and, thus, MPC is designed on the base of input/output models. The goal of this paper, is to extend the results of asymptotic stability of MPC in presence of approximation errors to models in input/output form. In particular, we consider an MPC formulation with output-weighting stage cost, but without terminal conditions, in which stability is studied relying on a sufficiently long optimization horizon and a cost detectability property. We show that exponential stability of the data-driven MPC closed loop can be achieved if the surrogate model satisfies proportional error bounds and the system is exponential stabilizable. Further, we show that kernel interpolation is a suitable learning technique to provide data-driven surrogate models satisfying our requirements. Finally, we demonstrate our findings in numerical simulations.
+
+The paper is organized as follows. Section II introduces the considered control problem and the MPC algorithm. Stability properties of the closed loop system are analyzed in Section III. In Section IV, we show how models satisfying the required conditions can be learned using kernel interpolation. Finally, numerical experiments are reported in Section V and conclusions are drawn in Section VI.\
+
+Notation: For a symmetric matrix $M$, $\overline{\lambda}{(M)}$ and $\underset{¯}{\lambda}{(M)}$ denote its maximum and minimum eigenvalue, resp. $I_{n} \in {\mathbb{R}}^{n \times n}$, $0_{n \times m} \in {\mathbb{R}}^{n \times m}$ denote the identity and the zero matrix, resp. (dimensions are omitted when clear). $diag$ denotes block diagonal matrices, $\parallel \cdot \parallel$ the Euclidean norm, ${\| x\|}_{Q}^{2}:={x^{\top}Qx}$ for a matrix $Q$ and a vector $x$. For integers $a,b$, $a < b$, we abbreviate ${\lbrack a:b\rbrack} ≔ {\mathbb{Z}} \cap {\lbrack a,b\rbrack}$ and $x{(b:a)} ≔ {\lbrack x{(b)}^{\top},x{(b - 1)}^{\top},\ldots,x{(a)}^{\top}\rbrack}^{\top}$. We write ${\pm a} ≔ {{+ a} - a}$.
+
+## Problem formulation and MPC algorithm
+
+The aim of the paper is to control a nonlinear system using a surrogate model inferred from input/output data. The considered system is described by
+
+where ${y{(k)}} \in {\mathbb{R}}^{p}$ is the system output and ${u{(k)}} \in {\mathbb{U}}$ is its control input. ${\mathbb{U}} \subset {\mathbb{R}}^{m}$ is a compact set containing the origin in its interior, and ${x{(k)}} \in {\mathbb{R}}^{n}$ for $n = {{\nup} + {{({\nu - 1})}m}}$ is a vector consisting of inputs and outputs from the last $\nu$ steps. The parameter $\nu \in {\mathbb{N}}$ defines how many of the past observations are required to characterize the dynamics, and corresponds to the lag of the system. For sake of simplicity, we assume ${x{(k)}} \in \Omega \subseteq {\mathbb{R}}^{n}$, where $\Omega$ contains the origin in its interior and is a positive invariant set w.r.t. system under inputs $u \in {\mathbb{U}}$.^11^1The case in which the invariance condition does not hold is studied , in which a uniform error bound is leveraged to tighten the constraints and, then, to determine a set in which stability holds.
+
+We assume that $F_{y}:{{{\mathbb{R}}^{n} \times {\mathbb{R}}^{m}}\rightarrow{\mathbb{R}}^{p}}$ is Lipschitz continuous w.r.t. its first argument uniformly in $u$, i.e., there exists a Lipschitz constant $L_{F_{y}} > 0$, such that
+
+for all ${x,x^{\prime}} \in \Omega$. The system can also be written in an equivalent state-space form as
+
+where $F_{x}{(x,u)}$ has a Lipschitz constant $L_{F_{x}}$. We assume that the origin is a controlled equilibrium of system, i.e. ${F_{y}{}} = 0$ and ${F_{x}{}} = 0$.
+
+The MPC design is based on a data-driven surrogate model
+
+with right-hand side approximation $F_{y}^{\varepsilon}$ of $F_{y}$, where the superscript $\varepsilon \in {(0,\overline{\varepsilon}\rbrack}$, $\overline{\varepsilon} > 0$, stands for the approximation accuracy and is used in the following to indicate a dependence on the surrogate dynamics. In Section IV we introduce kernel regression as a possible method to compute such a surrogate model in a data-driven fashion. The surrogate system also has an equivalent state dynamics given by $F_{x}^{\varepsilon}$, analogously defined to, which is also assumed to render the set $\Omega$ positive invariant to streamline the exposition.
+
+The goal of the paper is to show that in presence of suitable bounds on the modeling error, MPC using the surrogate model in the optimization step stabilizes the controlled system. The MPC is designed considering the quadratic input/output stage cost $\ell:{{{\mathbb{R}}^{p} \times {\mathbb{R}}^{m}}\rightarrow{\mathbb{R}}_{\geq 0}}$ given by
+
+where $Q \in {\mathbb{R}}^{p \times p}$ and $R \in {\mathbb{R}}^{m \times m}$ are symmetric positive-definite weighting matrices. The MPC cost function $J_{N}^{\varepsilon}:{{\Omega \times {\mathbb{U}}^{N}}\rightarrow{\mathbb{R}}_{\geq 0}}$ is given by
+
+$J_{N}^{\varepsilon}{(\hat{x},\mathbf{u})}$ $= {\sum_{k = 0}^{N - 1}{\ell{({y_{\mathbf{u}}^{\varepsilon}{({k + 1};\hat{x})}},{u{(k)}})}}}$ (6a)
+$x_{\mathbf{u}}^{\varepsilon}{(0;\hat{x})}$ $= \hat{x}$ (6b)
+$x_{\mathbf{u}}^{\varepsilon}{({k + 1};\hat{x})}$ $= F_{x}^{\varepsilon}{(x_{\mathbf{u}}^{\varepsilon}{(k;\hat{x})},u{(k)})},k \in {\lbrack 0:N - 1\rbrack}$ (6c)
+$y_{\mathbf{u}}^{\varepsilon}{(k;\hat{x})}$ $= {\lbrack I_{p},0_{p \times {({n - p})}}\rbrack}x_{\mathbf{u}}^{\varepsilon}{(k;\hat{x})},k \in {\lbrack 0:N\rbrack}$ (6d)
+
+Finally, the MPC algorithm is reported in Algorithm 1.
+
+Input: Horizon N ∈ ℕ, surrogate Fxε, stage cost ℓ,
+Input: input constraints 𝕌
+
+Initialization: Set k = 0, and initialize the state as
+If k &gt; 0, measure output y (k) and set
+Solve the optimal control problem
+
+{{V_{N}^{\varepsilon}{(\hat{x})}} ≔ \min\limits_{\mathbf{u}}} &amp; {J^{\varepsilon}{(\hat{x},\mathbf{u})}} \\
+\text{s.t.} &amp; {\text{(}\text{)-(}\text{)-(}\text{)}} \\
+&amp; {\mathbf{u} = {\{{u{(i)}}\}}_{i = 0}^{N - 1} \subset {\mathbb{U}}}
+
+to obtain optimal control sequence u⋆ = {u⋆ (i)}i = 0N − 1
+Apply the MPC feedback law μNε (x̂) = u⋆ to the
+plant to generate the closed loop
+
+increment k = k + 1, and go to Step.
+
+Algorithm 1 Data-driven nonlinear MPC
+
+For the closed-loop analysis, we also introduce the nominal cost function $J_{N}$, and the nominal (optimal) value function $V_{N}$, that are defined analogously to $J_{N}^{\varepsilon}$ and $V_{N}^{\varepsilon}$, but using the actual system dynamics $F_{x}$ instead of the surrogate $F_{x}^{\varepsilon}$ in (6c). In case we have a linear surrogate model $F_{x}^{\varepsilon}$, (OCP) is a computationally efficient convex optimization problem, assuming also $\mathbb{U}$ is convex. In general, we consider a nonlinear true dynamics $F_{x}$ and hence a nonlinear surrogate dynamics $F_{x}^{\varepsilon}$ and hence (OCP) is a nonlinear program, as standard in nonlinear MPC.
+
+## Stability analysis
+
+Our goal is to prove exponential stability of the data-driven MPC closed-loop system. To this end, we require the following properties of the model $F_{y}^{\varepsilon}$, see, e.g.,.
+
+### Assumption 1
+
+For every $\varepsilon \in {(0,\overline{\varepsilon}\rbrack}$, $\overline{\varepsilon} > 0$, let the surrogate model satisfy
+
+*proportional* error bounds
+
+for all $x \in \Omega$, $u \in {\mathbb{U}}$ with parameters $c_{x}^{\varepsilon}$and $c_{u}^{\varepsilon}$ satisfying ${\lim_{\varepsilon \searrow 0}{\max{\{ c_{x}^{\varepsilon},c_{u}^{\varepsilon}\}}}} = 0$.
+
+uniform Lipschitz continuity in the first argument on $\Omega$, i.e., there exists $\overline{L} > 0$ such that, for every $\varepsilon \in {(0,\overline{\varepsilon}\rbrack}$, there is a Lipschitz constant $L_{F_{y}^{\varepsilon}}$ with $L_{F_{y}^{\varepsilon}} \leq \overline{L}$ satisfying, for all ${x,x^{\prime}} \in \Omega$, $u \in {\mathbb{U}}$,
+
+Assumption 1 can be rigorously verified , e.g., kernel-based surrogate models as shown in Section IV.
+
+To derive the stability results, it is important to notice that the considered stage cost only penalizes the system output, and is therefore only positive semi-definite in the state $x$. Hence, the standard stability results for positive definite stage cost, cf., cannot be applied directly. Instead, the stability proof relies on cost detectability. In view of the NARX structure of the system and model, the following result, which is a straightforward adaptation of \[8, Remark 3\], establishes this detectability condition.
+
+### Proposition 1
+
+For weighting matrix $P = {{diag}{(Q,\ldots,{\frac{1}{\nu}Q},R,\ldots,{\frac{2}{\nu}R})}}$, the quadratic storage function ${W{(x)}} = {\| x\|}_{P}^{2}$ is given by
+
+For any ${x \in \Omega},{u \in {\mathbb{U}}}$, $x^{+} = {F_{x}{(x,u)}}$ and $y^{+} = {F_{y}{(x,u)}}$, the following inequality holds:
+
+This proposition verifies cost detectability with the storage function $W$. In particular, recursive application of ensures that bounded cumulative costs ensure convergence of the state to zero. This connection will be crucial in the theoretical analysis to establish stability of the MPC scheme, which minimizes the input-output cost $\ell$. Note that Proposition 1 holds for any system in NARX form of including the surrogate models $F_{y}^{\varepsilon},F_{x}^{\varepsilon}$.
+
+Since the MPC algorithm does not include terminal conditions, the stability proof utilizes the following cost controllability condition adapted from \[8, Assumption 2\].
+
+### Assumption 2 (Cost controllability)
+
+System is cost controllable with stage cost on the set $\Omega$, i.e., there exists a monotonically increasing bounded sequence ${(B_{N})}_{N \in {\mathbb{N}}_{0}}$ such that, for every $\hat{x} \in \Omega$ and every $N \in {\mathbb{N}}$, there exists a control sequence $\mathbf{u} \in {\mathbb{U}}^{N}$ satisfying the growth bound
+
+Cost controllability with a quadratic cost $\ell$ means that the system can be exponentially stabilized to the origin. Compared to the positive-definite-cost case, we cannot have only the stage cost $\ell$ on the right hand side, see for an in-depth discussion.
+
+In the following, we show that, if the system under control is cost controllable, then the same property is preserved by the surrogate model, and vice versa. This proposition follows a similar reasoning like \[15, Proposition 1\]. However, since the stage cost is only semi-definite, it cannot be used to bound the state prediction error, and the cost detectability function $W$ has to be used instead.
+
+### Proposition 2
+
+Let Assumptions 1 and 2 ‣ III Stability analysis ‣ Exponential stability of data-driven nonlinear MPC based on input/output models") hold. Then, for given $\overline{N}$, the growth bound (11 ‣ III Stability analysis ‣ Exponential stability of data-driven nonlinear MPC based on input/output models")) is satisfied for the surrogate model on $\Omega$ for all $N \in {\lbrack 1:\overline{N}\rbrack}$ uniformly in $\varepsilon$, i.e., there exists a monotonically increasing sequence ${(B_{N}^{\varepsilon})}_{N \in {\lbrack{1:\overline{N}}\rbrack}}$, parametrized in $\varepsilon$, such that, for each pair ${(\hat{x},N)} \in \Omega \times {\lbrack 1:\overline{N}\rbrack}$, there exists $\mathbf{u} \in {\mathbb{U}}^{N}$ satisfying
+
+Moreover, ${\lim_{\varepsilon \searrow 0}B_{N}^{\varepsilon}} = B_{N}$ for all $N \in {\lbrack 1:\overline{N}\rbrack}$. The statement holds also upon switching the roles of $F_{y}$ and $F_{y}^{\varepsilon}$, i.e., if the growth bound (11 ‣ III Stability analysis ‣ Exponential stability of data-driven nonlinear MPC based on input/output models")) holds for the surrogate model $F_{y}^{\varepsilon}$, then its counterpart holds for the original system dynamics $F_{y}$ for all $N \in {\lbrack 1:\overline{N}\rbrack}$.
+
+### Proof
+
+For sake of compactness, in the proof we omit the dependence of all the state and output sequences from the initial condition $\hat{x}$. The aim of the proof is to study the difference between $J_{N}^{\varepsilon}{(\hat{x},\mathbf{u})}$ and $J_{N}{(\hat{x},\mathbf{u})}$ relying on bounds on ${e_{y}{(k)}}:={\|{{y_{\mathbf{u}}^{\varepsilon}{(k)}} - {y_{\mathbf{u}}{(k)}}}\|}$. By standard norm inequalities, we have that
+
+Next, we derive bounds on $e_{y}^{2}{({k + 1})}$ and $e_{y}{({k + 1})}{\|{y_{\mathbf{u}}{({k + 1})}}\|}$. By definition ${e_{y}{(k)}} \leq {e_{x}{(k)}}:={\|{{x_{\mathbf{u}}^{\varepsilon}{(k)}} - {x_{\mathbf{u}}{(k)}}}\|}$ and ${\|{{F_{x}{(x,u)}} - {F_{x}^{\varepsilon}{(x,u)}}}\|} = {\|{{F_{y}{(x,u)}} - {F_{y}^{\varepsilon}{(x,u)}}}\|}$, since the two functions only differ for the first $p$ components. Analogously to the proof of \[15, Prop. 1\], we have that
+
+with $\overline{c}:={\max{\{ c_{x}^{\varepsilon},c_{u}^{\varepsilon}\}}}$. Let $d ≔ {L_{F_{x}} + c_{x}^{\varepsilon}}$ and ${\ell_{y}{(i)}} ≔ {\ell{({y_{\mathbf{u}}{({i + 1})}},{u{(i)}})}}$. Using Inequality and the fact that ${({a + b})}^{2} \leq {{2a^{2}} + {2b^{2}}}$, we get
+
+Analogously, leveraging Inequality and the fact that ${2{\| a\|}{\| b\|}} \leq {{\| a\|}^{2} + {\| b\|}^{2}}$ yields
+
+The second summand in and the second and third summands in consist of terms that are included in the MPC cost function, and, thus, can be bounded by exploiting the cost controllability condition (11 ‣ III Stability analysis ‣ Exponential stability of data-driven nonlinear MPC based on input/output models")), similarly to the proof of \[15, Prop. 1\]. Instead, the term ${\|{x_{\mathbf{u}}{({k - 1 - j})}}\|}^{2}$ cannot be included in $\ell_{y}$ in view of the positive semi-definiteness of the cost. Hence, this term is bounded exploiting the storage function $W$ introduced in Proposition 1. In particular, for each $k \in {\lbrack 1:N - 1\rbrack}$ we can apply iteratively and use that $\frac{\nu - 1}{\nu} < 1$ and the assumed cost controllability to obtain
+
+which, in view of the positive definiteness of $P$, implies
+
+We can now study term $\sum_{k = 0}^{N - 1}{e_{y}{(k)}^{2}}$. In view of and, we have that
+
+Then, noting that the summation $\sum_{k = 0}^{N - 1}\sum_{j = 0}^{k}$ is equivalent to $\sum_{0 \leq j < k \leq {N - 1}} = {\sum_{j = 0}^{N - 1}\sum_{k = j}^{N - 1}}$ and invoking the assumed cost controllability (11 ‣ III Stability analysis ‣ Exponential stability of data-driven nonlinear MPC based on input/output models")), we can bound the second summand in the previous inequality as follows:
+
+We proceed similarly for $\sum_{k = 0}^{N - 1}{e_{y}{({k + 1})}{\|{y_{\mathbf{u}}{({k + 1})}}\|}}$, starting from and applying:
+
+The terms in the last summation can be upper bounded by
+
+Combining the previous estimates leads to
+
+In (III), for each $N \in {\lbrack 1:\overline{N}\rbrack}$, $B_{N}^{\varepsilon}\rightarrow B_{N}$ for $\left. \overline{c}:={\max{\{ c_{x}^{\varepsilon},c_{u}^{\varepsilon}\}}}\searrow 0 \right.$ as claimed. The symmetry of the statement can be proved with the same arguments of. ∎
+
+Since the considered stage cost is positive semi definite, the stability proof needs to consider
+
+as candidate Lyapunov function and cannot rely on the optimal value function $V_{N}^{\varepsilon}$ only, see. Consequentely, \[15, Thm.1\] cannot be applied directly. Hence, we first state the following theorem as an auxiliary result, which is a direct adaptation of \[8, Thm. 3\] to our setting. Theorem 1 establishes a relaxed Lyapunov inequality for the surrogate model $F_{y}^{\varepsilon}$ assuming that a condition on the interplay of prediction horizon $N$ and approximation accuracy holds. The verifyability of that condition will be the key challenge in showing our main result, i.e., Theorem 2.
+
+### Theorem 1
+
+Let the growth bound hold for the (OCP) using the surrogate model $F_{y}^{\varepsilon}$. Further, let the prediction horizon satisfy the inequality
+
+with ${\overline{\gamma}}^{\varepsilon} = \frac{\max_{N}B_{N}^{\varepsilon}}{\sigma_{\min}{(P)}}$, $\eta = \frac{\nu - 1}{\nu}$. Then, there exists $\alpha_{N} > 0$ such that for all $x \in \Omega$ and $Y_{N}^{\varepsilon}$ given by
+
+${{W{(x)}} \leq {Y_{N}^{\varepsilon}{(x)}} \leq {{({\overline{\gamma} + 1})}W{(x)}}},$ (21a)
+${{Y_{N}^{\varepsilon}{({F_{x}^{\varepsilon}{(x,u)}})}} \leq {{Y_{N}^{\varepsilon}{(x)}} - {{\frac{\alpha_{N}}{\nu} \cdot W}{(x)}}}}.$ (21b)
+
+Condition holds for sufficiently large horizon $N$ and implies $\alpha_{N} > 0$. Then, inequalities ensure that $Y_{N}^{\varepsilon}{(x)}$ is a Lyapunov function. Therein, $\alpha_{N} \in {(0,1\rbrack}$ is a suboptimality index that bounds the closed-loop performance compared the infinite-horizon optimal controller, cf. \[8, Thm. 1\]. One can show that $\alpha_{N}$ approaches one as the prediction horizon $N$ approaches infinity, i.e., can essentially recover the best possible performance using MPC.
+
+In the following theorem we derive the main result of the paper, i.e., exponential stability of the data-driven MPC closed loop. To do so, we rely on the error bounds of Assumption 1 to show that $Y_{N}^{\varepsilon}$ is also a Lyapunov function for the system under the control law $\mu_{N}^{\varepsilon}$, provided that $\varepsilon$ is sufficiently small.
+
+### Theorem 2
+
+Let the assumptions of Proposition 2 and of Theorem 1 hold. Then, there exists $\varepsilon_{0} \in {(0,\overline{\varepsilon}\rbrack}$ such that the MPC controller of Algorithm 1 ensures exponential stability of the origin for all ${x{}} \in \Omega$ and for all $\varepsilon \in {(0,\varepsilon_{0})}$.
+
+### Proof
+
+In Theorem 1, we have shown the relaxed Lyapunov inequality
+
+for the surrogate model $F_{x}^{\varepsilon}$. Considering the real system dynamics $F_{x}$, we have that
+
+Next, we exploit the proportional bounds of Assumption 1 to derive bounds for and. While the term in is analogous to what is obtained in the proof of \[15, Thm. 1\], the term in is due to the considered input-output setting. To this end, we recall that ${F_{x}^{\varepsilon}{(\hat{x},{\mu_{N}^{\varepsilon}{(\hat{x})}})}} = {x_{\mathbf{u}^{\star}}^{\varepsilon}{(1;\hat{x})}}$, where $\mathbf{u}^{\star}$ is the optimal solution of (OCP) with initial state $\hat{x}$, and we denote the real successor state of the system by $x^{+}:={F_{x}{(\hat{x},{\mu_{N}^{\varepsilon}{(\hat{x})}})}}$. $\mathbf{u}^{\sharp} = {({u^{\sharp}{(i)}})}_{i = 0}^{N - 1}$ represents the solution of the MPC optimization problem initialized with ${\overset{\sim}{x}}^{+}:={x_{\mathbf{u}^{\star}}^{\varepsilon}{(1;\hat{x})}}$, which is never computed in the practice but needed to define $V_{N}^{\varepsilon}{({F_{x}^{\varepsilon}{(\hat{x},{\mu_{N}^{\varepsilon}{(\hat{x})}})}})}$. Moreover, we define ${y_{\mathbf{u}^{\sharp}}^{\varepsilon}{(i;{\overset{\sim}{x}}^{+})}} ≔ {{\lbrack{I_{p}0_{{({n - p})} \times p}}\rbrack}x_{\mathbf{u}^{\sharp}}^{\varepsilon}{(i;{\overset{\sim}{x}}^{+})}}$ and ${y_{\mathbf{u}^{\sharp}}^{\varepsilon}{(i;x^{+})}} ≔ {{\lbrack{I_{p}0_{{({n - p})} \times p}}\rbrack}y_{\mathbf{u}^{\sharp}}^{\varepsilon}{(i;x^{+})}}$ for all $i \in {\lbrack 0:N\rbrack}$. Then, optimality of MPC yields
+
+Consider now the $i$-th term of this summation
+
+In the following, we derive upper bounds for the terms $\|{{y_{\mathbf{u}^{\sharp}}^{\varepsilon}{({i + 1};{\overset{\sim}{x}}^{+})}} - {y_{\mathbf{u}^{\sharp}}^{\varepsilon}{({i + 1};x^{+})}}}\|$ and $\|{y_{\mathbf{u}^{\sharp}}^{\varepsilon}{({i + 1};{\overset{\sim}{x}}^{+})}}\|$. First, we consider the term $\|{{y_{\mathbf{u}^{\sharp}}^{\varepsilon}{({i + 1};{\overset{\sim}{x}}^{+})}} - {y_{\mathbf{u}^{\sharp}}^{\varepsilon}{({i + 1};x^{+})}}}\|$, and we leverage and of Assumption 1 to infer
+
+Second, we consider the term $\|{y_{\mathbf{u}^{\sharp}}^{\varepsilon}{({i + 1};{\overset{\sim}{x}}^{+})}}\|$. For the growth bound of $F_{x}^{\varepsilon}$ derived in Proposition 2 and for the relaxed Lyapunov inequality, we have that
+
+Since, we have the inequality ${\ell{({y_{\mathbf{u}^{\sharp}}^{\varepsilon}{({i + 1};{\overset{\sim}{x}}^{+})}},{u^{\sharp}{(i)}})}} \geq {\|{y_{\mathbf{u}^{\sharp}}^{\varepsilon}{({i + 1};{\overset{\sim}{x}}^{+})}}\|}_{Q}^{2}$ for all $i \in {\lbrack 0:N - 1\rbrack}$, we also have ${\|{y_{\mathbf{u}^{\sharp}}^{\varepsilon}{({i + 1};{\overset{\sim}{x}}^{+})}}\|}_{Q}^{2} \leq {B_{N}^{\varepsilon}{\|\hat{x}\|}^{2}}$. By exploiting standard inequalities of weighted squared norms and taking the square root, we have ${\|{y_{\mathbf{u}^{\sharp}}^{\varepsilon}{({i + 1};{\overset{\sim}{x}}^{+})}}\|} \leq {\overset{\sim}{c}{\|\hat{x}\|}}$, where $\overset{\sim}{c} ≔ \sqrt{{B_{N}^{\varepsilon}/\underset{¯}{\lambda}}{(Q)}}$. Then, substituting these inequalities , we get
+
+The terms in can be studied with a similar reasoning by noting that
+
+where the last bound is obtained applying the same reasoning we used for considering ${i + 1} = 0$.
+
+Substituting this back , and, we obtain
+
+where $C_{x}:={2{\| Q\|}{\sum_{i = 0}^{N}\left( {{\overset{\sim}{c}L_{F_{x}^{\varepsilon}}^{i}{({c_{x}^{\varepsilon} + {\frac{1}{2}c_{u}^{\varepsilon}}})}} + {({L_{F_{x}^{\varepsilon}}^{i}c_{x}^{\varepsilon}})}^{2}} \right)}}$ and $C_{u}:={2{\| Q\|}{\sum_{i = 0}^{N}\left( {{\overset{\sim}{c}L_{F_{x}^{\varepsilon}}^{i}\frac{1}{2}c_{u}^{\varepsilon}} + {({L_{F_{x}^{\varepsilon}}^{i}c_{u}^{\varepsilon}})}^{2}} \right)}}$. The values of $C_{x}$ and $C_{u}$ can be made arbitrarily small with sufficiently small proportionality constants $c_{x}^{\varepsilon}$ and $c_{u}^{\varepsilon}$. Moreover, in view of the results of Proposition 2, we have that ${\|{\mu_{N}^{\varepsilon}{(\hat{x})}}\|}_{R}^{2} \leq {V_{N}^{\varepsilon}{(\hat{x})}} \leq {B_{N}^{\varepsilon}{\|\hat{x}\|}^{2}}$, which implies that ${\|{\mu_{N}^{\varepsilon}{(\hat{x})}}\|} \leq {\sqrt{{B_{N}^{\varepsilon}/\underset{¯}{\lambda}}{(R)}}{\|\hat{x}\|}}$. Then, there exists a sufficiently small $\varepsilon_{0}$ such that $c_{x}^{\varepsilon}$, $c_{u}^{\varepsilon}$ are sufficiently small to ensure the inequality
+
+for $\overline{\alpha} \in {(0,\alpha_{N})}$ and for all $\varepsilon \in {(0,\varepsilon_{0})}$. This completes the proof and, thus, shows exponential stability of the MPC closed loop based on the surrogate model. ∎
+
+The proof of Theorem 2 shows that for any desired suboptimality index $\overline{\alpha} \in {(0,\alpha_{N})}$, there exist a sufficiently small $\varepsilon_{0}$ such that the data-driven MPC closed-loop converges with the corresponding rate. In particular, the convergence rate of the data-driven MPC approaches the convergence rate of the MPC with an exact prediction model as the approximation error tends to zero.
+
+## Kernel interpolation: Data-driven models
+
+In the following, we show how we can learn a function $F_{y}^{\varepsilon}$ satisfying Assumption 1 from input-output data using kernel interpolation.
+
+Specifically, we have a data set $\mathcal{X}$ consisting of $\xi_{i} = {(x_{i},u_{i})} \in \Omega \times {\mathbb{U}} =:\Omega_{\xi} \subseteq {\mathbb{R}}^{n + m}$ and $y_{i} = {F_{y}{(\xi_{i})}}$, $i \in {\lbrack 1:D\rbrack}$. Since we can identify each component independently, we focus on estimating $F_{y}^{\varepsilon}$ for a scalar output ($p = 1$) to simplify the exposition. We denote the fill distance of this data by
+
+Suppose that this data set contains the origin, i.e., $0 \in \mathcal{X}$. Let $\mathsf{k}:{{\Omega_{\xi} \times \Omega_{\xi}}\rightarrow{\mathbb{R}}_{\geq 0}}$ be a symmetric, strictly positive kernel with corresponding reproducing kernel Hilbert space (RKHS) denoted by $\mathbb{H}$. Furthermore, suppose that $F_{y} \in {\mathbb{H}}$. Kernel interpolation yields the unique function that interpolates the data with the minimal RKHS norm, which is given by
+
+with $\mathsf{k}_{\mathcal{X}}:{\Omega_{\xi}\rightarrow{\mathbb{R}}^{D}}$, ${\mathsf{k}_{\mathcal{X}}{(\xi)}} = {({\mathsf{k}{(\xi,\xi_{i})}})}_{i = 1}^{D}$, kernel matrix $K_{\mathcal{X}} = {({\mathsf{k}{(\xi_{i},\xi_{j})}})}_{{i,j} = 1}^{D} \in {\mathbb{R}}^{D \times D}$, and $Y = {(y_{i})}_{i = 1}^{D} \in {\mathbb{R}}^{D}$. Kernel interpolation enjoys the following error bound (cf. \[21, Sec. 14.1\])
+
+with the power function $P:{\Omega_{\xi}\rightarrow{\mathbb{R}}_{\geq 0}}$,
+
+Suppose the RKHS is norm equivalent to the Sobolev space of order $s$, e.g., by choosing a corresponding Matern or Wendland kernel $\mathsf{k}$ of sufficient smoothness. Then, according to \[22, Thm. 5.4\], the power function satisfies
+
+for some constant $C > 0$, where we use the fact that $0 \in \mathcal{X}$, i.e., the origin is contained in the data set. By setting $s > {1 + {{({n + m})}/2}}$, we satisfy the proportional error bounds with $\varepsilon$ given by the fill distance $h_{\mathcal{X}}$. Furthermore, if kernel $\mathsf{k}$ is twice continuous differentiable with a bounded Hessian, then both functions ${F_{y}^{\varepsilon},F_{y}} \in {\mathbb{H}}$ are also Lipschitz continuous.
+
+In conclusion, Assumption 1 holds by using kernel interpolation if: (i) the data has a small enough fill distance $h_{\mathcal{X}}\rightarrow 0$, (ii) the equilibrium at the origin is contained in the data set, and (iii) the unknown function $F_{y}$ lies in the RKHS $\mathbb{H}$ with a suitably chosen kernel $\mathsf{k}$.
+
+## Numerical example
+
+The exponential stability of the data-driven MPC is illustrated in a two-tank example described by
+
+with constants ${A_{1} = 0.001},{{c_{1,2} = 0.0254},{c_{2} = 0.0261}}$. The system is integrated by using the classical fourth-order Runge--Kutta method (RK4) using a sampling time ${\Deltat} = 10$s. The output of the system is given by $y = h_{1}$, and the control objective is to steer the system to the equilibrium point $\overline{h} = {(0.0438,0.09)}^{\top}$, $\overline{u} = {5.461 \cdot 10^{- 6}}$, while respecting the input constraint $u \in {\mathbb{U}} ≔ {\lbrack{3.16 \cdot 10^{- 6}},{4.76 \cdot 10^{- 5}}\rbrack}$.
+
+The MPC algorithm is based on a surrogate model obtained via kernel interpolation, using the Wendland kernel function ${\mathsf{k}{(x,x^{\prime})}} = {\phi{({\|{x - x^{\prime}}\|})}}$, with ${\phi{(r)}} ≔ {\frac{1}{30}{({1 - r})}^{5}{({{5r} + 1})}}$ for $r \in {\lbrack 0,1\rbrack}$ and 0 otherwise. The lag of the system is $\nu = 2$, leading to a model with a state $x \in \Omega \subseteq {\mathbb{R}}^{3}$. We consider the domain $\Omega = {{\lbrack 0,0.5\rbrack}^{2} \times {\mathbb{U}}}$. To ensure proportional error bounds, the first data point is in the reference equilibrium, i.e. $x_{1} = {\lbrack{\overline{h}}_{1},{\overline{h}}_{1},\overline{u}\rbrack}$, $u_{1} = \overline{u}$ and $y_{1} = {\overline{h}}_{1}$. For the simulations, we consider datasets with $D \in {\{ 100,500,2500\}}$ data points. In order to obtain models with an equilibrium point in the origin, the input and output data are shifted with respect to their reference and rescaled before the model identification.
+
+For MPC, we consider a prediction horizon $N = 20$ as well as weights $Q = 1$ and $R = 10^{- 1}$. As comparison strategy, we consider the nominal MPC which uses the exact model for prediction. The nominal MPC is implemented with the same cost function and prediction horizon of the data-driven MPC.
+
+Figure 1: Output errors $\|{{h_{1}{(k)}} - {\overline{h}}_{1}}\|$ of the data-driven MPC and the nominal MPC closed-loops for k ∈, where the models are obtained with D ∈ {100, 500, 2500} data points.
+
+Figure 2: Optimal value function VNε and Lyapunov function YNε (bottom) for horizon N = 20 and where the models are obtained with D ∈ {100, 500, 2500} data points.
+
+The simulation results are reported in Figs. 1 and 2. Fig. 1 illustrates the tracking errors $\|{{h_{1}{(k)}} - {\overline{h}}_{1}}\|$ of the data-driven MPC closed-loop, comparing the models computed with different numbers of data points, and of the nominal MPC closed-loop. It can be observed that the convergence rate is faster with a larger dataset, even if it does not reach the convergence speed of the closed-loop obtained with perfect system knowledge. Moreover, Fig. 2 shows the corresponding trajectories of the optimal value function $V_{N}^{\varepsilon}$ and the Lyapunov function candidate $Y_{N}^{\varepsilon}$. It is evident that $V_{N}^{\varepsilon}$ fails to serve as a Lyapunov function for any of the surrogate models. When considering $Y_{N}^{\varepsilon}$, we observe similar non-monotonic behaviour for $D = 100$ as seen with the optimal value function, however, with an increasing number of data points, i.e., $D \in {\{ 500,2500\}}$, $Y_{N}^{\varepsilon}$ is monotonically decreasing. This verifies the findings of Theorem 2, indicating that a sufficiently small modeling error ensures exponential stability.
+
+## Conclusions
+
+In this paper, we have provided sufficient conditions such that data-driven MPC without terminal conditions ensures exponential stability for nonlinear input-output systems. The key requirement is the combination of cost detectability and a proportional error bound. The latter can be achieved using kernel interpolation. Future work could consider investigating other data-driven models for proportional error bounds. Moreover, an interesting open research direction is the inclusion of general noise in this framework using Gaussian process models.

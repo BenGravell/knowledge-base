@@ -8,16 +8,12 @@ We study the problem of sampling robot trajectories and introduce the notion of 
 
 ## Introduction
 
-Trajectory sampling is the task of generating "random" robot trajectories from the set of all possible robot trajectories. Trajectory sampling plays a critical role in randomized motion planning \[\], model predictive control \[\] and reinforcement learning \[\]. In this paper, we consider basic, but surprisingly understudied questions related to trajectory sampling: what is a desired goal distribution for sampling trajectories? How can we generate samples according to this distribution?
+Trajectory sampling is the task of generating "random" robot trajectories from the set of all possible robot trajectories. Trajectory sampling plays a critical role in randomized motion planning, model predictive control and reinforcement learning. In this paper, we consider basic, but surprisingly understudied questions related to trajectory sampling: what is a desired goal distribution for sampling trajectories? How can we generate samples according to this distribution?
 
-To set the stage for our study, consider the most common way of generating trajectory samples: by sampling robot control inputs according to either uniform or Gaussian probability densities. This sampling strategy generates strategies which are helpful for understanding where the robot would be if random disturbances were applied to the input at each time step. But they are not as helpful for generating random trajectories to cover the robot's configuration space (C-space)....
+To make the case regarding sampling control inputs more concrete, consider the simple example of a robot on the line. In Figure, we show the distribution of a robot which chooses between left, right and stay actions with equal probability. The blue distribution shows the distribution of the robot's location after 30 steps. It is well known that the probability distribution function (pdf) resulting from this random walk strategy is Bernoulli (it is Gaussian if the actions are chosen according to a Gaussian distribution).
 
-In this paper, we sought to generate random trajectories which uniformly sample the configuration space. For this purpose, we introduced the notion of C-Uniformity where at each time step $k$, the robot's probability of being at a configuration in the $k^{th}$ level set is uniform. We showed how to generate control input probabilities to achieve C-Uniformity by formulating a max-flow problem. We then introduced a new version of the Model Predictive Path Integral controller which uses C-Uniform control inputs to generate proposal trajectories....
+## Conclusion and Future Work
+
+In this paper, we sought to generate random trajectories which uniformly sample the configuration space. For this purpose, we introduced the notion of C-Uniformity where at each time step $k$, the robot's probability of being at a configuration in the $k^{th}$ level set is uniform. We showed how to generate control input probabilities to achieve C-Uniformity by formulating a max-flow problem. We then introduced a new version of the Model Predictive Path Integral controller which uses C-Uniform control inputs to generate proposal trajectories.
 
 One of the drawbacks of our method is that it is computationally expensive. However, this is not a big detriment for real-time operation since the control input probabilities can be computed in advance. Furthermore, parallel processing techniques can be utilized to speed up the computation. Our immediate next step is to demonstrate real-time performance in realistic environments. We will also work on further improving sample efficiency by incorporating the environment map and/or the sensor footprints into the computation of control input probabilities.
-
-Figure 2: C-Uniform control inputs the case of n = 5 and m = 9. Probabilities are obtained by dividing each entry by 9.
-
-### Problem 1 (C-Uniform-sampling)
-
-Vehicle Model. All following experiments are conducted with similar settings. We model the vehicle as a Dubin's car....

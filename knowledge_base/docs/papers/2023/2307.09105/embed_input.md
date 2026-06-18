@@ -8,18 +8,16 @@ We present a method for sampling-based model predictive control that makes use o
 
 ## Introduction
 
-As robots become increasingly integrated into our daily lives, their ability to navigate and interact with the environment is becoming more important than ever. From collision avoidance to moving obstacles out of the way to pick up some objects, robots must be able to plan their motions while accounting for contact with their surroundings. At the same time, robotic platforms require many Degrees Of Freedom (DOF) to achieve agile and dexterous movements....
+As robots become increasingly integrated into our daily lives, their ability to navigate and interact with the environment is becoming more important than ever. From collision avoidance to moving obstacles out of the way to pick up some objects, robots must be able to plan their motions while accounting for contact with their surroundings. At the same time, robotic platforms require many Degrees Of Freedom (DOF) to achieve agile and dexterous movements.
 
-Figure 1: Scheme of the proposed method using IsaacGym as the dynamic model for MPPI. At each time step, IsaacGym is reset to the current world’s state x, and random input sequences V are applied for the horizon T, to every environment. MPPI uses the resulting rolled-out trajectories to approximate the optimal control u0* given a cost function C.
+On the other hand, model-based approaches like Model Predictive Control (MPC) can solve challenging tasks. However, MPC often relies on constrained optimization, requiring constraint simplifications, precise modeling, and ad-hoc solutions to handle discontinuous dynamics in contact-rich tasks. While utilizing motion memory for warm-starting optimization can enhance performance, the above limitations still persist.
 
-## Conclusions
+In this paper, we propose a training-free model-based framework for real-time control of complex systems, where one designs only a cost function, not the problem's dynamics and contact models. We introduce the idea of using a general GPU-parallelizable physics simulator, IsaacGym, as the dynamic model for MPPI. This creates a robust framework that generalizes to various tasks. An overview is given in Fig. 1.
 
-We presented a way to perform Model Predictive Path Integral controller (MPPI) that uses a physics simulator as the dynamic model. By leveraging the GPU-parallelizable IsaacGym simulator for parallel sampling of forward trajectories, we have eliminated the need for explicit encoding of robot dynamics, contacts, and rigid-body interactions for MPPI. This makes our method easily adaptable to different objects and robots for a wide range of contact-rich motion-planning tasks....
+## I-A Related work
 
-### III-B Prehensile manipulation with whole-body control
+This section provides an overview of selected works focusing on motion planning and contact-rich tasks in robotics. Motion planning pipelines are categorized as global and local motion planning. Local motion planning encompasses approaches like operational space control, geometric methods such as Riemannian Motion Policies and Optimization Fabrics, and receding-horizon optimization formulations like Model Predictive Control (MPC) that may incorporate learned components. Most MPC algorithms rely on constrained optimization and assume smooth dynamics.
 
-### II-C1 Collision checking
+## Discussion
 
-We perform the same task as in \[\] and compare the final results of pushing a squared object on a table surface to two poses (Pose 1 and 2) with a robot arm equipped with a stick. In Table II, we report our findings, with our method showing double the accuracy. Our approach performs continuous pushes, unlike the baseline that stops for replanning after each short push. Thus, we complete either task in approximately 8 seconds, while the baseline takes approximately 4 minutes....
-
-On the other hand, model-based approaches like Model Predictive Control (MPC) can solve challenging tasks \[\]. However, MPC often relies on constrained optimization, requiring constraint simplifications, precise modeling, and ad-hoc solutions to handle discontinuous dynamics in contact-rich tasks. While utilizing motion memory for warm-starting optimization can enhance performance, the above limitations still persist....
+In this section, we discuss key aspects and potential future work related to our solution. First, the computational demands of planning and control with our method can be high when extending the time horizon to several seconds. To keep the time horizon limited for real-time control while preventing being trapped in local minima, future work should incorporate global planning techniques such as A\*, RRT, and Probabilistic Roadmaps (PRM) to guide the local planner.

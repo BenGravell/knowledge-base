@@ -4,14 +4,16 @@ We explore building generative neural network models of popular reinforcement le
 
 ## Introduction
 
-Humans develop a mental model of the world based on what they are able to perceive with their limited senses. The decisions and actions we make are based on this internal model. Jay Wright Forrester, the father of system dynamics, described a mental model as:
+Humans develop a mental model of the world based on what they are able to perceive with their limited senses. The decisions and actions we make are based on this internal model.
 
 The image of the world around us, which we carry in our head, is just a model. Nobody in his head imagines all the world, government or country. He has only selected concepts, and relationships between them, and uses those to represent the real system.
 
-Another concern is the limited capacity of our world model. While modern storage devices can store large amounts of historical data generated using the iterative training procedure, our LSTM -based world model may not be able to store all of the recorded information inside its weight connections. While the human brain can hold decades and even centuries of memories to some resolution, our neural networks trained with backpropagation have more limited capacity and suffer from issues such as catastrophic forgetting....
+To handle the vast amount of information that flows through our daily lives, our brain learns an abstract representation of both spatial and temporal aspects of this information. We are able to observe a scene and remember an abstract description thereof. Evidence also suggests that what we perceive at any given moment is governed by our brain's prediction of the future based on our internal model.
 
-Like early RNN-based C--M systems, ours simulates possible futures time step by time step, without profiting from human-like hierarchical planning or abstract reasoning, which often ignores irrelevant spatial-temporal details. However, the more general Learning To Think approach is not limited to this rather naive approach. Instead it allows a recurrent C to learn to address subroutines of the recurrent M, and reuse them for problem solving in arbitrary computable ways, e.g., through hierarchical planning or other kinds of exploiting parts of M's program-like weight matrix....
+In this article, we present a simplified framework that we can use to experimentally demonstrate some of the key concepts from these papers, and also suggest further insights to effectively apply these ideas to various RL environments. We use similar terminology and notation as On Learning to Think: Algorithmic Information Theory for Novel Combinations of RL Controllers and RNN World Models when describing our methodology and experiments.
 
-We have just seen that a policy learned inside of the real environment appears to somewhat function inside of the dream environment. This begs the question -- can we train our agent to learn inside of its own dream, and transfer this policy back to the actual environment?
+## Discussion
 
-We can now use our trained V model to pre-process each frame at time $t$ into $z_{t}$ to train our M model. Using this pre-processed data, along with the recorded random actions $a_{t}$ taken, our MDN-RNN can now be trained to model $P{(\left....
+We have demonstrated the possibility of training an agent to perform tasks entirely inside of its simulated latent space dream world. This approach offers many practical benefits. For instance, running computationally intensive game engines require using heavy compute resources for rendering the game states into image frames, or calculating physics not immediately relevant to the game. We may not want to waste cycles training an agent in the actual environment, but instead train the agent as many times as we want inside its simulated environment.
+
+Furthermore, we can take advantage of deep learning frameworks to accelerate our world model simulations using GPUs in a distributed environment. The benefit of implementing the world model as a fully differentiable recurrent computation graph also means that we may be able to train our agents in the dream directly using the backpropagation algorithm to fine-tune its policy to maximize an objective function.

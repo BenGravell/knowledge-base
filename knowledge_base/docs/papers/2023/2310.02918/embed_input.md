@@ -6,20 +6,10 @@ Model Predictive Control lacks the ability to escape local minima in nonconvex p
 
 ## Introduction
 
-Model Predictive Control (MPC) has established itself as a popular technique in Motion Planning and Control for autonomous driving. This is attributed to its inherent capability to simultaneously account for collision constraints, dynamic feasibility, actuator constraints, and comfort criteria, enabling the generation of optimal trajectories. A notable variant that we also use is Model Predictive Contouring Control (MPCC). It generates consistent lateral and longitudinal control signals and does not require a separate desired velocity specification....
+Model Predictive Control (MPC) has established itself as a popular technique in Motion Planning and Control for autonomous driving. This is attributed to its inherent capability to simultaneously account for collision constraints, dynamic feasibility, actuator constraints, and comfort criteria, enabling the generation of optimal trajectories. A notable variant that we also use is Model Predictive Contouring Control (MPCC). It generates consistent lateral and longitudinal control signals and does not require a separate desired velocity specification.
 
 Learning-based MPC can be broadly categorized into two groups. The first group employs a learning-based system to substitute or enhance components of MPC. Simplest are approaches that learn the weights of the cost function, as these significantly impact MPC performance and can be challenging to tune manually. A similar technique is cost shaping which adjusts the cost function at each time step, mitigating MPC's limitation in finding only short-term optimal solutions. Other methods learn the state-space model or parts of it to handle unknown or complex dynamics.
 
-## CONCLUSIONS
+The second group learns high-level policies where the trajectory is further refined with low-level MPC. Methods such as provide high-level plans as a reference to the MPC. Similarly, the predictive safety filter evaluates constraint satisfaction of the trajectory of the learned system, potentially generating an output that minimizes the discrepancy from it while adhering to constraints.
 
-A Learning-aided Warmstart Framework is proposed to address the problem of Model Predictive Control with local minima and convergence issues if using the conventional warmstart strategy in fast-changing, uncertain environments. This framework leverages a multimodal predictor that predicts trajectories for traffic participants and the ego vehicle, respectively. The different ego trajectory modes are used to identify multiple homotopy classes, each associated with an attractive vicinity of a different local optimum....
-
-Several of the predicted modes do not share the same homotopy class and cover a subset of the existing homotopy classes $h \in \mathcal{H}$, i.e. ${|{\left. \{{\lbrack m\rbrack} \middle| {m \in \mathcal{M}}\} \right. \cap \mathcal{H}}|} \geq 2$.
-
-## Learning-aided Warmstart
-
-Consequently, the posterior and the covariance for the control points are given:
-
-Figure 1: Example where our warmstart improves convergence quality compared to warmstarting with the solution of the last timestep tk − 1 due to change of the optimization problem (changing traffic participant behavior prediction)
-
-The second group learns high-level policies where the trajectory is further refined with low-level MPC....
+Our approach of a learning-based warmstart also falls into this group, together . Here, the learned system offers an initial guess to the MPC optimizer, which is then further optimized by the MPC. This concept is particularly compelling given the inherent limitations of Local Optimizers/MPC, that become apparent in the context of autonomous driving in complex scenarios. The first well-known deficiency of the local optimizer is that if the initial guess is far from the optimum, many steps are needed until it converges, or the optimization may not converge at all.

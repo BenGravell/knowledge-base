@@ -4,18 +4,12 @@ Model-free reinforcement learning algorithms combined with value function approx
 
 ## INTRODUCTION
 
-Our work focuses on model-free algorithms for learning in *infinite-horizon undiscounted* Markov decision processes (MDPs), also known as average-reward MDPs. Although model-free algorithms have recently achieved impressive advances in multiple applications, few performance guarantees exist, especially in the average-reward case with function approximation. In this work, we propose *Adaptive Approximate Policy Iteration* (AAPI), a model-free learning scheme that can work with function approximation, and utilizes an adaptive data-dependent learning rate....
+Our work focuses on model-free algorithms for learning in *infinite-horizon undiscounted* Markov decision processes (MDPs), also known as average-reward MDPs. Although model-free algorithms have recently achieved impressive advances in multiple applications, few performance guarantees exist, especially in the average-reward case with function approximation. In this work, we propose *Adaptive Approximate Policy Iteration* (AAPI), a model-free learning scheme that can work with function approximation, and utilizes an adaptive data-dependent learning rate.
 
-Our approach follows the "online MDP" line of work, where the agent iteratively selects policies by running an online learning algorithm in each state, and the loss fed to each algorithm is the policy Q-function in that state. This results in a variant of approximate policy iteration (API), where the policy improvement step produces a policy optimal in hindsight w.r.t. *the average of all previous* Q-functions rather than just the most recent one. The original work of Even-Dar et al. studied this scheme with known dynamics, tabular representation, and adversarial reward functions....
+Our approach follows the "online MDP" line of work, where the agent iteratively selects policies by running an online learning algorithm in each state, and the loss fed to each algorithm is the policy Q-function in that state. This results in a variant of approximate policy iteration (API), where the policy improvement step produces a policy optimal in hindsight w.r.t. *the average of all previous* Q-functions rather than just the most recent one. The original work of Even-Dar et al. studied this scheme with known dynamics, tabular representation, and adversarial reward functions.
+
+A notable feature of our algorithm is that we exploit the fact that losses (Q-function estimates) are slow-changing. In particular, our policy improvement step relies on the adaptive optimistic follow-the-regularized-leader (AO-FTRL) update. The resulting policies are Boltzmann distributions over the sum of past estimated Q-functions, coupled with an optimistic prediction of the upcoming loss and a state-dependent adaptive learning rate (softmax temperature).
 
 ## CONCLUSION
 
-We have presented AAPI, a model-free learning scheme that can work with function approximation, and enjoys a $\overset{\sim}{O}{(T^{2/3})}$ regret guarantee in infinite-horizon undiscounted, ergodic MDPs. AAPIimproves upon previous results for this setting by using the slow-changing property of policies in both theory and practice. One direction for future work is improving the policy evaluation stage. While we estimate each value function solely using the $\tau$ on-policy transitions, better estimates can potentially be obtained using all data....
-
-### Remark 4.6
-
-Algorithm 1 Adaptive approximate policy iteration (AAPI)
-
-### Lemma 5.3
-
-A notable feature of our algorithm is that we exploit the fact that losses (Q-function estimates) are slow-changing. In particular, our policy improvement step relies on the adaptive optimistic follow-the-regularized-leader (AO-FTRL) update. The resulting policies are Boltzmann distributions over the sum of past estimated Q-functions, coupled with an optimistic prediction of the upcoming loss and a state-dependent adaptive learning rate (softmax temperature)....
+We have presented AAPI, a model-free learning scheme that can work with function approximation, and enjoys a $\overset{\sim}{O}{(T^{2/3})}$ regret guarantee in infinite-horizon undiscounted, ergodic MDPs. AAPIimproves upon previous results for this setting by using the slow-changing property of policies in both theory and practice. One direction for future work is improving the policy evaluation stage. While we estimate each value function solely using the $\tau$ on-policy transitions, better estimates can potentially be obtained using all data.

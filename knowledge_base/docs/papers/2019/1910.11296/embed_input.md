@@ -4,18 +4,12 @@ In the past few years, we have seen great progress in perception algorithms, par
 
 ## Introduction
 
-One relaxing summer weekend, I drove my family on an excursion to the zoo. All of a sudden, I saw a tiny black creature in front of my car. It was too far away for me to tell what it was, but as an experienced driver, I rolled out a series of moves without hesitation: I performed a shoulder check, I signaled, and then I switched lanes. In the end, I still had not figured out what it was until my daughter told me it was a raccoon crossing the street. The ability to recognize an object without knowing its semantics seems innate to us humans....
+One relaxing summer weekend, I drove my family on an excursion to the zoo. All of a sudden, I saw a tiny black creature in front of my car. It was too far away for me to tell what it was, but as an experienced driver, I rolled out a series of moves without hesitation: I performed a shoulder check, I signaled, and then I switched lanes. In the end, I still had not figured out what it was until my daughter told me it was a raccoon crossing the street. The ability to recognize an object without knowing its semantics seems innate to us humans.
 
 A common paradigm in robotics perception is to train and deploy a machine-learned model under the closed-set condition; *i.e*., the robot is only trained to identify instances from known classes. In this paper, we argue that this is not enough for a practical perception system, since in real-world applications, robots often have to operate in an open environment interacting with surrounding objects that were not seen during training. Thus, an ideal perception system should be capable of recognizing and localizing objects from both known and unknown classes. This is referred to as the open-set setting.
 
+Towards this goal of jointly recognizing both known and unknown instances, we propose a novel perception algorithm for LiDAR point clouds: the Open-Set Instance Segmentation (OSIS) network. The high-level idea is to use a deep convolutional network to identify uncertain points and group them into novel unknown instances. Specifically, we propose a category-agnostic instance embedding network to project points from the same instance to be close together in the embedding space. As a result, the network learns to group observations into a thing without knowing the thing's category.
+
 ## Conclusion
 
-We have presented a novel and effective open-set instance segmentation method for point clouds. In particular, we proposed a deep convolutional neural network to encode points into a category-agnostic embedding space in which they can be clustered into instances. As a result, our method is able to perceptually group points into instances, irrespective of whether they belong to a known or unknown class. We validate our method on two large-scale self-driving datasets and achieve state-of-the-art performance in the open-set setting....
-
-Figure 3: Qualitative results of open-set instance segmentation on TOR4D and Rare4D.
-
-### Backbone network
-
-### Datasets
-
-We are not the first to realize the importance of identifying and interacting with unknown instances. In the pioneering work by Saxena et al., the authors proposed to grasp a novel object by identifying good positions to grasp; this could be trained on known instances and then generalized to unknowns. Also, cognitive scientists have studied the underlying mechanism by which the human vision system detects novel objects....
+We have presented a novel and effective open-set instance segmentation method for point clouds. In particular, we proposed a deep convolutional neural network to encode points into a category-agnostic embedding space in which they can be clustered into instances. As a result, our method is able to perceptually group points into instances, irrespective of whether they belong to a known or unknown class. We validate our method on two large-scale self-driving datasets and achieve state-of-the-art performance in the open-set setting.

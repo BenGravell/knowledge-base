@@ -4,16 +4,12 @@ The focus of this work is sample-efficient deep reinforcement learning (RL) with
 
 ## Introduction
 
-Simulators are ubiquitous in modern reinforcement learning (RL). They correspond to either to the environment itself (as in chess, go, and video games ) or to a simplified model of the true environment (such as robotic arm manipulation, car driving, or plasma shape control in fusion ). Simulators have been widely used in RL research. Many standard benchmarks in RL involve simulators, for example, Atari games, Mujoco simulation engine, OpenAI Gym, DeepMind control suite, and DeepMind Lab....
+Simulators are ubiquitous in modern reinforcement learning (RL). They correspond to either to the environment itself (as in chess, go, and video games ) or to a simplified model of the true environment (such as robotic arm manipulation, car driving, or plasma shape control in fusion ). Simulators have been widely used in RL research. Many standard benchmarks in RL involve simulators, for example, Atari games, Mujoco simulation engine, OpenAI Gym, DeepMind control suite, and DeepMind Lab.
 
-Local access has received less attention from the RL community compared online access. On the theory side, several recent works show that local access makes sample-efficient learning possible in settings where it has not been shown in the online access setting. On the empirical side, the *vine* method in TRPO uses local access to obtain better estimates of the value function, and the Go-Explore algorithm of Ecoffet et al. relies on local access to achieve state-of-the-art performance on several hard-exploration Atari games....
+Local access has received less attention from the RL community compared online access. On the theory side, several recent works show that local access makes sample-efficient learning possible in settings where it has not been shown in the online access setting. On the empirical side, the *vine* method in TRPO uses local access to obtain better estimates of the value function, and the Go-Explore algorithm of Ecoffet et al. relies on local access to achieve state-of-the-art performance on several hard-exploration Atari games.
 
-## Conclusions and Future Directions
+## Contributions
 
-We propose a new algorithmic framework for learning with a simulator under the local access protocol. We demonstrate that our proposed uncertainty-first approach to revisiting states in history can dramatically improve the sample cost of several baseline algorithms on sparse-reward environments. An important direction for future work is improving the quality of uncertainty estimation in MDPs, since the this directly affects the effectiveness of the framework. Another interesting direction for future work is to extend this approach to partially observed environments.
+We propose a general algorithmic framework for RL with a simulator under the local access protocol. Our framework, named *uncertainty-first local planning* (UFLP), revisits states from the agent's history based on the uncertainty about their value.
 
-### Policy Iteration
-
-One intuition behind the criterion that chooses an uncertain state as a starting point is that it expands the subset of the state space that we can use to start the data collection process, which in turn helps control extrapolation errors in value function estimation. Revisiting uncertain states can also improve sample efficiency in environments where states that are important for decision-making are difficult to reach.
-
-In this section, we evaluate the benefits of local vs. online access by training agents on difficult exploration tasks. We use two (bsuite) environments: Deep Sea and Cartpole Swingup, and four Atari games: Montezuma's Revenge, PrivateEye, Venture, and Pitfall....
+We instantiate this framework with several base RL agents (deep Q-networks, policy iteration) and uncertainty estimates (ensemble, feature covariance, approximate counts, random network distillation).

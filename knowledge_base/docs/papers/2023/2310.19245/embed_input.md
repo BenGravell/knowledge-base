@@ -8,14 +8,8 @@ We consider classic least-squares regression, with $p$ features, judged by an ou
 
 Our interest is in attributing the *overall performance* of a least-squares model to the features. A related task is attributing a *specific prediction* of a least-squares model to the features, which is a popular method for so-called explainable AI called SHAP, an acronym for Shapley additive explanations. That is a very different task, discussed in more detail below. In this paper, we consider only performance attribution, and not explaining a specific prediction from a model. We refer to this task as Shapley performance attribution to features.
 
-We used argsort QMC to sample $2^{4}$ batches each with $2^{9}$ permutations. We use the Cholesky reduction presented in §4.4. The correlation matrix $C$ has condition number $4.3 \times 10^{5}$.
+This performance attribution problem was essentially solved in Lloyd Shapley's 1953 paper "A Value for $n$-person Games". He proposed a method to allocate the payoff in a cooperative game to the players, which came to be known as the Shapley values. The Shapley values provide a fair distribution of the total payoff in a game, taking into account the contributions of each player to the coalition. The Shapley values are provably the only attribution for which fairness, monotonicity, and full attribution (three key desiderata for attribution) all hold.
 
-The algorithm took 3.5 seconds to complete the initial reduction. LS-SPA ran for 14.6 seconds to reach an error estimate of $8.4 \times 10^{- 3}$, and ran for 113.3 seconds to complete all $2^{13}$ permutations, for a total time of 116.8 seconds to complete, reaching an error estimate of $2.0 \times 10^{- 3}$.
+We focus on efficiently computing (an approximation of) the Shapley values for least-squares regression problems, i.e., to attribute the overall $R^{2}$ to the $p$ features. We seek a number $S_{j}$ associated with feature $j$, where we interpret $S_{j}$ as the portion of the achieved $R^{2}$ metric that is attributed to feature $j$. Full attribution means ${\sum_{j = 1}^{p}S_{j}} = R^{2}$.
 
-which is negligible compared to the cost of solving the least-squares problems.
-
-For $p$ more than 10 or so, it is impractical to evaluate the lift vector for all $p!$ permutations. Instead, we estimate it as
-
-We can efficiently compute a batched version of the risk estimate on the fly for use as a stopping criterion. For any subset $\Pi$ of permutations, define the sample mean
-
-This performance attribution problem was essentially solved in Lloyd Shapley's 1953 paper "A Value for $n$-person Games" \[\]. He proposed a method to allocate the payoff in a cooperative game to the players, which came to be known as the Shapley values. The Shapley values provide a fair distribution of the total payoff in a game, taking into account the contributions of each player to the coalition....
+The Shapley values rely on solving and evaluating around $2^{p}$ least-squares problems. This is impractical for $p$ larger than around 10, so Monte Carlo approximation is typically used to compute an approximation to the Shapley values. We propose a simple but effective quasi-Monte Carlo method that in practice gives better approximations of the Shapley values than Monte Carlo for the same number of least-square regression problems.

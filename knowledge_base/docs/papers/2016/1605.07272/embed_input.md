@@ -8,14 +8,8 @@ Matrix completion is the problem of recovering a low rank matrix from partially 
 
 More recently, there has been growing interest in analyzing non-convex algorithms for matrix completion. Let $M \in {\mathbb{R}}^{d \times d}$ be the target matrix with rank $r \ll d$ that we aim to recover, and let $\Omega = {\{{(i,j)}:{M_{i,j}\text{~is observed}}\}}$ be the set of observed entries. These methods are instantiations of optimization algorithms applied to the objective^11^1In this paper, we focus on the symmetric case when the true $M$ has a symmetric decomposition $M = {ZZ^{T}}$. Some of previous papers work on the asymmetric case when $M = {ZW^{T}}$, which is harder than the symmetric case.,
 
-## Conclusions
+These algorithms are much faster than the convex relaxation algorithms, which is crucial for their empirical success in large-scale collaborative filtering applications.
 
-Although the matrix completion objective is non-convex, we showed the objective function has very nice properties that ensures the local minima are also global. This property gives guarantees for many basic optimization algorithms. An important open problem is the robustness of this property under different model assumptions: Can we extend the result to handle asymmetric matrix completion? Is it possible to add weights to different entries (similar to the settings studied in )? Can we replace the objective function with a different distance measure rather than Frobenius norm (which is related to works on 1-bit matrix sensing )?...
+However, in practice people typically use a random initialization, which still leads to robust and fast convergence. Why can these practical algorithms find the optimal solution in spite of the non-convexity? In this work we investigate this question and show that the matrix completion objective has no spurious local minima. More precisely, we show that any local minimum $X$ of objective function $f{( \cdot )}$ is also a global minimum with ${f{(X)}} = 0$, and recovers the correct low rank matrix $M$.
 
-### Lemma 4.3
-
-Intuitively, this proof says that the norm of a critical point $x$ is controlled by its correlation with $z$. Here at the lasa sampling version of the f aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa ∎
-
-Here we recall that $\alpha$ was chosen to be ${10\mu}/\sqrt{d}$ and $\lambda$ is chosen to be large so that the $\alpha$ dominates the second term $\mu\sqrt{p/\lambda}$ in the setting of Theorem 4.2.
-
-These algorithms are much faster than the convex relaxation algorithms, which is crucial for their empirical success in large-scale collaborative...
+Our characterization of the structure in the objective function implies that (stochastic) gradient descent from arbitrary starting point converge to a global minimum. This is because gradient descent converges to a local minimum, and every local minimum is also a global minimum.

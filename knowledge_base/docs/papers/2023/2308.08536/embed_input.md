@@ -8,14 +8,14 @@ Transformer models have shown great success in natural language processing; howe
 
 ## Introduction
 
-Many control problems such as model predictive control and safety analysis are built upon predictions of system's future trajectories. This prediction (or estimation) problem is well studied and dates back to the classical Kalman filter \[\], which is optimal for linear systems with Gaussian noise. Methods are also developed for more complex setups, e.g. extended Kalman filter \[\] for nonlinear systems, particle filters \[\] when system dynamics can be sampled, and adaptive filters and adaptive filters \[\] for unknown systems....
+Many control problems such as model predictive control and safety analysis are built upon predictions of system's future trajectories. This prediction (or estimation) problem is well studied and dates back to the classical Kalman filter, which is optimal for linear systems with Gaussian noise. Methods are also developed for more complex setups, e.g. extended Kalman filter for nonlinear systems, particle filters when system dynamics can be sampled, and adaptive filters and adaptive filters for unknown systems.
 
-Prediction, on the other hand, in the domain of natural language processing, has witnessed recent success thanks to the transformer models \[\], which are deep learning architectures that can generate text prediction after feeding into an input text sequence. In this work, we investigate the use of transformers in predicting dynamical system's outputs.
+Prediction, on the other hand, in the domain of natural language processing, has witnessed recent success thanks to the transformer models, which are deep learning architectures that can generate text prediction after feeding into an input text sequence. In this work, we investigate the use of transformers in predicting dynamical system's outputs.
+
+To begin , we assume a priori access to a collection of $M$ systems drawn from some distribution $\mathcal{D}_{sys}$ and their respective output trajectories $\{\mathbf{y}_{t}\}$. These are referred to as source systems and trajectories respectively. We then train a transformer using the source trajectories so that after feeding into past outputs $\mathbf{y}_{0:{t - 1}}$, the transformer is able to produce an estimate ${\hat{\mathbf{y}}}_{t}$ of the true output $\mathbf{y}_{t}$.
+
+## Conclusion
 
 In conclusion, this work has demonstrated the potential of transformers in addressing prediction problems for dynamical systems. The proposed MOP exhibits remarkable performance by adapting to unseen settings, non-i.i.d. noise, and time-varying dynamics.
 
 This work motivates new avenues for the application of transformers in continuous control and dynamical systems. Future work could extend the MOP approach to closed-loop control problems to meta-learn policies for problems such as the optimal quadratic control. It is also of interest to explore new training strategies to promote robustness (e.g., against distribution shifts) and safety of this approach in control problems.
-
-We will analyze the set $\mathcal{A}$ through its $\epsilon$-cover. To do so, we define the following distance on $\mathcal{A}$.
-
-We first consider the simplest setting with linear systems and i.i.d. Gaussian noise, i.e., ${f{(\mathbf{x})}} = {\mathbf{A}\mathbf{x}}$ and ${g{(\mathbf{x})}} = {\mathbf{C}\mathbf{x}}$ in. The state dimension is $n = 10$ and the output dimension is $m = 5$. For each source and test system, we generate matrix $\mathbf{A}$ with entries sampled uniformly between $\lbrack 0,1\rbrack$, which is then followed by scaling so that the largest eigenvalue is $0.95$. The $\mathbf{C}$ matrix is generated with entries sampled uniformly between $\lbrack 0,1\rbrack$....

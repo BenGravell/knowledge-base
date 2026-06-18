@@ -1,0 +1,510 @@
+## Introduction
+
+Any valid metric in a vector space will induce a topology which will then facilitate a rigorous mathematical construct for performing analysis in that metric space. Inspired by these basic facts, researchers in the early $1980$s aimed at constructing a valid distance metric between dynamical systems in the hope that this research direction will pave way for a mathematically feasible and provable robust control analysis. Predominantly, the following metrics have received a vast appreciation in the control community namely: 1) Gap metric, 2) Graph metric, and 3) $\nu$-Gap metric. Authors in proposed a generic notion of distance between systems that can be used to measure discrepancy between open-loop systems in a feedback sense under several uncertainty structures. All the these metrics are equivalent to each other in the sense that they induce the same topology in the space of dynamical systems where closed loop stability happens to be a robust property. Such robust stability guarantees come with the presumption that all system models are equally probable in the considered neighbourhood set of plant models around the nominal plant model. However, nature is unpredictable while playing the role of an adversary inflicting uncertainties into the system dynamics and having an equally probable plants based assumption might downplay our ability to fully understand the nature's intention. In that sense, one can associate a probability distribution on the realization of the plants within the plant model ambiguity set in consideration. This initiated a research on probabilistic robust control using gap metric . This paper is an extension along the lines of but not with respect to plant models of the same stochastic system rather between two different stochastic systems in terms of their associated possible perturbed plant models. On a similar note, researchers in also proposed several probabilistic robust control approaches to handle the nature violating the assumption on uncertainties with small probabilities.
+
+Authors in proposed a distance between two linear dynamical systems and called the alignment distance which is computed by finding the change of basis that best aligns the state-space realizations of the two linear dynamical systems. Similarly, authors in came up with a Riemannian metric on the space of stable linear systems, with applications to identification problems. One of the prominent attempts in investigating distance between stochastic dynamical systems was done by authors , where they came up with distance between spectral densities of linear time invariant (LTI) stochastic processes using behavioural theory. The theory of stochastic systems is not just limited to the field of mathematics but rather finds its application in many other fields of science. For instance, researchers in the field of medicine have started to think along in this direction too in by coming up with an algorithmic approach to compute and identify appropriate distance metrics for the quantitative comparison of stochastic model outputs and time-evolving stochastic measurements of a system. Many researchers have analysed the robust performance of controllers in the robust control community through the lens of the distance metric theory. Our problem formulation with distance between stochastic LTI systems will eventually evolve towards analysing the resulting probabilistic robust performance of a stabilising controller of one of the stochastic LTI system. However, the main focus of this manuscript will only be on the proposal of an appropriate distance measure and obtaining bounds on them. The subsequent analysis with respect to the probabilistic robust performance is left as a future work. Similarly, adding probabilistic rigour on top of the associated robust stability analysis along the lines of is also left as a future work. Our proposed research also has connections with frequency domain model validation problem considered in where authors presented a frequency domain interpretation of Monge-Kantorovich optimal transport.
+
+*Contributions:* The main contributions of this paper are:
+
+We propose valid distance measures between two stochastic linear dynamical systems in the single input single output (SISO) case both in the frequency domain setting and in the time domain setting.
+
+In the frequency domain setting, the proposed distance measure given by (3.3) refers to the worst-case point-wise-in-frequency type-$q$ chordal metric induced Wasserstein distance between distributions governing the uncertainties of the two stochastic linear systems in the Riemann sphere. Under the assumption of distributions being uniform in nature, a support distance based upper bound for proposed distance measure is given in Theorem 3.2 ‣ 3.3 Type-𝑞 Distance Between Systems 𝑃₁ and 𝑃₂ ‣ 3 Problem Formulation in Frequency Domain ‣ Distance Between Stochastic Linear Systems"). On the other hand, using the deviation of the perturbed models of each systems from their respective nominal models, a lower bound for the proposed distance measure is given in Theorem 3.3 ‣ 3.3 Type-𝑞 Distance Between Systems 𝑃₁ and 𝑃₂ ‣ 3 Problem Formulation in Frequency Domain ‣ Distance Between Stochastic Linear Systems"). Extensions with respect to empirical distribution case are also given in Proposition 3.4},ℙ_{𝑃₂⁢(𝜔)} Being Empirical Distributions ‣ 3 Problem Formulation in Frequency Domain ‣ Distance Between Stochastic Linear Systems") and Theorem 3.6},ℙ_{𝑃₂⁢(𝜔)} Being Empirical Distributions ‣ 3 Problem Formulation in Frequency Domain ‣ Distance Between Stochastic Linear Systems").
+
+In the time domain setting, the proposed distance measure given by refers to the gap metric induced type-$q$ Wasserstein distances between the distributions governing the uncertainty of the systems obtained through the push-forward of the distribution of uncertain system parameters under the measurable mapping that connects the parameters and the perturbed model. Upper bounds for the proposed distance measure are proposed in Proposition 4.2 and Theorem 4.3. On the similar lines of the frequency domain setting, a lower bound for the proposed distance measure in the time domain is given using the deviation of the perturbed models of each systems from their respective nominal models in Proposition 4.4.
+
+We also prove in Theorem 5.3 that for stochastic LTI systems, the proposed frequency domain distance never exceeds the time domain distance, mimicking the inequality relationship that exists between the $\nu$-gap metric and the gap metric in the deterministic systems setting.
+
+### Paper Organisation
+
+Following a detailed discussion on the notations and the preliminaries needed for problem formulation in both frequency and time domain settings in Section 2, we will first begin our problem formulation in the frequency domain setting and propose a valid distance metric in Section 3. Following that, we will present the analogous problem formulation in the time domain setting and propose an analogous valid distance metric in Section 4. The proposed distance measures in the frequency and time domain settings are compared in Section 5. Finally, the paper is closed in Section 6 along with the summary of findings and directions for future research. Simulation results are provided throughout the paper to demonstrate the proposed concepts and guarantees. All the Matlab codes responsible for reproducing the simulation results provided in the paper can be found at
+
+## Notations & Preliminaries
+
+The cardinality and closure of the set $A$ are denoted by $|A|$ and $\overline{A}$ respectively. The set of real numbers, integers and the natural numbers are denoted by ${\mathbb{R}},{\mathbb{Z}},{\mathbb{N}}$ respectively and the subset of natural numbers greater than a given constant say $a \in {\mathbb{N}}$ is denoted by ${\mathbb{N}}_{> a}$. The Euclidean norm of a vector $x \in {\mathbb{R}}^{n}$ is denoted by $\left\| x \right\|_{2}$ or simply $\left\| x \right\|$. The inner product between two vector ${r_{1},r_{2}} \in {\mathbb{R}}^{n}$ is denoted by ${\langle r_{1},r_{2}\rangle}:={r_{1}^{\top}r_{2}}$. For a matrix $A \in {\mathbb{R}}^{n \times n}$, we denote its transpose, trace, determinant, and the maximum (minimum) singular values by $A^{\top}$, ${\mathbf{T}\mathbf{r}}{(A)}$, $\det{(A)}$, and $\overline{\sigma}{(A)}{({\underset{¯}{\sigma}{(A)}})}$ respectively. An identity matrix of dimension $n$ is denoted by $I_{n}$. The notation ${( \cdot )}_{+}:={\max{(0, \cdot )}}$ shall be used to ensure positivity. For brevity of notation, we shall be abbreviating functions $f{({x{(t)}},{y{(t)}})}$ as $f{(t;x,y)}$. The composition of two functions $f,g$ is denoted by $f \circ g$.
+
+### Function Spaces & Norms
+
+The space of complex numbers is denoted by $\mathbb{C}$ and $j$ represents the imaginary unit. For a complex variable $z \in {\mathbb{C}}$, we denote its complex conjugate as $z^{\star} \in {\mathbb{C}}$. Let $\mathbf{R}{(s)}$ denote the set of rational functions in $s \in {\mathbb{C}}$ with real coefficients. We use ${\mathcal{P}{(s)}} \subset {\mathbf{R}{(s)}}$ to denote the set of proper rational functions whose poles are in the open left half-plane. Let us denote the set of matrices with elements in $\mathbf{R}{(s)}$ as ${mat}{({\mathbf{R}{(s)}})}$ and similarly let us denote the set of matrices with elements in $\mathcal{P}{(s)}$ as ${mat}{({\mathcal{P}{(s)}})}$. A continuous-time signal $x \in {\mathbb{R}}^{n}$ is said to be in $\mathcal{L}_{2}$ space if it has bounded energy. Let $\mathcal{H}_{2}$ denote the space of Fourier transform of signals in $\mathcal{L}_{2}$ space but restricted to positive time. Dynamical systems are to be considered as operators on $\mathcal{H}_{2}$ and they will be called *stable* if for any input $u \in \mathcal{H}_{2}$, the system output $y \in \mathcal{H}_{2}$. The Hardy space consisting of transfer functions of stable LTI continuous time systems is denoted by $\mathcal{H}_{\infty}$ and is equipped with the norm
+
+Let ${\mathbf{R}\mathcal{H}_{\infty}} = {{\mathbf{R}{(s)}} \cap \mathcal{H}_{\infty}}$ and similarly, ${\mathbf{R}\mathcal{L}_{\infty}} = {{\mathbf{R}{(s)}} \cap \mathcal{L}_{\infty}}$, where $\mathcal{L}_{\infty}$ is the space of all functions that are essentially bounded on the imaginary axis with norm
+
+The probability space is defined using a triplet $(\Omega,\mathcal{F},{\mathbb{P}})$, where $\Omega,\mathcal{F}$, and $\mathbb{P}$ denote the sample space, event space and the probability function respectively. A probability distribution with mean $\mu$ and covariance $\Sigma$ is denoted by ${\mathbb{P}}{(\mu,\Sigma)}$ and, specifically ${\mathfrak{N}}_{d}{(\mu,\Sigma)}$, if the distribution is normal in ${\mathbb{R}}^{d}$. A real random vector $x \in {\mathbb{R}}^{n}$ following a distribution $\mathbf{f}_{x}$ is denoted by $x \sim \mathbf{f}_{x}$. A complex random variable $Z$ on the probability space $(\Omega,\mathcal{F},{\mathbb{P}})$ is a function $Z:{\Omega\rightarrow{\mathbb{C}}}$ such that both its real part $\Re{(Z)}$ and its imaginary part $\Im{(Z)}$ are real random variables on $(\Omega,\mathcal{F},{\mathbb{P}})$. A uniform distribution defined over a compact set $A$ is denoted by $\mathcal{U}{(A)}$. Given $q \geq 1$, the set of probability measures in $\mathcal{P}{({\mathbb{R}}^{d})}$ with finite $q$^th^ moment is denoted by ${\mathcal{P}_{q}{({\mathbb{R}}^{d})}}:=\left\{ {\mu \in {\mathcal{P}{({\mathbb{R}}^{d})}}}\mid{{\int_{{\mathbb{R}}^{d}}{\left\| x \right\|^{q}{d\mu}}} < \infty} \right\}$. The $\mathcal{L}_{q}$ norm of a random variable $x \in {\mathbb{R}}$ with $x \sim \mathbf{f}_{x}$ is denoted by $\left\| x \right\|_{\mathcal{L}_{q}}:=\left( {\int{x^{q}{d\mathbf{f}_{x}}}} \right)^{1/q}$. If not specified, the notation $\left\| x \right\|$ simply denotes the $\mathcal{L}_{2}$ norm of the random variable $x$. The type-$q$ Wasserstein distance ${\forall q} \geq 1$ between distributions ${{\mathbb{Q}}_{1},{\mathbb{Q}}_{2}} \in {\mathcal{P}_{q}{({\mathbb{R}}^{d})}}$ with $\Pi{({\mathbb{Q}}_{1},{\mathbb{Q}}_{2})}$ being the set of all joint distributions on ${\mathbb{R}}^{d} \times {\mathbb{R}}^{d}$ with marginals ${\mathbb{Q}}_{1}$ and ${\mathbb{Q}}_{2}$ is given by
+
+### Definition 2.1
+
+Given measurable spaces $(X,\mathcal{X})$, and $(Y,\mathcal{Y})$, let $f:{X\rightarrow Y}$ be a measurable map, and $\mu$ a probability measure on $(X,\mathcal{X})$. Then, for any Borel set $\mathbf{B} \subset \mathcal{Y}$, the push-forward measure $f_{\#}\mu$ on $(Y,\mathcal{Y})$ is defined as
+
+where $f^{- 1}{(\mathbf{B})}$ denotes the pre-image of $\mathbf{B} \subset \mathcal{Y}$ in $\mathcal{X}$ and is defined as
+
+### Preliminaries on Stereographic Projections
+
+To understand the development of the distance measure proposed for the frequency domain setting in this manuscript, we define the Riemann sphere to model the extended complex plane.
+
+### Definition 2.2
+
+The Riemann sphere, denoted by $\Re \subset {\mathbb{R}}^{3}$ is a sphere centred at $\Re_{c}:=\left( 0,0,\frac{1}{2} \right)$ with unit diameter tangent at its south pole to $\mathbb{C}$ at the origin and its boundary is denoted by $\partial\Re$. That is,
+
+We can also express the $\Re$ in terms of spherical coordinates using the point ${(x,y,z)} = \left( 0,0,\frac{1}{2} \right)$ as its origin. The equivalent coordinates would then be $\left( \frac{1}{2},\theta,\varphi \right)$ where $\theta$ and $\varphi$ are the polar and azimuthal angles respectively. Then, we can alternatively represent $\Re$ as
+
+We now define the stereographic projection of points onto the complex plane $\mathbb{C}$ from the Riemann sphere, with its north and south pole denoted by $\mathfrak{N}$ and $\mathfrak{S}$ respectively.
+
+### Definition 2.3
+
+Let $R = {(x,y,z)} \in {\partial{\Re\backslash{\{{\mathfrak{N}}\}}}}$. Then, a line through $\mathfrak{N}$ and $R$ intersects $\mathbb{C}$ exactly at one point ${\phi{(R)}} \in {\mathbb{C}}$. That is, $\phi:{{\partial{\Re\backslash{\{{\mathfrak{N}}\}}}}\mapsto{\mathbb{C}}}$ and the association from $R\mapsto{\phi{(R)}}$ is called the stereographic projection.
+
+Given a point $R = {(r_{x},r_{y},r_{z})} \in {\partial{\Re\backslash{\mathfrak{N}}}}$, the coordinates of the corresponding Stereographic projected point $c \in {\mathbb{C}}$ is given by
+
+We will also require the inverse of the stereographic projection.
+
+### Definition 2.4
+
+Let ${\phi{(R)}} \in {\mathbb{C}}$ denote a point on the complex plane. Then, the line from ${\phi{(R)}} \in {\mathbb{C}}$ to the $\mathfrak{N}$ intersects $\partial\Re$ exactly at one point $R = {(x,y,z)} \in {\partial\Re}$. That is, $\phi^{- 1}:{{\mathbb{C}}\rightarrow{\partial\Re}}$ and the association from ${\phi{(R)}}\mapsto R$ is called the inverse of the stereographic projection.
+
+Given a point $c \in {\mathbb{C}}$, the corresponding point $R:={\phi^{- 1}{(c)}} = {(r_{x},r_{y},r_{z})} \in {\partial\Re}$ due to the inverse of the stereographic projection will have the Cartesian coordinates:
+
+The following proposition will precisely characterize the distribution transformation under the inverse of the stereographic projection operation using results .
+
+### Proposition 2.1
+
+(From ) Let $P = {\mathsf{x} + {j\mathsf{y}}}$ be the random frequency response at a frequency $\omega \in \Omega$ and let the distribution characterizing the uncertainty of $P$ in $\mathbb{C}$ along the real and imaginary axes denoted by ${\mathbb{P}}_{\mathsf{x}\mathsf{y}}{(x,y)}$ be known apriori. Then, the distribution ${\mathbb{P}}_{R}$ that characterizes the corresponding uncertainty on the Riemann sphere due to the stereographic projection mapping is given by
+
+### Preliminaries on Gap Metric
+
+Towards our distance measure definition on the time domain setting, we provide here some preliminary details. Particularly, we will start with some basics regarding the concepts needed to understand the gap metric. Every matrix ${P{(s)}} \in {{mat}{({\mathbf{R}{(s)}})}}$ has both a Right Co-prime Factorisation (RCF) as well as a Left Co-prime Factorisation (LCF) over the ring $\mathcal{P}{(s)}$. That is, ${\forall{P{(s)}}} \in {{mat}{({\mathbf{R}{(s)}})}}$, there exist ${N,D,\overset{\sim}{N},\overset{\sim}{D},X,Y,\overset{\sim}{X},\overset{\sim}{Y}} \in {{{mat}{({\mathcal{P}{(s)}})}} \cap \mathcal{H}_{\infty}}$ such that
+
+and the following *Bezout's identity* holds for all $s \in {\mathbb{C}}_{\geq 0}$,
+
+Further, the RCF is said to be *normalized* if in addition it satisfies ${{N^{\star}N} + {D^{\star}D}} = I$. Analogous LCF results are available and are omitted here for the reason of being not used in this paper. Given ${P{(s)}} \in {{mat}{({\mathbf{R}{(s)}})}}$, its $\mathcal{H}_{2}$-graph is defined as
+
+$\mathcal{G}_{P}$ $:=\left\{ {(u,y)}\mid{y = {Pu}} \right\} \subseteq {\mathcal{H}_{2} \times \mathcal{H}_{2}}$ (12a)
+${= {\underset{= {:G}}{\underbrace{\begin{bmatrix} (12b)
+\end{bmatrix}}}\mathcal{H}_{2}} = {{Range}{(G)}}},$
+
+where the operator $G$ (henceforth referred to as the graph symbol) is unitary meaning that ${G^{\star}G} = I$. Note that $\mathcal{G}_{P}$ is a closed subspace of $\mathcal{H}_{2} \times \mathcal{H}_{2}$. The orthogonal projection onto $\mathcal{G}_{P}$ is denoted by $\Pi_{\mathcal{G}_{P}}$ and it is bounded. Let $G_{1}$ and $G_{2}$ denote the graph symbols of normalized RCFs of plants $P_{1}$ and $P_{2}$ respectively. The gap between the systems (interested authors are referred to and the references therein) $P_{1}$ and $P_{2}$ can be defined as
+
+Given a plant $P$ and a stabilising controller $C$ for it, we denote the associated performance measure as $b_{P,C} \in {}$ and is defined as
+
+## Problem Formulation in Frequency Domain
+
+While our main aim is to come up with an appropriate frequency domain specific distance metric between stochastic dynamical systems in general, for the ease of exposition, we shall start the problem formulation by analysing simple single input single output (SISO) dynamical systems first. The exposition with multiple input multiple output (MIMO) systems is out of the scope of this manuscript and is being investigated as a part of our future ongoing research (though we believe that exposition should carry forward typically from SISO to MIMO). Let $\Omega = {\lbrack 0,\infty)}$ denote the set of all frequencies.\
+
+Consider the setting where two stochastic SISO LTI dynamical systems, each with $n \in {\mathbb{N}}$ states, $m \in {\mathbb{N}}$ control inputs, and $l \in {\mathbb{N}}$ outputs, in the space of $\mathbf{R}\mathcal{L}_{\infty}$ are given and we denote their transfer functions as $P_{1}{(s)}$ and $P_{2}{(s)}$ respectively. Let $\theta_{i} \sim \mathbf{f}_{\theta_{i}} = {\mathcal{N}{(\mu_{\theta_{i}},\Sigma_{\theta_{i}})}}$ denote the random parameter affecting the system $i \in {\{ 1,2\}}$ with $p \leq {({n^{2} + {mn} + {ln}})}$. Then, the transfer function of the $i$^th^ stochastic system for a fixed $s \in {\mathbb{C}}$ can be written as
+
+where the matrices ${{A_{i}{(\theta_{i})}} \in {\mathbb{R}}^{n \times n}},{{{B_{i}{(\theta_{i})}} \in {\mathbb{R}}^{n \times m}},{{C_{i}{(\theta_{i})}} \in {\mathbb{R}}^{l \times n}}}$. It is evident from that the randomness in the parameter $\theta_{i} \sim \mathbf{f}_{\theta_{i}} = {\mathcal{N}{(\mu_{\theta_{i}},\Sigma_{\theta_{i}})}}$ manifests itself to render a random transfer function $P_{i}{(\theta_{i};s)}$. For brevity of notation, we will write $P_{i}{(\theta_{i};s)}$ simply as $P_{i}{(s)}$.
+
+### Assumption 3.1
+
+The frequency responses of both the systems at any given frequency $\omega \in \Omega$ denoted by $P_{1}{({j\omega})}$ and $P_{2}{({j\omega})}$ are random and governed by distributions ${\mathbb{P}}_{P_{1}{(\omega)}}$ and ${\mathbb{P}}_{P_{2}{(\omega)}}$ respectively. That is, ${P_{1}{({j\omega})}} \sim {\mathbb{P}}_{P_{1}{(\omega)}}$ and ${P_{2}{({j\omega})}} \sim {\mathbb{P}}_{P_{2}{(\omega)}}$.
+
+Now, ${\forall\omega} \in \Omega$, let us define the measurable map $\mathcal{E}_{\omega}:{{\mathbf{R}\mathcal{L}_{\infty}}\rightarrow{\mathbb{C}}}$ such that ${\mathcal{E}_{\omega}{({P{(s)}})}} = {P{({j\omega})}}$. Then, the distribution ${\mathbb{P}}_{P_{i}{(\omega)}}$ governing the uncertainty of system $i$ on $\mathbb{C}$ with $i \in {\{ 1,2\}}$ is related to the distribution $\mathbf{f}_{\theta_{i}}$ of the random parameter $\theta_{i}$ as
+
+and for any Borel measurable set $\mathbf{B} \subset {\mathbb{C}}$, the above push-forward measure satisfies
+
+### Assumption 3.2
+
+The support sets of the distributions ${\mathbb{P}}_{P_{1}{(\omega)}}$ and ${\mathbb{P}}_{P_{2}{(\omega)}}$ denoted by $\mathcal{S}_{P_{1}}{(\omega)}$ and $\mathcal{S}_{P_{2}}{(\omega)}$ respectively are both convex and compact.
+
+### Remark 3.1
+
+Compactness is essential to exclude the case of $\infty$ being included in the support set. Notice that both the distributions and their corresponding support sets of both the plants are frequency-dependent. This modelling assumption makes sense as one usually performs system identification procedure to identify plant models for a system by exciting the system at all frequencies using appropriate input signals. However, notice that we do not make any explicit assumption on the support sets $\mathcal{S}_{P_{1}}{(\omega)}$ and $\mathcal{S}_{P_{2}}{(\omega)}$ being disjoint from each other.
+
+### Assumption 3.3
+
+For every $\omega \in \Omega$, a nominal plant model for both the systems $P_{1}$ and $P_{2}$ denoted by ${\overline{P}}_{1}{({j\omega})}$ and ${\overline{P}}_{2}{({j\omega})}$ respectively are known apriori.
+
+From now , we shall drop the $({j\omega})$ argument for convenience with the understanding that the formulation corresponds to the quantities at a particular frequency $\omega$ unless otherwise specified. For both the stochastic systems enumerated by $\ell = {1,2}$, we can infer its projected support set as
+
+### Stereographic Projection of Distribution
+
+To find the distance between the random plants, we first need to understand how their corresponding distributions get transformed under the stereographic projection operation. That is, we need to characterise how the distributions ${\mathbb{P}}_{P_{\ell}{(\omega)}}$ of system $\ell = {\{ 1,2\}}$ will get transformed under the inverse of the stereographic projection operation. We recall Proposition 2.1 and use to obtain the corresponding projected distribution ${\mathbb{P}}_{R_{\ell}{(\omega)}}$ living on the Riemann sphere, for each system $\ell = {1,2}$ due to the inverse of the stereographic projection mapping. An illustration is provided in Figure 1.
+
+Figure 1: The Riemann sphere tangent to ℂ is shown in shaded dark brown. An instance of the two stochastic systems P1 and P2 are depicted using their Nyquist plot in blue &amp; red curves respectively. The distributions ℙP1 and ℙP2 characterizing the uncertainties of P1 and P2 at a frequency are shown as shaded blue &amp; red colours with compact support sets 𝒮P1 and 𝒮P2 in ℂ respectively. The corresponding inverse stereographic projections of the support sets onto the Riemann sphere are shown as sets ℛP1 and ℛP2 respectively. The known nominal models ${\overline{P}}_{1},{\overline{P}}_{2}$ along with their projected counterparts on the Riemann sphere ${\phi^{- 1}{({\overline{P}}_{1})}},{\phi^{- 1}{({\overline{P}}_{2})}}$ are also shown here.
+
+Equivalently, the distribution ${\mathbb{P}}_{R_{i}{(\omega)}}$ governing the uncertainty of system $i$ with $i \in {\{ 1,2\}}$ on the boundary of the Riemann sphere is related to the distribution $\mathbf{f}_{\theta_{i}}$ of the random parameter $\theta_{i}$ through the push-forward relation as
+
+and for any Borel measurable set $\mathbf{B} \subseteq {\partial\Re}$, the above push-forward measure satisfies
+
+### Support Distance Between Systems $P_{1}$ and $P_{2}$
+
+In order to understand how far two stochastic dynamical systems $P_{1}$ and $P_{2}$ are in the frequency domain, first we analyse the distance between their support sets $\mathcal{S}_{P_{1}}{(\omega)}$ and $\mathcal{S}_{P_{2}}{(\omega)}$, where the respective system realizations can occur for every frequency $\omega \in \Omega$. To this end, we define the support distance between $P_{1}$ and $P_{2}$ in $\mathbb{C}$.
+
+### Definition 3.1
+
+Given two systems $P_{\ell}$ with $\ell = {\{ 1,2\}}$, whose uncertainty in $\mathbb{C}$ are characterized by distributions defined on support sets $\mathcal{S}_{P_{\ell}}{(\omega)}$ for every frequency $\omega \in \Omega$, we define the support distance between the systems as the worst-case pointwise-in-frequency distance between points in their support sets $\mathcal{S}_{P_{\ell}}{(\omega)}$. That is,
+
+Since in the complex plane, the Euclidean distance between points can be more than $1$, we would like to infer the support distance in the Riemann sphere where distance shall never exceed the value of $1$. Hence, a similar definition between the support sets of distributions living in the Riemann sphere due to the inverse of the stereographic projection operation can also be defined. Since in that case the distributions will live on the Riemann sphere, we need to use the appropriate metric to facilitate the Wasserstein distance computation having the optimal transport perspective taking into perspective the curvature of the underlying manifold. We state a basic result from the differential geometry.
+
+### Proposition 3.1
+
+Given two points $r_{1} \in {\mathcal{R}_{P_{1}}{(\omega)}}$, and $r_{2} \in {\mathcal{R}_{P_{2}}{(\omega)}}$, the geodesic distance between them, denoted by $d_{geo}{(r_{1},r_{2})}$ and the chordal distance between them, denoted by $d_{chord}{(r_{1},r_{2})}$ are respectively given by
+
+### Proof
+
+For the Riemann sphere centred at $\Re_{c} = {(0,0,0.5)}$ and of radius $R = 0.5$, let $\theta$ be the central angle measured at $\Re_{c}$ between the points $r_{1} \in {\mathcal{R}_{P_{1}}{(\omega)}}$ and $r_{2} \in {\mathcal{R}_{P_{2}}{(\omega)}}$. Then, ${d_{geo}{(r_{1},r_{2})}} = {R\theta}$ which evaluates to. Note that ${{d_{geo}{(r_{1},r_{2})}} = {R\theta}}\Leftrightarrow{\theta = \frac{d_{geo}{(r_{1},r_{2})}}{R} = {2d_{geo}{(r_{1},r_{2})}}}$. Similarly, ${d_{chord}{(r_{1},r_{2})}} = {2R{\sin\left( \frac{\theta}{2} \right)}}$ which then evaluates to. Since ${{\sin{(x)}} \leq x},{{\forall x} \geq 0}$, the result follows. ∎
+
+With this chordal metric, we can now define the support distance on the Riemann sphere between the systems $P_{\ell}$ for $\ell = {\{ 1,2\}}$.
+
+### Definition 3.2
+
+Given two systems $P_{\ell}$ with $\ell = {\{ 1,2\}}$, whose uncertainty in $\mathbb{C}$ are characterized by distributions defined on support sets $\mathcal{S}_{P_{\ell}}{(\omega)}$ for every frequency $\omega \in \Omega$, the support distance in the Riemann sphere between the systems is defined as the worst-case pointwise-in-frequency chordal distance between points in their projected support sets $\mathcal{R}_{P_{\ell}}{(\omega)}$. That is,
+
+Clearly, both the support distances $d_{\sup}^{\mathbb{C}}{(P_{1},P_{2})}$ and $d_{\sup}^{\Re}{(P_{1},P_{2})}$ given by and do not explicitly take into account the information of the distributions ${\mathbb{P}}_{P_{1}{(\omega)}}$ and ${\mathbb{P}}_{P_{2}{(\omega)}}$ and rather is based only on their support sets $\mathcal{S}_{P_{1}}{(\omega)}$ and $\mathcal{S}_{P_{2}}{(\omega)}$ respectively for every frequency $\omega \in \Omega$. That is, both the support distances $d_{\sup}^{\mathbb{C}}{(P_{1},P_{2})}$ and $d_{\sup}^{\Re}{(P_{1},P_{2})}$ given by and do not take into account the frequency with which each plant models occur within their respective support sets meaning that it just encodes the physical separation between the plant models getting realised in the respective support sets. This shortcoming can be addressed by defining a chordal metric induced Wasserstein distribution between distributions living in the $\partial\Re$.
+
+### Type-$q$ Distance Between Systems $P_{1}$ and $P_{2}$
+
+We address the above shortcoming by proposing the type-$q$ Wasserstein distance between systems by taking into account their distributions ${\mathbb{P}}_{P_{1}{(\omega)}}$, ${\mathbb{P}}_{P_{2}{(\omega)}}$ for every frequency $\omega \in \Omega$. We denote the corresponding set of all possible joint distribution by $\Pi_{\omega}:={\Pi\left( {\mathbb{P}}_{R_{1}{(\omega)}},{\mathbb{P}}_{R_{2}{(\omega)}} \right)}$.
+
+### Definition 3.3
+
+Given $q \geq 1$ and two systems $P_{1}$ and $P_{2}$ whose uncertainties in $\mathbb{C}$ are characterized by distributions ${\mathbb{P}}_{P_{1}{(\omega)}}$ and ${\mathbb{P}}_{P_{2}{(\omega)}}$ defined on support sets $\mathcal{S}_{P_{1}}{(\omega)}$ and $\mathcal{S}_{P_{2}}{(\omega)}$ respectively ${\forall\omega} \in \Omega$, we define the type-$q$ distance between the systems as the worst-case point-wise-in-frequency type-$q$ chordal metric induced Wasserstein distance between their projected distributions ${\mathbb{P}}_{R_{1}{(\omega)}}$ and ${\mathbb{P}}_{R_{2}{(\omega)}}$ defined on support sets $\mathcal{R}_{P_{1}}{(\omega)}$ and $\mathcal{R}_{P_{2}}{(\omega)}$ respectively. That is,
+
+### Remark 3.2
+
+One can use other variations to define the distance between systems $P_{1}$ and $P_{2}$ using other distance measures such as total variation measure, Hellinger measure, $\chi^{2}$ measure to measure their point-wise-in-frequency distance between the distributions ${\mathbb{P}}_{R_{1}{(\omega)}}$ and ${\mathbb{P}}_{R_{2}{(\omega)}}$ at every frequency $\omega \in \Omega$. Each comes with its own merits and drawbacks. We will stick to the Wasserstein distance based definition for this manuscript.
+
+### Remark 3.3
+
+Note that the $\nu$-gap metric from the robust control literature is defined using the chordal distance between points on the Riemann sphere obtained through the inverse stereographic projection, provided that the two systems satisfy certain winding number constraints. It is certainly possible to take into account the Riemann manifold and use the geodesic distance as the transport cost while computing the Wasserstein distance between distributions on the Riemann sphere. In such a case, the optimal transport plan shall happen along the boundary of the Riemann sphere and as a result the geodesic metric $d_{geo}{(r_{1},r_{2})}$ and hence the distance between the plants can exceed unity. This will cause further issues when a connection between the distance between plants and the associated performance measure $b_{P,C}$ given by is made for analysing the probabilistic robustness, as $b_{P,C}$ does not exceed the value of $1$. This does not mean that the geodesic metric $d_{geo}{(r_{1},r_{2})}$ is a wrong distance metric choice. Rather, it just means that the corresponding robustness measure that is similar to $b_{P,C}$ and that can handle distance between plants greater than $1$ is yet to be developed, and hence it is just a limitation due to the missing theory. Therefore, it is preferable to use the chordal distance in the subsequent theoretical development to reflect the normalized distance value in $\lbrack 0,1\rbrack$, facilitating future developments regarding probabilistic robust performance results using the performance measure $b_{P,C}$. From the optimal transport perspective, the transport plan will happen through the interior of the Riemann sphere (which is perfectly fine) when the transport cost is computed in terms of the chordal distance metric.
+
+### Upper Bound on $d_{q}\left( P_{1},P_{2} \right)$
+
+Given any support set, it is possible to define an uniform distribution over it. Using this simple observation, the connection between the support distance and the proposed type-$q$ distance between the systems $P_{1}$ and $P_{2}$ is established in the following theorem.
+
+### Theorem 3.2
+
+For $q \geq 1$, let ${\mathbb{P}}_{R_{\ell}{(\omega)}}:={\mathcal{U}{({\mathcal{R}_{P_{\ell}}{(\omega)}})}}$ be the uniform distribution defined over the support of the projected uncertainty for each system $\ell = {\{ 1,2\}}$. Then,
+
+### Proof
+
+Given $q \geq 1$, fix any $\omega \in \Omega$. Let $\mu:={\mathcal{U}{({\mathcal{R}_{P_{1}}{(\omega)}})}}$ and $\nu:={\mathcal{U}{({\mathcal{R}_{P_{2}}{(\omega)}})}}$ be the uniform distributions over the respective compact support sets. Then, the chordal metric induced type-$q$ Wasserstein distance using (3.3) is given by
+
+Given that the supports of $\mu$ and $\nu$ are $\mathcal{R}_{P_{1}}{(\omega)}$, and $\mathcal{R}_{P_{2}}{(\omega)}$ respectively, the support distance between $\mathcal{R}_{P_{1}}{(\omega)}$, and $\mathcal{R}_{P_{2}}{(\omega)}$ denoted by $d_{\sup}^{\Re}{(P_{1},P_{2},\omega)}$ is given . Then, for any joint distribution $\pi \in {\Pi{(\mu,\nu)}}$, we see that
+
+Taking the infimum over $\pi \in {\Pi{(\mu,\nu)}}$ and using the fact that $q \geq 1$, we see that
+
+Taking supremum over all $\omega \in \Omega$, we get (27 ‣ 3.3 Type-𝑞 Distance Between Systems 𝑃₁ and 𝑃₂ ‣ 3 Problem Formulation in Frequency Domain ‣ Distance Between Stochastic Linear Systems")) and the proof is complete. ∎
+
+### Lower Bound on $d_{q}\left( P_{1},P_{2} \right)$
+
+Having obtained an upper bound for the distance metric $d_{q}{(P_{1},P_{2})}$ in Theorem 3.2 ‣ 3.3 Type-𝑞 Distance Between Systems 𝑃₁ and 𝑃₂ ‣ 3 Problem Formulation in Frequency Domain ‣ Distance Between Stochastic Linear Systems"), we now proceed below to get a lower bound using triangle inequality based arguments. We will leverage the nominal distance and the expected deviation of the random plant instances of each systems from their respective nominal models to arrive at a lower bound for the proposed distance measure.
+
+### Theorem 3.3
+
+Suppose ${\forall\omega} \in \Omega$, the nominal frequency response of the systems $P_{\ell}$ for $\ell = {\{ 1,2\}}$ denoted by ${{\overline{P}}_{\ell}{({j\omega})}} \in {\mathbb{C}}$ be known apriori. Let ${{\overline{R}}_{\ell}{(\omega)}} = {\varphi^{- 1}{({{\overline{P}}_{\ell}{({j\omega})}})}}$ denote their corresponding inverse stereographic projections onto the Riemann sphere. Further, let ${\mathbb{P}}_{R_{\ell}{(\omega)}}$ be the known probability distribution governing the projected uncertainty of $P_{\ell}{({j\omega})}$ in the Riemann sphere. Then,
+
+where the deviations from the nominal response at frequency $\omega \in \Omega$ is given by
+
+$\Delta_{dev}{(\omega)}$ $= \left( {{d_{chord}{({{\overline{R}}_{1}{(\omega)}},{{\overline{R}}_{2}{(\omega)}})}} - {{\mathbb{E}}\left\lbrack {\Delta_{nom}{(\omega)}} \right\rbrack}} \right)_{+}^{q}$ (29a)
+$\Delta_{nom}{(\omega)}$ ${= {\sum\limits_{\ell = 1}^{2}{d_{chord}{({r_{\ell}{(\omega)}},{{\overline{R}}_{\ell}{(\omega)}})}}}}.$ (29b)
+
+### Proof
+
+Given $q \geq 1$, fix any frequency $\omega \in \Omega$ and let $\pi_{\omega} \in \Pi_{\omega}$ be any admissible joint distribution at that frequency. For the brevity of notation, we will drop the $\omega$ argument from the quantities of interests when it is obvious that quantities are function of frequency $\omega$. For any $r_{1} \in \mathcal{R}_{P_{1}}$ and $r_{2} \in \mathcal{R}_{P_{2}}$, we can define $\Delta_{nom}$ that denotes the sum of deviation (measured in terms of the chordal distance metric) of any perturbed models from their respective nominal models using (29b ‣ 3.3 Type-𝑞 Distance Between Systems 𝑃₁ and 𝑃₂ ‣ 3 Problem Formulation in Frequency Domain ‣ Distance Between Stochastic Linear Systems")) and it is a random variable. Using the triangle inequality for the $d_{chord}$ using $\Delta_{nom}$, we see that
+
+Since $\Delta_{nom}$ is a random variable, we take expectation with respect to the joint distribution $\pi_{\omega}$ on both sides to get
+
+where we applied Jensen's inequality (for convex function ${f{(x)}} = {(x)}_{+}^{q}$ for $q \geq 1$, Jensen's inequality implies ${{\mathbb{E}}{\lbrack{(x)}_{+}^{q}\rbrack}} \geq {({{\mathbb{E}}{\lbrack x\rbrack}})}_{+}^{q}$) on the right hand side. Note that ${\mathbb{E}}_{{(r_{1},r_{2})} \sim \pi_{\omega}}\left\lbrack {d_{chord}{(r_{1},r_{2})}^{q}} \right\rbrack$ is simply equal to $\int_{\mathcal{R}_{P_{1}} \times \mathcal{R}_{P_{2}}}{d_{chord}{(r_{1},r_{2})}^{q}{d\pi_{\omega}}}$. Taking infimum over all joint distributions $\pi_{\omega} \in {\Pi{({\mathbb{P}}_{R_{1}{(\omega)}},{\mathbb{P}}_{R_{2}{(\omega)}})}}$ on both sides, we get
+
+Taking supremum over all $\omega \in \Omega$ on both sides yields (28 ‣ 3.3 Type-𝑞 Distance Between Systems 𝑃₁ and 𝑃₂ ‣ 3 Problem Formulation in Frequency Domain ‣ Distance Between Stochastic Linear Systems")) and the proof is complete. ∎
+
+### Remark 3.4
+
+We believe that a similar lower bound like the one in (28 ‣ 3.3 Type-𝑞 Distance Between Systems 𝑃₁ and 𝑃₂ ‣ 3 Problem Formulation in Frequency Domain ‣ Distance Between Stochastic Linear Systems")) for the $d_{q}{(P_{1},P_{2})}$ can be obtained using \[27, Theorem 14.60\] by adapting the integral-infimum interchange theorem to supremum, where interchange of supremum and integration happens under conditions favouring Fubini-type arguments. Similarly, we can use Dobrushin inequality given any feasible candidate transport plan to obtain a simple yet conservative upper bound for the distance measure. We leave both the expositions as future works.
+
+### ${\mathbb{P}}_{P_{1}{(\omega)}},{\mathbb{P}}_{P_{2}{(\omega)}}$ Being Empirical Distributions
+
+Suppose that ${\forall\omega} \in \Omega$, for system $\ell \in {\{ 1,2\}}$, we construct the empirical distribution ${\mathbb{P}}_{P_{\ell}{(\omega)}}$ using samples of frequency response data $\left\{ {{\hat{P}}_{\ell}^{(i)}{({j\omega})}} \right\}_{i = 1}^{N}$ obtained through $N \in {\mathbb{N}}$ independent system identification trials. That is, ${\forall\omega} \in \Omega$, we construct the empirical distribution as
+
+where ${\mathbf{δ}}_{{\hat{P}}_{\ell}^{(i)}{({j\omega})}}$ denotes the Dirac delta measure concentrated at the point ${{\hat{P}}_{\ell}^{(i)}{({j\omega})}} \in {\mathbb{C}}$. Then, using from Proposition 2.1, one can obtain the corresponding projected distribution ${\mathbb{P}}_{R_{\ell}{(\omega)}}$, for each system $\ell = {1,2}$. The following proposition describes the computation of distance metric for this special case of empirical distributions.
+
+### Proposition 3.4
+
+Given $q \geq 1$, suppose that the empirical distributions ${\mathbb{P}}_{P_{1}{(\omega)}}$ and ${\mathbb{P}}_{P_{2}{(\omega)}}$ of both the systems $P_{1}$ and $P_{2}$ are given by (30},ℙ_{𝑃₂⁢(𝜔)} Being Empirical Distributions ‣ 3 Problem Formulation in Frequency Domain ‣ Distance Between Stochastic Linear Systems")). Then,
+
+where ${{\hat{R}}_{\ell}^{(i)}{({j\omega})}} = {\phi^{- 1}\left( {{\hat{P}}_{\ell}^{(i)}{({j\omega})}} \right)}$ for $\ell = {1,2}$ and $\pi_{\omega}{(i,k)}$ denotes a valid joint distribution between the distributions at frequency $\omega \in \Omega$.
+
+### Proof
+
+Adapting the distance calculation from (3.3) to the Wasserstein distance between empirical distributions ${\mathbb{P}}_{R_{1}{(\omega)}},{\mathbb{P}}_{R_{2}{(\omega)}}$ using the chordal metric given by yields the result (31},ℙ_{𝑃₂⁢(𝜔)} Being Empirical Distributions ‣ 3 Problem Formulation in Frequency Domain ‣ Distance Between Stochastic Linear Systems")). ∎
+
+The continuity in the frequency $\omega \in \Omega$ dimension still makes the exact computation of (31},ℙ_{𝑃₂⁢(𝜔)} Being Empirical Distributions ‣ 3 Problem Formulation in Frequency Domain ‣ Distance Between Stochastic Linear Systems")) hard. One way to approximately address this problem is to discretize the frequency dimension as finely as possible and deploy numerical approximation methods. That is, we can define the discretized frequency space with $M \in {\mathbb{N}}$ points as $\Omega_{M} = \left\{ {\omega_{i} \in \Omega} \right\}_{i = 1}^{M}$. Then, the distance in (31},ℙ_{𝑃₂⁢(𝜔)} Being Empirical Distributions ‣ 3 Problem Formulation in Frequency Domain ‣ Distance Between Stochastic Linear Systems")) can be approximated as
+
+We will now aim to get an empirical upper bound on ${\hat{d}}_{q}{(P_{1},P_{2})}$ using similar earlier arguments in the following proposition.
+
+### Proposition 3.5
+
+For each $\omega \in \Omega_{M}$, let ${\mathbb{P}}_{R_{\ell}{(\omega)}}$ for system $\ell = {\{ 1,2\}}$ be its empirical distribution defined over $N$ samples supported on $\partial\mathcal{R}$ and given by
+
+Let ${\hat{\pi}}_{\omega}$ be any admissible joint distribution in $\Pi{({\mathbb{P}}_{R_{1}{(\omega)}},{\mathbb{P}}_{R_{2}{(\omega)}})}$ at frequency $\omega$ and the associated worst-case empirical cost at that frequency be defined as
+
+$C{(\omega)}$ ${:={\sup\limits_{{i \in {\lbrack 1,N\rbrack}},{k \in {\lbrack 1,N\rbrack}}}{d_{chord}\left( {R_{1}^{(i)}{({j\omega})}},{R_{2}^{(k)}{({j\omega})}} \right)}}}.$ (34a)
+
+Then, given $q \geq 1$, we see that
+
+### Proof
+
+Fix any frequency $\omega \in \Omega_{M}$ and let ${\hat{\pi}}_{\omega}$ be any admissible joint distribution at that frequency. Since ${\mathbb{P}}_{R_{1}{(\omega)}}$ and ${\mathbb{P}}_{R_{2}{(\omega)}}$ are empirical distributions with $N$ points, (each with equal probability), we see that for any $i = {1,{\ldotsN}}$ and $k = {1,\ldots,N}$,
+
+where $C{(\omega)}$ is given by (34},ℙ_{𝑃₂⁢(𝜔)} Being Empirical Distributions ‣ 3 Problem Formulation in Frequency Domain ‣ Distance Between Stochastic Linear Systems")). Taking expectation with respect to the joint distribution ${\hat{\pi}}_{\omega}$ on both sides, we get
+
+Taking infimum over the set of all possible joint distributions $\Pi_{\omega}$ and subsequently taking maximum over $\omega \in \Omega_{M}$ on both sides gives (35},ℙ_{𝑃₂⁢(𝜔)} Being Empirical Distributions ‣ 3 Problem Formulation in Frequency Domain ‣ Distance Between Stochastic Linear Systems")). ∎
+
+Following the similar thinking of Theorem 3.3 ‣ 3.3 Type-𝑞 Distance Between Systems 𝑃₁ and 𝑃₂ ‣ 3 Problem Formulation in Frequency Domain ‣ Distance Between Stochastic Linear Systems"), we will now obtain a lower bound for the empirical version of the distance measure ${\hat{d}}_{q}{(P_{1},P_{2})}$ based on the triangle inequality involving the deviation of the random models of each system from their nominal models.
+
+### Theorem 3.6
+
+Suppose at each frequency $\omega \in \Omega_{M}$, the systems $P_{1}$ and $P_{2}$ admit known nominal models ${{{\overline{P}}_{1}{({j\omega})}},{{\overline{P}}_{2}{({j\omega})}}} \in {\mathbb{C}}$ and let ${{\overline{R}}_{1}{(\omega)}}:={\phi^{- 1}{({{\overline{P}}_{1}{({j\omega})}})}}$ and ${{\overline{R}}_{2}{(\omega)}}:={\phi^{- 1}{({{\overline{P}}_{2}{({j\omega})}})}}$. Further, let the empirical distribution denoted by ${\mathbb{P}}_{R_{\ell}{(\omega)}}$ for system $\ell = {\{ 1,2\}}$ charactering its respective system uncertainty at the frequency $\omega \in \Omega_{M}$ be given by (33},ℙ_{𝑃₂⁢(𝜔)} Being Empirical Distributions ‣ 3 Problem Formulation in Frequency Domain ‣ Distance Between Stochastic Linear Systems")) and additionally let $\pi_{\omega} \in {\Pi{({\mathbb{P}}_{R_{1}{(\omega)}},{\mathbb{P}}_{R_{2}{(\omega)}})}}$ be any feasible joint distribution at the frequency $\omega \in \Omega_{M}$. Then, for ${i,k} \in {\{ i,\ldots,N\}}$,
+
+### Proof
+
+We will follow the arguments in proof of Theorem 3.3 ‣ 3.3 Type-𝑞 Distance Between Systems 𝑃₁ and 𝑃₂ ‣ 3 Problem Formulation in Frequency Domain ‣ Distance Between Stochastic Linear Systems"). Let us fix a frequency $\omega \in \Omega_{M}$. As usual, for the brevity of notation, we will drop the $\omega$ argument when things are obvious. Using the triangle inequality for the chordal distance metric $d_{chord}$ on the Riemann sphere involving the deviation of system models from their respective nominal models, we see that for every sample $R_{1}^{(i)} \in {{supp}{({\mathbb{P}}_{R_{1}})}}$ and $R_{2}^{(k)} \in {{supp}{({\mathbb{P}}_{R_{2}})}}$ with ${i,k} = {\{ 1,\ldots,N\}}$, we see that
+
+where the deviation from the respective system's nominal models $\Delta_{nom}^{({ik})}$ is given by (36},ℙ_{𝑃₂⁢(𝜔)} Being Empirical Distributions ‣ 3 Problem Formulation in Frequency Domain ‣ Distance Between Stochastic Linear Systems")). Raising (39},ℙ_{𝑃₂⁢(𝜔)} Being Empirical Distributions ‣ 3 Problem Formulation in Frequency Domain ‣ Distance Between Stochastic Linear Systems")) to the power $q \geq 1$, we get
+
+Taking expectation with respect to the joint distribution $\pi_{\omega}$ of ${\mathbb{P}}_{R_{\ell}{(\omega)}}$ for system $\ell = {\{ 1,2\}}$ on both sides, we get
+
+where we used the Jensen's inequality as we did before in the proof of Theorem 3.3 ‣ 3.3 Type-𝑞 Distance Between Systems 𝑃₁ and 𝑃₂ ‣ 3 Problem Formulation in Frequency Domain ‣ Distance Between Stochastic Linear Systems"). Subsequently, taking the infimum over all possible joint distributions $\pi_{\omega} \in {\Pi{(\omega;{\mathbb{P}}_{R_{1}},{\mathbb{P}}_{R_{2}})}}$, and maximizing over $\omega \in \Omega_{M}$ on both sides yields (37},ℙ_{𝑃₂⁢(𝜔)} Being Empirical Distributions ‣ 3 Problem Formulation in Frequency Domain ‣ Distance Between Stochastic Linear Systems")). ∎
+
+### Numerical Demonstrations
+
+Figure 2: The chordal metric based type-1 Wasserstein distance d̂1 (P1,P2) between two systems ${P_{1}{(s)}} = \frac{1}{1 + {0.5s}}$ and ${P_{2}{(s)}} = \frac{1}{{({1 + {0.2s}})}{({1 + {0.7s}})}}$ is shown here in blue colour. The upper bound using the support distance is given in red colour and its lower bound from Theorem 3.6 is shown in magenta colour. Quantities that are functions of frequency is given by solid lines and their respective maximum values are shown in dashed horizontal lines in the same colour.
+
+To demonstrate the proposed distance in the frequency domain, we consider two different systems with their nominal model transfer functions given by ${P_{1}{(s)}} = \frac{1}{1 + {0.5s}}$ and ${P_{2}{(s)}} = \frac{1}{{({1 + {0.2s}})}{({1 + {0.7s}})}}$ respectively. A discretized frequency space $\Omega_{M}$ containing $M = 1000$ points between ${{\lbrack 0.1,10^{3}\rbrack}\text{~rad}}/s$ was formed. At every frequency $\omega \in \Omega_{M}$, $N = 100$ samples of frequency response data were generated by randomly perturbing the nominal frequency response at that frequency. Both the nominal frequency response and the empirical distribution containing the samples at every frequency were projected onto the Riemann sphere using the inverse Stereographic projection given . The chordal distance metric based type-1 Wasserstein distance ${\hat{d}}_{1}{(P_{1},P_{2})}$ between two systems given by (32},ℙ_{𝑃₂⁢(𝜔)} Being Empirical Distributions ‣ 3 Problem Formulation in Frequency Domain ‣ Distance Between Stochastic Linear Systems")) was computed using the linear programming approach. The upper bound using the support distance was computed using Proposition 3.5},ℙ_{𝑃₂⁢(𝜔)} Being Empirical Distributions ‣ 3 Problem Formulation in Frequency Domain ‣ Distance Between Stochastic Linear Systems") and the lower bound was computed using Theorem 3.6},ℙ_{𝑃₂⁢(𝜔)} Being Empirical Distributions ‣ 3 Problem Formulation in Frequency Domain ‣ Distance Between Stochastic Linear Systems"). The results are shown in Figure 2. The proposed frequency domain distance ${\hat{d}}_{1}{(P_{1},P_{2})}$ between the systems $P_{1}$ and $P_{2}$ was found to be $0.2916$. The corresponding upper and lower bounds computed using Proposition 3.5},ℙ_{𝑃₂⁢(𝜔)} Being Empirical Distributions ‣ 3 Problem Formulation in Frequency Domain ‣ Distance Between Stochastic Linear Systems") and Theorem 3.6},ℙ_{𝑃₂⁢(𝜔)} Being Empirical Distributions ‣ 3 Problem Formulation in Frequency Domain ‣ Distance Between Stochastic Linear Systems") were found to be $0.3075$ and $0.2831$ respectively.
+
+### Summary of Frequency Domain Distance
+
+For SISO systems, the proposed distance measure in the frequency domain using the chordal distance measure mimicking the $\nu$-gap perspective comes in handy with nice pictorial illustration. We believe that this is just a starting point and there are several interesting future research extensions. Though in principle, we expect the theory to carry forward in a similar fashion from SISO to MIMO systems setting, we expect some inherent difficult that comes with higher dimensions to kick . For example, we would be required to work with the Riemann sphere of higher dimensions and associated stereographic projections are more mathematically involved and complex in nature. Another problem is of dealing with the supremum with respect to the frequency parameter. This problem persists even in SISO and will continue to persist even in MIMO setting. To get around these issues, we would like to formulate and obtain an analogous distance measure between stochastic linear systems in the time domain setting using gap metric perspective where the process of taking supremum with respect to $\omega \in \Omega$ would be absent. The exposition with the time domain setting will be carried out in the next section.
+
+## Problem Formulation in Time Domain
+
+In this section, we will present an analogous distance measure in the time domain using the gap metric.
+
+### Uncertain Dynamical Systems
+
+Consider two continuous time LTI dynamical systems living in the space of linear stochastic systems denoted by $\mathbf{\Sigma}$. Let the nominal models of both systems $i \in {\{ 1,2\}}$ be given by
+
+where for system $i$ at time $t \in {\mathbb{R}}_{\geq 0}$, we refer to its system states as ${x_{i}{(t)}} \in {\mathbb{R}}^{n}$, the control inputs to the system as ${u_{i}{(t)}} \in {\mathbb{R}}^{m}$, the system outputs as ${y_{i}{(t)}} \in {\mathbb{R}}^{l}$ and the matrices $A_{i} \in {\mathbb{R}}^{n \times n}$, $B_{i} \in {\mathbb{R}}^{n \times m}$, $C_{i} \in {\mathbb{R}}^{l \times n}$. Real-world dynamical systems usually have some form of uncertainties associated with them either due to the lack of modelling tools or due to the inaccuracies of the modelling framework. Hence, in practice, all systems have inherent uncertainties affecting their evolution. We model the uncertainty affecting the evolution of the uncertain system $i \in {\{ 1,2\}}$ using the parameter $\theta_{i} \in {\mathbb{R}}^{p}$ with $p \leq {({n^{2} + {nm} + {ln}})}$ and $\theta$ directly affects the evolution of the perturbed system described as follows:
+
+The matrices of the perturbed model of the $i$^th^ system given by $({A_{i}{(\theta_{i})}},{B_{i}{(\theta_{i})}},{C_{i}{(\theta_{i})}})$ are of the same dimensions as $(A_{i},B_{i},C_{i})$ respectively. We will assume that $\theta_{i} \sim \mathbf{f}_{\theta_{\mathbf{i}}}$ where, $\mathbf{f}_{\theta_{\mathbf{i}}}$ denotes the distribution of the parameter $\theta_{i}$ affecting the evolution of system $i \in {\{ 1,2\}}$. It is possible to take a moment-based ambiguity set formulation for $\mathbf{f}_{\theta_{\mathbf{i}}}$ by assuming that $\mathbf{f}_{\theta_{\mathbf{i}}}$ is unknown but is believed to be belonging to a moment-based ambiguity set denoted by $\mathcal{P}^{\theta_{i}}$ consistent with mean $\mu_{\theta_{i}} \in {\mathbb{R}}^{p}$ and covariance $\Sigma_{\theta_{i}} \succ 0$. However, for the ease of exposition, we will assume that $\theta_{i} \sim \mathbf{f}_{\theta_{i}} = {\mathcal{N}{(\mu_{\theta_{i}},\Sigma_{\theta_{i}})}}$. We note here that ${\Sigma_{i}{({\overline{\theta}}_{i})}} = {\overline{\Sigma}}_{i}$ meaning that the perturbed system equals the nominal system when uncertainty vanishes at ${\overline{\theta}}_{i}$ for system $i$. This does not imply that $\mu_{\theta_{i}} = {\overline{\theta}}_{i}$. The only requirement that is needed is that ${\overline{\theta}}_{i} \in \mathbf{f}_{\theta_{i}}$ (perfectly fine even if the containment happens asymptotically (as number of samples tend to $\infty$)) so that when the uncertainties of the perturbed system vanish, it results in the nominal system.
+
+### Gap Between Models
+
+Having defined the evolution of the nominal model ${\overline{\Sigma}}_{i}$ using and perturbed model $\Sigma_{i}{(\theta_{i})}$ in for both the systems $i \in {\{ 1,2\}}$, the gap between the nominal model and the perturbed model of the $i$^th^ system denoted by ${Gap}_{i}{(\theta_{i})}$ for $\theta_{i} \sim \mathbf{f}_{\theta_{i}} = {\mathcal{N}{(\mu_{\theta_{i}},{\sigma_{\theta_{i}}^{2}I_{p}})}}$ can be defined using as
+
+Clearly, ${Gap}_{i}{(\theta_{i})}$ is a random variable in $$ if the $i$^th^ system is stable for all possible perturbations due to $\theta_{i} \sim \mathbf{f}_{\theta_{i}} = {\mathcal{N}{(\mu_{\theta_{i}},\Sigma_{\theta_{i}})}}$. However, we need distance between two systems and rather not between two models of the same system. Towards that we define the distance between the nominal models of two systems $i \in {\{ 1,2\}}$ denoted by ${dist}_{\Sigma_{1},\Sigma_{2}}^{nom}$ as
+
+That is, when the uncertainties of both systems $i \in {\{ 1,2\}}$ vanish, then it simply boils down to the simple gap metric between two deterministic nominal system models ${\overline{\Sigma}}_{1}$ and ${\overline{\Sigma}}_{2}$. However, systems always come with uncertainties due to inevitable modelling errors and hence ${dist}_{\Sigma_{1},\Sigma_{2}}^{nom}$ will not truly capture the distance between the two stochastic systems strictly speaking.
+
+### Inferring Distribution of Perturbed Plant
+
+In this regard, we propose to measure the distance between the distributions that are governing the randomness of the plant models of system $i \in {\{ 1,2\}}$. That is, the randomness in $\theta_{i}$ manifests itself as the randomness in the plant $\Sigma_{i}{(\theta_{i})}$ meaning that ${\Sigma_{i}{(\theta_{i})}} \sim \mathbf{f}_{i}$, where $\mathbf{f}_{i}$ is the distribution of plant models of $i$^th^ system. Towards this, we define the measurable map from the parameter space $\Theta_{i} \subseteq {\mathbb{R}}^{p}$ to the space of system plants denoted by $\Phi_{i}:{\Theta_{i}\mapsto{\Sigma_{i}{(\theta_{i})}} = {({A_{i}{(\theta_{i})}},{B_{i}{(\theta_{i})}},{C_{i}{(\theta_{i})}})}}$. Then the distribution $\mathbf{f}_{i}$ of the perturbed model of system $i \in {\{ 1,2\}}$ is the push-forward measure of the distribution of $\theta_{i}$ under the map $\Phi_{i}$. That is,
+
+where for any Borel measurable set $\mathbf{B} \subseteq {\mathbb{R}}^{({n^{2} + {nm} + {ln}})}$ (the space of system plants), the push-forward measure satisfies
+
+Earlier, we mentioned that ${Gap}_{i}{(\theta_{i})}$ is a random variable in $$ assuming that $i$^th^ system is stable for all possible perturbations due to $\theta_{i} \sim \mathbf{f}_{\theta_{i}} = {\mathcal{N}{(\mu_{\theta_{i}},\Sigma_{\theta_{i}})}}$. We borrow the following assumptions and the Lipschitz continuity of ${Gap}_{i}{(\theta_{i})}$ .
+
+### Assumption 4.1
+
+For system $i \in {\{ 1,2\}}$, the mapping $\theta_{i}\mapsto{G_{i}{(\theta_{i})}}:=\begin{bmatrix}
+\end{bmatrix}$ is Fréchet differentiable and so RCFs ${N_{i}{(\theta_{i})}},{D_{i}{(\theta_{i})}}$ are continuously differentiable in $\theta_{i}$ in the sense of $\mathcal{H}_{\infty}$ norm.
+
+The randomness in the parameter $\theta_{i}$ induces randomness in the coprime factors $\lbrack{N_{i}{(\theta_{i})}},{D_{i}{(\theta_{i})}}\rbrack$. Subsequently, the randomness in the coprime factors $\lbrack{N_{i}{(\theta_{i})}},{D_{i}{(\theta_{i})}}\rbrack$ manifests itself as variations in the graph $G_{i}{(\theta_{i})}$, and hence in the angle between the graph subspaces $\mathcal{G}_{\overline{\Sigma_{i}}}$ and $\mathcal{G}_{\Sigma_{i}{(\theta_{i})}}$ which then finally leads to the randomness in the associated gap ${Gap}_{i}{(\theta_{i})}$. Despite ${Gap}_{i}{(\theta_{i})}$ being random for each of the system, we want to formulate and obtain a deterministic distance measure between two stochastic linear systems, which by the way is the main motive of this manuscript. Consider the special case when the $\theta_{i}$ parameter dependence on the perturbed system dynamics in is affine with $\mathbf{f}_{\theta_{i}}$ being Gaussian. Then, the distribution $\mathbf{f}_{i}$ of the $i$^th^ system due to turns out to be Gaussian as well due to the affine transformation properties of Gaussian random vectors. The following lemma formally establishes this result.
+
+### Lemma 4.1
+
+Let $\theta \sim {\mathcal{N}{(\mu_{\theta},\Sigma_{\theta})}}$ denote a random parameter vector in ${\mathbb{R}}^{p}$. Given $d \in {\mathbb{N}}$, consider the state-space matrices of the perturbed LTI dynamical system $\Sigma{(\theta)}$ whose affine dependence on the parameter $\theta$ is given by
+
+where each of the $A^{(k)} \in {\mathbb{R}}^{n \times n}$, $B^{(k)} \in {\mathbb{R}}^{n \times m}$, and $C^{(k)} \in {\mathbb{R}}^{l \times n}$ for $k = {1,\ldots,d}$ are known apriori. Let $z:={{vec}{({A{(\theta)}},{B{(\theta)}},{C{(\theta)}})}} \in {\mathbb{R}}^{p}$ where $p = {n^{2} + {nm} + {ln}}$. Then,
+
+where, $z^{0} = \begin{bmatrix}
+\end{bmatrix} \in {\mathbb{R}}^{p}$, and $J = \begin{bmatrix}
+{{vec}{(A^{})}} & \cdots & {{vec}{(A^{(d)})}} \\
+{{vec}{(B^{})}} & \cdots & {{vec}{(B^{(d)})}} \\
+{{vec}{(C^{})}} & \cdots & {{vec}{(C^{(d)})}}
+\end{bmatrix} \in {\mathbb{R}}^{p \times d}$.
+
+### Proof
+
+From, we see that
+
+Then, the vectorized perturbed plant will evolve as
+
+Now define $J:=\begin{bmatrix}
+\end{bmatrix} \in {\mathbb{R}}^{p \times d}$. Using $J$ , we get
+
+With $\theta \sim {\mathcal{N}{(\mu_{\theta},\Sigma_{\theta})}}$ and since Gaussianity is preserved under affine transformations, we infer that $z \sim {\mathcal{N}{({{J\mu_{\theta}} + z^{0}},{J\Sigma_{\theta}J^{\top}})}}$. Note that result also follows . ∎
+
+### Gap Metric Induced Type-$q$ Wasserstein Distance
+
+Having studied the transformation of the distribution of the parameter under the mapping of the perturbed dynamics to result in the distribution for the perturbed plant models, we are now ready to define the distance between perturbed models of two systems.
+
+### Definition 4.1
+
+The type-$q$ inter-system distance or the gap metric induced type-$q$ Wasserstein distance denoted by ${dist}_{\Sigma_{1},\Sigma_{2},\delta_{g}}^{q}:{{\mathbf{f}_{1} \times \mathbf{f}_{2}}\rightarrow{\lbrack 0,1\rbrack}}$ between the distributions $\mathbf{f}_{1},\mathbf{f}_{2}$ governing the randomness of the perturbed models of systems $i \in {\{ 1,2\}}$ supported on ${{{supp}{(\mathbf{f}_{1})}},{{supp}{(\mathbf{f}_{2})}}} \subset \mathbf{\Sigma}$ respectively is defined as
+
+${dist}_{\Sigma_{1},\Sigma_{2},\delta_{g}}^{q}$
+$:={\underset{\pi_{\mathbf{f}}\in{\Pi{(\mathbf{f}_{1},\mathbf{f}_{2})}}}{inf}{\mathbb{E}}_{\pi_{\mathbf{f}}}\left\lbrack {\delta_{g}{(\Sigma_{1},\Sigma_{2})}^{q}} \right\rbrack}$ (49a)
+$= {\underset{\pi_{\mathbf{f}}\in{\Pi{(\mathbf{f}_{1},\mathbf{f}_{2})}}}{inf}{\int_{{{{supp}{(\mathbf{f}_{1})}} \times {supp}}{(\mathbf{f}_{2})}}{\delta_{g}{(\Sigma_{1},\Sigma_{2})}^{q}\pi_{\mathbf{f}}{({d\Sigma_{1}},{d\Sigma_{2}})}}}}$ (49b)
+${= {\inf\limits_{\pi_{\mathbf{P}} \in {\Pi{(\mathbf{f}_{P_{1}},\mathbf{f}_{P_{2}})}}}{\int_{{{{supp}{(\mathbf{f}_{P_{1}})}} \times {supp}}{(\mathbf{f}_{P_{2}})}}{\delta_{g}{(P_{1},P_{2})}^{q}\pi_{\mathbf{P}}{({dP_{1}},{dP_{2}})}}}}}.$ (49c)
+
+Note that , the term $\Pi\left( \mathbf{f}_{1},\mathbf{f}_{2} \right)$ refers to the set of all joint distributions between the distributions $\mathbf{f}_{1},\mathbf{f}_{2}$ in the state space and $\Pi{(\mathbf{f}_{P_{1}},\mathbf{f}_{P_{2}})}$ denotes the set of all joint distributions in the corresponding transfer function space $\mathbf{R}\mathcal{L}_{\infty}$ with $P_{i} = {{\mathbf{T}\mathbf{F}}{(\Sigma_{i})}}$ for $i \in {\{ 1,2\}}$. Then, a joint distribution $\pi_{\mathbf{P}} \in {\Pi{(\mathbf{f}_{P_{1}},\mathbf{f}_{P_{2}})}}$ is related to the joint distribution $\pi_{\mathbf{f}} \in {\Pi\left( \mathbf{f}_{1},\mathbf{f}_{2} \right)}$ as follows
+
+In this considered setting, the plant models of both the systems are sampled from the distributions $\mathbf{f}_{1},\mathbf{f}_{2}$ and hence , we have used the gap metric to compute the distance between the events (plant models) while evaluating the type-$q$ Wasserstein distance to find ${dist}_{\Sigma_{1},\Sigma_{2},\delta_{g}}^{q}$.
+
+Remarks: It is compelling to think that for the special case when both $\mathbf{f}_{1}$ and $\mathbf{f}_{2}$ are Gaussian with with mean $\mu_{i} = {{J_{i}\mu_{\theta_{i}}} + z_{i}^{0}}$ and covariance $\Sigma_{i} = {J_{i}\Sigma_{\theta_{i}}J_{i}^{\top}}$ respectively for system $i \in {\{ 1,2\}}$, we would then have an explicit analytic solution which can readily give the distance between the two systems for $q = 2$. However, it turns out to be not true. Recall that, we are sampling plant models for both the systems from their respective distributions $\mathbf{f}_{1}$ and $\mathbf{f}_{2}$. The explicit Gaussian formula for type-$2$ Wasserstein distance applies only when the cost function is quadratic and convex in Euclidean space (like ${c{(z_{1},z_{2})}} = \left\| {z_{1} - z_{2}} \right\|_{2}^{2}$), and the distributions are supported on Euclidean vector spaces with standard geometry. However, in our setting with the plant distributions $\mathbf{f}_{1}$ and $\mathbf{f}_{2}$, the *type-$2$ inter-system distance* given by with $q = 2$ uses the gap metric as the cost function of the transport plan and thus rendering the Wasserstein distance becoming both distribution-dependent and cost-function-dependent. Hence, the optimal transport plan no longer equals the one derived from linear Gaussian maps. Moreover, the cost function of the transport plan described by the gap metric is non-Euclidean, nonlinear, and defined on equivalence classes of transfer functions (up to coprime factorizations). Its geometry is intrinsically nonlinear, and thus does not facilitate a readily available closed-form expression. Though it does not admit a closed-form expression, numerical approximations through sample-based optimal transport methods can be possible. To get an upper bound, we will leverage a well-known fact from the optimal transport theory that the type-$q$ Wasserstein distance is upper bounded by the diameter of the support set, raised to the power $q$. The following proposition formally establishes that observation to get an upper bound.
+
+### Proposition 4.2
+
+Given uniform distributions $\mathbf{f}_{1},\mathbf{f}_{2}$ with their support given by ${supp}{(\mathbf{f}_{1})}$ and ${supp}{(\mathbf{f}_{2})}$ respectively governing the plant models of systems $\Sigma_{1},\Sigma_{2}$ respectively, we see that ${\forall q} \geq 1$,
+
+### Proof
+
+For any ${\Sigma_{1} \in {{supp}{(\mathbf{f}_{1})}}},{\Sigma_{2} \in {{supp}{(\mathbf{f}_{2})}}}$,
+
+Given $q \geq 1$, raising both sides to the power $q$, we get
+
+Taking the infimum over all joint distributions $\pi_{\mathbf{f}} \in {\Pi{(\mathbf{f}_{1},\mathbf{f}_{2})}}$ gives. ∎
+
+We provide another upper bound for the proposed distance measure using ${dist}_{\Sigma_{1},\Sigma_{2}}^{nom}$, and the spread of $\theta_{i}$ for $i \in {\{ 1,2\}}$ in the following theorem.
+
+### Theorem 4.3
+
+Let $\theta_{i} \sim \mathbf{f}_{\theta_{i}}$ for $i \in {\{ 1,2\}}$ and suppose that the distribution $\mathbf{f}_{i}$ of the perturbed model of system $i \in {\{ 1,2\}}$ be given . Further, let assumption 4.1 hold true for both the systems. Assume that ${\exists\mathbf{L}_{i}} > 0$ such that the gap metric satisfies
+
+Then, ${\forall q} \geq 1$, we see that
+
+### Proof
+
+We know that ${\Phi_{i}{({\overline{\theta}}_{i})}} = {\Sigma_{i}{({\overline{\theta}}_{i})}} = {\overline{\Sigma}}_{i}$ for both systems $\Sigma_{i}$ with $i \in {\{ 1,2\}}$. Apply the triangle inequality associated with the gap metric to see
+
+Applying the Lipschitz bound , we see that
+
+Let us define $Z:={\delta_{g}\left( {\Phi_{1}{(\theta_{1})}},{\Phi_{2}{(\theta_{2})}} \right)}$, and $U_{i}:=\left\| {\theta_{i} - {\overline{\theta}}_{i}} \right\|$. Let $\pi_{\theta} \in {\Pi{(\mathbf{f}_{\theta_{1}},\mathbf{f}_{\theta_{2}})}}$ be any joint distribution of $(\theta_{1},\theta_{2})$. Then, the corresponding joint distribution of the systems $\pi_{\mathbf{f}} \in {\Pi{(\mathbf{f}_{1},\mathbf{f}_{2})}}$ and $\pi_{\theta} \in {\Pi{(\mathbf{f}_{\theta_{1}},\mathbf{f}_{\theta_{2}})}}$ are related as
+
+As a result of, we see that
+
+Having said that, taking $\mathcal{L}_{q}$ norm of on both sides with respect to the joint distribution $\pi_{\theta}$ and applying Minkowski's inequality along with the fact that ${dist}_{\Sigma_{1},\Sigma_{2}}^{nom}$ is constant, its $\mathcal{L}_{q}$ norm is $\left\| {dist}_{\Sigma_{1},\Sigma_{2}}^{nom} \right\|_{\mathcal{L}_{q}} = {dist}_{\Sigma_{1},\Sigma_{2}}^{nom}$, we get pointwise,
+
+Using the definition of $\mathcal{L}_{q}$ norm, we see that
+
+Using and , we get
+
+Taking the infimum over all joint distributions $\pi_{\mathbf{f}} \in {\Pi{(\mathbf{f}_{1},\mathbf{f}_{2})}}$ and subsequently using (4.4) and the definition, we get
+
+Since $x\mapsto x^{q}$ is increasing on ${\mathbb{R}}_{\geq 0}$ for $q \geq 1$, we raise both sides of to the power $q \geq 1$ to get and the proof is complete. ∎
+
+In the following proposition, we will give a lower bound using the nominal gap distance and the deviation from nominal model. The reasoning will be very similar to that of Theorem 3.3 ‣ 3.3 Type-𝑞 Distance Between Systems 𝑃₁ and 𝑃₂ ‣ 3 Problem Formulation in Frequency Domain ‣ Distance Between Stochastic Linear Systems") in the frequency domain meaning that we have an analogous result in the time domain given by the following proposition.
+
+### Proposition 4.4
+
+Given ${\Sigma_{i}{(\theta_{i})}} \sim \mathbf{f}_{i}$ and the nominal models ${\overline{\Sigma}}_{i}$ for both systems $i \in {\{ 1,2\}}$, consider a joint distribution $\pi_{\mathbf{f}} \in {\Pi{(\mathbf{f}_{1},\mathbf{f}_{2})}}$. Then, ${\forall q} \geq 1$, we see that
+
+### Proof
+
+Fix any joint distribution $\pi_{\mathbf{f}} \in {\Pi{(\mathbf{f}_{1},\mathbf{f}_{2})}}$. For any ${\Sigma_{i}{(\theta_{i})}} \sim \mathbf{f}_{i}$ for $i \in {\{ 1,2\}}$, we apply the triangle inequality to the gap metric to see that
+
+Then, given $q \geq 1$, we see that
+
+Taking expectation on both sides with respect to the joint distribution $\pi_{\mathbf{f}}$, we see that
+
+where we applied the Jensen's inequality (for the convex function ${f{(x)}} = {(x)}_{+}^{q}$ with $q \geq 1$, ${{\mathbb{E}}{\lbrack{(x)}_{+}^{q}\rbrack}} \geq {({{\mathbb{E}}{\lbrack x\rbrack}})}_{+}^{q}$) to get the second inequality. Taking infimum over all joint distributions $\pi_{\mathbf{f}} \in {\Pi{(\mathbf{f}_{1},\mathbf{f}_{2})}}$ on both sides yields the desired result and the proof is complete. ∎
+
+### Numerical Demonstrations
+
+We considered the following state space models $(A_{1},B_{1},C_{1},D)$ and $(A_{2},B_{2},C_{2},D)$ as the nominal models for two different dynamical systems:
+
+For generating the perturbed models, we choose $d = 4$, $\theta_{1} \sim {\mathcal{N}{(0.01,0.01^{2})}}$, and $\theta_{2} \sim {\mathcal{N}{(0.05,0.05^{2})}}$. Totally, $N = 50$ samples of perturbed models for each of the two dynamical systems were generated along the lines of. The proposed distance measure ${dist}_{\Sigma_{1},\Sigma_{2},\delta_{g}}$ between each of the models for both the systems was computed using using linear programming based approach with the transport cost being the gap metric which was computed using the *gapmetric* command of Matlab. The upper bound and lower bounds for the proposed distance measure were computed using Proposition 4.2 and Proposition 4.4 respectively. The gap between the nominal models ${dist}_{\Sigma_{1},\Sigma_{2}}^{nom}$ was found to be $0.7731$. We estimated the proposed distance measure ${dist}_{\Sigma_{1},\Sigma_{2},\delta_{g}} = 0.7765$, and its lower and upper bounds as $0.6561$ and $0.8252$ respectively.
+
+### Summary
+
+The proposed time domain distance given by facilitates a simple linear programming based computation and also is devoid of additional supremum over frequency operation. We do not claim here that the upper and lower bounds given by Proposition 4.2 and Proposition 4.4 respectively are tight. In the next section, we will show that the frequency domain distance proposed in Section 3 never exceeds the time domain distance proposed in this section.
+
+## Comparing Time Domain & Frequency Domain Distance Measures
+
+It is well known from that $\nu$-gap can never exceed the gap metric for linear systems. Along those lines, we will prove in this section that the proposed frequency domain distance measure in Section 3 between two stochastic LTI dynamical system never exceeds its time domain distance measure counterpart proposed in Section 4. We formalise this observation using a comparison theorem followed by a simulation example based demonstration to corroborate our findings.\
+
+In the frequency domain setting, we know that the distribution ${\mathbb{P}}_{R_{i}{(\omega)}}$ governing the uncertainty of system $i$ with $i \in {\{ 1,2\}}$ on the boundary of the Riemann sphere is related to the distribution $\mathbf{f}_{\theta_{i}}$ of the random parameter $\theta_{i}$ through. Analogously, in the time domain setting, the distribution $\mathbf{f}_{i}$ of plant models of system $i \in {\{ 1,2\}}$ and the corresponding distribution $\mathbf{f}_{\theta_{i}}$ of the random parameter $\theta_{i}$ satisfy and with $\Phi_{i}$ denoting the measurable map from the parameter space to the state space of system plants as described earlier in Section 4. We now define a transfer function mapping which when given a state space model, returns a real rational transfer function. That is, we define the transfer function mapping ${\mathbf{T}\mathbf{F}}:{\Phi_{i}\rightarrow{\mathbf{R}\mathcal{L}_{\infty}}}$ such that ${{\mathbf{T}\mathbf{F}}{({\Sigma_{i}{(\theta_{i})}})}} = {P_{i}{(\theta_{i};s)}}$. We also need a mapping $\Psi_{\omega}^{\Re}:{\Phi_{i}\rightarrow{\partial\Re}}$ that takes the state space model and maps it to the Riemann sphere after realising a real rational transfer function and subsequently evaluating it at a particular frequency $\omega$ and applying the inverse stereographic projection operation. Such a mapping can be defined using composition as
+
+### Assumption 5.1
+
+The mapping $\Psi_{\omega}^{\Re}:{\Phi_{i}\rightarrow{\partial\Re}}$ is continuous.
+
+Before we proceed ahead with the comparison theorem, we will first prove a lemma describing how the joint distributions involved in optimal transport defined in the state space and in the Riemann sphere are related to each other and this will be useful in the proof of the comparison theorem to be presented later in this manuscript.
+
+### Lemma 5.1
+
+For every frequency $\omega \in \Omega$, the corresponding joint distribution $\pi_{\omega} \in {\Pi{({\mathbb{P}}_{R_{1}{(\omega)}},{\mathbb{P}}_{R_{2}{(\omega)}})}}$ on the Riemann sphere with marginals ${\mathbb{P}}_{R_{1}{(\omega)}}$ and ${\mathbb{P}}_{R_{2}{(\omega)}}$ is related to the joint distribution $\pi_{\mathbf{f}} \in {\Pi{(\mathbf{f}_{1},\mathbf{f}_{2})}}$ defined in the space of systems with marginals $\mathbf{f}_{1}$ and $\mathbf{f}_{2}$ respectively as
+
+### Proof
+
+From the definition , we observe that for ${\mathbf{A}_{1} \times \mathbf{A}_{2}} \subseteq {\partial{\Re \times {\partial\Re}}}$,
+
+Now let $\mathbf{A}_{1} = \mathbf{A} \subset {\partial\Re}$ and $\mathbf{A}_{2} = {\partial\Re}$. Then,
+
+By similar arguments, we will also get ${\pi_{\omega}{({\partial{\Re \times \mathbf{A}}})}} = {{\mathbb{P}}_{R_{2}{(\omega)}}{(\mathbf{A})}}$. Since we get the corresponding marginals, the result follows immediately. ∎
+
+In the following lemma, we will prove a similar result connecting the support sets of distributions living on Riemann sphere and the corresponding supports sets of distributions in the space of systems.
+
+### Lemma 5.2
+
+Let $\mathbf{f}_{i}$ be the distribution governing the system $i \in {\{ 1,2\}}$ given by in the state space. Since ${\mathbb{P}}_{R_{i}{(\omega)}} = {\left( \Psi_{\omega}^{\Re} \right)_{\#}\mathbf{f}_{i}}$ at frequency $\omega \geq 0$ , we get
+
+Additionally, if ${supp}\left( \mathbf{f}_{i} \right)$ is compact, then $\Psi_{\omega}^{\Re}{({{supp}\left( \mathbf{f}_{i} \right)})}$ is also compact and so
+
+On the other hand, given distributions ${\mathbb{P}}_{R_{i}{(\omega)}}$ on $\partial\Re$ and $\mathbf{f}_{i}$ on the state space satisfying ${{(\Psi_{\omega}^{\Re})}_{\#}\mathbf{f}_{i}} = {\mathbb{P}}_{R_{i}{(\omega)}}$, the following inclusion for their support sets always holds:
+
+### Proof
+
+To prove the forward inclusion of, let $\Sigma_{i} \in {{supp}\left( \mathbf{f}_{i} \right)}$ and let ${r_{i}{(\omega)}} = {\Psi_{\omega}^{\Re}{(\Sigma_{i})}}$. Take an open neighbourhood $\mathcal{B}_{r_{i}{(\omega)}} \subset {\partial\Re}$ such that ${r_{i}{(\omega)}} \in \mathcal{B}_{r_{i}{(\omega)}}$. By continuity of $\Psi_{\omega}^{\Re}$ via Assumption 5.1, there exists an open neighbourhood $\mathcal{B}_{\Sigma_{i}}$ of $\Sigma_{i}$ in the state space so that ${\Psi_{\omega}^{\Re}{(\mathcal{B}_{\Sigma_{i}})}} \subseteq \mathcal{B}_{r_{i}{(\omega)}}$. Since $\Sigma_{i} \in {{supp}\left( \mathbf{f}_{i} \right)}$, we have ${\mathbf{f}_{i}{(\mathcal{B}_{\Sigma_{i}})}} > 0$, hence
+
+Therefore ${r_{i}{(\omega)}} \in {{supp}\left( {\mathbb{P}}_{R_{i}{(\omega)}} \right)}$, proving ${\Psi_{\omega}^{\Re}{({{supp}\left( \mathbf{f}_{i} \right)})}} \subseteq {{supp}\left( {\mathbb{P}}_{R_{i}{(\omega)}} \right)}$. For the reverse inclusion, let ${r_{i}{(\omega)}} \in {{\partial\Re} \smallsetminus \overline{\Psi_{\omega}^{\Re}{({{supp}\left( \mathbf{f}_{i} \right)})}}}$. Then, there is an open neighbourhood $\mathcal{B}_{r_{i}{(\omega)}}$ of $r_{i}{(\omega)}$ such that ${\mathcal{B}_{r_{i}{(\omega)}} \cap {\Psi_{\omega}^{\Re}{({{supp}\left( \mathbf{f}_{i} \right)})}}} = \varnothing$. By continuity of $\Psi_{\omega}^{\Re}$ through Assumption 5.1, we see that $\left( \Psi_{\omega}^{\Re} \right)^{- 1}{(\mathcal{B}_{r_{i}{(\omega)}})}$ is open in the state space $\Phi_{i}$ and ${{\left( \Psi_{\omega}^{\Re} \right)^{- 1}{(\mathcal{B}_{r_{i}{(\omega)}})}} \cap {{supp}\left( \mathbf{f}_{i} \right)}} = \varnothing$, hence ${\mathbf{f}_{i}\left( {\left( \Psi_{\omega}^{\Re} \right)^{- 1}{(\mathcal{B}_{r_{i}{(\omega)}})}} \right)} = 0$. Thus ${{\mathbb{P}}_{R_{i}{(\omega)}}{(\mathcal{B}_{r_{i}{(\omega)}})}} = {\mathbf{f}_{i}\left( {\left( \Psi_{\omega}^{\Re} \right)^{- 1}{(\mathcal{B}_{r_{i}{(\omega)}})}} \right)} = 0$, which shows ${r_{i}{(\omega)}} \notin {{supp}\left( {\mathbb{P}}_{R_{i}{(\omega)}} \right)}$. So, ${{supp}\left( {\mathbb{P}}_{R_{i}{(\omega)}} \right)} \subseteq \overline{\Psi_{\omega}^{\Re}{({{supp}\left( \mathbf{f}_{i} \right)})}}$. Combining with the forward inclusion, the result follows immediately. Additionally, if ${supp}\left( \mathbf{f}_{i} \right)$ is compact, then $\Psi_{\omega}^{\Re}{({{supp}\left( \mathbf{f}_{i} \right)})}$ is compact in $\partial\Re$ (due to continuity in Assumption 5.1), and hence it is closed too and thereby reduces to. For proving, let $\mathbf{f}_{i}$ be a distribution on the state space with ${{(\Psi_{\omega}^{\Re})}_{\#}\mathbf{f}_{i}} = {\mathbb{P}}_{R_{i}{(\omega)}}$. If $\Sigma_{i} \in {{supp}\left( \mathbf{f}_{i} \right)}$, then by the above forward inclusion arguments, we have ${\Psi_{\omega}^{\Re}{(\Sigma_{i})}} \in {{supp}\left( {\mathbb{P}}_{R_{i}{(\omega)}} \right)}$ which is equivalent to $\Sigma_{i} \in {\left( \Psi_{\omega}^{\Re} \right)^{- 1}{({{supp}\left( {\mathbb{P}}_{R_{i}{(\omega)}} \right)})}}$. Hence, the result follows. ∎
+
+For deterministic SISO LTI dynamical system represented by their transfer functions ${{P_{1}{(s)}},{P_{2}{(s)}}} \in {\mathbf{R}\mathcal{L}_{\infty}}$, the $\nu$-gap between them (provided both systems satisfy the winding number constraint as described in ) is given by
+
+$\delta_{\nu}{(P_{1},P_{2})}$ ${:={{\sup\limits_{\omega}{\kappa{({P_{1}{({j\omega})}},{P_{2}{({j\omega})}})}}},\text{where}}},$ (68a)
+
+denotes the pointwise-in-frequency gap between $P_{1}$ and $P_{2}$ and is exactly equal to the chordal distance between the two frequency-response points after inverse stereographic projection to $\partial\mathcal{R}$. Using this observation, we will now proceed ahead with the comparison theorem to formally establish the fact the proposed frequency domain distance that is described in Section 3 through the definition given (31},ℙ_{𝑃₂⁢(𝜔)} Being Empirical Distributions ‣ 3 Problem Formulation in Frequency Domain ‣ Distance Between Stochastic Linear Systems")) never exceeds the proposed time domain distance counterpart that is described in Section 4 through the definition given .
+
+### Theorem 5.3
+
+Consider two stochastic dynamical systems, whose state space models $\Sigma_{i}{(\theta_{i})}$ for system $i \in {\{ 1,2\}}$ are given . Further, let the corresponding random transfer functions obtained from the respective state space models $\Sigma_{i}{(\theta_{i})}$ denoted by $P_{i}{(\theta_{i};s)}$ be given . Additionally, let the random parameter $\theta_{i}$ affecting the system $i \in {\{ 1,2\}}$ be governed by the respective distribution $\mathbf{f}_{\theta_{i}}$. Subsequently, let the distribution ${\mathbb{P}}_{R_{i}{(\omega)}}$ governing the uncertainty of system $i$ with $i \in {\{ 1,2\}}$ on the boundary of the Riemann sphere be defined using and the distribution $\mathbf{f}_{i}$ that governs the uncertainty of $\Sigma_{i}{(\theta_{i})}$ be given . Then, for $q \geq 1$,
+
+### Proof
+
+Let $\pi_{\mathbf{f}} \in {\Pi{(\mathbf{f}_{1},\mathbf{f}_{2})}}$ be a joint distribution defined on the state-space $\Phi_{1} \times \Phi_{2}$. Then, the corresponding joint distribution on the (transfer function) $\mathbf{R}\mathcal{L}_{\infty}$ space with marginal distributions $\mathbf{f}_{P_{1}}$, $\mathbf{f}_{P_{2}}$ can be obtained through the push-forward operation of $\pi_{\mathbf{f}}$ under the $\mathbf{T}\mathbf{F}$ mapping using as
+
+Further, for each frequency $\omega \geq 0$, the corresponding joint distribution on the Riemann sphere can be obtained using Lemma 5.1 as
+
+By definition of the frequency domain distance in (3.3) involving the Wasserstein distance defined over the infimum over joint distributions with the transport cost computed using the chordal distance, we see that
+
+From, we know that for every pair of transfer functions $(P_{1},P_{2})$ in the $\mathbf{R}\mathcal{L}_{\infty}$ space, the following inequality holds due to:
+
+Applying $P_{i} = {{\mathbf{T}\mathbf{F}}{(\Sigma_{i})}}$ & the inequality , we get
+
+where we applied to get the last equality. Now taking supremum over $\omega \in {\mathbb{R}}$ on the both sides, we get
+
+Taking infimum over all joint distributions $\pi_{\mathbf{P}} \in {\Pi{(\mathbf{f}_{P_{1}},\mathbf{f}_{P_{2}})}}$ on both sides, we get
+
+This completes the proof. ∎
+
+### Numerical Demonstration
+
+Given two stochastic LTI systems, to demonstrate that the frequency domain distance never exceeds the time domain distance, we consider two different second order LTI systems which vary due to their correspondingly random damping and resonant frequency values. Specifically, consider two second order systems whose nominal damping and resonant frequency values are given by ${\overline{\zeta}}_{1} = 0.35$, ${\overline{\zeta}}_{2} = 0.55$, ${\overline{\omega}}_{n_{1}} = 1.8$, ${\overline{\omega}}_{n_{2}} = 1.2$ respectively. Then, the nominal transfer function models of both the systems are given by
+
+To compute the distances, $N = 100$ samples of perturbed plant models for both the systems were formed by perturbing along the lines of, the corresponding nominal models of both the systems given . The random parameters $\theta_{i}$ that were used to generate the perturbed models of the system $i \in {\{ 1,2\}}$ are given by $\theta_{i} \sim {\mathcal{N}{(\mu_{\theta_{i}},\Sigma_{\theta_{i}})}}$, where
+
+To compute the frequency domain distance, a frequency grid in the log space between $\lbrack 10^{- 2},10^{2}\rbrack$ rad/sec was discretized into $M = 100$ points. Precisely speaking, $\Omega_{M} = {{logspace}{(10^{- 2},10^{2},100)}}$. The quantities of interests namely the frequency domain distance $d_{q}{(P_{1},P_{2})}$ and the time domain distance ${dist}_{\Sigma_{1},\Sigma_{2},\delta_{g}}$ were computed using (3.3) and respectively. In both the distance computations, the corresponding type-$1$ Wasserstein distance computation was carried out using the linear programming technique. As a result of the computation, we obtained the frequency domain distance ${d_{q}{(P_{1},P_{2})}} = 0.3795$, the time domain distance ${dist}_{\Sigma_{1},\Sigma_{2},\delta_{g}} = 0.3812$ and the gap metric between the nominal models given by was found out to be $0.3822$. Clearly as expected, we obtained ${d_{q}{(P_{1},P_{2})}} \leq {dist}_{\Sigma_{1},\Sigma_{2},\delta_{g}}$ and thereby agreeing to the claims of Theorem 5.3.
+
+## Conclusions
+
+A new distance metric between two SISO stochastic LTI dynamical systems was presented both in the frequency domain and in the time domain. In the frequency domain, the proposed distance corresponds to the worst-case-in-frequency chordal distance metric induced distance between distributions characterising the uncertainties of systems in the Riemann sphere. Analogously, the proposed distance in the time domain corresponds to the gap metric induced type-q Wasserstein distance between the push-forward measures under both systems' corresponding measurable maps from the parameter space to their respective space of system plants. For both the frequency domain and the time domain settings, upper bounds and lower bounds for the proposed distances were given. It was also shown that for stochastic LTI systems, the proposed frequency domain distance measure never exceeds the proposed time domain distance measure counterpart.\
+
+There are several promising future directions to expand this research and some of them are listed below:
+
+Seek to extend the study from SISO systems to MIMO systems and further to nonlinear systems
+
+A preliminary step towards the above extension would be to investigate the probabilistic robustness for linear time varying (LTV) systems by adopting the ideas of and adding probabilistic rigour on top of it and extending it to distance between stochastic LTV systems as done in this manuscript.
+
+Another interesting direction of research will be to investigate the probabilistic robust stability of controllers. That is, given a stabilising controller for one stochastic system, we should investigate the probability of that controller stabilising another stochastic system in the vicinity of the first stochastic system where the vicinity is measured using the proposed distance measure.
+
+It would also be interesting to study probabilistic guarantees on the performance variations for the same controller trying to control two different stochastic systems.

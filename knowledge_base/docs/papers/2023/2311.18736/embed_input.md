@@ -8,12 +8,12 @@ We introduce controlgym, a library of thirty-six industrial control settings, an
 
 The intersection of machine learning (ML), reinforcement learning (RL), and control theory has garnered significant attention in recent years, giving rise to the learning for dynamics & control (L4DC) research community (Recht Vamvoudakis et al. Brunke et al. Hu et al., ). L4DC has the naturally driven mission to unlock the power of learning-based methods for control and establish a rigorous theoretical foundation. This mission could only be fulfilled with joint forces and close collaboration between theorists and practitioners from ML, control theory, and optimization.
 
-Theorists are keen to validate their algorithms and theories in real-world scenarios but encounter challenges with OpenAI Gym/Gymnasium (Gym) environments (Brockman et al. Towers et al., ). Specifically, most Gym environments feature highly nonlinear dynamics, often involving contacts, and offer very limited parameter customization options, making them ill-suited testbeds for control theory research. Meanwhile, control textbook examples lack the complexity for cutting-edge ML/RL research that prioritizes efficiency and scalability.
+To address these requirements, we introduce controlgym, a lightweight and versatile Python library that offers a spectrum of environments spanning from linear systems to chaotic, large-scale systems governed by partial differential equations (PDEs). Specifically, controlgym features thirty-six linear industrial control environments, encompassing sectors like aerospace, cyber-physical systems, ground and underwater vehicles, and power systems. Additionally, controlgym includes ten large-scale control environments governed by fundamental PDEs in fluid dynamics and physics.
+
+Leveraging its strengths, controlgym is a testbed for exploring three essential aspects of applying RL to continuous control. First, it aims to probe whether RL algorithms can consistently converge in learning control policies. Second, it examines the stability and robustness of the policy and training process, motivated by real-world safety-critical applications. Lastly, it assesses the scalability of RL algorithms in high-dimensional and potentially infinite-dimensional systems.
+
+## Conclusion
 
 We have presented controlgym, a library designed to support the research efforts of L4DC. The controlgym project facilitates a deeper investigation into the performance of RL algorithms, particularly focusing on their convergence, the stability and robustness of RL-based controllers, and the scalability of RL algorithms to systems with high and infinite state dimensionality.
 
 The research of XZ, WM, and TB were supported in part by the US Army Research Laboratory (ARL) Cooperative Agreement W911NF-17-2-0181, in part by the Army Research Office (ARO) MURI Grant AG285, and in part by the ARO Grant W911NF-24-1-0085. SM and MB were supported solely by MERL.
-
-Figure 4: The uncontrolled solution to the wave equation in a domain of length L = 1 with parameter c = 0.1. The initial conditions are u(x, t=0) = sech(10x−5) and ψ(x, t=0) = 0. The figure convention is consistent with that of Figure 3.
-
-Discretization of space and time. To solve the PDEs listed in Table, we first need to discretize space and time in the continuous form (2.1). For a state dimension $n_{s}$ that is even and a sampling time ${\Delta t} \in {\mathbb{R}}^{+}$, both selected by the user, we define a state vector $s_{k} \in {\mathbb{R}}^{n_{s}}$ that contains the values of $u$ at...

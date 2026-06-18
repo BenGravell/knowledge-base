@@ -8,16 +8,12 @@ In this work, we propose the world's first closed-loop ML-based planning benchma
 
 Large-scale human labeled datasets in combination with deep Convolutional Neural Networks have led to an impressive performance increase in autonomous vehicle (AV) perception over the last few years. In contrast, existing solutions for AV planning are still primarily based on carefully engineered expert systems, that require significant amounts of engineering to adapt to new geographies and do not scale with more training data. We believe that providing suitable data and metrics will enable ML-based planning and pave the way towards a full "Software 2.0" stack.
 
-Figure 1: We show different driving scenarios to emphasize the limitations of existing benchmarks. The observed driving route of the ego vehicle in shown in white and the hypothetical planner route in red. (a) The absence of a goal leads to ambiguity at intersections. (b) Displacement metrics do not take into account the multi-modal nature of driving. (c) open-loop evaluation does not take into account agent interaction.
+Existing real-world benchmarks are focused on short-term motion forecasting, also known as prediction, rather than planning. This is evident in the lack of high-level goals, the choice of metrics, and the open-loop evaluation. Prediction focuses on the behavior of other agents, while planning relates to the ego vehicle behavior. Prediction is typically multi-modal, which means that for each agent we predict the $N$ most likely trajectories. In contrast, planning is typically uni-modal (except for contingency planning) and we predict a single trajectory.
+
+We instead provide a planning benchmark to address these shortcomings.
+
+The largest existing public real-world dataset for autonomous driving with high quality autolabeled tracks from 4 cities.
 
 ## Conclusion
 
 In this work we proposed the first ML-based planning benchmark for AVs. Contrary to existing forecasting benchmarks, we focus on goal-based planning, planning metrics and closed-loop evaluation. We hope that by providing a common benchmark, we will pave a path towards progress in ML-based planning, which is one of the final frontiers in autonomous driving.
-
-We plan to release 1500 hours of data from Las Vegas, Boston, Pittsburgh, and Singapore. Each city provides its unique driving challenges. For example, Las Vegas includes bustling casino pick-up and drop-off points (PUDOs) with complex interactions and busy intersections with up to 8 parallel driving lanes per direction, Boston routes include drivers who love to double park, Pittsburgh has its own custom precedence pattern for left turns at intersections, and Singapore features left hand traffic. For each city we provide semantic maps and an API for efficient map queries....
-
-Simulators have enabled breakthroughs in planning and reinforcement learning with their ability to simulate physics, agents, and environmental conditions in a closed-loop environment.
-
-### Tasks
-
-Existing real-world benchmarks are focused on short-term motion forecasting, also known as prediction, rather than planning. This is evident in the lack of high-level goals, the choice of metrics, and the open-loop evaluation....

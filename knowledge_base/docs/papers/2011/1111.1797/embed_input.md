@@ -8,18 +8,12 @@ The multi-armed bandit problem is a popular model for studying exploration/explo
 
 ## Introduction
 
-Multi-armed bandit (MAB) problem models the exploration/exploitation trade-off inherent in sequential decision problems. Many versions and generalizations of the multi-armed bandit problem have been studied in the literature; in this paper we will consider a basic and well-studied version of this problem: the stochastic multi-armed bandit problem. Among many algorithms available for the stochastic bandit problem, some popular ones include Upper Confidence Bound (UCB) family of algorithms, (e.g....
+Multi-armed bandit (MAB) problem models the exploration/exploitation trade-off inherent in sequential decision problems. Many versions and generalizations of the multi-armed bandit problem have been studied in the literature; in this paper we will consider a basic and well-studied version of this problem: the stochastic multi-armed bandit problem.
 
-Recently, TS has attracted considerable attention. Several studies (e.g., ) have empirically demonstrated the efficacy of Thompson Sampling: provides a detailed discussion of probability matching techniques in many general settings along with favorable empirical comparisons with other techniques. demonstrate that empirically TS achieves regret comparable to the lower bound of; and in applications like display advertising and news article recommendation, it is competitive to or better than popular methods such as UCB....
+Recently, TS has attracted considerable attention. Several studies (e.g., ) have empirically demonstrated the efficacy of Thompson Sampling: provides a detailed discussion of probability matching techniques in many general settings along with favorable empirical comparisons with other techniques. demonstrate that empirically TS achieves regret comparable to the lower bound of; and in applications like display advertising and news article recommendation, it is competitive to or better than popular methods such as UCB.
 
-### Conclusion
+It has been suggested that despite being easy to implement and being competitive to the state of the art methods, the reason TS is not very popular in literature could be its lack of strong theoretical analysis. Existing theoretical analyses in provide weak guarantees, namely, a bound of $o{(T)}$ on expected regret in time $T$. In this paper, for the first time, we provide a logarithmic bound on expected regret of TS algorithm in time $T$ that is close to the lower bound of. Before stating our results, we describe the MAB problem and the TS algorithm formally.
 
-In this paper, we showed theoretical guarantees for Thompson Sampling close to other state of the art methods, like UCB. Our result is a first step in theoretical understanding of TS and there are several avenues to explore for the future work: There is a gap between our upper bounds and the lower bound of. While it may be easy to improve the constant factors in our upper bounds by making the analysis more careful (but more complicated), it seems harder to improve the dependence on the $\Delta$'s....
+## Conclusion
 
-### Lemma 1
-
-In this section, we give an informal description of the techniques involved in our analysis. We hope that this will aid in reading the proofs, though this section is not essential for the sequel. We assume that all arms are Bernoulli arms, and that the first arm is the unique optimal arm. As explained in the previous sections, these assumptions are without loss of generality.
-
-## Regret bound for the $N$-armed bandit problem
-
-It has been suggested that despite being easy to implement and being competitive to the state of the art methods, the reason TS is not very popular in literature could be its lack of strong theoretical analysis. Existing theoretical analyses in provide weak guarantees, namely, a bound of $o{(T)}$ on expected regret in time $T$....
+In this paper, we showed theoretical guarantees for Thompson Sampling close to other state of the art methods, like UCB. Our result is a first step in theoretical understanding of TS and there are several avenues to explore for the future work: There is a gap between our upper bounds and the lower bound of. While it may be easy to improve the constant factors in our upper bounds by making the analysis more careful (but more complicated), it seems harder to improve the dependence on the $\Delta$'s.

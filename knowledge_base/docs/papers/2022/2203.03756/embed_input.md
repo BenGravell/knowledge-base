@@ -4,16 +4,10 @@ Empirical evidence suggests that for a variety of overparameterized nonlinear mo
 
 ## Introduction
 
-Recent advances in machine learning and artificial intelligence have relied on fitting highly overparameterized models, notably deep neural networks, to observed data tan2019efficientnet; kolesnikov2020big; huang2019gpipe; zhang2021understanding. In such settings, the number of parameters of the model is much greater than the number of data samples, thereby resulting in models that achieve near-zero training error....
+Recent advances in machine learning and artificial intelligence have relied on fitting highly overparameterized models, notably deep neural networks, to observed data tan2019efficientnet; kolesnikov2020big; huang2019gpipe; zhang2021understanding. In such settings, the number of parameters of the model is much greater than the number of data samples, thereby resulting in models that achieve near-zero training error. Although classical learning paradigms caution against overfitting, recent work suggests ubiquity of the "double descent" phenomenon belkin2019reconciling, wherein significant overparameterization actually improves generalization.
 
-Existing literature highlights two intriguing properties---small norm and flat landscape---that correlate with generalization neyshabur2017exploring; dziugaite2017computing; dinh2017sharp. Indeed, it has long been known that the magnitude of the weights plays an important role for neural network training. As a result, one typically incorporates a squared $\ell_{2}$-penalty on the weights---called weight decay---when applying iterative methods....
+Existing literature highlights two intriguing properties---small norm and flat landscape---that correlate with generalization neyshabur2017exploring; dziugaite2017computing; dinh2017sharp. Indeed, it has long been known that the magnitude of the weights plays an important role for neural network training. As a result, one typically incorporates a squared $\ell_{2}$-penalty on the weights---called weight decay---when applying iterative methods.
 
-For any integer $k \in {\mathbb{N}}$, Lemma 4.5. ‣ 4 Flat minima under RIP conditions: matrix and bilinear sensing ‣ Flat minima generalize for low-rank matrix recovery") ensures that there exist numerical constants ${\delta_{1},\delta_{2}} > 0$ and constants ${c_{0},C_{0}} > 0$ depending only on $l$ such that in the regime $m \geq {c_{0}r{({d_{1} + d_{2}})}}$, with probability at least $1 - {\exp{({- {C_{0}m}})}}$, the measurement map $\mathcal{A}$ satisfies $\ell_{1}/\ell_{2}$ RIP with parameters $({lr_{\natural}},\delta_{1},\delta_{2})$. Lemma 4.9....
+> Do flat minimizers generalize for a broad family of overparameterized problems?
 
-Therefore in this regime, we may upper bound the condition number $\kappa$ of $D_{1}$ and $D_{2}$ by $\frac{1 + \delta}{1 - \delta}$. In light of Lemma 4.7, in order to ensure exact recovery, it remains to simply choose a large enough $l$ such that the inequality ${\frac{\delta_{2}}{\delta_{1}} \cdot {(\frac{1 + \delta}{1 - \delta})}^{2}} \leq \sqrt{l}$ holds (recall $\delta_{1},\delta_{2}$ are numerical constants). An application of Lemma 4.7 and Theorem 3.3. ‣ 3.2 Regularity of flat solutions ‣ 3 Convex relaxation and regularity of flat solutions ‣ Flat minima generalize for low-rank matrix recovery") completes the proof. ∎
-
-Therefore, a natural convex relaxation for finding the flattest solution drops the rank constraint:
-
-Consequently, the scaled trace is simply
-
-We next verify (23. ‣ 3.2 Regularity of flat solutions ‣ 3 Convex relaxation and regularity of flat solutions ‣ Flat minima generalize for low-rank matrix...
+Putting generalization aside, one would hope that flat solutions are in some sense regular, occurring in a benign region where algorithms perform well. For example, numerical methods for neural network training are strongly influenced by how balanced the parameters appear. Namely, the set of interpolating neural networks contains models with consecutive weight matrices that are poorly scaled relative to each other du2018algorithmic; shamir2018resnets.

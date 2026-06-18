@@ -12,12 +12,10 @@ Convolutional neural networks have become the method of choice in many fields of
 
 While optical flow estimation needs precise per-pixel localization, it also requires finding correspondences between two input images. This involves not only learning image feature representations, but also learning to match them at different locations in the two images. In this respect, optical flow estimation fundamentally differs from previous applications of CNNs.
 
+Since it was not clear whether this task could be solved with a standard CNN architecture, we additionally developed an architecture with a correlation layer that explicitly provides matching capabilities. This architecture is trained end-to-end. The idea is to exploit the ability of convolutional networks to learn strong features at multiple levels of scale and abstraction and to help it with finding the actual correspondences based on these features. The layers on top of the correlation layer learn how to predict flow from these matches.
+
+Leveraging an efficient GPU implementation of CNNs, our method is faster than most competitors. Our networks predict optical flow at up to $10$ image pairs per second on the full resolution of the Sintel dataset, achieving state-of-the-art accuracy among real-time methods.
+
 ## Conclusion
 
-Building on recent progress in design of convolutional network architectures, we have shown that it is possible to train a network to directly predict optical flow from two input images. Intriguingly, the training data need not be realistic. The artificial Flying Chairs dataset including just affine motions of synthetic rigid objects is sufficient to predict optical flow in natural scenes with competitive accuracy. This proves the generalization capabilities of the presented networks. On the test set of the Flying Chairs the CNNs even outperform state-of-the-art methods like DeepFlow and EpicFlow....
-
-The MPI Sintel dataset obtains ground truth from rendered artificial scenes with special attention to realistic image properties. Two versions are provided: the Final version contains motion blur and atmospheric effects, such as fog, while the Clean version does not include these effects. Sintel is the largest dataset available (1,041 training image pairs for each version) and provides dense ground truth for small and large displacement magnitudes.
-
-Given a maximum displacement $d$, for each location $\mathbf{x}_{1}$ we compute correlations $c{(\mathbf{x}_{1},\mathbf{x}_{2})}$ only in a neighborhood of size $D:={{2d} + 1}$, by limiting the range of $\mathbf{x}_{2}$. We use strides $s_{1}$ and $s_{2}$, to quantize $\mathbf{x}_{1}$ globally and to quantize $\mathbf{x}_{2}$ within the neighborhood centered around $\mathbf{x}_{1}$.
-
-For training CNNs we use a modified version of the caffe framework. We choose Adam as optimization method because for our task it shows...
+Building on recent progress in design of convolutional network architectures, we have shown that it is possible to train a network to directly predict optical flow from two input images. Intriguingly, the training data need not be realistic. The artificial Flying Chairs dataset including just affine motions of synthetic rigid objects is sufficient to predict optical flow in natural scenes with competitive accuracy. This proves the generalization capabilities of the presented networks. On the test set of the Flying Chairs the CNNs even outperform state-of-the-art methods like DeepFlow and EpicFlow.

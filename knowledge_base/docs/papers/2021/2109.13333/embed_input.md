@@ -4,14 +4,14 @@ In this work we are the first to present an offline policy gradient method for l
 
 ## Introduction
 
-Self-driving has the potential to revolutionize transportation and is a major field of AI applications. Even though already in 1990 there were prototypes capable of driving on highways, technology is still not widespread, especially in the context of urban driving. In the past decade, the availability of large datasets and high-capacity neural networks has enabled significant progress in perception and the vehicles' ability to understand their surrounding environment. Self-driving decision making, however, has seen very little benefit from machine learning or large datasets....
+Self-driving has the potential to revolutionize transportation and is a major field of AI applications. Even though already in 1990 there were prototypes capable of driving on highways, technology is still not widespread, especially in the context of urban driving. In the past decade, the availability of large datasets and high-capacity neural networks has enabled significant progress in perception and the vehicles' ability to understand their surrounding environment. Self-driving decision making, however, has seen very little benefit from machine learning or large datasets.
 
-Due to this, learning a driving policy directly from expert demonstrations is appealing, since performance scales to new domains by adding data rather than via additional human engineering effort. In this paper we focus specifically on learning rich driving policies for urban driving from large amounts of real-world collected data. Unlike highway driving, urban driving requires performing a variety of maneuvers and interactions with, e.g., traffic lights, other cars and pedestrians.
+Due to this, learning a driving policy directly from expert demonstrations is appealing, since performance scales to new domains by adding data rather than via additional human engineering effort. In this paper we focus specifically on learning rich driving policies for urban driving from large amounts of real-world collected data. Unlike highway driving, urban driving requires performing a variety of maneuvers and interactions , e.g., traffic lights, other cars and pedestrians.
+
+Inspired by this approach, we present the first results on offline learning of imitating driving policies using mid-level representations, a closed-loop simulator and a policy gradient method. This formulation has several benefits: it can successfully learn high-complexity maneuvers without the need for perturbations, implicitly avoid the problem of covariate shift, and directly optimize imitation as well as auxiliary costs.
+
+## Conclusion
 
 In this work we have introduced a method for learning an autonomous driving policy in an urban setting, using closed-loop training, mid-level representations with a data-driven simulator and a large corpus of real world demonstrations. We show this yields good generalization and performance for complex, urban driving. In particular, it can control a real-world self-driving vehicle, yielding better driving performance than other state-of-the-art ML methods.
 
 We believe this approach can be further extended towards production-grade real-world driving requirements of L4 and L5 systems -- in particular, for improving performance in novel or rarely seen scenarios and to increase sample efficiency, allowing further scaling to millions of hours of driving.
-
-Sampling expert trajectories $\overline{\tau}$ consists of simply sampling from the collected dataset of expert demonstrations. To generate the policy sample $\tau$ we acquire an expert state ${\overline{s}}_{1} \in \overline{\tau}$, and then unroll the current policy $\pi$ for $T$ steps using the simulator $S$.
-
-Updated poses of the SDV are determined by a kinematic model $p_{t + 1} = {f{(p_{t},a_{t})}}$, which is assumed to be differentiable....

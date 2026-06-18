@@ -8,16 +8,14 @@ Given a graph, the shortest-path problem requires finding a sequence of edges wi
 
 ## Introduction
 
-Figure 1: Example of an SPP in GCS. The source set is on the left and the target set is on the right. The graph edges are arrows, and the shortest path is shown in dashed green. The dotted red lines connect the optimal positions of the vertices along the shortest path.
+The Shortest-Path Problem (SPP) is one of the most important and ubiquitous problems in combinatorial optimization. In its single-source single-target version, this problem asks for a path of minimum length connecting two prescribed vertices of a graph, where the length of a path is defined as the sum of the lengths of its edges. Typically, the edge lengths are fixed scalars, given as problem data, and the assumptions made on their values have a dramatic impact on the problem complexity \[43, Chapters 6 to 8\].
 
-The Shortest-Path Problem (SPP) is one of the most important and ubiquitous problems in combinatorial optimization. In its single-source single-target version, this problem asks for a path of minimum length connecting two prescribed vertices of a graph, where the length of a path is defined as the sum of the lengths of its edges. Typically, the edge lengths are fixed scalars, given as problem data, and the assumptions made on their values have a dramatic impact on the problem complexity \[43, Chapters 6 to 8\]....
+Many problems of practical interest can be formulated as SPPs in GCS: for some of those the convex sets and the edge-length functions are naturally suggested by the application, for others the construction of the GCS requires more thinking. As an example of the former class of problems, scheduling the flight of a drone with limited batteries is immediately cast as an SPP in GCS like the one in Figure 1. The start region is on the left, the goal region is on the right, and the remaining regions can be used for recharging. Pairs of regions that are close enough for the drone to fly between are connected by an edge.
 
-## Conclusions
+## Contributions
 
-In this paper we have introduced the SPP in GCS, a versatile generalization of the classical SPP. Our main contribution is a compact MICP formulation for the solution of this NP-hard problem. Numerical experiments show that the convex relaxation of our formulation is typically very tight, and it enables us to quickly solve large problems to global optimality. We have demonstrated the applicability of the proposed framework to control systems: many optimal control problems are interpretable as SPPs in GCS and, in our tests, the proposed formulation outperforms state-of-the-art techniques for their solution.
+The following are the main contributions of this article.
 
-Constraint (5.3) is obtained as in Remark 5.7 from the flow conservation in (4c), and (5.3) is the result of applying Lemma 5.5 to the nonnegativity constraint (4d). Note that the application of the same technique to the equalities (5.3) and to the degree constraint in (4c) would give us
+## Problem statement (Section 2)
 
-The cone $\mathcal{X}^{\circ}$ is easily seen to be closed and convex, even when $\mathcal{X}$ is neither closed nor convex. Note also that the cone of valid inequalities is closely related to the *polar set*, but the latter lives in $n$ dimensions.
-
-Ideally, we would like our relaxation to be as tight as possible, and the set $\mathcal{S}^{\prime}$ to coincide with the convex hull of $\mathcal{S}$. This equality holds, for example, when $\mathcal{X}$ and $\mathcal{Y}$ are intervals on the real line, in which case $\mathcal{S}^{\prime}$ simplifies to the McCormick envelope....
+The SPP in GCS represents an unexplored class of problems at the interface of combinatorial and convex optimization. It lends itself to a simple problem statement and, at the same time, it is a versatile framework that includes as special cases many problems of practical relevance.

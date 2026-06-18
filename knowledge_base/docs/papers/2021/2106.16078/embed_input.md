@@ -8,22 +8,16 @@ The paper studies identification of linear systems with multiplicative noise fro
 
 ## Introduction
 
-The study of stochastic systems with multiplicative noise (i.e., system states and inputs multiplied by noise) has a long history in control theory, and is re-emerging in the context of complex networked systems and learning-based control. In contrast to the additive-noise setting, the multiplicative-noise modeling framework has the ability to capture the coupling between noise and system states....
+The study of stochastic systems with multiplicative noise (i.e., system states and inputs multiplied by noise) has a long history in control theory, and is re-emerging in the context of complex networked systems and learning-based control. In contrast to the additive-noise setting, the multiplicative-noise modeling framework has the ability to capture the coupling between noise and system states.
 
-It is important to study identification of linear systems with multiplicative noise, because, when solving problems such as control design of multiplicative-noise linear quadratic regulator (LQR), system parameters including the nominal system matrices and the noise covariance matrix, especially the latter, generally need be known. In contrast, for the design problem of additive-noise LQR, the covariance matrix of additive noise needs not be known....
+It is important to study identification of linear systems with multiplicative noise, because, when solving problems such as control design of multiplicative-noise linear quadratic regulator (LQR), system parameters including the nominal system matrices and the noise covariance matrix, especially the latter, generally need be known. In contrast, for the design problem of additive-noise LQR, the covariance matrix of additive noise needs not be known.
+
+Another issue that must be addressed is how to perform system identification based on multiple-trajectory data, rather than on single-trajectory data. Multiple-trajectory data arises in two broad situations: episodic tasks where a system is reset to an initial state after a finite run time, as encountered in iterative learning control and reinforcement learning; and data collected from multiple identical systems in parallel, for example, robotic-grasping dataset collected by Google running several robot arms concurrently. For multiple-trajectory data, the length of each trajectory may be small, but the number of trajectories can be large.
+
+## Contributions
+
+This paper considers identification of linear systems with multiplicative noise from multiple-trajectory data.
 
 ## Conclusion and Future Work
 
-In this paper an identification algorithm based on multiple-trajectory data was proposed for linear systems with multiplicative noise. With appropriately designed exciting inputs, the proposed algorithm is able to jointly estimate the nominal system and the multiplicative noise covariance. The asymptotic and non-asymptotic performance of the algorithm was analyzed theoretically, and illustrated by numerical experiments....
-
-Under Assumption 1 the rollouts $\lbrack x_{0}^{(k)},\ldots,x_{l}^{(k)}\rbrack$, $k \in {\lbrack n_{r}\rbrack}$, are i.i.d., so the following consistency result can be obtained from strong law of large numbers.
-
-1:Input: Rollout length ℓ and the number of rollouts nr.
-2:Output: [Â B̂], $\lbrack{{\hat{\overset{\sim}{\Sigma}}}_{A}^{\prime}{\hat{\overset{\sim}{\Sigma}}}_{B}^{\prime}}\rbrack$.
-5: Generate νt ∈ ℝm and ${\overline{U}}_{t} \in {\mathbb{R}}^{m \times m}$ with ${\overline{U}}_{t} \succeq 0$.
-9: Generate x0(k) independently from the initial multivariate distribution 𝒳0.
-11: Generate ut(k) independently from a multivariate distribution with first moment νt and second central
-
-This proposition captures the deviations of random components of System from their expectations. Using the bounds in Assumption 2 one could upper-bound these deviations, for instance,
-
-Another issue that must be addressed is how to perform system identification based on multiple-trajectory data, rather than on single-trajectory data....
+In this paper an identification algorithm based on multiple-trajectory data was proposed for linear systems with multiplicative noise. With appropriately designed exciting inputs, the proposed algorithm is able to jointly estimate the nominal system and the multiplicative noise covariance. The asymptotic and non-asymptotic performance of the algorithm was analyzed theoretically, and illustrated by numerical experiments.

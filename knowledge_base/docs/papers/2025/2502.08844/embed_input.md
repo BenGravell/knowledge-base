@@ -6,24 +6,22 @@ We introduce MuJoCo Playground, a fully open-source framework for robot learning
 
 ## Introduction
 
-Reinforcement learning (RL) \[\] with subsequent transfer to hardware (sim-to-real) \[\], is emerging as a leading paradigm in modern robotics. The benefits of simulation are obvious -- safety and cheap data. The recipe involves four steps:
+Reinforcement learning (RL) with subsequent transfer to hardware (sim-to-real), is emerging as a leading paradigm in modern robotics. The benefits of simulation are obvious -- safety and cheap data.
 
 Create a simulated environment that matches the real world.
-
-## Conclusion
-
-MuJoCo Playground is a library built upon the open-source MuJoCo simulator and Madrona batch renderer with implementations across several reinforcement learning and robotics environments. We demonstrate policy training on various GPU topologies using JAX and pytorch-based reinforcement learning libraries. We also demonstrate sim-to-real deployment on several robotic tasks and embodiments, from locomotion to both dexterous and non-prehensile manipulation from proprioceptive state and from pixels. We look forward to seeing the community put this resource to use in advancing robotics research and its applications.
-
-### Results
-
-### IV-B1 Quadruped Locomotion
-
-The policy receives estimates of the block's position and orientation from an open-source camera tracker \[\]. We use direct high-frequency torque control at 200 Hz, where the RL policy outputs motor torques for the arm's seven joints (with the gripper closed). By learning to control torques rather than joint positions, the agent develops smooth, compliant behavior that transfers effectively to hardware, delivering superior performance even when direct torque control at high frequencies poses learning challenges \[\]. This recipe, therefore, holds broad value for practitioners.
 
 Encode desired robot behavior with a reward function.
 
 The key enabler of this approach is a simulator that is realistic, convenient, and fast.
 
-The realism requirement is self-evident, the "digital twin" of step 1 demands a minimal level of fidelity \[\]. Convenience and usability are equally critical, streamlining the creation, modification, composition, and characterization (system identification) of simulated robots.
+With this work, we aim to further advance and make sim-to-real robot learning even more accessible. We introduce MuJoCo Playground, a fully open-source framework for robot learning designed for rapid iteration and deployment of sim-to-real reinforcement learning policies. We build upon MuJoCo XLA (MJX), a JAX-based branch of the MuJoCo physics engine that runs on GPU, enabling training directly on device.
 
-The importance of speed is less obvious -- why does it matter if training takes ten minutes or ten hours? The answer lies in reward design (step 2), which cannot be easily automated: what the robot *ought* to do is an expression of human preference....
+We develop a comprehensive suite of robotic environments using MJX, demonstrating sim-to-real transfer across diverse platforms including quadrupeds, humanoids, dexterous hands, and robot arms.
+
+## Limitations
+
+MuJoCo Playground inherits the limitations of MJX due to constraints imposed by JAX. First, just-in-time (JIT) compilation can be slow (1-3 minutes on Playground's tasks). Second, computation time related to contacts does not scale like the number of *active* contacts in the scene, but like the number of *possible* contacts in the scene. This is due to JAX's requirement of static shapes at compile time. This limitation can be overcome by using more flexible frameworks like Warp and Taichi. This upgrade is an active area of development. Finally we should note that the vision-based training using Madrona is still at an early stage.
+
+## Conclusion
+
+MuJoCo Playground is a library built upon the open-source MuJoCo simulator and Madrona batch renderer with implementations across several reinforcement learning and robotics environments. We demonstrate policy training on various GPU topologies using JAX and pytorch-based reinforcement learning libraries. We also demonstrate sim-to-real deployment on several robotic tasks and embodiments, from locomotion to both dexterous and non-prehensile manipulation from proprioceptive state and from pixels. We look forward to seeing the community put this resource to use in advancing robotics research and its applications.

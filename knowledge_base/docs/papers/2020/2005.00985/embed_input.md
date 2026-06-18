@@ -8,18 +8,14 @@ Differential Dynamic Programming (DDP) has become a well established method for 
 
 ## Introduction
 
-Trajectory optimization problems arise very frequently in robotics and controls applications. Examples include finding suitable motions for robotic grasping and manipulation tasks, or minimizing fuel for orbital transfers. Mathematically speaking, such problems require computing a state/control sequence that minimizes a specified cost function, while satisfying the dynamics constraints of the agent. Common methodologies for trajectory optimization rely on optimal control and/or optimization theory....
+Trajectory optimization problems arise very frequently in robotics and controls applications. Examples include finding suitable motions for robotic grasping and manipulation tasks, or minimizing fuel for orbital transfers. Mathematically speaking, such problems require computing a state/control sequence that minimizes a specified cost function, while satisfying the dynamics constraints of the agent. Common methodologies for trajectory optimization rely on optimal control and/or optimization theory.
 
-One of the most successful trajectory optimization algorithms is Differential Dynamic Programming (DDP), originally developed by Jacobson and Mayne. DDP is an indirect method which utilizes Bellman's principle of optimality to split the problem into "smaller" optimization subproblems at each time step. Under mild assumptions on the cost and dynamics, it can be shown that DDP achieves locally quadratic convergence rates....
+In this paper we build upon the works in to develop a state- and control-constrained version of DDP in discrete time. Specifically, we extend by introducing a slack variable formulation into Bellman's principle, and thus avoid assumptions regarding the active constraints of the problem. Moreover, we propose an Augmented Lagrangian-inspired algorithm, by considering a set of penalty functions that preserves smoothness of the transformed objective function. This property was not satisfied , but is required to establish the convergence properties of DDP.
 
-AL is very fast for first few iterations but get slow when it comes close to constraints and sometimes violate constraints. Whereas S-KKT takes time in one iteration, but can keep feasibility in a few iterations. By combining them we may be able to compensate for weakness of both and have a better algorithm.
+We will save the in-depth discussion about technical differences between our methods and previous papers for subsequent sections. Nevertheless, we note that a comparison among different constrained optimization methods on various simulated scenarios will be provided, which will highlight the efficiency and generalizability of our approach; something which has been lacking from previous DDP-related schemes. To the best of the authors' knowledge, such an extensive experimental study on constrained trajectory optimization has not been conducted in the past.
 
-Future directions will include mechanisms for uncertainty representations and learning, and development of chance constrained trajectory optimization algorithms that have the benefits of the fast convergence of the proposed algorithms.
+## Conclusion
 
-### IV-A AL-DDP and penalty function
+In this paper we have introduced novel constrained trajectory optimization methods that outperform previous versions of constrained DDP. Some key ideas in this paper rely on the combination of slack variables together with augmented Lagrangian method and the KKT conditions. In particular,
 
-It is known that if we use the pure Newton direction obtained by $\mu = 0$, we can take only a small step $\alpha$ before violating ${{\mathbf{s}}^{\mathsf{T}}{\mathbf{λ}}} \geq 0$. To make the direction less aggressive, and the optimization process more effective we reduce $s_{i}\lambda_{i}$ to a certain value based on the average value of elementwise product $s_{i}\lambda_{i}$, instead of zero. Note that $\mu$ is an average value of $s_{i}\lambda_{i}$ and $\mu$ must converge to zero over the optimization process. We satisfy this requirement by multiplying $\sigma$ ($0 < \sigma < 1$) \[17, Chapter 19\].\
-
-Figure 3: Cost and max. inequality constraint of 2D car starting from several initial points.
-
-While unconstrained DDP has been widely tested and used over the past decades, its constrained counterpart has yet to be properly established....
+Slack variables are an effective way to get lower cost with respect to alternative algorithms relying on the active set method.

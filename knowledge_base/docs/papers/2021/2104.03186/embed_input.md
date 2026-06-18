@@ -6,18 +6,10 @@ This article proposes a general formulation for temporal parallelization of dyna
 
 Optimal control theory (see, e.g., ) is concerned with designing control signals to steer a system such that a given cost function is minimised, or equivalently, a performance measure is maximised. The system can be, for example, an airplane or autonomous vehicle which is steered to follow a given trajectory, an inventory system, a chemical reaction, or a mobile robot.
 
-Dynamic programming, in the form first introduced by Bellman 1950's, is a general method for determining feedback laws for optimal control and other sequential decision problems, and it also forms the basis of reinforcement learning, which is a subfield of machine learning. The classic dynamic programming algorithm is a sequential procedure that proceeds backwards from the final time step to the initial time step, and determines the value (cost-to-go) function as well as the optimal control law in time complexity of $O{(T)}$, where $T$ is the number of time steps....
+The main contribution of this paper is to present a parallel formulation of dynamic programming that is exact and has a time complexity $O{({\log T})}$. None of the previous works achieve these two aspects simultaneously. The central idea is to reformulate dynamic programming in terms of associative operators, which enable the use of parallel scan algorithms to parallelise the algorithm. The resulting algorithm has a span-complexity of $O{({\log T})}$, which translates into a time-complexity of $O{({\log T})}$ with a large enough number of computational cores.
 
-Making the gradient of this function w.r.t. $\lambda$ equal to zero, we obtain that the maximum is obtained for
+In this paper, we first provide the general formulation to parallelise dynamic programming by defining conditional value functions between two different time steps and combining them via the rule . We also show how to obtain the optimal control laws and resulting trajectories making use of parallel computation. Then, we explain how this general methodology can be directly applied to problems with finite state and control spaces. The second contribution of this paper is to specialise the methodology to linear quadratic optimal control problems, that is, to linear quadratic trackers (LQTs).
 
-Substituting into, we obtain, which finishes the proof of Lemma 15.
+## Conclusion
 
-### Extension to more general cost functions
-
-### Conditional value functions and combination rules
-
-We would like to point out that, as we are using TensorFlow with GPUs, the matrix operations on the individual time steps of the sequential algorithms are parallelised. Therefore, the sequential LQT algorithms can be interpreted as a TensorFlow parallel implementation of the Riccati recursion.
-
-However, the complexity $O{(T)}$ is only optimal in a computer with one single-core central processing unit (CPU). Nowadays, even general-purpose computers typically have multi-core CPUs with tens of cores and higher-end computers can have hundreds of them. Furthermore, graphics processing units (GPUs) have become common accessories of general-purpose computers and current high-end GPUs can have tens of thousands of computational cores that can be used to parallelise computations and lower the time-complexity.
-
-Dynamic programming algorithms that parallelise computations at each time step, but operate sequentially, are provided in for discrete states, and in for the Riccati recursion in linear quadratic problems....
+In this paper, we have shown how dynamic programming solutions to optimal control problems and their linear quadratic special case, the linear quadratic tracker (LQT), can be parallelised in the temporal domain by defining the corresponding associative operators and making use of parallel scans. The parallel methods have logarithmic complexity with respect to the number of time steps, which significantly reduces the linear complexity of standard (sequential) methods for long time horizon control problems. These benefits are shown via numerical experiments run on a GPU.

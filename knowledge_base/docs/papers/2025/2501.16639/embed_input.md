@@ -4,18 +4,16 @@ Subspace identification methods (SIMs) are known for their simple parameterizati
 
 ## Introduction
 
-Originating from the celebrated Ho-Kalman algorithm \[\], subspace identification methods (SIMs) have proven extremely useful for estimating linear state-space models and became one of the mainstream approaches in system identification. Over the past 50 years, numerous efforts have been made to develop improved algorithms and gain a deeper understanding of them. For a comprehensive overview of SIMs, we refer to. Overall speaking, SIMs can be categorized into two types, namely, the open-loop and closed-loop. Open-loop SIMs were developed first and formed the basis for the development of closed-loop ones....
+Originating from the celebrated Ho-Kalman algorithm, subspace identification methods (SIMs) have proven extremely useful for estimating linear state-space models and became one of the mainstream approaches in system identification. Over the past 50 years, numerous efforts have been made to develop improved algorithms and gain a deeper understanding of them. For a comprehensive overview of SIMs, we refer to. Overall speaking, SIMs can be categorized into two types, namely, the open-loop and closed-loop. Open-loop SIMs were developed first and formed the basis for the development of closed-loop ones.
 
-### Related Work
+## Contributions
+
+The
+
+\(1\) We develop a robust and scalable framework for finite sample analysis of a broad class of SIMs. To avoid non-causal models caused by the projection step in classical SIMs, we propose to use PARSIM to enforce a causal model. Such a choice brings convenience to statistical analysis, and the method can be applied to other ARX-based SIMs, such as SSARX and PBSID.
+
+\(2\) We establish a more general PE condition. Compared with related studies that only include past inputs and past outputs as regressors, our work also includes future inputs as regressors, leading to a more general PE condition. This broader PE condition is instrumental in deriving error bounds and in analyzing the use of data-dependent weighting matrices. Therefore, it serves as a contribution of independent interest.
 
 ## Conclusion
 
-This paper presents a finite sample analysis for a large class of open-loop SIMs. Compared with the-state-of-art that mainly analyzes the performance of the Ho-Kalman algorithm or similar variants, we investigate one of the most representative SIMs, PARSIM. Our analysis establishes a more general PE condition, and takes the different weighting matrices and two realization algorithms into account....
-
-### Definition 4.1
-
-where $\Pi_{U_{f}}^{\perp} = {I - {U_{f}^{\top}{({U_{f}U_{f}^{\top}})}^{- 1}U_{f}}}$. Although the estimate ${\hat{\mathcal{H}}}_{fp}$ is consistent \[\], the one-step regression method cannot preserve the lower-triangular Toeplitz structure of the transmission matrix $G_{f}$, which is responsible for recording the impact of future input $U_{f}$ on future output $Y_{f}$. Due to the loss of this structure in ${\hat{G}}_{f}$, the model format is not causal anymore, which poses a challenge in statistical analysis.
-
-After obtaining an error bound on ${\overset{\sim}{\Theta}}_{i}$ in each ARX model, we proceed to bound the total error of $\mathcal{H}_{fp}$, which is crucial for our subsequent analysis. Based on the norm relation between a block matrix and its blocks in Lemma 13.9. ‣ 13 Technical Lemmas ‣ Finite Sample Analysis of Open-loop Subspace Identification Methods"), it is straightforward to obtain a total bound on ${\hat{\mathcal{H}}}_{fp} - \mathcal{H}_{fp}$ from each bound $\left\| {\overset{\sim}{\Theta}}_{i} \right\|$.
-
-There are some significant contributions to statistical properties of SIMs in the asymptotic regime. The consistency and asymptotic variance of SIMs are analyzed in and, respectively....
+This paper presents a finite sample analysis for a large class of open-loop SIMs. Compared with the-state-of-art that mainly analyzes the performance of the Ho-Kalman algorithm or similar variants, we investigate one of the most representative SIMs, PARSIM. Our analysis establishes a more general PE condition, and takes the different weighting matrices and two realization algorithms into account.

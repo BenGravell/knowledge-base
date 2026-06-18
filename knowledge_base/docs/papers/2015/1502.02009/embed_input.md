@@ -8,20 +8,16 @@ We provide a new proof of the linear convergence of the alternating direction me
 
 The alternating direction method of multipliers (ADMM) seeks to solve the problem
 
-with variables $x \in {\mathbb{R}}^{p}$ and $z \in {\mathbb{R}}^{q}$ and constants $A \in {\mathbb{R}}^{r \times p}$, $B \in {\mathbb{R}}^{r \times q}$, and $c \in {\mathbb{R}}^{r}$. ADMM was introduced in Glowinski & Marroco and Gabay & Mercier. More recently, it has found applications in a variety of distributed settings such as model fitting, resource allocation, and classification....
-
-In the case that Assumption 3 does not hold, the most likely cause is that we lack the strong convexity of $f$. One approach to handling this is to run Algorithm 2 on the modified function ${f{(x)}} + {\frac{\delta}{2}{\| x\|}^{2}}$. By completing the square in the $x$ update, we see that this amounts to an extremely minor algorithmic modification (it only affects the $x$ update).
-
-It should be clear that other operator splitting methods such as Douglas--Rachford splitting and forward-backward splitting can be cast in this framework and analyzed using the tools presented here.
-
-and so the linear matrix inequality in depends only on $\kappa$ and not on $\hat{m}$ and $\hat{L}$. Therefore, we will consider step sizes of this form (recall from that $\rho = {{({\hat{m}\hat{L}})}^{\frac{1}{2}}\rho_{0}}$). The choice $\varepsilon = 0$ is common in the literature, but requires the user to know the strong-convexity parameter $\hat{m}$. We also consider the choice $\varepsilon = 0.5$, which produces worse guarantees, but does not require knowledge of $\hat{m}$.
-
-### Proof
-
-Let $Q$ be a $d$-dimensional symmetric positive-definite matrix whose largest and smallest eigenvalues are $L$ and $m$ respectively. Let ${f{(x)}} = {\frac{1}{2}x^{\top}Qx}$ be a quadratic and let ${g{(z)}} = {\frac{\delta}{2}{\| z\|}^{2}}$ for some $\delta \geq 0$. Let $A = I_{d}$, $B = {- I_{d}}$, and $c = 0$. With these definitions, the optimization problem in is solved by $x = z = 0$. The updates for Algorithm 2 are given by
+with variables $x \in {\mathbb{R}}^{p}$ and $z \in {\mathbb{R}}^{q}$ and constants $A \in {\mathbb{R}}^{r \times p}$, $B \in {\mathbb{R}}^{r \times q}$, and $c \in {\mathbb{R}}^{r}$. ADMM was introduced in Glowinski & Marroco and Gabay & Mercier. More recently, it has found applications in a variety of distributed settings such as model fitting, resource allocation, and classification.
 
 Part of the appeal of ADMM is the fact that, in many contexts, the algorithm updates lend themselves to parallel implementations. The algorithm is given in Algorithm 1. We refer to $\rho > 0$ as the step-size parameter.
 
-1: Input: functions f and g, matrices A and B, vector c, parameter ρ
-7: until meet stopping criterion
-Algorithm 1 Alternating Direction Method of Multipliers
+The parameter $\alpha$ is typically chosen to lie in the interval $(0,2\rbrack$, but we demonstrate in Section 8 that a larger set of choices can lead to convergence. Over-relaxed ADMM is described in Algorithm 2. When $\alpha = 1$, Algorithm 2 and Algorithm 1 coincide. We will analyze Algorithm 2.
+
+The conventional wisdom that ADMM works well without any tuning, for instance by setting $\rho = 1$, is often not borne out in practice. Algorithm 1 can be challenging to tune, and Algorithm 2 is even harder. We use the machinery developed in this paper to make reasonable recommendations for setting $\rho$ and $\alpha$ when some information about $f$ is available (Section 8).
+
+## Discussion
+
+We showed that a framework based on semidefinite programming can be used to prove convergence rates for the alternating direction method of multipliers and allows a unified treatment of the algorithm's many variants, which arise through the introduction of additional parameters. We showed how to use this framework for establishing convergence rates, as in Theorem 6 and Theorem 7, and how to use this framework for parameter selection in practice, as in Section 8. The potential uses are numerous.
+
+In the case that Assumption 3 does not hold, the most likely cause is that we lack the strong convexity of $f$. One approach to handling this is to run Algorithm 2 on the modified function ${f{(x)}} + {\frac{\delta}{2}{\| x\|}^{2}}$. By completing the square in the $x$ update, we see that this amounts to an extremely minor algorithmic modification (it only affects the $x$ update).

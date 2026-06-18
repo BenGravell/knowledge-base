@@ -10,18 +10,12 @@ System identification is a fundamental problem in control and learning, particul
 
 System identification plays a crucial role in modern control design, especially in applications where accurate models of unknown dynamical systems must be learned from data. In high-stakes and safety-critical systems, where data collection can be costly or risky, sample efficiency is of particular importance. While classical results in system identification provide asymptotic convergence guarantees, they often fail to capture the finite-sample behavior. As a result, recent efforts have focused on analyzing the sample complexity of common system identification methods.
 
-A fundamental system identification problem is to estimate the unknown system parameter $\mathbf{A} \in {\mathbb{R}}^{n \times n}$ for an autonomous linear time-invariant (LTI) system:
+A
+
+On the other hand, in many applications, system designers have prior knowledge on the noise characteristics. Therefore, alternative system identification approaches seek to harness this information to improve sample efficiency. Among these, set membership estimation (SME) algorithms leverage noise boundedness for estimation. One of the key advantages of SME is its ability to provide consistent uncertainty set estimation with convergence guarantees, whereas OLS fails to do so for irregular explosive systems.
+
+Motivated, in this paper, we derive a minimax convergence rate lower bound for system identification when $\mathbf{w}_{t}$ is i.i.d. zero-mean with bounded support. We prove that indeed $\Omega{({1/T})}$ is the minimax lower bound for stable linear dynamical systems with bounded noise (Theorem 1. ‣ 3.1 Minimax Sample Complexity Lower Bound ‣ 3 Main results ‣ System Identification Under Bounded Noise: Optimal Rates Beyond Least Squares")), establishing that the rate achieved by SME is indeed optimal.
 
 ## Conclusion
 
 This work establishes the minimax sample complexity lower bound for system identification under bounded i.i.d. noise, showing that SME-based methods achieve the optimal $\Omega{({1/T})}$ convergence rate while the ordinary least squares estimator remains limited to $\Omega{({1/\sqrt{T}})}$. Future work includes improving the dimension and $\delta$ dependence of the lower bound, which is admittedly loose in our current analysis. It will also be interesting to extend the analysis to more general bounded noise models beyond the infinity norm bound.
-
-### Theorem 1 (Minimax Lower Bound)
-
-There exists $C_{\overline{w}} > 0$ such that for all $\epsilon \in {\lbrack 0,\overline{w}\rbrack}$ and for all $1 \leq j \leq n$, we have
-
-In what follows, we will show that OLS does not achieve the optimal rate for systems under bounded noise. For simplicity of analysis, we will focus on scalar systems.
-
-where $\mathbf{x}_{t} \in {\mathbb{R}}^{n}$ and $\mathbf{w}_{t} \in {\mathbb{R}}^{n}$ are the state and the noise at time $t$. When the noise $\mathbf{w}_{t}$ are independent and identically distributed (i.i.d.) Gaussian random variables, it has been shown that the ordinary least squares estimator (OLS) achieves the optimal convergence rate of $O{({1/\sqrt{T}})}$. Consequently, many learning-based control methods have leveraged OLS as a core system identification subroutine, enabling stability, safety, and performance guarantees.
-
-On the other hand, in many applications, system designers have prior knowledge on the noise characteristics....

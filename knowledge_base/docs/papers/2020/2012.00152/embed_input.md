@@ -6,20 +6,12 @@ Deep learning's successes are often attributed to its ability to automatically d
 
 ## Introduction
 
-Despite its many successes, deep learning remains poorly understood. In contrast, kernel machines are based on a well-developed mathematical theory, but their empirical performance generally lags behind that of deep networks. The standard algorithm for learning deep networks, and many other models, is gradient descent. Here we show that every model learned by this method, regardless of architecture, is approximately equivalent to a kernel machine with a particular type of kernel. This kernel measures the similarity of the model at two data points in the neighborhood of the path taken by the model parameters during learning....
+Despite its many successes, deep learning remains poorly understood. In contrast, kernel machines are based on a well-developed mathematical theory, but their empirical performance generally lags behind that of deep networks. The standard algorithm for learning deep networks, and many other models, is gradient descent. Here we show that every model learned by this method, regardless of architecture, is approximately equivalent to a kernel machine with a particular type of kernel. This kernel measures the similarity of the model at two data points in the neighborhood of the path taken by the model parameters during learning.
 
-## Path Kernels
+## Discussion
 
-Another consequence of our result is that every probabilistic model learned by gradient descent, including Bayesian networks, is a form of kernel density estimation. The result also implies that the solution of every convex learning problem is a kernel machine, irrespective of the optimization method used, since, being unique, it is necessarily the solution obtained by gradient descent. It is an open question whether the result can be extended to nonconvex models learned by non-gradient-based techniques, including constrained and combinatorial optimization.
+A notable disadvantage of deep networks is their lack of interpretability. Knowing that they are effectively path kernel machines greatly ameliorates this. In particular, the weights of a deep network have a straightforward interpretation as a superposition of the training examples in gradient space, where each example is represented by the corresponding gradient of the model. Fig. 2 illustrates this. One well-studied approach to interpreting the output of deep networks involves looking for training instances that are close to the query in Euclidean or some other simple space.
+
+Experimentally, deep networks and kernel machines often perform more similarly than would be expected based on their mathematical formulation. Even when they generalize well, deep networks often appear to memorize and replay whole training instances. The fact that deep networks are in fact kernel machines helps explain both of these observations. It also sheds light on the surprising brittleness of deep models, whose performance can degrade rapidly as the query point moves away from the nearest training instance, since this is what is expected of kernel estimators in high-dimensional spaces.
 
 The results in this paper suggest a number of research directions. For example, viewing gradient descent as a method for learning path kernel machines may provide new paths for improving it. Conversely, gradient descent is not necessarily the only way to form superpositions of examples that are useful for prediction. The key question is how to optimize the tradeoff between accurately capturing the target function and minimizing the computational cost of storing and matching the examples in the superposition.
-
-where $c{(t)}$ is the path taken by the parameters during gradient descent. Multiplying and dividing by $\int_{c{(t)}}{K_{f,{w{(t)}}}^{g}{(x,x_{i})}{dt}}$:
-
-### Theorem 1
-
-### Remark 5
-
-A kernel machine is a model of the form
-
-where $x$ is the query data point, the sum is over training data points $x_{i}$, $g$ is an optional nonlinearity, the $a_{i}$'s and $b$ are learned parameters, and the kernel $K$ measures the similarity of its arguments. In supervised learning, $a_{i}$ is typically a linear function of $y_{i}^{\ast}$, the known output for $x_{i}$. Kernels may be predefined or learned....

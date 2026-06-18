@@ -4,10 +4,14 @@ Inverse Optimization (IO) is a framework for learning the unknown objective func
 
 ## Introduction
 
-Inverse Optimization (IO) is distinct from traditional optimization problems, where we typically seek the optimal decision variables by optimizing an objective function over a set of constraints. In contrast, inverse optimization works "in reverse" by inferring the optimization objective given the optimal solution. The inherent assumption in IO is that an agent generates its decision by solving an optimization problem. The assumed optimization problem is called the Forward Optimization Problem (FOP), which is parametric in the exogenous signal $\hat{s}$ with the corresponding optimal solution $\hat{u}$....
+Inverse Optimization (IO) is distinct from traditional optimization problems, where we typically seek the optimal decision variables by optimizing an objective function over a set of constraints. In contrast, inverse optimization works "in reverse" by inferring the optimization objective given the optimal solution. The inherent assumption in IO is that an agent generates its decision by solving an optimization problem. The assumed optimization problem is called the Forward Optimization Problem (FOP), which is parametric in the exogenous signal $\hat{s}$ with the corresponding optimal solution $\hat{u}$.
 
-IO can be categorized into classic IO and data-driven IO. In classic IO, only a single signal-decision pair is considered, where the decision is assumed to be the optimal solution of the FOP (i.e., there is no noise), and different classes of FOPs have been studied, such as linear conic problems. However, in real-world applications, there are usually many observations of signal-decision pairs, and due to the presence of noise, it is usually unreasonable to assume that all observed decisions are optimal w.r.t a single, true data-generating FOP....
+Contributions.
+
+Kernelized IO Formulation: We propose a novel Kernel Inverse Optimization (KIO) model based on suboptimality loss. The proposed approach leverages kernel methods to enable IO models to operate on infinite-dimensional feature spaces, which allows KIO to outperform existing imitation learning (IL) algorithms on complex continuous control tasks in low-data regimes.
+
+Sequential Selection Optimization Algorithm: To address the quadratic computational complexity of the proposed KIO model, we introduce the Sequential Selection Optimization (SSO) algorithm inspired by coordinate descent style updates. This algorithm selectively optimizes components of the decision variable, greatly enhancing efficiency and scalability while provably converging to the same solution of our proposed KIO model.
+
+## Conclusion and Limitations
 
 We introduced Kernel Inverse Optimization (KIO), an inverse optimization model leveraging kernel methods, along with its simplified variant and the theoretical derivations. Subsequently, we proposed the Sequential Selection Optimization (SSO) algorithm for training the KIO model, which addresses memory issues by decomposing the original problem into a series of subproblems. Our empirical results demonstrate that KIO exhibits strong learning capabilities in complex control tasks, while the SSO algorithm achieves rapid convergence to the optimal solution within a limited number of iterations.
-
-One of the limitations of this model is the computational cost of adding a new data point. In that case, all training data are required to compute the coefficients for the FOP problem (see FOP ) for that point. Thus, as the amount of training data grows, so does the computational cost. Another limitation is the absence of theoretical analysis on the convergence rate of the SSO algorithm, which we leave for future research....

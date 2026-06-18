@@ -8,18 +8,10 @@ We propose a trust region method for policy optimization that employs Quasi-Newt
 
 ## Introduction
 
-Reinforcement Learning (RL) is a learning framework that handles sequential decision-making problems, wherein an 'agent' or decision maker learns a policy to optimize a long-term reward by interacting with the (unknown) environment. At each step, an RL agent obtains evaluative feedback (called reward or cost) about the performance of its action, allowing it to improve (maximize or minimize) the performance of subsequent actions. Recent research has resulted in remarkable success of these algorithms in various domains like computer games, robotics, etc....
+Reinforcement Learning (RL) is a learning framework that handles sequential decision-making problems, wherein an 'agent' or decision maker learns a policy to optimize a long-term reward by interacting with the (unknown) environment. At each step, an RL agent obtains evaluative feedback (called reward or cost) about the performance of its action, allowing it to improve (maximize or minimize) the performance of subsequent actions. Recent research has resulted in remarkable success of these algorithms in various domains like computer games, robotics, etc.
 
-Notably, the Trust Region Policy Optimization (TRPO) has been proposed to provide monotonic improvement of policy performance. TRPO relies on a linear model of the objective function and quadratic model of the constraints to determine a candidate search direction. Even though a theoretically justified trust region radius is derived such a radius cannot be computed and hence, linesearch is employed for obtaining a stepsize that ensures progress to a solution. Consequently, TRPO is a scaled gradient descent algorithm and is not a trust region algorithm as the name suggests....
+Notably, the Trust Region Policy Optimization (TRPO) has been proposed to provide monotonic improvement of policy performance. TRPO relies on a linear model of the objective function and quadratic model of the constraints to determine a candidate search direction. Even though a theoretically justified trust region radius is derived such a radius cannot be computed and hence, linesearch is employed for obtaining a stepsize that ensures progress to a solution. Consequently, TRPO is a scaled gradient descent algorithm and is not a trust region algorithm as the name suggests.
 
-Use ideas from ensemble methods, scalable bootstrapping and factored methods to curvature for better and efficient approximation of the objective function.
+Our objective in this work is to show that a *classical trust region method* in conjunction with *quadratic model* of the objective addresses the drawbacks of TRPO. It is well known that incorporating curvature information of the objective function (i.e. quadratic approximation) allows for rapid convergence in the neighborhood of a solution. Far from a solution, the curvature information should be incorporated in a manner that ensures the search direction improves on the reduction obtained by a linear model.
 
-Evaluate the performance on challenging, sparse reward environments.
-
-Observe the effort involved in performing the update is quite minimal. The above update does not enforce positive definiteness of $B_{k + 1}$. By recasting (2 ‣ Quasi-Newton Trust Region Policy Optimization")) after some algebraic manipulation as
-
-For simplicity of notation, we will denote $L_{\theta_{\text{old}}}{(\theta)}$ as $L{(\theta)}$ in the following text. The optimization algorithm in TRPO works in two steps: $$ compute a search direction, using a linear model of the objective and quadratic model to the constraint; and $$ perform a line search in that direction, ensuring that we improve the nonlinear objective while satisfying the nonlinear constraint....
-
-## Quasi-Newton Trust Region Policy Optimization (QNTRPO)
-
-Our objective in this work is to show that a *classical trust region method* in conjunction with *quadratic model* of the objective addresses the drawbacks of TRPO. It is well known that incorporating curvature information of the objective function (i.e....
+accelerate the convergence to an optimal policy, and

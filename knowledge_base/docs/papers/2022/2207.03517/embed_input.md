@@ -10,15 +10,11 @@ Multivariate time series data can often be organized into hierarchical structure
 
 While summing forecasts for the most disaggregated level (called *bottom-up*) will provide coherent forecasts, it can perform poorly on highly dissagregated series. Novel hierarchical forecasting methods first generate independent forecasts for each series (called *base* forecasts), then reconcile them to produce coherent forecasts.
 
-## Acknowledments
-
-This work was partially supported by the Defense Advanced Research Projects Agency (award FA8750-17-2-0130), the National Science Foundation (grant 2038612), the Space Technology Research Institutes grant from NASA's Space Technology Research Grants Program, the U.S. Department of Homeland Security (award 18DN-ARI-00031), and by the U.S. Army Contracting Command (contracts W911NF20D0002 and W911NF22F0014 delivery order #4). The Fonds de la Recherche Scientifique supported this work -- FNRS under Grant No J.0011.20....
-
-## Related Software
-
-Minimal dependencies. Our library is built with minimal dependencies using NumPy for linear algebra and array operations, Pandas for data manipulation and sklearn for predictive modeling. We compute base forecasts using the statsforecast package, which provides the fastest implementations of AutoARIMA and AutoETS based on NumBa. This just-in-time compiler optimizes Python's NumPy code to reach execution speed attainable with native C language code.
-
-1 TopDown/PERMBU results are unavailable because, they cannot be applied to group hierarchical structures.
-2 The combinations NORMALITY-TopDown and BOOTSTRAP-TopDown are yet to be implemented, this has never been done before.
-
 There is substantial interest on Hierarchical Forecasting from both industry and academia, as shown by the international forecasting competitions GEFCOM2012 and M5, and the Machine Learning (ML) community's growing interest in the topic (Rangapuram et al. Han et al. Paria et al. Olivares et al. Kamarthi et al. Panagiotelis et al., ).
+
+We introduce the open-source benchmark library HierarchicalForecastto tackle these challenges^11^1License: CC-by 4.0, see
+Code and documentation are available in Our work builds upon Python's fastest open-source ETS/ARIMA^22^2Autoregressive Integrated Moving Average (ARIMA) and Exponential Smoothing (ETS) are two of the most important univariate forecasting baseline methods. implementations and well-performing neural forecasting methods to improve the availability, utility, and adoption of hierarchical forecast reference baselines.
+
+## Conclusion and Plans
+
+We present HierarchicalForecast, a Python open-source library dedicated to hierarchical time series forecasting. The library integrates publicly available processed datasets, evaluation metrics, and a curated set of highly efficient statistical baselines. We provide examples and references to extensive experiments to show how to use the baselines and evaluate their empirical performance. This work will help the Machine Learning forecasting community by bridging the gap between statistical and econometric modeling and providing benchmark tools for developing novel hierarchical forecasting algorithms compared to the well-established methods.

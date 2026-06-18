@@ -8,14 +8,6 @@ Consider a function $f:{{\mathbb{R}}^{n}\rightarrow{\mathbb{R}}}$ that is $\beta
 
 Classically, one step of the steepest descent algorithm decreases the squared distance of the iterate to the minimizer of $f$ by the fraction $1 - {\alpha/\beta}$. This linear convergence rate is suboptimal from a computational complexity viewpoint. Optimal first-order methods, originating in Nesterov's work achieve the superior (and the best possible) linear rate $1 - \sqrt{\alpha/\beta}$; see also the discussion in \[10, Section 2.2\]. Such accelerated schemes, on the other hand, are notoriously difficult to analyze. Numerous recent papers (e.g. ) have aimed to shed new light on optimal algorithms.
 
-provided the old centers $x_{k + 1}^{+ +}$ and $c_{k}$ are far apart; specifically, we must be sure that the inequality
+This manuscript is motivated by the novel geometric descent algorithm of Bubeck, Lee, and Singh. Their scheme is highly geometric, sharing some aspects with the ellipsoid method, and it achieves the optimal linear rate of convergence. Moreover, the geometric descent algorithm often has much better practical performance than accelerated gradient methods; see the discussion . Motivated by their work, in this paper we propose an intuitive method that maintains a quadratic lower model of the objective function, whose minimal value converges to the true minimum at an optimal linear rate.
 
-How do we choose $x_{k + 1}$ to satisfy both ${f{(x_{k + 1})}} \leq {f{(y_{k})}}$ and $\left\| {x_{k + 1}^{+ +} - c_{k}} \right\|^{2} \geq \frac{\left\| {G_{1/\beta}{(x_{k + 1})}} \right\|^{2}}{\alpha^{2}}$? The desired $x_{k + 1}$ does exist; for example, $x_{k + 1} = x^{\ast}$ is such a point. In the proximal setting, it is not clear how to choose $x_{k + 1}$ to ensure these two inequalities (even for specific problem classes). This is an interesting topic for future research.
-
-Figure 2: Minimal enclosing ball of the intersection.
-
-maintains the same canonical form as each $Q_{i}$.
-
-### Theorem 4.5
-
-This manuscript is motivated by the novel geometric descent algorithm of Bubeck, Lee, and Singh. Their scheme is highly geometric, sharing some aspects with the ellipsoid method, and it achieves the optimal linear rate of convergence. Moreover, the geometric descent algorithm often has much better practical performance than accelerated gradient methods; see the discussion in. Motivated by their work, in this paper we propose an intuitive method that maintains a quadratic lower model of the objective function, whose minimal value converges to the true minimum at an optimal linear rate....
+The outline of the paper is as follows. In Section 2, we describe the optimal quadratic averaging framework (Algorithm 1) -- the focal point of the manuscript. In Section 3, we propose a limited memory version of Algorithm 1, based on iteratively solving small dimensional quadratic programs. In Section 4, we show that our Algorithm 1 and the geometric descent method of produce the same iterate sequence. Section 5 is devoted to numerical illustrations, in particular showing that the optimal quadratic averaging algorithm with memory can be competitive with L-BFGS.

@@ -12,14 +12,10 @@ A plethora of the problems arising in machine learning involve computing an appr
 
 In this work, we focus on such *finite training data* problems where each $f_{i}$ is *smooth* and the average function $g$ is *strongly-convex*.
 
-Training cost vs. testing cost: The theoretical contribution of this work is limited to the convergence rate of the training cost. Though there are several settings where this is the metric of interest (e.g., variational inference in graphical models), in many cases one will be interested in the convergence speed of the testing cost....
+That is, like the FG method, the step incorporates a gradient with respect to each training example. But, like the SG method, each iteration only computes the gradient with respect to a single training example and the cost of the iterations is independent of $n$. Despite the low cost of the SAG iterations, in this paper we show that *the SAG iterations have a linear convergence rate*, like the FG method. That is, by having access to $i_{k}$ and by keeping a *memory* of the most recent gradient value computed for each training example $i$, this iteration achieves a faster convergence rate than is possible for standard SG methods.
 
-Step-size selection and termination criteria: The three major disadvantages of SG methods are: (i) the slow convergence rate, (ii) deciding when to terminate the algorithm, and (iii) choosing the step size while running the algorithm. This paper showed that the SAG iterations achieve a much faster convergence rate, but the SAG iterations may also be advantageous in terms of tuning step sizes and designing termination criteria....
+## Discussion
 
-While we have stated Proposition 1 in terms of the iterates and Proposition 2 in terms of the function values, the rates obtained on iterates and function values are equivalent because, by the Lipschitz and strong-convexity assumptions, we have ${\frac{\mu}{2}{\|{x^{k} - x^{\ast}}\|}^{2}} \leqslant {{g{(x^{k})}} - {g{(x^{\ast})}}} \leqslant {\frac{L}{2}{\|{x^{k} - x^{\ast}}\|}^{2}}$.
+Optimal regularization strength: One might wonder if the additional hypothesis in Proposition 2 is satisfied in practice. In a learning context, where each function $f_{i}$ is the loss associated to a single data point, $L$ is equal to the largest value of the loss second derivative $\xi$ (1 for the square loss, 1/4 for the logistic loss) times $R^{2}$, where $R$ is a the uniform bound on the norm of each data point. Thus, the constraint $\frac{\mu}{L} \geqslant \frac{8}{n}$ is satisfied when $\lambda \geqslant \frac{8\xiR^{2}}{n}$.
 
-## Convergence Analysis
-
-L-BFGS: A publicly-available limited-memory quasi-Newton method that has been tuned for log-linear models.^33^3 This method is by far the most complicated method we considered.
-
-As an example, in the case of $\ell_{2}$-regularized logistic regression we have $f_{i}{(x)}: = \frac{\lambda}{2} \parallel x \parallel^{2} + \log{(1 + \exp{( - b_{i}a_{i}^{T}x)})}$, where $a_{i} \in {\mathbb{R}}^{p}$ and...
+Training cost vs. testing cost: The theoretical contribution of this work is limited to the convergence rate of the training cost. Though there are several settings where this is the metric of interest (e.g., variational inference in graphical models), in many cases one will be interested in the convergence speed of the testing cost.

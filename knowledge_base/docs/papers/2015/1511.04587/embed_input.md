@@ -12,14 +12,14 @@ We address the problem of generating a high-resolution (HR) image given a low-re
 
 Many SISR methods have been studied in the computer vision community. Early methods include interpolation such as bicubic interpolation and Lanczos resampling more powerful methods utilizing statistical image priors or internal patch recurrence.
 
+Currently, learning methods are widely used to model a mapping from LR to HR patches. Neighbor embedding methods interpolate the patch subspace. Sparse coding methods use a learned compact dictionary based on sparse signal representation. Lately, random forest and convolutional neural network (CNN) have also been used with large improvements in accuracy.
+
+While SRCNN successfully introduced a deep learning technique into the super-resolution (SR) problem, we find its limitations in three aspects: first, it relies on the context of small image regions; second, training converges too slowly; third, the network only works for a single scale.
+
+In this work, we propose a new method to practically resolve the issues.
+
+Scale Factor We propose a single-model SR approach. Scales are typically user-specified and can be arbitrary including fractions. For example, one might need smooth zoom-in in an image viewer or resizing to a specific dimension. Training and storing many scale-dependent models in preparation for all possible scenarios is impractical. We find a single convolutional network is sufficient for multi-scale-factor super-resolution.
+
 ## Conclusion
 
 In this work, we have presented a super-resolution method using very deep networks. Training a very deep network is hard due to a slow convergence rate. We use residual-learning and extremely high learning rates to optimize a very deep network fast. Convergence speed is maximized and we use gradient clipping to ensure the training stability. We have demonstrated that our method outperforms the existing method by a large margin on benchmarked images. We believe our approach is readily applicable to other image restoration problems such as denoising and compression artifact removal.
-
-Figure 5: (Top) Our results using a single network for all scale factors. Super-resolved images over all scales are clean and sharp. (Bottom) Results of Dong et al. (×3 model used for all scales). Result images are not visually pleasing. To handle multiple scales, existing methods require multiple networks.
-
-We now describe the objective to minimize in order to find optimal parameters of our model. Let $\mathbf{x}$ denote an interpolated low-resolution image and $\mathbf{y}$ a high-resolution image. Given a training dataset ${\{\mathbf{x}^{(i)},\mathbf{y}^{(i)}\}}_{i = 1}^{N}$, our goal is to learn a model $f$ that predicts values $\hat{\mathbf{y}} = {f{(\mathbf{x})}}$, where $\hat{\mathbf{y}}$ is an estimate of the target HR image. We minimize the mean squared error $\frac{1}{2}{\|{\mathbf{y} - {f{(\mathbf{x})}}}\|}^{2}$ averaged over the training set is minimized.
-
-### Residual-Learning
-
-Currently, learning methods are widely used to model a mapping from LR to HR patches. Neighbor embedding methods interpolate the patch subspace. Sparse coding methods use a learned compact dictionary based on sparse signal representation....

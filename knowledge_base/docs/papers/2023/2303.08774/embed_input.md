@@ -8,24 +8,10 @@ This technical report presents GPT-4, a large multimodal model capable of proces
 
 One of the main goals of developing such models is to improve their ability to understand and generate natural language text, particularly in more complex and nuanced scenarios. To test its capabilities in such scenarios, GPT-4 was evaluated on a variety of exams originally designed for humans. In these evaluations it performs quite well and often outscores the vast majority of human test takers. For example, on a simulated bar exam, GPT-4 achieves a score that falls in the top 10% of test takers. This contrasts with GPT-3.5, which scores in the bottom 10%.
 
-Core contributors^1010^10All author lists sorted alphabetically.\
-Christopher Berner Supercomputing lead\
-Greg Brockman Infrastructure lead\
-Trevor Cai Throughput lead\
-David Farhi Manager of optimization team\
-Chris Hesse Infrastructure usability co-lead\
-Shantanu Jain Infrastructure usability co-lead\
-Kyle Kosic Uptime and stability lead\
-Jakub Pachocki Overall lead, optimization lead\
-Alex Paino Architecture & data vice lead\
-Mikhail Pavlov Software correctness lead\
-Michael Petrov Hardware correctness lead\
-Nick Ryder Architecture & data lead\
-Szymon Sidor Optimization vice lead\
-Nikolas Tezak Execution lead\
-Phil Tillet Triton...
+On a suite of traditional NLP benchmarks, GPT-4 outperforms both previous large language models and most state-of-the-art systems (which often have benchmark-specific training or hand-engineering). On the MMLU benchmark, an English-language suite of multiple-choice questions covering 57 subjects, GPT-4 not only outperforms existing models by a considerable margin in English, but also demonstrates strong performance in other languages. On translated variants of MMLU, GPT-4 surpasses the English-language state-of-the-art in 24 of 26 languages considered.
 
-We also acknowledge and thank every OpenAI team member not explicitly mentioned above, including the amazing people on the executive assistant, finance, go to market, human resources, legal, operations and recruiting teams. From hiring everyone in the company, to making sure we have an amazing office space, to building the administrative, HR, legal, and financial structures that allow us to do our best work, everyone at OpenAI has contributed to GPT-4.\
-We thank Microsoft for their partnership, especially Microsoft Azure for supporting model training with infrastructure design and management, and the Microsoft Bing team and Microsoft's...
+## Limitations
 
-The image shows a package for a "Lightning Cable" adapter with three panels.
+Despite its capabilities, GPT-4 has similar limitations as earlier GPT models. Most importantly, it still is not fully reliable (it "hallucinates" facts and makes reasoning errors). Great care should be taken when using language model outputs, particularly in high-stakes contexts, with the exact protocol (such as human review, grounding with additional context, or avoiding high-stakes uses altogether) matching the needs of specific applications. See our System Card for details.
+
+GPT-4 significantly reduces hallucinations relative to previous GPT-3.5 models (which have themselves been improving with continued iteration). GPT-4 scores 19 percentage points higher than our latest GPT-3.5 on our internal, adversarially-designed factuality evaluations.

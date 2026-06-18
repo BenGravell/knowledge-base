@@ -6,24 +6,18 @@ We consider the stabilization of an unstable discrete-time linear system that is
 
 ## Introduction
 
-We consider the control and stabilization of a system observed over a multiplicative noise channel. Specifically, we analyze the following system, $\mathcal{S}_{a}$, with initial state $X_{0} \sim {\mathcal{N}{}}$:
+We consider the control and stabilization of a system observed over a multiplicative noise channel.
 
-In the preceding formulation, the system state is represented by $X_{n}$ at time $n$, and the control $U_{n}$ can be any function of the current and previous observations $Y_{0}$ to $Y_{n}$. The $Z_{n}$'s are i.i.d. random variables with a known continuous distribution. The realization of the noise $Z_{n}$ is unknown to the controller, much like the fading coefficient (gain) of a channel might be unknown to the transmitter or receiver in non-coherent communication. The constant $a$ captures the growth of the system. The controller's objective is to stabilize the system in the second-moment sense, i.e....
+In the preceding formulation, the system state is represented by $X_{n}$ at time $n$, and the control $U_{n}$ can be any function of the current and previous observations $Y_{0}$ to $Y_{n}$. The $Z_{n}$'s are i.i.d. random variables with a known continuous distribution. The realization of the noise $Z_{n}$ is unknown to the controller, much like the fading coefficient (gain) of a channel might be unknown to the transmitter or receiver in non-coherent communication. The constant $a$ captures the growth of the system.
+
+Our main theorem provides an impossibility result for stabilizing the system $\mathcal{S}_{a}$.
+
+## Model motivation
+
+Multiplicative noise on the observation channel can model the effects of a fast-fading communication channel (rapidly changing channel gain), as well as the impact of sampling and quantization errors. A more detailed discussion of multiplicative noise models is available .
+
+## Conclusion
 
 This paper provides a first proof-of-concept converse for a control system observed over continuous multiplicative noise. However, there is an exponential gap between the scaling behavior of the achievable strategy and the converse.
 
 We note that if the system $\mathcal{S}_{a}$ in (1.1) is restricted to using linear control strategies, then its performance limit is the same as that of a system with the same multiplicative actuation noise (i.e. the control $U_{n}$ is multiplied by a random scaling factor) but perfect observations (as in ). Previous work has shown how to compute the control capacity for systems with multiplicative noise on the actuation channel. However, computing the control capacity of the system $\mathcal{S}_{a}$, i.e. computing tight upper and lower bounds on the system growth factor $a$, remains open.
-
-Let $\epsilon > 0$ be another small number to be specified later, and take $a = {1 + \epsilon^{2}}$. For our controls, we take
-
-## Non-linear schemes
-
-### Lemma 5.3
-
-Figure 1: The state Xn is observed over a multiplicative noise channel Yn = Xn Zn.
-
-Our main theorem provides an impossibility result for stabilizing the system $\mathcal{S}_{a}$.
-
-### Theorem 1.1
-
-Let the $Z_{n}$ be i.i.d. random variables with finite mean and variance and with bounded density ${f_{Z}{(z)}} = e^{- {\phi{(z)}}}$, where $\phi{( \cdot )}$ is a polynomial of even degree with positive leading coefficient....

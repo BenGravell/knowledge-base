@@ -8,16 +8,14 @@ Recovering 3D structure and camera motion from images has been a long-standing f
 
 ## Introduction
 
-Recovering 3D structure and camera motion from a collection of images remains a fundamental problem in computer vision that is highly relevant for a variety of downstream tasks, such as novel-view-synthesis or cloud-based mapping and localization. The literature commonly refers to this problem as Structure-from-Motion (SfM) \[\] and, over the years, two main paradigms for solving it have emerged: incremental and global approaches. Both of them start with image-based feature extraction and matching followed by two-view geometry estimation to construct the initial view graph of the input images....
+Recovering 3D structure and camera motion from a collection of images remains a fundamental problem in computer vision that is highly relevant for a variety of downstream tasks, such as novel-view-synthesis or cloud-based mapping and localization. The literature commonly refers to this problem as Structure-from-Motion (SfM) and, over the years, two main paradigms for solving it have emerged: incremental and global approaches. Both of them start with image-based feature extraction and matching followed by two-view geometry estimation to construct the initial view graph of the input images.
 
-Figure 1: Proposed GLOMAP produces satisfying reconstructions on various datasets. For (b), from left to right are estimated by Theia, COLMAP, GLOMAP. While baseline models fail to produce reliable estimations, GLOMAP achieves high accuracy.
+The main reason for the accuracy and robustness gap between incremental and global SfM lies in the global translation averaging step. Translation averaging describes the problem of estimating global camera positions from the set of relative poses in the view graph with the camera orientations recovered before by rotation averaging. This process faces three major challenges in practice. The first being scale ambiguity: relative translation from estimated two-view geometry can only be determined up to scale. As such, to accurately estimate global camera positions, triplets of relative directions are required.
+
+## Limitations
+
+Though generally achieving satisfying performance, there still remain some failure cases. The major cause is a failure of rotation averaging, *e.g*., due to symmetric structures. In such a case, our method could be combined with existing approaches like Doppelganger. Also, since we rely on traditional correspondence search, incorrectly estimated two-view geometries or the inability to match image pairs altogether (*e.g*., due to drastic appearance or viewpoint changes) will lead to degraded results or, in the worst case, catastrophic failures.
 
 ## Conclusion
 
-In summary, we proposed GLOMAP as a new global SfM pipeline. Previous systems within this category have been considered more efficient but less robust than incremental approaches. We revisited the problem and concluded that the key lies in the use of points in the optimization. Instead of estimating camera positions via ill-posed translation averaging and separately obtaining 3D structure from point triangulation, we merge them into a single global positioning step....
-
-### Global Positioning of Cameras and Points
-
-To combine the robustness of incremental and efficiency of global SfM, previous works have formulated hybrid systems. HSfM \[\] proposes to incrementally estimate camera positions with rotations. Liu *et al*. \[\] proposes a graph partitioning method by first dividing the whole set of images into overlapping clusters. Within each cluster, camera poses are estimated via a global SfM method. However, such methods are still not applicable when camera intrinsics are inaccurate according to their formulation. Our method overcomes this limitation by different modeling of the objective in the global positioning step.
-
-The pipeline of the proposed method is summarized in Fig.. It consists of two major components: correspondence search and global estimation. For correspondence search, it starts with feature extractions and matching. Two-view geometry, including fundamental matrix, essential matrix, and homography, are estimated from the matches....
+In summary, we proposed GLOMAP as a new global SfM pipeline. Previous systems within this category have been considered more efficient but less robust than incremental approaches. We revisited the problem and concluded that the key lies in the use of points in the optimization. Instead of estimating camera positions via ill-posed translation averaging and separately obtaining 3D structure from point triangulation, we merge them into a single global positioning step.

@@ -6,18 +6,10 @@ We consider minimizing a nonconvex, smooth function f on a Riemannian manifold M
 
 We consider minimizing a non-convex smooth function on a smooth manifold $\mathcal{M}$,
 
-where $\mathcal{M}$ is a $d$-dimensional smooth manifold^11^1Here $d$ is the dimension of the manifold itself; we do not consider $\mathcal{M}$ as a submanifold of a higher dimensional space. For instance, if $\mathcal{M}$ is a 2-dimensional sphere embedded in ${\mathbb{R}}^{3}$, its dimension is $d = 2$., and $f$ is twice differentiable, with a Hessian that is $\rho$-Lipschitz (assumptions are formalized in section 4). This framework includes a wide range of fundamental problems (often non-convex), such as PCA, dictionary learning, low rank matrix completion, and tensor factorization. Finding the global minimum to Eq....
-
-We have shown that for the constrained optimization problem of minimizing $f{(x)}$ subject to a manifold constraint as long as the function and the manifold are appropriately smooth, a perturbed Riemannian gradient descent algorithm will escape saddle points with a rate of order $1/\epsilon^{2}$ in the accuracy $\epsilon$, polylog in manifold dimension $d$, and depends polynomially on the curvature and smoothness parameters.
-
-A natural extension of our result is to consider other variants of gradient descent, such as the heavy ball method, Nesterov's acceleration, and the stochastic setting. The question is whether these algorithms with appropriate modification (with manifold constraints) would have a fast convergence to second-order stationary point (not just first-order stationary as studied in recent literature), and whether it is possible to show the relationship between convergence rate and smoothness of manifold.
-
-### Lemma 2
-
-### Assumption 3 (Bounded sectional curvature)
-
-Finally we need the following corollary of the Ambrose-Singer theorem.
+where $\mathcal{M}$ is a $d$-dimensional smooth manifold^11^1Here $d$ is the dimension of the manifold itself; we do not consider $\mathcal{M}$ as a submanifold of a higher dimensional space. For instance, if $\mathcal{M}$ is a 2-dimensional sphere embedded in ${\mathbb{R}}^{3}$, its dimension is $d = 2$., and $f$ is twice differentiable, with a Hessian that is $\rho$-Lipschitz (assumptions are formalized in section 4). This framework includes a wide range of fundamental problems (often non-convex), such as PCA, dictionary learning, low rank matrix completion, and tensor factorization.
 
 In the Euclidean space, it is known that with random initialization, gradient descent avoids saddle points asymptotically. Lee et al. (section 5.5) show that this is also true on smooth manifolds, although the result is expressed in terms of nonstandard manifold smoothness measures. Also, importantly, this line of work does not give quantitative rates for the algorithm's behaviour near saddle points.
 
-Du et al. show gradient descent can be *exponentially slow* in the presence of saddle points. To alleviate this phenomenon, it is shown that for a $\beta$-gradient Lipschitz,...
+Du et al. show gradient descent can be *exponentially slow* in the presence of saddle points. To alleviate this phenomenon, it is shown that for a $\beta$-gradient Lipschitz, $\rho$-Hessian Lipschitz function, cubic regularization and perturbed gradient descent converges to $(\epsilon,{- \sqrt{\rho\epsilon}})$ local minimum ^22^2defined as $x$ satisfying ${\|{{\nabla f}{(x)}}\|} \leq \epsilon$, ${\lambda_{\min}{\nabla^{2}f}{(x)}} \geq {- \sqrt{\rho\epsilon}}$ in polynomial time, and momentum based method accelerates.
+
+The study of the convergence of gradient descent for non-convex Riemannian problems is previously done only in the Euclidean space by modeling the manifold with equality constraints. Ge et al. prove that stochastic projected gradient descent methods converge to second order stationary points in polynomial time (here the analysis is not geometric, and depends on the algebraic representation of the equality constraints). Sun & Fazel proves perturbed projected gradient descent converges with a comparable rate to the unconstrained setting (polylog in dimension).

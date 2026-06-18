@@ -10,20 +10,8 @@ We revisit the classical problem of smooth convex optimization: solve ${\min_{x 
 
 solves such a convex optimization problem to arbitrary accuracy from any initialization $x_{0}$. How quickly does GD converge? The mainstream approach (see e.g., the textbooks among many others) is to use a constant stepsize schedule $\alpha_{t} \equiv \overline{\alpha} \in {}$ since this ensures
 
-### Rate certificate
+The main question posed in Part I was: can we accelerate the convergence of GD without changing the algorithm---just by judiciously choosing the stepsizes? Here we continue to investigate this question, now in the setting of smooth convex optimization. Note that this is markedly different from classical approaches to acceleration---starting from Nesterov's seminal result of 1983, those approaches modify the basic GD algorithm by adding momentum, internal dynamics, or other additional building blocks beyond just changing the stepsizes.
 
-The identity (3.5. ‣ 3 Recursive gluing ‣ Acceleration by Stepsize Hedging II: Silver Stepsize Schedule for Smooth Convex Optimization")) has two components: a linear form in the function values and a quadratic form in the iterates and gradients. For the linear form, it suffices to verify ${e - s - \ell} = 0$ by Lemma 3.6. ‣ 3.1 Helper lemmas ‣ 3 Recursive gluing ‣ Acceleration by Stepsize Hedging II: Silver Stepsize Schedule for Smooth Convex Optimization"), where ${e,s,\ell} \in {\mathbb{R}}^{3}$ are the vectors defined in Appendix A.1 ‣ Appendix A Deferred proof details ‣ Acceleration by Stepsize Hedging II: Silver Stepsize Schedule...
+## Contribution
 
-## Recursive gluing
-
-### Rescaling
-
-The "gluing component" $\Theta$ is defined as
-
-The main question posed in Part I was: can we accelerate the convergence of GD without changing the algorithm---just by judiciously choosing the stepsizes? Here we continue to investigate this question, now in the setting of smooth convex optimization. Note that this is markedly different from classical approaches to acceleration---starting from Nesterov's seminal result of 1983, those approaches modify the basic GD algorithm by adding momentum, internal dynamics, or other additional building blocks beyond just changing the stepsizes....
-
-### Contribution
-
-Figure 1: Silver Stepsize schedule {α0, α1, α2, …}. See (2.1) for the definition. Only the first n = 63 values are shown (i.e., k = 8). The fractal-like stepsizes are non-monotonic and have increasingly large “spikes” α2k − 1 = 1 + ρk − 1.
-
-This paper provides a concise, self-contained proof that the Silver Stepsize Schedule proposed in Part I directly applies to smooth (non-strongly) convex optimization....
+This paper provides a concise, self-contained proof that the Silver Stepsize Schedule proposed in Part I directly applies to smooth (non-strongly) convex optimization. This leads to faster convergence rates of GD for smooth convex optimization, as already pointed out in \[3, §1.1.4\].

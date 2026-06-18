@@ -12,14 +12,8 @@ Low-rank matrix approximations, such as the truncated singular value decompositi
 
 This paper presents a modular framework for constructing randomized algorithms that compute partial matrix decompositions. These methods use random sampling to identify a subspace that captures most of the action of a matrix. The input matrix is then compressed---either explicitly or implicitly---to this subspace, and the reduced matrix is manipulated deterministically to obtain the desired low-rank factorization. In many cases, this approach beats its classical competitors in terms of accuracy, speed, and robustness. These claims are supported by extensive numerical experiments and a detailed error analysis.
 
-We may bound the spectral norm of $\mathbf{\Omega}_{2}$ deterministically.
+The specific benefits of randomized techniques depend on the computational environment. Consider the model problem of finding the $k$ dominant components of the singular value decomposition of an $m \times n$ matrix. (i) For a dense input matrix, randomized algorithms require $O{({mn{\log{(k)}}})}$ floating-point operations (flops) in contrast with $O{({mnk})}$ for classical algorithms. (ii) For a sparse input matrix, the flop count matches classical Krylov subspace methods, but the randomized approach is more robust and can easily be reorganized to exploit multi-processor architectures.
 
-since ${\mathbf{V}}_{2}$ and $\sqrt{\ell/n} \cdot \mathbf{\Omega}$ are both orthonormal matrices. Combine these estimates to complete the proof. ∎
+## keywords
 
-Given a matrix $\mathbf{Q}$ such that holds, we can obtain a rank-$k$ factorization
-
-There always exists an ID where the entries in the factor $\mathbf{X}$ have magnitude bounded by one. Known proofs of this fact are constructive, e.g., \[103, Lem. 3.3\], but they require us to find a collection of $k$ columns that has "maximum volume." It is NP-hard to identify a subset of columns with this type of extremal property. We find it remarkable that ID computations are possible as soon as the bound on $\mathbf{X}$ is relaxed.
-
-Second, we investigate how the choice of random test matrix influences the error in approximating an input matrix. For these experiments, we return to the $200 \times 200$ matrix $\mathbf{A}$ defined in Section 7.1. Consider variations of Algorithm LABEL:alg:basic obtained when the random test matrix $\mathbf{\Omega}$ is drawn from the following four distributions:
-
-The specific benefits of randomized techniques depend on the computational environment....
+Dimension reduction, eigenvalue decomposition, interpolative decomposition, Johnson--Lindenstrauss lemma, matrix approximation, parallel algorithm, pass-efficient algorithm, principal component analysis, randomized algorithm, random matrix, rank-revealing QR factorization, singular value decomposition, streaming algorithm.

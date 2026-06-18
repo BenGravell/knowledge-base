@@ -8,16 +8,16 @@ Hyperparameter tuning is a fundamental aspect of machine learning research. Sett
 
 ## Introduction
 
-Modern machine learning (ML) research involves a considerable amount of hyperparameter tuning. A hyperparameter is a value that is required to be set for training a machine learning model before the optimization process begins. For instance, the learning rate, i.e., the step size with which an optimization algorithm performs the next iteration towards minimizing a loss function, is a typical hyperparameter. Other examples of hyperparameters include the choice of the optimization algorithm, weight regularization factors, or simply the width and depth of a neural network....
+Modern machine learning (ML) research involves a considerable amount of hyperparameter tuning. A hyperparameter is a value that is required to be set for training a machine learning model before the optimization process begins. For instance, the learning rate, i.e., the step size with which an optimization algorithm performs the next iteration towards minimizing a loss function, is a typical hyperparameter. Other examples of hyperparameters include the choice of the optimization algorithm, weight regularization factors, or simply the width and depth of a neural network.
 
-Changes in the hyperparameters drastically affect the performance of a trained ML model. For instance, a learning rate set too high or too low can make the difference between failing or solving a task. Moreover, the relation of the optimization process with respect to the hyperparameters is non-convex and non-differentiable. Consequently, the problem of finding the optimal hyperparameters could be formulated as a black-box optimization problem.
+For instance, an HPO algorithm that performs well in low-dimensional problems may struggle to outperform simple baselines in higher-dimensional setups. Similarly, the smoothness and curvature of the objective surface can change drastically between two problem instances, making a one-fits-all solution impossible. Moreover, the design of hyperparameter tuning packages often encounters contradictory specifications. For instance, an ideal package should be extensible, customizable, and rich in features, which, however, may steepen the learning curve and contradict our requirement that the package should be simple and easy to use.
+
+In this work, we introduce Pyopper, a hyperparameter tuning platform tailored to the optimization frameworks we encounterin machine learning research (e.g., training neural networks). In particular, our HPO platform allows us to streamline the hyperparameter tuning procedures and scale to hundreds of tuning tasks with minimal effort.
+
+## Limitations
+
+There cannot be a perfect hyperparameter tuning package, as some features of what makes a good HP tuner might be contradictory. For instance, implementing several different optimization algorithms might be both an advantage and a disadvantage. Instead, each hyperparameter tuning package comes with tradeoffs that were made for specific application areas in mind. The main tradeoff for PyHopper is the focus on a single optimization algorithm.
 
 ## Conclusion
 
 PyHopper is a customizable, open-source, and plug-and-play hyperparameter optimization engine, that can be integrated with advanced training jobs with minimal effort and low cost, generating competitive models compared to existing well-established packages.
-
-PyHopper's algorithm is flexible and customizable. For example, we can skip phase 1 and directly let the local sampling algorithm improve on a set of hyperparameters the user provides. Such scenarios often occur when the user finds some decently working hyperparameter through a manual search. Moreover, PyHopper allows integrating custom sampling and local perturbation (i.e., mutation) strategies for special types of problems. For instance, the Travelling salesman problem (TSP) is an NP-complete combinatorial optimization problem that concerns finding the shortest roundtrip over a set of cities....
-
-PyHopper helps us maximize resource usage via two key features: First, PyHopper expects the user to set the target runtime of the hyperparameter tuning process. For instance, this allows PyHopper to run overnight (or over the weekend) and finish the next day in the morning, thus fully utilizing our hardware during non-working hours.
-
-### Pruning algorithms

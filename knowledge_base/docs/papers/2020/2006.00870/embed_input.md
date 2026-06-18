@@ -12,14 +12,8 @@ In this paper we study the problem of designing control laws for an unknown dyna
 
 One of the main challenges in this area is to come up with robust control laws that guarantee stability and performance of the unknown system despite the inherent uncertainty caused by noisy data. Even though there are several recent contributions addressing this issue, there are multiple open questions. In fact, one of the unsolved problems is to come up with *non-conservative* control design strategies using only a finite number of data samples.
 
-with $M$ given by (LABEL:Mstab). We will consider norm bounded noise samples in more detail in future work.
+## Discussion and conclusions
 
-Yet another idea for future work is to extend the current results for state-feedback design to data-driven dynamic output feedback design. Specifically, it would be interesting to see whether the matrix S-lemmas can be applied to obtain dynamic output feedback controllers from a finite set of noisy *input/output* samples.
+We have studied the problem of obtaining feedback controllers from noisy data. The essence of our approach has been to formulate data-driven control as the problem of determining when one quadratic matrix inequality implies another one. To get a grip on this fundamental question, we have generalized the classical S-lemma to matrix variables. The implication involving quadratic matrix inequalities is thereby *equivalent* to a linear matrix inequality in a scalar variable. We have established several versions of the matrix S-lemma, for both strict and non-strict inequalities.
 
-Let ${M,N} \in {\mathbb{R}}^{{({k + n})} \times {({k + n})}}$ be symmetric matrices, partitioned as in. Assume that $N$ is nonsingular, $N_{11} \geqslant 0$ and $N_{22} < 0$. Then we have that
-
-### Remark 8
-
-it is possible to prove a variant Theorem 14 in which the non-strict inequality is replaced by a strict inequality, and the term $- {\betaI}$ is removed. This can be done by invoking Theorem 11. ‣ III-B S-lemma with matrix variables ‣ III The matrix-valued S-lemma ‣ From noisy data to feedback controllers: non-conservative design via a matrix S-lemma"), which is possible since implies that the set $\Sigma$ is bounded. The reason is that the coefficient matrix $N_{22}$ defining the quadratic term in is negative definite if holds.
-
-We will tackle this problem by providing necessary and sufficient conditions on noisy data under which controllers can be obtained....
+We have followed up by applying our matrix S-lemma to data-driven control. In particular, we have given necessary and sufficient conditions under which stabilizing, $\mathcal{H}_{2}$, and $\mathcal{H}_{\infty}$ controllers can be obtained from noisy data. Our control design revolves around data-guided linear matrix inequalities, which can be solved efficiently using modern LMI solvers. In addition to being non-conservative, an attractive feature of our design procedure is that decision variables are *independent* of the time horizon of the experiment.

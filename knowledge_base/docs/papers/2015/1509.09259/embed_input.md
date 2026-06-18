@@ -4,20 +4,12 @@ This paper proposes a distributionally robust approach to logistic regression. W
 
 ## Introduction
 
-Logistic regression is one of the most frequently used classification methods applied. Its objective is to establish a probabilistic relationship between a continuous feature vector and a binary explanatory variable. However, in spite of its overwhelming success in machine learning, data analytics and medicine etc., logistic regression models can display a poor out-of-sample performance if training data is sparse. In this case modelers often resort to ad hoc regularization techniques in order to combat overfitting effects....
+Logistic regression is one of the most frequently used classification methods applied. Its objective is to establish a probabilistic relationship between a continuous feature vector and a binary explanatory variable. However, in spite of its overwhelming success in machine learning, data analytics and medicine etc., logistic regression models can display a poor out-of-sample performance if training data is sparse. In this case modelers often resort to ad hoc regularization techniques in order to combat overfitting effects.
 
-### Logistic Regression
-
-Figure 3: Average logloss, CCR and risk for different Wasserstein radii ε (Ionosphere dataset)
-
-In the experiment underlying Figure 3(c), we first fix $\hat{\beta}$ to the optimal solution of (7. ‣ 3.1 Tractable reformulation ‣ 3 Tractable reformulation and probabilistic guarantees ‣ Distributionally Robust Logistic Regression")) for $\varepsilon = 0.003$ and $\kappa = 1$. Figure 3(c) shows the true risk $\Re{(\hat{\beta})}$ and its confidence bounds. As expected, for $\varepsilon = 0$ the upper and lower bounds coincide with the empirical risk on the training data, which is a lower bound for the true risk on the test data due to over-fitting effects....
-
-### Theorem 2 (Out-of-Sample Performance)
-
-In this section we demonstrate that can be reformulated as a tractable convex program and establish probabilistic guarantees for its optimal solutions.
-
-We emphasize that (10a. ‣ 3.3 Risk Estimation: Worst- and Best-Cases ‣ 3 Tractable reformulation and probabilistic guarantees ‣ Distributionally Robust Logistic Regression")) and (10b. ‣ 3.3 Risk Estimation: Worst- and Best-Cases ‣ 3 Tractable reformulation and probabilistic guarantees ‣ Distributionally Robust Logistic Regression")) constitute highly tractable linear programs. Moreover, we have ${\Re_{\min}{(\hat{\beta})}} \leq {\Re{(\hat{\beta})}} \leq {\Re_{\max}{(\hat{\beta})}}$ with probability $1 - {2\eta}$.
+## Logistic Regression
 
 Let $x \in {\mathbb{R}}^{n}$ denote a feature vector and $y \in {\{{- 1},{+ 1}\}}$ the associated binary label to be predicted. In logistic regression, the conditional distribution of $y$ given $x$ is modeled as
 
-where the weight vector $\beta \in {\mathbb{R}}^{n}$ constitutes an unknown regression parameter. Suppose that $N$ training samples ${\{{({\hat{x}}_{i},{\hat{y}}_{i})}\}}_{i = 1}^{N}$ have been observed....
+where the weight vector $\beta \in {\mathbb{R}}^{n}$ constitutes an unknown regression parameter. Suppose that $N$ training samples ${\{{({\hat{x}}_{i},{\hat{y}}_{i})}\}}_{i = 1}^{N}$ have been observed. Then, the maximum likelihood estimator of classical logistic regression is found by solving the geometric program
+
+whose objective function is given by the sample average of the *logloss function* ${{l_{\beta}{(x,y)}} = {\log{({1 + {\exp{({- {y{\langle\beta,x\rangle}}})}}})}}}.$ It has been observed, however, that the resulting maximum likelihood estimator may display a poor out-of-sample performance. Indeed, it is well documented that minimizing the average logloss function leads to overfitting and weak classification performance feng2014robust; plan2013robust. In order to overcome this deficiency, it has been proposed to modify the objective function of problem ding2013t; liu2004robit; rousseeuw2003robustness.

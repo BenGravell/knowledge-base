@@ -4,16 +4,12 @@ Understanding and interacting with everyday physical scenes requires rich knowle
 
 ## Introduction
 
-Figure 1: (Top) Our experimental physical systems. (Bottom) Samples of parametrized versions of these systems (see videos: link).
-
 Many domains, such as mathematics, language, and physical systems, are combinatorially complex. The possibilities scale rapidly with the number of elements. For example, a multi-link chain can assume shapes that are exponential in the number of angles each link can take, and a box full of bouncing balls yields trajectories which are exponential in the number of bounces that occur. How can an intelligent agent understand and control such complex systems?
 
-Some key future directions include using our approach for control in real-world settings, supporting simulation-to-real transfer via pre-training models in simulation, extending our models to handle stochastic environments, and performing system identification over the structure of the system as well as the parameters. Our approach may also be useful within imagination-based planning frameworks, as well as integrated architectures with GN-like policies.
+Here we introduce a new approach for learning and controlling complex systems, by implementing a structural inductive bias for object- and relation-centric representations. Our approach uses "graph networks" (GNs), a class of neural networks that can learn functions on graphs. In a physical system, the GN lets us represent the bodies (objects) with the graph's nodes and the joints (relations) with its edges. During learning, knowledge about body dynamics is encoded in the GN's node update function, interaction dynamics are encoded in the edge update function, and global system properties are encoded in the global update function.
 
-This work takes a key step towards realizing the promise of model-based methods by exploiting compositional representations within a powerful statistical learning framework, and opens new paths for robust, efficient, and general-purpose patterns of reasoning and decision-making.
+Across seven complex, simulated physical systems, and one real robotic system (see Figure 1), our experimental results show that our GN-based *forward models* support accurate and generalizable predictions, *inference models*^33^3We use the term "inference" in the sense of "abductive inference"---roughly, constructing explanations for (possibly partial) observations---and not probabilistic inference, per se. support system identification in which hidden properties are abduced from observations, and *control algorithms* yield competitive performance against strong baselines.
 
-### Prediction performance evaluation
+## Discussion
 
-For control, we exploit the fact that the GN is differentiable to use our learned forward and inference models for model-based planning within a classic, gradient-based trajectory optimization regime, also known as model-predictive control (MPC). We also develop an agent which simultaneously learns a GN-based model and policy function via Stochastic Value Gradients (SVG). ^66^6MPC and SVG are deeply connected: in MPC the control inputs are optimized given the initial conditions in a single episode, while in SVG a policy function that maps states to controls is optimized over states experienced during training.
-
-Figure 7: Real and predicted test trajectories of a JACO robot arm. The recurrent model tracks the ground truth (a) orientations and (b) angular velocities closely. (c) The total 100-step rollout error was much better for the recurrent model, though the feed-forward model was still well below the constant prediction baseline....
+This work introduced a new class of learnable forward and inference models, based on "graph networks" (GN), which implement an object- and relation-centric inductive bias. Across a range of experiments we found that these models are surprisingly accurate, robust, and generalizable when used for prediction, system identification, and planning in challenging, physical systems.

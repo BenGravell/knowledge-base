@@ -10,14 +10,14 @@ Tuning hyperparameters of learning algorithms is hard because gradients are usua
 
 Machine learning systems abound with hyperparameters. These can be parameters that control model complexity, such as $L_{1}$ and $L_{2}$ penalties, or parameters that specify the learning procedure itself -- step sizes, momentum decay parameters and initialization conditions. Choosing the best hyperparameters is both crucial and frustratingly difficult.
 
+The current gold standard for hyperparameter selection is gradient-free model-based optimization Snoek et al.; Bergstra et al.; Hutter et al.. Hyperparameters are chosen to optimize the validation loss after complete training of the model parameters. These approaches have demonstrated that automatic tuning of hyperparameters can yield state-of-the-art performance. However, in general they are not able to effectively optimize more than 10 to 20 hyperparameters.
+
+Why not use gradients? Reverse-mode differentiation allows gradients to be computed with a similar time cost to the original objective function. This approach is taken almost universally for optimization of elementary^11^1Since this paper is about hyperparameters, we use "elementary" to unambiguously denote the other sort of parameter, the "parameter-that-is-just-a-parameter-and-not-a-hyperparameter". parameters.
+
+## Limitations
+
+Back-propagation for training neural networks has several pitfalls that were later addressed by analysis and engineering. Likewise, the use of hypergradients also has several apparent difficulties that need to be addressed before it becomes practical. This section explores several issues with this technique that became apparent in our experiments.
+
+## Conclusion
+
 In this paper, we derived a computationally efficient procedure for computing gradients through stochastic gradient descent with momentum. We showed how the approximate reversibility of learning dynamics can be used to drastically reduce the memory requirement for exactly back-propagating gradients through hundreds of training iterations.
-
-We showed how these gradients allow the optimization of validation loss with respect to thousands of hyperparameters, something which was previously infeasible. This new ability allows the automatic tuning of most details of training neural networks. We demonstrated the tuning of detailed training schedules, regularization schedules, and neural network architectures.
-
-### Optimizing regularization parameters
-
-In typical machine learning applications, only a few hyperparameters (less than 20) are optimized. Since each experiment only yields a single number (the validation loss), the search rapidly becomes more difficult as the dimension of the hyperparameter vector increases. In contrast, when hypergradients are available, the amount of information gained from each training run grows along with the number of hyperparameters, allowing us to optimize thousands of hyperparameters. How can we take advantage of this new ability?
-
-Figure 9 shows the learned penalties (normalized by row and column to have ones on the diagonal, akin to a correlation matrix). We see that the lowest layer has been partially shared, across all alphabets equally, with the upper layers much less shared. Interestingly, the top layer penalty learns to share weights between the rotated alphabets.
-
-The current gold standard for hyperparameter selection is gradient-free model-based optimization Snoek et al.; Bergstra et al.; Hutter et al.. Hyperparameters are chosen to optimize the validation loss after complete training of the model parameters....

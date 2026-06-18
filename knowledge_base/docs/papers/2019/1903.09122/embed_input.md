@@ -6,18 +6,14 @@ In this paper, we analyze the finite sample complexity of stochastic system iden
 
 ## Introduction
 
-Identifying predictive models from data has been a fundamental problem across several fields, from classical control theory to economics and modern machine learning. System identification, in particular, has a long history of studying this problem from a control theoretic perspective. Identifying linear state-space models:
+Identifying predictive models from data has been a fundamental problem across several fields, from classical control theory to economics and modern machine learning. System identification, in particular, has a long history of studying this problem from a control theoretic perspective.
 
 from input-output data has been the focus of time-domain identification. In fact, some identification algorithms can not only learn the system matrices in but also the Kalman filter required for state estimation.
 
-We could also provide finite sample bounds for the estimation of the closed-loop matrix $A_{c} \triangleq {A - {KC}}$. This can be done in two ways. One option is to form matrix $\hat{A} - {\hat{K}\hat{C}}$ from the estimates $\hat{A},\hat{C},\hat{K}$. Alternatively, we could estimate $\hat{A_{c}}$ directly from ${\hat{\mathcal{K}}}_{p}$ in the same way that we estimated $\hat{A}$. However, we do not have finite sample guarantees for the stability of the closed-loop estimates $\hat{A} - {\hat{K}\hat{C}}$, $\hat{A_{c}}$. It would be interesting to address this in future work.
+Most identification methods for linear systems either follow the prediction error approach or the subspace method. The prediction error approach is usually non-convex and directly searches over the system parameters $A,B,C,D$ by minimizing a prediction error cost. The subspace approach is a convex one; first, Hankel matrices of the system are estimated, then, the parameters are realized via steps involving singular value decomposition (SVD). Methods inspired by machine learning have also also been employed. In this paper, we focus on the subspace identification approach--see for an overview.
 
-Another direction for future work is repeating the analysis when the Kalman filter has not reached steady-state, i.e. relax Assumption 2. Finally, in this work, we only considered upper bounds. It would be interesting to study lower bounds as well to evaluate the tightness of our upper bounds. In any case, from lower bounds for fully observed systems, the factor of $1/\sqrt{N}$ is tight.
+In this paper, we perform the first finite sample analysis of system in the case ${B,D} = 0$, when we have no inputs, also known as stochastic system identification (SSI). This problem is more challenging than the case ${B,D} \neq 0$, since the system can only be driven through noise and establishing persistence of excitation is harder. We provide the first non-asymptotic guarantees for the estimation of matrices $A,C$ as well as the Kalman filter gain of. Similar to, the analysis is based on new tools from machine learning and statistics.
 
-The least singular value of the above matrix is denoted by:
+## Discussion and Future Work
 
-Finally, for any $s \geq 2$, define block-Toeplitz matrix:
-
-Establishing bounds for the the Kalman truncation error in (29. ‣ 4 Finite Sample Analysis of Regression ‣ Finite Sample Analysis of Stochastic System Identification")).
-
-Most identification methods for linear systems either follow the prediction error approach or the subspace method. The prediction error approach is usually non-convex and directly searches over the system parameters $A,B,C,D$ by minimizing a prediction error cost. The subspace approach is a convex one; first, Hankel matrices of the system are estimated, then, the parameters are realized via steps involving singular value decomposition (SVD). Methods inspired by machine learning have also also been employed....
+One of the main differences between the subspace algorithm considered in this paper and other stochastic subspace identification algorithms is the SVD step. The other algorithms perform SVD on $W_{1}GW_{2}$ instead of $G$, where $W_{1},W_{2}$ are full rank weighting matrices, possibly data dependent. From this point of view, the results of Section 4 (upper bound for $\|{G - \hat{G}}\|$ in Theorem 1. ‣ 4 Finite Sample Analysis of Regression ‣ Finite Sample Analysis of Stochastic System Identification") and persistence of excitation in Theorem 2.

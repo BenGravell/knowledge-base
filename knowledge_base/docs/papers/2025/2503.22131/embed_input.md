@@ -4,20 +4,16 @@ We propose Newton-PIPG, an efficient method for solving quadratic programming (Q
 
 ## Introduction
 
-The development of techniques for solving Quadratic programming (QP) problems is a key enabler for advancing optimal control research, as efficiently solving these problems is often essential and a bottleneck in real-world optimal control applications. For example, Model Predictive Control (MPC), a framework for implementing optimal control, often relies on solving a series of QP problems. In addition, Sequential Convex Programming (SCP), a widely used algorithm for nonlinear optimal control, also relies on solving QP problems....
+The development of techniques for solving Quadratic programming (QP) problems is a key enabler for advancing optimal control research, as efficiently solving these problems is often essential and a bottleneck in real-world optimal control applications. For example, Model Predictive Control (MPC), a framework for implementing optimal control, often relies on solving a series of QP problems. In addition, Sequential Convex Programming (SCP), a widely used algorithm for nonlinear optimal control, also relies on solving QP problems.
 
 We consider the following QP problem, which includes additional set constraints and frequently arises in optimal control applications:\
 
+Additionally,
+
+Widely used methods for solving Problem fall into two primary categories: second-order methods and operator-splitting methods, each with their own advantages and disadvantages. Second-order methods, such as interior-point methods and active-set methods, utilize the curvature information of the optimization problem. These methods typically converge in a modest number of iterations and are robust when the problem approaches infeasibility. Commonly used software in this category includes MOSEK, Gurobi, and ECOS. For further theoretical discussions on second-order methods, we refer the reader to.
+
+Another approach to solving Problem is the operator-splitting method, which constructs an update operator applied at each iteration, ensuring that the iterations converge to the fixed point of this operator. Unlike interior-point methods, operator-splitting methods eliminate the need for matrix factorization, resulting in significantly lower per-iteration computational costs. Additionally, these methods do not require external parsers and are typically implemented with a smaller codebase. For a comprehensive review of operator-splitting methods, see.
+
+## Conclusion and Future Work
+
 In conclusion, we introduced the Newton-PIPG method for solving optimal control QP problems, which combines an operator splitting method, PIPG, with second-order Newton steps. We demonstrated the convergence of this algorithm and provided an efficient technique for solving the linear system in the Newton step. Our numerical experiments showed that our algorithm performs well compared to other state-of-the-art algorithms in solving quadratic optimal control problems.
-
-For future research, we will incorporate infeasibility detection for Newton-PIPG and extend our algorithm to handle more general constraints. Additionally, the current Newton-PIPG software is written in Matlab, and we expect that a pure C/C++ implementation could further reduce computation time.
-
-Under Assumptions 3.3, 3.3, and 3.14, $I - {J_{T}{(z,w)}}$ is a smooth function of $(z,w)$ in a local neighborhood of $(z^{\star},w^{\star})$, the fixed point of the PIPG operator. Moreover, $I - {J_{T}{(z,w)}}$ is smooth for $(z,w)$ in that neighborhood.
-
-On the other hand, since projections are Lipschitz functions with Lipschitz constants equal to one \[, Exercise 7.5\], all eigenvalues of $J{(z)}$ need to be less than or equal to one. Otherwise, we would have
-
-If ${Fix}{(T)}$ is nonempty, we plug in arbitrary $y$ from this fixed point set. Since $y \in {{Fix}{(\overset{\sim}{T})}}$ as well, we have
-
-Additionally, we require that both $H_{E}$ and $H_{I}$ follows the pattern below:
-
-The sparsity patterns of $H_{E}$ and $H_{I}$ are typical for optimal control optimization problems. These matrices define equality and inequality constraints among consecutive time points, while the set ${\mathbb{D}}_{ij}$ includes...
