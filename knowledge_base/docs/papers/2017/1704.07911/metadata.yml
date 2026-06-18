@@ -1,6 +1,6 @@
 title: >
   Explaining How a Deep Neural Network Trained with End-to-End Learning Steers a Car
-algorithm:
+algorithm: PilotNet
 authors:
   - Mariusz Bojarski
   - Philip Yeres
