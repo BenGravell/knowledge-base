@@ -9,7 +9,7 @@ The public site is published at
 
 - `knowledge_base/docs/` contains the MkDocs source pages and paper metadata.
 - `knowledge_base/docs/papers/**/metadata.yml` drives generated paper pages.
-- `knowledge_base/docs/papers/**/full_text.md` may contain public Markdown conversions of arXiv/ar5iv HTML.
+- `knowledge_base/docs/papers/**/embed_text.md` may contain cleaned arXiv/ar5iv HTML conversions for embeddings.
 - `knowledge_base/tree.yml` is the editable Tree navigation and classification source.
 - `knowledge_base/apps/` contains Streamlit apps.
 - `knowledge_base/scripts/` contains maintenance, audit, placement, and prefill entrypoints.
@@ -47,10 +47,10 @@ Run `poetry run mkdocs serve -f knowledge_base/mkdocs.yml` from the repo root.
 
 Put URLs in `todo/PAPERS_FUNNEL.md`, route them, prefill metadata, audit it, then place entries in `knowledge_base/tree.yml`.
 
-### Ingest arXiv full text
+### Ingest arXiv embed text
 
-Some paper entries can have an optional `full_text.md` sidecar next to `metadata.yml`.
-These sidecars are public Markdown conversions of arXiv/ar5iv HTML for search and reading convenience only.
+Some paper entries can have an optional `embed_text.md` sidecar next to `metadata.yml`.
+These sidecars are cleaned Markdown conversions of arXiv/ar5iv HTML for embedding and agentic search only.
 They are not the canonical e-print, PDF, or LaTeX source of truth, and this repo intentionally does not store PDFs, LaTeX source archives, images, or other rich paper assets.
 Reuse of paper text remains governed by each paper's original license and rights holder terms.
 
@@ -60,7 +60,7 @@ Run the ingest script from the repo root:
 poetry run python knowledge_base/scripts/ingest_arxiv_full_text.py --id 2402.08954
 ```
 
-The script requires `pandoc` on `PATH`, skips existing sidecars unless `--force` is passed, and probes only entries with `arxiv_id`.
+The script requires `pandoc` on `PATH`, skips existing sidecars unless `--force` is passed, and probes only entries with `arxiv_id`. It strips author blocks, references, source chrome, images, and obvious table/math noise before writing `embed_text.md`.
 
 ### Develop Python scripts or site helpers
 

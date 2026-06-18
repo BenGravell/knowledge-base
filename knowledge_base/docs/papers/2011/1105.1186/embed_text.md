@@ -1,0 +1,771 @@
+## Introduction
+
+The robotic motion planning problem has received a considerable amount of attention, especially over the last decade, as robots started becoming a vital part of modern industry as well as our daily life. Even though modern robots may possess significant differences in sensing, actuation, size, workspace, application, etc., the problem of navigating through a complex environment is embedded and essential in almost all robotics applications. Moreover, this problem is relevant to other disciplines such as verification, computational biology, and computer animation.
+
+Informally speaking, given a robot with a description of its dynamics, a description of the environment, an initial state, and a set of goal states, the motion planning problem is to find a sequence of control inputs so as the drive the robot from its initial state to one of the goal states while obeying the rules of the environment, e.g., not colliding with the surrounding obstacles. An algorithm to address this problem is said to be complete if it terminates in finite time, returning a valid solution if one exists, and failure otherwise.
+
+Unfortunately, the problem is known to be very hard from the computational point of view. For example, a basic version of the motion planning problem, called the generalized piano movers problem, is PSPACE-hard. In fact, while complete planning algorithms exist, their complexity makes them unsuitable for practical applications.
+
+Practical planners came around with the development of cell decomposition methods and potential fields. These approaches, if properly implemented, relaxed the completeness requirement to, for instance, resolution completeness, i.e., the ability to return a valid solution, if one exists, if the resolution parameter of the algorithm is set fine enough. These planners demonstrated remarkable performance in accomplishing various tasks in complex environments within reasonable time bounds. However, their practical applications were mostly limited to state spaces with up to five dimensions, since decomposition-based methods suffered from large number of cells, and potential field methods from local minima. Important contributions towards broader applicability of these methods include navigation functions and randomization.
+
+The above methods rely on an explicit representation of the obstacles in the configuration space, which is used directly to construct a solution. This may result in an excessive computational burden in high dimensions, and in environments described by a large number of obstacles. Avoiding such a representation is the main underlying idea leading to the development of sampling-based algorithms. See Lindemann and LaValle for a historical perspective. These algorithms proved to be very effective for motion planning in high-dimensional spaces, and attracted significant attention over the last decade, including very recent work. Instead of using an explicit representation of the environment, sampling-based algorithms rely on a collision checking module, providing information about feasibility of candidate trajectories, and connect a set of points sampled from the obstacle-free space in order to build a graph (roadmap) of feasible trajectories. The roadmap is then used to construct the solution to the original motion-planning problem.
+
+Informally speaking, sampling-based methods provide large amounts of computational savings by avoiding explicit construction of obstacles in the state space, as opposed to most complete motion planning algorithms. Even though these algorithms are not complete, they provide probabilistic completeness guarantees in the sense that the probability that the planner fails to return a solution, if one exists, decays to zero as the number of samples approaches infinity. Moreover, the rate of decay of the probability of failure is exponential, under the assumption that the environment has good "visibility" properties. More recently, the empirical success of sampling-based algorithms was argued to be strongly tied to the hypothesis that most practical robotic applications, even though involving robots with many degrees of freedom, feature environments with such good visibility properties.
+
+### Sampling-Based Algorithms
+
+Arguably, the most influential sampling-based motion planning algorithms to date include Probabilistic RoadMaps (PRMs) and Rapidly-exploring Random Trees (RRTs). Even though the idea of connecting points sampled randomly from the state space is essential in both approaches, these two algorithms differ in the way that they construct a graph connecting these points.
+
+The PRM algorithm and its variants are multiple-query methods that first construct a graph (the roadmap), which represents a rich set of collision-free trajectories, and then answer queries by computing a shortest path that connects the initial state with a final state through the roadmap. The PRM algorithm has been reported to perform well in high-dimensional state spaces. Furthermore, the PRM algorithm is probabilistically complete, and such that the probability of failure decays to zero exponentially with the number of samples used in the construction of the roadmap. During the last two decades, the PRM algorithm has been a focus of robotics research: several improvements were suggested by many authors and the reasons to why it performs well in many practical cases were better understood.
+
+Even though multiple-query methods are valuable in highly structured environments, such as factory floors, most online planning problems do not require multiple queries, since, for instance, the robot moves from one environment to another, or the environment is not known a priori. Moreover, in some applications, computing a roadmap a priori may be computationally challenging or even infeasible. Tailored mainly for these applications, incremental sampling-based planning algorithms such as RRTs have emerged as an online, single-query counterpart to PRMs. The incremental nature of these algorithms avoids the necessity to set the number of samples a priori, and returns a solution as soon as the set of trajectories built by the algorithm is rich enough, enabling on-line implementations. Moreover, tree-based planners do not require connecting two states exactly and more easily handle systems with differential constraints. The RRT algorithm has been shown to be probabilistically complete, with an exponential rate of decay for the probability of failure. The basic version of the RRT algorithm has been extended in several directions, and found many applications in the robotics domain and elsewhere. In particular, RRTs have been shown to work effectively for systems with differential constraints and nonlinear dynamics as well as purely discrete or hybrid systems. Moreover, the RRT algorithm was demonstrated in major robotics events on various experimental robotic platforms.
+
+Other sampling-based planners of note include Expansive Space Trees (EST) and Sampling-based Roadmap of Trees (SRT). The latter combines the main features of multiple-query algorithms such as PRM with those of single-query algorithms such as RRT and EST.
+
+### Optimal Motion Planning
+
+In most applications, the quality of the solution returned by a motion planning algorithm is important. For example, one may be interested in solution paths of minimum cost, with respect to a given cost functional, such as the length of a path, or the time required to execute it. The problem of computing optimal motion plans has been proven in Canny and Reif to be very challenging even in basic cases.
+
+In the context of sampling-based motion planning algorithms, the importance of computing optimal solutions has been pointed out in early seminal papers. However, optimality properties of sampling-based motion planning algorithms have not been systematically investigated, and most of the relevant work relies on heuristics. For example, in many field implementations of sampling-based planning algorithms, it is often the case that since a feasible path is found quickly, additional available computation time is devoted to improving the solution with heuristics until the solution is executed. Urmson and Simmons proposed heuristics to bias the tree growth in RRT towards those regions that result in low-cost solutions. They have also shown experimental results evaluating the performance of different heuristics in terms of the quality of the solution returned. Ferguson and Stentz considered running the RRT algorithm multiple times in order to progressively improve the quality of the solution. They showed that each run of the algorithm results in a path with smaller cost, even though the procedure is not guaranteed to converge to an optimal solution. Criteria for restarting multiple RRT runs, in a different context, were also proposed in Wedge and Branicky. A more recent approach is the transition-based RRT (T-RRT) designed to combine rapid exploration properties of the RRT with stochastic global optimization methods.
+
+A different approach that also offers optimality guarantees is based on graph search algorithms, such as A^∗^, applied over a finite discretization (based, e.g., on a grid, or a cell decomposition of the configuration space) that is generated offline. Recently, these algorithms received a large amount of attention. In particular, they were extended to run in an anytime fashion, deal with dynamic environments, and handle systems with differential constraints. These have also been successfully demonstrated on various robotic platforms. However, optimality guarantees of these algorithms are only ensured up to the grid resolution. Moreover, since the number of grid points grows exponentially with the dimensionality of the state space, so does the (worst-case) running time of these algorithms.
+
+### Statement of Contributions
+
+To the best of the author's knowledge, this paper provides the first systematic and thorough analysis of optimality and complexity properties of the major paradigms for sampling-based path planning algorithms, for multiple- or single-query applications, and introduces the first algorithms that are both asymptotically optimal and computationally efficient, with respect to other algorithms in this class. A summary of the contributions can be found below, and is shown in Table 1.
+
+As a first set of results, it is proven that the standard PRM and RRT algorithms are not asymptotically optimal, and that the "simplified" PRM algorithm is asymptotically optimal, but computationally expensive. Moreover, it is shown that the $k$-nearest variant of the (simplified) PRM algorithm is not necessarily probabilistically complete (e.g., it is not probabilistically complete for $k = 1$), and is not asymptotically optimal for any fixed $k$.
+
+In order to address the limitations of sampling-based path planning algorithms available in the literature, new algorithms are proposed, i.e., PRM^∗^, RRG, and RRT^∗^, and proven to be probabilistically complete, asymptotically optimal, and computationally efficient. Of these, PRM^∗^ is a batch variable-radius PRM, applicable to multiple-query problems, in which the radius is scaled with the number of samples in a way that provably ensures both asymptotic optimality and computational efficiency. RRG is an incremental algorithm that builds a connected roadmap, providing similar performance to PRM^∗^ in a single-query setting, and in an anytime fashion (i.e., a first solution is provided quickly, and monotonically improved if more computation time is available). The RRT^∗^ algorithm is a variant of RRG that incrementally builds a tree, providing anytime solutions, provably converging to an optimal solution, with minimal computational and memory requirements.
+
+Table 1: Summary of results. Time and space complexity are expressed as a function of the number of samples n, for a fixed environment.
+
+In this paper, the problem of planning a path through a connected bounded subset of a $d$-dimensional Euclidean space is considered. As in the early seminal papers on incremental sampling-based motion planning algorithms such as Kuffner and LaValle, no differential constraints are considered (i.e., the focus of the paper is on path planning problems), but our methods can be easily extended to planning in configuration spaces and applied to several practical problems of interest. The extension to systems with differential constraints is deferred to future work (see Karaman and Frazzoli for preliminary results).
+
+Finally, the results presented in this article, and the techniques used in the analysis of the algorithms, hinge on novel connections established between sampling-based path planning algorithms in robotics and the theory of random geometric graphs, which may be of independent interest.
+
+A preliminary version of this article has appeared in Karaman and Frazzoli. Since then a variety of new algorithms based on the the ideas behind PRM^∗^, RRG, and RRT^∗^ have been proposed in the literature. For instance, a probabilistically complete and probabilistically sound algorithm for solving a class of differential games has appeared in Karaman and Frazzoli. Algorithms based on the RRG were used to solve belief-space planning problems in Bry and Roy. The RRT^∗^ algorithm was used for anytime motion planning in Karaman et al., where it was also demonstrated experimentally on a full-size robotic fork truck. In Alterovitz et al., the analysis given in Karaman and Frazzoli was used to guarantee computational efficiency and asymptotic optimality of a new algorithm that can trade off between exploration and optimality during planning.
+
+A software library implementing the new algorithms introduced in this paper has been released as open-source software by the authors, and is currently available at [http://ares.lids.mit.edu/software/](http://ares.lids.mit.edu/software/)
+
+### Paper Organization
+
+This paper is organized as follows. Section 2 lays the ground in terms of notation and problem formulation. Section 3 is devoted to the discussion of the algorithms that are considered in the paper: first, the main paradigms for sampling-based motion planning algorithms available in the literature are presented, together with their main variants. Then, the new proposed algorithms are presented and motivated. In Section 4 the properties of these algorithms are rigorously analyzed, formally establishing their probabilistic completeness and asymptotically optimality (or lack thereof), as well as their computational complexity as a function of the number of samples and of the number of obstacles in the environment. Experimental results are presented in Section 5, to illustrate and validate the theoretical findings. Finally, Section 6 contains conclusions and perspectives for future work. In order not to excessively disrupt the flow of the presentation, a summary of notation used throughout the paper, as well as lengthy proofs of important results are presented in the Appendix.
+
+## Preliminary Material
+
+This section contains some preliminary material that will be necessary for the discussion in the remainder of the paper. Namely, the problems of feasible and optimal motion planning is introduced, and some important results from the theory of random geometric graphs are summarized. The notation used in the paper is summarized in Appendix A.
+
+### Problem Formulation
+
+In this section, the feasible and optimal path planning problems are formalized.
+
+Let $\mathcal{X} = {}^{d}$ be the *configuration space*, where $d \in {\mathbb{N}}$, $d \geq 2$. Let $\mathcal{X}_{obs}$ be the obstacle region, such that $\mathcal{X} \smallsetminus \mathcal{X}_{obs}$ is an open set, and denote the obstacle-free space as $\mathcal{X}_{free} = {{cl}{({\mathcal{X} \smallsetminus \mathcal{X}_{obs}})}}$, where ${cl}{( \cdot )}$ denotes the closure of a set. The initial condition $x_{init}$ is an element of $\mathcal{X}_{free}$, and the goal region $\mathcal{X}_{goal}$ is an open subset of $\mathcal{X}_{free}$. A path planning problem is defined by a triplet $(\mathcal{X}_{free},x_{init},\mathcal{X}_{goal})$.
+
+Let $\sigma:{{\lbrack 0,1\rbrack}\rightarrow{\mathbb{R}}^{d}}$; the total variation of $\sigma$ is defined as
+
+A function $\sigma$ with ${{TV}{(\sigma)}} < \infty$ is said to have bounded variation.
+
+### Definition 1 (Path)
+
+A function $\sigma:{{\lbrack 0,1\rbrack}\rightarrow{\mathbb{R}}^{d}}$ of bounded variation is called a
+
+*Collision-free path*, if it is a path, and ${\sigma{(\tau)}} \in \mathcal{X}_{free}$, for all $\tau \in {\lbrack 0,1\rbrack}$;
+
+*Feasible path*, if it is a collision-free path, ${\sigma{}} = x_{init}$, and ${\sigma{}} \in {{cl}{(\mathcal{X}_{goal})}}$.
+
+The total variation of a path is essentially its length, i.e., the Euclidean distance traversed by the path in ${\mathbb{R}}^{d}$. The feasibility problem of path planning is to find a feasible path, if one exists, and report failure otherwise:
+
+### Problem 2 (Feasible path planning)
+
+Given a path planning problem $(\mathcal{X}_{free},x_{init},\mathcal{X}_{goal})$, find a feasible path $\sigma:{{\lbrack 0,1\rbrack}\rightarrow\mathcal{X}_{free}}$ such that ${\sigma{}} = x_{init}$ and ${\sigma{}} \in {{cl}{(\mathcal{X}_{goal})}}$, if one exists. If no such path exists, report failure.
+
+Let $\Sigma$ denote the set of all paths, and $\Sigma_{free}$ the set of all collision-free paths. Given two paths ${\sigma_{1},\sigma_{2}} \in \Sigma$, such that ${\sigma_{1}{}} = {\sigma_{2}{}}$, let $\left. \sigma_{1} \middle| \sigma_{2} \right. \in \Sigma$ denote their concatenation, i.e., ${{(\left. \sigma_{1} \middle| \sigma_{2} \right.)}{(\tau)}}:={\sigma_{1}{({2\tau})}}$ for all $\tau \in {\lbrack 0,{1/2}\rbrack}$ and ${{(\left. \sigma_{1} \middle| \sigma_{2} \right.)}{(\tau)}}:={\sigma_{2}{({{2\tau} - 1})}}$ for all $\tau \in {({1/2},1\rbrack}$. Both $\Sigma$ and $\Sigma_{free}$ are closed under concatenation. Let $c:{\Sigma\rightarrow R_{\geq 0}}$ be a function, called the cost function, which assigns a strictly positive cost to all non-trivial collision-free paths (i.e., ${c{(\sigma)}} = 0$ if and only if ${{\sigma{(\tau)}} = {\sigma{}}},{{\forall\tau} \in {\lbrack 0,1\rbrack}}$). The cost function is assumed to be monotonic, in the sense that for all ${\sigma_{1},\sigma_{2}} \in \Sigma$, ${c{(\sigma_{1})}} \leq {c{(\left. \sigma_{1} \middle| \sigma_{2} \right.)}}$, and bounded, in the sense that there exists $k_{c}$ such that ${c{(\sigma)}} \leq {k_{c}{TV}{(\sigma)}}$, ${\forall\sigma} \in \Sigma$.
+
+The optimality problem of path planning asks for finding a feasible path with minimum cost:
+
+### Problem 3 (Optimal path planning)
+
+Given a path planning problem $(\mathcal{X}_{free},x_{init},\mathcal{X}_{goal})$ and a cost function $c:{\Sigma\rightarrow{\mathbb{R}}_{\geq 0}}$, find a feasible path $\sigma^{\ast}$ such that ${c{(\sigma^{\ast})}} = {\min{\{{{c{(\sigma)}}:{\sigma\text{~is feasible}}}\}}}$. If no such path exists, report failure.
+
+### Random Geometric Graphs
+
+The objective of this section is to summarize some of the results on random geometric graphs that are available in the literature, and are relevant to the analysis of sampling-based path planning algorithms. In the remainder of this article, several connections are made between the theory of random geometric graphs and path-planning algorithms in robotics, providing insight on a number of issues, including, e.g., probabilistic completeness and asymptotic optimality, as well as technical tools to analyze the algorithms and establish their properties. In fact, it turns out that the data structures constructed by most sampling-based motion planning algorithms in the literature coincide, in the absence of obstacles, with standard models of random geometric graphs.
+
+Random geometric graphs are in general defined as stochastic collections of points in a metric space, connected pairwise by edges if certain conditions (e.g., on the distance between the points) are satisfied. Such objects have been studied since their introduction by Gilbert; see, e.g., Penrose and Balister et al. for an overview of recent results. From the theoretical point of view, the study of random geometric graphs makes a connection between random graphs and percolation theory. On the application side, in recent years, random geometric graphs have attracted significant attention as models of ad hoc wireless networks.
+
+Much of the literature on random geometric graphs deals with infinite graphs defined on unbounded domains, with vertices generated as a homogeneous Poisson point process. Recall that a Poisson random variable of parameter $\lambda \in {\mathbb{R}}_{> 0}$ is an integer-valued random variable ${{Poisson}{(\lambda)}}:{\Omega\rightarrow{\mathbb{N}}_{0}}$ such that ${{\mathbb{P}}{({{{Poisson}{(\lambda)}} = k})}} = {{e^{- \lambda}\lambda^{k}}/{k!}}$. A homogeneous Poisson point process of intensity $\lambda$ on ${\mathbb{R}}^{d}$ is a random countable set of points $\mathcal{P}_{\lambda}^{d} \subset {\mathbb{R}}^{d}$ such that, for any disjoint measurable sets ${\mathcal{S}_{1},\mathcal{S}_{2}} \subset {\mathbb{R}}^{d}$, ${\mathcal{S}_{1} \cap \mathcal{S}_{2}} = \varnothing$, the numbers of points of $\mathcal{P}_{\lambda}^{d}$ in each set are independent Poisson variables, i.e., ${{card}\left( {\mathcal{P}_{\lambda}^{d} \cap \mathcal{S}_{1}} \right)} = {{Poisson}{({\mu{(\mathcal{S}_{1})}\lambda})}}$ and ${{card}\left( {\mathcal{P}_{\lambda}^{d} \cap \mathcal{S}_{2}} \right)} = {{Poisson}{({\mu{(\mathcal{S}_{2})}\lambda})}}$. In particular, the intensity of a homogeneous Poisson point process can be interpreted as the expected number of points generated in the unit cube, i.e., ${{\mathbb{E}}{({{card}\left( {\mathcal{P}_{\lambda}^{d} \cap {}^{d}} \right)})}} = {{\mathbb{E}}{({{Poisson}{(\lambda)}})}} = \lambda$.
+
+Perhaps the most studied model of infinite random geometric graph is the following, introduced in Gilbert, and often called Gilbert's disc model, or Boolean model:
+
+### Definition 4 (Infinite random $r$-disc graph)
+
+Let ${\lambda,r} \in {\mathbb{R}}_{> 0}$, and $d \in {\mathbb{N}}$. An infinite random $r$-disc graph $G_{\infty}^{disc}{(\lambda,r)}$ in $d$ dimensions is an infinite graph with vertices ${\{ X_{i}\}}_{i \in {\mathbb{N}}} = \mathcal{P}_{\lambda}^{d}$, and such that $(X_{i},X_{j})$, ${i,j} \in {\mathbb{N}}$, is an edge if and only if ${\|{X_{i} - X_{j}}\|} < r$.
+
+A fundamental issue in infinite random graphs is whether the graph contains an infinite connected component, with non-zero probability. If it does, the random graph is said to percolate. Percolation is an important paradigm in statistical physics, with many applications in disparate fields such as material science, epidemiology, and microchip manufacturing, just to name a few.
+
+Consider the infinite random $r$-disc graph, for $r = 1$, i.e., $G_{\infty}^{disc}{(\lambda,1)}$, and assume, without loss of generality, that the origin is one of the vertices of this graph. Let $p_{k}{(\lambda)}$ denote the probability that the connected component of $G_{\infty}^{disc}{(\lambda,1)}$ containing the origin contains $k$ vertices, and define $p_{\infty}{(\lambda)}$ as ${p_{\infty}{(\lambda)}} = {1 - {\sum_{k = 1}^{\infty}{p_{k}{(\lambda)}}}}$. The function $p_{\infty}:{\lambda\rightarrow{p_{\infty}{(\lambda)}}}$ is monotone, and ${p_{\infty}{}} = 0$ and ${\lim_{\lambda\rightarrow\infty}{p_{\infty}{(\lambda)}}} = 1$. A key result in percolation theory is that there exists a non-zero critical intensity $\lambda_{c}$ defined as $\lambda_{c}:={\sup{\{\lambda:{{p_{\infty}{(\lambda)}} = 0}\}}}$. In other words, for all $\lambda > \lambda_{c}$, there is a non-zero probability that the origin is in an infinite connected component of $G_{\infty}^{disc}{(\lambda,1)}$; moreover, under these conditions, the graph has precisely one infinite connected component, almost surely. The function $p_{\infty}$ is continuous for all $\lambda \neq \lambda_{c}$: in other words, the graph undergoes a phase transition at the critical density $\lambda_{c}$, often also called the continuum percolation threshold. The exact value of $\lambda_{c}$ is not known; Meester and Roy provide $0.696 < \lambda_{c} < 3.372$ for $d = 2$, and simulations suggest that $\lambda_{c} \approx 1.44$.
+
+For many applications, including the ones in this article, models of finite graphs on a bounded domain are more relevant. Penrose introduced the following model:
+
+### Definition 5 (Random $r$-disc graph)
+
+Let $r \in {\mathbb{R}}_{> 0}$, and ${n,d} \in {\mathbb{N}}$. A random $r$-disc graph $G^{disc}{(n,r)}$ in $d$ dimensions is a graph whose $n$ vertices, $\{ X_{1},X_{2},\ldots,X_{n}\}$, are independent, uniformly distributed random variables in ${}^{d}$, and such that $(X_{i},X_{j})$, ${i,j} \in {\{ 1,\ldots,n\}}$, $i \neq j$, is an edge if and only if ${\|{X_{i} - X_{j}}\|} < r$.
+
+For finite random geometric graph models, one is typically interested in whether a random geometric graph possesses certain properties asymptotically as $n$ increases. Since the number of vertices is finite in random graphs, percolation can not be defined easily. In this case, percolation is studied in terms of the scaling of the number of vertices in the largest connected component with respect to the total number of vertices; in particular, a finite random geometric graph is said to percolate if it contains a "giant" connected component containing at least a constant fraction of all the nodes. As in the infinite case, percolation in finite random geometric graphs is often a phase transition phenomenon. In the case of random $r$-disc graphs,
+
+### Theorem 6 (Percolation of random $r$-disc graphs (Penrose, 2003))
+
+Let $G^{disc}{(n,r)}$ be a random $r$-disc graph in $d \geq 2$ dimensions, and let $N_{\max}{({G^{disc}{(n,r)}})}$ be the number of vertices in its largest connected component. Then, almost surely,
+
+where $\lambda_{c}$ is the continuum percolation threshold.
+
+A random $r$-disc graph with ${\lim_{n\rightarrow\infty}{nr_{n}^{d}}} = \lambda \in {(0,\infty)}$ is said to operate in the thermodynamic limit. It is said to be in subcritical regime when $\lambda < \lambda_{c}$ and supercritical regime when $\lambda > \lambda_{c}$.
+
+Another property of interest is connectivity. Clearly, connectivity implies percolation. Interestingly, emergence of connectivity in random geometric graphs is a phase transition phenomenon, as percolation. The following result is available in the literature:
+
+### Theorem 7 (Connectivity of random $r$-disc graphs (Penrose, 2003))
+
+Let $G^{disc}{(n,r)}$ be a random $r$-disc graph in $d$ dimensions. Then,
+
+where $\zeta_{d}$ is the volume of the unit ball in $d$ dimensions.
+
+Another model of random geometric graphs considers edges between $k$ nearest neighbors. (Note that there are no ties, almost surely.) Both infinite and finite models are considered, as follows.
+
+### Definition 8 (Infinite random $k$-nearest neighbor graph)
+
+Let $\lambda \in {\mathbb{R}}_{> 0}$, and ${d,k} \in {\mathbb{N}}$. An infinite random $k$-nearest neighbor graph $G_{\infty}^{near}{(\lambda,k)}$ in $d$ dimensions is an infinite graph with vertices ${\{ X_{i}\}}_{i \in {\mathbb{N}}} = \mathcal{P}_{\lambda}^{d}$, and such that $(X_{i},X_{j})$, ${i,j} \in {\mathbb{N}}$, is an edge if $X_{j}$ is among the $k$ nearest neighbors of $X_{i}$, or if $X_{i}$ is among the $k$ nearest neighbors of $X_{j}$.
+
+### Definition 9 (Random $k$-nearest neighbor graph)
+
+Let ${d,k,n} \in {\mathbb{N}}$. A random $k$-nearest neighbor graph $G^{near}{(n,k)}$ in $d$ dimensions is a graph whose $n$ vertices, $\{ X_{1},X_{2},\ldots,X_{n}\}$, are independent, uniformly distributed random variables in ${}^{d}$, and such that $(X_{i},X_{j})$, ${i,j} \in {\{ 1,\ldots,n\}}$, $i \neq j$, is an edge if $X_{j}$ is among the $k$ nearest neighbors of $X_{i}$, or if $X_{i}$ is among the $k$ nearest neighbors of $X_{j}$.
+
+Percolation and connectivity for random $k$-nearest neighbor graphs exhibit phase transition phenomena, as in the random $r$-disc case. However, the results available in the literature are more limited. Results on percolation are only available for infinite graphs:
+
+### Theorem 10 (Percolation in infinite random $k$-nearest graphs (Balister et al., 2009a))
+
+Let $G_{\infty}^{near}{(\lambda,k)}$ be an infinite random $k$-nearest neighbor graph in $d \geq 2$ dimensions. Then, there exists a constant $k_{d}^{p} > 0$ such that
+
+The value of $k_{d}^{p}$ is not known. However, it is believed that $k_{2}^{p} = 3$, and $k_{d}^{p} = 2$ for all $d \geq 3$. It is known that percolation does not occur for $k = 1$.
+
+Regarding connectivity of random $k$-nearest neighbor graphs, the only available results in the literature are not stated in terms of a given number of vertices: rather, the results are stated in terms of the restriction of a homogeneous Poisson point process to the unit cube. In other words, the vertices of the graph are obtained as ${\{ X_{1},X_{2},\ldots\}} = {\mathcal{P}_{\lambda}^{d} \cap {}^{d}}$. This is equivalent to setting the number of vertices as a Poisson random variable of parameter $n$, and then sampling the ${Poisson}{(n)}$ vertices independently and uniformly in ${}^{d}$:
+
+### Lemma 11 (Stoyan et al. (1995))
+
+Let ${\{ X_{i}\}}_{i \in {\mathbb{N}}}$ be a sequence of points drawn independently and uniformly from $\mathcal{S} \subseteq \mathcal{X}$. Let ${Poisson}{(n)}$ be a Poisson random variable with parameter $n$. Then, $\{ X_{1},X_{2},\ldots,X_{{Poisson}{(n)}}\}$ is the restriction to $\mathcal{S}$ of a homogeneous Poisson point process with intensity ${n/\mu}{(\mathcal{S})}$.
+
+The main advantage in using such a model to generate the vertices of a random geometric graph is independence: in the Poisson case, the numbers of points in any two disjoint measurable regions ${\mathcal{S}_{1},\mathcal{S}_{2}} \subset {\lbrack 0,1\rbrack}^{d}$, ${\mathcal{S}_{1} \cap \mathcal{S}_{2}} = \varnothing$, are independent Poisson random variables, with mean $\mu{(\mathcal{S}_{1})}\lambda$ and $\mu{(\mathcal{S}_{2})}\lambda$, respectively. These two random variables would not be independent if the total number of vertices were fixed a priori (also called a binomial point process). With some abuse of notation, such a random geometric graph model will be indicated as $G^{near}{({{Poisson}{(n)}},k)}$.
+
+### Theorem 12 (Connectivity of random $k$-nearest graphs (Balister et al., 2009b; Xue and Kumar, 2004))
+
+Let $G^{near}{({{Poisson}{(n)}},k)}$ indicate a $k$-nearest neighbor graph model in $d = 2$ dimensions, such that its vertices are generated using a Poisson point process of intensity $n$. Then, there exists a constant $k_{2}^{c} > 0$ such that
+
+The value of $k_{2}^{c}$ is not known; the current best estimate is $0.3043 \leq k_{2}^{c} \leq 0.5139$.
+
+Finally, the last model of random geometric graph that will be relevant for the analysis of the algorithms in this paper is the following:
+
+### Definition 13 (Online nearest neighbor graph)
+
+Let ${d,n} \in {\mathbb{N}}$. An online nearest neighbor graph $G^{ONN}{(n)}$ in $d$ dimensions is a graph whose $n$ vertices, $(X_{1},X_{2},\ldots,X_{n})$, are independent, uniformly distributed random variables in ${}^{d}$, and such that $(X_{i},X_{j})$, ${i,j} \in {\{ 1,\ldots,n\}}$, $j > 1$, is an edge if and only if ${\|{X_{i} - X_{j}}\|} = {\min_{1 \leq k < j}{\|{X_{k} - X_{j}}\|}}$.
+
+Clearly, the online nearest neighbor graph is connected by construction, and trivially percolates. Recent results for this random geometric graph model include estimates of the total power-weighted edge length and an analysis of the vertex degree distribution, see, e.g., Wade.
+
+## Algorithms
+
+In this section, a number of sampling-based motion planning algorithms are introduced. First, some common primitive procedures are defined. Then, the PRM and the RRT algorithms are outlined, as they are representative of the major paradigms for sampling-based motion planning algorithms in the literature. Then, new algorithms, namely PRM^∗^ and RRT^∗^, are introduced, as asymptotically optimal and computationally efficient versions of their "standard" counterparts.
+
+### Primitive Procedures
+
+Before discussing the algorithms, it is convenient to introduce the primitive procedures that they rely on.
+
+### Sampling
+
+Let ${\mathtt{S}\mathtt{a}\mathtt{m}\mathtt{p}\mathtt{l}\mathtt{e}}:{\omega\mapsto{\{{{\mathtt{S}\mathtt{a}\mathtt{m}\mathtt{p}\mathtt{l}\mathtt{e}}_{i}{(\omega)}}\}}_{i \in {\mathbb{N}}_{0}} \subset \mathcal{X}}$ be a map from $\Omega$ to sequences of points in $\mathcal{X}$, such that the random variables ${\mathtt{S}\mathtt{a}\mathtt{m}\mathtt{p}\mathtt{l}\mathtt{e}}_{i}$, $i \in {\mathbb{N}}_{0}$, are independent and identically distributed (i.i.d.). For simplicity, the samples are assumed to be drawn from a uniform distribution, even though results extend naturally to any absolutely continuous distribution with density bounded away from zero on $\mathcal{X}$. It is convenient to consider another map, ${\mathtt{S}\mathtt{a}\mathtt{m}\mathtt{p}\mathtt{l}\mathtt{e}\mathtt{F}\mathtt{r}\mathtt{e}\mathtt{e}}:{\omega\mapsto{\{{{\mathtt{S}\mathtt{a}\mathtt{m}\mathtt{p}\mathtt{l}\mathtt{e}\mathtt{F}\mathtt{r}\mathtt{e}\mathtt{e}}_{i}{(\omega)}}\}}_{i \in {\mathbb{N}}_{0}} \subset \mathcal{X}_{free}}$ that returns sequences of i.i.d. samples from $\mathcal{X}_{free}$. For each $\omega \in \Omega$, the sequence ${\{{{\mathtt{S}\mathtt{a}\mathtt{m}\mathtt{p}\mathtt{l}\mathtt{e}\mathtt{F}\mathtt{r}\mathtt{e}\mathtt{e}}_{i}{(\omega)}}\}}_{i \in {\mathbb{N}}_{0}}$ is the subsequence of ${\{{{\mathtt{S}\mathtt{a}\mathtt{m}\mathtt{p}\mathtt{l}\mathtt{e}}_{i}{(\omega)}}\}}_{i \in {\mathbb{N}}_{0}}$ containing only the samples in $\mathcal{X}_{free}$, i.e., ${\{{{\mathtt{S}\mathtt{a}\mathtt{m}\mathtt{p}\mathtt{l}\mathtt{e}\mathtt{F}\mathtt{r}\mathtt{e}\mathtt{e}}_{i}{(\omega)}}\}}_{i \in {\mathbb{N}}_{0}} = {{\{{{\mathtt{S}\mathtt{a}\mathtt{m}\mathtt{p}\mathtt{l}\mathtt{e}}_{i}{(\omega)}}\}}_{i \in {\mathbb{N}}_{0}} \cap \mathcal{X}_{free}}$.
+
+### Nearest Neighbor
+
+Given a graph $G = {(V,E)}$, where $V \subset \mathcal{X}$, a point $x \in \mathcal{X}$, the function ${\mathtt{N}\mathtt{e}\mathtt{a}\mathtt{r}\mathtt{e}\mathtt{s}\mathtt{t}}:{{(G,x)}\mapsto v \in V}$ returns the vertex in $V$ that is "closest" to $x$ in terms of a given distance function. In this paper, the Euclidean distance is used (see, e.g., LaValle and Kuffner for alternative choices), and hence
+
+A set-valued version of this function is also considered, ${\mathtt{k}\mathtt{N}\mathtt{e}\mathtt{a}\mathtt{r}\mathtt{e}\mathtt{s}\mathtt{t}}:{{(G,x,k)}\mapsto{\{ v_{1},v_{2},\ldots,v_{k}\}}}$, returning the $k$ vertices in $V$ that are nearest to $x$, according to the same distance function as above. (By convention, if the cardinality of $V$ is less than $k$, then the function returns $V$.)
+
+### Near Vertices
+
+Given a graph $G = {(V,E)}$, where $V \subset \mathcal{X}$, a point $x \in \mathcal{X}$, and a positive real number $r \in {\mathbb{R}}_{> 0}$, the function ${\mathtt{N}\mathtt{e}\mathtt{a}\mathtt{r}}:{{(G,x,r)}\mapsto V^{\prime} \subseteq V}$ returns the vertices in $V$ that are contained in a ball of radius $r$ centered at $x$, i.e.,
+
+### Steering
+
+Given two points ${x,y} \in \mathcal{X}$, the function ${\mathtt{S}\mathtt{t}\mathtt{e}\mathtt{e}\mathtt{r}}:{{(x,y)}\mapsto z}$ returns a point $z \in \mathcal{X}$ such that $z$ is "closer" to $y$ than $x$ is. Throughout the paper, the point $z$ returned by the function $\mathtt{S}\mathtt{t}\mathtt{e}\mathtt{e}\mathtt{r}$ will be such that $z$ minimizes $\|{z - y}\|$ while at the same time maintaining ${\|{z - x}\|} \leq \eta$, for a prespecified $\eta > 0$,^11^1This steering procedure is used widely in the robotics literature, since its introduction in Kuffner and LaValle. Our results also extend to the Rapidly-exploring Random Dense Trees, which are slightly modified versions of the RRTs that do not require tuning any prespecified parameters such as $\eta$ in this case. i.e.,
+
+### Collision Test
+
+Given two points ${x,x^{\prime}} \in \mathcal{X}$, the Boolean function ${\mathtt{C}\mathtt{o}\mathtt{l}\mathtt{l}\mathtt{i}\mathtt{s}\mathtt{i}\mathtt{o}\mathtt{n}\mathtt{F}\mathtt{r}\mathtt{e}\mathtt{e}}{(x,x^{\prime})}$ returns $\mathtt{T}\mathtt{r}\mathtt{u}\mathtt{e}$ if the line segment between $x$ and $x^{\prime}$ lies in $\mathcal{X}_{free}$, i.e., ${\lbrack x,x^{\prime}\rbrack} \subset \mathcal{X}_{free}$, and $\mathtt{F}\mathtt{a}\mathtt{l}\mathtt{s}\mathtt{e}$ otherwise.
+
+### Existing Algorithms
+
+Next, some of the sampling-based algorithms available in the literature are outlined. For convenience, inputs and outputs of the algorithms are not shown explicitly, but are as follows. All algorithms take as input a path planning problem $(\mathcal{X}_{free},x_{init},\mathcal{X}_{goal})$, an integer $n \in {\mathbb{N}}$, and a cost function $c:{\Sigma\rightarrow{\mathbb{R}}_{\geq 0}}$, if appropriate. These inputs are shared with functions and procedures called within the algorithms. All algorithms return a graph $G = {(V,E)}$, where $V \subset \mathcal{X}_{free}$, ${{card}(V)} \leq {n + 1}$, and $E \in {V \times V}$. The solution of the path planning problem can be easily computed from such a graph, e.g., using standard shortest-path algorithms.
+
+### Probabilistic RoadMaps (PRM)
+
+The Probabilistic RoadMaps algorithm is primarily aimed at multi-query applications. In its basic version, it consists of a pre-processing phase, in which a roadmap is constructed by attempting connections among $n$ randomly-sampled points in $\mathcal{X}_{free}$, and a query phase, in which paths connecting initial and final conditions through the roadmap are sought. "Expansion" heuristics for enhancing the roadmap's connectivity are available in the literature but have no impact on the analysis in this paper, and will not be discussed.
+
+The pre-processing phase, outlined in Algorithm 1: ‣ 3.2 Existing Algorithms ‣ 3 Algorithms ‣ Sampling-based Algorithms for Optimal Motion Planning"), begins with an empty graph. At each iteration, a point $x_{rand} \in \mathcal{X}_{free}$ is sampled, and added to the vertex set $V$. Then, connections are attempted between $x_{rand}$ and other vertices in $V$ within a ball of radius $r$ centered at $x_{rand}$, in order of increasing distance from $x_{rand}$, using a simple local planner (e.g., straight-line connection). Successful (i.e., collision-free) connections result in the addition of a new edge to the edge set $E$. To avoid unnecessary computations (since the focus of the algorithm is establishing connectivity), connections between $x_{rand}$ and vertices in the same connected component are avoided. Hence, the roadmap constructed by PRM is a forest, i.e., a collection of trees.
+
+6 foreach u ∈ U, in order of increasing ∥u − xrand∥, do
+7 if xrand and u are not in the same connected component of G = (V,E) then
+8 if CollisionFree (xrand,u) then E ← E ∪ {(xrand,u), (u,xrand)};
+Algorithm 1 PRM (preprocessing phase)
+
+Analysis results in the literature are only available for a "simplified" version of the PRM algorithm, referred to as sPRM in this paper. The simplified algorithm initializes the vertex set with the initial condition, samples $n$ points from $\mathcal{X}_{free}$, and then attempts to connect points within a distance $r$, i.e., using a similar logic as PRM, with the difference that connections between vertices in the same connected component are allowed. Notice that in the absence of obstacles, i.e., if $\mathcal{X}_{free} = \mathcal{X}$, the roadmap constructed in this way is a random $r$-disc graph.
+
+Practical implementation of the (s)PRM algorithm have often considered different choices for the set $U$ of vertices to which connections are attempted (i.e., line 1: ‣ 3.2 Existing Algorithms ‣ 3 Algorithms ‣ Sampling-based Algorithms for Optimal Motion Planning") in Algorithm 1: ‣ 3.2 Existing Algorithms ‣ 3 Algorithms ‣ Sampling-based Algorithms for Optimal Motion Planning"), and line 2: ‣ 3.2 Existing Algorithms ‣ 3 Algorithms ‣ Sampling-based Algorithms for Optimal Motion Planning") in Algorithm 2: ‣ 3.2 Existing Algorithms ‣ 3 Algorithms ‣ Sampling-based Algorithms for Optimal Motion Planning")). In particular, the following criteria are of particular interest:
+
+$k$-Nearest (s)PRM: Choose the nearest $k$ neighbors to the vertex under consideration, for a given $k$ (a typical value is reported as $k = 15$ ). In other words, $U\leftarrow{{\mathtt{k}\mathtt{N}\mathtt{e}\mathtt{a}\mathtt{r}\mathtt{e}\mathtt{s}\mathtt{t}}{({G = {{(V,E)},x_{rand},k}})}}$ in line 1: ‣ 3.2 Existing Algorithms ‣ 3 Algorithms ‣ Sampling-based Algorithms for Optimal Motion Planning") of Algorithm 1: ‣ 3.2 Existing Algorithms ‣ 3 Algorithms ‣ Sampling-based Algorithms for Optimal Motion Planning") and $U\leftarrow{{{\mathtt{k}\mathtt{N}\mathtt{e}\mathtt{a}\mathtt{r}\mathtt{e}\mathtt{s}\mathtt{t}}{({G = {{(V,E)},v,k}})}} \smallsetminus {\{ v\}}}$ in line 2: ‣ 3.2 Existing Algorithms ‣ 3 Algorithms ‣ Sampling-based Algorithms for Optimal Motion Planning") of Algorithm 2: ‣ 3.2 Existing Algorithms ‣ 3 Algorithms ‣ Sampling-based Algorithms for Optimal Motion Planning"). The roadmap constructed in this way in an obstacle-free environment is a random $k$-nearest graph.
+
+Bounded-degree (s)PRM: For any fixed $r$, the average number of connections attempted at each iteration is proportional to the number of vertices in $V$, and can result in an excessive computational burden for large $n$. To address this, an upper bound $k$ can be imposed on the cardinality of the set $U$ (a typical value is reported as $k = 20$ ). In other words, $U\leftarrow{{{\mathtt{N}\mathtt{e}\mathtt{a}\mathtt{r}}{(G,x_{rand},r)}} \cap {{\mathtt{k}\mathtt{N}\mathtt{e}\mathtt{a}\mathtt{r}\mathtt{e}\mathtt{s}\mathtt{t}}{(G,x_{rand},k)}}}$ in line 1: ‣ 3.2 Existing Algorithms ‣ 3 Algorithms ‣ Sampling-based Algorithms for Optimal Motion Planning") of Algorithm 1: ‣ 3.2 Existing Algorithms ‣ 3 Algorithms ‣ Sampling-based Algorithms for Optimal Motion Planning"), and $U\leftarrow{{({{{\mathtt{N}\mathtt{e}\mathtt{a}\mathtt{r}}{(G,v,r)}} \cap {{\mathtt{k}\mathtt{N}\mathtt{e}\mathtt{a}\mathtt{r}\mathtt{e}\mathtt{s}\mathtt{t}}{(G,v,k)}}})} \smallsetminus {\{ v\}}}$ in line 2: ‣ 3.2 Existing Algorithms ‣ 3 Algorithms ‣ Sampling-based Algorithms for Optimal Motion Planning") of Algorithm 2: ‣ 3.2 Existing Algorithms ‣ 3 Algorithms ‣ Sampling-based Algorithms for Optimal Motion Planning").
+
+Variable-radius (s)PRM: Another option to maintain the degree of the vertices in the roadmap small is to make the connection radius $r$ a function of $n$, as opposed to a fixed parameter. However, there are no clear indications in the literature on the appropriate functional relationship between $r$ and $n$.
+
+### Rapidly-exploring Random Trees (RRT)
+
+The Rapidly-exploring Random Tree algorithm is primarily aimed at single-query applications. In its basic version, the algorithm incrementally builds a tree of feasible trajectories, rooted at the initial condition. An outline of the algorithm is given in Algorithm 3: ‣ 3.2 Existing Algorithms ‣ 3 Algorithms ‣ Sampling-based Algorithms for Optimal Motion Planning"). The algorithm is initialized with a graph that includes the initial state as its single vertex, and no edges. At each iteration, a point $x_{rand} \in \mathcal{X}_{free}$ is sampled. An attempt is made to connect the nearest vertex $v \in V$ in the tree to the new sample. If such a connection is successful, $x_{rand}$ is added to the vertex set, and $(v,x_{rand})$ is added to the edge set. In the original version of this algorithm, the iteration is stopped as soon as the tree contains a node in the goal region. In this paper, for consistency with the other algorithms (e.g., PRM), the iteration is performed $n$ times. In the absence of obstacles, i.e., if $\mathcal{X}_{free} = \mathcal{X}$, the tree constructed in this way is an online nearest neighbor graph.
+
+4 xnearest ← Nearest (G=(V,E), xrand);
+5 xnew ← Steer (xnearest,xrand);
+6 if ObtacleFree (xnearest,xnew) then
+7 V ← V ∪ {xnew}; E ← E ∪ {(xnearest,xnew)};
+
+A variant of RRT consists of growing two trees, respectively rooted at the initial state, and at a state in the goal set. To highlight the fact that the sampling procedure must not necessarily be stochastic, the algorithm is also referred to as Rapidly-exploring Dense Trees (RDT).
+
+### Proposed algorithms
+
+In this section, the new algorithms considered in this paper are presented. These algorithms are proposed as asymptotically optimal and computationally efficient versions of their "standard" counterparts, as will be made clear through the analysis in the next section. Input and output data are the same as in the algorithms introduced in Section 3.2.
+
+### Optimal Probabilistic RoadMaps (PRM^∗^)
+
+In the standard PRM algorithm, as well as in its simplified "batch" version considered in this paper, connections are attempted between roadmap vertices that are within a fixed radius $r$ from one another. The constant $r$ is thus a parameter of PRM. The proposed algorithm---shown in Algorithm 4: ‣ 3.3 Proposed algorithms ‣ 3 Algorithms ‣ Sampling-based Algorithms for Optimal Motion Planning")---is similar to sPRM, with the only difference being that the connection radius $r$ is chosen as a function of $n$, i.e., $r = {r{(n)}}:={\gamma_{PRM}{({{\log{(n)}}/n})}^{1/d}}$, where $\gamma_{PRM} > \gamma_{PRM}^{\ast} = {2{({1 + {1/d}})}^{1/d}\left( {{\mu{(\mathcal{X}_{free})}}/\zeta_{d}} \right)^{1/d}}$, $d$ is the dimension of the space $\mathcal{X}$, $\mu{(\mathcal{X}_{free})}$ denotes the Lebesgue measure (i.e., volume) of the obstacle-free space, and $\zeta_{d}$ is the volume of the unit ball in the $d$-dimensional Euclidean space. Clearly, the connection radius decreases with the number of samples. The rate of decay is such that the average number of connections attempted from a roadmap vertex is proportional to $\log{(n)}$.
+
+Note that in the discussion of variable-radius PRM in LaValle, it is suggested that the radius be chosen as a function of sample dispersion. (Recall that the dispersion of a point set contained in a bounded set $\mathcal{S} \subset {\mathbb{R}}^{d}$ is the radius of the largest empty ball centered in $\mathcal{S}$.) Indeed, the dispersion of a set of $n$ random points sampled uniformly and independently in a bounded set is $O{({({{\log{(n)}}/n})}^{1/d})}$, which is precisely the rate at which the connection radius is scaled in the PRM^∗^ algorithm.
+
+3 U ← Near (G=(V,E), v, γPRM (log (n)/n)1/d) ∖ {v};
+
+Another version of the algorithm, called $k$-nearest PRM^∗^, can be considered, motivated by the $k$-nearest PRM implementation previously mentioned, whereby the number $k$ of nearest neighbors to be considered is not a constant, but is chosen as a function of the cardinality of the roadmap $n$. More precisely, ${k{(n)}}:={k_{PRM}{\log{(n)}}}$, where $k_{PRM} > k_{PRM}^{\ast} = {e{({1 + {1/d}})}}$, and $U\leftarrow{{{\mathtt{k}\mathtt{N}\mathtt{e}\mathtt{a}\mathtt{r}\mathtt{e}\mathtt{s}\mathtt{t}}{({G = {{(V,E)},v,{k_{PRM}{\log{(n)}}}}})}} \smallsetminus {\{ v\}}}$ in line 4: ‣ 3.3 Proposed algorithms ‣ 3 Algorithms ‣ Sampling-based Algorithms for Optimal Motion Planning") of Algorithm 4: ‣ 3.3 Proposed algorithms ‣ 3 Algorithms ‣ Sampling-based Algorithms for Optimal Motion Planning").
+
+Note that $k_{PRM}^{\ast}$ is a constant that only depends on $d$, and does not otherwise depend on the problem instance, unlike $\gamma_{PRM}^{\ast}$. Moreover, $k_{PRM} = {2e}$ is a valid choice for all problem instances.
+
+### Rapidly-exploring Random Graph (RRG)
+
+The Rapidly-exploring Random Graph algorithm was introduced as an incremental (as opposed to batch) algorithm to build a connected roadmap, possibly containing cycles. The RRG algorithm is similar to RRT in that it first attempts to connect the nearest node to the new sample. If the connection attempt is successful, the new node is added to the vertex set. However, RRG has the following difference. Every time a new point $x_{new}$ is added to the vertex set $V$, then connections are attempted from all other vertices in $V$ that are within a ball of radius ${r{({{card}(V)})}} = {\min{\{{\gamma_{RRG}{({{\log{({{card}(V)})}}/{{card}(V)}})}^{1/d}},\eta\}}}$, where $\eta$ is the constant appearing in the definition of the local steering function, and $\gamma_{RRG} > \gamma_{RRG}^{\ast} = {2{({1 + {1/d}})}^{1/d}\left( {{\mu{(\mathcal{X}_{free})}}/\zeta_{d}} \right)^{1/d}}$. For each successful connection, a new edge is added to the edge set $E$. Hence, it is clear that, for the same sampling sequence, the RRT graph (a directed tree) is a subgraph of the RRG graph (an undirected graph, possibly containing cycles). In particular, the two graphs share the same vertex set, and the edge set of the RRT graph is a subset of that of the RRG graph.
+
+4 xnearest ← Nearest (G=(V,E), xrand);
+5 xnew ← Steer (xnearest,xrand);
+6 if ObtacleFree (xnearest,xnew) then
+7 Xnear ← Near (G=(V,E), xnew, min {γRRG (log (card(V))/card(V))1/d, η});
+8 V ← V ∪ {xnew}; E ← E ∪ {(xnearest,xnew), (xnew,xnearest)};
+9 foreach xnear ∈ Xnear do
+10 if CollisionFree (xnear,xnew) then E ← E ∪ {(xnear,xnew), (xnew,xnear)}
+
+Another version of the algorithm, called $k$-nearest RRG, can be considered, in which connections are sought to $k$ nearest neighbors, with $k = {k{({{card}(V)})}}:={k_{RRG}{\log{({{card}(V)})}}}$, where $k_{RRG} > k_{RRG}^{\ast} = {e{({1 + {1/d}})}}$, and $X_{near}\leftarrow{{\mathtt{k}\mathtt{N}\mathtt{e}\mathtt{a}\mathtt{r}\mathtt{e}\mathtt{s}\mathtt{t}}{({G = {{(V,E)},x_{new},{k_{RRG}{\log{({{card}(V)})}}}}})}}$, in line 5: ‣ 3.3 Proposed algorithms ‣ 3 Algorithms ‣ Sampling-based Algorithms for Optimal Motion Planning") of Algorithm 5: ‣ 3.3 Proposed algorithms ‣ 3 Algorithms ‣ Sampling-based Algorithms for Optimal Motion Planning").
+
+Note that $k_{RRG}^{\ast}$ is a constant that depends only on $d$, and does not depend otherwise on the problem instance, unlike $\gamma_{RRG}^{\ast}$. Moreover, $k_{RRG} = {2e}$ is a valid choice for all problem instances.
+
+### Optimal RRT (RRT^∗^)
+
+Maintaining a tree structure rather than a graph is not only economical in terms of memory requirements, but may also be advantageous in some applications, due to, for instance, relatively easy extensions to motion planning problems with differential constraints, or to cope with modeling errors. The RRT^∗^ algorithm is obtained by modifying RRG in such a way that formation of cycles is avoided, by removing "redundant" edges, i.e., edges that are not part of a shortest path from the root of the tree (i.e., the initial state) to a vertex. Since the RRT and RRT^∗^ graphs are directed trees with the same root and vertex set, and edge sets that are subsets of that of RRG, this amounts to a "rewiring" of the RRT tree, ensuring that vertices are reached through a minimum-cost path.
+
+Before discussing the algorithm, it is necessary to introduce a few new functions. Given two points ${x_{1},x_{2}} \in {\mathbb{R}}^{d}$, let ${{\mathtt{L}\mathtt{i}\mathtt{n}\mathtt{e}}{(x_{1},x_{2})}}:{{\lbrack 0,s\rbrack}\rightarrow\mathcal{X}}$ denote the straight-line path from $x_{1}$ to $x_{2}$. Given a tree $G = {(V,E)}$, let ${\mathtt{P}\mathtt{a}\mathtt{r}\mathtt{e}\mathtt{n}\mathtt{t}}:{V\rightarrow V}$ be a function that maps a vertex $v \in V$ to the unique vertex $u \in V$ such that ${(u,v)} \in E$. By convention, if $v_{0} \in V$ is the root vertex of $G$, ${{\mathtt{P}\mathtt{a}\mathtt{r}\mathtt{e}\mathtt{n}\mathtt{t}}{(v_{0})}} = v_{0}$. Finally, let ${\mathtt{C}\mathtt{o}\mathtt{s}\mathtt{t}}:{V\rightarrow{\mathbb{R}}_{\geq 0}}$ be a function that maps a vertex $v \in V$ to the cost of the unique path from the root of the tree to $v$. For simplicity, in stating the algorithm we will assume an additive cost function, so that ${{\mathtt{C}\mathtt{o}\mathtt{s}\mathtt{t}}{(v)}} = {{{\mathtt{C}\mathtt{o}\mathtt{s}\mathtt{t}}{({{\mathtt{P}\mathtt{a}\mathtt{r}\mathtt{e}\mathtt{n}\mathtt{t}}{(v)}})}} + {c{({{\mathtt{L}\mathtt{i}\mathtt{n}\mathtt{e}}{({{\mathtt{P}\mathtt{a}\mathtt{r}\mathtt{e}\mathtt{n}\mathtt{t}}{(v)}},v)}})}}}$, although this is not necessary for the analysis in the next section. By convention, if $v_{0} \in V$ is the root vertex of $G$, then ${{\mathtt{C}\mathtt{o}\mathtt{s}\mathtt{t}}{(v_{0})}} = 0$.
+
+4 xnearest ← Nearest (G=(V,E), xrand);
+5 xnew ← Steer (xnearest,xrand);
+6 if ObtacleFree (xnearest,xnew) then
+7 Xnear ← Near (G=(V,E), xnew, min {γRRT* (log (card(V))/card(V))1/d, η});
+9 xmin ← xnearest; cmin ← Cost (xnearest) + c (Line (xnearest,xnew));
+10 foreach xnear ∈ Xnear do // Connect along a minimum-cost path
+11 if CollisionFree (xnear,xnew) ∧ Cost (xnear) + c (Line (xnear,xnew)) &lt; cmin then
+12 xmin ← xnear; cmin ← Cost (xnear) + c (Line (xnear,xnew))
+15 foreach xnear ∈ Xnear do // Rewire the tree
+16 if CollisionFree (xnew,xnear) ∧ Cost (xnew) + c (Line (xnew,xnear)) &lt; Cost (xnear) then xparent ← Parent (xnear);
+17 E ← (E∖{(xparent,xnear)}) ∪ {(xnew,xnear)}
+
+The RRT^∗^ algorithm, shown in Algorithm 6: ‣ 3.3 Proposed algorithms ‣ 3 Algorithms ‣ Sampling-based Algorithms for Optimal Motion Planning"), adds points to the vertex set $V$ in the same way as RRT and RRG. It also considers connections from the new vertex $x_{new}$ to vertices in $X_{near}$, i.e., other vertices that are within distance ${r{({{card}(V)})}} = {\min{\{{\gamma_{{RRT}^{\ast}}{({{\log{({{card}(V)})}}/{{card}(V)}})}^{1/d}},\eta\}}}$ from $x_{new}$. However, not all feasible connections result in new edges being inserted in the edge set $E$. In particular, (i) an edge is created from the vertex in $X_{near}$ that can be connected to $x_{new}$ along a path with minimum cost, and (ii) new edges are created from $x_{new}$ to vertices in $X_{near}$, if the path through $x_{new}$ has lower cost than the path through the current parent; in this case, the edge linking the vertex to its current parent is deleted, to maintain the tree structure.
+
+Another version of the algorithm, called $k$-nearest RRT^∗^, can be considered, in which connections are sought to $k$ nearest neighbors, with ${k{({{card}(V)})}} = {k_{RRG}{\log{({{card}(V)})}}}$, and $X_{near}\leftarrow{{\mathtt{k}\mathtt{N}\mathtt{e}\mathtt{a}\mathtt{r}\mathtt{e}\mathtt{s}\mathtt{t}}{({G = {{(V,E)},x_{new},{k_{RRG}{\log{(i)}}}}})}}$, in line 6: ‣ 3.3 Proposed algorithms ‣ 3 Algorithms ‣ Sampling-based Algorithms for Optimal Motion Planning") of Algorithm 6: ‣ 3.3 Proposed algorithms ‣ 3 Algorithms ‣ Sampling-based Algorithms for Optimal Motion Planning").
+
+## Analysis
+
+In this section, a number of results concerning the probabilistic completeness, asymptotic optimality, and complexity of the algorithms in Section 3 are presented.
+
+The return value of Algorithms 1: ‣ 3.2 Existing Algorithms ‣ 3 Algorithms ‣ Sampling-based Algorithms for Optimal Motion Planning")-6: ‣ 3.3 Proposed algorithms ‣ 3 Algorithms ‣ Sampling-based Algorithms for Optimal Motion Planning") is a graph. Since the sampling procedure $\mathtt{S}\mathtt{a}\mathtt{m}\mathtt{p}\mathtt{l}\mathtt{e}\mathtt{F}\mathtt{r}\mathtt{e}\mathtt{e}$ is stochastic, the returned graph is in fact a random variable.^22^2We will not address the case in which the sampling procedure is deterministic, but refer the reader to LaValle et al., which contains an in-depth discussion of the relative merits of randomness and determinism in sampling-based motion planning algorithms. Since the sampling procedure is modeled as a map from the sample space $\Omega$ to infinite sequences in $\mathcal{X}$, sets of vertices and edges of the graphs maintained by the algorithms can be defined as functions from the sample space $\Omega$ to appropriate sets. More precisely, let $ALG$ be a label indicating one of the algorithms in Section 3, and let ${\{{V_{i}^{ALG}{(\omega)}}\}}_{i \in {\mathbb{N}}}$ and ${\{{E_{i}^{ALG}{(\omega)}}\}}_{i \in {\mathbb{N}}}$ be, respectively, the sets of vertices and edges in the graph returned by algorithm $ALG$, indexed by the number of samples, for a particular realization of the sample sequence. (In other words, these are sequences of functions defined from $\Omega$ into finite subsets of $\mathcal{X}_{free}$ or $\mathcal{X}_{free} \times \mathcal{X}_{free}$.) Similarly, let $G_{i}^{ALG} = {(V_{i}^{ALG},E_{i}^{ALG})}$. (The label $ALG$ will be at times omitted when the algorithm being used is clear from the context.)
+
+All algorithms considered in the paper are sound, in the sense that they only return graphs with vertices and edges representing points and paths in $\mathcal{X}_{free}$.This statement can be easily verified by inspection of the algorithms in Section 3.
+
+### Probabilistic Completeness
+
+In this section, the feasibility problem is considered, and the (probabilistic) completeness properties of the algorithms in Section 3 are analyzed. First, some preliminary definitions are given, followed by a definition of probabilistic completeness. Then, completeness properties of various sampling-based motion planning algorithms are stated.
+
+Let $\delta > 0$ be a real number. A state $x \in \mathcal{X}_{free}$ is said to be a $\delta$-interior state of $\mathcal{X}_{free}$, if the closed ball of radius $\delta$ centered at $x$ lies entirely inside $\mathcal{X}_{free}$. The $\delta$-interior of $\mathcal{X}_{free}$, denoted as ${int}_{\delta}{(\mathcal{X}_{free})}$, is defined as the collection of all $\delta$-interior states, i.e., ${{int}_{\delta}{(\mathcal{X}_{free})}}:=\left. \{{x \in \mathcal{X}_{free}} \middle| {\mathcal{B}_{x,\delta} \subseteq \mathcal{X}_{free}}\} \right.$. In other words, the $\delta$-interior of $\mathcal{X}_{free}$ is the set of all states that are at least a distance $\delta$ away from any point in the obstacle set (see Figure 1). A collision-free path $\sigma:{{\lbrack 0,1\rbrack}\rightarrow\mathcal{X}_{free}}$ is said to have strong $\delta$-clearance, if $\sigma$ lies entirely inside the $\delta$-interior of $\mathcal{X}_{free}$, i.e., ${\sigma{(\tau)}} \in {{int}_{\delta}{(\mathcal{X}_{free})}}$ for all $\tau \in {\lbrack 0,1\rbrack}$. A path planning problem $(\mathcal{X}_{free},x_{init},\mathcal{X}_{goal})$ is said to be robustly feasible if there exists a path with strong $\delta$-clearance, for some $\delta > 0$, that solves it. In terms of the notation used in this paper, the notion of probabilistic completeness can be stated as follows.
+
+### Definition 14 (Probabilistic Completeness)
+
+An algorithm ALG is probabilistically complete, if, for any robustly feasible path planning problem $(\mathcal{X}_{free},x_{init},\mathcal{X}_{goal})$,
+
+If an algorithm is probabilistically complete, and the path planning problem is robustly feasible, the limit
+
+exists and is equal to 1. On the other hand, the same limit is equal to zero for any sampling-based algorithm (including probabilistically complete ones) if the problem is not robustly feasible, unless the samples are drawn from a singular distribution adapted to the problem.
+
+Figure 1: An illustration of the δ-interior of 𝒳free. The obstacle region 𝒳obs is shown in dark grey and the δ-interior of 𝒳free is shown in light grey. The distance between the dashed boundary of intδ (𝒳free) and the solid boundary of 𝒳free is precisely δ.
+
+It is known from the literature that the sPRM and RRT algorithms are probabilistically complete, and that the probability of finding a solution if one exists approaches one exponentially fast with the number of vertices in the graph returned by the algorithms. In other words,
+
+### Theorem 15 (Probabilistic completeness of sPRM (Kavraki et al., 1998))
+
+Consider a robustly feasible path planning problem $(\mathcal{X}_{free},x_{init},\mathcal{X}_{goal})$. There exist constants $a > 0$ and $n_{0} \in {\mathbb{N}}$, dependent only on $\mathcal{X}_{free}$ and $\mathcal{X}_{goal}$, such that
+
+### Theorem 16 (Probabilistic Completeness of RRT (LaValle and Kuffner, 2001))
+
+Consider a robustly feasible path planning problem $(\mathcal{X}_{free}$, $x_{init},\mathcal{X}_{goal})$. There exist constants $a > 0$ and $n_{0} \in {\mathbb{N}}$, both dependent only on $\mathcal{X}_{free}$ and $\mathcal{X}_{goal}$, such that
+
+On the other hand, the probabilistic completeness results do not necessarily extend to the heuristics used in practical implementations of the (s)PRM algorithm, as detailed in Section 3. For example, consider the $k$-nearest sPRM algorithm, where $k = 1$. That is, each vertex is connected to its nearest neighbor and the resulting undirected graph is returned as the output. This sPRM algorithm will be called the 1-nearest sPRM, and indicated with the label $1PRM$. The RRT algorithm can be thought of as the incremental version of the 1-nearest sPRM algorithm: the RRT algorithm also connects each sample to its nearest neighbor, but forces connectivity of the graph by an incremental construction. The following theorem shows that the 1-nearest sPRM algorithm is not probabilistically complete, although the RRT is (see Theorem 16) ‣ 4.1 Probabilistic Completeness ‣ 4 Analysis ‣ Sampling-based Algorithms for Optimal Motion Planning")). Furthermore, the probability that it fails to find a path converges to one as the number of samples approaches infinity.
+
+### Theorem 17 (Incompleteness of $k$-nearest sPRM for $k = 1$)
+
+The $k$-nearest sPRM algorithm is not probabilistically complete for $k = 1$. Furthermore,
+
+The proof of this theorem requires two intermediate results that are provided below. For simplicity of presentation, consider the case when $\mathcal{X}_{free} = \mathcal{X}$. Let $G_{n}^{1PRM} = {(V_{n}^{1PRM},E_{n}^{1PRM})}$ denote the graph returned by the 1-nearest sPRM algorithm, when the algorithm is run with $n$ samples. Let $L_{n}$ denote the total length of all the edges present in $G_{n}^{1PRM}$. Recall that $\zeta_{d}$ denotes the volume of the unit ball in the $d$-dimensional Euclidean space. Let $\zeta_{d}^{\prime}$ denote the volume of the union of two unit balls whose centers are a unit distance apart.
+
+### Lemma 18 (Total length of the 1-nearest neighbor graph (Wade, 2007))
+
+For all $d \geq 2$, $L_{n}/n^{1 - {1/d}}$ converges to a constant in mean square, i.e.,
+
+### Proof
+
+This lemma is a direct consequence of Theorem 3 of Wade. ∎∎
+
+Let $N_{n}$ denote the number of connected components of $G_{n}^{1PRM}$.
+
+### Lemma 19 (Number of connected components of the 1-nearest neighbor graph)
+
+For all $d \geq 2$, $N_{n}/n$ converges to a constant in mean square, i.e.,
+
+### Proof
+
+A reciprocal pair is a pair of vertices each of which is the other one's nearest neighbor. In a graph formed by connecting each vertex to its nearest neighbor, any connected component includes exactly one reciprocal pair whenever the number of vertices is greater than 2. The number of reciprocal pairs in such a graph was shown to converge to $\zeta_{d}/{({2\zeta_{d}^{\prime}})}$ in mean square in Henze (see also Remark 2 in Wade ). ∎∎
+
+### Proof of Theorem 17 ‣ 4.1 Probabilistic Completeness ‣ 4 Analysis ‣ Sampling-based Algorithms for Optimal Motion Planning")
+
+Let ${\overset{\sim}{L}}_{n}$ denote the average length of a connected component in $G_{n}^{1PRM}$, i.e., ${\overset{\sim}{L}}_{n} = {L_{n}/N_{n}}$. Let $L_{n}^{\prime}$ denote the length of the connected component that includes $x_{init}$. Since the samples are drawn independently and uniformly, the random variables ${\overset{\sim}{L}}_{n}$ and $L_{n}^{\prime}$ have the same distribution (although they are clearly dependent). Let $\gamma_{L}$ denote the constant that $L_{n}/n^{1 - {1/d}}$ converges to (see Lemma 18) ‣ 4.1 Probabilistic Completeness ‣ 4 Analysis ‣ Sampling-based Algorithms for Optimal Motion Planning")). Similarly, let $\gamma_{N}$ denote the constant that $N_{n}/n$ converges to (see Lemma 19 ‣ 4.1 Probabilistic Completeness ‣ 4 Analysis ‣ Sampling-based Algorithms for Optimal Motion Planning")).
+
+Recall that convergence in mean square implies convergence in probability and hence convergence in distribution. Since both $L_{n}/n^{1 - {1/d}}$ and $N_{n}/n$ converge in mean square to constants and ${{\mathbb{P}}{({\{{N_{n} = 0}\}})}} = 0$ for all $n \in {\mathbb{N}}$, by Slutsky's theorem, ${n^{1/d}{\overset{\sim}{L}}_{n}} = \frac{L_{n}/n^{1 - {1/d}}}{N_{n}/n}$ converges to $\gamma:={\gamma_{L}/\gamma_{N}}$ in distribution. In this case, it also converges in probability, since $\gamma$ is a constant. Then, $n^{1/d}L_{n}^{\prime}$ also converges to $\gamma$ in probability, since ${\overset{\sim}{L}}_{n}$ and $L_{n}^{\prime}$ are identically distributed for all $n \in {\mathbb{N}}$. Thus, $L_{n}^{\prime}$ converges to $0$ in probability, i.e., ${\lim_{n\rightarrow\infty}{{\mathbb{P}}\left( \left\{ {L_{n}^{\prime} > \epsilon} \right\} \right)}} = 0$, for all $\epsilon > 0$.
+
+Let $\epsilon > 0$ be such that $\epsilon < {\inf_{x \in \mathcal{X}_{goal}}{\|{x - x_{init}}\|}}$. Let $A_{n}$ denote the event that the graph returned by the 1-nearest sPRM algorithm contains a feasible path, i.e., one that starts from $x_{init}$ and reaches the goal region Clearly, the event $\{{L_{n}^{\prime} > \epsilon}\}$ occurs whenever $A_{n}$ does, i.e., $A_{n} \subseteq {\{{L_{n}^{\prime} > \epsilon}\}}$. Then, ${{\mathbb{P}}{(A_{n})}} \leq {{\mathbb{P}}{({\{{L_{n}^{\prime} > \epsilon}\}})}}$. Taking the limit superior of both sides
+
+In other words, the limit $\lim_{n\rightarrow\infty}{{\mathbb{P}}{(A_{n})}}$ exists and is equal zero. ∎∎
+
+Consider the variable-radius sPRM algorithm. The following theorem asserts that variable-radius sPRM algorithm is not probabilistically complete in the subcritical regime.
+
+### Theorem 20 (Incompleteness of variable-radius sPRM with ${r\hspace{0pt}{(n)}} = {\gamma\hspace{0pt}n^{- {1/d}}}$)
+
+There exists a constant $\gamma > 0$ such that the variable radius sPRM with connection radius ${r{(n)}} = {\gamman^{- {1/d}}}$ is not probabilistically complete.
+
+The proof of this result requires some intermediate results from random geometric graph theory. Recall that $\lambda_{c}$ is the critical density, or continuum percolation threshold (see Section 2.2). Given a Borel set $\Gamma \subseteq {\mathbb{R}}^{d}$, let $G_{\Gamma}^{disc}{(n,r)}$ denote the random $r$-disc graph formed with vertices independent and uniformly sampled from $\Gamma$ and edges connecting two vertices, $v$ and $v^{\prime}$, whenever ${\|{v - v^{\prime}}\|} < r_{n}$.
+
+### Lemma 21 (Penrose (2003))
+
+Let $\lambda \in {(0,\lambda_{c})}$ and $\Gamma \subset {\mathbb{R}}^{d}$ be a Borel set. Consider a sequence ${\{ r_{n}\}}_{n \in {\mathbb{N}}}$ that satisfies ${nr_{n}^{d}} \leq \lambda$, ${\forall n} \in {\mathbb{N}}$. Let $N_{\max}{({G_{\Gamma}^{disc}{(n,r_{n})}})}$ denote the size of the largest component in $G_{\Gamma}^{disc}{(n,r_{n})}$. Then, there exist constants ${a,b} > 0$ and $m_{0} \in {\mathbb{N}}$ such that for all $m \geq m_{0}$,
+
+### Proof of Theorem 20=𝛾⁢𝑛^{-1/𝑑}) ‣ 4.1 Probabilistic Completeness ‣ 4 Analysis ‣ Sampling-based Algorithms for Optimal Motion Planning")
+
+Let $\epsilon > 0$ such that $\epsilon < {\inf_{x \in X_{goal}}{\|{x - x_{init}}\|}}$ and that the $2\epsilon$-ball centered at $x_{init}$ lies entirely within the obstacle-free space. Let $G_{n}^{PRM} = {(V_{n}^{PRM},E_{n}^{PRM})}$ denote the graph returned by this variable radius sPRM algorithm, when the algorithm is run with $n$ samples. Let $G_{n} = {(V_{n},E_{n})}$ denote the the restriction of $G_{n}^{PRM}$ to the $2\epsilon$-ball centered at $x_{init}$ defined as $V_{n} = {V_{n}^{PRM} \cap \mathcal{B}_{x_{init},{2\epsilon}}}$ and $E_{n} = {{({V_{n} \times V_{n}})} \cap E_{n}^{PRM}}$.
+
+Clearly, $G_{n}$ is equivalent to the random $r$-disc graph on $\Gamma = \mathcal{B}_{x_{init},{2\epsilon}}$. Let $N_{\max}{(G_{n})}$ denote the number of vertices in the largest connected component of $G_{n}$. By Lemma 21) ‣ 4.1 Probabilistic Completeness ‣ 4 Analysis ‣ Sampling-based Algorithms for Optimal Motion Planning"), there exists constants ${a,b} > 0$ and $m_{0} \in {\mathbb{N}}$ such that
+
+for all $m \geq m_{0}$. Then, for all $m = {\lambda^{- {1/d}}{({\epsilon/2})}n^{1/d}} > m_{0}$,
+
+Let $L_{n}$ denote the total length of all the edges in the connected component that includes $x_{init}$. Since $r_{n} = {\lambda^{1/d}n^{- {1/d}}}$,
+
+Since the right hand side is summable, by the Borel-Cantelli lemma the event $\left\{ {L_{n} \geq {\epsilon/2}} \right\}$ occurs infinitely often with probability zero, i.e., ${{\mathbb{P}}{({\operatorname{lim\ sup}_{n\rightarrow\infty}{\{{L_{n} \geq {\epsilon/2}}\}}})}} = 0$.
+
+Given a graph $G = {(V,E)}$ define the diameter of this graph as the distance between the farthest pair of vertices in $V$, i.e., $\max_{{v,v^{\prime}} \in V}{\|{v - v^{\prime}}\|}$. Let $D_{n}$ denote the diameter of the largest component in $G_{n}$. Clearly, $D_{n} \leq L_{n}$ holds surely. Thus, ${{\mathbb{P}}\left( {\operatorname{lim\ sup}_{n\rightarrow\infty}\left\{ {D_{n} \geq {\epsilon/2}} \right\}} \right)} = 0$.
+
+Let $I \in {\mathbb{N}}$ be the smallest number that satisfies $r_{I} \leq {\epsilon/2}$. Notice that the edges connected to the vertices $V_{n}^{PRM} \cap \mathcal{B}_{x_{init},\epsilon}$ coincide with those connected to $V_{n} \cap \mathcal{B}_{x_{init},\epsilon}$, for all $n \geq I$. Let $R_{n}$ denote distance of the farthest vertex $v \in V_{n}^{PRM}$ to $x_{init}$ in the component that contains $x_{init}$ in $G_{n}^{PRM}$. Notice also that $R_{n} \geq \epsilon$ only if $D_{n} \geq {\epsilon/2}$, for all $n \geq I$. That is, for all $n \geq I$, $\left\{ {R_{n} \geq \epsilon} \right\} \subseteq \left\{ {D_{n} \geq {\epsilon/2}} \right\}$, which implies ${{\mathbb{P}}\left( {\operatorname{lim\ sup}_{n\rightarrow\infty}\left\{ {R_{n} \geq \epsilon} \right\}} \right)} = 0$.
+
+Let $A_{n}$ denote the event that the graph returned by this variable radius sPRM algorithm includes a path that reaches the goal region. Clearly, $\{{R_{n} \geq \epsilon}\}$ holds, whenever $A_{n}$ holds. Hence, ${{\mathbb{P}}{(A_{n})}} \leq {{\mathbb{P}}{({\{{R_{n} \geq \epsilon}\}})}}$. Taking the limit superior of both sides yields
+
+Hence, ${\lim_{n\rightarrow\infty}{{\mathbb{P}}{(A_{n})}}} = 0$. ∎∎
+
+Finally, the probabilistic completeness of the new algorithms proposed in Section 3 is established. Probabilistic completeness of PRM^∗^ is implied by its asymptotic optimality, proved in Section 4.2.
+
+### Theorem 22 (Completeness of PRM^∗^)
+
+The PRM^∗^ algorithm is probabilistically complete.
+
+Probabilistic completeness of RRG and RRT^∗^ is a straightforward consequence of the probabilistic completeness of RRT:
+
+### Theorem 23 (Probabilistic completeness of RRG and RRT^∗^)
+
+The RRG and RRT^∗^ algorithms are probabilistically complete. Furthermore, for any robustly feasible path planning problem $(\mathcal{X}_{free},x_{init},\mathcal{X}_{goal})$, there exist constants $a > 0$ and $n_{0} \in {\mathbb{N}}$, both dependent only on $\mathcal{X}_{free}$ and $\mathcal{X}_{goal}$, such that
+
+### Proof
+
+By construction, ${V_{n}^{RRG}{(\omega)}} = {V_{n}^{{RRT}^{\ast}}{(\omega)}} = {V_{n}^{RRT}{(\omega)}}$, for all $\omega \in \Omega$ and $n \in {\mathbb{N}}$. Moreover, the RRG and RRT^∗^ algorithms return connected graphs. Hence the result follows directly from the probabilistic completeness of RRT. ∎∎
+
+In particular, note that if the RRT algorithm returns a feasible solution by iteration $n$, so will the RRG and RRT^∗^ algorithms, assuming the same sample sequence.
+
+### Asymptotic Optimality
+
+In this section, the optimality problem of path planning is considered. The algorithms presented in Section 3 are analyzed, in terms of their ability to return solutions whose cost converge to the global optimum. First, a definition of asymptotic optimality is provided as almost-sure convergence to optimal paths. Second, it is shown that the RRT algorithm lacks the asymptotic optimality property. Third, the PRM^∗^, RRG, and RRT^∗^ algorithms, as well as their $k$-nearest implementations, are shown to be asymptotically optimal.
+
+Recall from Section 4.1 that an algorithm is probabilistically complete if the algorithm finds with high probability a solution to path planning problems that are robustly feasible, i.e., for which feasible path exists with strong $\delta$-clearance. A similar approach is used to define asymptotic optimality, relying on a notion of weak $\delta$-clearance and on a continuity property for the cost of paths, which will be introduced below.
+
+Let ${\sigma_{1},\sigma_{2}} \in \Sigma_{free}$ be two collision-free paths with the same end points. A path $\sigma_{1}$ is said to be homotopic to $\sigma_{2}$, if there exists a continuous function $\psi:{{\lbrack 0,1\rbrack}\rightarrow\Sigma_{free}}$, called the homotopy, such that ${\psi{}} = \sigma_{1}$, ${\psi{}} = \sigma_{2}$, and $\psi{(\tau)}$ is a collision-free path in for all $\tau \in {\lbrack 0,1\rbrack}$. Intuitively, a path that is homotopic to $\sigma$ can be continuously transformed to $\sigma$ through $\mathcal{X}_{free}$. A collision-free path $\sigma:{{\lbrack 0,s\rbrack}\rightarrow\mathcal{X}_{free}}$ is said to have weak $\delta$-clearance, if there exists a path $\sigma^{\prime}$ that has strong $\delta$-clearance and there exist a homotopy $\psi$, with ${\psi{}} = \sigma$, ${\psi{}} = \sigma^{\prime}$, and for all $\alpha \in {(0,1\rbrack}$ there exists $\delta_{\alpha} > 0$ such that $\psi{(\alpha)}$ has strong $\delta_{\alpha}$-clearance. See Figure 2 for an illustration of the weak $\delta$-clearance property. A path that violates the weak $\delta$-clearance property is shown in Figure 3. Weak $\delta$-clearance does not require points along a path to be at least a distance $\delta$ away from the obstacles (see Figure 4). In fact, a collision-free path with uncountably many points lying on the boundary of an obstacle can still have weak $\delta$-clearance.
+
+Figure 2: An illustration of a path σ with weak δ-clearance. The path σ′ that lies inside intδ (𝒳free) and is in the same homotopy class as σ is also shown in the figure. Note that σ does not have strong δ-clearance.
+
+Figure 3: An illustration of an example path σ that does not have weak δ-clearance. For any positive value of δ, there is no path in intδ (𝒳free) that is in the same homotopy class as σ.
+
+Figure 4: An illustration of a path that has weak δ-clearance. The path passes through a point where two spheres representing the obstacle region are in contact. Clearly, the path does not have strong δ-clearance.
+
+Next, the set of all paths with bounded length is introduced as a normed space, which allows taking the limit of a sequence of paths. Recall that $\Sigma$ is the set of all paths, and $TV{( \cdot )}$ denotes the total variation, i.e., the length, of a path (see Section 2.1). Given ${\sigma_{1},\sigma_{2}} \in \Sigma$ with $\sigma_{1}:{{\lbrack 0,1\rbrack}\rightarrow\mathcal{X}}$ and $\sigma_{2}:{{\lbrack 0,1\rbrack}\rightarrow\mathcal{X}}$, the addition operation is defined as ${{({\sigma_{1} + \sigma_{2}})}{(\tau)}} = {{\sigma_{1}{(\tau)}} + {\sigma_{2}{(\tau)}}}$ for all $\tau \in {\lbrack 0,1\rbrack}$. The set of paths $\Sigma$ is closed under addition. Given a path $\sigma:{{\lbrack 0,1\rbrack}\rightarrow\mathcal{X}}$ and a scalar $\alpha \in {\mathbb{R}}$, the multiplication by a scalar operation is defined as ${{({\alpha\sigma})}{(\tau)}}:={\alpha\sigma{(\tau)}}$ for all $\tau \in {\lbrack 0,1\rbrack}$. With these addition and multiplication by a scalar operations, the function space $\Sigma$ is, in fact, a vector space. On the vector space $\Sigma$, define the norm ${\|\sigma\|}_{BV}:={{\int_{0}^{1}{{|{\sigma{(\tau)}}|}{d\tau}}} + {{TV}{(\sigma)}}}$, and denote the function space $\Sigma$ endowed with the norm $\parallel \cdot \parallel_{BV}$ by ${BV}{(\mathcal{X})}$. The norm $\parallel \cdot \parallel_{BV}$ induces the following distance function:
+
+where $\parallel \cdot \parallel$ is the usual Euclidean norm. A sequence ${\{\sigma_{n}\}}_{n \in {\mathbb{N}}}$ of paths is said to converge to a path $\overline{\sigma}$, denoted as ${\lim_{n\rightarrow\infty}\sigma_{n}} = \overline{\sigma}$, if the norm of the difference between $\sigma_{n}$ and $\overline{\sigma}$ converges to zero, i.e., ${\lim_{n\rightarrow\infty}{\|{\sigma_{n} - \overline{\sigma}}\|}_{BV}} = 0$.
+
+A feasible path $\sigma^{\ast} \in \mathcal{X}_{free}$ that solves the optimality problem (Problem 3 ‣ 2.1 Problem Formulation ‣ 2 Preliminary Material ‣ Sampling-based Algorithms for Optimal Motion Planning")) is said to be a robustly optimal solution if it has weak $\delta$-clearance and, for any sequence of collision-free paths ${\{\sigma_{n}\}}_{n \in {\mathbb{N}}}$, $\sigma_{n} \in \mathcal{X}_{free}$, ${\forall n} \in {\mathbb{N}}$, such that ${\lim_{n\rightarrow\infty}\sigma_{n}} = \sigma^{\ast}$, ${\lim_{n\rightarrow\infty}{c{(\sigma_{n})}}} = {c{(\sigma^{\ast})}}$. Clearly, a path planning problem that has a robustly optimal solution is necessarily robustly feasible. Let $c^{\ast} = {c{(\sigma^{\ast})}}$ be the cost of an optimal path, and let $Y_{n}^{ALG}$ be the extended random variable corresponding to the cost of the minimum-cost solution included in the graph returned by $ALG$ at the end of iteration $n$.
+
+### Definition 24 (Asymptotic Optimality)
+
+An algorithm ALG is asymptotically optimal if, for any path planning problem $(\mathcal{X}_{free},x_{init},\mathcal{X}_{goal})$ and cost function $c:{\Sigma\rightarrow{\mathbb{R}}_{\geq 0}}$ that admit a robustly optimal solution with finite cost $c^{\ast}$,
+
+Note that, since $Y_{n}^{ALG} \geq c^{\ast}$, ${\forall n} \in {\mathbb{N}}$, asymptotic optimality of $ALG$ implies that the limit $\lim_{n\rightarrow\infty}Y_{n}^{ALG}$ exists, and is equal to $c^{\ast}$. Clearly, probabilistic completeness is necessary for asymptotic optimality. Moreover, the probability that a sampling-based algorithm converges to an optimal solution almost surely has probability either zero or one. That is, a sampling-based algorithm either converges to the optimal solution in almost all runs, or the convergence does not occur in almost all runs.
+
+### Lemma 25
+
+Given that ${\operatorname{lim\ sup}_{n\rightarrow\infty}Y_{n}^{ALG}} < \infty$, i.e., $ALG$ finds a feasible solution eventually, the probability that ${\operatorname{lim\ sup}_{n\rightarrow\infty}Y_{n}^{ALG}} = c^{\ast}$ is either zero or one.
+
+### Proof
+
+Conditioning on the event $\{{{\operatorname{lim\ sup}_{n\rightarrow\infty}Y_{n}^{ALG}} < \infty}\}$ ensures that $Y_{n}^{ALG}$ is finite, thus a random variable, for all large $n$. Given a sequence ${\{ Y_{n}\}}_{n \in {\mathbb{N}}}$ of random variables, let $\mathcal{F}_{m}^{\prime}$ denote the $\sigma$-field generated by the sequence ${\{ Y_{n}\}}_{n = m}^{\infty}$ of random variables. The tail $\sigma$-field $\mathcal{T}$ is defined as $\mathcal{T} = {\bigcap_{n \in {\mathbb{N}}}\mathcal{F}_{n}^{\prime}}$. An event $A$ is said to be a tail event if $A \in \mathcal{T}$. Any tail event occurs with probability either zero or one by the Kolmogorov zero-one law. Consider the sequence ${\{ Y_{n}^{ALG}\}}_{n \in {\mathbb{N}}}$ of random variables. Let $\mathcal{F}_{m}^{\prime}$ denote the $\sigma$-fields generated by ${\{ Y_{n}^{ALG}\}}_{n = m}^{\infty}$. Then, ${\left\{ {{\operatorname{lim\ sup}_{n\rightarrow\infty}Y_{n}^{ALG}} = c^{\ast}} \right\} = \left\{ {{\operatorname{lim\ sup}_{{n\rightarrow\infty},{n \geq m}}Y_{n}^{ALG}} = c^{\ast}} \right\} \in {\mathcal{F}_{m}^{\prime}\text{~for all~}n} \in {\mathbb{N}}}.$ Hence, $\left\{ {Y_{n}^{ALG} = c^{\ast}} \right\} \in {\bigcap_{n \in {\mathbb{N}}}\mathcal{F}_{m}^{\prime}}$ is a tail event. The result follows by the Kolmogorov zero-one law.∎∎
+
+Among the first steps in assessing the asymptotic optimality properties of an algorithm $ALG$ is determining whether the limit $\lim_{n\rightarrow\infty}Y_{n}^{ALG}$ exists. It turns out that if the graphs returned by $ALG$ satisfy a monotonicity property, then the limit exists, and is in general a random variable, indicated with $Y_{\infty}^{ALG}$.
+
+### Lemma 26
+
+If ${G_{i}^{ALG}{(\omega)}} \subseteq {G_{i + 1}^{ALG}{(\omega)}}$, ${\forall\omega} \in \Omega$ and ${\forall i} \in {\mathbb{N}}$, then ${{\lim_{n\rightarrow\infty}{Y_{n}^{ALG}{(\omega)}}} = {Y_{\infty}^{ALG}{(\omega)}}}.$
+
+### Proof
+
+Since ${G_{i}^{ALG}{(\omega)}} \subseteq {G_{i + 1}^{ALG}{(\omega)}}$, then ${Y_{i + 1}^{ALG}{(\omega)}} \leq {Y_{i}^{ALG}{(\omega)}}$, for all $\omega \in \Omega$. Since $Y_{i}^{ALG} \geq c^{\ast}$, then the sequence converges to some limiting value, dependent on $\omega$, i.e., $Y_{\infty}^{ALG}{(\omega)}$.∎∎
+
+Of the algorithms presented in Section 3, it is easy to check that PRM, sPRM, RRT, RRG, and RRT^∗^ satisfy the monotonicity property in Lemma 26. On the other hand, $k$-nearest sPRM and PRM^∗^ do not: in these cases, the random variable $Y_{i + 1}^{ALG}$ is not necessarily dominated by $Y_{i}^{ALG}$. This is evident in numerical experiments, e.g., see Figures 10 and 11 in Section 5.
+
+In order to avoid trivial cases of asymptotic optimality, it is necessary to rule out problems in which optimal solutions can be computed after a finite number of samples. Let $\Sigma^{\ast}$ denote the set of all optimal paths, i.e., the set of all paths that solve the optimal planning problem (Problem 3 ‣ 2.1 Problem Formulation ‣ 2 Preliminary Material ‣ Sampling-based Algorithms for Optimal Motion Planning")), and $\mathcal{X}_{opt}$ denote the set of states that an optimal path in $\Sigma^{\ast}$ passes through, i.e.,
+
+### Assumption 27 (Zero-measure Optimal Paths)
+
+The set of all points traversed by an optimal trajectory has measure zero, i.e., ${\mu\left( \mathcal{X}_{opt} \right)} = 0$.
+
+Most cost functions and problem instances of interest satisfy this assumption, including, e.g., the Euclidean length of the path when the goal region is convex. This assumption does not imply that there is a single optimal path; indeed, there are problem instances with uncountably many optimal paths, for which Assumption 27 ‣ 4.2 Asymptotic Optimality ‣ 4 Analysis ‣ Sampling-based Algorithms for Optimal Motion Planning") holds. (A simple example is the motion planning problem in three dimensional Euclidean space where a ball shaped obstacle is placed between the initial state and the goal region.) Assumption 27 ‣ 4.2 Asymptotic Optimality ‣ 4 Analysis ‣ Sampling-based Algorithms for Optimal Motion Planning") implies that no sampling-based planning algorithm can find a solution to the optimality problem in a finite number of iterations.
+
+### Lemma 28
+
+If Assumption 27 ‣ 4.2 Asymptotic Optimality ‣ 4 Analysis ‣ Sampling-based Algorithms for Optimal Motion Planning") holds, the probability that a sampling-based algorithm $ALG$ returns a graph containing an optimal path at a finite iteration $n \in {\mathbb{N}}$ is zero, i.e.,
+
+### Proof
+
+Let $B_{n}$ denote the event that $ALG$ constructs a graph containing a path with cost exactly equal to $c^{\ast}$ at the end of iteration $i$, i.e., $B_{n} = {\{{Y_{n}^{ALG} = c^{\ast}}\}}$. Let $B$ denote the event that $ALG$ returns a graph containing a path that costs exactly $c^{\ast}$ at some finite iteration $i$. Then, $B$ can be written as $B = {\cup_{n \in {\mathbb{N}}}B_{n}}$. Since $B_{n} \subseteq B_{n + 1}$, by monotonocity of measures, ${\lim_{i\rightarrow\infty}{{\mathbb{P}}{(B_{n})}}} = {{\mathbb{P}}{(B)}}$. By Assumption 27 ‣ 4.2 Asymptotic Optimality ‣ 4 Analysis ‣ Sampling-based Algorithms for Optimal Motion Planning") and the definition of the sampling procedure, ${{\mathbb{P}}{(B_{n})}} = 0$ for all $n \in {\mathbb{N}}$, since the probability that the set $\bigcup_{i = 1}^{n}{\{{{\mathtt{S}\mathtt{a}\mathtt{m}\mathtt{p}\mathtt{l}\mathtt{e}\mathtt{F}\mathtt{r}\mathtt{e}\mathtt{e}}{(i)}}\}}$ of points contains a point from a zero-measure set is zero. Hence, ${{\mathbb{P}}{(B)}} = 0$. ∎∎
+
+In the remainder of the paper, it will be tacitly assumed that Assumption 27 ‣ 4.2 Asymptotic Optimality ‣ 4 Analysis ‣ Sampling-based Algorithms for Optimal Motion Planning"), and hence Lemma 28, hold.
+
+### Existing algorithms
+
+The algorithms in Section 3.2 were originally introduced to efficiently solve the feasibility problem, relaxing the completeness requirement to probabilistic completeness. Nevertheless, it is of interest to establish whether these algorithms are asymptotically optimal in addition to being probabilistically complete. (The first two results in this section rely on results that will be proven in Section 4.2.2, i.e., the fact that the RRT algorithm is not asymptotically optimal, and the PRM^∗^ algorithm is asymptotically optimal)
+
+First, consider the PRM algorithm and its variants. The PRM algorithm, in its original form, is not asymptotically optimal.
+
+### Theorem 29 (Non-optimality of PRM)
+
+The PRM algorithm is not asymptotically optimal.
+
+### Proof
+
+The proof is based on a counterexample, establishing a form of equivalence between PRM and RRT, which in turn will be proven not to be asymptotically optimal in Theorem 33 ‣ Rapidly-exploring Random Trees ‣ 4.2.1 Existing algorithms ‣ 4.2 Asymptotic Optimality ‣ 4 Analysis ‣ Sampling-based Algorithms for Optimal Motion Planning"). Consider a convex obstacle-free environment, e.g., $\mathcal{X}_{free} = \mathcal{X}$, and choose the connection radius for PRM and the steering parameter for RRT such that ${r,\eta} > {{diam}{(\mathcal{X})}}$. At each iteration, exactly one vertex and one edge is added to the graph, since (i) all connection attempts using the local planner (e.g., straight line connections as considered in this paper) are collision-free, and (ii) at the end of each iteration, the graph is connected (i.e., it contains only one connected component). In particular, the graph returned by the PRM algorithm in this case is a tree, and the arborescence obtained by choosing as the root the first sample point, i.e., ${\mathtt{S}\mathtt{a}\mathtt{m}\mathtt{p}\mathtt{l}\mathtt{e}\mathtt{F}\mathtt{r}\mathtt{e}\mathtt{e}}_{0}$, is an online nearest-neighbor graph (see Section 2.2) coinciding with the graph returned by RRT with the random initial condition $x_{init} = {\mathtt{S}\mathtt{a}\mathtt{m}\mathtt{p}\mathtt{l}\mathtt{e}\mathtt{F}\mathtt{r}\mathtt{e}\mathtt{e}}_{0}$.
+
+Recall that the PRM algorithm is applicable for multiple-query planning problems: in other words, the graph returned by the PRM algorithm is used to solve path planning problems from arbitrary $x_{init} \in \mathcal{X}_{free}$ and $\mathcal{X}_{goal} \subset \mathcal{X}_{free}$. (Note that all such problems admit robust optimal solutions.) In particular, for $x_{init} = {\mathtt{S}\mathtt{a}\mathtt{m}\mathtt{p}\mathtt{l}\mathtt{e}\mathtt{F}\mathtt{r}\mathtt{e}\mathtt{e}}_{0}$, and any $X_{goal}$, then ${Y_{n}^{PRM}{(\omega)}} = {Y_{n}^{RRT}{(\omega)}}$, for all $\omega \in \Omega$, $n \in {\mathbb{N}}$. In particular, since both PRM and RRT satisfy the monotonicity condition in Lemma 26, Theorem 33 ‣ Rapidly-exploring Random Trees ‣ 4.2.1 Existing algorithms ‣ 4.2 Asymptotic Optimality ‣ 4 Analysis ‣ Sampling-based Algorithms for Optimal Motion Planning") implies that
+
+The lack of asymptotic optimality of PRM is due to its incremental construction, coupled with the constraint eliminating edges making unnecessary connections within a connected component. Such a constraint is not present in the batch construction of the sPRM algorithm, which is indeed asymptotically optimal (at the expense of computational complexity, see Section 4.3).
+
+### Theorem 30 (Asymptotic Optimality of sPRM)
+
+The sPRM algorithm is asymptotically optimal.
+
+### Proof
+
+By construction, ${V_{n}^{sPRM}{(\omega)}} = {V_{n}^{{PRM}^{\ast}}{(\omega)}}$, and ${E_{n}^{sPRM}{(\omega)}} \supseteq {E_{n}^{{PRM}^{\ast}}{(\omega)}}$ for all $\omega \in \Omega$. Hence, the graph returned by sPRM includes all the paths that are present in the graph returned by PRM^∗^. Then, asymptotic optimality of sPRM follows from that of PRM^∗^, which will be proven in Theorem 34 ‣ 4.2.2 Proposed algorithms ‣ 4.2 Asymptotic Optimality ‣ 4 Analysis ‣ Sampling-based Algorithms for Optimal Motion Planning"). ∎∎
+
+On the other hand, as in the case of probabilistic completeness, the heuristics that are often used in the practical implementation of (s)PRM are not asymptotically optimal.
+
+### Theorem 31 (Non-optimality of $k$-nearest sPRM)
+
+The $k$-nearest sPRM algorithm is not asymptotically optimal, for any constant $k \in {\mathbb{N}}$.
+
+This theorem will be proven under the assumption that the underlying point process is Poisson. More precisely, the algorithm is analyzed when it is run with ${Poisson}{(n)}$ samples. That is, the realization of the random variable ${Poisson}{(n)}$ determines the number of points sampled independently and uniformly in $\mathcal{X}_{free}$. Hence, the expected number of samples is equal to $n$, although its realization may slightly differ. However, since the Poisson random variable has exponentially-decaying tails, its large deviations from its mean is unlikely (see, e.g., Grimmett and Stirzaker for a more precise statement). With a slight abuse of notation, the cost of the best path in the graph returned by the $k$-nearest sPRM algorithm when the algorithm is run with ${Poisson}{(n)}$ number of samples is denoted by $Y_{n}^{k{PRM}}$, and it is shown that ${{\mathbb{P}}{({\{{{\operatorname{lim\ sup}_{n\rightarrow\infty}Y_{n}^{k{PRM}}} = c^{\ast}}\}})}} = 0$.
+
+### Proof of Theorem 31 ‣ 4.2.1 Existing algorithms ‣ 4.2 Asymptotic Optimality ‣ 4 Analysis ‣ Sampling-based Algorithms for Optimal Motion Planning")
+
+Let $\sigma^{\ast}$ denote an optimal path and $s^{\ast}$ denote its length, i.e., $s^{\ast} = {TV{(\sigma^{\ast})}}$. For each $n$, consider a tiling of $\sigma^{\ast}$ with disjoint open hypercubes, each with edge length $2n^{- {1/d}}$, such that the center of each cube is a point on $\sigma^{\ast}$. See Figure 5. Let $M_{n}$ denote the maximum number of tiles that can be generated in this manner and note ${M_{n} \geq {\frac{s^{\ast}}{2}n^{1/d}}}.$ Partition each tile into several open cubes as follows: place an inner cube with edge length $n^{- {1/d}}$ at the center of the tile and place several outer cubes each with edge length $\frac{1}{2}n^{- {1/d}}$ around the cube at the center as shown in Figure 5. Let $F_{d}$ denote the number of outer cubes. The volumes of the inner cube and each of the outer cubes are $n^{- 1}$ and $2^{- d}n^{- 1}$, respectively.
+
+Figure 5: An illustration of the tiles mention in the proof of Theorem 31. A single tile is shown in the left; a tiling of the optimal trajectory σ* is shown on the right.
+
+For $n \in {\mathbb{N}}$ and $m \in {\{ 1,2,\ldots,M_{n}\}}$, consider the tile $m$ when the algorithm is run with ${Poisson}{(n)}$ samples. Let $I_{n,m}$ denote the indicator random variable for the event that the center cube of this tile contains no samples, whereas every outer cube contains at least $k + 1$ samples, in tile $m$.
+
+The probability that the inner cube contains no samples is $e^{- {{1/\mu}{(\mathcal{X}_{free})}}}$. The probability that an outer cube contains at least $k + 1$ samples is ${1 - {{\mathbb{P}}\left( {\{{{{Poisson}{({{2^{- d}/\mu}{(\mathcal{X}_{free})}})}} \geq {k + 1}}\}} \right)}} = {1 - {{\mathbb{P}}{({\{{{{Poisson}{({{2^{- d}/\mu}{(\mathcal{X}_{free})}})}} \leq k}\}})}}} = {1 - \frac{\Gamma{({k + 1},{{2^{- d}/\mu}{(\mathcal{X}_{free})}})}}{k!}}$, where $\Gamma{( \cdot, \cdot )}$ is the incomplete gamma function. Then, noting that the cubes in a given tile are disjoint and using the independence property of the Poisson process (see Lemma 11) ‣ 2.2 Random Geometric Graphs ‣ 2 Preliminary Material ‣ Sampling-based Algorithms for Optimal Motion Planning")),
+
+which is a constant that is independent of $n$; denote this constant by $\alpha$.
+
+Let $G_{n} = {(V_{n},E_{n})}$ denote the graph returned by the $k$-nearest PRM algorithm by the end of ${Poisson}{(n)}$ iterations. Observe that if $I_{n,m} = 1$, then there is no edge of $G_{n}$ crossing the cube of side length $\frac{1}{2}n^{- {1/d}}$ that is centered at the center of the inner cube in tile $m$ (shown as the white cube in Figure 6). To prove this claim, note the following two facts. First, no point that is outside of the cubes can have an edge that crosses the inner cube. Second, no point in one of the outer cubes has an edge that has length greater than $\frac{\sqrt{d}}{2}i^{- {1/d}}$. Thus, no edge can cross the white cube illustrated in Figure 6.
+
+Figure 6: The event that the inner cube contains no points and each outer cube contains at least k points of the point process is illustrated. The cube of side length $\frac{1}{2}n^{- {1/d}}$ is shown in white.
+
+Let $\sigma_{n}$ denote the path in $G_{n}$ that is closest to $\sigma^{\ast}$ in terms of the bounded variation norm. Let $U_{n}:={\|{\sigma_{n} - \sigma^{\ast}}\|}_{BV}$. Notice that $U_{n} \geq {\frac{1}{2}n^{- {1/d}}{\sum_{m = 1}^{M_{n}}I_{n,m}}} = {\frac{1}{2}n^{- {1/d}}M_{n}I_{n,1}} = {\frac{s^{\ast}}{4}I_{n,1}}$. Then,
+
+where the first inequality follows from Fatou's lemma. This implies ${{\mathbb{P}}{({\{{{\operatorname{lim\ sup}_{n\rightarrow\infty}U_{n}} > 0}\}})}} > 0$. Since $U_{i} > 0$ implies $Y_{n} > c^{\ast}$ surely,
+
+That is, ${{\mathbb{P}}\left( \left\{ {{\operatorname{lim\ sup}_{n\rightarrow\infty}Y_{n}} = c^{\ast}} \right\} \right)} < 1$. In fact, by Lemma 25, ${{\mathbb{P}}\left( \left\{ {{\operatorname{lim\ sup}_{n\rightarrow\infty}Y_{n}} = c^{\ast}} \right\} \right)} = 0$.∎∎
+
+Second, asymptotic optimality of a large class of variable radius sPRM algorithms is considered. Consider a variable radius sPRM in which connection radius satisfies ${r{(n)}} \leq {\gamman^{- {1/d}}}$ for some $\gamma > 0$ and for all $n \in {\mathbb{N}}$. The next theorem shows that this algorithm lacks the asymptotic optimality property.
+
+### Theorem 32 (Non-optimality of variable radius sPRM with ${r\hspace{0pt}{(n)}} = {\gamma\hspace{0pt}n^{- {1/d}}}$)
+
+Consider a variable radius sPRM algorithm with connection radius ${{r{(n)}} = {\gamman^{- {1/d}}}}.$ This sPRM algorithm is not asymptotic optimal for any $\gamma \in {\mathbb{R}}_{\geq 0}$.
+
+### Proof
+
+Let $\sigma^{\ast}$ denote a path that is a robust solution to the optimality problem. Let $n$ denote the number of samples that the algorithm is run with. For all $n$, construct a set $B_{n} = {\{ B_{n,1},B_{n,2},\ldots,B_{n,M_{n}}\}}$ of openly disjoint balls as follows. Each ball in $B_{n}$ has radius $r_{n} = {\gamman^{- {1/d}}}$, and lies entirely inside $\mathcal{X}_{free}$. Furthermore, the balls in $B_{n}$ "tile" $\sigma^{\ast}$ such that the center of each ball lies on $\sigma^{\ast}$ (see Figure 7). Let $M_{n}$ denote the maximum number of balls, $\overline{s}$ denote the length of the portion of $\sigma^{\ast}$ that lies within the $\delta$-interior of $\mathcal{X}_{free}$, and $n_{0} \in {\mathbb{N}}$ denote the number for which $r_{n} \leq \delta$ for all $n \geq n_{0}$.
+
+Then, for all $n \geq n_{0}$,
+
+Figure 7: An illustration of the covering of the optimal path, σ*, with openly disjoint balls. The balls cover only a portion of σ* that lies within the δ-interior of 𝒳free.
+
+Indicate the graph returned by this sPRM algorithm as $G_{n} = {(V_{n},E_{n})}$. Denote the event that the ball $B_{n,m}$ contains no vertex in $V_{n}$ by $A_{n,m}$. Denote the indicator random variable for the event $A_{n,m}$ by $I_{n,m}$, i.e., $I_{n,m} = 1$ when $A_{n,m}$ holds and $I_{n,m} = 0$ otherwise. Then, for all $n \geq n_{0}$,
+
+Let $N_{n}$ be the random variable that denotes the total number of balls in $B_{n}$ that contain no vertex in $V_{n}$, i.e., $N_{n} = {\sum_{m = 1}^{M_{n}}I_{n,m}}$. Then, for all $n \geq n_{0}$,
+
+Consider a ball $B_{n,m}$ that contains no vertices of this sPRM algorithm. Then, no edges of the graph returned by this algorithm cross the ball of radius $\frac{\sqrt{3}}{2}r_{n}$ centered at the center of $B_{n,m}$. See Figure 8.
+
+Figure 8: If the outer ball does not contain vertices of the PRM graph, then no edge of the graph corresponds to a path crossing the inner ball.
+
+Let $P_{n}$ denote the (finite) set of all acyclic paths that reach the goal region in the graph returned by this sPRM algorithm when the algorithm is run with $n$ samples. Let $U_{n}$ denote the total variation of the path that is closest to $\sigma^{\ast}$ among all paths in $P_{n}$, i.e., $U_{n}:={\min_{\sigma_{n} \in P_{n}}{\|{\sigma_{n} - \sigma^{\ast}}\|}_{BV}}$. Then,
+
+Taking the limit superior of both sides, the following inequality can be established:
+
+where the first inequality follows from Fatou's lemma. Hence, ${{\mathbb{P}}{({\{{{\operatorname{lim\ sup}_{n\rightarrow\infty}U_{n}} > 0}\}})}} > 0$, which implies that ${{\mathbb{P}}\left( \left\{ {{\operatorname{lim\ sup}_{n\rightarrow\infty}Y_{n}^{ALG}} > c^{\ast}} \right\} \right)} > 0$. That is, ${{\mathbb{P}}\left( \left\{ {{\operatorname{lim\ sup}_{n\rightarrow\infty}Y_{n}^{ALG}} = c^{\ast}} \right\} \right)} < 1$. In fact, ${{\mathbb{P}}\left( \left\{ {{\operatorname{lim\ sup}_{n\rightarrow\infty}Y_{n}^{ALG}} = c^{\ast}} \right\} \right)} = 0$ by the Kolmogorov zero-one law (see Lemma 25). ∎∎
+
+### Rapidly-exploring Random Trees
+
+In this section, it is shown that the minimum-cost path in the RRT algorithm converges to a certain random variable, however, under mild technical assumptions, this random variable is not equal to the optimal cost, with probability one.
+
+### Theorem 33 (Non-optimality of RRT)
+
+The RRT algorithm is not asymptotically optimal.
+
+The proof of this theorem can be found in Appendix B ‣ Sampling-based Algorithms for Optimal Motion Planning"). Note that, since at each iteration the RRT algorithm either adds a vertex and an edge, or leaves the graph unchanged, ${G_{i}^{RRT}{(\omega)}} \subseteq {G_{i + 1}^{RRT}{(\omega)}}$, for all $i \in {\mathbb{N}}$ and all $\omega \in \Omega$, and hence the limit $\lim_{n\rightarrow\infty}Y_{n}^{RRT}$ exists and is equal to the random variable $Y_{\infty}^{RRT}$. In conjunction with Lemma 25, Theorem 33 ‣ Rapidly-exploring Random Trees ‣ 4.2.1 Existing algorithms ‣ 4.2 Asymptotic Optimality ‣ 4 Analysis ‣ Sampling-based Algorithms for Optimal Motion Planning") implies that this limit is strictly greater than $c^{\ast}$ almost surely, i.e., ${{\mathbb{P}}\left( {\{{{\lim_{n\rightarrow\infty}Y_{n}^{RRT}} > c^{\ast}}\}} \right)} = 1$. In other words, the cost of the best solution returned by RRT converges to a suboptimal value, with probability one. In fact, it is possible to construct problem instances such that the probability that the first solution returned by the RRT algorithm has arbitrarily high cost is bounded away from zero.
+
+Since the cost of the best path returned by the RRT algorithm converges to a random variable, Theorem 33 ‣ Rapidly-exploring Random Trees ‣ 4.2.1 Existing algorithms ‣ 4.2 Asymptotic Optimality ‣ 4 Analysis ‣ Sampling-based Algorithms for Optimal Motion Planning") provides new insight explaining the effectiveness of approaches as in Ferguson and Stentz. In fact, running multiple instances of the RRT algorithm amounts to drawing multiple samples of $Y_{\infty}^{RRT}$.
+
+### Proposed algorithms
+
+In this section, the proposed algorithms are analyzed for asymptotic optimality, i.e., almost sure convergence to optimal solutions. It is shown that the PRM^∗^, RRG, and RRT^∗^ algorithms, as well as their $k$-nearest implementations, are all asymptotically optimal. The proofs of the following theorems are quite lengthy, and will be provided in the appendix.
+
+Recall that $d$ denotes the dimensionality of the configuration space, $\mu{(\mathcal{X}_{free})}$ denotes the Lebesgue measure of the obstacle-free space, and $\zeta_{d}$ denotes the volume of the unit ball in the $d$-dimensional Euclidean space. Proofs of the following theorems can be found in Appendices C ‣ Sampling-based Algorithms for Optimal Motion Planning")--G ‣ Sampling-based Algorithms for Optimal Motion Planning").
+
+### Theorem 34 (Asymptotic optimality of PRM^∗^)
+
+If $\gamma_{PRM} > {2{({1 + {1/d}})}^{1/d}\left( \frac{\mu{(X_{free})}}{\zeta_{d}} \right)^{1/d}}$, then the PRM^∗^ algorithm is asymptotically optimal.
+
+### Theorem 35 (Asymptotic optimality of $k$-nearest PRM^∗^)
+
+If $k_{PRM} > {e{({1 + {1/d}})}}$, then the $k$-nearest implementation of the PRM^∗^ algorithm is asymptotically optimal.
+
+### Theorem 36 (Asymptotic optimality of RRG)
+
+If $\gamma_{PRM} > {2{({1 + {1/d}})}^{1/d}\left( \frac{\mu{(X_{free})}}{\zeta_{d}} \right)^{1/d}}$, then the RRG algorithm is asymptotically optimal.
+
+### Theorem 37 (Asymptotic optimality of $k$-nearest RRG)
+
+If $k_{RRG} > {e{({1 + {1/d}})}}$, then the $k$-nearest implementation of the RRG algorithm is asymptotically optimal.
+
+### Theorem 38 (Asymptotic optimality of RRT^∗^)
+
+If $\gamma_{{RRT}^{\ast}} > {{({2{({1 + {1/d}})}})}^{1/d}\left( \frac{\mu{(X_{free})}}{\zeta_{d}} \right)^{1/d}}$, then the RRT^∗^ algorithm is asymptotically optimal.
+
+### Theorem 39 (Asymptotic optimality of $k$-nearest RRT^∗^)
+
+If $k_{{RRT}^{\ast}} > {2^{d + 1}e{({1 + {1/d}})}}$, then the $k$-nearest implementation of the RRT^∗^ algorithm is asymptotically optimal.
+
+The proof of the latter theorem follows from those of Theorems 37 ‣ 4.2.2 Proposed algorithms ‣ 4.2 Asymptotic Optimality ‣ 4 Analysis ‣ Sampling-based Algorithms for Optimal Motion Planning") and 38 ‣ 4.2.2 Proposed algorithms ‣ 4.2 Asymptotic Optimality ‣ 4 Analysis ‣ Sampling-based Algorithms for Optimal Motion Planning").
+
+### Computational Complexity
+
+The objective of this section is to compare the computational complexity of the algorithms provided in Section 3. First, each algorithm is analyzed in terms of the number of calls to the $\mathtt{C}\mathtt{o}\mathtt{l}\mathtt{l}\mathtt{i}\mathtt{s}\mathtt{i}\mathtt{o}\mathtt{n}\mathtt{F}\mathtt{r}\mathtt{e}\mathtt{e}$ procedure. Second, the computational complexity of certain primitive procedures such as $\mathtt{N}\mathtt{e}\mathtt{a}\mathtt{r}\mathtt{e}\mathtt{s}\mathtt{t}$ and $\mathtt{N}\mathtt{e}\mathtt{a}\mathtt{r}$ (see Section 3.1) are analyzed. Using these results, a thorough analysis of the computational complexity of the all the algorithms is given in terms of the number of simple operations, such as comparisons, additions, multiplications. An analysis of the computational complexity of the query phase, i.e., the complexity of extracting the optimal solution from the graph returned by these algorithms, is also provided.
+
+The following notation for asymptotic computational complexity will be used throughout this section. Let $W_{n}^{ALG}{(P)}$ be a function of the graph returned by algorithm $ALG$ when $ALG$ is run with inputs $P = {(\mathcal{X}_{free},x_{init},\mathcal{X}_{goal})}$ and $n$. Clearly, $W_{n}^{ALG}{(P)}$ is a random variable. Let $f:{{\mathbb{N}}\rightarrow{\mathbb{N}}}$ be an increasing function with ${\lim_{n\rightarrow\infty}{f{(n)}}} = \infty$. The random variable $W_{n}^{ALG}$ is said belong to $\Omega{({f{(n)}})}$, denoted as $W_{n}^{ALG} \in {\Omega{({f{(n)}})}}$, if there exists a problem instance $P = {(\mathcal{X}_{free},x_{init},\mathcal{X}_{goal})}$ such that ${\operatorname{lim\ inf}_{n\rightarrow\infty}{{\mathbb{E}}{\lbrack{{{W_{n}^{ALG}{(P)}}/f}{(n)}}\rbrack}}} > 0$. Similarly, $W_{n}^{ALG}$ is said to belong to $O{({f{(n)}})}$ if ${\operatorname{lim\ sup}_{n\rightarrow\infty}{{\mathbb{E}}{\lbrack{{{W_{n}^{ALG}{(P)}}/f}{(n)}}\rbrack}}} < \infty$ for all problem instances $P = {(\mathcal{X}_{free},x_{init},\mathcal{X}_{goal})}$.
+
+### Number of calls to the $\mathtt{C}\mathtt{o}\mathtt{l}\mathtt{l}\mathtt{i}\mathtt{s}\mathtt{i}\mathtt{o}\mathtt{n}\mathtt{F}\mathtt{r}\mathtt{e}\mathtt{e}$ procedure
+
+Let $M_{n}^{ALG}$ denote the total number of calls to the $\mathtt{C}\mathtt{o}\mathtt{l}\mathtt{l}\mathtt{i}\mathtt{s}\mathtt{i}\mathtt{o}\mathtt{n}\mathtt{F}\mathtt{r}\mathtt{e}\mathtt{e}$ procedure by algorithm $ALG$ in iteration $n$.
+
+First, lower-bounds are established for the PRM and sPRM algorithms.
+
+### Lemma 40 (PRM)
+
+### Proof
+
+Consider the problem instance $(\mathcal{X}_{free},x_{init},\mathcal{X}_{goal})$, where $\mathcal{X}_{free}$ is composed of two openly-disjoint sets $\mathcal{X}_{1}$ and $\mathcal{X}_{2}$ (see Figure 9). The set $\mathcal{X}_{2}$ is designed to be a hyperrectangle shaped set with one side equal to $r/2$, where $r$ is the connection radius.
+
+Figure 9: An illustration of 𝒳free = 𝒳1 ∪ 𝒳2.
+
+Any $r$-ball centered at a point in $\mathcal{X}_{2}$ will certainly contain a nonzero measure part of $\mathcal{X}_{2}$. Define $\overline{\mu}$ as the volume of the smallest region in $\mathcal{X}_{2}$ that can be intersected by an $r$-ball centered at $\mathcal{X}_{2}$, i.e., $\overline{\mu}:={\inf_{x \in \mathcal{X}_{2}}{\mu{({\mathcal{B}_{x,r} \cap \mathcal{X}_{1}})}}}$. Clearly, $\overline{\mu} > 0$.
+
+Thus, for any sample $X_{n}$ that falls into $\mathcal{X}_{2}$, the PRM algorithm will attempt to connect $X_{n}$ to a certain number of vertices that lies in a subset $\mathcal{X}_{1}^{\prime}$ of $\mathcal{X}_{1}$ such that ${\mu{(\mathcal{X}_{1}^{\prime})}} \geq \overline{\mu}$. The expected number of vertices in $\mathcal{X}_{1}^{\prime}$ is at least $\overline{\mu}n$. Moreover, none of these vertices can be in the same connected component with $X_{n}$. Thus, ${{\mathbb{E}}{\lbrack{M_{n}^{PRM}/n}\rbrack}} > \overline{\mu}$. The result is obtained by taking the limit inferior of both sides. ∎∎
+
+### Lemma 41 (sPRM)
+
+### Proof
+
+The proof of a stronger result is provided. It is shown that for all problem instances $P = {(\mathcal{X}_{free},x_{init},\mathcal{X}_{goal})}$, ${\operatorname{lim\ inf}_{n\rightarrow\infty}{{\mathbb{E}}{\lbrack{M_{n}^{sPRM}/n}\rbrack}}} > 0$, which implies the lemma. Recall from Algorithm 2: ‣ 3.2 Existing Algorithms ‣ 3 Algorithms ‣ Sampling-based Algorithms for Optimal Motion Planning") that $r$ denotes the connection radius. Let $\overline{\mu}$ denote the volume of the smallest region that can be formed by intersecting $\mathcal{X}_{free}$ with an $r$-ball centered at a point inside $\mathcal{X}_{free}$, i.e., ${\overline{\mu}:={\inf_{x \in \mathcal{X}_{free}}{\mu{({\mathcal{B}_{x,r} \cap \mathcal{X}_{free}})}}}}.$ Recall that $\mathcal{X}_{free}$ is the closure of an open set. Hence, $\overline{\mu} > 0$.
+
+Clearly, $M_{n}$, the number of calls to the $\mathtt{C}\mathtt{o}\mathtt{l}\mathtt{l}\mathtt{i}\mathtt{s}\mathtt{i}\mathtt{o}\mathtt{n}\mathtt{F}\mathtt{r}\mathtt{e}\mathtt{e}$ procedure in iteration $n$, is equal to the number of nodes inside the ball of radius $r$ centered at the last sample point $X_{n}$. Moreover, the volume of the $\mathcal{X}_{free}$ that lies inside this ball is at least $\overline{\mu}$. Then, the expected value of $M_{n}$ is lower bounded by the expected value of a binomial random variable with parameters ${\overline{\mu}/\mu}{(\mathcal{X}_{free})}$ and $n$, since the underlying point process is binomial. Thus, ${{{\mathbb{E}}{\lbrack M_{n}^{sPRM}\rbrack}} \geq {\frac{\overline{\mu}}{\mu{(\mathcal{X}_{free})}}n}}.$ Then, ${{\mathbb{E}}{\lbrack{M_{n}/n}\rbrack}} \geq {\overline{\mu}/\mathcal{X}_{free}}$ for all $n \in {\mathbb{N}}$. Taking the limit inferior of both sides gives the result. ∎∎
+
+Clearly, for $k$-nearest PRM, $M_{n}^{k\text{-}{sPRM}} = k$ for all $n \in {\mathbb{N}}$ with $n > k$. Similarly, for the RRT, $M_{n}^{RRT} = 1$ for all $n \in {\mathbb{N}}$.
+
+The next lemma upper-bounds the number of calls to the $\mathtt{C}\mathtt{o}\mathtt{l}\mathtt{l}\mathtt{i}\mathtt{s}\mathtt{i}\mathtt{o}\mathtt{n}\mathtt{F}\mathtt{r}\mathtt{e}\mathtt{e}$ procedure in the proposed algorithms.
+
+### Lemma 42 (PRM^∗^, RRG, and RRT^∗^)
+
+${M_{n}^{{PRM}^{\ast}},M_{n}^{RRG},M_{n}^{{RRT}^{\ast}}} \in {O{({\log n})}}$.
+
+### Proof
+
+First, consider PRM^∗^. Recall that $r_{n}$ denotes the connection radius of the PRM^∗^ algorithm. Recall that the $r_{n}$ interior of $\mathcal{X}_{free}$, denoted by ${int}_{r_{n}}{(\mathcal{X}_{free})}$, is defined as the set of all points $x$, for which the $r_{n}$-ball centered at $x$ lies entirely inside $\mathcal{X}_{free}$. Let $A$ denote the event that the sample $X_{n}$ drawn at the last iteration falls into the $r_{n}$ interior of $\mathcal{X}_{free}$. Then,
+
+Let $n_{0} \in {\mathbb{N}}$ be the smallest number such that ${\mu{({{int}_{r_{n}}{(\mathcal{X}_{free})}})}} > 0$. Clearly, such $n_{0}$ exists, since ${\lim_{n\rightarrow\infty}r_{n}} = 0$ and $\mathcal{X}_{free}$ has non-empty interior. Recall that $\zeta_{d}$ is the volume of the unit ball in the $d$-dimensional Euclidean space and that the connection radius of the PRM^∗^ algorithm is $r_{n} = {\gamma_{PRM}{({\log{n/n}})}^{1/d}}$. Then, for all $n \geq n_{0}$
+
+On the other hand, given that $X_{n} \notin {{int}_{r_{n}}{(\mathcal{X}_{free})}}$, the $r_{n}$-ball centered at $X_{n}$ intersects a fragment of $\mathcal{X}_{free}$ that has volume less than the volume of an $r_{n}$-ball in the $d$-dimensional Euclidean space. Then, for all $n > n_{0}$, ${{{\mathbb{E}}\left\lbrack M_{n}^{{PRM}^{\ast}} \middle| A^{c} \right\rbrack} \leq {{\mathbb{E}}\left\lbrack M_{n}^{{PRM}^{\ast}} \middle| A \right\rbrack}}.$
+
+Hence, for all $n \geq n_{0}$,
+
+Next, consider the RRG. Recall that $\eta$ is the parameter provided in the $\mathtt{S}\mathtt{t}\mathtt{e}\mathtt{e}\mathtt{r}$ procedure (see Section 3.1). Let $D$ denote the diameter of the set $\mathcal{X}_{free}$, i.e., $D:={\sup_{{x,x^{\prime}} \in \mathcal{X}_{free}}{\|{x - x^{\prime}}\|}}$. Clearly, whenever $\eta \geq D$, $V^{{PRM}^{\ast}} = V^{RRG} = V^{{RRT}^{\ast}}$ surely, and the claim holds.
+
+To prove the claim when $\eta < D$, let $C_{n}$ denote the event that for any point $x \in \mathcal{X}_{free}$ the RRG algorithm has a vertex $x^{\prime} \in V_{n}^{RRG}$ such that ${\|{x - x^{\prime}}\|} \leq \eta$. As shown in the proof of Theorem 36 ‣ 4.2.2 Proposed algorithms ‣ 4.2 Asymptotic Optimality ‣ 4 Analysis ‣ Sampling-based Algorithms for Optimal Motion Planning") (see Lemma 63 ‣ Sampling-based Algorithms for Optimal Motion Planning")), there exists ${a,b} > 0$ such that ${{\mathbb{P}}{(C_{n}^{c})}} \leq {ae^{- {bn}}}$. Then,
+
+Clearly, ${{\mathbb{E}}\left\lbrack M_{n}^{RRG} \middle| C_{n}^{c} \right\rbrack} \leq n$. Hence, the second term of the sum on the right hand side converges to zero as $n$ approaches infinity. On the other hand, given that $C_{n}$ holds, the new vertex that will be added to the graph at iteration $n$, if such a vertex is added at all, will be the same as the last sample, $X_{n}$. To complete the argument, given any set of $n$ points placed inside $\mu{(X_{free})}$, let $N_{n}$ denote the number of points that are inside a ball of radius $r_{n}$ that is centered at a point $X_{n}$ sampled uniformly at random from $\mu{(X_{free})}$. The expected number of points inside this ball is no more than ${\frac{\zeta_{d}r_{n}^{d}}{\mu{(X_{free})}}n}.$ Hence, ${{\mathbb{E}}{\lbrack\left. M_{n}^{RRG} \middle| C_{n} \right.\rbrack}} < {\frac{\zeta_{d}\gamma_{PRM}}{\mu{(X_{free})}}{\log n}}$, which implies the existence of a constant $\phi_{1} \in {\mathbb{R}}_{\geq 0}$ such that ${\operatorname{lim\ sup}_{n\rightarrow\infty}{{\mathbb{E}}{\lbrack{M_{n}^{RRG}/{({\log n})}}\rbrack}}} \leq \phi_{1}$.
+
+Finally, since $M_{n}^{{RRT}^{\ast}} = M_{n}^{RRG}$ holds surely, ${\operatorname{lim\ sup}_{n\rightarrow\infty}{{\mathbb{E}}{\lbrack{M_{n}^{RRG}/{({\log n})}}\rbrack}}} \leq \phi_{1}$ also. ∎∎
+
+Trivially, $M_{n}^{k\text{-}{PRM}^{\ast}} = M_{n}^{k\text{-}{RRG}} = M_{n}^{k\text{-}{RRT}^{\ast}} = {k{\log n}}$ for all $n$ with ${n/{\log n}} > k$.
+
+### Complexity of the $\mathtt{C}\mathtt{o}\mathtt{l}\mathtt{l}\mathtt{i}\mathtt{s}\mathtt{i}\mathtt{o}\mathtt{n}\mathtt{F}\mathtt{r}\mathtt{e}\mathtt{e}$ procedure
+
+In this section, complexity of the $\mathtt{C}\mathtt{o}\mathtt{l}\mathtt{l}\mathtt{i}\mathtt{s}\mathtt{i}\mathtt{o}\mathtt{n}\mathtt{F}\mathtt{r}\mathtt{e}\mathtt{e}$ procedure in terms of the number of obstacles in the environment is analyzed, which is a widely-studied problem in the literature (see, e.g., Lin and Manocha for a survey). The main result is based on Six and Wood, which shows that checking collision with $m$ obstacles can be executed in $O{({\log^{d}m})}$ time using data structures based on spatial trees.
+
+### Complexity of the $\mathtt{N}\mathtt{e}\mathtt{a}\mathtt{r}\mathtt{e}\mathtt{s}\mathtt{t}$ procedure
+
+The nearest neighbor search problem has been widely studied in the literature, since it has many applications in, e.g., computer graphics, database systems, image processing, data mining, pattern recognition, etc.. Clearly, a brute-force algorithm that examines every vertex runs in $O{(n)}$ time and requires $O{}$ space. However, in many online real-time applications such as robotics, it is highly desirable to reduce the computation time of each iteration under sublinear bounds, e.g., in $O{({\log n})}$ time, especially for anytime algorithms that provide better solutions as the number of iterations increase.
+
+Fortunately, existing algorithms for computing an "approximate" nearest neighbor, if not an exact one, are computationally very efficient. In the sequel, a vertex $y$ is said to be an $\varepsilon$-approximate nearest neighbor of a point $x$ if ${\|{y - x}\|} \leq {{({1 + \varepsilon})}{\|{z - x}\|}}$, where $z$ is the true nearest neighbor of $x$. An approximate nearest neighbor can be computed using balanced-box decomposition (BBD) trees, which achieves $O{({c_{d,\varepsilon}{\log n}})}$ query time using $O{({dn})}$ space, where $c_{d,\varepsilon} \leq {d{\lceil{1 + {{6d}/\varepsilon}}\rceil}^{d}}$. This algorithm is computationally optimal in fixed dimensions, since it closely matches a lower bound for algorithms that use a tree structure stored in roughly linear space. Using approximate nearest neighbor computation in the context of both PRMs and RRTs was discussed very recently in Yershova and LaValle; Plaku and Kavraki.
+
+Let $G = {(V,E)}$ be a graph with $V \subseteq \mathcal{X}$ and let $x \in \mathcal{X}$. The discussion above implies that the number of simple operations executed by the ${\mathtt{N}\mathtt{e}\mathtt{a}\mathtt{r}\mathtt{e}\mathtt{s}\mathtt{t}}{(G,x)}$ procedure is $\Theta{({\log{|V|}})}$ in fixed dimensions, if the $\mathtt{N}\mathtt{e}\mathtt{a}\mathtt{r}\mathtt{e}\mathtt{s}\mathtt{t}$ procedure is implemented using a tree structure that is stored in linear space.
+
+### Complexity of the $\mathtt{N}\mathtt{e}\mathtt{a}\mathtt{r}$ procedure
+
+Problems similar to that solved by the $\mathtt{N}\mathtt{e}\mathtt{a}\mathtt{r}$ procedure are also widely-studied in the literature, generally under the name of range search problems, as they have many applications in, for instance, computer graphics and spatial database systems. In the worst case and in fixed dimensions, computing the exact set of vertices that reside in a ball of radius $r_{n}$ centered at a query point $x$ takes $O{({n^{1 - {1/d}} + m})}$ time using $k$-d trees, where $m$ is the number of vertices returned by the search (see also Chanzy et al. for an analysis of the average case).
+
+Similar to the nearest neighbor search, computing approximate solutions to the range search problem is computationally easier. A range search algorithm is said to be $\varepsilon$-approximate if it returns all vertices that reside in the ball of size $r_{n}$ and no vertices outside a ball of radius ${({1 + \varepsilon})}r_{n}$, but may or may not return the vertices that lie outside the former ball and inside the latter ball. Computing $\varepsilon$-approximate solutions using BBD-trees requires $O{({{2^{d}{\log n}} + {d^{2}{({{3\sqrt{d}}/\varepsilon})}^{d - 1}}})}$ time when using $O{({dn})}$ space, in the worst case. Thus, in fixed dimensions, the complexity of this algorithm is $O{({{\log n} + {({1/\varepsilon})}^{d - 1}})}$, which is known to be optimal, closely matching a lower bound. More recently, algorithms that can provide trade-offs between time and space were also proposed.
+
+Note that the $\mathtt{N}\mathtt{e}\mathtt{a}\mathtt{r}$ procedure can be implemented as an approximate range search while maintaining the asymptotic optimality guarantee. Notice that the expected number of vertices returned by the $\mathtt{N}\mathtt{e}\mathtt{a}\mathtt{r}$ procedure also does not change, except by a constant factor. Hence, the $\mathtt{N}\mathtt{e}\mathtt{a}\mathtt{r}$ procedure can be implemented to run in order $\log n$ expected time in the limit and linear space in fixed dimensions.
+
+### Time complexity of the processing phase
+
+The following results characterize the asymptotic computational complexity of various sampling-based algorithms in terms of the number of simple operations such as comparisons, additions, and multiplications.
+
+Let $n$ denote the total number of iterations (or, alternatively, the number of samples), and $m$ denote the number of obstacles in the environment. Then, by Lemmas 40 ‣ Number of calls to the 𝙲𝚘𝚕𝚕𝚒𝚜𝚒𝚘𝚗𝙵𝚛𝚎𝚎 procedure ‣ 4.3 Computational Complexity ‣ 4 Analysis ‣ Sampling-based Algorithms for Optimal Motion Planning") and 41 ‣ Number of calls to the 𝙲𝚘𝚕𝚕𝚒𝚜𝚒𝚘𝚗𝙵𝚛𝚎𝚎 procedure ‣ 4.3 Computational Complexity ‣ 4 Analysis ‣ Sampling-based Algorithms for Optimal Motion Planning"), ${N_{n}^{PRM},N_{n}^{sPRM}} \in {\Omega{({n^{2}{\log^{d}m}})}}$. In the $k$-nearest sPRM and RRT algorithms, $\Omega{({\log n})}$ time is spent on finding the ($k$-)nearest neighbor(s) and $\Omega{({\log^{d}m})}$ time is spent on collision checking at each iteration. Hence, ${N_{n}^{k\text{-}{sPRM}},N_{n}^{RRT}} \in {\Omega{({{n{\log n}} + {n{\log^{d}m}}})}}$.
+
+In all the proposed algorithms, $O{({\log n})}$ time is spent on finding the near neighbors, and $\log{n{\log^{d}m}}$ time is spent on collision checking. Thus, $N_{n}^{ALG} \in {O{({n{\log{n{\log^{d}m}}}})}}$ for $ALG \in {\{{PRM}^{\ast},k\text{-}{PRM}^{\ast},}$ ${RRG},k\text{-}{RRG},{RRT}^{\ast},k\text{-}{RRT}^{\ast}\}$.
+
+### Time complexity of the query phase
+
+After algorithm $ALG$ returns the graph $G_{n}^{ALG}$, the optimal path must be extracted from this graph using, e.g., Dijkstra's shortest path algorithm. In this section, the complexity of this operation, called the query phase, is discussed.
+
+The following lemma yields the asymptotic computational complexity of computing shortest paths. Let $G = {(V,E)}$ be a graph. A length function $l:{E\rightarrow{\mathbb{R}}_{> 0}}$ is a function that assigns each edge in $E$ a positive length. Given a vertex $v \in V$, the shortest paths tree for $G$, $l$, and $v$ is a graph $G^{\prime} = {(V,E^{\prime})}$, where $E^{\prime} \subseteq E$ such that for any $v^{\prime} \in {V \smallsetminus {\{ v\}}}$, there exists a unique path in $G$ that starts from $v$ and reaches $v^{\prime}$, moreover, this path is the optimal such path in $G$.
+
+### Lemma 43 (Complexity of shortest paths (Schrijver, 2003))
+
+Given a graph $G = {(V,E)}$, a length function $l:{E\rightarrow{\mathbb{R}}_{> 0}}$, and a vertex $v \in V$, the shortest path tree for $G$, $l$, and $v$ can be found in time $O{({{{|V|}{\log{({|V|})}}} + {|E|}})}$.
+
+It remains to determine the number of vertices and edges in $G_{n}^{ALG} = {(V_{n}^{ALG},E_{n}^{ALG})}$, for each algorithm $ALG$.
+
+Trivially, ${|E_{n}^{ALG}|} \in {\Omega{(n)}}$ holds for all the algorithms discussed in this paper, in particular, for ${ALG} \in {\{{PRM},{k\text{-}{sPRM}},{RRT}\}}$. For the sPRM algorithm, a stronger bound can be provided: ${|E_{n}^{sPRM}|} \in {\Omega{(n^{2})}}$. To prove this claim, consider the problem instance $(\mathcal{X}_{free},x_{init},\mathcal{X}_{goal})$, where $\mathcal{X}_{free} = \mathcal{X} = {}^{d}$. Then, the straight path between any two vertices will be collision-free. Thus, the number of edges is exactly equal to the number of calls to the CollisionFree procedure. Then, the result follows from Lemma 41 ‣ Number of calls to the 𝙲𝚘𝚕𝚕𝚒𝚜𝚒𝚘𝚗𝙵𝚛𝚎𝚎 procedure ‣ 4.3 Computational Complexity ‣ 4 Analysis ‣ Sampling-based Algorithms for Optimal Motion Planning").
+
+For the proposed algorithms, ${{|E_{n}^{{PRM}^{\ast}}|},{|E_{n}^{RRG}|}} \in {O{({n{\log n}})}}$. Since the number of edges is always less than or equal to the total number of calls to the $\mathtt{C}\mathtt{o}\mathtt{l}\mathtt{l}\mathtt{i}\mathtt{s}\mathtt{i}\mathtt{o}\mathtt{n}\mathtt{F}\mathtt{r}\mathtt{e}\mathtt{e}$ procedure, this claim follows directly from Lemma 42 ‣ Number of calls to the 𝙲𝚘𝚕𝚕𝚒𝚜𝚒𝚘𝚗𝙵𝚛𝚎𝚎 procedure ‣ 4.3 Computational Complexity ‣ 4 Analysis ‣ Sampling-based Algorithms for Optimal Motion Planning"). Finally, ${{|E_{n}^{k\text{-}{PRM}^{\ast}}|},{|E_{n}^{k\text{-}{RRG}}|}} \in {O{({n{\log n}})}}$ and ${{|E_{n}^{{RRT}^{\ast}}|},{|E_{n}^{k\text{-}{RRT}^{\ast}}|}} \in {O{(n)}}$ all hold trivially.
+
+### Space complexity
+
+Space complexity of an algorithm $ALG$ is defined as the amount of memory that is used by $ALG$ to compute the graph $G_{n}^{ALG} = {(V_{n}^{ALG},E_{n}^{ALG})}$. Clearly, in all algorithms discussed in this paper, the space complexity is the size of $G_{n}^{ALG}$, i.e., ${|V_{n}^{ALG}|} + {|E_{n}^{ALG}|}$. Since the number of edges is at least as much as the number of vertices in $G_{n}^{ALG}$ for all algorithms discussed in this paper, the space complexity of an algorithm, in this context, is the number edges in the graph that it returns, which was determined in the previous section.
+
+## Numerical Experiments
+
+This section is devoted to an experimental study of the algorithms considered in the paper. All algorithms were implemented in C and run on a computer with 2.66 GHz processor and 4GB RAM running the Linux operating system. Unless otherwise noted, total variation of a path is its cost.
+
+A first set of experiments were run to illustrate the different performance of $k$-nearest PRM and of PRM^∗^. The $k$-nearest PRM and the PRM^∗^ algorithms were run alongside in two dimensional configuration-space and the cost of the best path in both algorithms is plotted versus the number of iterations in Figure 10. The $k$-nearest PRM does not converge to optimal solutions, unlike PRM^∗^. The performance of the PRM^∗^ algorithm is also shown in configuration spaces of dimensions up to five in Figure 11.
+
+The main bulk of the experiments were aimed at demonstrating the performance of the RRT^∗^ algorithm, especially in comparison with its "standard" counterpart, i.e., RRT. Three problem instances were considered. In the first two, the cost function is the Euclidean path length.
+
+The first scenario includes no obstacles. Both algorithms are run in a square environment. The trees maintained by the algorithms are shown in Figure 12 at several stages. The figure illustrates that, in this case, the RRT algorithm does not improve the feasible solution to converge to an optimum solution. On the other hand, running the RRT^∗^ algorithm further improves the paths in the tree to lower cost ones. The convergence properties of the two algorithms are also investigated in Monte-Carlo runs. Both algorithms were run for 20,000 iterations 500 times and the cost of the best path in the trees were averaged for each iteration. The results are shown in Figure 13, which shows that in the limit the RRT algorithm has cost very close to a $\sqrt{2}$ factor the optimal solution (see LaValle and Kuffner for a similar result in a deterministic setting), whereas the RRT^∗^ converges to the optimal solution. Moreover, the variance over different RRT runs approaches 2.5, while that of the RRT^∗^ approaches zero. Hence, almost all RRT^∗^ runs have the property of convergence to an optimal solution, as expected.
+
+In the second scenario, both algorithms are run in an environment in presence of obstacles. In Figure 14, the trees maintained by the algorithms are shown after 20,000 iterations. The tree maintained by the RRT^∗^ algorithm is also shown in Figure 15 in different stages. It can be observed that the RRT^∗^ first rapidly explores the state space just like the RRT. Moreover, as the number of samples increase, the RRT^∗^ improves its tree to include paths with smaller cost and eventually discovers a path in a different homotopy class, which reduces the cost of reaching the target considerably. Results of a Monte-Carlo study for this scenario is presented in Figure 16. Both algorithms were run alongside up until 20,000 iterations 500 times and cost of the best path in the trees were averaged for each iteration. The figures illustrate that all runs of the RRT^∗^ algorithm converges to the optimum, whereas the RRT algorithm is about 1.5 of the optimal solution on average. The high variance in solutions returned by the RRT algorithm stems from the fact that there are two different homotopy classes of paths that reach the goal. If the RRT luckily converges to a path of the homotopy class that contains an optimum solution, then the resulting path is relatively closer to the optimum than it is on average. If, on the other hand, the RRT first explores a path of the second homotopy class, which is often the case for this particular scenario, then the solution that RRT converges to is generally around twice the optimum.
+
+Finally, in the third scenario, where no obstacles are present, the cost function is selected to be the line integral of a function, which evaluates to 2 in the high cost region, 1/2 in the low cost region, and 1 everywhere else. The tree maintained by the RRT^∗^ algorithm is shown after 20,000 iterations in Figure 17. Notice that the tree either avoids the high cost region or crosses it quickly, and vice-versa for the low-cost region. (Incidentally, this behavior corresponds to the well known Snell-Descartes law for refraction of light, see Rowe and Alexander for a path-planning application.)
+
+To compare the running time, both algorithms were run alongside in an environment with no obstacles for up to one million iterations. Figure 18, shows the ratio of the running time of RRT^∗^ and that of RRT versus the number of iterations averaged over 50 runs. As expected from the complexity analysis of Section 4.3, this ratio converges to a constant value. A similar figure is produced for the second scenario and provided in Figure 19.
+
+The RRT^∗^ algorithm was also run in a 5-dimensional state space. The number of iterations versus the cost of the best path averaged over 100 trials is shown in Figure 20. A comparison with the RRT algorithm is provided in the same figure. The ratio of the running times of the RRT^∗^ and the RRT algorithms is provided in Figure 21. The same experiment is carried out for a 10-dimensional configuration space. The results are shown in Figure 22.
+
+Figure 10: The cost of the best path in the k-nearest sPRM algorithm, and that in the PRM∗ algorithm are shown versus the number of iterations in simulation examples with no obstacles. The k-nearest sPRM algorithm was run for k = 5, 7, 10, 13, 15, each of which is shown separately in blue, and the PRM∗ algorithm is shown in red. The values are normalized so that the cost of the optimal path is equal to one. The iterations were stopped when the query phase of the algorithms exceeded the memory limit (approximately 4GB).
+
+Figure 11: Cost of the best path in the PRM∗ algorithm is shown in up to 2, 3, 4, and 5 dimensional configuration spaces, in Figures (a), (b), (c), and (d), respectively. The initial condition and goal region are on opposite vertices of the unit cube d. The obstacle region is a cube centered at (0.5,0.5,…,0.5) and has volume 0.5 in all cases.
+
+Figure 12: A Comparison of the RRT∗ and RRT algorithms on a simulation example with no obstacles. Both algorithms were run with the same sample sequence. Consequently, in this case, the vertices of the trees at a given iteration number are the same for both of the algorithms; only the edges differ. The edges formed by the RRT algorithm are shown in (a)-(d) and (i), whereas those formed by the RRT∗ algorithm are shown in (e)-(h) and (j). The tree snapshots (a), (e) contain 250 vertices, (b), (f) 500 vertices, (c), (g) 2500 vertices, (d), (h) 10,000 vertices and (i), (j) 20,000 vertices. The goal regions are shown in magenta (in upper right). The best paths that reach the target in all the trees are highlighted with red.
+
+Figure 13: The cost of the best paths in the RRT (shown in red) and the RRT∗ (shown in blue) plotted against iterations averaged over 500 trials in (a). The optimal cost is shown in black. The variance of the trials is shown in (b).
+
+Figure 14: A Comparison of the RRT (shown in (a)) and RRT∗ (shown in (b)) algorithms on a simulation example with obstacles. Both algorithms were run with the same sample sequence for 20,000 samples. The cost of best path in the RRT and the RRG were 21.02 and 14.51, respectively.
+
+Figure 15: RRT∗ algorithm shown after 500 (a), 1,500 (b), 2,500 (c), 5,000 (d), 10,000 (e), 15,000 (f) iterations.
+
+Figure 16: An environment cluttered with obstacles is considered. The cost of the best paths in the RRT (shown in red) and the RRT∗ (shown in blue) plotted against iterations averaged over 500 trials in (a). The optimal cost is shown in black. The variance of the trials is shown in (b).
+
+Figure 17: RRT∗ algorithm at the end of iteration 20,000 in an environment with no obstacles. The upper yellow region is the high-cost region, whereas the lower yellow region is low-cost.
+
+Figure 18: A comparison of the running time of the RRT∗ and the RRT algorithms. The ratio of the running time of the RRT∗ over that of the RRT up until each iteration is plotted versus the number of iterations.
+
+Figure 19: A comparison of the running time of the RRT∗ and the RRT algorithms in an environment with obstacles. The ratio of the running time of the RRT∗ over that of the RRT up until each iteration is plotted versus the number of iterations.
+
+Figure 20: The cost of the best paths in the RRT (shown in red) and the RRT∗ (shown in blue) run in a 5 dimensional obstacle-free configuration space plotted against iterations averaged over 100 trials in (a). The optimal cost is shown in black. The variance of the trials is shown in (b).
+
+Figure 21: The ratio of the running time of the RRT and the RRT∗ algorithms is shown versus the number of iterations.
+
+Figure 22: The cost of the best paths in the RRT (shown in red) and the RRT∗ (shown in blue) run in a 10 dimensional configuration space involving obstacles plotted against iterations averaged over 25 trials in (a). The variance of the trials is shown in (b).
+
+## Conclusion
+
+This paper presented the results of a thorough analysis of sampling-based algorithms for optimal path planning. It is shown that broadly used algorithms from the literature, while probabilistically complete, are not asymptotically optimal, i.e., they will return a solution to the path planning problem with high probability if one exists, but the cost of the solution returned by the algorithm will not converge to the optimal cost as the number of samples increases. In particular, it is proven that the PRM and RRT algorithms are not asymptotically optimal. A simplified version of PRM is asymptotically optimal, but is computationally expensive. In addition, it is shown that certain heuristic versions of PRM are not only not asymptotically complete, but also not necessarily complete.
+
+In order to address these limitations of existing algorithms, a number of new algorithms are introduced, and proven to be asymptotically optimal and computational efficient, with respect to probabilistically complete algorithms in this class. In other words, asymptotic optimality imposes only a constant factor increase in complexity with respect to probabilistic completeness. The first algorithm, called PRM^∗^, is a variant of PRM, with a variable connection radius that scales as ${\log{(n)}}/n$, where $n$ is the number of samples. In other words, the average number of connections made at each iteration is proportional to $\log{(n)}$. The second new algorithm, called RRG, incrementally builds a connected roadmap, augmenting the RRT algorithm with connections within a ball scaling as ${\log{(n)}}/n$. The third new algorithm, called RRT^∗^, is a version of RRG that incrementally builds a tree. Experimental evidence that demonstrate the effectiveness of the algorithms proposed and support the theoretical claims were also provided.
+
+A common theme in the paper is that, in order to ensure both asymptotic optimality and computational efficiency, connections between samples should be sought within balls of radius scaling as ${\log{(n)}}/n$. If these balls shrink faster as $n$ increases, the algorithms are not asymptotically optimal (but may still be probabilistically complete); on the other hand, if these balls shrink slower, the complexity of the algorithms will suffer. On average, the proposed scaling laws will result in an average number of connections per iteration that is proportional to $\log{(n)}$. Hence, it is natural to consider variants of these algorithms that make connections to $k{\log{(n)}}$ neighbors surely. Indeed, it is shown that these algorithms do share the same asymptotic optimality and computational efficiency properties of their counterparts, as long as $k$ is no smaller than a constant $k_{RRG}^{\ast}$. It is remarkable that this constant only depends on the dimension of the space, and is otherwise independent from the problem instance.
+
+The analysis of the results in the paper relies on techniques used to analyze random geometric graphs. Indeed, the algorithms considered in this paper build graphs that have many characteristics in common with well known classes of random geometric graphs. Interestingly, such geometric graphs exhibit phase transition phenomena, including percolation and connectivity, for thresholds matching those found for probabilistic completeness and asymptotic optimality of sampling-based algorithms. This leads to a natural conjecture that a sampling-based path planning algorithm is probabilistically complete if and only if the underlying random geometric graph percolates, and is asymptotically optimal if and only if the underlying random geometric graph is connected.
+
+The work presented in this paper can be extended in numerous directions. First of all, it would be of interest to establish broader connections between sampling-based path planning algorithms and random geometric graphs, e.g., by proving or disproving the conjecture above, and by possibly improving on current algorithms through a better understanding of the underlying mathematical objects. Similar analysis techniques can also be used to analyze other sampling-based path planning algorithms that were not analyzed in this paper, such as EST. In addition, it is of interest to investigate deterministic sampling-based algorithms, in which samples are generated using deterministic dense sequences of points with, e.g., low dispersion, as opposed to random sequences.
+
+Second, it is of great practical interest to address motion planning problems subject to more complex constraints. For example, motion planning problems for mobile robots should consider the robot's dynamics, and hence differential constraints on the feasible trajectories (these are also called kino-dynamic planning problems). In addition, it is of interest to consider optimal planning problems in the presence of temporal/logic constraints on the trajectories, e.g., expressed using formal specification languages such as Linear Temporal Logic, or the $\mu$-calculus. Such constraints correspond to, e.g., rules of the road constraints for autonomous ground vehicles, mission specifications for autonomous robots, and rules of engagement in military applications. Ultimately, incremental sampling-based algorithms with asymptotic optimality properties may provide the basic elements for the on-line solution of differential games, as those arising when planning in the presence of dynamic obstacles.
+
+Finally, it is noted that the proposed algorithms may have applications outside of the robotic motion planning domain. In fact, the class of sampling-based algorithm described in this paper can be readily extended to deal with problems described by partial differential equations, such as the eikonal equation and the Hamilton-Jacobi-Bellman equation.

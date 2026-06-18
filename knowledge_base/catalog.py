@@ -21,6 +21,22 @@ from knowledge_base.utils.paper_ids import paper_id_from_metadata
 YAML_LOADER = getattr(yaml, "CSafeLoader", yaml.SafeLoader)
 MetadataYear = int | str
 UrlKey = Literal["detail", "tree", "map", "timeline", "search"]
+EMBED_TEXT_SIDECAR = "embed_text.md"
+LEGACY_FULL_TEXT_SIDECAR = "full_text.md"
+# Loose storage safety valve; embedding backends may need chunking below this.
+EMBED_TEXT_MAX_CHARS = 5_000_000
+
+HEADING_RE = re.compile(r"^#{1,6}\s+(.*?)\s*$")
+TAIL_HEADING_RE = re.compile(
+    r"^(references|bibliography|acknowledg(?:e)?ments?|funding|appendix|supplementary)\b",
+    re.IGNORECASE,
+)
+START_HEADING_RE = re.compile(r"^(introduction|abstract)\b", re.IGNORECASE)
+NUMERIC_CITATION_RE = re.compile(r"\\?\[[\d,\s;:–—-]+\\?\]")
+PAREN_NUMERIC_CITATION_RE = re.compile(r"\(\s*\d+(?:\s*[,;]\s*\d+)*\s*\)")
+YEAR_CITATION_RE = re.compile(r"\([^()]{0,160}\b(?:19|20)\d{2}[a-z]?\b[^()]{0,160}\)")
+COMPACT_CITATION_RE = re.compile(r"\b(?:[A-Z]{2,}|[A-Z][A-Za-z]+)[0-9]{2}[a-z]?\b")
+LATEX_SPACE_RE = re.compile(r"\\hspace\{[^}]*\}")
 
 
 def clean_scalar(value: Any) -> str:
@@ -311,6 +327,7 @@ class Entry:
         timeline_path = f"timeline/#paper={quoted_id}"
         search_path = f"search/?paper={quoted_id}"
         embedding_text = build_embedding_text(
+            metadata_path=metadata_path,
             title=title,
             tags=tags,
             summary=summary,
@@ -452,6 +469,7 @@ def paper_label(
 
 def build_embedding_text(
     *,
+    metadata_path: Path | None = None,
     title: str,
     tags: tuple[str, ...],
     summary: str,
@@ -464,7 +482,174 @@ def build_embedding_text(
     ]
     if abstract:
         parts.append(f"Abstract: {abstract}")
+    content = embedding_sidecar_text(metadata_path) if metadata_path else ""
+    if content:
+        parts.append(f"Content: {content}")
     return "\n".join(part for part in parts if part.split(": ", 1)[-1].strip())
+
+
+def embedding_sidecar_path(metadata_path: Path) -> Path | None:
+    for name in (EMBED_TEXT_SIDECAR, LEGACY_FULL_TEXT_SIDECAR):
+        path = metadata_path.with_name(name)
+        if path.is_file():
+            return path
+    return None
+
+
+def embedding_sidecar_text(metadata_path: Path) -> str:
+    path = embedding_sidecar_path(metadata_path)
+    if path is None:
+        return ""
+    return clean_embedding_sidecar_text(path.read_text(encoding="utf-8"))
+
+
+def clean_embedding_sidecar_text(markdown: str) -> str:
+    lines = drop_leading_author_blocks(strip_sidecar_header(markdown)).splitlines()
+    start = content_start_index(lines)
+    end = content_end_index(lines, start)
+    text = "\n".join(clean_embedding_lines(lines[start:end]))
+    text = re.sub(r"\n{3,}", "\n\n", text).strip()
+    if text and not any(line.startswith("#") for line in text.splitlines()):
+        text = f"## Paper Body\n\n{text}"
+    if len(text) > EMBED_TEXT_MAX_CHARS:
+        text = text[:EMBED_TEXT_MAX_CHARS].rsplit("\n\n", 1)[0].strip()
+    return text
+
+
+def strip_sidecar_header(markdown: str) -> str:
+    lines = markdown.replace("\r\n", "\n").splitlines()
+    while lines and not lines[0].strip():
+        lines.pop(0)
+    if lines and lines[0].startswith("# "):
+        lines.pop(0)
+    while lines and (
+        not lines[0].strip()
+        or lines[0].startswith("- arXiv ID:")
+        or lines[0].startswith("- HTML source:")
+    ):
+        lines.pop(0)
+    return "\n".join(lines)
+
+
+def drop_leading_author_blocks(markdown: str) -> str:
+    paragraphs = re.split(r"\n\s*\n", markdown.lstrip(), maxsplit=3)
+    while paragraphs and authorish_paragraph(paragraphs[0]):
+        paragraphs.pop(0)
+    return "\n\n".join(paragraphs)
+
+
+def authorish_paragraph(text: str) -> bool:
+    lowered = text.lower()
+    return "@" in text or any(token in lowered for token in ("department of", "university", "institute", "equal contribution"))
+
+
+def content_start_index(lines: list[str]) -> int:
+    fallback = 0
+    for index, line in enumerate(lines):
+        match = HEADING_RE.match(line.strip())
+        if not match:
+            continue
+        heading = embedding_heading_key(match.group(1))
+        if re.match(r"^introduction\b", heading, re.IGNORECASE):
+            return index
+        if fallback == 0 and re.match(r"^abstract\b", heading, re.IGNORECASE):
+            fallback = index
+    return fallback
+
+
+def content_end_index(lines: list[str], start: int) -> int:
+    for index, line in enumerate(lines[start + 1 :], start + 1):
+        match = HEADING_RE.match(line.strip())
+        if match and TAIL_HEADING_RE.match(embedding_heading_key(match.group(1))):
+            return index
+        if plain_tail_marker(line):
+            return index
+    return len(lines)
+
+
+def plain_tail_marker(line: str) -> bool:
+    text = line.strip().strip("# ").casefold()
+    return bool(
+        re.match(
+            r"^(references(?: and notes)?|bibliography|acknowledg(?:e)?ments?|funding|appendix|supplementary)\b",
+            text,
+        )
+    )
+
+
+def embedding_heading_key(heading: str) -> str:
+    heading = heading.strip()
+    heading = re.sub(r"^(?:[0-9]+(?:\.[0-9]+)*|[IVXLCDM]+)[).:]?\s+", "", heading, flags=re.IGNORECASE)
+    heading = re.sub(r"^[A-Za-z](?:\.\d+)*(?:[).:]\s*|\s+)(?=[A-Z][A-Za-z-]{2,}\b)", "", heading)
+    return heading.strip(" .:-")
+
+
+def normalized_embedding_heading(line: str) -> str:
+    match = HEADING_RE.match(line)
+    if not match:
+        return ""
+    marker, heading = line.split(" ", 1)
+    heading = re.sub(r"\s+", " ", embedding_heading_key(heading)).strip(": ")
+    if not heading:
+        return ""
+    level = "###" if len(marker) > 2 and heading.casefold() != "abstract" else "##"
+    return f"{level} {heading}"
+
+
+def clean_embedding_lines(lines: list[str]) -> list[str]:
+    cleaned: list[str] = []
+    skipping_block = False
+    for line in lines:
+        stripped = line.strip()
+        heading = normalized_embedding_heading(stripped)
+        if heading:
+            cleaned.append(heading)
+            continue
+        if table_separator_line(stripped):
+            skipping_block = True
+            continue
+        if skipping_block and not stripped:
+            skipping_block = False
+            cleaned.append("")
+            continue
+        if skipping_block:
+            continue
+
+        line = clean_embedding_line(line)
+        if keep_embedding_line(line):
+            cleaned.append(line)
+    return cleaned
+
+
+def clean_embedding_line(line: str) -> str:
+    line = LATEX_SPACE_RE.sub("", line)
+    line = NUMERIC_CITATION_RE.sub("", line)
+    line = PAREN_NUMERIC_CITATION_RE.sub("", line)
+    line = YEAR_CITATION_RE.sub("", line)
+    line = COMPACT_CITATION_RE.sub("", line)
+    line = re.sub(r"(?:\s*[;,]\s*){2,}", " ", line)
+    line = re.sub(r"\s+([.,;:])", r"\1", line)
+    line = re.sub(r"\s+", " ", line).strip()
+    return line
+
+
+def table_separator_line(line: str) -> bool:
+    return bool(line) and len(line) > 8 and set(line) <= {"-", " ", "|", ":"}
+
+
+def keep_embedding_line(line: str) -> bool:
+    if not line:
+        return True
+    if line.startswith("#"):
+        return True
+    words = re.findall(r"[A-Za-z][A-Za-z-]{2,}", line)
+    if len(words) < 3 and not line.lower().startswith("keywords:"):
+        return False
+    if len(line) > 80:
+        alpha = sum(char.isalpha() for char in line)
+        if alpha / max(len(line), 1) < 0.35:
+            return False
+    return True
 
 
 def identifier_terms(

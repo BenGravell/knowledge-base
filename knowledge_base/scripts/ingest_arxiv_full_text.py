@@ -1,4 +1,4 @@
-"""Convert available arXiv HTML pages into public Markdown sidecars."""
+"""Convert available arXiv HTML pages into cleaned embedding sidecars."""
 
 from __future__ import annotations
 
@@ -15,12 +15,12 @@ from urllib.parse import quote
 
 import requests
 
-from knowledge_base.catalog import Catalog, Entry
+from knowledge_base.catalog import Catalog, Entry, clean_embedding_sidecar_text
 from knowledge_base.config import KB_DIR
 from knowledge_base.utils.arxiv_utils import ARXIV_HEADERS, normalize_arxiv_id
 
 METADATA_ROOT = KB_DIR / "docs" / "papers"
-SIDECAR_NAME = "full_text.md"
+SIDECAR_NAME = "embed_text.md"
 DEFAULT_SLEEP_SECONDS = 3.0
 MIN_MARKDOWN_CHARS = 1_000
 
@@ -56,7 +56,7 @@ def arxiv_html_sources(arxiv_id: str) -> list[HtmlSource]:
     ]
 
 
-def full_text_path(entry: Entry) -> Path:
+def embed_text_path(entry: Entry) -> Path:
     return entry.metadata_path.with_name(SIDECAR_NAME)
 
 
@@ -164,15 +164,10 @@ def pandoc_convert(html: str, args: argparse.Namespace) -> str:
     return remove_rich_content_from_markdown(result.stdout)
 
 
-def sidecar_markdown(entry: Entry, source: HtmlSource, markdown: str) -> str:
+def sidecar_markdown(entry: Entry, markdown: str) -> str:
     title = re.sub(r"\s+", " ", entry.title or entry.title_label or entry.id).strip()
     markdown = remove_rich_content_from_markdown(body_after_duplicate_title(markdown, title))
-    return (
-        f"# {title}\n\n"
-        f"- arXiv ID: [{entry.arxiv_id}](https://arxiv.org/abs/{quote(entry.arxiv_id, safe='/')})\n"
-        f"- HTML source: [{source.label}]({source.url})\n\n"
-        f"{markdown}\n"
-    )
+    return f"{clean_embedding_sidecar_text(markdown)}\n"
 
 
 def write_sidecar(path: Path, text: str, dry_run: bool) -> None:
@@ -182,7 +177,7 @@ def write_sidecar(path: Path, text: str, dry_run: bool) -> None:
 
 
 def process_entry(entry: Entry, args: argparse.Namespace) -> str:
-    path = full_text_path(entry)
+    path = embed_text_path(entry)
     if path.exists() and not args.force:
         return f"skip existing {entry.id}"
 
@@ -196,10 +191,11 @@ def process_entry(entry: Entry, args: argparse.Namespace) -> str:
         message = (exc.stderr or exc.stdout or str(exc)).strip().splitlines()
         return f"skip pandoc {entry.id}: {message[-1] if message else exc}"
 
-    if readable_markdown_chars(markdown) < args.min_chars:
+    sidecar = sidecar_markdown(entry, markdown)
+    if readable_markdown_chars(sidecar) < args.min_chars:
         return f"skip too-short {entry.id}: {source.label}"
 
-    write_sidecar(path, sidecar_markdown(entry, source, markdown), args.dry_run)
+    write_sidecar(path, sidecar, args.dry_run)
     action = "would write" if args.dry_run else "wrote"
     return f"{action} {path.relative_to(KB_DIR)} from {source.label}"
 
@@ -216,6 +212,22 @@ def self_test() -> None:
     assert "view the build logs" not in strip_source_footer("Body\n\nExperimental support, please view the build logs")
     assert remove_duplicate_title("# Same\n\nBody", "Same") == "Body"
     assert body_after_duplicate_title("UI\n\n# Same\n\nBody", "Same") == "Body"
+    cleaned = clean_embedding_sidecar_text(
+        "# Paper\n\n- arXiv ID: [x](https://arxiv.org/abs/x)\n- HTML source: [ar5iv](https://ar5iv.test)\n\n"
+        "Alice Example University\n\n###### Abstract\n\nUseful idea [12].\n\n"
+        "## 1 Introduction\n\nThe method solves the real problem (Smith, 2020).\n\n"
+        "### A) Model Details\n\nDetails stay readable.\n\n"
+        "  -- -------- --\n noisy 123 456\n\n## References\n\n[1] Noise"
+    )
+    assert "Alice Example" not in cleaned
+    assert "References" not in cleaned
+    assert "Smith" not in cleaned
+    assert "## Introduction" in cleaned
+    assert "### Model Details" in cleaned
+    assert "### A)" not in cleaned
+    assert "The method solves the real problem" in cleaned
+    assert clean_embedding_sidecar_text("First useful paragraph.\n\nSecond useful paragraph.").startswith("## Paper Body")
+    assert "extra proof" not in clean_embedding_sidecar_text("## Introduction\n\nMain idea.\n\n## Appendix A\n\nextra proof")
     assert readable_markdown_chars("# A\n\nSome real words.") > 10
 
 

@@ -17,6 +17,10 @@ extra:
 not_in_nav: |
   papers/**/*.md
 
+exclude_docs: |
+  papers/**/embed_text.md
+  papers/**/full_text.md
+
 plugins:
   - macros:
       render_by_default: false

@@ -24,9 +24,9 @@ Third-party paper content notice:
 
 This license applies to this repository's software and original documentation.
 It does not grant rights to third-party paper text, figures, PDFs, LaTeX source
-files, or other e-print content. Optional `full_text.md` paper sidecars are
-public Markdown conversions of arXiv/ar5iv HTML for search and reading
-convenience only. They are not the canonical e-print, PDF, or LaTeX source of
-truth, and this repository intentionally omits PDFs, LaTeX source archives,
-images, and other rich paper assets. Reuse of paper text remains governed by
-each paper's original license and rights holder terms.
+files, or other e-print content. Optional `embed_text.md` paper sidecars are
+cleaned Markdown conversions of arXiv/ar5iv HTML for embedding and agentic
+search only. They are not the canonical e-print, PDF, or LaTeX source of truth,
+and this repository intentionally omits PDFs, LaTeX source archives, images,
+and other rich paper assets. Reuse of paper text remains governed by each
+paper's original license and rights holder terms.

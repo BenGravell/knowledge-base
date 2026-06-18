@@ -280,14 +280,6 @@ def make_link(
     }
 
 
-def full_text_sidecar_url(metadata_file: Path) -> str:
-    sidecar = metadata_file.with_name("full_text.md")
-    if not sidecar.is_file():
-        return ""
-    relative = sidecar.relative_to(KB_DIR / "docs").with_suffix("").as_posix()
-    return f"../../{quote(relative, safe='/')}/"
-
-
 def build_tag_links(tags: list[str], paper_id: str) -> list[dict[str, str]]:
     links = []
     quoted_paper_id = quote(paper_id, safe="")
@@ -311,20 +303,13 @@ def build_link_sections(data: dict[str, Any], paper_id: str) -> list[dict[str, A
     sections: list[dict[str, Any]] = []
     external_links: list[dict[str, str | bool]] = []
 
-    knowledge_links = paper_site_links(paper_id, base_path="../..")
-    full_text_url = clean_scalar(data.get("full_text_url"))
-    if full_text_url:
-        knowledge_links.append(
-            make_link(
-                "Full Text",
-                full_text_url,
-                "Open the converted Markdown full-text sidecar",
-                "internal",
-                False,
-            )
-        )
-
-    sections.append({"title": "Knowledge Base", "kind": "internal", "links": knowledge_links})
+    sections.append(
+        {
+            "title": "Knowledge Base",
+            "kind": "internal",
+            "links": paper_site_links(paper_id, base_path="../.."),
+        }
+    )
 
     if primary:
         external_links.append(make_link("Document", primary, "", "primary"))
@@ -584,7 +569,6 @@ def build_paper_entries() -> list[PaperTemplateEntry]:
                 "tags": list(entry.tags),
                 "doi_clean": entry.doi,
                 "arxiv_clean": entry.arxiv_id,
-                "full_text_url": full_text_sidecar_url(metadata_file),
             }
         )
         data["link_sections"] = build_link_sections(data, paper_id)
