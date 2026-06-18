@@ -18,7 +18,7 @@
   --kb-app-border: color-mix(in srgb, var(--md-default-fg-color) 15%, transparent);
   --kb-app-panel: color-mix(in srgb, var(--md-code-bg-color) 70%, var(--md-default-bg-color));
   --kb-app-header-bg: color-mix(in srgb, var(--md-code-bg-color) 82%, var(--kb-app-panel));
-  --kb-site-header-bg: var(--kb-color-blue);
+  --kb-site-header-bg: var(--md-primary-fg-color);
   --kb-site-header-ink: #ffffff;
   --kb-site-header-search-bg: #ffffff;
   --kb-site-header-search-fg: #1f2937;
@@ -3824,6 +3824,13 @@ body:has(#ct-app) .md-content__inner {
   vertical-align: middle;
   transform: none;
   transition: background 0.16s ease, border-color 0.16s ease, box-shadow 0.16s ease, color 0.16s ease;
+}
+
+.md-typeset a.paper-link-pill,
+.md-typeset a.paper-link-pill:visited,
+.md-typeset a.paper-link-pill:hover,
+.md-typeset a.paper-link-pill:focus-visible {
+  text-decoration: none;
 }
 
 .paper-link-pill__icon {
