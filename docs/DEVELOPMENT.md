@@ -80,11 +80,18 @@ Generate and edit a `metadata.yml` entry from an arXiv ID:
 poetry run streamlit run knowledge_base/apps/generator_app.py
 ```
 
-Run the metadata analyzer:
+Review Tree and metadata algorithm-label disagreements interactively:
 
 ```bash
-poetry run streamlit run knowledge_base/apps/analyzer_app.py
+poetry run streamlit run knowledge_base/apps/tree_label_review_app.py
 ```
+
+The Tree Label Review app uses the same suggestions as
+`knowledge_base/scripts/suggest_tree_algorithm_labels.py`.
+
+It shows the current Tree label, metadata `algorithm`, paper context, nearby `tree.yml` lines, and candidate canonical labels.
+
+Applying a label writes back to `knowledge_base/tree.yml`, the affected `metadata.yml`, or both, so review the resulting diff before committing.
 
 ## Repo layout
 

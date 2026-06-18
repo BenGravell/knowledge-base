@@ -56,7 +56,6 @@ Human-oriented dev tools:
 
 ```bash
 python knowledge_base/scripts/audit_metadata.py
-streamlit run knowledge_base/apps/analyzer_app.py
 streamlit run knowledge_base/apps/generator_app.py
 ```
 
