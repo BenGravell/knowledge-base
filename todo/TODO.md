@@ -1,5 +1,13 @@
 # TODO
 
+## embed
+
+1. use latex/pdf -> markdown as a fallback for arxiv papers without HTML/ar5iv
+2. use pdf -> markdown as a fallback for non-arxiv papers
+  - prefer first-party openable pdfs when available from the links_alt metadata field
+  - fallback to open-source pdfs when available from the links_alt metadata field
+  - last-ditch fallback is using metadata alone for embed text
+
 ## perf
 
 Tree and Timeline pages need major performance increase for handling large number of items.
