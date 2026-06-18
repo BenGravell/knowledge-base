@@ -61,7 +61,7 @@ def parse_args() -> argparse.Namespace:
         "--docs-dir",
         type=Path,
         default=KB_DIR / "docs",
-        help="Path to the MkDocs docs directory.",
+        help="Path to the site docs directory.",
     )
     parser.add_argument(
         "--metadata-root",

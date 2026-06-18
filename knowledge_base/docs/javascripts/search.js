@@ -6,7 +6,7 @@
   if (!app) return;
 
   if (!data || !data.papers) {
-    app.innerHTML = '<p class="tag-search-empty">Search data is unavailable. Run <code>mkdocs build</code> to regenerate it.</p>';
+    app.innerHTML = '<p class="tag-search-empty">Search data is unavailable. Run <code>kb build</code> to regenerate it.</p>';
     return;
   }
 

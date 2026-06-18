@@ -1,8 +1,7 @@
 """
-MkDocs gen-files script: publish map JS assets into the served site.
+Generated-file script: publish map JS assets into the served site.
 
-Runs automatically during `mkdocs build` / `mkdocs serve` because it is
-listed under ``gen-files.scripts`` in mkdocs.yml.
+Runs before `zensical build` / `zensical serve` through the `kb` command.
 
 Copies files from ``map/`` into the virtual ``javascripts/`` path:
 
@@ -21,10 +20,9 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-import mkdocs_gen_files
-
 from knowledge_base.catalog import Catalog
 from knowledge_base.generated_assets import MAP_DATA, MAP_PLACEHOLDER_PAYLOAD, MAP_SIMILARITY
+from knowledge_base.generated_files import open_generated
 
 MAP_DIR = Path(__file__).resolve().parent
 KB_DIR = MAP_DIR.parent
@@ -121,10 +119,10 @@ for fname, source in text_assets.items():
     else:
         content = source
 
-    with mkdocs_gen_files.open(f"javascripts/{fname}", "w") as out:
+    with open_generated(f"javascripts/{fname}", "w") as out:
         out.write(content)
 
-with mkdocs_gen_files.open(f"javascripts/{similarity_name}", "wb") as out:
+with open_generated(f"javascripts/{similarity_name}", "wb") as out:
     out.write(similarity.read_bytes() if similarity.exists() else b"")
 
 VENDOR_DIR = MAP_DIR / "vendor"
@@ -132,5 +130,5 @@ if VENDOR_DIR.exists():
     for src in sorted(VENDOR_DIR.iterdir()):
         if not src.is_file():
             continue
-        with mkdocs_gen_files.open(f"javascripts/vendor/{src.name}", "w") as out:
+        with open_generated(f"javascripts/vendor/{src.name}", "w") as out:
             out.write(src.read_text(encoding="utf-8"))

@@ -2,7 +2,7 @@
 
 Commands in this file run from the repository root.
 
-## MkDocs site
+## Zensical site
 
 Serve the site locally:
 
@@ -16,22 +16,24 @@ Build the static site:
 kb build
 ```
 
-Deploy to GitHub Pages:
+Build the static files for GitHub Pages:
 
 ```bash
-kb deploy
+kb build
 ```
 
-During `mkdocs serve` and `mkdocs build`, MkDocs runs these gen-files scripts
-automatically:
+Before `zensical serve` and `zensical build`, `kb` materializes
+`knowledge_base/.generated/docs/` from `knowledge_base/docs/`, then runs these
+generated-file scripts:
 
 - `knowledge_base/generate_papers.py` renders generated paper pages from `knowledge_base/docs/papers/**/metadata.yml`.
 - `knowledge_base/map/copy_assets.py` publishes Map JavaScript and vendor assets.
 - `knowledge_base/semantic_search/copy_assets.py` publishes the Semantic Search index and vector table.
 - `knowledge_base/tree/generate_tree_data.py` publishes Tree browser data.
 
-`knowledge_base/mkdocs.yml` loads `knowledge_base/tree.yml` through the local
-`tree-nav` plugin. For the in-process Tree model design, see
+`knowledge_base/mkdocs.yml` remains the Zensical-compatible site config. Tree
+data is generated directly from `knowledge_base/tree.yml`. For the in-process
+Tree model design, see
 [knowledge_base/tree/README.md](../knowledge_base/tree/README.md).
 
 ## Map
@@ -62,7 +64,7 @@ python knowledge_base/map/preview_map.py --serve
 python knowledge_base/map/preview_map.py --out preview.html
 ```
 
-Smoke-test the served MkDocs Map page in headless Chrome:
+Smoke-test the served Zensical Map page in headless Chrome:
 
 ```bash
 python knowledge_base/scripts/verify_map_view.py --url http://127.0.0.1:8000/map/

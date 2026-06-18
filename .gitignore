@@ -3,6 +3,8 @@
 
 # Site
 knowledge_base/site/
+knowledge_base/.generated/
+knowledge_base/.zensical.generated.yml
 
 # Local build timing history and trace files.
 knowledge_base/.build-metrics/

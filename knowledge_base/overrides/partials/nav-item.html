@@ -1,5 +1,5 @@
 {#-
-  Based on MkDocs Material 9.7.0's partials/nav-item.html.
+  Based on the Material-compatible Zensical partials/nav-item.html.
   The local changes add standardized sidebar icons.
 -#}
 {% macro render_status(nav_item, type) %}
@@ -42,7 +42,7 @@
 {% macro render_icon(nav_item, ref) %}
   {% set icon = nav_icon(nav_item, ref) | trim %}
   {% if icon %}
-    {# Keep content icons out of Material's md-icon control selectors. #}
+    {# Keep content icons out of navigation md-icon control selectors. #}
     <span class="kb-nav-icon" aria-hidden="true">
       {% include ".icons/" ~ icon ~ ".svg" %}
     </span>

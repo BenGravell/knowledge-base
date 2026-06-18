@@ -80,7 +80,7 @@ Custom paths:
 Output
 ------
 ``knowledge_base/map/map-data.js`` — a JS file that sets the
-global ``mapData`` variable consumed by map.js.  The MkDocs
+global ``mapData`` variable consumed by map.js. The site
 gen-files script ``copy_assets.py`` publishes this file into the served
 site automatically at build time.
 
@@ -1035,7 +1035,7 @@ def find_tree_nav(config: dict[str, Any]) -> object | None:
 
 def parse_nav_categories(config: dict[str, Any]) -> dict[str, dict[str, Any]]:
     """
-    Recursively walk the mkdocs ``Tree`` nav and record each paper's
+    Recursively walk the site ``Tree`` nav and record each paper's
     full tree branch path, plus legacy category fields used by the
     existing map filters and colour palette.
 
@@ -1043,7 +1043,7 @@ def parse_nav_categories(config: dict[str, Any]) -> dict[str, dict[str, Any]]:
 
         Tree → Decision-Making → Optimization → Toolboxes & Solvers → ...
 
-    This keeps the Map hierarchy synchronized with the MkDocs Tree instead
+    This keeps the Map hierarchy synchronized with the site Tree instead
     of maintaining a separate list of super-categories.
 
     Returns a dict mapping paper_id to:
@@ -1063,8 +1063,8 @@ def parse_nav_categories(config: dict[str, Any]) -> dict[str, dict[str, Any]]:
 
 def parse_nav_category_order(config: dict[str, Any]) -> dict[str, Any]:
     """
-    Walk the mkdocs ``Tree`` nav and return ordered hierarchy lists as
-    they appear in mkdocs.yml (not alphabetically).
+    Walk the site ``Tree`` nav and return ordered hierarchy lists as
+    they appear in the site config (not alphabetically).
 
     Returns:
         {

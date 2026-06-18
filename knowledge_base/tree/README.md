@@ -17,7 +17,7 @@ The generated site later publishes those papers as `papers/<paper_id>.md`.
 
 - `source`: the raw Tree source, used for formatting-preserving edits to
   `tree.yml`.
-- `generated_source`: the generated MkDocs paper page, used by Map, Timeline,
+- `generated_source`: the generated site paper page, used by Map, Timeline,
   Tree browser, and generated site data.
 - `metadata_path`: the resolved metadata file when a leaf points at metadata.
 
@@ -29,9 +29,8 @@ The generated site later publishes those papers as `papers/<paper_id>.md`.
   `TreeChild`, `TreePlacement`, and `TreeOrder`.
 - `validation.py` checks local links, metadata coverage, and optional
   Tree/metadata algorithm-label drift.
-- `generate_tree_data.py` is a MkDocs gen-files adapter. It turns `TreeModel`
+- `generate_tree_data.py` is a generated-site adapter. It turns `TreeModel`
   into browser, Analytics, and Timeline JavaScript payloads.
-- `nav_plugin.py` injects `tree.yml` into MkDocs navigation.
 
 ## Preferred Entry Point
 
@@ -85,9 +84,9 @@ Run focused checks from the repository root:
 .venv/bin/python knowledge_base/scripts/validate_tree.py --max-results 5
 ```
 
-When changing `generate_tree_data.py`, also build the MkDocs site from the
+When changing `generate_tree_data.py`, also build the Zensical site from the
 repository root:
 
 ```bash
-.venv/bin/python -m mkdocs build -f knowledge_base/mkdocs.yml
+kb build
 ```

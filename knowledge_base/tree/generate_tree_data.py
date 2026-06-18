@@ -1,10 +1,9 @@
 """
-MkDocs gen-files script: publish Tree nav data as JavaScript.
+Generated-file script: publish Tree nav data as JavaScript.
 
-Runs automatically during ``mkdocs build`` / ``mkdocs serve`` because it is
-listed under ``gen-files.scripts`` in mkdocs.yml. The source of truth is
-``tree.yml``; this script converts it into a nested JSON object that
-the landing page can render as a focused browser.
+Runs before ``zensical build`` / ``zensical serve`` through the ``kb`` command.
+The source of truth is ``tree.yml``; this script converts it into a nested JSON
+object that the landing page can render as a focused browser.
 """
 
 from __future__ import annotations
@@ -16,12 +15,12 @@ from pathlib import PurePosixPath
 from typing import Any
 from urllib.parse import quote
 
-import mkdocs_gen_files
 import yaml
 
 from knowledge_base.catalog import Catalog
 from knowledge_base.config import KB_DIR
 from knowledge_base.generated_assets import ANALYTICS_DATA, TIMELINE_DATA, TREE_DATA
+from knowledge_base.generated_files import open_generated
 from knowledge_base.tree.model import (
     TreeBranch,
     TreeChild,
@@ -257,7 +256,7 @@ data = {
     },
 }
 
-with mkdocs_gen_files.open(TREE_DATA.published_path, "w") as out:
+with open_generated(TREE_DATA.published_path, "w") as out:
     out.write(TREE_DATA.js_assignment(data, separators=(",", ":")))
 
 
@@ -763,7 +762,7 @@ ANALYTICS_JS = r"""'use strict';
 (function(){
   const app=document.getElementById('an-app'); if(!app) return;
   const data=window.analyticsData;
-  if(!data||!data.metrics){app.innerHTML='<p class="an-error">Analytics data is unavailable. Run <code>mkdocs build</code> to regenerate it.</p>';return;}
+  if(!data||!data.metrics){app.innerHTML='<p class="an-error">Analytics data is unavailable. Run <code>kb build</code> to regenerate it.</p>';return;}
   const MAX_BAR_ROWS=100,HIDE_LIMIT_BELOW=12;
   const metrics=data.metrics||{};
   const barSections=[['an-authors',data.authors],['an-sources',data.sources],['an-tags',data.tags],['an-types',data.types]];
@@ -963,7 +962,7 @@ TIMELINE_JS = r"""'use strict';
 (function(){
   const app=document.getElementById('tl-app'); if(!app) return;
   const data=window.timelineData;
-  if(!data||!Array.isArray(data.papers)||!data.meta){app.innerHTML='<p class="tl-error">Timeline data is unavailable. Run <code>mkdocs build</code> to regenerate it.</p>';return;}
+  if(!data||!Array.isArray(data.papers)||!data.meta){app.innerHTML='<p class="tl-error">Timeline data is unavailable. Run <code>kb build</code> to regenerate it.</p>';return;}
   const UNCATEGORIZED=(data.meta&&data.meta.uncategorizedCategory)||'Uncategorized';
   const UNCATEGORIZED_SET=new Set([UNCATEGORIZED,'Other']);
   const PALETTE=[{h:213,s:76,l:42},{h:152,s:70,l:35},{h:31,s:82,l:43},{h:271,s:62,l:44},{h:334,s:58,l:44},{h:12,s:72,l:42},{h:188,s:72,l:36}];
@@ -1125,14 +1124,14 @@ TIMELINE_JS = r"""'use strict';
 analytics_data = build_analytics_data(root, tree_model)
 timeline_data = build_timeline_data(tree_model)
 
-with mkdocs_gen_files.open("stylesheets/analytics.css", "w") as out:
+with open_generated("stylesheets/analytics.css", "w") as out:
     out.write(ANALYTICS_HOME_CSS)
     out.write("\n")
 
-with mkdocs_gen_files.open(ANALYTICS_DATA.published_path, "w") as out:
+with open_generated(ANALYTICS_DATA.published_path, "w") as out:
     out.write(ANALYTICS_DATA.js_assignment(analytics_data, separators=(",", ":")))
 
-with mkdocs_gen_files.open("javascripts/analytics.js", "w") as out:
+with open_generated("javascripts/analytics.js", "w") as out:
     analytics_js = ANALYTICS_JS.replace(
         "(function(){\n  const app=document.getElementById('an-app'); if(!app) return;",
         "(function(){\n  const appHtml="
@@ -1144,12 +1143,12 @@ with mkdocs_gen_files.open("javascripts/analytics.js", "w") as out:
     out.write(analytics_js)
     out.write("\n")
 
-with mkdocs_gen_files.open("timeline.md", "w") as out:
+with open_generated("timeline.md", "w") as out:
     out.write(TIMELINE_PAGE)
 
-with mkdocs_gen_files.open(TIMELINE_DATA.published_path, "w") as out:
+with open_generated(TIMELINE_DATA.published_path, "w") as out:
     out.write(TIMELINE_DATA.js_assignment(timeline_data, separators=(",", ":")))
 
-with mkdocs_gen_files.open("javascripts/timeline.js", "w") as out:
+with open_generated("javascripts/timeline.js", "w") as out:
     out.write(TIMELINE_JS)
     out.write("\n")

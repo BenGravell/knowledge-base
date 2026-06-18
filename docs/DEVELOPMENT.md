@@ -25,10 +25,10 @@ Build the site from the repository root:
 kb build
 ```
 
-Deploy to GitHub Pages from the repository root:
+Build the static files for GitHub Pages from the repository root:
 
 ```bash
-kb deploy
+kb build
 ```
 
 ## Development checks
@@ -69,7 +69,7 @@ kb refresh
 ```
 
 Use `--force` to recompute cached embeddings, or `--strict` to also fail on
-Tree algorithm-label drift and MkDocs warnings.
+Tree algorithm-label drift and Zensical warnings.
 
 The refresh script prints elapsed seconds for each step and a compact grouped
 timing report at the end. For deeper profiling, wrap it with `/usr/bin/time`.
@@ -97,15 +97,15 @@ Applying a label writes back to `knowledge_base/tree.yml`, the affected `metadat
 
 ## Repo layout
 
-- `knowledge_base/docs/` contains MkDocs markdown content, generated paper pages, paper metadata, and templates.
+- `knowledge_base/docs/` contains Zensical markdown content, generated paper pages, paper metadata, and templates.
 - `knowledge_base/docs/papers/` contains paper entries.
 - `knowledge_base/docs/templates/metadata.yml` is the paper metadata template.
 - `knowledge_base/tree.yml` is the editable Tree nav source.
 - `knowledge_base/apps/` contains Streamlit apps.
 - `knowledge_base/scripts/` contains maintenance, audit, placement, and prefill entrypoints.
 - `knowledge_base/scripts/prefill/` contains source-specific paper metadata importers.
-- `knowledge_base/map/` contains graph generation, preview, and MkDocs asset publishing.
+- `knowledge_base/map/` contains graph generation, preview, and site asset publishing.
 - `knowledge_base/semantic_search/` contains client-side semantic search index generation and asset publishing.
-- `knowledge_base/tree/` contains the Tree model, validation helpers, MkDocs nav plugin, and Tree data generator.
+- `knowledge_base/tree/` contains the Tree model, validation helpers, and Tree data generator.
 - `knowledge_base/utils/` contains shared DOI, arXiv, and prefill helpers.
 - `knowledge_base/site/` is generated output. Do not edit it directly.

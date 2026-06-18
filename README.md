@@ -8,15 +8,15 @@ The public site is published at
 ## Repo layout
 
 - `knowledge_base/` contains the published site source and supporting tools.
-  - `docs/` contains the MkDocs source pages and paper metadata.
+  - `docs/` contains the Zensical source pages and paper metadata.
     - `papers/**/metadata.yml` drives generated paper pages.
     - `papers/**/embed_text.md` may contain cleaned arXiv/ar5iv HTML conversions for embeddings.
   - `tree.yml` is the editable Tree navigation and classification source.
   - `apps/` contains Streamlit apps.
   - `scripts/` contains maintenance, audit, placement, and prefill entrypoints.
-  - `map/` contains graph generation, preview, and MkDocs asset publishing.
+  - `map/` contains graph generation, preview, and site asset publishing.
   - `semantic_search/` contains client-side semantic search index generation and asset publishing.
-  - `tree/` contains the Tree model, validation helpers, MkDocs nav plugin, and Tree data generator.
+  - `tree/` contains the Tree model, validation helpers, and Tree data generator.
   - `utils/` contains shared DOI, arXiv, and prefill helpers.
   - `map/`, `tree/`, and `semantic_search/` derive Map, Timeline, Tree, and Semantic Search from `docs/papers/**/metadata.yml` plus `tree.yml`.
 - `todo/PAPERS_FUNNEL.md` and `todo/papers/*.md` hold incoming paper URLs before ingest.
@@ -41,7 +41,7 @@ kb serve
 
 Run `eval "$(./dev shell-hook)"` once per terminal, or let VS Code use the configured Pixi interpreter.
 
-Open the URL printed by MkDocs, usually <http://127.0.0.1:8000/>.
+Open the URL printed by Zensical, usually <http://127.0.0.1:8000/>.
 
 ## Common workflows
 
@@ -100,7 +100,7 @@ For a script-only change, run a syntax/import check on the edited file:
 python -m py_compile knowledge_base/scripts/refresh_offline_data.py
 ```
 
-Replace the path with the file you changed. If the change affects MkDocs rendering, navigation, or plugins, run:
+Replace the path with the file you changed. If the change affects Zensical rendering, navigation, or generated site assets, run:
 
 ```bash
 kb build
@@ -116,4 +116,4 @@ kb refresh
 
 ### Deploy
 
-Run `kb deploy` from the repo root.
+Run `kb build` from the repo root, then publish `knowledge_base/site/` with the GitHub Pages workflow.

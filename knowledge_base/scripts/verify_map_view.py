@@ -1,7 +1,7 @@
-"""Browser smoke checks for the MkDocs/Sigma map page.
+"""Browser smoke checks for the Zensical/Sigma map page.
 
 The script talks to a local Chrome/Chromium instance over the Chrome DevTools
-Protocol using only the Python standard library. It expects a served MkDocs
+Protocol using only the Python standard library. It expects a served Zensical
 site URL, e.g. http://127.0.0.1:8123/map/.
 """
 
@@ -944,7 +944,7 @@ def parse_viewport(value: str) -> tuple[int, int, bool]:
 
 def main() -> int:
     parser = argparse.ArgumentParser(description="Verify the map page in headless Chrome")
-    parser.add_argument("--url", required=True, help="Served MkDocs map URL")
+    parser.add_argument("--url", required=True, help="Served Zensical map URL")
     parser.add_argument("--chrome", help="Path to Chrome/Chromium")
     parser.add_argument(
         "--viewport",

@@ -224,7 +224,7 @@ class QuietHandler(SimpleHTTPRequestHandler):
 def serve_site(site_dir: Path) -> tuple[ThreadingHTTPServer, str]:
     if not site_dir.exists():
         raise FileNotFoundError(
-            f"{site_dir} does not exist. Run `mkdocs build -f knowledge_base/mkdocs.yml` first or pass --url."
+            f"{site_dir} does not exist. Run `kb build` first or pass --url."
         )
     handler = functools.partial(QuietHandler, directory=str(site_dir))
     server = ThreadingHTTPServer(("127.0.0.1", 0), handler)
@@ -415,8 +415,8 @@ def summarize_viewport(label: str, runs: list[dict[str, Any]]) -> str:
 
 def main() -> int:
     parser = argparse.ArgumentParser(description="Measure Tree page click timing in headless Chrome")
-    parser.add_argument("--url", help="Served MkDocs Tree URL. Defaults to serving site/tree/ locally.")
-    parser.add_argument("--site-dir", default="site", help="Built MkDocs site directory used when --url is omitted.")
+    parser.add_argument("--url", help="Served Zensical Tree URL. Defaults to serving site/tree/ locally.")
+    parser.add_argument("--site-dir", default="site", help="Built Zensical site directory used when --url is omitted.")
     parser.add_argument("--chrome", help="Path to Chrome/Chromium")
     parser.add_argument("--branch", default=DEFAULT_BRANCH, help="First-level branch label to click")
     parser.add_argument("--runs", type=int, default=5, help="Measured runs per viewport")

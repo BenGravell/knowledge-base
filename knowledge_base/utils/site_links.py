@@ -3,15 +3,15 @@
 from __future__ import annotations
 
 from functools import lru_cache
+from importlib import resources
+from importlib.util import find_spec
 from pathlib import Path
 from typing import Any
 from urllib.parse import quote
 
-import material
 import yaml
 
 YAML_LOADER = getattr(yaml, "CSafeLoader", yaml.SafeLoader)
-MATERIAL_ICON_DIR = Path(material.__file__).parent / "templates" / ".icons"
 
 PAPER_SITE_LINK_KEYS = ("map", "tree", "timeline", "search")
 PAPER_SITE_LINK_LABELS = {
@@ -61,10 +61,15 @@ def material_icon_svg(icon_name: str) -> str:
     icon = clean_text(icon_name)
     if not icon:
         return ""
-    icon_path = MATERIAL_ICON_DIR / f"{icon}.svg"
-    if not icon_path.is_file():
-        raise FileNotFoundError(f"Material icon not found: {icon}")
-    return icon_path.read_text(encoding="utf-8")
+
+    for package in ("zensical", "material"):
+        if find_spec(package) is None:
+            continue
+        icon_path = resources.files(package) / "templates" / ".icons" / f"{icon}.svg"
+        if icon_path.is_file():
+            return icon_path.read_text(encoding="utf-8")
+
+    raise FileNotFoundError(f"Icon not found: {icon}")
 
 
 def nav_page_key(label: str, source: Any) -> str:

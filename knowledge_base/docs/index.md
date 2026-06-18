@@ -2,6 +2,7 @@
 hide:
   - title
   - toc
+render_macros: true
 ---
 
 <h1>Knowledge Base</h1>
@@ -184,8 +185,7 @@ hide:
       <p>This site was built with the following tools:</p>
 
       <ul>
-        <li><a href="https://squidfunk.github.io/mkdocs-material/">Material for MkDocs</a></li>
-        <li><a href="https://www.mkdocs.org/">MkDocs</a></li>
+        <li><a href="https://zensical.org/">Zensical</a></li>
         <li><a href="https://www.mathjax.org/">MathJax</a></li>
         <li><a href="https://www.brailleinstitute.org/freefont/">Atkinson Hyperlegible</a></li>
         <li><a href="https://openai.com/codex/">Codex</a></li>

@@ -5,13 +5,13 @@ from pathlib import Path
 from typing import Any, TypedDict
 from urllib.parse import quote, unquote, urlparse
 
-import mkdocs_gen_files
 import yaml
 from jinja2 import Environment
 
 from knowledge_base.catalog import Entry
 from knowledge_base.config import KB_DIR
 from knowledge_base.generated_assets import SEARCH_DATA, SITE_LINK_DATA, TAG_SEARCH_DATA
+from knowledge_base.generated_files import open_generated, set_edit_path
 from knowledge_base.utils.arxiv_utils import (
     arxiv_abs_url,
     arxiv_html_url,
@@ -597,14 +597,14 @@ def publish_paper_pages(
         data = entry["data"]
         output_path = catalog_entry.generated_path
         data["top_similar_papers"] = top_similar_by_id.get(paper_id, [])
-        mkdocs_gen_files.set_edit_path(output_path, metadata_file.relative_to(KB_DIR))
-        with mkdocs_gen_files.open(output_path, "w") as f_out:
+        set_edit_path(output_path, metadata_file.relative_to(KB_DIR))
+        with open_generated(output_path, "w") as f_out:
             f_out.write(paper_template.render(**data))
 
 
 def publish_paper_assets(paper_records: list[dict[str, Any]]) -> None:
     search_data = build_tag_search_data(paper_records)
-    with mkdocs_gen_files.open(SITE_LINK_DATA.published_path, "w") as out:
+    with open_generated(SITE_LINK_DATA.published_path, "w") as out:
         out.write(
             SITE_LINK_DATA.js_assignment(
                 site_link_data(str(KB_DIR / "mkdocs.yml")),
@@ -613,7 +613,7 @@ def publish_paper_assets(paper_records: list[dict[str, Any]]) -> None:
         )
 
     for asset in (SEARCH_DATA, TAG_SEARCH_DATA):
-        with mkdocs_gen_files.open(asset.published_path, "w") as out:
+        with open_generated(asset.published_path, "w") as out:
             out.write(asset.js_assignment(search_data, separators=(",", ":")))
 
 

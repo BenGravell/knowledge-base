@@ -6,7 +6,7 @@ hide:
 # Map
 
 <style>
-/* ── Derived vars: transparency adjustments on MkDocs palette tokens ─────── */
+/* ── Derived vars: transparency adjustments on site palette tokens ───────── */
 :root {
   --mm-node-muted:         #a3adb8;
   --mm-node-muted-related: #7f8b97;
@@ -59,7 +59,7 @@ hide:
   --mm-panel:              color-mix(in srgb, var(--md-code-bg-color) 82%, #050910);
 }
 
-/* ── Remove MkDocs Material layout constraints for full-screen canvas ─────── */
+/* ── Remove site layout constraints for full-screen canvas ───────────────── */
 h1                  { display: none; }
 .md-content         { padding: 0 !important; }
 .md-content__inner  { margin: 0 !important; padding: 0 !important; max-width: 100% !important; }

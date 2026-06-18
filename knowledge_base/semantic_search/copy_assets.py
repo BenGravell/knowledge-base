@@ -1,11 +1,9 @@
-"""MkDocs gen-files script: publish semantic-search assets."""
+"""Generated-file script: publish semantic-search assets."""
 
 from __future__ import annotations
 
 import json
 from pathlib import Path
-
-import mkdocs_gen_files
 
 from knowledge_base.catalog import Catalog
 from knowledge_base.generated_assets import (
@@ -15,6 +13,7 @@ from knowledge_base.generated_assets import (
     SEMANTIC_SEARCH_SETTINGS,
     SEMANTIC_SEARCH_VECTORS,
 )
+from knowledge_base.generated_files import open_generated
 
 ASSET_DIR = Path(__file__).resolve().parent
 KB_DIR = ASSET_DIR.parent
@@ -137,9 +136,9 @@ def validate_semantic_assets() -> tuple[dict[str, str], dict[str, bytes]]:
 text_assets, binary_assets = validate_semantic_assets()
 
 for name, content in text_assets.items():
-    with mkdocs_gen_files.open(f"javascripts/{name}", "w") as out:
+    with open_generated(f"javascripts/{name}", "w") as out:
         out.write(content)
 
 for name, content in binary_assets.items():
-    with mkdocs_gen_files.open(f"javascripts/{name}", "wb") as out:
+    with open_generated(f"javascripts/{name}", "wb") as out:
         out.write(content)

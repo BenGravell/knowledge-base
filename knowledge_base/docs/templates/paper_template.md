@@ -1,4 +1,4 @@
-# {{ title }} {.paper-detail-title}
+<h1 class="paper-detail-title">{{ title | e }}</h1>
 
 {% macro paper_link_pill(item) -%}
       <a class="paper-link-pill paper-link-pill--{{ item.variant | e }}" href="{{ item.url | e }}"{% if item.key %} data-kb-site-link="{{ item.key | e }}"{% endif %}{% if item.detail %} aria-label="{{ item.detail | e }}" title="{{ item.detail | e }}"{% endif %}{% if item.external %} target="_blank" rel="noopener noreferrer"{% endif %}>

@@ -2,7 +2,7 @@
 
 /* Global page width
 
-   Material for MkDocs caps every .md-grid container, which leaves wide browser
+   Zensical caps every .md-grid container, which leaves wide browser
    windows with unused centered margins. Let the page shell use the viewport and
    keep a small responsive gutter so navigation, content, and footer still feel
    intentionally framed. */
@@ -154,7 +154,7 @@
 
    App-like pages are allowed to use local z-index values for sticky axes,
    charts, tooltips, and in-page dialogs, but those layers must remain below
-   MkDocs Material's global navigation chrome. Without this boundary, a
+   Zensical's global navigation chrome. Without this boundary, a
    locally reasonable app z-index can outrank the mobile drawer and leak over
    the menu. */
 .md-main {

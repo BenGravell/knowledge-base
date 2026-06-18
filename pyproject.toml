@@ -7,9 +7,7 @@ license = "MIT"
 readme = "README.md"
 requires-python = ">=3.11,<3.14"
 dependencies = [
-    "mkdocs-material>=9.7.0,<10.0.0",
-    "mkdocs-macros-plugin>=1.5.0,<2.0.0",
-    "mkdocs-gen-files>=0.5.0,<0.6.0",
+    "zensical>=0.0.45,<0.1.0",
     "streamlit[pdf]>=1.56.0,<2.0.0",
     "plotly>=6.6.0,<7.0.0",
     "numpy>=2.4.4,<3.0.0",
@@ -19,9 +17,6 @@ dependencies = [
     "pydantic>=2.13.4,<3.0.0",
     "rich>=15.0.0,<16.0.0",
 ]
-
-[project.entry-points."mkdocs.plugins"]
-tree-nav = "knowledge_base.tree.nav_plugin:TreeNavPlugin"
 
 [project.scripts]
 kb = "knowledge_base.dev_cli:main"
@@ -50,7 +45,6 @@ default = { features = ["dev"], solve-group = "default" }
 [tool.pixi.tasks]
 serve = "kb serve"
 build = "kb build"
-deploy = "kb deploy"
 refresh = "kb refresh"
 test = "kb test"
 lint = "kb lint"

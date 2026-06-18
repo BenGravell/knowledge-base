@@ -6,7 +6,7 @@ Run from the repository root:
 
 The script intentionally avoids ingest, prefill, and online enrichment flows.
 It regenerates local Map/Semantic Search data and their sidecars, validates
-metadata placement, and runs a final MkDocs build so gen-files assets are
+metadata placement, and runs a final Zensical build so generated assets are
 republished together.
 """
 
@@ -38,11 +38,12 @@ HOT_START_STATUS_PATHS = (
     "knowledge_base/docs",
     "knowledge_base/tree.yml",
     "knowledge_base/mkdocs.yml",
-    "knowledge_base/mkdocs.refresh.yml",
     "knowledge_base/catalog.py",
     "knowledge_base/config.py",
+    "knowledge_base/dev_cli.py",
     "knowledge_base/embedding_workbench.py",
     "knowledge_base/generated_assets.py",
+    "knowledge_base/generated_files.py",
     "knowledge_base/generate_papers.py",
     "knowledge_base/map",
     "knowledge_base/semantic_search",
@@ -329,16 +330,10 @@ def build_steps(args: argparse.Namespace) -> list[Step]:
         )
 
     if not args.skip_build:
-        use_full_build = args.full_build or not site_has_paper_pages()
-        mkdocs_config = "knowledge_base/mkdocs.yml" if use_full_build else "knowledge_base/mkdocs.refresh.yml"
-        mkdocs = [py, "-m", "mkdocs", "build", "-f", mkdocs_config]
-        if not use_full_build:
-            mkdocs.extend(["--dirty", "--quiet"])
+        build = [py, "-m", "knowledge_base.dev_cli", "build"]
         if args.strict:
-            mkdocs.append("--strict")
-        label = "MkDocs full build" if use_full_build else "MkDocs refresh build"
-        name = "Build full MkDocs site" if use_full_build else "Refresh MkDocs generated assets"
-        steps.append(Step("Verify", label, name, mkdocs))
+            build.append("--strict")
+        steps.append(Step("Verify", "Zensical build", "Build Zensical site and generated assets", build))
 
     return steps
 
@@ -382,7 +377,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--strict",
         action="store_true",
-        help="Enable Tree algorithm-label checks and MkDocs strict mode.",
+        help="Enable Tree algorithm-label checks and Zensical strict mode.",
     )
     parser.add_argument(
         "--skip-map",
@@ -402,12 +397,12 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--skip-build",
         action="store_true",
-        help="Do not run the final MkDocs asset refresh build.",
+        help="Do not run the final Zensical asset refresh build.",
     )
     parser.add_argument(
         "--full-build",
         action="store_true",
-        help="Render every MkDocs page, including generated paper detail pages.",
+        help="Accepted for compatibility; Zensical builds always render generated paper detail pages.",
     )
     parser.add_argument(
         "--dry-run",

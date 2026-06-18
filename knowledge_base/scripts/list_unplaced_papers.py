@@ -1,4 +1,4 @@
-"""List papers that have metadata but are missing from the MkDocs tree.
+"""List papers that have metadata but are missing from the site Tree.
 
 Usage:
   python scripts/list_unplaced_papers.py
@@ -50,7 +50,7 @@ class Paper:
 
 
 def paper_id_from_file(metadata_file: Path, data: dict[str, Any]) -> str:
-    """Return the generated paper ID used by MkDocs gen-files."""
+    """Return the generated paper ID used by generated site pages."""
     return paper_id_from_metadata(metadata_file, data, METADATA_ROOT)
 
 
@@ -381,7 +381,7 @@ def print_json(
 
 def main() -> None:
     parser = argparse.ArgumentParser(
-        description="List metadata-backed papers missing from the MkDocs Tree.",
+        description="List metadata-backed papers missing from the site Tree.",
     )
     parser.add_argument(
         "--format",
@@ -431,7 +431,7 @@ def main() -> None:
     with MKDOCS_YML.open("r", encoding="utf-8") as f:
         config = yaml.safe_load(f)
     if not isinstance(config, dict):
-        sys.exit(f"Could not parse MkDocs config: {MKDOCS_YML}")
+        sys.exit(f"Could not parse site config: {MKDOCS_YML}")
 
     tree_model = load_tree_model(
         args.tree_yml,

@@ -24,17 +24,9 @@ exclude_docs: |
 plugins:
   - macros:
       render_by_default: false
-      force_render_paths: |
-        index.md
-  - gen-files:
-      scripts:
-        - generate_papers.py
-        - map/copy_assets.py
-        - semantic_search/copy_assets.py
-        - tree/generate_tree_data.py
 
 theme:
-  name: material
+  name: zensical
   custom_dir: overrides
   logo: icon.png
   favicon: favicon.png
