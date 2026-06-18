@@ -1,0 +1,745 @@
+## Introduction
+
+Kinodynamic Planning: For many interesting robots it is difficult to adapt a collision-free path into a feasible one given the underlying dynamics. This class of robots includes ground vehicles at high-velocities (Likhachev & Ferguson ), unmanned aerial vehicles, such as fixed-wing airplanes (Richter et al. ), or articulated robots with dynamics, including balancing and locomotion systems (Kuindersma et al. ). In principle, most robots controlled by the second-order derivative of their configuration (e.g., acceleration, torque) and which exhibit drift cannot be treated by a decoupled approach for trajectory planning given their controllability properties (Laumond et al.; Choset et al. ). To solve such challenges, the idea of *kinodynamic planning* has been proposed (Donald et al. ), which involves directly searching for a collision-free and feasible trajectory in the underlying system's state space. This is a harder problem than kinematic path planning, as it involves searching a higher-dimensional space and respecting the underlying flow that arises from the dynamics. Given its importance, however, it has attracted a lot of attention in the robotics community. The focus in this work is on the properties of the popular sampling-based motion planners for kinodynamic challenges (Kavraki et al.; LaValle & Kuffner; Hsu et al.; Karaman & Frazzoli ).
+
+Sampling-based Motion Planning: The sampling-based approach has been shown to be a practical solution for quickly finding feasible paths for relatively high-dimensional motion planning challenges (Kavraki et al.; LaValle & Kuffner; Hsu et al. ). The first popular methodology, the Probabilistic Roadmap Method (PRM) (Kavraki et al. ) focused on preprocessing the configuration space of a kinematic system so as to generate a roadmap that can be used to quickly answer multiple queries. Tree-based variants, such as RRT-Extend (LaValle & Kuffner ) and EST (Hsu et al. ), focused on addressing kinodynamic problems. For all these methods, the guarantee provided is relaxed to probabilistic completeness, i.e., the probability of finding a solution if one exists, converges to one (Kavraki et al.; Hsu et al.; Ladd & Kavraki ). This was seen as a sufficient objective in the community given the hardness of motion planning and the *curse of dimensionality*. More recently, however, the focus has shifted from providing feasible solutions to achieving high-quality solutions. A milestone has been the identification of the conditions under which sampling-based algorithms are asymptotically optimal. These conditions relate to the connectivity of the underlying roadmap based on results on random geometric graphs (Karaman & Frazzoli ). This line of work provided asymptotically optimal algorithms for motion planning, such as PRM^∗^ and RRT^∗^ (Karaman & Frazzoli ).
+
+Lack of a BVP Solution: A requirement for the generation of a motion planning roadmap is the existence of a steering function. This function returns the optimum path between two states in the absence of obstacles. In the case of a dynamical system, the steering function corresponds to the solution of a two-point boundary value problem (BVP). Addressing this problem corresponds to solving a differential equation, while also satisfying certain boundary conditions. It is not easy, however, to produce a BVP solution for many interesting dynamical systems and this is the reason that roadmap planners, including the asymptotically optimal PRM^∗^, cannot by used for kinodynamic planning.
+
+Unfortunately, RRT^∗^ also requires a steering function, as it reasons over an underlying roadmap even though it generates a tree data structure. While in certain cases it is sufficient to plan for a linearized version of the dynamics (Webb & van Den Berg ) or using a numerical approximation to the BVP problem, this approach is not a general solution. Furthermore, it does not easily address an important class of planning challenges, where the system is simulated using a physics engine. In this situation, the primitive available to the planning process is forward propagation of the dynamics using the physics engine. Thus, an open problem for the motion planning community was whether it was even possible to achieve optimality given access only to a forward propagation model of the dynamics.
+
+Figure 1: Trees constructed by RRT∗ (left) and SST (right) for a 2D kinematic point system after 1 minute of computation. Solution paths are shown in red. SST does not require a steering function as RRT∗ does, making SST more useful in kinodynamic problems.
+
+Summary of Contribution: This paper introduces a new way to analyze the properties of incremental sampling-based algorithms that construct a tree data structure for a wide class of kinodynamic planning challenges. This analysis provides the conditions under which asymptotic optimality can be achieved when a planner has access only to a forward propagation model of the system's dynamics. The reasoning is based on a kinodynamic system's accessibility properties and probability theory to argue probabilistic completeness and asymptotic optimality for non-holonomic systems where *Chow's condition* holds, eliminating the requirement for a BVP solution. Based on these results, a series of sampling-based planners for kinodynamic planning are considered:
+
+A simplification of EST, which extends a tree data structure in a random way, referred to as NAIVE_RANDOM_TREE: It is shown to be asymptotically optimal but impractical as it does not have good convergence to high quality paths.
+
+An approach inspired by an existing variation of RRT, referred to as RRT-BestNear (Urmson & Simmons ), which promotes the propagation of reachable states with good path cost: It is shown to be asymptotically near-optimal and has a practical convergence rate to high quality paths but has a per iteration cost that is higher than that of RRT.
+
+The proposed algorithms STABLE_SPARSE_RRT (SST) and STABLE_SPARSE-RRT^∗^ (SST^∗^), which use the BestNear selection process. They apply a pruning operation to keep the number of nodes stored small: they are able to achieve asymptotic near-optimality and optimality respectively. They also have good convergence rate to high quality paths. SST has reduced per iteration cost relative to the suboptimal RRT given the pruning operation, which accelerates searching for nearest neighbors.
+
+An illustration of the proposed SST's performance for a kinematic point system is provided in Fig. 1. This is a simple challenge, where comparison with RRT^∗^ is possible. This is a problem where RRT typically does not return a path in the homotopic class of the optimum one. SST is able to do so, while also maintaining a sparse data structure. Fig. 2 describes the performance of different components of SST in searching the phase space of a pendulum system relative to RRT. No method is making use of a steering function for the pendulum system. A summary of the desirable properties of SST and SST^∗^ in relation to the efficient RRT and the asymptotically optimal RRT^∗^ is available in Table 1.
+
+Figure 2: Phase plots that show best path cost at each point in the one-link pendulum state space for each of the proposed modifications (the BestNear primitive and the pruning (mentioned as Drain in the third Figure above)). x-axis: pendulum angle, y-axis: velocity. Blue corresponds to unexplored regions of the state space. The circle is state {0, 0}, a horizontal placement of the pendulum, the star is state $\{\frac{\pi}{2},0\}$, an upward configuration. Colors are computed by dividing the best path cost to a state in a pixel by a predefined value (20.0 for RRT and 10.0 for the other methods) and then mapping the result to the range. All algorithms were executed for the same amount of time (5 min). For the last two methods that provide a sparse representation, each state is coloring a 3x3 local neighborhood. The best path cost for each pixel is displayed.
+
+Probabilistically Complete (under conditions)
+Probabilistically δ-Robust Complete / Probabilistically Complete
+
+Asymptotically δ-Robust Near-Optimal / Asymptotically Optimal
+
+Single Propagation Per Iteration
+Many Steering Calls Per Iteration
+Single Propagation Per Iteration
+
+Bounded Time Complexity Per Iteration / 1 Range Query + 1 NN Query
+
+Includes All Collision-Free Samples
+Includes All Collision-Free Samples
+Sparse Data Structure / Converges to All Collision-Free Samples
+
+Table 1: Comparing RRT, RRT∗with the proposed SST / SST∗, which minimize computation cost and space requirements while providing asymptotic (near-)optimality for kinodynamic planning. This table compares the following from top to bottom: completeness properties, optimality properties, the process for the extension primitive, the number of extensions per iteration, the type of nearest neighbor queries (nearest, k-closest, and range), as well as space complexity. The notion of δ-robustness is introduced in this paper.
+
+Paper Overview: The following section provides a more comprehensive review of the literature and the relative contribution of this paper. Then, Section 3 identifies formally the considered problem and a set of assumptions under which the desired properties for the proposed algorithms hold. Section 4 first outlines how sampling-based algorithms need to be adapted so as to achieve asymptotic optimality and efficiency in the context of kinodynamic planning. Based on this outline, the description of SST and SST^∗^ is then provided, as well as an accompanying nearest neighbor data structure, which allows the removal of nodes to achieve a sparse tree. The description of the algorithms is followed by the comprehensive analysis of the described methods in Section 5. Simulation results on a series of systems, including kinematic ones, where comparison with RRT^∗^ is possible, as well as benchmarks with interesting dynamics are available in Section 6. A physically simulated system is also considered in the same section. Finally, the paper concludes with a discussion in Section 7.
+
+## Background
+
+Planning Trajectories: Trajectory planning for real robots requires accounting for dynamics (e.g., friction, gravity, limits in forces). It can be achieved either by a decoupled approach or direct planning. The latter method searches the state space of a dynamical system directly. For underactuated, non-holonomic systems, especially those that are not small-time locally controllable (STLC), the direct planning approach is preferred. The focus here is on systems that are not STLC but are small-time locally accessible. The following methodologies have been considered in the related literature for direct planning:
+
+*Optimal control* can be applied but handles only simple systems. Algebraic solutions are available primarily for 2D point mass systems.
+
+*Numerical optimization* can be used but it can be expensive for global trajectories and suffers from local minima. There has been progress along this direction, although highly-dynamic problems are still challenging.
+
+Approaches that take advantage of *differential flatness* allow to plan for dynamical systems as if they are high-dimensional kinematic ones. While interesting robots, such as quadrotors, can be treated in this manner, other systems, such as fixed-wing airplanes, are not amenable to this approach.
+
+*Search-based methods* compute paths over discretizations of the state space but depend exponentially on the resolution. They also correspond to an active area of research, including for systems with dynamics.
+
+A polynomial-time, search-based approximation framework introduced the notion of ''kinodynamic'' planning and solved it for a dynamic point mass, which was then extended to more complicated systems. This work influenced sampling-based algorithms for kinodynamic planning.
+
+Sampling-based Planners: These algorithms avoid explicitly representing configuration space obstacles, which is computationally hard. They instead sample vertices and connect them with local paths in the collision-free state space resulting in a graph data structure. The first popular sampling-based algorithm, the Probabilistic Roadmap Method (PRM), precomputes a roadmap using random sampling, which is then used to answer multiple queries. RRT-Connect returns a tree and focuses on quickly answering individual queries. Bidirectional tree variants achieve improved performance. All these solutions require a steering function, which connects two states with a local path ignoring obstacles. For systems with symmetries it is possible to connect bidirectional trees by using numerical methods for bridging the gap between two states.
+
+Two sampling-based methods that do not require a steering function are RRT-Extend and Expansive Space Trees (EST). They only propagate dynamics forward in time and aim to evenly and quickly explore the state space regardless of obstacle placement. For all of the above methods, probabilistic completeness can be argued under certain conditions (Kavraki et al.; Hsu et al.; Ladd & Kavraki ). Variants of these approaches aim to decrease the metric dependence by reducing the rate of failed node expansions, or applying adaptive state-space subdivision. Others guide the tree using heuristics, local reachability information, linearizing locally the dynamics to compute a metric, learning the *cost-to-go* to balance or bias exploration, or by taking advantage of grid-based discretizations. Such tree-based methods have been applied to various interesting domains. While RRT is effective in returning a solution quickly, it converges to a sub-optimal solution.
+
+From Probabilistic Completeness to Asymptotic Optimality: Some RRT variants have employed heuristics to improve path quality but are not provably optimal, including anytime variants. Important progress was achieved through the utilization of random graph theory to rigorously show that roadmap-based approaches, such as PRM^∗^ and RRT^∗^, can achieve asymptotic optimality. The requirement is that each new sample must be tested for connection with at least a logarithmic number of neighbors as a function of the total number of nodes using a steering function. Anytime and lazy variants of RRT^∗^ have also been proposed. There are also techniques that provide asymptotic near-optimality using sparse roadmaps, which inspire the current work. Sparse trees appear in the context of feedback-based motion planning. Another line of work follows a Lazy PRM^∗^ approach to improve performance. A conservative estimate of the reachable region of a system can be constructed. This reachable region helps to define appropriate metrics under dynamics, and can be used in conjunction with the algorithms described here. All of the above methods, which are focused on returning high-quality paths, require a BVP solver.
+
+Figure 3: If b′ is close to b and c o s t (b′) &lt; c o s t (b), the shooting variant will prune the edge to b and replace it with b′. The subset of b is repropagated from b′.
+
+Towards Asymptotic Optimality for Dynamical Systems: A variation of RRT^∗^ utilizes a ''shooting'' approach, shown in Figure 3, to improve solutions without a steering function. When propagating from node $a$ to state $b^{\prime}$ within a small distance of node $b$ and the cost to $b^{\prime}$ is smaller, $b$ is pruned and an edge from $a$ to $b^{\prime}$ is added. The subtree of $b$ is repropagated from $b^{\prime}$, which may result in node pruning if collisions occur. This method does not provably achieve asymptotic optimality. It can be integrated with numerical methods for decreasing the gap between $b$ and $b^{\prime}$. The methods presented here achieve formal guarantees. Improved computational performance relative to the ''shooting'' variant is shown in the experimental results. Recent work provides local planners for systems with linear or linearizable dynamics. There are also recent efforts on avoiding the use of an exact steering function. The algorithms in the current paper are applicable beyond systems with linear dynamics but could also be combined with the above methods to provide efficient asymptotically near-optimal solvers for such systems.
+
+Closely Related Contributions: Early versions of the work presented here have appeared before. Initially, a simpler version of the proposed algorithms was proposed, called Sparse-RRT. Good experimental performance was achieved with this method, but it was not possible to formally argue desirable properties. This motivated the development of STABLE_SPARSE_RRT (SST) and SST^∗^ in follow-up work. These methods formally achieve asymptotic (near)-optimality for kinodynamic planning. The same paper was the first to introduce the analysis that is extended in the current manuscript. Given these earlier efforts by the authors, this paper provides the following contributions:
+
+It describes a *general framework* for asymptotic (near-)optimality using sampling-based planners without a steering function in Section 4.1. The SST and SST^∗^ algorithms correspond to efficient implementations of this framework.
+
+It describes for the first time in Section 4.4 a *nearest neighbor data structure* that has been specifically designed to support the pruning operation of the proposed algorithms. *Implementation guidelines* are introduced in the description of SST and SST^∗^ that improve performance (Sections 4.2 ‣ 4 Algorithms ‣ Asymptotically Optimal Sampling-based Kinodynamic Planning") and 9 ‣ 4 Algorithms ‣ Asymptotically Optimal Sampling-based Kinodynamic Planning")).
+
+Section 5 *extends the analysis* by arguing properties for a general cost function instead of trajectory duration. It also provides all the necessary proofs that were missing from previous work.
+
+*Additional experiments* are provided in Section 6, including simulations for a dynamical model of a fixed-wing airplane. There is also evaluation of the effects the nearest neighbor data structure has on the motion planners.
+
+There is also concurrent work, which presents similar algorithms and argues experimentally that they return high-quality trajectories for kinodynamic planning. It provides a different way to support the argument that a simplification of EST, i.e., the NAIVE_RANDOM_TREE approach, is asymptotically optimal. It doesn't argue, however, the asymptotic near-optimality properties of the efficient and practical methods that achieve a sparse representation, neither studies the convergence rate of the corresponding algorithms nor provides efficient tools for their implementation, such as the nearest neighbor data structure described here.
+
+## Problem Setup
+
+This paper considers dynamic systems that respect time-invariant differential equations of the following form:
+
+where ${x{(t)}} \in {\mathbb{X}} \subseteq R^{d}$ and ${u{(t)}} \in {\mathbb{U}} \subseteq R^{l}$. The collision-free subset of $\mathbb{X}$ is ${\mathbb{X}}_{f}$. Let $\mu{({\mathbb{X}})}$ denote the Lebesgue measure of $\mathbb{X}$. This work focuses on state space manifolds that are subsets of $d$-dimensional Euclidean spaces, which allow the definition of the ${\mathbb{L}}_{2}$ Euclidean norm $||.||$. The corresponding $r$-radius closed ball in $\mathbb{X}$ centered at $x$ will be $\mathcal{B}_{r}{(x)}$. In other words, the underlying state space needs to exhibit some smoothness properties and behave locally as a Euclidean space.
+
+### Definition 1
+
+(Trajectory) A trajectory $\pi$ is a function ${\pi{(t)}}:{{\lbrack 0,t_{\pi}\rbrack}\rightarrow{\mathbb{X}}_{f}}$, where $t_{\pi}$ is its duration. A trajectory $\pi$ is generated by starting at a given state $\pi{}$ and applying a control function $\Upsilon:{{\lbrack 0,t_{\pi}\rbrack}\rightarrow{\mathbb{U}}}$ by forward integrating Eq. 1.
+
+Typically, sampling-based planners are implemented so that the applied control function $\Upsilon$ corresponds to a piecewise constant one. Such an underlying discretization is often unavoidable given the presence of a digital controller. This is why the analysis provided in this paper considers piecewise constant control functions, which are otherwise arbitrary in nature.
+
+### Definition 2
+
+(Piecewise Constant Control Function) A piecewise constant control function $\overline{\Upsilon}$ with resolution $\Deltat$ is the concatenation of constant control functions of the form $\Upsilon_{i}:{{\lbrack 0,{{k_{i} \cdot \Delta}t}\rbrack}\rightarrow u_{i}}$, where $u_{i} \in {\mathbb{U}}$ and $k_{i} \in {\mathbb{Z}}^{+}$.
+
+The proposed methods and the accompanying analysis do not critically depend on the piecewise constant nature of the input control function. They could potentially be extended to also allow for continuous control functions, such as those generated by splines or using basis functions:
+
+Figure 4: Two δ-similar trajectories.
+
+A key notion for this work is illustrated in Figure 4 and explained below:
+
+### Definition 3
+
+($\delta$-Similar Trajectories) Trajectories $\pi$, $\pi^{\prime}$ are $\delta$-similar if for a continuous, nondecreasing scaling function $\sigma:{{\lbrack 0,t_{\pi}\rbrack}\rightarrow{\lbrack 0,t_{\pi^{\prime}}\rbrack}}$, it is true that ${\pi^{\prime}{({\sigma{(t)}})}} \in {\mathcal{B}_{\delta}{({\pi{(t)}})}}$.
+
+The focus in this paper will be initially on optimal trajectories with a certain clearance from obstacles.
+
+### Definition 4
+
+(Obstacle Clearance) The obstacle clearance $\epsilon$ of a trajectory $\pi$ is the minimum distance from obstacles over all states in $\pi$, i.e., $\epsilon = {\inf_{{t \in {\lbrack 0,t_{\pi}\rbrack}},{x_{o} \in {\mathbb{X}}_{o}}}{\|{{\pi{(t)}} - x_{o}}\|}}$, where ${\mathbb{X}}_{o} = {{\mathbb{X}} \smallsetminus {\mathbb{X}}_{f}}$.
+
+Figure 5: The STLA property.
+
+Then, the following assumption is helpful for the methods and the analysis.
+
+### Assumption 5
+
+The system described by Equation 1 satisfies the properties:
+
+*Chow's* condition of Small-time Locally Accessible (STLA) systems: For STLA systems, it is true that the reachable set of states $A{(x, \leq T)} \subset V$ from any state $x$ in time less than or equal to $T$ without exiting a neighborhood $V \subset {\mathbb{X}}$ of $x$, and for any such $V$, has the same dimensionality as $\mathbb{X}$.
+
+It has bounded second derivative: ${|{\overset{¨}{x}{(t)}}|} \leq M_{2} \in R^{+}$.
+
+It is *Lipschitz continuous* for both of its arguments, i.e., ${\exists K_{u}} > 0$ and ${\exists K_{x}} > 0$:
+
+The assumption that $f$ satisfies *Chow's* condition implies there always exist $\delta$-similar trajectories for any trajectory $\pi$.
+
+### Lemma 6
+
+Let there be a trajectory $\pi$ for a system satisfying Eq. 1 and *Chow's condition*. Then there exists a positive value $\delta_{0}$ called the dynamic clearance, such that: ${\forall\delta} \in {(0,\delta_{0}\rbrack}$, ${\forall x_{0}^{\prime}} \in {\mathcal{B}_{\delta}{({\pi{}})}}$, and ${\forall x_{1}^{\prime}} \in {\mathcal{B}_{\delta}{({\pi{(t_{\pi})}})}}$, there exists a trajectory $\pi^{\prime}$, so that: (i) ${\pi^{\prime}{}} = x_{0}^{\prime}$ and ${\pi^{\prime}{(t_{\pi^{\prime}})}} = x_{1}^{\prime}$; (ii) $\pi$ and $\pi^{\prime}$ are $\delta$-similar trajectories.
+
+Lemma 6 on the existence of ''dynamic clearance'' is a necessary condition for all systems where sampling-based methods work, such as EST, RRT, and RRT^∗^, are able to find a solution. A proof sketch of Lemma 6 can be found in Appendix A. The interest is on trajectories with both good obstacle and dynamic clearance, called $\delta$-robust trajectories.
+
+### Definition 7
+
+($\delta$-Robust Trajectories) A trajectory $\pi$ for a dynamical system following Eq. 1 is called $\delta$-robust if both its obstacle clearance $\epsilon$ and its dynamic clearance $\delta_{0}$ are greater than $\delta$.
+
+This paper aims to solve a variation of the motion planning problem with dynamics for such optimal trajectories.
+
+### Definition 8
+
+($\delta$-Robust Feasible Motion Planning) Given a dynamical system following Eq. 1, the collision-free subset ${\mathbb{X}}_{f} \subset {\mathbb{X}}$, an initial state $x_{0} \in {\mathbb{X}}_{f}$, a goal region ${\mathbb{X}}_{G} \subset {\mathbb{X}}_{f}$, and that a $\delta$-robust trajectory that connects $x_{0}$ with a state in ${\mathbb{X}}_{G}$ exists, find a solution trajectory $\pi$ for which ${\pi{}} = x_{0}$ and ${\pi{(t_{\pi})}} \in {\mathbb{X}}_{G}$.
+
+It will be necessary to assume that the problem can be solved using trajectories generated by piecewise constant control functions. This is a reasonable way to generate a trajectory using a computational approach.
+
+### Assumption 9
+
+For a $\delta$-robust feasible motion planning problem, there exists a $\delta$-robust trajectory $\pi$ generated by a piecewise constant control function $\overline{\Upsilon}$.
+
+An incremental sampling-based algorithm, abbreviated here as $ALG$, typically extends a graph data structure of feasible trajectories over multiple iterations. This paper considers the following properties of such sampling-based planners.
+
+### Definition 10
+
+(Probabilistic $\delta$-Robust Completeness) Let $\Pi_{n}^{ALG}$ denote the set of trajectories discovered by an algorithm $ALG$ at iteration $n$. Algorithm $ALG$ is probabilistically $\delta$-robustly complete, if for any $\delta$-robustly feasible motion planning problem (${\mathbb{X}}_{f}$, $x_{0}$, ${\mathbb{X}}_{G}$, $\delta$) the following holds:
+
+Definition 10 relaxes the concept of *probabilistic completeness* for algorithms with properties that depend on the *robust clearance* $\delta$ of trajectories they can discover. An algorithm that is *probabilistically* $\delta$*-robustly complete* only demands it will eventually find solution trajectories if one with robust clearance of $\delta$ exists. The following discussion relates to the cost function of a trajectory $\pi$.
+
+### Assumption 11
+
+The cost function $cost{(\pi)}$ of a trajectory is assumed to be *Lipschitz continuous*. Specifically, ${\exists K_{c}} > 0$:
+
+for all $\pi_{1}$, $\pi_{2}$ with the same start state. Consider two trajectories $\pi_{1},\pi_{2}$ such that their concatenation is $\left. \pi_{1} \middle| \pi_{2} \right.$ (i.e., following trajectory $\pi_{2}$ after trajectory $\pi_{1}$), the cost function satisfies:
+
+${cost{(\left. \pi_{1} \middle| \pi_{2} \right.)}} = {{cost{(\pi_{1})}} + {cost{(\pi_{2})}}}$ (additivity)
+
+${cost{(\pi_{1})}} \leq {cost{(\left. \pi_{1} \middle| \pi_{2} \right.)}}$ (monotonicity)
+
+Then, it is possible to relax the property of *asymptotic optimality* and allow some tolerance depending on the clearance.
+
+### Definition 12
+
+(Asymptotic $\delta$-robust Near-Optimality) Let $c^{\ast}$ denote the minimum cost over all solution trajectories for a $\delta$-robust feasible motion planning problem (${\mathbb{X}}_{f}$, $x_{0}$, ${\mathbb{X}}_{G}$, $\delta$). Let $Y_{n}^{ALG}$ denote a random variable that represents the minimum cost value among all trajectories returned by algorithm $ALG$ at iteration $n$ for the same problem. $ALG$ is asymptotically $\delta$-robust near-optimal if for all independent runs:
+
+where $h:{{{\mathbb{R}} \times {\mathbb{R}}}\rightarrow{\mathbb{R}}}$ is a function of the optimum cost and the $\delta$ clearance, where ${h{(c^{\ast},\delta)}} \geq c^{\ast}$.
+
+The analysis will show that the proposed algorithms exhibit the above property where $h$ has the form: ${h{(c^{\ast},\delta)}} = {{({1 + {\alpha \cdot \delta}})} \cdot c^{\ast}}$ for some constant $\alpha \geq 0$. In this case, $ALG$ is asymptotically $\delta$-robust near-optimal with a multiplicative error. Note that for this form of the $h$ function, the absolute error relative to the optimum cost increases as the optimum cost increases. This property guarantees that the cost of the returned solution is upper bounded relative to the optimal cost. Recall that RRT-Connect returns solutions of random cost and the error is unbounded.
+
+If it is possible to argue that an algorithm satisfies the last two properties for all decreasing values of the robust clearance $\delta$, then this algorithm satisfies the traditional properties of probabilistic completeness and asymptotic optimality.
+
+Regarding Distances: The true cost of moving between two states corresponds to the ''cost-to-go'', which typically does not satisfy symmetry, is not the Euclidean distance, and is not easy to compute. Based on the ''cost-to-go'', it is possible to define an $\epsilon$-radius sub-riemannian ball centered at $x$, which is the set of all states where the ''cost-to-go'' from $x$ to that set is less than or equal to $\epsilon$. The analysis presented, which reasons primarily over Euclidean hyper-balls, will show that there always exists a certain size Euclidean hyper-ball inside the sub-riemannian ball under the above conditions. Therefore, it will be sufficient to reason about Euclidean norms. In practice, distances may be taken with respect to a different space, which reflect the application, and may actually be closer to the true ''cost-to-go'' for the moving system.
+
+## Algorithms
+
+This section provides sampling-based tree motion planners that achieve the properties of Definitions 10 and 12 for kinodynamic planning when there is no access to a BVP solver. First a general framework is described for this purpose, and then an instantiation of this framework is given (SST), which is extended to an asymptotically optimal algorithm (SST^∗^).
+
+### Change in Algorithmic Paradigm
+
+Traditional Approach: Given the difficulty of kinodynamic planning (Donald et al. ), the early but practical tree-based planners aimed for even and fast exploration of $\mathbb{X}$ even in challenging high-dimensional cases where greedy, heuristic expansion towards the goal would fail. Given that computing optimal trajectories corresponds to an even harder challenge, the focus was not on the quality of the returned trajectory in these early methods.
+
+3 xs e l e c t e d← Exploration_First_Selection(𝕍, 𝕏);
+4 xn e w← Fixed_Duration_Prop(xs e l e c t e d, 𝕌, Tp r o p);
+5 if CollisionFree$(\overline{x_{selected}\rightarrow x_{new}})$ then
+7 ${\mathbb{E}}\leftarrow{{\mathbb{E}} \cup {\{\overline{x_{selected}\rightarrow x_{new}}\}}}$;
+Algorithm 1 EXPLORATION_TREE(𝕏, 𝕌, x0, Tp r o p, N)
+
+Algorithm 1 summarizes the high-level selection/propagation operation of these planners. They constructed a graph data structure $G{(V,E)}$ in the form of a tree rooted at an initial state $x_{0}$ in the following two-step process:
+
+Selection: A reachable state along the tree, such as a node $x_{selected} \in V$, is selected. In some variants a state along an edge of the tree can also be selected. The selection process is designed so as to increase the probability of searching underexplored parts of $\mathbb{X}$. For instance, the RRT-Extend algorithm samples a random state $x_{rand}$ and then selects the closest node on the tree as $x_{selected}$. The objective is to achieve a ''Voronoi-bias'' that promotes exploration, i.e., nodes on the tree that correspond to the largest Voronoi regions of $\mathbb{X}$, given tree nodes as sites, have a higher probability of being selected ^11^1A tree-based planner without access to a BVP solver cannot guarantee a "Voronoi-bias" in general. If the distance function can correctly estimate the *cost-to-go* and if the propagation behaves similarly to the steering function, then the "Voronoi-bias" is achieved.. In EST implementations, nodes store the local density of samples and those with low density are selected with higher probability to promote exploration.
+
+Propagation: The procedure for extending the tree has varied in the related literature but the scheme followed in RRT-Extend has been popular in most implementations. The approach is to select a control that drives the system towards the randomly sampled point, then forward propagate that control input for a fixed time duration. If the resulting trajectory $\overline{x_{selected}\rightarrow x_{new}}$ is collision-free, then it is added as an edge in the tree. It was recently shown that this propagation scheme actually makes RRT-Extend lose its probabilistic completeness guarantees. In EST, a randomized approach is employed where random controls are used. The analysis of the proposed methods shows that a randomized approach has benefits in terms of solution quality.
+
+Challenge: Optimality has only recently become the focus of sampling-based motion planning, given the development of the asymptotically optimal RRT^∗^ and PRM^∗^. This great progress, however, does not address kinodynamic planning instances. Both planners are roadmap-based methods in the sense that they reason over (in the case of RRT^∗^) or explicitly construct (in the case of PRM^∗^) a graph that makes use of a steering function to connect states. This raised the following research challenge in the community:
+
+*Is it even possible to achieve asymptotic optimality guarantees in sampling-based kinodynamic planning?*
+
+This has been an open question in the algorithmic robotics community and resulted in many methods that aim to provide asymptotic optimality for systems with dynamics. The majority of these techniques, however, can address only specific classes of problems (e.g., systems with linear dynamics) and do not possess the generality of the original sampling-based tree planners.
+
+Progress: The current work provides an answer to the above open question through a comprehensive, novel analysis of sampling-based processes for motion planning without access to a steering function, which departs from previous analysis efforts in this domain. In particular, the following are shown:
+
+*It is possible to achieve asymptotic optimality in the rather general setting of this paper's problem setup with a sampling-based process that makes proper use of random forward propagation and a naïve selection strategy.*
+
+*This method, however, is computationally impractical and does not have a good convergence rate to optimal solutions. Thus, the important question is whether there are planners with practical convergence to high-quality solutions.*
+
+*Given this realization, this work describes a framework for computationally efficient sampling-based planners that achieve asymptotic near-optimality, which are then also extended to provide asymptotic optimality.*
+
+Asymptotic Optimality from Random Primitives: To achieve these desirable properties it is necessary to clearly define the framework which sampling-based algorithms should adopt. In particular, it is possible to argue asymptotic optimality for the NAIVE_RANDOM_TREE process described in Algorithm 2. This algorithm follows the same selection/propagation scheme of sampling-based tree planners but applies uniform selection and calls the MonteCarlo-Prop procedure to extend the tree.
+
+5 if CollisionFree$(\overline{x_{selected}\rightarrow x_{new}})$ then
+7 ${\mathbb{E}}\leftarrow{{\mathbb{E}} \cup {\{\overline{x_{selected}\rightarrow x_{new}}\}}}$;
+Algorithm 2 NAIVE_RANDOM_TREE(𝕏f, 𝕌, x0, Tp r o p, N)
+
+The MonteCarlo-Prop procedure described in Algorithm 3 is different than the Fixed_Duration_Prop method that is frequently followed in implementations of sampling-based tree planners. The difference is that the duration of the propagation is randomly sampled between 0 and a maximum duration $T_{prop}$ instead of being fixed. The accompanying analysis (Section 5.1) shows that this random process provides asymptotic optimality when the only primitive to access the dynamics is forward propagation.
+
+Figure 6: The selection of the best neighbor in BestNear. The best path cost node in ℬ (xr a n d o m,δB N) is selected.
+
+Nevertheless, the NAIVE_RANDOM_TREE approach employs a naïve selection strategy, where a node $x_{selected}$ is selected uniformly at random. This has the effect that the resulting method does not have a good convergence rate in finding high-quality solutions as a function of iterations. It is not clear to the authors if a version of the NAIVE_RANDOM_TREE algorithm using an Exploration_First_Selection strategy is asymptotically optimal and most importantly *whether it has better convergence rate* properties, i.e., whether a method like EST or a version of RRT-Extend that employs MonteCarlo-Prop are asymptotically optimal with good convergence rate. The experimental indications for RRT-Extend with MonteCarlo-Prop are that it does not improve path quality quickly.
+
+Improving Convergence Rate: A solution, however, has been identified to this issue. In particular, the authors propose the use of a Best_First_Selection strategy as a desirable alternative for node selection so as to achieve good convergence to high-quality paths. In this context, best-first means that the node $x_{selected}$ should be chosen so that the method prioritizes nodes that correspond to good quality paths, while also balancing exploration objectives. For instance, one way to achieve this in an RRT-like fashion (described in detail in the consecutive section) is shown in Figure 6, i.e., first sample a random state $x_{random}$ and then among all the nodes on the tree within a certain radius $\delta_{BN}$, select the one that has the best path cost from the root. A similar selection strategy has actually been proposed in the past as a variant of RRT that experimentally exhibited good behavior. This previous work, however, did not integrate this selection strategy with the MonteCarlo-Prop procedure and did not show any desirable properties for the resulting algorithm.
+
+The analysis shows that the consideration of a best first strategy together with the random propagation procedure leads to an asymptotically $\delta$-robust near-optimal solution with good convergence rate per iteration. This allows to observe improvement in solution paths over time in practice. Nevertheless, there are additional considerations to take into account when implementing a sampling-based planner. In particular, the asymptotically dominant operation computationally for these methods corresponds to nearest neighbor queries. The implementation of Best_First_Selection described above and in Figure 6 requires the use of a range query that is more expensive than the traditional closest neighbor query in RRT making the individual iteration cost of the proposed solution more expensive. Consequently, the challenge becomes whether this good convergence rate per iteration can be achieved, while also reducing the running time for each iteration.
+
+Balancing Computation Cost with Optimality: The property achieved with the Best_First_Selection strategy is that of asymptotic $\delta$-robust near-optimality. This means that there should be an optimum trajectory $\pi^{\ast}$ in $\mathbb{X}$ which has $\delta$-robust clearance, as indicated in the problem setup. This property also implies that it is not necessary to keep all samples as nodes in the data structure so as to get arbitrarily close to $\pi^{\ast}$. It is sufficient to have nodes that are in the vicinity of the path that is defined by its robust clearance $\delta$. Thus, it is possible for a sparse data structure with a finite set of states to sufficiently represent $\mathbb{X}$ as long as it can return $\delta$-similar solutions to all possible optimal trajectories in $\mathbb{X}$.
+
+This allows for a pruning operation, where certain nodes can be forgotten. Which trajectories should a sampling-based planner maintain during its incremental operation and which ones should it prune? The idea is motivated by the same objectives as that of the Best_First_Selection strategy and is illustrated in Figures 7 and 8. The pruning operation should maintain nodes that correspond locally to good paths. For instance, it is possible to evaluate whether a node has the best cost in a local vicinity and prune neighbors with worse cost as long as they do not have children with good path costs in their local neighborhood. Nodes with high path cost in a local neighborhood do not need to be considered again for propagation. There are many different ways to define local neighborhoods. For instance, a grid-based discretization of the space could be defined. In the accompanying implementation and analysis, this work follows an incremental approach of defining visited regions of the state space space as described in Figure 8.
+
+Figure 7: The pruning operation to achieve a sparse data structure that stores asymptotically near-optimal trajectories. Propagation from xs e l e c t e d results to node xn e w, which has a better path cost than a node xp e e r in its local vicinity. Node xp e e r is pruned and the newly propagated edge is added to the tree. If xp e e r had children with the lowest path cost in their neighborhoods, xp e e r would have remained in the tree but not considered for propagation again. If xn e w had worse path cost than xp e e r, the old node would have remained in the tree and the last propagation $\overline{x_{selected}\rightarrow x_{new}}$ would have been ignored.
+
+Figure 8: Neighborhoods for pruning are defined based on a set of static witness points s ∈ S, which are generated incrementally. The indicated radii above and in Figure 7 are centered in such witness points. In this figure, the propagation from xs e l e c t e d results in a node xn e w, which is not in the vicinity of an existing witness. In this case, xn e w is not compared in terms of its path cost with any existing tree node. The edge $\overline{x_{selected}\rightarrow x_{new}}$ is added to the tree and a witness at the location of xn e w is added to the set of witnesses S.
+
+Note that, with high probability, the pruned high-cost nodes would not have been selected for propagation by the best first strategy anyway. In this manner, the pruning operation reinforces the properties of the Best_First_Selection procedure in terms of path quality. The accompanying analysis shows that the specific pruning operation is actually maintaining the convergence properties of the selection strategy. But it also provides significant computational benefits. Since the complexity of all the nearest neighbor queries depends on the number of points in the data structure, having a finite number of nodes, results in queries that have bounded time complexity per iteration. The benefits of sparsity in motion planning have been studied over the last few years by some of the authors and others. The discussion section of this paper describes the trade-offs that arise between computational efficiency and the type of guarantee achieved in relation to the requirement for the existence of $\delta$-robust trajectories.
+
+A New Framework: It is now possible to bring together the recommended changes to the original sampling-based tree planners and achieve a new framework for asymptotic near-optimality without a steering function in a computationally efficient way, both in terms of running time and memory requirements. Table 2 is summarizing the differences between the original methods (corresponding to the EXPLORATION_TREE procedure) and the proposed framework for kinodynamic sampling-based planning. The new framework is referred to as SPARSE_BEST_FIRST_TREE in Algorithm 4.
+
+NAIVE_RANDOM_TREE
+SPARSE_BEST_FIRST_TREE
+
+Exploration_First_Selection
+Best_First_Selection
+
+Fixed_Duration_Prop
+
+Prune_Dominated_Nodes
+
+Probabilistically Complete (under conditions), Suboptimal but Computationally Efficient, Dense Data Structure
+Asymptotically Optimal but Bad Convergence Rate and Impractical, Dense Data Structure
+Asymptotically Near-Optimal with Good Convergence Rate and Computationally Efficient with a Sparse Data Structure
+
+Table 2: Outline of differences between the different frameworks in terms of the modules they employ and their properties.
+
+In summary, the three modules of the new framework operate as follows:
+
+*Selection:* The new framework still promotes the selection of nodes in under-explored parts of $\mathbb{X}$, as in the original approaches, but within each local region only the nodes that correspond to the best path from the root are selected.
+
+*Propagation:* The analysis accompanying this work emphasizes the need to employ a fully random propagation process both in terms of the selected control and duration of propagation, i.e., the MonteCarlo-Prop method, as in EST.
+
+*Pruning:* Nodes that are locally dominated in terms of path cost can be removed under certain conditions resulting in a sparse data structure instead of storing infinitely many points.
+
+3 xs e l e c t e d← Best_First_Selection( 𝕍, 𝕏);
+6 if CollisionFree$(\overline{x_{selected}\rightarrow x_{new}})$ then
+7 if Is_Node_Locally_the_Best( xn e w, 𝕍 ) then
+9 ${\mathbb{E}}\leftarrow{{\mathbb{E}} \cup {\{\overline{x_{selected}\rightarrow x_{new}}\}}}$;
+11 Prune_Dominated_Nodes( xn e w, G );
+Algorithm 4 SPARSE_BEST_FIRST_TREE(𝕏f, 𝕌, x0, Tp r o p, N)
+
+The following section provides an efficient instantiation of the SPARSE_BEST_FIRST_TREE framework, which has been used both in the theoretical analysis and the experimental evaluation of this paper. This algorithm, called STABLE_SPARSE_RRT (SST), provides concrete implementations of the Best_First_Selection, Is_Node_Locally_the_Best and Prune_Dominated_Nodes procedures. The analysis shows that it is asymptotically near-optimal with a good convergence rate and computationally efficient.
+
+The near-optimality property stems from the consideration of $\delta$-robust optimal trajectories. The existence of at least weak $\delta$-robust clearance for optimal trajectories has been considered in the related literature that achieves asymptotic optimality in the kinematic case. To show asymptotic optimality for RRT^∗^, one can show that the requirement for the $\delta$ value reduces as the algorithm progresses. The true value $\delta$ depends on the specific problem to be solved and is typically not known beforehand. The way to address this issue is to first assume an arbitrary value for $\delta$ and then repeatedly shrink the value for answering motion planning queries. This is the approach considered here for extending SST into an asymptotically optimal approach SST^∗^.
+
+### STABLE_SPARSE_RRT (SST)
+
+Algorithm 5 ‣ 4 Algorithms ‣ Asymptotically Optimal Sampling-based Kinodynamic Planning") provides a concrete implementation of the abstract framework of SPARSE_BEST_FIRST_TREE outlined in the previous section and corresponds to one of the proposed algorithms, STABLE_SPARSE_RRT (SST), which is analyzed in the next section.
+
+At a high-level, SST follows the abstract framework. For $N$ iterations, a selection/propagation/pruning procedure is followed. The selection follows the principle of the best first strategy to return an existing node on the tree $x_{selected}$ (line 5). Its concrete implementation is described in detail here. Then MonteCarlo-Prop is called (line 6), which samples a random control and a random duration and then integrates forward the system dynamics according to Eq. 1. If the path $\overline{x_{selected}\rightarrow x_{new}}$ is collision-free (line 7), the new node $x_{new}$ is evaluated on whether is the best node in terms of path cost in a local neighborhood (line 8). If $x_{new}$ is indeed better, it is added to the tree (lines 9-10) and any previous node in the same local vicinity that is dominated, is pruned (line 11).
+
+5 xs e l e c t e d←Best_First_Selection_SST( 𝕏, 𝕍a c t i v e, δB N);
+8 if CollisionFree$(\overline{x_{selected}\rightarrow x_{new}})$ then
+9 if Is_Node_Locally_the_Best_SST(xn e w, S, δs) then
+11 ${\mathbb{E}}\leftarrow{{\mathbb{E}} \cup {\{\overline{x_{selected}\rightarrow x_{new}}\}}}$;
+12 Prune_Dominated_Nodes_SST(xn e w, 𝕍a c t i v e, 𝕍i n a c t i v e, 𝔼 );
+Algorithm 5 STABLE_SPARSE_RRT( 𝕏, 𝕌, x0, Tp r o p, N, δB N, δs)
+
+The new aspects of the approach introduced by the concrete implementation are the following:
+
+i\) SST requires an additional input parameter $\delta_{BN}$, used in the selection process of the Best_First_Selection_SST procedure shown in Alg. 6 ‣ 4 Algorithms ‣ Asymptotically Optimal Sampling-based Kinodynamic Planning"), inspired from previous work.
+
+ii\) SST requires an additional input parameter $\delta_{s}$, used to evaluate whether a newly generated node $x_{new}$ has locally the best path cost in the Is_Node_Locally_the_Best_SST procedure of Alg. 7 ‣ 4 Algorithms ‣ Asymptotically Optimal Sampling-based Kinodynamic Planning"), useful for pruning.
+
+iii\) SST splits the nodes of the tree $\mathbb{V}$ into two subsets: ${\mathbb{V}}_{active}$ and ${\mathbb{V}}_{inactive}$. The nodes in ${\mathbb{V}}_{active}$ correspond to nodes that in a local neighborhood have the best path cost from the root. The nodes ${\mathbb{V}}_{inactive}$ correspond to dominated nodes in terms of path cost but have children with good path cost in their local neighborhoods and for this reason are maintained on the tree for connectivity purposes. Lines 1 and 2 of Algorithm 5 ‣ 4 Algorithms ‣ Asymptotically Optimal Sampling-based Kinodynamic Planning") initialize the sets and the graph data structure $G{({\mathbb{V}},{\mathbb{E}})}$, which will be returned by the algorithm. Only nodes in ${\mathbb{V}}_{active}$ are considered for propagation and participate in the Best_First_Selection_SST procedure (line 5). These two sets are updated when a new state $x_{new}$ is generated that dominates its local neighborhood and pruning is performed (lines 9 and 11).
+
+iv\) In order to define local neighborhoods, SST uses an auxiliary set of states, called ''witnesses'' and denoted as $S$. The approach maintains the following invariant with respect to $S$: for every witness $s$ kept in $S$, a single node in the tree will represent that witness (stored in the field $s.{rep}$ of the corresponding witness), and that node will have the best path cost from the root within a $\delta_{s}$ distance of the witness $s$. All nodes generated within distance $\delta_{s}$ of the witness $s$ with a worse path cost then $s.{rep}$ are removed from ${\mathbb{V}}_{active}$, thereby resulting in a sparse data structure. Line 3 of Algorithm 5 ‣ 4 Algorithms ‣ Asymptotically Optimal Sampling-based Kinodynamic Planning") initializes the set $S$ to correspond to the root state of the tree, which becomes its own representative. The set $S$ is used by the Is_Node_Locally_the_Best_SST procedure to identify whether the newly generated sample $x_{new}$ is dominating the $\delta_{s}$-neighborhood of its closest witness $s \in S$. The same procedure is responsible for updating the set $S$.
+
+There are two input parameters to SST, $\delta_{BN}$ and $\delta_{s}$. $\delta_{BN}$ influences the number of nodes that are considered when selecting nodes to extend. The larger this parameter is, the more likely that exploration will be ignored and path quality will take precedent. For this reason, care must be taken to not make $\delta_{BN}$ too large. $\delta_{s}$ is the parameter responsible for performing pruning and providing a sparse data structure. As with $\delta_{BN}$, there is a tradeoff with $\delta_{s}$. The larger this parameter is, the more pruning will be performed, which helps computationally but then problems may not be solved if it is not possible to sample inside narrow passages. Given the analysis that follows, these two parameters need to satisfy the relationship specified in the following proposition:
+
+### Proposition 13
+
+The parameters $\delta_{BN}$ and $\delta_{s}$ need to satisfy the following relationship given the robust clearance $\delta$ of the $\delta$-robust feasible motion planning problem that needs to be solved:
+
+Figure 9 ‣ 4 Algorithms ‣ Asymptotically Optimal Sampling-based Kinodynamic Planning") summarizes the relationship between sets ${\mathbb{V}}_{active}$, ${\mathbb{V}}_{inactive}$ and $S$ in the context of the algorithm. The following discussion outlines the implementation of the three individual functions for the best first selection and the pruning operation.
+
+Figure 9: Relation between S, Va c t i v e, and Vi n a c t i v e. (A) A tree and a trajectory $\overline{x_{0}\rightarrow x_{c}\rightarrow x_{a}}$ where xa is the representative of s; Some of the nodes along this path are locally dominated in terms of path cost and exist in the 𝕍i n a c t i v e set. They remain in the tree, however, because xa is a representative. (B) The algorithm extends a new trajectory $\overline{x_{0}\rightarrow x_{b}}$ where xb has better cost than xa. Then, xa is removed from Va c t i v e and inserted into Vi n a c t i v e. (C) The representative of s is now xb. The leaf trajectory $\overline{x_{c}\rightarrow x_{a}}$ that lies in 𝕍i n a c t i v e is recursively removed because all of these nodes are dominated and have no longer any children in the active set.
+
+Best First Selection for SST: Algorithm 6 ‣ 4 Algorithms ‣ Asymptotically Optimal Sampling-based Kinodynamic Planning") outlines the operation. The method first samples a random point $x_{rand}$ in the state space $\mathbb{X}$ (line 1) and then finds a set of states $X_{near}$ within distance $\delta_{BN}$ of $x_{rand}$ (Line 2). If the set $X_{near}$ is empty, then BestNear defaults to using the nearest neighbor to the random sample as in RRT (line 3). Among the states in $X_{near}$, the procedure will select the vertex that corresponds to the lowest trajectory cost from the root of the tree $x_{0}$ (Line 4).
+
+4 Else return arg minx ∈ Xn e a rc o s t (x);
+Algorithm 6 Best_First_Selection_SST(𝕏, 𝕍, δB N)
+
+Relative to RRT^∗^, this method also uses a neighborhood and tries to propagate a node along the best path from the root. Nevertheless, RRT^∗^ propagates the closest node to $x_{rand}$ and then attempts connections between all nodes in $X_{near}$ set to the new state. These steps require multiple calls to a steering function. Here, a near-optimal node in a neighborhood of the random sample is directly selected for propagation, which is possible without a steering function but only using a single forward propagation of the dynamics. A procedure similar to BestNear was presented as a heuristic version of RRT in previous work. Here it is formally analyzed to show its mathematical guarantees in terms of path quality and convergence properties.
+
+Pruning in SST: Algorithm 7 ‣ 4 Algorithms ‣ Asymptotically Optimal Sampling-based Kinodynamic Planning") describes the conditions under which the newly propagated node $x_{new}$ is considered for addition to the tree. First, the closest witness $s_{new}$ to $x_{new}$ from the set $S$ is computed (line 1). If the closest witness is more than $\delta_{s}$ away, then the sample $x_{new}$ becomes a new witness itself (lines 2-5). The representative of the witness $s$ is stored in the variable $x_{peer}$ (line 6). Then the new sample $x_{new}$ is considered viable for addition in the tree, if at least one of two conditions holds (line 7): i) there is no representative $x_{peer}$, i.e., the sample $x_{new}$ was just added as a witness or ii) the cost of the new sample $cost{(x_{new})}$ is less than the cost of the witness' representative $cost{(x_{peer})}$. If the function returns true, node $x_{new}$ is added to the tree and the active set of nodes ${\mathbb{V}}_{active}$. If not, then the last propagation is ignored.
+
+8 if xp e e r = = NULL or cost(xn e w) &lt;cost(xp e e r) then
+Algorithm 7 Is_Node_Locally_the_Best_SST(xn e w, S, δs)
+
+Algorithm 8 ‣ 4 Algorithms ‣ Asymptotically Optimal Sampling-based Kinodynamic Planning") describes the pruning process of dominated nodes when SST is adding node $x_{new}$. First the witness $s_{new}$ of the new node and its previous representative $x_{peer}$ are found (lines 1-2). The previous representative, which is dominated by $x_{new}$ in terms of path cost, is removed from the active set of nodes ${\mathbb{V}}_{active}$ and is added to the inactive one ${\mathbb{V}}_{inactive}$ (lines 4-5). Then, $x_{new}$ replaces $x_{peer}$ as the representative of its closest witness $s$ (line 6). If $x_{peer}$ is a leaf node, then it can also safely be removed from the tree (lines 7-11). The removal of $x_{peer}$ may cause a cascading effect for its parents, if they were already in the inactive set ${\mathbb{V}}_{inactive}$ and the only reason they were maintained in the tree was because they were leading to $x_{peer}$ (lines 7-11). This cascading effect is also illustrated in Figure 9 ‣ 4 Algorithms ‣ Asymptotically Optimal Sampling-based Kinodynamic Planning") (C).
+
+8 while xp e e r! = N U L L and IsLeaf (xp e e r) and xp e e r ∈ 𝕍i n a c t i v e do
+10 ${\mathbb{E}}\leftarrow{{\mathbb{E}} \smallsetminus {\{\overline{x_{parent}\rightarrow x_{peer}}\}}}$;
+Algorithm 8 Prune_Dominated_Nodes_SST(xn e w, 𝕍a c t i v e, 𝕍i n a c t i v e, 𝔼 )
+
+Implementation Guidelines: The pseudocode provided here for SST contains certain inefficiencies to simplify its description, which should be avoided in an actual implementation.
+
+In particular, in line 7 of the STABLE_SPARSE_RRT procedure, the trajectory $\overline{x_{selected}\rightarrow x_{new}}$ is collision checked and then the algorithm evaluates whether $x_{new}$ is useful to be added to the tree. Typically, the operations for evaluating whether $x_{new}$ is useful (nearest neighbor queries, data structure management and mathematical comparisons) are faster than collision checking a trajectory. Consequently, it is computationally advantageous if the check for whether $x_{new}$ is useful, is performed before the collision checking of $\overline{x_{selected}\rightarrow x_{new}}$. This is possible if the underlying moving system is modeled through a set of state update equations of the form of Equation 1. If, however, the moving system is a physically simulated one, then it is not possible to figure out what is the actual final state $x_{new}$ of the propagated trajectory, without first performing collision checking. Thus, in the case of a physically simulated system, the description of the algorithm is closer to the implementation.
+
+Another issue relates to the first two lines of Algorithm 8 ‣ 4 Algorithms ‣ Asymptotically Optimal Sampling-based Kinodynamic Planning"), which find the closest witness to the new node $x_{new}$ and its previous representative. These operations have actually already taken place in Algorithm 7 ‣ 4 Algorithms ‣ Asymptotically Optimal Sampling-based Kinodynamic Planning") (lines 1 and 6 respectively). An efficient implementation would avoid the second call to a nearest neighbor query and reuse the information regarding the closest witness to node $x_{new}$ between the two algorithms.
+
+### STABLE_SPARSE-RRT^∗^ (SST\*)
+
+SST is providing only asymptotic $\delta$-robust near-optimality. Asymptotic optimality cannot be achieved by SST directly primarily due to the fixed sized pruning operation employed. The solution to this is to slowly reduce the radii $\delta_{BN}$ and $\delta_{s}$ employed by the algorithm eventually converging to iterations that are similar to the NAIVE_RANDOM_TREE approach. The key to SST^∗^, which is provided in Algorithm 9 ‣ 4 Algorithms ‣ Asymptotically Optimal Sampling-based Kinodynamic Planning"), is to make sure that the rate of reducing the pruning is slow enough to achieve an anytime behavior, where initial solutions are found for large radii and then they are improved. As the radii decrease, the algorithm is able to discover new homotopic classes that correspond to narrow passages where solution trajectories have reduced clearance.
+
+SST^∗^ provides a schedule for reducing the two radii parameters to SST, $\delta_{BN}$ and $\delta_{s}$ over time. It receives as input an additional parameter $\xi$, which is used to decrease the radii $\delta_{BN}$ and $\delta_{s}$ over consecutive calls to SST (note that $d$ and $l$ are the dimensionalities of the state and control spaces respectively). This, in effect, makes pruning more difficult to occur, turns the selection procedure more towards an exploration objective instead of a best-first strategy and increases the number of nodes in the data structure. As the number of iterations approaches infinity, pruning will no longer be performed, the selection process works in a uniformly at random manner and all collision-free states will be generated.
+
+Alg. 9 ‣ 4 Algorithms ‣ Asymptotically Optimal Sampling-based Kinodynamic Planning") is a meta-algorithm that repeatedly calls SST as a building block. In the above call, SST is assumed to be operating on the same graph data structure $G$ over repeated calls. It is possible to take advantage of previously generated versions of the graph data structures with some additional considerations, e.g., instead of clearing out all states in $V_{active}$ from previous iterations, one can carefully modify the pruning procedure to take advantages of the existing $V_{active}$ set given the updated radii.
+
+### Nearest Neighbor Data Structure
+
+The implementation of SST imposes certain technical requirements from the underlying nearest neighbor data structure that are not typical for existing sampling-based motion planners. In particular, given the pruning operation, it is necessary to have an efficient implementation of deletion from the nearest neighbor data structure. In most nearest neighbor structures, a removal of a node will cause the entire data structure to be frequently rebuilt, severely increasing run times.
+
+1 Vr a n d← Sample_Random_Vertices(𝔾.𝕍);
+2 $v_{min}\leftarrow{\underset{x\in V_{rand}}{\arg ⁡\min}{\|{x - v}\|}}$;
+5 $v_{min}\leftarrow{\underset{x\in{Nodes}}{\arg ⁡\min}{\|{x - v}\|}}$;
+Algorithm 10 Find_Closest(𝔾,v)
+
+The goal here is to describe a simple idea for performing approximate nearest neighbor search using a graph structure $\mathbb{G}$ that stores the nodes of the tree and on its edges stores distances between them according to $d_{x}{( \cdot, \cdot )}$. This approach builds on top of ideas from random graph theory. Graphs are conducive to easy removal, but some overhead is placed in node addition to maintain this data structure incrementally.
+
+The key operation is finding the closest node in a graph, which is performed by following a hill climbing approach shown in Algorithm 10. A random set of nodes is first sampled from the existing structure, proportional to $\sqrt{\|{\mathbb{V}}\|}$ (line 1). From this set of nodes, the closest node to the query node $v$ is determined by applying linear search according to $d_{x}{( \cdot, \cdot )}$ (line 2). From the closest node, a hill climbing process is performed by searching the local neighborhood of the closest node on the graph to identify whether there are nodes that are closer to the query one (line 3-6). Once no closer nodes can be found, the locally best node is returned (line 7).
+
+On top of this operation, it is also possible to define a way for approximately finding the $k$-closest nodes or the nodes that are within a certain radius $\delta$.
+
+Algorithm 11 Find_K_Close(𝔾,v,k)
+
+The idea in both cases is to start from the closest node by calling Algorithm 10. Then, each corresponding method searches the local neighborhoods of the discovered nodes (initially just the closest node) for either the $k$-closest ones or those nodes that are within $\delta$ distance. The methods iterate by searching locally until there is no change in the list.
+
+The process of adding nodes to the nearest neighbor data structure is shown in Algorithm 12. It is achieved by first finding the $k$ closest nodes and then adding edges to them. The number $k$ should be at least a logarithmic number of nodes as a function of the total number of nodes to ensure the graph is connected (similar to PRM^∗^).
+
+The reason for using a graph data structure for the nearest neighbor operations is the ease of removal shown in Algorithm 13. Most implementations of graph data structures provide such a primitive that is typically quite fast. This can be sped up even more if a link to the nearest neighbor graph node is kept with the tree node allowing for constant time removal.
+
+## Analysis
+
+In this section, arguments for the proposed framework are provided. Sec. 5.1 begins by discussing the requirements of MonteCarlo-Prop and what properties this primitive provides. Then, in Sec. 5.2, an analysis of the NAIVE_RANDOM_TREE approach is outlined, showing that this algorithm can achieve asymptotic optimality. To address the poor convergence rate of that approach, the properties of using the best-first selection strategy are detailed in Sec. 5.3. Finally, in order to introduce the pruning operation, properties of SST and SST^∗^ are studied in Sec. 5.4 and 5.5.
+
+### Properties of MonteCarlo-Prop
+
+The MonteCarlo-Prop procedure is a simple primitive for generating random controls, but provides desirable properties in the context of achieving asymptotic optimality properties for systems without access to a steering function. This section aims to illustrate these desirable properties, given the assumptions from Section 3. Much of the following analysis will use these results to prove the probabilistic completeness and asymptotic near-optimality properties of SST and asymptotic optimality of SST^∗^. These algorithms are using MonteCarlo-Prop for generating random controls.
+
+The analysis first considers a $\delta$-robust optimal path for a specific planning query, which is guaranteed to exist for the specified problem setup. For such a path, consider a covering ball sequence (an illustration is shown in Fig. 10(left)):
+
+Figure 10: (left) An example of a covering ball sequence over a given trajectory of radius δ, where each ball is placed so that its center has cost CΔ from the previous ball center. (right) The states involved in the arguments regarding the properties of random local propagation.
+
+### Definition 14
+
+(Covering Balls) Given a trajectory $\pi{(t)}$: ${\lbrack 0,t_{\pi}\rbrack}\rightarrow{\mathbb{X}}_{f}$, robust clearance $\delta \in R^{+}$, and a cost value $C_{\Delta} > 0$, the set of covering balls $\mathbb{B}$($\pi{(t)}$, $\delta$, $C_{\Delta}$) is defined as a set of $M + 1$ hyper-balls: {$\mathcal{B}_{\delta}{(x_{0})}$, $\mathcal{B}_{\delta}{(x_{1})}$,..., $\mathcal{B}_{\delta}{(x_{M})}$} of radius $\delta$, where $x_{i}$ are defined such that Cost($\overline{x_{i}\rightarrow x_{i+1}}$)$= C_{\Delta}$ for $i = {0,1,\ldots,{M - 1}}$.
+
+Note that Assumption 11 about the Lipschitz continuity of the cost function and Definition 14 imply that for any given trajectory $\pi$, where ${cost{(\pi)}} = C$, and a given duration $T > 0$, it is possible to define a set of covering balls $\mathbb{B}$($\pi{(t)}$, $\delta$, $C_{\Delta}$) for some $C_{\Delta} > 0$, where the centers $x_{i}$ of those balls occur at time $t_{i}$ of the executed trajectory. Since for the given problem setup, the cost function is non-decreasing along the trajectory and non-degenerate, every segment of $\pi$ will have a positive cost value.
+
+The covering ball sequence, in conjunction with the following theorem, provide a basis for the remaining arguments. In particular, much of the arguments presented in the rest of Section 5 will consider this covering ball sequence and the fact that the proposed algorithm can generate a path, which exists entirely in this covering ball sequence. Once the generation of such a path asymptotically is proven, its properties in terms of path quality relatively to the $\delta$-robust optimal path will be examined.
+
+### Theorem 15
+
+For two trajectories $\pi,\pi^{\prime}$ and any period $T \geq 0$, so that ${\pi{}} = {\pi^{\prime}{}} = x_{0}$ and ${\Deltau} = {\sup_{t}{({\|{{u{(t)}} - {u^{\prime}{(t)}}}\|})}}$:
+
+Intuitively, this theorem guarantees that for two trajectories starting from the same state, the distance between their end states, in the worst case, is bounded by a function of the difference of their control vectors. This theorem examines the worst case, and as a result, the exact bound value is conservative. The proof can be found in Appendix B. From this theorem, the following corollary is immediate.
+
+### Corollary 16
+
+For two trajectories $\pi$ and $\pi^{\prime}$ such that ${\pi{}} = {\pi^{\prime}{}} = x_{0}$ and $\Delta u = \sup_{t}{(||u{(t)},u^{\prime}{(t)}||)}$: ${\lim_{{\Deltau}\rightarrow 0^{+}}{\|{{\pi{(T)}} - {\pi^{\prime}{(T)}}}\|}} = 0$ for any period $T \geq 0$.
+
+Corollary 16 is the reason why MonteCarlo-Prop can be used to replace a Steering function. By having the opportunity to continuously sample control vectors and propagate them forward from an individual state $x_{0}$, one can get arbitrarily close to the optimal control vector, i.e., producing a $\delta$-similar trajectory, where the $\delta$ value can get arbitrarily small.
+
+The following theorem guarantees that the probability of generating $\delta$-similar trajectories is nonzero when starting from a different initial point inside a $\delta$-ball, allowing situations similar to Figure 10 (right) to occur. This property shows why MonteCarlo-Prop is a valid propagation primitive for use in an asymptotically optimal motion planner.
+
+### Theorem 17
+
+Given a trajectory $\pi$ of duration $t_{\pi}$, the success probability for MonteCarlo-Prop to generate a $\delta$-similar trajectory $\pi^{\prime}$ to $\pi$ when called from an input state ${\pi^{\prime}{}} \in {\mathcal{B}_{\delta}{({\pi{}})}}$ and for a propagation duration $t_{\pi^{\prime}} = T_{prop} > t_{\pi}$ is lower bounded by a positive value $\rho_{\delta} > 0$.
+
+Proof: As in Figure 11, consider that the start of trajectory $\pi$ is ${\pi{}} = x_{i - 1}$, while its end is ${\pi{(t_{\pi})}} = x_{i}$. Similarly for $\pi^{\prime}$: ${\pi^{\prime}{}} = x_{i - 1}^{\prime}$ and ${\pi^{\prime}{(t_{\pi^{\prime}})}} = x_{i}^{\prime}$. From Lemma 6 regarding the existence of dynamic clearance we have the following: regardless of where $x_{i - 1}^{\prime}$ is located inside $\mathcal{B}_{\delta}{(x_{i - 1})}$, there must exist a $\delta$-similar trajectory $\pi^{\prime}$ to $\pi$ starting at $x_{i - 1}^{\prime}$ and ending at $x_{i}^{\prime}$. Therefore, if the reachable set of nodes $A_{T_{prop}}$ from $x_{i - 1}^{\prime}$ is considered, it must be true that ${\mathcal{B}_{\delta}{(x_{i})}} \subseteq A_{T_{prop}}$.
+
+Figure 11: An illustration of the local reachability set for xi − 1′. Gray region ATm a x = ATp r o p denotes the set of states that is reachable from xi − 1′ within duration [0, tπ′].
+
+In other words, $A_{T_{prop}}$ has the same dimensionality $d$ as the state space (Assumption 5), as in in Fig. 11. The goal is to determine a probability $\rho$ that trajectory $\pi^{\prime}$ will have an endpoint in $\mathcal{B}_{\delta}{({\pi{(t_{\pi})}})}$.
+
+Consider Fig. 12 (left). Given a $\lambda \in {}$, construct a ball region $b = {\mathcal{B}_{\lambda\delta}{(x_{b})}}$, such that the center state $x_{b} \in {\pi{(t)}}$ and $b \subset {\mathcal{B}_{\delta}{(x_{i})}}$. Let $\Lambda_{\delta}$ denote the union of all such $b$ regions. Clearly, all of $x_{b}$ form a segment of trajectory $\pi{(t)}$. Let $T_{\delta}$ denote the time duration of this trajectory segment. For any state $x_{b}$, there must exist a $\delta$-similar to $\pi$ trajectory $\pi_{b} = \overline{x_{i-1}^{\prime}\rightarrow x_{b}}$, due to Lemma 6.
+
+Recall that MonteCarlo-Prop samples a duration for integration, and then, samples a control vector in $\Upsilon$. The probability to sample a duration $t_{\pi_{b}}$ for $\pi_{b}$ so that it reaches the region $\Lambda\delta$ is $T_{\delta}/T_{prop}$.
+
+Figure 12: (left) A constructed segment of trajectory π of duration Tδ. (right) The dotted curve illustrates the existence of a trajectory, and the solid curve above it illustrates one possible edge that is created by MonteCarlo-Prop.
+
+Since the trajectory segment exists, it corresponds to a control vector $u_{m} \in \Upsilon$. MonteCarlo-Prop only needs to sample a control vector $u_{m}^{\prime}$, such that it is close to $u_{m}$ and results in a $\delta$-similar trajectory. Then Theorem 15 guarantees that MonteCarlo-Prop can generate trajectory $\pi_{b}^{\prime} = \overline{x_{i-1}^{\prime}\rightarrow x_{b}^{\prime}}$, which has bounded ''spatial difference'' from $\overline{x_{i-1}^{\prime}\rightarrow x_{b}}$. And both of them have exactly the same duration of $t_{\pi_{b}}$ (see Fig. 12 (right) for an illustration). More formally, given the ''spatial difference'' $\lambda\delta$, if MonteCarlo-Prop samples a control vector $u_{m}^{\prime}$ such that:
+
+Therefore, starting from state $x_{i - 1}^{\prime}$, with propagation parameter $T_{prop}$, MonteCarlo-Prop generates a $\delta$-similar trajectory $\overline{x_{i-1}^{\prime}\rightarrow x_{b}^{\prime}}$ to $\overline{x_{i-1}\rightarrow x_{i}}$ with probability at least
+
+This theorem guarantees that the maximum ''spatial difference'' between $\pi{(t)}$ and $\pi^{\prime}{(t)}$, within time $T$, can be bounded and the bound is proportional to the maximum difference of their control vectors. This duration bound also implies a cost bound, which will be leveraged by the following theorems.
+
+### Naive Algorithm: Already Asymptotically Optimal
+
+This section considers the impractical sampling-based tree algorithm outlined in Algorithm 2, which does not employ a steering function. Instead, it selects uniformly at random a reachable state in the existing tree and applies random propagation to extend it. The following discussion argues that this algorithm eventually generates trajectories $\delta$-similar to optimal ones. The general idea is to prove by induction that a sequence of trajectories between the covering balls of an optimal trajectory can be generated. This proof shows probabilistic completeness. Then, from the properties of MonteCarlo-Prop, the quality of the trajectory generated in this manner is examined. Finally, if the radius of the covering-ball sequence tends toward zero, asymptotic optimality is achieved.
+
+Consider an optimal trajectory $\pi^{\ast}$ and its covering ball sequence $\mathbb{B}$($\pi^{\ast}{(t)}$, $\delta$, $C_{\Delta}$). Let $A_{k}^{(n)}$ denote the event that at the $n^{th}$ iteration of $ALG$, a $\delta$-similar trajectory $\pi$ to the $k^{th}$ segment of the optimal sub-trajectory $\overline{x_{k-1}^{\ast}\rightarrow x_{k}^{\ast}}$ is generated, such that ${\pi{}} \in {\mathcal{B}_{\delta}{(x_{k - 1}^{\ast})}}$ and ${\pi{(t_{\pi})}} \in {\mathcal{B}_{\delta}{(x_{k}^{\ast})}}$. Then, let $E_{k}^{(n)}$ denote the event that from iteration $1$ to $n$, an algorithm generates at least one such trajectory, thereby expressing whether an event $A_{k}^{(n)}$ has occurred. The following theorems reason about the value of $E_{k}^{(\infty)}$ where $k$ is the number of segments in $\pi^{\ast}$ resulting from the choice of $T_{prop}$.
+
+### Theorem 18
+
+NAIVE_RANDOM_TREE will eventually generate a $\delta$-similar trajectory to an optimal one for any robust clearance $\delta > 0$.
+
+The proof of Theorem 18 is in Appendix C. From this theorem, the following is true.
+
+### Corollary 19
+
+NAIVE_RANDOM_TREE is probabilistically complete.
+
+### Theorem 20
+
+NAIVE_RANDOM_TREE is asymptotically optimal.
+
+The proof of Theorem 20 is in Appendix D and shows it is possible to achieve asymptotic optimality in a rather naïve way. This approach is impractical to use however. Consider the rate of convergence for the probability ${\mathbb{P}}{(E_{k}^{(n)})}$ where $k$ denotes the $k^{th}$ ball and $n$ is the number of iterations. Given Theorem 18, ${\mathbb{P}}{(E_{k}^{(n)})}$ converges to 1. But the following is also true.
+
+### Theorem 21
+
+For the worst case, the $k^{th}$ segments of the trajectory returned by NAIVE_RANDOM_TREE converges logarithmically to the near optimal solution, i.e., ${{\lim_{n\rightarrow\infty}\frac{|{{{\mathbb{P}}{(E_{k}^{({n + 2})})}} - {{\mathbb{P}}{(E_{k}^{({n + 1})})}}}|}{|{{{\mathbb{P}}{(E_{k}^{({n + 1})})}} - {{\mathbb{P}}{(E_{k}^{(n)})}}}|}} = 1}.$
+
+The significance of Theorem 21 (proven in Appendix E) comes from the realization that expecting to generate a $\delta$-similar trajectory *segment* to an optimal trajectory $\pi^{\ast}$ requires an exponential number of iterations with this approach. This can also be illustrated in the following way. In the NAIVE_RANDOM_TREE approach, as in RRT-Connect, each vertex in $V$ has unbounded degree asymptotically.
+
+### Theorem 22
+
+For any state $x_{i} \in V$, such that $x_{i}$ is added into $V$ at iteration $i$, NAIVE_RANDOM_TREE will select $x_{i}$ to be propagated infinitely often as the execution time goes to infinity.
+
+Theorem 22 (proven in Appendix F) indicates that NAIVE_RANDOM_TREE will attempt an infinite number of propagations from each node, and the duration of the propagation does not decrease, unlike in RRT-Connect where the expected length of new branches converge to 0. The assumption of *Lipschitz continuity* of the system is enough to guarantee optimality. Due to this reason, NAIVE_RANDOM_TREE is trivially asymptotically optimal.
+
+Another way to reason about the speed of convergence is the following. Let $p$ be the probability of an event to happen. The expected number of independent trials for that event to happen is $1/p$. Then, the probability of such an event happening converges to and is always greater than ${1 - e^{- 1}} \approx {63.21\%}$, after $1/p$ independent trials, as $p\rightarrow 0$. Consider event $A_{1}$ from the previous discussion (the event of generating the first $\delta$-similar trajectory segment to an optimum one at any particular iteration) and recall that the success probability of the MonteCarlo-Prop function is $\rho$. If $x_{0}$ is selected for MonteCarlo-Prop, then the probability of ${{\mathbb{P}}{(\left. A_{1} \middle| {\{{x_{0}\text{~is selected}}\}} \right.)}} = \rho$. Then the ''expected number'' of times we need to select $x_{0}$ for $A_{1}$ to happen is $1/\rho$. The expected number of times that $x_{0}$ is selected after $n$ iterations is $\sum_{i = 1}^{n}\frac{1}{i}$. This yields the following expression for sufficiently large $n$: $\frac{1}{\rho} = {\sum_{i = 1}^{n}\frac{1}{i}} \approx {{ln{(n)}} + c_{\gamma}}$ where $c_{\gamma}$ is the Euler-Mascheroni constant, which yields: ${n \approx e^{({\rho^{- 1} - c_{\gamma}})}}.$ Therefore, in order even for event $E_{1}$ (event of $A_{1}$ happening at least once ) to happen with approximately $1 - e^{- 1}$ probability for small $\rho$ values, the expected number of iterations is exponential to the reciprocal of the success probability $\rho$ of the MonteCarlo-Prop function. This implies *intractability*. For efficiency purposes it is necessary to have methods where $n$ does not depend exponentially to $\frac{1}{\rho}$.
+
+### Using BestNear: Improving Convergence Rate
+
+A computationally efficient alternative to NAIVE_RANDOM_TREE for finding a path, if one exists, is referred to here as RRT-BestNear, which works like NAIVE_RANDOM_TREE but switches line 3 in Algorithm 2 with the procedure in Algorithm 6 ‣ 4 Algorithms ‣ Asymptotically Optimal Sampling-based Kinodynamic Planning"). An important observation from the complexity discussion for NAIVE_RANDOM_TREE is that the exponential term arises from the use of uniform random sampling for selection among the existing nodes. By not using any path cost information when performing selection, the likelihood of generating good trajectories becomes very low, even if it is still non-zero.
+
+Figure 13: (left) Illustration of different trajectories generated by MonteCarlo-Prop inside the covering balls 𝔹(π*,δ,CΔ). Many trajectories may enter these balls, but may not be δ-similar to the optimal one. (right) Sampling xr a n d in the gray region guarantees that a node zi ∈ ℬδ (xi) is selected for propagation so that either zi = yi or c o s t (zi) &lt; c o s t (yi).
+
+The analysis of RRT-BestNear involves similar event constructions as in the previous section: $A_{k}^{(n)}$ and $E_{k}^{(n)}$ are defined as in the previous section, except the endpoint of the trajectory segment generated must be in $\mathcal{B}_{\delta_{BN}}{(x_{k}^{\ast})}$. The propagation from MonteCarlo-Prop still has positive probability of occurring, but is different from $\rho_{\delta}$. The changed probability for MonteCarlo-Prop to generate such a trajectory is defined as $\rho_{\delta\rightarrow\delta_{BN}}$ The probabilities of these events will also change due to the new selection process and more constrained propagation requirements. It must be shown that nodes that have good quality should have a positive probability of selection. Consider the selection mechanism BestNear in the context of Figure 13.
+
+### Lemma 23
+
+Assuming uniform sampling in the Sample function of BestNear, if $\exists x$ s.t. $x \in {\mathcal{B}_{\delta_{BN}}{(x_{i}^{\ast})}}$ at iteration $n$, then the probability that BestNear selects for propagation a node $x^{\prime} \in {\mathcal{B}_{\delta}{(x_{i}^{\ast})}}$ can be lower bounded by a positive constant $\gamma$ for every $n^{\prime} > n$.
+
+Proof: Consider the case that a random sample $x_{rand}$ is placed at the intersection of a small ball of radius $\theta = {\delta - \delta_{BN}}$ (guaranteed positive from Proposition 13 ‣ 4 Algorithms ‣ Asymptotically Optimal Sampling-based Kinodynamic Planning")), and of a $\delta_{BN}$-radius ball centered at a state $y_{i} \in {\mathcal{B}_{\delta_{BN}}{(x_{i})}}$ that was generated during an iteration of an algorithm. State $y_{i}$ exists with probability ${\mathbb{P}}{(E_{k}^{(n)})}$. In other words, if $x_{rand} \in {{\mathcal{B}_{\theta}{(x_{i})}} \cap {\mathcal{B}_{\delta_{BN}}{(y_{i})}}}$, then $y_{i}$ will always be considered by BestNear because $y_{i}$ will always be within $\delta_{BN}$ distance of a random sample there. The small circle is defined so that the $\delta_{BN}$ ball of $x_{rand}$ can only reach states in $\mathcal{B}_{\delta}{(x_{i})}$. It is also required that $x_{rand}$ is in the $\delta_{BN}$-radius ball centered at $y_{i}$, so that at least one node in $\mathcal{B}_{\delta}{(x_{i})}$ is guaranteed to be returned. Thus, the probability the algorithm select for propagation a node $x^{\prime} \in {\mathcal{B}_{\delta}{(x_{i}^{\ast})}}$ can be lower bounded by the following expression:
+
+With Theorem 17 and Lemma 23, both the selection and propagation probabilities are positive and it is possible to argue probabilistic completeness of RRT-BestNear. The full proof is provided in Appendix G.:
+
+### Theorem 24
+
+RRT-BestNear will eventually generate a $\delta$-similar trajectory to any optimal trajectory.
+
+The proof of asymptotic $\delta$-robust near-optimality follows directly from Theorem. 24, the *Lipschitz continuity*, *additivity*, and *monotonicity* of the cost function (Assumption 11). Theorem 24 is already examining the generation of a $\delta$-similar trajectory to $\pi^{\ast}$, but the bound on the cost needs to be calculated (as is constructed in Appendix H).
+
+### Theorem 25
+
+RRT-BestNear is asymptotically $\delta$-robustly near-optimal.
+
+The addition of BestNear was introduced to address the convergence rate issues of NAIVE_RANDOM_TREE. Theorem 26 quantifies this convergence rate.
+
+### Theorem 26
+
+For the worst case, the $k^{th}$ segment of the trajectory returned by RRT-BestNear converges linearly to the near optimal solution, i.e, ${{\lim_{n\rightarrow\infty}\frac{|{{{\mathbb{P}}{(E_{k}^{({n + 1})})}} - 1}|}{|{{{\mathbb{P}}{(E_{k}^{(n)})}} - 1}|}} = {({1 - {\gamma\rho_{\delta\rightarrow\delta_{BN}}}})} \in {}}.$
+
+Proof: Applying the boundary condition of Equation 28, consider the ratio of the probabilities between iteration $n + 1$ and $n$.
+
+Taking $\lim_{n\rightarrow\infty}$, and given Theorem 24 such that ${\lim_{n\rightarrow\infty}{{\mathbb{P}}{(E_{k - 1}^{({n + 1})})}}} = 1$, the following holds:
+
+Theorem 26 states that RRT-BestNear converges linearly to near optimal solutions. Recall that the NAIVE_RANDOM_TREE approach converges logarithmically (sub-linearly). This difference indicates that RRT-BestNear converges significantly faster than NAIVE_RANDOM_TREE. Now consider the expected number of iterations, i.e. the iterations needed to return a near-optimal trajectory with a certain probability. Specifically, the convergence rate depends on the difficulty level of the kinodynamic planning problem, which is measured by the probability $\rho_{\delta\rightarrow\delta_{BN}}$ of successfully generating a $\delta$-similar trajectory segment connecting two covering balls.
+
+Recall that the expected number of iterations for $E_{1}$ to succeed for NAIVE_RANDOM_TREE was $n \approx {e^{c_{\gamma}} \cdot e^{(\rho^{- 1})}}$. In the case of RRT-BestNear for event $E_{1}$, this expected number of iterations is $\frac{1}{1 - e^{- 1}} \cdot \frac{1}{\gamma\rho_{\delta\rightarrow\delta_{BN}}}$. This is a significant improvement already for event $E_{1}$ (though providing a weaker near-optimality guarantee). For the cases of $E_{k}$, ($k > 1$), the expected number of iterations for RRT-BestNear linearly depends on the length of the optimal trajectory. While for NAIVE_RANDOM_TREE, it is already intractable even for the first ball.
+
+On the other hand, in terms of ''per iteration'' computation time, RRT-BestNear is worse than RRT. The BestNear procedure requires a $\delta_{BN}$-radius query operation which is computationally more expensive than the nearest neighbor query in RRT. Therefore, RRT-BestNear shall be increasingly slower than RRT. Nevertheless, the following section shows that maintaining a sparse data structure can help in this direction.
+
+### STABLE_SPARSE_RRT Analysis
+
+This section argues that the introduction of the *pruning process* in SST does not compromise asymptotic $\delta$-robust optimality and improves the computational efficiency. Consider the selection mechanism used in SST.
+
+### Lemma 27
+
+Let $\delta_{c} = {\delta - \delta_{BN} - {2\delta_{s}}}$. If a state $x_{new} \in V_{active}$ is generated at iteration $n$ so that $x \in {\mathcal{B}_{\delta_{c}}{(x_{i}^{\ast})}}$, then for every iteration $n^{\prime} \geq n$, there is a state $x^{\prime} \in V_{active}$ so that $x^{\prime} \in {\mathcal{B}_{({\delta - \delta_{BN}})}{(x_{i}^{\ast})}}$ and cost($x^{\prime}$) $\leq$ cost($x$).
+
+Proof: Given $x$, a node generated by SST, then it is guaranteed that a witness point $s$ is located near $x$. As in Fig. 14 (A), the witness point $s$ can be located, in the worst case, at distance $\delta_{s}$ away from the boundary of $\mathcal{B}_{\delta_{c}}{(x_{i}^{\ast})}$ if $x \in {\mathcal{B}_{\delta_{c}}{(x_{i}^{\ast})}}$.
+
+Note that $x$ can be removed from ${\mathbb{V}}_{active}$ by SST in later iterations. In fact, $x$ almost surely will be removed if $x \neq x_{0}$. It is possible that when $x$ is removed, there could be no state in the ball $\mathcal{B}_{\delta_{c}}{(x_{i}^{\ast})}$. Nevertheless, the witness sample $s$ will not be deleted. A node $x^{\prime}$ representing $s$ will always exist in ${\mathbb{V}}_{active}$ and $x^{\prime}$ will not leave the ball $\mathcal{B}_{\delta_{s}}{(s)}$. It is guaranteed by SST that the cost of the $x^{\prime}$ will never increase, i.e., cost($x^{\prime}$)$\leq$cost($x$). In addition, $x^{\prime}$ has to exist inside ${\mathcal{B}_{\delta - \delta_{BN}}{(x_{i}^{\ast})}} = {\mathcal{B}_{\delta_{c} + {2\delta_{s}}}{(x_{i}^{\ast})}}$. $\blacksquare$
+
+Lemma 27 is where SST gains its Stable moniker. By examining what happens when a trajectory is generated that ends in $\mathcal{B}_{\delta_{c}}{(x_{i}^{\ast})}$, a guarantee can be made that there will always be a state in the $\mathcal{B}_{\delta}{(x_{i}^{\ast})}$, thus becoming a stable point. The relationship between $\delta_{BN}$,$\delta_{s}$, and $\delta$ must satisfy the requirements of Proposition 13 ‣ 4 Algorithms ‣ Asymptotically Optimal Sampling-based Kinodynamic Planning") in order to provide this property. After proving the continued existence of $x^{\prime} \in {\mathcal{B}_{\delta - \delta_{BN}}{(x_{i}^{\ast})}}$, Lemma 28 provides a lower bound for the probability of selecting $x^{\prime}$.
+
+### Lemma 28
+
+Assuming uniform sampling in the Sample function of BestNear, if ${\exists x} \in {\mathbb{V}}_{active}$ so that $x \in {\mathcal{B}_{\delta_{c}}{(x_{i}^{\ast})}}$ at iteration $n$, then the probability that BestNear selects for propagation a node $x^{\prime} \in {\mathcal{B}_{\delta}{(x_{i}^{\ast})}}$ can be lower bounded by a positive constant $\gamma_{sst}$ for every $n^{\prime} > n$.
+
+Proof: See Fig. 14(A): BestNear performs uniform random sampling in $\mathbb{X}$ to generate $x_{rand}$, and then examines the ball $\mathcal{B}_{\delta_{BN}}{(x_{rand})}$ to find the best path node. In order for a node in $\mathcal{B}_{\delta}{(x_{i}^{\ast})}$ to be returned, the sample needs to be in $\mathcal{B}_{\delta - \delta_{BN}}{(x_{i}^{\ast})}$. If the sample is outside this ball, then a node not in $\mathcal{B}_{\delta}{(x_{i}^{\ast})}$ can be considered, and therefore may be selected.
+
+Figure 14: The selection mechanism of SST.
+
+Next, consider the size of the intersection of $\mathcal{B}_{\delta - \delta_{BN}}{(x_{i}^{\ast})}$ and a ball of radius $\delta_{BN}$ that is entirely enclosed in $\mathcal{B}_{\delta}{(x_{i}^{\ast})}$. Let $x_{v}$ denote the center of this ball. This intersection, highlighted in Fig. 14(B), represents the area that a sample can be generated so as to return a state from ball $\mathcal{B}_{\delta - \delta_{BN}}{(x_{i}^{\ast})}$. In the worst case, the center of this ball $\mathcal{B}_{\delta_{BN}}{(x_{v})}$ could be on the border of $\mathcal{B}_{\delta - \delta_{BN}}{(x_{i}^{\ast})}$, as seen in Fig. 14 B. Then, the probability of sampling a state in this region can be computed as: $\gamma_{sst} = {\inf{{\mathbb{P}}\left( \left\{ {x^{\prime}{\text{~returned by~}\text{BestNear}}}:{x^{\prime} \in {\mathcal{B}_{\delta}{(x_{i}^{\ast})}}} \right\} \right)}} = \frac{\mu{({{\mathcal{B}_{\delta - \delta_{BN}}{(x_{i}^{\ast})}} \cap {\mathcal{B}_{\delta_{BN}}{(x_{v})}}})}}{\mu{({\mathbb{X}}_{f})}}$. This is the smallest region that will guarantee selection of a node in $\mathcal{B}_{\delta}{(x_{i})}$.
+
+Lemma 28 shows that the probability to select a near optimal state within the covering ball sequence with a non-decreasing cost can be lower bounded. It is almost identical to the selection mechanism of RRT-BestNear. Similarly to the analysis of RRT-BestNear, the probability that MonteCarlo-Prop is now again different. The trajectories considered here must enter balls of radius $\delta_{c}$, so the changed probability for MonteCarlo-Prop to generate such a trajectory is $\rho_{\delta\rightarrow\delta_{c}}$. With $\gamma_{sst}$ and $\rho_{\delta\rightarrow\delta_{c}}$ defined, the completeness of SST can be argued.
+
+### Theorem 29
+
+STABLE Sparse-RRT is probabilistically $\delta$-robustly complete. e.g.,
+
+### Theorem 30
+
+STABLE Sparse-RRT is asymptotically $\delta$-robustly near-optimal. e.g.
+
+The proofs for Theorem 29 and Theorem 30 are almost identical to the proofs of Theorem 24 and Theorem 25 respectively. The only differences are the different probabilities $\gamma_{sst}$ and $\rho_{\delta\rightarrow\delta_{c}}$. By changing the radii in the proofs of Theorem 29 and Theorem 30 to their correct values in SST, the proofs hold.
+
+### Theorem 31
+
+In the worst case, the $k^{th}$ segment of the trajectory returned by SST converges linearly to the near optimal one, i.e.,
+
+The convergence rate and expected iterations for SST are again almost identical to that of RRT-BestNear, since both the selection mechanism and the propagation probability of SST can be bounded by constants.
+
+The benefit of SST is that the per iteration complexity ends up being smaller than RRT-BestNear. The most expensive operation for the family of algorithms discussed in this paper asymptotically is the near neighbor query. SST delivers noticeable computational improvement over RRT-BestNear due to the reduced size of the tree data structure. The rest of this section examines the influence of the sparse data structure, which is brought by the pruning process in SST.
+
+Among a set of size $n$ points, the average time complexity for a nearest neighbor query is $\mathcal{O}{({\log n})}$. The average time complexity of the range query for near neighbors is $\mathcal{O}{(n)}$, since the result is a fixed proportional subset of the whole set. Using this information, it is possible to estimate the overall asymptotic time complexities for RRT-BestNear and SST to return near-optimal solutions with probability at least ${1 - e^{- 1}} \approx {63.21\%}$.
+
+### Lemma 32
+
+For a $k$ segment optimal trajectory with $\delta$ clearance, the expected running time for RRT-BestNear to return a near-optimal solution with $1 - e^{- 1}$ probability can be evaluated as: $\mathcal{O}\left( {(\frac{k}{\gamma\rho_{\delta\rightarrow\delta_{c}}})}^{2} \right)$
+
+Proof: Let $N_{p}$ denote $\frac{k}{{({1 - e^{- 1}})}\gamma\rho}$. The total time computation after $N_{p}$ iterations can be evaluated as, ${{\mathcal{O}\left( {\sum_{i = 1}^{N_{p}}{c \cdot i}} \right)} = {\mathcal{O}\left( {c \cdot \frac{N_{p}{({N_{p} + 1})}}{2}} \right)} = {\mathcal{O}\left( {(\frac{k}{\gamma\rho_{\delta\rightarrow\delta_{c}}})}^{2} \right)}}.$ $\blacksquare$
+
+For RRT-Extend the expected number iterations needed to generate a trajectory can be bounded by $\frac{k}{\rho\gamma_{rrt}}$. For the $k^{th}$ segment of a trajectory with $\delta$ clearance, the expected running time for RRT-Extend to return a solution with $1 - e^{- 1}$ probability can be evaluated as: $\mathcal{O}\left( {\frac{k}{\rho\gamma_{rrt}} \cdot {\log{(\frac{k}{\rho\gamma_{rrt}})}}} \right)$.
+
+Now consider SST. Since each $s \in S$ has claimed a $\delta_{s}$ radius hyper-ball in the state space, then the following is true:
+
+### Lemma 33
+
+For any two distinct witnesses of SST: ${s_{1},s_{2}} \in S$, where $s_{1} \neq s_{2}$, the distance between them is at least $\delta_{s}$, e.g., ${{{\forall s_{1}},s_{2}} \in S}:{{\|{s_{1} - s_{2}}\|} > \delta_{s}}$.
+
+Lemma 33 implies that the size of the set $S$ can be bounded, if the free space ${\mathbb{X}}_{f}$ is bounded.
+
+### Corollary 34
+
+If ${\mathbb{X}}_{f}$ is bounded, the number of points of the set $S$ and nodes in ${\mathbb{V}}_{active}$ is always finite, i.e., ${{\exists M} \in {\mathcal{O}{(\delta^{- d})}}}:{{|S|} = {|V_{active}|} \leq M}$.
+
+Corollary 34 indicates that the total number of points in set $S$ can be bounded. Then, the complexity of any near neighbors query can be bounded. Now the improved time complexity of SST relative to RRT can be formulated.
+
+### Lemma 35
+
+For a $k$ segment optimal trajectory with $\delta$ clearance, the expected running time for SST to return a near-optimal solution with $1 - e^{- 1}$ probability can be evaluated as, $\mathcal{O}\left( {\delta^{- d} \cdot \frac{k}{\gamma\rho_{\delta\rightarrow\delta_{c}}}} \right)$.
+
+Proof: Let $N_{p}$ denote $\frac{k}{{({1 - e^{- 1}})}\gamma\rho_{\delta\rightarrow\delta_{c}}}$. Due to Corollary 34, the total computation time after $N_{p}$ iterations is: ${{\mathcal{O}\left( {{\sum_{i = 1}^{N_{p}}{c \cdot \delta^{- d}}} + N_{p}} \right)} = {\mathcal{O}\left( {\delta^{- d} \cdot \frac{k}{\gamma\rho_{\delta\rightarrow\delta_{c}}}} \right)}}.$ Note that the second term $N_{p}$ describes the worst case of deletion of nodes in $V_{inactive}$ in Algorithm 5 ‣ 4 Algorithms ‣ Asymptotically Optimal Sampling-based Kinodynamic Planning"). For $N_{p}$ iterations, in the worst case, the algorithm can delete at most $N_{p}$ nodes. $\blacksquare$
+
+### SST\* Analysis
+
+In SST, for given $\delta$, $\delta_{s}$, and $\delta_{BN}$ values, $\gamma_{sst}$ and $\rho_{\delta\rightarrow\delta_{c}}$ are two constants describing the probability of selecting a near-optimal state for propagation and of successfully propagating to the next ball region. Note that if $\delta_{BN}$ and $\delta_{s}$ are reduced over time, the related $\delta$ value can be smaller. This is the intuition behind why SST^∗^ provides asymptotic optimality. If after a sprint of iterations where $\delta_{BN}$ and $\delta_{s}$ are kept static, they are reduced slightly, this should allow for the generation of trajectories with smaller clearance, i.e., closer to the true optimum.
+
+### Lemma 36
+
+For a $\mathcal{B}_{i}$ of radius $\delta$ and a ball $\mathcal{B}_{i}^{\prime}$ with radius $\delta^{\prime}$, such that ${\delta^{\prime}/\delta} = \alpha$, where $\alpha \in {}$, there is $\frac{{\hat{\rho}}_{\delta^{\prime}}}{{\hat{\rho}}_{\delta}} = \alpha^{w + 1}$
+
+Lemma 36 says that when the probability $\rho$ decreases over time, it is reduced by a factor $\alpha$ set to the power of the size of the piecewise constant control vector plus one. The proof of this relationship is in Appendix I.
+
+### Lemma 37
+
+Given $\delta > 0$, and $\delta_{BN} > 0$, for a scale $\alpha \in {}$, let $\delta^{\prime} = {\alpha\delta}$ and $\delta_{BN}^{\prime} = {\alpha\delta_{BN}}$, there is $\frac{\gamma^{\prime}}{\gamma} = \alpha^{d}$
+
+Lemma 37 says that a similar relationship exists for values of $\gamma$. This probability is defined purely geometrically in the state space, so its proof is trivial. Now that these relationships have been established, properties of SST^∗^ can be shown.
+
+### Theorem 38
+
+$SST^{\ast}$ is probabilistically complete. i.e., ${\operatorname{lim\ inf}_{j\rightarrow\infty}{{\mathbb{P}}{({\{{{\exists x_{goal}} \in {({V_{n}^{SST^{\ast}} \cap {\mathbb{X}}_{G}})}}\}})}}} = 1$
+
+Proof: Let $E_{k,j}^{(i)}$ ($k \geq 1$) denote the event $E_{k}$ (as seen from earlier proofs) at sprint $j$, after $i$ iterations within the sub-function SST. Then:
+
+where $\gamma^{(j)}$ and $\rho^{(j)}$ are the values that have been used to bound selection and trajectory generation probability, but for the $\delta_{BN}$ and $\delta_{s}$ values during the $j^{th}$ sprint. Let $c$ be a constant $1 \leq c \leq {K{(j)}}$ and $p_{c}$ be the value of ${\mathbb{P}}{(E_{{k - 1},j}^{({c + 1})})}$ for a given $j$. Note that within the same sprint $j$, Eq. 2 is equivalent to Eq. 28. Let $P_{c}$ be a constant, such that $P_{c} = {\prod_{i = 1}^{c}{({1 - {{\mathbb{P}}{(E_{{k - 1},j}^{(i)})}\gamma^{(j)}\rho^{(j)}}})}}$. Then, Eq. 2 becomes:
+
+And clearly, any ${\mathbb{P}}{(E_{k,j}^{(i)})}$ ($k \geq 0$) is strictly positive and non-decreasing, as $i$ increases, meaning $p_{c}$ can be used as a lower bound. Then Eq. 3 becomes:
+
+Since the inequality ${({1 - \frac{\alpha}{x}})}^{x} < e^{- \alpha}$ for all $x > 1$ and $\alpha > 0$. Then Eq. 4 becomes, borrowing from Algorithm 9 ‣ 4 Algorithms ‣ Asymptotically Optimal Sampling-based Kinodynamic Planning") the expression for the number of iterations $K{(j)}$, expression becomes:
+
+Let $\beta = {{k_{0} \cdot \gamma^{}}\rho^{}}$, Eq. 5 becomes:
+
+because of Lemma 36-37. As $j$ increases to infinity, the following holds:
+
+Since the limit exists, therefore it is true that ${\operatorname{lim\ inf}_{j\rightarrow\infty}{{\mathbb{P}}{(E_{k,j})}}} = 1$. $\blacksquare$
+
+Next, the argument regarding asymptotic optimality.
+
+### Theorem 39
+
+SST^∗^ is asymptotically optimal. i.e., ${{\mathbb{P}}{({\{{{\operatorname{lim\ sup}_{j\rightarrow\infty}Y_{j}^{SST^{\ast}}} = c^{\ast}}\}})}} = 1$.
+
+Proof: Since event $E_{k,j}$ implies event {$Y_{n}^{SST^{\ast}} \leq {{({1 + {c_{\alpha}\delta}})} \cdot c^{\ast}}$}, therefore at the end of the $j^{th}$ sprint, from Eq. 6:
+
+As $j\rightarrow\infty$, clearly ${\lim_{j\rightarrow\infty}\delta^{(j)}} = 0$, ${\lim_{j\rightarrow\infty}\gamma^{(j)}} = 0$, and ${\lim_{j\rightarrow\infty}\rho^{(j)}} = 0$. Then, it is true that:
+
+Algorithm 9 ‣ 4 Algorithms ‣ Asymptotically Optimal Sampling-based Kinodynamic Planning") describes a process that gradually relaxes the ''sparsification'', which increasingly allows adding active states. At a high level perspective, RRT^∗^ employs the same idea implicitly. Recall that RRT^∗^ also allows adding states as the algorithm proceeds. The difference is that RRT^∗^ adds one state per iteration, while SST^∗^ adds a set of states per batch of iterations. Generally speaking, all sampling-based algorithms need to increasingly add states to cover the space. With this approach, sampling-based algorithms avoid knowing the minimum clearance parameter $\delta$.
+
+In SST^∗^, the data structure is always a tree, meaning that, at any moment there are $n$ edges and $n + 1$ vertices (RRT^∗^ trims edges from the underlying RRG graph). The system accessibility property (*Ball-Box* theorem) guarantees that it is possible to extend edges from one ball region to the next. It is also possible to argue that this will happen almost surely. The *Lipschitz continuity* assumption of the cost function allows a near-optimal bound on the trajectories. The best-first selection strategy and the pruning process make the above guarantees practical and computationally efficient.
+
+## Experimental Evaluation
+
+Figure 15: The different benchmarks. From left to right and top to bottom, a kinematic point, 3D rigid body, a pendulum, a cart-pole among obstacles, a passive-active acrobot, a 12-dim quadrotor, fixed-wing aircraft (with much more restricted movement compared to the quadrotor). Each experiment is averaged over 50 runs of each algorithm.
+
+2 Dim. State, 2 Dim. Control
+
+6 Dim. State, 6 Dim. Control
+
+2 Dim. State, 1 Dim. Control, No Damping
+
+4 Dim. State, 1 Dim. Control,
+
+4 Dim. State, 1 Dim. Control,
+
+12 Dim. State, 4 Dim. Control,
+
+9 Dim. State, 3 Dim. Control,
+
+Table 3: The experimental setup used to evaluate SST. Parameters are available in the corresponding references. Values for δs and δB N have been selected based on the features of each planning challenge.
+
+In order to evaluate the proposed method, a set of experiments involving several different systems have been conducted. The proposed algorithm SST is compared against RRT as a baseline and also with another algorithm: (a) if a steering function is available, a comparison with RRT^∗^ is conducted, (b) if RRT^∗^ cannot be used, a comparison with an alternative based on a ''shooting'' function is utilized. Different versions of RRT were evaluated depending on the benchmark. In the case where a steering function is available, RRT corresponds to RRT-Connect. When a steering function is not available, a version of RRT using MonteCarlo-Prop is used, which is similar to RRT-Extend.
+
+The overall results show that SST can provide consistently improving path quality given more iterations as RRT^∗^ does for kinematic systems, achieving running times equivalent (if not better than) RRT, and maintaining a small number of nodes, all while using a very simple random propagation primitive.
+
+Figure 16: The average cost to each node in the tree for each algorithm (RRT, RRT∗ or the shooting approach, and SST).
+
+Figure 15 illustrates the various setups that the algorithms have been evaluated on and Table 3 shows details about the experimental setups. The parameters of SST are chosen by hand from an expert user, but could be determined by examining performance of previous attempts.
+
+Kinematic Point. A simple system for a baseline comparison. The state space is 2D $(x,y)$, the control space is 2D $(v,\theta)$, and the dynamics are:
+
+3D Rigid Body. A free-flying rigid body. The state space is 6D $(x,y,z,\alpha,\beta,\gamma)$ signifying the space of SE and the control space is 6D $(\overset{˙}{x},\overset{˙}{y},\overset{˙}{z},\overset{˙}{\alpha},\overset{˙}{\beta},\overset{˙}{\gamma})$ representing the velocities of these degrees of freedom.
+
+Simple Pendulum. A pendulum system typical in control literature. The state space is 2D $(\theta,\overset{˙}{\theta})$, the control space is 1D $(\tau)$, and the dynamics are:
+
+Cart-Pole. Another typical control system where a block mass on a track has to balance a pendulum. The state space is 4D $(x,\theta,\overset{˙}{x},\overset{˙}{\theta})$ and the control space is 1D $(f)$ which is the force on the block mass. The dynamics are from.
+
+Two-link Acrobot. The two-link acrobot model with a passive root joint. The state space is 4D $(\theta_{1},\theta_{2},\overset{˙}{\theta_{1}},\overset{˙}{\theta_{2}})$ and the control space is 1D $(\tau)$ which is the torque on the active joint. The dynamics are from.
+
+Fixed-wing airplane. An airplane flying among cylinders. The state space is 9D $(x,y,z,v,\alpha,\beta,\theta,\omega,\tau)$, the control space is 3D $(\tau_{des},\alpha_{des},\beta_{des})$, and the dynamics are from.
+
+Quadrotor. A quadrotor flying through windows. The state space is 12D $(x,y,z,\alpha,\beta,\gamma,\overset{˙}{x},\overset{˙}{y},\overset{˙}{z},\overset{˙}{\alpha},\overset{˙}{\beta},\overset{˙}{\gamma})$, the control space is 4D $(w_{1},w_{2},w_{3},w_{4})$ corresponding to the rotor torques, and the dynamics are from.
+
+Figure 17: The time for execution for each algorithm (RRT, RRT∗ or the shooting approach, and SST).
+
+### Quality of Solution Trajectories
+
+In Figure 16 the average solution quality to nodes in each tree is shown. This average is a measure of the quality of trajectories generated to all reachable parts of the state space. In every case, SST is able to improve quality over time. By looking at all of the nodes in the tree as a whole, the global behavior of improving path costs can be observed. RRT will increase this average over time because it chooses suboptimal nodes and further propagates them, thus making those average values increase over time.
+
+It is interesting to note that the approach based on the shooting function had varying success in these scenarios. The systems with highly nonlinear dynamics (e.g., all the systems with a pendulum-like behavior) did not perform better than RRT. This could result from the choice of distance function for these scenarios or from the inaccuracy in the shooting method. Notably, SST does not have this problem for the same distance function and with random propagations and continues to provide good performance. The shooting method did perform well in the quadrotor environment, but failed to return solutions for most of the fixed-wing airplane runs and was therefore omitted.
+
+### Time Efficiency
+
+Figure 17 shows time vs. iterations plots for each of the systems. The graphs show the amount of time it took to achieve a number of iterations. The running time of SST is always comparable or better than RRT. RRT^∗^ has a higher time cost per iteration as expected. Initially SST is slightly slower than RRT for the kinematic point, but becomes increasingly more efficient later on. This is explained by Lemma 35, since SST has better running time than RRT given the sparse data structure.
+
+SST has another advantage over other RRT variants. Due to the pruning operation, there is another criterion in addition to being collision-free that newly generated states must satisfy to be added to the tree. Any new state must both be collision-free and dominant in the region around the witness sample in $S$. Because of this, the collision check at Line 8 of Algorithm 5 ‣ 4 Algorithms ‣ Asymptotically Optimal Sampling-based Kinodynamic Planning") can be shifted to after Line 15. In the event that collision checking is more expensive than a nearest neighbor query in $S$, this can result in improved computational efficiency depending on the scenario. This strategy was not used in these experiments, but can be beneficial in domains where collision checking is the dominant computational factor.
+
+Figure 18: The number of nodes stored in each algorithm (RRT, RRT∗ or the shooting approach, and SST).
+
+### Space Efficiency
+
+One of the major gains of using SST is the smaller number of nodes that are needed in the data structure. Figure 18 shows the number of nodes stored by each of the algorithms. The number of nodes is significantly lower in SST, even when considering the witness set $S$. The sparse data structure of SST makes the memory requirements quite small, in contrast to RRT and RRT^∗^, which do not perform any pruning operations. In the case of shooting, sometimes the inaccuracy of the shooting primitive will cause collisions to occur in resimulated trees, pruning them from the data structure. This can lead to losing solution trajectories.
+
+These results showcase the large efficiency gains when a sparse data structure can be generated. There is a tradeoff, however, between the sparseness of the data structure and allowing for a diverse set of paths to be generated. Path diversity can be helpful for discovering the homotopic class of the optimal solution in practice. In all of these scenarios, there is either only one homotopic class for solutions or the pruning radius $\delta_{s}$ is small enough to allow each homotopic class to be potentially explored. Even considering this, significant pruning can still be achieved.
+
+One can draw parallels between SST and grid-based methods, as both methodologies end up maintaining a discrete set of witness states in the state space. One concern with grid-based approaches is that they have an exponential dependency in the dimensionality of the state space. In the worst case, SST shares the same property. At the same time, however, it has certain advantages. Typically, the discretization followed by grid-based methods corresponds to fixed witnesses defined before the problem is known. In SST the witnesses arise on the fly and are adaptive to the features of the state space. A benefit of following this approach is the capability to find solutions sooner in practice without explicitly constructing or reasoning over the entire grid, which has an exponential number of points. After an initial solution is found, witness nodes can be removed, improving space complexity even further, similar to branch-and-bound techniques.
+
+### Dependence on Parameters
+
+Table 4: A comparison of different parameter choices in SST. The problem setup is the 2D point where the distance function is the typical Euclidean metric. For each parameter selection, the time to compute an initial solution (IT), the initial solution cost in seconds (IC), and final solution cost in seconds (FC) after 60 seconds of execution time.
+
+Table 4 shows statistics for running SST with several different parameter choices. The problem setup is the simple case of the 2D kinematic point. Larger values for the pruning radius, $\delta_{s}$, result in initial solutions being discovered sooner. Larger values also restrict the convergence to better solutions. Larger values for the selection radius, $\delta_{BN}$, provide better solution cost for initial solutions, but requires more computational effort. These tradeoffs can be weighed for the application area depending on the importance of finding solutions early and the quality of those solutions.
+
+### Physically-simulated Car Evaluation
+
+Figure 19: Experimental results for the physically-simulated car-like system. The time complexity of the approach is similar to RRT, but maintains a much smaller data structure.
+
+One of the more interesting applications of SST is in the domain of planning for physically-simulated systems. SST is able to provide improving path quality given enough time and keeps the number of forward propagations to one per iteration as shown in Figure 19. In this setup, the computational cost of propagation overtakes the cost of nearest neighbor queries. Nearest neighbor queries become the bottleneck in problems, such as the kinematic point, where propagation and collision checking are cheap. In the physically simulated case, however, these primitives are expensive, therefore focusing the motion planner on good quality paths is especially important. In this respect, SST is suited to plan for physically-simulated systems.
+
+This physically-simulated car is modeled through the use of a rectangular prism chassis, two wheel axles, and four wheels, creating a system with 7 rigid bodies. These rigid bodies are linked together with virtual joints in the Bullet physics engine. The front axle is permitted to rotate to simulate steering angle and thrust is simulated as a force on the chassis. The data provided in Figure 19 is generated by planning for the car in an open environment and attempting to reach a goal state denoted by x,y and heading.
+
+Using SST for a physically simulated system raises the question of whether this is a case where asymptotic optimality can be argued formally. Note, that in this case, contacts arise between the moving system and the plane. Such contacts typically violate the assumptions specified in the problem setup and in this manner the formal guarantees described in this work do not necessary apply. Nevertheless, it is encouraging that the algorithm is still exhibiting good performance, in terms of being able to improve the quality of the solution computed over time. This is probably because such real-world problems still exhibit a certain level of smoothness that allows the algorithm to prune suboptimal solutions. As described in the Discussion section of this paper, future research efforts will focus on generalizing the provided analysis and include interesting challenges where contacts arise, including dexterous manipulation and locomotion.
+
+### Graph-based Nearest Neighbor Structure
+
+Figure 20: A comparison of three different nearest neighbor structures in terms of solution quality at different iteration milestones for the point system. This is not considering the amount of time to reach these iteration milestones.
+
+Figure 21: A comparison of three different nearest neighbor structures in terms of solution quality at different iteration milestones for the airplane system. This is not considering the amount of time to reach these iteration milestones.
+
+In order to evaluate the graph-based nearest neighbor structure, comparisons to two other alternatives are shown. First, a baseline comparison with a brute force search is provided. This provides the worst-case performance computationally that more intelligent search methods should be able to overcome. Next, an approximate nearest neighbor structure is used. This approach follows the popular kd-trees approach to space decomposition and nearest neighbor queries. In the following experiments, the same environments for the kinematic point and the airplane systems are used, and comparisons are made between RRT, RRT^∗^, and SST.
+
+Figure 22: A comparison of three different nearest neighbor structures in terms of time of execution at different iteration milestones for the point system.
+
+A comparison of the resulting solution quality between planners that use different nearest neighbor structures is shown in Figures 20 and 21. In the case of RRT, where the Voronoi bias heavily affects the expansion process, having an exact brute force metric actually provides small benefits in terms of quality. For RRT^∗^ and SST, small approximation errors when returning nearest neighbors can actually result in generating longer edges that help in path quality. This causes a small improvement in path quality for these algorithms.
+
+Table 5: The accuracy of the graph-based nearest neighbor structure. These results state that over 5000 queries to a data structure holding 50000 states, these are the percentages of queries that were returned with the correct result. Most errors occurred from not returning all relevant results (states that should have been returned) or returning false positives (states that should not have been returned).
+
+In Figure 22, timing data for each of the nearest neighbor structures is shown. As expected in RRT and RRT^∗^, the brute force method is worse than either of the approximate structures. The graph-based structure slightly outperforms the alternative method. An interesting effect occurs in the case of SST however. Since SST maintains a small number of nodes for this problem instance, the brute force search can actually be competitive with the graph-based nearest neighbor. The alternative method that does not explicitly handle removal is much slower than the graph structure for SST, mainly due to having to rebuild its internal structure when too many nodes are removed.
+
+Table 5 shows the accuracy of the graph-based method compared to the other methods. While resulting in some query errors, the number of errors is less than the comparison method.
+
+## Discussion and Conclusion
+
+Recently, the focus in sampling-based motion planning has moved to providing optimality guarantees, while balancing the computational efficiency of the related methods. Achieving this objective for systems with dynamics has generally required the generation of specialized steering functions. This work shows that a fully-random selection/propagation procedure can achieve asymptotic optimality under reasonable assumptions for kinodynamic systems. The same method, however, has a very slow convergence rate to finding high-quality solutions, which indicates that the focus should primarily be on the convergence rate of methods that provide path improvement over time.
+
+To address these issues, this work proposed a new framework for asymptotically optimal sampling-based motion planning. The departure from previous work is the utilization of best-first selection strategy and a pruning process, which allow for fast convergence to high-quality solutions and a sparse data structure. Experiments and analytical results show the running time and space requirements of a concrete implementation of this framework, i.e., the SST approach, are better even than that of the efficient but suboptimal RRT, while SST can still improve path quality over time. This performance increase is seen in many different scenarios, including in the case of a physically-simulated system.
+
+Parameter Selection: The two parameters of SST, namely $\delta_{s}$ and $\delta_{BN}$, directly affect the performance of the algorithm. Since the $\delta_{s}$ radius controls how much pruning SST will perform, it is necessary that this parameter is not set too high because it can lead the algorithm not to discover paths through narrow passages. Practically, $\delta_{s}$ can be as large as the clearance of paths desired from a given problem instance. It is also helpful to choose this value to be smaller than the radius of the goal region, so as to allow the generation of a sample close to the goal.
+
+The parameter $\delta_{BN}$ should be larger than $\delta_{s}$ to allow the tree data structure to properly expand. A value for $\delta_{BN}$ that is too large will result in poor exploration of the state space since nodes closer to the root will be selected repetitively. Overall, a balance between the state space size, $\delta_{BN}$, and $\delta_{s}$ must be maintained to achieve good performance. The SST^∗^ approach allows to start the search using rather arbitrary large values for $\delta_{s}$ and $\delta_{BN}$, which then automatically decrease over time.
+
+Finite-time Properties: Since SST maintains a relatively small data structure, and in bounded spaces it results in a finite size data structure, it is interesting to consider the finite-time properties that can be argued. This depends significantly on the rate at which the witness set $S$ can cover the free space. After this initial coverage, it may be possible to examine the quality of the existing paths.
+
+Planning under Uncertainty: By removing the requirement of the steering function, SST can be applied to other problems where steering functions are difficult to construct. One of these areas is planning under uncertainty, where planning is performed in belief space. It is difficult to compute a steering function that connects two probability distributions in this domain, but forward propagation can update the corresponding beliefs. Some challenges in applying SST to this domain involve computing appropriate distance metrics for the best first and pruning operations, as well as the increased dimensionality of the problem. Some progress has been recently achieved in this direction, where it has been shown that in the context of the methods described in the current paper a suitable function based on the Earth Mover's distance can lead to efficient solutions when planning under uncertainty. This can lead eventually to the application of such solutions to important problems that involve significant uncertainty, such as kinodynamic and non-prehensile manipulation (e.g., pushing, throwing, pulling, etc).
+
+Feedback-based Motion Planning: Another extension relates to feedback-based motion planning and the capability to argue that the computed trajectories are dynamically stable. The current work follows the majority of the literature in sampling-based kinodynamic planning and is providing only nominal trajectories and not feedback-based plans or policies. There has been work that takes advantage of sampling in the context of feedback-based motion planning, such as the work on LQR-trees. Nevertheless, it has been typically difficult to argue about the optimality of a feedback-based solution when it comes to realistic and relatively high-dimensional dynamical robotic systems. In this way, an interesting research direction is to identify the conditions under which it will be possible to provide such guarantees in the context of feedback-based planning.
+
+Real-world Experiments and Applications: It is also important to evaluate the effectiveness of the approach on real systems with significant dynamics, especially aerial systems that perform aggressive maneuvers and systems modeled through the use of physics engines. For example, future planetary exploration missions may involve more capable rovers. They will have the capability to move at higher speeds in low gravity environments, potentially acquiring ballistic trajectories for small periods of time. Thus, reasoning about the dynamics becomes more important during the planning process. SST may be useful in this domain to optimize paths with respect to path length, energy expenditure, or the sensitivity of the sensor payload on-board.
+
+Locomotion and Dexterous Manipulation: Other potential research domains where SST may be used include locomotion and dexterous manipulation. These challenges involve planning using models of contact between objects and physical considerations, such as balancing of a locomotion system or stability of a grasp for a manipulator. The use of a physics engine to model friction and mass effects can be useful here. As demonstrated above, SST provides control sequences that improve over time when a physics engine is used. Nevertheless, the presence of contacts introduces important complexities that are not currently handled by the presented analysis.
+
+In particular, there are two critical assumptions which complicate the generalization of the provided results: (a) the system dynamics are expressed in the form of equation 1, which is a nonlinear ordinary differential equation, and (b) the manifolds in which the systems live are smooth subsets of a $d$-dimensional Euclidean space. These assumptions do not allow to consider models of rigid body dynamics and stick-slip friction, which are useful idealizations of locomotion and dexterous manipulation. Such systems exhibit jump-discontinuities and in general cannot be represented by expressions of the form in Equation 1. There is also a question of whether it is possible to address challenges in spaces, which are not locally Euclidean.
+
+It would be interesting to study manifolds generated by contact constraints. Such manifolds can be algebraic varieties, which need not be smooth. Furthermore, such manifolds can be of different dimensions, as finger gaiting and locomotion problems really don't live on varieties of a single dimension, but live on stratified sets in a higher-dimensional ambient state space. These issues motivate further research in the direction of providing general sampling-based algorithms that exhibit asymptotic optimality guarantees for proper models of dexterous manipulation and locomotion systems.
